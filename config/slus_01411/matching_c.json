@@ -2230,7 +2230,7 @@
       "address": "0x8003B744",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x9C",
-      "source": "src/game/func_8003B744.c"
+      "source": "src/game/text_lookup_string.c"
     },
     {
       "address": "0x8003B7E0",
