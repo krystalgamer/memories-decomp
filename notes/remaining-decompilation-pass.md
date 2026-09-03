@@ -446,4 +446,4 @@ State after this one-function checkpoint:
 | Terminal unmatched assembly | 345 |
 | Intentional handwritten assembly | 63 |
 | Matching sources retaining GCC asm | 58 |
-| Accepted semantic mappings | 206 |
+| Accepted semantic mappings | 207 |
