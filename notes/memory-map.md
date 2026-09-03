@@ -120,5 +120,6 @@ SU modules.
 
 These addresses are therefore runtime-loaded overlay/module destinations, not
 resident executable functions. They are shared across MRG files and game
-states; they must not be attributed wholesale to WA. See `notes/overlays.md`
-for the loader trace and recovered sector layouts.
+states; they must not be attributed wholesale to WA. See
+`notes/overlays/runtime-loader.md` for the loader trace and recovered sector
+layouts.

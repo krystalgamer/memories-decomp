@@ -67,7 +67,8 @@ seven large records use a 13-phase callback whose counts total exactly 235
 sectors.
 
 The complete loader trace, descriptor layout, sector map, phase table, archive
-attribution, and called-address checks are recorded in `notes/overlays.md`.
+attribution, and called-address checks are recorded in
+`notes/overlays/runtime-loader.md`.
 
 ## Development-path evidence
 
