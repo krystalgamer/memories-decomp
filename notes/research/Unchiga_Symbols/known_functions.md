@@ -1,5 +1,7 @@
 # Known function names (SLUS_014.11)
 
+> **External reference — mirror of Unchiga/ygofm-decomp.** This file is copied verbatim from that repository's `notes/research/` (the matching decomp the research was done in). Paths, tools and rules it names (`config/symbol_addrs.txt`, `tools/gen_symbols.py`, `tools/setup.sh`, `config/modules/`, `tools/gen_research_notes.py`, ...) are that project's, not this one's. The addresses and evidence are the claim; the names follow this repo's `notes/naming-conventions.md` (`Subsystem_VerbObject` / `gSubsystem_Role`) since 2026-09-03 and are ready for `config/slus_01411/symbols.txt` and `notes/semantic-symbol-map.csv` after the usual per-address review.
+
 GENERATED from config/symbol_addrs.txt -- regenerate with tools/gen_research_notes.py
 after any naming change. Source tags: `idb2018` = idb_raymond_2018 import, `ramMap` =
 datacrystal RAM map, `dotr` = DotR-style naming, `psyq` = original SDK symbol
@@ -13,145 +15,145 @@ Names that say what something IS in the game.
 
 | address | name | source |
 |---|---|---|
-| 0x80012B50 | `gameInit` | idb2018 |
-| 0x80012CD4 | `vertBlankCallback` | idb2018 |
-| 0x800136E4 | `setFilePosTable` | idb2018 |
-| 0x800138F4 | `filePosition` | idb2018 |
-| 0x800151D8 | `screenFadeStepStrips` | idb2018 |
-| 0x80015310 | `screenFadeUpdate` | idb2018 |
-| 0x800158B8 | `screenFadeOutInit` | idb2018 |
-| 0x80015904 | `screenFadeOutStart` | idb2018 |
-| 0x80015B00 | `screenFadeOutWait` | idb2018 |
-| 0x8001EE44 | `monGsBonus` | idb2018 |
-| 0x8001EF1C | `monBattleEffAtk` | idb2018 |
-| 0x8001EF78 | `monBattleEffDef` | idb2018 |
-| 0x80021558 | `rankScoreChange` | idb2018 |
-| 0x80021598 | `calcRankScore` | idb2018 |
-| 0x80021810 | `cardDrop` | idb2018 |
-| 0x800218F0 | `u_maybe_endOfDuel` | idb2018 |
-| 0x800243F4 | `shuffleDeck` | idb2018 |
-| 0x800245A0 | `shuffleBothDecks` | idb2018 |
-| 0x8002497C | `getTerrainBoost` | idb2018 |
-| 0x8002BF3C | `setLibraryUsed` | idb2018 |
-| 0x8002CB80 | `gsBonus` | idb2018 |
-| 0x8002CBF4 | `baseCardStat` | idb2018 |
-| 0x8002CCA8 | `storyFlagTest` | idb2018 |
-| 0x8002CCE4 | `toggleLibraryUsed` | idb2018 |
-| 0x8002CE64 | `campaignLoop` | idb2018 |
-| 0x8002CEE8 | `duelLoop` | idb2018 |
-| 0x8002D0E0 | `libraryMenuLoop` | idb2018 |
-| 0x8002D180 | `animatedBattleLoop` | idb2018 |
-| 0x8002D2D8 | `campaignOverworldLoop` | idb2018 |
-| 0x8002D370 | `buildDeckMenuLoop` | idb2018 |
-| 0x8002D3F8 | `freeDuelMenuLoop` | idb2018 |
-| 0x8002D588 | `mainMenuLoop` | idb2018 |
-| 0x8002D62C | `nameEntryLoop` | idb2018 |
-| 0x8002D684 | `passwordMenuLoop` | live |
-| 0x8002D6C8 | `optionsMenuLoop` | idb2018 |
-| 0x8002D730 | `gameOverLoop` | idb2018 |
-| 0x8002D7C4 | `hirataLoop` | idb2018 |
-| 0x8002DA1C | `creditsLoop` | idb2018 |
-| 0x8002DD74 | `mainLoop` | idb2018 |
-| 0x8002E730 | `scriptOpShowImage` | idb2018 |
-| 0x8002FA54 | `scriptRunTick` | idb2018 |
-| 0x80032B60 | `compDeckCard` | idb2018 |
-| 0x80035AB8 | `textBoxSetRect` | idb2018 |
-| 0x80035AF0 | `textBoxInitRecord` | idb2018 |
-| 0x80035B7C | `textBoxDestroy` | idb2018 |
-| 0x80035BE4 | `textBoxCreate` | idb2018 |
-| 0x80035C38 | `textBoxCreateFlagged` | idb2018 |
-| 0x80036F80 | `dialogChoiceHighlight` | idb2018 |
-| 0x8003700C | `dialogChoiceInput` | idb2018 |
-| 0x80037110 | `objPulseColourUpdate` | idb2018 |
-| 0x800371A8 | `dialogChoiceTick` | idb2018 |
-| 0x800374F4 | `dialogChoiceOpen` | idb2018 |
-| 0x800393B0 | `textRecordBuildStep` | idb2018 |
-| 0x80039934 | `textBoxSetPos` | idb2018 |
-| 0x8003B744 | `textStringLookup` | idb2018 |
-| 0x8003BC40 | `sjisToGlyphCodes` | idb2018 |
+| 0x80012B50 | `Main_Init` | idb2018 |
+| 0x80012CD4 | `Main_VBlankCB` | idb2018 |
+| 0x800136E4 | `File_SetPositionTable` | idb2018 |
+| 0x800138F4 | `File_GetPosition` | idb2018 |
+| 0x800151D8 | `Fade_StepBands` | idb2018 |
+| 0x80015310 | `Fade_Update` | idb2018 |
+| 0x800158B8 | `Fade_InitOut` | idb2018 |
+| 0x80015904 | `Fade_StartOut` | idb2018 |
+| 0x80015B00 | `Fade_WaitOut` | idb2018 |
+| 0x8001EE44 | `Duel_CalcGuardianStarBonus` | idb2018 |
+| 0x8001EF1C | `Duel_CalcBattleAttack` | idb2018 |
+| 0x8001EF78 | `Duel_CalcBattleDefense` | idb2018 |
+| 0x80021558 | `Duel_CalcRankScoreChange` | idb2018 |
+| 0x80021598 | `Duel_CalcRankScore` | idb2018 |
+| 0x80021810 | `Duel_SelectCardDrop` | idb2018 |
+| 0x800218F0 | `Duel_MaybeEndOfDuel` | idb2018 |
+| 0x800243F4 | `Duel_ShuffleDeck` | idb2018 |
+| 0x800245A0 | `Duel_ShuffleBothDecks` | idb2018 |
+| 0x8002497C | `Duel_GetTerrainBoost` | idb2018 |
+| 0x8002BF3C | `Library_MarkOwnedCards` | idb2018 |
+| 0x8002CB80 | `Duel_CalcGuardianStarMatchup` | idb2018 |
+| 0x8002CBF4 | `Duel_GetBaseCardStat` | idb2018 |
+| 0x8002CCA8 | `Campaign_TestStoryFlag` | idb2018 |
+| 0x8002CCE4 | `Library_UpdateCardUsedFlag` | idb2018 |
+| 0x8002CE64 | `Main_RunCampaign` | idb2018 |
+| 0x8002CEE8 | `Main_RunDuel` | idb2018 |
+| 0x8002D0E0 | `Main_RunLibraryMenu` | idb2018 |
+| 0x8002D180 | `Main_RunAnimatedBattle` | idb2018 |
+| 0x8002D2D8 | `Main_RunCampaignMap` | idb2018 |
+| 0x8002D370 | `Main_RunBuildDeckMenu` | idb2018 |
+| 0x8002D3F8 | `Main_RunFreeDuelMenu` | idb2018 |
+| 0x8002D588 | `Main_RunMenu` | idb2018 |
+| 0x8002D62C | `Main_RunNameEntry` | idb2018 |
+| 0x8002D684 | `Main_RunPasswordMenu` | live |
+| 0x8002D6C8 | `Main_RunOptionsMenu` | idb2018 |
+| 0x8002D730 | `Main_RunGameOver` | idb2018 |
+| 0x8002D7C4 | `Main_RunHirata` | idb2018 |
+| 0x8002DA1C | `Main_RunCredits` | idb2018 |
+| 0x8002DD74 | `Main_Loop` | idb2018 |
+| 0x8002E730 | `Script_OpShowImage` | idb2018 |
+| 0x8002FA54 | `Script_RunTick` | idb2018 |
+| 0x80032B60 | `BuildDeck_CompareCard` | idb2018 |
+| 0x80035AB8 | `TextBox_SetRect` | idb2018 |
+| 0x80035AF0 | `TextBox_InitRecord` | idb2018 |
+| 0x80035B7C | `TextBox_Destroy` | idb2018 |
+| 0x80035BE4 | `TextBox_Create` | idb2018 |
+| 0x80035C38 | `TextBox_CreateFlagged` | idb2018 |
+| 0x80036F80 | `Dialog_HighlightChoice` | idb2018 |
+| 0x8003700C | `Dialog_ReadChoiceInput` | idb2018 |
+| 0x80037110 | `Widget_UpdatePulseColour` | idb2018 |
+| 0x800371A8 | `Dialog_UpdateChoice` | idb2018 |
+| 0x800374F4 | `Dialog_OpenChoice` | idb2018 |
+| 0x800393B0 | `TextBox_BuildStep` | idb2018 |
+| 0x80039934 | `TextBox_SetPos` | idb2018 |
+| 0x8003B744 | `Text_LookupString` | idb2018 |
+| 0x8003BC40 | `Text_SjisToGlyphCodes` | idb2018 |
 | 0x8003FEE0 | `SD_SEPlayFull` | live |
-| 0x80043230 | `widgetSlideSine` | idb2018 |
-| 0x80046768 | `SD_LoadData` | dotr |
+| 0x80043230 | `Widget_SlideSine` | idb2018 |
+| 0x80046768 | `SD_InitState` | dotr |
 | 0x80046FA0 | `SD_SetOutputType` | live |
 | 0x80048658 | `SD_SEPlay` | live |
 | 0x800492D8 | `SD_Init` | dotr |
 | 0x80049694 | `SD_Term` | dotr |
-| 0x80056504 | `maybe_loadMonsterModel` | idb2018 |
-| 0x8005C4F0 | `fileExists` | idb2018 |
-| 0x8007058C | `aiReadByteFromScript` | idb2018 |
-| 0x800705AC | `aiReadShortFromScript` | idb2018 |
-| 0x800705D8 | `aiStructInit` | idb2018 |
-| 0x80070650 | `aiMain` | idb2018 |
-| 0x80070710 | `aiHandSize` | idb2018 |
-| 0x80070738 | `aiWinningCardRange` | idb2018 |
-| 0x800707C4 | `aiCardRange` | idb2018 |
-| 0x80070870 | `aiInCardSet` | idb2018 |
-| 0x800708C4 | `aiInTypeSet` | idb2018 |
-| 0x80070920 | `aiInSets` | idb2018 |
-| 0x80070988 | `aiInstJump` | idb2018 |
-| 0x800709C0 | `aiInstJumpGe` | idb2018 |
-| 0x80070A40 | `aiInstJumpAbove` | idb2018 |
-| 0x80070AC0 | `aiInstJumpEq` | idb2018 |
-| 0x80070B3C | `aiInstJumpNeq` | idb2018 |
-| 0x80070BB8 | `aiInstJumpMid` | idb2018 |
-| 0x80070C60 | `aiInstJumpRand` | idb2018 |
-| 0x80070D00 | `aiInstCall` | idb2018 |
-| 0x80070DA8 | `aiInstRetn` | idb2018 |
-| 0x80070E20 | `aiInstRand` | idb2018 |
-| 0x80070EB4 | `aiInstSub` | idb2018 |
-| 0x80070F1C | `aiInstFieldPlay` | idb2018 |
-| 0x80070FF8 | `aiInstEndHand` | idb2018 |
-| 0x80071000 | `aiInstEndField` | idb2018 |
-| 0x80071008 | `aiInstCardPower` | idb2018 |
-| 0x80071194 | `aiInstHighStat` | idb2018 |
-| 0x80071248 | `aiInstCtype` | idb2018 |
-| 0x800712B4 | `aiInstReadCard` | idb2018 |
-| 0x80071320 | `aiInstFaceDown` | idb2018 |
-| 0x800713B8 | `aiInstReadLp` | idb2018 |
-| 0x80071424 | `aiInstSetOpp` | idb2018 |
-| 0x80071460 | `aiInstSetField` | idb2018 |
-| 0x8007149C | `aiInstAiDeckSize` | idb2018 |
-| 0x8007154C | `aiInstIsPinned` | idb2018 |
-| 0x800715C4 | `aiInstComboStart` | idb2018 |
-| 0x8007164C | `aiInstBestDiff` | idb2018 |
-| 0x80071688 | `aiInstBestAtkr` | idb2018 |
-| 0x800716C4 | `aiInstBestTarg` | idb2018 |
-| 0x80071700 | `aiInstStrongest` | idb2018 |
-| 0x80071924 | `aiInstWeakest` | idb2018 |
-| 0x80071B64 | `aiInstKiller` | idb2018 |
-| 0x80071CB0 | `aiInstStopDef` | idb2018 |
-| 0x80071EB8 | `aiInstCntCard` | idb2018 |
-| 0x80071FC8 | `aiInstFindFirst` | idb2018 |
-| 0x8007214C | `aiInstFindCard` | idb2018 |
-| 0x800722CC | `aiInstMatchType` | idb2018 |
-| 0x8007249C | `aiInstCheckEquip` | idb2018 |
-| 0x800725C4 | `aiInstCheckRitual` | idb2018 |
-| 0x80072640 | `aiInstFirstMon` | idb2018 |
-| 0x800726F4 | `aiInstFirstType` | idb2018 |
-| 0x800727C0 | `aiCompleteFusion` | idb2018 |
-| 0x80072A48 | `aiInstBestCombo` | idb2018 |
-| 0x80072DC0 | `aiInstFusePerf` | idb2018 |
-| 0x80072F1C | `aiInstHandSkip` | idb2018 |
-| 0x80072F54 | `aiInstFieldSkip` | idb2018 |
-| 0x80072F8C | `aiInstFaceUpPlay` | idb2018 |
-| 0x80073050 | `aiInstSetPos` | idb2018 |
-| 0x8007308C | `aiInstFindBestA` | idb2018 |
-| 0x80073220 | `aiInstPushComboC` | idb2018 |
-| 0x800732A0 | `aiInstPushComboNc` | idb2018 |
-| 0x80073300 | `aiInstHandNop` | idb2018 |
-| 0x80073308 | `aiInstFieldNop` | idb2018 |
-| 0x80073310 | `aiInstAddCard` | idb2018 |
-| 0x80073380 | `aiInstClearCards` | idb2018 |
-| 0x800733A8 | `aiInstAddType` | idb2018 |
-| 0x80073420 | `aiInstClearTypes` | idb2018 |
-| 0x80073464 | `aiInstUnkOn` | idb2018 |
-| 0x80073474 | `aiInstUnkOff` | idb2018 |
-| 0x80073480 | `aiInstMoveCard` | idb2018 |
-| 0x800734DC | `aiInstOppData` | idb2018 |
-| 0x800735A0 | `aiInstStore` | idb2018 |
-| 0x800735DC | `aiInstRegSet` | idb2018 |
-| 0x80073624 | `aiInstAdd` | idb2018 |
-| 0x800736C4 | `aiInstPrint` | idb2018 |
+| 0x80056504 | `Model_LoadMonsterMerge` | idb2018 |
+| 0x8005C4F0 | `File_Exists` | idb2018 |
+| 0x8007058C | `AiScript_ReadByte` | idb2018 |
+| 0x800705AC | `AiScript_ReadShort` | idb2018 |
+| 0x800705D8 | `AiScript_Init` | idb2018 |
+| 0x80070650 | `AiScript_Run` | idb2018 |
+| 0x80070710 | `Ai_GetHandSize` | idb2018 |
+| 0x80070738 | `Ai_GetWinningCardRange` | idb2018 |
+| 0x800707C4 | `Ai_GetCardRange` | idb2018 |
+| 0x80070870 | `Ai_IsCardInSet` | idb2018 |
+| 0x800708C4 | `Ai_IsTypeInSet` | idb2018 |
+| 0x80070920 | `Ai_IsCardInSets` | idb2018 |
+| 0x80070988 | `AiScript_Jump` | idb2018 |
+| 0x800709C0 | `AiScript_JumpGreaterEqual` | idb2018 |
+| 0x80070A40 | `AiScript_JumpGreater` | idb2018 |
+| 0x80070AC0 | `AiScript_JumpEqual` | idb2018 |
+| 0x80070B3C | `AiScript_JumpNotEqual` | idb2018 |
+| 0x80070BB8 | `AiScript_JumpBetween` | idb2018 |
+| 0x80070C60 | `AiScript_JumpRandom` | idb2018 |
+| 0x80070D00 | `AiScript_Call` | idb2018 |
+| 0x80070DA8 | `AiScript_Return` | idb2018 |
+| 0x80070E20 | `AiScript_SetRandom` | idb2018 |
+| 0x80070EB4 | `AiScript_Subtract` | idb2018 |
+| 0x80070F1C | `AiScript_PlayFieldCard` | idb2018 |
+| 0x80070FF8 | `AiScript_EndHand` | idb2018 |
+| 0x80071000 | `AiScript_EndField` | idb2018 |
+| 0x80071008 | `AiScript_CalcCardPower` | idb2018 |
+| 0x80071194 | `AiScript_TestHighStat` | idb2018 |
+| 0x80071248 | `AiScript_LoadCardType` | idb2018 |
+| 0x800712B4 | `AiScript_LoadCardID` | idb2018 |
+| 0x80071320 | `AiScript_SetFaceDown` | idb2018 |
+| 0x800713B8 | `AiScript_LoadLifePoint` | idb2018 |
+| 0x80071424 | `AiScript_LoadOpponentID` | idb2018 |
+| 0x80071460 | `AiScript_LoadTerrain` | idb2018 |
+| 0x8007149C | `AiScript_LoadDeckSize` | idb2018 |
+| 0x8007154C | `AiScript_TestPinned` | idb2018 |
+| 0x800715C4 | `AiScript_StartCombo` | idb2018 |
+| 0x8007164C | `AiScript_LoadBestDifference` | idb2018 |
+| 0x80071688 | `AiScript_LoadBestAttacker` | idb2018 |
+| 0x800716C4 | `AiScript_LoadBestTarget` | idb2018 |
+| 0x80071700 | `AiScript_FindStrongest` | idb2018 |
+| 0x80071924 | `AiScript_FindWeakest` | idb2018 |
+| 0x80071B64 | `AiScript_FindKiller` | idb2018 |
+| 0x80071CB0 | `AiScript_FindDefenseStopper` | idb2018 |
+| 0x80071EB8 | `AiScript_CountCards` | idb2018 |
+| 0x80071FC8 | `AiScript_FindFirstCard` | idb2018 |
+| 0x8007214C | `AiScript_FindCard` | idb2018 |
+| 0x800722CC | `AiScript_MatchType` | idb2018 |
+| 0x8007249C | `AiScript_FindEquipTarget` | idb2018 |
+| 0x800725C4 | `AiScript_CheckRitual` | idb2018 |
+| 0x80072640 | `AiScript_FindFirstMonster` | idb2018 |
+| 0x800726F4 | `AiScript_FindFirstType` | idb2018 |
+| 0x800727C0 | `Ai_CompleteFusion` | idb2018 |
+| 0x80072A48 | `AiScript_FindBestCombo` | idb2018 |
+| 0x80072DC0 | `AiScript_EvaluateFusion` | idb2018 |
+| 0x80072F1C | `AiScript_SkipHand` | idb2018 |
+| 0x80072F54 | `AiScript_SkipField` | idb2018 |
+| 0x80072F8C | `AiScript_PlayFaceUp` | idb2018 |
+| 0x80073050 | `AiScript_SetPosition` | idb2018 |
+| 0x8007308C | `AiScript_FindBestAttack` | idb2018 |
+| 0x80073220 | `AiScript_PushComboCard` | idb2018 |
+| 0x800732A0 | `AiScript_PushComboEmpty` | idb2018 |
+| 0x80073300 | `AiScript_HandNop` | idb2018 |
+| 0x80073308 | `AiScript_FieldNop` | idb2018 |
+| 0x80073310 | `AiScript_AddCard` | idb2018 |
+| 0x80073380 | `AiScript_ClearCards` | idb2018 |
+| 0x800733A8 | `AiScript_AddType` | idb2018 |
+| 0x80073420 | `AiScript_ClearTypes` | idb2018 |
+| 0x80073464 | `AiScript_SetUnknownFlag` | idb2018 |
+| 0x80073474 | `AiScript_ClearUnknownFlag` | idb2018 |
+| 0x80073480 | `AiScript_MoveCard` | idb2018 |
+| 0x800734DC | `AiScript_LoadOpponentData` | idb2018 |
+| 0x800735A0 | `AiScript_Store` | idb2018 |
+| 0x800735DC | `AiScript_SetRegister` | idb2018 |
+| 0x80073624 | `AiScript_Add` | idb2018 |
+| 0x800736C4 | `AiScript_Print` | idb2018 |
 | 0x80073758 | `PCread` | idb2018 |
 | 0x800740F0 | `FlushCache` | idb2018 |
 | 0x80074380 | `ChangeClearRCnt` | idb2018 |
@@ -860,7 +862,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80012E5C | `gpu_disp_buff_swap_and_ot_sort_dispatch` | fleet |
 | 0x800143DC | `copy_9e18_to_9e60_and_flags` | fleet |
 | 0x80014EEC | `reinit_d800e9e60_obj` | fleet |
-| 0x800154E4 | `drawScreenFadeOverlay` | fleet |
+| 0x800154E4 | `Fade_DrawOverlay` | fleet |
 | 0x800157DC | `call_80015780_flags_and_8001572c` | fleet |
 | 0x80015870 | `reset_9ec8_state_if_flag145` | fleet |
 | 0x80015998 | `loop_call_four_update_funcs_while_flag80` | fleet |
@@ -1121,7 +1123,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8008F988 | `text_788_8008F988` | fleet |
 | 0x8008FEA0 | `text_2C0_8008FEA0` | fleet |
 | 0x8008FF90 | `text_3B0_8008FF90` | fleet |
-| 0x80168FB4 | `freeDuelModuleEntry` | fleet |
+| 0x80168FB4 | `FreeDuel_Entry` | fleet |
 
 ## Module symbols
 
@@ -1131,30 +1133,30 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 
 | address | name |
 |---|---|
-| 0x80168004 | `freeDuelScrollbarUpdate` |
-| 0x80168090 | `freeDuelCursorPlace` |
-| 0x801681B4 | `freeDuelSparkleSpawn` |
-| 0x8016899C | `freeDuelSparkleSlot` |
-| 0x801689D4 | `freeDuelSparkleTick` |
-| 0x80168A9C | `freeDuelCursorTweenTick` |
-| 0x80168C7C | `freeDuelScreenTick` |
+| 0x80168004 | `FreeDuel_UpdateScrollbar` |
+| 0x80168090 | `FreeDuel_PlaceCursor` |
+| 0x801681B4 | `FreeDuel_SpawnSparkle` |
+| 0x8016899C | `FreeDuel_GetSparkleSlot` |
+| 0x801689D4 | `FreeDuel_UpdateSparkle` |
+| 0x80168A9C | `FreeDuel_UpdateCursorTween` |
+| 0x80168C7C | `FreeDuel_UpdateScreen` |
 
 ### name_entry
 
 | address | name |
 |---|---|
-| 0x801683EC | `nameEntryInit` |
-| 0x8016868C | `textGlyphAt` |
-| 0x80168CDC | `nameEntrySpawnGlyphSprite` |
-| 0x8016909C | `nameEntryAdjustLength` |
-| 0x8016913C | `nameEntryScreenTick` |
-| 0x80169734 | `nameEntryDialogTick` |
+| 0x801683EC | `NameEntry_Init` |
+| 0x8016868C | `TextBox_GetGlyphAt` |
+| 0x80168CDC | `NameEntry_SpawnGlyphSprite` |
+| 0x8016909C | `NameEntry_AdjustLength` |
+| 0x8016913C | `NameEntry_UpdateScreen` |
+| 0x80169734 | `NameEntry_UpdateDialog` |
 
 ### overworld
 
 | address | name |
 |---|---|
-| 0x80168388 | `overworldDpadCamera` |
-| 0x8016866C | `overworldSetLocation` |
-| 0x80168E0C | `overworldPickExit` |
+| 0x80168388 | `CampaignMap_MoveCameraDpad` |
+| 0x8016866C | `CampaignMap_SetLocation` |
+| 0x80168E0C | `CampaignMap_PickExit` |
 

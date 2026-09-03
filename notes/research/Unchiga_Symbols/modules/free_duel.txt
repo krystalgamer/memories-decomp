@@ -1,14 +1,14 @@
-// free duel opponent-select module -- resident while freeDuelMenuLoop (0x8002D3F8) is the mode tick.
-// EXE entry: freeDuelModuleEntry = 0x80168FB4 (in symbol_addrs.txt). Findings F79-F86.
-freeDuelScreenTick = 0x80168C7C; // type:func
-freeDuelCursorTweenTick = 0x80168A9C; // type:func
-freeDuelCursorPlace = 0x80168090; // type:func
-freeDuelScrollbarUpdate = 0x80168004; // type:func
-freeDuelSparkleSpawn = 0x801681B4; // type:func
-freeDuelSparkleSlot = 0x8016899C; // type:func
-freeDuelSparkleTick = 0x801689D4; // type:func
-freeDuelGridAvailable = 0x80169030;
-freeDuelThumbWidget = 0x80169058;
-freeDuelSparklePool = 0x80169060;
-freeDuelCursorWidget = 0x801690A0;
-freeDuelScreenFlags = 0x801690A4;
+// free duel opponent-select module -- resident while Main_RunFreeDuelMenu (0x8002D3F8) is the mode tick.
+// EXE entry: FreeDuel_Entry = 0x80168FB4 (in symbol_addrs.txt). Findings F79-F86.
+FreeDuel_UpdateScreen = 0x80168C7C; // type:func
+FreeDuel_UpdateCursorTween = 0x80168A9C; // type:func
+FreeDuel_PlaceCursor = 0x80168090; // type:func
+FreeDuel_UpdateScrollbar = 0x80168004; // type:func
+FreeDuel_SpawnSparkle = 0x801681B4; // type:func
+FreeDuel_GetSparkleSlot = 0x8016899C; // type:func
+FreeDuel_UpdateSparkle = 0x801689D4; // type:func
+gFreeDuel_abGridAvailable = 0x80169030;
+gFreeDuel_pThumbWidget = 0x80169058;
+gFreeDuel_apSparklePool = 0x80169060;
+gFreeDuel_pCursorWidget = 0x801690A0;
+gFreeDuel_bScreenFlags = 0x801690A4;

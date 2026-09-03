@@ -1,5 +1,7 @@
 # Suspected / WIP identifications — NOT yet applied
 
+> **External reference — mirror of Unchiga/ygofm-decomp.** This file is copied verbatim from that repository's `notes/research/` (the matching decomp the research was done in). Paths, tools and rules it names (`config/symbol_addrs.txt`, `tools/gen_symbols.py`, `tools/setup.sh`, `config/modules/`, `tools/gen_research_notes.py`, ...) are that project's, not this one's. The addresses and evidence are the claim; the names follow this repo's `notes/naming-conventions.md` (`Subsystem_VerbObject` / `gSubsystem_Role`) since 2026-09-03 and are ready for `config/slus_01411/symbols.txt` and `notes/semantic-symbol-map.csv` after the usual per-address review.
+
 Working ledger for names we suspect but have not proven, and for observed
 roles that need one more session before naming. Promotion path: gather the
 missing evidence -> move the row to findings.md as solid -> apply in the next
@@ -14,18 +16,18 @@ the applies and byte-verify once).
 | `0x80013C28` | `func_80013C28` | Fired on X->OPTION build AND on password card-art reveal — both disc-load moments (with the 0x800137E4/13940/13998/1455C streaming family). | CD streaming/read-request path member, NOT a fade. |
 | `0x80015xxx` family | `reset_obj_*` (fleet) | CONFIRMED REPEATABLE: identical 20-function exit path on both Circle-exits (teardown family + cancel blip + flag setters 0x80047430/0x80049108/0x8004A2F8/0x80084240). Also proven: exiting OPTION commits nothing to the 0x801D0xxx save region. | Menu-screen teardown path; names stay fleet-mechanical until per-function roles emerge. |
 | `0x8004002C`-`0x800404CC` + `0x80041428` | various `func_`/`myst` | Fired only during the X->OPTION build-up (with the widget setter 0x80040410 triple). | Widget/object constructor-initializer family for building a menu screen. |
-| `0x80040588`, `0x80040804` (triple), `0x80040D14`, `0x80042210`, `0x8004A40C/430/7C0`, `0x8004B374/70C`, `0x80035E20`, `0x8003C7A0/8CC` | various | Ambient ONLY while sitting in OPTION (with `optionsMenuLoop` + GPU prim setters SetSemiTrans/SetPolyGT4/GsSortFlipSprite). | Options-screen widget update/draw helpers. |
+| `0x80040588`, `0x80040804` (triple), `0x80040D14`, `0x80042210`, `0x8004A40C/430/7C0`, `0x8004B374/70C`, `0x80035E20`, `0x8003C7A0/8CC` | various | Ambient ONLY while sitting in OPTION (with `Main_RunOptionsMenu` + GPU prim setters SetSemiTrans/SetPolyGT4/GsSortFlipSprite). | Options-screen widget update/draw helpers. |
 | `0x80041C8C` | `func_80041C8C` (19/53 stub) | Press-only on main menu, but AMBIENT in OPTION. | Widget visual refresher, called whenever widgets animate; OPTION animates constantly. |
 
 ## From the STEREO/MONO toggle (2026-08-31)
 
 | address | current name | observed | suspicion |
 |---|---|---|---|
-| `0x8009B37D` (byte) | `D_8009B37D` | Flips with the setting; func_8003C628 writes it FROM soundMode(0x8009B408); func_8003C568 uses it as an options-label table index. | Derived working copy: `g_SoundModeCur`-ish. Name after soundMode lands. |
+| `0x8009B37D` (byte) | `D_8009B37D` | Flips with the setting; func_8003C628 writes it FROM gSD_bOutputType(0x8009B408); func_8003C568 uses it as an options-label table index. | Derived working copy: `g_SoundModeCur`-ish. Name after gSD_bOutputType lands. |
 | `0x80044DC0` | `func_80044DC0` | Called by SD_SetOutputType with the master volume field; matched body builds the 4-byte CdMix packet, channel slot picked by the mode byte. | `SD_UpdateCdMix`-ish CD-audio re-mixer. |
 | `0x8007CDC0` -> `0x8007A048` | (mid-entries) | CD volume apply path beneath the CdMix packet (0x8007A048 sits in CD_vol's extent; entries are mid-function dispatch quirks). | Library-side CD volume application; verify extents before naming anything. |
 | `0x8003C568` | `func_8003C568` | Runs ~1 frame after the toggle; body picks a label from a local table by D_8009B37D. | Options-screen label refresh (draws STEREO/MONO highlight). |
-| `0x8003C628` | `func_8003C628` | Body syncs D_8009B37C/D from soundMode with sign-bit reset semantics. | Options-state sync/init. |
+| `0x8003C628` | `func_8003C628` | Body syncs D_8009B37C/D from gSD_bOutputType with sign-bit reset semantics. | Options-state sync/init. |
 | `0x80047F38(1, 0x11, 0xFF)` | `func_80047F38` | Fired inside the SE-play path on every blip. | SE voice setup/allocation. |
 | `0x8009B37C` (byte) | `D_8009B37C` | 1 while the OPTION screen is alive, drops to 0 exactly on Circle-exit (stable-byte diff); func_8003C628 touches it beside the derived mode copy. | Options-screen-active/session flag. |
 | `D_8009B45C->f48` | (struct field) | The sound-state struct's output-mode byte (written by SD_SetOutputType, read by the CdMix builder). | Document as `outputType` when the struct gets a header. |
@@ -42,18 +44,18 @@ the applies and byte-verify once).
 
 | address | current name | dispute |
 |---|---|---|
-| `0x8002CEE8` | `duelLoop` | Matched body reads as disc-swap/lid-open state machine (D_8009B26C bit 0x40 gate), not a duel mode tick. Adjudicate by live trace: enter a duel and check ambience. |
-| `0x800218F0` | `u_maybe_endOfDuel` | Matched body reads as per-frame duel-round setup/dispatch, not end-of-duel. Same adjudication: live duel trace. |
-| `calc_wrap_scroll_delta` (unit) | -- | Defines `gsBonus`; its "scroll helper" reading is wrong per func_8001EE44.c's note (6/4 wraps = the guardian-star wheels). Unit rename candidate for the bulk pass. |
+| `0x8002CEE8` | `Main_RunDuel` | Matched body reads as disc-swap/lid-open state machine (D_8009B26C bit 0x40 gate), not a duel mode tick. Adjudicate by live trace: enter a duel and check ambience. |
+| `0x800218F0` | `Duel_MaybeEndOfDuel` | Matched body reads as per-frame duel-round setup/dispatch, not end-of-duel. Same adjudication: live duel trace. |
+| `calc_wrap_scroll_delta` (unit) | -- | Defines `Duel_CalcGuardianStarMatchup`; its "scroll helper" reading is wrong per func_8001EE44.c's note (6/4 wraps = the guardian-star wheels). Unit rename candidate for the bulk pass. |
 
 ## Unverified-body AI opcodes (excluded from descriptions until proven)
 
 | address | name | suspected role (IDB + family context, NOT verified) |
 |---|---|---|
-| `0x80071008` | `aiInstCardPower` | Evaluates a card's battle power into a VM slot. |
-| `0x80071B64` | `aiInstKiller` | Finds a monster that beats a given target. |
-| `0x80071CB0` | `aiInstStopDef` | Finds a defender able to stop an attacker. |
-| `0x80072A48` | `aiInstBestCombo` | Runs the full best-combo search (results feed the BestDiff trio's neighborhood). NOTE: aiInstKiller may actually have a landed body — unit `equip_score_best_slot.c` per sibling comments; verify and graduate. |
+| `0x80071008` | `AiScript_CalcCardPower` | Evaluates a card's battle power into a VM slot. |
+| `0x80071B64` | `AiScript_FindKiller` | Finds a monster that beats a given target. |
+| `0x80071CB0` | `AiScript_FindDefenseStopper` | Finds a defender able to stop an attacker. |
+| `0x80072A48` | `AiScript_FindBestCombo` | Runs the full best-combo search (results feed the BestDiff trio's neighborhood). NOTE: AiScript_FindKiller may actually have a landed body — unit `equip_score_best_slot.c` per sibling comments; verify and graduate. |
 
 ## From the SAVE flow (2026-08-31)
 
@@ -75,7 +77,7 @@ the applies and byte-verify once).
 
 | address | current name | observed | suspicion |
 |---|---|---|---|
-| `0x80032BD4` | `compare_rec_two_level_std` | RESOLVED: it is the fleet-matched std-convention two-level comparator; used for several sort modes, compDeckCard for the rest. No rename needed. |
+| `0x80032BD4` | `compare_rec_two_level_std` | RESOLVED: it is the fleet-matched std-convention two-level comparator; used for several sort modes, BuildDeck_CompareCard for the rest. No rename needed. |
 | `0x80100004` | (in `playerMonModel` buffer) | 722 x 16-byte trunk-view records, qsort target for all modes; per-mode cached orders recopied on mode change. | Trunk view/sort arena — document as scratch reuse of the model buffer. |
 
 ## From the deck pane (2026-08-31)

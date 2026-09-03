@@ -1,8 +1,11 @@
-# NAMING.md — where every symbol name comes from, and how much to trust it
+# NAMING.md — where every Unchiga_Symbols name comes from, and how much to trust it
 
-Names in this repo are **semantic claims layered on top of a byte-perfect
+> **External reference — mirror of Unchiga/ygofm-decomp.** This file is copied verbatim from that repository's `notes/research/` (the matching decomp the research was done in). Paths, tools and rules it names (`config/symbol_addrs.txt`, `tools/gen_symbols.py`, `tools/setup.sh`, `config/modules/`, `tools/gen_research_notes.py`, ...) are that project's, not this one's. The addresses and evidence are the claim; the names follow this repo's `notes/naming-conventions.md` (`Subsystem_VerbObject` / `gSubsystem_Role`) since 2026-09-03 and are ready for `config/slus_01411/symbols.txt` and `notes/semantic-symbol-map.csv` after the usual per-address review.
+
+Names in the Unchiga_Symbols corpus are **semantic claims layered on top of a byte-perfect
 build**. The oracle (byte-identical rebuild of `SLUS_014.11`, MD5
-`dab1b3c9a6b8a56558b5ca8f807339c3`) is name-blind: renaming a symbol can never
+`dab1b3c9a6b8a56558b5ca8f807339c3`, SHA-256
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88` — the hash this repo's `make match` gates on) is name-blind: renaming a symbol can never
 make a wrong build pass or a right build fail, and every naming change here
 was still verified by a full re-split + rebuild + SHA1 (`pass 2:
 byte-identical. OK`). What a name CAN do is mislead a reader, so every name
@@ -25,7 +28,7 @@ in `tools/gen_symbols.py`, resolve per address as
 record of the 2026-08-31 import (173 entries); `tools/gen_vars_peer.py`
 replays it whenever the peer header is regenerated. Unit **file** names are a
 separate namespace (yaml + `gen_build.py`): `src/func_80021598.c` still
-defines `calcRankScore` — a file rename pass ("stage B") is pending and
+defines `Duel_CalcRankScore` — a file rename pass ("stage B") is pending and
 purely cosmetic.
 
 ## Evidence tiers, strongest first
@@ -42,14 +45,14 @@ not an interpretation.
 (see Conflicts below).
 
 ### Tier 2 — idb_raymond_2018 import (camelCase)
-*Style:* `calcRankScore`, `aiInstBestCombo`, `duelLoop`, `fusionTable`,
-`aiMemory`.
+*Style:* `Duel_CalcRankScore`, `AiScript_FindBestCombo`, `Main_RunDuel`, `gDuel_aFusionTable`,
+`gAiScript_aMemory`.
 *Evidence:* extracted from a third-party IDA 6.8 database (author "Raymond",
 2018) whose **recorded input MD5 is byte-identical to our target** — every
 address maps 1:1, no cross-game inference. The names are a deep community
 reverser's semantic reads (they align with FM wiki / AI-scripting lore), NOT
 Konami debug symbols. Adopted **verbatim** — including the camelCase and the
-author's own hedges (`u_maybe_endOfDuel`, `maybe_loadMonsterModel`) — so that
+author's own hedges (`Duel_MaybeEndOfDuel`, `Model_LoadMonsterMerge`) — so that
 every one of these names is traceable to `reference/idb_raymond_2018/` rather
 than silently laundered into house style. 145 renames + 28 new data symbols
 applied (commits `0a58f74`, `fd158f6`, and the NEW_ADDR batch), each batch
@@ -85,7 +88,7 @@ inventing a Tier 3 name for one.
   author; kept, not cleaned up, because deleting a hedge manufactures
   confidence no one earned.
 - **`// absolute:True`** = symbol past the image end (file spans to vram
-  `0x801E0800`; `musicTrack = 0x801EA800` is runtime arena), so splat cannot
+  `0x801E0800`; `gSD_MusicTrack = 0x801EA800` is runtime arena), so splat cannot
   place it in a segment.
 - **`// type:func`** on data-like addresses is itself a claim to audit:
   `func_80100000`/`func_80140000` are marked func in our config but the IDB
@@ -116,7 +119,7 @@ The standard for flipping any conflict row: byte-level comparison against the
 real PsyQ library object, or behavior proof from the matched C — never
 "the other database says so."
 
-## Rules of engagement
+## Rules of engagement (in the source repo)
 
 1. Never hand-edit `config/symbol_addrs.txt`; edit `KNOWN`/`DATA_KNOWN` in
    `tools/gen_symbols.py` and re-run the pipeline.
@@ -134,28 +137,55 @@ real PsyQ library object, or behavior proof from the matched C — never
    partial.
 
 
-## House convention: lowerCamelCase (2026-09-03)
+## Convention: memories-decomp style (2026-09-03)
 
-Every name this project assigns (Tier 2, Tier 3, live-traced, module) is
-written `lowerCamelCase` -- first word lowercase, each later word capitalized,
-no prefix and no underscores: `dropTable`, `textBoxCreate`, `screenFadeOutWait`,
-`storyFlags`, `nameEntryCol`. Data and functions share the one style; a
-global carries no `g_` and a table no `_arr`-style suffix unless it is one of
-the typed-alias families above (`_a/_b/_raw`, `Name_ADDR` second copies),
-which are disambiguators, not style.
+Project-assigned names (Tier 2, live-traced, module) follow the convention of
+the upstream research repo, krystalgamer/memories-decomp
+(`notes/naming-conventions.md` there), so that our symbols can enter its
+`config/slus_01411/symbols.txt` and `notes/semantic-symbol-map.csv` unchanged:
+
+- **functions**: `<Subsystem>_<Verb><Object>` — `Duel_SelectCardDrop`,
+  `Main_RunFreeDuelMenu`, `TextBox_Create`, `AiScript_JumpRandom`,
+  `NameEntry_UpdateScreen`. Preferred verbs: Init/Term/Reset/Clear, Get/Set,
+  Calc, Is/Has/Can/Check, Load/Read/Free/Transfer, Play/Stop/Start/Update/Draw,
+  Req/Inq/Do, CB (callbacks).
+- **globals**: `g<Subsystem>_<type><Role>` — `gDuel_wCardDropID`,
+  `gLibrary_abCardChest`, `gFile_apszName`, `gNameEntry_pCursorWidget`. The
+  compact type prefix (`b` byte/bool, `w` 16-bit, `dw` 32-bit, `n` count/index,
+  `p` pointer, `a` array, combined as `ab`/`aw`/`apfn`...) is kept only when the
+  width is established; otherwise the role stands alone (`gCampaignMap_Location`).
+- **shared addresses**: where memories-decomp already names an address in its
+  semantic map, we use its spelling verbatim (150 of the 215 renames of
+  2026-09-03), so the two repos agree symbol-for-symbol.
+- **subsystems in use**: Main, File, Duel, Library, BuildDeck, Fade, Dialog,
+  TextBox (the 0x64-byte text records at 0x800EB0F8 and their typewriter),
+  Text (string banks, glyph codes), Script (the story/dialog stream engine),
+  Widget, Campaign, CampaignMap, FreeDuel, NameEntry, Password, CardGrid,
+  Model, Rand, Util, Debug, Ai / AiScript, SD.
 
 Exempt, because they are not our names: Tier 1 SDK symbols (`FntPrint`,
-`CdIntToPos`, `_spu_FsetRXX`) and the `SD_*` sound-driver names, which are
-Konami's own vocabulary carried over from Duelists of the Roses
-(`notes/research/dotr_symbol_vocabulary.md`). Uncertainty hedges (`u_`,
-`maybe_`) stay as prefixes on a camelCase stem.
+`CdIntToPos`, `_spu_FsetRXX`) and the `SD_*` / `g_SDValue` sound-driver
+vocabulary shared with Duelists of the Roses
+(`notes/research/dotr_symbol_vocabulary.md`). Typed-alias families
+(`_a/_b/_arr`, `Name_ADDR` second copies) keep their suffix on the new stem
+(`gDialog_bChoice` / `gDialog_bChoice_b`). Uncertainty is carried as a word
+in the name and a note in descriptions.md (`Duel_MaybeEndOfDuel`,
+`AiScript_SetUnknownFlag`), never manufactured away.
 
-The 2026-09-03 pass converted the non-mechanical names in the Symbols Guide
-plus the per-module files (`config/modules/`), 56 EXE symbols and 43 module
-symbols, recorded in `rename_plan.json` as `CAMEL_CASE` rows (or under their
-original evidence kind when the address already had a plan row). Mechanical
-Tier 3 names (`poll_call_393b0_until_bit13`, `compare_rec_two_level_std`,
-`mask_test_800eb26c_*`) are still snake_case and are the next pass.
+Mechanical Tier 3 names (`poll_call_393b0_until_bit13`,
+`compare_rec_two_level_std`, `mask_test_800eb26c_*`) are NOT in this
+convention: they describe verified mechanics of a function whose game role is
+still unknown, which memories-decomp's confidence policy keeps address-only.
+They stay snake_case here as behaviour labels and are listed apart in the
+rosters ("Mechanical names"); each is a candidate for a subsystem name once
+its role is proven.
+
+History: the 2026-08-31 import used the IDB author's camelCase; 2026-09-03
+(morning) unified everything as lowerCamelCase; the same day, after
+memories-decomp requested changes on our research PR, the 215 non-mechanical
+names were restyled to the convention above (rename_plan.json rows keep the
+address's original evidence kind, or `SUBSYSTEM_STYLE` for fleet names).
+Every step was byte-verified.
 
 ## Module symbols (2026-09-02)
 
@@ -163,7 +193,7 @@ Screen modules load into one shared range (0x80160000.. for free duel, name
 entry, password; 0x80180000.. for the main menu), so a module address means
 something different per screen. `config/symbol_addrs.txt` names an address
 once and feeds the split, so it carries ONLY the EXE-referenced entry calls
-(`freeDuelModuleEntry`, `func_801683EC`, `func_8016A080`, ...). Every
+(`FreeDuel_Entry`, `func_801683EC`, `func_8016A080`, ...). Every
 other module function or variable goes in `config/modules/<module>.txt`
 (same line syntax); `tools/module_symbols.py --check` refuses a duplicate.
 Tiers and rules above apply unchanged; the rosters list them under
