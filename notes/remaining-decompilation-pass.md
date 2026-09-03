@@ -574,4 +574,4 @@ State after this one-function checkpoint:
 | Terminal unmatched assembly | 338 |
 | Intentional handwritten assembly | 63 |
 | Matching sources retaining GCC asm | 58 |
-| Accepted semantic mappings | 213 |
+| Accepted semantic mappings | 214 |
