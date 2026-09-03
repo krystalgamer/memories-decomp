@@ -906,7 +906,7 @@ address,size,name,status,module,notes
 0x800580D4,0x1EC,func_800580D4,unmatched_asm,game,
 0x800582C0,0x174,func_800582C0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80058434,0x1F0,func_80058434,unmatched_asm,game,
-0x80058624,0x214,func_80058624,unmatched_asm,game,
+0x80058624,0x214,func_80058624,matching_c,game,Explicit signed absolute value produced the exact in-place negation and 532-byte function.
 0x80058838,0x100,func_80058838,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80058938,0x144,func_80058938,unmatched_asm,game,
 0x80058A7C,0xD0,func_80058A7C,matching_c,game,Pure-C inline refinement matched the full executable.

@@ -537,3 +537,22 @@ State after this one-function checkpoint:
 | Intentional handwritten assembly | 63 |
 | Matching sources retaining GCC asm | 58 |
 | Accepted semantic mappings | 213 |
+
+### Continuous wave 18
+
+`func_80058624` matched after replacing the final conditional magnitude copy
+with `__builtin_abs`. The previous source was already exact except for one
+word: GCC copied the quotient to `$v1` but negated the original `$v0`.
+The explicit signed absolute-value operation emits the retail in-place
+`negu $v1,$v1` while preserving all other instructions and relocations. The
+function matches 532/532 bytes with exact relocations.
+
+State after this one-function checkpoint:
+
+| State | Count |
+|---|---:|
+| Matching C | 794 |
+| Terminal unmatched assembly | 339 |
+| Intentional handwritten assembly | 63 |
+| Matching sources retaining GCC asm | 58 |
+| Accepted semantic mappings | 213 |
