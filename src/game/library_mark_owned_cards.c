@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 extern u8 gLibrary_abCardChest[];
 extern u16 gDuel_awPlayerDeck[];
@@ -14,7 +15,7 @@ void Library_MarkOwnedCards(void)
             Library_UpdateCardUsedFlag(i + 0x121);
         i++;
         p++;
-    } while (i < 0x2D2);
+    } while (i < CARD_COUNT);
     q = gDuel_awPlayerDeck;
     i = 0;
     do {
@@ -22,5 +23,5 @@ void Library_MarkOwnedCards(void)
             Library_UpdateCardUsedFlag(*q + 0x120);
         i++;
         q++;
-    } while (i < 0x28);
+    } while (i < DECK_SIZE);
 }
