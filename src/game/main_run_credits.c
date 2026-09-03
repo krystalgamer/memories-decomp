@@ -70,7 +70,7 @@ __asm__(
     ".word 0xA3820000\n"
     ".reloc .-4, R_MIPS_GPREL16, D_8009B26E\n"
     ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8003F87C\n"
+    ".reloc .-4, R_MIPS_26, SaveData_RequestWrite\n"
     ".word 0x00000000\n"
     ".word 0x0C000000\n"
     ".reloc .-4, R_MIPS_26, func_8003F70C\n"

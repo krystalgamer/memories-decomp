@@ -2470,19 +2470,19 @@
       "address": "0x8003F7D4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
-      "source": "src/game/func_8003F7D4.c"
+      "source": "src/game/save_data_request_load.c"
     },
     {
       "address": "0x8003F810",
       "profile": "gcc_2_8_1_g0",
       "size": "0x6C",
-      "source": "src/game/func_8003F810.c"
+      "source": "src/game/save_data_poll_load.c"
     },
     {
       "address": "0x8003F87C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x58",
-      "source": "src/game/func_8003F87C.c"
+      "source": "src/game/save_data_request_write.c"
     },
     {
       "address": "0x8003FCD8",
