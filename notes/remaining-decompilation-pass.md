@@ -447,3 +447,21 @@ State after this one-function checkpoint:
 | Intentional handwritten assembly | 63 |
 | Matching sources retaining GCC asm | 58 |
 | Accepted semantic mappings | 207 |
+
+### Continuous wave 13
+
+`func_800428EC` matched after declaring only the four-entry halfword lookup
+table volatile. The object remains nonvolatile, preserving the retail object
+byte store before the indexed table load while keeping the original argument
+normalization and result store schedule. The function matches 44/44 bytes
+with exact relocations and no allocated non-text sections.
+
+State after this one-function checkpoint:
+
+| State | Count |
+|---|---:|
+| Matching C | 789 |
+| Terminal unmatched assembly | 344 |
+| Intentional handwritten assembly | 63 |
+| Matching sources retaining GCC asm | 58 |
+| Accepted semantic mappings | 207 |

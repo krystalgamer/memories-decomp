@@ -257,7 +257,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF6C,D_8009AF6C,D_8009AF6C,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02df4c.s,address,,"addiu $a0, $s4, %lo(D_8009AF6C) | lui $s4, %hi(D_8009AF6C)"
 0x8009AF70,D_8009AF70,D_8009AF70,0x8003E854,func_8003E854,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02f054.s,address,,"addiu $a1, $a1, %lo(D_8009AF70) | lui $a1, %hi(D_8009AF70)"
 0x8009AF74,D_8009AF74,D_8009AF74,0x800400AC,func_800400AC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0308ac.s,address,,"addiu $v0, $gp, %gp_rel(D_8009AF74)"
-0x8009AF74,D_8009AF74,D_8009AF74,0x800428EC,func_800428EC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0330ec.s,address,,"addiu $v1, $gp, %gp_rel(D_8009AF74)"
+0x8009AF74,D_8009AF74,D_8009AF74,0x800428EC,func_800428EC,matching_c,game,C,src/game/func_800428EC.c,read,,volatile u16 *table = D_8009AF74;
 0x8009AF76,D_8009AF76,D_8009AF76,0x800283F4,func_800283F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_018bf4.s,read,8,"lbu $v0, %lo(D_8009AF76)($v0) | lui $v0, %hi(D_8009AF76)"
 0x8009AF76,D_8009AF76,D_8009AF76,0x800339D0,func_800339D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0241d0.s,read,8,"lbu $v0, %lo(D_8009AF76)($v0) | lui $v0, %hi(D_8009AF76)"
 0x8009AF76,D_8009AF76,D_8009AF76,0x800388D8,func_800388D8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0290d8.s,read,8,"lbu $v0, %lo(D_8009AF76)($v0) | lui $v0, %hi(D_8009AF76)"

@@ -656,7 +656,7 @@ address,size,name,status,module,notes
 0x80042824,0x50,func_80042824,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80042874,0x34,func_80042874,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800428A8,0x44,func_800428A8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x800428EC,0x2C,func_800428EC,unmatched_asm,game,
+0x800428EC,0x2C,func_800428EC,matching_c,game,A volatile four-entry halfword lookup view preserved the retail load/store schedule; exact linked bytes and relocations.
 0x80042918,0x24,func_80042918,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8004293C,0x24,func_8004293C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80042960,0x48,func_80042960,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
