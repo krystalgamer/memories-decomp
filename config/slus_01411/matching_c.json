@@ -1162,13 +1162,13 @@
       "address": "0x8002CEE8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1F8",
-      "source": "src/game/main_run_duel.c"
+      "source": "src/game/main_run_duel_and_library.c"
     },
     {
       "address": "0x8002D0E0",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
-      "source": "src/game/main_run_library_menu.c"
+      "source": "src/game/main_run_duel_and_library.c"
     },
     {
       "address": "0x8002D2D8",
