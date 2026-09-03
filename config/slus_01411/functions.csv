@@ -1754,8 +1754,8 @@ address,size,name,status,module,notes
 0x8008E3D0,0x30,func_8008E3D0,sdk_asm,psyq/sdk,
 0x8008E400,0x150,func_8008E400,sdk_asm,psyq/sdk,
 0x8008E550,0x3C,func_8008E550,sdk_asm,psyq/sdk,
-0x8008E590,0x30,func_8008E590,sdk_asm,psyq/sdk,
-0x8008E5C0,0xC,func_8008E5C0,sdk_asm,psyq/sdk,
+0x8008E590,0x30,rand,sdk_asm,psyq/sdk,Confirmed Psy-Q C runtime implementation using the standard 0x41C64E6D/0x3039 recurrence and 15-bit return.
+0x8008E5C0,0xC,srand,sdk_asm,psyq/sdk,Confirmed Psy-Q C runtime seed setter; directly stores its argument to gRand_dwSeed.
 0x8008E5D0,0xA4,func_8008E5D0,sdk_asm,psyq/sdk,
 0x8008E680,0x64,func_8008E680,sdk_asm,psyq/sdk,
 0x8008E6F0,0x44,func_8008E6F0,sdk_asm,psyq/sdk,

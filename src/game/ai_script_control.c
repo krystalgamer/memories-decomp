@@ -3,7 +3,7 @@
 extern void func_8008E870();
 extern int AiScript_ReadShort(void);
 extern s32 AiScript_ReadByte(void);
-extern s32 func_8008E590(void);
+extern s32 rand(void);
 
 struct Big {
     s32 f0;
@@ -44,5 +44,5 @@ void AiScript_SetRandom(void) {
     s32 hi = AiScript_ReadShort();
     s32 idx = AiScript_ReadByte();
 
-    gAiScript_aMemory[idx] = func_8008E590() % (hi - lo + 1) + lo;
+    gAiScript_aMemory[idx] = rand() % (hi - lo + 1) + lo;
 }

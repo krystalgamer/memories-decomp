@@ -5,7 +5,7 @@ extern AiScriptState gAiScript_State;
 
 extern s32 AiScript_ReadByte(void);
 extern s32 AiScript_ReadShort(void);
-extern s32 func_8008E590(void);
+extern s32 rand(void);
 
 void AiScript_JumpBetween(void)
 {
@@ -33,7 +33,7 @@ void AiScript_JumpRandom(void)
 
     limit = values[index];
     result = AiScript_ReadShort();
-    if (func_8008E590() % 100 < limit) {
+    if (rand() % 100 < limit) {
         result += (s32)gAiScript_State.script_base;
         gAiScript_State.script_cursor = (u8 *)result;
     }

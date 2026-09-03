@@ -15,7 +15,7 @@ typedef struct { u32 words[2]; } Blk8;
 
 extern s32 func_80040410();
 extern s32 func_80040424();
-extern s32 func_8008E590();
+extern s32 rand();
 
 void func_8003B378(u8 *p, s32 n) {
     s32 f;
@@ -32,7 +32,7 @@ void func_8003B378(u8 *p, s32 n) {
     if (*(u8 **)(p + 4) != 0) {
         if ((f & 1) != 0) {
             if (*(s16 *)(*(u8 **)(p + 4) + 0x5A) == 0) {
-                *(s16 *)(p + 0x3E) = (func_8008E590() & 0xFF) + 0x3C;
+                *(s16 *)(p + 0x3E) = (rand() & 0xFF) + 0x3C;
                 p[0x32] = p[0x32] & 0xFE;
                 func_80040410(*(u8 **)(p + 4), 0);
             }

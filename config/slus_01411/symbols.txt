@@ -91,6 +91,8 @@ BuildDeck_CompareCard = 0x80032B60; // type:func
 Util_CopyWords = 0x800356A0; // type:func
 Text_EncodeDecimalDigits = 0x800357E8; // type:func
 Rand_GetInterval = 0x800358FC; // type:func
+rand = 0x8008E590; // type:func
+srand = 0x8008E5C0; // type:func
 Model_LoadMonsterMerge = 0x80056504; // type:func
 File_Exists = 0x8005C4F0; // type:func
 

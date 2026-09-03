@@ -12,8 +12,8 @@ The resident functions are:
 
 | Address | Role | Repository status |
 |---|---|---|
-| `0x8008E590` | Psy-Q `rand` | Preserved SDK assembly |
-| `0x8008E5C0` | Psy-Q `srand` | Preserved SDK assembly |
+| `0x8008E590` | `rand` | Preserved Psy-Q SDK assembly |
+| `0x8008E5C0` | `srand` | Preserved Psy-Q SDK assembly |
 | `0x800FE6F8` | PRNG state | `gRand_dwSeed` |
 
 `rand` updates the 32-bit state with the standard ANSI C linear congruential
@@ -54,8 +54,7 @@ The generator feeds multiple systems. Confirmed matching-C examples include:
 | `main_run_menu.c` | Advances randomness while a menu mode runs |
 
 Additional matching and unmatched callers use the same SDK routine for duel
-state, animation timing, and selection logic. Search for calls to
-`func_8008E590` until the SDK symbol itself is promoted to `rand`.
+state, animation timing, and selection logic.
 
 Modulo expressions such as `rand() % divisor` are biased unless the divisor
 evenly divides 32768. Analyses that predict deck, AI, or drop outcomes must
@@ -101,4 +100,3 @@ timing without relying on visual frames alone.
 - Retail executable assembly at `0x8008E590`, `0x8008E5C0`, `0x80012C44`, and
   `0x80013338`
 - `tmp/references/ram_map.txt` for the seed symbol evidence
-
