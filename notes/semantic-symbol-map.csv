@@ -217,3 +217,4 @@ function,0x8008E590,rand,confirmed,"Psy-Q runtime implementation; standard 0x41C
 function,0x8008E5C0,srand,confirmed,"Psy-Q runtime implementation; direct gRand_dwSeed store; Main_Init callers","Sets the resident C runtime random-number seed."
 function,0x800158B8,Fade_InitOut,high,"matching body; FadeTransitionState layout; Fade_StartOut call chain; Unchiga idb2018","Initializes an active strip fade toward black with the default step and current level."
 function,0x80015904,Fade_StartOut,high,"matching body; Fade_InitOut setup; Fade_WaitOut wrapper; Unchiga idb2018","Starts the menu-transition fade-out with its faster step and strip-mode flag."
+function,0x80035AB8,TextBox_SetRect,high,"matching body; only TextBox_Create and TextBox_CreateFlagged callers; Unchiga F99 and idb2018","Stores the text-box position and dimensions in the selected shared display record."

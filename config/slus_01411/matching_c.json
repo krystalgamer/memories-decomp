@@ -1696,7 +1696,7 @@
       "address": "0x80035AB8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
-      "source": "src/game/func_80035AB8.c"
+      "source": "src/game/text_box_set_rect.c"
     },
     {
       "address": "0x80035AF0",

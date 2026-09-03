@@ -422,7 +422,7 @@ address,size,name,status,module,notes
 0x800359B0,0xA8,func_800359B0,unmatched_asm,game,
 0x80035A58,0xC,func_80035A58,matching_c,game,First -O2 -G8 global-byte assignment candidate matched.
 0x80035A64,0x54,func_80035A64,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80035AB8,0x38,func_80035AB8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80035AB8,0x38,TextBox_SetRect,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80035AF0,0x8C,DuelEffect_InitEntry,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_o1_g0.
 0x80035B7C,0x68,func_80035B7C,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80035BE4,0x54,func_80035BE4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.

@@ -10,7 +10,7 @@ names remain where semantics or signedness are uncertain.
 `DuelEffectChannel` has size `0x64`, and `D_800EB0F8` is declared as four
 entries. The following local evidence establishes the stride and extent:
 
-- `DuelEffect_InitEntry`, `func_80035AB8`, `func_8003D614`, and
+- `DuelEffect_InitEntry`, `TextBox_SetRect`, `func_8003D614`, and
   `func_8003F388` independently index or advance entries by `0x64`.
 - `func_8003F388` scans exactly four entries.
 - `D_800EB288 - D_800EB0F8` is `0x190`, exactly `4 * 0x64`; linker aliases
@@ -27,13 +27,13 @@ Verified channel fields used by matching C include:
 | `0x30` | `field_30` | pointer-sized assignment in `func_80028310`; cleared by `func_80035A64` |
 | `0x34` | `flags_34` | `0x10`, `0x2000`, and `0x8000` tests; reset by `func_80035A64` |
 | `0x36`-`0x3A` | `field_36`, `field_38`, `field_3A` | halfword initialization in `DuelEffect_InitEntry` |
-| `0x3C`-`0x42` | `field_3C`-`field_42` | four halfword writes in `func_80035AB8` |
+| `0x3C`-`0x42` | `field_3C`-`field_42` | four halfword writes in `TextBox_SetRect` |
 | `0x53`-`0x5B` | byte fields and `index_57` | initialization sequence in `DuelEffect_InitEntry` |
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `D_80090E58` bounds |
 | `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
 
 Seven pure-C users now include the shared header and use
-`DuelEffectChannel`: `func_80028310`, `func_80035A64`, `func_80035AB8`,
+`DuelEffectChannel`: `func_80028310`, `func_80035A64`, `TextBox_SetRect`,
 `DuelEffect_InitEntry`, `DuelEffect_CreateChannel`, `func_8003D614`, and
 `func_8003F388`.
 

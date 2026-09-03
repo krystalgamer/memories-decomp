@@ -2656,7 +2656,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80031084,func_80031084,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_021884.s,address,,"addiu $v0, $v0, %lo(D_800EB0F8) | lui $v0, %hi(D_800EB0F8)"
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x800339D0,func_800339D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0241d0.s,address,,"addiu $s0, $v0, %lo(D_800EB0F8) | lui $v0, %hi(D_800EB0F8)"
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80035A64,func_80035A64,matching_c,game,C,src/game/func_80035A64.c,read,,DuelEffectChannel *entry = D_800EB0F8;
-0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80035AB8,func_80035AB8,matching_c,game,C,src/game/func_80035AB8.c,address,,DuelEffectChannel *entry = &D_800EB0F8[index];
+0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80035AB8,TextBox_SetRect,matching_c,game,C,src/game/text_box_set_rect.c,address,,DuelEffectChannel *entry = &D_800EB0F8[index];
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80035AF0,DuelEffect_InitEntry,matching_c,game,C,src/game/duel_effect_init_entry.c,address,,"DuelEffectChannel*DuelEffect_InitEntry(int index,int value,int flags){register int offset=index<<1;DuelEffectChannel*..."
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80035E20,func_80035E20,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_026620.s,address,,"addiu $a0, $a0, %lo(D_800EB0F8) | lui $a0, %hi(D_800EB0F8)"
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80039794,func_80039794,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,address,,"addiu $s2, $v0, %lo(D_800EB0F8) | lui $v0, %hi(D_800EB0F8)"
