@@ -3685,6 +3685,12 @@
       "source": "src/game/sd_reset_sequence_tracks.c"
     },
     {
+      "address": "0x8004CABC",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x50",
+      "source": "src/game/func_8004CABC.c"
+    },
+    {
       "address": "0x8004E9A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",

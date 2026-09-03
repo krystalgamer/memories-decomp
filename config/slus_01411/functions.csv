@@ -863,7 +863,7 @@ address,size,name,status,module,notes
 0x8004C84C,0x7C,func_8004C84C,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_cc_g0_as_g8_no_split.
 0x8004C8C8,0x198,SD_ProcessSequenceTracks,matching_c,game,Post-terminal pure-C match; corrected timer-threshold scope skips command processing until the accumulator wraps.
 0x8004CA60,0x5C,SD_ResetSequenceTracks,matching_c,game,Post-terminal pure-C match; typed 0x2C-byte sequence-track array resolves commutative address operand order.
-0x8004CABC,0x50,func_8004CABC,unmatched_asm,game,
+0x8004CABC,0x50,func_8004CABC,matching_c,game,A direct counted for loop preserved the retail scan control flow and delay-slot scheduling; exact linked bytes and relocations.
 0x8004CB0C,0x628,func_8004CB0C,unmatched_asm,game,
 0x8004D134,0x458,func_8004D134,unmatched_asm,game,
 0x8004D58C,0x1D0,func_8004D58C,unmatched_asm,game,
