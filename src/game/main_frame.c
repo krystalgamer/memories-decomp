@@ -12,3 +12,10 @@ void func_80012D4C(void)
     func_80012E5C();
     func_8003CCD8();
 }
+
+void func_80012D84(int count)
+{
+    do {
+        func_80012D4C();
+    } while (--count != 0);
+}

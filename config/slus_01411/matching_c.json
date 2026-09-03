@@ -4,13 +4,13 @@
       "address": "0x80012D4C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
-      "source": "src/game/func_80012D4C.c"
+      "source": "src/game/main_frame.c"
     },
     {
       "address": "0x80012D84",
       "profile": "gcc_2_8_1_g8",
       "size": "0x30",
-      "source": "src/game/func_80012D84.c"
+      "source": "src/game/main_frame.c"
     },
     {
       "address": "0x8001306C",
