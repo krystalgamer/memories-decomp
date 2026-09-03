@@ -2268,8 +2268,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004C5C8,func_8004C5C8,matching_c,game,C,src/game/func_8004C5C8.c,read,,switch (D_8009B458->timebase) {
 0x8009B458,D_8009B458,D_8009B458,0x8004C77C,func_8004C77C,matching_c,game,C,src/game/func_8004C77C.c,read,8,"register u8 *flags_state asm(""$3"") = D_8009B458; | register u8 *initial asm(""$2"") = D_8009B458; | (+2 more)"
 0x8009B458,D_8009B458,D_8009B458,0x8004C84C,func_8004C84C,matching_c,game,C,src/game/func_8004C84C.c,read,,SDSecondaryObject *item = &D_8009B458->objects[i]; | for (i = 0; i < D_8009B458->object_count; i++) {
-0x8009B458,D_8009B458,D_8009B458,0x8004C8C8,SD_ProcessSequenceTracks,matching_c,game,C,src/game/sd_process_sequence_tracks.c,read,8,*(int *)(D_8009B458 + 0x80C) == 0) { | if (*(int *)(D_8009B458 + 0x804) != 0) | (+2 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004CA60,SD_ResetSequenceTracks,matching_c,game,C,src/game/sd_reset_sequence_tracks.c,read_write,,D_8009B458->tracks[i].flag = 1; | D_8009B458->tracks[i].value = 0; | (+1 more)
+0x8009B458,D_8009B458,D_8009B458,0x8004C8C8,SD_ProcessSequenceTracks,matching_c,game,C,src/game/sd_sequence_tracks.c,read,,*(int *)((u8 *)D_8009B458 + 0x80C) == 0) { | if (*(int *)((u8 *)D_8009B458 + 0x804) != 0) | (+2 more)
+0x8009B458,D_8009B458,D_8009B458,0x8004CA60,SD_ResetSequenceTracks,matching_c,game,C,src/game/sd_sequence_tracks.c,read_write,,D_8009B458->tracks[i].flag = 1; | D_8009B458->tracks[i].value = 0; | (+1 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004CABC,func_8004CABC,matching_c,game,C,src/game/func_8004CABC.c,read,8,u8 *object = D_8009B458;
 0x8009B45C,g_SDValue,g_SDValue,0x80044D48,func_80044D48,matching_c,game,C,src/game/sound_buffer_init.c,read,,base = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x80044DA0,func_80044DA0,matching_c,game,C,src/game/sound_buffer_init.c,write,,g_SDValue->channel_volume[0] = 0x80; | g_SDValue->channel_volume[1] = 0x80;

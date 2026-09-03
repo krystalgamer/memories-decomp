@@ -3694,13 +3694,13 @@
       "address": "0x8004C8C8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x198",
-      "source": "src/game/sd_process_sequence_tracks.c"
+      "source": "src/game/sd_sequence_tracks.c"
     },
     {
       "address": "0x8004CA60",
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",
-      "source": "src/game/sd_reset_sequence_tracks.c"
+      "source": "src/game/sd_sequence_tracks.c"
     },
     {
       "address": "0x8004CABC",
