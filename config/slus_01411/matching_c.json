@@ -1198,19 +1198,19 @@
       "address": "0x8002D62C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x58",
-      "source": "src/game/main_run_name_entry.c"
+      "source": "src/game/main_run_setup_menus.c"
     },
     {
       "address": "0x8002D684",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/main_run_password_menu.c"
+      "source": "src/game/main_run_setup_menus.c"
     },
     {
       "address": "0x8002D6C8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x68",
-      "source": "src/game/main_run_options_menu.c"
+      "source": "src/game/main_run_setup_menus.c"
     },
     {
       "address": "0x8002D730",

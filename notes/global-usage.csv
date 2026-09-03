@@ -1526,8 +1526,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B269,D_8009B269,D_8009B269,0x8002D180,Main_RunAnimatedBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01d980.s,read,8,"lbu $v0, %gp_rel(D_8009B269)($gp)"
 0x8009B269,D_8009B269,D_8009B269,0x8002D370,Main_RunBuildDeckMenu,matching_c,game,C,src/game/main_run_build_deck_menu.c,read,8,void Main_RunBuildDeckMenu(void){unsigned char flags=D_8009B26C;if((flags&0x40)==0){D_8009B26C=flags|0x40;func_800323...
 0x8009B269,D_8009B269,D_8009B269,0x8002D588,Main_RunMenu,matching_c,game,C,src/game/main_run_menu.c,write,8,void Main_RunMenu(void){unsigned char f=D_8009B26C;int r;if((f&0x40)==0){D_8009B26C=f|0x40;func_8005B85C();func_80013...
-0x8009B269,D_8009B269,D_8009B269,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_name_entry.c,read,8,value = D_8009B269;
-0x8009B269,D_8009B269,D_8009B269,0x8002D6C8,Main_RunOptionsMenu,matching_c,game,C,src/game/main_run_options_menu.c,read,8,void Main_RunOptionsMenu(void){unsigned char flags=D_8009B26C;if((flags&0x40)==0){D_8009B26C=flags|0x40;func_8003C2B4...
+0x8009B269,D_8009B269,D_8009B269,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_setup_menus.c,read,8,value = D_8009B269;
+0x8009B269,D_8009B269,D_8009B269,0x8002D6C8,Main_RunOptionsMenu,matching_c,game,C,src/game/main_run_setup_menus.c,read,8,value = D_8009B269;
 0x8009B269,D_8009B269,D_8009B269,0x8002D730,Main_RunGameOver,matching_c,game,C,src/game/main_run_game_over.c,read,8,void Main_RunGameOver(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8003C498();func_8003C95...
 0x8009B269,D_8009B269,D_8009B269,0x8002D7CC,Main_RunTrade,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01dfcc.s,read,8,"lbu $v0, %gp_rel(D_8009B269)($gp)"
 0x8009B269,D_8009B269,D_8009B269,0x8002DC38,func_8002DC38,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01e438.s,read,8,"lbu $v0, %gp_rel(D_8009B269)($gp)"
@@ -1549,9 +1549,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D3F8,Main_RunFreeDuelMenu,matching_c,game,C,src/game/main_run_free_duel_menu.c,read_write,8,D_8009B26C = flags | 0x40; | if ((D_8009B26C & 0x40) == 0) func_8003FF34(); | (+1 more)
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D458,func_8002D458,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01dc58.s,write,8,"sb $v0, %gp_rel(D_8009B26C)($gp) | sb $zero, %gp_rel(D_8009B26C)($gp)"
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D588,Main_RunMenu,matching_c,game,C,src/game/main_run_menu.c,read_write,8,void Main_RunMenu(void){unsigned char f=D_8009B26C;int r;if((f&0x40)==0){D_8009B26C=f|0x40;func_8005B85C();func_80013...
-0x8009B26C,D_8009B26C,D_8009B26C,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_name_entry.c,read_write,8,D_8009B26C = flags | 0x40; | D_8009B26C = value; | (+1 more)
-0x8009B26C,D_8009B26C,D_8009B26C,0x8002D684,Main_RunPasswordMenu,matching_c,game,C,src/game/main_run_password_menu.c,read_write,8,D_8009B26C = flags | 0x40; | unsigned char flags = D_8009B26C;
-0x8009B26C,D_8009B26C,D_8009B26C,0x8002D6C8,Main_RunOptionsMenu,matching_c,game,C,src/game/main_run_options_menu.c,read_write,8,void Main_RunOptionsMenu(void){unsigned char flags=D_8009B26C;if((flags&0x40)==0){D_8009B26C=flags|0x40;func_8003C2B4...
+0x8009B26C,D_8009B26C,D_8009B26C,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_setup_menus.c,read_write,8,D_8009B26C = flags | 0x40; | D_8009B26C = value; | (+1 more)
+0x8009B26C,D_8009B26C,D_8009B26C,0x8002D684,Main_RunPasswordMenu,matching_c,game,C,src/game/main_run_setup_menus.c,read_write,8,D_8009B26C = flags | 0x40; | unsigned char flags = D_8009B26C;
+0x8009B26C,D_8009B26C,D_8009B26C,0x8002D6C8,Main_RunOptionsMenu,matching_c,game,C,src/game/main_run_setup_menus.c,read_write,8,D_8009B26C = flags | 0x40; | D_8009B26C = value; | (+1 more)
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D730,Main_RunGameOver,matching_c,game,C,src/game/main_run_game_over.c,read_write,8,void Main_RunGameOver(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8003C498();func_8003C95...
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D7CC,Main_RunTrade,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01dfcc.s,read_write,8,"lbu $v1, %gp_rel(D_8009B26C)($gp) | sb $v0, %gp_rel(D_8009B26C)($gp)"
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002DC38,func_8002DC38,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01e438.s,read_write,8,"lbu $v1, %gp_rel(D_8009B26C)($gp) | sb $v0, %gp_rel(D_8009B26C)($gp)"
