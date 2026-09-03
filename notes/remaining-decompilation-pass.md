@@ -519,3 +519,21 @@ State after this one-function checkpoint:
 | Intentional handwritten assembly | 63 |
 | Matching sources retaining GCC asm | 58 |
 | Accepted semantic mappings | 213 |
+
+### Continuous wave 17
+
+`func_8003C120` matched after importing the collaborator's typed four-mode
+object initializer under `gcc_2_8_1_g0_no_split`. The structure layout and
+switch preserve the retail case dispatch, nested shared tails, and mode-two
+callback sequence without asm or register bindings. The function matches
+404/404 bytes with exact relocations and no allocated non-text sections.
+
+State after this one-function checkpoint:
+
+| State | Count |
+|---|---:|
+| Matching C | 793 |
+| Terminal unmatched assembly | 340 |
+| Intentional handwritten assembly | 63 |
+| Matching sources retaining GCC asm | 58 |
+| Accepted semantic mappings | 213 |
