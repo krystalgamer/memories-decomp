@@ -410,3 +410,21 @@ State after this one-function checkpoint:
 | Intentional handwritten assembly | 63 |
 | Matching sources retaining GCC asm | 58 |
 | Accepted semantic mappings | 202 |
+
+### Continuous wave 11
+
+`func_8002EDB0` matched after separating the masked call argument from the raw
+command byte saved across either callback. Forming the `0x7F` mask first keeps
+the loaded byte in `$v1`; copying it afterward places the required move to
+`$s0` in the conditional-branch delay slot. The function matches 112/112 bytes
+with exact relocations.
+
+State after this one-function checkpoint:
+
+| State | Count |
+|---|---:|
+| Matching C | 787 |
+| Terminal unmatched assembly | 346 |
+| Intentional handwritten assembly | 63 |
+| Matching sources retaining GCC asm | 58 |
+| Accepted semantic mappings | 202 |
