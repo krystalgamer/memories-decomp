@@ -2890,7 +2890,7 @@
       "address": "0x80043EBC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x17C",
-      "source": "src/game/func_80043EBC.c"
+      "source": "src/game/mem_card_init_io_events.c"
     },
     {
       "address": "0x80044038",

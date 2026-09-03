@@ -13,7 +13,7 @@ extern void MemCard_SetIOResultTimeoutCB(void);
 extern void MemCard_SetIOResultErrorCB(void);
 extern void MemCard_SetIOResultNewCardCB(void);
 
-void func_80043EBC(void)
+void MemCard_InitIOEvents(void)
 {
     register void **items;
     register void *cb0;
