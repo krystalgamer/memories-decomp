@@ -112,10 +112,10 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8001187C,D_8001187C,D_8001187C,0x8006C37C,func_8006C37C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05cb7c.s,address,,"addiu $t5, $v0, %lo(D_8001187C) | lui $v0, %hi(D_8001187C)"
 0x8001188C,D_8001188C,D_8001188C,0x8006CD78,func_8006CD78,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05cb7c.s,address,,"addiu $t9, $v0, %lo(D_8001188C) | lui $v0, %hi(D_8001188C)"
 0x8001189C,D_8001189C,D_8001189C,0x8006F1B4,func_8006F1B4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05cb7c.s,address,,"addiu $t4, $v0, %lo(D_8001189C) | lui $v0, %hi(D_8001189C)"
-0x800118AC,D_800118AC,D_800118AC,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_call.c,address,8,func_8008E870(D_800118AC);
-0x800118CC,D_800118CC,D_800118CC,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_call.c,address,8,"func_8008E870(D_8009B084, D_800118CC, 0x17B);"
-0x800118CC,D_800118CC,D_800118CC,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control.c,address,8,"func_8008E870(D_8009B084, D_800118CC, 0x193);"
-0x800118E4,D_800118E4,D_800118E4,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control.c,address,8,func_8008E870(D_800118E4);
+0x800118AC,D_800118AC,D_800118AC,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_call_control.c,address,8,func_8008E870(D_800118AC);
+0x800118CC,D_800118CC,D_800118CC,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_call_control.c,address,8,"func_8008E870(D_8009B084, D_800118CC, 0x17B);"
+0x800118CC,D_800118CC,D_800118CC,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_call_control.c,address,8,"func_8008E870(D_8009B084, D_800118CC, 0x193);"
+0x800118E4,D_800118E4,D_800118E4,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_call_control.c,address,8,func_8008E870(D_800118E4);
 0x80011908,D_80011908,D_80011908,0x800736C4,AiScript_Print,matching_c,game,C,src/game/ai_script_print.c,address,8,func_8008E870(D_80011908);
 0x80011918,D_80011918,D_80011918,0x800736C4,AiScript_Print,matching_c,game,C,src/game/ai_script_print.c,address,8,"func_8008E870(D_80011918, checkpoint);"
 0x8009078C,gFile_apszName,gFile_apszName,0x800136E4,File_SetPositionTable,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003ee4.s,address,,"addiu $s2, $v0, %lo(gFile_apszName) | lui $v0, %hi(gFile_apszName)"
@@ -776,8 +776,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F828,func_8005F828,matching_c,game,C,src/game/func_8005F828.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F91C,func_8005F91C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05011c.s,read,8,"lbu $v0, %gp_rel(D_8009B07C)($gp)"
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005FAE4,func_8005FAE4,matching_c,game,C,src/game/func_8005FAE4.c,write,8,D_8009B07C = 0;
-0x8009B084,D_8009B084,D_8009B084,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_call.c,address,8,"func_8008E870(D_8009B084, D_800118CC, 0x17B);"
-0x8009B084,D_8009B084,D_8009B084,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control.c,address,8,"func_8008E870(D_8009B084, D_800118CC, 0x193);"
+0x8009B084,D_8009B084,D_8009B084,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_call_control.c,address,8,"func_8008E870(D_8009B084, D_800118CC, 0x17B);"
+0x8009B084,D_8009B084,D_8009B084,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_call_control.c,address,8,"func_8008E870(D_8009B084, D_800118CC, 0x193);"
 0x8009B098,D_8009B098,D_8009B098,0x80012B50,Main_Init,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0031d8.s,write,16,"sh $v0, %gp_rel(D_8009B098)($gp)"
 0x8009B098,D_8009B098,D_8009B098,0x80012DB4,func_80012DB4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0035b4.s,read,16,"lhu $v0, %gp_rel(D_8009B098)($gp)"
 0x8009B098,D_8009B098,D_8009B098,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0035b4.s,read,16,"lhu $v0, %gp_rel(D_8009B098)($gp)"
@@ -2902,7 +2902,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070B3C,AiScript_JumpNotEqual,matching_c,game,C,src/game/ai_script_jump_not_equal.c,address,32,"extern int gAiScript_aMemory[];typedef struct{int first,addend,result;}State;extern State gAiScript_State;extern int ..."
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070BB8,AiScript_JumpBetween,matching_c,game,C,src/game/ai_script_jumps.c,read,,gAiScript_aMemory[third] <= value | s32 value = gAiScript_aMemory[first]; | (+1 more)
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070C60,AiScript_JumpRandom,matching_c,game,C,src/game/ai_script_jumps.c,read,,register s32 *values = gAiScript_aMemory;
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070E20,AiScript_SetRandom,matching_c,game,C,src/game/ai_script_control.c,write,32,gAiScript_aMemory[idx] = rand() % (hi - lo + 1) + lo;
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070E20,AiScript_SetRandom,matching_c,game,C,src/game/ai_script_call_control.c,write,,gAiScript_aMemory[idx] = rand() % (hi - lo + 1) + lo;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070EB4,AiScript_Subtract,matching_c,game,C,src/game/ai_script_subtract.c,address,32,extern int gAiScript_aMemory[];extern int AiScript_ReadByte(void);void AiScript_Subtract(void){int a=AiScript_ReadByt...
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070F1C,AiScript_PlayFieldCard,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_06171c.s,address,,"addiu $s0, $s0, %lo(gAiScript_aMemory) | lui $s0, %hi(gAiScript_aMemory)"
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071008,AiScript_CalcCardPower,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_061808.s,address,,"addiu $s0, $s0, %lo(gAiScript_aMemory) | addiu $v1, $v1, %lo(gAiScript_aMemory) | (+2 more)"
@@ -2958,8 +2958,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80070B3C,AiScript_JumpNotEqual,matching_c,game,C,src/game/ai_script_jump_not_equal.c,address,,"extern int gAiScript_aMemory[];typedef struct{int first,addend,result;}State;extern State gAiScript_State;extern int ..."
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80070BB8,AiScript_JumpBetween,matching_c,game,C,src/game/ai_script_jumps.c,read_write,,gAiScript_State.script_cursor = (u8 *)offset; | offset += (s32)gAiScript_State.script_base;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80070C60,AiScript_JumpRandom,matching_c,game,C,src/game/ai_script_jumps.c,read_write,,gAiScript_State.script_cursor = (u8 *)result; | result += (s32)gAiScript_State.script_base;
-0x800F5BE8,gAiScript_State,gAiScript_State,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_call.c,read_write,,AiScriptState *state = &gAiScript_State; | gAiScript_State.return_depth + 1; | (+4 more)
-0x800F5BE8,gAiScript_State,gAiScript_State,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control.c,read_write,,gAiScript_State.count = count; | gAiScript_State.f8 = gAiScript_State.items[count]; | (+1 more)
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_call_control.c,read_write,,AiScriptState *state = &gAiScript_State; | gAiScript_State.return_depth + 1; | (+4 more)
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_call_control.c,read_write,,gAiScript_State.return_depth = count; | gAiScript_State.script_cursor = gAiScript_State.return_stack[count]; | (+1 more)
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800715C4,AiScript_StartCombo,matching_c,game,C,src/game/ai_script_combo.c,read,8,s32 value = gAiScript_State[0x38 + i];
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800727C0,Ai_CompleteFusion,matching_c,game,C,src/game/ai_fusion.c,address,8,state = gAiScript_State;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80072A48,AiScript_FindBestCombo,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_063248.s,address,,"addiu $s1, $v0, %lo(gAiScript_State) | addiu $v1, $v0, %lo(gAiScript_State) | (+3 more)"
