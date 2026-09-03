@@ -3,5 +3,6 @@
 
 #define CARD_COUNT 722
 #define DECK_SIZE 40
+#define DUEL_DROP_WEIGHT_TOTAL 2048
 
 #endif

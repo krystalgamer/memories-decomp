@@ -14,7 +14,7 @@ extern s32 rand(void);
 s32 Duel_SelectCardDrop(s32 opponent)
 {
     DuelDropTable *table = &gDuel_awSaPowCardDrops[opponent];
-    s32 threshold = (rand() & 0x7FF) + 1;
+    s32 threshold = (rand() & (DUEL_DROP_WEIGHT_TOTAL - 1)) + 1;
     s32 sum = 0;
     s32 i;
 
