@@ -2917,9 +2917,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071510,func_80071510,matching_c,game,C,src/game/func_80071510.c,address,32,"register int *values asm(""$4"") = gAiScript_aMemory;"
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x8007154C,AiScript_TestPinned,matching_c,game,C,src/game/ai_script_combo.c,read,,s32 *memory = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800715C4,AiScript_StartCombo,matching_c,game,C,src/game/ai_script_combo.c,write,,gAiScript_aMemory[dest] = 0; | gAiScript_aMemory[dest] = value;
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x8007164C,AiScript_LoadBestDifference,matching_c,game,C,src/game/ai_script_load_best_difference.c,address,32,"register int *values asm(""$4"") = gAiScript_aMemory;"
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071688,AiScript_LoadBestAttacker,matching_c,game,C,src/game/ai_script_load_best_attacker.c,address,32,"register int *values asm(""$4"") = gAiScript_aMemory;"
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800716C4,AiScript_LoadBestTarget,matching_c,game,C,src/game/ai_script_load_best_target.c,address,32,"register int *values asm(""$4"") = gAiScript_aMemory;"
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x8007164C,AiScript_LoadBestDifference,matching_c,game,C,src/game/ai_script_load_best_values.c,address,32,"register int *values asm(""$4"") = gAiScript_aMemory;"
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071688,AiScript_LoadBestAttacker,matching_c,game,C,src/game/ai_script_load_best_values.c,address,32,"register int *values asm(""$4"") = gAiScript_aMemory;"
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800716C4,AiScript_LoadBestTarget,matching_c,game,C,src/game/ai_script_load_best_values.c,address,32,"register int *values asm(""$4"") = gAiScript_aMemory;"
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071700,AiScript_FindStrongest,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_061f00.s,address,,"addiu $s0, $s0, %lo(gAiScript_aMemory) | addiu $v1, $v1, %lo(gAiScript_aMemory) | (+2 more)"
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071924,AiScript_FindWeakest,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_061f00.s,address,,"addiu $s0, $s0, %lo(gAiScript_aMemory) | addiu $v1, $v1, %lo(gAiScript_aMemory) | (+2 more)"
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071B64,AiScript_FindKiller,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_061f00.s,address,,"addiu $s0, $s0, %lo(gAiScript_aMemory) | addiu $v1, $v1, %lo(gAiScript_aMemory) | (+2 more)"
@@ -2973,10 +2973,10 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80073420,AiScript_ClearTypes,matching_c,game,C,src/game/ai_script_clear_types.c,address,8,u8 *p = gAiScript_State;
 0x800F5C7F,D_800F5C7F,D_800F5C7F,0x80073464,func_80073464,matching_c,game,C,src/game/ai_script_state_ops.c,write,8,D_800F5C7F = 1;
 0x800F5C7F,D_800F5C7F,D_800F5C7F,0x80073474,func_80073474,matching_c,game,C,src/game/ai_script_state_ops.c,write,8,D_800F5C7F = 0;
-0x800F5C80,gAi_wBestDifference,gAi_wBestDifference,0x8007164C,AiScript_LoadBestDifference,matching_c,game,C,src/game/ai_script_load_best_difference.c,read,16,value = gAi_wBestDifference;
+0x800F5C80,gAi_wBestDifference,gAi_wBestDifference,0x8007164C,AiScript_LoadBestDifference,matching_c,game,C,src/game/ai_script_load_best_values.c,read,16,value = gAi_wBestDifference;
 0x800F5C80,gAi_wBestDifference,gAi_wBestDifference,0x8007308C,AiScript_FindBestAttack,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_06388c.s,read,16,"lhu $v0, %lo(gAi_wBestDifference)($v0) | lui $v0, %hi(gAi_wBestDifference)"
-0x800F5C82,gAi_bBestAttacker,gAi_bBestAttacker,0x80071688,AiScript_LoadBestAttacker,matching_c,game,C,src/game/ai_script_load_best_attacker.c,read,8,value = gAi_bBestAttacker;
-0x800F5C83,gAi_bBestTarget,gAi_bBestTarget,0x800716C4,AiScript_LoadBestTarget,matching_c,game,C,src/game/ai_script_load_best_target.c,read,8,value = gAi_bBestTarget;
+0x800F5C82,gAi_bBestAttacker,gAi_bBestAttacker,0x80071688,AiScript_LoadBestAttacker,matching_c,game,C,src/game/ai_script_load_best_values.c,read,8,value = gAi_bBestAttacker;
+0x800F5C83,gAi_bBestTarget,gAi_bBestTarget,0x800716C4,AiScript_LoadBestTarget,matching_c,game,C,src/game/ai_script_load_best_values.c,read,8,value = gAi_bBestTarget;
 0x800F5C88,D_800F5C88,D_800F5C88,0x80072DC0,AiScript_EvaluateFusion,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_063248.s,write,16,"lui $v1, %hi(D_800F5C88) | sh $v0, %lo(D_800F5C88)($v1)"
 0x800F5C8B,D_800F5C8B,D_800F5C8B,0x80072DC0,AiScript_EvaluateFusion,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_063248.s,read,8,"lbu $v0, %lo(D_800F5C8B)($v0) | lui $v0, %hi(D_800F5C8B)"
 0x800F5D44,D_800F5D44,D_800F5D44,0x8005C1F4,func_8005C1F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04c0a0.s,read_write,32,"lui $at, %hi(D_800F5D44) | lui $v0, %hi(D_800F5D44) | (+2 more)"

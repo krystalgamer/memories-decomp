@@ -4594,19 +4594,19 @@
       "address": "0x8007164C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x3C",
-      "source": "src/game/ai_script_load_best_difference.c"
+      "source": "src/game/ai_script_load_best_values.c"
     },
     {
       "address": "0x80071688",
       "profile": "gcc_2_8_1_g0",
       "size": "0x3C",
-      "source": "src/game/ai_script_load_best_attacker.c"
+      "source": "src/game/ai_script_load_best_values.c"
     },
     {
       "address": "0x800716C4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x3C",
-      "source": "src/game/ai_script_load_best_target.c"
+      "source": "src/game/ai_script_load_best_values.c"
     },
     {
       "address": "0x8007249C",
