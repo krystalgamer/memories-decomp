@@ -2,7 +2,7 @@
 
 extern u8 D_801D0000[];
 
-s32 func_8002CCA8(s32 arg0)
+s32 Campaign_TestStoryFlag(s32 arg0)
 {
     s32 i = (arg0 & 0x7FF) >> 3;
     s32 m = 0x80 >> (arg0 & 7);

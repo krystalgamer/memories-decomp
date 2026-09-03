@@ -359,7 +359,7 @@ equip cards; 25,131 fusion recipes indexed by the smaller card id through a
 before and after Heishin's coup.** `func_8003C0C0` picks `0x1FD9` or
 `0x1FD9 + 0x9E` on save flag `0x47`, which the dialogue "Now you can go back
 to your own world" sets after the tournament (save flags are a 256-byte
-array at `0x801D0618`, tested by `func_8002CCA8`).
+array at `0x801D0618`, tested by `Campaign_TestStoryFlag`).
 
 **The mini-record family at WA 7475 is the per-duelist block**, indexed by
 the opponent id (`D_8009B361`, 1-based; block 0 is a copy of block 1; ids

@@ -249,9 +249,10 @@ File_ActivateTransfer = 0x800143DC; // type:func
 
 // Semantic names
 Fade_WaitOut = 0x80015B00; // type:func
-Model_HasInsufficientBufferSpace = 0x8005A8C4; // type:func
+Campaign_TestStoryFlag = 0x8002CCA8; // type:func
 MemCard_InitIOEvents = 0x80043EBC; // type:func
 MemCard_SetIOResultCompleteCB = 0x80044CFC; // type:func
 MemCard_SetIOResultTimeoutCB = 0x80044D0C; // type:func
 MemCard_SetIOResultErrorCB = 0x80044D20; // type:func
 MemCard_SetIOResultNewCardCB = 0x80044D34; // type:func
+Model_HasInsufficientBufferSpace = 0x8005A8C4; // type:func

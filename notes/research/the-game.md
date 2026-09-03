@@ -68,7 +68,7 @@ binary; the addresses are measured here and every one matches.
 |---|---|---|
 | the deck | `0x801D0200` | 40 × u16 card ids |
 | the trunk (chest) | `0x801D0250` | 722 bytes, one per card: copies owned |
-| the **flag array** | `0x801D0618` | 256 bytes = 2048 one-bit flags, numbered 0–0x7FF, MSB first within each byte [tested by `func_8002CCA8`, set/cleared by `func_8002CCE4`]. Known ranges: `0x20`–`0x45` a per-duelist flag set together with the unlock (`0x1F + id`; reading: defeated in campaign — nothing that tests it was traced); `0x47`–`0x6F` the story's own flags, mapped one by one in §7.11; `0x121`–`0x3F2` card *seen* for the Library (`0x120 + card`); `0x401`–`0x6D2` password *already used* (`0x400 + card`, tested and set by the shop); `0x6E1`–`0x706` Free Duel *unlocked* (`0x6E0 + id`, bytes `0x801D06F4`–`0x801D06F8`). |
+| the **flag array** | `0x801D0618` | 256 bytes = 2048 one-bit flags, numbered 0–0x7FF, MSB first within each byte [tested by `Campaign_TestStoryFlag`, set/cleared by `Library_UpdateCardUsedFlag`]. Known ranges: `0x20`–`0x45` a per-duelist flag set together with the unlock (`0x1F + id`; reading: defeated in campaign — nothing that tests it was traced); `0x47`–`0x6F` the story's own flags, mapped one by one in §7.11; `0x121`–`0x3F2` card *seen* for the Library (`0x120 + card`); `0x401`–`0x6D2` password *already used* (`0x400 + card`, tested and set by the shop); `0x6E1`–`0x706` Free Duel *unlocked* (`0x6E0 + id`, bytes `0x801D06F4`–`0x801D06F8`). |
 | duelist win/loss records | `0x801D0720` (= `0x801D0534 + 0x1EC`) | 39 × {u16 wins, u16 losses} |
 | last cards dropped | `0x801D07BC` | 10 × u16 (UNVERIFIED, Data Crystal) |
 | starchips | `0x801D07E0` | u32 |
@@ -1217,8 +1217,9 @@ The unlock is one flag per duelist, `0x6E0 + id`, in the save's flag array
 [bytes `0x801D06F4`–`0x801D06F8`]. The screen's own code, which lives in an
 **overlay** loaded to `0x80168000` with the Free Duel blob (§12.2), marks all
 40 grid entries available and then, for ids 1–38, clears the entry whose flag
-is not set [the loop at `0x801683C0`–`0x801683EC` calls `func_8002CCA8(0x6E0
-+ id)`]; entry 39 is never cleared — which fits Duel Master K being always
+is not set [the loop at `0x801683C0`–`0x801683EC` calls
+`Campaign_TestStoryFlag(0x6E0 + id)`]; entry 39 is never cleared — which fits
+Duel Master K being always
 there, if that entry is his (a reading). Two consequences: the flags for ids 32–38 sit in the fifth
 byte, `0x801D06F8`, so by this arithmetic the published "all opponents"
 cheat, which writes four bytes, covers ids 1–31 — the community reports it

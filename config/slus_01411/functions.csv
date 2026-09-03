@@ -287,7 +287,7 @@ address,size,name,status,module,notes
 0x8002CB50,0x30,func_8002CB50,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8002CB80,0x74,Duel_CalcGuardianStarMatchup,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
 0x8002CBF4,0xB4,Duel_GetBaseCardStat,unmatched_asm,game,
-0x8002CCA8,0x3C,func_8002CCA8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x8002CCA8,0x3C,Campaign_TestStoryFlag,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8002CCE4,0x64,Library_UpdateCardUsedFlag,unmatched_asm,game,
 0x8002CD48,0x44,func_8002CD48,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002CD8C,0x5C,func_8002CD8C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
