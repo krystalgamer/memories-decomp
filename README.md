@@ -95,6 +95,7 @@ inside this working directory.
 
 - [Setup and required inputs](notes/setup.md)
 - [Build and exact-match workflow](notes/build.md)
+- [Psy-Q runtime and SDK integration](notes/psyq.md)
 - [Decompilation plan](notes/decompilation-plan.md)
 - [Completed remaining-function campaign](notes/remaining-decompilation-pass.md)
 - [Semantic naming pass](notes/semantic-naming-pass.md)
