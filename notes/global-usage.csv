@@ -3169,7 +3169,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7E20,gDuel_aPlayerHand,gDuel_aPlayerHand,0x80018608,func_80018608,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,address,,"addiu $a3, $v0, %lo(gDuel_aPlayerHand) | addiu $v0, $v0, %lo(gDuel_aPlayerHand) | (+1 more)"
 0x801A7E20,gDuel_aPlayerHand,gDuel_aPlayerHand,0x80024824,func_80024824,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_014f34.s,address,,"addiu $s2, $v0, %lo(gDuel_aPlayerHand) | lui $v0, %hi(gDuel_aPlayerHand)"
 0x801A7E20,gDuel_aPlayerHand,gDuel_aPlayerHand,0x800249E0,func_800249E0,matching_c,game,C,src/game/func_800249E0.c,address,8,p->data = gDuel_aPlayerHand + n;
-0x801A7E20,gDuel_aPlayerHand,gDuel_aPlayerHand,0x80027DF8,func_80027DF8,matching_c,game,C,src/game/func_80027DF8.c,address,,rp = &gDuel_aPlayerHand[i + who * 40];
+0x801A7E20,gDuel_aPlayerHand,gDuel_aPlayerHand,0x80027DF8,func_80027DF8,matching_c,game,C,src/game/func_80027DF8.c,address,,rp = &gDuel_aPlayerHand[i + who * DECK_SIZE];
 0x801A8000,D_801A8000,D_801A8000,0x800171A8,func_800171A8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0079a8.s,address,,"addiu $v0, $v0, %lo(D_801A8000) | lui $v0, %hi(D_801A8000)"
 0x801A8000,D_801A8000,D_801A8000,0x8001BD88,func_8001BD88,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,address,,"addiu $a0, $a0, %lo(D_801A8000) | lui $a0, %hi(D_801A8000)"
 0x801A8000,D_801A8000,D_801A8000,0x8002E918,func_8002E918,matching_c,game,C,src/game/func_8002E918.c,address,8,"void func_8002E918(void){register unsigned char*p __asm__(""$5"")=D_8009B290;register unsigned char*next __asm__(""$6"")=..."

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 #include "duel_card.h"
 
 extern u8 D_8015C424[];
@@ -32,11 +33,11 @@ u8 *func_800249E0(s32 a, s32 b) {
     p = &D_801A7AD8[idx];
     p->flags = 0x8000;
 
-    if (a >= 0xF && b < 0x28) {
-        b += 0x28;
+    if (a >= 0xF && b < DECK_SIZE) {
+        b += DECK_SIZE;
     }
     if ((b & 0x80) != 0) {
-        b = (b & 0x7F) + 0x28;
+        b = (b & 0x7F) + DECK_SIZE;
     }
 
     n = b * 6;

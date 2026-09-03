@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 #include "duel_card.h"
 
 typedef struct LocalObj {
@@ -138,8 +139,8 @@ void func_80027DF8(LocalEnt *out, s32 who) {
         LocalR6 *rp;
 
         i = D_800E9FF0[who].count;
-        rp = &gDuel_aPlayerHand[i + who * 40];
-        if (i < 0x28) {
+        rp = &gDuel_aPlayerHand[i + who * DECK_SIZE];
+        if (i < DECK_SIZE) {
             s32 *tbl;
 
             tbl = gDuel_adwCardStats;
@@ -160,7 +161,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
                 out->bB = rp->b2;
                 rp += 1;
                 out += 1;
-            } while (i < 0x28);
+            } while (i < DECK_SIZE);
         }
     }
     out->id = 0;
