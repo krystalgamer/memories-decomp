@@ -80,7 +80,9 @@ assembly are tracked separately from compiler-generated game code.
 
 | Path | Purpose |
 |---|---|
-| `src/` | Matching C sources and shared game types |
+| `src/game/` | Matching C for the resident executable |
+| `src/overlays/` | Module-scoped runtime overlay sources and layout policy |
+| `src/types.h` | Shared fixed-width primitive aliases |
 | `asm/` | Exact assembly fallbacks and data assembly |
 | `config/slus_01411/` | Function inventory, compiler profiles, symbols, and target metadata |
 | `tools/` | Project scripts, pinned tools, and local toolchains |
@@ -96,6 +98,7 @@ inside this working directory.
 - [Setup and required inputs](notes/setup.md)
 - [Build and exact-match workflow](notes/build.md)
 - [Psy-Q runtime and SDK integration](notes/psyq.md)
+- [Runtime overlay research and source layout](notes/overlays/README.md)
 - [Decompilation plan](notes/decompilation-plan.md)
 - [Completed remaining-function campaign](notes/remaining-decompilation-pass.md)
 - [Semantic naming pass](notes/semantic-naming-pass.md)
