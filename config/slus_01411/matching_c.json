@@ -2974,13 +2974,13 @@
       "address": "0x80044D0C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x14",
-      "source": "src/game/mem_card_set_io_result_error_cb.c"
+      "source": "src/game/mem_card_set_io_result_timeout_cb.c"
     },
     {
       "address": "0x80044D20",
       "profile": "gcc_2_8_1_g0",
       "size": "0x14",
-      "source": "src/game/mem_card_set_io_result_timeout_cb.c"
+      "source": "src/game/mem_card_set_io_result_error_cb.c"
     },
     {
       "address": "0x80044D34",

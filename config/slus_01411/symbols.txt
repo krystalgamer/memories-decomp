@@ -249,9 +249,7 @@ File_ActivateTransfer = 0x800143DC; // type:func
 
 // Semantic names
 Model_HasInsufficientBufferSpace = 0x8005A8C4; // type:func
-
-// Semantic names
 MemCard_SetIOResultCompleteCB = 0x80044CFC; // type:func
-MemCard_SetIOResultErrorCB = 0x80044D0C; // type:func
-MemCard_SetIOResultTimeoutCB = 0x80044D20; // type:func
+MemCard_SetIOResultTimeoutCB = 0x80044D0C; // type:func
+MemCard_SetIOResultErrorCB = 0x80044D20; // type:func
 MemCard_SetIOResultNewCardCB = 0x80044D34; // type:func

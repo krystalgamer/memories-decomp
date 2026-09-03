@@ -9,8 +9,8 @@ extern void *func_80073860(int, int, int, void *);
 extern void func_80073890(void *);
 extern void func_800738C0(void);
 extern void MemCard_SetIOResultCompleteCB(void);
-extern void MemCard_SetIOResultErrorCB(void);
 extern void MemCard_SetIOResultTimeoutCB(void);
+extern void MemCard_SetIOResultErrorCB(void);
 extern void MemCard_SetIOResultNewCardCB(void);
 
 void func_80043EBC(void)
@@ -29,10 +29,10 @@ void func_80043EBC(void)
         func_800738B0();
         cb0 = MemCard_SetIOResultCompleteCB;
         base[0] = func_80073860(0xF4000001, 4, 0x1000, cb0);
-        cb1 = MemCard_SetIOResultErrorCB;
+        cb1 = MemCard_SetIOResultTimeoutCB;
         items[1] = func_80073860(0xF4000001, 0x100, 0x1000, cb1);
     }
-    cb2 = MemCard_SetIOResultTimeoutCB;
+    cb2 = MemCard_SetIOResultErrorCB;
     items[2] = func_80073860(0xF4000001, 0x8000, 0x1000, cb2);
     {
         register void *cb3 = MemCard_SetIOResultNewCardCB;
