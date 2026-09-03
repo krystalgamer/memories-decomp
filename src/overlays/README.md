@@ -34,3 +34,5 @@ Initialized module directories:
   related, non-identical password-shop phase in the main-menu package.
 - [`overworld/`](overworld/) records the pre- and post-coup WA variants that
   reuse the same runtime code range.
+- [`main_menu/`](main_menu/) records the verified SU phase and keeps the
+  second, unidentified SU image outside the module scope.
