@@ -1,4 +1,0 @@
-#include "../types.h"
-
-extern unsigned char D_8009B26C;extern unsigned char D_8009B0A3[],D_8009B363[];extern void func_8003C0C0(void),func_8016866C(int),func_800157DC(void),func_80168FCC(void),func_800134B4(void),func_80012D4C(void);
-void Main_RunCampaignMap(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;D_8009B0A3[0]=10;func_8003C0C0();func_8016866C(D_8009B363[0]);func_800157DC();}else{func_80168FCC();if((D_8009B26C&0x40)==0){func_800134B4();D_8009B0A3[0]=6;func_80012D4C();}}}
