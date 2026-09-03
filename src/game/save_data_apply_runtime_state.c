@@ -11,7 +11,7 @@ typedef struct {
 } SaveDataRuntimeState;
 
 extern u8 D_801B125A[16];
-extern void func_8003BC40(void *, void *, s32);
+extern void Text_SjisToGlyphCodes(void *, void *, s32);
 extern u32 D_8009B3B8;
 extern s8 gSD_bOutputType[16];
 extern void SD_SetOutputType(s16);
@@ -21,7 +21,7 @@ extern void SD_SetOutputType(s16);
 #define D_8009B408_write (*(u8 *)0x8009B408)
 
 void SaveData_ApplyRuntimeState(SaveDataRuntimeState *state) {
-    func_8003BC40(D_801B125A, (u8 *)state + 0x40C, 6);
+    Text_SjisToGlyphCodes(D_801B125A, (u8 *)state + 0x40C, 6);
 
     /*
      * These discarded addresses use the retail assembler-temporary form.

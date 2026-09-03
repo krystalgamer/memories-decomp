@@ -9,7 +9,7 @@ extern u8 D_801D160C[];
 extern u8 D_801B122B[];
 extern u8 D_801B1238[];
 extern s32 func_8003FCD8(void);
-extern void func_8003BC40();
+extern void Text_SjisToGlyphCodes();
 
 s32 func_8003FD14(void)
 {
@@ -41,8 +41,8 @@ s32 func_8003FD14(void)
                 return 0;
             }
         }
-        func_8003BC40(D_801B122B, D_801D160C, 6);
-        func_8003BC40(D_801B1238, D_801D160C + 4096, 6);
+        Text_SjisToGlyphCodes(D_801B122B, D_801D160C, 6);
+        Text_SjisToGlyphCodes(D_801B1238, D_801D160C + 4096, 6);
     }
     return result;
 }

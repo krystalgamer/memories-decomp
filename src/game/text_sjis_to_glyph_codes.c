@@ -2,7 +2,7 @@
 
 extern u32 D_801D9000[];
 
-void func_8003BC40(u8 *dst, u8 *src, s32 count)
+void Text_SjisToGlyphCodes(u8 *dst, u8 *src, s32 count)
 {
     s32 i;
 
