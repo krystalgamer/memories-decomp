@@ -4486,7 +4486,7 @@
       "address": "0x80070B3C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7C",
-      "source": "src/game/ai_script_jump_not_equal.c"
+      "source": "src/game/ai_script_jumps.c"
     },
     {
       "address": "0x80070BB8",

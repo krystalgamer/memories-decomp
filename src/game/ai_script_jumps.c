@@ -7,6 +7,20 @@ extern s32 AiScript_ReadByte(void);
 extern s32 AiScript_ReadShort(void);
 extern s32 rand(void);
 
+void AiScript_JumpNotEqual(void)
+{
+    s32 first = AiScript_ReadByte();
+    s32 second = AiScript_ReadByte();
+    s32 offset = AiScript_ReadShort();
+    register s32 *values = gAiScript_aMemory;
+
+    if (values[first] != values[second]) {
+        register AiScriptState *state = &gAiScript_State;
+        offset += (s32)state->script_base;
+        state->script_cursor = (u8 *)offset;
+    }
+}
+
 void AiScript_JumpBetween(void)
 {
     s32 first = AiScript_ReadByte();
