@@ -1,7 +1,20 @@
 #include "../types.h"
 
 extern unsigned char D_8009B26C;
+extern unsigned char D_8009B268;
 extern unsigned char D_8009B269;
+extern unsigned char D_8009B26D;
+extern void func_8005B85C(void);
+extern void func_800137E4(void);
+extern void func_80039E9C(void);
+extern void func_8018001C(int, int);
+extern void func_80015A00(void);
+extern void func_8003FF34(void);
+extern void Fade_WaitOut(void);
+extern void func_80180DD0(void);
+extern void func_8002D458(int);
+extern int rand(void);
+extern int func_80180390(void);
 extern void func_8003BBF8(void);
 extern void func_801683EC(void);
 extern int func_80169C08(void);
@@ -10,9 +23,9 @@ extern void func_8016A080(void);
 extern void func_8016A37C(void);
 extern void func_8003C2B4(void);
 extern void func_8003C628(void);
-extern void func_80015A00(void);
-extern void func_8003FF34(void);
 extern int func_8003C8CC(void);
+
+void Main_RunMenu(void){unsigned char f=D_8009B26C;int r;if((f&0x40)==0){D_8009B26C=f|0x40;func_8005B85C();func_800137E4();func_80039E9C();func_8018001C(D_8009B268,D_8009B26D);func_80015A00();}rand();r=func_80180390();if(r>=0){func_8003FF34();Fade_WaitOut();func_80180DD0();func_8002D458(r);D_8009B269=8;}}
 
 void Main_RunNameEntry(void)
 {
