@@ -5,6 +5,8 @@ its resident load banks.
 
 - [`runtime-loader.md`](runtime-loader.md) records the asynchronous loader,
   archive attribution, load-bank layout, and recovered WA sector packages.
+- [`module-crosswalk.md`](module-crosswalk.md) correlates verified archive
+  slices and load ranges with the external per-screen symbol files.
 - [`../mrg-files.md`](../mrg-files.md) documents the MRG container evidence and
   development-path strings.
 - [`../research/Unchiga_Symbols/modules.md`](../research/Unchiga_Symbols/modules.md)
