@@ -32,3 +32,5 @@ Initialized module directories:
   phase, and runtime range for the Free Duel module.
 - [`password/`](password/) records the password-screen package and the
   related, non-identical password-shop phase in the main-menu package.
+- [`overworld/`](overworld/) records the pre- and post-coup WA variants that
+  reuse the same runtime code range.
