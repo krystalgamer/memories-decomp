@@ -4558,13 +4558,13 @@
       "address": "0x80071424",
       "profile": "gcc_2_8_1_g0",
       "size": "0x3C",
-      "source": "src/game/ai_script_load_opponent_id.c"
+      "source": "src/game/ai_script_load_duel_state.c"
     },
     {
       "address": "0x80071460",
       "profile": "gcc_2_8_1_g0",
       "size": "0x3C",
-      "source": "src/game/ai_script_load_terrain.c"
+      "source": "src/game/ai_script_load_duel_state.c"
     },
     {
       "address": "0x8007149C",
