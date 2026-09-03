@@ -3,12 +3,22 @@
 ## Repository representation
 
 The resident executable reserves `0x8013A000-0x801AC000` for runtime-loaded
-content. Its original mostly zero-filled image is split to
-`tmp/splat/assets/overlays/overlay_slots.bin`; keeping it below an `overlays/`
-subdirectory distinguishes the load-slot image from resident data assets.
+content. Its original mostly zero-filled image is split into address-based
+assets below `tmp/splat/assets/overlays/`:
 
-This binary is not the overlay code itself. The executable reconstructs it
-byte-for-byte, then replaces portions of those addresses at runtime with
+| Asset | VRAM range | Observed runtime source |
+|---|---|---|
+| `slot_8013a000.bin` | `0x8013A000-0x80146000` | MODEL slot A |
+| `slot_80146000.bin` | `0x80146000-0x80168000` | WA shared duel bank |
+| `slot_80168000.bin` | `0x80168000-0x8017A000` | WA screen bank |
+| `slot_8017a000.bin` | `0x8017A000-0x80180000` | MODEL slot B and WA table data |
+| `slot_80180000.bin` | `0x80180000-0x801AC000` | SU bank |
+
+The address names keep uncertain inner boundaries out of build metadata while
+separating the five independently observed load banks from resident assets.
+
+These binaries are not the overlay code itself. The executable reconstructs
+them byte-for-byte, then replaces portions of those addresses at runtime with
 payloads read from `WA_MRG.MRG`, `MODEL.MRG`, and `SU.MRG`. Those archive
 payloads remain research inputs rather than tracked build sources.
 

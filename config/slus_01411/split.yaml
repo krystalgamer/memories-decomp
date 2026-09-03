@@ -69,7 +69,11 @@ segments:
       - [0x80ee0, data, initialized_data]
       - [0x8b890, bin, bss_image]
       - [0xeef28, bin, reserved_zero]
-      - [0x12a800, bin, overlays/overlay_slots]
+      - [0x12a800, bin, overlays/slot_8013a000]
+      - [0x136800, bin, overlays/slot_80146000]
+      - [0x158800, bin, overlays/slot_80168000]
+      - [0x16a800, bin, overlays/slot_8017a000]
+      - [0x170800, bin, overlays/slot_80180000]
       - [0x19c800, bin, tail_data]
 
   - [0x1d0800]

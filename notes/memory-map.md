@@ -28,7 +28,11 @@ startup behavior rather than from populated header data/BSS fields.
 | Initialized data | `0x080EE0-0x08B890` | `0x800906E0-0x8009B090` | `0xA9B0` | Runtime metadata, paths, tables, globals |
 | BSS image | `0x08B890-0x0EEF28` | `0x8009B090-0x800FE728` | `0x63698` | Zero bytes explicitly cleared by startup |
 | Reserved zero | `0x0EEF28-0x12A800` | `0x800FE728-0x8013A000` | `0x3B8D8` | Zero gap before load slots |
-| Overlay slots | `0x12A800-0x19C800` | `0x8013A000-0x801AC000` | `0x72000` | Almost-empty fixed-address runtime load banks |
+| Overlay slot `0x8013A000` | `0x12A800-0x136800` | `0x8013A000-0x80146000` | `0xC000` | MODEL slot A |
+| Overlay slot `0x80146000` | `0x136800-0x158800` | `0x80146000-0x80168000` | `0x22000` | WA shared duel bank |
+| Overlay slot `0x80168000` | `0x158800-0x16A800` | `0x80168000-0x8017A000` | `0x12000` | WA screen bank |
+| Overlay slot `0x8017A000` | `0x16A800-0x170800` | `0x8017A000-0x80180000` | `0x6000` | MODEL slot B and WA table data |
+| Overlay slot `0x80180000` | `0x170800-0x19C800` | `0x80180000-0x801AC000` | `0x2C000` | SU bank |
 | Tail data | `0x19C800-0x1D0800` | `0x801AC000-0x801E0000` | `0x34000` | Structured resident tables and encoded data |
 
 `config/slus_01411/image_map.json` records a SHA-256 for every row, and

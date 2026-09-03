@@ -72,14 +72,54 @@
       "evidence": "Zero-filled gap between the runtime-cleared range and the first fixed-address high-data bank."
     },
     {
-      "name": "overlay_slots",
-      "kind": "overlay_load_slots",
+      "name": "overlay_slot_8013a000",
+      "kind": "overlay_load_slot",
       "file_start": "0x12a800",
-      "file_end": "0x19c800",
+      "file_end": "0x136800",
       "vram_start": "0x8013a000",
+      "vram_end": "0x80146000",
+      "sha256": "1459952333e01e1180c4cbf90f94ac5b706b81bc6e95e58c08cebbf59b3e304e",
+      "evidence": "MODEL executable slot A begins at 0x8013A000; the resident image contains slot identifiers at 0x8013A000 and 0x8013B000."
+    },
+    {
+      "name": "overlay_slot_80146000",
+      "kind": "overlay_load_slot",
+      "file_start": "0x136800",
+      "file_end": "0x158800",
+      "vram_start": "0x80146000",
+      "vram_end": "0x80168000",
+      "sha256": "755b52bb3f169628a45aea05eeb58dd34dab7dcb3297c654d81a13ddae84bf4f",
+      "evidence": "WA phase loads replace this bank and resident code calls targets beginning at 0x801462B0."
+    },
+    {
+      "name": "overlay_slot_80168000",
+      "kind": "overlay_load_slot",
+      "file_start": "0x158800",
+      "file_end": "0x16a800",
+      "vram_start": "0x80168000",
+      "vram_end": "0x8017a000",
+      "sha256": "0c23a76a59b0db8b67d0c4cfae88774dc95f63bed518daf6fe3cbc3afa69894b",
+      "evidence": "WA screen packages replace this bank and resident code calls targets throughout 0x80168xxx."
+    },
+    {
+      "name": "overlay_slot_8017a000",
+      "kind": "overlay_load_slot",
+      "file_start": "0x16a800",
+      "file_end": "0x170800",
+      "vram_start": "0x8017a000",
+      "vram_end": "0x80180000",
+      "sha256": "51f0f35979371fcaef99986fcc31848ccc2ccc5a25e46e89f12a4f03718cbdf6",
+      "evidence": "MODEL supplies executable content at 0x8017A000 while WA terrain records replace data from 0x8017A1D8."
+    },
+    {
+      "name": "overlay_slot_80180000",
+      "kind": "overlay_load_slot",
+      "file_start": "0x170800",
+      "file_end": "0x19c800",
+      "vram_start": "0x80180000",
       "vram_end": "0x801ac000",
-      "sha256": "1c7e0886f6e7454a4c3e83917f98b287060728f733daca544ac30de817ccd563",
-      "evidence": "Almost entirely zero fixed-address banks with slot identifiers; resident code calls unresolved functions in these ranges after runtime loads."
+      "sha256": "fbcb1edc0b98cd325d5f841e2aac966e5b00c0bc9ef33ba6f44ade18a0beedc9",
+      "evidence": "SU loads replace this bank and resident code calls targets throughout 0x80180xxx."
     },
     {
       "name": "tail_data",

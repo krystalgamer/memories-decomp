@@ -55,7 +55,7 @@ SECTIONS
 
     .overlay_slots 0x8013A000 : AT(0x12A800)
     {
-        KEEP(*overlay_slots.o(.data))
+        KEEP(*overlay_slot_*.o(.data))
     }
     ASSERT(SIZEOF(.overlay_slots) == 0x72000, "overlay slot size mismatch")
 

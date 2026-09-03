@@ -119,7 +119,7 @@ def load_components(root: Path) -> list[Component]:
             raise IncrementalBuildError(f"invalid text segment {index}")
         seen.add(object_name)
         components.append(Component(kind, source, object_name, profile))
-    for component in (
+    trailing_components = [
         Component(
             "asm",
             "tmp/splat/asm/data/initialized_data.data.s",
@@ -131,13 +131,19 @@ def load_components(root: Path) -> list[Component]:
             "tmp/splat/assets/reserved_zero.bin",
             "reserved_zero.o",
         ),
+    ]
+    trailing_components.extend(
         Component(
             "binary",
-            "tmp/splat/assets/overlays/overlay_slots.bin",
-            "overlay_slots.o",
-        ),
-        Component("binary", "tmp/splat/assets/tail_data.bin", "tail_data.o"),
-    ):
+            f"tmp/splat/assets/{asset}.bin",
+            object_name,
+        )
+        for asset, object_name in build_baseline.load_overlay_assets(root)
+    )
+    trailing_components.append(
+        Component("binary", "tmp/splat/assets/tail_data.bin", "tail_data.o")
+    )
+    for component in trailing_components:
         if component.object_name in seen:
             raise IncrementalBuildError(
                 f"duplicate object name: {component.object_name}"

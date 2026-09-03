@@ -22,6 +22,8 @@ class BuildError(RuntimeError):
 
 TOOLCHAIN = "tools/toolchains/binutils-2.42/bin"
 OBJECT_DIRECTORY = "tmp/project-build/obj"
+OVERLAY_REGION_KIND = "overlay_load_slot"
+OVERLAY_REGION_PREFIX = "overlay_"
 
 
 def run(root: Path, command: list[str]) -> None:
@@ -291,6 +293,41 @@ def load_compiler_profiles(root: Path) -> dict[str, dict[str, object]]:
     return profiles
 
 
+def load_overlay_assets(root: Path) -> list[tuple[str, str]]:
+    manifest = resolve_within(
+        root,
+        "config/slus_01411/image_map.json",
+        must_exist=True,
+    )
+    with manifest.open("r", encoding="utf-8") as handle:
+        configuration = json.load(handle)
+    if configuration.get("schema") != 1:
+        raise BuildError(f"{manifest}: unsupported image-map schema")
+    regions = configuration.get("regions")
+    if not isinstance(regions, list):
+        raise BuildError(f"{manifest}: regions must be a list")
+    assets: list[tuple[str, str]] = []
+    for region in regions:
+        if not isinstance(region, dict) or region.get("kind") != OVERLAY_REGION_KIND:
+            continue
+        name = region.get("name")
+        if (
+            not isinstance(name, str)
+            or not name.startswith(OVERLAY_REGION_PREFIX)
+            or "/" in name
+        ):
+            raise BuildError(f"{manifest}: invalid overlay load-slot region")
+        assets.append(
+            (
+                f"overlays/{name[len(OVERLAY_REGION_PREFIX):]}",
+                f"{name}.o",
+            )
+        )
+    if not assets:
+        raise BuildError(f"{manifest}: no overlay load-slot regions")
+    return assets
+
+
 def build_text_objects(root: Path, assembler: Path) -> list[Path]:
     objects: list[Path] = []
     seen_objects: set[str] = set()
@@ -393,12 +430,15 @@ def build(root: Path) -> Path:
             "tmp/splat/assets/reserved_zero.bin",
             f"{OBJECT_DIRECTORY}/reserved_zero.o",
         ),
-        binary_object(
-            root,
-            objcopy,
-            "tmp/splat/assets/overlays/overlay_slots.bin",
-            f"{OBJECT_DIRECTORY}/overlay_slots.o",
-        ),
+        *[
+            binary_object(
+                root,
+                objcopy,
+                f"tmp/splat/assets/{asset}.bin",
+                f"{OBJECT_DIRECTORY}/{object_name}",
+            )
+            for asset, object_name in load_overlay_assets(root)
+        ],
         binary_object(
             root,
             objcopy,

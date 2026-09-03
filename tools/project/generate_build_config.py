@@ -20,6 +20,8 @@ class GenerationError(RuntimeError):
 
 PSX_HEADER_SIZE = 0x800
 LOAD_ADDRESS = 0x80010000
+OVERLAY_REGION_KIND = "overlay_load_slot"
+OVERLAY_REGION_PREFIX = "overlay_"
 
 
 def parse_integer(value: Any, description: str) -> int:
@@ -220,12 +222,28 @@ def load_image_regions(root: Path) -> dict[str, dict[str, Any]]:
         "initialized_data",
         "bss_image",
         "reserved_zero",
-        "overlay_slots",
         "tail_data",
     }
     missing = sorted(required - set(result))
     if missing:
         raise GenerationError("image map is missing regions: " + ", ".join(missing))
+    overlay_regions = [
+        name
+        for name, region in result.items()
+        if region.get("kind") == OVERLAY_REGION_KIND
+    ]
+    if not overlay_regions:
+        raise GenerationError("image map has no overlay load-slot regions")
+    invalid = [
+        name
+        for name in overlay_regions
+        if not name.startswith(OVERLAY_REGION_PREFIX)
+    ]
+    if invalid:
+        raise GenerationError(
+            "overlay load-slot regions need overlay_ names: "
+            + ", ".join(invalid)
+        )
     return result
 
 
@@ -345,13 +363,17 @@ def generate(root: Path) -> tuple[Path, Path]:
                 "bin",
                 "reserved_zero",
             ],
-            [
-                parse_integer(
-                    regions["overlay_slots"]["file_start"],
-                    "overlay slots start",
-                ),
-                "bin",
-                "overlays/overlay_slots",
+            *[
+                [
+                    parse_integer(
+                        region["file_start"],
+                        f"{name} start",
+                    ),
+                    "bin",
+                    f"overlays/{name[len(OVERLAY_REGION_PREFIX):]}",
+                ]
+                for name, region in regions.items()
+                if region.get("kind") == OVERLAY_REGION_KIND
             ],
             [
                 parse_integer(regions["tail_data"]["file_start"], "tail data start"),
