@@ -112,25 +112,25 @@
       "address": "0x80014294",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/file_read_callbacks.c"
+      "source": "src/game/file_transfer.c"
     },
     {
       "address": "0x80014308",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/file_read_callbacks.c"
+      "source": "src/game/file_transfer.c"
     },
     {
       "address": "0x80014390",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
-      "source": "src/game/file_read_callbacks.c"
+      "source": "src/game/file_transfer.c"
     },
     {
       "address": "0x800143DC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
-      "source": "src/game/file_activate_transfer.c"
+      "source": "src/game/file_transfer.c"
     },
     {
       "address": "0x800144B8",
