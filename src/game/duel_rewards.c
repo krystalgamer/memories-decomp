@@ -1,7 +1,8 @@
 #include "../types.h"
+#include "card_constants.h"
 
 typedef struct {
-    u16 weights[722];
+    u16 weights[CARD_COUNT];
     u8 pad05A4[16];
 } DuelDropTable;
 
@@ -17,7 +18,7 @@ s32 Duel_SelectCardDrop(s32 opponent)
     s32 sum = 0;
     s32 i;
 
-    for (i = 0; i < 722; i++) {
+    for (i = 0; i < CARD_COUNT; i++) {
         sum += table->weights[i];
         if (sum >= threshold)
             return i + 1;

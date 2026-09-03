@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 extern u8 D_8009B3ED;
 extern u8 D_8009B3C0;
@@ -31,7 +32,7 @@ s32 func_8003FD14(void)
         state = D_801D5608;
         D_8009B3EA = 10;
         D_8009B3C0 = 36;
-        for (; i < 40; i++, left += 2, right += 2) {
+        for (; i < DECK_SIZE; i++, left += 2, right += 2) {
             if (*(u16 *)left == 0) {
                 state[16] = 1;
                 return 0;
