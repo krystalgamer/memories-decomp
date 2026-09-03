@@ -599,7 +599,7 @@ address,size,name,status,module,notes
 0x8003F70C,0x34,func_8003F70C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003F740,0x18,func_8003F740,matching_c,game,Ordered small-data flag and byte assignments matched exactly.
 0x8003F758,0x7C,func_8003F758,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8003F7D4,0x3C,func_8003F7D4,unmatched_asm,game,
+0x8003F7D4,0x3C,func_8003F7D4,matching_c,game,Split call setup plus an isolated write-only literal clear reproduced the exact 60-byte function.
 0x8003F810,0x6C,func_8003F810,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003F87C,0x58,func_8003F87C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003F8D4,0x404,func_8003F8D4,unmatched_asm,game,
