@@ -1881,7 +1881,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,read,8,if (!D_8009B369[0] && gDuel_bOpponentID[0] >= 0)
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80038530,func_80038530,matching_c,game,C,src/game/func_80038530.c,read_write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80070710,Ai_GetHandSize,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_060f10.s,read,8,"lb $a0, %lo(gDuel_bOpponentID)($a0) | lui $a0, %hi(gDuel_bOpponentID)"
-0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80071424,AiScript_LoadOpponentID,matching_c,game,C,src/game/ai_script_load_opponent_id.c,read,8,value = gDuel_bOpponentID;
+0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80071424,AiScript_LoadOpponentID,matching_c,game,C,src/game/ai_script_load_duel_state.c,read,8,value = gDuel_bOpponentID;
 0x8009B362,D_8009B362,D_8009B362,0x80020F4C,func_80020F4C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01174c.s,write,8,"lui $at, %hi(D_8009B362) | sb $v0, %lo(D_8009B362)($at) | (+1 more)"
 0x8009B362,D_8009B362,D_8009B362,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,read,8,D_8009B27A[0] = table[D_8009B362[0] * 2];
 0x8009B363,D_8009B363,D_8009B363,0x8002D2D8,Main_RunCampaignMap,matching_c,game,C,src/game/main_run_campaign_map.c,read,8,void Main_RunCampaignMap(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;D_8009B0A3[0]=10;func_800...
@@ -1895,7 +1895,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80024E58,func_80024E58,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_015658.s,read_write,8,"lbu $a1, %lo(gDuel_bTerrain)($a1) | lbu $v1, %lo(gDuel_bTerrain)($v1) | (+4 more)"
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x8002D180,Main_RunAnimatedBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01d980.s,read,8,"lbu $a1, %lo(gDuel_bTerrain)($a1) | lui $a1, %hi(gDuel_bTerrain)"
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80038530,func_80038530,matching_c,game,C,src/game/func_80038530.c,write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
-0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80071460,AiScript_LoadTerrain,matching_c,game,C,src/game/ai_script_load_terrain.c,read,8,value = gDuel_bTerrain;
+0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80071460,AiScript_LoadTerrain,matching_c,game,C,src/game/ai_script_load_duel_state.c,read,8,value = gDuel_bTerrain;
 0x8009B365,D_8009B365,D_8009B365,0x8002D458,func_8002D458,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01dc58.s,write,8,"lui $at, %hi(D_8009B365) | sb $zero, %lo(D_8009B365)($at)"
 0x8009B365,D_8009B365,D_8009B365,0x80030FA0,func_80030FA0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0217a0.s,write,8,"lui $at, %hi(D_8009B365) | sb $zero, %lo(D_8009B365)($at)"
 0x8009B368,D_8009B368,D_8009B368,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,read,8,next = D_8009B368[0];
@@ -2911,8 +2911,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800712B4,AiScript_LoadCardID,matching_c,game,C,src/game/ai_script_card_info.c,read,,s32 *memory = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071320,AiScript_SetFaceDown,matching_c,game,C,src/game/ai_script_set_face_down.c,read_write,,gAiScript_aMemory[idx2] = flagval; | s32 *table = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800713B8,AiScript_LoadLifePoint,matching_c,game,C,src/game/ai_script_load_life_point.c,read,,s32 *p = gAiScript_aMemory;
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071424,AiScript_LoadOpponentID,matching_c,game,C,src/game/ai_script_load_opponent_id.c,address,32,"register int *values asm(""$3"") = gAiScript_aMemory;"
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071460,AiScript_LoadTerrain,matching_c,game,C,src/game/ai_script_load_terrain.c,address,32,"register int *values asm(""$3"") = gAiScript_aMemory;"
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071424,AiScript_LoadOpponentID,matching_c,game,C,src/game/ai_script_load_duel_state.c,address,32,"register int *values asm(""$3"") = gAiScript_aMemory;"
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071460,AiScript_LoadTerrain,matching_c,game,C,src/game/ai_script_load_duel_state.c,address,32,"register int *values asm(""$3"") = gAiScript_aMemory;"
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x8007149C,AiScript_LoadDeckSize,matching_c,game,C,src/game/ai_script_load_deck_size.c,write,,gAiScript_aMemory[k] = count - 5;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071510,func_80071510,matching_c,game,C,src/game/func_80071510.c,address,32,"register int *values asm(""$4"") = gAiScript_aMemory;"
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x8007154C,AiScript_TestPinned,matching_c,game,C,src/game/ai_script_combo.c,read,,s32 *memory = gAiScript_aMemory;
