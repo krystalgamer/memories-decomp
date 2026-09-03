@@ -1,0 +1,2 @@
+// main menu module (NEW GAME/LOAD/... and the post-load menu) -- resident while mainMenuLoop (0x8002D588) is the mode tick.
+menuCursor = 0x80184594;

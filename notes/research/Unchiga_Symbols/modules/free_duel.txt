@@ -1,0 +1,14 @@
+// free duel opponent-select module -- resident while freeDuelMenuLoop (0x8002D3F8) is the mode tick.
+// EXE entry: freeDuelModuleEntry = 0x80168FB4 (in symbol_addrs.txt). Findings F79-F86.
+freeDuelScreenTick = 0x80168C7C; // type:func
+freeDuelCursorTweenTick = 0x80168A9C; // type:func
+freeDuelCursorPlace = 0x80168090; // type:func
+freeDuelScrollbarUpdate = 0x80168004; // type:func
+freeDuelSparkleSpawn = 0x801681B4; // type:func
+freeDuelSparkleSlot = 0x8016899C; // type:func
+freeDuelSparkleTick = 0x801689D4; // type:func
+freeDuelGridAvailable = 0x80169030;
+freeDuelThumbWidget = 0x80169058;
+freeDuelSparklePool = 0x80169060;
+freeDuelCursorWidget = 0x801690A0;
+freeDuelScreenFlags = 0x801690A4;

@@ -132,3 +132,40 @@ real PsyQ library object, or behavior proof from the matched C — never
    common identifier; suffix duplicates with `_ADDR`.
 6. Preserve inherited hedges; add your own (`maybe_`) when the evidence is
    partial.
+
+
+## House convention: lowerCamelCase (2026-09-03)
+
+Every name this project assigns (Tier 2, Tier 3, live-traced, module) is
+written `lowerCamelCase` -- first word lowercase, each later word capitalized,
+no prefix and no underscores: `dropTable`, `textBoxCreate`, `screenFadeOutWait`,
+`storyFlags`, `nameEntryCol`. Data and functions share the one style; a
+global carries no `g_` and a table no `_arr`-style suffix unless it is one of
+the typed-alias families above (`_a/_b/_raw`, `Name_ADDR` second copies),
+which are disambiguators, not style.
+
+Exempt, because they are not our names: Tier 1 SDK symbols (`FntPrint`,
+`CdIntToPos`, `_spu_FsetRXX`) and the `SD_*` sound-driver names, which are
+Konami's own vocabulary carried over from Duelists of the Roses
+(`notes/research/dotr_symbol_vocabulary.md`). Uncertainty hedges (`u_`,
+`maybe_`) stay as prefixes on a camelCase stem.
+
+The 2026-09-03 pass converted the non-mechanical names in the Symbols Guide
+plus the per-module files (`config/modules/`), 56 EXE symbols and 43 module
+symbols, recorded in `rename_plan.json` as `CAMEL_CASE` rows (or under their
+original evidence kind when the address already had a plan row). Mechanical
+Tier 3 names (`poll_call_393b0_until_bit13`, `compare_rec_two_level_std`,
+`mask_test_800eb26c_*`) are still snake_case and are the next pass.
+
+## Module symbols (2026-09-02)
+
+Screen modules load into one shared range (0x80160000.. for free duel, name
+entry, password; 0x80180000.. for the main menu), so a module address means
+something different per screen. `config/symbol_addrs.txt` names an address
+once and feeds the split, so it carries ONLY the EXE-referenced entry calls
+(`freeDuelModuleEntry`, `func_801683EC`, `func_8016A080`, ...). Every
+other module function or variable goes in `config/modules/<module>.txt`
+(same line syntax); `tools/module_symbols.py --check` refuses a duplicate.
+Tiers and rules above apply unchanged; the rosters list them under
+"Module symbols".
+\n

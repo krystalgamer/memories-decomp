@@ -1,0 +1,22 @@
+// name entry module -- resident while nameEntryLoop (0x8002D62C) is the mode tick.
+// EXE entries: func_801683EC, func_80169C08 (in symbol_addrs.txt). Findings F100-F101, notes/research/modules.md.
+nameEntryInit = 0x801683EC; // type:func
+nameEntryScreenTick = 0x8016913C; // type:func
+nameEntryAdjustLength = 0x8016909C; // type:func
+textGlyphAt = 0x8016868C; // type:func
+nameEntrySpawnGlyphSprite = 0x80168CDC; // type:func
+nameEntryFlags = 0x8016D400;
+nameEntryCol = 0x8016D401;
+nameEntryRow = 0x8016D402;
+nameEntryCursorWidget = 0x8016D404;
+nameEntryNameBytes = 0x8016D408;
+nameEntryNamePtr = 0x8016D418;
+nameEntrySavedRow = 0x8016D426;
+nameEntryNameLen = 0x8016D42C;
+nameEntryCursorTargetX = 0x8016D434;
+nameEntryCursorTargetY = 0x8016D436;
+nameEntryCaretWidget = 0x8016D43C;
+nameEntryCellTable = 0x8016AB38;
+nameEntryRowJump = 0x8016ABC0;
+nameEntryDialogTick = 0x80169734; // type:func
+nameEntryPendingDialog = 0x8016D4D2;

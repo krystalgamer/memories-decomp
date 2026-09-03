@@ -191,3 +191,85 @@ tracked in suspects.md.)
 | address | name | description |
 |---|---|---|
 | 0x8002D684 | `passwordMenuLoop` | Mode tick for the password screen — live-confirmed ambient (mode slot 10), the first CONFLICT row adjudicated by tracing. Standard loop-family shape; the entry grid itself runs in the screen's disc-loaded module. |
+
+## Batch: free-duel module pipeline (2026-09-02, live-traced, Linux seat)
+
+| address | name | description |
+|---|---|---|
+| 0x80168FB4 | `freeDuelModuleEntry` | The fixed-address entry `freeDuelMenuLoop` calls into the disc-loaded free-duel module: seeds `rand()` then runs `freeDuelScreenTick`. |
+| 0x80168C7C | `freeDuelScreenTick` | Per-frame screen logic. While a dialog is up (flag 0x20) it only waits for dismissal; otherwise runs the cursor tween and scrollbar, then reads the pad edge word to move the pending cell (clamped 0..4 / 0..7) and handles cancel (SE 8) and confirm (Build Deck tile, deck-incomplete refusal, or duel start with opponent index row*5+col). |
+| 0x80168A9C | `freeDuelCursorTweenTick` | When the pending cell differs from the committed one, sets an 8-frame counter and per-frame velocities so the cursor widget glides to (col*56+20, row*52+40); on landing copies the pending cell into `opponentGridCol/Row`, re-places the cursor and plays SE 0x2F. |
+| 0x80168090 | `freeDuelCursorPlace` | Puts the cursor widget at the committed cell's pixel position. With the commit flag set, also refreshes the selected duelist's win/loss readout from `duelistRecords` and the name-string id, guarded by `freeDuelGridAvailable`. |
+| 0x80168004 | `freeDuelScrollbarUpdate` | Every frame: nudges the shared scroll-follow y (`D_8009B148`) so the cursor stays within 40..144 px of the viewport, then sets the scrollbar thumb's y to 7 + (cursor_y - 40) * 72 / 364, i.e. 72 px of travel over the 7-row grid. Follows the tweened cursor, so the thumb glides. |
+| 0x8009B36C | `freeDuelTargetCol` | Pending grid column written by the input handler; becomes `opponentGridCol` when the tween lands. |
+| 0x8009B36D | `freeDuelTargetRow` | Pending grid row, same lifecycle. |
+| 0x80169030 | `freeDuelGridAvailable` | Module data: 8 rows x 5 columns of bytes, nonzero where a grid cell can be selected (Build Deck at (0,0), duelists per unlock bits). |
+| 0x801690A4 | `freeDuelScreenFlags` | Module data byte: 0x40 while the cursor tween is in flight (input ignored), 0x20 while the refusal dialog is open. |
+| 0x80169058 | `freeDuelThumbWidget` | Module data: pointer to the scrollbar thumb widget instance (0x800F07E8 in the widget pool). |
+| 0x801690A0 | `freeDuelCursorWidget` | Module data: pointer to the grid cursor widget instance (0x800F0858). |
+
+## Batch: screen fade system (2026-09-02, live-traced, Linux seat)
+
+| address | name | description |
+|---|---|---|
+| 0x800E9EC8 | `screenFade` | The screen-fade state block (0x28 bytes): u32 colour, u8 current level, u8 target level, u8 flags (0x80 fade in flight, 0x01 strip-wipe mode, 0x10/0x20 colour latch), u8 step per frame, s16 head, u8 strips[30]. |
+| 0x800151D8 | `screenFadeStepStrips` | Per-frame strip walker: from the head value, 15 strips each 8 apart, clamped to [current, target], mirrored into strips[i] and strips[29-i]; then moves the head by step * D_8009B0D8. |
+| 0x80015310 | `screenFadeUpdate` | Per-frame fade update: runs the strip walker (strip mode) or a flat level ramp, and when current reaches target clears the in-flight bit, latches the working RGB from the target RGB, and sets or clears the overlay-on flag. |
+| 0x800158B8 | `screenFadeOutInit` | Arms a fade to black: head 255, target 0, in-flight flag set, all 30 strips filled with the current level, step 12. |
+| 0x80015904 | `screenFadeOutStart` | `screenFadeOutInit` plus step 8 and strip mode -- the menu-transition fade. |
+| 0x80015B00 | `screenFadeOutWait` | Starts the strip fade-out and then pumps the four per-frame update functions until the in-flight bit drops. Blocking; ~48 frames. |
+| 0x8009B141 | `screenFadeOverlayOn` | Set when a fade starts or the screen is black, cleared when a fade-in completes; the overlay drawer keeps painting black while it is set even with no fade in flight. |
+
+## Batch: text-box / dialog machine (2026-09-02, live-traced on name entry, Linux seat)
+
+| address | name | description |
+|---|---|---|
+| 0x800EB0F8 | `textRecords` | Array of text-box records (0x64 bytes, index = box slot): current text pointer, glyph-entry list, box/highlight/shadow widget pointers, flags, string id, rect, glyph cell size, and the record's glyph-sprite slot base/count. |
+| 0x80090E58 | `textSpriteSlotRanges` | Cumulative glyph-sprite slot boundaries per text-box slot: 0, 255, 415, 575, 620. Record i owns slots [tbl[i], tbl[i+1]). |
+| 0x801D9000 | `glyphCodeTable` | One u32 per font glyph; the low half is the Shift-JIS code the glyph draws. Scanned by `sjisToGlyphCodes`. |
+| 0x801B0000 | `textBank` | The current screen's string bank: 0xFF-terminated glyph strings with control bytes (00 space, F8 position/colour, FE newline). Loaded with the screen's module. |
+| 0x801C0000 | `textBankOffsets` | u16 byte offset into `textBank` per string id. |
+| 0x8003B744 | `textStringLookup` | Returns the bank pointer for a string id: base + offsets[id]; ids >= 0xD000 index the table relative to 0xD000. |
+| 0x80035BE4 | `textBoxCreate` | Opens a text box: sets its rect then initialises the record with the string id. |
+| 0x80035C38 | `textBoxCreateFlagged` | `textBoxCreate`, then ORs extra flags into the record's flag word. |
+| 0x80035AB8 | `textBoxSetRect` | Stores the box position and size into the record. |
+| 0x80035AF0 | `textBoxInitRecord` | Initialises a record: string id, default 8x12 glyph cell, sprite slot base/count from `textSpriteSlotRanges`, counters cleared. |
+| 0x80035B7C | `textBoxDestroy` | Closes a box: releases its glyph list and frees the box, highlight and shadow widgets. |
+| 0x80039934 | `textBoxSetPos` | Moves a box and its three widgets to a new position. |
+| 0x800393B0 | `textRecordBuildStep` | The typewriter: on the first call resolves the string and allocates the widgets; every call emits one glyph sprite; sets the done bit at the terminator. |
+| 0x80043230 | `widgetSlideSine` | Slides a widget between a stored origin and a target along a sine of the given step; dialogs use it to enter and leave. |
+| 0x8003BC40 | `sjisToGlyphCodes` | Converts a Shift-JIS u16 string into glyph codes (0xF0xx for high indices), 0xFF-terminated, so dynamic text can be typed by the machine. |
+
+## Batch: dialog choice machine (2026-09-02, live-traced on the name confirmation, Linux seat)
+
+| address | name | description |
+|---|---|---|
+| 0x8009B34D | `dialogChoice` | Index of the selected choice line in the open dialog (0 = first). Updated on every DPAD move, finalised from `dialogInputState` on confirm; screens read it after the box reports done. |
+| 0x8009B345 | `dialogChoiceCount` | Number of selectable lines in the open choice box; the upper bound for DOWN. |
+| 0x8009B336 | `dialogChoiceEnabled` | Bitmask, one bit per line, of choices that may be picked; drives the cursor's highlight colour. |
+| 0x8009B327 | `dialogInputState` | The choice box's input result byte: bit 0x40 confirmed with the chosen line in the low 3 bits, bit 0x80 cancelled. |
+| 0x800374F4 | `dialogChoiceOpen` | Creates the choice cursor object for a text box at its bottom-right corner (sprite 0x20C) and returns it; the box stores it at +0x30. |
+| 0x800371A8 | `dialogChoiceTick` | Per-frame tick of the cursor object: spawns its sprite on first call, then handles confirm and cancel from `dialogInputState` or passes the DPAD to `dialogChoiceInput`. |
+| 0x8003700C | `dialogChoiceInput` | Moves the selection down or up within the count (or cycles with the repeat bit), plays SE 6 and re-highlights; returns 0 when nothing relevant was pressed. |
+| 0x80036F80 | `dialogChoiceHighlight` | Sets the cursor's colour fields to 0xC0 or 0xC0C0 depending on whether the selected line is enabled, then refreshes the object. |
+| 0x80037110 | `objPulseColourUpdate` | Draw callback that folds the global frame counter into a triangle wave and writes it across an object's colour and shadow lanes -- the blinking cursor. |
+
+## Batch: story script engine (2026-09-02, live-traced in the campaign intro, Linux seat)
+
+| address | name | description |
+|---|---|---|
+| 0x8002CE64 | `campaignLoop` | Mode tick for the campaign (mode byte 0xC2): runs the story script and its text boxes each frame. Live-confirmed as the ambient loop of the intro cutscene. |
+| 0x8002FA54 | `scriptRunTick` | Bytecode driver: if no script is running, resolves the selected script through the self-relative offset table and latches its stream; otherwise executes the current opcode through `scriptCommandTable`, gated by `scriptState`. |
+| 0x8002E730 | `scriptOpShowImage` | Script opcode 5: shows the cutscene picture -- copies the staged image into the display area, or when nothing is busy releases the previous one, starts a fade and requests the next picture from disc. |
+| 0x80090C50 | `scriptCommandTable` | Table of the 24 script opcode handlers (0x8002E3DC .. 0x8002FED0), indexed by `scriptCommand`. |
+| 0x8009B27C | `scriptCommand` | The opcode currently being serviced; bit 0x8000 marks it busy across frames. |
+| 0x8009B290 | `scriptStreamPtr` | Byte-stream cursor of the running script. |
+| 0x8009B2A4 | `scriptState` | Script engine state: 0x8000 a script is running, 0x4000 waiting for a text box to finish, low bits select the script. |
+
+## Batch: campaign overworld (2026-09-02, live-traced, Linux seat)
+
+| address | name | description |
+|---|---|---|
+| 0x8002CCA8 | `storyFlagTest` | Tests one bit of `storyFlags`: byte (id & 0x7FF) >> 3, bit 0x80 >> (id & 7); if bit 0x8000 of the id is set the result is inverted. |
+| 0x801D0618 | `storyFlags` | The save block's story-progress bit array, MSB-first, read by `storyFlagTest`. |
+| 0x801D5800 | `globalTextOffsets` | u16 offsets, base 0x801D0000, for string ids 0x8000 and up: the always-resident bank holding location and card names. |

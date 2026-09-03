@@ -1,28 +1,33 @@
 # Unchiga_Symbols — named-symbol research for SLUS_014.11
 
 Symbol research from Unchiga's matching decompilation of Yu-Gi-Oh! Forbidden
-Memories (SLUS-01411, USA). Every applied name in these documents survived a
-byte-identical rebuild of the original executable (MD5
-`dab1b3c9a6b8a56558b5ca8f807339c3`), and names marked as live-traced were
-verified against the running game (function-entry tracing, RAM diffing, and
+Memories (SLUS-01411, USA), refreshed 2026-09-03. Every name here is 1:1
+byte-verified: after each rename batch the whole executable was re-split and
+rebuilt, and the rebuild is byte-identical to the original (MD5
+`dab1b3c9a6b8a56558b5ca8f807339c3`, SHA1
+`84747e64f6da8e764206ec203e489acf8c9dcf7d`). Names marked live-traced were
+also verified against the running game (function-entry tracing, RAM diffing,
 injected input on a recompiled build).
 
-What's here:
+Naming style: every project-assigned name is lowerCamelCase (`dropTable`,
+`textBoxCreate`, `storyFlags`); PsyQ SDK names and the `SD_*` sound-driver
+names (DotR vocabulary) keep their original form. Map onto your
+`Subsystem_VerbObject` scheme as you see fit — the addresses are the claim,
+the spelling is ours.
 
-| file | contents |
+## Files
+
+| file | why it exists |
 |---|---|
-| `symbols_guide.md` | The headline document: confirmed symbols organized by game area (menus, options, password, library, build deck, free duel, duel, save file, sound driver, debug leftovers), in plain English. |
-| `known_functions.md` | All 1,073 named functions, sectioned game-meaningful / SDK / mechanical, each tagged with its evidence source. |
-| `known_variables.md` | All 63 named variables/data symbols, same treatment. |
-| `descriptions.md` | The naming gate: a short verified description for every properly named function (128 rows so far; variables pending). |
-| `findings.md` | The raw live-trace evidence ledger (F1-F69): what was proven, how, and what status each claim holds. |
-| `suspects.md` | Suspected/WIP identifications that are NOT yet 100% — each with the evidence gathered and what would graduate it. |
-| `NAMING.md` | The conventions: where each kind of name comes from (PsyQ signatures, the 2018 community IDA db, the DotR SLUS-20515 symbol vocabulary, live tracing) and how much to trust each tier. |
-
-Ground rules these documents follow: disputed names are quarantined rather
-than mixed in; hedged names (`maybe_*`, `u_*`) never pass the gate; and a
-name only counts as done once its description matches the matched code or a
-live observation. Corrections and counter-evidence welcome.
+| `symbols_guide.md` | The headline document: 141 confirmed symbols organized by where in the game they run, in plain English. |
+| `known_functions.md` | The complete roster of 1,111 named functions with addresses, each tagged with its evidence source. |
+| `known_variables.md` | The complete roster of 108 named variables and data symbols, same treatment. |
+| `descriptions.md` | The naming gate: 180 verified one-paragraph descriptions, because a name only counts as done once its description matches the matched code or a live observation. |
+| `findings.md` | The live-trace evidence ledger (F1–F120) recording what was proven, how, and the status of each claim. |
+| `suspects.md` | The not-yet-100% identifications, kept apart from the confirmed set with the evidence gathered and what would graduate each. |
+| `modules.md` | What the disc-loaded screen modules are and how their shared address range was traced. |
+| `modules/` | Per-module symbol files (42 symbols) for free duel, name entry, password, main menu and overworld, kept separate because those screens load into the same addresses. |
+| `NAMING.md` | Where each kind of name comes from, how much to trust each evidence tier, and the lowerCamelCase house convention. |
 
 Source repository: Unchiga/ygofm-decomp (private); contact Unchiga for
-access or questions.
+access or questions. Corrections and counter-evidence welcome.

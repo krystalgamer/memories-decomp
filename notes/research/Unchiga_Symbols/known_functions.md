@@ -5,7 +5,7 @@ after any naming change. Source tags: `idb2018` = idb_raymond_2018 import, `ramM
 datacrystal RAM map, `dotr` = DotR-style naming, `psyq` = original SDK symbol
 (libsyms signature match), `fleet` = behavior-derived by this project. Evidence: NAMING.md.
 
-1073 named functions (135 game-meaningful, 669 sdk, 269 mechanical).
+1095 named functions (159 game-meaningful, 669 sdk, 267 mechanical).
 
 ## Game-meaningful names
 
@@ -17,6 +17,11 @@ Names that say what something IS in the game.
 | 0x80012CD4 | `vertBlankCallback` | idb2018 |
 | 0x800136E4 | `setFilePosTable` | idb2018 |
 | 0x800138F4 | `filePosition` | idb2018 |
+| 0x800151D8 | `screenFadeStepStrips` | idb2018 |
+| 0x80015310 | `screenFadeUpdate` | idb2018 |
+| 0x800158B8 | `screenFadeOutInit` | idb2018 |
+| 0x80015904 | `screenFadeOutStart` | idb2018 |
+| 0x80015B00 | `screenFadeOutWait` | idb2018 |
 | 0x8001EE44 | `monGsBonus` | idb2018 |
 | 0x8001EF1C | `monBattleEffAtk` | idb2018 |
 | 0x8001EF78 | `monBattleEffDef` | idb2018 |
@@ -30,7 +35,9 @@ Names that say what something IS in the game.
 | 0x8002BF3C | `setLibraryUsed` | idb2018 |
 | 0x8002CB80 | `gsBonus` | idb2018 |
 | 0x8002CBF4 | `baseCardStat` | idb2018 |
+| 0x8002CCA8 | `storyFlagTest` | idb2018 |
 | 0x8002CCE4 | `toggleLibraryUsed` | idb2018 |
+| 0x8002CE64 | `campaignLoop` | idb2018 |
 | 0x8002CEE8 | `duelLoop` | idb2018 |
 | 0x8002D0E0 | `libraryMenuLoop` | idb2018 |
 | 0x8002D180 | `animatedBattleLoop` | idb2018 |
@@ -45,8 +52,25 @@ Names that say what something IS in the game.
 | 0x8002D7C4 | `hirataLoop` | idb2018 |
 | 0x8002DA1C | `creditsLoop` | idb2018 |
 | 0x8002DD74 | `mainLoop` | idb2018 |
+| 0x8002E730 | `scriptOpShowImage` | idb2018 |
+| 0x8002FA54 | `scriptRunTick` | idb2018 |
 | 0x80032B60 | `compDeckCard` | idb2018 |
+| 0x80035AB8 | `textBoxSetRect` | idb2018 |
+| 0x80035AF0 | `textBoxInitRecord` | idb2018 |
+| 0x80035B7C | `textBoxDestroy` | idb2018 |
+| 0x80035BE4 | `textBoxCreate` | idb2018 |
+| 0x80035C38 | `textBoxCreateFlagged` | idb2018 |
+| 0x80036F80 | `dialogChoiceHighlight` | idb2018 |
+| 0x8003700C | `dialogChoiceInput` | idb2018 |
+| 0x80037110 | `objPulseColourUpdate` | idb2018 |
+| 0x800371A8 | `dialogChoiceTick` | idb2018 |
+| 0x800374F4 | `dialogChoiceOpen` | idb2018 |
+| 0x800393B0 | `textRecordBuildStep` | idb2018 |
+| 0x80039934 | `textBoxSetPos` | idb2018 |
+| 0x8003B744 | `textStringLookup` | idb2018 |
+| 0x8003BC40 | `sjisToGlyphCodes` | idb2018 |
 | 0x8003FEE0 | `SD_SEPlayFull` | live |
+| 0x80043230 | `widgetSlideSine` | idb2018 |
 | 0x80046768 | `SD_LoadData` | dotr |
 | 0x80046FA0 | `SD_SetOutputType` | live |
 | 0x80048658 | `SD_SEPlay` | live |
@@ -836,7 +860,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80012E5C | `gpu_disp_buff_swap_and_ot_sort_dispatch` | fleet |
 | 0x800143DC | `copy_9e18_to_9e60_and_flags` | fleet |
 | 0x80014EEC | `reinit_d800e9e60_obj` | fleet |
-| 0x800154E4 | `draw_screen_fade_overlay` | fleet |
+| 0x800154E4 | `drawScreenFadeOverlay` | fleet |
 | 0x800157DC | `call_80015780_flags_and_8001572c` | fleet |
 | 0x80015870 | `reset_9ec8_state_if_flag145` | fleet |
 | 0x80015998 | `loop_call_four_update_funcs_while_flag80` | fleet |
@@ -895,7 +919,6 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8002C9B4 | `collect_field_slot_ptrs` | fleet |
 | 0x8002CD48 | `call_ccca8_then_cce4_if_zero` | fleet |
 | 0x8002CE08 | `mask_test_call_800eb26c_two_calls` | fleet |
-| 0x8002CE64 | `mask_test_800eb26c_notify_and_recheck` | fleet |
 | 0x8002D7CC | `spawn_fade_teardown_dispatch` | fleet |
 | 0x8002DC38 | `mask_test_800eb26c_reinit_and_poll` | fleet |
 | 0x8002E470 | `stream_read_index_and_check_ready` | fleet |
@@ -913,7 +936,6 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x800356A0 | `backward_word_copy_with_tail_dispatch` | fleet |
 | 0x800357E8 | `int_to_digits` | fleet |
 | 0x800358FC | `call_8e590_mod` | fleet |
-| 0x80035BE4 | `forward_args_call_35ab8_35af0` | fleet |
 | 0x80035DF4 | `clear_two_fields_800eb288` | fleet |
 | 0x80036BCC | `find_entry_by_be16_id` | fleet |
 | 0x80036D70 | `read_stream_u32be` | fleet |
@@ -932,7 +954,6 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8003A95C | `set_pos_propagate` | fleet |
 | 0x8003B714 | `call_80035AF0_default_a2` | fleet |
 | 0x8003B734 | `pad_down_left` | fleet |
-| 0x8003B744 | `bank_table_lookup` | fleet |
 | 0x8003B7E0 | `read_stream_byte_advance` | fleet |
 | 0x8003BBF8 | `register_handler_8003BA14` | fleet |
 | 0x8003BEB8 | `register_handler_8003BD14` | fleet |
@@ -1100,4 +1121,40 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8008F988 | `text_788_8008F988` | fleet |
 | 0x8008FEA0 | `text_2C0_8008FEA0` | fleet |
 | 0x8008FF90 | `text_3B0_8008FF90` | fleet |
+| 0x80168FB4 | `freeDuelModuleEntry` | fleet |
+
+## Module symbols
+
+Only true while that screen's module is resident (config/modules/README.md). Source: live trace.
+
+### free_duel
+
+| address | name |
+|---|---|
+| 0x80168004 | `freeDuelScrollbarUpdate` |
+| 0x80168090 | `freeDuelCursorPlace` |
+| 0x801681B4 | `freeDuelSparkleSpawn` |
+| 0x8016899C | `freeDuelSparkleSlot` |
+| 0x801689D4 | `freeDuelSparkleTick` |
+| 0x80168A9C | `freeDuelCursorTweenTick` |
+| 0x80168C7C | `freeDuelScreenTick` |
+
+### name_entry
+
+| address | name |
+|---|---|
+| 0x801683EC | `nameEntryInit` |
+| 0x8016868C | `textGlyphAt` |
+| 0x80168CDC | `nameEntrySpawnGlyphSprite` |
+| 0x8016909C | `nameEntryAdjustLength` |
+| 0x8016913C | `nameEntryScreenTick` |
+| 0x80169734 | `nameEntryDialogTick` |
+
+### overworld
+
+| address | name |
+|---|---|
+| 0x80168388 | `overworldDpadCamera` |
+| 0x8016866C | `overworldSetLocation` |
+| 0x80168E0C | `overworldPickExit` |
 

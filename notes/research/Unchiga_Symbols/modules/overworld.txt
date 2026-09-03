@@ -1,0 +1,9 @@
+// campaign overworld module -- resident while campaignOverworldLoop (0x8002D2D8) is the mode tick (mode byte 0xC5).
+// Findings F117-F120. Location name = global string 0x8350 + index (Metropolis..Hiding, 16 entries).
+overworldDpadCamera = 0x80168388; // type:func
+overworldSetLocation = 0x8016866C; // type:func
+overworldPickExit = 0x80168E0C; // type:func
+overworldLocationTable = 0x801691A8;
+overworldMoveState = 0x80169608;
+overworldLocation = 0x8016960C;
+overworldLocationPrev = 0x80169618;

@@ -21,11 +21,11 @@ the applies and byte-verify once).
 
 | address | current name | observed | suspicion |
 |---|---|---|---|
-| `0x8009B37D` (byte) | `D_8009B37D` | Flips with the setting; func_8003C628 writes it FROM g_SoundMode(0x8009B408); func_8003C568 uses it as an options-label table index. | Derived working copy: `g_SoundModeCur`-ish. Name after g_SoundMode lands. |
+| `0x8009B37D` (byte) | `D_8009B37D` | Flips with the setting; func_8003C628 writes it FROM soundMode(0x8009B408); func_8003C568 uses it as an options-label table index. | Derived working copy: `g_SoundModeCur`-ish. Name after soundMode lands. |
 | `0x80044DC0` | `func_80044DC0` | Called by SD_SetOutputType with the master volume field; matched body builds the 4-byte CdMix packet, channel slot picked by the mode byte. | `SD_UpdateCdMix`-ish CD-audio re-mixer. |
 | `0x8007CDC0` -> `0x8007A048` | (mid-entries) | CD volume apply path beneath the CdMix packet (0x8007A048 sits in CD_vol's extent; entries are mid-function dispatch quirks). | Library-side CD volume application; verify extents before naming anything. |
 | `0x8003C568` | `func_8003C568` | Runs ~1 frame after the toggle; body picks a label from a local table by D_8009B37D. | Options-screen label refresh (draws STEREO/MONO highlight). |
-| `0x8003C628` | `func_8003C628` | Body syncs D_8009B37C/D from g_SoundMode with sign-bit reset semantics. | Options-state sync/init. |
+| `0x8003C628` | `func_8003C628` | Body syncs D_8009B37C/D from soundMode with sign-bit reset semantics. | Options-state sync/init. |
 | `0x80047F38(1, 0x11, 0xFF)` | `func_80047F38` | Fired inside the SE-play path on every blip. | SE voice setup/allocation. |
 | `0x8009B37C` (byte) | `D_8009B37C` | 1 while the OPTION screen is alive, drops to 0 exactly on Circle-exit (stable-byte diff); func_8003C628 touches it beside the derived mode copy. | Options-screen-active/session flag. |
 | `D_8009B45C->f48` | (struct field) | The sound-state struct's output-mode byte (written by SD_SetOutputType, read by the CdMix builder). | Document as `outputType` when the struct gets a header. |
@@ -89,3 +89,12 @@ the applies and byte-verify once).
 Via SD_SEPlay(id, 0xFF): 6 = menu cursor move, 7 = confirm (X), 8 = cancel
 (Circle), 0x2F = option toggle. Menu module calls it directly for 6 and 7 (ra 0x801809D0 /
 0x80180A48); cancel goes through the 0x8003FEE0 wrapper.
+
+## From the free-duel scrollbar session (2026-09-02)
+
+| address | current name | observed | suspicion |
+|---|---|---|---|
+| `0x8009B146` (s16) | -- | Zeroed alongside the scroll offset 0x8009B148 at screen init (0x801682F8); never written during vertical moves. | Horizontal scroll offset twin, or a stale field. Check with LEFT/RIGHT past the viewport. |
+| `0x8009B365` (byte) | -- | 0x80 set on confirm (duel start), 0x40 set on Build Deck; bit 0x80 tested at screen init to decide whether to credit a record. | Free-duel screen state/result flags. |
+| `0x8009B3A4` (u16) | `D_8009B3A4` | Pad EDGE word: dpad bits in the high nibble (0x1000 UP, 0x2000 RIGHT, 0x4000 DOWN, 0x8000 LEFT) consumed by the module input handler. `0x8009B398` is the held/button word (0x20 cancel, 0xC0 confirm). | `g_PadPressed` / `g_PadHeld`-class names; confirm the bit layout on another screen before naming. |
+| `0x800F07E8`, `0x800F0858` | widget pool slots | Thumb widget and cursor widget instances (pool D_800F0548, 0x70-byte records: +0x30 x, +0x32 y, +0x36/38 vel, +0x60 counter, +0x62 frac). | Name the pool struct first; these are instances. |
