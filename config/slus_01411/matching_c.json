@@ -1222,7 +1222,7 @@
       "address": "0x8002D730",
       "profile": "gcc_2_8_1_g8",
       "size": "0x94",
-      "source": "src/game/main_run_game_over.c"
+      "source": "src/game/main_run_frontend_menus.c"
     },
     {
       "address": "0x8002D7C4",
