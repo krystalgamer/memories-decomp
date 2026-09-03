@@ -556,3 +556,22 @@ State after this one-function checkpoint:
 | Intentional handwritten assembly | 63 |
 | Matching sources retaining GCC asm | 58 |
 | Accepted semantic mappings | 213 |
+
+### Continuous wave 19
+
+`func_80016DDC` matched after declaring the step before the magnitude and
+computing the magnitude with `__builtin_abs`. The preserved source already
+matched control flow and size, but GCC assigned those values to `$a1`/`$a2`
+in the opposite order and propagated the difference register into the
+negation. The combined discriminator reproduces the retail register roles and
+in-place negation. The function matches 148/148 bytes with exact relocations.
+
+State after this one-function checkpoint:
+
+| State | Count |
+|---|---:|
+| Matching C | 795 |
+| Terminal unmatched assembly | 338 |
+| Intentional handwritten assembly | 63 |
+| Matching sources retaining GCC asm | 58 |
+| Accepted semantic mappings | 213 |
