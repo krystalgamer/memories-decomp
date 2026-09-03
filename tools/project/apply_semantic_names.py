@@ -273,9 +273,14 @@ def plan(
                 raise SemanticNameError(
                     f"{mapping.address:#010x}: absent from function inventory"
                 )
-            if row["module"] != "game":
+            module = row["module"]
+            if module != "game" and (
+                not module.startswith("psyq/")
+                or mapping.confidence != "confirmed"
+            ):
                 raise SemanticNameError(
-                    f"{mapping.address:#010x}: semantic renames are game-only"
+                    f"{mapping.address:#010x}: non-game semantic names require "
+                    "confirmed Psy-Q evidence"
                 )
             old_name = row["name"]
             if old_name != mapping.name:

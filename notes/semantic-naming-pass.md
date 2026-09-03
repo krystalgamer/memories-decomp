@@ -23,6 +23,9 @@ applies and checks the registry across:
 - tracked C declarations, definitions, and call sites;
 - semantic source filenames for matching C functions.
 
+Confirmed Psy-Q CRT/SDK function names may also use the registry. Lower
+confidence non-game function mappings remain rejected.
+
 These are semantic project names, not claims that the original Forbidden
 Memories symbols have been recovered.
 
