@@ -1,313 +1,113 @@
-# Runtime Overlay and MRG Loader Trace
-
-## Result
-
-The resident executable has a two-descriptor asynchronous CD loader that reads
-logical `0x800`-byte sectors from the seven runtime files. Its high-memory
-destination table is shared among WA, MODEL, and SU content.
-
-High-confidence archive attribution is:
-
-| Destination | Archive | Evidence |
-|---:|---|---|
-| `0x80146000` | WA | Seven identical WA chunks; valid code at resident call target `0x801462B0` |
-| `0x80168000` | WA | Multiple WA packages; valid code at several resident `0x80168xxx` call targets |
-| `0x8017A1D8` | WA | Identical five-sector data subrange in seven WA records |
-| `0x8013A000` | MODEL | Index-two callback writes the exact base; game calls base `+4` |
-| `0x8017A000` | MODEL | MODEL supplies executable content at the base; WA writes only at `+0x1D8` |
-| `0x80180000` | SU | Two index-one loads produce valid code at resident `0x80180xxx` call targets |
-
-No resident WA path was found writing `0x8013A000` or `0x80180000`.
-Dynamically loaded code could issue further reads, but the resident
-executable does not support treating all slots as WA-owned.
-
-## File lookup and runtime layout
-
-The null-terminated filename pointer table begins at `0x8009078C`:
-
-| Index | File | Runtime start LBA |
-|---:|---|---:|
-| 0 | `WA_MRG.MRG` | 10,102 |
-| 1 | `SU.MRG` | 954 |
-| 2 | `MODEL.MRG` | 28,534 |
-| 3 | `MOVIE.STR` | 202,734 |
-| 4 | `SD_SE.DAT` | 2,193 |
-| 5 | `SD_BGM.DAT` | 2,936 |
-| 6 | `MASTER.XA` | 199,930 |
-
-`func_800136E4` enumerates these names. `func_800138F4` repeatedly performs the
-`CdSearchFile`-like lookup and converts BCD MSF to a zero-based LBA with
-`func_8007E710`.
-
-The BSS layout is:
-
-```text
-0x800E9E18-0x800E9E5F  primary transfer descriptor, 0x48 bytes
-0x800E9E60-0x800E9EA7  secondary transfer descriptor, 0x48 bytes
-0x800E9EA8-0x800E9EC3  seven runtime LBA words
-```
-
-The corrected LBA-table address is `0x800E9EA8`; interpreting the signed
-`addiu` immediate as unsigned incorrectly produces `0x800F9EA8`.
-
-## Transfer descriptor
-
-Observed fields in each `0x48`-byte descriptor are:
-
-| Offset | Width | Behavior |
-|---:|---:|---|
-| `+0x00/+0x02` | 16-bit | GPU rectangle or transfer header |
-| `+0x04/+0x06` | 16-bit | GPU rectangle or transfer header |
-| `+0x08` | pointer | Current/direct sector destination |
-| `+0x0C` | pointer | Alternate or end destination |
-| `+0x10` | 32-bit | Total transfer bytes |
-| `+0x14` | 32-bit | File-relative byte offset |
-| `+0x18` | 32-bit | Public loader argument; exact meaning unknown |
-| `+0x1C` | 32-bit | Current phase byte count |
-| `+0x20` | pointer | Phase callback `(descriptor, phase_index)` |
-| `+0x24` | 32-bit | Absolute logical disc LBA |
-| `+0x28` | 32-bit | Current phase bytes remaining |
-| `+0x2C` | 32-bit | File index in low nibble plus transfer flags |
-| `+0x30/+0x32` | 16-bit | GPU or partial-transfer metadata |
-| `+0x34` | 32-bit | Optional direct destination/configuration |
-| `+0x38/+0x3C` | 32-bit | Caller-specific callback metadata |
-| `+0x40` | 32-bit | Phase index or seed |
-| `+0x44` | 16-bit | Alternating-buffer index |
-| `+0x46` | 8-bit | Transfer state |
-| `+0x47` | 8-bit | Transfer substate |
-
-`func_80013940` applies:
-
-```c
-file_index                = file_flags & 0xF;
-descriptor->file_bytes    = sector_offset << 11;
-descriptor->absolute_lba  = D_800E9EA8[file_index] + sector_offset;
-descriptor->total_bytes   = abs(sector_count << 11);
-```
-
-`func_80013998` initializes a descriptor. `func_80014E1C` is the common
-game-facing asynchronous loader using the secondary descriptor. Its relevant
-arguments are the file selector, file-relative sector offset, sector count,
-phase callback, phase seed, and optional direct destination.
-
-`func_8001455C` services the CD transfer. `func_80013C28` consumes one sector
-at a time through the `CdGetSector`-like function at `0x8007E3D0`, advances
-the destination by `0x800`, and invokes the phase callback when the phase byte
-count reaches zero. `func_800137E4` is the synchronous wait used by many
-callers.
-
-## Shared high-memory table
-
-The table at `0x80010000` contains:
-
-| Index | Value | Observed role |
-|---:|---:|---|
-| 0 | `0x80100000` | Main WA callback bank |
-| 1 | `0x80140000` | Second main bank |
-| 2 | `0x80180000` | Third main bank |
-| 3 | `0x8013A000` | Paired executable/module slot A |
-| 4 | `0x8017A000` | Paired executable/module slot B |
-| 5 | `0x8013B000` | Paired slot A |
-| 6 | `0x8017B000` | Paired slot B |
-| 7 | `0x80135000` | Paired work/data slot A |
-| 8 | `0x80175000` | Paired work/data slot B |
-| 9 | `0x80136000` | Paired work/data slot A |
-| 10 | `0x80176000` | Paired work/data slot B |
-| 11 | `0x80180000` | SU callback destination |
-| 12 | `0x80180000` | SU direct destination |
-| 13 | `0x80185CD4` | Pointer used after an SU overlay load |
-
-Game code selects indices 3 and 4 as callable module bases, indices 11 and 12
-for SU transfers, and index 13 after loading an SU module. This is a shared
-layout table, not an archive directory.
-
-A separate two-word table at `0x800101D8` is WA-specific in all observed
-resident references:
-
-```text
-0x800101D8 -> 0x80168000
-0x800101DC -> 0x80146000
-```
-
-## Recovered WA sector layout
-
-WA occupies 18,432 logical sectors. No conventional resident offset array was
-found. The recovered index is compiled as immediate sector offsets, affine
-stride calculations, phase callbacks, and byte counts.
-
-The following packages tile WA sectors `5776-8661` without gaps:
-
-| Package | WA sector range | Count | WA byte range |
-|---|---|---:|---|
-| Fixed package | `5776-5830` | 54 | `0xB48000-0xB63000` |
-| Seven records | `5830-7475` | `7 * 235` | `0xB63000-0xE99800` |
-| Mini-record family | `7475-7595` | inferred `40 * 3` | `0xE99800-0xED5800` |
-| Fixed package | `7595-7629` | 34 | `0xED5800-0xEE6800` |
-| Fixed package | `7629-7767` | 138 | `0xEE6800-0xF2B800` |
-| Fixed package | `7767-7816` | 49 | `0xF2B800-0xF44000` |
-| Fixed package | `7816-7903` | 87 | `0xF44000-0xF6F800` |
-| Fixed package | `7903-7983` | 80 | `0xF6F800-0xF97800` |
-| Fixed package | `7983-8069` | 86 | `0xF97800-0xFC2800` |
-| Fixed package | `8069-8103` | 34 | `0xFC2800-0xFD3800` |
-| Fixed package | `8103-8153` | 50 | `0xFD3800-0xFEC800` |
-| Variant A | `8153-8311` | 158 | `0xFEC800-0x103B800` |
-| Variant B | `8311-8469` | 158 | `0x103B800-0x108A800` |
-| Fixed package | `8469-8519` | 50 | `0x108A800-0x10A3800` |
-| Direct bank load | `8519-8535` | 16 | `0x10A3800-0x10AB800` |
-| Fixed package | `8535-8585` | 50 | `0x10AB800-0x10C4800` |
-| Fixed package | `8585-8661` | 76 | `0x10C4800-0x10EA800` |
-
-The next loader family begins from sector 8661, reinforcing the interpretation
-of these values as generated merge boundaries.
-
-## Seven 235-sector WA records
-
-`func_8001798C` and `func_800179F4` calculate:
-
-```text
-record sector = 5830 + selected_index * 235
-record count  = 235 sectors
-callback      = func_800171A8
-```
-
-The following independently indexed family begins at sector 7475:
-
-```text
-7475 - 5830 = 1645 = 7 * 235
-```
-
-This proves seven physical records, although the semantic identity of indices
-zero through six is not yet known.
-
-The 13 callback phases are:
-
-| Phase | Relative sectors | Count | Bytes | Destination or mode |
-|---:|---:|---:|---:|---|
-| 0 | `0-64` | 64 | `0x20000` | GPU/VRAM path |
-| 1 | `64-68` | 4 | `0x2000` | Streaming buffer |
-| 2 | `68-73` | 5 | `0x2800` | `0x8017A1D8` |
-| 3 | `73-105` | 32 | `0x10000` | `0x8017C2D8` |
-| 4 | `105-106` | 1 | `0x800` | `0x801799D8` |
-| 5 | `106-108` | 2 | `0x1000` | Streaming buffer |
-| 6 | `108-140` | 32 | `0x10000` | GPU/VRAM path |
-| 7 | `140-184` | 44 | `0x16000` | `0x80146000` |
-| 8 | `184-187` | 3 | `0x1800` | `0x801A8000` |
-| 9 | `187-190` | 3 | `0x1800` | `0x801A9800` |
-| 10 | `190-198` | 8 | `0x4000` | GPU/VRAM path |
-| 11 | `198-203` | 5 | `0x2800` | `0x80100000` |
-| 12 | `203-235` | 32 | `0x10000` | GPU/VRAM path |
-
-The counts sum to 235 exactly.
-
-### WA at `0x80146000`
-
-Phase 7 of every record copies 44 sectors to `0x80146000`. All seven chunks
-are byte-identical:
-
-```text
-size:       0x16000
-first word: 0x00000018
-SHA-256:    baa203b937dc6bdf91b1826c5832f0f32e11ae5fe9d05193a4361bc08158b9e0
-```
-
-The first record's phase begins at WA sector 5970. At destination offset
-`+0x2B0`, the bytes decode as a normal function at `0x801462B0`, exactly where
-resident code calls.
-
-### WA at `0x80168000`
-
-Several fixed packages end with phases directed to `0x80168000`:
-
-| WA sectors | Size | Confirmed called code |
-|---|---:|---|
-| `5827-5830` | `0x1800` | `0x801680F4`, `0x80168160` |
-| `7898-7903` | `0x2800` | `0x8016824C` |
-| `7968-7983` | `0x7800` | `0x8016AA6C` |
-| `8054-8069` | `0x7800` | `0x8016A080`, `0x8016A37C` |
-| `8153-8159` | `0x3000` | `0x8016866C`, `0x80168FCC` |
-| `8311-8317` | `0x3000` | Same callback family, alternate variant |
-
-The chunks begin with module-like identifiers from `0x13` through `0x16`.
-Each checked resident call target contains valid MIPS code at the exact loaded
-offset.
-
-### WA data at `0x8017A1D8`
-
-Phase 2 of each 235-sector record copies five sectors to `0x8017A1D8`.
-All seven data chunks are byte-identical:
-
-```text
-size:       0x2800
-SHA-256:    0b99ccb2d4c2ccf3e0fd41b6d35183294ab995f2b2b631b442e6673b5a7352ac
-```
-
-Resident code reads this exact address. The transfer overlaps the next phase's
-destination by `0x700` bytes, likely because the merged input is
-sector-rounded; the original unrounded size is unknown.
-
-MODEL, not WA, supplies executable content at the `0x8017A000` base.
-
-## MODEL at `0x8013A000`
-
-Game code loads the table entry at `0x8001000C` and calls base `+4`. The
-resident transfer callback that selects `0x8013A000` is reached from a loader
-call with file index 2, which is `MODEL.MRG`.
-
-No resident index-zero callback or direct WA transfer was found for
-`0x8013A000` or `0x8013A1D8`.
-
-## SU at `0x80180000`
-
-Two resident index-one loads target `0x80180000`:
-
-| SU sectors | Size | First word | Loader form |
-|---|---:|---:|---|
-| `98-114` | `0x8000` | `0x0000000F` | Phase of SU sectors `0-115` |
-| `1223-1239` | `0x8000` | `0x00000010` | Direct destination |
-
-The first chunk contains valid code at resident call targets including:
-
-```text
-0x8018001C
-0x80180390
-0x801807B0
-0x80180DD0
-0x80181C4C
-0x80181F68
-0x801821DC
-0x80183FE4
-```
-
-No resident WA callback was found targeting table indices 11 or 12.
-
-## Disc-image validation
-
-Every focused WA and SU range used for attribution was checked sector by sector
-against the original MODE2/2352 BIN. For an archive-relative sector:
-
-```text
-disc LBA         = archive start LBA + archive sector
-raw sector start = disc LBA * 0x930
-raw user data    = raw sector start + 0x18
-```
-
-All compared `0x800`-byte user-data payloads matched the extracted MRG files.
-The disc was not modified or rebuilt.
-
-## Confidence and remaining unknowns
-
-High-confidence results include the file indices, corrected LBA-table address,
-descriptor sizes, sector units, WA boundaries from sectors 5776 through 8661,
-the seven-record phase layout, archive-to-slot attribution, and code at exact
-resident call targets.
-
-The following remain provisional:
-
-- Whether the leading words are formally named module IDs.
-- The original source/header name for the WA destination table.
-- The semantic identities of the seven 235-sector records and two 158-sector
-  variants.
-- Original unrounded inner-file sizes.
-- Full MODEL and SU merged-file manifests.
-- Reads that might be issued by dynamically loaded code rather than resident
-  code.
+# Overlays
+
+What is known about the code the game loads outside `SLUS_014.11`, measured
+against the NTSC-U disc. This is the "document" half of issue #4; the "split
+into a sub-directory" half is a change to the asm tree and is not in this
+note.
+
+## The shape of it
+
+The executable is one image, 0x1D0000 bytes from `0x80010000`, and its
+`.text` ends at `0x80073840` (the PsyQ library follows). The ranges below are
+inside that image but **zero in the file**: they are filled at run time from
+`/DATA/WA_MRG.MRG` (LBA 10102) by one request function, `func_80014E1C(mode, table, sector, count, callback, …)`, with a
+per-screen callback that takes the read stream chunk by chunk and routes each
+chunk to RAM or VRAM. Two RAM ranges receive **code** that way:
+
+| slot | address | size | loaded by | when |
+|---|---|---|---|---|
+| duel overlay | `0x80146000` | 0x16000 (90,112 B) | `func_8001798C` → `func_800171A8` | every duel |
+| screen overlay | `0x80168000` | up to 0x7800 | each menu screen's loader | per screen |
+
+The first slot holds one image for every duel. The second is shared: each
+menu screen's blob carries its own code for that address, so `0x80168000`
+means different functions at different times, and a call target in that
+range only resolves against the overlay resident when the caller runs.
+[`config/undefined_funcs_auto.txt` in the ygofm-decomp tree lists the 24
+targets the executable `jal`s into these ranges.]
+
+## The duel overlay — `0x80146000`
+
+`func_8001798C` issues **one read of 235 sectors at sector `0x16C6 + 235 ×
+terrain`** (`D_8009B364`, 0–6): seven copies of the same blob, one per
+terrain, differing only in the field picture. The callback `func_800171A8`
+is a 13-case state machine (jump table `jtbl_800100C0`) whose chunk sizes, in
+case order, sum to exactly 235 × 2048 — which fixes every chunk's offset:
+
+| blob offset | size | destination |
+|---|---|---|
+| `+0x00000` | 0x20000 | VRAM (768, 256) |
+| `+0x20000` | 0x2000 | staging, then `LoadImage2` rect (256, 240) 256×16 |
+| `+0x22000` | 0x2800 | `0x8017A1D8` — equip table |
+| `+0x24800` | 0x10000 | `0x8017C2D8` — fusion table |
+| `+0x34800` | 0x800 | `0x801799D8` — ritual table |
+| `+0x35000` | 0x1000 | staging, then `LoadImage2` rect (0, 240) 256×8 |
+| `+0x36000` | 0x10000 | VRAM (x = 512) |
+| **`+0x46000`** | **0x16000** | **`0x80146000` — the overlay** |
+| `+0x5C000` | 0x1800 | `0x801A8000` |
+| `+0x5D800` | 0x1800 | `0x801A9800` |
+| `+0x5F000` | 0x4000 | VRAM (832, 0) |
+| `+0x63000` | 0x2800 | `0x80100000` |
+| `+0x65800` | 0x10000 | VRAM (640, 256) — the field picture, the one chunk that differs per terrain |
+
+So the overlay image is at `WA_MRG.MRG` sector `0x16C6 + 140` = 5970 (LBA
+16072) and again every 235 sectors. Unchiga's extractor, written
+independently from a live capture, lands on the same LBA; the image it
+produces has sha1 `77b6430db58439e9577533d4f4fa2762996cf6fc`. The three rule
+tables in the same blob decode with every card id in range (25,131 fusion
+recipes, 4,041 equip pairs, 24 rituals), which is the check that the layout
+is right. `0x801462B0`, one of the executable's undefined call targets, is
+inside this image.
+
+## The screen overlay slot — `0x80168000`
+
+Two of its images are located.
+
+**Password shop.** The blob at sector `0x1EDF` (main menu, 80 sectors,
+callback `func_8003BA14`) carries a 0x7800-byte chunk at `+0x20800` for
+`0x80168000`; the blob at `0x1F2F` (password screen, 86 sectors, callback
+`func_8003BD14`) carries the identical chunk at `+0x23800`. Six sectors of
+it are code. Three GameShark patch codes verify against it instruction for
+instruction: `0x8016A87C` `subu $v1, $v1, $s0` (the star-cost subtraction),
+`0x8016A880` `bnez $a0, +3`, `0x8016A6E0` `beqz $v0, +5` — the "no stars",
+"cards arrive immediately" and "buy again" cheats. The shop's once-only rule
+is a flag per card in the save's flag array (`0x400 + card`, tested at
+`0x8016A6D8` and set on purchase).
+
+**Free Duel.** The blob at sector `0x1E88` (87 sectors, loader
+`func_8003B9BC`, callback `func_8003B808`) ends with a 0x2800-byte chunk at
+`+0x29000` for `0x80168000`; 8 KB of it is code, one copy on the disc. Its
+entry `0x80168FB4` is one of the executable's call targets, and four of the
+five function addresses Unchiga read from a live disassembly of that screen
+land on `addiu $sp` prologues in the image (the fifth, `0x80168004`, is a
+frameless leaf). The unlock loop is at `0x801683C0`–`0x801683EC`: it marks
+40 grid entries available and, for ids 1–38, clears the ones whose save flag
+`0x6E0 + id` is off. The Free Duel unlock GameShark patch (`801683D4 A0F8` /
+`801683D6 0805`, turning that loop's `bnez` into a jump) verifies there.
+
+**Not located.** The two "enable" GameShark codes guard `0x80168100` and
+`0x80168188` with values that match neither image, and match nothing raw in
+`WA_MRG.MRG`, `SU.MRG` or `MODEL.MRG` (searched as a relative byte pattern at
+both alignments, with the same scanner finding the executable's own guards).
+Either another screen's overlay is unpacked or generated at run time, or
+those two codes are for a different build.
+
+## Other menu blobs
+
+Every other screen loads the same way, with a fixed sector constant:
+`0x1690` (54 sectors), `0x1E88` (87), `0x1EDF` (80), `0x1F2F` (86), `0x1F85`
+(34), `0x1FA7` (50, the campaign's scene pictures), `0x1FD9` / `0x2077` (158,
+the Egypt map before and after Heishin's coup, chosen by save flag `0x47`),
+`0x2115` (50), `0x2147` (16, straight into `0x80140000`), `0x2157` (50),
+`0x2189` (76), `0x1DCD` (138, the Library), and the campaign's `0x1E57` (49,
+whose 4 KB third chunk at `0x801A8000` is the event script). Whether any of
+these carries code for `0x80168000` besides the two above has not been
+checked chunk by chunk; the way to check is the one used here — read the
+callback's case order and sizes, then look for `jr $ra` density in the chunk.
+
+## Reproducing it
+
+`tools_src/extract_mrg_tables.py` in `MaChInEgUn3/ygofm-decomp` reads the
+duel blob's tables out of a raw copy of `WA_MRG.MRG` using the loader's own
+arithmetic; `docs/DISC.txt` there carries the measurements above with dates
+and the two retractions they replaced.
