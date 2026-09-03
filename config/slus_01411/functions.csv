@@ -1180,7 +1180,7 @@ address,size,name,status,module,notes
 0x80073050,0x3C,AiScript_SetPosition,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8007308C,0x194,AiScript_FindBestAttack,unmatched_asm,game,
 0x80073220,0x80,AiScript_PushComboCard,unmatched_asm,game,
-0x800732A0,0x60,AiScript_PushComboEmpty,unmatched_asm,game,
+0x800732A0,0x60,AiScript_PushComboEmpty,matching_c,game,The collaborator count/filter loop matches under the G8 split-address profile; exact linked bytes and relocations.
 0x80073300,0x8,AiScript_HandNop,matching_c,game,1 pre-policy variants: Empty function matched jr-ra and nop exactly.
 0x80073308,0x8,AiScript_FieldNop,matching_c,game,1 pre-policy variants: Empty function matched jr-ra and nop exactly.
 0x80073310,0x70,AiScript_AddCard,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.

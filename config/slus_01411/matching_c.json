@@ -4651,6 +4651,12 @@
       "source": "src/game/ai_script_actions.c"
     },
     {
+      "address": "0x800732A0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x60",
+      "source": "src/game/ai_script_push_combo_empty.c"
+    },
+    {
       "address": "0x80073300",
       "profile": "gcc_2_8_1_g0",
       "size": "0x8",

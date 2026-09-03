@@ -483,3 +483,21 @@ State after this one-function checkpoint:
 | Intentional handwritten assembly | 63 |
 | Matching sources retaining GCC asm | 58 |
 | Accepted semantic mappings | 207 |
+
+### Continuous wave 15
+
+`AiScript_PushComboEmpty` matched after retesting the collaborator's direct
+count/filter `for` loop under `gcc_2_8_1_g8_split`. The split-address pipeline
+preserves the retail state-base register role, output index, loop bounds, and
+delay-slot scheduling. The function matches 96/96 bytes with exact
+relocations and no allocated non-text sections.
+
+State after this one-function checkpoint:
+
+| State | Count |
+|---|---:|
+| Matching C | 791 |
+| Terminal unmatched assembly | 342 |
+| Intentional handwritten assembly | 63 |
+| Matching sources retaining GCC asm | 58 |
+| Accepted semantic mappings | 210 |
