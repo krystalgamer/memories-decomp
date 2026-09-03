@@ -2968,25 +2968,25 @@
       "address": "0x80044CFC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x10",
-      "source": "src/game/func_80044CFC.c"
+      "source": "src/game/mem_card_set_io_result_complete_cb.c"
     },
     {
       "address": "0x80044D0C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x14",
-      "source": "src/game/func_80044D0C.c"
+      "source": "src/game/mem_card_set_io_result_error_cb.c"
     },
     {
       "address": "0x80044D20",
       "profile": "gcc_2_8_1_g0",
       "size": "0x14",
-      "source": "src/game/func_80044D20.c"
+      "source": "src/game/mem_card_set_io_result_timeout_cb.c"
     },
     {
       "address": "0x80044D34",
       "profile": "gcc_2_8_1_g0",
       "size": "0x14",
-      "source": "src/game/func_80044D34.c"
+      "source": "src/game/mem_card_set_io_result_new_card_cb.c"
     },
     {
       "address": "0x80044D48",

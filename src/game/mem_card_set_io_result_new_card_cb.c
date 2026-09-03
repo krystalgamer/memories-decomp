@@ -1,6 +1,6 @@
 #include "../types.h"
 
-int func_80044D34(void)
+int MemCard_SetIOResultNewCardCB(void)
 {
     register char *base asm("$3") = (char *)0x800A0000;
     register int value asm("$2") = 3;

@@ -1,6 +1,6 @@
 #include "../types.h"
 
-int func_80044D20(void)
+int MemCard_SetIOResultTimeoutCB(void)
 {
     register char *base asm("$3") = (char *)0x800A0000;
     register int value asm("$2") = 2;

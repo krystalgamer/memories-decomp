@@ -1,6 +1,6 @@
 #include "../types.h"
 
-int func_80044CFC(void)
+int MemCard_SetIOResultCompleteCB(void)
 {
     register char *base asm("$2") = (char *)0x800A0000;
     asm("" : "+r"(base));
