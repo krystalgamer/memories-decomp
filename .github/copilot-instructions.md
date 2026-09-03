@@ -22,10 +22,10 @@ make check-tools
 
 # Clean exact-match gate used by CI
 make clean
-MAKEFLAGS=-j2 make match check-progress
+MAKEFLAGS=-j"$(nproc)" make match check-progress
 
 # Full local repository audit; requires all retail inputs and a clean worktree
-MAKEFLAGS=-j2 make audit
+MAKEFLAGS=-j"$(nproc)" make audit
 ```
 
 There is no unit-test runner or conventional lint target. Validation is based
@@ -44,19 +44,20 @@ object cache after a clean match, then use the incremental exact-match target.
 It rebuilds changed objects but still relinks and hashes the entire executable:
 
 ```sh
-MAKEFLAGS=-j2 make match
+MAKEFLAGS=-j"$(nproc)" make match
 tools/environments/python/bin/python \
   tools/project/build_incremental.py --seed-existing
 
 # After editing one C source
-MAKEFLAGS=-j2 make match-incremental
+MAKEFLAGS=-j"$(nproc)" make match-incremental
 
 # Final acceptance must still use the clean path
-MAKEFLAGS=-j2 make match
+MAKEFLAGS=-j"$(nproc)" make match
 ```
 
-Never exceed four concurrent processes. Matching, attempt-ledger updates, and
-integration are sequential; use at most `MAKEFLAGS=-j2` for Make.
+Use `MAKEFLAGS=-j"$(nproc)"` so Make follows the host's available logical
+CPUs. Set a lower job count explicitly on memory-constrained systems.
+Matching, attempt-ledger updates, and integration remain sequential.
 
 ## Architecture
 

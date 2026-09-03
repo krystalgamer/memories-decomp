@@ -51,7 +51,7 @@ Place the original executable at `game/SLUS_014.11`, then run:
 ```sh
 make verify-target
 make tools
-MAKEFLAGS=-j2 make match
+MAKEFLAGS=-j"$(nproc)" make match
 make progress
 ```
 
@@ -60,8 +60,11 @@ retail target. The full repository audit additionally requires the DATA files
 and BIN/CUE listed in `config/slus_01411/files.sha256`:
 
 ```sh
-MAKEFLAGS=-j2 make audit
+MAKEFLAGS=-j"$(nproc)" make audit
 ```
+
+The examples use all logical CPUs reported by `nproc`. Set a smaller `-j`
+value explicitly on memory-constrained systems.
 
 ## Decompilation workflow
 

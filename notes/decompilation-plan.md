@@ -12,14 +12,13 @@ The inline-assembly replacement phase is terminal: 21 pure-C replacements were
 accepted during the remaining campaign, and all 59 retained inline sources
 have complete six-attempt refinement histories.
 
-## Resource ceiling
+## Resource usage
 
-- Never use more than four concurrent processes.
-- Default to sequential matching and integration for memory-heavy work.
-- `make` may use two jobs; candidate decisions and integration remain
-  sequential.
-- Do not trade reliability for maximum throughput; steady progress without
-  out-of-memory interruptions is the priority.
+- Run Make with `MAKEFLAGS=-j"$(nproc)"` so stronger hosts are not
+  artificially capped.
+- Set a lower job count explicitly when the host is memory-constrained.
+- Candidate decisions, attempt recording, and integration remain sequential
+  because their evidence and state updates are order-dependent.
 
 ## Current collaborator phase
 

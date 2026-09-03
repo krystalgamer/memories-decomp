@@ -1,19 +1,20 @@
 # Matching Decompilation Workflow
 
-## Resource limits
+## Resource usage
 
-Never run more than **four concurrent processes** for this project. That is a
-hard ceiling, not a target. Prefer one sequential worker for matching,
-integration, full-link verification, and other memory-heavy work. Steady
-progress is more valuable than process fan-out that risks an out-of-memory
-crash and loses the active session.
+Build concurrency should follow the host's available logical CPUs:
 
-Any script that adds parallel execution must default to at most four workers
-and expose a lower worker count. Do not derive an unbounded default from the
-host CPU count.
+```sh
+MAKEFLAGS=-j"$(nproc)" make match
+```
 
-`make` may use `MAKEFLAGS=-j2`. Candidate selection, candidate compilation
-pipelines, ledger updates, and integration decisions remain sequential.
+Set a smaller `-j` value explicitly on memory-constrained systems. Candidate
+selection, candidate compilation pipelines, ledger updates, and integration
+decisions remain sequential because their evidence and state updates are
+order-dependent.
+
+Any script that adds safe parallel execution should derive its default worker
+count from the host and expose an explicit lower worker count.
 
 The Copilot CLI itself has exhausted its JavaScript heap during long,
 tool-heavy sessions even when no compiler workers were active. To limit
