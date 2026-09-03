@@ -7,9 +7,12 @@ The crash recorded in
 JavaScript heap exhaustion. It was not a compiler failure and was not caused
 by the kernel terminating a large parallel build.
 
-The hard four-process ceiling remains useful, but process count alone cannot
-prevent this failure. Long-session context and tool-output retention are the
-primary risk, with parallel or verbose operations acting as amplifiers.
+The former repository-wide four-process build ceiling is superseded. The
+evidence identifies long-session context and tool-output retention as the
+primary failure mode, not parallel compilation. Make now follows the host CPU
+count; memory-constrained systems such as the diagnosed 8 GiB, no-swap host
+must set a lower job count explicitly. Parallel or verbose agent operations
+remain amplifiers for CLI heap growth.
 
 ## Crash evidence
 
@@ -124,7 +127,9 @@ failure is resolved.
 ## Operational response
 
 - Use one process and one tool call at a time for normal work.
-- Treat four concurrent processes as an emergency maximum, never a default.
+- Do not apply the former four-process ceiling as a repository-wide build
+  policy; use the host CPU count for Make and lower it explicitly on
+  memory-constrained systems.
 - Avoid background agents and broad repository/reference scans.
 - Search before reading and cap every returned range or command output.
 - Consolidate a complete bounded phase into one standalone sequential script
