@@ -25,3 +25,8 @@ under `tmp/` until their disc range and runtime destination are verified.
 Overlay build manifests will be added module by module. Until then, overlay
 sources must not be inserted into the resident `matching_c.json` or linked as
 part of `SLUS_014.11`.
+
+Initialized module directories:
+
+- [`free_duel/`](free_duel/) records the verified WA package, executable
+  phase, and runtime range for the Free Duel module.
