@@ -552,7 +552,7 @@ address,size,name,status,module,notes
 0x8003C0C0,0x60,func_8003C0C0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003C120,0x194,func_8003C120,unmatched_asm,game,
 0x8003C2B4,0x74,func_8003C2B4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8003C328,0x170,func_8003C328,unmatched_asm,game,
+0x8003C328,0x170,func_8003C328,matching_c,game,The collaborator typed three-mode initializer matches under the G0 no-split profile; exact linked bytes and relocations.
 0x8003C498,0x48,func_8003C498,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003C4E0,0x88,func_8003C4E0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003C568,0xC0,func_8003C568,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
