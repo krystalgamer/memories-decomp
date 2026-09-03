@@ -248,6 +248,7 @@ Text_EncodeDecimalNoPadding = 0x800358A0; // type:func
 File_ActivateTransfer = 0x800143DC; // type:func
 
 // Semantic names
+Fade_WaitOut = 0x80015B00; // type:func
 Model_HasInsufficientBufferSpace = 0x8005A8C4; // type:func
 MemCard_InitIOEvents = 0x80043EBC; // type:func
 MemCard_SetIOResultCompleteCB = 0x80044CFC; // type:func

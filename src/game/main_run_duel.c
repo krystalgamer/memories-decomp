@@ -9,7 +9,7 @@ extern u16 D_8009B16C[9];
 extern u32 D_80010000[];
 extern u8 gDuel_awPlayerDeck[];
 extern void func_800323F8(u32, void *, int, int);
-extern void func_80015A00(void), func_8003FF34(void), func_80015B00(void);
+extern void func_80015A00(void), func_8003FF34(void), Fade_WaitOut(void);
 extern int func_80033BE8(void);
 extern void func_8002CD8C(void), func_800179F4(void), func_80024388(void);
 extern void func_80047AD0(int), func_800134B4(void), func_80012D84(int);
@@ -40,7 +40,7 @@ void Main_RunDuel(void)
             func_80015A00();
         } else if (func_80033BE8() == 0) {
             func_8003FF34();
-            func_80015B00();
+            Fade_WaitOut();
             func_8002CD8C();
             D_8009B26E = 1;
         }
@@ -60,7 +60,7 @@ void Main_RunDuel(void)
         u8 *table = D_8009B370;
         u8 next;
 
-        func_80015B00();
+        Fade_WaitOut();
         func_8003FF34();
         func_80047AD0(2);
         func_800134B4();

@@ -292,7 +292,7 @@
       "address": "0x80015B00",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_80015B00.c"
+      "source": "src/game/fade_wait_out.c"
     },
     {
       "address": "0x80015B28",

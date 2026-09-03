@@ -7,7 +7,7 @@ extern void func_8002FD10(s32);
 extern void func_8002FFD4(void *);
 extern void func_8002FA54(void);
 extern void func_8003FF34(void);
-extern void func_80015B00(void);
+extern void Fade_WaitOut(void);
 
 #define D_8009B254 (*(u8 *)0x8009B254)
 
@@ -26,5 +26,5 @@ void Main_RunCampaign(void) {
     if (D_8009B26C & 0x40)
         return;
     func_8003FF34();
-    func_80015B00();
+    Fade_WaitOut();
 }
