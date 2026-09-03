@@ -396,7 +396,7 @@ def build(root: Path) -> Path:
         binary_object(
             root,
             objcopy,
-            "tmp/splat/assets/overlay_slots.bin",
+            "tmp/splat/assets/overlays/overlay_slots.bin",
             f"{OBJECT_DIRECTORY}/overlay_slots.o",
         ),
         binary_object(

@@ -1,5 +1,17 @@
 # Runtime Overlay and MRG Loader Trace
 
+## Repository representation
+
+The resident executable reserves `0x8013A000-0x801AC000` for runtime-loaded
+content. Its original mostly zero-filled image is split to
+`tmp/splat/assets/overlays/overlay_slots.bin`; keeping it below an `overlays/`
+subdirectory distinguishes the load-slot image from resident data assets.
+
+This binary is not the overlay code itself. The executable reconstructs it
+byte-for-byte, then replaces portions of those addresses at runtime with
+payloads read from `WA_MRG.MRG`, `MODEL.MRG`, and `SU.MRG`. Those archive
+payloads remain research inputs rather than tracked build sources.
+
 ## Result
 
 The resident executable has a two-descriptor asynchronous CD loader that reads

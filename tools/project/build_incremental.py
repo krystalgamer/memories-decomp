@@ -133,7 +133,7 @@ def load_components(root: Path) -> list[Component]:
         ),
         Component(
             "binary",
-            "tmp/splat/assets/overlay_slots.bin",
+            "tmp/splat/assets/overlays/overlay_slots.bin",
             "overlay_slots.o",
         ),
         Component("binary", "tmp/splat/assets/tail_data.bin", "tail_data.o"),

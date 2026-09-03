@@ -351,7 +351,7 @@ def generate(root: Path) -> tuple[Path, Path]:
                     "overlay slots start",
                 ),
                 "bin",
-                "overlay_slots",
+                "overlays/overlay_slots",
             ],
             [
                 parse_integer(regions["tail_data"]["file_start"], "tail data start"),
