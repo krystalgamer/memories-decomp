@@ -232,13 +232,13 @@
       "address": "0x800158B8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/func_800158B8.c"
+      "source": "src/game/fade_init_out.c"
     },
     {
       "address": "0x80015904",
       "profile": "gcc_2_8_1_g8",
       "size": "0x40",
-      "source": "src/game/func_80015904.c"
+      "source": "src/game/fade_start_out.c"
     },
     {
       "address": "0x80015944",

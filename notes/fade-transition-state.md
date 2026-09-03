@@ -20,7 +20,7 @@ The shared `FadeTransitionState` layout is:
 | `0x05` | `target_level` | 1 | byte comparison and initialization in the transition setup paths |
 | `0x06` | `flags` | 1 | byte bit tests/writes for `0x01`, `0x02`, `0x04`, `0x10`, `0x20`, and `0x80` |
 | `0x07` | `step` | 1 | byte step values `8` and `0x0C`; target `func_800151D8` loads it with `lbu` |
-| `0x08` | `field_08` | 2 | exact halfword writes in `func_80015780` and `func_800158B8`; target `func_800151D8` uses both signed and unsigned halfword reads |
+| `0x08` | `field_08` | 2 | exact halfword writes in `func_80015780` and `Fade_InitOut`; target `func_800151D8` uses both signed and unsigned halfword reads |
 | `0x0A` | `band_levels[30]` | 30 | `func_800156B8` fills offsets `0x0A..0x27`; `func_800154E4` renders exactly 30 bands |
 
 The end of `band_levels` gives a minimum record size of `0x28`.
@@ -57,8 +57,8 @@ header:
 
 - `func_800151B0`, `func_800154E4`, `func_800156B8`, `func_800156DC`;
 - `func_8001572C`, `func_80015780`, `func_800157DC`;
-- `func_8001581C`, `func_80015870`, `func_800158B8`;
-- `func_80015904`, `func_80015944`, `func_80015998`;
+- `func_8001581C`, `func_80015870`, `Fade_InitOut`;
+- `Fade_StartOut`, `func_80015944`, `func_80015998`;
 - `func_80015A50`, `func_80015A94`, `func_80015B50`, `func_80015B94`;
 - `func_80015BD8`, `func_80015BF0`;
 - `func_80015C0C`, `func_80015C48`, `func_80015C84`, `func_80015CC0`.

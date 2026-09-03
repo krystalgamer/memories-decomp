@@ -250,6 +250,8 @@ Text_EncodeDecimalNoPadding = 0x800358A0; // type:func
 File_ActivateTransfer = 0x800143DC; // type:func
 
 // Semantic names
+Fade_InitOut = 0x800158B8; // type:func
+Fade_StartOut = 0x80015904; // type:func
 Fade_WaitOut = 0x80015B00; // type:func
 Campaign_TestStoryFlag = 0x8002CCA8; // type:func
 Text_LookupString = 0x8003B744; // type:func

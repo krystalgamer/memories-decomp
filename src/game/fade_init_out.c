@@ -5,7 +5,7 @@
 extern void func_800156B8(u8);
 extern void func_80015870(void);
 
-void func_800158B8(void)
+void Fade_InitOut(void)
 {
     FadeTransitionState *state = &D_800E9EC8;
 
