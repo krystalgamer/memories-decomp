@@ -94,6 +94,43 @@ Read the target both ways:
 Both of those are the same question asked in opposite directions: does a
 register in the target hold a value the source named?
 
+## An offset inside the relocation means the symbol was indexed directly
+
+When the two directions above are hard to call, the relocation itself
+usually settles it. Reaching a member through the symbol lets GCC fold the
+member offset into the relocation, and every other member is then reached
+relative to that fold:
+
+```c
+/* does not match */
+*(u16 *)(*(u8 **)(D_801845C0 + 4)) = *(u16 *)(D_801845C0 + 0);
+```
+
+```
+lui   $3, %hi(D_801845C0+4)     # offset folded into the relocation
+lw    $4, %lo(D_801845C0+4)($3)
+addiu $2, $3, %lo(D_801845C0+4)
+lhu   $3, -4($2)                # and the base is now reached backwards
+```
+
+A local pins the address so each member stays an ordinary load offset, which
+is what the target does:
+
+```c
+u8 *state = D_801845C0;
+*(u16 *)(*(u8 **)(state + 4)) = *(u16 *)state;
+```
+
+Two signals, either of which is enough:
+
+- `%hi(sym+N)` in the build where the target has a plain `%hi(sym)`. This is
+  not a relocation quirk to normalise away; it is the source having indexed
+  the symbol.
+- A **negative** load offset. A struct member should never need one, so it
+  means the base register points at some other member.
+
+Verified by `func_80181E30` in the main menu module.
+
 ## Signed and unsigned short tests
 
 A zero test compiled as `sll $rX, $rX, 16` followed by a branch is a **signed**
