@@ -594,3 +594,21 @@ State after this one-function checkpoint:
 | Intentional handwritten assembly | 63 |
 | Matching sources retaining GCC asm | 58 |
 | Accepted semantic mappings | 219 |
+
+### Continuous wave 21
+
+`AiScript_PlayFieldCard` (`0x80070F1C`) matched after enabling split addresses
+on the mixed G0-compile/G8-assemble profile. Compiling at G0 preserves the
+retail absolute accesses to the far AI state, while split address formation
+reproduces the target's instruction scheduling and frame size. The normalized
+pure-C source matches 220/220 bytes and exact relocations.
+
+State after this one-function checkpoint:
+
+| State | Count |
+|---|---:|
+| Matching C | 797 |
+| Terminal unmatched assembly | 336 |
+| Intentional handwritten assembly | 63 |
+| Matching sources retaining GCC asm | 58 |
+| Accepted semantic mappings | 221 |

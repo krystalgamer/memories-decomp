@@ -2602,7 +2602,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE88,D_800EAE88,D_800EAE88,0x80027508,func_80027508,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_017a28.s,write,8,"addiu $s0, $a2, %lo(D_800EAE88) | lui $a2, %hi(D_800EAE88) | (+1 more)"
 0x800EAE88,D_800EAE88,D_800EAE88,0x800279BC,func_800279BC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0181bc.s,address,,"addiu $a1, $a1, %lo(D_800EAE88) | addiu $a2, $a2, %lo(D_800EAE88) | (+4 more)"
 0x800EAE88,D_800EAE88,D_800EAE88,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,8,"func_8008E360(D_800EAE88, 0xC);"
-0x800EAE88,D_800EAE88,D_800EAE88,0x80070F1C,AiScript_PlayFieldCard,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_06171c.s,address,,"addiu $v1, $v1, %lo(D_800EAE88) | lui $v1, %hi(D_800EAE88)"
+0x800EAE88,D_800EAE88,D_800EAE88,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_play_field_card.c,write,,D_800EAE88.field_09 = (s8)first; | D_800EAE88.field_0A = (s8)category; | (+3 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x80072640,AiScript_FindFirstMonster,matching_c,game,C,src/game/ai_fusion.c,read,8,s32 index = D_800EAE88[i];
 0x800EAE88,D_800EAE88,D_800EAE88,0x800726F4,AiScript_FindFirstType,matching_c,game,C,src/game/ai_fusion.c,address,8,u8 *indices = D_800EAE88;
 0x800EAE88,D_800EAE88,D_800EAE88,0x80072F8C,AiScript_PlayFaceUp,matching_c,game,C,src/game/ai_script_actions.c,write,8,D_800EAE88[0] = a; | D_800EAE88[1] = b; | (+4 more)
@@ -2620,7 +2620,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE91,D_800EAE91,D_800EAE91,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00ddb4.s,read,8,"lbu $s4, %lo(D_800EAE91)($v0) | lui $v0, %hi(D_800EAE91)"
 0x800EAE91,D_800EAE91,D_800EAE91,0x800279BC,func_800279BC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0181bc.s,write,8,"lui $v1, %hi(D_800EAE91) | sb $zero, %lo(D_800EAE91)($v1)"
 0x800EAE92,D_800EAE92,D_800EAE92,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00ddb4.s,read,8,"lbu $s4, %lo(D_800EAE92)($v0) | lui $v0, %hi(D_800EAE92)"
-0x800EAE92,D_800EAE92,D_800EAE92,0x80070F1C,AiScript_PlayFieldCard,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_06171c.s,write,8,"lui $v0, %hi(D_800EAE92) | sb $zero, %lo(D_800EAE92)($v0)"
+0x800EAE92,D_800EAE92,D_800EAE92,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_play_field_card.c,write,,D_800EAE92 = 0;
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002CE64,Main_RunCampaign,matching_c,game,C,src/game/main_run_campaign.c,address,8,func_8002FFD4(D_800EAE98);
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002E470,func_8002E470,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01ec70.s,address,,"addiu $a0, $a0, %lo(D_800EAE98) | addiu $s0, $v0, %lo(D_800EAE98) | (+2 more)"
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002E730,func_8002E730,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01ef30.s,address,,"addiu $a0, $a0, %lo(D_800EAE98) | addiu $s1, $v0, %lo(D_800EAE98) | (+2 more)"
@@ -2904,7 +2904,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070C60,AiScript_JumpRandom,matching_c,game,C,src/game/ai_script_jumps.c,read,,register s32 *values = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070E20,AiScript_SetRandom,matching_c,game,C,src/game/ai_script_call_control.c,write,,gAiScript_aMemory[idx] = rand() % (hi - lo + 1) + lo;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070EB4,AiScript_Subtract,matching_c,game,C,src/game/ai_script_subtract.c,address,32,extern int gAiScript_aMemory[];extern int AiScript_ReadByte(void);void AiScript_Subtract(void){int a=AiScript_ReadByt...
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070F1C,AiScript_PlayFieldCard,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_06171c.s,address,,"addiu $s0, $s0, %lo(gAiScript_aMemory) | lui $s0, %hi(gAiScript_aMemory)"
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_play_field_card.c,read,32,s32 category = gAiScript_aMemory[AiScript_ReadByte()]; | s32 first = gAiScript_aMemory[AiScript_ReadByte()]; | (+2 more)
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071008,AiScript_CalcCardPower,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_061808.s,address,,"addiu $s0, $s0, %lo(gAiScript_aMemory) | addiu $v1, $v1, %lo(gAiScript_aMemory) | (+2 more)"
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071194,AiScript_TestHighStat,matching_c,game,C,src/game/ai_script_card_info.c,read_write,,gAiScript_aMemory[dest] = result; | register s32 *values = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071248,AiScript_LoadCardType,matching_c,game,C,src/game/ai_script_card_info.c,read,,s32 *memory = gAiScript_aMemory;
