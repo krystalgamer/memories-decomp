@@ -1,5 +1,7 @@
 #include "../types.h"
 
+#include "duel_card.h"
+
 typedef struct {
     u32 value;
     u8 pad4[0x12];
@@ -10,6 +12,28 @@ typedef struct {
 extern u8 D_8009B1D5;
 extern Entry D_801A7B64[];
 extern u16 Duel_CalcCardStats(Entry *);
+
+void func_8002C938(u32 *output, int alternate)
+{
+    register int base __asm__("$6") = D_8009B1D5 ? 5 : 20;
+    register int scaled __asm__("$3");
+    register DuelCardRecord *entry __asm__("$3");
+
+    if (alternate) {
+        base += 5;
+    }
+    scaled = base << 3;
+    scaled -= base;
+    scaled <<= 2;
+    entry = (DuelCardRecord *)((u8 *)D_801A7AD8 + scaled);
+    base = 0;
+    for (; base < 5; base++, entry++) {
+        if (entry->flags & 0x8000) {
+            *output++ = (u32)entry->object;
+        }
+    }
+    *output = 0;
+}
 
 void func_8002C9B4(u32 *output, int selector)
 {

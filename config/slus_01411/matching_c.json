@@ -1108,13 +1108,13 @@
       "address": "0x8002C938",
       "profile": "gcc_2_8_1_g0",
       "size": "0x7C",
-      "source": "src/game/func_8002C938.c"
+      "source": "src/game/duel_card_object_queries.c"
     },
     {
       "address": "0x8002C9B4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x19C",
-      "source": "src/game/func_8002C9B4.c"
+      "source": "src/game/duel_card_object_queries.c"
     },
     {
       "address": "0x8002CB50",
