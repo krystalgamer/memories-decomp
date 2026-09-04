@@ -1,0 +1,17 @@
+==== USER CONTEXT ====
+
+The script didn't work. It placed a breakpoint but it was never triggered. Tried every single button in the menu and nada.
+
+The main menu has 5 buttons, here's them from top to bottom:
+
+New Game
+Load
+2P Duel
+Trade
+Option
+
+
+Each one loads from a different side of the screen alternating. So "New Game" comes from the left, "Load" from right and so on.
+
+
+==== TRACE RESULT =====
