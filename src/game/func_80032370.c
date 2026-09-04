@@ -1,4 +1,0 @@
-#include "../types.h"
-
-extern short gDuel_awRecentCardDrops[];
-void func_80032370(void){register short*source __asm__("$6");register unsigned char*base __asm__("$4");register int i __asm__("$5");register short*current __asm__("$3");short*dest;__asm__ volatile("lui $2,%%hi(gDuel_awRecentCardDrops)\n\taddiu $6,$2,%%lo(gDuel_awRecentCardDrops)":"=r"(source)::"$2");base=(unsigned char*)source-0x56C;i=15;current=source+15;for(;i>=0;i--,current--)if(*current!=0&&base[*current-1]==0)*current=0;dest=source;for(i=0;i<16;i++,source++)if(*source){if(source!=dest){*dest=*source;*source=0;}dest++;}}
