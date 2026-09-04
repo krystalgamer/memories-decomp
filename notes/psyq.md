@@ -63,6 +63,7 @@ symbol review.
 | `0x800738C0` | `ExitCriticalSection` | Paired critical-section exit. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
 | `0x8007E3D0` | `CdGetSector` | Identified CD-sector transfer interface in the resident CD library. |
+| `0x8007E710` | `CdPosToInt` | Decodes the first three BCD bytes of a `CdlLOC` and returns a zero-based logical sector number. |
 | `0x8007F350` | `ResetGraph` | Anchored by GPU `sys.c` evidence and the documented graph-reset contract. |
 | `0x8007F978` | `LoadImage` | GPU transfer call sites pass rectangle-like coordinates and source data. |
 | `0x8007FAF0` | `ClearOTag` | Ordering-table initialization behavior. |
@@ -107,6 +108,18 @@ The first clean-room declaration is `src/psyq/libcd.h`:
 |---|---|
 | `CdlLOC` | Four-byte CD location. The resident MSF-to-LBA routine reads the BCD minute, second, and sector bytes at offsets `0`-`2`. |
 | `CdlFILE` | 24-byte search result with `CdlLOC` at `0`, size at `4`, and a 16-byte name at `8`. `DsSearchFile` copies records at a `0x18` stride, and `File_GetPosition` passes the leading location to the conversion routine. |
+
+The conversion routine at `0x8007E710` independently verifies the `CdlLOC`
+field order. It converts each of the first three bytes from packed BCD, then
+computes:
+
+```text
+logical_sector = (minute * 60 + second) * 75 + sector - 150
+```
+
+`File_GetPosition` passes `CdlFILE.pos` directly to this routine and stores
+the result as the file position. The fourth `track` byte is not read by this
+conversion and should not be mistaken for part of the sector calculation.
 
 ### Rectangle layout evidence
 
