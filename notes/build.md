@@ -126,8 +126,8 @@ make audit
 The audit performs a clean exact build, reconciles the function inventory,
 reapplies ownership classifications, generates progress metrics, and checks:
 
-- Every commit attributed to Copilot uses the exact `Copilot
-  <223556219+Copilot@users.noreply.github.com>` identity for both author and
+- Every commit attributed to Copilot uses the `Copilot` name with a
+  `+Copilot@users.noreply.github.com` e-mail address for both author and
   committer. Commits from other contributors are accepted as they are.
 - A Copilot commit carries no `Co-authored-by` trailer other than Copilot's
   own.

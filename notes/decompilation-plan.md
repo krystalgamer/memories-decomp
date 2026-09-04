@@ -112,9 +112,9 @@ with full-file comparison as the merge gate.
 - Keep commits atomic and push accumulated commits to `origin/master` about
   every 15 minutes during active decompilation. Continue working between push
   windows rather than waiting for the timer.
-- Attribute every implementation commit you make solely to
-  `Copilot <223556219+Copilot@users.noreply.github.com>`. Do not attribute your
-  commits to the user or add a `Co-authored-by` trailer for anyone else.
+- Attribute every implementation commit you make solely to the `Copilot` name
+  with a `+Copilot@users.noreply.github.com` e-mail address. Do not attribute
+  your commits to the user or add a `Co-authored-by` trailer for anyone else.
 - Run every project command from the current repository root. Do not change to,
   read project inputs from, or write project artifacts into parent, sibling, or
   unrelated directories.
@@ -264,9 +264,9 @@ directories.
 Git history is part of the project deliverable and must make progress easy to
 inspect and bisect:
 
-- Configure the repository-local Git author and committer identity as
-  `Copilot <223556219+Copilot@users.noreply.github.com>` before the first
-  implementation commit.
+- Configure the repository-local Git author and committer identity to the
+  `Copilot` name with a `+Copilot@users.noreply.github.com` e-mail address
+  before the first implementation commit.
 - Do not add `Co-authored-by` or other contributor trailers for anyone other
   than Copilot.
 - Make one commit for each complete logical change, normally after its targeted

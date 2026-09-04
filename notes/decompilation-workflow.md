@@ -292,9 +292,9 @@ be corroborated before being treated as final.
 
 ## Commit discipline
 
-- Copilot authors and commits its own changes under the exact `Copilot
-  <223556219+Copilot@users.noreply.github.com>` identity. Commits made by
-  other contributors keep their own identity.
+- Copilot authors and commits its own changes under the `Copilot` name with a
+  `+Copilot@users.noreply.github.com` e-mail address. Commits made by other
+  contributors keep their own identity.
 - Do not add a `Co-authored-by` trailer other than Copilot's own.
 - Make one validated logical change per commit.
 - Prefer one matched function per commit.

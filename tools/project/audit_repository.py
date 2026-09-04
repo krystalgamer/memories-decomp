@@ -19,7 +19,9 @@ class AuditError(RuntimeError):
 
 
 EXPECTED_NAME = "Copilot"
-EXPECTED_EMAIL = "223556219+Copilot@users.noreply.github.com"
+EXPECTED_EMAIL_SUFFIX = "+Copilot@users.noreply.github.com"
+EXPECTED_IDENTITY = f"{EXPECTED_NAME} <*{EXPECTED_EMAIL_SUFFIX}>"
+TRAILER_IDENTITY_PATTERN = re.compile(r"^(?P<name>.*?)\s*<(?P<email>[^>]*)>$")
 FORBIDDEN_TRACKED_PREFIXES = (
     "game/",
     "tmp/",
@@ -84,19 +86,24 @@ def git(root: Path, *arguments: str) -> str:
 
 
 def is_copilot_attributed(name: str, email: str) -> bool:
-    return (
-        name == EXPECTED_NAME
-        or email.casefold() == EXPECTED_EMAIL.casefold()
+    return name == EXPECTED_NAME or email.casefold().endswith(
+        EXPECTED_EMAIL_SUFFIX.casefold()
+    )
+
+
+def is_copilot_identity(name: str, email: str) -> bool:
+    return name == EXPECTED_NAME and email.casefold().endswith(
+        EXPECTED_EMAIL_SUFFIX.casefold()
     )
 
 
 def audit_identity(root: Path) -> None:
     name = git(root, "config", "--local", "user.name").strip()
     email = git(root, "config", "--local", "user.email").strip()
-    if (name, email) != (EXPECTED_NAME, EXPECTED_EMAIL):
+    if not is_copilot_identity(name, email):
         raise AuditError(
             f"local Git identity is {name} <{email}>, expected "
-            f"{EXPECTED_NAME} <{EXPECTED_EMAIL}>"
+            f"{EXPECTED_IDENTITY}"
         )
 
     commits = [
@@ -138,23 +145,21 @@ def audit_identity(root: Path) -> None:
         committer_is_copilot = is_copilot_attributed(
             committer_name, committer_email
         )
-        if author_is_copilot and (author_name, author_email) != (
-            EXPECTED_NAME,
-            EXPECTED_EMAIL,
+        if author_is_copilot and not is_copilot_identity(
+            author_name, author_email
         ):
             raise AuditError(
                 f"{commit}: Copilot-attributed author is "
                 f"{author_name} <{author_email}>, expected "
-                f"{EXPECTED_NAME} <{EXPECTED_EMAIL}>"
+                f"{EXPECTED_IDENTITY}"
             )
-        if committer_is_copilot and (committer_name, committer_email) != (
-            EXPECTED_NAME,
-            EXPECTED_EMAIL,
+        if committer_is_copilot and not is_copilot_identity(
+            committer_name, committer_email
         ):
             raise AuditError(
                 f"{commit}: Copilot-attributed committer is "
                 f"{committer_name} <{committer_email}>, expected "
-                f"{EXPECTED_NAME} <{EXPECTED_EMAIL}>"
+                f"{EXPECTED_IDENTITY}"
             )
         if not (author_is_copilot or committer_is_copilot):
             continue
@@ -163,10 +168,13 @@ def audit_identity(root: Path) -> None:
             message,
             flags=re.IGNORECASE | re.MULTILINE,
         )
-        expected_trailer = f"{EXPECTED_NAME} <{EXPECTED_EMAIL}>"
-        unexpected = [
-            trailer for trailer in trailers if trailer != expected_trailer
-        ]
+        unexpected = []
+        for trailer in trailers:
+            identity = TRAILER_IDENTITY_PATTERN.match(trailer)
+            if identity is None or not is_copilot_identity(
+                identity.group("name"), identity.group("email")
+            ):
+                unexpected.append(trailer)
         if unexpected:
             raise AuditError(
                 f"{commit}: unexpected Co-authored-by trailer "
