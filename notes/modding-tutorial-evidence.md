@@ -218,3 +218,46 @@ and is written as bytes `E8 03`.
   matchup returns.
 - **Confirmed** that changing only the tutorial's three offsets leaves the
   negative matchup modifier at `-500`.
+
+## Spellbinding Circle and Shadow Spell reductions
+
+**Tutorial:** `Shadow Spell e Spellbinding Circle.txt`
+
+The tutorial replaces two paired signed immediates in `func_80025D30`:
+
+| Spell | Role | SLUS offset | Retail bytes/value | Tutorial bytes/value |
+|---|---|---:|---|---|
+| Spellbinding Circle | Active-card modifier | `0x16660` | `0C FE` / `-500` | `44 FD` / `-700` |
+| Spellbinding Circle | Effect-record modifier | `0x1666C` | `0C FE` / `-500` | `44 FD` / `-700` |
+| Shadow Spell | Active-card modifier | `0x16680` | `18 FC` / `-1000` | `F1 D8` / `-9999` |
+| Shadow Spell | Effect-record modifier | `0x16688` | `18 FC` / `-1000` | `F1 D8` / `-9999` |
+
+The function selects the Spellbinding Circle branch when the current effect
+card ID is `0x15D` (decimal `349`). It subtracts `500` from the target
+`DuelCardRecord.stat_modifier` at offset `+0x12`, then stores the same
+`-500` value in the paired effect record. The alternate branch performs the
+same two writes with `-1000`, matching Shadow Spell's stronger two-level
+reduction documented by the card behavior research.
+
+The first value in each pair changes the duel state used by card-stat
+calculation. The second keeps the associated effect/display record aligned
+with that reduction. Editing only one offset can therefore make the applied
+modifier and its effect state disagree.
+
+The tutorial values are signed 16-bit little-endian integers:
+
+```text
+-700  = 0xFD44 -> 44 FD
+-9999 = 0xD8F1 -> F1 D8
+```
+
+Both replacements fit in the signed halfword written by the retail code.
+
+**Confidence:**
+
+- **Confirmed** that the retail pairs are `-500` and `-1000`.
+- **Confirmed** that the first write updates the active card's
+  `stat_modifier`.
+- **High** that the second write is the visual/effect-state counterpart; its
+  record is populated from the card's display object immediately before the
+  paired modifier write, but its complete layout remains unnamed.
