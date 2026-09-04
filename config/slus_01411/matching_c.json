@@ -4012,13 +4012,13 @@
       "address": "0x80059AE0",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/func_80059AE0.c"
+      "source": "src/game/model_state_setters.c"
     },
     {
       "address": "0x80059AEC",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/func_80059AEC.c"
+      "source": "src/game/model_state_setters.c"
     },
     {
       "address": "0x80059AF8",
