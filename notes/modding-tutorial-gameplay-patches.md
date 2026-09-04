@@ -71,6 +71,61 @@ modified input demonstrating the before/after layout.
 - **Tentative** that the `0x1BFB24` step repairs a particular editor's
   relocated restricted-card data.
 
+## Disable Exodia win detection
+
+**Tutorial:** `Desativar exodia.txt`
+
+The tutorial changes one immediate byte at each of two SLUS offsets:
+
+| SLUS offset | VRAM | Retail bytes | Instruction | Purpose |
+|---:|---:|---|---|---|
+| `0x952C` | `0x80018D2C` | `11 00 07 24` | `addiu $a3, $zero, 0x11` | First required Exodia card ID |
+| `0x959C` | `0x80018D9C` | `16 00 E2 28` | `slti $v0, $a3, 0x16` | Exclusive end of the required-ID range |
+
+Both instructions are in the exact matching C for `func_80018CF8`. The
+function copies five hand-slot indices, then searches those slots for each
+card ID from `0x11` through `0x15`. A matched slot is replaced with `-1`, so
+one card cannot satisfy more than one required ID. In simplified form, the
+function returns one only after finding all five pieces:
+
+```c
+for (a3 = 0x11; a3 < 0x16; a3++) {
+    for (i = 0; i < 5; i++) {
+        if (buf[i] >= 0 &&
+            D_8015C424.cards[buf[i]].id == a3) {
+            buf[i] = -1;
+            goto found;
+        }
+    }
+    return 0;
+found:;
+}
+return 1;
+```
+
+The caller at `0x80018FC4` keeps duel state `4` when the check returns zero
+and changes it to state `0xE` when the check succeeds. Existing duel research
+identifies that state transition as the `SUMMON Exodia` instant-win path.
+
+Changing the low immediate bytes from `0x11` and `0x16` to `0x00` makes the
+function search for card ID zero and changes the continuation test to
+`a3 < 0`. The compiled loop has a peeled first iteration, so this is not
+literally a zero-iteration loop. Instead, the first search fails for normal
+retail card data, where zero denotes an empty card and valid IDs are
+`1`-`722`, and the function returns zero before the Exodia state transition.
+
+**Confidence:**
+
+- **Confirmed** that `0x952C` and `0x959C` are the two Exodia card-range
+  immediates in `func_80018CF8`.
+- **Confirmed** that the retail function requires all five distinct IDs from
+  `0x11` through `0x15`.
+- **Confirmed** that the two-byte patch makes the check return zero for normal
+  retail card data.
+- **High** that caller state `0xE` is specifically the Exodia summon/win
+  presentation; the caller and existing duel research agree, but the state
+  itself does not yet have a semantic symbol.
+
 ## Additional end-of-duel starchips
 
 **Tutorial:** `Alterar Starchips - Por Wladmir Ghost.txt`
