@@ -1,2 +1,3 @@
 // main menu module (NEW GAME/LOAD/... and the post-load menu) -- resident while Main_RunMenu (0x8002D588) is the mode tick.
+gMain_apMenuEntries = 0x80184568;
 gMain_bMenuID = 0x80184594;

@@ -66,7 +66,7 @@ overlay-specific exact-match process. Do not add this module to the resident
 
 Established by the `main_menu_entry_slots` trace together with the player
 report that produced it. The module drives **two** menus, not one, and
-`D_80184568` holds the entries of both:
+`gMain_apMenuEntries` holds the entries of both:
 
 | slots | menu | entries |
 |---|---|---|
@@ -125,7 +125,8 @@ That the two agree on both the range and the split — and that the table ends
 exactly where the cursor byte begins — is what ties them together: the cursor
 selects an entry by indexing this array.
 
-`D_80184568` is therefore a strong candidate for a name along the lines of
-`gMain_apMenuEntries`. It is left address-based here only because the Splat
-`symbol_addrs_path` for this module is an external evidence file, and where a
-locally derived name should live is not a question this directory settles.
+That is what justifies the name `gMain_apMenuEntries`, declared in this
+module's symbol file beside `gMain_bMenuID` and recorded in
+[`../../../notes/semantic-symbol-map.csv`](../../../notes/semantic-symbol-map.csv).
+The password module sets the precedent: `gPassword_abDigits` is named the same
+way, in its own module file.

@@ -3,7 +3,7 @@
 extern void *D_80184558;
 extern void *D_8018455C;
 extern void *D_80184560;
-extern void *D_80184568[];
+extern void *gMain_apMenuEntries[];
 extern s32 D_800E9DB0;
 extern void func_8004036C(void *);
 
@@ -18,9 +18,9 @@ void func_80180DD0(void)
     func_8004036C(D_80184560);
     D_80184560 = 0;
     for (i = 0; i < 0xB; i++) {
-        if (D_80184568[i] != 0) {
-            func_8004036C(D_80184568[i]);
-            D_80184568[i] = 0;
+        if (gMain_apMenuEntries[i] != 0) {
+            func_8004036C(gMain_apMenuEntries[i]);
+            gMain_apMenuEntries[i] = 0;
         }
     }
     D_800E9DB0 = 0;
