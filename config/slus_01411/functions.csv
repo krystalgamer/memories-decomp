@@ -974,7 +974,7 @@ address,size,name,status,module,notes
 0x8005A468,0x5C,func_8005A468,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005A4C4,0x78,func_8005A4C4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005A53C,0xDC,func_8005A53C,unmatched_asm,game,
-0x8005A618,0x90,func_8005A618,unmatched_asm,game,
+0x8005A618,0x90,func_8005A618,matching_c,game,"Exact pure-C model-effect value lookup. Selects a coefficient from an indexed 3616-byte record, applies an index-dependent bias, and returns the signed remainder modulo 4096."
 0x8005A6A8,0x1D0,func_8005A6A8,unmatched_asm,game,
 0x8005A878,0x4C,func_8005A878,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8005A8C4,0xC8,Model_HasInsufficientBufferSpace,matching_c,game,Post-terminal pure-C match; absolute .data scalar declaration preserves D_800FE240 self-load codegen under G8.
