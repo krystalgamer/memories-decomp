@@ -354,7 +354,7 @@ address,size,name,status,module,notes
 0x8003006C,0x24,func_8003006C,matching_c,game,First -O2 -G8 candidate matched linked bytes and relocations.
 0x80030090,0x1C,func_80030090,matching_c,game,"31 pre-policy variants: exact with -G0 -mgas -msplit-addresses; earlier variants used the wrong address temporary, GPREL access, repeated loads, or extra instructions/frame."
 0x800300AC,0x1C,func_800300AC,matching_c,game,6 pre-policy variants: exact with -G0 -mgas -msplit-addresses; non-matching variants used the wrong address temporary or GPREL access.
-0x800300C8,0xD0,func_800300C8,unmatched_asm,game,
+0x800300C8,0xD0,func_800300C8,matching_c,game,"Exact post-terminal interface-layout match from corrected structure evidence; two local allocation pins, no statement-level assembly."
 0x80030198,0xB8,func_80030198,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80030250,0x44,func_80030250,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80030294,0x524,func_80030294,unmatched_asm,game,

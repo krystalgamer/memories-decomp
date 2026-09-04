@@ -1692,7 +1692,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B2DE,D_8009B2DE,D_8009B2DE,0x80031354,func_80031354,matching_c,game,C,src/game/func_80031354.c,read_write,,D_8009B2DE = 0; | if (D_8009B2DE == 0) {
 0x8009B2E0,D_8009B2E0,D_8009B2E0,0x80030250,func_80030250,matching_c,game,C,src/game/duel_interface_setup.c,write,8,D_8009B2E0 = field_E0;
 0x8009B2E0,D_8009B2E0,D_8009B2E0,0x80030294,func_80030294,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_020a94.s,read,8,"lb $v1, %gp_rel(D_8009B2E0)($gp) | lbu $v0, %gp_rel(D_8009B2E0)($gp)"
-0x8009B2E4,D_8009B2E4,D_8009B2E4,0x800300C8,func_800300C8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0208c8.s,read,32,"lw $a1, %gp_rel(D_8009B2E4)($gp)"
+0x8009B2E4,D_8009B2E4,D_8009B2E4,0x800300C8,func_800300C8,matching_c,game,C,src/game/func_800300C8.c,read,,struct LayoutTarget *target = D_8009B2E4;
 0x8009B2E4,D_8009B2E4,D_8009B2E4,0x80030198,func_80030198,matching_c,game,C,src/game/duel_interface_setup.c,write,,D_8009B2E4 = object;
 0x8009B2E4,D_8009B2E4,D_8009B2E4,0x80031354,func_80031354,matching_c,game,C,src/game/func_80031354.c,read,,LocalRecord *second = D_8009B2E4;
 0x8009B2E8,D_8009B2E8,D_8009B2E8,0x80030C10,func_80030C10,matching_c,game,C,src/game/menu_selection_states.c,read_write,8,D_8009B2E8 = *(u8 *)&gDebug_nSceneOrSoundID; | gDebug_nSceneOrSoundID = D_8009B2E8;
@@ -1717,7 +1717,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B2EC,D_8009B2EC,D_8009B2EC,0x80030294,func_80030294,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_020a94.s,read,32,"lw $a0, %gp_rel(D_8009B2EC)($gp)"
 0x8009B2F0,D_8009B2F0,D_8009B2F0,0x80030198,func_80030198,matching_c,game,C,src/game/duel_interface_setup.c,write,8,D_8009B2F0 = 0;
 0x8009B2F0,D_8009B2F0,D_8009B2F0,0x80031084,func_80031084,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_021884.s,read_write,8,"lbu $v0, %gp_rel(D_8009B2F0)($gp) | sb $v0, %gp_rel(D_8009B2F0)($gp)"
-0x8009B2F1,D_8009B2F1,D_8009B2F1,0x800300C8,func_800300C8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0208c8.s,read,8,"lbu $v0, %gp_rel(D_8009B2F1)($gp)"
+0x8009B2F1,D_8009B2F1,D_8009B2F1,0x800300C8,func_800300C8,matching_c,game,C,src/game/func_800300C8.c,read,,s32 index = D_8009B2F1;
 0x8009B2F1,D_8009B2F1,D_8009B2F1,0x80030FA0,func_80030FA0,matching_c,game,C,src/game/func_80030FA0.c,read,,s32 i = D_8009B2F1;
 0x8009B2F1,D_8009B2F1,D_8009B2F1,0x80031084,func_80031084,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_021884.s,read_write,8,"lb $v0, %gp_rel(D_8009B2F1)($gp) | lbu $v0, %gp_rel(D_8009B2F1)($gp) | (+4 more)"
 0x8009B2F8,D_8009B2F8,D_8009B2F8,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel_and_library.c,write,8,D_8009B2F8[0] = 0x80;
@@ -2671,7 +2671,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80043BCC,func_80043BCC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0343cc.s,address,,"addiu $a0, $a0, %lo(D_800EB0F8) | lui $a0, %hi(D_800EB0F8)"
 0x800EB12C,D_800EB12C,D_800EB12C,0x8002FA54,func_8002FA54,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_020254.s,read,32,"lui $v0, %hi(D_800EB12C) | lw $v0, %lo(D_800EB12C)($v0)"
 0x800EB15C,D_800EB15C,D_800EB15C,0x8002A2F4,func_8002A2F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01a6c4.s,address,,"addiu $a0, $a0, %lo(D_800EB15C) | lui $a0, %hi(D_800EB15C)"
-0x800EB15C,D_800EB15C,D_800EB15C,0x800300C8,func_800300C8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0208c8.s,address,,"addiu $a3, $v0, %lo(D_800EB15C) | lui $v0, %hi(D_800EB15C)"
+0x800EB15C,D_800EB15C,D_800EB15C,0x800300C8,func_800300C8,matching_c,game,C,src/game/func_800300C8.c,address,,struct LayoutSource *source = &D_800EB15C;
 0x800EB15C,D_800EB15C,D_800EB15C,0x8003C4E0,func_8003C4E0,matching_c,game,C,src/game/func_8003C4E0.c,address,8,func_80039A14(D_800EB15C);
 0x800EB184,D_800EB184,D_800EB184,0x80030090,func_80030090,matching_c,game,C,src/game/display_object_brightness.c,write,8,D_800EB184[12] = D_800EB184[13] = D_800EB184[14] = 0x40;
 0x800EB184,D_800EB184,D_800EB184,0x800300AC,func_800300AC,matching_c,game,C,src/game/display_object_brightness.c,write,8,D_800EB184[12] = D_800EB184[13] = D_800EB184[14] = 0x80;
