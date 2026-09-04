@@ -11,7 +11,7 @@ behavior.
 | Password/password shop | WA package `7983-8069`; phase `8054-8069` copies `0x7800` bytes | `0x80168000-0x8016F800` | [`password.txt`](../research/Unchiga_Symbols/modules/password.txt) | High |
 | Egypt overworld, before/after the coup | WA packages `8153-8311` and `8311-8469`; phases `8153-8159` and `8311-8317` copy `0x3000` bytes | `0x80168000-0x8016B000` | [`overworld.txt`](../research/Unchiga_Symbols/modules/overworld.txt) | High |
 | Main menu | SU phase `98-114` copies `0x8000` bytes and contains the observed `0x80180xxx` call targets | `0x80180000-0x80188000` | [`main_menu.txt`](../research/Unchiga_Symbols/modules/main_menu.txt) | High |
-| Name entry | Archive package not yet recovered from the resident loader trace | Verified WA screen bank `0x80168000-0x8017A000`; known symbols begin at `0x8016868C` | [`name_entry.txt`](../research/Unchiga_Symbols/modules/name_entry.txt) | Medium |
+| Name entry | Archive package not yet recovered from the resident loader trace | Verified WA screen bank `0x80168000-0x8017A000`; known symbol evidence spans `0x801680F4-0x8016D4D2` | [`name_entry.txt`](../research/Unchiga_Symbols/modules/name_entry.txt) | Medium |
 
 The WA package ranges include non-code phases copied to other destinations;
 the narrower loaded-code ranges above are not complete inner-file manifests.
