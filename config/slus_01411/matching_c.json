@@ -4126,13 +4126,13 @@
       "address": "0x8005A1F4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xEC",
-      "source": "src/game/func_8005A1F4.c"
+      "source": "src/game/model_distance_queries.c"
     },
     {
       "address": "0x8005A2E0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xF0",
-      "source": "src/game/func_8005A2E0.c"
+      "source": "src/game/model_distance_queries.c"
     },
     {
       "address": "0x8005A468",

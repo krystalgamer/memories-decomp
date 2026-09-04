@@ -2849,8 +2849,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F39B0,D_800F39B0,D_800F39B0,0x800591C0,func_800591C0,matching_c,game,C,src/game/func_800591C0.c,address,,entry = (unsigned char *)&D_800F39B0[index];
 0x800F39F0,D_800F39F0,D_800F39F0,0x8005949C,func_8005949C,matching_c,game,C,src/game/func_8005949C.c,address,,return &D_800F39F0[index];
 0x800F3A10,D_800F3A10,D_800F3A10,0x80052D2C,func_80052D2C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_042e94.s,address,,"addiu $v1, $v1, %lo(D_800F3A10) | lui $v1, %hi(D_800F3A10)"
-0x800F3A10,D_800F3A10,D_800F3A10,0x8005A1F4,func_8005A1F4,matching_c,game,C,src/game/func_8005A1F4.c,address,8,"typedef struct{short x,y,z,w;}__attribute__((packed))Vec;extern unsigned char D_800F3A10[];extern unsigned short D_80..."
-0x800F3A10,D_800F3A10,D_800F3A10,0x8005A2E0,func_8005A2E0,matching_c,game,C,src/game/func_8005A2E0.c,address,8,"typedef struct{short x,y,z,w;}__attribute__((packed))Vec;extern unsigned char D_800F3A10[];extern unsigned short D_80..."
+0x800F3A10,D_800F3A10,D_800F3A10,0x8005A1F4,func_8005A1F4,matching_c,game,C,src/game/model_distance_queries.c,address,8,u8 *entry = D_800F3A10 + index * 0xE20;
+0x800F3A10,D_800F3A10,D_800F3A10,0x8005A2E0,func_8005A2E0,matching_c,game,C,src/game/model_distance_queries.c,address,8,u8 *entry = D_800F3A10 + index * 0xE20;
 0x800F3A4F,D_800F3A4F,D_800F3A4F,0x8004EB00,func_8004EB00,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03f300.s,read,8,"lbu $v1, %lo(D_800F3A4F)($v0) | lui $v0, %hi(D_800F3A4F)"
 0x800F3A51,D_800F3A51,D_800F3A51,0x8004EB00,func_8004EB00,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03f300.s,read,8,"lbu $v1, %lo(D_800F3A51)($v0) | lui $v0, %hi(D_800F3A51)"
 0x800F3A54,D_800F3A54,D_800F3A54,0x8004FE2C,func_8004FE2C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03f300.s,read,8,"lbu $v1, %lo(D_800F3A54)($v0) | lui $v0, %hi(D_800F3A54)"
@@ -2878,8 +2878,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F56F0,D_800F56F0,D_800F56F0,0x80058624,func_80058624,matching_c,game,C,src/game/func_80058624.c,read,,a = D_800F56F0.x0; | dx = D_800F56F0.x0 - arg2; | (+1 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x800591FC,func_800591FC,matching_c,game,C,src/game/func_800591FC.c,address,8,return &D_800F56F0;
 0x800F56F0,D_800F56F0,D_800F56F0,0x80059CE4,func_80059CE4,matching_c,game,C,src/game/func_80059CE4.c,address,8,"extern unsigned char D_800F56F0[],D_8009AF94;extern void func_8008AD50(void*),func_8004EB00(void),func_8004FE2C(void)..."
-0x800F56F0,D_800F56F0,D_800F56F0,0x8005A1F4,func_8005A1F4,matching_c,game,C,src/game/func_8005A1F4.c,read,16,"typedef struct{short x,y,z,w;}__attribute__((packed))Vec;extern unsigned char D_800F3A10[];extern unsigned short D_80..."
-0x800F56F0,D_800F56F0,D_800F56F0,0x8005A2E0,func_8005A2E0,matching_c,game,C,src/game/func_8005A2E0.c,read,16,"typedef struct{short x,y,z,w;}__attribute__((packed))Vec;extern unsigned char D_800F3A10[];extern unsigned short D_80..."
+0x800F56F0,D_800F56F0,D_800F56F0,0x8005A1F4,func_8005A1F4,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.x = D_800F56F0[0] - *(u16 *)(entry + 0); | difference.y = D_800F56F0[2] - *(u16 *)(entry + 2); | (+1 more)
+0x800F56F0,D_800F56F0,D_800F56F0,0x8005A2E0,func_8005A2E0,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.x = D_800F56F0[6] - *(u16 *)(entry + 0); | difference.y = D_800F56F0[8] - *(u16 *)(entry + 2); | (+1 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x8005A6A8,func_8005A6A8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04ad3c.s,read,32,"addiu $s0, $s1, %lo(D_800F56F0) | lui $s1, %hi(D_800F56F0) | (+2 more)"
 0x800F56FC,D_800F56FC,D_800F56FC,0x80058434,func_80058434,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_048c34.s,address,,"addiu $s2, $v0, %lo(D_800F56FC) | lui $v0, %hi(D_800F56FC)"
 0x800F5710,D_800F5710,D_800F5710,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_800530C4.c,write,,D_800F5710 = D_800F56F0;

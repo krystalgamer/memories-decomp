@@ -1,3 +1,0 @@
-#include "../types.h"
-
-typedef struct{short x,y,z,w;}__attribute__((packed))Vec;extern unsigned char D_800F3A10[];extern unsigned short D_800F56F0[];extern void func_8008E3D0(void*,int,int);extern int func_80086E50(int);int func_8005A1F4(int index){Vec out,diff;unsigned char*e=D_800F3A10+index*0xE20;func_8008E3D0(&diff,0,8);diff.x=D_800F56F0[0]-*(unsigned short*)(e+0);diff.y=D_800F56F0[2]-*(unsigned short*)(e+2);diff.z=D_800F56F0[4]-*(unsigned short*)(e+4);out=diff;return func_80086E50(out.x*out.x+out.y*out.y+out.z*out.z);}
