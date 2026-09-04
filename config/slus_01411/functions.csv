@@ -941,7 +941,7 @@ address,size,name,status,module,notes
 0x80059590,0x38,func_80059590,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800595C8,0xD4,func_800595C8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005969C,0x64,func_8005969C,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80059700,0xC8,func_80059700,unmatched_asm,game,
+0x80059700,0xC8,func_80059700,matching_c,game,Exact post-terminal pure-C match; initializing the accepted a1 velocity pin from the incoming sign replaces an empty assembly liveness launder.
 0x800597C8,0xC4,func_800597C8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005988C,0x58,func_8005988C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800598E4,0x24,func_800598E4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
