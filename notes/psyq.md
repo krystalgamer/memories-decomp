@@ -130,6 +130,8 @@ Recommended header boundaries are:
 |---|---|
 | `src/psyq/libapi.h` | Events, critical sections, counters, and low-level memory-card/BIOS wrappers |
 | `src/psyq/malloc.h` | Heap initialization and the three allocator families |
+| `src/psyq/libsio.h` | Base SIO status, mode, control, lifecycle, and callback interface |
+| `src/psyq/libcomb.h` | COMB packet, transfer, control-line, and asynchronous request interface |
 | `src/psyq/libcd.h` | CD commands, locations, file records, callbacks, and sector transfers |
 | `src/psyq/libds.h` | Ds packet/streaming commands, locations, file records, and callbacks |
 | `src/psyq/libetc.h` | Simple pad polling, vertical sync, callbacks, and video mode |
@@ -157,6 +159,14 @@ provide older `InitTAP` and `InitGUN` lifecycle families with different
 buffers and control calls. Device role alone is therefore insufficient to
 substitute one family for another; use the header that matches the resident
 call signature.
+
+`libsio.h` and `libcomb.h` expose parallel serial interfaces. The SIO header
+defines the controller's status/mode bits, `AddSIO`/`DelSIO`,
+`_sio_control`, and `Sio1Callback`. The COMB header uses a distinct
+`_comb_control` entry point for packet sizing, buffered transfer counts,
+asynchronous requests, RTS/CTS, and VBlank signaling. Their overlapping
+status-bit names do not establish interchangeable call contracts. No current
+game C includes either header.
 
 `libmcrd.h` retains the SDK `kernel.h` dependency because
 `MemCardGetDirentry` exposes the full `DIRENTRY` record. Its local `r3000.h`
