@@ -56,7 +56,7 @@ source grouping.
 | `src/game/model_handler_registry.c` | `gcc_2_8_1_g8_split` | `Model_RegisterHandlerKey` (`0x80060170`), `Model_FindHandlerKey` (`0x800601D0`), and the following model setup helper at `0x80060220` |
 | `src/game/model_primitive_handler.c` | `gcc_2_8_1_g0_split` | Primitive-family selector (`0x800603DC`) and `Model_GetPrimitiveHandler` (`0x8006041C`) |
 | `src/game/ai_script_comparison_jumps.c` | `gcc_2_8_1_g0_split` | `AiScript_JumpGreaterEqual` (`0x800709C0`), `AiScript_JumpGreater` (`0x80070A40`) |
-| `src/game/ai_script_control.c` | `gcc_2_8_1_g8_split` | Compatible control suffix: `AiScript_Return` (`0x80070DA8`), `AiScript_SetRandom` (`0x80070E20`) |
+| `src/game/ai_script_call_control.c` | `gcc_2_8_1_g8_split` | Three call-stack and control helpers from `AiScript_Call` (`0x80070D00`) through `AiScript_SetRandom` (`0x80070E20`) |
 | `src/game/sound_output.c` | `gcc_2_8_1_g8` | Sound output initialization/control helpers from `0x80046F58` through `0x80047278`, including `SD_SetOutputType` |
 | `src/game/sound_frontend.c` | `gcc_2_8_1_g8` | Eight game-facing sound command wrappers from `SD_SEPlayFull` (`0x8003FEE0`) through `0x8003FFFC` |
 | `src/game/sound_init.c` | `gcc_2_8_1_g0` | Thirteen music/sequence and secondary sound-state initialization helpers from `0x80049200` through `0x800495EC`, including `SD_Init` |
@@ -96,14 +96,11 @@ splits are caused by at least one of:
 - noncontiguous executable addresses, which cannot share one object without
   changing layout.
 
-The proposed three-function AI control/call-stack group at
-`0x80070D00-0x80070E20` was rejected as a whole. `AiScript_Call` includes
-`ai.h` and declares `gAiScript_State` as `AiScriptState`, while
-`AiScript_Return` declares the same external object as its local `struct Big`.
-Those declarations are incompatible in one C translation unit without
-changing the accepted function source. The compatible contiguous suffix,
-`AiScript_Return` and `AiScript_SetRandom`, is grouped in
-`ai_script_control.c`; `AiScript_Call` remains independently compiled.
+The three-function AI call-control group at `0x80070D00-0x80070EB4` was
+initially blocked by incompatible local declarations of `gAiScript_State`.
+All three helpers now use the shared `AiScriptState` declaration from `ai.h`,
+so `AiScript_Call`, `AiScript_Return`, and `AiScript_SetRandom` build together
+in `ai_script_call_control.c`.
 
 ## Expansion policy
 
