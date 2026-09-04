@@ -2719,7 +2719,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE42,D_800EFE42,D_800EFE42,0x80041068,func_80041068,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0315d8.s,read,16,"lh $s3, %lo(D_800EFE42)($v0) | lui $v0, %hi(D_800EFE42)"
 0x800EFE44,D_800EFE44,D_800EFE44,0x80040D14,func_80040D14,matching_c,game,C,src/game/display_object_updates.c,read,16,s32 i = D_800EFE44[0];
 0x800EFE48,D_800EFE48,D_800EFE48,0x80015DB8,func_80015DB8,matching_c,game,C,src/game/display_projection.c,address,,entry = D_800EFE48 + object->slot;
-0x800EFE48,D_800EFE48,D_800EFE48,0x8004006C,func_8004006C,matching_c,game,C,src/game/func_8004006C.c,address,,Entry *entry = D_800EFE48;
+0x800EFE48,D_800EFE48,D_800EFE48,0x8004006C,func_8004006C,matching_c,game,C,src/game/display_object_slot_lookup.c,address,,DisplayObjectSlot *entry = D_800EFE48;
 0x800EFE48,D_800EFE48,D_800EFE48,0x800400AC,func_800400AC,matching_c,game,C,src/game/display_slot_links.c,write,,D_800EFE48[other].field_00 = index; | slot = &D_800EFE48[index];
 0x800EFE48,D_800EFE48,D_800EFE48,0x8004020C,func_8004020C,matching_c,game,C,src/game/display_slot_links.c,write,,D_800EFE48[first].field_02 = second; | D_800EFE48[second].field_00 = -1; | (+1 more)
 0x800EFE48,D_800EFE48,D_800EFE48,0x800402A0,func_800402A0,matching_c,game,C,src/game/func_800402A0.c,write,,D_800EFE48[v].unk0 = arg0->unkA[0];
@@ -2732,7 +2732,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040DD8,func_80040DD8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0315d8.s,address,,"addiu $v0, $v0, %lo(D_800EFE48) | lui $v0, %hi(D_800EFE48)"
 0x800EFE48,D_800EFE48,D_800EFE48,0x80041068,func_80041068,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0315d8.s,address,,"addiu $v0, $v0, %lo(D_800EFE48) | lui $v0, %hi(D_800EFE48)"
 0x800EFE48,D_800EFE48,D_800EFE48,0x80042B40,func_80042B40,matching_c,game,C,src/game/func_80042B40.c,address,8,u8 *object = D_800EFE48;
-0x800F0548,D_800F0548,D_800F0548,0x8004002C,func_8004002C,matching_c,game,C,src/game/func_8004002C.c,address,,Entry *entry = D_800F0548;
+0x800F0548,D_800F0548,D_800F0548,0x8004002C,func_8004002C,matching_c,game,C,src/game/display_object_slot_lookup.c,address,,DisplayObjectSlot *entry = D_800F0548;
 0x800F2848,D_800F2848,D_800F2848,0x8001352C,func_8001352C,matching_c,game,C,src/game/func_8001352C.c,address,8,s32 n = -*(s16 *)D_800F2848; | u8 *p = D_800F2848;
 0x800F2848,D_800F2848,D_800F2848,0x800135FC,func_800135FC,matching_c,game,C,src/game/func_800135FC.c,address,8,u8 *record = D_800F2848;
 0x800F2848,D_800F2848,D_800F2848,0x800164FC,func_800164FC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0065fc.s,address,,"addiu $s0, $s0, %lo(D_800F2848) | lui $s0, %hi(D_800F2848)"

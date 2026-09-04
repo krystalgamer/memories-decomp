@@ -2590,13 +2590,13 @@
       "address": "0x8004002C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
-      "source": "src/game/func_8004002C.c"
+      "source": "src/game/display_object_slot_lookup.c"
     },
     {
       "address": "0x8004006C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
-      "source": "src/game/func_8004006C.c"
+      "source": "src/game/display_object_slot_lookup.c"
     },
     {
       "address": "0x800400AC",
