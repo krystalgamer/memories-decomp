@@ -18,3 +18,14 @@ void func_80015780(void)
     state->step = 0xC;
     func_8001572C();
 }
+
+void func_800157DC(void)
+{
+    FadeTransitionState *state;
+
+    func_80015780();
+    state = &D_800E9EC8;
+    state->step = 8;
+    state->flags |= 1;
+    func_8001572C();
+}
