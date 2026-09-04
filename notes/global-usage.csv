@@ -1775,7 +1775,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B326,D_8009B326,D_8009B326,0x8003A560,func_8003A560,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02ac40.s,read_write,8,"lb $a1, %gp_rel(D_8009B326)($gp) | lb $v0, %gp_rel(D_8009B326)($gp) | (+2 more)"
 0x8009B327,D_8009B327,D_8009B327,0x800371A8,func_800371A8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0279a8.s,read_write,8,"lb $a0, %gp_rel(D_8009B327)($gp) | lbu $v1, %gp_rel(D_8009B327)($gp) | (+2 more)"
 0x8009B327,D_8009B327,D_8009B327,0x80038BF0,func_80038BF0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0293f0.s,write,8,"sb $a3, %gp_rel(D_8009B327)($gp) | sb $zero, %gp_rel(D_8009B327)($gp)"
-0x8009B328,D_8009B328,D_8009B328,0x800377C8,func_800377C8,matching_c,game,C,src/game/func_800377C8.c,read,8,p = D_8009B328; | u8 *q = D_8009B328; | (+2 more)
+0x8009B328,D_8009B328,D_8009B328,0x800377C8,func_800377C8,matching_c,game,C,src/game/duel_effect_trigger_state.c,read,8,p = D_8009B328; | u8 *q = D_8009B328; | (+2 more)
 0x8009B328,D_8009B328,D_8009B328,0x8003787C,func_8003787C,matching_c,game,C,src/game/func_8003787C.c,read,,a0b = D_8009B328;
 0x8009B328,D_8009B328,D_8009B328,0x800378D8,func_800378D8,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,8,if (D_8009B328[0x33] == 0) {
 0x8009B328,D_8009B328,D_8009B328,0x80037914,func_80037914,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,8,D_8009B328[0x32] = flags | 0x10; | D_8009B328[0x33] = 6; | (+1 more)
@@ -1857,7 +1857,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B356,D_8009B356,D_8009B356,0x80039794,func_80039794,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,read_write,8,"lbu $a0, %gp_rel(D_8009B356)($gp) | sb $a0, %gp_rel(D_8009B356)($gp)"
 0x8009B357,D_8009B357,D_8009B357,0x8003767C,func_8003767C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_027e7c.s,write,8,"sb $v0, %gp_rel(D_8009B357)($gp)"
 0x8009B357,D_8009B357,D_8009B357,0x8003771C,func_8003771C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_027e7c.s,write,8,"sb $v0, %gp_rel(D_8009B357)($gp)"
-0x8009B357,D_8009B357,D_8009B357,0x800377AC,func_800377AC,matching_c,game,C,src/game/func_800377AC.c,read,8,if (D_8009B357 == 0) {
+0x8009B357,D_8009B357,D_8009B357,0x800377AC,func_800377AC,matching_c,game,C,src/game/duel_effect_trigger_state.c,read,8,if (D_8009B357 == 0) {
 0x8009B357,D_8009B357,D_8009B357,0x800393B0,func_800393B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,read_write,8,"lbu $v0, %gp_rel(D_8009B357)($gp) | sb $zero, %gp_rel(D_8009B357)($gp)"
 0x8009B35A,D_8009B35A,D_8009B35A,0x800393B0,func_800393B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,write,16,"sh $a2, %gp_rel(D_8009B35A)($gp)"
 0x8009B35A,D_8009B35A,D_8009B35A,0x80039794,func_80039794,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,read_write,16,"lh $v0, %gp_rel(D_8009B35A)($gp) | sh $s4, %gp_rel(D_8009B35A)($gp) | (+1 more)"

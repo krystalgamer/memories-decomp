@@ -1828,13 +1828,13 @@
       "address": "0x800377AC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
-      "source": "src/game/func_800377AC.c"
+      "source": "src/game/duel_effect_trigger_state.c"
     },
     {
       "address": "0x800377C8",
       "profile": "gcc_2_8_1_g8",
       "size": "0xB4",
-      "source": "src/game/func_800377C8.c"
+      "source": "src/game/duel_effect_trigger_state.c"
     },
     {
       "address": "0x8003787C",

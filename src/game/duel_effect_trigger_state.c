@@ -1,6 +1,14 @@
 #include "../types.h"
 
 extern u8 *D_8009B328;
+extern u8 D_8009B357;
+
+void func_800377AC(u8 *object)
+{
+    if (D_8009B357 == 0) {
+        object[0x51] = 0;
+    }
+}
 
 void func_800377C8(u8 *arg0) {
     u8 v = arg0[0x51];
