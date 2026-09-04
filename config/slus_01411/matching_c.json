@@ -2161,6 +2161,12 @@
       "source": "src/game/display_object_fade_callbacks.c"
     },
     {
+      "address": "0x80039E9C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x80",
+      "source": "src/game/menu_record_reset.c"
+    },
+    {
       "address": "0x80039F1C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
