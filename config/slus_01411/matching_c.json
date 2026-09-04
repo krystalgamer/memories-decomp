@@ -1444,13 +1444,13 @@
       "address": "0x80030C10",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
-      "source": "src/game/func_80030C10.c"
+      "source": "src/game/menu_selection_states.c"
     },
     {
       "address": "0x80030CB0",
       "profile": "gcc_2_8_1_g8",
       "size": "0xAC",
-      "source": "src/game/func_80030CB0.c"
+      "source": "src/game/menu_selection_states.c"
     },
     {
       "address": "0x80030D5C",

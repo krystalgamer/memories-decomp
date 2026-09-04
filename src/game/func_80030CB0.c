@@ -1,4 +1,0 @@
-#include "../types.h"
-
-extern unsigned char D_8009B2EB;extern unsigned short gDebug_nSceneOrSoundID;extern unsigned char D_80090D28[],D_8009B26D[],D_8009B268[],D_8009B26C[];extern void func_80030250(void*,int,int,int,int,int,int);extern int func_80030294(void);
-void func_80030CB0(void){unsigned char f=D_8009B2EB;int r;if((f&0x80)==0){D_8009B2EB=f|0x80;gDebug_nSceneOrSoundID=D_8009B26D[0];func_80030250(D_80090D28,0x15,0,0,0x12,2,1);}r=func_80030294();if(r!=0){if(r<0)D_8009B2EB=0;else{D_8009B268[0]=1;D_8009B26C[0]=8;D_8009B26D[0]=*(unsigned char*)&gDebug_nSceneOrSoundID;}}}
