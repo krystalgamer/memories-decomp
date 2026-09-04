@@ -1,12 +1,22 @@
 #include "../types.h"
+
 #include "sound.h"
 
 extern int func_8004BAE4();
 extern int func_8004BB34();
 extern int func_8004BC2C();
-extern int func_8004BE6C();
 
-void func_8004BE88(u8 *p, s32 arg1) {
+void func_8004BE6C(int *value, int amount)
+{
+    *value += amount;
+}
+
+void func_8004BE80(void)
+{
+}
+
+void func_8004BE88(u8 *p, s32 arg1)
+{
     u8 *e;
     u8 *f;
     u32 v;
@@ -82,4 +92,16 @@ void func_8004BE88(u8 *p, s32 arg1) {
         func_8004BE6C((s32 *)p, func_8004BB34(p));
         break;
     }
+}
+
+void func_8004C0AC(void *input)
+{
+    unsigned int i = 0;
+    unsigned int count = func_8004BB34(input);
+
+    do {
+        i++;
+        if ((u8)func_8004BAE4(input) == 247)
+            break;
+    } while (i < count);
 }

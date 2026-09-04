@@ -2263,7 +2263,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004BAE4,func_8004BAE4,matching_c,game,C,src/game/sound_sequence_reader.c,read,,SDSecondaryState *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004BBBC,func_8004BBBC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03c3bc.s,read,32,"lui $v0, %hi(D_8009B458) | lw $v0, %lo(D_8009B458)($v0)"
 0x8009B458,D_8009B458,D_8009B458,0x8004BCE8,func_8004BCE8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03c4e8.s,read,32,"lui $a0, %hi(D_8009B458) | lui $v0, %hi(D_8009B458) | (+4 more)"
-0x8009B458,D_8009B458,D_8009B458,0x8004BE88,func_8004BE88,matching_c,game,C,src/game/func_8004BE88.c,read,,e = (u8 *)D_8009B458; | f = (u8 *)D_8009B458;
+0x8009B458,D_8009B458,D_8009B458,0x8004BE88,func_8004BE88,matching_c,game,C,src/game/sound_sequence_meta_events.c,read,,e = (u8 *)D_8009B458; | f = (u8 *)D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004C114,func_8004C114,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03c914.s,read,32,"lui $a0, %hi(D_8009B458) | lui $t1, %hi(D_8009B458) | (+4 more)"
 0x8009B458,D_8009B458,D_8009B458,0x8004C5C8,func_8004C5C8,matching_c,game,C,src/game/sound_sequence_timing.c,read,,switch (D_8009B458->timebase) {
 0x8009B458,D_8009B458,D_8009B458,0x8004C77C,func_8004C77C,matching_c,game,C,src/game/sound_sequence_timing.c,read,,"(u8 *)D_8009B458; | register u8 *initial asm(""$2"") = (u8 *)D_8009B458; | (+2 more)"

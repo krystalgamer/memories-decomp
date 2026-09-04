@@ -3664,25 +3664,25 @@
       "address": "0x8004BE6C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x14",
-      "source": "src/game/func_8004BE6C.c"
+      "source": "src/game/sound_sequence_meta_events.c"
     },
     {
       "address": "0x8004BE80",
       "profile": "gcc_2_8_1_g0",
       "size": "0x8",
-      "source": "src/game/func_8004BE80.c"
+      "source": "src/game/sound_sequence_meta_events.c"
     },
     {
       "address": "0x8004BE88",
       "profile": "gcc_2_8_1_g0",
       "size": "0x224",
-      "source": "src/game/func_8004BE88.c"
+      "source": "src/game/sound_sequence_meta_events.c"
     },
     {
       "address": "0x8004C0AC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x68",
-      "source": "src/game/func_8004C0AC.c"
+      "source": "src/game/sound_sequence_meta_events.c"
     },
     {
       "address": "0x8004C560",
