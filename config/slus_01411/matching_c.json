@@ -1270,13 +1270,13 @@
       "address": "0x8002E3B4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_8002E3B4.c"
+      "source": "src/game/script_command_busy.c"
     },
     {
       "address": "0x8002E3DC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x20",
-      "source": "src/game/func_8002E3DC.c"
+      "source": "src/game/script_command_busy.c"
     },
     {
       "address": "0x8002E3FC",

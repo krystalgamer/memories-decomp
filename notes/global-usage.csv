@@ -1591,7 +1591,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B27A,D_8009B27A,D_8009B27A,0x8002EE94,func_8002EE94,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01f694.s,write,8,"sb $v1, %gp_rel(D_8009B27A)($gp)"
 0x8009B27A,D_8009B27A,D_8009B27A,0x80030998,func_80030998,matching_c,game,C,src/game/func_80030998.c,write,8,".reloc .-4, R_MIPS_HI16, D_8009B27A after .word 0x3C010000 | .reloc .-4, R_MIPS_LO16, D_8009B27A after .word 0xA0230000"
 0x8009B27A,D_8009B27A,D_8009B27A,0x8003D0F4,SaveData_ApplyRuntimeState,matching_c,game,C,src/game/save_data_apply_runtime_state.c,write,,D_8009B27A = state->field_5DC;
-0x8009B27C,D_8009B27C,D_8009B27C,0x8002E3B4,func_8002E3B4,matching_c,game,C,src/game/func_8002E3B4.c,read_write,16,D_8009B27C = value | 0x8000; | unsigned short value = D_8009B27C;
+0x8009B27C,D_8009B27C,D_8009B27C,0x8002E3B4,func_8002E3B4,matching_c,game,C,src/game/script_command_busy.c,read_write,16,D_8009B27C = value | 0x8000; | u16 value = D_8009B27C;
 0x8009B27C,D_8009B27C,D_8009B27C,0x8002E470,func_8002E470,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01ec70.s,read_write,16,"lhu $a1, %gp_rel(D_8009B27C)($gp) | sh $v0, %gp_rel(D_8009B27C)($gp) | (+1 more)"
 0x8009B27C,D_8009B27C,D_8009B27C,0x8002E5AC,func_8002E5AC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01ec70.s,read_write,16,"lhu $v0, %gp_rel(D_8009B27C)($gp) | sh $v0, %gp_rel(D_8009B27C)($gp) | (+1 more)"
 0x8009B27C,D_8009B27C,D_8009B27C,0x8002E6B8,func_8002E6B8,matching_c,game,C,src/game/func_8002E6B8.c,write,16,void func_8002E6B8(void){register unsigned char*p=D_8009B290;register unsigned char*p2=p+2;register unsigned char*p4;...

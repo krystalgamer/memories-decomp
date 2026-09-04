@@ -1,14 +1,19 @@
 #include "../types.h"
 
-extern unsigned short D_8009B27C;
+extern u16 D_8009B27C;
 
-int func_8002E3B4(void)
+s32 func_8002E3B4(void)
 {
-    unsigned short value = D_8009B27C;
+    u16 value = D_8009B27C;
 
     if (!(value & 0x8000)) {
         D_8009B27C = value | 0x8000;
         return 0;
     }
     return 1;
+}
+
+void func_8002E3DC(void)
+{
+    func_8002E3B4();
 }
