@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-extern u8 *D_80184568[];
+extern u8 *gMain_apMenuEntries[];
 extern u8 D_80184596;
 extern u8 D_80184599;
 
@@ -15,16 +15,16 @@ void func_80180D2C(s32 mode)
         } else {
             offset = -0xA0;
         }
-        if (D_80184568[i] != 0) {
+        if (gMain_apMenuEntries[i] != 0) {
             if (mode != 0) {
-                *(s16 *)(D_80184568[i] + 0x36) = 0xA0;
-                *(s16 *)(D_80184568[i] + 0x38) = offset;
+                *(s16 *)(gMain_apMenuEntries[i] + 0x36) = 0xA0;
+                *(s16 *)(gMain_apMenuEntries[i] + 0x38) = offset;
             } else {
-                *(s16 *)(D_80184568[i] + 0x36) = offset;
-                *(s16 *)(D_80184568[i] + 0x38) = 0xA0;
+                *(s16 *)(gMain_apMenuEntries[i] + 0x36) = offset;
+                *(s16 *)(gMain_apMenuEntries[i] + 0x38) = 0xA0;
             }
-            *(s16 *)(D_80184568[i] + 0x30) = *(u16 *)(D_80184568[i] + 0x36);
-            *(s16 *)(D_80184568[i] + 0x60) = 0x10;
+            *(s16 *)(gMain_apMenuEntries[i] + 0x30) = *(u16 *)(gMain_apMenuEntries[i] + 0x36);
+            *(s16 *)(gMain_apMenuEntries[i] + 0x60) = 0x10;
         }
     }
     D_80184596 = mode;
