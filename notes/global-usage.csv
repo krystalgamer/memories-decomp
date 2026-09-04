@@ -3244,7 +3244,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D0000,D_801D0000,D_801D0000,0x8002C518,func_8002C518,matching_c,game,C,src/game/duel_deck_lookup.c,read,8,flag = (D_801D0000[a0 + 591] != 0) ? 1 : -1;
 0x801D0000,D_801D0000,D_801D0000,0x8002C570,func_8002C570,matching_c,game,C,src/game/func_8002C570.c,address,,object = (Object *)((unsigned int)&D_801D0000 + offset);
 0x801D0000,D_801D0000,D_801D0000,0x8002CCA8,Campaign_TestStoryFlag,matching_c,game,C,src/game/campaign_test_story_flag.c,address,8,u8 *p = &D_801D0000[i];
-0x801D0000,D_801D0000,D_801D0000,0x8002CCE4,Library_UpdateCardUsedFlag,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01d4e4.s,address,,"addiu $v1, $v1, %lo(D_801D0000) | lui $v1, %hi(D_801D0000)"
+0x801D0000,D_801D0000,D_801D0000,0x8002CCE4,Library_UpdateCardUsedFlag,matching_c,game,C,src/game/library_update_card_used_flag.c,address,8,p = &D_801D0000[i];
 0x801D0000,D_801D0000,D_801D0000,0x8002EE94,func_8002EE94,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01f694.s,address,,"addiu $s0, $v0, %lo(D_801D0000) | lui $v0, %hi(D_801D0000)"
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,address,,"addiu $a0, $v0, %lo(gDuel_awPlayerDeck) | lui $v0, %hi(gDuel_awPlayerDeck)"
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x80021894,Duel_AwardCard,matching_c,game,C,src/game/duel_rewards.c,address,8,u8 *base = gDuel_awPlayerDeck;
