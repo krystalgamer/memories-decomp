@@ -1,5 +1,17 @@
 #include "../types.h"
 
+#define SAVE_DATA_PRIMARY_LENGTH 0x340
+#define SAVE_DATA_PRIMARY_MASK_LAST_OFFSET 0x378
+#define SAVE_DATA_PRIMARY_MASK_WORD_COUNT 15
+#define SAVE_DATA_PRIMARY_CHECKSUM_OFFSET \
+    (SAVE_DATA_PRIMARY_MASK_LAST_OFFSET + sizeof(s32))
+#define SAVE_DATA_SECONDARY_OFFSET 0x380
+#define SAVE_DATA_SECONDARY_LENGTH 0x6C
+#define SAVE_DATA_SECONDARY_MASK_LAST_OFFSET 0x3F8
+#define SAVE_DATA_SECONDARY_MASK_WORD_COUNT 4
+#define SAVE_DATA_SECONDARY_CHECKSUM_OFFSET \
+    (SAVE_DATA_SECONDARY_MASK_LAST_OFFSET + sizeof(s32))
+
 extern u32 D_8009AF64;
 extern u32 D_8009AF68;
 
@@ -49,13 +61,13 @@ u32 func_8003CEB8(u8 *data, s32 len)
 
 void func_8003CF14(u8 *data)
 {
-    s32 value = func_8003CEB8(data, 0x340);
+    s32 value = func_8003CEB8(data, SAVE_DATA_PRIMARY_LENGTH);
     u32 seed = value & 0xFFFF;
-    s32 *output = (s32 *)(data + 0x378);
-    s32 i = 0xF;
+    s32 *output = (s32 *)(data + SAVE_DATA_PRIMARY_MASK_LAST_OFFSET);
+    s32 i = SAVE_DATA_PRIMARY_MASK_WORD_COUNT;
 
-    *(s16 *)(data + 0x37E) = value;
-    *(s16 *)(data + 0x37C) = value;
+    *(s16 *)(data + SAVE_DATA_PRIMARY_CHECKSUM_OFFSET + sizeof(s16)) = value;
+    *(s16 *)(data + SAVE_DATA_PRIMARY_CHECKSUM_OFFSET) = value;
     D_8009AF68 = seed | (seed << 16);
     D_8009AF64 = seed | (seed << 16);
 
@@ -65,13 +77,16 @@ void func_8003CF14(u8 *data)
         output--;
     } while (i != 0);
 
-    value = func_8003CEB8(data + 0x380, 0x6C);
+    value = func_8003CEB8(
+        data + SAVE_DATA_SECONDARY_OFFSET,
+        SAVE_DATA_SECONDARY_LENGTH
+    );
     seed = value & 0xFFFF;
-    output = (s32 *)(data + 0x3F8);
-    i = 4;
+    output = (s32 *)(data + SAVE_DATA_SECONDARY_MASK_LAST_OFFSET);
+    i = SAVE_DATA_SECONDARY_MASK_WORD_COUNT;
 
-    *(s16 *)(data + 0x3FE) = value;
-    *(s16 *)(data + 0x3FC) = value;
+    *(s16 *)(data + SAVE_DATA_SECONDARY_CHECKSUM_OFFSET + sizeof(s16)) = value;
+    *(s16 *)(data + SAVE_DATA_SECONDARY_CHECKSUM_OFFSET) = value;
     D_8009AF68 = seed | (seed << 16);
     D_8009AF64 = seed | (seed << 16);
 
