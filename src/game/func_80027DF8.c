@@ -132,7 +132,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
                 out += 1;
             }
             i += 1;
-        } while (i < 5);
+        } while (i < HAND_SIZE);
     }
 
     {
