@@ -1402,13 +1402,13 @@
       "address": "0x80030050",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
-      "source": "src/game/func_80030050.c"
+      "source": "src/game/script_readers.c"
     },
     {
       "address": "0x8003006C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x24",
-      "source": "src/game/func_8003006C.c"
+      "source": "src/game/script_readers.c"
     },
     {
       "address": "0x80030090",

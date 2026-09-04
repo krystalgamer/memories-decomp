@@ -1634,8 +1634,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B290,D_8009B290,D_8009B290,0x8002F968,func_8002F968,matching_c,game,C,src/game/func_8002F968.c,read_write,8,D_8009B290 = p + 2; | unsigned char *p = D_8009B290;
 0x8009B290,D_8009B290,D_8009B290,0x8002F9D4,func_8002F9D4,matching_c,game,C,src/game/func_8002F9D4.c,read_write,8,D_8009B290 = current + 2; | if (func_8002EE5C() == 0) D_8009B290 = D_801A8000 + offset; | (+1 more)
 0x8009B290,D_8009B290,D_8009B290,0x8002FA54,func_8002FA54,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_020254.s,read_write,32,"lw $v0, %gp_rel(D_8009B290)($gp) | sw $v0, %gp_rel(D_8009B290)($gp)"
-0x8009B290,D_8009B290,D_8009B290,0x80030050,func_80030050,matching_c,game,C,src/game/func_80030050.c,read_write,8,return *D_8009B290++;
-0x8009B290,D_8009B290,D_8009B290,0x8003006C,func_8003006C,matching_c,game,C,src/game/func_8003006C.c,read_write,8,D_8009B290 = current + 2; | u8 *current = D_8009B290;
+0x8009B290,D_8009B290,D_8009B290,0x80030050,func_80030050,matching_c,game,C,src/game/script_readers.c,read_write,8,return *D_8009B290++;
+0x8009B290,D_8009B290,D_8009B290,0x8003006C,func_8003006C,matching_c,game,C,src/game/script_readers.c,read_write,8,D_8009B290 = current + 2; | u8 *current = D_8009B290;
 0x8009B294,D_8009B294,D_8009B294,0x8002EA0C,func_8002EA0C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01f20c.s,read_write,32,"lw $a0, %gp_rel(D_8009B294)($gp) | sw $v1, %gp_rel(D_8009B294)($gp)"
 0x8009B298,D_8009B298,D_8009B298,0x8002EA0C,func_8002EA0C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01f20c.s,read_write,32,"lw $a1, %gp_rel(D_8009B298)($gp) | sw $v0, %gp_rel(D_8009B298)($gp)"
 0x8009B29C,D_8009B29C,D_8009B29C,0x8002E9A0,func_8002E9A0,matching_c,game,C,src/game/script_flag_commands.c,write,16,D_8009B29C = cursor[0] | (cursor[1] << 8);
