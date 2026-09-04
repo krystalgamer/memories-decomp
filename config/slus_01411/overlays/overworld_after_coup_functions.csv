@@ -18,6 +18,4 @@ address,size,name,status,module,notes
 0x80168AA8,0x364,func_80168AA8,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split.
 0x80168E0C,0x1C0,CampaignMap_PickExit,unmatched_asm,overlay/overworld_after_coup,Name from module-scoped external symbols; exact boundary from the verified overlay split.
 0x80168FCC,0x1DC,func_80168FCC,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split.
-0x80169608,0x4,gCampaignMap_MoveState,unmatched_asm,overlay/overworld_after_coup,Name from module-scoped external symbols; exact boundary from the verified overlay split.
-0x8016960C,0x4,gCampaignMap_Location,unmatched_asm,overlay/overworld_after_coup,Name from module-scoped external symbols; exact boundary from the verified overlay split.
 0x801697D0,0x684,func_801697D0,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split.
