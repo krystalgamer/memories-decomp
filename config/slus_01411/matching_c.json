@@ -1462,13 +1462,13 @@
       "address": "0x80030E30",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/func_80030E30.c"
+      "source": "src/game/duel_effect_mode_states.c"
     },
     {
       "address": "0x80030E7C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/func_80030E7C.c"
+      "source": "src/game/duel_effect_mode_states.c"
     },
     {
       "address": "0x80030EC8",
