@@ -142,7 +142,7 @@ __asm__(
     ".word 0x14400018\n"
     ".word 0x00000000\n"
     ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80035B7C\n"
+    ".reloc .-4, R_MIPS_26, TextBox_Destroy\n"
     ".word 0x00000000\n"
     ".word 0x24020002\n"
     ".word 0xA3820000\n"

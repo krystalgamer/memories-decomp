@@ -1714,7 +1714,7 @@
       "address": "0x80035B7C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x68",
-      "source": "src/game/func_80035B7C.c"
+      "source": "src/game/text_box_destroy.c"
     },
     {
       "address": "0x80035BE4",

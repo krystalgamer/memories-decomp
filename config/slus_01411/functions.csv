@@ -424,7 +424,7 @@ address,size,name,status,module,notes
 0x80035A64,0x54,func_80035A64,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80035AB8,0x38,TextBox_SetRect,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80035AF0,0x8C,DuelEffect_InitEntry,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_o1_g0.
-0x80035B7C,0x68,func_80035B7C,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80035B7C,0x68,TextBox_Destroy,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80035BE4,0x54,TextBox_Create,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80035C38,0x70,TextBox_CreateFlagged,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80035CA8,0x3C,func_80035CA8,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.

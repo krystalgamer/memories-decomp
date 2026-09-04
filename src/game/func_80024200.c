@@ -19,7 +19,7 @@ extern void func_800235C0(void), func_8002C6C8(void);
 extern int func_80026B34(void), DuelEffect_UpdateState(void);
 extern void SD_SEPlayFull(int);
 extern Window *TextBox_CreateFlagged(int, int, int, int, int, int, int);
-extern void func_80039794(void), func_80035B7C(Window *);
+extern void func_80039794(void), TextBox_Destroy(Window *);
 
 void func_80024200(void)
 {
@@ -53,7 +53,7 @@ void func_80024200(void)
                 "addiu %0,$2,%%lo(D_800EB224)"
                 : "=r"(cleanup));
             if (cleanup->flags & 0x2000) {
-                func_80035B7C(cleanup);
+                TextBox_Destroy(cleanup);
                 D_8009B164 = 0;
                 if (D_8009B34D[0] != 0)
                     D_8009B16C |= 0x2000;
