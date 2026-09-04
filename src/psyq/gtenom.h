@@ -15,7 +15,7 @@ read_sz_fifo3			macro	reg1,reg2,reg3
 				nop
 				endm
 
-read_sz_fifo4			macro	reg1,reg2,reg3,reg4 	
+read_sz_fifo4			macro	reg1,reg2,reg3,reg4
 				mfc2	reg1,r16
 				mfc2	reg2,r17
 				mfc2	reg3,r18
@@ -27,22 +27,22 @@ read_szx			macro	reg1
 				mfc2	reg1,r16
 				nop
 				endm
-			
+
 read_sz0			macro	reg1
 				mfc2	reg1,r17
 				nop
 				endm
-			
-read_sz1			macro	reg1				
+
+read_sz1			macro	reg1
 				mfc2	reg1,r18
 				nop
 				endm
-			
+
 read_sz2			macro	reg1
 				mfc2	reg1,r19
 				nop
 				endm
-			
+
 read_sxsy_fifo3			macro	reg1,reg2,reg3
 				mfc2	reg1,r12
 				mfc2	reg2,r13
@@ -50,7 +50,7 @@ read_sxsy_fifo3			macro	reg1,reg2,reg3
 				nop
 				endm
 
-read_sxsy0			macro	reg1	
+read_sxsy0			macro	reg1
 				mfc2	reg1,r12
 				nop
 				endm
@@ -77,7 +77,7 @@ read_rgb0			macro	reg1
 				nop
 				endm
 
-read_rgb1			macro	reg1	
+read_rgb1			macro	reg1
 				mfc2	reg1,r21
 				nop
 				endm

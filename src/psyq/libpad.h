@@ -10,7 +10,7 @@
  * $PSLibId: Run-time Library Release 4.6$
  */
 
-/* don't change these macros and structures which is referred in controler code */ 
+/* don't change these macros and structures which is referred in controler code */
 
 #ifndef TRUE
 #define TRUE		1

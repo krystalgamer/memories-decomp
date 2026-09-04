@@ -28,10 +28,10 @@ struct device_table {
 	int (*dt_firstfile)();	/* directory serach routine */
 	int (*dt_nextfile)();	/* directory serach routine */
 	int (*dt_format)();
-	int (*dt_cd)();	
-	int (*dt_rename)();	
-	int (*dt_remove)();	
-	int (*dt_else)();	
+	int (*dt_cd)();
+	int (*dt_rename)();
+	int (*dt_remove)();
+	int (*dt_else)();
 };
 #endif /* LANGUAGE_C */
 
@@ -69,7 +69,7 @@ struct device_buf {
 /* io block */
 #if defined(_LANGUAGE_C)||defined(LANGUAGE_C)||defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 struct	iob {
-	int	i_flgs;		
+	int	i_flgs;
 	int	i_unit;		/* pseudo device unit */
 	char	*i_ma;		/* memory address of i/o buffer */
 	unsigned int	i_cc;		/* character count of transfer */

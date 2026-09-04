@@ -1,6 +1,6 @@
 /*
  * File:strings.h
- * string functions pseudo definition header 
+ * string functions pseudo definition header
  */
 /*
  * $PSLibId: Run-time Library Release 4.6$

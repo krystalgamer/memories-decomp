@@ -1,17 +1,19 @@
 #ifndef _LIBGS_H_
 #define _LIBGS_H_
 
+#include "../types.h"
+
 /*
  * $PSLibId: Run-time Library Release 4.6$
  */
 
 /*
- * libgs.h: Graphic Library Header 
+ * libgs.h: Graphic Library Header
  *
  *
- * Version 1.**	Apr,  8, 1994 
+ * Version 1.**	Apr,  8, 1994
  *
- * Copyright (C) 1993 by Sony Corporation All rights Reserved 
+ * Copyright (C) 1993 by Sony Corporation All rights Reserved
  */
 
 #ifndef NULL
@@ -247,7 +249,7 @@ typedef struct {
 #define GsLMODE_LOFF   2
 
 /*
- * libgs macro 
+ * libgs macro
  */
 #define GsOFSGTE 0
 #define GsOFSGPU 4
@@ -257,7 +259,7 @@ typedef struct {
 #define GsRESET3 (3<<4)
 
 /*
- * object attribute set macro 
+ * object attribute set macro
  */
 #define GsLDIM0 0
 #define GsLDIM1 1
@@ -285,7 +287,7 @@ typedef struct {
 #define GsALON   (1<<30)
 #define GsDOFF   (1<<31)
 /*
- * BG/sprite attribute set macro 
+ * BG/sprite attribute set macro
  */
 #define GsPERS   (1<<26)
 #define GsROTOFF (1<<27)
@@ -306,7 +308,7 @@ typedef struct {
 #define GsVFLIP		0x02
 
 /*
- * TMD structure 
+ * TMD structure
  */
 /*** GTE PACKET to-GPU command '<packet-name>.code' ***/
 #define GPU_COM_F3    0x20
@@ -332,241 +334,241 @@ typedef struct {
 
 /*** TMD structure ****/
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  r0, g0, b0, code;
-	u_short n0, v0;
-	u_short v1, v2;
+	u8  out, in, dummy, cd;
+	u8  r0, g0, b0, code;
+	u16 n0, v0;
+	u16 v1, v2;
 }       TMD_P_F3;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  r0, g0, b0, code;
-	u_short n0, v0;
-	u_short n1, v1;
-	u_short n2, v2;
+	u8  out, in, dummy, cd;
+	u8  r0, g0, b0, code;
+	u16 n0, v0;
+	u16 n1, v1;
+	u16 n2, v2;
 }       TMD_P_G3;
 
 typedef struct {
-	u_char	out, in, dummy, cd;
-	u_char	r0, g0, b0, code;
-	u_char	r1, g1, b1, dummy1;
-	u_char	r2, g2, b2, dummy2;
-	u_short n0, v0;
-	u_short v1, v2;
+	u8	out, in, dummy, cd;
+	u8	r0, g0, b0, code;
+	u8	r1, g1, b1, dummy1;
+	u8	r2, g2, b2, dummy2;
+	u16 n0, v0;
+	u16 v1, v2;
 }       TMD_P_F3G;
 
 typedef struct {
-	u_char	out, in, dummy, cd;
-	u_char	r0, g0, b0, code;
-	u_char	r1, g1, b1, dummy1;
-	u_char	r2, g2, b2, dummy2;
-	u_short n0, v0;
-	u_short n1, v1;
-	u_short n2, v2;
+	u8	out, in, dummy, cd;
+	u8	r0, g0, b0, code;
+	u8	r1, g1, b1, dummy1;
+	u8	r2, g2, b2, dummy2;
+	u16 n0, v0;
+	u16 n1, v1;
+	u16 n2, v2;
 }       TMD_P_G3G;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  r0, g0, b0, code;
-	u_short v0, v1;
-	u_short v2, p;
+	u8  out, in, dummy, cd;
+	u8  r0, g0, b0, code;
+	u16 v0, v1;
+	u16 v2, p;
 }       TMD_P_NF3;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  r0, g0, b0, code;
-	u_char  r1, g1, b1, p1;
-	u_char  r2, g2, b2, p2;
-	u_short v0, v1;
-	u_short v2, p;
+	u8  out, in, dummy, cd;
+	u8  r0, g0, b0, code;
+	u8  r1, g1, b1, p1;
+	u8  r2, g2, b2, p2;
+	u16 v0, v1;
+	u16 v2, p;
 }       TMD_P_NG3;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  r0, g0, b0, code;
-	u_short n0, v0;
-	u_short v1, v2;
-	u_short v3, p;
+	u8  out, in, dummy, cd;
+	u8  r0, g0, b0, code;
+	u16 n0, v0;
+	u16 v1, v2;
+	u16 v3, p;
 }       TMD_P_F4;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  r0, g0, b0, code;
-	u_short n0, v0;
-	u_short n1, v1;
-	u_short n2, v2;
-	u_short n3, v3;
+	u8  out, in, dummy, cd;
+	u8  r0, g0, b0, code;
+	u16 n0, v0;
+	u16 n1, v1;
+	u16 n2, v2;
+	u16 n3, v3;
 }       TMD_P_G4;
 
 typedef struct {
-	u_char	out, in, dummy, cd;
-	u_char	r0, g0, b0, code;
-	u_char	r1, g1, b1, dummy1;
-	u_char	r2, g2, b2, dummy2;
-	u_char	r3, g3, b3, dummy3;
-	u_short n0, v0;
-	u_short v1, v2;
-	u_short v3, dummy4;
+	u8	out, in, dummy, cd;
+	u8	r0, g0, b0, code;
+	u8	r1, g1, b1, dummy1;
+	u8	r2, g2, b2, dummy2;
+	u8	r3, g3, b3, dummy3;
+	u16 n0, v0;
+	u16 v1, v2;
+	u16 v3, dummy4;
 }       TMD_P_F4G;
 
 typedef struct {
-	u_char	out, in, dummy, cd;
-	u_char	r0, g0, b0, code;
-	u_char	r1, g1, b1, dummy1;
-	u_char	r2, g2, b2, dummy2;
-	u_char	r3, g3, b3, dummy3;
-	u_short n0, v0;
-	u_short n1, v1;
-	u_short n2, v2;
-	u_short n3, v3;
+	u8	out, in, dummy, cd;
+	u8	r0, g0, b0, code;
+	u8	r1, g1, b1, dummy1;
+	u8	r2, g2, b2, dummy2;
+	u8	r3, g3, b3, dummy3;
+	u16 n0, v0;
+	u16 n1, v1;
+	u16 n2, v2;
+	u16 n3, v3;
 }       TMD_P_G4G;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  r0, g0, b0, code;
-	u_short v0, v1;
-	u_short v2, v3;
+	u8  out, in, dummy, cd;
+	u8  r0, g0, b0, code;
+	u16 v0, v1;
+	u16 v2, v3;
 }       TMD_P_NF4;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  r0, g0, b0, code;
-	u_char  r1, g1, b1, p1;
-	u_char  r2, g2, b2, p2;
-	u_char  r3, g3, b3, p3;
-	u_short v0, v1;
-	u_short v2, v3;
+	u8  out, in, dummy, cd;
+	u8  r0, g0, b0, code;
+	u8  r1, g1, b1, p1;
+	u8  r2, g2, b2, p2;
+	u8  r3, g3, b3, p3;
+	u16 v0, v1;
+	u16 v2, v3;
 }       TMD_P_NG4;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  tu0, tv0;
-	u_short clut;
-	u_char  tu1, tv1;
-	u_short tpage;
-	u_char  tu2, tv2;
-	u_short p;
-	u_short n0, v0;
-	u_short v1, v2;
+	u8  out, in, dummy, cd;
+	u8  tu0, tv0;
+	u16 clut;
+	u8  tu1, tv1;
+	u16 tpage;
+	u8  tu2, tv2;
+	u16 p;
+	u16 n0, v0;
+	u16 v1, v2;
 }       TMD_P_TF3;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  tu0, tv0;
-	u_short clut;
-	u_char  tu1, tv1;
-	u_short tpage;
-	u_char  tu2, tv2;
-	u_short p;
-	u_short n0, v0;
-	u_short n1, v1;
-	u_short n2, v2;
+	u8  out, in, dummy, cd;
+	u8  tu0, tv0;
+	u16 clut;
+	u8  tu1, tv1;
+	u16 tpage;
+	u8  tu2, tv2;
+	u16 p;
+	u16 n0, v0;
+	u16 n1, v1;
+	u16 n2, v2;
 }       TMD_P_TG3;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  tu0, tv0;
-	u_short clut;
-	u_char  tu1, tv1;
-	u_short tpage;
-	u_char  tu2, tv2;
-	u_short p0;
-	u_char  r0, g0, b0, p1;
-	u_short v0, v1;
-	u_short v2, p2;
+	u8  out, in, dummy, cd;
+	u8  tu0, tv0;
+	u16 clut;
+	u8  tu1, tv1;
+	u16 tpage;
+	u8  tu2, tv2;
+	u16 p0;
+	u8  r0, g0, b0, p1;
+	u16 v0, v1;
+	u16 v2, p2;
 }       TMD_P_TNF3;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  tu0, tv0;
-	u_short clut;
-	u_char  tu1, tv1;
-	u_short tpage;
-	u_char  tu2, tv2;
-	u_short p0;
-	u_char  r0, g0, b0, p1;
-	u_char  r1, g1, b1, p2;
-	u_char  r2, g2, b2, p3;
-	u_short v0, v1;
-	u_short v2, p4;
+	u8  out, in, dummy, cd;
+	u8  tu0, tv0;
+	u16 clut;
+	u8  tu1, tv1;
+	u16 tpage;
+	u8  tu2, tv2;
+	u16 p0;
+	u8  r0, g0, b0, p1;
+	u8  r1, g1, b1, p2;
+	u8  r2, g2, b2, p3;
+	u16 v0, v1;
+	u16 v2, p4;
 }       TMD_P_TNG3;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  tu0, tv0;
-	u_short clut;
-	u_char  tu1, tv1;
-	u_short tpage;
-	u_char  tu2, tv2;
-	u_short p0;
-	u_char  tu3, tv3;
-	u_short p1;
-	u_short n0, v0;
-	u_short v1, v2;
-	u_short v3, p2;
+	u8  out, in, dummy, cd;
+	u8  tu0, tv0;
+	u16 clut;
+	u8  tu1, tv1;
+	u16 tpage;
+	u8  tu2, tv2;
+	u16 p0;
+	u8  tu3, tv3;
+	u16 p1;
+	u16 n0, v0;
+	u16 v1, v2;
+	u16 v3, p2;
 }       TMD_P_TF4;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  tu0, tv0;
-	u_short clut;
-	u_char  tu1, tv1;
-	u_short tpage;
-	u_char  tu2, tv2;
-	u_short p0;
-	u_char  tu3, tv3;
-	u_short p1;
-	u_short n0, v0;
-	u_short n1, v1;
-	u_short n2, v2;
-	u_short n3, v3;
+	u8  out, in, dummy, cd;
+	u8  tu0, tv0;
+	u16 clut;
+	u8  tu1, tv1;
+	u16 tpage;
+	u8  tu2, tv2;
+	u16 p0;
+	u8  tu3, tv3;
+	u16 p1;
+	u16 n0, v0;
+	u16 n1, v1;
+	u16 n2, v2;
+	u16 n3, v3;
 }       TMD_P_TG4;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  tu0, tv0;
-	u_short clut;
-	u_char  tu1, tv1;
-	u_short tpage;
-	u_char  tu2, tv2;
-	u_short p0;
-	u_char  tu3, tv3;
-	u_short p1;
-	u_char  r0, g0, b0, p2;
-	u_short v0, v1;
-	u_short v2, v3;
+	u8  out, in, dummy, cd;
+	u8  tu0, tv0;
+	u16 clut;
+	u8  tu1, tv1;
+	u16 tpage;
+	u8  tu2, tv2;
+	u16 p0;
+	u8  tu3, tv3;
+	u16 p1;
+	u8  r0, g0, b0, p2;
+	u16 v0, v1;
+	u16 v2, v3;
 }       TMD_P_TNF4;
 
 typedef struct {
-	u_char  out, in, dummy, cd;
-	u_char  tu0, tv0;
-	u_short clut;
-	u_char  tu1, tv1;
-	u_short tpage;
-	u_char  tu2, tv2;
-	u_short p0;
-	u_char  tu3, tv3;
-	u_short p1;
-	u_char  r0, g0, b0, p2;
-	u_char  r1, g1, b1, p3;
-	u_char  r2, g2, b2, p4;
-	u_char  r3, g3, b3, p5;
-	u_short v0, v1;
-	u_short v2, v3;
+	u8  out, in, dummy, cd;
+	u8  tu0, tv0;
+	u16 clut;
+	u8  tu1, tv1;
+	u16 tpage;
+	u8  tu2, tv2;
+	u16 p0;
+	u8  tu3, tv3;
+	u16 p1;
+	u8  r0, g0, b0, p2;
+	u8  r1, g1, b1, p3;
+	u8  r2, g2, b2, p4;
+	u8  r3, g3, b3, p5;
+	u16 v0, v1;
+	u16 v2, v3;
 }       TMD_P_TNG4;
 
 struct TMD_STRUCT {
-	u_long *vertop;         /* vertex top address of TMD format */
-	u_long  vern;           /* the number of vertex of TMD format */
-	u_long *nortop;         /* normal top address of TMD format */
-	u_long  norn;           /* the number of normal of TMD format */
-	u_long *primtop;        /* primitive top address of TMD format */
-	u_long  primn;          /* the number of primitives of TMD format */
-	u_long  scale;          /* the scale factor of TMD format */
+	u32 *vertop;         /* vertex top address of TMD format */
+	u32  vern;           /* the number of vertex of TMD format */
+	u32 *nortop;         /* normal top address of TMD format */
+	u32  norn;           /* the number of normal of TMD format */
+	u32 *primtop;        /* primitive top address of TMD format */
+	u32  primn;          /* the number of primitives of TMD format */
+	u32  scale;          /* the scale factor of TMD format */
 };
 
 /*
- * active sub divide structure 
+ * active sub divide structure
  *
  */
 
@@ -580,22 +582,22 @@ struct TMD_STRUCT {
 
 typedef struct {
 	short   vx, vy, vz;
-	u_char  tu, tv;
+	u8  tu, tv;
 }       VERT;
 
 typedef struct {
 	short   vx, vy, vz;
-	u_char  tu, tv;
+	u8  tu, tv;
 	CVECTOR col;
 }       VERTC;
 
 
 typedef struct {
-	u_long  limit;		/* divide limit */
+	u32  limit;		/* divide limit */
 	long    hwd, vwd;	/* dummy */
 	int     shift;		/* OT shift */
-	u_long *org;		/* OT org */
-	u_long *pk;		/* packet base */
+	u32 *org;		/* OT org */
+	u32 *pk;		/* packet base */
 	long    otz;		/* gte otz */
 	long    adivz;		/* active divide codition z */
 	short   adivw, adivh;	/* active divide condition w,h */
@@ -603,7 +605,7 @@ typedef struct {
 	long    flg;		/* gte flag */
 	short   minx, miny, maxx, maxy;	/* polygon min-max */
 	short   hwd0, vwd0;	/* resolution of screen */
-	u_long *tag;		/* work temprly for addPrim */
+	u32 *tag;		/* work temprly for addPrim */
 	POLY_FT4 si;		/* work packet */
 }       GsADIV_FT4;
 
@@ -614,11 +616,11 @@ typedef struct {
 
 
 typedef struct {
-	u_long  limit;		/* divide limit */
+	u32  limit;		/* divide limit */
 	long    hwd, vwd;	/* dummy */
 	int     shift;		/* OT shift */
-	u_long *org;		/* OT org */
-	u_long *pk;		/* packet base */
+	u32 *org;		/* OT org */
+	u32 *pk;		/* packet base */
 	long    otz;		/* gte otz */
 	long    adivz;		/* active divide codition z */
 	short   adivw, adivh;	/* active divide condition w,h */
@@ -626,7 +628,7 @@ typedef struct {
 	long    flg;		/* gte flag */
 	short   minx, miny, maxx, maxy;	/* polygon min-max */
 	short   hwd0, vwd0;	/* resolution of screen */
-	u_long *tag;		/* work temprly for addPrim */
+	u32 *tag;		/* work temprly for addPrim */
 	POLY_GT4 si;		/* work packet */
 }       GsADIV_GT4;
 
@@ -636,11 +638,11 @@ typedef struct {
 
 
 typedef struct {
-	u_long  limit;		/* divide limit */
+	u32  limit;		/* divide limit */
 	long    hwd, vwd;	/* dummy */
 	int     shift;		/* OT shift */
-	u_long *org;		/* OT org */
-	u_long *pk;		/* packet base */
+	u32 *org;		/* OT org */
+	u32 *pk;		/* packet base */
 	long    otz;		/* gte otz */
 	long    adivz;		/* active divide codition z */
 	short   adivw, adivh;	/* active divide condition w,h */
@@ -648,7 +650,7 @@ typedef struct {
 	long    flg;		/* gte flag */
 	short   minx, miny, maxx, maxy;	/* polygon min-max */
 	short   hwd0, vwd0;	/* resolution of screen */
-	u_long *tag;		/* work temprly for addPrim */
+	u32 *tag;		/* work temprly for addPrim */
 	POLY_G4 si;		/* work packet */
 }       GsADIV_G4;
 
@@ -657,11 +659,11 @@ typedef struct {
 }       GsADIV_P_G4;
 
 typedef struct {
-	u_long  limit;		/* divide limit */
+	u32  limit;		/* divide limit */
 	long    hwd, vwd;	/* dummy */
 	int     shift;		/* OT shift */
-	u_long *org;		/* OT org */
-	u_long *pk;		/* packet base */
+	u32 *org;		/* OT org */
+	u32 *pk;		/* packet base */
 	long    otz;		/* gte otz */
 	long    adivz;		/* active divide codition z */
 	short   adivw, adivh;	/* active divide condition w,h */
@@ -669,7 +671,7 @@ typedef struct {
 	long    flg;		/* gte flag */
 	short   minx, miny, maxx, maxy;	/* polygon min-max */
 	short   hwd0, vwd0;	/* resolution of screen */
-	u_long *tag;		/* work temprly for addPrim */
+	u32 *tag;		/* work temprly for addPrim */
 	POLY_F4 si;		/* work packet */
 }       GsADIV_F4;
 
@@ -679,18 +681,18 @@ typedef struct {
 
 
 typedef struct {
-	u_long  limit;		/* divide limit */
+	u32  limit;		/* divide limit */
 	long    hwd, vwd;	/* dummy */
 	int     shift;		/* OT shift */
-	u_long *org;		/* OT org */
-	u_long *pk;		/* packet base */
+	u32 *org;		/* OT org */
+	u32 *pk;		/* packet base */
 	long    otz;		/* gte otz */
 	long    adivz;		/* active divide codition z */
 	short   adivw, adivh;	/* active divide condition w,h */
 	long    flg;		/* gte flag */
 	short   minx, miny, maxx, maxy;	/* polygon min-max */
 	short   hwd0, vwd0;	/* resolution of screen */
-	u_long *tag;		/* work temprly for addPrim */
+	u32 *tag;		/* work temprly for addPrim */
 	POLY_FT3 si;		/* work packet */
 }       GsADIV_FT3;
 
@@ -699,18 +701,18 @@ typedef struct {
 }       GsADIV_P_FT3;
 
 typedef struct {
-	u_long  limit;		/* divide limit */
+	u32  limit;		/* divide limit */
 	long    hwd, vwd;	/* dummy */
 	int     shift;		/* OT shift */
-	u_long *org;		/* OT org */
-	u_long *pk;		/* packet base */
+	u32 *org;		/* OT org */
+	u32 *pk;		/* packet base */
 	long    otz;		/* gte otz */
 	long    adivz;		/* active divide codition z */
 	short   adivw, adivh;	/* active divide condition w,h */
 	long    flg;		/* gte flag */
 	short   minx, miny, maxx, maxy;	/* polygon min-max */
 	short   hwd0, vwd0;	/* resolution of screen */
-	u_long *tag;		/* work temprly for addPrim */
+	u32 *tag;		/* work temprly for addPrim */
 	POLY_GT3 si;		/* work packet */
 }       GsADIV_GT3;
 
@@ -719,18 +721,18 @@ typedef struct {
 }       GsADIV_P_GT3;
 
 typedef struct {
-	u_long  limit;		/* divide limit */
+	u32  limit;		/* divide limit */
 	long    hwd, vwd;	/* dummy */
 	int     shift;		/* OT shift */
-	u_long *org;		/* OT org */
-	u_long *pk;		/* packet base */
+	u32 *org;		/* OT org */
+	u32 *pk;		/* packet base */
 	long    otz;		/* gte otz */
 	long    adivz;		/* active divide codition z */
 	short   adivw, adivh;	/* active divide condition w,h */
 	long    flg;		/* gte flag */
 	short   minx, miny, maxx, maxy;	/* polygon min-max */
 	short   hwd0, vwd0;	/* resolution of screen */
-	u_long *tag;		/* work temprly for addPrim */
+	u32 *tag;		/* work temprly for addPrim */
 	POLY_G3 si;		/* work packet */
 }       GsADIV_G3;
 
@@ -739,18 +741,18 @@ typedef struct {
 }       GsADIV_P_G3;
 
 typedef struct {
-	u_long  limit;		/* divide limit */
+	u32  limit;		/* divide limit */
 	long    hwd, vwd;	/* dummy */
 	int     shift;		/* OT shift */
-	u_long *org;		/* OT org */
-	u_long *pk;		/* packet base */
+	u32 *org;		/* OT org */
+	u32 *pk;		/* packet base */
 	long    otz;		/* gte otz */
 	long    adivz;		/* active divide codition z */
 	short   adivw, adivh;	/* active divide condition w,h */
 	long    flg;		/* gte flag */
 	short   minx, miny, maxx, maxy;	/* polygon min-max */
 	short   hwd0, vwd0;	/* resolution of screen */
-	u_long *tag;		/* work temprly for addPrim */
+	u32 *tag;		/* work temprly for addPrim */
 	POLY_F3 si;		/* work packet */
 }       GsADIV_F3;
 
@@ -759,7 +761,7 @@ typedef struct {
 }       GsADIV_P_F3;
 
 /*
- * PROTOTYPE DIFINITIONS 
+ * PROTOTYPE DIFINITIONS
  */
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 extern  "C" {
@@ -779,9 +781,9 @@ extern  "C" {
 	void    GsSetWorkBase(PACKET * outpacketp);
 
 	void    GsSortObject3(GsDOBJ3 * objp, GsOT * ot, int shift);
-	void    GsSortObject4(GsDOBJ2 * objp, GsOT * ot, int shift, u_long * scratch);
-	void    GsSortObject5(GsDOBJ5 * objp, GsOT * ot, int shift, u_long * scratch);
-	void    GsSortObject5J(GsDOBJ5 * objp, GsOT * ot, int shift, u_long * scratch);
+	void    GsSortObject4(GsDOBJ2 * objp, GsOT * ot, int shift, u32 * scratch);
+	void    GsSortObject5(GsDOBJ5 * objp, GsOT * ot, int shift, u32 * scratch);
+	void    GsSortObject5J(GsDOBJ5 * objp, GsOT * ot, int shift, u32 * scratch);
 
 	void    GsSortSprite(GsSPRITE * sp, GsOT * ot, unsigned short pri);
 	void    GsSortSpriteB(GsSPRITE * sp, GsOT * ot, unsigned short pri,
@@ -792,10 +794,10 @@ extern  "C" {
 	void    GsSortFlipSprite(GsSPRITE * sp, GsOT * ot, unsigned short pri);
 	void    GsSortBg(GsBG * bg, GsOT * ot, unsigned short pri);
 	void    GsSortFastBg(GsBG * bg, GsOT * ot, unsigned short pri);
-	void    GsInitFixBg16(GsBG * bg, u_long * work);
-	void    GsSortFixBg16(GsBG * bg, u_long * work, GsOT * otp, unsigned short pri);
-	void    GsInitFixBg32(GsBG * bg, u_long * work);
-	void    GsSortFixBg32(GsBG * bg, u_long * work, GsOT * otp, unsigned short pri);
+	void    GsInitFixBg16(GsBG * bg, u32 * work);
+	void    GsSortFixBg16(GsBG * bg, u32 * work, GsOT * otp, unsigned short pri);
+	void    GsInitFixBg32(GsBG * bg, u32 * work);
+	void    GsSortFixBg32(GsBG * bg, u32 * work, GsOT * otp, unsigned short pri);
 	void    GsSortLine(GsLINE * lp, GsOT * ot, unsigned short pri);
 	void    GsSortGLine(GsGLINE * lp, GsOT * ot, unsigned short pri);
 	void    GsSortBoxFill(GsBOXF * bp, GsOT * ot, unsigned short pri);
@@ -824,7 +826,7 @@ extern  "C" {
 	void    GsGetLs(GsCOORDINATE2 * m, MATRIX * out);
 	void    GsGetLws(GsCOORDINATE2 * m, MATRIX * outw, MATRIX * outs);
 
-	u_long  GsLinkObject3(unsigned long pmd_base, GsDOBJ3 * objp);
+	u32  GsLinkObject3(unsigned long pmd_base, GsDOBJ3 * objp);
 	void    GsLinkObject4(unsigned long tmd_base, GsDOBJ2 * objp, int n);
 	void    GsLinkObject5(unsigned long tmd_base, GsDOBJ5 * objp, int n);
 
@@ -838,164 +840,164 @@ extern  "C" {
 	void    GsInitVcount();
 	long    GsGetVcount();
 	void    GsClearVcount();
-	void	GsDefDispBuff2(u_short x0, u_short y0, u_short x1, u_short y1);
+	void	GsDefDispBuff2(u16 x0, u16 y0, u16 x1, u16 y1);
 	void	GsDrawOtIO(GsOT *ot);
 	PACKET *GsGetWorkBase();
-	void	GsInitGraph2( u_short x, u_short y, u_short intmode, u_short dith, u_short vrammode);
-	void	GsSortObject4J(GsDOBJ2 *objp, GsOT *otp, int shift, u_long *scratch);
+	void	GsInitGraph2( u16 x, u16 y, u16 intmode, u16 dith, u16 vrammode);
+	void	GsSortObject4J(GsDOBJ2 *objp, GsOT *otp, int shift, u32 *scratch);
 	void    GsClearDispArea(unsigned char r, unsigned char g, unsigned char b);
 
-	u_long *GsPresetObject(GsDOBJ5 * objp, u_long * base_addr);
+	u32 *GsPresetObject(GsDOBJ5 * objp, u32 * base_addr);
 	void    GsScaleScreen(SVECTOR * scale);
 
 	PACKET *GsA4divF3L(TMD_P_F3 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			           int shift, GsOT * ot, u_long * scratch);
+			           int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divF3LFG(TMD_P_F3 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			             int shift, GsOT * ot, u_long * scratch);
+			             int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divF3NL(TMD_P_F3 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divNF3(TMD_P_NF3 * op, VERT * vp, PACKET * pk, int n,
-			           int shift, GsOT * ot, u_long * scratch);
+			           int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divF4L(TMD_P_F4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			           int shift, GsOT * ot, u_long * scratch);
+			           int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divF4LFG(TMD_P_F4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			             int shift, GsOT * ot, u_long * scratch);
+			             int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divF4NL(TMD_P_F4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divNF4(TMD_P_NF4 * op, VERT * vp, PACKET * pk, int n,
-			           int shift, GsOT * ot, u_long * scratch);
+			           int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divG3L(TMD_P_G3 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			           int shift, GsOT * ot, u_long * scratch);
+			           int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divG3LFG(TMD_P_G3 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			             int shift, GsOT * ot, u_long * scratch);
+			             int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divG3NL(TMD_P_G3 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divNG3(TMD_P_NG3 * op, VERT * vp, PACKET * pk, int n,
-			           int shift, GsOT * ot, u_long * scratch);
+			           int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divG4L(TMD_P_G4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			           int shift, GsOT * ot, u_long * scratch);
+			           int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divG4LFG(TMD_P_G4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			             int shift, GsOT * ot, u_long * scratch);
+			             int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divG4NL(TMD_P_G4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divNG4(TMD_P_NG4 * op, VERT * vp, PACKET * pk, int n,
-			           int shift, GsOT * ot, u_long * scratch);
+			           int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTF3L(TMD_P_TF3 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTF3LFG(TMD_P_TF3 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTF3NL(TMD_P_TF3 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			             int shift, GsOT * ot, u_long * scratch);
+			             int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTNF3(TMD_P_TNF3 * op, VERT * vp, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTF4L(TMD_P_TF4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTF4LFG(TMD_P_TF4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTF4NL(TMD_P_TF4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			             int shift, GsOT * ot, u_long * scratch);
+			             int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTNF4(TMD_P_TNF4 * op, VERT * vp, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTF4LM(TMD_P_TF4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTF4LFGM(TMD_P_TF4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTF4NLM(TMD_P_TF4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			             int shift, GsOT * ot, u_long * scratch);
+			             int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTNF4M(TMD_P_TNF4 * op, VERT * vp, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTG3L(TMD_P_TG3 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTG3LFG(TMD_P_TG3 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTG3NL(TMD_P_TG3 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			             int shift, GsOT * ot, u_long * scratch);
+			             int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTNG3(TMD_P_TNG3 * op, VERT * vp, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTG4L(TMD_P_TG4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTG4LFG(TMD_P_TG4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTG4NL(TMD_P_TG4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			             int shift, GsOT * ot, u_long * scratch);
+			             int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTNG4(TMD_P_TNG4 * op, VERT * vp, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTG4LM(TMD_P_TG4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTG4LFGM(TMD_P_TG4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTG4NLM(TMD_P_TG4 * op, VERT * vp, VERT * np, PACKET * pk, int n,
-			             int shift, GsOT * ot, u_long * scratch);
+			             int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsA4divTNG4M(TMD_P_TNG4 * op, VERT * vp, PACKET * pk, int n,
-			            int shift, GsOT * ot, u_long * scratch);
+			            int shift, GsOT * ot, u32 * scratch);
 	PACKET *GsTMDfastF3GL(TMD_P_F3G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsTMDfastF3GLFG(TMD_P_F3G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsTMDfastF3GNL(TMD_P_F3G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsTMDfastG3GL(TMD_P_G3G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsTMDfastG3GLFG(TMD_P_G3G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsTMDfastG3GNL(TMD_P_G3G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsPrstF3GL(TMD_P_F3G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsPrstF3GLFG(TMD_P_F3G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsPrstF3GNL(TMD_P_F3G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsPrstG3GL(TMD_P_G3G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsPrstG3GLFG(TMD_P_G3G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsPrstG3GNL(TMD_P_G3G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastG3M(TMD_P_G3 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastG3MFG(TMD_P_G3 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastTG3M(TMD_P_TG3 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastTG3MFG(TMD_P_TG3 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastG3M(TMD_P_G3 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastG3MFG(TMD_P_G3 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastTG3M(TMD_P_TG3 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastTG3MFG(TMD_P_TG3 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsTMDfastF4GL(TMD_P_F4G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsTMDfastF4GLFG(TMD_P_F4G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsTMDfastF4GNL(TMD_P_F4G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsTMDfastG4GL(TMD_P_G4G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsTMDfastG4GLFG(TMD_P_G4G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
 	PACKET *GsTMDfastG4GNL(TMD_P_G4G *op, VERT *vp, VERT *np, PACKET *pk,
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastG4M(TMD_P_G4 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastG4MFG(TMD_P_G4 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastTG4M(TMD_P_TG4 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastTG4MFG(TMD_P_TG4 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastF3M(TMD_P_F3 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastF3MFG(TMD_P_F3 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastTF3M(TMD_P_TF3 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastTF3MFG(TMD_P_TF3 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastF4M(TMD_P_F4 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastF4MFG(TMD_P_F4 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastTF4M(TMD_P_TF4 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
-	PACKET *GsTMDfastTF4MFG(TMD_P_TF4 *op, VERT *vp, VERT *np, PACKET *pk, 
-						int n, int shift, GsOT *ot, u_long *scratch);
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastG4M(TMD_P_G4 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastG4MFG(TMD_P_G4 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastTG4M(TMD_P_TG4 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastTG4MFG(TMD_P_TG4 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastF3M(TMD_P_F3 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastF3MFG(TMD_P_F3 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastTF3M(TMD_P_TF3 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastTF3MFG(TMD_P_TF3 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastF4M(TMD_P_F4 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastF4MFG(TMD_P_F4 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastTF4M(TMD_P_TF4 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
+	PACKET *GsTMDfastTF4MFG(TMD_P_TF4 *op, VERT *vp, VERT *np, PACKET *pk,
+						int n, int shift, GsOT *ot, u32 *scratch);
 
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 }
@@ -1007,7 +1009,7 @@ extern  "C" {
 extern RECT CLIP2;		/* clipping area */
 extern short PSDBASEX[2], PSDBASEY[2];	/* double buffer base */
 extern short PSDIDX;		/* double buffer index */
-extern u_long PSDCNT;		/* frame counter for using matrix cache */
+extern u32 PSDCNT;		/* frame counter for using matrix cache */
 extern _GsPOSITION POSITION;	/* 2d offset */
 extern DRAWENV GsDRAWENV;	/* DRAWENV of Gs */
 extern DISPENV GsDISPENV;	/* DISPENV of Gs */
@@ -1021,8 +1023,8 @@ extern PACKET *GsOUT_PACKET_P;	/* Work Base pointer */
 extern long GsADIVZ;		/* Active sub divide condition (z) */
 extern short GsADIVW, GsADIVH;	/* Active sub divide condition (w,h) */
 extern int GsLIGHT_MODE;	/* lighting mode global */
-extern u_long GsMATE_C, GsLMODE, GsLIGNR, GsLIOFF, GsZOVER, GsBACKC, GsNDIV;
-extern u_long GsTRATE, GsTON, GsDISPON;
+extern u32 GsMATE_C, GsLMODE, GsLIGNR, GsLIOFF, GsZOVER, GsBACKC, GsNDIV;
+extern u32 GsTRATE, GsTON, GsDISPON;
 
 
 #if 0

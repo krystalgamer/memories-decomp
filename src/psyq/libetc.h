@@ -2,6 +2,8 @@
 #ifndef _LIBETC_H_
 #define _LIBETC_H_
 
+#include "../types.h"
+
 /*
  *  (C) Copyright 1993/1994 Sony Corporation,Tokyo,Japan. All Rights Reserved
  *
@@ -33,7 +35,7 @@ extern int PadIdentifier;
 #define PADR2      PADm
 #define PADstart   PADh
 #define PADselect  PADk
-		    
+
 #define MOUSEleft  (1<<3)
 #define MOUSEright (1<<2)
 
@@ -48,13 +50,13 @@ extern int PadIdentifier;
 #define _PAD(x,y) ((y)<<((x)<<4))
 
 /* scratch pad address 0x1f800000 - 0x1f800400 */
-#define getScratchAddr(offset)  ((u_long *)(0x1f800000+(offset)*4))
+#define getScratchAddr(offset)  ((u32 *)(0x1f800000+(offset)*4))
 
 /*
  * Video Mode:	NTSC/PAL
  */
 #define MODE_NTSC 0
-#define MODE_PAL 1 
+#define MODE_PAL 1
 
 /*
  * Prototypes
@@ -71,11 +73,10 @@ int VSync(int mode);
 int VSyncCallback(void (*f)(void)) ;
 long GetVideoMode (void);
 long SetVideoMode (long mode);
-u_long PadRead(int id);
+u32 PadRead(int id);
 void PadStop(void);
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 }
 #endif
 #endif /* _LIBETC_H_ */
-
 

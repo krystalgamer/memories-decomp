@@ -21,7 +21,7 @@
  */
 
 /* ----------------------------------------------------------------
- *	CONSTANT 
+ *	CONSTANT
  * ---------------------------------------------------------------- */
 
 #define SPU_SUCCESS	0
@@ -262,7 +262,7 @@ typedef struct {
 
 typedef struct {
     unsigned long	mask;	  /* 設定マスク		  */
-    
+
     long		mode;	  /* リバーブモード       */
     SpuVolume		depth;	  /* リバーブの深さ	  */
     long                delay;	  /* Delay Time (ECHO, DELAY のみ)  */
@@ -287,7 +287,7 @@ typedef struct {
 
 typedef struct {
     unsigned long	mask;	  /* 設定マスク		  */
-    
+
     SpuVolume		mvol;	  /* マスタ音量		  */
     SpuVolume		mvolmode; /* マスタ音量モード	  */
     SpuVolume		mvolx;	  /* 現在のマスタ音量	  */

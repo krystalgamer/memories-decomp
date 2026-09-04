@@ -1,4 +1,4 @@
-/* 
+/*
  * File:types.h
  */
 /*
@@ -7,6 +7,8 @@
 
 #ifndef	_SYS_TYPES_H
 #define	_SYS_TYPES_H
+
+#include "../../types.h"
 
 /*
  * Basic system types and major/minor device constructing/busting macros.
@@ -21,22 +23,6 @@
 /* make a device number */
 #define	makedev(x,y)	((dev_t)(((x)<<8) | (y)))
 
-#ifndef _UCHAR_T
-#define _UCHAR_T
-typedef	unsigned char	u_char;
-#endif
-#ifndef _USHORT_T
-#define _USHORT_T
-typedef	unsigned short	u_short;
-#endif
-#ifndef _UINT_T
-#define _UINT_T
-typedef	unsigned int	u_int;
-#endif
-#ifndef _ULONG_T
-#define _ULONG_T
-typedef	unsigned long	u_long;
-#endif
 #ifndef _SYSIII_USHORT
 #define _SYSIII_USHORT
 typedef	unsigned short	ushort;		/* sys III compat */
@@ -61,7 +47,7 @@ typedef	struct	_quad { long val[2]; } quad;
 typedef	long	daddr_t;
 typedef	char *	caddr_t;
 typedef	long *	qaddr_t;	/* should be typedef quad * qaddr_t; */
-typedef	u_long	ino_t;
+typedef	u32	ino_t;
 typedef	long	swblk_t;
 
 #ifndef _SIZE_T
@@ -72,8 +58,8 @@ typedef	unsigned int size_t;
 typedef	long	time_t;
 typedef	short	dev_t;
 typedef	long	off_t;
-typedef	u_short	uid_t;
-typedef	u_short	gid_t;
+typedef	u16	uid_t;
+typedef	u16	gid_t;
 
 #define	NBBY	8		/* number of bits in a byte */
 

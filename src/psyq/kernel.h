@@ -15,7 +15,7 @@
 #include <asm.h>
 #endif
 
-/* don't change these macros and structures which is refereced in kernel code */ 
+/* don't change these macros and structures which is refereced in kernel code */
 
 #define DescMask 	0xff000000
 #define DescTH 		DescMask
@@ -109,7 +109,7 @@ struct TCB {
 };
 
 struct EvCB {
-	unsigned long desc;	
+	unsigned long desc;
 	long status;
 	long spec;
 	long mode;
@@ -118,15 +118,15 @@ struct EvCB {
 };
 
 
-struct EXEC {                   
-        unsigned long pc0;      
-        unsigned long gp0;      
-        unsigned long t_addr;   
-        unsigned long t_size;   
-        unsigned long d_addr;   
-        unsigned long d_size;   
-        unsigned long b_addr;   
-        unsigned long b_size;   
+struct EXEC {
+        unsigned long pc0;
+        unsigned long gp0;
+        unsigned long t_addr;
+        unsigned long t_size;
+        unsigned long d_addr;
+        unsigned long d_size;
+        unsigned long b_addr;
+        unsigned long b_size;
 	unsigned long s_addr;
 	unsigned long s_size;
 	unsigned long sp,fp,gp,ret,base;

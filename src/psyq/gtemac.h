@@ -25,12 +25,12 @@
 					gte_rt();		\
 					gte_stlvnl(r2);		\
 					gte_stflg(r3);	}
-	
+
 #define gte_LocalLight(r1,r2)					\
 				{	gte_ldv0(r1); 		\
 					gte_ll();		\
 					gte_stlvl(r2);	}
-					
+
 #define gte_LightColor(r1,r2)					\
 				{	gte_ldlvl(r1);		\
 					gte_lc();		\
@@ -54,7 +54,7 @@
 					gte_lddp(r4);		\
 					gte_dpct();		\
 					gte_strgb3(r5,r6,r7);	}
-					
+
 #define gte_Intpl(r1,r2,r3)					\
 				{	gte_ldlvl(r1);		\
 					gte_lddp(r2);		\
@@ -64,12 +64,12 @@
 #define gte_Square12(r1,r2)					\
 				{	gte_ldlvl(r1);		\
 					gte_sqr12();		\
-					gte_stlvnl(r2);	}	
+					gte_stlvnl(r2);	}
 
 #define gte_Square0(r1,r2)					\
 				{	gte_ldlvl(r1);		\
 					gte_sqr0();		\
-					gte_stlvnl(r2);	}	
+					gte_stlvnl(r2);	}
 
 #define gte_NormalColor(r1,r2)					\
 				{	gte_ldv0(r1);		\
@@ -182,7 +182,7 @@
  *	4 vertices functions can't be replaced by equivalent macros
  *	because they use OR of flags after rtpt & rtps
  *	Please write directry in your program.
- */ 
+ */
 #define gte_RotAverage3(r1,r2,r3,r4,r5,r6,r7,r8,r9)		\
 				{	gte_ldv3(r1,r2,r3);	\
 					gte_rtpt();		\
@@ -201,7 +201,7 @@
 					gte_stsxy3(r4,r5,r6);	\
 					gte_stdp(r7);		\
 					gte_stszotz(r8);	}
-			
+
 #define gte_RotAverageNclip3(r1,r2,r3,r4,r5,r6,r7,r8,r9,r10)	\
 				{	gte_ldv3(r1,r2,r3);	\
 					gte_rtpt();		\

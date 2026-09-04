@@ -22,7 +22,7 @@ typedef unsigned int size_t;  /* result type of the sizeof operator (ANSI) */
 extern "C" {
 #endif
 /* To avoid conflicting */
-extern void *memcpy (/*  unsigned char *, unsigned char *, int  */); 
+extern void *memcpy (/*  unsigned char *, unsigned char *, int  */);
 extern void *memmove(unsigned char *, const unsigned char *, int);
 /* To avoid conflicting */
 extern int   memcmp (/*  unsigned char *, unsigned char *, int  */);

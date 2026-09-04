@@ -8,6 +8,7 @@
 #ifndef _LIBDS_H_
 #define _LIBDS_H_
 
+#include "../types.h"
 #include <kernel.h>
 
 /*
@@ -95,40 +96,40 @@
 /*
  * Callback
  */
-typedef void ( *DslCB )( u_char, u_char* );
-typedef void ( *DslRCB )( u_char, u_char*, u_long* );
+typedef void ( *DslCB )( u8, u8* );
+typedef void ( *DslRCB )( u8, u8*, u32* );
 
 /*
  * Location
  */
 typedef struct {
-	u_char minute;		/* minute (BCD) */
-	u_char second;		/* second (BCD) */
-	u_char sector;		/* sector (BCD) */
-	u_char track;		/* track (void) */
+	u8 minute;		/* minute (BCD) */
+	u8 second;		/* second (BCD) */
+	u8 sector;		/* sector (BCD) */
+	u8 track;		/* track (void) */
 } DslLOC;
 
 /*
  * ADPCM Filter
  */
 typedef struct {
-	u_char file;		/* file ID (always 1) */
-	u_char chan;		/* channel ID */
-	u_short pad;
+	u8 file;		/* file ID (always 1) */
+	u8 chan;		/* channel ID */
+	u16 pad;
 } DslFILTER;
 
 /*
  * Attenuator
  */
 typedef struct {
-	u_char val0;		/* volume for CD(L) -> SPU (L) */
-	u_char val1;		/* volume for CD(L) -> SPU (R) */
-	u_char val2;		/* volume for CD(R) -> SPU (L) */
-	u_char val3;		/* volume for CD(R) -> SPU (R) */
+	u8 val0;		/* volume for CD(L) -> SPU (L) */
+	u8 val1;		/* volume for CD(L) -> SPU (R) */
+	u8 val2;		/* volume for CD(R) -> SPU (L) */
+	u8 val3;		/* volume for CD(R) -> SPU (R) */
 } DslATV;
 
 /*
- * Low Level File System for DsSearchFile() 
+ * Low Level File System for DsSearchFile()
  */
 #define DslMAXFILE	64	/* max number of files in a directory */
 #define DslMAXDIR	128	/* max number of total directories */
@@ -136,7 +137,7 @@ typedef struct {
 
 typedef struct {
 	DslLOC pos;		/* file location */
-	u_long size;		/* file size */
+	u32 size;		/* file size */
 	char name[ 16 ];	/* file name (body) */
 } DslFILE;
 
@@ -145,19 +146,19 @@ typedef struct {
  * Streaming Structures
  */
 typedef struct {
-	u_short id;
-	u_short type;
-	u_short secCount;
-	u_short nSectors;
-	u_long frameCount;
-	u_long frameSize;
+	u16 id;
+	u16 type;
+	u16 secCount;
+	u16 nSectors;
+	u32 frameCount;
+	u32 frameSize;
 
-	u_short width;
-	u_short height;
-	u_long dummy1;
-	u_long dummy2;
+	u16 width;
+	u16 height;
+	u32 dummy1;
+	u32 dummy2;
 	DslLOC loc;
-} StHEADER;		/* CD-ROM STR \‘¢‘Ì*/
+} StHEADER;		/* CD-ROM STR ï¿½\ï¿½ï¿½ï¿½ï¿½*/
 
 #define StFREE		0x0000
 #define StREWIND	0x0001
@@ -180,30 +181,30 @@ typedef struct {
 #define StMOVIE_WIDTH	0x08
 #define StMOVIE_HEIGHT	0x09
 
-/* 
- * ƒXƒgƒŠ[ƒ~ƒ“ƒOƒ‰ƒCƒuƒ‰ƒŠƒvƒƒgƒ^ƒCƒvéŒ¾
+/*
+ * ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½~ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½gï¿½^ï¿½Cï¿½vï¿½éŒ¾
  */
 
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 extern "C" {
 #endif
 
-void StSetRing( u_long* ring_addr, u_long ring_size );
+void StSetRing( u32* ring_addr, u32 ring_size );
 void StClearRing( void );
 void StUnSetRing( void );
-void StSetStream( u_long mode, u_long start_frame, u_long end_frame,
+void StSetStream( u32 mode, u32 start_frame, u32 end_frame,
   void ( *func1 )(), void ( *func2 )() );
-void StSetEmulate( u_long* addr, u_long mode, u_long start_frame,
-  u_long end_frame, void ( *func1 )(), void ( *func2 )() );
-u_long StFreeRing( u_long* base );
-u_long StGetNext( u_long** addr, u_long** header );
-u_long StGetNextS( u_long** addr, u_long** header );
-u_short StNextStatus( u_long** addr, u_long** header );
+void StSetEmulate( u32* addr, u32 mode, u32 start_frame,
+  u32 end_frame, void ( *func1 )(), void ( *func2 )() );
+u32 StFreeRing( u32* base );
+u32 StGetNext( u32** addr, u32** header );
+u32 StGetNextS( u32** addr, u32** header );
+u16 StNextStatus( u32** addr, u32** header );
 void StRingStatus( short* free_sectors, short* over_sectors );
-void StSetMask( u_long mask, u_long start, u_long end );
+void StSetMask( u32 mask, u32 start, u32 end );
 void StCdInterrupt( void );
 int StGetBackloc( DslLOC* loc );
-int StSetChannel( u_long channel );
+int StSetChannel( u32 channel );
 
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 }
@@ -211,19 +212,19 @@ int StSetChannel( u_long channel );
 
 #endif	/* _LIBCD_H_ */
 
-/* **** ƒVƒXƒeƒ€ƒXƒe[ƒ^ƒX *****/
+/* **** ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Xï¿½eï¿½[ï¿½^ï¿½X *****/
 
 #define DslReady	1
 #define DslBusy		2
 #define DslNoCD		3
 
-/* **** ƒLƒ…[‚É“o˜^‚Å‚«‚éƒRƒ}ƒ“ƒh‚ÌÅ‘å” *****/
+/* **** ï¿½Lï¿½ï¿½ï¿½[ï¿½É“oï¿½^ï¿½Å‚ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ÌÅ‘å” *****/
 #define DslMaxCOMMANDS	8
 
-/* **** ƒRƒ}ƒ“ƒhÀsŒ‹‰Ê‚ÌÅ‘å” *****/
+/* **** ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ê‚ÌÅ‘å” *****/
 #define DslMaxRESULTS	8
 
-/* **** DS ŠÖ”ƒvƒƒgƒ^ƒCƒv *****/
+/* **** DS ï¿½Öï¿½ï¿½vï¿½ï¿½ï¿½gï¿½^ï¿½Cï¿½v *****/
 
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 extern "C" {
@@ -232,16 +233,16 @@ extern "C" {
 int DsInit( void );
 int DsReset( void );
 void DsClose( void );
-int DsCommand( u_char com, u_char* param, DslCB cbsync, int count );
-int DsPacket( u_char mode, DslLOC* pos, u_char com, DslCB func, int count );
+int DsCommand( u8 com, u8* param, DslCB cbsync, int count );
+int DsPacket( u8 mode, DslLOC* pos, u8 com, DslCB func, int count );
 DslCB DsSyncCallback( DslCB func );
 DslCB DsReadyCallback( DslCB func );
-int DsSync( int id, u_char* result );
-int DsReady( u_char* result );
+int DsSync( int id, u8* result );
+int DsReady( u8* result );
 void DsFlush( void );
 int DsSystemStatus( void );
 int DsQueueLen( void );
-u_char DsStatus( void );
+u8 DsStatus( void );
 int DsShellOpen( void );
 
 int DsMix( DslATV* vol );
@@ -254,27 +255,27 @@ DslLOC* DsIntToPos( int i, DslLOC* p );
 int DsPosToInt( DslLOC* p );
 int DsSetDebug( int level );
 DslLOC* DsLastPos( DslLOC* p );
-u_char DsLastCom( void );
+u8 DsLastCom( void );
 
-char* DsComstr( u_char com );
-char* DsIntstr( u_char intr );
+char* DsComstr( u8 com );
+char* DsIntstr( u8 intr );
 
 int DsStartReadySystem( DslRCB func, int count );
 void DsEndReadySystem( void );
 int DsReadySystemMode( int mode );
 
-int DsControlF( u_char com, u_char* param );
-int DsControl( u_char com, u_char* param, u_char* result );
-int DsControlB( u_char com, u_char* param, u_char* result );
+int DsControlF( u8 com, u8* param );
+int DsControl( u8 com, u8* param, u8* result );
+int DsControlB( u8 com, u8* param, u8* result );
 
-int DsRead( DslLOC* pos, int sectors, u_long* buf, int mode );
-int DsReadSync( u_char* result );
+int DsRead( DslLOC* pos, int sectors, u32* buf, int mode );
+int DsReadSync( u8* result );
 DslCB DsReadCallback( DslCB func );
 void DsReadBreak( void );
 int DsRead2( DslLOC* pos, int mode );
 
 DslFILE* DsSearchFile( DslFILE* fp, char* name );
-int DsReadFile( char* file, u_long* addr, int nbyte );
+int DsReadFile( char* file, u32* addr, int nbyte );
 struct EXEC* DsReadExec( char* file );
 int DsPlay( int mode, int* tracks, int offset );
 

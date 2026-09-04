@@ -18,9 +18,9 @@
 #include <sys/types.h>
 
 /*
- * Macro 
+ * Macro
  */
-#define SSPLAY_INFINITY  0 
+#define SSPLAY_INFINITY  0
 #define SS_NOTICK	 0x1000
 #define SS_NOTICK0	 0
 #define SS_TICK60	 1
@@ -31,14 +31,14 @@
 #define SS_TICKMODE_MAX  6
 #define SSPLAY_PAUSE     0
 #define SSPLAY_PLAY      1
-#define SS_SOFF          0      
-#define SS_SON           1     
-#define SS_MIX           0    
-#define SS_REV           1   
-#define SS_SERIAL_A      0 
-#define SS_SERIAL_B      1     
-#define SS_MUTE_OFF      0     
-#define SS_MUTE_ON       1     
+#define SS_SOFF          0
+#define SS_SON           1
+#define SS_MIX           0
+#define SS_REV           1
+#define SS_SERIAL_A      0
+#define SS_SERIAL_B      1
+#define SS_MUTE_OFF      0
+#define SS_MUTE_ON       1
 
 #define SS_IMEDIATE 	    0
 #define SS_IMMEDIATE        0
@@ -54,10 +54,10 @@
 #define SS_REV_TYPE_ECHO       7
 #define SS_REV_TYPE_DELAY      8
 #define SS_REV_TYPE_PIPE       9
-#define SSSKIP_TICK    0  
-#define SSSKIP_NOTE4   1  
-#define SSSKIP_NOTE8   2  
-#define SSSKIP_BAR     3 
+#define SSSKIP_TICK    0
+#define SSSKIP_NOTE4   1
+#define SSSKIP_NOTE8   2
+#define SSSKIP_BAR     3
 
 #define SS_SEQ_TABSIZ     176
 
@@ -74,8 +74,8 @@
 
 
 /*
- * Vag & Vab Structure 
- */ 
+ * Vag & Vab Structure
+ */
 typedef struct VabHdr {         /* VAB Bank Headdings */
 
 	long           form;          /* always 'VABp' */
@@ -177,8 +177,8 @@ typedef struct SndVoiceStats {
 typedef void (*SsMarkCallbackProc)(short, short, short);
 
 
-/*  
- * Prototype 
+/*
+ * Prototype
  */
 #if defined(_LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus) || defined(c_plusplus)
 extern "C" {
@@ -189,7 +189,7 @@ extern short SsVabTransBody(unsigned char*, short);
 extern short SsVabTransBodyPartly(unsigned char*, unsigned long, short);
 extern short SsVabTransfer(unsigned char *, unsigned char *, short, short);
 extern short SsVabTransCompleted(short);
-extern void  SsVabClose(short);          
+extern void  SsVabClose(short);
 
 extern void  SsInit(void);
 extern void  SsInitHot(void);
@@ -201,22 +201,22 @@ extern void  SsStart2(void);
 extern void  SsEnd(void);
 extern void  SsQuit(void);
 
-extern void  SsSeqCalledTbyT(void);           
+extern void  SsSeqCalledTbyT(void);
 
-extern short SsSeqOpen(unsigned long*, short); 
-extern void  SsSeqPlay(short, char, short);    
+extern short SsSeqOpen(unsigned long*, short);
+extern void  SsSeqPlay(short, char, short);
 extern void  SsSeqPlayPtoP(short, short, unsigned char *, unsigned char *, char, short);
-extern void  SsSeqPause(short);                    
-extern void  SsSeqReplay(short);                  
+extern void  SsSeqPause(short);
+extern void  SsSeqReplay(short);
 extern int   SsSeqSkip(short, short, char, short);
-extern void  SsSeqStop(short);                   
-extern void  SsSeqSetVol(short, short, short);  
-extern void  SsSeqSetNext(short, short);             
-extern void  SsSeqSetCrescendo(short, short, long); 
-extern void  SsSeqSetDecrescendo(short, short, long); 
-extern void  SsSeqSetAccelerando(short, long, long);  
-extern void  SsSeqSetRitardando(short, long, long);   
-extern void  SsSeqClose(short);                       
+extern void  SsSeqStop(short);
+extern void  SsSeqSetVol(short, short, short);
+extern void  SsSeqSetNext(short, short);
+extern void  SsSeqSetCrescendo(short, short, long);
+extern void  SsSeqSetDecrescendo(short, short, long);
+extern void  SsSeqSetAccelerando(short, long, long);
+extern void  SsSeqSetRitardando(short, long, long);
+extern void  SsSeqClose(short);
 
 extern short SsSepOpen(unsigned long*, short, short);
 extern void  SsSepPlay(short, short, char, short);
@@ -226,29 +226,29 @@ extern void  SsSepStop(short, short);
 extern void  SsSepSetVol(short, short, short, short);
 extern void  SsSepSetCrescendo(short, short, short, long);
 extern void  SsSepSetDecrescendo(short, short, short, long);
-extern void  SsSepSetAccelerando(short, short, long, long); 
-extern void  SsSepSetRitardando(short, short, long, long);   
+extern void  SsSepSetAccelerando(short, short, long, long);
+extern void  SsSepSetRitardando(short, short, long, long);
 extern void  SsSepClose(short);
 
 extern long  SsVoKeyOn(long, long, unsigned short, unsigned short);
-extern long  SsVoKeyOff(long, long);                
+extern long  SsVoKeyOff(long, long);
 
-extern void  SsSetMVol(short, short);              
-extern void  SsGetMVol(SndVolume*);             
-extern void  SsSetRVol(short, short);             
-extern void  SsGetRVol(SndVolume*);              
-extern void  SsSetMute(char);                        
-extern char  SsGetMute(void);                        
-extern void  SsSetSerialAttr(char, char, char);     
-extern char  SsGetSerialAttr(char, char);           
-extern void  SsSetSerialVol(char, short, short);    
-extern void  SsGetSerialVol(char, SndVolume*); 
-extern void  SsSetNck(short);                         
-extern short SsGetNck(void);                          
-extern void  SsSetNoiseOn(short, short);    
-extern void  SsSetNoiseOff(void);                     
-extern void  SsSetMono(void);                         
-extern void  SsSetStereo(void);                       
+extern void  SsSetMVol(short, short);
+extern void  SsGetMVol(SndVolume*);
+extern void  SsSetRVol(short, short);
+extern void  SsGetRVol(SndVolume*);
+extern void  SsSetMute(char);
+extern char  SsGetMute(void);
+extern void  SsSetSerialAttr(char, char, char);
+extern char  SsGetSerialAttr(char, char);
+extern void  SsSetSerialVol(char, short, short);
+extern void  SsGetSerialVol(char, SndVolume*);
+extern void  SsSetNck(short);
+extern short SsGetNck(void);
+extern void  SsSetNoiseOn(short, short);
+extern void  SsSetNoiseOff(void);
+extern void  SsSetMono(void);
+extern void  SsSetStereo(void);
 extern void  SsSetTempo(short, short, short);
 extern void  SsSetLoop(short, short, short);
 extern short SsIsEos(short, short);
@@ -258,13 +258,13 @@ extern char  SsSetReservedVoice(char);
 
 extern short SsUtKeyOn(short, short, short, short, short, short, short);
 extern short SsUtKeyOff(short, short, short, short, short);
-extern short SsUtKeyOnV(short voice, short vabId, short prog, short tone, 
+extern short SsUtKeyOnV(short voice, short vabId, short prog, short tone,
                         short note, short fine, short voll, short volr);
 extern short SsUtKeyOffV(short voice);
 extern short SsUtPitchBend(short, short, short, short, short);
 extern short SsUtChangePitch(short, short, short, short, short,
                               short, short);
-extern short SsUtChangeADSR(short, short, short, short, 
+extern short SsUtChangeADSR(short, short, short, short,
                              unsigned short, unsigned short);
 extern short SsUtSetVabHdr(short, VabHdr*);
 extern short SsUtGetVabHdr(short, VabHdr*);
@@ -292,11 +292,11 @@ extern short SsVabFakeHead(unsigned char*, short, unsigned long);
 extern short SsVabFakeBody(short);
 extern unsigned long SsUtGetVBaddrInSB(short);
 extern long SsUtGetVagAddr(short vabId, short vagId);
-extern unsigned long SsUtGetVagAddrFromTone(short vabId, short progId, 
+extern unsigned long SsUtGetVagAddrFromTone(short vabId, short progId,
 						short toneId);
-extern void SsSetNext(short, short, short, short);             
+extern void SsSetNext(short, short, short, short);
 extern void SsSeqGetVol(short, short, short*, short*);
-extern void SsChannelMute(short, short, long); 
+extern void SsChannelMute(short, short, long);
 extern short SsSeqOpenJ(unsigned long*, short);
 extern short SsSepOpenJ(unsigned long*, short, short);
 extern unsigned char*  SsGetCurrentPoint(short, short);
@@ -309,7 +309,7 @@ extern void SsQueueKeyOn(long);
 extern void SsQueueReverb(long, long);
 extern short SsGetActualProgFromProg(short, short);
 extern void SsSetVoiceSettings(long, SndVoiceStats*);
-extern unsigned short SsPitchFromNote(short, short, unsigned char, 
+extern unsigned short SsPitchFromNote(short, short, unsigned char,
             unsigned char);
 extern short SsVoiceCheck(long, long, short);
 extern char SsBlockVoiceAllocation(void);
@@ -339,26 +339,26 @@ extern long SsAllocateVoices(unsigned char, unsigned char);
 #define CC_EXTERNAL   11
 #define CC_RESETALL   12
 
-#define DE_PRIORITY	0	 
-#define DE_MODE  	1 
+#define DE_PRIORITY	0
+#define DE_MODE  	1
 #define DE_LIMITL	2
-#define DE_LIMITH	3 
-#define DE_ADSR_AR_L	4 
+#define DE_LIMITH	3
+#define DE_ADSR_AR_L	4
 #define DE_ADSR_AR_E	5
-#define DE_ADSR_DR  	6 
-#define DE_ADSR_SL  	7 
-#define DE_ADSR_SR_L  	8 
-#define DE_ADSR_SR_E 	9 
-#define DE_ADSR_RR_L	10 
+#define DE_ADSR_DR  	6
+#define DE_ADSR_SL  	7
+#define DE_ADSR_SR_L  	8
+#define DE_ADSR_SR_E 	9
+#define DE_ADSR_RR_L	10
 #define DE_ADSR_RR_E	11
-#define DE_ADSR_SR  	12 
-#define DE_VIB_TIME 	13 
-#define DE_PORTA_DEPTH	14 
-#define DE_REV_TYPE  	15 
-#define DE_REV_DEPTH 	16 
-#define DE_ECHO_FB  	17 
-#define DE_ECHO_DELAY	18 
-#define DE_DELAY  	19 
+#define DE_ADSR_SR  	12
+#define DE_VIB_TIME 	13
+#define DE_PORTA_DEPTH	14
+#define DE_REV_TYPE  	15
+#define DE_REV_DEPTH 	16
+#define DE_ECHO_FB  	17
+#define DE_ECHO_DELAY	18
+#define DE_DELAY  	19
 
 typedef struct {
 	void (*noteon) ();
@@ -374,21 +374,21 @@ extern "C" {
 #endif
 
 extern void _SsNoteOn (short, short, unsigned char, unsigned char);
-extern void _SsSetProgramChange(short, short, unsigned char); 
-extern void _SsGetMetaEvent(short, short, unsigned char); 
+extern void _SsSetProgramChange(short, short, unsigned char);
+extern void _SsGetMetaEvent(short, short, unsigned char);
 extern void _SsSetPitchBend(short, short);
-extern void _SsSetControlChange(short, short, unsigned char); 
-extern void _SsContBankChange(short, short); 
+extern void _SsSetControlChange(short, short, unsigned char);
+extern void _SsContBankChange(short, short);
 extern void _SsContDataEntry(short, short, unsigned char);
-extern void _SsContMainVol(short, short, unsigned char);  
+extern void _SsContMainVol(short, short, unsigned char);
 extern void _SsContPanpot(short, short, unsigned char);
-extern void _SsContExpression(short, short, unsigned char); 
-extern void _SsContDamper(short, short, unsigned char); 
-extern void _SsContExternal(short, short, unsigned char); 
-extern void _SsContNrpn1(short, short, unsigned char); 
-extern void _SsContNrpn2(short, short, unsigned char); 
-extern void _SsContRpn1(short, short, unsigned char); 
-extern void _SsContRpn2(short, short, unsigned char); 
+extern void _SsContExpression(short, short, unsigned char);
+extern void _SsContDamper(short, short, unsigned char);
+extern void _SsContExternal(short, short, unsigned char);
+extern void _SsContNrpn1(short, short, unsigned char);
+extern void _SsContNrpn2(short, short, unsigned char);
+extern void _SsContRpn1(short, short, unsigned char);
+extern void _SsContRpn2(short, short, unsigned char);
 extern void _SsContResetAll(short, short);
 
 extern void _SsSetNrpnVabAttr0(short, short, short, VagAtr, short, unsigned char);
@@ -414,21 +414,21 @@ extern void _SsSetNrpnVabAttr19(short, short, short, VagAtr, short, unsigned cha
 
 extern void dmy_nothing1(short, short, unsigned char, unsigned char);
 extern void dmy_SsNoteOn (short, short, unsigned char, unsigned char);
-extern void dmy_SsSetProgramChange(short, short, unsigned char); 
-extern void dmy_SsGetMetaEvent(short, short, unsigned char); 
+extern void dmy_SsSetProgramChange(short, short, unsigned char);
+extern void dmy_SsGetMetaEvent(short, short, unsigned char);
 extern void dmy_SsSetPitchBend(short, short);
-extern void dmy_SsSetControlChange(short, short, unsigned char); 
-extern void dmy_SsContBankChange(short, short); 
+extern void dmy_SsSetControlChange(short, short, unsigned char);
+extern void dmy_SsContBankChange(short, short);
 extern void dmy_SsContDataEntry(short, short, unsigned char);
-extern void dmy_SsContMainVol(short, short, unsigned char);  
+extern void dmy_SsContMainVol(short, short, unsigned char);
 extern void dmy_SsContPanpot(short, short, unsigned char);
-extern void dmy_SsContExpression(short, short, unsigned char); 
-extern void dmy_SsContDamper(short, short, unsigned char); 
-extern void dmy_SsContExternal(short, short, unsigned char); 
-extern void dmy_SsContNrpn1(short, short, unsigned char); 
-extern void dmy_SsContNrpn2(short, short, unsigned char); 
-extern void dmy_SsContRpn1(short, short, unsigned char); 
-extern void dmy_SsContRpn2(short, short, unsigned char); 
+extern void dmy_SsContExpression(short, short, unsigned char);
+extern void dmy_SsContDamper(short, short, unsigned char);
+extern void dmy_SsContExternal(short, short, unsigned char);
+extern void dmy_SsContNrpn1(short, short, unsigned char);
+extern void dmy_SsContNrpn2(short, short, unsigned char);
+extern void dmy_SsContRpn1(short, short, unsigned char);
+extern void dmy_SsContRpn2(short, short, unsigned char);
 extern void dmy_SsContResetAll(short, short);
 extern void dmy_SsSetNrpnVabAttr0(short, short, short, VagAtr, short, unsigned char);
 extern void dmy_SsSetNrpnVabAttr1(short, short, short, VagAtr, short, unsigned char);
@@ -464,7 +464,7 @@ jt_SsInit ()
 	SsFCALL.noteon                   = (void (*)())_SsNoteOn;
 	SsFCALL.programchange            = (void (*)())_SsSetProgramChange;
 	SsFCALL.metaevent                = (void (*)())_SsGetMetaEvent;
-	SsFCALL.pitchbend                = (void (*)())_SsSetPitchBend; 
+	SsFCALL.pitchbend                = (void (*)())_SsSetPitchBend;
         SsFCALL.control [CC_NUMBER]      = (void (*)())_SsSetControlChange;
 	SsFCALL.control [CC_BANKCHANGE]  = (void (*)())_SsContBankChange;
 	SsFCALL.control [CC_MAINVOL]     = (void (*)())_SsContMainVol;
@@ -478,26 +478,26 @@ jt_SsInit ()
 	SsFCALL.control [CC_EXTERNAL]    = (void (*)())_SsContExternal;
 	SsFCALL.control [CC_RESETALL]    = (void (*)())_SsContResetAll;
 	SsFCALL.control [CC_DATAENTRY]   = (void (*)())_SsContDataEntry;
-	SsFCALL.ccentry [DE_PRIORITY]	 = (void (*)())_SsSetNrpnVabAttr0;   
-	SsFCALL.ccentry [DE_MODE]        = (void (*)())_SsSetNrpnVabAttr1; 
-	SsFCALL.ccentry [DE_LIMITL]      = (void (*)())_SsSetNrpnVabAttr2; 
-	SsFCALL.ccentry [DE_LIMITH]      = (void (*)())_SsSetNrpnVabAttr3; 
-	SsFCALL.ccentry [DE_ADSR_AR_L]   = (void (*)())_SsSetNrpnVabAttr4; 
-	SsFCALL.ccentry [DE_ADSR_AR_E]   = (void (*)())_SsSetNrpnVabAttr5; 
-	SsFCALL.ccentry [DE_ADSR_DR]     = (void (*)())_SsSetNrpnVabAttr6; 
-	SsFCALL.ccentry [DE_ADSR_SL]     = (void (*)())_SsSetNrpnVabAttr7; 
-	SsFCALL.ccentry [DE_ADSR_SR_L]   = (void (*)())_SsSetNrpnVabAttr8; 
-	SsFCALL.ccentry [DE_ADSR_SR_E]   = (void (*)())_SsSetNrpnVabAttr9; 
-	SsFCALL.ccentry [DE_ADSR_RR_L]   = (void (*)())_SsSetNrpnVabAttr10; 
-	SsFCALL.ccentry [DE_ADSR_RR_E]   = (void (*)())_SsSetNrpnVabAttr11; 
-	SsFCALL.ccentry [DE_ADSR_SR]     = (void (*)())_SsSetNrpnVabAttr12; 
-	SsFCALL.ccentry [DE_VIB_TIME]    = (void (*)())_SsSetNrpnVabAttr13; 
-	SsFCALL.ccentry [DE_PORTA_DEPTH] = (void (*)())_SsSetNrpnVabAttr14; 
-	SsFCALL.ccentry [DE_REV_TYPE]    = (void (*)())_SsSetNrpnVabAttr15; 
-	SsFCALL.ccentry [DE_REV_DEPTH]   = (void (*)())_SsSetNrpnVabAttr16; 
-	SsFCALL.ccentry [DE_ECHO_FB]     = (void (*)())_SsSetNrpnVabAttr17; 
-	SsFCALL.ccentry [DE_ECHO_DELAY]  = (void (*)())_SsSetNrpnVabAttr18; 
-	SsFCALL.ccentry [DE_DELAY]       = (void (*)())_SsSetNrpnVabAttr19; 
+	SsFCALL.ccentry [DE_PRIORITY]	 = (void (*)())_SsSetNrpnVabAttr0;
+	SsFCALL.ccentry [DE_MODE]        = (void (*)())_SsSetNrpnVabAttr1;
+	SsFCALL.ccentry [DE_LIMITL]      = (void (*)())_SsSetNrpnVabAttr2;
+	SsFCALL.ccentry [DE_LIMITH]      = (void (*)())_SsSetNrpnVabAttr3;
+	SsFCALL.ccentry [DE_ADSR_AR_L]   = (void (*)())_SsSetNrpnVabAttr4;
+	SsFCALL.ccentry [DE_ADSR_AR_E]   = (void (*)())_SsSetNrpnVabAttr5;
+	SsFCALL.ccentry [DE_ADSR_DR]     = (void (*)())_SsSetNrpnVabAttr6;
+	SsFCALL.ccentry [DE_ADSR_SL]     = (void (*)())_SsSetNrpnVabAttr7;
+	SsFCALL.ccentry [DE_ADSR_SR_L]   = (void (*)())_SsSetNrpnVabAttr8;
+	SsFCALL.ccentry [DE_ADSR_SR_E]   = (void (*)())_SsSetNrpnVabAttr9;
+	SsFCALL.ccentry [DE_ADSR_RR_L]   = (void (*)())_SsSetNrpnVabAttr10;
+	SsFCALL.ccentry [DE_ADSR_RR_E]   = (void (*)())_SsSetNrpnVabAttr11;
+	SsFCALL.ccentry [DE_ADSR_SR]     = (void (*)())_SsSetNrpnVabAttr12;
+	SsFCALL.ccentry [DE_VIB_TIME]    = (void (*)())_SsSetNrpnVabAttr13;
+	SsFCALL.ccentry [DE_PORTA_DEPTH] = (void (*)())_SsSetNrpnVabAttr14;
+	SsFCALL.ccentry [DE_REV_TYPE]    = (void (*)())_SsSetNrpnVabAttr15;
+	SsFCALL.ccentry [DE_REV_DEPTH]   = (void (*)())_SsSetNrpnVabAttr16;
+	SsFCALL.ccentry [DE_ECHO_FB]     = (void (*)())_SsSetNrpnVabAttr17;
+	SsFCALL.ccentry [DE_ECHO_DELAY]  = (void (*)())_SsSetNrpnVabAttr18;
+	SsFCALL.ccentry [DE_DELAY]       = (void (*)())_SsSetNrpnVabAttr19;
 }
 #endif
 

@@ -5,7 +5,7 @@
 #ifndef _LIBMATH_H_
 #define _LIBMATH_H_
 
-/* 
+/*
   libmath.h
 */
 #define _ABS(x)		((x) < 0 ? -(x) : (x))

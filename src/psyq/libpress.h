@@ -1,6 +1,9 @@
 /* $PSLibId: Run-time Library Release 4.6$ */
 #ifndef _LIBPRESS_H_
 #define _LIBPRESS_H_
+
+#include "../types.h"
+
 /*
  *  (C) Copyright 1995 Sony Corporation,Tokyo,Japan. All Rights Reserved
  *
@@ -8,12 +11,12 @@
  *
  */
 /* DecDCTvlc Table */
-typedef	u_short DECDCTTAB[34816];
+typedef	u16 DECDCTTAB[34816];
 
-/* DecDCTEnv */	
+/* DecDCTEnv */
 typedef struct {
-	u_char	iq_y[64];	/* IQ (Y): zig-zag order */
-	u_char	iq_c[64];	/* IQ (Cb,Cr): zig-zag order */
+	u8	iq_y[64];	/* IQ (Y): zig-zag order */
+	u8	iq_c[64];	/* IQ (Cb,Cr): zig-zag order */
 	short	dct[64];	/* IDCT coef (reserved) */
 } DECDCTENV;
 
@@ -26,7 +29,7 @@ typedef struct {
     char   loop;		/* whether loop or not */
     char   byte_swap;		/* source data is 16-bit big endian (1) / little endian (0) */
     char   proceed;		/* proceeding ? whole (0) / start (1) / cont. (2) / end (4) */
-    char   quality;		/* quality ? middle (0) / high (1) */ 
+    char   quality;		/* quality ? middle (0) / high (1) */
 } ENCSPUENV;
 
 
@@ -52,14 +55,14 @@ extern "C" {
 extern void DecDCTReset(int mode);
 extern DECDCTENV *DecDCTGetEnv(DECDCTENV *env);
 extern DECDCTENV *DecDCTPutEnv(DECDCTENV *env);
-extern int DecDCTBufSize(u_long *bs);
-extern int DecDCTvlc(u_long *bs, u_long *buf);
-extern int DecDCTvlc2(u_long *bs, u_long *buf, DECDCTTAB table);
+extern int DecDCTBufSize(u32 *bs);
+extern int DecDCTvlc(u32 *bs, u32 *buf);
+extern int DecDCTvlc2(u32 *bs, u32 *buf, DECDCTTAB table);
 extern int DecDCTvlcSize(int size);
 extern int DecDCTvlcSize2(int size);
-extern void DecDCTvlcBuild(u_short *table);
-extern void DecDCTin(u_long *buf, int mode);
-extern void DecDCTout(u_long *buf, int size);
+extern void DecDCTvlcBuild(u16 *table);
+extern void DecDCTin(u32 *buf, int mode);
+extern void DecDCTout(u32 *buf, int size);
 extern int DecDCTinSync( int mode) ;
 extern int DecDCToutSync( int mode) ;
 extern int DecDCTinCallback(void (*func)());

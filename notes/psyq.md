@@ -111,10 +111,16 @@ pointer and use the common status-and-result callback shape.
 
 ## Shared declaration policy
 
-Add clean-room declarations under `src/psyq/` by library family when a game C
-caller is ready to use them. Do not copy proprietary Psy-Q headers or manual
-text into the repository. Reconstruct only the ABI surface supported by the
-executable and public interface documentation.
+The repository owner has chosen to track the real Psy-Q 4.6 headers under
+`src/psyq/` so reverse-engineering effort remains focused on the game rather
+than reconstructing SDK declarations. Game C should include those headers
+directly when it uses a Psy-Q interface.
+
+The imported headers retain Sony's interfaces and documentation, with narrow
+project adaptations where required: include paths target `src/types.h`, and
+legacy unsigned aliases are expressed as the fixed-width `u8`, `u16`, and
+`u32` types. Do not maintain parallel clean-room declarations for interfaces
+already provided by these headers.
 
 Recommended header boundaries are:
 
@@ -130,11 +136,9 @@ Recommended header boundaries are:
 | `src/psyq/libmdec.h` | MDEC environment, callbacks, input, and output |
 
 Every shared SDK header must include `src/types.h` and use the project's
-fixed-width aliases. Keep incomplete records opaque. A fielded structure is
-appropriate only when offsets and widths are established by callers, target
-instructions, or an exact documented ABI.
+fixed-width aliases.
 
-The first clean-room declaration is `src/psyq/libcd.h`:
+The real `src/psyq/libcd.h` provides these records:
 
 | Record | Verified ABI surface |
 |---|---|
@@ -187,8 +191,7 @@ Three matching-C consumers independently establish the directory geometry:
 
 These values are centralized as `MEM_CARD_DIRECTORY_ENTRY_SIZE`,
 `MEM_CARD_BLOCK_SIZE`, and `MEM_CARD_BLOCK_COUNT` in `src/game/mem_card.h`.
-This proves the ABI surface used by the game without requiring the full
-proprietary directory-record definition.
+This proves the directory-record ABI surface used by the game.
 
 The routine at `0x8007E7F0` matches the blocking `CdControlB` interface rather
 than the asynchronous `CdControl` variant. It truncates the command argument
@@ -234,10 +237,10 @@ candidate:
 | palette row | x coordinate `0x380` | y coordinate | width `0x40` | height `1` |
 
 This verifies the Psy-Q `RECT` ABI surface as four signed 16-bit fields in
-`x`, `y`, `w`, `h` order and a total size of eight bytes. The clean-room
-declaration now lives in `src/psyq/libgpu.h`; `func_800249E0` uses it for both
-GPU transfer rectangles while retaining the original byte-offset arithmetic
-that selects each record.
+`x`, `y`, `w`, `h` order and a total size of eight bytes. The declaration
+lives in the real `src/psyq/libgpu.h`; `func_800249E0` uses it for both GPU
+transfer rectangles while retaining the original byte-offset arithmetic that
+selects each record.
 
 Before replacing a local definition:
 
@@ -245,7 +248,7 @@ Before replacing a local definition:
 2. Compare every local field access with the documented SDK offsets and widths.
 3. Check all other definitions with the same size or role; do not migrate a
    single convenient caller while leaving conflicting layouts unexplained.
-4. Introduce the smallest shared declaration that covers the proven surface.
+4. Use the declaration from the matching real Psy-Q header.
 5. Rebuild the complete executable. If the shared type changes code generation,
    retain the exact local view and document the exception.
 
@@ -273,6 +276,6 @@ priority over replacing every local layout.
   naming convention.
 - Duplicate linked copies are disambiguated by address.
 - Evidence and conflicts are recorded before changing tracked symbols.
-- No proprietary SDK binary, library, or header is committed.
-- Shared declarations use fixed-width types and preserve the observed ABI.
+- The interface comes from the tracked Psy-Q 4.6 headers.
+- Imported declarations use fixed-width types and preserve the observed ABI.
 - `make match` still reproduces the retail executable exactly.

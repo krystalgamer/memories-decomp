@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "card_constants.h"
 #include "duel_card.h"
