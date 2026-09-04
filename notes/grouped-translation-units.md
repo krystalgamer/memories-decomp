@@ -78,14 +78,16 @@ translation units. The later subsystem pass applies the same invariants across
 AI, File, Duel, Main, Build Deck, and sound code. Function emission order and
 the complete retail executable SHA-256 remain unchanged.
 
-After the expanded subsystem pass, all 773 matching functions build from 681
-translation units. Forty-three grouped units contain 135 functions; the
-largest is the thirteen-function `sound_init.c` block.
+The initial expanded-subsystem snapshot contained 773 matching functions in
+681 translation units. Forty-three grouped units contained 135 functions; the
+largest was the thirteen-function `sound_init.c` block. The authoritative
+current grouping is `config/slus_01411/matching_c.json`.
 
-An executable-order audit of the established AI, File, sound-frontend, and
-sound-driver ranges reports no remaining pair of single-source pure-C
-functions that is both contiguous and profile-compatible. Remaining source
-splits are caused by at least one of:
+At that snapshot, an executable-order audit of the established AI, File,
+sound-frontend, and sound-driver ranges reported no remaining pair of
+single-source pure-C functions that was both contiguous and
+profile-compatible. Source splits in that audit were caused by at least one
+of:
 
 - a nonmatching assembly function between matching functions;
 - different compiler profiles;
