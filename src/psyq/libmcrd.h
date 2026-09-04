@@ -6,7 +6,15 @@
 /*
  * $PSLibId: Run-time Library Release 4.6$
  */
-#include <kernel.h>
+#include "../types.h"
+
+#ifndef _R3000_H
+#include "r3000.h"
+#endif
+#ifndef _ASM_H
+#include "asm.h"
+#endif
+#include "kernel.h"
 
 typedef void (*MemCB)( long cmds, long rslt );
 

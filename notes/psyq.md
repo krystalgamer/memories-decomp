@@ -143,6 +143,11 @@ Recommended header boundaries are:
 Every shared SDK header must include `src/types.h` and use the project's
 fixed-width aliases.
 
+`libmcrd.h` retains the SDK `kernel.h` dependency because
+`MemCardGetDirentry` exposes the full `DIRENTRY` record. Its local `r3000.h`
+and `asm.h` includes establish the kernel guards before `kernel.h`, avoiding
+system include paths that the matching compiler does not provide.
+
 The real `src/psyq/libds.h` and `src/psyq/libcd.h` provide parallel record
 families. The resident file-search anchor is `DsSearchFile`, while the
 position conversion used by `File_GetPosition` is the CD-library
