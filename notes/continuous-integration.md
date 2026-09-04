@@ -3,7 +3,8 @@
 `.github/workflows/matching-build.yml` performs a clean hosted Ubuntu build
 for pushes to `master`, pull requests, and manual dispatches. It installs or
 restores the pinned local tools, runs `make clean`, rebuilds the complete
-PS-X EXE, and explicitly verifies:
+PS-X EXE, checks the generated global-usage reports against the current
+sources and symbols, and explicitly verifies:
 
 ```text
 84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88
@@ -29,7 +30,8 @@ use `make verify-inputs`, so local LBA and extracted-data verification remains
 unchanged.
 
 A missing secret, download failure, input hash mismatch, tool failure, build
-failure, or rebuilt executable hash mismatch makes the workflow fail.
+failure, stale global-usage report, or rebuilt executable hash mismatch makes
+the workflow fail.
 
 ## Compiler installation
 

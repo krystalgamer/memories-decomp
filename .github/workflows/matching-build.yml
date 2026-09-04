@@ -95,3 +95,6 @@ jobs:
             84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88 \
             tmp/project-build/SLUS_014.11 \
             | sha256sum --check --strict
+
+      - name: Verify generated global usage
+        run: make check-global-usage
