@@ -154,7 +154,7 @@
       "address": "0x80014EEC",
       "profile": "gcc_2_8_1_g8",
       "size": "0xB8",
-      "source": "src/game/func_80014EEC.c"
+      "source": "src/game/file_transfer_flags.c"
     },
     {
       "address": "0x80014FA4",
