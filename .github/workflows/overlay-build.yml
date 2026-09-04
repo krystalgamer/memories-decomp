@@ -19,6 +19,7 @@ jobs:
       USE_SYSTEM_MIPS_BINUTILS: "1"
       SLUS_URL: ${{ secrets.YGOFM_SLUS_01411_URL }}
       WA_MRG_URL: ${{ secrets.YGOFM_WA_MRG_URL }}
+      SU_MRG_URL: ${{ secrets.YGOFM_SU_MRG_URL }}
 
     steps:
       - name: Check out source
@@ -44,6 +45,10 @@ jobs:
             echo "::error::Configure the YGOFM_WA_MRG_URL repository secret."
             exit 1
           fi
+          if [ -z "$SU_MRG_URL" ]; then
+            echo "::error::Configure the YGOFM_SU_MRG_URL repository secret."
+            exit 1
+          fi
 
       - name: Download and verify retail inputs
         run: |
@@ -64,6 +69,14 @@ jobs:
             --show-error \
             "$WA_MRG_URL" \
             --output game/DATA/WA_MRG.MRG
+          curl \
+            --fail \
+            --location \
+            --retry 3 \
+            --silent \
+            --show-error \
+            "$SU_MRG_URL" \
+            --output game/DATA/SU.MRG
           printf '%s  %s\n' \
             84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88 \
             game/SLUS_014.11 \
@@ -71,6 +84,10 @@ jobs:
           printf '%s  %s\n' \
             a519a1f5b27f4c6702613ba48c10bf945d25c9c51611ae3d2fab6e5d562b2d66 \
             game/DATA/WA_MRG.MRG \
+            | sha256sum --check --strict
+          printf '%s  %s\n' \
+            c34d1eef2445e15ed40d20ad325c9907c55123d03f35b8693e7031966ef52e51 \
+            game/DATA/SU.MRG \
             | sha256sum --check --strict
 
       - name: Restore pinned project tools
