@@ -92,7 +92,8 @@ knowing by name before reading any of them:
   [`aiMain` `0x80070650`, 67 handlers at `0x800916E0`, VM state `0x800F5BE8`];
 * the **disc loader** — everything that is not in the executable comes in as
   sector ranges of `WA_MRG.MRG` through one request function
-  [`func_80014E1C`] with a per-screen callback that routes the chunks (§12).
+  [`File_RequestAsyncTransfer`] with a per-screen callback that routes the
+  chunks (§12).
 
 **How the modes connect** (arrows are the exits described in each section):
 
@@ -1332,8 +1333,9 @@ The game opens seven files by name at boot [table at `0x8009078C`,
 data), `SU.MRG`, `MODEL.MRG` (3-D models), `MOVIE.STR`, `SD_SE.DAT`,
 `SD_BGM.DAT`, `MASTER.XA`. Everything else is a sector range inside one of
 them, requested through one function with a per-screen callback
-[`func_80014E1C(mode, table, sector, count, callback, …)`]; each menu has a
-fixed sector constant (`0x1690`, `0x1E88`, `0x1EDF`, `0x1F2F`, `0x1F85`,
+[`File_RequestAsyncTransfer(mode, table, sector, count, callback, …)`]; each
+menu has a fixed sector constant (`0x1690`, `0x1E88`, `0x1EDF`, `0x1F2F`,
+`0x1F85`,
 `0x1FA7`, `0x2115`, `0x2147`, `0x2157`, `0x2189`, one indexed at `0x1FD9`).
 
 **The duel blob.** Starting a duel issues one read of **235 sectors at sector

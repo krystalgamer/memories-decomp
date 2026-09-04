@@ -5,7 +5,7 @@ extern short D_8009B098[];
 extern u8 D_801AF000[];
 extern void func_800434F4(void);
 extern void func_80043328(void);
-extern void func_80014E1C(int, int, int, int, void *, int, int);
+extern void File_RequestAsyncTransfer(int, int, int, int, void *, int, int);
 extern void func_800137E4(void);
 extern void func_8007E910(int, int);
 extern int func_8007E9B0(int, int, int, int, int, int);
@@ -32,10 +32,10 @@ void func_80043960(int mode)
     register u8 *first;
     D_8009B428 = 0;
     if (mode == 0) {
-        func_80014E1C(0, 0, 0x1F85, 0x22, func_800434F4, 0, 0);
+        File_RequestAsyncTransfer(0, 0, 0x1F85, 0x22, func_800434F4, 0, 0);
         func_800137E4();
     }
-    func_80014E1C(0, 0, 0x1690, 0x36, func_80043328, 0, 0);
+    File_RequestAsyncTransfer(0, 0, 0x1690, 0x36, func_80043328, 0, 0);
     if (mode != 0) {
         int display;
         func_800137E4();
