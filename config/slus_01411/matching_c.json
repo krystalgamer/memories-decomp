@@ -730,13 +730,13 @@
       "address": "0x80024200",
       "profile": "gcc_2_8_1_g8",
       "size": "0x188",
-      "source": "src/game/func_80024200.c"
+      "source": "src/game/duel_scene_update.c"
     },
     {
       "address": "0x80024388",
       "profile": "gcc_2_8_1_g8",
       "size": "0x6C",
-      "source": "src/game/func_80024388.c"
+      "source": "src/game/duel_scene_update.c"
     },
     {
       "address": "0x800245A0",
