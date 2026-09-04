@@ -66,6 +66,7 @@ symbol review.
 | `0x8007E600` | `CdIntToPos` | Adds the two-second lead-in and writes packed-BCD minute, second, and sector fields to a `CdlLOC`. |
 | `0x8007E710` | `CdPosToInt` | Decodes the first three BCD bytes of a `CdlLOC` and returns a zero-based logical sector number. |
 | `0x8007E7F0` | `CdControlB` | Submits the three-argument CD command and blocks until the internal completion code is `2`. |
+| `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | Byte-identical wrappers that install a callback on DMA channel `3`. |
 | `0x8007F350` | `ResetGraph` | Anchored by GPU `sys.c` evidence and the documented graph-reset contract. |
 | `0x8007F978` | `LoadImage` | GPU transfer call sites pass rectangle-like coordinates and source data. |
 | `0x8007FAF0` | `ClearOTag` | Ordering-table initialization behavior. |
@@ -76,8 +77,13 @@ symbol review.
 | `0x800803F4` | `GetDispEnv` | Writes the current display environment to a caller-owned record. |
 
 Duplicate library copies require address-qualified symbols rather than aliases.
-For example, CD conversion helpers appear more than once in the executable;
-one original name cannot be assigned to multiple resident addresses.
+For example, CD conversion helpers appear more than once in the executable,
+and the two 0x24-byte routines at `0x8007A860` and `0x8007E8A0` are
+instruction-for-instruction copies. Each forwards its callback argument to the
+resident DMA callback installer with channel `3`, matching `CdDataCallback`.
+CD teardown selects one of these wrappers according to the active library
+state, so both linked addresses are live members rather than redundant padding.
+One original name cannot be assigned to multiple resident addresses.
 
 ## Shared declaration policy
 
