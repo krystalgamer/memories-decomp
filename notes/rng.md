@@ -138,7 +138,7 @@ little-endian 16-bit offsets. It consumes one RNG value, selects
 `rand() % count`, clears object halfword `+0x58`, and sets object pointer
 `+0x50` to the base pointer at `+0x54` plus the selected offset. The call to
 `rand` occurs before the count is used, so even a malformed zero-count table
-advances the stream before the generated unsigned-division guard traps. For a
+advances the stream before the generated signed-division guard traps. For a
 valid count `N`, the same `32768 = qN + r` modulo bias applies: entries
 `0` through `r - 1` have one more source value than the remaining entries.
 
