@@ -72,10 +72,18 @@ The generator feeds multiple systems. Confirmed matching-C examples include:
 | `AiScript_JumpRandom` (`0x80070C60`) | Chooses whether a scripted branch is taken |
 | `AiScript_SetRandom` (`0x80070E20`) | Writes a value in a scripted inclusive range |
 | `duel_rewards.c` | Selects post-duel rewards |
-| `main_run_menu.c` | Advances randomness while a menu mode runs |
+| `main_run_frontend_menus.c` | Advances randomness while the main menu runs |
 
 Additional matching and unmatched callers use the same SDK routine for duel
 state, animation timing, and selection logic.
+
+`Main_RunMenu` consumes exactly one value on every handler invocation. Its
+one-time screen initialization runs first, followed by the unconditional
+`rand()` call and then the overlay selection poll. The invocation that
+receives a completed selection still consumes that value before it starts the
+fade and mode transition. This establishes a call-order invariant, not by
+itself a frame-rate invariant: a timing model must still show how often
+`Main_Loop` dispatches the menu handler.
 
 Modulo expressions such as `rand() % divisor` are biased unless the divisor
 evenly divides 32768. Analyses that predict deck, AI, or drop outcomes must
