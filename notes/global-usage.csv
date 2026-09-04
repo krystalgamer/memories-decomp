@@ -2776,12 +2776,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2B20,D_800F2B20,D_800F2B20,0x80051A48,func_80051A48,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03f300.s,read,8,"addiu $a0, $v0, %lo(D_800F2B20) | addiu $a2, $v0, %lo(D_800F2B20) | (+11 more)"
 0x800F2B20,D_800F2B20,D_800F2B20,0x80052694,func_80052694,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_042e94.s,address,,"addiu $a0, $v0, %lo(D_800F2B20) | lui $v0, %hi(D_800F2B20)"
 0x800F2B20,D_800F2B20,D_800F2B20,0x80052D2C,func_80052D2C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_042e94.s,write,8,"addiu $a2, $v0, %lo(D_800F2B20) | addiu $s0, $v0, %lo(D_800F2B20) | (+6 more)"
-0x800F2B20,D_800F2B20,D_800F2B20,0x80059FAC,func_80059FAC,matching_c,game,C,src/game/func_80059FAC.c,address,8,u8 *p = D_800F2B20;
-0x800F2B20,D_800F2B20,D_800F2B20,0x8005A010,func_8005A010,matching_c,game,C,src/game/func_8005A010.c,address,8,u8 *p = D_800F2B20;
-0x800F2B20,D_800F2B20,D_800F2B20,0x8005A074,func_8005A074,matching_c,game,C,src/game/func_8005A074.c,address,8,u8 *p = D_800F2B20;
-0x800F2B20,D_800F2B20,D_800F2B20,0x8005A130,func_8005A130,matching_c,game,C,src/game/func_8005A130.c,address,8,p = D_800F2B20;
+0x800F2B20,D_800F2B20,D_800F2B20,0x80059FAC,func_80059FAC,matching_c,game,C,src/game/model_effect_parameters.c,address,8,u8 *parameters = D_800F2B20;
+0x800F2B20,D_800F2B20,D_800F2B20,0x8005A010,func_8005A010,matching_c,game,C,src/game/model_effect_parameters.c,address,8,u8 *parameters = D_800F2B20;
+0x800F2B20,D_800F2B20,D_800F2B20,0x8005A074,func_8005A074,matching_c,game,C,src/game/model_effect_parameters.c,address,8,u8 *parameters = D_800F2B20;
+0x800F2B20,D_800F2B20,D_800F2B20,0x8005A130,func_8005A130,matching_c,game,C,src/game/model_effect_parameters.c,address,8,parameters = D_800F2B20;
 0x800F2B20,D_800F2B20,D_800F2B20,0x8005A878,func_8005A878,matching_c,game,C,src/game/func_8005A878.c,read,,if (D_800F2B20.busy == 0) { | if (arg != 0 || D_800F2B20.enabled == 0 || D_800F2B20.value == 0)
-0x800F2B22,D_800F2B22,D_800F2B22,0x8005A0DC,func_8005A0DC,matching_c,game,C,src/game/func_8005A0DC.c,write,16,if (state != 1 || func_8005F18C() != state) D_800F2B22 = value * 2;
+0x800F2B22,D_800F2B22,D_800F2B22,0x8005A0DC,func_8005A0DC,matching_c,game,C,src/game/model_effect_parameters.c,write,16,D_800F2B22 = value * 2;
 0x800F2B24,D_800F2B24,D_800F2B24,0x80051A48,func_80051A48,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03f300.s,read,16,"lhu $v1, %lo(D_800F2B24)($v1) | lui $v1, %hi(D_800F2B24)"
 0x800F2B32,D_800F2B32,D_800F2B32,0x80052D2C,func_80052D2C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_042e94.s,write,16,"lui $v1, %hi(D_800F2B32) | sh $v0, %lo(D_800F2B32)($v1)"
 0x800F2B3A,D_800F2B3A,D_800F2B3A,0x80052D2C,func_80052D2C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_042e94.s,write,16,"lui $v0, %hi(D_800F2B3A) | sh $a0, %lo(D_800F2B3A)($v0)"
