@@ -94,6 +94,19 @@ preserve an even distribution while other modulo operations generally do not:
 | `rand() & 1` | 0-1 | Each result has 16384 source values |
 | `rand() % 100` | 0-99 | Results 0-67 occur 328 times; 68-99 occur 327 times |
 
+Adding a constant after a power-of-two mask only shifts that uniform range.
+For example, `func_80037A58` applies `(rand() & 7) - 4` and
+`(rand() & 3) - 2` to two saved coordinates. The first result is uniformly
+distributed from -4 through 3 and the second from -2 through 1. When the
+update flag is set, the function consumes two consecutive values in that
+order; reproducing only the final offsets is not enough to preserve the
+subsequent stream position.
+
+`func_8003B378` and `func_80039F44` each initialize a delay with
+`(rand() & 0xFF) + 0x3C`. That produces every value from 60 through 315 with
+equal frequency. The destination is a signed 16-bit field, so no truncation or
+sign wrap occurs for this range.
+
 The drop selector is also uniform: masking with
 `DUEL_DROP_WEIGHT_TOTAL - 1` produces 0-2047 exactly 16 times each before the
 code adds one. By contrast, `AiScript_JumpRandom` uses `% 100`, so probability
