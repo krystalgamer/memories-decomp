@@ -20,6 +20,26 @@
       "sector_count": 15,
       "sector_offset": 8054,
       "sha256": "6925509db80d4ff8869f41350f0256524f5ff15cb9b3bf2f6dc7351a7caf3d55"
+    },
+    {
+      "archive": "game/DATA/WA_MRG.MRG",
+      "archive_sha256": "a519a1f5b27f4c6702613ba48c10bf945d25c9c51611ae3d2fab6e5d562b2d66",
+      "load_address": "0x80168000",
+      "name": "overworld_before_coup",
+      "output": "tmp/overlays/overworld_before_coup/module.bin",
+      "sector_count": 6,
+      "sector_offset": 8153,
+      "sha256": "9a72a17c1c1716dd799d94c3ab9233b26b87797bfa8b123d7c9d631f8405553f"
+    },
+    {
+      "archive": "game/DATA/WA_MRG.MRG",
+      "archive_sha256": "a519a1f5b27f4c6702613ba48c10bf945d25c9c51611ae3d2fab6e5d562b2d66",
+      "load_address": "0x80168000",
+      "name": "overworld_after_coup",
+      "output": "tmp/overlays/overworld_after_coup/module.bin",
+      "sector_count": 6,
+      "sector_offset": 8311,
+      "sha256": "d1c4f8299d526c8d45911a255bb8388abd14722cb4141df383f4fdb369875dc5"
     }
   ],
   "schema": 1,
