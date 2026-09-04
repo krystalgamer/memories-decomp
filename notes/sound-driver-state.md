@@ -152,14 +152,16 @@ the major top-level offsets.
 All 33 pure-C users now include `sound.h` and use the shared typed global.
 Every accepted migration batch retained the exact full executable hash.
 
-Seven matching-C functions containing GCC inline assembly remain unchanged and
-keep their local raw declarations: `func_800496C4`, `func_80049CF8`,
-`func_80049DD8`, `func_8004A2F8`, `func_8004A854`, `func_8004B734`, and
-`func_8004C77C`.
+Six matching-C functions containing GCC inline assembly remain unchanged and
+keep their local raw declarations: `func_80049CF8`, `func_80049DD8`,
+`func_8004A2F8`, `func_8004A854`, `func_8004B734`, and `func_8004C77C`.
 
-Two migrated functions retain explicit raw indexing where the shared type
+Three migrated functions retain explicit raw indexing where the shared type
 cannot replace the exact source shape:
 
+- `func_800496C4` casts the shared state pointer to a byte view while
+  initializing the transfer window and preserving its required register
+  allocation.
 - `func_8004A7C0` calculates the `0x28`-byte object address explicitly.
   Replacing it with `&D_8009B458->objects[index]` changes the linked
   executable at `0x8004A7C8`.
