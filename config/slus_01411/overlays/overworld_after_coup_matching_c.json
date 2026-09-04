@@ -7,12 +7,6 @@
       "source": "src/overlays/overworld/teardown.c"
     },
     {
-      "address": "0x80168050",
-      "profile": "gcc_2_8_1_g0_split",
-      "size": "0x13C",
-      "source": "src/overlays/overworld/location_objects.c"
-    },
-    {
       "address": "0x8016818C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5C",
@@ -35,6 +29,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x78",
       "source": "src/overlays/overworld/camera_reset.c"
+    },
+    {
+      "address": "0x80168588",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xE4",
+      "source": "src/overlays/overworld/spawn_location_sprite.c"
     }
   ],
   "schema": 1

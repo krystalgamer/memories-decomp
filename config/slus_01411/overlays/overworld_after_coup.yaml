@@ -61,12 +61,14 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/overworld/teardown]
-      - [0x50, c, overlays/overworld/location_objects]
+      - [0x50, asm, overlays/overworld_after_coup/text]
       - [0x18C, c, overlays/overworld/location_label]
       - [0x1E8, c, overlays/overworld/camera_from_location]
       - [0x258, c, overlays/overworld/view_update]
       - [0x310, c, overlays/overworld/camera_reset]
       - [0x388, asm, overlays/overworld_after_coup/text_388]
+      - [0x588, c, overlays/overworld/spawn_location_sprite]
+      - [0x66C, asm, overlays/overworld_after_coup/text_66C]
       - [0x1E54, data, overlays/overworld_after_coup/data]
 
   - [0x3000]
