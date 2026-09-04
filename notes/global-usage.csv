@@ -1498,9 +1498,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B254,D_8009B254,D_8009B254,0x80030E7C,func_80030E7C,matching_c,game,C,src/game/duel_effect_mode_states.c,write,8,D_8009B254[0] = 4;
 0x8009B254,D_8009B254,D_8009B254,0x8003353C,func_8003353C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_023d3c.s,write,8,"lui $at, %hi(D_8009B254) | sb $v0, %lo(D_8009B254)($at)"
 0x8009B254,D_8009B254,D_8009B254,0x800336F0,func_800336F0,matching_c,game,C,src/game/func_800336F0.c,write,8,D_8009B254 = 2;
-0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002A6B8,func_8002A6B8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01aeb8.s,read,8,"lbu $v1, %gp_rel(gCardGrid_bCursorColumn)($gp)"
+0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002A6B8,func_8002A6B8,matching_c,game,C,src/game/func_8002A6B8.c,read,8,column = gCardGrid_bCursorColumn;
 0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002BFCC,func_8002BFCC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01c7cc.s,read,8,"lbu $v1, %gp_rel(gCardGrid_bCursorColumn)($gp)"
-0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002A6B8,func_8002A6B8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01aeb8.s,read,8,"lbu $v0, %gp_rel(gCardGrid_bCursorRow)($gp)"
+0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002A6B8,func_8002A6B8,matching_c,game,C,src/game/func_8002A6B8.c,read,8,s32 row = gCardGrid_bCursorRow;
 0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002BFCC,func_8002BFCC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01c7cc.s,read,8,"lbu $v0, %gp_rel(gCardGrid_bCursorRow)($gp)"
 0x8009B260,D_8009B260,D_8009B260,0x80018FEC,func_80018FEC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0095b4.s,read,8,"lbu $v0, %lo(D_8009B260)($v0) | lui $v0, %hi(D_8009B260)"
 0x8009B260,D_8009B260,D_8009B260,0x80024200,func_80024200,matching_c,game,C,src/game/duel_scene_update.c,read_write,8,D_8009B260 = value & 0x7F; | value = D_8009B260;

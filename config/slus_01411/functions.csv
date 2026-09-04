@@ -258,7 +258,7 @@ address,size,name,status,module,notes
 0x8002A3CC,0xDC,func_8002A3CC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8002A4A8,0x1B8,func_8002A4A8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002A660,0x58,func_8002A660,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8002A6B8,0xD0,func_8002A6B8,unmatched_asm,game,
+0x8002A6B8,0xD0,func_8002A6B8,matching_c,game,"Exact post-terminal card-grid index match from corrected division dataflow; one v0 result pin, no statement-level assembly."
 0x8002A788,0x238,func_8002A788,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002A9C0,0x1F4,func_8002A9C0,matching_c,game,Exact pure C from target-ordered scratchpad pointer initialization
 0x8002ABB4,0xF0,func_8002ABB4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
