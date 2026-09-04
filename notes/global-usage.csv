@@ -2252,9 +2252,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004ACE4,func_8004ACE4,matching_c,game,C,src/game/func_8004ACE4.c,write,,D_8009B458->field_0844 = entry[0x13]; | D_8009B458->field_0845 = entry[0x13];
 0x8009B458,D_8009B458,D_8009B458,0x8004ADE8,func_8004ADE8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03b5e8.s,read,32,"lui $a0, %hi(D_8009B458) | lui $a1, %hi(D_8009B458) | (+6 more)"
 0x8009B458,D_8009B458,D_8009B458,0x8004B374,func_8004B374,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03b5e8.s,read,32,"lui $v0, %hi(D_8009B458) | lui $v1, %hi(D_8009B458) | (+2 more)"
-0x8009B458,D_8009B458,D_8009B458,0x8004B49C,func_8004B49C,matching_c,game,C,src/game/func_8004B49C.c,read,,b = D_8009B458; | c = D_8009B458; | (+1 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004B6E8,func_8004B6E8,matching_c,game,C,src/game/func_8004B6E8.c,read,,(SDSecondaryRecord *)D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004B70C,func_8004B70C,matching_c,game,C,src/game/func_8004B70C.c,read,,(SDSecondaryRecord *)D_8009B458;
+0x8009B458,D_8009B458,D_8009B458,0x8004B49C,func_8004B49C,matching_c,game,C,src/game/sound_secondary_commands.c,read,,b = D_8009B458; | c = D_8009B458; | (+1 more)
+0x8009B458,D_8009B458,D_8009B458,0x8004B6E8,func_8004B6E8,matching_c,game,C,src/game/sound_secondary_commands.c,read,,(SDSecondaryRecord *)D_8009B458;
+0x8009B458,D_8009B458,D_8009B458,0x8004B70C,func_8004B70C,matching_c,game,C,src/game/sound_secondary_commands.c,read,,(SDSecondaryRecord *)D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004B734,func_8004B734,matching_c,game,C,src/game/func_8004B734.c,read_write,8,D_8009B458[0x501] = 1; | D_8009B458[0x508]++; | (+4 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004B854,func_8004B854,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03c054.s,read,32,"lui $v0, %hi(D_8009B458) | lui $v1, %hi(D_8009B458) | (+2 more)"
 0x8009B458,D_8009B458,D_8009B458,0x8004B910,func_8004B910,matching_c,game,C,src/game/sound_event_shutdown.c,read_write,,D_8009B458->flag_0500 = 0; | D_8009B458->flag_0503 = 1; | (+2 more)
