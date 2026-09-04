@@ -64,24 +64,56 @@ overlay-specific exact-match process. Do not add this module to the resident
 
 ## What the menu shows
 
-Reported by a player during the `main_menu_entry_slots` trace attempt. Five
-entries, top to bottom:
+Established by the `main_menu_entry_slots` trace together with the player
+report that produced it. The module drives **two** menus, not one, and
+`D_80184568` holds the entries of both:
 
-1. New Game
-2. Load
-3. 2P Duel
-4. Trade
-5. Option
+| slots | menu | entries |
+|---|---|---|
+| 0-4 | before a game is loaded | New Game, Load, 2P Duel, Trade, Option |
+| 5-10 | after a game is loaded | Campaign, Free Duel, Build Deck, Library, Password, Save |
 
-Each slides in from the opposite side to the one before it: New Game from the
-left, Load from the right, and so on.
+Five plus six is eleven, which is why every function that touches the table
+iterates all eleven regardless of which menu is on screen.
 
-That alternation corroborates `func_80180D2C`, which parks odd slots at
-`0x1E0` and even slots at `-0xA0` — one display width either side of a 320
-wide screen — reached from the code alone before the behaviour was observed.
+Measured y positions confirm the split: slots 0-4 sit at 50, 82, 114, 146 and
+178, and slots 5-10 at 42, 74, 106, 138, 170 and 202. Both use a 32 pixel
+pitch, and each group is centred separately, at 114 and 122.
 
-**Five entries, eleven slots.** `D_80184568` holds eleven pointers and every
-function that touches it iterates all eleven, so the table is not one entry
-per visible item. Whether the remaining six are unused, hold decorations, or
-belong to a different screen state is unresolved; the trace was rerun to
-answer it.
+### Entries alternate by slot index, not by menu position
+
+Parked x is `-160` for even slots and `480` for odd ones, across the whole
+table rather than restarting per menu. That has a visible consequence:
+
+- slot 0 is New Game, at `-160`, so the first menu enters from the **left**
+- slot 5 is Campaign, at `480`, so the second menu enters from the **right**
+
+Both were reported that way before the positions were read, and the reason
+the second menu starts on the opposite side is simply that it continues the
+same alternation.
+
+### Object fields at parking time
+
+| offset | value | meaning |
+|---|---|---|
+| `+0x30`, `+0x32` | parked x, y | position, copied from `+0x36` by `func_80180D2C` |
+| `+0x36`, `+0x38` | `-160`/`480`, `160` | the moving axis and the pinned one |
+| `+0x60` | `0x10` | the value `func_80180D2C` writes |
+| `+0x08` | `0x0088` | flags |
+| `+0x0C` | `0x808080` | colour, mid grey |
+
+`D_80184596` read `0` in the sample and `+0x38` held the pinned `0xA0`, so
+argument `0` selects **horizontal** movement.
+
+## Module header
+
+The first bytes at `0x80180000` are the module identifier `0x0000000F`
+followed by pointers:
+
+```
+0f 00 00 00  6c 41 18 80  14 35 18 80  f4 36 18 80
+             0x8018416C   0x80183514   0x801836F4
+```
+
+`0x8018416C` is a function in this module's inventory, so the header carries
+an entry-point table rather than data.
