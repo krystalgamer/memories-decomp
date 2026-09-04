@@ -3,7 +3,7 @@
 
 struct SomeState {
     u8 pad[0x1A];
-    s8 arr1A[EXODIA_PIECE_COUNT];
+    s8 arr1A[HAND_SIZE];
 };
 struct R6 {
     s16 id;
@@ -18,16 +18,16 @@ extern struct SomeState *D_8009B1C8;
 extern struct Blob D_8015C424;
 
 s32 func_80018CF8(void) {
-    s16 buf[EXODIA_PIECE_COUNT];
+    s16 buf[HAND_SIZE];
     s32 i;
     s32 a3;
 
-    for (i = 0; i < EXODIA_PIECE_COUNT; i++) {
+    for (i = 0; i < HAND_SIZE; i++) {
         buf[i] = D_8009B1C8->arr1A[i];
     }
 
     for (a3 = EXODIA_FIRST_CARD_ID; a3 < EXODIA_CARD_ID_END; a3++) {
-        for (i = 0; i < EXODIA_PIECE_COUNT; i++) {
+        for (i = 0; i < HAND_SIZE; i++) {
             s16 v1 = buf[i];
             if (v1 >= 0) {
                 s16 v0 = D_8015C424.cards[v1].id;
