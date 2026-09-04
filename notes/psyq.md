@@ -116,11 +116,13 @@ The repository owner has chosen to track the real Psy-Q 4.6 headers under
 than reconstructing SDK declarations. Game C should include those headers
 directly when it uses a Psy-Q interface.
 
-The imported headers retain Sony's interfaces and documentation, with narrow
-project adaptations where required: include paths target `src/types.h`, and
-legacy unsigned aliases are expressed as the fixed-width `u8`, `u16`, and
-`u32` types. Do not maintain parallel clean-room declarations for interfaces
-already provided by these headers.
+The imported headers retain Sony's interfaces, scalar spelling, and
+documentation. Narrow project adaptations are made only where a fixed-width
+record or local include boundary requires them: affected headers include
+`src/types.h` and use `u8`, `u16`, or `u32` for those adapted widths. Native
+SDK prototypes that use `long`, `unsigned long`, or `unsigned char` remain
+unchanged when no project alias is needed. Do not maintain parallel clean-room
+declarations for interfaces already provided by these headers.
 
 Recommended header boundaries are:
 
@@ -140,8 +142,10 @@ Recommended header boundaries are:
 | `src/psyq/libmcrd.h` | High-level `MemCard` status, directory, and I/O interfaces |
 | `src/psyq/libpress.h` | MDEC environment, callbacks, input, output, and VLC helpers |
 
-Every shared SDK header must include `src/types.h` and use the project's
-fixed-width aliases.
+Do not add `src/types.h` to an imported header solely for uniformity. Headers
+that expose project-adapted fixed-width records must include it directly and
+use the project aliases; self-contained prototype-only headers may retain the
+SDK's native scalar spelling.
 
 `libmcrd.h` retains the SDK `kernel.h` dependency because
 `MemCardGetDirentry` exposes the full `DIRENTRY` record. Its local `r3000.h`
