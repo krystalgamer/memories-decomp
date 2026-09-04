@@ -1,0 +1,66 @@
+name: overworld_after_coup
+sha1: 1de4784e0c31532dd87add2c0b4fa3d2afd2586b
+
+options:
+  basename: overworld_after_coup
+  base_path: ../../..
+  target_path: tmp/overlays/overworld_after_coup/module.bin
+  elf_path: tmp/overlays/overworld_after_coup/build/overworld_after_coup.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/overworld_after_coup/asm
+  src_path: src
+  build_path: tmp/overlays/overworld_after_coup/build
+  asset_path: tmp/overlays/overworld_after_coup/assets
+  cache_path: tmp/overlays/overworld_after_coup/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/overworld_after_coup/overworld_after_coup.ld
+  generated_asm_macros_directory: tmp/overlays/overworld_after_coup/include
+  lib_path: tmp/overlays/overworld_after_coup/lib
+  o_path: tmp/overlays/overworld_after_coup/build
+  undefined_funcs_auto_path: tmp/overlays/overworld_after_coup/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/overworld_after_coup/undefined_syms_auto.txt
+
+  symbol_addrs_path:
+    - notes/research/Unchiga_Symbols/modules/overworld.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80168000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/overworld_after_coup/module_header]
+
+  - name: module
+    type: code
+    start: 0x4
+    vram: 0x80168004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/overworld_after_coup/text]
+      - [0x1E54, data, overlays/overworld_after_coup/data]
+
+  - [0x3000]

@@ -25,6 +25,7 @@
     {
       "archive": "game/DATA/WA_MRG.MRG",
       "archive_sha256": "a519a1f5b27f4c6702613ba48c10bf945d25c9c51611ae3d2fab6e5d562b2d66",
+      "layout": "config/slus_01411/overlays/overworld_before_coup.yaml",
       "load_address": "0x80168000",
       "name": "overworld_before_coup",
       "output": "tmp/overlays/overworld_before_coup/module.bin",
@@ -35,6 +36,7 @@
     {
       "archive": "game/DATA/WA_MRG.MRG",
       "archive_sha256": "a519a1f5b27f4c6702613ba48c10bf945d25c9c51611ae3d2fab6e5d562b2d66",
+      "layout": "config/slus_01411/overlays/overworld_after_coup.yaml",
       "load_address": "0x80168000",
       "name": "overworld_after_coup",
       "output": "tmp/overlays/overworld_after_coup/module.bin",

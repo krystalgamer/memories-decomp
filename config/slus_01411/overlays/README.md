@@ -29,6 +29,19 @@ The first function prologue begins at `0x801680B4`. The trailing boundary is
 required by references to `D_8016D400` and contains the confirmed
 `gPassword_abDigits` symbol at `0x8016D410`.
 
+Both Egypt overworld variants share one layout shape. They are separate
+modules because the resident loader picks the second package when campaign
+story flag `0x47` is set, and their images differ:
+
+| File range | Runtime range | Content |
+|---:|---:|---|
+| `0x0000-0x0004` | `0x80168000-0x80168004` | Module identifier |
+| `0x0004-0x1E54` | `0x80168004-0x80169E54` | MIPS text |
+| `0x1E54-0x3000` | `0x80169E54-0x8016B000` | Module data |
+
+The `0x1E54` boundary is the word after the final `jr $ra` and its delay slot,
+which is identical in both variants.
+
 Run `make match-overlays` to extract the configured modules, split them with
 their module-specific Splat layouts, assemble and link every generated source,
 and compare each rebuilt binary byte-for-byte with its verified archive slice.
