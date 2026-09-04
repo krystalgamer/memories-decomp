@@ -2344,13 +2344,13 @@
       "address": "0x8003CDF8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x50",
-      "source": "src/game/func_8003CDF8.c"
+      "source": "src/game/input_state_backup.c"
     },
     {
       "address": "0x8003CE48",
       "profile": "gcc_2_8_1_g8",
       "size": "0x2C",
-      "source": "src/game/func_8003CE48.c"
+      "source": "src/game/input_state_backup.c"
     },
     {
       "address": "0x8003CE74",
