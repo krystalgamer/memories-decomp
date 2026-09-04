@@ -2674,19 +2674,19 @@
       "address": "0x80040BF8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xB4",
-      "source": "src/game/func_80040BF8.c"
+      "source": "src/game/display_object_updates.c"
     },
     {
       "address": "0x80040CAC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x68",
-      "source": "src/game/func_80040CAC.c"
+      "source": "src/game/display_object_updates.c"
     },
     {
       "address": "0x80040D14",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC4",
-      "source": "src/game/func_80040D14.c"
+      "source": "src/game/display_object_updates.c"
     },
     {
       "address": "0x80041340",
