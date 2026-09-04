@@ -928,13 +928,13 @@
       "address": "0x800289AC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/func_800289AC.c"
+      "source": "src/game/duel_effect_noop_handlers.c"
     },
     {
       "address": "0x800289B4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/func_800289B4.c"
+      "source": "src/game/duel_effect_noop_handlers.c"
     },
     {
       "address": "0x80029108",
