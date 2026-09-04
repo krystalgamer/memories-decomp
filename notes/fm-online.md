@@ -28,8 +28,10 @@ Several labels agree with independently tracked repository symbols:
 |---|---:|---|
 | `currentScene` | `0x8009B26C` | Main-mode state used by `Main_RunMenu` |
 | `currentTurn` | `0x8009B1D5` | Duel turn byte |
-| player life points | `0x800EA004` | `gDuel_wPlayerLifePoint` |
-| opponent life points | `0x800EA024` | `gDuel_wOpponentLifePoint` |
+| player displayed life points | `0x800EA002` | `gDuel_wPlayerLifePointDisplay` |
+| player actual life points | `0x800EA004` | `gDuel_wPlayerLifePoint` |
+| opponent displayed life points | `0x800EA022` | `gDuel_wOpponentLifePointDisplay` |
+| opponent actual life points | `0x800EA024` | `gDuel_wOpponentLifePoint` |
 | PRNG state | `0x800FE6F8` | `gRand_dwSeed` |
 | card-view bytes | `0x800EA00F`, `0x800EA02F` | Per-player duel display state |
 
@@ -88,6 +90,13 @@ return value at `0x8003FAF0` with `li v0, 1`. This indicates that
 `func_8003F8D4` contains the equal-code rejection path and returns a Boolean-like
 success value after setting an error or scene byte.
 
+The life-point width adjustment reads `RAM::lp[i] - 2`, so it tests the
+displayed values at `0x800EA002` and `0x800EA022`. Its loading and end-of-duel
+checks read `RAM::lp[i]` directly and therefore test the actual values at
+`0x800EA004` and `0x800EA024`. The companion preserves the game's distinction
+between animated display totals and gameplay totals rather than treating each
+player's pair as one field.
+
 ## Behavioral model
 
 The tool polls at approximately half-frame intervals. During a duel it:
@@ -95,8 +104,8 @@ The tool polls at approximately half-frame intervals. During a duel it:
 1. Detects a turn transition from `0x8009B1D5`.
 2. Exposes the current player's card view and blocks the opponent's.
 3. Enables guardian-star feedback only for the active player.
-4. Adjusts the life-point text width when a value exceeds 9999.
-5. Treats either zero life-point value as an end-of-duel signal.
+4. Adjusts the life-point text width when a displayed value exceeds 9999.
+5. Treats either zero actual life-point value as an end-of-duel signal.
 
 The zero-life-point test is an implementation shortcut, not proof that all
 duels end exclusively through life-point depletion. Exodia, surrender, or
@@ -116,4 +125,3 @@ High-value follow-up work is concentrated in the containing functions above:
 The upstream code is evidence, not a patch source for this repository. Its
 hard-coded writes intentionally change retail behavior and must never be
 folded into matching C.
-
