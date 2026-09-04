@@ -61,6 +61,7 @@ segments:
     align: 4
     subsegments:
       - [0x1C, asm, overlays/main_menu/text]
+      - [0xD2C, c, overlays/main_menu/func_80180D2C]
       - [0xDD0, c, overlays/main_menu/func_80180DD0]
       - [0xE6C, asm, overlays/main_menu/text_E6C]
       - [0xF50, c, overlays/main_menu/func_80180F50]
