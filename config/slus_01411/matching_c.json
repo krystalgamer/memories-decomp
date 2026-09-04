@@ -2164,13 +2164,13 @@
       "address": "0x80039F90",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/func_80039F90.c"
+      "source": "src/game/display_object_cleanup.c"
     },
     {
       "address": "0x80039FD4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x24",
-      "source": "src/game/func_80039FD4.c"
+      "source": "src/game/display_object_cleanup.c"
     },
     {
       "address": "0x80039FF8",
