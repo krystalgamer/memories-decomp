@@ -153,6 +153,19 @@ This agrees with the runtime text model:
 - Stored message data can therefore use compact glyph indices while dynamic
   input remains Shift-JIS.
 
+The matching converter also defines the encoded stream format. It searches the
+32-bit table entries by their low 16-bit Shift-JIS value, then writes:
+
+| Glyph-table index | Encoded glyph code |
+|---:|---|
+| `0x00-0xEF` | One byte containing the index |
+| `0xF0` and above | Two bytes: `0xF0 | (index >> 8)`, then the low byte |
+
+A zero input code maps directly to glyph index zero. After the requested
+Shift-JIS character slots are converted, `Text_SjisToGlyphCodes` appends
+`0xFF` as the stream terminator. The TBL values are therefore decoded glyph
+indices, not bytes that can be copied directly from a Shift-JIS string.
+
 The TBL page contains suspicious duplicate character labels, including two
 entries each for `<` and `>`, and `0x55 = a`. Preserve the numeric value when
 testing those entries; do not normalize or silently correct the community
