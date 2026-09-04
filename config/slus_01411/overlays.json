@@ -3,12 +3,23 @@
     {
       "archive": "game/DATA/WA_MRG.MRG",
       "archive_sha256": "a519a1f5b27f4c6702613ba48c10bf945d25c9c51611ae3d2fab6e5d562b2d66",
+      "layout": "config/slus_01411/overlays/free_duel.yaml",
       "load_address": "0x80168000",
       "name": "free_duel",
       "output": "tmp/overlays/free_duel/module.bin",
       "sector_count": 5,
       "sector_offset": 7898,
       "sha256": "e5091e1a5df0287dbd3561915ca53c0f91d359d7eb0ec4156c5734361b55c1f2"
+    },
+    {
+      "archive": "game/DATA/WA_MRG.MRG",
+      "archive_sha256": "a519a1f5b27f4c6702613ba48c10bf945d25c9c51611ae3d2fab6e5d562b2d66",
+      "load_address": "0x80168000",
+      "name": "password",
+      "output": "tmp/overlays/password/module.bin",
+      "sector_count": 15,
+      "sector_offset": 8054,
+      "sha256": "6925509db80d4ff8869f41350f0256524f5ff15cb9b3bf2f6dc7351a7caf3d55"
     }
   ],
   "schema": 1,

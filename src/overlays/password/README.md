@@ -19,7 +19,12 @@ module image.
 Module-scoped symbol evidence is kept in
 [`notes/research/Unchiga_Symbols/modules/password.txt`](../../../notes/research/Unchiga_Symbols/modules/password.txt).
 
-No overlay source or build manifest is accepted yet. Keep extracted payloads,
-candidate sources, objects, and diffs under `tmp/` until a function passes an
-overlay-specific exact-match process. Do not add this module to the resident
+The verified executable phase is tracked in
+[`config/slus_01411/overlays.json`](../../../config/slus_01411/overlays.json).
+`make overlays` extracts it to `tmp/overlays/password/module.bin`, and
+`make verify-overlays` checks the archive and payload hashes.
+
+No overlay source or build layout is accepted yet. Keep candidate sources,
+objects, and diffs under `tmp/` until a function passes an overlay-specific
+exact-match process. Do not add this module to the resident
 `config/slus_01411/matching_c.json`.

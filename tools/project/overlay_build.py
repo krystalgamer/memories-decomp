@@ -33,7 +33,10 @@ def load_modules(root: Path) -> list[dict[str, Any]]:
     modules = manifest.get("modules")
     if manifest.get("schema") != 1 or not isinstance(modules, list):
         raise OverlayBuildError(f"invalid overlay manifest: {path.relative_to(root)}")
-    return modules
+    build_modules = [module for module in modules if module.get("layout") is not None]
+    if not build_modules:
+        raise OverlayBuildError("overlay manifest has no build-ready modules")
+    return build_modules
 
 
 def module_field(module: dict[str, Any], field: str) -> str:
@@ -49,9 +52,7 @@ def module_paths(
     name = module_field(module, "name")
     module_root = resolve_within(root, f"tmp/overlays/{name}")
     target = resolve_within(root, module_field(module, "output"), must_exist=True)
-    config = resolve_within(
-        root, f"config/slus_01411/overlays/{name}.yaml", must_exist=True
-    )
+    config = resolve_within(root, module_field(module, "layout"), must_exist=True)
     built_elf = resolve_within(root, f"tmp/overlays/{name}/build/{name}.elf")
     built_binary = resolve_within(root, f"tmp/overlays/{name}/build/{name}.bin")
     return name, module_root, target, config, built_elf, built_binary
