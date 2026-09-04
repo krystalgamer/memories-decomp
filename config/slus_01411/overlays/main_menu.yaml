@@ -73,7 +73,7 @@ segments:
       - [0x3FE4, c, overlays/main_menu/func_80183FE4]
       - [0x4030, asm, overlays/main_menu/text_4030]
       - [0x4454, c, overlays/main_menu/func_80184454]
-      - [0x44D8, asm, overlays/main_menu/text_44D8]
+      - [0x44D8, c, overlays/main_menu/func_801844D8]
       - [0x4558, data, overlays/main_menu/data]
 
   - [0x8000]

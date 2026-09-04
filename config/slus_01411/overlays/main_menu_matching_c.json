@@ -53,6 +53,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x84",
       "source": "src/overlays/main_menu/func_80184454.c"
+    },
+    {
+      "address": "0x801844D8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x80",
+      "source": "src/overlays/main_menu/func_801844D8.c"
     }
   ],
   "schema": 1
