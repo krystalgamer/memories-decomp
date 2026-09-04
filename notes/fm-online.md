@@ -50,6 +50,21 @@ Several labels agree with independently tracked repository symbols:
 | PRNG state | `0x800FE6F8` | `gRand_dwSeed` |
 | card-view bytes | `0x800EA00F`, `0x800EA02F` | Per-player duel display state |
 
+The life-point and card-view pairs are fields in the same two side records,
+not separate parallel allocations. Matching C establishes
+`D_800E9FF0[2]` as an array with a `0x20`-byte stride. Relative to each record,
+the displayed life points are at `+0x12`, authoritative life points at
+`+0x14`, and FM-Online's card-view byte at `+0x1F`:
+
+| Side record | Display LP | Actual LP | Card view |
+|---:|---:|---:|---:|
+| `0x800E9FF0` | `0x800EA002` | `0x800EA004` | `0x800EA00F` |
+| `0x800EA010` | `0x800EA022` | `0x800EA024` | `0x800EA02F` |
+
+This stride explains why each FM-Online address array advances by exactly
+`0x20` between players and provides a stable structural anchor for recovering
+the still-unnamed display-state field.
+
 FM-Online identifies scene value `0x2D0` as the 2P setup screen and `0x2C3` as
 the active duel. These values are runtime observations and should not yet
 replace address-based scene-state names.
