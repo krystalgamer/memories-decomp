@@ -21,7 +21,10 @@ s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     base = *(u8 **)(q + 8);
 
     func_800871D0();
-    func_8008A4A0(*(u8 **)(p + 0xD14) + arg1 * 80, sp10);
+    func_8008A4A0(
+        *(u8 **)(p + 0xD14) + arg1 * MODEL_SLOT_DATA_ENTRY_SIZE,
+        sp10
+    );
     func_800855D0(sp10);
     func_80087970(base + arg2 * 8, arg3, sp30);
     func_80087274();
