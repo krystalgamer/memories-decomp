@@ -1,4 +1,0 @@
-#include "../types.h"
-
-extern void*func_8004006C(void);extern unsigned char*func_800400AC(void*,int);extern void func_800404CC(void*,int,int,int,int,int,int,int),func_80042918(void*),func_800428EC(void*,int);
-unsigned char*func_800374F4(unsigned char*src){unsigned char*o=func_800400AC(func_8004006C(),2);func_800404CC(o,*(short*)(src+0x3C)+*(short*)(src+0x3E)-0x10,*(short*)(src+0x40)+*(short*)(src+0x42)-0x10,3,0,0,11,0x20C);*(unsigned short*)(o+8)|=0x28;func_80042918(o);func_800428EC(o,(signed char)(src[0x59]+1));return o;}

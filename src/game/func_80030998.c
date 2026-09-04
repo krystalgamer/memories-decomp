@@ -104,7 +104,7 @@ __asm__(
     ".word 0x10400053\n"
     ".word 0x00000000\n"
     ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_800374F4\n"
+    ".reloc .-4, R_MIPS_26, Dialog_OpenChoice\n"
     ".word 0x02002021\n"
     ".word 0x93830000\n"
     ".reloc .-4, R_MIPS_GPREL16, D_8009B2EB\n"

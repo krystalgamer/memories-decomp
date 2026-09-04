@@ -1787,7 +1787,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B330,D_8009B330,D_8009B330,0x80039AD4,func_80039AD4,matching_c,game,C,src/game/func_80039AD4.c,write,32,D_8009B330 = 1;
 0x8009B330,D_8009B330,D_8009B330,0x80039D64,func_80039D64,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02a564.s,read_write,32,"lw $v0, %gp_rel(D_8009B330)($gp) | sw $zero, %gp_rel(D_8009B330)($gp)"
 0x8009B335,D_8009B335,D_8009B335,0x80037B40,func_80037B40,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_028340.s,read_write,8,"lbu $v1, %gp_rel(D_8009B335)($gp) | sb $a1, %gp_rel(D_8009B335)($gp) | (+2 more)"
-0x8009B336,D_8009B336,D_8009B336,0x80036F80,func_80036F80,matching_c,game,C,src/game/func_80036F80.c,read,8,if (((D_8009B336 >> D_8009B34D) & 1) == 0) value = 0xC0;
+0x8009B336,D_8009B336,D_8009B336,0x80036F80,Dialog_HighlightChoice,matching_c,game,C,src/game/dialog_highlight_choice.c,read,8,if (((D_8009B336 >> D_8009B34D) & 1) == 0) value = 0xC0;
 0x8009B336,D_8009B336,D_8009B336,0x800371A8,func_800371A8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0279a8.s,read,8,"lbu $v1, %gp_rel(D_8009B336)($gp)"
 0x8009B336,D_8009B336,D_8009B336,0x80038BF0,func_80038BF0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0293f0.s,write,8,"sb $v0, %gp_rel(D_8009B336)($gp)"
 0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x8001B170,func_8001B170,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00a518.s,write,16,"lui $at, %hi(gDuel_wSelectedCardID) | sh $v0, %lo(gDuel_wSelectedCardID)($at)"
@@ -1826,7 +1826,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B34D,D_8009B34D,D_8009B34D,0x8002EE94,func_8002EE94,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01f694.s,read_write,8,"lb $v0, %lo(D_8009B34D)($v0) | lb $v1, %lo(D_8009B34D)($v1) | (+5 more)"
 0x8009B34D,D_8009B34D,D_8009B34D,0x800339D0,func_800339D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0241d0.s,read,8,"lb $v0, %lo(D_8009B34D)($v0) | lui $v0, %hi(D_8009B34D)"
 0x8009B34D,D_8009B34D,D_8009B34D,0x80036DBC,DuelEffect_UpdateObjectLayout,matching_c,game,C,src/game/duel_effect_update_object_layout.c,read,8,v = *(u16 *)(p + 0x40) + a + D_8009B34D * 0x10; | v0 = *(u16 *)(p + 0x40) + c + D_8009B34D * 0xC; | (+1 more)
-0x8009B34D,D_8009B34D,D_8009B34D,0x80036F80,func_80036F80,matching_c,game,C,src/game/func_80036F80.c,read,8,if (((D_8009B336 >> D_8009B34D) & 1) == 0) value = 0xC0;
+0x8009B34D,D_8009B34D,D_8009B34D,0x80036F80,Dialog_HighlightChoice,matching_c,game,C,src/game/dialog_highlight_choice.c,read,8,if (((D_8009B336 >> D_8009B34D) & 1) == 0) value = 0xC0;
 0x8009B34D,D_8009B34D,D_8009B34D,0x8003700C,func_8003700C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02780c.s,read_write,8,"lbu $a0, %gp_rel(D_8009B34D)($gp) | lbu $v0, %gp_rel(D_8009B34D)($gp) | (+5 more)"
 0x8009B34D,D_8009B34D,D_8009B34D,0x800371A8,func_800371A8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0279a8.s,read_write,8,"lb $a0, %gp_rel(D_8009B34D)($gp) | sb $v0, %gp_rel(D_8009B34D)($gp)"
 0x8009B34D,D_8009B34D,D_8009B34D,0x80038BF0,func_80038BF0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0293f0.s,read_write,8,"lb $v0, %gp_rel(D_8009B34D)($gp) | sb $zero, %gp_rel(D_8009B34D)($gp)"

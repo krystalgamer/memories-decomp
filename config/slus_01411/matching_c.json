@@ -1786,7 +1786,7 @@
       "address": "0x80036F80",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8C",
-      "source": "src/game/func_80036F80.c"
+      "source": "src/game/dialog_highlight_choice.c"
     },
     {
       "address": "0x80037110",
@@ -1816,7 +1816,7 @@
       "address": "0x800374F4",
       "profile": "gcc_2_8_1_g0",
       "size": "0xB0",
-      "source": "src/game/func_800374F4.c"
+      "source": "src/game/dialog_open_choice.c"
     },
     {
       "address": "0x800375A4",
