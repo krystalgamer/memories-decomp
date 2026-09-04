@@ -1612,13 +1612,13 @@
       "address": "0x80033C90",
       "profile": "gcc_2_8_1_g8",
       "size": "0x18",
-      "source": "src/game/func_80033C90.c"
+      "source": "src/game/duel_effect_mode_7.c"
     },
     {
       "address": "0x80033CA8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
-      "source": "src/game/func_80033CA8.c"
+      "source": "src/game/duel_effect_mode_7.c"
     },
     {
       "address": "0x80033CC4",
