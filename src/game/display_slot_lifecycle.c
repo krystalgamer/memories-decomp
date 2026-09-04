@@ -1,5 +1,8 @@
 #include "../types.h"
 
+#define DISPLAY_SLOT_RESERVED_COUNT 16
+#define DISPLAY_SLOT_COUNT 0x60
+
 typedef struct {
     s16 field_00;
     s16 field_02;
@@ -38,8 +41,10 @@ extern u16 D_8009AF74[4];
 extern u16 D_8009B410;
 extern u16 D_8009B412;
 extern s16 D_800EFE38[];
-extern DisplaySlot D_800EFE48[];
-extern DisplaySlot D_800F0548[];
+extern DisplaySlot D_800EFE48[DISPLAY_SLOT_COUNT];
+extern DisplaySlot D_800F0548[
+    DISPLAY_SLOT_COUNT - DISPLAY_SLOT_RESERVED_COUNT
+];
 extern s16 D_800F2878[];
 extern u8 tail_data_start[];
 
@@ -48,7 +53,7 @@ s32 func_8004002C(void)
     DisplaySlot *entry = D_800F0548;
     s32 i;
 
-    for (i = 16; i < 0x60; i++, entry++) {
+    for (i = DISPLAY_SLOT_RESERVED_COUNT; i < DISPLAY_SLOT_COUNT; i++, entry++) {
         if ((entry->flags_08 & 0x80) == 0) {
             return i;
         }
@@ -61,7 +66,7 @@ s32 func_8004006C(void)
     DisplaySlot *entry = D_800EFE48;
     s32 i;
 
-    for (i = 0; i < 0x60; i++, entry++) {
+    for (i = 0; i < DISPLAY_SLOT_COUNT; i++, entry++) {
         if ((entry->flags_08 & 0x80) == 0) {
             return i;
         }
