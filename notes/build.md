@@ -43,6 +43,50 @@ The bootstrap installs:
 Downloaded archives, installed packages, source checkouts, and toolchains remain
 under `tools/`. Temporary build directories remain under `tmp/`.
 
+### Host requirements, and what breaks on a newer distribution
+
+The bootstrap pins its dependencies exactly, which is the right default and
+also means a host newer than the pins needs three specific accommodations.
+Everything below was reproduced on **Ubuntu 26.04 LTS with GCC 15.2.0**; the
+pins themselves are correct and none of this asks for them to be loosened.
+
+**The Python environment is pinned to CPython 3.10 exactly.**
+`tools/bootstrap/tools.json` declares `major_minor: [3, 10]` and
+`bootstrap.py` enforces it with `sys.version_info[:2] != expected`. Ubuntu
+26.04 ships only 3.14, and 3.10 is not packaged for it. A standalone
+interpreter satisfies the check without touching the system:
+
+```sh
+uv python install 3.10
+make python-tools BOOTSTRAP_PYTHON="$(uv python find 3.10)"
+```
+
+**`make toolchain-system` is unusable there.** It requires
+`binutils-mips-linux-gnu` at exactly `2.38-1ubuntu1cross2`; 26.04 ships
+`2.45.90.20260125-1ubuntu1cross1`, so the check fails and
+`USE_SYSTEM_MIPS_BINUTILS=1` is not an option. The from-source `make
+toolchain` is the only route, which leads to the next point.
+
+**binutils 2.42 does not compile under GCC 15.** GCC 15 defaults to C23, where
+`static_assert` is a keyword, and the build stops at:
+
+```text
+opcodes/mips-formats.h:86:7: error: expected identifier or '(' before 'static_assert'
+```
+
+Selecting the older dialect builds it unmodified:
+
+```sh
+CFLAGS=-std=gnu17 make toolchain
+```
+
+`make compiler-281-prebuilt` needs nothing.
+
+A full `make clean match` on such a host reproduces
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`, so the
+pinned toolchain itself is portable; only these three bootstrap steps notice
+the host.
+
 ## Analysis pipeline
 
 ```sh
