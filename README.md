@@ -35,7 +35,7 @@ Runtime overlay modules:
 
 | Module | Matching C functions | Matching C bytes |
 |---|---:|---:|
-| `free_duel` | 3 / 9 (33.33%) | 348 (`0x15C`) / 4,140 (`0x102C`) (8.41%) |
+| `free_duel` | 4 / 9 (44.44%) | 472 (`0x1D8`) / 4,140 (`0x102C`) (11.40%) |
 | `main_menu` | 0 / 31 (0.00%) | 0 (`0x0`) / 17,724 (`0x453C`) (0.00%) |
 | `overworld_after_coup` | 0 / 20 (0.00%) | 0 (`0x0`) / 6,180 (`0x1824`) (0.00%) |
 | `overworld_before_coup` | 0 / 20 (0.00%) | 0 (`0x0`) / 6,180 (`0x1824`) (0.00%) |

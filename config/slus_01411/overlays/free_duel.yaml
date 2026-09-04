@@ -66,6 +66,7 @@ segments:
       - [0x24C, asm, overlays/free_duel/text_24C]
       - [0x99C, c, overlays/free_duel/sparkle_slot]
       - [0x9D4, asm, overlays/free_duel/text_9D4]
+      - [0xFB4, c, overlays/free_duel/entry]
       - [0x1030, data, overlays/free_duel/data]
 
   - [0x2800]
