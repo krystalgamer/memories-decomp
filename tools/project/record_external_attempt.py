@@ -50,6 +50,9 @@ MODE_MAX_ATTEMPTS = {
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
 COMMENT_PATTERN = re.compile(r"/\*.*?\*/|//[^\n]*", re.DOTALL)
+REGISTER_PIN_PATTERN = re.compile(
+    r"\bregister\b[^;]*?\b(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
+)
 
 
 def parse_address(value: str) -> int:
@@ -70,8 +73,19 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def uses_asm_extension(source: str) -> bool:
-    return ASM_PATTERN.search(COMMENT_PATTERN.sub("", source)) is not None
+def uses_asm_extension(source: str, *, allow_register_pins: bool = False) -> bool:
+    """Report use of a GCC asm extension.
+
+    By default any asm extension is rejected, keeping these ledgers pure C.
+    When ``allow_register_pins`` is set, `register` variables pinned to a hard
+    register are permitted per issue #5, which accepts that narrow form for
+    functions that are otherwise unmatchable. Statement-level inline assembly
+    is still rejected in both modes.
+    """
+    text = COMMENT_PATTERN.sub("", source)
+    if allow_register_pins:
+        text = REGISTER_PIN_PATTERN.sub("register", text)
+    return ASM_PATTERN.search(text) is not None
 
 
 def load_json(path: Path) -> Any:
@@ -360,6 +374,14 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="validate the selected ledger without writing",
     )
+    parser.add_argument(
+        "--allow-register-pins",
+        action="store_true",
+        help=(
+            "accept `register` variables pinned to a hard register; "
+            "statement-level inline assembly is still rejected"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -458,11 +480,16 @@ def main() -> int:
             root, candidate, profiles[args.profile]
         )
         if (
-            uses_asm_extension(source_text)
-            or ASM_PATTERN.search(preprocessed_text)
+            uses_asm_extension(
+                source_text, allow_register_pins=args.allow_register_pins
+            )
+            or uses_asm_extension(
+                preprocessed_text, allow_register_pins=args.allow_register_pins
+            )
         ):
             raise ExternalAttemptError(
-                f"{address:#010x}: candidate still uses a GCC asm extension"
+                f"{address:#010x}: candidate still uses a GCC asm extension "
+                "(pass --allow-register-pins to accept register pinning)"
             )
         name = function["name"]
         if name not in source_text:

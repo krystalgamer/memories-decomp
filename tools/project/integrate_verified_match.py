@@ -21,6 +21,9 @@ class IntegrationError(RuntimeError):
 
 ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
 COMMENT_PATTERN = re.compile(r"/\*.*?\*/|//[^\n]*", re.DOTALL)
+REGISTER_PIN_PATTERN = re.compile(
+    r"\bregister\b[^;]*?\b(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
+)
 EXTERNAL_FIELDS = (
     "mode",
     "address",
@@ -48,6 +51,20 @@ def sha256(path: Path) -> str:
         for block in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def uses_asm_extension(source: str, *, allow_register_pins: bool = False) -> bool:
+    """Report use of a GCC asm extension.
+
+    By default any asm extension is rejected. When ``allow_register_pins`` is
+    set, `register` variables pinned to a hard register are permitted per
+    issue #5, which accepts that narrow form for functions that are otherwise
+    unmatchable. Statement-level inline assembly is rejected in both modes.
+    """
+    text = COMMENT_PATTERN.sub("", source)
+    if allow_register_pins:
+        text = REGISTER_PIN_PATTERN.sub("register", text)
+    return ASM_PATTERN.search(text) is not None
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -137,6 +154,14 @@ def parse_args() -> argparse.Namespace:
         "--replace-existing",
         action="store_true",
         help="replace an existing matching source after inline refinement",
+    )
+    parser.add_argument(
+        "--allow-register-pins",
+        action="store_true",
+        help=(
+            "accept `register` variables pinned to a hard register; "
+            "statement-level inline assembly is still rejected"
+        ),
     )
     return parser.parse_args()
 
@@ -259,9 +284,12 @@ def main() -> int:
                 raise IntegrationError(
                     f"{address:#010x}: source hash differs from matched reference evidence"
                 )
-            if ASM_PATTERN.search(COMMENT_PATTERN.sub("", source_text)):
+            if uses_asm_extension(
+                source_text, allow_register_pins=args.allow_register_pins
+            ):
                 raise IntegrationError(
-                    f"{address:#010x}: reference match still contains GCC asm"
+                    f"{address:#010x}: reference match still contains GCC asm "
+                    "(pass --allow-register-pins to accept register pinning)"
                 )
         definition_pattern = re.compile(
             rf"\b{re.escape(function.name)}\s*\("
