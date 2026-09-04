@@ -61,6 +61,7 @@ symbol review.
 | `0x80073890` | `EnableEvent` | Called on all eight descriptors immediately after creation. |
 | `0x800738B0` | `EnterCriticalSection` | Brackets event creation and teardown with `0x800738C0`. |
 | `0x800738C0` | `ExitCriticalSection` | Paired critical-section exit. |
+| `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | Byte-identical wrappers that install a callback on DMA channel `3`. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
 | `0x8007E3D0` | `CdGetSector` | Identified CD-sector transfer interface in the resident CD library. |
 | `0x8007E600` | `CdIntToPos` | Adds the two-second lead-in and writes packed-BCD minute, second, and sector fields to a `CdlLOC`. |
@@ -68,7 +69,6 @@ symbol review.
 | `0x8007E7F0` | `CdControlB` | Submits the three-argument CD command and blocks until the internal completion code is `2`. |
 | `0x8007E860` | `CdReadyCallback` | Replaces and returns the callback invoked with a ready-event status and result pointer. |
 | `0x8007E880` | `CdSyncCallback` | Replaces and returns the callback invoked from the command-completion path. |
-| `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | Byte-identical wrappers that install a callback on DMA channel `3`. |
 | `0x8007F350` | `ResetGraph` | Anchored by GPU `sys.c` evidence and the documented graph-reset contract. |
 | `0x8007F978` | `LoadImage` | GPU transfer call sites pass rectangle-like coordinates and source data. |
 | `0x8007FAF0` | `ClearOTag` | Ordering-table initialization behavior. |
@@ -87,14 +87,23 @@ CD teardown selects one of these wrappers according to the active library
 state, so both linked addresses are live members rather than redundant padding.
 One original name cannot be assigned to multiple resident addresses.
 
-The callback invocation paths distinguish the two adjacent setter routines.
-The pointer stored by `0x8007E860` is called from the ready-event dispatcher
-with the one-byte event status and result-buffer pointer. The pointer stored
-by `0x8007E880` is called from the command-completion dispatcher, which
-masks the status to one byte and leaves the incoming second argument unchanged,
-forwarding it through the MIPS argument registers. Both setters return the
-previous pointer. This supports `CdReadyCallback` and `CdSyncCallback`,
-respectively, with the common status-and-result callback shape.
+The callback invocation paths distinguish the two adjacent setter routines:
+
+- `0x8007E860` swaps the pointer at `D_800F8394`. Initialization registers
+  dispatcher `0x8007BB74` through `0x8007BED4`, whose destination is
+  `D_800F5F88`. That dispatcher explicitly recognizes event code `1`
+  (`CdlDataReady`) and forwards its one-byte event code and result pointer to
+  `D_800F8394`.
+- `0x8007E880` swaps the distinct pointer at `D_800F8398`. Initialization
+  registers dispatcher `0x8007BC48` through `0x8007BEE0`, whose destination is
+  `D_800F5F8C`. The command state machine at `0x8007C7D4` calls
+  `D_800F5F8C` with literal event code `2` (`CdlComplete`) at `0x8007C940`;
+  `0x8007BC48` then forwards the status and unchanged second argument to
+  `D_800F8398`.
+
+This pins `CdReadyCallback` and `CdSyncCallback`, respectively, rather than
+relying on the adjacent function order. Both setters return the previous
+pointer and use the common status-and-result callback shape.
 
 ## Shared declaration policy
 
