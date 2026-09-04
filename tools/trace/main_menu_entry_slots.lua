@@ -13,29 +13,37 @@
 --   order they are stored.
 --
 -- HOW TO RUN
---   1. Open PCSX-Redux with the game, enable the debugger, and make sure the
---      interpreter CPU is selected. Breakpoints do not fire on the dynarec.
+--   1. Open PCSX-Redux with the game.
 --   2. Debug -> Lua editor, paste this file, let it auto-run.
---   3. Boot to the title screen and enter the main menu so the overlay loads.
---   4. The script prints a finished document once it has seen the parking
---      routine a few times. Copy all of it into
+--   3. Go to the main menu. It does not matter whether you are already there
+--      when you paste this, or arrive afterwards.
+--   4. The document prints itself once the menu is up. Copy all of it into
 --      tools/trace/result/main_menu_entry_slots.txt and fill in the context.
 --
+--   No breakpoint and no debugger needed, so the interpreter CPU is not
+--   required either.
+--
+-- WHY IT NO LONGER USES A BREAKPOINT
+--   The first version broke on func_80180D2C. That never fired, because the
+--   routine runs once while the menu is being built, which is over before the
+--   menu is interactive and usually before the script has been pasted. This
+--   version instead samples the table every vertical blank, so it does not
+--   matter when it is armed.
+--
 -- WHAT TO WRITE IN THE CONTEXT
---   Which screen you were on, and the menu entries you could see, top to
---   bottom, in the order they appear. If entries slid in from the sides, say
---   which side each one came from. That is the part the trace cannot see.
+--   The menu entries you can see, top to bottom, and which side each one slid
+--   in from. That is the part the trace cannot see.
 
 local ffi = require('ffi')
 
 local SCRIPT_NAME = 'main_menu_entry_slots'
-local PARK_FN     = 0x80180d2c   -- func_80180D2C, parks the slots off screen
 local SLOT_TABLE  = 0x80184568   -- D_80184568, eleven object pointers
 local SLOT_COUNT  = 11
 local AXIS_FLAG   = 0x80184596   -- D_80184596, receives the argument
 local READY_FLAG  = 0x80184599   -- D_80184599, set to 1 on the way out
 local MODULE_BASE = 0x80180000   -- overlay load address, dumped as a signature
-local MAX_HITS    = 3
+local MAX_SAMPLES = 3
+local SETTLE_FRAMES = 180   -- about three seconds with no change ends the trace
 
 local mem = PCSX.getMemPtr()
 
@@ -53,17 +61,16 @@ end
 local lines = {}
 local function emit(text) lines[#lines + 1] = text end
 
-local hits = 0
+local samples = 0
 local done = false
+local lastKey = nil
+local quiet = 0
 
 local function capture()
-    hits = hits + 1
-    local regs = PCSX.getRegisters()
+    samples = samples + 1
 
     emit('')
-    emit(string.format('--- hit %d of %d, called from pc=0x%08x with a0=0x%08x ---',
-                       hits, MAX_HITS, tonumber(regs.pc), tonumber(regs.GPR.n.a0)))
-    emit(string.format('argument selects the moving axis: a0=%d', tonumber(regs.GPR.n.a0)))
+    emit(string.format('--- sample %d of %d ---', samples, MAX_SAMPLES))
 
     local signature = {}
     for i = 0, 15 do signature[#signature + 1] = string.format('%02x', u8(MODULE_BASE + i)) end
@@ -107,20 +114,56 @@ local function finish()
           .. 'tools/trace/result/' .. SCRIPT_NAME .. '.txt ---')
 end
 
-breakpoint_main_menu_entry_slots = PCSX.addBreakpoint(
-    PARK_FN, 'Exec', 4, 'main menu slot parking',
-    function()
-        if done then return false end
-        local ok, err = pcall(function()
-            capture()
-            if hits >= MAX_HITS then
-                done = true
-                finish()
-            end
-        end)
-        if not ok then print('main_menu_entry_slots: ' .. tostring(err)) end
-        if done then return false end
-    end)
+-- A key describing the populated slots. Sampling only when this changes keeps
+-- the document short while still catching the entries arriving one by one.
+local function slotKey()
+    local parts = {}
+    for slot = 0, SLOT_COUNT - 1 do
+        parts[#parts + 1] = string.format('%08x', u32(SLOT_TABLE + slot * 4))
+    end
+    return table.concat(parts, ',')
+end
 
-print('main_menu_entry_slots: armed at 0x80180d2c. Enter the main menu; the')
-print('document prints itself after ' .. MAX_HITS .. ' parking calls.')
+local function poll()
+    if done then return end
+
+    -- func_80180D2C sets this on its way out, so it is the cheapest signal
+    -- that the menu has finished being built and the slots are populated.
+    if u8(READY_FLAG) ~= 1 then return end
+
+    local key = slotKey()
+    if key ~= lastKey then
+        lastKey = key
+        quiet = 0
+        capture()
+        if samples >= MAX_SAMPLES then
+            done = true
+            finish()
+        end
+        return
+    end
+
+    -- Stop waiting for changes that are not coming. Without this the document
+    -- is never printed when the table settles in fewer than MAX_SAMPLES
+    -- states, which is the normal case for a menu that is simply sitting there.
+    if samples > 0 then
+        quiet = quiet + 1
+        if quiet >= SETTLE_FRAMES then
+            done = true
+            emit('')
+            emit(string.format('(no further change for %d frames)', SETTLE_FRAMES))
+            finish()
+        end
+    end
+end
+
+listener_main_menu_entry_slots = PCSX.Events.createEventListener('GPU::Vsync', function()
+    local ok, err = pcall(poll)
+    if not ok then
+        done = true
+        print('main_menu_entry_slots: ' .. tostring(err))
+    end
+end)
+
+print('main_menu_entry_slots: sampling every vertical blank. Go to the main')
+print('menu; the document prints itself once the slots are populated.')

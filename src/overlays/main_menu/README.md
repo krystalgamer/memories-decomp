@@ -61,3 +61,27 @@ No overlay source or build manifest is accepted yet. Keep extracted payloads,
 candidate sources, objects, and diffs under `tmp/` until a function passes an
 overlay-specific exact-match process. Do not add this module to the resident
 `config/slus_01411/matching_c.json`.
+
+## What the menu shows
+
+Reported by a player during the `main_menu_entry_slots` trace attempt. Five
+entries, top to bottom:
+
+1. New Game
+2. Load
+3. 2P Duel
+4. Trade
+5. Option
+
+Each slides in from the opposite side to the one before it: New Game from the
+left, Load from the right, and so on.
+
+That alternation corroborates `func_80180D2C`, which parks odd slots at
+`0x1E0` and even slots at `-0xA0` — one display width either side of a 320
+wide screen — reached from the code alone before the behaviour was observed.
+
+**Five entries, eleven slots.** `D_80184568` holds eleven pointers and every
+function that touches it iterates all eleven, so the table is not one entry
+per visible item. Whether the remaining six are unused, hold decorations, or
+belong to a different screen state is unresolved; the trace was rerun to
+answer it.
