@@ -2878,13 +2878,13 @@
       "address": "0x8004318C",
       "profile": "gcc_2_8_1_g0",
       "size": "0xA4",
-      "source": "src/game/func_8004318C.c"
+      "source": "src/game/display_object_interpolation.c"
     },
     {
       "address": "0x80043230",
       "profile": "gcc_2_8_1_g0",
       "size": "0xF8",
-      "source": "src/game/func_80043230.c"
+      "source": "src/game/display_object_interpolation.c"
     },
     {
       "address": "0x80043328",
