@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "ai.h"
 
 extern u8 gAiScript_State[];
 extern u8 D_800EAE88[];
@@ -9,7 +10,7 @@ void AiScript_PushComboCard(void)
     s32 i;
     u8 *output;
 
-    i = 5;
+    i = AI_SCRIPT_COMBO_CARD_COUNT - 1;
     output = D_800EAE88 + i;
     do {
         *output = 0;

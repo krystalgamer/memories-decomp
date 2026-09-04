@@ -4,6 +4,7 @@
 #include "../types.h"
 
 #define AI_SCRIPT_CARD_SET_COUNT 32
+#define AI_SCRIPT_COMBO_CARD_COUNT 6
 #define AI_SCRIPT_MEMORY_COUNT 20
 #define AI_SCRIPT_RETURN_STACK_COUNT 8
 #define AI_SCRIPT_TYPE_SET_COUNT 25
@@ -28,7 +29,7 @@ typedef struct {
     u8 return_depth;
     u8 pad15[3];
     u8 *return_stack[AI_SCRIPT_RETURN_STACK_COUNT];
-    u8 combo_cards[6];
+    u8 combo_cards[AI_SCRIPT_COMBO_CARD_COUNT];
     u16 card_set[AI_SCRIPT_CARD_SET_COUNT];
     u8 type_set[AI_SCRIPT_TYPE_SET_COUNT];
     u8 pad97[5];
