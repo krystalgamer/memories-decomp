@@ -3142,13 +3142,13 @@
       "address": "0x80045114",
       "profile": "gcc_2_8_1_g0",
       "size": "0xCC",
-      "source": "src/game/sound_command_queue.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x800451E0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x28",
-      "source": "src/game/sound_command_queue.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x8004544C",

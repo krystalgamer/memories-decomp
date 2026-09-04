@@ -2279,7 +2279,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x80044FE4,func_80044FE4,matching_c,game,C,src/game/sound_mix.c,read,,return g_SDValue->cd_volume;
 0x8009B45C,g_SDValue,g_SDValue,0x8004503C,func_8004503C,matching_c,game,C,src/game/sound_output_state.c,write,,g_SDValue->field_0049 = flag; | g_SDValue->field_0512 = value;
 0x8009B45C,g_SDValue,g_SDValue,0x80045054,func_80045054,matching_c,game,C,src/game/sound_output_state.c,read,,"(short *)((u8 *)g_SDValue + 0x53C), | loaded = (u8 *)g_SDValue; | (+2 more)"
-0x8009B45C,g_SDValue,g_SDValue,0x80045114,func_80045114,matching_c,game,C,src/game/sound_command_queue.c,read,,SDValue *state = g_SDValue;
+0x8009B45C,g_SDValue,g_SDValue,0x80045114,func_80045114,matching_c,game,C,src/game/sound_output_state.c,read,,SDValue *state = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x80045208,func_80045208,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_035a08.s,read,32,"lui $a0, %hi(g_SDValue) | lui $a1, %hi(g_SDValue) | (+4 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x80045334,func_80045334,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_035a08.s,read,32,"lui $a1, %hi(g_SDValue) | lui $v0, %hi(g_SDValue) | (+4 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x8004544C,SD_ClearBusyFlag,matching_c,game,C,src/game/sd_clear_busy_flag.c,write,,g_SDValue->busy = 0;
