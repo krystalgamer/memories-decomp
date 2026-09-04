@@ -1912,19 +1912,19 @@
       "address": "0x80038024",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/func_80038024.c"
+      "source": "src/game/duel_effect_command.c"
     },
     {
       "address": "0x80038070",
       "profile": "gcc_2_8_1_g8",
       "size": "0x24",
-      "source": "src/game/func_80038070.c"
+      "source": "src/game/duel_effect_command.c"
     },
     {
       "address": "0x80038094",
       "profile": "gcc_2_8_1_g8",
       "size": "0x40",
-      "source": "src/game/func_80038094.c"
+      "source": "src/game/duel_effect_command.c"
     },
     {
       "address": "0x800380D4",
