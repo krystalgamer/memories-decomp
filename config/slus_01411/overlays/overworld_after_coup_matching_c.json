@@ -5,6 +5,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
       "source": "src/overlays/overworld/teardown.c"
+    },
+    {
+      "address": "0x8016818C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5C",
+      "source": "src/overlays/overworld/location_label.c"
     }
   ],
   "schema": 1
