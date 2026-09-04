@@ -2758,13 +2758,13 @@
       "address": "0x80042874",
       "profile": "gcc_2_8_1_g8",
       "size": "0x34",
-      "source": "src/game/func_80042874.c"
+      "source": "src/game/display_object_resource_setup.c"
     },
     {
       "address": "0x800428A8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/func_800428A8.c"
+      "source": "src/game/display_object_resource_setup.c"
     },
     {
       "address": "0x800428EC",
