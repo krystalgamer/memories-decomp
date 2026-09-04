@@ -26,7 +26,7 @@ void func_80047864(s32 index)
 
     asm volatile("move %0,%1" : "=r"(saved) : "r"(index));
     {
-        register u32 mask asm("$3") = 0x00100000;
+        register u32 mask asm("$3") = SD_VOICE_SLOT_MASK_BASE;
         u8 *state;
         register u8 *half asm("$3");
         register u8 *byte asm("$6");
@@ -59,7 +59,7 @@ void func_800478EC(void)
     s32 v0;
     u16 timer;
 
-    mask = 0x100000;
+    mask = SD_VOICE_SLOT_MASK_BASE;
     bit2 = 1;
     accum = 0;
     for (i = 0; i < SD_VOICE_SLOT_COUNT; i++) {
@@ -107,7 +107,7 @@ void func_800478EC(void)
 void func_80047A68(void)
 {
     s32 i;
-    u32 mask = 0x100000;
+    u32 mask = SD_VOICE_SLOT_MASK_BASE;
     u32 result = 0;
     u16 threshold = g_SDValue->field_0004;
 
@@ -156,7 +156,7 @@ void func_80047BB4(u16 *items, s32 count)
 {
     s32 i;
 
-    func_80076ED0(0, 0x00F00000);
+    func_80076ED0(0, SD_VOICE_SLOT_MASK_ALL);
     func_8004763C();
     g_SDValue->flags_0040 |= 2;
     for (i = 0; i < count; i++) {
