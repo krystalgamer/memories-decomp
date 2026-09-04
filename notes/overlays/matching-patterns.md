@@ -128,16 +128,57 @@ addu  $v1, $t0, $a0
 addiu $a0, $a0, 4
 ```
 
-Writing the row offset as a statement before the loop does move it ahead of
-the address, but it also lets GCC prove `table + offset` invariant, so the
+Writing the row offset as a statement **before** the loop does move it ahead
+of the address, but it also lets GCC prove `table + offset` invariant, so the
 two fold into a single pointer before the loop and the per-iteration `addu`
 disappears. That is the same folding described under the pointer-walk rule
-above. The two effects are therefore in tension, and no source form has yet
-produced an earlier row offset while keeping the addition inside the loop.
+above.
+
+Computing the offset **inside the loop body** resolves both. GCC then creates
+the induction variable itself rather than seeing a variable the source
+already placed, so the offset stays a separate integer, and its initialiser
+is emitted in the loop preheader instead of ahead of it:
+
+```c
+for (i = 0; i < count; i++) {
+    offset = i * stride + base_offset;  /* body: GCC creates the giv */
+    entry = record + offset;
+```
+
+Measured on `func_80168050`, shared by both overworld overlays, where this
+reproduces the target exactly. The same source with `offset` initialised
+before the loop, or folded into `record + i * stride + base_offset`, fails in
+the two ways described above.
+
+## Emission order distinguishes hand-written from generated code
+
+The preheader gives a reliable reading of which values the source named.
+Ordinary assignments are emitted where the source puts them; loop-invariant
+addresses and induction-variable initialisers are emitted in the preheader,
+after them. So in
+
+```
+jal   <call>
+...   record         # before the hoisted addresses -> written by hand
+addu  $s4, $zero, $zero   # loop counter -> written by hand
+lui   ...            # hoisted address
+lui   ...            # hoisted address
+addiu $s2, $zero, 0x12    # after them -> compiler-generated giv
+```
+
+`record` and the counter must be source variables assigned after the call,
+and the offset must not be. Reading the order this way pinned every saved
+register in `func_80168050` before the first full build.
+
+The corollary is that a value emitted *before* a hoisted address cannot be
+made to move after it by reordering statements, because no source position
+maps there. When a setup value sits in the wrong place relative to the
+hoisted addresses, the fix is to stop naming it, not to move it.
 
 Measured on `func_801840F8` in `main_menu`, where `table[slot][i]` reproduces
 the instruction count exactly, including the `361 << 3` expansion of the
-`2888`-byte row stride, and differs only in this choice.
+`2888`-byte row stride, and on `func_80168050` in the overworld overlays,
+where the body-computed offset produces a full match.
 
 ## Known unresolved residual
 
