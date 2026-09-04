@@ -1,5 +1,7 @@
 #include "../types.h"
 
+#define FILE_READ_CHUNK_SIZE 0x1000
+
 extern s32 func_80073704();
 extern s32 func_80073734();
 extern s32 func_80073758();
@@ -24,8 +26,8 @@ s32 func_80059908(s32 path, s32 destination, s32 offset, s32 length)
     func_80073734(handle, offset, 0);
     if (total > 0) {
         do {
-            chunk = 4096;
-            if (remaining < 4097)
+            chunk = FILE_READ_CHUNK_SIZE;
+            if (remaining <= FILE_READ_CHUNK_SIZE)
                 chunk = remaining;
             if (func_80073758(handle, destination, chunk) != chunk) {
                 total = 0;
