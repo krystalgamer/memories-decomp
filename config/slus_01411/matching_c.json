@@ -1954,13 +1954,13 @@
       "address": "0x800380D4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
-      "source": "src/game/duel_effect_stream_deltas.c"
+      "source": "src/game/duel_effect_command.c"
     },
     {
       "address": "0x80038110",
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
-      "source": "src/game/duel_effect_stream_deltas.c"
+      "source": "src/game/duel_effect_command.c"
     },
     {
       "address": "0x800382A8",
