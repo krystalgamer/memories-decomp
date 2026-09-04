@@ -1,7 +1,25 @@
 #include "../types.h"
 #include "sound.h"
 
+extern void func_80044DC0(s32);
 extern void func_8007CDC0(u8 *);
+
+void func_80044E90(s32 value)
+{
+    register s32 saved asm("$5") = value;
+
+    if ((u16)(value - 1) < 128) {
+        g_SDValue->channel_volume[0] = -128 - saved;
+        g_SDValue->channel_volume[1] = 128;
+    } else if ((u16)(value + 128) < 128) {
+        g_SDValue->channel_volume[0] = 128;
+        g_SDValue->channel_volume[1] = -128 - saved;
+    } else {
+        g_SDValue->channel_volume[0] = 128;
+        g_SDValue->channel_volume[1] = 128;
+    }
+    func_80044DC0(g_SDValue->cd_volume);
+}
 
 void func_80044F58(s32 value)
 {
