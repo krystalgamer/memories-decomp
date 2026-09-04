@@ -31,7 +31,14 @@ The current mixed C/assembly build reproduces `game/SLUS_014.11` with SHA-256:
 | Total discovered functions | 1,794 |
 | Embedded/unassigned resident text | 1,780 (`0x6F4`) |
 
-_Generated from `config/slus_01411/functions.csv` by `tools/project/progress.py`._
+Runtime overlay modules:
+
+| Module | Matching C functions | Matching C bytes |
+|---|---:|---:|
+| `free_duel` | 2 / 9 (22.22%) | 292 (`0x124`) / 4,140 (`0x102C`) (7.05%) |
+| `password` | 0 / 27 (0.00%) | 0 (`0x0`) / 10,884 (`0x2A84`) (0.00%) |
+
+_Generated from `config/slus_01411/functions.csv` and `config/slus_01411/overlays/*_functions.csv` by `tools/project/progress.py`._
 
 <!-- END GENERATED PROGRESS -->
 

@@ -107,6 +107,50 @@ def format_percentage(value: int, total: int) -> str:
     return f"{value / total:.2%}"
 
 
+def load_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
+    directory = resolve_within(root, "config/slus_01411/overlays")
+    overlays: dict[str, dict[str, int]] = {}
+    for path in sorted(directory.glob("*_functions.csv")):
+        name = path.name[: -len("_functions.csv")]
+        functions = load_inventory(path)
+        matching = [
+            function for function in functions if function.status == "matching_c"
+        ]
+        overlays[name] = {
+            "function_count": len(functions),
+            "function_bytes": sum(function.size for function in functions),
+            "matching_c_function_count": len(matching),
+            "matching_c_bytes": sum(function.size for function in matching),
+        }
+    return overlays
+
+
+def render_overlay_progress(overlays: dict[str, dict[str, int]]) -> list[str]:
+    if not overlays:
+        return []
+    lines = [
+        "Runtime overlay modules:",
+        "",
+        "| Module | Matching C functions | Matching C bytes |",
+        "|---|---:|---:|",
+    ]
+    for name in sorted(overlays):
+        overlay = overlays[name]
+        count = overlay["matching_c_function_count"]
+        total_count = overlay["function_count"]
+        matched = overlay["matching_c_bytes"]
+        total_bytes = overlay["function_bytes"]
+        lines.append(
+            f"| `{name}` | "
+            f"{count:,} / {total_count:,} "
+            f"({format_percentage(count, total_count)}) | "
+            f"{format_bytes(matched)} / {format_bytes(total_bytes)} "
+            f"({format_percentage(matched, total_bytes)}) |"
+        )
+    lines.append("")
+    return lines
+
+
 def render_readme_progress(progress: dict[str, Any]) -> str:
     game_count = progress["game_function_count"]
     game_bytes = progress["game_function_bytes"]
@@ -155,8 +199,10 @@ def render_readme_progress(progress: dict[str, Any]) -> str:
                 f"{format_bytes(progress['unassigned_text_bytes'])} |"
             ),
             "",
+            *render_overlay_progress(progress.get("overlays", {})),
             (
-                "_Generated from `config/slus_01411/functions.csv` by "
+                "_Generated from `config/slus_01411/functions.csv` and "
+                "`config/slus_01411/overlays/*_functions.csv` by "
                 "`tools/project/progress.py`._"
             ),
         )
@@ -258,6 +304,7 @@ def calculate(root: Path) -> dict[str, Any]:
         "matching_c_function_count": len(matching),
         "matching_c_bytes": matching_bytes,
         "modules": modules,
+        "overlays": load_overlay_inventories(root),
         "unassigned_text_bytes": text_bytes - function_bytes,
     }
 
