@@ -47,7 +47,7 @@ void func_800336F0(u8 *p)
         return;
     }
 
-    if ((D_8009B398 & 0x20) != 0) {
+    if ((D_8009B398 & PAD_BUTTON_CANCEL) != 0) {
         *(s16 *)(p + 0x633E) = 4;
         *(s16 *)(p + 0x6340) = 2;
         return;

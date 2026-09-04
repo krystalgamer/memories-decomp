@@ -1978,13 +1978,13 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B398,D_8009B398,D_8009B398,0x80030998,func_80030998,matching_c,game,C,src/game/func_80030998.c,read,16,".reloc .-4, R_MIPS_HI16, D_8009B398 after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, D_8009B398 after .word 0x94420000"
 0x8009B398,D_8009B398,D_8009B398,0x80031084,func_80031084,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_021884.s,read,16,"lhu $v0, %lo(D_8009B398)($v0) | lui $v0, %hi(D_8009B398)"
 0x8009B398,D_8009B398,D_8009B398,0x8003353C,func_8003353C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_023d3c.s,read,16,"lhu $v0, %lo(D_8009B398)($v0) | lui $v0, %hi(D_8009B398)"
-0x8009B398,D_8009B398,D_8009B398,0x800336F0,func_800336F0,matching_c,game,C,src/game/func_800336F0.c,read,16,if ((D_8009B398 & 0x10) != 0) { | if ((D_8009B398 & 0x20) != 0) {
+0x8009B398,D_8009B398,D_8009B398,0x800336F0,func_800336F0,matching_c,game,C,src/game/func_800336F0.c,read,16,if ((D_8009B398 & 0x10) != 0) { | if ((D_8009B398 & PAD_BUTTON_CANCEL) != 0) {
 0x8009B398,D_8009B398,D_8009B398,0x800359B0,func_800359B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0261b0.s,read,16,"lhu $v0, %lo(D_8009B398)($v0) | lui $v0, %hi(D_8009B398)"
 0x8009B398,D_8009B398,D_8009B398,0x800371A8,func_800371A8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0279a8.s,read,16,"lhu $v0, %lo(D_8009B398)($v0) | lui $v0, %hi(D_8009B398)"
 0x8009B398,D_8009B398,D_8009B398,0x800375A4,func_800375A4,matching_c,game,C,src/game/func_800375A4.c,read,16,void func_800375A4(unsigned char*o){unsigned char f=o[0x51];if((f&0x80)==0){o[0x51]=f|0x80;D_8009B32C=10;*(void**)(o+...
 0x8009B398,D_8009B398,D_8009B398,0x800393B0,func_800393B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,read,16,"lhu $v0, %lo(D_8009B398)($v0) | lui $v0, %hi(D_8009B398)"
 0x8009B398,D_8009B398,D_8009B398,0x80039794,func_80039794,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,read,16,"lhu $v0, %lo(D_8009B398)($v0) | lui $v0, %hi(D_8009B398)"
-0x8009B398,D_8009B398,D_8009B398,0x8003B734,func_8003B734,matching_c,game,C,src/game/func_8003B734.c,read,16,return D_8009B398[0] & 0xC0;
+0x8009B398,D_8009B398,D_8009B398,0x8003B734,func_8003B734,matching_c,game,C,src/game/func_8003B734.c,read,16,return D_8009B398[0] & PAD_BUTTON_CONFIRM_MASK;
 0x8009B398,D_8009B398,D_8009B398,0x8003C7A0,func_8003C7A0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02ce28.s,read,16,"lhu $v0, %lo(D_8009B398)($v0) | lui $v0, %hi(D_8009B398)"
 0x8009B398,D_8009B398,D_8009B398,0x8003CA5C,func_8003CA5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02d25c.s,read,16,"lhu $v1, %lo(D_8009B398)($v1) | lui $v1, %hi(D_8009B398)"
 0x8009B398,D_8009B398,D_8009B398,0x8003CCD8,func_8003CCD8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02d4d8.s,write,16,"sh $t1, %gp_rel(D_8009B398)($gp)"
