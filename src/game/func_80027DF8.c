@@ -47,7 +47,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
         DuelCardRecord *rec;
         s32 *tbl;
 
-        rec = base + 5;
+        rec = base + DUEL_FIELD_ROW_SIZE;
         i = 0;
         tbl = gDuel_adwCardStats;
         do {
@@ -72,14 +72,14 @@ void func_80027DF8(LocalEnt *out, s32 who) {
             i += 1;
             out += 1;
             rec += 1;
-        } while (i < 5);
+        } while (i < DUEL_FIELD_ROW_SIZE);
     }
 
     {
         DuelCardRecord *rec;
         s32 *tbl;
 
-        rec = base + 10;
+        rec = base + DUEL_FIELD_SIDE_ZONE_COUNT;
         i = 0;
         tbl = gDuel_adwCardStats;
         do {
@@ -104,7 +104,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
             i += 1;
             out += 1;
             rec += 1;
-        } while (i < 5);
+        } while (i < DUEL_FIELD_ROW_SIZE);
     }
 
     {
