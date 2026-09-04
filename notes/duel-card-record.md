@@ -9,8 +9,10 @@ and the final byte-for-byte build comparison. GMS, the Unchiga tree, and the
 old reference tree were used only to corroborate offsets and access widths;
 their guessed declarations were not copied.
 
-`notes/global-usage.csv` records 52 game functions using this address:
-19 matching-C users and 33 assembly users. `func_8002C9B4` is an additional
+`notes/global-usage.csv` records 52 game functions using this address. The
+typed-migration snapshot documented below contains 20 matching-C users and 32
+assembly users; ongoing decompilation may change that split, so the generated
+report is the authority for current status. `func_8002C9B4` is an additional
 matching C source whose address formation names `D_801A7AD8` only inside an
 inline-assembly string, so it is not one of those 52 report rows.
 
@@ -54,16 +56,17 @@ Corroboration agrees without defining the shared type:
 - The old reference assembly and C repeat these accesses, but were treated
   only as a cross-check against the target and exact local build.
 
-## Migrated matching-C users
+## Typed migration snapshot
 
-Seventeen of the 19 pure-C report users include `duel_card.h` and use its
-typed extern:
+At this snapshot, 18 of the 20 pure-C report users include `duel_card.h` and
+use its typed extern:
 
 `func_8001778C`, `func_80017DB4`, `func_80017E3C`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
 `func_8001EFD4`, `Duel_UpdateCardPickCursor`, `func_800249E0`,
-`func_80025B28`, `func_80025F3C`, `func_80026A3C`, `func_80026D18`,
-`func_8002778C`, `func_800278A0`, `func_80027DF8`, and `func_8002C938`.
+`func_80025B28`, `func_80025F3C`, `func_80026A3C`, `func_80026C6C`,
+`func_80026D18`, `func_8002778C`, `func_800278A0`, `func_80027DF8`, and
+`func_8002C938`.
 
 Raw local views retained for exact code generation:
 
@@ -86,9 +89,9 @@ Raw local views retained for exact code generation:
 formation is inline assembly. Its local record view and the interior
 `D_801A7B64` alias are therefore deliberately not migrated.
 
-## Unchanged assembly users
+## Assembly users in the migration snapshot
 
-The 33 assembly users remain unchanged:
+The snapshot contains 32 assembly users:
 
 - `func_80016784`, `func_80017F04`, `func_8001825C`, `func_8001898C`,
   `func_80018DB4`, `func_80019608`, `func_80019D18`, `func_8001B170`,
@@ -98,4 +101,4 @@ The 33 assembly users remain unchanged:
   `func_800235C0`, `func_80024E58`, `func_80025028`, `func_8002538C`,
   `func_800255FC`, `func_800257A0`, `func_8002596C`, `func_80025BEC`,
   `func_80025D30`, `func_800260D0`, and `func_800262D4`.
-- `func_80026C6C`, `func_80027508`, `func_800279BC`, and `Duel_CheckRitual`.
+- `func_80027508`, `func_800279BC`, and `Duel_CheckRitual`.
