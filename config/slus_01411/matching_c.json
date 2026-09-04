@@ -955,6 +955,12 @@
       "source": "src/game/func_80029108.c"
     },
     {
+      "address": "0x80029164",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
+      "size": "0x7C",
+      "source": "src/game/duel_effect_resource_setup.c"
+    },
+    {
       "address": "0x800291E0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x348",
