@@ -126,6 +126,58 @@ retail card data, where zero denotes an empty card and valid IDs are
   presentation; the caller and existing duel research agree, but the state
   itself does not yet have a semantic symbol.
 
+## Editable Duel Master K deck
+
+**Tutorial:** `Deck Duel Master K editavel.txt`
+
+The tutorial changes the byte at SLUS offset `0x8585` from `0x00` to `0x01`.
+That offset is the second byte of the instruction beginning at VRAM
+`0x80017D84`:
+
+| SLUS bytes | Instruction | Comparison limit |
+|---|---|---:|
+| `27 00 62 28` | `slti $v0, $v1, 0x27` | `39` |
+| `27 01 62 28` | `slti $v0, $v1, 0x127` | `295` |
+
+The edited byte is therefore not a Boolean deck-mode value. It is the high
+byte of a signed 16-bit immediate. The surrounding code has loaded the signed
+opponent ID into `$v1` and prepared the player deck pointer in `$a0`. It then
+selects the second source passed to `Duel_ShuffleBothDecks`:
+
+```mips
+slti  $v0, $v1, 39
+bnez  $v0, use_sources
+move  $a1, $zero
+move  $a1, $a0
+use_sources:
+jal   Duel_ShuffleBothDecks
+```
+
+Opponent IDs below `39` call the shuffle helper with `(player_deck, NULL)`.
+Duel Master K is opponent `39`, so the retail comparison fails and the
+fallthrough changes the call to `(player_deck, player_deck)`. The matching C
+for `Duel_ShuffleBothDecks` passes those two arguments independently to the
+player and CPU `Duel_ShuffleDeck` calls, explaining why Duel Master K receives
+a copy of the player's deck.
+
+After the patch, every nonnegative signed-byte opponent ID is below `0x127`.
+Duel Master K therefore follows the ordinary `(player_deck, NULL)` path
+instead of supplying the player deck as both sources. Existing data research
+shows that his stored deck block is a placeholder, so making that deck useful
+still requires editing the associated opponent deck data as the tutorial
+intends.
+
+**Confidence:**
+
+- **Confirmed** that `0x8585` changes the comparison limit from `39` to
+  `295`, not a standalone mode flag from zero to one.
+- **Confirmed** that opponent `39` changes from
+  `(player_deck, player_deck)` to the ordinary `(player_deck, NULL)` shuffle
+  path.
+- **High** that the null second source selects the configured opponent deck;
+  the tutorial behavior and existing Duel Master K data research agree, while
+  `Duel_ShuffleDeck` itself remains assembly.
+
 ## Additional end-of-duel starchips
 
 **Tutorial:** `Alterar Starchips - Por Wladmir Ghost.txt`
