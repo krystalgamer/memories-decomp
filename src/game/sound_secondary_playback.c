@@ -115,7 +115,7 @@ void func_80049CF8(void)
             count = *(s16 *)(state + 0x510);
             asm volatile("" : "+r"(count));
             i++;
-            offset += 40;
+            offset += SD_SECONDARY_OBJECT_SIZE;
         } while (i < count);
     }
     state = (u8 *)D_8009B458;
@@ -164,7 +164,7 @@ void func_80049DD8(void)
             count = *(s16 *)(state + 0x510);
             asm volatile("" : "+r"(count));
             i++;
-            offset += 40;
+            offset += SD_SECONDARY_OBJECT_SIZE;
         } while (i < count);
     }
     state = (u8 *)D_8009B458;

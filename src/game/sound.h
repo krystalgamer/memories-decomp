@@ -7,6 +7,7 @@
 #define SD_COMMAND_QUEUE_COUNT 16
 #define SD_COMMAND_RECORD_SIZE 0x30
 #define SD_SECONDARY_OBJECT_COUNT 20
+#define SD_SECONDARY_OBJECT_SIZE 0x28
 #define SD_SEQUENCE_TRACK_COUNT 16
 #define SD_SEQUENCE_TRACK_RECORD_SIZE 0x2C
 #define SD_VOICE_SLOT_COUNT 4
@@ -205,7 +206,7 @@ typedef char SDValue_size_must_be_0x164C[
     sizeof(SDValue) == 0x164C ? 1 : -1
 ];
 typedef char SDSecondaryObject_size_must_be_0x28[
-    sizeof(SDSecondaryObject) == 0x28 ? 1 : -1
+    sizeof(SDSecondaryObject) == SD_SECONDARY_OBJECT_SIZE ? 1 : -1
 ];
 typedef char SDSecondaryRecord_size_must_be_0x18[
     sizeof(SDSecondaryRecord) == 0x18 ? 1 : -1
