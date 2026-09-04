@@ -106,9 +106,13 @@ flag: card faces, triangle preview, guardian-star cursor, symbols, text, sound,
 and automatic card rotation are separate presentation paths.
 
 The duelist-code patch replaces the store at `0x8003FAE8` with `nop` and the
-return value at `0x8003FAF0` with `li v0, 1`. This indicates that
-`func_8003F8D4` contains the equal-code rejection path and returns a Boolean-like
-success value after setting an error or scene byte.
+return value at `0x8003FAF0` with `li v0, 1`. In the retail branch, the first
+instruction is `sb v0, D_8009B3EA(gp)` with `v0` already set to `0x0A`; the
+second is the jump delay-slot instruction `addu v0, zero, zero`. The patch
+therefore prevents state `0x0A` from being stored and changes that path's
+return value from zero to one. This directly identifies the bypassed path as a
+failed duelist-code validation result, although the broader semantics of
+`D_8009B3EA` remain unresolved.
 
 The life-point width adjustment reads `RAM::lp[i] - 2`, so it tests the
 displayed values at `0x800EA002` and `0x800EA022`. Its loading and end-of-duel
