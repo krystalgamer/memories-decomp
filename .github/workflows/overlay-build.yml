@@ -1,6 +1,12 @@
 name: Overlay build
 
 on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
   workflow_dispatch:
 
 permissions:
@@ -15,13 +21,15 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 15
     env:
-      MAKEFLAGS: -j2
       USE_SYSTEM_MIPS_BINUTILS: "1"
       SLUS_URL: ${{ secrets.YGOFM_SLUS_01411_URL }}
       WA_MRG_URL: ${{ secrets.YGOFM_WA_MRG_URL }}
       SU_MRG_URL: ${{ secrets.YGOFM_SU_MRG_URL }}
 
     steps:
+      - name: Select build parallelism
+        run: echo "MAKEFLAGS=-j$(nproc)" >> "$GITHUB_ENV"
+
       - name: Check out source
         uses: actions/checkout@v4
 
