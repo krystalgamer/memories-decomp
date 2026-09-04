@@ -154,19 +154,19 @@
       "address": "0x80014FA4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x6C",
-      "source": "src/game/func_80014FA4.c"
+      "source": "src/game/file_transfer_flags.c"
     },
     {
       "address": "0x80015010",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_80015010.c"
+      "source": "src/game/file_transfer_flags.c"
     },
     {
       "address": "0x80015038",
       "profile": "gcc_2_8_1_g8",
       "size": "0x40",
-      "source": "src/game/func_80015038.c"
+      "source": "src/game/file_transfer_flags.c"
     },
     {
       "address": "0x8001513C",
