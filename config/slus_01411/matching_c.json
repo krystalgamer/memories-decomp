@@ -364,13 +364,13 @@
       "address": "0x80015D18",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/func_80015D18.c"
+      "source": "src/game/display_projection.c"
     },
     {
       "address": "0x80015DB8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",
-      "source": "src/game/func_80015DB8.c"
+      "source": "src/game/display_projection.c"
     },
     {
       "address": "0x80016778",
