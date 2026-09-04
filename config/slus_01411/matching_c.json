@@ -694,13 +694,13 @@
       "address": "0x8002348C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/func_8002348C.c"
+      "source": "src/game/duel_field_display_objects.c"
     },
     {
       "address": "0x800234E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
-      "source": "src/game/func_800234E4.c"
+      "source": "src/game/duel_field_display_objects.c"
     },
     {
       "address": "0x80023FBC",
