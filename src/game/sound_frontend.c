@@ -1,13 +1,29 @@
 #include "../types.h"
 
+extern s32 gFile_anLba[];
+extern s8 gSD_bOutputType;
 extern u32 D_8009B400;
 
+extern void func_80012D4C(void);
 extern void func_80045334(u32);
+extern void func_80046990(s32, s32, s32);
+extern u32 func_8004703C(void);
 extern void func_80047314(u32);
 extern void func_800473CC(u32);
 extern void func_80047430(s32, s32);
 extern void func_80047EC4(void);
 extern void SD_SEPlay(u32, s32, s32);
+
+void func_8003FE80(void)
+{
+    register volatile s32 *lbas = gFile_anLba;
+
+    gSD_bOutputType = -1;
+    func_80046990(lbas[4], lbas[5], lbas[6]);
+    while (func_8004703C() & 8) {
+        func_80012D4C();
+    }
+}
 
 void SD_SEPlayFull(u32 value)
 {

@@ -2572,7 +2572,7 @@
       "address": "0x8003FE80",
       "profile": "gcc_2_8_1_g8",
       "size": "0x60",
-      "source": "src/game/func_8003FE80.c"
+      "source": "src/game/sound_frontend.c"
     },
     {
       "address": "0x8003FEE0",
