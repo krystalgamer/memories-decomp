@@ -2228,7 +2228,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x800498F8,func_800498F8,matching_c,game,C,src/game/sound_secondary_reset.c,address,,s16 *value = &D_8009B458->transfer.field_0000;
 0x8009B458,D_8009B458,D_8009B458,0x80049920,func_80049920,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03a120.s,read,32,"lui $v0, %hi(D_8009B458) | lui $v1, %hi(D_8009B458) | (+2 more)"
 0x8009B458,D_8009B458,D_8009B458,0x80049A64,func_80049A64,matching_c,game,C,src/game/func_80049A64.c,read_write,,D_8009B458->flag_0500 = 1; | state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x80049AF4,func_80049AF4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03a2f4.s,read,32,"lui $a0, %hi(D_8009B458) | lui $v0, %hi(D_8009B458) | (+4 more)"
+0x8009B458,D_8009B458,D_8009B458,0x80049AF4,func_80049AF4,matching_c,game,C,src/game/func_80049AF4.c,read_write,,D_8009B458->field500 = 0; | D_8009B458->field500 = one; | (+7 more)
 0x8009B458,D_8009B458,D_8009B458,0x80049BAC,func_80049BAC,matching_c,game,C,src/game/sound_secondary_playback.c,read_write,,D_8009B458->flag_0500 = 1; | first = D_8009B458; | (+2 more)
 0x8009B458,D_8009B458,D_8009B458,0x80049C40,func_80049C40,matching_c,game,C,src/game/sound_secondary_playback.c,read,,SDSecondaryState *initial = D_8009B458; | other = D_8009B458; | (+1 more)
 0x8009B458,D_8009B458,D_8009B458,0x80049CB0,func_80049CB0,matching_c,game,C,src/game/sound_secondary_playback.c,read_write,,D_8009B458->field_07E0 = -1; | D_8009B458->field_07E2 = 0; | (+4 more)
