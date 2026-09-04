@@ -110,6 +110,20 @@ IDs `0x00` through `0x13` cover monster types from Dragon through Plant.
 values can help type card-record fields, but local table layout and consumers
 must establish the field width and ownership.
 
+Matching C verifies that this domain occupies bits 26-30 of each
+`gDuel_adwCardStats[card_id - 1]` word. `AiScript_LoadCardType` extracts the
+field with `(word >> 26) & 0x1F`, while `AiScript_TestHighStat` treats values
+below `0x14` as monsters. `func_80024C1C` uses the same boundary to select its
+non-monster icon path, independently confirming that the four Data Crystal
+values `0x14-0x17` are outside the monster range.
+
+The same packed word also stores base attack in bits 0-8, base defense in bits
+9-17, and the two guardian-star IDs in bits 18-21 and 22-25.
+`func_80027DF8` decodes all five fields together, and `func_800249E0`
+multiplies the two nine-bit stats by ten when initializing a duel-card record.
+This is the in-memory card-stat table layout; it does not establish the
+on-disc encoding of any archive member.
+
 ### Music
 
 The page labels tracks `0x00` through `0x38`, including title/menu music,
