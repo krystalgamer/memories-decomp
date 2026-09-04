@@ -1,0 +1,66 @@
+name: free_duel
+sha1: c8efa93debec529084ef4d9602c1a38605d87004
+
+options:
+  basename: free_duel
+  base_path: ../../..
+  target_path: tmp/overlays/free_duel/module.bin
+  elf_path: tmp/overlays/free_duel/build/free_duel.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/free_duel/asm
+  src_path: src
+  build_path: tmp/overlays/free_duel/build
+  asset_path: tmp/overlays/free_duel/assets
+  cache_path: tmp/overlays/free_duel/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/free_duel/free_duel.ld
+  generated_asm_macros_directory: tmp/overlays/free_duel/include
+  lib_path: tmp/overlays/free_duel/lib
+  o_path: tmp/overlays/free_duel/build
+  undefined_funcs_auto_path: tmp/overlays/free_duel/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/free_duel/undefined_syms_auto.txt
+
+  symbol_addrs_path:
+    - notes/research/Unchiga_Symbols/modules/free_duel.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80168000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/free_duel/module_header]
+
+  - name: module
+    type: code
+    start: 0x4
+    vram: 0x80168004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/free_duel/text]
+      - [0x1030, data, overlays/free_duel/data]
+
+  - [0x2800]
