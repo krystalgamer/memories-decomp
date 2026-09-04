@@ -261,3 +261,47 @@ Both replacements fit in the signed halfword written by the retail code.
 - **High** that the second write is the visual/effect-state counterpart; its
   record is populated from the card's display object immediately before the
   paired modifier write, but its complete layout remains unnamed.
+
+## Force Exodia wins to S-TEC
+
+**Tutorial:** `Exodia Sempre S-Tec - Por Wladmir Ghost.txt`
+
+The tutorial changes the same signed end-reason value at three code sites:
+
+| SLUS offset | VRAM | Retail instruction | Role |
+|---:|---:|---|---|
+| `0x8BD0` | `0x800183D0` | `addiu $v0, $zero, 40` | Recognize the Exodia end reason in the summon sequence |
+| `0x9BDC` | `0x800193DC` | `addiu $v1, $zero, 40` | Write the winner's Exodia end-reason byte |
+| `0x11DF4` | `0x800215F4` | `addiu $v0, $zero, 40` | Recognize Exodia while building the duel result/rank display |
+
+Retail uses end reason `+40` for Exodia. The writer stores only its low byte,
+and both readers load that field as a signed byte. Replacing each immediate's
+little-endian bytes `28 00` with `81 FF` changes the shared value to `-127`
+while keeping all three producer/consumer sites synchronized.
+
+`Duel_CalcRankScore` starts each score at `50`, adds the signed end-reason
+byte, then adds the ten statistic-table adjustments. Existing exhaustive
+rank research gives a retail maximum of `+139`; because an Exodia reason of
+`+40` contributes to that maximum, the other terms can contribute at most
+`49`:
+
+```text
+patched maximum = 50 - 127 + 49 = -28
+```
+
+A score of `9` or lower maps to S-TEC, so the patched Exodia result remains
+S-TEC regardless of the other tracked duel statistics. Updating the two
+comparison sites as well as the writer preserves the Exodia-specific summon
+and result-display branches despite changing the score contribution.
+
+**Confidence:**
+
+- **Confirmed** that all three retail immediates are the same signed
+  end-reason value.
+- **Confirmed** that `81 FF` encodes `-127` and is stored/read as a signed
+  byte.
+- **Confirmed** from the score bounds that the patched value always produces
+  S-TEC.
+- **High** that both comparison sites preserve the complete Exodia-specific
+  presentation path; their branches are clear in resident assembly, while
+  the surrounding state machines remain only partially named.
