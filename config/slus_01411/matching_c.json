@@ -3844,13 +3844,13 @@
       "address": "0x80058F20",
       "profile": "gcc_2_8_1_g0",
       "size": "0x54",
-      "source": "src/game/func_80058F20.c"
+      "source": "src/game/model_slot_data.c"
     },
     {
       "address": "0x80058F74",
       "profile": "gcc_2_8_1_g0",
       "size": "0x3C",
-      "source": "src/game/func_80058F74.c"
+      "source": "src/game/model_slot_data.c"
     },
     {
       "address": "0x80058FB0",

@@ -2824,8 +2824,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2C40,D_800F2C40,D_800F2C40,0x80058E68,func_80058E68,matching_c,game,C,src/game/func_80058E68.c,read,,return D_800F2C40[index].field_BF5;
 0x800F2C40,D_800F2C40,D_800F2C40,0x80058E94,func_80058E94,matching_c,game,C,src/game/func_80058E94.c,read,,return D_800F2C40[index].field_E06 >> 4;
 0x800F2C40,D_800F2C40,D_800F2C40,0x80058EC0,func_80058EC0,matching_c,game,C,src/game/func_80058EC0.c,read,,return D_800F2C40[idx].field_7C4[sub].field_00; | u8 sub = D_800F2C40[idx].field_BF5;
-0x800F2C40,D_800F2C40,D_800F2C40,0x80058F20,func_80058F20,matching_c,game,C,src/game/func_80058F20.c,address,,ModelSlot *entry = &D_800F2C40[index];
-0x800F2C40,D_800F2C40,D_800F2C40,0x80058F74,func_80058F74,matching_c,game,C,src/game/func_80058F74.c,address,,ModelSlot *entry = &D_800F2C40[index];
+0x800F2C40,D_800F2C40,D_800F2C40,0x80058F20,func_80058F20,matching_c,game,C,src/game/model_slot_data.c,address,,ModelSlot *entry = &D_800F2C40[index];
+0x800F2C40,D_800F2C40,D_800F2C40,0x80058F74,func_80058F74,matching_c,game,C,src/game/model_slot_data.c,address,,ModelSlot *entry = &D_800F2C40[index];
 0x800F2C40,D_800F2C40,D_800F2C40,0x80058FB0,Model_CopySlotU16Values,matching_c,game,C,src/game/model_copy_slot_u16_values.c,address,,ModelSlot *rec = &D_800F2C40[idx];
 0x800F2C40,D_800F2C40,D_800F2C40,0x80059000,func_80059000,matching_c,game,C,src/game/func_80059000.c,address,,"typedef struct{unsigned char b[8];}__attribute__((packed))Bytes8;void func_80059000(int index,short*out){register Mod..."
 0x800F2C40,D_800F2C40,D_800F2C40,0x800590DC,func_800590DC,matching_c,game,C,src/game/func_800590DC.c,address,,ModelSlot *entry = &D_800F2C40[index];
