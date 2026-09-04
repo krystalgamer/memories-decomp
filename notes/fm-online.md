@@ -128,6 +128,15 @@ passed to `func_80016D2C` from four digits to five; restoring `0x04` returns
 the retail width. The patch changes only the low byte of the immediate and
 does not replace the formatter call or either branch's coordinate setup.
 
+The `0x800251A4` patch nops a retail `sh v1, 0x14(a0)` instruction. Immediately
+before it, `func_800250C8` has added a table-selected multiple of 100 to the
+signed halfword at offset `0x14`, compared the result with the signed upper
+bound at offset `0x16`, and loaded that bound into `v1`. Retail therefore
+clamps the active field to the bound when the increment exceeds it; the nop
+leaves the over-limit value in place. This verifies FM-Online's patch as a
+limit bypass, but the local function's broader field-motion behavior does not
+independently establish that these two structure fields are life points.
+
 ## Behavioral model
 
 The tool polls at approximately half-frame intervals. During a duel it:
