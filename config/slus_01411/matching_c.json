@@ -2488,7 +2488,7 @@
       "address": "0x8003F70C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x34",
-      "source": "src/game/func_8003F70C.c"
+      "source": "src/game/data_transfer_request.c"
     },
     {
       "address": "0x8003F740",
