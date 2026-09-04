@@ -67,6 +67,27 @@ same problem seen from the other side.
 Pinning a base pointer to a hard register does not help: GCC folds the pointer
 back into a symbol-indexed load and the pin is optimised away.
 
+#### Comparing profiles: count parity beats diff size
+
+When choosing between profiles, rank candidates by whether the instruction
+count equals the target's, not by how small a normalised diff is. The two
+disagree, and the diff is the misleading one.
+
+A profile that renders a `%gp_rel` load as `lui` plus `lw` adds an instruction
+the target does not have. Every later instruction then shifts by one, but the
+extra instruction also pads the body, and a diff that compares position by
+position can report fewer differences for the profile that is further from a
+match.
+
+`func_800472A8` (`0x800472A8`) is the worked example: it needs `gcc_2_8_1_g8`
+because `g_SDValue` is `%gp_rel`, yet a G0 profile scored better on a naive
+diff while being strictly wrong. Once the correct profile was used the count
+matched at 27 and every remaining difference was cosmetic.
+
+Prefer instruction-count parity first, then compare the bodies. "The diff got
+smaller" is the natural way to pick a profile and it will rank the wrong one
+first whenever address form changes how many instructions a load costs.
+
 ### Disassembly artifacts
 
 Splat names any address-shaped literal as though it were a symbol. A `%hi`/`%lo`
