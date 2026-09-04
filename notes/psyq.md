@@ -121,10 +121,10 @@ candidate:
 | palette row | x coordinate `0x380` | y coordinate | width `0x40` | height `1` |
 
 This verifies the Psy-Q `RECT` ABI surface as four signed 16-bit fields in
-`x`, `y`, `w`, `h` order and a total size of eight bytes. A future
-`src/psyq/libgpu.h` migration can use that layout, but should preserve the
-current pointer arithmetic until an exact build proves that typed array
-indexing does not change old-GCC code generation.
+`x`, `y`, `w`, `h` order and a total size of eight bytes. The clean-room
+declaration now lives in `src/psyq/libgpu.h`; `func_800249E0` uses it for both
+GPU transfer rectangles while retaining the original byte-offset arithmetic
+that selects each record.
 
 Before replacing a local definition:
 
@@ -143,7 +143,7 @@ The existing C sources expose several useful starting points:
 | Current source pattern | SDK target | Required proof |
 |---|---|---|
 | `CdlFILE` in `src/psyq/libcd.h` | CD file-search result | Initial migration complete in `src/game/file_stream.c`; extend only when another caller's field use agrees with the shared layout. |
-| Two rectangle records in `func_800249E0` | `RECT`-compatible record | Layout is verified; introduce `libgpu.h` when migrating a caller can preserve the exact pointer arithmetic. |
+| `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Initial migration complete in `func_800249E0`; preserve byte-offset selection when extending it to other callers. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Confirm complete size, alignment, and all fields touched by resident GPU functions. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Separate fixed-point SDK layouts from game-specific render records. |
 | Memory-card event descriptor arrays | event handles and card constants | Name the resident BIOS wrappers before centralizing prototypes and constants. |
