@@ -303,3 +303,7 @@ gDuel_abDirectDamageUnits = 0x8009AF38;
 
 // Semantic names
 gDuel_abLifePointRecoveryUnits = 0x8009AF30;
+
+// Semantic names
+Duel_CollectFieldCardsBelowType = 0x80026C6C; // type:func
+Duel_CollectFieldCardsByType = 0x80026D18; // type:func

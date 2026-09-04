@@ -29,7 +29,7 @@ several functions use interior aliases or derived subranges.
 | `+0x00` | 4 | `object` | `func_8001778C` clears it with `sw`; `func_80025F3C`, `func_8002778C`, `func_800278A0`, and `func_80027DF8` load it as an object pointer. `func_8002C938` exports the same word as an opaque value. |
 | `+0x04` | 4 | `data` | `func_8001778C` clears it with `sw`; `func_800249E0` stores a hand/card-data pointer; `func_80017DB4` loads it and then reads a byte from the pointed-to object. |
 | `+0x08` | 4 | padding | No field type is asserted. |
-| `+0x0C` | 2 | `card_id` | `func_800249E0` stores it with `sh` and later uses `lh`; `func_80026D18` uses `lh`; `func_80027DF8` uses both `lhu` for copying and `lh` for signed table indexing. The shared field therefore fixes the width while exact users retain explicit signed views where required. |
+| `+0x0C` | 2 | `card_id` | `func_800249E0` stores it with `sh` and later uses `lh`; `Duel_CollectFieldCardsByType` uses `lh`; `func_80027DF8` uses both `lhu` for copying and `lh` for signed table indexing. The shared field therefore fixes the width while exact users retain explicit signed views where required. |
 | `+0x0E` | 2 | `attack` | `func_800249E0` stores the first card-stat component with `sh`; exact stat calculation users consume the record. |
 | `+0x10` | 2 | `defense` | `func_800249E0` stores the second card-stat component with `sh`; exact stat calculation users consume the record. |
 | `+0x12` | 2 | `stat_modifier` | `func_800249E0` clears it with `sh`; the exact stat comparison path passes the record to the stat calculators. |
@@ -40,7 +40,8 @@ several functions use interior aliases or derived subranges.
 
 The target initialization at `0x8001778C` advances both cursors by `0x1C`
 and stops at 30. Independent record address calculations use the same
-stride: `func_800249E0` scales an index by 28, `func_80026D18` selects
+stride: `func_800249E0` scales an index by 28,
+`Duel_CollectFieldCardsByType` selects
 five-record slices within 15 records per side, and `func_80027DF8` selects
 the two 15-record side blocks.
 
@@ -64,9 +65,9 @@ use its typed extern:
 `func_8001778C`, `func_80017DB4`, `func_80017E3C`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
 `func_8001EFD4`, `Duel_UpdateCardPickCursor`, `func_800249E0`,
-`func_80025B28`, `func_80025F3C`, `func_80026A3C`, `func_80026C6C`,
-`func_80026D18`, `func_8002778C`, `func_800278A0`, `func_80027DF8`, and
-`func_8002C938`.
+`func_80025B28`, `func_80025F3C`, `func_80026A3C`,
+`Duel_CollectFieldCardsBelowType`, `Duel_CollectFieldCardsByType`,
+`func_8002778C`, `func_800278A0`, `func_80027DF8`, and `func_8002C938`.
 
 Raw local views retained for exact code generation:
 
