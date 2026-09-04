@@ -100,3 +100,22 @@ void SD_ResetSequenceTracks(void) {
         D_8009B458->tracks[i].value = 0;
     }
 }
+
+s32 func_8004CABC(void)
+{
+    u8 *object = (u8 *)D_8009B458;
+    s32 index;
+    u16 count = *(u16 *)(object + 0x7FA);
+
+    for (
+        index = 0;
+        index < count;
+        index++, object += SD_SEQUENCE_TRACK_RECORD_SIZE
+    ) {
+        if (object[0x53C] != 1) {
+            return 1;
+        }
+    }
+
+    return 3;
+}

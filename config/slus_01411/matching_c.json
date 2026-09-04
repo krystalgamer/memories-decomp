@@ -3754,7 +3754,7 @@
       "address": "0x8004CABC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x50",
-      "source": "src/game/func_8004CABC.c"
+      "source": "src/game/sd_sequence_tracks.c"
     },
     {
       "address": "0x8004E9A0",
