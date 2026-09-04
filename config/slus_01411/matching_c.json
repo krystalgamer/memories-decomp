@@ -1042,13 +1042,13 @@
       "address": "0x8002C400",
       "profile": "gcc_2_8_1_g0",
       "size": "0x84",
-      "source": "src/game/func_8002C400.c"
+      "source": "src/game/duel_grid_offsets.c"
     },
     {
       "address": "0x8002C484",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
-      "source": "src/game/func_8002C484.c"
+      "source": "src/game/duel_grid_offsets.c"
     },
     {
       "address": "0x8002C4DC",
