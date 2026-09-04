@@ -1,6 +1,11 @@
 # Continuous Game Decompilation Plan
 
-## Current state
+## Campaign baseline
+
+The table below records the inventory snapshot used to launch this bounded
+campaign. It is retained for historical context rather than updated as live
+progress; the generated progress section in the root
+[`README.md`](../README.md) is the authority for current totals.
 
 The resident inventory contains 1,794 functions:
 
