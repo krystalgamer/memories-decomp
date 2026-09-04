@@ -316,13 +316,13 @@
       "address": "0x80015BD8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x18",
-      "source": "src/game/func_80015BD8.c"
+      "source": "src/game/fade_state_setters.c"
     },
     {
       "address": "0x80015BF0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
-      "source": "src/game/func_80015BF0.c"
+      "source": "src/game/fade_state_setters.c"
     },
     {
       "address": "0x80015C0C",
