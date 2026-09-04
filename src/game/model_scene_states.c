@@ -2,10 +2,16 @@
 
 extern s8 D_8009AF94;
 extern s8 D_8009AF9A;
+extern u16 D_8009AF96;
 extern void func_800530C4(void);
 extern void func_800533D8(void);
 extern void func_80059590(int, int, int, int, int);
 extern void func_8005F3B8(int, int, int, int, int);
+
+void func_80059C18(s32 value)
+{
+    D_8009AF96 = value;
+}
 
 void func_80059C24(void)
 {
