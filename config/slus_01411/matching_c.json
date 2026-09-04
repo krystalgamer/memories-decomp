@@ -4354,13 +4354,13 @@
       "address": "0x8005F714",
       "profile": "gcc_2_8_1_g8",
       "size": "0x9C",
-      "source": "src/game/model_effect_dispatch.c"
+      "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F7B0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x78",
-      "source": "src/game/model_effect_dispatch.c"
+      "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F828",

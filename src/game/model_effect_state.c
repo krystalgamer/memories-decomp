@@ -12,13 +12,22 @@ typedef struct Buf {
     s16 f6;
 } Buf;
 
+typedef struct {
+    s16 a;
+    s16 b;
+    s16 c;
+    s16 d;
+} Data;
+
+extern u8 D_80091550[];
 extern StatRec D_80091570[];
-extern signed char D_8009B07A;
-extern unsigned char D_8009B07B;
-extern unsigned char D_8009B07C;
+extern s8 D_8009B07A;
+extern u8 D_8009B07B;
+extern u8 D_8009B07C;
 
 extern void func_80059000(s32 a0, Buf *a1);
 extern void func_8005D994(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern void func_8005F91C(s32, void *, void *, s32);
 
 int func_8005F564(void)
 {
@@ -72,4 +81,43 @@ void func_8005F5C8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
 
     func_8005D994(arg0, s0, rec->f2, rec->f4, arg2, arg3);
+}
+
+void func_8005F714(s32 a, s32 b, s32 c)
+{
+    void *x = a < 0 ? 0 : D_80091550 + a * 8;
+    void *y = b < 0 ? 0 : D_80091550 + b * 8;
+    s32 flag;
+
+    if (D_8009B07B == 1 && D_8009B07C == 1) {
+        return;
+    }
+    flag = (s8)D_8009B07A;
+    if (flag < 0) {
+        flag = 0;
+    } else {
+        D_8009B07A++;
+        flag = flag > 0;
+    }
+    func_8005F91C(flag, x, y, c);
+}
+
+void func_8005F7B0(s32 value, s32 arg)
+{
+    Data d = {value, 0, 0, 5};
+    s32 flag;
+    s32 next;
+
+    if (D_8009B07B == 1 && D_8009B07C == 1) {
+        return;
+    }
+    flag = (s8)D_8009B07A;
+    next = (u8)D_8009B07A;
+    if (flag < 0) {
+        flag = 0;
+    } else {
+        D_8009B07A = next + 1;
+        flag = flag > 0;
+    }
+    func_8005F91C(flag, &d, &d, arg);
 }
