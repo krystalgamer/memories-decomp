@@ -2318,7 +2318,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x80047AD0,func_80047AD0,matching_c,game,C,src/game/sound_voice_selection.c,read,,SDValue *state = g_SDValue; | register SDValue *final = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x80047B68,func_80047B68,matching_c,game,C,src/game/sound_voice_selection.c,read,,SDValue *state = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x80047BB4,func_80047BB4,matching_c,game,C,src/game/sound_voice_selection.c,read_write,,g_SDValue->flags_0040 |= 2;
-0x8009B45C,g_SDValue,g_SDValue,0x80047CC4,func_80047CC4,matching_c,game,C,src/game/sound_voice_slots.c,read_write,,SDValue *state = g_SDValue; | g_SDValue->field_0435 = slot; | (+2 more)
+0x8009B45C,g_SDValue,g_SDValue,0x80047CC4,func_80047CC4,matching_c,game,C,src/game/sound_voice_selection.c,read_write,,SDValue *state = g_SDValue; | g_SDValue->field_0435 = slot; | (+2 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80047DB0,func_80047DB0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0385b0.s,read,32,"lui $a1, %hi(g_SDValue) | lui $v1, %hi(g_SDValue) | (+2 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x80047EC4,func_80047EC4,matching_c,game,C,src/game/sound_voice_status.c,read,,func_800773C4(g_SDValue->field_15D8); | g_SDValue->field_15EE + g_SDValue->field_15EF; | (+1 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80047F38,func_80047F38,matching_c,game,C,src/game/sound_voice_status.c,read,,SDValue *state = g_SDValue;

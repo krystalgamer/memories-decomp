@@ -3340,19 +3340,19 @@
       "address": "0x80047C50",
       "profile": "gcc_2_8_1_g0",
       "size": "0x20",
-      "source": "src/game/sound_voice_slots.c"
+      "source": "src/game/sound_voice_selection.c"
     },
     {
       "address": "0x80047C70",
       "profile": "gcc_2_8_1_g0",
       "size": "0x54",
-      "source": "src/game/sound_voice_slots.c"
+      "source": "src/game/sound_voice_selection.c"
     },
     {
       "address": "0x80047CC4",
       "profile": "gcc_2_8_1_g0",
       "size": "0xEC",
-      "source": "src/game/sound_voice_slots.c"
+      "source": "src/game/sound_voice_selection.c"
     },
     {
       "address": "0x80047EC4",
