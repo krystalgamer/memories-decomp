@@ -3472,13 +3472,13 @@
       "address": "0x800496C4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x98",
-      "source": "src/game/func_800496C4.c"
+      "source": "src/game/sound_transfer_setup.c"
     },
     {
       "address": "0x8004975C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x84",
-      "source": "src/game/func_8004975C.c"
+      "source": "src/game/sound_transfer_setup.c"
     },
     {
       "address": "0x800497E0",
