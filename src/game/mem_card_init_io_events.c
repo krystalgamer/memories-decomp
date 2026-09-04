@@ -3,11 +3,15 @@
 extern signed char D_8009B43E;
 extern u8 D_8009B44E;
 extern int D_8009B444;
+extern volatile int D_8009B450;
 extern void *D_800F2AE0[];
+extern void *D_800F2AF0[];
 extern void func_800738B0(void);
 extern void *func_80073860(int, int, int, void *);
 extern void func_80073890(void *);
 extern void func_800738C0(void);
+extern void func_80043D48(void **);
+extern void func_8008B3A0(int);
 extern void MemCard_SetIOResultCompleteCB(void);
 extern void MemCard_SetIOResultTimeoutCB(void);
 extern void MemCard_SetIOResultErrorCB(void);
@@ -48,4 +52,19 @@ void MemCard_InitIOEvents(void)
         count--;
     } while (count != 0);
     func_800738C0();
+}
+
+void func_80044038(int value)
+{
+    int count = 10;
+
+    do {
+        func_80043D48(D_800F2AF0);
+        func_8008B3A0(value);
+        while (D_8009B450 < 0) {
+        }
+        if (D_8009B450 != 1)
+            break;
+        count--;
+    } while (count > 0);
 }
