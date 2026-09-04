@@ -2089,6 +2089,12 @@
       "source": "src/game/func_80038D14.c"
     },
     {
+      "address": "0x80038D2C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x8C",
+      "source": "src/game/duel_effect_script_flag_command.c"
+    },
+    {
       "address": "0x80038DB8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x64",
