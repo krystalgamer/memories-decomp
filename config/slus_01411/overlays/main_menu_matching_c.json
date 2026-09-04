@@ -5,6 +5,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",
       "source": "src/overlays/main_menu/func_80181EEC.c"
+    },
+    {
+      "address": "0x80181F20",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x48",
+      "source": "src/overlays/main_menu/func_80181F20.c"
     }
   ],
   "schema": 1

@@ -62,7 +62,8 @@ segments:
     subsegments:
       - [0x1C, asm, overlays/main_menu/text]
       - [0x1EEC, c, overlays/main_menu/func_80181EEC]
-      - [0x1F20, asm, overlays/main_menu/text_1F20]
+      - [0x1F20, c, overlays/main_menu/func_80181F20]
+      - [0x1F68, asm, overlays/main_menu/text_1F68]
       - [0x4558, data, overlays/main_menu/data]
 
   - [0x8000]

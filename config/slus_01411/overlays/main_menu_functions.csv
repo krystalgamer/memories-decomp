@@ -12,7 +12,7 @@ address,size,name,status,module,notes
 0x80181CB8,0x178,func_80181CB8,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
 0x80181E30,0xBC,func_80181E30,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
 0x80181EEC,0x34,func_80181EEC,matching_c,overlay/main_menu,Exact overlay match with gcc_2_8_1_g0_split. Counts decimal digits by repeated division by 10; the quotient needs its own local rather than reassigning the parameter, which is what produces the target extra register copy.
-0x80181F20,0x48,func_80181F20,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
+0x80181F20,0x48,func_80181F20,matching_c,overlay/main_menu,Exact overlay match with gcc_2_8_1_g0_split. Initialises a D_801845B0 entry and installs func_80181CB8 as its callback.
 0x80181F68,0x274,func_80181F68,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
 0x801821DC,0x11B0,func_801821DC,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
 0x8018338C,0x188,func_8018338C,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
