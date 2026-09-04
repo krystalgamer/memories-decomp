@@ -1,3 +1,0 @@
-#include "../types.h"
-
-extern unsigned char D_80091550[],D_8009B07B,D_8009B07C,D_8009B07A;extern void func_8005F91C(int,void*,void*,int);void func_8005F714(int a,int b,int c){void*x=a<0?0:D_80091550+a*8;void*y=b<0?0:D_80091550+b*8;int flag;if(D_8009B07B==1&&D_8009B07C==1)return;flag=(signed char)D_8009B07A;if(flag<0)flag=0;else{D_8009B07A++;flag=flag>0;}func_8005F91C(flag,x,y,c);}

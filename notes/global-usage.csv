@@ -210,7 +210,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800914E8,D_800914E8,D_800914E8,0x800540B4,func_800540B4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_043cb8.s,address,,"addiu $s6, $v0, %lo(D_800914E8) | lui $v0, %hi(D_800914E8)"
 0x80091508,D_80091508,D_80091508,0x8004E9A0,func_8004E9A0,matching_c,game,C,src/game/func_8004E9A0.c,read,8,q = D_80091508[r4];
 0x8009151C,D_8009151C,D_8009151C,0x8005C388,func_8005C388,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04cb88.s,address,,"addiu $a1, $a1, %lo(D_8009151C) | addiu $a1, $v0, %lo(D_8009151C) | (+2 more)"
-0x80091550,D_80091550,D_80091550,0x8005F714,func_8005F714,matching_c,game,C,src/game/func_8005F714.c,address,8,"extern unsigned char D_80091550[],D_8009B07B,D_8009B07C,D_8009B07A;extern void func_8005F91C(int,void*,void*,int);voi..."
+0x80091550,D_80091550,D_80091550,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_dispatch.c,address,8,void *x = a < 0 ? 0 : D_80091550 + a * 8; | void *y = b < 0 ? 0 : D_80091550 + b * 8;
 0x80091570,D_80091570,D_80091570,0x8005F1A4,func_8005F1A4,matching_c,game,C,src/game/func_8005F1A4.c,address,,return &D_80091570[index];
 0x80091570,D_80091570,D_80091570,0x8005F27C,func_8005F27C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04fa7c.s,address,,"addiu $v0, $v0, %lo(D_80091570) | lui $v0, %hi(D_80091570)"
 0x80091570,D_80091570,D_80091570,0x8005F5C8,func_8005F5C8,matching_c,game,C,src/game/model_effect_state.c,address,,StatRec *rec = &D_80091570[arg1];
@@ -745,8 +745,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005DBA4,func_8005DBA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04cfbc.s,write,8,"sb $v0, %gp_rel(D_8009B07A)($gp)"
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005F564,func_8005F564,matching_c,game,C,src/game/model_effect_state.c,read_write,8,if (D_8009B07A < 0) { | return D_8009B07A++ > 0;
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005F588,func_8005F588,matching_c,game,C,src/game/model_effect_state.c,write,8,D_8009B07A = -1; | D_8009B07A = 0;
-0x8009B07A,D_8009B07A,D_8009B07A,0x8005F714,func_8005F714,matching_c,game,C,src/game/func_8005F714.c,read_write,8,"extern unsigned char D_80091550[],D_8009B07B,D_8009B07C,D_8009B07A;extern void func_8005F91C(int,void*,void*,int);voi..."
-0x8009B07A,D_8009B07A,D_8009B07A,0x8005F7B0,func_8005F7B0,matching_c,game,C,src/game/func_8005F7B0.c,read_write,8,"typedef struct{short a,b,c,d;}Data;extern unsigned char D_8009B07B,D_8009B07C,D_8009B07A;extern void func_8005F91C(in..."
+0x8009B07A,D_8009B07A,D_8009B07A,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_dispatch.c,read_write,8,D_8009B07A++; | flag = (s8)D_8009B07A;
+0x8009B07A,D_8009B07A,D_8009B07A,0x8005F7B0,func_8005F7B0,matching_c,game,C,src/game/model_effect_dispatch.c,read_write,8,D_8009B07A = next + 1; | flag = (s8)D_8009B07A; | (+1 more)
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005F828,func_8005F828,matching_c,game,C,src/game/func_8005F828.c,read_write,8,D_8009B07A = (u8)D_8009B07A + 1; | raw172 = D_8009B07A;
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005F91C,func_8005F91C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05011c.s,write,8,"sb $v0, %gp_rel(D_8009B07A)($gp)"
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005FAE4,func_8005FAE4,matching_c,game,C,src/game/model_transfer_state.c,write,8,D_8009B07A = -1;
@@ -758,8 +758,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005F3B8,func_8005F3B8,matching_c,game,C,src/game/func_8005F3B8.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1)
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005F588,func_8005F588,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B != 1 || D_8009B07C != 1) {
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005F5C8,func_8005F5C8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F714,func_8005F714,matching_c,game,C,src/game/func_8005F714.c,read,8,"extern unsigned char D_80091550[],D_8009B07B,D_8009B07C,D_8009B07A;extern void func_8005F91C(int,void*,void*,int);voi..."
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F7B0,func_8005F7B0,matching_c,game,C,src/game/func_8005F7B0.c,read,8,"typedef struct{short a,b,c,d;}Data;extern unsigned char D_8009B07B,D_8009B07C,D_8009B07A;extern void func_8005F91C(in..."
+0x8009B07B,D_8009B07B,D_8009B07B,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_dispatch.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1) {
+0x8009B07B,D_8009B07B,D_8009B07B,0x8005F7B0,func_8005F7B0,matching_c,game,C,src/game/model_effect_dispatch.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1) {
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005F828,func_8005F828,matching_c,game,C,src/game/func_8005F828.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005F91C,func_8005F91C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05011c.s,read,8,"lbu $v0, %gp_rel(D_8009B07B)($gp)"
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005FAE4,func_8005FAE4,matching_c,game,C,src/game/model_transfer_state.c,write,8,D_8009B07B = 0;
@@ -771,8 +771,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F3B8,func_8005F3B8,matching_c,game,C,src/game/func_8005F3B8.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1)
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F588,func_8005F588,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B != 1 || D_8009B07C != 1) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F5C8,func_8005F5C8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
-0x8009B07C,D_8009B07C,D_8009B07C,0x8005F714,func_8005F714,matching_c,game,C,src/game/func_8005F714.c,read,8,"extern unsigned char D_80091550[],D_8009B07B,D_8009B07C,D_8009B07A;extern void func_8005F91C(int,void*,void*,int);voi..."
-0x8009B07C,D_8009B07C,D_8009B07C,0x8005F7B0,func_8005F7B0,matching_c,game,C,src/game/func_8005F7B0.c,read,8,"typedef struct{short a,b,c,d;}Data;extern unsigned char D_8009B07B,D_8009B07C,D_8009B07A;extern void func_8005F91C(in..."
+0x8009B07C,D_8009B07C,D_8009B07C,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_dispatch.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1) {
+0x8009B07C,D_8009B07C,D_8009B07C,0x8005F7B0,func_8005F7B0,matching_c,game,C,src/game/model_effect_dispatch.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F828,func_8005F828,matching_c,game,C,src/game/func_8005F828.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F91C,func_8005F91C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05011c.s,read,8,"lbu $v0, %gp_rel(D_8009B07C)($gp)"
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005FAE4,func_8005FAE4,matching_c,game,C,src/game/model_transfer_state.c,write,8,D_8009B07C = 0;

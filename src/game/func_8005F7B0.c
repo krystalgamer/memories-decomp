@@ -1,3 +1,0 @@
-#include "../types.h"
-
-typedef struct{short a,b,c,d;}Data;extern unsigned char D_8009B07B,D_8009B07C,D_8009B07A;extern void func_8005F91C(int,Data*,Data*,int);void func_8005F7B0(int value,int arg){Data d={value,0,0,5};int flag,next;if(D_8009B07B==1&&D_8009B07C==1)return;flag=(signed char)D_8009B07A;next=D_8009B07A;if(flag<0)flag=0;else{D_8009B07A=next+1;flag=flag>0;}func_8005F91C(flag,&d,&d,arg);}
