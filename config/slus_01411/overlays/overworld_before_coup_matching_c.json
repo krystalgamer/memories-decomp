@@ -11,6 +11,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5C",
       "source": "src/overlays/overworld/location_label.c"
+    },
+    {
+      "address": "0x801681E8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x70",
+      "source": "src/overlays/overworld/camera_from_location.c"
     }
   ],
   "schema": 1

@@ -63,7 +63,8 @@ segments:
       - [0x4, c, overlays/overworld/teardown]
       - [0x50, asm, overlays/overworld_after_coup/text]
       - [0x18C, c, overlays/overworld/location_label]
-      - [0x1E8, asm, overlays/overworld_after_coup/text_1E8]
+      - [0x1E8, c, overlays/overworld/camera_from_location]
+      - [0x258, asm, overlays/overworld_after_coup/text_258]
       - [0x1E54, data, overlays/overworld_after_coup/data]
 
   - [0x3000]

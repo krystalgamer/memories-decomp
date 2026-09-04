@@ -77,6 +77,23 @@ value = next;
 
 Verified by `func_80181EEC` in the main menu module.
 
+The rule is about matching the original's locals, not about avoiding locals.
+Read the target both ways:
+
+- If the target does **not** materialise something in a register, do not give
+  it a local. `func_80169D10` writes `D_800EB0F8` base-relative at absolute
+  offsets, and adding a local for the element makes GCC fold the base and the
+  offset into one `addiu`. `FreeDuel_Entry` is the same in miniature: hoisting
+  a repeated expression into a local displaces an address load out of a branch
+  delay slot.
+- If the target **does** materialise one, the local is required.
+  `func_801681E8` forms the `D_800F2848` base in its own register and stores
+  at constant offsets from it; without a local for that base, GCC walks the
+  address incrementally instead.
+
+Both of those are the same question asked in opposite directions: does a
+register in the target hold a value the source named?
+
 ## Signed and unsigned short tests
 
 A zero test compiled as `sll $rX, $rX, 16` followed by a branch is a **signed**
