@@ -2,7 +2,21 @@
 
 extern s32 gAiScript_aMemory[];
 extern u8 gAiScript_State[];
+
 extern s32 AiScript_ReadByte(void);
+
+void AiScript_ClearCards(void)
+{
+    s32 i = 31;
+    u16 *entries = (u16 *)gAiScript_State;
+
+    entries += 31;
+    do {
+        entries[31] = 0;
+        i--;
+        entries--;
+    } while (i >= 0);
+}
 
 void AiScript_AddType(void)
 {
@@ -22,4 +36,17 @@ void AiScript_AddType(void)
             break;
         }
     }
+}
+
+void AiScript_ClearTypes(void)
+{
+    s32 i = 24;
+    u8 *entries = gAiScript_State;
+
+    entries += i;
+    do {
+        entries[126] = 0;
+        i--;
+        entries--;
+    } while (i >= 0);
 }
