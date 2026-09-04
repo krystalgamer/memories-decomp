@@ -4168,13 +4168,13 @@
       "address": "0x8005B5FC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x24",
-      "source": "src/game/func_8005B5FC.c"
+      "source": "src/game/model_word_memory.c"
     },
     {
       "address": "0x8005B620",
       "profile": "gcc_2_8_1_g0",
       "size": "0x2C",
-      "source": "src/game/func_8005B620.c"
+      "source": "src/game/model_word_memory.c"
     },
     {
       "address": "0x8005B85C",
