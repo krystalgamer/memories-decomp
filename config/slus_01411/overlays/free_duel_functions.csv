@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x80168004,0x8C,FreeDuel_UpdateScrollbar,matching_c,overlay/free_duel,Name from module-scoped external symbols; exact overlay match with gcc_2_8_1_g0_split.
 0x80168090,0x124,FreeDuel_PlaceCursor,unmatched_asm,overlay/free_duel,Name from module-scoped external symbols; exact boundary from the verified overlay split.
-0x801681B4,0x98,FreeDuel_SpawnSparkle,unmatched_asm,overlay/free_duel,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x801681B4,0x98,FreeDuel_SpawnSparkle,matching_c,overlay/free_duel,Name from module-scoped external symbols; exact overlay match with gcc_2_8_1_g0_split. Returns the spawned object pointer.
 0x8016824C,0x750,FreeDuel_Init,unmatched_asm,overlay/free_duel,Name from module-scoped external symbols; exact boundary from the verified overlay split.
 0x8016899C,0x38,FreeDuel_GetSparkleSlot,unmatched_asm,overlay/free_duel,Name from module-scoped external symbols; exact boundary from the verified overlay split.
 0x801689D4,0xC8,FreeDuel_UpdateSparkle,unmatched_asm,overlay/free_duel,Name from module-scoped external symbols; exact boundary from the verified overlay split.

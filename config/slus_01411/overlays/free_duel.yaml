@@ -62,6 +62,8 @@ segments:
     subsegments:
       - [0x4, c, overlays/free_duel/scrollbar]
       - [0x90, asm, overlays/free_duel/text]
+      - [0x1B4, c, overlays/free_duel/sparkle]
+      - [0x24C, asm, overlays/free_duel/text_24C]
       - [0x1030, data, overlays/free_duel/data]
 
   - [0x2800]
