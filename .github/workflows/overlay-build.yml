@@ -15,12 +15,24 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 15
     env:
+      MAKEFLAGS: -j2
+      USE_SYSTEM_MIPS_BINUTILS: "1"
       SLUS_URL: ${{ secrets.YGOFM_SLUS_01411_URL }}
       WA_MRG_URL: ${{ secrets.YGOFM_WA_MRG_URL }}
 
     steps:
       - name: Check out source
         uses: actions/checkout@v4
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            binutils-mips-linux-gnu=2.38-1ubuntu1cross2 \
+            ca-certificates \
+            curl \
+            python3-pip \
+            python3-venv
 
       - name: Require private retail input secrets
         run: |
@@ -61,5 +73,22 @@ jobs:
             game/DATA/WA_MRG.MRG \
             | sha256sum --check --strict
 
-      - name: Extract and verify overlay modules
-        run: make overlays verify-overlays
+      - name: Restore pinned project tools
+        uses: actions/cache@v4
+        with:
+          path: |
+            tools/downloads
+            tools/environments
+            tools/toolchains
+            tools/vendor
+          key: ${{ runner.os }}-project-tools-${{ hashFiles('tools/bootstrap/*.json', 'tools/bootstrap/*.py') }}
+
+      - name: Install or verify pinned tools
+        run: |
+          make python-tools
+          make toolchain-system
+          make compiler-281-prebuilt
+          make check-build-tools
+
+      - name: Perform exact overlay build
+        run: make match-overlays
