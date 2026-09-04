@@ -1066,13 +1066,13 @@
       "address": "0x8002C560",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/func_8002C560.c"
+      "source": "src/game/noop_callbacks.c"
     },
     {
       "address": "0x8002C568",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/func_8002C568.c"
+      "source": "src/game/noop_callbacks.c"
     },
     {
       "address": "0x8002C570",
