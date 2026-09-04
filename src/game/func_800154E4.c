@@ -84,7 +84,7 @@ void func_800154E4(void) {
 
         if (flags & 1) {
             FADEBOX_H(p) = 8;
-            for (i = 0; i < 0x1E; i++) {
+            for (i = 0; i < FADE_BAND_COUNT; i++) {
                 u8 *lvl = rec + i;
                 band = 0xFF - lvl[0xA];
                 p->b = (u8) band;
