@@ -18,7 +18,7 @@ extern void (*D_80090998[])(void);
 extern void func_800235C0(void), func_8002C6C8(void);
 extern int func_80026B34(void), DuelEffect_UpdateState(void);
 extern void SD_SEPlayFull(int);
-extern Window *func_80035C38(int, int, int, int, int, int, int);
+extern Window *TextBox_CreateFlagged(int, int, int, int, int, int, int);
 extern void func_80039794(void), func_80035B7C(Window *);
 
 void func_80024200(void)
@@ -41,7 +41,7 @@ void func_80024200(void)
         if (!(value & 0x80)) {
             D_8009B164 = value | 0x80;
             SD_SEPlayFull(0x30);
-            window = func_80035C38(3, 0x22, 0x78, 0x58, 0x50, 0x24, 0x20);
+            window = TextBox_CreateFlagged(3, 0x22, 0x78, 0x58, 0x50, 0x24, 0x20);
             do {
                 func_80039794();
             } while (window->field_30 == 0);

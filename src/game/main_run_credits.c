@@ -127,7 +127,7 @@ __asm__(
     ".word 0xAFA20018\n"
     ".word 0xACC30004\n"
     ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80035C38\n"
+    ".reloc .-4, R_MIPS_26, TextBox_CreateFlagged\n"
     ".word 0x24060010\n"
     ".word 0x0C000000\n"
     ".reloc .-4, R_MIPS_26, func_80039794\n"

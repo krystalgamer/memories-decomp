@@ -204,7 +204,7 @@ __asm__(
     ".word 0xAFA20010\n"
     ".word 0x24020030\n"
     ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80035BE4\n"
+    ".reloc .-4, R_MIPS_26, TextBox_Create\n"
     ".word 0xAFA20014\n"
     ".word 0x0C000000\n"
     ".reloc .-4, R_MIPS_26, func_8002E3FC\n"
