@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "mem_card.h"
 
 extern u8 D_80010538[];
 extern void func_8008F200();
@@ -20,7 +21,7 @@ s32 func_80044470(s32 a0, s32 a1, u8 *cursor, s32 *out_count)
     }
     retry = 5;
     count = 1;
-    cursor += 40;
+    cursor += MEM_CARD_DIRECTORY_ENTRY_SIZE;
     do {
         if ((u8 *)func_80073920(cursor) != cursor) {
             retry--;
@@ -28,10 +29,10 @@ s32 func_80044470(s32 a0, s32 a1, u8 *cursor, s32 *out_count)
                 break;
         } else {
             retry = 5;
-            cursor += 40;
+            cursor += MEM_CARD_DIRECTORY_ENTRY_SIZE;
             count++;
         }
-    } while (count < 15);
+    } while (count < MEM_CARD_BLOCK_COUNT);
     if (out_count != (s32 *)0)
         *out_count = count;
     return count;
