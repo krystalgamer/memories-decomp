@@ -108,6 +108,24 @@ The first clean-room declaration is `src/psyq/libcd.h`:
 | `CdlLOC` | Four-byte CD location. The resident MSF-to-LBA routine reads the BCD minute, second, and sector bytes at offsets `0`-`2`. |
 | `CdlFILE` | 24-byte search result with `CdlLOC` at `0`, size at `4`, and a 16-byte name at `8`. `DsSearchFile` copies records at a `0x18` stride, and `File_GetPosition` passes the leading location to the conversion routine. |
 
+### Rectangle layout evidence
+
+`func_800249E0` builds two consecutive eight-byte records in `D_80177EA4`.
+Each record receives signed halfword stores at offsets `0`, `2`, `4`, and `6`,
+then is passed to the resident function at `0x8007F978`, the `LoadImage`
+candidate:
+
+| Record | `+0` | `+2` | `+4` | `+6` |
+|---|---|---|---|---|
+| card image | x coordinate | y coordinate | width `0x14` | height `0x20` |
+| palette row | x coordinate `0x380` | y coordinate | width `0x40` | height `1` |
+
+This verifies the Psy-Q `RECT` ABI surface as four signed 16-bit fields in
+`x`, `y`, `w`, `h` order and a total size of eight bytes. A future
+`src/psyq/libgpu.h` migration can use that layout, but should preserve the
+current pointer arithmetic until an exact build proves that typed array
+indexing does not change old-GCC code generation.
+
 Before replacing a local definition:
 
 1. Identify the resident callee and verify its argument and return contract.
@@ -125,7 +143,7 @@ The existing C sources expose several useful starting points:
 | Current source pattern | SDK target | Required proof |
 |---|---|---|
 | `CdlFILE` in `src/psyq/libcd.h` | CD file-search result | Initial migration complete in `src/game/file_stream.c`; extend only when another caller's field use agrees with the shared layout. |
-| Repeated four-halfword rectangle records | `RECT`-compatible record | Confirm signed halfword loads/stores and field order at each GPU call site. |
+| Two rectangle records in `func_800249E0` | `RECT`-compatible record | Layout is verified; introduce `libgpu.h` when migrating a caller can preserve the exact pointer arithmetic. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Confirm complete size, alignment, and all fields touched by resident GPU functions. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Separate fixed-point SDK layouts from game-specific render records. |
 | Memory-card event descriptor arrays | event handles and card constants | Name the resident BIOS wrappers before centralizing prototypes and constants. |
