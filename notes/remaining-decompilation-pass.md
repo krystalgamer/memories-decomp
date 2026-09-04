@@ -613,6 +613,24 @@ State after this one-function checkpoint:
 | Matching sources retaining GCC asm | 58 |
 | Accepted semantic mappings | 221 |
 
+### Continuous wave 23
+
+`func_8004020C` matched after enabling split addresses on the collaborator's
+typed slot-linking implementation. The split profile exposes the
+`D_800EFE48` and `D_800EFE38` address halves to the scheduler, removing the
+non-split extra instruction while preserving the branch-specific slot updates.
+The normalized pure-C source matches 148/148 bytes and exact relocations.
+
+State after this one-function checkpoint:
+
+| State | Count |
+|---|---:|
+| Matching C | 799 |
+| Terminal unmatched assembly | 334 |
+| Intentional handwritten assembly | 63 |
+| Matching sources retaining GCC asm | 58 |
+| Accepted semantic mappings | 221 |
+
 ### Continuous wave 22
 
 `AiScript_AddType` (`0x800733A8`) matched after enabling split addresses on
