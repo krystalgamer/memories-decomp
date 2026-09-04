@@ -15,7 +15,7 @@ extern char D_800118CC[];
 void AiScript_Call(void) {
     s32 val = AiScript_ReadShort();
 
-    if (gAiScript_State.return_depth < 8) {
+    if (gAiScript_State.return_depth < AI_SCRIPT_RETURN_STACK_COUNT) {
         gAiScript_State.return_stack[gAiScript_State.return_depth] =
             gAiScript_State.script_cursor;
         gAiScript_State.return_depth =

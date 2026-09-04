@@ -5,6 +5,7 @@
 
 #define AI_SCRIPT_CARD_SET_COUNT 32
 #define AI_SCRIPT_MEMORY_COUNT 20
+#define AI_SCRIPT_RETURN_STACK_COUNT 8
 #define AI_SCRIPT_TYPE_SET_COUNT 25
 
 typedef void (*AiScriptHandler)(void);
@@ -26,7 +27,7 @@ typedef struct {
     u8 pad10[4];
     u8 return_depth;
     u8 pad15[3];
-    u8 *return_stack[8];
+    u8 *return_stack[AI_SCRIPT_RETURN_STACK_COUNT];
     u8 combo_cards[6];
     u16 card_set[AI_SCRIPT_CARD_SET_COUNT];
     u8 type_set[AI_SCRIPT_TYPE_SET_COUNT];
