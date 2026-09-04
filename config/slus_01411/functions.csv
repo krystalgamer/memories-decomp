@@ -1002,7 +1002,7 @@ address,size,name,status,module,notes
 0x8005C530,0x38,func_8005C530,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005C568,0x5C,func_8005C568,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005C5C4,0x10,func_8005C5C4,matching_c,game,1 pre-policy variants: Straight G8 byte assignment of one matched linked bytes and GPREL16 relocation.
-0x8005C5D4,0x58,func_8005C5D4,unmatched_asm,game,
+0x8005C5D4,0x58,func_8005C5D4,matching_c,game,"Timeout wait on the D_8009B062 flag; counter starts at 0x800000 with the first decrement peeled before the loop, calls func_8008FBE0(1) if it expires, and clears the flag on every path."
 0x8005C62C,0x64,func_8005C62C,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005C690,0x10,func_8005C690,matching_c,game,1 pre-policy variants: Straight G8 byte assignment of one matched linked bytes and GPREL16 relocation.
 0x8005C6A0,0xC8,func_8005C6A0,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
