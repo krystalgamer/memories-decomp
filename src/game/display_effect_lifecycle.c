@@ -50,3 +50,13 @@ void func_80039FD4(u8 *object)
     *(s8 *)(object + 0x30) = -1;
     func_80039F90((void **)object);
 }
+
+void func_80039FF8(DisplayEffectState *object)
+{
+    u8 flags = object->field_32;
+
+    if ((flags & 3) == 0) {
+        object->field_32 = flags | 0x10;
+        object->state = 0;
+    }
+}
