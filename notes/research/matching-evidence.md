@@ -126,6 +126,48 @@ the compensating `addiu $v1, $v1, 1` on the early exit.
 - Three-way state initializers are especially sensitive to assignment order
   and whether the original source was a switch or nested conditionals.
 
+### Compiler-generated jump tables cannot currently be integrated
+
+A `switch` that GCC compiles into a jump table cannot be accepted by the build
+as it stands, however exact the C is. Check for this before starting a function,
+because the C can be finished and still be unusable.
+
+The symptom is a link failure rather than a mismatch:
+
+```
+ld: section .initialized_data LMA [00080ee0,0008b88f]
+    overlaps section .rodata LMA [00080ed8,00080ef3]
+ld: section .rodata VMA [800906d8,800906f3]
+    overlaps section .text_padding VMA [800906d4,800906df]
+```
+
+Two facts combine to cause it:
+
+- `linker/slus_01411.ld` defines no `.rodata` output section, so a compiler
+  table becomes an orphan and is placed immediately after `.text`, on top of
+  `.text_padding` and `.initialized_data`.
+- The retail table is already in the image as data. For `Ai_GetWinningCardRange`
+  it lives at `0x8001194C`, which falls inside `.initial_data`
+  (`0x80010000` for `0x29D8`), a single blob emitted from `initial_data.o`.
+
+So accepting one would require splitting that blob around the table's address
+and placing the object's `.rodata` into the resulting hole, which changes the
+data emission and the size assertions. That is a build-configuration decision,
+not something to solve by trying more source shapes.
+
+`Ai_GetWinningCardRange` (`0x80070738`) is the worked example. Its C reaches all
+35 instructions exactly, and the emitted `.rodata` is `0x1C` bytes - exactly the
+seven words of the retail table - so it is the right table at the wrong address.
+
+Confirming this is a new case rather than an oversight: `symbols.txt` contains no
+`jtbl_` symbols, no source under `src/game` references one, and every matching
+source that contains a `switch` compiles to a comparison chain instead of a
+table. Small or sparse switches are therefore fine; only a dense one that GCC
+turns into a table hits this.
+
+When reading a target, the tell is a `lw` from a `%hi`/`%lo` symbol pair
+followed by `jr` on the loaded register.
+
 ### Register pins
 
 Issue #5 accepts `register` variables pinned to a hard register for functions
