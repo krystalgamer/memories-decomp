@@ -101,6 +101,13 @@ fixed-width aliases. Keep incomplete records opaque. A fielded structure is
 appropriate only when offsets and widths are established by callers, target
 instructions, or an exact documented ABI.
 
+The first clean-room declaration is `src/psyq/libcd.h`:
+
+| Record | Verified ABI surface |
+|---|---|
+| `CdlLOC` | Four-byte CD location. The resident MSF-to-LBA routine reads the BCD minute, second, and sector bytes at offsets `0`-`2`. |
+| `CdlFILE` | 24-byte search result with `CdlLOC` at `0`, size at `4`, and a 16-byte name at `8`. `DsSearchFile` copies records at a `0x18` stride, and `File_GetPosition` passes the leading location to the conversion routine. |
+
 Before replacing a local definition:
 
 1. Identify the resident callee and verify its argument and return contract.
@@ -117,7 +124,7 @@ The existing C sources expose several useful starting points:
 
 | Current source pattern | SDK target | Required proof |
 |---|---|---|
-| `DiscFile` in `src/game/file_stream.c` | `CdlFILE`-compatible record | Confirm the 24-byte size and the position, size, and name offsets against every caller. |
+| `CdlFILE` in `src/psyq/libcd.h` | CD file-search result | Initial migration complete in `src/game/file_stream.c`; extend only when another caller's field use agrees with the shared layout. |
 | Repeated four-halfword rectangle records | `RECT`-compatible record | Confirm signed halfword loads/stores and field order at each GPU call site. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Confirm complete size, alignment, and all fields touched by resident GPU functions. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Separate fixed-point SDK layouts from game-specific render records. |

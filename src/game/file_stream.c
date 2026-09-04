@@ -1,8 +1,5 @@
 #include "../types.h"
-
-typedef struct {
-    u8 data[24];
-} DiscFile;
+#include "../psyq/libcd.h"
 
 typedef struct {
     u8 pad00[4];
@@ -46,8 +43,8 @@ extern FileTransfer D_800E9E18;
 extern s32 gFile_anLba[];
 
 extern s32 func_8007AFA4(void);
-extern s32 func_8007D3F0(DiscFile *, const char *);
-extern s32 func_8007E710(DiscFile *);
+extern s32 func_8007D3F0(CdlFILE *, const char *);
+extern s32 func_8007E710(const CdlLOC *);
 
 void func_80013898(s32 value)
 {
@@ -71,11 +68,11 @@ void func_80013898(s32 value)
 
 void File_GetPosition(s32 *output, const char *path)
 {
-    DiscFile file;
+    CdlFILE file;
 
     while (func_8007D3F0(&file, path) == 0) {
     }
-    *output = func_8007E710(&file);
+    *output = func_8007E710(&file.pos);
 }
 
 void func_80013940(
