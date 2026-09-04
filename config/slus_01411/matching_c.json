@@ -2746,13 +2746,13 @@
       "address": "0x800427DC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x48",
-      "source": "src/game/func_800427DC.c"
+      "source": "src/game/display_object_initializers.c"
     },
     {
       "address": "0x80042824",
       "profile": "gcc_2_8_1_g8",
       "size": "0x50",
-      "source": "src/game/func_80042824.c"
+      "source": "src/game/display_object_initializers.c"
     },
     {
       "address": "0x80042874",
