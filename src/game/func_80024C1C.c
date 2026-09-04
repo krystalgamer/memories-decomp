@@ -1,12 +1,13 @@
 #include "../types.h"
+#include "card_constants.h"
 
 /* Allocates a display object (get_or_init_D_800EFE48_slot, type 0),
    positions it at (x, y), wires up its per-frame callback, and — only for
    cards whose type field (bits 26-30 of the packed gDuel_adwCardStats[cardId-1]
    record, same field decoded by idx_table_bitfield_copy.c and
-   bitfield_compare_calls_store.c) is 0x14-0x17 (Spell/Trap subtypes, as
-   opposed to Monster types which are < 0x14) — tags it with a small icon
-   variant in f42 and switches its state (f5C) into "has icon" mode. */
+   bitfield_compare_calls_store.c) is one of the non-monster CARD_TYPE_*
+   values — tags it with a small icon variant in f42 and switches its state
+   (f5C) into "has icon" mode. */
 struct Obj {
     char pad4[0x4];
     u32 f4; /* flags; bit 0x1000000 set here */
@@ -23,7 +24,7 @@ struct Obj {
     u8 f5D;
     char pad67[0x67 - 0x5E];
     u8 f67;
-    u8 f68; /* card type field, stored once type >= 0x14 */
+    u8 f68; /* card type field */
     u8 f69;
 };
 
@@ -57,22 +58,22 @@ struct Obj *func_80024C1C(s32 cardId, s32 x, s32 y) {
     obj->f68 = (u8)type;
     obj->f42 = 0;
 
-    if (type < 0x14) {
+    if (type < CARD_TYPE_MAGIC) {
         goto end;
     }
     obj->f5C = 0x38;
 
     switch (type) {
-        case 0x17:
+        case CARD_TYPE_EQUIP:
             obj->f42 = 1;
             goto end;
-        case 0x14:
+        case CARD_TYPE_MAGIC:
             val = 1;
             break;
-        case 0x15:
+        case CARD_TYPE_TRAP:
             val = 2;
             break;
-        case 0x16:
+        case CARD_TYPE_RITUAL:
             val = 3;
             break;
         default:
