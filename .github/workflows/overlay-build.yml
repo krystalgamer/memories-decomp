@@ -1,0 +1,65 @@
+name: Overlay build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: overlay-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-overlays:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    env:
+      SLUS_URL: ${{ secrets.YGOFM_SLUS_01411_URL }}
+      WA_MRG_URL: ${{ secrets.YGOFM_WA_MRG_URL }}
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Require private retail input secrets
+        run: |
+          if [ -z "$SLUS_URL" ]; then
+            echo "::error::Configure the YGOFM_SLUS_01411_URL repository secret."
+            exit 1
+          fi
+          if [ -z "$WA_MRG_URL" ]; then
+            echo "::error::Configure the YGOFM_WA_MRG_URL repository secret."
+            exit 1
+          fi
+
+      - name: Download and verify retail inputs
+        run: |
+          mkdir -p game/DATA
+          curl \
+            --fail \
+            --location \
+            --retry 3 \
+            --silent \
+            --show-error \
+            "$SLUS_URL" \
+            --output game/SLUS_014.11
+          curl \
+            --fail \
+            --location \
+            --retry 3 \
+            --silent \
+            --show-error \
+            "$WA_MRG_URL" \
+            --output game/DATA/WA_MRG.MRG
+          printf '%s  %s\n' \
+            84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88 \
+            game/SLUS_014.11 \
+            | sha256sum --check --strict
+          printf '%s  %s\n' \
+            a519a1f5b27f4c6702613ba48c10bf945d25c9c51611ae3d2fab6e5d562b2d66 \
+            game/DATA/WA_MRG.MRG \
+            | sha256sum --check --strict
+
+      - name: Extract and verify overlay modules
+        run: make overlays verify-overlays
