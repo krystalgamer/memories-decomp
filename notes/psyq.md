@@ -63,6 +63,7 @@ symbol review.
 | `0x800738C0` | `ExitCriticalSection` | Paired critical-section exit. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
 | `0x8007E3D0` | `CdGetSector` | Identified CD-sector transfer interface in the resident CD library. |
+| `0x8007E600` | `CdIntToPos` | Adds the two-second lead-in and writes packed-BCD minute, second, and sector fields to a `CdlLOC`. |
 | `0x8007E710` | `CdPosToInt` | Decodes the first three BCD bytes of a `CdlLOC` and returns a zero-based logical sector number. |
 | `0x8007F350` | `ResetGraph` | Anchored by GPU `sys.c` evidence and the documented graph-reset contract. |
 | `0x8007F978` | `LoadImage` | GPU transfer call sites pass rectangle-like coordinates and source data. |
@@ -120,6 +121,21 @@ logical_sector = (minute * 60 + second) * 75 + sector - 150
 `File_GetPosition` passes `CdlFILE.pos` directly to this routine and stores
 the result as the file position. The fourth `track` byte is not read by this
 conversion and should not be mistaken for part of the sector calculation.
+
+The adjacent inverse routine at `0x8007E600` takes a logical sector number and
+a destination `CdlLOC *`. After adding the 150-sector lead-in, it computes:
+
+```text
+minute = adjusted_sector / (60 * 75)
+second = (adjusted_sector / 75) % 60
+sector = adjusted_sector % 75
+```
+
+It converts each result to packed BCD and writes offsets `0`, `1`, and `2`.
+The destination pointer is also returned. Offset `3` remains untouched, so a
+caller that needs a defined `track` value must initialize it separately.
+Together, the two resident routines verify both conversion directions without
+requiring a copied SDK structure definition.
 
 ### Rectangle layout evidence
 
