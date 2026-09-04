@@ -340,13 +340,13 @@
       "address": "0x80015C84",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
-      "source": "src/game/func_80015C84.c"
+      "source": "src/game/fade_out_flagged.c"
     },
     {
       "address": "0x80015CC0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
-      "source": "src/game/func_80015CC0.c"
+      "source": "src/game/fade_out_flagged.c"
     },
     {
       "address": "0x80015CFC",

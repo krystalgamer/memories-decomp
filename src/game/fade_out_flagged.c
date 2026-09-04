@@ -14,3 +14,13 @@ void func_80015C84(void)
     state->flags |= 2;
     func_80015870();
 }
+
+void func_80015CC0(void)
+{
+    FadeTransitionState *state;
+
+    Fade_InitOut();
+    state = &D_800E9EC8;
+    state->flags |= 6;
+    func_80015870();
+}

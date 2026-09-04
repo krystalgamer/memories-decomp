@@ -2484,8 +2484,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015BF0,func_80015BF0,matching_c,game,C,src/game/func_80015BF0.c,address,,FadeTransitionState *state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015C0C,func_80015C0C,matching_c,game,C,src/game/fade_in_flagged.c,address,,state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015C48,func_80015C48,matching_c,game,C,src/game/fade_in_flagged.c,address,,state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015C84,func_80015C84,matching_c,game,C,src/game/func_80015C84.c,address,,state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015CC0,func_80015CC0,matching_c,game,C,src/game/func_80015CC0.c,address,,state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015C84,func_80015C84,matching_c,game,C,src/game/fade_out_flagged.c,address,,state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015CC0,func_80015CC0,matching_c,game,C,src/game/fade_out_flagged.c,address,,state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,address,,"addiu $s0, $v0, %lo(D_800E9EC8) | lui $v0, %hi(D_800E9EC8)"
 0x800E9ECC,D_800E9ECC,D_800E9ECC,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0059d8.s,write,8,"lui $v0, %hi(D_800E9ECC) | sb $s0, %lo(D_800E9ECC)($v0)"
 0x800E9ECC,D_800E9ECC,D_800E9ECC,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,write,8,"lui $v1, %hi(D_800E9ECC) | sb $v0, %lo(D_800E9ECC)($v1)"
