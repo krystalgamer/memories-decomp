@@ -374,7 +374,7 @@ address,size,name,status,module,notes
 0x80031078,0xC,func_80031078,matching_c,game,First -O2 -G8 global-byte assignment candidate matched.
 0x80031084,0x2C8,func_80031084,unmatched_asm,game,
 0x8003134C,0x8,func_8003134C,matching_c,game,First empty-function candidate matched.
-0x80031354,0x94,func_80031354,unmatched_asm,game,
+0x80031354,0x94,func_80031354,matching_c,game,Post-terminal declaration/profile recovery; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800313E8,0x18C,func_800313E8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80031574,0x17C,func_80031574,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800316F0,0x94,func_800316F0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.

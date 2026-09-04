@@ -575,3 +575,22 @@ State after this one-function checkpoint:
 | Intentional handwritten assembly | 63 |
 | Matching sources retaining GCC asm | 58 |
 | Accepted semantic mappings | 214 |
+
+### Continuous wave 20
+
+`func_80031354` matched after combining the collaborator's corrected
+`D_8009B2DE` halfword declaration with `gcc_2_8_1_g8_split`. The non-split
+profile kept the far `D_800EB184` load as one compiler pseudo-instruction and
+left the preceding branch delay slot empty. Split-address compilation exposes
+the load's high half to the scheduler, placing it in that delay slot and
+producing exact 148/148-byte text and relocations.
+
+State after this one-function checkpoint:
+
+| State | Count |
+|---|---:|
+| Matching C | 796 |
+| Terminal unmatched assembly | 337 |
+| Intentional handwritten assembly | 63 |
+| Matching sources retaining GCC asm | 58 |
+| Accepted semantic mappings | 219 |
