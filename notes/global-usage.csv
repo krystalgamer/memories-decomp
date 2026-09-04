@@ -1083,7 +1083,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B146,D_8009B146,D_8009B146,0x8002FD10,func_8002FD10,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_020254.s,write,16,"lui $at, %hi(D_8009B146) | sh $zero, %lo(D_8009B146)($at)"
 0x8009B146,D_8009B146,D_8009B146,0x80031874,func_80031874,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022074.s,read,16,"lh $v1, %lo(D_8009B146)($v1) | lui $v1, %hi(D_8009B146)"
 0x8009B146,D_8009B146,D_8009B146,0x800323F8,func_800323F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022bf8.s,write,16,"lui $at, %hi(D_8009B146) | sh $zero, %lo(D_8009B146)($at)"
-0x8009B146,D_8009B146,D_8009B146,0x800338E4,func_800338E4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0240e4.s,read_write,16,"lh $v1, %lo(D_8009B146)($v1) | lhu $v0, %lo(D_8009B146)($v0) | (+4 more)"
+0x8009B146,D_8009B146,D_8009B146,0x800338E4,func_800338E4,matching_c,game,C,src/game/func_800338E4.c,read_write,16,D_8009B146 += (u16)state->step; | D_8009B146 = position; | (+1 more)
 0x8009B146,D_8009B146,D_8009B146,0x80035E20,func_80035E20,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_026620.s,read,16,"lh $v0, %lo(D_8009B146)($v0) | lui $v0, %hi(D_8009B146)"
 0x8009B146,D_8009B146,D_8009B146,0x80037A58,func_80037A58,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,16,D_8009B146[0] = D_8009B348[0] + ((rand() & 7) - 4); | D_8009B146[0] = D_8009B348[0]; | (+1 more)
 0x8009B146,D_8009B146,D_8009B146,0x80040588,func_80040588,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_030d88.s,read,16,"lhu $a0, %lo(D_8009B146)($a0) | lui $a0, %hi(D_8009B146)"
