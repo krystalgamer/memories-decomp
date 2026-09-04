@@ -449,7 +449,7 @@ address,size,name,status,module,notes
 0x800374F4,0xB0,Dialog_OpenChoice,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800375A4,0xD8,func_800375A4,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003767C,0xA0,func_8003767C,unmatched_asm,game,
-0x8003771C,0x90,func_8003771C,unmatched_asm,game,
+0x8003771C,0x90,func_8003771C,matching_c,game,"Exact pure-C duel-effect value setup. Reads three script halfwords, normalizes the middle value above 0x1000 while selecting object state 10, then sets the global effect state and countdown to 7."
 0x800377AC,0x1C,func_800377AC,matching_c,game,First -O2 -G8 conditional-byte-store candidate matched.
 0x800377C8,0xB4,func_800377C8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003787C,0x5C,func_8003787C,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
