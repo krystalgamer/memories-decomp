@@ -70,6 +70,7 @@ ASSIGNMENT_OPERATORS = {
 }
 COMPOUND_ASSIGNMENT_OPERATORS = ASSIGNMENT_OPERATORS - {"="}
 GENERATED_NAME_RE = re.compile(r"D_([0-9A-Fa-f]{8})(?:_[A-Za-z0-9_]+)?$")
+CODEGEN_ALIAS_RE = re.compile(r"Base\d+_[0-9A-Fa-f]{8}$")
 IDENTIFIER_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 SYMBOL_ASSIGNMENT_RE = re.compile(
     r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(0x[0-9A-Fa-f]+)\s*;"
@@ -831,6 +832,8 @@ def preferred_name(names: set[str], address: int) -> str:
     def score(name: str) -> tuple[int, int, str]:
         if re.match(r"^g[A-Z_]", name):
             category = 4
+        elif CODEGEN_ALIAS_RE.fullmatch(name):
+            category = 0
         elif GENERATED_NAME_RE.fullmatch(name):
             category = 1
         elif name.endswith(("_start", "_end")) or name == "runtime_gp":
