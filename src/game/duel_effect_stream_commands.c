@@ -2,6 +2,7 @@
 
 extern u16 D_8009B33A;
 extern s32 D_8009B350;
+
 void func_80037D2C(u8 *object)
 {
     u8 **stream = &((u8 **)object)[*(s8 *)(object + 0x58)];
@@ -9,6 +10,7 @@ void func_80037D2C(u8 *object)
     register u32 combined asm("$3");
     register u32 value asm("$5");
     register u8 **slot asm("$4");
+
     temporary = *(s8 *)(object + 0x58);
     combined = D_8009B33A;
     asm("" : "+r"(temporary), "+r"(combined));
@@ -25,4 +27,15 @@ void func_80037D2C(u8 *object)
     D_8009B33A = value;
     asm("" : "+r"(temporary) : : "memory");
     D_8009B350 = temporary;
+}
+
+void func_80037D6C(u8 *object)
+{
+    u8 **stream = &((u8 **)object)[*(s8 *)(object + 0x58)];
+    u8 *current = *stream;
+    u8 value = current[0];
+
+    *stream = current + 1;
+    object[0x51] = value;
+    D_8009B350 = 1;
 }
