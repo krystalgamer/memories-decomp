@@ -220,13 +220,13 @@
       "address": "0x8001581C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/func_8001581C.c"
+      "source": "src/game/fade_color.c"
     },
     {
       "address": "0x80015870",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/func_80015870.c"
+      "source": "src/game/fade_color.c"
     },
     {
       "address": "0x800158B8",
