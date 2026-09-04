@@ -66,6 +66,8 @@ symbol review.
 | `0x8007E600` | `CdIntToPos` | Adds the two-second lead-in and writes packed-BCD minute, second, and sector fields to a `CdlLOC`. |
 | `0x8007E710` | `CdPosToInt` | Decodes the first three BCD bytes of a `CdlLOC` and returns a zero-based logical sector number. |
 | `0x8007E7F0` | `CdControlB` | Submits the three-argument CD command and blocks until the internal completion code is `2`. |
+| `0x8007E860` | `CdReadyCallback` | Replaces and returns the callback invoked with a ready-event status and result pointer. |
+| `0x8007E880` | `CdSyncCallback` | Replaces and returns the callback invoked from the command-completion path. |
 | `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | Byte-identical wrappers that install a callback on DMA channel `3`. |
 | `0x8007F350` | `ResetGraph` | Anchored by GPU `sys.c` evidence and the documented graph-reset contract. |
 | `0x8007F978` | `LoadImage` | GPU transfer call sites pass rectangle-like coordinates and source data. |
@@ -84,6 +86,15 @@ resident DMA callback installer with channel `3`, matching `CdDataCallback`.
 CD teardown selects one of these wrappers according to the active library
 state, so both linked addresses are live members rather than redundant padding.
 One original name cannot be assigned to multiple resident addresses.
+
+The callback invocation paths distinguish the two adjacent setter routines.
+The pointer stored by `0x8007E860` is called from the ready-event dispatcher
+with the one-byte event status and result-buffer pointer. The pointer stored
+by `0x8007E880` is called from the command-completion dispatcher, which
+masks the status to one byte and leaves the incoming second argument unchanged,
+forwarding it through the MIPS argument registers. Both setters return the
+previous pointer. This supports `CdReadyCallback` and `CdSyncCallback`,
+respectively, with the common status-and-result callback shape.
 
 ## Shared declaration policy
 
