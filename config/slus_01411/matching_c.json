@@ -352,13 +352,13 @@
       "address": "0x80015CFC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x10",
-      "source": "src/game/func_80015CFC.c"
+      "source": "src/game/fade_overlay_state.c"
     },
     {
       "address": "0x80015D0C",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/func_80015D0C.c"
+      "source": "src/game/fade_overlay_state.c"
     },
     {
       "address": "0x80015D18",
