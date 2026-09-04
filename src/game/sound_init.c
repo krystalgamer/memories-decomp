@@ -110,7 +110,7 @@ void func_80049434(void)
     D_8009B458->flag_0501 = 0;
     D_8009B458->flag_0502 = 0;
     state = D_8009B458;
-    state->object_count = 20;
+    state->object_count = SD_SECONDARY_OBJECT_COUNT;
     state->field_0814 = 0;
     other = D_8009B458;
     state->field_0512 = 127;

@@ -4,6 +4,7 @@
 #include "../types.h"
 
 #define SD_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
+#define SD_SECONDARY_OBJECT_COUNT 20
 
 typedef struct {
     u8 command;
@@ -139,7 +140,7 @@ typedef struct {
 
 typedef struct {
     u8 pad0000[0x180];
-    SDSecondaryObject objects[20];
+    SDSecondaryObject objects[SD_SECONDARY_OBJECT_COUNT];
     u8 pad04A0[4];
     SDSecondaryTransfer transfer;
     u8 pad04C0[0x40];

@@ -1,11 +1,8 @@
 #include "../types.h"
 #include "sound.h"
 
-/* Same *D_8009B458 struct as set_8009b458_510_validated.c (f510 = item
-   count, 1..20). Walks the 0x28-byte item array starting at offset 0x180
-   and, for each item whose durability (f1E) is non-zero and whose type
-   byte (f3) is below 0x10, decrements the durability by 1; otherwise
-   resets it to 0. */
+/* Walks the secondary-object array up to object_count and decrements each
+   active object's field_001E; invalid or inactive entries are cleared. */
 void func_8004C84C(void) {
     s32 i;
 
