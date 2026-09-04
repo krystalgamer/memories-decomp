@@ -1,8 +1,9 @@
 #include "../types.h"
 
-/* Runs the table-driven LP recovery phases. D_8009AF30 values are scaled by
-   100 while the selected duel-side value at +0x14 moves toward +0x16; the
-   remaining phases create and retire the associated effect objects. */
+/* Runs the table-driven LP recovery phases.
+   gDuel_abLifePointRecoveryUnits values are scaled by 100 while the selected
+   duel-side value at +0x14 moves toward +0x16; the remaining phases create
+   and retire the associated effect objects. */
 
 struct Obj {
     s16 field0;
@@ -22,7 +23,7 @@ extern struct SomeState2 *D_8009B1C8;
 extern u16 D_8009B220;
 extern u16 D_8009B210;
 extern s16 D_8009B22A;
-extern u8 D_8009AF30[4];
+extern u8 gDuel_abLifePointRecoveryUnits[5];
 
 s32 func_80024E24(void);
 s32 func_8001F364(s32);
@@ -54,7 +55,7 @@ void func_800250C8(void) {
     if (!(flag & 0x40)) {
         D_8009B220 = flag | 0x60;
         if (D_8009B22A == 0) {
-            u8 *p = &D_8009AF30[s1];
+            u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
             v1 = D_8009B1C8->unk14 + (*p) * 0x64;
             D_8009B1C8->unk14 = v1;
             if (D_8009B1C8->unk16 < (s16) v1) {
@@ -75,7 +76,7 @@ block_9:
             obj->field1A = s1;
         }
     } else {
-        u8 *p = &D_8009AF30[s1];
+        u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
         v1 = D_8009B1C8->unk14 - (*p) * 0x64;
         D_8009B1C8->unk14 = v1;
         if ((s16) v1 < 0) {
