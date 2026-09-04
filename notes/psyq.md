@@ -63,6 +63,7 @@ symbol review.
 | `0x800738C0` | `ExitCriticalSection` | Paired critical-section exit. |
 | `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | Byte-identical wrappers that install a callback on DMA channel `3`. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
+| `0x8007E350` | `CdFlush` | No-argument wrapper around the CD library's internal state-reset routine. |
 | `0x8007E3D0` | `CdGetSector` | Identified CD-sector transfer interface in the resident CD library. |
 | `0x8007E4F0` | `CdGetSector2` | Parallel two-argument sector-transfer wrapper using the library's second transfer path. |
 | `0x8007E600` | `CdIntToPos` | Adds the two-second lead-in and writes packed-BCD minute, second, and sector fields to a `CdlLOC`. |
@@ -173,6 +174,14 @@ returns one only when the internal completion code is `2`, and zero when
 command submission fails. Game callers corroborate the command contract:
 `func_8005C62C` issues command `0x02` (`CdlSetloc`) followed by `0x16`
 (`CdlSeekP`), while another caller loops on command `0x09` (`CdlPause`).
+
+The no-argument wrapper at `0x8007E350` calls `0x8007BE00`, which clears the
+resident CD command-active flag and two associated state words before
+calling the lower-level hook with both arguments zero. This
+reset-without-reinitialization contract matches `CdFlush`, whose purpose is to
+discard the current command state while leaving the CD library available for
+later operations. The wrapper itself adds no arguments or result
+transformation.
 
 The sector-transfer wrappers at `0x8007E3D0` and `0x8007E4F0` preserve the
 same destination-pointer and word-count arguments, call distinct low-level
