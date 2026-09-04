@@ -25,3 +25,29 @@ are build artifacts rather than tracked overlay sources.
 | Verified runtime module C | `src/overlays/<module>/` | Yes |
 | Resident load-slot snapshots | `tmp/splat/assets/overlays/` | No |
 | Extracted archive payloads and probes | `tmp/` | No |
+
+## Module build status
+
+Every configured module is extracted from its archive, split by a
+module-specific Splat layout, rebuilt, and compared byte-for-byte against the
+verified slice by `make match-overlays`.
+
+| Module | Archive | Sectors | Load address | Function inventory |
+|---|---|---:|---:|---|
+| `free_duel` | `WA_MRG.MRG` | `7898` x5 | `0x80168000` | Yes |
+| `password` | `WA_MRG.MRG` | `8054` x15 | `0x80168000` | Yes |
+| `overworld_before_coup` | `WA_MRG.MRG` | `8153` x6 | `0x80168000` | Not yet |
+| `overworld_after_coup` | `WA_MRG.MRG` | `8311` x6 | `0x80168000` | Not yet |
+| `main_menu` | `SU.MRG` | `98` x16 | `0x80180000` | Not yet |
+
+A module joins the build gate once `config/slus_01411/overlays.json` gives it a
+`layout`. A `config/slus_01411/overlays/<module>_matching_c.json` then lets
+matching C replace part of its generated assembly.
+
+Name entry has no module of its own: its package's executable phase is the
+same image as the password screen, entered at different functions. See
+[`../../src/overlays/name_entry/README.md`](../../src/overlays/name_entry/README.md).
+
+Per-module decompilation counts are generated into the README progress
+section by `tools/project/progress.py`; they are deliberately not duplicated
+here.
