@@ -20,7 +20,11 @@ have complete six-attempt refinement histories.
 - Candidate decisions, attempt recording, and integration remain sequential
   because their evidence and state updates are order-dependent.
 
-## Current collaborator phase
+## Collaborator phase snapshot
+
+This section records the completed collaborator-import phase at the point when
+its follow-up plan was written. The generated progress section in the root
+[`README.md`](../README.md) is the authority for current totals.
 
 - Unchiga pure-C audit: 94 overlapping addresses reviewed, 15 rejected for
   actual inline assembly, 79 independently compiled, 41 exact, and 38
@@ -41,7 +45,7 @@ have complete six-attempt refinement histories.
   `g_SDValue` sound-driver work area. Conversion proceeds in exact-matching
   batches, retaining raw local views only where GCC addressing shape requires
   them.
-- Current source organization: 773 matching functions in 681 translation
+- Snapshot source organization: 773 matching functions in 681 translation
   units; 43 grouped subsystem units contain 135 functions.
 - The AI, File, sound-frontend, and sound-driver ranges have no remaining
   contiguous same-profile pure-C runs. Further consolidation requires first
