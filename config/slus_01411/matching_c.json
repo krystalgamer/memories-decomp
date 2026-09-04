@@ -1294,13 +1294,13 @@
       "address": "0x8002E918",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/func_8002E918.c"
+      "source": "src/game/script_flag_commands.c"
     },
     {
       "address": "0x8002E9A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/func_8002E9A0.c"
+      "source": "src/game/script_flag_commands.c"
     },
     {
       "address": "0x8002EB48",
