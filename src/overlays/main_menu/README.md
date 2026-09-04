@@ -35,6 +35,12 @@ followed by a six-entry pointer table, with the first instruction at `+0x1C`:
 | `+0x00` | Module identifier `0x0000000F` |
 | `+0x04` | `0x8018416C`, `0x80183514`, `0x801836F4`, `0x80183884`, `0x80183A14`, `0x80184254` |
 | `+0x1C` | First function |
+| `+0x4558` | Module data, after the final `jr $ra` and its delay slot |
+
+The module has a Splat layout and rebuilds byte-for-byte under
+`make match-overlays`. `gMain_bMenuID` at `0x80184594` falls inside the
+trailing data range and is zero in the image, consistent with a variable
+rather than initialised content.
 
 `Main_RunMenu` enters the image at `func_8018001C`, `func_80180390` and
 `func_80180DD0`; the latter two begin with `addiu $sp, $sp, -0x28` and

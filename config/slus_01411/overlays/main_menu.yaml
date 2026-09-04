@@ -1,0 +1,66 @@
+name: main_menu
+sha1: 5a6aa8abe6768b0f6beef0d75376bdb087b87572
+
+options:
+  basename: main_menu
+  base_path: ../../..
+  target_path: tmp/overlays/main_menu/module.bin
+  elf_path: tmp/overlays/main_menu/build/main_menu.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/main_menu/asm
+  src_path: src
+  build_path: tmp/overlays/main_menu/build
+  asset_path: tmp/overlays/main_menu/assets
+  cache_path: tmp/overlays/main_menu/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/main_menu/main_menu.ld
+  generated_asm_macros_directory: tmp/overlays/main_menu/include
+  lib_path: tmp/overlays/main_menu/lib
+  o_path: tmp/overlays/main_menu/build
+  undefined_funcs_auto_path: tmp/overlays/main_menu/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/main_menu/undefined_syms_auto.txt
+
+  symbol_addrs_path:
+    - notes/research/Unchiga_Symbols/modules/main_menu.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80180000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/main_menu/module_header]
+
+  - name: module
+    type: code
+    start: 0x1C
+    vram: 0x8018001C
+    align: 4
+    subsegments:
+      - [0x1C, asm, overlays/main_menu/text]
+      - [0x4558, data, overlays/main_menu/data]
+
+  - [0x8000]

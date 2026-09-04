@@ -41,6 +41,17 @@
       "sector_count": 6,
       "sector_offset": 8311,
       "sha256": "d1c4f8299d526c8d45911a255bb8388abd14722cb4141df383f4fdb369875dc5"
+    },
+    {
+      "archive": "game/DATA/SU.MRG",
+      "archive_sha256": "c34d1eef2445e15ed40d20ad325c9907c55123d03f35b8693e7031966ef52e51",
+      "layout": "config/slus_01411/overlays/main_menu.yaml",
+      "load_address": "0x80180000",
+      "name": "main_menu",
+      "output": "tmp/overlays/main_menu/module.bin",
+      "sector_count": 16,
+      "sector_offset": 98,
+      "sha256": "34e9421eb10dc3ff97f8810e4f595045d4847b2b54760e9895eb83266008bc97"
     }
   ],
   "schema": 1,
