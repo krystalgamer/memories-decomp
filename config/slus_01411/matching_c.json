@@ -3778,13 +3778,13 @@
       "address": "0x80058A7C",
       "profile": "gcc_2_8_1_g0",
       "size": "0xD0",
-      "source": "src/game/func_80058A7C.c"
+      "source": "src/game/model_texture_upload.c"
     },
     {
       "address": "0x80058B4C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x274",
-      "source": "src/game/func_80058B4C.c"
+      "source": "src/game/model_texture_upload.c"
     },
     {
       "address": "0x80058DC0",
