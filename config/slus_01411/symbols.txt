@@ -278,3 +278,9 @@ gLibrary_aCardArtRecord = 0x801DC000;
 
 // Semantic names
 SaveData_NextMaskWord = 0x8003CE74; // type:func
+
+// Semantic names
+gDuel_abTrapAttackThresholds = 0x8009AF24;
+
+// Semantic names
+gDuel_bWidespreadRuinAttackThreshold = 0x8009AF29;
