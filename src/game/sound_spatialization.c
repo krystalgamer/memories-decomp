@@ -1,5 +1,8 @@
 #include "../types.h"
 
+#define SDSECONDARYSTATE_CUSTOM_EXTERN
+#include "sound.h"
+
 extern u8 *D_8009B458;
 
 extern void func_8004A0FC(void *, void *);
@@ -29,13 +32,13 @@ void func_8004A2F8(void)
                 func_8004A27C(i, *(u16 *)(current + offset + 0x194),
                               *(u16 *)(current + offset + 0x196));
             }
-            object_offset += 40;
+            object_offset += SD_SECONDARY_OBJECT_SIZE;
             asm volatile("" : "+r"(object_offset));
             state = D_8009B458;
             count = *(short *)(state + 0x510);
             asm volatile("" : "+r"(count));
             i++;
-            offset += 40;
+            offset += SD_SECONDARY_OBJECT_SIZE;
         } while (i < count);
     }
 }

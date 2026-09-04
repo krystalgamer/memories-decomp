@@ -1,5 +1,8 @@
 #include "../types.h"
 
+#define SDSECONDARYSTATE_CUSTOM_EXTERN
+#include "sound.h"
+
 extern u8 *D_8009B458;
 
 int func_8004A854(int value)
@@ -28,7 +31,7 @@ int func_8004A854(int value)
             count = *(short *)(state + 0x510);
             asm volatile("" : "+r"(count));
             i++;
-            offset += 40;
+            offset += SD_SECONDARY_OBJECT_SIZE;
         } while (i < count);
     }
     return result;
