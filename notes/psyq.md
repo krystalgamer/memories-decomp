@@ -129,9 +129,12 @@ Recommended header boundaries are:
 | `src/psyq/libapi.h` | Events, critical sections, counters, and low-level memory-card/BIOS wrappers |
 | `src/psyq/malloc.h` | Heap initialization and the three allocator families |
 | `src/psyq/libcd.h` | CD commands, locations, file records, callbacks, and sector transfers |
+| `src/psyq/libetc.h` | Simple pad polling, vertical sync, callbacks, and video mode |
+| `src/psyq/libpad.h` | Direct pad, multitap, gun, mode, and actuator services |
 | `src/psyq/libgpu.h` | Rectangles, draw/display environments, images, primitives, and ordering tables |
 | `src/psyq/libgte.h` | Vectors, matrices, and GTE helper interfaces |
 | `src/psyq/libgs.h` | `Gs` work areas, objects, lights, cameras, and sorting helpers |
+| `src/psyq/libsnd.h` | VAB banks, sequences, tones, and high-level playback |
 | `src/psyq/libspu.h` | SPU voices, transfer state, reverb, and callbacks |
 | `src/psyq/libmcrd.h` | High-level `MemCard` status, directory, and I/O interfaces |
 | `src/psyq/libpress.h` | MDEC environment, callbacks, input, output, and VLC helpers |
