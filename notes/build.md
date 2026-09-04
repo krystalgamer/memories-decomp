@@ -158,8 +158,9 @@ Resident code is regenerated as MIPS assembly, known data ranges are
 regenerated as assembly, and remaining binary ranges are separately classified
 and excluded from C-decompilation progress.
 
-Current matching totals are generated in the root `README.md`; run
-`make progress` after accepted decompilation changes.
+Current matching totals are generated in the root `README.md`. Run
+`make progress` when intentionally refreshing that project-wide snapshot;
+routine decompilation changes do not need to update it.
 
 ## Full repository audit
 
@@ -168,7 +169,7 @@ make audit
 ```
 
 The audit performs a clean exact build, reconciles the function inventory,
-reapplies ownership classifications, generates progress metrics, and checks:
+reapplies ownership classifications, and checks:
 
 - Every commit attributed to Copilot uses the `Copilot` name with a
   `+Copilot@users.noreply.github.com` e-mail address for both author and
@@ -180,8 +181,6 @@ reapplies ownership classifications, generates progress metrics, and checks:
 - Tracked Markdown documentation is under `notes/`, except for per-directory
   `README.md` files and repository guidance at
   `.github/copilot-instructions.md`.
-- The root README progress section matches the authoritative function
-  inventory.
 - The worktree is clean after deterministic regeneration.
 
 ## Cleanup

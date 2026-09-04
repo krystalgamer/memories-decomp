@@ -11,15 +11,17 @@ Regenerate the split, update the README, and write machine-readable metrics to
 make progress
 ```
 
-Verify that the committed README snapshot is current without modifying it:
+Optionally verify that the committed README snapshot is current without
+modifying it:
 
 ```sh
 make check-progress
 ```
 
-The same check runs in CI and as part of `make audit`. Matching C is measured
-only against game-owned code; exact fallback assembly and identified Psy-Q
-CRT/SDK functions do not count as decompiled C.
+This check is intentionally opt-in so routine decompilation PRs do not need to
+rewrite the shared snapshot. Matching C is measured only against game-owned
+code; exact fallback assembly and identified Psy-Q CRT/SDK functions do not
+count as decompiled C.
 
 Detailed campaign outcomes and historical milestones are recorded in:
 

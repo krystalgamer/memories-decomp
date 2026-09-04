@@ -22,7 +22,7 @@ make check-tools
 
 # Clean exact-match gate used by CI
 make clean
-MAKEFLAGS=-j"$(nproc)" make match check-progress
+MAKEFLAGS=-j"$(nproc)" make match
 
 # Full local repository audit; requires all retail inputs and a clean worktree
 MAKEFLAGS=-j"$(nproc)" make audit
@@ -36,7 +36,7 @@ checks:
 make basic-types          # every C file uses src/types.h
 make external-attempts    # validate external/refinement attempt records
 make check-global-usage   # verify generated global-usage reports
-make check-progress       # verify the generated README progress snapshot
+make check-progress       # optional README progress consistency check
 ```
 
 For repeated work on one function or translation unit, seed the incremental
@@ -119,10 +119,9 @@ Matching, attempt-ledger updates, and integration remain sequential.
   definition order, and exactly cover the grouped object. Do not split,
   reorder, or partially replace a grouped translation unit without preserving
   those invariants and the full executable match.
-- After accepted decompilation or inventory changes, run `make progress` and
-  commit the refreshed generated section of `README.md`. Use
-  `make global-usage` when source or symbol changes affect the tracked global
-  usage reports.
+- Treat `make progress` as an optional project-wide snapshot update, not part
+  of each decompilation change. Use `make global-usage` when source or symbol
+  changes affect the tracked global usage reports.
 
 ## C and naming conventions
 
