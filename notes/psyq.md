@@ -61,6 +61,8 @@ symbol review.
 | `0x80073890` | `EnableEvent` | Called on all eight descriptors immediately after creation. |
 | `0x800738B0` | `EnterCriticalSection` | Brackets event creation and teardown with `0x800738C0`. |
 | `0x800738C0` | `ExitCriticalSection` | Paired critical-section exit. |
+| `0x80073920` | `nextfile` | Advances a caller-owned directory record and returns that same pointer on success. |
+| `0x80073AC0` | `firstfile` | Receives a formatted device path and caller-owned directory record, returning that record on success. |
 | `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | Byte-identical wrappers that install a callback on DMA channel `3`. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
 | `0x8007E350` | `CdFlush` | No-argument wrapper around the CD library's internal state-reset routine. |
@@ -165,6 +167,28 @@ The destination pointer is also returned. Offset `3` remains untouched, so a
 caller that needs a defined `track` value must initialize it separately.
 Together, the two resident routines verify both conversion directions without
 requiring a copied SDK structure definition.
+
+### Memory-card directory evidence
+
+`func_80044470` formats a `bu%02X:%s` device path, passes it and a caller-owned
+record to `0x80073AC0`, then advances subsequent records through `0x80073920`.
+Both resident functions return the supplied record pointer on success, matching
+the `firstfile` and `nextfile` interfaces. The caller retries each operation up
+to five times before stopping enumeration.
+
+Three matching-C consumers independently establish the directory geometry:
+
+| Property | Local evidence |
+|---|---|
+| Directory record size | `func_80044470` and `func_80044598` advance records by 40 bytes. |
+| File-size field | `func_80044544` reads a 32-bit size at record offset `24`. |
+| Allocation block size | `func_80044544` rounds each file size up to `8192` bytes. |
+| Card capacity | Enumeration and free-space accounting both stop at `15` blocks. |
+
+These values are centralized as `MEM_CARD_DIRECTORY_ENTRY_SIZE`,
+`MEM_CARD_BLOCK_SIZE`, and `MEM_CARD_BLOCK_COUNT` in `src/game/mem_card.h`.
+This proves the ABI surface used by the game without requiring the full
+proprietary directory-record definition.
 
 The routine at `0x8007E7F0` matches the blocking `CdControlB` interface rather
 than the asynchronous `CdControl` variant. It truncates the command argument
