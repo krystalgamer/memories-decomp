@@ -2794,13 +2794,13 @@
       "address": "0x800429A8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x14",
-      "source": "src/game/func_800429A8.c"
+      "source": "src/game/display_object_stream_address.c"
     },
     {
       "address": "0x800429BC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
-      "source": "src/game/func_800429BC.c"
+      "source": "src/game/display_object_stream_address.c"
     },
     {
       "address": "0x800429D8",
