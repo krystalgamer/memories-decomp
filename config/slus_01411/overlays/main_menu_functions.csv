@@ -5,7 +5,7 @@ address,size,name,status,module,notes
 0x80180D2C,0xA4,func_80180D2C,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
 0x80180DD0,0x9C,func_80180DD0,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
 0x80180E6C,0xE4,func_80180E6C,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
-0x80180F50,0x88,func_80180F50,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
+0x80180F50,0x88,func_80180F50,matching_c,overlay/main_menu,Exact overlay match with gcc_2_8_1_g0_split. Fades the three colour bytes at +0xC by 8 per step with a floor at zero and calls func_8004036C once the masked 24-bit value reaches zero. Each channel needs its own local: sharing one shortens the last channel's live range and moves a store out of the branch delay slot.
 0x80180FD8,0x2DC,func_80180FD8,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
 0x801812B4,0x474,func_801812B4,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
 0x80181728,0x590,func_80181728,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
