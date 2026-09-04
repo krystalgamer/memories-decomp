@@ -19,6 +19,12 @@
       "source": "src/overlays/overworld/camera_from_location.c"
     },
     {
+      "address": "0x80168258",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xB8",
+      "source": "src/overlays/overworld/view_update.c"
+    },
+    {
       "address": "0x80168310",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x78",

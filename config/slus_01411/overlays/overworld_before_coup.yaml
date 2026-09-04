@@ -64,7 +64,7 @@ segments:
       - [0x50, asm, overlays/overworld_before_coup/text]
       - [0x18C, c, overlays/overworld/location_label]
       - [0x1E8, c, overlays/overworld/camera_from_location]
-      - [0x258, asm, overlays/overworld_before_coup/text_258]
+      - [0x258, c, overlays/overworld/view_update]
       - [0x310, c, overlays/overworld/camera_reset]
       - [0x388, asm, overlays/overworld_before_coup/text_388]
       - [0x1E54, data, overlays/overworld_before_coup/data]
