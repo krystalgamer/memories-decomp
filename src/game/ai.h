@@ -3,7 +3,9 @@
 
 #include "../types.h"
 
+#define AI_SCRIPT_CARD_SET_COUNT 32
 #define AI_SCRIPT_MEMORY_COUNT 20
+#define AI_SCRIPT_TYPE_SET_COUNT 25
 
 typedef void (*AiScriptHandler)(void);
 
@@ -26,8 +28,8 @@ typedef struct {
     u8 pad15[3];
     u8 *return_stack[8];
     u8 combo_cards[6];
-    u16 card_set[32];
-    u8 type_set[25];
+    u16 card_set[AI_SCRIPT_CARD_SET_COUNT];
+    u8 type_set[AI_SCRIPT_TYPE_SET_COUNT];
     u8 pad97[5];
     u8 fusion_count;
     u8 fusion_limit;

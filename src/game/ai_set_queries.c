@@ -11,7 +11,7 @@ s32 Ai_IsCardInSet(s32 arg0)
 
     value = gDuel_aActiveCards[arg0].card_id;
     set = (u16 *)gAiScript_State;
-    for (i = 0; i < 0x20; i++) {
+    for (i = 0; i < AI_SCRIPT_CARD_SET_COUNT; i++) {
         if (value == set[i + 0x1F])
             return 1;
     }
@@ -27,7 +27,7 @@ s32 Ai_IsTypeInSet(s32 arg0)
     value = gDuel_aActiveCards[arg0].card_type;
     i = 0;
     set = gAiScript_State;
-    for (; i < 0x19; i++) {
+    for (; i < AI_SCRIPT_TYPE_SET_COUNT; i++) {
         if (value == set[i + 0x7E] - 1)
             return 1;
     }
