@@ -1,10 +1,6 @@
 #include "../types.h"
 
-/* Called from func_8001EE44 (menu/list scroll helper). Given a current and a
-   target grid index (col/row-style), works out whether the pair straddles a
-   wrap boundary of the list (wraps at -7/+7 with widths 6 or 4) and returns
-   a +/-500 "wrap jump" delta for the scroll animation, or 0 for a normal
-   (non-wrapping) move. */
+/* IDs 1-6 and 7-10 form separate cycles; adjacent matchups return +/-500. */
 int Duel_CalcGuardianStarMatchup(int a0, int a1) {
     int v1;
 
