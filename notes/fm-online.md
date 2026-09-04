@@ -105,6 +105,16 @@ these changes show that opponent information is not controlled by one privacy
 flag: card faces, triangle preview, guardian-star cursor, symbols, text, sound,
 and automatic card rotation are separate presentation paths.
 
+The three automatic-rotation patches suppress one complete retail action in
+`func_8001BD88`. The branch is eligible when the packed card type is below
+`0x14` (a monster) or exactly `0x15` (Trap), and runs only when byte `0x21` of
+the current object is zero. Retail then writes `0x10` to the object's halfword
+at offset `0x60`, writes a value with bit `0x20` asserted to `D_8009B174`, and
+calls `SD_SEPlayFull(0x0B)`. FM-Online nops those three instructions at
+`0x8001CA24`, `0x8001CA2C`, and `0x8001CA30`, while leaving the type and object
+state tests intact. This verifies the coordinated field, flag, and sound
+suppression; the exact semantic name of object offset `0x60` remains unresolved.
+
 The duelist-code patch replaces the store at `0x8003FAE8` with `nop` and the
 return value at `0x8003FAF0` with `li v0, 1`. In the retail branch, the first
 instruction is `sb v0, D_8009B3EA(gp)` with `v0` already set to `0x0A`; the
