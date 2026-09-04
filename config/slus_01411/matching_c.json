@@ -4234,13 +4234,13 @@
       "address": "0x8005C6A0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC8",
-      "source": "src/game/func_8005C6A0.c"
+      "source": "src/game/model_packet_handlers.c"
     },
     {
       "address": "0x8005C768",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x54",
-      "source": "src/game/func_8005C768.c"
+      "source": "src/game/model_packet_handlers.c"
     },
     {
       "address": "0x8005F070",
