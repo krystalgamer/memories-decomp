@@ -21,3 +21,18 @@ and must not be added as unconditional resident executable symbols.
 The name-entry row deliberately leaves its archive range unknown. A future
 mapping should identify the resident load request and verify its payload
 against the disc before assigning sectors.
+
+## Identified packages not ready for source scopes
+
+Some WA packages have a screen or subsystem attribution but still lack the
+code-phase boundaries needed for `src/overlays/<module>/`:
+
+| Attribution | WA package | Confirmed evidence | Missing evidence |
+|---|---|---|---|
+| Library | sectors `7629-7767` | `Main_RunLibraryMenu` calls resident loader `func_8002BFCC`, which requests this 138-sector package | Per-phase destinations, exact executable slice, and module-scoped symbols |
+| Campaign scene loader | sectors `7767-7816` | `func_8002FD10` requests the package; its `0x1000` phase at `0x801A8000` is the campaign event script | Any executable phase attributable to a runtime code module |
+
+These attributions belong in the loader map, but they do not yet justify
+`library/` or campaign source directories. In particular, the campaign event
+script is runtime data interpreted by resident code, not an overlay merely
+because it is loaded from WA.
