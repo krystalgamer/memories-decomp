@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 #include "input.h"
 
 extern u8 D_8009B24B;
@@ -59,7 +60,7 @@ void func_800336F0(u8 *p)
 
     r = func_80033500(e);
     c = 1;
-    if ((u32)(r - 0x11) < 5) {
+    if ((u32)(r - EXODIA_FIRST_CARD_ID) < EXODIA_PIECE_COUNT) {
         c = (p + r)[0x5AC4] < c;
     }
 
