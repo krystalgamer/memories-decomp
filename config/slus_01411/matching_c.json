@@ -1483,6 +1483,12 @@
       "source": "src/game/display_object_brightness.c"
     },
     {
+      "address": "0x800300C8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xD0",
+      "source": "src/game/func_800300C8.c"
+    },
+    {
       "address": "0x80030198",
       "profile": "gcc_2_8_1_g8",
       "size": "0xB8",
