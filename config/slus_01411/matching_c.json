@@ -3976,13 +3976,13 @@
       "address": "0x8005988C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
-      "source": "src/game/func_8005988C.c"
+      "source": "src/game/file_query_wrappers.c"
     },
     {
       "address": "0x800598E4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x24",
-      "source": "src/game/func_800598E4.c"
+      "source": "src/game/file_query_wrappers.c"
     },
     {
       "address": "0x80059908",
