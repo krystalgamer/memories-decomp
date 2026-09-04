@@ -4078,13 +4078,13 @@
       "address": "0x80059EBC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",
-      "source": "src/game/func_80059EBC.c"
+      "source": "src/game/model_effect_requests.c"
     },
     {
       "address": "0x80059F18",
       "profile": "gcc_2_8_1_g0",
       "size": "0x94",
-      "source": "src/game/func_80059F18.c"
+      "source": "src/game/model_effect_requests.c"
     },
     {
       "address": "0x80059FAC",

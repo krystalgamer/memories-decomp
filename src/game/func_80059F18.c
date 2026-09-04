@@ -1,3 +1,0 @@
-#include "../types.h"
-
-extern int func_8005F174(void),func_8005F18C(void);extern void func_80052D2C(int,int,int,int);void func_80059F18(int a,int b,int c,int d){int x=b<0?0:b+1;int y=c<0?0:c+1;int s=func_8005F174();if(s!=1||func_8005F18C()!=s)func_80052D2C(a,x,y,d);}
