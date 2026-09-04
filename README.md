@@ -36,6 +36,9 @@ Runtime overlay modules:
 | Module | Matching C functions | Matching C bytes |
 |---|---:|---:|
 | `free_duel` | 2 / 9 (22.22%) | 292 (`0x124`) / 4,140 (`0x102C`) (7.05%) |
+| `main_menu` | 0 / 31 (0.00%) | 0 (`0x0`) / 17,724 (`0x453C`) (0.00%) |
+| `overworld_after_coup` | 0 / 22 (0.00%) | 0 (`0x0`) / 6,188 (`0x182C`) (0.00%) |
+| `overworld_before_coup` | 0 / 22 (0.00%) | 0 (`0x0`) / 6,188 (`0x182C`) (0.00%) |
 | `password` | 0 / 27 (0.00%) | 0 (`0x0`) / 10,884 (`0x2A84`) (0.00%) |
 
 _Generated from `config/slus_01411/functions.csv` and `config/slus_01411/overlays/*_functions.csv` by `tools/project/progress.py`._

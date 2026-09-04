@@ -1,0 +1,23 @@
+address,size,name,status,module,notes
+0x80168004,0x3C,func_80168004,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x80168040,0x10,func_80168040,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x80168050,0x94,func_80168050,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x801680E4,0xA8,func_801680E4,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x8016818C,0x5C,func_8016818C,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x801681E8,0x70,func_801681E8,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x80168258,0x78,func_80168258,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x801682D0,0x40,func_801682D0,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x80168310,0x48,func_80168310,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x80168358,0x30,func_80168358,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x80168388,0x200,CampaignMap_MoveCameraDpad,unmatched_asm,overlay/overworld_before_coup,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x80168588,0x98,func_80168588,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x80168624,0x48,func_80168624,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x8016866C,0x250,CampaignMap_SetLocation,unmatched_asm,overlay/overworld_before_coup,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x801688BC,0x18C,func_801688BC,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x80168A48,0x60,func_80168A48,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x80168AA8,0x364,func_80168AA8,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x80168E0C,0x1C0,CampaignMap_PickExit,unmatched_asm,overlay/overworld_before_coup,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x80168FCC,0x1DC,func_80168FCC,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
+0x80169608,0x4,gCampaignMap_MoveState,unmatched_asm,overlay/overworld_before_coup,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x8016960C,0x4,gCampaignMap_Location,unmatched_asm,overlay/overworld_before_coup,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x801697D0,0x684,func_801697D0,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
