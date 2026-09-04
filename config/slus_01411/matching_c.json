@@ -2914,19 +2914,19 @@
       "address": "0x80043D48",
       "profile": "gcc_2_8_1_g8",
       "size": "0x58",
-      "source": "src/game/func_80043D48.c"
+      "source": "src/game/io_event_helpers.c"
     },
     {
       "address": "0x80043DA0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x90",
-      "source": "src/game/func_80043DA0.c"
+      "source": "src/game/io_event_helpers.c"
     },
     {
       "address": "0x80043E30",
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
-      "source": "src/game/func_80043E30.c"
+      "source": "src/game/io_event_helpers.c"
     },
     {
       "address": "0x80043E68",

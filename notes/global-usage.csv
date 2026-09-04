@@ -2204,7 +2204,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B44E,D_8009B44E,D_8009B44E,0x80044608,func_80044608,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_034e08.s,read_write,8,"lbu $v0, %gp_rel(D_8009B44E)($gp) | sb $v0, %gp_rel(D_8009B44E)($gp)"
 0x8009B44F,D_8009B44F,D_8009B44F,0x800440B4,func_800440B4,matching_c,game,C,src/game/func_800440B4.c,write,8,D_8009B44F = 0;
 0x8009B44F,D_8009B44F,D_8009B44F,0x80044838,func_80044838,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_034e08.s,read_write,8,"lbu $v0, %gp_rel(D_8009B44F)($gp) | lbu $v1, %gp_rel(D_8009B44F)($gp) | (+3 more)"
-0x8009B450,D_8009B450,D_8009B450,0x80043D48,func_80043D48,matching_c,game,C,src/game/func_80043D48.c,write,32,D_8009B450 = -1;
+0x8009B450,D_8009B450,D_8009B450,0x80043D48,func_80043D48,matching_c,game,C,src/game/io_event_helpers.c,write,32,D_8009B450 = -1;
 0x8009B450,D_8009B450,D_8009B450,0x80044038,func_80044038,matching_c,game,C,src/game/mem_card_init_io_events.c,read,32,if (D_8009B450 != 1) | while (D_8009B450 < 0) {
 0x8009B450,D_8009B450,D_8009B450,0x800440B4,func_800440B4,matching_c,game,C,src/game/func_800440B4.c,write,32,D_8009B450 = -1;
 0x8009B450,D_8009B450,D_8009B450,0x8004413C,func_8004413C,matching_c,game,C,src/game/sound_request_wrappers.c,read,32,while (D_8009B450 < 0) {
