@@ -1336,13 +1336,13 @@
       "address": "0x8002F430",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/func_8002F430.c"
+      "source": "src/game/script_noop_commands.c"
     },
     {
       "address": "0x8002F438",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/func_8002F438.c"
+      "source": "src/game/script_noop_commands.c"
     },
     {
       "address": "0x8002F440",
