@@ -275,3 +275,6 @@ SaveData_RequestWrite = 0x8003F87C; // type:func
 Main_InitFreeDuelMenu = 0x8003B9BC; // type:func
 gDuel_wViewerCardID = 0x8009B246;
 gLibrary_aCardArtRecord = 0x801DC000;
+
+// Semantic names
+SaveData_NextMaskWord = 0x8003CE74; // type:func
