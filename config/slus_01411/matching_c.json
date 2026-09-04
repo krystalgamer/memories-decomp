@@ -1414,13 +1414,13 @@
       "address": "0x80030090",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1C",
-      "source": "src/game/func_80030090.c"
+      "source": "src/game/display_object_brightness.c"
     },
     {
       "address": "0x800300AC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1C",
-      "source": "src/game/func_800300AC.c"
+      "source": "src/game/display_object_brightness.c"
     },
     {
       "address": "0x80030198",
