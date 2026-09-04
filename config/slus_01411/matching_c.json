@@ -3862,13 +3862,13 @@
       "address": "0x80059000",
       "profile": "gcc_2_8_1_g0",
       "size": "0xDC",
-      "source": "src/game/func_80059000.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x800590DC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
-      "source": "src/game/func_800590DC.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x80059134",
