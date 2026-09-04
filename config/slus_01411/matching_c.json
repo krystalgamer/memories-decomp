@@ -262,61 +262,61 @@
       "address": "0x800159D8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/fade_in_wait.c"
+      "source": "src/game/fade_wait.c"
     },
     {
       "address": "0x80015A00",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/fade_in_wait.c"
+      "source": "src/game/fade_wait.c"
     },
     {
       "address": "0x80015A28",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/fade_in_wait.c"
+      "source": "src/game/fade_wait.c"
     },
     {
       "address": "0x80015A50",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/fade_in_flagged_wait.c"
+      "source": "src/game/fade_wait.c"
     },
     {
       "address": "0x80015A94",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/fade_in_flagged_wait.c"
+      "source": "src/game/fade_wait.c"
     },
     {
       "address": "0x80015AD8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/fade_out_wait.c"
+      "source": "src/game/fade_wait.c"
     },
     {
       "address": "0x80015B00",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/fade_out_wait.c"
+      "source": "src/game/fade_wait.c"
     },
     {
       "address": "0x80015B28",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/fade_out_wait.c"
+      "source": "src/game/fade_wait.c"
     },
     {
       "address": "0x80015B50",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/fade_out_flagged_wait.c"
+      "source": "src/game/fade_wait.c"
     },
     {
       "address": "0x80015B94",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/fade_out_flagged_wait.c"
+      "source": "src/game/fade_wait.c"
     },
     {
       "address": "0x80015BD8",
