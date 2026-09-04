@@ -163,9 +163,10 @@ computes:
 logical_sector = (minute * 60 + second) * 75 + sector - 150
 ```
 
-`File_GetPosition` passes `CdlFILE.pos` directly to this routine and stores
-the result as the file position. The fourth `track` byte is not read by this
-conversion and should not be mistaken for part of the sector calculation.
+`File_GetPosition` passes `DslFILE.pos` through the explicit
+layout-compatible `CdlLOC` view and stores the result as the file position.
+The fourth `track` byte is not read by this conversion and should not be
+mistaken for part of the sector calculation.
 
 The adjacent inverse routine at `0x8007E600` takes a logical sector number and
 a destination `CdlLOC *`. After adding the 150-sector lead-in, it computes:
