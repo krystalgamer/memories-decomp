@@ -3898,13 +3898,13 @@
       "address": "0x80059214",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC",
-      "source": "src/game/func_80059214.c"
+      "source": "src/game/model_buffer_getters.c"
     },
     {
       "address": "0x80059220",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC",
-      "source": "src/game/func_80059220.c"
+      "source": "src/game/model_buffer_getters.c"
     },
     {
       "address": "0x8005922C",
