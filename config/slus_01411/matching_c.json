@@ -1810,13 +1810,13 @@
       "address": "0x800374A8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
-      "source": "src/game/func_800374A8.c"
+      "source": "src/game/dialog_choice_state.c"
     },
     {
       "address": "0x800374F4",
       "profile": "gcc_2_8_1_g0",
       "size": "0xB0",
-      "source": "src/game/dialog_open_choice.c"
+      "source": "src/game/dialog_choice_state.c"
     },
     {
       "address": "0x800375A4",

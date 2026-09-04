@@ -1,10 +1,22 @@
 #include "../types.h"
 
+extern void func_800373C8(u8 *, s32, s32);
 extern void *func_8004006C(void);
 extern u8 *func_800400AC(void *, s32);
 extern void func_800404CC(void *, s32, s32, s32, s32, s32, s32, s32);
-extern void func_80042918(void *);
 extern void func_800428EC(void *, s32);
+extern void func_80042918(void *);
+
+void func_800374A8(u8 *object)
+{
+    u8 flags = object[0x51];
+
+    if ((flags & 0x80) == 0) {
+        object[0x51] = flags | 0x80;
+        func_800373C8(object, 3, 0);
+        object[0x51] = 0x82;
+    }
+}
 
 u8 *Dialog_OpenChoice(u8 *record)
 {
