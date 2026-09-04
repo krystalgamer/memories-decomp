@@ -20,6 +20,21 @@ This discovery method is emulator- and build-specific. It does not validate
 the executable hash, and the instruction patches assume the NTSC-U
 `SLUS-01411` layout.
 
+### Attachment validation limits
+
+The scanner compares the full `SLUS_014.11;1` marker including its terminating
+null byte, then derives the RAM base by subtracting `0x9244`. If no marker is
+found, `baseAddress` remains zero, but `GetProcessSettings` still returns
+success as long as `OpenProcess` succeeded: `FindBaseAddress` and `GetPSXRAM`
+do not report scan failure to their caller.
+
+`ReadMem` and `WriteMem` also ignore the return values and transferred-byte
+counts from `ReadProcessMemory` and `WriteProcessMemory`. The companion
+therefore confirms neither that its derived base is valid nor that an
+individual patch was applied. Its labels and offsets remain useful static
+evidence, but successful startup is not runtime proof that the expected game
+image or emulated RAM mapping was found.
+
 ## Confirmed data addresses
 
 Several labels agree with independently tracked repository symbols:
