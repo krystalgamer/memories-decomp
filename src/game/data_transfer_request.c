@@ -1,5 +1,7 @@
 #include "../types.h"
 
+#include "mem_card.h"
+
 extern u8 D_8009B3C1;
 extern u8 D_8009B3DE;
 extern u16 D_8009B3FA;
@@ -25,7 +27,8 @@ void func_8003F758(void *arg0, s32 arg1, s32 arg2, s32 arg3)
     D_8009B3F9 = 0;
     D_8009B3C2 = arg1;
     D_8009B3C4 = 0x200;
-    D_8009B3DC = (arg1 + 0x1FFF) / 0x2000;
+    D_8009B3DC =
+        (arg1 + MEM_CARD_BLOCK_SIZE - 1) / MEM_CARD_BLOCK_SIZE;
     D_8009B3D0 = (u32)arg0;
     func_8003F740(arg3);
 }
