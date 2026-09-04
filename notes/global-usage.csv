@@ -2257,8 +2257,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004B70C,func_8004B70C,matching_c,game,C,src/game/func_8004B70C.c,read,,(SDSecondaryRecord *)D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004B734,func_8004B734,matching_c,game,C,src/game/func_8004B734.c,read_write,8,D_8009B458[0x501] = 1; | D_8009B458[0x508]++; | (+4 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004B854,func_8004B854,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03c054.s,read,32,"lui $v0, %hi(D_8009B458) | lui $v1, %hi(D_8009B458) | (+2 more)"
-0x8009B458,D_8009B458,D_8009B458,0x8004B910,func_8004B910,matching_c,game,C,src/game/func_8004B910.c,read_write,,D_8009B458->flag_0500 = 0; | D_8009B458->flag_0503 = 1; | (+2 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004B990,func_8004B990,matching_c,game,C,src/game/func_8004B990.c,write,,D_8009B458->flag_0500 = 0; | D_8009B458->flag_0503 = 1;
+0x8009B458,D_8009B458,D_8009B458,0x8004B910,func_8004B910,matching_c,game,C,src/game/sound_event_shutdown.c,read_write,,D_8009B458->flag_0500 = 0; | D_8009B458->flag_0503 = 1; | (+2 more)
+0x8009B458,D_8009B458,D_8009B458,0x8004B990,func_8004B990,matching_c,game,C,src/game/sound_event_shutdown.c,write,,D_8009B458->flag_0500 = 0; | D_8009B458->flag_0503 = 1;
 0x8009B458,D_8009B458,D_8009B458,0x8004B9E0,func_8004B9E0,matching_c,game,C,src/game/func_8004B9E0.c,read_write,,D_8009B458->flag_0501 = 0; | D_8009B458->flag_0501 = 1; | (+2 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004BAE4,func_8004BAE4,matching_c,game,C,src/game/sound_sequence_reader.c,read,,SDSecondaryState *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004BBBC,func_8004BBBC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03c3bc.s,read,32,"lui $v0, %hi(D_8009B458) | lw $v0, %lo(D_8009B458)($v0)"
