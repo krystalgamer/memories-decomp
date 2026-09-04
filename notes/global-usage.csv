@@ -228,8 +228,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF20,D_8009AF20,D_8009AF20,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00ddb4.s,address,,"addiu $v0, $gp, %gp_rel(D_8009AF20)"
 0x8009AF20,D_8009AF20,D_8009AF20,0x800235C0,func_800235C0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013dc0.s,address,,"addiu $v0, $gp, %gp_rel(D_8009AF20) | addiu $v1, $gp, %gp_rel(D_8009AF20)"
 0x8009AF20,D_8009AF20,D_8009AF20,0x80023D08,func_80023D08,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013dc0.s,address,,"addiu $v0, $gp, %gp_rel(D_8009AF20)"
-0x8009AF24,D_8009AF24,D_8009AF24,0x8001F0D0,func_8001F0D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,address,,"addiu $t1, $gp, %gp_rel(D_8009AF24)"
-0x8009AF29,D_8009AF29,D_8009AF29,0x8001F0D0,func_8001F0D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,read,8,"lbu $v1, %gp_rel(D_8009AF29)($gp)"
+0x8009AF24,gDuel_abTrapAttackThresholds,gDuel_abTrapAttackThresholds,0x8001F0D0,func_8001F0D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,address,,"addiu $t1, $gp, %gp_rel(gDuel_abTrapAttackThresholds)"
+0x8009AF29,gDuel_bWidespreadRuinAttackThreshold,gDuel_bWidespreadRuinAttackThreshold,0x8001F0D0,func_8001F0D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,read,8,"lbu $v1, %gp_rel(gDuel_bWidespreadRuinAttackThreshold)($gp)"
 0x8009AF2A,D_8009AF2A,D_8009AF2A,0x800222F4,func_800222F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,read_write,8,"lbu $v0, %gp_rel(D_8009AF2A)($gp) | lbu $v1, %gp_rel(D_8009AF2A)($gp) | (+2 more)"
 0x8009AF2A,D_8009AF2A,D_8009AF2A,0x80022618,func_80022618,matching_c,game,C,src/game/func_80022618.c,read,8,v0 = D_8009AF2A;
 0x8009AF2C,D_8009AF2C,D_8009AF2C,0x800222F4,func_800222F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,read,8,"addiu $a0, $gp, %gp_rel(D_8009AF2C) | lbu $a0, %gp_rel(D_8009AF2C)($gp)"
