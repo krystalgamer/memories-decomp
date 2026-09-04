@@ -1024,13 +1024,13 @@
       "address": "0x8002BAA0",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/func_8002BAA0.c"
+      "source": "src/game/library_state_handlers.c"
     },
     {
       "address": "0x8002BAAC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/func_8002BAAC.c"
+      "source": "src/game/library_state_handlers.c"
     },
     {
       "address": "0x8002BF3C",
