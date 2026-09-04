@@ -1,11 +1,8 @@
 #include "../types.h"
 
-/* Advances the duel-field "camera nudge" object (D_8009B1C8) by a per-turn
-   step read from the D_8009AF30 lookup table, or spawns a placeholder object
-   (via func_8002C68C) the first time flag80 hasn't been claimed yet this
-   frame. D_8009B220 bit 0x40 alternates which of the two advance directions
-   (push/pull) runs; bit 0x20 gates a one-shot "settle" object spawn once
-   duel_flags_state_and_field_spawn_dispatch reports the motion finished. */
+/* Runs the table-driven LP recovery phases. D_8009AF30 values are scaled by
+   100 while the selected duel-side value at +0x14 moves toward +0x16; the
+   remaining phases create and retire the associated effect objects. */
 
 struct Obj {
     s16 field0;

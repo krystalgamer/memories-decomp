@@ -214,6 +214,54 @@ cards `721` and `722` available to starter-deck generation.
 - **Confirmed** that opponent weight rows contain 722 entries.
 - **Confirmed** that the separate starter-deck path remains unchanged.
 
+## Direct-damage and LP-recovery tables
+
+**Tutorial:** `Efeito e Visual de Dano e Cura.txt`
+
+The tutorial identifies two five-byte tables in the resident initialized
+data:
+
+| Effect | SLUS range | Resident range | Retail values | Scale |
+|---|---:|---:|---|---:|
+| LP recovery | `0x8B730-0x8B734` | `0x8009AF30-0x8009AF34` | `2, 5, 10, 20, 50` | `x100` |
+| Direct damage | `0x8B738-0x8B73C` | `0x8009AF38-0x8009AF3C` | `5, 10, 20, 50, 100` | `x10` |
+
+The recovery table maps, in order, to Mooyan Curry, Red Medicine, Goblin's
+Secret Remedy, Soul of the Pure, and Dian Keto the Cure Master. Exact
+matching C in `func_800250C8` indexes `D_8009AF30`, multiplies the selected
+byte by `0x64` (decimal `100`), and advances the selected duel-side LP value
+toward its target.
+
+The damage table maps to Sparks, Hinotama, Final Flame, Ookazi, and
+Tremendous Fire. `func_8002525C` loads the selected byte from `D_8009AF38`,
+multiplies it by `10`, subtracts it from the selected LP halfword at `+0x14`,
+and clamps a negative result to zero. The normal path selects the opposing
+duel side; an alternate reflected-damage path can redirect the same table
+value to the other side.
+
+The retail values therefore reproduce the documented effects:
+
+| Card sequence | Resulting LP change |
+|---|---|
+| Recovery | `+200, +500, +1000, +2000, +5000` |
+| Damage | `-50, -100, -200, -500, -1000` |
+
+Each SLUS edit changes one unsigned byte before scaling. For example, recovery
+byte `50` (`0x32`) produces `5000`, while damage byte `100` (`0x64`) produces
+`1000`. The tutorial's separate WA offsets control presentation data and are
+not established by these resident tables; they remain a separate asset-level
+investigation.
+
+**Confidence:**
+
+- **Confirmed** that both five-byte resident tables and their scale factors
+  produce the listed LP changes.
+- **Confirmed** that normal direct damage targets the opposing side, supports
+  a reflected path, and clamps the selected LP value to zero.
+- **High** that the recovery path's `+0x16` halfword is the LP animation
+  target; exact C proves the clamp relationship, but that adjacent field
+  remains unnamed.
+
 ## Additional end-of-duel starchips
 
 **Tutorial:** `Alterar Starchips - Por Wladmir Ghost.txt`
