@@ -24,7 +24,7 @@ address,size,name,status,module,notes
 0x80183E8C,0x158,func_80183E8C,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
 0x80183FE4,0x4C,func_80183FE4,matching_c,overlay/main_menu,Exact overlay match with gcc_2_8_1_g0_split. Releases the two D_801845DC/D_801845E0 objects and clears them along with D_800E9DB4.
 0x80184030,0xC8,func_80184030,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
-0x801840F8,0x74,func_801840F8,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
+0x801840F8,0x74,func_801840F8,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split. Adds an amount to a per-slot card count table at D_801845FC; each slot holds 722 entries of {s16 id; u16 count} for a 2888-byte row and the stored count is capped below 0xFB. table[slot][i] under gcc_2_8_1_g0_split reproduces the instruction count and the 361<<3 row stride but strength-reduces the row offset instead of the table address; see notes/overlays/matching-patterns.md.
 0x8018416C,0xE8,func_8018416C,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
 0x80184254,0xF0,func_80184254,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
 0x80184344,0x110,func_80184344,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.

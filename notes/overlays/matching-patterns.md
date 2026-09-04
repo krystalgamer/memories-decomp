@@ -104,6 +104,41 @@ it is `s16`.
 Observed in `FreeDuel_UpdateSparkle`, where this closed the semantic gap
 though that function does not yet match in full.
 
+## Two loop invariants: the second one emitted becomes the pointer
+
+When a loop indexes a two-dimensional array with one invariant index and one
+running index, as in `table[slot][i]`, GCC hoists two values into the loop
+preheader: the address of `table`, and the row offset `slot * sizeof(row)`.
+It then strength-reduces exactly one of them into the induction variable and
+adds the other on every iteration, so the loop body keeps a visible
+`addu $rDest, $rInvariant, $rInduction`.
+
+Which one becomes the induction variable follows the order they are emitted:
+the invariant emitted **second** is the one that increments. This is
+observable without a full match, because the two setup values also land in
+swapped registers.
+
+```
+sll   $t0, $v0, 3           # row offset emitted first  -> stays invariant
+lui   $v0, %hi(table)
+addiu $a0, $v0, %lo(table)  # table address emitted second -> increments
+.Lloop:
+addu  $v1, $t0, $a0
+...
+addiu $a0, $a0, 4
+```
+
+Writing the row offset as a statement before the loop does move it ahead of
+the address, but it also lets GCC prove `table + offset` invariant, so the
+two fold into a single pointer before the loop and the per-iteration `addu`
+disappears. That is the same folding described under the pointer-walk rule
+above. The two effects are therefore in tension, and no source form has yet
+produced an earlier row offset while keeping the addition inside the loop.
+
+Measured on `func_801840F8` in `main_menu`, where `table[slot][i]` reproduces
+the instruction count exactly, including the `361 << 3` expansion of the
+`2888`-byte row stride, and differs only in this choice.
+
 ## Known unresolved residual
 
 `FreeDuel_PlaceCursor` and `FreeDuel_UpdateSparkle` each reduce to a single
