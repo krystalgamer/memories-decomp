@@ -41,7 +41,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
     DuelCardRecord *base;
     s32 i;
 
-    base = &D_801A7AD8[who * 15];
+    base = &D_801A7AD8[who * DUEL_CARD_SIDE_RECORD_COUNT];
 
     {
         DuelCardRecord *rec;

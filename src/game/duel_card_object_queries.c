@@ -48,7 +48,7 @@ void func_8002C9B4(u32 *output, int selector)
             "lui $2,%%hi(D_801A7B64)\n\t"
             "addiu %0,$2,%%lo(D_801A7B64)"
             : "=r"(entry));
-        other = entry + 15;
+        other = entry + DUEL_CARD_SIDE_RECORD_COUNT;
         for (index = 0; index < 10; index++, entry++, other++) {
             if (entry->flags & 0x8000)
                 *output++ = entry->value;

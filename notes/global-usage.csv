@@ -3154,12 +3154,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026A3C,func_80026A3C,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,address,,&D_801A7AD8[D_800907D8[position]];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026C0C,func_80026C0C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01740c.s,address,,"addiu $v0, $v0, %lo(D_801A7AD8) | lui $v0, %hi(D_801A7AD8)"
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026C6C,func_80026C6C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01740c.s,address,,"addiu $v0, $v0, %lo(D_801A7AD8) | lui $v0, %hi(D_801A7AD8)"
-0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026D18,func_80026D18,matching_c,game,C,src/game/func_80026D18.c,address,,DuelCardRecord *r = &D_801A7AD8[d * 15 + arg1];
+0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026D18,func_80026D18,matching_c,game,C,src/game/func_80026D18.c,address,,&D_801A7AD8[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80027508,func_80027508,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_017a28.s,address,,"addiu $v0, $v0, %lo(D_801A7AD8) | lui $v0, %hi(D_801A7AD8)"
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8002778C,func_8002778C,matching_c,game,C,src/game/duel_card_selection.c,address,,DuelCardRecord *entry = &D_801A7AD8[D_800907D8[position]];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800278A0,func_800278A0,matching_c,game,C,src/game/duel_card_selection.c,address,,entry = &D_801A7AD8[row];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800279BC,func_800279BC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0181bc.s,address,,"addiu $a0, $v0, %lo(D_801A7AD8) | lui $v0, %hi(D_801A7AD8)"
-0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80027DF8,func_80027DF8,matching_c,game,C,src/game/func_80027DF8.c,address,,base = &D_801A7AD8[who * 15];
+0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80027DF8,func_80027DF8,matching_c,game,C,src/game/func_80027DF8.c,address,,base = &D_801A7AD8[who * DUEL_CARD_SIDE_RECORD_COUNT];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8002C7E8,Duel_CheckRitual,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01cfe8.s,address,,"addiu $v0, $v0, %lo(D_801A7AD8) | lui $v0, %hi(D_801A7AD8)"
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8002C938,func_8002C938,matching_c,game,C,src/game/duel_card_object_queries.c,read,,entry = (DuelCardRecord *)((u8 *)D_801A7AD8 + scaled);
 0x801A7B64,D_801A7B64,D_801A7B64,0x800164FC,func_800164FC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0065fc.s,address,,"addiu $s0, $v0, %lo(D_801A7B64) | addiu $v0, $v0, %lo(D_801A7B64) | (+1 more)"

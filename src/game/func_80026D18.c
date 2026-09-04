@@ -9,7 +9,8 @@ s32 func_80026D18(u8 **out, s32 arg1, s32 arg2) {
     s32 i = 0;
     s32 d = D_8009B1D5;
     s32 *t = gDuel_adwCardStats;
-    DuelCardRecord *r = &D_801A7AD8[d * 15 + arg1];
+    DuelCardRecord *r =
+        &D_801A7AD8[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
     s32 k;
 
     do {

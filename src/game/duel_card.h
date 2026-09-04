@@ -6,6 +6,7 @@
 #define DUEL_CARD_RECORD_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
 #define DUEL_CARD_RECORD_COUNT 30
+#define DUEL_CARD_SIDE_RECORD_COUNT 15
 #define DUEL_FIELD_ROW_SIZE 5
 #define DUEL_FIELD_SIDE_ZONE_COUNT 10
 
