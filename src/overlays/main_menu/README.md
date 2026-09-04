@@ -105,15 +105,27 @@ same alternation.
 `D_80184596` read `0` in the sample and `+0x38` held the pinned `0xA0`, so
 argument `0` selects **horizontal** movement.
 
-## Module header
+## The cursor indexes the slot table
 
-The first bytes at `0x80180000` are the module identifier `0x0000000F`
-followed by pointers:
+`gMain_bMenuID` at `0x80184594` sits immediately after the eleven pointers,
+which occupy `0x80184568`-`0x80184593`. The two use the same numbering:
 
-```
-0f 00 00 00  6c 41 18 80  14 35 18 80  f4 36 18 80
-             0x8018416C   0x80183514   0x801836F4
-```
+| cursor | slots | menu |
+|---|---|---|
+| 0-4 | 0-4 | New Game, Load, 2P Duel, Trade, Option |
+| 5-10 | 5-10 | Campaign, Free Duel, Build Deck, Library, Password, Save |
 
-`0x8018416C` is a function in this module's inventory, so the header carries
-an entry-point table rather than data.
+The cursor range was established independently of this module's code, by
+reading the byte live while moving the highlight: see `F1` and `F18` in
+[`../../../notes/research/Unchiga_Symbols/findings.md`](../../../notes/research/Unchiga_Symbols/findings.md),
+which proved `CAMPAIGN=5` and `SAVE=10` and named the continuation past 0-4.
+
+The slot table was established separately, from the parked positions above.
+That the two agree on both the range and the split — and that the table ends
+exactly where the cursor byte begins — is what ties them together: the cursor
+selects an entry by indexing this array.
+
+`D_80184568` is therefore a strong candidate for a name along the lines of
+`gMain_apMenuEntries`. It is left address-based here only because the Splat
+`symbol_addrs_path` for this module is an external evidence file, and where a
+locally derived name should live is not a question this directory settles.
