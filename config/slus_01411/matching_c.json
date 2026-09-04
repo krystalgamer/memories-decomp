@@ -1426,13 +1426,13 @@
       "address": "0x80030198",
       "profile": "gcc_2_8_1_g8",
       "size": "0xB8",
-      "source": "src/game/func_80030198.c"
+      "source": "src/game/duel_interface_setup.c"
     },
     {
       "address": "0x80030250",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/func_80030250.c"
+      "source": "src/game/duel_interface_setup.c"
     },
     {
       "address": "0x80030998",
