@@ -178,6 +178,42 @@ intends.
   the tutorial behavior and existing Duel Master K data research agree, while
   `Duel_ShuffleDeck` itself remains assembly.
 
+## Allow opponent cards 721 and 722
+
+**Tutorial:** `Adversario usar cartas 721 e 722.txt`
+
+The tutorial changes the byte at SLUS offset `0x14CCC` from `0xD0` to
+`0xD2`. That byte is the low byte of the 16-bit immediate in the instruction
+at `0x800244CC`:
+
+| SLUS bytes | Instruction | Last possible card ID |
+|---|---|---:|
+| `D0 02 22 2A` | `slti $v0, $s1, 720` | `720` |
+| `D2 02 22 2A` | `slti $v0, $s1, 722` | `722` |
+
+This loop is inside `Duel_ShuffleDeck`. It walks zero-based card indices and
+writes `index + 1` into the shuffled deck when a weighted selection succeeds.
+The retail bound therefore examines indices `0`-`719`, which can produce
+card IDs `1`-`720`. Raising the bound to `722` also examines indices `720`
+and `721`, enabling IDs `721` and `722`.
+
+Opponent deck data contains 722 16-bit weights per table, so the two added
+reads remain inside the documented row. The patch only makes the final two
+weights reachable: either card still requires a nonzero configured weight and
+must win the normal weighted selection.
+
+The name-entry starter-deck generator has its own independent 720-entry loop.
+Changing `0x14CCC` affects opponent deck shuffling only; it does not make
+cards `721` and `722` available to starter-deck generation.
+
+**Confidence:**
+
+- **Confirmed** that `0x14CCC` changes the loop bound from `720` to `722`.
+- **Confirmed** that the loop converts zero-based indices to one-based card
+  IDs.
+- **Confirmed** that opponent weight rows contain 722 entries.
+- **Confirmed** that the separate starter-deck path remains unchanged.
+
 ## Additional end-of-duel starchips
 
 **Tutorial:** `Alterar Starchips - Por Wladmir Ghost.txt`
