@@ -129,6 +129,7 @@ Recommended header boundaries are:
 | `src/psyq/libapi.h` | Events, critical sections, counters, and low-level memory-card/BIOS wrappers |
 | `src/psyq/malloc.h` | Heap initialization and the three allocator families |
 | `src/psyq/libcd.h` | CD commands, locations, file records, callbacks, and sector transfers |
+| `src/psyq/libds.h` | Ds packet/streaming commands, locations, file records, and callbacks |
 | `src/psyq/libetc.h` | Simple pad polling, vertical sync, callbacks, and video mode |
 | `src/psyq/libpad.h` | Direct pad, multitap, gun, mode, and actuator services |
 | `src/psyq/libgpu.h` | Rectangles, draw/display environments, images, primitives, and ordering tables |
@@ -142,15 +143,20 @@ Recommended header boundaries are:
 Every shared SDK header must include `src/types.h` and use the project's
 fixed-width aliases.
 
-The real `src/psyq/libcd.h` provides these records:
+The real `src/psyq/libds.h` and `src/psyq/libcd.h` provide parallel record
+families. The resident file-search anchor is `DsSearchFile`, while the
+position conversion used by `File_GetPosition` is the CD-library
+`CdPosToInt` copy:
 
 | Record | Verified ABI surface |
 |---|---|
-| `CdlLOC` | Four-byte CD location. The resident MSF-to-LBA routine reads the BCD minute, second, and sector bytes at offsets `0`-`2`. |
-| `CdlFILE` | 24-byte search result with `CdlLOC` at `0`, size at `4`, and a 16-byte name at `8`. `DsSearchFile` copies records at a `0x18` stride, and `File_GetPosition` passes the leading location to the conversion routine. |
+| `DslLOC` / `CdlLOC` | Layout-compatible four-byte CD locations. The resident MSF-to-LBA routine reads the BCD minute, second, and sector bytes at offsets `0`-`2`. |
+| `DslFILE` | 24-byte Ds search result with `DslLOC` at `0`, size at `4`, and a 16-byte name at `8`. `DsSearchFile` copies records at a `0x18` stride. |
+| `CdlFILE` | Parallel 24-byte CD-library search result. Its leading `CdlLOC` layout lets `File_GetPosition` pass `DslFILE.pos` to the resident `CdPosToInt` copy through an explicit compatible view. |
 
-The conversion routine at `0x8007E710` independently verifies the `CdlLOC`
-field order. It converts each of the first three bytes from packed BCD, then
+The conversion routine at `0x8007E710` independently verifies the shared
+`DslLOC`/`CdlLOC` field order. It converts each of the first three bytes from
+packed BCD, then
 computes:
 
 ```text
@@ -262,7 +268,7 @@ The existing C sources expose several useful starting points:
 
 | Current source pattern | SDK target | Required proof |
 |---|---|---|
-| `CdlFILE` in `src/psyq/libcd.h` | CD file-search result | Initial migration complete in `src/game/file_stream.c`; extend only when another caller's field use agrees with the shared layout. |
+| `DslFILE` in `src/psyq/libds.h` | Ds file-search result | Initial migration complete in `src/game/file_stream.c`; extend only when another caller's field use agrees with the shared layout. |
 | `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Initial migration complete in `func_800249E0`; preserve byte-offset selection when extending it to other callers. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Confirm complete size, alignment, and all fields touched by resident GPU functions. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Separate fixed-point SDK layouts from game-specific render records. |
