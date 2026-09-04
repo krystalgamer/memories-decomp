@@ -89,6 +89,15 @@ Modulo expressions such as `rand() % divisor` are biased unless the divisor
 evenly divides 32768. Analyses that predict deck, AI, or drop outcomes must
 reproduce that exact operation rather than scale the return value.
 
+`AiScript_SetRandom` reads its lower bound, upper bound, and destination index
+before consuming one RNG value, then stores
+`rand() % (upper - lower + 1) + lower`. For a valid inclusive range of width
+`N`, write `32768 = qN + r`: the first `r` values starting at the lower bound
+occur `q + 1` times each, while the remaining values occur `q` times each.
+The result is uniform only when `N` divides 32768. The handler does not
+validate or reorder the bounds, so AI scripts are responsible for supplying a
+nonempty range in ascending order.
+
 ### Range transformations
 
 Because `rand` returns each value from 0 through 32767, power-of-two masks
