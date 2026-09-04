@@ -790,13 +790,13 @@
       "address": "0x80024E24",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_80024E24.c"
+      "source": "src/game/duel_action_lock.c"
     },
     {
       "address": "0x80024E4C",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/func_80024E4C.c"
+      "source": "src/game/duel_action_lock.c"
     },
     {
       "address": "0x800250C8",
