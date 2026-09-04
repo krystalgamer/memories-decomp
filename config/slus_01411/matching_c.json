@@ -1852,7 +1852,7 @@
       "address": "0x8003771C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x90",
-      "source": "src/game/duel_effect_value_setup.c"
+      "source": "src/game/duel_effect_trigger_state.c"
     },
     {
       "address": "0x800377AC",
