@@ -1,9 +1,18 @@
 #include "../types.h"
 #include "sound.h"
 
-extern s32 func_80047C50(s32);
 extern s32 func_80077090(s32);
 extern void func_80076ED0(s32, s32);
+
+s32 func_80047C50(s32 value)
+{
+    register s32 result asm("$2") = value;
+
+    value &= 0x8000;
+    if (value)
+        return result & 0xFFFF;
+    return 0xFFFF;
+}
 
 void func_80047C70(s32 value)
 {
