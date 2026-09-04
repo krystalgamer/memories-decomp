@@ -6,13 +6,15 @@ import argparse
 import hashlib
 import json
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 from build_baseline import (
     BuildError,
     assembler_compatibility_flags,
+    compile_c,
     linker_compatibility_flags,
+    load_compiler_profiles,
     normalize_text_alignment,
     run,
     tool,
@@ -56,6 +58,69 @@ def module_paths(
     built_elf = resolve_within(root, f"tmp/overlays/{name}/build/{name}.elf")
     built_binary = resolve_within(root, f"tmp/overlays/{name}/build/{name}.bin")
     return name, module_root, target, config, built_elf, built_binary
+
+
+def matching_c_segments(root: Path, module: dict[str, Any]) -> list[dict[str, str]]:
+    name = module_field(module, "name")
+    relative_path = f"config/slus_01411/overlays/{name}_matching_c.json"
+    path = root / relative_path
+    if not path.is_file():
+        return []
+    with path.open("r", encoding="utf-8") as handle:
+        manifest = json.load(handle)
+    functions = manifest.get("functions")
+    if manifest.get("schema") != 1 or not isinstance(functions, list):
+        raise OverlayBuildError(f"invalid overlay C manifest: {relative_path}")
+
+    segments: list[dict[str, str]] = []
+    sources: set[str] = set()
+    for entry in functions:
+        if not isinstance(entry, dict):
+            raise OverlayBuildError(f"{relative_path}: entries must be objects")
+        source = entry.get("source")
+        profile = entry.get("profile")
+        if not isinstance(source, str) or not source.startswith(
+            f"src/overlays/{name}/"
+        ):
+            raise OverlayBuildError(
+                f"{relative_path}: source must live under src/overlays/{name}/"
+            )
+        if not isinstance(profile, str) or not profile:
+            raise OverlayBuildError(f"{relative_path}: {source} has no profile")
+        if source in sources:
+            continue
+        sources.add(source)
+        segments.append(
+            {
+                "source": source,
+                "profile": profile,
+                "object": str(PurePosixPath(source).with_suffix(".o")),
+            }
+        )
+    return segments
+
+
+def compile_sources(
+    root: Path, module_root: Path, segments: list[dict[str, str]]
+) -> list[Path]:
+    if not segments:
+        return []
+    assembler = tool(root, "as")
+    profiles = load_compiler_profiles(root)
+    build_root = module_root.relative_to(root) / "build"
+    objects: list[Path] = []
+    for segment in segments:
+        objects.append(
+            compile_c(
+                root,
+                assembler,
+                segment,
+                profiles,
+                object_directory=str(build_root),
+                asm_directory=str(build_root / "asm"),
+            )
+        )
+    return objects
 
 
 def assemble_sources(root: Path, module_root: Path) -> list[Path]:
@@ -111,6 +176,7 @@ def build_module(root: Path, module: dict[str, Any]) -> None:
         root, "tools/environments/python/bin/splat", must_exist=True
     )
     run(root, [str(splat), "split", str(config)])
+    compile_sources(root, module_root, matching_c_segments(root, module))
     assemble_sources(root, module_root)
 
     linker = tool(root, "ld")

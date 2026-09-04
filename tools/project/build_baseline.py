@@ -22,6 +22,7 @@ class BuildError(RuntimeError):
 
 TOOLCHAIN = "tools/toolchains/binutils-2.42/bin"
 OBJECT_DIRECTORY = "tmp/project-build/obj"
+ASM_DIRECTORY = "tmp/project-build/asm"
 OVERLAY_REGION_KIND = "overlay_load_slot"
 OVERLAY_REGION_PREFIX = "overlay_"
 
@@ -144,6 +145,9 @@ def compile_c(
     assembler: Path,
     segment: dict[str, object],
     profiles: dict[str, dict[str, object]],
+    *,
+    object_directory: str = OBJECT_DIRECTORY,
+    asm_directory: str = ASM_DIRECTORY,
 ) -> Path:
     source = resolve_within(root, str(segment["source"]), must_exist=True)
     profile_name = segment.get("profile")
@@ -158,15 +162,15 @@ def compile_c(
         raise BuildError(f"invalid C build input for {source}")
 
     object_name = str(segment["object"])
-    output = resolve_within(root, f"{OBJECT_DIRECTORY}/{object_name}")
+    output = resolve_within(root, f"{object_directory}/{object_name}")
     raw_assembly = resolve_within(
-        root, f"tmp/project-build/asm/{object_name}.compiler.s"
+        root, f"{asm_directory}/{object_name}.compiler.s"
     )
     filtered_assembly = resolve_within(
-        root, f"tmp/project-build/asm/{object_name}.filtered.s"
+        root, f"{asm_directory}/{object_name}.filtered.s"
     )
     transformed_assembly = resolve_within(
-        root, f"tmp/project-build/asm/{object_name}.maspsx.s"
+        root, f"{asm_directory}/{object_name}.maspsx.s"
     )
     raw_assembly.parent.mkdir(parents=True, exist_ok=True)
 
