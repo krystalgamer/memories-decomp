@@ -39,7 +39,7 @@ Runtime overlay modules:
 | `main_menu` | 3 / 31 (9.68%) | 200 (`0xC8`) / 17,724 (`0x453C`) (1.13%) |
 | `overworld_after_coup` | 5 / 14 (35.71%) | 584 (`0x248`) / 6,184 (`0x1828`) (9.44%) |
 | `overworld_before_coup` | 5 / 14 (35.71%) | 584 (`0x248`) / 6,184 (`0x1828`) (9.44%) |
-| `password` | 6 / 27 (22.22%) | 544 (`0x220`) / 10,884 (`0x2A84`) (5.00%) |
+| `password` | 7 / 27 (25.93%) | 700 (`0x2BC`) / 10,884 (`0x2A84`) (6.43%) |
 
 _Generated from `config/slus_01411/functions.csv` and `config/slus_01411/overlays/*_functions.csv` by `tools/project/progress.py`._
 
