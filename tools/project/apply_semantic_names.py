@@ -130,10 +130,13 @@ def snake_case(value: str) -> str:
 
 
 def source_files(root: Path) -> list[Path]:
+    overlay_root = root / "src/overlays"
     return sorted(
         path
         for path in (root / "src").rglob("*")
-        if path.is_file() and path.suffix in {".c", ".h", ".s"}
+        if path.is_file()
+        and path.suffix in {".c", ".h", ".s"}
+        and overlay_root not in path.parents
     )
 
 
@@ -324,11 +327,15 @@ def plan(
 
     updated_sources: dict[Path, str] = {}
     for source in source_files(root):
+        current = source.read_text(
+            encoding="utf-8",
+            errors="surrogateescape",
+        )
         updated = replace_tokens(
-            source.read_text(encoding="utf-8"),
+            current,
             replacements,
         )
-        if updated != source.read_text(encoding="utf-8"):
+        if updated != current:
             updated_sources[source] = updated
 
     symbols_text = symbols_path.read_text(encoding="utf-8")
@@ -378,7 +385,11 @@ def apply(root: Path, mappings: list[Mapping], *, check: bool) -> int:
         return 0
 
     for path, text in updated_sources.items():
-        path.write_text(text, encoding="utf-8")
+        path.write_text(
+            text,
+            encoding="utf-8",
+            errors="surrogateescape",
+        )
     write_csv(functions_path, function_rows)
     write_json(matching_path, matching)
     symbols_path.write_text(updated_symbols, encoding="utf-8")

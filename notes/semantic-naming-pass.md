@@ -20,8 +20,12 @@ applies and checks the registry across:
 - `config/slus_01411/functions.csv`;
 - `config/slus_01411/matching_c.json`;
 - `config/slus_01411/symbols.txt`;
-- tracked C declarations, definitions, and call sites;
+- tracked resident C declarations, definitions, and call sites;
 - semantic source filenames for matching C functions.
+
+Overlay sources remain excluded because each module has an independent linker
+namespace, and the current overlay build configs do not publish resident
+semantic aliases.
 
 Confirmed Psy-Q CRT/SDK function names may also use the registry. Lower
 confidence non-game function mappings remain rejected.
