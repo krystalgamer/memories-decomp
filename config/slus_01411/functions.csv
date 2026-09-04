@@ -39,7 +39,7 @@ address,size,name,status,module,notes
 0x80014A5C,0xD4,func_80014A5C,unmatched_asm,game,
 0x80014B30,0x110,func_80014B30,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80014C40,0x1DC,func_80014C40,unmatched_asm,game,
-0x80014E1C,0xD0,func_80014E1C,unmatched_asm,game,
+0x80014E1C,0xD0,func_80014E1C,matching_c,game,Exact post-terminal pure-C match from real function-pointer typing for D_8009B10C plus volatile effect-state access; no pins or assembly.
 0x80014EEC,0xB8,func_80014EEC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80014FA4,0x6C,func_80014FA4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80015010,0x28,func_80015010,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
