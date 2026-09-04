@@ -3,6 +3,8 @@
 
 #include "../types.h"
 
+#define AI_SCRIPT_MEMORY_COUNT 20
+
 typedef void (*AiScriptHandler)(void);
 
 typedef struct {
@@ -46,6 +48,13 @@ typedef struct {
     u8 pad1A[6];
 } AiDuelistState;
 
+typedef struct {
+    u8 pad_00[9];
+    s8 field_09;
+    s8 field_0A;
+    s8 field_0B;
+} AiFieldCardState;
+
 typedef char AiActiveCard_size_must_be_0x0C[
     sizeof(AiActiveCard) == 0x0C ? 1 : -1
 ];
@@ -55,8 +64,11 @@ typedef char AiScriptState_size_must_be_0xD4[
 typedef char AiDuelistState_size_must_be_0x20[
     sizeof(AiDuelistState) == 0x20 ? 1 : -1
 ];
+typedef char AiFieldCardState_size_must_be_0x0C[
+    sizeof(AiFieldCardState) == 0x0C ? 1 : -1
+];
 
-extern s32 gAiScript_aMemory[20];
+extern s32 gAiScript_aMemory[AI_SCRIPT_MEMORY_COUNT];
 extern AiScriptHandler gAiScript_apfnCommand[];
 extern AiActiveCard gDuel_aActiveCards[];
 extern AiDuelistState D_800E9FF0[];

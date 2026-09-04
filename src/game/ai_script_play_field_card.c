@@ -1,15 +1,9 @@
 #include "../types.h"
-
-typedef struct {
-    u8 pad_00[9];
-    s8 field_09;
-    s8 field_0A;
-    s8 field_0B;
-} AiFieldCardState;
+#include "ai.h"
 
 extern AiFieldCardState D_800EAE88;
 extern u8 D_800EAE92;
-extern s32 gAiScript_aMemory[];
+extern s32 gAiScript_aMemory[AI_SCRIPT_MEMORY_COUNT];
 extern s32 AiScript_ReadByte(void);
 
 void AiScript_PlayFieldCard(void)
