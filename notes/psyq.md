@@ -126,7 +126,8 @@ Recommended header boundaries are:
 
 | Header | Interfaces and records |
 |---|---|
-| `src/psyq/libapi.h` | Events, critical sections, counters, heap, and low-level memory-card/BIOS wrappers |
+| `src/psyq/libapi.h` | Events, critical sections, counters, and low-level memory-card/BIOS wrappers |
+| `src/psyq/malloc.h` | Heap initialization and the three allocator families |
 | `src/psyq/libcd.h` | CD commands, locations, file records, callbacks, and sector transfers |
 | `src/psyq/libgpu.h` | Rectangles, draw/display environments, images, primitives, and ordering tables |
 | `src/psyq/libgte.h` | Vectors, matrices, and GTE helper interfaces |
