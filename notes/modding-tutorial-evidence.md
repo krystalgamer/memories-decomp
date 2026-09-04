@@ -74,3 +74,61 @@ For a value representable by one 16-bit halfword, the tutorial's byte-edit
 method preserves the instruction opcode: decimal 9000 is hexadecimal
 `0x2328`, so the complete instruction changes from `40 1F 02 24` to
 `28 23 02 24`.
+
+## Millennium Eye opponent-card display
+
+**Tutorial:** `Olho do Milenio.txt`
+
+The tutorial identifies SLUS offset `0x8864`, whose retail bytes are
+`FF 00 02 24`. The offset maps to `0x80018064`, inside the exact matching C
+for `func_80018004`:
+
+```text
+0x80010000 + (0x8864 - 0x800) = 0x80018064
+```
+
+The instruction is:
+
+```mips
+addiu $v0, $zero, 0xFF
+```
+
+It supplies the final `field_67` value when the current duel-card display
+state byte at `+0x1F` is negative. The matching source first selects the
+card's normal display-data index plus one, then overrides that selection with
+`0xFF` for the negative mode:
+
+```c
+if (D_8009B1C8->field_1F != 0) {
+    object->flags |= 0x2000;
+    result->field_67 = object->child->field_04 + 1;
+    if (D_8009B1C8->field_1F < 0)
+        result->field_67 = 0xFF;
+}
+```
+
+`func_8003AAE4` later passes `field_67` to `func_8003A1EC`, which uses it as
+the resource index for image lookup and display-object setup. Replacing the
+immediate byte with `0x00` or `0x01` therefore changes the selected opponent
+card image resource; it does not alter the duel's underlying card data.
+
+`func_80017DB4` contains the same negative-mode `field_67 = 0xFF` override
+for another card-object update path. The tutorial's one-byte edit does not
+change that site, so static evidence alone does not prove that every
+opponent-card object keeps the replacement index through all later updates.
+
+The tutorial reports that value `0` exposes the opponent's card faces and
+value `1` keeps the cards hidden while showing their order numbers. The
+static call chain confirms that these values select different image
+resources, but the exact appearance of those resource indices has not yet
+been independently verified against extracted art or a runtime trace.
+
+**Confidence:**
+
+- **Confirmed** that `0x8864` is the low immediate byte of the negative-mode
+  `field_67 = 0xFF` assignment in `func_80018004`.
+- **Confirmed** that `field_67` becomes an image resource index and does not
+  modify card identity or duel state.
+- **Tentative** that resource indices `0` and `1` have exactly the two visual
+  meanings reported by the tutorial; runtime or asset-level corroboration is
+  still required.
