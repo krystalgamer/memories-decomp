@@ -49,6 +49,21 @@ describes the same way. So the two sections agree on the address while
 disagreeing on whether it is a counter or a bitfield; the flag reading is the
 one supported by evidence recorded in this repository.
 
-Writing it as `0x801D0534 + 0x164` also implies `0x801D0534` is a structure
-base. The function above writes a single word there, which is consistent with
-it being the start of a sub-structure but does not establish it.
+## `0x801D0534` is written as a structure base twice
+
+Two separate fields in the map are expressed as offsets from `0x801D0534`,
+each with a different offset:
+
+| field | as written | resolves to |
+|---|---|---|
+| password use, §4.5 | `0x801D0534 + 0x164` | `0x801D0698` |
+| duelist win/loss records, §12 | `0x801D0534 + 0x1EC` | `0x801D0720` |
+
+Both are given alongside a plain absolute address elsewhere, so neither
+needed to be written that way. One such expression would be incidental
+phrasing; two independent offsets from the same base is a much better
+argument that whoever wrote the map was reading a structure rooted there.
+
+That is consistent with `func_8016AA6C` stamping a single word at exactly
+`0x801D0534` — a header field at offset zero of that structure — but the
+function alone does not establish it, since it never reads the word back.
