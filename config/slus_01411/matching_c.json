@@ -1354,13 +1354,13 @@
       "address": "0x8002F930",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
-      "source": "src/game/func_8002F930.c"
+      "source": "src/game/script_mode_commands.c"
     },
     {
       "address": "0x8002F94C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
-      "source": "src/game/func_8002F94C.c"
+      "source": "src/game/script_mode_commands.c"
     },
     {
       "address": "0x8002F968",
