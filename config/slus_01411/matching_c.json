@@ -1846,43 +1846,43 @@
       "address": "0x800378D8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
-      "source": "src/game/func_800378D8.c"
+      "source": "src/game/duel_effect_state_callbacks.c"
     },
     {
       "address": "0x80037914",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
-      "source": "src/game/func_80037914.c"
+      "source": "src/game/duel_effect_state_callbacks.c"
     },
     {
       "address": "0x80037950",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
-      "source": "src/game/func_80037950.c"
+      "source": "src/game/duel_effect_state_callbacks.c"
     },
     {
       "address": "0x8003798C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
-      "source": "src/game/func_8003798C.c"
+      "source": "src/game/duel_effect_state_callbacks.c"
     },
     {
       "address": "0x800379C4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x34",
-      "source": "src/game/func_800379C4.c"
+      "source": "src/game/duel_effect_state_callbacks.c"
     },
     {
       "address": "0x800379F8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x60",
-      "source": "src/game/func_800379F8.c"
+      "source": "src/game/duel_effect_state_callbacks.c"
     },
     {
       "address": "0x80037A58",
       "profile": "gcc_2_8_1_g8",
       "size": "0xE8",
-      "source": "src/game/func_80037A58.c"
+      "source": "src/game/duel_effect_state_callbacks.c"
     },
     {
       "address": "0x80037C74",
