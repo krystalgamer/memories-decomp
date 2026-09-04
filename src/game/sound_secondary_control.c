@@ -1,6 +1,8 @@
 #include "../types.h"
 #include "sound.h"
 
+extern void func_8004C77C(SDSecondaryState *);
+
 int func_80049A64(void *input, short value)
 {
     unsigned int tag;
@@ -20,4 +22,29 @@ int func_80049A64(void *input, short value)
     }
     state->flag_0500 = 0;
     return -1;
+}
+
+void func_80049AF4(s32 arg0)
+{
+    register s32 one asm("$17") = 1;
+
+    D_8009B458->flag_0500 = one;
+
+    if (D_8009B458->field_07E0 == -1) {
+        D_8009B458->flag_0500 = 0;
+        return;
+    }
+
+    D_8009B458->field_07EC = 0x10000;
+    D_8009B458->field_07DC = D_8009B458->field_07E8;
+    func_8004C77C(D_8009B458);
+
+    if ((arg0 & 0xFF) == 0) {
+        D_8009B458->field_07E2 = 4;
+    } else {
+        D_8009B458->flag_0502 = one;
+        D_8009B458->field_07E2 = 1;
+    }
+
+    D_8009B458->flag_0500 = 0;
 }
