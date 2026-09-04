@@ -1035,8 +1035,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B141,D_8009B141,D_8009B141,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0059d8.s,read_write,8,"lbu $v0, %gp_rel(D_8009B141)($gp) | sb $v0, %gp_rel(D_8009B141)($gp)"
 0x8009B141,D_8009B141,D_8009B141,0x800154E4,func_800154E4,matching_c,game,C,src/game/func_800154E4.c,read,8,if ((flags & 0x80) || (D_8009B141 != 0 && rec[4] != 0xFF)) {
 0x8009B141,D_8009B141,D_8009B141,0x80015780,func_80015780,matching_c,game,C,src/game/fade_in.c,read_write,8,D_8009B141 &= 0x7F;
-0x8009B141,D_8009B141,D_8009B141,0x80015CFC,func_80015CFC,matching_c,game,C,src/game/fade_overlay_state.c,write,8,D_8009B141 = 1;
-0x8009B141,D_8009B141,D_8009B141,0x80015D0C,func_80015D0C,matching_c,game,C,src/game/fade_overlay_state.c,write,8,D_8009B141 = 0;
+0x8009B141,D_8009B141,D_8009B141,0x80015CFC,func_80015CFC,matching_c,game,C,src/game/fade_control.c,write,8,D_8009B141 = 1;
+0x8009B141,D_8009B141,D_8009B141,0x80015D0C,func_80015D0C,matching_c,game,C,src/game/fade_control.c,write,8,D_8009B141 = 0;
 0x8009B142,D_8009B142,D_8009B142,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0035b4.s,read,8,"lbu $a3, %lo(D_8009B142)($a3) | lui $a3, %hi(D_8009B142)"
 0x8009B142,D_8009B142,D_8009B142,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"lui $at, %hi(D_8009B142) | sb $v1, %lo(D_8009B142)($at)"
 0x8009B142,D_8009B142,D_8009B142,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0059d8.s,write,8,"sb $a0, %gp_rel(D_8009B142)($gp) | sb $v0, %gp_rel(D_8009B142)($gp)"
@@ -2480,12 +2480,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015A94,func_80015A94,matching_c,game,C,src/game/fade_wait.c,address,,state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015B50,func_80015B50,matching_c,game,C,src/game/fade_wait.c,address,,state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015B94,func_80015B94,matching_c,game,C,src/game/fade_wait.c,address,,state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015BD8,func_80015BD8,matching_c,game,C,src/game/fade_state_setters.c,address,,FadeTransitionState *state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015BF0,func_80015BF0,matching_c,game,C,src/game/fade_state_setters.c,address,,FadeTransitionState *state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015C0C,func_80015C0C,matching_c,game,C,src/game/fade_in_flagged.c,address,,state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015C48,func_80015C48,matching_c,game,C,src/game/fade_in_flagged.c,address,,state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015C84,func_80015C84,matching_c,game,C,src/game/fade_out_flagged.c,address,,state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015CC0,func_80015CC0,matching_c,game,C,src/game/fade_out_flagged.c,address,,state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015BD8,func_80015BD8,matching_c,game,C,src/game/fade_control.c,address,,FadeTransitionState *state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015BF0,func_80015BF0,matching_c,game,C,src/game/fade_control.c,address,,FadeTransitionState *state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015C0C,func_80015C0C,matching_c,game,C,src/game/fade_control.c,address,,state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015C48,func_80015C48,matching_c,game,C,src/game/fade_control.c,address,,state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015C84,func_80015C84,matching_c,game,C,src/game/fade_control.c,address,,state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015CC0,func_80015CC0,matching_c,game,C,src/game/fade_control.c,address,,state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,address,,"addiu $s0, $v0, %lo(D_800E9EC8) | lui $v0, %hi(D_800E9EC8)"
 0x800E9ECC,D_800E9ECC,D_800E9ECC,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0059d8.s,write,8,"lui $v0, %hi(D_800E9ECC) | sb $s0, %lo(D_800E9ECC)($v0)"
 0x800E9ECC,D_800E9ECC,D_800E9ECC,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,write,8,"lui $v1, %hi(D_800E9ECC) | sb $v0, %lo(D_800E9ECC)($v1)"
