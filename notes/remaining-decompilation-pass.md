@@ -631,6 +631,25 @@ State after this one-function checkpoint:
 | Matching sources retaining GCC asm | 58 |
 | Accepted semantic mappings | 221 |
 
+### Continuous wave 24
+
+`func_800400AC` matched after correcting the signedness of the slot record's
+two leading link fields and enabling split addresses. Declaring both offsets
+`0x00` and `0x02` as `s16` lets GCC reuse one signed `-1` constant for their
+initialization instead of materializing unsigned `0xFFFF` separately. With the
+split G8 profile, the normalized pure-C source matches 352/352 bytes and exact
+relocations.
+
+State after this one-function checkpoint:
+
+| State | Count |
+|---|---:|
+| Matching C | 800 |
+| Terminal unmatched assembly | 333 |
+| Intentional handwritten assembly | 63 |
+| Matching sources retaining GCC asm | 58 |
+| Accepted semantic mappings | 221 |
+
 ### Continuous wave 22
 
 `AiScript_AddType` (`0x800733A8`) matched after enabling split addresses on

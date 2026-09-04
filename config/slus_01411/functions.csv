@@ -618,7 +618,7 @@ address,size,name,status,module,notes
 0x8003FFFC,0x30,func_8003FFFC,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8004002C,0x40,func_8004002C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8004006C,0x40,func_8004006C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x800400AC,0x160,func_800400AC,unmatched_asm,game,
+0x800400AC,0x160,func_800400AC,matching_c,game,Post-terminal signed-link-field and split-profile recovery; exact full-executable SHA-256 match.
 0x8004020C,0x94,func_8004020C,matching_c,game,Post-terminal split-address profile recovery; exact full-executable SHA-256 match.
 0x800402A0,0xCC,func_800402A0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8004036C,0x24,func_8004036C,matching_c,game,Nullable-object conditional call matched exact branch and frame scheduling.
