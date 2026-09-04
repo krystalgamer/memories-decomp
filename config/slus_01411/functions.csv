@@ -402,7 +402,7 @@ address,size,name,status,module,notes
 0x800338E4,0xB4,func_800338E4,unmatched_asm,game,
 0x80033998,0x38,func_80033998,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800339D0,0x218,func_800339D0,unmatched_asm,game,
-0x80033BE8,0xA8,func_80033BE8,unmatched_asm,game,
+0x80033BE8,0xA8,func_80033BE8,matching_c,game,Reference structure independently verified with aggregate random-state data and semantic duel-effect interfaces; exact linked bytes and relocations.
 0x80033C90,0x18,func_80033C90,matching_c,game,First -O2 -G8 mixed GPREL/absolute-store candidate matched.
 0x80033CA8,0x1C,func_80033CA8,matching_c,game,First -O2 -G8 mixed GPREL/absolute-store candidate matched.
 0x80033CC4,0x34,func_80033CC4,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.

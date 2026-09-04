@@ -1645,6 +1645,12 @@
       "source": "src/game/func_80033998.c"
     },
     {
+      "address": "0x80033BE8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xA8",
+      "source": "src/game/duel_transition_color.c"
+    },
+    {
       "address": "0x80033C90",
       "profile": "gcc_2_8_1_g8",
       "size": "0x18",
