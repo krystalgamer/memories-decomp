@@ -23,6 +23,63 @@ before they become shared C types.
 - Mixed absolute and GP-relative references can still require a G8 profile;
   classify each symbol independently instead of assigning a profile from one
   global.
+- `-msplit-addresses` is a per-translation-unit compiler flag, not a maspsx
+  setting; the three G0 profiles pass identical maspsx flags and differ only in
+  `-msplit-addresses` versus `-mno-split-addresses`. A function therefore cannot
+  mix the two address forms, and a target that needs both is not reachable from
+  the current profile set.
+
+#### Targets that need both address forms
+
+Some functions require macro form for a direct scalar load and split form for a
+symbol-indexed load in the same body. Because the flag is per-translation-unit,
+no profile satisfies both, and each choice leaves a different residual.
+
+The two forms are easy to tell apart in the target:
+
+- macro form reuses the destination register as its own address temporary, as in
+  `lui $a0, %hi(sym)` followed by `lb $a0, %lo(sym)($a0)`. Because no spare
+  register survives, a second read of the same global must re-materialise the
+  address, which is itself a useful signal.
+- split form keeps the symbol in a register of its own and adds an index to it,
+  as in `lui $v0, %hi(sym)` / `addiu $v0, $v0, %lo(sym)` / `addu $v1, $v1, $v0`
+  / `lb $v0, 0($v1)`, four instructions in total.
+
+Under `-mno-split-addresses` GCC emits the indexed load as the macro
+`lb $v1, sym($v1)`, which the assembler expands through `$at` in three
+instructions rather than four.
+
+The conflict shows up in two different ways, so both are worth recognising:
+
+- `Duel_GetTerrainBoost` (`0x8002497C`) ends one instruction short, at 24 of 25.
+  Its two `gDuel_bTerrain` reads are correct only under a non-split profile,
+  which is also what forces the second read to re-materialise its address, but
+  the indexed table load then collapses to the three-instruction `$at` form.
+- `Ai_GetHandSize` (`0x80070710`) keeps the correct instruction count of 10
+  under a split profile, and differs only in which register carries the high
+  half: the target reuses the load's destination, as macro form does, while
+  split form allocates a separate register for it.
+
+A shortfall in the instruction count is therefore not the only symptom of this
+conflict; a same-length body whose only fault is the address temporary is the
+same problem seen from the other side.
+
+Pinning a base pointer to a hard register does not help: GCC folds the pointer
+back into a symbol-indexed load and the pin is optimised away.
+
+### Disassembly artifacts
+
+Splat names any address-shaped literal as though it were a symbol. A `%hi`/`%lo`
+pair against a symbol with no definition anywhere in the image is therefore a
+constant that splat has guessed at, and its two instructions should be read
+independently rather than as one materialisation.
+
+`func_8005C5D4` (`0x8005C5D4`) was deferred after six attempts for this reason.
+Its `lui $v1, 0x80` and `addiu $v1, $v1, -1` were read as a single `0x7FFFFF`
+named `D_7FFFFF`, and asking GCC for `0x7FFFFF` yields `lui 0x7F` + `ori 0xFFFF`,
+which no profile bends into the retail pair. The value is really `0x800000` with
+the loop's first decrement peeled out ahead of the loop label, corroborated by
+the compensating `addiu $v1, $v1, 1` on the early exit.
 
 ### Signed values and arithmetic
 
