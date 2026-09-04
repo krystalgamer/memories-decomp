@@ -103,6 +103,21 @@ enums separate if either domain is promoted into source.
 | `0x05` | Sea |
 | `0x06` | Dark |
 
+Local loader evidence verifies the seven-value domain and its direct archive
+indexing. `func_8001798C` uses `gDuel_bTerrain` to select one of seven
+235-sector WA records:
+
+```text
+record sector = 5830 + gDuel_bTerrain * 235
+```
+
+The records exactly fill sectors `5830-7475`. Comparing their thirteen phases
+shows that twelve phases are identical across all seven records; only the
+final `0x10000`-byte VRAM field-picture phase differs. This confirms that IDs
+`0x00-0x06` select the seven terrain packages. The individual Normal-through-
+Dark labels still come from the community enumeration and should retain that
+attribution when used for semantic names.
+
 ### Card type
 
 IDs `0x00` through `0x13` cover monster types from Dragon through Plant.
