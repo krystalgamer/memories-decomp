@@ -133,7 +133,9 @@ Recommended header boundaries are:
 | `src/psyq/libcd.h` | CD commands, locations, file records, callbacks, and sector transfers |
 | `src/psyq/libds.h` | Ds packet/streaming commands, locations, file records, and callbacks |
 | `src/psyq/libetc.h` | Simple pad polling, vertical sync, callbacks, and video mode |
-| `src/psyq/libpad.h` | Direct pad, multitap, gun, mode, and actuator services |
+| `src/psyq/libpad.h` | Direct pad communication, Pad-driver multitap/gun setup, modes, and actuator services |
+| `src/psyq/libgun.h` | Legacy `InitGUN`/`SelectGUN` light-gun lifecycle interface |
+| `src/psyq/libtap.h` | Legacy `InitTAP` multitap lifecycle and enable/disable interface |
 | `src/psyq/libgpu.h` | Rectangles, draw/display environments, images, primitives, and ordering tables |
 | `src/psyq/libgte.h` | Vectors, matrices, and GTE helper interfaces |
 | `src/psyq/libgs.h` | `Gs` work areas, objects, lights, cameras, and sorting helpers |
@@ -146,6 +148,13 @@ Do not add `src/types.h` to an imported header solely for uniformity. Headers
 that expose project-adapted fixed-width records must include it directly and
 use the project aliases; self-contained prototype-only headers may retain the
 SDK's native scalar spelling.
+
+`libpad.h` provides `PadInitMtap`, `PadInitGun`, and the shared controller
+communication state APIs. The separately imported `libtap.h` and `libgun.h`
+provide older `InitTAP` and `InitGUN` lifecycle families with different
+buffers and control calls. Device role alone is therefore insufficient to
+substitute one family for another; use the header that matches the resident
+call signature.
 
 `libmcrd.h` retains the SDK `kernel.h` dependency because
 `MemCardGetDirentry` exposes the full `DIRENTRY` record. Its local `r3000.h`
