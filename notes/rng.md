@@ -124,6 +124,15 @@ subsequent stream position.
 equal frequency. The destination is a signed 16-bit field, so no truncation or
 sign wrap occurs for this range.
 
+`func_8002712C` conditionally stores `rand() & 1` in the play-command record,
+producing an unbiased zero-or-one value. It consumes no RNG value when
+`func_80026D18` finds no candidate entries, and it also skips the call when
+`func_80026C0C(10)` returns a negative index. Only the path with both a
+nonempty candidate list and a nonnegative index advances the stream, after the
+record's other fields have already been initialized. Deterministic duel traces
+must reproduce those branch outcomes, not assume that every invocation of
+`func_8002712C` consumes a value.
+
 The drop selector is also uniform: masking with
 `DUEL_DROP_WEIGHT_TOTAL - 1` produces 0-2047 exactly 16 times each before the
 code adds one. By contrast, `AiScript_JumpRandom` uses `% 100`, so probability
