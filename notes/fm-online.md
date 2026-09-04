@@ -117,6 +117,13 @@ checks read `RAM::lp[i]` directly and therefore test the actual values at
 between animated display totals and gameplay totals rather than treating each
 player's pair as one field.
 
+The writes at `0x80016F98` for the player and `0x80016F14` for the opponent
+each target the first byte of an identical retail instruction:
+`04 00 07 24`, or `addiu a3, zero, 4`. Writing `0x05` changes the argument
+passed to `func_80016D2C` from four digits to five; restoring `0x04` returns
+the retail width. The patch changes only the low byte of the immediate and
+does not replace the formatter call or either branch's coordinate setup.
+
 ## Behavioral model
 
 The tool polls at approximately half-frame intervals. During a duel it:
