@@ -126,6 +126,57 @@ the compensating `addiu $v1, $v1, 1` on the early exit.
 - Three-way state initializers are especially sensitive to assignment order
   and whether the original source was a switch or nested conditionals.
 
+### Register pins
+
+Issue #5 accepts `register` variables pinned to a hard register for functions
+that are otherwise unmatchable. Two things are worth knowing before reaching for
+one.
+
+#### Fixing allocation is a smaller claim than coercing a sequence
+
+Distinguish the two cases when recording a pinned match, because they are not
+equally strong:
+
+- the instruction sequence is already exact and only the register assignment
+  differs, so pins correct **allocation**;
+- the sequence itself is wrong and pins are used to force it, which is a much
+  larger intervention.
+
+`func_80026C0C` (`0x80026C0C`) is the first kind: all 24 instructions were in
+the right order before any pin, and only the base index and record pointer were
+swapped between `v1` and `a0`. State which case applies in the ledger row, since
+a reader deciding whether to revisit a function cannot tell them apart from the
+pin count alone.
+
+#### Pins cannot place a call's return value
+
+A pin works for a value the function **computes**. It does not work for a value
+the function **receives from a call**: the return register is fixed at `v0`, and
+GCC 2.8.1 will not make a pinned variable the direct destination of the call
+result. It copies through a scratch instead, emitting
+
+```
+move a2,v0
+move a0,a2
+```
+
+where the unpinned form emits a single `move`. The pin therefore *adds* an
+instruction rather than relabelling one. Splitting the declaration from the
+assignment does not avoid it:
+
+```c
+register PoolEntry *entry asm("a0");
+entry = func_8002C5CC();          /* still copies through a scratch */
+```
+
+`func_8002C604` (`0x8002C604`) is the worked example. Its remaining difference
+is that retail keeps the returned pointer in `a0` while GCC uses `a1`; pinning
+raises the instruction count from 34 to 35 instead of fixing it, so that
+difference is not reachable by pinning at all.
+
+The practical rule: if the register you want to control holds a call result, a
+pin is the wrong tool and will cost an instruction.
+
 ### GTE instructions
 
 Projection helpers use scratchpad address `0x1F8003E0`, load GTE data
