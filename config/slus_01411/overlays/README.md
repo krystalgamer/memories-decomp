@@ -15,3 +15,7 @@ The Free Duel configuration expects the verified module image at
 The `0x1030` boundary is supported by the final return at `0x80169028`, the
 known data symbol at `0x80169030`, and the verified runtime load range ending
 at `0x8016A800`.
+
+Run `make match-overlays` to extract the configured modules, split them with
+their module-specific Splat layouts, assemble and link every generated source,
+and compare each rebuilt binary byte-for-byte with its verified archive slice.

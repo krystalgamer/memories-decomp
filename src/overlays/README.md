@@ -25,7 +25,8 @@ under `tmp/` until their disc range and runtime destination are verified.
 `config/slus_01411/overlays.json` records verified module slices independently
 from the resident executable build. Run `make overlays` to extract the tracked
 module images under `tmp/overlays/`, then `make verify-overlays` to confirm
-their archive range and SHA-256.
+their archive range and SHA-256. Run `make match-overlays` to rebuild every
+module with its independent layout and require an exact binary match.
 
 Overlay C must not be inserted into the resident `matching_c.json` or linked as
 part of `SLUS_014.11`. Module-specific build manifests will extend the overlay
