@@ -372,7 +372,7 @@ rank-score table at `+0x16D0`. Ids 1–38 use 7475–7592 and block 39
 deck, since his script plays a copy of the player's — all 40 × 4 weight
 tables sum to 2048.
 
-**The `0x80168000` packages, by screen.** WA 7968 (in the main-menu blob
+**The `0x80168000` packages, by screen.** WA 7968 (in the name-entry blob
 at 7903) and 8054 (in the password-screen blob at 7983) carry the same
 0x7800-byte **password-shop overlay** (identical but for the last data
 sector); three GameShark patch codes verify
@@ -390,4 +390,25 @@ addresses Unchiga read from a live disassembly of that screen land on
 its `0x1000` phase to `0x801A8000` is the campaign event script — a
 `u16 offset[199]` table and 199 byte-coded events run through the 23-entry
 table at `0x80090C50`. WA 7629 (138) is the Library (`func_8002BFCC`);
-WA 7903–8069 are the main menu, Free Duel, password and shop screens.
+WA 7903–8069 are the name entry, Free Duel, password and shop screens.
+
+**Screen packages are named by their resident request.** Each front-end
+screen asks for its package through the same helper, whose third and fourth
+arguments are the first WA sector and the sector count:
+
+```text
+func_80014E1C(0, 0, <first sector>, <sector count>, <screen callback>, 0, 0)
+```
+
+| Screen | Requesting function | Arguments | WA package |
+|---|---|---|---|
+| Free Duel | `Main_InitFreeDuelMenu` | `0x1E88`, `0x57` | `7816-7903` |
+| Name entry | `func_8003BBF8` | `0x1EDF`, `0x50` | `7903-7983` |
+| Password | `func_8003BEB8` | `0x1F2F`, `0x56` | `7983-8069` |
+| Egypt overworld | `func_8003C0C0` | `0x1FD9`, `0x9E`; `+0x9E` on story flag `0x47` | `8153-8311`, `8311-8469` |
+
+The package at `7903` is therefore the **name entry** screen, not the main
+menu. The main menu is not a WA package at all: `func_8005B85C` requests
+`func_80014E1C(1, &D_800117C8, 0, 0x73, func_8005B64C, 0, 0)`, where
+`D_800117C8` is the path literal `M:/mrgSU/SU.mrg`, and its executable phase
+is SU sectors `98-114` loaded at `0x80180000`.
