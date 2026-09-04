@@ -571,7 +571,7 @@ address,size,name,status,module,notes
 0x8003CEB8,0x5C,func_8003CEB8,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
 0x8003CF14,0xB4,func_8003CF14,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003CFC8,0x74,func_8003CFC8,matching_c,game,Pure-C inline refinement matched the full executable.
-0x8003D03C,0xB8,func_8003D03C,unmatched_asm,game,
+0x8003D03C,0xB8,func_8003D03C,matching_c,game,"Builds the save payload from runtime card data and sound/output state, initializes the reserved byte range, and copies the finalized 0x680-byte block. Scalar .data typing and two accepted register pins reproduce retail access ordering."
 0x8003D0F4,0x80,SaveData_ApplyRuntimeState,matching_c,game,Post-terminal pure-C match from collaborator source; three verified absolute store literals preserve retail $at materialization.
 0x8003D174,0x114,func_8003D174,unmatched_asm,game,
 0x8003D288,0x30,func_8003D288,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
