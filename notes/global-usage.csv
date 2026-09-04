@@ -1258,7 +1258,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x80018004,func_80018004,matching_c,game,C,src/game/func_80018004.c,read,,if (D_8009B1C8->field_1F != 0) { | if (D_8009B1C8->field_1F < 0) result->field_67 = 0xFF;
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x8001825C,func_8001825C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,read,32,"lw $v0, %gp_rel(D_8009B1C8)($gp)"
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x8001898C,func_8001898C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,read_write,32,"lw $v0, %gp_rel(D_8009B1C8)($gp) | lw $v1, %gp_rel(D_8009B1C8)($gp) | (+1 more)"
-0x8009B1C8,D_8009B1C8,D_8009B1C8,0x80018CF8,func_80018CF8,matching_c,game,C,src/game/func_80018CF8.c,read,,buf[i] = D_8009B1C8->arr1A[i];
+0x8009B1C8,D_8009B1C8,D_8009B1C8,0x80018CF8,Duel_HasAllExodiaPieces,matching_c,game,C,src/game/duel_has_all_exodia_pieces.c,read,,buf[i] = D_8009B1C8->arr1A[i];
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x80018DB4,func_80018DB4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0095b4.s,read,32,"lw $v0, %gp_rel(D_8009B1C8)($gp) | lw $v1, %gp_rel(D_8009B1C8)($gp)"
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x80019608,func_80019608,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_009e08.s,read,32,"lw $v1, %gp_rel(D_8009B1C8)($gp)"
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x80019D18,func_80019D18,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00a518.s,read,32,"lw $v1, %gp_rel(D_8009B1C8)($gp)"
@@ -3067,7 +3067,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8015C410,D_8015C410,D_8015C410,0x80039E9C,func_80039E9C,matching_c,game,C,src/game/menu_record_reset.c,read,,entry = D_8015C410 + i;
 0x8015C410,D_8015C410,D_8015C410,0x8003A560,func_8003A560,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02ac40.s,address,,"addiu $a1, $v1, %lo(D_8015C410) | addiu $v1, $v1, %lo(D_8015C410) | (+1 more)"
 0x8015C424,D_8015C424,D_8015C424,0x8001825C,func_8001825C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,address,,"addiu $v1, $v1, %lo(D_8015C424) | lui $v1, %hi(D_8015C424)"
-0x8015C424,D_8015C424,D_8015C424,0x80018CF8,func_80018CF8,matching_c,game,C,src/game/func_80018CF8.c,read,,s16 v0 = D_8015C424.cards[v1].id;
+0x8015C424,D_8015C424,D_8015C424,0x80018CF8,Duel_HasAllExodiaPieces,matching_c,game,C,src/game/duel_has_all_exodia_pieces.c,read,,s16 v0 = D_8015C424.cards[v1].id;
 0x8015C424,D_8015C424,D_8015C424,0x80018DB4,func_80018DB4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0095b4.s,address,,"addiu $v1, $v1, %lo(D_8015C424) | lui $v1, %hi(D_8015C424)"
 0x8015C424,D_8015C424,D_8015C424,0x80018FEC,func_80018FEC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0095b4.s,address,,"addiu $t4, $v0, %lo(D_8015C424) | lui $v0, %hi(D_8015C424)"
 0x8015C424,D_8015C424,D_8015C424,0x8001944C,func_8001944C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0095b4.s,write,16,"addiu $a1, $v1, %lo(D_8015C424) | addiu $s0, $s0, %lo(D_8015C424) | (+3 more)"

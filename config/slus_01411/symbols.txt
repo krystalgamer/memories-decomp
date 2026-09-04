@@ -284,3 +284,7 @@ gDuel_abTrapAttackThresholds = 0x8009AF24;
 
 // Semantic names
 gDuel_bWidespreadRuinAttackThreshold = 0x8009AF29;
+
+// Semantic names
+gMain_apMenuEntries = 0x80184568;
+Duel_HasAllExodiaPieces = 0x80018CF8; // type:func
