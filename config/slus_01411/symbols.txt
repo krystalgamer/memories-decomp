@@ -273,3 +273,5 @@ SaveData_RequestLoad = 0x8003F7D4; // type:func
 SaveData_PollLoad = 0x8003F810; // type:func
 SaveData_RequestWrite = 0x8003F87C; // type:func
 Main_InitFreeDuelMenu = 0x8003B9BC; // type:func
+gLibrary_wViewerCardID = 0x8009B246;
+gLibrary_aCardArtRecord = 0x801DC000;
