@@ -8,7 +8,7 @@ Verified scope:
 | Item | Range |
 |---|---|
 | WA screen load bank | `0x80168000-0x8017A000` |
-| Known module symbols | begin at `0x8016868C` |
+| Known module symbols | `0x801680F4-0x8016D4D2` |
 
 The archive package and exact loaded code extent have not yet been recovered
 from the resident loader trace. Do not assign a WA sector range or treat the
