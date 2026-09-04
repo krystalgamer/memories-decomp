@@ -1726,7 +1726,7 @@
       "address": "0x80035C38",
       "profile": "gcc_2_8_1_g0",
       "size": "0x70",
-      "source": "src/game/text_box_create_flagged.c"
+      "source": "src/game/text_box_create.c"
     },
     {
       "address": "0x80035CA8",
