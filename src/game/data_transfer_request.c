@@ -1,0 +1,31 @@
+#include "../types.h"
+
+extern u8 D_8009B3C1;
+extern u8 D_8009B3DE;
+extern u16 D_8009B3FA;
+
+void func_8003F740(s32 value)
+{
+    D_8009B3FA = 0x8000;
+    D_8009B3DE = value;
+    D_8009B3C1 = 0;
+}
+
+extern u8 D_800EFE18[];
+extern void func_8008E6F0(void *, s32);
+extern u8 D_8009B3F9;
+extern u8 D_8009B3DC;
+extern u16 D_8009B3C2;
+extern u16 D_8009B3C4;
+extern u32 D_8009B3D0;
+
+void func_8003F758(void *arg0, s32 arg1, s32 arg2, s32 arg3)
+{
+    func_8008E6F0(D_800EFE18, arg2);
+    D_8009B3F9 = 0;
+    D_8009B3C2 = arg1;
+    D_8009B3C4 = 0x200;
+    D_8009B3DC = (arg1 + 0x1FFF) / 0x2000;
+    D_8009B3D0 = (u32)arg0;
+    func_8003F740(arg3);
+}
