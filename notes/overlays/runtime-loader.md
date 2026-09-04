@@ -107,10 +107,11 @@ descriptor->absolute_lba  = gFile_anLba[file_index] + sector_offset;
 descriptor->total_bytes   = abs(sector_count << 11);
 ```
 
-`func_80013998` initializes a descriptor. `File_RequestAsyncTransfer` is the
-common game-facing asynchronous loader using the active descriptor. Its
-relevant arguments are the file selector, file-relative sector offset, sector
-count, phase callback, phase seed, and optional direct destination.
+`File_InitTransferDescriptor` initializes a descriptor.
+`File_RequestAsyncTransfer` is the common game-facing asynchronous loader
+using the active descriptor. Its relevant arguments are the file selector,
+file-relative sector offset, sector count, phase callback, phase seed, and
+optional direct destination.
 
 `func_8001455C` services the CD transfer. `func_80013C28` consumes one sector
 at a time through the `CdGetSector`-like function at `0x8007E3D0`, advances

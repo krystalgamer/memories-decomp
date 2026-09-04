@@ -4,10 +4,19 @@ extern volatile s32 D_8009B0F4;
 extern void (*D_8009B10C)(void);
 extern s32 D_8009B134;
 extern u8 D_800E9E60[];
-extern u8 *func_80013998(u8 *, s32, u8 *, s32, s32, void *, s32, s32);
+extern u8 *File_InitTransferDescriptor(
+    u8 *, s32, u8 *, s32, s32, void *, s32, s32
+);
 
-u8 *File_RequestAsyncTransfer(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, void *arg4,
-                  s32 arg5, s32 arg6)
+u8 *File_RequestAsyncTransfer(
+    s32 arg0,
+    u8 *arg1,
+    s32 arg2,
+    s32 arg3,
+    void *arg4,
+    s32 arg5,
+    s32 arg6
+)
 {
     u8 *result;
 
@@ -20,7 +29,9 @@ u8 *File_RequestAsyncTransfer(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, void *arg4
     } else {
         D_8009B10C();
     }
-    func_80013998(D_800E9E60, arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+    File_InitTransferDescriptor(
+        D_800E9E60, arg0, arg1, arg2, arg3, arg4, arg5, arg6
+    );
     result = D_800E9E60;
 out:
     D_8009B0F4 = *(s32 *)(result + 0x2C) | 0x10;

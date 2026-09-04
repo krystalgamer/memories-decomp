@@ -21,7 +21,7 @@ address,size,name,status,module,notes
 0x80013898,0x5C,func_80013898,matching_c,game,File-system state initializer using GCC 2.8.1 -O2 -G8
 0x800138F4,0x4C,File_GetPosition,matching_c,game,Disc file search and location wrapper using a 24-byte descriptor
 0x80013940,0x58,func_80013940,matching_c,game,Pure-C inline refinement matched the full executable.
-0x80013998,0xFC,func_80013998,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80013998,0xFC,File_InitTransferDescriptor,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80013A94,0x70,func_80013A94,matching_c,game,Primary transfer descriptor allocation and busy-flag setup
 0x80013B04,0x64,func_80013B04,unmatched_asm,game,
 0x80013B68,0xC0,func_80013B68,unmatched_asm,game,

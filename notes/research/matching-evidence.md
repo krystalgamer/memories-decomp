@@ -313,10 +313,10 @@ Exact `func_8003D614` confirms a controller with:
 
 ### Transfer and animation anchors
 
-Exact `func_80013998` confirms the `0x48`-byte transfer descriptor constructor
-used by `func_80013940`. Public arguments five through eight arrive on the
-stack, and the vertical/configuration argument selects direct, negative, or
-fixed-point initialization behavior.
+Exact `File_InitTransferDescriptor` confirms the `0x48`-byte transfer
+descriptor constructor used by `func_80013940`. Public arguments five through
+eight arrive on the stack, and the vertical/configuration argument selects
+direct, negative, or fixed-point initialization behavior.
 
 Exact `func_80019BD0` confirms animation-object fields including:
 
@@ -344,7 +344,7 @@ object model through two related parent/child constructors.
 
 | Function | Reusable evidence |
 |---:|---|
-| `func_80013998` | Transfer-descriptor constructor and stack argument order |
+| `File_InitTransferDescriptor` | Transfer-descriptor constructor and stack argument order |
 | `func_8001306C` | Nullable callback array, GP-relative callback, pacing counters, and 60-tick countdown |
 | `func_8001EE44` | Signed card ID indexing and conditional 4-bit property extraction |
 | `func_80021480` | Ten-child object iteration and bit `0x40` state updates |
