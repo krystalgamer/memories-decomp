@@ -126,14 +126,14 @@ Recommended header boundaries are:
 
 | Header | Interfaces and records |
 |---|---|
-| `src/psyq/libapi.h` | Events, critical sections, counters, heap, and BIOS wrappers |
+| `src/psyq/libapi.h` | Events, critical sections, counters, heap, and low-level memory-card/BIOS wrappers |
 | `src/psyq/libcd.h` | CD commands, locations, file records, callbacks, and sector transfers |
 | `src/psyq/libgpu.h` | Rectangles, draw/display environments, images, primitives, and ordering tables |
 | `src/psyq/libgte.h` | Vectors, matrices, and GTE helper interfaces |
 | `src/psyq/libgs.h` | `Gs` work areas, objects, lights, cameras, and sorting helpers |
 | `src/psyq/libspu.h` | SPU voices, transfer state, reverb, and callbacks |
-| `src/psyq/libcard.h` | Card events, status, directory records, and I/O |
-| `src/psyq/libmdec.h` | MDEC environment, callbacks, input, and output |
+| `src/psyq/libmcrd.h` | High-level `MemCard` status, directory, and I/O interfaces |
+| `src/psyq/libpress.h` | MDEC environment, callbacks, input, output, and VLC helpers |
 
 Every shared SDK header must include `src/types.h` and use the project's
 fixed-width aliases.
