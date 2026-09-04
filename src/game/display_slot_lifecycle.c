@@ -39,8 +39,35 @@ extern u16 D_8009B410;
 extern u16 D_8009B412;
 extern s16 D_800EFE38[];
 extern DisplaySlot D_800EFE48[];
+extern DisplaySlot D_800F0548[];
 extern s16 D_800F2878[];
 extern u8 tail_data_start[];
+
+s32 func_8004002C(void)
+{
+    DisplaySlot *entry = D_800F0548;
+    s32 i;
+
+    for (i = 16; i < 0x60; i++, entry++) {
+        if ((entry->flags_08 & 0x80) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+s32 func_8004006C(void)
+{
+    DisplaySlot *entry = D_800EFE48;
+    s32 i;
+
+    for (i = 0; i < 0x60; i++, entry++) {
+        if ((entry->flags_08 & 0x80) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
 
 DisplaySlot *func_800400AC(s32 index, s32 key)
 {
