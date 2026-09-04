@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "input.h"
 
 extern u8 D_8009B24B;
 extern u16 gDuel_wViewerCardID;
@@ -39,7 +40,7 @@ void func_800336F0(u8 *p)
         return;
     }
 
-    if (D_8009B3A4 == 0x2000) {
+    if (D_8009B3A4 == PAD_DIRECTION_RIGHT) {
         *(s32 *)(p + 0x5AA4) = 0x140;
         *(s16 *)(p + 0x633E) = 1;
         *(s16 *)(p + 0x6340) = 3;

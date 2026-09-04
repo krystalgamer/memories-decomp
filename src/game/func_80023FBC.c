@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "input.h"
 
 /* Same 2-element history slot as reset_history_ring_and_flags.c's
    D_8009B3A4[2]; only index 0 is read here (declared scalar -- an array
@@ -13,26 +14,24 @@ struct Obj {
 
 extern void func_80023D08(struct Obj *a0, s32 a1);
 
-/* Priority-encodes D_8009B3A4's status bits into a small index (-1 if
-   none of 0x1000/0x2000/0x4000/0x8000 are set; otherwise whichever of
-   those bits, checked in 0x2000/0x4000/0x8000/0x1000 order, was seen last
-   wins), then forwards a0 through to func_80023D08 with that index as the
-   second argument. Reloads the volatile global on every check rather than
-   caching it in a register, matching the ROM's real per-check reload. */
+/* Priority-encodes D_8009B3A4's direction bits into a small index (-1 if
+   none are set; otherwise whichever bit, checked in RIGHT/DOWN/LEFT/UP
+   order, was seen last wins). Reloads the volatile global on every check
+   rather than caching it in a register, matching the ROM's per-check reload. */
 void func_80023FBC(struct Obj *a0) {
     s32 a1 = -1;
 
-    if (D_8009B3A4 & 0xF000) {
-        if (D_8009B3A4 & 0x2000) {
+    if (D_8009B3A4 & PAD_DIRECTION_MASK) {
+        if (D_8009B3A4 & PAD_DIRECTION_RIGHT) {
             a1 = 0;
         }
-        if (D_8009B3A4 & 0x4000) {
+        if (D_8009B3A4 & PAD_DIRECTION_DOWN) {
             a1 = 1;
         }
-        if (D_8009B3A4 & 0x8000) {
+        if (D_8009B3A4 & PAD_DIRECTION_LEFT) {
             a1 = 2;
         }
-        if (D_8009B3A4 & 0x1000) {
+        if (D_8009B3A4 & PAD_DIRECTION_UP) {
             a1 = 3;
         }
     }
