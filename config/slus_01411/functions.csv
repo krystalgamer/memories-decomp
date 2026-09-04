@@ -244,7 +244,7 @@ address,size,name,status,module,notes
 0x800289BC,0x14C,func_800289BC,unmatched_asm,game,
 0x80028B08,0x600,func_80028B08,unmatched_asm,game,
 0x80029108,0x5C,func_80029108,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80029164,0x7C,func_80029164,unmatched_asm,game,
+0x80029164,0x7C,func_80029164,matching_c,game,"Stores an effect value in the selected 64-byte record, creates its seven-frame resource object, records the slot, and publishes the object's status flags. Exact with the mixed compiler-G8/MASPSX-G0 split profile."
 0x800291E0,0x348,func_800291E0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80029528,0x4C,func_80029528,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80029574,0x1C,func_80029574,matching_c,game,Local entry pointer reproduced exact stores and relocations
