@@ -3556,13 +3556,13 @@
       "address": "0x8004A2F8",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC4",
-      "source": "src/game/func_8004A2F8.c"
+      "source": "src/game/sound_spatialization.c"
     },
     {
       "address": "0x8004A3BC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x80",
-      "source": "src/game/func_8004A3BC.c"
+      "source": "src/game/sound_spatialization.c"
     },
     {
       "address": "0x8004A6D8",
