@@ -3814,19 +3814,19 @@
       "address": "0x80058E3C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x2C",
-      "source": "src/game/func_80058E3C.c"
+      "source": "src/game/model_slot_queries.c"
     },
     {
       "address": "0x80058E68",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x2C",
-      "source": "src/game/func_80058E68.c"
+      "source": "src/game/model_slot_queries.c"
     },
     {
       "address": "0x80058E94",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x2C",
-      "source": "src/game/func_80058E94.c"
+      "source": "src/game/model_slot_queries.c"
     },
     {
       "address": "0x80058EC0",

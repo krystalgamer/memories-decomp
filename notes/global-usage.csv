@@ -2820,9 +2820,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2C40,D_800F2C40,D_800F2C40,0x800580D4,func_800580D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_048738.s,address,,"addiu $s2, $v1, %lo(D_800F2C40) | lui $v1, %hi(D_800F2C40)"
 0x800F2C40,D_800F2C40,D_800F2C40,0x80058938,func_80058938,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_049138.s,address,,"addiu $v1, $v1, %lo(D_800F2C40) | lui $v1, %hi(D_800F2C40)"
 0x800F2C40,D_800F2C40,D_800F2C40,0x80058DD8,func_80058DD8,matching_c,game,C,src/game/func_80058DD8.c,address,,ModelSlot *entry = &D_800F2C40[index];
-0x800F2C40,D_800F2C40,D_800F2C40,0x80058E3C,func_80058E3C,matching_c,game,C,src/game/func_80058E3C.c,read,,return D_800F2C40[index].field_E0D;
-0x800F2C40,D_800F2C40,D_800F2C40,0x80058E68,func_80058E68,matching_c,game,C,src/game/func_80058E68.c,read,,return D_800F2C40[index].field_BF5;
-0x800F2C40,D_800F2C40,D_800F2C40,0x80058E94,func_80058E94,matching_c,game,C,src/game/func_80058E94.c,read,,return D_800F2C40[index].field_E06 >> 4;
+0x800F2C40,D_800F2C40,D_800F2C40,0x80058E3C,func_80058E3C,matching_c,game,C,src/game/model_slot_queries.c,read,,return D_800F2C40[index].field_E0D;
+0x800F2C40,D_800F2C40,D_800F2C40,0x80058E68,func_80058E68,matching_c,game,C,src/game/model_slot_queries.c,read,,return D_800F2C40[index].field_BF5;
+0x800F2C40,D_800F2C40,D_800F2C40,0x80058E94,func_80058E94,matching_c,game,C,src/game/model_slot_queries.c,read,,return D_800F2C40[index].field_E06 >> 4;
 0x800F2C40,D_800F2C40,D_800F2C40,0x80058EC0,func_80058EC0,matching_c,game,C,src/game/func_80058EC0.c,read,,return D_800F2C40[idx].field_7C4[sub].field_00; | u8 sub = D_800F2C40[idx].field_BF5;
 0x800F2C40,D_800F2C40,D_800F2C40,0x80058F20,func_80058F20,matching_c,game,C,src/game/func_80058F20.c,address,,ModelSlot *entry = &D_800F2C40[index];
 0x800F2C40,D_800F2C40,D_800F2C40,0x80058F74,func_80058F74,matching_c,game,C,src/game/func_80058F74.c,address,,ModelSlot *entry = &D_800F2C40[index];
