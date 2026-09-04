@@ -19,11 +19,11 @@ Because several modules reuse `0x80168xxx`, their symbols remain module-scoped
 and must not be added as unconditional resident executable symbols.
 
 The name-entry package is recovered from the resident request
-`func_80014E1C(0, 0, 0x1EDF, 0x50, func_8003BA14, 0, 0)` in `func_8003BBF8`,
-which `Main_RunNameEntry` calls. Its `0x80168000` phase is byte-identical to
-the password phase at `8054-8069` apart from the final sector, so name entry
-and the password screen share one image and are separate entry points rather
-than separate modules. See
+`File_RequestAsyncTransfer(0, 0, 0x1EDF, 0x50, func_8003BA14, 0, 0)` in
+`func_8003BBF8`, which `Main_RunNameEntry` calls. Its `0x80168000` phase is
+byte-identical to the password phase at `8054-8069` apart from the final
+sector, so name entry and the password screen share one image and are
+separate entry points rather than separate modules. See
 [`../../src/overlays/name_entry/README.md`](../../src/overlays/name_entry/README.md).
 
 ## Resident load requests
@@ -32,7 +32,9 @@ Every screen package is requested through the same resident helper, whose
 third and fourth arguments are the first WA sector and the sector count:
 
 ```text
-func_80014E1C(0, 0, <first sector>, <sector count>, <screen callback>, 0, 0)
+File_RequestAsyncTransfer(
+    0, 0, <first sector>, <sector count>, <screen callback>, 0, 0
+)
 ```
 
 | Screen | Requesting function | Arguments | WA package |

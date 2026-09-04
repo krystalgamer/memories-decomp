@@ -154,7 +154,7 @@
       "address": "0x80014E1C",
       "profile": "gcc_2_8_1_g8",
       "size": "0xD0",
-      "source": "src/game/func_80014E1C.c"
+      "source": "src/game/file_request_async_transfer.c"
     },
     {
       "address": "0x80014EEC",

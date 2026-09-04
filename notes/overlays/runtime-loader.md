@@ -107,10 +107,10 @@ descriptor->absolute_lba  = gFile_anLba[file_index] + sector_offset;
 descriptor->total_bytes   = abs(sector_count << 11);
 ```
 
-`func_80013998` initializes a descriptor. `func_80014E1C` is the common
-game-facing asynchronous loader using the secondary descriptor. Its relevant
-arguments are the file selector, file-relative sector offset, sector count,
-phase callback, phase seed, and optional direct destination.
+`func_80013998` initializes a descriptor. `File_RequestAsyncTransfer` is the
+common game-facing asynchronous loader using the active descriptor. Its
+relevant arguments are the file selector, file-relative sector offset, sector
+count, phase callback, phase seed, and optional direct destination.
 
 `func_8001455C` services the CD transfer. `func_80013C28` consumes one sector
 at a time through the `CdGetSector`-like function at `0x8007E3D0`, advances
@@ -397,7 +397,9 @@ screen asks for its package through the same helper, whose third and fourth
 arguments are the first WA sector and the sector count:
 
 ```text
-func_80014E1C(0, 0, <first sector>, <sector count>, <screen callback>, 0, 0)
+File_RequestAsyncTransfer(
+    0, 0, <first sector>, <sector count>, <screen callback>, 0, 0
+)
 ```
 
 | Screen | Requesting function | Arguments | WA package |
@@ -409,6 +411,7 @@ func_80014E1C(0, 0, <first sector>, <sector count>, <screen callback>, 0, 0)
 
 The package at `7903` is therefore the **name entry** screen, not the main
 menu. The main menu is not a WA package at all: `func_8005B85C` requests
-`func_80014E1C(1, &D_800117C8, 0, 0x73, func_8005B64C, 0, 0)`, where
+`File_RequestAsyncTransfer(1, &D_800117C8, 0, 0x73, func_8005B64C, 0, 0)`,
+where
 `D_800117C8` is the path literal `M:/mrgSU/SU.mrg`, and its executable phase
 is SU sectors `98-114` loaded at `0x80180000`.

@@ -6,7 +6,7 @@ extern s32 D_8009B134;
 extern u8 D_800E9E60[];
 extern u8 *func_80013998(u8 *, s32, u8 *, s32, s32, void *, s32, s32);
 
-u8 *func_80014E1C(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, void *arg4,
+u8 *File_RequestAsyncTransfer(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, void *arg4,
                   s32 arg5, s32 arg6)
 {
     u8 *result;
