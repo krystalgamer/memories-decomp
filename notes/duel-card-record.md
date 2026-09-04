@@ -10,7 +10,7 @@ old reference tree were used only to corroborate offsets and access widths;
 their guessed declarations were not copied.
 
 `notes/global-usage.csv` records 52 game functions using this address:
-17 matching-C users and 35 assembly users. `func_8002C9B4` is an additional
+19 matching-C users and 33 assembly users. `func_8002C9B4` is an additional
 matching C source whose address formation names `D_801A7AD8` only inside an
 inline-assembly string, so it is not one of those 52 report rows.
 
@@ -56,7 +56,8 @@ Corroboration agrees without defining the shared type:
 
 ## Migrated matching-C users
 
-All 17 pure-C report users now include `duel_card.h` and use its typed extern:
+Seventeen of the 19 pure-C report users include `duel_card.h` and use its
+typed extern:
 
 `func_8001778C`, `func_80017DB4`, `func_80017E3C`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
@@ -66,6 +67,11 @@ All 17 pure-C report users now include `duel_card.h` and use its typed extern:
 
 Raw local views retained for exact code generation:
 
+- `func_80023090` keeps an opaque `0x1C`-byte `FieldRecord` because it only
+  scales record addresses and passes the resulting pointers to the guardian
+  comparison helper; it does not access a shared field directly.
+- `func_80026C0C` keeps a byte extern and pinned `$a0` address construction so
+  the record-scale result and final pointer share the retail live range.
 - `func_8001778C` keeps byte cursors for the paired `+0x00`/`+0x04` stores
   and independent `+0x16` cursor; its increments and bound use the shared
   size/count constants.
@@ -82,15 +88,14 @@ formation is inline assembly. Its local record view and the interior
 
 ## Unchanged assembly users
 
-The 35 assembly users remain unchanged:
+The 33 assembly users remain unchanged:
 
 - `func_80016784`, `func_80017F04`, `func_8001825C`, `func_8001898C`,
   `func_80018DB4`, `func_80019608`, `func_80019D18`, `func_8001B170`,
   `func_8001B938`, `func_8001BAF0`, `func_8001BD88`, `func_8001D670`,
   `func_8001F0D0`, `func_8001F364`, and `func_8001F55C`.
-- `func_80022674`, `func_800229F4`, `func_80023090`, `func_80023144`,
+- `func_80022674`, `func_800229F4`, `func_80023144`,
   `func_800235C0`, `func_80024E58`, `func_80025028`, `func_8002538C`,
   `func_800255FC`, `func_800257A0`, `func_8002596C`, `func_80025BEC`,
   `func_80025D30`, `func_800260D0`, and `func_800262D4`.
-- `func_80026C0C`, `func_80026C6C`, `func_80027508`, `func_800279BC`, and
-  `Duel_CheckRitual`.
+- `func_80026C6C`, `func_80027508`, `func_800279BC`, and `Duel_CheckRitual`.
