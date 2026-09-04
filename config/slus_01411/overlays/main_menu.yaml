@@ -66,6 +66,7 @@ segments:
       - [0xE6C, asm, overlays/main_menu/text_E6C]
       - [0xF50, c, overlays/main_menu/func_80180F50]
       - [0xFD8, asm, overlays/main_menu/text_FD8]
+      - [0x1E30, c, overlays/main_menu/func_80181E30]
       - [0x1EEC, c, overlays/main_menu/func_80181EEC]
       - [0x1F20, c, overlays/main_menu/func_80181F20]
       - [0x1F68, asm, overlays/main_menu/text_1F68]

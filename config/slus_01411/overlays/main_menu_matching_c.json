@@ -19,6 +19,12 @@
       "source": "src/overlays/main_menu/func_80180F50.c"
     },
     {
+      "address": "0x80181E30",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xBC",
+      "source": "src/overlays/main_menu/func_80181E30.c"
+    },
+    {
       "address": "0x80181EEC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",
