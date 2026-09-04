@@ -2008,13 +2008,13 @@
       "address": "0x80038888",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/func_80038888.c"
+      "source": "src/game/duel_effect_noop_commands.c"
     },
     {
       "address": "0x80038890",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/func_80038890.c"
+      "source": "src/game/duel_effect_noop_commands.c"
     },
     {
       "address": "0x80038898",
