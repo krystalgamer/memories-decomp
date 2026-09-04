@@ -256,19 +256,19 @@
       "address": "0x800159D8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_800159D8.c"
+      "source": "src/game/fade_in_wait.c"
     },
     {
       "address": "0x80015A00",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_80015A00.c"
+      "source": "src/game/fade_in_wait.c"
     },
     {
       "address": "0x80015A28",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_80015A28.c"
+      "source": "src/game/fade_in_wait.c"
     },
     {
       "address": "0x80015A50",
