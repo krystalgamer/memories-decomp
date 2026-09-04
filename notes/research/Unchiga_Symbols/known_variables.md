@@ -7,7 +7,7 @@ after any naming change. Source tags: `idb2018` = idb_raymond_2018 import, `ramM
 datacrystal RAM map, `dotr` = DotR-style naming, `psyq` = original SDK symbol
 (libsyms signature match), `fleet` = behavior-derived by this project. Evidence: NAMING.md.
 
-85 named variables (77 game-meaningful, 0 sdk, 8 mechanical).
+91 named variables (77 game-meaningful, 0 sdk, 14 mechanical).
 
 ## Game-meaningful names
 
@@ -99,6 +99,9 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 
 | address | name | source |
 |---|---|---|
+| 0x80011580 | `gFile_szModelMrgPath` | fleet |
+| 0x800117C8 | `gFile_szSuMrgPath` | fleet |
+| 0x80090B50 | `gCredits_awSecretNumbers` | fleet |
 | 0x80090E0C | `gText_anPow10` | fleet |
 | 0x8009B34D | `gDialog_bChoice_b` | fleet |
 | 0x8009B36C | `gFreeDuel_bTargetColumn` | fleet |
@@ -107,6 +110,9 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x800E9EC8 | `gFade_State_arr` | fleet |
 | 0x800EB0F8 | `gTextBox_aRecords_arr` | fleet |
 | 0x801D0618 | `gCampaign_abStoryFlags` | fleet |
+| 0x801D071C | `gFreeDuel_aDuelistRecords` | fleet |
+| 0x801D5332 | `gDuel_abCardLevelAttr` | fleet |
+| 0x801D5708 | `gText_abColorSlots` | fleet |
 
 ## Module symbols
 
@@ -134,6 +140,8 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 |---|---|
 | 0x8016AB38 | `gNameEntry_abCellTable` |
 | 0x8016ABC0 | `gNameEntry_abRowJump` |
+| 0x8016ABD4 | `gNameEntry_aStarterSets` |
+| 0x8016D3DC | `gNameEntry_apStarterSets` |
 | 0x8016D400 | `gNameEntry_bFlags` |
 | 0x8016D401 | `gNameEntry_bColumn` |
 | 0x8016D402 | `gNameEntry_bRow` |

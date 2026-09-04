@@ -20,3 +20,8 @@ gNameEntry_abCellTable = 0x8016AB38;
 gNameEntry_abRowJump = 0x8016ABC0;
 NameEntry_UpdateDialog = 0x80169734; // type:func
 gNameEntry_wPendingDialog = 0x8016D4D2;
+// Starter deck (findings F132-F135, static from the disc module; not yet live-traced).
+NameEntry_Main = 0x8016AA6C; // type:func
+NameEntry_BuildStarterDeck = 0x8016A930; // type:func
+gNameEntry_aStarterSets = 0x8016ABD4;
+gNameEntry_apStarterSets = 0x8016D3DC;

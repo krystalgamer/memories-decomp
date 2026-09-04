@@ -875,7 +875,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8001700C | `card_flag_test_c000` | fleet |
 | 0x80017034 | `card_pick_on_up` | fleet |
 | 0x800170C8 | `calc_clamped_pair` | fleet |
-| 0x800171A8 | `select_sound_preset` | fleet |
+| 0x800171A8 | `Duel_LoadPackageStage` | fleet |
 | 0x8001755C | `call_530c4_533d8_56250` | fleet |
 | 0x800176D0 | `hand_slots_clear` | fleet |
 | 0x80018DB4 | `duel_field_slot_spawn_dispatch` | fleet |
@@ -1153,6 +1153,8 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 | 0x8016909C | `NameEntry_AdjustLength` |
 | 0x8016913C | `NameEntry_UpdateScreen` |
 | 0x80169734 | `NameEntry_UpdateDialog` |
+| 0x8016A930 | `NameEntry_BuildStarterDeck` |
+| 0x8016AA6C | `NameEntry_Main` |
 
 ### overworld
 

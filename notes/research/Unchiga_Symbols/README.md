@@ -33,10 +33,10 @@ on a recompiled build).
 | file | why it exists |
 |---|---|
 | `symbols_guide.md` | The headline document: 141 confirmed symbols organized by where in the game they run, in plain English. |
-| `known_functions.md` | The complete roster of 1111 named functions with addresses, each tagged with its evidence source. |
-| `known_variables.md` | The complete roster of 108 named variables and data symbols, same treatment. |
+| `known_functions.md` | The complete roster of 1096 named functions with addresses, each tagged with its evidence source. |
+| `known_variables.md` | The complete roster of 91 named variables and data symbols, same treatment. |
 | `descriptions.md` | The naming gate: 180 verified one-paragraph descriptions, because a name only counts as done once its description matches the matched code or a live observation. |
-| `findings.md` | The live-trace evidence ledger (F1–F128) recording what was proven, how, and the status of each claim. |
+| `findings.md` | The live-trace evidence ledger (F1–F157) recording what was proven, how, and the status of each claim. |
 | `suspects.md` | The not-yet-100% identifications, kept apart from the confirmed set with the evidence gathered and what would graduate each. |
 | `modules.md` | What the disc-loaded screen modules are and how their shared address range was traced. |
 | `modules/` | Per-module symbol files (41 symbols) for free duel, name entry, password, main menu and overworld, kept separate because those screens load into the same addresses. |
@@ -53,3 +53,27 @@ the per-card 7-sector art record at LBA 10817+7*id with its LoadImage rects,
 the card-title rasterisation facts, mode-byte values), and one medium-confidence
 proposal held back (`gMain_apLoadArena`, the load-arena pointer table at
 0x80010000). Rebuild after the re-split is byte-identical.
+
+**2026-09-04 delta (second).** Six names, all byte-verified in the source repo
+(commits `a6677c8`, `4d03619`, `2e9bbf6`): `gDuel_abCardLevelAttr` 0x801D5332,
+`gText_abColorSlots` 0x801D5708, `gCredits_awSecretNumbers` 0x80090B50,
+`gFreeDuel_aDuelistRecords` 0x801D071C, `gFile_szSuMrgPath` 0x800117C8 and
+`gFile_szModelMrgPath` 0x80011580; plus one correction, `select_sound_preset`
+0x800171A8 → `Duel_LoadPackageStage`, and two module-resident names in
+`modules/name_entry.txt`.
+
+Findings F129–F157 carry the evidence. **F136 corrects F125**, which shipped in
+the previous delta: the 1408 bytes at art-record +10976 are a 40x32 8bpp
+thumbnail plus its own 64-entry CLUT, not a 16x88 strip. F154 records a name
+this corpus deliberately does NOT propose — `select_reverb_preset` 0x8005B64C is
+demonstrably not a sound routine, but the right name is not settled, so it keeps
+the old label with a DISPUTED marker rather than trading one wrong name for
+another.
+
+The evidence for this delta came from cross-reading a third-party modding
+toolset (basededatostea.xyz, 45 browser tools that patch SLUS_014.11 and
+WA_MRG.MRG) against this decomp: where a tool pokes a byte, the game's own code
+around that byte says what the byte is for. Every address, layout and count
+below was then re-derived from the retail US disc and `SLUS_014.11` directly,
+not taken from the tools' claims — several of the tools are demonstrably wrong
+about their own offsets. Rebuild after the re-split is byte-identical.
