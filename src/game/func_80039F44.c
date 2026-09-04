@@ -1,4 +1,0 @@
-#include "../types.h"
-
-extern int rand(void);
-void func_80039F44(u8*o){*(u16*)(o+0x34)=0x68;o[0x32]=0;o[0x33]=0;o[0x31]=0;*(u16*)(o+0x36)=0xB2;*(u16*)(o+0x3E)=(rand()&0xFF)+0x3C;}
