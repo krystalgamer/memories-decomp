@@ -2704,7 +2704,7 @@
       "address": "0x80040510",
       "profile": "gcc_2_8_1_g8",
       "size": "0x78",
-      "source": "src/game/display_object_dimensions.c"
+      "source": "src/game/display_object_config.c"
     },
     {
       "address": "0x80040814",
