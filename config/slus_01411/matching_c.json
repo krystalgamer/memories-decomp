@@ -2842,13 +2842,13 @@
       "address": "0x80042AD8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x30",
-      "source": "src/game/func_80042AD8.c"
+      "source": "src/game/display_value_steps.c"
     },
     {
       "address": "0x80042B08",
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
-      "source": "src/game/func_80042B08.c"
+      "source": "src/game/display_value_steps.c"
     },
     {
       "address": "0x80042B40",
