@@ -867,7 +867,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x800140A0,func_800140A0,matching_c,game,C,src/game/file_cd_callbacks.c,read_write,32,D_8009B0F4 &= ~0x400;
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014134,func_80014134,matching_c,game,C,src/game/file_cd_callbacks.c,read_write,32,D_8009B0F4 &= ~0x400;
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x800141A8,func_800141A8,matching_c,game,C,src/game/file_cd_callbacks.c,read_write,32,D_8009B0F4 &= ~0x400;
-0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014220,func_80014220,matching_c,game,C,src/game/func_80014220.c,read_write,32,D_8009B0F4 &= ~0x400;
+0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014220,func_80014220,matching_c,game,C,src/game/file_cd_callbacks.c,read_write,32,D_8009B0F4 &= ~0x400;
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014294,func_80014294,matching_c,game,C,src/game/file_transfer.c,read_write,32,D_8009B0F4 &= ~0x400;
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014308,func_80014308,matching_c,game,C,src/game/file_transfer.c,read_write,32,D_8009B0F4 &= ~0x400; | D_8009B0F4 |= 0x1000;
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014390,func_80014390,matching_c,game,C,src/game/file_transfer.c,read_write,32,D_8009B0F4 &= ~0x800;
@@ -993,7 +993,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B130,D_8009B130,D_8009B130,0x800140A0,func_800140A0,matching_c,game,C,src/game/file_cd_callbacks.c,read_write,32,D_8009B130++;
 0x8009B130,D_8009B130,D_8009B130,0x80014134,func_80014134,matching_c,game,C,src/game/file_cd_callbacks.c,read_write,32,D_8009B130++;
 0x8009B130,D_8009B130,D_8009B130,0x800141A8,func_800141A8,matching_c,game,C,src/game/file_cd_callbacks.c,read_write,32,D_8009B130++;
-0x8009B130,D_8009B130,D_8009B130,0x80014220,func_80014220,matching_c,game,C,src/game/func_80014220.c,read_write,32,D_8009B130++;
+0x8009B130,D_8009B130,D_8009B130,0x80014220,func_80014220,matching_c,game,C,src/game/file_cd_callbacks.c,read_write,32,D_8009B130++;
 0x8009B130,D_8009B130,D_8009B130,0x80014294,func_80014294,matching_c,game,C,src/game/file_transfer.c,read_write,32,D_8009B130++;
 0x8009B130,D_8009B130,D_8009B130,0x80014308,func_80014308,matching_c,game,C,src/game/file_transfer.c,read_write,32,D_8009B130++;
 0x8009B134,D_8009B134,D_8009B134,0x800137E4,func_800137E4,matching_c,game,C,src/game/func_800137E4.c,read,32,if (((D_8009B0F4 & 0x02000030) | D_8009B134) == 0) { | while (D_8009B134 != 0) {
