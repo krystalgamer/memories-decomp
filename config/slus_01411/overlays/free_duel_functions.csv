@@ -1,0 +1,10 @@
+address,size,name,status,module,notes
+0x80168004,0x8C,FreeDuel_UpdateScrollbar,unmatched_asm,overlay/free_duel,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x80168090,0x124,FreeDuel_PlaceCursor,unmatched_asm,overlay/free_duel,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x801681B4,0x98,FreeDuel_SpawnSparkle,unmatched_asm,overlay/free_duel,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x8016824C,0x750,FreeDuel_Init,unmatched_asm,overlay/free_duel,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x8016899C,0x38,FreeDuel_GetSparkleSlot,unmatched_asm,overlay/free_duel,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x801689D4,0xC8,FreeDuel_UpdateSparkle,unmatched_asm,overlay/free_duel,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x80168A9C,0x1E0,FreeDuel_UpdateCursorTween,unmatched_asm,overlay/free_duel,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x80168C7C,0x338,FreeDuel_UpdateScreen,unmatched_asm,overlay/free_duel,Name from module-scoped external symbols; exact boundary from the verified overlay split.
+0x80168FB4,0x7C,FreeDuel_Entry,unmatched_asm,overlay/free_duel,Entry name from module-scoped external evidence; exact boundary from the verified overlay split.
