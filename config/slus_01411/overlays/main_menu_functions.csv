@@ -28,5 +28,5 @@ address,size,name,status,module,notes
 0x8018416C,0xE8,func_8018416C,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
 0x80184254,0xF0,func_80184254,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
 0x80184344,0x110,func_80184344,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
-0x80184454,0x84,func_80184454,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
+0x80184454,0x84,func_80184454,matching_c,overlay/main_menu,Exact overlay match with gcc_2_8_1_g0_split. Builds a 24-byte flat-shaded quad primitive on the stack: length 5 at +0x3 and GPU code 0x28 at +0x7 with the address field left for the caller; grey 0x40 in all three colour bytes; and the four corners of a 0xA0 by 0xF0 rectangle at column * 0xA0. Submits it through func_8005B260 with the display context in D_800E9D94.
 0x801844D8,0x80,func_801844D8,unmatched_asm,overlay/main_menu,Exact boundary from the verified overlay split.
