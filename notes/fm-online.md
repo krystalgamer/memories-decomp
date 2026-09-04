@@ -105,6 +105,16 @@ these changes show that opponent information is not controlled by one privacy
 flag: card faces, triangle preview, guardian-star cursor, symbols, text, sound,
 and automatic card rotation are separate presentation paths.
 
+The two triangle patches are argument-setup switches rather than draw-call
+switches. At `0x800284D8`, retail loads `a2` from `D_8009B24B`; the delay slot
+of the later `func_800404CC` call then adds `0x0E`. At `0x8002946C`, retail
+loads the constant `4` into `a2` before another `func_800404CC` call.
+FM-Online's enable values (`0x93860343` and `0x24060004`) are those original
+instructions exactly. Hiding the text or image replaces only that instruction
+with `nop`; both calls and their other arguments remain in place. The patch
+therefore disrupts each draw command's third argument instead of skipping the
+rendering function outright.
+
 The three automatic-rotation patches suppress one complete retail action in
 `func_8001BD88`. The branch is eligible when the packed card type is below
 `0x14` (a monster) or exactly `0x15` (Trap), and runs only when byte `0x21` of
