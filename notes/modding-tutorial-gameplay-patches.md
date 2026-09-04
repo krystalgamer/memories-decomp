@@ -82,9 +82,10 @@ The tutorial changes one immediate byte at each of two SLUS offsets:
 | `0x952C` | `0x80018D2C` | `11 00 07 24` | `addiu $a3, $zero, 0x11` | First required Exodia card ID |
 | `0x959C` | `0x80018D9C` | `16 00 E2 28` | `slti $v0, $a3, 0x16` | Exclusive end of the required-ID range |
 
-Both instructions are in the exact matching C for `func_80018CF8`. The
-function copies five hand-slot indices, then searches those slots for each
-card ID from `0x11` through `0x15`. A matched slot is replaced with `-1`, so
+Both instructions are in the exact matching C for
+`Duel_HasAllExodiaPieces`. The function copies five hand-slot indices, then
+searches those slots for each card ID from `0x11` through `0x15`. A matched
+slot is replaced with `-1`, so
 one card cannot satisfy more than one required ID. In simplified form, the
 function returns one only after finding all five pieces:
 
@@ -117,7 +118,7 @@ retail card data, where zero denotes an empty card and valid IDs are
 **Confidence:**
 
 - **Confirmed** that `0x952C` and `0x959C` are the two Exodia card-range
-  immediates in `func_80018CF8`.
+  immediates in `Duel_HasAllExodiaPieces`.
 - **Confirmed** that the retail function requires all five distinct IDs from
   `0x11` through `0x15`.
 - **Confirmed** that the two-byte patch makes the check return zero for normal

@@ -17,7 +17,7 @@ struct Blob {
 extern struct SomeState *D_8009B1C8;
 extern struct Blob D_8015C424;
 
-s32 func_80018CF8(void) {
+s32 Duel_HasAllExodiaPieces(void) {
     s16 buf[HAND_SIZE];
     s32 i;
     s32 a3;
