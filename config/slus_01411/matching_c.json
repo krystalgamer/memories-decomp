@@ -3718,7 +3718,7 @@
       "address": "0x8004C560",
       "profile": "gcc_2_8_1_g0",
       "size": "0x68",
-      "source": "src/game/func_8004C560.c"
+      "source": "src/game/sound_sequence_timing.c"
     },
     {
       "address": "0x8004C5C8",
