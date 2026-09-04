@@ -1642,13 +1642,13 @@
       "address": "0x80035668",
       "profile": "gcc_2_8_1_g8",
       "size": "0x18",
-      "source": "src/game/func_80035668.c"
+      "source": "src/game/text_render_state.c"
     },
     {
       "address": "0x80035680",
       "profile": "gcc_2_8_1_g8",
       "size": "0x20",
-      "source": "src/game/func_80035680.c"
+      "source": "src/game/text_render_state.c"
     },
     {
       "address": "0x800356A0",
