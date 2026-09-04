@@ -1528,13 +1528,13 @@
       "address": "0x80031574",
       "profile": "gcc_2_8_1_g0",
       "size": "0x17C",
-      "source": "src/game/func_80031574.c"
+      "source": "src/game/duel_card_stat_display.c"
     },
     {
       "address": "0x800316F0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x94",
-      "source": "src/game/func_800316F0.c"
+      "source": "src/game/duel_card_stat_display.c"
     },
     {
       "address": "0x80031784",
