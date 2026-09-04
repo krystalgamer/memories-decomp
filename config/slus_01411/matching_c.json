@@ -2458,13 +2458,13 @@
       "address": "0x8003EE90",
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
-      "source": "src/game/func_8003EE90.c"
+      "source": "src/game/duel_effect_late_state.c"
     },
     {
       "address": "0x8003EEC8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/func_8003EEC8.c"
+      "source": "src/game/duel_effect_late_state.c"
     },
     {
       "address": "0x8003F388",
