@@ -970,13 +970,13 @@
       "address": "0x80029684",
       "profile": "gcc_2_8_1_g0",
       "size": "0x158",
-      "source": "src/game/func_80029684.c"
+      "source": "src/game/duel_projection_axes.c"
     },
     {
       "address": "0x800297DC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x158",
-      "source": "src/game/func_800297DC.c"
+      "source": "src/game/duel_projection_axes.c"
     },
     {
       "address": "0x80029EB0",
