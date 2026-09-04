@@ -8,6 +8,7 @@ FreeDuel_UpdateScrollbar = 0x80168004; // type:func
 FreeDuel_SpawnSparkle = 0x801681B4; // type:func
 FreeDuel_GetSparkleSlot = 0x8016899C; // type:func
 FreeDuel_UpdateSparkle = 0x801689D4; // type:func
+FreeDuel_Entry = 0x80168FB4; // type:func
 gFreeDuel_abGridAvailable = 0x80169030;
 gFreeDuel_pThumbWidget = 0x80169058;
 gFreeDuel_apSparklePool = 0x80169060;
