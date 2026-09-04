@@ -190,7 +190,6 @@ audit: match verify-runtime-files
 	@$(PYTHON) tools/project/function_inventory.py
 	@$(PYTHON) tools/project/classify_functions.py
 	@$(PYTHON) tools/project/centralize_basic_types.py --check
-	@$(PYTHON) tools/project/progress.py --check
 	@$(PYTHON) tools/project/audit_repository.py
 
 clean: workspace

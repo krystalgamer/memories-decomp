@@ -49,10 +49,11 @@ Matching progress covers game-owned code only. Psy-Q CRT/SDK functions are
 identified and preserved as assembly rather than counted as decompilation
 targets.
 
-Run `make progress` after accepted decompilation changes. It refreshes the
-generated table above and writes detailed machine-readable metrics to
-`tmp/reports/progress.json`. `make check-progress`, the repository audit, and
-CI reject a stale README.
+Run `make progress` when intentionally refreshing the project-wide snapshot.
+It updates the generated table above and writes detailed machine-readable
+metrics to `tmp/reports/progress.json`. Routine decompilation changes do not
+need to update or commit the snapshot; `make check-progress` remains available
+as an opt-in consistency check.
 
 ## Quick start
 
@@ -62,7 +63,6 @@ Place the original executable at `game/SLUS_014.11`, then run:
 make verify-target
 make tools
 MAKEFLAGS=-j"$(nproc)" make match
-make progress
 ```
 
 `make match` succeeds only when the rebuilt executable is byte-identical to the
@@ -83,8 +83,8 @@ value explicitly on memory-constrained systems.
 2. Record each distinct source/compiler attempt in the appropriate attempt
    ledger, with a maximum of six variants per function.
 3. Accept C only when `make match` reproduces the entire executable exactly.
-4. Run `make progress` and commit the refreshed README with the matching
-   source and metadata.
+4. Commit the matching source and authoritative metadata. Refresh the README
+   separately with `make progress` when a project-wide snapshot is desired.
 
 Unmatched functions remain exact assembly fallbacks. Handwritten and Psy-Q
 assembly are tracked separately from compiler-generated game code.

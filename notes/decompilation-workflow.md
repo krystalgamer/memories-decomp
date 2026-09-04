@@ -106,8 +106,11 @@ For each candidate:
 6. Adjust source structure or measured compiler flags without changing
    behavior.
 7. Run the full executable match.
-8. Update generated progress metadata.
-9. Commit only that function or an inseparable tightly coupled group.
+8. Commit only that function or an inseparable tightly coupled group.
+
+Progress snapshots are intentionally separate from routine function
+conversions. Run `make progress` only when refreshing the project-wide README
+metrics.
 
 The tracked inventory is `config/slus_01411/functions.csv`. Reconcile generated
 boundaries and ownership before selecting work:

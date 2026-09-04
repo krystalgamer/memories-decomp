@@ -90,7 +90,7 @@ jobs:
       - name: Perform clean matching build
         run: |
           make clean
-          make match check-progress
+          make match
           printf '%s  %s\n' \
             84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88 \
             tmp/project-build/SLUS_014.11 \
