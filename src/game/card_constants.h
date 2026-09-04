@@ -5,6 +5,10 @@
 #define DECK_SIZE 40
 #define DUEL_DROP_WEIGHT_TOTAL 2048
 
+#define EXODIA_FIRST_CARD_ID 0x11
+#define EXODIA_PIECE_COUNT 5
+#define EXODIA_CARD_ID_END (EXODIA_FIRST_CARD_ID + EXODIA_PIECE_COUNT)
+
 /* Numeric encoding is executable-backed; category labels follow Data Crystal. */
 #define CARD_TYPE_MAGIC 20
 #define CARD_TYPE_TRAP 21
