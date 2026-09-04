@@ -1498,13 +1498,13 @@
       "address": "0x80031000",
       "profile": "gcc_2_8_1_g8",
       "size": "0x78",
-      "source": "src/game/func_80031000.c"
+      "source": "src/game/async_state_poll.c"
     },
     {
       "address": "0x80031078",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/func_80031078.c"
+      "source": "src/game/async_state_poll.c"
     },
     {
       "address": "0x8003134C",
