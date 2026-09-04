@@ -211,7 +211,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80091508,D_80091508,D_80091508,0x8004E9A0,func_8004E9A0,matching_c,game,C,src/game/func_8004E9A0.c,read,8,q = D_80091508[r4];
 0x8009151C,D_8009151C,D_8009151C,0x8005C388,func_8005C388,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04cb88.s,address,,"addiu $a1, $a1, %lo(D_8009151C) | addiu $a1, $v0, %lo(D_8009151C) | (+2 more)"
 0x80091550,D_80091550,D_80091550,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_dispatch.c,address,8,void *x = a < 0 ? 0 : D_80091550 + a * 8; | void *y = b < 0 ? 0 : D_80091550 + b * 8;
-0x80091570,D_80091570,D_80091570,0x8005F1A4,func_8005F1A4,matching_c,game,C,src/game/func_8005F1A4.c,address,,return &D_80091570[index];
+0x80091570,D_80091570,D_80091570,0x8005F1A4,func_8005F1A4,matching_c,game,C,src/game/model_effect_coefficients.c,address,,return &D_80091570[index];
 0x80091570,D_80091570,D_80091570,0x8005F27C,func_8005F27C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04fa7c.s,address,,"addiu $v0, $v0, %lo(D_80091570) | lui $v0, %hi(D_80091570)"
 0x80091570,D_80091570,D_80091570,0x8005F5C8,func_8005F5C8,matching_c,game,C,src/game/model_effect_state.c,address,,StatRec *rec = &D_80091570[arg1];
 0x800915E8,D_800915E8,D_800915E8,0x8006AF74,func_8006AF74,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_051ac0.s,address,,"addiu $v0, $v0, %lo(D_800915E8) | lui $v0, %hi(D_800915E8)"

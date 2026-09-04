@@ -4276,13 +4276,13 @@
       "address": "0x8005F1A4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x14",
-      "source": "src/game/func_8005F1A4.c"
+      "source": "src/game/model_effect_coefficients.c"
     },
     {
       "address": "0x8005F1B8",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC4",
-      "source": "src/game/func_8005F1B8.c"
+      "source": "src/game/model_effect_coefficients.c"
     },
     {
       "address": "0x8005F3B8",
