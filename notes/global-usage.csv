@@ -2606,7 +2606,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE88,D_800EAE88,D_800EAE88,0x80072640,AiScript_FindFirstMonster,matching_c,game,C,src/game/ai_fusion.c,read,8,s32 index = D_800EAE88[i];
 0x800EAE88,D_800EAE88,D_800EAE88,0x800726F4,AiScript_FindFirstType,matching_c,game,C,src/game/ai_fusion.c,address,8,u8 *indices = D_800EAE88;
 0x800EAE88,D_800EAE88,D_800EAE88,0x80072F8C,AiScript_PlayFaceUp,matching_c,game,C,src/game/ai_script_actions.c,write,8,D_800EAE88[0] = a; | D_800EAE88[1] = b; | (+4 more)
-0x800EAE88,D_800EAE88,D_800EAE88,0x80073220,AiScript_PushComboCard,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_06388c.s,address,,"addiu $a3, $v0, %lo(D_800EAE88) | addiu $v0, $v0, %lo(D_800EAE88) | (+1 more)"
+0x800EAE88,D_800EAE88,D_800EAE88,0x80073220,AiScript_PushComboCard,matching_c,game,C,src/game/ai_script_push_combo_card.c,write,8,D_800EAE88[count] = value; | output = D_800EAE88 + i;
 0x800EAE88,D_800EAE88,D_800EAE88,0x800732A0,AiScript_PushComboEmpty,matching_c,game,C,src/game/ai_script_push_combo_empty.c,write,8,D_800EAE88[count] = value;
 0x800EAE89,D_800EAE89,D_800EAE89,0x8001BD88,func_8001BD88,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,read,8,"lbu $v1, %lo(D_800EAE89)($v0) | lui $v0, %hi(D_800EAE89)"
 0x800EAE8E,D_800EAE8E,D_800EAE8E,0x8001BD88,func_8001BD88,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,read,8,"lbu $v1, %lo(D_800EAE8E)($v0) | lui $v0, %hi(D_800EAE8E)"
@@ -2965,7 +2965,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80072A48,AiScript_FindBestCombo,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_063248.s,address,,"addiu $s1, $v0, %lo(gAiScript_State) | addiu $v1, $v0, %lo(gAiScript_State) | (+3 more)"
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80072DC0,AiScript_EvaluateFusion,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_063248.s,address,,"addiu $v1, $v1, %lo(gAiScript_State) | lui $v1, %hi(gAiScript_State)"
 0x800F5BE8,gAiScript_State,gAiScript_State,0x8007308C,AiScript_FindBestAttack,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_06388c.s,address,,"addiu $v0, $v0, %lo(gAiScript_State) | lui $v0, %hi(gAiScript_State)"
-0x800F5BE8,gAiScript_State,gAiScript_State,0x80073220,AiScript_PushComboCard,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_06388c.s,address,,"addiu $v1, $v0, %lo(gAiScript_State) | lui $v0, %hi(gAiScript_State)"
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80073220,AiScript_PushComboCard,matching_c,game,C,src/game/ai_script_push_combo_card.c,read,8,for (i = 0; i <= gAiScript_State[0xA3]; i++) { | s32 value = gAiScript_State[i + 0x38];
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800732A0,AiScript_PushComboEmpty,matching_c,game,C,src/game/ai_script_push_combo_empty.c,read,8,"for (count = 0, index = 0; index <= gAiScript_State[0xA3]; index++) { | s32 value = gAiScript_State[index + 0x38];"
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80073310,AiScript_AddCard,matching_c,game,C,src/game/ai_script_add_card.c,address,8,q = gAiScript_State;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80073380,AiScript_ClearCards,matching_c,game,C,src/game/ai_script_sets.c,address,8,u16 *entries = (u16 *)gAiScript_State;
