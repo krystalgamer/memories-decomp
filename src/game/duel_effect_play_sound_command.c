@@ -9,6 +9,11 @@ extern void SD_SEPlayFull(u16);
 extern u16 D_8009B33C;
 extern s32 D_8009B350;
 
+void func_80038690(void *object)
+{
+    func_8003FF08((u16)func_80036D3C(object));
+}
+
 void func_800386B8(u8 *object)
 {
     u8 **slot = (u8 **)(object + *(s8 *)(object + 0x58) * 4);
