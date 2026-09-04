@@ -57,7 +57,7 @@ The null-terminated filename pointer table begins at `0x8009078C`:
 | 5 | `SD_BGM.DAT` | 2,936 |
 | 6 | `MASTER.XA` | 199,930 |
 
-`func_800136E4` enumerates these names. `func_800138F4` repeatedly performs the
+`File_SetPositionTable` enumerates these names. `File_GetPosition` repeatedly performs the
 `CdSearchFile`-like lookup and converts BCD MSF to a zero-based LBA with
 `func_8007E710`.
 
@@ -103,7 +103,7 @@ Observed fields in each `0x48`-byte descriptor are:
 ```c
 file_index                = file_flags & 0xF;
 descriptor->file_bytes    = sector_offset << 11;
-descriptor->absolute_lba  = D_800E9EA8[file_index] + sector_offset;
+descriptor->absolute_lba  = gFile_anLba[file_index] + sector_offset;
 descriptor->total_bytes   = abs(sector_count << 11);
 ```
 
@@ -341,7 +341,7 @@ disc; the layout above stands as written, this only fills some of its
 provisional items.
 
 **The seven 235-sector records are the seven terrain types.** The index in
-`func_8001798C` is the terrain byte `D_8009B364` (0 normal, 1 forest, 2
+`func_8001798C` is the terrain byte `gDuel_bTerrain` (0 normal, 1 forest, 2
 wasteland, 3 mountain, 4 meadow, 5 sea, 6 dark). Hashing all thirteen phases
 across the seven records, twelve are byte-identical and only phase 12 (the
 last `0x10000`, VRAM (640, 256)) differs — the field picture. So the seven
@@ -362,7 +362,7 @@ to your own world" sets after the tournament (save flags are a 256-byte
 array at `0x801D0618`, tested by `Campaign_TestStoryFlag`).
 
 **The mini-record family at WA 7475 is the per-duelist block**, indexed by
-the opponent id (`D_8009B361`, 1-based; block 0 is a copy of block 1; ids
+the opponent id (`gDuel_bOpponentID`, 1-based; block 0 is a copy of block 1; ids
 8 and 35 — Heishin's two duels — share their drop pools but not their
 decks), 3 sectors each: deck
 weights at `+0`, the S/A-POW, B/C/D and S/A-TEC drop pools at `+0x5B4`,
