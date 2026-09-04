@@ -24,7 +24,9 @@ The verified executable phase is tracked in
 `make overlays` extracts it to `tmp/overlays/password/module.bin`, and
 `make verify-overlays` checks the archive and payload hashes.
 
-No overlay source or build layout is accepted yet. Keep candidate sources,
-objects, and diffs under `tmp/` until a function passes an overlay-specific
-exact-match process. Do not add this module to the resident
-`config/slus_01411/matching_c.json`.
+Its accepted build layout is
+[`config/slus_01411/overlays/password.yaml`](../../../config/slus_01411/overlays/password.yaml).
+`make match-overlays` splits, assembles, links, and verifies the complete
+module byte-for-byte. Keep candidate sources, objects, and diffs under `tmp/`
+until a function passes this overlay-specific exact-match process. Do not add
+this module to the resident `config/slus_01411/matching_c.json`.
