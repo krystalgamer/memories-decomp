@@ -14,11 +14,41 @@ typedef u8 Rec;
 typedef u8 Block;
 typedef struct { u32 words[2]; } Blk8;
 
-extern s32 func_80047864();
 extern void func_80047788(u16);
 extern void func_8004763C(void);
 extern void func_80076ED0(s32, s32);
 extern s32 func_80077090(s32);
+extern void func_80077450(void *);
+
+void func_80047864(s32 index)
+{
+    register s32 saved asm("$5");
+
+    asm volatile("move %0,%1" : "=r"(saved) : "r"(index));
+    {
+        register u32 mask asm("$3") = 0x00100000;
+        u8 *state;
+        register u8 *half asm("$3");
+        register u8 *byte asm("$6");
+        u32 product;
+
+        if (saved != 0)
+            mask <<= saved;
+        state = (u8 *)g_SDValue;
+        *(u32 *)(state + 0x3C4) = mask;
+        half = state + (saved << 1);
+        byte = state + saved;
+        *(s32 *)(state + 0x3C8) = 3;
+        {
+            register u32 first asm("$5") = *(u16 *)(half + 0x414);
+            product = first * (u32)byte[0x424];
+        }
+        *(u16 *)(state + 0x3CC) = product >> 8;
+        product = *(u16 *)(half + 0x41C) * (u32)byte[0x424];
+        *(u16 *)(state + 0x3CE) = product >> 8;
+        func_80077450(state + 0x3C4);
+    }
+}
 
 void func_800478EC(void)
 {
