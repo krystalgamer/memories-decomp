@@ -3,7 +3,7 @@
 #include "model.h"
 
 typedef struct {
-    u8 bytes[0xE20];
+    u8 bytes[MODEL_SLOT_SIZE];
 } ModelSlotTransformEntry;
 
 typedef ModelSlotS32Quad ModelSlotTransform;

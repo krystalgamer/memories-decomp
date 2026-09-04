@@ -6,6 +6,7 @@
 #define MODEL_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
 #define MODEL_SLOT_COUNT 3
+#define MODEL_SLOT_SIZE 0xE20
 #define MODEL_SLOT_DATA_ENTRY_SIZE 80
 #define MODEL_HANDLER_REGISTRY_COUNT 80
 
@@ -103,7 +104,7 @@ typedef char ModelSlotRotationEntry_field_44_offset_must_be_0x44[
     MODEL_OFFSET(ModelSlotRotationEntry, field_44) == 0x44 ? 1 : -1
 ];
 typedef char ModelSlot_size_must_be_0xE20[
-    sizeof(ModelSlot) == 0xE20 ? 1 : -1
+    sizeof(ModelSlot) == MODEL_SLOT_SIZE ? 1 : -1
 ];
 typedef char ModelSlot_field_1E0_offset_must_be_0x1E0[
     MODEL_OFFSET(ModelSlot, field_1E0) == 0x1E0 ? 1 : -1
@@ -187,7 +188,9 @@ typedef char ModelHandlerRegistryEntry_key_offset_must_be_0x4[
 
 #undef MODEL_OFFSET
 
+#ifndef MODEL_SLOT_CUSTOM_EXTERN
 extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
+#endif
 extern ModelHandlerRegistryEntry
     D_800F5918[MODEL_HANDLER_REGISTRY_COUNT];
 

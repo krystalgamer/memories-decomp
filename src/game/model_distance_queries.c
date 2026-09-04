@@ -1,5 +1,7 @@
 #include "../types.h"
 
+#include "model.h"
+
 typedef struct {
     s16 x;
     s16 y;
@@ -17,7 +19,7 @@ s32 func_8005A1F4(s32 index)
 {
     ModelVector output;
     ModelVector difference;
-    u8 *entry = D_800F3A10 + index * 0xE20;
+    u8 *entry = D_800F3A10 + index * MODEL_SLOT_SIZE;
 
     func_8008E3D0(&difference, 0, 8);
     difference.x = D_800F56F0[0] - *(u16 *)(entry + 0);
@@ -33,7 +35,7 @@ s32 func_8005A2E0(s32 index)
 {
     ModelVector output;
     ModelVector difference;
-    u8 *entry = D_800F3A10 + index * 0xE20;
+    u8 *entry = D_800F3A10 + index * MODEL_SLOT_SIZE;
 
     func_8008E3D0(&difference, 0, 8);
     difference.x = D_800F56F0[6] - *(u16 *)(entry + 0);
