@@ -115,6 +115,24 @@ with `nop`; both calls and their other arguments remain in place. The patch
 therefore disrupts each draw command's third argument instead of skipping the
 rendering function outright.
 
+The guardian-star group does switch complete call instructions. The enable
+words restore these exact retail targets:
+
+| Address | Retail call |
+|---:|---|
+| `0x800370E4` | `SD_SEPlayFull(6)` |
+| `0x800370EC` | `Dialog_HighlightChoice` |
+| `0x800371D0` | `func_8004006C` |
+| `0x8003725C` | `Dialog_HighlightChoice` |
+| `0x80037FF4` | `func_80036C14` |
+| `0x80039730` | `func_80036C14` |
+
+The three addresses grouped as `drawGsCursor` are therefore not three copies
+of one renderer: two call the accepted dialog-choice highlighter, while
+`0x800371D0` calls a separate helper whose return value is consumed by the
+following code. FM-Online's labels describe the observed combined effect of
+disabling these sites, not interchangeable function identities.
+
 The three automatic-rotation patches suppress one complete retail action in
 `func_8001BD88`. The branch is eligible when the packed card type is below
 `0x14` (a monster) or exactly `0x15` (Trap), and runs only when byte `0x21` of
