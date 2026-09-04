@@ -1070,7 +1070,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B145,D_8009B145,D_8009B145,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,read,8,if (D_8009B145 != 0) {
 0x8009B145,D_8009B145,D_8009B145,0x8001581C,func_8001581C,matching_c,game,C,src/game/fade_color.c,write,8,D_8009B145 = 1;
 0x8009B145,D_8009B145,D_8009B145,0x80015870,func_80015870,matching_c,game,C,src/game/fade_color.c,read,8,if (D_8009B145 != 0) {
-0x8009B145,D_8009B145,D_8009B145,0x80015944,func_80015944,matching_c,game,C,src/game/func_80015944.c,write,8,D_8009B145 = 1;
+0x8009B145,D_8009B145,D_8009B145,0x80015944,func_80015944,matching_c,game,C,src/game/fade_transition_wait.c,write,8,D_8009B145 = 1;
 0x8009B145,D_8009B145,D_8009B145,0x8002E730,func_8002E730,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01ef30.s,read,8,"lbu $a0, %lo(D_8009B145)($a0) | lbu $v0, %lo(D_8009B145)($v0) | (+2 more)"
 0x8009B146,D_8009B146,D_8009B146,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,write,16,"lui $at, %hi(D_8009B146) | sh $zero, %lo(D_8009B146)($at)"
 0x8009B146,D_8009B146,D_8009B146,0x80029EC4,func_80029EC4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01a6c4.s,read,16,"lhu $a3, %lo(D_8009B146)($a3) | lui $a3, %hi(D_8009B146)"
@@ -2474,8 +2474,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015870,func_80015870,matching_c,game,C,src/game/fade_color.c,address,,state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x800158B8,Fade_InitOut,matching_c,game,C,src/game/fade_out.c,address,,FadeTransitionState *state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015904,Fade_StartOut,matching_c,game,C,src/game/fade_out.c,address,,state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015944,func_80015944,matching_c,game,C,src/game/func_80015944.c,address,,*(s32 *)&D_800E9EC8 = arg0; | state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015998,func_80015998,matching_c,game,C,src/game/func_80015998.c,address,,FadeTransitionState *state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015944,func_80015944,matching_c,game,C,src/game/fade_transition_wait.c,address,,*(s32 *)&D_800E9EC8 = color; | state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015998,func_80015998,matching_c,game,C,src/game/fade_transition_wait.c,address,,FadeTransitionState *state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015A50,func_80015A50,matching_c,game,C,src/game/func_80015A50.c,address,,state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015A94,func_80015A94,matching_c,game,C,src/game/func_80015A94.c,address,,state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015B50,func_80015B50,matching_c,game,C,src/game/func_80015B50.c,address,,state = &D_800E9EC8;
