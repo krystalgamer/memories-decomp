@@ -220,7 +220,7 @@ address,size,name,status,module,notes
 0x80026B34,0x70,func_80026B34,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80026BA4,0x68,func_80026BA4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80026C0C,0x60,func_80026C0C,matching_c,game,"Scans five stride-0x1C records from D_801A7AD8 for the first whose halfword at 0x16 lacks bit 0x8000, returning base+i or -1. Three register pins correct allocation only; the instruction sequence was already exact without them (issue #5)."
-0x80026C6C,0xAC,func_80026C6C,unmatched_asm,game,
+0x80026C6C,0xAC,func_80026C6C,matching_c,game,Exact post-terminal pure-C match from adjacent func_80026D18 control-flow evidence; count and loop index use accepted t0/a3 register pins.
 0x80026D18,0xB0,func_80026D18,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80026DC8,0x298,func_80026DC8,unmatched_asm,game,
 0x80027060,0xCC,func_80027060,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
