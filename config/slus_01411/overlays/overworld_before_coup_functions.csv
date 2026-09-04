@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x80168004,0x4C,func_80168004,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split; splat reported the epilogue as a separate label, so the rows were merged; the span covers an interior nop splat left outside both labels.
+0x80168004,0x4C,func_80168004,matching_c,overlay/overworld_before_coup,Exact overlay match with gcc_2_8_1_g0_split. Releases the four D_801695F8 objects; both variants share one source because their text is byte-identical.
 0x80168050,0x13C,func_80168050,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split; splat reported the epilogue as a separate label, so the rows were merged.
 0x8016818C,0x5C,func_8016818C,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.
 0x801681E8,0x70,func_801681E8,unmatched_asm,overlay/overworld_before_coup,Exact boundary from the verified overlay split.

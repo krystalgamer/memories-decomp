@@ -60,7 +60,8 @@ segments:
     vram: 0x80168004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/overworld_after_coup/text]
+      - [0x4, c, overlays/overworld/teardown]
+      - [0x50, asm, overlays/overworld_after_coup/text]
       - [0x1E54, data, overlays/overworld_after_coup/data]
 
   - [0x3000]

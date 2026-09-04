@@ -79,11 +79,14 @@ def matching_c_segments(root: Path, module: dict[str, Any]) -> list[dict[str, st
             raise OverlayBuildError(f"{relative_path}: entries must be objects")
         source = entry.get("source")
         profile = entry.get("profile")
-        if not isinstance(source, str) or not source.startswith(
-            f"src/overlays/{name}/"
+        if (
+            not isinstance(source, str)
+            or not source.startswith("src/overlays/")
+            or not source.endswith(".c")
+            or ".." in PurePosixPath(source).parts
         ):
             raise OverlayBuildError(
-                f"{relative_path}: source must live under src/overlays/{name}/"
+                f"{relative_path}: source must be a C file under src/overlays/"
             )
         if not isinstance(profile, str) or not profile:
             raise OverlayBuildError(f"{relative_path}: {source} has no profile")

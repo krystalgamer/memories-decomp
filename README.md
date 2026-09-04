@@ -37,8 +37,8 @@ Runtime overlay modules:
 |---|---:|---:|
 | `free_duel` | 4 / 9 (44.44%) | 472 (`0x1D8`) / 4,140 (`0x102C`) (11.40%) |
 | `main_menu` | 1 / 31 (3.23%) | 52 (`0x34`) / 17,724 (`0x453C`) (0.29%) |
-| `overworld_after_coup` | 0 / 14 (0.00%) | 0 (`0x0`) / 6,184 (`0x1828`) (0.00%) |
-| `overworld_before_coup` | 0 / 14 (0.00%) | 0 (`0x0`) / 6,184 (`0x1828`) (0.00%) |
+| `overworld_after_coup` | 1 / 14 (7.14%) | 76 (`0x4C`) / 6,184 (`0x1828`) (1.23%) |
+| `overworld_before_coup` | 1 / 14 (7.14%) | 76 (`0x4C`) / 6,184 (`0x1828`) (1.23%) |
 | `password` | 4 / 27 (14.81%) | 292 (`0x124`) / 10,884 (`0x2A84`) (2.68%) |
 
 _Generated from `config/slus_01411/functions.csv` and `config/slus_01411/overlays/*_functions.csv` by `tools/project/progress.py`._
