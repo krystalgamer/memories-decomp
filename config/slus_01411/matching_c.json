@@ -1768,7 +1768,7 @@
       "address": "0x80035A58",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/func_80035A58.c"
+      "source": "src/game/duel_effect_flag_update.c"
     },
     {
       "address": "0x80035A64",

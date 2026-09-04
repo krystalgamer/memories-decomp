@@ -29,3 +29,8 @@ void func_800359B0(void)
         D_8009B318 &= 0x7F;
     }
 }
+
+void func_80035A58(void)
+{
+    D_8009B318 = 0;
+}
