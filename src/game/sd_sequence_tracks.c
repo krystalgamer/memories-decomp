@@ -1,5 +1,8 @@
 #include "../types.h"
 
+#define SDSECONDARYSTATE_CUSTOM_EXTERN
+#include "sound.h"
+
 typedef struct {
     s32 value;
     u8 pad_04[0x20];
@@ -7,9 +10,13 @@ typedef struct {
     u8 pad_25[7];
 } SequenceTrack;
 
+typedef char SequenceTrack_size_must_be_0x2C[
+    sizeof(SequenceTrack) == SD_SEQUENCE_TRACK_RECORD_SIZE ? 1 : -1
+];
+
 typedef struct {
     u8 pad_000[0x518];
-    SequenceTrack tracks[16];
+    SequenceTrack tracks[SD_SEQUENCE_TRACK_COUNT];
     u8 pad_7D8[0x22];
     u16 track_count;
 } SequenceState;
@@ -78,7 +85,7 @@ accumulate:
         int count = *(u16 *)(state + 0x2E2);
         i++;
         if (i < count) {
-            entry += 44;
+            entry += SD_SEQUENCE_TRACK_RECORD_SIZE;
             goto loop;
         }
     }

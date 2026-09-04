@@ -7,6 +7,8 @@
 #define SD_COMMAND_QUEUE_COUNT 16
 #define SD_COMMAND_RECORD_SIZE 0x30
 #define SD_SECONDARY_OBJECT_COUNT 20
+#define SD_SEQUENCE_TRACK_COUNT 16
+#define SD_SEQUENCE_TRACK_RECORD_SIZE 0x2C
 #define SD_VOICE_SLOT_COUNT 4
 
 typedef struct {
@@ -250,6 +252,8 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 extern SDValue *g_SDValue;
 #endif
 
+#ifndef SDSECONDARYSTATE_CUSTOM_EXTERN
 extern SDSecondaryState *D_8009B458;
+#endif
 
 #endif

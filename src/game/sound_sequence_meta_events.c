@@ -62,7 +62,7 @@ void func_8004BE88(u8 *p, s32 arg1)
             do {
                 *(s16 *)(f + off + 0x52E) = v;
                 *(s16 *)(f + off + 0x52C) = v;
-                off += 0x2C;
+                off += SD_SEQUENCE_TRACK_RECORD_SIZE;
                 i++;
             } while (i < ((SDSecondaryState *)f)->field_07FA);
         }

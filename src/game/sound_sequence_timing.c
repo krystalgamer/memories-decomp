@@ -90,7 +90,7 @@ int func_8004C77C(void)
                 count = *(u16 *)(state + 0x7FA);
                 asm volatile("" : "+r"(count));
                 i++;
-                offset += 44;
+                offset += SD_SEQUENCE_TRACK_RECORD_SIZE;
             } while (i < count);
         }
     }
