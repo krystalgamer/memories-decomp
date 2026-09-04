@@ -176,3 +176,45 @@ Values above `25500` cannot be represented by this one-byte table.
   with calculated ATK.
 - **Confirmed** that indices `0`-`5` map to card IDs `681`-`686` in the trap
   order shown above.
+
+## Guardian Star bonus magnitude
+
+**Tutorial:** `Guardian Star V2 - Por Rafael Ferreira.txt`
+
+The tutorial identifies three little-endian `500` immediates in the SLUS:
+
+| SLUS offset | VRAM | Retail bytes | Instruction role |
+|---:|---:|---|---|
+| `0x10770` | `0x8001FF70` | `F4 01 42 28` | Test whether the displayed modifier is below `500` |
+| `0x10784` | `0x8001FF84` | `F4 01 02 24` | Clamp the displayed modifier to `500` |
+| `0x1D3D0` | `0x8002CBD0` | `F4 01 02 24` | Return the positive Guardian Star matchup modifier |
+
+The first two sites are in `func_8001F55C`. That path advances a signed
+display value by `16` per update, clears its active flag once the value
+reaches the limit, clamps it to `500`, and writes the result to two display
+fields. Both immediates must change together to preserve the same stop and
+clamp value.
+
+The third site is the positive return in the exact matching
+`Duel_CalcGuardianStarMatchup`. Guardian Star IDs `1`-`6` form one advantage
+cycle and IDs `7`-`10` form another. Adjacent values in one direction return
+`500`, adjacent values in the opposite direction return `-500`, and all
+other pairs return zero.
+
+The tutorial changes only the positive `500` return. The negative immediate
+is a separate instruction at SLUS offset `0x1D3E4`, with retail bytes
+`0C FE 02 24` for `-500`. A patch that changes the three listed positive
+values but leaves `0x1D3E4` untouched makes favorable and unfavorable
+matchups asymmetric.
+
+The tutorial's replacement table correctly treats the value as a 16-bit
+little-endian integer: for example, decimal `1000` is hexadecimal `0x03E8`
+and is written as bytes `E8 03`.
+
+**Confidence:**
+
+- **Confirmed** that the first two offsets are the display stop/clamp pair.
+- **Confirmed** that `0x1D3D0` and `0x1D3E4` are the positive and negative
+  matchup returns.
+- **Confirmed** that changing only the tutorial's three offsets leaves the
+  negative matchup modifier at `-500`.
