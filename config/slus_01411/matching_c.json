@@ -1054,13 +1054,13 @@
       "address": "0x8002C4DC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/func_8002C4DC.c"
+      "source": "src/game/duel_deck_lookup.c"
     },
     {
       "address": "0x8002C518",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/func_8002C518.c"
+      "source": "src/game/duel_deck_lookup.c"
     },
     {
       "address": "0x8002C560",

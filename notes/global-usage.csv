@@ -3241,7 +3241,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801C0000,D_801C0000,D_801C0000,0x800383DC,func_800383DC,matching_c,game,C,src/game/func_800383DC.c,read,16,v1 = ((u32)D_801B0000 & 0xFFFF0000) + D_801C0000[a2]; | v1 = ((u32)D_801C0000 & 0xFFFF0000) + D_801C0000[a2 - 0xD000];
 0x801C0000,D_801C0000,D_801C0000,0x800393B0,func_800393B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,address,,"addiu $v1, $v1, %lo(D_801C0000) | lui $v1, %hi(D_801C0000)"
 0x801C0000,D_801C0000,D_801C0000,0x8003B744,Text_LookupString,matching_c,game,C,src/game/text_lookup_string.c,read,16,D_801C0000[index - 0xD000]; | return ((u32)D_801B0000 & 0xFFFF0000) | D_801C0000[index]; | (+1 more)
-0x801D0000,D_801D0000,D_801D0000,0x8002C518,func_8002C518,matching_c,game,C,src/game/func_8002C518.c,read,8,flag = (D_801D0000[a0 + 591] != 0) ? 1 : -1;
+0x801D0000,D_801D0000,D_801D0000,0x8002C518,func_8002C518,matching_c,game,C,src/game/duel_deck_lookup.c,read,8,flag = (D_801D0000[a0 + 591] != 0) ? 1 : -1;
 0x801D0000,D_801D0000,D_801D0000,0x8002C570,func_8002C570,matching_c,game,C,src/game/func_8002C570.c,address,,object = (Object *)((unsigned int)&D_801D0000 + offset);
 0x801D0000,D_801D0000,D_801D0000,0x8002CCA8,Campaign_TestStoryFlag,matching_c,game,C,src/game/campaign_test_story_flag.c,address,8,u8 *p = &D_801D0000[i];
 0x801D0000,D_801D0000,D_801D0000,0x8002CCE4,Library_UpdateCardUsedFlag,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01d4e4.s,address,,"addiu $v1, $v1, %lo(D_801D0000) | lui $v1, %hi(D_801D0000)"
@@ -3249,7 +3249,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,address,,"addiu $a0, $v0, %lo(gDuel_awPlayerDeck) | lui $v0, %hi(gDuel_awPlayerDeck)"
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x80021894,Duel_AwardCard,matching_c,game,C,src/game/duel_rewards.c,address,8,u8 *base = gDuel_awPlayerDeck;
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8002BF3C,Library_MarkOwnedCards,matching_c,game,C,src/game/library_mark_owned_cards.c,address,16,q = gDuel_awPlayerDeck;
-0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8002C4DC,func_8002C4DC,matching_c,game,C,src/game/func_8002C4DC.c,address,16,unsigned short *entry = gDuel_awPlayerDeck;
+0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8002C4DC,func_8002C4DC,matching_c,game,C,src/game/duel_deck_lookup.c,address,16,unsigned short *entry = gDuel_awPlayerDeck;
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel_and_library.c,address,8,"func_800323F8(D_80010000[0], gDuel_awPlayerDeck, 0, 0x80);"
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8002D370,Main_RunBuildDeckMenu,matching_c,game,C,src/game/main_run_selection_menus.c,address,8,void Main_RunBuildDeckMenu(void){unsigned char flags=D_8009B26C;if((flags&0x40)==0){D_8009B26C=flags|0x40;func_800323...
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_run_credits.c,address,,".reloc .-4, R_MIPS_HI16, gDuel_awPlayerDeck after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, gDuel_awPlayerDeck after .word 0x24510000"
