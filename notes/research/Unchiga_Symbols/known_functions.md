@@ -7,7 +7,7 @@ after any naming change. Source tags: `idb2018` = idb_raymond_2018 import, `ramM
 datacrystal RAM map, `dotr` = DotR-style naming, `psyq` = original SDK symbol
 (libsyms signature match), `fleet` = behavior-derived by this project. Evidence: NAMING.md.
 
-1095 named functions (159 game-meaningful, 669 sdk, 267 mechanical).
+1096 named functions (160 game-meaningful, 669 sdk, 267 mechanical).
 
 ## Game-meaningful names
 
@@ -70,6 +70,7 @@ Names that say what something IS in the game.
 | 0x800393B0 | `TextBox_BuildStep` | idb2018 |
 | 0x80039934 | `TextBox_SetPos` | idb2018 |
 | 0x8003B744 | `Text_LookupString` | idb2018 |
+| 0x8003B9BC | `Main_InitFreeDuelMenu` | live |
 | 0x8003BC40 | `Text_SjisToGlyphCodes` | idb2018 |
 | 0x8003FEE0 | `SD_SEPlayFull` | live |
 | 0x80043230 | `Widget_SlideSine` | idb2018 |
@@ -1136,6 +1137,7 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 | 0x80168004 | `FreeDuel_UpdateScrollbar` |
 | 0x80168090 | `FreeDuel_PlaceCursor` |
 | 0x801681B4 | `FreeDuel_SpawnSparkle` |
+| 0x8016824C | `FreeDuel_Init` |
 | 0x8016899C | `FreeDuel_GetSparkleSlot` |
 | 0x801689D4 | `FreeDuel_UpdateSparkle` |
 | 0x80168A9C | `FreeDuel_UpdateCursorTween` |

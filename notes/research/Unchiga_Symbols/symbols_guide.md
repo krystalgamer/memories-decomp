@@ -185,6 +185,8 @@ The persistent block at `0x801D02xx–0x801D07xx` — what actually goes to the 
 | `duelistRecords` | 0x801D071C | Your record vs every duelist — 39 {u16 wins, u16 losses} pairs indexed by `gDuel_bOpponentID`, both capped 9999. |
 | `gDuel_awRecentCardDrops` | 0x801D07BC | The cards you most recently WON/acquired (drops and password buys both shift in; drives the trunk's New! tags and the NEW sort; capacity ~15-16 per the operator, extent unverified). |
 | `gLibrary_dwStarchips` | 0x801D07E0 | Your starchip balance — spent on password exchanges (deduction byte-verified live). |
+| `gLibrary_wViewerCardID` | 0x8009B246 | The card the chest / library viewer is showing (u16); the recomp clamps its two writers for clone ids. |
+| `gLibrary_aCardArtRecord` | 0x801DC000 | CD-DMA target of a card's 2D record from LBA 10817+7×id: 102×96 8bpp art, its 256-colour CLUT, the baked 96×14 4bpp title, a 16×88 strip; LoadImage then uploads them to (256,256), (512,240), (256,352), (312,256). |
 | `used-password flags` | ~0x801D0698 | Set when a password is redeemed; re-entry then refuses (“already put in that password”). Bit layout still being mapped. |
 
 
@@ -195,11 +197,13 @@ Mode slot 6. An 8×5 opponent grid (Build Deck tile at top-left); the cursor roa
 | symbol | address | description |
 |---|---|---|
 | `Main_RunFreeDuelMenu` | 0x8002D3F8 | Free Duel opponent-select mode tick; calls the module's entry `FreeDuel_Entry` (0x80168FB4) by fixed address. |
+| `Main_InitFreeDuelMenu` | 0x8003B9BC | The tick's one-shot init: queues the CD request, then calls the module's `FreeDuel_Init` with the portrait buffer (arena slot 0, 0x80100000). |
 | `gFreeDuel_bCursorColumn / Row` | 0x8009B366 / 67 | The committed grid cell, one byte per axis. |
 | `gFreeDuel_bTargetColumn / Row` | 0x8009B36C / 6D | The pending cell the DPAD writes; the cursor glides to it over 8 frames, then it becomes the committed pair. |
 | `FreeDuel_UpdateScreen` (module: free_duel) | 0x80168C7C | Per-frame: cursor tween, scrollbar, then DPAD / confirm / cancel. |
 | `FreeDuel_UpdateScrollbar` (module: free_duel) | 0x80168004 | Keeps the grid scrolled to the cursor, then places the thumb at `7 + (cursor_y − 40) × 72 / 364` — it glides because it follows the tweened cursor. |
 | `FreeDuel_PlaceCursor / FreeDuel_UpdateCursorTween` (module: free_duel) | 0x80168090 / 0x80168A9C | Cell to pixels (col×56+20, row×52+40); the 8-frame glide and commit. |
+| `FreeDuel_Init` (module: free_duel) | 0x8016824C | Screen init: bumps the returning duelist's W/L, builds the availability table from the met-flags, uploads the 40 portraits (48×48 8bpp + 64-colour CLUT each) to VRAM pages 18/20, spawns one sprite per available cell. |
 | `gFreeDuel_abGridAvailable` (module: free_duel) | 0x80169030 | 8×5 bytes: which cells can be selected. |
 | `Main_RunNameEntry` | 0x8002D62C | The name-entry screen's mode tick. |
 | `gNameEntry_bColumn / Row` (module: name_entry) | 0x8016D401 / 02 | The crosshair on a 15×9 letter grid, wrapping both ways; pixels are col×20+22, row×18+24. |

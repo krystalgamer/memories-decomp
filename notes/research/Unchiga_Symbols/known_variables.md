@@ -7,7 +7,7 @@ after any naming change. Source tags: `idb2018` = idb_raymond_2018 import, `ramM
 datacrystal RAM map, `dotr` = DotR-style naming, `psyq` = original SDK symbol
 (libsyms signature match), `fleet` = behavior-derived by this project. Evidence: NAMING.md.
 
-83 named variables (75 game-meaningful, 0 sdk, 8 mechanical).
+85 named variables (77 game-meaningful, 0 sdk, 8 mechanical).
 
 ## Game-meaningful names
 
@@ -23,6 +23,7 @@ Names that say what something IS in the game.
 | 0x800917F0 | `gDuel_aOpponentData` | idb2018 |
 | 0x8009B141 | `gFade_bOverlayOn` | idb2018 |
 | 0x8009B1D5 | `gDuel_bPlayingSide` | idb2018 |
+| 0x8009B246 | `gLibrary_wViewerCardID` | live |
 | 0x8009B258 | `gCardGrid_bCursorColumn` | live |
 | 0x8009B259 | `gCardGrid_bCursorRow` | live |
 | 0x8009B27C | `gScript_wCommand` | idb2018 |
@@ -89,6 +90,7 @@ Names that say what something IS in the game.
 | 0x801D56A8 | `gDuel_CardDropID2` | ramMap |
 | 0x801D5800 | `gText_aGlobalOffsets` | idb2018 |
 | 0x801D9000 | `gText_adwGlyphCodeTable` | idb2018 |
+| 0x801DC000 | `gLibrary_aCardArtRecord` | live |
 | 0x801EA800 | `gSD_MusicTrack` | idb2018 |
 
 ## Mechanical names

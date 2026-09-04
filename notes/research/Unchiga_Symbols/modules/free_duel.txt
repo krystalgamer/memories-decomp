@@ -1,5 +1,6 @@
 // free duel opponent-select module -- resident while Main_RunFreeDuelMenu (0x8002D3F8) is the mode tick.
-// EXE entry: FreeDuel_Entry = 0x80168FB4 (in symbol_addrs.txt). Findings F79-F86.
+// EXE entry: FreeDuel_Entry = 0x80168FB4 (in symbol_addrs.txt). Findings F79-F86, F121, F124.
+FreeDuel_Init = 0x8016824C; // type:func
 FreeDuel_UpdateScreen = 0x80168C7C; // type:func
 FreeDuel_UpdateCursorTween = 0x80168A9C; // type:func
 FreeDuel_PlaceCursor = 0x80168090; // type:func

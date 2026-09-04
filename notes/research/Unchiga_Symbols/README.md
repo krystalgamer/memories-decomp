@@ -36,7 +36,7 @@ on a recompiled build).
 | `known_functions.md` | The complete roster of 1111 named functions with addresses, each tagged with its evidence source. |
 | `known_variables.md` | The complete roster of 108 named variables and data symbols, same treatment. |
 | `descriptions.md` | The naming gate: 180 verified one-paragraph descriptions, because a name only counts as done once its description matches the matched code or a live observation. |
-| `findings.md` | The live-trace evidence ledger (F1–F120) recording what was proven, how, and the status of each claim. |
+| `findings.md` | The live-trace evidence ledger (F1–F128) recording what was proven, how, and the status of each claim. |
 | `suspects.md` | The not-yet-100% identifications, kept apart from the confirmed set with the evidence gathered and what would graduate each. |
 | `modules.md` | What the disc-loaded screen modules are and how their shared address range was traced. |
 | `modules/` | Per-module symbol files (41 symbols) for free duel, name entry, password, main menu and overworld, kept separate because those screens load into the same addresses. |
@@ -44,3 +44,12 @@ on a recompiled build).
 
 Source repository: Unchiga/ygofm-decomp (private); contact Unchiga for
 access or questions. Corrections and counter-evidence welcome.
+
+**2026-09-04 delta.** Four names from the recomp's Free Duel and card-viewer
+work (`Main_InitFreeDuelMenu` 0x8003B9BC, module-resident `FreeDuel_Init`
+0x8016824C, `gLibrary_wViewerCardID` 0x8009B246, `gLibrary_aCardArtRecord`
+0x801DC000), findings F121-F128 (free-duel screen init and portrait VRAM layout,
+the per-card 7-sector art record at LBA 10817+7*id with its LoadImage rects,
+the card-title rasterisation facts, mode-byte values), and one medium-confidence
+proposal held back (`gMain_apLoadArena`, the load-arena pointer table at
+0x80010000). Rebuild after the re-split is byte-identical.
