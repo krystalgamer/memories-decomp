@@ -4420,19 +4420,19 @@
       "address": "0x8006C2FC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x10",
-      "source": "src/game/func_8006C2FC.c"
+      "source": "src/game/byte_triplet_helpers.c"
     },
     {
       "address": "0x8006C30C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x24",
-      "source": "src/game/func_8006C30C.c"
+      "source": "src/game/byte_triplet_helpers.c"
     },
     {
       "address": "0x8006C330",
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
-      "source": "src/game/func_8006C330.c"
+      "source": "src/game/byte_triplet_helpers.c"
     },
     {
       "address": "0x8007058C",
