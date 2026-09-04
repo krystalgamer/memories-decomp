@@ -1,6 +1,21 @@
 name: Overlay build
 
 on:
+  # Dispatch only, and deliberately so. Do not add push or pull_request here.
+  #
+  # This job downloads retail inputs from private URLs held in repository
+  # secrets. GitHub withholds secrets from pull_request runs raised from a
+  # fork, so an outside contribution would fail the secret guard rather than
+  # build; and pull_request_target would hand fork-authored code a job that
+  # can read those URLs, which is a worse trade than having no automatic
+  # check at all.
+  #
+  # Overlay byte-exactness is therefore established by the author running
+  # make match-overlays locally, and, for an outside contribution, by a
+  # maintainer dispatching this workflow against the reviewed head. Changing
+  # that needs an approval-gated job rather than a different trigger.
+  #
+  # See #375 for the full reasoning.
   workflow_dispatch:
 
 permissions:
