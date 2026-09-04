@@ -1,3 +1,0 @@
-#include "../types.h"
-
-void*func_80040468(u8*p,int a,int b,int c,int d,int e){u16 f;p[0x67]=a;p[0x68]=b;p[0x69]=c;p[0x66]=d;p[0x5e]=d>>16;p[0x5f]=d>>8;*(u16*)(p+0x40)=e&0x3f0;*(u16*)(p+0x42)=(e&0xf)+0xf0;f=*(u16*)(p+8)&0xffdf;*(u16*)(p+8)=f;if(e&0x8000)*(u16*)(p+8)=f|0x20;return p;}

@@ -2656,13 +2656,13 @@
       "address": "0x80040468",
       "profile": "gcc_2_8_1_g8",
       "size": "0x64",
-      "source": "src/game/func_80040468.c"
+      "source": "src/game/display_object_config.c"
     },
     {
       "address": "0x800404CC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/func_800404CC.c"
+      "source": "src/game/display_object_config.c"
     },
     {
       "address": "0x80040814",
