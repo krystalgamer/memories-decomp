@@ -444,7 +444,7 @@ address,size,name,status,module,notes
 0x800371A8,0x1B4,func_800371A8,unmatched_asm,game,
 0x8003735C,0x6C,DuelEffect_HasActiveEntry,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x800373C8,0x54,func_800373C8,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
-0x8003741C,0x8C,func_8003741C,unmatched_asm,game,
+0x8003741C,0x8C,func_8003741C,matching_c,game,"Exact full-executable match using the shared DuelEffectEntry layout. Arms page-wait state once, then clears object state after the indexed duel-effect entry releases its 0x80 flag."
 0x800374A8,0x4C,func_800374A8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800374F4,0xB0,Dialog_OpenChoice,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800375A4,0xD8,func_800375A4,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.

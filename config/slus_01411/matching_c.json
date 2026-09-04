@@ -1819,6 +1819,12 @@
       "source": "src/game/duel_effect_entry_scan.c"
     },
     {
+      "address": "0x8003741C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x8C",
+      "source": "src/game/duel_effect_page_wait.c"
+    },
+    {
       "address": "0x800374A8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
