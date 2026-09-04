@@ -3526,13 +3526,13 @@
       "address": "0x80049CF8",
       "profile": "gcc_2_8_1_g0",
       "size": "0xE0",
-      "source": "src/game/func_80049CF8.c"
+      "source": "src/game/sound_object_uploads.c"
     },
     {
       "address": "0x80049DD8",
       "profile": "gcc_2_8_1_g0",
       "size": "0xF0",
-      "source": "src/game/func_80049DD8.c"
+      "source": "src/game/sound_object_uploads.c"
     },
     {
       "address": "0x80049EC8",

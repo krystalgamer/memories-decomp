@@ -2232,8 +2232,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x80049BAC,func_80049BAC,matching_c,game,C,src/game/sound_secondary_playback.c,read_write,,D_8009B458->flag_0500 = 1; | first = D_8009B458; | (+2 more)
 0x8009B458,D_8009B458,D_8009B458,0x80049C40,func_80049C40,matching_c,game,C,src/game/sound_secondary_playback.c,read,,SDSecondaryState *initial = D_8009B458; | other = D_8009B458; | (+1 more)
 0x8009B458,D_8009B458,D_8009B458,0x80049CB0,func_80049CB0,matching_c,game,C,src/game/sound_secondary_playback.c,read_write,,D_8009B458->field_07E0 = -1; | D_8009B458->field_07E2 = 0; | (+4 more)
-0x8009B458,D_8009B458,D_8009B458,0x80049CF8,func_80049CF8,matching_c,game,C,src/game/func_80049CF8.c,read,8,"register u8 *initial asm(""$2"") = D_8009B458; | state = D_8009B458;"
-0x8009B458,D_8009B458,D_8009B458,0x80049DD8,func_80049DD8,matching_c,game,C,src/game/func_80049DD8.c,read,8,"register u8 *initial asm(""$2"") = D_8009B458; | state = D_8009B458;"
+0x8009B458,D_8009B458,D_8009B458,0x80049CF8,func_80049CF8,matching_c,game,C,src/game/sound_object_uploads.c,read,8,"register u8 *initial asm(""$2"") = D_8009B458; | state = D_8009B458;"
+0x8009B458,D_8009B458,D_8009B458,0x80049DD8,func_80049DD8,matching_c,game,C,src/game/sound_object_uploads.c,read,8,"register u8 *initial asm(""$2"") = D_8009B458; | state = D_8009B458;"
 0x8009B458,D_8009B458,D_8009B458,0x80049EC8,func_80049EC8,matching_c,game,C,src/game/sound_secondary_params.c,read,,SDSecondaryState *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x80049F10,func_80049F10,matching_c,game,C,src/game/sound_secondary_params.c,read,,SDSecondaryState *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x80049F50,func_80049F50,matching_c,game,C,src/game/sound_secondary_params.c,read_write,,D_8009B458->field_07E2 = value; | if (D_8009B458->field_07E2 == 1) { | (+1 more)
