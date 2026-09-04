@@ -4717,6 +4717,12 @@
       "source": "src/game/ai_script_clear_cards.c"
     },
     {
+      "address": "0x800733A8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x78",
+      "source": "src/game/ai_script_add_type.c"
+    },
+    {
       "address": "0x80073420",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",

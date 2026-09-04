@@ -612,3 +612,22 @@ State after this one-function checkpoint:
 | Intentional handwritten assembly | 63 |
 | Matching sources retaining GCC asm | 58 |
 | Accepted semantic mappings | 221 |
+
+### Continuous wave 22
+
+`AiScript_AddType` (`0x800733A8`) matched after enabling split addresses on
+the collaborator's direct table-and-scan implementation. Split address
+formation exposes the `gAiScript_aMemory` base before `AiScript_ReadByte`, so
+GCC retains it in `$s0` and fills the call delay slot with the low-half
+addition. The normalized pure-C source matches 120/120 bytes and exact
+relocations.
+
+State after this one-function checkpoint:
+
+| State | Count |
+|---|---:|
+| Matching C | 798 |
+| Terminal unmatched assembly | 335 |
+| Intentional handwritten assembly | 63 |
+| Matching sources retaining GCC asm | 58 |
+| Accepted semantic mappings | 221 |
