@@ -3709,6 +3709,12 @@
       "source": "src/game/sound_sequence_reader.c"
     },
     {
+      "address": "0x8004BBBC",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
+      "size": "0x70",
+      "source": "src/game/sound_sequence_marker_scan.c"
+    },
+    {
       "address": "0x8004BC2C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x7C",

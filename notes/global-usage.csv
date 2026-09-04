@@ -268,7 +268,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF76,D_8009AF76,D_8009AF76,0x80042918,func_80042918,matching_c,game,C,src/game/display_object_animation_state.c,read,16,object->field_14 = D_8009AF76 - object->field_16;
 0x8009AF7A,D_8009AF7A,D_8009AF7A,0x8004293C,func_8004293C,matching_c,game,C,src/game/display_object_animation_state.c,read,16,object->field_14 = D_8009AF7A - object->field_16;
 0x8009AF7C,D_8009AF7C,D_8009AF7C,0x80044608,func_80044608,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_034e08.s,address,,"addiu $a1, $a1, %lo(D_8009AF7C) | lui $a1, %hi(D_8009AF7C)"
-0x8009AF80,D_8009AF80,D_8009AF80,0x8004BBBC,func_8004BBBC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03c3bc.s,address,,"addiu $a0, $s1, %lo(D_8009AF80) | lui $s1, %hi(D_8009AF80)"
+0x8009AF80,D_8009AF80,D_8009AF80,0x8004BBBC,func_8004BBBC,matching_c,game,C,src/game/sound_sequence_marker_scan.c,read,,"D_8009AF80,"
 0x8009AF88,D_8009AF88,D_8009AF88,0x8004DE24,func_8004DE24,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03d30c.s,read,32,"lw $a2, %gp_rel(D_8009AF88)($gp) | lw $v0, %gp_rel(D_8009AF88)($gp)"
 0x8009AF88,D_8009AF88,D_8009AF88,0x8004E7B0,func_8004E7B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03d30c.s,read,32,"lw $v0, %gp_rel(D_8009AF88)($gp)"
 0x8009AF88,D_8009AF88,D_8009AF88,0x8004E9A0,func_8004E9A0,matching_c,game,C,src/game/func_8004E9A0.c,read,8,k = D_8009AF88[0xA0];
@@ -2261,7 +2261,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004B990,func_8004B990,matching_c,game,C,src/game/sound_event_shutdown.c,write,,D_8009B458->flag_0500 = 0; | D_8009B458->flag_0503 = 1;
 0x8009B458,D_8009B458,D_8009B458,0x8004B9E0,func_8004B9E0,matching_c,game,C,src/game/func_8004B9E0.c,read_write,,D_8009B458->flag_0501 = 0; | D_8009B458->flag_0501 = 1; | (+2 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004BAE4,func_8004BAE4,matching_c,game,C,src/game/sound_sequence_reader.c,read,,SDSecondaryState *state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004BBBC,func_8004BBBC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03c3bc.s,read,32,"lui $v0, %hi(D_8009B458) | lw $v0, %lo(D_8009B458)($v0)"
+0x8009B458,D_8009B458,D_8009B458,0x8004BBBC,func_8004BBBC,matching_c,game,C,src/game/sound_sequence_marker_scan.c,read,8,"*(s32 *)(D_8009B458 + 0x7DC) + offset, | } while (*(u32 *)(D_8009B458 + 0x7EC) >= (u32)offset);"
 0x8009B458,D_8009B458,D_8009B458,0x8004BCE8,func_8004BCE8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03c4e8.s,read,32,"lui $a0, %hi(D_8009B458) | lui $v0, %hi(D_8009B458) | (+4 more)"
 0x8009B458,D_8009B458,D_8009B458,0x8004BE88,func_8004BE88,matching_c,game,C,src/game/sound_sequence_meta_events.c,read,,e = (u8 *)D_8009B458; | f = (u8 *)D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004C114,func_8004C114,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03c914.s,read,32,"lui $a0, %hi(D_8009B458) | lui $t1, %hi(D_8009B458) | (+4 more)"
