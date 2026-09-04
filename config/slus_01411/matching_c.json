@@ -2638,19 +2638,19 @@
       "address": "0x80040410",
       "profile": "gcc_2_8_1_g8",
       "size": "0x14",
-      "source": "src/game/func_80040410.c"
+      "source": "src/game/display_object_config.c"
     },
     {
       "address": "0x80040424",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_80040424.c"
+      "source": "src/game/display_object_config.c"
     },
     {
       "address": "0x8004044C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
-      "source": "src/game/func_8004044C.c"
+      "source": "src/game/display_object_config.c"
     },
     {
       "address": "0x80040468",

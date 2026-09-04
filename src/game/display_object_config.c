@@ -1,5 +1,41 @@
 #include "../types.h"
 
+typedef struct {
+    u8 pad_00[8];
+    u16 flags;
+    u8 pad_0A[0x5D];
+    u8 field_67;
+    u8 field_68;
+    u8 field_69;
+} DisplayObjectConfig;
+
+void func_80040410(DisplayObjectConfig *object, u8 value)
+{
+    object->field_69 = value;
+    object->flags &= 0xFFEF;
+}
+
+void func_80040424(DisplayObjectConfig *object, s32 value)
+{
+    if (object->field_69 != value) {
+        object->field_69 = value;
+        object->flags &= 0xFFEF;
+    }
+}
+
+void func_8004044C(
+    DisplayObjectConfig *object,
+    u8 field_67,
+    u8 field_68,
+    u8 field_69
+)
+{
+    object->field_67 = field_67;
+    object->field_68 = field_68;
+    object->field_69 = field_69;
+    object->flags &= 0xFFEF;
+}
+
 void *func_80040468(u8 *object, int field_67, int field_68, int field_69,
                     int color, int texture)
 {
