@@ -1,3 +1,0 @@
-#include "../types.h"
-
-extern int func_80039AAC(void*);extern void func_80039AD4(void*);extern volatile int D_8009B0D8;void func_80039BE0(u8*p){int v;if(!func_80039AAC(p)){p[0x15]=2;*(unsigned*)(p+4)=0x80808080;p[0x14]=0;}if(!(p[0x13]&0x40)){v=p[4]-(D_8009B0D8<<4);if(v<=0){p[0x13]|=0x40;v=0;}p[4]=v;p[5]=v;}else{v=p[6]-(D_8009B0D8<<4);if(v<=0){func_80039AD4(p);v=0;}p[6]=v;p[7]=v;}}

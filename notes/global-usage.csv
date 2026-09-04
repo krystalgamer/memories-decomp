@@ -844,7 +844,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x800151D8,func_800151D8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0059d8.s,read,32,"lui $v0, %hi(D_8009B0D8) | lw $v0, %lo(D_8009B0D8)($v0)"
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0059d8.s,read,32,"lui $v0, %hi(D_8009B0D8) | lw $v0, %lo(D_8009B0D8)($v0)"
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80039AFC,func_80039AFC,matching_c,game,C,src/game/func_80039AFC.c,read,32,record[20] = record[20] - D_8009B0D8 * 2; | record[4] = record[4] + D_8009B0D8 * 16; | (+1 more)
-0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80039BE0,func_80039BE0,matching_c,game,C,src/game/func_80039BE0.c,read,32,extern int func_80039AAC(void*);extern void func_80039AD4(void*);extern volatile int D_8009B0D8;void func_80039BE0(u8...
+0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80039BE0,func_80039BE0,matching_c,game,C,src/game/display_object_fade_callbacks.c,read,32,v = p[4] - (D_8009B0D8 << 4); | v = p[6] - (D_8009B0D8 << 4);
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AAE4,func_8003AAE4,matching_c,game,C,src/game/func_8003AAE4.c,read,32,v = *(u16 *)(p + 0x40) + D_8009B0D8 * 8;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AC48,func_8003AC48,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02b448.s,read,32,"lui $v1, %hi(D_8009B0D8) | lw $v1, %lo(D_8009B0D8)($v1)"
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AD6C,func_8003AD6C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02b448.s,read,32,"lui $v1, %hi(D_8009B0D8) | lw $v1, %lo(D_8009B0D8)($v1)"

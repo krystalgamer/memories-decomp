@@ -2140,13 +2140,13 @@
       "address": "0x80039BE0",
       "profile": "gcc_2_8_1_g0",
       "size": "0xB4",
-      "source": "src/game/func_80039BE0.c"
+      "source": "src/game/display_object_fade_callbacks.c"
     },
     {
       "address": "0x80039C94",
       "profile": "gcc_2_8_1_g0",
       "size": "0xD0",
-      "source": "src/game/func_80039C94.c"
+      "source": "src/game/display_object_fade_callbacks.c"
     },
     {
       "address": "0x80039F1C",
