@@ -1246,19 +1246,19 @@
       "address": "0x8002DF2C",
       "profile": "gcc_2_8_1_g0",
       "size": "0xE0",
-      "source": "src/game/func_8002DF2C.c"
+      "source": "src/game/script_image_objects.c"
     },
     {
       "address": "0x8002E00C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x54",
-      "source": "src/game/func_8002E00C.c"
+      "source": "src/game/script_image_objects.c"
     },
     {
       "address": "0x8002E060",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC8",
-      "source": "src/game/func_8002E060.c"
+      "source": "src/game/script_image_objects.c"
     },
     {
       "address": "0x8002E370",

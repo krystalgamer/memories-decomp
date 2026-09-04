@@ -1,4 +1,0 @@
-#include "../types.h"
-
-extern void*func_8004002C(void);extern unsigned char*func_800400AC(void*,int);extern void func_800404CC(void*,int,int,int,int,int,int,int),func_800428EC(void*,int);
-void func_8002E060(unsigned char*owner,int size,int mode){unsigned char*o=func_800400AC(func_8004002C(),2);func_800404CC(o,0,0,2,0,0,size,mode);func_800428EC(o,(signed char)mode);owner[0x10]=1;if(mode==2){*(short*)(owner+4)=1;*(unsigned int*)(o+4)|=0x50000000;}else{*(short*)(owner+4)=0;*(unsigned int*)(o+4)|=0x01000000;}*(void**)owner=o;}
