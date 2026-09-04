@@ -68,9 +68,28 @@ candidates for enums once their consumers are identified:
 | `0x0A` | Save |
 | `0x0B` | Debug Menu |
 
-These labels broadly agree with the locally recovered `Main_Run*` dispatcher
-functions. The IDs should be confirmed at the dispatch table before defining a
-shared enum.
+These are menu-result IDs, not direct indices into the `Main_Loop` handler
+table at `0x80090B64`. `func_8002D458` stores the selected ID in
+`D_8009B26D`, accepts only values below `0x0B`, and translates several results
+to different internal handler indices:
+
+| Menu result | Community label | Internal handler index | Handler |
+|---:|---|---:|---|
+| `0x02` | 2P Duel | `0x10` | `func_8002DC38` |
+| `0x03` | Trade | `0x0E` | `Main_RunTrade` |
+| `0x04` | Option | `0x0B` | `Main_RunOptionsMenu` |
+| `0x05` | Campaign | `0x02` | `Main_RunCampaign` |
+| `0x06` | Free Duel | `0x06` | `Main_RunFreeDuelMenu` |
+| `0x08` | Library | `0x04` | `Main_RunLibraryMenu` |
+| `0x09` | Password | `0x0A` | `Main_RunPasswordMenu` |
+
+New Game also enters internal index `0x02` after additional initialization.
+Load and Save leave the internal state at zero after the selection is stored;
+Build Deck instead calls `func_80033C90` and clears `D_8009B268`. None is a
+single direct nonzero handler assignment in this converter. Input `0x0B` fails
+the `selection < 0x0B` range check, so the community's Debug Menu label is not
+a selectable result through this path. Keep menu-result and runtime-handler
+enums separate if either domain is promoted into source.
 
 ### Terrain
 
@@ -152,4 +171,3 @@ table.
 Large copied tables should not become a second source of truth in the
 repository. Prefer a small confirmed enum or symbol change tied to its actual
 consumer, and keep Data Crystal attribution in the semantic evidence record.
-
