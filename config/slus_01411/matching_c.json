@@ -4330,25 +4330,25 @@
       "address": "0x8005FAE4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x24",
-      "source": "src/game/func_8005FAE4.c"
+      "source": "src/game/model_transfer_state.c"
     },
     {
       "address": "0x8005FB08",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/func_8005FB08.c"
+      "source": "src/game/model_transfer_state.c"
     },
     {
       "address": "0x8005FB14",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
-      "source": "src/game/func_8005FB14.c"
+      "source": "src/game/model_transfer_state.c"
     },
     {
       "address": "0x8005FB30",
       "profile": "gcc_2_8_1_g8",
       "size": "0x94",
-      "source": "src/game/func_8005FB30.c"
+      "source": "src/game/model_transfer_state.c"
     },
     {
       "address": "0x8005FBC4",
