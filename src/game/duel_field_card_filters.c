@@ -29,7 +29,7 @@ s32 func_80026C6C(u8 **out, s32 arg1, s32 arg2)
         } while (0);
         i++;
         r++;
-    } while (i < 5);
+    } while (i < DUEL_FIELD_ROW_SIZE);
 
     *out = 0;
     return count;
@@ -61,7 +61,7 @@ s32 func_80026D18(u8 **out, s32 arg1, s32 arg2) {
         } while (0);
         i++;
         r++;
-    } while (i < 5);
+    } while (i < DUEL_FIELD_ROW_SIZE);
 
     *out = 0;
 
