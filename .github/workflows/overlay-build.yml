@@ -10,6 +10,7 @@ on:
     paths-ignore:
       - "notes/**"
       - "README.md"
+      - "tools/trace/**"
   workflow_dispatch:
 
 permissions:
