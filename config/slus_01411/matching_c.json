@@ -874,13 +874,13 @@
       "address": "0x80026C6C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xAC",
-      "source": "src/game/func_80026C6C.c"
+      "source": "src/game/duel_field_card_filters.c"
     },
     {
       "address": "0x80026D18",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB0",
-      "source": "src/game/func_80026D18.c"
+      "source": "src/game/duel_field_card_filters.c"
     },
     {
       "address": "0x80027060",
