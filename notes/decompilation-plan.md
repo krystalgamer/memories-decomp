@@ -112,9 +112,9 @@ with full-file comparison as the merge gate.
 - Keep commits atomic and push accumulated commits to `origin/master` about
   every 15 minutes during active decompilation. Continue working between push
   windows rather than waiting for the timer.
-- Attribute every implementation commit solely to
-  `Copilot <223556219+Copilot@users.noreply.github.com>`. Do not add a
-  `Co-authored-by` trailer or attribute commits to the user.
+- Attribute every implementation commit you make solely to
+  `Copilot <223556219+Copilot@users.noreply.github.com>`. Do not attribute your
+  commits to the user or add a `Co-authored-by` trailer for anyone else.
 - Run every project command from the current repository root. Do not change to,
   read project inputs from, or write project artifacts into parent, sibling, or
   unrelated directories.
@@ -131,8 +131,9 @@ with full-file comparison as the merge gate.
 
 ### Repository
 
-- Git history contains small, atomic commits authored and committed solely by
-  Copilot.
+- Git history contains small, atomic commits. Every commit Copilot makes is
+  authored and committed as Copilot; commits from other contributors keep
+  their own identity.
 - User-supplied files under `game/` are immutable, ignored, and hash-validated.
 - Pinned Python analysis tools and GNU binutils 2.42 for `mipsel-none-elf` are
   installed locally under `tools/`.
@@ -266,7 +267,8 @@ inspect and bisect:
 - Configure the repository-local Git author and committer identity as
   `Copilot <223556219+Copilot@users.noreply.github.com>` before the first
   implementation commit.
-- Do not add `Co-authored-by` or other contributor trailers.
+- Do not add `Co-authored-by` or other contributor trailers for anyone other
+  than Copilot.
 - Make one commit for each complete logical change, normally after its targeted
   validation passes.
 - Keep scaffolding, tool bootstrap, binary metadata, split-map changes, linker
@@ -599,8 +601,9 @@ Final acceptance criteria:
   plan for future sessions and iterations.
 - The project contains no unexplained unmatched game code or unclassified
   executable bytes.
-- Git history consists of small validated commits attributed solely to Copilot,
-  with no co-author trailers or unrelated changes mixed together.
+- Git history consists of small validated commits. Copilot's own commits are
+  attributed to Copilot, carry no foreign co-author trailers, and mix in no
+  unrelated changes.
 
 ## Key risks and handling
 

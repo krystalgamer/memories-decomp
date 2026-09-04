@@ -126,12 +126,15 @@ make audit
 The audit performs a clean exact build, reconciles the function inventory,
 reapplies ownership classifications, generates progress metrics, and checks:
 
-- Every commit author and committer is Copilot.
-- No commit contains a `Co-authored-by` trailer.
+- Every commit attributed to Copilot uses the exact `Copilot
+  <223556219+Copilot@users.noreply.github.com>` identity for both author and
+  committer. Commits from other contributors are accepted as they are.
+- A Copilot commit carries no `Co-authored-by` trailer other than Copilot's
+  own.
 - No supplied game file, generated output, downloaded dependency, installed
   environment, vendor checkout, or local toolchain is tracked.
-- Tracked Markdown documentation is under `notes/`, except for the generated
-  project overview at the root `README.md` and repository guidance at
+- Tracked Markdown documentation is under `notes/`, except for per-directory
+  `README.md` files and repository guidance at
   `.github/copilot-instructions.md`.
 - The root README progress section matches the authoritative function
   inventory.

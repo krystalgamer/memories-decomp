@@ -141,5 +141,9 @@ Matching, attempt-ledger updates, and integration remain sequential.
   names replace address-based symbols.
 - Do not track retail files, generated `tmp/` output, downloaded tools,
   installed environments, vendor checkouts, or local toolchains. Durable
-  Markdown belongs under `notes/`, except for `README.md` and this instruction
-  file.
+  Markdown belongs under `notes/`, except for per-directory `README.md` files
+  and this instruction file.
+- Commits you author must use the `Copilot
+  <223556219+Copilot@users.noreply.github.com>` identity and may only carry
+  that same `Co-authored-by` trailer. Commits from other authors are kept
+  as-is and are not held to those rules.

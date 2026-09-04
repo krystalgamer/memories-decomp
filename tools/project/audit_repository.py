@@ -30,8 +30,8 @@ FORBIDDEN_TRACKED_PREFIXES = (
 )
 ALLOWED_MARKDOWN_PATHS = {
     ".github/copilot-instructions.md",
-    "README.md",
 }
+ALLOWED_MARKDOWN_NAME = "README.md"
 ATTEMPT_FIELDS = ("address", "attempt", "compiler", "flags", "result", "summary")
 ATTEMPT_RESULTS = {"matched", "nonmatch", "deferred"}
 MAX_FUNCTION_ATTEMPTS = 6
@@ -83,6 +83,13 @@ def git(root: Path, *arguments: str) -> str:
     return result.stdout
 
 
+def is_copilot_attributed(name: str, email: str) -> bool:
+    return (
+        name == EXPECTED_NAME
+        or email.casefold() == EXPECTED_EMAIL.casefold()
+    )
+
+
 def audit_identity(root: Path) -> None:
     name = git(root, "config", "--local", "user.name").strip()
     email = git(root, "config", "--local", "user.email").strip()
@@ -127,19 +134,30 @@ def audit_identity(root: Path) -> None:
             and re.match(r"^Merge pull request #\d+ from ", message)
         ):
             continue
-        if (author_name, author_email) != (EXPECTED_NAME, EXPECTED_EMAIL):
-            raise AuditError(
-                f"{commit}: unexpected author "
-                f"{author_name} <{author_email}>"
-            )
-        if (committer_name, committer_email) != (
+        author_is_copilot = is_copilot_attributed(author_name, author_email)
+        committer_is_copilot = is_copilot_attributed(
+            committer_name, committer_email
+        )
+        if author_is_copilot and (author_name, author_email) != (
             EXPECTED_NAME,
             EXPECTED_EMAIL,
         ):
             raise AuditError(
-                f"{commit}: unexpected committer "
-                f"{committer_name} <{committer_email}>"
+                f"{commit}: Copilot-attributed author is "
+                f"{author_name} <{author_email}>, expected "
+                f"{EXPECTED_NAME} <{EXPECTED_EMAIL}>"
             )
+        if committer_is_copilot and (committer_name, committer_email) != (
+            EXPECTED_NAME,
+            EXPECTED_EMAIL,
+        ):
+            raise AuditError(
+                f"{commit}: Copilot-attributed committer is "
+                f"{committer_name} <{committer_email}>, expected "
+                f"{EXPECTED_NAME} <{EXPECTED_EMAIL}>"
+            )
+        if not (author_is_copilot or committer_is_copilot):
+            continue
         trailers = re.findall(
             r"^Co-authored-by:\s*(.+?)\s*$",
             message,
@@ -167,10 +185,12 @@ def audit_tracked_paths(root: Path) -> None:
         if (
             path.lower().endswith(".md")
             and not path.startswith("notes/")
+            and PurePosixPath(path).name != ALLOWED_MARKDOWN_NAME
             and path not in ALLOWED_MARKDOWN_PATHS
         ):
             raise AuditError(
-                f"documentation is outside notes/ or the allowed project "
+                f"documentation is outside notes/, a directory "
+                f"{ALLOWED_MARKDOWN_NAME}, or the allowed project "
                 f"Markdown paths: {path}"
             )
 
