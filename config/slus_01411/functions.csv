@@ -809,7 +809,7 @@ address,size,name,status,module,notes
 0x800498F8,0x28,func_800498F8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049920,0x144,func_80049920,unmatched_asm,game,
 0x80049A64,0x90,func_80049A64,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80049AF4,0xB8,func_80049AF4,unmatched_asm,game,
+0x80049AF4,0xB8,func_80049AF4,matching_c,game,"Exact post-terminal match from corrected register-role evidence; one s1 literal pin, no statement-level assembly."
 0x80049BAC,0x94,func_80049BAC,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049C40,0x70,func_80049C40,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049CB0,0x48,func_80049CB0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
