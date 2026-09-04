@@ -1,7 +1,5 @@
 #include "../types.h"
 
-#include "card_constants.h"
-
 typedef struct {
     void *pointer;
     s16 value;
@@ -9,14 +7,6 @@ typedef struct {
 } ScriptImageEntry;
 
 extern u32 D_8009B0F4;
-extern u8 D_8009B3C0;
-extern u8 D_8009B3EA;
-extern u8 D_8009B3ED;
-extern u8 D_801B122B[];
-extern u8 D_801B1238[];
-extern u8 D_801D1200[];
-extern u8 D_801D160C[];
-extern s32 D_801D5608[];
 
 extern u8 *func_80014EEC(s32, s32, s32, s32, void *, s32, s32);
 extern void func_8002DDFC(void);
@@ -25,10 +15,8 @@ extern void *func_8004002C(void);
 extern u8 *func_800400AC(void *, s32);
 extern void func_800404CC(void *, s32, s32, s32, s32, s32, s32, s32);
 extern void func_800428EC(void *, s32);
-extern s32 func_8003FCD8(void);
-extern void Text_SjisToGlyphCodes();
 
-s32 func_8002DF2C(volatile u8 *owner, s32 value)
+void func_8002DF2C(volatile u8 *owner, s32 value)
 {
     s32 index;
     s32 mode;
