@@ -1,12 +1,12 @@
 address,size,name,status,module,notes
-0x80168004,0x4C,func_80168004,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split; splat reported the epilogue as a separate label, so the rows were merged.
+0x80168004,0x4C,func_80168004,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split; splat reported the epilogue as a separate label, so the rows were merged; the span covers an interior nop splat left outside both labels.
 0x80168050,0x13C,func_80168050,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split; splat reported the epilogue as a separate label, so the rows were merged.
 0x8016818C,0x5C,func_8016818C,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split.
 0x801681E8,0x70,func_801681E8,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split.
 0x80168258,0xB8,func_80168258,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split; splat reported the epilogue as a separate label, so the rows were merged.
 0x80168310,0x78,func_80168310,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split; splat reported the epilogue as a separate label, so the rows were merged.
 0x80168388,0x200,CampaignMap_MoveCameraDpad,unmatched_asm,overlay/overworld_after_coup,Name from module-scoped external symbols; exact boundary from the verified overlay split.
-0x80168588,0xE0,func_80168588,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split; splat reported the epilogue as a separate label, so the rows were merged.
+0x80168588,0xE4,func_80168588,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split; splat reported the epilogue as a separate label, so the rows were merged.
 0x8016866C,0x250,CampaignMap_SetLocation,unmatched_asm,overlay/overworld_after_coup,Name from module-scoped external symbols; exact boundary from the verified overlay split.
 0x801688BC,0x1EC,func_801688BC,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split; splat reported the epilogue as a separate label, so the rows were merged.
 0x80168AA8,0x364,func_80168AA8,unmatched_asm,overlay/overworld_after_coup,Exact boundary from the verified overlay split.
