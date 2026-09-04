@@ -1,7 +1,7 @@
 #include "../types.h"
 
 extern u8 D_8009B24B;
-extern u16 gLibrary_wViewerCardID;
+extern u16 gDuel_wViewerCardID;
 extern u8 D_8009B254;
 extern u16 D_8009B394;
 extern volatile u16 D_8009B398;
@@ -33,7 +33,7 @@ void func_800336F0(u8 *p)
         r = func_80033500(e);
         if (r != 0) {
             D_8009B24B = 0x14;
-            gLibrary_wViewerCardID = r;
+            gDuel_wViewerCardID = r;
             D_8009B254 = 2;
         }
         return;

@@ -21,7 +21,7 @@
  * under the cursor is looked up in the field table (row * 5 + column, plus
  * 0x14 per player side) and the record it names is offered to
  * card_pick_on_up. A nonzero result is a successful pick: it is published in
- * gLibrary_wViewerCardID along with the event code 0x14 and state 2. A zero
+ * gDuel_wViewerCardID along with the event code 0x14 and state 2. A zero
  * result only re-arms the hold (counter 0xC, mode |= 0x60) when no pad bit in
  * the low two bits of D_8009B3A4_arr is down.
  */
