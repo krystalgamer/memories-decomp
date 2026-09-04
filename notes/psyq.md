@@ -64,6 +64,7 @@ symbol review.
 | `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | Byte-identical wrappers that install a callback on DMA channel `3`. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
 | `0x8007E3D0` | `CdGetSector` | Identified CD-sector transfer interface in the resident CD library. |
+| `0x8007E4F0` | `CdGetSector2` | Parallel two-argument sector-transfer wrapper using the library's second transfer path. |
 | `0x8007E600` | `CdIntToPos` | Adds the two-second lead-in and writes packed-BCD minute, second, and sector fields to a `CdlLOC`. |
 | `0x8007E710` | `CdPosToInt` | Decodes the first three BCD bytes of a `CdlLOC` and returns a zero-based logical sector number. |
 | `0x8007E7F0` | `CdControlB` | Submits the three-argument CD command and blocks until the internal completion code is `2`. |
@@ -172,6 +173,16 @@ returns one only when the internal completion code is `2`, and zero when
 command submission fails. Game callers corroborate the command contract:
 `func_8005C62C` issues command `0x02` (`CdlSetloc`) followed by `0x16`
 (`CdlSeekP`), while another caller loops on command `0x09` (`CdlPause`).
+
+The sector-transfer wrappers at `0x8007E3D0` and `0x8007E4F0` preserve the
+same destination-pointer and word-count arguments, call distinct low-level
+transfer routines, and convert a zero low-level result into return value one.
+This mirrored contract and the documented adjacent `CdGetSector` /
+`CdGetSector2` interface pair identify `0x8007E4F0` as `CdGetSector2`.
+The resident streaming path at `0x8007CF9C` calls `0x8007E4F0`, while its
+alternate branch at `0x8007CFEC` passes the same saved arguments to
+`0x8007E3D0`; the second entry is therefore live code rather than an unused
+library variant.
 
 ### Rectangle layout evidence
 
