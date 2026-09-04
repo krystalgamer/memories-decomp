@@ -46,10 +46,10 @@ void func_80047CC4(s32 value)
         }
         bit <<= 1;
         command <<= 1;
-        if (bit & 0x10)
+        if (bit & (1 << SD_VOICE_SLOT_COUNT))
             bit = 1;
         slot++;
         tries++;
-        slot &= 3;
-    } while (tries < 4);
+        slot &= SD_VOICE_SLOT_COUNT - 1;
+    } while (tries < SD_VOICE_SLOT_COUNT);
 }

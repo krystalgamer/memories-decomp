@@ -5,6 +5,7 @@
 
 #define SD_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 #define SD_SECONDARY_OBJECT_COUNT 20
+#define SD_VOICE_SLOT_COUNT 4
 
 typedef struct {
     u8 command;
@@ -46,13 +47,13 @@ typedef struct {
     u16 field_03CC;
     u16 field_03CE;
     u8 pad03D0[0x34];
-    u16 voice_ids[4];
+    u16 voice_ids[SD_VOICE_SLOT_COUNT];
     u8 pad040C[4];
-    u8 voice_flags[4];
+    u8 voice_flags[SD_VOICE_SLOT_COUNT];
     u8 pad0414[0x10];
-    u8 voice_value[4];
-    u8 voice_step[4];
-    u16 voice_timer[4];
+    u8 voice_value[SD_VOICE_SLOT_COUNT];
+    u8 voice_step[SD_VOICE_SLOT_COUNT];
+    u16 voice_timer[SD_VOICE_SLOT_COUNT];
     u8 voice_active_mask;
     u8 field_0435;
     u8 pad0436[2];

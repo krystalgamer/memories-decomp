@@ -25,7 +25,7 @@ s32 func_80047F38(u8 value)
     s32 mask = 1;
     SDValue *state = g_SDValue;
 
-    for (i = 0; i < 4; i++, mask <<= 1) {
+    for (i = 0; i < SD_VOICE_SLOT_COUNT; i++, mask <<= 1) {
         if ((state->voice_flags[i] & 0xF) == value)
             result |= mask;
     }
