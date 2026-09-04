@@ -33,6 +33,27 @@ returned value.
 
 `srand` directly stores its argument into `gRand_dwSeed`.
 
+### Reverse-stepping a captured state
+
+The multiplier `0x41C64E6D` is odd, so it has a multiplicative inverse modulo
+`2^32`:
+
+```text
+0x41C64E6D * 0xEEB9EB65 = 1 mod 2^32
+```
+
+A trace that captures the full `gRand_dwSeed` value can therefore step
+backward exactly:
+
+```text
+previous = (state - 0x3039) * 0xEEB9EB65 mod 2^32
+```
+
+This is useful for aligning traces taken after a suspected random-consuming
+event or checking how many calls separate two captured states. A returned
+15-bit `rand()` value is not enough to reverse the stream by itself because
+the return mask discards most of the updated state.
+
 ## Seeding
 
 `Main_Init` calls `srand(0x55555555)` at `0x80012C44`. This confirms the
