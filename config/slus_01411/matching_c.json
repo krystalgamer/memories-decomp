@@ -2404,7 +2404,7 @@
       "address": "0x8003CE74",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/func_8003CE74.c"
+      "source": "src/game/save_data_checksum.c"
     },
     {
       "address": "0x8003CEB8",

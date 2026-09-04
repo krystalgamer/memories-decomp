@@ -1,8 +1,26 @@
 #include "../types.h"
 
-extern s32 func_8003CE74(void);
 extern u32 D_8009AF64;
 extern u32 D_8009AF68;
+
+/* Advances the two-word save-data mask state and returns the next word. */
+u32 func_8003CE74(void)
+{
+    register u32 *state asm("$6") = &D_8009AF64;
+    register u32 low asm("$3");
+    register u32 next asm("$2");
+    u32 high;
+    u32 sum;
+
+    low = state[0];
+    high = state[1];
+    next = (high << 31) | (low >> 1);
+    next ^= low << 12;
+    sum = high + (low & 1);
+    high += sum;
+    state[1] = high;
+    return state[0] = next ^ (next >> 20);
+}
 
 /* CRC-16/XMODEM (poly 0x1021, zero-initialized) over data[0..len). */
 u32 func_8003CEB8(u8 *data, s32 len)
