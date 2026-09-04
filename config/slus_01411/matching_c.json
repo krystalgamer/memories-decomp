@@ -682,13 +682,13 @@
       "address": "0x80022F98",
       "profile": "gcc_2_8_1_g8",
       "size": "0x58",
-      "source": "src/game/func_80022F98.c"
+      "source": "src/game/display_parent_links.c"
     },
     {
       "address": "0x80022FF0",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
-      "source": "src/game/func_80022FF0.c"
+      "source": "src/game/display_parent_links.c"
     },
     {
       "address": "0x8002348C",
