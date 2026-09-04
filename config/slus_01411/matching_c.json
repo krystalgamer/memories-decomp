@@ -4138,13 +4138,13 @@
       "address": "0x8005A468",
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",
-      "source": "src/game/func_8005A468.c"
+      "source": "src/game/model_slot_updates.c"
     },
     {
       "address": "0x8005A4C4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x78",
-      "source": "src/game/func_8005A4C4.c"
+      "source": "src/game/model_slot_updates.c"
     },
     {
       "address": "0x8005A878",
