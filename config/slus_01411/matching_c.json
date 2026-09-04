@@ -3658,13 +3658,13 @@
       "address": "0x80049A64",
       "profile": "gcc_2_8_1_g0",
       "size": "0x90",
-      "source": "src/game/func_80049A64.c"
+      "source": "src/game/sound_secondary_control.c"
     },
     {
       "address": "0x80049AF4",
       "profile": "gcc_2_8_1_g0",
       "size": "0xB8",
-      "source": "src/game/func_80049AF4.c"
+      "source": "src/game/sound_secondary_control.c"
     },
     {
       "address": "0x80049BAC",
