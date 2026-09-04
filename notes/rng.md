@@ -60,6 +60,27 @@ Modulo expressions such as `rand() % divisor` are biased unless the divisor
 evenly divides 32768. Analyses that predict deck, AI, or drop outcomes must
 reproduce that exact operation rather than scale the return value.
 
+### Range transformations
+
+Because `rand` returns each value from 0 through 32767, power-of-two masks
+preserve an even distribution while other modulo operations generally do not:
+
+| Expression | Output range | Distribution |
+|---|---:|---|
+| `rand() & 0xFF` | 0-255 | Each result has 128 source values |
+| `rand() & 7` | 0-7 | Each result has 4096 source values |
+| `rand() & 3` | 0-3 | Each result has 8192 source values |
+| `rand() & 1` | 0-1 | Each result has 16384 source values |
+| `rand() % 100` | 0-99 | Results 0-67 occur 328 times; 68-99 occur 327 times |
+
+The drop selector is also uniform: masking with
+`DUEL_DROP_WEIGHT_TOTAL - 1` produces 0-2047 exactly 16 times each before the
+code adds one. By contrast, `AiScript_JumpRandom` uses `% 100`, so probability
+thresholds from 1 through 99 are slightly more likely than their nominal
+percentage because the extra source values are concentrated at results 0-67.
+Seed tools and traces should preserve these integer transforms instead of
+substituting floating-point probabilities.
+
 ## Community timing observations
 
 The supplied speedrunning write-up reports:
