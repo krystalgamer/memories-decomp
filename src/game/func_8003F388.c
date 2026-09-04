@@ -16,7 +16,7 @@ void func_8003F388(void) {
 
     D_8009B3EE = 0;
 
-    for (; i < 4; i++) {
+    for (; i < DUEL_EFFECT_CHANNEL_COUNT; i++) {
         if (!(p->flags_34 & 0x8000)) {
             D_8009B3EE = i;
 
