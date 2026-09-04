@@ -1,11 +1,13 @@
 #include "../types.h"
 
 extern void func_80039140(u8 *);
+extern void func_800393B0(void *);
 extern void DuelEffect_UpdateObjectLayout(u8 *);
 
 void TextBox_SetPos(u8 *record, s32 x, s32 y)
 {
     u8 *object;
+
     object = *(u8 **)(record + 40);
     *(s16 *)(record + 60) = x;
     *(s16 *)(record + 64) = y;
@@ -31,4 +33,20 @@ void TextBox_SetPos(u8 *record, s32 x, s32 y)
             *(s16 *)(object + 50) = *(u16 *)(record + 66) + y - 16;
         }
     }
+}
+
+void func_80039A14(u8 *object)
+{
+    *(u16 *)(object + 0x34) |= 0x800;
+    do {
+        func_800393B0(object);
+    } while (!(*(u16 *)(object + 0x34) & 0x2000));
+}
+
+void func_80039A60(u8 *object)
+{
+    *(u16 *)(object + 0x34) |= 0xA00;
+    do {
+        func_800393B0(object);
+    } while (!(*(u16 *)(object + 0x34) & 0x2000));
 }
