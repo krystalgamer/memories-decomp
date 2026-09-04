@@ -142,6 +142,8 @@ Recommended header boundaries are:
 | `src/psyq/libsnd.h` | VAB banks, sequences, tones, and high-level playback |
 | `src/psyq/libspu.h` | SPU voices, transfer state, reverb, and callbacks |
 | `src/psyq/libmcrd.h` | High-level `MemCard` status, directory, and I/O interfaces |
+| `src/psyq/libmcx.h` | MCX application, clock, memory, serial, LED, device, and UIFS services |
+| `src/psyq/mcgui.h` | Configurable memory-card save/load UI environment and entry points |
 | `src/psyq/libpress.h` | MDEC environment, callbacks, input, output, and VLC helpers |
 
 Do not add `src/types.h` to an imported header solely for uniformity. Headers
@@ -160,6 +162,14 @@ call signature.
 `MemCardGetDirentry` exposes the full `DIRENTRY` record. Its local `r3000.h`
 and `asm.h` includes establish the kernel guards before `kernel.h`, avoiding
 system include paths that the matching compiler does not provide.
+
+These three memory-card-adjacent headers are not interchangeable.
+`libmcrd.h` provides file and block operations, `libmcx.h` exposes the
+separate `Mcx` device command family, and `mcgui.h` combines card metadata
+with background, controller, sound, texture, and cursor resources for
+`McGuiSave`/`McGuiLoad`. No current game C includes `libmcx.h` or `mcgui.h`,
+so these rows document the imported header boundaries rather than claiming a
+resident function identity.
 
 The real `src/psyq/libds.h` and `src/psyq/libcd.h` provide parallel record
 families. The resident file-search anchor is `DsSearchFile`, while the
