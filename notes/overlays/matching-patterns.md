@@ -186,6 +186,28 @@ where the body-computed offset produces a full match.
 transposition of two independent loads, with every other instruction and the
 total size already agreeing. Source statement order does not influence it.
 
+Re-measured on `FreeDuel_UpdateSparkle` in more detail, the residual is
+narrower than "two loads" suggests, and the extra detail rules things out.
+The function contains two independent chains, and **both** are transposed as
+a unit — not just their loads:
+
+```
+target   lbu $v0, 0xC   lhu $v1, 0x60   addiu $v0,-4   addiu $v1,-1
+built    lhu $v1, 0x60  lbu $v0, 0xC    addiu $v1,-1   addiu $v0,-4
+```
+
+Every other instruction, including the deferred `sb` in the branch delay
+slot, is identical, and so is the **register allocation**: the level chain
+gets `$v0` and the timer chain `$v1` in both. That last point matters,
+because it means there is no allocation component to work with. The liveness
+lever that resolved `func_80180F50` — giving values separate locals so one
+stays live longer — cannot apply, since allocation is already correct and
+only the emission order of two equal-priority chains differs.
+
+Swapping the two source statements was measured directly and produces
+byte-identical output, so the order is chosen by the scheduler rather than
+inherited from the source.
+
 Profiles measured against `FreeDuel_UpdateSparkle`, none matching:
 
 | Profile | Result |
