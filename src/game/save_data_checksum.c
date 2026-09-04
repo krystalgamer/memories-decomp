@@ -16,7 +16,7 @@ extern u32 D_8009AF64;
 extern u32 D_8009AF68;
 
 /* Advances the two-word save-data mask state and returns the next word. */
-u32 func_8003CE74(void)
+u32 SaveData_NextMaskWord(void)
 {
     register u32 *state asm("$6") = &D_8009AF64;
     register u32 low asm("$3");
@@ -73,7 +73,7 @@ void func_8003CF14(u8 *data)
 
     do {
         i--;
-        *output = func_8003CE74();
+        *output = SaveData_NextMaskWord();
         output--;
     } while (i != 0);
 
@@ -92,7 +92,7 @@ void func_8003CF14(u8 *data)
 
     do {
         i--;
-        *output = func_8003CE74();
+        *output = SaveData_NextMaskWord();
         output--;
     } while (i != 0);
 }
