@@ -36,3 +36,5 @@ Initialized module directories:
   reuse the same runtime code range.
 - [`main_menu/`](main_menu/) records the verified SU phase and keeps the
   second, unidentified SU image outside the module scope.
+- [`name_entry/`](name_entry/) records the verified WA screen bank and known
+  symbol range while leaving the unresolved archive package unassigned.
