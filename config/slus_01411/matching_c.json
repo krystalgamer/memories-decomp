@@ -4252,25 +4252,25 @@
       "address": "0x8005F174",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/func_8005F174.c"
+      "source": "src/game/model_transfer_flags.c"
     },
     {
       "address": "0x8005F180",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/func_8005F180.c"
+      "source": "src/game/model_transfer_flags.c"
     },
     {
       "address": "0x8005F18C",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/func_8005F18C.c"
+      "source": "src/game/model_transfer_flags.c"
     },
     {
       "address": "0x8005F198",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/func_8005F198.c"
+      "source": "src/game/model_transfer_flags.c"
     },
     {
       "address": "0x8005F1A4",
