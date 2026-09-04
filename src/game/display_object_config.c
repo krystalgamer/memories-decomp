@@ -1,5 +1,7 @@
 #include "../types.h"
 
+extern void func_80040390(void);
+
 typedef struct {
     u8 pad_00[8];
     u16 flags;
@@ -8,6 +10,11 @@ typedef struct {
     u8 field_68;
     u8 field_69;
 } DisplayObjectConfig;
+
+void func_800403F0(void)
+{
+    func_80040390();
+}
 
 void func_80040410(DisplayObjectConfig *object, u8 value)
 {
