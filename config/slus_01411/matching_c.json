@@ -760,13 +760,13 @@
       "address": "0x80024914",
       "profile": "gcc_2_8_1_g8",
       "size": "0x40",
-      "source": "src/game/func_80024914.c"
+      "source": "src/game/duel_card_object_cleanup.c"
     },
     {
       "address": "0x80024954",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_80024954.c"
+      "source": "src/game/duel_card_object_cleanup.c"
     },
     {
       "address": "0x800249E0",
