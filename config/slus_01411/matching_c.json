@@ -3088,13 +3088,13 @@
       "address": "0x8004503C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x18",
-      "source": "src/game/func_8004503C.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x80045054",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC0",
-      "source": "src/game/func_80045054.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x80045114",
