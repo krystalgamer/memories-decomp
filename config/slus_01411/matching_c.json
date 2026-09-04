@@ -4066,13 +4066,13 @@
       "address": "0x80059CE4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF4",
-      "source": "src/game/func_80059CE4.c"
+      "source": "src/game/model_cleanup.c"
     },
     {
       "address": "0x80059DD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE4",
-      "source": "src/game/func_80059DD8.c"
+      "source": "src/game/model_cleanup.c"
     },
     {
       "address": "0x80059EBC",
