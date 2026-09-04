@@ -1841,7 +1841,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B34E,D_8009B34E,D_8009B34E,0x800610E0,func_800610E0,matching_c,game,C,src/game/func_800610E0.c,write,8,"extern unsigned char D_8009B34E;extern void*TextBox_Create(int,int,int,int,int,int),*func_8004002C(void),*func_800400..."
 0x8009B350,D_8009B350,D_8009B350,0x80037D2C,func_80037D2C,matching_c,game,C,src/game/func_80037D2C.c,write,32,D_8009B350 = temporary;
 0x8009B350,D_8009B350,D_8009B350,0x80037D6C,func_80037D6C,matching_c,game,C,src/game/func_80037D6C.c,write,32,D_8009B350 = 1;
-0x8009B350,D_8009B350,D_8009B350,0x800386B8,func_800386B8,matching_c,game,C,src/game/func_800386B8.c,write,32,D_8009B350 = 1;
+0x8009B350,D_8009B350,D_8009B350,0x800386B8,func_800386B8,matching_c,game,C,src/game/duel_effect_play_sound_command.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038798,DuelEffect_PlaySoundCommand,matching_c,game,C,src/game/duel_effect_play_sound_command.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038800,func_80038800,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029000.s,write,32,"sw $v0, %gp_rel(D_8009B350)($gp)"
 0x8009B350,D_8009B350,D_8009B350,0x80038B08,func_80038B08,matching_c,game,C,src/game/func_80038B08.c,write,32,void func_80038B08(u8 *o){func_8004036C(*(void**)(o+0x30)); *(void**)(o+0x30)=0; o[0x51]=2; o[0x62]=0; D_8009B350=1;}
@@ -2142,10 +2142,10 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3FA,D_8009B3FA,D_8009B3FA,0x8003F70C,func_8003F70C,matching_c,game,C,src/game/func_8003F70C.c,read,16,if (D_8009B3FA != 0) {
 0x8009B3FA,D_8009B3FA,D_8009B3FA,0x8003F740,func_8003F740,matching_c,game,C,src/game/data_transfer_request.c,write,16,D_8009B3FA = 0x8000;
 0x8009B400,D_8009B400,D_8009B400,0x8002EC74,func_8002EC74,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01f474.s,read,32,"lui $v0, %hi(D_8009B400) | lw $v0, %lo(D_8009B400)($v0)"
-0x8009B400,D_8009B400,D_8009B400,0x800386B8,func_800386B8,matching_c,game,C,src/game/func_800386B8.c,read,32,D_8009B404[0] = D_8009B400[0];
+0x8009B400,D_8009B400,D_8009B400,0x800386B8,func_800386B8,matching_c,game,C,src/game/duel_effect_play_sound_command.c,read,32,D_8009B404[0] = D_8009B400[0];
 0x8009B400,D_8009B400,D_8009B400,0x8003FF08,func_8003FF08,matching_c,game,C,src/game/sound_frontend.c,write,32,D_8009B400 = command;
 0x8009B404,D_8009B404,D_8009B404,0x8002EC74,func_8002EC74,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01f474.s,read_write,32,"lui $a0, %hi(D_8009B404) | lui $at, %hi(D_8009B404) | (+3 more)"
-0x8009B404,D_8009B404,D_8009B404,0x800386B8,func_800386B8,matching_c,game,C,src/game/func_800386B8.c,read_write,32,D_8009B404[0] = D_8009B400[0]; | D_8009B404[0] = func_80036D3C(state) & 65535; | (+1 more)
+0x8009B404,D_8009B404,D_8009B404,0x800386B8,func_800386B8,matching_c,game,C,src/game/duel_effect_play_sound_command.c,read_write,32,D_8009B404[0] = D_8009B400[0]; | D_8009B404[0] = func_80036D3C(object) & 0xFFFF; | (+1 more)
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003C628,func_8003C628,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02ce28.s,read,8,"lbu $v1, %lo(gSD_bOutputType)($v1) | lui $v1, %hi(gSD_bOutputType)"
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003C7A0,func_8003C7A0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02ce28.s,write,8,"lui $at, %hi(gSD_bOutputType) | sb $a0, %lo(gSD_bOutputType)($at) | (+1 more)"
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003D03C,func_8003D03C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02d83c.s,read_write,8,"lb $v1, %lo(gSD_bOutputType)($v1) | lbu $v0, %lo(gSD_bOutputType)($v0) | (+4 more)"
