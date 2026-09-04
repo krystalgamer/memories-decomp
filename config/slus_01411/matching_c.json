@@ -2254,7 +2254,7 @@
       "address": "0x8003B9BC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
-      "source": "src/game/func_8003B9BC.c"
+      "source": "src/game/main_init_free_duel_menu.c"
     },
     {
       "address": "0x8003BBF8",

@@ -17,7 +17,7 @@ extern void func_800323F8(unsigned int, void *, int, int);
 extern void func_80015A00(void);
 extern void func_8003FF34(void);
 extern void Fade_WaitOut(void);
-extern void func_8003B9BC(void);
+extern void Main_InitFreeDuelMenu(void);
 extern void func_80168FB4(void);
 extern int func_80033BE8(void);
 
@@ -29,7 +29,7 @@ void Main_RunFreeDuelMenu(void) {
     unsigned char flags = D_8009B26C;
     if ((flags & 0x40) == 0) {
         D_8009B26C = flags | 0x40;
-        func_8003B9BC();
+        Main_InitFreeDuelMenu();
         func_80015A00();
     }
     func_80168FB4();

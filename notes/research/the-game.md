@@ -1374,7 +1374,7 @@ located: the **password shop's**, a 0x7800-byte chunk at `+0x20800` of the
 blob at sector `0x1EDF` (and again at `+0x23800` of the one at `0x1F2F`),
 where the three shop GameShark patches were verified; and the **Free Duel
 screen's**, the last 0x2800 bytes (`+0x29000`) of its 87-sector blob at
-`0x1E88` [loader `func_8003B9BC`, callback `func_8003B808`], 8 KB of code
+`0x1E88` [loader `Main_InitFreeDuelMenu`, callback `func_8003B808`], 8 KB of code
 whose entry `0x80168FB4` is one of the executable's own call targets and
 where the Free Duel unlock patch was verified. The executable's other call
 targets in that range belong to whichever overlay is resident at the time,
