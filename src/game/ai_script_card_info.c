@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "ai.h"
+#include "card_constants.h"
 
 extern s32 gDuel_adwCardStats[];
 
@@ -13,7 +14,7 @@ void AiScript_TestHighStat(void)
     s32 dest = AiScript_ReadByte();
     s32 result;
 
-    if (((gDuel_adwCardStats[value - 1] >> 26) & 31) < 20) {
+    if (((gDuel_adwCardStats[value - 1] >> 26) & 31) < CARD_TYPE_MAGIC) {
         s32 attack = Duel_GetBaseCardStat(value, 0);
         s32 defense = Duel_GetBaseCardStat(value, 1);
         result = !(defense < attack);

@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "ai.h"
+#include "card_constants.h"
 
 extern u8 D_800EAE88[];
 extern u8 gAiScript_State[];
@@ -57,7 +58,7 @@ void AiScript_FindFirstMonster(void)
         s32 index = D_800EAE88[i];
         AiActiveCard *card = &gDuel_aActiveCards[index];
 
-        if (card->card_id && card->card_type < 20) {
+        if (card->card_id && card->card_type < CARD_TYPE_MAGIC) {
             gAiScript_aMemory[dest] = index;
             return;
         }
