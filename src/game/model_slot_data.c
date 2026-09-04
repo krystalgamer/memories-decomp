@@ -9,12 +9,13 @@ void *func_80058F20(s32 index, s32 slot)
     if (slot > entry->field_E17) {
         slot = entry->field_E18;
     }
-    return entry->field_D14 + slot * 80;
+    return entry->field_D14 + slot * MODEL_SLOT_DATA_ENTRY_SIZE;
 }
 
 u32 func_80058F74(s32 index)
 {
     ModelSlot *entry = &D_800F2C40[index];
 
-    return (u32)entry->field_D14 + entry->field_E18 * 80;
+    return (u32)entry->field_D14 +
+           entry->field_E18 * MODEL_SLOT_DATA_ENTRY_SIZE;
 }

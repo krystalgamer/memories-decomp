@@ -6,6 +6,7 @@
 #define MODEL_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
 #define MODEL_SLOT_COUNT 3
+#define MODEL_SLOT_DATA_ENTRY_SIZE 80
 #define MODEL_HANDLER_REGISTRY_COUNT 80
 
 typedef struct {
