@@ -65,6 +65,7 @@ symbol review.
 | `0x8007E3D0` | `CdGetSector` | Identified CD-sector transfer interface in the resident CD library. |
 | `0x8007E600` | `CdIntToPos` | Adds the two-second lead-in and writes packed-BCD minute, second, and sector fields to a `CdlLOC`. |
 | `0x8007E710` | `CdPosToInt` | Decodes the first three BCD bytes of a `CdlLOC` and returns a zero-based logical sector number. |
+| `0x8007E7F0` | `CdControlB` | Submits the three-argument CD command and blocks until the internal completion code is `2`. |
 | `0x8007F350` | `ResetGraph` | Anchored by GPU `sys.c` evidence and the documented graph-reset contract. |
 | `0x8007F978` | `LoadImage` | GPU transfer call sites pass rectangle-like coordinates and source data. |
 | `0x8007FAF0` | `ClearOTag` | Ordering-table initialization behavior. |
@@ -136,6 +137,15 @@ The destination pointer is also returned. Offset `3` remains untouched, so a
 caller that needs a defined `track` value must initialize it separately.
 Together, the two resident routines verify both conversion directions without
 requiring a copied SDK structure definition.
+
+The routine at `0x8007E7F0` matches the blocking `CdControlB` interface rather
+than the asynchronous `CdControl` variant. It truncates the command argument
+to one byte, submits the command and parameter pointer, then repeatedly polls
+the command handle while passing through the caller's result pointer. It
+returns one only when the internal completion code is `2`, and zero when
+command submission fails. Game callers corroborate the command contract:
+`func_8005C62C` issues command `0x02` (`CdlSetloc`) followed by `0x16`
+(`CdlSeekP`), while another caller loops on command `0x09` (`CdlPause`).
 
 ### Rectangle layout evidence
 
