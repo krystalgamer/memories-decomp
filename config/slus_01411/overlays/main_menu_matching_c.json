@@ -11,6 +11,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x48",
       "source": "src/overlays/main_menu/func_80181F20.c"
+    },
+    {
+      "address": "0x80183FE4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4C",
+      "source": "src/overlays/main_menu/func_80183FE4.c"
     }
   ],
   "schema": 1
