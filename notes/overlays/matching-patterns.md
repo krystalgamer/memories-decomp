@@ -127,3 +127,41 @@ escalation path rather than by assumption.
 Two independent functions sharing one residual suggests a scheduler ordering
 difference rather than two unrelated source mistakes. Treat it as a single
 open question about the profile set instead of guessing per function.
+
+## Statement splitting controls evaluation order
+
+Where the target evaluates the left side of a binary operator before the
+right, the source used two statements. C leaves the order unspecified and GCC
+will otherwise load the operand first.
+
+```c
+/* loads the digit first, and fills the branch delay slot with the address */
+packed = (packed << 4) | gPassword_abDigits[i];
+
+/* matches: shift first, address formed inside the loop, delay slot empty */
+packed <<= 4;
+packed |= gPassword_abDigits[i];
+```
+
+## A rotated loop means the source did not use while
+
+`while (cond) { ... }` lets GCC peel the first test and rotate the loop, which
+moves the condition to the bottom and changes which branch is inverted. A
+target that tests at the top and returns to it with an unconditional `j` was
+written as an endless loop with explicit exits.
+
+```c
+/* matches: test at top, j back-edge, increment in its delay slot */
+for (;;) {
+    if (entry[0] == -1) {
+        return 0;
+    }
+    if (packed == entry[1]) {
+        return index;
+    }
+    entry += 2;
+    index++;
+}
+```
+
+Both verified by `func_8016A304` in the password module.
