@@ -15,19 +15,20 @@ extern u16 Duel_CalcCardStats(Entry *);
 
 void func_8002C938(u32 *output, int alternate)
 {
-    register int base __asm__("$6") = D_8009B1D5 ? 5 : 20;
+    register int base __asm__("$6") =
+        D_8009B1D5 ? DUEL_FIELD_ROW_SIZE : 20;
     register int scaled __asm__("$3");
     register DuelCardRecord *entry __asm__("$3");
 
     if (alternate) {
-        base += 5;
+        base += DUEL_FIELD_ROW_SIZE;
     }
     scaled = base << 3;
     scaled -= base;
     scaled <<= 2;
     entry = (DuelCardRecord *)((u8 *)D_801A7AD8 + scaled);
     base = 0;
-    for (; base < 5; base++, entry++) {
+    for (; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
         if (entry->flags & 0x8000) {
             *output++ = (u32)entry->object;
         }
@@ -58,7 +59,7 @@ void func_8002C9B4(u32 *output, int selector)
         return;
     }
 
-    base = D_8009B1D5 ? 5 : 20;
+    base = D_8009B1D5 ? DUEL_FIELD_ROW_SIZE : 20;
     __asm__ volatile(
         "sll $2,%1,3\n\t"
         "subu $2,$2,%1\n\t"
@@ -70,13 +71,13 @@ void func_8002C9B4(u32 *output, int selector)
         : "r"(base)
         : "$2", "$3");
     if (selector >= 21) {
-        for (index = 0; index < 5; index++, entry++) {
+        for (index = 0; index < DUEL_FIELD_ROW_SIZE; index++, entry++) {
             if ((entry->flags & 0x8000) &&
                 (u16)Duel_CalcCardStats(entry) >= selector)
                 *output++ = entry->value;
         }
     } else {
-        for (index = 0; index < 5; index++, entry++) {
+        for (index = 0; index < DUEL_FIELD_ROW_SIZE; index++, entry++) {
             if ((entry->flags & 0x8000) &&
                 (selector < 0 || *(u8 *)(entry->value + 0x68) == selector))
                 *output++ = entry->value;

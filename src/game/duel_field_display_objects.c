@@ -1,5 +1,7 @@
 #include "../types.h"
 
+#include "duel_card.h"
+
 typedef struct DisplayObjectSlot {
     u8 pad_00[8];
     u16 flags;
@@ -40,7 +42,8 @@ extern void func_80015D18(void *);
 void func_8002348C(DuelFieldDisplaySource *source)
 {
     u8 *table = D_800907D8;
-    s32 index = source->y * 5 + source->x + D_8009B1D5 * 20;
+    s32 index =
+        source->y * DUEL_FIELD_ROW_SIZE + source->x + D_8009B1D5 * 20;
 
     func_80023144(source, table[index]);
 }
@@ -51,7 +54,7 @@ void func_800234E4(DuelFieldDisplaySource *source)
     DisplayObjectSlot *object;
     DuelFieldPosition *position;
 
-    index = source->y * 5 + source->x;
+    index = source->y * DUEL_FIELD_ROW_SIZE + source->x;
     object = func_800400AC(func_8004002C(), 2);
     func_80040468(
         object,

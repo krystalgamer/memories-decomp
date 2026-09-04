@@ -18,7 +18,7 @@ extern s32 func_8001EFD4(DuelSelectionObject *, DuelSelectionObject *);
 int func_8002778C(DuelSelectionSource *source)
 {
     int count = 0;
-    int slot = 5;
+    int slot = DUEL_FIELD_ROW_SIZE;
 
     do {
         int position = slot + D_8009B1D5 * 20;
@@ -30,7 +30,7 @@ int func_8002778C(DuelSelectionSource *source)
                 return ((DuelSelectionObject *)entry->object)->index;
         }
         slot++;
-    } while (slot < 10);
+    } while (slot < DUEL_FIELD_SIDE_ZONE_COUNT);
 
     if (count == 0)
         return D_800907D8[D_8009B1D5 * 20 + 7];
@@ -43,7 +43,7 @@ s32 func_800278A0(void *arg0)
     s32 found = 0;
     DuelCardRecord *entry = 0;
 
-    for (i = 5; i < 10; i++) {
+    for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
         u8 row = D_800907D8[i + D_8009B1D5 * 20];
         entry = &D_801A7AD8[row];
         if (entry->flags & 0x8000) {

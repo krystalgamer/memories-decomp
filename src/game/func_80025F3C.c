@@ -42,7 +42,11 @@ void func_80025F3C(void)
     } else if (!(D_8009B220 & 0x40)) {
         if (D_8009B17C->count != 0) {
             D_8009B220 |= 0x40;
-            for (slot = 5; slot < 10; slot++) {
+            for (
+                slot = DUEL_FIELD_ROW_SIZE;
+                slot < DUEL_FIELD_SIDE_ZONE_COUNT;
+                slot++
+            ) {
                 entry = &D_801A7AD8[D_800907D8[D_8009B1D5][slot]];
                 if ((*(u32 *)&entry->terrain_modifier & 0x90000000) == 0x90000000) {
                     register Object *current __asm__("$2");
