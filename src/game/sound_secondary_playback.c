@@ -1,8 +1,18 @@
 #include "../types.h"
 #include "sound.h"
 
+typedef struct {
+    s32 image;
+    s32 type;
+    s16 x;
+    s16 y;
+    u8 pad_0C[52];
+} Packet;
+
+extern s32 D_80011434[];
 extern void func_8004A518(void);
 extern void func_8004C77C(void);
+extern void func_80077450(Packet *);
 extern void SD_ResetSequenceTracks(void);
 
 void func_80049BAC(s32 value)
@@ -60,4 +70,102 @@ void func_80049CB0(void)
         D_8009B458->field_07E4 = 127;
         D_8009B458->flag_0500 = 0;
     }
+}
+
+void func_80049CF8(void)
+{
+    Packet packet;
+    register u8 *initial asm("$2") = (u8 *)D_8009B458;
+    register u8 *state asm("$3");
+    register s32 i asm("$16");
+    register s32 offset asm("$17");
+    register s32 *image asm("$18");
+
+    initial[0x500] = 1;
+    state = (u8 *)D_8009B458;
+    if (*(s16 *)(state + 0x510) > 0) {
+        s32 count;
+
+        i = 0;
+        asm volatile(
+            "lui $2,%%hi(D_80011434)\n\t"
+            "addiu %0,$2,%%lo(D_80011434)"
+            : "=r"(image)
+            :
+            : "$2"
+        );
+        offset = i;
+        do {
+            u8 *entry = state + offset;
+
+            if ((entry[0x183] >> 4) == 0 && entry[0x18D] != 0) {
+                register s32 type asm("$2") = 3;
+
+                packet.type = type;
+                packet.image = *image;
+                packet.x = 0;
+                packet.y = 0;
+                func_80077450(&packet);
+            }
+            image++;
+            asm volatile("" : "+r"(image));
+            state = (u8 *)D_8009B458;
+            count = *(s16 *)(state + 0x510);
+            asm volatile("" : "+r"(count));
+            i++;
+            offset += 40;
+        } while (i < count);
+    }
+    state = (u8 *)D_8009B458;
+    *(s16 *)(state + 0x7E2) = 4;
+    state[0x500] = 0;
+}
+
+void func_80049DD8(void)
+{
+    Packet packet;
+    register u8 *initial asm("$2") = (u8 *)D_8009B458;
+    register u8 *state asm("$3");
+    register s32 i asm("$16");
+    register s32 offset asm("$17");
+    register s32 *image asm("$18");
+
+    initial[0x500] = 1;
+    state = (u8 *)D_8009B458;
+    if (*(s16 *)(state + 0x510) > 0) {
+        s32 count;
+
+        i = 0;
+        asm volatile(
+            "lui $2,%%hi(D_80011434)\n\t"
+            "addiu %0,$2,%%lo(D_80011434)"
+            : "=r"(image)
+            :
+            : "$2"
+        );
+        offset = i;
+        do {
+            u8 *entry = state + offset;
+
+            if ((entry[0x183] >> 4) == 0 && entry[0x18D] != 0) {
+                register s32 type asm("$2") = 3;
+
+                packet.type = type;
+                packet.image = *image;
+                packet.x = *(u16 *)(entry + 0x194);
+                packet.y = *(u16 *)(entry + 0x196);
+                func_80077450(&packet);
+            }
+            image++;
+            asm volatile("" : "+r"(image));
+            state = (u8 *)D_8009B458;
+            count = *(s16 *)(state + 0x510);
+            asm volatile("" : "+r"(count));
+            i++;
+            offset += 40;
+        } while (i < count);
+    }
+    state = (u8 *)D_8009B458;
+    *(s16 *)(state + 0x7E2) = 1;
+    state[0x500] = 0;
 }
