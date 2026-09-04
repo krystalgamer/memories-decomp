@@ -2683,8 +2683,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB288,D_800EB288,D_800EB288,0x80035DB8,DuelEffect_ClearMatchingMarker,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,read,,v1 = D_800EB288;
 0x800EB288,D_800EB288,D_800EB288,0x80035DF4,DuelEffect_ResetEntryMarkers,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,read,,v0 = D_800EB288;
 0x800EB288,D_800EB288,D_800EB288,0x80036DBC,DuelEffect_UpdateObjectLayout,matching_c,game,C,src/game/duel_effect_update_object_layout.c,read,,k = D_800EB288[D_80090E58[p[0x57]]].field_18 % 10;
-0x800EB288,D_800EB288,D_800EB288,0x8003735C,DuelEffect_HasActiveEntry,matching_c,game,C,src/game/duel_effect_entry_scan.c,read,,v1 = (u8 *)D_800EB288 + v0 * 28;
-0x800EB288,D_800EB288,D_800EB288,0x800373C8,func_800373C8,matching_c,game,C,src/game/duel_effect_entry_scan.c,read,,v1 = (u8 *)D_800EB288 + v0 * 28;
+0x800EB288,D_800EB288,D_800EB288,0x8003735C,DuelEffect_HasActiveEntry,matching_c,game,C,src/game/duel_effect_entry_scan.c,read,,v1 = (u8 *)D_800EB288 + v0 * sizeof(DuelEffectEntry);
+0x800EB288,D_800EB288,D_800EB288,0x800373C8,func_800373C8,matching_c,game,C,src/game/duel_effect_entry_scan.c,read,,v1 = (u8 *)D_800EB288 + v0 * sizeof(DuelEffectEntry);
 0x800EB288,D_800EB288,D_800EB288,0x8003741C,func_8003741C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_027c1c.s,address,,"addiu $v1, $v1, %lo(D_800EB288) | lui $v1, %hi(D_800EB288)"
 0x800EB288,D_800EB288,D_800EB288,0x800393B0,func_800393B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,address,,"addiu $v0, $v0, %lo(D_800EB288) | lui $v0, %hi(D_800EB288)"
 0x800EB288,D_800EB288,D_800EB288,0x80039D64,func_80039D64,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02a564.s,address,,"addiu $v0, $v0, %lo(D_800EB288) | lui $v0, %hi(D_800EB288)"
