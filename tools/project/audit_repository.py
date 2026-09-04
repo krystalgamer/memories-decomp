@@ -237,6 +237,23 @@ def require_tmp_path(value: str, description: str) -> None:
         raise AuditError(f"{description} must normalize beneath tmp/")
 
 
+def function_body(source_text: str, name: str) -> str | None:
+    text = COMMENT_PATTERN.sub("", source_text)
+    definition = re.compile(rf"\b{re.escape(name)}\s*\([^;{{}}]*\)\s*{{")
+    match = definition.search(text)
+    if match is None:
+        return None
+    depth = 0
+    for index in range(match.end() - 1, len(text)):
+        if text[index] == "{":
+            depth += 1
+        elif text[index] == "}":
+            depth -= 1
+            if depth == 0:
+                return text[match.start() : index + 1]
+    return None
+
+
 def audit_attempts(root: Path) -> None:
     functions_path = root / "config/slus_01411/functions.csv"
     attempts_path = root / "config/slus_01411/attempts.csv"
@@ -499,15 +516,13 @@ def audit_attempts(root: Path) -> None:
                 f"{address:#010x}: matching source does not exist"
             )
         source_text = source.read_text(encoding="utf-8")
-        definition = re.compile(
-            rf"\b{re.escape(function_names[address])}\s*\("
-        )
-        if definition.search(source_text) is None:
+        body = function_body(source_text, function_names[address])
+        if body is None:
             raise AuditError(
                 f"{address:#010x}: current source does not define "
                 f"{function_names[address]}"
             )
-        if ASM_PATTERN.search(COMMENT_PATTERN.sub("", source_text)):
+        if ASM_PATTERN.search(body):
             raise AuditError(
                 f"{address:#010x}: successful external source still uses GCC asm"
             )
