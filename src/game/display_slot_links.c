@@ -15,7 +15,7 @@ typedef struct {
     u16 field_18;
     u16 field_1A;
     u16 field_1C;
-    u16 field_1E;
+    s16 field_1E;
     u32 field_20;
     u32 field_24;
     u8 pad_28[0x18];
@@ -32,18 +32,19 @@ typedef struct {
     u8 pad_67[5];
     u8 field_6C;
     u8 pad_6D[3];
-} LocalSlot;
+} DisplaySlot;
 
-extern LocalSlot D_800EFE48[];
+extern u16 D_8009AF74[4];
+extern u16 D_8009B410;
+extern u16 D_8009B412;
 extern s16 D_800EFE38[];
+extern DisplaySlot D_800EFE48[];
 extern s16 D_800F2878[];
 extern u8 tail_data_start[];
-extern u16 D_8009AF74[4];
-extern u16 D_8009B412;
 
-LocalSlot *func_800400AC(s32 index, s32 key)
+DisplaySlot *func_800400AC(s32 index, s32 key)
 {
-    LocalSlot *slot;
+    DisplaySlot *slot;
     s16 other;
     u16 initialized;
 
@@ -92,4 +93,27 @@ LocalSlot *func_800400AC(s32 index, s32 key)
         slot->field_14 = D_8009AF74[slot->field_17];
     }
     return slot;
+}
+
+void func_8004020C(DisplaySlot *slot)
+{
+    s32 first = slot->field_00;
+    s32 second = slot->field_02;
+
+    D_8009B410++;
+
+    if (first < 0) {
+        s16 index = slot->field_1E;
+        D_800EFE38[index] = second;
+        if (second >= 0) {
+            D_800EFE48[second].field_00 = -1;
+        }
+    } else {
+        D_800EFE48[first].field_02 = second;
+        if (second >= 0) {
+            D_800EFE48[second].field_00 = first;
+        }
+    }
+
+    slot->flags_08 = 0;
 }

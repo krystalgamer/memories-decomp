@@ -2602,13 +2602,13 @@
       "address": "0x800400AC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",
-      "source": "src/game/func_800400AC.c"
+      "source": "src/game/display_slot_links.c"
     },
     {
       "address": "0x8004020C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/func_8004020C.c"
+      "source": "src/game/display_slot_links.c"
     },
     {
       "address": "0x800402A0",
