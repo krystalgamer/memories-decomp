@@ -2265,8 +2265,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004BCE8,func_8004BCE8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03c4e8.s,read,32,"lui $a0, %hi(D_8009B458) | lui $v0, %hi(D_8009B458) | (+4 more)"
 0x8009B458,D_8009B458,D_8009B458,0x8004BE88,func_8004BE88,matching_c,game,C,src/game/func_8004BE88.c,read,,e = (u8 *)D_8009B458; | f = (u8 *)D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004C114,func_8004C114,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03c914.s,read,32,"lui $a0, %hi(D_8009B458) | lui $t1, %hi(D_8009B458) | (+4 more)"
-0x8009B458,D_8009B458,D_8009B458,0x8004C5C8,func_8004C5C8,matching_c,game,C,src/game/func_8004C5C8.c,read,,switch (D_8009B458->timebase) {
-0x8009B458,D_8009B458,D_8009B458,0x8004C77C,func_8004C77C,matching_c,game,C,src/game/func_8004C77C.c,read,8,"register u8 *flags_state asm(""$3"") = D_8009B458; | register u8 *initial asm(""$2"") = D_8009B458; | (+2 more)"
+0x8009B458,D_8009B458,D_8009B458,0x8004C5C8,func_8004C5C8,matching_c,game,C,src/game/sound_sequence_timing.c,read,,switch (D_8009B458->timebase) {
+0x8009B458,D_8009B458,D_8009B458,0x8004C77C,func_8004C77C,matching_c,game,C,src/game/sound_sequence_timing.c,read,,"(u8 *)D_8009B458; | register u8 *initial asm(""$2"") = (u8 *)D_8009B458; | (+2 more)"
 0x8009B458,D_8009B458,D_8009B458,0x8004C84C,func_8004C84C,matching_c,game,C,src/game/func_8004C84C.c,read,,SDSecondaryObject *item = &D_8009B458->objects[i]; | for (i = 0; i < D_8009B458->object_count; i++) {
 0x8009B458,D_8009B458,D_8009B458,0x8004C8C8,SD_ProcessSequenceTracks,matching_c,game,C,src/game/sd_sequence_tracks.c,read,,*(int *)((u8 *)D_8009B458 + 0x80C) == 0) { | if (*(int *)((u8 *)D_8009B458 + 0x804) != 0) | (+2 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004CA60,SD_ResetSequenceTracks,matching_c,game,C,src/game/sd_sequence_tracks.c,read_write,,D_8009B458->tracks[i].flag = 1; | D_8009B458->tracks[i].value = 0; | (+1 more)
