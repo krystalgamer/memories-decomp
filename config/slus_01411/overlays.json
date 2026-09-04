@@ -1,0 +1,16 @@
+{
+  "modules": [
+    {
+      "archive": "game/DATA/WA_MRG.MRG",
+      "archive_sha256": "a519a1f5b27f4c6702613ba48c10bf945d25c9c51611ae3d2fab6e5d562b2d66",
+      "load_address": "0x80168000",
+      "name": "free_duel",
+      "output": "tmp/overlays/free_duel/module.bin",
+      "sector_count": 5,
+      "sector_offset": 7898,
+      "sha256": "e5091e1a5df0287dbd3561915ca53c0f91d359d7eb0ec4156c5734361b55c1f2"
+    }
+  ],
+  "schema": 1,
+  "sector_size": 2048
+}

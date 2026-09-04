@@ -22,9 +22,14 @@ of the resident executable's load banks. They are not module payloads or
 editable source. Keep extracted archive payloads and comparison artifacts
 under `tmp/` until their disc range and runtime destination are verified.
 
-Overlay build manifests will be added module by module. Until then, overlay
-sources must not be inserted into the resident `matching_c.json` or linked as
-part of `SLUS_014.11`.
+`config/slus_01411/overlays.json` records verified module slices independently
+from the resident executable build. Run `make overlays` to extract the tracked
+module images under `tmp/overlays/`, then `make verify-overlays` to confirm
+their archive range and SHA-256.
+
+Overlay C must not be inserted into the resident `matching_c.json` or linked as
+part of `SLUS_014.11`. Module-specific build manifests will extend the overlay
+metadata as matching source is accepted.
 
 Initialized module directories:
 

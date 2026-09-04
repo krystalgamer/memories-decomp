@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272 check-tools check-build-tools info extract map split build match inventory classify-functions candidates siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272 check-tools check-build-tools info extract map split build match overlays verify-overlays inventory classify-functions candidates siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -38,6 +38,8 @@ help:
 		'  split          Split the executable into temporary analysis output' \
 		'  build          Build the assembly/data PS-X executable baseline' \
 		'  match          Build and compare the complete target executable' \
+		'  overlays       Extract verified runtime overlay module images' \
+		'  verify-overlays  Verify extracted overlay images and metadata' \
 		'  inventory      Update the tracked resident-function inventory' \
 		'  classify-functions  Apply verified ownership classifications' \
 		'  candidates     List smallest zero-attempt game functions' \
@@ -122,6 +124,12 @@ build: split
 match: build
 	@$(PYTHON) tools/project/match.py
 
+overlays: workspace
+	@$(PYTHON) tools/project/overlay_extract.py extract
+
+verify-overlays: workspace
+	@$(PYTHON) tools/project/overlay_extract.py verify
+
 build-incremental: split
 	@$(PYTHON) tools/project/build_incremental.py
 
@@ -178,4 +186,4 @@ audit: match verify-runtime-files
 	@$(PYTHON) tools/project/audit_repository.py
 
 clean: workspace
-	@$(PYTHON) tools/project/clean.py extract generated splat project-build reports
+	@$(PYTHON) tools/project/clean.py extract generated splat project-build overlays reports

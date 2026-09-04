@@ -17,6 +17,7 @@ class CleanError(RuntimeError):
 CLEAN_TARGETS = {
     "extract": "tmp/extract",
     "generated": "tmp/generated",
+    "overlays": "tmp/overlays",
     "splat": "tmp/splat",
     "project-build": "tmp/project-build",
     "reports": "tmp/reports",
