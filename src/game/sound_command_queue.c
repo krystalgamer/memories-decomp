@@ -25,7 +25,7 @@ void func_80045114(void)
     }
     func_8004503C(-0x20, 0, 1);
     {
-        u8 local[0x30];
+        u8 local[SD_COMMAND_RECORD_SIZE];
         local[0] = 0x11;
         func_80045BE8(local);
     }

@@ -4,6 +4,8 @@
 #include "../types.h"
 
 #define SD_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
+#define SD_COMMAND_QUEUE_COUNT 16
+#define SD_COMMAND_RECORD_SIZE 0x30
 #define SD_SECONDARY_OBJECT_COUNT 20
 #define SD_VOICE_SLOT_COUNT 4
 
@@ -40,7 +42,7 @@ typedef struct {
     u8 pad004B;
     s16 command_count;
     u8 pad004E[0x32];
-    SDCommand commands[16];
+    SDCommand commands[SD_COMMAND_QUEUE_COUNT];
     u8 pad0380[0x44];
     s32 field_03C4;
     s32 field_03C8;
@@ -188,7 +190,7 @@ typedef struct {
 } SDSecondaryState;
 
 typedef char SDCommand_size_must_be_0x30[
-    sizeof(SDCommand) == 0x30 ? 1 : -1
+    sizeof(SDCommand) == SD_COMMAND_RECORD_SIZE ? 1 : -1
 ];
 typedef char SDValueLink_size_must_be_0x08[
     sizeof(SDValueLink) == 0x08 ? 1 : -1
