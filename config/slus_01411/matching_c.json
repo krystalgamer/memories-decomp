@@ -4294,19 +4294,19 @@
       "address": "0x8005F564",
       "profile": "gcc_2_8_1_g8",
       "size": "0x24",
-      "source": "src/game/func_8005F564.c"
+      "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F588",
       "profile": "gcc_2_8_1_g8",
       "size": "0x40",
-      "source": "src/game/func_8005F588.c"
+      "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F5C8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x14C",
-      "source": "src/game/func_8005F5C8.c"
+      "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F714",

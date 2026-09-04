@@ -13,10 +13,31 @@ typedef struct Buf {
 } Buf;
 
 extern StatRec D_80091570[];
-extern u8 D_8009B07B;
-extern u8 D_8009B07C;
+extern signed char D_8009B07A;
+extern unsigned char D_8009B07B;
+extern unsigned char D_8009B07C;
+
 extern void func_80059000(s32 a0, Buf *a1);
 extern void func_8005D994(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+int func_8005F564(void)
+{
+    if (D_8009B07A < 0) {
+        return 0;
+    }
+    return D_8009B07A++ > 0;
+}
+
+void func_8005F588(int value)
+{
+    if (D_8009B07B != 1 || D_8009B07C != 1) {
+        if (value == 0) {
+            D_8009B07A = -1;
+        } else {
+            D_8009B07A = 0;
+        }
+    }
+}
 
 /* If D_8009B07B==1 and D_8009B07C matches it, bail early. Otherwise reads
    D_80091570[arg1].f0 as a base stat value; if arg0 (level?) < 2, scales
