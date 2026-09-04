@@ -3355,6 +3355,12 @@
       "source": "src/game/sound_output.c"
     },
     {
+      "address": "0x800472A8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x6C",
+      "source": "src/game/func_800472A8.c"
+    },
+    {
       "address": "0x80047314",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
