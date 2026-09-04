@@ -1017,15 +1017,25 @@ def render_summary(
     return "\n".join(lines)
 
 
-def write_or_check(path: Path, content: str, check: bool) -> None:
+def write_or_check(
+    path: Path, content: str, check: bool, *, strict: bool = True
+) -> bool:
+    """Write the report, or verify it and report whether it is current.
+
+    A strict path raises when it is stale. A non-strict path returns False
+    instead, which lets an aggregate summary be reported as a snapshot rather
+    than blocking every concurrent change that regenerates it.
+    """
     if check:
         try:
             existing = path.read_text(encoding="utf-8")
         except FileNotFoundError as error:
             raise GlobalUsageError(f"{path} is missing; regenerate it") from error
         if existing != content:
+            if not strict:
+                return False
             raise GlobalUsageError(f"{path} is stale; regenerate it")
-        return
+        return True
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(f".{path.name}.new")
     try:
@@ -1033,6 +1043,7 @@ def write_or_check(path: Path, content: str, check: bool) -> None:
         temporary.replace(path)
     finally:
         temporary.unlink(missing_ok=True)
+    return True
 
 
 def generate(root: Path) -> tuple[str, str, int, int]:
@@ -1107,7 +1118,9 @@ def main() -> int:
         csv_path = resolve_within(root, "notes/global-usage.csv")
         summary_path = resolve_within(root, "notes/global-usage.md")
         write_or_check(csv_path, csv_text, args.check)
-        write_or_check(summary_path, summary_text, args.check)
+        summary_current = write_or_check(
+            summary_path, summary_text, args.check, strict=False
+        )
     except (
         GlobalUsageError,
         WorkspaceError,
@@ -1123,7 +1136,13 @@ def main() -> int:
 
     action = "verified" if args.check else "wrote"
     print(f"{action}: notes/global-usage.csv ({row_count} rows)")
-    print(f"{action}: notes/global-usage.md ({global_count} globals)")
+    if summary_current:
+        print(f"{action}: notes/global-usage.md ({global_count} globals)")
+    else:
+        print(
+            f"stale snapshot: notes/global-usage.md "
+            f"({global_count} globals); regenerate with make global-usage"
+        )
     return 0
 
 
