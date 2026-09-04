@@ -3640,13 +3640,13 @@
       "address": "0x8004BAE4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x50",
-      "source": "src/game/func_8004BAE4.c"
+      "source": "src/game/sound_sequence_reader.c"
     },
     {
       "address": "0x8004BB34",
       "profile": "gcc_2_8_1_g0",
       "size": "0x88",
-      "source": "src/game/func_8004BB34.c"
+      "source": "src/game/sound_sequence_reader.c"
     },
     {
       "address": "0x8004BC2C",
