@@ -1318,13 +1318,13 @@
       "address": "0x8002EDB0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x70",
-      "source": "src/game/func_8002EDB0.c"
+      "source": "src/game/script_control_commands.c"
     },
     {
       "address": "0x8002EE20",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
-      "source": "src/game/func_8002EE20.c"
+      "source": "src/game/script_control_commands.c"
     },
     {
       "address": "0x8002EE5C",
