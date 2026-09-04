@@ -11,7 +11,7 @@ s16 func_80047FAC(s32 a0) {
     s32 s0;
     u16 s2 = a0 & 0xFFFF;
 
-    for (s0 = 0; s0 < 4; s0++) {
+    for (s0 = 0; s0 < SD_VOICE_SLOT_COUNT; s0++) {
         s16 local;
         u16 *entry;
 
