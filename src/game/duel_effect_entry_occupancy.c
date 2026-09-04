@@ -68,7 +68,7 @@ void DuelEffect_ClearMatchingMarker(int a0) {
     DuelEffectEntry *v1;
     int a1;
     u8 v0;
-    a1 = 620;
+    a1 = DUEL_EFFECT_ENTRY_COUNT;
     a0 = a0 + 1;
     v1 = D_800EB288;
     do {
@@ -86,7 +86,7 @@ void DuelEffect_ClearMatchingMarker(int a0) {
 void DuelEffect_ResetEntryMarkers(void) {
     DuelEffectEntry *v0;
     int v1;
-    v1 = 620;
+    v1 = DUEL_EFFECT_ENTRY_COUNT;
     v0 = D_800EB288;
     for (; v1 != 0; v1 = v1 - 1) {
         v0->flags_11 = 0;
