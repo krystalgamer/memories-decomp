@@ -2896,13 +2896,13 @@
       "address": "0x8004365C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x25C",
-      "source": "src/game/func_8004365C.c"
+      "source": "src/game/display_object_transition.c"
     },
     {
       "address": "0x800438B8",
       "profile": "gcc_2_8_1_g0",
       "size": "0xA8",
-      "source": "src/game/func_800438B8.c"
+      "source": "src/game/display_object_transition.c"
     },
     {
       "address": "0x80043960",

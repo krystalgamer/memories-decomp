@@ -1,14 +1,29 @@
 #include "../types.h"
 
 extern u8 D_801AF000[];
-extern void *func_8004002C(void);
-extern u8 *func_800400AC(void *, int);
-extern void func_800428A8(void *, int, int, int, int, int, int, int, int);
-extern void func_800428EC(void *, int);
-extern void func_80012D4C(void);
-extern void func_8004036C(void *);
+extern s32 D_8009B0F4;
+extern s32 D_8009B134;
+extern u16 D_8009B398;
 
-void func_8004365C(u8 *a, u8 *b) {
+extern void func_80012D4C(void);
+extern void *func_8004002C(void);
+extern u8 *func_800400AC(void *, s32);
+extern void func_8004036C(void *);
+extern void func_800428A8(
+    void *,
+    s32,
+    s32,
+    s32,
+    s32,
+    s32,
+    s32,
+    s32,
+    s32
+);
+extern void func_800428EC(void *, s32);
+
+void func_8004365C(u8 *a, u8 *b)
+{
     u8 *x;
     u8 *y;
     s32 i;
@@ -68,4 +83,25 @@ void func_8004365C(u8 *a, u8 *b) {
     func_8004036C((s32)a);
     func_8004036C((s32)x);
     func_8004036C((s32)y);
+}
+
+void func_800438B8(s32 count)
+{
+    s32 found = 0;
+
+    for (;;) {
+        func_80012D4C();
+        if (!found && (((D_8009B0F4 & 0x02000030) | D_8009B134) == 0))
+            found = 1;
+        if ((D_8009B398 & 0x8C0) && found)
+            count = 0;
+        count--;
+        if (count >= 0)
+            continue;
+        if (!found) {
+            count = 0;
+            continue;
+        }
+        break;
+    }
 }
