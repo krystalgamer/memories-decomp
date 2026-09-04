@@ -260,6 +260,7 @@ TextBox_SetRect = 0x80035AB8; // type:func
 TextBox_Destroy = 0x80035B7C; // type:func
 TextBox_Create = 0x80035BE4; // type:func
 TextBox_CreateFlagged = 0x80035C38; // type:func
+TextBox_SetPos = 0x80039934; // type:func
 MemCard_InitIOEvents = 0x80043EBC; // type:func
 MemCard_SetIOResultCompleteCB = 0x80044CFC; // type:func
 MemCard_SetIOResultTimeoutCB = 0x80044D0C; // type:func

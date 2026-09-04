@@ -1,9 +1,9 @@
 #include "../types.h"
 
-extern void func_80039140();
-extern void DuelEffect_UpdateObjectLayout();
+extern void func_80039140(u8 *);
+extern void DuelEffect_UpdateObjectLayout(u8 *);
 
-void func_80039934(u8 *record, s32 x, s32 y)
+void TextBox_SetPos(u8 *record, s32 x, s32 y)
 {
     u8 *object;
     object = *(u8 **)(record + 40);
