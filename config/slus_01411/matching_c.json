@@ -3004,13 +3004,13 @@
       "address": "0x80044544",
       "profile": "gcc_2_8_1_g8",
       "size": "0x54",
-      "source": "src/game/func_80044544.c"
+      "source": "src/game/mem_card_directory.c"
     },
     {
       "address": "0x80044598",
       "profile": "gcc_2_8_1_g8",
       "size": "0x70",
-      "source": "src/game/func_80044598.c"
+      "source": "src/game/mem_card_directory.c"
     },
     {
       "address": "0x80044CD4",
