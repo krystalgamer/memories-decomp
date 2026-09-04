@@ -13,6 +13,12 @@
       "source": "src/overlays/main_menu/func_80180DD0.c"
     },
     {
+      "address": "0x80180E6C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xE4",
+      "source": "src/overlays/main_menu/func_80180E6C.c"
+    },
+    {
       "address": "0x80180F50",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x88",
