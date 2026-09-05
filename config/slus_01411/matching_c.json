@@ -2974,13 +2974,13 @@
       "address": "0x8003FD14",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x100",
-      "source": "src/game/func_8003FD14.c"
+      "source": "src/game/two_player_save_setup.c"
     },
     {
       "address": "0x8003FE14",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/func_8003FE14.c"
+      "source": "src/game/two_player_save_setup.c"
     },
     {
       "address": "0x8003FE70",
