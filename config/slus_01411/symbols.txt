@@ -336,6 +336,8 @@ DuelEffect_ProcessEntries = 0x80039D64; // type:func
 SD_CompareBytes = 0x8004BAA0; // type:func
 SD_ReadSequenceByte = 0x8004BAE4; // type:func
 SD_ReadVariableLengthValue = 0x8004BB34; // type:func
+SD_ReadSequenceU32BE = 0x8004BC2C; // type:func
+SD_ReadSequenceU16BE = 0x8004BCA8; // type:func
 
 // Semantic names
 Dialog_ReadChoiceInput = 0x8003700C; // type:func

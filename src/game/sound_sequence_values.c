@@ -2,7 +2,7 @@
 
 extern s32 SD_ReadSequenceByte(u8 *);
 
-s32 func_8004BC2C(u8 *input)
+s32 SD_ReadSequenceU32BE(u8 *input)
 {
     s32 first = SD_ReadSequenceByte(input);
     s32 second = SD_ReadSequenceByte(input);
@@ -13,7 +13,7 @@ s32 func_8004BC2C(u8 *input)
            ((second & 0xFF) << 16) + (first << 24);
 }
 
-s32 func_8004BCA8(u8 *input)
+s32 SD_ReadSequenceU16BE(u8 *input)
 {
     s32 high = SD_ReadSequenceByte(input);
     s32 low = SD_ReadSequenceByte(input);
