@@ -269,6 +269,38 @@ copy.
 
 Both measured on `func_801840F8` in the main menu module.
 
+## An address computed as a flat integer sum
+
+When a target builds an address from several terms and no array-indexed form
+reproduces the order, the source added the terms as plain integers with the
+symbol cast into the sum:
+
+```c
+func(row * stride + (s32)table + element * 4, ...);
+```
+
+Two things follow, and they pull in opposite directions from what looks
+natural.
+
+**Source order sets emission order.** Any form that starts from the symbol —
+`&table[element] + row * stride`, `((u8 *)table + element * 4) + row * stride`,
+`&table[element + row * count]` — emits that group first, and no
+reassociation moves the row term ahead of it. If the target computes the row
+offset before the lookup that produces `element`, the row term is written
+first.
+
+**Do not parenthesise the grouping you see at runtime.** GCC re-associates the
+sum, so the pair that ends up grouped in the emitted code is not the pair the
+source bracketed. Writing `row * stride + ((s32)table + element * 4)` — the
+grouping the target actually computes — is wrong; the flat left-associated sum
+is what produces it.
+
+Measured on `func_801844D8` in the main menu module across 24 variants that all
+had the target's 32 instructions. Every symbol-first form differed at 21 or
+more of the 32 positions, the parenthesised sum at 14, and only the flat sum in
+emission order matched. A named local for the lookup also fails, at 18: it
+moves the load ahead of the multiply chain.
+
 ## Emission order distinguishes hand-written from generated code
 
 The preheader gives a reliable reading of which values the source named.
