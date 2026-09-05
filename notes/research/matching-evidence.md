@@ -67,6 +67,39 @@ same problem seen from the other side.
 Pinning a base pointer to a hard register does not help: GCC folds the pointer
 back into a symbol-indexed load and the pin is optimised away.
 
+#### How much the address temporary tells you about the profile
+
+The two forms above are worth measuring rather than eyeballing, because the
+signal is strong in one direction only. Scanning the matched corpus for every
+`lui $X, %hi(sym)` immediately followed by a load whose base register is also
+`$X`, and splitting those pairs by the profile each function is recorded
+under, gives:
+
+| Profile group | destination reused | separate register | pairs |
+| --- | --- | --- | --- |
+| non-split | 299 (99.3%) | 2 (0.7%) | 301 |
+| split | 14 (60.9%) | 9 (39.1%) | 23 |
+
+Read this asymmetrically:
+
+- a **separate** register is roughly fifty times more likely under a split
+  profile than a non-split one, so seeing one in the target is strong evidence
+  for split before any C is written.
+- **reuse** is only weak evidence for non-split. It is what non-split almost
+  always does, but split still produces it in a clear majority of cases, so it
+  cannot on its own rule split out.
+
+The practical consequence is that reuse in the target does not justify
+abandoning a split profile that is otherwise scoring well. `func_8004A27C`
+(`0x8004A27C`) is the worked example: the target reuses the destination at its
+`D_8009B458` load, yet the split profile reaches 12 differences at the correct
+31 instructions with every register allocated as retail has it, while the
+non-split profile that reproduces the reuse sits at 20 and misallocates the
+`mflo` pair. Only the separate-register case should be treated as decisive.
+
+Reproduce the table by pairing `config/slus_01411/matching_c.json` against the
+built executable; file offset is VRAM minus `0x8000F800`.
+
 #### Comparing profiles: count parity beats diff size
 
 When choosing between profiles, rank candidates by whether the instruction
