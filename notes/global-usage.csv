@@ -220,7 +220,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800916D4,D_800916D4,D_800916D4,0x8006CD78,func_8006CD78,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05cb7c.s,address,,"addiu $v0, $v0, %lo(D_800916D4) | lui $v0, %hi(D_800916D4)"
 0x800916E0,gAiScript_apfnCommand,gAiScript_apfnCommand,0x80070650,AiScript_Run,matching_c,game,C,src/game/ai_script_vm.c,read,,gAiScript_apfnCommand[idx](); | handler = gAiScript_apfnCommand[idx];
 0x800917F0,gDuel_aOpponentData,gDuel_aOpponentData,0x80070710,Ai_GetHandSize,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_060f10.s,address,,"addiu $v0, $v0, %lo(gDuel_aOpponentData) | lui $v0, %hi(gDuel_aOpponentData)"
-0x800917F0,gDuel_aOpponentData,gDuel_aOpponentData,0x800734DC,AiScript_LoadOpponentData,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_063cdc.s,address,,"addiu $v1, $v1, %lo(gDuel_aOpponentData) | lui $v1, %hi(gDuel_aOpponentData)"
+0x800917F0,gDuel_aOpponentData,gDuel_aOpponentData,0x800734DC,AiScript_LoadOpponentData,matching_c,game,C,src/game/AiScript_LoadOpponentData.c,read,,mem[dst] = gDuel_aOpponentData[index].b[1] * 100; | mem[dst] = gDuel_aOpponentData[index].b[field + 1];
 0x8009AF08,runtime_gp,runtime_gp,0x8001306C,func_8001306C,matching_c,game,C,src/game/func_8001306C.c,read_write,32,cnt = runtime_gp - 1; | runtime_gp = 0x3C; | (+1 more)
 0x8009AF0C,D_8009AF0C,D_8009AF0C,0x80012CD4,Main_VBlankCB,matching_c,game,C,src/game/main_frame.c,read_write,,D_8009AF0C = 0; | D_8009AF0C = 1; | (+1 more)
 0x8009AF18,D_8009AF18,D_8009AF18,0x80013C28,func_80013C28,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_004428.s,read,32,"lw $a0, %gp_rel(D_8009AF18)($gp) | lw $s0, %gp_rel(D_8009AF18)($gp) | (+2 more)"
@@ -2940,7 +2940,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80073310,AiScript_AddCard,matching_c,game,C,src/game/ai_script_add_card.c,address,32,s32 *p = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800733A8,AiScript_AddType,matching_c,game,C,src/game/ai_script_sets.c,address,32,s32 *memory = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80073480,AiScript_MoveCard,matching_c,game,C,src/game/ai_script_state_ops.c,read,,register s32 *values = gAiScript_aMemory;
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800734DC,AiScript_LoadOpponentData,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_063cdc.s,address,,"addiu $s2, $v0, %lo(gAiScript_aMemory) | lui $v0, %hi(gAiScript_aMemory)"
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800734DC,AiScript_LoadOpponentData,matching_c,game,C,src/game/AiScript_LoadOpponentData.c,address,32,s32 *mem = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800735A0,AiScript_Store,matching_c,game,C,src/game/ai_script_store.c,address,32,volatile int *values = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800735DC,AiScript_SetRegister,matching_c,game,C,src/game/ai_script_set_register.c,read_write,32,gAiScript_aMemory[dst] = gAiScript_aMemory[src];
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80073624,AiScript_Add,matching_c,game,C,src/game/ai_script_add.c,address,32,int *values = gAiScript_aMemory;

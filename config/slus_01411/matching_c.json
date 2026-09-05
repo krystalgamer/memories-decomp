@@ -5275,6 +5275,12 @@
       "source": "src/game/ai_script_state_ops.c"
     },
     {
+      "address": "0x800734DC",
+      "profile": "gcc_2_8_1_cc_g0_as_g8_split",
+      "size": "0xC4",
+      "source": "src/game/AiScript_LoadOpponentData.c"
+    },
+    {
       "address": "0x800735A0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x3C",
