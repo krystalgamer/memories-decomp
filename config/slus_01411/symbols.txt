@@ -313,3 +313,6 @@ SD_FindMidiTrackChunk = 0x8004BBBC; // type:func
 
 // Semantic names
 Text_StartCampaignDuel = 0x80038530; // type:func
+
+// Semantic names
+Text_SetCursorOffset = 0x80038BA8; // type:func

@@ -494,7 +494,7 @@ address,size,name,status,module,notes
 0x80038AB0,0x58,func_80038AB0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80038B08,0x44,func_80038B08,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80038B4C,0x5C,func_80038B4C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80038BA8,0x48,func_80038BA8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80038BA8,0x48,Text_SetCursorOffset,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80038BF0,0x124,func_80038BF0,matching_c,game,Exact post-terminal collaborator-derived match preserving chained byte-fetch and global scratch lifetimes.
 0x80038D14,0x18,func_80038D14,matching_c,game,First -O2 -G8 byte/global-store candidate matched.
 0x80038D2C,0x8C,func_80038D2C,matching_c,game,Exact pure-C script flag command. Bit 14 marks a library card as used; otherwise the following halfword becomes the active script cursor offset when the requested campaign flag is set.

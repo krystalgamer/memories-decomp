@@ -10,7 +10,7 @@ extern u8 D_8009B336;
 extern u8 D_8009B327;
 extern ObjFn D_8009B340;
 
-extern void func_80038BA8(u8 *);
+extern void Text_SetCursorOffset(u8 *);
 extern void func_80037CE0(u8 *);
 extern void func_80035CA8(s32);
 extern void DuelEffect_ClearMatchingMarker(s32);
@@ -35,7 +35,7 @@ void func_80038BF0(u8 *p)
     }
     if (c & 0x80) {
         *(s32 *)(p - -(*(s8 *)(p + 0x58) * 4)) += D_8009B34D * 2;
-        func_80038BA8(p);
+        Text_SetCursorOffset(p);
     } else {
         D_8009B345 = 7;
         D_8009B345 = c & D_8009B345;
