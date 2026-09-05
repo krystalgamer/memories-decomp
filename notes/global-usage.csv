@@ -1224,7 +1224,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1A6,D_8009B1A6,D_8009B1A6,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,write,16,"sh $s2, %gp_rel(D_8009B1A6)($gp) | sh $zero, %gp_rel(D_8009B1A6)($gp)"
 0x8009B1A8,D_8009B1A8,D_8009B1A8,0x80026B34,func_80026B34,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,read,16,int index = indices[D_8009B1A8] * 2;
 0x8009B1A8,D_8009B1A8,D_8009B1A8,0x80026BA4,func_80026BA4,matching_c,game,C,src/game/func_80026BA4.c,write,16,D_8009B1A8 = index;
-0x8009B1AC,D_8009B1AC,D_8009B1AC,0x8002538C,func_8002538C,matching_c,game,C,src/game/func_8002538C.c,read_write,,D_8009B1AC = m; | D_8009B1AC = n * 10; | (+1 more)
+0x8009B1AC,D_8009B1AC,D_8009B1AC,0x8002538C,func_8002538C,matching_c,game,C,src/game/func_8002538C.c,read_write,,D_8009B1AC = m; | D_8009B1AC = n * CARD_STAT_SCALE; | (+1 more)
 0x8009B1AE,D_8009B1AE,D_8009B1AE,0x8002538C,func_8002538C,matching_c,game,C,src/game/func_8002538C.c,read_write,,D_8009B1AE = 5; | D_8009B1AE = D_8009B1AE + 1; | (+4 more)
 0x8009B1B0,D_8009B1B0,D_8009B1B0,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,write,8,"addiu $s3, $gp, %gp_rel(D_8009B1B0) | sb $a0, %gp_rel(D_8009B1B0)($gp) | (+2 more)"
 0x8009B1B1,D_8009B1B1,D_8009B1B1,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,write,8,"sb $a0, %gp_rel(D_8009B1B1)($gp) | sb $v0, %gp_rel(D_8009B1B1)($gp)"
