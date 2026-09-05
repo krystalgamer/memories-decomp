@@ -71,6 +71,61 @@ modified input demonstrating the before/after layout.
 - **Tentative** that the `0x1BFB24` step repairs a particular editor's
   relocated restricted-card data.
 
+## Non-monster effect-group table
+
+**Tutorial:** `CPU Entender as Cartas e os Efeitos - Por Wladmir Ghost.docx`
+
+The tutorial identifies bytes at SLUS offsets `0x812D4`-`0x81338`. They map
+to resident addresses `0x80090AD4`-`0x80090B38` and form the 101 meaningful
+entries of the `0x80090AD4` effect-group table. The accepted card ranges and
+their zero-based table indices are:
+
+| Card IDs | Table indices |
+|---|---:|
+| `301`-`350` | `0`-`49` |
+| `651`-`700` | `50`-`99` |
+| `721` | `100` |
+
+Exact matching C in `func_80026BA4` enforces those three ranges and performs
+the index conversion. `func_80026B34` then reads the table byte, doubles it,
+adds the active-side selector, and calls the corresponding handler in the
+30-entry table at `0x80090A5C`.
+
+Retail values `0`-`13` select the effect families already established in the
+duel documentation: no play-time action, terrain, LP recovery, direct damage,
+field destruction, type/threshold destruction, Stop Defense, Raigeki,
+Dark-piercing Light, attack reduction, Swords of Revealing Light,
+Cursebreaker, ritual, and Harpie's Feather Duster. Changing a byte changes the
+effect handler used when that non-monster card is activated.
+
+This table is not established as an AI-priority or card-type table. The
+resident usage inventory has one direct consumer, the duel effect dispatcher,
+while the AI reads card type from bits `26`-`30` of
+`gDuel_adwCardStats`. A card must still reach the normal activation path for
+its edited effect group to run.
+
+The tutorial's offset list contains two card-number errors:
+
+- `0x8132F` is table index `91`, card ID `692` (Turtle Oath), not a second
+  entry for card `691`.
+- `0x81338` is table index `100`, card ID `721` (Dark Magic Ritual), not card
+  `722`. Card `722` is a monster and is rejected by the non-monster range
+  guard.
+
+The table occupies 104 bytes through `0x80090B3B`, but only the first 101 are
+reachable through the accepted card ranges; the final three bytes are padding
+before the next resident symbol at `0x80090B3C`.
+
+**Confidence:**
+
+- **Confirmed** that the 101 listed offsets map to the three accepted
+  non-monster card-ID ranges.
+- **Confirmed** that each byte selects the duel effect-handler group.
+- **Confirmed** that the tutorial's card `691` and `722` labels at the final
+  offsets are off by one.
+- **Unverified** that editing this table alone changes CPU prioritization or
+  understanding; no direct AI consumer is currently known.
+
 ## Disable Exodia win detection
 
 **Tutorial:** `Desativar exodia.txt`
