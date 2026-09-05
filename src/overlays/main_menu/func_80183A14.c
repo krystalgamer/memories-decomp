@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/card_constants.h"
 
 extern s16 D_801D4D8E[];
 extern s32 D_801D4244[];
@@ -25,14 +26,16 @@ s32 func_80183A14(s16 *a, s16 *b)
     } else {
         if (idA != 0) {
             keyA = D_801D4D8E[idA - 1];
-            typeA = (D_801D4244[idA - 1] >> 26) & 0x1F;
+            typeA = (D_801D4244[idA - 1] >> CARD_STAT_TYPE_SHIFT) &
+                    CARD_STAT_TYPE_MASK;
         } else {
             typeA = 0x7FFFFFFF;
             keyA = 0x7FFFFFFF;
         }
         if (idB != 0) {
             keyB = D_801D4D8E[idB - 1];
-            typeB = (D_801D4244[idB - 1] >> 26) & 0x1F;
+            typeB = (D_801D4244[idB - 1] >> CARD_STAT_TYPE_SHIFT) &
+                    CARD_STAT_TYPE_MASK;
         } else {
             typeB = 0x7FFFFFFF;
             keyB = 0x7FFFFFFF;

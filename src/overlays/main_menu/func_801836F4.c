@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/card_constants.h"
 
 extern s16 D_801D4D8E[];
 extern s32 D_801D4244[];
@@ -30,9 +31,11 @@ s32 func_801836F4(s16 *a, s16 *b)
         if (idA != 0) {
             keyA = D_801D4D8E[idA - 1];
             statsA = D_801D4244[idA - 1];
-            if (((statsA >> 26) & 0x1F) < 20) {
-                atkA = (statsA & 0x1FF) * 10;
-                defA = ((statsA >> 9) & 0x1FF) * 10;
+            if (((statsA >> CARD_STAT_TYPE_SHIFT) &
+                 CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
+                atkA = (statsA & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                defA = ((statsA >> CARD_STAT_DEFENSE_SHIFT) &
+                        CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
             } else {
                 defA = 0x80000001;
                 atkA = 0x80000001;
@@ -45,9 +48,11 @@ s32 func_801836F4(s16 *a, s16 *b)
         if (idB != 0) {
             keyB = D_801D4D8E[idB - 1];
             statsB = D_801D4244[idB - 1];
-            if (((statsB >> 26) & 0x1F) < 20) {
-                atkB = (statsB & 0x1FF) * 10;
-                defB = ((statsB >> 9) & 0x1FF) * 10;
+            if (((statsB >> CARD_STAT_TYPE_SHIFT) &
+                 CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
+                atkB = (statsB & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                defB = ((statsB >> CARD_STAT_DEFENSE_SHIFT) &
+                        CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
             } else {
                 defB = 0x80000001;
                 atkB = 0x80000001;
