@@ -388,9 +388,11 @@ full, in the order things happen.
 
 ### 5.1 Setup
 
-* Each side has **8000 life points** [player LP at `0x800EA004`, opponent
-  `0x800EA024`; each side's record is 32 bytes, `0x800E9FF0 + side * 0x20`,
-  and carries the on-screen ticking figure two bytes below the true value].
+* Each side's authoritative life points start at **8000** [player LP at
+  `0x800EA004`, opponent `0x800EA024`; each side's record is 32 bytes,
+  `0x800E9FF0 + side * 0x20`]. The on-screen figure two bytes earlier starts
+  at zero, then `Duel_UpdateLifePointDisplay` counts it up toward the true
+  value with larger steps while the gap is large.
 * Each side's 40-card deck is shuffled [permutation tables at `0x80177F94`
   (player) and `0x80177FBC` (CPU), the shuffled decks at `0x80177FE8` /
   `0x80178038` — UNVERIFIED, Data Crystal] and each draws five.
