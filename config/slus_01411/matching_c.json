@@ -1303,6 +1303,12 @@
       "source": "src/game/duel_effect_object_pool.c"
     },
     {
+      "address": "0x8002C604",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
+      "size": "0x88",
+      "source": "src/game/func_8002C604.c"
+    },
+    {
       "address": "0x8002C68C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
