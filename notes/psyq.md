@@ -152,8 +152,10 @@ Recommended header boundaries are:
 | `src/psyq/libsn.h` | Debugger-host PC file service and `pollhost`/`PSYQpause` break traps |
 | `src/psyq/fs.h` | Low-level filesystem device-table, character-buffer, and I/O-block records |
 | `src/psyq/sys/types.h` | Target ABI typedefs plus major/minor device-number helpers |
+| `src/psyq/sys/errno.h` | Runtime error numbers 1-37 and the external `errno` object |
 | `src/psyq/sys/fcntl.h` | Internal `F*` file-mode and device-I/O flags |
 | `src/psyq/sys/file.h` | Public `O_*` aliases and seek-origin constants layered over `sys/fcntl.h` |
+| `src/psyq/sys/ioctl.h` | Encoded file, terminal/SIO, and disk control request constants |
 | `src/psyq/romio.h` | ROM-monitor compatibility include for the system file interface |
 | `src/psyq/libsio.h` | Base SIO status, mode, control, lifecycle, and callback interface |
 | `src/psyq/libcomb.h` | COMB packet, transfer, control-line, and asynchronous request interface |
@@ -316,7 +318,11 @@ defines target ABI names such as 32-bit `size_t`, `time_t`, and `off_t`,
 macros. `sys/fcntl.h` contains only the internal `FREAD`, `FWRITE`, creation,
 buffering, and asynchronous-I/O flags. `sys/file.h` includes that header and
 maps the public `O_*` names onto those flags while defining `SEEK_SET`,
-`SEEK_CUR`, and `SEEK_END`; it declares no file functions itself.
+`SEEK_CUR`, and `SEEK_END`; it declares no file functions itself. `sys/errno.h`
+fixes the runtime's error-number ABI from `EPERM` 1 through `EALREADY` 37 and
+declares the shared `errno` integer. `sys/ioctl.h` similarly contains request
+numbers rather than an `ioctl` prototype: `FIOC*` controls file input,
+`TIOC*` controls terminal/SIO behavior, and `DIOFORMAT` requests disk format.
 `romio.h` is only an include wrapper around `sys/file.h`, while `libsnd.h`
 uses `sys/types.h` for its target scalar types. No current game C includes the
 `sys/` headers directly.
