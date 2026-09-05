@@ -246,6 +246,70 @@ needs a runtime trace.
   tutorial; the jump span is proven, but the resulting presentation has not
   been replayed locally.
 
+## Campaign duel records and music selection
+
+**Tutorials:**
+
+- `Trocar Musica.txt`
+- `Heishin Campanha.txt`
+
+The tutorials identify nine-byte records embedded in the global text bank.
+The Heishin record appears verbatim at SLUS offsets `0x1A5964` and
+`0x1A5C93`:
+
+```text
+F8 0D 08 74 75 06 30 72 FF
+```
+
+`F8` dispatches through the 27-entry extended text-control table, where
+subcommand `0x0D` resolves to exact matching C function `func_80038530`.
+That function consumes the record in this order:
+
+| Bytes | Meaning | Heishin value |
+|---|---|---:|
+| `F8 0D` | Extended text-control command and subcommand | `0x0D` |
+| next byte | Opponent ID | `8` |
+| next byte | Post-duel continuation selected for result index `0` | `0x74` |
+| next byte | Post-duel continuation selected for result index `1` | `0x75` |
+| next byte | Duel terrain | `6` (Dark) |
+| next two bytes | Sound command, little endian | `0x7230` |
+| `FF` | End of the containing text string | |
+
+After storing those fields, the handler selects duel mode. `Main_RunDuel`
+later indexes the two continuation values with `D_8009B362 * 2`. The
+tutorial identifies index `0` as the win path and index `1` as the loss path;
+the code independently confirms that they are separate post-duel
+continuations.
+
+The explicit `0x7230` value is later passed to `func_8003FF08`, the resident
+sound-command wrapper. It must be edited as one little-endian halfword, not
+as two independent music bytes. The tutorial's labels for the `0x71D0`-
+`0x72C0` values are behavior reports; static code confirms the command values
+but not every audible track name.
+
+`func_80038530` also chooses a second sound value from the opponent ID:
+`0x7280` for IDs `9`-`16`, `0x7290` for ID `17`, `0x72B0` for ID `38`, and
+`0x72A0` otherwise. Changing the record's explicit sound command therefore
+does not replace every opponent-dependent sound selection made for the duel.
+
+The campaign tutorial changes the first Heishin record from continuation pair
+`74 75` to `75 61`. This leaves the opponent, terrain, and sound command
+unchanged and redirects only the two post-duel paths. Because the same retail
+record occurs twice, editing `0x1A5964` does not globally modify every
+Heishin encounter.
+
+**Confidence:**
+
+- **Confirmed** that `F8 0D` dispatches to `func_80038530` and that the record
+  fields have the layout shown above.
+- **Confirmed** that `30 72` is the little-endian sound command `0x7230` and
+  that the two Heishin records occur at the listed SLUS offsets.
+- **High** that `0x74` and `0x75` are respectively the win and loss
+  continuations; the selection mechanism is exact, while the outcome labels
+  come from the tutorial's observed behavior.
+- **Tentative** for music names that have not been corroborated by an audio
+  trace.
+
 ## Attack-trigger trap thresholds
 
 **Tutorial:** `Efeito trap.txt`
