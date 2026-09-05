@@ -439,9 +439,11 @@ the game tries, in this order:
 
 1. **Fusion.** The pair is looked up in the **fusion table**
    [`checkFusion` `func_80019A60`, table at `0x8017C2D8`, 64 KB, indexed by
-   the *smaller* id: a `u16 offset[723]` then packed 5-byte records holding
-   two (partner, result) pairs each]. If a recipe exists, the two become the
-   result card, face-up, with the result's stats. **25,131 recipes** exist,
+   the *smaller* id: a `u16 offset[723]` then packed
+   `FUSION_TABLE_ENTRY_SIZE`-byte records holding
+   `FUSION_TABLE_PAIRS_PER_ENTRY` (partner, result) pairs each]. If a recipe
+   exists, the two become the result card, face-up, with the result's stats.
+   **25,131 recipes** exist,
    producing 204 distinct results. Some are specific (Thunder Dragon +
    Thunder Dragon → Twin-headed Thunder Dragon); most are by type and
    strength (any Dragon with a Thunder monster → Twin-headed Thunder Dragon;
