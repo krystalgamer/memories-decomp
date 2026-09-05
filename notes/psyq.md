@@ -126,6 +126,10 @@ SDK prototypes that use `long`, `unsigned long`, or `unsigned char` remain
 unchanged when no project alias is needed. Do not maintain parallel clean-room
 declarations for interfaces already provided by these headers.
 
+The four original Japanese root-counter comments in `kernel.h` are stored as
+UTF-8 rather than Shift-JIS so repository tools can follow the transitive
+`libapi.h` include chain. The declarations and comment text are unchanged.
+
 Recommended header boundaries are:
 
 | Header | Interfaces and records |
@@ -204,10 +208,10 @@ register access, and raw memory-card services. The records passed to
 `libmcrd.h` is a higher-level card API and must not be substituted for the
 `_card_*` block operations merely because both address memory cards.
 
-No current game C directly includes `libapi.h`, `kernel.h`, or `libmcrd.h`.
-The confirmed resident `OpenEvent`, critical-section, `firstfile`, `nextfile`,
-`InitPAD`, and `StartPAD` call sites still use local declarations pending exact
-header migration.
+`input_init_pads.c` directly includes `libapi.h` for the confirmed resident
+`InitPAD` and `StartPAD` calls. The `OpenEvent`, critical-section, `firstfile`,
+and `nextfile` call sites still use local declarations pending exact header
+migration. No current game C directly includes `kernel.h` or `libmcrd.h`.
 
 The graphics headers also form distinct layers. `libgpu.h` owns the GPU packet
 ABI: `RECT`, `DRAWENV`, `DISPENV`, primitive records, packet-construction
@@ -436,10 +440,10 @@ asynchronous requests, RTS/CTS, and VBlank signaling. Their overlapping
 status-bit names do not establish interchangeable call contracts. No current
 game C includes either header.
 
-`libmcrd.h` retains the SDK `kernel.h` dependency because
-`MemCardGetDirentry` exposes the full `DIRENTRY` record. Its local `r3000.h`
-and `asm.h` includes establish the kernel guards before `kernel.h`, avoiding
-system include paths that the matching compiler does not provide.
+`libapi.h` and `libmcrd.h` retain the SDK `kernel.h` dependency for BIOS
+records such as `DIRENTRY`. Both include the local `r3000.h` and `asm.h`
+first, establishing the kernel guards without relying on system include paths
+that the matching compiler does not provide.
 
 These three memory-card-adjacent headers are not interchangeable.
 `libmcrd.h` provides file and block operations, `libmcx.h` exposes the
@@ -575,6 +579,7 @@ The existing C sources expose several useful starting points:
 
 | Current source pattern | SDK target | Required proof |
 |---|---|---|
+| Local `InitPAD` / `StartPAD` declarations | `libapi.h` | Initial migration complete in `src/game/input_init_pads.c`; the real prototypes preserve the exact build. |
 | `DslFILE` in `src/psyq/libds.h` | Ds file-search result | Initial migration complete in `src/game/file_stream.c`; extend only when another caller's field use agrees with the shared layout. |
 | `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Initial migration complete in `func_800249E0`; preserve byte-offset selection when extending it to other callers. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Confirm complete size, alignment, and all fields touched by resident GPU functions. |
