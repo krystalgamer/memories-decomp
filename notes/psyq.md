@@ -63,6 +63,8 @@ symbol review.
 | `0x800738C0` | `ExitCriticalSection` | Paired critical-section exit. |
 | `0x80073920` | `nextfile` | Advances a caller-owned directory record and returns that same pointer on success. |
 | `0x80073AC0` | `firstfile` | Receives a formatted device path and caller-owned directory record, returning that record on success. |
+| `0x80073E1C` | `InitPAD` | `Input_InitPads` passes two adjacent 34-byte receive buffers and their exact lengths. |
+| `0x80073EAC` | `StartPAD` | Called immediately after `InitPAD` to start the controller service before local input state is reset. |
 | `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | Byte-identical wrappers that install a callback on DMA channel `3`. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
 | `0x8007E350` | `CdFlush` | No-argument wrapper around the CD library's internal state-reset routine. |
@@ -203,9 +205,9 @@ register access, and raw memory-card services. The records passed to
 `_card_*` block operations merely because both address memory cards.
 
 No current game C directly includes `libapi.h`, `kernel.h`, or `libmcrd.h`.
-The confirmed resident `OpenEvent`, critical-section, `firstfile`, and
-`nextfile` call sites still use local declarations pending exact header
-migration.
+The confirmed resident `OpenEvent`, critical-section, `firstfile`, `nextfile`,
+`InitPAD`, and `StartPAD` call sites still use local declarations pending exact
+header migration.
 
 The graphics headers also form distinct layers. `libgpu.h` owns the GPU packet
 ABI: `RECT`, `DRAWENV`, `DISPENV`, primitive records, packet-construction
