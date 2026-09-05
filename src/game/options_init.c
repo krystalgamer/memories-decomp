@@ -46,7 +46,7 @@ extern void func_80040510(struct Obj *obj, s32 a1, s32 a2, s32 a3, s32 a5,
 extern void func_8003C568(s32 arg0);
 extern void func_8003FF08(s32 a0);
 
-void func_8003C628(void) {
+void Options_Init(void) {
     register struct Obj *obj asm("s1");
     s32 s0;
     s32 s2;

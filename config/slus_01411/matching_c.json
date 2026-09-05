@@ -2608,7 +2608,7 @@
       "address": "0x8003C628",
       "profile": "gcc_2_8_1_cc_g8_as_g4_no_split",
       "size": "0x178",
-      "source": "src/game/func_8003C628.c"
+      "source": "src/game/options_init.c"
     },
     {
       "address": "0x8003C7A0",
@@ -2620,7 +2620,7 @@
       "address": "0x8003C8CC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x84",
-      "source": "src/game/func_8003C8CC.c"
+      "source": "src/game/options_update.c"
     },
     {
       "address": "0x8003C950",

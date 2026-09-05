@@ -3,7 +3,7 @@
 extern u8 gOptions_bState;
 extern void Fade_WaitOut(void);
 extern void Options_HandleInput(void);
-s32 func_8003C8CC(void) {
+s32 Options_Update(void) {
     switch (gOptions_bState & 0xF) {
     case 0: Fade_WaitOut(); break;
     case 1: Options_HandleInput(); break;

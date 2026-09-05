@@ -50,7 +50,7 @@ matched bodies — tracked in suspects.md, not here, until 100%.)
 | 0x8002D3F8 | `Main_RunFreeDuelMenu` | Mode tick for the Free Duel opponent-select screen (same one-shot-init + poll family shape). |
 | 0x8002D588 | `Main_RunMenu` | Mode tick for the title/main menu — live-confirmed ambient. Delegates the actual menu logic to the disc-loaded menu module (calls into 0x8018001C / polls 0x80180390) and advances `rand()` every frame. |
 | 0x8002D62C | `Main_RunNameEntry` | Mode tick for the name-entry screen: registers its input handler on first call, then polls the entry module until the name is committed. |
-| 0x8002D6C8 | `Main_RunOptionsMenu` | Mode tick for the OPTION screen — live-confirmed ambient. Sibling of `Main_RunNameEntry` with its own setup chain, including the options state sync (`func_8003C628`) and `Options_HandleInput`. |
+| 0x8002D6C8 | `Main_RunOptionsMenu` | Mode tick for the OPTION screen — live-confirmed ambient. Sibling of `Main_RunNameEntry`; calls `Options_Init` once, then polls `Options_Update`. |
 | 0x8002D730 | `Main_RunGameOver` | Mode tick for the game-over screen; registers its handler and polls, same family shape. |
 | 0x8002D7C4 | `Main_RunHirata` | An empty function in the retail build — the compiled-out developer mode slot, named for the Konami programmer whose source path (`src\hirata\`) survives in the binary's debug strings. |
 | 0x8002DA1C | `Main_RunCredits` | Mode tick for the credits roll (loop-family pattern; body not yet studied in detail). |
