@@ -409,5 +409,6 @@ IsIdleGPU = 0x80082324; // type:func
 GsSetLsMatrix = 0x800855D0; // type:func
 rsin = 0x800866A0; // type:func
 rcos = 0x80086770; // type:func
+SquareRoot0 = 0x80086E50; // type:func
 SetGeomOffset = 0x800878B0; // type:func
 SetGeomScreen = 0x800878D0; // type:func
