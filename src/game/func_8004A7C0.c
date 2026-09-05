@@ -2,7 +2,7 @@
 #include "sound.h"
 
 extern int D_80011434[];
-extern void func_80076ED0(int, int);
+extern void SpuSetKey(long, unsigned long);
 extern int func_80077090(int);
 
 void func_8004A7C0(int index)
@@ -18,7 +18,7 @@ void func_8004A7C0(int index)
         return;
     item = (int *)((u8 *)D_80011434 + table_offset);
     do {
-        func_80076ED0(0, *item);
+        SpuSetKey(0, *item);
         result = func_80077090(*item);
         if (result == 2)
             break;

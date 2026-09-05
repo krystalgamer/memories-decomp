@@ -16,7 +16,7 @@ typedef struct { u32 words[2]; } Blk8;
 
 extern void func_80047788(u16);
 extern void func_8004763C(void);
-extern void func_80076ED0(s32, s32);
+extern void SpuSetKey(long, unsigned long);
 extern s32 func_80077090(s32);
 extern void func_80077450(void *);
 
@@ -76,7 +76,7 @@ void func_800478EC(void)
             }
             g_SDValue->voice_active_mask &= ~bit2;
             g_SDValue->voice_step[i] = 0;
-            func_80076ED0(0, mask);
+            SpuSetKey(0, mask);
             accum |= mask;
         }
     tail:
@@ -87,21 +87,21 @@ void func_800478EC(void)
             if (timer == 0) {
                 v0 = func_80077090(mask);
                 if (v0 != 0) {
-                    func_80076ED0(0, mask);
+                    SpuSetKey(0, mask);
                     accum |= mask;
                 }
             }
         }
         v0 = func_80077090(mask);
         if (v0 == 3 && !(accum & mask)) {
-            func_80076ED0(0, mask);
+            SpuSetKey(0, mask);
             accum |= mask;
         }
         bit2 <<= 1;
         mask <<= 1;
     }
     if (accum != 0)
-        func_80076ED0(0, accum);
+        SpuSetKey(0, accum);
 }
 
 void func_80047A68(void)
@@ -116,7 +116,7 @@ void func_80047A68(void)
             result |= mask;
         mask <<= 1;
     }
-    func_80076ED0(0, result);
+    SpuSetKey(0, result);
 }
 
 s32 func_80047AD0(s32 value)
@@ -156,7 +156,7 @@ void func_80047BB4(u16 *items, s32 count)
 {
     s32 i;
 
-    func_80076ED0(0, SD_VOICE_SLOT_MASK_ALL);
+    SpuSetKey(0, SD_VOICE_SLOT_MASK_ALL);
     func_8004763C();
     g_SDValue->flags_0040 |= 2;
     for (i = 0; i < count; i++) {
@@ -180,7 +180,7 @@ void func_80047C70(s32 value)
     s32 count;
 
     for (count = 0; count < 256; count++) {
-        func_80076ED0(0, value);
+        SpuSetKey(0, value);
         if (func_80077090(value) == 0)
             break;
     }
