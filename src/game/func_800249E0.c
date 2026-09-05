@@ -51,10 +51,12 @@ u8 *func_800249E0(s32 a, s32 b) {
     v = *(u16 *)(g + 0x39FC);
     p->card_id = v;
     p->attack =
-        (gDuel_adwCardStats[(s16)v - 1] & 0x1FF) * CARD_STAT_SCALE;
+        (gDuel_adwCardStats[(s16)v - 1] & CARD_STAT_VALUE_MASK) *
+        CARD_STAT_SCALE;
     m = idx * 2 + 1;
     p->defense =
-        ((gDuel_adwCardStats[(s16)p->card_id - 1] >> 9) & 0x1FF) *
+        ((gDuel_adwCardStats[(s16)p->card_id - 1] >>
+          CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
         CARD_STAT_SCALE;
     p->stat_modifier = 0;
     p->terrain_modifier =
