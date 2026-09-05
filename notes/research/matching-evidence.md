@@ -1260,6 +1260,45 @@ The practical rule is that once shape, count, profile and types are settled
 and the only difference is which register holds a long-lived address, further
 source permutation is low-yield — record what was measured and move on.
 
+## Value-level levers cannot move address CSE
+
+Where retail re-materialises an address that GCC keeps live in a register,
+the natural instinct is to reach for `volatile`, or to shorten the lifetime
+of the loaded value. Neither works, and it is worth recording the measurements
+so the same three attempts are not repeated.
+
+`func_80012DB4` sits one instruction short for exactly this reason. It reads
+`D_8009AFA4` and later writes it, and retail forms the address twice:
+
+```
+lui  $v1, %hi(D_8009AFA4)      # read
+lbu  $v1, %lo(D_8009AFA4)($v1)
+...
+lui  $at, %hi(D_8009AFA4)      # write, address formed again
+sb   $zero, %lo(D_8009AFA4)($at)
+```
+
+The candidate forms it once and reuses the register for the write, losing
+that second `lui`. Three levers were measured against it:
+
+| lever | result |
+| --- | --- |
+| `volatile` on the store target | one diff worse, no extra `lui` |
+| `volatile` on the shared symbol | byte-identical |
+| read into a local to shorten the value's live range | byte-identical |
+
+All three act on the **value** — through volatile semantics, or through when
+the loaded byte is consumed. None of them touches the address computation, so
+none produces the re-materialisation. This is the same distinction already
+recorded for volatile and CSE: constraining when a load happens says nothing
+about whether the compiler keeps its base register live.
+
+The pattern generalises across unrelated functions: a packet pointer passed to
+a call, an object pointer returned from an allocator, a loop-invariant array
+base, and now a re-formed store address. Once shape, count, profile and types
+are settled and the only remaining difference is which register holds an
+address, source permutation is low-yield. Record the measurements and move on.
+
 ## Mixed %gp_rel and absolute addressing is a declaration signal
 
 When retail reaches some globals through `%gp_rel($gp)` and others with an
