@@ -525,3 +525,45 @@ and result-display branches despite changing the score contribution.
 - **High** that both comparison sites preserve the complete Exodia-specific
   presentation path; their branches are clear in resident assembly, while
   the surrounding state machines remain only partially named.
+
+## Library 3D-card crash workaround
+
+**Tutorial:** `Tutorial Bug do Library e Bug 3D.txt`
+
+The tutorial writes `5C 02 3C` beginning at SLUS offset `0x1B5ED`. The byte
+immediately before that range is zero, so the complete instruction at
+`0x1B5EC` changes from:
+
+```text
+00 00 00 00    nop
+00 5C 02 3C    lui $v0, 0x5C00
+```
+
+That instruction maps to `0x8002ADEC` in `func_8002ACA4`, which is reached
+from the Library menu update path. Retail code has just loaded the selected
+card's packed word from `gDuel_adwCardStats[card_id - 1]`. It then extracts
+bits `26`-`30` and calls `Model_LoadMonsterMerge` only when the value is less
+than `CARD_TYPE_MAGIC` (`20`):
+
+```text
+type = (gDuel_adwCardStats[card_id - 1] >> 26) & 0x1F
+if (type < 20)
+    Model_LoadMonsterMerge(...)
+```
+
+The inserted `lui` overwrites the loaded word with `0x5C000000`. Its type
+field is `23`, the `CARD_TYPE_EQUIP` value, so the comparison fails and the
+monster-model load is skipped. The patch therefore avoids the reported crash
+by suppressing this 3D setup path; it does not repair the card-name pointer
+described in the first half of the tutorial. It also applies at the shared
+decision point rather than only to the malformed card.
+
+**Confidence:**
+
+- **Confirmed** that the three-byte edit completes the instruction
+  `lui $v0, 0x5C00` at `0x8002ADEC`.
+- **Confirmed** that the replacement produces type value `23` and bypasses
+  the `Model_LoadMonsterMerge` call.
+- **High** that bypassing this call is the complete reason the tutorial's
+  reported Library crash disappears; the failure itself has not been
+  reproduced with the external card editor.
