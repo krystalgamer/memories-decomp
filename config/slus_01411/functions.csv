@@ -678,7 +678,7 @@ address,size,name,status,module,notes
 0x8004318C,0xA4,func_8004318C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80043230,0xF8,func_80043230,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80043328,0x1CC,func_80043328,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x800434F4,0x168,func_800434F4,unmatched_asm,game,
+0x800434F4,0x168,func_800434F4,matching_c,game,Matched from updated collaborator source: volatile display-state accesses and scoped 0x100 lifetime reproduce retail code generation.
 0x8004365C,0x25C,func_8004365C,matching_c,game,Pure-C inline refinement matched the full executable.
 0x800438B8,0xA8,func_800438B8,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80043960,0x26C,func_80043960,matching_c,game,Pure-C inline refinement matched the full executable.
