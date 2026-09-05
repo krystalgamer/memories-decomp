@@ -282,6 +282,56 @@ SHA-256: 5b59103a270882b261ff9c13ba68060a90b3b01f9b5475da50af11dc5908ba19
 - **Tentative** on individual palette boundaries and which menu elements use
   each range; those still require GPU-upload or draw-call evidence.
 
+## WA menu background and symbol palettes
+
+**Tutorial:** `Paleta Inicial.txt`
+
+The tutorial identifies two image starts and two palette starts in
+`WA_MRG.MRG`:
+
+| Resource named by tutorial | WA offset | Package-relative offset |
+|---|---:|---:|
+| Menu background image | `0xFD3800` | `+0x00000` |
+| Menu symbol image | `0xFE3800` | `+0x10000` |
+| Background palette, 256 colours | `0xFEB800` | `+0x18000` |
+| Symbol palette, 16 colours | `0xFEBA00` | `+0x18200` |
+
+The resident loader in `func_8002F630` requests 50 sectors beginning at WA
+sector `0x1FA7`. This is exactly the package
+`0xFD3800-0xFEC800`:
+
+```text
+0x1FA7 * 0x800 = 0xFD3800
+0x32   * 0x800 = 0x19000
+```
+
+Its exact matching callback, `func_8002F4C0`, divides the package at
+`+0x18000`, the tutorial's first palette offset. The callback then uploads a
+`256 x 2` rectangle of 16-bit colour values to VRAM `(0, 244)`. The
+`0x200`-byte 256-colour palette therefore fills the first row, and the
+16-colour palette at `+0x200` begins the second row at VRAM `(0, 245)`.
+
+The two image starts likewise divide the front `0x18000` bytes into a
+`0x10000`-byte first range and a `0x8000`-byte second range. Both ranges and
+both palette spans contain retail data rather than padding:
+
+```text
+WA[0xFD3800:0xFE3800]  SHA-256 48c6a860dc1da811fc739de4a248e0fbe9ca92e78f6580d273a72609cc5e0b6f
+WA[0xFE3800:0xFEB800]  SHA-256 58da7dcc3c46e6dcf3cc61854ad04c7f64c3a5509ce77fba9411c809e296ed75
+WA[0xFEB800:0xFEBA00]  SHA-256 59a8f715e25f09a875747f647b700aefa0d78d759512400179406bf42449c2a7
+WA[0xFEBA00:0xFEBA20]  SHA-256 6c98c1e36e44f6b060ef7c9fd751cb651dc3aea83c362fbfa1a627e10894c25a
+```
+
+**Confidence:**
+
+- **Confirmed** that all four offsets belong to the fixed 50-sector package
+  loaded from WA sector `0x1FA7`.
+- **Confirmed** that the two palette offsets map to the first full row and
+  the first 16 entries of the second row in the callback's VRAM upload.
+- **High** that the two front ranges are respectively the menu background
+  and symbol images; their boundaries and loader are exact, while the visual
+  labels come from the tutorial.
+
 ## Card cursor and fusion-number graphics
 
 **Tutorials:**
