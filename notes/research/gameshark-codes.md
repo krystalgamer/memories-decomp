@@ -48,7 +48,8 @@ below are provably wrong — see that section.
 
 Each duelist has a 4-byte record: **wins** at the base, **losses** two bytes
 later. Duelist IDs 1–39 occupy slots 1–39 of a 40-record grid table beginning
-at `0x801D071C`; their first record is at `0x801D0720`.
+at `gFreeDuel_aDuelistRecords` (`0x801D071C`); their first record is at
+`0x801D0720`.
 
 | wins / losses | duelist |
 |---|---|
@@ -107,7 +108,8 @@ mod; the stride says which ones:
 
 Corrected, the duelist records have stride 4 with no gaps from `0x801D0720`
 through `0x801D07BB`. They are slots 1–39 of the 40-slot backing table at
-`0x801D071C`; slot 0 corresponds to the non-duelist Build Deck grid tile.
+`gFreeDuel_aDuelistRecords` (`0x801D071C`); slot 0 corresponds to the
+non-duelist Build Deck grid tile.
 
 | code | what it does |
 |---|---|

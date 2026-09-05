@@ -31,6 +31,7 @@ global,0x801A8008,gLibrary_aPasswordCardData,confirmed,ram_map.txt,"Password-scr
 global,0x801D0200,gDuel_awPlayerDeck,confirmed,"ram_map.txt; gms.c playerDeck","Current 40-card player deck."
 global,0x801D0250,gLibrary_abCardChest,confirmed,"ram_map.txt; gms.c trunk","Per-card chest/trunk quantities."
 global,0x801D06F4,gFreeDuel_dwUnlockedDuelists,confirmed,ram_map.txt,"Free Duel unlocked-duelist bitset."
+global,0x801D071C,gFreeDuel_aDuelistRecords,confirmed,"FreeDuel_Init overlay read/write; live Simon and Teana record tests; 40-record extent ending at gDuel_awRecentCardDrops; Unchiga F70/F75/F156","Forty {u16 wins, u16 losses} Free Duel grid records; slot 0 is Build Deck and slots 1-39 are duelists."
 global,0x801D07BC,gDuel_awRecentCardDrops,confirmed,"ram_map.txt; matching func_80032370 16-entry reverse scan and compaction; next symbol at 0x801D07DC; Unchiga F32/F61","Sixteen most recently acquired card IDs; duel drops and password purchases both feed the list."
 global,0x801D07E0,gLibrary_dwStarchips,confirmed,ram_map.txt,"Current starchip count."
 global,0x800917F0,gDuel_aOpponentData,high,"gms.c oppData; AI callers","Per-opponent AI metadata table."

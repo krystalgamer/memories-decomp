@@ -53,6 +53,7 @@ gLibrary_aPasswordCardData = 0x801A8008;
 gDuel_awPlayerDeck = 0x801D0200;
 gLibrary_abCardChest = 0x801D0250;
 gFreeDuel_dwUnlockedDuelists = 0x801D06F4;
+gFreeDuel_aDuelistRecords = 0x801D071C;
 gDuel_awRecentCardDrops = 0x801D07BC;
 gLibrary_dwStarchips = 0x801D07E0;
 gDuel_aOpponentData = 0x800917F0;
