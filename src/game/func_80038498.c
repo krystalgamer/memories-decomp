@@ -1,6 +1,6 @@
 #include "../types.h"
 
-extern u8 D_801D5708[];
+extern u8 gText_abColorSlots[];
 
 void func_80038498(u8 *arg0)
 {
@@ -12,7 +12,7 @@ void func_80038498(u8 *arg0)
     *slot = q + 1;
     w = v;
     if (v & 0x80) {
-        w = D_801D5708[v & 0xF];
+        w = gText_abColorSlots[v & 0xF];
     }
     arg0[0x54] = w;
 }
