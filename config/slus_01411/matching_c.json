@@ -3256,7 +3256,7 @@
       "address": "0x80042960",
       "profile": "gcc_2_8_1_g8",
       "size": "0x48",
-      "source": "src/game/func_80042960.c"
+      "source": "src/game/display_object_animation_state.c"
     },
     {
       "address": "0x800429A8",
