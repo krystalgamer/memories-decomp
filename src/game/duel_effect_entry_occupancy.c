@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 
-extern u8 D_800EAF08[];
+extern u8 D_800EAF08[DUEL_EFFECT_OCCUPANCY_COUNT];
 extern u8 D_8009B324;
 extern u8 D_8009B325;
 void func_80035CA8(int value)
@@ -9,20 +9,24 @@ void func_80035CA8(int value)
     int index;
     u8 *entry = D_800EAF08;
     value++;
-    for (index = 0; index < 0xF0; index++, entry++) {
+    for (
+        index = 0;
+        index < DUEL_EFFECT_OCCUPANCY_COUNT;
+        index++, entry++
+    ) {
         if (*entry == value) {
             *entry = 0;
         }
     }
 }
 
-/* Clears the 240-byte D_800EAF08 occupancy table (see func_80035CA8) and
-   resets its scan cursor to (0,0). */
+/* Clears the D_800EAF08 occupancy table (see func_80035CA8) and resets its
+   scan cursor to (0,0). */
 void DuelEffect_ResetOccupancy(void) {
     u8 *v0;
     int v1;
     v0 = D_800EAF08;
-    v1 = 239;
+    v1 = DUEL_EFFECT_OCCUPANCY_COUNT - 1;
     do {
         *v0 = 0;
         v1 = v1 - 1;

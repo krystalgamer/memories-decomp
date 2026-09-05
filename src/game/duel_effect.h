@@ -7,6 +7,7 @@
 
 #define DUEL_EFFECT_CHANNEL_COUNT 4
 #define DUEL_EFFECT_ENTRY_COUNT 620
+#define DUEL_EFFECT_OCCUPANCY_COUNT 240
 
 typedef struct {
     u8 pad_00[0x28];
