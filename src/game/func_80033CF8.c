@@ -8,7 +8,7 @@ struct Rec {
 };
 extern struct Rec *D_8009B310;
 extern u32 D_8009B314;
-extern s32 func_80086E50(s32);
+extern long SquareRoot0(long);
 extern s32 func_800899A0(s32, s32);
 
 void func_80033CF8(s32 dx, s32 dy, s32 dz) {
@@ -16,7 +16,7 @@ void func_80033CF8(s32 dx, s32 dy, s32 dz) {
     s32 q;
     s32 v;
 
-    D_8009B310->f2 = func_80086E50(dx * dx + dz * dz);
+    D_8009B310->f2 = SquareRoot0(dx * dx + dz * dz);
     q = func_800899A0(dx, dz) / 16;
     if (q >= 256) {
         q = 255;

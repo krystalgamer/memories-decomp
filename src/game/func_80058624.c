@@ -10,7 +10,7 @@ typedef struct {
 } LocalVectorSet;
 
 extern LocalVectorSet D_800F56F0;
-extern s32 func_80086E50(s32);
+extern long SquareRoot0(long);
 extern void SD_SEPlay(u16, u8, s8);
 extern void func_80048A28(u16, u8, s8);
 
@@ -39,7 +39,7 @@ void func_80058624(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     pp = (s8 *)&st[1];
     st[0] = 0;
     st[1] = 0;
-    r = func_80086E50(dx * dx + dz * dz);
+    r = SquareRoot0(dx * dx + dz * dz);
     b = *(s32 *)(p + 8);
     c = *(s32 *)(p + 0xC);
     d = *(s32 *)(p + 0x14);
@@ -47,7 +47,7 @@ void func_80058624(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     a = D_800F56F0.x0;
     ex = a - c;
     n = c * b - a * d;
-    dd = func_80086E50(ez * ez + ex * ex);
+    dd = SquareRoot0(ez * ez + ex * ex);
     r -= 0x2BC;
 
     st[0] = 0xFF;
