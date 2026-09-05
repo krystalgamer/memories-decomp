@@ -84,7 +84,7 @@ the applies and byte-verify once).
 
 | address | current name | observed | suspicion |
 |---|---|---|---|
-| `0x8009B0AC` | `D_8009B0AC_raw` (alias exists) | Flips on pane/panel switches in both build deck and library. | Active-pane byte, `g_ActivePane`; confirm polarity before applying. |
+| `0x8009B0AC` | `gGraphics_bActiveBuffer` | Alternates 0/1 every frame in a stationary Library screen; `func_80012E5C` stores `GsGetActiveBuff()` here. | RESOLVED: active graphics double-buffer index, not a pane selector. |
 
 ## SE id catalog (facts, kept here until the table earns a home)
 

@@ -30,7 +30,7 @@ local ffi = require('ffi')
 local SCRIPT_NAME = 'build_deck_commit'
 local MAIN_MODE = 0x8009b26c
 local BUILD_DECK_MODE = 7
-local ACTIVE_PANE = 0x8009b0ac
+local ACTIVE_BUFFER = 0x8009b0ac
 local SELECTED_CARD = 0x8009b338
 local WORKING_DECK_COUNT = 0x801d560c
 local SAVED_DECK = 0x801d0200
@@ -83,8 +83,8 @@ local function capture(reason, count, cards)
     emit('')
     emit(string.format('--- sample %d: %s ---', samples, reason))
     emit(string.format(
-        '  mode=0x%02X active_pane=%d working_count=%d selected_card=%d',
-        u8(MAIN_MODE), u8(ACTIVE_PANE), count, u16(SELECTED_CARD)
+        '  mode=0x%02X active_buffer=%d working_count=%d selected_card=%d',
+        u8(MAIN_MODE), u8(ACTIVE_BUFFER), count, u16(SELECTED_CARD)
     ))
     emit('  gDuel_awPlayerDeck: ' .. deckKey(cards))
 end
