@@ -3655,6 +3655,12 @@
       "source": "src/game/sound_command_wrappers.c"
     },
     {
+      "address": "0x80047480",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_no_strength_reduce",
+      "size": "0x1BC",
+      "source": "src/game/func_80047480.c"
+    },
+    {
       "address": "0x8004763C",
       "profile": "gcc_2_8_1_cc_g0_as_g8_no_split",
       "size": "0x78",

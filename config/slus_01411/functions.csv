@@ -754,7 +754,7 @@ address,size,name,status,module,notes
 0x800473F0,0x40,func_800473F0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80047430,0x28,func_80047430,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80047458,0x28,func_80047458,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80047480,0x1BC,func_80047480,unmatched_asm,game,
+0x80047480,0x1BC,func_80047480,matching_c,game,Sound-state initializer; exact with no strength reduction and assembler G0.
 0x8004763C,0x78,func_8004763C,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_cc_g0_as_g8_no_split.
 0x800476B4,0xD4,func_800476B4,matching_c,game,Collaborator loop-rotation and destination-pointer evidence independently verified; exact linked bytes and relocations with the keep-large-ORI profile.
 0x80047788,0xDC,func_80047788,unmatched_asm,game,
