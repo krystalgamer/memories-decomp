@@ -265,3 +265,40 @@ which is ordinary code and carries no data-placement constraint.
 That difference is the check worth applying: look at where the destination
 lives. A destination built from `$sp` is an initialised local and means data
 has to be emitted; a destination that is another global is just a copy.
+
+## One overlay function was compiled without optimisation
+
+`func_801697D0`, which appears identically in both overworld modules, is the
+only function across all five overlays that was not built with the usual
+optimised profile. Trying it under `gcc_2_8_1_g0_split` cannot work, and that
+is why it is the last untouched function in those two modules.
+
+The tells are all in the generated assembly, and any one of them is enough:
+
+```
+addu  $fp, $sp, $zero            # a frame pointer, which nothing else has
+sw    $v0, 0x18($fp)             # every local written to the frame ...
+lw    $v0, 0x18($fp)             # ... and reloaded on the next instruction
+addu  $a0, $v0, $zero            # redundant copies kept
+andi  $v1, $v0, 0x20             # an already-masked value masked again
+andi  $v0, $v1, 0xFFFF
+lui   $at, %hi(D_8016A2B8)       # absolute addresses through the assembler
+sw    $v0, %lo(D_8016A2B8)($at)  # temporary, 22 times
+```
+
+Confirmed by compiling a reduced version of the opening block directly: `-O0`
+reproduces the frame pointer, both store-and-reload pairs, the redundant copy
+and the `sll 5 / addu / sll 1` index chain in the target's order, while `-O1`
+keeps the locals in registers, emits no frame pointer, and produces explicit
+`%hi`/`%lo` pairs. The `$at` expansions say `-msplit-addresses` is absent.
+
+**The cheap check before starting any overlay function** is therefore
+`grep 'addu \$fp, \$sp'` on its generated assembly. Every unmatched function in
+all five modules was scanned; this is the only hit.
+
+Worth stating because the size is misleading in the opposite direction from
+usual: at `0x684` it is one of the largest unmatched functions, but unoptimised
+output has no instruction scheduling and no register allocation to reproduce,
+so it should be closer to a transliteration than the optimised functions half
+its size. What it needs first is a profile, since none in
+`compiler_profiles.json` uses `-O0`.
