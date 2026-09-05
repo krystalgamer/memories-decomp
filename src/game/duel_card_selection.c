@@ -53,7 +53,7 @@ s32 func_800278A0(void *arg0)
         entry = &D_801A7AD8[row];
         if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
             found++;
-            if (!(entry->flags & 0x1000)) {
+            if (!(entry->flags & DUEL_CARD_FLAG_FACE_DOWN)) {
                 s32 result = func_8001EFD4(
                     *(DuelSelectionObject **)arg0, entry->object);
                 if (result > 0) {

@@ -49,7 +49,7 @@ void AiScript_MatchType(void)
             }
         }
         if (set == one && range >= 5) {
-            if ((entry->flags & 0x1000) != 0) {
+            if ((entry->flags & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
                 goto next;
             }
         }

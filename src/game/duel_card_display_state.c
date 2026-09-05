@@ -56,7 +56,7 @@ void func_80017E3C(DuelCardDisplayObject *object)
     if (card->flags & 0x1800) {
         object->flags = flags | 4;
         object->field_21 = 0;
-        if (card->flags & 0x1000) {
+        if (card->flags & DUEL_CARD_FLAG_FACE_DOWN) {
             object->field_21 = 0x80;
         }
         object->field_22 = 0;
