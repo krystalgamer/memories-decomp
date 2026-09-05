@@ -257,3 +257,4 @@ function,0x8004BB34,SD_ReadVariableLengthValue,high,"matching body; continuation
 function,0x8004BC2C,SD_ReadSequenceU32BE,high,"matching body; four ordered SD_ReadSequenceByte calls; sequence-header and meta-event consumers","Reads a four-byte big-endian value from the active sound sequence."
 function,0x8004BCA8,SD_ReadSequenceU16BE,high,"matching body; two ordered SD_ReadSequenceByte calls; sequence-header timebase consumer","Reads a two-byte big-endian value from the active sound sequence."
 global,0x8009B0AC,gGraphics_bActiveBuffer,confirmed,"func_80012E5C stores the GsGetActiveBuff return; stationary Library trace alternates 0/1 every frame","Game-owned mirror of the active Psy-Q graphics double-buffer index."
+function,0x8003CCD8,Input_UpdatePads,high,"matching body; Main frame caller; two-controller held/pressed/repeat publication","Consumes the pending 32-bit controller mask and publishes held, newly pressed, and timer-driven repeat masks for both pads."

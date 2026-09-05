@@ -10,7 +10,7 @@ extern void func_80047050(void);
 extern void func_8001306C(void);
 extern void func_80012DB4(void);
 extern void func_80012E5C(void);
-extern void func_8003CCD8(void);
+extern void Input_UpdatePads(void);
 
 void Main_VBlankCB(void)
 {
@@ -33,7 +33,7 @@ void func_80012D4C(void)
     func_8001306C();
     func_80012DB4();
     func_80012E5C();
-    func_8003CCD8();
+    Input_UpdatePads();
 }
 
 void func_80012D84(int count)

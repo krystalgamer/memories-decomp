@@ -18,7 +18,7 @@ extern u32 D_8009B3A8;
 extern u32 D_8009B3B0;
 extern u32 D_8009B3B4;
 
-void func_8003CCD8(void)
+void Input_UpdatePads(void)
 {
     s32 i;
     u32 repeat;
