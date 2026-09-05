@@ -108,7 +108,7 @@ functions:
 | Bypass life-point limit behavior | `0x800251A4` | `func_800250C8` |
 | Hide triangle text | `0x800284D8` | `func_800283F4` |
 | Hide triangle image | `0x8002946C` | `func_800291E0` |
-| Guardian-star sound/cursor | `0x800370E4`, `0x800370EC`, `0x800371D0`, `0x8003725C` | `func_8003700C`, `func_800371A8` |
+| Guardian-star sound/cursor | `0x800370E4`, `0x800370EC`, `0x800371D0`, `0x8003725C` | `Dialog_ReadChoiceInput` (`0x8003700C`), `Dialog_UpdateChoice` (`0x800371A8`) |
 | Guardian-star symbols | `0x80037FF4` | `func_80037DA4` |
 | Guardian-star text | `0x80039730` | `func_800393B0` |
 | Allow equal duelist codes | `0x8003FAE8`, `0x8003FAF0` | `func_8003F8D4` |
