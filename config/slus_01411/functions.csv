@@ -1669,7 +1669,7 @@ address,size,name,status,module,notes
 0x8008A4A0,0x2B8,func_8008A4A0,sdk_asm,psyq/sdk,
 0x8008A760,0x2C8,func_8008A760,sdk_asm,psyq/sdk,
 0x8008AA30,0x314,func_8008AA30,sdk_asm,psyq/sdk,
-0x8008AD50,0x3D0,func_8008AD50,sdk_asm,psyq/sdk,
+0x8008AD50,0x3D0,GsSetRefView2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/GS_131.OBJ signature and matching camera-state callers.
 0x8008B120,0xEC,func_8008B120,sdk_asm,psyq/sdk,
 0x8008B20C,0xC8,func_8008B20C,sdk_asm,psyq/sdk,
 0x8008B2D4,0x1C,func_8008B2D4,sdk_asm,psyq/sdk,

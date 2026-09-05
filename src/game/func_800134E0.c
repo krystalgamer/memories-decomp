@@ -10,7 +10,7 @@ typedef struct {
     int z_offset;
 } Object;
 
-extern void func_8008AD50(int *, int, int, int);
+extern void GsSetRefView2(int *, int, int, int);
 
 void func_800134E0(Object *object, int x, int y, int z)
 {
@@ -22,5 +22,5 @@ void func_800134E0(Object *object, int x, int y, int z)
     z += vector[5];
     vector[1] = y;
     vector[2] = z;
-    func_8008AD50(vector, x, y, z);
+    GsSetRefView2(vector, x, y, z);
 }
