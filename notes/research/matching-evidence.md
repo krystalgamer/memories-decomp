@@ -583,6 +583,77 @@ completion flag on every exit. That pure C now matches all `0x58` bytes under
 - Three-way state initializers are especially sensitive to assignment order
   and whether the original source was a switch or nested conditionals.
 
+### Source shapes that steer GCC, verified against the target
+
+Each of these was isolated by taking a candidate that was already close and
+changing exactly one thing. They are levers, not style: the alternative spelling
+in each row is byte-different, not just different-looking.
+
+**Keep a sign-extending load by widening the consumer.** A `s16` local read and
+stored straight back into an `s16` global loads with `lhu` — the result is
+truncated on the way out, so GCC drops the sign extension. Taking the value
+through an `s32` first makes the extension load-bearing and GCC folds it back
+into the load as `lh`. `func_800178BC` reads the two halves of a `swc2 $14`
+write-back this way: `lhu` for the half that stays unsigned, `lh` for the one
+that goes through an `s32`.
+
+**Force a local onto the stack with an `"=m"` output rather than `volatile`.**
+`volatile s16 x` does put the local in memory, but the read comes back as `lhu`
+plus an `sll`/`sra` pair, and the local can still take a callee-saved register
+elsewhere. Adding the local as an `"=m"` operand of the asm block that writes it
+places it in the frame and reads it with a single `lh`. That is the difference
+between 0xA4 and 0xAC in `func_8001B0CC`.
+
+**Split a multiply and a divide across three assignments to defeat
+reassociation.** `(x * 8 + 0x7FF) / 0x800` folds to `(x + 0xFF) / 0x100` —
+identical arithmetic, one instruction shorter, no `sll`. Written as
+
+```c
+step = (s32)(x << 3);
+step = (step + 0x7FF) / 0x800;
+step = step + 1;
+```
+
+GCC keeps the shift, both bias arms and the `sra` exactly as the target has them.
+Two statements is not enough; it has to be three, each assigning the same
+variable. The `__asm__ volatile("" : "+r"(v))` barrier also blocks the fold, but
+it pins the intermediate and reorders everything around it — 39 of 55
+instructions in `func_80047788` — so it is the wrong tool here.
+
+**Name a load to coalesce base-plus-index.** `p = (u8 *)(index + *(s32 *)(base))`
+loads into one register and adds into another. Naming the load first,
+
+```c
+u8 *b = (u8 *)*(s32 *)(base);
+p = (u8 *)(index + (s32)b);
+```
+
+coalesces the copy and produces the target's `addu $v1, $s0, $v1`. Note the
+operand order matters and is not symmetric: `p = b; p += index;` also coalesces
+but emits `addu $v1, $v1, $s0`, a different encoding.
+
+**Write an unrotated loop with explicit `goto`.** GCC rotates a loop whose test
+is at the top, duplicating the test and branching into the middle. Every
+structured spelling of the inner search in `func_8003B5C8` does this and costs
+three to eight instructions; only
+
+```c
+top:
+    if (hit) { ...; goto done; }
+    e++;
+    if (!end) { idx++; goto top; }
+done:;
+```
+
+reproduces the target's single top test with a back-edge to it. Compare with the
+`goto` lever recorded under "GCC rotates a top-of-loop conditional exit", which
+addresses block *placement*; this one addresses loop *rotation*, and the two are
+independent.
+
+**Hoist a loop-invariant probe by hand.** GCC did not lift `*(s32 *)D_801D9004`
+out of the outer loop in `func_8003B5C8`; reading it into a local before the loop
+is what reproduces the target's single load into `$t3`.
+
 ### Compiler-generated jump tables cannot currently be integrated
 
 A `switch` that GCC compiles into a jump table cannot be accepted by the build
@@ -1081,6 +1152,26 @@ G8-compiler profile can reach the *exact instruction count* on
 an absolute `lui`/`lw` pair. That count is an artifact of the wrong codegen
 family, not progress; the G0 line is one instruction longer and is the one to
 work from.
+
+### `D_8009B458` behaves as `u8 * volatile`
+
+`func_8004A43C` settles a question the three functions above left open. It reads
+`D_8009B458` three times in one body without caching the pointer, and a plain
+`SDSecondaryState *` declaration will not do that — GCC loads it once and reuses
+the register. Declaring it in the translation unit as
+
+```c
+extern u8 * volatile D_8009B458;
+```
+
+reproduces all three reads, and is the same modelling `func_80049138` already
+uses for `g_SDValue` under `SDVALUE_CUSTOM_EXTERN`. The two globals are the same
+kind of thing and should be declared the same way.
+
+Re-scored with the volatile declaration, `func_8004A6F8`, `func_8004A27C` and
+`func_8004A764` each move by at most one instruction — they read the pointer once,
+so it does not change their residual. It is correctness rather than a lever for
+those three, but it is what any new function in the group should start from.
 
 ### A shared residual worth recognising
 
