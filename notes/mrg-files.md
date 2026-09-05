@@ -33,6 +33,10 @@ establish:
 | 5 | `SD_BGM.DAT` | 2,936 |
 | 6 | `MASTER.XA` | 199,930 |
 
+A boot-time PCSX-Redux trace observed all seven words populated before the
+Konami screen, with these exact values and a null filename pointer after index
+6. This confirms that the runtime lookup agrees with the retail disc layout.
+
 Loader offsets and counts for the three MRG files are expressed in
 `0x800`-byte logical sectors. `func_80013940` converts a file-relative sector
 to both a byte offset and an absolute disc LBA.
