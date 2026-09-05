@@ -143,6 +143,30 @@ multiplies the two nine-bit stats by ten when initializing a duel-card record.
 This is the in-memory card-stat table layout; it does not establish the
 on-disc encoding of any archive member.
 
+### Monster attribute and level
+
+`gDuel_abCardLevelAttr` at `0x801D5332` is a separate 723-byte table indexed
+directly by card ID, with entry zero reserved. Each byte stores the attribute
+in its high nibble and level in its low nibble:
+
+| Attribute value | Monster attribute |
+|---:|---|
+| `0` | Light |
+| `1` | Dark |
+| `2` | Earth |
+| `3` | Water |
+| `4` | Fire |
+| `5` | Wind |
+
+All 621 monster records use those six values and levels 1-12. The 101
+Magic, Trap, Ritual, and Equip records use high-nibble values 6 or 7 and a
+zero level; the card catalogue leaves their attribute blank.
+
+The only identified resident reference is matching `func_800291E0`. It copies
+the high nibble to card-display record byte `+0x3B` and the low nibble to
+`+0x3A`. No duel calculation is known to read this table, so its presence
+establishes card metadata and display state, not an attribute matchup rule.
+
 ### Music
 
 The page labels tracks `0x00` through `0x38`, including title/menu music,
