@@ -256,8 +256,33 @@ Two consequences worth stating plainly:
   for word. The bytes are the acceptance criterion for the data half of the
   change, and they are cheap to read out of `tmp/overlays/<module>/module.bin`.
 
-Every unmatched function in all five modules was scanned for the pattern.
-`func_80168CDC` is the only one affected. One other function block copies,
+### A jump table is the same blocker with a different tell
+
+A `switch` dense enough for GCC to build a jump table emits that table as data
+too, and the block-copy check above will not find it. `func_8016A37C` in the
+password module is the second member of this class:
+
+```
+lui   $v0, %hi(jtbl_8016807C)     # the tell: a jtbl_ symbol
+addiu $v0, $v0, %lo(jtbl_8016807C)
+sll   $v1, $v1, 2
+addu  $v1, $v1, $v0
+lw    $v0, 0x0($v1)
+jr    $v0
+```
+
+Its five words sit at module offset `0x7C`–`0x90`, inside the same
+`module_header` blob — and **immediately after** `func_80168CDC`'s `0x78`-byte
+initialiser at `0x4`–`0x7C`. The two functions' emitted data is contiguous, so
+whoever carves `module_header` should do both at once rather than twice.
+
+So the pre-flight check has two halves: `grep 'jtbl_'` as well as looking for
+the frame-bound block copy. Every unmatched function in all five modules was
+scanned for jump table references; `func_8016A37C` is the only hit, and the
+whole overlay set contains exactly one `jtbl` symbol.
+
+Every unmatched function in all five modules was scanned for the block-copy
+pattern. `func_80168CDC` is the only one affected. One other function block copies,
 `func_801821DC` in `main_menu`, but its copies run **between two regions of
 `D_801D1200`** rather than into the frame — a scroll within a resident buffer,
 which is ordinary code and carries no data-placement constraint.
