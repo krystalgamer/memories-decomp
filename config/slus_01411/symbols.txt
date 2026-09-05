@@ -389,6 +389,9 @@ gMovie_aStreamRanges = 0x8009151C;
 // Semantic names
 Duel_LoadPackageStage = 0x800171A8; // type:func
 
+// Semantic names
+gText_abColorSlots = 0x801D5708;
+
 // Psy-Q LIBAPI.LIB/PAD.OBJ
 InitPAD = 0x80073E1C; // type:func
 StartPAD = 0x80073EAC; // type:func
