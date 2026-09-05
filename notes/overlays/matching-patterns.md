@@ -346,6 +346,7 @@ the instruction count exactly, including the `361 << 3` expansion of the
 `2888`-byte row stride, and on `func_80168050` in the overworld overlays,
 where the body-computed offset produces a full match.
 
+<<<<<<< HEAD
 ## Struct members, not casts through a byte pointer
 
 Two ways of writing the same field access are not equivalent to the optimiser.
@@ -374,6 +375,36 @@ diagnosis. A load hoisted above a store looks like scheduling, and a register
 that will not move looks like allocation; both were recorded here as a sched1
 problem needing a profile that did not exist. The stock `gcc_2_8_1_g0_split`
 matches once the accesses are members.
+=======
+## A register copy before the last store may be the return value
+
+A tail that reads
+
+```
+lhu  $v1, 0xE($v0)
+move $v0, $s0
+sh   $v1, 0x32($v0)
+```
+
+looks like two temporaries being swapped, and the store using a fresh copy of
+the object pointer looks like an allocation quirk. It is neither. The `move`
+is the **return value copy** — the function returns that pointer — and the
+scheduler placed it in the load's delay slot, after which the store naturally
+uses `$v0` because the two registers already hold the same value.
+
+So when a value is copied into `$v0` shortly before the end and nothing else
+explains it, try returning it before reaching for a profile.
+
+Verified by `func_80168588`, shared by both overworld modules. Adding the
+`return` and giving the location-table base a named local shared by both record
+computations matches on the stock `gcc_2_8_1_g0_split`. The
+`-fno-schedule-insns` that had been recorded as necessary for its
+saved-register allocation makes it worse, at 58 instructions against 57.
+
+The shared base matters on its own: naming it is what puts its `%hi` ahead of
+the location load, which is the emission-order rule again — the term the source
+named first is emitted first.
+>>>>>>> e876f3e9 (decomp: match func_80168588 in both overworld overlays)
 
 ## Known unresolved residual
 

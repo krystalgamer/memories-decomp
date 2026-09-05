@@ -35,6 +35,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x78",
       "source": "src/overlays/overworld/camera_reset.c"
+    },
+    {
+      "address": "0x80168588",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xE4",
+      "source": "src/overlays/overworld/location_marker.c"
     }
   ],
   "schema": 1
