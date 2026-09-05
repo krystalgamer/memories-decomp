@@ -5179,6 +5179,12 @@
       "source": "src/game/ai_script_count_cards.c"
     },
     {
+      "address": "0x800722CC",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "size": "0x1D0",
+      "source": "src/game/ai_script_match_type.c"
+    },
+    {
       "address": "0x8007249C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x128",
