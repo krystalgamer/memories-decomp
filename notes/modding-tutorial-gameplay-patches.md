@@ -341,11 +341,14 @@ multiplies the selected byte by `0x64` (decimal `100`), and advances the
 selected duel-side LP value toward its target.
 
 The damage table maps to Sparks, Hinotama, Final Flame, Ookazi, and
-Tremendous Fire. `func_8002525C` loads the selected byte from
-`gDuel_abDirectDamageUnits`, multiplies it by `10`, subtracts it from the
-selected LP halfword at `+0x14`, and clamps a negative result to zero. The
-normal path selects the opposing duel side; an alternate reflected-damage
-path can redirect the same table value to the other side.
+Tremendous Fire. Exact matching C in `func_8002525C` loads the selected byte
+from `gDuel_abDirectDamageUnits`, multiplies it by `10`, subtracts it from the
+selected LP halfword at `+0x14`, and clamps a negative result to zero. When
+the alternate-state halfword at `0x8009B22A` is zero, the function selects
+`D_800E9FF0[playing_side ^ 1]`, the opposing side. Its other application
+branch selects `D_800E9FF0[playing_side]`, the active side, establishing the
+reflected-damage routing without assigning a semantic name to that state
+halfword.
 
 The retail values therefore reproduce the documented effects:
 
@@ -366,8 +369,9 @@ resident tables; they remain a separate asset-level investigation.
 
 - **Confirmed** that both five-byte resident tables and their scale factors
   produce the listed LP changes.
-- **Confirmed** that normal direct damage targets the opposing side, supports
-  a reflected path, and clamps the selected LP value to zero.
+- **Confirmed** that the normal and alternate branches target the opposing
+  and active side records respectively, and clamp the selected LP value to
+  zero.
 - **High** that the recovery path's `+0x16` halfword is the LP animation
   target; exact C proves the clamp relationship, but that adjacent field
   remains unnamed.
