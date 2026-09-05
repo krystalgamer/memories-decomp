@@ -2476,10 +2476,10 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015904,Fade_StartOut,matching_c,game,C,src/game/fade_out.c,address,,state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015944,func_80015944,matching_c,game,C,src/game/fade_transition_wait.c,address,,*(s32 *)&D_800E9EC8 = color; | state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015998,func_80015998,matching_c,game,C,src/game/fade_transition_wait.c,address,,FadeTransitionState *state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015A50,func_80015A50,matching_c,game,C,src/game/fade_wait.c,address,,state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015A94,func_80015A94,matching_c,game,C,src/game/fade_wait.c,address,,state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015B50,func_80015B50,matching_c,game,C,src/game/fade_wait.c,address,,state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015B94,func_80015B94,matching_c,game,C,src/game/fade_wait.c,address,,state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015A50,func_80015A50,matching_c,game,C,src/game/fade_control.c,address,,state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015A94,func_80015A94,matching_c,game,C,src/game/fade_control.c,address,,state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015B50,func_80015B50,matching_c,game,C,src/game/fade_control.c,address,,state = &D_800E9EC8;
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015B94,func_80015B94,matching_c,game,C,src/game/fade_control.c,address,,state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015BD8,func_80015BD8,matching_c,game,C,src/game/fade_control.c,address,,FadeTransitionState *state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015BF0,func_80015BF0,matching_c,game,C,src/game/fade_control.c,address,,FadeTransitionState *state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015C0C,func_80015C0C,matching_c,game,C,src/game/fade_control.c,address,,state = &D_800E9EC8;
