@@ -1260,6 +1260,54 @@ The practical rule is that once shape, count, profile and types are settled
 and the only difference is which register holds a long-lived address, further
 source permutation is low-yield — record what was measured and move on.
 
+## Mixed %gp_rel and absolute addressing is a declaration signal
+
+When retail reaches some globals through `%gp_rel($gp)` and others with an
+absolute `lui`/`%lo` pair *in the same function*, that split is evidence
+about the original declarations rather than noise. A global reached
+absolutely was not a small-data object, and modelling it as a plain scalar
+costs an instruction at every access.
+
+`func_80012DB4` reaches twelve globals gp-relatively and three absolutely:
+
+```
+lbu  $v1, %gp_rel(D_8009B0C0)($gp)     # one instruction
+lui  $v1, %hi(D_8009AFA4)              # two instructions
+lbu  $v1, %lo(D_8009AFA4)($v1)
+```
+
+Declared as `extern u8 D_8009AFA4;` under `-G8`, the compiler places the
+byte in small data and emits the one-instruction form, so the candidate came
+out three instructions short across the three affected accesses.
+
+Declaring the same symbols as **unsized extern arrays** and subscripting them
+restores the absolute form:
+
+```c
+extern u8 D_8009AFA4[];
+...
+if (D_8009AFA4[0] == 0) { ... }
+```
+
+An unsized array has unknown size, so it cannot be placed in the small-data
+section and must be reached with an absolute pair. That recovered exactly the
+three missing instructions.
+
+So before writing the externs for a function, count the two addressing forms
+in the target. The ratio tells you which globals to declare as size-unknown.
+
+### The `-G` threshold is a real tuning axis
+
+Small-data placement depends on the `-G` value the *assembler* receives, and
+the profile set carries `-G1`, `-G2` and `-G4` variants as well as the
+familiar `-G0` and `-G8`. On this function the best profile turned out to be
+an assembler `-G4` one, sitting between the extremes.
+
+Those intermediate profiles are easy to dismiss as padding in the profile
+list. They are not: they select exactly which globals fall under the
+small-data threshold, which is precisely the distinction the addressing split
+above is made of.
+
 ## A fast probe harness must copy the real flags
 
 Iterating on a candidate with a small local script - compile, run maspsx,
