@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 #include "duel_card.h"
 
 extern u8 D_8009B1D5;
@@ -22,7 +23,8 @@ s32 Duel_CollectFieldCardsBelowType(u8 **out, s32 arg1, s32 arg2)
             if (r->flags & 0x8000) {
                 k = (s16)r->card_id;
                 k--;
-                if (((t[k] >> 26) & 0x1F) < arg2) {
+                if (((t[k] >> CARD_STAT_TYPE_SHIFT) &
+                     CARD_STAT_TYPE_MASK) < arg2) {
                     *out++ = (u8 *)r;
                     count++;
                 }
@@ -54,7 +56,10 @@ s32 Duel_CollectFieldCardsByType(u8 **out, s32 arg1, s32 arg2) {
          * see docs/PARKED.txt's former entry. */
         do {
             if (r->flags & 0x8000) {
-                if (arg2 < 0 || (k = (s16)r->card_id, k--, ((t[k] >> 26) & 0x1F) == arg2)) {
+                if (arg2 < 0 ||
+                    (k = (s16)r->card_id, k--,
+                     ((t[k] >> CARD_STAT_TYPE_SHIFT) &
+                      CARD_STAT_TYPE_MASK) == arg2)) {
                     *out++ = (u8 *)r;
                     count++;
                 }

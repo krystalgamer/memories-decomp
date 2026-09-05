@@ -22,7 +22,8 @@ void BuildDeck_AddCard(s32 arg0, s32 arg1)
         if (((u8 *)entry)[5] == 0) {
             ((u8 *)entry)[5] = 1;
             entry[-2] = (s16)arg1;
-            ((u8 *)entry)[2] = (u8)((*record >> 26) & 0x1F);
+            ((u8 *)entry)[2] =
+                (u8)((*record >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK);
             entry[-1] =
                 (s16)((*record & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE);
             entry[0] =

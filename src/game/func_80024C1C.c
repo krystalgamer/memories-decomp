@@ -53,7 +53,7 @@ struct Obj *func_80024C1C(s32 cardId, s32 x, s32 y) {
     obj->f5C = 0;
     obj->f5D = 0xC0;
 
-    type = (s32)desc >> 26;
+    type = (s32)desc >> CARD_STAT_TYPE_SHIFT;
     type &= 0x1F;
     obj->f68 = (u8)type;
     obj->f42 = 0;

@@ -36,7 +36,7 @@ void func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
         "lw %0,0(%1)\n\t"
         "nop"
         : "=r"(bits), "+r"(table_index));
-    kind = (bits >> 26) & 0x1F;
+    kind = (bits >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
     switch (kind) {
     case CARD_TYPE_MAGIC:
     case CARD_TYPE_EQUIP:

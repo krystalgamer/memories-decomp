@@ -14,7 +14,8 @@ void AiScript_TestHighStat(void)
     s32 dest = AiScript_ReadByte();
     s32 result;
 
-    if (((gDuel_adwCardStats[value - 1] >> 26) & 31) < CARD_TYPE_MAGIC) {
+    if (((gDuel_adwCardStats[value - 1] >> CARD_STAT_TYPE_SHIFT) &
+         CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
         s32 attack = Duel_GetBaseCardStat(value, 0);
         s32 defense = Duel_GetBaseCardStat(value, 1);
         result = !(defense < attack);
@@ -30,7 +31,8 @@ void AiScript_LoadCardType(void)
     s32 index = memory[AiScript_ReadByte()] - 1;
 
     memory[AiScript_ReadByte()] =
-        (gDuel_adwCardStats[index] >> 26) & 0x1F;
+        (gDuel_adwCardStats[index] >> CARD_STAT_TYPE_SHIFT) &
+        CARD_STAT_TYPE_MASK;
 }
 
 void AiScript_LoadCardID(void)
