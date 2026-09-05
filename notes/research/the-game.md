@@ -1250,6 +1250,13 @@ Duel Master K last. Only two campaign duelists can be permanently missing
 from it: Villager 3 (never dueled before the festival) and Seto 2nd (all
 five shrines cleared before the labyrinth).
 
+The resident byte `gFreeDuel_bReturnFlags` (`0x8009B365`) records why the
+screen is being revisited. The Free Duel overlay sets `0x40` before opening
+Build Deck and `0x80` before starting a duel. Both values remain set when the
+screen returns, preserving the selected cell and skipping first-entry setup;
+the duel bit additionally tells `FreeDuel_Init` to update the selected
+duelist's win/loss record.
+
 > **Entered from:** loaded menu. **Exits to:** duel; loaded menu. **Reads:**
 > unlock mask, records, deck (must be 40). **Writes:** through the post-duel
 > path — starchips, trunk, records. **Uses:** duel engine, disc loader (the

@@ -14,3 +14,5 @@ gFreeDuel_pThumbWidget = 0x80169058;
 gFreeDuel_apSparklePool = 0x80169060;
 gFreeDuel_pCursorWidget = 0x801690A0;
 gFreeDuel_bScreenFlags = 0x801690A4;
+// Resident return-state byte shared with the menu dispatcher.
+gFreeDuel_bReturnFlags = 0x8009B365;

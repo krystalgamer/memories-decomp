@@ -190,6 +190,7 @@ global,0x8009B258,gCardGrid_bCursorColumn,confirmed,"Unchiga reversible live tra
 global,0x8009B259,gCardGrid_bCursorRow,confirmed,"Unchiga reversible live traces; local grid-navigation assembly","Row of the shared card-grid cursor."
 global,0x8009B366,gFreeDuel_bCursorColumn,confirmed,"Unchiga reversible live traces; separate free-duel cursor block","Column of the Free Duel opponent-grid cursor."
 global,0x8009B367,gFreeDuel_bCursorRow,confirmed,"Unchiga reversible live traces; separate free-duel cursor block","Row of the Free Duel opponent-grid cursor."
+global,0x8009B365,gFreeDuel_bReturnFlags,confirmed,"free_duel_state_flags trace across Build Deck and duel round trips; FreeDuel_UpdateScreen writers; FreeDuel_Init consumers","Free Duel return-action flags: 0x40 after visiting Build Deck and 0x80 after starting a duel."
 global,0x8009B37C,gOptions_bState,high,"Options_Init initialization; Options_HandleInput writes; Options_Update dispatch","Options-screen state consumed by the local update dispatcher."
 global,0x8009B37D,gOptions_bOutputType,confirmed,"gSD_bOutputType initialization; live stereo/mono trace; Options_HandleInput writes","Options-screen working copy of the stereo/mono selection."
 global,0x8009B384,gOptions_bSelection,high,"Options_HandleInput branch selection; Options_UpdateLayout indexing","Selected row on the options screen."
