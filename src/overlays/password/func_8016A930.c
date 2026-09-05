@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/card_constants.h"
 
 extern u16 *D_8016D3DC[];
 extern s16 D_801D0200[];
@@ -7,7 +8,7 @@ extern void func_8002CCE4(s32);
 
 void func_8016A930(void)
 {
-    u8 counts[722];
+    u8 counts[CARD_COUNT];
     u16 **table;
     u16 *entry;
     u16 *p;
@@ -17,7 +18,7 @@ void func_8016A930(void)
     s32 threshold;
     s32 i;
 
-    for (i = 721; i >= 0; i--) {
+    for (i = CARD_COUNT - 1; i >= 0; i--) {
         counts[i] = 0;
     }
     out = D_801D0200;
