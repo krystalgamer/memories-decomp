@@ -1461,7 +1461,7 @@ address,size,name,status,module,notes
 0x8007F5C4,0x10,func_8007F5C4,sdk_asm,psyq/sdk,
 0x8007F5D4,0x60,func_8007F5D4,sdk_asm,psyq/sdk,
 0x8007F634,0x98,func_8007F634,sdk_asm,psyq/sdk,
-0x8007F6CC,0x68,func_8007F6CC,sdk_asm,psyq/sdk,
+0x8007F6CC,0x68,DrawSync,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature and matching model-render caller.
 0x8007F734,0x11C,func_8007F734,sdk_asm,psyq/sdk,
 0x8007F850,0x90,func_8007F850,sdk_asm,psyq/sdk,
 0x8007F8E0,0x98,func_8007F8E0,sdk_asm,psyq/sdk,
