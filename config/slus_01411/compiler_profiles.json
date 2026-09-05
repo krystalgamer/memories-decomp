@@ -433,6 +433,30 @@
         "-G8"
       ],
       "data_limit": 8
+    },
+    "gcc_2_8_1_g0_no_sched2_split": {
+      "compiler": "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc",
+      "compiler_flags": [
+        "-O2",
+        "-fno-schedule-insns2",
+        "-G0",
+        "-mel",
+        "-mips1",
+        "-mcpu=R3000",
+        "-msoft-float",
+        "-fno-builtin",
+        "-mgas",
+        "-msplit-addresses",
+        "-Dpsx",
+        "-D__psx__",
+        "-D__psx"
+      ],
+      "aspsx_version": "2.81",
+      "maspsx_flags": [
+        "--expand-div",
+        "-G0"
+      ],
+      "data_limit": 0
     }
   }
 }

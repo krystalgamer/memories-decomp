@@ -377,6 +377,29 @@ Two independent functions sharing one residual suggests a scheduler ordering
 difference rather than two unrelated source mistakes. Treat it as a single
 open question about the profile set instead of guessing per function.
 
+### One of them was a missing profile combination
+
+`func_8018416C` in the main menu module looked like a third case of this and
+was not. Its whole residual was the epilogue:
+
+```
+target   move $v0,$v1       lw $ra,0x10($sp)   nop   jr $ra
+built    lw $ra,0x10($sp)   move $v0,$v1       jr $ra
+```
+
+`-fno-schedule-insns2` keeps the return copy ahead of the restore instead of
+scheduling it into that load-delay slot, and reproduces the target exactly.
+Testing `gcc_2_8_1_g0_no_sched2` appears to refute that — it is far worse, 35
+differing positions against 5 — but only because it is a **non-split** profile,
+so every `%hi`/`%lo` address load changes at the same time. No profile carried
+both `-fno-schedule-insns2` and `-msplit-addresses`, so the epilogue could
+never be right while the addresses were.
+
+The lesson generalises past this function: when a candidate profile makes a
+residual worse, check whether it also changes something unrelated before
+concluding the flag is wrong. Compare the flag lists, not just the results.
+`gcc_2_8_1_g0_no_sched2_split` closes this gap and matches byte for byte.
+
 ## Statement splitting controls evaluation order
 
 Where the target evaluates the left side of a binary operator before the
