@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card_layout.h"
 
 extern u8 D_8009B1D5;
 extern u8 D_801A7AD8[];
@@ -24,7 +25,7 @@ void func_800229F4(u8 *p) {
     s16 c;
     s32 f;
 
-    e = D_801A7AD8 + p[0x6A] * 0x1C;
+    e = D_801A7AD8 + p[0x6A] * DUEL_CARD_RECORD_SIZE;
     if (func_80042B98(p) == 0) {
         m = *(u16 *)(e + 0x16);
         v = 0;

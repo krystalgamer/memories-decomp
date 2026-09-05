@@ -2,6 +2,7 @@
 #define YUGIOH_GAME_DUEL_CARD_H
 
 #include "../types.h"
+#include "duel_card_layout.h"
 #include "duel_grid.h"
 
 #define DUEL_CARD_RECORD_OFFSET(type, member) ((u32)&(((type *)0)->member))
@@ -24,7 +25,7 @@ typedef struct {
 } DuelCardRecord;
 
 typedef char DuelCardRecord_size_must_be_0x1C[
-    sizeof(DuelCardRecord) == 0x1C ? 1 : -1
+    sizeof(DuelCardRecord) == DUEL_CARD_RECORD_SIZE ? 1 : -1
 ];
 typedef char DuelCardRecord_object_offset_must_be_0x00[
     DUEL_CARD_RECORD_OFFSET(DuelCardRecord, object) == 0x00 ? 1 : -1
