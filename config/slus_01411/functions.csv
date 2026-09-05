@@ -593,7 +593,7 @@ address,size,name,status,module,notes
 0x8003EE90,0x38,func_8003EE90,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003EEC8,0x8,func_8003EEC8,matching_c,game,Empty void function matched the return-and-nop sequence.
 0x8003EED0,0x3E0,func_8003EED0,unmatched_asm,game,
-0x8003F2B0,0xD8,func_8003F2B0,unmatched_asm,game,
+0x8003F2B0,0xD8,func_8003F2B0,matching_c,game,Collaborator countdown structure independently verified; one allocation-only a3 pin and exact linked bytes/relocations under split-address G8.
 0x8003F388,0xCC,func_8003F388,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003F454,0x2B8,func_8003F454,unmatched_asm,game,
 0x8003F70C,0x34,func_8003F70C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.

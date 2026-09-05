@@ -2623,6 +2623,12 @@
       "source": "src/game/duel_effect_late_state.c"
     },
     {
+      "address": "0x8003F2B0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xD8",
+      "source": "src/game/func_8003F2B0.c"
+    },
+    {
       "address": "0x8003F388",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xCC",
