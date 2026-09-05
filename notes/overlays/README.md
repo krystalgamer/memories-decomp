@@ -76,8 +76,10 @@ tools/environments/python/bin/python tools/project/overlay_diff.py \
 It reports `MATCH` or prints a numbered side-by-side disassembly with `>>` on
 each differing instruction, and exits non-zero on a difference. The source
 argument is optional; without it the tool re-checks whatever
-`<module>_matching_c.json` already configures, so it also works as a spot
-check. Use `--profile` for a cohort other than `gcc_2_8_1_g0_split`.
+`<module>_matching_c.json` already configures — **including that entry's
+compiler profile**, since a function built with a non-default profile would
+otherwise be spot-checked with the wrong one. `--profile` overrides, and a
+candidate passed explicitly defaults to `gcc_2_8_1_g0_split`.
 
 Two details make the comparison trustworthy:
 
