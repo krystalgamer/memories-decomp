@@ -316,7 +316,9 @@ Exact `func_8003D614` confirms a controller with:
 
 - Object pointers at `+0` and `+4`.
 - Type/index field at `+0x1A`.
-- `0x64`-byte records rooted at `D_800EB0F8`.
+- `0x64`-byte records rooted at `D_800EB0F8`; exact `func_8003F2B0`
+  independently confirms the stride through a raw `u8 *` view and explicit
+  multiplication by 100 rather than through the typed struct.
 - Signed 16-bit motion fields.
 
 ### Transfer and animation anchors
