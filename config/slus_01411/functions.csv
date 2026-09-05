@@ -460,7 +460,7 @@ address,size,name,status,module,notes
 0x800379C4,0x34,func_800379C4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800379F8,0x60,func_800379F8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80037A58,0xE8,func_80037A58,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80037B40,0x134,func_80037B40,unmatched_asm,game,
+0x80037B40,0x134,func_80037B40,matching_c,game,Exact collaborator match: updated switch fallthrough structure and aggregate global declarations reproduce linked bytes and relocations.
 0x80037C74,0x6C,func_80037C74,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80037CE0,0x4C,func_80037CE0,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80037D2C,0x40,func_80037D2C,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
