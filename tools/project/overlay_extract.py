@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import sys
@@ -161,6 +162,7 @@ def verify(root: Path, sector_size: int, modules: list[dict[str, Any]]) -> None:
             )
         print(f"overlay: {module['name']} OK")
     verify_manifest_format(root)
+    verify_inventory_format(root)
 
 
 def verify_manifest_format(root: Path) -> None:
@@ -185,6 +187,36 @@ def verify_manifest_format(root: Path) -> None:
                 "json.dumps(data, indent=2, sort_keys=True) plus a trailing newline"
             )
     print(f"matching_c manifests: OK ({len(paths)} canonical)")
+
+
+def verify_inventory_format(root: Path) -> None:
+    """Check every function inventory row has the column count of its header.
+
+    The notes column is prose, so an unquoted comma in it silently splits the
+    row and truncates the note every tool downstream reads. Quote the field
+    instead, which is what the resident inventory already does.
+    """
+    config = resolve_within(root, "config/slus_01411", must_exist=True)
+    paths = [config / "functions.csv"]
+    paths.extend(sorted((config / "overlays").glob("*_functions.csv")))
+    for path in paths:
+        name = path.relative_to(root)
+        if not path.is_file():
+            raise OverlayError(f"{name}: missing function inventory")
+        with path.open("r", encoding="utf-8", newline="") as handle:
+            rows = list(csv.reader(handle))
+        if not rows:
+            raise OverlayError(f"{name}: empty function inventory")
+        width = len(rows[0])
+        for number, row in enumerate(rows[1:], start=2):
+            if not row:
+                continue
+            if len(row) != width:
+                raise OverlayError(
+                    f"{name}: line {number} ({row[0]}) has {len(row)} columns, "
+                    f"expected {width}; quote the notes field if it contains a comma"
+                )
+    print(f"function inventories: OK ({len(paths)} well formed)")
 
 
 def parse_args() -> argparse.Namespace:

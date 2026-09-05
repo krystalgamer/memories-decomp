@@ -64,6 +64,16 @@ Adding an entry by hand is fine. Rewriting a whole file with a different
 `json.dumps` call is what to avoid, because it buries the one line that
 changed under a reindent of everything else.
 
+The `<module>_functions.csv` inventories are checked by the same target. Every
+row must have the column count of its header. The last column is prose, so an
+unquoted comma in it silently splits the row and truncates the note for every
+tool that reads it — quote the field instead, which is what the resident
+`config/slus_01411/functions.csv` already does:
+
+```
+0x80168090,0x124,FreeDuel_PlaceCursor,unmatched_asm,overlay/free_duel,"Name from ..., and ..."
+```
+
 Name entry has no module of its own: its package's executable phase is the
 same image as the password screen, entered at different functions. See
 [`../../src/overlays/name_entry/README.md`](../../src/overlays/name_entry/README.md).
