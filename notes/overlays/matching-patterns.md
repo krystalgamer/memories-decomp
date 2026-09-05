@@ -1100,3 +1100,35 @@ they matched on the first build.
 
 Verified by `func_80184030` in the main menu module, using the declaration
 proved by `func_80183B2C` in the same module.
+
+### Declare the row shape, not just the row
+
+The rule above is about *whether* to hand-write the address. There is a second
+question once you decide to index: **what shape you declare the element as.**
+
+`func_80181F68` walks three per-slot tables. Indexing them as flat arrays and
+letting GCC strength-reduce had been measured and rejected, because it produced
+the right hoisting split but built fifteen instructions over — GCC made one
+induction variable per *field* touched:
+
+```c
+/* two givs for this table, and the same again for the next */
+D_801845EC[i * 2]     = (s32)object;
+D_801845EC[i * 2 + 1] = 0;
+```
+
+Declaring the element gives one giv per *table*, which is what the target has:
+
+```c
+typedef struct { u8 *object; s32 unk4; } Slot;
+extern Slot D_801845EC[];
+D_801845EC[i].object = object;
+D_801845EC[i].unk4   = 0;
+```
+
+The count matters beyond the instruction total, because each table that becomes
+a giv stops being an invariant address and so stops competing for the
+four-invariant hoisting budget. Getting the element shape right is therefore
+what decides which *other* symbols end up hoisted.
+
+Verified by `func_80181F68` in the main menu module.
