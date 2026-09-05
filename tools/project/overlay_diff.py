@@ -137,12 +137,15 @@ def candidate_words(
             text.append(match.group(2).replace("\t", " ").strip())
     offset, symbol_size = text_symbol(root, obj, name)
     if symbol_size != size:
-        raise OverlayDiffError(
-            f"{name} is {symbol_size:#x} bytes in the object "
-            f"but {size:#x} in the inventory"
+        # A candidate that is not yet the right length is the normal state of
+        # a function being worked on, and the diff is what shows why. Slicing
+        # by the object's own symbol still compares the right function.
+        print(
+            f"note: candidate is {symbol_size:#x} bytes against {size:#x} "
+            "in the inventory"
         )
     masks = relocation_masks(root, obj, len(words))
-    start, stop = offset // 4, (offset + size) // 4
+    start, stop = offset // 4, (offset + symbol_size) // 4
     if stop > len(words):
         raise OverlayDiffError(f"{obj.name} disassembles short of {name}")
     return words[start:stop], text[start:stop], masks[start:stop]
