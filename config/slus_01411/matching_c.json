@@ -415,6 +415,12 @@
       "source": "src/game/display_projection.c"
     },
     {
+      "address": "0x80015DFC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xF8",
+      "source": "src/game/display_projection.c"
+    },
+    {
       "address": "0x80016778",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
