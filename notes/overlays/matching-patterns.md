@@ -331,6 +331,35 @@ the instruction count exactly, including the `361 << 3` expansion of the
 `2888`-byte row stride, and on `func_80168050` in the overworld overlays,
 where the body-computed offset produces a full match.
 
+## Struct members, not casts through a byte pointer
+
+Two ways of writing the same field access are not equivalent to the optimiser.
+Reaching a field as `*(u16 *)((u8 *)p + 0x8)` lets GCC hoist that load above an
+unrelated `sb` to a different offset, which fills the load-delay slot and
+loses an instruction. Declaring the object and using `p->field` keeps the
+order the source had.
+
+```c
+*(u16 *)((u8 *)obj + 0x8) |= 4;   /* load hoists above the earlier sb */
+obj->flags |= 4;                  /* stays put, and the nop survives */
+```
+
+The register allocation moves with it: in the cast form the `%hi` of the
+following global landed in `$v1`, in the member form it is `$a0` as the target
+has.
+
+Verified by `func_8016A02C` in the password module, where the cast form builds
+20 instructions against 21. Statement order does not substitute for it —
+moving the `|=` to the front still matches, and moving it does not rescue the
+cast form. Reading the field into a local first also matches, so the lever is
+the access, not the expression.
+
+This one is worth knowing because both of its symptoms invite the wrong
+diagnosis. A load hoisted above a store looks like scheduling, and a register
+that will not move looks like allocation; both were recorded here as a sched1
+problem needing a profile that did not exist. The stock `gcc_2_8_1_g0_split`
+matches once the accesses are members.
+
 ## Known unresolved residual
 
 `FreeDuel_PlaceCursor` and `FreeDuel_UpdateSparkle` each reduce to a single
