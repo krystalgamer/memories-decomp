@@ -856,7 +856,7 @@ address,size,name,status,module,notes
 0x8004BE88,0x224,func_8004BE88,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8004C0AC,0x68,func_8004C0AC,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004C114,0x30C,func_8004C114,unmatched_asm,game,
-0x8004C420,0x140,func_8004C420,unmatched_asm,game,
+0x8004C420,0x140,func_8004C420,matching_c,game,Post-terminal clean collaborator structure with allocation-only register ties; accepted SD_ReadSequenceByte and D_80011484 symbols; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x8004C560,0x68,func_8004C560,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004C5C8,0x1B4,func_8004C5C8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8004C77C,0xD0,func_8004C77C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
