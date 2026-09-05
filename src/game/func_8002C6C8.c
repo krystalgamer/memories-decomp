@@ -43,8 +43,8 @@ extern u8 D_8009B260;
 extern u8 D_8009B261;
 extern struct Rec *D_8009B264;
 extern void func_801462B0(s16 a0, s16 a1, s32 a2, struct Rec *a3);
-extern void func_800878B0(s32 a0, s32 a1);
-extern void func_800878D0(s32 a0);
+extern void SetGeomOffset(long a0, long a1);
+extern void SetGeomScreen(long a0);
 
 s32 func_8002C6C8(void) {
     struct Rec *rec;
@@ -73,8 +73,8 @@ s32 func_8002C6C8(void) {
             D_8009B264 = rec;
             rec->f8 = D_800E9D90.f8;
             func_801462B0(rec->f18, savedF1A, rec->f14, rec);
-            func_800878B0(0, 0);
-            func_800878D0(D_800F2848.fE);
+            SetGeomOffset(0, 0);
+            SetGeomScreen(D_800F2848.fE);
             if (D_8009B261 == 1) {
                 rec->f1C = 0;
             }

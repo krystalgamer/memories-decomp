@@ -10,14 +10,14 @@ typedef struct {
 } ProjectionObject;
 
 extern u8 D_800FE148[];
-extern void func_800878D0(s32);
-extern void func_800878B0(s32, s32);
+extern void SetGeomScreen(long);
+extern void SetGeomOffset(long, long);
 extern void func_800855D0(void *);
 
 void func_80015D18(ProjectionObject *object)
 {
-    func_800878D0(0x12C);
-    func_800878B0(0xA0, 0x6C);
+    SetGeomScreen(0x12C);
+    SetGeomOffset(0xA0, 0x6C);
     func_800855D0(D_800FE148);
     __asm__ volatile(
         "lui $3, 0x1F80\n"
@@ -39,7 +39,7 @@ void func_80015D18(ProjectionObject *object)
     );
     object->screen_x -= 0x20;
     object->screen_y -= 0x1E;
-    func_800878B0(0, 0);
+    SetGeomOffset(0, 0);
 }
 
 typedef struct {
@@ -131,5 +131,5 @@ void func_80015DFC(TrackedObject *object)
     }
     func_80016784(object->record, D_800E9D98[0], object->screen_x,
                   object->screen_y);
-    func_800878B0(0xA0, 0x6C);
+    SetGeomOffset(0xA0, 0x6C);
 }

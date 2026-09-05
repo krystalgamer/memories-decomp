@@ -37,8 +37,8 @@ struct Vec318 {
     s16 f4;
 };
 
-extern void func_800878B0(s32, s32);
-extern void func_800878D0(s32);
+extern void SetGeomOffset(long, long);
+extern void SetGeomScreen(long);
 extern void func_80088C50(struct Vec308 *, struct Mat *);
 extern void func_800855D0(struct Mat *);
 extern s32 func_80089CF0(struct Vec308 *, struct Vec310 *, struct Vec318 *,
@@ -54,8 +54,8 @@ s32 func_80041E7C(u32 arg0, s32 arg1, s32 arg2, struct Out *arg3)
     arg3->f2 = arg2;
     arg3->f4 = 0;
 
-    func_800878B0(arg1, arg2);
-    func_800878D0(0x12C);
+    SetGeomOffset(arg1, arg2);
+    SetGeomScreen(0x12C);
 
     mtx = (struct Mat *)0x1F8002D0;
     v308 = (struct Vec308 *)0x1F800308;

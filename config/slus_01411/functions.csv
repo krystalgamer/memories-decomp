@@ -1617,8 +1617,8 @@ address,size,name,status,module,notes
 0x80087860,0xC,func_80087860,sdk_asm,psyq/sdk,
 0x80087870,0x20,func_80087870,sdk_asm,psyq/sdk,
 0x80087890,0x20,func_80087890,sdk_asm,psyq/sdk,
-0x800878B0,0x18,func_800878B0,sdk_asm,psyq/sdk,
-0x800878D0,0xC,func_800878D0,sdk_asm,psyq/sdk,
+0x800878B0,0x18,SetGeomOffset,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG12.OBJ signature and matching projection callers.
+0x800878D0,0xC,SetGeomScreen,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG13.OBJ signature and matching projection callers.
 0x800878E0,0x2C,func_800878E0,sdk_asm,psyq/sdk,
 0x80087910,0x54,func_80087910,sdk_asm,psyq/sdk,
 0x80087970,0x28,func_80087970,sdk_asm,psyq/sdk,
