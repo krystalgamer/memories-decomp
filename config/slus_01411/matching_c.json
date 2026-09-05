@@ -2569,6 +2569,12 @@
       "source": "src/game/save_data_apply_runtime_state.c"
     },
     {
+      "address": "0x8003D174",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x114",
+      "source": "src/game/func_8003D174.c"
+    },
+    {
       "address": "0x8003D288",
       "profile": "gcc_2_8_1_g8",
       "size": "0x30",
