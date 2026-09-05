@@ -310,3 +310,6 @@ Duel_CollectFieldCardsByType = 0x80026D18; // type:func
 
 // Semantic names
 SD_FindMidiTrackChunk = 0x8004BBBC; // type:func
+
+// Semantic names
+Text_StartCampaignDuel = 0x80038530; // type:func

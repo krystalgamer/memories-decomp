@@ -262,7 +262,8 @@ F8 0D 08 74 75 06 30 72 FF
 ```
 
 `F8` dispatches through the 27-entry extended text-control table, where
-subcommand `0x0D` resolves to exact matching C function `func_80038530`.
+subcommand `0x0D` resolves to exact matching C function
+`Text_StartCampaignDuel`.
 That function consumes the record in this order:
 
 | Bytes | Meaning | Heishin value |
@@ -287,7 +288,7 @@ as two independent music bytes. The tutorial's labels for the `0x71D0`-
 `0x72C0` values are behavior reports; static code confirms the command values
 but not every audible track name.
 
-`func_80038530` also chooses a second sound value from the opponent ID:
+`Text_StartCampaignDuel` also chooses a second sound value from the opponent ID:
 `0x7280` for IDs `9`-`16`, `0x7290` for ID `17`, `0x72B0` for ID `38`, and
 `0x72A0` otherwise. Changing the record's explicit sound command therefore
 does not replace every opponent-dependent sound selection made for the duel.
@@ -300,8 +301,8 @@ Heishin encounter.
 
 **Confidence:**
 
-- **Confirmed** that `F8 0D` dispatches to `func_80038530` and that the record
-  fields have the layout shown above.
+- **Confirmed** that `F8 0D` dispatches to `Text_StartCampaignDuel` and that
+  the record fields have the layout shown above.
 - **Confirmed** that `30 72` is the little-endian sound command `0x7230` and
   that the two Heishin records occur at the listed SLUS offsets.
 - **High** that `0x74` and `0x75` are respectively the win and loss
