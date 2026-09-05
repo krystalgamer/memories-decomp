@@ -137,6 +137,7 @@ Recommended header boundaries are:
 | `src/psyq/stdarg.h` | Integer-slot-aligned variadic argument traversal macros |
 | `src/psyq/setjmp.h` | Single-task non-local jumps with an explicit saved MIPS register layout |
 | `src/psyq/assert.h` | Debug assertion macro using `printf` and `exit`, disabled by `NDEBUG` |
+| `src/psyq/stdio.h` | Minimal formatted and character console I/O declarations |
 | `src/psyq/libmath.h` | Software floating-point math, conversion helpers, and math error globals |
 | `src/psyq/memory.h` | Byte-memory operations plus the BSD `bcopy`/`bzero`/`bcmp` aliases |
 | `src/psyq/strings.h` | String operations, including search/token helpers, layered over `memory.h` |
@@ -224,6 +225,14 @@ single-task form and carries no signal mask or host-thread context.
 `_assert` macro expand to nothing. Neither header includes the declarations
 for those output/termination functions itself, and no current game C includes
 either header.
+
+`stdio.h` is not a complete hosted C stream interface. It defines
+`BUFSIZ`, `EOF`, the three seek-origin constants, and a local `size_t`, then
+declares only `printf`, `sprintf`, and basic character/string input and output.
+There is no `FILE` type or `fopen`/`fread` family, and the `getc`/`putc`
+signatures use integer handles rather than stream pointers. It must not be
+substituted for the debugger-host file service in `libsn.h` or the retail
+disc and memory-card APIs. No current game C includes this header.
 
 The imported string headers form a compatibility stack rather than three
 independent libraries. `string.h` only includes `strings.h`; `strings.h`
