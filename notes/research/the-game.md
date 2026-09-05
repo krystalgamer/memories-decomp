@@ -409,8 +409,14 @@ The field is two rows of five per side: a **monster row** (up to five
 monsters) and a **magic/trap row** (up to five magic, trap, ritual or equip
 cards) [cards in play are one array of 28-byte records at `0x801A7AD8`:
 player records 0–9, opponent 20–29, ATK at +0xE, DEF at +0x10, so the second
-monster is 28 bytes after the first]. The player's hand is five slots
-[`0x801A7E20`, UNVERIFIED].
+monster is 28 bytes after the first]. The five visible hand slots are signed
+indices at `+0x1A` in each side's 32-byte state record (player
+`0x800EA00A`, opponent `0x800EA02A`). They select an 80-entry array of
+6-byte per-deck-card records at `gDuel_aDeckCardRecords` (`0x801A7E20`):
+player entries 0–39, opponent entries 40–79, with the card ID at `+0x00`.
+`Duel_HasAllExodiaPieces` follows exactly those five indices, while
+`func_80027DF8` walks from the side's draw cursor at state offset `+0x18`
+through the remaining records in its 40-card half.
 
 ### 5.2 A turn
 

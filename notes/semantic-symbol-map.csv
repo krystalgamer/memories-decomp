@@ -26,7 +26,7 @@ global,0x801798A8,gDuel_awRankScoreChange,confirmed,"ram_map.txt; gms.c rankScor
 global,0x80179A14,gDuel_wCardDropID,confirmed,ram_map.txt,"Selected card drop ID."
 global,0x8017C2D8,gDuel_aFusionTable,confirmed,"ram_map.txt; gms.c fusionTable","Fusion lookup table; element encoding remains under study."
 global,0x80184594,gMain_bMenuID,confirmed,ram_map.txt,"Current menu ID."
-global,0x801A7E20,gDuel_aPlayerHand,confirmed,ram_map.txt,"Player hand records; complete record layout remains under study."
+global,0x801A7E20,gDuel_aDeckCardRecords,confirmed,"ram_map.txt; matching func_800249E0; matching func_80027DF8; matching Duel_HasAllExodiaPieces","Two 40-entry sets of 6-byte per-deck-card records; each side's five hand slots store indices into its set."
 global,0x801A8008,gLibrary_aPasswordCardData,confirmed,ram_map.txt,"Password-screen card cost and password records."
 global,0x801D0200,gDuel_awPlayerDeck,confirmed,"ram_map.txt; gms.c playerDeck","Current 40-card player deck."
 global,0x801D0250,gLibrary_abCardChest,confirmed,"ram_map.txt; gms.c trunk","Per-card chest/trunk quantities."
