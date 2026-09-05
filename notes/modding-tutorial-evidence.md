@@ -253,6 +253,48 @@ their offsets would overwrite adjacent text.
 - **Confirmed** that `0x1C92CE` is the encoded `Dragon` label selected by
   string ID `0x8300`.
 
+## Card cursor and fusion-number graphics
+
+**Tutorials:**
+
+- `Apontador Cartas.txt`
+- `Numeral Carta Fusao.txt`
+
+The resident loaders place every offset from these tutorials inside one of two
+known `WA_MRG.MRG` screen packages:
+
+| Resource named by tutorial | WA offset | Package-relative offset | Loader region |
+|---|---:|---:|---|
+| Shared card pointer image | `0xB54000` | `+0xC000` from `0xB48000` | Boot UI image payload |
+| Fusion-card numeral image | `0xB55C00` | `+0xDC00` from `0xB48000` | Boot UI image payload |
+| Shared card-pointer palette | `0xB60840` | `+0x840` in the palette block at `0xB60000` | Boot UI CLUT upload |
+| Fusion-card numeral palette | `0xB608A0` | `+0x8A0` in the palette block at `0xB60000` | Boot UI CLUT upload |
+| Password card image | `0xF97800` | `+0x00000` from `0xF97800` | Password-screen image payload |
+| Password cursor image | `0xFAB800` | `+0x14000` from `0xF97800` | Password-screen image payload |
+| Password frame image | `0xFAF800` | `+0x18000` from `0xF97800` | Password-screen image payload |
+| Password frame palette | `0xFB7A00` | `+0x200` in the palette block at `0xFB7800` | Password-screen CLUT upload |
+| Password card/cursor palette | `0xFB8800` | `+0x1000` in the palette block at `0xFB7800` | Password-screen CLUT upload |
+
+`func_80043960` requests the 54-sector boot UI package at WA sector `0x1690`,
+which is byte range `0xB48000-0xB63000`. Its callback transfers an initial
+`0x18000`-byte graphics region followed by the `0x1000`-byte block beginning
+at `0xB60000`; that second block is uploaded to VRAM rectangle
+`(512, 248, 256, 8)`. The two listed boot palettes therefore map to VRAM
+coordinates `(544, 252)` and `(592, 252)`, respectively.
+
+Likewise, `func_8003BEB8` requests the 86-sector password package at sector
+`0x1F2F`, byte range `0xF97800-0xFC2800`. Its callback consumes a
+`0x20000`-byte image region followed by a `0x2000`-byte block uploaded to
+VRAM rectangle `(256, 240, 256, 16)`. The listed frame palette is one row into
+that block at `(256, 241)`, while the shared card/cursor palette begins at
+`(256, 248)`.
+
+The package placement, sizes, and VRAM coordinates are confirmed by the
+resident request and callback code. The individual visual labels come from
+the tutorials and are high-confidence asset identifications; no image decoder
+is needed to establish that the offsets belong to the stated image and CLUT
+transfer regions.
+
 ## Skip the opening Heishin text segment
 
 **Tutorial:** `Remover Heishin.txt`
