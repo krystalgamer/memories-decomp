@@ -552,6 +552,20 @@ A `switch` that GCC compiles into a jump table cannot be accepted by the build
 as it stands, however exact the C is. Check for this before starting a function,
 because the C can be finished and still be unusable.
 
+Scanning the generated assembly for `jtbl_` references puts **36 unmatched
+game functions** in this position, so it is worth screening for rather than
+discovering late. The smallest are `Ai_GetWinningCardRange` (`0x80070738`,
+140 bytes) and `Ai_GetCardRange` (`0x800707C4`, 172 bytes), both of which look
+like attractive small targets and neither of which can be landed. Reproduce
+the list with:
+
+```sh
+grep -l 'jtbl_' tmp/splat/asm/generated/*.s
+```
+
+and cross-reference the `glabel` above each reference against the
+`unmatched_asm` rows in `functions.csv`.
+
 The symptom is a link failure rather than a mismatch:
 
 ```
