@@ -3,8 +3,8 @@
 extern u32 D_8009B0CC[];
 extern u32 D_8009B0F4[];
 extern u32 D_8009B134[];
-extern u16 D_8009B146[];
-extern u16 D_8009B148[];
+extern u16 gGraphics_sViewportX[];
+extern u16 gGraphics_sViewportY[];
 extern s16 D_8009B322;
 extern u8 *D_8009B328;
 extern u16 D_8009B348[2];
@@ -81,17 +81,17 @@ void func_80037A58(u8 *object)
     if ((flags & 0x80) == 0) {
         object[0x51] = flags | 0x80;
         D_8009B322 = func_80036D3C(object);
-        D_8009B348[0] = D_8009B146[0];
-        D_8009B348[1] = D_8009B148[0];
+        D_8009B348[0] = gGraphics_sViewportX[0];
+        D_8009B348[1] = gGraphics_sViewportY[0];
     }
     if (D_8009B0CC[0] & 1) {
-        D_8009B146[0] = D_8009B348[0] + ((rand() & 7) - 4);
-        D_8009B148[0] = D_8009B348[1] + ((rand() & 3) - 2);
+        gGraphics_sViewportX[0] = D_8009B348[0] + ((rand() & 7) - 4);
+        gGraphics_sViewportY[0] = D_8009B348[1] + ((rand() & 3) - 2);
     }
     D_8009B322--;
     if (D_8009B322 == 0) {
-        D_8009B146[0] = D_8009B348[0];
-        D_8009B148[0] = D_8009B348[1];
+        gGraphics_sViewportX[0] = D_8009B348[0];
+        gGraphics_sViewportY[0] = D_8009B348[1];
         object[0x51] = 0;
     }
 }

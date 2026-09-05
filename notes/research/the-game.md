@@ -270,6 +270,12 @@ type. The seventh is pane-specific: **New** puts recently acquired cards first
 in the trunk, while **Shuffle** assigns fresh random keys to the deck each
 time it is selected.
 
+Switching between panes animates the shared `gGraphics_sViewportX` from
+`0` to `320` or back over 16 ticks through `BuildDeck_UpdatePaneTransition`.
+The paired `gGraphics_sViewportY` remains zero during Build Deck list
+scrolling; that list keeps its own cursor/window state rather than moving the
+global viewport.
+
 Rules the screen enforces:
 
 * the deck must hold **exactly 40** cards to be usable — leaving with fewer

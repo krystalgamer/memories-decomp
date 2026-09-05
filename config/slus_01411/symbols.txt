@@ -19,6 +19,8 @@ Duel_DrawLifePointsAndDeckCounts = 0x80016E70; // type:func
 // Semantic names
 gDebug_nLastSoundID = 0x8009B2C4;
 gDebug_nSceneOrSoundID = 0x8009B2C8;
+gGraphics_sViewportX = 0x8009B146;
+gGraphics_sViewportY = 0x8009B148;
 gDuel_wSelectedCardID = 0x8009B338;
 gDuel_bOpponentID = 0x8009B361;
 gDuel_bTerrain = 0x8009B364;
@@ -375,6 +377,7 @@ Input_ReadRawPads = 0x8003CC38; // type:func
 Input_BackupPad1AndUsePad2 = 0x8003CDF8; // type:func
 Input_RestorePad1FromBackup = 0x8003CE48; // type:func
 Input_InitPads = 0x8003CBE8; // type:func
+BuildDeck_UpdatePaneTransition = 0x800338E4; // type:func
 
 // Psy-Q LIBAPI.LIB/PAD.OBJ
 InitPAD = 0x80073E1C; // type:func

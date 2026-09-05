@@ -935,6 +935,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80031E04 | `call_31cd4_loop` | fleet |
 | 0x80032328 | `call_14e1c_137e4` | fleet |
 | 0x80032BD4 | `compare_rec_two_level_std` | fleet |
+| 0x800338E4 | `BuildDeck_UpdatePaneTransition` | matching C |
 | 0x800355C8 | `relink_active_ptr_and_flag4` | fleet |
 | 0x800356A0 | `backward_word_copy_with_tail_dispatch` | fleet |
 | 0x800357E8 | `int_to_digits` | fleet |

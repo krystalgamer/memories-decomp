@@ -17,8 +17,8 @@ extern s32 gGraphics_bActiveBuffer __attribute__((section(".data")));
 extern s32 D_8009B0F4 __attribute__((section(".data")));
 extern s32 D_8009B134 __attribute__((section(".data")));
 extern u8 D_8009B145 __attribute__((section(".data")));
-extern s16 D_8009B146 __attribute__((section(".data")));
-extern s16 D_8009B148 __attribute__((section(".data")));
+extern s16 gGraphics_sViewportX __attribute__((section(".data")));
+extern s16 gGraphics_sViewportY __attribute__((section(".data")));
 extern u8 D_800E9D70[100];
 #define D_800E9D70 (*(struct Rect *)D_800E9D70)
 extern u8 D_800E9ECE[100];
@@ -82,8 +82,8 @@ void func_8002E730(void) {
         D_8009B280 = rec;
         rec->unk4 |= 0x2000000;
         func_8002E00C(D_800EAE98);
-        D_8009B146 = D_8009B2A8;
-        D_8009B148 = D_8009B2AA;
+        gGraphics_sViewportX = D_8009B2A8;
+        gGraphics_sViewportY = D_8009B2AA;
         if (D_8009B145 == 0) {
             func_80015C84(D_8009B145);
         }

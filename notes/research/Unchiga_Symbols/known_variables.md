@@ -22,6 +22,8 @@ Names that say what something IS in the game.
 | 0x800916E0 | `gAiScript_apfnCommand` | idb2018 |
 | 0x800917F0 | `gDuel_aOpponentData` | idb2018 |
 | 0x8009B141 | `gFade_bOverlayOn` | idb2018 |
+| 0x8009B146 | `gGraphics_sViewportX` | live + matching C |
+| 0x8009B148 | `gGraphics_sViewportY` | live + matching C |
 | 0x8009B1D5 | `gDuel_bPlayingSide` | idb2018 |
 | 0x8009B246 | `gLibrary_wViewerCardID` | live |
 | 0x8009B258 | `gCardGrid_bCursorColumn` | live |
