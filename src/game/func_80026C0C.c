@@ -16,7 +16,7 @@ s32 func_80026C0C(s32 arg0)
     register u8 *p asm("a0");
     s32 i;
 
-    base = D_8009B1D5 * 15 + arg0;
+    base = D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT + arg0;
     off = base * 28;
     p = (u8 *)D_801A7AD8 + off;
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {

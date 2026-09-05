@@ -1335,7 +1335,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x800260D0,func_800260D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0168d0.s,read,8,"lbu $v1, %gp_rel(D_8009B1D5)($gp)"
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x800262D4,func_800262D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_016ad4.s,read,8,"lbu $v0, %gp_rel(D_8009B1D5)($gp)"
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80026A3C,func_80026A3C,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,read,8,int position = i + D_8009B1D5 * 20; | int side = D_8009B1D5 ^ 1;
-0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80026C0C,func_80026C0C,matching_c,game,C,src/game/func_80026C0C.c,read,8,base = D_8009B1D5 * 15 + arg0;
+0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80026C0C,func_80026C0C,matching_c,game,C,src/game/func_80026C0C.c,read,8,base = D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT + arg0;
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80026C6C,Duel_CollectFieldCardsBelowType,matching_c,game,C,src/game/duel_field_card_filters.c,read,8,s32 d = D_8009B1D5;
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80026D18,Duel_CollectFieldCardsByType,matching_c,game,C,src/game/duel_field_card_filters.c,read,8,s32 d = D_8009B1D5;
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80027508,func_80027508,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_017a28.s,read,8,"lbu $a0, %gp_rel(D_8009B1D5)($gp)"
