@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 extern u16 gDuel_awEquipTable[];
 extern u16 gDuel_aFusionTable[];
@@ -62,8 +63,8 @@ s32 Duel_CheckFusion(s32 arg0, s32 arg1)
         if ((((b << 4) & 0x300) | p[3]) == arg1) {
             return ((b << 2) & 0x300) | p[4];
         }
-        p += 5;
-        n -= 2;
+        p += FUSION_TABLE_ENTRY_SIZE;
+        n -= FUSION_TABLE_PAIRS_PER_ENTRY;
     } while (n > 0);
     return 0;
 }
