@@ -883,7 +883,7 @@ address,size,name,status,module,notes
 0x80051350,0x6F8,func_80051350,unmatched_asm,game,
 0x80051A48,0xAE0,func_80051A48,unmatched_asm,game,
 0x80052528,0x16C,func_80052528,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80052694,0x218,func_80052694,unmatched_asm,game,
+0x80052694,0x218,func_80052694,matching_c,game,Matched from newer collaborator evidence with corrected pointer-object and halfword declaration shapes.
 0x800528AC,0x480,func_800528AC,unmatched_asm,game,
 0x80052D2C,0x398,func_80052D2C,unmatched_asm,game,
 0x800530C4,0x184,func_800530C4,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
