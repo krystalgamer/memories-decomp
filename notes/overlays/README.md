@@ -85,8 +85,11 @@ Two details make the comparison trustworthy:
   opcodes are still compared in those words.
 - **The function is sliced out by symbol.** A source may define a group of
   contiguous functions, so the tool locates the requested one in the object's
-  symbol table rather than assuming it starts at offset zero, and refuses to
-  run if the object disagrees with the inventory about its size.
+  symbol table rather than assuming it starts at offset zero. Slicing by the
+  symbol is what guarantees the right function is compared, so a candidate
+  whose length does not yet agree with the inventory is still diffed — that is
+  the normal state of a function being worked on, and the diff is what shows
+  why. The length difference is reported on its own line.
 
 This does not replace `make match-overlays`, which is still what proves a
 module reassembles and links. It is what makes it practical to measure several
