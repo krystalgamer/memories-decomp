@@ -104,6 +104,36 @@ The contiguous initialization block at `0x80049200-0x800495EC` now builds as
 `func_800493F8` while sharing `SDValue` declarations across the other
 music/sequence helpers.
 
+## Spatial volume and pan
+
+Matching `func_8005A6A8` converts one sound source's X/Z position into a
+volume byte and signed pan byte using the 32-byte reference-view record at
+`D_800F56F0` documented in `notes/model-structures.md`. Let `(sx, sz)` be the
+source, `(vx, vz)` the viewpoint, and `(rx, rz)` the reference point.
+
+The volume uses the XZ-plane distance from the viewpoint:
+
+```text
+distance = sqrt((vx - sx)^2 + (vz - sz)^2)
+volume   = 255                                      if distance <= 700
+           max(16, 255 - (distance - 700) / 12)    otherwise
+```
+
+The pan uses signed perpendicular distance from the view axis:
+
+```text
+axis_length = sqrt((rz - vz)^2 + (vx - rx)^2)
+side = (sx * (rz - vz) + sz * (vx - rx) + rx * vz - vx * rz)
+       / axis_length
+pan = clamp(side / 16, -127, 127)
+```
+
+All operations are integer operations. A zero-length view axis leaves pan at
+zero. The function never reads the Y coordinates, never lowers volume below
+`0x10`, and stores negative pan through the caller's byte pointer. This is a
+game-side spatial-audio helper built on camera geometry, not a field in either
+sound-driver state structure.
+
 ## Secondary state (`D_8009B458`)
 
 `D_8009B458` is a second global pointer used by the sequence/stream side of the
