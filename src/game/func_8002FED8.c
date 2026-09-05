@@ -1,7 +1,7 @@
 #include "../types.h"
 
 extern u8 *D_800EAE98[];
-extern s32 func_800866A0();
+extern int rsin(int);
 
 void func_8002FED8(u8 *state, u8 *color)
 {
@@ -16,7 +16,7 @@ void func_8002FED8(u8 *state, u8 *color)
     }
     angle = (*(u16 *)(state + 6) + 32) & 4095;
     *(u16 *)(state + 6) = angle;
-    intensity = func_800866A0(angle) * 24 / 4096;
+    intensity = rsin(angle) * 24 / 4096;
     if (intensity == 0)
         intensity = 1;
     if (intensity == 24)

@@ -9,14 +9,14 @@ typedef struct {
     s16 y;
 } DisplayObjectPosition;
 
-extern s32 func_80086770();
-extern int func_800866A0(int);
+extern int rcos(int);
+extern int rsin(int);
 
 void func_8004318C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     s32 x = (*(s16 *)(arg0 + 0x36) + arg1) >> 1;
     s32 y = (*(s16 *)(arg0 + 0x38) + arg2) >> 1;
-    s32 scale = func_80086770(arg3);
+    s32 scale = rcos(arg3);
     s32 scale2 = scale;
 
     *(u16 *)(arg0 + 0x30) =
@@ -37,11 +37,11 @@ void func_80043230(
     int factor;
 
     if (phase < 0) {
-        factor = func_800866A0(phase + 0x400);
+        factor = rsin(phase + 0x400);
         object->out_x = object->x - (dx * factor) / 4096;
         object->out_y = object->y - (dy * factor) / 4096;
     } else {
-        factor = -func_800866A0(phase);
+        factor = -rsin(phase);
         object->out_x = target_x - (dx * factor) / 4096;
         object->out_y = target_y - (dy * factor) / 4096;
     }
