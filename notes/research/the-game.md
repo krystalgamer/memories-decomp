@@ -13,7 +13,8 @@ section ends with the same block:
 so the relationships are on the page next to the behaviour, not in an
 introduction nobody scrolls back to.
 
-**How to read the brackets.** A bracketed item like [`duelLoop` `0x8002CEE8`]
+**How to read the brackets.** A bracketed item like
+[`Main_RunDuel` `0x8002CEE8`]
 is something *located in `SLUS_014.11`* (NTSC-U) and measured there: an
 address, a function, a table, a stride. Those are the parts an agent can grep
 for. Everything else — the flow of the story, what a screen looks like, what a
@@ -33,33 +34,38 @@ attached to the per-duelist drop blocks (which were off by one), and the seven
 
 ## 1. The system in one page
 
-The program is one loop that runs whichever **mode** is current [`mainLoop`
-`0x8002DD74`, mode table `0x80090B64`, 17 entries]. A mode is a screen or a
-whole activity; changing screen is changing the mode index [`0x80184594`, the
-byte the debug-menu cheat writes]. The modes, in table order:
+The program is one loop that runs whichever **mode** is current
+[`Main_Loop` `0x8002DD74`, mode table `0x80090B64`, 17 entries]. The low five
+bits of `D_8009B26C` select a top-level activity; not every visible screen is
+a separate mode, because menu layouts and dialogs can remain inside one
+handler. `gMain_bMenuID` (`0x80184594`) is instead the loaded main-menu
+module's entry ID — the byte the debug-menu cheat writes. The modes, in table
+order:
 
 | slot | mode | what it is |
 |---|---|---|
-| 0 | `debugMenuLoop` [`0x8002CE08`] | developer menu (unreachable normally) |
-| 1 | `animatedBattleLoop` [`0x8002D180`] | the 3-D battle cut-scene inside a duel |
-| 2 | `campaignLoop` [`0x8002CE64`] | story dialogue scenes and scripted events |
-| 3 | `duelLoop` [`0x8002CEE8`] | a duel, any kind |
-| 4 | `libraryMenuLoop` [`0x8002D0E0`] | the card Library |
-| 5 | `campaignOverworldLoop` [`0x8002D2D8`] | the campaign's location map |
-| 6 | `freeDuelMenuLoop` [`0x8002D3F8`] | Free Duel opponent select |
-| 7 | `buildDeckMenuLoop` [`0x8002D370`] | Build Deck |
-| 8 | `mainMenuLoop` [`0x8002D588`] | title screen and both main menus |
-| 9 | `nameEntryLoop` [`0x8002D62C`] | name entry for a new game |
-| 10 | `passwordMenuLoop` [`0x8002D684`] | the Password shop |
-| 11 | `optionsMenuLoop` [`0x8002D6C8`] | Options |
-| 12 | `gameOverLoop` [`0x8002D730`] | campaign loss |
-| 13 | `hirataLoop` [`0x8002D7C4`] | an eight-byte stub, a cut test duel |
-| 14 | `tradeLoop` [`0x8002D7CC`] | Trade and 2P Duel setup |
-| 15 | `creditsLoop` [`0x8002DA1C`] | the ending |
-| 16 | slot 16 [`0x8002DC38`] | unnamed |
+| 0 | `Main_RunDebugMenu` [`0x8002CE08`] | developer menu (unreachable normally) |
+| 1 | `Main_RunAnimatedBattle` [`0x8002D180`] | the 3-D battle cut-scene inside a duel |
+| 2 | `Main_RunCampaign` [`0x8002CE64`] | story dialogue scenes and scripted events |
+| 3 | `Main_RunDuel` [`0x8002CEE8`] | a duel, any kind |
+| 4 | `Main_RunLibraryMenu` [`0x8002D0E0`] | the card Library |
+| 5 | `Main_RunCampaignMap` [`0x8002D2D8`] | the campaign's location map |
+| 6 | `Main_RunFreeDuelMenu` [`0x8002D3F8`] | Free Duel opponent select |
+| 7 | `Main_RunBuildDeckMenu` [`0x8002D370`] | Build Deck |
+| 8 | `Main_RunMenu` [`0x8002D588`] | title screen and both main menus |
+| 9 | `Main_RunNameEntry` [`0x8002D62C`] | name entry for a new game |
+| 10 | `Main_RunPasswordMenu` [`0x8002D684`] | the Password shop |
+| 11 | `Main_RunOptionsMenu` [`0x8002D6C8`] | Options |
+| 12 | `Main_RunGameOver` [`0x8002D730`] | campaign loss |
+| 13 | `func_8002D7C4` | an eight-byte empty retail stub |
+| 14 | `Main_RunTrade` [`0x8002D7CC`] | Trade and 2P Duel setup |
+| 15 | `Main_RunCredits` [`0x8002DA1C`] | the ending |
+| 16 | `func_8002DC38` | unnamed |
 
-The names are the developers' own, recovered from an IDA database of this
-binary; the addresses are measured here and every one matches.
+These are the repository's accepted semantic names, backed by the dispatcher
+and local function evidence. The older `*Loop` labels imported from a
+community IDA database helped identify the handlers, but they are analyst
+names rather than recovered Konami symbols.
 
 **What persists.** Everything the player accumulates lives in one save block
 [`0x801D0200` onward] and is written to the memory card as one file:
@@ -108,7 +114,7 @@ knowing by name before reading any of them:
  campaign final duel won ─► ending ─► credits ─► (save prompt) ─► title
 ```
 
-Every duel, whatever started it, runs in `duelLoop` and returns to whoever
+Every duel, whatever started it, runs in `Main_RunDuel` and returns to whoever
 started it; the 3-D battle animation is a sub-mode the duel enters and leaves.
 The card shop inside the campaign is not a mode of its own: it is a dialogue
 scene whose menu jumps into Build Deck, Save and the "loaded" main menu.
@@ -140,7 +146,7 @@ card shop with "Return to Title" shows the **loaded menu** instead:
 * **Build Deck** (§4.1) · **Library** (§4.4) · **Password** (§4.5) · **Save**
   (§10).
 
-The two menus are the same mode [`mainMenuLoop`]; which set is offered depends
+The two menus are the same mode [`Main_RunMenu`]; which set is offered depends
 on whether a game is loaded. The Data Crystal menu-ID list (UNVERIFIED) numbers
 them 00 New Game, 01 Load, 02 2P Duel, 03 Trade, 04 Option, 05 Campaign, 06
 Free Duel, 07 Build Deck, 08 Library, 09 Password, 0A Save, 0B Debug Menu —
@@ -157,7 +163,7 @@ which is why writing `0x0B` to the menu byte opens the developer menu.
 A keyboard screen where the player types the save's name (the prince's name;
 the game addresses him by it — "Prince ____" — and it is also the name shown
 on the 2P Duel and Trade screens). Confirming goes straight into the
-campaign's first scene. [`nameEntryLoop` `0x8002D62C`; scene text "Player's
+campaign's first scene. [`Main_RunNameEntry` `0x8002D62C`; scene text "Player's
 Name" is Data Crystal scene 002.]
 
 > **Entered from:** New Game. **Exits to:** campaign opening. **Reads:** —.
@@ -169,7 +175,7 @@ Name" is Data Crystal scene 002.]
 
 Sound output: mono or stereo. (The guides mention nothing else on this
 screen; the mode's code reach is large only because it shares the menu
-framework.) [`optionsMenuLoop` `0x8002D6C8`]
+framework.) [`Main_RunOptionsMenu` `0x8002D6C8`]
 
 > **Entered from:** initial menu. **Exits to:** initial menu. **Reads/writes:**
 > the sound setting (whether it is saved is not verified). **Uses:** the sound
@@ -299,7 +305,7 @@ result while Build Deck was still active. Exiting is therefore not the only
 commit point; restoring a valid 40-card deck can synchronize it before the
 screen closes.
 
-The campaign's card shop opens this same screen. [`buildDeckMenuLoop`
+The campaign's card shop opens this same screen. [`Main_RunBuildDeckMenu`
 `0x8002D370`]
 
 > **Entered from:** loaded menu; card shop. **Exits to:** whoever opened it.
@@ -338,7 +344,7 @@ flag array, set by `Library_MarkOwnedCards` (`0x8002BF3C`) and by the shop on
 purchase]. The
 completion figure counts both. From a
 card's page, pressing right or × shows the card in **3-D**, rotating [a cheat
-freezes the rotation by writing `0x800F284A`]. [`libraryMenuLoop`
+freezes the rotation by writing `0x800F284A`]. [`Main_RunLibraryMenu`
 `0x8002D0E0`; the "have you seen it" test that decides whether a card is
 displayed is the branch at `0x8002C320` inside `0x8002BFCC`, which the
 "all cards in Library" cheat deletes.]
@@ -369,7 +375,7 @@ Costs run from 10 starchips (the cheapest cards) to 999,999 for the lottery card
 a starchip is earned only by winning duels (§6.3), 1–5 per win, so a 999,999
 card is not a realistic purchase — the cost exists to say "obtain this some
 other way". The password-use counter in the save [`0x801D0534 + 0x164`] is
-what the "unlimited passwords" cheat zeroes. [`passwordMenuLoop`
+what the "unlimited passwords" cheat zeroes. [`Main_RunPasswordMenu`
 `0x8002D684`; the executable's own part of the flow is `0x80038BF0`, where
 `$a2` carries the star cost.]
 
@@ -383,7 +389,7 @@ what the "unlimited passwords" cheat zeroes. [`passwordMenuLoop`
 ## 5. The duel
 
 Every duel — campaign, Free Duel, two-player — is the same engine
-[`duelLoop` `0x8002CEE8`] with the same rules. This section is the rules in
+[`Main_RunDuel` `0x8002CEE8`] with the same rules. This section is the rules in
 full, in the order things happen.
 
 ### 5.1 Setup
@@ -635,8 +641,8 @@ the card reads yellow for advantage, red for disadvantage]. Then:
   its identity and stars are revealed.
 
 Pressing □ instead of × on the attack plays the battle as a **3-D
-animation** [`animatedBattleLoop` `0x8002D180`] — cosmetic; the result is the
-same. A monster that has attacked cannot change position again that turn.
+animation** [`Main_RunAnimatedBattle` `0x8002D180`] — cosmetic; the result is
+the same. A monster that has attacked cannot change position again that turn.
 Each monster attacks at most once per turn.
 
 ### 5.9 The 3-D battle and the "Poly Mode"
@@ -890,7 +896,7 @@ player-win control.
 ## 7. The campaign
 
 The story mode is two modes working together — **dialogue scenes**
-[`campaignLoop` `0x8002CE64`] and the **location map** [`campaignOverworldLoop`
+[`Main_RunCampaign` `0x8002CE64`] and the **location map** [`Main_RunCampaignMap`
 `0x8002D2D8`] — that call into the duel for every fight and into the shared
 menus for every shop. It is strictly linear with one branch (§7.6) and one
 point of no return (§7.8). Losing any campaign duel is **game over** except
@@ -1106,7 +1112,7 @@ reneges and becomes **Nitemare**: the last duel (id 38).
 Nitemare vanishes, Seto flees, the ruins are sealed and the prince takes the
 throne. The game offers a **save** (the completed-game flag is what enables
 the Japanese PocketStation password menu) and rolls the **credits**
-[`creditsLoop` `0x8002DA1C` → the 3-D sequence `func_8006CD78`, the largest
+[`Main_RunCredits` `0x8002DA1C` → the 3-D sequence `func_8006CD78`, the largest
 function in the game]. Afterwards the title returns; a completed save
 continues in Free Duel with every campaign duelist available.
 
@@ -1256,7 +1262,7 @@ null pointer — so the dialogue parser skips them.
 
 ### 7.12 Losing
 
-A lost campaign duel goes to **game over** [`gameOverLoop` `0x8002D730`],
+A lost campaign duel goes to **game over** [`Main_RunGameOver` `0x8002D730`],
 which offers a retry of the same duel or a return to the title (the save is
 untouched, so the real cost is everything since the last card shop). The one
 exception is Heishin's first duel, which must be lost. The Data Crystal scene
@@ -1272,7 +1278,7 @@ code; it is reproduced in §12.4.
 `SELECT OPPONENT!` — a list of every duelist you have **beaten in the
 campaign** (plus Heishin, unlocked by the scripted loss, and Duel Master K,
 always there), each with its record `WIN n LOSS n`. Pick one, and the duel
-starts with your current deck [`freeDuelMenuLoop` `0x8002D3F8`, 32 functions,
+starts with your current deck [`Main_RunFreeDuelMenu` `0x8002D3F8`, 32 functions,
 the smallest subsystem in the game]. The rules, scoring, starchips and drop
 are exactly the single-player path (§6); a loss records a loss and returns
 you here — nothing else is lost. This is where the game is actually played
@@ -1337,7 +1343,7 @@ save dueling a copy of itself. The duel is the normal
 engine with the AI replaced by the second controller; there is no scoring,
 no drop and no record. On the active player's turn, Select opens
 `QUIT DUEL? NO YES`; choosing Yes fades directly back to the initial menu.
-[`tradeLoop` `0x8002D7CC` hosts both this setup and Trade; scene texts
+[`Main_RunTrade` `0x8002D7CC` hosts both this setup and Trade; scene texts
 `2PDUEL`, `PvP Duel Screen`.]
 
 ### 9.2 Trade
