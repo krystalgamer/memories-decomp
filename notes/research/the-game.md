@@ -646,8 +646,12 @@ A duel ends the moment one of these holds, checked after every action:
   `SUMMON Exodia` [the check exists in the executable; the community's
   "disable Exodia" patch flips two bytes at file offsets `0x952C`/`0x959C`].
 
-Start during a duel offers `QUIT DUEL? NO YES`; what quitting counts as is
-not verified (§13). What a win or a loss *means* is decided by the
+In **2P Duel only**, Select on the active player's turn offers
+`QUIT DUEL? NO YES`, with No selected by default. The input check
+[`func_8001BD48`] is gated by the negative opponent id used for two-player
+battles, so the prompt is not a single-player surrender option. Choosing Yes
+fades to black and returns to the initial menu; 2P Duel has no score, drop, or
+persistent record (§9.1). What a normal win or loss *means* is decided by the
 caller (§6, §7.12, §8).
 
 ### 5.11 The opponent
@@ -702,7 +706,8 @@ scripts *do*, as observed by every guide since 1999:
 | L1 / R1 | toggle attack/defence position |
 | L2 / R2 | view the field before playing |
 | d-pad up | raise a hand card into the combination order |
-| Start | end turn; quit-duel prompt |
+| Start | end turn |
+| Select | in 2P Duel, open the quit-duel prompt |
 
 ---
 
@@ -1299,8 +1304,10 @@ carries a **duelist code** (shown as `SECRET NO. 00000000` on these
 screens), and `YOU CANNOT COMPETE WITH THE SAME DUELIST CODES!` refuses a
 save dueling a copy of itself. The duel is the normal
 engine with the AI replaced by the second controller; there is no scoring,
-no drop and no record. [`tradeLoop` `0x8002D7CC` hosts both this setup and
-Trade; scene texts `2PDUEL`, `PvP Duel Screen`.]
+no drop and no record. On the active player's turn, Select opens
+`QUIT DUEL? NO YES`; choosing Yes fades directly back to the initial menu.
+[`tradeLoop` `0x8002D7CC` hosts both this setup and Trade; scene texts
+`2PDUEL`, `PvP Duel Screen`.]
 
 ### 9.2 Trade
 
@@ -1488,7 +1495,6 @@ Not verified in code:
   is measured);
 * what Simon Muran's loss in the opening does (the guides disagree), and
   when his duel is offered (before or after the festival);
-* what quitting a duel through `QUIT DUEL?` counts as;
 * what the two "enable" GameShark codes target — their guards match neither
   located overlay;
 * the home terrains of the five shrines and the finale (only Sebek/Neku's
