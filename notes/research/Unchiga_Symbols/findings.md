@@ -167,7 +167,7 @@ apply solid names directly; operator corrects when needed.
 | # | address | what we proved | proposed name | status |
 |---|---|---|---|---|
 | F60 | edit-repair + exit | The accidental double-registers (3-frame presses double-fire on EDIT actions — instrument lesson; 2-frame pulses register once) were fully repaired: both stray Yaranzos removed, cards 9 and 58 re-added, staged deck verified EXACTLY equal to the original multiset. Exit (Circle) captured: cancel blip, teardown family, mode back to 8. Because the staged deck equaled the original, the commit wrote identical bytes — the F58 commit-on-exit hypothesis stays OPEN for a run with a genuinely changed deck. One commit-path lead: on exit, Main_RunBuildDeckMenu's body called `call_80047430_neg8_0` with a SAVE-BLOCK pointer (0x801D07DA, 0x10). Full exit set in tmp/bd_exit.json. | (facts + lead) | CONFIRMED |
-| F61 | trunk "New!" tag | CORRECTED by operator: New! marks cards you LAST WON (recently acquired, list holds ~15-16) — not returned cards. Ties to the last-acquired list (gDuel_awRecentCardDrops region; capacity may exceed the RAM map's 10 entries — verify extent). NEW sort mode presumably surfaces these. | (fact, operator-corrected) | CONFIRMED |
+| F61 | trunk "New!" tag | CORRECTED by operator: New! marks cards you LAST WON (recently acquired) — not returned cards. Matching `func_80032370` scans and compacts all 16 halfword slots at `gDuel_awRecentCardDrops`, whose `0x20`-byte extent ends at the next symbol `0x801D07DC`. NEW sort mode presumably surfaces these. | (fact, operator-corrected; extent confirmed in matching C) | CONFIRMED |
 
 ### BUILD DECK — deck-ready guard (same session)
 

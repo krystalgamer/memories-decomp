@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 extern s16 gDuel_awRecentCardDrops[];
 
@@ -27,14 +28,14 @@ void func_80032370(void)
         :
         : "$2");
     base = (u8 *)source - 0x56C;
-    i = 15;
-    current = source + 15;
+    i = DUEL_RECENT_CARD_DROP_COUNT - 1;
+    current = source + DUEL_RECENT_CARD_DROP_COUNT - 1;
     for (; i >= 0; i--, current--) {
         if (*current != 0 && base[*current - 1] == 0)
             *current = 0;
     }
     destination = source;
-    for (i = 0; i < 16; i++, source++) {
+    for (i = 0; i < DUEL_RECENT_CARD_DROP_COUNT; i++, source++) {
         if (*source) {
             if (source != destination) {
                 *destination = *source;

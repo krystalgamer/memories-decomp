@@ -70,7 +70,7 @@ binary; the addresses are measured here and every one matches.
 | the trunk (chest) | `0x801D0250` | 722 bytes, one per card: copies owned |
 | the **flag array** | `0x801D0618` | 256 bytes = 2048 one-bit flags, numbered 0–0x7FF, MSB first within each byte [tested by `Campaign_TestStoryFlag`, set/cleared by `Library_UpdateCardUsedFlag`]. Known ranges: `0x20`–`0x45` a per-duelist flag set together with the unlock (`0x1F + id`; reading: defeated in campaign — nothing that tests it was traced); `0x47`–`0x6F` the story's own flags, mapped one by one in §7.11; `0x121`–`0x3F2` card *seen* for the Library (`0x120 + card`); `0x401`–`0x6D2` password *already used* (`0x400 + card`, tested and set by the shop); `0x6E1`–`0x706` Free Duel *unlocked* (`0x6E0 + id`, bytes `0x801D06F4`–`0x801D06F8`). |
 | Free Duel grid records | `0x801D071C` | 40 × {u16 wins, u16 losses}; slot 0 is the Build Deck tile, duelist IDs 1–39 begin at `0x801D0720` |
-| last cards dropped | `0x801D07BC` | 10 × u16 (UNVERIFIED, Data Crystal) |
+| recently acquired cards | `0x801D07BC` | 16 × s16; exact C compacts all slots, ending at `0x801D07DC` |
 | starchips | `0x801D07E0` | u32 |
 | player name, duelist code | in the same block | (offsets not measured) |
 
