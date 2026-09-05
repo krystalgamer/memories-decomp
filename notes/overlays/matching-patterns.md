@@ -220,6 +220,31 @@ So read the block layout before choosing: arms that are delay-slot values on
 branches to a common exit mean the plain chain; arms that are blocks of their
 own at the bottom mean the negated one.
 
+`func_801836F4` is a third instance and confirms the count exactly: written as
+a flat six-way `else if` chain it builds three instructions short, and the
+negated nesting that `func_80183A14` uses matches. It also gives the shortfall
+a second, easier-to-spot symptom. The three instructions are not lost where
+the chain is; they are lost at the **epilogue**:
+
+```
+  target                        flat chain
+  j    <return>                 li   v1,-1
+  li   v1,-1                    lw   ra,16(sp)
+  li   v1,1                     move v0,v1
+  move v0,v1                    jr   ra
+  lw   ra,16(sp)                addiu sp,sp,24
+  nop
+  jr   ra
+  addiu sp,sp,24
+```
+
+Merging the `-1` arm into the fall-through also removes the branch target in
+front of `move v0,v1`, so the return copy stops starting a basic block and
+`lw ra` is free to hoist into its place. That takes the `nop` with it. A
+target epilogue that still stalls after `lw ra` is therefore evidence in its
+own right: something above it is a branch target that the build has merged
+away.
+
 ## Two loop invariants: the second one emitted becomes the pointer
 
 When a loop indexes a two-dimensional array with one invariant index and one
