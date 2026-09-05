@@ -125,5 +125,10 @@ jobs:
           make compiler-281-prebuilt
           make check-build-tools
 
+      - name: Verify tracked metadata
+        run: |
+          make overlays
+          make verify-overlays
+
       - name: Perform exact overlay build
         run: make match-overlays
