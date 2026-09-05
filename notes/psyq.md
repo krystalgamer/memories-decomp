@@ -131,6 +131,8 @@ Recommended header boundaries are:
 | `src/psyq/libapi.h` | Events, critical sections, counters, and low-level memory-card/BIOS wrappers |
 | `src/psyq/malloc.h` | Heap initialization and the three allocator families |
 | `src/psyq/stdlib.h` | C runtime umbrella for allocation, conversion, sorting, random numbers, search, and exit |
+| `src/psyq/ctype.h` | Table-driven character classification plus case-conversion functions and macros |
+| `src/psyq/limits.h` | Integral-width limits for the Psy-Q MIPS compiler target |
 | `src/psyq/libmath.h` | Software floating-point math, conversion helpers, and math error globals |
 | `src/psyq/memory.h` | Byte-memory operations plus the BSD `bcopy`/`bzero`/`bcmp` aliases |
 | `src/psyq/strings.h` | String operations, including search/token helpers, layered over `memory.h` |
@@ -190,6 +192,16 @@ variants. Neither family is interchangeable with the fixed-point vector and
 matrix operations in `libgte.h`. No current game C includes these runtime
 headers, so existing hand-written declarations should only be migrated after
 their exact ABI and compiler behavior are checked.
+
+`ctype.h` classifies an unsigned-byte index through the external `_ctype_`
+table. Its `is*` macros return the matching bit mask rather than a normalized
+Boolean, while `toupper` and `tolower` are callable functions and the
+underscore-prefixed forms are unchecked arithmetic macros. `limits.h`
+records the compiler target's eight-bit characters, 16-bit shorts, and
+32-bit `int` and `long` ranges; these implementation limits describe scalar
+ABI widths, not the signedness or ownership of an unknown game field. No
+current game C includes either header, so adopting a classification macro or
+limit still requires exact code-generation evidence.
 
 The imported string headers form a compatibility stack rather than three
 independent libraries. `string.h` only includes `strings.h`; `strings.h`
