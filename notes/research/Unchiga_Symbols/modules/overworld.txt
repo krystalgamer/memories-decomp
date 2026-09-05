@@ -18,3 +18,5 @@ Fade_InitOut = 0x800158B8; // type:func
 // Same reason: CampaignMap_SetLocation hangs this resident callback off the
 // map object and holds the module's only reference to it.
 func_80042C08 = 0x80042C08; // type:func
+// Matching overworld C configures this resident GTE fog helper directly.
+SetFogNearFar = 0x80086810; // type:func

@@ -20,7 +20,7 @@ extern u8 *func_80058F74(s32);
 extern void func_8005922C(u8 *, s32 *);
 extern void func_80168310(void);
 extern void func_80087890(s32, s32, s32);
-extern void func_80086810(s32, s32, s32);
+extern void SetFogNearFar(long, long, long);
 extern void func_80035668(s32);
 extern s32 func_8004002C(void);
 extern u8 *func_800400AC(s32, s32);
@@ -63,7 +63,7 @@ void CampaignMap_SetLocation(s32 index)
     func_8005922C(obj, colour);
     func_80168310();
     func_80087890(0, 0, 0);
-    func_80086810(6000, 8000, D_800F2856);
+    SetFogNearFar(6000, 8000, D_800F2856);
     D_800E9DBC = func_80168258;
     func_80035668(0);
     obj = func_800400AC(func_8004002C(), 2);
