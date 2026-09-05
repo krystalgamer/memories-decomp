@@ -28,4 +28,3 @@ Detailed campaign outcomes and historical milestones are recorded in:
 - [`remaining-decompilation-pass.md`](remaining-decompilation-pass.md)
 - [`semantic-naming-pass.md`](semantic-naming-pass.md)
 - [`grouped-translation-units.md`](grouped-translation-units.md)
-- [`global-usage.md`](global-usage.md)

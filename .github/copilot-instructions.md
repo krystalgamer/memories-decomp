@@ -84,7 +84,7 @@ Matching, attempt-ledger updates, and integration remain sequential.
   section sizes, and total PS-X EXE size. `tools/project/match.py` accepts the
   build only when `tmp/project-build/SLUS_014.11` has the retail target hash.
 - `notes/` holds durable research and workflow documentation. Progress and
-  global-usage reports are generated from tracked metadata, not maintained as
+  global-usage data are generated from tracked metadata, not maintained as
   independent sources of truth.
 - `tmp/references/` contains user-provided comparison sources, exports, and
   other evidence used during decompilation. Treat references as evidence
@@ -120,8 +120,8 @@ Matching, attempt-ledger updates, and integration remain sequential.
   reorder, or partially replace a grouped translation unit without preserving
   those invariants and the full executable match.
 - Treat `make progress` and `make global-usage` as optional project-wide
-  snapshot updates, not part of each decompilation change. Matching PRs do not
-  need to refresh either report.
+  report updates, not part of each decompilation change. Matching PRs do not
+  need to refresh either output.
 
 ## C and naming conventions
 
