@@ -34,6 +34,11 @@ Validate its ISO9660 LBAs and extracted file contents with:
 make verify-disc
 ```
 
+Use an untouched North American dump. A commonly circulated image changes
+one anti-piracy branch inside `DATA/WA_MRG.MRG`; input verification recognizes
+that patched image and reports it explicitly instead of accepting it as the
+project reference.
+
 ## Workspace rule
 
 Run all commands from the repository root. Project scripts reject execution

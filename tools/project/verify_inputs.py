@@ -18,6 +18,16 @@ class VerificationError(RuntimeError):
 
 
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
+KNOWN_PATCHED_INPUTS = {
+    (
+        "game/DATA/WA_MRG.MRG",
+        "a519a1f5b27f4c6702613ba48c10bf945d25c9c51611ae3d2fab6e5d562b2d66",
+    ),
+    (
+        "game/rpg-yfm.bin",
+        "c020cb7cef2f55a0433324444f9052d0660c3eb247730d1ab1ec7204962d6c59",
+    ),
+}
 
 
 def parse_scalar(value: str) -> str | int:
@@ -307,6 +317,12 @@ def verify(
 
         actual_checksum = sha256_file(path)
         if actual_checksum != declared_checksum:
+            if (relative_path, actual_checksum) in KNOWN_PATCHED_INPUTS:
+                raise VerificationError(
+                    f"{relative_path}: this is the known dump with the "
+                    "anti-piracy branch patched out; provide an untouched "
+                    "North American dump"
+                )
             raise VerificationError(
                 f"{relative_path}: SHA-256 is {actual_checksum}, "
                 f"expected {declared_checksum}"
