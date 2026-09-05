@@ -1013,8 +1013,10 @@ variant. Deferred functions remain terminal under the six-attempt policy.
 
 - `func_8003D334` reached exact size and relocations; its remaining mismatch is
   scratchpad-packet initialization and register scheduling.
-- `func_8003A990` is four bytes short and differs mainly in allocation plus one
-  reload around signed division by `0x400`.
+- At this snapshot, `func_8003A990` was four bytes short and differed mainly
+  in allocation plus one reload around signed division by `0x400`. A later
+  post-terminal pass preserved the signed division expressions and store
+  ordering, matching all `0x154` bytes under `gcc_2_8_1_g8_split`.
 - `func_8003AAE4` matches its initialization/call prefix; the remaining
   mismatch is phase-register and color-replication ordering.
 - Future untouched handlers in the module surrounding exact
