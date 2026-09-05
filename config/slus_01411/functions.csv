@@ -196,7 +196,7 @@ address,size,name,status,module,notes
 0x8002497C,0x64,Duel_GetTerrainBoost,unmatched_asm,game,
 0x800249E0,0x23C,func_800249E0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80024C1C,0x118,func_80024C1C,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
-0x80024D34,0x94,func_80024D34,unmatched_asm,game,
+0x80024D34,0x94,func_80024D34,matching_c,game,"Builds a display object for a duelist entry: resolves the 28-byte record at D_8015C424.table[idx], passes its first field plus the paired coordinates from D_800908A0 to func_80024C1C, stores the result through func_800249E0's slot and tags it at 0x6A."
 0x80024DC8,0x5C,func_80024DC8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80024E24,0x28,func_80024E24,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80024E4C,0xC,func_80024E4C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
