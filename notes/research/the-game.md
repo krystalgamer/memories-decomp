@@ -239,10 +239,11 @@ guardian stars**. Monsters also carry one of six **attributes**: Light, Dark,
 Earth, Water, Fire or Wind. The stats are one packed word per card
 [`0x801D4244`: ATK bits 0–8 ×10, DEF bits 9–17 ×10, second star bits 18–21,
 first star bits 22–25, type bits 26–30]. A separate byte table indexed
-directly by card ID [`0x801D5332`] stores attribute in the high nibble and
-level in the low nibble. Its only identified resident reference copies both
-nibbles into a card-display record; no duel calculation is known to consume
-the attribute, so it is stored metadata rather than a proven matchup mechanic.
+directly by card ID [`gDuel_abCardLevelAttr` `0x801D5332`] stores attribute in
+the high nibble and level in the low nibble. Its only identified resident
+reference copies both nibbles into a card-display record; no duel calculation
+is known to consume the attribute, so it is stored metadata rather than a
+proven matchup mechanic.
 
 **Guardian stars** are ten, in two cycles that never touch:
 

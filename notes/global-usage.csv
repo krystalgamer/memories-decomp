@@ -3305,7 +3305,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80071248,AiScript_LoadCardType,matching_c,game,C,src/game/ai_script_card_info.c,read,32,(gDuel_adwCardStats[index] >> CARD_STAT_TYPE_SHIFT) &
 0x801D4D8E,gCard_asNameSortKey,gCard_asNameSortKey,0x80032B60,BuildDeck_CompareCard,matching_c,game,C,src/game/build_deck_compare.c,read,16,gCard_asNameSortKey[arg0->index - 1] < | gCard_asNameSortKey[arg1->index - 1]
 0x801D4D8E,gCard_asNameSortKey,gCard_asNameSortKey,0x80032BD4,func_80032BD4,matching_c,game,C,src/game/build_deck_compare.c,read,16,gCard_asNameSortKey[arg0->index - 1] < | gCard_asNameSortKey[arg1->index - 1]
-0x801D5332,D_801D5332,D_801D5332,0x800291E0,func_800291E0,matching_c,game,C,src/game/func_800291E0.c,address,,".reloc .-4, R_MIPS_HI16, D_801D5332 after .word 0x3C030000 | .reloc .-4, R_MIPS_LO16, D_801D5332 after .word 0x24630000"
+0x801D5332,gDuel_abCardLevelAttr,gDuel_abCardLevelAttr,0x800291E0,func_800291E0,matching_c,game,C,src/game/func_800291E0.c,address,,".reloc .-4, R_MIPS_HI16, gDuel_abCardLevelAttr after .word 0x3C030000 | .reloc .-4, R_MIPS_LO16, gDuel_abCardLevelAttr after .word 0x24630000"
 0x801D5608,D_801D5608,D_801D5608,0x80021598,Duel_CalcRankScore,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_011d98.s,address,,"addiu $s4, $v1, %lo(D_801D5608) | lui $v1, %hi(D_801D5608)"
 0x801D5608,D_801D5608,D_801D5608,0x80023144,func_80023144,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013944.s,write,32,"addiu $a0, $a0, %lo(D_801D5608) | addiu $v1, $v1, %lo(D_801D5608) | (+3 more)"
 0x801D5608,D_801D5608,D_801D5608,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A2F4.c,address,32,s32 *q = D_801D5608;
