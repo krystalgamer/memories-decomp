@@ -4,12 +4,12 @@
 #define SD_SEQUENCE_MARKER_SIZE 4
 
 extern u8 D_8009AF80[];
-extern s32 func_8004BAA0(u8 *arg0, u8 *arg1, s32 count);
+extern s32 SD_CompareBytes(u8 *arg0, u8 *arg1, s32 count);
 
 s32 SD_FindMidiTrackChunk(s32 offset)
 {
     do {
-        if (func_8004BAA0(
+        if (SD_CompareBytes(
                 D_8009AF80,
                 D_8009B458->field_07DC + offset,
                 SD_SEQUENCE_MARKER_SIZE) == 0) {

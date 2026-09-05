@@ -333,6 +333,7 @@ Widget_UpdatePulseColour = 0x80037110; // type:func
 
 // Semantic names
 DuelEffect_ProcessEntries = 0x80039D64; // type:func
+SD_CompareBytes = 0x8004BAA0; // type:func
 
 // Semantic names
 Dialog_ReadChoiceInput = 0x8003700C; // type:func
