@@ -76,7 +76,7 @@ segments:
       - [0x416C, asm, overlays/main_menu/text_416C]
       - [0x4344, c, overlays/main_menu/func_80184344]
       - [0x4454, c, overlays/main_menu/func_80184454]
-      - [0x44D8, asm, overlays/main_menu/text_44D8]
+      - [0x44D8, c, overlays/main_menu/func_801844D8]
       - [0x4558, data, overlays/main_menu/data]
 
   - [0x8000]
