@@ -2593,7 +2593,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE88,D_800EAE88,D_800EAE88,0x8001BAF0,func_8001BAF0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c138.s,address,,"addiu $a3, $v0, %lo(D_800EAE88) | addiu $s6, $s6, %lo(D_800EAE88) | (+4 more)"
 0x800EAE88,D_800EAE88,D_800EAE88,0x8001BD88,func_8001BD88,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,address,,"addiu $v1, $v1, %lo(D_800EAE88) | lui $v1, %hi(D_800EAE88)"
 0x800EAE88,D_800EAE88,D_800EAE88,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00ddb4.s,address,,"addiu $a0, $v0, %lo(D_800EAE88) | addiu $v1, $v0, %lo(D_800EAE88) | (+1 more)"
-0x800EAE88,D_800EAE88,D_800EAE88,0x80026DC8,func_80026DC8,matching_c,game,C,src/game/func_80026DC8.c,write,8,D_800EAE88[0] = *(s8 *)(e + 0x18) % 5 + 0xB; | D_800EAE88[0] = u % 5 + 0xB; | (+7 more)
+0x800EAE88,D_800EAE88,D_800EAE88,0x80026DC8,func_80026DC8,matching_c,game,C,src/game/func_80026DC8.c,write,8,D_800EAE88[0] = | D_800EAE88[1] = | (+5 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x80027060,func_80027060,matching_c,game,C,src/game/func_80027060.c,write,8,D_800EAE88[0] = v % DUEL_FIELD_ROW_SIZE + 0xB; | D_800EAE88[1] = 0; | (+3 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x8002712C,func_8002712C,matching_c,game,C,src/game/func_8002712C.c,read_write,,if(count){int first=list[0]->value;int index;D_800EAE88.result=first%DUEL_FIELD_ROW_SIZE+11;D_800EAE88.field1=0;D_800... | index=func_80026C0C(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){D_800EAE88.random=rand()&1;D_800EAE88.value+=index%DUEL_...
 0x800EAE88,D_800EAE88,D_800EAE88,0x80027228,func_80027228,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_017a28.s,write,8,"addiu $s0, $a1, %lo(D_800EAE88) | addiu $s0, $s0, %lo(D_800EAE88) | (+4 more)"
@@ -2890,7 +2890,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5788,D_800F5788,D_800F5788,0x8005EBF4,func_8005EBF4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04e3a4.s,address,,"addiu $a0, $a0, %lo(D_800F5788) | addiu $a3, $a3, %lo(D_800F5788) | (+2 more)"
 0x800F5788,D_800F5788,D_800F5788,0x8005F91C,func_8005F91C,matching_c,game,C,src/game/func_8005F91C.c,read,,D_8009B074 = (s32)D_800F5788; | q = D_800F5788; | (+1 more)
 0x800F5918,D_800F5918,D_800F5918,0x8005FC1C,func_8005FC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05041c.s,address,,"addiu $v1, $v0, %lo(D_800F5918) | lui $v0, %hi(D_800F5918)"
-0x800F5918,D_800F5918,D_800F5918,0x8005FE44,func_8005FE44,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05041c.s,address,,"addiu $v1, $v0, %lo(D_800F5918) | lui $v0, %hi(D_800F5918)"
+0x800F5918,D_800F5918,D_800F5918,0x8005FE44,func_8005FE44,matching_c,game,C,src/game/func_8005FE44.c,address,8,p = D_800F5918;
 0x800F5918,D_800F5918,D_800F5918,0x80060170,Model_RegisterHandlerKey,matching_c,game,C,src/game/model_handler_registry.c,read,,ModelHandlerRegistryEntry *e = D_800F5918;
 0x800F5918,D_800F5918,D_800F5918,0x800601D0,Model_FindHandlerKey,matching_c,game,C,src/game/model_handler_registry.c,read,,ModelHandlerRegistryEntry *e = D_800F5918;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,read,,"func_8008E360(gAiScript_aMemory, sizeof(gAiScript_aMemory));"
