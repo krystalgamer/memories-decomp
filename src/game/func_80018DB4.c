@@ -19,7 +19,7 @@ extern u16 D_8009B23A;
 extern u8 D_8009B1ED;
 extern u8 D_8009B1EC;
 extern u8 *D_8009B1C8;
-extern u8 D_8009B165;
+extern u8 gDuel_bWinnerSide;
 extern u8 D_8009B1D5;
 extern u8 D_800907CC[];
 extern Rec20 D_800E9FF0[];
@@ -65,8 +65,8 @@ void func_80018DB4(void) {
         c = D_8009B1C8;
         D_8009B1EC = b;
         if (*(s8 *)(c + 0x18) >= 0x28) {
-            D_8009B165 = D_8009B1D5 ^ 1;
-            *(s8 *)&D_800E9FF0[D_8009B165] = -0x28;
+            gDuel_bWinnerSide = D_8009B1D5 ^ 1;
+            *(s8 *)&D_800E9FF0[gDuel_bWinnerSide] = -0x28;
             D_8009B23A = 0xC;
             return;
         }
