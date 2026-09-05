@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card_layout.h"
 #include "duel_grid.h"
 
 extern u8 *D_8009B17C;
@@ -37,7 +38,7 @@ void DuelEffect_UpdateFieldMarker(void) {
                 n = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                     DUEL_FIELD_ROW_SIZE;
                 c = D_800907D8[D_8009B20C[1] + n];
-                r = D_801A7AD8 + c * 28;
+                r = D_801A7AD8 + c * DUEL_CARD_RECORD_SIZE;
                 if ((*(s32 *)(r + 0x14) & 0x88000000) == 0x88000000) {
                     func_80019BA0((u8 *)*(s32 *)r, 0xC0, 0, 6);
                     *(s16 *)(r + 0x16) = *(u16 *)(r + 0x16) & 0xF7FF;

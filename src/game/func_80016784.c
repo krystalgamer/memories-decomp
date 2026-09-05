@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card_layout.h"
 
 extern u8 D_801A7AD8[];
 
@@ -34,7 +35,7 @@ void func_80016784(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 k = (u8 *)0x1F800320;
                 y = (u8 *)0x1F800344;
                 z = (u8 *)0x1F800000;
-                e = D_801A7AD8 + arg0[0x6A] * 0x1C;
+                e = D_801A7AD8 + arg0[0x6A] * DUEL_CARD_RECORD_SIZE;
                 *(s16 *)(o + 8) = arg2;
                 *(s16 *)(o + 0xA) = arg3;
                 fl = *(u16 *)(arg0 + 0x14) | 0x10000;
