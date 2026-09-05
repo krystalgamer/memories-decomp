@@ -1,6 +1,6 @@
 #include "../types.h"
 
-void func_80016DDC(u8 *object)
+void Duel_UpdateLifePointDisplay(u8 *object)
 {
     s32 difference = *(s16 *)(object + 18) - *(s16 *)(object + 20);
     /* This order and the builtin preserve the target a1/a2 register roles. */

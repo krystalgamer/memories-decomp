@@ -567,7 +567,7 @@ State after this one-function checkpoint:
 
 ### Continuous wave 19
 
-`func_80016DDC` matched after declaring the step before the magnitude and
+`Duel_UpdateLifePointDisplay` matched after declaring the step before the magnitude and
 computing the magnitude with `__builtin_abs`. The preserved source already
 matched control flow and size, but GCC assigned those values to `$a1`/`$a2`
 in the opposite order and propagated the difference register into the

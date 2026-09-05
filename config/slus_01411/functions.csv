@@ -88,8 +88,8 @@ address,size,name,status,module,notes
 0x80016784,0x580,func_80016784,unmatched_asm,game,
 0x80016D04,0x28,func_80016D04,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80016D2C,0xB0,func_80016D2C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
-0x80016DDC,0x94,func_80016DDC,matching_c,game,Step-before-magnitude declarations and explicit signed absolute value reproduced the exact 148-byte function.
-0x80016E70,0x19C,func_80016E70,matching_c,game,Exact post-terminal collaborator match; allocation-only v1 pin preserves scratch-packet initialization scheduling.
+0x80016DDC,0x94,Duel_UpdateLifePointDisplay,matching_c,game,Moves one side's displayed life points toward the authoritative value with magnitude-dependent steps. Step-before-magnitude declarations and explicit signed absolute value reproduce the exact function.
+0x80016E70,0x19C,Duel_DrawLifePointsAndDeckCounts,matching_c,game,Updates both displayed life-point values then draws four LP digits and two remaining-deck digits for each side. Exact post-terminal collaborator match; allocation-only v1 pin preserves scratch-packet initialization scheduling.
 0x8001700C,0x28,func_8001700C,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80017034,0x94,func_80017034,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800170C8,0x68,Duel_CalcCardStats,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
