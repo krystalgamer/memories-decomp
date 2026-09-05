@@ -131,6 +131,10 @@ Recommended header boundaries are:
 | `src/psyq/libapi.h` | Events, critical sections, counters, and low-level memory-card/BIOS wrappers |
 | `src/psyq/malloc.h` | Heap initialization and the three allocator families |
 | `src/psyq/stdlib.h` | C runtime umbrella for allocation, conversion, sorting, random numbers, search, and exit |
+| `src/psyq/abs.h` | Integer absolute-value function and macro |
+| `src/psyq/convert.h` | Integer text conversion plus `labs` |
+| `src/psyq/qsort.h` | In-place generic sorting with the original unprototyped comparator |
+| `src/psyq/rand.h` | Fifteen-bit `rand` result contract and `srand` seed entry point |
 | `src/psyq/ctype.h` | Table-driven character classification plus case-conversion functions and macros |
 | `src/psyq/limits.h` | Integral-width limits for the Psy-Q MIPS compiler target |
 | `src/psyq/stddef.h` | Target definitions of `size_t`, `wchar_t`, `NULL`, and `WEOF` |
@@ -241,6 +245,16 @@ length, so allocations and releases must stay within the same numbered
 family. These heaps are separate from game-owned fixed-slot allocators such
 as the display-object pool. No current game C includes `malloc.h` directly;
 it is also part of the `stdlib.h` umbrella.
+
+The other `stdlib.h` component headers remain deliberately small. `abs.h`
+provides both `abs(int)` and an `ABS` macro whose argument can be evaluated
+more than once. `convert.h` declares decimal and base-selectable integer
+parsers plus `labs`. `qsort.h` retains the original `int (*)()` comparator
+prototype; changing a matching caller to a modern fully prototyped callback
+can change argument setup. `rand.h` fixes `RAND_MAX` at 32767 and exposes the
+`rand`/`srand` pair whose resident implementation is documented separately in
+[`rng.md`](rng.md). Current game C uses local declarations rather than
+including these component headers.
 
 The imported string headers form a compatibility stack rather than three
 independent libraries. `string.h` only includes `strings.h`; `strings.h`
