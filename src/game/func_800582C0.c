@@ -18,7 +18,7 @@ extern s16 D_8009B472;
 extern s16 D_8009B474;
 extern s16 D_8009B476;
 extern s32 func_8005AE68();
-extern s32 func_8007FA38();
+extern s32 MoveImage();
 extern s32 LoadImage2();
 extern s32 StoreImage2();
 extern s32 func_80082324();
@@ -73,5 +73,5 @@ big:
     D_8009B474 = 0x100;
     D_8009B470 = arg0 << 8;
     D_8009B476 = 8;
-    func_8007FA38(&D_8009B470, arg0 << 8, 0xF0);
+    MoveImage(&D_8009B470, arg0 << 8, 0xF0);
 }

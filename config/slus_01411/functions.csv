@@ -1467,7 +1467,7 @@ address,size,name,status,module,notes
 0x8007F8E0,0x98,func_8007F8E0,sdk_asm,psyq/sdk,
 0x8007F978,0x60,LoadImage,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBGPU.LIB/SYS.OBJ LoadImage.
 0x8007F9D8,0x60,func_8007F9D8,sdk_asm,psyq/sdk,
-0x8007FA38,0xB8,func_8007FA38,sdk_asm,psyq/sdk,
+0x8007FA38,0xB8,MoveImage,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature and three matching game callers.
 0x8007FAF0,0xC8,func_8007FAF0,sdk_asm,psyq/sdk,
 0x8007FBB8,0xAC,func_8007FBB8,sdk_asm,psyq/sdk,
 0x8007FC64,0x5C,func_8007FC64,sdk_asm,psyq/sdk,
