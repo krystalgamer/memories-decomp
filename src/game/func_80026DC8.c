@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card.h"
 
 extern u8 D_800EAE88[];
 
@@ -8,8 +9,8 @@ extern s32 func_80026C0C(s32 arg0);
 extern s32 Duel_CollectFieldCardsBelowType(u8 **out, s32 arg1, s32 arg2);
 
 s32 func_80026DC8(void) {
-    u8 *a[6];
-    u8 *b[6];
+    u8 *a[DUEL_FIELD_ROW_SIZE + 1];
+    u8 *b[DUEL_FIELD_ROW_SIZE + 1];
     u8 **q;
     u8 **r;
     u8 *e;
@@ -19,7 +20,7 @@ s32 func_80026DC8(void) {
     s32 w;
 
     if (Duel_CollectFieldCardsByType(b, 0, 0x17) != 0) {
-        Duel_CollectFieldCardsByType(a, 5, -1);
+        Duel_CollectFieldCardsByType(a, DUEL_FIELD_ROW_SIZE, -1);
         e = b[0];
         if (e != (u8 *)0) {
             r = b;
@@ -30,9 +31,11 @@ s32 func_80026DC8(void) {
                     do {
                         if (Duel_CheckEquip(*(s16 *)(e + 0xC),
                                             *(s16 *)(f + 0xC)) != 0) {
-                            D_800EAE88[0] = *(s8 *)(e + 0x18) % 5 + 0xB;
+                            D_800EAE88[0] =
+                                *(s8 *)(e + 0x18) % DUEL_FIELD_ROW_SIZE + 0xB;
                             D_800EAE88[1] = 0;
-                            D_800EAE88[6] = *(s8 *)(f + 0x18) % 5 + 1;
+                            D_800EAE88[6] =
+                                *(s8 *)(f + 0x18) % DUEL_FIELD_ROW_SIZE + 1;
                             D_800EAE88[7] = 0;
                             D_800EAE88[8] = 0;
                             return 0;
@@ -46,7 +49,7 @@ s32 func_80026DC8(void) {
             } while (e != (u8 *)0);
         }
 
-        n = func_80026C0C(5);
+        n = func_80026C0C(DUEL_FIELD_ROW_SIZE);
         if (n < 0) {
             return 1;
         }
@@ -62,13 +65,16 @@ s32 func_80026DC8(void) {
                         if (Duel_CheckEquip(*(s16 *)(e + 0xC),
                                             *(s16 *)(f + 0xC)) != 0) {
                             u = *(s8 *)(f + 0x18);
-                            D_800EAE88[0] = u % 5 + 0xB;
+                            D_800EAE88[0] =
+                                u % DUEL_FIELD_ROW_SIZE + 0xB;
                             w = *(s8 *)(e + 0x18);
                             D_800EAE88[2] = 0;
                             D_800EAE88[7] = 0;
                             D_800EAE88[8] = 0;
-                            D_800EAE88[6] = n % 5 + 1;
-                            D_800EAE88[1] = w % 5 + 0xB;
+                            D_800EAE88[6] =
+                                n % DUEL_FIELD_ROW_SIZE + 1;
+                            D_800EAE88[1] =
+                                w % DUEL_FIELD_ROW_SIZE + 0xB;
                             return 0;
                         }
                         q++;
