@@ -135,6 +135,8 @@ Recommended header boundaries are:
 | `src/psyq/limits.h` | Integral-width limits for the Psy-Q MIPS compiler target |
 | `src/psyq/stddef.h` | Target definitions of `size_t`, `wchar_t`, `NULL`, and `WEOF` |
 | `src/psyq/stdarg.h` | Integer-slot-aligned variadic argument traversal macros |
+| `src/psyq/setjmp.h` | Single-task non-local jumps with an explicit saved MIPS register layout |
+| `src/psyq/assert.h` | Debug assertion macro using `printf` and `exit`, disabled by `NDEBUG` |
 | `src/psyq/libmath.h` | Software floating-point math, conversion helpers, and math error globals |
 | `src/psyq/memory.h` | Byte-memory operations plus the BSD `bcopy`/`bzero`/`bcmp` aliases |
 | `src/psyq/strings.h` | String operations, including search/token helpers, layered over `memory.h` |
@@ -213,6 +215,15 @@ defines `NULL` as integer zero and `WEOF` as `0xFFFFFFFF`. `stdarg.h` uses a
 These are target/compiler support declarations, not portable host-build
 substitutes. No current game C includes either header directly, although
 `stdlib.h` includes `stddef.h`.
+
+`setjmp.h` defines `jmp_buf` as twelve 32-bit words for the saved PC, stack
+pointer, frame pointer, registers `s0`-`s7`, and global pointer. It is the
+single-task form and carries no signal mask or host-thread context.
+`assert.h` expands a failed assertion to a formatted `printf` followed by
+`exit(1)`; when `NDEBUG` is defined, both `assert` and the underlying
+`_assert` macro expand to nothing. Neither header includes the declarations
+for those output/termination functions itself, and no current game C includes
+either header.
 
 The imported string headers form a compatibility stack rather than three
 independent libraries. `string.h` only includes `strings.h`; `strings.h`
