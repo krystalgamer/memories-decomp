@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 void func_8003201C(u8 *state)
 {
@@ -8,7 +9,7 @@ void func_8003201C(u8 *state)
         register s32 id asm("a2") = 1;
         u8 *count = state + id;
 
-        for (; id < 0x2D3; id++, count++) {
+        for (; id < CARD_COUNT + 1; id++, count++) {
             s32 record_index;
             u8 *record;
             register u8 *output asm("a3");
@@ -18,7 +19,7 @@ void func_8003201C(u8 *state)
             output = count;
             record = state + 0x2D54;
 
-            for (; record_index < 40; record_index++) {
+            for (; record_index < DECK_SIZE; record_index++) {
                 if (record[9] != 0 && *(s16 *)record == id) {
                     output[0x5AC4]++;
                 }
@@ -32,7 +33,7 @@ void func_8003201C(u8 *state)
         register s32 leading asm("a1") = 0;
         register s32 record_index asm("a2");
 
-        for (record_index = 0; record_index < 40; record_index++) {
+        for (record_index = 0; record_index < DECK_SIZE; record_index++) {
             if (record[0xD] == 0) {
                 break;
             }
