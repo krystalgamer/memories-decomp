@@ -1400,6 +1400,38 @@ The practical rule is that once shape, count, profile and types are settled
 and the only difference is which register holds a long-lived address, further
 source permutation is low-yield — record what was measured and move on.
 
+## Statement order is a lever at call boundaries, not within a block
+
+On a function containing calls, the highest-yield source change is usually
+where a value is evaluated *relative to a call*. Two changes on
+`func_8004A43C` account for most of its progress, and neither touched types,
+names or profiles:
+
+- Reloading the state pointer **after** `func_80049FB4` rather than holding it
+  live across the call. Holding it live forced a second callee-saved register
+  and grew the frame from `-24` to `-32`; retail reloads it. Worth 15 diffs.
+- Computing the shift argument **before** the two packet stores, so it lands
+  ahead of the call rather than sinking after them. Worth 9 diffs, and it
+  restored the exact instruction count at the same time.
+
+Both are visible by reading the target's ordering directly, and the frame size
+gives the first away immediately: **if the candidate's frame is larger than
+retail's, something is being held across a call that retail re-derives.**
+That check costs one glance at the prologue.
+
+The limit is worth stating, because the rule generalises badly. Moving
+statements relative to each other *within* a straight-line block does not
+work. On the same function, hoisting an array load into a local before a
+neighbouring pointer load — purely intra-block — came out eight diffs worse
+and one instruction short, because the scheduler simply reordered it back and
+spent an instruction doing so.
+
+So the mechanism is not "source order controls emission order". It is that
+evaluation position relative to a call determines **what must stay live across
+the call**, which drives register allocation and frame layout. Within a basic
+block the scheduler owns the ordering and source position carries no
+information.
+
 ## Do not name an array base to reproduce a materialised base register
 
 When retail keeps an array base in a register and the candidate reaches the
