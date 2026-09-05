@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "ai.h"
+#include "duel_card_layout.h"
 
 extern u8 D_800EAE90;
 extern u8 D_800F5C7F;
@@ -32,5 +33,5 @@ void AiScript_MoveCard(void)
     s32 index = AiScript_ReadByte();
     s32 value = values[index];
 
-    gDuel_aActiveCards[value].flags |= 0x4000;
+    gDuel_aActiveCards[value].flags |= DUEL_CARD_FLAG_USED_THIS_TURN;
 }

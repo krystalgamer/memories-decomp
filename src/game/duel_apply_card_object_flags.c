@@ -23,8 +23,8 @@ extern void func_80017DB4(struct Obj *a0);
 
 /* Clears a0->f8's bit 0x4 and a0->f22, then re-derives f22 (0x80) and f21
    (0xC0) from D_801A7AD8[a0->f6A]'s bits 0x1000/0x800; always sets fC to
-   0x808080, or 0x404040 if bit 0x4000 is set; runs func_80017DB4(a0), then
-   clears a0->f67 unless bit 0x2000 is set. */
+   0x808080, or 0x404040 if DUEL_CARD_FLAG_USED_THIS_TURN is set; runs
+   func_80017DB4(a0), then clears a0->f67 unless bit 0x2000 is set. */
 void Duel_ApplyCardObjectFlags(struct Obj *a0) {
     u16 flags8 = a0->f8;
     s32 type = a0->f6A;
@@ -42,7 +42,7 @@ void Duel_ApplyCardObjectFlags(struct Obj *a0) {
         a0->f21 = 0xC0;
     }
     a0->fC = 0x808080;
-    if (rec->flags & 0x4000) {
+    if (rec->flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
         a0->fC = 0x404040;
     }
     func_80017DB4(a0);

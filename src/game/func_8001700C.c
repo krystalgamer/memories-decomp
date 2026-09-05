@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card_layout.h"
 
 typedef struct {
     u8 pad_00[0x16];
@@ -9,8 +10,8 @@ int func_8001700C(Object *object)
 {
     u16 flags = object->flags;
 
-    if (flags & 0x8000) {
-        if (!(flags & 0x4000)) {
+    if (flags & DUEL_CARD_FLAG_OCCUPIED) {
+        if (!(flags & DUEL_CARD_FLAG_USED_THIS_TURN)) {
             return 1;
         }
     }

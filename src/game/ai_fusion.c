@@ -26,7 +26,7 @@ void AiScript_FindEquipTarget(void)
 
         if (!card->card_id)
             continue;
-        if (mode == 1 && (card->flags & 0x4000))
+        if (mode == 1 && (card->flags & DUEL_CARD_FLAG_USED_THIS_TURN))
             continue;
         if (Ai_IsCardInSets(type, i))
             continue;
