@@ -3211,6 +3211,12 @@
       "source": "src/game/display_object_updates.c"
     },
     {
+      "address": "0x80040DD8",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
+      "size": "0x290",
+      "source": "src/game/func_80040DD8.c"
+    },
+    {
       "address": "0x80041068",
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0x2D8",
