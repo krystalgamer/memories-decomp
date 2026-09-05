@@ -23,9 +23,9 @@ The current mixed C/assembly build reproduces `game/SLUS_014.11` with SHA-256:
 
 | Metric | Current |
 |---|---:|
-| Matching C functions | **837 / 1,196 (69.98%)** |
-| Matching C bytes | **105,328 (`0x19B70`) / 396,212 (`0x60BB4`) (26.58%)** |
-| Remaining compiler-generated game assembly | 296 functions, 244,648 (`0x3BBA8`) |
+| Matching C functions | **838 / 1,196 (70.07%)** |
+| Matching C bytes | **105,544 (`0x19C48`) / 396,212 (`0x60BB4`) (26.64%)** |
+| Remaining compiler-generated game assembly | 295 functions, 244,432 (`0x3BAD0`) |
 | Intentional handwritten game assembly | 63 functions, 46,236 (`0xB49C`) |
 | Preserved Psy-Q CRT/SDK assembly | 598 functions, 117,332 (`0x1CA54`) |
 | Total discovered functions | 1,794 |
