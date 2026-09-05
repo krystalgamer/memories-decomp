@@ -209,6 +209,50 @@ credits routine, despite the tutorial's broad title.
 - **Confirmed** that the patched bytes belong to the player-side duel-result
   label rather than executable code.
 
+## Global card and category name offsets
+
+**Tutorials:**
+
+- `Bloco pointeiros monstros e guardians.txt`
+- `Offset Nomes.txt`
+
+The first tutorial identifies SLUS offsets `0x1C6000` and `0x1C6600` as
+pointer blocks for card names and for card-type, Guardian Star, and duelist
+names. Both offsets belong to one table:
+
+| SLUS offset | Resident address | Table position | Meaning |
+|---:|---:|---:|---|
+| `0x1C6000` | `0x801D5800` | entry `0x000` / string ID `0x8000` | Start of `gText_aGlobalOffsets` |
+| `0x1C6600` | `0x801D5E00` | entry `0x300` / string ID `0x8300` | Start of the card-type labels within the same table |
+
+Exact matching C in `Text_LookupString` indexes this table with
+`string_id - 0x8000`, then combines the selected 16-bit offset with the
+`0x801D0000` text-bank base. Entry zero points to an empty string. Entries
+`0x001`-`0x2D2` correspond to card IDs 1-722, while the 45 entries through
+`0x2FF` all point back to that empty string.
+
+The `0x8300` subrange begins with the 24 card-type labels from `Dragon`
+through `Equip`. IDs `0x8318`-`0x8321` are the ten Guardian Star names.
+After six entries that alias the `Dragon` string, ID `0x8328` is
+`Build Deck` and IDs `0x8329`-`0x834F` are the 39 duelist names.
+
+The second tutorial's lone offset, `0x1C92CE`, maps to resident address
+`0x801D8ACE`. The table entry for string ID `0x8300` contains offset
+`0x8ACE`, and the bytes there decode through `gText_adwGlyphCodeTable` as
+`Dragon` followed by the `0xFF` terminator. This is therefore the first
+card-type string, not the start of the pointer table or of the 722 card names.
+Changing its encoded length without relocating later strings and updating
+their offsets would overwrite adjacent text.
+
+**Confidence:**
+
+- **Confirmed** that `0x1C6000` maps to `gText_aGlobalOffsets` and that
+  `Text_LookupString` uses it for IDs `0x8000` and above.
+- **Confirmed** that `0x1C6600` is entry `0x300` of that same table rather
+  than an independent pointer block.
+- **Confirmed** that `0x1C92CE` is the encoded `Dragon` label selected by
+  string ID `0x8300`.
+
 ## Skip the opening Heishin text segment
 
 **Tutorial:** `Remover Heishin.txt`
