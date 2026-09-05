@@ -141,6 +141,30 @@ it is `s16`.
 Observed in `FreeDuel_UpdateSparkle`, where this closed the semantic gap
 though that function does not yet match in full.
 
+## A flat comparison chain is if/else, and the last arm is the else
+
+GCC 2.8.1 lowers even a small `switch` to a **balanced comparison tree**: it
+tests the midpoint with `slt` and halves the range. So a target that compares
+against its constants **in a flat sequence**, one `beq` after another, was not
+a `switch` in the source no matter how switch-shaped the logic reads.
+
+Given a flat chain, the block layout then says which arm was written last:
+
+- Each test branching **forward** to a block that the chain also reaches by
+  **fall-through** means that block is the source's final `else`.
+- So if two values share an arm and that shared arm is the fall-through
+  target, the source tested the **negated** condition:
+  `if (x != a && x != b) { rest } else { shared }`, not
+  `if (x == a || x == b) { shared } else { rest }`.
+
+Writing it the natural way round emits the shared arm first and reaches it
+with an extra jump, which is the whole difference.
+
+Verified by `func_80184344` in the main menu module, where the type values
+`0x14` and `0x17` share a palette. The same function also shows the narrower
+tell that a value shifted with `srl` rather than `sra` was held in an
+**unsigned** local.
+
 ## Two loop invariants: the second one emitted becomes the pointer
 
 When a loop indexes a two-dimensional array with one invariant index and one
