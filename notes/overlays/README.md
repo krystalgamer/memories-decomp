@@ -101,9 +101,21 @@ make verify-overlays
 ```
 
 Not `make overlays verify-overlays`. With no dependency between the two goals,
-a parallel `make` starts them together and the verify loses the race — which
-is exactly what happened the first time the CI step was added, under the
-runner's `MAKEFLAGS=-j4`.
+a parallel `make` starts them together and the verify loses the race.
+
+The CI step took two attempts to get here, and the two failures had different
+causes — worth separating, because only the second is the race:
+
+| attempt | step body | why it failed |
+|---|---|---|
+| 1 | `make verify-overlays` | nothing had extracted; no `make overlays` in the job at all |
+| 2 | `make overlays verify-overlays` | genuine race under the runner's `MAKEFLAGS=-j4` |
+
+The second is reproducible locally: `rm -f tmp/overlays/*/module.bin`, then
+`MAKEFLAGS=-j4 make overlays verify-overlays` fails while the same two goals
+as separate invocations pass. The CI log for that attempt shows the ordering
+directly — `make: *** Waiting for unfinished jobs....` and the extraction
+output arriving *after* the error.
 
 One gap remains by design: the workflow ignores `notes/**`, so a change that
 touches only `notes/card-catalog.csv`, `notes/global-usage.csv` or
