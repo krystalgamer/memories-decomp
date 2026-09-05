@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card.h"
 
 typedef struct { char p[0xC]; s16 result; char pE[8]; u16 flags; } Object;
 typedef struct { char p[0xF]; s8 x, y; } Position;
@@ -12,7 +13,8 @@ int func_80017034(Object *argument)
     register Position *position asm("$4") = D_8009B1B4;
     register u8 *table asm("$3") = D_800907D8;
     int valid = 1;
-    unsigned int value = table[position->y * 5 + position->x];
+    unsigned int value =
+        table[position->y * DUEL_FIELD_ROW_SIZE + position->x];
     if (value >= 20) {
         int mask = object->flags & 0x1000;
         valid = (unsigned int)mask < 1;
