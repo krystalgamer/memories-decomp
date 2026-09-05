@@ -1,15 +1,12 @@
 #include "../types.h"
-
-typedef struct {
-    int words[6];
-} Local;
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 
 extern int DsSearchFile(int, int);
 extern int func_8005BE3C(void);
 extern void func_8005BB7C(int);
-extern void GetDispEnv(Local *);
 extern int func_80082324(int);
-extern int func_80081FC0(Local *, int, int);
+extern int func_80081FC0(RECT *, int, int);
 
 int File_Exists(int first, int second)
 {
@@ -41,10 +38,10 @@ int func_8005C530(void)
 
 int func_8005C568(int first, int second)
 {
-    Local local;
+    DISPENV local;
 
     GetDispEnv(&local);
     while (func_80082324(3) != 0) {}
-    while (func_80081FC0(&local, first, second) != 0) {}
+    while (func_80081FC0(&local.disp, first, second) != 0) {}
     return 0;
 }
