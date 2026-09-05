@@ -8,7 +8,7 @@ typedef struct MovieStreamRange {
 extern MovieStreamRange gMovie_aStreamRanges[13];
 extern s32 D_800E9EB4;
 
-extern void func_8007E600(s32, void *, s32);
+extern void CdIntToPos_8007E600(s32, void *, s32);
 extern s32 CdPosToInt_8007E710(void *);
 extern void func_8005B8A0(void *, s32, s32, s32, s32, s32);
 
@@ -33,7 +33,7 @@ void func_8005C388(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4)
             i++;
         } while (i < index);
     }
-    func_8007E600(D_800E9EB4 + total, buffer, total);
+    CdIntToPos_8007E600(D_800E9EB4 + total, buffer, total);
     {
         register MovieStreamRange *table asm("a1");
         register void *buffer_arg asm("a0");

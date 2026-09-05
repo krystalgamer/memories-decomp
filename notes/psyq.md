@@ -70,7 +70,8 @@ symbol review.
 | `0x8007E350` | `CdFlush` | No-argument wrapper around the CD library's internal state-reset routine. |
 | `0x8007E3D0` | `CdGetSector` | Identified CD-sector transfer interface in the resident CD library. |
 | `0x8007E4F0` | `CdGetSector2` | Parallel two-argument sector-transfer wrapper using the library's second transfer path. |
-| `0x8007E600` | `CdIntToPos` | Adds the two-second lead-in and writes packed-BCD minute, second, and sector fields to a `CdlLOC`. |
+| `0x8007A710` | `CdIntToPos` | Applied Psy-Q 4.6 LIBCD identity; canonical copy of the sector-to-packed-BCD position conversion. |
+| `0x8007E600` | `CdIntToPos_8007E600` | Applied address-qualified identity for the second byte-identical resident copy used by matching game C. |
 | `0x800781F0` | `CdPosToInt` | Applied Psy-Q 4.6 LIBCD identity; canonical copy of the packed-BCD position-to-sector conversion. |
 | `0x8007E710` | `CdPosToInt_8007E710` | Applied address-qualified identity for the second byte-identical resident copy used by matching game C. |
 | `0x8007E7F0` | `CdControlB` | Submits the three-argument CD command and blocks until the internal completion code is `2`. |
@@ -493,8 +494,9 @@ layout-compatible `CdlLOC` view and stores the result as the file position.
 The fourth `track` byte is not read by this conversion and should not be
 mistaken for part of the sector calculation.
 
-The adjacent inverse routine at `0x8007E600` takes a logical sector number and
-a destination `CdlLOC *`. After adding the 150-sector lead-in, it computes:
+The adjacent inverse routine `CdIntToPos_8007E600` takes a logical sector
+number and a destination `CdlLOC *`. After adding the 150-sector lead-in, it
+computes:
 
 ```text
 minute = adjusted_sector / (60 * 75)
