@@ -141,12 +141,21 @@ Recommended header boundaries are:
 | `src/psyq/libgpu.h` | Rectangles, draw/display environments, images, primitives, and ordering tables |
 | `src/psyq/libgte.h` | Vectors, matrices, and GTE helper interfaces |
 | `src/psyq/libgs.h` | `Gs` work areas, objects, lights, cameras, and sorting helpers |
+| `src/psyq/libhmd.h` | Hierarchical-model units, primitive handlers, animation, and MIMe records |
 | `src/psyq/libsnd.h` | VAB banks, sequences, tones, and high-level playback |
 | `src/psyq/libspu.h` | SPU voices, transfer state, reverb, and callbacks |
 | `src/psyq/libmcrd.h` | High-level `MemCard` status, directory, and I/O interfaces |
 | `src/psyq/libmcx.h` | MCX application, clock, memory, serial, LED, device, and UIFS services |
 | `src/psyq/mcgui.h` | Configurable memory-card save/load UI environment and entry points |
 | `src/psyq/libpress.h` | MDEC environment, callbacks, input, output, and VLC helpers |
+
+`libhmd.h` extends the graphics-library types rather than replacing them. Its
+`GsCOORDUNIT`, `GsUNIT`, and `GsARGUNIT*` records describe hierarchical-model
+primitive processing and refer to `MATRIX`, `SVECTOR`, `DVECTOR`, `GsOT`, and
+`PACKET` declarations supplied by the GTE and `libgs` interfaces. Include
+ordering therefore matters. No current game C includes `libhmd.h`, so a local
+model record should not be migrated to an HMD type from a matching size or
+similar role alone; field-level and resident-call evidence are still required.
 
 Do not add `src/types.h` to an imported header solely for uniformity. Headers
 that expose project-adapted fixed-width records must include it directly and
