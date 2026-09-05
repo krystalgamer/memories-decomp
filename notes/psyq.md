@@ -94,6 +94,7 @@ symbol review.
 | `0x80086100` | `GsGetTimInfo` | Applied Psy-Q 4.6 identity; `model_texture_upload.c` parses a TIM image header before uploading its pixel and CLUT rectangles. |
 | `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion. |
 | `0x80086770` | `rcos` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point cosine output alongside `rsin`. |
+| `0x80086810` | `SetFogNearFar` | Applied Psy-Q 4.6 identity; matching campaign-map callers configure near and far depth-cue distances from the current camera projection. |
 | `0x80086E50` | `SquareRoot0` | Applied Psy-Q 4.6 identity; matching model and duel callers derive integer distances from sums of squared coordinates. |
 | `0x800871D0` | `PushMatrix` | Applied Psy-Q 4.6 identity; the matching model transform path saves the active GTE matrix state. |
 | `0x80087274` | `PopMatrix` | Applied Psy-Q 4.6 identity; restores the matrix state saved by `PushMatrix` after projection work. |
