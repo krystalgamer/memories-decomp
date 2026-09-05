@@ -9,7 +9,8 @@ exactly; the interpretation is flagged where it goes beyond that.
 
 The function does three things in order:
 
-1. `func_80035748(D_801D0000, 0, 0x3000)` — clears `0x801D0000`–`0x801D3000`.
+1. `Util_FillMemory(D_801D0000, 0, 0x3000)` (`0x80035748`) — clears
+   `0x801D0000`–`0x801D3000`.
 2. `func_8008E870(D_80168090, D_801D0000, 0x3000)` — fills the same range from
    overlay data. `0x90` is below the password module's first function at
    `0x801680B4`, so the source is the module header region and not code.
