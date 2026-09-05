@@ -189,7 +189,7 @@ address,size,name,status,module,notes
 0x800245A0,0x4C,Duel_ShuffleBothDecks,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800245EC,0x118,func_800245EC,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_cc_g0_as_g8_no_split.
 0x80024704,0x30,Util_CompareS16,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80024734,0xF0,func_80024734,unmatched_asm,game,
+0x80024734,0xF0,func_80024734,matching_c,game,Post-terminal pure-C match; GCC G8 split addressing with MASPSX G0 reproduces the retail deck-list setup exactly.
 0x80024824,0xF0,func_80024824,unmatched_asm,game,
 0x80024914,0x40,func_80024914,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80024954,0x28,func_80024954,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
