@@ -1,12 +1,12 @@
 #include "../types.h"
 
-extern s32 D_800F5B98[];
-extern u8 D_800F5BE8[];
+extern s32 gAiScript_aMemory[];
+extern u8 gAiScript_State[];
 extern s16 D_800F5C88[];
 extern u8 D_800F5C8B[];
 
 extern s32 Duel_GetBaseCardStat(s32, s32);
-extern s32 func_8007058C(void);
+extern s32 AiScript_ReadByte(void);
 extern s32 Ai_GetHandSize(void);
 extern void Ai_CompleteFusion(s32);
 
@@ -22,13 +22,13 @@ void AiScript_EvaluateFusion(void)
     s32 i;
     s32 n;
 
-    a = D_800F5B98[func_8007058C()];
-    b = D_800F5B98[func_8007058C()] + 1;
-    c = D_800F5B98[func_8007058C()];
-    k = func_8007058C();
+    a = gAiScript_aMemory[AiScript_ReadByte()];
+    b = gAiScript_aMemory[AiScript_ReadByte()] + 1;
+    c = gAiScript_aMemory[AiScript_ReadByte()];
+    k = AiScript_ReadByte();
     n = Ai_GetHandSize();
 
-    r = (u8 *)D_800F5BE8;
+    r = (u8 *)gAiScript_State;
     r[0x9C] = n;
     r[0x9D] = b;
     *(s16 *)(r + 0xA0) = 0;
@@ -52,8 +52,8 @@ void AiScript_EvaluateFusion(void)
     Ai_CompleteFusion(a);
 
     if (D_800F5C8B[0] != 0) {
-        D_800F5B98[k] = 0;
+        gAiScript_aMemory[k] = 0;
     } else {
-        D_800F5B98[k] = 1;
+        gAiScript_aMemory[k] = 1;
     }
 }
