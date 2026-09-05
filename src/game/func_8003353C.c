@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "input.h"
 
 extern u8 D_8009B24B;
 extern u16 gDuel_wViewerCardID;
@@ -29,7 +30,7 @@ void func_8003353C(u8 *p) {
         return;
     }
 
-    if ((D_8009B398 & 0x10) != 0) {
+    if ((D_8009B398 & PAD_BUTTON_TRIANGLE) != 0) {
         r = func_80033500(e);
         if (r != 0) {
             D_8009B24B = 0x14;
@@ -39,20 +40,20 @@ void func_8003353C(u8 *p) {
         return;
     }
 
-    if (D_8009B3A4 == 0x8000) {
+    if (D_8009B3A4 == PAD_DIRECTION_LEFT) {
         *(s16 *)(p + 0x633E) = 1;
         *(s32 *)(p + 0x5AA4) = 0;
         *(s16 *)(p + 0x6340) = 2;
         return;
     }
 
-    if ((D_8009B398 & 0x20) != 0) {
+    if ((D_8009B398 & PAD_BUTTON_CANCEL) != 0) {
         *(s16 *)(p + 0x633E) = 4;
         *(s16 *)(p + 0x6340) = 3;
         return;
     }
 
-    if ((D_8009B394 & 0xC0) != 0) {
+    if ((D_8009B394 & PAD_BUTTON_CONFIRM_MASK) != 0) {
         r = func_80033500(e);
         if (r != 0) {
             SD_SEPlayFull(7);
