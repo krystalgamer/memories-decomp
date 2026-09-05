@@ -664,6 +664,73 @@ for itself rather than being a rare precaution.
 The 54 unmatched overlay functions are tracked separately under #162 and are
 not included in these figures.
 
+#### maspsx drops the load-delay nop before a macro store
+
+A second build-tooling blocker, in the same class as the jump table above: the C
+can be finished, exact, and still not assemble to the target.
+
+maspsx skips the load-delay `nop` when the instruction after a load is a *macro*
+store of the just-loaded register — a store written against a bare symbol with
+no base register. It assumes the assembler expands that macro into at least a
+`lui` plus the store, which covers the delay by itself. That holds for a
+`%hi`/`%lo` symbol. It does not hold at `-G8` for a symbol below the small-data
+threshold, where gas emits a single `%gp_rel` store and nothing covers the delay.
+
+The two cases differ only in the store's addressing form. Minimal repro against
+aspsx 2.81 with `-G8`:
+
+```
+lbu $3,106($2)          lbu $3,106($2)
+sb  $3,4($5)            sb  $3,D_8009B1B8
+```
+```
+lbu $3,106($2)          lbu $3,106($2)
+nop # DEBUG: Reuse ...  sb  $3,D_8009B1B8
+sb  $3,4($5)            (no nop, no DEBUG line)
+```
+
+`_handle_nop_before_next_instruction` is never reached for the second form.
+`.extern` sizes are parsed and discarded in the directive scan, so an `extern`
+small global never enters `sdata_entries`/`sbss_entries`; the store is passed
+through as a macro for gas to expand, and the load's nop decision goes with it.
+Symbols the translation unit defines itself would land in `sbss_entries` and take
+the `%gp_rel` path, where `_uses_gp` forces the nop — but nothing under `src/`
+defines a global, so that path is never taken in this project.
+
+##### The worked example
+
+`func_80025028` (`0x80025028`, 0xA0) is exact C today. Under `gcc_2_8_1_g8_split`
+it reproduces every instruction and relocation of the target and comes out 0x9C,
+four bytes short, missing exactly one `nop` between `lbu $v1, 0x6A($v0)` and
+`sb $v1, %gp_rel(D_8009B1B8)($gp)`. Inserting that one `nop` into maspsx's output
+by hand and assembling with `-G8` matches all 40 instructions.
+
+##### How much this blocks
+
+Scanning the generated assembly for a load, a `nop`, and a `%gp_rel` store of the
+loaded register puts **14 unmatched functions, 28,748 bytes**, behind this rule.
+The scan only sees functions still in assembly, so this is a floor, not a
+census — a matched function cannot contain the pattern, because it could not
+have been matched.
+
+```sh
+# load / nop / %gp_rel store of the loaded register
+grep -B2 '%gp_rel' tmp/splat/asm/generated/*.s
+```
+
+The smallest are `func_80025028` (0xA0) and `func_80012DB4` (0xA8); as with the
+jump tables, the weight is in the large ones — `func_80019D18` alone is 5,044
+bytes.
+
+Unlike the jump-table blocker, this one is a bug rather than a configuration
+decision, and the fix is local: give the load's nop check the same treatment for
+a macro store that it already gets for a based store, or keep `.extern` sizes so
+the small-data path can convert the store and let `_uses_gp` force the nop.
+
+Screen for it the same way you screen for `jtbl_`: a load whose result is stored
+straight to a `%gp_rel` symbol, with a `nop` between them in the target, cannot
+be reproduced.
+
 ### GCC rotates a top-of-loop conditional exit
 
 A third residual class, alongside the register-permutation and
