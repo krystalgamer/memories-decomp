@@ -4,6 +4,14 @@ This note verifies gameplay-related patches from the community tutorials
 attached to issue #368. Tutorial file offsets are mapped back to resident code
 before their claims are accepted.
 
+Use this note with
+[`modding-tutorial-evidence.md`](modding-tutorial-evidence.md), which holds
+the companion text, asset, and cross-cutting patch analysis. Both files are
+evidence ledgers: detailed offsets and uncertainty stay here, while reconciled
+game behavior belongs in
+[`research/the-game.md`](research/the-game.md). A tutorial observation is not
+promoted there merely because its patch address is confirmed.
+
 Confidence levels:
 
 - **Confirmed**: retail bytes, disassembly, and matching C or independently
