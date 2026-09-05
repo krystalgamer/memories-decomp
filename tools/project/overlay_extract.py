@@ -162,7 +162,7 @@ def verify(root: Path, sector_size: int, modules: list[dict[str, Any]]) -> None:
             )
         print(f"overlay: {module['name']} OK")
     verify_manifest_format(root)
-    verify_inventory_format(root)
+    verify_csv_format(root)
 
 
 def verify_manifest_format(root: Path) -> None:
@@ -189,34 +189,51 @@ def verify_manifest_format(root: Path) -> None:
     print(f"matching_c manifests: OK ({len(paths)} canonical)")
 
 
-def verify_inventory_format(root: Path) -> None:
-    """Check every function inventory row has the column count of its header.
+def tracked_csv_paths(root: Path) -> list[Path]:
+    """Every CSV the repository tracks, found by walking rather than listing.
 
-    The notes column is prose, so an unquoted comma in it silently splits the
-    row and truncates the note every tool downstream reads. Quote the field
-    instead, which is what the resident inventory already does.
+    A new CSV is guarded the day it is added; nothing has to remember to
+    register it.
     """
-    config = resolve_within(root, "config/slus_01411", must_exist=True)
-    paths = [config / "functions.csv"]
-    paths.extend(sorted((config / "overlays").glob("*_functions.csv")))
+    paths: list[Path] = []
+    for directory in ("config", "notes"):
+        base = resolve_within(root, directory, must_exist=True)
+        paths.extend(p for p in base.rglob("*.csv") if p.is_file())
+    return sorted(set(paths))
+
+
+def verify_csv_format(root: Path) -> None:
+    """Check every tracked CSV keeps the column count of its header.
+
+    The last column of these tables is prose. An unquoted comma in it splits
+    the row, and the text after the comma is silently discarded because there
+    is no column for it to land in -- the file still parses, and every check
+    still passes. Quote the field instead.
+
+    Note that a byte round-trip through csv.writer does NOT catch this: a row
+    that has grown an extra field round-trips to itself exactly. The column
+    count is the invariant that matters.
+    """
+    paths = tracked_csv_paths(root)
+    if not paths:
+        raise OverlayError("no tracked CSV files found")
     for path in paths:
         name = path.relative_to(root)
-        if not path.is_file():
-            raise OverlayError(f"{name}: missing function inventory")
         with path.open("r", encoding="utf-8", newline="") as handle:
             rows = list(csv.reader(handle))
         if not rows:
-            raise OverlayError(f"{name}: empty function inventory")
+            raise OverlayError(f"{name}: empty CSV")
         width = len(rows[0])
         for number, row in enumerate(rows[1:], start=2):
             if not row:
                 continue
             if len(row) != width:
+                key = row[0] if row else "?"
                 raise OverlayError(
-                    f"{name}: line {number} ({row[0]}) has {len(row)} columns, "
-                    f"expected {width}; quote the notes field if it contains a comma"
+                    f"{name}: line {number} ({key}) has {len(row)} columns, "
+                    f"expected {width}; quote the field if it contains a comma"
                 )
-    print(f"function inventories: OK ({len(paths)} well formed)")
+    print(f"tracked CSV tables: OK ({len(paths)} well formed)")
 
 
 def parse_args() -> argparse.Namespace:
