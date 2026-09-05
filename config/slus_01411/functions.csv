@@ -1036,7 +1036,7 @@ address,size,name,status,module,notes
 0x8005FB30,0x94,func_8005FB30,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8005FBC4,0x58,func_8005FBC4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005FC1C,0x228,func_8005FC1C,unmatched_asm,game,
-0x8005FE44,0x32C,func_8005FE44,unmatched_asm,game,
+0x8005FE44,0x32C,func_8005FE44,matching_c,game,Exact linked bytes with gcc_2_8_1_g8_split from the ygofm reference; the case order (retail's arm order in memory) and the single shared return after the outer switch are load-bearing.
 0x80060170,0x60,Model_RegisterHandlerKey,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x800601D0,0x50,Model_FindHandlerKey,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80060220,0x1BC,func_80060220,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
