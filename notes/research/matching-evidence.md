@@ -798,6 +798,10 @@ decision, and the fix is local: give the load's nop check the same treatment for
 a macro store that it already gets for a based store, or keep `.extern` sizes so
 the small-data path can convert the store and let `_uses_gp` force the nop.
 
+The second of those two has been tried and does not work on its own; see
+[The recorded fix does not work as stated](#the-recorded-fix-does-not-work-as-stated)
+below for what it costs and what the fix actually needs.
+
 Screen for it the same way you screen for `jtbl_`: a load whose result is stored
 straight to a `%gp_rel` symbol, with a `nop` between them in the target, cannot
 be reproduced.
@@ -954,6 +958,142 @@ what every one of those rows recorded. Two nearby reads are width-sensitive in
 the same spirit: `D_8009B0C8` is read once and used for both the store and the
 `& 0xFF` test, and `D_8009B0D8` is written as a word but read back as a byte, so
 that read has to be `*(volatile u8 *)&D_8009B0D8`.
+
+#### The recorded fix does not work as stated
+
+Both notes above propose keeping `.extern` sizes so a small undefined extern
+enters the small-data path and `_uses_gp` forces the nop. That was implemented
+literally — parse `.extern <symbol>, <size>` in the directive scan and, for
+`0 < size <= sdata_limit`, add the symbol to `sbss_entries` — and measured.
+
+It does produce the nop. `func_8002E5AC` below goes from one instruction short
+to byte-exact with no other change. But the tree no longer links:
+
+```
+relocation truncated to fit: R_MIPS_GPREL16 against `D_8009AF0C'
+relocation truncated to fit: R_MIPS_GPREL16 against `D_8009AF20'
+relocation truncated to fit: R_MIPS_GPREL16 against `runtime_gp'
+```
+
+The reason is that membership in `sdata_entries`/`sbss_entries` does not only
+answer the hazard question. The same test drives the *rewrite*: in both the
+load/store and the `la` paths MASPSX emits
+
+```python
+if gp_allowed and (symbol in self.sdata_entries or symbol in self.sbss_entries):
+    res.append(f"{op}\t{r_dest},{gp_rel}")   # %gp_rel(symbol)($gp)
+else:
+    res.append(line)                          # leave the bare symbol for gas
+```
+
+so marking a symbol to get its nop also converts every access to it into an
+explicit gp-relative instruction. A declared size at or below `-G` is not
+evidence that the symbol is reachable from `$gp`: nothing under `src/` defines a
+global, every address is fixed absolutely by `config/slus_01411/c_symbols.ld`,
+and only symbols inside ±32 KB of `runtime_gp` can carry a GPREL16. The three
+above are outside it, and one of them is `runtime_gp` itself.
+
+So the fix has to separate the two decisions that currently share one test: the
+hazard check may consult `.extern` sizes, the addressing rewrite may not. Giving
+`_uses_gp` its own predicate — or the third branch of
+`_handle_nop_before_next_instruction`, which already fires on
+`uses_at(next) and nop_at_expansion` and is dead only because
+`nop_at_expansion` is False above ASPSX 2.30 — reaches the nop without touching
+the form gas is left to choose. That is a smaller change than it looked.
+
+#### A third worked example, and it is finished C
+
+`func_8002E5AC` (`0x8002E5AC`, 0x10C, 67 instructions) is the third smallest of
+the fourteen and is complete. Under `gcc_2_8_1_g8_split` it builds **66
+instructions against 67**; every instruction before the gap is byte-exact, and
+everything after it is that one omission shifted by one slot. The gap is the
+familiar one, both operands gp-relative as in `func_80012DB4`:
+
+```
+lhu $v0, %gp_rel(D_8009B27C)($gp)
+nop
+sh  $v0, %gp_rel(D_8009B28C)($gp)
+```
+
+With the nop supplied it matches all 67 instructions, registers and relocations
+included, under `gcc_2_8_1_g8_split` — and also under
+`gcc_2_8_1_g8_split_no_strength_reduce` and `gcc_2_8_1_cc_g8_as_g4_split`, which
+is the usual sign that no threshold or strength-reduction lever is load-bearing
+here.
+
+```c
+extern u8 *D_8009B290;
+extern u16 D_8009B27C;
+extern u16 D_8009B28C;
+extern u16 D_8009B2A4;
+extern u8 D_800EB0F8[];
+
+extern s32 func_8002E3B4(void);
+extern void func_8003B6AC(s32, s32);
+extern u8 *TextBox_Create(s32, s32, s32, s32, s32, s32);
+extern void DuelEffect_MarkObjectIfActive(void *);
+extern void TextBox_Destroy(void *);
+
+void func_8002E5AC(void)
+{
+    u8 *script;
+    u8 *box;
+    s32 value;
+    u16 flags;
+    u16 boxflags;
+
+    if (func_8002E3B4() == 0) {
+        script = D_8009B290;
+        D_8009B290 = script + 2;
+        value = script[0] | (script[1] << 8);
+        D_8009B2A4 |= 0x4000;
+        func_8003B6AC(0, 2);
+        box = TextBox_Create(0, value & 0xFFF, 0x10, 0xB0, 0x120, 0x30);
+        DuelEffect_MarkObjectIfActive(box);
+        *(u16 *)(box + 0x34) |= 8;
+        if ((value & 0x8000) != 0) {
+            flags = D_8009B27C;
+            boxflags = *(volatile u16 *)(box + 0x34);
+            D_8009B27C = flags | 0x4000;
+            *(u16 *)(box + 0x34) = boxflags & 0xFFF7;
+        }
+        D_8009B28C = D_8009B27C;
+    } else {
+        if ((D_8009B2A4 & 0x4000) == 0) {
+            if ((D_8009B27C & 0x4000) == 0) {
+                TextBox_Destroy(D_800EB0F8);
+            }
+            D_8009B28C = 0;
+            D_8009B27C = 0;
+        }
+    }
+}
+```
+
+Three levers, all measured against this body:
+
+The two-argument call is real, and the shared constant is what shows it.
+`addiu $a1, $zero, 0x2` is emitted once and used twice — as the increment in
+`D_8009B290 = script + 2` and as the second argument to `func_8003B6AC(0, 2)`.
+Reading the second argument off the pointer arithmetic like that is what fixes
+it at 2; a one-argument call leaves `$a1` unexplained. The two ways of spelling
+the increment do not matter: `D_8009B290 += 2` and
+`D_8009B290 = script + 2` compile byte-identically.
+
+The flag pair must be read before either is written. Written as the obvious
+`D_8009B27C |= 0x4000; *(u16 *)(box + 0x34) &= 0xFFF7;` GCC does them in
+sequence and pays a load-delay nop on each; hoisting both reads into locals lets
+it interleave `lhu`/`lhu`/`ori`/`andi`/`sh`/`sh` as the target does.
+
+Only the *reload* of the box field is `volatile`. Without it GCC forwards the
+value it stored for `|= 8` a few instructions earlier and the second `lhu`
+disappears. Qualifying the other two accesses as well costs more than it buys:
+the `|= 8` store then cannot be moved into the `beqz` delay slot, which is where
+the target keeps it, and the body lands 10 positions out instead of one.
+
+The function is not committed, because a body that does not assemble to the
+target cannot be `matching_c` and `make match` would reject it. It is recorded
+here so that it can be dropped in as-is the day MASPSX emits the nop.
 
 ### Register pins
 
