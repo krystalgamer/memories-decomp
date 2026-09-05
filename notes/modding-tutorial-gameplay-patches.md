@@ -221,11 +221,15 @@ retail card data, where zero denotes an empty card and valid IDs are
 
 ## Editable Duel Master K deck
 
-**Tutorial:** `Deck Duel Master K editavel.txt`
+**Tutorials:**
 
-The tutorial changes the byte at SLUS offset `0x8585` from `0x00` to `0x01`.
-That offset is the second byte of the instruction beginning at VRAM
-`0x80017D84`:
+- `Deck Duel Master K editavel.txt`
+- `Duel Master K - Por Geiner Quintero.txt`
+
+Both copies give the same edit: change the byte at SLUS offset `0x8585` from
+`0x00` to `0x01`. The second copy explicitly describes `0x00` as copying the
+player's deck and `0x01` as using Duel Master K's own editable deck. That
+offset is the second byte of the instruction beginning at VRAM `0x80017D84`:
 
 | SLUS bytes | Instruction | Comparison limit |
 |---|---|---:|
