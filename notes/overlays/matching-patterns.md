@@ -842,3 +842,83 @@ if (!(node->flags & 0x80)) {
 Breaking to a shared `return 0` after the loop assembles to the same 31
 instructions but leaves that delay slot empty and emits the zero after `jr
 $ra`, which is a two-position miss with everything else identical.
+
+## Callee-saved register numbers follow death order, not declaration order
+
+When several parameters are live across the same calls, GCC 2.8.1 does not hand
+out `s2`, `s3`, `s4` in declaration order. `global.c` ranks allocnos by roughly
+`n_refs / live_length` and assigns the highest-ranked one the first free
+callee-saved register, so the parameter whose **last use comes earliest** gets
+the lowest-numbered register.
+
+A candidate that puts the parameters in `s2/s3/s4` where the target has
+`s3/s4/s2` is therefore not a register-allocation mystery: the target simply
+finishes with the third parameter before the other two. Move that parameter's
+uses to the top of the trailing block and the numbering follows.
+
+```c
+/* target saves s3, s4, then s2, i.e. a0 -> s3, a1 -> s4, a2 -> s2 */
+D_801845D8 = toggle;              /* third parameter dies first  -> s2 */
+D_801845BC[2] = (*toggle == 0);
+*(u16 **)(state + 4) = first;     /* second to die               -> s3 */
+*(u16 **)(state + 0x10) = second; /* last to die                 -> s4 */
+```
+
+This is worth checking before blaming the scheduler, because a wrong s-register
+assignment reorders the whole tail and looks like many independent misses.
+
+Verified by `func_80180FD8` in the main menu module.
+
+## A chained assignment loads once and stores right to left
+
+`a = b = *p;` evaluates `*p` a single time and assigns `b` before `a`. Written
+as two statements the first store kills the load, because a `u16` store through
+one pointer may alias a `u16` load through another, and GCC reloads:
+
+```c
+/* two loads, ascending stores -- two instructions too many */
+*(u16 *)state = *first;
+*(u16 *)(state + 2) = *first;
+
+/* one load, +2 stored before +0 -- matches */
+*(u16 *)state = *(u16 *)(state + 2) = *first;
+```
+
+So the tell is a single load feeding two stores **with the higher offset stored
+first**. Reaching for a temporary local gives the single load but leaves the
+store order free, and then it has to be argued separately; the chain gives both
+at once and is what the original almost certainly said.
+
+The same shape appears on plain constants: `D_801845BC[0] = D_801845BC[1] = 2;`
+emits `[1]` before `[0]`.
+
+Verified by `func_80180FD8` in the main menu module.
+
+## Passing the global rather than the local sinks the first argument
+
+After `global = local;`, passing `local` and passing `global` to the following
+call produce the same code except for **where the `a0` load is emitted**:
+
+```c
+D_801845B0[0] = object;
+if (object != 0) {
+    /* move a0,v0 emitted first, ahead of a1/a2/a3 */
+    func_800404CC(object, 0, 0, 3, 4, 0, 0xB, 0x20C);
+
+    /* move a0,v0 emitted last, after a1/a2/a3 */
+    func_800404CC(D_801845B0[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
+}
+```
+
+The value is identical either way -- CSE folds the reload back to the same
+register -- so this is invisible except as a four-position permutation of the
+argument setup, and it is not reachable by reordering anything. Read the
+argument spelling off the target rather than assuming the local.
+
+The two forms can legitimately coexist in one function: in `func_80180FD8` the
+two objects held in scalar globals pass the local and keep `a0` first, while
+the three held in an array pass `D_801845B0[i]` and sink it. That is consistent
+with the array elements also being re-read for the field update that follows,
+where a scalar global is read once and an array element twice.
+
+Verified by `func_80180FD8` in the main menu module.
