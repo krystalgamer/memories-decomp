@@ -324,6 +324,48 @@ the tutorials and are high-confidence asset identifications; no image decoder
 is needed to establish that the offsets belong to the stated image and CLUT
 transfer regions.
 
+## Boot UI colour ramps
+
+**Tutorial:** `Cores Para Add e Como Add Cor Roxa.docx`
+
+The tutorial identifies seven colour ramps at `WA_MRG.MRG+0xB61002`, spaced
+by `0x20` bytes:
+
+| Zero-based row | Tutorial label | Row start | First nontransparent colour |
+|---:|---|---:|---:|
+| 0 | White | `0xB61000` | `0xB61002` |
+| 1 | Yellow | `0xB61020` | `0xB61022` |
+| 2 | Blue | `0xB61040` | `0xB61042` |
+| 3 | Green | `0xB61060` | `0xB61062` |
+| 4 | Grey | `0xB61080` | `0xB61082` |
+| 5 | Orange | `0xB610A0` | `0xB610A2` |
+| 6 | Red | `0xB610C0` | `0xB610C2` |
+| 7 | Empty | `0xB610E0` | `0xB610E2` |
+
+Each row is one 16-colour PlayStation CLUT. The tutorial starts every listed
+ramp at `+2` because the first halfword is the transparent colour entry. Its
+seven "original game" byte sequences match the remaining 15 retail entries
+exactly. The eighth row is entirely zero, corroborating the warning that
+selecting the unused eighth colour slot makes affected text or symbols
+disappear unless a complete replacement palette is supplied.
+
+The loader independently confirms the region. `func_80043960` includes
+`WA_MRG.MRG+0xB61000` in its 54-sector boot UI request, and
+`func_80043328` transfers an `0x800`-byte tail beginning there before
+uploading a `(640, 232, 16, 8)` rectangle. That upload consumes exactly the
+first `0x100` bytes: eight rows times sixteen 16-bit colours. Bytes
+`0xB61100-0xB617FF` are zero padding in the retail archive.
+
+```text
+SHA-256 of WA_MRG.MRG[0xB61000:0xB61100]:
+93c8426458da03801fd7c8762b86d0d06e322525468f03c39e6a4306b345bf26
+```
+
+**Confidence:** Confirmed for the row boundaries, retail values, empty eighth
+row, loader range, and VRAM upload geometry. The tutorial's suggested blue,
+purple, red, orange, yellow, and green replacements are custom palettes rather
+than retail data.
+
 ## Attribute icon images and palettes
 
 **Tutorials:**
