@@ -4,7 +4,7 @@ extern volatile u32 D_8009B0F4;
 extern s32 D_8009B118;
 extern u8 D_800EA0E8[];
 
-s32 func_8007F978(void *rect, const void *source);
+s32 LoadImage(void *rect, const void *source);
 
 void func_800289BC(u8 *p, s32 mode)
 {
@@ -30,7 +30,7 @@ void func_800289BC(u8 *p, s32 mode)
     *(s16 *)(e + 0xE) = 0x60;
     *(u16 *)(e + 8) = *(u16 *)(e + 0x28);
     *(u16 *)(e + 0xA) = *(u16 *)(e + 0x2A);
-    func_8007F978(q, (void *)b);
+    LoadImage(q, (void *)b);
 
     q = e + 0x10;
     x = *(u16 *)(e + 0x2C);
@@ -39,7 +39,7 @@ void func_800289BC(u8 *p, s32 mode)
     *(s16 *)(e + 0x16) = 1;
     *(u16 *)(e + 0x10) = x;
     *(u16 *)(e + 0x12) = *(u16 *)(e + 0x2E);
-    func_8007F978(q, (void *)b);
+    LoadImage(q, (void *)b);
 
     q = e + 0x18;
     x = *(u16 *)(e + 0x28);
@@ -48,7 +48,7 @@ void func_800289BC(u8 *p, s32 mode)
     *(s16 *)(e + 0x1E) = 0xE;
     *(u16 *)(e + 0x18) = x;
     *(u16 *)(e + 0x1A) = *(u16 *)(e + 0x2A) + 0x60;
-    func_8007F978(q, (void *)b);
+    LoadImage(q, (void *)b);
 
     q = e + 0x20;
     b = D_8009B118 + 0x2AE0;
@@ -56,5 +56,5 @@ void func_800289BC(u8 *p, s32 mode)
     *(s16 *)(e + 0x26) = 0x58;
     *(u16 *)(e + 0x20) = *(u16 *)(e + 0x28) + 0x38;
     *(u16 *)(e + 0x22) = *(u16 *)(e + 0x2A);
-    func_8007F978(q, (void *)b);
+    LoadImage(q, (void *)b);
 }
