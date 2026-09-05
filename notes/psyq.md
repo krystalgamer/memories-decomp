@@ -131,6 +131,8 @@ Recommended header boundaries are:
 | `src/psyq/libapi.h` | Events, critical sections, counters, and low-level memory-card/BIOS wrappers |
 | `src/psyq/malloc.h` | Heap initialization and the three allocator families |
 | `src/psyq/libsn.h` | Debugger-host PC file service and `pollhost`/`PSYQpause` break traps |
+| `src/psyq/fs.h` | Low-level filesystem device-table, character-buffer, and I/O-block records |
+| `src/psyq/romio.h` | ROM-monitor compatibility include for the system file interface |
 | `src/psyq/libsio.h` | Base SIO status, mode, control, lifecycle, and callback interface |
 | `src/psyq/libcomb.h` | COMB packet, transfer, control-line, and asynchronous request interface |
 | `src/psyq/libcd.h` | CD commands, locations, file records, callbacks, and sector transfers |
@@ -165,6 +167,15 @@ emit debugger break instructions `1024` and `1031`. These declarations are
 not interchangeable with `libcd`, `libds`, or memory-card calls. No current
 game C includes `libsn.h`, so its presence in the imported SDK set does not
 establish a resident dependency on the development host.
+
+`fs.h` describes the implementation-facing filesystem switch rather than an
+application file API. Its `device_table`, `device_buf`, and `iob` records carry
+device callbacks, buffering state, transfer counts, and file offsets.
+`romio.h` adds no independent records or functions; it only includes the
+system file declarations used by the ROM-monitor environment. Neither header
+is included by current game C. In particular, these records must not replace
+`CdlFILE`, `DslFILE`, or `DIRENTRY` merely because all of them participate in
+file operations.
 
 Do not add `src/types.h` to an imported header solely for uniformity. Headers
 that expose project-adapted fixed-width records must include it directly and
