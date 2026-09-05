@@ -40,7 +40,8 @@ void func_80184344(s32 x, s32 y, s32 index)
     u32 palette;
     s32 attribute;
 
-    attribute = (D_801D4244[index - 1] >> 26) & 0x1F;
+    attribute = (D_801D4244[index - 1] >> CARD_STAT_TYPE_SHIFT) &
+                CARD_STAT_TYPE_MASK;
     if (attribute != CARD_TYPE_MAGIC && attribute != CARD_TYPE_EQUIP) {
         if (attribute != CARD_TYPE_TRAP) {
             if (attribute == CARD_TYPE_RITUAL) {
