@@ -869,7 +869,7 @@ address,size,name,status,module,notes
 0x8004D58C,0x1D0,func_8004D58C,unmatched_asm,game,
 0x8004D75C,0x1B8,func_8004D75C,unmatched_asm,game,
 0x8004D914,0x200,func_8004D914,unmatched_asm,game,
-0x8004DB14,0x124,func_8004DB14,unmatched_asm,game,
+0x8004DB14,0x124,func_8004DB14,matching_c,game,Exact post-terminal collaborator-derived pure-C match with named scaled offsets and table cursors.
 0x8004DC38,0x1EC,func_8004DC38,unmatched_asm,game,
 0x8004DE24,0x98C,func_8004DE24,unmatched_asm,game,
 0x8004E7B0,0x1F0,func_8004E7B0,unmatched_asm,game,
