@@ -2431,6 +2431,12 @@
       "source": "src/game/display_object_position.c"
     },
     {
+      "address": "0x8003A990",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x154",
+      "source": "src/game/func_8003A990.c"
+    },
+    {
       "address": "0x8003AAE4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x164",

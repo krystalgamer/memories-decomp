@@ -528,7 +528,7 @@ address,size,name,status,module,notes
 0x8003A560,0x3C0,func_8003A560,unmatched_asm,game,
 0x8003A920,0x3C,func_8003A920,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003A95C,0x34,func_8003A95C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8003A990,0x154,func_8003A990,unmatched_asm,game,
+0x8003A990,0x154,func_8003A990,matching_c,game,Matched from updated collaborator source: signed division expressions and 0x400 store ordering reproduce retail scheduling exactly.
 0x8003AAE4,0x164,func_8003AAE4,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003AC48,0x124,func_8003AC48,matching_c,game,Exact post-terminal collaborator-derived match using the established GCC G8/MASPSX G0 split profile.
 0x8003AD6C,0x2E8,func_8003AD6C,unmatched_asm,game,
