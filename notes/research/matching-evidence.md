@@ -935,6 +935,61 @@ Read off the `lui` at face value this looks like `0x800AB398`. It is
 `0x8009B398`. Whenever the offset printed with the load is negative, the
 symbol lives in the segment below the one the `lui` names.
 
+## Instructions the compiler folds away
+
+A candidate that is *short* by a few instructions is usually read as a missing
+statement. It can instead be a statement the compiler folded, and a ceiling
+division is the case most likely to disappear.
+
+`func_80047788` computes the number of `0x800`-byte blocks needed to hold a
+record count, and the retail code spends seven instructions on it:
+
+```
+sll   $t0, $v0, 3          # x * 8, materialised and kept live
+addiu $v0, $t0, 2047       # + (2048 - 1)
+bgez  $v0, .L
+nop
+addiu $v0, $t0, 4094       # negative-operand bias
+sra   $t0, $v0, 11         # / 2048
+addiu $t0, $t0, 1
+```
+
+Writing that arithmetic directly does not reproduce it. GCC 2.8.1 strength-
+reduces `(x * 8 + 2047) / 2048` to `(x + 255) / 256`, emitting `sra ,8` and
+costing three instructions. The blunter `(x * 8) / 2048` folds all the way to a
+plain `/ 256` and costs three more. Both folds are arithmetically correct, so
+nothing looks wrong; the candidate is simply six or seven instructions short
+with no obvious hole.
+
+The fix is to materialise the multiply into its own local first:
+
+```c
+total = *(u16 *)(g_SDValue + 2) * 8;
+step  = (total + 2047) / 2048 + 1;
+```
+
+GCC 2.8.1 folds at expression level, so once the multiply is bound to a
+variable the division sees a plain register and the reduction cannot fire.
+That is exactly why the retail code keeps `x * 8` live in `$t0` across both
+bias arms — the materialised temporary *is* the evidence that the original
+source named it.
+
+**Generalisation, and it cuts both ways.** A named local is usually treated as
+a register-allocation hint, but it also decides what the folder is allowed to
+see. Elsewhere in this file, naming a value wrongly *cached* something the
+retail code recomputed; here, failing to name one let the compiler *fold*
+something the retail code materialised. The question to ask of the target is
+"does it materialise this subexpression?", and the answer determines the local
+in both directions.
+
+**A corollary for instruction counts.** While the fold was still firing, the
+`no_sched1` profile reached 54 of 55 instructions — one short, and by far the
+best count at the time — while still emitting the folded `sra ,8` in both bias
+arms. The count came from unfilled delay slots, not from correct structure, and
+following it would have meant tuning scheduling around a wrong divide. Count is
+only meaningful once the shape of each arithmetic idiom has been checked; this
+is the same padding trap recorded above for `no_sched2`.
+
 ## Confirmed and strongly supported layouts
 
 ### Transform and card data
