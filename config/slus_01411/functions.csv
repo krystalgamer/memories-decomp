@@ -479,7 +479,7 @@ address,size,name,status,module,notes
 0x800383DC,0xBC,func_800383DC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80038498,0x4C,func_80038498,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800384E4,0x4C,func_800384E4,matching_c,game,Pure-C inline refinement matched the full executable.
-0x80038530,0x160,func_80038530,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80038530,0x160,Text_StartCampaignDuel,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80038690,0x28,func_80038690,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800386B8,0xE0,func_800386B8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80038798,0x68,DuelEffect_PlaySoundCommand,matching_c,game,Post-terminal pure-C match; explicit 16-bit masking plus real callee arguments reproduces the redundant retail mask sequence.

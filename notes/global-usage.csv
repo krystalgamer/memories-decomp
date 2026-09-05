@@ -1569,7 +1569,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B26C,D_8009B26C,D_8009B26C,0x80031000,func_80031000,matching_c,game,C,src/game/async_state_poll.c,write,8,D_8009B26C[0] = 0x10;
 0x8009B26C,D_8009B26C,D_8009B26C,0x80033C90,func_80033C90,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B26C[0] = 7;
 0x8009B26C,D_8009B26C,D_8009B26C,0x80033CA8,func_80033CA8,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B26C[0] = 7;
-0x8009B26C,D_8009B26C,D_8009B26C,0x80038530,func_80038530,matching_c,game,C,src/game/func_80038530.c,write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
+0x8009B26C,D_8009B26C,D_8009B26C,0x80038530,Text_StartCampaignDuel,matching_c,game,C,src/game/text_start_campaign_duel.c,write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
 0x8009B26C,D_8009B26C,D_8009B26C,0x80038898,func_80038898,matching_c,game,C,src/game/func_80038898.c,write,8,D_8009B26C[0] = 5;
 0x8009B26D,D_8009B26D,D_8009B26D,0x8002D458,func_8002D458,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01dc58.s,write,8,"sb $a0, %gp_rel(D_8009B26D)($gp)"
 0x8009B26D,D_8009B26D,D_8009B26D,0x8002D588,Main_RunMenu,matching_c,game,C,src/game/main_run_frontend_menus.c,read,8,void Main_RunMenu(void){unsigned char f=D_8009B26C;int r;if((f&0x40)==0){D_8009B26C=f|0x40;func_8005B85C();func_80013...
@@ -1869,7 +1869,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B360,D_8009B360,D_8009B360,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,read,8,"addiu $v1, $v1, %lo(D_8009B360) | lb $v0, %lo(D_8009B360)($v0) | (+2 more)"
 0x8009B360,D_8009B360,D_8009B360,0x80024DC8,func_80024DC8,matching_c,game,C,src/game/func_80024DC8.c,write,8,D_8009B360 = arg0;
 0x8009B360,D_8009B360,D_8009B360,0x800262D4,func_800262D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_016ad4.s,address,,"addiu $v1, $v1, %lo(D_8009B360) | lui $v1, %hi(D_8009B360)"
-0x8009B360,D_8009B360,D_8009B360,0x80038530,func_80038530,matching_c,game,C,src/game/func_80038530.c,write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
+0x8009B360,D_8009B360,D_8009B360,0x80038530,Text_StartCampaignDuel,matching_c,game,C,src/game/text_start_campaign_duel.c,write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x800175A0,func_800175A0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_007da0.s,read,8,"lb $v0, %lo(gDuel_bOpponentID)($v0) | lb $v1, %lo(gDuel_bOpponentID)($v1) | (+2 more)"
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,read,8,"addiu $v0, $v0, %lo(gDuel_bOpponentID) | lb $s0, %lo(gDuel_bOpponentID)($s0) | (+5 more)"
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80019CC8,func_80019CC8,matching_c,game,C,src/game/func_80019CC8.c,read,8,if (D_8009B1D5 == 0 && D_8009B360[0] < 0 && gDuel_bOpponentID[0] >= 0) {
@@ -1879,7 +1879,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80024388,func_80024388,matching_c,game,C,src/game/duel_scene_update.c,read,8,if (gDuel_bOpponentID[0] < 0) {
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80024DC8,func_80024DC8,matching_c,game,C,src/game/func_80024DC8.c,write,8,gDuel_bOpponentID = arg1;
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel_and_library.c,read,8,if (!D_8009B369[0] && gDuel_bOpponentID[0] >= 0)
-0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80038530,func_80038530,matching_c,game,C,src/game/func_80038530.c,read_write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
+0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80038530,Text_StartCampaignDuel,matching_c,game,C,src/game/text_start_campaign_duel.c,read_write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80070710,Ai_GetHandSize,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_060f10.s,read,8,"lb $a0, %lo(gDuel_bOpponentID)($a0) | lui $a0, %hi(gDuel_bOpponentID)"
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80071424,AiScript_LoadOpponentID,matching_c,game,C,src/game/ai_script_load_duel_state.c,read,8,value = gDuel_bOpponentID;
 0x8009B362,D_8009B362,D_8009B362,0x80020F4C,func_80020F4C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01174c.s,write,8,"lui $at, %hi(D_8009B362) | sb $v0, %lo(D_8009B362)($at) | (+1 more)"
@@ -1894,33 +1894,33 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80024DC8,func_80024DC8,matching_c,game,C,src/game/func_80024DC8.c,write,8,gDuel_bTerrain = 0;
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80024E58,func_80024E58,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_015658.s,read_write,8,"lbu $a1, %lo(gDuel_bTerrain)($a1) | lbu $v1, %lo(gDuel_bTerrain)($v1) | (+4 more)"
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x8002D180,Main_RunAnimatedBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01d980.s,read,8,"lbu $a1, %lo(gDuel_bTerrain)($a1) | lui $a1, %hi(gDuel_bTerrain)"
-0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80038530,func_80038530,matching_c,game,C,src/game/func_80038530.c,write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
+0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80038530,Text_StartCampaignDuel,matching_c,game,C,src/game/text_start_campaign_duel.c,write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80071460,AiScript_LoadTerrain,matching_c,game,C,src/game/ai_script_load_duel_state.c,read,8,value = gDuel_bTerrain;
 0x8009B365,D_8009B365,D_8009B365,0x8002D458,func_8002D458,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01dc58.s,write,8,"lui $at, %hi(D_8009B365) | sb $zero, %lo(D_8009B365)($at)"
 0x8009B365,D_8009B365,D_8009B365,0x80030FA0,func_80030FA0,matching_c,game,C,src/game/func_80030FA0.c,write,,D_8009B365 = 0;
 0x8009B368,D_8009B368,D_8009B368,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel_and_library.c,read,8,next = D_8009B368[0];
 0x8009B368,D_8009B368,D_8009B368,0x8002DC38,func_8002DC38,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01e438.s,write,8,"lui $at, %hi(D_8009B368) | sb $v0, %lo(D_8009B368)($at)"
 0x8009B368,D_8009B368,D_8009B368,0x80030F40,func_80030F40,matching_c,game,C,src/game/func_80030F40.c,write,8,D_8009B368[0] = 0;
-0x8009B368,D_8009B368,D_8009B368,0x80038530,func_80038530,matching_c,game,C,src/game/func_80038530.c,write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
+0x8009B368,D_8009B368,D_8009B368,0x80038530,Text_StartCampaignDuel,matching_c,game,C,src/game/text_start_campaign_duel.c,write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
 0x8009B369,D_8009B369,D_8009B369,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,read,8,"lbu $v0, %lo(D_8009B369)($v0) | lbu $v1, %lo(D_8009B369)($v1) | (+2 more)"
 0x8009B369,D_8009B369,D_8009B369,0x80018FEC,func_80018FEC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0095b4.s,write,8,"lui $at, %hi(D_8009B369) | sb $v1, %lo(D_8009B369)($at)"
 0x8009B369,D_8009B369,D_8009B369,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,write,8,"lui $at, %hi(D_8009B369) | sb $v1, %lo(D_8009B369)($at)"
 0x8009B369,D_8009B369,D_8009B369,0x80024DC8,func_80024DC8,matching_c,game,C,src/game/func_80024DC8.c,write,8,D_8009B369 = 0;
 0x8009B369,D_8009B369,D_8009B369,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel_and_library.c,read,8,if (!D_8009B369[0] && gDuel_bOpponentID[0] >= 0)
-0x8009B369,D_8009B369,D_8009B369,0x80038530,func_80038530,matching_c,game,C,src/game/func_80038530.c,write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
+0x8009B369,D_8009B369,D_8009B369,0x80038530,Text_StartCampaignDuel,matching_c,game,C,src/game/text_start_campaign_duel.c,write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
 0x8009B36A,D_8009B36A,D_8009B36A,0x8001825C,func_8001825C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,read,16,"lhu $a0, %lo(D_8009B36A)($a0) | lui $a0, %hi(D_8009B36A)"
 0x8009B36A,D_8009B36A,D_8009B36A,0x80018608,func_80018608,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,read,16,"lhu $a0, %lo(D_8009B36A)($a0) | lui $a0, %hi(D_8009B36A)"
 0x8009B36A,D_8009B36A,D_8009B36A,0x80024DC8,func_80024DC8,matching_c,game,C,src/game/func_80024DC8.c,write,16,D_8009B36A = 0x7270;
 0x8009B36A,D_8009B36A,D_8009B36A,0x80030F40,func_80030F40,matching_c,game,C,src/game/func_80030F40.c,write,16,D_8009B36A[0] = 0x71D0;
-0x8009B36A,D_8009B36A,D_8009B36A,0x80038530,func_80038530,matching_c,game,C,src/game/func_80038530.c,write,16,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
+0x8009B36A,D_8009B36A,D_8009B36A,0x80038530,Text_StartCampaignDuel,matching_c,game,C,src/game/text_start_campaign_duel.c,write,16,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
 0x8009B370,D_8009B370,D_8009B370,0x80024DC8,func_80024DC8,matching_c,game,C,src/game/func_80024DC8.c,write,16,D_8009B370 = arg2;
 0x8009B370,D_8009B370,D_8009B370,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel_and_library.c,address,8,u8 *table = D_8009B370;
-0x8009B370,D_8009B370,D_8009B370,0x80038530,func_80038530,matching_c,game,C,src/game/func_80038530.c,write,16,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
+0x8009B370,D_8009B370,D_8009B370,0x80038530,Text_StartCampaignDuel,matching_c,game,C,src/game/text_start_campaign_duel.c,write,16,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
 0x8009B372,D_8009B372,D_8009B372,0x80024DC8,func_80024DC8,matching_c,game,C,src/game/func_80024DC8.c,write,16,D_8009B372 = arg3;
-0x8009B372,D_8009B372,D_8009B372,0x80038530,func_80038530,matching_c,game,C,src/game/func_80038530.c,write,16,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
+0x8009B372,D_8009B372,D_8009B372,0x80038530,Text_StartCampaignDuel,matching_c,game,C,src/game/text_start_campaign_duel.c,write,16,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
 0x8009B374,D_8009B374,D_8009B374,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,read,16,"lhu $a0, %lo(D_8009B374)($a0) | lui $a0, %hi(D_8009B374)"
 0x8009B374,D_8009B374,D_8009B374,0x80024DC8,func_80024DC8,matching_c,game,C,src/game/func_80024DC8.c,write,16,D_8009B374 = 0x7280;
-0x8009B374,D_8009B374,D_8009B374,0x80038530,func_80038530,matching_c,game,C,src/game/func_80038530.c,write,16,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
+0x8009B374,D_8009B374,D_8009B374,0x80038530,Text_StartCampaignDuel,matching_c,game,C,src/game/text_start_campaign_duel.c,write,16,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
 0x8009B378,D_8009B378,D_8009B378,0x8003C950,func_8003C950,matching_c,game,C,src/game/func_8003C950.c,write,32,D_8009B378 = (s32)object;
 0x8009B378,D_8009B378,D_8009B378,0x8003CA5C,func_8003CA5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02d25c.s,read,32,"lw $s0, %gp_rel(D_8009B378)($gp)"
 0x8009B37C,D_8009B37C,D_8009B37C,0x8003C628,func_8003C628,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02ce28.s,write,8,"sb $v0, %gp_rel(D_8009B37C)($gp)"

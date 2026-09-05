@@ -827,7 +827,7 @@ Analysis around `func_800400AC` supports:
 - A pointer into the tail-data region.
 
 The allocator itself is still deferred, so these fields are provisional.
-Exact `func_80038530` independently confirms that nearby stream handlers use
+Exact `Text_StartCampaignDuel` independently confirms that nearby stream handlers use
 absolute G0 references for `D_8009B360` through `D_8009B374`.
 
 ### Two-slot object controller
@@ -888,7 +888,7 @@ object model through two related parent/child constructors.
 | `func_80030D5C` | G8 state machine mixing GP-relative state and absolute flag word |
 | `func_800375A4` | Signed countdown state and object cleanup |
 | `func_80037A58` | Signed duration, randomized coordinate snapshot, and restoration |
-| `func_80038530` | Four direct byte-stream reads with absolute G0 globals |
+| `Text_StartCampaignDuel` | Four direct byte-stream reads with absolute G0 globals |
 | `func_8003D614` | Two-slot controller and `0x64`-byte object records |
 | `func_80043230` | G0 pointer-rooted queue/object state |
 | `func_80044DC0` | Signed 16-bit argument, four-byte stack packet, and byte-order selection |
@@ -916,7 +916,7 @@ variant. Deferred functions remain terminal under the six-attempt policy.
 - `func_8003AAE4` matches its initialization/call prefix; the remaining
   mismatch is phase-register and color-replication ordering.
 - Future untouched handlers in the module surrounding exact
-  `func_80038530` should start from G0 direct byte-stream reads rather than
+  `Text_StartCampaignDuel` should start from G0 direct byte-stream reads rather than
   wrapper helpers.
 - Future untouched allocator/list users in the module surrounding deferred
   `func_800400AC` should begin with the provisional `0x70`-byte layout and a

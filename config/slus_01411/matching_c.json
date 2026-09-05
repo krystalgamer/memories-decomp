@@ -2134,7 +2134,7 @@
       "address": "0x80038530",
       "profile": "gcc_2_8_1_g0",
       "size": "0x160",
-      "source": "src/game/func_80038530.c"
+      "source": "src/game/text_start_campaign_duel.c"
     },
     {
       "address": "0x80038690",
