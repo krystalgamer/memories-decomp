@@ -132,6 +132,9 @@ Recommended header boundaries are:
 | `src/psyq/malloc.h` | Heap initialization and the three allocator families |
 | `src/psyq/stdlib.h` | C runtime umbrella for allocation, conversion, sorting, random numbers, search, and exit |
 | `src/psyq/libmath.h` | Software floating-point math, conversion helpers, and math error globals |
+| `src/psyq/memory.h` | Byte-memory operations plus the BSD `bcopy`/`bzero`/`bcmp` aliases |
+| `src/psyq/strings.h` | String operations, including search/token helpers, layered over `memory.h` |
+| `src/psyq/string.h` | Compatibility wrapper that includes `strings.h` |
 | `src/psyq/libsn.h` | Debugger-host PC file service and `pollhost`/`PSYQpause` break traps |
 | `src/psyq/fs.h` | Low-level filesystem device-table, character-buffer, and I/O-block records |
 | `src/psyq/romio.h` | ROM-monitor compatibility include for the system file interface |
@@ -187,6 +190,15 @@ variants. Neither family is interchangeable with the fixed-point vector and
 matrix operations in `libgte.h`. No current game C includes these runtime
 headers, so existing hand-written declarations should only be migrated after
 their exact ABI and compiler behavior are checked.
+
+The imported string headers form a compatibility stack rather than three
+independent libraries. `string.h` only includes `strings.h`; `strings.h`
+declares the string routines and includes `memory.h`; `memory.h` declares the
+memory routines and BSD-compatible aliases. Several prototypes intentionally
+omit parameter types to avoid conflicts with old compiler built-ins. No
+current game C includes this stack, and replacing an exact hand-written copy
+loop with `memcpy` or `bcopy` still requires a full executable match because
+GCC may choose different load/store sequences.
 
 Do not add `src/types.h` to an imported header solely for uniformity. Headers
 that expose project-adapted fixed-width records must include it directly and
