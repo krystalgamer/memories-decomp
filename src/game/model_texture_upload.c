@@ -17,7 +17,7 @@ typedef struct {
 
 extern int func_800598E4();
 extern int LoadImage2();
-extern int func_80082324();
+extern int IsIdleGPU(int);
 extern int func_80086100();
 
 u32 func_80058A7C(int side, int mode, ModelTextureParams *params)
@@ -94,7 +94,7 @@ s32 func_80058B4C(u8 *data, s32 arg1, s32 mode, s32 arg3, s32 x, s32 y,
         bounds[1] = *(u16 *)(data + 6);
         bounds[2] = *(u16 *)(data + 8);
         bounds[3] = *(u16 *)(data + 0xA);
-        while (func_80082324(3) != 0) {
+        while (IsIdleGPU(3) != 0) {
         }
         while (LoadImage2(bounds, *(s32 *)(data + 0xC)) != 0) {
         }
@@ -102,11 +102,11 @@ s32 func_80058B4C(u8 *data, s32 arg1, s32 mode, s32 arg3, s32 x, s32 y,
         bounds[1] = *(u16 *)(data + 0x12);
         bounds[2] = *(u16 *)(data + 0x14);
         bounds[3] = *(u16 *)(data + 0x16);
-        while (func_80082324(3) != 0) {
+        while (IsIdleGPU(3) != 0) {
         }
         while (LoadImage2(bounds, *(s32 *)(data + 0x18)) != 0) {
         }
-        while (func_80082324(3) != 0) {
+        while (IsIdleGPU(3) != 0) {
         }
         high = ((*(u16 *)data & 3) << 7) | ((arg3 & 3) << 5) |
                (((s32)(*(u16 *)(data + 6) & 0x100) << 16) >> 20) |

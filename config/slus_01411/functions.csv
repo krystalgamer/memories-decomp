@@ -1514,7 +1514,7 @@ address,size,name,status,module,notes
 0x80082250,0x24,func_80082250,sdk_asm,psyq/sdk,
 0x80082274,0x10,func_80082274,sdk_asm,psyq/sdk,
 0x80082290,0x94,func_80082290,sdk_asm,psyq/sdk,
-0x80082324,0x60,func_80082324,sdk_asm,psyq/sdk,
+0x80082324,0x60,IsIdleGPU,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/BREAK.OBJ signature and matching GPU synchronization loops.
 0x80082384,0x120,func_80082384,sdk_asm,psyq/sdk,
 0x800824B0,0xE8,func_800824B0,sdk_asm,psyq/sdk,
 0x800825A0,0x64,func_800825A0,sdk_asm,psyq/sdk,

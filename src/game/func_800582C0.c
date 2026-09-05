@@ -21,7 +21,7 @@ extern s32 func_8005AE68();
 extern s32 MoveImage();
 extern s32 LoadImage2();
 extern s32 StoreImage2();
-extern s32 func_80082324();
+extern int IsIdleGPU(int);
 
 void func_800582C0(s32 arg0, s32 arg1, s32 arg2) {
     u16 buf[0x400];
@@ -43,11 +43,11 @@ void func_800582C0(s32 arg0, s32 arg1, s32 arg2) {
 
         do {
             D_8009B472 = y + 0xF8;
-            while (func_80082324(3) != 0) {
+            while (IsIdleGPU(3) != 0) {
             }
             while (StoreImage2(&D_8009B470, buf) != 0) {
             }
-            while (func_80082324(3) != 0) {
+            while (IsIdleGPU(3) != 0) {
             }
 
             q = buf;
@@ -56,11 +56,11 @@ void func_800582C0(s32 arg0, s32 arg1, s32 arg2) {
             }
 
             D_8009B472 = y + 0xF0;
-            while (func_80082324(3) != 0) {
+            while (IsIdleGPU(3) != 0) {
             }
             while (LoadImage2(&D_8009B470, buf) != 0) {
             }
-            while (func_80082324(3) != 0) {
+            while (IsIdleGPU(3) != 0) {
             }
             y += 4;
         } while (y < 8);
