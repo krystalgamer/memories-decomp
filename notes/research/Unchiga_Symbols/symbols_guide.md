@@ -183,7 +183,7 @@ The persistent block at `0x801D02xx–0x801D07xx` — what actually goes to the 
 | `gCampaign_abStoryFlags` | 0x801D0618 | Story-progress bits (see the engine section). |
 | `gFreeDuel_dwUnlockedDuelists` | 0x801D06F4 | Which duelists are unlocked in Free Duel (0xFFFFFFFF = all). |
 | `gFreeDuel_aDuelistRecords` | 0x801D071C | Forty grid records of {u16 wins, u16 losses}; slot 0 is the Build Deck tile, duelist IDs 1–39 use the remaining slots, and normal updates cap each counter at 999. |
-| `gDuel_awRecentCardDrops` | 0x801D07BC | The cards you most recently WON/acquired (drops and password buys both shift in; drives the trunk's New! tags and the NEW sort; capacity ~15-16 per the operator, extent unverified). |
+| `gDuel_awRecentCardDrops` | 0x801D07BC | Sixteen recently acquired card IDs (drops and password buys both shift in); exact C compacts all 16 slots, and the list drives the trunk's New! tags and NEW sort. |
 | `gLibrary_dwStarchips` | 0x801D07E0 | Your starchip balance — spent on password exchanges (deduction byte-verified live). |
 | `gLibrary_wViewerCardID` | 0x8009B246 | The card the chest / library viewer is showing (u16); the recomp clamps its two writers for clone ids. |
 | `gLibrary_aCardArtRecord` | 0x801DC000 | CD-DMA target of a card's 2D record from LBA 10817+7×id: 102×96 8bpp art, its 256-colour CLUT, the baked 96×14 4bpp title, a 16×88 strip; LoadImage then uploads them to (256,256), (512,240), (256,352), (312,256). |
