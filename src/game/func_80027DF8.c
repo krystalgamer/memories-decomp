@@ -127,7 +127,8 @@ void func_80027DF8(LocalEnt *out, s32 who) {
                 out->y = ((*p >> CARD_STAT_DEFENSE_SHIFT) &
                           CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
                 out->flags = 0;
-                out->b8 = (*p >> 26) & 0x1F;
+                out->b8 =
+                    (*p >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
                 out->b9 = (*p >> 22) & 0xF;
                 out->bA = (*p >> 18) & 0xF;
                 out += 1;
@@ -156,7 +157,8 @@ void func_80027DF8(LocalEnt *out, s32 who) {
                 out->y = ((*p >> CARD_STAT_DEFENSE_SHIFT) &
                           CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
                 out->flags = 0;
-                out->b8 = (*p >> 26) & 0x1F;
+                out->b8 =
+                    (*p >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
                 i += 1;
                 out->b9 = (*p >> 22) & 0xF;
                 out->bA = (*p >> 18) & 0xF;

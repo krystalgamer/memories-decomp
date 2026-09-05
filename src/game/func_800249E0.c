@@ -60,7 +60,10 @@ u8 *func_800249E0(s32 a, s32 b) {
         CARD_STAT_SCALE;
     p->stat_modifier = 0;
     p->terrain_modifier =
-        Duel_GetTerrainBoost((gDuel_adwCardStats[(s16)p->card_id - 1] >> 26) & 0x1F);
+        Duel_GetTerrainBoost(
+            (gDuel_adwCardStats[(s16)p->card_id - 1] >>
+             CARD_STAT_TYPE_SHIFT) &
+            CARD_STAT_TYPE_MASK);
 
     base = D_80177EA4;
     q = (RECT *)(base + idx * 0x10);
