@@ -99,8 +99,14 @@ jobs:
             84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88 \
             game/SLUS_014.11 \
             | sha256sum --check --strict
+          wa_mrg_sha256="$(sha256sum game/DATA/WA_MRG.MRG | cut -d' ' -f1)"
+          if [ "$wa_mrg_sha256" = \
+            "a519a1f5b27f4c6702613ba48c10bf945d25c9c51611ae3d2fab6e5d562b2d66" ]; then
+            echo "::error::WA_MRG.MRG is from the known dump with the anti-piracy branch patched out. Configure an untouched North American dump."
+            exit 1
+          fi
           printf '%s  %s\n' \
-            a519a1f5b27f4c6702613ba48c10bf945d25c9c51611ae3d2fab6e5d562b2d66 \
+            2026d85d3f224e04afc74e6fde70938195048883192fe845ffcadb8b286cc3f4 \
             game/DATA/WA_MRG.MRG \
             | sha256sum --check --strict
           printf '%s  %s\n' \

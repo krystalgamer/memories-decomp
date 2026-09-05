@@ -23,7 +23,7 @@ SLUS/DATA file matches its disc extent byte-for-byte.
 | Raw sectors | 220,184 |
 | Raw sector size | 2,352 bytes |
 | Logical block size | 2,048 bytes |
-| BIN SHA-256 | `c020cb7cef2f55a0433324444f9052d0660c3eb247730d1ab1ec7204962d6c59` |
+| BIN SHA-256 | `6e22494a45bf50fa2d239cd3819a57163a5f9b91e0365babc3e101509b5c3a7c` |
 
 The CUE uses an uppercase filename while the local BIN is lowercase. The disc
 tool resolves that reference case-insensitively without renaming either input.
