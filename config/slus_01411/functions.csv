@@ -830,7 +830,7 @@ address,size,name,status,module,notes
 0x8004A764,0x5C,func_8004A764,unmatched_asm,game,
 0x8004A7C0,0x94,func_8004A7C0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8004A854,0x90,func_8004A854,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8004A8E4,0x5C,func_8004A8E4,unmatched_asm,game,
+0x8004A8E4,0x5C,func_8004A8E4,matching_c,game,Post-terminal resolution; declarations recovered from the local cohort (SDSecondaryObject/SDSecondaryRecord in sound.h); exact linked bytes and relocations.
 0x8004A940,0x1BC,func_8004A940,unmatched_asm,game,
 0x8004AAFC,0x1E8,func_8004AAFC,unmatched_asm,game,
 0x8004ACE4,0x104,func_8004ACE4,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
