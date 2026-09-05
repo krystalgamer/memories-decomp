@@ -534,6 +534,63 @@ final sixteen colours.
   those visual roles come from the tutorial, while their card-kind ordering
   and palette boundaries are exact.
 
+## Duel-results image and palette package
+
+**Tutorial:** `Results - Paletas.docx`
+
+The tutorial places the results-screen graphics at `WA_MRG.MRG+0xED5800`
+and a second image range at `+0xEDD800`. Resident function `func_80020F4C`
+requests 34 sectors beginning at WA sector `0x1DAB`, exactly covering
+`0xED5800-0xEE6800`, during end-of-duel setup:
+
+```text
+0x1DAB * 0x800 = 0xED5800
+0x22   * 0x800 = 0x11000
+```
+
+Its exact matching callback, `func_80020BE4`, assigns the front `0x10000`
+bytes to the image-transfer phase. The two tutorial image offsets are
+therefore the starts of the package's two `0x8000`-byte halves. The tutorial
+associates the first half with the rank, statistics, card, and general
+results backgrounds, and the second with the `YOU` win/lose graphics.
+
+The callback next reads the `0x800` bytes beginning at `0xEE5800` and uploads
+them as a `256 x 4` rectangle of 16-bit colours at VRAM `(0, 248)`. Every
+tutorial palette offset is within this block and aligned to one
+`0x20`-byte, 16-colour CLUT:
+
+| Visual role from tutorial | WA palette offset(s) |
+|---|---|
+| Results background | `0xEE5800` |
+| Rank background variants | `0xEE5820`, `0xEE5840`, `0xEE5880-0xEE59A0` at `0x20` strides |
+| Statistics background | `0xEE59C0` |
+| Results cards | `0xEE59E0` |
+| `YOU`, 1P win | `0xEE5A00`; alternate at `0xEE5B00` |
+| `YOU`, 1P lose | `0xEE5A20`; alternate at `0xEE5B20` |
+
+The complete uploaded palette block hashes to:
+
+```text
+SHA-256: bc1bbeb55e28cef036ec35e90d232b070df8221d5d114b4116a9743498fe7776
+```
+
+The tutorial calls the two later `YOU` palettes repeats. They preserve the
+same 15-bit BGR values, but they are not byte-identical: every nonzero entry
+in the later copy has bit `0x8000` set. They are therefore alternate CLUTs
+with the PlayStation STP bit enabled, not redundant duplicate data.
+
+**Confidence:**
+
+- **Confirmed** that the image and palette offsets belong to the
+  34-sector end-of-duel results package.
+- **Confirmed** that each listed palette is a 16-colour slot in the
+  `256 x 4` VRAM upload.
+- **Confirmed** that the later win/lose palettes differ only by the STP bit
+  on their nonzero colours.
+- **High** for the tutorial's visual labels within the two image halves; the
+  package boundaries and palette locations are exact, but the image atlas has
+  not been independently segmented.
+
 ## Skip the opening Heishin text segment
 
 **Tutorial:** `Remover Heishin.txt`
