@@ -134,6 +134,48 @@ Per-module decompilation counts are generated into the README progress
 section by `tools/project/progress.py`; they are deliberately not duplicated
 here.
 
+## The anti-piracy-patched dump does not affect these modules
+
+`notes/setup.md` records that a commonly circulated North American image has
+one anti-piracy branch patched out inside `DATA/WA_MRG.MRG`, and
+`make verify-inputs` now rejects it by hash. Since four of the five overlay
+modules are extracted from that archive, the obvious worry is whether work
+done against the patched dump has to be redone. It does not, and this is the
+measurement rather than an assurance.
+
+The two archives differ in **exactly one byte**, at offset `0xB61902`:
+
+| | word at `0xB61900` | disassembles as |
+|---|---|---|
+| patched | `0x1000000A` | `b +0x2C` — always taken |
+| clean | `0x1062000A` | `beq v1,v0,+0x2C` — the check |
+
+A conditional branch turned unconditional, which is what "the anti-piracy
+branch patched out" means literally.
+
+That offset lies **below every module's extent** in the archive:
+
+| module | archive bytes | contains the patch |
+|---|---|---|
+| `free_duel` | `0x00F6D000..0x00F6F800` | no |
+| `password` | `0x00FBB000..0x00FC2800` | no |
+| `overworld_before_coup` | `0x00FEC800..0x00FEF800` | no |
+| `overworld_after_coup` | `0x0103B800..0x0103E800` | no |
+
+The patch sits `0x40B6FE` bytes before the lowest of them. So every extracted
+`module.bin` is byte-identical between the two dumps, and `make match-overlays`
+produces the same five hashes on either — confirmed by re-extracting from a
+clean image and rebuilding from scratch.
+
+The executable is unaffected too: `game/SLUS_014.11` keeps the same
+`84a54ed7…` hash in #798, because the patched instruction is in overlay
+archive data, not in the resident binary.
+
+To redo this check on any future disputed dump, diff the two archives and test
+each differing offset against the extents in `config/slus_01411/overlays.json`
+— `sector_offset * sector_size` to `(sector_offset + sector_count) *
+sector_size`.
+
 ## Diffing one candidate function
 
 `make match-overlays` is the acceptance gate, but it rebuilds and rehashes
