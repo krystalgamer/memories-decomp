@@ -522,6 +522,11 @@ which no profile bends into the retail pair. The value is really `0x800000` with
 the loop's first decrement peeled out ahead of the loop label, corroborated by
 the compensating `addiu $v1, $v1, 1` on the early exit.
 
+A later post-terminal reconstruction expressed that interpretation directly:
+initialize the timeout to `0x800000`, test `--timeout <= 0`, and clear the
+completion flag on every exit. That pure C now matches all `0x58` bytes under
+`gcc_2_8_1_g8`.
+
 ### Signed values and arithmetic
 
 - Signed bytes are commonly loaded with `lbu` followed by `sll 24` and
