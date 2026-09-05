@@ -297,7 +297,10 @@ transfer regions.
 
 ## Attribute icon images and palettes
 
-**Tutorial:** `Offset e Paleta Atributos - Đỗ Thành Đạt.txt`
+**Tutorials:**
+
+- `Offset e Paleta Atributos - Đỗ Thành Đạt.txt`
+- `Detalhes cartas.txt`
 
 The tutorial lists ten copies of the attribute icons: one in each of the seven
 terrain records and one in each Library, Password, and Build Deck package.
@@ -315,6 +318,14 @@ Every image start is at package-relative offset `+0x1C000`:
 | Library | `0xF02800` | `0xF08600` |
 | Password | `0xFB3800` | `0xFB9600` |
 | Build Deck | `0x10E0800` | `0x10EA600` |
+
+`Detalhes cartas.txt` repeats these same ten image offsets under the label
+"ATK & DEF Number" and, for each terrain package, also gives the address
+`+0x200` from the listed start. Directly decoding the retail bytes as 4-bpp
+graphics shows a row of nine distinct 32x16 emblems across the `0x900`-byte
+region, consistent with the attribute labels below rather than a decimal
+digit sheet. The `+0x200` addresses land inside that same atlas, at the start
+of its second 32x16 tile; they are not separate assets.
 
 The stated `32x16` dimensions and 16-color palettes imply `0x100` bytes per
 4-bpp icon and `0x20` bytes per palette. The nine icon images therefore occupy
