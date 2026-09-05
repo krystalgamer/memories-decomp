@@ -258,9 +258,9 @@ redefinition rather than a harmless compatibility choice. Selecting
 `inline_c.h` versus `inline_o.h`, or a padded command versus its `_b` form, can
 change register allocation and the emitted instruction schedule and therefore
 requires an exact-match check. The current game sources use `libgte.h` in
-`func_800249E0.c` and `func_80041E7C.c`; only `func_80041E7C.c` adds
-`inline_c.h`, for `gte_stopz`. No current game C includes `inline_o.h` or
-`gtemac.h`.
+`func_800249E0.c`, `func_80041E7C.c`, and `func_80041F90.c`; the latter two
+also include `inline_c.h` for `gte_stopz`. No current game C includes
+`inline_o.h` or `gtemac.h`.
 
 The remaining files target assembly sources. `inline_s.h` and `gtereg_s.h`
 use C-preprocessor definitions; `inline_s.h` explicitly identifies `aspsx` as
