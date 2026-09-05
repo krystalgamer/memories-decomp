@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 extern s32 gDuel_adwCardStats[];
 extern void func_8003201C(s32);
@@ -30,5 +31,5 @@ void BuildDeck_AddCard(s32 arg0, s32 arg1)
         }
         index++;
         entry += 8;
-    } while (index < 40);
+    } while (index < DECK_SIZE);
 }
