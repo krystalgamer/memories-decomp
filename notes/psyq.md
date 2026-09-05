@@ -364,8 +364,8 @@ requiring a copied SDK structure definition.
 `func_80044470` formats a `bu%02X:%s` device path, passes it and a caller-owned
 record to `0x80073AC0`, then advances subsequent records through `0x80073920`.
 Both resident functions return the supplied record pointer on success, matching
-the `firstfile` and `nextfile` interfaces. The caller retries each operation up
-to five times before stopping enumeration.
+the `firstfile` and `nextfile` interfaces. The caller allows five retries after
+the initial attempt before stopping enumeration.
 
 Three matching-C consumers independently establish the directory geometry:
 
