@@ -676,8 +676,10 @@ scripts *do*, as observed by every guide since 1999:
   him;
 * Duel Master K's script plays a **copy of your own deck** (§8);
 * the scripts differ per duelist in aggression and in what they fuse for,
-  and each opponent's deck is drawn from a per-duelist **weight table**
-  rather than being a fixed 40 (§6.4).
+  and each opponent's deck is drawn from a per-duelist **weight table** rather
+  than being a fixed 40. Retail only considers card ids 1–720 while building
+  that deck, so Dark Magic Ritual (721) and Magician of Black Chaos (722)
+  cannot be selected from their final two weights (§6.4).
 
 > **Entered from:** campaign scenes, Free Duel select, 2P setup, the debug
 > menu. **Exits to:** the caller, with win/loss and the scoring counters
@@ -794,8 +796,11 @@ speedrunners talk about. The three pools per duelist are the per-duelist disc
 block's tables at +0x5B4 (POW), +0xB68 (BCD) and +0x111C (TEC) [runtime
 copies `0x8017878C`, `0x80178D40`, `0x801792F4`], and the fourth table in
 that block at +0 is the opponent's **deck weights** — the deck the AI plays is
-itself drawn from a weighted pool, not fixed (§5.11). The card is added to
-the trunk and marked seen.
+itself drawn from a weighted pool, not fixed (§5.11). That row still contains
+722 weights, but `Duel_ShuffleDeck` walks only zero-based indices 0–719 and
+writes `index + 1`, leaving the weights for card ids 721 and 722 unreachable.
+The three drop pools do walk all 722 entries. The dropped card is added to the
+trunk and marked seen.
 
 **Which block is which duelist** was settled by matching every block's pools
 against an independent list of what each duelist has been recorded dropping
