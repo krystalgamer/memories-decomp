@@ -41,6 +41,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xE4",
       "source": "src/overlays/overworld/location_marker.c"
+    },
+    {
+      "address": "0x80168E0C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1C0",
+      "source": "src/overlays/overworld/pick_exit.c"
     }
   ],
   "schema": 1
