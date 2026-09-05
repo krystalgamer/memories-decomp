@@ -547,6 +547,12 @@
       "source": "src/game/duel_has_all_exodia_pieces.c"
     },
     {
+      "address": "0x80018DB4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x238",
+      "source": "src/game/func_80018DB4.c"
+    },
+    {
       "address": "0x80019564",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA4",
