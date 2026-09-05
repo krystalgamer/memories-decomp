@@ -263,10 +263,12 @@ only be dropped or traded, and 24 of them carry a sentinel password.
 Two lists side by side: the **trunk** (everything you own, left) and the
 **deck** (right). Moving the cursor onto a card and pressing × moves one copy
 across; ○ leaves the screen. △ shows the card's full detail. L1/R1 jump ten
-cards, L2/R2 jump a hundred. Start or Select cycles the sort order, shown as
-icons along the top; the orders are, left to right: by number, by name, by
-ATK+DEF, by ATK, by DEF, by type, and by most recently acquired — and the deck
-side has one extra, the game's own "as dealt" order.
+cards, L2/R2 jump a hundred. Start or Select cycles seven sort orders, shown
+as icons along the top. Six are shared: by number, by name, by the stronger
+of ATK or DEF (with the weaker stat breaking ties), by ATK, by DEF, and by
+type. The seventh is pane-specific: **New** puts recently acquired cards first
+in the trunk, while **Shuffle** assigns fresh random keys to the deck each
+time it is selected.
 
 Rules the screen enforces:
 
