@@ -1,0 +1,66 @@
+==== USER CONTEXT ====
+
+Started a duel from "Free Duel" against "Duel Master K" and lost the match so
+my W/L ratio went from 1/1 to 1/2.
+
+On my last turn the score read 150 LP and 32 remaining cards while the
+computer was at 8000 LP and 33 cards remaining. Before I ended my turn I
+injected the script.
+
+My side of the board was clear because I was sacrificing my monsters. When
+his turn began the remaining cards went from 33 to 32 and he played a
+face-down monster card. On his field there was face-up Garvas, card id 483,
+and the face-down monster he just played. On his back row there was a
+face-down magic, spell, or trap card.
+
+He proceeded to attack me directly and win the duel. On my screen the "You
+Lose" letters came floating around and then flipped to the "Results of Duel".
+This screen overlays the duel arena and shows different statistics and who
+won. It showed that both sides used 8 cards and that my life points were 0
+while his were 8000.
+
+By pressing right it showed:
+
+- Victory Conditions: Total Annihilation
+- Turns: 3
+- Average ATK factor: 567 for both sides
+- Card destruction: 0 for me and 1 for the computer
+- Effective attacks: 0 for me and 1 for the computer
+- Average DFD factor: 512 for both sides
+- Defensive losses: 0 for both sides
+- Defensive wins: 0 for both sides
+
+Pressing right again showed:
+
+- Combo Plays: 0 for me and 1 for the computer
+- Face-down Plays: 0 for me and 3 for the computer
+- Initiate Fusion: 0 for me and 1 for the computer
+- Equip Magic: 0 for both sides
+- Change field: 0 for both sides
+- Pure Magic: 0 for both sides
+- Trigger trap: 0 for both sides
+
+Pressing right again returned to the original statistics screen. Pressing X
+returned to Free Duel.
+
+==== TRACE RESULT =====
+
+script: duel_winner_side
+status: captured end-credit state
+
+--- sample 1: entered duel mode ---
+  mode=0xC3 winner_side=1 duel_state=0x8005
+  opponent_id=39 player_lp=150 opponent_lp=8000
+  duelist_record=<not applicable for this opponent id>
+
+--- sample 2: end-credit latch set ---
+  mode=0xC3 winner_side=1 duel_state=0xE00D
+  opponent_id=39 player_lp=0 opponent_lp=8000
+  duelist_record=<not applicable for this opponent id>
+
+--- sample 3: three seconds after end-credit latch ---
+  mode=0xC6 winner_side=1 duel_state=0xE00D
+  opponent_id=39 player_lp=0 opponent_lp=8000
+  duelist_record=<not applicable for this opponent id>
+
+--- end of trace, copy everything above into tools/trace/result/duel_winner_side.txt ---
