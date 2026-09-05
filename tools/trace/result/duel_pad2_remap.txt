@@ -1,0 +1,23 @@
+==== USER CONTEXT ====
+
+Did several 2P duels and not even once managed to trigger the trace. So i'll use this to describe the 2P experience.
+
+First the game checks both memory card slots, the duelist code (aka name) cannot be the same. So basically two different saves are needed.
+If all checks pass we're sent to a new screen.
+
+The screen can be divided into 3 parts. First, the topmost is the tile "Regulation of 2p-duel rules". The middle part contains the actual options. The top row says "CARD INDICATE (Startchip Icon) DECK NUMBER  OPEN CARD". Then it contains two rows with the following information:
+
+- (Duelist code of 1P)          1P [8000] (Scrollbar with starchip at the end)
+- (Duelist code of 2P)          2P [8000] (Scrollbar with starchip at the end)
+
+Only on this screen the 2P controller becomes active. The starchip icon on each ones healthbar is each ones cursor. 1P can only change its healthbar, same thing for 2P. Using left and right the health changes in 500 increments/decrements and is capped at 1 and 8000.
+
+If either player presses up they're moving to the starchip icon on the select "Card Indicate" option, it slides over there. It's the only place on this screen where the actions on one player pad can collide with the other. To go back to change the LP the player must press d-pad down.
+
+The bottom pane shows the controls: Start button to start the duel and O to return to title. Either player can trigger these actions. Before describing the duel let me elaborate on "Card Indicate". "Deck Number" shows the cards in hand with their order number and only when they're face-up on the field it shows an actual card icon and atk/def, "Open Card" means the cards are always shown. It's easy to understand why this was a thing since this is meant for 2 players on the same screen and they're trying to come up with an alternative to telling the other player to look away when it's not their turn.
+
+There's nothing to peculiar about duels besides the fact each player's controller only becomes active during each player's turn. Interestingly enough the "Duel End" screen with all the stats is only controllable by the winner. The message shown is always "1P Wins" or "2P Wins", so there's no lose message in this mode.
+
+==== TRACE RESULT =====
+
+N/A
