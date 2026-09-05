@@ -194,7 +194,7 @@ of these values as generated merge boundaries.
 ```text
 record sector = 5830 + selected_index * 235
 record count  = 235 sectors
-callback      = func_800171A8
+callback      = Duel_LoadPackageStage
 ```
 
 The following independently indexed family begins at sector 7475:

@@ -94,7 +94,7 @@ address,size,name,status,module,notes
 0x80017034,0x94,func_80017034,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800170C8,0x68,Duel_CalcCardStats,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80017130,0x78,func_80017130,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x800171A8,0x3B4,func_800171A8,unmatched_asm,game,
+0x800171A8,0x3B4,Duel_LoadPackageStage,unmatched_asm,game,Thirteen-stage callback for the 235-sector duel terrain package; chunk sizes cover the complete 0x75800-byte load and image stages use LoadImage2.
 0x8001755C,0x44,func_8001755C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800175A0,0x130,func_800175A0,unmatched_asm,game,
 0x800176D0,0x38,func_800176D0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.

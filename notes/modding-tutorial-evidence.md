@@ -479,10 +479,10 @@ archive placement are confirmed directly from the retail `WA_MRG.MRG`.
 
 The tutorial's `0x200`-byte spacing identifies palette rows, not separate
 card images. In each duel-terrain package, resident loader callback
-`func_800171A8` reads the `0x2000`-byte block at package offset `+0x20000`
-and uploads it as a `256 x 16` rectangle of 16-bit colours at VRAM
-`(256, 240)`. Each `0x200`-byte step is therefore one complete 256-colour
-row.
+`Duel_LoadPackageStage` reads the `0x2000`-byte block at package offset
+`+0x20000` and uploads it as a `256 x 16` rectangle of 16-bit colours at
+VRAM `(256, 240)`. Each `0x200`-byte step is therefore one complete
+256-colour row.
 
 The tutorial's twelve card-frame rows have this common package-relative
 layout:
