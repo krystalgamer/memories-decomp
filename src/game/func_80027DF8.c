@@ -52,7 +52,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
         tbl = gDuel_adwCardStats;
         do {
             out->id = 0;
-            if (rec->flags & 0x8000) {
+            if (rec->flags & DUEL_CARD_FLAG_OCCUPIED) {
                 s32 r;
                 s32 t;
 
@@ -86,7 +86,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
         tbl = gDuel_adwCardStats;
         do {
             out->id = 0;
-            if (rec->flags & 0x8000) {
+            if (rec->flags & DUEL_CARD_FLAG_OCCUPIED) {
                 s32 r;
                 s32 t;
 

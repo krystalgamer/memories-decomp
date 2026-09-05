@@ -25,7 +25,7 @@ int func_8002778C(DuelSelectionSource *source)
             slot + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
         DuelCardRecord *entry = &D_801A7AD8[D_800907D8[position]];
 
-        if (entry->flags & 0x8000) {
+        if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
             count++;
             if (func_8001EFD4(source->ptr, entry->object) > 0)
                 return ((DuelSelectionObject *)entry->object)->index;
@@ -51,7 +51,7 @@ s32 func_800278A0(void *arg0)
             i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
         ];
         entry = &D_801A7AD8[row];
-        if (entry->flags & 0x8000) {
+        if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
             found++;
             if (!(entry->flags & 0x1000)) {
                 s32 result = func_8001EFD4(

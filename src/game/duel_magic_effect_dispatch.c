@@ -38,7 +38,7 @@ void func_80026A3C(void)
             DuelCardRecord *entry =
                 &D_801A7AD8[D_800907D8[position]];
 
-            if (entry->flags & 0x8000)
+            if (entry->flags & DUEL_CARD_FLAG_OCCUPIED)
                 func_80024954(entry);
         }
         D_8009B220 = 0;

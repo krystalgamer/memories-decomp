@@ -32,7 +32,7 @@ u8 *func_800249E0(s32 a, s32 b) {
     }
 
     p = &D_801A7AD8[idx];
-    p->flags = 0x8000;
+    p->flags = DUEL_CARD_FLAG_OCCUPIED;
 
     if (a >= DUEL_CARD_SIDE_RECORD_COUNT && b < DECK_SIZE) {
         b += DECK_SIZE;
