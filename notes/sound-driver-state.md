@@ -130,10 +130,10 @@ explicit typed/raw views rather than speculative fields.
 | `0x050C` | callback pointer | `field_050C` | `func_8004B734` conditionally invokes it. |
 | `0x0510` | `s16` | `object_count` | Initialized/set by `func_80049434` and `func_80049600`; bounds the `0x28`-byte object scans in several matched functions. |
 | `0x0512`, `0x0514`, `0x0516` | `s16` | `field_0512`, `field_0514`, `field_0516` | Initialization and parameter-update functions establish signed halfword accesses. |
-| `0x07DC` | pointer | `field_07DC` | Playback copies `field_07E8` here; `func_8004BAE4` reads indexed stream bytes through it. |
+| `0x07DC` | pointer | `field_07DC` | Playback copies `field_07E8` here; `func_8004BAE4` reads indexed stream bytes through it, and `func_8004BBBC` scans for sequence markers. |
 | `0x07E0`-`0x07E6` | four `s16` | `field_07E0`-`field_07E6` | Playback setup/reset and parameter functions consistently use halfword accesses. |
 | `0x07E8` | pointer | `field_07E8` | `func_80049A64` stores the sequence/stream input pointer. |
-| `0x07EC` | `s32` | `field_07EC` | Playback initializes the bound to `0x10000`; `func_8004BAE4` compares its reader offset against it. |
+| `0x07EC` | `s32` | `field_07EC` | Playback initializes the bound to `0x10000`; `func_8004BAE4` and `func_8004BBBC` compare reader offsets against it. |
 | `0x07FA` | `u16` | `field_07FA` | `func_8004BE88` and `func_8004C77C` bound `0x2C`-byte work-record loops. |
 | `0x07FC` | `u16` | `timebase` | `func_8004BE88` and `func_8004C5C8` select timing conversions from it. |
 | `0x0800` | `u8` | `field_0800` | Cleared by `func_8004C77C`. |
@@ -149,8 +149,9 @@ the major top-level offsets.
 
 ### Migration status and exact-code exceptions
 
-All 33 pure-C users now include `sound.h` and use the shared typed global.
-Every accepted migration batch retained the exact full executable hash.
+Every matching-C user outside the GCC inline-assembly exceptions below now
+includes `sound.h` and uses the shared typed global. Every accepted migration
+batch retained the exact full executable hash.
 
 Six matching-C functions containing GCC inline assembly remain unchanged and
 keep their local raw declarations: `func_80049CF8`, `func_80049DD8`,
