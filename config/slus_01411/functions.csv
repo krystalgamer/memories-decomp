@@ -368,7 +368,7 @@ address,size,name,status,module,notes
 0x80030EC8,0x78,func_80030EC8,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80030F40,0x40,func_80030F40,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80030F80,0x20,func_80030F80,matching_c,game,First -O2 -G8 call-wrapper candidate matched linked bytes and relocations.
-0x80030FA0,0x30,func_80030FA0,matching_c,game,"D_8009B365 and D_8009B26C are placed in .data so they leave G8 small data and their stores expand through lui $at, while the plain D_8009B2F1 and D_8009B2B2 stay gp-relative."
+0x80030FA0,0x30,func_80030FA0,matching_c,game,"gFreeDuel_bReturnFlags and D_8009B26C are placed in .data so they leave G8 small data and their stores expand through lui $at, while the plain D_8009B2F1 and D_8009B2B2 stay gp-relative."
 0x80030FD0,0x30,func_80030FD0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80031000,0x78,func_80031000,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80031078,0xC,func_80031078,matching_c,game,First -O2 -G8 global-byte assignment candidate matched.

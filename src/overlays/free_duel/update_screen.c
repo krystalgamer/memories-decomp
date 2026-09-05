@@ -8,7 +8,7 @@ extern volatile u16 D_8009B398;
 extern volatile u16 D_8009B3A4;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
-extern u8 D_8009B365;
+extern u8 gFreeDuel_bReturnFlags;
 extern s8 D_8009B366;
 extern s8 D_8009B367;
 extern u8 D_8009B368;
@@ -85,7 +85,7 @@ void FreeDuel_UpdateScreen(void)
         if ((D_8009B366 | D_8009B367) == 0) {
             func_80033C90();
             D_8009B269 = 6;
-            D_8009B365 = 0x40;
+            gFreeDuel_bReturnFlags = 0x40;
             func_8003FEE0(0x30);
             return;
         }
@@ -100,7 +100,7 @@ void FreeDuel_UpdateScreen(void)
             entry++;
         }
         func_8003FEE0(0x30);
-        D_8009B365 = 0x80;
+        gFreeDuel_bReturnFlags = 0x80;
         func_80024DC8(-1, D_8009B367 * 5 + D_8009B366, 0x6000, 0x6000);
         D_8009B368 = 6;
         D_8009B26C = 3;

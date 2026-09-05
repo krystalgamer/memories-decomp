@@ -37,6 +37,7 @@ Names that say what something IS in the game.
 | 0x8009B34D | `gDialog_bChoice` | idb2018 |
 | 0x8009B361 | `gDuel_bOpponentID` | idb2018 |
 | 0x8009B364 | `gDuel_bTerrain` | idb2018 |
+| 0x8009B365 | `gFreeDuel_bReturnFlags` | live |
 | 0x8009B366 | `gFreeDuel_bCursorColumn` | live |
 | 0x8009B367 | `gFreeDuel_bCursorRow` | live |
 | 0x8009B37C | `gOptions_bState` | matching C |

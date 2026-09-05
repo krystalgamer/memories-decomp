@@ -22,6 +22,7 @@ gDebug_nSceneOrSoundID = 0x8009B2C8;
 gDuel_wSelectedCardID = 0x8009B338;
 gDuel_bOpponentID = 0x8009B361;
 gDuel_bTerrain = 0x8009B364;
+gFreeDuel_bReturnFlags = 0x8009B365;
 // Codegen alias: Duel_GetTerrainBoost materializes this address twice.
 D_8009B364 = 0x8009B364; // rom:0x8BB64
 gDuel_wPlayerLifePointDisplay = 0x800EA002;

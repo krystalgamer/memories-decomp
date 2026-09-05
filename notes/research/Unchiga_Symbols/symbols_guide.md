@@ -212,6 +212,7 @@ Mode slot 6. An 8×5 opponent grid (Build Deck tile at top-left); the cursor roa
 |---|---|---|
 | `Main_RunFreeDuelMenu` | 0x8002D3F8 | Free Duel opponent-select mode tick; calls the module's entry `FreeDuel_Entry` (0x80168FB4) by fixed address. |
 | `Main_InitFreeDuelMenu` | 0x8003B9BC | The tick's one-shot init: queues the CD request, then calls the module's `FreeDuel_Init` with the portrait buffer (arena slot 0, 0x80100000). |
+| `gFreeDuel_bReturnFlags` | 0x8009B365 | Records which round trip is returning to Free Duel: 0x40 for Build Deck and 0x80 for a duel; the duel bit gates the W/L update. |
 | `gFreeDuel_bCursorColumn / Row` | 0x8009B366 / 67 | The committed grid cell, one byte per axis. |
 | `gFreeDuel_bTargetColumn / Row` | 0x8009B36C / 6D | The pending cell the DPAD writes; the cursor glides to it over 8 frames, then it becomes the committed pair. |
 | `FreeDuel_UpdateScreen` (module: free_duel) | 0x80168C7C | Per-frame: cursor tween, scrollbar, then DPAD / confirm / cancel. |
