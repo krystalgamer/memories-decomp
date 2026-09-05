@@ -853,6 +853,99 @@ Screen for it the same way you screen for `jtbl_`: a load whose result is stored
 straight to a `%gp_rel` symbol, with a `nop` between them in the target, cannot
 be reproduced.
 
+#### MASPSX does not fill reorder-mode delay slots
+
+A third build-tooling blocker, alongside the jump tables and the load-delay nop,
+and it is invisible from the C.
+
+GCC splits its branches between two modes. Where its own delay-slot pass fills
+a slot, it brackets the pair in `.set noreorder` / `.set nomacro`; MASPSX tracks
+those directives and passes such pairs through exactly. Every other branch is
+left in `.set reorder`, with the next instruction simply following it, for the
+assembler to schedule. MASPSX does not schedule: in a reorder region it appends
+
+```
+nop  # DEBUG: branch/jump
+```
+
+after the branch and leaves the instruction behind it. The slot is empty for
+good, because MASPSX also emits a file-wide `.set noreorder` and gas will not
+revisit it. On one 95-instruction function GCC bracketed nine filled slots and
+left twenty to the assembler; all twenty came out as nops.
+
+That is only wrong where the retail assembler filled one, and it did.
+
+##### The worked example
+
+`func_80043BCC` (`0x80043BCC`, 0x17C). GCC emits, in a reorder region:
+
+```
+beq  $2,$0,$L5
+la   $4,D_800EB0F8
+jal  TextBox_Destroy
+sb   $18,D_8009B428
+```
+
+The retail assembler fills both slots, splitting the `la` macro across the
+branch to do it:
+
+```
+beqz  $v0, .L80043BF0
+ lui   $a0, %hi(D_800EB0F8)
+jal   TextBox_Destroy
+ addiu $a0, $a0, %lo(D_800EB0F8)
+```
+
+MASPSX produces a `nop` in each slot and the body comes out two instructions
+long. Nothing in the C reaches this: the source is already the shape that makes
+GCC emit those four lines.
+
+`-msplit-addresses` looks like an escape, because it turns the address into a
+real `lui` that GCC will schedule into the slot itself. It is not, at least not
+here: the same flag splits the three `D_8009B142/143/144 = 0xFF` stores, which
+the target has as assembler macro expansions through `$at`
+(`lui $at, %hi(...)` / `sb $s1, %lo(...)($at)`). Split, they come out through a
+general register, and the third — now a single instruction — is pulled into the
+following `j` delay slot where the target has a nop. The body needs macro form
+for the stores and split form for the one address at the same time, so the two
+profiles land two long and two short respectively.
+
+##### How much this blocks
+
+Screening the generated assembly for the specific shape MASPSX cannot make — a
+delay-slot `lui $r, %hi(S)`, a branch or `jal`, then a delay-slot
+`%lo(S)` through the same register, which is a macro expanded across a branch —
+gives **7 unmatched functions, 13,188 bytes**, and **nothing matched**, the same
+signature the other two blockers have. Zero matched is the point: a body that
+cannot reproduce the pattern cannot have been accepted.
+
+```python
+# delay slots are the lines splat indents by one extra space
+DELAY = re.compile(r'\*/\s{3}(\S+)\s+(.*)')
+PLAIN = re.compile(r'\*/\s{2}(\S+)\s+(.*)')
+```
+
+| function | size |
+|---|---:|
+| `AiScript_CalcCardPower` | 0x18C |
+| `func_80012E5C` | 0x210 |
+| `func_80031084` | 0x2C8 |
+| `func_8003A560` | 0x3C0 |
+| `func_80043BCC` | 0x17C |
+| `func_8001BD88` | 0x14B8 |
+| `func_8004EB00` | 0x132C |
+
+The count is a floor for the same reason the others are: it only sees functions
+still in assembly. It is also narrower than the true exposure, because it
+matches only the macro-split-across-a-branch case; a reorder-mode slot filled
+with any ordinary single instruction is equally unreachable and much harder to
+screen for.
+
+Unlike the jump tables this is a bug rather than a configuration decision, and
+unlike the load-delay nop it is not a question of what MASPSX can see — the
+information is all present. Filling a reorder-mode delay slot is work MASPSX
+currently declines to do.
+
 ### GCC rotates a top-of-loop conditional exit
 
 A third residual class, alongside the register-permutation and
