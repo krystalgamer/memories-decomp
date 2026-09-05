@@ -289,7 +289,7 @@ Mode slot 6. An 8×5 opponent grid (Build Deck tile at top-left); the cursor roa
 | `gDuel_anRankScore / gDuel_awRankScoreChange` | 0x80179A04 / 98A8 | The running score and the per-deed point table. |
 | `Duel_SelectCardDrop` | 0x80021810 | Rolls your reward card — a weighted draw (threshold 1–2048) over a 722-entry pool row. |
 | `gDuel_awSaPowCardDrops / gDuel_awBcdCardDrops / gDuel_awSaTecCardDrops` | 0x8017878C… | The three drop tables, picked by your win style. |
-| `gDuel_wCardDropID` | 0x80179A14 | The rolled drop (the last-10 history lives in the save block). |
+| `gDuel_wCardDropID` | 0x80179A14 | The rolled drop (the 16-card recent-acquisition history lives in the save block). |
 
 
 ## Game over & credits

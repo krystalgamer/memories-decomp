@@ -92,7 +92,7 @@ decompilation scope.
 
 The recomp's independently instrumented reward path confirms
 `Duel_AwardCard` at `0x80021894`: it saturates the awarded card's chest count
-and updates the fifteen-entry recent-award history.
+and updates the sixteen-entry recent-award history.
 
 ## Remaining-campaign naming
 
