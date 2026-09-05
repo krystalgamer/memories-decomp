@@ -412,6 +412,7 @@ StoreImage2 = 0x80081ED4; // type:func
 MoveImage2 = 0x80081FC0; // type:func
 IsIdleGPU = 0x80082324; // type:func
 GsSetLsMatrix = 0x800855D0; // type:func
+GsGetTimInfo = 0x80086100; // type:func
 rsin = 0x800866A0; // type:func
 rcos = 0x80086770; // type:func
 SquareRoot0 = 0x80086E50; // type:func
