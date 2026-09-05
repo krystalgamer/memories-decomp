@@ -862,6 +862,44 @@ __asm__ volatile(".word 0x4A180001");
 
 `func_80015D18` is the current matching template for this pattern.
 
+## What a masked comparison cannot see
+
+`tools/project/overlay_diff.py` compares one compiled function against the
+retail bytes in a fraction of a second, which has made it the default way to
+check a candidate. It excludes relocated fields from the comparison, reading
+the object's own relocation table so that only the affected bits are ignored.
+That is what makes it robust against unlinked objects, and it has an exact
+consequence worth stating outright:
+
+**A wrong symbol with the right register allocation is invisible to it.** The
+`%hi`/`%lo` immediates are precisely the bits it does not compare, so a
+candidate that reaches the wrong address in the right shape reports a
+byte-exact match.
+
+`CampaignMap_PickExit` did this in both overworld modules. Two globals were
+declared at addresses `0x10000` too high; every instruction had the right
+opcode, registers and offsets, and the tool reported `MATCH` on both. Only the
+full module rebuild caught it, in three bytes, all of them `lui` halves.
+
+So: **`overlay_diff` proves the shape, `make match-overlays` proves the link.**
+A fast, trusted tool with an unstated blind spot is more dangerous than a slow
+one, and this is the blind spot.
+
+### The address mistake behind it
+
+The underlying error is a MIPS reading trap rather than a typing slip. A `lui`
+loads the upper half, but the following `%lo` is **sign-extended**, so a
+negative `%lo` resolves `0x10000` *below* the apparent base:
+
+```
+lui  $v0, 0x800a
+lhu  $v0, -19560($v0)     # 0x800A0000 - 0x4C68 = 0x8009B398
+```
+
+Read off the `lui` at face value this looks like `0x800AB398`. It is
+`0x8009B398`. Whenever the offset printed with the load is negative, the
+symbol lives in the segment below the one the `lui` names.
+
 ## Confirmed and strongly supported layouts
 
 ### Transform and card data
