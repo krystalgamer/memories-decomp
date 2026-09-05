@@ -34,3 +34,12 @@ void func_8004293C(DisplayObjectAnimationState *object)
     object->field_17 = 3;
     object->field_14 = D_8009AF7A - object->field_16;
 }
+
+int func_80042960(char *object)
+{
+    void (*callback)(void) = *(void (**)(void))(object + 0x24);
+
+    if (callback != 0)
+        callback();
+    return ((*(u16 *)(object + 8) & 0xC0) == 0xC0);
+}
