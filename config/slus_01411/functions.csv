@@ -358,7 +358,7 @@ address,size,name,status,module,notes
 0x80030198,0xB8,func_80030198,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80030250,0x44,func_80030250,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80030294,0x524,func_80030294,unmatched_asm,game,
-0x800307B8,0x1E0,func_800307B8,unmatched_asm,game,
+0x800307B8,0x1E0,func_800307B8,matching_c,game,"Menu/debug state handler that initializes three saved values, handles input, then dispatches the selected value. Exact post-terminal collaborator match under mixed GCC G8 and MASPSX G4 thresholds."
 0x80030998,0x278,func_80030998,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80030C10,0xA0,func_80030C10,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80030CB0,0xAC,func_80030CB0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
