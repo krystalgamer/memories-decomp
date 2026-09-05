@@ -52,6 +52,14 @@ See findings F79-F86: `FreeDuel_Entry` 0x80168FB4, `FreeDuel_UpdateScreen`
 | 0x8016D4D2 | `gNameEntry_wPendingDialog` | u16: string id + flags of the dialog to show (245 = 'Your NAME is ...') |
 | 0x801D060C | `g_PlayerName` (save block) | EXE-side symbol candidate: 5 x u16 SJIS + terminator; zeroed on New Game |
 
+## Password module (config/modules/password.txt, findings F25 and F158)
+
+| address | name | what |
+|---|---|---|
+| 0x8016D410 | `gPassword_abDigits` | eight password digits, one byte each |
+| 0x8016D420 | `gPassword_pDigitCursorWidget` | widget whose x target follows the selected digit |
+| 0x8016D428 | `gPassword_nDigitIndex` | selected digit index, 0..7 |
+
 ## Overworld module (config/modules/overworld.txt, findings F117-F120)
 
 Resident while `Main_RunCampaignMap` (mode 0xC5) runs. `gCampaignMap_aLocationTable`

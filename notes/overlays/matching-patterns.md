@@ -27,10 +27,10 @@ above the store if it was already above it in the source.
 ```c
 /* one instruction too long: the load lands after the store, with a nop */
 *(s16 *)(a + 0x1A) = 0x63;
-*(s16 *)(a + 0x18) = D_8016D428 * 16 + 0xA3;
+*(s16 *)(a + 0x18) = gPassword_nDigitIndex * 16 + 0xA3;
 
 /* matches */
-s32 value = D_8016D428;
+s32 value = gPassword_nDigitIndex;
 *(s16 *)(a + 0x1A) = 0x63;
 *(s16 *)(a + 0x18) = value * 16 + 0xA3;
 ```
