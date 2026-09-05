@@ -64,7 +64,7 @@ extern void SetGeomOffset(long a0, long a1);
 extern void SetGeomScreen(long a0);
 extern void func_80088C50(struct Vec308 *a0, struct Mat *a1);
 extern void func_80087670(struct Mat *a0, struct VecScale *a1);
-extern void func_800855D0(struct Mat *a0);
+extern void GsSetLsMatrix(struct Mat *a0);
 extern s32 func_80089CF0(
     struct Vec308 *a0,
     struct Vec310 *a1,
@@ -101,7 +101,7 @@ s32 func_80041F90(struct Obj *obj, s32 arg1, s32 arg2, struct Out *out) {
         func_80087670(mtx, (struct VecScale *)0x1F800308);
     }
 
-    func_800855D0(mtx);
+    GsSetLsMatrix(mtx);
 
     {
         register struct Vec318 *v318 asm("a3") =

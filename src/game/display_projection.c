@@ -12,13 +12,13 @@ typedef struct {
 extern u8 D_800FE148[];
 extern void SetGeomScreen(long);
 extern void SetGeomOffset(long, long);
-extern void func_800855D0(void *);
+extern void GsSetLsMatrix(void *);
 
 void func_80015D18(ProjectionObject *object)
 {
     SetGeomScreen(0x12C);
     SetGeomOffset(0xA0, 0x6C);
-    func_800855D0(D_800FE148);
+    GsSetLsMatrix(D_800FE148);
     __asm__ volatile(
         "lui $3, 0x1F80\n"
         "lhu $2, 40($16)\n"
@@ -95,7 +95,7 @@ void func_80015DFC(TrackedObject *object)
     ProjectedPair p;
     s32 y;
 
-    func_800855D0(D_800FE148);
+    GsSetLsMatrix(D_800FE148);
     __asm__ volatile(
         "lw $2, 0($16)\n"
         "lui $3, 0x1F80\n"

@@ -24,7 +24,7 @@ extern void func_80017130(void);
 extern void SetGeomScreen(long);
 extern void SetGeomOffset(long, long);
 extern void func_8001352C(void);
-extern void func_800855D0(void *);
+extern void GsSetLsMatrix(void *);
 
 void func_800178BC(void)
 {
@@ -38,7 +38,7 @@ void func_800178BC(void)
     D_800F2848.f4 = 0x3FE;
     D_800F2848.f2 = D_8009AF20;
     func_8001352C();
-    func_800855D0(D_800FE148);
+    GsSetLsMatrix(D_800FE148);
     __asm__ volatile(
         "lui $2, 0x1F80\n"
         "ori $2, $2, 0x03E0\n"

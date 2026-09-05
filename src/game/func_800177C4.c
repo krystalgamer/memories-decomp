@@ -17,7 +17,7 @@ extern u16 D_800908A0[];
 extern ScreenPair D_800EA070[];
 extern void SetGeomScreen(long);
 extern void SetGeomOffset(long, long);
-extern void func_800855D0(void *);
+extern void GsSetLsMatrix(void *);
 
 /* Projects the thirty coordinate pairs in D_800908A0 through the GTE, one per
    iteration, and writes the biased screen pairs to D_800EA070. Same scratchpad
@@ -39,7 +39,7 @@ void func_800177C4(void)
 
     SetGeomScreen(D_800F2856[0]);
     SetGeomOffset(0xA0, 0x6C);
-    func_800855D0(D_800FE148);
+    GsSetLsMatrix(D_800FE148);
     pad = (u8 *)0x1F8003E0;
     i = 0;
     pp = &p;
