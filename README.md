@@ -110,6 +110,7 @@ inside this working directory.
 
 - [Setup and required inputs](notes/setup.md)
 - [Build and exact-match workflow](notes/build.md)
+- [Compiler and toolchain fingerprint](notes/toolchain.md)
 - [Psy-Q runtime and SDK integration](notes/psyq.md)
 - [Random-number generation](notes/rng.md)
 - [Runtime overlay research and source layout](notes/overlays/README.md)
