@@ -46,7 +46,7 @@ the applies and byte-verify once).
 |---|---|---|
 | `0x8002CEE8` | `Main_RunDuel` | Matched body reads as disc-swap/lid-open state machine (D_8009B26C bit 0x40 gate), not a duel mode tick. Adjudicate by live trace: enter a duel and check ambience. |
 | `0x800218F0` | `Duel_MaybeEndOfDuel` | Matched body reads as per-frame duel-round setup/dispatch, not end-of-duel. Same adjudication: live duel trace. |
-| `calc_wrap_scroll_delta` (unit) | -- | Defines `Duel_CalcGuardianStarMatchup`; its "scroll helper" reading is wrong per func_8001EE44.c's note (6/4 wraps = the guardian-star wheels). Unit rename candidate for the bulk pass. |
+| `Duel_CalcGuardianStarMatchup` (`0x8002CB80`) | `src/game/duel_calc_guardian_star_matchup.c` | RESOLVED: the 6/4 wrap tables are the two guardian-star cycles, and the caller is now `duel_calc_guardian_star_bonus.c`. | No remaining rename work. |
 
 ## Unverified-body AI opcodes (excluded from descriptions until proven)
 
