@@ -543,7 +543,7 @@ address,size,name,status,module,notes
 0x8003B7E0,0x28,func_8003B7E0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003B808,0x1B4,func_8003B808,unmatched_asm,game,
 0x8003B9BC,0x58,Main_InitFreeDuelMenu,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8003BA14,0x1E4,func_8003BA14,unmatched_asm,game,
+0x8003BA14,0x1E4,func_8003BA14,matching_c,game,Four-mode display-object setup callback used after an asynchronous transfer. Exact post-terminal collaborator match; volatile global reloads and the D_800101D8 pointer-object declaration reproduce retail codegen.
 0x8003BBF8,0x48,func_8003BBF8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003BC40,0xD4,Text_SjisToGlyphCodes,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003BD14,0x1A4,func_8003BD14,matching_c,game,Four-mode object setup dispatcher; collaborator structure with exact D_800101D8 relocation spelling.
