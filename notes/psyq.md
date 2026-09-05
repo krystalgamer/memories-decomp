@@ -234,6 +234,14 @@ signatures use integer handles rather than stream pointers. It must not be
 substituted for the debugger-host file service in `libsn.h` or the retail
 disc and memory-card APIs. No current game C includes this header.
 
+`malloc.h` exposes three parallel allocator families:
+`InitHeap`/`malloc`/`calloc`/`realloc`/`free`, then identically shaped `*2`
+and `*3` variants. Each initializer receives an explicit memory base and
+length, so allocations and releases must stay within the same numbered
+family. These heaps are separate from game-owned fixed-slot allocators such
+as the display-object pool. No current game C includes `malloc.h` directly;
+it is also part of the `stdlib.h` umbrella.
+
 The imported string headers form a compatibility stack rather than three
 independent libraries. `string.h` only includes `strings.h`; `strings.h`
 declares the string routines and includes `memory.h`; `memory.h` declares the
