@@ -1553,7 +1553,7 @@ address,size,name,status,module,notes
 0x80084240,0xD8,func_80084240,sdk_asm,psyq/sdk,
 0x80084320,0x1C4,func_80084320,sdk_asm,psyq/sdk,
 0x800844F0,0x4F8,func_800844F0,sdk_asm,psyq/sdk,
-0x800849F0,0x17C,func_800849F0,sdk_asm,psyq/sdk,
+0x800849F0,0x17C,GsSortFastSprite,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/2D_SP1.OBJ signature and matching sprite-render callers.
 0x80084B70,0x258,func_80084B70,sdk_asm,psyq/sdk,
 0x80084DD0,0x74,func_80084DD0,sdk_asm,psyq/sdk,
 0x80084E44,0x11C,func_80084E44,sdk_asm,psyq/sdk,
