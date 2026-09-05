@@ -456,6 +456,53 @@ non-split profile does not force re-materialisation, the split profile is
 strictly better, and this residual belongs with the compiler-side ones rather
 than with the address-form conflict.
 
+##### `volatile` also pins the *order* of a run of global stores
+
+The section above is about re-issuing a load. There is a second, unrelated
+effect that is worth more when a whole block of initialisation comes out
+scrambled: GCC treats distinct extern globals as non-aliasing, so a run of
+stores to different symbols is freely reorderable and the emitted order has no
+relation to the source order. Declaring them `volatile` makes the order the
+source's.
+
+`Main_Init` (`0x80012B50`, 0x184) is the worked example. Its six recorded
+attempts all fail at `+0x50`, the head of a block of twelve stores to
+`D_8009B098`, `D_8009B09C`, `D_8009B0C0`, `D_8009B0C1`, `D_8009B0C3`,
+`D_8009B0C4`, `D_8009B0C8`, `D_8009B0CC`, `D_8009B0D1`, `D_8009B0D8`,
+`D_8009B230` and the pointer `D_8009B0B4`. Written plain, the block comes out
+in an order that matches neither the source nor the target, and rewriting the
+source order does not move it — the scheduler is choosing. Declared `volatile`,
+emitted order equals source order and the block can be transcribed straight off
+the target's disassembly.
+
+The same declaration recovers a second thing here. The target zeroes
+`D_8009B09C` and immediately re-reads it:
+
+```
+sw $zero, %gp_rel(D_8009B09C)($gp)
+lw $a1,   %gp_rel(D_8009B09C)($gp)
+```
+
+Plain, GCC forwards the stored zero and the function is one instruction short;
+`volatile` restores the load. But the read and its consumer are thirteen
+instructions apart in the target — the `sw $a1, %gp_rel(D_8009B0C4)($gp)` is
+the last store of the block — and `volatile` forbids moving either, so
+`D_8009B0C4 = D_8009B09C;` as a single statement cannot produce it. It has to
+be a local assigned right after the zeroing and consumed at the end.
+
+Together these take `Main_Init` from a body that diverges at `+0x50` to 97 of
+97 instructions with the whole block ordered correctly; what remains is a
+two-instruction address materialisation scheduled at the other end of the block,
+which is the ordinary schedule-tie-break residual.
+
+This block is the same one `func_80012DB4` needs `volatile` on, so the
+declaration is a property of these globals rather than a per-function trick.
+
+The diagnostic is worth stating on its own: **a run of stores to distinct
+globals emerging in an order that is neither the source's nor the target's is
+not a source-order problem.** Reordering the statements will not fix it. Ask
+whether the globals are volatile first.
+
 #### Two source levers that are worth trying before any profile change
 
 Both come from `Duel_GetBaseCardStat` (`0x8002CBF4`) and both are general.
