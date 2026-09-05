@@ -1506,7 +1506,7 @@ address,size,name,status,module,notes
 0x80081C04,0x144,func_80081C04,sdk_asm,psyq/sdk,
 0x80081D48,0xA0,func_80081D48,sdk_asm,psyq/sdk,
 0x80081DE8,0xEC,LoadImage2,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBGPU.LIB/SYS.OBJ LoadImage2.
-0x80081ED4,0xEC,func_80081ED4,sdk_asm,psyq/sdk,
+0x80081ED4,0xEC,StoreImage2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature and matching readback caller.
 0x80081FC0,0x144,MoveImage2,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBGPU.LIB/SYS.OBJ MoveImage2.
 0x80082104,0xFC,func_80082104,sdk_asm,psyq/sdk,
 0x80082200,0x28,func_80082200,sdk_asm,psyq/sdk,

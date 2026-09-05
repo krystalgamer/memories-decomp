@@ -20,7 +20,7 @@ extern s16 D_8009B476;
 extern s32 func_8005AE68();
 extern s32 func_8007FA38();
 extern s32 LoadImage2();
-extern s32 func_80081ED4();
+extern s32 StoreImage2();
 extern s32 func_80082324();
 
 void func_800582C0(s32 arg0, s32 arg1, s32 arg2) {
@@ -45,7 +45,7 @@ void func_800582C0(s32 arg0, s32 arg1, s32 arg2) {
             D_8009B472 = y + 0xF8;
             while (func_80082324(3) != 0) {
             }
-            while (func_80081ED4(&D_8009B470, buf) != 0) {
+            while (StoreImage2(&D_8009B470, buf) != 0) {
             }
             while (func_80082324(3) != 0) {
             }
