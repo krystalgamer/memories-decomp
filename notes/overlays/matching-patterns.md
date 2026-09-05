@@ -987,3 +987,69 @@ with the array elements also being re-read for the field update that follows,
 where a scalar global is read once and an array element twice.
 
 Verified by `func_80180FD8` in the main menu module.
+
+## A value moved through a scratch register is a conditional expression
+
+An `if`/`else` whose arms both assign the same variable lets each arm write
+that variable's register directly. A conditional expression evaluates both arms
+into **one** pseudo and then copies it, so the copy is visible:
+
+```c
+/* two instructions short: each arm assigns s0 itself */
+if (value - 0x1F4 > 0) { value = value - 0x1F4; } else { value = 1; }
+
+/* matches: both arms land in v0, then one move */
+value = (value - 0x1F4 > 0) ? (value - 0x1F4) : 1;
+```
+
+```
+bgtz  $v0, .L        # v0 already holds value - 0x1F4
+ move $s0, $v0       # then-arm, in the delay slot
+li    $v0, 1         # else-arm builds the constant in the *scratch* register
+j     .L
+ move $s0, $v0       # and copies it, rather than li $s0, 1
+```
+
+`li $v0, 1` followed by `move $s0, $v0` where `li $s0, 1` would have done is
+the whole tell. The same shape appears with a non-constant arm as
+`li $v1, 8000` / `move $s0, $v1`.
+
+It reads per arm, so a chain can mix the two forms, and that is worth using
+rather than smoothing over:
+
+```c
+if (down) {
+    value = (value - 0x1F4 > 0) ? (value - 0x1F4) : 1;   /* through v0  */
+} else if (value < 2) {
+    value = 0x1F4;                                       /* direct: li s0,500 */
+} else {
+    value = (value + 0x1F4 < 0x1F41) ? (value + 0x1F4) : 0x1F40;  /* through v1 */
+}
+```
+
+The middle arm assigning `$s0` directly is what says only the outer two share a
+value, so it should stay a statement.
+
+Verified by `func_801812B4` in the main menu module.
+
+## A mask before every use means the local is narrow
+
+`andi $reg, $reg, 0xffff` in front of each arithmetic use of a local, where the
+local was loaded once with `lhu`, means the local is declared `u16` rather than
+`s32`. GCC keeps the wide value in the register and masks at the use sites
+instead of truncating at each assignment, so the masks appear scattered rather
+than next to the stores.
+
+The second, independent tell is the comparison: `sltiu` against a small
+constant where an `s32` local would give `slti`. GCC knows a `u16` is
+non-negative and picks the unsigned form.
+
+Declaring the same local `s32` drops both the masks and the `sltiu`, which cost
+six instructions across two copies of the block in `func_801812B4`.
+
+Note this only holds for a local. The masks are about the declared width of the
+variable, not about how the value was loaded — the `lhu` that produced it
+already zero-extended, so the masks would be redundant if GCC were tracking the
+value rather than the type.
+
+Verified by `func_801812B4` in the main menu module.
