@@ -935,6 +935,65 @@ Read off the `lui` at face value this looks like `0x800AB398`. It is
 `0x8009B398`. Whenever the offset printed with the load is negative, the
 symbol lives in the segment below the one the `lui` names.
 
+## The sound-packet sibling group at `0x8004Axxx`
+
+Three unmatched functions in this module build the same request in the state
+block rooted at `D_8009B458` and hand it to `func_80077450`:
+
+| function | size | shape |
+| --- | --- | --- |
+| `func_8004A27C` | 124 B | scales two `u16` fields, stores `0xF` tag |
+| `func_8004A6F8` | 108 B | copies three `u16`s from a second argument |
+| `func_8004A764` | 92 B | stores a constant tag and zeroed halfwords |
+
+All three write `D_80011434[index]` to `state + 0x4C0`, a tag to `0x4C4`,
+further halfwords in the `0x4C8`-`0x4FC` window, and then call
+`func_80077450(state + 0x4C0)`. The `0x4C0`-`0x4FF` window sits inside the
+`pad04C0[0x40]` hole of `SDSecondaryState` in `src/game/sound.h`, so it is a
+packet staged in place rather than named fields.
+
+**Profile.** The compiler side is G0 for this group. None of the three targets
+contains a `%gp_rel` operand, and the `%gp_rel`-implies-G8 rule recorded above
+holds across 261 cases with no counterexample. This matters because a
+G8-compiler profile can reach the *exact instruction count* on
+`func_8004A6F8` (27 of 27) by emitting `lw $a0, 0($gp)` where the target uses
+an absolute `lui`/`lw` pair. That count is an artifact of the wrong codegen
+family, not progress; the G0 line is one instruction longer and is the one to
+work from.
+
+### A shared residual worth recognising
+
+`func_8004A764` and `func_8004A6F8` both plateau on exactly the same
+difference, and `func_8004A27C` shows the same shape in its retail assembly:
+
+```
+target:     base in $v1; stores are 1216($v1), 1220($v1), ...
+            addiu $a0, $v1, 0x4C0     # argument derived BEFORE the call
+candidate:  base bound straight into $a0; stores are 1216($a0), ...
+            addiu $a0, $a0, 0x4C0     # argument adjusted in the DELAY SLOT
+```
+
+The registers are swapped: retail keeps the base in a temporary and derives
+the argument from it, while GCC binds the base directly into the argument
+register and fixes it up last.
+
+Five independent source-level levers were measured against `func_8004A764`,
+and every one produced the identical diff count or a worse one:
+
+- the global used inline versus bound to a local
+- the call argument given its own local, computed early
+- the same local, computed immediately before the call
+- splitting the table address from the load (`&D_80011434[i]`, then `*entry`)
+- typing the base as a struct and passing `&state->field_04C0`
+
+Because two siblings plateau identically and a third has the same retail
+shape, this is a property of the calling pattern — passing `base + constant`
+while also storing through `base` — rather than a quirk of one function.
+Renaming, resequencing and retyping the pointer expressions all canonicalise
+to the same RTL, so further permutations of that kind are low-yield. Anyone
+picking up this group should start from the G0 profile line and treat the
+five levers above as already settled.
+
 ## Instructions the compiler folds away
 
 A candidate that is *short* by a few instructions is usually read as a missing
