@@ -44,8 +44,8 @@ entries. Exact local C repeatedly uses 28-byte pointer increments, while the
 target assembly computes the same stride as `(index * 8 - index) * 4`.
 `DuelEffect_ClearMatchingMarker` and `DuelEffect_ResetEntryMarkers` each scan
 620 records. The resulting modeled extent is `0x43D0` bytes; the next linker
-symbol, `D_800EF668`, begins 16 bytes later, so the intervening bytes are not
-claimed by this type.
+symbol, `gInput_abRawPadBuffers`, begins 16 bytes later, so the intervening
+bytes are not claimed by this type.
 
 Verified entry fields are:
 

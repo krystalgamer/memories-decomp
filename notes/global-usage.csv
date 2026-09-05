@@ -2032,9 +2032,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3A6,gInput_wPad2Held,gInput_wPad2Held,0x8003CB7C,Input_ResetPads,matching_c,game,C,src/game/input_reset_pads.c,address,16,volatile u16 *c = &gInput_wPad2Held;
 0x8009B3A6,gInput_wPad2Held,gInput_wPad2Held,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,write,16,gInput_wPad2Held = current >> 16;
 0x8009B3A6,gInput_wPad2Held,gInput_wPad2Held,0x8003CDF8,Input_BackupPad1AndUsePad2,matching_c,game,C,src/game/input_state_backup.c,read,16,value = gInput_wPad2Held;
-0x8009B3A8,D_8009B3A8,D_8009B3A8,0x8003CB7C,Input_ResetPads,matching_c,game,C,src/game/input_reset_pads.c,write,32,D_8009B3A8 = 0;
-0x8009B3A8,D_8009B3A8,D_8009B3A8,0x8003CC38,func_8003CC38,matching_c,game,C,src/game/func_8003CC38.c,read_write,32,D_8009B3A8 |= | D_8009B3A8 |= ((p[2] << 8) | p[3]) ^ 0xFFFF;
-0x8009B3A8,D_8009B3A8,D_8009B3A8,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,read_write,32,D_8009B3A8 = 0; | current = D_8009B3A8;
+0x8009B3A8,gInput_dwPendingHeld,gInput_dwPendingHeld,0x8003CB7C,Input_ResetPads,matching_c,game,C,src/game/input_reset_pads.c,write,32,gInput_dwPendingHeld = 0;
+0x8009B3A8,gInput_dwPendingHeld,gInput_dwPendingHeld,0x8003CC38,Input_ReadRawPads,matching_c,game,C,src/game/input_read_raw_pads.c,read_write,32,gInput_dwPendingHeld |= | gInput_dwPendingHeld |= ((p[2] << 8) | p[3]) ^ 0xFFFF;
+0x8009B3A8,gInput_dwPendingHeld,gInput_dwPendingHeld,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,read_write,32,current = gInput_dwPendingHeld; | gInput_dwPendingHeld = 0;
 0x8009B3AC,gInput_wPad1HeldBackup,gInput_wPad1HeldBackup,0x8003CDF8,Input_BackupPad1AndUsePad2,matching_c,game,C,src/game/input_state_backup.c,write,16,gInput_wPad1HeldBackup = value;
 0x8009B3AC,gInput_wPad1HeldBackup,gInput_wPad1HeldBackup,0x8003CE48,Input_RestorePad1FromBackup,matching_c,game,C,src/game/input_state_backup.c,read,16,value = gInput_wPad1HeldBackup;
 0x8009B3B0,D_8009B3B0,D_8009B3B0,0x8003CB7C,Input_ResetPads,matching_c,game,C,src/game/input_reset_pads.c,write,32,D_8009B3B0 = 0;
@@ -2692,8 +2692,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EF658,D_800EF658,D_800EF658,0x80018FEC,func_80018FEC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0095b4.s,write,16,"lui $v1, %hi(D_800EF658) | sh $v0, %lo(D_800EF658)($v1)"
 0x800EF658,D_800EF658,D_800EF658,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,write,16,"addiu $s0, $v1, %lo(D_800EF658) | lui $v1, %hi(D_800EF658) | (+1 more)"
 0x800EF658,D_800EF658,D_800EF658,0x8002D180,Main_RunAnimatedBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01d980.s,read,16,"addiu $s0, $v0, %lo(D_800EF658) | lh $a1, %lo(D_800EF658)($v0) | (+1 more)"
-0x800EF668,D_800EF668,D_800EF668,0x8003CBE8,Input_InitPads,matching_c,game,C,src/game/input_init_pads.c,address,8,"InitPAD(D_800EF668, 0x22, D_800EF668 + 0x22, 0x22);"
-0x800EF668,D_800EF668,D_800EF668,0x8003CC38,func_8003CC38,matching_c,game,C,src/game/func_8003CC38.c,address,8,u8 *p = D_800EF668; | u8 *q = D_800EF668;
+0x800EF668,gInput_abRawPadBuffers,gInput_abRawPadBuffers,0x8003CBE8,Input_InitPads,matching_c,game,C,src/game/input_init_pads.c,address,8,"gInput_abRawPadBuffers + 0x22, | gInput_abRawPadBuffers,"
+0x800EF668,gInput_abRawPadBuffers,gInput_abRawPadBuffers,0x8003CC38,Input_ReadRawPads,matching_c,game,C,src/game/input_read_raw_pads.c,address,8,u8 *p = gInput_abRawPadBuffers; | u8 *q = gInput_abRawPadBuffers;
 0x800EF6B0,D_800EF6B0,D_800EF6B0,0x8003CB7C,Input_ResetPads,matching_c,game,C,src/game/input_reset_pads.c,address,8,base = D_800EF6B0;
 0x800EF6B0,D_800EF6B0,D_800EF6B0,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,read_write,8,D_800EF6B0[i] = 0; | D_800EF6B0[i] = D_8009B3A2; | (+2 more)
 0x800EF6D0,D_800EF6D0,D_800EF6D0,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02e41c.s,address,,"addiu $s2, $v0, %lo(D_800EF6D0) | lui $v0, %hi(D_800EF6D0)"
