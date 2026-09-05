@@ -4783,6 +4783,12 @@
       "source": "src/game/model_packet_handlers.c"
     },
     {
+      "address": "0x8005D994",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x210",
+      "source": "src/game/func_8005D994.c"
+    },
+    {
       "address": "0x8005F070",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x104",
