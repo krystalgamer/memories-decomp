@@ -100,6 +100,40 @@ Read the target both ways:
 Both of those are the same question asked in opposite directions: does a
 register in the target hold a value the source named?
 
+### The same question about an address
+
+Naming the base of an indexed access is the addressing form of this rule, and
+it is worth checking separately because the symptom does not look like a
+redundant copy at all. `func_80168FCC` indexes the 66-byte location table:
+
+```c
+/* seven instructions differ: the multiply is evaluated first, the address is
+   materialised where it is used, and the sum lands in the base register */
+record = gCampaignMap_aLocationTable + gCampaignMap_Location * 66;
+
+/* matches */
+table = gCampaignMap_aLocationTable;
+record = table + gCampaignMap_Location * 66;
+```
+
+Naming the base is what splits `%hi` from `%lo`. As one expression the address
+is a two-instruction constant emitted next to its use, after the index
+scaling. As a named local it becomes a value live across the preceding branch,
+so the `lui` can be hoisted — here the delay-slot filler pulled it six
+instructions earlier, into the delay slot of an `if` that the merge block
+follows, and only the `addiu` stayed behind.
+
+Two consequences follow, and either can be the visible symptom:
+
+- The `lui` and the `addiu` are **separated** in the target, often by
+  unrelated instructions, and the `lui` may be duplicated on a path where a
+  call clobbered it. One expression always emits them adjacent.
+- The sum lands in the **index** register rather than the base register,
+  which then cascades into the temporaries of every load that uses it.
+
+The second is easy to misread as a register-allocation mystery. It is not:
+it follows from which pseudo dies at the add.
+
 ## An offset inside the relocation means the symbol was indexed directly
 
 When the two directions above are hard to call, the relocation itself
