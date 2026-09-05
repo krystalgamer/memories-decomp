@@ -24,8 +24,8 @@ Names and gameplay fields were decoded from the verified
 - `gDuel_adwCardStats` at `0x801D4244` contains 722 packed words. ATK is bits
   `0`-`8` times 10, DEF is bits `9`-`17` times 10, Guardian Star 2 is bits
   `18`-`21`, Guardian Star 1 is bits `22`-`25`, and type is bits `26`-`30`.
-- The byte table at `0x801D5332`, indexed directly by card ID, stores
-  attribute in the high nibble and level in the low nibble.
+- `gDuel_abCardLevelAttr` at `0x801D5332`, indexed directly by card ID,
+  stores attribute in the high nibble and level in the low nibble.
 
 All 722 decoded types, attributes, levels, Guardian Stars, ATK values, and DEF
 values agree with the public Forbidden Memories database. For searchable CSV
