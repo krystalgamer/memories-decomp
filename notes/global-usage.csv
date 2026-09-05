@@ -62,8 +62,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010330,D_80010330,D_80010330,0x8003B5C8,func_8003B5C8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02bdc8.s,address,,"addiu $t8, $v0, %lo(D_80010330) | lui $v0, %hi(D_80010330)"
 0x80010378,D_80010378,D_80010378,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02e41c.s,address,,"addiu $a0, $a0, %lo(D_80010378) | lui $a0, %hi(D_80010378)"
 0x80010384,D_80010384,D_80010384,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02e41c.s,address,,"addiu $a0, $a0, %lo(D_80010384) | addiu $a1, $a1, %lo(D_80010384) | (+4 more)"
-0x80010384,D_80010384,D_80010384,0x8003F7D4,SaveData_RequestLoad,matching_c,game,C,src/game/save_data_request_load.c,address,8,"func_8003F758(D_801D3200, 0x680, D_80010384, 0);"
-0x80010384,D_80010384,D_80010384,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_request_write.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(D_801D3200,gDuel_awPlayerDeck,0x680);func_8003D03C(D_801D3200-0x200);..."
+0x80010384,D_80010384,D_80010384,0x8003F7D4,SaveData_RequestLoad,matching_c,game,C,src/game/save_data_request_load.c,address,8,"func_8003F758(D_801D3200, SAVE_DATA_STATE_SIZE, D_80010384, 0);"
+0x80010384,D_80010384,D_80010384,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_request_write.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(D_801D3200,gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);func_8003D03C(D_8..."
 0x80010384,D_80010384,D_80010384,0x8003F8D4,func_8003F8D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0300d4.s,address,,"addiu $a2, $a2, %lo(D_80010384) | lui $a2, %hi(D_80010384)"
 0x80010384,D_80010384,D_80010384,0x8003FE14,func_8003FE14,matching_c,game,C,src/game/two_player_save_setup.c,address,8,"func_8003F758(p, 0x400, D_80010384, 4);"
 0x80010398,D_80010398,D_80010398,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02e41c.s,address,,"addiu $a0, $a0, %lo(D_80010398) | lui $a0, %hi(D_80010398)"
@@ -3253,7 +3253,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_run_credits.c,address,,".reloc .-4, R_MIPS_HI16, gDuel_awPlayerDeck after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, gDuel_awPlayerDeck after .word 0x24510000"
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8002EE5C,func_8002EE5C,matching_c,game,C,src/game/func_8002EE5C.c,address,16,unsigned short *entry = gDuel_awPlayerDeck;
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8003F810,SaveData_PollLoad,matching_c,game,C,src/game/save_data_poll_load.c,address,8,u8 *p = gDuel_awPlayerDeck;
-0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_request_write.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(D_801D3200,gDuel_awPlayerDeck,0x680);func_8003D03C(D_801D3200-0x200);..."
+0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_request_write.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(D_801D3200,gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);func_8003D03C(D_8..."
 0x801D0250,gLibrary_abCardChest,gLibrary_abCardChest,0x8002BF3C,Library_MarkOwnedCards,matching_c,game,C,src/game/library_mark_owned_cards.c,address,8,u8 *p = gLibrary_abCardChest;
 0x801D0534,D_801D0534,D_801D0534,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_run_credits.c,read,32,".reloc .-4, R_MIPS_HI16, D_801D0534 after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, D_801D0534 after .word 0x8C430000"
 0x801D07BC,gDuel_awRecentCardDrops,gDuel_awRecentCardDrops,0x800323F8,func_800323F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022bf8.s,address,,"addiu $a2, $v0, %lo(gDuel_awRecentCardDrops) | lui $v0, %hi(gDuel_awRecentCardDrops)"
@@ -3264,9 +3264,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D160C,D_801D160C,D_801D160C,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/two_player_save_setup.c,address,8,"Text_SjisToGlyphCodes(D_801B122B, D_801D160C, 6); | Text_SjisToGlyphCodes(D_801B1238, D_801D160C + 4096, 6);"
 0x801D1880,D_801D1880,D_801D1880,0x8003FE14,func_8003FE14,matching_c,game,C,src/game/two_player_save_setup.c,address,8,u8 *p = D_801D1880;
 0x801D2200,D_801D2200,D_801D2200,0x8003F8D4,func_8003F8D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0300d4.s,address,,"addiu $a0, $a0, %lo(D_801D2200) | lui $a0, %hi(D_801D2200)"
-0x801D3200,D_801D3200,D_801D3200,0x8003F7D4,SaveData_RequestLoad,matching_c,game,C,src/game/save_data_request_load.c,address,8,"func_8003F758(D_801D3200, 0x680, D_80010384, 0);"
-0x801D3200,D_801D3200,D_801D3200,0x8003F810,SaveData_PollLoad,matching_c,game,C,src/game/save_data_poll_load.c,address,8,"Util_CopyWords(p, D_801D3200, 0x680);"
-0x801D3200,D_801D3200,D_801D3200,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_request_write.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(D_801D3200,gDuel_awPlayerDeck,0x680);func_8003D03C(D_801D3200-0x200);..."
+0x801D3200,D_801D3200,D_801D3200,0x8003F7D4,SaveData_RequestLoad,matching_c,game,C,src/game/save_data_request_load.c,address,8,"func_8003F758(D_801D3200, SAVE_DATA_STATE_SIZE, D_80010384, 0);"
+0x801D3200,D_801D3200,D_801D3200,0x8003F810,SaveData_PollLoad,matching_c,game,C,src/game/save_data_poll_load.c,address,8,"Util_CopyWords(p, D_801D3200, SAVE_DATA_STATE_SIZE);"
+0x801D3200,D_801D3200,D_801D3200,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_request_write.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(D_801D3200,gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);func_8003D03C(D_8..."
 0x801D4000,D_801D4000,D_801D4000,0x8003D03C,func_8003D03C,matching_c,game,C,src/game/save_data_build_payload.c,read,,"Util_CopyWords(data, D_801D4000, 0x200);"
 0x801D4000,D_801D4000,D_801D4000,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02e41c.s,address,,"addiu $a1, $a1, %lo(D_801D4000) | lui $a1, %hi(D_801D4000)"
 0x801D4200,D_801D4200,D_801D4200,0x800143DC,File_ActivateTransfer,matching_c,game,C,src/game/file_cd_transfer.c,write,8,*(Block32 *)D_801D4200 = *(Block32 *)(D_801D4200 + 32);
