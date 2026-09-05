@@ -840,7 +840,7 @@ address,size,name,status,module,notes
 0x8004B6E8,0x24,func_8004B6E8,matching_c,game,Pure-C inline refinement matched the full executable.
 0x8004B70C,0x28,func_8004B70C,matching_c,game,Pure-C inline refinement matched the full executable.
 0x8004B734,0x120,func_8004B734,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8004B854,0xBC,func_8004B854,unmatched_asm,game,
+0x8004B854,0xBC,func_8004B854,matching_c,game,Exact 188-byte match under gcc_2_8_1_cc_g8_as_g0_split; allocation-only pins preserve stream-open argument scheduling and callback address delay-slot fill.
 0x8004B910,0x80,func_8004B910,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004B990,0x50,func_8004B990,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004B9E0,0xC0,func_8004B9E0,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
