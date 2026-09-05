@@ -19,6 +19,7 @@ Duel_DrawLifePointsAndDeckCounts = 0x80016E70; // type:func
 // Semantic names
 gDebug_nLastSoundID = 0x8009B2C4;
 gDebug_nSceneOrSoundID = 0x8009B2C8;
+gCredits_awSecretNumbers = 0x80090B50;
 gGraphics_sViewportX = 0x8009B146;
 gGraphics_sViewportY = 0x8009B148;
 gDuel_wSelectedCardID = 0x8009B338;
