@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "sound.h"
 
-int func_8004BAE4(u8 *reader)
+int SD_ReadSequenceByte(u8 *reader)
 {
     SDSecondaryState *state = D_8009B458;
     int offset = *(int *)reader;
@@ -16,9 +16,9 @@ int func_8004BAE4(u8 *reader)
     return value;
 }
 
-int func_8004BB34(u8 *input)
+int SD_ReadVariableLengthValue(u8 *input)
 {
-    int value = func_8004BAE4(input);
+    int value = SD_ReadSequenceByte(input);
     int result;
 
     if (value == 0) {
@@ -32,7 +32,7 @@ int func_8004BB34(u8 *input)
     if (result & 0x80) {
         result &= 0x7F;
         do {
-            value = func_8004BAE4(input);
+            value = SD_ReadSequenceByte(input);
             result = (result << 7) + (value & 0x7F);
         } while (value & 0x80);
     }

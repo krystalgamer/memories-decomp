@@ -2,8 +2,8 @@
 
 #include "sound.h"
 
-extern int func_8004BAE4();
-extern int func_8004BB34();
+extern int SD_ReadSequenceByte();
+extern int SD_ReadVariableLengthValue();
 extern int func_8004BC2C();
 
 void func_8004BE6C(int *value, int amount)
@@ -35,9 +35,9 @@ void func_8004BE88(u8 *p, s32 arg1)
 
     case 0x51:
         z = 0;
-        v = func_8004BAE4(p) << 16;
-        v = v | (func_8004BAE4(p) << 8);
-        v = v | func_8004BAE4(p);
+        v = SD_ReadSequenceByte(p) << 16;
+        v = v | (SD_ReadSequenceByte(p) << 8);
+        v = v | SD_ReadSequenceByte(p);
         e = (u8 *)D_8009B458;
         ((SDSecondaryState *)e)->field_0808 = v;
         v = 0x3938700 / v;
@@ -69,27 +69,27 @@ void func_8004BE88(u8 *p, s32 arg1)
         break;
 
     case 0x54:
-        func_8004BAE4(p);
-        func_8004BAE4(p);
-        func_8004BAE4(p);
+        SD_ReadSequenceByte(p);
+        SD_ReadSequenceByte(p);
+        SD_ReadSequenceByte(p);
         goto three;
 
     case 0x58:
-        func_8004BAE4(p);
+        SD_ReadSequenceByte(p);
         func_8004BC2C(p);
         break;
 
     case 0x59:
     three:
-        func_8004BAE4(p);
-        func_8004BAE4(p);
+        SD_ReadSequenceByte(p);
+        SD_ReadSequenceByte(p);
     one:
-        func_8004BAE4(p);
+        SD_ReadSequenceByte(p);
         break;
 
     case 0 ... 0xF:
     default:
-        func_8004BE6C((s32 *)p, func_8004BB34(p));
+        func_8004BE6C((s32 *)p, SD_ReadVariableLengthValue(p));
         break;
     }
 }
@@ -97,11 +97,11 @@ void func_8004BE88(u8 *p, s32 arg1)
 void func_8004C0AC(void *input)
 {
     unsigned int i = 0;
-    unsigned int count = func_8004BB34(input);
+    unsigned int count = SD_ReadVariableLengthValue(input);
 
     do {
         i++;
-        if ((u8)func_8004BAE4(input) == 247)
+        if ((u8)SD_ReadSequenceByte(input) == 247)
             break;
     } while (i < count);
 }
