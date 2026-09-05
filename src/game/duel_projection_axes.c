@@ -1,6 +1,6 @@
 #include "../types.h"
 
-extern void func_80087A50();
+extern long RotAverage3();
 extern void func_8005B260(int, int, int, int);
 
 void func_80029684(
@@ -17,7 +17,7 @@ void func_80029684(
     dst[0] = origin + span;
     dst[4] = origin + (span * 3) / 4;
     dst[8] = origin;
-    func_80087A50(
+    RotAverage3(
         dst,
         dst + 4,
         dst + 8,
@@ -31,7 +31,7 @@ void func_80029684(
         reduced = span / 2;
         dst[0] = origin + reduced;
         dst[4] = origin + (reduced * 3) / 4;
-        func_80087A50(
+        RotAverage3(
             dst,
             dst + 4,
             dst + 8,
@@ -59,7 +59,7 @@ void func_800297DC(
     dst[2] = origin + span;
     dst[6] = origin + (span * 3) / 4;
     dst[10] = origin;
-    func_80087A50(
+    RotAverage3(
         dst,
         dst + 4,
         dst + 8,
@@ -73,7 +73,7 @@ void func_800297DC(
         reduced = span / 2;
         dst[2] = origin + reduced;
         dst[6] = origin + (reduced * 3) / 4;
-        func_80087A50(
+        RotAverage3(
             dst,
             dst + 4,
             dst + 8,
