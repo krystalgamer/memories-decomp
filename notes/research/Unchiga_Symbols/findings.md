@@ -159,14 +159,14 @@ apply solid names directly; operator corrects when needed.
 
 | # | address | what we proved | proposed name | status |
 |---|---|---|---|---|
-| F58 | deck editing is staged | X on a deck card removed it (40->39), X on a trunk card added it (39->40) — but `gDuel_awPlayerDeck` in the save block stayed byte-identical through BOTH edits. Editing works on staged/view state; the save-block deck must be committed on screen exit (verify when leaving). The trunk rows' in-deck count column updates live. | (edit-buffer model) | CONFIRMED |
+| F58 | deck editing is staged | X on a deck card removed it (40->39) while `gDuel_awPlayerDeck` stayed byte-identical. A later changed-deck trace showed the persistent deck update after a replacement brought the working count back to 40, while mode 7 was still active. Editing therefore stages an incomplete deck, but a valid 40-card result can synchronize before exit. The trunk rows' in-deck count column updates live. | (edit-buffer model) | CONFIRMED |
 | F59 | `0x801D560C` | The working deck count (40->39->40 in lockstep with the edits), sitting in the 0x801D5608 current-context block right after the selected-card mirror. View copy at 0x80105AA0. | `deckCount` (working) — suspect | HOLD |
 
 ### BUILD DECK — restore & exit (same session)
 
 | # | address | what we proved | proposed name | status |
 |---|---|---|---|---|
-| F60 | edit-repair + exit | The accidental double-registers (3-frame presses double-fire on EDIT actions — instrument lesson; 2-frame pulses register once) were fully repaired: both stray Yaranzos removed, cards 9 and 58 re-added, staged deck verified EXACTLY equal to the original multiset. Exit (Circle) captured: cancel blip, teardown family, mode back to 8. Because the staged deck equaled the original, the commit wrote identical bytes — the F58 commit-on-exit hypothesis stays OPEN for a run with a genuinely changed deck. One commit-path lead: on exit, Main_RunBuildDeckMenu's body called `call_80047430_neg8_0` with a SAVE-BLOCK pointer (0x801D07DA, 0x10). Full exit set in tmp/bd_exit.json. | (facts + lead) | CONFIRMED |
+| F60 | edit-repair + exit | The accidental double-registers (3-frame presses double-fire on EDIT actions — instrument lesson; 2-frame pulses register once) were fully repaired: both stray Yaranzos removed, cards 9 and 58 re-added, staged deck verified EXACTLY equal to the original multiset. Exit (Circle) captured: cancel blip, teardown family, mode back to 8. Because that staged deck equaled the original, this run could not resolve synchronization timing; the later changed-deck trace in F58/F69 did. One exit-path lead remains: Main_RunBuildDeckMenu's body called `call_80047430_neg8_0` with a SAVE-BLOCK pointer (0x801D07DA, 0x10). Full exit set in tmp/bd_exit.json. | (facts + lead) | CONFIRMED |
 | F61 | trunk "New!" tag | CORRECTED by operator: New! marks cards you LAST WON (recently acquired) — not returned cards. Matching `func_80032370` scans and compacts all 16 halfword slots at `gDuel_awRecentCardDrops`, whose `0x20`-byte extent ends at the next symbol `0x801D07DC`. NEW sort mode presumably surfaces these. | (fact, operator-corrected; extent confirmed in matching C) | CONFIRMED |
 
 ### BUILD DECK — deck-ready guard (same session)
@@ -195,7 +195,7 @@ apply solid names directly; operator corrects when needed.
 | # | address | what we proved | proposed name | status |
 |---|---|---|---|---|
 | F68 | duel-start guard | X on an opponent with an illegal deck: "YOUR DECK ISN'T READY!" banner, mode stays 0xC6 (modal), `gDuel_bOpponentID` never set — the guard short-circuits before selection. The guard reads the COMMITTED deck (the build-deck working count is 0 outside that screen). | (fact) | CONFIRMED |
-| F69 | F58 CLOSED — commit proven | `gDuel_awPlayerDeck` (save block) read back with the operator's 39-card edit: compacted, ascending, trailing zero. Deck edits COMMIT on build-deck exit (including the not-ready dialog's EXIT route). The staged-edit model is now complete: stage in working arrays -> commit compacted+sorted on exit. | (proof) | CONFIRMED |
+| F69 | F58 CLOSED — synchronization proven | `gDuel_awPlayerDeck` (save block) read back with the operator's 39-card edit after the not-ready dialog's EXIT route: compacted, ascending, trailing zero. A subsequent valid-deck trace refined the timing: after card 9 was replaced with card 452, the compacted and sorted 40-card save-block deck changed while Build Deck was still active and remained unchanged after exit. Exit can synchronize an incomplete deck, but it is not the exclusive commit point. | (proof) | CONFIRMED |
 
 ## Structural notes (not names)
 

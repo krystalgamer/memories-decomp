@@ -281,6 +281,13 @@ Rules the screen enforces:
 * you can only put in what the trunk holds; a card in the deck is not in the
   trunk count shown.
 
+The screen edits a working deck first. A live trace that removed card 9 and
+added card 452 left `gDuel_awPlayerDeck` unchanged while the working count was
+39, then replaced the persistent deck with the compacted, sorted 40-card
+result while Build Deck was still active. Exiting is therefore not the only
+commit point; restoring a valid 40-card deck can synchronize it before the
+screen closes.
+
 The campaign's card shop opens this same screen. [`buildDeckMenuLoop`
 `0x8002D370`]
 

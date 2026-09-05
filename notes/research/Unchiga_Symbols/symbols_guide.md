@@ -140,7 +140,11 @@ NEW GAME / LOAD / 2P DUEL / TRADE / OPTION. The menu's own logic runs from a mod
 
 ## Build deck & trunk
 
-Mode slot 7. Editing is STAGED: X-moves change working state only; the deck commits to the save block — compacted and sorted by card id — when you exit (any route). Leaving with fewer than 40 cards triggers the “YOUR DECK ISN'T READY!” modal, and every duel entrance re-checks the committed deck.
+Mode slot 7. Editing is staged while the deck is incomplete. Once an edit
+restores 40 cards, the compacted and card-id-sorted result can synchronize to
+the save block before the screen exits. The not-ready dialog's EXIT route can
+also commit an incomplete deck, and every duel entrance re-checks the
+committed deck.
 
 | symbol | address | description |
 |---|---|---|
@@ -181,7 +185,7 @@ The persistent block at `0x801D02xx–0x801D07xx` — what actually goes to the 
 
 | symbol | address | description |
 |---|---|---|
-| `gDuel_awPlayerDeck` | 0x801D0200 | Your 40-card deck — stored compacted and SORTED by card id, trailing zeros when short (commit-on-exit proven by byte diff). |
+| `gDuel_awPlayerDeck` | 0x801D0200 | Your deck in the save block — synchronized compacted and SORTED by card id once a staged edit returns to 40 cards, or on the not-ready dialog's EXIT route with trailing zeros when short. |
 | `gLibrary_abCardChest` | 0x801D0250 | Per-card ownership counts (Build Deck, Library, drops all touch it). |
 | `player name` | 0x801D060C | Up to 5 characters as two-byte Shift-JIS (fullwidth ‘B’ = 0x8261), zeroed on New Game; the name box on any screen is rebuilt from it through `Text_SjisToGlyphCodes`. |
 | `gCampaign_abStoryFlags` | 0x801D0618 | Story-progress bits (see the engine section). |
