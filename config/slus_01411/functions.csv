@@ -1047,7 +1047,7 @@ address,size,name,status,module,notes
 0x80060AEC,0x4C,func_80060AEC,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80060B38,0x338,func_80060B38,unmatched_asm,game,
 0x80060E70,0x198,func_80060E70,unmatched_asm,game,
-0x80061008,0xD8,func_80061008,unmatched_asm,game,
+0x80061008,0xD8,func_80061008,matching_c,game,Recovered two-record constructor loop with exact linked bytes; two nonvolatile literal clears preserve retail assembler-temporary materialization.
 0x800610E0,0xF0,func_800610E0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800611D0,0xF0,func_800611D0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x800612C0,0x25C,func_800612C0,handwritten_asm,game,
