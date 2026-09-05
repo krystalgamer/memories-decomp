@@ -62,7 +62,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
                 out->y = r >> 16;
                 out->flags = rec->flags;
                 out->b8 = ((LocalObj *)rec->object)->f68;
-                if (rec->flags & 0x200) {
+                if (rec->flags & DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2) {
                     t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
                         CARD_STAT_GUARDIAN_STAR_2_SHIFT;
                 } else {
@@ -96,7 +96,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
                 out->y = r >> 16;
                 out->flags = rec->flags;
                 out->b8 = ((LocalObj *)rec->object)->f68;
-                if (rec->flags & 0x200) {
+                if (rec->flags & DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2) {
                     t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
                         CARD_STAT_GUARDIAN_STAR_2_SHIFT;
                 } else {
