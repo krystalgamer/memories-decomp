@@ -16,6 +16,10 @@ tools/trace/result/<name>.txt    the output, pasted back by whoever ran it
 A script with no result is waiting to be run. A script with a result is
 waiting to be acted on.
 
+Before writing another script, inventory both directories. Any completed
+script/result pair takes priority over the number of unanswered scripts; the
+"fewer than ten" allowance applies only when no completed pair remains.
+
 ## Running one
 
 1. Open PCSX-Redux with the game and enable the debugger.
@@ -49,7 +53,9 @@ in `notes/`, in an inventory `notes` column, or in a symbol name.
 
 If a result turns out inconclusive, either delete both, or keep the script and
 delete only the result so it can be improved and run again. Say in the commit
-message which of those happened and why.
+message which of those happened and why. If the improved control has a new
+purpose or expected output name, rename the script too so
+`tools/trace/<name>.lua` and `tools/trace/result/<name>.txt` still match.
 
 ## Writing one
 
