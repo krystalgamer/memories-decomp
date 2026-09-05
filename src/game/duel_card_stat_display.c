@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 typedef struct {
     u8 pad_00[0x40];
@@ -37,14 +38,14 @@ void func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
         : "=r"(bits), "+r"(table_index));
     kind = (bits >> 26) & 0x1F;
     switch (kind) {
-    case 0x14:
-    case 0x17:
+    case CARD_TYPE_MAGIC:
+    case CARD_TYPE_EQUIP:
         object->field_40 += 0x10;
         break;
-    case 0x15:
+    case CARD_TYPE_TRAP:
         object->field_40 += 0x20;
         break;
-    case 0x16:
+    case CARD_TYPE_RITUAL:
         object->field_40 += 0x30;
         break;
     }
