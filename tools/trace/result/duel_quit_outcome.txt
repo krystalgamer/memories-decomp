@@ -1,0 +1,15 @@
+==== USER CONTEXT ====
+
+Didn't ran the script because "Quit Duel?" I was only able to trigger the dialog in "2P Duel".
+
+I'll then use this to contribute with how it works. Start a 2P Duel and on the respective player's turn if he presses SELECT (not START) it'll pop-up a dialog saying:
+
+QUIT DUEL?
+NO
+YES
+
+
+"NO" is highlighted by default and the dialog is centered on the screen. Pressing "YES" causes the game to fade to black and return to the main menu (the one with "2P Duel" option).
+
+==== TRACE RESULT =====
+N/A
