@@ -437,3 +437,28 @@ for (;;) {
 ```
 
 Both verified by `func_8016A304` in the password module.
+
+`func_8016868C` in the same module confirms it, and shows how far the damage
+travels. Its recorded blocker was about induction variables, not loops: GCC
+was said to refuse a negative load offset and to split one walker into two,
+giving three induction variables where the target has two. That was entirely
+downstream of the rotation. Peeling the first test gives GCC a different
+address to build the combined giv from — the peeled load's, at `+0x11`, rather
+than the target's `+0xE` — and the offsets that follow are the consequence, not
+the cause. Writing the loop as `for (;;)` with an explicit `return` fixed the
+giv base and the offsets at the same time and matched on the first try.
+
+Prefer suspecting the loop shape over the addressing when a target reads one
+walker at a **negative** offset and a candidate reads two at non-negative ones.
+
+The exit arm also has to `return` rather than `break`:
+
+```c
+if (!(node->flags & 0x80)) {
+    return 0;         /* fills the exiting branch's delay slot with the value */
+}
+```
+
+Breaking to a shared `return 0` after the loop assembles to the same 31
+instructions but leaves that delay slot empty and emits the zero after `jr
+$ra`, which is a two-position miss with everything else identical.
