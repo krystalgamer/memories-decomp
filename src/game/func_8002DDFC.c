@@ -20,7 +20,7 @@ struct Obj {
 
 extern volatile u32 D_8009B0F4;
 extern s32 D_8009B118;
-extern void func_80081DE8(struct Obj *, s32 *);
+extern void LoadImage2(struct Obj *, s32 *);
 
 void func_8002DDFC(struct Obj *obj, s32 mode)
 {
@@ -51,7 +51,7 @@ void func_8002DDFC(struct Obj *obj, s32 mode)
         obj->y = 0xF0;
         obj->w = 0x100;
         obj->h = 4;
-        func_80081DE8(obj, (s32 *)D_8009B118);
+        LoadImage2(obj, (s32 *)D_8009B118);
         break;
     }
 }
