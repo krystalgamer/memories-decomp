@@ -88,6 +88,7 @@ symbol review.
 | `0x80082324` | `IsIdleGPU` | Applied Psy-Q 4.6 identity; matching upload and move paths poll mode `3` around GPU image operations. |
 | `0x800849F0` | `GsSortFastSprite` | Applied Psy-Q 4.6 identity; matching UI paths submit sprite records to an ordering table at the requested priority. |
 | `0x800855D0` | `GsSetLsMatrix` | Applied Psy-Q 4.6 identity; matching projection paths install their local-screen matrix before GTE projection work. |
+| `0x800857E0` | `GsSetFlatLight` | Applied Psy-Q 4.6 identity; the matching scene setup installs three directional light records. |
 | `0x80086100` | `GsGetTimInfo` | Applied Psy-Q 4.6 identity; `model_texture_upload.c` parses a TIM image header before uploading its pixel and CLUT rectangles. |
 | `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion. |
 | `0x80086770` | `rcos` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point cosine output alongside `rsin`. |
