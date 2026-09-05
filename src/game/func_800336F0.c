@@ -66,7 +66,7 @@ void func_800336F0(u8 *p)
 
     if (r != 0 && c != 0) {
         q = p + r;
-        if (*(s32 *)(p + 0x5AA0) < 0x28 &&
+        if (*(s32 *)(p + 0x5AA0) < DECK_SIZE &&
             q[0x5D97] != 0 &&
             q[0x5AC4] < 3) {
             SD_SEPlayFull(7);
