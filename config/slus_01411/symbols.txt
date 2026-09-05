@@ -343,8 +343,11 @@ gInput_wPad1Repeat = 0x8009B394;
 gInput_wPad2Repeat = 0x8009B396;
 gInput_wPad1Pressed = 0x8009B398;
 gInput_wPad2Pressed = 0x8009B39A;
+gInput_wPad1RepeatBackup = 0x8009B39E;
+gInput_wPad1PressedBackup = 0x8009B3A0;
 gInput_wPad1Held = 0x8009B3A4;
 gInput_wPad2Held = 0x8009B3A6;
+gInput_wPad1HeldBackup = 0x8009B3AC;
 
 // Semantic names
 Widget_UpdatePulseColour = 0x80037110; // type:func
@@ -364,3 +367,5 @@ Dialog_UpdateChoice = 0x800371A8; // type:func
 // Semantic names
 Input_UpdatePads = 0x8003CCD8; // type:func
 Input_ResetPads = 0x8003CB7C; // type:func
+Input_BackupPad1AndUsePad2 = 0x8003CDF8; // type:func
+Input_RestorePad1FromBackup = 0x8003CE48; // type:func
