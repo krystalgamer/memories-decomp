@@ -263,16 +263,19 @@ Current game C includes `libgpu.h` in `func_800249E0.c`, where `RECT` backs
 two image transfers; `file_cd_helpers.c`, where `DISPENV` receives the
 current display environment and its leading `disp` rectangle is passed to
 `MoveImage2`; and `model_handler_registry.c`, where `DrawSync(0)` waits for
-queued GPU drawing after a model primitive handler runs. No current game C
-includes `libgs.h` or `libhmd.h`, so a local render or model record should not
-be migrated to one of their types from a matching size or similar role alone;
-field-level and resident-call evidence are still required.
+queued GPU drawing after a model primitive handler runs.
+`func_800582C0.c` also uses the shared `MoveImage`, `LoadImage2`,
+`StoreImage2`, and `IsIdleGPU` prototypes while retaining its exact
+four-halfword rectangle storage. No current game C includes `libgs.h` or
+`libhmd.h`, so a local render or model record should not be migrated to one of
+their types from a matching size or similar role alone; field-level and
+resident-call evidence are still required.
 
 The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
 same `RECT *` / `u32 *` argument shape. The `LoadImage` migration is complete
-in `func_800249E0.c`; current `LoadImage2` callers retain local declarations
-and rectangle-compatible views, so applying the shared prototype to them still
-requires an exact code-generation check.
+in `func_800249E0.c`; `func_800582C0.c` now uses the shared `LoadImage2`
+prototype with a rectangle-compatible local view. Other callers retain local
+declarations and still require an exact code-generation check.
 
 The GTE headers are a layered toolchain interface rather than interchangeable
 umbrellas. `libgte.h` owns the geometry records and callable library
@@ -614,6 +617,7 @@ The existing C sources expose several useful starting points:
 | Local `InitPAD` / `StartPAD` declarations | `libapi.h` | Initial migration complete in `src/game/input_init_pads.c`; the real prototypes preserve the exact build. |
 | `DslFILE` in `src/psyq/libds.h` | Ds file-search result | Initial migration complete in `src/game/file_stream.c`; extend only when another caller's field use agrees with the shared layout. |
 | `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Initial migration complete in `func_800249E0`; preserve byte-offset selection when extending it to other callers. |
+| Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `func_800582C0`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
 | Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_handler_registry.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Initial `DISPENV` migration complete in `file_cd_helpers.c`; other buffers still require complete size, alignment, and field-use evidence. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Separate fixed-point SDK layouts from game-specific render records. |

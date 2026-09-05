@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 
 typedef float f32;
 typedef double f64;
@@ -18,10 +20,6 @@ extern s16 D_8009B472;
 extern s16 D_8009B474;
 extern s16 D_8009B476;
 extern s32 func_8005AE68();
-extern s32 MoveImage();
-extern s32 LoadImage2();
-extern s32 StoreImage2();
-extern int IsIdleGPU(int);
 
 void func_800582C0(s32 arg0, s32 arg1, s32 arg2) {
     u16 buf[0x400];
@@ -45,7 +43,7 @@ void func_800582C0(s32 arg0, s32 arg1, s32 arg2) {
             D_8009B472 = y + 0xF8;
             while (IsIdleGPU(3) != 0) {
             }
-            while (StoreImage2(&D_8009B470, buf) != 0) {
+            while (StoreImage2((RECT *)&D_8009B470, (u32 *)buf) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
             }
@@ -58,7 +56,7 @@ void func_800582C0(s32 arg0, s32 arg1, s32 arg2) {
             D_8009B472 = y + 0xF0;
             while (IsIdleGPU(3) != 0) {
             }
-            while (LoadImage2(&D_8009B470, buf) != 0) {
+            while (LoadImage2((RECT *)&D_8009B470, (u32 *)buf) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
             }
@@ -73,5 +71,5 @@ big:
     D_8009B474 = 0x100;
     D_8009B470 = arg0 << 8;
     D_8009B476 = 8;
-    MoveImage(&D_8009B470, arg0 << 8, 0xF0);
+    MoveImage((RECT *)&D_8009B470, arg0 << 8, 0xF0);
 }
