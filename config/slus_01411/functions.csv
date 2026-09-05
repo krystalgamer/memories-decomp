@@ -975,7 +975,7 @@ address,size,name,status,module,notes
 0x8005A4C4,0x78,func_8005A4C4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005A53C,0xDC,func_8005A53C,matching_c,game,Post-terminal pure-C match; disabling GCC first-pass instruction scheduling reproduces the retail register and branch schedule exactly.
 0x8005A618,0x90,func_8005A618,matching_c,game,"Exact pure-C model-effect value lookup. Selects a coefficient from an indexed 3616-byte record, applies an index-dependent bias, and returns the signed remainder modulo 4096."
-0x8005A6A8,0x1D0,func_8005A6A8,unmatched_asm,game,
+0x8005A6A8,0x1D0,func_8005A6A8,matching_c,game,Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference; the constant subtraction placed after the second square-root call is load-bearing.
 0x8005A878,0x4C,func_8005A878,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8005A8C4,0xC8,Model_HasInsufficientBufferSpace,matching_c,game,Post-terminal pure-C match; absolute .data scalar declaration preserves D_800FE240 self-load codegen under G8.
 0x8005A98C,0x214,func_8005A98C,matching_c,game,Exact linked bytes on gcc_2_8_1_g8 from the ygofm reference; comparison operand order and the two-step difference are load-bearing.

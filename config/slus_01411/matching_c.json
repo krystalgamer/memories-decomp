@@ -4801,6 +4801,12 @@
       "source": "src/game/model_effect_wrapped_value.c"
     },
     {
+      "address": "0x8005A6A8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1D0",
+      "source": "src/game/func_8005A6A8.c"
+    },
+    {
       "address": "0x8005A878",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
