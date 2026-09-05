@@ -243,11 +243,64 @@ Which is the point: in that second case reaching for `volatile` would add
 instructions, the failure direction this rule warns about just above. Check
 what is between the reads before reaching for the qualifier.
 
-There is a useful habit hiding in this. What you arrange in the source is not
-the final order — it is the **obstruction**. Put the store where it blocks the
-reuse, and the scheduler produces the order the target has, including sinking
-both stores to the end by itself. Trying to place the instructions directly
-does not work on this compiler.
+See the obstruction rule below for the general habit this is an instance of.
+
+## You arrange the obstruction, not the order
+
+When a build comes out **short**, the compiler has merged something the target
+keeps separate. You cannot fix that by trying to place instructions — there is
+no source form that says "emit this load again". What you can place is the
+thing that *prevents the merge*, and then the compiler produces the target's
+shape on its own.
+
+Two independent instances, in different modules and different optimisations:
+
+| function | what merged | the obstruction |
+|---|---|---|
+| `func_80168AB4` (password) | two loads of one field, folded by CSE | a store between them the compiler cannot disambiguate |
+| `func_80183514` (main menu) | two copies of one value, coalesced by the register allocator | an `if` between them, so the copies are not live over the same range |
+
+In both, the short build is the *natural* way to write the code, and the
+matching build looks slightly laboured:
+
+```c
+/* 136 of 138: one load, because nothing separates the two reads */
+stepX = ((tx - x) << 8) / frames;
+stepY = ((ty - y) << 8) / frames;
+w->stepX = stepX; w->stepY = stepY;
+
+/* 138 of 138: the first store obstructs the reuse of `frames` */
+*(s16 *)(w + 0x36) = ((...) << 8) / *(s16 *)(w + 0x60);
+*(s16 *)(w + 0x38) = ((...) << 8) / *(s16 *)(w + 0x60);
+```
+
+```c
+/* 119 of 120: both copies of DEF live over the same range, so they coalesce */
+hiA = defA;
+loA = defA;
+if (defA < atkA) hiA = atkA;
+if (atkA < defA) loA = atkA;
+
+/* 120 of 120: the first `if` splits their live ranges */
+hiA = defA;
+if (defA < atkA) hiA = atkA;
+loA = defA;
+if (atkA < defA) loA = atkA;
+```
+
+The practical consequence is a diagnosis order. A build that is **short** by a
+small number of instructions is a merge, so look for what the target has
+separating the two things and put it back. A build that is the **right length
+but in the wrong order** is scheduling, and *that* is where statement order
+and the load-delay rules apply. Reaching for reordering on a short build wastes
+measurements, because no arrangement of the same instructions changes how many
+there are.
+
+The corollary is the one worth remembering: once the obstruction is in place,
+**do not also try to arrange the result**. In `func_80168AB4` the target's two
+stores sit together at the end, which reads like evidence for grouped stores in
+the source — but grouping them is exactly what removes the obstruction. The
+scheduler sank them there by itself.
 
 ## A flat comparison chain is if/else, and the last arm is the else
 
