@@ -1,0 +1,264 @@
+==== USER CONTEXT ==== 
+ 
+This is the result of running the script in "Build Deck". My "Chest" had the first 8 slots empty, so I scrolled down 8 times. On the 8th time, since the screen only shows 8 elements at the time it scrolled down, showing "Shadow Specter" card id 9 at the bottom. The card was greyed out because it was already on my deck. I then pressed d-pad right to go into my "Deck" screen. On the "Deck" screen the cursor starts at the very first card which is "Shadow Specter". I then press d-pad down 6 times and the trace was hit.
+
+I have no idea when the samples were captured so I'll just list the card IDs in the "Deck" screen:
+
+9
+104
+105
+107
+130
+135
+159 <- Triggered trace dump here
+174
+
+
+So to summarize, only triggered vertical axes scroll on the "Chest" screen.
+ 
+==== TRACE RESULT ===== 
+ 
+script: card_scroll_axes 
+status: maximum sample count reached 
+ 
+--- sample 1 of 48 --- 
+  screen=Build Deck mode=0x07 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_held=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 2 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=174 pad_held=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 3 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 4 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x4000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 5 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 6 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x4000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 7 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 8 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x4000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 9 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 10 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x4000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 11 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 12 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x4000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 13 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 14 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x4000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 15 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 16 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x4000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 17 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=8 pad_held=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 18 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x4000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 19 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 20 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x2000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 21 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x2000 
+  value_8009B146=20 value_8009B148=0 
+ 
+--- sample 22 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x2000 
+  value_8009B146=40 value_8009B148=0 
+ 
+--- sample 23 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x2000 
+  value_8009B146=60 value_8009B148=0 
+ 
+--- sample 24 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x2000 
+  value_8009B146=80 value_8009B148=0 
+ 
+--- sample 25 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x2000 
+  value_8009B146=100 value_8009B148=0 
+ 
+--- sample 26 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x2000 
+  value_8009B146=120 value_8009B148=0 
+ 
+--- sample 27 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x2000 
+  value_8009B146=140 value_8009B148=0 
+ 
+--- sample 28 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=160 value_8009B148=0 
+ 
+--- sample 29 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=180 value_8009B148=0 
+ 
+--- sample 30 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=200 value_8009B148=0 
+ 
+--- sample 31 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=220 value_8009B148=0 
+ 
+--- sample 32 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=240 value_8009B148=0 
+ 
+--- sample 33 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=260 value_8009B148=0 
+ 
+--- sample 34 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=280 value_8009B148=0 
+ 
+--- sample 35 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=300 value_8009B148=0 
+ 
+--- sample 36 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=320 value_8009B148=0 
+ 
+--- sample 37 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x4000 
+  value_8009B146=320 value_8009B148=0 
+ 
+--- sample 38 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=320 value_8009B148=0 
+ 
+--- sample 39 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x4000 
+  value_8009B146=320 value_8009B148=0 
+ 
+--- sample 40 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=320 value_8009B148=0 
+ 
+--- sample 41 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x4000 
+  value_8009B146=320 value_8009B148=0 
+ 
+--- sample 42 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=320 value_8009B148=0 
+ 
+--- sample 43 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x4000 
+  value_8009B146=320 value_8009B148=0 
+ 
+--- sample 44 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=320 value_8009B148=0 
+ 
+--- sample 45 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x4000 
+  value_8009B146=320 value_8009B148=0 
+ 
+--- sample 46 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=1 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=320 value_8009B148=0 
+ 
+--- sample 47 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x4000 
+  value_8009B146=320 value_8009B148=0 
+ 
+--- sample 48 of 48 --- 
+  screen=Build Deck mode=0xC7 active_buffer=0 
+  cursor_column=0 cursor_row=0 selected_card=9 pad_held=0x0000 
+  value_8009B146=320 value_8009B148=0 
+ 
+--- end of trace, copy everything above into tools/trace/result/card_scroll_axes.txt --- 
