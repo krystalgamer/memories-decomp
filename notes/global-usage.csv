@@ -2307,7 +2307,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x800471D0,func_800471D0,matching_c,game,C,src/game/sound_output.c,read_write,,g_SDValue->flags_0040 |= 2;
 0x8009B45C,g_SDValue,g_SDValue,0x800472A8,func_800472A8,matching_c,game,C,src/game/func_800472A8.c,read,8,if ((g_SDValue[0x4A] & 2) == 0) {
 0x8009B45C,g_SDValue,g_SDValue,0x80047314,func_80047314,matching_c,game,C,src/game/func_80047314.c,read,,"func_8004733C(value & 0xFFFF, g_SDValue->field_164B);"
-0x8009B45C,g_SDValue,g_SDValue,0x8004733C,func_8004733C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_037b3c.s,read,32,"lw $v0, %gp_rel(g_SDValue)($gp)"
+0x8009B45C,g_SDValue,g_SDValue,0x8004733C,func_8004733C,matching_c,game,C,src/game/func_8004733C.c,read,8,if ((g_SDValue[0x4A] & 2) == 0) {
 0x8009B45C,g_SDValue,g_SDValue,0x80047480,func_80047480,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_037c80.s,read,32,"lui $a1, %hi(g_SDValue) | lui $a2, %hi(g_SDValue) | (+6 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x8004763C,func_8004763C,matching_c,game,C,src/game/func_8004763C.c,read_write,,SDValue *a1 = g_SDValue; | g_SDValue->field_0438 = | (+2 more)
 0x8009B45C,g_SDValue,g_SDValue,0x800476B4,func_800476B4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_037eb4.s,read,32,"lui $a1, %hi(g_SDValue) | lw $a1, %lo(g_SDValue)($a1)"

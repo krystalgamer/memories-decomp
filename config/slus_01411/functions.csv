@@ -749,7 +749,7 @@ address,size,name,status,module,notes
 0x80047278,0x30,func_80047278,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800472A8,0x6C,func_800472A8,matching_c,game,"Returns unless g_SDValue[0x4A] has bit 2; dispatches on bit 0x8000 of the argument to func_80045334, else biases by 0x7000 and calls func_80049138. Two register pins supply the argument copy and the delay-slot mask (issue #5)."
 0x80047314,0x28,func_80047314,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8004733C,0x90,func_8004733C,unmatched_asm,game,
+0x8004733C,0x90,func_8004733C,matching_c,game,"Returns unless g_SDValue[0x4A] has bit 2; dispatches on bit 0x8000 of the first argument, calling func_800473CC then func_80045208, else biasing by 0x7000 and calling func_80049230. Two register pins supply the argument copy and the delay-slot mask (issue #5)."
 0x800473CC,0x24,func_800473CC,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800473F0,0x40,func_800473F0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80047430,0x28,func_80047430,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
