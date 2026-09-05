@@ -13,12 +13,12 @@ function.
 | `0x800240B0` | Unchiga's cursor callback source matches under `gcc_2_8_1_g8_split`. Three isolated absolute C stores preserve the retail `$at` address materialization. |
 | `0x80070AC0` | `AiScript_JumpEqual` matches after introducing a local AI-state pointer and updating the existing offset variable in place; the GCC register roles then match without asm. |
 
-### Terminal refinements
+### Later-resolved terminal refinements
 
 | Address | Result |
 |---|---|
-| `0x8005C4F0` | `File_Exists` pure C remains two register-allocation words away under GCC 2.8.1. GCC 2.7.2 changes a branch displacement. Six refinements exhausted; exact inline source retained. |
-| `0x8003CE74` | Pure PRNG source reaches one commutative operand-order word from retail. GCC canonicalizes both source operand orders. Six refinements exhausted; exact inline source retained. |
+| `0x8005C4F0` | The original pure-C campaign stopped two register-allocation words away under GCC 2.8.1, while GCC 2.7.2 changed a branch displacement. A later register-local reconstruction produced the current exact `File_Exists` C under `gcc_2_8_1_g0`. |
+| `0x8003CE74` | The original pure-C campaign stopped one commutative operand-order word from retail. Explicit register roles later preserved that ordering, and the current `SaveData_NextMaskWord` C matches under `gcc_2_8_1_g8`. |
 
 ### Preserved partial histories
 
