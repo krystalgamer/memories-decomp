@@ -787,7 +787,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B09C,D_8009B09C,D_8009B09C,0x80012CD4,Main_VBlankCB,matching_c,game,C,src/game/main_frame.c,read_write,32,D_8009B09C++;
 0x8009B09C,D_8009B09C,D_8009B09C,0x80029EC4,func_80029EC4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01a6c4.s,read,32,"lui $v0, %hi(D_8009B09C) | lw $v0, %lo(D_8009B09C)($v0)"
 0x8009B09C,D_8009B09C,D_8009B09C,0x80033BE8,func_80033BE8,matching_c,game,C,src/game/duel_transition_color.c,read,32,intensity = D_8009B09C[0] & 0x3F;
-0x8009B09C,D_8009B09C,D_8009B09C,0x80037110,func_80037110,matching_c,game,C,src/game/func_80037110.c,read,32,s32 t = D_8009B09C[0] & 0x7F;
+0x8009B09C,D_8009B09C,D_8009B09C,0x80037110,Widget_UpdatePulseColour,matching_c,game,C,src/game/widget_update_pulse_colour.c,read,32,s32 t = D_8009B09C[0] & 0x7F;
 0x8009B0A0,D_8009B0A0,D_8009B0A0,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0035b4.s,address,,"addiu $s3, $gp, %gp_rel(D_8009B0A0)"
 0x8009B0A0,D_8009B0A0,D_8009B0A0,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"sb $v0, %gp_rel(D_8009B0A0)($gp)"
 0x8009B0A1,D_8009B0A1,D_8009B0A1,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"sb $v1, %gp_rel(D_8009B0A1)($gp)"
