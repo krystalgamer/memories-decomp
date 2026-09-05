@@ -2236,7 +2236,7 @@
       "address": "0x80038BA8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x48",
-      "source": "src/game/func_80038BA8.c"
+      "source": "src/game/text_set_cursor_offset.c"
     },
     {
       "address": "0x80038BF0",

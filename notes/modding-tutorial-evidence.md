@@ -150,9 +150,9 @@ little endian  = 3B 14
 
 `FB 80` belongs to the text stream, not the campaign script opcode table.
 The handler at `0x80038BF0` advances the text cursor by
-`gDialog_bChoice * 2`, then calls `func_80038BA8`. Exact matching C for
-`func_80038BA8` reads the selected 16-bit value and replaces only the low
-halfword of the current text pointer:
+`gDialog_bChoice * 2`, then calls `Text_SetCursorOffset` (`0x80038BA8`).
+Exact matching C for `Text_SetCursorOffset` reads the selected 16-bit value
+and replaces only the low halfword of the current text pointer:
 
 ```c
 *p = (*p & 0xFFFF0000) | (v & 0xFFFF);
@@ -218,9 +218,9 @@ The tutorial replaces three bytes at SLUS offset `0x1A1A7A` with
 global text string 1350. Its retail bytes begin `F7 05 00`; the patch replaces
 that first control with an `FD` text-stream jump.
 
-The `FD` dispatch-table entry is `func_80038BA8`. Its exact matching C reads a
-little-endian 16-bit target and replaces only the low halfword of the current
-text pointer. The patched target is therefore:
+The `FD` dispatch-table entry is `Text_SetCursorOffset` (`0x80038BA8`). Its
+exact matching C reads a little-endian 16-bit target and replaces only the low
+halfword of the current text pointer. The patched target is therefore:
 
 ```text
 FD 1C 13 -> low halfword 0x131C -> 0x801B131C
