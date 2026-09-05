@@ -832,7 +832,7 @@ address,size,name,status,module,notes
 0x8004A854,0x90,func_8004A854,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004A8E4,0x5C,func_8004A8E4,matching_c,game,Post-terminal resolution; declarations recovered from the local cohort (SDSecondaryObject/SDSecondaryRecord in sound.h); exact linked bytes and relocations.
 0x8004A940,0x1BC,func_8004A940,unmatched_asm,game,
-0x8004AAFC,0x1E8,func_8004AAFC,unmatched_asm,game,
+0x8004AAFC,0x1E8,func_8004AAFC,matching_c,game,"Exact linked bytes on gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference; the unit has no gp-relative access, so the pointer scalar wants the assembler at -G0."
 0x8004ACE4,0x104,func_8004ACE4,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004ADE8,0x58C,func_8004ADE8,unmatched_asm,game,
 0x8004B374,0x128,func_8004B374,unmatched_asm,game,
