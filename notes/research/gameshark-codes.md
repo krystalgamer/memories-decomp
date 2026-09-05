@@ -177,8 +177,8 @@ card's star cost; the patch makes it `addiu $zero, $zero, 0x1823`, a no-op.
 
 **`D016A6E0 0005` / `8016A6E0 A9BE` / `D016A6E2 1040` / `8016A6E2 0805` —
 "no limit on re-buying a card you already own".** `0x8016A6E0` holds
-`beqz $v0, +5`; the patch replaces it with `j 0x8016A6F8`, taking the
-already-owned path unconditionally.
+`beqz $v0, +5`; the patch replaces it with `j 0x8016A6F8` and enters the
+purchase path regardless of the password flag.
 
 **`D01683D4 0002` / `801683D4 A0F8` / `D01683D6 1440` / `801683D6 0805` —
 "all Free Duel opponents unlocked".** Verified against the Free Duel overlay,

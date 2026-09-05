@@ -71,6 +71,43 @@ modified input demonstrating the before/after layout.
 - **Tentative** that the `0x1BFB24` step repairs a particular editor's
   relocated restricted-card data.
 
+## Rebuy cards from the password shop
+
+**Tutorial:** `Comprar Cartas Repetidas - Por Claudio Lima.txt`
+
+The tutorial replaces four bytes at `WA_MRG.MRG` offset `0xFBD6E0`:
+
+```text
+05 00 40 10    beqz $v0, 0x8016A6F8
+BE A9 05 08    j     0x8016A6F8
+```
+
+The password overlay begins at archive sector 8054 (`0xFBB000`) and loads at
+`0x80168000`, so the file edit maps to overlay address `0x8016A6E0`. The code
+has just called `Campaign_TestStoryFlag` for flag `0x400 + card_id`. Retail
+branches to `0x8016A6F8` only when that per-card password-used flag is clear.
+When it is set, the fall-through path displays message `0xE5` and exits the
+purchase attempt.
+
+Replacing the conditional branch with a jump always enters the ordinary
+purchase flow. That path still compares `gLibrary_dwStarchips` with the
+card's cost, displays the affordability result, and on confirmation calls
+`Library_UpdateCardUsedFlag(0x400 + card_id)` and `Duel_AwardCard(card_id)`.
+The patch therefore removes only the one-purchase-per-password gate. It does
+not make purchases free or deliver cards through a separate path.
+
+The same instruction is independently recorded in
+[`research/gameshark-codes.md`](research/gameshark-codes.md) because an
+equivalent conditional GameShark patch targets runtime address
+`0x8016A6E0`.
+
+**Confidence:**
+
+- **Confirmed** that archive offset `0xFBD6E0` maps to the password overlay
+  branch at `0x8016A6E0`.
+- **Confirmed** that the replacement always bypasses the used-password
+  rejection and preserves the normal cost and award logic.
+
 ## Non-monster effect-group table
 
 **Tutorial:** `CPU Entender as Cartas e os Efeitos - Por Wladmir Ghost.docx`
