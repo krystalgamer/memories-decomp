@@ -130,6 +130,7 @@ Recommended header boundaries are:
 |---|---|
 | `src/psyq/libapi.h` | Events, critical sections, counters, and low-level memory-card/BIOS wrappers |
 | `src/psyq/malloc.h` | Heap initialization and the three allocator families |
+| `src/psyq/libsn.h` | Debugger-host PC file service and `pollhost`/`PSYQpause` break traps |
 | `src/psyq/libsio.h` | Base SIO status, mode, control, lifecycle, and callback interface |
 | `src/psyq/libcomb.h` | COMB packet, transfer, control-line, and asynchronous request interface |
 | `src/psyq/libcd.h` | CD commands, locations, file records, callbacks, and sector transfers |
@@ -156,6 +157,14 @@ primitive processing and refer to `MATRIX`, `SVECTOR`, `DVECTOR`, `GsOT`, and
 ordering therefore matters. No current game C includes `libhmd.h`, so a local
 model record should not be migrated to an HMD type from a matching size or
 similar role alone; field-level and resident-call evidence are still required.
+
+`libsn.h` is a development-host interface, not a retail storage API.
+`PCinit`, `PCopen`, `PCcreat`, `PClseek`, `PCread`, `PCwrite`, and `PCclose`
+communicate with the Psy-Q host file server, while `pollhost` and `PSYQpause`
+emit debugger break instructions `1024` and `1031`. These declarations are
+not interchangeable with `libcd`, `libds`, or memory-card calls. No current
+game C includes `libsn.h`, so its presence in the imported SDK set does not
+establish a resident dependency on the development host.
 
 Do not add `src/types.h` to an imported header solely for uniformity. Headers
 that expose project-adapted fixed-width records must include it directly and
