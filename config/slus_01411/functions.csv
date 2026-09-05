@@ -562,7 +562,7 @@ address,size,name,status,module,notes
 0x8003C950,0x10C,func_8003C950,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003CA5C,0x120,func_8003CA5C,matching_c,game,Collaborator-guided pure-C refinement; absolute scalar declaration and allocation-only v1 pin recover exact tail address/load lifetime.
 0x8003CB7C,0x6C,Input_ResetPads,matching_c,game,Clears both controllers' held pressed and repeat masks plus all per-button repeat timers and pending input state. Declarations and types independently verified; exact linked bytes and relocations.
-0x8003CBE8,0x50,func_8003CBE8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8003CBE8,0x50,Input_InitPads,matching_c,game,Initializes the two 34-byte controller receive buffers through Psy-Q InitPAD and StartPAD sets the repeat timing defaults and clears published input state. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003CC38,0xA0,func_8003CC38,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003CCD8,0x120,Input_UpdatePads,matching_c,game,Publishes held and newly pressed masks plus timer-driven auto-repeat masks for both controllers. Collaborator-guided pure-C refinement; absolute repeat scalar and volatile output halves reproduce exact load and store scheduling.
 0x8003CDF8,0x50,Input_BackupPad1AndUsePad2,matching_c,game,Saves pad 1's held pressed and repeat masks before exposing pad 2 through the pad 1 input globals. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -1231,8 +1231,8 @@ address,size,name,status,module,notes
 0x80073D60,0x1C,func_80073D60,sdk_asm,psyq/sdk,
 0x80073D7C,0x10,func_80073D7C,sdk_asm,psyq/sdk,
 0x80073D8C,0x90,func_80073D8C,sdk_asm,psyq/sdk,
-0x80073E1C,0x90,func_80073E1C,sdk_asm,psyq/sdk,
-0x80073EAC,0x30,func_80073EAC,sdk_asm,psyq/sdk,
+0x80073E1C,0x90,InitPAD,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBAPI.LIB/PAD.OBJ InitPAD.
+0x80073EAC,0x30,StartPAD,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBAPI.LIB/PAD.OBJ StartPAD.
 0x80073EDC,0x78,func_80073EDC,sdk_asm,psyq/sdk,
 0x80073F54,0x68,func_80073F54,sdk_asm,psyq/sdk,
 0x80073FBC,0x40,func_80073FBC,sdk_asm,psyq/sdk,

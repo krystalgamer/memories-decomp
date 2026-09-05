@@ -963,6 +963,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8003C498 | `register_handler_8003C328` | fleet |
 | 0x8003C7A0 | `Options_HandleInput` | matching C |
 | 0x8003CB7C | `Input_ResetPads` | matching C |
+| 0x8003CBE8 | `Input_InitPads` | matching C |
 | 0x8003CDF8 | `Input_BackupPad1AndUsePad2` | matching C |
 | 0x8003CE48 | `Input_RestorePad1FromBackup` | matching C |
 | 0x8003D334 | `draw_tiled_bg_sprites` | fleet |
