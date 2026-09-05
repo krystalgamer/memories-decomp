@@ -4960,7 +4960,7 @@
       "address": "0x80071EB8",
       "profile": "gcc_2_8_1_cc_g0_as_g8_split",
       "size": "0x110",
-      "source": "src/game/AiScript_CountCards.c"
+      "source": "src/game/ai_script_count_cards.c"
     },
     {
       "address": "0x8007249C",
