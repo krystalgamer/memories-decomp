@@ -231,6 +231,25 @@ its target and emits command words with `.word`. `inline_a.h`, `gtereg.h`, and
 families encode the same coprocessor commands and register roles in different
 source dialects; neither belongs in a C translation unit.
 
+`libsnd.h` and `libspu.h` expose different sound layers. `libsnd.h` is the
+high-level `Ss*` sequencer and VAB interface: it owns `VabHdr`, `ProgAtr`,
+`VagAtr`, sequence/SEP playback, tick modes, bank transfer, and utility voice
+allocation. `libspu.h` is the lower-level `Spu*` interface for the 24 hardware
+voices, SPU RAM transfer, key state, IRQs, reverb, common mixer attributes,
+the SPU allocator, and the `SpuSt*` streaming state machine.
+
+The headers deliberately keep parallel API types and constants.
+`SndVolume` and `SpuVolume` are both two-short stereo records, and the
+`SS_REV_TYPE_*` and `SPU_REV_MODE_*` values describe the same named effect
+families, but they belong to different call surfaces. Matching layout or
+numeric values alone is not sufficient reason to substitute one family for
+the other.
+
+No current game C includes either sound header. The existing `SpuRead` and
+`SpuGetVoiceEnvelope` identifications in sound-driver comments describe the
+resident callees reached by the matching code; they do not yet establish that
+the surrounding game-owned state is an SDK `Spu*` or `Ss*` structure.
+
 `libsn.h` is a development-host interface, not a retail storage API.
 `PCinit`, `PCopen`, `PCcreat`, `PClseek`, `PCread`, `PCwrite`, and `PCclose`
 communicate with the Psy-Q host file server, while `pollhost` and `PSYQpause`
