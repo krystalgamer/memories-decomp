@@ -117,4 +117,4 @@ inside this working directory.
 - [Decompilation plan](notes/decompilation-plan.md)
 - [Completed remaining-function campaign](notes/remaining-decompilation-pass.md)
 - [Semantic naming pass](notes/semantic-naming-pass.md)
-- [Global usage map](notes/global-usage.md)
+- [Global usage data](notes/global-usage.csv)

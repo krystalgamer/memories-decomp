@@ -32,28 +32,20 @@ unchanged.
 A missing secret, download failure, input hash mismatch, tool failure, build
 failure, or rebuilt executable hash mismatch makes the workflow fail.
 
-`make check-global-usage` treats the two generated reports differently, which
-matters when maintaining the reports:
-
-- `notes/global-usage.csv` is verified **strictly**. It makes per-function
-  claims, naming each function and whether its references to a global are C or
-  assembly, so a stale row is not merely behind, it is wrong about the change
-  that just landed. It is also address-ordered, so concurrent matches append in
-  different places and merge cleanly.
-- `notes/global-usage.md` is reported as a **snapshot**. It is an aggregate
-  summary whose row-count line is only correct in the instant between two
-  merges, so enforcing it would serialise every concurrent match behind
-  whichever one merged first. A stale summary prints a notice and does not fail
-  the build; the next regeneration corrects it.
+`make check-global-usage` verifies `notes/global-usage.csv` strictly. The CSV
+makes per-function claims, naming each function and whether its references to
+a global are C or assembly, so a stale row is not merely behind, it is wrong
+about the change that just landed. It is also address-ordered, so concurrent
+matches append in different places and merge cleanly.
 
 The matching workflow runs this check as an optional diagnostic. A stale CSV
-still makes the step visibly fail, but `continue-on-error` prevents that
-bookkeeping drift from failing the `clean-build` job or holding a matching PR
-behind unrelated merges.
+adds a warning annotation and makes the step visibly fail, but
+`continue-on-error` prevents that bookkeeping drift from failing the
+`clean-build` job or holding a matching PR behind unrelated merges.
 
-Regenerate both with `make global-usage` in dedicated report updates or when a
-change specifically targets global-usage metadata. Matching PRs do not need to
-carry these snapshots.
+Regenerate the CSV with `make global-usage` in dedicated report updates or when
+a change specifically targets global-usage metadata. Matching PRs do not need
+to carry this report.
 
 ## Compiler installation
 

@@ -104,4 +104,8 @@ jobs:
 
       - name: Report generated global usage drift
         continue-on-error: true
-        run: make check-global-usage
+        run: |
+          if ! make check-global-usage; then
+            echo "::warning title=Global usage data is stale::Run make global-usage in a dedicated report update."
+            exit 1
+          fi
