@@ -1,6 +1,12 @@
 #include "../types.h"
 
 extern u8 D_801A8000[];
+extern s16 D_8009B148;
+extern s16 D_8009B146;
+
+/* Keep symbolic usage evidence while preserving the literal-address codegen. */
+#define D_8009B148 (*(s16 *)0x8009B148)
+#define D_8009B146 (*(s16 *)0x8009B146)
 extern void *func_8004002C(void);
 extern u8 *func_800400AC(void *, s32);
 extern void func_80042918(u8 *);
@@ -31,6 +37,6 @@ void func_80061008(s32 x0, s32 y0, s32 x1, s32 y1)
         record += 0x18;
     } while (i < 2);
 
-    *(s16 *)0x8009B148 = 0;
-    *(s16 *)0x8009B146 = 0;
+    D_8009B148 = 0;
+    D_8009B146 = 0;
 }
