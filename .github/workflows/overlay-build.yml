@@ -36,7 +36,9 @@ jobs:
 
       - name: Check out source
         uses: actions/checkout@v4
-
+        with:
+          persist-credentials: false
+        
       - name: Install host build dependencies
         run: |
           sudo apt-get update
