@@ -171,6 +171,21 @@ Verified by `func_80184344` in the main menu module, where the type values
 tell that a value shifted with `srl` rather than `sra` was held in an
 **unsigned** local.
 
+**Where the arms are laid out says which form to write.** The two comparators
+in the same module make the contrast cleanly:
+
+- `func_80184254` sends every arm straight to the shared exit, with the value
+  in the branch's delay slot and one arm falling through at the end. That is
+  the plain `if / else if / else` chain, and it matches unchanged.
+- `func_8018416C` instead lays two arms out as separate blocks *after* the
+  tests. That needs every test negated, so each arm becomes an `else`. Written
+  plainly it comes out three instructions short, because GCC cross-jumps the
+  duplicated arm into an earlier one.
+
+So read the block layout before choosing: arms that are delay-slot values on
+branches to a common exit mean the plain chain; arms that are blocks of their
+own at the bottom mean the negated one.
+
 ## Two loop invariants: the second one emitted becomes the pointer
 
 When a loop indexes a two-dimensional array with one invariant index and one
