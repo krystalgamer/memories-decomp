@@ -2,7 +2,7 @@
 
 extern s32 func_80039F1C(u8 *);
 extern void func_8003A95C(u8 *, s32, s32);
-extern s32 func_80086770(s32);
+extern int rcos(int);
 
 void func_8003A990(u8 *p)
 {
@@ -30,7 +30,7 @@ void func_8003A990(u8 *p)
         func_8003A95C(p, *(s16 *)(p + 0x40), *(s16 *)(p + 0x42));
         p[0x33] = 0;
     } else {
-        c = func_80086770((s16)t);
+        c = rcos((s16)t);
         dx = c * *(s16 *)(p + 0x44) / 4096;
         dy = c * *(s16 *)(p + 0x46) / 4096;
         if (*(s16 *)(p + 0x4A) < 0) {

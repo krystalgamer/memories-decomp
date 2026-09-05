@@ -55,8 +55,8 @@ s32 func_8004002C(void);
 struct Slot *func_800400AC(s32, s32);
 void func_800428A8(struct Slot *, s32, s32, s32, s32, s32, s32, s32, s32);
 void func_800428EC(struct Slot *, s8);
-s32 func_800866A0(s16);
-s32 func_80086770(s16);
+int rsin(int);
+int rcos(int);
 
 void func_80020D4C(struct Obj *arg0) {
     s16 timer;
@@ -90,7 +90,7 @@ void func_80020D4C(struct Obj *arg0) {
 
     angle = arg0->unk2A + 0x30;
     arg0->unk2A = angle;
-    arg0->unk30 = arg0->unk2C + func_80086770((s16) angle) * arg0->unk28 / 4096;
-    vy = func_800866A0((s16) arg0->unk2A) * arg0->unk28;
+    arg0->unk30 = arg0->unk2C + rcos((s16) angle) * arg0->unk28 / 4096;
+    vy = rsin((s16) arg0->unk2A) * arg0->unk28;
     arg0->unk32 = arg0->unk2E + vy / 4096;
 }

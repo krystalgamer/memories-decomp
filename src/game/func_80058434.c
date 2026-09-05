@@ -12,8 +12,8 @@ typedef struct {
 extern Vec32 D_800F56F0;
 extern Vec32 D_800F56FC;
 
-extern s32 func_800866A0();
-extern s32 func_80086770();
+extern int rsin(int);
+extern int rcos(int);
 
 void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
@@ -50,13 +50,13 @@ void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     }
 
     if (arg1 != 0 || arg2 != 0 || arg3 != 0) {
-        c = func_80086770(*(s16 *)&D_8009B47C);
-        sn = func_800866A0(*(s16 *)&D_8009B47C);
+        c = rcos(*(s16 *)&D_8009B47C);
+        sn = rsin(*(s16 *)&D_8009B47C);
         r = *(s16 *)&D_8009B478;
         u = r * c / 0x1000;
         w = r * sn / 0x1000;
-        c = func_80086770(*(s16 *)&D_8009B47A);
-        sn = func_800866A0(*(s16 *)&D_8009B47A);
+        c = rcos(*(s16 *)&D_8009B47A);
+        sn = rsin(*(s16 *)&D_8009B47A);
         z = u * sn / 0x1000;
         u = u * c / 0x1000;
         *(s32 *)(t + 0) = *(s32 *)(b + 0) + u * arg0;

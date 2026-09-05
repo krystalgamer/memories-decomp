@@ -1587,9 +1587,9 @@ address,size,name,status,module,notes
 0x800862D0,0x2C8,func_800862D0,sdk_asm,psyq/sdk,
 0x800865A0,0x80,func_800865A0,sdk_asm,psyq/sdk,
 0x80086620,0x80,func_80086620,sdk_asm,psyq/sdk,
-0x800866A0,0x3C,func_800866A0,sdk_asm,psyq/sdk,
+0x800866A0,0x3C,rsin,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/GEO_00.OBJ signature and matching fixed-point callers.
 0x800866DC,0x90,func_800866DC,sdk_asm,psyq/sdk,
-0x80086770,0xA0,func_80086770,sdk_asm,psyq/sdk,
+0x80086770,0xA0,rcos,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/GEO_01.OBJ signature and matching fixed-point callers.
 0x80086810,0x104,func_80086810,sdk_asm,psyq/sdk,
 0x80086920,0xC4,func_80086920,sdk_asm,psyq/sdk,
 0x800869F0,0x11C,func_800869F0,sdk_asm,psyq/sdk,
