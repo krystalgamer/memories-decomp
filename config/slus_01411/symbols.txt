@@ -297,3 +297,9 @@ File_InitTransferDescriptor = 0x80013998; // type:func
 
 // Semantic names
 BuildDeck_AddCard = 0x800320BC; // type:func
+
+// Semantic names
+gDuel_abDirectDamageUnits = 0x8009AF38;
+
+// Semantic names
+gDuel_abLifePointRecoveryUnits = 0x8009AF30;
