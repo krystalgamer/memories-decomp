@@ -22,7 +22,7 @@ extern DuelEffectCopyEntry D_800EB288[];
 extern DuelEffectEntryHandler D_80090F58[];
 extern s32 D_8009B330;
 
-void func_80039D64(u8 *arg0)
+void DuelEffect_ProcessEntries(u8 *arg0)
 {
     DuelEffectCopyEntry *p;
     DuelEffectCopyEntry *q;
