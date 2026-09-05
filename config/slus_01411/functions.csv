@@ -530,7 +530,7 @@ address,size,name,status,module,notes
 0x8003A95C,0x34,func_8003A95C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003A990,0x154,func_8003A990,unmatched_asm,game,
 0x8003AAE4,0x164,func_8003AAE4,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8003AC48,0x124,func_8003AC48,unmatched_asm,game,
+0x8003AC48,0x124,func_8003AC48,matching_c,game,Exact post-terminal collaborator-derived match using the established GCC G8/MASPSX G0 split profile.
 0x8003AD6C,0x2E8,func_8003AD6C,unmatched_asm,game,
 0x8003B054,0x324,func_8003B054,unmatched_asm,game,
 0x8003B378,0x194,func_8003B378,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.

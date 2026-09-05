@@ -846,9 +846,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80039AFC,func_80039AFC,matching_c,game,C,src/game/func_80039AFC.c,read,32,record[20] = record[20] - D_8009B0D8 * 2; | record[4] = record[4] + D_8009B0D8 * 16; | (+1 more)
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80039BE0,func_80039BE0,matching_c,game,C,src/game/display_object_fade_callbacks.c,read,32,v = p[4] - (D_8009B0D8 << 4); | v = p[6] - (D_8009B0D8 << 4);
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AAE4,func_8003AAE4,matching_c,game,C,src/game/func_8003AAE4.c,read,32,v = *(u16 *)(p + 0x40) + D_8009B0D8 * 8;
-0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AC48,func_8003AC48,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02b448.s,read,32,"lui $v1, %hi(D_8009B0D8) | lw $v1, %lo(D_8009B0D8)($v1)"
-0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AD6C,func_8003AD6C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02b448.s,read,32,"lui $v1, %hi(D_8009B0D8) | lw $v1, %lo(D_8009B0D8)($v1)"
-0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003B054,func_8003B054,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02b448.s,read,16,"lhu $v1, %lo(D_8009B0D8)($v1) | lui $v1, %hi(D_8009B0D8)"
+0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AC48,func_8003AC48,matching_c,game,C,src/game/func_8003AC48.c,read,32,t = *(u16 *)(p + 0x40) - (D_8009B0D8 << 3);
+0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AD6C,func_8003AD6C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02b56c.s,read,32,"lui $v1, %hi(D_8009B0D8) | lw $v1, %lo(D_8009B0D8)($v1)"
+0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003B054,func_8003B054,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02b56c.s,read,16,"lhu $v1, %lo(D_8009B0D8)($v1) | lui $v1, %hi(D_8009B0D8)"
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003CCD8,func_8003CCD8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02d4d8.s,read,8,"lbu $v1, %lo(D_8009B0D8)($v1) | lui $v1, %hi(D_8009B0D8)"
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80041D60,func_80041D60,matching_c,game,C,src/game/func_80041D60.c,read,16,s16 remain = (u16)arg0->f5A - D_8009B0D8;
 0x8009B0E0,D_8009B0E0,D_8009B0E0,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,write,,D_8009B0E0 = 0;
