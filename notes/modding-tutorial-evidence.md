@@ -173,6 +173,42 @@ general unconditional jump.
 - **Tentative** that inserting only one target after an arbitrary page wait is
   safe; that depends on the active choice state and the source text bank.
 
+## Player name in the duel-result label
+
+**Tutorial:** `Nome no Final.txt`
+
+The tutorial gives runtime address `0x801B0514` and replacement bytes
+`FC 5A 12`. That address maps back to SLUS file offset `0x1A0D14`:
+
+```text
+file offset = 0x800 + (0x801B0514 - 0x80010000) = 0x1A0D14
+```
+
+The retail bytes there begin `24 21 35 FF`. The recovered glyph mapping decodes
+`24 21 35` as `YOU`, followed by the `FF` string terminator. This is the
+player-side label in the duel-result text bank; the adjacent string contains
+the `COM` label.
+
+In this text format, `FC lo hi` inserts another string from the current text
+bank. The same `FC 5A 12` sequence is used by the name-confirmation dialog,
+where it inserts the string at `0x801B125A`. Matching C in
+`SaveData_ApplyRuntimeState` fills that buffer from the saved player name
+through `Text_SjisToGlyphCodes`.
+
+Replacing only the three `YOU` glyph bytes with `FC 5A 12` therefore keeps
+the existing `FF` terminator and makes the result label render the current
+player name. It does not rename the save data or patch a general ending or
+credits routine, despite the tutorial's broad title.
+
+**Confidence:**
+
+- **Confirmed** that `0x801B0514` contains the `YOU` glyph sequence and maps
+  to SLUS offset `0x1A0D14`.
+- **Confirmed** that `FC 5A 12` inserts the runtime player-name string at
+  `0x801B125A`.
+- **Confirmed** that the patched bytes belong to the player-side duel-result
+  label rather than executable code.
+
 ## Attack-trigger trap thresholds
 
 **Tutorial:** `Efeito trap.txt`
