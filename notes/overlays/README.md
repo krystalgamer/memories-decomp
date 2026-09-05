@@ -399,3 +399,54 @@ output has no instruction scheduling and no register allocation to reproduce,
 so it should be closer to a transliteration than the optimised functions half
 its size. What it needs first is a profile, since none in
 `compiler_profiles.json` uses `-O0`.
+
+## A reload only means volatile when no store separates it
+
+Matching `func_80183B2C` turned on recognising that its two object pointers are
+a `volatile` aggregate local, which is what makes the compiler re-read them
+once per occurrence in the source instead of eliminating the repeat. That is a
+powerful lever — it was worth 54 instructions on its own — and it is also easy
+to over-apply, because repeated loads of one address are common for a reason
+that has nothing to do with `volatile`.
+
+The distinction is whether a **store** sits between the two loads. A store
+through any pointer may alias the memory the load reads, so the compiler must
+re-read afterwards; that says nothing about how the source was written.
+`func_80180390` looks like the strongest candidate in the whole overlay set by
+the naive test, with three identical loads of one global in a single call-free
+block:
+
+```
+lw   v1,%lo(D_80184560)(a1)
+lhu  a0,8(v1)
+sb   v0,14(v1)                   # ... stores through the pointer ...
+sh   a0,8(v1)
+lw   v1,%lo(D_80184560)(a1)      # so this reload is forced, not chosen
+sb   v0,108(v1)
+lw   v0,%lo(D_80184560)(a1)      # and so is this one
+sh   zero,54(v0)
+```
+
+Every reload there follows a store. Nothing about it needs a qualifier; it is
+what spelling a global pointer at each use already produces.
+
+`tools/project/overlay_scan_reloads.py` applies the correct test — identical
+loads in one basic block with no intervening store — and reports the worst case
+per function:
+
+```sh
+tools/environments/python/bin/python tools/project/overlay_scan_reloads.py
+tools/environments/python/bin/python tools/project/overlay_scan_reloads.py \
+    main_menu 0x80183B2C
+```
+
+With no arguments it scans every function still marked `unmatched_asm` in all
+five modules. Both controls behave: `func_80183B2C`, the one function known to
+use a volatile local, reports 3, while `func_80180390` reports 1.
+
+**Measured across all nineteen remaining unmatched entries in the five modules:
+none of them shows the signature.** Every one reports 1. So the volatile lever
+is specific to `func_80183B2C` and should not be tried elsewhere in the overlays
+without new evidence. This is the same kind of result as the `-O0` scan above,
+and worth the same trust: it is a cheap check that closes off a whole class of
+guesses rather than opening one.
