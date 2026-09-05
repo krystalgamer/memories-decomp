@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272 check-tools check-build-tools info extract map split build match overlays verify-overlays build-overlays match-overlays inventory classify-functions candidates siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272 check-tools check-build-tools info extract map split build match overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -40,6 +40,7 @@ help:
 		'  match          Build and compare the complete target executable' \
 		'  overlays       Extract verified runtime overlay module images' \
 		'  verify-overlays  Verify extracted overlay images and metadata' \
+		'  check-metadata Verify tracked manifests and CSV tables only' \
 		'  build-overlays Build verified runtime overlay module images' \
 		'  match-overlays Build and compare all configured overlay modules' \
 		'  inventory      Update the tracked resident-function inventory' \
@@ -131,6 +132,9 @@ overlays: workspace
 
 verify-overlays: workspace
 	@$(PYTHON) tools/project/overlay_extract.py verify
+
+check-metadata:
+	@$(PYTHON) tools/project/overlay_extract.py verify-metadata
 
 build-overlays: overlays check-build-tools
 	@$(PYTHON) tools/project/overlay_build.py build

@@ -105,11 +105,14 @@ a parallel `make` starts them together and the verify loses the race — which
 is exactly what happened the first time the CI step was added, under the
 runner's `MAKEFLAGS=-j4`.
 
-One gap remains by design: the workflow ignores `notes/**`, so a change that
-touches only `notes/card-catalog.csv`, `notes/global-usage.csv` or
-`notes/semantic-symbol-map.csv` will not trigger it. Those three are still
-covered by a local `make verify-overlays` and by any PR that also touches
-`config/` or `src/`.
+The metadata half of that target is also reachable on its own, as `make
+check-metadata`. It reads `config/` and `notes/`, touches no overlay image and
+needs no retail data, no toolchain and no bootstrapped Python, so
+`.github/workflows/metadata.yml` runs it as a separate job that is a checkout
+and one command, with **no path filter** — which is what covers the three tracked
+CSV tables that live under `notes/` and that the overlay build deliberately
+ignores. `make verify-overlays` still runs everything, so nothing is lost
+locally.
 
 Name entry has no module of its own: its package's executable phase is the
 same image as the password screen, entered at different functions. See
