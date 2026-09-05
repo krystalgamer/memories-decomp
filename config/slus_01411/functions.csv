@@ -557,7 +557,7 @@ address,size,name,status,module,notes
 0x8003C4E0,0x88,func_8003C4E0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003C568,0xC0,func_8003C568,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003C628,0x178,func_8003C628,unmatched_asm,game,
-0x8003C7A0,0x12C,func_8003C7A0,matching_c,game,Collaborator-guided pure-C recovery; volatile absolute input state and sized output byte declarations reproduce exact repeated loads and stores.
+0x8003C7A0,0x12C,Options_HandleInput,matching_c,game,Handles options-screen sound-mode toggles confirm actions and cancel. Collaborator-guided pure-C recovery; volatile absolute input state and sized output byte declarations reproduce exact repeated loads and stores.
 0x8003C8CC,0x84,func_8003C8CC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003C950,0x10C,func_8003C950,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003CA5C,0x120,func_8003CA5C,matching_c,game,Collaborator-guided pure-C refinement; absolute scalar declaration and allocation-only v1 pin recover exact tail address/load lifetime.

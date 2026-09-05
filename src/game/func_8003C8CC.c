@@ -1,14 +1,14 @@
 #include "../types.h"
 
-extern u8 D_8009B37C;
+extern u8 gOptions_bState;
 extern void Fade_WaitOut(void);
-extern void func_8003C7A0(void);
+extern void Options_HandleInput(void);
 s32 func_8003C8CC(void) {
-    switch (D_8009B37C & 0xF) {
+    switch (gOptions_bState & 0xF) {
     case 0: Fade_WaitOut(); break;
-    case 1: func_8003C7A0(); break;
+    case 1: Options_HandleInput(); break;
     case 2: break;
-    case 3: D_8009B37C = 1; break;
+    case 3: gOptions_bState = 1; break;
     }
-    return D_8009B37C;
+    return gOptions_bState;
 }

@@ -39,6 +39,9 @@ Names that say what something IS in the game.
 | 0x8009B364 | `gDuel_bTerrain` | idb2018 |
 | 0x8009B366 | `gFreeDuel_bCursorColumn` | live |
 | 0x8009B367 | `gFreeDuel_bCursorRow` | live |
+| 0x8009B37C | `gOptions_bState` | matching C |
+| 0x8009B37D | `gOptions_bOutputType` | matching C + live |
+| 0x8009B384 | `gOptions_bSelection` | matching C |
 | 0x8009B394 | `gInput_wPad1Repeat` | matching C |
 | 0x8009B396 | `gInput_wPad2Repeat` | matching C |
 | 0x8009B398 | `gInput_wPad1Pressed` | matching C |
