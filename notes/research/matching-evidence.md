@@ -335,6 +335,31 @@ turns into a table hits this.
 When reading a target, the tell is a `lw` from a `%hi`/`%lo` symbol pair
 followed by `jr` on the loaded register.
 
+#### How much this blocks
+
+Worth knowing before deciding whether the build-configuration work is worth
+doing: **36 of the 291 remaining resident functions contain a compiler jump
+table, and they account for 62,408 of the 243,664 bytes still in assembly.**
+That is 12.4% of the functions but **25.6% of the bytes**, because a function
+dense enough for GCC to build a table is a large function. The remaining
+resident work is not one queue but two, and the larger quarter of it by weight
+is waiting on a linker script rather than on any decompilation.
+
+Two independent counts agree exactly. Searching each unmatched function's
+generated assembly for a `jtbl_` symbol, and searching it for the tell above —
+a `jr` on a register other than `$ra` — select the same 36 addresses and the
+same byte total. The smallest are `Ai_GetWinningCardRange` (`0x8C`) and
+`Ai_GetCardRange` (`0xAC`); the weight is in the large ones.
+
+The practical consequence for candidate selection: an ascending-size sweep of
+the remaining functions will keep surfacing these, and each one can be finished
+as exact C and still be unusable. Check for `jtbl_` in the target before
+starting, as the section above says — the count is the reason that check pays
+for itself rather than being a rare precaution.
+
+The 54 unmatched overlay functions are tracked separately under #162 and are
+not included in these figures.
+
 ### Register pins
 
 Issue #5 accepts `register` variables pinned to a hard register for functions
