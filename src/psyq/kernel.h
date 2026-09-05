@@ -44,10 +44,10 @@
 #define SwCARD		(DescSW|0x01)	/* memory card */
 #define SwMATH          (DescSW|0x02)	/* libmath */
 
-#define RCntCNT0     	(DescRC|0x00)  	/* •\¦ƒsƒNƒZƒ‹ */
-#define RCntCNT1  	(DescRC|0x01)  	/* …•½“¯Šú */
-#define RCntCNT2  	(DescRC|0x02)  	/* ƒVƒXƒeƒ€ƒNƒƒbƒN‚W•ªü */
-#define RCntCNT3  	(DescRC|0x03)  	/* ‚’¼“¯Šú ƒ^[ƒQƒbƒg’l‚Í‚P‚ÉŒÅ’è */
+#define RCntCNT0     	(DescRC|0x00)  	/* è¡¨ç¤ºãƒ”ã‚¯ã‚»ãƒ« */
+#define RCntCNT1  	(DescRC|0x01)  	/* æ°´å¹³åŒæœŸ */
+#define RCntCNT2  	(DescRC|0x02)  	/* ã‚·ã‚¹ãƒ†ãƒ ã‚¯ãƒ­ãƒƒã‚¯ï¼˜åˆ†å‘¨ */
+#define RCntCNT3  	(DescRC|0x03)  	/* å‚ç›´åŒæœŸ ã‚¿ãƒ¼ã‚²ãƒƒãƒˆå€¤ã¯ï¼‘ã«å›ºå®š */
 
 #define RCntMdINTR	0x1000
 #define RCntMdNOINTR	0x2000

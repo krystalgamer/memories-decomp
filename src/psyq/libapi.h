@@ -10,6 +10,12 @@
  * $PSLibId: Run-time Library Release 4.6$
  */
 
+#ifndef _R3000_H
+#include "r3000.h"
+#endif
+#ifndef _ASM_H
+#include "asm.h"
+#endif
 #ifndef _KERNEL_H
 #include "kernel.h"
 #endif
@@ -131,4 +137,3 @@ extern long _card_format(long chan);	/* added by iwano 98/03/24 */
 #endif /* _LIBAPI_H_ */
 
 /* don't add stuff after this */
-

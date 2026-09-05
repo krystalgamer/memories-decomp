@@ -1,8 +1,7 @@
 #include "../types.h"
+#include "../psyq/libapi.h"
 
 extern u8 gInput_abRawPadBuffers[];
-extern s32 InitPAD(void *, s32, void *, s32);
-extern s32 StartPAD(void);
 extern void Input_ResetPads(void);
 extern u8 D_8009B39C, D_8009B3A2;
 
