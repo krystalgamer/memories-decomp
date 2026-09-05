@@ -278,7 +278,7 @@ address,size,name,status,module,notes
 0x8002C570,0x28,func_8002C570,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8002C598,0x34,func_8002C598,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8002C5CC,0x38,func_8002C5CC,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x8002C604,0x88,func_8002C604,unmatched_asm,game,
+0x8002C604,0x88,func_8002C604,matching_c,game,Exact linked bytes on gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference; the pointer-scalar declaration of D_80010000 and the read order around the flag store are load-bearing.
 0x8002C68C,0x3C,func_8002C68C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002C6C8,0x120,func_8002C6C8,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x8002C7E8,0x150,Duel_CheckRitual,unmatched_asm,game,
