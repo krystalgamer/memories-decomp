@@ -49,6 +49,12 @@
       "source": "src/overlays/overworld/location_marker.c"
     },
     {
+      "address": "0x8016866C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x250",
+      "source": "src/overlays/overworld/set_location.c"
+    },
+    {
       "address": "0x801688BC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1EC",
