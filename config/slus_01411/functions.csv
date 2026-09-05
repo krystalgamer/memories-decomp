@@ -154,7 +154,7 @@ address,size,name,status,module,notes
 0x8001F55C,0x1378,func_8001F55C,unmatched_asm,game,
 0x800208D4,0xB4,func_800208D4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80020988,0x25C,func_80020988,unmatched_asm,game,
-0x80020BE4,0x168,func_80020BE4,unmatched_asm,game,
+0x80020BE4,0x168,func_80020BE4,matching_c,game,Matched from updated collaborator source: volatile display-state accesses preserve the retail reload sequence.
 0x80020D4C,0x19C,func_80020D4C,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_no_split.
 0x80020EE8,0x64,func_80020EE8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80020F4C,0x534,func_80020F4C,unmatched_asm,game,
