@@ -4,7 +4,7 @@ extern u8 gLibrary_aCardArtRecord[];
 extern s32 D_8009B10C;
 extern u8 D_800E9DF0[];
 extern u8 D_8009B0E0;
-extern s32 D_800E9EA8[];
+extern s32 gFile_anLba[];
 extern u8 *gFile_apszName[];
 extern u8 D_80010038[4];
 
@@ -34,7 +34,7 @@ void File_SetPositionTable(void)
     *(s32 *)(state + 8) = 0x180018;
     *(s32 *)(state + 0x10) = 0xFC0230;
 
-    for (i = 0, position = D_800E9EA8, name = gFile_apszName;;) {
+    for (i = 0, position = gFile_anLba, name = gFile_apszName;;) {
         current = *name;
         if (current == (u8 *)0) {
             break;
