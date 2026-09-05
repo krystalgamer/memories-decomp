@@ -5,6 +5,14 @@ attached to issue #368. The tutorials describe edits from a hex-editor
 perspective, so each claim is mapped back to resident code or data before it
 is accepted.
 
+Use this note with
+[`modding-tutorial-gameplay-patches.md`](modding-tutorial-gameplay-patches.md),
+which holds the companion batch of gameplay-focused patch analysis. Both files
+preserve offset-level provenance and confidence; they are not a second gameplay
+specification. Reconciled game behavior belongs in
+[`research/the-game.md`](research/the-game.md), and tentative tutorial claims
+must remain qualified when referenced there.
+
 Confidence levels:
 
 - **Confirmed**: the retail bytes, disassembly, and independently recovered
