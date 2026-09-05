@@ -6,13 +6,13 @@ extern u16 D_8009AF76;
 extern DuelEffectChannel *TextBox_Create(s32, s32, s32, s32, s32, s32);
 extern void func_80039A14(DuelEffectChannel *);
 
-#define D_8009B34D (*(s8 *)0x8009B34D)
+#define gDialog_bChoice (*(s8 *)0x8009B34D)
 
 DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
     DuelEffectChannel *channel;
 
     /* A symbolic store changes the retail assembler-temporary address form. */
-    D_8009B34D = -1;
+    gDialog_bChoice = -1;
     channel = TextBox_Create(
         D_800EF6EA,
         value & 0x7FFF,

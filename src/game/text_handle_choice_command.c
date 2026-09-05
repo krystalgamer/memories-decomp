@@ -3,11 +3,11 @@
 typedef void (*ObjFn)(u8 *);
 
 extern s32 D_8009B350;
-extern s8 D_8009B34D;
-extern s8 D_8009B345;
+extern s8 gDialog_bChoice;
+extern s8 gDialog_bChoiceCount;
 extern u8 D_8009B34C;
-extern u8 D_8009B336;
-extern u8 D_8009B327;
+extern u8 gDialog_bChoiceEnabled;
+extern u8 gDialog_bInputState;
 extern ObjFn D_8009B340;
 
 extern void Text_SetCursorOffset(u8 *);
@@ -34,18 +34,18 @@ void Text_HandleChoiceCommand(u8 *p)
         d = t;
     }
     if (c & 0x80) {
-        *(s32 *)(p - -(*(s8 *)(p + 0x58) * 4)) += D_8009B34D * 2;
+        *(s32 *)(p - -(*(s8 *)(p + 0x58) * 4)) += gDialog_bChoice * 2;
         Text_SetCursorOffset(p);
     } else {
-        D_8009B345 = 7;
-        D_8009B345 = c & D_8009B345;
+        gDialog_bChoiceCount = 7;
+        gDialog_bChoiceCount = c & gDialog_bChoiceCount;
         D_8009B34C = c & 0xF0;
-        D_8009B336 = d & 0xF;
+        gDialog_bChoiceEnabled = d & 0xF;
         w = d & 0x80;
-        D_8009B34D = 0;
-        D_8009B327 = 0;
+        gDialog_bChoice = 0;
+        gDialog_bInputState = 0;
         if (w != 0) {
-            D_8009B327 = 1;
+            gDialog_bInputState = 1;
         }
         func_80035CA8(p[0x57]);
         DuelEffect_ClearMatchingMarker(p[0x57]);

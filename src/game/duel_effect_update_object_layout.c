@@ -8,7 +8,7 @@ typedef struct {
 
 extern u16 D_80090E58[];
 extern u8 D_8009B34C;
-extern s8 D_8009B34D;
+extern s8 gDialog_bChoice;
 extern EffectEntry D_800EB288[];
 
 void DuelEffect_UpdateObjectLayout(u8 *p) {
@@ -44,7 +44,7 @@ void DuelEffect_UpdateObjectLayout(u8 *p) {
     if (k == 1) {
         t = D_8009B34C & 0x30;
         a = t / 16 * 0x10;
-        v = *(u16 *)(p + 0x40) + a + D_8009B34D * 0x10;
+        v = *(u16 *)(p + 0x40) + a + gDialog_bChoice * 0x10;
         *(s16 *)(q + 0x2A) = v;
 
         do {
@@ -63,13 +63,13 @@ void DuelEffect_UpdateObjectLayout(u8 *p) {
     if (k == 2) {
         t2 = D_8009B34C & 0x30;
         b = t2 / 16 * 0xC;
-        v2 = *(u16 *)(p + 0x40) + b + D_8009B34D * 0xC;
+        v2 = *(u16 *)(p + 0x40) + b + gDialog_bChoice * 0xC;
         x = v2 - 2;
         y = v2 + 6;
     } else if (k == 0) {
         t0 = D_8009B34C & 0x30;
         c = t0 / 16 * 0xC;
-        v0 = *(u16 *)(p + 0x40) + c + D_8009B34D * 0xC;
+        v0 = *(u16 *)(p + 0x40) + c + gDialog_bChoice * 0xC;
         x = v0 + 2;
         y = v0 + 0xA;
     } else {
