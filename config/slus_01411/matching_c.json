@@ -1711,6 +1711,12 @@
       "source": "src/game/release_last_id_entry.c"
     },
     {
+      "address": "0x8003201C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xA0",
+      "source": "src/game/func_8003201C.c"
+    },
+    {
       "address": "0x800320BC",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC8",
