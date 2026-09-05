@@ -878,6 +878,37 @@ __asm__ volatile(".word 0x4A180001");
 
 `func_80015D18` is the current matching template for this pattern.
 
+#### GTE functions cannot be reached through the terminal ledger
+
+That inline word is the only validated way to emit these opcodes, and it is
+statement-level inline assembly. `uses_asm_extension()` in
+`record_external_attempt.py` and `integrate_verified_match.py` strips only
+`REGISTER_PIN_PATTERN` under `--allow-register-pins`, and its docstring is
+explicit that statement-level inline assembly is rejected in both modes. So the
+technique that matches a GTE function is precisely the one a
+`post_terminal_resolution` record will refuse.
+
+Every remaining unmatched game function is terminal, so that route is the only
+one available to them. Counting functions whose bytes contain an `lwc2`,
+`swc2`, or a COP2 operation gives **7 unmatched game functions** in that
+position, against 2 already-matched ones that predate the terminal state:
+
+| size | address |
+| --- | --- |
+| `0xA4` | `func_8001B0CC` |
+| `0xD0` | `func_800178BC` |
+| `0xF8` | `func_80015DFC` |
+| `0xF8` | `func_800177C4` |
+| `0x1F8` | `func_80041F90` |
+
+Two larger ones complete the set. They are not hard in the usual sense —
+`func_8001B0CC` is a 41-instruction projection helper whose shape reads
+directly off the target — they are blocked by policy rather than by
+code generation. Recognise the opcodes early and skip, or raise the question of
+whether the validated inline word should be allowed the same narrow exception
+that register pins already have.
+
+
 ## What a masked comparison cannot see
 
 `tools/project/overlay_diff.py` compares one compiled function against the
