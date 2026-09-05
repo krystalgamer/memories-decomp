@@ -2017,6 +2017,12 @@
       "source": "src/game/widget_update_pulse_colour.c"
     },
     {
+      "address": "0x800371A8",
+      "profile": "gcc_2_8_1_cc_g8_as_g1_split",
+      "size": "0x1B4",
+      "source": "src/game/dialog_update_choice.c"
+    },
+    {
       "address": "0x8003735C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
