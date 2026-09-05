@@ -32,7 +32,7 @@ apply solid names directly; operator corrects when needed.
 | # | address | what we proved | proposed name | status |
 |---|---|---|---|---|
 | F10 | `func_80046FA0(mode)` | Fired on every stereo/mono toggle with a0=0 (STEREO) / a0=1 (MONO), both directions. Matched body: writes soundState(D_8009B45C)->f48, toggles flag 0x815, re-derives CD volume via func_80044DC0. Exact DotR vocabulary for this role. | `SD_SetOutputType` | APPLIED |
-| F11 | `0x8009B408` (byte) | Flips 0<->1 with the setting (0=STEREO, 1=MONO), live, both directions, stable across double-checks. func_8003C628 derives D_8009B37D from it (sign-bit = reset semantics), so this is the authoritative stored setting. | `gSD_bOutputType` | APPLIED |
+| F11 | `0x8009B408` (byte) | Flips 0<->1 with the setting (0=STEREO, 1=MONO), live, both directions, stable across double-checks. func_8003C628 derives `gOptions_bOutputType` from it (sign-bit = reset semantics), so this is the authoritative stored setting. | `gSD_bOutputType` | APPLIED |
 | F12 | `0x8003FEE0(id)` | Observed twice with different ids (8 = cancel, 0x2F = option toggle): body always calls SD_SEPlay(id, 0xFF). Current fleet name `call_80048658_255_0` is factually wrong about the args. | `SD_SEPlayFull` | APPLIED |
 | F13 | `SD_SEPlay` id 0x2F | The option-toggle blip (vol 0xFF), via SD_SEPlayFull. | (fact) | CONFIRMED |
 | F14 | `select_sound_preset` (0x800171A8) | Did NOT fire during stereo/mono toggling — it is NOT the output-type setter (kills the earlier SD_SetOutputType hunch for it). | (null result) | CONFIRMED |

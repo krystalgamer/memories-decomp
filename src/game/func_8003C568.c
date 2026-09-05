@@ -2,7 +2,7 @@
 
 typedef struct { u16 h[3]; } Blk6;
 extern u8 D_8009AF5C[];
-extern s8 D_8009B37D;
+extern s8 gOptions_bOutputType;
 extern u8 *D_8009B380;
 extern u8 *D_8009B388;
 
@@ -15,7 +15,7 @@ void func_8003C568(s32 arg0) {
 
     *(Blk6 *)sp0 = *(Blk6 *)D_8009AF5C;
     *(s16 *)(sp0 + 8) = 0x68;
-    k = D_8009B37D;
+    k = gOptions_bOutputType;
     a = D_8009B380;
     b = D_8009B388;
     *(s16 *)(sp0 + 0xA) = 0xC8;
