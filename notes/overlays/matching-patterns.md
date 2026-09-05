@@ -1185,7 +1185,17 @@ sb   v0,12(a1)
 ```
 
 Nothing between the three loads can alias, so ordinary common subexpression
-elimination would have collapsed them. Declaring the pair as
+elimination would have collapsed them. That qualification is the whole rule:
+**a reload only means volatile when no store separates it.** A store through any
+pointer may alias what the load reads, so a reload after one is forced rather
+than chosen and says nothing about the source. `func_80180390` has three
+identical loads of a global in one call-free block and needs no qualifier at
+all, because each one follows a store. Use
+`tools/project/overlay_scan_reloads.py` to apply the test rather than reading it
+off by eye; scanned across all five modules, `func_80183B2C` is the only
+function that shows the signature.
+
+Declaring the pair as
 
 ```c
 u8 *volatile o[2];
