@@ -18,12 +18,13 @@ The request is recovered from the resident loader trace. `Main_RunMenu`
 (`0x8002D588`) calls `func_8005B85C`, whose request is:
 
 ```c
-func_80014E1C(1, &D_800117C8, 0, 0x73, func_8005B64C, 0, 0);
+func_80014E1C(1, gFile_szSuMrgPath, 0, 0x73, func_8005B64C, 0, 0);
 ```
 
-`D_800117C8` is the development path literal `M:/mrgSU/SU.mrg`, so this form
-selects a named archive instead of the WA screen packages. The third and
-fourth arguments remain the first sector and the sector count.
+`gFile_szSuMrgPath` at `0x800117C8` is the development path literal
+`M:/mrgSU/SU.mrg`, so this form selects a named archive instead of the WA
+screen packages. The third and fourth arguments remain the first sector and
+the sector count.
 
 ## Image shape
 

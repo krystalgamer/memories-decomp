@@ -185,6 +185,8 @@ function,0x80046FA0,SD_SetOutputType,confirmed,"Unchiga live stereo/mono traces;
 function,0x80048658,SD_SEPlay,confirmed,"Unchiga live menu traces; recomp card-shop call site; DOTR SD_ vocabulary","Plays a sound-effect ID with caller-supplied volume and flags."
 function,0x800492D8,SD_Init,high,"local matching body; Unchiga call analysis; DOTR SD_ vocabulary","Initializes the sound subsystem and disables reverb through the lower-level SPU path."
 function,0x80049694,SD_Term,high,"local matching body; Unchiga call analysis; DOTR SD_ vocabulary","Runs the sound-driver cleanup chain and terminates the lower-level SPU path."
+global,0x80011580,gFile_szModelMrgPath,confirmed,"retail path literal; Model_LoadMonsterMerge relocation; Unchiga F155","Development-path string M:/mrgSU/model.mrg used by the resident model loader."
+global,0x800117C8,gFile_szSuMrgPath,confirmed,"retail path literal; matching func_8005B85C; SU archive sector map; Unchiga F155","Development-path string M:/mrgSU/SU.mrg used by the resident main-menu package request."
 global,0x8009078C,gFile_apszName,confirmed,"local initialized data; File_SetPositionTable assembly; disc manifest","Null-terminated array of seven runtime file-name string pointers."
 global,0x800909D4,gDuel_aTerrainBoost,high,"Duel_GetTerrainBoost assembly; Unchiga IDB label","Six-byte terrain-effect records indexed by card type and current terrain."
 global,0x8009B258,gCardGrid_bCursorColumn,confirmed,"Unchiga reversible live traces; local grid-navigation assembly","Column of the shared card-grid cursor."
