@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 extern s8 gCardGrid_bCursorColumn;
 extern s8 gCardGrid_bCursorRow;
@@ -27,7 +28,7 @@ s32 func_8002A6B8(void)
     column_ones = (s8)(column - column_tens * 10);
     index = base + column_ones;
     result = 0;
-    if (index < 723) {
+    if (index < CARD_COUNT + 1) {
         result = index;
     }
     return result;
