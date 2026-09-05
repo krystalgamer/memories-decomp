@@ -650,7 +650,7 @@ A duel ends the moment one of these holds, checked after every action:
 
 In **2P Duel only**, Select on the active player's turn offers
 `QUIT DUEL? NO YES`, with No selected by default. The input check
-[`func_8001BD48`] is gated by the negative opponent id used for two-player
+[`Duel_CheckQuitInput`] is gated by the negative opponent id used for two-player
 battles, so the prompt is not a single-player surrender option. Choosing Yes
 fades to black and returns to the initial menu; 2P Duel has no score, drop, or
 persistent record (§9.1). What a normal win or loss *means* is decided by the

@@ -3,13 +3,13 @@
 
 extern signed char gDuel_bOpponentID[];
 extern unsigned short gInput_wPad1Pressed[];
-extern unsigned char D_8009B164;
+extern unsigned char gDuel_bQuitDialogState;
 
-int func_8001BD48(void)
+int Duel_CheckQuitInput(void)
 {
     if (gDuel_bOpponentID[0] < 0) {
         if (gInput_wPad1Pressed[0] & PAD_BUTTON_SELECT) {
-            D_8009B164 = 1;
+            gDuel_bQuitDialogState = 1;
             return 1;
         }
     }
