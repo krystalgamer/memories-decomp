@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "duel_card.h"
 
 extern u8 D_8009B1D5;
-extern u8 D_801A7AD8[];
 
 s32 func_80026C0C(s32 arg0)
 {
@@ -18,8 +18,8 @@ s32 func_80026C0C(s32 arg0)
 
     base = D_8009B1D5 * 15 + arg0;
     off = base * 28;
-    p = D_801A7AD8 + off;
-    for (i = 0; i < 5; i++) {
+    p = (u8 *)D_801A7AD8 + off;
+    for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
         if ((*(u16 *)(p + 0x16) & 0x8000) == 0) {
             return base + i;
         }
