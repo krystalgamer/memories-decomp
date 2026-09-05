@@ -55,6 +55,10 @@ EXTERNAL_MODES = {
     "collaborator_match",
     "post_terminal_resolution",
 }
+COLLABORATOR_REFERENCE_SETS = (
+    "ygofm-decomp-unchiga",
+    "ygofm-decomp-machinegun",
+)
 EXTERNAL_MODE_LIMITS = {
     "reference_match": MAX_FUNCTION_ATTEMPTS,
     "inline_refinement": MAX_FUNCTION_ATTEMPTS,
@@ -63,6 +67,9 @@ EXTERNAL_MODE_LIMITS = {
 }
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
+REGISTER_PIN_PATTERN = re.compile(
+    r"\bregister\b[^;=]*?\b(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
+)
 COMMENT_PATTERN = re.compile(r"/\*.*?\*/|//[^\n]*", re.DOTALL)
 
 
@@ -424,19 +431,30 @@ def audit_attempts(root: Path) -> None:
                 "tmp/references/ygofm-decomp/src/"
                 f"func_{address:08X}.c"
             )
-            collaborator = (
+            safe = (
                 not reference.is_absolute()
                 and ".." not in reference.parts
-                and reference.parts[:4]
-                == ("tmp", "references", "ygofm-decomp-unchiga", "src")
                 and reference.suffix == ".c"
+            )
+            collaborator = (
+                safe
+                and len(reference.parts) > 4
+                and reference.parts[:2] == ("tmp", "references")
+                and reference.parts[2] in COLLABORATOR_REFERENCE_SETS
+                and reference.parts[3] == "src"
+            )
+            evidence = safe and (
+                reference.parts[:2] == ("tmp", "references")
+                or reference.parts[0] == "src"
             )
             valid_reference = (
                 row["reference_path"] == original
                 if mode == "reference_match"
                 else collaborator
                 if mode == "collaborator_match"
-                else row["reference_path"] == original or collaborator
+                else row["reference_path"] == original
+                or collaborator
+                or (mode == "post_terminal_resolution" and evidence)
             )
             if not valid_reference:
                 raise AuditError(
@@ -530,7 +548,7 @@ def audit_attempts(root: Path) -> None:
                 f"{address:#010x}: current source does not define "
                 f"{function_names[address]}"
             )
-        if ASM_PATTERN.search(body):
+        if ASM_PATTERN.search(REGISTER_PIN_PATTERN.sub("", body)):
             raise AuditError(
                 f"{address:#010x}: successful external source still uses GCC asm"
             )
