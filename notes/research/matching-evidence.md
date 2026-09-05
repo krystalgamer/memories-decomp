@@ -1008,23 +1008,28 @@ object model through two related parent/child constructors.
 
 ## Deferred-function guidance
 
-The following evidence narrows future analysis but does not authorize a seventh
-variant. Deferred functions remain terminal under the six-attempt policy.
+The following evidence narrowed future analysis at this snapshot. Deferred
+functions remain terminal under the six-attempt policy unless genuinely new
+evidence produces a separately recorded exact result.
 
-- `func_8003D334` reached exact size and relocations; its remaining mismatch is
-  scratchpad-packet initialization and register scheduling.
+- At this snapshot, `func_8003D334` had exact size and relocations but still
+  differed in scratchpad-packet initialization and register scheduling. A
+  later collaborator-derived C body reproduced all `0x138` bytes and
+  relocations under `gcc_2_8_1_g8`.
 - At this snapshot, `func_8003A990` was four bytes short and differed mainly
   in allocation plus one reload around signed division by `0x400`. A later
   post-terminal pass preserved the signed division expressions and store
   ordering, matching all `0x154` bytes under `gcc_2_8_1_g8_split`.
-- `func_8003AAE4` matches its initialization/call prefix; the remaining
-  mismatch is phase-register and color-replication ordering.
+- At this snapshot, `func_8003AAE4` matched its initialization/call prefix but
+  still differed in phase-register and color-replication ordering. The same
+  collaborator body later matched all `0x164` bytes and relocations under
+  `gcc_2_8_1_g0`.
 - Future untouched handlers in the module surrounding exact
   `Text_StartCampaignDuel` should start from G0 direct byte-stream reads rather than
   wrapper helpers.
-- Future untouched allocator/list users in the module surrounding deferred
-  `func_800400AC` should begin with the provisional `0x70`-byte layout and a
-  G8 split-address profile.
+- Future untouched allocator/list users in the module surrounding the now-exact
+  `func_800400AC` should begin with its confirmed `0x70`-byte slot layout and
+  `gcc_2_8_1_g8_split` profile.
 - Four-state callbacks in the `0x8003Bxxx` module use nested branch trees,
   while five- and six-state callbacks use explicit jump tables. Absolute
   destination tables in those callbacks require G0; G8 produces truncated
