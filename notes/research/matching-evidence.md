@@ -69,6 +69,64 @@ same problem seen from the other side.
 Pinning a base pointer to a hard register does not help: GCC folds the pointer
 back into a symbol-indexed load and the pin is optimised away.
 
+#### Large constant offsets need a struct member and a split profile
+
+A table reached at a large constant offset from a symbol has its own failure
+mode, distinct from the two address forms above. Written as pointer
+arithmetic, both halves of the offset are compile-time constants in one
+expression, so GCC folds them together and emits a single oversized load
+displacement. The assembler expands that through `$at` in three instructions:
+
+```
+lui $at, 5 ; addu $at, $v0, $at ; lw $v0, -18760($at)
+```
+
+The target instead spends four, materialising the round part of the offset and
+keeping the remainder as the displacement:
+
+```
+lui $a0, 0x4 ; ori $a0, $a0, 0x8000 ; addu $v0, $v0, $a0 ; lw $v0, 0x36B8($v0)
+```
+
+Declaring the symbol as a padded struct object and reading the member directly
+restores that form, because GCC splits a large struct member offset rather than
+folding it. Measured against `gcc_2_8_1_g0_split` by varying only the pad:
+
+| member offset | materialised | load displacement |
+| --- | --- | --- |
+| `0x1000` | none | 4096 |
+| `0x7FF0` | none | 32752 |
+| `0x8000` | `0x8000` | 0 |
+| `0x9000` | `0x8000` | 4096 |
+| `0x18000` | `0x18000` | 0 |
+| `0x36B8` | none | 14008 |
+| `0x4B6B8` | `0x48000` | 14008 |
+| `0x4B9FC` | `0x48000` | 14844 |
+
+Below `0x8000` the whole offset fits a signed displacement and nothing is
+materialised. At or above it GCC materialises the largest multiple of `0x8000`
+and leaves the remainder as the displacement. Beware that padding is subject to
+the struct's alignment, so a pad of `0x8001` in front of a four-byte member
+places it at `0x8004`, not `0x8001`.
+
+Two conditions are easy to get wrong:
+
+- the idiom needs a **split** profile. Under a non-split profile GCC folds the
+  offset into the relocation instead, emitting `lui $at, %hi(sym+308920)`, and
+  the `$at` form returns. No arrangement of the struct changes that.
+- the offset must actually be large enough to split. Declaring a symbol as a
+  padded struct object buys nothing when the member sits below `0x8000`, since
+  there is no split to make. `Ai_GetHandSize` is the worked negative: rewriting
+  `gDuel_aOpponentData` as a struct object leaves every non-split profile
+  emitting the same `lui $at` / `addu $at` / `lb` sequence as before.
+
+`func_80024D34` (`0x80024D34`, `0x48000` plus `0x36B8`) and
+`duel_has_all_exodia_pieces.c` (`0x4B9FC` in the same blob) are the two worked
+positives, both on `D_8015C424`.
+
+Register pins are not a substitute here either. GCC constant-folds through the
+pin, so pinning the base or the offset leaves the `$at` form in place.
+
 #### How much the address temporary tells you about the profile
 
 The two forms above are worth measuring rather than eyeballing, because the
