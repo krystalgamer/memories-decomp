@@ -2593,6 +2593,12 @@
       "source": "src/game/main_init_free_duel_menu.c"
     },
     {
+      "address": "0x8003BA14",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x1E4",
+      "source": "src/game/func_8003BA14.c"
+    },
+    {
       "address": "0x8003BBF8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x48",
