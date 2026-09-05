@@ -1566,7 +1566,7 @@ address,size,name,status,module,notes
 0x800854C0,0x38,func_800854C0,sdk_asm,psyq/sdk,
 0x80085500,0xA4,func_80085500,sdk_asm,psyq/sdk,
 0x800855B0,0x14,func_800855B0,sdk_asm,psyq/sdk,
-0x800855D0,0x2C,func_800855D0,sdk_asm,psyq/sdk,
+0x800855D0,0x2C,GsSetLsMatrix,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/MATRIX4.OBJ signature and matching projection callers.
 0x80085600,0x94,func_80085600,sdk_asm,psyq/sdk,
 0x800856A0,0x98,func_800856A0,sdk_asm,psyq/sdk,
 0x80085740,0x74,func_80085740,sdk_asm,psyq/sdk,
