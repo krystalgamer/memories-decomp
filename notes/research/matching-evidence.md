@@ -1260,6 +1260,56 @@ The practical rule is that once shape, count, profile and types are settled
 and the only difference is which register holds a long-lived address, further
 source permutation is low-yield — record what was measured and move on.
 
+## A fast probe harness must copy the real flags
+
+Iterating on a candidate with a small local script - compile, run maspsx,
+assemble, disassemble, diff against the generated assembly - is much faster
+than a full `make match`. It is also easy to build one that is quietly wrong,
+because it fails by flattering the result rather than by erroring.
+
+Three faults found in one such harness while working `func_80012DB4`, all of
+which made the candidate look closer than it was:
+
+**The assembler needs `-G`.** `build_baseline.py` passes `-G{data_limit}`
+from the profile. A harness that omits it inherits the binutils default of
+`-G8`, so every profile gets assembled as though the assembler were G8. On a
+`cc_g8_as_g0` profile that turned a true 53-instruction result into an
+apparent 38, and made a profile that was never competitive look like the
+leader. `data_limit` tracks the **assembler** side, which the cross profiles
+confirm: `cc_g8_as_g0` has `data_limit` 0 and `cc_g0_as_g8` has 8.
+
+This also explains where `%gp_rel` comes from. GCC does not emit it. GCC
+emits a bare symbol reference plus a size directive:
+
+```
+lhu  $2, D_8009B098
+.extern D_8009B098, 2
+```
+
+and the assembler performs the small-data conversion when it is given `-G8`.
+Checking the pre-assembler output for `%gp_rel` therefore always reports
+zero and proves nothing; the evidence is gp-relative addressing off `$28` in
+the disassembled object.
+
+**Counting instructions with `grep -c '^ '` counts labels.** Internal `.L`
+labels are indented like instructions. On a function with three of them a
+42-instruction target reads as 45, which inflated an apparent shortfall from
+four instructions to seven and produced a wrong "whole statements are
+missing" diagnosis. Match on a leading mnemonic instead, and print the
+harness's own target count rather than hardcoding one - a hardcoded literal
+agrees with the wrong number instead of exposing it.
+
+**A matched function cannot be used as a regression test.** The obvious way
+to validate a harness is to run it against something already matched and
+expect a clean result. That cannot work here: once a function becomes
+matching C, splat stops emitting generated assembly for it, so the comparison
+runs against an empty target and reports success-shaped nonsense. Validate
+the flags against `build_baseline.py` directly instead.
+
+The common thread is that all three faults were silent and optimistic. A
+harness that errors is harmless; one that quietly scores a wrong shape as
+close costs cycles in the direction of false confidence.
+
 ## Choosing the right instrument to verify a candidate
 
 Diff count is the cheap instrument and it is the one that misleads. Three
