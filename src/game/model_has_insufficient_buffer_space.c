@@ -28,5 +28,5 @@ s32 Model_HasInsufficientBufferSpace(s32 index, s32 type) {
     } else {
         room -= size;
     }
-    return room < 0x401;
+    return room < MODEL_DATA_MIN_FREE_BYTES;
 }
