@@ -35,7 +35,7 @@ checks:
 ```sh
 make basic-types          # every C file uses src/types.h
 make external-attempts    # validate external/refinement attempt records
-make check-global-usage   # verify generated global-usage reports
+make check-global-usage   # optional generated global-usage consistency check
 make check-progress       # optional README progress consistency check
 ```
 
@@ -119,9 +119,9 @@ Matching, attempt-ledger updates, and integration remain sequential.
   definition order, and exactly cover the grouped object. Do not split,
   reorder, or partially replace a grouped translation unit without preserving
   those invariants and the full executable match.
-- Treat `make progress` as an optional project-wide snapshot update, not part
-  of each decompilation change. Use `make global-usage` when source or symbol
-  changes affect the tracked global usage reports.
+- Treat `make progress` and `make global-usage` as optional project-wide
+  snapshot updates, not part of each decompilation change. Matching PRs do not
+  need to refresh either report.
 
 ## C and naming conventions
 
