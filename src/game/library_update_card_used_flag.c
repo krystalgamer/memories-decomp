@@ -1,10 +1,11 @@
 #include "../types.h"
+#include "campaign_flags.h"
 
 extern u8 D_801D0000[];
 
 void Library_UpdateCardUsedFlag(s32 arg0)
 {
-    register s32 t asm("v0") = arg0 & 0x7FF;
+    register s32 t asm("v0") = arg0 & CAMPAIGN_FLAG_ID_MASK;
     register s32 i asm("a2") = t >> 3;
     register s32 test asm("v0") = arg0 & 0x8000;
     register u8 *p asm("v1");
