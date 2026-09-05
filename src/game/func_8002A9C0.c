@@ -2,8 +2,8 @@
 
 extern void func_8004036C(void *);
 extern void func_80041F90(u8 *, s32, s32, u8 *);
-extern void func_80087AB0(u8 *, u8 *, u8 *, u8 *, u8 *, u8 *, u8 *, u8 *,
-                         s32 *, s32 *);
+extern long RotAverage4(u8 *, u8 *, u8 *, u8 *, u8 *, u8 *, u8 *, u8 *,
+                        s32 *, s32 *);
 extern void func_8005B260(u8 *, s32, u16, s32);
 
 void func_8002A9C0(u8 *p, s32 arg1)
@@ -70,10 +70,10 @@ void func_8002A9C0(u8 *p, s32 arg1)
     *(s16 *)(b3 + 2) = w;
     *(s16 *)(b0 + 0x12) = w;
 
-    func_80087AB0((u8 *)0x1F800300, (u8 *)0x1F800308,
-                  (u8 *)0x1F800310, (u8 *)0x1F800318,
-                  (u8 *)0x1F8002A8, (u8 *)0x1F8002AC,
-                  (u8 *)0x1F8002B4, (u8 *)0x1F8002B0, &sp28, &sp2C);
+    RotAverage4((u8 *)0x1F800300, (u8 *)0x1F800308,
+                (u8 *)0x1F800310, (u8 *)0x1F800318,
+                (u8 *)0x1F8002A8, (u8 *)0x1F8002AC,
+                (u8 *)0x1F8002B4, (u8 *)0x1F8002B0, &sp28, &sp2C);
 
     func_8005B260((u8 *)0x1F8002A0, arg1, *(u16 *)(p + 0x14), 1);
     q[3] = 3;

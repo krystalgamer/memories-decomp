@@ -433,5 +433,6 @@ PopMatrix = 0x80087274; // type:func
 SetGeomOffset = 0x800878B0; // type:func
 SetGeomScreen = 0x800878D0; // type:func
 RotAverage3 = 0x80087A50; // type:func
+RotAverage4 = 0x80087AB0; // type:func
 ratan2 = 0x800899A0; // type:func
 GsSetRefView2 = 0x8008AD50; // type:func
