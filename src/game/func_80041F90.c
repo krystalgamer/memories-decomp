@@ -60,8 +60,8 @@ struct Obj {
 
 typedef void (*ObjCallback)(struct Obj *, s32);
 
-extern void func_800878B0(s32 a0, s32 a1);
-extern void func_800878D0(s32 a0);
+extern void SetGeomOffset(long a0, long a1);
+extern void SetGeomScreen(long a0);
 extern void func_80088C50(struct Vec308 *a0, struct Mat *a1);
 extern void func_80087670(struct Mat *a0, struct VecScale *a1);
 extern void func_800855D0(struct Mat *a0);
@@ -82,8 +82,8 @@ s32 func_80041F90(struct Obj *obj, s32 arg1, s32 arg2, struct Out *out) {
     out->f2 = arg2;
     out->f4 = obj->field65;
 
-    func_800878B0(arg1, arg2);
-    func_800878D0(0x12C);
+    SetGeomOffset(arg1, arg2);
+    SetGeomScreen(0x12C);
 
     v308->f0 = (s16)(obj->field20 * 0x10);
     v308->f2 = (s16)(obj->field21 * 0x10);

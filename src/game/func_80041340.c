@@ -7,8 +7,8 @@ extern void (*D_80090FB0[])(void);
 extern void func_80087870();
 extern void func_80087890();
 extern void func_800857E0();
-extern void func_800878D0();
-extern void func_800878B0();
+extern void SetGeomScreen(long);
+extern void SetGeomOffset(long, long);
 
 void func_80041340(void)
 {
@@ -20,8 +20,8 @@ void func_80041340(void)
     func_800857E0(2, D_80090FDC);
     for (i = 6; i >= 0; i--) {
         if (D_800EFE38[i] >= 0) {
-            func_800878D0(150);
-            func_800878B0(0, 0);
+            SetGeomScreen(150);
+            SetGeomOffset(0, 0);
             D_80090FB0[i]();
         }
     }

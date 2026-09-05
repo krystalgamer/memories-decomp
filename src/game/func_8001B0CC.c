@@ -3,8 +3,8 @@
 extern s16 D_800F2856;
 extern u8 D_800FE148[];
 extern u16 D_800908A0[];
-extern void func_800878D0(s32);
-extern void func_800878B0(s32, s32);
+extern void SetGeomScreen(long);
+extern void SetGeomOffset(long, long);
 extern void func_800855D0(void *);
 
 /* Projects the coordinate pair at D_800908A0[index * 2] through the GTE and
@@ -17,9 +17,9 @@ s16 func_8001B0CC(s32 index)
     register s32 coord asm("$16") = index;
     s16 result;
 
-    func_800878D0(D_800F2856);
+    SetGeomScreen(D_800F2856);
     coord = coord * 4;
-    func_800878B0(0xA0, 0x6C);
+    SetGeomOffset(0xA0, 0x6C);
     func_800855D0(D_800FE148);
     __asm__ volatile(
         "lui $3, 0x1F80\n"
@@ -43,6 +43,6 @@ s16 func_8001B0CC(s32 index)
         "swc2 $14, 0($2)\n"
         : "+r"(coord), "=m"(result) : : "$2", "$3", "$4"
     );
-    func_800878B0(0, 0);
+    SetGeomOffset(0, 0);
     return result;
 }
