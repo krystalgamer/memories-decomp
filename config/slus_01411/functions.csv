@@ -1029,7 +1029,7 @@ address,size,name,status,module,notes
 0x8005F714,0x9C,func_8005F714,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8005F7B0,0x78,func_8005F7B0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8005F828,0xF4,func_8005F828,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
-0x8005F91C,0x1C8,func_8005F91C,unmatched_asm,game,
+0x8005F91C,0x1C8,func_8005F91C,matching_c,game,Three-mode sound record dispatcher; exact unaligned eight-byte record copies.
 0x8005FAE4,0x24,func_8005FAE4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8005FB08,0xC,func_8005FB08,matching_c,game,1 pre-policy variants: Zero comparison of the G8 byte flag matched linked bytes and GPREL16 relocation.
 0x8005FB14,0x1C,func_8005FB14,matching_c,game,1 pre-policy variants: Conditional G8 word return matched branch scheduling and both GPREL16 relocations.
