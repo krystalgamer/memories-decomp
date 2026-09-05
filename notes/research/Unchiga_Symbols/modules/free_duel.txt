@@ -16,3 +16,6 @@ gFreeDuel_pCursorWidget = 0x801690A0;
 gFreeDuel_bScreenFlags = 0x801690A4;
 // Resident return-state byte shared with the menu dispatcher.
 gFreeDuel_bReturnFlags = 0x8009B365;
+// Resident viewport origins used by generated assembly and matching C.
+gGraphics_sViewportX = 0x8009B146;
+gGraphics_sViewportY = 0x8009B148;

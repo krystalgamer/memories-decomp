@@ -96,6 +96,5 @@ Via SD_SEPlay(id, 0xFF): 6 = menu cursor move, 7 = confirm (X), 8 = cancel
 
 | address | current name | observed | suspicion |
 |---|---|---|---|
-| `0x8009B146` (s16) | -- | Zeroed alongside the scroll offset 0x8009B148 at screen init (0x801682F8); never written during vertical moves. | Horizontal scroll offset twin, or a stale field. Check with LEFT/RIGHT past the viewport. |
 | `0x8009B394..0x8009B39A`, `0x8009B3A4..0x8009B3A6` | `gInput_wPad1/2Repeat`, `gInput_wPad1/2Pressed`, `gInput_wPad1/2Held` | RESOLVED by matching `Input_UpdatePads`: 394/396 are repeat masks, 398/39A newly-pressed masks, and 3A4/3A6 held masks for pads 1/2 respectively. | APPLIED |
 | `0x800F07E8`, `0x800F0858` | widget pool slots | Thumb widget and cursor widget instances (pool D_800F0548, 0x70-byte records: +0x30 x, +0x32 y, +0x36/38 vel, +0x60 counter, +0x62 frac). | Name the pool struct first; these are instances. |

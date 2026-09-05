@@ -1858,7 +1858,7 @@
       "address": "0x800338E4",
       "profile": "gcc_2_8_1_g0",
       "size": "0xB4",
-      "source": "src/game/func_800338E4.c"
+      "source": "src/game/build_deck_update_pane_transition.c"
     },
     {
       "address": "0x80033998",

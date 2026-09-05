@@ -158,6 +158,8 @@ committed deck.
 | `working deck count` | 0x801D560C | The staged deck size (40 ↔ 39 during edits); guards read it inside the screen, and the committed deck elsewhere. |
 | `gDuel_awPlayerDeck` | 0x801D0200 | Your 40-card deck (part of the save block). |
 | `gLibrary_abCardChest` | 0x801D0250 | Your trunk — per-card counts of everything you own (part of the save block). |
+| `gGraphics_sViewportX / Y` | 0x8009B146 / 48 | Shared 2D viewport origin subtracted from rendered object coordinates. X drives the 0↔320 Build Deck pane slide; Y follows vertical scrolling screens such as Free Duel. |
+| `BuildDeck_UpdatePaneTransition` | 0x800338E4 | Interpolates `gGraphics_sViewportX` over 16 ticks between 0 for the trunk pane and 320 for the deck pane. |
 | `BuildDeck_CompareCard` | 0x80032B60 | One of the two generic list comparators (with `compare_rec_two_level_std`). The mode byte uses 1 number, 2 name, 3 stronger stat, 4 ATK, 5 DEF, 6 type, then 8 New for the trunk or 9 Shuffle for the deck; each mode rebuilds the records' keys and picks a comparator. Trunk orders are computed once then cached, while the deck re-sorts live. |
 | `gCard_asNameSortKey` | 0x801D4D8E | Per-card sort keys for that comparison. |
 
