@@ -894,7 +894,7 @@ address,size,name,status,module,notes
 0x800556E8,0x2EC,func_800556E8,unmatched_asm,game,
 0x800559D4,0x748,func_800559D4,unmatched_asm,game,
 0x8005611C,0x134,func_8005611C,matching_c,game,"Exact post-terminal match from updated collaborator source: named 0x1000 stores, loop cursor, and stored-one lifetime reproduce linked bytes and relocations."
-0x80056250,0x2B4,func_80056250,unmatched_asm,game,
+0x80056250,0x2B4,func_80056250,matching_c,game,Exact linked bytes with gcc_2_8_1_g8_split from the ygofm reference; per-block base locals and the chained limit assignment are load-bearing.
 0x80056504,0x324,Model_LoadMonsterMerge,unmatched_asm,game,
 0x80056828,0x554,func_80056828,unmatched_asm,game,
 0x80056D7C,0x7C8,func_80056D7C,unmatched_asm,game,
