@@ -475,6 +475,44 @@ problem. `tools/vendor/maspsx` is pinned, and the fix would be to treat a
 bare-symbol load or store of a small undefined extern as gp-relative for the
 purposes of hazard detection.
 
+A second worked example reaches the same defect from the other side.
+`func_80012DB4` (`0x80012DB4`) has
+
+```
+lw $v0, %gp_rel(D_8009B0C8)($gp)
+nop
+sb $v0, %gp_rel(D_8009B0C1)($gp)
+```
+
+where the candidate emits the `lw` and the `sb` adjacent. In `func_80025028` the
+hazard was a `lbu` through a pointer feeding a store to a small extern; here it
+is a `lw` from one small extern feeding a store to another. Both operands being
+gp-relative changes nothing, because `_uses_gp` fails on the *store's* symbol
+either way — both are `extern`, so neither is in `sbss_entries` or
+`sdata_entries`. The load's own form is irrelevant to the decision.
+
+That the two examples differ in load width, in where the loaded value comes
+from, and in whether the source operand is gp-relative, while failing at exactly
+the same point, is worth more than either on its own: the trigger is the store
+alone.
+
+`func_80012DB4` is also worth reading for its `volatile` requirement, which is
+unrelated but was what its terminal history actually missed. Four of its six
+rows fail at `+0x2c` with `fbff4014 != 03004010` — `bnez` back to the loop head
+against `beqz` forward. It is a spin loop, and it only compiles that way when
+both globals are `volatile`:
+
+```c
+while (D_8009B0C8 < D_8009B0C0) {
+}
+```
+
+Without `volatile` GCC hoists both loads out and the loop degenerates, which is
+what every one of those rows recorded. Two nearby reads are width-sensitive in
+the same spirit: `D_8009B0C8` is read once and used for both the store and the
+`& 0xFF` test, and `D_8009B0D8` is written as a word but read back as a byte, so
+that read has to be `*(volatile u8 *)&D_8009B0D8`.
+
 ### Register pins
 
 Issue #5 accepts `register` variables pinned to a hard register for functions
