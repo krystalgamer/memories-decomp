@@ -181,6 +181,67 @@ Prefer instruction-count parity first, then compare the bodies. "The diff got
 smaller" is the natural way to pick a profile and it will rank the wrong one
 first whenever address form changes how many instructions a load costs.
 
+##### The rule inverts when the source shape changes
+
+Count parity ranks profiles against a *fixed* source. It is not a way to rank
+source shapes against each other, and used that way it points the wrong way,
+because a shape can shed instructions by dropping a structural element the
+target actually has. When the source changes, require count and diff to agree
+before preferring a shape, and treat a candidate that falls *below* the
+target's count as a warning rather than as progress.
+
+`func_8005A3D0` (`0x8005A3D0`, 38 instructions) produced four of these in a
+row while the best honest candidate sat at 38 of 38 with 20 differences:
+
+| shape | instructions | diffs |
+| --- | --- | --- |
+| self-pointer taken from the outer cursor | 39 | 38 |
+| `while (1)` with the increment in the exit test | 37 | 32 |
+| a `goto` into the middle of the `for` | 37 | 32 |
+| dropping the redundant `if (n != 0)` guard | 35 | 32 |
+
+The first looks like an improvement on a then-current 41 and is not: it deletes
+the byte-offset cursor the target plainly carries, and re-forms the
+self-pointer from the outer pointer instead of from a reloaded base. The last
+three fall under the target count outright. In every case the diff moved the
+opposite way to the count, which is the signal to distrust the count.
+
+#### A `do`/`while` with a `break` pays a rotation fixup
+
+GCC 2.8.1 rotates a search loop written body-first into a continue-form branch
+with the induction variable bumped in the back-edge delay slot, then undoes the
+bump on the way out:
+
+```
+addiu $a2, $a2, 0x1        in the delay slot of the back edge
+addiu $a2, $a2, -0x1       immediately after the exit
+```
+
+That pair is pure overhead and the target does not have it. Writing the same
+search as a `for` removes it:
+
+```c
+for (; j < n; j++, inner++) {
+    if (inner->f4C == self) {
+        break;
+    }
+}
+```
+
+On `func_8005A3D0` that was worth three instructions, taking the body from 41
+to exactly 38. Every body-first spelling reintroduces the fixup and returns to
+41: `do { … } while (j < n)`, `do { … } while (++j < n)`,
+`do { … } while (inner++, j < n)`, and `for (;;)` with two `break`s all score
+the same 41.
+
+The awkward part is that the target's own loop *is* body-first: it relies on an
+earlier guard and drops straight into the body, spending the two slots the
+`for` form spends on its entry test on address setup instead. No C spelling
+gives both properties at once — the `for` form avoids the fixup but pays for a
+guard, and every body-first form drops the guard but pays for the fixup. Take
+the `for` form, since the fixup costs instructions the target does not have
+while the guard only occupies slots the target also spends.
+
 #### Separate register-permutation residuals from schedule-permutation ones
 
 A body whose instruction multiset, registers and relocations are all exact but
