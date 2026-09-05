@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "ai.h"
 
 extern s32 gAiScript_aMemory[];
 extern u8 D_800EAE88[];
@@ -15,7 +16,7 @@ void AiScript_PlayFaceUp(void)
     s32 d = memory[AiScript_ReadByte()];
     s32 e = memory[AiScript_ReadByte()];
 
-    D_800EAE88[5] = 0;
+    D_800EAE88[AI_SCRIPT_COMBO_CARD_COUNT - 1] = 0;
     D_800EAE88[0] = a;
     D_800EAE88[1] = b;
     D_800EAE88[2] = c;
