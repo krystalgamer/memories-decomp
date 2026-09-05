@@ -20,7 +20,7 @@ extern short D_8009B46A;
 extern short D_8009B46C;
 extern short D_8009B46E;
 extern u8 D_800F569F[];
-extern s32 func_80074170();
+extern int VSync(int);
 extern s32 MoveImage();
 
 void func_8004E9A0(void) {
@@ -36,7 +36,7 @@ void func_8004E9A0(void) {
         k = D_8009AF88[0xA0];
         switch (k) {
         case 1:
-            u_0 = func_80074170(-1) / 8;
+            u_0 = VSync(-1) / 8;
             D_8009B46A = 0x1C0;
             D_8009B46C = 0x10;
             D_8009B46E = 0x40;
@@ -46,7 +46,7 @@ void func_8004E9A0(void) {
             break;
         case 4:
             n = 8;
-            u_1 = func_80074170(-1) / 10;
+            u_1 = VSync(-1) / 10;
             r4 = u_1 % n;
             D_8009B468 = 0x260;
             q = D_80091508[r4];
