@@ -423,6 +423,14 @@ def parse_args() -> argparse.Namespace:
             "statement-level inline assembly is still rejected"
         ),
     )
+    parser.add_argument(
+        "--allow-psyq-inline-macros",
+        action="store_true",
+        help=(
+            "accept assembly introduced by an included Psy-Q inline macro; "
+            "assembly written directly in the candidate remains rejected"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -525,8 +533,12 @@ def main() -> int:
             uses_asm_extension(
                 source_text, allow_register_pins=args.allow_register_pins
             )
-            or uses_asm_extension(
-                preprocessed_text, allow_register_pins=args.allow_register_pins
+            or (
+                not args.allow_psyq_inline_macros
+                and uses_asm_extension(
+                    preprocessed_text,
+                    allow_register_pins=args.allow_register_pins,
+                )
             )
         ):
             raise ExternalAttemptError(
