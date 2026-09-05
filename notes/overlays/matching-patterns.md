@@ -211,6 +211,58 @@ reproduces the target exactly. The same source with `offset` initialised
 before the loop, or folded into `record + i * stride + base_offset`, fails in
 the two ways described above.
 
+The mirror case is when the **address** is the one that must increment, so the
+loop body reads `addu $rDest, $rOffset, $rTable` with `addiu $rTable, $rTable,
+stride` at the bottom. Letting GCC create that giv folds the row offset into
+its initial value, because both halves are invariant. Walking an explicit
+source pointer instead keeps them apart:
+
+```c
+offset = slot * row_bytes;
+p = table;
+while (i < count) {
+    entry = ...p and offset...;
+    p++;
+    i++;
+}
+```
+
+Here `p` varies, so `p + offset` is not invariant and survives into the body.
+Measured on `func_801840F8` in the main menu module. Initialising the counter
+**before** `offset` and `p` also matters: with the counter left to a `for`
+initialiser it is emitted after them and the two loop registers come out
+swapped.
+
+## Which operand comes first in a two-register add
+
+`addu $rD, $rA, $rB` and `addu $rD, $rB, $rA` are different words, so operand
+order is part of the match. Two rules decide it.
+
+**Integer addition keeps source order; pointer addition does not.** The C front
+end rewrites `int + pointer` back to `pointer + int`, so a target that adds an
+invariant offset *before* a pointer cannot be written as `offset + p`. Making
+the addition integer-typed preserves the order:
+
+```c
+entry = (Type *)(offset + (s32)p);   /* addu $rD, $rOffset, $rP */
+entry = (Type *)((u8 *)p + offset);  /* addu $rD, $rP, $rOffset */
+```
+
+**Accumulating into a variable pins it to the first operand.** `x += v` emits
+`addu $rX, $rX, $rV`, because the destination is also the left operand. When
+the target reads `addu $rX, $rV, $rX` the sum went into a **different**
+variable, and the operands then follow source order:
+
+```c
+total = entry->count + amount;       /* addu $rTotal, $rCount, $rAmount */
+```
+
+This is the same evidence as the locals rule — a register holding a value the
+source named — read through the operand fields rather than through an extra
+copy.
+
+Both measured on `func_801840F8` in the main menu module.
+
 ## Emission order distinguishes hand-written from generated code
 
 The preheader gives a reliable reading of which values the source named.
