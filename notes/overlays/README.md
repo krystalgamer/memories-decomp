@@ -276,6 +276,43 @@ Its five words sit at module offset `0x7C`–`0x90`, inside the same
 initialiser at `0x4`–`0x7C`. The two functions' emitted data is contiguous, so
 whoever carves `module_header` should do both at once rather than twice.
 
+### Carving the blob is necessary but not sufficient
+
+Both blocked functions need compiler-emitted data at module offsets `0x4`
+through `0x90`, which is inside `.module_header` at `0x80168000` and therefore
+**before all of the module's text**. The generated linker script cannot put it
+there:
+
+- `section_order` is `.text`, `.rodata`, `.data`, `.sdata`, `.sbss`, `.bss`,
+  and it applies **within each segment**. So in `.module` every C object's
+  `.rodata` is placed after every object's `.text` — the script literally opens
+  the run with `module_RODATA_START = .` immediately after
+  `module_TEXT_END = .`.
+- `.module_header` lists only the tracked `module_header.data.o(.data)`. It has
+  no `.rodata` line for any object at all.
+
+So splitting the data blob is only half the change. The segment model also has
+to place that one source file's `.rodata` inside `.module_header`, which is a
+change to how the layout is generated rather than to the yaml alone.
+
+**The failure is silent.** The script ends with
+
+```
+/DISCARD/ :
+{
+    *(*);
+}
+```
+
+so a section nobody placed is dropped rather than diagnosed. A wrong attempt
+does not fail at link time; it surfaces later as a module hash mismatch from
+`make match-overlays`, with nothing pointing at the discarded section.
+
+Worth knowing before starting: **all 75 overlay C objects currently have an
+empty `.rodata`**, measured with `objdump -h`. Nothing in the overlays has ever
+exercised this path, so there is no working example to copy from and no reason
+to assume the rodata lines in the generated script are correct.
+
 So the pre-flight check has two halves: `grep 'jtbl_'` as well as looking for
 the frame-bound block copy. Every unmatched function in all five modules was
 scanned for jump table references; `func_8016A37C` is the only hit, and the
