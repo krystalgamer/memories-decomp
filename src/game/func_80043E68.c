@@ -2,7 +2,7 @@
 
 extern void *D_800F2AE0[];
 extern int EnterCriticalSection(void);
-extern void func_80073870(void *);
+extern void CloseEvent(void *);
 extern void ExitCriticalSection(void);
 
 void func_80043E68(void)
@@ -12,7 +12,7 @@ void func_80043E68(void)
     EnterCriticalSection();
     count = 8;
     do {
-        func_80073870(*item++);
+        CloseEvent(*item++);
         count--;
     } while (count != 0);
     ExitCriticalSection();

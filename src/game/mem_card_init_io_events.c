@@ -7,8 +7,8 @@ extern volatile int D_8009B450;
 extern void *D_800F2AE0[];
 extern void *D_800F2AF0[];
 extern int EnterCriticalSection(void);
-extern void *func_80073860(int, int, int, void *);
-extern void func_80073890(void *);
+extern void *OpenEvent(int, int, int, void *);
+extern void EnableEvent(void *);
 extern void ExitCriticalSection(void);
 extern void func_80043D48(void **);
 extern void func_8008B3A0(int);
@@ -32,23 +32,23 @@ void MemCard_InitIOEvents(void)
         items = D_800F2AE0;
         EnterCriticalSection();
         cb0 = MemCard_SetIOResultCompleteCB;
-        base[0] = func_80073860(0xF4000001, 4, 0x1000, cb0);
+        base[0] = OpenEvent(0xF4000001, 4, 0x1000, cb0);
         cb1 = MemCard_SetIOResultTimeoutCB;
-        items[1] = func_80073860(0xF4000001, 0x100, 0x1000, cb1);
+        items[1] = OpenEvent(0xF4000001, 0x100, 0x1000, cb1);
     }
     cb2 = MemCard_SetIOResultErrorCB;
-    items[2] = func_80073860(0xF4000001, 0x8000, 0x1000, cb2);
+    items[2] = OpenEvent(0xF4000001, 0x8000, 0x1000, cb2);
     {
         register void *cb3 = MemCard_SetIOResultNewCardCB;
-        items[3] = func_80073860(0xF4000001, 0x2000, 0x1000, cb3);
-        items[4] = func_80073860(0xF0000011, 4, 0x1000, cb0);
-        items[5] = func_80073860(0xF0000011, 0x100, 0x1000, cb1);
-        items[6] = func_80073860(0xF0000011, 0x8000, 0x1000, cb2);
-        items[7] = func_80073860(0xF0000011, 0x2000, 0x1000, cb3);
+        items[3] = OpenEvent(0xF4000001, 0x2000, 0x1000, cb3);
+        items[4] = OpenEvent(0xF0000011, 4, 0x1000, cb0);
+        items[5] = OpenEvent(0xF0000011, 0x100, 0x1000, cb1);
+        items[6] = OpenEvent(0xF0000011, 0x8000, 0x1000, cb2);
+        items[7] = OpenEvent(0xF0000011, 0x2000, 0x1000, cb3);
     }
     count = 8;
     do {
-        func_80073890(*items++);
+        EnableEvent(*items++);
         count--;
     } while (count != 0);
     ExitCriticalSection();

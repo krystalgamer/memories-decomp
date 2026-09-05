@@ -12,8 +12,8 @@ extern SoundState *D_8009B458;
 
 extern int EnterCriticalSection(void);
 extern void func_80073A54(s32);
-extern s32 func_80073860(s32, s32, s32, void (*)(void));
-extern void func_80073890(s32);
+extern s32 OpenEvent(s32, s32, s32, void (*)(void));
+extern void EnableEvent(s32);
 extern void func_80073950(s32, s32, s32);
 extern void func_80073A24(s32);
 extern void ExitCriticalSection(void);
@@ -35,10 +35,10 @@ void func_8004B854(void)
         register s32 flags asm("$6") = 0x1000;
         register void (*callback)(void) asm("$7") = func_8004B734;
 
-        event = func_80073860(descriptor, mode, flags, callback);
+        event = OpenEvent(descriptor, mode, flags, callback);
     }
     D_8009B458->event = event;
-    func_80073890(event);
+    EnableEvent(event);
     func_80073950(0xF2000002, 0xE000, 0x1000);
     func_80073A24(0xF2000002);
     ExitCriticalSection();

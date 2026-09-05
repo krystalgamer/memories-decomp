@@ -1206,10 +1206,10 @@ address,size,name,status,module,notes
 0x80073830,0xC,func_80073830,sdk_asm,psyq/sdk,
 0x80073840,0xC,func_80073840,sdk_asm,psyq/sdk,
 0x80073850,0xC,func_80073850,sdk_asm,psyq/sdk,
-0x80073860,0xC,func_80073860,sdk_asm,psyq/sdk,
-0x80073870,0xC,func_80073870,sdk_asm,psyq/sdk,
+0x80073860,0xC,OpenEvent,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A08.OBJ signature and matching event-registration callers.
+0x80073870,0xC,CloseEvent,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A09.OBJ signature and matching event-teardown callers.
 0x80073880,0xC,func_80073880,sdk_asm,psyq/sdk,
-0x80073890,0xC,func_80073890,sdk_asm,psyq/sdk,
+0x80073890,0xC,EnableEvent,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A12.OBJ signature and matching event-registration callers.
 0x800738A0,0xC,func_800738A0,sdk_asm,psyq/sdk,
 0x800738B0,0x10,EnterCriticalSection,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A36.OBJ signature and matching event-management callers.
 0x800738C0,0x10,ExitCriticalSection,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A37.OBJ signature and matching event-management callers.
