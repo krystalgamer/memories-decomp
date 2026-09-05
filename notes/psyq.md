@@ -266,6 +266,20 @@ No current game C includes either sound header. The existing `SpuRead` and
 resident callees reached by the matching code; they do not yet establish that
 the surrounding game-owned state is an SDK `Spu*` or `Ss*` structure.
 
+`libpress.h` is the codec side of the media stack, not the disc-stream
+controller. It defines the `DECDCTENV` quantization/IDCT record, the
+`DECDCTTAB` VLC table, `DecDCT*` reset/decode/input/output interfaces, and the
+separate `EncSPU*` PCM-to-SPU-waveform encoders. The `StSetRing`,
+`StSetStream`, `StGetNext`, and `StFreeRing` functions are instead declared by
+both `libcd.h` and `libds.h`; the `SpuSt*` family in `libspu.h` is a third,
+SPU-audio streaming interface.
+
+The resident movie setup path combines these layers: `func_8005B8A0` reaches
+the CD `St*` ring/stream calls and `DecDCTvlcBuild`. That call chain is evidence
+for cooperating APIs, not evidence that their similarly named stream
+interfaces are interchangeable. No current game C directly includes
+`libpress.h`.
+
 `libsn.h` is a development-host interface, not a retail storage API.
 `PCinit`, `PCopen`, `PCcreat`, `PClseek`, `PCread`, `PCwrite`, and `PCclose`
 communicate with the Psy-Q host file server, while `pollhost` and `PSYQpause`
