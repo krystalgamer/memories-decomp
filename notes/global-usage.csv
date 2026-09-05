@@ -1810,7 +1810,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B344,D_8009B344,D_8009B344,0x80023144,func_80023144,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013944.s,read_write,8,"lbu $v0, %lo(D_8009B344)($v0) | lui $at, %hi(D_8009B344) | (+2 more)"
 0x8009B344,D_8009B344,D_8009B344,0x80038070,func_80038070,matching_c,game,C,src/game/duel_effect_command.c,read,8,"func_80038024(object, D_8009B344);"
 0x8009B345,gDialog_bChoiceCount,gDialog_bChoiceCount,0x8002EE94,func_8002EE94,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01f694.s,write,8,"lui $at, %hi(gDialog_bChoiceCount) | sb $v0, %lo(gDialog_bChoiceCount)($at)"
-0x8009B345,gDialog_bChoiceCount,gDialog_bChoiceCount,0x8003700C,Dialog_ReadChoiceInput,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02780c.s,read,8,"lb $v1, %gp_rel(gDialog_bChoiceCount)($gp)"
+0x8009B345,gDialog_bChoiceCount,gDialog_bChoiceCount,0x8003700C,Dialog_ReadChoiceInput,matching_c,game,C,src/game/dialog_read_choice_input.c,read,8,s32 count = gDialog_bChoiceCount;
 0x8009B345,gDialog_bChoiceCount,gDialog_bChoiceCount,0x80037CE0,func_80037CE0,matching_c,game,C,src/game/func_80037CE0.c,read_write,8,if (control != 0) gDialog_bChoiceCount = 2; | if (object[0x56] >= gDialog_bChoiceCount) {
 0x8009B345,gDialog_bChoiceCount,gDialog_bChoiceCount,0x80038BF0,Text_HandleChoiceCommand,matching_c,game,C,src/game/text_handle_choice_command.c,write,8,gDialog_bChoiceCount = 7; | gDialog_bChoiceCount = c & gDialog_bChoiceCount;
 0x8009B348,D_8009B348,D_8009B348,0x80037A58,func_80037A58,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,16,D_8009B348[0] = gGraphics_sViewportX[0]; | D_8009B348[1] = gGraphics_sViewportY[0]; | (+4 more)
@@ -1826,7 +1826,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x800339D0,func_800339D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0241d0.s,read,8,"lb $v0, %lo(gDialog_bChoice)($v0) | lui $v0, %hi(gDialog_bChoice)"
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x80036DBC,DuelEffect_UpdateObjectLayout,matching_c,game,C,src/game/duel_effect_update_object_layout.c,read,8,v = *(u16 *)(p + 0x40) + a + gDialog_bChoice * 0x10; | v0 = *(u16 *)(p + 0x40) + c + gDialog_bChoice * 0xC; | (+1 more)
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x80036F80,Dialog_HighlightChoice,matching_c,game,C,src/game/dialog_highlight_choice.c,read,8,if (((gDialog_bChoiceEnabled >> gDialog_bChoice) & 1) == 0) value = 0xC0;
-0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x8003700C,Dialog_ReadChoiceInput,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02780c.s,read_write,8,"lbu $a0, %gp_rel(gDialog_bChoice)($gp) | lbu $v0, %gp_rel(gDialog_bChoice)($gp) | (+5 more)"
+0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x8003700C,Dialog_ReadChoiceInput,matching_c,game,C,src/game/dialog_read_choice_input.c,read_write,8,gDialog_bChoice = 0; | gDialog_bChoice = choice + 1; | (+3 more)
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x800371A8,Dialog_UpdateChoice,matching_c,game,C,src/game/dialog_update_choice.c,read_write,8,gDialog_bChoice = g & 7; | m = 1 << gDialog_bChoice;
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x80038BF0,Text_HandleChoiceCommand,matching_c,game,C,src/game/text_handle_choice_command.c,read_write,8,*(s32 *)(p - -(*(s8 *)(p + 0x58) * 4)) += gDialog_bChoice * 2; | gDialog_bChoice = 0;
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x8003D46C,DuelEffect_CreateChannel,matching_c,game,C,src/game/duel_effect_create_channel.c,write,,gDialog_bChoice = -1;
@@ -1946,7 +1946,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x800330BC,func_800330BC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_023448.s,read,16,"lhu $v0, %lo(gInput_wPad1Repeat)($v0) | lui $v0, %hi(gInput_wPad1Repeat)"
 0x8009B394,gInput_wPad1Repeat,D_8009B394,0x8003353C,func_8003353C,matching_c,game,C,src/game/func_8003353C.c,read,16,if ((D_8009B394 & 0xC0) != 0) {
 0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x800336F0,func_800336F0,matching_c,game,C,src/game/func_800336F0.c,read,16,if ((gInput_wPad1Repeat & PAD_BUTTON_CONFIRM_MASK) == 0) {
-0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x8003700C,Dialog_ReadChoiceInput,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02780c.s,read,16,"lhu $v0, %lo(gInput_wPad1Repeat)($v0) | lui $v0, %hi(gInput_wPad1Repeat)"
+0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x8003700C,Dialog_ReadChoiceInput,matching_c,game,C,src/game/dialog_read_choice_input.c,read,16,if (gInput_wPad1Repeat & 0x5008) { | if (gInput_wPad1Repeat & 0x8) { | (+1 more)
 0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,write,16,gInput_wPad1Repeat = repeat;
 0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x8003CDF8,Input_BackupPad1AndUsePad2,matching_c,game,C,src/game/input_state_backup.c,read_write,16,gInput_wPad1Repeat = value; | value = gInput_wPad1Repeat;
 0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x8003CE48,Input_RestorePad1FromBackup,matching_c,game,C,src/game/input_state_backup.c,write,16,gInput_wPad1Repeat = value;
