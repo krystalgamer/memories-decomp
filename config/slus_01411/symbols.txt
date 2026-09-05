@@ -328,3 +328,6 @@ gDialog_bChoice = 0x8009B34D;
 
 // Semantic names
 Widget_UpdatePulseColour = 0x80037110; // type:func
+
+// Semantic names
+DuelEffect_ProcessEntries = 0x80039D64; // type:func

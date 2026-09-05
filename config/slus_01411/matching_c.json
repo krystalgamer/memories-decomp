@@ -2362,7 +2362,7 @@
       "address": "0x80039D64",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x138",
-      "source": "src/game/func_80039D64.c"
+      "source": "src/game/duel_effect_process_entries.c"
     },
     {
       "address": "0x80039E9C",

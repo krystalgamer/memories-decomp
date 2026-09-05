@@ -51,17 +51,17 @@ Verified entry fields are:
 
 | Offset | Shared field | Evidence |
 |---:|---|---|
-| `0x11` | `flags_11` | bit `0x80` gates exact scans; target `func_8003741C` and `func_80039D64` agree |
+| `0x11` | `flags_11` | bit `0x80` gates exact scans; target `func_8003741C` and `DuelEffect_ProcessEntries` agree |
 | `0x12` | `field_12` | compared with the requested marker plus one |
 | `0x13` | `field_13` | active-value test/write in the bounded scan pair |
 | `0x15` | `field_15` | second byte written by `func_800373C8` |
 | `0x18` | `field_18` | range write in `func_8003B6AC`; `DuelEffect_UpdateObjectLayout` reads it |
 
-Exact C for `func_80039D64` copies complete seven-word (`0x1C`) records and
-advances both pointers by `0x1C`, independently confirming that the named
-bytes belong to one record rather than parallel arrays. Unchiga's same-address
-sketches and GMS pseudocode corroborate these accesses but do not determine
-the shared types.
+Exact C for `DuelEffect_ProcessEntries` (`0x80039D64`) copies complete
+seven-word (`0x1C`) records and advances both pointers by `0x1C`,
+independently confirming that the named bytes belong to one record rather
+than parallel arrays. Unchiga's same-address sketches and GMS pseudocode
+corroborate these accesses but do not determine the shared types.
 
 `DuelEffect_UpdateObjectLayout` now provides an additional exact-C read of
 `DuelEffectEntry.field_18`. It selects the display-object coordinate layout
@@ -86,8 +86,8 @@ Matching-C functions implemented with inline assembly remain unchanged:
 
 `DuelEffect_UpdateObjectLayout` is also matching C, but it retains a minimal
 local `EffectEntry` view and is not counted among the six shared-header users.
-`func_80039D64` likewise remains on its local complete-record view so its
-newly accepted source does not broaden the shared declaration.
+`DuelEffect_ProcessEntries` likewise remains on its local complete-record view
+so its accepted source does not broaden the shared declaration.
 
 The remaining assembly users are also unchanged. For `D_800EB0F8` they are
 `func_80019D18`, `func_8001B170`, `func_800235C0`, `func_800262D4`,
