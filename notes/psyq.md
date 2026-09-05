@@ -189,8 +189,21 @@ numeric and assembler register aliases. `kernel.h` layers the BIOS ABI records
 and constants over both headers, including `TCB`, `EvCB`, `EXEC`, `XF_HDR`,
 and the 40-byte `DIRENTRY`. These are low-level ABI definitions; they are not
 game-owned scheduler or filesystem structures merely because their fields
-have similar roles. Current game C reaches this stack only through imported
-SDK headers such as `libapi.h` and `libmcrd.h`.
+have similar roles.
+
+`libapi.h` is the callable BIOS-wrapper layer over `kernel.h`. It declares
+root-counter control, events, threads, low-level `open`/`read`/`write` and
+directory iteration, executable loading, pad lifecycle, critical sections,
+register access, and raw memory-card services. The records passed to
+`firstfile`, `nextfile`, `Load`, and `Exec` come from `kernel.h`, while the
+`O_*` mode aliases for `open` come from the separate `sys/file.h` stack.
+`libmcrd.h` is a higher-level card API and must not be substituted for the
+`_card_*` block operations merely because both address memory cards.
+
+No current game C directly includes `libapi.h`, `kernel.h`, or `libmcrd.h`.
+The confirmed resident `OpenEvent`, critical-section, `firstfile`, and
+`nextfile` call sites still use local declarations pending exact header
+migration.
 
 The graphics headers also form distinct layers. `libgpu.h` owns the GPU packet
 ABI: `RECT`, `DRAWENV`, `DISPENV`, primitive records, packet-construction
