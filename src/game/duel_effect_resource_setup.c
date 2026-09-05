@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 extern u8 D_800EA0E8[];
 extern volatile u32 D_8009B0F4;
@@ -20,7 +21,7 @@ u8 *func_80029164(s32 slot, s32 value)
 
     *(u16 *)(record + 0x30) = value;
     object = func_80014EEC(
-        0, 0, (value - 1) * 7 + 0x2D2, 7, func_800289BC, 0, 0);
+        0, 0, (value - 1) * 7 + CARD_COUNT, 7, func_800289BC, 0, 0);
     *(s32 *)(object + 0x38) = slot;
     D_8009B0F4 = *(s32 *)(object + 0x2C) | 0x10;
     return object;
