@@ -6,7 +6,7 @@ extern s8 gOptions_bOutputType;
 extern u8 *D_8009B380;
 extern u8 *D_8009B388;
 
-void func_8003C568(s32 arg0) {
+void Options_UpdateLayout(s32 arg0) {
     u8 sp0[12];
     u8 *a;
     u8 *b;

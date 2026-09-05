@@ -6,7 +6,7 @@
    from gSD_bOutputType (clearing the output type back to 0 when its sign bit
    is set) and calls func_8003C4E0(0); obj2 gets an
    8-arg func_800404CC setup and is stashed in D_8009B388;
-   obj3 gets a 10-arg func_80040510 setup. Finally func_8003C568 is called
+   obj3 gets a 10-arg func_80040510 setup. Finally Options_UpdateLayout is called
    with the selection flag (set to 0 earlier), D_8009B380 is set to obj3,
    and func_8003FF08(0x7350) runs last.
 
@@ -43,7 +43,7 @@ extern void func_800404CC(struct Obj *obj, s32 a1, s32 a2, s32 a3,
                                          s32 a5, s32 a6, s32 a7, s32 a8);
 extern void func_80040510(struct Obj *obj, s32 a1, s32 a2, s32 a3, s32 a5,
                            s32 a6, s32 a7, s32 a8, s32 a9, s32 a10);
-extern void func_8003C568(s32 arg0);
+extern void Options_UpdateLayout(s32 arg0);
 extern void func_8003FF08(s32 a0);
 
 void Options_Init(void) {
@@ -79,7 +79,7 @@ void Options_Init(void) {
     {
         s32 flag = gOptions_bSelection;
         D_8009B380 = obj;
-        func_8003C568(flag);
+        Options_UpdateLayout(flag);
     }
     func_8003FF08(0x7350);
 }
