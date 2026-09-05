@@ -181,6 +181,46 @@ it is `s16`.
 Observed in `FreeDuel_UpdateSparkle`, where this closed the semantic gap
 though that function does not yet match in full.
 
+## A global reloaded for every test is volatile
+
+The single most expensive thing to get wrong, because it is invisible in the
+logic and shows up only as size. `CampaignMap_MoveCameraDpad` tests one pad
+word twelve times:
+
+```
+lhu  v0,%lo(D_8009B3A4)(a1)
+nop
+andi v0,v0,0x40
+beqz v0,...
+...
+lhu  v0,%lo(D_8009B3A4)(a1)     <- reloaded, two instructions later
+nop
+andi v0,v0,0x8000
+```
+
+Written as a plain `extern u16`, GCC folds all twelve into one load and the
+function builds **95 instructions against 128** — a quarter of the body gone,
+with every branch and every constant still correct. Adding `volatile` to the
+declaration matches it exactly, with no other change.
+
+Read the sign this way round: a load of the same global repeated in blocks
+that a single load would dominate is not the scheduler failing to CSE. GCC
+2.8.1 at `-O2` will hoist that without hesitation. The reload *is* the
+qualifier, and no amount of statement reordering will reproduce it.
+
+The stall is part of the tell. Each reload is followed by its own `nop`,
+because a volatile load cannot be moved to cover its own delay slot either.
+
+Two practical notes:
+
+- Check the resident sources before deciding. `D_8009B3A4` was already
+  `volatile u16` in four of them, so the overlay was the outlier, not the
+  discovery. Grep for the symbol first — a match elsewhere in the repo is
+  cheaper evidence than a rebuild.
+- Getting it wrong is *not* symmetrical. A missing `volatile` loses
+  instructions in bulk; a spurious one adds them. A build that is short by
+  roughly the number of times a global is tested is this, almost always.
+
 ## A flat comparison chain is if/else, and the last arm is the else
 
 GCC 2.8.1 lowers even a small `switch` to a **balanced comparison tree**: it

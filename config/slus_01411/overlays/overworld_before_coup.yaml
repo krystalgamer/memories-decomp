@@ -66,7 +66,7 @@ segments:
       - [0x1E8, c, overlays/overworld/camera_from_location]
       - [0x258, c, overlays/overworld/view_update]
       - [0x310, c, overlays/overworld/camera_reset]
-      - [0x388, asm, overlays/overworld_before_coup/text_388]
+      - [0x388, c, overlays/overworld/camera_dpad]
       - [0x588, c, overlays/overworld/location_marker]
       - [0x66C, asm, overlays/overworld_before_coup/text_66C]
       - [0x8BC, c, overlays/overworld/camera_tween]
