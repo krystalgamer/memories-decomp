@@ -1,0 +1,4042 @@
+equip_id,equip,monster_id,monster
+301,Legendary Sword,12,Swamp Battleguard
+301,Legendary Sword,15,Flame Swordsman
+301,Legendary Sword,26,Battle Ox
+301,Legendary Sword,27,Beaver Warrior
+301,Legendary Sword,29,Mountain Warrior
+301,Legendary Sword,33,Judge Man
+301,Legendary Sword,38,Gaia the Fierce Knight
+301,Legendary Sword,41,Celtic Guardian
+301,Legendary Sword,43,Karbonala Warrior
+301,Legendary Sword,64,Tiger Axe
+301,Legendary Sword,66,Kojikocy
+301,Legendary Sword,78,Axe Raider
+301,Legendary Sword,92,Rabid Horseman
+301,Legendary Sword,93,Zanki
+301,Legendary Sword,100,Battle Warrior
+301,Legendary Sword,110,Hero of the East
+301,Legendary Sword,118,Supporter in the Shadows
+301,Legendary Sword,120,Dream Clown
+301,Legendary Sword,131,Octoberser
+301,Legendary Sword,133,Charubin the Fire Knight
+301,Legendary Sword,138,Dragon Statue
+301,Legendary Sword,147,Monster Egg
+301,Legendary Sword,151,Rhaimundos of the Red Sword
+301,Legendary Sword,156,Hard Armor
+301,Legendary Sword,160,M-warrior #1
+301,Legendary Sword,161,M-warrior #2
+301,Legendary Sword,165,The Judgement Hand
+301,Legendary Sword,166,Mysterious Puppeteer
+301,Legendary Sword,172,Armaill
+301,Legendary Sword,185,Eyearmor
+301,Legendary Sword,196,Arma Knight
+301,Legendary Sword,199,Penguin Knight
+301,Legendary Sword,212,Meotoko
+301,Legendary Sword,224,Trap Master
+301,Legendary Sword,231,Wood Clown
+301,Legendary Sword,235,Wodan the Resident of the Forest
+301,Legendary Sword,250,Hyo
+301,Legendary Sword,252,Nekogal #1
+301,Legendary Sword,256,Dimensional Warrior
+301,Legendary Sword,262,The Little Swordsman of Aile
+301,Legendary Sword,265,The Furious Sea King
+301,Legendary Sword,266,Princess of Tsurugi
+301,Legendary Sword,286,Gatekeeper
+301,Legendary Sword,290,Moon Envoy
+301,Legendary Sword,291,Fireyarou
+301,Legendary Sword,293,Masaki the Legendary Swordsman
+301,Legendary Sword,299,Sonic Maid
+301,Legendary Sword,352,Kanan the Swordmistress
+301,Legendary Sword,354,Stuffed Animal
+301,Legendary Sword,362,Millennium Shield
+301,Legendary Sword,389,Giltia the D. Knight
+301,Legendary Sword,399,Swordsman from a Foreign Land
+301,Legendary Sword,434,Beautiful Beast Trainer
+301,Legendary Sword,456,Minomushi Warrior
+301,Legendary Sword,479,Cockroach Knight
+301,Legendary Sword,502,D. Human
+301,Legendary Sword,511,Bean Soldier
+301,Legendary Sword,553,Mushroom Man #2
+301,Legendary Sword,572,Empress Judge
+301,Legendary Sword,601,Tenderness
+301,Legendary Sword,609,Bladefly
+301,Legendary Sword,701,Performance of Sword
+301,Legendary Sword,704,Skull Guardian
+302,Sword of Dark Destruction,12,Swamp Battleguard
+302,Sword of Dark Destruction,14,Battle Steer
+302,Sword of Dark Destruction,22,Summoned Skull
+302,Sword of Dark Destruction,23,The Wicked Worm Beast
+302,Sword of Dark Destruction,25,Horn Imp
+302,Sword of Dark Destruction,30,Zombie Warrior
+302,Sword of Dark Destruction,38,Gaia the Fierce Knight
+302,Sword of Dark Destruction,66,Kojikocy
+302,Sword of Dark Destruction,68,Garoozis
+302,Sword of Dark Destruction,107,Kageningen
+302,Sword of Dark Destruction,119,Trial of Nightmares
+302,Sword of Dark Destruction,124,Ancient Tool
+302,Sword of Dark Destruction,127,Ansatsu
+302,Sword of Dark Destruction,182,Masked Clown
+302,Sword of Dark Destruction,195,Doron
+302,Sword of Dark Destruction,214,Kagemusha of the Blue Flame
+302,Sword of Dark Destruction,219,Solitude
+302,Sword of Dark Destruction,225,Fiend Sword
+302,Sword of Dark Destruction,226,Skull Stalker
+302,Sword of Dark Destruction,234,Beautiful Headhuntress
+302,Sword of Dark Destruction,236,Guardian of the Labyrinth
+302,Sword of Dark Destruction,239,Vishwar Randi
+302,Sword of Dark Destruction,241,Dark Assailant
+302,Sword of Dark Destruction,246,One Who Hunts Souls
+302,Sword of Dark Destruction,256,Dimensional Warrior
+302,Sword of Dark Destruction,267,Unknown Warrior of Fiend
+302,Sword of Dark Destruction,269,Versago the Destroyer
+302,Sword of Dark Destruction,281,Mystic Clown
+302,Sword of Dark Destruction,293,Masaki the Legendary Swordsman
+302,Sword of Dark Destruction,294,Dragoness the Wicked Knight
+302,Sword of Dark Destruction,297,Cyber Soldier of Darkworld
+302,Sword of Dark Destruction,355,Megasonic Eye
+302,Sword of Dark Destruction,356,Super War-lion
+302,Sword of Dark Destruction,359,Three-legged Zombies
+302,Sword of Dark Destruction,360,Zera The Mant
+302,Sword of Dark Destruction,364,Black Luster Soldier
+302,Sword of Dark Destruction,369,Wall Shadow
+302,Sword of Dark Destruction,374,Gate Guardian
+302,Sword of Dark Destruction,376,Monster Tamer
+302,Sword of Dark Destruction,378,Swordstalker
+302,Sword of Dark Destruction,405,Saber Slasher
+302,Sword of Dark Destruction,406,Yaiba Robo
+302,Sword of Dark Destruction,416,Blocker
+302,Sword of Dark Destruction,469,Armed Ninja
+302,Sword of Dark Destruction,523,The Bistro Butcher
+302,Sword of Dark Destruction,554,Lava Battleguard
+302,Sword of Dark Destruction,559,Oscillo Hero
+302,Sword of Dark Destruction,585,Mechanical Snail
+302,Sword of Dark Destruction,586,Greenkappa
+302,Sword of Dark Destruction,618,Warrior of Tradition
+302,Sword of Dark Destruction,621,Succubus Knight
+302,Sword of Dark Destruction,635,Queen's Double
+302,Sword of Dark Destruction,641,Invader of the Throne
+302,Sword of Dark Destruction,649,Hibikime
+302,Sword of Dark Destruction,702,Hungry Burger
+302,Sword of Dark Destruction,707,Skull Knight
+302,Sword of Dark Destruction,715,Psycho-Puppet
+302,Sword of Dark Destruction,716,Garma Sword
+302,Sword of Dark Destruction,720,Mask of Shine & Dark
+302,Sword of Dark Destruction,722,Magician of Black Chaos
+303,Dark Energy,3,Hitotsu-me Giant
+303,Dark Energy,5,Ryu-kishin
+303,Dark Energy,6,Feral Imp
+303,Dark Energy,9,Shadow Specter
+303,Dark Energy,10,Blackland Fire Dragon
+303,Dark Energy,12,Swamp Battleguard
+303,Dark Energy,16,Time Wizard
+303,Dark Energy,17,Right Leg of the Forbidden One
+303,Dark Energy,18,Left Leg of the Forbidden One
+303,Dark Energy,19,Right Arm of the Forbidden One
+303,Dark Energy,20,Left Arm of the Forbidden One
+303,Dark Energy,21,Exodia the Forbidden
+303,Dark Energy,22,Summoned Skull
+303,Dark Energy,23,The Wicked Worm Beast
+303,Dark Energy,24,Skull Servant
+303,Dark Energy,25,Horn Imp
+303,Dark Energy,30,Zombie Warrior
+303,Dark Energy,31,Koumori Dragon
+303,Dark Energy,34,Saggi the Dark Clown
+303,Dark Energy,35,Dark Magician
+303,Dark Energy,38,Gaia the Fierce Knight
+303,Dark Energy,40,Dragon Piper
+303,Dark Energy,42,Illusionist Faceless Mage
+303,Dark Energy,45,Oscillo Hero #2
+303,Dark Energy,48,Sangan
+303,Dark Energy,58,Kuriboh
+303,Dark Energy,65,Silver Fang
+303,Dark Energy,66,Kojikocy
+303,Dark Energy,75,Man-eating Plant
+303,Dark Energy,76,Krokodilus
+303,Dark Energy,81,Crawling Dragon #2
+303,Dark Energy,83,Castle of Dark Illusions
+303,Dark Energy,84,Reaper of the Cards
+303,Dark Energy,85,King of Yamimakai
+303,Dark Energy,86,Barox
+303,Dark Energy,87,Dark Chimera
+303,Dark Energy,88,Metal Guardian
+303,Dark Energy,95,Crass Clown
+303,Dark Energy,96,Armored Zombie
+303,Dark Energy,97,Dragon Zombie
+303,Dark Energy,98,Clown Zombie
+303,Dark Energy,99,Pumpking the King of Ghosts
+303,Dark Energy,101,Wings of Wicked Flame
+303,Dark Energy,102,Mask of Darkness
+303,Dark Energy,103,Job-change Mirror
+303,Dark Energy,104,Curtain of the Dark Ones
+303,Dark Energy,105,Tomozaurus
+303,Dark Energy,107,Kageningen
+303,Dark Energy,108,Graveyard and the Hand of Invitation
+303,Dark Energy,111,Doma The Angel of Silence
+303,Dark Energy,112,That Which Feeds on Life
+303,Dark Energy,113,Dark Gray
+303,Dark Energy,115,Kamion Wizard
+303,Dark Energy,116,Nightmare Scorpion
+303,Dark Energy,119,Trial of Nightmares
+303,Dark Energy,123,Dark Plant
+303,Dark Energy,124,Ancient Tool
+303,Dark Energy,127,Ansatsu
+303,Dark Energy,132,The 13th Grave
+303,Dark Energy,135,Fiend's Hand
+303,Dark Energy,136,Witty Phantom
+303,Dark Energy,137,Mystery Hand
+303,Dark Energy,139,Blue-eyed Silver Zombie
+303,Dark Energy,141,Spiked Snail
+303,Dark Energy,142,Flame Manipulator
+303,Dark Energy,143,Necrolancer the Timelord
+303,Dark Energy,146,Temple of Skulls
+303,Dark Energy,148,The Shadow Who Controls the Dark
+303,Dark Energy,149,Lord of the Lamp
+303,Dark Energy,150,Akihiron
+303,Dark Energy,152,The Melting Red Shadow
+303,Dark Energy,153,Dokuroizo the Grim Reaper
+303,Dark Energy,154,Fire Reaper
+303,Dark Energy,155,Larvas
+303,Dark Energy,158,Man Eater
+303,Dark Energy,162,Tainted Wisdom
+303,Dark Energy,164,Lord of Zemia
+303,Dark Energy,167,Ancient Jar
+303,Dark Energy,168,Darkfire Dragon
+303,Dark Energy,169,Dark King of the Abyss
+303,Dark Energy,171,Big Eye
+303,Dark Energy,173,Dark Prisoner
+303,Dark Energy,174,Hurricail
+303,Dark Energy,175,Ancient Brain
+303,Dark Energy,176,Fire Eye
+303,Dark Energy,178,Claw Reacher
+303,Dark Energy,179,Phantom Dewan
+303,Dark Energy,181,Dark Shade
+303,Dark Energy,182,Masked Clown
+303,Dark Energy,185,Eyearmor
+303,Dark Energy,187,Gate Deeg
+303,Dark Energy,188,Synchar
+303,Dark Energy,190,Akakieisu
+303,Dark Energy,194,Terra the Terrible
+303,Dark Energy,195,Doron
+303,Dark Energy,197,Mech Mole Zombie
+303,Dark Energy,201,Frenzied Panda
+303,Dark Energy,202,Air Marmot of Nefariousness
+303,Dark Energy,203,Phantom Ghost
+303,Dark Energy,204,Mabarrel
+303,Dark Energy,205,Dorover
+303,Dark Energy,206,Twin Long Rods #1
+303,Dark Energy,209,Winged Cleaver
+303,Dark Energy,210,Hinotama Soul
+303,Dark Energy,212,Meotoko
+303,Dark Energy,213,Aqua Madoor
+303,Dark Energy,214,Kagemusha of the Blue Flame
+303,Dark Energy,215,Flame Ghost
+303,Dark Energy,218,Two-mouth Darkruler
+303,Dark Energy,219,Solitude
+303,Dark Energy,220,Masked Sorcerer
+303,Dark Energy,221,Kumootoko
+303,Dark Energy,222,Midnight Fiend
+303,Dark Energy,223,Roaring Ocean Snake
+303,Dark Energy,224,Trap Master
+303,Dark Energy,225,Fiend Sword
+303,Dark Energy,226,Skull Stalker
+303,Dark Energy,228,Wood Remains
+303,Dark Energy,231,Wood Clown
+303,Dark Energy,232,Madjinn Gunn
+303,Dark Energy,233,Dark Titan of Terror
+303,Dark Energy,234,Beautiful Headhuntress
+303,Dark Energy,236,Guardian of the Labyrinth
+303,Dark Energy,239,Vishwar Randi
+303,Dark Energy,240,The Drdek
+303,Dark Energy,241,Dark Assailant
+303,Dark Energy,242,Candle of Fate
+303,Dark Energy,245,Meda Bat
+303,Dark Energy,246,One Who Hunts Souls
+303,Dark Energy,248,Master & Expert
+303,Dark Energy,253,Angelwitch
+303,Dark Energy,254,Embryonic Beast
+303,Dark Energy,256,Dimensional Warrior
+303,Dark Energy,258,Beastking of the Swamps
+303,Dark Energy,259,Ancient Sorcerer
+303,Dark Energy,261,Wicked Mirror
+303,Dark Energy,267,Unknown Warrior of Fiend
+303,Dark Energy,268,Sectarian of Secrets
+303,Dark Energy,269,Versago the Destroyer
+303,Dark Energy,271,Megirus Light
+303,Dark Energy,277,Gorgon Egg
+303,Dark Energy,279,King Fog
+303,Dark Energy,281,Mystic Clown
+303,Dark Energy,283,Holograh
+303,Dark Energy,284,Tao the Chanter
+303,Dark Energy,285,Serpent Marauder
+303,Dark Energy,286,Gatekeeper
+303,Dark Energy,287,Ogre of the Black Shadow
+303,Dark Energy,288,Dark Artist
+303,Dark Energy,291,Fireyarou
+303,Dark Energy,293,Masaki the Legendary Swordsman
+303,Dark Energy,294,Dragoness the Wicked Knight
+303,Dark Energy,295,Bio Plant
+303,Dark Energy,297,Cyber Soldier of Darkworld
+303,Dark Energy,298,Wicked Dragon with the Ersatz Head
+303,Dark Energy,351,Yaranzo
+303,Dark Energy,355,Megasonic Eye
+303,Dark Energy,359,Three-legged Zombies
+303,Dark Energy,360,Zera The Mant
+303,Dark Energy,362,Millennium Shield
+303,Dark Energy,364,Black Luster Soldier
+303,Dark Energy,365,Fiend's Mirror
+303,Dark Energy,367,Jirai Gumo
+303,Dark Energy,368,Shadow Ghoul
+303,Dark Energy,369,Wall Shadow
+303,Dark Energy,370,Labyrinth Tank
+303,Dark Energy,371,Sanga of the Thunder
+303,Dark Energy,372,Kazejin
+303,Dark Energy,373,Suijin
+303,Dark Energy,374,Gate Guardian
+303,Dark Energy,376,Monster Tamer
+303,Dark Energy,377,Ryu-kishin Powered
+303,Dark Energy,378,Swordstalker
+303,Dark Energy,379,La Jinn the Mystical Genie
+303,Dark Energy,382,Rude Kaiser
+303,Dark Energy,384,Dark Rabbit
+303,Dark Energy,385,Bickuribox
+303,Dark Energy,386,Harpie's Pet Dragon
+303,Dark Energy,388,Pendulum Machine
+303,Dark Energy,390,Launcher Spider
+303,Dark Energy,391,Zoa
+303,Dark Energy,392,Metalzoa
+303,Dark Energy,400,Emperor of the Land and Sea
+303,Dark Energy,401,Ushi Oni
+303,Dark Energy,402,Monster Eye
+303,Dark Energy,405,Saber Slasher
+303,Dark Energy,407,Machine King
+303,Dark Energy,408,Giant Mech-soldier
+303,Dark Energy,410,Mechanical Spider
+303,Dark Energy,412,Giga-tech Wolf
+303,Dark Energy,414,Shovel Crusher
+303,Dark Energy,415,Mechanicalchacer
+303,Dark Energy,417,Blast Juggler
+303,Dark Energy,418,Golgoil
+303,Dark Energy,420,Cyber-Stein
+303,Dark Energy,421,Cyber Commander
+303,Dark Energy,422,Jinzo #7
+303,Dark Energy,434,Beautiful Beast Trainer
+303,Dark Energy,435,Water Girl
+303,Dark Energy,437,Deepsea Shark
+303,Dark Energy,438,Metal Fish
+303,Dark Energy,441,Mech Bass
+303,Dark Energy,447,Giant Red Seasnake
+303,Dark Energy,448,Spike Seadra
+303,Dark Energy,450,Kappa Avenger
+303,Dark Energy,451,Kanikabuto
+303,Dark Energy,454,Destroyer Golem
+303,Dark Energy,455,Barrel Rock
+303,Dark Energy,457,Stone Ghost
+303,Dark Energy,460,Bolt Escargot
+303,Dark Energy,462,The Immortal of Thunder
+303,Dark Energy,470,Magical Ghost
+303,Dark Energy,471,Soul Hunter
+303,Dark Energy,472,Air Eater
+303,Dark Energy,475,Sinister Serpent
+303,Dark Energy,482,Pragtical
+303,Dark Energy,487,Flower Wolf
+303,Dark Energy,490,Needle Ball
+303,Dark Energy,496,Wilmee
+303,Dark Energy,498,Morinphen
+303,Dark Energy,500,Dragon Seeker
+303,Dark Energy,501,Man-eater Bug
+303,Dark Energy,504,Fungi of the Musk
+303,Dark Energy,506,Gale Dogra
+303,Dark Energy,507,Crazy Fish
+303,Dark Energy,512,Cannon Soldier
+303,Dark Energy,514,Brave Scizzar
+303,Dark Energy,517,Sand Stone
+303,Dark Energy,521,Skullbird
+303,Dark Energy,523,The Bistro Butcher
+303,Dark Energy,526,Neck Hunter
+303,Dark Energy,527,Milus Radiant
+303,Dark Energy,529,Flame Cerebrus
+303,Dark Energy,530,Eldeen
+303,Dark Energy,531,Mystical Sand
+303,Dark Energy,534,Minar
+303,Dark Energy,539,Corroding Shark
+303,Dark Energy,545,Skelgon
+303,Dark Energy,546,Wow Warrior
+303,Dark Energy,548,Bone Mouse
+303,Dark Energy,551,Dark Elf
+303,Dark Energy,553,Mushroom Man #2
+303,Dark Energy,554,Lava Battleguard
+303,Dark Energy,555,Tyhone #2
+303,Dark Energy,556,The Wandering Doomed
+303,Dark Energy,559,Oscillo Hero
+303,Dark Energy,560,Invader from Another Dimension
+303,Dark Energy,561,Lesser Dragon
+303,Dark Energy,563,Wretched Ghost of the Attic
+303,Dark Energy,564,Great Mammoth of Goldfine
+303,Dark Energy,565,Man-eating Black Shark
+303,Dark Energy,567,Darkworld Thorns
+303,Dark Energy,569,Drooling Lizard
+303,Dark Energy,571,B. Dragon Jungle King
+303,Dark Energy,574,Witch of the Black Forest
+303,Dark Energy,578,Leo Wizard
+303,Dark Energy,579,Abyss Flower
+303,Dark Energy,581,Takuhee
+303,Dark Energy,584,Binding Chain
+303,Dark Energy,586,Greenkappa
+303,Dark Energy,591,Morphing Jar
+303,Dark Energy,594,Rose Spectre of Dunn
+303,Dark Energy,595,Fiend Refrection #1
+303,Dark Energy,596,Ghoul with an Appetite
+303,Dark Energy,597,Pale Beast
+303,Dark Energy,599,Violent Rain
+303,Dark Energy,600,Key Mace #2
+303,Dark Energy,604,Obese Marmot of Nefariousness
+303,Dark Energy,611,Hiro's Shadow Scout
+303,Dark Energy,613,Twin-headed Thunder Dragon
+303,Dark Energy,614,Hunter Spider
+303,Dark Energy,618,Warrior of Tradition
+303,Dark Energy,621,Succubus Knight
+303,Dark Energy,623,The Thing That Hides in the Mud
+303,Dark Energy,632,Stone Ogre Grotto
+303,Dark Energy,635,Queen's Double
+303,Dark Energy,641,Invader of the Throne
+303,Dark Energy,642,Mystical Sheep #1
+303,Dark Energy,643,Disk Magician
+303,Dark Energy,644,Flame Viper
+303,Dark Energy,646,Gruesome Goo
+303,Dark Energy,650,Whiptail Crow
+303,Dark Energy,702,Hungry Burger
+303,Dark Energy,703,Sengenjin
+303,Dark Energy,707,Skull Knight
+303,Dark Energy,709,Chakra
+303,Dark Energy,712,Meteor Dragon
+303,Dark Energy,715,Psycho-Puppet
+303,Dark Energy,716,Garma Sword
+303,Dark Energy,719,Dokurorider
+303,Dark Energy,720,Mask of Shine & Dark
+303,Dark Energy,722,Magician of Black Chaos
+304,Axe of Despair,3,Hitotsu-me Giant
+304,Axe of Despair,5,Ryu-kishin
+304,Axe of Despair,6,Feral Imp
+304,Axe of Despair,12,Swamp Battleguard
+304,Axe of Despair,14,Battle Steer
+304,Axe of Despair,22,Summoned Skull
+304,Axe of Despair,23,The Wicked Worm Beast
+304,Axe of Despair,24,Skull Servant
+304,Axe of Despair,25,Horn Imp
+304,Axe of Despair,26,Battle Ox
+304,Axe of Despair,27,Beaver Warrior
+304,Axe of Despair,29,Mountain Warrior
+304,Axe of Despair,30,Zombie Warrior
+304,Axe of Despair,64,Tiger Axe
+304,Axe of Despair,66,Kojikocy
+304,Axe of Despair,68,Garoozis
+304,Axe of Despair,76,Krokodilus
+304,Axe of Despair,77,Grappler
+304,Axe of Despair,78,Axe Raider
+304,Axe of Despair,86,Barox
+304,Axe of Despair,88,Metal Guardian
+304,Axe of Despair,91,Mystic Horseman
+304,Axe of Despair,92,Rabid Horseman
+304,Axe of Despair,96,Armored Zombie
+304,Axe of Despair,107,Kageningen
+304,Axe of Despair,119,Trial of Nightmares
+304,Axe of Despair,127,Ansatsu
+304,Axe of Despair,149,Lord of the Lamp
+304,Axe of Despair,152,The Melting Red Shadow
+304,Axe of Despair,169,Dark King of the Abyss
+304,Axe of Despair,171,Big Eye
+304,Axe of Despair,178,Claw Reacher
+304,Axe of Despair,182,Masked Clown
+304,Axe of Despair,185,Eyearmor
+304,Axe of Despair,187,Gate Deeg
+304,Axe of Despair,188,Synchar
+304,Axe of Despair,194,Terra the Terrible
+304,Axe of Despair,195,Doron
+304,Axe of Despair,202,Air Marmot of Nefariousness
+304,Axe of Despair,206,Twin Long Rods #1
+304,Axe of Despair,219,Solitude
+304,Axe of Despair,224,Trap Master
+304,Axe of Despair,226,Skull Stalker
+304,Axe of Despair,231,Wood Clown
+304,Axe of Despair,246,One Who Hunts Souls
+304,Axe of Despair,263,Rock Ogre Grotto #2
+304,Axe of Despair,271,Megirus Light
+304,Axe of Despair,281,Mystic Clown
+304,Axe of Despair,286,Gatekeeper
+304,Axe of Despair,287,Ogre of the Black Shadow
+304,Axe of Despair,295,Bio Plant
+304,Axe of Despair,351,Yaranzo
+304,Axe of Despair,356,Super War-lion
+304,Axe of Despair,359,Three-legged Zombies
+304,Axe of Despair,381,Toon Alligator
+304,Axe of Despair,382,Rude Kaiser
+304,Axe of Despair,388,Pendulum Machine
+304,Axe of Despair,401,Ushi Oni
+304,Axe of Despair,406,Yaiba Robo
+304,Axe of Despair,408,Giant Mech-soldier
+304,Axe of Despair,419,Giganto
+304,Axe of Despair,453,Millennium Golem
+304,Axe of Despair,454,Destroyer Golem
+304,Axe of Despair,455,Barrel Rock
+304,Axe of Despair,471,Soul Hunter
+304,Axe of Despair,480,Kuwagata α
+304,Axe of Despair,501,Man-eater Bug
+304,Axe of Despair,523,The Bistro Butcher
+304,Axe of Despair,526,Neck Hunter
+304,Axe of Despair,541,Hane-Hane
+304,Axe of Despair,546,Wow Warrior
+304,Axe of Despair,554,Lava Battleguard
+304,Axe of Despair,557,Steel Ogre Grotto #1
+304,Axe of Despair,569,Drooling Lizard
+304,Axe of Despair,580,Patrol Robo
+304,Axe of Despair,596,Ghoul with an Appetite
+304,Axe of Despair,611,Hiro's Shadow Scout
+304,Axe of Despair,618,Warrior of Tradition
+304,Axe of Despair,627,Nekogal #2
+304,Axe of Despair,645,Royal Guard
+304,Axe of Despair,649,Hibikime
+304,Axe of Despair,703,Sengenjin
+305,Laser Cannon Armor,3,Hitotsu-me Giant
+305,Laser Cannon Armor,4,Baby Dragon
+305,Laser Cannon Armor,5,Ryu-kishin
+305,Laser Cannon Armor,6,Feral Imp
+305,Laser Cannon Armor,12,Swamp Battleguard
+305,Laser Cannon Armor,13,Tyhone
+305,Laser Cannon Armor,28,Rock Ogre Grotto #1
+305,Laser Cannon Armor,39,Curse of Dragon
+305,Laser Cannon Armor,45,Oscillo Hero #2
+305,Laser Cannon Armor,46,Griffore
+305,Laser Cannon Armor,49,Big Insect
+305,Laser Cannon Armor,50,Basic Insect
+305,Laser Cannon Armor,51,Armored Lizard
+305,Laser Cannon Armor,52,Hercules Beetle
+305,Laser Cannon Armor,53,Killer Needle
+305,Laser Cannon Armor,54,Gokibore
+305,Laser Cannon Armor,55,Giant Flea
+305,Laser Cannon Armor,56,Larvae Moth
+305,Laser Cannon Armor,57,Great Moth
+305,Laser Cannon Armor,65,Silver Fang
+305,Laser Cannon Armor,67,Perfectly Ultimate Great Moth
+305,Laser Cannon Armor,68,Garoozis
+305,Laser Cannon Armor,72,Cocoon of Evolution
+305,Laser Cannon Armor,74,Giant Soldier of Stone
+305,Laser Cannon Armor,76,Krokodilus
+305,Laser Cannon Armor,77,Grappler
+305,Laser Cannon Armor,79,Megazowler
+305,Laser Cannon Armor,80,Uraby
+305,Laser Cannon Armor,81,Crawling Dragon #2
+305,Laser Cannon Armor,85,King of Yamimakai
+305,Laser Cannon Armor,87,Dark Chimera
+305,Laser Cannon Armor,88,Metal Guardian
+305,Laser Cannon Armor,89,Catapult Turtle
+305,Laser Cannon Armor,91,Mystic Horseman
+305,Laser Cannon Armor,92,Rabid Horseman
+305,Laser Cannon Armor,94,Crawling Dragon
+305,Laser Cannon Armor,97,Dragon Zombie
+305,Laser Cannon Armor,105,Tomozaurus
+305,Laser Cannon Armor,112,That Which Feeds on Life
+305,Laser Cannon Armor,113,Dark Gray
+305,Laser Cannon Armor,116,Nightmare Scorpion
+305,Laser Cannon Armor,121,Sleeping Lion
+305,Laser Cannon Armor,125,Faith Bird
+305,Laser Cannon Armor,139,Blue-eyed Silver Zombie
+305,Laser Cannon Armor,141,Spiked Snail
+305,Laser Cannon Armor,155,Larvas
+305,Laser Cannon Armor,159,Dig Beak
+305,Laser Cannon Armor,171,Big Eye
+305,Laser Cannon Armor,175,Ancient Brain
+305,Laser Cannon Armor,177,Monsturtle
+305,Laser Cannon Armor,181,Dark Shade
+305,Laser Cannon Armor,183,Lucky Trinket
+305,Laser Cannon Armor,193,Turtle Tiger
+305,Laser Cannon Armor,197,Mech Mole Zombie
+305,Laser Cannon Armor,202,Air Marmot of Nefariousness
+305,Laser Cannon Armor,204,Mabarrel
+305,Laser Cannon Armor,209,Winged Cleaver
+305,Laser Cannon Armor,221,Kumootoko
+305,Laser Cannon Armor,222,Midnight Fiend
+305,Laser Cannon Armor,226,Skull Stalker
+305,Laser Cannon Armor,232,Madjinn Gunn
+305,Laser Cannon Armor,241,Dark Assailant
+305,Laser Cannon Armor,243,Water Element
+305,Laser Cannon Armor,245,Meda Bat
+305,Laser Cannon Armor,255,Prevent Rat
+305,Laser Cannon Armor,275,Ground Attacker Bugroth
+305,Laser Cannon Armor,278,Petit Moth
+305,Laser Cannon Armor,286,Gatekeeper
+305,Laser Cannon Armor,292,Psychic Kappa
+305,Laser Cannon Armor,296,One-eyed Shield Dragon
+305,Laser Cannon Armor,297,Cyber Soldier of Darkworld
+305,Laser Cannon Armor,300,Kurama
+305,Laser Cannon Armor,353,Takriminos
+305,Laser Cannon Armor,355,Megasonic Eye
+305,Laser Cannon Armor,357,Yamadron
+305,Laser Cannon Armor,360,Zera The Mant
+305,Laser Cannon Armor,367,Jirai Gumo
+305,Laser Cannon Armor,368,Shadow Ghoul
+305,Laser Cannon Armor,369,Wall Shadow
+305,Laser Cannon Armor,370,Labyrinth Tank
+305,Laser Cannon Armor,375,Dungeon Worm
+305,Laser Cannon Armor,377,Ryu-kishin Powered
+305,Laser Cannon Armor,381,Toon Alligator
+305,Laser Cannon Armor,382,Rude Kaiser
+305,Laser Cannon Armor,383,Parrot Dragon
+305,Laser Cannon Armor,386,Harpie's Pet Dragon
+305,Laser Cannon Armor,388,Pendulum Machine
+305,Laser Cannon Armor,390,Launcher Spider
+305,Laser Cannon Armor,392,Metalzoa
+305,Laser Cannon Armor,394,Steel Scorpion
+305,Laser Cannon Armor,397,Leghul
+305,Laser Cannon Armor,405,Saber Slasher
+305,Laser Cannon Armor,406,Yaiba Robo
+305,Laser Cannon Armor,407,Machine King
+305,Laser Cannon Armor,408,Giant Mech-soldier
+305,Laser Cannon Armor,409,Metal Dragon
+305,Laser Cannon Armor,410,Mechanical Spider
+305,Laser Cannon Armor,411,Bat
+305,Laser Cannon Armor,412,Giga-tech Wolf
+305,Laser Cannon Armor,413,Cyber Soldier
+305,Laser Cannon Armor,414,Shovel Crusher
+305,Laser Cannon Armor,415,Mechanicalchacer
+305,Laser Cannon Armor,416,Blocker
+305,Laser Cannon Armor,417,Blast Juggler
+305,Laser Cannon Armor,418,Golgoil
+305,Laser Cannon Armor,419,Giganto
+305,Laser Cannon Armor,420,Cyber-Stein
+305,Laser Cannon Armor,421,Cyber Commander
+305,Laser Cannon Armor,422,Jinzo #7
+305,Laser Cannon Armor,423,Dice Armadillo
+305,Laser Cannon Armor,424,Sky Dragon
+305,Laser Cannon Armor,427,Kaiser Dragon
+305,Laser Cannon Armor,438,Metal Fish
+305,Laser Cannon Armor,441,Mech Bass
+305,Laser Cannon Armor,476,Ganigumo
+305,Laser Cannon Armor,477,Alinsection
+305,Laser Cannon Armor,478,Insect Soldiers of the Sky
+305,Laser Cannon Armor,479,Cockroach Knight
+305,Laser Cannon Armor,480,Kuwagata α
+305,Laser Cannon Armor,485,Korogashi
+305,Laser Cannon Armor,499,Kattapillar
+305,Laser Cannon Armor,501,Man-eater Bug
+305,Laser Cannon Armor,506,Gale Dogra
+305,Laser Cannon Armor,508,Cyber Saurus
+305,Laser Cannon Armor,512,Cannon Soldier
+305,Laser Cannon Armor,513,Guardian of the Throne Room
+305,Laser Cannon Armor,514,Brave Scizzar
+305,Laser Cannon Armor,533,Kwagar Hercules
+305,Laser Cannon Armor,534,Minar
+305,Laser Cannon Armor,535,Kamakiriman
+305,Laser Cannon Armor,544,Dharma Cannon
+305,Laser Cannon Armor,555,Tyhone #2
+305,Laser Cannon Armor,557,Steel Ogre Grotto #1
+305,Laser Cannon Armor,561,Lesser Dragon
+305,Laser Cannon Armor,562,Needle Worm
+305,Laser Cannon Armor,571,B. Dragon Jungle King
+305,Laser Cannon Armor,576,Giant Scorpion of the Tundra
+305,Laser Cannon Armor,580,Patrol Robo
+305,Laser Cannon Armor,585,Mechanical Snail
+305,Laser Cannon Armor,603,Fairy Dragon
+305,Laser Cannon Armor,609,Bladefly
+305,Laser Cannon Armor,614,Hunter Spider
+305,Laser Cannon Armor,639,Amphibious Bugroth
+305,Laser Cannon Armor,640,Acid Crawler
+305,Laser Cannon Armor,643,Disk Magician
+305,Laser Cannon Armor,645,Royal Guard
+305,Laser Cannon Armor,648,Machine Attacker
+305,Laser Cannon Armor,712,Meteor Dragon
+305,Laser Cannon Armor,717,Javelin Beetle
+306,Insect Armor with Laser Cannon,49,Big Insect
+306,Insect Armor with Laser Cannon,50,Basic Insect
+306,Insect Armor with Laser Cannon,51,Armored Lizard
+306,Insect Armor with Laser Cannon,52,Hercules Beetle
+306,Insect Armor with Laser Cannon,53,Killer Needle
+306,Insect Armor with Laser Cannon,54,Gokibore
+306,Insect Armor with Laser Cannon,55,Giant Flea
+306,Insect Armor with Laser Cannon,56,Larvae Moth
+306,Insect Armor with Laser Cannon,57,Great Moth
+306,Insect Armor with Laser Cannon,67,Perfectly Ultimate Great Moth
+306,Insect Armor with Laser Cannon,72,Cocoon of Evolution
+306,Insect Armor with Laser Cannon,116,Nightmare Scorpion
+306,Insect Armor with Laser Cannon,141,Spiked Snail
+306,Insect Armor with Laser Cannon,209,Winged Cleaver
+306,Insect Armor with Laser Cannon,221,Kumootoko
+306,Insect Armor with Laser Cannon,275,Ground Attacker Bugroth
+306,Insect Armor with Laser Cannon,278,Petit Moth
+306,Insect Armor with Laser Cannon,285,Serpent Marauder
+306,Insect Armor with Laser Cannon,355,Megasonic Eye
+306,Insect Armor with Laser Cannon,367,Jirai Gumo
+306,Insect Armor with Laser Cannon,368,Shadow Ghoul
+306,Insect Armor with Laser Cannon,369,Wall Shadow
+306,Insect Armor with Laser Cannon,371,Sanga of the Thunder
+306,Insect Armor with Laser Cannon,372,Kazejin
+306,Insect Armor with Laser Cannon,373,Suijin
+306,Insect Armor with Laser Cannon,374,Gate Guardian
+306,Insect Armor with Laser Cannon,375,Dungeon Worm
+306,Insect Armor with Laser Cannon,376,Monster Tamer
+306,Insect Armor with Laser Cannon,377,Ryu-kishin Powered
+306,Insect Armor with Laser Cannon,378,Swordstalker
+306,Insect Armor with Laser Cannon,381,Toon Alligator
+306,Insect Armor with Laser Cannon,382,Rude Kaiser
+306,Insect Armor with Laser Cannon,384,Dark Rabbit
+306,Insect Armor with Laser Cannon,388,Pendulum Machine
+306,Insect Armor with Laser Cannon,389,Giltia the D. Knight
+306,Insect Armor with Laser Cannon,391,Zoa
+306,Insect Armor with Laser Cannon,392,Metalzoa
+306,Insect Armor with Laser Cannon,397,Leghul
+306,Insect Armor with Laser Cannon,401,Ushi Oni
+306,Insect Armor with Laser Cannon,405,Saber Slasher
+306,Insect Armor with Laser Cannon,407,Machine King
+306,Insect Armor with Laser Cannon,408,Giant Mech-soldier
+306,Insect Armor with Laser Cannon,420,Cyber-Stein
+306,Insect Armor with Laser Cannon,421,Cyber Commander
+306,Insect Armor with Laser Cannon,422,Jinzo #7
+306,Insect Armor with Laser Cannon,453,Millennium Golem
+306,Insect Armor with Laser Cannon,454,Destroyer Golem
+306,Insect Armor with Laser Cannon,455,Barrel Rock
+306,Insect Armor with Laser Cannon,456,Minomushi Warrior
+306,Insect Armor with Laser Cannon,461,Bolt Penguin
+306,Insect Armor with Laser Cannon,469,Armed Ninja
+306,Insect Armor with Laser Cannon,473,Vermillion Sparrow
+306,Insect Armor with Laser Cannon,474,Sea Kamen
+306,Insect Armor with Laser Cannon,476,Ganigumo
+306,Insect Armor with Laser Cannon,477,Alinsection
+306,Insect Armor with Laser Cannon,478,Insect Soldiers of the Sky
+306,Insect Armor with Laser Cannon,479,Cockroach Knight
+306,Insect Armor with Laser Cannon,480,Kuwagata α
+306,Insect Armor with Laser Cannon,481,Burglar
+306,Insect Armor with Laser Cannon,485,Korogashi
+306,Insect Armor with Laser Cannon,495,Musician King
+306,Insect Armor with Laser Cannon,496,Wilmee
+306,Insect Armor with Laser Cannon,499,Kattapillar
+306,Insect Armor with Laser Cannon,500,Dragon Seeker
+306,Insect Armor with Laser Cannon,501,Man-eater Bug
+306,Insect Armor with Laser Cannon,502,D. Human
+306,Insect Armor with Laser Cannon,503,Turtle Raccoon
+306,Insect Armor with Laser Cannon,505,Prisman
+306,Insect Armor with Laser Cannon,506,Gale Dogra
+306,Insect Armor with Laser Cannon,508,Cyber Saurus
+306,Insect Armor with Laser Cannon,511,Bean Soldier
+306,Insect Armor with Laser Cannon,512,Cannon Soldier
+306,Insect Armor with Laser Cannon,513,Guardian of the Throne Room
+306,Insect Armor with Laser Cannon,523,The Bistro Butcher
+306,Insect Armor with Laser Cannon,533,Kwagar Hercules
+306,Insect Armor with Laser Cannon,534,Minar
+306,Insect Armor with Laser Cannon,535,Kamakiriman
+306,Insect Armor with Laser Cannon,554,Lava Battleguard
+306,Insect Armor with Laser Cannon,557,Steel Ogre Grotto #1
+306,Insect Armor with Laser Cannon,559,Oscillo Hero
+306,Insect Armor with Laser Cannon,560,Invader from Another Dimension
+306,Insect Armor with Laser Cannon,561,Lesser Dragon
+306,Insect Armor with Laser Cannon,562,Needle Worm
+306,Insect Armor with Laser Cannon,568,Anthrosaurus
+306,Insect Armor with Laser Cannon,569,Drooling Lizard
+306,Insect Armor with Laser Cannon,576,Giant Scorpion of the Tundra
+306,Insect Armor with Laser Cannon,586,Greenkappa
+306,Insect Armor with Laser Cannon,593,Giant Turtle Who Feeds on Flames
+306,Insect Armor with Laser Cannon,594,Rose Spectre of Dunn
+306,Insect Armor with Laser Cannon,596,Ghoul with an Appetite
+306,Insect Armor with Laser Cannon,602,Penguin Soldier
+306,Insect Armor with Laser Cannon,609,Bladefly
+306,Insect Armor with Laser Cannon,610,Electric Lizard
+306,Insect Armor with Laser Cannon,611,Hiro's Shadow Scout
+306,Insect Armor with Laser Cannon,614,Hunter Spider
+306,Insect Armor with Laser Cannon,619,Rock Spirit
+306,Insect Armor with Laser Cannon,630,Ancient Lizard Warrior
+306,Insect Armor with Laser Cannon,632,Stone Ogre Grotto
+306,Insect Armor with Laser Cannon,634,Night Lizard
+306,Insect Armor with Laser Cannon,639,Amphibious Bugroth
+306,Insect Armor with Laser Cannon,640,Acid Crawler
+306,Insect Armor with Laser Cannon,643,Disk Magician
+306,Insect Armor with Laser Cannon,645,Royal Guard
+306,Insect Armor with Laser Cannon,647,Hyosube
+306,Insect Armor with Laser Cannon,648,Machine Attacker
+306,Insect Armor with Laser Cannon,650,Whiptail Crow
+306,Insect Armor with Laser Cannon,703,Sengenjin
+306,Insect Armor with Laser Cannon,704,Skull Guardian
+306,Insect Armor with Laser Cannon,707,Skull Knight
+306,Insect Armor with Laser Cannon,708,Cosmo Queen
+306,Insect Armor with Laser Cannon,715,Psycho-Puppet
+306,Insect Armor with Laser Cannon,716,Garma Sword
+306,Insect Armor with Laser Cannon,717,Javelin Beetle
+306,Insect Armor with Laser Cannon,719,Dokurorider
+307,Elf's Light,2,Mystical Elf
+307,Elf's Light,41,Celtic Guardian
+307,Elf's Light,44,Rogue Doll
+307,Elf's Light,45,Oscillo Hero #2
+307,Elf's Light,90,Gyakutenno Megami
+307,Elf's Light,109,Goddess with the Third Eye
+307,Elf's Light,125,Faith Bird
+307,Elf's Light,126,Orion the Battle King
+307,Elf's Light,128,LaMoon
+307,Elf's Light,129,Nemuriko
+307,Elf's Light,130,Weather Control
+307,Elf's Light,147,Monster Egg
+307,Elf's Light,170,Spirit of the Harp
+307,Elf's Light,183,Lucky Trinket
+307,Elf's Light,184,Genin
+307,Elf's Light,192,Key Mace
+307,Elf's Light,198,Happy Lover
+307,Elf's Light,208,Petit Angel
+307,Elf's Light,216,Dryad
+307,Elf's Light,229,Hourglass of Life
+307,Elf's Light,243,Water Element
+307,Elf's Light,249,Water Omotics
+307,Elf's Light,252,Nekogal #1
+307,Elf's Light,253,Angelwitch
+307,Elf's Light,260,Lunar Queen Elzaim
+307,Elf's Light,273,Ancient Tree of Enlightenment
+307,Elf's Light,274,Green Phantom King
+307,Elf's Light,276,Ray & Temperature
+307,Elf's Light,282,Mystical Sheep #2
+307,Elf's Light,299,Sonic Maid
+307,Elf's Light,361,Flying Penguin
+307,Elf's Light,363,Fairy's Gift
+307,Elf's Light,395,Dancing Elf
+307,Elf's Light,396,Ocubeam
+307,Elf's Light,428,Magician of Faith
+307,Elf's Light,429,Goddess of Whim
+307,Elf's Light,430,Water Magician
+307,Elf's Light,431,Ice Water
+307,Elf's Light,432,Waterdragon Fairy
+307,Elf's Light,433,Ancient Elf
+307,Elf's Light,434,Beautiful Beast Trainer
+307,Elf's Light,435,Water Girl
+307,Elf's Light,486,Boo Koo
+307,Elf's Light,492,Hoshiningen
+307,Elf's Light,494,Rainbow Marine Mermaid
+307,Elf's Light,525,Spirit of the Mountain
+307,Elf's Light,530,Eldeen
+307,Elf's Light,531,Mystical Sand
+307,Elf's Light,532,Gemini Elf
+307,Elf's Light,540,Skelengel
+307,Elf's Light,547,Griggle
+307,Elf's Light,551,Dark Elf
+307,Elf's Light,572,Empress Judge
+307,Elf's Light,574,Witch of the Black Forest
+307,Elf's Light,582,Dark Witch
+307,Elf's Light,592,Muse-A
+307,Elf's Light,600,Key Mace #2
+307,Elf's Light,601,Tenderness
+307,Elf's Light,603,Fairy Dragon
+307,Elf's Light,608,Shining Friendship
+307,Elf's Light,612,Lady of Faith
+307,Elf's Light,616,Hourglass of Courage
+307,Elf's Light,618,Warrior of Tradition
+307,Elf's Light,619,Rock Spirit
+307,Elf's Light,621,Succubus Knight
+307,Elf's Light,622,Ill Witch
+307,Elf's Light,625,Fairy of the Fountain
+307,Elf's Light,626,Amazon of the Seas
+307,Elf's Light,627,Nekogal #2
+307,Elf's Light,628,Witch's Apprentice
+307,Elf's Light,631,Maiden of the Moonlight
+307,Elf's Light,633,Winged Egg of New Life
+307,Elf's Light,635,Queen's Double
+307,Elf's Light,638,Queen of Autumn Leaves
+307,Elf's Light,641,Invader of the Throne
+307,Elf's Light,649,Hibikime
+307,Elf's Light,701,Performance of Sword
+307,Elf's Light,708,Cosmo Queen
+307,Elf's Light,722,Magician of Black Chaos
+308,Beast Fangs,3,Hitotsu-me Giant
+308,Beast Fangs,4,Baby Dragon
+308,Beast Fangs,5,Ryu-kishin
+308,Beast Fangs,6,Feral Imp
+308,Beast Fangs,7,Winged Dragon #1
+308,Beast Fangs,9,Shadow Specter
+308,Beast Fangs,10,Blackland Fire Dragon
+308,Beast Fangs,11,Sword Arm of Dragon
+308,Beast Fangs,14,Battle Steer
+308,Beast Fangs,22,Summoned Skull
+308,Beast Fangs,23,The Wicked Worm Beast
+308,Beast Fangs,24,Skull Servant
+308,Beast Fangs,27,Beaver Warrior
+308,Beast Fangs,29,Mountain Warrior
+308,Beast Fangs,30,Zombie Warrior
+308,Beast Fangs,31,Koumori Dragon
+308,Beast Fangs,32,Two-headed King Rex
+308,Beast Fangs,36,The Snake Hair
+308,Beast Fangs,39,Curse of Dragon
+308,Beast Fangs,46,Griffore
+308,Beast Fangs,47,Torike
+308,Beast Fangs,48,Sangan
+308,Beast Fangs,49,Big Insect
+308,Beast Fangs,51,Armored Lizard
+308,Beast Fangs,52,Hercules Beetle
+308,Beast Fangs,59,Mammoth Graveyard
+308,Beast Fangs,60,Great White
+308,Beast Fangs,61,Wolf
+308,Beast Fangs,64,Tiger Axe
+308,Beast Fangs,65,Silver Fang
+308,Beast Fangs,68,Garoozis
+308,Beast Fangs,73,Kairyu-shin
+308,Beast Fangs,76,Krokodilus
+308,Beast Fangs,77,Grappler
+308,Beast Fangs,79,Megazowler
+308,Beast Fangs,80,Uraby
+308,Beast Fangs,81,Crawling Dragon #2
+308,Beast Fangs,85,King of Yamimakai
+308,Beast Fangs,86,Barox
+308,Beast Fangs,87,Dark Chimera
+308,Beast Fangs,91,Mystic Horseman
+308,Beast Fangs,94,Crawling Dragon
+308,Beast Fangs,95,Crass Clown
+308,Beast Fangs,97,Dragon Zombie
+308,Beast Fangs,98,Clown Zombie
+308,Beast Fangs,99,Pumpking the King of Ghosts
+308,Beast Fangs,105,Tomozaurus
+308,Beast Fangs,113,Dark Gray
+308,Beast Fangs,121,Sleeping Lion
+308,Beast Fangs,123,Dark Plant
+308,Beast Fangs,126,Orion the Battle King
+308,Beast Fangs,132,The 13th Grave
+308,Beast Fangs,138,Dragon Statue
+308,Beast Fangs,141,Spiked Snail
+308,Beast Fangs,143,Necrolancer the Timelord
+308,Beast Fangs,150,Akihiron
+308,Beast Fangs,151,Rhaimundos of the Red Sword
+308,Beast Fangs,153,Dokuroizo the Grim Reaper
+308,Beast Fangs,158,Man Eater
+308,Beast Fangs,159,Dig Beak
+308,Beast Fangs,163,Lisark
+308,Beast Fangs,167,Ancient Jar
+308,Beast Fangs,168,Darkfire Dragon
+308,Beast Fangs,169,Dark King of the Abyss
+308,Beast Fangs,179,Phantom Dewan
+308,Beast Fangs,182,Masked Clown
+308,Beast Fangs,187,Gate Deeg
+308,Beast Fangs,188,Synchar
+308,Beast Fangs,189,Fusionist
+308,Beast Fangs,193,Turtle Tiger
+308,Beast Fangs,197,Mech Mole Zombie
+308,Beast Fangs,200,Petit Dragon
+308,Beast Fangs,201,Frenzied Panda
+308,Beast Fangs,202,Air Marmot of Nefariousness
+308,Beast Fangs,206,Twin Long Rods #1
+308,Beast Fangs,211,Kaminarikozou
+308,Beast Fangs,212,Meotoko
+308,Beast Fangs,218,Two-mouth Darkruler
+308,Beast Fangs,222,Midnight Fiend
+308,Beast Fangs,223,Roaring Ocean Snake
+308,Beast Fangs,226,Skull Stalker
+308,Beast Fangs,228,Wood Remains
+308,Beast Fangs,230,Rare Fish
+308,Beast Fangs,246,One Who Hunts Souls
+308,Beast Fangs,248,Master & Expert
+308,Beast Fangs,252,Nekogal #1
+308,Beast Fangs,255,Prevent Rat
+308,Beast Fangs,257,Stone Armadiller
+308,Beast Fangs,258,Beastking of the Swamps
+308,Beast Fangs,265,The Furious Sea King
+308,Beast Fangs,282,Mystical Sheep #2
+308,Beast Fangs,285,Serpent Marauder
+308,Beast Fangs,287,Ogre of the Black Shadow
+308,Beast Fangs,298,Wicked Dragon with the Ersatz Head
+308,Beast Fangs,300,Kurama
+308,Beast Fangs,351,Yaranzo
+308,Beast Fangs,353,Takriminos
+308,Beast Fangs,354,Stuffed Animal
+308,Beast Fangs,356,Super War-lion
+308,Beast Fangs,357,Yamadron
+308,Beast Fangs,360,Zera The Mant
+308,Beast Fangs,367,Jirai Gumo
+308,Beast Fangs,375,Dungeon Worm
+308,Beast Fangs,377,Ryu-kishin Powered
+308,Beast Fangs,378,Swordstalker
+308,Beast Fangs,381,Toon Alligator
+308,Beast Fangs,382,Rude Kaiser
+308,Beast Fangs,384,Dark Rabbit
+308,Beast Fangs,385,Bickuribox
+308,Beast Fangs,386,Harpie's Pet Dragon
+308,Beast Fangs,391,Zoa
+308,Beast Fangs,392,Metalzoa
+308,Beast Fangs,393,Zone Eater
+308,Beast Fangs,397,Leghul
+308,Beast Fangs,398,Ooguchi
+308,Beast Fangs,400,Emperor of the Land and Sea
+308,Beast Fangs,403,Leogun
+308,Beast Fangs,404,Tatsunootoshigo
+308,Beast Fangs,409,Metal Dragon
+308,Beast Fangs,412,Giga-tech Wolf
+308,Beast Fangs,414,Shovel Crusher
+308,Beast Fangs,417,Blast Juggler
+308,Beast Fangs,420,Cyber-Stein
+308,Beast Fangs,423,Dice Armadillo
+308,Beast Fangs,424,Sky Dragon
+308,Beast Fangs,425,Thunder Dragon
+308,Beast Fangs,426,Stone D.
+308,Beast Fangs,427,Kaiser Dragon
+308,Beast Fangs,434,Beautiful Beast Trainer
+308,Beast Fangs,435,Water Girl
+308,Beast Fangs,436,White Dolphin
+308,Beast Fangs,438,Metal Fish
+308,Beast Fangs,439,Bottom Dweller
+308,Beast Fangs,440,7 Colored Fish
+308,Beast Fangs,441,Mech Bass
+308,Beast Fangs,442,Aqua Dragon
+308,Beast Fangs,444,Turu-Purun
+308,Beast Fangs,446,Aqua Snake
+308,Beast Fangs,447,Giant Red Seasnake
+308,Beast Fangs,448,Spike Seadra
+308,Beast Fangs,449,"30,000-Year White Turtle"
+308,Beast Fangs,457,Stone Ghost
+308,Beast Fangs,459,Tripwire Beast
+308,Beast Fangs,460,Bolt Escargot
+308,Beast Fangs,463,Electric Snake
+308,Beast Fangs,474,Sea Kamen
+308,Beast Fangs,477,Alinsection
+308,Beast Fangs,478,Insect Soldiers of the Sky
+308,Beast Fangs,480,Kuwagata α
+308,Beast Fangs,481,Burglar
+308,Beast Fangs,482,Pragtical
+308,Beast Fangs,483,Garvas
+308,Beast Fangs,487,Flower Wolf
+308,Beast Fangs,490,Needle Ball
+308,Beast Fangs,495,Musician King
+308,Beast Fangs,496,Wilmee
+308,Beast Fangs,497,Yado Karu
+308,Beast Fangs,498,Morinphen
+308,Beast Fangs,499,Kattapillar
+308,Beast Fangs,501,Man-eater Bug
+308,Beast Fangs,503,Turtle Raccoon
+308,Beast Fangs,506,Gale Dogra
+308,Beast Fangs,507,Crazy Fish
+308,Beast Fangs,508,Cyber Saurus
+308,Beast Fangs,516,Muka Muka
+308,Beast Fangs,517,Sand Stone
+308,Beast Fangs,523,The Bistro Butcher
+308,Beast Fangs,524,Star Boy
+308,Beast Fangs,526,Neck Hunter
+308,Beast Fangs,527,Milus Radiant
+308,Beast Fangs,528,Togex
+308,Beast Fangs,529,Flame Cerebrus
+308,Beast Fangs,533,Kwagar Hercules
+308,Beast Fangs,535,Kamakiriman
+308,Beast Fangs,537,Mega Thunderball
+308,Beast Fangs,539,Corroding Shark
+308,Beast Fangs,541,Hane-Hane
+308,Beast Fangs,542,Misairuzame
+308,Beast Fangs,543,Tongyo
+308,Beast Fangs,545,Skelgon
+308,Beast Fangs,546,Wow Warrior
+308,Beast Fangs,548,Bone Mouse
+308,Beast Fangs,550,Behegon
+308,Beast Fangs,552,Winged Dragon #2
+308,Beast Fangs,554,Lava Battleguard
+308,Beast Fangs,556,The Wandering Doomed
+308,Beast Fangs,560,Invader from Another Dimension
+308,Beast Fangs,561,Lesser Dragon
+308,Beast Fangs,564,Great Mammoth of Goldfine
+308,Beast Fangs,566,Yormungarde
+308,Beast Fangs,567,Darkworld Thorns
+308,Beast Fangs,568,Anthrosaurus
+308,Beast Fangs,569,Drooling Lizard
+308,Beast Fangs,570,Trakadon
+308,Beast Fangs,571,B. Dragon Jungle King
+308,Beast Fangs,573,Little D
+308,Beast Fangs,575,Ancient One of the Deep Forest
+308,Beast Fangs,576,Giant Scorpion of the Tundra
+308,Beast Fangs,579,Abyss Flower
+308,Beast Fangs,585,Mechanical Snail
+308,Beast Fangs,587,Mon Larvas
+308,Beast Fangs,591,Morphing Jar
+308,Beast Fangs,593,Giant Turtle Who Feeds on Flames
+308,Beast Fangs,597,Pale Beast
+308,Beast Fangs,598,Little Chimera
+308,Beast Fangs,604,Obese Marmot of Nefariousness
+308,Beast Fangs,606,Twin Long Rods #2
+308,Beast Fangs,607,Great Bill
+308,Beast Fangs,609,Bladefly
+308,Beast Fangs,610,Electric Lizard
+308,Beast Fangs,613,Twin-headed Thunder Dragon
+308,Beast Fangs,617,Marine Beast
+308,Beast Fangs,622,Ill Witch
+308,Beast Fangs,624,High Tide Gyojin
+308,Beast Fangs,627,Nekogal #2
+308,Beast Fangs,629,Armored Rat
+308,Beast Fangs,642,Mystical Sheep #1
+308,Beast Fangs,644,Flame Viper
+308,Beast Fangs,646,Gruesome Goo
+308,Beast Fangs,702,Hungry Burger
+308,Beast Fangs,703,Sengenjin
+308,Beast Fangs,707,Skull Knight
+308,Beast Fangs,712,Meteor Dragon
+308,Beast Fangs,714,Firewing Pegasus
+308,Beast Fangs,717,Javelin Beetle
+308,Beast Fangs,718,Fortress Whale
+309,Steel Shell,89,Catapult Turtle
+309,Steel Shell,177,Monsturtle
+309,Steel Shell,193,Turtle Tiger
+309,Steel Shell,292,Psychic Kappa
+309,Steel Shell,443,Sea King Dragon
+309,Steel Shell,449,"30,000-Year White Turtle"
+309,Steel Shell,450,Kappa Avenger
+309,Steel Shell,459,Tripwire Beast
+309,Steel Shell,460,Bolt Escargot
+309,Steel Shell,497,Yado Karu
+309,Steel Shell,503,Turtle Raccoon
+309,Steel Shell,518,Boulder Tortoise
+309,Steel Shell,520,Turtle Bird
+309,Steel Shell,593,Giant Turtle Who Feeds on Flames
+309,Steel Shell,647,Hyosube
+309,Steel Shell,710,Crab Turtle
+310,Vile Germs,8,Mushroom Man
+310,Vile Germs,75,Man-eating Plant
+310,Vile Germs,98,Clown Zombie
+310,Vile Germs,123,Dark Plant
+310,Vile Germs,157,Firegrass
+310,Vile Germs,158,Man Eater
+310,Vile Germs,180,Arlownay
+310,Vile Germs,216,Dryad
+310,Vile Germs,228,Wood Remains
+310,Vile Germs,235,Wodan the Resident of the Forest
+310,Vile Germs,238,Yashinoki
+310,Vile Germs,273,Ancient Tree of Enlightenment
+310,Vile Germs,274,Green Phantom King
+310,Vile Germs,487,Flower Wolf
+310,Vile Germs,488,Rainbow Flower
+310,Vile Germs,489,Barrel Lily
+310,Vile Germs,504,Fungi of the Musk
+310,Vile Germs,510,Laughing Flower
+310,Vile Germs,511,Bean Soldier
+310,Vile Germs,547,Griggle
+310,Vile Germs,553,Mushroom Man #2
+310,Vile Germs,567,Darkworld Thorns
+310,Vile Germs,579,Abyss Flower
+310,Vile Germs,588,Living Vase
+310,Vile Germs,589,Tentacle Plant
+310,Vile Germs,594,Rose Spectre of Dunn
+310,Vile Germs,620,Snakeyashi
+310,Vile Germs,637,Trent
+310,Vile Germs,638,Queen of Autumn Leaves
+310,Vile Germs,702,Hungry Burger
+311,Black Pendant,12,Swamp Battleguard
+311,Black Pendant,16,Time Wizard
+311,Black Pendant,17,Right Leg of the Forbidden One
+311,Black Pendant,18,Left Leg of the Forbidden One
+311,Black Pendant,19,Right Arm of the Forbidden One
+311,Black Pendant,20,Left Arm of the Forbidden One
+311,Black Pendant,21,Exodia the Forbidden
+311,Black Pendant,22,Summoned Skull
+311,Black Pendant,23,The Wicked Worm Beast
+311,Black Pendant,24,Skull Servant
+311,Black Pendant,25,Horn Imp
+311,Black Pendant,34,Saggi the Dark Clown
+311,Black Pendant,35,Dark Magician
+311,Black Pendant,36,The Snake Hair
+311,Black Pendant,40,Dragon Piper
+311,Black Pendant,42,Illusionist Faceless Mage
+311,Black Pendant,84,Reaper of the Cards
+311,Black Pendant,85,King of Yamimakai
+311,Black Pendant,95,Crass Clown
+311,Black Pendant,98,Clown Zombie
+311,Black Pendant,99,Pumpking the King of Ghosts
+311,Black Pendant,101,Wings of Wicked Flame
+311,Black Pendant,102,Mask of Darkness
+311,Black Pendant,103,Job-change Mirror
+311,Black Pendant,104,Curtain of the Dark Ones
+311,Black Pendant,108,Graveyard and the Hand of Invitation
+311,Black Pendant,111,Doma The Angel of Silence
+311,Black Pendant,112,That Which Feeds on Life
+311,Black Pendant,115,Kamion Wizard
+311,Black Pendant,132,The 13th Grave
+311,Black Pendant,140,Toad Master
+311,Black Pendant,142,Flame Manipulator
+311,Black Pendant,143,Necrolancer the Timelord
+311,Black Pendant,145,The Bewitching Phantom Thief
+311,Black Pendant,148,The Shadow Who Controls the Dark
+311,Black Pendant,149,Lord of the Lamp
+311,Black Pendant,153,Dokuroizo the Grim Reaper
+311,Black Pendant,154,Fire Reaper
+311,Black Pendant,164,Lord of Zemia
+311,Black Pendant,166,Mysterious Puppeteer
+311,Black Pendant,167,Ancient Jar
+311,Black Pendant,169,Dark King of the Abyss
+311,Black Pendant,173,Dark Prisoner
+311,Black Pendant,175,Ancient Brain
+311,Black Pendant,176,Fire Eye
+311,Black Pendant,179,Phantom Dewan
+311,Black Pendant,181,Dark Shade
+311,Black Pendant,182,Masked Clown
+311,Black Pendant,190,Akakieisu
+311,Black Pendant,211,Kaminarikozou
+311,Black Pendant,213,Aqua Madoor
+311,Black Pendant,219,Solitude
+311,Black Pendant,220,Masked Sorcerer
+311,Black Pendant,224,Trap Master
+311,Black Pendant,231,Wood Clown
+311,Black Pendant,233,Dark Titan of Terror
+311,Black Pendant,236,Guardian of the Labyrinth
+311,Black Pendant,253,Angelwitch
+311,Black Pendant,259,Ancient Sorcerer
+311,Black Pendant,261,Wicked Mirror
+311,Black Pendant,268,Sectarian of Secrets
+311,Black Pendant,269,Versago the Destroyer
+311,Black Pendant,271,Megirus Light
+311,Black Pendant,277,Gorgon Egg
+311,Black Pendant,283,Holograh
+311,Black Pendant,284,Tao the Chanter
+311,Black Pendant,351,Yaranzo
+311,Black Pendant,365,Fiend's Mirror
+311,Black Pendant,371,Sanga of the Thunder
+311,Black Pendant,372,Kazejin
+311,Black Pendant,373,Suijin
+311,Black Pendant,374,Gate Guardian
+311,Black Pendant,379,La Jinn the Mystical Genie
+311,Black Pendant,385,Bickuribox
+311,Black Pendant,387,Mystic Lamp
+311,Black Pendant,431,Ice Water
+311,Black Pendant,434,Beautiful Beast Trainer
+311,Black Pendant,435,Water Girl
+311,Black Pendant,444,Turu-Purun
+311,Black Pendant,446,Aqua Snake
+311,Black Pendant,453,Millennium Golem
+311,Black Pendant,457,Stone Ghost
+311,Black Pendant,462,The Immortal of Thunder
+311,Black Pendant,470,Magical Ghost
+311,Black Pendant,471,Soul Hunter
+311,Black Pendant,495,Musician King
+311,Black Pendant,498,Morinphen
+311,Black Pendant,500,Dragon Seeker
+311,Black Pendant,510,Laughing Flower
+311,Black Pendant,515,The Statue of Easter Island
+311,Black Pendant,526,Neck Hunter
+311,Black Pendant,530,Eldeen
+311,Black Pendant,531,Mystical Sand
+311,Black Pendant,551,Dark Elf
+311,Black Pendant,553,Mushroom Man #2
+311,Black Pendant,554,Lava Battleguard
+311,Black Pendant,556,The Wandering Doomed
+311,Black Pendant,558,Pot the Trick
+311,Black Pendant,559,Oscillo Hero
+311,Black Pendant,560,Invader from Another Dimension
+311,Black Pendant,574,Witch of the Black Forest
+311,Black Pendant,578,Leo Wizard
+311,Black Pendant,591,Morphing Jar
+311,Black Pendant,594,Rose Spectre of Dunn
+311,Black Pendant,595,Fiend Refrection #1
+311,Black Pendant,596,Ghoul with an Appetite
+311,Black Pendant,600,Key Mace #2
+311,Black Pendant,621,Succubus Knight
+311,Black Pendant,628,Witch's Apprentice
+311,Black Pendant,635,Queen's Double
+311,Black Pendant,641,Invader of the Throne
+311,Black Pendant,642,Mystical Sheep #1
+311,Black Pendant,643,Disk Magician
+311,Black Pendant,647,Hyosube
+311,Black Pendant,649,Hibikime
+311,Black Pendant,707,Skull Knight
+311,Black Pendant,709,Chakra
+311,Black Pendant,715,Psycho-Puppet
+311,Black Pendant,720,Mask of Shine & Dark
+311,Black Pendant,722,Magician of Black Chaos
+312,Silver Bow and Arrow,2,Mystical Elf
+312,Silver Bow and Arrow,62,Harpie Lady
+312,Silver Bow and Arrow,63,Harpie Lady Sisters
+312,Silver Bow and Arrow,90,Gyakutenno Megami
+312,Silver Bow and Arrow,109,Goddess with the Third Eye
+312,Silver Bow and Arrow,111,Doma The Angel of Silence
+312,Silver Bow and Arrow,122,Yamatano Dragon Scroll
+312,Silver Bow and Arrow,126,Orion the Battle King
+312,Silver Bow and Arrow,128,LaMoon
+312,Silver Bow and Arrow,130,Weather Control
+312,Silver Bow and Arrow,134,Mystical Capture Chain
+312,Silver Bow and Arrow,170,Spirit of the Harp
+312,Silver Bow and Arrow,175,Ancient Brain
+312,Silver Bow and Arrow,189,Fusionist
+312,Silver Bow and Arrow,192,Key Mace
+312,Silver Bow and Arrow,198,Happy Lover
+312,Silver Bow and Arrow,208,Petit Angel
+312,Silver Bow and Arrow,216,Dryad
+312,Silver Bow and Arrow,229,Hourglass of Life
+312,Silver Bow and Arrow,253,Angelwitch
+312,Silver Bow and Arrow,260,Lunar Queen Elzaim
+312,Silver Bow and Arrow,264,Wing Egg Elf
+312,Silver Bow and Arrow,276,Ray & Temperature
+312,Silver Bow and Arrow,395,Dancing Elf
+312,Silver Bow and Arrow,396,Ocubeam
+312,Silver Bow and Arrow,428,Magician of Faith
+312,Silver Bow and Arrow,429,Goddess of Whim
+312,Silver Bow and Arrow,430,Water Magician
+312,Silver Bow and Arrow,431,Ice Water
+312,Silver Bow and Arrow,432,Waterdragon Fairy
+312,Silver Bow and Arrow,433,Ancient Elf
+312,Silver Bow and Arrow,434,Beautiful Beast Trainer
+312,Silver Bow and Arrow,435,Water Girl
+312,Silver Bow and Arrow,492,Hoshiningen
+312,Silver Bow and Arrow,494,Rainbow Marine Mermaid
+312,Silver Bow and Arrow,530,Eldeen
+312,Silver Bow and Arrow,531,Mystical Sand
+312,Silver Bow and Arrow,532,Gemini Elf
+312,Silver Bow and Arrow,540,Skelengel
+312,Silver Bow and Arrow,572,Empress Judge
+312,Silver Bow and Arrow,574,Witch of the Black Forest
+312,Silver Bow and Arrow,582,Dark Witch
+312,Silver Bow and Arrow,584,Binding Chain
+312,Silver Bow and Arrow,592,Muse-A
+312,Silver Bow and Arrow,594,Rose Spectre of Dunn
+312,Silver Bow and Arrow,600,Key Mace #2
+312,Silver Bow and Arrow,601,Tenderness
+312,Silver Bow and Arrow,608,Shining Friendship
+312,Silver Bow and Arrow,612,Lady of Faith
+312,Silver Bow and Arrow,616,Hourglass of Courage
+312,Silver Bow and Arrow,618,Warrior of Tradition
+312,Silver Bow and Arrow,622,Ill Witch
+312,Silver Bow and Arrow,625,Fairy of the Fountain
+312,Silver Bow and Arrow,626,Amazon of the Seas
+312,Silver Bow and Arrow,627,Nekogal #2
+312,Silver Bow and Arrow,628,Witch's Apprentice
+312,Silver Bow and Arrow,631,Maiden of the Moonlight
+312,Silver Bow and Arrow,633,Winged Egg of New Life
+312,Silver Bow and Arrow,635,Queen's Double
+312,Silver Bow and Arrow,638,Queen of Autumn Leaves
+312,Silver Bow and Arrow,641,Invader of the Throne
+312,Silver Bow and Arrow,649,Hibikime
+312,Silver Bow and Arrow,701,Performance of Sword
+312,Silver Bow and Arrow,708,Cosmo Queen
+313,Horn of Light,4,Baby Dragon
+313,Horn of Light,7,Winged Dragon #1
+313,Horn of Light,26,Battle Ox
+313,Horn of Light,27,Beaver Warrior
+313,Horn of Light,28,Rock Ogre Grotto #1
+313,Horn of Light,29,Mountain Warrior
+313,Horn of Light,32,Two-headed King Rex
+313,Horn of Light,39,Curse of Dragon
+313,Horn of Light,45,Oscillo Hero #2
+313,Horn of Light,47,Torike
+313,Horn of Light,52,Hercules Beetle
+313,Horn of Light,89,Catapult Turtle
+313,Horn of Light,92,Rabid Horseman
+313,Horn of Light,110,Hero of the East
+313,Horn of Light,177,Monsturtle
+313,Horn of Light,212,Meotoko
+313,Horn of Light,248,Master & Expert
+313,Horn of Light,265,The Furious Sea King
+313,Horn of Light,282,Mystical Sheep #2
+313,Horn of Light,290,Moon Envoy
+313,Horn of Light,294,Dragoness the Wicked Knight
+313,Horn of Light,357,Yamadron
+313,Horn of Light,383,Parrot Dragon
+313,Horn of Light,403,Leogun
+313,Horn of Light,407,Machine King
+313,Horn of Light,409,Metal Dragon
+313,Horn of Light,423,Dice Armadillo
+313,Horn of Light,425,Thunder Dragon
+313,Horn of Light,426,Stone D.
+313,Horn of Light,436,White Dolphin
+313,Horn of Light,442,Aqua Dragon
+313,Horn of Light,443,Sea King Dragon
+313,Horn of Light,456,Minomushi Warrior
+313,Horn of Light,459,Tripwire Beast
+313,Horn of Light,468,Queen Bird
+313,Horn of Light,477,Alinsection
+313,Horn of Light,479,Cockroach Knight
+313,Horn of Light,485,Korogashi
+313,Horn of Light,511,Bean Soldier
+313,Horn of Light,528,Togex
+313,Horn of Light,533,Kwagar Hercules
+313,Horn of Light,535,Kamakiriman
+313,Horn of Light,537,Mega Thunderball
+313,Horn of Light,542,Misairuzame
+313,Horn of Light,546,Wow Warrior
+313,Horn of Light,552,Winged Dragon #2
+313,Horn of Light,559,Oscillo Hero
+313,Horn of Light,562,Needle Worm
+313,Horn of Light,575,Ancient One of the Deep Forest
+313,Horn of Light,599,Violent Rain
+313,Horn of Light,613,Twin-headed Thunder Dragon
+313,Horn of Light,627,Nekogal #2
+313,Horn of Light,629,Armored Rat
+313,Horn of Light,634,Night Lizard
+313,Horn of Light,635,Queen's Double
+313,Horn of Light,636,Blue-winged Crown
+313,Horn of Light,702,Hungry Burger
+313,Horn of Light,704,Skull Guardian
+313,Horn of Light,717,Javelin Beetle
+314,Horn of the Unicorn,5,Ryu-kishin
+314,Horn of the Unicorn,6,Feral Imp
+314,Horn of the Unicorn,10,Blackland Fire Dragon
+314,Horn of the Unicorn,12,Swamp Battleguard
+314,Horn of the Unicorn,14,Battle Steer
+314,Horn of the Unicorn,22,Summoned Skull
+314,Horn of the Unicorn,25,Horn Imp
+314,Horn of the Unicorn,56,Larvae Moth
+314,Horn of the Unicorn,57,Great Moth
+314,Horn of the Unicorn,59,Mammoth Graveyard
+314,Horn of the Unicorn,67,Perfectly Ultimate Great Moth
+314,Horn of the Unicorn,68,Garoozis
+314,Horn of the Unicorn,79,Megazowler
+314,Horn of the Unicorn,81,Crawling Dragon #2
+314,Horn of the Unicorn,85,King of Yamimakai
+314,Horn of the Unicorn,86,Barox
+314,Horn of the Unicorn,87,Dark Chimera
+314,Horn of the Unicorn,93,Zanki
+314,Horn of the Unicorn,103,Job-change Mirror
+314,Horn of the Unicorn,113,Dark Gray
+314,Horn of the Unicorn,123,Dark Plant
+314,Horn of the Unicorn,143,Necrolancer the Timelord
+314,Horn of the Unicorn,151,Rhaimundos of the Red Sword
+314,Horn of the Unicorn,164,Lord of Zemia
+314,Horn of the Unicorn,173,Dark Prisoner
+314,Horn of the Unicorn,175,Ancient Brain
+314,Horn of the Unicorn,178,Claw Reacher
+314,Horn of the Unicorn,181,Dark Shade
+314,Horn of the Unicorn,202,Air Marmot of Nefariousness
+314,Horn of the Unicorn,204,Mabarrel
+314,Horn of the Unicorn,219,Solitude
+314,Horn of the Unicorn,220,Masked Sorcerer
+314,Horn of the Unicorn,226,Skull Stalker
+314,Horn of the Unicorn,231,Wood Clown
+314,Horn of the Unicorn,236,Guardian of the Labyrinth
+314,Horn of the Unicorn,239,Vishwar Randi
+314,Horn of the Unicorn,245,Meda Bat
+314,Horn of the Unicorn,267,Unknown Warrior of Fiend
+314,Horn of the Unicorn,355,Megasonic Eye
+314,Horn of the Unicorn,360,Zera The Mant
+314,Horn of the Unicorn,382,Rude Kaiser
+314,Horn of the Unicorn,385,Bickuribox
+314,Horn of the Unicorn,386,Harpie's Pet Dragon
+314,Horn of the Unicorn,388,Pendulum Machine
+314,Horn of the Unicorn,391,Zoa
+314,Horn of the Unicorn,392,Metalzoa
+314,Horn of the Unicorn,397,Leghul
+314,Horn of the Unicorn,398,Ooguchi
+314,Horn of the Unicorn,400,Emperor of the Land and Sea
+314,Horn of the Unicorn,401,Ushi Oni
+314,Horn of the Unicorn,408,Giant Mech-soldier
+314,Horn of the Unicorn,411,Bat
+314,Horn of the Unicorn,413,Cyber Soldier
+314,Horn of the Unicorn,417,Blast Juggler
+314,Horn of the Unicorn,418,Golgoil
+314,Horn of the Unicorn,420,Cyber-Stein
+314,Horn of the Unicorn,444,Turu-Purun
+314,Horn of the Unicorn,448,Spike Seadra
+314,Horn of the Unicorn,457,Stone Ghost
+314,Horn of the Unicorn,460,Bolt Escargot
+314,Horn of the Unicorn,471,Soul Hunter
+314,Horn of the Unicorn,474,Sea Kamen
+314,Horn of the Unicorn,482,Pragtical
+314,Horn of the Unicorn,490,Needle Ball
+314,Horn of the Unicorn,497,Yado Karu
+314,Horn of the Unicorn,500,Dragon Seeker
+314,Horn of the Unicorn,501,Man-eater Bug
+314,Horn of the Unicorn,506,Gale Dogra
+314,Horn of the Unicorn,514,Brave Scizzar
+314,Horn of the Unicorn,516,Muka Muka
+314,Horn of the Unicorn,521,Skullbird
+314,Horn of the Unicorn,526,Neck Hunter
+314,Horn of the Unicorn,527,Milus Radiant
+314,Horn of the Unicorn,534,Minar
+314,Horn of the Unicorn,545,Skelgon
+314,Horn of the Unicorn,554,Lava Battleguard
+314,Horn of the Unicorn,560,Invader from Another Dimension
+314,Horn of the Unicorn,561,Lesser Dragon
+314,Horn of the Unicorn,571,B. Dragon Jungle King
+314,Horn of the Unicorn,585,Mechanical Snail
+314,Horn of the Unicorn,597,Pale Beast
+314,Horn of the Unicorn,604,Obese Marmot of Nefariousness
+314,Horn of the Unicorn,610,Electric Lizard
+314,Horn of the Unicorn,611,Hiro's Shadow Scout
+314,Horn of the Unicorn,621,Succubus Knight
+314,Horn of the Unicorn,642,Mystical Sheep #1
+314,Horn of the Unicorn,644,Flame Viper
+314,Horn of the Unicorn,707,Skull Knight
+314,Horn of the Unicorn,708,Cosmo Queen
+314,Horn of the Unicorn,716,Garma Sword
+314,Horn of the Unicorn,719,Dokurorider
+314,Horn of the Unicorn,720,Mask of Shine & Dark
+315,Dragon Treasure,1,Blue-eyes White Dragon
+315,Dragon Treasure,4,Baby Dragon
+315,Dragon Treasure,7,Winged Dragon #1
+315,Dragon Treasure,10,Blackland Fire Dragon
+315,Dragon Treasure,11,Sword Arm of Dragon
+315,Dragon Treasure,31,Koumori Dragon
+315,Dragon Treasure,32,Two-headed King Rex
+315,Dragon Treasure,37,Gaia the Dragon Champion
+315,Dragon Treasure,39,Curse of Dragon
+315,Dragon Treasure,46,Griffore
+315,Dragon Treasure,47,Torike
+315,Dragon Treasure,51,Armored Lizard
+315,Dragon Treasure,68,Garoozis
+315,Dragon Treasure,69,Thousand Dragon
+315,Dragon Treasure,73,Kairyu-shin
+315,Dragon Treasure,76,Krokodilus
+315,Dragon Treasure,77,Grappler
+315,Dragon Treasure,79,Megazowler
+315,Dragon Treasure,80,Uraby
+315,Dragon Treasure,81,Crawling Dragon #2
+315,Dragon Treasure,82,Red-eyes B. Dragon
+315,Dragon Treasure,87,Dark Chimera
+315,Dragon Treasure,94,Crawling Dragon
+315,Dragon Treasure,97,Dragon Zombie
+315,Dragon Treasure,105,Tomozaurus
+315,Dragon Treasure,122,Yamatano Dragon Scroll
+315,Dragon Treasure,138,Dragon Statue
+315,Dragon Treasure,168,Darkfire Dragon
+315,Dragon Treasure,188,Synchar
+315,Dragon Treasure,200,Petit Dragon
+315,Dragon Treasure,217,B. Skull Dragon
+315,Dragon Treasure,222,Midnight Fiend
+315,Dragon Treasure,223,Roaring Ocean Snake
+315,Dragon Treasure,294,Dragoness the Wicked Knight
+315,Dragon Treasure,296,One-eyed Shield Dragon
+315,Dragon Treasure,298,Wicked Dragon with the Ersatz Head
+315,Dragon Treasure,300,Kurama
+315,Dragon Treasure,353,Takriminos
+315,Dragon Treasure,357,Yamadron
+315,Dragon Treasure,358,Seiyaryu
+315,Dragon Treasure,360,Zera The Mant
+315,Dragon Treasure,380,Blue-eyes Ultimate Dragon
+315,Dragon Treasure,382,Rude Kaiser
+315,Dragon Treasure,383,Parrot Dragon
+315,Dragon Treasure,386,Harpie's Pet Dragon
+315,Dragon Treasure,409,Metal Dragon
+315,Dragon Treasure,424,Sky Dragon
+315,Dragon Treasure,425,Thunder Dragon
+315,Dragon Treasure,426,Stone D.
+315,Dragon Treasure,427,Kaiser Dragon
+315,Dragon Treasure,442,Aqua Dragon
+315,Dragon Treasure,443,Sea King Dragon
+315,Dragon Treasure,447,Giant Red Seasnake
+315,Dragon Treasure,448,Spike Seadra
+315,Dragon Treasure,472,Air Eater
+315,Dragon Treasure,497,Yado Karu
+315,Dragon Treasure,500,Dragon Seeker
+315,Dragon Treasure,502,D. Human
+315,Dragon Treasure,508,Cyber Saurus
+315,Dragon Treasure,509,Bracchio-raidus
+315,Dragon Treasure,545,Skelgon
+315,Dragon Treasure,552,Winged Dragon #2
+315,Dragon Treasure,555,Tyhone #2
+315,Dragon Treasure,561,Lesser Dragon
+315,Dragon Treasure,566,Yormungarde
+315,Dragon Treasure,568,Anthrosaurus
+315,Dragon Treasure,570,Trakadon
+315,Dragon Treasure,571,B. Dragon Jungle King
+315,Dragon Treasure,573,Little D
+315,Dragon Treasure,603,Fairy Dragon
+315,Dragon Treasure,613,Twin-headed Thunder Dragon
+315,Dragon Treasure,705,Tri-horned Dragon
+315,Dragon Treasure,706,Serpent Night Dragon
+315,Dragon Treasure,711,Mikazukinoyaiba
+315,Dragon Treasure,712,Meteor Dragon
+315,Dragon Treasure,713,Meteor B. Dragon
+316,Electro-whip,2,Mystical Elf
+316,Electro-whip,3,Hitotsu-me Giant
+316,Electro-whip,6,Feral Imp
+316,Electro-whip,12,Swamp Battleguard
+316,Electro-whip,25,Horn Imp
+316,Electro-whip,34,Saggi the Dark Clown
+316,Electro-whip,45,Oscillo Hero #2
+316,Electro-whip,62,Harpie Lady
+316,Electro-whip,63,Harpie Lady Sisters
+316,Electro-whip,90,Gyakutenno Megami
+316,Electro-whip,91,Mystic Horseman
+316,Electro-whip,106,Spirit of the Winds
+316,Electro-whip,109,Goddess with the Third Eye
+316,Electro-whip,114,White Magical Hat
+316,Electro-whip,120,Dream Clown
+316,Electro-whip,128,LaMoon
+316,Electro-whip,129,Nemuriko
+316,Electro-whip,132,The 13th Grave
+316,Electro-whip,135,Fiend's Hand
+316,Electro-whip,137,Mystery Hand
+316,Electro-whip,139,Blue-eyed Silver Zombie
+316,Electro-whip,141,Spiked Snail
+316,Electro-whip,142,Flame Manipulator
+316,Electro-whip,143,Necrolancer the Timelord
+316,Electro-whip,144,Djinn the Watcher of the Wind
+316,Electro-whip,169,Dark King of the Abyss
+316,Electro-whip,170,Spirit of the Harp
+316,Electro-whip,180,Arlownay
+316,Electro-whip,185,Eyearmor
+316,Electro-whip,187,Gate Deeg
+316,Electro-whip,188,Synchar
+316,Electro-whip,192,Key Mace
+316,Electro-whip,195,Doron
+316,Electro-whip,206,Twin Long Rods #1
+316,Electro-whip,208,Petit Angel
+316,Electro-whip,211,Kaminarikozou
+316,Electro-whip,212,Meotoko
+316,Electro-whip,216,Dryad
+316,Electro-whip,224,Trap Master
+316,Electro-whip,233,Dark Titan of Terror
+316,Electro-whip,234,Beautiful Headhuntress
+316,Electro-whip,237,Haniwa
+316,Electro-whip,239,Vishwar Randi
+316,Electro-whip,243,Water Element
+316,Electro-whip,249,Water Omotics
+316,Electro-whip,250,Hyo
+316,Electro-whip,251,Enchanting Mermaid
+316,Electro-whip,252,Nekogal #1
+316,Electro-whip,253,Angelwitch
+316,Electro-whip,254,Embryonic Beast
+316,Electro-whip,260,Lunar Queen Elzaim
+316,Electro-whip,266,Princess of Tsurugi
+316,Electro-whip,274,Green Phantom King
+316,Electro-whip,280,Protector of the Throne
+316,Electro-whip,281,Mystic Clown
+316,Electro-whip,287,Ogre of the Black Shadow
+316,Electro-whip,292,Psychic Kappa
+316,Electro-whip,299,Sonic Maid
+316,Electro-whip,351,Yaranzo
+316,Electro-whip,352,Kanan the Swordmistress
+316,Electro-whip,359,Three-legged Zombies
+316,Electro-whip,363,Fairy's Gift
+316,Electro-whip,376,Monster Tamer
+316,Electro-whip,395,Dancing Elf
+316,Electro-whip,428,Magician of Faith
+316,Electro-whip,429,Goddess of Whim
+316,Electro-whip,430,Water Magician
+316,Electro-whip,431,Ice Water
+316,Electro-whip,432,Waterdragon Fairy
+316,Electro-whip,433,Ancient Elf
+316,Electro-whip,434,Beautiful Beast Trainer
+316,Electro-whip,435,Water Girl
+316,Electro-whip,461,Bolt Penguin
+316,Electro-whip,492,Hoshiningen
+316,Electro-whip,494,Rainbow Marine Mermaid
+316,Electro-whip,504,Fungi of the Musk
+316,Electro-whip,517,Sand Stone
+316,Electro-whip,524,Star Boy
+316,Electro-whip,530,Eldeen
+316,Electro-whip,531,Mystical Sand
+316,Electro-whip,532,Gemini Elf
+316,Electro-whip,551,Dark Elf
+316,Electro-whip,572,Empress Judge
+316,Electro-whip,574,Witch of the Black Forest
+316,Electro-whip,582,Dark Witch
+316,Electro-whip,589,Tentacle Plant
+316,Electro-whip,592,Muse-A
+316,Electro-whip,594,Rose Spectre of Dunn
+316,Electro-whip,600,Key Mace #2
+316,Electro-whip,606,Twin Long Rods #2
+316,Electro-whip,612,Lady of Faith
+316,Electro-whip,618,Warrior of Tradition
+316,Electro-whip,621,Succubus Knight
+316,Electro-whip,622,Ill Witch
+316,Electro-whip,625,Fairy of the Fountain
+316,Electro-whip,626,Amazon of the Seas
+316,Electro-whip,627,Nekogal #2
+316,Electro-whip,628,Witch's Apprentice
+316,Electro-whip,631,Maiden of the Moonlight
+316,Electro-whip,635,Queen's Double
+316,Electro-whip,638,Queen of Autumn Leaves
+316,Electro-whip,641,Invader of the Throne
+316,Electro-whip,649,Hibikime
+316,Electro-whip,701,Performance of Sword
+316,Electro-whip,708,Cosmo Queen
+317,Cyber Shield,2,Mystical Elf
+317,Cyber Shield,62,Harpie Lady
+317,Cyber Shield,63,Harpie Lady Sisters
+317,Cyber Shield,90,Gyakutenno Megami
+317,Cyber Shield,106,Spirit of the Winds
+317,Cyber Shield,109,Goddess with the Third Eye
+317,Cyber Shield,128,LaMoon
+317,Cyber Shield,129,Nemuriko
+317,Cyber Shield,170,Spirit of the Harp
+317,Cyber Shield,180,Arlownay
+317,Cyber Shield,192,Key Mace
+317,Cyber Shield,216,Dryad
+317,Cyber Shield,234,Beautiful Headhuntress
+317,Cyber Shield,239,Vishwar Randi
+317,Cyber Shield,243,Water Element
+317,Cyber Shield,249,Water Omotics
+317,Cyber Shield,251,Enchanting Mermaid
+317,Cyber Shield,253,Angelwitch
+317,Cyber Shield,260,Lunar Queen Elzaim
+317,Cyber Shield,266,Princess of Tsurugi
+317,Cyber Shield,280,Protector of the Throne
+317,Cyber Shield,299,Sonic Maid
+317,Cyber Shield,395,Dancing Elf
+317,Cyber Shield,428,Magician of Faith
+317,Cyber Shield,429,Goddess of Whim
+317,Cyber Shield,430,Water Magician
+317,Cyber Shield,431,Ice Water
+317,Cyber Shield,432,Waterdragon Fairy
+317,Cyber Shield,433,Ancient Elf
+317,Cyber Shield,434,Beautiful Beast Trainer
+317,Cyber Shield,435,Water Girl
+317,Cyber Shield,494,Rainbow Marine Mermaid
+317,Cyber Shield,530,Eldeen
+317,Cyber Shield,531,Mystical Sand
+317,Cyber Shield,532,Gemini Elf
+317,Cyber Shield,551,Dark Elf
+317,Cyber Shield,572,Empress Judge
+317,Cyber Shield,574,Witch of the Black Forest
+317,Cyber Shield,582,Dark Witch
+317,Cyber Shield,592,Muse-A
+317,Cyber Shield,594,Rose Spectre of Dunn
+317,Cyber Shield,600,Key Mace #2
+317,Cyber Shield,612,Lady of Faith
+317,Cyber Shield,618,Warrior of Tradition
+317,Cyber Shield,621,Succubus Knight
+317,Cyber Shield,622,Ill Witch
+317,Cyber Shield,625,Fairy of the Fountain
+317,Cyber Shield,626,Amazon of the Seas
+317,Cyber Shield,627,Nekogal #2
+317,Cyber Shield,628,Witch's Apprentice
+317,Cyber Shield,631,Maiden of the Moonlight
+317,Cyber Shield,635,Queen's Double
+317,Cyber Shield,638,Queen of Autumn Leaves
+317,Cyber Shield,641,Invader of the Throne
+317,Cyber Shield,649,Hibikime
+317,Cyber Shield,701,Performance of Sword
+317,Cyber Shield,708,Cosmo Queen
+318,Elegant Egotist,62,Harpie Lady
+319,Mystical Moon,6,Feral Imp
+319,Mystical Moon,9,Shadow Specter
+319,Mystical Moon,14,Battle Steer
+319,Mystical Moon,23,The Wicked Worm Beast
+319,Mystical Moon,26,Battle Ox
+319,Mystical Moon,27,Beaver Warrior
+319,Mystical Moon,29,Mountain Warrior
+319,Mystical Moon,46,Griffore
+319,Mystical Moon,47,Torike
+319,Mystical Moon,48,Sangan
+319,Mystical Moon,58,Kuriboh
+319,Mystical Moon,61,Wolf
+319,Mystical Moon,62,Harpie Lady
+319,Mystical Moon,63,Harpie Lady Sisters
+319,Mystical Moon,64,Tiger Axe
+319,Mystical Moon,65,Silver Fang
+319,Mystical Moon,86,Barox
+319,Mystical Moon,91,Mystic Horseman
+319,Mystical Moon,92,Rabid Horseman
+319,Mystical Moon,113,Dark Gray
+319,Mystical Moon,121,Sleeping Lion
+319,Mystical Moon,159,Dig Beak
+319,Mystical Moon,163,Lisark
+319,Mystical Moon,164,Lord of Zemia
+319,Mystical Moon,187,Gate Deeg
+319,Mystical Moon,188,Synchar
+319,Mystical Moon,189,Fusionist
+319,Mystical Moon,193,Turtle Tiger
+319,Mystical Moon,197,Mech Mole Zombie
+319,Mystical Moon,198,Happy Lover
+319,Mystical Moon,199,Penguin Knight
+319,Mystical Moon,201,Frenzied Panda
+319,Mystical Moon,202,Air Marmot of Nefariousness
+319,Mystical Moon,207,Droll Bird
+319,Mystical Moon,212,Meotoko
+319,Mystical Moon,219,Solitude
+319,Mystical Moon,230,Rare Fish
+319,Mystical Moon,246,One Who Hunts Souls
+319,Mystical Moon,248,Master & Expert
+319,Mystical Moon,250,Hyo
+319,Mystical Moon,252,Nekogal #1
+319,Mystical Moon,255,Prevent Rat
+319,Mystical Moon,257,Stone Armadiller
+319,Mystical Moon,258,Beastking of the Swamps
+319,Mystical Moon,264,Wing Egg Elf
+319,Mystical Moon,282,Mystical Sheep #2
+319,Mystical Moon,287,Ogre of the Black Shadow
+319,Mystical Moon,292,Psychic Kappa
+319,Mystical Moon,295,Bio Plant
+319,Mystical Moon,300,Kurama
+319,Mystical Moon,354,Stuffed Animal
+319,Mystical Moon,356,Super War-lion
+319,Mystical Moon,382,Rude Kaiser
+319,Mystical Moon,384,Dark Rabbit
+319,Mystical Moon,396,Ocubeam
+319,Mystical Moon,401,Ushi Oni
+319,Mystical Moon,403,Leogun
+319,Mystical Moon,404,Tatsunootoshigo
+319,Mystical Moon,412,Giga-tech Wolf
+319,Mystical Moon,414,Shovel Crusher
+319,Mystical Moon,424,Sky Dragon
+319,Mystical Moon,464,Wing Eagle
+319,Mystical Moon,465,Punished Eagle
+319,Mystical Moon,466,Skull Red Bird
+319,Mystical Moon,467,Crimson Sunbird
+319,Mystical Moon,468,Queen Bird
+319,Mystical Moon,481,Burglar
+319,Mystical Moon,483,Garvas
+319,Mystical Moon,487,Flower Wolf
+319,Mystical Moon,491,Peacock
+319,Mystical Moon,496,Wilmee
+319,Mystical Moon,503,Turtle Raccoon
+319,Mystical Moon,521,Skullbird
+319,Mystical Moon,522,Monstrous Bird
+319,Mystical Moon,526,Neck Hunter
+319,Mystical Moon,527,Milus Radiant
+319,Mystical Moon,528,Togex
+319,Mystical Moon,529,Flame Cerebrus
+319,Mystical Moon,538,Niwatori
+319,Mystical Moon,541,Hane-Hane
+319,Mystical Moon,548,Bone Mouse
+319,Mystical Moon,563,Wretched Ghost of the Attic
+319,Mystical Moon,575,Ancient One of the Deep Forest
+319,Mystical Moon,578,Leo Wizard
+319,Mystical Moon,581,Takuhee
+319,Mystical Moon,587,Mon Larvas
+319,Mystical Moon,595,Fiend Refrection #1
+319,Mystical Moon,597,Pale Beast
+319,Mystical Moon,598,Little Chimera
+319,Mystical Moon,602,Penguin Soldier
+319,Mystical Moon,604,Obese Marmot of Nefariousness
+319,Mystical Moon,607,Great Bill
+319,Mystical Moon,611,Hiro's Shadow Scout
+319,Mystical Moon,617,Marine Beast
+319,Mystical Moon,627,Nekogal #2
+319,Mystical Moon,703,Sengenjin
+319,Mystical Moon,714,Firewing Pegasus
+321,Malevolent Nuzzler,2,Mystical Elf
+321,Malevolent Nuzzler,3,Hitotsu-me Giant
+321,Malevolent Nuzzler,5,Ryu-kishin
+321,Malevolent Nuzzler,9,Shadow Specter
+321,Malevolent Nuzzler,22,Summoned Skull
+321,Malevolent Nuzzler,24,Skull Servant
+321,Malevolent Nuzzler,30,Zombie Warrior
+321,Malevolent Nuzzler,40,Dragon Piper
+321,Malevolent Nuzzler,42,Illusionist Faceless Mage
+321,Malevolent Nuzzler,48,Sangan
+321,Malevolent Nuzzler,62,Harpie Lady
+321,Malevolent Nuzzler,63,Harpie Lady Sisters
+321,Malevolent Nuzzler,90,Gyakutenno Megami
+321,Malevolent Nuzzler,95,Crass Clown
+321,Malevolent Nuzzler,96,Armored Zombie
+321,Malevolent Nuzzler,98,Clown Zombie
+321,Malevolent Nuzzler,99,Pumpking the King of Ghosts
+321,Malevolent Nuzzler,106,Spirit of the Winds
+321,Malevolent Nuzzler,109,Goddess with the Third Eye
+321,Malevolent Nuzzler,123,Dark Plant
+321,Malevolent Nuzzler,128,LaMoon
+321,Malevolent Nuzzler,129,Nemuriko
+321,Malevolent Nuzzler,141,Spiked Snail
+321,Malevolent Nuzzler,150,Akihiron
+321,Malevolent Nuzzler,155,Larvas
+321,Malevolent Nuzzler,158,Man Eater
+321,Malevolent Nuzzler,164,Lord of Zemia
+321,Malevolent Nuzzler,170,Spirit of the Harp
+321,Malevolent Nuzzler,180,Arlownay
+321,Malevolent Nuzzler,182,Masked Clown
+321,Malevolent Nuzzler,187,Gate Deeg
+321,Malevolent Nuzzler,188,Synchar
+321,Malevolent Nuzzler,192,Key Mace
+321,Malevolent Nuzzler,195,Doron
+321,Malevolent Nuzzler,197,Mech Mole Zombie
+321,Malevolent Nuzzler,198,Happy Lover
+321,Malevolent Nuzzler,201,Frenzied Panda
+321,Malevolent Nuzzler,206,Twin Long Rods #1
+321,Malevolent Nuzzler,207,Droll Bird
+321,Malevolent Nuzzler,211,Kaminarikozou
+321,Malevolent Nuzzler,212,Meotoko
+321,Malevolent Nuzzler,216,Dryad
+321,Malevolent Nuzzler,221,Kumootoko
+321,Malevolent Nuzzler,234,Beautiful Headhuntress
+321,Malevolent Nuzzler,237,Haniwa
+321,Malevolent Nuzzler,239,Vishwar Randi
+321,Malevolent Nuzzler,243,Water Element
+321,Malevolent Nuzzler,249,Water Omotics
+321,Malevolent Nuzzler,251,Enchanting Mermaid
+321,Malevolent Nuzzler,252,Nekogal #1
+321,Malevolent Nuzzler,253,Angelwitch
+321,Malevolent Nuzzler,260,Lunar Queen Elzaim
+321,Malevolent Nuzzler,266,Princess of Tsurugi
+321,Malevolent Nuzzler,274,Green Phantom King
+321,Malevolent Nuzzler,280,Protector of the Throne
+321,Malevolent Nuzzler,299,Sonic Maid
+321,Malevolent Nuzzler,352,Kanan the Swordmistress
+321,Malevolent Nuzzler,354,Stuffed Animal
+321,Malevolent Nuzzler,356,Super War-lion
+321,Malevolent Nuzzler,360,Zera The Mant
+321,Malevolent Nuzzler,363,Fairy's Gift
+321,Malevolent Nuzzler,377,Ryu-kishin Powered
+321,Malevolent Nuzzler,378,Swordstalker
+321,Malevolent Nuzzler,382,Rude Kaiser
+321,Malevolent Nuzzler,385,Bickuribox
+321,Malevolent Nuzzler,386,Harpie's Pet Dragon
+321,Malevolent Nuzzler,391,Zoa
+321,Malevolent Nuzzler,392,Metalzoa
+321,Malevolent Nuzzler,395,Dancing Elf
+321,Malevolent Nuzzler,397,Leghul
+321,Malevolent Nuzzler,401,Ushi Oni
+321,Malevolent Nuzzler,412,Giga-tech Wolf
+321,Malevolent Nuzzler,414,Shovel Crusher
+321,Malevolent Nuzzler,417,Blast Juggler
+321,Malevolent Nuzzler,428,Magician of Faith
+321,Malevolent Nuzzler,429,Goddess of Whim
+321,Malevolent Nuzzler,430,Water Magician
+321,Malevolent Nuzzler,431,Ice Water
+321,Malevolent Nuzzler,432,Waterdragon Fairy
+321,Malevolent Nuzzler,433,Ancient Elf
+321,Malevolent Nuzzler,434,Beautiful Beast Trainer
+321,Malevolent Nuzzler,435,Water Girl
+321,Malevolent Nuzzler,447,Giant Red Seasnake
+321,Malevolent Nuzzler,448,Spike Seadra
+321,Malevolent Nuzzler,450,Kappa Avenger
+321,Malevolent Nuzzler,457,Stone Ghost
+321,Malevolent Nuzzler,460,Bolt Escargot
+321,Malevolent Nuzzler,471,Soul Hunter
+321,Malevolent Nuzzler,474,Sea Kamen
+321,Malevolent Nuzzler,483,Garvas
+321,Malevolent Nuzzler,494,Rainbow Marine Mermaid
+321,Malevolent Nuzzler,495,Musician King
+321,Malevolent Nuzzler,496,Wilmee
+321,Malevolent Nuzzler,521,Skullbird
+321,Malevolent Nuzzler,523,The Bistro Butcher
+321,Malevolent Nuzzler,530,Eldeen
+321,Malevolent Nuzzler,531,Mystical Sand
+321,Malevolent Nuzzler,532,Gemini Elf
+321,Malevolent Nuzzler,539,Corroding Shark
+321,Malevolent Nuzzler,545,Skelgon
+321,Malevolent Nuzzler,546,Wow Warrior
+321,Malevolent Nuzzler,551,Dark Elf
+321,Malevolent Nuzzler,553,Mushroom Man #2
+321,Malevolent Nuzzler,554,Lava Battleguard
+321,Malevolent Nuzzler,563,Wretched Ghost of the Attic
+321,Malevolent Nuzzler,567,Darkworld Thorns
+321,Malevolent Nuzzler,569,Drooling Lizard
+321,Malevolent Nuzzler,572,Empress Judge
+321,Malevolent Nuzzler,574,Witch of the Black Forest
+321,Malevolent Nuzzler,578,Leo Wizard
+321,Malevolent Nuzzler,579,Abyss Flower
+321,Malevolent Nuzzler,582,Dark Witch
+321,Malevolent Nuzzler,585,Mechanical Snail
+321,Malevolent Nuzzler,592,Muse-A
+321,Malevolent Nuzzler,594,Rose Spectre of Dunn
+321,Malevolent Nuzzler,597,Pale Beast
+321,Malevolent Nuzzler,600,Key Mace #2
+321,Malevolent Nuzzler,612,Lady of Faith
+321,Malevolent Nuzzler,614,Hunter Spider
+321,Malevolent Nuzzler,618,Warrior of Tradition
+321,Malevolent Nuzzler,621,Succubus Knight
+321,Malevolent Nuzzler,622,Ill Witch
+321,Malevolent Nuzzler,625,Fairy of the Fountain
+321,Malevolent Nuzzler,626,Amazon of the Seas
+321,Malevolent Nuzzler,627,Nekogal #2
+321,Malevolent Nuzzler,628,Witch's Apprentice
+321,Malevolent Nuzzler,631,Maiden of the Moonlight
+321,Malevolent Nuzzler,635,Queen's Double
+321,Malevolent Nuzzler,638,Queen of Autumn Leaves
+321,Malevolent Nuzzler,641,Invader of the Throne
+321,Malevolent Nuzzler,642,Mystical Sheep #1
+321,Malevolent Nuzzler,649,Hibikime
+321,Malevolent Nuzzler,701,Performance of Sword
+321,Malevolent Nuzzler,702,Hungry Burger
+321,Malevolent Nuzzler,703,Sengenjin
+321,Malevolent Nuzzler,707,Skull Knight
+321,Malevolent Nuzzler,708,Cosmo Queen
+321,Malevolent Nuzzler,709,Chakra
+321,Malevolent Nuzzler,715,Psycho-Puppet
+321,Malevolent Nuzzler,716,Garma Sword
+321,Malevolent Nuzzler,722,Magician of Black Chaos
+322,Violet Crystal,5,Ryu-kishin
+322,Violet Crystal,9,Shadow Specter
+322,Violet Crystal,22,Summoned Skull
+322,Violet Crystal,24,Skull Servant
+322,Violet Crystal,30,Zombie Warrior
+322,Violet Crystal,36,The Snake Hair
+322,Violet Crystal,39,Curse of Dragon
+322,Violet Crystal,46,Griffore
+322,Violet Crystal,96,Armored Zombie
+322,Violet Crystal,97,Dragon Zombie
+322,Violet Crystal,98,Clown Zombie
+322,Violet Crystal,99,Pumpking the King of Ghosts
+322,Violet Crystal,102,Mask of Darkness
+322,Violet Crystal,103,Job-change Mirror
+322,Violet Crystal,104,Curtain of the Dark Ones
+322,Violet Crystal,108,Graveyard and the Hand of Invitation
+322,Violet Crystal,112,That Which Feeds on Life
+322,Violet Crystal,119,Trial of Nightmares
+322,Violet Crystal,122,Yamatano Dragon Scroll
+322,Violet Crystal,132,The 13th Grave
+322,Violet Crystal,135,Fiend's Hand
+322,Violet Crystal,137,Mystery Hand
+322,Violet Crystal,139,Blue-eyed Silver Zombie
+322,Violet Crystal,140,Toad Master
+322,Violet Crystal,141,Spiked Snail
+322,Violet Crystal,146,Temple of Skulls
+322,Violet Crystal,153,Dokuroizo the Grim Reaper
+322,Violet Crystal,154,Fire Reaper
+322,Violet Crystal,167,Ancient Jar
+322,Violet Crystal,173,Dark Prisoner
+322,Violet Crystal,179,Phantom Dewan
+322,Violet Crystal,197,Mech Mole Zombie
+322,Violet Crystal,203,Phantom Ghost
+322,Violet Crystal,215,Flame Ghost
+322,Violet Crystal,228,Wood Remains
+322,Violet Crystal,241,Dark Assailant
+322,Violet Crystal,254,Embryonic Beast
+322,Violet Crystal,261,Wicked Mirror
+322,Violet Crystal,268,Sectarian of Secrets
+322,Violet Crystal,269,Versago the Destroyer
+322,Violet Crystal,271,Megirus Light
+322,Violet Crystal,277,Gorgon Egg
+322,Violet Crystal,351,Yaranzo
+322,Violet Crystal,359,Three-legged Zombies
+322,Violet Crystal,365,Fiend's Mirror
+322,Violet Crystal,368,Shadow Ghoul
+322,Violet Crystal,369,Wall Shadow
+322,Violet Crystal,377,Ryu-kishin Powered
+322,Violet Crystal,379,La Jinn the Mystical Genie
+322,Violet Crystal,391,Zoa
+322,Violet Crystal,392,Metalzoa
+322,Violet Crystal,398,Ooguchi
+322,Violet Crystal,400,Emperor of the Land and Sea
+322,Violet Crystal,401,Ushi Oni
+322,Violet Crystal,444,Turu-Purun
+322,Violet Crystal,457,Stone Ghost
+322,Violet Crystal,470,Magical Ghost
+322,Violet Crystal,472,Air Eater
+322,Violet Crystal,482,Pragtical
+322,Violet Crystal,498,Morinphen
+322,Violet Crystal,521,Skullbird
+322,Violet Crystal,526,Neck Hunter
+322,Violet Crystal,539,Corroding Shark
+322,Violet Crystal,545,Skelgon
+322,Violet Crystal,548,Bone Mouse
+322,Violet Crystal,556,The Wandering Doomed
+322,Violet Crystal,564,Great Mammoth of Goldfine
+322,Violet Crystal,579,Abyss Flower
+322,Violet Crystal,586,Greenkappa
+322,Violet Crystal,591,Morphing Jar
+322,Violet Crystal,594,Rose Spectre of Dunn
+322,Violet Crystal,595,Fiend Refrection #1
+322,Violet Crystal,596,Ghoul with an Appetite
+322,Violet Crystal,650,Whiptail Crow
+322,Violet Crystal,707,Skull Knight
+322,Violet Crystal,709,Chakra
+322,Violet Crystal,715,Psycho-Puppet
+322,Violet Crystal,719,Dokurorider
+323,Book of Secret Arts,2,Mystical Elf
+323,Book of Secret Arts,16,Time Wizard
+323,Book of Secret Arts,33,Judge Man
+323,Book of Secret Arts,41,Celtic Guardian
+323,Book of Secret Arts,42,Illusionist Faceless Mage
+323,Book of Secret Arts,44,Rogue Doll
+323,Book of Secret Arts,45,Oscillo Hero #2
+323,Book of Secret Arts,62,Harpie Lady
+323,Book of Secret Arts,63,Harpie Lady Sisters
+323,Book of Secret Arts,90,Gyakutenno Megami
+323,Book of Secret Arts,106,Spirit of the Winds
+323,Book of Secret Arts,109,Goddess with the Third Eye
+323,Book of Secret Arts,114,White Magical Hat
+323,Book of Secret Arts,117,Spirit of the Books
+323,Book of Secret Arts,120,Dream Clown
+323,Book of Secret Arts,122,Yamatano Dragon Scroll
+323,Book of Secret Arts,126,Orion the Battle King
+323,Book of Secret Arts,128,LaMoon
+323,Book of Secret Arts,129,Nemuriko
+323,Book of Secret Arts,130,Weather Control
+323,Book of Secret Arts,134,Mystical Capture Chain
+323,Book of Secret Arts,142,Flame Manipulator
+323,Book of Secret Arts,143,Necrolancer the Timelord
+323,Book of Secret Arts,144,Djinn the Watcher of the Wind
+323,Book of Secret Arts,145,The Bewitching Phantom Thief
+323,Book of Secret Arts,165,The Judgement Hand
+323,Book of Secret Arts,170,Spirit of the Harp
+323,Book of Secret Arts,174,Hurricail
+323,Book of Secret Arts,183,Lucky Trinket
+323,Book of Secret Arts,184,Genin
+323,Book of Secret Arts,192,Key Mace
+323,Book of Secret Arts,198,Happy Lover
+323,Book of Secret Arts,208,Petit Angel
+323,Book of Secret Arts,213,Aqua Madoor
+323,Book of Secret Arts,216,Dryad
+323,Book of Secret Arts,235,Wodan the Resident of the Forest
+323,Book of Secret Arts,243,Water Element
+323,Book of Secret Arts,260,Lunar Queen Elzaim
+323,Book of Secret Arts,264,Wing Egg Elf
+323,Book of Secret Arts,265,The Furious Sea King
+323,Book of Secret Arts,270,Wetha
+323,Book of Secret Arts,273,Ancient Tree of Enlightenment
+323,Book of Secret Arts,274,Green Phantom King
+323,Book of Secret Arts,276,Ray & Temperature
+323,Book of Secret Arts,280,Protector of the Throne
+323,Book of Secret Arts,282,Mystical Sheep #2
+323,Book of Secret Arts,292,Psychic Kappa
+323,Book of Secret Arts,299,Sonic Maid
+323,Book of Secret Arts,363,Fairy's Gift
+323,Book of Secret Arts,389,Giltia the D. Knight
+323,Book of Secret Arts,395,Dancing Elf
+323,Book of Secret Arts,396,Ocubeam
+323,Book of Secret Arts,428,Magician of Faith
+323,Book of Secret Arts,429,Goddess of Whim
+323,Book of Secret Arts,430,Water Magician
+323,Book of Secret Arts,432,Waterdragon Fairy
+323,Book of Secret Arts,433,Ancient Elf
+323,Book of Secret Arts,439,Bottom Dweller
+323,Book of Secret Arts,443,Sea King Dragon
+323,Book of Secret Arts,458,Kaminari Attack
+323,Book of Secret Arts,492,Hoshiningen
+323,Book of Secret Arts,493,Maha Vailo
+323,Book of Secret Arts,494,Rainbow Marine Mermaid
+323,Book of Secret Arts,502,D. Human
+323,Book of Secret Arts,525,Spirit of the Mountain
+323,Book of Secret Arts,532,Gemini Elf
+323,Book of Secret Arts,540,Skelengel
+323,Book of Secret Arts,572,Empress Judge
+323,Book of Secret Arts,575,Ancient One of the Deep Forest
+323,Book of Secret Arts,577,Crow Goblin
+323,Book of Secret Arts,582,Dark Witch
+323,Book of Secret Arts,583,Weather Report
+323,Book of Secret Arts,584,Binding Chain
+323,Book of Secret Arts,592,Muse-A
+323,Book of Secret Arts,601,Tenderness
+323,Book of Secret Arts,603,Fairy Dragon
+323,Book of Secret Arts,608,Shining Friendship
+323,Book of Secret Arts,612,Lady of Faith
+323,Book of Secret Arts,616,Hourglass of Courage
+323,Book of Secret Arts,619,Rock Spirit
+323,Book of Secret Arts,622,Ill Witch
+323,Book of Secret Arts,625,Fairy of the Fountain
+323,Book of Secret Arts,626,Amazon of the Seas
+323,Book of Secret Arts,631,Maiden of the Moonlight
+323,Book of Secret Arts,633,Winged Egg of New Life
+323,Book of Secret Arts,637,Trent
+323,Book of Secret Arts,638,Queen of Autumn Leaves
+323,Book of Secret Arts,703,Sengenjin
+323,Book of Secret Arts,708,Cosmo Queen
+323,Book of Secret Arts,720,Mask of Shine & Dark
+323,Book of Secret Arts,722,Magician of Black Chaos
+324,Invigoration,8,Mushroom Man
+324,Invigoration,9,Shadow Specter
+324,Invigoration,15,Flame Swordsman
+324,Invigoration,28,Rock Ogre Grotto #1
+324,Invigoration,40,Dragon Piper
+324,Invigoration,45,Oscillo Hero #2
+324,Invigoration,58,Kuriboh
+324,Invigoration,70,Fiend Kraken
+324,Invigoration,71,Jellyfish
+324,Invigoration,73,Kairyu-shin
+324,Invigoration,74,Giant Soldier of Stone
+324,Invigoration,75,Man-eating Plant
+324,Invigoration,83,Castle of Dark Illusions
+324,Invigoration,97,Dragon Zombie
+324,Invigoration,99,Pumpking the King of Ghosts
+324,Invigoration,101,Wings of Wicked Flame
+324,Invigoration,102,Mask of Darkness
+324,Invigoration,103,Job-change Mirror
+324,Invigoration,104,Curtain of the Dark Ones
+324,Invigoration,106,Spirit of the Winds
+324,Invigoration,108,Graveyard and the Hand of Invitation
+324,Invigoration,119,Trial of Nightmares
+324,Invigoration,122,Yamatano Dragon Scroll
+324,Invigoration,123,Dark Plant
+324,Invigoration,130,Weather Control
+324,Invigoration,133,Charubin the Fire Knight
+324,Invigoration,134,Mystical Capture Chain
+324,Invigoration,135,Fiend's Hand
+324,Invigoration,137,Mystery Hand
+324,Invigoration,142,Flame Manipulator
+324,Invigoration,146,Temple of Skulls
+324,Invigoration,147,Monster Egg
+324,Invigoration,150,Akihiron
+324,Invigoration,152,The Melting Red Shadow
+324,Invigoration,157,Firegrass
+324,Invigoration,162,Tainted Wisdom
+324,Invigoration,167,Ancient Jar
+324,Invigoration,168,Darkfire Dragon
+324,Invigoration,171,Big Eye
+324,Invigoration,173,Dark Prisoner
+324,Invigoration,174,Hurricail
+324,Invigoration,176,Fire Eye
+324,Invigoration,184,Genin
+324,Invigoration,191,LaLa Li-oon
+324,Invigoration,205,Dorover
+324,Invigoration,210,Hinotama Soul
+324,Invigoration,211,Kaminarikozou
+324,Invigoration,214,Kagemusha of the Blue Flame
+324,Invigoration,215,Flame Ghost
+324,Invigoration,225,Fiend Sword
+324,Invigoration,227,Hitodenchak
+324,Invigoration,228,Wood Remains
+324,Invigoration,229,Hourglass of Life
+324,Invigoration,237,Haniwa
+324,Invigoration,238,Yashinoki
+324,Invigoration,240,The Drdek
+324,Invigoration,242,Candle of Fate
+324,Invigoration,244,Dissolverock
+324,Invigoration,257,Stone Armadiller
+324,Invigoration,258,Beastking of the Swamps
+324,Invigoration,261,Wicked Mirror
+324,Invigoration,263,Rock Ogre Grotto #2
+324,Invigoration,264,Wing Egg Elf
+324,Invigoration,273,Ancient Tree of Enlightenment
+324,Invigoration,275,Ground Attacker Bugroth
+324,Invigoration,276,Ray & Temperature
+324,Invigoration,277,Gorgon Egg
+324,Invigoration,279,King Fog
+324,Invigoration,283,Holograh
+324,Invigoration,289,Change Slime
+324,Invigoration,291,Fireyarou
+324,Invigoration,351,Yaranzo
+324,Invigoration,354,Stuffed Animal
+324,Invigoration,355,Megasonic Eye
+324,Invigoration,362,Millennium Shield
+324,Invigoration,365,Fiend's Mirror
+324,Invigoration,366,Labyrinth Wall
+324,Invigoration,367,Jirai Gumo
+324,Invigoration,369,Wall Shadow
+324,Invigoration,371,Sanga of the Thunder
+324,Invigoration,374,Gate Guardian
+324,Invigoration,379,La Jinn the Mystical Genie
+324,Invigoration,387,Mystic Lamp
+324,Invigoration,389,Giltia the D. Knight
+324,Invigoration,400,Emperor of the Land and Sea
+324,Invigoration,402,Monster Eye
+324,Invigoration,411,Bat
+324,Invigoration,425,Thunder Dragon
+324,Invigoration,426,Stone D.
+324,Invigoration,428,Magician of Faith
+324,Invigoration,429,Goddess of Whim
+324,Invigoration,453,Millennium Golem
+324,Invigoration,454,Destroyer Golem
+324,Invigoration,455,Barrel Rock
+324,Invigoration,456,Minomushi Warrior
+324,Invigoration,457,Stone Ghost
+324,Invigoration,458,Kaminari Attack
+324,Invigoration,459,Tripwire Beast
+324,Invigoration,460,Bolt Escargot
+324,Invigoration,461,Bolt Penguin
+324,Invigoration,462,The Immortal of Thunder
+324,Invigoration,463,Electric Snake
+324,Invigoration,470,Magical Ghost
+324,Invigoration,486,Boo Koo
+324,Invigoration,505,Prisman
+324,Invigoration,515,The Statue of Easter Island
+324,Invigoration,516,Muka Muka
+324,Invigoration,517,Sand Stone
+324,Invigoration,518,Boulder Tortoise
+324,Invigoration,529,Flame Cerebrus
+324,Invigoration,531,Mystical Sand
+324,Invigoration,537,Mega Thunderball
+324,Invigoration,558,Pot the Trick
+324,Invigoration,591,Morphing Jar
+324,Invigoration,610,Electric Lizard
+324,Invigoration,613,Twin-headed Thunder Dragon
+324,Invigoration,623,The Thing That Hides in the Mud
+324,Invigoration,629,Armored Rat
+324,Invigoration,630,Ancient Lizard Warrior
+324,Invigoration,632,Stone Ogre Grotto
+324,Invigoration,644,Flame Viper
+325,Machine Conversion Factory,12,Swamp Battleguard
+325,Machine Conversion Factory,13,Tyhone
+325,Machine Conversion Factory,89,Catapult Turtle
+325,Machine Conversion Factory,124,Ancient Tool
+325,Machine Conversion Factory,160,M-warrior #1
+325,Machine Conversion Factory,161,M-warrior #2
+325,Machine Conversion Factory,204,Mabarrel
+325,Machine Conversion Factory,224,Trap Master
+325,Machine Conversion Factory,232,Madjinn Gunn
+325,Machine Conversion Factory,275,Ground Attacker Bugroth
+325,Machine Conversion Factory,283,Holograh
+325,Machine Conversion Factory,286,Gatekeeper
+325,Machine Conversion Factory,289,Change Slime
+325,Machine Conversion Factory,297,Cyber Soldier of Darkworld
+325,Machine Conversion Factory,355,Megasonic Eye
+325,Machine Conversion Factory,370,Labyrinth Tank
+325,Machine Conversion Factory,385,Bickuribox
+325,Machine Conversion Factory,388,Pendulum Machine
+325,Machine Conversion Factory,390,Launcher Spider
+325,Machine Conversion Factory,392,Metalzoa
+325,Machine Conversion Factory,394,Steel Scorpion
+325,Machine Conversion Factory,402,Monster Eye
+325,Machine Conversion Factory,405,Saber Slasher
+325,Machine Conversion Factory,406,Yaiba Robo
+325,Machine Conversion Factory,407,Machine King
+325,Machine Conversion Factory,408,Giant Mech-soldier
+325,Machine Conversion Factory,409,Metal Dragon
+325,Machine Conversion Factory,410,Mechanical Spider
+325,Machine Conversion Factory,411,Bat
+325,Machine Conversion Factory,412,Giga-tech Wolf
+325,Machine Conversion Factory,413,Cyber Soldier
+325,Machine Conversion Factory,414,Shovel Crusher
+325,Machine Conversion Factory,415,Mechanicalchacer
+325,Machine Conversion Factory,416,Blocker
+325,Machine Conversion Factory,417,Blast Juggler
+325,Machine Conversion Factory,418,Golgoil
+325,Machine Conversion Factory,419,Giganto
+325,Machine Conversion Factory,420,Cyber-Stein
+325,Machine Conversion Factory,421,Cyber Commander
+325,Machine Conversion Factory,422,Jinzo #7
+325,Machine Conversion Factory,423,Dice Armadillo
+325,Machine Conversion Factory,438,Metal Fish
+325,Machine Conversion Factory,441,Mech Bass
+325,Machine Conversion Factory,455,Barrel Rock
+325,Machine Conversion Factory,472,Air Eater
+325,Machine Conversion Factory,490,Needle Ball
+325,Machine Conversion Factory,508,Cyber Saurus
+325,Machine Conversion Factory,512,Cannon Soldier
+325,Machine Conversion Factory,513,Guardian of the Throne Room
+325,Machine Conversion Factory,514,Brave Scizzar
+325,Machine Conversion Factory,537,Mega Thunderball
+325,Machine Conversion Factory,542,Misairuzame
+325,Machine Conversion Factory,544,Dharma Cannon
+325,Machine Conversion Factory,557,Steel Ogre Grotto #1
+325,Machine Conversion Factory,580,Patrol Robo
+325,Machine Conversion Factory,585,Mechanical Snail
+325,Machine Conversion Factory,639,Amphibious Bugroth
+325,Machine Conversion Factory,643,Disk Magician
+325,Machine Conversion Factory,645,Royal Guard
+325,Machine Conversion Factory,648,Machine Attacker
+325,Machine Conversion Factory,718,Fortress Whale
+325,Machine Conversion Factory,719,Dokurorider
+326,Raise Body Heat,8,Mushroom Man
+326,Raise Body Heat,11,Sword Arm of Dragon
+326,Raise Body Heat,13,Tyhone
+326,Raise Body Heat,15,Flame Swordsman
+326,Raise Body Heat,31,Koumori Dragon
+326,Raise Body Heat,32,Two-headed King Rex
+326,Raise Body Heat,46,Griffore
+326,Raise Body Heat,47,Torike
+326,Raise Body Heat,49,Big Insect
+326,Raise Body Heat,50,Basic Insect
+326,Raise Body Heat,51,Armored Lizard
+326,Raise Body Heat,52,Hercules Beetle
+326,Raise Body Heat,53,Killer Needle
+326,Raise Body Heat,54,Gokibore
+326,Raise Body Heat,55,Giant Flea
+326,Raise Body Heat,56,Larvae Moth
+326,Raise Body Heat,57,Great Moth
+326,Raise Body Heat,59,Mammoth Graveyard
+326,Raise Body Heat,67,Perfectly Ultimate Great Moth
+326,Raise Body Heat,68,Garoozis
+326,Raise Body Heat,76,Krokodilus
+326,Raise Body Heat,77,Grappler
+326,Raise Body Heat,79,Megazowler
+326,Raise Body Heat,80,Uraby
+326,Raise Body Heat,81,Crawling Dragon #2
+326,Raise Body Heat,87,Dark Chimera
+326,Raise Body Heat,101,Wings of Wicked Flame
+326,Raise Body Heat,105,Tomozaurus
+326,Raise Body Heat,116,Nightmare Scorpion
+326,Raise Body Heat,124,Ancient Tool
+326,Raise Body Heat,142,Flame Manipulator
+326,Raise Body Heat,150,Akihiron
+326,Raise Body Heat,151,Rhaimundos of the Red Sword
+326,Raise Body Heat,152,The Melting Red Shadow
+326,Raise Body Heat,154,Fire Reaper
+326,Raise Body Heat,157,Firegrass
+326,Raise Body Heat,159,Dig Beak
+326,Raise Body Heat,171,Big Eye
+326,Raise Body Heat,176,Fire Eye
+326,Raise Body Heat,188,Synchar
+326,Raise Body Heat,195,Doron
+326,Raise Body Heat,202,Air Marmot of Nefariousness
+326,Raise Body Heat,204,Mabarrel
+326,Raise Body Heat,206,Twin Long Rods #1
+326,Raise Body Heat,209,Winged Cleaver
+326,Raise Body Heat,210,Hinotama Soul
+326,Raise Body Heat,216,Dryad
+326,Raise Body Heat,218,Two-mouth Darkruler
+326,Raise Body Heat,227,Hitodenchak
+326,Raise Body Heat,242,Candle of Fate
+326,Raise Body Heat,244,Dissolverock
+326,Raise Body Heat,263,Rock Ogre Grotto #2
+326,Raise Body Heat,264,Wing Egg Elf
+326,Raise Body Heat,272,Mavelus
+326,Raise Body Heat,275,Ground Attacker Bugroth
+326,Raise Body Heat,277,Gorgon Egg
+326,Raise Body Heat,278,Petit Moth
+326,Raise Body Heat,285,Serpent Marauder
+326,Raise Body Heat,286,Gatekeeper
+326,Raise Body Heat,289,Change Slime
+326,Raise Body Heat,291,Fireyarou
+326,Raise Body Heat,297,Cyber Soldier of Darkworld
+326,Raise Body Heat,351,Yaranzo
+326,Raise Body Heat,354,Stuffed Animal
+326,Raise Body Heat,355,Megasonic Eye
+326,Raise Body Heat,357,Yamadron
+326,Raise Body Heat,367,Jirai Gumo
+326,Raise Body Heat,375,Dungeon Worm
+326,Raise Body Heat,381,Toon Alligator
+326,Raise Body Heat,390,Launcher Spider
+326,Raise Body Heat,397,Leghul
+326,Raise Body Heat,400,Emperor of the Land and Sea
+326,Raise Body Heat,407,Machine King
+326,Raise Body Heat,409,Metal Dragon
+326,Raise Body Heat,417,Blast Juggler
+326,Raise Body Heat,467,Crimson Sunbird
+326,Raise Body Heat,469,Armed Ninja
+326,Raise Body Heat,473,Vermillion Sparrow
+326,Raise Body Heat,475,Sinister Serpent
+326,Raise Body Heat,476,Ganigumo
+326,Raise Body Heat,477,Alinsection
+326,Raise Body Heat,478,Insect Soldiers of the Sky
+326,Raise Body Heat,479,Cockroach Knight
+326,Raise Body Heat,480,Kuwagata α
+326,Raise Body Heat,482,Pragtical
+326,Raise Body Heat,485,Korogashi
+326,Raise Body Heat,499,Kattapillar
+326,Raise Body Heat,501,Man-eater Bug
+326,Raise Body Heat,506,Gale Dogra
+326,Raise Body Heat,509,Bracchio-raidus
+326,Raise Body Heat,519,Fire Kraken
+326,Raise Body Heat,533,Kwagar Hercules
+326,Raise Body Heat,534,Minar
+326,Raise Body Heat,535,Kamakiriman
+326,Raise Body Heat,536,Mechaleon
+326,Raise Body Heat,555,Tyhone #2
+326,Raise Body Heat,562,Needle Worm
+326,Raise Body Heat,566,Yormungarde
+326,Raise Body Heat,568,Anthrosaurus
+326,Raise Body Heat,569,Drooling Lizard
+326,Raise Body Heat,570,Trakadon
+326,Raise Body Heat,573,Little D
+326,Raise Body Heat,576,Giant Scorpion of the Tundra
+326,Raise Body Heat,590,Beaked Snake
+326,Raise Body Heat,609,Bladefly
+326,Raise Body Heat,614,Hunter Spider
+326,Raise Body Heat,630,Ancient Lizard Warrior
+326,Raise Body Heat,640,Acid Crawler
+326,Raise Body Heat,644,Flame Viper
+326,Raise Body Heat,714,Firewing Pegasus
+326,Raise Body Heat,717,Javelin Beetle
+327,Follow Wind,4,Baby Dragon
+327,Follow Wind,5,Ryu-kishin
+327,Follow Wind,6,Feral Imp
+327,Follow Wind,7,Winged Dragon #1
+327,Follow Wind,10,Blackland Fire Dragon
+327,Follow Wind,13,Tyhone
+327,Follow Wind,24,Skull Servant
+327,Follow Wind,31,Koumori Dragon
+327,Follow Wind,39,Curse of Dragon
+327,Follow Wind,44,Rogue Doll
+327,Follow Wind,52,Hercules Beetle
+327,Follow Wind,53,Killer Needle
+327,Follow Wind,57,Great Moth
+327,Follow Wind,62,Harpie Lady
+327,Follow Wind,63,Harpie Lady Sisters
+327,Follow Wind,67,Perfectly Ultimate Great Moth
+327,Follow Wind,83,Castle of Dark Illusions
+327,Follow Wind,84,Reaper of the Cards
+327,Follow Wind,86,Barox
+327,Follow Wind,87,Dark Chimera
+327,Follow Wind,101,Wings of Wicked Flame
+327,Follow Wind,106,Spirit of the Winds
+327,Follow Wind,111,Doma The Angel of Silence
+327,Follow Wind,112,That Which Feeds on Life
+327,Follow Wind,113,Dark Gray
+327,Follow Wind,117,Spirit of the Books
+327,Follow Wind,125,Faith Bird
+327,Follow Wind,128,LaMoon
+327,Follow Wind,138,Dragon Statue
+327,Follow Wind,144,Djinn the Watcher of the Wind
+327,Follow Wind,154,Fire Reaper
+327,Follow Wind,155,Larvas
+327,Follow Wind,163,Lisark
+327,Follow Wind,168,Darkfire Dragon
+327,Follow Wind,181,Dark Shade
+327,Follow Wind,183,Lucky Trinket
+327,Follow Wind,186,Fiend Refrection #2
+327,Follow Wind,189,Fusionist
+327,Follow Wind,198,Happy Lover
+327,Follow Wind,200,Petit Dragon
+327,Follow Wind,202,Air Marmot of Nefariousness
+327,Follow Wind,203,Phantom Ghost
+327,Follow Wind,204,Mabarrel
+327,Follow Wind,207,Droll Bird
+327,Follow Wind,208,Petit Angel
+327,Follow Wind,209,Winged Cleaver
+327,Follow Wind,210,Hinotama Soul
+327,Follow Wind,215,Flame Ghost
+327,Follow Wind,216,Dryad
+327,Follow Wind,222,Midnight Fiend
+327,Follow Wind,229,Hourglass of Life
+327,Follow Wind,252,Nekogal #1
+327,Follow Wind,253,Angelwitch
+327,Follow Wind,254,Embryonic Beast
+327,Follow Wind,260,Lunar Queen Elzaim
+327,Follow Wind,264,Wing Egg Elf
+327,Follow Wind,268,Sectarian of Secrets
+327,Follow Wind,269,Versago the Destroyer
+327,Follow Wind,272,Mavelus
+327,Follow Wind,276,Ray & Temperature
+327,Follow Wind,279,King Fog
+327,Follow Wind,294,Dragoness the Wicked Knight
+327,Follow Wind,296,One-eyed Shield Dragon
+327,Follow Wind,298,Wicked Dragon with the Ersatz Head
+327,Follow Wind,300,Kurama
+327,Follow Wind,353,Takriminos
+327,Follow Wind,361,Flying Penguin
+327,Follow Wind,363,Fairy's Gift
+327,Follow Wind,372,Kazejin
+327,Follow Wind,374,Gate Guardian
+327,Follow Wind,379,La Jinn the Mystical Genie
+327,Follow Wind,383,Parrot Dragon
+327,Follow Wind,386,Harpie's Pet Dragon
+327,Follow Wind,395,Dancing Elf
+327,Follow Wind,396,Ocubeam
+327,Follow Wind,402,Monster Eye
+327,Follow Wind,409,Metal Dragon
+327,Follow Wind,411,Bat
+327,Follow Wind,412,Giga-tech Wolf
+327,Follow Wind,415,Mechanicalchacer
+327,Follow Wind,424,Sky Dragon
+327,Follow Wind,425,Thunder Dragon
+327,Follow Wind,427,Kaiser Dragon
+327,Follow Wind,442,Aqua Dragon
+327,Follow Wind,457,Stone Ghost
+327,Follow Wind,464,Wing Eagle
+327,Follow Wind,465,Punished Eagle
+327,Follow Wind,466,Skull Red Bird
+327,Follow Wind,467,Crimson Sunbird
+327,Follow Wind,468,Queen Bird
+327,Follow Wind,470,Magical Ghost
+327,Follow Wind,471,Soul Hunter
+327,Follow Wind,472,Air Eater
+327,Follow Wind,475,Sinister Serpent
+327,Follow Wind,478,Insect Soldiers of the Sky
+327,Follow Wind,480,Kuwagata α
+327,Follow Wind,483,Garvas
+327,Follow Wind,491,Peacock
+327,Follow Wind,492,Hoshiningen
+327,Follow Wind,493,Maha Vailo
+327,Follow Wind,498,Morinphen
+327,Follow Wind,500,Dragon Seeker
+327,Follow Wind,506,Gale Dogra
+327,Follow Wind,507,Crazy Fish
+327,Follow Wind,520,Turtle Bird
+327,Follow Wind,521,Skullbird
+327,Follow Wind,522,Monstrous Bird
+327,Follow Wind,526,Neck Hunter
+327,Follow Wind,538,Niwatori
+327,Follow Wind,540,Skelengel
+327,Follow Wind,541,Hane-Hane
+327,Follow Wind,545,Skelgon
+327,Follow Wind,552,Winged Dragon #2
+327,Follow Wind,555,Tyhone #2
+327,Follow Wind,563,Wretched Ghost of the Attic
+327,Follow Wind,577,Crow Goblin
+327,Follow Wind,581,Takuhee
+327,Follow Wind,582,Dark Witch
+327,Follow Wind,595,Fiend Refrection #1
+327,Follow Wind,598,Little Chimera
+327,Follow Wind,601,Tenderness
+327,Follow Wind,603,Fairy Dragon
+327,Follow Wind,604,Obese Marmot of Nefariousness
+327,Follow Wind,608,Shining Friendship
+327,Follow Wind,609,Bladefly
+327,Follow Wind,616,Hourglass of Courage
+327,Follow Wind,622,Ill Witch
+327,Follow Wind,627,Nekogal #2
+327,Follow Wind,628,Witch's Apprentice
+327,Follow Wind,631,Maiden of the Moonlight
+327,Follow Wind,633,Winged Egg of New Life
+327,Follow Wind,636,Blue-winged Crown
+327,Follow Wind,643,Disk Magician
+327,Follow Wind,650,Whiptail Crow
+327,Follow Wind,709,Chakra
+327,Follow Wind,712,Meteor Dragon
+327,Follow Wind,714,Firewing Pegasus
+327,Follow Wind,720,Mask of Shine & Dark
+328,Power of Kaishin,45,Oscillo Hero #2
+328,Power of Kaishin,60,Great White
+328,Power of Kaishin,70,Fiend Kraken
+328,Power of Kaishin,71,Jellyfish
+328,Power of Kaishin,73,Kairyu-shin
+328,Power of Kaishin,76,Krokodilus
+328,Power of Kaishin,89,Catapult Turtle
+328,Power of Kaishin,131,Octoberser
+328,Power of Kaishin,135,Fiend's Hand
+328,Power of Kaishin,140,Toad Master
+328,Power of Kaishin,141,Spiked Snail
+328,Power of Kaishin,150,Akihiron
+328,Power of Kaishin,152,The Melting Red Shadow
+328,Power of Kaishin,171,Big Eye
+328,Power of Kaishin,177,Monsturtle
+328,Power of Kaishin,193,Turtle Tiger
+328,Power of Kaishin,194,Terra the Terrible
+328,Power of Kaishin,195,Doron
+328,Power of Kaishin,196,Arma Knight
+328,Power of Kaishin,199,Penguin Knight
+328,Power of Kaishin,205,Dorover
+328,Power of Kaishin,206,Twin Long Rods #1
+328,Power of Kaishin,211,Kaminarikozou
+328,Power of Kaishin,213,Aqua Madoor
+328,Power of Kaishin,223,Roaring Ocean Snake
+328,Power of Kaishin,227,Hitodenchak
+328,Power of Kaishin,230,Rare Fish
+328,Power of Kaishin,243,Water Element
+328,Power of Kaishin,247,Root Water
+328,Power of Kaishin,249,Water Omotics
+328,Power of Kaishin,251,Enchanting Mermaid
+328,Power of Kaishin,258,Beastking of the Swamps
+328,Power of Kaishin,265,The Furious Sea King
+328,Power of Kaishin,270,Wetha
+328,Power of Kaishin,289,Change Slime
+328,Power of Kaishin,292,Psychic Kappa
+328,Power of Kaishin,353,Takriminos
+328,Power of Kaishin,361,Flying Penguin
+328,Power of Kaishin,373,Suijin
+328,Power of Kaishin,374,Gate Guardian
+328,Power of Kaishin,381,Toon Alligator
+328,Power of Kaishin,393,Zone Eater
+328,Power of Kaishin,398,Ooguchi
+328,Power of Kaishin,400,Emperor of the Land and Sea
+328,Power of Kaishin,404,Tatsunootoshigo
+328,Power of Kaishin,430,Water Magician
+328,Power of Kaishin,431,Ice Water
+328,Power of Kaishin,432,Waterdragon Fairy
+328,Power of Kaishin,435,Water Girl
+328,Power of Kaishin,436,White Dolphin
+328,Power of Kaishin,437,Deepsea Shark
+328,Power of Kaishin,438,Metal Fish
+328,Power of Kaishin,439,Bottom Dweller
+328,Power of Kaishin,440,7 Colored Fish
+328,Power of Kaishin,441,Mech Bass
+328,Power of Kaishin,442,Aqua Dragon
+328,Power of Kaishin,443,Sea King Dragon
+328,Power of Kaishin,444,Turu-Purun
+328,Power of Kaishin,445,Guardian of the Sea
+328,Power of Kaishin,446,Aqua Snake
+328,Power of Kaishin,447,Giant Red Seasnake
+328,Power of Kaishin,448,Spike Seadra
+328,Power of Kaishin,449,"30,000-Year White Turtle"
+328,Power of Kaishin,450,Kappa Avenger
+328,Power of Kaishin,451,Kanikabuto
+328,Power of Kaishin,452,Zarigun
+328,Power of Kaishin,460,Bolt Escargot
+328,Power of Kaishin,461,Bolt Penguin
+328,Power of Kaishin,463,Electric Snake
+328,Power of Kaishin,469,Armed Ninja
+328,Power of Kaishin,474,Sea Kamen
+328,Power of Kaishin,475,Sinister Serpent
+328,Power of Kaishin,484,Ameba
+328,Power of Kaishin,494,Rainbow Marine Mermaid
+328,Power of Kaishin,497,Yado Karu
+328,Power of Kaishin,498,Morinphen
+328,Power of Kaishin,503,Turtle Raccoon
+328,Power of Kaishin,504,Fungi of the Musk
+328,Power of Kaishin,507,Crazy Fish
+328,Power of Kaishin,518,Boulder Tortoise
+328,Power of Kaishin,519,Fire Kraken
+328,Power of Kaishin,520,Turtle Bird
+328,Power of Kaishin,524,Star Boy
+328,Power of Kaishin,536,Mechaleon
+328,Power of Kaishin,539,Corroding Shark
+328,Power of Kaishin,542,Misairuzame
+328,Power of Kaishin,543,Tongyo
+328,Power of Kaishin,546,Wow Warrior
+328,Power of Kaishin,549,Frog The Jam
+328,Power of Kaishin,550,Behegon
+328,Power of Kaishin,565,Man-eating Black Shark
+328,Power of Kaishin,566,Yormungarde
+328,Power of Kaishin,569,Drooling Lizard
+328,Power of Kaishin,583,Weather Report
+328,Power of Kaishin,590,Beaked Snake
+328,Power of Kaishin,593,Giant Turtle Who Feeds on Flames
+328,Power of Kaishin,599,Violent Rain
+328,Power of Kaishin,602,Penguin Soldier
+328,Power of Kaishin,605,Liquid Beast
+328,Power of Kaishin,606,Twin Long Rods #2
+328,Power of Kaishin,610,Electric Lizard
+328,Power of Kaishin,615,Armored Starfish
+328,Power of Kaishin,617,Marine Beast
+328,Power of Kaishin,620,Snakeyashi
+328,Power of Kaishin,624,High Tide Gyojin
+328,Power of Kaishin,625,Fairy of the Fountain
+328,Power of Kaishin,626,Amazon of the Seas
+328,Power of Kaishin,630,Ancient Lizard Warrior
+328,Power of Kaishin,634,Night Lizard
+328,Power of Kaishin,639,Amphibious Bugroth
+328,Power of Kaishin,646,Gruesome Goo
+328,Power of Kaishin,647,Hyosube
+328,Power of Kaishin,710,Crab Turtle
+328,Power of Kaishin,718,Fortress Whale
+651,Kunai with Chain,12,Swamp Battleguard
+651,Kunai with Chain,14,Battle Steer
+651,Kunai with Chain,15,Flame Swordsman
+651,Kunai with Chain,22,Summoned Skull
+651,Kunai with Chain,23,The Wicked Worm Beast
+651,Kunai with Chain,25,Horn Imp
+651,Kunai with Chain,30,Zombie Warrior
+651,Kunai with Chain,33,Judge Man
+651,Kunai with Chain,38,Gaia the Fierce Knight
+651,Kunai with Chain,41,Celtic Guardian
+651,Kunai with Chain,43,Karbonala Warrior
+651,Kunai with Chain,66,Kojikocy
+651,Kunai with Chain,68,Garoozis
+651,Kunai with Chain,78,Axe Raider
+651,Kunai with Chain,93,Zanki
+651,Kunai with Chain,100,Battle Warrior
+651,Kunai with Chain,107,Kageningen
+651,Kunai with Chain,110,Hero of the East
+651,Kunai with Chain,118,Supporter in the Shadows
+651,Kunai with Chain,119,Trial of Nightmares
+651,Kunai with Chain,120,Dream Clown
+651,Kunai with Chain,124,Ancient Tool
+651,Kunai with Chain,127,Ansatsu
+651,Kunai with Chain,134,Mystical Capture Chain
+651,Kunai with Chain,138,Dragon Statue
+651,Kunai with Chain,147,Monster Egg
+651,Kunai with Chain,151,Rhaimundos of the Red Sword
+651,Kunai with Chain,156,Hard Armor
+651,Kunai with Chain,160,M-warrior #1
+651,Kunai with Chain,161,M-warrior #2
+651,Kunai with Chain,165,The Judgement Hand
+651,Kunai with Chain,166,Mysterious Puppeteer
+651,Kunai with Chain,172,Armaill
+651,Kunai with Chain,182,Masked Clown
+651,Kunai with Chain,185,Eyearmor
+651,Kunai with Chain,195,Doron
+651,Kunai with Chain,214,Kagemusha of the Blue Flame
+651,Kunai with Chain,219,Solitude
+651,Kunai with Chain,224,Trap Master
+651,Kunai with Chain,225,Fiend Sword
+651,Kunai with Chain,226,Skull Stalker
+651,Kunai with Chain,231,Wood Clown
+651,Kunai with Chain,234,Beautiful Headhuntress
+651,Kunai with Chain,235,Wodan the Resident of the Forest
+651,Kunai with Chain,236,Guardian of the Labyrinth
+651,Kunai with Chain,239,Vishwar Randi
+651,Kunai with Chain,241,Dark Assailant
+651,Kunai with Chain,246,One Who Hunts Souls
+651,Kunai with Chain,250,Hyo
+651,Kunai with Chain,256,Dimensional Warrior
+651,Kunai with Chain,262,The Little Swordsman of Aile
+651,Kunai with Chain,266,Princess of Tsurugi
+651,Kunai with Chain,267,Unknown Warrior of Fiend
+651,Kunai with Chain,269,Versago the Destroyer
+651,Kunai with Chain,280,Protector of the Throne
+651,Kunai with Chain,281,Mystic Clown
+651,Kunai with Chain,290,Moon Envoy
+651,Kunai with Chain,293,Masaki the Legendary Swordsman
+651,Kunai with Chain,294,Dragoness the Wicked Knight
+651,Kunai with Chain,297,Cyber Soldier of Darkworld
+651,Kunai with Chain,299,Sonic Maid
+651,Kunai with Chain,352,Kanan the Swordmistress
+651,Kunai with Chain,354,Stuffed Animal
+651,Kunai with Chain,355,Megasonic Eye
+651,Kunai with Chain,356,Super War-lion
+651,Kunai with Chain,359,Three-legged Zombies
+651,Kunai with Chain,360,Zera The Mant
+651,Kunai with Chain,362,Millennium Shield
+651,Kunai with Chain,364,Black Luster Soldier
+651,Kunai with Chain,369,Wall Shadow
+651,Kunai with Chain,374,Gate Guardian
+651,Kunai with Chain,376,Monster Tamer
+651,Kunai with Chain,378,Swordstalker
+651,Kunai with Chain,389,Giltia the D. Knight
+651,Kunai with Chain,399,Swordsman from a Foreign Land
+651,Kunai with Chain,405,Saber Slasher
+651,Kunai with Chain,406,Yaiba Robo
+651,Kunai with Chain,416,Blocker
+651,Kunai with Chain,434,Beautiful Beast Trainer
+651,Kunai with Chain,469,Armed Ninja
+651,Kunai with Chain,502,D. Human
+651,Kunai with Chain,523,The Bistro Butcher
+651,Kunai with Chain,553,Mushroom Man #2
+651,Kunai with Chain,554,Lava Battleguard
+651,Kunai with Chain,559,Oscillo Hero
+651,Kunai with Chain,572,Empress Judge
+651,Kunai with Chain,584,Binding Chain
+651,Kunai with Chain,585,Mechanical Snail
+651,Kunai with Chain,586,Greenkappa
+651,Kunai with Chain,618,Warrior of Tradition
+651,Kunai with Chain,621,Succubus Knight
+651,Kunai with Chain,635,Queen's Double
+651,Kunai with Chain,641,Invader of the Throne
+651,Kunai with Chain,649,Hibikime
+651,Kunai with Chain,701,Performance of Sword
+651,Kunai with Chain,702,Hungry Burger
+651,Kunai with Chain,704,Skull Guardian
+651,Kunai with Chain,707,Skull Knight
+651,Kunai with Chain,715,Psycho-Puppet
+651,Kunai with Chain,716,Garma Sword
+651,Kunai with Chain,720,Mask of Shine & Dark
+651,Kunai with Chain,722,Magician of Black Chaos
+652,Magical Labyrinth,366,Labyrinth Wall
+654,Salamandra,15,Flame Swordsman
+654,Salamandra,40,Dragon Piper
+654,Salamandra,68,Garoozis
+654,Salamandra,101,Wings of Wicked Flame
+654,Salamandra,133,Charubin the Fire Knight
+654,Salamandra,142,Flame Manipulator
+654,Salamandra,154,Fire Reaper
+654,Salamandra,157,Firegrass
+654,Salamandra,168,Darkfire Dragon
+654,Salamandra,172,Armaill
+654,Salamandra,176,Fire Eye
+654,Salamandra,210,Hinotama Soul
+654,Salamandra,214,Kagemusha of the Blue Flame
+654,Salamandra,215,Flame Ghost
+654,Salamandra,242,Candle of Fate
+654,Salamandra,244,Dissolverock
+654,Salamandra,272,Mavelus
+654,Salamandra,291,Fireyarou
+654,Salamandra,357,Yamadron
+654,Salamandra,390,Launcher Spider
+654,Salamandra,407,Machine King
+654,Salamandra,409,Metal Dragon
+654,Salamandra,417,Blast Juggler
+654,Salamandra,467,Crimson Sunbird
+654,Salamandra,473,Vermillion Sparrow
+654,Salamandra,519,Fire Kraken
+654,Salamandra,529,Flame Cerebrus
+654,Salamandra,555,Tyhone #2
+654,Salamandra,644,Flame Viper
+654,Salamandra,713,Meteor B. Dragon
+654,Salamandra,714,Firewing Pegasus
+657,Megamorph,1,Blue-eyes White Dragon
+657,Megamorph,2,Mystical Elf
+657,Megamorph,3,Hitotsu-me Giant
+657,Megamorph,4,Baby Dragon
+657,Megamorph,5,Ryu-kishin
+657,Megamorph,6,Feral Imp
+657,Megamorph,7,Winged Dragon #1
+657,Megamorph,8,Mushroom Man
+657,Megamorph,9,Shadow Specter
+657,Megamorph,10,Blackland Fire Dragon
+657,Megamorph,11,Sword Arm of Dragon
+657,Megamorph,12,Swamp Battleguard
+657,Megamorph,13,Tyhone
+657,Megamorph,14,Battle Steer
+657,Megamorph,15,Flame Swordsman
+657,Megamorph,16,Time Wizard
+657,Megamorph,17,Right Leg of the Forbidden One
+657,Megamorph,18,Left Leg of the Forbidden One
+657,Megamorph,19,Right Arm of the Forbidden One
+657,Megamorph,20,Left Arm of the Forbidden One
+657,Megamorph,21,Exodia the Forbidden
+657,Megamorph,22,Summoned Skull
+657,Megamorph,23,The Wicked Worm Beast
+657,Megamorph,24,Skull Servant
+657,Megamorph,25,Horn Imp
+657,Megamorph,26,Battle Ox
+657,Megamorph,27,Beaver Warrior
+657,Megamorph,28,Rock Ogre Grotto #1
+657,Megamorph,29,Mountain Warrior
+657,Megamorph,30,Zombie Warrior
+657,Megamorph,31,Koumori Dragon
+657,Megamorph,32,Two-headed King Rex
+657,Megamorph,33,Judge Man
+657,Megamorph,34,Saggi the Dark Clown
+657,Megamorph,35,Dark Magician
+657,Megamorph,36,The Snake Hair
+657,Megamorph,37,Gaia the Dragon Champion
+657,Megamorph,38,Gaia the Fierce Knight
+657,Megamorph,39,Curse of Dragon
+657,Megamorph,40,Dragon Piper
+657,Megamorph,41,Celtic Guardian
+657,Megamorph,42,Illusionist Faceless Mage
+657,Megamorph,43,Karbonala Warrior
+657,Megamorph,44,Rogue Doll
+657,Megamorph,45,Oscillo Hero #2
+657,Megamorph,46,Griffore
+657,Megamorph,47,Torike
+657,Megamorph,48,Sangan
+657,Megamorph,49,Big Insect
+657,Megamorph,50,Basic Insect
+657,Megamorph,51,Armored Lizard
+657,Megamorph,52,Hercules Beetle
+657,Megamorph,53,Killer Needle
+657,Megamorph,54,Gokibore
+657,Megamorph,55,Giant Flea
+657,Megamorph,56,Larvae Moth
+657,Megamorph,57,Great Moth
+657,Megamorph,58,Kuriboh
+657,Megamorph,59,Mammoth Graveyard
+657,Megamorph,60,Great White
+657,Megamorph,61,Wolf
+657,Megamorph,62,Harpie Lady
+657,Megamorph,63,Harpie Lady Sisters
+657,Megamorph,64,Tiger Axe
+657,Megamorph,65,Silver Fang
+657,Megamorph,66,Kojikocy
+657,Megamorph,67,Perfectly Ultimate Great Moth
+657,Megamorph,68,Garoozis
+657,Megamorph,69,Thousand Dragon
+657,Megamorph,70,Fiend Kraken
+657,Megamorph,71,Jellyfish
+657,Megamorph,72,Cocoon of Evolution
+657,Megamorph,73,Kairyu-shin
+657,Megamorph,74,Giant Soldier of Stone
+657,Megamorph,75,Man-eating Plant
+657,Megamorph,76,Krokodilus
+657,Megamorph,77,Grappler
+657,Megamorph,78,Axe Raider
+657,Megamorph,79,Megazowler
+657,Megamorph,80,Uraby
+657,Megamorph,81,Crawling Dragon #2
+657,Megamorph,82,Red-eyes B. Dragon
+657,Megamorph,83,Castle of Dark Illusions
+657,Megamorph,84,Reaper of the Cards
+657,Megamorph,85,King of Yamimakai
+657,Megamorph,86,Barox
+657,Megamorph,87,Dark Chimera
+657,Megamorph,88,Metal Guardian
+657,Megamorph,89,Catapult Turtle
+657,Megamorph,90,Gyakutenno Megami
+657,Megamorph,91,Mystic Horseman
+657,Megamorph,92,Rabid Horseman
+657,Megamorph,93,Zanki
+657,Megamorph,94,Crawling Dragon
+657,Megamorph,95,Crass Clown
+657,Megamorph,96,Armored Zombie
+657,Megamorph,97,Dragon Zombie
+657,Megamorph,98,Clown Zombie
+657,Megamorph,99,Pumpking the King of Ghosts
+657,Megamorph,100,Battle Warrior
+657,Megamorph,101,Wings of Wicked Flame
+657,Megamorph,102,Mask of Darkness
+657,Megamorph,103,Job-change Mirror
+657,Megamorph,104,Curtain of the Dark Ones
+657,Megamorph,105,Tomozaurus
+657,Megamorph,106,Spirit of the Winds
+657,Megamorph,107,Kageningen
+657,Megamorph,108,Graveyard and the Hand of Invitation
+657,Megamorph,109,Goddess with the Third Eye
+657,Megamorph,110,Hero of the East
+657,Megamorph,111,Doma The Angel of Silence
+657,Megamorph,112,That Which Feeds on Life
+657,Megamorph,113,Dark Gray
+657,Megamorph,114,White Magical Hat
+657,Megamorph,115,Kamion Wizard
+657,Megamorph,116,Nightmare Scorpion
+657,Megamorph,117,Spirit of the Books
+657,Megamorph,118,Supporter in the Shadows
+657,Megamorph,119,Trial of Nightmares
+657,Megamorph,120,Dream Clown
+657,Megamorph,121,Sleeping Lion
+657,Megamorph,122,Yamatano Dragon Scroll
+657,Megamorph,123,Dark Plant
+657,Megamorph,124,Ancient Tool
+657,Megamorph,125,Faith Bird
+657,Megamorph,126,Orion the Battle King
+657,Megamorph,127,Ansatsu
+657,Megamorph,128,LaMoon
+657,Megamorph,129,Nemuriko
+657,Megamorph,130,Weather Control
+657,Megamorph,131,Octoberser
+657,Megamorph,132,The 13th Grave
+657,Megamorph,133,Charubin the Fire Knight
+657,Megamorph,134,Mystical Capture Chain
+657,Megamorph,135,Fiend's Hand
+657,Megamorph,136,Witty Phantom
+657,Megamorph,137,Mystery Hand
+657,Megamorph,138,Dragon Statue
+657,Megamorph,139,Blue-eyed Silver Zombie
+657,Megamorph,140,Toad Master
+657,Megamorph,141,Spiked Snail
+657,Megamorph,142,Flame Manipulator
+657,Megamorph,143,Necrolancer the Timelord
+657,Megamorph,144,Djinn the Watcher of the Wind
+657,Megamorph,145,The Bewitching Phantom Thief
+657,Megamorph,146,Temple of Skulls
+657,Megamorph,147,Monster Egg
+657,Megamorph,148,The Shadow Who Controls the Dark
+657,Megamorph,149,Lord of the Lamp
+657,Megamorph,150,Akihiron
+657,Megamorph,151,Rhaimundos of the Red Sword
+657,Megamorph,152,The Melting Red Shadow
+657,Megamorph,153,Dokuroizo the Grim Reaper
+657,Megamorph,154,Fire Reaper
+657,Megamorph,155,Larvas
+657,Megamorph,156,Hard Armor
+657,Megamorph,157,Firegrass
+657,Megamorph,158,Man Eater
+657,Megamorph,159,Dig Beak
+657,Megamorph,160,M-warrior #1
+657,Megamorph,161,M-warrior #2
+657,Megamorph,162,Tainted Wisdom
+657,Megamorph,163,Lisark
+657,Megamorph,164,Lord of Zemia
+657,Megamorph,165,The Judgement Hand
+657,Megamorph,166,Mysterious Puppeteer
+657,Megamorph,167,Ancient Jar
+657,Megamorph,168,Darkfire Dragon
+657,Megamorph,169,Dark King of the Abyss
+657,Megamorph,170,Spirit of the Harp
+657,Megamorph,171,Big Eye
+657,Megamorph,172,Armaill
+657,Megamorph,173,Dark Prisoner
+657,Megamorph,174,Hurricail
+657,Megamorph,175,Ancient Brain
+657,Megamorph,176,Fire Eye
+657,Megamorph,177,Monsturtle
+657,Megamorph,178,Claw Reacher
+657,Megamorph,179,Phantom Dewan
+657,Megamorph,180,Arlownay
+657,Megamorph,181,Dark Shade
+657,Megamorph,182,Masked Clown
+657,Megamorph,183,Lucky Trinket
+657,Megamorph,184,Genin
+657,Megamorph,185,Eyearmor
+657,Megamorph,186,Fiend Refrection #2
+657,Megamorph,187,Gate Deeg
+657,Megamorph,188,Synchar
+657,Megamorph,189,Fusionist
+657,Megamorph,190,Akakieisu
+657,Megamorph,191,LaLa Li-oon
+657,Megamorph,192,Key Mace
+657,Megamorph,193,Turtle Tiger
+657,Megamorph,194,Terra the Terrible
+657,Megamorph,195,Doron
+657,Megamorph,196,Arma Knight
+657,Megamorph,197,Mech Mole Zombie
+657,Megamorph,198,Happy Lover
+657,Megamorph,199,Penguin Knight
+657,Megamorph,200,Petit Dragon
+657,Megamorph,201,Frenzied Panda
+657,Megamorph,202,Air Marmot of Nefariousness
+657,Megamorph,203,Phantom Ghost
+657,Megamorph,204,Mabarrel
+657,Megamorph,205,Dorover
+657,Megamorph,206,Twin Long Rods #1
+657,Megamorph,207,Droll Bird
+657,Megamorph,208,Petit Angel
+657,Megamorph,209,Winged Cleaver
+657,Megamorph,210,Hinotama Soul
+657,Megamorph,211,Kaminarikozou
+657,Megamorph,212,Meotoko
+657,Megamorph,213,Aqua Madoor
+657,Megamorph,214,Kagemusha of the Blue Flame
+657,Megamorph,215,Flame Ghost
+657,Megamorph,216,Dryad
+657,Megamorph,217,B. Skull Dragon
+657,Megamorph,218,Two-mouth Darkruler
+657,Megamorph,219,Solitude
+657,Megamorph,220,Masked Sorcerer
+657,Megamorph,221,Kumootoko
+657,Megamorph,222,Midnight Fiend
+657,Megamorph,223,Roaring Ocean Snake
+657,Megamorph,224,Trap Master
+657,Megamorph,225,Fiend Sword
+657,Megamorph,226,Skull Stalker
+657,Megamorph,227,Hitodenchak
+657,Megamorph,228,Wood Remains
+657,Megamorph,229,Hourglass of Life
+657,Megamorph,230,Rare Fish
+657,Megamorph,231,Wood Clown
+657,Megamorph,232,Madjinn Gunn
+657,Megamorph,233,Dark Titan of Terror
+657,Megamorph,234,Beautiful Headhuntress
+657,Megamorph,235,Wodan the Resident of the Forest
+657,Megamorph,236,Guardian of the Labyrinth
+657,Megamorph,237,Haniwa
+657,Megamorph,238,Yashinoki
+657,Megamorph,239,Vishwar Randi
+657,Megamorph,240,The Drdek
+657,Megamorph,241,Dark Assailant
+657,Megamorph,242,Candle of Fate
+657,Megamorph,243,Water Element
+657,Megamorph,244,Dissolverock
+657,Megamorph,245,Meda Bat
+657,Megamorph,246,One Who Hunts Souls
+657,Megamorph,247,Root Water
+657,Megamorph,248,Master & Expert
+657,Megamorph,249,Water Omotics
+657,Megamorph,250,Hyo
+657,Megamorph,251,Enchanting Mermaid
+657,Megamorph,252,Nekogal #1
+657,Megamorph,253,Angelwitch
+657,Megamorph,254,Embryonic Beast
+657,Megamorph,255,Prevent Rat
+657,Megamorph,256,Dimensional Warrior
+657,Megamorph,257,Stone Armadiller
+657,Megamorph,258,Beastking of the Swamps
+657,Megamorph,259,Ancient Sorcerer
+657,Megamorph,260,Lunar Queen Elzaim
+657,Megamorph,261,Wicked Mirror
+657,Megamorph,262,The Little Swordsman of Aile
+657,Megamorph,263,Rock Ogre Grotto #2
+657,Megamorph,264,Wing Egg Elf
+657,Megamorph,265,The Furious Sea King
+657,Megamorph,266,Princess of Tsurugi
+657,Megamorph,267,Unknown Warrior of Fiend
+657,Megamorph,268,Sectarian of Secrets
+657,Megamorph,269,Versago the Destroyer
+657,Megamorph,270,Wetha
+657,Megamorph,271,Megirus Light
+657,Megamorph,272,Mavelus
+657,Megamorph,273,Ancient Tree of Enlightenment
+657,Megamorph,274,Green Phantom King
+657,Megamorph,275,Ground Attacker Bugroth
+657,Megamorph,276,Ray & Temperature
+657,Megamorph,277,Gorgon Egg
+657,Megamorph,278,Petit Moth
+657,Megamorph,279,King Fog
+657,Megamorph,280,Protector of the Throne
+657,Megamorph,281,Mystic Clown
+657,Megamorph,282,Mystical Sheep #2
+657,Megamorph,283,Holograh
+657,Megamorph,284,Tao the Chanter
+657,Megamorph,285,Serpent Marauder
+657,Megamorph,286,Gatekeeper
+657,Megamorph,287,Ogre of the Black Shadow
+657,Megamorph,288,Dark Artist
+657,Megamorph,289,Change Slime
+657,Megamorph,290,Moon Envoy
+657,Megamorph,291,Fireyarou
+657,Megamorph,292,Psychic Kappa
+657,Megamorph,293,Masaki the Legendary Swordsman
+657,Megamorph,294,Dragoness the Wicked Knight
+657,Megamorph,295,Bio Plant
+657,Megamorph,296,One-eyed Shield Dragon
+657,Megamorph,297,Cyber Soldier of Darkworld
+657,Megamorph,298,Wicked Dragon with the Ersatz Head
+657,Megamorph,299,Sonic Maid
+657,Megamorph,300,Kurama
+657,Megamorph,351,Yaranzo
+657,Megamorph,352,Kanan the Swordmistress
+657,Megamorph,353,Takriminos
+657,Megamorph,354,Stuffed Animal
+657,Megamorph,355,Megasonic Eye
+657,Megamorph,356,Super War-lion
+657,Megamorph,357,Yamadron
+657,Megamorph,358,Seiyaryu
+657,Megamorph,359,Three-legged Zombies
+657,Megamorph,360,Zera The Mant
+657,Megamorph,361,Flying Penguin
+657,Megamorph,362,Millennium Shield
+657,Megamorph,363,Fairy's Gift
+657,Megamorph,364,Black Luster Soldier
+657,Megamorph,365,Fiend's Mirror
+657,Megamorph,366,Labyrinth Wall
+657,Megamorph,367,Jirai Gumo
+657,Megamorph,368,Shadow Ghoul
+657,Megamorph,369,Wall Shadow
+657,Megamorph,370,Labyrinth Tank
+657,Megamorph,371,Sanga of the Thunder
+657,Megamorph,372,Kazejin
+657,Megamorph,373,Suijin
+657,Megamorph,374,Gate Guardian
+657,Megamorph,375,Dungeon Worm
+657,Megamorph,376,Monster Tamer
+657,Megamorph,377,Ryu-kishin Powered
+657,Megamorph,378,Swordstalker
+657,Megamorph,379,La Jinn the Mystical Genie
+657,Megamorph,380,Blue-eyes Ultimate Dragon
+657,Megamorph,381,Toon Alligator
+657,Megamorph,382,Rude Kaiser
+657,Megamorph,383,Parrot Dragon
+657,Megamorph,384,Dark Rabbit
+657,Megamorph,385,Bickuribox
+657,Megamorph,386,Harpie's Pet Dragon
+657,Megamorph,387,Mystic Lamp
+657,Megamorph,388,Pendulum Machine
+657,Megamorph,389,Giltia the D. Knight
+657,Megamorph,390,Launcher Spider
+657,Megamorph,391,Zoa
+657,Megamorph,392,Metalzoa
+657,Megamorph,393,Zone Eater
+657,Megamorph,394,Steel Scorpion
+657,Megamorph,395,Dancing Elf
+657,Megamorph,396,Ocubeam
+657,Megamorph,397,Leghul
+657,Megamorph,398,Ooguchi
+657,Megamorph,399,Swordsman from a Foreign Land
+657,Megamorph,400,Emperor of the Land and Sea
+657,Megamorph,401,Ushi Oni
+657,Megamorph,402,Monster Eye
+657,Megamorph,403,Leogun
+657,Megamorph,404,Tatsunootoshigo
+657,Megamorph,405,Saber Slasher
+657,Megamorph,406,Yaiba Robo
+657,Megamorph,407,Machine King
+657,Megamorph,408,Giant Mech-soldier
+657,Megamorph,409,Metal Dragon
+657,Megamorph,410,Mechanical Spider
+657,Megamorph,411,Bat
+657,Megamorph,412,Giga-tech Wolf
+657,Megamorph,413,Cyber Soldier
+657,Megamorph,414,Shovel Crusher
+657,Megamorph,415,Mechanicalchacer
+657,Megamorph,416,Blocker
+657,Megamorph,417,Blast Juggler
+657,Megamorph,418,Golgoil
+657,Megamorph,419,Giganto
+657,Megamorph,420,Cyber-Stein
+657,Megamorph,421,Cyber Commander
+657,Megamorph,422,Jinzo #7
+657,Megamorph,423,Dice Armadillo
+657,Megamorph,424,Sky Dragon
+657,Megamorph,425,Thunder Dragon
+657,Megamorph,426,Stone D.
+657,Megamorph,427,Kaiser Dragon
+657,Megamorph,428,Magician of Faith
+657,Megamorph,429,Goddess of Whim
+657,Megamorph,430,Water Magician
+657,Megamorph,431,Ice Water
+657,Megamorph,432,Waterdragon Fairy
+657,Megamorph,433,Ancient Elf
+657,Megamorph,434,Beautiful Beast Trainer
+657,Megamorph,435,Water Girl
+657,Megamorph,436,White Dolphin
+657,Megamorph,437,Deepsea Shark
+657,Megamorph,438,Metal Fish
+657,Megamorph,439,Bottom Dweller
+657,Megamorph,440,7 Colored Fish
+657,Megamorph,441,Mech Bass
+657,Megamorph,442,Aqua Dragon
+657,Megamorph,443,Sea King Dragon
+657,Megamorph,444,Turu-Purun
+657,Megamorph,445,Guardian of the Sea
+657,Megamorph,446,Aqua Snake
+657,Megamorph,447,Giant Red Seasnake
+657,Megamorph,448,Spike Seadra
+657,Megamorph,449,"30,000-Year White Turtle"
+657,Megamorph,450,Kappa Avenger
+657,Megamorph,451,Kanikabuto
+657,Megamorph,452,Zarigun
+657,Megamorph,453,Millennium Golem
+657,Megamorph,454,Destroyer Golem
+657,Megamorph,455,Barrel Rock
+657,Megamorph,456,Minomushi Warrior
+657,Megamorph,457,Stone Ghost
+657,Megamorph,458,Kaminari Attack
+657,Megamorph,459,Tripwire Beast
+657,Megamorph,460,Bolt Escargot
+657,Megamorph,461,Bolt Penguin
+657,Megamorph,462,The Immortal of Thunder
+657,Megamorph,463,Electric Snake
+657,Megamorph,464,Wing Eagle
+657,Megamorph,465,Punished Eagle
+657,Megamorph,466,Skull Red Bird
+657,Megamorph,467,Crimson Sunbird
+657,Megamorph,468,Queen Bird
+657,Megamorph,469,Armed Ninja
+657,Megamorph,470,Magical Ghost
+657,Megamorph,471,Soul Hunter
+657,Megamorph,472,Air Eater
+657,Megamorph,473,Vermillion Sparrow
+657,Megamorph,474,Sea Kamen
+657,Megamorph,475,Sinister Serpent
+657,Megamorph,476,Ganigumo
+657,Megamorph,477,Alinsection
+657,Megamorph,478,Insect Soldiers of the Sky
+657,Megamorph,479,Cockroach Knight
+657,Megamorph,480,Kuwagata α
+657,Megamorph,481,Burglar
+657,Megamorph,482,Pragtical
+657,Megamorph,483,Garvas
+657,Megamorph,484,Ameba
+657,Megamorph,485,Korogashi
+657,Megamorph,486,Boo Koo
+657,Megamorph,487,Flower Wolf
+657,Megamorph,488,Rainbow Flower
+657,Megamorph,489,Barrel Lily
+657,Megamorph,490,Needle Ball
+657,Megamorph,491,Peacock
+657,Megamorph,492,Hoshiningen
+657,Megamorph,493,Maha Vailo
+657,Megamorph,494,Rainbow Marine Mermaid
+657,Megamorph,495,Musician King
+657,Megamorph,496,Wilmee
+657,Megamorph,497,Yado Karu
+657,Megamorph,498,Morinphen
+657,Megamorph,499,Kattapillar
+657,Megamorph,500,Dragon Seeker
+657,Megamorph,501,Man-eater Bug
+657,Megamorph,502,D. Human
+657,Megamorph,503,Turtle Raccoon
+657,Megamorph,504,Fungi of the Musk
+657,Megamorph,505,Prisman
+657,Megamorph,506,Gale Dogra
+657,Megamorph,507,Crazy Fish
+657,Megamorph,508,Cyber Saurus
+657,Megamorph,509,Bracchio-raidus
+657,Megamorph,510,Laughing Flower
+657,Megamorph,511,Bean Soldier
+657,Megamorph,512,Cannon Soldier
+657,Megamorph,513,Guardian of the Throne Room
+657,Megamorph,514,Brave Scizzar
+657,Megamorph,515,The Statue of Easter Island
+657,Megamorph,516,Muka Muka
+657,Megamorph,517,Sand Stone
+657,Megamorph,518,Boulder Tortoise
+657,Megamorph,519,Fire Kraken
+657,Megamorph,520,Turtle Bird
+657,Megamorph,521,Skullbird
+657,Megamorph,522,Monstrous Bird
+657,Megamorph,523,The Bistro Butcher
+657,Megamorph,524,Star Boy
+657,Megamorph,525,Spirit of the Mountain
+657,Megamorph,526,Neck Hunter
+657,Megamorph,527,Milus Radiant
+657,Megamorph,528,Togex
+657,Megamorph,529,Flame Cerebrus
+657,Megamorph,530,Eldeen
+657,Megamorph,531,Mystical Sand
+657,Megamorph,532,Gemini Elf
+657,Megamorph,533,Kwagar Hercules
+657,Megamorph,534,Minar
+657,Megamorph,535,Kamakiriman
+657,Megamorph,536,Mechaleon
+657,Megamorph,537,Mega Thunderball
+657,Megamorph,538,Niwatori
+657,Megamorph,539,Corroding Shark
+657,Megamorph,540,Skelengel
+657,Megamorph,541,Hane-Hane
+657,Megamorph,542,Misairuzame
+657,Megamorph,543,Tongyo
+657,Megamorph,544,Dharma Cannon
+657,Megamorph,545,Skelgon
+657,Megamorph,546,Wow Warrior
+657,Megamorph,547,Griggle
+657,Megamorph,548,Bone Mouse
+657,Megamorph,549,Frog The Jam
+657,Megamorph,550,Behegon
+657,Megamorph,551,Dark Elf
+657,Megamorph,552,Winged Dragon #2
+657,Megamorph,553,Mushroom Man #2
+657,Megamorph,554,Lava Battleguard
+657,Megamorph,555,Tyhone #2
+657,Megamorph,556,The Wandering Doomed
+657,Megamorph,557,Steel Ogre Grotto #1
+657,Megamorph,558,Pot the Trick
+657,Megamorph,559,Oscillo Hero
+657,Megamorph,560,Invader from Another Dimension
+657,Megamorph,561,Lesser Dragon
+657,Megamorph,562,Needle Worm
+657,Megamorph,563,Wretched Ghost of the Attic
+657,Megamorph,564,Great Mammoth of Goldfine
+657,Megamorph,565,Man-eating Black Shark
+657,Megamorph,566,Yormungarde
+657,Megamorph,567,Darkworld Thorns
+657,Megamorph,568,Anthrosaurus
+657,Megamorph,569,Drooling Lizard
+657,Megamorph,570,Trakadon
+657,Megamorph,571,B. Dragon Jungle King
+657,Megamorph,572,Empress Judge
+657,Megamorph,573,Little D
+657,Megamorph,574,Witch of the Black Forest
+657,Megamorph,575,Ancient One of the Deep Forest
+657,Megamorph,576,Giant Scorpion of the Tundra
+657,Megamorph,577,Crow Goblin
+657,Megamorph,578,Leo Wizard
+657,Megamorph,579,Abyss Flower
+657,Megamorph,580,Patrol Robo
+657,Megamorph,581,Takuhee
+657,Megamorph,582,Dark Witch
+657,Megamorph,583,Weather Report
+657,Megamorph,584,Binding Chain
+657,Megamorph,585,Mechanical Snail
+657,Megamorph,586,Greenkappa
+657,Megamorph,587,Mon Larvas
+657,Megamorph,588,Living Vase
+657,Megamorph,589,Tentacle Plant
+657,Megamorph,590,Beaked Snake
+657,Megamorph,591,Morphing Jar
+657,Megamorph,592,Muse-A
+657,Megamorph,593,Giant Turtle Who Feeds on Flames
+657,Megamorph,594,Rose Spectre of Dunn
+657,Megamorph,595,Fiend Refrection #1
+657,Megamorph,596,Ghoul with an Appetite
+657,Megamorph,597,Pale Beast
+657,Megamorph,598,Little Chimera
+657,Megamorph,599,Violent Rain
+657,Megamorph,600,Key Mace #2
+657,Megamorph,601,Tenderness
+657,Megamorph,602,Penguin Soldier
+657,Megamorph,603,Fairy Dragon
+657,Megamorph,604,Obese Marmot of Nefariousness
+657,Megamorph,605,Liquid Beast
+657,Megamorph,606,Twin Long Rods #2
+657,Megamorph,607,Great Bill
+657,Megamorph,608,Shining Friendship
+657,Megamorph,609,Bladefly
+657,Megamorph,610,Electric Lizard
+657,Megamorph,611,Hiro's Shadow Scout
+657,Megamorph,612,Lady of Faith
+657,Megamorph,613,Twin-headed Thunder Dragon
+657,Megamorph,614,Hunter Spider
+657,Megamorph,615,Armored Starfish
+657,Megamorph,616,Hourglass of Courage
+657,Megamorph,617,Marine Beast
+657,Megamorph,618,Warrior of Tradition
+657,Megamorph,619,Rock Spirit
+657,Megamorph,620,Snakeyashi
+657,Megamorph,621,Succubus Knight
+657,Megamorph,622,Ill Witch
+657,Megamorph,623,The Thing That Hides in the Mud
+657,Megamorph,624,High Tide Gyojin
+657,Megamorph,625,Fairy of the Fountain
+657,Megamorph,626,Amazon of the Seas
+657,Megamorph,627,Nekogal #2
+657,Megamorph,628,Witch's Apprentice
+657,Megamorph,629,Armored Rat
+657,Megamorph,630,Ancient Lizard Warrior
+657,Megamorph,631,Maiden of the Moonlight
+657,Megamorph,632,Stone Ogre Grotto
+657,Megamorph,633,Winged Egg of New Life
+657,Megamorph,634,Night Lizard
+657,Megamorph,635,Queen's Double
+657,Megamorph,636,Blue-winged Crown
+657,Megamorph,637,Trent
+657,Megamorph,638,Queen of Autumn Leaves
+657,Megamorph,639,Amphibious Bugroth
+657,Megamorph,640,Acid Crawler
+657,Megamorph,641,Invader of the Throne
+657,Megamorph,642,Mystical Sheep #1
+657,Megamorph,643,Disk Magician
+657,Megamorph,644,Flame Viper
+657,Megamorph,645,Royal Guard
+657,Megamorph,646,Gruesome Goo
+657,Megamorph,647,Hyosube
+657,Megamorph,648,Machine Attacker
+657,Megamorph,649,Hibikime
+657,Megamorph,650,Whiptail Crow
+657,Megamorph,701,Performance of Sword
+657,Megamorph,702,Hungry Burger
+657,Megamorph,703,Sengenjin
+657,Megamorph,704,Skull Guardian
+657,Megamorph,705,Tri-horned Dragon
+657,Megamorph,706,Serpent Night Dragon
+657,Megamorph,707,Skull Knight
+657,Megamorph,708,Cosmo Queen
+657,Megamorph,709,Chakra
+657,Megamorph,710,Crab Turtle
+657,Megamorph,711,Mikazukinoyaiba
+657,Megamorph,712,Meteor Dragon
+657,Megamorph,713,Meteor B. Dragon
+657,Megamorph,714,Firewing Pegasus
+657,Megamorph,715,Psycho-Puppet
+657,Megamorph,716,Garma Sword
+657,Megamorph,717,Javelin Beetle
+657,Megamorph,718,Fortress Whale
+657,Megamorph,719,Dokurorider
+657,Megamorph,720,Mask of Shine & Dark
+657,Megamorph,722,Magician of Black Chaos
+658,Metalmorph,391,Zoa
+659,Winged Trumpeter,90,Gyakutenno Megami
+659,Winged Trumpeter,109,Goddess with the Third Eye
+659,Winged Trumpeter,111,Doma The Angel of Silence
+659,Winged Trumpeter,126,Orion the Battle King
+659,Winged Trumpeter,130,Weather Control
+659,Winged Trumpeter,134,Mystical Capture Chain
+659,Winged Trumpeter,170,Spirit of the Harp
+659,Winged Trumpeter,192,Key Mace
+659,Winged Trumpeter,198,Happy Lover
+659,Winged Trumpeter,208,Petit Angel
+659,Winged Trumpeter,229,Hourglass of Life
+659,Winged Trumpeter,260,Lunar Queen Elzaim
+659,Winged Trumpeter,264,Wing Egg Elf
+659,Winged Trumpeter,276,Ray & Temperature
+659,Winged Trumpeter,395,Dancing Elf
+659,Winged Trumpeter,396,Ocubeam
+659,Winged Trumpeter,429,Goddess of Whim
+659,Winged Trumpeter,492,Hoshiningen
+659,Winged Trumpeter,540,Skelengel
+659,Winged Trumpeter,582,Dark Witch
+659,Winged Trumpeter,584,Binding Chain
+659,Winged Trumpeter,592,Muse-A
+659,Winged Trumpeter,601,Tenderness
+659,Winged Trumpeter,608,Shining Friendship
+659,Winged Trumpeter,616,Hourglass of Courage
+659,Winged Trumpeter,633,Winged Egg of New Life
+668,Bright Castle,1,Blue-eyes White Dragon
+668,Bright Castle,2,Mystical Elf
+668,Bright Castle,3,Hitotsu-me Giant
+668,Bright Castle,4,Baby Dragon
+668,Bright Castle,5,Ryu-kishin
+668,Bright Castle,6,Feral Imp
+668,Bright Castle,7,Winged Dragon #1
+668,Bright Castle,8,Mushroom Man
+668,Bright Castle,9,Shadow Specter
+668,Bright Castle,10,Blackland Fire Dragon
+668,Bright Castle,11,Sword Arm of Dragon
+668,Bright Castle,12,Swamp Battleguard
+668,Bright Castle,13,Tyhone
+668,Bright Castle,14,Battle Steer
+668,Bright Castle,15,Flame Swordsman
+668,Bright Castle,16,Time Wizard
+668,Bright Castle,17,Right Leg of the Forbidden One
+668,Bright Castle,18,Left Leg of the Forbidden One
+668,Bright Castle,19,Right Arm of the Forbidden One
+668,Bright Castle,20,Left Arm of the Forbidden One
+668,Bright Castle,21,Exodia the Forbidden
+668,Bright Castle,22,Summoned Skull
+668,Bright Castle,23,The Wicked Worm Beast
+668,Bright Castle,24,Skull Servant
+668,Bright Castle,25,Horn Imp
+668,Bright Castle,26,Battle Ox
+668,Bright Castle,27,Beaver Warrior
+668,Bright Castle,28,Rock Ogre Grotto #1
+668,Bright Castle,29,Mountain Warrior
+668,Bright Castle,30,Zombie Warrior
+668,Bright Castle,31,Koumori Dragon
+668,Bright Castle,32,Two-headed King Rex
+668,Bright Castle,33,Judge Man
+668,Bright Castle,34,Saggi the Dark Clown
+668,Bright Castle,35,Dark Magician
+668,Bright Castle,36,The Snake Hair
+668,Bright Castle,37,Gaia the Dragon Champion
+668,Bright Castle,38,Gaia the Fierce Knight
+668,Bright Castle,39,Curse of Dragon
+668,Bright Castle,40,Dragon Piper
+668,Bright Castle,41,Celtic Guardian
+668,Bright Castle,42,Illusionist Faceless Mage
+668,Bright Castle,43,Karbonala Warrior
+668,Bright Castle,44,Rogue Doll
+668,Bright Castle,45,Oscillo Hero #2
+668,Bright Castle,46,Griffore
+668,Bright Castle,47,Torike
+668,Bright Castle,48,Sangan
+668,Bright Castle,49,Big Insect
+668,Bright Castle,50,Basic Insect
+668,Bright Castle,51,Armored Lizard
+668,Bright Castle,52,Hercules Beetle
+668,Bright Castle,53,Killer Needle
+668,Bright Castle,54,Gokibore
+668,Bright Castle,55,Giant Flea
+668,Bright Castle,56,Larvae Moth
+668,Bright Castle,57,Great Moth
+668,Bright Castle,58,Kuriboh
+668,Bright Castle,59,Mammoth Graveyard
+668,Bright Castle,60,Great White
+668,Bright Castle,61,Wolf
+668,Bright Castle,62,Harpie Lady
+668,Bright Castle,63,Harpie Lady Sisters
+668,Bright Castle,64,Tiger Axe
+668,Bright Castle,65,Silver Fang
+668,Bright Castle,66,Kojikocy
+668,Bright Castle,67,Perfectly Ultimate Great Moth
+668,Bright Castle,68,Garoozis
+668,Bright Castle,69,Thousand Dragon
+668,Bright Castle,70,Fiend Kraken
+668,Bright Castle,71,Jellyfish
+668,Bright Castle,72,Cocoon of Evolution
+668,Bright Castle,73,Kairyu-shin
+668,Bright Castle,74,Giant Soldier of Stone
+668,Bright Castle,75,Man-eating Plant
+668,Bright Castle,76,Krokodilus
+668,Bright Castle,77,Grappler
+668,Bright Castle,78,Axe Raider
+668,Bright Castle,79,Megazowler
+668,Bright Castle,80,Uraby
+668,Bright Castle,81,Crawling Dragon #2
+668,Bright Castle,82,Red-eyes B. Dragon
+668,Bright Castle,83,Castle of Dark Illusions
+668,Bright Castle,84,Reaper of the Cards
+668,Bright Castle,85,King of Yamimakai
+668,Bright Castle,86,Barox
+668,Bright Castle,87,Dark Chimera
+668,Bright Castle,88,Metal Guardian
+668,Bright Castle,89,Catapult Turtle
+668,Bright Castle,90,Gyakutenno Megami
+668,Bright Castle,91,Mystic Horseman
+668,Bright Castle,92,Rabid Horseman
+668,Bright Castle,93,Zanki
+668,Bright Castle,94,Crawling Dragon
+668,Bright Castle,95,Crass Clown
+668,Bright Castle,96,Armored Zombie
+668,Bright Castle,97,Dragon Zombie
+668,Bright Castle,98,Clown Zombie
+668,Bright Castle,99,Pumpking the King of Ghosts
+668,Bright Castle,100,Battle Warrior
+668,Bright Castle,101,Wings of Wicked Flame
+668,Bright Castle,102,Mask of Darkness
+668,Bright Castle,103,Job-change Mirror
+668,Bright Castle,104,Curtain of the Dark Ones
+668,Bright Castle,105,Tomozaurus
+668,Bright Castle,106,Spirit of the Winds
+668,Bright Castle,107,Kageningen
+668,Bright Castle,108,Graveyard and the Hand of Invitation
+668,Bright Castle,109,Goddess with the Third Eye
+668,Bright Castle,110,Hero of the East
+668,Bright Castle,111,Doma The Angel of Silence
+668,Bright Castle,112,That Which Feeds on Life
+668,Bright Castle,113,Dark Gray
+668,Bright Castle,114,White Magical Hat
+668,Bright Castle,115,Kamion Wizard
+668,Bright Castle,116,Nightmare Scorpion
+668,Bright Castle,117,Spirit of the Books
+668,Bright Castle,118,Supporter in the Shadows
+668,Bright Castle,119,Trial of Nightmares
+668,Bright Castle,120,Dream Clown
+668,Bright Castle,121,Sleeping Lion
+668,Bright Castle,122,Yamatano Dragon Scroll
+668,Bright Castle,123,Dark Plant
+668,Bright Castle,124,Ancient Tool
+668,Bright Castle,125,Faith Bird
+668,Bright Castle,126,Orion the Battle King
+668,Bright Castle,127,Ansatsu
+668,Bright Castle,128,LaMoon
+668,Bright Castle,129,Nemuriko
+668,Bright Castle,130,Weather Control
+668,Bright Castle,131,Octoberser
+668,Bright Castle,132,The 13th Grave
+668,Bright Castle,133,Charubin the Fire Knight
+668,Bright Castle,134,Mystical Capture Chain
+668,Bright Castle,135,Fiend's Hand
+668,Bright Castle,136,Witty Phantom
+668,Bright Castle,137,Mystery Hand
+668,Bright Castle,138,Dragon Statue
+668,Bright Castle,139,Blue-eyed Silver Zombie
+668,Bright Castle,140,Toad Master
+668,Bright Castle,141,Spiked Snail
+668,Bright Castle,142,Flame Manipulator
+668,Bright Castle,143,Necrolancer the Timelord
+668,Bright Castle,144,Djinn the Watcher of the Wind
+668,Bright Castle,145,The Bewitching Phantom Thief
+668,Bright Castle,146,Temple of Skulls
+668,Bright Castle,147,Monster Egg
+668,Bright Castle,148,The Shadow Who Controls the Dark
+668,Bright Castle,149,Lord of the Lamp
+668,Bright Castle,150,Akihiron
+668,Bright Castle,151,Rhaimundos of the Red Sword
+668,Bright Castle,152,The Melting Red Shadow
+668,Bright Castle,153,Dokuroizo the Grim Reaper
+668,Bright Castle,154,Fire Reaper
+668,Bright Castle,155,Larvas
+668,Bright Castle,156,Hard Armor
+668,Bright Castle,157,Firegrass
+668,Bright Castle,158,Man Eater
+668,Bright Castle,159,Dig Beak
+668,Bright Castle,160,M-warrior #1
+668,Bright Castle,161,M-warrior #2
+668,Bright Castle,162,Tainted Wisdom
+668,Bright Castle,163,Lisark
+668,Bright Castle,164,Lord of Zemia
+668,Bright Castle,165,The Judgement Hand
+668,Bright Castle,166,Mysterious Puppeteer
+668,Bright Castle,167,Ancient Jar
+668,Bright Castle,168,Darkfire Dragon
+668,Bright Castle,169,Dark King of the Abyss
+668,Bright Castle,170,Spirit of the Harp
+668,Bright Castle,171,Big Eye
+668,Bright Castle,172,Armaill
+668,Bright Castle,173,Dark Prisoner
+668,Bright Castle,174,Hurricail
+668,Bright Castle,175,Ancient Brain
+668,Bright Castle,176,Fire Eye
+668,Bright Castle,177,Monsturtle
+668,Bright Castle,178,Claw Reacher
+668,Bright Castle,179,Phantom Dewan
+668,Bright Castle,180,Arlownay
+668,Bright Castle,181,Dark Shade
+668,Bright Castle,182,Masked Clown
+668,Bright Castle,183,Lucky Trinket
+668,Bright Castle,184,Genin
+668,Bright Castle,185,Eyearmor
+668,Bright Castle,186,Fiend Refrection #2
+668,Bright Castle,187,Gate Deeg
+668,Bright Castle,188,Synchar
+668,Bright Castle,189,Fusionist
+668,Bright Castle,190,Akakieisu
+668,Bright Castle,191,LaLa Li-oon
+668,Bright Castle,192,Key Mace
+668,Bright Castle,193,Turtle Tiger
+668,Bright Castle,194,Terra the Terrible
+668,Bright Castle,195,Doron
+668,Bright Castle,196,Arma Knight
+668,Bright Castle,197,Mech Mole Zombie
+668,Bright Castle,198,Happy Lover
+668,Bright Castle,199,Penguin Knight
+668,Bright Castle,200,Petit Dragon
+668,Bright Castle,201,Frenzied Panda
+668,Bright Castle,202,Air Marmot of Nefariousness
+668,Bright Castle,203,Phantom Ghost
+668,Bright Castle,204,Mabarrel
+668,Bright Castle,205,Dorover
+668,Bright Castle,206,Twin Long Rods #1
+668,Bright Castle,207,Droll Bird
+668,Bright Castle,208,Petit Angel
+668,Bright Castle,209,Winged Cleaver
+668,Bright Castle,210,Hinotama Soul
+668,Bright Castle,211,Kaminarikozou
+668,Bright Castle,212,Meotoko
+668,Bright Castle,213,Aqua Madoor
+668,Bright Castle,214,Kagemusha of the Blue Flame
+668,Bright Castle,215,Flame Ghost
+668,Bright Castle,216,Dryad
+668,Bright Castle,217,B. Skull Dragon
+668,Bright Castle,218,Two-mouth Darkruler
+668,Bright Castle,219,Solitude
+668,Bright Castle,220,Masked Sorcerer
+668,Bright Castle,221,Kumootoko
+668,Bright Castle,222,Midnight Fiend
+668,Bright Castle,223,Roaring Ocean Snake
+668,Bright Castle,224,Trap Master
+668,Bright Castle,225,Fiend Sword
+668,Bright Castle,226,Skull Stalker
+668,Bright Castle,227,Hitodenchak
+668,Bright Castle,228,Wood Remains
+668,Bright Castle,229,Hourglass of Life
+668,Bright Castle,230,Rare Fish
+668,Bright Castle,231,Wood Clown
+668,Bright Castle,232,Madjinn Gunn
+668,Bright Castle,233,Dark Titan of Terror
+668,Bright Castle,234,Beautiful Headhuntress
+668,Bright Castle,235,Wodan the Resident of the Forest
+668,Bright Castle,236,Guardian of the Labyrinth
+668,Bright Castle,237,Haniwa
+668,Bright Castle,238,Yashinoki
+668,Bright Castle,239,Vishwar Randi
+668,Bright Castle,240,The Drdek
+668,Bright Castle,241,Dark Assailant
+668,Bright Castle,242,Candle of Fate
+668,Bright Castle,243,Water Element
+668,Bright Castle,244,Dissolverock
+668,Bright Castle,245,Meda Bat
+668,Bright Castle,246,One Who Hunts Souls
+668,Bright Castle,247,Root Water
+668,Bright Castle,248,Master & Expert
+668,Bright Castle,249,Water Omotics
+668,Bright Castle,250,Hyo
+668,Bright Castle,251,Enchanting Mermaid
+668,Bright Castle,252,Nekogal #1
+668,Bright Castle,253,Angelwitch
+668,Bright Castle,254,Embryonic Beast
+668,Bright Castle,255,Prevent Rat
+668,Bright Castle,256,Dimensional Warrior
+668,Bright Castle,257,Stone Armadiller
+668,Bright Castle,258,Beastking of the Swamps
+668,Bright Castle,259,Ancient Sorcerer
+668,Bright Castle,260,Lunar Queen Elzaim
+668,Bright Castle,261,Wicked Mirror
+668,Bright Castle,262,The Little Swordsman of Aile
+668,Bright Castle,263,Rock Ogre Grotto #2
+668,Bright Castle,264,Wing Egg Elf
+668,Bright Castle,265,The Furious Sea King
+668,Bright Castle,266,Princess of Tsurugi
+668,Bright Castle,267,Unknown Warrior of Fiend
+668,Bright Castle,268,Sectarian of Secrets
+668,Bright Castle,269,Versago the Destroyer
+668,Bright Castle,270,Wetha
+668,Bright Castle,271,Megirus Light
+668,Bright Castle,272,Mavelus
+668,Bright Castle,273,Ancient Tree of Enlightenment
+668,Bright Castle,274,Green Phantom King
+668,Bright Castle,275,Ground Attacker Bugroth
+668,Bright Castle,276,Ray & Temperature
+668,Bright Castle,277,Gorgon Egg
+668,Bright Castle,278,Petit Moth
+668,Bright Castle,279,King Fog
+668,Bright Castle,280,Protector of the Throne
+668,Bright Castle,281,Mystic Clown
+668,Bright Castle,282,Mystical Sheep #2
+668,Bright Castle,283,Holograh
+668,Bright Castle,284,Tao the Chanter
+668,Bright Castle,285,Serpent Marauder
+668,Bright Castle,286,Gatekeeper
+668,Bright Castle,287,Ogre of the Black Shadow
+668,Bright Castle,288,Dark Artist
+668,Bright Castle,289,Change Slime
+668,Bright Castle,290,Moon Envoy
+668,Bright Castle,291,Fireyarou
+668,Bright Castle,292,Psychic Kappa
+668,Bright Castle,293,Masaki the Legendary Swordsman
+668,Bright Castle,294,Dragoness the Wicked Knight
+668,Bright Castle,295,Bio Plant
+668,Bright Castle,296,One-eyed Shield Dragon
+668,Bright Castle,297,Cyber Soldier of Darkworld
+668,Bright Castle,298,Wicked Dragon with the Ersatz Head
+668,Bright Castle,299,Sonic Maid
+668,Bright Castle,300,Kurama
+668,Bright Castle,351,Yaranzo
+668,Bright Castle,352,Kanan the Swordmistress
+668,Bright Castle,353,Takriminos
+668,Bright Castle,354,Stuffed Animal
+668,Bright Castle,355,Megasonic Eye
+668,Bright Castle,356,Super War-lion
+668,Bright Castle,357,Yamadron
+668,Bright Castle,358,Seiyaryu
+668,Bright Castle,359,Three-legged Zombies
+668,Bright Castle,360,Zera The Mant
+668,Bright Castle,361,Flying Penguin
+668,Bright Castle,362,Millennium Shield
+668,Bright Castle,363,Fairy's Gift
+668,Bright Castle,364,Black Luster Soldier
+668,Bright Castle,365,Fiend's Mirror
+668,Bright Castle,366,Labyrinth Wall
+668,Bright Castle,367,Jirai Gumo
+668,Bright Castle,368,Shadow Ghoul
+668,Bright Castle,369,Wall Shadow
+668,Bright Castle,370,Labyrinth Tank
+668,Bright Castle,371,Sanga of the Thunder
+668,Bright Castle,372,Kazejin
+668,Bright Castle,373,Suijin
+668,Bright Castle,374,Gate Guardian
+668,Bright Castle,375,Dungeon Worm
+668,Bright Castle,376,Monster Tamer
+668,Bright Castle,377,Ryu-kishin Powered
+668,Bright Castle,378,Swordstalker
+668,Bright Castle,379,La Jinn the Mystical Genie
+668,Bright Castle,380,Blue-eyes Ultimate Dragon
+668,Bright Castle,381,Toon Alligator
+668,Bright Castle,382,Rude Kaiser
+668,Bright Castle,383,Parrot Dragon
+668,Bright Castle,384,Dark Rabbit
+668,Bright Castle,385,Bickuribox
+668,Bright Castle,386,Harpie's Pet Dragon
+668,Bright Castle,387,Mystic Lamp
+668,Bright Castle,388,Pendulum Machine
+668,Bright Castle,389,Giltia the D. Knight
+668,Bright Castle,390,Launcher Spider
+668,Bright Castle,391,Zoa
+668,Bright Castle,392,Metalzoa
+668,Bright Castle,393,Zone Eater
+668,Bright Castle,394,Steel Scorpion
+668,Bright Castle,395,Dancing Elf
+668,Bright Castle,396,Ocubeam
+668,Bright Castle,397,Leghul
+668,Bright Castle,398,Ooguchi
+668,Bright Castle,399,Swordsman from a Foreign Land
+668,Bright Castle,400,Emperor of the Land and Sea
+668,Bright Castle,401,Ushi Oni
+668,Bright Castle,402,Monster Eye
+668,Bright Castle,403,Leogun
+668,Bright Castle,404,Tatsunootoshigo
+668,Bright Castle,405,Saber Slasher
+668,Bright Castle,406,Yaiba Robo
+668,Bright Castle,407,Machine King
+668,Bright Castle,408,Giant Mech-soldier
+668,Bright Castle,409,Metal Dragon
+668,Bright Castle,410,Mechanical Spider
+668,Bright Castle,411,Bat
+668,Bright Castle,412,Giga-tech Wolf
+668,Bright Castle,413,Cyber Soldier
+668,Bright Castle,414,Shovel Crusher
+668,Bright Castle,415,Mechanicalchacer
+668,Bright Castle,416,Blocker
+668,Bright Castle,417,Blast Juggler
+668,Bright Castle,418,Golgoil
+668,Bright Castle,419,Giganto
+668,Bright Castle,420,Cyber-Stein
+668,Bright Castle,421,Cyber Commander
+668,Bright Castle,422,Jinzo #7
+668,Bright Castle,423,Dice Armadillo
+668,Bright Castle,424,Sky Dragon
+668,Bright Castle,425,Thunder Dragon
+668,Bright Castle,426,Stone D.
+668,Bright Castle,427,Kaiser Dragon
+668,Bright Castle,428,Magician of Faith
+668,Bright Castle,429,Goddess of Whim
+668,Bright Castle,430,Water Magician
+668,Bright Castle,431,Ice Water
+668,Bright Castle,432,Waterdragon Fairy
+668,Bright Castle,433,Ancient Elf
+668,Bright Castle,434,Beautiful Beast Trainer
+668,Bright Castle,435,Water Girl
+668,Bright Castle,436,White Dolphin
+668,Bright Castle,437,Deepsea Shark
+668,Bright Castle,438,Metal Fish
+668,Bright Castle,439,Bottom Dweller
+668,Bright Castle,440,7 Colored Fish
+668,Bright Castle,441,Mech Bass
+668,Bright Castle,442,Aqua Dragon
+668,Bright Castle,443,Sea King Dragon
+668,Bright Castle,444,Turu-Purun
+668,Bright Castle,445,Guardian of the Sea
+668,Bright Castle,446,Aqua Snake
+668,Bright Castle,447,Giant Red Seasnake
+668,Bright Castle,448,Spike Seadra
+668,Bright Castle,449,"30,000-Year White Turtle"
+668,Bright Castle,450,Kappa Avenger
+668,Bright Castle,451,Kanikabuto
+668,Bright Castle,452,Zarigun
+668,Bright Castle,453,Millennium Golem
+668,Bright Castle,454,Destroyer Golem
+668,Bright Castle,455,Barrel Rock
+668,Bright Castle,456,Minomushi Warrior
+668,Bright Castle,457,Stone Ghost
+668,Bright Castle,458,Kaminari Attack
+668,Bright Castle,459,Tripwire Beast
+668,Bright Castle,460,Bolt Escargot
+668,Bright Castle,461,Bolt Penguin
+668,Bright Castle,462,The Immortal of Thunder
+668,Bright Castle,463,Electric Snake
+668,Bright Castle,464,Wing Eagle
+668,Bright Castle,465,Punished Eagle
+668,Bright Castle,466,Skull Red Bird
+668,Bright Castle,467,Crimson Sunbird
+668,Bright Castle,468,Queen Bird
+668,Bright Castle,469,Armed Ninja
+668,Bright Castle,470,Magical Ghost
+668,Bright Castle,471,Soul Hunter
+668,Bright Castle,472,Air Eater
+668,Bright Castle,473,Vermillion Sparrow
+668,Bright Castle,474,Sea Kamen
+668,Bright Castle,475,Sinister Serpent
+668,Bright Castle,476,Ganigumo
+668,Bright Castle,477,Alinsection
+668,Bright Castle,478,Insect Soldiers of the Sky
+668,Bright Castle,479,Cockroach Knight
+668,Bright Castle,480,Kuwagata α
+668,Bright Castle,481,Burglar
+668,Bright Castle,482,Pragtical
+668,Bright Castle,483,Garvas
+668,Bright Castle,484,Ameba
+668,Bright Castle,485,Korogashi
+668,Bright Castle,486,Boo Koo
+668,Bright Castle,487,Flower Wolf
+668,Bright Castle,488,Rainbow Flower
+668,Bright Castle,489,Barrel Lily
+668,Bright Castle,490,Needle Ball
+668,Bright Castle,491,Peacock
+668,Bright Castle,492,Hoshiningen
+668,Bright Castle,493,Maha Vailo
+668,Bright Castle,494,Rainbow Marine Mermaid
+668,Bright Castle,495,Musician King
+668,Bright Castle,496,Wilmee
+668,Bright Castle,497,Yado Karu
+668,Bright Castle,498,Morinphen
+668,Bright Castle,499,Kattapillar
+668,Bright Castle,500,Dragon Seeker
+668,Bright Castle,501,Man-eater Bug
+668,Bright Castle,502,D. Human
+668,Bright Castle,503,Turtle Raccoon
+668,Bright Castle,504,Fungi of the Musk
+668,Bright Castle,505,Prisman
+668,Bright Castle,506,Gale Dogra
+668,Bright Castle,507,Crazy Fish
+668,Bright Castle,508,Cyber Saurus
+668,Bright Castle,509,Bracchio-raidus
+668,Bright Castle,510,Laughing Flower
+668,Bright Castle,511,Bean Soldier
+668,Bright Castle,512,Cannon Soldier
+668,Bright Castle,513,Guardian of the Throne Room
+668,Bright Castle,514,Brave Scizzar
+668,Bright Castle,515,The Statue of Easter Island
+668,Bright Castle,516,Muka Muka
+668,Bright Castle,517,Sand Stone
+668,Bright Castle,518,Boulder Tortoise
+668,Bright Castle,519,Fire Kraken
+668,Bright Castle,520,Turtle Bird
+668,Bright Castle,521,Skullbird
+668,Bright Castle,522,Monstrous Bird
+668,Bright Castle,523,The Bistro Butcher
+668,Bright Castle,524,Star Boy
+668,Bright Castle,525,Spirit of the Mountain
+668,Bright Castle,526,Neck Hunter
+668,Bright Castle,527,Milus Radiant
+668,Bright Castle,528,Togex
+668,Bright Castle,529,Flame Cerebrus
+668,Bright Castle,530,Eldeen
+668,Bright Castle,531,Mystical Sand
+668,Bright Castle,532,Gemini Elf
+668,Bright Castle,533,Kwagar Hercules
+668,Bright Castle,534,Minar
+668,Bright Castle,535,Kamakiriman
+668,Bright Castle,536,Mechaleon
+668,Bright Castle,537,Mega Thunderball
+668,Bright Castle,538,Niwatori
+668,Bright Castle,539,Corroding Shark
+668,Bright Castle,540,Skelengel
+668,Bright Castle,541,Hane-Hane
+668,Bright Castle,542,Misairuzame
+668,Bright Castle,543,Tongyo
+668,Bright Castle,544,Dharma Cannon
+668,Bright Castle,545,Skelgon
+668,Bright Castle,546,Wow Warrior
+668,Bright Castle,547,Griggle
+668,Bright Castle,548,Bone Mouse
+668,Bright Castle,549,Frog The Jam
+668,Bright Castle,550,Behegon
+668,Bright Castle,551,Dark Elf
+668,Bright Castle,552,Winged Dragon #2
+668,Bright Castle,553,Mushroom Man #2
+668,Bright Castle,554,Lava Battleguard
+668,Bright Castle,555,Tyhone #2
+668,Bright Castle,556,The Wandering Doomed
+668,Bright Castle,557,Steel Ogre Grotto #1
+668,Bright Castle,558,Pot the Trick
+668,Bright Castle,559,Oscillo Hero
+668,Bright Castle,560,Invader from Another Dimension
+668,Bright Castle,561,Lesser Dragon
+668,Bright Castle,562,Needle Worm
+668,Bright Castle,563,Wretched Ghost of the Attic
+668,Bright Castle,564,Great Mammoth of Goldfine
+668,Bright Castle,565,Man-eating Black Shark
+668,Bright Castle,566,Yormungarde
+668,Bright Castle,567,Darkworld Thorns
+668,Bright Castle,568,Anthrosaurus
+668,Bright Castle,569,Drooling Lizard
+668,Bright Castle,570,Trakadon
+668,Bright Castle,571,B. Dragon Jungle King
+668,Bright Castle,572,Empress Judge
+668,Bright Castle,573,Little D
+668,Bright Castle,574,Witch of the Black Forest
+668,Bright Castle,575,Ancient One of the Deep Forest
+668,Bright Castle,576,Giant Scorpion of the Tundra
+668,Bright Castle,577,Crow Goblin
+668,Bright Castle,578,Leo Wizard
+668,Bright Castle,579,Abyss Flower
+668,Bright Castle,580,Patrol Robo
+668,Bright Castle,581,Takuhee
+668,Bright Castle,582,Dark Witch
+668,Bright Castle,583,Weather Report
+668,Bright Castle,584,Binding Chain
+668,Bright Castle,585,Mechanical Snail
+668,Bright Castle,586,Greenkappa
+668,Bright Castle,587,Mon Larvas
+668,Bright Castle,588,Living Vase
+668,Bright Castle,589,Tentacle Plant
+668,Bright Castle,590,Beaked Snake
+668,Bright Castle,591,Morphing Jar
+668,Bright Castle,592,Muse-A
+668,Bright Castle,593,Giant Turtle Who Feeds on Flames
+668,Bright Castle,594,Rose Spectre of Dunn
+668,Bright Castle,595,Fiend Refrection #1
+668,Bright Castle,596,Ghoul with an Appetite
+668,Bright Castle,597,Pale Beast
+668,Bright Castle,598,Little Chimera
+668,Bright Castle,599,Violent Rain
+668,Bright Castle,600,Key Mace #2
+668,Bright Castle,601,Tenderness
+668,Bright Castle,602,Penguin Soldier
+668,Bright Castle,603,Fairy Dragon
+668,Bright Castle,604,Obese Marmot of Nefariousness
+668,Bright Castle,605,Liquid Beast
+668,Bright Castle,606,Twin Long Rods #2
+668,Bright Castle,607,Great Bill
+668,Bright Castle,608,Shining Friendship
+668,Bright Castle,609,Bladefly
+668,Bright Castle,610,Electric Lizard
+668,Bright Castle,611,Hiro's Shadow Scout
+668,Bright Castle,612,Lady of Faith
+668,Bright Castle,613,Twin-headed Thunder Dragon
+668,Bright Castle,614,Hunter Spider
+668,Bright Castle,615,Armored Starfish
+668,Bright Castle,616,Hourglass of Courage
+668,Bright Castle,617,Marine Beast
+668,Bright Castle,618,Warrior of Tradition
+668,Bright Castle,619,Rock Spirit
+668,Bright Castle,620,Snakeyashi
+668,Bright Castle,621,Succubus Knight
+668,Bright Castle,622,Ill Witch
+668,Bright Castle,623,The Thing That Hides in the Mud
+668,Bright Castle,624,High Tide Gyojin
+668,Bright Castle,625,Fairy of the Fountain
+668,Bright Castle,626,Amazon of the Seas
+668,Bright Castle,627,Nekogal #2
+668,Bright Castle,628,Witch's Apprentice
+668,Bright Castle,629,Armored Rat
+668,Bright Castle,630,Ancient Lizard Warrior
+668,Bright Castle,631,Maiden of the Moonlight
+668,Bright Castle,632,Stone Ogre Grotto
+668,Bright Castle,633,Winged Egg of New Life
+668,Bright Castle,634,Night Lizard
+668,Bright Castle,635,Queen's Double
+668,Bright Castle,636,Blue-winged Crown
+668,Bright Castle,637,Trent
+668,Bright Castle,638,Queen of Autumn Leaves
+668,Bright Castle,639,Amphibious Bugroth
+668,Bright Castle,640,Acid Crawler
+668,Bright Castle,641,Invader of the Throne
+668,Bright Castle,642,Mystical Sheep #1
+668,Bright Castle,643,Disk Magician
+668,Bright Castle,644,Flame Viper
+668,Bright Castle,645,Royal Guard
+668,Bright Castle,646,Gruesome Goo
+668,Bright Castle,647,Hyosube
+668,Bright Castle,648,Machine Attacker
+668,Bright Castle,649,Hibikime
+668,Bright Castle,650,Whiptail Crow
+668,Bright Castle,701,Performance of Sword
+668,Bright Castle,702,Hungry Burger
+668,Bright Castle,703,Sengenjin
+668,Bright Castle,704,Skull Guardian
+668,Bright Castle,705,Tri-horned Dragon
+668,Bright Castle,706,Serpent Night Dragon
+668,Bright Castle,707,Skull Knight
+668,Bright Castle,708,Cosmo Queen
+668,Bright Castle,709,Chakra
+668,Bright Castle,710,Crab Turtle
+668,Bright Castle,711,Mikazukinoyaiba
+668,Bright Castle,712,Meteor Dragon
+668,Bright Castle,713,Meteor B. Dragon
+668,Bright Castle,714,Firewing Pegasus
+668,Bright Castle,715,Psycho-Puppet
+668,Bright Castle,716,Garma Sword
+668,Bright Castle,717,Javelin Beetle
+668,Bright Castle,718,Fortress Whale
+668,Bright Castle,719,Dokurorider
+668,Bright Castle,720,Mask of Shine & Dark
+668,Bright Castle,722,Magician of Black Chaos

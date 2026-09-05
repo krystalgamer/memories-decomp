@@ -1,0 +1,723 @@
+card_id,card,recipes_using_it
+1,Blue-eyes White Dragon,0
+2,Mystical Elf,223
+3,Hitotsu-me Giant,10
+4,Baby Dragon,311
+5,Ryu-kishin,41
+6,Feral Imp,12
+7,Winged Dragon #1,310
+8,Mushroom Man,167
+9,Shadow Specter,156
+10,Blackland Fire Dragon,243
+11,Sword Arm of Dragon,180
+12,Swamp Battleguard,31
+13,Tyhone,41
+14,Battle Steer,0
+15,Flame Swordsman,132
+16,Time Wizard,71
+17,Right Leg of the Forbidden One,73
+18,Left Leg of the Forbidden One,73
+19,Right Arm of the Forbidden One,73
+20,Left Arm of the Forbidden One,73
+21,Exodia the Forbidden,73
+22,Summoned Skull,1
+23,The Wicked Worm Beast,31
+24,Skull Servant,159
+25,Horn Imp,12
+26,Battle Ox,1
+27,Beaver Warrior,0
+28,Rock Ogre Grotto #1,145
+29,Mountain Warrior,0
+30,Zombie Warrior,131
+31,Koumori Dragon,237
+32,Two-headed King Rex,34
+33,Judge Man,0
+34,Saggi the Dark Clown,73
+35,Dark Magician,0
+36,The Snake Hair,47
+37,Gaia the Dragon Champion,13
+38,Gaia the Fierce Knight,1
+39,Curse of Dragon,37
+40,Dragon Piper,165
+41,Celtic Guardian,142
+42,Illusionist Faceless Mage,36
+43,Karbonala Warrior,43
+44,Rogue Doll,14
+45,Oscillo Hero #2,154
+46,Griffore,174
+47,Torike,174
+48,Sangan,15
+49,Big Insect,1
+50,Basic Insect,14
+51,Armored Lizard,3
+52,Hercules Beetle,1
+53,Killer Needle,1
+54,Gokibore,1
+55,Giant Flea,1
+56,Larvae Moth,14
+57,Great Moth,0
+58,Kuriboh,17
+59,Mammoth Graveyard,74
+60,Great White,39
+61,Wolf,174
+62,Harpie Lady,158
+63,Harpie Lady Sisters,59
+64,Tiger Axe,1
+65,Silver Fang,174
+66,Kojikocy,43
+67,Perfectly Ultimate Great Moth,0
+68,Garoozis,110
+69,Thousand Dragon,13
+70,Fiend Kraken,50
+71,Jellyfish,33
+72,Cocoon of Evolution,14
+73,Kairyu-shin,131
+74,Giant Soldier of Stone,86
+75,Man-eating Plant,167
+76,Krokodilus,3
+77,Grappler,3
+78,Axe Raider,43
+79,Megazowler,0
+80,Uraby,34
+81,Crawling Dragon #2,237
+82,Red-eyes B. Dragon,15
+83,Castle of Dark Illusions,22
+84,Reaper of the Cards,11
+85,King of Yamimakai,1
+86,Barox,2
+87,Dark Chimera,2
+88,Metal Guardian,16
+89,Catapult Turtle,123
+90,Gyakutenno Megami,47
+91,Mystic Horseman,140
+92,Rabid Horseman,0
+93,Zanki,44
+94,Crawling Dragon,238
+95,Crass Clown,15
+96,Armored Zombie,48
+97,Dragon Zombie,261
+98,Clown Zombie,107
+99,Pumpking the King of Ghosts,27
+100,Battle Warrior,155
+101,Wings of Wicked Flame,138
+102,Mask of Darkness,21
+103,Job-change Mirror,94
+104,Curtain of the Dark Ones,73
+105,Tomozaurus,34
+106,Spirit of the Winds,12
+107,Kageningen,141
+108,Graveyard and the Hand of Invitation,177
+109,Goddess with the Third Eye,132
+110,Hero of the East,140
+111,Doma The Angel of Silence,48
+112,That Which Feeds on Life,18
+113,Dark Gray,183
+114,White Magical Hat,38
+115,Kamion Wizard,50
+116,Nightmare Scorpion,1
+117,Spirit of the Books,37
+118,Supporter in the Shadows,140
+119,Trial of Nightmares,12
+120,Dream Clown,140
+121,Sleeping Lion,183
+122,Yamatano Dragon Scroll,310
+123,Dark Plant,171
+124,Ancient Tool,32
+125,Faith Bird,41
+126,Orion the Battle King,0
+127,Ansatsu,49
+128,LaMoon,149
+129,Nemuriko,162
+130,Weather Control,46
+131,Octoberser,23
+132,The 13th Grave,131
+133,Charubin the Fire Knight,116
+134,Mystical Capture Chain,46
+135,Fiend's Hand,155
+136,Witty Phantom,17
+137,Mystery Hand,16
+138,Dragon Statue,362
+139,Blue-eyed Silver Zombie,155
+140,Toad Master,33
+141,Spiked Snail,25
+142,Flame Manipulator,148
+143,Necrolancer the Timelord,36
+144,Djinn the Watcher of the Wind,36
+145,The Bewitching Phantom Thief,36
+146,Temple of Skulls,158
+147,Monster Egg,167
+148,The Shadow Who Controls the Dark,21
+149,Lord of the Lamp,17
+150,Akihiron,23
+151,Rhaimundos of the Red Sword,141
+152,The Melting Red Shadow,35
+153,Dokuroizo the Grim Reaper,155
+154,Fire Reaper,233
+155,Larvas,68
+156,Hard Armor,155
+157,Firegrass,221
+158,Man Eater,167
+159,Dig Beak,41
+160,M-warrior #1,140
+161,M-warrior #2,155
+162,Tainted Wisdom,12
+163,Lisark,33
+164,Lord of Zemia,18
+165,The Judgement Hand,168
+166,Mysterious Puppeteer,140
+167,Ancient Jar,161
+168,Darkfire Dragon,291
+169,Dark King of the Abyss,18
+170,Spirit of the Harp,45
+171,Big Eye,3
+172,Armaill,247
+173,Dark Prisoner,21
+174,Hurricail,36
+175,Ancient Brain,61
+176,Fire Eye,138
+177,Monsturtle,141
+178,Claw Reacher,21
+179,Phantom Dewan,73
+180,Arlownay,286
+181,Dark Shade,6
+182,Masked Clown,158
+183,Lucky Trinket,40
+184,Genin,36
+185,Eyearmor,155
+186,Fiend Refrection #2,49
+187,Gate Deeg,52
+188,Synchar,183
+189,Fusionist,222
+190,Akakieisu,73
+191,LaLa Li-oon,159
+192,Key Mace,134
+193,Turtle Tiger,123
+194,Terra the Terrible,12
+195,Doron,141
+196,Arma Knight,33
+197,Mech Mole Zombie,155
+198,Happy Lover,87
+199,Penguin Knight,33
+200,Petit Dragon,311
+201,Frenzied Panda,174
+202,Air Marmot of Nefariousness,194
+203,Phantom Ghost,155
+204,Mabarrel,2
+205,Dorover,33
+206,Twin Long Rods #1,35
+207,Droll Bird,41
+208,Petit Angel,85
+209,Winged Cleaver,14
+210,Hinotama Soul,144
+211,Kaminarikozou,159
+212,Meotoko,52
+213,Aqua Madoor,37
+214,Kagemusha of the Blue Flame,232
+215,Flame Ghost,214
+216,Dryad,130
+217,B. Skull Dragon,0
+218,Two-mouth Darkruler,45
+219,Solitude,11
+220,Masked Sorcerer,73
+221,Kumootoko,14
+222,Midnight Fiend,15
+223,Roaring Ocean Snake,0
+224,Trap Master,158
+225,Fiend Sword,84
+226,Skull Stalker,141
+227,Hitodenchak,33
+228,Wood Remains,146
+229,Hourglass of Life,87
+230,Rare Fish,64
+231,Wood Clown,143
+232,Madjinn Gunn,15
+233,Dark Titan of Terror,18
+234,Beautiful Headhuntress,135
+235,Wodan the Resident of the Forest,140
+236,Guardian of the Labyrinth,143
+237,Haniwa,145
+238,Yashinoki,167
+239,Vishwar Randi,180
+240,The Drdek,15
+241,Dark Assailant,131
+242,Candle of Fate,148
+243,Water Element,127
+244,Dissolverock,199
+245,Meda Bat,15
+246,One Who Hunts Souls,11
+247,Root Water,140
+248,Master & Expert,174
+249,Water Omotics,115
+250,Hyo,141
+251,Enchanting Mermaid,189
+252,Nekogal #1,116
+253,Angelwitch,179
+254,Embryonic Beast,16
+255,Prevent Rat,183
+256,Dimensional Warrior,140
+257,Stone Armadiller,145
+258,Beastking of the Swamps,33
+259,Ancient Sorcerer,73
+260,Lunar Queen Elzaim,146
+261,Wicked Mirror,14
+262,The Little Swordsman of Aile,141
+263,Rock Ogre Grotto #2,145
+264,Wing Egg Elf,180
+265,The Furious Sea King,33
+266,Princess of Tsurugi,177
+267,Unknown Warrior of Fiend,143
+268,Sectarian of Secrets,73
+269,Versago the Destroyer,21
+270,Wetha,33
+271,Megirus Light,21
+272,Mavelus,147
+273,Ancient Tree of Enlightenment,171
+274,Green Phantom King,171
+275,Ground Attacker Bugroth,146
+276,Ray & Temperature,45
+277,Gorgon Egg,30
+278,Petit Moth,14
+279,King Fog,21
+280,Protector of the Throne,236
+281,Mystic Clown,8
+282,Mystical Sheep #2,238
+283,Holograh,129
+284,Tao the Chanter,36
+285,Serpent Marauder,23
+286,Gatekeeper,69
+287,Ogre of the Black Shadow,10
+288,Dark Artist,21
+289,Change Slime,33
+290,Moon Envoy,142
+291,Fireyarou,116
+292,Psychic Kappa,114
+293,Masaki the Legendary Swordsman,142
+294,Dragoness the Wicked Knight,140
+295,Bio Plant,6
+296,One-eyed Shield Dragon,310
+297,Cyber Soldier of Darkworld,110
+298,Wicked Dragon with the Ersatz Head,319
+299,Sonic Maid,195
+300,Kurama,41
+301,Legendary Sword,3
+302,Sword of Dark Destruction,1
+303,Dark Energy,6
+304,Axe of Despair,0
+305,Laser Cannon Armor,0
+306,Insect Armor with Laser Cannon,0
+307,Elf's Light,2
+308,Beast Fangs,4
+309,Steel Shell,1
+310,Vile Germs,2
+311,Black Pendant,1
+312,Silver Bow and Arrow,2
+313,Horn of Light,1
+314,Horn of the Unicorn,1
+315,Dragon Treasure,4
+316,Electro-whip,6
+317,Cyber Shield,3
+318,Elegant Egotist,12
+319,Mystical Moon,2
+320,Stop Defense,0
+321,Malevolent Nuzzler,5
+322,Violet Crystal,1
+323,Book of Secret Arts,1
+324,Invigoration,0
+325,Machine Conversion Factory,41
+326,Raise Body Heat,1
+327,Follow Wind,5
+328,Power of Kaishin,2
+329,Dragon Capture Jar,2
+330,Forest,3
+331,Wasteland,2
+332,Mountain,0
+333,Sogen,0
+334,Umi,8
+335,Yami,3
+336,Dark Hole,2
+337,Raigeki,1
+338,Mooyan Curry,6
+339,Red Medicine,2
+340,Goblin's Secret Remedy,4
+341,Soul of the Pure,2
+342,Dian Keto the Cure Master,2
+343,Sparks,4
+344,Hinotama,3
+345,Final Flame,6
+346,Ookazi,3
+347,Tremendous Fire,2
+348,Swords of Revealing Light,0
+349,Spellbinding Circle,3
+350,Dark-piercing Light,4
+351,Yaranzo,95
+352,Kanan the Swordmistress,172
+353,Takriminos,237
+354,Stuffed Animal,141
+355,Megasonic Eye,63
+356,Super War-lion,0
+357,Yamadron,289
+358,Seiyaryu,13
+359,Three-legged Zombies,145
+360,Zera The Mant,0
+361,Flying Penguin,35
+362,Millennium Shield,156
+363,Fairy's Gift,102
+364,Black Luster Soldier,0
+365,Fiend's Mirror,2
+366,Labyrinth Wall,146
+367,Jirai Gumo,1
+368,Shadow Ghoul,47
+369,Wall Shadow,43
+370,Labyrinth Tank,0
+371,Sanga of the Thunder,40
+372,Kazejin,0
+373,Suijin,0
+374,Gate Guardian,0
+375,Dungeon Worm,1
+376,Monster Tamer,27
+377,Ryu-kishin Powered,2
+378,Swordstalker,1
+379,La Jinn the Mystical Genie,8
+380,Blue-eyes Ultimate Dragon,0
+381,Toon Alligator,22
+382,Rude Kaiser,0
+383,Parrot Dragon,36
+384,Dark Rabbit,50
+385,Bickuribox,1
+386,Harpie's Pet Dragon,36
+387,Mystic Lamp,111
+388,Pendulum Machine,38
+389,Giltia the D. Knight,25
+390,Launcher Spider,22
+391,Zoa,1
+392,Metalzoa,0
+393,Zone Eater,35
+394,Steel Scorpion,129
+395,Dancing Elf,227
+396,Ocubeam,82
+397,Leghul,14
+398,Ooguchi,34
+399,Swordsman from a Foreign Land,155
+400,Emperor of the Land and Sea,3
+401,Ushi Oni,1
+402,Monster Eye,16
+403,Leogun,103
+404,Tatsunootoshigo,32
+405,Saber Slasher,110
+406,Yaiba Robo,129
+407,Machine King,22
+408,Giant Mech-soldier,32
+409,Metal Dragon,204
+410,Mechanical Spider,129
+411,Bat,129
+412,Giga-tech Wolf,129
+413,Cyber Soldier,63
+414,Shovel Crusher,129
+415,Mechanicalchacer,0
+416,Blocker,129
+417,Blast Juggler,197
+418,Golgoil,129
+419,Giganto,32
+420,Cyber-Stein,129
+421,Cyber Commander,129
+422,Jinzo #7,129
+423,Dice Armadillo,32
+424,Sky Dragon,96
+425,Thunder Dragon,321
+426,Stone D.,87
+427,Kaiser Dragon,14
+428,Magician of Faith,133
+429,Goddess of Whim,132
+430,Water Magician,115
+431,Ice Water,127
+432,Waterdragon Fairy,129
+433,Ancient Elf,162
+434,Beautiful Beast Trainer,115
+435,Water Girl,127
+436,White Dolphin,140
+437,Deepsea Shark,0
+438,Metal Fish,55
+439,Bottom Dweller,39
+440,7 Colored Fish,1
+441,Mech Bass,25
+442,Aqua Dragon,14
+443,Sea King Dragon,36
+444,Turu-Purun,33
+445,Guardian of the Sea,33
+446,Aqua Snake,34
+447,Giant Red Seasnake,1
+448,Spike Seadra,284
+449,"30,000-Year White Turtle",88
+450,Kappa Avenger,81
+451,Kanikabuto,33
+452,Zarigun,33
+453,Millennium Golem,54
+454,Destroyer Golem,80
+455,Barrel Rock,137
+456,Minomushi Warrior,86
+457,Stone Ghost,121
+458,Kaminari Attack,40
+459,Tripwire Beast,133
+460,Bolt Escargot,88
+461,Bolt Penguin,154
+462,The Immortal of Thunder,88
+463,Electric Snake,159
+464,Wing Eagle,38
+465,Punished Eagle,30
+466,Skull Red Bird,39
+467,Crimson Sunbird,1
+468,Queen Bird,43
+469,Armed Ninja,157
+470,Magical Ghost,95
+471,Soul Hunter,1
+472,Air Eater,1
+473,Vermillion Sparrow,48
+474,Sea Kamen,33
+475,Sinister Serpent,23
+476,Ganigumo,14
+477,Alinsection,1
+478,Insect Soldiers of the Sky,1
+479,Cockroach Knight,1
+480,Kuwagata α,32
+481,Burglar,183
+482,Pragtical,0
+483,Garvas,25
+484,Ameba,33
+485,Korogashi,14
+486,Boo Koo,51
+487,Flower Wolf,85
+488,Rainbow Flower,181
+489,Barrel Lily,161
+490,Needle Ball,15
+491,Peacock,38
+492,Hoshiningen,56
+493,Maha Vailo,14
+494,Rainbow Marine Mermaid,143
+495,Musician King,12
+496,Wilmee,39
+497,Yado Karu,33
+498,Morinphen,2
+499,Kattapillar,14
+500,Dragon Seeker,1
+501,Man-eater Bug,14
+502,D. Human,104
+503,Turtle Raccoon,140
+504,Fungi of the Musk,38
+505,Prisman,146
+506,Gale Dogra,14
+507,Crazy Fish,39
+508,Cyber Saurus,24
+509,Bracchio-raidus,0
+510,Laughing Flower,167
+511,Bean Soldier,125
+512,Cannon Soldier,110
+513,Guardian of the Throne Room,34
+514,Brave Scizzar,129
+515,The Statue of Easter Island,137
+516,Muka Muka,145
+517,Sand Stone,86
+518,Boulder Tortoise,47
+519,Fire Kraken,132
+520,Turtle Bird,26
+521,Skullbird,29
+522,Monstrous Bird,31
+523,The Bistro Butcher,2
+524,Star Boy,33
+525,Spirit of the Mountain,13
+526,Neck Hunter,2
+527,Milus Radiant,185
+528,Togex,139
+529,Flame Cerebrus,0
+530,Eldeen,162
+531,Mystical Sand,0
+532,Gemini Elf,81
+533,Kwagar Hercules,0
+534,Minar,12
+535,Kamakiriman,1
+536,Mechaleon,22
+537,Mega Thunderball,159
+538,Niwatori,41
+539,Corroding Shark,145
+540,Skelengel,86
+541,Hane-Hane,44
+542,Misairuzame,64
+543,Tongyo,65
+544,Dharma Cannon,129
+545,Skelgon,261
+546,Wow Warrior,92
+547,Griggle,171
+548,Bone Mouse,158
+549,Frog The Jam,33
+550,Behegon,33
+551,Dark Elf,23
+552,Winged Dragon #2,41
+553,Mushroom Man #2,137
+554,Lava Battleguard,49
+555,Tyhone #2,292
+556,The Wandering Doomed,155
+557,Steel Ogre Grotto #1,110
+558,Pot the Trick,161
+559,Oscillo Hero,137
+560,Invader from Another Dimension,6
+561,Lesser Dragon,317
+562,Needle Worm,14
+563,Wretched Ghost of the Attic,21
+564,Great Mammoth of Goldfine,0
+565,Man-eating Black Shark,0
+566,Yormungarde,3
+567,Darkworld Thorns,161
+568,Anthrosaurus,34
+569,Drooling Lizard,18
+570,Trakadon,34
+571,B. Dragon Jungle King,15
+572,Empress Judge,1
+573,Little D,34
+574,Witch of the Black Forest,162
+575,Ancient One of the Deep Forest,85
+576,Giant Scorpion of the Tundra,1
+577,Crow Goblin,36
+578,Leo Wizard,33
+579,Abyss Flower,167
+580,Patrol Robo,129
+581,Takuhee,39
+582,Dark Witch,61
+583,Weather Report,33
+584,Binding Chain,45
+585,Mechanical Snail,129
+586,Greenkappa,156
+587,Mon Larvas,31
+588,Living Vase,167
+589,Tentacle Plant,171
+590,Beaked Snake,22
+591,Morphing Jar,160
+592,Muse-A,132
+593,Giant Turtle Who Feeds on Flames,65
+594,Rose Spectre of Dunn,52
+595,Fiend Refrection #1,38
+596,Ghoul with an Appetite,47
+597,Pale Beast,139
+598,Little Chimera,183
+599,Violent Rain,23
+600,Key Mace #2,111
+601,Tenderness,86
+602,Penguin Soldier,33
+603,Fairy Dragon,310
+604,Obese Marmot of Nefariousness,192
+605,Liquid Beast,33
+606,Twin Long Rods #2,34
+607,Great Bill,32
+608,Shining Friendship,86
+609,Bladefly,14
+610,Electric Lizard,154
+611,Hiro's Shadow Scout,15
+612,Lady of Faith,132
+613,Twin-headed Thunder Dragon,0
+614,Hunter Spider,1
+615,Armored Starfish,33
+616,Hourglass of Courage,86
+617,Marine Beast,4
+618,Warrior of Tradition,29
+619,Rock Spirit,12
+620,Snakeyashi,161
+621,Succubus Knight,135
+622,Ill Witch,104
+623,The Thing That Hides in the Mud,121
+624,High Tide Gyojin,23
+625,Fairy of the Fountain,113
+626,Amazon of the Seas,130
+627,Nekogal #2,22
+628,Witch's Apprentice,177
+629,Armored Rat,183
+630,Ancient Lizard Warrior,3
+631,Maiden of the Moonlight,116
+632,Stone Ogre Grotto,80
+633,Winged Egg of New Life,83
+634,Night Lizard,33
+635,Queen's Double,192
+636,Blue-winged Crown,39
+637,Trent,125
+638,Queen of Autumn Leaves,77
+639,Amphibious Bugroth,0
+640,Acid Crawler,1
+641,Invader of the Throne,173
+642,Mystical Sheep #1,181
+643,Disk Magician,110
+644,Flame Viper,144
+645,Royal Guard,0
+646,Gruesome Goo,33
+647,Hyosube,23
+648,Machine Attacker,54
+649,Hibikime,190
+650,Whiptail Crow,2
+651,Kunai with Chain,1
+652,Magical Labyrinth,4
+653,Warrior Elimination,3
+654,Salamandra,0
+655,Cursebreaker,2
+656,Eternal Rest,2
+657,Megamorph,5
+658,Metalmorph,12
+659,Winged Trumpeter,4
+660,Stain Storm,2
+661,Crush Card,1
+662,Eradicating Aerosol,1
+663,Breath of Light,3
+664,Eternal Draught,0
+665,Curse of Millennium Shield,1
+666,Yamadron Ritual,0
+667,Gate Guardian Ritual,0
+668,Bright Castle,0
+669,Shadow Spell,1
+670,Black Luster Ritual,0
+671,Zera Ritual,0
+672,Harpie's Feather Duster,0
+673,War-lion Ritual,0
+674,Beastry Mirror Ritual,0
+675,Ultimate Dragon,0
+676,Commencement Dance,0
+677,Hamburger Recipe,0
+678,Revival of Sennen Genjin,0
+679,Novox's Prayer,0
+680,Curse of Tri-Horned Dragon,0
+681,House of Adhesive Tape,5
+682,Eatgaboon,2
+683,Bear Trap,20
+684,Invisible Wire,4
+685,Acid Trap Hole,2
+686,Widespread Ruin,2
+687,Goblin Fan,1
+688,Bad Reaction to Simochi,1
+689,Reverse Trap,4
+690,Fake Trap,2
+691,Revived of Serpent Night Dragon,0
+692,Turtle Oath,0
+693,Contruct of Mask,0
+694,Resurrection of Chakra,0
+695,Puppet Ritual,1
+696,Javelin Beetle Pact,0
+697,Garma Sword Oath,0
+698,Cosmo Queen's Prayer,0
+699,Revival of Skeleton Rider,0
+700,Fortress Whale's Oath,0
+701,Performance of Sword,1
+702,Hungry Burger,1
+703,Sengenjin,0
+704,Skull Guardian,1
+705,Tri-horned Dragon,0
+706,Serpent Night Dragon,14
+707,Skull Knight,0
+708,Cosmo Queen,0
+709,Chakra,1
+710,Crab Turtle,0
+711,Mikazukinoyaiba,14
+712,Meteor Dragon,132
+713,Meteor B. Dragon,0
+714,Firewing Pegasus,22
+715,Psycho-Puppet,1
+716,Garma Sword,0
+717,Javelin Beetle,0
+718,Fortress Whale,0
+719,Dokurorider,27
+720,Mask of Shine & Dark,0
+721,Dark Magic Ritual,0
+722,Magician of Black Chaos,0
