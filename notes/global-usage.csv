@@ -798,9 +798,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0A4,D_8009B0A4,D_8009B0A4,0x8001306C,func_8001306C,matching_c,game,C,src/game/func_8001306C.c,read,32,D_8009B0B0 = D_8009B0A4; | if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4) {
 0x8009B0A8,D_8009B0A8,D_8009B0A8,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0035b4.s,read,8,"lbu $v0, %gp_rel(D_8009B0A8)($gp)"
 0x8009B0A8,D_8009B0A8,D_8009B0A8,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"sb $zero, %gp_rel(D_8009B0A8)($gp)"
-0x8009B0AC,D_8009B0AC,D_8009B0AC,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0035b4.s,write,8,"sb $v0, %gp_rel(D_8009B0AC)($gp)"
-0x8009B0AC,D_8009B0AC,D_8009B0AC,0x8001944C,func_8001944C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0095b4.s,read,8,"lbu $v0, %lo(D_8009B0AC)($v0) | lui $v0, %hi(D_8009B0AC)"
-0x8009B0AC,D_8009B0AC,D_8009B0AC,0x8002E730,func_8002E730,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01ef30.s,read,8,"lbu $v1, %lo(D_8009B0AC)($v1) | lui $v1, %hi(D_8009B0AC)"
+0x8009B0AC,gGraphics_bActiveBuffer,gGraphics_bActiveBuffer,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0035b4.s,write,8,"sb $v0, %gp_rel(gGraphics_bActiveBuffer)($gp)"
+0x8009B0AC,gGraphics_bActiveBuffer,gGraphics_bActiveBuffer,0x8001944C,func_8001944C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0095b4.s,read,8,"lbu $v0, %lo(gGraphics_bActiveBuffer)($v0) | lui $v0, %hi(gGraphics_bActiveBuffer)"
+0x8009B0AC,gGraphics_bActiveBuffer,gGraphics_bActiveBuffer,0x8002E730,func_8002E730,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01ef30.s,read,8,"lbu $v1, %lo(gGraphics_bActiveBuffer)($v1) | lui $v1, %hi(gGraphics_bActiveBuffer)"
 0x8009B0AD,D_8009B0AD,D_8009B0AD,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0035b4.s,read,8,"lbu $a0, %gp_rel(D_8009B0AD)($gp)"
 0x8009B0AD,D_8009B0AD,D_8009B0AD,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"sb $v1, %gp_rel(D_8009B0AD)($gp)"
 0x8009B0B0,D_8009B0B0,D_8009B0B0,0x8001306C,func_8001306C,matching_c,game,C,src/game/func_8001306C.c,read_write,32,D_8009B0B0 = D_8009B0A4; | if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4) {

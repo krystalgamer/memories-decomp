@@ -10,7 +10,7 @@
 --
 --   The visible names and numeric encoding of the sort modes are not yet
 --   known. This samples both candidate bytes whenever START changes either
---   one and records the active pane for correlation with the on-screen label.
+--   one; the human context identifies which pane and label were visible.
 --
 -- HOW TO RUN
 --   1. Open PCSX-Redux with the game.
@@ -31,7 +31,6 @@ local ffi = require('ffi')
 local SCRIPT_NAME = 'build_deck_sort_modes'
 local MAIN_MODE = 0x8009b26c
 local BUILD_DECK_MODE = 7
-local ACTIVE_PANE = 0x8009b0ac
 local SELECTED_CARD = 0x8009b338
 local TRUNK_COUNT = 0x80102d46
 local TRUNK_SORT_MODE = 0x80102d49
@@ -68,8 +67,8 @@ local function capture()
     emit('')
     emit(string.format('--- sample %d of %d ---', samples, MAX_SAMPLES))
     emit(string.format(
-        '  mode=0x%02X active_pane=%d selected_card=%d',
-        u8(MAIN_MODE), u8(ACTIVE_PANE), u16(SELECTED_CARD)
+        '  mode=0x%02X selected_card=%d',
+        u8(MAIN_MODE), u16(SELECTED_CARD)
     ))
     emit(string.format(
         '  trunk: count=%d sort_mode=%d',
@@ -107,8 +106,8 @@ end
 
 local function key()
     return string.format(
-        '%d,%d,%d',
-        u8(ACTIVE_PANE), u8(TRUNK_SORT_MODE), u8(DECK_SORT_MODE)
+        '%d,%d',
+        u8(TRUNK_SORT_MODE), u8(DECK_SORT_MODE)
     )
 end
 
@@ -138,7 +137,7 @@ local function poll()
 
     quiet = quiet + 1
     if samples >= MIN_SAMPLES and quiet >= SETTLE_FRAMES then
-        finish('no sort or pane transition for twenty seconds')
+        finish('no sort transition for twenty seconds')
     elseif frames >= TIMEOUT_FRAMES then
         finish('timed out before enough sort transitions were observed')
     end

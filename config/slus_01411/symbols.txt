@@ -187,6 +187,7 @@ SD_Init = 0x800492D8; // type:func
 SD_Term = 0x80049694; // type:func
 gFile_apszName = 0x8009078C;
 gDuel_aTerrainBoost = 0x800909D4;
+gGraphics_bActiveBuffer = 0x8009B0AC;
 gCardGrid_bCursorColumn = 0x8009B258;
 gCardGrid_bCursorRow = 0x8009B259;
 gFreeDuel_bCursorColumn = 0x8009B366;

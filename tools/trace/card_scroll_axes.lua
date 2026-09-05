@@ -3,7 +3,7 @@
 -- WHAT THIS ANSWERS
 --   D_8009B148 is known to follow vertical card-grid movement, while
 --   D_8009B146 is initialized beside it and is animated by func_800338E4.
---   This records both signed values with pane, cursor, and D-pad context to
+--   This records both signed values with cursor and D-pad context to
 --   determine whether D_8009B146 is the corresponding horizontal scroll
 --   offset or serves another screen-specific role.
 --
@@ -30,7 +30,7 @@ local SCRIPT_NAME = 'card_scroll_axes'
 local MAIN_MODE = 0x8009b26c
 local LIBRARY_MODE = 4
 local BUILD_DECK_MODE = 7
-local ACTIVE_PANE = 0x8009b0ac
+local ACTIVE_BUFFER = 0x8009b0ac
 local CURSOR_COLUMN = 0x8009b258
 local CURSOR_ROW = 0x8009b259
 local SELECTED_CARD = 0x8009b338
@@ -83,8 +83,8 @@ local function capture(mode)
     emit('')
     emit(string.format('--- sample %d of %d ---', samples, MAX_SAMPLES))
     emit(string.format(
-        '  screen=%s mode=0x%02X active_pane=%d',
-        screenName(mode), u8(MAIN_MODE), u8(ACTIVE_PANE)
+        '  screen=%s mode=0x%02X active_buffer=%d',
+        screenName(mode), u8(MAIN_MODE), u8(ACTIVE_BUFFER)
     ))
     emit(string.format(
         '  cursor_column=%d cursor_row=%d selected_card=%d pad_edge=0x%04X',
@@ -122,9 +122,8 @@ end
 
 local function currentKey(mode)
     return string.format(
-        '%d,%d,%d,%d,%d,%d,%d,%d',
+        '%d,%d,%d,%d,%d,%d,%d',
         mode,
-        u8(ACTIVE_PANE),
         u8(CURSOR_COLUMN),
         u8(CURSOR_ROW),
         u16(SELECTED_CARD),

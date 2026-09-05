@@ -147,7 +147,7 @@ apply solid names directly; operator corrects when needed.
 | # | address | what we proved | proposed name | status |
 |---|---|---|---|---|
 | F55 | deck pane navigation | Same mechanics as the chest list: 8 visible rows, in-window cursor moves leave `gDuel_wSelectedCardID` alone; page/chunk scrolls update it to the BOTTOM VISIBLE row's card id (verified against the screenshot: sel=145 = the bottom row "The Bewitching P."). F52's role reading confirmed on a second list. | (facts) | CONFIRMED |
-| F56 | `0x8009B0AC` | Flipped on the chest->deck pane switch (1->0), and previously on the library's left->right panel crossing (0->1). Two sightings as an active-pane indicator; polarity semantics unconfirmed. | `g_ActivePane` (suspect) | HOLD |
+| F56 | `0x8009B0AC` | CORRECTED: a stationary Library trace showed it alternating 0/1 every frame. `func_80012E5C` stores the return from `GsGetActiveBuff`, so the apparent pane-switch correlation was frame timing. | `gGraphics_bActiveBuffer` | APPLIED |
 
 ### BUILD DECK — deck sorting (same session)
 
