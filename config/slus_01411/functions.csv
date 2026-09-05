@@ -531,7 +531,7 @@ address,size,name,status,module,notes
 0x8003A990,0x154,func_8003A990,matching_c,game,Matched from updated collaborator source: signed division expressions and 0x400 store ordering reproduce retail scheduling exactly.
 0x8003AAE4,0x164,func_8003AAE4,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003AC48,0x124,func_8003AC48,matching_c,game,Exact post-terminal collaborator-derived match using the established GCC G8/MASPSX G0 split profile.
-0x8003AD6C,0x2E8,func_8003AD6C,unmatched_asm,game,
+0x8003AD6C,0x2E8,func_8003AD6C,matching_c,game,Post-terminal clean collaborator structure; real s16 func_8003A920 prototype restores the target tail allocation; exact linked bytes and relocations with gcc_2_8_1_g0.
 0x8003B054,0x324,func_8003B054,unmatched_asm,game,
 0x8003B378,0x194,func_8003B378,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003B50C,0xBC,func_8003B50C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
