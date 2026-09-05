@@ -23,9 +23,9 @@ The current mixed C/assembly build reproduces `game/SLUS_014.11` with SHA-256:
 
 | Metric | Current |
 |---|---:|
-| Matching C functions | **858 / 1,196 (71.74%)** |
-| Matching C bytes | **110,668 (`0x1B04C`) / 396,212 (`0x60BB4`) (27.93%)** |
-| Remaining compiler-generated game assembly | 275 functions, 239,308 (`0x3A6CC`) |
+| Matching C functions | **859 / 1,196 (71.82%)** |
+| Matching C bytes | **110,860 (`0x1B10C`) / 396,212 (`0x60BB4`) (27.98%)** |
+| Remaining compiler-generated game assembly | 274 functions, 239,116 (`0x3A60C`) |
 | Intentional handwritten game assembly | 63 functions, 46,236 (`0xB49C`) |
 | Preserved Psy-Q CRT/SDK assembly | 598 functions, 117,332 (`0x1CA54`) |
 | Total discovered functions | 1,794 |
@@ -39,7 +39,7 @@ Runtime overlay modules:
 | `main_menu` | 14 / 31 (45.16%) | 2,192 (`0x890`) / 17,724 (`0x453C`) (12.37%) |
 | `overworld_after_coup` | 7 / 14 (50.00%) | 1,128 (`0x468`) / 6,184 (`0x1828`) (18.24%) |
 | `overworld_before_coup` | 7 / 14 (50.00%) | 1,128 (`0x468`) / 6,184 (`0x1828`) (18.24%) |
-| `password` | 17 / 27 (62.96%) | 2,648 (`0xA58`) / 10,884 (`0x2A84`) (24.33%) |
+| `password` | 18 / 27 (66.67%) | 2,928 (`0xB70`) / 10,884 (`0x2A84`) (26.90%) |
 
 _Generated from `config/slus_01411/functions.csv` and `config/slus_01411/overlays/*_functions.csv` by `tools/project/progress.py`._
 
