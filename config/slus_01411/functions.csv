@@ -387,7 +387,7 @@ address,size,name,status,module,notes
 0x80031F7C,0xA0,func_80031F7C,matching_c,game,Releases the record for an ID when its reference count reaches zero and updates aggregate active-count bookkeeping.
 0x8003201C,0xA0,func_8003201C,matching_c,game,Updated collaborator histogram structure; allocation pins and explicit inner-index initialization preserve retail register/setup ordering.
 0x800320BC,0xC8,BuildDeck_AddCard,matching_c,game,"Exact post-terminal pure-C match; accepted a2 slot-pointer pin replaces an empty assembly launder, with explicit base-first card indexing."
-0x80032184,0x1A4,func_80032184,unmatched_asm,game,
+0x80032184,0x1A4,func_80032184,matching_c,game,Exact post-terminal collaborator match; split GCC -G8/MASPSX -G0 profile and volatile state preserve dispatcher addressing and stores.
 0x80032328,0x48,func_80032328,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80032370,0x88,func_80032370,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800323F8,0x740,func_800323F8,unmatched_asm,game,

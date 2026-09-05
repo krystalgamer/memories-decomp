@@ -1747,6 +1747,12 @@
       "source": "src/game/build_deck_add_card.c"
     },
     {
+      "address": "0x80032184",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
+      "size": "0x1A4",
+      "source": "src/game/func_80032184.c"
+    },
+    {
       "address": "0x80032328",
       "profile": "gcc_2_8_1_g0",
       "size": "0x48",
