@@ -268,6 +268,7 @@ function,0x8004BC2C,SD_ReadSequenceU32BE,high,"matching body; four ordered SD_Re
 function,0x8004BCA8,SD_ReadSequenceU16BE,high,"matching body; two ordered SD_ReadSequenceByte calls; sequence-header timebase consumer","Reads a two-byte big-endian value from the active sound sequence."
 global,0x8009B0AC,gGraphics_bActiveBuffer,confirmed,"func_80012E5C stores the GsGetActiveBuff return; stationary Library trace alternates 0/1 every frame","Game-owned mirror of the active Psy-Q graphics double-buffer index."
 function,0x8003CCD8,Input_UpdatePads,high,"matching body; Main frame caller; two-controller held/pressed/repeat publication","Consumes the pending 32-bit controller mask and publishes held, newly pressed, and timer-driven repeat masks for both pads."
+function,0x8003CB7C,Input_ResetPads,high,"matching body; six public pad masks; repeat timers and pending-input state","Clears both controllers' held, newly pressed, and repeat masks together with the repeat timers and pending input accumulators."
 global,0x8009B394,gInput_wPad1Repeat,confirmed,"Input_UpdatePads matching body; Dialog_ReadChoiceInput consumer","Pad 1 input mask containing newly pressed buttons and timer-generated repeats."
 global,0x8009B396,gInput_wPad2Repeat,confirmed,"Input_UpdatePads matching body; input-state swap helper","Pad 2 input mask containing newly pressed buttons and timer-generated repeats."
 global,0x8009B398,gInput_wPad1Pressed,confirmed,"Input_UpdatePads edge calculation; menu and dialog consumers","Pad 1 newly pressed input mask."
