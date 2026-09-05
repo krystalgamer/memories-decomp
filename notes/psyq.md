@@ -151,6 +151,9 @@ Recommended header boundaries are:
 | `src/psyq/string.h` | Compatibility wrapper that includes `strings.h` |
 | `src/psyq/libsn.h` | Debugger-host PC file service and `pollhost`/`PSYQpause` break traps |
 | `src/psyq/fs.h` | Low-level filesystem device-table, character-buffer, and I/O-block records |
+| `src/psyq/sys/types.h` | Target ABI typedefs plus major/minor device-number helpers |
+| `src/psyq/sys/fcntl.h` | Internal `F*` file-mode and device-I/O flags |
+| `src/psyq/sys/file.h` | Public `O_*` aliases and seek-origin constants layered over `sys/fcntl.h` |
 | `src/psyq/romio.h` | ROM-monitor compatibility include for the system file interface |
 | `src/psyq/libsio.h` | Base SIO status, mode, control, lifecycle, and callback interface |
 | `src/psyq/libcomb.h` | COMB packet, transfer, control-line, and asynchronous request interface |
@@ -279,6 +282,17 @@ system file declarations used by the ROM-monitor environment. Neither header
 is included by current game C. In particular, these records must not replace
 `CdlFILE`, `DslFILE`, or `DIRENTRY` merely because all of them participate in
 file operations.
+
+The nested `sys/` headers are another compatibility stack. `sys/types.h`
+defines target ABI names such as 32-bit `size_t`, `time_t`, and `off_t`,
+16-bit `dev_t`, `uid_t`, and `gid_t`, plus the `major`, `minor`, and `makedev`
+macros. `sys/fcntl.h` contains only the internal `FREAD`, `FWRITE`, creation,
+buffering, and asynchronous-I/O flags. `sys/file.h` includes that header and
+maps the public `O_*` names onto those flags while defining `SEEK_SET`,
+`SEEK_CUR`, and `SEEK_END`; it declares no file functions itself.
+`romio.h` is only an include wrapper around `sys/file.h`, while `libsnd.h`
+uses `sys/types.h` for its target scalar types. No current game C includes the
+`sys/` headers directly.
 
 `stdlib.h` is an umbrella over the imported `abs.h`, `convert.h`, `malloc.h`,
 `qsort.h`, and `rand.h` declarations, with `bsearch` and `exit` added directly.
