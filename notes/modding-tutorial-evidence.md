@@ -295,6 +295,52 @@ the tutorials and are high-confidence asset identifications; no image decoder
 is needed to establish that the offsets belong to the stated image and CLUT
 transfer regions.
 
+## Attribute icon images and palettes
+
+**Tutorial:** `Offset e Paleta Atributos - Đỗ Thành Đạt.txt`
+
+The tutorial lists ten copies of the attribute icons: one in each of the seven
+terrain records and one in each Library, Password, and Build Deck package.
+Every image start is at package-relative offset `+0x1C000`:
+
+| Context | Image offset | First palette offset |
+|---|---:|---:|
+| Normal | `0xB7F000` | `0xB84E00` |
+| Forest | `0xBF4800` | `0xBFA600` |
+| Wasteland | `0xC6A000` | `0xC6FE00` |
+| Mountain | `0xCDF800` | `0xCE5600` |
+| Meadow | `0xD55000` | `0xD5AE00` |
+| Umi | `0xDCA800` | `0xDD0600` |
+| Yami | `0xE40000` | `0xE45E00` |
+| Library | `0xF02800` | `0xF08600` |
+| Password | `0xFB3800` | `0xFB9600` |
+| Build Deck | `0x10E0800` | `0x10EA600` |
+
+The stated `32x16` dimensions and 16-color palettes imply `0x100` bytes per
+4-bpp icon and `0x20` bytes per palette. The nine icon images therefore occupy
+the first `0x900` bytes at each image offset, and the nine listed palettes
+occupy `0x120` bytes at `0x20` strides from each first-palette offset.
+
+All ten `0x900`-byte icon sequences are byte-identical:
+
+```text
+SHA-256: f02d8280cb698decff9234ce576ea2aadf0ed5355ba64a08f5116ba22844ae8f
+```
+
+All ten `0x120`-byte palette sequences are also byte-identical:
+
+```text
+SHA-256: 5997302376ade7d6bdba06dba04cb397598d37e23045556f28049bfa615e4b9c
+```
+
+The first seven offsets follow the known `0x75800` terrain-record stride.
+Library and Password use the same `+0x1C000` image position in their fixed
+packages. Build Deck also uses `+0x1C000`, but its palette sequence is
+`+0x25E00` from the package start rather than `+0x21E00`. The tutorial's nine
+labels—Light, Dark, Earth, Water, Fire, Wind, Spell/Equip, Trap, and
+"Light 2"—are preserved as visual observations; the duplicate bytes and
+archive placement are confirmed directly from the retail `WA_MRG.MRG`.
+
 ## Skip the opening Heishin text segment
 
 **Tutorial:** `Remover Heishin.txt`
