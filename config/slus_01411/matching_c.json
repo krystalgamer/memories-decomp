@@ -970,13 +970,13 @@
       "address": "0x80028220",
       "profile": "gcc_2_8_1_g8",
       "size": "0x40",
-      "source": "src/game/func_80028220.c"
+      "source": "src/game/duel_card_state_helpers.c"
     },
     {
       "address": "0x80028260",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
-      "source": "src/game/func_80028260.c"
+      "source": "src/game/duel_card_state_helpers.c"
     },
     {
       "address": "0x8002827C",
