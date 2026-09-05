@@ -1,9 +1,8 @@
 #include "../types.h"
 
-/* Runs the table-driven LP recovery phases.
-   gDuel_abLifePointRecoveryUnits values are scaled by 100 while the selected
-   duel-side value at +0x14 moves toward +0x16; the remaining phases create
-   and retire the associated effect objects. */
+/* Runs the table-driven LP change phases. Recovery values are scaled by 100,
+   added to the selected side's life points, and capped at its maximum; the
+   alternate path subtracts the same values and floors the result at zero. */
 
 struct Obj {
     s16 field0;
@@ -12,14 +11,14 @@ struct Obj {
     s16 field1A;
 };
 
-struct SomeState2 {
+struct DuelSideState {
     u8 pad[0x14];
-    u16 unk14;
-    s16 unk16;
+    u16 life_points;
+    s16 maximum_life_points;
 };
 
 extern s16 D_8009B1D2;
-extern struct SomeState2 *D_8009B1C8;
+extern struct DuelSideState *D_8009B1C8;
 extern u16 D_8009B220;
 extern u16 D_8009B210;
 extern s16 D_8009B22A;
@@ -56,10 +55,11 @@ void func_800250C8(void) {
         D_8009B220 = flag | 0x60;
         if (D_8009B22A == 0) {
             u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
-            v1 = D_8009B1C8->unk14 + (*p) * 0x64;
-            D_8009B1C8->unk14 = v1;
-            if (D_8009B1C8->unk16 < (s16) v1) {
-                D_8009B1C8->unk14 = (u16) D_8009B1C8->unk16;
+            v1 = D_8009B1C8->life_points + (*p) * 0x64;
+            D_8009B1C8->life_points = v1;
+            if (D_8009B1C8->maximum_life_points < (s16) v1) {
+                D_8009B1C8->life_points =
+                    (u16) D_8009B1C8->maximum_life_points;
             }
             goto block_14;
         }
@@ -77,10 +77,10 @@ block_9:
         }
     } else {
         u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
-        v1 = D_8009B1C8->unk14 - (*p) * 0x64;
-        D_8009B1C8->unk14 = v1;
+        v1 = D_8009B1C8->life_points - (*p) * 0x64;
+        D_8009B1C8->life_points = v1;
         if ((s16) v1 < 0) {
-            D_8009B1C8->unk14 = 0;
+            D_8009B1C8->life_points = 0;
         }
 block_14:
         D_8009B220 = 0;

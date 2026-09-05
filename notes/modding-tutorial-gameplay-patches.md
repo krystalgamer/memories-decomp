@@ -337,8 +337,9 @@ initialized data:
 The recovery table maps, in order, to Mooyan Curry, Red Medicine, Goblin's
 Secret Remedy, Soul of the Pure, and Dian Keto the Cure Master. Exact
 matching C in `func_800250C8` indexes `gDuel_abLifePointRecoveryUnits`,
-multiplies the selected byte by `0x64` (decimal `100`), and advances the
-selected duel-side LP value toward its target.
+multiplies the selected byte by `0x64` (decimal `100`), adds it to the
+selected duel-side LP at `+0x14`, and clamps the result to that side's maximum
+LP at `+0x16`.
 
 The damage table maps to Sparks, Hinotama, Final Flame, Ookazi, and
 Tremendous Fire. Exact matching C in `func_8002525C` loads the selected byte
@@ -372,9 +373,8 @@ resident tables; they remain a separate asset-level investigation.
 - **Confirmed** that the normal and alternate branches target the opposing
   and active side records respectively, and clamp the selected LP value to
   zero.
-- **High** that the recovery path's `+0x16` halfword is the LP animation
-  target; exact C proves the clamp relationship, but that adjacent field
-  remains unnamed.
+- **Confirmed** that the recovery path's `+0x16` halfword is the maximum LP
+  value that caps the authoritative LP at `+0x14`.
 
 ## Additional end-of-duel starchips
 
