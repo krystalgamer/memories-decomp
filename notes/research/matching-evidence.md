@@ -55,6 +55,8 @@ The conflict shows up in two different ways, so both are worth recognising:
   Its two `gDuel_bTerrain` reads are correct only under a non-split profile,
   which is also what forces the second read to re-materialise its address, but
   the indexed table load then collapses to the three-instruction `$at` form.
+  The second half of that reading has since been corrected: see "Cross-block
+  address CSE" below. The address form is not what costs the instruction.
 - `Ai_GetHandSize` (`0x80070710`) keeps the correct instruction count of 10
   under a split profile, and differs only in which register carries the high
   half: the target reuses the load's destination, as macro form does, while
@@ -157,6 +159,101 @@ that keeps the allocation keeps the schedule. Pins do not help here: the
 allocation is already correct. A residual of this kind is compiler-side, and
 the next attempt on it needs a `cc1` whose list scheduler tie-breaks
 differently, not a seventh C variant.
+
+`func_8004A6F8` (`0x8004A6F8`) is the same function with three `u16` fields read
+from a second parameter instead of constants, and it lands in the same place
+from the other direction. Reading the table entry into a local before the state
+pointer gives its 27 instructions and 0x6C bytes; pinning that local to `$2` and
+the state pointer to `$3` then makes every register correct. 23 of the 27 are in
+place, and the four that are not are one permutation: the target issues the
+state load immediately after its `lui` and the candidate fills that slot with
+`sw $ra`. So pins can finish the allocation half of this residual even when the
+schedule half stays out of reach — worth doing, because it narrows what the next
+attempt has to explain.
+
+#### Terminal histories recorded before the profile system are not terminal
+
+`config/slus_01411/attempts.csv` has two eras. Later rows name a profile from
+`compiler_profiles.json` in both the `compiler` and `flags` columns; earlier
+rows name a toolchain and a free-form phrase, such as
+`gcc-2.8.1-psx / -O2 -G8 early-return`. 268 addresses carry at least one row of
+the older kind, and 161 of those are still `unmatched_asm`. Those histories
+never tried their cohort's profile, so their six attempts do not mean what a
+profile-era six means.
+
+`func_80013B04` (`0x80013B04`) shows the difference. Its six rows are all
+free-form, and every one of them blames the branch orientation: "inverted the
+busy branch", "moved the null return to the shared epilogue". Both claims are
+wrong. Under `gcc_2_8_1_g8_split` — the profile its matched neighbour
+`func_80014A5C` uses, and the one the target's `%hi`/`%lo(gFile_anLba)` pair
+requires — writing the guard positively puts the null return inline exactly
+where the target has it:
+
+```c
+if (((D_8009B0F4 & 0x2000030) | D_8009B134) == 0) {
+    transfer = &D_800E9E60;
+    transfer->state = 0;
+    D_8009B0F4 = 0x100010;
+    transfer->field_24 = gFile_anLba[file_index] + sector_offset;
+    return transfer;
+}
+return 0;
+```
+
+That is 25 of 25 instructions, 0x64 of 0x64 bytes, the target's registers, the
+target's relocations, `%gp_rel` on both `D_8009B*` reads, and the target's block
+layout. What is left is a `sched2` permutation: the target hoists
+`addu $a3, $a1, $zero` to instruction 1 and fills the delay slot with
+`lui $a1, 0x10`, and it interleaves the two address pairs in the body rather
+than completing each one.
+
+So the recorded blocker was an artefact of the wrong profile, and the real one
+is the same schedule residual as above. When a pre-profile history is the only
+history an address has, the cheapest new evidence is its cohort's profile, and
+`matching_c.json` gives that for free from any matched neighbour.
+
+#### Cross-block address CSE, and what it costs
+
+`Duel_GetTerrainBoost` (`0x8002497C`) reads `gDuel_bTerrain` twice and
+re-materialises its address the second time:
+
+```
+lui  $v1, %hi(gDuel_bTerrain)
+lbu  $v1, %lo(gDuel_bTerrain)($v1)
+```
+
+GCC 2.8.1 will not do that. Its three blocks — the entry, the `slti` block, and
+the body — each have a single predecessor, so they form one extended basic
+block, `cse_main` sees the first read's address as still available, and the
+second read becomes a bare `lbu $v1, 0x0($a1)`. That one missing `lui` is the
+entire difference. Under `gcc_2_8_1_g0_split` the rest of the body is exact:
+23 of the 24 emitted instructions are byte-identical to the target, at
+positions 0..13 and, one earlier, 15..23.
+
+Three levers are needed to get that far, and each is worth knowing on its own:
+
+- a `goto` past the shared `return 0` produces the target's block layout. `if
+  (c) return 0;` twice makes GCC duplicate the null return; a plain nested `if`
+  makes it sink the return past the body. Only the `goto` puts the return
+  between the two branches where the target has it.
+- pinning the table base to `$4` is what produces `addu $v1, $a0, $zero`. The
+  parameter copy exists because `$a0` is taken by the table address before
+  `type` is used again; with the base anywhere else, `$a0` survives and the copy
+  never appears.
+- splitting `type * 6 - 1` into its own local keeps `addiu $v0, $v0, -0x1` out
+  of the load displacement.
+
+Nothing reaches the CSE itself. A 2-D `gDuel_aTerrainBoost[type][gDuel_bTerrain
+- 1]`, an `extern u8 gDuel_bTerrain[9]` declaration with `[0]` subscripts, and
+pinning the first read's value to `$2` all keep it, and the first two also fold
+the `-1` back into the displacement.
+
+The correction to the earlier reading: under `gcc_2_8_1_g0_no_split` the address
+is *also* CSEd — materialised once at the top and reused at both reads — and the
+table load additionally degrades to the `$at` macro, giving 23 of 25. So the
+non-split profile does not force re-materialisation, the split profile is
+strictly better, and this residual belongs with the compiler-side ones rather
+than with the address-form conflict.
 
 ### Disassembly artifacts
 
