@@ -449,7 +449,7 @@ File_RequestAsyncTransfer(
 
 The package at `7903` is therefore the **name entry** screen, not the main
 menu. The main menu is not a WA package at all: `func_8005B85C` requests
-`File_RequestAsyncTransfer(1, &D_800117C8, 0, 0x73, func_8005B64C, 0, 0)`,
-where
-`D_800117C8` is the path literal `M:/mrgSU/SU.mrg`, and its executable phase
-is SU sectors `98-114` loaded at `0x80180000`.
+`File_RequestAsyncTransfer(1, gFile_szSuMrgPath, 0, 0x73, func_8005B64C, 0,
+0)`, where `gFile_szSuMrgPath` at `0x800117C8` is the path literal
+`M:/mrgSU/SU.mrg`, and its executable phase is SU sectors `98-114` loaded at
+`0x80180000`.
