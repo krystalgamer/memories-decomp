@@ -29,7 +29,7 @@ void func_8002C938(u32 *output, int alternate)
     entry = (DuelCardRecord *)((u8 *)D_801A7AD8 + scaled);
     base = 0;
     for (; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
-        if (entry->flags & 0x8000) {
+        if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
             *output++ = (u32)entry->object;
         }
     }
@@ -54,9 +54,9 @@ void func_8002C9B4(u32 *output, int selector)
             index < DUEL_FIELD_SIDE_ZONE_COUNT;
             index++, entry++, other++
         ) {
-            if (entry->flags & 0x8000)
+            if (entry->flags & DUEL_CARD_FLAG_OCCUPIED)
                 *output++ = entry->value;
-            if (other->flags & 0x8000)
+            if (other->flags & DUEL_CARD_FLAG_OCCUPIED)
                 *output++ = other->value;
         }
         *output = 0;
@@ -77,13 +77,13 @@ void func_8002C9B4(u32 *output, int selector)
         : "$2", "$3");
     if (selector >= 21) {
         for (index = 0; index < DUEL_FIELD_ROW_SIZE; index++, entry++) {
-            if ((entry->flags & 0x8000) &&
+            if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
                 (u16)Duel_CalcCardStats(entry) >= selector)
                 *output++ = entry->value;
         }
     } else {
         for (index = 0; index < DUEL_FIELD_ROW_SIZE; index++, entry++) {
-            if ((entry->flags & 0x8000) &&
+            if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
                 (selector < 0 || *(u8 *)(entry->value + 0x68) == selector))
                 *output++ = entry->value;
         }

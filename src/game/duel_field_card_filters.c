@@ -20,7 +20,7 @@ s32 Duel_CollectFieldCardsBelowType(u8 **out, s32 arg1, s32 arg2)
         /* Match the block numbering used by the adjacent
          * Duel_CollectFieldCardsByType. */
         do {
-            if (r->flags & 0x8000) {
+            if (r->flags & DUEL_CARD_FLAG_OCCUPIED) {
                 k = (s16)r->card_id;
                 k--;
                 if (((t[k] >> CARD_STAT_TYPE_SHIFT) &
@@ -55,7 +55,7 @@ s32 Duel_CollectFieldCardsByType(u8 **out, s32 arg1, s32 arg2) {
          * initialised before `i` -- that alone is 6. Found by the permuter;
          * see docs/PARKED.txt's former entry. */
         do {
-            if (r->flags & 0x8000) {
+            if (r->flags & DUEL_CARD_FLAG_OCCUPIED) {
                 if (arg2 < 0 ||
                     (k = (s16)r->card_id, k--,
                      ((t[k] >> CARD_STAT_TYPE_SHIFT) &

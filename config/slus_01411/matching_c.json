@@ -1807,6 +1807,12 @@
       "source": "src/game/func_80031784.c"
     },
     {
+      "address": "0x80031CD4",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x130",
+      "source": "src/game/func_80031CD4.c"
+    },
+    {
       "address": "0x80031E04",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
@@ -4151,6 +4157,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",
       "source": "src/game/func_8004A8E4.c"
+    },
+    {
+      "address": "0x8004AAFC",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
+      "size": "0x1E8",
+      "source": "src/game/func_8004AAFC.c"
     },
     {
       "address": "0x8004ACE4",
