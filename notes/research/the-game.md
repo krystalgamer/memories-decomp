@@ -1137,6 +1137,13 @@ continues in Free Duel with every campaign duelist available.
 >   `FE` newline, `FF` end. So every SET of a story flag is inside a line of
 >   dialogue, and every duelist's unlock is inside their "you won" line.
 >
+>   `F8 0D` is the campaign-duel descriptor handled by
+>   `Text_StartCampaignDuel`. Its six payload bytes are the opponent id, two
+>   post-duel continuation bytes, the terrain, and a little-endian sound
+>   command. `Main_RunDuel` later selects one continuation with
+>   `outcome_index * 2`; the code proves the two result paths, while tutorial
+>   observations identify index 0 as win and index 1 as loss.
+>
 > The loaders read the flags too — the Egypt map loader [`func_8003C0C0`]
 > picks the blob at sector `0x1FD9` or, if flag `0x47` is set, the one at
 > `0x2077`. §7.11 lists every story flag with the dialogue that sets it;
