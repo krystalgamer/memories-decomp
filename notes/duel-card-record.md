@@ -52,7 +52,8 @@ Corroboration agrees without defining the shared type:
   the `+0x16` flags. Its guessed declaration was rejected.
 - Unchiga sources independently use a `0x1C` stride and the same
   `+0x00`, `+0x04`, `+0x0C`, and `+0x16` widths. Its recompilation records
-  for `func_800240B0`/`cursor_card_pick_tick` and
+  for `Duel_UpdateCardPickCursor` (`0x800240B0`, originally
+  `cursor_card_pick_tick`) and
   `find_table801a7ad8_entry_matching_id` report zero differing words.
 - The old reference assembly and C repeat these accesses, but were treated
   only as a cross-check against the target and exact local build.
