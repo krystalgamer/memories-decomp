@@ -109,6 +109,27 @@ class Mode2Image:
                 lba += 1
         return digest.hexdigest()
 
+    def write_extent(self, lba: int, size: int, destination: Path) -> str:
+        digest = hashlib.sha256()
+        remaining = size
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        temporary = destination.with_name(f"{destination.name}.tmp")
+        try:
+            with self.path.open("rb") as handle:
+                with temporary.open("wb") as output:
+                    while remaining:
+                        block = self.read_user_sector(handle, lba)
+                        chunk = block[:remaining]
+                        output.write(chunk)
+                        digest.update(chunk)
+                        remaining -= len(chunk)
+                        lba += 1
+            temporary.replace(destination)
+        except (DiscError, OSError):
+            temporary.unlink(missing_ok=True)
+            raise
+        return digest.hexdigest()
+
 
 def resolve_cue_bin(cue_path: Path, referenced_name: str) -> Path:
     exact = cue_path.parent / referenced_name
@@ -376,6 +397,95 @@ def scan(root: Path) -> dict[str, Any]:
     }
 
 
+def load_manifest(root: Path) -> dict[str, Any]:
+    manifest_path = resolve_within(root, "config/slus_01411/disc_layout.json")
+    if not manifest_path.is_file():
+        raise DiscError(
+            f"missing disc layout manifest: {manifest_path.relative_to(root)}"
+        )
+    with manifest_path.open("r", encoding="utf-8") as handle:
+        layout = json.load(handle)
+    if layout.get("schema") != 1:
+        raise DiscError("unsupported disc layout schema")
+    if layout.get("raw_sector_size") != RAW_SECTOR_SIZE:
+        raise DiscError("disc layout raw sector size is not 2352")
+    if layout.get("logical_block_size") != LOGICAL_BLOCK_SIZE:
+        raise DiscError("disc layout logical block size is not 2048")
+    return layout
+
+
+def tracked_extents(layout: dict[str, Any]) -> list[dict[str, Any]]:
+    return [
+        file for file in layout["files"] if file.get("local_path") is not None
+    ]
+
+
+def select_extents(
+    layout: dict[str, Any], names: list[str] | None
+) -> list[dict[str, Any]]:
+    extents = tracked_extents(layout)
+    if not names:
+        return extents
+    by_key: dict[str, dict[str, Any]] = {}
+    for file in extents:
+        by_key[str(file["path"]).upper()] = file
+        by_key[str(file["local_path"]).upper()] = file
+        by_key[Path(str(file["local_path"])).name.upper()] = file
+    selected: list[dict[str, Any]] = []
+    for name in names:
+        file = by_key.get(name.upper())
+        if file is None:
+            known = ", ".join(
+                sorted(Path(str(f["local_path"])).name for f in extents)
+            )
+            raise DiscError(f"{name} is not a tracked disc file; known: {known}")
+        if file not in selected:
+            selected.append(file)
+    return selected
+
+
+def extract_files(root: Path, names: list[str] | None, force: bool) -> None:
+    layout = load_manifest(root)
+    bin_path = resolve_within(root, str(layout["resolved_bin_path"]))
+    if not bin_path.is_file():
+        raise DiscError(
+            f"missing disc image: {bin_path.relative_to(root)}; place the "
+            "MODE2/2352 dump there to extract the tracked files from it"
+        )
+    actual_bin_sha256 = sha256_file(bin_path)
+    if actual_bin_sha256 != layout["bin_sha256"]:
+        raise DiscError(
+            f"{bin_path.relative_to(root)} SHA-256 {actual_bin_sha256} "
+            f"differs from the tracked disc image {layout['bin_sha256']}"
+        )
+    image = Mode2Image(bin_path)
+    if image.sector_count != layout["raw_sector_count"]:
+        raise DiscError("disc image sector count differs from the manifest")
+
+    for file in select_extents(layout, names):
+        destination = resolve_within(root, str(file["local_path"]))
+        relative = destination.relative_to(root)
+        expected = str(file["sha256"])
+        if (
+            not force
+            and destination.is_file()
+            and destination.stat().st_size == file["size"]
+            and sha256_file(destination) == expected
+        ):
+            print(f"disc extract: {relative} already present")
+            continue
+        actual = image.write_extent(
+            int(file["lba"]), int(file["size"]), destination
+        )
+        if actual != expected:
+            destination.unlink(missing_ok=True)
+            raise DiscError(
+                f"{relative}: extracted SHA-256 {actual} differs from the "
+                f"tracked {expected}"
+            )
+        print(f"disc extract: {relative} {file['size']} bytes")
+
+
 def atomic_write_json(path: Path, value: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(f"{path.name}.tmp")
@@ -412,6 +522,23 @@ def parse_args() -> argparse.Namespace:
     subparsers.add_parser("info", help="scan and print the ISO9660 file layout")
     subparsers.add_parser("write", help="write the tracked disc layout manifest")
     subparsers.add_parser("verify", help="verify the tracked disc layout manifest")
+    extract_parser = subparsers.add_parser(
+        "extract",
+        help="extract the tracked disc files from the MODE2/2352 image",
+    )
+    extract_parser.add_argument(
+        "name",
+        nargs="*",
+        help=(
+            "disc path, tracked local path, or file name to extract; "
+            "defaults to every tracked file"
+        ),
+    )
+    extract_parser.add_argument(
+        "--force",
+        action="store_true",
+        help="re-extract files that are already present and correct",
+    )
     return parser.parse_args()
 
 
@@ -419,6 +546,9 @@ def main() -> int:
     args = parse_args()
     try:
         root = require_workspace_root()
+        if args.command == "extract":
+            extract_files(root, args.name, args.force)
+            return 0
         layout = scan(root)
         manifest_path = resolve_within(
             root, "config/slus_01411/disc_layout.json"

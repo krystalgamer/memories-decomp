@@ -34,6 +34,26 @@ are build artifacts rather than tracked overlay sources.
 | Resident load-slot snapshots | `tmp/splat/assets/overlays/` | No |
 | Extracted archive payloads and probes | `tmp/` | No |
 
+## Getting the archives
+
+Both archives the modules come from are tracked disc files, so a retail dump is
+the only input needed. With the disc at `game/rpg-yfm.cue` and
+`game/rpg-yfm.bin`:
+
+```sh
+make disc-files FILES="WA_MRG.MRG SU.MRG"
+MAKEFLAGS=-j"$(nproc)" make match-overlays
+```
+
+`make disc-files` reads the LBA and SHA-256 recorded for each file in
+`config/slus_01411/disc_layout.json`, so the archives are derived from the disc
+rather than obtained separately. That closes one failure mode by construction:
+`WA_MRG.MRG` has a widely mirrored variant with the anti-piracy branch patched
+out, which both `make verify-inputs` and `.github/workflows/overlay-build.yml`
+reject by hash. An archive carved out of an image that already matches the
+tracked `bin_sha256` cannot be that variant. See the section below for why the
+patched dump does not affect these five modules anyway.
+
 ## Module build status
 
 Every configured module is extracted from its archive, split by a
