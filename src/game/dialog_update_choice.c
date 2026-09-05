@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "input.h"
 
 extern u8 gDialog_bInputState;
 extern u8 gDialog_bChoiceEnabled;
@@ -63,7 +64,7 @@ void Dialog_UpdateChoice(u8 *p) {
         if (Dialog_ReadChoiceInput(p) != 0) {
             return;
         }
-        if ((gInput_wPad1Pressed & 0xC0) == 0) {
+        if ((gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) == 0) {
             return;
         }
     }

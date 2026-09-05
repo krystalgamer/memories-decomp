@@ -31,7 +31,7 @@ void func_800336F0(u8 *p)
         return;
     }
 
-    if ((gInput_wPad1Pressed & 0x10) != 0) {
+    if ((gInput_wPad1Pressed & PAD_BUTTON_TRIANGLE) != 0) {
         r = func_80033500(e);
         if (r != 0) {
             D_8009B24B = 0x14;
@@ -54,7 +54,7 @@ void func_800336F0(u8 *p)
         return;
     }
 
-    if ((gInput_wPad1Repeat & 0xC0) == 0) {
+    if ((gInput_wPad1Repeat & PAD_BUTTON_CONFIRM_MASK) == 0) {
         return;
     }
 

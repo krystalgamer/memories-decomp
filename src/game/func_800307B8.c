@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "input.h"
 
 extern u8 D_8009B2EB;
 extern u16 gDebug_nSceneOrSoundID;
@@ -46,12 +47,12 @@ void func_800307B8(void)
         return;
     }
 
-    if ((gInput_wPad1Pressed[0] & 0x800) != 0) {
+    if ((gInput_wPad1Pressed[0] & PAD_BUTTON_START) != 0) {
         func_8003FFFC();
         return;
     }
 
-    if ((gInput_wPad1Pressed[0] & 0x100) != 0) {
+    if ((gInput_wPad1Pressed[0] & PAD_BUTTON_SELECT) != 0) {
         func_80014FA4();
         return;
     }
@@ -82,7 +83,7 @@ void func_800307B8(void)
         return;
     case 2:
         *(&gDebug_nLastSoundID + 1) = D_8009B2CC;
-        if ((gInput_wPad1Pressed[0] & 0x80) != 0) {
+        if ((gInput_wPad1Pressed[0] & PAD_BUTTON_SQUARE) != 0) {
             func_8003FFB4((u16)D_8009B2CC);
             return;
         }

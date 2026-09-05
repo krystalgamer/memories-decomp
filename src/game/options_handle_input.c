@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "input.h"
 
 extern u8 gOptions_bState;
 extern s8 gOptions_bOutputType;
@@ -16,8 +17,9 @@ void Options_HandleInput(void)
 {
     s32 value;
 
-    if (gOptions_bSelection == 0 && (gInput_wPad1Pressed & 0xA000)) {
-        if (gInput_wPad1Pressed & 0x2000) {
+    if (gOptions_bSelection == 0 &&
+        (gInput_wPad1Pressed & PAD_DIRECTION_HORIZONTAL_MASK)) {
+        if (gInput_wPad1Pressed & PAD_DIRECTION_RIGHT) {
             if (gOptions_bOutputType != 0) {
                 return;
             }
@@ -38,13 +40,14 @@ void Options_HandleInput(void)
         return;
     }
 
-    if (gOptions_bSelection != 0 && (gInput_wPad1Pressed & 0xC0)) {
+    if (gOptions_bSelection != 0 &&
+        (gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK)) {
         SD_SEPlayFull(7);
         gOptions_bState = *(u8 *)&gOptions_bSelection + 1;
         return;
     }
 
-    if (gInput_wPad1Pressed & 0x20) {
+    if (gInput_wPad1Pressed & PAD_BUTTON_CANCEL) {
         gOptions_bState = 0;
         SD_SEPlayFull(8);
     }

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "input.h"
 
 extern u8 D_801AF000[];
 extern s32 D_8009B0F4;
@@ -93,7 +94,8 @@ void func_800438B8(s32 count)
         func_80012D4C();
         if (!found && (((D_8009B0F4 & 0x02000030) | D_8009B134) == 0))
             found = 1;
-        if ((gInput_wPad1Pressed & 0x8C0) && found)
+        if ((gInput_wPad1Pressed &
+             (PAD_BUTTON_START | PAD_BUTTON_CONFIRM_MASK)) && found)
             count = 0;
         count--;
         if (count >= 0)
