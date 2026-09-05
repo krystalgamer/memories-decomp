@@ -316,7 +316,8 @@ password; a card you have not is an unknown entry. "Seen" is set by owning
 the card and also by having it appear in a duel — a fusion result or a ritual
 summon you made counts, and those show with a semi-transparent icon because
 you saw them without owning them [the mark is flag `0x120 + card` in the
-flag array, set by `func_8002BF3C` and by the shop on purchase]. The
+flag array, set by `Library_MarkOwnedCards` (`0x8002BF3C`) and by the shop on
+purchase]. The
 completion figure counts both. From a
 card's page, pressing right or × shows the card in **3-D**, rotating [a cheat
 freezes the rotation by writing `0x800F284A`]. [`libraryMenuLoop`
@@ -438,7 +439,7 @@ When two cards meet — two raised in the hand, or one played onto the field —
 the game tries, in this order:
 
 1. **Fusion.** The pair is looked up in the **fusion table**
-   [`checkFusion` `func_80019A60`, table at `0x8017C2D8`, 64 KB, indexed by
+   [`Duel_CheckFusion` (`0x80019A60`), table at `0x8017C2D8`, 64 KB, indexed by
    the *smaller* id: a `u16 offset[723]` then packed
    `FUSION_TABLE_ENTRY_SIZE`-byte records holding
    `FUSION_TABLE_PAIRS_PER_ENTRY` (partner, result) pairs each]. If a recipe
@@ -451,7 +452,7 @@ the game tries, in this order:
    results — Nekogal #2 (1,200 recipes lead to it), Mystical Sand (1,174),
    Cyber Soldier (1,008) — keep appearing when a beginner fuses at random.
 2. **Equip.** If one card is an equip and the other a monster, the **equip
-   table** is consulted [`checkEquip` `func_80019A08`, table at
+   table** is consulted [`Duel_CheckEquip` (`0x80019A08`), table at
    `0x8017A1D8`: for each of the 34 equips, the list of monsters it fits —
    4,041 pairs in all; Megamorph fits 621 monsters, Legendary Sword 63]. A
    valid equip raises the monster's ATK and DEF by 500 per level of the
@@ -515,7 +516,7 @@ Wasteland, Mountain, Sogen (meadow), Umi (sea), Yami (dark)** [`0x8009B364`,
 values 0–6 in that order]. Playing a field card replaces the terrain; it
 stays until replaced. Each monster **type** is helped or hurt by each
 terrain by exactly **±500**, looked up per type per terrain
-[`getTerrainBoost` `func_8002497C`, an `s8[20][6]` at `0x800909D4` × 10].
+[`Duel_GetTerrainBoost` (`0x8002497C`), an `s8[20][6]` at `0x800909D4` × 10].
 The whole table, read from the executable:
 
 | type | Forest | Wasteland | Mountain | Sogen | Umi | Yami |
@@ -571,7 +572,7 @@ fires per attack, and once fired it is gone.
 **Rituals** (24 cards) are played to the magic/trap row and **activated**: if
 the three specific monsters the ritual names are face-up on your field, they
 are removed and the ritual monster is summoned in their place; otherwise the
-card is consumed with no effect [`checkRitual` `func_8002C7E8`, table at
+card is consumed with no effect [`Duel_CheckRitual` (`0x8002C7E8`), table at
 `0x801799D8`: 24 records of {ritual, tribute, tribute, tribute, result}].
 The full list is on the disc and is decoded by the extractor (§12.2); three
 examples:
@@ -699,11 +700,11 @@ per-side record at `0x800E9FF0 + side * 0x20`: the counters are bytes at
 +1…+9 and +0x18, the LP the halfword at +0x14 — the player's `0x800EA004`
 cited everywhere — so "cards used" is the byte at `0x800EA008`, which is
 exactly the address a long-dismissed GameShark code labels "cards used by
-you"]. At the end [`calcRankScore` `func_80021598`] the score starts at
+you"]. At the end [`Duel_CalcRankScore` (`0x80021598`)] the score starts at
 **50**, a signed byte at the record's +0 is added to it directly (this is
 where the way-the-duel-ended adjustment enters), and each counter is run
-through one row of a **ten-row table** [`rankScoreChange`
-`func_80021558`; the table is 200 bytes at `0x801798A8`, loaded from the
+through one row of a **ten-row table** [`Duel_CalcRankScoreChange`
+(`0x80021558`); the table is 200 bytes at `0x801798A8`, loaded from the
 per-duelist disc block and identical for all 39 duelists]: a row is five
 (threshold, value) pairs walked upward, and the first threshold above the
 counter supplies the value added to the score. The rows, measured:
@@ -766,7 +767,8 @@ Password shop (§4.5). Losing costs nothing.
 ### 6.4 The dropped card
 
 One card is drawn from the beaten duelist's **pool for that rank group**
-[`cardDrop` `func_80021810`: roll `(rand & 0x7FF) + 1`, i.e. 1–2048, then
+[`Duel_SelectCardDrop` (`0x80021810`): roll `(rand & 0x7FF) + 1`, i.e.
+1–2048, then
 walk the pool's 722 u16 weights accumulating until the sum reaches the roll;
 the index reached is the card]. Every pool's weights **sum to exactly 2048**,
 so a card's weight is its chance out of 2048 — the "a 20" and "a 32" the
@@ -1337,7 +1339,7 @@ are zero in the file because the duel loader fills them from disc.
 ### 12.2 On the disc
 
 The game opens seven files by name at boot [table at `0x8009078C`,
-`setFilePosTable` `func_800136E4`]: `WA_MRG.MRG` (36 MB, everything that is
+`File_SetPositionTable` (`0x800136E4`)]: `WA_MRG.MRG` (36 MB, everything that is
 data), `SU.MRG`, `MODEL.MRG` (3-D models), `MOVIE.STR`, `SD_SE.DAT`,
 `SD_BGM.DAT`, `MASTER.XA`. Everything else is a sector range inside one of
 them, requested through one function with a per-screen callback
