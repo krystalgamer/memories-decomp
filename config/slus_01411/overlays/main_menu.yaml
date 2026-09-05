@@ -70,6 +70,8 @@ segments:
       - [0x1EEC, c, overlays/main_menu/func_80181EEC]
       - [0x1F20, c, overlays/main_menu/func_80181F20]
       - [0x1F68, asm, overlays/main_menu/text_1F68]
+      - [0x3A14, c, overlays/main_menu/func_80183A14]
+      - [0x3B2C, asm, overlays/main_menu/text_3B2C]
       - [0x3FE4, c, overlays/main_menu/func_80183FE4]
       - [0x4030, asm, overlays/main_menu/text_4030]
       - [0x40F8, c, overlays/main_menu/func_801840F8]

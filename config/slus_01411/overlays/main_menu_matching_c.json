@@ -43,6 +43,12 @@
       "source": "src/overlays/main_menu/func_80181F20.c"
     },
     {
+      "address": "0x80183A14",
+      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "size": "0x118",
+      "source": "src/overlays/main_menu/func_80183A14.c"
+    },
+    {
       "address": "0x80183FE4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
