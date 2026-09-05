@@ -26,8 +26,8 @@ extern void SD_SEPlayFull(int);
 extern Window *TextBox_CreateFlagged(int, int, int, int, int, int, int);
 extern void func_80039794(void);
 extern void TextBox_Destroy(Window *);
-extern void func_8003CDF8(void);
-extern void func_8003CE48(void);
+extern void Input_BackupPad1AndUsePad2(void);
+extern void Input_RestorePad1FromBackup(void);
 
 void func_80024200(void)
 {
@@ -100,9 +100,9 @@ void func_80024388(void)
         }
     }
     if (value != 0) {
-        func_8003CDF8();
+        Input_BackupPad1AndUsePad2();
         func_80024200();
-        func_8003CE48();
+        Input_RestorePad1FromBackup();
     } else {
         func_80024200();
     }
