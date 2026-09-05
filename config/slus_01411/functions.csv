@@ -487,7 +487,7 @@ address,size,name,status,module,notes
 0x80038888,0x8,func_80038888,matching_c,game,First empty-function candidate matched.
 0x80038890,0x8,func_80038890,matching_c,game,First empty-function candidate matched.
 0x80038898,0x40,func_80038898,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x800388D8,0xEC,func_800388D8,unmatched_asm,game,
+0x800388D8,0xEC,func_800388D8,matching_c,game,Post-terminal pure-C match; GCC G8 split addressing with MASPSX G0 reproduces the retail dispatcher exactly.
 0x800389C4,0x14,func_800389C4,matching_c,game,First halfword bit-clear candidate matched.
 0x800389D8,0x6C,func_800389D8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80038A44,0x6C,func_80038A44,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
