@@ -161,7 +161,15 @@ Recommended header boundaries are:
 | `src/psyq/libgun.h` | Legacy `InitGUN`/`SelectGUN` light-gun lifecycle interface |
 | `src/psyq/libtap.h` | Legacy `InitTAP` multitap lifecycle and enable/disable interface |
 | `src/psyq/libgpu.h` | Rectangles, draw/display environments, images, primitives, and ordering tables |
-| `src/psyq/libgte.h` | Vectors, matrices, and GTE helper interfaces |
+| `src/psyq/libgte.h` | Fixed-point geometry records, assembler-side transfer macros, and out-of-line GTE helpers |
+| `src/psyq/inline_c.h` | GCC extended-assembly loads, stores, commands, and state helpers for direct GTE use from C |
+| `src/psyq/inline_o.h` | Alternate GCC GTE macros that route operands through fixed temporary registers |
+| `src/psyq/gtemac.h` | High-level geometry macros composed from the lower-level `gte_*` operations |
+| `src/psyq/inline_s.h` | Preprocessed `aspsx` GTE command macros, with padded and unpadded forms |
+| `src/psyq/gtereg_s.h` | Preprocessed `aspsx` names for GTE data and control registers |
+| `src/psyq/inline_a.h` | `macro`/`endm`-style assembler GTE command definitions |
+| `src/psyq/gtereg.h` | `equs`-style assembler names for GTE data and control registers |
+| `src/psyq/gtenom.h` | `macro`/`endm`-style assembler GTE read and store helpers |
 | `src/psyq/libgs.h` | `Gs` work areas, objects, lights, cameras, and sorting helpers |
 | `src/psyq/libhmd.h` | Hierarchical-model units, primitive handlers, animation, and MIMe records |
 | `src/psyq/libsnd.h` | VAB banks, sequences, tones, and high-level playback |
@@ -188,6 +196,40 @@ primitive processing and refer to `MATRIX`, `SVECTOR`, `DVECTOR`, `GsOT`, and
 ordering therefore matters. No current game C includes `libhmd.h`, so a local
 model record should not be migrated to an HMD type from a matching size or
 similar role alone; field-level and resident-call evidence are still required.
+
+The GTE headers are a layered toolchain interface rather than interchangeable
+umbrellas. `libgte.h` owns the geometry records and callable library
+prototypes. Its `ASSEMBLER` branch also provides a small set of FIFO, matrix,
+and register-transfer macros, but the header does not include any of the
+standalone inline files. C that emits GTE instructions directly must include
+`libgte.h` for types and then select one low-level macro implementation:
+
+- `inline_c.h` lets GCC choose operand registers and supplies both the normal
+  command macros, which emit two leading `nop` instructions, and `_b` variants
+  that emit the command word without those stalls.
+- `inline_o.h` instead moves operands through fixed registers `$12`-`$15` and
+  declares those registers plus memory as clobbered. Its command macros include
+  the two leading `nop` instructions and it has no `_b` command family.
+- `gtemac.h` is a higher-level composition layer. Macros such as
+  `gte_RotTransPers` call the selected low-level `gte_ld*`, command, and
+  `gte_st*` macros; it provides no types, includes, or include guard itself.
+
+These three macro headers also have no include guards and overlap in the
+`gte_*` namespace, so including both low-level implementations is a
+redefinition rather than a harmless compatibility choice. Selecting
+`inline_c.h` versus `inline_o.h`, or a padded command versus its `_b` form, can
+change register allocation and the emitted instruction schedule and therefore
+requires an exact-match check. The current game sources use `libgte.h` in
+`func_800249E0.c` and `func_80041E7C.c`; only `func_80041E7C.c` adds
+`inline_c.h`, for `gte_stopz`. No current game C includes `inline_o.h` or
+`gtemac.h`.
+
+The remaining files target assembly sources. `inline_s.h` and `gtereg_s.h`
+use C-preprocessor definitions; `inline_s.h` explicitly identifies `aspsx` as
+its target and emits command words with `.word`. `inline_a.h`, `gtereg.h`, and
+`gtenom.h` use the alternate `macro`/`endm`, `equs`, and `dw` syntax. The two
+families encode the same coprocessor commands and register roles in different
+source dialects; neither belongs in a C translation unit.
 
 `libsn.h` is a development-host interface, not a retail storage API.
 `PCinit`, `PCopen`, `PCcreat`, `PClseek`, `PCread`, `PCwrite`, and `PCclose`
