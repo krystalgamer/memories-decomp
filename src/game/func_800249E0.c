@@ -35,7 +35,7 @@ u8 *func_800249E0(s32 a, s32 b) {
     p = &D_801A7AD8[idx];
     p->flags = 0x8000;
 
-    if (a >= 0xF && b < DECK_SIZE) {
+    if (a >= DUEL_CARD_SIDE_RECORD_COUNT && b < DECK_SIZE) {
         b += DECK_SIZE;
     }
     if ((b & 0x80) != 0) {
@@ -63,8 +63,8 @@ u8 *func_800249E0(s32 a, s32 b) {
     off = *((u8 *)p->data + 3) * 0x580;
     q->w = 0x14;
     q->h = 0x20;
-    q->x = (idx % 5) * 0x14 + 0x380;
-    q->y = (idx / 5) * 0x20;
+    q->x = (idx % DUEL_FIELD_ROW_SIZE) * 0x14 + 0x380;
+    q->y = (idx / DUEL_FIELD_ROW_SIZE) * 0x20;
     func_8007F978(q, D_8018C2D8 + off);
 
     r = (RECT *)(base + m * 8);
