@@ -2587,6 +2587,12 @@
       "source": "src/game/text_sjis_to_glyph_codes.c"
     },
     {
+      "address": "0x8003BD14",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x1A4",
+      "source": "src/game/func_8003BD14.c"
+    },
+    {
       "address": "0x8003BEB8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x48",
