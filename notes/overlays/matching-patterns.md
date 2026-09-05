@@ -1162,3 +1162,109 @@ The two that remained were both already-recorded rules rather than anything new
 keeps both in registers, and the sort mode is read once into a local.
 
 Verified by `func_8018338C` in the main menu module.
+
+## Per-occurrence reloads mean the local is volatile
+
+The strongest tell that a local is `volatile` is that the compiler reloads it
+from its stack slot once for **every occurrence in the source**, rather than
+once per statement or once per basic block. Three uses of the same pointer in
+one chained assignment become three `lw` from the same offset into three
+different registers, with no store in between that could have invalidated a
+cached copy.
+
+`func_80183B2C` in the main menu module keeps two object pointers this way:
+
+```
+lw   a1,16(sp)
+lw   a0,16(sp)
+lw   v1,16(sp)
+li   v0,64
+sb   v0,14(v1)
+sb   v0,13(a0)
+sb   v0,12(a1)
+```
+
+Nothing between the three loads can alias, so ordinary common subexpression
+elimination would have collapsed them. Declaring the pair as
+
+```c
+u8 *volatile o[2];
+```
+
+reproduces it. Plain locals keep both pointers in callee-saved registers and
+build a smaller frame; a non-volatile aggregate local puts them on the stack
+but still loads each one once. Only the qualifier gives one load per
+occurrence.
+
+### The qualifier also explains unfilled load delay slots
+
+The instruction scheduler may not move anything across a volatile access, so
+every block that touches the volatile object keeps its load-use hazards as
+`nop`s while the rest of the function is scheduled normally. A function whose
+first half is full of unfilled load delay slots and whose loops are tightly
+scheduled is not evidence of a lower optimisation level. It is evidence of a
+volatile object in the first half. Measure before concluding: `func_80183B2C`
+looked like `-O1` on both counts at once — no elimination and no scheduling —
+and building it at `-O1` did get closer, 201 of 216 against 162, which made the
+wrong explanation look right. The volatile qualifier at the ordinary `-O2`
+profile reached 216 of 216 with the whole first half exact, because it is the
+one cause that produces both effects.
+
+## A compound assignment evaluates the destination address once
+
+`*(s16 *)(p + 0x60) *= -1;` and `*(s16 *)(p + 0x60) = -*(s16 *)(p + 0x60);`
+compute the same value, but the first mentions `p` once and the second mentions
+it twice. With a volatile `p` that is the difference between one reload and
+two, and it also changes the load width: the compound form loads `lh`, while
+the written-out form loads `lhu` because only the low half of the negation is
+stored back.
+
+Use the compound form when the target evaluates the address once. This is the
+same rule as the chained assignment above, seen from the other side: the
+number of times a name appears in the source is the number of times a volatile
+or otherwise un-eliminable object is read.
+
+## Two differently signed reads of one byte are two source expressions
+
+A range test that emits `lbu` with `sltiu` and then `lb` with `bgez` is reading
+the same byte twice with two different signednesses, not once with one
+comparison. In `func_80183B2C` the colour channel leaves the range `0x41` to
+`0x7F`, written as
+
+```c
+if (obj[0][0xC] < 0x41 || (s8)obj[0][0xC] < 0) {
+```
+
+through a `u8 *`. The unsigned compare catches the low end and the signed test
+catches the high end. Writing it as a single two-sided comparison on either
+signedness produces one load and a different branch shape.
+
+## Inline the call argument when locals lose the register contest
+
+When the instruction counts already agree and the only difference is which
+callee-saved register holds which value, check whether the target assigns
+arguments through named locals at all. Coordinates computed into `x` and `y`
+and then passed to two calls give the same instructions as the expressions
+written inline in both argument lists, but not the same registers: the named
+locals create their pseudos earlier and win the allocation priority contest
+against the loop's own induction and address values.
+
+In `func_80183B2C` the loop bodies were 216 of 216 with 52 differing positions,
+every one of them the same instruction with a different register. The target
+puts `s0` on the x coordinate and `s2` on the element address; named locals put
+`s3` on x and `s0` on the element address. Writing
+
+```c
+func_80183E8C((i % 5) * 28 + 0x10, (i / 5) * 17 + 0xBC, D_80185C9C[0][i + 1]);
+func_80184344((i % 5) * 28 + 0x10, (i / 5) * 17 + 0xBC, D_80185C9C[0][i + 1]);
+```
+
+instead of assigning `x` and `y` first matched. Common subexpression
+elimination still computes each coordinate once and keeps it across both calls,
+so this costs nothing; it only moves the pseudos later.
+
+Declaration order was measured on the same function and has no effect at all —
+three permutations of `i`, `x` and `y` all gave the identical 52 positions. The
+lever is whether the value is a named local, not where it is declared.
+
+Verified by `func_80183B2C` in the main menu module.
