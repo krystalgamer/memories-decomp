@@ -11,7 +11,6 @@ extern u8 D_8018C7D8[];
 extern u8 gDuel_aPlayerHand[];
 extern s32 gDuel_adwCardStats[];
 extern int Duel_GetTerrainBoost();
-extern s32 func_8007F978(RECT *, const void *);
 
 u8 *func_800249E0(s32 a, s32 b) {
     DuelCardRecord *p;
@@ -72,14 +71,14 @@ u8 *func_800249E0(s32 a, s32 b) {
     q->h = 0x20;
     q->x = (idx % DUEL_FIELD_ROW_SIZE) * 0x14 + 0x380;
     q->y = (idx / DUEL_FIELD_ROW_SIZE) * 0x20;
-    func_8007F978(q, D_8018C2D8 + off);
+    LoadImage(q, (u32 *)(D_8018C2D8 + off));
 
     r = (RECT *)(base + m * 8);
     r->x = 0x380;
     r->y = idx + 0xE0;
     r->w = 0x40;
     r->h = 1;
-    func_8007F978(r, D_8018C7D8 + off);
+    LoadImage(r, (u32 *)(D_8018C7D8 + off));
 
     return (u8 *)p;
 }
