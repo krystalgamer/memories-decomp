@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - "notes/**"
+      - "README.md"
+      - "tools/trace/**"
   pull_request:
     branches:
       - master
