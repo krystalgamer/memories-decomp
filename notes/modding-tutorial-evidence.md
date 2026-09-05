@@ -740,7 +740,8 @@ a short insertion that can be combined blindly with other text mods.
 **Tutorial:** `Efeito trap.txt`
 
 The tutorial identifies six consecutive bytes beginning at SLUS offset
-`0x8B724`. These are initialized data rather than instruction immediates and
+`0x8B724`. These are the initialized
+`gDuel_abTrapAttackThresholds` table rather than instruction immediates and
 map to resident addresses `0x8009AF24`-`0x8009AF29`:
 
 | SLUS offset | Resident address | Retail byte | ATK threshold | Trap card |
@@ -754,10 +755,10 @@ map to resident addresses `0x8009AF24`-`0x8009AF29`:
 
 The trap-selection path in `func_8001F0D0` scans indices `5` through `0`.
 For each available trap it loads the corresponding byte from
-`D_8009AF24`, multiplies it by 100 using shifts and additions, and compares
-that product with the attacking monster's calculated ATK. The comparison
-accepts equal values, matching the documented "ATK less than or equal to"
-effects.
+`gDuel_abTrapAttackThresholds`, multiplies it by 100 using shifts and
+additions, and compares that product with the attacking monster's calculated
+ATK. The comparison accepts equal values, matching the documented "ATK less
+than or equal to" effects.
 
 After selecting an index, the function adds `0x2A9` (decimal `681`) to
 produce the trap card ID. This independently fixes the table order to the

@@ -321,16 +321,16 @@ data:
 
 The recovery table maps, in order, to Mooyan Curry, Red Medicine, Goblin's
 Secret Remedy, Soul of the Pure, and Dian Keto the Cure Master. Exact
-matching C in `func_800250C8` indexes `D_8009AF30`, multiplies the selected
-byte by `0x64` (decimal `100`), and advances the selected duel-side LP value
-toward its target.
+matching C in `func_800250C8` indexes `gDuel_abLifePointRecoveryUnits`,
+multiplies the selected byte by `0x64` (decimal `100`), and advances the
+selected duel-side LP value toward its target.
 
 The damage table maps to Sparks, Hinotama, Final Flame, Ookazi, and
-Tremendous Fire. `func_8002525C` loads the selected byte from `D_8009AF38`,
-multiplies it by `10`, subtracts it from the selected LP halfword at `+0x14`,
-and clamps a negative result to zero. The normal path selects the opposing
-duel side; an alternate reflected-damage path can redirect the same table
-value to the other side.
+Tremendous Fire. `func_8002525C` loads the selected byte from
+`gDuel_abDirectDamageUnits`, multiplies it by `10`, subtracts it from the
+selected LP halfword at `+0x14`, and clamps a negative result to zero. The
+normal path selects the opposing duel side; an alternate reflected-damage
+path can redirect the same table value to the other side.
 
 The retail values therefore reproduce the documented effects:
 
