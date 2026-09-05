@@ -1,53 +1,59 @@
 {
-  "functions": [
-    {
-      "address": "0x80168004",
-      "profile": "gcc_2_8_1_g0_split",
-      "size": "0x4C",
-      "source": "src/overlays/overworld/teardown.c"
-    },
-    {
-      "address": "0x80168050",
-      "profile": "gcc_2_8_1_g0_split",
-      "size": "0x13C",
-      "source": "src/overlays/overworld/location_objects.c"
-    },
-    {
-      "address": "0x8016818C",
-      "profile": "gcc_2_8_1_g0_split",
-      "size": "0x5C",
-      "source": "src/overlays/overworld/location_label.c"
-    },
-    {
-      "address": "0x801681E8",
-      "profile": "gcc_2_8_1_g0_split",
-      "size": "0x70",
-      "source": "src/overlays/overworld/camera_from_location.c"
-    },
-    {
-      "address": "0x80168258",
-      "profile": "gcc_2_8_1_g0_split",
-      "size": "0xB8",
-      "source": "src/overlays/overworld/view_update.c"
-    },
-    {
-      "address": "0x80168310",
-      "profile": "gcc_2_8_1_g0_split",
-      "size": "0x78",
-      "source": "src/overlays/overworld/camera_reset.c"
-    },
-    {
-      "address": "0x80168588",
-      "profile": "gcc_2_8_1_g0_split",
-      "size": "0xE4",
-      "source": "src/overlays/overworld/location_marker.c"
-    },
-    {
-      "address": "0x80168E0C",
-      "profile": "gcc_2_8_1_g0_split",
-      "size": "0x1C0",
-      "source": "src/overlays/overworld/pick_exit.c"
-    }
-  ],
-  "schema": 1
+ "functions": [
+  {
+   "address": "0x80168004",
+   "profile": "gcc_2_8_1_g0_split",
+   "size": "0x4C",
+   "source": "src/overlays/overworld/teardown.c"
+  },
+  {
+   "address": "0x80168050",
+   "profile": "gcc_2_8_1_g0_split",
+   "size": "0x13C",
+   "source": "src/overlays/overworld/location_objects.c"
+  },
+  {
+   "address": "0x8016818C",
+   "profile": "gcc_2_8_1_g0_split",
+   "size": "0x5C",
+   "source": "src/overlays/overworld/location_label.c"
+  },
+  {
+   "address": "0x801681E8",
+   "profile": "gcc_2_8_1_g0_split",
+   "size": "0x70",
+   "source": "src/overlays/overworld/camera_from_location.c"
+  },
+  {
+   "address": "0x80168258",
+   "profile": "gcc_2_8_1_g0_split",
+   "size": "0xB8",
+   "source": "src/overlays/overworld/view_update.c"
+  },
+  {
+   "address": "0x80168310",
+   "profile": "gcc_2_8_1_g0_split",
+   "size": "0x78",
+   "source": "src/overlays/overworld/camera_reset.c"
+  },
+  {
+   "address": "0x80168588",
+   "profile": "gcc_2_8_1_g0_split",
+   "size": "0xE4",
+   "source": "src/overlays/overworld/location_marker.c"
+  },
+  {
+   "address": "0x80168E0C",
+   "profile": "gcc_2_8_1_g0_split",
+   "size": "0x1C0",
+   "source": "src/overlays/overworld/pick_exit.c"
+  },
+  {
+   "address": "0x80168FCC",
+   "profile": "gcc_2_8_1_g0_split",
+   "size": "0x1DC",
+   "source": "src/overlays/overworld/location_tick.c"
+  }
+ ],
+ "schema": 1
 }
