@@ -138,12 +138,12 @@ silently exceeding the six-variant limit when an older partial attempt exists.
 Use `--include-partial` only when intentionally continuing a reviewed,
 nonterminal history; the output reports its remaining budget.
 
-The complete first pass now covers all 1,194 game functions, so the default
-`make candidates` output is empty. Future matching work must deliberately use
-`--include-partial` for one of the 222 nonterminal histories, or document
-genuinely new evidence before reconsidering a deferred function. PsyQ CRT/SDK
-functions are not decompilation candidates and must never be added to
-`attempts.csv`.
+The complete first pass now covers all 1,196 game functions. At this snapshot,
+all unmatched functions have terminal canonical histories, so both the default
+`make candidates` output and the `--include-partial` result are empty. Future
+matching work must document genuinely new evidence before reconsidering a
+deferred function. PsyQ CRT/SDK functions are not decompilation candidates and
+must never be added to `attempts.csv`.
 
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:

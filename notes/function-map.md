@@ -2,13 +2,13 @@
 
 ## Ownership regions
 
-The exact assembly split currently contains 1,792 resident functions covering
+The exact assembly split currently contains 1,794 resident functions covering
 513,544 bytes.
 
 | Region | Address range | Functions | Function bytes | Classification |
 |---|---:|---:|---:|---|
 | Startup | `0x800129D8-0x80012B50` | 3 | 376 (`0x178`) | PsyQ/GCC CRT startup |
-| Game and engine | `0x80012B50-0x80073704` | 1,194 | 396,212 (`0x60BB4`) | Game-owned working region |
+| Game and engine | `0x80012B50-0x80073704` | 1,196 | 396,212 (`0x60BB4`) | Game-owned working region |
 | SDK and runtime | `0x80073704-0x800906D4` | 595 | 116,956 (`0x1C8DC`) | PsyQ/SN libraries and handwritten runtime |
 
 The boundaries are stored in
