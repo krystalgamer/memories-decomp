@@ -28,7 +28,7 @@ s32 func_80023090(Cursor *cursor_a, Cursor *cursor_b)
     row_b = cursor_b->row;
     index_a = cursor_a->row * DUEL_FIELD_ROW_SIZE + cursor_a->col;
     side = D_8009B1D5;
-    page = side * 20;
+    page = side * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     slot_a = grid[index_a + page];
     offset_a = slot_a * sizeof(DuelCardRecord);
     index_b = row_b * DUEL_FIELD_ROW_SIZE + cursor_b->col;

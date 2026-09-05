@@ -15,7 +15,7 @@ typedef struct { u8 pad[0x19]; u8 state; u8 tail[6]; } SideState;
 extern volatile u8 D_8009B1D5;
 extern Object *D_8009B1F0[2], *D_8009B17C;
 extern u16 D_8009B220;
-extern u8 D_800907D8[2][20];
+extern u8 D_800907D8[2][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 extern SideState D_800E9FF0[2];
 extern int func_80024E24(void);
 extern Object *func_8002C604(int);

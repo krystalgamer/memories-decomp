@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "duel_grid.h"
 
 extern s16 D_8009B1D2;
 extern s16 D_8009B1AC;
@@ -75,7 +76,7 @@ next:
         goto done;
     }
 head:
-    ix = D_8009B1AE + D_8009B1D5 * 0x14;
+    ix = D_8009B1AE + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     e = (u8 *)(*(u8 *)(ix + (s32)tb) * 0x1C + (s32)rb);
     if ((*(u16 *)(e + 0x16) & 0x8000) == 0) {
         goto next;
@@ -88,7 +89,9 @@ head:
     }
 
 hit:
-    e = D_801A7AD8 + D_800907D8[D_8009B1AE + D_8009B1D5 * 0x14] * 0x1C;
+    e = D_801A7AD8 + D_800907D8[
+        D_8009B1AE + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
+    ] * 0x1C;
     p = func_8002C68C(0xB);
     *(u16 *)(p + 0) = *(u16 *)(*(s32 *)e + 0x30);
     *(u16 *)(p + 2) = *(u16 *)(*(s32 *)e + 0x32);

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_grid.h"
 
 extern u8 *D_8009B17C;
 extern u8 D_8009B1D5;
@@ -48,7 +49,8 @@ void func_8002596C(void) {
 
     if (D_8009B17C[0x1D] == D_8009B20C[1] + 1) {
         SD_SEPlayFull(0x15);
-        n = D_8009B1D5 * 20 + 5;
+        n = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
+            DUEL_FIELD_ROW_SIZE;
         r = D_801A7AD8 + D_800907D8[D_8009B20C[1] + n] * 28;
         v = *(u16 *)(r + 0x16) & 0x8000;
         D_8009B20C[1] = *(u16 *)&D_8009B20C[1] + 1;

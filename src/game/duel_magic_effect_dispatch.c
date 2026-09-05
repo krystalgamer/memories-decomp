@@ -14,7 +14,7 @@ typedef struct {
 
 extern u8 D_8009B1D5;
 extern u16 D_8009B220;
-extern Pair D_80090800[2][20];
+extern Pair D_80090800[2][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 extern u8 D_800907D8[];
 extern char D_8009AF40[];
 extern s16 D_8009B1A8;
@@ -38,7 +38,8 @@ void func_80026A3C(void)
         func_8008E870(D_8009AF40, (short)object->y);
     } else {
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
-            int position = i + D_8009B1D5 * 20;
+            int position =
+                i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
             DuelCardRecord *entry =
                 &D_801A7AD8[D_800907D8[position]];
 

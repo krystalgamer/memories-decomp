@@ -16,7 +16,7 @@ int func_80017034(Object *argument)
     int valid = 1;
     unsigned int value =
         table[position->y * DUEL_FIELD_ROW_SIZE + position->x];
-    if (value >= 20) {
+    if (value >= DUEL_FIELD_SIDE_GRID_SLOT_COUNT) {
         int mask = object->flags & 0x1000;
         valid = (unsigned int)mask < 1;
     }

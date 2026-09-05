@@ -43,7 +43,8 @@ void func_8002348C(DuelFieldDisplaySource *source)
 {
     u8 *table = D_800907D8;
     s32 index =
-        source->y * DUEL_FIELD_ROW_SIZE + source->x + D_8009B1D5 * 20;
+        source->y * DUEL_FIELD_ROW_SIZE + source->x +
+        D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
 
     func_80023144(source, table[index]);
 }
