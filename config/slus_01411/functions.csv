@@ -23,7 +23,7 @@ address,size,name,status,module,notes
 0x80013940,0x58,func_80013940,matching_c,game,Pure-C inline refinement matched the full executable.
 0x80013998,0xFC,File_InitTransferDescriptor,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80013A94,0x70,func_80013A94,matching_c,game,Primary transfer descriptor allocation and busy-flag setup
-0x80013B04,0x64,func_80013B04,unmatched_asm,game,
+0x80013B04,0x64,func_80013B04,matching_c,game,"Arms a file transfer: returns NULL while D_8009B0F4 still has any of the 0x02000030 busy bits or D_8009B134 is non-zero, otherwise seeds D_800E9E60 with the sector from gFile_anLba[index] plus offset, clears its 0x46 flag, sets D_8009B0F4 to 0x100010 and returns the record."
 0x80013B68,0xC0,func_80013B68,unmatched_asm,game,
 0x80013C28,0x478,func_80013C28,unmatched_asm,game,
 0x800140A0,0x94,func_800140A0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.

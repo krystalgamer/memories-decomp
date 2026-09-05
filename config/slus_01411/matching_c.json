@@ -97,6 +97,12 @@
       "source": "src/game/file_stream.c"
     },
     {
+      "address": "0x80013B04",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x64",
+      "source": "src/game/func_80013B04.c"
+    },
+    {
       "address": "0x800140A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
