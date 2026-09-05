@@ -4,7 +4,7 @@ extern s32 gDuel_adwCardStats[];
 extern void func_8003201C(s32);
 extern void func_80032C48(void *);
 
-void func_800320BC(s32 arg0, s32 arg1)
+void BuildDeck_AddCard(s32 arg0, s32 arg1)
 {
     s32 *record;
     /* Keep one induction pointer instead of folding accesses around entry-2. */
