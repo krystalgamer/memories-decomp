@@ -556,7 +556,7 @@ address,size,name,status,module,notes
 0x8003C498,0x48,func_8003C498,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003C4E0,0x88,func_8003C4E0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003C568,0xC0,func_8003C568,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8003C628,0x178,func_8003C628,unmatched_asm,game,
+0x8003C628,0x178,func_8003C628,matching_c,game,Exact post-terminal collaborator match; mixed GCC -G8/MASPSX -G4 threshold preserves D_8009B408 absolute addressing and neighboring gp-relative globals.
 0x8003C7A0,0x12C,Options_HandleInput,matching_c,game,Handles options-screen sound-mode toggles confirm actions and cancel. Collaborator-guided pure-C recovery; volatile absolute input state and sized output byte declarations reproduce exact repeated loads and stores.
 0x8003C8CC,0x84,func_8003C8CC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003C950,0x10C,func_8003C950,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
