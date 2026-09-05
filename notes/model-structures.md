@@ -91,19 +91,21 @@ the shared entry type and typed extern. Assembly users `func_8005FC1C` and
 
 ## Migration snapshot and exact-code exceptions
 
-After later matches, `notes/global-usage.csv` reports 26 matching-C users and
-27 assembly users. The generated report is the authority for current status.
-The 27 assembly users at this snapshot are:
+After later matches, `notes/global-usage.csv` reports 27 matching-C users and
+26 assembly users. The generated report is the authority for current status.
+The 26 assembly users at this snapshot are:
 `func_8004CB0C`, `func_8004D58C`, `func_8004D75C`, `func_8004D914`,
 `func_8004EB00`, `func_8004FE2C`, `func_80050584`, `func_800507D0`,
 `func_80050F24`, `func_8005106C`, `func_80051350`, `func_80051A48`,
 `func_800528AC`, `func_80053248`, `func_800534B8`, `func_800540B4`,
-`func_800556E8`, `func_800559D4`, `func_8005611C`, `func_80056250`,
-`Model_LoadMonsterMerge`, `func_80056828`, `func_80056D7C`,
-`func_800577B0`, `func_80057AF4`, `func_800580D4`, and `func_80058938`.
+`func_800556E8`, `func_800559D4`, `func_80056250`, `Model_LoadMonsterMerge`,
+`func_80056828`, `func_80056D7C`, `func_800577B0`, `func_80057AF4`,
+`func_800580D4`, and `func_80058938`.
 
-Two additional matching-C functions retain raw model-base views:
+Three additional matching-C functions retain raw model-base views:
 
+- `func_8005611C` clears and initializes one `0xE20`-byte slot through
+  explicit offsets while preserving its accepted compiler schedule.
 - `func_80059700` uses a private late-slot layout for `type` and `state`
   while selecting the signed velocity passed to `func_8005A468`.
 - `Model_HasInsufficientBufferSpace` includes `model.h` for
