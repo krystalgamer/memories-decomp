@@ -13,6 +13,8 @@ its resident load banks.
   difference that no available compiler profile reproduces.
 - [`module-crosswalk.md`](module-crosswalk.md) correlates verified archive
   slices and load ranges with the external per-screen symbol files.
+- `tools/project/overlay_diff.py` compares one candidate against the retail
+  module bytes without building the module; see below.
 - [`../mrg-files.md`](../mrg-files.md) documents the MRG container evidence and
   development-path strings.
 - [`../research/Unchiga_Symbols/modules.md`](../research/Unchiga_Symbols/modules.md)
@@ -54,3 +56,39 @@ same image as the password screen, entered at different functions. See
 Per-module decompilation counts are generated into the README progress
 section by `tools/project/progress.py`; they are deliberately not duplicated
 here.
+
+## Diffing one candidate function
+
+`make match-overlays` is the acceptance gate, but it rebuilds and rehashes
+every module, which is far too slow to compare source shapes against each
+other. `tools/project/overlay_diff.py` compiles a single file and compares
+just that function against the bytes already extracted from the retail
+module:
+
+```sh
+tools/environments/python/bin/python tools/project/overlay_diff.py \
+    main_menu 0x801840F8 tmp/candidate.c
+```
+
+It reports `MATCH` or prints a numbered side-by-side disassembly with `>>` on
+each differing instruction, and exits non-zero on a difference. The source
+argument is optional; without it the tool re-checks whatever
+`<module>_matching_c.json` already configures, so it also works as a spot
+check. Use `--profile` for a cohort other than `gcc_2_8_1_g0_split`.
+
+Two details make the comparison trustworthy:
+
+- **Relocated fields are excluded, and only those.** An unlinked object leaves
+  every relocated field zero where the module holds the resolved value, so the
+  tool reads the object's own relocation table and masks exactly the affected
+  bits — the low 16 of a `%hi`/`%lo` pair, the low 26 of a jump. Registers and
+  opcodes are still compared in those words.
+- **The function is sliced out by symbol.** A source may define a group of
+  contiguous functions, so the tool locates the requested one in the object's
+  symbol table rather than assuming it starts at offset zero, and refuses to
+  run if the object disagrees with the inventory about its size.
+
+This does not replace `make match-overlays`, which is still what proves a
+module reassembles and links. It is what makes it practical to measure several
+candidate shapes instead of guessing between them: a probe costs about a fifth
+of a second rather than minutes.

@@ -9,6 +9,12 @@ These are about recovering what the original author wrote. They are not
 tricks for defeating the optimiser: where the difference cannot be expressed
 in ordinary C, the function stays as assembly.
 
+To compare a candidate against the target cheaply enough to try several
+shapes, use `tools/project/overlay_diff.py`, documented in
+[`README.md`](README.md). Instruction count alone is a weak signal — several
+of the rules below were only visible in a byte-level diff of candidates that
+all had the right length.
+
 ## A store fills a load delay slot
 
 If the target issues a global load and fills its delay slot with an unrelated
