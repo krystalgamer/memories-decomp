@@ -434,7 +434,7 @@ address,size,name,status,module,notes
 0x80035DF4,0x2C,DuelEffect_ResetEntryMarkers,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80035E20,0xDAC,func_80035E20,unmatched_asm,game,
 0x80036BCC,0x48,func_80036BCC,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
-0x80036C14,0x128,func_80036C14,unmatched_asm,game,
+0x80036C14,0x128,func_80036C14,matching_c,game,Exact post-terminal collaborator-derived match for the effect command builder using split-address generation.
 0x80036D3C,0x34,func_80036D3C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80036D70,0x4C,func_80036D70,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80036DBC,0x1C4,DuelEffect_UpdateObjectLayout,matching_c,game,Post-terminal pure-C match; corrected D_80090E58 halfword indexing removes an erroneous double scale.
