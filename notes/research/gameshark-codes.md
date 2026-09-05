@@ -47,7 +47,8 @@ below are provably wrong — see that section.
 ## Duelists
 
 Each duelist has a 4-byte record: **wins** at the base, **losses** two bytes
-later. 39 of them from `0x801D0720`, stride 4.
+later. Duelist IDs 1–39 occupy slots 1–39 of a 40-record grid table beginning
+at `0x801D071C`; their first record is at `0x801D0720`.
 
 | wins / losses | duelist |
 |---|---|
@@ -92,6 +93,8 @@ later. 39 of them from `0x801D0720`, stride 4.
 | `801D07B8` / `801D07BA` | Duel Master K |
 
 Write `270F` to a wins address, `0000` to a losses address.
+The normal Free Duel update clamps each counter to 999 (`0x03E7`), so 9999 is
+a cheat-forced value rather than the natural gameplay maximum.
 
 **Two rows above are wrong as published, and this is where Unchiga's warning
 bites.** He found incorrect Free Duel record codes while building the rematch
@@ -102,8 +105,9 @@ mod; the stride says which ones:
 * **Villager 3's wins should be `801D0736`, losses `801D0738`.** As published,
   his wins address is Villager 2's losses field.
 
-Corrected, the array is stride 4 with no gaps from `0x801D0720` to
-`0x801D07BC` — exactly 39 slots, which is the right number of duelists.
+Corrected, the duelist records have stride 4 with no gaps from `0x801D0720`
+through `0x801D07BB`. They are slots 1–39 of the 40-slot backing table at
+`0x801D071C`; slot 0 corresponds to the non-duelist Build Deck grid tile.
 
 | code | what it does |
 |---|---|
