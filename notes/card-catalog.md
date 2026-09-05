@@ -34,11 +34,27 @@ agree except card 480: the executable glyph at index `0x55` maps through
 `gText_adwGlyphCodeTable` to Shift-JIS `alpha`, so the catalog preserves the
 in-game name `Kuwagata α` rather than the database's ASCII `Kuwagata a`.
 
-## Password and cost cross-check
+## Retail password and cost verification
 
-The retail password/cost table is stored in `WA_MRG.MRG`, which is not
-available in this checkout. Those two columns are therefore externally
-cross-checked rather than executable-backed.
+The retail password/cost table begins at `WA_MRG.MRG` offset `0xFB9800` and
+contains 723 eight-byte records:
+
+```text
+u32 starchip cost
+u32 packed-BCD password
+```
+
+Entry zero is an all-zero sentinel; card ID `n` uses entry `n`. Comparing
+entries 1-722 from the verified North American retail file against
+`notes/card-catalog.csv` found no mismatches. Every available password and
+cost therefore has direct retail-disc support rather than only an external
+database cross-check.
+
+Twenty-four records use password value `0xFFFFFFFE`, meaning that no usable
+password exists. Their raw cost word is `999999`, but the catalog shows `N/A`
+for both password and cost because the card cannot be purchased through the
+password screen; this is a presentation convention, not a claim that the raw
+cost word is absent.
 
 The password and starchip fields were compared across:
 
@@ -48,19 +64,19 @@ The password and starchip fields were compared across:
 - [`TheGreatHeroStudios/ForbiddenMemoriesDuelCompanion` at
   `8f6888a`](https://github.com/TheGreatHeroStudios/ForbiddenMemoriesDuelCompanion/blob/8f6888a42b280bdb57ef9cb0560d133e4a9694ae/FMFC.DataLoader/Files/CardData.json)
 
-The first two sources agree on every password and cost. The independent JSON
-agrees on every available password and all but three available costs. The
-three differences were checked against Yugipedia:
+The first two sources agree with the retail table on every password and cost.
+The independent JSON agrees on every available password and all but three
+available costs. The retail table resolves those three differences in the
+catalog's favor, with Yugipedia as an additional cross-check:
 
-| Card | Catalog cost | Conflicting JSON | Corroboration |
+| Card | Retail/catalog cost | Conflicting JSON | Additional corroboration |
 |---|---:|---:|---|
 | 213 Aqua Madoor | 260 | 250 | [Yugipedia](https://yugipedia.com/wiki/Aqua_Madoor_%28FMR%29) |
 | 436 White Dolphin | 20 | 50 | [Yugipedia](https://yugipedia.com/wiki/White_Dolphin_%28FMR%29) |
 | 678 Revival of Sennen Genjin | 100 | 50 | [Yugipedia](https://yugipedia.com/wiki/Revival_of_Sennen_Genjin_%28FMR%29) |
 
-The catalog uses the corroborated values above. All three sources identify the
-same 24 cards as having no usable password; those rows use `N/A` for both
-password and starchip cost.
+All three external sources identify the same 24 cards that the retail table
+marks with the no-password sentinel.
 
 ## Field mappings
 
