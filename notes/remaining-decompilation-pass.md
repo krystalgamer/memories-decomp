@@ -25,7 +25,7 @@ function.
 | Address | Current residual |
 |---|---|
 | `0x8002A788` | Exact 0x238-byte size and relocations; four dead delay-slot/scheduler words differ. Three refinement attempts remain for genuinely new scheduling evidence. |
-| `0x80020BE4` | Exact 0x168-byte size; 21 words differ from store scheduling and the collaborator's removed register pin. Three canonical attempts remain. |
+| `0x80020BE4` | At this snapshot, the exact-size candidate differed in 21 words from store scheduling and a removed register pin. A later post-terminal pass preserved the volatile display-state reloads and matched all `0x168` bytes under `gcc_2_8_1_g0_no_split`. |
 | `0x80050584` | Exact 0x24C-byte size; two documented register-role blocks account for 24 differing words. Four canonical attempts remain. |
 
 ### Newly exposed callback
