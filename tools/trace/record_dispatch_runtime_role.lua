@@ -44,6 +44,7 @@ local QUEUE_CAPACITY = 10
 local QUEUE_RECORD_SIZE = 0x28
 local TARGET_SEQUENCES = 4
 local MAX_HITS = 96
+local MIN_CAPTURE_FRAMES = 1800
 local QUIET_FRAMES = 180
 local TIMEOUT_FRAMES = 72000
 
@@ -125,6 +126,7 @@ local sequence = 0
 local completedSequences = 0
 local sequenceOpen = false
 local modeCounts = {[0] = 0, [1] = 0, [2] = 0}
+local firstHitFrame = nil
 local callbackError = nil
 local hitLimitReached = false
 local armed = false
@@ -171,6 +173,9 @@ local function onDispatch()
 
     hits = hits + 1
     quietFrames = 0
+    if not armed then
+        firstHitFrame = frames
+    end
     armed = true
 
     if dispatchMode == 0 or not sequenceOpen then
@@ -282,6 +287,7 @@ local function poll()
     if armed then
         quietFrames = quietFrames + 1
         if completedSequences >= TARGET_SEQUENCES
+            and frames - firstHitFrame >= MIN_CAPTURE_FRAMES
             and quietFrames >= QUIET_FRAMES then
             finish('captured four processed sequences followed by quiet time')
             return
