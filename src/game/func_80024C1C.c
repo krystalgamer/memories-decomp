@@ -54,7 +54,7 @@ struct Obj *func_80024C1C(s32 cardId, s32 x, s32 y) {
     obj->f5D = 0xC0;
 
     type = (s32)desc >> CARD_STAT_TYPE_SHIFT;
-    type &= 0x1F;
+    type &= CARD_STAT_TYPE_MASK;
     obj->f68 = (u8)type;
     obj->f42 = 0;
 
