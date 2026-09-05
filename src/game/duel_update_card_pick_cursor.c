@@ -19,11 +19,12 @@
  * Otherwise the cursor is live. func_80024060 refreshes the object's status
  * byte and returns nonzero while it is still busy; when it is idle, the cell
  * under the cursor is looked up in the field table (row * DUEL_FIELD_ROW_SIZE
- * + column, plus 0x14 per player side) and the record it names is offered to
- * card_pick_on_up. A nonzero result is a successful pick: it is published in
- * gDuel_wViewerCardID along with the event code 0x14 and state 2. A zero
- * result only re-arms the hold (counter 0xC, mode |= 0x60) when no pad bit in
- * the low two bits of gInput_wPad1Held is down.
+ * + column, plus DUEL_FIELD_SIDE_GRID_SLOT_COUNT per player side) and the
+ * record it names is offered to card_pick_on_up. A nonzero result is a
+ * successful pick: it is published in gDuel_wViewerCardID along with the
+ * event code 0x14 and state 2. A zero result only re-arms the hold (counter
+ * 0xC, mode |= 0x60) when no pad bit in the low two bits of
+ * gInput_wPad1Held is down.
  */
 
 /* The cursor object the caller owns. 0xF/0x10 are the same column/row pair
@@ -83,7 +84,8 @@ void Duel_UpdateCardPickCursor(struct Cursor *o) {
     } else if (func_80024060(o) == 0) {
         picked = func_80017034(
             &D_801A7AD8[D_800907D8[
-                o->row * DUEL_FIELD_ROW_SIZE + o->col + D_8009B1D5 * 0x14
+                o->row * DUEL_FIELD_ROW_SIZE + o->col +
+                D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
             ]]);
         if (picked != 0) {
             /* Written as absolute literals, not through externs: these three

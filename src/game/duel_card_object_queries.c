@@ -16,7 +16,7 @@ extern u16 Duel_CalcCardStats(Entry *);
 void func_8002C938(u32 *output, int alternate)
 {
     register int base __asm__("$6") =
-        D_8009B1D5 ? DUEL_FIELD_ROW_SIZE : 20;
+        D_8009B1D5 ? DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     register int scaled __asm__("$3");
     register DuelCardRecord *entry __asm__("$3");
 
@@ -63,7 +63,8 @@ void func_8002C9B4(u32 *output, int selector)
         return;
     }
 
-    base = D_8009B1D5 ? DUEL_FIELD_ROW_SIZE : 20;
+    base = D_8009B1D5 ?
+        DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     __asm__ volatile(
         "sll $2,%1,3\n\t"
         "subu $2,$2,%1\n\t"
