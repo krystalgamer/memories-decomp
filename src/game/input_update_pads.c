@@ -6,14 +6,14 @@ extern u8 D_8009B0D8 __attribute__((section(".data")));
 extern u32 D_8009B0C8[];
 extern u32 D_8009B390;
 /* Preserve the low-half/high-half publication order at the function tail. */
-extern volatile u16 D_8009B394;
-extern volatile u16 D_8009B396;
-extern volatile u16 D_8009B398;
-extern volatile u16 D_8009B39A;
+extern volatile u16 gInput_wPad1Repeat;
+extern volatile u16 gInput_wPad2Repeat;
+extern volatile u16 gInput_wPad1Pressed;
+extern volatile u16 gInput_wPad2Pressed;
 extern u8 D_8009B39C;
 extern u8 D_8009B3A2;
-extern volatile u16 D_8009B3A4;
-extern volatile u16 D_8009B3A6;
+extern volatile u16 gInput_wPad1Held;
+extern volatile u16 gInput_wPad2Held;
 extern u32 D_8009B3A8;
 extern u32 D_8009B3B0;
 extern u32 D_8009B3B4;
@@ -64,10 +64,10 @@ void Input_UpdatePads(void)
         D_8009B3B0 = 0;
         D_8009B3B4 = 0;
     }
-    D_8009B3A4 = current;
-    D_8009B3A6 = current >> 16;
-    D_8009B398 = newly_pressed;
-    D_8009B39A = newly_pressed >> 16;
-    D_8009B394 = repeat;
-    D_8009B396 = repeat >> 16;
+    gInput_wPad1Held = current;
+    gInput_wPad2Held = current >> 16;
+    gInput_wPad1Pressed = newly_pressed;
+    gInput_wPad2Pressed = newly_pressed >> 16;
+    gInput_wPad1Repeat = repeat;
+    gInput_wPad2Repeat = repeat >> 16;
 }

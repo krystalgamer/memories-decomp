@@ -3,7 +3,7 @@
 extern u8 *D_8009B378;
 extern u8 D_800E9ECE[];
 /* The retail tail load uses an absolute, self-clobbering v1 address lifetime. */
-extern u16 D_8009B398 __attribute__((section(".data")));
+extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern void func_80042A00(void *);
 extern void func_800429D8(void *);
 extern void func_80040410(u8 *, s32);
@@ -47,7 +47,7 @@ s32 func_8003CA5C(void)
             return result;
         }
 
-        tail_bits = D_8009B398;
+        tail_bits = gInput_wPad1Pressed;
         if (tail_bits & 0xE0) {
             result = 0;
             /* Distinct exits preserve the retail branch-and-delay-slot shape. */

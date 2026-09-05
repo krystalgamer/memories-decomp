@@ -34,7 +34,7 @@ local ACTIVE_BUFFER = 0x8009b0ac
 local CURSOR_COLUMN = 0x8009b258
 local CURSOR_ROW = 0x8009b259
 local SELECTED_CARD = 0x8009b338
-local PAD_EDGE = 0x8009b3a4
+local PAD_HELD = 0x8009b3a4
 local VALUE_146 = 0x8009b146
 local VALUE_148 = 0x8009b148
 local MIN_SAMPLES = 8
@@ -87,8 +87,8 @@ local function capture(mode)
         screenName(mode), u8(MAIN_MODE), u8(ACTIVE_BUFFER)
     ))
     emit(string.format(
-        '  cursor_column=%d cursor_row=%d selected_card=%d pad_edge=0x%04X',
-        u8(CURSOR_COLUMN), u8(CURSOR_ROW), u16(SELECTED_CARD), u16(PAD_EDGE)
+        '  cursor_column=%d cursor_row=%d selected_card=%d pad_held=0x%04X',
+        u8(CURSOR_COLUMN), u8(CURSOR_ROW), u16(SELECTED_CARD), u16(PAD_HELD)
     ))
     emit(string.format(
         '  value_8009B146=%d value_8009B148=%d',
@@ -129,7 +129,7 @@ local function currentKey(mode)
         u16(SELECTED_CARD),
         s16(VALUE_146),
         s16(VALUE_148),
-        u16(PAD_EDGE)
+        u16(PAD_HELD)
     )
 end
 

@@ -3,7 +3,7 @@
 extern u8 D_801AF000[];
 extern s32 D_8009B0F4;
 extern s32 D_8009B134;
-extern u16 D_8009B398;
+extern u16 gInput_wPad1Pressed;
 
 extern void func_80012D4C(void);
 extern void *func_8004002C(void);
@@ -93,7 +93,7 @@ void func_800438B8(s32 count)
         func_80012D4C();
         if (!found && (((D_8009B0F4 & 0x02000030) | D_8009B134) == 0))
             found = 1;
-        if ((D_8009B398 & 0x8C0) && found)
+        if ((gInput_wPad1Pressed & 0x8C0) && found)
             count = 0;
         count--;
         if (count >= 0)
