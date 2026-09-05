@@ -128,6 +128,9 @@ Recommended header boundaries are:
 
 | Header | Interfaces and records |
 |---|---|
+| `src/psyq/r3000.h` | MIPS memory segments, exception/status bits, CP0 registers, and context indices |
+| `src/psyq/asm.h` | Numeric and ABI register aliases for assembly-facing headers |
+| `src/psyq/kernel.h` | BIOS event descriptors, task contexts, executable headers, and directory entries |
 | `src/psyq/libapi.h` | Events, critical sections, counters, and low-level memory-card/BIOS wrappers |
 | `src/psyq/malloc.h` | Heap initialization and the three allocator families |
 | `src/psyq/stdlib.h` | C runtime umbrella for allocation, conversion, sorting, random numbers, search, and exit |
@@ -167,6 +170,16 @@ Recommended header boundaries are:
 | `src/psyq/libmcx.h` | MCX application, clock, memory, serial, LED, device, and UIFS services |
 | `src/psyq/mcgui.h` | Configurable memory-card save/load UI environment and entry points |
 | `src/psyq/libpress.h` | MDEC environment, callbacks, input, output, and VLC helpers |
+
+`r3000.h` defines the hardware-facing MIPS vocabulary: cached and uncached
+segment conversions, exception vectors, status/cause bits, coprocessor
+register names, and saved-context indices. `asm.h` supplies the corresponding
+numeric and assembler register aliases. `kernel.h` layers the BIOS ABI records
+and constants over both headers, including `TCB`, `EvCB`, `EXEC`, `XF_HDR`,
+and the 40-byte `DIRENTRY`. These are low-level ABI definitions; they are not
+game-owned scheduler or filesystem structures merely because their fields
+have similar roles. Current game C reaches this stack only through imported
+SDK headers such as `libapi.h` and `libmcrd.h`.
 
 `libhmd.h` extends the graphics-library types rather than replacing them. Its
 `GsCOORDUNIT`, `GsUNIT`, and `GsARGUNIT*` records describe hierarchical-model
