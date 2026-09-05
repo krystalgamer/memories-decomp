@@ -1053,3 +1053,50 @@ already zero-extended, so the masks would be redundant if GCC were tracking the
 value rather than the type.
 
 Verified by `func_801812B4` in the main menu module.
+
+## Declare the table, do not hand-write the address
+
+A two-dimensional table should be declared `u16 sym[][N]` and the row
+arithmetic left to GCC. Hand-writing the flat sum reaches the same instructions
+but **fixes their order**, and that is usually what blocks the last few
+positions:
+
+```c
+/* generated: GCC forms slot*3, *4 - slot, doubled; reuses the row offset for
+   both the element and the count; hoists the base itself */
+while (i < D_80185C9C[slot][0]) {
+    func_801840F8(slot, D_80185C9C[slot][i + 1], amount);
+    i++;
+}
+
+/* hand-written: same fifty instructions, order pinned, four positions off */
+offset = slot * 22;
+index  = i * 2;
+value  = *(u16 *)(index + offset + (s32)D_80185C9C);
+```
+
+The generated form also gets the loop-carried partial product for free: the
+target recomputes `slot * 22` from a `slot * 3` that survives in a register
+across the call, which is not something you would think to write.
+
+## A measured negative is only a negative against the shape it was measured on
+
+`func_80184030` carried a recorded result that incrementing the counter after
+the call, with `i + 1` in the index, "was measured and not helping". That was
+true, and it was still the missing lever.
+
+It did not help against the hand-written address because the row chain is
+pinned there, so moving the increment cannot change which instruction leads the
+loop body. Against the generated address it decides exactly that: the row
+offset no longer depends on the increment, so it becomes the first instruction
+of the body — which is what the target rotates into the back-edge delay slot,
+where the earlier builds rotated the increment.
+
+So a negative is a fact about a **pair**: lever *and* surrounding shape. When
+the shape changes, the negatives recorded against the old one are not evidence
+any more, and the cheap move is to retry them rather than to trust the list.
+Both of these levers had been measured separately and neither worked; together
+they matched on the first build.
+
+Verified by `func_80184030` in the main menu module, using the declaration
+proved by `func_80183B2C` in the same module.
