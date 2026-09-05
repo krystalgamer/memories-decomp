@@ -155,7 +155,7 @@ function,0x800735A0,AiScript_Store,high,"gms.c aiInstStore; local operand memory
 function,0x800735DC,AiScript_SetRegister,high,"gms.c aiInstRegSet; local operand memory","Copies one AI operand register to another."
 function,0x80073624,AiScript_Add,high,"gms.c aiInstAdd; local operand memory","Adds two AI operands into a destination operand."
 function,0x800736C4,AiScript_Print,high,"gms.c aiInstPrint; local debug output","Prints an AI-script diagnostic value."
-function,0x80021894,Duel_AwardCard,confirmed,"Unchiga recomp award hooks; local matching body","Adds one card to the chest with saturation and shifts the fifteen-entry recent-award history."
+function,0x80021894,Duel_AwardCard,confirmed,"Unchiga recomp award hooks; local matching body","Adds one card to the chest with saturation and shifts the sixteen-entry recent-award history."
 function,0x80018080,Duel_ApplyCardObjectFlags,high,"local matching body; D_801A7AD8 flag table","Applies table-driven visual/state flags and intensity values to a duel card object."
 function,0x800240B0,Duel_UpdateCardPickCursor,confirmed,"Unchiga exact pure-C callback; local target and caller","Updates the field card-pick cursor, hold timer, selected slot, and completion state."
 function,0x8002E370,DuelEffect_MarkObjectIfActive,high,"local matching body; D_800EB010 reverse scan","Sets an object flag when any of three effect entries has a nonnegative active marker."
