@@ -397,6 +397,7 @@ CdIntToPos = 0x8007A710; // type:func
 DsSearchFile = 0x8007D3F0; // type:func
 CdIntToPos_8007E600 = 0x8007E600; // type:func
 CdPosToInt_8007E710 = 0x8007E710; // type:func
+DrawSync = 0x8007F6CC; // type:func
 LoadImage = 0x8007F978; // type:func
 GetDispEnv = 0x800803F4; // type:func
 LoadImage2 = 0x80081DE8; // type:func
