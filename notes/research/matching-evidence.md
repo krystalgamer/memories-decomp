@@ -306,6 +306,47 @@ Nothing reaches the CSE itself. A 2-D `gDuel_aTerrainBoost[type][gDuel_bTerrain
 pinning the first read's value to `$2` all keep it, and the first two also fold
 the `-1` back into the displacement.
 
+##### `volatile` separates the value CSE from the address CSE
+
+There are two CSEs in play, and they can be defeated separately. Declaring the
+global `volatile` forces the *load* to be re-issued but does **not** force its
+*address* to be re-materialised, so it recovers the missing instruction without
+reaching the `lui`.
+
+On `Duel_GetTerrainBoost` that takes the body from 24 of 25 instructions to the
+correct 25 of 25 under `gcc_2_8_1_g0_split`. The second read reappears, but as
+`lbu $v1, 0x0($a1)` against the address still held from the first, so the
+`lui`/`lbu` pair above is still not reproduced. Instruction count parity is
+therefore recovered while the residual stays.
+
+The same lever settles the count on `func_8002DDFC` (`0x8002DDFC`), where the
+target performs two independent read-modify-write sequences on `D_8009B0F4`:
+
+```
+lui/lw ; and ; lui/sw          clear
+lui/lw ; or  ; lui/sw          set
+```
+
+Left non-volatile, GCC folds the second read into the first and collapses both
+into one read-modify chain, which costs exactly two instructions and leaves the
+body at 74 of 76. Declaring it `volatile` gives 76 of 76.
+
+Two caveats keep this in proportion:
+
+- the levers are not additive. On `Duel_GetTerrainBoost`, combining `volatile`
+  with the `goto`, the `$4` pin, or the split `type * 6 - 1` local each scores
+  worse than `volatile` alone. They are alternative routes to the instruction
+  count, not stackable improvements.
+- the pattern is uncommon, so this is not a reflex. Across the matched corpus
+  only about 6% of functions whose source declares no volatile extern contain a
+  re-materialised repeat load, against about 15% of the 48 whose source does —
+  a real but weak association on small numbers. Reach for `volatile` when the
+  target visibly reads one global twice, not on a whole-body mismatch.
+
+Declaring these globals `volatile` is consistent with the tree rather than a
+trick: 25 tracked sources already do it, and `D_8009B0F4` in particular is
+declared `volatile` in ten places against seven plain ones.
+
 The correction to the earlier reading: under `gcc_2_8_1_g0_no_split` the address
 is *also* CSEd — materialised once at the top and reused at both reads — and the
 table load additionally degrades to the `$at` macro, giving 23 of 25. So the
