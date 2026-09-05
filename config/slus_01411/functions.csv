@@ -81,7 +81,7 @@ address,size,name,status,module,notes
 0x80015D0C,0xC,func_80015D0C,matching_c,game,4 pre-policy variants: direct small-data byte assignment to zero reproduced the exact three-instruction sequence.
 0x80015D18,0xA0,func_80015D18,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80015DB8,0x44,func_80015DB8,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x80015DFC,0xF8,func_80015DFC,unmatched_asm,game,
+0x80015DFC,0xF8,func_80015DFC,matching_c,game,Post-terminal resolution; merged into display_projection.c with its contiguous neighbours; D_800E9D98 declared as an array to keep it out of small data while D_8009B1D5 stays %gp_rel; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80015EF4,0x608,func_80015EF4,unmatched_asm,game,
 0x800164FC,0x27C,func_800164FC,unmatched_asm,game,
 0x80016778,0xC,func_80016778,matching_c,game,4 pre-policy variants: unsigned top-bit extraction stored to byte offset 0x69 reproduced the exact three-instruction sequence.
