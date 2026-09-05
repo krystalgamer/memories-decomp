@@ -344,7 +344,7 @@ address,size,name,status,module,notes
 0x8002F968,0x6C,func_8002F968,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002F9D4,0x54,func_8002F9D4,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8002FA28,0x2C,func_8002FA28,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8002FA54,0x124,func_8002FA54,unmatched_asm,game,
+0x8002FA54,0x124,func_8002FA54,matching_c,game,"Exact post-terminal match unlocked by collaborator dispatcher structure, a u16 flag local, and split-address generation."
 0x8002FB78,0x198,func_8002FB78,unmatched_asm,game,
 0x8002FD10,0x1C0,func_8002FD10,unmatched_asm,game,
 0x8002FED0,0x8,func_8002FED0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
