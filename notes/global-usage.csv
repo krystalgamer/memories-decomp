@@ -65,7 +65,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010384,D_80010384,D_80010384,0x8003F7D4,SaveData_RequestLoad,matching_c,game,C,src/game/save_data_request_load.c,address,8,"func_8003F758(D_801D3200, 0x680, D_80010384, 0);"
 0x80010384,D_80010384,D_80010384,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_request_write.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(D_801D3200,gDuel_awPlayerDeck,0x680);func_8003D03C(D_801D3200-0x200);..."
 0x80010384,D_80010384,D_80010384,0x8003F8D4,func_8003F8D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0300d4.s,address,,"addiu $a2, $a2, %lo(D_80010384) | lui $a2, %hi(D_80010384)"
-0x80010384,D_80010384,D_80010384,0x8003FE14,func_8003FE14,matching_c,game,C,src/game/func_8003FE14.c,address,8,void func_8003FE14(void){unsigned char*p=D_801D1880;unsigned char*q=p+0x1000;func_8003CF14(p);func_8003CF14(q);D_8009...
+0x80010384,D_80010384,D_80010384,0x8003FE14,func_8003FE14,matching_c,game,C,src/game/two_player_save_setup.c,address,8,"func_8003F758(p, 0x400, D_80010384, 4);"
 0x80010398,D_80010398,D_80010398,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02e41c.s,address,,"addiu $a0, $a0, %lo(D_80010398) | lui $a0, %hi(D_80010398)"
 0x800103A4,D_800103A4,D_800103A4,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02e41c.s,address,,"addiu $a0, $a0, %lo(D_800103A4) | lui $a0, %hi(D_800103A4)"
 0x80010538,D_80010538,D_80010538,0x800441DC,func_800441DC,matching_c,game,C,src/game/sound_request_wrappers.c,address,8,"func_8008F200(D_800F2B00, D_80010538, value, data);"
@@ -2047,7 +2047,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3BC,D_8009B3BC,D_8009B3BC,0x8003F454,func_8003F454,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02fc54.s,write,32,"sw $v0, %gp_rel(D_8009B3BC)($gp)"
 0x8009B3C0,D_8009B3C0,D_8009B3C0,0x8003F8D4,func_8003F8D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0300d4.s,read,8,"lbu $a1, %gp_rel(D_8009B3C0)($gp)"
 0x8009B3C0,D_8009B3C0,D_8009B3C0,0x8003FCD8,func_8003FCD8,matching_c,game,C,src/game/func_8003FCD8.c,write,8,D_8009B3C0 = 0x29;
-0x8009B3C0,D_8009B3C0,D_8009B3C0,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/func_8003FD14.c,write,8,D_8009B3C0 = 36; | D_8009B3C0 = 40;
+0x8009B3C0,D_8009B3C0,D_8009B3C0,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/two_player_save_setup.c,write,8,D_8009B3C0 = 36; | D_8009B3C0 = 40;
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003D300,func_8003D300,matching_c,game,C,src/game/func_8003D300.c,write,8,D_8009B3C1 = 0;
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003D518,func_8003D518,matching_c,game,C,src/game/dialog_transition.c,read_write,8,D_8009B3C1 = 0; | D_8009B3C1 = flags | 64; | (+3 more)
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003D614,func_8003D614,matching_c,game,C,src/game/dialog_transition.c,read_write,8,D_8009B3C1 = 0; | D_8009B3C1 |= 0x80; | (+1 more)
@@ -2095,12 +2095,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3DE,D_8009B3DE,D_8009B3DE,0x8003F454,func_8003F454,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02fc54.s,read,8,"lbu $v0, %gp_rel(D_8009B3DE)($gp)"
 0x8009B3DE,D_8009B3DE,D_8009B3DE,0x8003F740,func_8003F740,matching_c,game,C,src/game/data_transfer_request.c,write,8,D_8009B3DE = value;
 0x8009B3E0,D_8009B3E0,D_8009B3E0,0x8003EED0,func_8003EED0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02f6d0.s,read_write,32,"lw $a0, %gp_rel(D_8009B3E0)($gp) | lw $a2, %gp_rel(D_8009B3E0)($gp) | (+2 more)"
-0x8009B3E0,D_8009B3E0,D_8009B3E0,0x8003FE14,func_8003FE14,matching_c,game,C,src/game/func_8003FE14.c,write,,void func_8003FE14(void){unsigned char*p=D_801D1880;unsigned char*q=p+0x1000;func_8003CF14(p);func_8003CF14(q);D_8009...
+0x8009B3E0,D_8009B3E0,D_8009B3E0,0x8003FE14,func_8003FE14,matching_c,game,C,src/game/two_player_save_setup.c,write,,D_8009B3E0 = q;
 0x8009B3E4,D_8009B3E4,D_8009B3E4,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02e41c.s,read,32,"addiu $a1, $gp, %gp_rel(D_8009B3E4) | lw $v0, %gp_rel(D_8009B3E4)($gp)"
 0x8009B3EA,D_8009B3EA,D_8009B3EA,0x80030EC8,func_80030EC8,matching_c,game,C,src/game/func_80030EC8.c,write,8,if((flags&0x80)==0){D_8009B2EB=flags|0x80;D_8009B3ED[0]=0;D_8009B3EA[0]=0;}
 0x8009B3EA,D_8009B3EA,D_8009B3EA,0x80031000,func_80031000,matching_c,game,C,src/game/async_state_poll.c,write,8,D_8009B3EA[0] = 0;
 0x8009B3EA,D_8009B3EA,D_8009B3EA,0x8003F8D4,func_8003F8D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0300d4.s,read_write,8,"lbu $v0, %gp_rel(D_8009B3EA)($gp) | lbu $v1, %gp_rel(D_8009B3EA)($gp) | (+1 more)"
-0x8009B3EA,D_8009B3EA,D_8009B3EA,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/func_8003FD14.c,write,8,D_8009B3EA = 10;
+0x8009B3EA,D_8009B3EA,D_8009B3EA,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/two_player_save_setup.c,write,8,D_8009B3EA = 10;
 0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003E490,func_8003E490,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02ec90.s,read_write,8,"lbu $v0, %gp_rel(D_8009B3EB)($gp) | lbu $v1, %gp_rel(D_8009B3EB)($gp) | (+2 more)"
 0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003E7D4,func_8003E7D4,matching_c,game,C,src/game/duel_effect_state_entry.c,write,8,D_8009B3EB = 0;
 0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003E80C,func_8003E80C,matching_c,game,C,src/game/duel_effect_state_entry.c,write,8,D_8009B3EB = 1;
@@ -2112,7 +2112,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3ED,D_8009B3ED,D_8009B3ED,0x80030EC8,func_80030EC8,matching_c,game,C,src/game/func_80030EC8.c,write,8,if((flags&0x80)==0){D_8009B2EB=flags|0x80;D_8009B3ED[0]=0;D_8009B3EA[0]=0;}
 0x8009B3ED,D_8009B3ED,D_8009B3ED,0x80031000,func_80031000,matching_c,game,C,src/game/async_state_poll.c,write,8,D_8009B3ED[0] = 0;
 0x8009B3ED,D_8009B3ED,D_8009B3ED,0x8003FCD8,func_8003FCD8,matching_c,game,C,src/game/func_8003FCD8.c,read_write,8,D_8009B3ED |= 0x80; | if ((D_8009B3ED & 0x80) == 0) {
-0x8009B3ED,D_8009B3ED,D_8009B3ED,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/func_8003FD14.c,read_write,8,D_8009B3ED |= 128; | if ((D_8009B3ED & 128) == 0) {
+0x8009B3ED,D_8009B3ED,D_8009B3ED,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/two_player_save_setup.c,read_write,8,D_8009B3ED |= 128; | if ((D_8009B3ED & 128) == 0) {
 0x8009B3EE,D_8009B3EE,D_8009B3EE,0x8003F388,func_8003F388,matching_c,game,C,src/game/func_8003F388.c,write,8,D_8009B3EE = 0; | D_8009B3EE = i;
 0x8009B3EE,D_8009B3EE,D_8009B3EE,0x8003F454,func_8003F454,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02fc54.s,read,8,"lbu $a0, %gp_rel(D_8009B3EE)($gp) | lbu $a3, %gp_rel(D_8009B3EE)($gp) | (+2 more)"
 0x8009B3EE,D_8009B3EE,D_8009B3EE,0x8003F8D4,func_8003F8D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0300d4.s,read,8,"lbu $a0, %gp_rel(D_8009B3EE)($gp) | lbu $a3, %gp_rel(D_8009B3EE)($gp) | (+2 more)"
@@ -3232,8 +3232,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801B0000,D_801B0000,D_801B0000,0x800383DC,func_800383DC,matching_c,game,C,src/game/func_800383DC.c,address,16,v1 = ((u32)D_801B0000 & 0xFFFF0000) + D_801C0000[a2];
 0x801B0000,D_801B0000,D_801B0000,0x800393B0,func_800393B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,address,,"addiu $a0, $a0, %lo(D_801B0000) | lui $a0, %hi(D_801B0000)"
 0x801B0000,D_801B0000,D_801B0000,0x8003B744,Text_LookupString,matching_c,game,C,src/game/text_lookup_string.c,address,16,return ((u32)D_801B0000 & 0xFFFF0000) | D_801C0000[index];
-0x801B122B,D_801B122B,D_801B122B,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/func_8003FD14.c,address,8,"Text_SjisToGlyphCodes(D_801B122B, D_801D160C, 6);"
-0x801B1238,D_801B1238,D_801B1238,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/func_8003FD14.c,address,8,"Text_SjisToGlyphCodes(D_801B1238, D_801D160C + 4096, 6);"
+0x801B122B,D_801B122B,D_801B122B,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/two_player_save_setup.c,address,8,"Text_SjisToGlyphCodes(D_801B122B, D_801D160C, 6);"
+0x801B1238,D_801B1238,D_801B1238,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/two_player_save_setup.c,address,8,"Text_SjisToGlyphCodes(D_801B1238, D_801D160C + 4096, 6);"
 0x801B125A,D_801B125A,D_801B125A,0x8003D0F4,SaveData_ApplyRuntimeState,matching_c,game,C,src/game/save_data_apply_runtime_state.c,read,,"Text_SjisToGlyphCodes(D_801B125A, (u8 *)state + 0x40C, 6);"
 0x801C0000,D_801C0000,D_801C0000,0x80037DA4,func_80037DA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0285a4.s,address,,"addiu $v1, $v1, %lo(D_801C0000) | lui $v1, %hi(D_801C0000)"
 0x801C0000,D_801C0000,D_801C0000,0x800383DC,func_800383DC,matching_c,game,C,src/game/func_800383DC.c,read,16,v1 = ((u32)D_801B0000 & 0xFFFF0000) + D_801C0000[a2]; | v1 = ((u32)D_801C0000 & 0xFFFF0000) + D_801C0000[a2 - 0xD000];
@@ -3260,9 +3260,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D07DC,D_801D07DC,D_801D07DC,0x8002D458,func_8002D458,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01dc58.s,read_write,8|16,"lbu $v1, %lo(D_801D07DC)($v0) | lui $v0, %hi(D_801D07DC) | (+2 more)"
 0x801D1200,D_801D1200,D_801D1200,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,address,,"addiu $a0, $a0, %lo(D_801D1200) | lui $a0, %hi(D_801D1200)"
 0x801D1200,D_801D1200,D_801D1200,0x8003F8D4,func_8003F8D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0300d4.s,address,,"addiu $a0, $a0, %lo(D_801D1200) | lui $a0, %hi(D_801D1200)"
-0x801D1200,D_801D1200,D_801D1200,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/func_8003FD14.c,address,8,left = D_801D1200; | right = D_801D1200 + 4096;
-0x801D160C,D_801D160C,D_801D160C,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/func_8003FD14.c,address,8,"Text_SjisToGlyphCodes(D_801B122B, D_801D160C, 6); | Text_SjisToGlyphCodes(D_801B1238, D_801D160C + 4096, 6);"
-0x801D1880,D_801D1880,D_801D1880,0x8003FE14,func_8003FE14,matching_c,game,C,src/game/func_8003FE14.c,address,8,void func_8003FE14(void){unsigned char*p=D_801D1880;unsigned char*q=p+0x1000;func_8003CF14(p);func_8003CF14(q);D_8009...
+0x801D1200,D_801D1200,D_801D1200,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/two_player_save_setup.c,address,8,left = D_801D1200; | right = D_801D1200 + 4096;
+0x801D160C,D_801D160C,D_801D160C,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/two_player_save_setup.c,address,8,"Text_SjisToGlyphCodes(D_801B122B, D_801D160C, 6); | Text_SjisToGlyphCodes(D_801B1238, D_801D160C + 4096, 6);"
+0x801D1880,D_801D1880,D_801D1880,0x8003FE14,func_8003FE14,matching_c,game,C,src/game/two_player_save_setup.c,address,8,u8 *p = D_801D1880;
 0x801D2200,D_801D2200,D_801D2200,0x8003F8D4,func_8003F8D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0300d4.s,address,,"addiu $a0, $a0, %lo(D_801D2200) | lui $a0, %hi(D_801D2200)"
 0x801D3200,D_801D3200,D_801D3200,0x8003F7D4,SaveData_RequestLoad,matching_c,game,C,src/game/save_data_request_load.c,address,8,"func_8003F758(D_801D3200, 0x680, D_80010384, 0);"
 0x801D3200,D_801D3200,D_801D3200,0x8003F810,SaveData_PollLoad,matching_c,game,C,src/game/save_data_poll_load.c,address,8,"Util_CopyWords(p, D_801D3200, 0x680);"
@@ -3313,7 +3313,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D5608,D_801D5608,D_801D5608,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_run_credits.c,write,32,".reloc .-4, R_MIPS_HI16, D_801D5608 after .word 0x3C060000 | .reloc .-4, R_MIPS_LO16, D_801D5608 after .word 0x24C60000 | (+1 more)"
 0x801D5608,D_801D5608,D_801D5608,0x80031E5C,func_80031E5C,matching_c,game,C,src/game/func_80031E5C.c,write,32,D_801D5608[0] = *(u32 *)(arg0 + 0x5A9C); | D_801D5608[1] = *(u32 *)(arg0 + 0x5AA0);
 0x801D5608,D_801D5608,D_801D5608,0x8003E854,func_8003E854,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02f054.s,write,32,"addiu $v1, $v1, %lo(D_801D5608) | lui $v1, %hi(D_801D5608) | (+1 more)"
-0x801D5608,D_801D5608,D_801D5608,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/func_8003FD14.c,address,32,state = D_801D5608;
+0x801D5608,D_801D5608,D_801D5608,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/two_player_save_setup.c,address,32,state = D_801D5608;
 0x801D5608,D_801D5608,D_801D5608,0x80060E70,func_80060E70,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_051338.s,write,32,"addiu $fp, $v0, %lo(D_801D5608) | lui $v0, %hi(D_801D5608) | (+1 more)"
 0x801D5648,D_801D5648,D_801D5648,0x8003E490,func_8003E490,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02ec90.s,write,32,"lui $a0, %hi(D_801D5648) | sw $v0, %lo(D_801D5648)($a0)"
 0x801D5648,D_801D5648,D_801D5648,0x8003E854,func_8003E854,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02f054.s,write,32,"lui $v1, %hi(D_801D5648) | sw $v0, %lo(D_801D5648)($v1)"
