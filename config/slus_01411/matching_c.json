@@ -5047,6 +5047,12 @@
       "source": "src/game/ai_fusion.c"
     },
     {
+      "address": "0x80072DC0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x15C",
+      "source": "src/game/ai_script_evaluate_fusion.c"
+    },
+    {
       "address": "0x80072F1C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x38",
