@@ -278,10 +278,10 @@ whoever carves `module_header` should do both at once rather than twice.
 
 ### Carving the blob is necessary but not sufficient
 
-Both blocked functions need compiler-emitted data at module offsets `0x4`
-through `0x90`, which is inside `.module_header` at `0x80168000` and therefore
-**before all of the module's text**. The generated linker script cannot put it
-there:
+Both blocked functions are in the **password** overlay, and they need
+compiler-emitted data at module offsets `0x4` through `0x90`. In password that
+range is inside `.module_header` and therefore **before all of the module's
+text**. The generated linker script cannot put it there:
 
 - `section_order` is `.text`, `.rodata`, `.data`, `.sdata`, `.sbss`, `.bss`,
   and it applies **within each segment**. So in `.module` every C object's
@@ -294,6 +294,21 @@ there:
 So splitting the data blob is only half the change. The segment model also has
 to place that one source file's `.rodata` inside `.module_header`, which is a
 change to how the layout is generated rather than to the yaml alone.
+
+**This constraint is specific to the password overlay**, and the four
+`0x80168000`-based overlays are indistinguishable by address alone, so it is
+worth checking rather than assuming. The header extents differ:
+
+| overlay | header | module text starts |
+|---|---|---|
+| `free_duel` | `0x0`–`0x4` | `0x4` |
+| `overworld_before_coup` | `0x0`–`0x4` | `0x4` |
+| `overworld_after_coup` | `0x0`–`0x4` | `0x4` |
+| `main_menu` | `0x0`–`0x1C` | `0x1C` |
+| `password` | `0x0`–`0xB4` | `0xB4` |
+
+Only password's header reaches past `0x90`. In any other overlay those same
+offsets are ordinary module text and the argument above does not apply at all.
 
 **The failure is silent.** The script ends with
 
