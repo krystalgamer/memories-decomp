@@ -164,12 +164,13 @@ no-op. The branch is deleted so every card displays. The containing function is
 **`D0038C60 3021` / `80038C60 000F` / `D0038C62 0080` / `80038C62 3406` — "no
 stars needed at the password screen"** (hugopocked). `0x80038C60` holds
 `addu $a2, $a0, $zero`; the patch writes `ori $a2, $zero, 0xF`. Exact C now
-shows that the containing function, **`func_80038BF0`**, handles the `FB` text
-control byte. `$a2` carries its optional choice mask, whose low nibble is
-stored in `D_8009B336` and tested by `Dialog_HighlightChoice`; forcing `0xF`
-enables all four mask bits. This site does not carry or modify a numeric
-starchip cost. Any password-screen effect of the published code is therefore
-an indirect choice-enablement behavior, not a price change.
+shows that the containing function, **`Text_HandleChoiceCommand`
+(`0x80038BF0`)**, handles the `FB` text control byte. `$a2` carries its
+optional choice mask, whose low nibble is stored in `D_8009B336` and tested
+by `Dialog_HighlightChoice`; forcing `0xF` enables all four mask bits. This
+site does not carry or modify a numeric starchip cost. Any password-screen
+effect of the published code is therefore an indirect choice-enablement
+behavior, not a price change.
 
 The other patch codes target `0x8016xxxx`–`0x8018xxxx`, which is not in the
 main executable — that is **overlay** code, loaded at runtime from

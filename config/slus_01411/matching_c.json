@@ -2254,7 +2254,7 @@
       "address": "0x80038BF0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x124",
-      "source": "src/game/func_80038BF0.c"
+      "source": "src/game/text_handle_choice_command.c"
     },
     {
       "address": "0x80038D14",

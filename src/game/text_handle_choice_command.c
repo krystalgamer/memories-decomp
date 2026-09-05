@@ -15,7 +15,7 @@ extern void func_80037CE0(u8 *);
 extern void func_80035CA8(s32);
 extern void DuelEffect_ClearMatchingMarker(s32);
 
-void func_80038BF0(u8 *p)
+void Text_HandleChoiceCommand(u8 *p)
 {
     s32 t;
     s32 u;

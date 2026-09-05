@@ -1180,9 +1180,9 @@ always presents the first fork again, with a different line from Jono each
 time ("Let's move on", "Teana's waiting for us", "déjà vu", "these guys are
 everywhere"). The route itself is in the menus' jump tables [after a menu's
 options comes `FB 80` and one `u16` target per option, indexed by the
-choice — `func_80038BF0`]: at forks 1, 2 and 4 "Go right" leads on and "Go
-left" to the mage, at fork 3 it is the reverse — right, right, left, right,
-as every guide says, now read off the bytes.
+choice — `Text_HandleChoiceCommand` (`0x80038BF0`)]: at forks 1, 2 and 4 "Go
+right" leads on and "Go left" to the mage, at fork 3 it is the reverse —
+right, right, left, right, as every guide says, now read off the bytes.
 
 Not read: Nitemare's win text tests flag `0x5F7` in a jump-only branch. The
 ending text (5D7) sets and tests nothing. Text ids `0x40`–`0x45` are not
