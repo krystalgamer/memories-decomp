@@ -4915,6 +4915,12 @@
       "source": "src/game/ai_script_load_best_values.c"
     },
     {
+      "address": "0x80071EB8",
+      "profile": "gcc_2_8_1_cc_g0_as_g8_split",
+      "size": "0x110",
+      "source": "src/game/AiScript_CountCards.c"
+    },
+    {
       "address": "0x8007249C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x128",
