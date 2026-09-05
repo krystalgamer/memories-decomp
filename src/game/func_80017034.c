@@ -17,7 +17,7 @@ int func_80017034(Object *argument)
     unsigned int value =
         table[position->y * DUEL_FIELD_ROW_SIZE + position->x];
     if (value >= DUEL_FIELD_SIDE_GRID_SLOT_COUNT) {
-        int mask = object->flags & 0x1000;
+        int mask = object->flags & DUEL_CARD_FLAG_FACE_DOWN;
         valid = (unsigned int)mask < 1;
     }
     if ((gInput_wPad1Pressed[0] & PAD_BUTTON_TRIANGLE) &&
