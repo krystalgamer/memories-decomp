@@ -120,7 +120,10 @@ scene whose menu jumps into Build Deck, Save and the "loaded" main menu.
 **Boot.** The console shows the licence screens, the game plays an intro movie
 [`MOVIE.STR`; the random-number seed is set during the Konami logo and starts
 advancing during the intro — UNVERIFIED, Data Crystal], and the title screen
-appears. Pressing Start on the title opens the **initial menu**:
+appears. The file contains five 3460-sector copies of the same movie, but the
+only populated stream-range entry plays frames 1 through 303 from the first
+3080 sectors of copy 0; no range selects the later copies. Pressing Start on
+the title opens the **initial menu**:
 
 * **New Game** — start from nothing: goes to name entry (§2.1), then into the
   campaign's opening scene with a freshly generated starter deck (§4.3).
