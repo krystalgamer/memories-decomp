@@ -59,8 +59,8 @@ symbol review.
 | `0x80073860` | `OpenEvent` | Memory-card setup passes documented event classes, specifications, mode, and callbacks. |
 | `0x80073870` | `CloseEvent` | Called on each stored event descriptor during memory-card teardown. |
 | `0x80073890` | `EnableEvent` | Called on all eight descriptors immediately after creation. |
-| `0x800738B0` | `EnterCriticalSection` | Brackets event creation and teardown with `0x800738C0`. |
-| `0x800738C0` | `ExitCriticalSection` | Paired critical-section exit. |
+| `0x800738B0` | `EnterCriticalSection` | Applied Psy-Q 4.6 identity; brackets event creation and teardown with `ExitCriticalSection`. |
+| `0x800738C0` | `ExitCriticalSection` | Applied Psy-Q 4.6 identity; paired critical-section exit. |
 | `0x80073920` | `nextfile` | Advances a caller-owned directory record and returns that same pointer on success. |
 | `0x80073AC0` | `firstfile` | Receives a formatted device path and caller-owned directory record, returning that record on success. |
 | `0x80073E1C` | `InitPAD` | `Input_InitPads` passes two adjacent 34-byte receive buffers and their exact lengths. |

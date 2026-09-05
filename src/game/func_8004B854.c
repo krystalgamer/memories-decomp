@@ -10,13 +10,13 @@ typedef struct {
 
 extern SoundState *D_8009B458;
 
-extern void func_800738B0(void);
+extern int EnterCriticalSection(void);
 extern void func_80073A54(s32);
 extern s32 func_80073860(s32, s32, s32, void (*)(void));
 extern void func_80073890(s32);
 extern void func_80073950(s32, s32, s32);
 extern void func_80073A24(s32);
-extern void func_800738C0(void);
+extern void ExitCriticalSection(void);
 extern void func_8004B734(void);
 
 void func_8004B854(void)
@@ -27,7 +27,7 @@ void func_8004B854(void)
         return;
 
     D_8009B458->guard = 1;
-    func_800738B0();
+    EnterCriticalSection();
     func_80073A54(0xF2000002);
     {
         register s32 descriptor asm("$4") = 0xF2000002;
@@ -41,7 +41,7 @@ void func_8004B854(void)
     func_80073890(event);
     func_80073950(0xF2000002, 0xE000, 0x1000);
     func_80073A24(0xF2000002);
-    func_800738C0();
+    ExitCriticalSection();
     D_8009B458->active = 0;
     D_8009B458->guard = 0;
 }

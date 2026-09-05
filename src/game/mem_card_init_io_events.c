@@ -6,10 +6,10 @@ extern int D_8009B444;
 extern volatile int D_8009B450;
 extern void *D_800F2AE0[];
 extern void *D_800F2AF0[];
-extern void func_800738B0(void);
+extern int EnterCriticalSection(void);
 extern void *func_80073860(int, int, int, void *);
 extern void func_80073890(void *);
-extern void func_800738C0(void);
+extern void ExitCriticalSection(void);
 extern void func_80043D48(void **);
 extern void func_8008B3A0(int);
 extern void MemCard_SetIOResultCompleteCB(void);
@@ -30,7 +30,7 @@ void MemCard_InitIOEvents(void)
         D_8009B44E = 0;
         D_8009B444 = 0;
         items = D_800F2AE0;
-        func_800738B0();
+        EnterCriticalSection();
         cb0 = MemCard_SetIOResultCompleteCB;
         base[0] = func_80073860(0xF4000001, 4, 0x1000, cb0);
         cb1 = MemCard_SetIOResultTimeoutCB;
@@ -51,7 +51,7 @@ void MemCard_InitIOEvents(void)
         func_80073890(*items++);
         count--;
     } while (count != 0);
-    func_800738C0();
+    ExitCriticalSection();
 }
 
 void func_80044038(int value)
