@@ -564,7 +564,7 @@ address,size,name,status,module,notes
 0x8003CB7C,0x6C,func_8003CB7C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003CBE8,0x50,func_8003CBE8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003CC38,0xA0,func_8003CC38,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8003CCD8,0x120,func_8003CCD8,matching_c,game,Collaborator-guided pure-C refinement; absolute repeat scalar and volatile output halves reproduce exact load and store scheduling.
+0x8003CCD8,0x120,Input_UpdatePads,matching_c,game,Publishes held and newly pressed masks plus timer-driven auto-repeat masks for both controllers. Collaborator-guided pure-C refinement; absolute repeat scalar and volatile output halves reproduce exact load and store scheduling.
 0x8003CDF8,0x50,func_8003CDF8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003CE48,0x2C,func_8003CE48,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003CE74,0x44,SaveData_NextMaskWord,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.

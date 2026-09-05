@@ -343,3 +343,6 @@ SD_ReadSequenceU16BE = 0x8004BCA8; // type:func
 // Semantic names
 Dialog_ReadChoiceInput = 0x8003700C; // type:func
 Dialog_UpdateChoice = 0x800371A8; // type:func
+
+// Semantic names
+Input_UpdatePads = 0x8003CCD8; // type:func
