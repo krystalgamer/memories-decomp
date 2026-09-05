@@ -133,6 +133,8 @@ Recommended header boundaries are:
 | `src/psyq/stdlib.h` | C runtime umbrella for allocation, conversion, sorting, random numbers, search, and exit |
 | `src/psyq/ctype.h` | Table-driven character classification plus case-conversion functions and macros |
 | `src/psyq/limits.h` | Integral-width limits for the Psy-Q MIPS compiler target |
+| `src/psyq/stddef.h` | Target definitions of `size_t`, `wchar_t`, `NULL`, and `WEOF` |
+| `src/psyq/stdarg.h` | Integer-slot-aligned variadic argument traversal macros |
 | `src/psyq/libmath.h` | Software floating-point math, conversion helpers, and math error globals |
 | `src/psyq/memory.h` | Byte-memory operations plus the BSD `bcopy`/`bzero`/`bcmp` aliases |
 | `src/psyq/strings.h` | String operations, including search/token helpers, layered over `memory.h` |
@@ -202,6 +204,15 @@ records the compiler target's eight-bit characters, 16-bit shorts, and
 ABI widths, not the signedness or ownership of an unknown game field. No
 current game C includes either header, so adopting a classification macro or
 limit still requires exact code-generation evidence.
+
+`stddef.h` defines `size_t` as `unsigned int` and `wchar_t` as
+`unsigned long`; both are 32-bit types under this target's `limits.h`. It also
+defines `NULL` as integer zero and `WEOF` as `0xFFFFFFFF`. `stdarg.h` uses a
+`void *` `va_list` and advances it through arguments rounded up to
+`sizeof(int)`, encoding the old compiler's stack and alignment assumptions.
+These are target/compiler support declarations, not portable host-build
+substitutes. No current game C includes either header directly, although
+`stdlib.h` includes `stddef.h`.
 
 The imported string headers form a compatibility stack rather than three
 independent libraries. `string.h` only includes `strings.h`; `strings.h`
