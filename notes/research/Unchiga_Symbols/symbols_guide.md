@@ -128,6 +128,7 @@ NEW GAME / LOAD / 2P DUEL / TRADE / OPTION. The menu's own logic runs from a mod
 |---|---|---|
 | `Main_RunCampaign` | 0x8002CE64 | Mode 0xC2: the story/cutscene tick (IDB name, live-confirmed). |
 | `Script_RunTick` | 0x8002FA54 | The bytecode driver: selects a script, latches the stream, runs one opcode per call. |
+| `Script_OpSound` | 0x8002EC74 | Sound opcode: plays an immediate effect or updates and replays the script's current sound command. |
 | `gScript_apfnCommand / gScript_wCommand` | 0x80090C50 / 0x8009B27C | 24 opcode handlers and the opcode being serviced (bit 0x8000 = busy). |
 | `gScript_pStream / gScript_wState` | 0x8009B290 / 0x8009B2A4 | Stream cursor; 0x8000 running, 0x4000 waiting on a text box, low bits = script number. |
 | `Script_OpShowImage` | 0x8002E730 | Opcode 5: swap the cutscene picture — copy the staged image in VRAM, or fade and pull the next one from disc. |
