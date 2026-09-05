@@ -1010,7 +1010,7 @@ address,size,name,status,module,notes
 0x8005C7BC,0x734,func_8005C7BC,unmatched_asm,game,
 0x8005CEF0,0x488,func_8005CEF0,unmatched_asm,game,
 0x8005D378,0x61C,func_8005D378,unmatched_asm,game,
-0x8005D994,0x210,func_8005D994,unmatched_asm,game,
+0x8005D994,0x210,func_8005D994,matching_c,game,Matched from newer collaborator evidence by preserving the signed-byte state read through the later x live range.
 0x8005DBA4,0xC64,func_8005DBA4,unmatched_asm,game,
 0x8005E808,0x3EC,func_8005E808,unmatched_asm,game,
 0x8005EBF4,0x47C,func_8005EBF4,unmatched_asm,game,
