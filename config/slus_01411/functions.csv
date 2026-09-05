@@ -1312,7 +1312,7 @@ address,size,name,status,module,notes
 0x80076D10,0xC,func_80076D10,sdk_asm,psyq/sdk,
 0x80076D20,0x6C,func_80076D20,sdk_asm,psyq/sdk,
 0x80076D90,0x13C,func_80076D90,sdk_asm,psyq/sdk,
-0x80076ED0,0x1BC,func_80076ED0,sdk_asm,psyq/sdk,
+0x80076ED0,0x1BC,SpuSetKey,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SK.OBJ signature and matching voice-control callers.
 0x80077090,0x90,func_80077090,sdk_asm,psyq/sdk,
 0x80077120,0x30,func_80077120,sdk_asm,psyq/sdk,
 0x80077150,0x5C,func_80077150,sdk_asm,psyq/sdk,

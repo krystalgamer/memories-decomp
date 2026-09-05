@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "sound.h"
 
-extern void func_80076ED0(s32, s32);
+extern void SpuSetKey(long, unsigned long);
 extern void func_800773C4(void *);
 
 void func_80047EC4(void)
@@ -10,7 +10,7 @@ void func_80047EC4(void)
     s32 total;
 
     do {
-        func_80076ED0(0, 0x00F00000);
+        SpuSetKey(0, 0x00F00000);
         func_800773C4(g_SDValue->field_15D8);
         total = g_SDValue->field_15EF + g_SDValue->field_15ED +
                 g_SDValue->field_15EE + g_SDValue->field_15EF;
@@ -30,6 +30,6 @@ s32 func_80047F38(u8 value)
             result |= mask;
     }
     if (result != 0)
-        func_80076ED0(0, result << 20);
+        SpuSetKey(0, result << 20);
     return result;
 }

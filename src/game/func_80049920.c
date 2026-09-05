@@ -3,14 +3,14 @@
 extern u8 *D_8009B458;
 extern s32 D_80011434[];
 
-void func_80076ED0(s32 arg0, s32 arg1);
+void SpuSetKey(long on_off, unsigned long voice_bit);
 s32 func_80077090(s32 arg0);
 
 /* Second pass over the 0x28-byte records at D_8009B458: for each record
  * whose +0x18D counter is set and whose channel reports state 3, either
  * bumps the counter or, once it reaches 2, drains the channel through the
- * func_80076ED0/func_80077090 pair, clears the counter and ORs the channel
- * mask into one final func_80076ED0 call. */
+ * SpuSetKey/func_80077090 pair, clears the counter and ORs the channel mask
+ * into one final SpuSetKey call. */
 void func_80049920(void) {
     u8 *base;
     s32 i;
@@ -45,7 +45,7 @@ void func_80049920(void) {
                         mask |= *tbl;
                         q = tbl;
                         do {
-                            func_80076ED0(0, *q);
+                            SpuSetKey(0, *q);
                             v = func_80077090(*q);
                         } while (v != two && v != 0);
                         b2 = D_8009B458;
@@ -61,6 +61,6 @@ void func_80049920(void) {
         } while (++i < *(s16 *)(base + 0x510));
     }
     if (mask != 0) {
-        func_80076ED0(0, mask);
+        SpuSetKey(0, mask);
     }
 }
