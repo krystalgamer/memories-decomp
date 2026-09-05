@@ -7,7 +7,7 @@ extern s16 D_8009B20C[2];
 extern u16 D_8009B220;
 extern u8 D_8009B260[8];
 extern u8 D_800907D8[];
-extern u8 D_80090800[];
+extern DuelFieldPosition D_80090800[];
 extern u8 D_801A7AD8[];
 
 extern s32 func_800181EC(u8 *);
@@ -30,8 +30,12 @@ void func_8002596C(void) {
     if (func_80024E24() == 0) {
         D_8009B20C[1] = 0;
         q = func_8002C604(0x10);
-        t = D_80090800;
-        e = ((D_8009B20C[1] + 5) * 4 + D_8009B1D5 * 80) + t;
+        t = (u8 *)D_80090800;
+        e = (
+            (D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) *
+                sizeof(DuelFieldPosition) +
+            D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES
+        ) + t;
         w = *(u16 *)(e + 0);
         p = q;
         D_8009B17C = p;

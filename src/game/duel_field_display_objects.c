@@ -24,11 +24,6 @@ typedef struct {
     u8 table_index;
 } DuelFieldDisplaySource;
 
-typedef struct {
-    u16 x;
-    u16 y;
-} DuelFieldPosition;
-
 extern u8 D_800907D8[];
 extern DuelFieldPosition D_80090800[];
 extern u8 D_8009B1D5;
@@ -68,7 +63,8 @@ void func_800234E4(DuelFieldDisplaySource *source)
 
     {
         u8 *base = (u8 *)D_80090800;
-        s32 offset = index * 4 + D_8009B1D5 * 0x50;
+        s32 offset = index * sizeof(DuelFieldPosition) +
+            D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES;
 
         position = (DuelFieldPosition *)(base + offset);
     }

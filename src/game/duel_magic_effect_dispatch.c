@@ -3,18 +3,13 @@
 #include "duel_card.h"
 
 typedef struct {
-    u16 x;
-    u16 y;
-} Pair;
-
-typedef struct {
     char pad_00[4];
     u16 y;
 } NewObject;
 
 extern u8 D_8009B1D5;
 extern u16 D_8009B220;
-extern Pair D_80090800[2][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
+extern DuelFieldPosition D_80090800[2][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 extern u8 D_800907D8[];
 extern char D_8009AF40[];
 extern s16 D_8009B1A8;
