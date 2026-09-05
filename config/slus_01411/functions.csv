@@ -1245,7 +1245,7 @@ address,size,name,status,module,notes
 0x80074078,0x70,func_80074078,sdk_asm,psyq/sdk,
 0x800740F0,0xC,func_800740F0,sdk_asm,psyq/sdk,
 0x80074100,0x68,func_80074100,sdk_asm,psyq/sdk,
-0x80074170,0x178,func_80074170,sdk_asm,psyq/sdk,
+0x80074170,0x178,VSync,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBETC.LIB/VSYNC.OBJ signature and matching frame-timing callers.
 0x800742E8,0x98,func_800742E8,sdk_asm,psyq/sdk,
 0x80074380,0xC,func_80074380,sdk_asm,psyq/sdk,
 0x80074390,0x30,func_80074390,sdk_asm,psyq/sdk,

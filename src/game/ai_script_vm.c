@@ -5,7 +5,7 @@ extern AiFieldCardState D_800EAE88;
 extern AiScriptState gAiScript_State;
 
 extern s32 AiScript_ReadByte(void);
-extern s32 func_80074170(s32);
+extern int VSync(int);
 extern void func_8008E360(void *, s32);
 extern void AiScript_EndHand(void);
 extern void AiScript_EndField(void);
@@ -41,7 +41,7 @@ s32 AiScript_Run(void)
             return 3;
         if (handler == AiScript_PlayFieldCard)
             return 2;
-        if (func_80074170(1) >= 0xF0)
+        if (VSync(1) >= 0xF0)
             break;
     }
 
