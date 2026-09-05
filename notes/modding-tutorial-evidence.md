@@ -634,6 +634,8 @@ needs a runtime trace.
 
 - `Trocar Musica.txt`
 - `Heishin Campanha.txt`
+- `Offset Personagens - Por Jean Cabral.docx`
+- `Offset Personagens - Por Jean Cabral 1.2.docx`
 
 The tutorials identify nine-byte records embedded in the global text bank.
 The Heishin record appears verbatim at SLUS offsets `0x1A5964` and
@@ -670,6 +672,29 @@ as two independent music bytes. The tutorial's labels for the `0x71D0`-
 `0x72C0` values are behavior reports; static code confirms the command values
 but not every audible track name.
 
+The revised character-offset tutorial labels the observed sound commands as:
+
+| Command | Tutorial label |
+|---:|---|
+| `0x71D0` | Preliminary match |
+| `0x71E0` | Finals match |
+| `0x71F0` | Seto Kaiba |
+| `0x7200` | Egyptian duel |
+| `0x7210` | Mage duel |
+| `0x7220` | High Mage duel |
+| `0x7230` | Heishin |
+| `0x7240` | Priest Seto |
+| `0x7250`, `0x7260` | DarkNite / Nitemare |
+| `0x7270` | Free Duel |
+| `0x7280` | 3D battle |
+| `0x7290` | Seto Kaiba 3D battle |
+| `0x72A0` | Egyptian 3D duel |
+| `0x72B0` | DarkNite 3D battle |
+| `0x72C0` | Free Duel select |
+
+These labels remain tutorial observations rather than static audio
+identifications.
+
 `Text_StartCampaignDuel` also chooses a second sound value from the opponent ID:
 `0x7280` for IDs `9`-`16`, `0x7290` for ID `17`, `0x72B0` for ID `38`, and
 `0x72A0` otherwise. Changing the record's explicit sound command therefore
@@ -681,12 +706,39 @@ unchanged and redirects only the two post-duel paths. Because the same retail
 record occurs twice, editing `0x1A5964` does not globally modify every
 Heishin encounter.
 
+The two character-offset documents also provide one record for every opponent
+ID from `1` through `38`. Comparing all 38 listed byte sequences against the
+untouched North American executable found 37 exact matches. The exception is
+Bandit Keith: the tutorial lists:
+
+```text
+F8 0D 0C 7D 7C 00 D0 71 FF
+```
+
+but the retail record at SLUS offset `0x1A6A5C` is:
+
+```text
+F8 0D 0C 7C 7D 00 D0 71 FF
+```
+
+The opponent, terrain, and sound command are unchanged; only the two
+post-duel continuation bytes are reversed in the tutorial.
+
+The records are not all unique search anchors. Exact retail duplicates occur
+for Heishin and Teana 2nd, three times each for Ocean, Forest, Mountain,
+Desert, and Meadow Mage, and five times for Labyrinth Mage. The tutorial's
+`0x1A1A8F` is a starting point for searching the dialogue bank, not the first
+duel record itself; Simon Muran's record begins at `0x1A1FA6`.
+
 **Confidence:**
 
 - **Confirmed** that `F8 0D` dispatches to `Text_StartCampaignDuel` and that
   the record fields have the layout shown above.
 - **Confirmed** that `30 72` is the little-endian sound command `0x7230` and
   that the two Heishin records occur at the listed SLUS offsets.
+- **Confirmed** that 37 of the 38 character-tutorial records occur verbatim
+  in the untouched SLUS, and that Bandit Keith's retail continuation pair is
+  `7C 7D`, not `7D 7C`.
 - **High** that `0x74` and `0x75` are respectively the win and loss
   continuations; the selection mechanism is exact, while the outcome labels
   come from the tutorial's observed behavior.
