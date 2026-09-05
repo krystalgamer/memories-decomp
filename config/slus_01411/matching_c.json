@@ -4153,6 +4153,12 @@
       "source": "src/game/sound_spatialization.c"
     },
     {
+      "address": "0x8004A43C",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
+      "size": "0xDC",
+      "source": "src/game/func_8004A43C.c"
+    },
+    {
       "address": "0x8004A6D8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x20",
