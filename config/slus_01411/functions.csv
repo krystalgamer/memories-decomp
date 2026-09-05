@@ -514,7 +514,7 @@ address,size,name,status,module,notes
 0x80039AFC,0xE4,func_80039AFC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80039BE0,0xB4,func_80039BE0,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80039C94,0xD0,func_80039C94,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80039D64,0x138,func_80039D64,unmatched_asm,game,
+0x80039D64,0x138,func_80039D64,matching_c,game,Exact collaborator match: word-aligned entry layout makes the whole-record compaction copy reproduce linked bytes and relocations.
 0x80039E9C,0x80,func_80039E9C,matching_c,game,Exact post-terminal match from the returned reset cursor and shared reverse-loop counter.
 0x80039F1C,0x28,func_80039F1C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80039F44,0x4C,func_80039F44,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
