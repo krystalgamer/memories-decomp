@@ -188,12 +188,12 @@ logic and shows up only as size. `CampaignMap_MoveCameraDpad` tests one pad
 word twelve times:
 
 ```
-lhu  v0,%lo(D_8009B3A4)(a1)
+lhu  v0,%lo(gInput_wPad1Held)(a1)
 nop
 andi v0,v0,0x40
 beqz v0,...
 ...
-lhu  v0,%lo(D_8009B3A4)(a1)     <- reloaded, two instructions later
+lhu  v0,%lo(gInput_wPad1Held)(a1)     <- reloaded, two instructions later
 nop
 andi v0,v0,0x8000
 ```
@@ -213,7 +213,7 @@ because a volatile load cannot be moved to cover its own delay slot either.
 
 Two practical notes:
 
-- Check the resident sources before deciding. `D_8009B3A4` was already
+- Check the resident sources before deciding. `gInput_wPad1Held` was already
   `volatile u16` in four of them, so the overlay was the outlier, not the
   discovery. Grep for the symbol first — a match elsewhere in the repo is
   cheaper evidence than a rebuild.

@@ -1,6 +1,6 @@
 #include "../types.h"
 
-extern u16 D_8009B398[];
+extern u16 gInput_wPad1Pressed[];
 extern u8 D_8009B144[];
 extern u8 D_8009B143[];
 extern u8 D_8009B142[];
@@ -17,7 +17,7 @@ void func_800359B0(void)
     if (func_8005C530() == 0) {
         u8 value = D_8009B318;
 
-        if ((value & 0x40) || (D_8009B398[0] & 0x800)) {
+        if ((value & 0x40) || (gInput_wPad1Pressed[0] & 0x800)) {
             D_8009B318 = value | 0x40;
             D_8009B144[0] = 1;
             D_8009B143[0] = 1;

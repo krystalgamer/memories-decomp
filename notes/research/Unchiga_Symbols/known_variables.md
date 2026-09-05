@@ -39,6 +39,12 @@ Names that say what something IS in the game.
 | 0x8009B364 | `gDuel_bTerrain` | idb2018 |
 | 0x8009B366 | `gFreeDuel_bCursorColumn` | live |
 | 0x8009B367 | `gFreeDuel_bCursorRow` | live |
+| 0x8009B394 | `gInput_wPad1Repeat` | matching C |
+| 0x8009B396 | `gInput_wPad2Repeat` | matching C |
+| 0x8009B398 | `gInput_wPad1Pressed` | matching C |
+| 0x8009B39A | `gInput_wPad2Pressed` | matching C |
+| 0x8009B3A4 | `gInput_wPad1Held` | matching C |
+| 0x8009B3A6 | `gInput_wPad2Held` | matching C |
 | 0x8009B408 | `gSD_bOutputType` | live |
 | 0x800E9EA8 | `gFile_anLba` | idb2018 |
 | 0x800E9EC8 | `gFade_State` | idb2018 |
@@ -169,4 +175,3 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 | address | name |
 |---|---|
 | 0x8016D410 | `gPassword_abDigits` |
-

@@ -5,9 +5,9 @@
 extern u8 D_8009B24B;
 extern u16 gDuel_wViewerCardID;
 extern u8 D_8009B254;
-extern u16 D_8009B394;
-extern volatile u16 D_8009B398;
-extern volatile u16 D_8009B3A4;
+extern u16 gInput_wPad1Repeat;
+extern volatile u16 gInput_wPad1Pressed;
+extern volatile u16 gInput_wPad1Held;
 
 extern void func_80031574(s32, s32, s32, s32, s32);
 extern void func_80031E5C(u8 *);
@@ -31,7 +31,7 @@ void func_800336F0(u8 *p)
         return;
     }
 
-    if ((D_8009B398 & 0x10) != 0) {
+    if ((gInput_wPad1Pressed & 0x10) != 0) {
         r = func_80033500(e);
         if (r != 0) {
             D_8009B24B = 0x14;
@@ -41,20 +41,20 @@ void func_800336F0(u8 *p)
         return;
     }
 
-    if (D_8009B3A4 == PAD_DIRECTION_RIGHT) {
+    if (gInput_wPad1Held == PAD_DIRECTION_RIGHT) {
         *(s32 *)(p + 0x5AA4) = 0x140;
         *(s16 *)(p + 0x633E) = 1;
         *(s16 *)(p + 0x6340) = 3;
         return;
     }
 
-    if ((D_8009B398 & PAD_BUTTON_CANCEL) != 0) {
+    if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
         *(s16 *)(p + 0x633E) = 4;
         *(s16 *)(p + 0x6340) = 2;
         return;
     }
 
-    if ((D_8009B394 & 0xC0) == 0) {
+    if ((gInput_wPad1Repeat & 0xC0) == 0) {
         return;
     }
 

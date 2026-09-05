@@ -19,6 +19,10 @@ Runs on every screen. A live-computed core of 147 functions (GPU frame pump, SPU
 | `Main_Loop` | 0x8002DD74 | The master dispatch: never returns, runs the update funcs each frame, then calls the current mode's loop through a function-pointer table. |
 | `Main_Init` | 0x80012B50 | Boot-time setup before `Main_Loop` takes over. |
 | `Main_VBlankCB` | 0x80012CD4 | Runs once per frame on the vertical blank. |
+| `Input_UpdatePads` | 0x8003CCD8 | Publishes held, newly pressed, and timer-repeated button masks for both controllers. |
+| `gInput_wPad1Held / gInput_wPad2Held` | 0x8009B3A4 / 0x8009B3A6 | Current held-button masks for controllers 1 and 2. |
+| `gInput_wPad1Pressed / gInput_wPad2Pressed` | 0x8009B398 / 0x8009B39A | Rising-edge button masks for controllers 1 and 2. |
+| `gInput_wPad1Repeat / gInput_wPad2Repeat` | 0x8009B394 / 0x8009B396 | Newly pressed buttons plus timer-generated repeats for controllers 1 and 2. |
 | `gRand_dwSeed` | 0x800FE6F8 | The random-number seed — shuffles, drops, and AI coin-flips all trace back here. |
 | `File_SetPositionTable` | 0x800136E4 | Boot: resolves every file in `gFile_apszName` to its disc position. |
 | `gFile_apszName` | 0x8009078C | Names of the data files on the disc. |

@@ -33,7 +33,7 @@ local STATE_FLAGS = 0x8009b365
 local OPPONENT_ID = 0x8009b361
 local CURSOR_COLUMN = 0x8009b366
 local CURSOR_ROW = 0x8009b367
-local PAD_EDGE = 0x8009b3a4
+local PAD_HELD = 0x8009b3a4
 local RETURN_SETTLE_FRAMES = 180
 local TIMEOUT_FRAMES = 108000
 local MAX_SAMPLES = 32
@@ -102,11 +102,11 @@ local function capture(mode)
         hasBit(flags, 0x80) and 1 or 0
     ))
     emit(string.format(
-        '  cursor_column=%d cursor_row=%d opponent_id=%d pad_edge=0x%04X',
+        '  cursor_column=%d cursor_row=%d opponent_id=%d pad_held=0x%04X',
         u8(CURSOR_COLUMN),
         u8(CURSOR_ROW),
         s8(OPPONENT_ID),
-        u16(PAD_EDGE)
+        u16(PAD_HELD)
     ))
 end
 
