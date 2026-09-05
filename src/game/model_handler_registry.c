@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 #include "model.h"
 
 typedef float f32;
@@ -17,7 +19,6 @@ typedef u8 *(*ModelHandler)(u8 **);
 
 extern s32 func_80089E20[];
 extern s32 (*func_800603DC())();
-extern s32 DrawSync();
 
 /* Finds `key` in the table; if absent and there is a free slot, claims it
    with (key, val). No-op once all 80 slots are taken and no match exists. */
