@@ -253,6 +253,35 @@ their offsets would overwrite adjacent text.
 - **Confirmed** that `0x1C92CE` is the encoded `Dragon` label selected by
   string ID `0x8300`.
 
+## Main-menu palette region
+
+**Tutorial:** `Editar Menus.txt`
+
+The tutorial identifies decimal offset `196608` in `SU.MRG` as the palette
+used to edit the menus. That is file offset `0x30000`, or logical sector 96.
+The independently recovered loader layout places the main-menu executable at
+SU sectors `98-114`, beginning at `0x31000`, so the tutorial's offset lies in
+the asset area immediately before the code rather than inside the overlay.
+
+In the retail archive, all six `0x200`-byte chunks from `0x30000` through
+`0x30BFF` contain nonzero 16-bit values consistent with PlayStation colour
+data. The following `0x400` bytes at `0x30C00-0x30FFF` are zero padding before
+the executable begins. The complete candidate region hashes to:
+
+```text
+SHA-256: 5b59103a270882b261ff9c13ba68060a90b3b01f9b5475da50af11dc5908ba19
+```
+
+**Confidence:**
+
+- **Confirmed** that the tutorial's decimal offset is `SU.MRG+0x30000` and
+  that this is sector 96, directly before the main-menu code at sector 98.
+- **High** that the nonzero `0xC00`-byte region is main-menu palette data,
+  based on the tutorial identification, archive placement, and 16-bit value
+  shape.
+- **Tentative** on individual palette boundaries and which menu elements use
+  each range; those still require GPU-upload or draw-call evidence.
+
 ## Card cursor and fusion-number graphics
 
 **Tutorials:**
