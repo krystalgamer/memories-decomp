@@ -66,7 +66,8 @@ express verified element layout and stride only. Runtime counts establish
 that they are arrays, but the complete static bounds and intervening storage
 are not yet proven, so the header does not guess them.
 
-All 24 pure-C users reported for `D_800F2C40` now include the shared header:
+The initial typed-migration snapshot had 24 pure-C users of `D_800F2C40`;
+all include the shared header:
 `func_80057E20`, `func_80058DD8`, `func_80058E3C`, `func_80058E68`,
 `func_80058E94`, `func_80058EC0`, `func_80058F20`, `func_80058F74`,
 `Model_CopySlotU16Values`, `func_80059000`, `func_800590DC`,
@@ -88,21 +89,28 @@ Both pure-C users, `Model_RegisterHandlerKey` and `Model_FindHandlerKey`, use
 the shared entry type and typed extern. Assembly users `func_8005FC1C` and
 `func_8005FE44` remain unchanged.
 
-## Deferred and exact-code exceptions
+## Migration snapshot and exact-code exceptions
 
-The 29 assembly users of `D_800F2C40` remain unchanged:
+After later matches, `notes/global-usage.csv` reports 26 matching-C users and
+27 assembly users. The generated report is the authority for current status.
+The 27 assembly users at this snapshot are:
 `func_8004CB0C`, `func_8004D58C`, `func_8004D75C`, `func_8004D914`,
 `func_8004EB00`, `func_8004FE2C`, `func_80050584`, `func_800507D0`,
 `func_80050F24`, `func_8005106C`, `func_80051350`, `func_80051A48`,
 `func_800528AC`, `func_80053248`, `func_800534B8`, `func_800540B4`,
 `func_800556E8`, `func_800559D4`, `func_8005611C`, `func_80056250`,
 `Model_LoadMonsterMerge`, `func_80056828`, `func_80056D7C`,
-`func_800577B0`, `func_80057AF4`, `func_800580D4`, `func_80058938`,
-`func_80059700`, and `func_8005A8C4`. No assembly or inline-assembly body
-was migrated in this phase.
+`func_800577B0`, `func_80057AF4`, `func_800580D4`, and `func_80058938`.
 
-Two pure-C functions retain raw local byte views while using the header's
-typed global:
+Two additional matching-C functions retain raw model-base views:
+
+- `func_80059700` uses a private late-slot layout for `type` and `state`
+  while selecting the signed velocity passed to `func_8005A468`.
+- `Model_HasInsufficientBufferSpace` includes `model.h` for
+  `MODEL_SLOT_SIZE`, but retains a byte-array extern so its `+0xE00` size load
+  keeps the accepted address construction.
+
+Two typed pure-C functions retain raw local byte views:
 
 - `Model_InitLightTriplet` keeps its offset writes. Replacing them with
   `field_D70[3]` member writes changed the exact instruction schedule, with
