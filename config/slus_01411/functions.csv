@@ -323,7 +323,7 @@ address,size,name,status,module,notes
 0x8002E470,0x13C,func_8002E470,unmatched_asm,game,
 0x8002E5AC,0x10C,func_8002E5AC,unmatched_asm,game,
 0x8002E6B8,0x78,func_8002E6B8,matching_c,game,Pure-C inline refinement matched the full executable.
-0x8002E730,0x1E8,func_8002E730,unmatched_asm,game,
+0x8002E730,0x1E8,func_8002E730,matching_c,game,Matched from newer collaborator evidence with assembler -G4 and an allocation-only v0 mask pin.
 0x8002E918,0x88,func_8002E918,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8002E9A0,0x6C,func_8002E9A0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8002EA0C,0x13C,func_8002EA0C,unmatched_asm,game,
