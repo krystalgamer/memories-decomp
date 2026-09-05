@@ -16,7 +16,7 @@ typedef struct {
 } ModelTextureParams;
 
 extern int func_800598E4();
-extern int func_80081DE8();
+extern int LoadImage2();
 extern int func_80082324();
 extern int func_80086100();
 
@@ -96,7 +96,7 @@ s32 func_80058B4C(u8 *data, s32 arg1, s32 mode, s32 arg3, s32 x, s32 y,
         bounds[3] = *(u16 *)(data + 0xA);
         while (func_80082324(3) != 0) {
         }
-        while (func_80081DE8(bounds, *(s32 *)(data + 0xC)) != 0) {
+        while (LoadImage2(bounds, *(s32 *)(data + 0xC)) != 0) {
         }
         bounds[0] = *(u16 *)(data + 0x10);
         bounds[1] = *(u16 *)(data + 0x12);
@@ -104,7 +104,7 @@ s32 func_80058B4C(u8 *data, s32 arg1, s32 mode, s32 arg3, s32 x, s32 y,
         bounds[3] = *(u16 *)(data + 0x16);
         while (func_80082324(3) != 0) {
         }
-        while (func_80081DE8(bounds, *(s32 *)(data + 0x18)) != 0) {
+        while (LoadImage2(bounds, *(s32 *)(data + 0x18)) != 0) {
         }
         while (func_80082324(3) != 0) {
         }

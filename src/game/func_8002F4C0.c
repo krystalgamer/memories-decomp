@@ -4,7 +4,7 @@ extern volatile s32 D_8009B0F4;
 extern s32 D_8009B118;
 extern u8 D_801AF000[];
 
-extern void func_80081DE8(u8 *, s32);
+extern void LoadImage2(u8 *, s32);
 
 void func_8002F4C0(u8 *p, s32 mode)
 {
@@ -62,7 +62,7 @@ void func_8002F4C0(u8 *p, s32 mode)
         c = D_8009B118;
         *(s16 *)p = 0;
         *(s16 *)(p + 4) = 0x100;
-        func_80081DE8(p, c);
+        LoadImage2(p, c);
         m2 = 0xFFDCFFFF;
         *(s32 *)(p + 0xC) = (s32)D_801AF000;
         *(s32 *)(p + 8) = (s32)D_801AF000;
