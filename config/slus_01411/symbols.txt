@@ -391,7 +391,9 @@ Duel_LoadPackageStage = 0x800171A8; // type:func
 // Psy-Q LIBAPI.LIB/PAD.OBJ
 InitPAD = 0x80073E1C; // type:func
 StartPAD = 0x80073EAC; // type:func
+CdPosToInt = 0x800781F0; // type:func
 DsSearchFile = 0x8007D3F0; // type:func
+CdPosToInt_8007E710 = 0x8007E710; // type:func
 LoadImage = 0x8007F978; // type:func
 GetDispEnv = 0x800803F4; // type:func
 LoadImage2 = 0x80081DE8; // type:func

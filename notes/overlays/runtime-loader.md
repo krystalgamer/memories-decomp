@@ -61,9 +61,9 @@ A pre-title-screen runtime trace observed all seven entries initialized to
 these values and the following filename pointer set to null. The populated
 table therefore matches the independently measured retail disc extents.
 
-`File_SetPositionTable` enumerates these names. `File_GetPosition` repeatedly performs the
-`CdSearchFile`-like lookup and converts BCD MSF to a zero-based LBA with
-`func_8007E710`.
+`File_SetPositionTable` enumerates these names. `File_GetPosition` repeatedly
+performs `DsSearchFile` and converts BCD MSF to a zero-based LBA with
+`CdPosToInt_8007E710`.
 
 The BSS layout is:
 

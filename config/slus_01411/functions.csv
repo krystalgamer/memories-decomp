@@ -1328,7 +1328,7 @@ address,size,name,status,module,notes
 0x80077C70,0x37C,func_80077C70,sdk_asm,psyq/sdk,
 0x80077FF0,0x1CC,func_80077FF0,sdk_asm,psyq/sdk,
 0x800781C0,0x2C,func_800781C0,sdk_asm,psyq/sdk,
-0x800781F0,0x80,func_800781F0,sdk_asm,psyq/sdk,
+0x800781F0,0x80,CdPosToInt,sdk_asm,psyq/sdk,Exact Psy-Q 4.6 LIBCD.LIB/SYS.OBJ signature match; canonical linked copy.
 0x80078270,0x60,func_80078270,sdk_asm,psyq/sdk,
 0x800782D0,0x80,func_800782D0,sdk_asm,psyq/sdk,
 0x80078350,0x8C,func_80078350,sdk_asm,psyq/sdk,
@@ -1444,7 +1444,7 @@ address,size,name,status,module,notes
 0x8007E4F0,0x20,func_8007E4F0,sdk_asm,psyq/sdk,
 0x8007E510,0xEC,func_8007E510,sdk_asm,psyq/sdk,
 0x8007E600,0x104,func_8007E600,sdk_asm,psyq/sdk,
-0x8007E710,0x80,func_8007E710,sdk_asm,psyq/sdk,
+0x8007E710,0x80,CdPosToInt_8007E710,sdk_asm,psyq/sdk,Second byte-identical match of the Psy-Q 4.6 LIBCD.LIB/SYS.OBJ CdPosToInt signature; address-qualified because both copies are resident.
 0x8007E790,0x54,func_8007E790,sdk_asm,psyq/sdk,
 0x8007E7F0,0x68,func_8007E7F0,sdk_asm,psyq/sdk,
 0x8007E860,0x14,func_8007E860,sdk_asm,psyq/sdk,

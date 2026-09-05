@@ -71,7 +71,8 @@ symbol review.
 | `0x8007E3D0` | `CdGetSector` | Identified CD-sector transfer interface in the resident CD library. |
 | `0x8007E4F0` | `CdGetSector2` | Parallel two-argument sector-transfer wrapper using the library's second transfer path. |
 | `0x8007E600` | `CdIntToPos` | Adds the two-second lead-in and writes packed-BCD minute, second, and sector fields to a `CdlLOC`. |
-| `0x8007E710` | `CdPosToInt` | Decodes the first three BCD bytes of a `CdlLOC` and returns a zero-based logical sector number. |
+| `0x800781F0` | `CdPosToInt` | Applied Psy-Q 4.6 LIBCD identity; canonical copy of the packed-BCD position-to-sector conversion. |
+| `0x8007E710` | `CdPosToInt_8007E710` | Applied address-qualified identity for the second byte-identical resident copy used by matching game C. |
 | `0x8007E7F0` | `CdControlB` | Submits the three-argument CD command and blocks until the internal completion code is `2`. |
 | `0x8007E860` | `CdReadyCallback` | Replaces and returns the callback invoked with a ready-event status and result pointer. |
 | `0x8007E880` | `CdSyncCallback` | Replaces and returns the callback invoked from the command-completion path. |
@@ -469,19 +470,18 @@ resident function identity.
 
 The real `src/psyq/libds.h` and `src/psyq/libcd.h` provide parallel record
 families. The resident file-search anchor is `DsSearchFile`, while the
-position conversion used by `File_GetPosition` is the CD-library
-`CdPosToInt` copy:
+position conversion used by `File_GetPosition` is the address-qualified
+CD-library copy `CdPosToInt_8007E710`:
 
 | Record | Verified ABI surface |
 |---|---|
 | `DslLOC` / `CdlLOC` | Layout-compatible four-byte CD locations. The resident MSF-to-LBA routine reads the BCD minute, second, and sector bytes at offsets `0`-`2`. |
 | `DslFILE` | 24-byte Ds search result with `DslLOC` at `0`, size at `4`, and a 16-byte name at `8`. `DsSearchFile` copies records at a `0x18` stride. |
-| `CdlFILE` | Parallel 24-byte CD-library search result. Its leading `CdlLOC` layout lets `File_GetPosition` pass `DslFILE.pos` to the resident `CdPosToInt` copy through an explicit compatible view. |
+| `CdlFILE` | Parallel 24-byte CD-library search result. Its leading `CdlLOC` layout lets `File_GetPosition` pass `DslFILE.pos` to the resident `CdPosToInt_8007E710` copy through an explicit compatible view. |
 
-The conversion routine at `0x8007E710` independently verifies the shared
-`DslLOC`/`CdlLOC` field order. It converts each of the first three bytes from
-packed BCD, then
-computes:
+The conversion routine `CdPosToInt_8007E710` independently verifies the
+shared `DslLOC`/`CdlLOC` field order. It converts each of the first three
+bytes from packed BCD, then computes:
 
 ```text
 logical_sector = (minute * 60 + second) * 75 + sector - 150
