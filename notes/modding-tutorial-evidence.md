@@ -133,6 +133,46 @@ been independently verified against extracted art or a runtime trace.
   meanings reported by the tutorial; runtime or asset-level corroboration is
   still required.
 
+## Dialogue pointer redirects
+
+**Tutorial:** `Alterar Dialogo.txt`
+
+The tutorial uses SLUS file offset `0x1A1C3B` as an example dialogue target
+and derives bytes `3B 14` for an `FB 80` redirect. The result is correct, but
+the reliable conversion is to remove the PS-X EXE header before encoding the
+loaded address:
+
+```text
+loaded address = 0x80010000 + (0x1A1C3B - 0x800) = 0x801B143B
+stored target  = 0x143B
+little endian  = 3B 14
+```
+
+`FB 80` belongs to the text stream, not the campaign script opcode table.
+The handler at `0x80038BF0` advances the text cursor by
+`gDialog_bChoice * 2`, then calls `func_80038BA8`. Exact matching C for
+`func_80038BA8` reads the selected 16-bit value and replaces only the low
+halfword of the current text pointer:
+
+```c
+*p = (*p & 0xFFFF0000) | (v & 0xFFFF);
+```
+
+The redirect target must therefore remain in the cursor's current 64 KiB
+bank. A real multi-choice block needs one little-endian target halfword per
+possible choice. A single target works only when the selected choice index is
+known to be zero, so the tutorial's four-byte `FB 80 xx xx` recipe is not a
+general unconditional jump.
+
+**Confidence:**
+
+- **Confirmed** that file offset `0x1A1C3B` maps to loaded address
+  `0x801B143B` and target bytes `3B 14`.
+- **Confirmed** that `FB 80` indexes a table of 16-bit targets by the current
+  choice and preserves the pointer's upper 16 bits.
+- **Tentative** that inserting only one target after an arbitrary page wait is
+  safe; that depends on the active choice state and the source text bank.
+
 ## Attack-trigger trap thresholds
 
 **Tutorial:** `Efeito trap.txt`
