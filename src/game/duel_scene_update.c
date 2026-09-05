@@ -13,7 +13,7 @@ extern u8 D_8009B174;
 extern s8 D_8009B238;
 extern u16 D_8009B23A;
 extern volatile u8 D_8009B260 __attribute__((section(".data")));
-extern s8 D_8009B34D[9];
+extern s8 gDialog_bChoice[9];
 extern Window D_800EB224;
 extern s8 gDuel_bOpponentID[9];
 extern u8 D_8009B1D5;
@@ -70,7 +70,7 @@ void func_80024200(void)
             if (cleanup->flags & 0x2000) {
                 TextBox_Destroy(cleanup);
                 D_8009B164 = 0;
-                if (D_8009B34D[0] != 0) {
+                if (gDialog_bChoice[0] != 0) {
                     D_8009B16C |= 0x2000;
                 }
             }

@@ -319,3 +319,9 @@ Text_SetCursorOffset = 0x80038BA8; // type:func
 
 // Semantic names
 Text_HandleChoiceCommand = 0x80038BF0; // type:func
+
+// Semantic names
+gDialog_bInputState = 0x8009B327;
+gDialog_bChoiceEnabled = 0x8009B336;
+gDialog_bChoiceCount = 0x8009B345;
+gDialog_bChoice = 0x8009B34D;
