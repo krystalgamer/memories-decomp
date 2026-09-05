@@ -27,7 +27,7 @@ several functions use interior aliases or derived subranges.
 | Offset | Width | Shared field | Exact evidence |
 | --- | ---: | --- | --- |
 | `+0x00` | 4 | `object` | `func_8001778C` clears it with `sw`; `func_80025F3C`, `func_8002778C`, `func_800278A0`, and `func_80027DF8` load it as an object pointer. `func_8002C938` exports the same word as an opaque value. |
-| `+0x04` | 4 | `data` | `func_8001778C` clears it with `sw`; `func_800249E0` stores a hand/card-data pointer; `func_80017DB4` loads it and then reads a byte from the pointed-to object. |
+| `+0x04` | 4 | `data` | `func_8001778C` clears it with `sw`; `func_800249E0` stores a pointer into `gDuel_aDeckCardRecords`; `func_80017DB4` loads it and then reads a byte from the pointed-to object. |
 | `+0x08` | 4 | padding | No field type is asserted. |
 | `+0x0C` | 2 | `card_id` | `func_800249E0` stores it with `sh` and later uses `lh`; `Duel_CollectFieldCardsByType` uses `lh`; `func_80027DF8` uses both `lhu` for copying and `lh` for signed table indexing. The shared field therefore fixes the width while exact users retain explicit signed views where required. |
 | `+0x0E` | 2 | `attack` | `func_800249E0` stores the first card-stat component with `sh`; exact stat calculation users consume the record. |
