@@ -905,7 +905,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80024D34 | `opponent_field_record_fill` | fleet |
 | 0x80024DC8 | `init_800eb26c_fields_from_args` | fleet |
 | 0x80024E24 | `flag80_test_and_set` | fleet |
-| 0x800255FC | `arm_field_effect_marker` | fleet |
+| 0x800255FC | `DuelEffect_UpdateFieldMarker` | matching C |
 | 0x80025BEC | `spawn_or_rearm_field_effect_marker` | fleet |
 | 0x800262D4 | `obj_lifecycle_state_dispatch` | fleet |
 | 0x80026C6C | `table801a7ad8_collect_below_threshold` | fleet |

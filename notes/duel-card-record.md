@@ -103,6 +103,6 @@ The snapshot contains 32 assembly users:
   `func_8001F0D0`, `func_8001F364`, and `func_8001F55C`.
 - `func_80022674`, `func_800229F4`, `func_80023144`,
   `func_800235C0`, `func_80024E58`, `func_80025028`, `func_8002538C`,
-  `func_800255FC`, `func_800257A0`, `func_8002596C`, `func_80025BEC`,
+  `DuelEffect_UpdateFieldMarker`, `func_800257A0`, `func_8002596C`, `func_80025BEC`,
   `func_80025D30`, `func_800260D0`, and `func_800262D4`.
 - `func_80027508`, `func_800279BC`, and `Duel_CheckRitual`.

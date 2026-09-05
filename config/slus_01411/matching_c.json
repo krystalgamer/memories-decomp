@@ -886,7 +886,7 @@
       "address": "0x800255FC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1A4",
-      "source": "src/game/func_800255FC.c"
+      "source": "src/game/duel_effect_update_field_marker.c"
     },
     {
       "address": "0x80025B28",
