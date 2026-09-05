@@ -476,9 +476,9 @@ no source names it yet, and `make match` is unaffected.
 
 #### Pins can cost an instruction near an incoming argument
 
-The counterpart to the `%hi`-temporary and call-return rules. `func_8003201C`
-(`0x8003201C`) reaches its 40 instructions with the right multiset and a
-two-pair register permutation, and its own cohort file
+The counterpart to the `%hi`-temporary and call-return rules. At this
+snapshot, `func_8003201C` (`0x8003201C`) reached its 40 instructions with the
+right multiset and a two-pair register permutation, and its own cohort file
 (`build_deck_add_card.c`) uses pins freely, so pins are the obvious next step.
 Every one tried makes it **41**: pinning the outer counter to `$6` makes GCC
 copy `$a0` into `$a3` first because the pinned register collides with the
@@ -500,6 +500,13 @@ slot[0x5AC4] = 0;
 `*(u8 *)(arg0 + id + 0x5AC4)` makes it strength-reduce `arg0 + id` into an
 induction pointer and take a loop-invariant copy of it for the inner loop,
 which is the 40th instruction.
+
+A later post-terminal source changed the surrounding histogram structure
+rather than adding a pin to the old shape. It initializes the inner record
+index before assigning the output and record pointers, keeps the card ID in
+`$a2` and output pointer in `$a3`, and uses a separate second loop for the
+leading occupied records. That combination matches all `0xA0` bytes and
+relocations under `gcc_2_8_1_g8`.
 
 ### Disassembly artifacts
 
