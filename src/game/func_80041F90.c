@@ -63,7 +63,6 @@ typedef void (*ObjCallback)(struct Obj *, s32);
 extern void SetGeomOffset(long a0, long a1);
 extern void SetGeomScreen(long a0);
 extern void func_80088C50(struct Vec308 *a0, struct Mat *a1);
-extern void func_80087670(struct Mat *a0, struct VecScale *a1);
 extern void GsSetLsMatrix(struct Mat *a0);
 extern s32 func_80089CF0(
     struct Vec308 *a0,
@@ -98,7 +97,7 @@ s32 func_80041F90(struct Obj *obj, s32 arg1, s32 arg2, struct Out *out) {
         ((struct VecScale *)v308)->x = obj->field44;
         ((struct VecScale *)v308)->y = obj->field46;
         ((struct VecScale *)v308)->z = 0x1000;
-        func_80087670(mtx, (struct VecScale *)0x1F800308);
+        ScaleMatrix((MATRIX *)mtx, (VECTOR *)0x1F800308);
     }
 
     GsSetLsMatrix(mtx);
