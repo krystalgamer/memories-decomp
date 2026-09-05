@@ -71,7 +71,7 @@ void func_8004C5C8(u8 *entry)
 }
 
 extern void func_8004BCE8(void);
-extern int func_8004BB34(void *);
+extern int SD_ReadVariableLengthValue(void *);
 
 int func_8004C77C(void)
 {
@@ -94,7 +94,7 @@ int func_8004C77C(void)
                 int value = *(int *)entry;
 
                 *(int *)(entry + 4) = value;
-                value = func_8004BB34(entry);
+                value = SD_ReadVariableLengthValue(entry);
                 entry[0x24] = 0;
                 entry[0x27] = 0;
                 entry[0x29] = 0;

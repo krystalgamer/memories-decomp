@@ -23,7 +23,7 @@ typedef struct {
 
 extern SequenceState *D_8009B458;
 extern int func_8004C420(void *);
-extern int func_8004BB34(void *);
+extern int SD_ReadVariableLengthValue(void *);
 extern void func_8004C5C8(void *);
 
 int SD_ProcessSequenceTracks(void) {
@@ -57,7 +57,7 @@ loop:
 retry:
                 func_8004C420(entry);
                 if (entry[0x24] == 0) {
-                    int value = func_8004BB34(entry);
+                    int value = SD_ReadVariableLengthValue(entry);
                     *(int *)(entry + 0x1C) = value;
                     if (value == 0)
                         goto retry;
