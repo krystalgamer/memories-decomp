@@ -1,9 +1,9 @@
--- duel_winner_side.lua
+-- duel_winner_side_player_win.lua
 --
 -- WHAT THIS ANSWERS
 --   gDuel_bWinnerSide is structurally the winning-side index used by the
---   end-of-duel credit path. A retained CPU-win run reads 1, but that value
---   was already present when the script started after a previous loss.
+--   end-of-duel credit path. The consumed CPU-win trace recorded 1, but that
+--   value was already present when the script started after a previous loss.
 --
 --   This control run must observe a PLAYER win after a CPU win, so a change
 --   from 1 to 0 or a latched value of 0 establishes the remaining polarity.
@@ -27,7 +27,7 @@
 
 local ffi = require('ffi')
 
-local SCRIPT_NAME = 'duel_winner_side'
+local SCRIPT_NAME = 'duel_winner_side_player_win'
 local MAIN_MODE = 0x8009b26c
 local DUEL_MODE = 3
 local WINNER_SIDE = 0x8009b165
@@ -112,7 +112,7 @@ local function finish(reason)
     end
     print('')
     print('--- end of trace, copy everything above into '
-          .. 'tools/trace/result/duel_winner_side_player_win.txt ---')
+          .. 'tools/trace/result/' .. SCRIPT_NAME .. '.txt ---')
 end
 
 local function poll()
@@ -158,7 +158,7 @@ local function poll()
     end
 end
 
-listener_duel_winner_side = PCSX.Events.createEventListener(
+listener_duel_winner_side_player_win = PCSX.Events.createEventListener(
     'GPU::Vsync',
     function()
         local ok, err = pcall(poll)
@@ -168,4 +168,4 @@ listener_duel_winner_side = PCSX.Events.createEventListener(
     end
 )
 
-print('duel_winner_side: win after a prior loss to confirm side polarity')
+print('duel_winner_side_player_win: win after a prior loss to confirm polarity')
