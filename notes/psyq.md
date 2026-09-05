@@ -130,6 +130,8 @@ Recommended header boundaries are:
 |---|---|
 | `src/psyq/libapi.h` | Events, critical sections, counters, and low-level memory-card/BIOS wrappers |
 | `src/psyq/malloc.h` | Heap initialization and the three allocator families |
+| `src/psyq/stdlib.h` | C runtime umbrella for allocation, conversion, sorting, random numbers, search, and exit |
+| `src/psyq/libmath.h` | Software floating-point math, conversion helpers, and math error globals |
 | `src/psyq/libsn.h` | Debugger-host PC file service and `pollhost`/`PSYQpause` break traps |
 | `src/psyq/fs.h` | Low-level filesystem device-table, character-buffer, and I/O-block records |
 | `src/psyq/romio.h` | ROM-monitor compatibility include for the system file interface |
@@ -176,6 +178,15 @@ system file declarations used by the ROM-monitor environment. Neither header
 is included by current game C. In particular, these records must not replace
 `CdlFILE`, `DslFILE`, or `DIRENTRY` merely because all of them participate in
 file operations.
+
+`stdlib.h` is an umbrella over the imported `abs.h`, `convert.h`, `malloc.h`,
+`qsort.h`, and `rand.h` declarations, with `bsearch` and `exit` added directly.
+`libmath.h` is separate: it exposes the double-precision transcendental
+functions, `math_errno`/`math_err_point`, and the `printf2`/`sprintf2`
+variants. Neither family is interchangeable with the fixed-point vector and
+matrix operations in `libgte.h`. No current game C includes these runtime
+headers, so existing hand-written declarations should only be migrated after
+their exact ABI and compiler behavior are checked.
 
 Do not add `src/types.h` to an imported header solely for uniformity. Headers
 that expose project-adapted fixed-width records must include it directly and
