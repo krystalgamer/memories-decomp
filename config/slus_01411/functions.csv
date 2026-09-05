@@ -241,7 +241,7 @@ address,size,name,status,module,notes
 0x8002892C,0x80,DuelEffect_UpdateState,matching_c,game,"Post-terminal pure-C match; inferred target relocations omit two raw GP-relative D_8009B24A accesses, but linked bytes and full executable match exactly."
 0x800289AC,0x8,func_800289AC,matching_c,game,Empty function matched exactly.
 0x800289B4,0x8,func_800289B4,matching_c,game,Empty function matched exactly.
-0x800289BC,0x14C,func_800289BC,unmatched_asm,game,
+0x800289BC,0x14C,func_800289BC,matching_c,game,Exact collaborator match: transfer-rectangle setup reproduces linked bytes and relocations under GCC G0 no-split.
 0x80028B08,0x600,func_80028B08,unmatched_asm,game,
 0x80029108,0x5C,func_80029108,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80029164,0x7C,func_80029164,matching_c,game,"Stores an effect value in the selected 64-byte record, creates its seven-frame resource object, records the slot, and publishes the object's status flags. Exact with the mixed compiler-G8/MASPSX-G0 split profile."
