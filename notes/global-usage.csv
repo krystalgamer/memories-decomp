@@ -2346,7 +2346,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B46A,D_8009B46A,D_8009B46A,0x8004E9A0,func_8004E9A0,matching_c,game,C,src/game/func_8004E9A0.c,write,16,D_8009B46A = 0x1C0; | D_8009B46A = q * 3 * 8 + 0x180;
 0x8009B46C,D_8009B46C,D_8009B46C,0x8004E9A0,func_8004E9A0,matching_c,game,C,src/game/func_8004E9A0.c,write,16,D_8009B46C = 0x10; | D_8009B46C = 0x20;
 0x8009B46E,D_8009B46E,D_8009B46E,0x8004E9A0,func_8004E9A0,matching_c,game,C,src/game/func_8004E9A0.c,write,16,D_8009B46E = 0x18; | D_8009B46E = 0x40;
-0x8009B470,D_8009B470,D_8009B470,0x800582C0,func_800582C0,matching_c,game,C,src/game/func_800582C0.c,write,16,"D_8009B470 = arg0 << 8; | func_8007FA38(&D_8009B470, arg0 << 8, 0xF0); | (+2 more)"
+0x8009B470,D_8009B470,D_8009B470,0x800582C0,func_800582C0,matching_c,game,C,src/game/func_800582C0.c,write,16,"D_8009B470 = arg0 << 8; | MoveImage(&D_8009B470, arg0 << 8, 0xF0); | (+2 more)"
 0x8009B472,D_8009B472,D_8009B472,0x800582C0,func_800582C0,matching_c,game,C,src/game/func_800582C0.c,write,16,D_8009B472 = 0xF8; | D_8009B472 = y + 0xF0; | (+1 more)
 0x8009B474,D_8009B474,D_8009B474,0x800582C0,func_800582C0,matching_c,game,C,src/game/func_800582C0.c,write,16,D_8009B474 = 0x100;
 0x8009B476,D_8009B476,D_8009B476,0x800582C0,func_800582C0,matching_c,game,C,src/game/func_800582C0.c,write,16,D_8009B476 = 4; | D_8009B476 = 8;
