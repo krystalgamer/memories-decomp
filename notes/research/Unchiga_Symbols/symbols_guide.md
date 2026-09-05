@@ -244,6 +244,8 @@ Mode slot 6. An 8×5 opponent grid (Build Deck tile at top-left); the cursor roa
 
 | symbol | address | description |
 |---|---|---|
+| `Duel_CheckQuitInput` | 0x8001BD48 | In two-player duels only, Select sets `gDuel_bQuitDialogState` and requests the `QUIT DUEL?` confirmation. |
+| `gDuel_bQuitDialogState` | 0x8009B164 | Quit-dialog state byte: bit 0 is the request and bit 7 marks the initialized dialog. |
 | `gDuel_bPlayingSide` | 0x8009B1D5 | Whose side is acting. |
 | `gDuel_bOpponentID` | 0x8009B361 | Which duelist you're facing. |
 | `gDuel_bTerrain` | 0x8009B364 | The current field terrain. |

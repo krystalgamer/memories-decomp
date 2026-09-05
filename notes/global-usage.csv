@@ -1152,9 +1152,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B162,D_8009B162,D_8009B162,0x80023D08,func_80023D08,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013dc0.s,read_write,16,"lhu $v0, %gp_rel(D_8009B162)($gp) | sh $v1, %gp_rel(D_8009B162)($gp)"
 0x8009B162,D_8009B162,D_8009B162,0x800240B0,Duel_UpdateCardPickCursor,matching_c,game,C,src/game/duel_update_card_pick_cursor.c,read_write,16,D_8009B162 = 0xC; | D_8009B162 = 3; | (+1 more)
 0x8009B162,D_8009B162,D_8009B162,0x80024200,func_80024200,matching_c,game,C,src/game/duel_scene_update.c,read,16,if (D_8009B162 != 0) {
-0x8009B164,D_8009B164,D_8009B164,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,write,8,"sb $zero, %gp_rel(D_8009B164)($gp)"
-0x8009B164,D_8009B164,D_8009B164,0x8001BD48,func_8001BD48,matching_c,game,C,src/game/func_8001BD48.c,write,8,D_8009B164 = 1;
-0x8009B164,D_8009B164,D_8009B164,0x80024200,func_80024200,matching_c,game,C,src/game/duel_scene_update.c,read_write,8,D_8009B164 = 0; | D_8009B164 = value | 0x80; | (+1 more)
+0x8009B164,gDuel_bQuitDialogState,gDuel_bQuitDialogState,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,write,8,"sb $zero, %gp_rel(gDuel_bQuitDialogState)($gp)"
+0x8009B164,gDuel_bQuitDialogState,gDuel_bQuitDialogState,0x8001BD48,Duel_CheckQuitInput,matching_c,game,C,src/game/duel_check_quit_input.c,write,8,gDuel_bQuitDialogState = 1;
+0x8009B164,gDuel_bQuitDialogState,gDuel_bQuitDialogState,0x80024200,func_80024200,matching_c,game,C,src/game/duel_scene_update.c,read_write,8,gDuel_bQuitDialogState = 0; | gDuel_bQuitDialogState = value | 0x80; | (+1 more)
 0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x80018DB4,func_80018DB4,matching_c,game,C,src/game/func_80018DB4.c,read_write,8,*(s8 *)&D_800E9FF0[gDuel_bWinnerSide] = -0x28; | gDuel_bWinnerSide = D_8009B1D5 ^ 1;
 0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x80018FEC,func_80018FEC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0097ec.s,write,8,"sb $a0, %gp_rel(gDuel_bWinnerSide)($gp)"
 0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00ddb4.s,read_write,8,"lbu $v0, %gp_rel(gDuel_bWinnerSide)($gp) | sb $a0, %gp_rel(gDuel_bWinnerSide)($gp) | (+1 more)"
@@ -1872,7 +1872,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x800175A0,func_800175A0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_007da0.s,read,8,"lb $v0, %lo(gDuel_bOpponentID)($v0) | lb $v1, %lo(gDuel_bOpponentID)($v1) | (+2 more)"
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,read,8,"addiu $v0, $v0, %lo(gDuel_bOpponentID) | lb $s0, %lo(gDuel_bOpponentID)($s0) | (+5 more)"
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80019CC8,func_80019CC8,matching_c,game,C,src/game/func_80019CC8.c,read,8,if (D_8009B1D5 == 0 && D_8009B360[0] < 0 && gDuel_bOpponentID[0] >= 0) {
-0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x8001BD48,func_8001BD48,matching_c,game,C,src/game/func_8001BD48.c,read,8,if (gDuel_bOpponentID[0] < 0) {
+0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x8001BD48,Duel_CheckQuitInput,matching_c,game,C,src/game/duel_check_quit_input.c,read,8,if (gDuel_bOpponentID[0] < 0) {
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80020F4C,func_80020F4C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01174c.s,read,8,"lb $v0, %lo(gDuel_bOpponentID)($v0) | lb $v1, %lo(gDuel_bOpponentID)($v1) | (+2 more)"
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,read,8,"lb $v0, %lo(gDuel_bOpponentID)($v0) | lbu $v0, %lo(gDuel_bOpponentID)($v0) | (+1 more)"
 0x8009B361,gDuel_bOpponentID,gDuel_bOpponentID,0x80024388,func_80024388,matching_c,game,C,src/game/duel_scene_update.c,read,8,if (gDuel_bOpponentID[0] < 0) {
@@ -1958,7 +1958,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x80013360,func_80013360,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,read,16,"lhu $v0, %lo(gInput_wPad1Pressed)($v0) | lui $v0, %hi(gInput_wPad1Pressed)"
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x80017034,func_80017034,matching_c,game,C,src/game/func_80017034.c,read,16,if ((gInput_wPad1Pressed[0] & PAD_BUTTON_TRIANGLE) &&
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8001B170,func_8001B170,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00b970.s,read,16,"lhu $v0, %lo(gInput_wPad1Pressed)($v0) | lui $v0, %hi(gInput_wPad1Pressed)"
-0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8001BD48,func_8001BD48,matching_c,game,C,src/game/func_8001BD48.c,read,16,if (gInput_wPad1Pressed[0] & PAD_BUTTON_SELECT) {
+0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8001BD48,Duel_CheckQuitInput,matching_c,game,C,src/game/duel_check_quit_input.c,read,16,if (gInput_wPad1Pressed[0] & PAD_BUTTON_SELECT) {
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8001BD88,func_8001BD88,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,read,16,"lhu $v0, %lo(gInput_wPad1Pressed)($v0) | lui $v0, %hi(gInput_wPad1Pressed)"
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00ddb4.s,read,16,"lhu $v0, %lo(gInput_wPad1Pressed)($v0) | lui $v0, %hi(gInput_wPad1Pressed)"
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x80020988,func_80020988,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_011188.s,read,16,"lhu $v0, %lo(gInput_wPad1Pressed)($v0) | lui $v0, %hi(gInput_wPad1Pressed)"

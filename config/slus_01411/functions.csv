@@ -135,7 +135,7 @@ address,size,name,status,module,notes
 0x8001B8B8,0x80,func_8001B8B8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8001B938,0x1B8,func_8001B938,unmatched_asm,game,
 0x8001BAF0,0x258,func_8001BAF0,unmatched_asm,game,
-0x8001BD48,0x40,func_8001BD48,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8001BD48,0x40,Duel_CheckQuitInput,matching_c,game,Checks Select only in the two-player duel path and arms gDuel_bQuitDialogState when a player requests the QUIT DUEL dialog. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8001BD88,0x14B8,func_8001BD88,unmatched_asm,game,
 0x8001D240,0x104,func_8001D240,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8001D344,0x80,func_8001D344,matching_c,game,Exact post-terminal match from the three-channel nested clamp loop shape.
