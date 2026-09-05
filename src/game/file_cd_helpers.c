@@ -7,7 +7,7 @@ typedef struct {
 extern int func_8007D3F0(int, int);
 extern int func_8005BE3C(void);
 extern void func_8005BB7C(int);
-extern void func_800803F4(Local *);
+extern void GetDispEnv(Local *);
 extern int func_80082324(int);
 extern int func_80081FC0(Local *, int, int);
 
@@ -43,7 +43,7 @@ int func_8005C568(int first, int second)
 {
     Local local;
 
-    func_800803F4(&local);
+    GetDispEnv(&local);
     while (func_80082324(3) != 0) {}
     while (func_80081FC0(&local, first, second) != 0) {}
     return 0;

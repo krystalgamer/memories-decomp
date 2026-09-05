@@ -1476,7 +1476,7 @@ address,size,name,status,module,notes
 0x8007FDF0,0xD8,func_8007FDF0,sdk_asm,psyq/sdk,
 0x8007FEC8,0x34,func_8007FEC8,sdk_asm,psyq/sdk,
 0x8007FEFC,0x4F8,func_8007FEFC,sdk_asm,psyq/sdk,
-0x800803F4,0x34,func_800803F4,sdk_asm,psyq/sdk,
+0x800803F4,0x34,GetDispEnv,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBGPU.LIB/SYS.OBJ GetDispEnv.
 0x80080428,0x30,func_80080428,sdk_asm,psyq/sdk,
 0x80080458,0x80,func_80080458,sdk_asm,psyq/sdk,
 0x800804D8,0x40,func_800804D8,sdk_asm,psyq/sdk,
