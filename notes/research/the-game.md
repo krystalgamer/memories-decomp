@@ -405,7 +405,10 @@ full, in the order things happen.
   `0x800EA004`, opponent `0x800EA024`; each side's record is 32 bytes,
   `0x800E9FF0 + side * 0x20`]. The on-screen figure two bytes earlier starts
   at zero, then `Duel_UpdateLifePointDisplay` counts it up toward the true
-  value with larger steps while the gap is large.
+  value with larger steps while the gap is large. The next halfword at
+  record `+0x16` is also initialized to 8000 and is the side's maximum LP:
+  `func_800250C8` caps recovery at it, while direct damage changes only the
+  authoritative value at `+0x14`.
 * Each side's 40-card deck is shuffled [permutation tables at `0x80177F94`
   (player) and `0x80177FBC` (CPU), the shuffled decks at `0x80177FE8` /
   `0x80178038` — UNVERIFIED, Data Crystal] and each draws five.

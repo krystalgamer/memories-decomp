@@ -53,16 +53,18 @@ The function uses these two stack halfwords while initializing the two
 
 The existing RAM-map-backed symbols identify:
 
-| Record | Displayed LP (`+0x12`) | Authoritative LP (`+0x14`) | Adjacent value (`+0x16`) |
+| Record | Displayed LP (`+0x12`) | Authoritative LP (`+0x14`) | Maximum LP (`+0x16`) |
 |---|---:|---:|---:|
 | Player | `gDuel_wPlayerLifePointDisplay` (`0x800EA002`) | `gDuel_wPlayerLifePoint` (`0x800EA004`) | `0x800EA006` |
 | Opponent | `gDuel_wOpponentLifePointDisplay` (`0x800EA022`) | `gDuel_wOpponentLifePoint` (`0x800EA024`) | `0x800EA026` |
 
 Therefore the patch does not directly initialize the displayed LP to 8000.
-It initializes the authoritative LP and the adjacent LP value, while the
-displayed counter begins at zero and is updated afterward. The exact role of
-the `+0x16` halfword is not yet independently named; its initialization to the
-same value strongly suggests an LP display target or previous-value field.
+It initializes both the authoritative and maximum LP, while the displayed
+counter begins at zero and is updated afterward. Matching `func_800250C8`
+independently establishes the maximum: LP recovery adds to the authoritative
+value at `+0x14`, then clamps it to the `+0x16` value. The display counter at
+`+0x12` follows the authoritative value separately through
+`Duel_UpdateLifePointDisplay`.
 
 The constant is used only when `gDuel_bOpponentID >= 0`, the ordinary duel
 path. When the opponent ID is negative, `func_800175A0` instead initializes
@@ -75,8 +77,8 @@ not affect that alternate path.
   `func_800175A0`.
 - **Confirmed** that changing it changes the initial authoritative player and
   opponent LP values on the ordinary duel path.
-- **High** that the adjacent `+0x16` fields are LP animation targets or
-  previous values; their exact role remains unnamed.
+- **Confirmed** that the adjacent `+0x16` fields are maximum LP values used to
+  cap recovery.
 
 For a value representable by one 16-bit halfword, the tutorial's byte-edit
 method preserves the instruction opcode: decimal 9000 is hexadecimal
