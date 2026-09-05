@@ -158,7 +158,7 @@ committed deck.
 | `working deck count` | 0x801D560C | The staged deck size (40 ↔ 39 during edits); guards read it inside the screen, and the committed deck elsewhere. |
 | `gDuel_awPlayerDeck` | 0x801D0200 | Your 40-card deck (part of the save block). |
 | `gLibrary_abCardChest` | 0x801D0250 | Your trunk — per-card counts of everything you own (part of the save block). |
-| `BuildDeck_CompareCard` | 0x80032B60 | One of the two generic list comparators (with `compare_rec_two_level_std`): START cycles 7 sort orders, each mode rebuilds the records' sort keys and picks a comparator; trunk orders are computed once then cached, the deck re-sorts live. |
+| `BuildDeck_CompareCard` | 0x80032B60 | One of the two generic list comparators (with `compare_rec_two_level_std`). The mode byte uses 1 number, 2 name, 3 stronger stat, 4 ATK, 5 DEF, 6 type, then 8 New for the trunk or 9 Shuffle for the deck; each mode rebuilds the records' keys and picks a comparator. Trunk orders are computed once then cached, while the deck re-sorts live. |
 | `gCard_asNameSortKey` | 0x801D4D8E | Per-card sort keys for that comparison. |
 
 

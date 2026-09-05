@@ -131,7 +131,7 @@ apply solid names directly; operator corrects when needed.
 |---|---|---|---|---|
 | F48 | `Main_RunBuildDeckMenu` | Live-confirmed ambient (fourth loop validated). Build Deck = mode slot 7 (0xC8 -> 0xC7). | (keep name) | CONFIRMED |
 | F49 | trunk sort mechanism | START cycles 7 sort modes. Each mode's order is computed ONCE via PsyQ `qsort(0x80100004, 722, 16, cmp)` then CACHED (14 presses total -> exactly 6 computed sorts, one per non-default mode). The trunk VIEW is 722 x 16-byte records in the 0x80100000 scratch arena (the "playerMonModel" buffer moonlighting). One comparator serves every mode: `0x80032BD4`, a mode-dispatching comparator; `BuildDeck_CompareCard` fires beneath it only on the name-ordered modes (576/133 calls observed). CORRECTED by F57: the qsort call cascade is quicksort's own recursion, and the comparator story is two siblings, not one dispatcher. | (superseded detail) | CONFIRMED |
-| F50 | sort-mode variable | Not yet pinned — no byte cycled cleanly 0-6 across presses; likely a free-running press counter used mod 7, or module-held state. Open. | (open) | HOLD |
+| F50 | sort-mode variable | A focused trace pinned byte `+0x2D45` in each list workspace: `0x80102D49` for the trunk and `0x80105A95` for the deck. Both cycle through seven modes: 1 number, 2 name, 3 stronger of ATK/DEF (weaker stat as tie-break), 4 ATK, 5 DEF, 6 type, then pane-specific 8 New for the trunk or 9 Shuffle for the deck. The mode-9 body calls `Rand_GetInterval(0x1000)` for every occupied record, matching the observed fresh order on each revisit. | (encoding + behavior) | CONFIRMED |
 
 ### BUILD DECK — chest list navigation (same session)
 
