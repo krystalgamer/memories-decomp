@@ -5,7 +5,7 @@ extern volatile s32 D_8009B0C4;
 extern volatile s32 D_8009B0C8;
 extern u8 D_8009B0C3;
 extern u8 D_8009AF0C;
-extern void func_8003CC38(void);
+extern void Input_ReadRawPads(void);
 extern void func_80047050(void);
 extern void func_8001306C(void);
 extern void func_80012DB4(void);
@@ -18,7 +18,7 @@ void Main_VBlankCB(void)
     D_8009B0C4++;
     D_8009B0C3 = 1;
     D_8009B0C8++;
-    func_8003CC38();
+    Input_ReadRawPads();
 
     if (D_8009AF0C == 0) {
         D_8009AF0C = 1;

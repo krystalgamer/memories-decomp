@@ -14,7 +14,7 @@ extern u8 D_8009B39C;
 extern u8 D_8009B3A2;
 extern volatile u16 gInput_wPad1Held;
 extern volatile u16 gInput_wPad2Held;
-extern u32 D_8009B3A8;
+extern u32 gInput_dwPendingHeld;
 extern u32 D_8009B3B0;
 extern u32 D_8009B3B4;
 
@@ -29,8 +29,8 @@ void Input_UpdatePads(void)
     u8 value;
 
     repeat = 0;
-    current = D_8009B3A8;
-    D_8009B3A8 = 0;
+    current = gInput_dwPendingHeld;
+    gInput_dwPendingHeld = 0;
     held = current;
     newly_pressed = (D_8009B390 ^ current) & current;
     new_bits = newly_pressed;
