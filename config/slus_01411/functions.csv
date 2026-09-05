@@ -650,7 +650,7 @@ address,size,name,status,module,notes
 0x80041C8C,0xD4,func_80041C8C,unmatched_asm,game,
 0x80041D60,0x11C,func_80041D60,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_cc_g0_as_g8_no_split.
 0x80041E7C,0x114,func_80041E7C,matching_c,game,Exact post-terminal collaborator match using the real Psy-Q gte_stopz macro and an allocation-only a3 register pin.
-0x80041F90,0x1F8,func_80041F90,unmatched_asm,game,
+0x80041F90,0x1F8,func_80041F90,matching_c,game,Matched from newer collaborator evidence with real Psy-Q GTE macros and an allocation-only a3 scratchpad pointer pin.
 0x80042188,0x654,func_80042188,unmatched_asm,game,
 0x800427DC,0x48,func_800427DC,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80042824,0x50,func_80042824,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
