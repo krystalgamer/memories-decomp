@@ -52,6 +52,18 @@ A module joins the build gate once `config/slus_01411/overlays.json` gives it a
 `layout`. A `config/slus_01411/overlays/<module>_matching_c.json` then lets
 matching C replace part of its generated assembly.
 
+Nothing generates the `matching_c.json` manifests, so their layout is a
+convention. `make verify-overlays` pins it: every one of them, resident and
+per-module, must read back byte for byte as
+
+```python
+json.dumps(data, indent=2, sort_keys=True) + "\n"
+```
+
+Adding an entry by hand is fine. Rewriting a whole file with a different
+`json.dumps` call is what to avoid, because it buries the one line that
+changed under a reindent of everything else.
+
 Name entry has no module of its own: its package's executable phase is the
 same image as the password screen, entered at different functions. See
 [`../../src/overlays/name_entry/README.md`](../../src/overlays/name_entry/README.md).

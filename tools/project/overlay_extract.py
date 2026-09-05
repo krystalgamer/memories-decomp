@@ -160,6 +160,31 @@ def verify(root: Path, sector_size: int, modules: list[dict[str, Any]]) -> None:
                 f"{module['name']}: extracted output does not match the archive"
             )
         print(f"overlay: {module['name']} OK")
+    verify_manifest_format(root)
+
+
+def verify_manifest_format(root: Path) -> None:
+    """Check every matching_c manifest is canonically formatted.
+
+    Nothing generates these files, so their layout is a convention that drifts
+    whenever someone rewrites one with a different json.dumps call. Pinning it
+    keeps entry-adding diffs to the entry that was added.
+    """
+    config = resolve_within(root, "config/slus_01411", must_exist=True)
+    paths = [config / "matching_c.json"]
+    paths.extend(sorted((config / "overlays").glob("*_matching_c.json")))
+    for path in paths:
+        name = path.relative_to(root)
+        if not path.is_file():
+            raise OverlayError(f"{name}: missing matching_c manifest")
+        text = path.read_text(encoding="utf-8")
+        canonical = json.dumps(json.loads(text), indent=2, sort_keys=True) + "\n"
+        if text != canonical:
+            raise OverlayError(
+                f"{name}: not canonical; rewrite it with "
+                "json.dumps(data, indent=2, sort_keys=True) plus a trailing newline"
+            )
+    print(f"matching_c manifests: OK ({len(paths)} canonical)")
 
 
 def parse_args() -> argparse.Namespace:
