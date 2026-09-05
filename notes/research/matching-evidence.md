@@ -1222,6 +1222,44 @@ to the same RTL, so further permutations of that kind are low-yield. Anyone
 picking up this group should start from the G0 profile line and treat the
 five levers above as already settled.
 
+### A third instance, in a loop rather than a call
+
+`func_80025028` reaches the exact instruction count with the correct shape,
+the confirmed profile (`gcc_2_8_1_o1_g8`, G8 by four `%gp_rel` operands) and
+the shared `DuelCardRecord` type, and then stops on the same residual.
+
+Retail materialises both array bases before the loop and indexes off them:
+
+```
+lui/addiu $t0 = &D_800907D8
+lui/addiu $a3 = &D_801A7AD8
+```
+
+The candidate materialises only one and routes the other through the
+assembler temporary inside the loop (`lui $at` / `addu $at,$at,$v0` /
+`lbu $v1,0($at)`). Four lever families were measured against it, all at the
+correct count of 40:
+
+| lever | result |
+| --- | --- |
+| hoist both bases into locals | 41 instructions, worse |
+| hoist only the `$at`-routed base | 41 instructions, worse |
+| inline the offset local | inert, identical score |
+| reorder the leading zero store | inert |
+
+Naming *either* base costs an instruction, because the local forces a
+materialisation retail gets for free; not naming it costs the register. The
+loop shape needs no experiment — retail recomputes the index in the branch
+delay slot (`bnez $v0, L ; addu $v0,$a1,$a2`), which is what the obvious
+source already emits.
+
+So the residual now appears in three unrelated places: a packet pointer
+passed to a call, an object pointer returned from an allocator, and a
+loop-invariant array base. It is not a property of any one calling pattern.
+The practical rule is that once shape, count, profile and types are settled
+and the only difference is which register holds a long-lived address, further
+source permutation is low-yield — record what was measured and move on.
+
 ## Choosing the right instrument to verify a candidate
 
 Diff count is the cheap instrument and it is the one that misleads. Three
