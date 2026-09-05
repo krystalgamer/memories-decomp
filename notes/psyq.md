@@ -189,13 +189,26 @@ game-owned scheduler or filesystem structures merely because their fields
 have similar roles. Current game C reaches this stack only through imported
 SDK headers such as `libapi.h` and `libmcrd.h`.
 
-`libhmd.h` extends the graphics-library types rather than replacing them. Its
-`GsCOORDUNIT`, `GsUNIT`, and `GsARGUNIT*` records describe hierarchical-model
-primitive processing and refer to `MATRIX`, `SVECTOR`, `DVECTOR`, `GsOT`, and
-`PACKET` declarations supplied by the GTE and `libgs` interfaces. Include
-ordering therefore matters. No current game C includes `libhmd.h`, so a local
-model record should not be migrated to an HMD type from a matching size or
-similar role alone; field-level and resident-call evidence are still required.
+The graphics headers also form distinct layers. `libgpu.h` owns the GPU packet
+ABI: `RECT`, `DRAWENV`, `DISPENV`, primitive records, packet-construction
+macros, image transfers, and direct primitive or ordering-table submission.
+`libgte.h` supplies the fixed-point vector and matrix types used for geometry.
+`libgs.h` then builds scene coordinates, cameras, lights, object records, and
+sorting helpers on top of both lower layers.
+
+The imported `libgs.h` includes only `src/types.h` even though it refers to
+`MATRIX`, `VECTOR`, `SVECTOR`, `CVECTOR`, `RECT`, `DRAWENV`, `DISPENV`, and
+`PACKET`. A translation unit using it must therefore expose `libgte.h` and
+`libgpu.h` first, rather than treating `libgs.h` as a self-contained umbrella.
+`libhmd.h` extends that stack again: its `GsCOORDUNIT`, `GsUNIT`, and
+`GsARGUNIT*` records describe hierarchical-model primitive processing and
+depend on GTE, GPU, and `libgs` declarations without including those headers.
+
+Current game C includes `libgpu.h` only in `func_800249E0.c`, where `RECT`
+backs two image transfers. No current game C includes `libgs.h` or
+`libhmd.h`, so a local render or model record should not be migrated to one of
+their types from a matching size or similar role alone; field-level and
+resident-call evidence are still required.
 
 The GTE headers are a layered toolchain interface rather than interchangeable
 umbrellas. `libgte.h` owns the geometry records and callable library
