@@ -64,15 +64,22 @@ Adding an entry by hand is fine. Rewriting a whole file with a different
 `json.dumps` call is what to avoid, because it buries the one line that
 changed under a reindent of everything else.
 
-The `<module>_functions.csv` inventories are checked by the same target. Every
-row must have the column count of its header. The last column is prose, so an
-unquoted comma in it silently splits the row and truncates the note for every
-tool that reads it — quote the field instead, which is what the resident
+Every tracked CSV under `config/` and `notes/` is checked by the same target,
+found by walking those trees rather than from a list, so a new one is guarded
+the day it is added. Every row must have the column count of its header. The
+last column of these tables is prose, so an unquoted comma in it splits the
+row and the text after the comma is **silently discarded** — there is no
+column for it to land in, the file still parses, and every other check still
+passes. Quote the field instead, which is what
 `config/slus_01411/functions.csv` already does:
 
 ```
 0x80168090,0x124,FreeDuel_PlaceCursor,unmatched_asm,overlay/free_duel,"Name from ..., and ..."
 ```
+
+A byte round-trip through `csv.writer` does **not** catch this, which is worth
+knowing before reaching for one: a row that has grown an extra field
+round-trips to itself exactly. The column count is the invariant that matters.
 
 Name entry has no module of its own: its package's executable phase is the
 same image as the password screen, entered at different functions. See
