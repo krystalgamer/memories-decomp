@@ -23,13 +23,13 @@ the applies and byte-verify once).
 
 | address | current name | observed | suspicion |
 |---|---|---|---|
-| `0x8009B37D` (byte) | `gOptions_bOutputType` | Flips with the setting; func_8003C628 writes it from `gSD_bOutputType`, and func_8003C568 uses it as an options-label table index. | APPLIED |
+| `0x8009B37D` (byte) | `gOptions_bOutputType` | Flips with the setting; `Options_Init` writes it from `gSD_bOutputType`, and func_8003C568 uses it as an options-label table index. | APPLIED |
 | `0x80044DC0` | `func_80044DC0` | Called by SD_SetOutputType with the master volume field; matched body builds the 4-byte CdMix packet, channel slot picked by the mode byte. | `SD_UpdateCdMix`-ish CD-audio re-mixer. |
 | `0x8007CDC0` -> `0x8007A048` | (mid-entries) | CD volume apply path beneath the CdMix packet (0x8007A048 sits in CD_vol's extent; entries are mid-function dispatch quirks). | Library-side CD volume application; verify extents before naming anything. |
 | `0x8003C568` | `func_8003C568` | Runs ~1 frame after the toggle; body picks a label from a local table by `gOptions_bOutputType`. | Options-screen label refresh (draws STEREO/MONO highlight). |
-| `0x8003C628` | `func_8003C628` | Body initializes `gOptions_bState`, `gOptions_bOutputType`, and `gOptions_bSelection` from `gSD_bOutputType` and screen defaults. | Options-state sync/init. |
+| `0x8003C628` | `Options_Init` | Body initializes `gOptions_bState`, `gOptions_bOutputType`, and `gOptions_bSelection` from `gSD_bOutputType` and screen defaults while creating the screen widgets. | APPLIED |
 | `0x80047F38(1, 0x11, 0xFF)` | `func_80047F38` | Fired inside the SE-play path on every blip. | SE voice setup/allocation. |
-| `0x8009B37C` (byte) | `gOptions_bState` | Initialized to 1, dispatched by func_8003C8CC, changed to the selected row plus one on confirm, and cleared on Circle. | APPLIED |
+| `0x8009B37C` (byte) | `gOptions_bState` | Initialized to 1, dispatched by `Options_Update`, changed to the selected row plus one on confirm, and cleared on Circle. | APPLIED |
 | `D_8009B45C->f48` | (struct field) | The sound-state struct's output-mode byte (written by SD_SetOutputType, read by the CdMix builder). | Document as `outputType` when the struct gets a header. |
 
 ## From the TRADE card flow (2026-08-31)
