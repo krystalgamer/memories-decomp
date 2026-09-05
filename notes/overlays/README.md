@@ -11,6 +11,9 @@ its resident load banks.
 - [`matching-patterns.md`](matching-patterns.md) records the source-shape
   rules recovered while matching overlay functions, and the one residual
   difference that no available compiler profile reproduces.
+- [`recorded-blockers.md`](recorded-blockers.md) explains how to read the
+  per-function notes that say why something will not match, and why the
+  explanation half of them should be retested rather than trusted.
 - [`module-crosswalk.md`](module-crosswalk.md) correlates verified archive
   slices and load ranges with the external per-screen symbol files.
 - `tools/project/overlay_diff.py` compares one candidate against the retail
