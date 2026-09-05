@@ -219,6 +219,14 @@ difference is not reachable by pinning at all.
 The practical rule: if the register you want to control holds a call result, a
 pin is the wrong tool and will cost an instruction.
 
+### Fixed-size builtin copies
+
+Exact `func_800476B4` confirms that GCC 2.8.1 expands an 8-byte
+`__builtin_memcpy` between alignment-one pointers into the retail
+`lwl`/`lwr` and `swl`/`swr` pairs. This is a useful source-level lever when a
+manually written pair of 32-bit copies produces the right data movement but
+the wrong unaligned load/store schedule.
+
 ### GTE instructions
 
 Projection helpers use scratchpad address `0x1F8003E0`, load GTE data
