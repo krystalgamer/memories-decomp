@@ -3,7 +3,7 @@
 extern u8 gCampaignMap_Location;
 extern u8 gCampaignMap_aLocationTable[];
 extern u16 D_8009B398;
-extern u16 D_8009B3A4;
+extern volatile u16 D_8009B3A4;
 extern s32 gCampaignMap_MoveState;
 extern s32 func_8002CCA8(s32);
 extern void func_8003FEE0(s32);
