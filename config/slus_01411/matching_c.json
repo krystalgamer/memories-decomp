@@ -1432,7 +1432,7 @@
       "address": "0x8002EC74",
       "profile": "gcc_2_8_1_g8",
       "size": "0x13C",
-      "source": "src/game/func_8002EC74.c"
+      "source": "src/game/script_sound_command.c"
     },
     {
       "address": "0x8002EDB0",

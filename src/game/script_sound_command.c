@@ -11,7 +11,7 @@ extern s32 func_8002E3B4(void);
 extern void SD_SEPlayFull(s32);
 extern void func_8003FF08(s32);
 
-void func_8002EC74(void)
+void Script_OpSound(void)
 {
     u8 *q;
     s32 c;

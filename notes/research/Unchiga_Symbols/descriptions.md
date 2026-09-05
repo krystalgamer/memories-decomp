@@ -263,6 +263,7 @@ tracked in suspects.md.)
 | 0x8002CE64 | `Main_RunCampaign` | Mode tick for the campaign (mode byte 0xC2): runs the story script and its text boxes each frame. Live-confirmed as the ambient loop of the intro cutscene. |
 | 0x8002FA54 | `Script_RunTick` | Bytecode driver: if no script is running, resolves the selected script through the self-relative offset table and latches its stream; otherwise executes the current opcode through `gScript_apfnCommand`, gated by `gScript_wState`. |
 | 0x8002E730 | `Script_OpShowImage` | Script opcode 5: shows the cutscene picture -- copies the staged image into the display area, or when nothing is busy releases the previous one, starts a fade and requests the next picture from disc. |
+| 0x8002EC74 | `Script_OpSound` | Reads an encoded sound command from `gScript_pStream`, plays an immediate sound effect or updates/replays the current sound command, and clears `gScript_wCommand` when the operation is complete. |
 | 0x80090C50 | `gScript_apfnCommand` | Table of the 24 script opcode handlers (0x8002E3DC .. 0x8002FED0), indexed by `gScript_wCommand`. |
 | 0x8009B27C | `gScript_wCommand` | The opcode currently being serviced; bit 0x8000 marks it busy across frames. |
 | 0x8009B290 | `gScript_pStream` | Byte-stream cursor of the running script. |
