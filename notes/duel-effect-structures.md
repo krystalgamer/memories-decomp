@@ -72,9 +72,10 @@ from `field_18 % 10` after resolving the entry through the channel's
 family. It consumes one 16-bit script value, uses the high bit to select the
 flagged sound path, and arms effect state `0x11` with a follow-up value.
 
-Five pure-C functions now use the shared declaration:
+Six pure-C functions now use the shared declaration:
 `DuelEffect_ClearMatchingMarker`, `DuelEffect_ResetEntryMarkers`,
-`DuelEffect_HasActiveEntry`, `func_800373C8`, and `func_8003B6AC`.
+`DuelEffect_HasActiveEntry`, `func_800373C8`, `func_8003741C`, and
+`func_8003B6AC`.
 
 ## Deferred and exact-code exceptions
 
@@ -83,14 +84,16 @@ Matching-C functions implemented with inline assembly remain unchanged:
 - `Main_RunCredits` references `D_800EB0F8`;
 - `func_80030998` references both globals through explicit relocations.
 
+`DuelEffect_UpdateObjectLayout` is also matching C, but it retains a minimal
+local `EffectEntry` view and is not counted among the six shared-header users.
+
 The remaining assembly users are also unchanged. For `D_800EB0F8` they are
 `func_80019D18`, `func_8001B170`, `func_800235C0`, `func_800262D4`,
 `func_800283F4`, `func_8002ACA4`, `Main_RunTrade`, `func_8002DC38`,
 `func_8002E5AC`, `func_8002EE94`, `func_80031084`, `func_800339D0`,
 `func_80035E20`, `func_80039794`, `func_8003D74C`, `func_8003DA40`,
-`func_8003DC1C`, `func_8003F2B0`, `func_8003F454`, `func_8003F8D4`, and
-`func_80043BCC`. For `D_800EB288` they are `func_80036DBC`,
-`func_8003741C`, `func_800393B0`, and `func_80039D64`.
+`func_8003DC1C`, `func_8003F454`, `func_8003F8D4`, and `func_80043BCC`.
+For `D_800EB288` they are `func_800393B0` and `func_80039D64`.
 
 `duel_effect_entry_scan.c` is the sole raw-view exception among migrated
 pure-C users. Both functions include the shared header and use its typed
