@@ -310,6 +310,48 @@ Heishin encounter.
 - **Tentative** for music names that have not been corroborated by an audio
   trace.
 
+## Pharaoh Atem final-duel payload
+
+**Tutorial:** `Pharaoh Atem no Ultimo Duelo.txt`
+
+The tutorial writes a `0x642`-byte payload at SLUS offset `0x1B01BE`. That
+range maps to `0x801BF9BE-0x801BFFFF` and ends exactly at file offset
+`0x1B0800`, where the `0x801C0000` global string-offset table begins. The
+payload therefore does not overwrite the offset table, but its destination is
+not empty padding: the retail range contains 339 nonzero bytes through
+`0x1B034D`. Applying the tutorial replaces existing tail text data and clears
+the rest of the bank.
+
+At payload offset `+0x94` (SLUS `0x1B0252`) is this campaign duel record:
+
+```text
+F8 0D 27 02 61 00 40 72 FF
+```
+
+Using the verified `F8 0D` layout, it selects opponent ID `0x27` (decimal
+`39`), post-duel continuation IDs `0x02` and `0x61`, Normal terrain, and sound
+command `0x7240`. Existing game research identifies opponent slot 39 as Duel
+Master K. The payload does not add a new opponent identity or alter that
+opponent's deck, model, portrait, or name; presenting the slot as Pharaoh Atem
+depends on other data changes.
+
+The large zero-filled tail is significant. The payload is sized to the
+remaining text-bank space rather than just the encoded dialogue and duel
+record, so it should be treated as a full replacement of that region, not as
+a short insertion that can be combined blindly with other text mods.
+
+**Confidence:**
+
+- **Confirmed** that the payload exactly fills `0x801BF9BE-0x801BFFFF`
+  without crossing into the string-offset table.
+- **Confirmed** that its embedded duel record launches opponent slot 39 with
+  Normal terrain and sound command `0x7240`.
+- **Confirmed** that the destination overwrites existing nonzero retail text
+  data.
+- **Tentative** that the complete patch produces the tutorial's claimed
+  Pharaoh Atem presentation without additional modified assets or opponent
+  data.
+
 ## Attack-trigger trap thresholds
 
 **Tutorial:** `Efeito trap.txt`
