@@ -4,7 +4,7 @@ typedef struct {
     int words[6];
 } Local;
 
-extern int func_8007D3F0(int, int);
+extern int DsSearchFile(int, int);
 extern int func_8005BE3C(void);
 extern void func_8005BB7C(int);
 extern void GetDispEnv(Local *);
@@ -13,7 +13,7 @@ extern int func_80081FC0(Local *, int, int);
 
 int File_Exists(int first, int second)
 {
-    register int result asm("$3") = func_8007D3F0(second, first);
+    register int result asm("$3") = DsSearchFile(second, first);
     register int output asm("$2") = -1;
 
     if (result == 0) {

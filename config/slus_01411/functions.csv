@@ -1419,7 +1419,7 @@ address,size,name,status,module,notes
 0x8007D2D0,0x1C,func_8007D2D0,sdk_asm,psyq/sdk,
 0x8007D2F0,0xD4,func_8007D2F0,sdk_asm,psyq/sdk,
 0x8007D3C4,0x20,func_8007D3C4,sdk_asm,psyq/sdk,
-0x8007D3F0,0x2E0,func_8007D3F0,sdk_asm,psyq/sdk,
+0x8007D3F0,0x2E0,DsSearchFile,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBDS.LIB DsSearchFile.
 0x8007D6D0,0x20,func_8007D6D0,sdk_asm,psyq/sdk,
 0x8007D6F0,0x2C4,func_8007D6F0,sdk_asm,psyq/sdk,
 0x8007D9B4,0xA4,func_8007D9B4,sdk_asm,psyq/sdk,
