@@ -25,6 +25,12 @@
       "source": "src/overlays/free_duel/sparkle_update.c"
     },
     {
+      "address": "0x80168C7C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x338",
+      "source": "src/overlays/free_duel/update_screen.c"
+    },
+    {
       "address": "0x80168FB4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7C",
