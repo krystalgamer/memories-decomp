@@ -248,11 +248,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF64,D_8009AF64,D_8009AF64,0x8003CE74,SaveData_NextMaskWord,matching_c,game,C,src/game/save_data_checksum.c,address,32,"register u32 *state asm(""$6"") = &D_8009AF64;"
 0x8009AF64,D_8009AF64,D_8009AF64,0x8003CF14,func_8003CF14,matching_c,game,C,src/game/save_data_checksum.c,write,32,D_8009AF64 = seed | (seed << 16);
 0x8009AF64,D_8009AF64,D_8009AF64,0x8003CFC8,func_8003CFC8,matching_c,game,C,src/game/func_8003CFC8.c,write,,"extern u16 func_8003CEB8(void*,int);extern unsigned D_8009AF64,D_8009AF68;extern unsigned SaveData_NextMaskWord(void)..."
-0x8009AF64,D_8009AF64,D_8009AF64,0x8003D174,func_8003D174,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02d974.s,write,32,"sw $v0, %gp_rel(D_8009AF64)($gp)"
+0x8009AF64,D_8009AF64,D_8009AF64,0x8003D174,func_8003D174,matching_c,game,C,src/game/func_8003D174.c,write,32,D_8009AF64 = seed | (seed << 16);
 0x8009AF64,D_8009AF64,D_8009AF64,0x8003FE70,func_8003FE70,matching_c,game,C,src/game/func_8003FE70.c,write,32,D_8009AF64 = value;
 0x8009AF68,D_8009AF68,D_8009AF68,0x8003CF14,func_8003CF14,matching_c,game,C,src/game/save_data_checksum.c,write,32,D_8009AF68 = seed | (seed << 16);
 0x8009AF68,D_8009AF68,D_8009AF68,0x8003CFC8,func_8003CFC8,matching_c,game,C,src/game/func_8003CFC8.c,write,,"extern u16 func_8003CEB8(void*,int);extern unsigned D_8009AF64,D_8009AF68;extern unsigned SaveData_NextMaskWord(void)..."
-0x8009AF68,D_8009AF68,D_8009AF68,0x8003D174,func_8003D174,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02d974.s,write,32,"sw $v0, %gp_rel(D_8009AF68)($gp)"
+0x8009AF68,D_8009AF68,D_8009AF68,0x8003D174,func_8003D174,matching_c,game,C,src/game/func_8003D174.c,write,32,D_8009AF68 = seed | (seed << 16);
 0x8009AF68,D_8009AF68,D_8009AF68,0x8003FE70,func_8003FE70,matching_c,game,C,src/game/func_8003FE70.c,write,32,D_8009AF68 = value;
 0x8009AF6C,D_8009AF6C,D_8009AF6C,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02df4c.s,address,,"addiu $a0, $s4, %lo(D_8009AF6C) | lui $s4, %hi(D_8009AF6C)"
 0x8009AF70,D_8009AF70,D_8009AF70,0x8003E854,func_8003E854,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02f054.s,address,,"addiu $a1, $a1, %lo(D_8009AF70) | lui $a1, %hi(D_8009AF70)"
