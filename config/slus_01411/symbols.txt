@@ -351,6 +351,7 @@ Widget_UpdatePulseColour = 0x80037110; // type:func
 
 // Semantic names
 DuelEffect_ProcessEntries = 0x80039D64; // type:func
+DuelEffect_UpdateFieldMarker = 0x800255FC; // type:func
 SD_CompareBytes = 0x8004BAA0; // type:func
 SD_ReadSequenceByte = 0x8004BAE4; // type:func
 SD_ReadVariableLengthValue = 0x8004BB34; // type:func

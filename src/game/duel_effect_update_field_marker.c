@@ -13,7 +13,7 @@ extern s32 func_80024E24(void);
 extern u8 *func_8002C604(s32 arg0);
 extern void SD_SEPlayFull(s32 arg0);
 
-void func_800255FC(void) {
+void DuelEffect_UpdateFieldMarker(void) {
     u8 *r;
     u8 *p;
     u8 *e;
