@@ -264,3 +264,5 @@ global,0x8009B398,gInput_wPad1Pressed,confirmed,"Input_UpdatePads edge calculati
 global,0x8009B39A,gInput_wPad2Pressed,confirmed,"Input_UpdatePads edge calculation; input-state swap helper","Pad 2 newly pressed input mask."
 global,0x8009B3A4,gInput_wPad1Held,confirmed,"Input_UpdatePads publication; directional-input consumers","Pad 1 currently held input mask."
 global,0x8009B3A6,gInput_wPad2Held,confirmed,"Input_UpdatePads publication; input-state swap helper","Pad 2 currently held input mask."
+global,0x8016D420,gPassword_pDigitCursorWidget,confirmed,"password-overlay live trace; func_80169F38 coordinate follower","Password digit-highlight widget pointer; module-scoped because this address is reused by other overlays."
+global,0x8016D428,gPassword_nDigitIndex,confirmed,"password-overlay live trace; func_80169F38 bounds; func_8016A00C x placement","Selected password digit index from 0 through 7; module-scoped because this address is reused by other overlays."
