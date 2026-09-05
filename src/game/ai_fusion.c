@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "ai.h"
 #include "card_constants.h"
+#include "duel_card.h"
 
 extern u8 D_800EAE88[];
 extern u8 gAiScript_State[];
@@ -20,7 +21,7 @@ void AiScript_FindEquipTarget(void)
     s32 dest = AiScript_ReadByte();
     s32 i;
 
-    for (i = 1; i < 6; i++) {
+    for (i = 1; i < DUEL_FIELD_ROW_SIZE + 1; i++) {
         AiActiveCard *card = &gDuel_aActiveCards[i];
 
         if (!card->card_id)
@@ -54,7 +55,7 @@ void AiScript_FindFirstMonster(void)
     s32 dest = AiScript_ReadByte();
     s32 i;
 
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
         s32 index = D_800EAE88[i];
         AiActiveCard *card = &gDuel_aActiveCards[index];
 
@@ -85,7 +86,7 @@ void AiScript_FindFirstType(void)
             return;
         }
         i++;
-    } while (i < 5);
+    } while (i < DUEL_FIELD_ROW_SIZE);
 
     gAiScript_aMemory[dest] = 0;
 }
