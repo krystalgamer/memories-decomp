@@ -130,3 +130,26 @@ module's symbol file beside `gMain_bMenuID` and recorded in
 [`../../../notes/semantic-symbol-map.csv`](../../../notes/semantic-symbol-map.csv).
 The password module sets the precedent: `gPassword_abDigits` is named the same
 way, in its own module file.
+
+## The card type icon
+
+`func_80184344` draws the small 16 by 16 marker for a card. It reads the
+card's packed stat word from `D_801D4244` at `id - 1`, takes the type from
+bits 26-30, and builds a 40-byte textured quad — length 9, GPU code `0x2C`,
+grey `0x80`, texture page `0xB`, `u` `0`-`0x10` and `v` `0xC8`-`0xD8` — which
+it submits through `func_80084320`.
+
+Only the palette changes with the type, so all four kinds share one texture:
+
+| type | card kind | CLUT column |
+|---|---|---|
+| 0-19 | monster | `0x260` |
+| 20, 23 | Magic, Equip | `0x270` |
+| 21 | Trap | `0x280` |
+| 22 | Ritual | `0x290` |
+
+The type ids are the ones documented in
+[`../../../notes/research/the-game.md`](../../../notes/research/the-game.md):
+twenty monster types followed by Magic, Trap, Ritual and Equip. Magic and
+Equip sharing a colour is consistent with the game, where equips are drawn as
+green magic cards.
