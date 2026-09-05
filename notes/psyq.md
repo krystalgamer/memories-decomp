@@ -91,6 +91,7 @@ symbol review.
 | `0x80086770` | `rcos` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point cosine output alongside `rsin`. |
 | `0x800878B0` | `SetGeomOffset` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE screen-center coordinates. |
 | `0x800878D0` | `SetGeomScreen` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE projection-plane distance. |
+| `0x8008AD50` | `GsSetRefView2` | Applied Psy-Q 4.6 identity; matching model paths install the shared 32-byte reference-view record. |
 | `0x8007FAF0` | `ClearOTag` | Ordering-table initialization behavior. |
 | `0x8007FC64` | `DrawPrim` | Direct GPU primitive submission behavior. |
 | `0x8007FCC0` | `DrawOTag` | Ordering-table submission behavior. |
