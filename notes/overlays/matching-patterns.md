@@ -377,6 +377,33 @@ Two independent functions sharing one residual suggests a scheduler ordering
 difference rather than two unrelated source mistakes. Treat it as a single
 open question about the profile set instead of guessing per function.
 
+### A second residual: where the return copy sits
+
+`func_8018416C` in the main menu module is a different open question, and the
+distinction is worth keeping. Its comparison chain is solved — 57 of the
+target's 58 instructions, all 57 identical — and the entire remainder is the
+epilogue:
+
+```
+target   move $v0,$v1   lw $ra,0x10($sp)   nop            jr $ra
+built    lw $ra,0x10($sp)   move $v0,$v1   jr $ra
+```
+
+The target emits the return copy **before** the restore and pays a load-delay
+`nop`; every build schedules the copy into that slot instead, which is one
+instruction shorter. Filling a slot the target left empty is the
+`func_80168708` symptom, but here it is the epilogue rather than the body.
+
+The obvious explanation is wrong, and measuring it is what rules it out.
+`gcc_2_8_1_g0_no_sched2` does not restore the target order — it is far worse,
+at 35 differing positions against 5 — so scheduling pass 2 is on and this is
+not a sched2 artifact. Declaration order, initialising the result variable,
+and returning through a second variable were each measured and change nothing.
+
+Do not attribute this to the same cause as the `FreeDuel` transposition above
+without new evidence: that one has correct register allocation and equal
+size, this one differs in size by exactly the `nop`.
+
 ## Statement splitting controls evaluation order
 
 Where the target evaluates the left side of a binary operator before the
