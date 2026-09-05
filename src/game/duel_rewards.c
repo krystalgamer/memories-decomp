@@ -3,7 +3,7 @@
 
 typedef struct {
     u16 weights[CARD_COUNT];
-    u8 pad05A4[16];
+    u8 pad05A4[DUEL_DROP_TABLE_PADDING_SIZE];
 } DuelDropTable;
 
 extern DuelDropTable gDuel_awSaPowCardDrops[];
