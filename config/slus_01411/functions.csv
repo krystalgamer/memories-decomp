@@ -1571,7 +1571,7 @@ address,size,name,status,module,notes
 0x800856A0,0x98,func_800856A0,sdk_asm,psyq/sdk,
 0x80085740,0x74,func_80085740,sdk_asm,psyq/sdk,
 0x800857C0,0x20,func_800857C0,sdk_asm,psyq/sdk,
-0x800857E0,0x4B8,func_800857E0,sdk_asm,psyq/sdk,
+0x800857E0,0x4B8,GsSetFlatLight,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/GS_107.OBJ signature and matching three-light setup.
 0x80085C98,0x64,func_80085C98,sdk_asm,psyq/sdk,
 0x80085CFC,0x4C,func_80085CFC,sdk_asm,psyq/sdk,
 0x80085D50,0x28,func_80085D50,sdk_asm,psyq/sdk,
