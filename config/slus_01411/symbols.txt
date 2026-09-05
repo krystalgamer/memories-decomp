@@ -291,3 +291,6 @@ Duel_HasAllExodiaPieces = 0x80018CF8; // type:func
 
 // Semantic names
 File_RequestAsyncTransfer = 0x80014E1C; // type:func
+
+// Semantic names
+File_InitTransferDescriptor = 0x80013998; // type:func

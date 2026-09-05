@@ -99,7 +99,7 @@ void func_80013940(
     }
 }
 
-FileTransfer *func_80013998(
+FileTransfer *File_InitTransferDescriptor(
     FileTransfer *transfer,
     s32 flags,
     s32 field_18,
