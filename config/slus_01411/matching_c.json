@@ -3436,13 +3436,13 @@
       "address": "0x8004763C",
       "profile": "gcc_2_8_1_cc_g0_as_g8_no_split",
       "size": "0x78",
-      "source": "src/game/func_8004763C.c"
+      "source": "src/game/sound_pending_entries.c"
     },
     {
       "address": "0x800476B4",
       "profile": "gcc_2_8_1_cc_g0_as_g8_no_split",
       "size": "0xD4",
-      "source": "src/game/func_800476B4.c"
+      "source": "src/game/sound_pending_entries.c"
     },
     {
       "address": "0x80047864",
