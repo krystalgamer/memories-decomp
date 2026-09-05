@@ -3991,6 +3991,12 @@
       "source": "src/game/sd_sequence_tracks.c"
     },
     {
+      "address": "0x8004DB14",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x124",
+      "source": "src/game/func_8004DB14.c"
+    },
+    {
       "address": "0x8004E9A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",
