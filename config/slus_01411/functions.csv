@@ -756,7 +756,7 @@ address,size,name,status,module,notes
 0x80047458,0x28,func_80047458,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80047480,0x1BC,func_80047480,unmatched_asm,game,
 0x8004763C,0x78,func_8004763C,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_cc_g0_as_g8_no_split.
-0x800476B4,0xD4,func_800476B4,unmatched_asm,game,
+0x800476B4,0xD4,func_800476B4,matching_c,game,Collaborator loop-rotation and destination-pointer evidence independently verified; exact linked bytes and relocations with the keep-large-ORI profile.
 0x80047788,0xDC,func_80047788,unmatched_asm,game,
 0x80047864,0x88,func_80047864,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800478EC,0x17C,func_800478EC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
