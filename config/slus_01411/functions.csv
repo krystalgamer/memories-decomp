@@ -524,7 +524,7 @@ address,size,name,status,module,notes
 0x8003A01C,0x17C,func_8003A01C,unmatched_asm,game,
 0x8003A198,0x54,func_8003A198,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003A1EC,0x254,func_8003A1EC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8003A440,0x120,func_8003A440,unmatched_asm,game,
+0x8003A440,0x120,func_8003A440,matching_c,game,Exact collaborator-derived pure-C match preserving the per-iteration signed argument and second-arm store-address lifetime.
 0x8003A560,0x3C0,func_8003A560,unmatched_asm,game,
 0x8003A920,0x3C,func_8003A920,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003A95C,0x34,func_8003A95C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.

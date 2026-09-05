@@ -173,11 +173,14 @@ def expected_reference_path(
         )
     if mode == "collaborator_match":
         path = PurePosixPath(value)
+        collaborator_roots = {
+            ("tmp", "references", "ygofm-decomp-unchiga", "src"),
+            ("tmp", "references", "ygofm-decomp-machinegun", "src"),
+        }
         return (
             not path.is_absolute()
             and ".." not in path.parts
-            and path.parts[:4]
-            == ("tmp", "references", "ygofm-decomp-unchiga", "src")
+            and path.parts[:4] in collaborator_roots
             and path.suffix == ".c"
         )
     return True
