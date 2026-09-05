@@ -9,6 +9,7 @@
 #define MODEL_SLOT_SIZE 0xE20
 #define MODEL_SLOT_DATA_ENTRY_SIZE 80
 #define MODEL_HANDLER_REGISTRY_COUNT 80
+#define MODEL_DATA_MIN_FREE_BYTES 0x401
 
 typedef struct {
     u32 field_00;
