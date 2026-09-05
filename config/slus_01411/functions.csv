@@ -1211,8 +1211,8 @@ address,size,name,status,module,notes
 0x80073880,0xC,func_80073880,sdk_asm,psyq/sdk,
 0x80073890,0xC,func_80073890,sdk_asm,psyq/sdk,
 0x800738A0,0xC,func_800738A0,sdk_asm,psyq/sdk,
-0x800738B0,0x10,func_800738B0,sdk_asm,psyq/sdk,
-0x800738C0,0x10,func_800738C0,sdk_asm,psyq/sdk,
+0x800738B0,0x10,EnterCriticalSection,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A36.OBJ signature and matching event-management callers.
+0x800738C0,0x10,ExitCriticalSection,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A37.OBJ signature and matching event-management callers.
 0x800738D0,0xC,func_800738D0,sdk_asm,psyq/sdk,
 0x800738E0,0xC,func_800738E0,sdk_asm,psyq/sdk,
 0x800738F0,0xC,func_800738F0,sdk_asm,psyq/sdk,

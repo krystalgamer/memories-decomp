@@ -393,6 +393,8 @@ Duel_LoadPackageStage = 0x800171A8; // type:func
 gText_abColorSlots = 0x801D5708;
 
 // Psy-Q LIBAPI.LIB/PAD.OBJ
+EnterCriticalSection = 0x800738B0; // type:func
+ExitCriticalSection = 0x800738C0; // type:func
 InitPAD = 0x80073E1C; // type:func
 StartPAD = 0x80073EAC; // type:func
 VSync = 0x80074170; // type:func
