@@ -408,26 +408,32 @@ named first is emitted first.
 
 ## Known unresolved residual
 
-`FreeDuel_PlaceCursor` reduces to a single transposition of two independent
-chains, with every other instruction, the total size, and the **register
-allocation** already agreeing:
+`FreeDuel_PlaceCursor` is the only overlay function left in this state, and it
+is close: a candidate already emits the same instructions in the same count as
+the target under `gcc_2_8_1_g0_split`, with **only the two leading `lui`
+instructions transposed**. Reading `D_8009B366` and `D_8009B367` into locals
+before the coordinate stores is what fixed the load placement, since GCC will
+not hoist a global load across a store through a `u8` pointer. Declaration
+order does not affect what is left.
 
-```
-target   lbu $v0, 0xC   lhu $v1, 0x60   addiu $v0,-4   addiu $v1,-1
-built    lhu $v1, 0x60  lbu $v0, 0xC    addiu $v1,-1   addiu $v0,-4
-```
+Its inventory note also records that `-fno-schedule-insns` and
+`-fno-schedule-insns2` both move it further away. **That measurement predates
+`gcc_2_8_1_g0_split_no_sched1` and `gcc_2_8_1_g0_no_sched2_split`, and it is
+not recorded whether it was taken with those flags added to the split profile
+or through the non-split profiles that were the only ones available.** Two
+functions have already been unblocked by exactly that ambiguity, so repeat it
+unambiguously before treating the flags as ruled out.
 
-Both chains transpose as a unit, not just their loads, so there is no
-allocation component to work with: the liveness lever that resolved
-`func_80180F50` cannot apply.
+### What the previous occupant of this section taught
 
-**`FreeDuel_UpdateSparkle` showed the identical symptom and was not
-unresolvable**, which is the useful part of this entry. Swapping the two source
-statements there produced byte-identical output, and that was recorded as proof
-that the scheduler chose the order rather than the source. The inference does
-not follow. Swapping two adjacent statements does not change the dependence
-structure, so of course it changes nothing; **moving one of them past the three
-intervening stores does**, and matches exactly:
+`FreeDuel_UpdateSparkle` sat here with a transposition of two independent
+chains and was not unresolvable. The note recorded that swapping the two source
+statements produced byte-identical output, and concluded that the scheduler
+chose the order rather than the source.
+
+The inference does not follow. Swapping two **adjacent** statements changes no
+dependence, so of course it changes nothing. Moving one of them past the three
+intervening stores does, and matches exactly:
 
 ```c
 level = obj->r - 4;
@@ -443,11 +449,8 @@ So before concluding that a transposition is the scheduler's choice, move a
 statement far enough to change what depends on what. Adjacent swaps are not
 evidence.
 
-Whether `FreeDuel_PlaceCursor` yields to the same treatment has not been
-tested.
-
-Profiles measured against `FreeDuel_UpdateSparkle` while it was still open,
-none of which mattered in the end:
+Profiles measured against `FreeDuel_UpdateSparkle` while it was still open.
+None of them mattered to its match, but the last row is worth keeping:
 
 | Profile | Result |
 |---|---|
@@ -457,9 +460,9 @@ none of which mattered in the end:
 | `gcc_2_8_1_g0_no_sched2` | further |
 | `gcc_2_7_2_g0` | furthest, `0xC4` instead of `0xC8` |
 
-The 2.7.2 result is still useful in its own right: it is positive evidence that
-these modules belong to the GCC 2.8.1 cohort, reached through the recorded
-escalation path rather than by assumption.
+The 2.7.2 result is positive evidence that these modules belong to the GCC
+2.8.1 cohort, reached through the recorded escalation path rather than by
+assumption.
 
 ## Statement splitting controls evaluation order
 
