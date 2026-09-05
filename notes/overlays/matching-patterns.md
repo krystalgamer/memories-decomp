@@ -37,16 +37,16 @@ s32 value = D_8016D428;
 
 Verified by `func_8016A00C` in the password module.
 
-## A stall the compiler would have filled
+## A stall can point to access syntax
 
-The converse also happens, and it is a stopping condition rather than a
-technique. Where two accesses share a base pointer at different offsets, GCC
-can prove independence and will reorder freely to fill a delay slot. If the
-target leaves the stall in place, no ordinary source ordering reproduces it.
+Where two accesses share a base pointer at different offsets, GCC can prove
+independence and reorder them to fill a delay slot. If the target leaves the
+stall in place, source statement order alone may not reproduce it.
 
 `func_8016A02C` in the password module is the recorded example: the target
 keeps a `nop` after `lhu $v1, 0x8($v0)` where GCC hoists the load above the
-neighbouring `sb`. It remains assembly rather than being forced.
+neighbouring `sb` when both fields are written as byte-pointer casts. The
+function was later matched by using structure members, as described below.
 
 ## Index loops, not pointer walks
 
@@ -346,7 +346,6 @@ the instruction count exactly, including the `361 << 3` expansion of the
 `2888`-byte row stride, and on `func_80168050` in the overworld overlays,
 where the body-computed offset produces a full match.
 
-<<<<<<< HEAD
 ## Struct members, not casts through a byte pointer
 
 Two ways of writing the same field access are not equivalent to the optimiser.
@@ -375,7 +374,7 @@ diagnosis. A load hoisted above a store looks like scheduling, and a register
 that will not move looks like allocation; both were recorded here as a sched1
 problem needing a profile that did not exist. The stock `gcc_2_8_1_g0_split`
 matches once the accesses are members.
-=======
+
 ## A register copy before the last store may be the return value
 
 A tail that reads
@@ -404,7 +403,6 @@ saved-register allocation makes it worse, at 58 instructions against 57.
 The shared base matters on its own: naming it is what puts its `%hi` ahead of
 the location load, which is the emission-order rule again — the term the source
 named first is emitted first.
->>>>>>> e876f3e9 (decomp: match func_80168588 in both overworld overlays)
 
 ## Known unresolved residual
 
