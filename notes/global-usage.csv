@@ -166,7 +166,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80090A5C,D_80090A5C,D_80090A5C,0x80026B34,func_80026B34,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,address,,callbacks = D_80090A5C;
 0x80090AD4,D_80090AD4,D_80090AD4,0x80026B34,func_80026B34,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,address,8,u8 *indices = D_80090AD4;
 0x80090B3C,D_80090B3C,D_80090B3C,0x8002892C,DuelEffect_UpdateState,matching_c,game,C,src/game/duel_effect_update_state.c,read,,D_80090B3C[D_8009B24A]();
-0x80090B50,D_80090B50,D_80090B50,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_run_credits.c,address,,".reloc .-4, R_MIPS_HI16, D_80090B50 after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, D_80090B50 after .word 0x24420000"
+0x80090B50,gCredits_awSecretNumbers,gCredits_awSecretNumbers,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_run_credits.c,address,,".reloc .-4, R_MIPS_HI16, gCredits_awSecretNumbers after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, gCredits_awSecretNumbers after .word 0x24420000"
 0x80090B64,D_80090B64,D_80090B64,0x8002DD74,Main_Loop,matching_c,game,C,src/game/main_loop.c,read,,D_80090B64[v & 0x1F]();
 0x80090BA8,D_80090BA8,D_80090BA8,0x8002E128,func_8002E128,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01e928.s,address,,"addiu $v1, $v1, %lo(D_80090BA8) | lui $v1, %hi(D_80090BA8)"
 0x80090C00,D_80090C00,D_80090C00,0x8002E128,func_8002E128,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01e928.s,address,,"addiu $v0, $v0, %lo(D_80090C00) | lui $v0, %hi(D_80090C00)"
