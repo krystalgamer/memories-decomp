@@ -1954,7 +1954,7 @@
       "address": "0x80037110",
       "profile": "gcc_2_8_1_g0",
       "size": "0x98",
-      "source": "src/game/func_80037110.c"
+      "source": "src/game/widget_update_pulse_colour.c"
     },
     {
       "address": "0x8003735C",

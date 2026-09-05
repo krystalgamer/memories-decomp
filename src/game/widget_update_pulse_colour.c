@@ -2,7 +2,7 @@
 
 extern u32 D_8009B09C[];
 
-void func_80037110(u8 *arg0)
+void Widget_UpdatePulseColour(u8 *arg0)
 {
     u8 *q = arg0;
     s32 c = 0;
