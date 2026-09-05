@@ -376,6 +376,9 @@ Input_BackupPad1AndUsePad2 = 0x8003CDF8; // type:func
 Input_RestorePad1FromBackup = 0x8003CE48; // type:func
 Input_InitPads = 0x8003CBE8; // type:func
 
+// Semantic names
+gMovie_aStreamRanges = 0x8009151C;
+
 // Psy-Q LIBAPI.LIB/PAD.OBJ
 InitPAD = 0x80073E1C; // type:func
 StartPAD = 0x80073EAC; // type:func

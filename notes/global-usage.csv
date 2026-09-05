@@ -208,7 +208,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80091008,D_80091008,D_80091008,0x80056504,Model_LoadMonsterMerge,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_046a50.s,address,,"addiu $v0, $v0, %lo(D_80091008) | lui $v0, %hi(D_80091008)"
 0x800914E8,D_800914E8,D_800914E8,0x800540B4,func_800540B4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_043cb8.s,address,,"addiu $s6, $v0, %lo(D_800914E8) | lui $v0, %hi(D_800914E8)"
 0x80091508,D_80091508,D_80091508,0x8004E9A0,func_8004E9A0,matching_c,game,C,src/game/func_8004E9A0.c,read,8,q = D_80091508[r4];
-0x8009151C,D_8009151C,D_8009151C,0x8005C388,func_8005C388,matching_c,game,C,src/game/func_8005C388.c,read,,base = D_8009151C; | table = D_8009151C;
+0x8009151C,gMovie_aStreamRanges,gMovie_aStreamRanges,0x8005C388,func_8005C388,matching_c,game,C,src/game/func_8005C388.c,address,,base = gMovie_aStreamRanges; | table = gMovie_aStreamRanges;
 0x80091550,D_80091550,D_80091550,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_state.c,address,8,void *x = a < 0 ? 0 : D_80091550 + a * 8; | void *y = b < 0 ? 0 : D_80091550 + b * 8;
 0x80091570,D_80091570,D_80091570,0x8005F1A4,func_8005F1A4,matching_c,game,C,src/game/model_effect_coefficients.c,address,,return &D_80091570[index];
 0x80091570,D_80091570,D_80091570,0x8005F27C,func_8005F27C,matching_c,game,C,src/game/func_8005F27C.c,address,8,r = D_80091570 + arg1 * 8;
