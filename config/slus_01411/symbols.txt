@@ -22,6 +22,7 @@ gDebug_nSceneOrSoundID = 0x8009B2C8;
 gGraphics_sViewportX = 0x8009B146;
 gGraphics_sViewportY = 0x8009B148;
 gDuel_wSelectedCardID = 0x8009B338;
+gDuel_bWinnerSide = 0x8009B165;
 gDuel_bOpponentID = 0x8009B361;
 gDuel_bTerrain = 0x8009B364;
 gFreeDuel_bReturnFlags = 0x8009B365;

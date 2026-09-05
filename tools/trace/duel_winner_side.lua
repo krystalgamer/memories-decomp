@@ -1,27 +1,29 @@
 -- duel_winner_side.lua
 --
 -- WHAT THIS ANSWERS
---   Static code uses D_8009B165 as a side index while awarding end-of-duel
---   credit. A player win has shown value 0, but value 1 has not been observed
---   during a CPU win. This captures the byte when the one-shot end-credit
---   latch is set and includes the life points and selected duelist's W/L
---   record so the result can support or reject gDuel_bWinnerSide.
+--   gDuel_bWinnerSide is structurally the winning-side index used by the
+--   end-of-duel credit path. A retained CPU-win run reads 1, but that value
+--   was already present when the script started after a previous loss.
+--
+--   This control run must observe a PLAYER win after a CPU win, so a change
+--   from 1 to 0 or a latched value of 0 establishes the remaining polarity.
 --
 -- HOW TO RUN
---   1. Open PCSX-Redux with the game.
---   2. Debug -> Lua editor, paste this file, and let it auto-run.
---   3. Enter a one-player duel and start the script before the final action.
---   4. For the missing evidence, lose the duel and wait a few seconds after
---      the duel ends. A player win is also useful as a control run.
+--   1. First lose a one-player duel so the previous result is a CPU win.
+--   2. Start another one-player duel and arrange to win it.
+--   3. Before the finishing action, open Debug -> Lua editor, paste this
+--      file, and let it auto-run.
+--   4. Wait a few seconds after the duel ends.
 --   5. Copy the whole document into
---      tools/trace/result/duel_winner_side.txt and fill in the context.
+--      tools/trace/result/duel_winner_side_player_win.txt and fill in the
+--      context.
 --
 --   No breakpoint, debugger pause, or interpreter CPU is required.
 --
 -- WHAT TO WRITE IN THE CONTEXT
---   State whether the player won or lost, how the duel ended (LP, Exodia,
---   deck-out, or surrender), which opponent was selected, and whether the
---   script was started before the final action.
+--   Confirm that the immediately previous duel was a loss, that this duel was
+--   a player win, how it ended, and that the script began before the final
+--   action.
 
 local ffi = require('ffi')
 
@@ -34,8 +36,6 @@ local END_CREDIT_LATCH = 0x2000
 local OPPONENT_ID = 0x8009b361
 local PLAYER_LP = 0x800ea004
 local OPPONENT_LP = 0x800ea024
-local DUELIST_RECORDS = 0x801d071c
-local DUELIST_COUNT = 39
 local POST_LATCH_FRAMES = 180
 local TIMEOUT_FRAMES = 72000
 local MAX_SAMPLES = 12
@@ -79,7 +79,6 @@ local function capture(reason)
     end
 
     samples = samples + 1
-    local opponent = s8(OPPONENT_ID)
     emit('')
     emit(string.format('--- sample %d: %s ---', samples, reason))
     emit(string.format(
@@ -88,18 +87,8 @@ local function capture(reason)
     ))
     emit(string.format(
         '  opponent_id=%d player_lp=%d opponent_lp=%d',
-        opponent, u16(PLAYER_LP), u16(OPPONENT_LP)
+        s8(OPPONENT_ID), u16(PLAYER_LP), u16(OPPONENT_LP)
     ))
-
-    if opponent >= 0 and opponent < DUELIST_COUNT then
-        local record = DUELIST_RECORDS + opponent * 4
-        emit(string.format(
-            '  duelist_record=0x%08X wins=%d losses=%d',
-            record, u16(record), u16(record + 2)
-        ))
-    else
-        emit('  duelist_record=<not applicable for this opponent id>')
-    end
 end
 
 local function finish(reason)
@@ -111,8 +100,8 @@ local function finish(reason)
     print('')
     print('==== USER CONTEXT ====')
     print('')
-    print('<state win/loss, ending method, opponent, and whether the script')
-    print(' was running before the final action>')
+    print('<confirm the previous duel was a loss, this duel was a player win,')
+    print(' the ending method, and that the script ran before the final action>')
     print('')
     print('==== TRACE RESULT =====')
     print('')
@@ -123,7 +112,7 @@ local function finish(reason)
     end
     print('')
     print('--- end of trace, copy everything above into '
-          .. 'tools/trace/result/' .. SCRIPT_NAME .. '.txt ---')
+          .. 'tools/trace/result/duel_winner_side_player_win.txt ---')
 end
 
 local function poll()
@@ -158,7 +147,7 @@ local function poll()
         postLatchFrames = postLatchFrames + 1
         if postLatchFrames >= POST_LATCH_FRAMES then
             capture('three seconds after end-credit latch')
-            finish('captured end-credit state')
+            finish('captured player-win control')
         end
     elseif mode ~= DUEL_MODE then
         capture('left duel mode before end-credit latch was observed')
@@ -179,4 +168,4 @@ listener_duel_winner_side = PCSX.Events.createEventListener(
     end
 )
 
-print('duel_winner_side: waiting for duel mode; finish a one-player duel')
+print('duel_winner_side: win after a prior loss to confirm side polarity')

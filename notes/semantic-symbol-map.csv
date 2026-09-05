@@ -188,6 +188,7 @@ global,0x8009078C,gFile_apszName,confirmed,"local initialized data; File_SetPosi
 global,0x800909D4,gDuel_aTerrainBoost,high,"Duel_GetTerrainBoost assembly; Unchiga IDB label","Six-byte terrain-effect records indexed by card type and current terrain."
 global,0x8009B258,gCardGrid_bCursorColumn,confirmed,"Unchiga reversible live traces; local grid-navigation assembly","Column of the shared card-grid cursor."
 global,0x8009B259,gCardGrid_bCursorRow,confirmed,"Unchiga reversible live traces; local grid-navigation assembly","Row of the shared card-grid cursor."
+global,0x8009B165,gDuel_bWinnerSide,high,"matching body and end-of-duel record indexing establish a winner-side index; retained CPU-win trace reads 1 through the end-credit latch","Winning duel side index. The CPU-win trace is consistent with 0 for the player and 1 for the opponent; a retained player-win control is still needed to confirm polarity."
 global,0x8009B366,gFreeDuel_bCursorColumn,confirmed,"Unchiga reversible live traces; separate free-duel cursor block","Column of the Free Duel opponent-grid cursor."
 global,0x8009B367,gFreeDuel_bCursorRow,confirmed,"Unchiga reversible live traces; separate free-duel cursor block","Row of the Free Duel opponent-grid cursor."
 global,0x8009B365,gFreeDuel_bReturnFlags,confirmed,"free_duel_state_flags trace across Build Deck and duel round trips; FreeDuel_UpdateScreen writers; FreeDuel_Init consumers","Free Duel return-action flags: 0x40 after visiting Build Deck and 0x80 after starting a duel."

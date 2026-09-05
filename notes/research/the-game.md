@@ -845,6 +845,14 @@ cap each counter at 999. In the campaign, the caller also sets the duelist's
 screen. A duel lost in Free Duel records a loss and nothing else happens; a
 duel lost in the campaign is game over (§7.12), except the one scripted loss.
 
+`gDuel_bWinnerSide` (`0x8009B165`) selects the winning side throughout this
+result path. The record update uses that byte directly for the winner and
+XORs it with one for the loser. A retained CPU-win trace reads `1` through the
+one-shot end-credit latch, consistent with `0` for the player and `1` for the
+opponent; because the byte was already `1` when that trace began after a
+previous loss, the polarity remains high confidence pending a player-win
+control.
+
 > **This stage — entered from:** the duel's exit, by its caller. **Reads:**
 > the statistics record, the rank table and drop pools (disc block), the RNG.
 > **Writes:** starchips, trunk (+ seen), records, unlock mask — all in the
