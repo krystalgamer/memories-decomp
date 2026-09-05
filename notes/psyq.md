@@ -214,6 +214,13 @@ macros, image transfers, and direct primitive or ordering-table submission.
 `libgs.h` then builds scene coordinates, cameras, lights, object records, and
 sorting helpers on top of both lower layers.
 
+The resident block at `0x800F56F0` now has field-level evidence matching the
+32-byte `GsRVIEW2` record: viewpoint and reference-point triplets, roll, and a
+parent-coordinate pointer. Game code initializes it before `GsSetRefView2`
+and derives a distance plus two 4096-unit angles from the two points. Matching
+sources still use local views until a shared-type migration is proven
+byte-identical.
+
 The imported `libgs.h` includes only `src/types.h` even though it refers to
 `MATRIX`, `VECTOR`, `SVECTOR`, `CVECTOR`, `RECT`, `DRAWENV`, `DISPENV`, and
 `PACKET`. A translation unit using it must therefore expose `libgte.h` and

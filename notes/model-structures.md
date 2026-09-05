@@ -66,6 +66,28 @@ express verified element layout and stride only. Runtime counts establish
 that they are arrays, but the complete static bounds and intervening storage
 are not yet proven, so the header does not guess them.
 
+## `D_800F56F0`: 32-byte reference-view record
+
+The eight-word block at `D_800F56F0` has the exact target layout of Psy-Q's
+`GsRVIEW2`: three 32-bit viewpoint coordinates, three 32-bit reference-point
+coordinates, a 32-bit roll value, and a parent-coordinate pointer.
+`func_800530C4` initializes all eight words and passes the block to
+`GsSetRefView2`, while `func_80057F38` copies exactly `0x20` bytes when given
+an alternate view.
+
+The matching `func_80057F38` body also establishes the derived camera values:
+
+- `D_8009B478` first holds the XZ-plane distance between viewpoint and
+  reference point, then is replaced by the full three-dimensional distance;
+- `D_8009B47A` is `ratan2(delta_z, delta_x)`;
+- `D_8009B47C` is `ratan2(delta_y, horizontal_distance)`;
+- both angles are normalized into the 4096-unit turn range.
+
+`func_800592AC` consumes the two angles when building a model rotation matrix.
+The current matching sources retain local byte/word views because replacing
+them with `GsRVIEW2` member accesses has not yet been checked for exact code
+generation.
+
 The initial typed-migration snapshot had 24 pure-C users of `D_800F2C40`;
 all include the shared header:
 `func_80057E20`, `func_80058DD8`, `func_80058E3C`, `func_80058E68`,
