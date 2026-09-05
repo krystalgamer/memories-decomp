@@ -949,8 +949,30 @@ block rooted at `D_8009B458` and hand it to `func_80077450`:
 All three write `D_80011434[index]` to `state + 0x4C0`, a tag to `0x4C4`,
 further halfwords in the `0x4C8`-`0x4FC` window, and then call
 `func_80077450(state + 0x4C0)`. The `0x4C0`-`0x4FF` window sits inside the
-`pad04C0[0x40]` hole of `SDSecondaryState` in `src/game/sound.h`, so it is a
-packet staged in place rather than named fields.
+`pad04C0[0x40]` hole of `SDSecondaryState` in `src/game/sound.h`.
+
+That hole is a `Packet`, the 0x40-byte struct already declared in
+`src/game/sound_secondary_playback.c` and `src/game/func_8004ACE4.c`:
+
+```c
+typedef struct {
+    s32 image;
+    s32 type;
+    s16 x;
+    s16 y;
+    u8 pad_0C[52];
+} Packet;
+```
+
+which names the group's stores: `0x4C0` is `image`, `0x4C4` is `type`, and
+`0x4C8`/`0x4CA` are `x`/`y` — the two fields `func_8004A27C` scales and
+stores. The `0x4E4`, `0x4FA` and `0x4FC` fields written by the other two fall
+inside `pad_0C` and are still unnamed.
+
+The matched callers of `func_80077450` in this module stage a `Packet` as a
+**local** and pass `&packet`. This group instead writes the one that lives in
+the state block. Same type, two staging strategies, and that distinction is
+the real difference between the matched and unmatched members of the module.
 
 **Profile.** The compiler side is G0 for this group. None of the three targets
 contains a `%gp_rel` operand, and the `%gp_rel`-implies-G8 rule recorded above
@@ -985,6 +1007,22 @@ and every one produced the identical diff count or a worse one:
 - the same local, computed immediately before the call
 - splitting the table address from the load (`&D_80011434[i]`, then `*entry`)
 - typing the base as a struct and passing `&state->field_04C0`
+
+A sixth is worth stating separately, because it was the strongest available
+hypothesis. Binding a `Packet *` at the packet address and storing through it
+should collapse to exactly the retail shape: GCC folds the member stores back
+to state-relative addressing (`1216($v1)`, `1220($v1)`) and derives the
+argument with `addiu $a0, $v1, 0x4C0`. It does fold it that way — and still
+allocates the base into the argument register. Reproducing retail's own
+abstraction does not move the allocation either.
+
+Two further negative results from `func_8002C604`, which shows the same
+residual outside this module: hoisting a global load by binding it to a local
+changed nothing, and pinning the pointer to the register retail uses made it
+*worse* by two instructions. Both the mnemonic form `asm("a0")` and the
+numeric form `asm("$4")` used elsewhere in this codebase were tried, with
+identical results. A register pin does not repair an allocation mismatch; it
+constrains the allocator and the cost reappears elsewhere.
 
 Because two siblings plateau identically and a third has the same retail
 shape, this is a property of the calling pattern — passing `base + constant`
