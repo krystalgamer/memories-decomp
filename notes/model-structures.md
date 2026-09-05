@@ -72,10 +72,11 @@ The eight-word block at `D_800F56F0` has the exact target layout of Psy-Q's
 `GsRVIEW2`: three 32-bit viewpoint coordinates, three 32-bit reference-point
 coordinates, a 32-bit roll value, and a parent-coordinate pointer.
 `func_800530C4` initializes all eight words and passes the block to
-`GsSetRefView2`, while `func_80057F38` copies exactly `0x20` bytes when given
-an alternate view.
+`GsSetRefView2`, while `Model_UpdateViewMetrics` copies exactly `0x20` bytes
+when given an alternate view.
 
-The matching `func_80057F38` body also establishes the derived camera values:
+The matching `Model_UpdateViewMetrics` body also establishes the derived
+camera values:
 
 - `D_8009B478` first holds the XZ-plane distance between viewpoint and
   reference point, then is replaced by the full three-dimensional distance;
