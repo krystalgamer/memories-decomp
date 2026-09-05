@@ -360,6 +360,64 @@ for itself rather than being a rare precaution.
 The 54 unmatched overlay functions are tracked separately under #162 and are
 not included in these figures.
 
+### GCC rotates a top-of-loop conditional exit
+
+A third residual class, alongside the register-permutation and
+schedule-permutation ones above. Here the loop is *structurally* different, not
+reordered or misallocated, and no source spelling reaches it.
+
+`func_8005A3D0` (`0x8005A3D0`) is the worked example. Its inner scan in the
+target is a plain eight-instruction loop, match test at the top and counter test
+at the bottom:
+
+```
+.L8005A414:
+    lw    $v0, 0x4C($v1)
+    nop
+    beq   $v0, $a3, .L8005A434
+    nop
+    addiu $a2, $a2, 0x1
+    slt   $v0, $a2, $t1
+    bnez  $v0, .L8005A414
+    addiu $v1, $v1, 0x50
+```
+
+GCC 2.8.1 copies the top test to the bottom and compensates the counter, which
+costs seven instructions across the function — 45 against the target's 38:
+
+```
+    bne   $v0, $a3, <loop>
+    addiu $a2, $a2, 0x1     <- duplicated increment
+    addiu $a2, $a2, -0x1    <- compensation
+```
+
+Three spellings of the same loop produce byte-identical output, duplicated
+increment and compensating decrement included:
+
+```c
+do { if (match) break; scan++; cursor += 0x50; } while (scan < limit);
+for (;;) { if (match) break; scan++; if (scan >= limit) break; cursor += 0x50; }
+while (!match) { scan++; if (scan >= limit) break; cursor += 0x50; }
+```
+
+The explicit `if (count != 0)` guard before the loop — which the target has too,
+as `beqz $v1` — already tells GCC the loop runs at least once, so the rotation is
+not being done to establish that.
+
+Everything else about the function is reachable. The cohort supplies the access
+idiom (`func_800593D0`: a `u8 *` model slot with a `u8` count at `+0xE17` and a
+pointer to 0x50-byte entries at `+0xD14`), and the matched neighbour
+`func_8005A53C` supplies the profile. Under `gcc_2_8_1_g0_no_sched1` the first
+instruction is exact — `lbu $v1, 0xE17($a0)`, whose destination register is
+precisely what every one of the six terminal rows missed — and the opening six
+differ only in the loop counter's register, a knock-on of the extra live value
+the rotation introduces.
+
+Worth checking for before starting a function with a searching loop: if the
+target's loop has its exit test at the top and only one copy of the increment,
+GCC will not reproduce it, and the C can be finished and still be six or seven
+instructions long.
+
 ### Register pins
 
 Issue #5 accepts `register` variables pinned to a hard register for functions
