@@ -728,7 +728,7 @@ address,size,name,status,module,notes
 0x80045C98,0x2A4,func_80045C98,unmatched_asm,game,
 0x80045F3C,0x358,func_80045F3C,unmatched_asm,game,
 0x80046294,0x25C,func_80046294,unmatched_asm,game,
-0x800464F0,0x17C,func_800464F0,unmatched_asm,game,
+0x800464F0,0x17C,func_800464F0,matching_c,game,Exact 380-byte record compactor match from cleaned collaborator evidence; allocation-only register pins preserve the retail assignment.
 0x8004666C,0x5C,func_8004666C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800466C8,0x54,func_800466C8,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8004671C,0x4C,func_8004671C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
