@@ -349,6 +349,39 @@ last `0x10000`, VRAM (640, 256)) differs — the field picture. So the seven
 copies are seven backgrounds each shipped with a duplicate of the same 416
 KB.
 
+### Shared duel-hand graphics block
+
+The community tutorial `Fields WA.txt` lists one "DUEL DISK HAND" offset for
+each terrain and one for the Library. The seven duel offsets follow the
+recovered record geometry exactly:
+
+| Context | Package start | Tutorial offset | Relative offset |
+|---|---:|---:|---:|
+| Normal | `0xB63000` | `0xB7B000` | `+0x18000` |
+| Forest | `0xBD8800` | `0xBF0800` | `+0x18000` |
+| Wasteland | `0xC4E000` | `0xC66000` | `+0x18000` |
+| Mountain | `0xCC3800` | `0xCDB800` | `+0x18000` |
+| Meadow | `0xD39000` | `0xD51000` | `+0x18000` |
+| Umi | `0xDAE800` | `0xDC6800` | `+0x18000` |
+| Yami | `0xE24000` | `0xE3C000` | `+0x18000` |
+| Library | `0xEE6800` | `0xEFE800` | `+0x18000` |
+
+For each terrain record, this is the final `0x8000` bytes (16 sectors) of
+phase 0. The Library copy begins at the same package-relative offset. All
+eight `0x8000`-byte ranges are byte-identical:
+
+```text
+SHA-256: 5e94e1a373c529a29e03cf1845eea74c1ac29a94f607a00d479df1cd4c9e1f13
+```
+
+This confirms that the tutorial offsets select duplicate copies of one shared
+graphics payload rather than terrain-specific art. Editing one offset changes
+only the package that contains that copy; applying the same replacement to
+every duel terrain and the Library requires patching all eight ranges. The
+tutorial's visual identification as the duel-hand graphic is high confidence
+from observed use, while the archive placement and byte identity are confirmed
+directly from the retail `WA_MRG.MRG`.
+
 **Phases 2, 3 and 4 are the equip, fusion and ritual tables**, and they
 decode with every card id in range: 4,041 (equip, monster) pairs over the 34
 equip cards; 25,131 fusion recipes indexed by the smaller card id through a
