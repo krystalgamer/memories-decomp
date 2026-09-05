@@ -88,6 +88,43 @@ Prefer instruction-count parity first, then compare the bodies. "The diff got
 smaller" is the natural way to pick a profile and it will rank the wrong one
 first whenever address form changes how many instructions a load costs.
 
+#### Separate register-permutation residuals from schedule-permutation ones
+
+A body whose instruction multiset, registers and relocations are all exact but
+whose order is wrong is a different blocker from one whose order is exact and
+whose registers are wrong, and the two want opposite fixes. Record which of
+them a terminal residual is, because the pin advice under "Register pins" only
+applies to the second.
+
+`func_8004A764` (`0x8004A764`) is the schedule case. Its six terminal attempts
+were all recorded under `gcc_2_8_1_g0`, but the matched neighbour
+`func_8004A7C0` uses `gcc_2_8_1_g0_split`, and the target's
+`lui`/`addiu %hi`/`%lo(D_80011434)` pair is the split form. Under the cohort
+profile, and with the `Packet` type and the `func_80077450(Packet *)` prototype
+already recovered in `src/game/sound_secondary_playback.c`, the body comes out
+at 23 of 23 instructions, 0x5C of 0x5C bytes, with identical registers and
+identical relocations. Everything from `sw $v0, 0x4C0($v1)` to the epilogue,
+including the `sw $v0, 0x4E4($v1)` branch-delay store, is byte-exact. Only the
+11-instruction prologue is ordered differently: retail finishes the
+`D_80011434` address arithmetic before materialising the `D_8009B458` high
+half, and sinks `sw $ra` below `ori $a1`.
+
+Six source shapes were probed against it. Stores taken through the packet
+pointer collapse to small offsets off `$a0` and are the wrong shape outright.
+Stores taken through the state pointer, with the cast applied only at the call,
+are the right shape; a typed overlay struct with a named `packet` member
+compiles to the same thing and reads better. The two shapes that fix the
+prologue order both break the allocation instead: hoisting the loaded value
+into a local moves it to `$v1` and the state to `$a0`, and hoisting the element
+address moves `addiu $a0, $a0, 0x4C0` into the delay slot. `-fno-schedule-insns`
+and `-fno-schedule-insns2` each produce a third order that is no closer.
+
+So every shape that fixes the schedule breaks the allocation, and every shape
+that keeps the allocation keeps the schedule. Pins do not help here: the
+allocation is already correct. A residual of this kind is compiler-side, and
+the next attempt on it needs a `cc1` whose list scheduler tie-breaks
+differently, not a seventh C variant.
+
 ### Disassembly artifacts
 
 Splat names any address-shaped literal as though it were a symbol. A `%hi`/`%lo`
@@ -189,6 +226,46 @@ the right order before any pin, and only the base index and record pointer were
 swapped between `v1` and `a0`. State which case applies in the ledger row, since
 a reader deciding whether to revisit a function cannot tell them apart from the
 pin count alone.
+
+#### Pins cannot place a split-address high temporary
+
+A pin also does not reach the `%hi` temporary that `-msplit-addresses` creates
+for a scalar load. That temporary is a compiler-internal pseudo, not a C
+variable, so no `register` declaration names it.
+
+`Ai_GetHandSize` (`0x80070710`) is the worked example. Pinning only the array
+base to `$2` corrects both wrong roles of its 10-instruction body at once:
+
+```c
+register s8 *data asm("$2");
+
+data = gDuel_aOpponentData;
+return data[gDuel_bOpponentID * 9];
+```
+
+The base moves to `v0`, the index accumulator to `v1`, and the opponent-ID
+value is already `a0`. Nine of the ten instructions are then byte-exact. The
+one that is left is the address temporary of the ID load:
+
+```
+target      lui $a0, %hi(gDuel_bOpponentID) ; lb $a0, %lo(...)($a0)
+candidate   lui $v1, %hi(gDuel_bOpponentID) ; lb $a0, %lo(...)($v1)
+```
+
+Retail coalesces the high temporary with the load destination; GCC 2.8.1 hands
+it the next free register instead. Three ways of reaching for it fail:
+
+- pinning the loaded value to `$4` as well changes nothing, because the
+  temporary is a different pseudo from the pinned variable;
+- pinning `&gDuel_bOpponentID` to `$4` and loading through it changes nothing,
+  because GCC folds the pointer back into the symbol reference;
+- pinning the accumulator to `$3` alone, or all three roles at once, is
+  strictly worse: the first loses the split address form and the second emits
+  `addu $v0, $v1, $v0`.
+
+The practical rule matches the one below: if the register you want to control
+holds a `%hi` address temporary rather than a value the source names, a pin is
+the wrong tool.
 
 #### Pins cannot place a call's return value
 
