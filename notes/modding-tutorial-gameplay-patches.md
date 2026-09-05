@@ -313,10 +313,13 @@ cards `721` and `722` available to starter-deck generation.
 
 ## Direct-damage and LP-recovery tables
 
-**Tutorial:** `Efeito e Visual de Dano e Cura.txt`
+**Tutorials:**
 
-The tutorial identifies two five-byte tables in the resident initialized
-data:
+- `Efeito e Visual de Dano e Cura.txt`
+- `Offset de Traps e Magicas - Por Wladmir Ghost.txt`
+
+Both tutorials identify the same two five-byte tables in the resident
+initialized data:
 
 | Effect | SLUS range | Resident range | Retail values | Scale |
 |---|---:|---:|---|---:|
@@ -345,9 +348,11 @@ The retail values therefore reproduce the documented effects:
 
 Each SLUS edit changes one unsigned byte before scaling. For example, recovery
 byte `50` (`0x32`) produces `5000`, while damage byte `100` (`0x64`) produces
-`1000`. The tutorial's separate WA offsets control presentation data and are
-not established by these resident tables; they remain a separate asset-level
-investigation.
+`1000`. The combined trap/magic tutorial correctly states the damage scale as
+`x10`, but its final parenthetical prints `10x100`; the listed input and
+result still correspond to `100 * 10 = 1000`. The other tutorial's separate
+WA offsets control presentation data and are not established by these
+resident tables; they remain a separate asset-level investigation.
 
 **Confidence:**
 
