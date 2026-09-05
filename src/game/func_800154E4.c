@@ -59,7 +59,7 @@ extern u8 D_8009B140;
 extern u8 D_8009B141;
 
 extern void func_80015310(u8 *);
-extern void func_80084240(FadeBox *, s32, s32);
+extern void GsSortBoxFill(FadeBox *, s32, s32);
 
 void func_800154E4(void) {
     FadeBox *p;
@@ -90,7 +90,7 @@ void func_800154E4(void) {
                 p->b = (u8) band;
                 p->g = (u8) band;
                 p->r = (u8) band;
-                func_80084240(p, ot, 4);
+                GsSortBoxFill(p, ot, 4);
                 FADEBOX_Y(p) = FADEBOX_Y(p) + 8;
             }
             if (!(D_800E9ECE[0] & 2)) {
@@ -122,6 +122,6 @@ void func_800154E4(void) {
             if (tint < 0) tint = 0;
             p->b = (u8) tint;
         }
-        func_80084240(p, ot, depth);
+        GsSortBoxFill(p, ot, depth);
     }
 }

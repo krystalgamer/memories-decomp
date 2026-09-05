@@ -1550,7 +1550,7 @@ address,size,name,status,module,notes
 0x80083FB0,0xD8,func_80083FB0,sdk_asm,psyq/sdk,
 0x80084090,0x98,func_80084090,sdk_asm,psyq/sdk,
 0x80084130,0x108,func_80084130,sdk_asm,psyq/sdk,
-0x80084240,0xD8,func_80084240,sdk_asm,psyq/sdk,
+0x80084240,0xD8,GsSortBoxFill,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/2D_BOX0.OBJ signature and matching fade-overlay caller.
 0x80084320,0x1C4,func_80084320,sdk_asm,psyq/sdk,
 0x800844F0,0x4F8,func_800844F0,sdk_asm,psyq/sdk,
 0x800849F0,0x17C,GsSortFastSprite,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/2D_SP1.OBJ signature and matching sprite-render callers.
