@@ -1,0 +1,149 @@
+#include "../types.h"
+
+extern u8 D_801A7AD8[];
+
+s32 Duel_CalcCardStats(u8 *arg0);
+void Text_EncodeDecimalDigits(s32 arg0, s32 arg1, u8 *arg2);
+s32 func_80041F90(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+void func_80042188(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
+
+/* Draws one card's frame on the duel field: position, the hand/field
+ * flags, the card-number digits (via Duel_CalcCardStats and
+ * Text_EncodeDecimalDigits) and the face/back sprite, through
+ * func_80042188 on the 0x1F8003xx scratchpad records. */
+void func_80016784(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
+    u8 sp18[8];
+    u8 sp20[8];
+    u8 *e;
+    s32 fl;
+    s32 i;
+    u8 *k;
+    u8 *o;
+    s32 n;
+    s32 d;
+    s32 g1;
+    s32 g2;
+    s32 t;
+    u8 *z;
+    u8 *y;
+
+    if ((u32)(arg2 + 0x33) < 0x173) {
+        if (arg3 >= -0x3B) {
+            if (arg3 < 0xF0) {
+                o = (u8 *)0x1F8003E0;
+                k = (u8 *)0x1F800320;
+                y = (u8 *)0x1F800344;
+                z = (u8 *)0x1F800000;
+                e = D_801A7AD8 + arg0[0x6A] * 0x1C;
+                *(s16 *)(o + 8) = arg2;
+                *(s16 *)(o + 0xA) = arg3;
+                fl = *(u16 *)(arg0 + 0x14) | 0x10000;
+                t = *(s32 *)(arg0 + 4);
+                *(s32 *)k = t;
+                *(s32 *)z = t;
+                arg0[0x69] = 0;
+                if (*(u16 *)(arg0 + 8) & 4) {
+                    fl = *(u16 *)(arg0 + 0x14) | 0xF0000;
+                    if (func_80041F90(arg0, (s16)*(u16 *)(o + 8) + 0x1A,
+                                      (s16)*(u16 *)(o + 0xA) + 0x1E, 0x1F8003E0) < 0) {
+                        return;
+                    }
+                    g1 = *(s32 *)(arg0 + 0xC);
+                    *(u8 *)(y + 3) = 9;
+                    *(s32 *)(y + 4) = g1;
+                    *(u8 *)(y + 7) = 0x2C;
+                    if ((*(s32 *)(arg0 + 0x20) & 0xFFFFFF) == 0) {
+                        *(s32 *)k = *(s32 *)k | 0x80;
+                        *(s32 *)z = *(s32 *)k;
+                    }
+                }
+                *(u16 *)(k + 0xC) = 0x1E;
+                g2 = *(s32 *)(arg0 + 0xC);
+                *(s32 *)(k + 0x10) = 0xF10100;
+                *(s32 *)(k + 0x14) = g2;
+                n = arg0[0x67];
+                if (n != 0) {
+                    if (n < 0x29) {
+                        *(s32 *)(k + 8) = 0x10000C;
+                        k[0xF] = 0x70;
+                        *(u16 *)(k + 4) = *(u16 *)(o + 8) + 0xF;
+                        *(u16 *)(k + 6) = *(u16 *)(o + 0xA) + 0xF;
+                        k[0xE] = (n / 10) * 0xC;
+                        func_80042188(k, y, arg1, fl, o);
+                        k[0xE] = (n % 10) * 0xC;
+                        *(u16 *)(k + 4) = *(u16 *)(k + 4) + 0xC;
+                        func_80042188(k, y, arg1, fl, o);
+                    }
+                } else if (arg0[0x69] == 0) {
+                    *(s32 *)(k + 8) = 0x100020;
+                    *(u16 *)(k + 0xE) = 0x6000;
+                    *(u16 *)(k + 4) = *(u16 *)(o + 8) + 0xA;
+                    *(u16 *)(k + 6) = *(u16 *)(o + 0xA) + 0x28;
+                    switch (arg0[0x68]) {
+                    case 23:
+                        k[0xE] = 0x20;
+                    case 20:
+                        func_80042188(k, y, arg1, fl, o);
+                        *(u16 *)(k + 0x12) = *(u16 *)(k + 0x12) + 1;
+                        break;
+                    case 21:
+                        k[0xE] = 0x40;
+                        func_80042188(k, y, arg1, fl, o);
+                        *(u16 *)(k + 0x12) = *(u16 *)(k + 0x12) + 2;
+                        break;
+                    case 22:
+                        k[0xE] = 0x60;
+                        func_80042188(k, y, arg1, fl, o);
+                        *(u16 *)(k + 0x12) = *(u16 *)(k + 0x12) + 3;
+                        break;
+                    default:
+                        *(s32 *)(k + 8) = 0x100008;
+                        *(u16 *)(k + 0xE) = 0x7078;
+                        *(u16 *)(k + 4) = *(u16 *)(o + 8) + 5;
+                        func_80042188(k, y, arg1, fl, o);
+                        k[0xF] = 0x58;
+                        *(u16 *)(k + 0xA) = 8;
+                        *(u16 *)(k + 4) = *(u16 *)(o + 8) + 0xE;
+                        d = Duel_CalcCardStats(e);
+                        Text_EncodeDecimalDigits((s16)d, 4, sp18);
+                        Text_EncodeDecimalDigits(d >> 0x10, 4, sp20);
+                        i = 3;
+                        do {
+                            k[0xE] = sp18[i] * 8;
+                            func_80042188(k, y, arg1, fl, o);
+                            *(u16 *)(k + 6) = *(u16 *)(k + 6) + 8;
+                            k[0xE] = sp20[i] * 8;
+                            func_80042188(k, y, arg1, fl, o);
+                            i--;
+                            *(u16 *)(k + 4) = *(u16 *)(k + 4) + 8;
+                            *(u16 *)(k + 6) = *(u16 *)(k + 6) - 8;
+                        } while (i >= 0);
+                        break;
+                    }
+                    *(u16 *)(z + 0xC) = 0xE;
+                    *(s32 *)(z + 0x14) = *(s32 *)(arg0 + 0xC);
+                    *(s16 *)(z + 4) = *(u16 *)(o + 8) + 6;
+                    *(s16 *)(z + 6) = *(u16 *)(o + 0xA) + 6;
+                    i = (s8)e[0x18];
+                    *(u16 *)(z + 0x10) = 0x380;
+                    *(s16 *)(z + 0x12) = i + 0xE0;
+                    *(u8 *)(z + 0xE) = (i % 5) * 0x28;
+                    *(s32 *)(z + 8) = 0x200028;
+                    *(u8 *)(z + 0xF) = (i / 5) << 5;
+                    func_80042188(z, y, arg1, fl, o);
+                }
+                *(s32 *)(k + 8) = 0x3C0034;
+                *(u16 *)(k + 0xE) = 0x8000;
+                *(s32 *)(k + 4) = *(s32 *)(o + 8);
+                if (arg0[0x67] != 0) {
+                    *(u16 *)(k + 0xE) = 0xC000;
+                }
+                if (arg0[0x69] != 0) {
+                    *(u16 *)(k + 0xE) = 0x8038;
+                    *(s32 *)(k + 0x10) = 0xF10100;
+                }
+                func_80042188(k, y, arg1, fl, o);
+            }
+        }
+    }
+}

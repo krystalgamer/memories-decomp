@@ -85,7 +85,7 @@ address,size,name,status,module,notes
 0x80015EF4,0x608,func_80015EF4,unmatched_asm,game,
 0x800164FC,0x27C,func_800164FC,unmatched_asm,game,
 0x80016778,0xC,func_80016778,matching_c,game,4 pre-policy variants: unsigned top-bit extraction stored to byte offset 0x69 reproduced the exact three-instruction sequence.
-0x80016784,0x580,func_80016784,unmatched_asm,game,
+0x80016784,0x580,func_80016784,matching_c,game,"Exact linked bytes with gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference; no gp-relative access, so only the assembler threshold is at -G0."
 0x80016D04,0x28,func_80016D04,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80016D2C,0xB0,func_80016D2C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x80016DDC,0x94,Duel_UpdateLifePointDisplay,matching_c,game,Moves one side's displayed life points toward the authoritative value with magnitude-dependent steps. Step-before-magnitude declarations and explicit signed absolute value reproduce the exact function.
