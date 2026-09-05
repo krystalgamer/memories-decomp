@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_card.h"
+#include "input.h"
 
 /* Per-frame step for the "pick a card off the field" cursor.
  *
@@ -23,8 +24,7 @@
  * record it names is offered to card_pick_on_up. A nonzero result is a
  * successful pick: it is published in gDuel_wViewerCardID along with the
  * event code 0x14 and state 2. A zero result only re-arms the hold (counter
- * 0xC, mode |= 0x60) when no pad bit in the low two bits of
- * gInput_wPad1Held is down.
+ * 0xC, mode |= 0x60) when neither L2 nor R2 is held.
  */
 
 /* The cursor object the caller owns. 0xF/0x10 are the same column/row pair
@@ -94,7 +94,7 @@ void Duel_UpdateCardPickCursor(struct Cursor *o) {
             *(u16 *) 0x8009B246 = picked;
             *(u8 *) 0x8009B24B = 0x14;
             *(u8 *) 0x8009B254 = 2;
-        } else if (!(gInput_wPad1Held[0] & 3)) {
+        } else if (!(gInput_wPad1Held[0] & PAD_BUTTON_TRIGGER_MASK)) {
             D_8009B162 = 0xC;
             D_8009B1D4 = D_8009B1D4 | 0x60;
         }
