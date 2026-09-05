@@ -23,8 +23,9 @@ void BuildDeck_AddCard(s32 arg0, s32 arg1)
             ((u8 *)entry)[5] = 1;
             entry[-2] = (s16)arg1;
             ((u8 *)entry)[2] = (u8)((*record >> 26) & 0x1F);
-            entry[-1] = (s16)((*record & 0x1FF) * 10);
-            entry[0] = (s16)(((*record >> 9) & 0x1FF) * 10);
+            entry[-1] = (s16)((*record & 0x1FF) * CARD_STAT_SCALE);
+            entry[0] =
+                (s16)(((*record >> 9) & 0x1FF) * CARD_STAT_SCALE);
             func_80032C48((void *)(arg0 + 0x2D50));
             func_8003201C(arg0);
             return;

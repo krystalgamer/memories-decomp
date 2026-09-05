@@ -162,7 +162,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80090918,D_80090918,D_80090918,0x80018FEC,func_80018FEC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0095b4.s,address,,"addiu $t3, $v0, %lo(D_80090918) | lui $v0, %hi(D_80090918)"
 0x80090928,D_80090928,D_80090928,0x80020F4C,func_80020F4C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01174c.s,address,,"addiu $s5, $v0, %lo(D_80090928) | lui $v0, %hi(D_80090928)"
 0x80090960,D_80090960,D_80090960,0x80020F4C,func_80020F4C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01174c.s,address,,"addiu $v0, $v0, %lo(D_80090960) | lui $v0, %hi(D_80090960)"
-0x800909D4,gDuel_aTerrainBoost,gDuel_aTerrainBoost,0x8002497C,Duel_GetTerrainBoost,matching_c,game,C,src/game/duel_get_terrain_boost.c,read,8,return gDuel_aTerrainBoost[card][terrain[0] - 1] * 10;
+0x800909D4,gDuel_aTerrainBoost,gDuel_aTerrainBoost,0x8002497C,Duel_GetTerrainBoost,matching_c,game,C,src/game/duel_get_terrain_boost.c,read,8,return gDuel_aTerrainBoost[card][terrain[0] - 1] * CARD_STAT_SCALE;
 0x80090A4C,D_80090A4C,D_80090A4C,0x8002538C,func_8002538C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_015a5c.s,address,,"addiu $a1, $v0, %lo(D_80090A4C) | addiu $v0, $v0, %lo(D_80090A4C) | (+1 more)"
 0x80090A5C,D_80090A5C,D_80090A5C,0x80026B34,func_80026B34,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,address,,callbacks = D_80090A5C;
 0x80090AD4,D_80090AD4,D_80090AD4,0x80026B34,func_80026B34,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,address,8,u8 *indices = D_80090AD4;
@@ -3282,7 +3282,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x8001EE44,Duel_CalcGuardianStarBonus,matching_c,game,C,src/game/duel_calc_guardian_star_bonus.c,read,32,left_value = (gDuel_adwCardStats[left->id - 1] >> 18) & 0xF; | left_value = (gDuel_adwCardStats[left->id - 1] >> 22) & 0xF; | (+2 more)
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,address,,"addiu $v0, $v0, %lo(gDuel_adwCardStats) | lui $v0, %hi(gDuel_adwCardStats)"
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80023144,func_80023144,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013944.s,address,,"addiu $v1, $v1, %lo(gDuel_adwCardStats) | lui $v1, %hi(gDuel_adwCardStats)"
-0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x800249E0,func_800249E0,matching_c,game,C,src/game/func_800249E0.c,read,32,((gDuel_adwCardStats[(s16)p->card_id - 1] >> 9) & 0x1FF) * 0xA; | Duel_GetTerrainBoost((gDuel_adwCardStats[(s16)p->card_id - 1] >> 26) & 0x1F); | (+1 more)
+0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x800249E0,func_800249E0,matching_c,game,C,src/game/func_800249E0.c,read,32,((gDuel_adwCardStats[(s16)p->card_id - 1] >> 9) & 0x1FF) * | (gDuel_adwCardStats[(s16)v - 1] & 0x1FF) * CARD_STAT_SCALE; | (+1 more)
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80024C1C,func_80024C1C,matching_c,game,C,src/game/func_80024C1C.c,read,32,desc = gDuel_adwCardStats[cardId - 1];
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80026C6C,Duel_CollectFieldCardsBelowType,matching_c,game,C,src/game/duel_field_card_filters.c,address,32,s32 *t = gDuel_adwCardStats;
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80026D18,Duel_CollectFieldCardsByType,matching_c,game,C,src/game/duel_field_card_filters.c,address,32,s32 *t = gDuel_adwCardStats;

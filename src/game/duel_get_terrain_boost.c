@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 extern u8 gDuel_bTerrain[];
 extern u8 D_8009B364[];
@@ -12,5 +13,5 @@ s32 Duel_GetTerrainBoost(s32 card)
         return 0;
     }
 
-    return gDuel_aTerrainBoost[card][terrain[0] - 1] * 10;
+    return gDuel_aTerrainBoost[card][terrain[0] - 1] * CARD_STAT_SCALE;
 }
