@@ -81,6 +81,36 @@ A byte round-trip through `csv.writer` does **not** catch this, which is worth
 knowing before reaching for one: a row that has grown an extra field
 round-trips to itself exactly. The column count is the invariant that matters.
 
+Both guards live in `overlay_extract.py verify`, which is `make
+verify-overlays`. That target is **not** reached by `make match-overlays` —
+the dependency chain is `match-overlays → build-overlays → overlays`, and
+`overlays` runs the *extract* command, not `verify`. The overlay workflow runs
+the two as separate steps for that reason. If you add a metadata check here,
+check that the step still runs it; a job named after a target is not evidence
+that the target runs.
+
+`verify-overlays` compares the extracted `tmp/overlays/<module>/module.bin`
+against the archives, so it needs `make overlays` to have run first. It does
+not depend on it, deliberately — the comparison is only meaningful against an
+extraction it did not just perform. On a clean tree, or a CI runner, run them
+as **two invocations**:
+
+```sh
+make overlays
+make verify-overlays
+```
+
+Not `make overlays verify-overlays`. With no dependency between the two goals,
+a parallel `make` starts them together and the verify loses the race — which
+is exactly what happened the first time the CI step was added, under the
+runner's `MAKEFLAGS=-j4`.
+
+One gap remains by design: the workflow ignores `notes/**`, so a change that
+touches only `notes/card-catalog.csv`, `notes/global-usage.csv` or
+`notes/semantic-symbol-map.csv` will not trigger it. Those three are still
+covered by a local `make verify-overlays` and by any PR that also touches
+`config/` or `src/`.
+
 Name entry has no module of its own: its package's executable phase is the
 same image as the password screen, entered at different functions. See
 [`../../src/overlays/name_entry/README.md`](../../src/overlays/name_entry/README.md).
