@@ -207,7 +207,7 @@ address,size,name,status,module,notes
 0x8002538C,0x270,func_8002538C,unmatched_asm,game,
 0x800255FC,0x1A4,DuelEffect_UpdateFieldMarker,matching_c,game,Advances across five field slots spawning a marker then waits for its animation and updates the marked card flags. Exact post-terminal collaborator match; precise duel-phase state declarations reproduce linked bytes and relocations.
 0x800257A0,0x1CC,func_800257A0,unmatched_asm,game,
-0x8002596C,0x1BC,func_8002596C,unmatched_asm,game,
+0x8002596C,0x1BC,func_8002596C,matching_c,game,Duel phase/card display handler; exact under mixed GCC G8 and MASPSX G4 split thresholds.
 0x80025B28,0xC4,func_80025B28,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80025BEC,0x144,func_80025BEC,unmatched_asm,game,
 0x80025D30,0x1B0,func_80025D30,unmatched_asm,game,

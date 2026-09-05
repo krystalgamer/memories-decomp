@@ -889,6 +889,12 @@
       "source": "src/game/duel_effect_update_field_marker.c"
     },
     {
+      "address": "0x8002596C",
+      "profile": "gcc_2_8_1_cc_g8_as_g4_split",
+      "size": "0x1BC",
+      "source": "src/game/func_8002596C.c"
+    },
+    {
       "address": "0x80025B28",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC4",
