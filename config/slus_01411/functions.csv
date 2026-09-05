@@ -254,7 +254,7 @@ address,size,name,status,module,notes
 0x80029934,0x57C,func_80029934,unmatched_asm,game,
 0x80029EB0,0x14,func_80029EB0,matching_c,game,Explicit base increment reproduced the exact byte load
 0x80029EC4,0x430,func_80029EC4,unmatched_asm,game,
-0x8002A2F4,0xD8,func_8002A2F4,unmatched_asm,game,
+0x8002A2F4,0xD8,func_8002A2F4,matching_c,game,"Exact linked bytes with gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference; no gp-relative access, so only the assembler threshold is at -G0."
 0x8002A3CC,0xDC,func_8002A3CC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8002A4A8,0x1B8,func_8002A4A8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002A660,0x58,func_8002A660,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
