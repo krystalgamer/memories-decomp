@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-  pull_request_target:
+  pull_request:
     branches:
       - master
     paths-ignore:
@@ -15,7 +15,6 @@ on:
 
 permissions:
   contents: read
-
 concurrency:
   group: matching-build-${{ github.ref }}
   cancel-in-progress: true
