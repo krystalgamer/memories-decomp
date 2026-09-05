@@ -94,6 +94,8 @@ with 4.7. Exact compiler and library binaries must still be recorded by hash.
 
 The bootstrapped GCC 2.8.1 PSX compiler is a reproducible diagnostic stand-in,
 not Sony CCPSX. The build always supplies explicit PSX target flags as recorded
-in `notes/toolchain.md`. A separately pinned GCC 2.7.2 MIPS compiler is kept
-available only as the DOS-era fallback. Matching assembly is processed with
-MASPSX 2.81 for GCC 2.8.1 and MASPSX 2.72 for GCC 2.7.2.
+in `notes/toolchain.md`. `make compiler-281` builds the probe from source;
+`make compiler-281-prebuilt` installs the pinned prebuilt release at the same
+prefix. A separately pinned GCC 2.7.2 MIPS compiler is kept available only as
+the DOS-era fallback. Matching assembly is processed with MASPSX 2.81 for GCC
+2.8.1 and MASPSX 2.72 for GCC 2.7.2.

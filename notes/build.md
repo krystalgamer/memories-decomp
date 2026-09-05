@@ -38,10 +38,26 @@ The bootstrap installs:
 - Pinned checkouts of asm-differ, maspsx, and decomp-permuter.
 - GNU binutils 2.42 configured for `mipsel-none-elf`.
 - A pinned `mips-sony-psx` GCC 2.8.1 probe compiler built from the public
-  decompals/old-gcc recipe.
+  decompals/old-gcc recipe. This is the default selected by `make tools`.
 
 Downloaded archives, installed packages, source checkouts, and toolchains remain
 under `tools/`. Temporary build directories remain under `tmp/`.
+
+To use the pinned prebuilt GCC 2.8.1 release instead of compiling that probe,
+run the component targets rather than `make tools`:
+
+```sh
+make python-tools toolchain compiler-281-prebuilt compiler-272
+make check-build-tools
+tools/environments/python/bin/python tools/bootstrap/old_gcc_272.py --check
+```
+
+The prebuilt installer verifies release `0.17` and its archive/member hashes,
+then installs the compiler at the same project path used by the profiles. Its
+wrapper is named `mips-sony-psx-gcc`, while the packaged driver reports
+`mips-linux-gnu`; the explicit profile flags and PSX macro definitions provide
+the required target behavior. `make check-tools` validates the source-built
+installation, whereas `make check-build-tools` validates the prebuilt one.
 
 ### Host requirements, and what breaks on a newer distribution
 
@@ -80,7 +96,9 @@ Selecting the older dialect builds it unmodified:
 CFLAGS=-std=gnu17 make toolchain
 ```
 
-`make compiler-281-prebuilt` needs nothing.
+`make compiler-281-prebuilt` avoids compiling GCC and needs no multilib
+development files on x86 hosts. Its real driver is a statically linked 32-bit
+i386 executable, so non-x86 hosts must use the source-build path instead.
 
 A full `make clean match` on such a host reproduces
 `84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`, so the
