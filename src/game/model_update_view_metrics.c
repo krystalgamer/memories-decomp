@@ -12,7 +12,7 @@ typedef struct {
     s32 w[8];
 } Mtx32;
 
-void func_80057F38(u8 *m) {
+void Model_UpdateViewMetrics(u8 *m) {
     u8 *b;
 
     b = D_800F56F0;

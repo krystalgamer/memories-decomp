@@ -224,6 +224,7 @@ DuelEffect_ResetEntryMarkers = 0x80035DF4; // type:func
 DuelEffect_HasActiveEntry = 0x8003735C; // type:func
 Model_CopySlotU16Values = 0x80058FB0; // type:func
 Model_InitLightTriplet = 0x80059134; // type:func
+Model_UpdateViewMetrics = 0x80057F38; // type:func
 Model_RegisterHandlerKey = 0x80060170; // type:func
 Model_FindHandlerKey = 0x800601D0; // type:func
 Model_GetPrimitiveHandler = 0x8006041C; // type:func
