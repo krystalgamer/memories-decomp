@@ -35,6 +35,13 @@ assembly, GMS pseudocode, and explicit target-order labels. The closest source
 is 300/304 bytes but its event-1 branch target is four instructions early.
 The function is terminally deferred and remains exact assembly.
 
+A later post-terminal pass resolved the function completely. A direct
+three-case object-mode switch, together with a `volatile` declaration for
+the two independent `D_8009B0F4` read-modify-write sequences, matches all
+304 bytes and relocations under `gcc_2_8_1_g0`. The accepted source now lives
+in `src/game/func_8002DDFC.c`; the paragraph above remains the original
+campaign result.
+
 ## Preserved-candidate profile sweep
 
 `tools/project/run_remaining_profile_pass.py` tests exactly one untried
