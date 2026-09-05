@@ -473,6 +473,67 @@ labels—Light, Dark, Earth, Water, Fire, Wind, Spell/Equip, Trap, and
 "Light 2"—are preserved as visual observations; the duplicate bytes and
 archive placement are confirmed directly from the retail `WA_MRG.MRG`.
 
+## Small and large card-frame palettes
+
+**Tutorial:** `Cards.txt`
+
+The tutorial's `0x200`-byte spacing identifies palette rows, not separate
+card images. In each duel-terrain package, resident loader callback
+`func_800171A8` reads the `0x2000`-byte block at package offset `+0x20000`
+and uploads it as a `256 x 16` rectangle of 16-bit colours at VRAM
+`(256, 240)`. Each `0x200`-byte step is therefore one complete 256-colour
+row.
+
+The tutorial's twelve card-frame rows have this common package-relative
+layout:
+
+| VRAM row | Package offset | Card display | Card kind |
+|---:|---:|---|---|
+| 241 | `+0x20200` | Small | Normal |
+| 242 | `+0x20400` | Small | Magic |
+| 243 | `+0x20600` | Small | Trap |
+| 244 | `+0x20800` | Small | Ritual |
+| 245 | `+0x20A00` | Small | Fusion |
+| 246 | `+0x20C00` | Small | Effect |
+| 248 | `+0x21000` | Large | Normal |
+| 249 | `+0x21200` | Large | Magic |
+| 250 | `+0x21400` | Large | Trap |
+| 251 | `+0x21600` | Large | Ritual |
+| 252 | `+0x21800` | Large | Fusion |
+| 253 | `+0x21A00` | Large | Effect |
+
+Applying those relative offsets to the Normal, Forest, Wasteland, Mountain,
+Meadow, Umi, Yami, and Library package starts reproduces every distinct
+absolute offset in the tutorial. Their complete `+0x20000-+0x21FFF`
+palette blocks are byte-identical:
+
+```text
+SHA-256: e7a7296c5a77ad4bc89577db20e50c05d7c6f8e2faa2625b587b6fa37f8c3463
+```
+
+The entries numbered 4 and 5 in `Cards.txt` repeat the Forest and Wasteland
+offsets exactly; they are duplicate tutorial rows, not additional archive
+copies.
+
+The password-screen package starts at `0xF97800`. Its exact callback
+`func_8003BD14` uploads the same `0x2000`-byte palette rectangle, and the
+tutorial lists its six large-card rows at
+`0xFB8800-0xFB93FF`. Five rows are byte-identical to the terrain and Library
+copies. The large-Magic row differs only in its final `0x20` bytes, where the
+password package uses sixteen `0x0001` entries instead of the shared row's
+final sixteen colours.
+
+**Confidence:**
+
+- **Confirmed** that the listed offsets are 256-colour rows in the
+  `+0x20000` palette block, based on both exact loader callbacks and their
+  VRAM upload geometry.
+- **Confirmed** that all eight full terrain/Library blocks are identical and
+  that tutorial entries 4 and 5 are duplicates.
+- **High** that the row labels describe small and large card-frame variants;
+  those visual roles come from the tutorial, while their card-kind ordering
+  and palette boundaries are exact.
+
 ## Skip the opening Heishin text segment
 
 **Tutorial:** `Remover Heishin.txt`
