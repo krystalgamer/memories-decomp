@@ -209,6 +209,43 @@ credits routine, despite the tutorial's broad title.
 - **Confirmed** that the patched bytes belong to the player-side duel-result
   label rather than executable code.
 
+## Skip the opening Heishin text segment
+
+**Tutorial:** `Remover Heishin.txt`
+
+The tutorial replaces three bytes at SLUS offset `0x1A1A7A` with
+`FD 1C 13`. The file offset maps to loaded address `0x801B127A`, the start of
+global text string 1350. Its retail bytes begin `F7 05 00`; the patch replaces
+that first control with an `FD` text-stream jump.
+
+The `FD` dispatch-table entry is `func_80038BA8`. Its exact matching C reads a
+little-endian 16-bit target and replaces only the low halfword of the current
+text pointer. The patched target is therefore:
+
+```text
+FD 1C 13 -> low halfword 0x131C -> 0x801B131C
+```
+
+The destination remains in the same `0x801Bxxxx` text bank and begins with
+valid text controls (`FE F7 0A ...`). Relative to the byte after the inserted
+three-byte jump, the patch skips `0x9F` bytes of the original text stream.
+
+This is not a change to the campaign bytecode interpreter, opponent data, or
+the sound driver. Any skipped Heishin, music, or title presentation is encoded
+inside the bypassed text-stream region. The static data establishes the
+redirect exactly, but the complete visible sequence after the jump still
+needs a runtime trace.
+
+**Confidence:**
+
+- **Confirmed** that `0x1A1A7A` maps to `0x801B127A` and begins with retail
+  bytes `F7 05 00`.
+- **Confirmed** that `FD 1C 13` redirects the text cursor to `0x801B131C`
+  while preserving its current 64 KiB bank.
+- **High** that this removes the opening Heishin segment described by the
+  tutorial; the jump span is proven, but the resulting presentation has not
+  been replayed locally.
+
 ## Attack-trigger trap thresholds
 
 **Tutorial:** `Efeito trap.txt`
