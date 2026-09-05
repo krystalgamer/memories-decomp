@@ -216,3 +216,52 @@ This does not replace `make match-overlays`, which is still what proves a
 module reassembles and links. It is what makes it practical to measure several
 candidate shapes instead of guessing between them: a probe costs about a fifth
 of a second rather than minutes.
+
+## A local array initialiser is a layout change, not a conversion
+
+Most unmatched overlay functions can be converted one at a time: add a `c`
+subsegment, write the source, build. A function whose source declares a
+**non-static local array with an initialiser** cannot, because the initialiser
+is data that the C file has to emit, and that data already exists somewhere in
+the module as a tracked blob.
+
+The tell is a straight-line block copy at the top of the function — sixteen
+byte chunks through `$t4`–`$t7` with a `bne` back-edge, plus a short tail —
+whose source is a symbol in the module's own data:
+
+```
+addiu $v1, $sp, 0x28              # destination in the frame
+addiu $v0, $v0, %lo(D_80168004)   # source in the module's data
+addiu $a0, $v0, 0x70              # end of the sixteen-byte loop
+```
+
+That is GCC copying an initialised local aggregate into the frame. A
+`static const` array would be indexed in place instead, with no copy, so the
+copy is what distinguishes the two.
+
+`func_80168CDC` in the password module is the worked example. Its 0x78 bytes
+sit at module offset `0x4`, immediately after the header word, inside the
+`module_header` data subsegment that spans `0x0`–`0xB4` — and note that the
+function itself is at `0xCDC`, so the data is nowhere near its code. Converting
+it means carving `module_header` and letting the C file place the table at
+exactly `0x80168004` as well as matching the code.
+
+Two consequences worth stating plainly:
+
+- **Do not pick these in a smallest-first sweep.** The inventory sorts by code
+  size and says nothing about data, so such a function looks like an ordinary
+  next candidate right up to the point where the link has to be re-carved.
+  Check for the block copy before starting.
+- **Verify the table against the built module before trusting a carve**, word
+  for word. The bytes are the acceptance criterion for the data half of the
+  change, and they are cheap to read out of `tmp/overlays/<module>/module.bin`.
+
+Every unmatched function in all five modules was scanned for the pattern.
+`func_80168CDC` is the only one affected. One other function block copies,
+`func_801821DC` in `main_menu`, but its copies run **between two regions of
+`D_801D1200`** rather than into the frame — a scroll within a resident buffer,
+which is ordinary code and carries no data-placement constraint.
+
+That difference is the check worth applying: look at where the destination
+lives. A destination built from `$sp` is an initialised local and means data
+has to be emitted; a destination that is another global is just a copy.
