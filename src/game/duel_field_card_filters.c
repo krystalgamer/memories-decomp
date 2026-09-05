@@ -4,7 +4,7 @@
 extern u8 D_8009B1D5;
 extern s32 gDuel_adwCardStats[];
 
-s32 func_80026C6C(u8 **out, s32 arg1, s32 arg2)
+s32 Duel_CollectFieldCardsBelowType(u8 **out, s32 arg1, s32 arg2)
 {
     /* Retail keeps the result count in t0 and the five-entry index in a3. */
     register s32 count asm("$8") = 0;
@@ -16,7 +16,8 @@ s32 func_80026C6C(u8 **out, s32 arg1, s32 arg2)
     s32 k;
 
     do {
-        /* Match the block numbering used by the adjacent func_80026D18. */
+        /* Match the block numbering used by the adjacent
+         * Duel_CollectFieldCardsByType. */
         do {
             if (r->flags & 0x8000) {
                 k = (s16)r->card_id;
@@ -35,7 +36,7 @@ s32 func_80026C6C(u8 **out, s32 arg1, s32 arg2)
     return count;
 }
 
-s32 func_80026D18(u8 **out, s32 arg1, s32 arg2) {
+s32 Duel_CollectFieldCardsByType(u8 **out, s32 arg1, s32 arg2) {
     s32 count = 0;
     s32 i = 0;
     s32 d = D_8009B1D5;

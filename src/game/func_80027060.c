@@ -1,6 +1,6 @@
 #include "../types.h"
 
-extern s32 func_80026D18(u8 **, s32, s32);
+extern s32 Duel_CollectFieldCardsByType(u8 **, s32, s32);
 extern s32 func_80026C0C(s32);
 extern u8 D_800EAE88[];
 
@@ -9,7 +9,7 @@ s32 func_80027060(void) {
     s32 slot;
     s8 v;
 
-    if (func_80026D18(sp10, 0, 0x15) == 0) {
+    if (Duel_CollectFieldCardsByType(sp10, 0, 0x15) == 0) {
         return 1;
     }
     slot = func_80026C0C(0xA);

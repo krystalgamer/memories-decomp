@@ -126,12 +126,12 @@ sign wrap occurs for this range.
 
 `func_8002712C` conditionally stores `rand() & 1` in the play-command record,
 producing an unbiased zero-or-one value. It consumes no RNG value when
-`func_80026D18` finds no candidate entries, and it also skips the call when
-`func_80026C0C(10)` returns a negative index. Only the path with both a
-nonempty candidate list and a nonnegative index advances the stream, after the
-record's other fields have already been initialized. Deterministic duel traces
-must reproduce those branch outcomes, not assume that every invocation of
-`func_8002712C` consumes a value.
+`Duel_CollectFieldCardsByType` finds no candidate entries, and it also skips
+the call when `func_80026C0C(10)` returns a negative index. Only the path with
+both a nonempty candidate list and a nonnegative index advances the stream,
+after the record's other fields have already been initialized. Deterministic
+duel traces must reproduce those branch outcomes, not assume that every
+invocation of `func_8002712C` consumes a value.
 
 `func_8004149C` treats its data argument as a count byte followed by that many
 little-endian 16-bit offsets. It consumes one RNG value, selects
