@@ -1192,7 +1192,7 @@ address,size,name,status,module,notes
 0x80073464,0x10,func_80073464,matching_c,game,3 pre-policy variants: Direct assignment and split-only failed; -mgas -msplit-addresses selected the target base register and delay-slot store.
 0x80073474,0xC,func_80073474,matching_c,game,3 pre-policy variants: Direct assignment and split-only failed; -mgas -msplit-addresses selected the target base register and delay-slot store.
 0x80073480,0x5C,AiScript_MoveCard,matching_c,game,Pure-C inline refinement matched the full executable.
-0x800734DC,0xC4,AiScript_LoadOpponentData,unmatched_asm,game,
+0x800734DC,0xC4,AiScript_LoadOpponentData,matching_c,game,"Reads three script bytes: two index gAiScript_aMemory to give an opponent record index and a field selector, the third is the destination slot. Stores either the record's byte at 1+field, or its byte at 1 scaled by 100 when the selector is zero."
 0x800735A0,0x3C,AiScript_Store,matching_c,game,Immediate checkpoint table store using GCC 2.8.1 PSX -O2 -G0
 0x800735DC,0x48,AiScript_SetRegister,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80073624,0x68,AiScript_Add,matching_c,game,Three-index addition helper using GCC 2.8.1 PSX -O2 -G0 and maspsx 2.81
