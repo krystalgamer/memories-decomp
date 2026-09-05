@@ -471,7 +471,7 @@ address,size,name,status,module,notes
 0x80038094,0x40,func_80038094,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800380D4,0x3C,func_800380D4,matching_c,game,Pure-C inline refinement matched the full executable.
 0x80038110,0x38,func_80038110,matching_c,game,Pure-C inline refinement matched the full executable.
-0x80038148,0x160,func_80038148,unmatched_asm,game,
+0x80038148,0x160,func_80038148,matching_c,game,Matched from updated collaborator source: bottom-tested loops and path-local buffer-base expressions reproduce retail code generation.
 0x800382A8,0x8C,func_800382A8,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80038334,0x54,func_80038334,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80038388,0x28,func_80038388,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.

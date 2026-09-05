@@ -2632,7 +2632,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAF08,D_800EAF08,D_800EAF08,0x80035CE4,DuelEffect_ResetOccupancy,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,address,8,v0 = D_800EAF08;
 0x800EAF08,D_800EAF08,D_800EAF08,0x80035D10,func_80035D10,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,read,8,if (D_800EAF08[index] == 0)
 0x800EAF08,D_800EAF08,D_800EAF08,0x80039AD4,func_80039AD4,matching_c,game,C,src/game/func_80039AD4.c,write,8,D_800EAF08[object[0x10]] = 0;
-0x800EAFF8,D_800EAFF8,D_800EAFF8,0x80038148,func_80038148,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_028948.s,read,16,"addiu $t1, $v0, %lo(D_800EAFF8) | lhu $a3, %lo(D_800EAFF8)($v0) | (+1 more)"
+0x800EAFF8,D_800EAFF8,D_800EAFF8,0x80038148,func_80038148,matching_c,game,C,src/game/func_80038148.c,address,,h = *(u16 *)&D_800EAFF8[0]; | w = *(u16 *)&D_800EAFF8[buf[i]];
 0x800EAFF8,D_800EAFF8,D_800EAFF8,0x8003B5C8,func_8003B5C8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02bdc8.s,address,,"addiu $t1, $v0, %lo(D_800EAFF8) | lui $v0, %hi(D_800EAFF8)"
 0x800EB010,D_800EB010,D_800EB010,0x8002E370,DuelEffect_MarkObjectIfActive,matching_c,game,C,src/game/duel_effect_mark_object_if_active.c,address,,p = &D_800EB010[count];
 0x800EB010,D_800EB010,D_800EB010,0x8002EB78,func_8002EB78,matching_c,game,C,src/game/func_8002EB78.c,address,8,"void func_8002EB78(void){unsigned char*o;int first,flags,bit;if(func_8002E3B4()==0){first=*D_8009B290++;flags=*D_8009..."
