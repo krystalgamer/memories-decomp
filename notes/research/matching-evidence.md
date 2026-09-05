@@ -206,6 +206,11 @@ self-pointer from the outer pointer instead of from a reloaded base. The last
 three fall under the target count outright. In every case the diff moved the
 opposite way to the count, which is the signal to distrust the count.
 
+A later post-terminal result kept both structural requirements: an explicit
+outer-loop offset and a body-first inner loop. Moving the outer-record
+increment into the outer back edge, then pinning only the remaining allocation
+roles, matched all 38 instructions under `gcc_2_8_1_g8_split`.
+
 #### A `do`/`while` with a `break` pays a rotation fixup
 
 GCC 2.8.1 rotates a search loop written body-first into a continue-form branch
@@ -236,11 +241,15 @@ the same 41.
 
 The awkward part is that the target's own loop *is* body-first: it relies on an
 earlier guard and drops straight into the body, spending the two slots the
-`for` form spends on its entry test on address setup instead. No C spelling
-gives both properties at once — the `for` form avoids the fixup but pays for a
-guard, and every body-first form drops the guard but pays for the fixup. Take
-the `for` form, since the fixup costs instructions the target does not have
-while the guard only occupies slots the target also spends.
+`for` form spends on its entry test on address setup instead. None of the
+initial isolated loop spellings gave both properties at once.
+
+The later exact source recovered the missing surrounding structure. It uses
+explicit `outer`, `inner`, `after_inner`, and `next` labels, keeps the
+byte-offset cursor separate from the typed record pointer, and advances the
+record in the outer back-edge delay slot. Allocation-only register pins then
+preserve the remaining retail roles. The result matches all `0x98` bytes and
+relocations under `gcc_2_8_1_g8_split`.
 
 #### Separate register-permutation residuals from schedule-permutation ones
 
