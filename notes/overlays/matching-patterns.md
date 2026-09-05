@@ -66,6 +66,71 @@ for (i = 15; i >= 0; i--) {
 
 Verified by `FreeDuel_GetSparkleSlot` in the Free Duel module.
 
+### Which one is the pointer, when the target has both
+
+That rule is about a loop with **one** induction variable. When the target
+keeps a counter *and* a walking pointer, the two spellings build the same
+length and differ only in which register plays which role, so the instruction
+count will not tell you and the register assignment has to:
+
+```c
+/* counter in a0, pointer in v1 -- and the counter init fills the
+   delay slot of the branch that jumps into the loop */
+for (index = 0; index < 0x28; index++) {
+    if (D_801D0200[index] == 0) { ... }
+}
+
+/* pointer in a0, counter in v1 -- and the %hi of the base fills that
+   delay slot instead, which is what the target had */
+entry = D_801D0200;
+for (index = 0; index < 0x28; index++) {
+    if (*entry == 0) { ... }
+    entry++;
+}
+```
+
+The tell is in the preheader rather than the loop: an explicit pointer is
+initialised before the counter, so its `%hi` is what is available early enough
+to be hoisted into the preceding delay slot.
+
+Verified by `FreeDuel_UpdateScreen` in the Free Duel module.
+
+## A materialised base under a constant offset means a second use
+
+A constant member offset normally folds into the relocation, so seeing the
+base formed on its own and the offset left on the load is a positive signal:
+
+```
+lui   $v0, %hi(D_800EB15C)
+addiu $a0, $v0, %lo(D_800EB15C)     # base on its own
+lhu   $v0, 0x34($a0)                # offset left on the load
+```
+
+GCC only does this when the plain base is needed for something else, so look
+down the block for another use of that register. Here `$a0` is still live at
+the `jal` two instructions later, which says the base is that call's argument:
+
+```c
+/* builds 205 against 206 -- the offset folds and the base vanishes */
+if ((*(u16 *)(D_800EB15C + 0x34) & 8) == 0) {
+    func_80035B7C(D_800EB15C);
+}
+
+/* matches */
+panel = D_800EB15C;
+if ((*(u16 *)(panel + 0x34) & 8) == 0) {
+    func_80035B7C(panel);
+}
+```
+
+Naming the base in a local is not by itself enough -- with only one use GCC
+propagates the local away and folds anyway. It needs the *second* use to
+survive. Passing the bare symbol to the call is worse than either: GCC then
+folds the load, materialises the folded address and recovers the argument as
+`addiu $a0, $v1, -52`, which is one instruction longer and obviously wrong.
+
+Verified by `FreeDuel_UpdateScreen` in the Free Duel module.
+
 ## A redundant register copy means a separate variable
 
 A copy that looks pointless usually means the source used its own local for
