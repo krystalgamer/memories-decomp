@@ -3535,6 +3535,12 @@
       "source": "src/game/func_80047FAC.c"
     },
     {
+      "address": "0x80048920",
+      "profile": "gcc_2_8_1_g0_keep_large_ori",
+      "size": "0x108",
+      "source": "src/game/func_80048920.c"
+    },
+    {
       "address": "0x80048C0C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x64",
