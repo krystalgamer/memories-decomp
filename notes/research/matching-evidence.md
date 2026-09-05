@@ -1400,6 +1400,47 @@ The practical rule is that once shape, count, profile and types are settled
 and the only difference is which register holds a long-lived address, further
 source permutation is low-yield — record what was measured and move on.
 
+## Do not name an array base to reproduce a materialised base register
+
+When retail keeps an array base in a register and the candidate reaches the
+same array through the assembler temporary, the obvious response is to bind
+the base to a local. It reliably makes things worse, and the intuition behind
+it survives longer than it should because the target appears to endorse it.
+
+`func_8004A43C` is the clearest case, because retail visibly materialises the
+base:
+
+```
+lui   $a1, %hi(D_80011434)
+addiu $a1, $a1, %lo(D_80011434)
+sll   $v1, $v1, 2
+addu  $v1, $v1, $a1
+lw    $v1, 0($v1)
+```
+
+while the candidate emits the assembler-temp form:
+
+```
+lui  $at, %hi(D_80011434)
+addu $at, $at, $v1
+lw   $v1, %lo(D_80011434)($at)
+```
+
+Writing `s32 *tbl = D_80011434;` and indexing `tbl[...]` moved the candidate
+from one instruction over the target to **two** over, and cost a diff. The
+same lever on `func_80025028` also went one instruction over. Two functions,
+opposite-looking evidence in the disassembly, identical measured outcome.
+
+The reason is that the two forms are not the same operation. Retail's base
+register is a scheduling artifact of code the compiler generated; a named C
+pointer is a value with a live range, which GCC keeps alive rather than
+folding back into the addressing mode. Reproducing the artifact by
+introducing the value does not work.
+
+So: a materialised base register in the target is **not** evidence that the
+original source named it. Treat the addressing form as an output of register
+allocation, not as something the source chooses.
+
 ## Value-level levers cannot move address CSE
 
 Where retail re-materialises an address that GCC keeps live in a register,
