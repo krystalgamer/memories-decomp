@@ -73,9 +73,9 @@ environment lacks 32-bit multilib headers and static libraries. It is suitable
 for matching probes, but broader compiler selection still requires comparison
 with genuine Psy-Q 4.6 tools or a verified 32-bit build.
 
-`func_800736C4` is the first confirmed match: GCC 2.8.1 with the explicit flags
-above and maspsx emits its exact 64-byte instruction sequence, and the complete
-PS-X EXE retains the target SHA-256.
+`AiScript_Print` (`0x800736C4`) is the first confirmed match: GCC 2.8.1 with
+the explicit flags above and maspsx emits its exact 64-byte instruction
+sequence, and the complete PS-X EXE retains the target SHA-256.
 
 ## GCC 2.7.2 fallback
 
@@ -99,8 +99,8 @@ This public recipe is not a genuine `mips-sony-psx` DOS compiler. It requires:
 - A narrow assembly filter that moves GCC 2.7.2 stack restoration into the
   return delay slot before maspsx.
 
-The fallback profile reproduces `func_800736C4` and the complete executable
-when selected temporarily using:
+The fallback profile reproduces `AiScript_Print` (`0x800736C4`) and the
+complete executable when selected temporarily using:
 
 ```text
 maspsx --aspsx-version=2.72 --expand-div -G<0-or-8>
