@@ -47,7 +47,7 @@ access or questions. Corrections and counter-evidence welcome.
 
 **2026-09-04 delta.** Four names from the recomp's Free Duel and card-viewer
 work (`Main_InitFreeDuelMenu` 0x8003B9BC, module-resident `FreeDuel_Init`
-0x8016824C, `gLibrary_wViewerCardID` 0x8009B246, `gLibrary_aCardArtRecord`
+0x8016824C, `gDuel_wViewerCardID` 0x8009B246, `gLibrary_aCardArtRecord`
 0x801DC000), findings F121-F128 (free-duel screen init and portrait VRAM layout,
 the per-card 7-sector art record at LBA 10817+7*id with its LoadImage rects,
 the card-title rasterisation facts, mode-byte values), and one medium-confidence
