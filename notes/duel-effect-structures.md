@@ -55,13 +55,13 @@ Verified entry fields are:
 | `0x12` | `field_12` | compared with the requested marker plus one |
 | `0x13` | `field_13` | active-value test/write in the bounded scan pair |
 | `0x15` | `field_15` | second byte written by `func_800373C8` |
-| `0x18` | `field_18` | range write in `func_8003B6AC`; target `func_80036DBC` reads it |
+| `0x18` | `field_18` | range write in `func_8003B6AC`; `DuelEffect_UpdateObjectLayout` reads it |
 
-Target `func_80039D64` copies complete seven-word (`0x1C`) records and advances
-both pointers by `0x1C`, independently confirming that the named bytes belong
-to one record rather than parallel arrays. Unchiga's same-address sketches
-and GMS pseudocode corroborate these accesses but do not determine the shared
-types.
+Exact C for `func_80039D64` copies complete seven-word (`0x1C`) records and
+advances both pointers by `0x1C`, independently confirming that the named
+bytes belong to one record rather than parallel arrays. Unchiga's same-address
+sketches and GMS pseudocode corroborate these accesses but do not determine
+the shared types.
 
 `DuelEffect_UpdateObjectLayout` now provides an additional exact-C read of
 `DuelEffectEntry.field_18`. It selects the display-object coordinate layout
@@ -86,6 +86,8 @@ Matching-C functions implemented with inline assembly remain unchanged:
 
 `DuelEffect_UpdateObjectLayout` is also matching C, but it retains a minimal
 local `EffectEntry` view and is not counted among the six shared-header users.
+`func_80039D64` likewise remains on its local complete-record view so its
+newly accepted source does not broaden the shared declaration.
 
 The remaining assembly users are also unchanged. For `D_800EB0F8` they are
 `func_80019D18`, `func_8001B170`, `func_800235C0`, `func_800262D4`,
@@ -93,7 +95,7 @@ The remaining assembly users are also unchanged. For `D_800EB0F8` they are
 `func_8002E5AC`, `func_8002EE94`, `func_80031084`, `func_800339D0`,
 `func_80035E20`, `func_80039794`, `func_8003D74C`, `func_8003DA40`,
 `func_8003DC1C`, `func_8003F454`, `func_8003F8D4`, and `func_80043BCC`.
-For `D_800EB288` they are `func_800393B0` and `func_80039D64`.
+For `D_800EB288`, the sole remaining assembly user is `func_800393B0`.
 
 `duel_effect_entry_scan.c` is the sole raw-view exception among migrated
 pure-C users. Both functions include the shared header and use its typed
