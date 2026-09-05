@@ -53,6 +53,7 @@ help:
 		'  check-global-usage  Verify tracked game-global usage reports' \
 		'  progress       Update README and generate current progress metrics' \
 		'  check-progress Verify that the README progress snapshot is current' \
+		'  disc-files     Extract the tracked DATA files from the disc image' \
 		'  disc-layout    Regenerate the tracked ISO9660 LBA manifest' \
 		'  verify-disc    Verify BIN/CUE layout and extracted file contents' \
 		'  runtime-files  Regenerate executable file-index/LBA metadata' \
@@ -177,6 +178,9 @@ progress: split
 
 check-progress: split
 	@$(PYTHON) tools/project/progress.py --check
+
+disc-files: workspace
+	@$(PYTHON) tools/project/disc_image.py extract $(FILES)
 
 disc-layout: verify-inputs
 	@$(PYTHON) tools/project/disc_image.py write

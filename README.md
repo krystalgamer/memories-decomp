@@ -73,6 +73,22 @@ and BIN/CUE listed in `config/slus_01411/files.sha256`:
 MAKEFLAGS=-j"$(nproc)" make audit
 ```
 
+Those DATA files do not have to be sourced separately. With the retail disc at
+`game/rpg-yfm.cue` and `game/rpg-yfm.bin`, `make disc-files` extracts every one
+of them straight out of the image at the LBAs recorded in
+`config/slus_01411/disc_layout.json`:
+
+```sh
+make disc-files                          # every tracked DATA file
+make disc-files FILES="WA_MRG.MRG SU.MRG"  # only the overlay archives
+```
+
+Extraction refuses to run unless the image matches the tracked `bin_sha256`,
+and each extracted file is checked against its tracked SHA-256 before it
+replaces anything on disk, so a wrong dump fails immediately instead of
+surfacing later as a build mismatch. Files already present and correct are left
+alone, so the target is safe to re-run.
+
 The examples use all logical CPUs reported by `nproc`. Set a smaller `-j`
 value explicitly on memory-constrained systems.
 
