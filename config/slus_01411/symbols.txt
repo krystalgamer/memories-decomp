@@ -400,4 +400,5 @@ CdPosToInt_8007E710 = 0x8007E710; // type:func
 LoadImage = 0x8007F978; // type:func
 GetDispEnv = 0x800803F4; // type:func
 LoadImage2 = 0x80081DE8; // type:func
+StoreImage2 = 0x80081ED4; // type:func
 MoveImage2 = 0x80081FC0; // type:func
