@@ -1132,3 +1132,33 @@ four-invariant hoisting budget. Getting the element shape right is therefore
 what decides which *other* symbols end up hoisted.
 
 Verified by `func_80181F68` in the main menu module.
+
+### Declaring the shape usually subsumes the address tricks
+
+When the row shape is right, levers that had to be discovered separately stop
+being levers and fall out of the declaration. `func_8018338C` carried three
+recorded findings — build the count base in two statements or GCC folds the
+`+80` into the symbol's `%lo`; index the comparator table from the base symbol
+rather than naming the one four bytes in; and a register-numbering shift
+through a six-word copy. Declaring
+
+```c
+typedef struct { s16 id; u16 count; } Card;
+extern Card  D_801845FC[][722];      /* one giv for the row, not two */
+typedef struct { s32 entries[6]; } Comparators;
+Comparators c = *(Comparators *)&D_80180000[1];   /* the block move */
+```
+
+reproduced all three at once and took the function from 33 differing positions
+to 2.
+
+The general point: reach for the **declaration** before reaching for a way to
+write the arithmetic. An address trick that compensates for a wrong declaration
+tends to fix one position and pin several others, which is why those notes
+accumulate.
+
+The two that remained were both already-recorded rules rather than anything new
+— the row address and the count base are separate locals because the target
+keeps both in registers, and the sort mode is read once into a local.
+
+Verified by `func_8018338C` in the main menu module.
