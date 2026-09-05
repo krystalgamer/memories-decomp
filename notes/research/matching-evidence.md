@@ -418,6 +418,63 @@ target's loop has its exit test at the top and only one copy of the increment,
 GCC will not reproduce it, and the C can be finished and still be six or seven
 instructions long.
 
+### MASPSX misses a load-delay nop before a store to a small extern
+
+The generated assembly runs under a single `.set noreorder` that MASPSX emits at
+the top of every file, so MASPSX owns every hazard nop and GNU `as` will not add
+one. There is one case it gets wrong, and it is silent at the source level.
+
+Five lines reproduce it under `gcc_2_8_1_g8_split`:
+
+```c
+extern u8 g_small;          /* 1 byte, so -G8 makes it gp-relative */
+extern u8 g_big[64];        /* 64 bytes, so it is not */
+void f_small(u8 *p) { g_small  = p[0x6A]; }
+void f_big(u8 *p)   { g_big[0] = p[0x6A]; }
+```
+
+```
+f_small:  lbu $v0, 0x6A($a0)     f_big:  lbu $v1, 0x6A($a0)
+          sb  $v0, 0x0($gp)              lui $v0, %hi(g_big)
+          jr  $ra                        jr  $ra
+          nop                            sb  $v1, 0x0($v0)
+```
+
+`f_big`'s store expands through `lui`, which fills the load delay by accident.
+`f_small`'s assembles to one gp-relative instruction and the delay is left
+unfilled, so the store writes the register's stale value.
+
+The mechanism is in `_uses_gp`. It answers "is this next instruction
+gp-relative, so a nop is needed" by looking the symbol up in `sbss_entries` and
+`sdata_entries`, which hold only symbols *defined in the same translation unit*.
+An `extern` is in neither, so `_uses_gp` returns False; `uses_at` returns True
+because the store is still in bare-symbol form at that point; and
+`nop_at_expansion` is False for ASPSX 2.81. No branch fires, no nop is emitted,
+and the assembler then resolves the symbol gp-relative in a single instruction.
+MASPSX cannot see what `as` is about to do.
+
+`func_80025028` (`0x80025028`) is the worked example, and it is otherwise
+finished. 39 of the target's 40 instructions are byte-exact, registers and
+relocations included, from a body that uses only the cohort's own idioms —
+`duel_card_selection.c` supplies `slot + D_8009B1D5 * 20`, the
+`D_801A7AD8[D_800907D8[position]]` indexing, and the `0x6A` object field. The
+one missing instruction is this nop, between `lbu $v1, 0x6A($v0)` and
+`sb $v1, %gp_rel(D_8009B1B8)($gp)`. The build rejects it as
+`resident text size mismatch`, which is at least a safe failure.
+
+The exposure is bounded but the cost of hitting it is not: an accepted match can
+never contain the bug, because the retail body has the nop and a body without it
+cannot match. It shows up instead as a function that is exactly one instruction
+short for no reason visible in the C, which is expensive to diagnose from the
+source side. The tell is a load whose destination is used by the very next
+instruction, where that instruction stores to a bare `extern` of eight bytes or
+fewer under a G8 profile.
+
+Like the jump-table case, this is a tooling decision rather than a source
+problem. `tools/vendor/maspsx` is pinned, and the fix would be to treat a
+bare-symbol load or store of a small undefined extern as gp-relative for the
+purposes of hazard detection.
+
 ### Register pins
 
 Issue #5 accepts `register` variables pinned to a hard register for functions
