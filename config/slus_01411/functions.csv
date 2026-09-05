@@ -1581,7 +1581,7 @@ address,size,name,status,module,notes
 0x80085ED0,0xB4,func_80085ED0,sdk_asm,psyq/sdk,
 0x80085F90,0x120,func_80085F90,sdk_asm,psyq/sdk,
 0x800860B0,0x4C,func_800860B0,sdk_asm,psyq/sdk,
-0x80086100,0xE4,func_80086100,sdk_asm,psyq/sdk,
+0x80086100,0xE4,GsGetTimInfo,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/GS_122.OBJ signature and matching texture parser.
 0x800861F0,0xC8,func_800861F0,sdk_asm,psyq/sdk,
 0x800862C0,0xC,func_800862C0,sdk_asm,psyq/sdk,
 0x800862D0,0x2C8,func_800862D0,sdk_asm,psyq/sdk,
