@@ -44,7 +44,7 @@ extern FileTransfer D_800E9E18;
 extern s32 gFile_anLba[];
 
 extern s32 func_8007AFA4(void);
-extern s32 func_8007E710(const CdlLOC *);
+extern s32 CdPosToInt_8007E710(const CdlLOC *);
 
 void func_80013898(s32 value)
 {
@@ -72,7 +72,7 @@ void File_GetPosition(s32 *output, const char *path)
 
     while (DsSearchFile(&file, (char *)path) == 0) {
     }
-    *output = func_8007E710((const CdlLOC *)&file.pos);
+    *output = CdPosToInt_8007E710((const CdlLOC *)&file.pos);
 }
 
 void func_80013940(

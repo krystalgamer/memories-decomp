@@ -27,7 +27,7 @@ extern void func_8007B1F4(s32, void *, void *, s32);
 extern void func_8007B468();
 extern void func_8007DD50(void *, s32);
 extern void func_8007DE38(s32);
-extern s32 func_8007E710(s32);
+extern s32 CdPosToInt_8007E710(s32);
 
 void func_800140A0(u8 event)
 {
@@ -109,7 +109,7 @@ void func_80014390(u8 event, s32 arg1)
 
     if (event == 2) {
         destination = D_800E9E90;
-        value = func_8007E710(arg1);
+        value = CdPosToInt_8007E710(arg1);
         if (value > 0)
             *destination = value;
         D_8009B0F4 &= ~0x800;
