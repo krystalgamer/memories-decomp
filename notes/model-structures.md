@@ -106,7 +106,8 @@ and `key` at `+4`. `Model_RegisterHandlerKey` and `Model_FindHandlerKey`
 both advance by eight bytes for exactly 80 iterations. The target assembly,
 GMS's paired `dword_800F5918`/`dword_800F591C` views, and Unchiga's
 same-address functions agree on the order and count. The modeled extent is
-`80 * 8 == 0x280`; `D_800F5B98` starts exactly at `D_800F5918 + 0x280`.
+`80 * 8 == 0x280`; `gAiScript_aMemory` (`0x800F5B98`) starts exactly at
+`D_800F5918 + 0x280`.
 
 Both pure-C users, `Model_RegisterHandlerKey` and `Model_FindHandlerKey`, use
 the shared entry type and typed extern. Assembly users `func_8005FC1C` and

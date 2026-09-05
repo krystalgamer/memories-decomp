@@ -14,8 +14,8 @@ The function does three things in order:
 2. `func_8008E870(D_80168090, D_801D0000, 0x3000)` — fills the same range from
    overlay data. `0x90` is below the password module's first function at
    `0x801680B4`, so the source is the module header region and not code.
-3. Stamps a non-zero word at `D_801D0200 + 0x334`, retrying until it is
-   non-zero.
+3. Stamps a non-zero word at `0x801D0534`, exactly `0x334` bytes after
+   `gDuel_awPlayerDeck` (`0x801D0200`), retrying until it is non-zero.
 
 The cleared range is wider than the save block itself, which the game notes
 place at `0x801D0200` onward.
