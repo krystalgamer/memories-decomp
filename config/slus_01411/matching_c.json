@@ -1327,6 +1327,12 @@
       "source": "src/game/main_loop.c"
     },
     {
+      "address": "0x8002DDFC",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x130",
+      "source": "src/game/func_8002DDFC.c"
+    },
+    {
       "address": "0x8002DF2C",
       "profile": "gcc_2_8_1_g0",
       "size": "0xE0",

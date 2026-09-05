@@ -311,7 +311,7 @@ address,size,name,status,module,notes
 0x8002DA1C,0x21C,Main_RunCredits,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002DC38,0x13C,func_8002DC38,unmatched_asm,game,
 0x8002DD74,0x88,Main_Loop,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8002DDFC,0x130,func_8002DDFC,unmatched_asm,game,Recovered callback boundary referenced by func_8002DF2C.
+0x8002DDFC,0x130,func_8002DDFC,matching_c,game,Exact post-terminal collaborator-derived object-mode switch match under GCC G0.
 0x8002DF2C,0xE0,func_8002DF2C,matching_c,game,Pure-C inline refinement matched the full executable.
 0x8002E00C,0x54,func_8002E00C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002E060,0xC8,func_8002E060,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
