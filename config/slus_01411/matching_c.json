@@ -2770,7 +2770,7 @@
       "address": "0x8003CC38",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/input_read_raw_pads.c"
+      "source": "src/game/input_update_pads.c"
     },
     {
       "address": "0x8003CCD8",
