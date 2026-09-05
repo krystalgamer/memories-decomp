@@ -1311,7 +1311,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8001F364,func_8001F364,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,read,8,"lbu $v1, %gp_rel(D_8009B1D5)($gp)"
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,read,8,"lbu $v0, %gp_rel(D_8009B1D5)($gp) | lbu $v1, %gp_rel(D_8009B1D5)($gp)"
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x800208D4,func_800208D4,matching_c,game,C,src/game/func_800208D4.c,read_write,8,"if(!D_8009B162){D_8009B1D5^=1;D_8009B23A=2;D_8009B1C8=D_800E9FF0+D_8009B1D5*32;D_8009B22C=D_800907D8+D_8009B1D5*20;}} | void func_800208D4(void){if(!(D_8009B23A&0x8000)){D_8009B23A|=0x8000;func_80022D94(0x30,0x258,0x100,D_8009B1D5?0x400:..."
-0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80022674,func_80022674,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_012e74.s,read,8,"lbu $v0, %gp_rel(D_8009B1D5)($gp)"
+0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80022674,func_80022674,matching_c,game,C,src/game/func_80022674.c,read,8,if (D_8009B1D5 != 0) {
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x800229F4,func_800229F4,matching_c,game,C,src/game/func_800229F4.c,read,8,d = D_8009B1D5; | if (D_8009B1D5 != 0) {
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80022EEC,func_80022EEC,matching_c,game,C,src/game/func_80022EEC.c,read,8,offset += D_8009B1D5 * 112;
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80023090,func_80023090,matching_c,game,C,src/game/duel_field_guardian_compare.c,read,8,side = D_8009B1D5;
@@ -1944,7 +1944,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x80030294,func_80030294,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_020a94.s,read,16,"lhu $v0, %lo(gInput_wPad1Repeat)($v0) | lui $v0, %hi(gInput_wPad1Repeat)"
 0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x80031084,func_80031084,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_021884.s,read,16,"lhu $v0, %lo(gInput_wPad1Repeat)($v0) | lui $v0, %hi(gInput_wPad1Repeat)"
 0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x800330BC,func_800330BC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_023448.s,read,16,"lhu $v0, %lo(gInput_wPad1Repeat)($v0) | lui $v0, %hi(gInput_wPad1Repeat)"
-0x8009B394,gInput_wPad1Repeat,D_8009B394,0x8003353C,func_8003353C,matching_c,game,C,src/game/func_8003353C.c,read,16,if ((D_8009B394 & 0xC0) != 0) {
+0x8009B394,gInput_wPad1Repeat,D_8009B394,0x8003353C,func_8003353C,matching_c,game,C,src/game/func_8003353C.c,read,16,if ((D_8009B394 & PAD_BUTTON_CONFIRM_MASK) != 0) {
 0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x800336F0,func_800336F0,matching_c,game,C,src/game/func_800336F0.c,read,16,if ((gInput_wPad1Repeat & PAD_BUTTON_CONFIRM_MASK) == 0) {
 0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x8003700C,Dialog_ReadChoiceInput,matching_c,game,C,src/game/dialog_read_choice_input.c,read,16,if (gInput_wPad1Repeat & 0x5008) { | if (gInput_wPad1Repeat & 0x8) { | (+1 more)
 0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,write,16,gInput_wPad1Repeat = repeat;
@@ -1976,7 +1976,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x800307B8,func_800307B8,matching_c,game,C,src/game/func_800307B8.c,read,16,if ((gInput_wPad1Pressed[0] & PAD_BUTTON_SELECT) != 0) { | if ((gInput_wPad1Pressed[0] & PAD_BUTTON_SQUARE) != 0) { | (+1 more)
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x80030998,func_80030998,matching_c,game,C,src/game/func_80030998.c,read,16,".reloc .-4, R_MIPS_HI16, gInput_wPad1Pressed after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, gInput_wPad1Pressed after .word 0x94420000"
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x80031084,func_80031084,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_021884.s,read,16,"lhu $v0, %lo(gInput_wPad1Pressed)($v0) | lui $v0, %hi(gInput_wPad1Pressed)"
-0x8009B398,gInput_wPad1Pressed,D_8009B398,0x8003353C,func_8003353C,matching_c,game,C,src/game/func_8003353C.c,read,16,if ((D_8009B398 & 0x10) != 0) { | if ((D_8009B398 & 0x20) != 0) {
+0x8009B398,gInput_wPad1Pressed,D_8009B398,0x8003353C,func_8003353C,matching_c,game,C,src/game/func_8003353C.c,read,16,if ((D_8009B398 & PAD_BUTTON_CANCEL) != 0) { | if ((D_8009B398 & PAD_BUTTON_TRIANGLE) != 0) {
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x800336F0,func_800336F0,matching_c,game,C,src/game/func_800336F0.c,read,16,if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) { | if ((gInput_wPad1Pressed & PAD_BUTTON_TRIANGLE) != 0) {
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x800359B0,func_800359B0,matching_c,game,C,src/game/duel_effect_flag_update.c,read,16,(gInput_wPad1Pressed[0] & PAD_BUTTON_START)) {
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x800371A8,Dialog_UpdateChoice,matching_c,game,C,src/game/dialog_update_choice.c,read,16,if ((gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) == 0) {
@@ -2019,7 +2019,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x8002A788,func_8002A788,matching_c,game,C,src/game/func_8002A788.c,read,16,".reloc .-4, R_MIPS_HI16, gInput_wPad1Held after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, gInput_wPad1Held after .word 0x94420000"
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x80030294,func_80030294,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_020a94.s,read,16,"lhu $v0, %lo(gInput_wPad1Held)($v0) | lui $v0, %hi(gInput_wPad1Held)"
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x800330BC,func_800330BC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_023448.s,read,16,"lhu $v0, %lo(gInput_wPad1Held)($v0) | lui $v0, %hi(gInput_wPad1Held)"
-0x8009B3A4,gInput_wPad1Held,D_8009B3A4,0x8003353C,func_8003353C,matching_c,game,C,src/game/func_8003353C.c,read,16,if (D_8009B3A4 == 0x8000) {
+0x8009B3A4,gInput_wPad1Held,D_8009B3A4,0x8003353C,func_8003353C,matching_c,game,C,src/game/func_8003353C.c,read,16,if (D_8009B3A4 == PAD_DIRECTION_LEFT) {
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x800336F0,func_800336F0,matching_c,game,C,src/game/func_800336F0.c,read,16,if (gInput_wPad1Held == PAD_DIRECTION_RIGHT) {
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x800375A4,func_800375A4,matching_c,game,C,src/game/func_800375A4.c,read,16,void func_800375A4(unsigned char*o){unsigned char f=o[0x51];if((f&0x80)==0){o[0x51]=f|0x80;D_8009B32C=10;*(void**)(o+...
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x800393B0,func_800393B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,read,16,"lhu $v0, %lo(gInput_wPad1Held)($v0) | lui $v0, %hi(gInput_wPad1Held)"
@@ -2593,7 +2593,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE88,D_800EAE88,D_800EAE88,0x8001BAF0,func_8001BAF0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c138.s,address,,"addiu $a3, $v0, %lo(D_800EAE88) | addiu $s6, $s6, %lo(D_800EAE88) | (+4 more)"
 0x800EAE88,D_800EAE88,D_800EAE88,0x8001BD88,func_8001BD88,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,address,,"addiu $v1, $v1, %lo(D_800EAE88) | lui $v1, %hi(D_800EAE88)"
 0x800EAE88,D_800EAE88,D_800EAE88,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00ddb4.s,address,,"addiu $a0, $v0, %lo(D_800EAE88) | addiu $v1, $v0, %lo(D_800EAE88) | (+1 more)"
-0x800EAE88,D_800EAE88,D_800EAE88,0x80026DC8,func_80026DC8,matching_c,game,C,src/game/func_80026DC8.c,write,8,D_800EAE88[0] = *(s8 *)(e + 0x18) % 5 + 0xB; | D_800EAE88[0] = u % 5 + 0xB; | (+7 more)
+0x800EAE88,D_800EAE88,D_800EAE88,0x80026DC8,func_80026DC8,matching_c,game,C,src/game/func_80026DC8.c,write,8,D_800EAE88[0] = | D_800EAE88[1] = | (+5 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x80027060,func_80027060,matching_c,game,C,src/game/func_80027060.c,write,8,D_800EAE88[0] = v % DUEL_FIELD_ROW_SIZE + 0xB; | D_800EAE88[1] = 0; | (+3 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x8002712C,func_8002712C,matching_c,game,C,src/game/func_8002712C.c,read_write,,if(count){int first=list[0]->value;int index;D_800EAE88.result=first%DUEL_FIELD_ROW_SIZE+11;D_800EAE88.field1=0;D_800... | index=func_80026C0C(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){D_800EAE88.random=rand()&1;D_800EAE88.value+=index%DUEL_...
 0x800EAE88,D_800EAE88,D_800EAE88,0x80027228,func_80027228,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_017a28.s,write,8,"addiu $s0, $a1, %lo(D_800EAE88) | addiu $s0, $s0, %lo(D_800EAE88) | (+4 more)"
@@ -3130,7 +3130,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001F0D0,func_8001F0D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,address,,"addiu $a0, $a0, %lo(D_801A7AD8) | addiu $t0, $v0, %lo(D_801A7AD8) | (+3 more)"
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001F364,func_8001F364,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,address,,"addiu $a0, $a0, %lo(D_801A7AD8) | lui $a0, %hi(D_801A7AD8)"
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00f8d0.s,address,,"addiu $s3, $v0, %lo(D_801A7AD8) | addiu $s4, $v0, %lo(D_801A7AD8) | (+4 more)"
-0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80022674,func_80022674,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_012e74.s,address,,"addiu $v0, $v0, %lo(D_801A7AD8) | lui $v0, %hi(D_801A7AD8)"
+0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80022674,func_80022674,matching_c,game,C,src/game/func_80022674.c,address,8,e = D_801A7AD8 + p[0x6A] * 0x1C;
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800229F4,func_800229F4,matching_c,game,C,src/game/func_800229F4.c,address,8,e = D_801A7AD8 + p[0x6A] * 0x1C;
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80023090,func_80023090,matching_c,game,C,src/game/duel_field_guardian_compare.c,read,,"register DuelCardRecord *records asm(""$7"") = D_801A7AD8;"
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80023144,func_80023144,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013944.s,address,,"addiu $v1, $v1, %lo(D_801A7AD8) | lui $v1, %hi(D_801A7AD8)"

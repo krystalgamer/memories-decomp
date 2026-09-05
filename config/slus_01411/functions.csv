@@ -167,7 +167,7 @@ address,size,name,status,module,notes
 0x800220B8,0x23C,func_800220B8,unmatched_asm,game,
 0x800222F4,0x324,func_800222F4,unmatched_asm,game,
 0x80022618,0x5C,func_80022618,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
-0x80022674,0x380,func_80022674,unmatched_asm,game,
+0x80022674,0x380,func_80022674,matching_c,game,Exact linked bytes with gcc_2_8_1_g8 from the ygofm reference; goto-laid arms in retail's address order and an s16 countdown local are load-bearing.
 0x800229F4,0x3A0,func_800229F4,matching_c,game,Exact linked bytes with gcc_2_8_1_g8 from the ygofm reference; goto-laid arms in retail's address order and an s16 countdown local are load-bearing.
 0x80022D94,0x158,func_80022D94,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80022EEC,0xAC,func_80022EEC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
