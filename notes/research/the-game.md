@@ -690,7 +690,8 @@ scripts *do*, as observed by every guide since 1999:
   (the five High Mages);
 * Pegasus's script reads your face-down cards, so hiding is useless against
   him;
-* Duel Master K's script plays a **copy of your own deck** (§8);
+* Duel Master K's duel setup passes your deck as both inputs to the shuffle
+  helper, so the computer receives a **copy of your own deck** (§8);
 * the scripts differ per duelist in aggression and in what they fuse for,
   and each opponent's deck is drawn from a per-duelist **weight table** rather
   than being a fixed 40. Retail only considers card ids 1–720 while building
@@ -851,7 +852,7 @@ table but carry different deck weights. And **Duel Master K is block 39**:
 its three drop pools are byte-identical to Villager 3's (which is why the
 community's list of what he drops matches Villager 3's block at 100 %), and
 its stored deck is a placeholder identical to Simon Muran's, because his
-script plays a copy of the player's deck instead (§8). It also corrects the
+duel setup copies the player's deck instead (§8). It also corrects the
 earlier version of this document, which named the blocks by the GameShark
 record order and was off by one from Teana onward — and it means the two
 **GameShark win/loss labels for Nitemare and DarkNite are probably swapped**
@@ -1278,9 +1279,17 @@ you here — nothing else is lost. This is where the game is actually played
 after the story: every guide's "farm X for Y" is a Free Duel loop.
 
 **Duel Master K** is the exception in every way: not in the campaign, always
-unlocked, plays a **copy of your own deck** [the patch that makes his deck
-editable flips one byte, `0x8585` in the executable, from "copy the player's
-deck" to "use a deck"], and his drop pools are a copy of Villager 3's (§6.4).
+unlocked, and receives a **copy of your own deck**. The setup comparison at
+`0x80017D84` sends opponent IDs below 39 through
+`Duel_ShuffleBothDecks(player_deck, NULL)`, but ID 39 falls through to
+`Duel_ShuffleBothDecks(player_deck, player_deck)`. The tutorial edit at file
+offset `0x8585` changes the comparison limit from 39 to 295, making ID 39
+take the ordinary-opponent branch; the edited byte is part of that signed
+immediate, not a standalone deck-mode flag. The reported editable-deck result
+remains high confidence rather than confirmed because `Duel_ShuffleDeck`
+remains assembly
+[[verified tutorial mapping](../modding-tutorial-gameplay-patches.md#editable-duel-master-k-deck)].
+His drop pools are a copy of Villager 3's (§6.4).
 
 The unlock is one flag per duelist, `0x6E0 + id`, in the save's flag array
 [bytes `0x801D06F4`–`0x801D06F8`]. The screen's own code, which lives in an
@@ -1548,5 +1557,8 @@ location structure), a 2022 campaign guide, the speedrunning community's
 guide (rank farming and the 2048 pools), the card texts as printed in the
 game, and the Data Crystal wiki (scene, music, terrain and type ids; RAM and
 ROM maps — all UNVERIFIED here). The hacking tutorials circulated by the
-Brazilian modding community supplied the deck-limit, Duel Master K and Exodia
-patch offsets.
+Brazilian modding community supplied many code, data and asset patch offsets,
+including the deck-limit, Duel Master K and Exodia anchors used above. Their
+code/data mappings and confidence grades are preserved in
+[`modding-tutorial-evidence.md`](../modding-tutorial-evidence.md) and
+[`modding-tutorial-gameplay-patches.md`](../modding-tutorial-gameplay-patches.md).
