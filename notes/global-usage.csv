@@ -2878,7 +2878,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F56F0,D_800F56F0,D_800F56F0,0x80059CE4,func_80059CE4,matching_c,game,C,src/game/model_cleanup.c,address,8,u8 *state = D_800F56F0;
 0x800F56F0,D_800F56F0,D_800F56F0,0x8005A1F4,func_8005A1F4,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.x = D_800F56F0[0] - *(u16 *)(entry + 0); | difference.y = D_800F56F0[2] - *(u16 *)(entry + 2); | (+1 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x8005A2E0,func_8005A2E0,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.x = D_800F56F0[6] - *(u16 *)(entry + 0); | difference.y = D_800F56F0[8] - *(u16 *)(entry + 2); | (+1 more)
-0x800F56F0,D_800F56F0,D_800F56F0,0x8005A6A8,func_8005A6A8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04aea8.s,read,32,"addiu $s0, $s1, %lo(D_800F56F0) | lui $s1, %hi(D_800F56F0) | (+2 more)"
+0x800F56F0,D_800F56F0,D_800F56F0,0x8005A6A8,func_8005A6A8,matching_c,game,C,src/game/func_8005A6A8.c,address,8,a = *(s32 *)D_800F56F0 - arg0; | b = *(s32 *)(D_800F56F0 + 8) - arg1; | (+5 more)
 0x800F56FC,D_800F56FC,D_800F56FC,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,,b = (u8 *)&D_800F56FC;
 0x800F5710,D_800F5710,D_800F5710,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_800530C4.c,write,,D_800F5710 = D_800F56F0;
 0x800F5750,D_800F5750,D_800F5750,0x8005C464,func_8005C464,matching_c,game,C,src/game/func_8005C464.c,address,8,u8 *p = D_800F5750;
