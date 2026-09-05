@@ -245,6 +245,31 @@ target epilogue that still stalls after `lw ra` is therefore evidence in its
 own right: something above it is a branch target that the build has merged
 away.
 
+### Which sentinel is assigned first
+
+When several keys share one `else` arm that sets them all to the same
+sentinel, the order of those assignments decides the register pair, with no
+change to the instruction count. It is worth knowing the direction, because
+otherwise it is a coin flip you resolve by rebuilding.
+
+`func_801836F4` and `func_80183884` are the same comparator body with the two
+outer comparison levels swapped, so between them they answer it:
+
+| function | compares first | `else` arm assigns first |
+|---|---|---|
+| `func_801836F4` | ATK | DEF |
+| `func_80183884` | DEF | ATK |
+
+**The sentinel written first is the key compared *second*.** The `if` arm is
+the other way round in both: there the keys are assigned in the order their
+fields sit in the packed word, and only the sentinel arm flips.
+
+Getting it backwards in `func_801836F4` cost eight differing positions, all of
+them a two-register permutation (`a3`/`t0` on one side, `v1`/`a0` on the
+other) with the length already correct. That signature — a clean register
+transposition with nothing else wrong — is the cue to look at assignment order
+in a shared arm rather than at allocation.
+
 ## Two loop invariants: the second one emitted becomes the pointer
 
 When a loop indexes a two-dimensional array with one invariant index and one

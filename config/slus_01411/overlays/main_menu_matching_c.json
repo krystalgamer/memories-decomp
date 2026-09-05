@@ -55,6 +55,12 @@
       "source": "src/overlays/main_menu/func_801836F4.c"
     },
     {
+      "address": "0x80183884",
+      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "size": "0x190",
+      "source": "src/overlays/main_menu/func_80183884.c"
+    },
+    {
       "address": "0x80183A14",
       "profile": "gcc_2_8_1_g0_no_sched2_split",
       "size": "0x118",
