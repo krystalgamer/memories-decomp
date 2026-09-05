@@ -340,7 +340,48 @@ def validate_rows(
                 )
 
 
+def sort_key(row: dict[str, str]) -> tuple[int, str, int]:
+    return (
+        parse_address(row["address"]),
+        row["mode"],
+        int(row["attempt"], 10),
+    )
+
+
+def sort_rows(rows: list[dict[str, str]]) -> list[dict[str, str]]:
+    """Order the ledger by address, then mode, then attempt.
+
+    The file is keyed by address and the attempt column carries sequence within
+    a function, so chronological order across unrelated functions carries no
+    information. Sorting by address means two concurrent matches touch
+    different parts of the file instead of both appending to the tail.
+
+    This ordering is safe for the existing consumers because a `matched` row is
+    unique per address: `audit_repository.py` selects the latest success by
+    address alone, without filtering on mode, and only a filter that keeps at
+    most one row per key can be insensitive to order. Recording a second
+    `matched` row for one address, under any mode, would break that and would
+    silently change which row `make audit` validates.
+
+    Note also that "last row for an address" no longer means "most recent
+    event". Under the previous chronological order it did, and a new
+    mode-agnostic consumer reaching for that meaning would now read different
+    data.
+    """
+    return sorted(rows, key=sort_key)
+
+
+def check_sorted(rows: list[dict[str, str]]) -> None:
+    expected = sort_rows(rows)
+    if [row["address"] for row in rows] != [row["address"] for row in expected]:
+        raise ExternalAttemptError(
+            "ledger is not ordered by address; rewrite it with "
+            "record_external_attempt.py"
+        )
+
+
 def write_rows(path: Path, rows: list[dict[str, str]]) -> None:
+    rows = sort_rows(rows)
     temporary = path.with_name(f"{path.name}.tmp")
     try:
         with temporary.open("w", encoding="utf-8", newline="") as handle:
@@ -417,6 +458,7 @@ def main() -> int:
             terminal_deferred_addresses,
         )
         if args.check:
+            check_sorted(rows)
             print(f"external attempts: OK ({len(rows)} rows)")
             return 0
 
