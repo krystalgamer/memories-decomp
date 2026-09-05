@@ -10,14 +10,14 @@ typedef struct {
 } SequenceEntry;
 
 extern int SD_FindMidiTrackChunk(int);
-extern int func_8004BC2C(SequenceEntry *);
+extern int SD_ReadSequenceU32BE(SequenceEntry *);
 
 int func_8004C560(SequenceEntry *entry)
 {
     entry->field0 = SD_FindMidiTrackChunk(entry->field0);
     if (entry->field0 == -1)
         return 1;
-    entry->field8 = func_8004BC2C(entry);
+    entry->field8 = SD_ReadSequenceU32BE(entry);
     entry->field10 = entry->field0;
     entry->fieldC = entry->field0 + entry->field8;
     return 0;

@@ -848,8 +848,8 @@ address,size,name,status,module,notes
 0x8004BAE4,0x50,SD_ReadSequenceByte,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004BB34,0x88,SD_ReadVariableLengthValue,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004BBBC,0x70,SD_FindMidiTrackChunk,matching_c,game,Scans the active sound-sequence data range for the next four-byte marker. Scalar D_8009B458 plus unsized marker array D_8009AF80 requires compiler -G8 split addresses with MASPSX -G0.
-0x8004BC2C,0x7C,func_8004BC2C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8004BCA8,0x40,func_8004BCA8,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x8004BC2C,0x7C,SD_ReadSequenceU32BE,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x8004BCA8,0x40,SD_ReadSequenceU16BE,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004BCE8,0x184,func_8004BCE8,unmatched_asm,game,
 0x8004BE6C,0x14,func_8004BE6C,matching_c,game,4 pre-policy variants: exact for void/return forms under -G0/-G8; selected void -G0
 0x8004BE80,0x8,func_8004BE80,matching_c,game,2 pre-policy variants: exact under -G0 and -G8; selected -G0 empty function

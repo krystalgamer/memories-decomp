@@ -4,7 +4,7 @@
 
 extern int SD_ReadSequenceByte();
 extern int SD_ReadVariableLengthValue();
-extern int func_8004BC2C();
+extern int SD_ReadSequenceU32BE();
 
 void func_8004BE6C(int *value, int amount)
 {
@@ -76,7 +76,7 @@ void func_8004BE88(u8 *p, s32 arg1)
 
     case 0x58:
         SD_ReadSequenceByte(p);
-        func_8004BC2C(p);
+        SD_ReadSequenceU32BE(p);
         break;
 
     case 0x59:
