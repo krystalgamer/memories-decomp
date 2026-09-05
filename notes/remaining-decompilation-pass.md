@@ -438,8 +438,9 @@ State after this one-function checkpoint:
 
 ### Continuous wave 12
 
-`func_8003F7D4` matched by combining split-address call setup with the
-documented absolute C literal exception for the isolated write-only
+`SaveData_RequestLoad` (`0x8003F7D4`) matched by combining split-address call
+setup with the documented absolute C literal exception for the isolated
+write-only
 `D_8009B0D1` clear. The split profile interleaves the destination and source
 address pairs exactly; the literal preserves the retail `$at` clear before the
 four-argument call. The function matches 60/60 bytes, with the complete
