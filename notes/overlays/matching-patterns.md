@@ -1344,4 +1344,13 @@ if (left == 0) {
 
 Reading, storing and testing the field directly gives `andi` and no local.
 
-Both verified by `FreeDuel_UpdateCursorTween` in the free duel module.
+**The tell only discriminates on an equality test.** A signed relational test
+needs `sll 16` whatever the source does, so `sll 16` in front of a `bgtz`,
+`blez`, `bltz` or `bgez` proves nothing about a local. `func_80168AB4` in the
+password module has exactly that shape on its frame count and builds
+byte-identical code with or without the local, which was measured both ways.
+Only `sll 16` where `andi` would otherwise be expected — in front of a `beqz`
+or `bnez` — is evidence.
+
+Both rules verified by `FreeDuel_UpdateCursorTween` in the free duel module;
+the limit on the second measured on `func_80168AB4` in the password module.
