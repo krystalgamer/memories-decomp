@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "input.h"
 
 extern u8 D_801AF000[];
 extern s32 D_8009B378;
@@ -76,7 +77,7 @@ s32 func_8003CA5C(void)
         }
 
         tail_bits = gInput_wPad1Pressed;
-        if (tail_bits & 0xE0) {
+        if (tail_bits & (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) {
             result = 0;
             /* Distinct exits preserve the retail branch-and-delay-slot shape. */
             if (D_8009B378 != 0) {
