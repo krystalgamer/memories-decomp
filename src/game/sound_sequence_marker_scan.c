@@ -6,7 +6,7 @@
 extern u8 D_8009AF80[];
 extern s32 func_8004BAA0(u8 *arg0, u8 *arg1, s32 count);
 
-s32 func_8004BBBC(s32 offset)
+s32 SD_FindMidiTrackChunk(s32 offset)
 {
     do {
         if (func_8004BAA0(
