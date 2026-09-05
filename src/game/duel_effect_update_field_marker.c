@@ -6,7 +6,7 @@ extern u8 D_8009B1D5;
 extern s16 D_8009B20C[4];
 extern u16 D_8009B220;
 extern u8 D_800907D8[];
-extern u8 D_80090800[];
+extern DuelFieldPosition D_80090800[];
 extern u8 D_801A7AD8[];
 
 extern void func_80019BA0(u8 *arg0, u8 arg1, s16 arg2, s16 arg3);
@@ -61,8 +61,12 @@ void DuelEffect_UpdateFieldMarker(void) {
     }
 
     p = func_8002C604(0xC);
-    t = D_80090800;
-    e = ((D_8009B20C[1] + 5) * 4 + D_8009B1D5 * 80) + t;
+    t = (u8 *)D_80090800;
+    e = (
+        (D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) *
+            sizeof(DuelFieldPosition) +
+        D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES
+    ) + t;
     w = *(u16 *)(e + 0);
     D_8009B17C = p;
     *(s16 *)(p + 2) = 0;
