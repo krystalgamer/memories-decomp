@@ -221,11 +221,15 @@ retail card data, where zero denotes an empty card and valid IDs are
 
 ## Editable Duel Master K deck
 
-**Tutorial:** `Deck Duel Master K editavel.txt`
+**Tutorials:**
 
-The tutorial changes the byte at SLUS offset `0x8585` from `0x00` to `0x01`.
-That offset is the second byte of the instruction beginning at VRAM
-`0x80017D84`:
+- `Deck Duel Master K editavel.txt`
+- `Duel Master K - Por Geiner Quintero.txt`
+
+Both copies give the same edit: change the byte at SLUS offset `0x8585` from
+`0x00` to `0x01`. The second copy explicitly describes `0x00` as copying the
+player's deck and `0x01` as using Duel Master K's own editable deck. That
+offset is the second byte of the instruction beginning at VRAM `0x80017D84`:
 
 | SLUS bytes | Instruction | Comparison limit |
 |---|---|---:|
@@ -309,10 +313,13 @@ cards `721` and `722` available to starter-deck generation.
 
 ## Direct-damage and LP-recovery tables
 
-**Tutorial:** `Efeito e Visual de Dano e Cura.txt`
+**Tutorials:**
 
-The tutorial identifies two five-byte tables in the resident initialized
-data:
+- `Efeito e Visual de Dano e Cura.txt`
+- `Offset de Traps e Magicas - Por Wladmir Ghost.txt`
+
+Both tutorials identify the same two five-byte tables in the resident
+initialized data:
 
 | Effect | SLUS range | Resident range | Retail values | Scale |
 |---|---:|---:|---|---:|
@@ -341,9 +348,11 @@ The retail values therefore reproduce the documented effects:
 
 Each SLUS edit changes one unsigned byte before scaling. For example, recovery
 byte `50` (`0x32`) produces `5000`, while damage byte `100` (`0x64`) produces
-`1000`. The tutorial's separate WA offsets control presentation data and are
-not established by these resident tables; they remain a separate asset-level
-investigation.
+`1000`. The combined trap/magic tutorial correctly states the damage scale as
+`x10`, but its final parenthetical prints `10x100`; the listed input and
+result still correspond to `100 * 10 = 1000`. The other tutorial's separate
+WA offsets control presentation data and are not established by these
+resident tables; they remain a separate asset-level investigation.
 
 **Confidence:**
 

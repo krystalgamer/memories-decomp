@@ -70,20 +70,28 @@ symbol review.
 | `0x8007E350` | `CdFlush` | No-argument wrapper around the CD library's internal state-reset routine. |
 | `0x8007E3D0` | `CdGetSector` | Identified CD-sector transfer interface in the resident CD library. |
 | `0x8007E4F0` | `CdGetSector2` | Parallel two-argument sector-transfer wrapper using the library's second transfer path. |
-| `0x8007E600` | `CdIntToPos` | Adds the two-second lead-in and writes packed-BCD minute, second, and sector fields to a `CdlLOC`. |
-| `0x8007E710` | `CdPosToInt` | Decodes the first three BCD bytes of a `CdlLOC` and returns a zero-based logical sector number. |
+| `0x8007A710` | `CdIntToPos` | Applied Psy-Q 4.6 LIBCD identity; canonical copy of the sector-to-packed-BCD position conversion. |
+| `0x8007E600` | `CdIntToPos_8007E600` | Applied address-qualified identity for the second byte-identical resident copy used by matching game C. |
+| `0x800781F0` | `CdPosToInt` | Applied Psy-Q 4.6 LIBCD identity; canonical copy of the packed-BCD position-to-sector conversion. |
+| `0x8007E710` | `CdPosToInt_8007E710` | Applied address-qualified identity for the second byte-identical resident copy used by matching game C. |
 | `0x8007E7F0` | `CdControlB` | Submits the three-argument CD command and blocks until the internal completion code is `2`. |
 | `0x8007E860` | `CdReadyCallback` | Replaces and returns the callback invoked with a ready-event status and result pointer. |
 | `0x8007E880` | `CdSyncCallback` | Replaces and returns the callback invoked from the command-completion path. |
 | `0x8007F350` | `ResetGraph` | Anchored by GPU `sys.c` evidence and the documented graph-reset contract. |
-| `0x8007F978` | `LoadImage` | GPU transfer call sites pass rectangle-like coordinates and source data. |
-| `0x80081DE8` | `LoadImage2` | Psy-Q 4.7 `LIBGPU.LIB/SYS.OBJ` symbol; streamed package callbacks pass a transfer rectangle and staged image data. |
+| `0x8007F6CC` | `DrawSync` | Applied Psy-Q 4.6 identity; `model_handler_registry.c` waits for queued GPU drawing after dispatching a model primitive handler. |
+| `0x8007F978` | `LoadImage` | Applied Psy-Q identity; `func_800249E0` uses the tracked `RECT *` / `u32 *` prototype for two image transfers. |
+| `0x8007FA38` | `MoveImage` | Applied Psy-Q 4.6 identity; matching callers copy rectangular VRAM regions for screen transitions and palette processing. |
+| `0x80081DE8` | `LoadImage2` | Applied Psy-Q identity; streamed package callbacks pass rectangle-shaped records and staged image data. |
+| `0x80081ED4` | `StoreImage2` | Applied Psy-Q 4.6 identity; `func_800582C0` reads a VRAM rectangle into a local pixel buffer before transforming and re-uploading it. |
+| `0x80081FC0` | `MoveImage2` | Applied Psy-Q identity; `file_cd_helpers.c` passes the current display rectangle plus destination coordinates. |
+| `0x800878B0` | `SetGeomOffset` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE screen-center coordinates. |
+| `0x800878D0` | `SetGeomScreen` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE projection-plane distance. |
 | `0x8007FAF0` | `ClearOTag` | Ordering-table initialization behavior. |
 | `0x8007FC64` | `DrawPrim` | Direct GPU primitive submission behavior. |
 | `0x8007FCC0` | `DrawOTag` | Ordering-table submission behavior. |
 | `0x8007FD30` | `PutDrawEnv` | Draw-environment submission contract. |
 | `0x8007FEFC` | `PutDispEnv` | Display-environment submission contract. |
-| `0x800803F4` | `GetDispEnv` | Writes the current display environment to a caller-owned record. |
+| `0x800803F4` | `GetDispEnv` | Applied Psy-Q identity; `file_cd_helpers.c` passes the tracked `DISPENV` record and reuses its leading `disp` rectangle. |
 
 Duplicate library copies require address-qualified symbols rather than aliases.
 For example, CD conversion helpers appear more than once in the executable,
@@ -221,6 +229,11 @@ macros, image transfers, and direct primitive or ordering-table submission.
 `libgs.h` then builds scene coordinates, cameras, lights, object records, and
 sorting helpers on top of both lower layers.
 
+The imported `libgpu.h` also refers to `SVECTOR` in its model-primitive
+records without including `libgte.h`. Game C that uses `libgpu.h` therefore
+includes `libgte.h` first, even when its own direct use is limited to a GPU
+environment or rectangle type.
+
 The resident block at `0x800F56F0` now has field-level evidence matching the
 32-byte `GsRVIEW2` record: viewpoint and reference-point triplets, roll, and a
 parent-coordinate pointer. Game code initializes it before `GsSetRefView2`
@@ -236,11 +249,19 @@ The imported `libgs.h` includes only `src/types.h` even though it refers to
 `GsARGUNIT*` records describe hierarchical-model primitive processing and
 depend on GTE, GPU, and `libgs` declarations without including those headers.
 
-Current game C includes `libgpu.h` only in `func_800249E0.c`, where `RECT`
-backs two image transfers. No current game C includes `libgs.h` or
-`libhmd.h`, so a local render or model record should not be migrated to one of
-their types from a matching size or similar role alone; field-level and
-resident-call evidence are still required.
+Current game C includes `libgpu.h` in `func_800249E0.c`, where `RECT` backs
+two image transfers, and `file_cd_helpers.c`, where `DISPENV` receives the
+current display environment and its leading `disp` rectangle is passed to
+`MoveImage2`. No current game C includes `libgs.h` or `libhmd.h`, so a local
+render or model record should not be migrated to one of their types from a
+matching size or similar role alone; field-level and resident-call evidence
+are still required.
+
+The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
+same `RECT *` / `u32 *` argument shape. The `LoadImage` migration is complete
+in `func_800249E0.c`; current `LoadImage2` callers retain local declarations
+and rectangle-compatible views, so applying the shared prototype to them still
+requires an exact code-generation check.
 
 The GTE headers are a layered toolchain interface rather than interchangeable
 umbrellas. `libgte.h` owns the geometry records and callable library
@@ -456,19 +477,18 @@ resident function identity.
 
 The real `src/psyq/libds.h` and `src/psyq/libcd.h` provide parallel record
 families. The resident file-search anchor is `DsSearchFile`, while the
-position conversion used by `File_GetPosition` is the CD-library
-`CdPosToInt` copy:
+position conversion used by `File_GetPosition` is the address-qualified
+CD-library copy `CdPosToInt_8007E710`:
 
 | Record | Verified ABI surface |
 |---|---|
 | `DslLOC` / `CdlLOC` | Layout-compatible four-byte CD locations. The resident MSF-to-LBA routine reads the BCD minute, second, and sector bytes at offsets `0`-`2`. |
 | `DslFILE` | 24-byte Ds search result with `DslLOC` at `0`, size at `4`, and a 16-byte name at `8`. `DsSearchFile` copies records at a `0x18` stride. |
-| `CdlFILE` | Parallel 24-byte CD-library search result. Its leading `CdlLOC` layout lets `File_GetPosition` pass `DslFILE.pos` to the resident `CdPosToInt` copy through an explicit compatible view. |
+| `CdlFILE` | Parallel 24-byte CD-library search result. Its leading `CdlLOC` layout lets `File_GetPosition` pass `DslFILE.pos` to the resident `CdPosToInt_8007E710` copy through an explicit compatible view. |
 
-The conversion routine at `0x8007E710` independently verifies the shared
-`DslLOC`/`CdlLOC` field order. It converts each of the first three bytes from
-packed BCD, then
-computes:
+The conversion routine `CdPosToInt_8007E710` independently verifies the
+shared `DslLOC`/`CdlLOC` field order. It converts each of the first three
+bytes from packed BCD, then computes:
 
 ```text
 logical_sector = (minute * 60 + second) * 75 + sector - 150
@@ -479,8 +499,9 @@ layout-compatible `CdlLOC` view and stores the result as the file position.
 The fourth `track` byte is not read by this conversion and should not be
 mistaken for part of the sector calculation.
 
-The adjacent inverse routine at `0x8007E600` takes a logical sector number and
-a destination `CdlLOC *`. After adding the 150-sector lead-in, it computes:
+The adjacent inverse routine `CdIntToPos_8007E600` takes a logical sector
+number and a destination `CdlLOC *`. After adding the 150-sector lead-in, it
+computes:
 
 ```text
 minute = adjusted_sector / (60 * 75)
@@ -550,8 +571,7 @@ library variant.
 
 `func_800249E0` builds two consecutive eight-byte records in `D_80177EA4`.
 Each record receives signed halfword stores at offsets `0`, `2`, `4`, and `6`,
-then is passed to the resident function at `0x8007F978`, the `LoadImage`
-candidate:
+then is passed to the resident `LoadImage` function at `0x8007F978`:
 
 | Record | `+0` | `+2` | `+4` | `+6` |
 |---|---|---|---|---|
@@ -583,7 +603,7 @@ The existing C sources expose several useful starting points:
 | Local `InitPAD` / `StartPAD` declarations | `libapi.h` | Initial migration complete in `src/game/input_init_pads.c`; the real prototypes preserve the exact build. |
 | `DslFILE` in `src/psyq/libds.h` | Ds file-search result | Initial migration complete in `src/game/file_stream.c`; extend only when another caller's field use agrees with the shared layout. |
 | `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Initial migration complete in `func_800249E0`; preserve byte-offset selection when extending it to other callers. |
-| Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Confirm complete size, alignment, and all fields touched by resident GPU functions. |
+| Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Initial `DISPENV` migration complete in `file_cd_helpers.c`; other buffers still require complete size, alignment, and field-use evidence. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Separate fixed-point SDK layouts from game-specific render records. |
 | Memory-card event descriptor arrays | event handles and card constants | Name the resident BIOS wrappers before centralizing prototypes and constants. |
 

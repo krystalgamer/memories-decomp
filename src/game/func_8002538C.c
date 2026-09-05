@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 extern s16 D_8009B1D2;
 extern s16 D_8009B1AC;
@@ -49,7 +50,7 @@ void func_8002538C(void) {
         n = m;
         D_8009B1AC = m;
         if (n >= 0x15) {
-            D_8009B1AC = n * 10;
+            D_8009B1AC = n * CARD_STAT_SCALE;
             D_8009B220 = D_8009B220 | 1;
         }
         D_8009B1AE = 5;

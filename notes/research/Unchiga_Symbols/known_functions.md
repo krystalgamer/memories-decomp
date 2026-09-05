@@ -889,7 +889,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8001B780 | `card_slot_set_xy` | fleet |
 | 0x8001B8B8 | `hand_slots_dim` | fleet |
 | 0x8001BAF0 | `deck_swap_redeal` | fleet |
-| 0x8001BD48 | `pad_l2_arm_flag` | fleet |
+| 0x8001BD48 | `Duel_CheckQuitInput` | matching C |
 | 0x8001D3C4 | `tick_lerp_position_toward_target` | fleet |
 | 0x8001F364 | `duel_flags_state_and_field_spawn_dispatch` | fleet |
 | 0x80020D4C | `update_orbiting_effect_obj` | fleet |

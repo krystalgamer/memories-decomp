@@ -33,7 +33,7 @@ typedef struct LocalBlob {
 } LocalBlob;
 extern LocalE9 D_800E9FF0[];
 extern LocalBlob D_8015C424;
-extern LocalR6 gDuel_aPlayerHand[];
+extern LocalR6 gDuel_aDeckCardRecords[];
 extern s32 gDuel_adwCardStats[];
 extern int Duel_CalcCardStats();
 
@@ -63,11 +63,13 @@ void func_80027DF8(LocalEnt *out, s32 who) {
                 out->flags = rec->flags;
                 out->b8 = ((LocalObj *)rec->object)->f68;
                 if (rec->flags & 0x200) {
-                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >> 18;
+                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                        CARD_STAT_GUARDIAN_STAR_2_SHIFT;
                 } else {
-                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >> 22;
+                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                        CARD_STAT_GUARDIAN_STAR_1_SHIFT;
                 }
-                out->b9 = t & 0xF;
+                out->b9 = t & CARD_STAT_GUARDIAN_STAR_MASK;
             }
             i += 1;
             out += 1;
@@ -95,11 +97,13 @@ void func_80027DF8(LocalEnt *out, s32 who) {
                 out->flags = rec->flags;
                 out->b8 = ((LocalObj *)rec->object)->f68;
                 if (rec->flags & 0x200) {
-                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >> 18;
+                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                        CARD_STAT_GUARDIAN_STAR_2_SHIFT;
                 } else {
-                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >> 22;
+                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                        CARD_STAT_GUARDIAN_STAR_1_SHIFT;
                 }
-                out->b9 = t & 0xF;
+                out->b9 = t & CARD_STAT_GUARDIAN_STAR_MASK;
             }
             i += 1;
             out += 1;
@@ -129,8 +133,10 @@ void func_80027DF8(LocalEnt *out, s32 who) {
                 out->flags = 0;
                 out->b8 =
                     (*p >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
-                out->b9 = (*p >> 22) & 0xF;
-                out->bA = (*p >> 18) & 0xF;
+                out->b9 = (*p >> CARD_STAT_GUARDIAN_STAR_1_SHIFT) &
+                    CARD_STAT_GUARDIAN_STAR_MASK;
+                out->bA = (*p >> CARD_STAT_GUARDIAN_STAR_2_SHIFT) &
+                    CARD_STAT_GUARDIAN_STAR_MASK;
                 out += 1;
             }
             i += 1;
@@ -141,7 +147,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
         LocalR6 *rp;
 
         i = D_800E9FF0[who].count;
-        rp = &gDuel_aPlayerHand[i + who * DECK_SIZE];
+        rp = &gDuel_aDeckCardRecords[i + who * DECK_SIZE];
         if (i < DECK_SIZE) {
             s32 *tbl;
 
@@ -160,8 +166,10 @@ void func_80027DF8(LocalEnt *out, s32 who) {
                 out->b8 =
                     (*p >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
                 i += 1;
-                out->b9 = (*p >> 22) & 0xF;
-                out->bA = (*p >> 18) & 0xF;
+                out->b9 = (*p >> CARD_STAT_GUARDIAN_STAR_1_SHIFT) &
+                    CARD_STAT_GUARDIAN_STAR_MASK;
+                out->bA = (*p >> CARD_STAT_GUARDIAN_STAR_2_SHIFT) &
+                    CARD_STAT_GUARDIAN_STAR_MASK;
                 out->bB = rp->b2;
                 rp += 1;
                 out += 1;

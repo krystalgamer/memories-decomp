@@ -1053,3 +1053,112 @@ already zero-extended, so the masks would be redundant if GCC were tracking the
 value rather than the type.
 
 Verified by `func_801812B4` in the main menu module.
+
+## Declare the table, do not hand-write the address
+
+A two-dimensional table should be declared `u16 sym[][N]` and the row
+arithmetic left to GCC. Hand-writing the flat sum reaches the same instructions
+but **fixes their order**, and that is usually what blocks the last few
+positions:
+
+```c
+/* generated: GCC forms slot*3, *4 - slot, doubled; reuses the row offset for
+   both the element and the count; hoists the base itself */
+while (i < D_80185C9C[slot][0]) {
+    func_801840F8(slot, D_80185C9C[slot][i + 1], amount);
+    i++;
+}
+
+/* hand-written: same fifty instructions, order pinned, four positions off */
+offset = slot * 22;
+index  = i * 2;
+value  = *(u16 *)(index + offset + (s32)D_80185C9C);
+```
+
+The generated form also gets the loop-carried partial product for free: the
+target recomputes `slot * 22` from a `slot * 3` that survives in a register
+across the call, which is not something you would think to write.
+
+## A measured negative is only a negative against the shape it was measured on
+
+`func_80184030` carried a recorded result that incrementing the counter after
+the call, with `i + 1` in the index, "was measured and not helping". That was
+true, and it was still the missing lever.
+
+It did not help against the hand-written address because the row chain is
+pinned there, so moving the increment cannot change which instruction leads the
+loop body. Against the generated address it decides exactly that: the row
+offset no longer depends on the increment, so it becomes the first instruction
+of the body — which is what the target rotates into the back-edge delay slot,
+where the earlier builds rotated the increment.
+
+So a negative is a fact about a **pair**: lever *and* surrounding shape. When
+the shape changes, the negatives recorded against the old one are not evidence
+any more, and the cheap move is to retry them rather than to trust the list.
+Both of these levers had been measured separately and neither worked; together
+they matched on the first build.
+
+Verified by `func_80184030` in the main menu module, using the declaration
+proved by `func_80183B2C` in the same module.
+
+### Declare the row shape, not just the row
+
+The rule above is about *whether* to hand-write the address. There is a second
+question once you decide to index: **what shape you declare the element as.**
+
+`func_80181F68` walks three per-slot tables. Indexing them as flat arrays and
+letting GCC strength-reduce had been measured and rejected, because it produced
+the right hoisting split but built fifteen instructions over — GCC made one
+induction variable per *field* touched:
+
+```c
+/* two givs for this table, and the same again for the next */
+D_801845EC[i * 2]     = (s32)object;
+D_801845EC[i * 2 + 1] = 0;
+```
+
+Declaring the element gives one giv per *table*, which is what the target has:
+
+```c
+typedef struct { u8 *object; s32 unk4; } Slot;
+extern Slot D_801845EC[];
+D_801845EC[i].object = object;
+D_801845EC[i].unk4   = 0;
+```
+
+The count matters beyond the instruction total, because each table that becomes
+a giv stops being an invariant address and so stops competing for the
+four-invariant hoisting budget. Getting the element shape right is therefore
+what decides which *other* symbols end up hoisted.
+
+Verified by `func_80181F68` in the main menu module.
+
+### Declaring the shape usually subsumes the address tricks
+
+When the row shape is right, levers that had to be discovered separately stop
+being levers and fall out of the declaration. `func_8018338C` carried three
+recorded findings — build the count base in two statements or GCC folds the
+`+80` into the symbol's `%lo`; index the comparator table from the base symbol
+rather than naming the one four bytes in; and a register-numbering shift
+through a six-word copy. Declaring
+
+```c
+typedef struct { s16 id; u16 count; } Card;
+extern Card  D_801845FC[][722];      /* one giv for the row, not two */
+typedef struct { s32 entries[6]; } Comparators;
+Comparators c = *(Comparators *)&D_80180000[1];   /* the block move */
+```
+
+reproduced all three at once and took the function from 33 differing positions
+to 2.
+
+The general point: reach for the **declaration** before reaching for a way to
+write the arithmetic. An address trick that compensates for a wrong declaration
+tends to fix one position and pin several others, which is why those notes
+accumulate.
+
+The two that remained were both already-recorded rules rather than anything new
+— the row address and the count base are separate locals because the target
+keeps both in registers, and the sort mode is read once into a local.
+
+Verified by `func_8018338C` in the main menu module.

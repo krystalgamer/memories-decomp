@@ -135,7 +135,7 @@ address,size,name,status,module,notes
 0x8001B8B8,0x80,func_8001B8B8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8001B938,0x1B8,func_8001B938,unmatched_asm,game,
 0x8001BAF0,0x258,func_8001BAF0,unmatched_asm,game,
-0x8001BD48,0x40,func_8001BD48,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8001BD48,0x40,Duel_CheckQuitInput,matching_c,game,Checks Select only in the two-player duel path and arms gDuel_bQuitDialogState when a player requests the QUIT DUEL dialog. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8001BD88,0x14B8,func_8001BD88,unmatched_asm,game,
 0x8001D240,0x104,func_8001D240,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8001D344,0x80,func_8001D344,matching_c,game,Exact post-terminal match from the three-channel nested clamp loop shape.
@@ -856,7 +856,7 @@ address,size,name,status,module,notes
 0x8004BE88,0x224,func_8004BE88,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8004C0AC,0x68,func_8004C0AC,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004C114,0x30C,func_8004C114,unmatched_asm,game,
-0x8004C420,0x140,func_8004C420,unmatched_asm,game,
+0x8004C420,0x140,func_8004C420,matching_c,game,Post-terminal clean collaborator structure with allocation-only register ties; accepted SD_ReadSequenceByte and D_80011484 symbols; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x8004C560,0x68,func_8004C560,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004C5C8,0x1B4,func_8004C5C8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8004C77C,0xD0,func_8004C77C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
@@ -905,7 +905,7 @@ address,size,name,status,module,notes
 0x80057F38,0x19C,Model_UpdateViewMetrics,matching_c,game,Copies an optional 32-byte reference view then derives its three-dimensional distance yaw and pitch. Exact post-terminal collaborator match; precise view and angle-global declarations reproduce linked bytes and relocations.
 0x800580D4,0x1EC,func_800580D4,unmatched_asm,game,
 0x800582C0,0x174,func_800582C0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80058434,0x1F0,func_80058434,unmatched_asm,game,
+0x80058434,0x1F0,func_80058434,matching_c,game,Collaborator refinement independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split. Distinct adjacent 12-byte vector symbols preserve retail address materialization.
 0x80058624,0x214,func_80058624,matching_c,game,Explicit signed absolute value produced the exact in-place negation and 532-byte function.
 0x80058838,0x100,func_80058838,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80058938,0x144,func_80058938,unmatched_asm,game,
@@ -1328,7 +1328,7 @@ address,size,name,status,module,notes
 0x80077C70,0x37C,func_80077C70,sdk_asm,psyq/sdk,
 0x80077FF0,0x1CC,func_80077FF0,sdk_asm,psyq/sdk,
 0x800781C0,0x2C,func_800781C0,sdk_asm,psyq/sdk,
-0x800781F0,0x80,func_800781F0,sdk_asm,psyq/sdk,
+0x800781F0,0x80,CdPosToInt,sdk_asm,psyq/sdk,Exact Psy-Q 4.6 LIBCD.LIB/SYS.OBJ signature match; canonical linked copy.
 0x80078270,0x60,func_80078270,sdk_asm,psyq/sdk,
 0x800782D0,0x80,func_800782D0,sdk_asm,psyq/sdk,
 0x80078350,0x8C,func_80078350,sdk_asm,psyq/sdk,
@@ -1353,7 +1353,7 @@ address,size,name,status,module,notes
 0x8007A4C0,0x168,func_8007A4C0,sdk_asm,psyq/sdk,
 0x8007A628,0xC,func_8007A628,sdk_asm,psyq/sdk,
 0x8007A634,0xD8,func_8007A634,sdk_asm,psyq/sdk,
-0x8007A710,0x104,func_8007A710,sdk_asm,psyq/sdk,
+0x8007A710,0x104,CdIntToPos,sdk_asm,psyq/sdk,Exact Psy-Q 4.6 LIBCD.LIB/S_002.OBJ signature match; canonical linked copy.
 0x8007A820,0x20,func_8007A820,sdk_asm,psyq/sdk,
 0x8007A840,0x14,func_8007A840,sdk_asm,psyq/sdk,
 0x8007A860,0x24,func_8007A860,sdk_asm,psyq/sdk,
@@ -1419,7 +1419,7 @@ address,size,name,status,module,notes
 0x8007D2D0,0x1C,func_8007D2D0,sdk_asm,psyq/sdk,
 0x8007D2F0,0xD4,func_8007D2F0,sdk_asm,psyq/sdk,
 0x8007D3C4,0x20,func_8007D3C4,sdk_asm,psyq/sdk,
-0x8007D3F0,0x2E0,func_8007D3F0,sdk_asm,psyq/sdk,
+0x8007D3F0,0x2E0,DsSearchFile,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBDS.LIB DsSearchFile.
 0x8007D6D0,0x20,func_8007D6D0,sdk_asm,psyq/sdk,
 0x8007D6F0,0x2C4,func_8007D6F0,sdk_asm,psyq/sdk,
 0x8007D9B4,0xA4,func_8007D9B4,sdk_asm,psyq/sdk,
@@ -1443,8 +1443,8 @@ address,size,name,status,module,notes
 0x8007E3F0,0x100,func_8007E3F0,sdk_asm,psyq/sdk,
 0x8007E4F0,0x20,func_8007E4F0,sdk_asm,psyq/sdk,
 0x8007E510,0xEC,func_8007E510,sdk_asm,psyq/sdk,
-0x8007E600,0x104,func_8007E600,sdk_asm,psyq/sdk,
-0x8007E710,0x80,func_8007E710,sdk_asm,psyq/sdk,
+0x8007E600,0x104,CdIntToPos_8007E600,sdk_asm,psyq/sdk,Second byte-identical match of the Psy-Q 4.6 LIBCD.LIB/S_002.OBJ CdIntToPos signature; address-qualified because both copies are resident.
+0x8007E710,0x80,CdPosToInt_8007E710,sdk_asm,psyq/sdk,Second byte-identical match of the Psy-Q 4.6 LIBCD.LIB/SYS.OBJ CdPosToInt signature; address-qualified because both copies are resident.
 0x8007E790,0x54,func_8007E790,sdk_asm,psyq/sdk,
 0x8007E7F0,0x68,func_8007E7F0,sdk_asm,psyq/sdk,
 0x8007E860,0x14,func_8007E860,sdk_asm,psyq/sdk,
@@ -1461,13 +1461,13 @@ address,size,name,status,module,notes
 0x8007F5C4,0x10,func_8007F5C4,sdk_asm,psyq/sdk,
 0x8007F5D4,0x60,func_8007F5D4,sdk_asm,psyq/sdk,
 0x8007F634,0x98,func_8007F634,sdk_asm,psyq/sdk,
-0x8007F6CC,0x68,func_8007F6CC,sdk_asm,psyq/sdk,
+0x8007F6CC,0x68,DrawSync,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature and matching model-render caller.
 0x8007F734,0x11C,func_8007F734,sdk_asm,psyq/sdk,
 0x8007F850,0x90,func_8007F850,sdk_asm,psyq/sdk,
 0x8007F8E0,0x98,func_8007F8E0,sdk_asm,psyq/sdk,
 0x8007F978,0x60,LoadImage,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBGPU.LIB/SYS.OBJ LoadImage.
 0x8007F9D8,0x60,func_8007F9D8,sdk_asm,psyq/sdk,
-0x8007FA38,0xB8,func_8007FA38,sdk_asm,psyq/sdk,
+0x8007FA38,0xB8,MoveImage,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature and three matching game callers.
 0x8007FAF0,0xC8,func_8007FAF0,sdk_asm,psyq/sdk,
 0x8007FBB8,0xAC,func_8007FBB8,sdk_asm,psyq/sdk,
 0x8007FC64,0x5C,func_8007FC64,sdk_asm,psyq/sdk,
@@ -1476,7 +1476,7 @@ address,size,name,status,module,notes
 0x8007FDF0,0xD8,func_8007FDF0,sdk_asm,psyq/sdk,
 0x8007FEC8,0x34,func_8007FEC8,sdk_asm,psyq/sdk,
 0x8007FEFC,0x4F8,func_8007FEFC,sdk_asm,psyq/sdk,
-0x800803F4,0x34,func_800803F4,sdk_asm,psyq/sdk,
+0x800803F4,0x34,GetDispEnv,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBGPU.LIB/SYS.OBJ GetDispEnv.
 0x80080428,0x30,func_80080428,sdk_asm,psyq/sdk,
 0x80080458,0x80,func_80080458,sdk_asm,psyq/sdk,
 0x800804D8,0x40,func_800804D8,sdk_asm,psyq/sdk,
@@ -1506,8 +1506,8 @@ address,size,name,status,module,notes
 0x80081C04,0x144,func_80081C04,sdk_asm,psyq/sdk,
 0x80081D48,0xA0,func_80081D48,sdk_asm,psyq/sdk,
 0x80081DE8,0xEC,LoadImage2,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBGPU.LIB/SYS.OBJ LoadImage2.
-0x80081ED4,0xEC,func_80081ED4,sdk_asm,psyq/sdk,
-0x80081FC0,0x144,func_80081FC0,sdk_asm,psyq/sdk,
+0x80081ED4,0xEC,StoreImage2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature and matching readback caller.
+0x80081FC0,0x144,MoveImage2,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBGPU.LIB/SYS.OBJ MoveImage2.
 0x80082104,0xFC,func_80082104,sdk_asm,psyq/sdk,
 0x80082200,0x28,func_80082200,sdk_asm,psyq/sdk,
 0x80082228,0x24,func_80082228,sdk_asm,psyq/sdk,
@@ -1617,8 +1617,8 @@ address,size,name,status,module,notes
 0x80087860,0xC,func_80087860,sdk_asm,psyq/sdk,
 0x80087870,0x20,func_80087870,sdk_asm,psyq/sdk,
 0x80087890,0x20,func_80087890,sdk_asm,psyq/sdk,
-0x800878B0,0x18,func_800878B0,sdk_asm,psyq/sdk,
-0x800878D0,0xC,func_800878D0,sdk_asm,psyq/sdk,
+0x800878B0,0x18,SetGeomOffset,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG12.OBJ signature and matching projection callers.
+0x800878D0,0xC,SetGeomScreen,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG13.OBJ signature and matching projection callers.
 0x800878E0,0x2C,func_800878E0,sdk_asm,psyq/sdk,
 0x80087910,0x54,func_80087910,sdk_asm,psyq/sdk,
 0x80087970,0x28,func_80087970,sdk_asm,psyq/sdk,

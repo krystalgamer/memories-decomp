@@ -21,8 +21,8 @@ extern s16 D_8009B200;
 extern s16 D_8009B202;
 extern u8 D_800FE148[];
 extern void func_80017130(void);
-extern void func_800878D0(s32);
-extern void func_800878B0(s32, s32);
+extern void SetGeomScreen(long);
+extern void SetGeomOffset(long, long);
 extern void func_8001352C(void);
 extern void func_800855D0(void *);
 
@@ -32,8 +32,8 @@ void func_800178BC(void)
     s32 y;
 
     func_80017130();
-    func_800878D0(D_800F2848.fE);
-    func_800878B0(0xA0, 0x6C);
+    SetGeomScreen(D_800F2848.fE);
+    SetGeomOffset(0xA0, 0x6C);
     D_800F2848.f0 = 0x14E;
     D_800F2848.f4 = 0x3FE;
     D_800F2848.f2 = D_8009AF20;
@@ -60,6 +60,6 @@ void func_800178BC(void)
     y = p.y;
     D_8009B200 = p.x - 0xA0;
     D_8009B202 = y - 0x6C;
-    func_800878B0(0, 0);
+    SetGeomOffset(0, 0);
     func_80017130();
 }

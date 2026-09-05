@@ -67,6 +67,18 @@
       "source": "src/overlays/main_menu/func_80181F20.c"
     },
     {
+      "address": "0x80181F68",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x274",
+      "source": "src/overlays/main_menu/func_80181F68.c"
+    },
+    {
+      "address": "0x8018338C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x188",
+      "source": "src/overlays/main_menu/func_8018338C.c"
+    },
+    {
       "address": "0x801836F4",
       "profile": "gcc_2_8_1_g0_no_sched2_split",
       "size": "0x190",
@@ -95,6 +107,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
       "source": "src/overlays/main_menu/func_80183FE4.c"
+    },
+    {
+      "address": "0x80184030",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xC8",
+      "source": "src/overlays/main_menu/func_80184030.c"
     },
     {
       "address": "0x801840F8",

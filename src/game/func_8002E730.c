@@ -30,7 +30,7 @@ extern u16 D_8009B2A8;
 extern u16 D_8009B2AA;
 extern u16 D_8009B270;
 
-extern void func_8007FA38(struct Rect *, s32, s32);
+extern void MoveImage(struct Rect *, s32, s32);
 extern void func_8004036C(void *);
 extern void func_80015C0C(void);
 extern s32 func_8004006C(void);
@@ -61,7 +61,7 @@ void func_8002E730(void) {
         if (gGraphics_bActiveBuffer == 0) {
             D_800E9D70.x = 0x140;
         }
-        func_8007FA38(&D_800E9D70, 0x1C0, 0x100);
+        MoveImage(&D_800E9D70, 0x1C0, 0x100);
         return;
     }
 

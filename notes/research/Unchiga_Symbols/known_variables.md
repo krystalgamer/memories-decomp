@@ -24,6 +24,7 @@ Names that say what something IS in the game.
 | 0x8009B141 | `gFade_bOverlayOn` | idb2018 |
 | 0x8009B146 | `gGraphics_sViewportX` | live + matching C |
 | 0x8009B148 | `gGraphics_sViewportY` | live + matching C |
+| 0x8009B164 | `gDuel_bQuitDialogState` | matching C + live |
 | 0x8009B1D5 | `gDuel_bPlayingSide` | idb2018 |
 | 0x8009B246 | `gDuel_wViewerCardID` | live + resident writers |
 | 0x8009B258 | `gCardGrid_bCursorColumn` | live |

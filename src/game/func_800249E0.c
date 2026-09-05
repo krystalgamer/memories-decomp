@@ -8,7 +8,7 @@ extern u8 D_8015C424[];
 extern u8 D_80177EA4[];
 extern u8 D_8018C2D8[];
 extern u8 D_8018C7D8[];
-extern u8 gDuel_aPlayerHand[];
+extern u8 gDuel_aDeckCardRecords[];
 extern s32 gDuel_adwCardStats[];
 extern int Duel_GetTerrainBoost();
 
@@ -43,7 +43,7 @@ u8 *func_800249E0(s32 a, s32 b) {
 
     n = b * 6;
     tb = D_8015C424;
-    p->data = gDuel_aPlayerHand + n;
+    p->data = gDuel_aDeckCardRecords + n;
     p->table_index = idx;
 
     g = tb + n + 0x48000;

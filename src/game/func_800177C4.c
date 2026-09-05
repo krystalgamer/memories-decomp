@@ -15,8 +15,8 @@ extern u8 D_800FE148[];
 extern u8 D_8009B1D5;
 extern u16 D_800908A0[];
 extern ScreenPair D_800EA070[];
-extern void func_800878D0(s32);
-extern void func_800878B0(s32, s32);
+extern void SetGeomScreen(long);
+extern void SetGeomOffset(long, long);
 extern void func_800855D0(void *);
 
 /* Projects the thirty coordinate pairs in D_800908A0 through the GTE, one per
@@ -37,8 +37,8 @@ void func_800177C4(void)
     u16 *src;
     s32 i;
 
-    func_800878D0(D_800F2856[0]);
-    func_800878B0(0xA0, 0x6C);
+    SetGeomScreen(D_800F2856[0]);
+    SetGeomOffset(0xA0, 0x6C);
     func_800855D0(D_800FE148);
     pad = (u8 *)0x1F8003E0;
     i = 0;
@@ -79,5 +79,5 @@ void func_800177C4(void)
         src += 2;
         i++;
     } while (i < 0x1E);
-    func_800878B0(0, 0);
+    SetGeomOffset(0, 0);
 }

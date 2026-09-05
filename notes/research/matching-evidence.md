@@ -1260,6 +1260,104 @@ The practical rule is that once shape, count, profile and types are settled
 and the only difference is which register holds a long-lived address, further
 source permutation is low-yield — record what was measured and move on.
 
+## Mixed %gp_rel and absolute addressing is a declaration signal
+
+When retail reaches some globals through `%gp_rel($gp)` and others with an
+absolute `lui`/`%lo` pair *in the same function*, that split is evidence
+about the original declarations rather than noise. A global reached
+absolutely was not a small-data object, and modelling it as a plain scalar
+costs an instruction at every access.
+
+`func_80012DB4` reaches twelve globals gp-relatively and three absolutely:
+
+```
+lbu  $v1, %gp_rel(D_8009B0C0)($gp)     # one instruction
+lui  $v1, %hi(D_8009AFA4)              # two instructions
+lbu  $v1, %lo(D_8009AFA4)($v1)
+```
+
+Declared as `extern u8 D_8009AFA4;` under `-G8`, the compiler places the
+byte in small data and emits the one-instruction form, so the candidate came
+out three instructions short across the three affected accesses.
+
+Declaring the same symbols as **unsized extern arrays** and subscripting them
+restores the absolute form:
+
+```c
+extern u8 D_8009AFA4[];
+...
+if (D_8009AFA4[0] == 0) { ... }
+```
+
+An unsized array has unknown size, so it cannot be placed in the small-data
+section and must be reached with an absolute pair. That recovered exactly the
+three missing instructions.
+
+So before writing the externs for a function, count the two addressing forms
+in the target. The ratio tells you which globals to declare as size-unknown.
+
+### The `-G` threshold is a real tuning axis
+
+Small-data placement depends on the `-G` value the *assembler* receives, and
+the profile set carries `-G1`, `-G2` and `-G4` variants as well as the
+familiar `-G0` and `-G8`. On this function the best profile turned out to be
+an assembler `-G4` one, sitting between the extremes.
+
+Those intermediate profiles are easy to dismiss as padding in the profile
+list. They are not: they select exactly which globals fall under the
+small-data threshold, which is precisely the distinction the addressing split
+above is made of.
+
+## A fast probe harness must copy the real flags
+
+Iterating on a candidate with a small local script - compile, run maspsx,
+assemble, disassemble, diff against the generated assembly - is much faster
+than a full `make match`. It is also easy to build one that is quietly wrong,
+because it fails by flattering the result rather than by erroring.
+
+Three faults found in one such harness while working `func_80012DB4`, all of
+which made the candidate look closer than it was:
+
+**The assembler needs `-G`.** `build_baseline.py` passes `-G{data_limit}`
+from the profile. A harness that omits it inherits the binutils default of
+`-G8`, so every profile gets assembled as though the assembler were G8. On a
+`cc_g8_as_g0` profile that turned a true 53-instruction result into an
+apparent 38, and made a profile that was never competitive look like the
+leader. `data_limit` tracks the **assembler** side, which the cross profiles
+confirm: `cc_g8_as_g0` has `data_limit` 0 and `cc_g0_as_g8` has 8.
+
+This also explains where `%gp_rel` comes from. GCC does not emit it. GCC
+emits a bare symbol reference plus a size directive:
+
+```
+lhu  $2, D_8009B098
+.extern D_8009B098, 2
+```
+
+and the assembler performs the small-data conversion when it is given `-G8`.
+Checking the pre-assembler output for `%gp_rel` therefore always reports
+zero and proves nothing; the evidence is gp-relative addressing off `$28` in
+the disassembled object.
+
+**Counting instructions with `grep -c '^ '` counts labels.** Internal `.L`
+labels are indented like instructions. On a function with three of them a
+42-instruction target reads as 45, which inflated an apparent shortfall from
+four instructions to seven and produced a wrong "whole statements are
+missing" diagnosis. Match on a leading mnemonic instead, and print the
+harness's own target count rather than hardcoding one - a hardcoded literal
+agrees with the wrong number instead of exposing it.
+
+**A matched function cannot be used as a regression test.** The obvious way
+to validate a harness is to run it against something already matched and
+expect a clean result. That cannot work here: once a function becomes
+matching C, splat stops emitting generated assembly for it, so the comparison
+runs against an empty target and reports success-shaped nonsense. Validate
+the flags against `build_baseline.py` directly instead.
+
+The common thread is that all three faults were silent and optimistic. A
+harness that errors is harmless; one that quietly scores a wrong shape as
+close costs cycles in the direction of false confidence.
+
 ## Choosing the right instrument to verify a candidate
 
 Diff count is the cheap instrument and it is the one that misleads. Three

@@ -17,7 +17,7 @@ typedef u8 *(*ModelHandler)(u8 **);
 
 extern s32 func_80089E20[];
 extern s32 (*func_800603DC())();
-extern s32 func_8007F6CC();
+extern s32 DrawSync();
 
 /* Finds `key` in the table; if absent and there is a free slot, claims it
    with (key, val). No-op once all 80 slots are taken and no match exists. */
@@ -133,7 +133,7 @@ void func_80060220(s32 arg0, u8 *arg1, u8 *arg2) {
     }
 
     func_800603DC(*(s32 *)arg1)(arg2);
-    func_8007F6CC(0);
+    DrawSync(0);
     *(ModelHandler *)(*(s32 *)(arg1 + 4)) =
         (ModelHandler)func_80089E20;
 }

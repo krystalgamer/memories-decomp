@@ -789,10 +789,13 @@ a short insertion that can be combined blindly with other text mods.
 
 ## Attack-trigger trap thresholds
 
-**Tutorial:** `Efeito trap.txt`
+**Tutorials:**
 
-The tutorial identifies six consecutive bytes beginning at SLUS offset
-`0x8B724`. These are the initialized
+- `Efeito trap.txt`
+- `Offset de Traps e Magicas - Por Wladmir Ghost.txt`
+
+Both tutorials identify the same six consecutive bytes beginning at SLUS
+offset `0x8B724`. These are the initialized
 `gDuel_abTrapAttackThresholds` table rather than instruction immediates and
 map to resident addresses `0x8009AF24`-`0x8009AF29`:
 

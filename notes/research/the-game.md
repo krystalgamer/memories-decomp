@@ -409,8 +409,14 @@ The field is two rows of five per side: a **monster row** (up to five
 monsters) and a **magic/trap row** (up to five magic, trap, ritual or equip
 cards) [cards in play are one array of 28-byte records at `0x801A7AD8`:
 player records 0–9, opponent 20–29, ATK at +0xE, DEF at +0x10, so the second
-monster is 28 bytes after the first]. The player's hand is five slots
-[`0x801A7E20`, UNVERIFIED].
+monster is 28 bytes after the first]. The five visible hand slots are signed
+indices at `+0x1A` in each side's 32-byte state record (player
+`0x800EA00A`, opponent `0x800EA02A`). They select an 80-entry array of
+6-byte per-deck-card records at `gDuel_aDeckCardRecords` (`0x801A7E20`):
+player entries 0–39, opponent entries 40–79, with the card ID at `+0x00`.
+`Duel_HasAllExodiaPieces` follows exactly those five indices, while
+`func_80027DF8` walks from the side's draw cursor at state offset `+0x18`
+through the remaining records in its 40-card half.
 
 ### 5.2 A turn
 
@@ -491,6 +497,10 @@ same rules, and the survivor of the whole chain is what gets placed.
 Combining on the field (playing onto a monster) follows the same table but
 the result keeps the field zone, position choices are asked again, and — for
 scoring — it counts as a *field* fusion rather than an initiated one (§6.1).
+
+The complete decoded fusion recipes, per-result and per-material indexes, and
+accepted equip pairs are in
+[`fusion-and-drop-tables/`](fusion-and-drop-tables/README.md).
 
 **Playing a non-monster onto your own monster** with no valid equip/fusion is
 how a magic card is wasted; **playing a monster onto your magic/trap row** is
@@ -650,7 +660,7 @@ A duel ends the moment one of these holds, checked after every action:
 
 In **2P Duel only**, Select on the active player's turn offers
 `QUIT DUEL? NO YES`, with No selected by default. The input check
-[`func_8001BD48`] is gated by the negative opponent id used for two-player
+[`Duel_CheckQuitInput`] is gated by the negative opponent id used for two-player
 battles, so the prompt is not a single-player surrender option. Choosing Yes
 fades to black and returns to the initial menu; 2P Duel has no score, drop, or
 persistent record (§9.1). What a normal win or loss *means* is decided by the
@@ -808,6 +818,9 @@ itself drawn from a weighted pool, not fixed (§5.11). That row still contains
 writes `index + 1`, leaving the weights for card ids 721 and 722 unreachable.
 The three drop pools do walk all 722 entries. The dropped card is added to the
 trunk and marked seen.
+
+The complete nonzero deck/drop weights and per-duelist pool summaries are in
+[`fusion-and-drop-tables/`](fusion-and-drop-tables/README.md).
 
 **Which block is which duelist** was settled by matching every block's pools
 against an independent list of what each duelist has been recorded dropping
@@ -1502,8 +1515,8 @@ Not verified in code:
   dialogue (§7.11);
 * the win/loss record order (the archives' claim; only the drop-block order
   is measured);
-* what Simon Muran's loss in the opening does (the guides disagree), and
-  when his duel is offered (before or after the festival);
+* when Simon Muran's optional duel is offered relative to the festival (the
+  guides disagree);
 * what the two "enable" GameShark codes target — their guards match neither
   located overlay;
 * the home terrains of the five shrines and the finale (only Sebek/Neku's

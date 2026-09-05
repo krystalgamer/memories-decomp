@@ -256,8 +256,33 @@ Two consequences worth stating plainly:
   for word. The bytes are the acceptance criterion for the data half of the
   change, and they are cheap to read out of `tmp/overlays/<module>/module.bin`.
 
-Every unmatched function in all five modules was scanned for the pattern.
-`func_80168CDC` is the only one affected. One other function block copies,
+### A jump table is the same blocker with a different tell
+
+A `switch` dense enough for GCC to build a jump table emits that table as data
+too, and the block-copy check above will not find it. `func_8016A37C` in the
+password module is the second member of this class:
+
+```
+lui   $v0, %hi(jtbl_8016807C)     # the tell: a jtbl_ symbol
+addiu $v0, $v0, %lo(jtbl_8016807C)
+sll   $v1, $v1, 2
+addu  $v1, $v1, $v0
+lw    $v0, 0x0($v1)
+jr    $v0
+```
+
+Its five words sit at module offset `0x7C`–`0x90`, inside the same
+`module_header` blob — and **immediately after** `func_80168CDC`'s `0x78`-byte
+initialiser at `0x4`–`0x7C`. The two functions' emitted data is contiguous, so
+whoever carves `module_header` should do both at once rather than twice.
+
+So the pre-flight check has two halves: `grep 'jtbl_'` as well as looking for
+the frame-bound block copy. Every unmatched function in all five modules was
+scanned for jump table references; `func_8016A37C` is the only hit, and the
+whole overlay set contains exactly one `jtbl` symbol.
+
+Every unmatched function in all five modules was scanned for the block-copy
+pattern. `func_80168CDC` is the only one affected. One other function block copies,
 `func_801821DC` in `main_menu`, but its copies run **between two regions of
 `D_801D1200`** rather than into the frame — a scroll within a resident buffer,
 which is ordinary code and carries no data-placement constraint.
@@ -265,3 +290,40 @@ which is ordinary code and carries no data-placement constraint.
 That difference is the check worth applying: look at where the destination
 lives. A destination built from `$sp` is an initialised local and means data
 has to be emitted; a destination that is another global is just a copy.
+
+## One overlay function was compiled without optimisation
+
+`func_801697D0`, which appears identically in both overworld modules, is the
+only function across all five overlays that was not built with the usual
+optimised profile. Trying it under `gcc_2_8_1_g0_split` cannot work, and that
+is why it is the last untouched function in those two modules.
+
+The tells are all in the generated assembly, and any one of them is enough:
+
+```
+addu  $fp, $sp, $zero            # a frame pointer, which nothing else has
+sw    $v0, 0x18($fp)             # every local written to the frame ...
+lw    $v0, 0x18($fp)             # ... and reloaded on the next instruction
+addu  $a0, $v0, $zero            # redundant copies kept
+andi  $v1, $v0, 0x20             # an already-masked value masked again
+andi  $v0, $v1, 0xFFFF
+lui   $at, %hi(D_8016A2B8)       # absolute addresses through the assembler
+sw    $v0, %lo(D_8016A2B8)($at)  # temporary, 22 times
+```
+
+Confirmed by compiling a reduced version of the opening block directly: `-O0`
+reproduces the frame pointer, both store-and-reload pairs, the redundant copy
+and the `sll 5 / addu / sll 1` index chain in the target's order, while `-O1`
+keeps the locals in registers, emits no frame pointer, and produces explicit
+`%hi`/`%lo` pairs. The `$at` expansions say `-msplit-addresses` is absent.
+
+**The cheap check before starting any overlay function** is therefore
+`grep 'addu \$fp, \$sp'` on its generated assembly. Every unmatched function in
+all five modules was scanned; this is the only hit.
+
+Worth stating because the size is misleading in the opposite direction from
+usual: at `0x684` it is one of the largest unmatched functions, but unoptimised
+output has no instruction scheduling and no register allocation to reproduce,
+so it should be closer to a transliteration than the optimised functions half
+its size. What it needs first is a profile, since none in
+`compiler_profiles.json` uses `-O0`.
