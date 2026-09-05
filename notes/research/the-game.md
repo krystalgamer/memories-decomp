@@ -492,6 +492,10 @@ Combining on the field (playing onto a monster) follows the same table but
 the result keeps the field zone, position choices are asked again, and — for
 scoring — it counts as a *field* fusion rather than an initiated one (§6.1).
 
+The complete decoded fusion recipes, per-result and per-material indexes, and
+accepted equip pairs are in
+[`fusion-and-drop-tables/`](fusion-and-drop-tables/README.md).
+
 **Playing a non-monster onto your own monster** with no valid equip/fusion is
 how a magic card is wasted; **playing a monster onto your magic/trap row** is
 not allowed — the zone choice only offers legal rows.
@@ -808,6 +812,9 @@ itself drawn from a weighted pool, not fixed (§5.11). That row still contains
 writes `index + 1`, leaving the weights for card ids 721 and 722 unreachable.
 The three drop pools do walk all 722 entries. The dropped card is added to the
 trunk and marked seen.
+
+The complete nonzero deck/drop weights and per-duelist pool summaries are in
+[`fusion-and-drop-tables/`](fusion-and-drop-tables/README.md).
 
 **Which block is which duelist** was settled by matching every block's pools
 against an independent list of what each duelist has been recorded dropping
