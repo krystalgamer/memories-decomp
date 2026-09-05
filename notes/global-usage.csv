@@ -2999,7 +2999,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800FE148,D_800FE148,D_800FE148,0x80059220,func_80059220,matching_c,game,C,src/game/model_buffer_getters.c,address,8,return &D_800FE148;
 0x800FE240,D_800FE240,D_800FE240,0x80033DB0,func_80033DB0,handwritten_asm,game,assembly,tmp/splat/asm/generated/text_0245b0.s,write,32,"lui $at, %hi(D_800FE240) | sw $t5, %lo(D_800FE240)($at)"
 0x800FE240,D_800FE240,D_800FE240,0x80034830,func_80034830,handwritten_asm,game,assembly,tmp/splat/asm/generated/text_0245b0.s,write,32,"lui $at, %hi(D_800FE240) | sw $t7, %lo(D_800FE240)($at)"
-0x800FE240,D_800FE240,D_800FE240,0x80042188,func_80042188,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03267c.s,read_write,32,"lui $at, %hi(D_800FE240) | lui $v0, %hi(D_800FE240) | (+2 more)"
+0x800FE240,D_800FE240,D_800FE240,0x80042188,func_80042188,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_032790.s,read_write,32,"lui $at, %hi(D_800FE240) | lui $v0, %hi(D_800FE240) | (+2 more)"
 0x800FE240,D_800FE240,D_800FE240,0x8005A8C4,Model_HasInsufficientBufferSpace,matching_c,game,C,src/game/model_has_insufficient_buffer_space.c,read,,used = D_800FE240 - (s32)D_800A5768;
 0x800FE240,D_800FE240,D_800FE240,0x8005B260,func_8005B260,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04b8b4.s,read_write,32,"lui $a1, %hi(D_800FE240) | lui $at, %hi(D_800FE240) | (+4 more)"
 0x800FE240,D_800FE240,D_800FE240,0x8005B36C,func_8005B36C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04b8b4.s,read_write,32,"lui $a0, %hi(D_800FE240) | lui $a1, %hi(D_800FE240) | (+8 more)"
