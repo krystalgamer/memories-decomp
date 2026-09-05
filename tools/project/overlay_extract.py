@@ -161,8 +161,7 @@ def verify(root: Path, sector_size: int, modules: list[dict[str, Any]]) -> None:
                 f"{module['name']}: extracted output does not match the archive"
             )
         print(f"overlay: {module['name']} OK")
-    verify_manifest_format(root)
-    verify_csv_format(root)
+    verify_metadata(root)
 
 
 def verify_manifest_format(root: Path) -> None:
@@ -187,6 +186,43 @@ def verify_manifest_format(root: Path) -> None:
                 "json.dumps(data, indent=2, sort_keys=True) plus a trailing newline"
             )
     print(f"matching_c manifests: OK ({len(paths)} canonical)")
+
+
+METADATA_MARKERS = (".git", "config/slus_01411/target.yaml")
+
+
+def require_metadata_root() -> Path:
+    """Locate the repository root for checks that read only tracked metadata.
+
+    The usual workspace guard also requires game/SLUS_014.11, because almost
+    every tool here needs the retail executable. These checks do not read it,
+    so requiring it would stop them running anywhere it is absent -- which is
+    the one place they are most useful.
+    """
+    root = Path.cwd().resolve(strict=True)
+    missing = [
+        marker
+        for marker in METADATA_MARKERS
+        if not resolve_within(root, marker).exists()
+    ]
+    if missing:
+        raise OverlayError(
+            "run this command from the repository root; missing "
+            + ", ".join(missing)
+        )
+    return root
+
+
+def verify_metadata(root: Path) -> None:
+    """Run every tracked-metadata check.
+
+    These read files under config/ and notes/ and parse them. They touch no
+    overlay image, need no retail data and need no secrets, which is why they
+    are also reachable on their own -- a job that runs only these can cover
+    paths the overlay build deliberately ignores.
+    """
+    verify_manifest_format(root)
+    verify_csv_format(root)
 
 
 def tracked_csv_paths(root: Path) -> list[Path]:
@@ -240,13 +276,18 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Extract and verify runtime overlay module images."
     )
-    parser.add_argument("command", choices=("extract", "verify"))
+    parser.add_argument(
+        "command", choices=("extract", "verify", "verify-metadata")
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     try:
+        if args.command == "verify-metadata":
+            verify_metadata(require_metadata_root())
+            return 0
         root = require_workspace_root()
         sector_size, modules = load_manifest(root)
         if args.command == "extract":

@@ -1,0 +1,36 @@
+name: Metadata
+
+# Deliberately unfiltered, and deliberately minimal. These checks read only
+# tracked text under config/ and notes/, so they need no retail input, no
+# toolchain, no bootstrapped Python and no secrets -- which is what lets this
+# job watch every path, including the notes/** the overlay build ignores.
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: metadata-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-metadata:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Verify tracked metadata
+        run: make check-metadata
