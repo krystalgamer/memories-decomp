@@ -102,7 +102,7 @@ functions:
 
 | Purpose in FM-Online | Patch address(es) | Containing function |
 |---|---|---|
-| Life-point digit width | `0x80016F14`, `0x80016F98` | `func_80016E70` |
+| Life-point digit width | `0x80016F14`, `0x80016F98` | `Duel_DrawLifePointsAndDeckCounts` |
 | Alternate starting player | `0x80017AF2` | `func_800179F4` |
 | Disable automatic trap rotation | `0x8001CA24`, `0x8001CA2C`, `0x8001CA30` | `func_8001BD88` |
 | Bypass life-point limit behavior | `0x800251A4` | `func_800250C8` |
@@ -213,7 +213,9 @@ High-value follow-up work is concentrated in the containing functions above:
 - Recover the card-view byte structure around `0x800EA000`.
 - Split guardian-star selection from its rendering and sound helpers.
 - Verify the 255-call inter-match PRNG adjustment.
-- Determine whether `func_80016E70` formats both players' life-point strings.
+- The two patched widths belong to `Duel_DrawLifePointsAndDeckCounts`, which
+  formats both players' four-digit life-point values and two-digit remaining
+  deck counts.
 
 The upstream code is evidence, not a patch source for this repository. Its
 hard-coded writes intentionally change retail behavior and must never be

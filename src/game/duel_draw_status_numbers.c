@@ -41,18 +41,18 @@ struct DigitPacket {
 
 extern struct WidgetEntry D_800E9FF0[2];
 extern u8 D_8009B1D5;
-void func_80016DDC(struct WidgetEntry *);
+void Duel_UpdateLifePointDisplay(struct WidgetEntry *);
 void func_80016D2C(void *, void *, s32, s32);
 
 #define SCRATCH ((struct DigitPacket *) 0x1F800320)
 
-void func_80016E70(struct Widget *arg0) {
+void Duel_DrawLifePointsAndDeckCounts(struct Widget *arg0) {
     struct Pos *pos;
     struct DigitPacket *scratch;
     register u32 tmp10 asm("v1");
 
-    func_80016DDC(&D_800E9FF0[0]);
-    func_80016DDC(&D_800E9FF0[1]);
+    Duel_UpdateLifePointDisplay(&D_800E9FF0[0]);
+    Duel_UpdateLifePointDisplay(&D_800E9FF0[1]);
     pos = arg0->unk50;
 
     scratch = SCRATCH;
