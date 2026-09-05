@@ -59,13 +59,14 @@ Corroboration agrees without defining the shared type:
 
 ## Typed migration snapshot
 
-At this snapshot, 18 of the 20 pure-C report users include `duel_card.h` and
+At this snapshot, 19 of the 20 pure-C report users include `duel_card.h` and
 use its typed extern:
 
 `func_8001778C`, `func_80017DB4`, `func_80017E3C`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
 `func_8001EFD4`, `Duel_UpdateCardPickCursor`, `func_800249E0`,
 `func_80025B28`, `func_80025F3C`, `func_80026A3C`,
+`func_80026C0C`,
 `Duel_CollectFieldCardsBelowType`, `Duel_CollectFieldCardsByType`,
 `func_8002778C`, `func_800278A0`, `func_80027DF8`, and `func_8002C938`.
 
@@ -74,8 +75,9 @@ Raw local views retained for exact code generation:
 - `func_80023090` keeps an opaque `0x1C`-byte `FieldRecord` because it only
   scales record addresses and passes the resulting pointers to the guardian
   comparison helper; it does not access a shared field directly.
-- `func_80026C0C` keeps a byte extern and pinned `$a0` address construction so
-  the record-scale result and final pointer share the retail live range.
+- `func_80026C0C` uses the shared typed extern, but casts its base to a byte
+  pointer and keeps the pinned `$a0` address construction so the record-scale
+  result and final pointer share the retail live range.
 - `func_8001778C` keeps byte cursors for the paired `+0x00`/`+0x04` stores
   and independent `+0x16` cursor; its increments and bound use the shared
   size/count constants.
