@@ -1645,7 +1645,7 @@ address,size,name,status,module,notes
 0x80089480,0x8,func_80089480,sdk_asm,psyq/sdk,
 0x80089488,0x488,func_80089488,sdk_asm,psyq/sdk,
 0x80089910,0x8C,func_80089910,sdk_asm,psyq/sdk,
-0x800899A0,0x174,func_800899A0,sdk_asm,psyq/sdk,
+0x800899A0,0x174,ratan2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/RATAN.OBJ signature and matching angle callers.
 0x80089B20,0xAC,func_80089B20,sdk_asm,psyq/sdk,
 0x80089BCC,0x30,func_80089BCC,sdk_asm,psyq/sdk,
 0x80089C00,0xC,func_80089C00,sdk_asm,psyq/sdk,

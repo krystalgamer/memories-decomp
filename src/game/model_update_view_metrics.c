@@ -6,7 +6,7 @@ extern u16 D_8009B47C;
 extern u8 D_800F56F0[];
 
 extern long SquareRoot0(long value);
-extern s32 func_800899A0(s32 y, s32 x);
+extern long ratan2(long y, long x);
 
 typedef struct {
     s32 w[8];
@@ -24,11 +24,11 @@ void Model_UpdateViewMetrics(u8 *m) {
 
     *(s16 *)&D_8009B478 = SquareRoot0((*(s32 *)(m + 0) - *(s32 *)(m + 0xC)) * (*(s32 *)(m + 0) - *(s32 *)(m + 0xC)) + (*(s32 *)(m + 8) - *(s32 *)(m + 0x14)) * (*(s32 *)(m + 8) - *(s32 *)(m + 0x14)));
 
-    D_8009B47A = func_800899A0(*(s32 *)(m + 8) - *(s32 *)(m + 0x14),
-                               *(s32 *)(m + 0) - *(s32 *)(m + 0xC));
+    D_8009B47A = ratan2(*(s32 *)(m + 8) - *(s32 *)(m + 0x14),
+                        *(s32 *)(m + 0) - *(s32 *)(m + 0xC));
 
-    D_8009B47C = func_800899A0(*(s32 *)(m + 4) - *(s32 *)(m + 0x10),
-                               *(s16 *)&D_8009B478);
+    D_8009B47C = ratan2(*(s32 *)(m + 4) - *(s32 *)(m + 0x10),
+                        *(s16 *)&D_8009B478);
 
     *(s16 *)&D_8009B478 = SquareRoot0((*(s32 *)(m + 0) - *(s32 *)(m + 0xC)) * (*(s32 *)(m + 0) - *(s32 *)(m + 0xC)) + (*(s32 *)(m + 4) - *(s32 *)(m + 0x10)) * (*(s32 *)(m + 4) - *(s32 *)(m + 0x10)) + (*(s32 *)(m + 8) - *(s32 *)(m + 0x14)) * (*(s32 *)(m + 8) - *(s32 *)(m + 0x14)));
 
