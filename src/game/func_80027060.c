@@ -14,7 +14,7 @@ s32 func_80027060(void) {
     if (Duel_CollectFieldCardsByType(sp10, 0, CARD_TYPE_TRAP) == 0) {
         return 1;
     }
-    slot = func_80026C0C(0xA);
+    slot = func_80026C0C(DUEL_FIELD_SIDE_ZONE_COUNT);
     if (slot < 0) {
         return 1;
     }
