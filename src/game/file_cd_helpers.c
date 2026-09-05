@@ -6,7 +6,6 @@ extern int DsSearchFile(int, int);
 extern int func_8005BE3C(void);
 extern void func_8005BB7C(int);
 extern int func_80082324(int);
-extern int func_80081FC0(RECT *, int, int);
 
 int File_Exists(int first, int second)
 {
@@ -42,6 +41,6 @@ int func_8005C568(int first, int second)
 
     GetDispEnv(&local);
     while (func_80082324(3) != 0) {}
-    while (func_80081FC0(&local.disp, first, second) != 0) {}
+    while (MoveImage2(&local.disp, first, second) != 0) {}
     return 0;
 }

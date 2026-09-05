@@ -395,3 +395,4 @@ DsSearchFile = 0x8007D3F0; // type:func
 LoadImage = 0x8007F978; // type:func
 GetDispEnv = 0x800803F4; // type:func
 LoadImage2 = 0x80081DE8; // type:func
+MoveImage2 = 0x80081FC0; // type:func

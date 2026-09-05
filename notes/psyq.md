@@ -78,6 +78,7 @@ symbol review.
 | `0x8007F350` | `ResetGraph` | Anchored by GPU `sys.c` evidence and the documented graph-reset contract. |
 | `0x8007F978` | `LoadImage` | Applied Psy-Q identity; `func_800249E0` uses the tracked `RECT *` / `u32 *` prototype for two image transfers. |
 | `0x80081DE8` | `LoadImage2` | Applied Psy-Q identity; streamed package callbacks pass rectangle-shaped records and staged image data. |
+| `0x80081FC0` | `MoveImage2` | Applied Psy-Q identity; `file_cd_helpers.c` passes the current display rectangle plus destination coordinates. |
 | `0x8007FAF0` | `ClearOTag` | Ordering-table initialization behavior. |
 | `0x8007FC64` | `DrawPrim` | Direct GPU primitive submission behavior. |
 | `0x8007FCC0` | `DrawOTag` | Ordering-table submission behavior. |
@@ -243,10 +244,10 @@ depend on GTE, GPU, and `libgs` declarations without including those headers.
 
 Current game C includes `libgpu.h` in `func_800249E0.c`, where `RECT` backs
 two image transfers, and `file_cd_helpers.c`, where `DISPENV` receives the
-current display environment and its leading `disp` rectangle is passed to the
-next GPU operation. No current game C includes `libgs.h` or `libhmd.h`, so a
-local render or model record should not be migrated to one of their types from
-a matching size or similar role alone; field-level and resident-call evidence
+current display environment and its leading `disp` rectangle is passed to
+`MoveImage2`. No current game C includes `libgs.h` or `libhmd.h`, so a local
+render or model record should not be migrated to one of their types from a
+matching size or similar role alone; field-level and resident-call evidence
 are still required.
 
 The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
