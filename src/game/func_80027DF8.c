@@ -123,8 +123,8 @@ void func_80027DF8(LocalEnt *out, s32 who) {
                 out->id = id;
                 tbl = gDuel_adwCardStats;
                 p = (s32 *) (((id - 1) << 2) + (u32) tbl);
-                out->x = (*p & 0x1FF) * 10;
-                out->y = ((*p >> 9) & 0x1FF) * 10;
+                out->x = (*p & 0x1FF) * CARD_STAT_SCALE;
+                out->y = ((*p >> 9) & 0x1FF) * CARD_STAT_SCALE;
                 out->flags = 0;
                 out->b8 = (*p >> 26) & 0x1F;
                 out->b9 = (*p >> 22) & 0xF;
@@ -151,8 +151,8 @@ void func_80027DF8(LocalEnt *out, s32 who) {
                 id = rp->id;
                 out->id = id;
                 p = (s32 *) (((id - 1) << 2) + (u32) tbl);
-                out->x = (*p & 0x1FF) * 10;
-                out->y = ((*p >> 9) & 0x1FF) * 10;
+                out->x = (*p & 0x1FF) * CARD_STAT_SCALE;
+                out->y = ((*p >> 9) & 0x1FF) * CARD_STAT_SCALE;
                 out->flags = 0;
                 out->b8 = (*p >> 26) & 0x1F;
                 i += 1;

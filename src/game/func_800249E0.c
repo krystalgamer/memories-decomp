@@ -50,10 +50,12 @@ u8 *func_800249E0(s32 a, s32 b) {
     g = tb + n + 0x48000;
     v = *(u16 *)(g + 0x39FC);
     p->card_id = v;
-    p->attack = (gDuel_adwCardStats[(s16)v - 1] & 0x1FF) * 0xA;
+    p->attack =
+        (gDuel_adwCardStats[(s16)v - 1] & 0x1FF) * CARD_STAT_SCALE;
     m = idx * 2 + 1;
     p->defense =
-        ((gDuel_adwCardStats[(s16)p->card_id - 1] >> 9) & 0x1FF) * 0xA;
+        ((gDuel_adwCardStats[(s16)p->card_id - 1] >> 9) & 0x1FF) *
+        CARD_STAT_SCALE;
     p->stat_modifier = 0;
     p->terrain_modifier =
         Duel_GetTerrainBoost((gDuel_adwCardStats[(s16)p->card_id - 1] >> 26) & 0x1F);
