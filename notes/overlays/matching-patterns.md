@@ -408,33 +408,46 @@ named first is emitted first.
 
 ## Known unresolved residual
 
-`FreeDuel_PlaceCursor` and `FreeDuel_UpdateSparkle` each reduce to a single
-transposition of two independent loads, with every other instruction and the
-total size already agreeing. Source statement order does not influence it.
-
-Re-measured on `FreeDuel_UpdateSparkle` in more detail, the residual is
-narrower than "two loads" suggests, and the extra detail rules things out.
-The function contains two independent chains, and **both** are transposed as
-a unit — not just their loads:
+`FreeDuel_PlaceCursor` reduces to a single transposition of two independent
+chains, with every other instruction, the total size, and the **register
+allocation** already agreeing:
 
 ```
 target   lbu $v0, 0xC   lhu $v1, 0x60   addiu $v0,-4   addiu $v1,-1
 built    lhu $v1, 0x60  lbu $v0, 0xC    addiu $v1,-1   addiu $v0,-4
 ```
 
-Every other instruction, including the deferred `sb` in the branch delay
-slot, is identical, and so is the **register allocation**: the level chain
-gets `$v0` and the timer chain `$v1` in both. That last point matters,
-because it means there is no allocation component to work with. The liveness
-lever that resolved `func_80180F50` — giving values separate locals so one
-stays live longer — cannot apply, since allocation is already correct and
-only the emission order of two equal-priority chains differs.
+Both chains transpose as a unit, not just their loads, so there is no
+allocation component to work with: the liveness lever that resolved
+`func_80180F50` cannot apply.
 
-Swapping the two source statements was measured directly and produces
-byte-identical output, so the order is chosen by the scheduler rather than
-inherited from the source.
+**`FreeDuel_UpdateSparkle` showed the identical symptom and was not
+unresolvable**, which is the useful part of this entry. Swapping the two source
+statements there produced byte-identical output, and that was recorded as proof
+that the scheduler chose the order rather than the source. The inference does
+not follow. Swapping two adjacent statements does not change the dependence
+structure, so of course it changes nothing; **moving one of them past the three
+intervening stores does**, and matches exactly:
 
-Profiles measured against `FreeDuel_UpdateSparkle`, none matching:
+```c
+level = obj->r - 4;
+obj->b = level;                  /* the three stores */
+obj->g = level;
+obj->r = level;
+timer = obj->timer - 1;          /* moved down past them */
+obj->timer = timer;
+if (timer == 0) {
+```
+
+So before concluding that a transposition is the scheduler's choice, move a
+statement far enough to change what depends on what. Adjacent swaps are not
+evidence.
+
+Whether `FreeDuel_PlaceCursor` yields to the same treatment has not been
+tested.
+
+Profiles measured against `FreeDuel_UpdateSparkle` while it was still open,
+none of which mattered in the end:
 
 | Profile | Result |
 |---|---|
@@ -444,36 +457,9 @@ Profiles measured against `FreeDuel_UpdateSparkle`, none matching:
 | `gcc_2_8_1_g0_no_sched2` | further |
 | `gcc_2_7_2_g0` | furthest, `0xC4` instead of `0xC8` |
 
-The 2.7.2 result is useful in its own right: it is positive evidence that
+The 2.7.2 result is still useful in its own right: it is positive evidence that
 these modules belong to the GCC 2.8.1 cohort, reached through the recorded
 escalation path rather than by assumption.
-
-Two independent functions sharing one residual suggests a scheduler ordering
-difference rather than two unrelated source mistakes. Treat it as a single
-open question about the profile set instead of guessing per function.
-
-### One of them was a missing profile combination
-
-`func_8018416C` in the main menu module looked like a third case of this and
-was not. Its whole residual was the epilogue:
-
-```
-target   move $v0,$v1       lw $ra,0x10($sp)   nop   jr $ra
-built    lw $ra,0x10($sp)   move $v0,$v1       jr $ra
-```
-
-`-fno-schedule-insns2` keeps the return copy ahead of the restore instead of
-scheduling it into that load-delay slot, and reproduces the target exactly.
-Testing `gcc_2_8_1_g0_no_sched2` appears to refute that — it is far worse, 35
-differing positions against 5 — but only because it is a **non-split** profile,
-so every `%hi`/`%lo` address load changes at the same time. No profile carried
-both `-fno-schedule-insns2` and `-msplit-addresses`, so the epilogue could
-never be right while the addresses were.
-
-The lesson generalises past this function: when a candidate profile makes a
-residual worse, check whether it also changes something unrelated before
-concluding the flag is wrong. Compare the flag lists, not just the results.
-`gcc_2_8_1_g0_no_sched2_split` closes this gap and matches byte for byte.
 
 ## Statement splitting controls evaluation order
 
