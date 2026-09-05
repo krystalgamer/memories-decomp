@@ -1,0 +1,255 @@
+==== USER CONTEXT ==== 
+ 
+On the main menu as soon as I opened the "Library" option the trace was hit.
+
+I'll describe here the library screen. On the top it had text saying "< 38/722>", meaning that I had 38 cards out of 722. The cursor is a small magnifier.
+There's 8 boxes with 10x10 grids, each one has a background indicating the card numbers in the box. First one is 001-100, second one is 101-200 and so on, the last one only says 701-722 because there's only 722 cards in the game.
+
+The cursor starts on the top left edge of the first box which would be card 1.
+ 
+==== TRACE RESULT ===== 
+ 
+script: card_scroll_axes 
+status: maximum sample count reached 
+ 
+--- sample 1 of 48 --- 
+  screen=Library mode=0x04 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 2 of 48 --- 
+  screen=Library mode=0x84 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 3 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 4 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 5 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 6 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 7 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 8 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 9 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 10 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 11 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 12 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 13 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 14 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 15 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 16 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 17 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 18 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 19 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 20 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 21 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 22 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 23 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 24 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 25 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 26 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 27 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 28 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 29 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 30 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 31 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 32 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 33 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 34 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 35 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 36 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 37 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 38 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 39 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 40 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 41 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 42 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 43 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 44 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 45 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 46 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 47 of 48 --- 
+  screen=Library mode=0xC4 active_pane=1 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- sample 48 of 48 --- 
+  screen=Library mode=0xC4 active_pane=0 
+  cursor_column=0 cursor_row=0 selected_card=0 pad_edge=0x0000 
+  value_8009B146=0 value_8009B148=0 
+ 
+--- end of trace, copy everything above into tools/trace/result/card_scroll_axes.txt --- 
