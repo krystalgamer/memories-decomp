@@ -2125,6 +2125,12 @@
       "source": "src/game/duel_effect_command.c"
     },
     {
+      "address": "0x80038148",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x160",
+      "source": "src/game/func_80038148.c"
+    },
+    {
       "address": "0x800382A8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x8C",
