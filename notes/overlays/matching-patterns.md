@@ -416,13 +416,36 @@ before the coordinate stores is what fixed the load placement, since GCC will
 not hoist a global load across a store through a `u8` pointer. Declaration
 order does not affect what is left.
 
-Its inventory note also records that `-fno-schedule-insns` and
-`-fno-schedule-insns2` both move it further away. **That measurement predates
-`gcc_2_8_1_g0_split_no_sched1` and `gcc_2_8_1_g0_no_sched2_split`, and it is
-not recorded whether it was taken with those flags added to the split profile
-or through the non-split profiles that were the only ones available.** Two
-functions have already been unblocked by exactly that ambiguity, so repeat it
-unambiguously before treating the flags as ruled out.
+That ambiguity about the scheduling flags is now closed. All four are much
+worse against a candidate that is otherwise five positions from the target, so
+this is a source question and not a profile one:
+
+| Profile | Differing positions |
+|---|---:|
+| `gcc_2_8_1_g0_split` | **5** |
+| `gcc_2_8_1_g0_split_no_sched1` | 57 |
+| `gcc_2_8_1_g0_no_sched2_split` | 54 |
+| `gcc_2_8_1_g0_no_sched2` | 66 |
+| `gcc_2_8_1_g0_no_sched1` | 72 |
+
+Three further `lui` transpositions of the same kind were reachable from the
+source, which is what leaves only the leading pair. Each was fixed by naming
+the symbol in a local **before** the arithmetic that uses it, so the `%hi`
+is emitted ahead of it rather than after:
+
+```c
+base = D_801D0000;              /* not &D_801D0000[index * 4] in one go */
+row = &base[index * 4];
+
+pFlag = &D_8009B32E;            /* not a bare store to the global */
+stored = index - 31960;
+*pFlag = stored;
+```
+
+The remaining pair resists this, because the symbol that must come first,
+`D_8009B366`, is already read into a local as the first statement of the
+function, while the one that must come second, `D_800EB0F8`, is held in a
+callee-saved register across two calls and so is set up early regardless.
 
 ### What the previous occupant of this section taught
 
