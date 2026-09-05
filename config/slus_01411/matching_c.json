@@ -985,6 +985,12 @@
       "source": "src/game/duel_field_card_filters.c"
     },
     {
+      "address": "0x80026DC8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x298",
+      "source": "src/game/func_80026DC8.c"
+    },
+    {
       "address": "0x80027060",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xCC",
