@@ -1846,7 +1846,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B350,D_8009B350,D_8009B350,0x80038800,func_80038800,matching_c,game,C,src/game/duel_effect_script_dispatch.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038B08,func_80038B08,matching_c,game,C,src/game/duel_effect_tail_commands.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038BF0,func_80038BF0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0293f0.s,write,32,"sw $a3, %gp_rel(D_8009B350)($gp)"
-0x8009B350,D_8009B350,D_8009B350,0x80038D14,func_80038D14,matching_c,game,C,src/game/func_80038D14.c,write,32,D_8009B350 = 1;
+0x8009B350,D_8009B350,D_8009B350,0x80038D14,func_80038D14,matching_c,game,C,src/game/text_control_commands.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038E1C,func_80038E1C,matching_c,game,C,src/game/duel_effect_completion.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038E7C,func_80038E7C,matching_c,game,C,src/game/duel_effect_completion.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038EB0,func_80038EB0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0296b0.s,write,32,"sw $v0, %gp_rel(D_8009B350)($gp)"
