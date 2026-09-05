@@ -409,6 +409,46 @@ that will not move looks like allocation; both were recorded here as a sched1
 problem needing a profile that did not exist. The stock `gcc_2_8_1_g0_split`
 matches once the accesses are members.
 
+### The same lever pushes the other way
+
+Reading a wide field off a `u8 *` base can also make a load *sink* below a
+store instead of hoisting above one, for the same reason: the byte-pointer
+`MEM` carries no type, so GCC cannot rule out an alias with the global being
+stored between the two loads.
+
+`func_801688BC` snapshots five camera channels. The last two are 32-bit and
+sit at `+0x1C` and `+0x24`; the target loads them back to back:
+
+```
+sw   t0,%lo(D_80169610)(v0)
+lw   t0,28(a3)
+lw   a0,36(a3)          <- fills the load delay of the first
+sll  v0,t0,0x10
+```
+
+Off the `u8 *` base, the second load sinks past the intervening store and the
+delay slot goes to a `lui` instead:
+
+```c
+/* three slots wrong: the second lw lands after the D_801695CC store */
+pitch = *(s32 *)(camera + 0x1C);
+dist  = *(s32 *)(camera + 0x24);
+
+/* matches: a second base, typed to the field being read */
+s32 *cameraLong = (s32 *)D_800F2848;
+pitch = cameraLong[7];
+dist  = cameraLong[9];
+```
+
+Both bases are the same symbol, so this costs nothing at runtime and adds no
+instruction — it only tells GCC what is being read. Note the base has to be
+the symbol itself: `(s32 *)(D_800F2848 + 0x10)` with indices `3` and `5`
+needs its own `addiu` and comes out a word long.
+
+The tell is a load that appears *later* than its source position, separated
+from a sibling load by exactly one store. Do not read that as scheduling; ask
+first what type the pointer had.
+
 ## A register copy before the last store may be the return value
 
 A tail that reads
