@@ -55,6 +55,8 @@ The conflict shows up in two different ways, so both are worth recognising:
   Its two `gDuel_bTerrain` reads are correct only under a non-split profile,
   which is also what forces the second read to re-materialise its address, but
   the indexed table load then collapses to the three-instruction `$at` form.
+  The second half of that reading has since been corrected: see "Cross-block
+  address CSE" below. The address form is not what costs the instruction.
 - `Ai_GetHandSize` (`0x80070710`) keeps the correct instruction count of 10
   under a split profile, and differs only in which register carries the high
   half: the target reuses the load's destination, as macro form does, while
@@ -209,6 +211,49 @@ So the recorded blocker was an artefact of the wrong profile, and the real one
 is the same schedule residual as above. When a pre-profile history is the only
 history an address has, the cheapest new evidence is its cohort's profile, and
 `matching_c.json` gives that for free from any matched neighbour.
+
+#### Cross-block address CSE, and what it costs
+
+`Duel_GetTerrainBoost` (`0x8002497C`) reads `gDuel_bTerrain` twice and
+re-materialises its address the second time:
+
+```
+lui  $v1, %hi(gDuel_bTerrain)
+lbu  $v1, %lo(gDuel_bTerrain)($v1)
+```
+
+GCC 2.8.1 will not do that. Its three blocks — the entry, the `slti` block, and
+the body — each have a single predecessor, so they form one extended basic
+block, `cse_main` sees the first read's address as still available, and the
+second read becomes a bare `lbu $v1, 0x0($a1)`. That one missing `lui` is the
+entire difference. Under `gcc_2_8_1_g0_split` the rest of the body is exact:
+23 of the 24 emitted instructions are byte-identical to the target, at
+positions 0..13 and, one earlier, 15..23.
+
+Three levers are needed to get that far, and each is worth knowing on its own:
+
+- a `goto` past the shared `return 0` produces the target's block layout. `if
+  (c) return 0;` twice makes GCC duplicate the null return; a plain nested `if`
+  makes it sink the return past the body. Only the `goto` puts the return
+  between the two branches where the target has it.
+- pinning the table base to `$4` is what produces `addu $v1, $a0, $zero`. The
+  parameter copy exists because `$a0` is taken by the table address before
+  `type` is used again; with the base anywhere else, `$a0` survives and the copy
+  never appears.
+- splitting `type * 6 - 1` into its own local keeps `addiu $v0, $v0, -0x1` out
+  of the load displacement.
+
+Nothing reaches the CSE itself. A 2-D `gDuel_aTerrainBoost[type][gDuel_bTerrain
+- 1]`, an `extern u8 gDuel_bTerrain[9]` declaration with `[0]` subscripts, and
+pinning the first read's value to `$2` all keep it, and the first two also fold
+the `-1` back into the displacement.
+
+The correction to the earlier reading: under `gcc_2_8_1_g0_no_split` the address
+is *also* CSEd — materialised once at the top and reused at both reads — and the
+table load additionally degrades to the `$at` macro, giving 23 of 25. So the
+non-split profile does not force re-materialisation, the split profile is
+strictly better, and this residual belongs with the compiler-side ones rather
+than with the address-form conflict.
 
 ### Disassembly artifacts
 
