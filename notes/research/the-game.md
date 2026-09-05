@@ -1502,8 +1502,8 @@ Not verified in code:
   dialogue (§7.11);
 * the win/loss record order (the archives' claim; only the drop-block order
   is measured);
-* what Simon Muran's loss in the opening does (the guides disagree), and
-  when his duel is offered (before or after the festival);
+* when Simon Muran's optional duel is offered relative to the festival (the
+  guides disagree);
 * what the two "enable" GameShark codes target — their guards match neither
   located overlay;
 * the home terrains of the five shrines and the finale (only Sebek/Neku's
