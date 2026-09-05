@@ -45,8 +45,18 @@ The project pins the public decompals/old-gcc PSX branch:
 | Local prefix | `tools/toolchains/gcc-2.8.1-psx/` |
 | Compiler executable | `tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc` |
 
-This is stock GNU GCC 2.8.1 patched for the PSX target. It is not Sony CCPSX
-and does not replace the selected Psy-Q 4.6 SDK identity.
+The prefix has two mutually exclusive installation paths:
+
+| Make target | Installed compiler | Compiler identity | Provenance |
+|---|---|---|---|
+| `make compiler-281` | Native host build | `mips-sony-psx` | GCC source and the pinned decompals patch commit above |
+| `make compiler-281-prebuilt` | Shell wrapper plus `libexec/gcc-2.8.1-psx` | Packaged driver reports `mips-linux-gnu` | decompals release `0.17`, archive SHA-256 `2421097de375a67939713480ea2aa17ce4df6c92cf0c476e68e9ac08c09c759e` |
+
+The source-build path is stock GNU GCC 2.8.1 patched for the PSX target. The
+prebuilt path installs its driver behind the same project executable name and
+supplies the same `cc1`/`cpp` layout expected by the build. The installed
+`build-manifest.json` records which distribution occupies the prefix. Neither
+path is Sony CCPSX or replaces the selected Psy-Q 4.6 SDK identity.
 
 The historical patch has two important defects:
 
@@ -68,10 +78,14 @@ Compiler assembly is normalized with:
 maspsx --aspsx-version=2.81 --expand-div -G8
 ```
 
-The compiler is built as a native 64-bit host executable because this
-environment lacks 32-bit multilib headers and static libraries. It is suitable
-for matching probes, but broader compiler selection still requires comparison
-with genuine Psy-Q 4.6 tools or a verified 32-bit build.
+`make compiler-281` builds a native host executable; on a 64-bit host without
+32-bit multilib headers and libraries, that produces a 64-bit compiler.
+`make compiler-281-prebuilt` instead installs a POSIX shell wrapper and a
+statically linked 32-bit i386 driver at
+`tools/toolchains/gcc-2.8.1-psx/libexec/gcc-2.8.1-psx`. It avoids host
+compiler and multilib dependencies on x86 systems, but requires a host capable
+of executing i386 binaries. Both are suitable matching probes, while broader
+compiler selection still requires comparison with genuine Psy-Q 4.6 tools.
 
 `AiScript_Print` (`0x800736C4`) is the first confirmed match: GCC 2.8.1 with
 the explicit flags above and maspsx emits its exact 64-byte instruction
