@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "save_data.h"
 
 extern u8 D_801D3200[];
 extern u8 D_80010384[];
@@ -8,5 +9,5 @@ void SaveData_RequestLoad(void)
 {
     /* The symbolic store changes the target $at scheduling and relocation. */
     *(u8 *)0x8009B0D1 = 0;
-    func_8003F758(D_801D3200, 0x680, D_80010384, 0);
+    func_8003F758(D_801D3200, SAVE_DATA_STATE_SIZE, D_80010384, 0);
 }

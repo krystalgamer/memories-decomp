@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "save_data.h"
 
 extern u8 D_801D4000[];
 extern s32 D_8009B0C4[];
@@ -46,5 +47,5 @@ void func_8003D03C(u8 *data)
         } while (i < 0x58);
     }
 
-    Util_CopyWords(data + 0x880, data + 0x200, 0x680);
+    Util_CopyWords(data + 0x880, data + 0x200, SAVE_DATA_STATE_SIZE);
 }

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "save_data.h"
 
 extern s32 func_8003F70C(void);
 extern void Util_CopyWords(void *, void *, s32);
@@ -9,7 +10,7 @@ s32 SaveData_PollLoad(void) {
     if (r != 0) {
         if (r == 1) {
             u8 *p = gDuel_awPlayerDeck;
-            Util_CopyWords(p, D_801D3200, 0x680);
+            Util_CopyWords(p, D_801D3200, SAVE_DATA_STATE_SIZE);
             SaveData_ApplyRuntimeState(p);
         }
         return r;
