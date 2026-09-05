@@ -16,7 +16,7 @@ address,size,name,status,module,notes
 0x8001352C,0xD0,func_8001352C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800135FC,0xD8,func_800135FC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800136D4,0x10,func_800136D4,matching_c,game,47 pre-policy variants: volatile nine-byte local reproduced the exact stack adjustment and empty return.
-0x800136E4,0x100,File_SetPositionTable,unmatched_asm,game,
+0x800136E4,0x100,File_SetPositionTable,matching_c,game,Exact pure-C match from collaborator evidence; mixed GCC G8 split / MASPSX G2 profile preserves symbol-size-dependent addressing.
 0x800137E4,0xB4,func_800137E4,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80013898,0x5C,func_80013898,matching_c,game,File-system state initializer using GCC 2.8.1 -O2 -G8
 0x800138F4,0x4C,File_GetPosition,matching_c,game,Disc file search and location wrapper using a 24-byte descriptor
