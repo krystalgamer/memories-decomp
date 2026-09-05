@@ -102,6 +102,28 @@
       ],
       "data_limit": 0
     },
+    "gcc_2_8_1_g0_keep_large_ori": {
+      "compiler": "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc",
+      "compiler_flags": [
+        "-O2",
+        "-G0",
+        "-mel",
+        "-mips1",
+        "-mcpu=R3000",
+        "-msoft-float",
+        "-fno-builtin",
+        "-Dpsx",
+        "-D__psx__",
+        "-D__psx"
+      ],
+      "aspsx_version": "2.81",
+      "maspsx_flags": [
+        "--expand-div",
+        "--keep-large-ori",
+        "-G0"
+      ],
+      "data_limit": 0
+    },
     "gcc_2_8_1_g0_no_sched1": {
       "compiler": "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc",
       "compiler_flags": [

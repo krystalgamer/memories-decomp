@@ -775,7 +775,7 @@ address,size,name,status,module,notes
 0x800482B0,0x3A8,func_800482B0,unmatched_asm,game,
 0x80048658,0x110,SD_SEPlay,unmatched_asm,game,
 0x80048768,0x1B8,func_80048768,unmatched_asm,game,
-0x80048920,0x108,func_80048920,unmatched_asm,game,
+0x80048920,0x108,func_80048920,matching_c,game,Exact pure-C collaborator match; G0/no-split with keep-large-ori and allocation-only register pins preserves input routing and four-voice scan.
 0x80048A28,0x1E4,func_80048A28,unmatched_asm,game,
 0x80048C0C,0x64,func_80048C0C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80048C70,0x98,func_80048C70,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
