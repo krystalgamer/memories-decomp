@@ -70,7 +70,8 @@ segments:
       - [0x588, c, overlays/overworld/location_marker]
       - [0x66C, asm, overlays/overworld_after_coup/text_66C]
       - [0xE0C, c, overlays/overworld/pick_exit]
-      - [0xFCC, asm, overlays/overworld_after_coup/text_FCC]
+      - [0xFCC, c, overlays/overworld/location_tick]
+      - [0x11A8, asm, overlays/overworld_after_coup/text_11A8]
       - [0x1E54, data, overlays/overworld_after_coup/data]
 
   - [0x3000]
