@@ -3,7 +3,7 @@
 extern u16 gInput_wPad2Held, gInput_wPad2Pressed, gInput_wPad2Repeat;
 extern u8 D_800EF6B0[];
 extern u32 D_8009B390, D_8009B3B0, D_8009B3B4, D_8009B3A8;
-void func_8003CB7C(void) {
+void Input_ResetPads(void) {
     s32 i = 1;
     volatile u16 *c = &gInput_wPad2Held;
     volatile u16 *b = &gInput_wPad2Pressed;

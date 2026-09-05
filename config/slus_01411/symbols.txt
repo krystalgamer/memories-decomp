@@ -362,3 +362,4 @@ Dialog_UpdateChoice = 0x800371A8; // type:func
 
 // Semantic names
 Input_UpdatePads = 0x8003CCD8; // type:func
+Input_ResetPads = 0x8003CB7C; // type:func
