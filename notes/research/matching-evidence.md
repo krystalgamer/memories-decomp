@@ -25,15 +25,16 @@ before they become shared C types.
   global.
 - `-msplit-addresses` is a per-translation-unit compiler flag, not a maspsx
   setting; the three G0 profiles pass identical maspsx flags and differ only in
-  `-msplit-addresses` versus `-mno-split-addresses`. A function therefore cannot
-  mix the two address forms, and a target that needs both is not reachable from
-  the current profile set.
+  `-msplit-addresses` versus `-mno-split-addresses`.
+- A function *can* nevertheless carry both address forms, and one profile in the
+  table supplies them: see "Targets that need both address forms" below.
 
 #### Targets that need both address forms
 
 Some functions require macro form for a direct scalar load and split form for a
-symbol-indexed load in the same body. Because the flag is per-translation-unit,
-no profile satisfies both, and each choice leaves a different residual.
+symbol-indexed load in the same body. Choosing between `-msplit-addresses` and
+`-mno-split-addresses` cannot give both, and each choice leaves a different
+residual.
 
 The two forms are easy to tell apart in the target:
 
@@ -65,6 +66,37 @@ The conflict shows up in two different ways, so both are worth recognising:
 A shortfall in the instruction count is therefore not the only symptom of this
 conflict; a same-length body whose only fault is the address temporary is the
 same problem seen from the other side.
+
+##### The conflict is resolvable: choose the form per symbol, with `-G`
+
+The choice is not actually between the two address forms. It is between *sizes*.
+`-msplit-addresses` governs only how GCC materialises the addresses it decides
+to materialise; which symbols get materialised at all is governed by the
+small-data threshold. Compiling at `-G8` puts a small scalar below the threshold
+and leaves the large array above it, and the two are then emitted differently in
+the same function: the scalar in macro form that reuses its own destination as
+the address temporary, the array in the four-instruction split form.
+
+`gcc_2_8_1_cc_g8_as_g0_split` is exactly that profile — `-G8 -mgas
+-msplit-addresses` at compile time, `-G0` at assembly time, so nothing ends up
+`%gp_rel` in the object. It resolves `Ai_GetHandSize` (`0x80070710`) exactly from
+pure C, after six terminal attempts had settled on the address temporary as the
+irreducible residual:
+
+```c
+s8 Ai_GetHandSize(void)
+{
+    return gDuel_aOpponentData[gDuel_bOpponentID].b[0];
+}
+```
+
+The register pin the earlier candidates carried is not needed and does nothing;
+the allocation follows from the two address forms once they are both available.
+
+So when a target mixes the forms, read the *sizes* of the symbols involved
+before concluding anything about the flag. A body that mixes a sub-threshold
+scalar with an above-threshold aggregate wants a `cc_g8_as_g0` profile; the
+conflict is only real when both symbols fall on the same side of the threshold.
 
 Pinning a base pointer to a hard register does not help: GCC folds the pointer
 back into a symbol-indexed load and the pin is optimised away.
