@@ -244,7 +244,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF54,D_8009AF54,D_8009AF54,0x80030294,func_80030294,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_020a94.s,address,,"addiu $a0, $s1, %lo(D_8009AF54) | lui $s1, %hi(D_8009AF54)"
 0x8009AF54,D_8009AF54,D_8009AF54,0x80031084,func_80031084,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_021884.s,address,,"addiu $a0, $s1, %lo(D_8009AF54) | lui $s1, %hi(D_8009AF54)"
 0x8009AF58,D_8009AF58,D_8009AF58,0x80030294,func_80030294,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_020a94.s,address,,"addiu $a0, $a0, %lo(D_8009AF58) | lui $a0, %hi(D_8009AF58)"
-0x8009AF5C,D_8009AF5C,D_8009AF5C,0x8003C568,func_8003C568,matching_c,game,C,src/game/func_8003C568.c,address,8,*(Blk6 *)sp0 = *(Blk6 *)D_8009AF5C;
+0x8009AF5C,D_8009AF5C,D_8009AF5C,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_update_layout.c,address,8,*(Blk6 *)sp0 = *(Blk6 *)D_8009AF5C;
 0x8009AF64,D_8009AF64,D_8009AF64,0x8003CE74,SaveData_NextMaskWord,matching_c,game,C,src/game/save_data_checksum.c,address,32,"register u32 *state asm(""$6"") = &D_8009AF64;"
 0x8009AF64,D_8009AF64,D_8009AF64,0x8003CF14,func_8003CF14,matching_c,game,C,src/game/save_data_checksum.c,write,32,D_8009AF64 = seed | (seed << 16);
 0x8009AF64,D_8009AF64,D_8009AF64,0x8003CFC8,func_8003CFC8,matching_c,game,C,src/game/func_8003CFC8.c,write,,"extern u16 func_8003CEB8(void*,int);extern unsigned D_8009AF64,D_8009AF68;extern unsigned SaveData_NextMaskWord(void)..."
@@ -1926,14 +1926,14 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B37C,gOptions_bState,gOptions_bState,0x8003C628,Options_Init,matching_c,game,C,src/game/options_init.c,write,8,gOptions_bState = 1;
 0x8009B37C,gOptions_bState,gOptions_bState,0x8003C7A0,Options_HandleInput,matching_c,game,C,src/game/options_handle_input.c,write,8,gOptions_bState = *(u8 *)&gOptions_bSelection + 1; | gOptions_bState = 0;
 0x8009B37C,gOptions_bState,gOptions_bState,0x8003C8CC,Options_Update,matching_c,game,C,src/game/options_update.c,read_write,8,case 3: gOptions_bState = 1; break; | return gOptions_bState; | (+1 more)
-0x8009B37D,gOptions_bOutputType,gOptions_bOutputType,0x8003C568,func_8003C568,matching_c,game,C,src/game/func_8003C568.c,read,8,k = gOptions_bOutputType;
+0x8009B37D,gOptions_bOutputType,gOptions_bOutputType,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_update_layout.c,read,8,k = gOptions_bOutputType;
 0x8009B37D,gOptions_bOutputType,gOptions_bOutputType,0x8003C628,Options_Init,matching_c,game,C,src/game/options_init.c,write,8,gOptions_bOutputType = 0; | gOptions_bOutputType = flag408;
 0x8009B37D,gOptions_bOutputType,gOptions_bOutputType,0x8003C7A0,Options_HandleInput,matching_c,game,C,src/game/options_handle_input.c,read_write,8,gOptions_bOutputType = 0; | gOptions_bOutputType = 1; | (+2 more)
-0x8009B380,D_8009B380,D_8009B380,0x8003C568,func_8003C568,matching_c,game,C,src/game/func_8003C568.c,read,8,a = D_8009B380;
+0x8009B380,D_8009B380,D_8009B380,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_update_layout.c,read,8,a = D_8009B380;
 0x8009B380,D_8009B380,D_8009B380,0x8003C628,Options_Init,matching_c,game,C,src/game/options_init.c,write,,D_8009B380 = obj;
 0x8009B384,gOptions_bSelection,gOptions_bSelection,0x8003C628,Options_Init,matching_c,game,C,src/game/options_init.c,read_write,8,gOptions_bSelection = 0; | s32 flag = gOptions_bSelection;
-0x8009B384,gOptions_bSelection,gOptions_bSelection,0x8003C7A0,Options_HandleInput,matching_c,game,C,src/game/options_handle_input.c,read,8,func_8003C568(gOptions_bSelection); | gOptions_bState = *(u8 *)&gOptions_bSelection + 1; | (+2 more)
-0x8009B388,D_8009B388,D_8009B388,0x8003C568,func_8003C568,matching_c,game,C,src/game/func_8003C568.c,read,8,b = D_8009B388;
+0x8009B384,gOptions_bSelection,gOptions_bSelection,0x8003C7A0,Options_HandleInput,matching_c,game,C,src/game/options_handle_input.c,read,8,Options_UpdateLayout(gOptions_bSelection); | gOptions_bState = *(u8 *)&gOptions_bSelection + 1; | (+2 more)
+0x8009B388,D_8009B388,D_8009B388,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_update_layout.c,read,8,b = D_8009B388;
 0x8009B388,D_8009B388,D_8009B388,0x8003C628,Options_Init,matching_c,game,C,src/game/options_init.c,write,,D_8009B388 = obj;
 0x8009B390,D_8009B390,D_8009B390,0x8003CB7C,func_8003CB7C,matching_c,game,C,src/game/func_8003CB7C.c,write,32,D_8009B390 = 0;
 0x8009B390,D_8009B390,D_8009B390,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,read_write,32,D_8009B390 = current; | newly_pressed = (D_8009B390 ^ current) & current;

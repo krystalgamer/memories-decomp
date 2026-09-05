@@ -10,7 +10,7 @@ extern u8 gSD_bOutputType[9];
 
 extern void SD_SetOutputType(s32);
 extern void SD_SEPlayFull(s32);
-extern void func_8003C568(s32);
+extern void Options_UpdateLayout(s32);
 
 void Options_HandleInput(void)
 {
@@ -34,7 +34,7 @@ void Options_HandleInput(void)
         }
         SD_SetOutputType(value);
         SD_SEPlayFull(0x2F);
-        func_8003C568(gOptions_bSelection);
+        Options_UpdateLayout(gOptions_bSelection);
         return;
     }
 
