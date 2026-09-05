@@ -255,6 +255,83 @@ non-split profile does not force re-materialisation, the split profile is
 strictly better, and this residual belongs with the compiler-side ones rather
 than with the address-form conflict.
 
+#### Two source levers that are worth trying before any profile change
+
+Both come from `Duel_GetBaseCardStat` (`0x8002CBF4`) and both are general.
+
+**Split a load-and-shift into two statements.** Written as one expression, the
+two arms of an `if`/`else` that both read the same array get opposite register
+assignments:
+
+```c
+value = gDuel_adwCardStats[card_id - 1] >> 9;   /* arms differ */
+value = gDuel_adwCardStats[card_id - 1];
+```
+
+Split into a load and a `>>= 9`, both arms compile to byte-identical address
+blocks, which is what the target has. The shift then lands in the `j`'s delay
+slot on its own.
+
+**Clamp by assignment, not by return.** These are not the same shape:
+
+```c
+if (stat < 10000) return stat;      /* bgez + j, result kept in $v0 */
+return 9999;
+
+if (stat >= 10000) stat = 9999;     /* bltz / slti / bnez, copies in delay slots */
+return stat;
+```
+
+The second is the retail shape here, and switching to it made the last thirteen
+instructions byte-exact in one step. The tell in a target is a comparison whose
+result is copied into `$v0` from a delay slot rather than computed there.
+
+#### The no-sched1 profile needs a split variant
+
+`gcc_2_8_1_g0_no_sched1` (#537) is `gcc_2_8_1_g0` plus `-fno-schedule-insns`,
+and it is not a split profile. A function that needs both — first-pass
+scheduling off *and* split addresses — has no profile to name.
+
+`Duel_GetBaseCardStat` is that function. Its three
+`%hi`/`%lo(gDuel_adwCardStats)` blocks require split addresses; under
+`gcc_2_8_1_g0_no_sched1` they collapse to the `$at` macro and the body drops
+from 45 instructions to 42. Under the default `gcc_2_8_1_g0_split` the
+`sll $s0, $v0, 1` that completes a `* 10` is deferred past the third address
+block into its load-delay slot, so the body comes out at 44 and the multiply
+temporary moves from `$v0` to `$a1`. With `-msplit-addresses` and
+`-fno-schedule-insns` together the multiply stays whole, the load-delay `nop`
+returns, and the body is 45 of 45 with a single register pair left over.
+
+`gcc_2_8_1_g0_split_no_sched1` is added here for that reason. It is additive:
+no source names it yet, and `make match` is unaffected.
+
+#### Pins can cost an instruction near an incoming argument
+
+The counterpart to the `%hi`-temporary and call-return rules. `func_8003201C`
+(`0x8003201C`) reaches its 40 instructions with the right multiset and a
+two-pair register permutation, and its own cohort file
+(`build_deck_add_card.c`) uses pins freely, so pins are the obvious next step.
+Every one tried makes it **41**: pinning the outer counter to `$6` makes GCC
+copy `$a0` into `$a3` first because the pinned register collides with the
+incoming argument, and pinning the inner counter or the entry pointer makes it
+hoist an extra `addiu $t1, $a0, 0x2D54` and add a copy. When the permutation
+you want involves a register adjacent to an incoming argument, a pin buys a
+copy rather than moving one.
+
+Separately, that function only reaches 40 instructions at all when the counter
+address is written inline. Binding it to a local first —
+
+```c
+u8 *slot = (u8 *)(arg0 + id);
+slot[0x5AC4] = 0;
+... slot[0x5AC4]++;
+```
+
+— gives 39: GCC keeps one register for both uses. Writing both accesses as
+`*(u8 *)(arg0 + id + 0x5AC4)` makes it strength-reduce `arg0 + id` into an
+induction pointer and take a loop-invariant copy of it for the inner loop,
+which is the 40th instruction.
+
 ### Disassembly artifacts
 
 Splat names any address-shaped literal as though it were a symbol. A `%hi`/`%lo`
