@@ -3334,7 +3334,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D9000,D_801D9000,D_801D9000,0x8003BC40,Text_SjisToGlyphCodes,matching_c,game,C,src/game/text_sjis_to_glyph_codes.c,address,32,u32 *entry = &D_801D9000[index];
 0x801D9004,D_801D9004,D_801D9004,0x8003B5C8,func_8003B5C8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02bdc8.s,read,32,"addiu $a0, $t2, %lo(D_801D9004) | lui $t2, %hi(D_801D9004) | (+1 more)"
 0x801D9174,D_801D9174,D_801D9174|D_801D9174_b,0x80036BCC,func_80036BCC,matching_c,game,C,src/game/func_80036BCC.c,address,8,key = D_801D9174_b; | rec = D_801D9174;
-0x801DA000,D_801DA000,D_801DA000,0x80036C14,func_80036C14,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_027414.s,address,,"addiu $a3, $v0, %lo(D_801DA000) | lui $v0, %hi(D_801DA000)"
+0x801DA000,D_801DA000,D_801DA000,0x80036C14,func_80036C14,matching_c,game,C,src/game/func_80036C14.c,read,,r = D_801DA000;
 0x801DC000,gLibrary_aCardArtRecord,gLibrary_aCardArtRecord,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,address,8,func_80013898((s32)gLibrary_aCardArtRecord);
 0x801DC000,gLibrary_aCardArtRecord,gLibrary_aCardArtRecord,0x8003E854,func_8003E854,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02f054.s,address,,"addiu $a2, $a2, %lo(gLibrary_aCardArtRecord) | addiu $s0, $v0, %lo(gLibrary_aCardArtRecord) | (+2 more)"
 0x801DC000,gLibrary_aCardArtRecord,gLibrary_aCardArtRecord,0x8003EED0,func_8003EED0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02f6d0.s,address,,"addiu $a2, $a2, %lo(gLibrary_aCardArtRecord) | addiu $s0, $v0, %lo(gLibrary_aCardArtRecord) | (+2 more)"
