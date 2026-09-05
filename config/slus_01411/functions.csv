@@ -1604,7 +1604,7 @@ address,size,name,status,module,notes
 0x800871D0,0xA4,PushMatrix,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGTE.LIB/MTX_006.OBJ signature.
 0x80087274,0xA4,PopMatrix,sdk_asm,psyq/sdk,Identified at offset 0xA4 of the unique Psy-Q 4.6 LIBGTE.LIB/MTX_006.OBJ signature.
 0x80087320,0x48,func_80087320,sdk_asm,psyq/sdk,
-0x80087370,0x10C,func_80087370,sdk_asm,psyq/sdk,
+0x80087370,0x10C,MulMatrix,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/MTX_03.OBJ signature and matching model-composition caller.
 0x80087480,0x10C,func_80087480,sdk_asm,psyq/sdk,
 0x80087590,0x50,func_80087590,sdk_asm,psyq/sdk,
 0x800875E0,0x5C,func_800875E0,sdk_asm,psyq/sdk,
