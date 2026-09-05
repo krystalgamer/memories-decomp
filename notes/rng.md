@@ -172,13 +172,20 @@ new state, return value, game mode, and frame counter. That trace can identify
 which menus or duel actions consume values and explain apparently exceptional
 timing without relying on visual frames alone.
 
+`tools/trace/rng_boot_timing.lua` implements the boot-through-title slice of
+that trace. It arms on `srand(0x55555555)`, records each `rand`/`srand` caller,
+state transition, mode, and VSync frame through the first three seconds of
+mode 8, and prints the human-context scaffold. It requires PCSX-Redux's
+interpreter CPU because it uses execution breakpoints. No result has been
+submitted yet, so the community timing observations above remain unconfirmed.
+
 ## Research checklist
 
 1. Name the SDK functions only after confirming the Psy-Q signature evidence.
 2. Inventory every caller of `0x8008E590` and every reseed call to
    `0x8008E5C0`.
-3. Trace boot through name entry to locate the exact starting-deck consumption
-   range.
+3. Run `tools/trace/rng_boot_timing.lua`, then extend the trace through name
+   entry to locate the exact starting-deck consumption range.
 4. Trace a deterministic duel and separate AI, animation, and reward
    consumption.
 5. Compare emulator frame counts against the PRNG call index; do not treat them
