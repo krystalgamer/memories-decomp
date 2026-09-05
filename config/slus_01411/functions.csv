@@ -996,7 +996,7 @@ address,size,name,status,module,notes
 0x8005BFC8,0x22C,func_8005BFC8,unmatched_asm,game,
 0x8005C1F4,0x180,func_8005C1F4,unmatched_asm,game,
 0x8005C374,0x14,func_8005C374,matching_c,game,1 pre-policy variants: Three direct G8 byte assignments matched instruction order and all three GPREL16 relocations.
-0x8005C388,0xDC,func_8005C388,unmatched_asm,game,
+0x8005C388,0xDC,func_8005C388,matching_c,game,Post-terminal pure-C match; indexed loop strength reduction and allocation-only a0/a1 pins reproduce the retail schedule without a statement-level assembly barrier.
 0x8005C464,0x8C,func_8005C464,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005C4F0,0x40,File_Exists,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005C530,0x38,func_8005C530,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
