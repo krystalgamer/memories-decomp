@@ -439,7 +439,7 @@ address,size,name,status,module,notes
 0x80036D70,0x4C,func_80036D70,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80036DBC,0x1C4,DuelEffect_UpdateObjectLayout,matching_c,game,Post-terminal pure-C match; corrected D_80090E58 halfword indexing removes an erroneous double scale.
 0x80036F80,0x8C,Dialog_HighlightChoice,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8003700C,0x104,Dialog_ReadChoiceInput,unmatched_asm,game,
+0x8003700C,0x104,Dialog_ReadChoiceInput,matching_c,game,"Post-terminal resolution; volatile pad global re-read per branch, count widened to s32 for the lb, and the early-out placed last; exact under mixed GCC G8 and MASPSX G1 thresholds, as Dialog_UpdateChoice."
 0x80037110,0x98,Widget_UpdatePulseColour,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800371A8,0x1B4,Dialog_UpdateChoice,matching_c,game,Dialog choice update handler; exact under mixed GCC G8 and MASPSX G1 thresholds.
 0x8003735C,0x6C,DuelEffect_HasActiveEntry,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
