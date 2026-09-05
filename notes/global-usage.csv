@@ -1152,9 +1152,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B162,D_8009B162,D_8009B162,0x80023D08,func_80023D08,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013dc0.s,read_write,16,"lhu $v0, %gp_rel(D_8009B162)($gp) | sh $v1, %gp_rel(D_8009B162)($gp)"
 0x8009B162,D_8009B162,D_8009B162,0x800240B0,Duel_UpdateCardPickCursor,matching_c,game,C,src/game/duel_update_card_pick_cursor.c,read_write,16,D_8009B162 = 0xC; | D_8009B162 = 3; | (+1 more)
 0x8009B162,D_8009B162,D_8009B162,0x80024200,func_80024200,matching_c,game,C,src/game/duel_scene_update.c,read,16,if (D_8009B162 != 0) {
-0x8009B164,D_8009B164,D_8009B164,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,write,8,"sb $zero, %gp_rel(D_8009B164)($gp)"
-0x8009B164,D_8009B164,D_8009B164,0x8001BD48,func_8001BD48,matching_c,game,C,src/game/func_8001BD48.c,write,8,D_8009B164 = 1;
-0x8009B164,D_8009B164,D_8009B164,0x80024200,func_80024200,matching_c,game,C,src/game/duel_scene_update.c,read_write,8,D_8009B164 = 0; | D_8009B164 = value | 0x80; | (+1 more)
+0x8009B164,gDuel_bQuitPromptState,gDuel_bQuitPromptState,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,write,8,"sb $zero, %gp_rel(gDuel_bQuitPromptState)($gp)"
+0x8009B164,gDuel_bQuitPromptState,gDuel_bQuitPromptState,0x8001BD48,func_8001BD48,matching_c,game,C,src/game/func_8001BD48.c,write,8,gDuel_bQuitPromptState = 1;
+0x8009B164,gDuel_bQuitPromptState,gDuel_bQuitPromptState,0x80024200,func_80024200,matching_c,game,C,src/game/duel_scene_update.c,read_write,8,gDuel_bQuitPromptState = 0; | gDuel_bQuitPromptState = value | 0x80; | (+1 more)
 0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x80018DB4,func_80018DB4,matching_c,game,C,src/game/func_80018DB4.c,read_write,8,*(s8 *)&D_800E9FF0[gDuel_bWinnerSide] = -0x28; | gDuel_bWinnerSide = D_8009B1D5 ^ 1;
 0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x80018FEC,func_80018FEC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0097ec.s,write,8,"sb $a0, %gp_rel(gDuel_bWinnerSide)($gp)"
 0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00ddb4.s,read_write,8,"lbu $v0, %gp_rel(gDuel_bWinnerSide)($gp) | sb $a0, %gp_rel(gDuel_bWinnerSide)($gp) | (+1 more)"

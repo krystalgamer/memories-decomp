@@ -7,7 +7,7 @@ typedef struct {
 } Window;
 
 extern u16 D_8009B162;
-extern u8 D_8009B164;
+extern u8 gDuel_bQuitPromptState;
 extern u16 D_8009B16C;
 extern u8 D_8009B174;
 extern s8 D_8009B238;
@@ -48,10 +48,10 @@ void func_80024200(void)
     if (func_80026B34() != 0 || DuelEffect_UpdateState() != 0) {
         return;
     }
-    value = D_8009B164;
+    value = gDuel_bQuitPromptState;
     if (value != 0) {
         if (!(value & 0x80)) {
-            D_8009B164 = value | 0x80;
+            gDuel_bQuitPromptState = value | 0x80;
             SD_SEPlayFull(0x30);
             window =
                 TextBox_CreateFlagged(3, 0x22, 0x78, 0x58, 0x50, 0x24, 0x20);
@@ -69,7 +69,7 @@ void func_80024200(void)
             );
             if (cleanup->flags & 0x2000) {
                 TextBox_Destroy(cleanup);
-                D_8009B164 = 0;
+                gDuel_bQuitPromptState = 0;
                 if (gDialog_bChoice[0] != 0) {
                     D_8009B16C |= 0x2000;
                 }
