@@ -83,7 +83,7 @@ symbol review.
 | `0x8007FCC0` | `DrawOTag` | Ordering-table submission behavior. |
 | `0x8007FD30` | `PutDrawEnv` | Draw-environment submission contract. |
 | `0x8007FEFC` | `PutDispEnv` | Display-environment submission contract. |
-| `0x800803F4` | `GetDispEnv` | Writes the current display environment to a caller-owned record. |
+| `0x800803F4` | `GetDispEnv` | Applied Psy-Q identity; `file_cd_helpers.c` passes the tracked `DISPENV` record and reuses its leading `disp` rectangle. |
 
 Duplicate library copies require address-qualified symbols rather than aliases.
 For example, CD conversion helpers appear more than once in the executable,
@@ -221,6 +221,11 @@ macros, image transfers, and direct primitive or ordering-table submission.
 `libgs.h` then builds scene coordinates, cameras, lights, object records, and
 sorting helpers on top of both lower layers.
 
+The imported `libgpu.h` also refers to `SVECTOR` in its model-primitive
+records without including `libgte.h`. Game C that uses `libgpu.h` therefore
+includes `libgte.h` first, even when its own direct use is limited to a GPU
+environment or rectangle type.
+
 The resident block at `0x800F56F0` now has field-level evidence matching the
 32-byte `GsRVIEW2` record: viewpoint and reference-point triplets, roll, and a
 parent-coordinate pointer. Game code initializes it before `GsSetRefView2`
@@ -236,11 +241,13 @@ The imported `libgs.h` includes only `src/types.h` even though it refers to
 `GsARGUNIT*` records describe hierarchical-model primitive processing and
 depend on GTE, GPU, and `libgs` declarations without including those headers.
 
-Current game C includes `libgpu.h` only in `func_800249E0.c`, where `RECT`
-backs two image transfers. No current game C includes `libgs.h` or
-`libhmd.h`, so a local render or model record should not be migrated to one of
-their types from a matching size or similar role alone; field-level and
-resident-call evidence are still required.
+Current game C includes `libgpu.h` in `func_800249E0.c`, where `RECT` backs
+two image transfers, and `file_cd_helpers.c`, where `DISPENV` receives the
+current display environment and its leading `disp` rectangle is passed to the
+next GPU operation. No current game C includes `libgs.h` or `libhmd.h`, so a
+local render or model record should not be migrated to one of their types from
+a matching size or similar role alone; field-level and resident-call evidence
+are still required.
 
 The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
 same `RECT *` / `u32 *` argument shape. The `LoadImage` migration is complete
@@ -588,7 +595,7 @@ The existing C sources expose several useful starting points:
 | Local `InitPAD` / `StartPAD` declarations | `libapi.h` | Initial migration complete in `src/game/input_init_pads.c`; the real prototypes preserve the exact build. |
 | `DslFILE` in `src/psyq/libds.h` | Ds file-search result | Initial migration complete in `src/game/file_stream.c`; extend only when another caller's field use agrees with the shared layout. |
 | `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Initial migration complete in `func_800249E0`; preserve byte-offset selection when extending it to other callers. |
-| Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Confirm complete size, alignment, and all fields touched by resident GPU functions. |
+| Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Initial `DISPENV` migration complete in `file_cd_helpers.c`; other buffers still require complete size, alignment, and field-use evidence. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Separate fixed-point SDK layouts from game-specific render records. |
 | Memory-card event descriptor arrays | event handles and card constants | Name the resident BIOS wrappers before centralizing prototypes and constants. |
 
