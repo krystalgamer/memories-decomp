@@ -1278,3 +1278,70 @@ three permutations of `i`, `x` and `y` all gave the identical 52 positions. The
 lever is whether the value is a named local, not where it is declared.
 
 Verified by `func_80183B2C` in the main menu module.
+
+## A subtraction whose destination is its second operand
+
+The recorded rule above says accumulating into a variable pins it to the
+**first** operand: `x += v` gives `addu $rX, $rX, $rV`. The mirror image is
+worth stating separately, because a subtraction cannot be written the other way
+round without changing the value.
+
+`subu $rD, $rA, $rB` where `$rD` is the register that held `B` means the result
+was assigned back into the variable that held the **subtrahend**:
+
+```c
+d = *(s16 *)(widget + 0x30);   /* d holds the current coordinate */
+d = target - d;                /* subu $rD, $rTarget, $rD        */
+```
+
+Writing the same value into a fresh local, or spelling the load inline inside
+the expression, both put the result in the register that held `target`
+instead. `FreeDuel_UpdateCursorTween` needed this twice, once per axis, and it
+was the whole of its recorded four-position residual.
+
+### One variable can have to carry three values in a row
+
+Fixing the register alone was not enough there. With the coordinate read as its
+own statement, the scheduler hoisted that load into the load delay slot left by
+the grid coordinate's `lb`, which removed a `nop` the target keeps and built one
+instruction short.
+
+The target keeps the slot empty because the register is still busy: it holds the
+grid coordinate, then the widget's current coordinate, then the difference, all
+in the same register across the whole block. Reusing one variable for all three
+reproduces that:
+
+```c
+d = D_8009B36C;                /* the grid coordinate  */
+tx = d * 56 + 20;
+d = *(s16 *)(widget + 0x30);   /* the current position */
+d = tx - d;                    /* the difference       */
+sx = (d << 8) / 8;
+```
+
+That built the match. Reusing one variable across both axes but *not* also
+carrying the grid coordinate still builds 119, so it is the three-value chain
+that matters, not economy of locals.
+
+The general point is the same one the volatile rule makes from the other side:
+**a register that holds several values in sequence is evidence that the source
+named them with one variable.** Look at the whole live range before deciding
+what a register means.
+
+## A test by sll 16 rather than andi means the value went through a signed local
+
+`andi $v0, $v0, 0xffff` before a branch tests the low half of a value the source
+treated as unsigned. `sll $v0, $v0, 16` in the same position tests it as
+`s16`. The load can still be `lhu`, because the field is unsigned and only the
+local is signed:
+
+```c
+s16 left;
+left = *(u16 *)(widget + 0x60) - 1;
+*(u16 *)(widget + 0x60) = left;
+if (left == 0) {
+```
+
+Reading, storing and testing the field directly gives `andi` and no local.
+
+Both verified by `FreeDuel_UpdateCursorTween` in the free duel module.
