@@ -51,7 +51,7 @@ For example, its `0x12C44` entry correctly identifies the
 The Notes page provides labels for several integer domains. These are good
 candidates for enums once their consumers are identified:
 
-### Main modes
+### Main-menu entry and result IDs
 
 | ID | Community label |
 |---:|---|
@@ -68,8 +68,11 @@ candidates for enums once their consumers are identified:
 | `0x0A` | Save |
 | `0x0B` | Debug Menu |
 
-These are menu-result IDs, not direct indices into the `Main_Loop` handler
-table at `0x80090B64`. `func_8002D458` stores the selected ID in
+The page presents these as modes, but local code establishes them as
+main-menu entry/result IDs. The loaded menu module keeps its current entry in
+`gMain_bMenuID` (`0x80184594`); forcing that byte to `0x0B` exposes the hidden
+Debug Menu entry. They are not direct indices into the `Main_Loop` handler
+table at `0x80090B64`. `func_8002D458` stores a normally selected result in
 `D_8009B26D`, accepts only values below `0x0B`, and translates several results
 to different internal handler indices:
 
@@ -87,9 +90,10 @@ New Game also enters internal index `0x02` after additional initialization.
 Load and Save leave the internal state at zero after the selection is stored;
 Build Deck instead calls `func_80033C90` and clears `D_8009B268`. None is a
 single direct nonzero handler assignment in this converter. Input `0x0B` fails
-the `selection < 0x0B` range check, so the community's Debug Menu label is not
-a selectable result through this path. Keep menu-result and runtime-handler
-enums separate if either domain is promoted into source.
+the `selection < 0x0B` range check, so the hidden Debug Menu entry can be
+forced in the module but cannot be selected through this normal conversion
+path. Keep menu-result and runtime-handler enums separate if either domain is
+promoted into source.
 
 ### Terrain
 
