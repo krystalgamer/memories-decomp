@@ -1222,6 +1222,54 @@ to the same RTL, so further permutations of that kind are low-yield. Anyone
 picking up this group should start from the G0 profile line and treat the
 five levers above as already settled.
 
+## Choosing the right instrument to verify a candidate
+
+Diff count is the cheap instrument and it is the one that misleads. Three
+separate verification lessons from working `func_80025028`, each of which
+cost a cycle.
+
+**The link validates size; the diff does not.** A candidate at 39 of 40
+instructions scored 16 diffs and looked close. Staged as matching C, the
+build stops immediately:
+
+```
+mipsel-none-elf-ld: resident text size mismatch
+```
+
+`make match` checks the function's byte size at link time, so a wrong
+instruction count fails loudly instead of scoring well. When the question is
+"is the count right", the real build is the sharper instrument, and it is
+worth reaching for before spending cycles tuning registers against a shape
+that cannot fit.
+
+That also settles a hypothesis worth recording as refuted: the missing
+instruction was *not* an artifact of a local probe harness invoking maspsx
+differently. The real pipeline produced the same short function.
+
+**Staging is a two-part change.** Adding an entry to `matching_c.json` alone
+fails with:
+
+```
+error: matching function 0x80025028 is not marked matching_c
+```
+
+The `status` column in `functions.csv` must move from `unmatched_asm` to
+`matching_c` as well. Both edits are needed before `make match` will exercise
+the candidate at all.
+
+**A bucketed sweep can hide the profile the rules require.** Summarising a
+profile sweep by instruction count and printing only the best-scoring profile
+per bucket concealed that `gcc_2_8_1_o1_g8` reaches the exact count of 40; a
+2.7.2 profile occupied the same bucket with a better diff score. That led to
+a cycle spent on a 2.8.1 line one instruction short, plus a wrong conclusion
+that the exact count was reachable only from the 2.7.2 cohort. Since the
+project rule is 2.8.1 first, a sweep summary should surface the best 2.8.1
+profile per bucket, not only the global best.
+
+The general form: an aggregate that hides candidates is as dangerous as a
+metric that ranks them wrongly, and both are cheaper to fix than the cycles
+they cost.
+
 ## Instructions the compiler folds away
 
 A candidate that is *short* by a few instructions is usually read as a missing
