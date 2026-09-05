@@ -370,3 +370,8 @@ Input_UpdatePads = 0x8003CCD8; // type:func
 Input_ResetPads = 0x8003CB7C; // type:func
 Input_BackupPad1AndUsePad2 = 0x8003CDF8; // type:func
 Input_RestorePad1FromBackup = 0x8003CE48; // type:func
+Input_InitPads = 0x8003CBE8; // type:func
+
+// Psy-Q LIBAPI.LIB/PAD.OBJ
+InitPAD = 0x80073E1C; // type:func
+StartPAD = 0x80073EAC; // type:func
