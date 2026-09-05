@@ -158,6 +158,58 @@ allocation is already correct. A residual of this kind is compiler-side, and
 the next attempt on it needs a `cc1` whose list scheduler tie-breaks
 differently, not a seventh C variant.
 
+`func_8004A6F8` (`0x8004A6F8`) is the same function with three `u16` fields read
+from a second parameter instead of constants, and it lands in the same place
+from the other direction. Reading the table entry into a local before the state
+pointer gives its 27 instructions and 0x6C bytes; pinning that local to `$2` and
+the state pointer to `$3` then makes every register correct. 23 of the 27 are in
+place, and the four that are not are one permutation: the target issues the
+state load immediately after its `lui` and the candidate fills that slot with
+`sw $ra`. So pins can finish the allocation half of this residual even when the
+schedule half stays out of reach — worth doing, because it narrows what the next
+attempt has to explain.
+
+#### Terminal histories recorded before the profile system are not terminal
+
+`config/slus_01411/attempts.csv` has two eras. Later rows name a profile from
+`compiler_profiles.json` in both the `compiler` and `flags` columns; earlier
+rows name a toolchain and a free-form phrase, such as
+`gcc-2.8.1-psx / -O2 -G8 early-return`. 268 addresses carry at least one row of
+the older kind, and 161 of those are still `unmatched_asm`. Those histories
+never tried their cohort's profile, so their six attempts do not mean what a
+profile-era six means.
+
+`func_80013B04` (`0x80013B04`) shows the difference. Its six rows are all
+free-form, and every one of them blames the branch orientation: "inverted the
+busy branch", "moved the null return to the shared epilogue". Both claims are
+wrong. Under `gcc_2_8_1_g8_split` — the profile its matched neighbour
+`func_80014A5C` uses, and the one the target's `%hi`/`%lo(gFile_anLba)` pair
+requires — writing the guard positively puts the null return inline exactly
+where the target has it:
+
+```c
+if (((D_8009B0F4 & 0x2000030) | D_8009B134) == 0) {
+    transfer = &D_800E9E60;
+    transfer->state = 0;
+    D_8009B0F4 = 0x100010;
+    transfer->field_24 = gFile_anLba[file_index] + sector_offset;
+    return transfer;
+}
+return 0;
+```
+
+That is 25 of 25 instructions, 0x64 of 0x64 bytes, the target's registers, the
+target's relocations, `%gp_rel` on both `D_8009B*` reads, and the target's block
+layout. What is left is a `sched2` permutation: the target hoists
+`addu $a3, $a1, $zero` to instruction 1 and fills the delay slot with
+`lui $a1, 0x10`, and it interleaves the two address pairs in the body rather
+than completing each one.
+
+So the recorded blocker was an artefact of the wrong profile, and the real one
+is the same schedule residual as above. When a pre-profile history is the only
+history an address has, the cheapest new evidence is its cohort's profile, and
+`matching_c.json` gives that for free from any matched neighbour.
+
 ### Disassembly artifacts
 
 Splat names any address-shaped literal as though it were a symbol. A `%hi`/`%lo`
