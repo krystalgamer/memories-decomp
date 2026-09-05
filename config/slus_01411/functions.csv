@@ -978,7 +978,7 @@ address,size,name,status,module,notes
 0x8005A6A8,0x1D0,func_8005A6A8,unmatched_asm,game,
 0x8005A878,0x4C,func_8005A878,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8005A8C4,0xC8,Model_HasInsufficientBufferSpace,matching_c,game,Post-terminal pure-C match; absolute .data scalar declaration preserves D_800FE240 self-load codegen under G8.
-0x8005A98C,0x214,func_8005A98C,unmatched_asm,game,
+0x8005A98C,0x214,func_8005A98C,matching_c,game,Exact linked bytes on gcc_2_8_1_g8 from the ygofm reference; comparison operand order and the two-step difference are load-bearing.
 0x8005ABA0,0x2C8,func_8005ABA0,unmatched_asm,game,
 0x8005AE68,0x1EC,func_8005AE68,unmatched_asm,game,
 0x8005B054,0x60,func_8005B054,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
