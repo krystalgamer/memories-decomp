@@ -409,9 +409,12 @@ full, in the order things happen.
   record `+0x16` is also initialized to 8000 and is the side's maximum LP:
   `func_800250C8` caps recovery at it, while direct damage changes only the
   authoritative value at `+0x14`.
-* Each side's 40-card deck is shuffled [permutation tables at `0x80177F94`
-  (player) and `0x80177FBC` (CPU), the shuffled decks at `0x80177FE8` /
-  `0x80178038` — UNVERIFIED, Data Crystal] and each draws five.
+* Each side's 40-card deck is shuffled and each draws five. Matching
+  `Duel_ShuffleBothDecks` passes the player source to
+  `gDuel_awPlayerShuffledDeck` (`0x80177FE8`) with permutation buffer
+  `gDuel_awPlayerDeckShuffle` (`0x80177F94`), then the opponent source to
+  `gDuel_awOpponentShuffledDeck` (`0x80178038`) with
+  `gDuel_awOpponentDeckShuffle` (`0x80177FBC`).
 * The **player always moves first** against the computer.
 * The terrain starts as **normal** unless the opponent is fought on a home
   terrain: Sebek and Neku are fought on Yami (sourced); the five shrine
