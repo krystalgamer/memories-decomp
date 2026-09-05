@@ -89,7 +89,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80011434,D_80011434,D_80011434,0x8004AAFC,func_8004AAFC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03b140.s,address,,"addiu $s3, $v0, %lo(D_80011434) | lui $v0, %hi(D_80011434)"
 0x80011434,D_80011434,D_80011434,0x8004ADE8,func_8004ADE8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03b5e8.s,address,,"addiu $t0, $t0, %lo(D_80011434) | lui $t0, %hi(D_80011434)"
 0x80011434,D_80011434,D_80011434,0x8004B374,func_8004B374,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03b5e8.s,address,,"addiu $s3, $v0, %lo(D_80011434) | lui $v0, %hi(D_80011434)"
-0x80011484,D_80011484,D_80011484,0x8004C420,func_8004C420,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03c914.s,address,,"addiu $v1, $v1, %lo(D_80011484) | lui $v1, %hi(D_80011484)"
+0x80011484,D_80011484,D_80011484,0x8004C420,func_8004C420,matching_c,game,C,src/game/func_8004C420.c,read,,table = D_80011484;
 0x800114C4,D_800114C4,D_800114C4,0x8004DE24,func_8004DE24,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03e438.s,address,,"addiu $t6, $v0, %lo(D_800114C4) | lui $v0, %hi(D_800114C4)"
 0x800114D8,D_800114D8,D_800114D8,0x8004DE24,func_8004DE24,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03e438.s,address,,"addiu $t6, $v0, %lo(D_800114D8) | lui $v0, %hi(D_800114D8)"
 0x800114E8,D_800114E8,D_800114E8,0x8004EB00,func_8004EB00,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03f300.s,address,,"addiu $t3, $v0, %lo(D_800114E8) | lui $v0, %hi(D_800114E8)"
