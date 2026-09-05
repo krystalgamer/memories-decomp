@@ -88,9 +88,10 @@ themselves (§7.10, §7.11).
 **What is shared.** Four systems are used by more than one mode and are worth
 knowing by name before reading any of them:
 
-* the **card database** — 722 records of stats, type, level, guardian stars,
-  password and cost [packed stats at `0x801D4244`, names at `0x801D6001`,
-  levels at `0x801D5332`, passwords and costs on disc];
+* the **card database** — 722 records of stats, type, attribute, level,
+  guardian stars, password and cost [packed stats at `0x801D4244`, names at
+  `0x801D6001`, attribute/level bytes at `0x801D5332`, passwords and costs on
+  disc];
 * the **duel engine** — the field, the hand, fusion/equip/ritual lookup, the
   battle resolver, the scoring counters [cards in play `0x801A7AD8`, 28-byte
   records; per-side record `0x800E9FF0`, stride `0x20`];
@@ -234,9 +235,14 @@ a **type** — one of twenty: Dragon, Spellcaster, Zombie, Warrior, Beast-
 Warrior, Beast, Winged Beast, Fiend, Fairy, Insect, Dinosaur, Reptile, Fish,
 Sea Serpent, Machine, Thunder, Aqua, Pyro, Rock, Plant [type ids 0–19 in that
 order; Magic/Trap/Ritual/Equip are 20–23 in the same field] — and **two
-guardian stars**. The stats are one packed word per card [`0x801D4244`: ATK
-bits 0–8 ×10, DEF bits 9–17 ×10, second star bits 18–21, first star bits
-22–25, type bits 26–30]. There is no attribute/element in this game.
+guardian stars**. Monsters also carry one of six **attributes**: Light, Dark,
+Earth, Water, Fire or Wind. The stats are one packed word per card
+[`0x801D4244`: ATK bits 0–8 ×10, DEF bits 9–17 ×10, second star bits 18–21,
+first star bits 22–25, type bits 26–30]. A separate byte table indexed
+directly by card ID [`0x801D5332`] stores attribute in the high nibble and
+level in the low nibble. Its only identified resident reference copies both
+nibbles into a card-display record; no duel calculation is known to consume
+the attribute, so it is stored metadata rather than a proven matchup mechanic.
 
 **Guardian stars** are ten, in two cycles that never touch:
 
