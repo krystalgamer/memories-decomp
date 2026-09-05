@@ -489,6 +489,56 @@ copy.
 
 Both measured on `func_801840F8` in the main menu module.
 
+## Store order decides which value reuses a base register
+
+When two values are derived from one base and each is stored, one of them
+gets a fresh register and the other overwrites the base. Which is which is
+**not** controlled by the order of the assignments — it follows the order the
+results are **stored**.
+
+`func_80183E8C` computes two x edges from one base:
+
+```
+target : addiu v1,v0,-12      addiu v0,v0,-4       (base in v0; -4 reuses it)
+wrong  : addiu v0,v1,-4       addiu v1,v1,-12      (base in v1; -12 reuses it)
+```
+
+Measured on a reduced loop, varying only where the two results are stored:
+
+| store order | value that takes a fresh register |
+|---|---|
+| `r,r,l,l` | `r` |
+| `l,l,r,r` | `l` |
+| `r,l,r,l` | `r` |
+| `l,r,l,r` | `l` |
+
+**The value stored first takes the fresh register**; the other is computed
+last and inherits the base. Swapping the two assignments changes nothing, and
+neither does deriving one edge from the other — GCC folds that away.
+
+The catch is that you usually cannot simply reorder the stores, because their
+order is itself fixed by the target. `func_80183E8C` needs the *left* edge to
+take the fresh register while the *right* edge's stores are emitted first, and
+moving both left stores ahead costs nine positions. The resolution is to
+interleave — issue **one** store of the first value, then compute the second:
+
+```c
+left = base - 12;
+sprite.x0 = left;        /* one store, before the other edge exists */
+right = base - 4;
+sprite.x1 = right;
+sprite.x3 = right;
+...
+sprite.x2 = left;        /* the second left store stays where it was */
+```
+
+So the lever is the position of the *first* store of each value, not of all of
+them. That is a much narrower thing to vary than "reorder the stores", and it
+is why four recorded orderings had missed it.
+
+Verified by `func_80183E8C` in the main menu module, which sat at three
+differing positions until this.
+
 ## An address computed as a flat integer sum
 
 When a target builds an address from several terms and no array-indexed form
