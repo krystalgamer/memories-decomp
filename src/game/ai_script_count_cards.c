@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card_layout.h"
 
 struct ActiveCardEntry {
     s16 card_id;
@@ -33,7 +34,7 @@ void AiScript_CountCards(void)
         struct ActiveCardEntry *entry = &gDuel_aActiveCards[i];
         if (entry->card_id != 0) {
             if (type == 1 || type == 3 || type == 6 || type == 8) {
-                if (!(entry->flags & 0x4000)) {
+                if (!(entry->flags & DUEL_CARD_FLAG_USED_THIS_TURN)) {
                     count++;
                 }
             } else {

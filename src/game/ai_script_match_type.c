@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "ai.h"
+#include "duel_card_layout.h"
 
 extern s32 AiScript_ReadByte(void);
 extern void Ai_GetCardRange(s32, s32 *, s32 *);
@@ -43,7 +44,7 @@ void AiScript_MatchType(void)
             goto next;
         }
         if (range == one || range == 3 || range == 6 || range == 8) {
-            if ((entry->flags & 0x4000) != 0) {
+            if ((entry->flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
                 goto next;
             }
         }

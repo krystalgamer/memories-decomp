@@ -65,7 +65,7 @@ void func_80017E3C(DuelCardDisplayObject *object)
         }
     }
     object->color = 0x808080;
-    if (card->flags & 0x4000) {
+    if (card->flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
         object->color = 0x404040;
     }
 }
