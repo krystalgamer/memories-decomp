@@ -17,7 +17,7 @@ void func_8003D03C(u8 *data)
     s32 value;
     register s32 saved_value asm("$2");
 
-    Util_CopyWords(data, D_801D4000, 0x200);
+    Util_CopyWords(data, D_801D4000, SAVE_DATA_HEADER_SIZE);
 
     saved_value = D_8009B0C4[0];
     output_type = gSD_bOutputType;
@@ -29,7 +29,7 @@ void func_8003D03C(u8 *data)
     }
 
     data[0x7DE] = gSD_bOutputType;
-    copy = data + 0x200;
+    copy = data + SAVE_DATA_HEADER_SIZE;
     value = D_8009B3B8 + 1;
     *(s32 *)(data + 0x604) = value;
     *(s32 *)(data + 0xC84) = value;
@@ -47,5 +47,9 @@ void func_8003D03C(u8 *data)
         } while (i < 0x58);
     }
 
-    Util_CopyWords(data + 0x880, data + 0x200, SAVE_DATA_STATE_SIZE);
+    Util_CopyWords(
+        data + SAVE_DATA_DUPLICATE_STATE_OFFSET,
+        data + SAVE_DATA_HEADER_SIZE,
+        SAVE_DATA_STATE_SIZE
+    );
 }
