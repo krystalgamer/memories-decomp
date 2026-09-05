@@ -76,8 +76,8 @@ symbol review.
 | `0x8007E860` | `CdReadyCallback` | Replaces and returns the callback invoked with a ready-event status and result pointer. |
 | `0x8007E880` | `CdSyncCallback` | Replaces and returns the callback invoked from the command-completion path. |
 | `0x8007F350` | `ResetGraph` | Anchored by GPU `sys.c` evidence and the documented graph-reset contract. |
-| `0x8007F978` | `LoadImage` | GPU transfer call sites pass rectangle-like coordinates and source data. |
-| `0x80081DE8` | `LoadImage2` | Psy-Q 4.7 `LIBGPU.LIB/SYS.OBJ` symbol; streamed package callbacks pass a transfer rectangle and staged image data. |
+| `0x8007F978` | `LoadImage` | Applied Psy-Q identity; `func_800249E0` uses the tracked `RECT *` / `u32 *` prototype for two image transfers. |
+| `0x80081DE8` | `LoadImage2` | Applied Psy-Q identity; streamed package callbacks pass rectangle-shaped records and staged image data. |
 | `0x8007FAF0` | `ClearOTag` | Ordering-table initialization behavior. |
 | `0x8007FC64` | `DrawPrim` | Direct GPU primitive submission behavior. |
 | `0x8007FCC0` | `DrawOTag` | Ordering-table submission behavior. |
@@ -241,6 +241,12 @@ backs two image transfers. No current game C includes `libgs.h` or
 `libhmd.h`, so a local render or model record should not be migrated to one of
 their types from a matching size or similar role alone; field-level and
 resident-call evidence are still required.
+
+The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
+same `RECT *` / `u32 *` argument shape. The `LoadImage` migration is complete
+in `func_800249E0.c`; current `LoadImage2` callers retain local declarations
+and rectangle-compatible views, so applying the shared prototype to them still
+requires an exact code-generation check.
 
 The GTE headers are a layered toolchain interface rather than interchangeable
 umbrellas. `libgte.h` owns the geometry records and callable library
@@ -550,8 +556,7 @@ library variant.
 
 `func_800249E0` builds two consecutive eight-byte records in `D_80177EA4`.
 Each record receives signed halfword stores at offsets `0`, `2`, `4`, and `6`,
-then is passed to the resident function at `0x8007F978`, the `LoadImage`
-candidate:
+then is passed to the resident `LoadImage` function at `0x8007F978`:
 
 | Record | `+0` | `+2` | `+4` | `+6` |
 |---|---|---|---|---|
