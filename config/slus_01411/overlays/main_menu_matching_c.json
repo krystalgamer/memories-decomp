@@ -97,6 +97,12 @@
       "source": "src/overlays/main_menu/func_80183A14.c"
     },
     {
+      "address": "0x80183B2C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x360",
+      "source": "src/overlays/main_menu/func_80183B2C.c"
+    },
+    {
       "address": "0x80183E8C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x158",
