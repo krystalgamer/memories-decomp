@@ -58,7 +58,7 @@ source grouping.
 | `src/game/ai_script_comparison_jumps.c` | `gcc_2_8_1_g0_split` | `AiScript_JumpGreaterEqual` (`0x800709C0`), `AiScript_JumpGreater` (`0x80070A40`) |
 | `src/game/ai_script_call_control.c` | `gcc_2_8_1_g8_split` | Three call-stack and control helpers from `AiScript_Call` (`0x80070D00`) through `AiScript_SetRandom` (`0x80070E20`) |
 | `src/game/sound_output.c` | `gcc_2_8_1_g8` | Sound output initialization/control helpers from `0x80046F58` through `0x80047278`, including `SD_SetOutputType` |
-| `src/game/sound_frontend.c` | `gcc_2_8_1_g8` | Eight game-facing sound command wrappers from `SD_SEPlayFull` (`0x8003FEE0`) through `0x8003FFFC` |
+| `src/game/sound_frontend.c` | `gcc_2_8_1_g8` | Nine game-facing sound initialization and command helpers from `func_8003FE80` through `0x8003FFFC`, including `SD_SEPlayFull` |
 | `src/game/sound_init.c` | `gcc_2_8_1_g0` | Thirteen music/sequence and secondary sound-state initialization helpers from `0x80049200` through `0x800495EC`, including `SD_Init` |
 | `src/game/sound_voice_selection.c` | `gcc_2_8_1_g0` | Nine voice update, lifetime, selection, normalization, release, and slot-removal helpers from `0x80047864` through `0x80047CC4` |
 | `src/game/sound_voice_status.c` | `gcc_2_8_1_g0` | Late voice cleanup (`0x80047EC4`) and voice-group mask selection (`0x80047F38`) |
