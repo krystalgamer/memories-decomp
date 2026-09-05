@@ -290,6 +290,14 @@ buffers and control calls. Device role alone is therefore insufficient to
 substitute one family for another; use the header that matches the resident
 call signature.
 
+`libetc.h` is a separate convenience layer. `PadRead` returns both simple-pad
+states in one 32-bit value, and `_PAD(port, button)` shifts a 16-bit button
+mask into the selected controller half. The same header owns `VSync`, callback
+reset/restart controls, NTSC/PAL selection, and the `getScratchAddr` macro for
+word-indexed access to the `0x1F800000` scratchpad. Its `PadInit`/`PadStop`
+pair is not interchangeable with the buffer-oriented `PadInitDirect` and
+`PadStopCom` interface in `libpad.h`. No current game C includes `libetc.h`.
+
 `libsio.h` and `libcomb.h` expose parallel serial interfaces. The SIO header
 defines the controller's status/mode bits, `AddSIO`/`DelSIO`,
 `_sio_control`, and `Sio1Callback`. The COMB header uses a distinct
