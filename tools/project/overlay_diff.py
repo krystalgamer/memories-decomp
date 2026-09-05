@@ -63,14 +63,14 @@ def inventory_entry(root: Path, name: str, address: int) -> dict[str, str]:
     raise OverlayDiffError(f"{name}: {address:#010x} is not in the inventory")
 
 
-def configured_source(root: Path, name: str, address: int) -> str | None:
+def configured_entry(root: Path, name: str, address: int) -> dict[str, str] | None:
     path = resolve_within(
         root, f"config/slus_01411/overlays/{name}_matching_c.json", must_exist=True
     )
     manifest = json.loads(path.read_text(encoding="utf-8"))
     for entry in manifest.get("functions", []):
         if int(str(entry["address"]), 16) == address:
-            return str(entry["source"])
+            return entry
     return None
 
 
@@ -127,7 +127,7 @@ def candidate_words(
         object_directory=BUILD_DIRECTORY,
         asm_directory=f"{BUILD_DIRECTORY}/asm",
     )
-    listing = run_objdump(root, ["-d", "--section=.text", str(obj)])
+    listing = run_objdump(root, ["-d", "-z", "--section=.text", str(obj)])
     words: list[int] = []
     text: list[str] = []
     for line in listing.splitlines():
@@ -168,7 +168,7 @@ def disassemble(root: Path, words: list[int]) -> list[str]:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(b"".join(struct.pack("<I", word) for word in words))
     listing = run_objdump(
-        root, ["-D", "-b", "binary", "-m", "mips:3000", "-EL", str(path)]
+        root, ["-D", "-z", "-b", "binary", "-m", "mips:3000", "-EL", str(path)]
     )
     return [
         match.group(2).replace("\t", " ").strip()
@@ -224,8 +224,10 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--profile",
-        default=DEFAULT_PROFILE,
-        help=f"named compiler profile (default {DEFAULT_PROFILE})",
+        help=(
+            "named compiler profile; defaults to the one configured for the "
+            f"function, or {DEFAULT_PROFILE} when it has none"
+        ),
     )
     return parser.parse_args()
 
@@ -238,14 +240,24 @@ def main() -> int:
         module = load_module(root, args.module)
         entry = inventory_entry(root, args.module, address)
         size = int(entry["size"], 16)
-        source = args.source or configured_source(root, args.module, address)
+        configured = configured_entry(root, args.module, address)
+        source = args.source or (
+            str(configured["source"]) if configured is not None else None
+        )
         if source is None:
             raise OverlayDiffError(
                 f"{address:#010x} has no configured source; pass one explicitly"
             )
+        # A function with a non-default profile must be re-checked with it, or
+        # the spot check reports a difference the real build does not have.
+        profile = args.profile or (
+            str(configured["profile"])
+            if configured is not None and args.source is None
+            else DEFAULT_PROFILE
+        )
         target = target_words(root, module, address, size)
         candidate, right, masks = candidate_words(
-            root, source, args.profile, address, entry["name"], size
+            root, source, profile, address, entry["name"], size
         )
         left = disassemble(root, target)
         return 0 if report(target, candidate, left, right, masks) else 1
