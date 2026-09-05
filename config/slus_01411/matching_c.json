@@ -2419,6 +2419,12 @@
       "source": "src/game/display_effect_lifecycle.c"
     },
     {
+      "address": "0x8003A01C",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x17C",
+      "source": "src/game/func_8003A01C.c"
+    },
+    {
       "address": "0x8003A198",
       "profile": "gcc_2_8_1_g8",
       "size": "0x54",

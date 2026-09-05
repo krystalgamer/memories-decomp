@@ -521,7 +521,7 @@ address,size,name,status,module,notes
 0x80039F90,0x44,func_80039F90,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80039FD4,0x24,func_80039FD4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80039FF8,0x24,func_80039FF8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8003A01C,0x17C,func_8003A01C,unmatched_asm,game,
+0x8003A01C,0x17C,func_8003A01C,matching_c,game,Matched from updated collaborator source: volatile display-state accesses reproduce the retail reload sequence.
 0x8003A198,0x54,func_8003A198,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003A1EC,0x254,func_8003A1EC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003A440,0x120,func_8003A440,matching_c,game,Exact collaborator-derived pure-C match preserving the per-iteration signed argument and second-arm store-address lifetime.
