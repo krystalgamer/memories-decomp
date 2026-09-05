@@ -77,6 +77,47 @@ with genuine Psy-Q 4.6 tools or a verified 32-bit build.
 the explicit flags above and maspsx emits its exact 64-byte instruction
 sequence, and the complete PS-X EXE retains the target SHA-256.
 
+## Original CC1PSX default options
+
+The original Psy-Q 4.6 Win32 compiler backend identifies itself and reports
+the following state when invoked only with `-version`:
+
+```text
+GNU C version 2.8.1 SN32 BUILD 4.0.0010 (PSX) compiled by CC.
+options passed:
+options enabled:  -fpeephole -ffunction-cse -fkeep-static-consts
+ -fpcc-struct-return -fcommon -fgnu-linker -msplit-addresses -mgas -mgpOPT
+ -mgpopt -msoft-float -mcpu=R3000
+```
+
+The empty `options passed` line is important: this is the backend's default
+state, not a recovered game build command. A translation unit could override
+these defaults, so they are candidate-exploration evidence rather than proof
+that every object used the same settings.
+
+| Reported option | Effect | Matching significance |
+|---|---|---|
+| `-fpeephole` | Allows machine-specific peephole rewrites during optimized compilation. | Can change short adjacent instruction sequences near final assembly output. |
+| `-ffunction-cse` | Allows repeated constant function addresses to be placed in and reused from registers. | Can change direct-call setup, common-subexpression elimination, and register pressure. |
+| `-fkeep-static-consts` | Emits unreferenced file-local `static const` objects when optimization is disabled. | Primarily affects object contents; it does not force an unused constant to remain in an optimized build. |
+| `-fpcc-struct-return` | Returns short `struct` and `union` values indirectly through memory rather than registers. | This is an ABI choice; callers and callees returning aggregates must agree. |
+| `-fcommon` | Emits tentative uninitialized global definitions as common symbols rather than allocated BSS definitions. | Affects symbol coalescing, section allocation, and duplicate-definition behavior at link time. |
+| `-fgnu-linker` | Emits global-initialization metadata, such as C++ constructor and destructor records, in the GNU linker form. | Normally inert for plain C objects without global constructors and not evidence that the final executable was linked by GNU `ld`. |
+| `-msplit-addresses` | Loads the high and low parts of symbolic addresses separately, allowing redundant high-part loads to be optimized away. | Changes address temporaries, scheduling, and HI16/LO16 relocation shape. The manifest exposes explicit `*_split` and `*_no_split` profiles. |
+| `-mgas` | Selects the GCC backend's GNU assembler output conventions. | It is required by stock GCC 2.8.1 address splitting, but describes compiler output syntax rather than identifying the downstream assembler binary. |
+| `-mgpOPT`, `-mgpopt` | Two accepted spellings for the same MIPS global-pointer optimization bit; the duplicate report does not represent two passes. The mode writes data declarations before text so short data can use one-instruction GP-relative references. | Evaluate it together with the `-G` threshold: `-G0` disables small-data references, while the main game cohort commonly matches near `-G8`. |
+| `-msoft-float` | Avoids hardware floating-point instructions and lowers floating-point operations to helper calls. | Affects code generation and calling convention when floating-point values are present; the retail executable contains no COP1 instructions. |
+| `-mcpu=R3000` | Uses the R3000 scheduling model. It does not enable post-MIPS-I instructions unless a higher ISA option is also selected. | Can alter instruction ordering and delay-slot choices without changing source semantics. |
+
+Do not add this entire list to a canonical profile merely because CC1PSX
+reported it. Existing byte-exact matches outrank the default report. For an
+unresolved candidate, use target evidence to select the relevant knob:
+address and relocation shape for `-msplit-addresses`, object size and
+GP-relative accesses for `-mgpopt` plus `-G`, scheduling for `-mcpu=R3000`,
+and aggregate or floating-point interfaces for the ABI options. Output-only
+defaults should be explored only when section or symbol evidence calls for
+them.
+
 ## GCC 2.7.2 fallback
 
 The Psy-Q 4.6 DOS-era fallback is represented by a separately pinned public
