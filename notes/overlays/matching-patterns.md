@@ -221,6 +221,34 @@ Two practical notes:
   instructions in bulk; a spurious one adds them. A build that is short by
   roughly the number of times a global is tested is this, almost always.
 
+### First rule out the ordinary explanation
+
+A reload is only evidence of `volatile` when **nothing is written between the
+two reads**. The same symptom has a second, far more common cause: a store the
+compiler cannot prove misses the location.
+
+| between the two reads | what the reload means |
+|---|---|
+| nothing | `volatile`, and only the qualifier reproduces it |
+| a store it cannot disambiguate | ordinary aliasing, already explained |
+
+`func_80168AB4` in the password module is the second case. It divides twice by
+the frame count at `+0x60` and reloads it for the second division — but the
+store to `+0x36` sits between them, through the same `u8 *`, so the reload is
+forced with no qualifier involved. Writing the two results into locals and
+storing them afterwards removes the obstruction, GCC folds the two reads into
+one, and the body comes out two instructions **short**.
+
+Which is the point: in that second case reaching for `volatile` would add
+instructions, the failure direction this rule warns about just above. Check
+what is between the reads before reaching for the qualifier.
+
+There is a useful habit hiding in this. What you arrange in the source is not
+the final order — it is the **obstruction**. Put the store where it blocks the
+reuse, and the scheduler produces the order the target has, including sinking
+both stores to the end by itself. Trying to place the instructions directly
+does not work on this compiler.
+
 ## A flat comparison chain is if/else, and the last arm is the else
 
 GCC 2.8.1 lowers even a small `switch` to a **balanced comparison tree**: it
