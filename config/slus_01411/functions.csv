@@ -583,7 +583,7 @@ address,size,name,status,module,notes
 0x8003D518,0xFC,func_8003D518,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003D614,0x138,func_8003D614,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003D74C,0x2F4,func_8003D74C,unmatched_asm,game,
-0x8003DA40,0x1DC,func_8003DA40,unmatched_asm,game,
+0x8003DA40,0x1DC,func_8003DA40,matching_c,game,Matched from updated collaborator source: aggregate D_8009AF76 preserves the retail absolute byte-load address pair.
 0x8003DC1C,0x850,func_8003DC1C,unmatched_asm,game,
 0x8003E46C,0x24,func_8003E46C,matching_c,game,Variant 1 merged two flag stores and was four bytes short; volatile flags plus a local value preserved the intermediate store.
 0x8003E490,0x344,func_8003E490,unmatched_asm,game,
