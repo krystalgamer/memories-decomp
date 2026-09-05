@@ -337,7 +337,7 @@ address,size,name,status,module,notes
 0x8002F430,0x8,func_8002F430,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002F438,0x8,func_8002F438,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002F440,0x80,func_8002F440,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x8002F4C0,0x170,func_8002F4C0,unmatched_asm,game,
+0x8002F4C0,0x170,func_8002F4C0,matching_c,game,Matched from updated collaborator source: volatile display-state accesses and scoped constants reproduce retail code generation.
 0x8002F630,0x300,func_8002F630,unmatched_asm,game,
 0x8002F930,0x1C,func_8002F930,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002F94C,0x1C,func_8002F94C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
