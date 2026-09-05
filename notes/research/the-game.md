@@ -202,6 +202,10 @@ There are **722** cards, numbered 1–722; the number is the card's identity
 everywhere (deck, trunk, tables, passwords). By kind [counted from the card
 table in the executable]:
 
+The complete machine-readable inventory is
+[`notes/card-catalog.csv`](../card-catalog.csv), with extraction and
+cross-check details in [`notes/card-catalog.md`](../card-catalog.md).
+
 | kind | count | ids |
 |---|---|---|
 | Monster | 621 | 1–300, 351–650, 701–720, 722 |
