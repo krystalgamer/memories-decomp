@@ -4627,6 +4627,12 @@
       "source": "src/game/model_effect_coefficients.c"
     },
     {
+      "address": "0x8005F27C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x13C",
+      "source": "src/game/func_8005F27C.c"
+    },
+    {
       "address": "0x8005F3B8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1AC",

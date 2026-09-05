@@ -1021,7 +1021,7 @@ address,size,name,status,module,notes
 0x8005F198,0xC,func_8005F198,matching_c,game,1 pre-policy variants: Straight unsigned-byte G8 setter matched linked bytes and GPREL16 relocation.
 0x8005F1A4,0x14,func_8005F1A4,matching_c,game,1 pre-policy variants: Indexing an eight-byte struct array matched shifts address formation delay slot and HI16/LO16 relocations.
 0x8005F1B8,0xC4,func_8005F1B8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8005F27C,0x13C,func_8005F27C,unmatched_asm,game,
+0x8005F27C,0x13C,func_8005F27C,matching_c,game,Exact collaborator match: separate multiply-result and runtime-divisor lifetimes reproduce linked bytes and relocations.
 0x8005F3B8,0x1AC,func_8005F3B8,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8005F564,0x24,func_8005F564,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8005F588,0x40,func_8005F588,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
