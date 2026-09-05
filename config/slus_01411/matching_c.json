@@ -4513,6 +4513,12 @@
       "source": "src/game/model_distance_queries.c"
     },
     {
+      "address": "0x8005A3D0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x98",
+      "source": "src/game/func_8005A3D0.c"
+    },
+    {
       "address": "0x8005A468",
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",

@@ -970,7 +970,7 @@ address,size,name,status,module,notes
 0x8005A188,0x6C,func_8005A188,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8005A1F4,0xEC,func_8005A1F4,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8005A2E0,0xF0,func_8005A2E0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
-0x8005A3D0,0x98,func_8005A3D0,unmatched_asm,game,
+0x8005A3D0,0x98,func_8005A3D0,matching_c,game,Updated collaborator loop shape hoists the record increment into the outer backedge delay slot; allocation pins preserve retail register roles.
 0x8005A468,0x5C,func_8005A468,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005A4C4,0x78,func_8005A4C4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005A53C,0xDC,func_8005A53C,matching_c,game,Post-terminal pure-C match; disabling GCC first-pass instruction scheduling reproduces the retail register and branch schedule exactly.
