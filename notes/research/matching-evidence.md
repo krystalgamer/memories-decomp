@@ -335,6 +335,146 @@ turns into a table hits this.
 When reading a target, the tell is a `lw` from a `%hi`/`%lo` symbol pair
 followed by `jr` on the loaded register.
 
+#### How much this blocks
+
+Worth knowing before deciding whether the build-configuration work is worth
+doing: **36 of the 291 remaining resident functions contain a compiler jump
+table, and they account for 62,408 of the 243,664 bytes still in assembly.**
+That is 12.4% of the functions but **25.6% of the bytes**, because a function
+dense enough for GCC to build a table is a large function. The remaining
+resident work is not one queue but two, and the larger quarter of it by weight
+is waiting on a linker script rather than on any decompilation.
+
+Two independent counts agree exactly. Searching each unmatched function's
+generated assembly for a `jtbl_` symbol, and searching it for the tell above —
+a `jr` on a register other than `$ra` — select the same 36 addresses and the
+same byte total. The smallest are `Ai_GetWinningCardRange` (`0x8C`) and
+`Ai_GetCardRange` (`0xAC`); the weight is in the large ones.
+
+The practical consequence for candidate selection: an ascending-size sweep of
+the remaining functions will keep surfacing these, and each one can be finished
+as exact C and still be unusable. Check for `jtbl_` in the target before
+starting, as the section above says — the count is the reason that check pays
+for itself rather than being a rare precaution.
+
+The 54 unmatched overlay functions are tracked separately under #162 and are
+not included in these figures.
+
+### GCC rotates a top-of-loop conditional exit
+
+A third residual class, alongside the register-permutation and
+schedule-permutation ones above. Here the loop is *structurally* different, not
+reordered or misallocated, and no source spelling reaches it.
+
+`func_8005A3D0` (`0x8005A3D0`) is the worked example. Its inner scan in the
+target is a plain eight-instruction loop, match test at the top and counter test
+at the bottom:
+
+```
+.L8005A414:
+    lw    $v0, 0x4C($v1)
+    nop
+    beq   $v0, $a3, .L8005A434
+    nop
+    addiu $a2, $a2, 0x1
+    slt   $v0, $a2, $t1
+    bnez  $v0, .L8005A414
+    addiu $v1, $v1, 0x50
+```
+
+GCC 2.8.1 copies the top test to the bottom and compensates the counter, which
+costs seven instructions across the function — 45 against the target's 38:
+
+```
+    bne   $v0, $a3, <loop>
+    addiu $a2, $a2, 0x1     <- duplicated increment
+    addiu $a2, $a2, -0x1    <- compensation
+```
+
+Three spellings of the same loop produce byte-identical output, duplicated
+increment and compensating decrement included:
+
+```c
+do { if (match) break; scan++; cursor += 0x50; } while (scan < limit);
+for (;;) { if (match) break; scan++; if (scan >= limit) break; cursor += 0x50; }
+while (!match) { scan++; if (scan >= limit) break; cursor += 0x50; }
+```
+
+The explicit `if (count != 0)` guard before the loop — which the target has too,
+as `beqz $v1` — already tells GCC the loop runs at least once, so the rotation is
+not being done to establish that.
+
+Everything else about the function is reachable. The cohort supplies the access
+idiom (`func_800593D0`: a `u8 *` model slot with a `u8` count at `+0xE17` and a
+pointer to 0x50-byte entries at `+0xD14`), and the matched neighbour
+`func_8005A53C` supplies the profile. Under `gcc_2_8_1_g0_no_sched1` the first
+instruction is exact — `lbu $v1, 0xE17($a0)`, whose destination register is
+precisely what every one of the six terminal rows missed — and the opening six
+differ only in the loop counter's register, a knock-on of the extra live value
+the rotation introduces.
+
+Worth checking for before starting a function with a searching loop: if the
+target's loop has its exit test at the top and only one copy of the increment,
+GCC will not reproduce it, and the C can be finished and still be six or seven
+instructions long.
+
+### MASPSX misses a load-delay nop before a store to a small extern
+
+The generated assembly runs under a single `.set noreorder` that MASPSX emits at
+the top of every file, so MASPSX owns every hazard nop and GNU `as` will not add
+one. There is one case it gets wrong, and it is silent at the source level.
+
+Five lines reproduce it under `gcc_2_8_1_g8_split`:
+
+```c
+extern u8 g_small;          /* 1 byte, so -G8 makes it gp-relative */
+extern u8 g_big[64];        /* 64 bytes, so it is not */
+void f_small(u8 *p) { g_small  = p[0x6A]; }
+void f_big(u8 *p)   { g_big[0] = p[0x6A]; }
+```
+
+```
+f_small:  lbu $v0, 0x6A($a0)     f_big:  lbu $v1, 0x6A($a0)
+          sb  $v0, 0x0($gp)              lui $v0, %hi(g_big)
+          jr  $ra                        jr  $ra
+          nop                            sb  $v1, 0x0($v0)
+```
+
+`f_big`'s store expands through `lui`, which fills the load delay by accident.
+`f_small`'s assembles to one gp-relative instruction and the delay is left
+unfilled, so the store writes the register's stale value.
+
+The mechanism is in `_uses_gp`. It answers "is this next instruction
+gp-relative, so a nop is needed" by looking the symbol up in `sbss_entries` and
+`sdata_entries`, which hold only symbols *defined in the same translation unit*.
+An `extern` is in neither, so `_uses_gp` returns False; `uses_at` returns True
+because the store is still in bare-symbol form at that point; and
+`nop_at_expansion` is False for ASPSX 2.81. No branch fires, no nop is emitted,
+and the assembler then resolves the symbol gp-relative in a single instruction.
+MASPSX cannot see what `as` is about to do.
+
+`func_80025028` (`0x80025028`) is the worked example, and it is otherwise
+finished. 39 of the target's 40 instructions are byte-exact, registers and
+relocations included, from a body that uses only the cohort's own idioms —
+`duel_card_selection.c` supplies `slot + D_8009B1D5 * 20`, the
+`D_801A7AD8[D_800907D8[position]]` indexing, and the `0x6A` object field. The
+one missing instruction is this nop, between `lbu $v1, 0x6A($v0)` and
+`sb $v1, %gp_rel(D_8009B1B8)($gp)`. The build rejects it as
+`resident text size mismatch`, which is at least a safe failure.
+
+The exposure is bounded but the cost of hitting it is not: an accepted match can
+never contain the bug, because the retail body has the nop and a body without it
+cannot match. It shows up instead as a function that is exactly one instruction
+short for no reason visible in the C, which is expensive to diagnose from the
+source side. The tell is a load whose destination is used by the very next
+instruction, where that instruction stores to a bare `extern` of eight bytes or
+fewer under a G8 profile.
+
+Like the jump-table case, this is a tooling decision rather than a source
+problem. `tools/vendor/maspsx` is pinned, and the fix would be to treat a
+bare-symbol load or store of a small undefined extern as gp-relative for the
+purposes of hazard detection.
+
 ### Register pins
 
 Issue #5 accepts `register` variables pinned to a hard register for functions
