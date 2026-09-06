@@ -266,7 +266,7 @@ address,size,name,status,module,notes
 0x8002BAA0,0xC,func_8002BAA0,matching_c,game,Byte store of one matched first variant.
 0x8002BAAC,0x8,func_8002BAAC,matching_c,game,Empty pointer-parameter function matched first variant.
 0x8002BAB4,0x258,func_8002BAB4,unmatched_asm,game,
-0x8002BD0C,0x230,func_8002BD0C,unmatched_asm,game,
+0x8002BD0C,0x230,func_8002BD0C,matching_c,game,"Exact match with gcc_2_8_1_g8_split; Library package phase callback, owns jtbl_80010208."
 0x8002BF3C,0x90,Library_MarkOwnedCards,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8002BFCC,0x434,func_8002BFCC,unmatched_asm,game,
 0x8002C400,0x84,func_8002C400,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
