@@ -300,7 +300,7 @@ address,size,name,status,module,notes
 0x8002D2D8,0x98,Main_RunCampaignMap,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002D370,0x88,Main_RunBuildDeckMenu,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002D3F8,0x60,Main_RunFreeDuelMenu,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8002D458,0x130,func_8002D458,unmatched_asm,game,
+0x8002D458,0x130,func_8002D458,matching_c,game,"Exact match with gcc_2_8_1_g8_split; owns jtbl_80010224, declared as a .rodata subsegment in split.yaml."
 0x8002D588,0xA4,Main_RunMenu,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002D62C,0x58,Main_RunNameEntry,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002D684,0x44,Main_RunPasswordMenu,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
