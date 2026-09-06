@@ -4,6 +4,7 @@
 #define CARD_COUNT 722
 #define HAND_SIZE 5
 #define DECK_SIZE 40
+#define COMBINED_DECK_SIZE (DECK_SIZE * 2)
 #define DECK_CARD_COPY_LIMIT 3
 /* Retail starter generation ignores the final two weight entries. */
 #define STARTER_DECK_WEIGHT_SCAN_COUNT (CARD_COUNT - 2)
