@@ -26,7 +26,7 @@ extern s32 func_8004002C(void);
 extern u8 *func_800400AC(s32, s32);
 extern void func_800428A8(u8 *, s32, s32, s32, s32, s32, s32, s32, u8 *);
 extern void func_800428EC(u8 *, s32);
-extern void func_801681E8(s32);
+extern void CampaignMap_SetCameraFromLocation(s32);
 extern u8 *CampaignMap_CreateLocationLabel(s32);
 extern void func_80168050(s32);
 extern u8 *CampaignMap_CreateLocationMarker(s32);
@@ -81,7 +81,7 @@ void CampaignMap_SetLocation(s32 index)
     location = gCampaignMap_Location;
     *(void **)(obj + 0x4C) = func_80042C08;
     D_801695D8 = obj;
-    func_801681E8(location);
+    CampaignMap_SetCameraFromLocation(location);
     CampaignMap_CreateLocationLabel(gCampaignMap_Location);
     func_80168050(gCampaignMap_Location);
     gCampaignMap_LocationPrev = gCampaignMap_Location;

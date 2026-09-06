@@ -158,9 +158,9 @@ Read the target both ways:
   a repeated expression into a local displaces an address load out of a branch
   delay slot.
 - If the target **does** materialise one, the local is required.
-  `func_801681E8` forms the `D_800F2848` base in its own register and stores
-  at constant offsets from it; without a local for that base, GCC walks the
-  address incrementally instead.
+  `CampaignMap_SetCameraFromLocation` forms the `D_800F2848` base in its own
+  register and stores at constant offsets from it; without a local for that
+  base, GCC walks the address incrementally instead.
 
 Both of those are the same question asked in opposite directions: does a
 register in the target hold a value the source named?

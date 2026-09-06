@@ -4,7 +4,7 @@ extern u8 gCampaignMap_aLocationTable[];
 extern u8 D_800F2848[];
 extern void func_8001352C(void);
 
-void func_801681E8(s32 index)
+void CampaignMap_SetCameraFromLocation(s32 index)
 {
     u8 *entry = gCampaignMap_aLocationTable + index * 66;
     u8 *camera = D_800F2848;
