@@ -1,5 +1,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 typedef struct {
     u8 pad_00[0x28];
@@ -11,13 +13,12 @@ typedef struct {
 } ProjectionObject;
 
 extern u8 D_800FE148[];
-extern void GsSetLsMatrix(void *);
 
 void func_80015D18(ProjectionObject *object)
 {
     SetGeomScreen(0x12C);
     SetGeomOffset(0xA0, 0x6C);
-    GsSetLsMatrix(D_800FE148);
+    GsSetLsMatrix((MATRIX *)D_800FE148);
     __asm__ volatile(
         "lui $3, 0x1F80\n"
         "lhu $2, 40($16)\n"
@@ -94,7 +95,7 @@ void func_80015DFC(TrackedObject *object)
     ProjectedPair p;
     s32 y;
 
-    GsSetLsMatrix(D_800FE148);
+    GsSetLsMatrix((MATRIX *)D_800FE148);
     __asm__ volatile(
         "lw $2, 0($16)\n"
         "lui $3, 0x1F80\n"

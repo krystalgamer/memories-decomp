@@ -1,5 +1,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
 
 struct Out {
@@ -61,7 +63,6 @@ struct Obj {
 typedef void (*ObjCallback)(struct Obj *, s32);
 
 extern void func_80088C50(struct Vec308 *a0, struct Mat *a1);
-extern void GsSetLsMatrix(struct Mat *a0);
 extern s32 func_80089CF0(
     struct Vec308 *a0,
     struct Vec310 *a1,
@@ -97,7 +98,7 @@ s32 func_80041F90(struct Obj *obj, s32 arg1, s32 arg2, struct Out *out) {
         ScaleMatrix((MATRIX *)mtx, (VECTOR *)0x1F800308);
     }
 
-    GsSetLsMatrix(mtx);
+    GsSetLsMatrix((MATRIX *)mtx);
 
     {
         register struct Vec318 *v318 asm("a3") =
