@@ -91,13 +91,16 @@ so its accepted source does not broaden the shared declaration.
 `func_8003DA40` is now matching C as well, but retains a local `Rec64` channel
 view and byte-offset accesses, so it is not counted among the seven
 `DuelEffectChannel` users.
+`func_8003D74C` is likewise matching C but keeps a raw byte view with the
+verified 100-byte channel stride while coordinating the duel-intro card
+reveal.
 
-The remaining assembly users of `D_800EB0F8` are
+The 18 remaining assembly users of `D_800EB0F8` are
 `func_80019D18`, `func_8001B170`, `func_800235C0`, `func_800262D4`,
 `func_800283F4`, `func_8002ACA4`, `Main_RunTrade`, `func_8002DC38`,
 `func_8002E5AC`, `func_8002EE94`, `func_80031084`, `func_800339D0`,
-`func_80035E20`, `func_80039794`, `func_8003D74C`, `func_8003DC1C`,
-`func_8003F454`, `func_8003F8D4`, and `func_80043BCC`.
+`func_80035E20`, `func_80039794`, `func_8003DC1C`, `func_8003F454`,
+`func_8003F8D4`, and `func_80043BCC`.
 For `D_800EB288`, the sole remaining assembly user is `func_800393B0`.
 
 `duel_effect_entry_scan.c` is the sole raw-view exception among migrated
