@@ -75,11 +75,12 @@ one file:
 |---|---|---|
 | the deck | `0x801D0200` | 40 × u16 card ids |
 | the trunk (chest) | `0x801D0250` | 722 bytes, one per card: copies owned |
+| duelist code | `0x801D0534` (state `+0x334`) | u32; generated nonzero for a new save and compared by `SaveData_HasSameDuelistCode` |
+| player name | `0x801D060C` (state `+0x40C`) | 12-byte Shift-JIS field; runtime conversion uses a six-character bound |
 | the **flag array** | `0x801D0618` | 256 bytes = 2048 one-bit flags, numbered 0–0x7FF, MSB first within each byte [tested by `Campaign_TestStoryFlag`, set/cleared by `Library_UpdateCardUsedFlag`]. Known ranges: `0x20`–`0x45` a per-duelist flag set together with the unlock (`0x1F + id`; reading: defeated in campaign — nothing that tests it was traced); `0x47`–`0x6F` the story's own flags, mapped one by one in §7.11; `0x121`–`0x3F2` card *seen* for the Library (`0x120 + card`); `0x401`–`0x6D2` password *already used* (`0x400 + card`, tested and set by the shop); `0x6E1`–`0x706` Free Duel *unlocked* (`0x6E0 + id`, bytes `0x801D06F4`–`0x801D06F8`). |
 | Free Duel grid records | `gFreeDuel_aDuelistRecords` (`0x801D071C`) | 40 × {u16 wins, u16 losses}; slot 0 is the Build Deck tile, duelist IDs 1–39 begin at `0x801D0720` |
 | recently acquired cards | `0x801D07BC` | 16 × s16; exact C compacts all slots, ending at `0x801D07DC` |
 | starchips | `0x801D07E0` | u32 |
-| player name, duelist code | in the same block | (offsets not measured) |
 
 Campaign progress — where the story is, which shrines are cleared, which
 Millennium Items are held — is not a variable but **flags in that array**,
@@ -170,10 +171,18 @@ on the 2P Duel and Trade screens). Confirming goes straight into the
 campaign's first scene. [`Main_RunNameEntry` `0x8002D62C`; scene text "Player's
 Name" is Data Crystal scene 002.]
 
+Matching `NameEntry_Main` fixes the new-save order: it zeros the
+`0x801D0000-0x801D2FFF` workspace, runs name entry to completion, builds the
+starter deck, and then writes a nonzero duelist code at state offset `+0x334`.
+The code combines a frame-counter or `rand()` value shifted left by eight with
+the XOR of all 12 bytes in the name field at `+0x40C`; if the result is zero,
+the random high component is retried. The two-save path later compares this
+field through matching `SaveData_HasSameDuelistCode`.
+
 > **Entered from:** New Game. **Exits to:** campaign opening. **Reads:** —.
-> **Writes:** the name in the save block; a new save block is initialised here
-> or just before (starter deck, empty trunk apart from the deck, 0 starchips,
-> no unlocks, no records). **Uses:** the starter-deck generator (§4.3).
+> **Writes:** the name and duelist code in the save block, the starter deck
+> and its seen flags; the cleared state leaves 0 starchips, no unlocks and no
+> records. **Uses:** the starter-deck generator (§4.3).
 
 ### 2.2 Options
 

@@ -40,17 +40,18 @@ and duplicate-state staging layout is documented in
 
 Two things line up with the documented map and are worth recording:
 
-- The twelve XORed bytes end at `0x801D0618`, which is exactly where the flag
-  array begins. The checksum covers the twelve bytes **immediately preceding**
-  the flags, not a range that straddles them.
-- Both addresses fall in the gap the map does not describe. The trunk ends at
-  `0x801D0522` and the flag array starts at `0x801D0618`, leaving
-  `0x801D0522`–`0x801D0617` unmapped; `0x801D0534` and the checksum source
-  both sit inside it.
+- The twelve XORed bytes are the player-name field at state offset `+0x40C`.
+  They end at `0x801D0618`, exactly where the flag array begins, so the
+  checksum covers the complete 12-byte name storage immediately preceding the
+  flags.
+- The stamped word is state offset `+0x334`. Matching
+  `SaveData_HasSameDuelistCode` compares that 32-bit field between two loaded
+  saves, establishing it as the duelist code used to reject a save competing
+  or trading with a copy of itself.
 
-That the word is retried until non-zero says zero is reserved as a sentinel —
-most likely "no save present" — but nothing traced here reads it back, so the
-consumer is unidentified and the field is not named.
+The retry therefore guarantees that every newly initialized save receives a
+nonzero duelist code. Its value combines timing/RNG state with all 12 bytes of
+the name field; it is not a pointer to, or copy of, the overlay format string.
 
 ## Note on §4.5's phrasing
 
@@ -61,7 +62,7 @@ describes the same way. So the two sections agree on the address while
 disagreeing on whether it is a counter or a bitfield; the flag reading is the
 one supported by evidence recorded in this repository.
 
-## `0x801D0534` is written as a structure base twice
+## The duelist-code address is used as a structure base twice
 
 Two separate fields in the map are expressed as offsets from `0x801D0534`,
 each with a different offset:
@@ -76,6 +77,7 @@ needed to be written that way. One such expression would be incidental
 phrasing; two independent offsets from the same base is a much better
 argument that whoever wrote the map was reading a structure rooted there.
 
-That is consistent with `NameEntry_Main` stamping a single word at exactly
-`0x801D0534` — a header field at offset zero of that structure — but the
-function alone does not establish it, since it never reads the word back.
+Matching `SaveData_HasSameDuelistCode` now establishes the word at
+`0x801D0534` as the duelist code. The two relative expressions still indicate
+that the external map was reading a larger structure rooted at that field,
+rather than two unrelated pieces of address arithmetic.
