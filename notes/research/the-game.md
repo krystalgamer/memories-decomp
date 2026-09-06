@@ -261,7 +261,7 @@ attacker's star immediately precedes the defender's in its cycle, −500 if it
 immediately follows, 0 otherwise or across cycles].
 
 **Passwords and starchip costs.** Every card has an eight-digit password
-(the number printed on the real card) and a cost in starchips, from 5 up to
+(the number printed on the real card) and a cost in starchips, from 10 up to
 999,999 [on disc: `WA_MRG.MRG` @ `0xFB9808`, u32 cost + 4-byte reversed BCD
 password, 722 records]. The 999,999 cards are the ones the Japanese version
 obtained through the PocketStation lottery; in the NTSC-U release they can
@@ -850,7 +850,8 @@ act" is the community's recipe for a B/C/D). The theoretical range is −140 to
 
 Added to the save's counter [`0x801D07E0`, u32] by the table above: 1 to 5
 per win, symmetric, so an S of either kind pays 5. They are spent only in the
-Password shop (§4.5). Losing costs nothing.
+Password shop (§4.5). The post-duel award path clamps the saved total to
+999,999 (`0xF423F`) immediately after adding the prize. Losing costs nothing.
 
 ### 6.4 The dropped card
 
