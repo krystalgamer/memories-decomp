@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_effect.h"
 
 typedef void (*VoidFn)(void);
 
@@ -23,7 +24,7 @@ void func_8002FA54(void)
     f = D_8009B2A4;
     if (f & 0x4000) {
         func_80039794();
-        if ((D_800EB12C[0] & 0x2008) == 0x2000) {
+        if ((D_800EB12C[0] & 0x2008) == TEXT_BOX_FLAG_DONE) {
             D_8009B2A4 &= 0xBFFF;
         }
         return;

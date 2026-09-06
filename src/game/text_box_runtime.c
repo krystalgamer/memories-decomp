@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_effect.h"
 
 extern void func_80039140(u8 *);
 extern void func_800393B0(void *);
@@ -37,10 +38,10 @@ void TextBox_SetPos(u8 *record, s32 x, s32 y)
 
 void func_80039A14(u8 *object)
 {
-    *(u16 *)(object + 0x34) |= 0x800;
+    *(u16 *)(object + 0x34) |= TEXT_BOX_FLAG_BUILD_REQUESTED;
     do {
         func_800393B0(object);
-    } while (!(*(u16 *)(object + 0x34) & 0x2000));
+    } while (!(*(u16 *)(object + 0x34) & TEXT_BOX_FLAG_DONE));
 }
 
 void func_80039A60(u8 *object)
@@ -48,5 +49,5 @@ void func_80039A60(u8 *object)
     *(u16 *)(object + 0x34) |= 0xA00;
     do {
         func_800393B0(object);
-    } while (!(*(u16 *)(object + 0x34) & 0x2000));
+    } while (!(*(u16 *)(object + 0x34) & TEXT_BOX_FLAG_DONE));
 }
