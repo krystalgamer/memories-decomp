@@ -861,7 +861,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80012D4C | `call_four_update_funcs` | fleet |
 | 0x80012D84 | `call_80012d4c_n_times` | fleet |
 | 0x80012E5C | `gpu_disp_buff_swap_and_ot_sort_dispatch` | fleet |
-| 0x800143DC | `copy_9e18_to_9e60_and_flags` | fleet |
+| 0x800143DC | `File_ActivateTransfer` | fleet |
 | 0x80014EEC | `reinit_d800e9e60_obj` | fleet |
 | 0x800154E4 | `Fade_DrawOverlay` | fleet |
 | 0x800157DC | `call_80015780_flags_and_8001572c` | fleet |
