@@ -296,39 +296,101 @@ Its five words sit at module offset `0x7C`–`0x90`, inside the same
 initialiser at `0x4`–`0x7C`. The two functions' emitted data is contiguous, so
 whoever carves `module_header` should do both at once rather than twice.
 
-### Carving the blob is necessary but not sufficient
+### What the "module header" actually is
 
-Both blocked functions are in the **password** overlay, and they need
-compiler-emitted data at module offsets `0x4` through `0x90`. In password that
-range is inside `.module_header` and therefore **before all of the module's
-text**. The generated linker script cannot put it there:
+The blob called `module_header` is not a header. Reading the bytes out of
+`tmp/overlays/<module>/module.bin` shows every module has the same shape:
 
-- `section_order` is `.text`, `.rodata`, `.data`, `.sdata`, `.sbss`, `.bss`,
-  and it applies **within each segment**. So in `.module` every C object's
-  `.rodata` is placed after every object's `.text` — the script literally opens
-  the run with `module_RODATA_START = .` immediately after
-  `module_TEXT_END = .`.
-- `.module_header` lists only the tracked `module_header.data.o(.data)`. It has
-  no `.rodata` line for any object at all.
+```
+[ one word: function count ][ the module's .rodata ][ the module's .text ]
+```
 
-So splitting the data blob is only half the change. The segment model also has
-to place that one source file's `.rodata` inside `.module_header`, which is a
-change to how the layout is generated rather than to the yaml alone.
+| overlay | count word | pre-text `.rodata` | text starts |
+|---|---|---|---|
+| `free_duel` | `0x13` = 19 | none | `0x4` |
+| `overworld_before_coup` | `0x14` = 20 | none | `0x4` |
+| `overworld_after_coup` | `0x14` = 20 | none | `0x4` |
+| `main_menu` | `0x0F` = 15 | `0x4`–`0x1C` | `0x1C` |
+| `password` | `0x15` = 21 | `0x4`–`0xB4` | `0xB4` |
 
-**This constraint is specific to the password overlay**, and the four
-`0x80168000`-based overlays are indistinguishable by address alone, so it is
-worth checking rather than assuming. The header extents differ:
+Password's region is three separate `.rodata` items, in the same order as the
+functions that own them:
 
-| overlay | header | module text starts |
-|---|---|---|
-| `free_duel` | `0x0`–`0x4` | `0x4` |
-| `overworld_before_coup` | `0x0`–`0x4` | `0x4` |
-| `overworld_after_coup` | `0x0`–`0x4` | `0x4` |
-| `main_menu` | `0x0`–`0x1C` | `0x1C` |
-| `password` | `0x0`–`0xB4` | `0xB4` |
+- `0x4`–`0x7C`, thirty-one words of Shift-JIS codes ending in `ffffffff` —
+  `func_80168CDC`'s initialiser, at module offset `0xCDC`
+- `0x7C`–`0x90`, five words `8016a3fc 8016a5c0 8016a68c 8016a794 8016a8a0`,
+  every one an address inside `func_8016A37C` at `0x237C` — its jump table
+- `0x90`–`0xB4`, the ASCII string `SaveLoad Buf add = 0x%x size = 0x%x\n`
 
-Only password's header reaches past `0x90`. In any other overlay those same
-offsets are ordinary module text and the argument above does not apply at all.
+**The constraint is not specific to password.** `main_menu` has the same
+structure: `0x4`–`0x1C` is six words — `8018416c 80183514 801836f4 80183884
+80183a14 80184254` — all main_menu code addresses, so a table of function
+pointers, and two of them are the comparators `func_80183514` and
+`func_801836F4`. Any module whose C files emit read-only data will hit this,
+and three modules only avoid it because they have none.
+
+### The placement is a yaml change, not a build-system change
+
+An earlier version of this note concluded that the generated linker script
+could not place a C object's `.rodata` before the module text, because
+`section_order` is `.text, .rodata, ...` and `.module` therefore opens its
+rodata run immediately after `module_TEXT_END`. That reasoning is wrong, and
+the mistake is worth naming because it is easy to repeat: **`section_order`
+orders sections within one segment.** It says nothing about where two
+different segments land, because each splat segment becomes its own output
+section with its own explicit VRAM address.
+
+So the pre-text rodata does not need `section_order` changed, and does not
+need the layout generator touched. It needs its own segment, declared before
+the text segment:
+
+```yaml
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80168000
+    subsegments:
+      - [0x0, data, overlays/password/module_header]
+
+  - name: module_rodata
+    type: code
+    start: 0x4
+    vram: 0x80168004
+    subsegments:
+      - [0x4, .rodata, overlays/password/func_80168CDC]
+      - [0x7C, .rodata, overlays/password/func_8016A37C]
+      - [0x90, rodata, overlays/password/module_rodata_tail]
+```
+
+Two subsegment spellings matter and they are different things:
+
+- `.rodata` with a leading dot and a **C file name** means "this range is the
+  `.rodata` section of that C object". Splat emits
+  `build/src/overlays/<mod>/<name>.o(.rodata);` for it.
+- `rodata` with no dot is an ordinary extracted data blob, dumped to a `.s`
+  file and linked as `<name>.rodata.o(.rodata)`. Use it for the part not yet
+  converted.
+
+That is the same spelling other PS1 projects use for jump tables; the
+references collected under `tmp/references/jtbl/` show `[0x1148, .rodata,
+map3_s03]`, `[0x988, .rodata, thread]` and `[0x40A30, .rodata, C82B8]` in
+three separate repositories.
+
+**Verified, not inferred.** Splitting password's header as above and running
+splat produces exactly the required line, at the required address:
+
+```
+.module_rodata 0x80168004 : AT(module_rodata_ROM_START) SUBALIGN(2)
+{
+    module_rodata_RODATA_START = .;
+    tmp/overlays/password/build/src/overlays/password/func_8016A930.o(.rodata);
+    ...
+}
+```
+
+so a C object's `.rodata` can be placed ahead of the module's text today, with
+no tooling change. What remains for the two blocked functions is the ordinary
+work of writing source whose emitted `.rodata` is byte-correct.
 
 **The failure is silent.** The script ends with
 
