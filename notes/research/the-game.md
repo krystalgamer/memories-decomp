@@ -346,6 +346,15 @@ counts are `16, 16, 4, 1, 1, 1, 1`, and every row's weights total 2048.
 Cross-checking the nonzero weights against the verified card catalogue gives
 monster ATK+DEF ranges `450-1050`, `1100-1550`, `1600-2050` and `2100-2450`,
 then exactly Dark Hole/Raigeki, the six terrain cards, and 28 equip cards.
+
+Because every row totals 2048, the three one-card pools have exact draw
+probabilities. Dark Hole and Raigeki each have weight 1024, so the magic card
+is a 50/50 choice. Forest, Wasteland, Mountain and Sogen each have weight 344
+(`43/256`), while Umi and Yami each have weight 336 (`21/128`). In the equip
+row, Dragon Treasure, Magical Labyrinth, Salamandra and Winged Trumpeter each
+have weight 80 (`5/128`); the other 24 equip cards each have weight 72
+(`9/256`).
+
 Resetting until the magic card is Raigeki is the community's standard opening.
 
 ### 4.4 Library
