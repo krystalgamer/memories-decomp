@@ -3802,13 +3802,13 @@
       "address": "0x80047314",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_80047314.c"
+      "source": "src/game/sound_command_dispatch.c"
     },
     {
       "address": "0x8004733C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x90",
-      "source": "src/game/func_8004733C.c"
+      "source": "src/game/sound_command_dispatch.c"
     },
     {
       "address": "0x800473CC",
