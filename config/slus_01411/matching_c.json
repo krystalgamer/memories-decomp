@@ -427,6 +427,12 @@
       "source": "src/game/display_projection.c"
     },
     {
+      "address": "0x800164FC",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
+      "size": "0x27C",
+      "source": "src/game/func_800164FC.c"
+    },
+    {
       "address": "0x80016778",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
@@ -737,6 +743,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
       "source": "src/game/func_800208D4.c"
+    },
+    {
+      "address": "0x80020988",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x25C",
+      "source": "src/game/func_80020988.c"
     },
     {
       "address": "0x80020BE4",
@@ -1823,6 +1835,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
       "source": "src/game/async_state_poll.c"
+    },
+    {
+      "address": "0x80031084",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2C8",
+      "source": "src/game/func_80031084.c"
     },
     {
       "address": "0x8003134C",
@@ -3029,6 +3047,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xCC",
       "source": "src/game/mem_card_dialog_runtime.c"
+    },
+    {
+      "address": "0x8003F454",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2B8",
+      "source": "src/game/func_8003F454.c"
     },
     {
       "address": "0x8003F70C",
@@ -4961,6 +4985,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x44",
       "source": "src/game/func_8005B85C.c"
+    },
+    {
+      "address": "0x8005BB7C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x2C0",
+      "source": "src/game/func_8005BB7C.c"
     },
     {
       "address": "0x8005C374",

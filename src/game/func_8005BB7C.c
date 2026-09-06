@@ -1,0 +1,87 @@
+#include "../types.h"
+
+extern u8 D_8009B060;
+extern u8 D_8009B061;
+extern u8 D_8009B063;
+extern u8 D_8009B142 __attribute__((section(".data")));
+extern u8 D_8009B143 __attribute__((section(".data")));
+extern u8 D_8009B144 __attribute__((section(".data")));
+extern s16 D_800FE0CC __attribute__((section(".data")));
+extern u16 D_800FE0D0 __attribute__((section(".data")));
+extern s32 D_800FE0D4 __attribute__((section(".data")));
+
+s32 func_8005BB7C(s32 arg0) {
+    u16 rect[4];
+    u8 buf[0x3C0];
+    s32 i;
+    s32 m;
+    u8 *q;
+
+    DrawSync(0);
+    func_80044F58(0);
+    /* volatile: retail sets a0 = 0 above this store and leaves the jal's
+       delay slot empty, which only a store that cannot enter a slot gives. */
+    *(volatile u8 *)&D_8009B063 = 1;
+    DecDCToutCallback(0);
+    func_800782D0();
+    while (func_8007E7F0(9, 0, 0) == 0) {
+    }
+    if (D_8009B061 != 0 || arg0 != 0) {
+        func_8005C568(0, 0x100);
+    }
+    if (D_8009B060 != 0) {
+        i = 0;
+        m = func_80085320();
+        q = buf;
+        for (; i < 0x3C0; i += 3) {
+            *q++ = D_8009B144;
+            *q++ = D_8009B143;
+            *q++ = D_8009B142;
+        }
+        rect[0] = 0;
+        i = 0;
+        rect[1] = m << 8;
+        rect[2] = 0x1E0;
+        rect[3] = 1;
+        for (; i < D_800FE0D4; i++) {
+            LoadImage(rect, buf);
+            DrawSync(0);
+            rect[1]++;
+        }
+        rect[0] = 0x140;
+        rect[1] = 0;
+        rect[3] = 1;
+        rect[2] = D_800FE0D0;
+        for (i = 0; i < D_800FE0D4; i++) {
+            LoadImage(rect, buf);
+            DrawSync(0);
+            rect[1]++;
+        }
+        DrawSync(0);
+        VSync(0);
+        i = 0;
+        func_80085500();
+        rect[1] = (m ^ 1) << 8;
+        rect[2] = 0x1E0;
+        rect[0] = 0;
+        rect[3] = 1;
+        for (; i < D_800FE0D4; i++) {
+            LoadImage(rect, buf);
+            DrawSync(0);
+            rect[1]++;
+        }
+        DrawSync(0);
+        VSync(0);
+        D_800FE0CC = 1;
+        func_80085500();
+        func_800856A0(0, 0, 0x140, 0);
+        GsInitGraph2(0x140, 0xF0, 4, 1, 0);
+        rect[0] = 0;
+        rect[1] = 0;
+        rect[2] = *(s32 *)&D_800FE0D0 * 2;
+        rect[3] = *(u16 *)&D_800FE0D4;
+        func_8007F850(rect, D_8009B144, D_8009B143, D_8009B142);
+        D_8009B060 = 0;
+    }
+    return 0;
+}

@@ -83,7 +83,7 @@ address,size,name,status,module,notes
 0x80015DB8,0x44,func_80015DB8,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80015DFC,0xF8,func_80015DFC,matching_c,game,Post-terminal resolution; merged into display_projection.c with its contiguous neighbours; D_800E9D98 declared as an array to keep it out of small data while D_8009B1D5 stays %gp_rel; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80015EF4,0x608,func_80015EF4,unmatched_asm,game,
-0x800164FC,0x27C,func_800164FC,unmatched_asm,game,
+0x800164FC,0x27C,func_800164FC,matching_c,game,"Exact linked bytes on gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference (batch port, probe-verified)."
 0x80016778,0xC,func_80016778,matching_c,game,4 pre-policy variants: unsigned top-bit extraction stored to byte offset 0x69 reproduced the exact three-instruction sequence.
 0x80016784,0x580,func_80016784,matching_c,game,"Exact linked bytes with gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference; no gp-relative access, so only the assembler threshold is at -G0."
 0x80016D04,0x28,func_80016D04,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -153,7 +153,7 @@ address,size,name,status,module,notes
 0x8001F364,0x1F8,func_8001F364,matching_c,game,Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference; adds three linker symbols the listing references by name; the single arm pin and the embedded store-address assignment are load-bearing.
 0x8001F55C,0x1378,func_8001F55C,unmatched_asm,game,
 0x800208D4,0xB4,func_800208D4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x80020988,0x25C,func_80020988,unmatched_asm,game,
+0x80020988,0x25C,func_80020988,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8 from the ygofm reference (batch port, probe-verified)."
 0x80020BE4,0x168,func_80020BE4,matching_c,game,Matched from updated collaborator source: volatile display-state accesses preserve the retail reload sequence.
 0x80020D4C,0x19C,func_80020D4C,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_no_split.
 0x80020EE8,0x64,func_80020EE8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -372,7 +372,7 @@ address,size,name,status,module,notes
 0x80030FD0,0x30,func_80030FD0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80031000,0x78,func_80031000,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80031078,0xC,func_80031078,matching_c,game,First -O2 -G8 global-byte assignment candidate matched.
-0x80031084,0x2C8,func_80031084,unmatched_asm,game,
+0x80031084,0x2C8,func_80031084,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8003134C,0x8,func_8003134C,matching_c,game,First empty-function candidate matched.
 0x80031354,0x94,func_80031354,matching_c,game,Post-terminal declaration/profile recovery; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800313E8,0x18C,func_800313E8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
@@ -595,7 +595,7 @@ address,size,name,status,module,notes
 0x8003EED0,0x3E0,func_8003EED0,unmatched_asm,game,
 0x8003F2B0,0xD8,func_8003F2B0,matching_c,game,Collaborator countdown structure independently verified; one allocation-only a3 pin and exact linked bytes/relocations under split-address G8.
 0x8003F388,0xCC,func_8003F388,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8003F454,0x2B8,func_8003F454,unmatched_asm,game,
+0x8003F454,0x2B8,func_8003F454,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8003F70C,0x34,func_8003F70C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003F740,0x18,func_8003F740,matching_c,game,Ordered small-data flag and byte assignments matched exactly.
 0x8003F758,0x7C,func_8003F758,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
@@ -991,7 +991,7 @@ address,size,name,status,module,notes
 0x8005B64C,0x210,func_8005B64C,unmatched_asm,game,
 0x8005B85C,0x44,func_8005B85C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8005B8A0,0x2DC,func_8005B8A0,unmatched_asm,game,
-0x8005BB7C,0x2C0,func_8005BB7C,unmatched_asm,game,
+0x8005BB7C,0x2C0,func_8005BB7C,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8 from the ygofm reference (batch port, probe-verified)."
 0x8005BE3C,0x18C,func_8005BE3C,unmatched_asm,game,
 0x8005BFC8,0x22C,func_8005BFC8,unmatched_asm,game,
 0x8005C1F4,0x180,func_8005C1F4,unmatched_asm,game,
