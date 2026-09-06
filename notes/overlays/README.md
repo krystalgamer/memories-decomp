@@ -673,6 +673,24 @@ into an inventory row as a fact. This is the same kind of result as the `-O0` sc
 and worth the same trust: it is a cheap check that closes off a whole class of
 guesses rather than opening one.
 
+## Read the opcode distance before the position count
+
+`overlay_diff.py` prints an opcode distance beside every DIFF. It is the L1
+distance between the two instruction multisets, classified from the encoding
+rather than the printed mnemonic, so `li` is whatever it actually assembled to
+and no alias table sits between the measurement and the thing measured.
+
+Distance zero means the candidate already has the target's exact instruction
+mix and differs only in register choice or scheduling. That is worth knowing
+before spending a pass on source shape, because no rearrangement of statements
+will change a multiset that is already right.
+
+The position count does not tell you this. It is order-sensitive, so one
+misplaced block or one unfilled delay slot shifts everything after it and
+inflates the count far beyond the real damage. On `func_8016913C` the two read
+321 and 26 for the same candidate. Read the distance first, then the jump
+count for block placement, and only then the positions.
+
 ## Keep a near-miss candidate instead of rebuilding it
 
 Candidate sources live in `tmp/`, which is not tracked, so they disappear when

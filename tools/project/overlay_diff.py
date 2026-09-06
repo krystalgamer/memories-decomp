@@ -177,6 +177,43 @@ def disassemble(root: Path, words: list[int]) -> list[str]:
     ]
 
 
+def opcode_class(word: int) -> tuple[str, int]:
+    """Classify one instruction by its encoding rather than its printed name.
+
+    A mnemonic is a rendering choice: ``li`` assembles to ``addiu`` or ``ori``
+    depending on the value, so any table mapping names to names is wrong for
+    some inputs and silently inflates a distance. The encoding is not a
+    rendering, so it cannot disagree with the assembler.
+    """
+
+    op = word >> 26
+    if op == 0:
+        return ("special", word & 0x3F)
+    if op == 1:
+        return ("regimm", (word >> 16) & 0x1F)
+    if op == 16 or op == 18:
+        return ("cop", (op << 6) | ((word >> 21) & 0x1F))
+    return ("op", op)
+
+
+def opcode_distance(target: list[int], candidate: list[int]) -> int:
+    """L1 distance between the two opcode multisets.
+
+    Zero means the candidate already has the target's exact instruction mix and
+    differs only in register choice or scheduling, which the positional count
+    reports separately and which inflates badly once block order differs.
+    """
+
+    counts: dict[tuple[str, int], int] = {}
+    for word in target:
+        key = opcode_class(word)
+        counts[key] = counts.get(key, 0) + 1
+    for word in candidate:
+        key = opcode_class(word)
+        counts[key] = counts.get(key, 0) - 1
+    return sum(abs(value) for value in counts.values())
+
+
 def report(
     target: list[int],
     candidate: list[int],
@@ -194,6 +231,8 @@ def report(
         f"target {len(target)} instructions, candidate {len(candidate)}: "
         + ("MATCH" if matched else "DIFF")
     )
+    if not matched:
+        print(f"opcode distance {opcode_distance(target, candidate)}")
     if matched:
         return True
     for index in range(max(len(left), len(right))):
