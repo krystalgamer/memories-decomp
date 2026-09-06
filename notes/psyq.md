@@ -553,7 +553,9 @@ can change argument setup. `rand.h` fixes `RAND_MAX` at 32767 and exposes the
 directly. The password/name-entry starter generator and module main, plus the
 five matching main-menu sort comparators, now use `rand.h` rather than
 duplicate the runtime declaration. The main-menu card-list builder also uses
-`qsort.h` with the original unprototyped comparator shape.
+`qsort.h` with the original unprototyped comparator shape. Newly integrated
+`Duel_ShuffleDeck`, `func_80031084`, `func_80043BCC`, and `func_80050584`
+also include `rand.h` for their resident RNG calls.
 
 The imported string headers form a compatibility stack rather than three
 independent libraries. `string.h` only includes `strings.h`; `strings.h`
