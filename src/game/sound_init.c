@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 #include "sound.h"
 
 typedef struct {
@@ -20,7 +21,6 @@ extern void func_8004A6D8(void);
 extern void func_8004B854(void);
 extern void func_8004B9E0(void);
 extern void func_80074E60(void);
-extern long SpuSetReverbModeType(long);
 
 void func_80049230(s32 value, s32 data);
 
