@@ -17,7 +17,7 @@ typedef struct {
 
 extern PasswordEntry D_800EB0F8[];
 
-PasswordNode *func_8016868C(s32 index, s32 x, s32 y)
+PasswordNode *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
 {
     PasswordEntry *base;
     PasswordNode *node;
