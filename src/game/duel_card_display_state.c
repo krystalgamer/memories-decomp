@@ -56,7 +56,7 @@ void func_80017E3C(DuelCardDisplayObject *object)
     DuelCardRecord *card = &D_801A7AD8[object->card_index];
     u16 flags;
 
-    if (!(card->flags & 0x2000)) {
+    if (!(card->flags & DUEL_CARD_FLAG_DISPLAY_MARKER)) {
         object->field_67 = 0;
     }
     flags = object->flags & 0xFFFB;

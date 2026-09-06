@@ -6,6 +6,6 @@ extern int func_80042B98(Object*);
 void func_80019BD0(Object*o)
 {
  int current;if(!func_80042B98(o)){o->limit=0x40;o->flags|=4;if(o->current)o->limit=0xC0;}
- current=o->current+8;o->current=current;if(o->active&0x40){if((signed char)current>=0){o->current=0;D_801A7AD8[o->index].flags&=~0x2000;if((o->mode|o->alt)==0)o->flags&=~4;o->active=0;o->callback=0;}}
+ current=o->current+8;o->current=current;if(o->active&0x40){if((signed char)current>=0){o->current=0;D_801A7AD8[o->index].flags&=~DUEL_CARD_FLAG_DISPLAY_MARKER;if((o->mode|o->alt)==0)o->flags&=~4;o->active=0;o->callback=0;}}
  else if(o->current>=o->limit){o->active|=0x40;o->current=0xC0;o->field67=0;}
 }
