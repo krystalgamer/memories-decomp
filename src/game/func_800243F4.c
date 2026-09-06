@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/rand.h"
 
 extern u8 gDuel_awOpponentDeckPool[];
 

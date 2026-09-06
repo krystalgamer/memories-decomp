@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/rand.h"
 
 typedef struct {
     u8 unk0[0x28];

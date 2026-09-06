@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/rand.h"
 
 extern s32 D_8009B0F4 __attribute__((section(".data")));
 extern s32 D_8009B134 __attribute__((section(".data")));
