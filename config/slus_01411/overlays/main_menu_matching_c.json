@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8018001C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x374",
+      "source": "src/overlays/main_menu/func_8018001C.c"
+    },
+    {
       "address": "0x80180B4C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1E0",
