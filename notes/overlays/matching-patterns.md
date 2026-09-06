@@ -966,8 +966,14 @@ first**. Reaching for a temporary local gives the single load but leaves the
 store order free, and then it has to be argued separately; the chain gives both
 at once and is what the original almost certainly said.
 
-The same shape appears on plain constants: `D_801845BC[0] = D_801845BC[1] = 2;`
-emits `[1]` before `[0]`.
+**On plain constants the chain is one of two equivalent spellings.**
+`D_801845BC[0] = D_801845BC[1] = 2;` does emit `[1]` before `[0]`, but writing
+those as two statements in that order is byte-identical — measured by
+perturbing the matched source. Writing them ascending costs seventeen
+positions. So for constants only the store order carries weight, and the chain
+is not required; it is required for the pointer form above, where splitting it
+costs an instruction whichever order the two statements are written in, because
+the second store no longer shares the load.
 
 Verified by `func_80180FD8` in the main menu module.
 
@@ -1021,6 +1027,15 @@ li    $v0, 1         # else-arm builds the constant in the *scratch* register
 j     .L
  move $s0, $v0       # and copies it, rather than li $s0, 1
 ```
+
+**Measured cost, and it is not uniform.** Rewriting both of the subtracting
+conditionals in `func_801812B4` as `if`/`else` builds 283 against 285, so each
+is worth one instruction, which is the two the paragraph above describes.
+Rewriting the two adding conditionals the same way leaves the count at 285 and
+costs sixteen positions instead. So the copy through the scratch register is
+still the tell, but only some sites pay an instruction for it; read the count
+difference off the site in question rather than assuming every conditional
+expression in a function is worth one.
 
 `li $v0, 1` followed by `move $s0, $v0` where `li $s0, 1` would have done is
 the whole tell. The same shape appears with a non-constant arm as
