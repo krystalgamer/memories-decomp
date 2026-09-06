@@ -80,12 +80,12 @@ void func_800154E4(void) {
     if ((flags & 0x80) || (D_8009B141 != 0 && rec[4] != 0xFF)) {
         p = FADEBOX;
         p->tag = 0x60000000;
-        p->wh = 0xF00140;   /* 320 wide, 240 tall */
+        p->wh = (FADE_SCREEN_HEIGHT << 16) | FADE_SCREEN_WIDTH;
         p->xy = 0;
         ot = D_800E9D94[0];
 
         if (flags & 1) {
-            FADEBOX_H(p) = 8;
+            FADEBOX_H(p) = FADE_BAND_HEIGHT;
             for (i = 0; i < FADE_BAND_COUNT; i++) {
                 u8 *lvl = rec + i;
                 band = 0xFF - lvl[0xA];
@@ -93,7 +93,7 @@ void func_800154E4(void) {
                 p->g = (u8) band;
                 p->r = (u8) band;
                 GsSortBoxFill((GsBOXF *)p, (GsOT *)ot, 4);
-                FADEBOX_Y(p) = FADEBOX_Y(p) + 8;
+                FADEBOX_Y(p) = FADEBOX_Y(p) + FADE_BAND_HEIGHT;
             }
             if (!(D_800E9ECE[0] & 2)) {
                 return;
