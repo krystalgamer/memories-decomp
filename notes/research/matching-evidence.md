@@ -2655,3 +2655,69 @@ The reload placed at the *end* of the body is the tell. When a target reloads
 a global just before the loop test rather than at the top of the body, the
 original read it once per iteration for both purposes, and the loop condition
 was written against the reloaded value rather than against the global.
+
+## Under -G8 the declared size of a global picks its addressing form
+
+Within one profile, a global's *declared type* decides whether its address is
+built by the assembler into `$at` or by the compiler into an allocated
+register. Getting the declaration wrong costs several instructions and shows
+up as a shifted branch target, not as anything that points at the
+declaration.
+
+With `-G8` and `-msplit-addresses`:
+
+- A scalar `extern` carrying `__attribute__((section(".data")))` stays a plain
+  symbol reference. The assembler expands each access, so the address is
+  rebuilt at every use and stores go through `$at`.
+- An `extern` of incomplete array type has unknown size, so it cannot be small
+  data. `-msplit-addresses` then splits its address at compile time into a
+  compiler-allocated register, which the scheduler is free to hoist.
+
+Both forms appear in the same function. In `func_8003B808` (0x8003B808) every
+scalar global is rebuilt per access while `D_801AF000`, an array, gets its own
+register:
+
+    lui $v0, %hi(D_8009B0F4)      scalar, rebuilt each time
+    lw  $v0, %lo(D_8009B0F4)($v0)
+    lui $at, %hi(D_8009B0F4)      store goes through $at
+    sw  $v0, %lo(D_8009B0F4)($at)
+
+    lui   $v0, %hi(D_801AF000)    array, split into a real register
+    addiu $v0, $v0, %lo(D_801AF000)
+
+Declaring the scalars plainly under `-G0` instead lets GCC cache the address
+in a register and reuse it, which builds five instructions short on
+`func_8003B808` and six to eight on `func_8003BF00`. Both functions' canonical
+campaigns recorded exactly that as a shifted dispatch branch target
+(`+0x10: 64!=5c` and `+0xc: 68!=62`). The residuals were accurate; nothing in
+them suggested the cause was a declaration.
+
+The sibling functions `func_8003BA14` and `func_8003BD14` match under
+`gcc_2_8_1_g0_no_split`, so profile inheritance from a neighbour is not safe
+here either: the family splits on which members touch an array.
+
+This is the compiler-side counterpart to the assembler-side `-G` problem
+recorded above. There the mix of `%gp_rel` and `%hi`/`%lo` could not be
+reproduced by any single `-G` value; here a single profile does reproduce a
+mix, and the lever is the declaration rather than the flag.
+
+## A two-instruction constant makes statement order observable
+
+When two statements in the same basic block each need a constant, and one of
+them costs a `lui`/`ori` pair while the other fits in a single `addiu`, the
+expensive one is materialised first and source order decides the rest.
+
+`func_8003B808` and `func_8003BF00` are switch statements whose arms all have
+the same shape: assign a field, then mask a global. Most arms match with the
+field assignment written first. Exactly one arm in each function does not:
+
+    func_8003B808 case 3   field1C = 0x18000    lui + ori
+    func_8003BF00 case 1   field1C = 0x43000    lui + ori
+
+Those two need the mask statement written first. Every other arm uses a
+constant that fits one instruction and is insensitive to the order.
+
+The useful part is the diagnosis rather than the fix: an ordering difference
+confined to one arm of an otherwise uniform switch is not arbitrary, and it is
+worth checking the constant costs before treating it as noise or reaching for
+a different profile.

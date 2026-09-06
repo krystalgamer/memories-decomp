@@ -548,7 +548,7 @@ address,size,name,status,module,notes
 0x8003BC40,0xD4,Text_SjisToGlyphCodes,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003BD14,0x1A4,func_8003BD14,matching_c,game,Four-mode object setup dispatcher; collaborator structure with exact D_800101D8 relocation spelling.
 0x8003BEB8,0x48,func_8003BEB8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8003BF00,0x1C0,func_8003BF00,unmatched_asm,game,
+0x8003BF00,0x1C0,func_8003BF00,matching_c,game,"Exact match with gcc_2_8_1_g8_split; File_RequestAsyncTransfer phase callback, owns jtbl_80010360."
 0x8003C0C0,0x60,func_8003C0C0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003C120,0x194,func_8003C120,matching_c,game,The collaborator typed four-mode initializer matches under the G0 no-split profile; exact linked bytes and relocations.
 0x8003C2B4,0x74,func_8003C2B4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
