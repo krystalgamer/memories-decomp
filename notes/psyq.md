@@ -83,6 +83,8 @@ symbol review.
 | `0x80073E1C` | `InitPAD` | `Input_InitPads` passes two adjacent 34-byte receive buffers and their exact lengths. |
 | `0x80073EAC` | `StartPAD` | Called immediately after `InitPAD` to start the controller service before local input state is reset. |
 | `0x80074170` | `VSync` | Applied Psy-Q 4.6 identity; matching callers query frame timing for AI yielding and time-varying screen effects. |
+| `0x80075B20` | `DeliverEvent` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A07.OBJ` signature. |
+| `0x80076D10` | `WaitEvent` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A10.OBJ` signature. |
 | `0x80076ED0` | `SpuSetKey` | Applied Psy-Q 4.6 identity; matching sound-driver paths switch selected voice masks off during cleanup and slot reuse. |
 | `0x800772F0` | `SpuRGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset zero of the unique 352-byte `LIBSPU.LIB/SR_GAKS.OBJ` signature. |
 | `0x800773C4` | `SpuGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset `0xD4` of the same object; matching sound-driver callers collect all voice key states before update or cleanup work. |
