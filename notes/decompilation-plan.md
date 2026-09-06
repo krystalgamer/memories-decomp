@@ -5,12 +5,13 @@ The active remaining-function campaign is specified in
 decompilation/refinement, then semantic naming and source grouping, then
 cross-function global-use and structure recovery.
 
-Current campaign results and bounded profile-sweep evidence are recorded in
+Current campaign results and profile-sweep evidence are recorded in
 `notes/remaining-decompilation-pass.md`.
 
-The inline-assembly replacement phase is terminal: 21 pure-C replacements were
-accepted during the remaining campaign, and all 59 retained inline sources
-have complete six-attempt refinement histories.
+The completed inline-assembly replacement campaign accepted 21 pure-C
+replacements, and all 59 retained inline sources have six recorded refinement
+measurements. Those rows are a historical snapshot rather than a limit on
+deeper follow-up.
 
 ## Resource usage
 
@@ -54,9 +55,9 @@ its follow-up plan was written. The generated progress section in the root
 - Every pure-C user of `g_SDValue` includes `sound.h`. Three raw expressions
   remain solely because typed member syntax changes GCC code generation;
   inline-assembly users remain deferred.
-- The remaining-function campaign is terminal: all unmatched game functions
-  have six-attempt histories, and all retained matching inline sources have
-  six-attempt refinement histories.
+- The completed remaining-function campaign left all unmatched game functions
+  with six recorded measurements, and all retained matching inline sources
+  with six refinement measurements. Further investigation remains open.
 - Post-campaign global-use analysis covers 3,356 function/global rows and 784
   globals across 923 game functions.
 - Shared post-campaign layouts now cover the secondary sound state,

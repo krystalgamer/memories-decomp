@@ -295,7 +295,8 @@ partial functions whose target code provides specific evidence:
 
 These are not new defaults and do not change the Psy-Q 4.6 or ASPSX 2.81
 selection. Use one only when instruction scheduling or relocation shape points
-to that knob, and count it toward the function's six-variant budget.
+to that knob. Preserve the resulting object and mismatch evidence so later
+profiles build on measurements instead of repeating them.
 
 Continuing compiler probes should still cover multiple independent code shapes,
 including relocation and section behavior:

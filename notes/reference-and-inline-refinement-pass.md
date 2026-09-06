@@ -33,7 +33,7 @@ Every target history was imported through
 `tools/project/record_external_attempt.py`. Exact matches were integrated one
 function per commit, with a full executable link and target SHA-256 check.
 Nonmatches and deferrals were also committed one function at a time so their
-attempt budgets remain durable.
+campaign measurements remain durable.
 
 ## Inline-assembly refinement
 
@@ -64,10 +64,11 @@ The 31 exact refinements replaced their tracked sources atomically:
 0x80070EB4  0x80071194  0x80073480
 ```
 
-The remaining 105 functions have one recorded nonmatching refinement and
-therefore retain five attempts in their six-attempt inline-refinement budget.
-Their candidate hashes, profiles, references when available, and failure
-summaries are in `config/slus_01411/external_attempts.csv`.
+The remaining 105 functions have one recorded nonmatching refinement in the
+historical inline-refinement ledger. Their candidate hashes, profiles,
+references when available, and failure summaries are in
+`config/slus_01411/external_attempts.csv`; continued exploration is not capped
+by the unused rows in that campaign ledger.
 
 The current remaining asm-extension inventory is:
 

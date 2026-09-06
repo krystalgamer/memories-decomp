@@ -133,19 +133,18 @@ make candidates \
 ```
 
 The default deliberately excludes every function with any existing attempt
-history, not only terminal deferrals. This prevents an automated batch from
-silently exceeding the six-variant limit when an older partial attempt exists.
-Use `--include-partial` only when intentionally continuing a reviewed,
-nonterminal history; the output reports its remaining budget.
+history, not only deferred histories. This keeps automated first-pass batches
+from repeating work that already has measurements. Use `--include-partial`
+only when intentionally reviewing a historical canonical ledger.
 
 The complete first pass now covers all 1,196 game functions. At this snapshot,
-all unmatched functions have terminal canonical histories, so both the default
+all unmatched functions have deferred canonical histories, so both the default
 `make candidates` output and the `--include-partial` result are empty. Future
-matching work must document genuinely new evidence before reconsidering a
-deferred function. PsyQ CRT/SDK functions are not decompilation candidates and
-must never be added to `attempts.csv`.
+matching work should start from those measured mismatches and preserve each
+new candidate under `tmp/`. PsyQ CRT/SDK functions are not decompilation
+candidates and must never be added to `attempts.csv`.
 
-Review deferred histories without reopening their canonical attempt budgets:
+Review deferred histories before continuing deeper investigation:
 
 ```sh
 make review-deferred
@@ -156,10 +155,10 @@ make review-deferred \
 The CSV view shows the last recorded result plus measured counts for distinct
 compilers, source paths, and tool-error attempts. Those counts expose histories
 that spent variants without testing a new source representation. JSON includes
-every canonical attempt so interacting changes can be compared together. This
-command is a research queue, not permission to append a seventh speculative
-attempt. A post-terminal candidate still requires one concrete new
-discriminator and can only be recorded after an exact match.
+every canonical attempt so interacting changes can be compared together. The
+canonical CSV remains a fixed historical snapshot, but it does not limit
+source variants, compiler probes, or other investigation preserved under
+`tmp/`. Record an exact later result as post-terminal evidence.
 
 ### Hypothesis audit before post-terminal work
 
@@ -253,9 +252,10 @@ tools/environments/python/bin/python \
 
 `external_attempts.csv` preserves the terminal canonical history in
 `attempts.csv`. It is game-only, accepts only pure-C prepared candidates, and
-has its own six-attempt terminal budget. Use `inline_refinement` for an already
-matching function whose GCC asm extensions are being removed. A successful
-nonmatching reference candidate is promoted with
+retains the completed campaign rows as historical evidence rather than a
+limit on continued work. Use `inline_refinement` for an already matching
+function whose GCC asm extensions are being removed. A successful nonmatching
+reference candidate is promoted with
 `integrate_verified_match.py --evidence-source reference`.
 
 A successful inline refinement atomically replaces its existing source and
@@ -277,7 +277,7 @@ current tracked source. Earlier successful reference evidence remains in the
 ledger as history if a later pure-C refinement supersedes it.
 
 One-shot imports from the merged Unchiga decomp use a distinct mode so they do
-not reset or obscure the six-attempt hypothesis histories:
+not reset or obscure the historical hypothesis rows:
 
 ```sh
 tools/environments/python/bin/python \

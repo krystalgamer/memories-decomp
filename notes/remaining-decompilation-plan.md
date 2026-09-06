@@ -18,7 +18,7 @@ The resident inventory contains 1,794 functions:
 | Terminal compiler-generated game assembly | 347 |
 | Intentional handwritten game assembly | 63 |
 
-The previous bounded campaign produced terminal histories for every remaining
+The previous breadth-first campaign produced deferred histories for every remaining
 compiler-generated assembly function. Those histories are research indexes,
 not a declaration that the project is complete.
 
@@ -44,19 +44,20 @@ evidence must resolve.
 - Never decompile the 598 Psy-Q CRT/SDK functions.
 - Try GCC 2.8.1 with MASPSX 2.81 first.
 - Use GCC 2.7.2 with MASPSX 2.72 only when code evidence supports the DOS
-  cohort or the 2.8.1 budget is exhausted.
-- Never repeat a terminal source/profile experiment without genuinely new
-  compiler, source, structure, or runtime evidence.
-- Preserve the original six-attempt ledgers as immutable history. Any
-  post-terminal investigation must begin from one concrete new discriminator,
-  remain bounded, and record its result before another variant is considered.
-- Treat each terminal history as a set of measurements against specific source
+  cohort or the useful 2.8.1 profiles have been explored.
+- Do not blindly repeat an unchanged source/profile experiment; continue from
+  its measured mismatch with new compiler, source, structure, or runtime
+  hypotheses.
+- Preserve the original six-attempt ledgers as immutable campaign history,
+  not as a research limit. Keep later candidates and exact mismatch evidence
+  under `tmp/` while exploring as many materially distinct hypotheses as the
+  function requires.
+- Treat each deferred history as a set of measurements against specific source
   shapes, not proof of a general capability or compiler ceiling. Audit the full
   history with `make review-deferred` before relying on its explanation.
 - Record an exact post-terminal pure-C resolution as
-  `post_terminal_resolution` evidence; this one-shot success record does not
-  rewrite or append speculative variants to the original six-attempt
-  canonical or inline-refinement history.
+  `post_terminal_resolution` evidence without rewriting the historical
+  canonical or inline-refinement rows.
 - Supply `--new-discriminator` when recording that resolution so the evidence
   that justified revisiting the terminal history remains durable.
 - Keep exact assembly until a replacement passes the complete executable match.
