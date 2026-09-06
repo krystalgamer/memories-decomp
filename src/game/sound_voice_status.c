@@ -1,8 +1,6 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 #include "sound.h"
-
-extern void SpuSetKey(long, unsigned long);
-extern void SpuGetAllKeysStatus(char *);
 
 void func_80047EC4(void)
 {

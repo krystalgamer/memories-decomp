@@ -1,8 +1,8 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 #include "sound.h"
 
 extern int D_80011434[];
-extern void SpuSetKey(long, unsigned long);
 extern int func_80077090(int);
 
 void func_8004A7C0(int index)
