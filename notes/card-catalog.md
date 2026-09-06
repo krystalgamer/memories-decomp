@@ -27,6 +27,26 @@ Names and gameplay fields were decoded from the verified
 - `gDuel_abCardLevelAttr` at `0x801D5332`, indexed directly by card ID,
   stores attribute in the high nibble and level in the low nibble.
 
+`gText_aGlobalOffsets` is broader than the card catalog. The verified table
+layout is:
+
+| Table entries | String IDs | Contents |
+|---:|---:|---|
+| `0x000` | `0x8000` | Empty string. |
+| `0x001-0x2D2` | `0x8001-0x82D2` | Card names for IDs 1-722. |
+| `0x2D3-0x2FF` | `0x82D3-0x82FF` | Empty-string aliases. |
+| `0x300-0x317` | `0x8300-0x8317` | The 24 card-type labels from Dragon through Equip. |
+| `0x318-0x321` | `0x8318-0x8321` | The ten Guardian Star names. |
+| `0x322-0x327` | `0x8322-0x8327` | Six entries that alias the Dragon string. |
+| `0x328` | `0x8328` | `Build Deck`. |
+| `0x329-0x34F` | `0x8329-0x834F` | The 39 duelist names. |
+
+The table starts at SLUS offset `0x1C6000`; `0x1C6600` is entry `0x300`
+within that same table, not a second pointer block. Its first type payload,
+`Dragon`, begins at SLUS offset `0x1C92CE` (resident `0x801D8ACE`). See
+[`modding-tutorial-evidence.md`](modding-tutorial-evidence.md) for the
+hex-editor claims and offset-level reconciliation.
+
 All 722 decoded types, attributes, levels, Guardian Stars, ATK values, and DEF
 values agree with the public Forbidden Memories database. For searchable CSV
 text, the game's right-apostrophe glyph is normalized to ASCII `'`. Names then
