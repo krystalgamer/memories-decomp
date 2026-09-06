@@ -30,6 +30,8 @@
 --
 --   If you stop the script early, reset the emulator to restore the retail
 --   instruction byte.
+--   If phase 0 is armed in duel mode for ten seconds without a function hit,
+--   the script prints a reminder to select the interpreter CPU.
 --
 -- WHAT TO WRITE IN THE CONTEXT
 --   Confirm a clean retail executable and interpreter CPU. For phases 0 and 1,
@@ -50,8 +52,10 @@ local FOLLOWING_WORD = 0xa0820067
 local EPILOGUE_WORD = 0x8fbf0014
 local STATE_POINTER = 0x8009b1c8
 local MAIN_MODE = 0x8009b26c
+local DUEL_MODE = 3
 local PLAYER_LP = 0x800ea004
 local OPPONENT_LP = 0x800ea024
+local NO_HIT_WARNING_FRAMES = 600
 local OBSERVE_FRAMES = 600
 local MAX_HITS = 16384
 local MAX_RESOURCE_CHANGES = 32
@@ -116,6 +120,8 @@ local resourceChanges = 0
 local changeLimitReported = false
 local patchedByScript = false
 local armed = false
+local armedFrame = nil
+local noHitWarningPrinted = false
 local done = false
 
 local function emit(text)
@@ -292,6 +298,7 @@ local function poll()
         end
         patchValue(0)
         armed = true
+        armedFrame = frames
         print(SCRIPT_NAME
             .. ': phase 0 armed; trigger an opponent-card display')
     end
@@ -303,6 +310,21 @@ local function poll()
     if hitLimitReached then
         finish('maximum function-entry hit count reached')
         return
+    end
+
+    if not noHitWarningPrinted
+        and hits == 0
+        and armedFrame ~= nil
+        and frames - armedFrame >= NO_HIT_WARNING_FRAMES
+        and u8(MAIN_MODE) % 32 == DUEL_MODE then
+        noHitWarningPrinted = true
+        emit(string.format(
+            'warning frame=%06d no function hits after phase 0 armed',
+            frames
+        ))
+        print(SCRIPT_NAME
+            .. ': no function hits; select the interpreter CPU and '
+            .. 'trigger another opponent-card display')
     end
 
     if phaseSeen[phase] then
