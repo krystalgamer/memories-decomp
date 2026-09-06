@@ -12,6 +12,10 @@
 --   MainMenu_ConfigureArchivePhase name or a broader Cd_SelectTransferPreset
 --   name is justified.
 --
+--   Returning from OPTION may not reload SU.MRG. PCSX-Redux also removes Lua
+--   breakpoints during reset, so this script reinstalls both callbacks at the
+--   BIOS shell before using the boot-time load as its fallback.
+--
 -- HOW TO RUN
 --   1. Open PCSX-Redux with the game and enable the debugger.
 --   2. Select the interpreter CPU. Execution breakpoints do not fire on the
@@ -26,7 +30,8 @@
 --      context.
 --
 --   If returning from OPTION produces no callback hits, leave the script
---   running and soft-reset once so it can observe the boot-time SU load.
+--   running and reset once. It should print "reset observed" followed by
+--   "breakpoints reinstalled at BIOS shell" before the boot-time SU load.
 --
 -- WHAT TO WRITE IN THE CONTEXT
 --   Confirm interpreter CPU, whether the script began in OPTION or before a
@@ -44,6 +49,7 @@ local PHASE_VALUE = 0x8001002c
 local SELECTOR_COUNT = 5
 local RECORD_SIZE = 0x47
 local MAX_HITS = 12
+local NO_HIT_WARNING_FRAMES = 600
 local QUIET_FRAMES = 180
 local TIMEOUT_FRAMES = 72000
 
@@ -122,10 +128,27 @@ local quietFrames = 0
 local pending = nil
 local callbackError = nil
 local hitLimitReached = false
+local resetSeen = false
+local noHitWarningPrinted = false
 local done = false
 
 local function emit(text)
     lines[#lines + 1] = text
+end
+
+local function resetCaptureState()
+    lines = {}
+    seen = {}
+    frames = 0
+    hits = 0
+    completed = 0
+    quietFrames = 0
+    pending = nil
+    callbackError = nil
+    hitLimitReached = false
+    resetSeen = true
+    noHitWarningPrinted = false
+    done = false
 end
 
 local function selectorSummary()
@@ -303,6 +326,21 @@ local function poll()
         return
     end
 
+    if not noHitWarningPrinted
+        and completed == 0
+        and frames >= NO_HIT_WARNING_FRAMES then
+        noHitWarningPrinted = true
+        if resetSeen then
+            print(SCRIPT_NAME
+                .. ': no callback hits after reset; confirm the BIOS-shell '
+                .. 'reinstall message and interpreter CPU')
+        else
+            print(SCRIPT_NAME
+                .. ': OPTION return did not reload SU; leave the script '
+                .. 'running and reset once')
+        end
+    end
+
     if completed > 0 then
         quietFrames = quietFrames + 1
     end
@@ -318,26 +356,64 @@ local function poll()
     end
 end
 
-breakpoint_su_archive_phase_entry = PCSX.addBreakpoint(
-    CONFIGURE_PHASE,
-    'Exec',
-    4,
-    'Trace SU archive phase entry',
+local function installBreakpoints(reason)
+    if breakpoint_su_archive_phase_entry ~= nil then
+        breakpoint_su_archive_phase_entry:remove()
+    end
+    if breakpoint_su_archive_phase_exit ~= nil then
+        breakpoint_su_archive_phase_exit:remove()
+    end
+
+    breakpoint_su_archive_phase_entry = PCSX.addBreakpoint(
+        CONFIGURE_PHASE,
+        'Exec',
+        4,
+        'Trace SU archive phase entry',
+        function()
+            local ok, err = pcall(onEntry)
+            if not ok then
+                callbackError = tostring(err)
+            end
+        end
+    )
+
+    breakpoint_su_archive_phase_exit = PCSX.addBreakpoint(
+        CONFIGURE_PHASE_EPILOGUE,
+        'Exec',
+        4,
+        'Trace SU archive phase exit',
+        function()
+            local ok, err = pcall(onExit)
+            if not ok then
+                callbackError = tostring(err)
+            end
+        end
+    )
+
+    print(SCRIPT_NAME .. ': breakpoints ' .. reason)
+end
+
+listener_su_archive_phase_reset = PCSX.Events.createEventListener(
+    'ExecutionFlow::Reset',
     function()
-        local ok, err = pcall(onEntry)
+        local ok, err = pcall(function()
+            breakpoint_su_archive_phase_entry = nil
+            breakpoint_su_archive_phase_exit = nil
+            resetCaptureState()
+            print(SCRIPT_NAME .. ': reset observed; waiting for BIOS shell')
+        end)
         if not ok then
             callbackError = tostring(err)
         end
     end
 )
 
-breakpoint_su_archive_phase_exit = PCSX.addBreakpoint(
-    CONFIGURE_PHASE_EPILOGUE,
-    'Exec',
-    4,
-    'Trace SU archive phase exit',
+listener_su_archive_phase_shell = PCSX.Events.createEventListener(
+    'ExecutionFlow::ShellReached',
     function()
-        local ok, err = pcall(onExit)
+        local ok, err = pcall(function()
+            installBreakpoints('reinstalled at BIOS shell')
+        end)
         if not ok then
             callbackError = tostring(err)
         end
@@ -354,4 +430,5 @@ listener_su_archive_phase_destinations = PCSX.Events.createEventListener(
     end
 )
 
+installBreakpoints('installed')
 print('su_archive_phase_destinations: armed; back out of OPTION once')
