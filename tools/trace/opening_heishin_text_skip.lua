@@ -217,6 +217,7 @@ local function captureState(reason, object)
 end
 
 local function applyPatch(reason)
+    patchedByScript = true
     for i, value in ipairs(PATCH_BYTES) do
         write8(PATCH_ADDRESS + i - 1, value)
     end
@@ -226,7 +227,6 @@ local function applyPatch(reason)
 
     patchApplications = patchApplications + 1
     patchState = 'applied_by_script'
-    patchedByScript = true
     emit(string.format(
         'patch frame=%06d reason=%s address=0x%08X '
         .. 'original=F7 05 00 patched=%s',
@@ -236,10 +236,15 @@ local function applyPatch(reason)
 end
 
 local function restorePatch()
-    if not patchedByScript
-        or not patchContextMatches()
-        or not bytesMatch(PATCH_ADDRESS, PATCH_BYTES) then
+    if not patchedByScript or not patchContextMatches() then
         return false
+    end
+
+    for i, original in ipairs(ORIGINAL_BYTES) do
+        local current = u8(PATCH_ADDRESS + i - 1)
+        if current ~= original and current ~= PATCH_BYTES[i] then
+            return false
+        end
     end
 
     for i, value in ipairs(ORIGINAL_BYTES) do
@@ -323,7 +328,11 @@ local function finish(reason)
         breakpoint_opening_heishin_text_skip:disable()
     end
 
-    local restored = restorePatch()
+    local restoreOk, restoreResult = pcall(restorePatch)
+    local restored = restoreOk and restoreResult
+    if not restoreOk then
+        emit('restore_error=' .. tostring(restoreResult))
+    end
 
     print('')
     print('==== USER CONTEXT ====')
