@@ -2663,3 +2663,36 @@ The general shape of this is familiar from the earlier instrument failures
 recorded above: a tool that silently substitutes its own default for
 information it does not have, and reports the result with the same confidence
 as a real measurement.
+
+## Read where a loop reloads a global, not just how often
+
+The existing rule about re-reading globals per use needs a loop-specific
+form. Inside a loop the question is not only how many times the target loads
+a global, but which uses each load serves, because one load can serve both
+the loop body and the loop condition.
+
+Measured on `func_8004B374` (0x8004B374, 74 instructions), which walks a
+table whose base and length both live behind one global pointer.
+
+Retail loads the pointer once before the loop and reloads it only at the
+bottom. The pre-loop load serves the initial bounds test *and* the first
+iteration's body; each bottom reload serves the loop condition *and* the next
+iteration's body. Four `lui` in total.
+
+Writing the body as
+
+    do { p = GLOBAL + off; ... } while (i < *(s16 *)(GLOBAL + 0x510));
+
+asks for the base again at the top of every iteration, costing an extra
+`lui`/`lw` and two load-delay `nop`s. Writing it as
+
+    p = GLOBAL;
+    do { q = p + off; ... p = GLOBAL; } while (i < *(s16 *)(p + 0x510));
+
+reproduces the target exactly. That took the candidate from 77 instructions
+to the target's 74 and the diff from 73 to 26.
+
+The reload placed at the *end* of the body is the tell. When a target reloads
+a global just before the loop test rather than at the top of the body, the
+original read it once per iteration for both purposes, and the loop condition
+was written against the reloaded value rather than against the global.
