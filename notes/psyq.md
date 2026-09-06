@@ -112,6 +112,19 @@ symbol review.
 | `0x80074A80` | `ResetEntryInt` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A24.OBJ` signature. |
 | `0x80074A90` | `HookEntryInt` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A25.OBJ` signature. |
 | `0x80074AA0` | `startIntrVSync` | Applied at offset zero of the unique 288-byte Psy-Q 4.6 `LIBETC.LIB/INTR_VB.OBJ` signature. |
+| `0x80074E80` | `_SpuInit` | Applied at offset zero of the unique 352-byte Psy-Q 4.6 `LIBSPU.LIB/S_INI.OBJ` signature. |
+| `0x80074F68` | `SpuStart` | Applied at offset `0xE8` of the same unique `LIBSPU.LIB/S_INI.OBJ` signature. |
+| `0x80074FE0` | `_spu_init` | Applied at offset zero of the unique 2,880-byte Psy-Q 4.6 `LIBSPU.LIB/SPU.OBJ` signature. |
+| `0x80075420` | `_spu_FiDMA` | Applied at offset `0x440` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
+| `0x800754DC` | `_spu_Fr_` | Applied at offset `0x4FC` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
+| `0x80075584` | `_spu_t` | Applied at offset `0x5A4` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
+| `0x80075804` | `_spu_Fw` | Applied at offset `0x824` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
+| `0x80075888` | `_spu_Fr` | Applied at offset `0x8A8` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
+| `0x800758EC` | `_spu_FsetRXX` | Applied at offset `0x90C` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
+| `0x80075930` | `_spu_FsetRXXa` | Applied at offset `0x950` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
+| `0x800759D4` | `_spu_FgetRXXa` | Applied at offset `0x9F4` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
+| `0x80075A10` | `_spu_FsetPCR` | Applied at offset `0xA30` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
+| `0x80075AB8` | `_spu_Fw1ts` | Applied at offset `0xAD8` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
 | `0x80075B20` | `DeliverEvent` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A07.OBJ` signature. |
 | `0x80075B30` | `_SpuDataCallback` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_DCB.OBJ` signature. |
 | `0x80075B60` | `SpuQuit` | Applied from the unique 128-byte Psy-Q 4.6 `LIBSPU.LIB/S_Q.OBJ` signature; matching shutdown paths stop the SPU after releasing game-owned sound state. |
