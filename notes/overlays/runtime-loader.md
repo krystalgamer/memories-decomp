@@ -456,7 +456,27 @@ addresses Unchiga read from a live disassembly of that screen land on
 **WA 7767 (49 sectors) is the campaign's scene loader** (`func_8002FD10`):
 its `0x1000` phase to `0x801A8000` is the campaign event script — a
 `u16 offset[199]` table and 199 byte-coded events run through the 23-entry
-table at `0x80090C50`. WA 7629 (138) is the Library (`func_8002BFCC`);
+table at `0x80090C50`.
+
+### Library package phases
+
+`func_8002BFCC` requests 138 WA sectors beginning at sector `0x1DCD`.
+Resident callback `func_8002BD0C` has six transfer phases followed by one
+finalization mode:
+
+| WA range | Size | Callback behavior |
+|---:|---:|---|
+| `0xEE6800-0xF06800` | `0x20000` / 64 sectors | Schedules the first image payload through the GPU/VRAM transfer path. Its last `0x8000` bytes are the byte-identical Library copy of the duel-hand graphics. |
+| `0xF06800-0xF08800` | `0x2000` / 4 sectors | Stages palette data, then uploads the complete block as a `256 x 16` rectangle to VRAM `(256, 240)`. |
+| `0xF08800-0xF20800` | `0x18000` / 48 sectors | Schedules the second image payload through the GPU/VRAM transfer path. |
+| `0xF20800-0xF21000` | `0x800` / 1 sector | Stages a second palette block. The callback uploads its first `0x400` bytes as a `256 x 2` rectangle to VRAM `(256, 246)`; the remaining `0x400` bytes are zero padding. |
+| `0xF21000-0xF2B000` | `0xA000` / 20 sectors | Uses transfer state `3`, the alternating sector buffer, and descriptor value `0x26810`; its destination and later role remain unnamed. |
+| `0xF2B000-0xF2B800` | `0x800` / 1 sector | Stages one final sector, then calls `func_80048D08(1, buffer)`; the resident routine's package-specific role remains unnamed. |
+
+The six sizes total the requested `0x45000` bytes exactly. No phase is copied
+directly to a callable `0x80168xxx` module slot, so the resident loader
+provides no evidence for a separate Library overlay.
+
 WA 7903–8069 are the name entry, Free Duel, password and shop screens.
 
 **Screen packages are named by their resident request.** Each front-end
