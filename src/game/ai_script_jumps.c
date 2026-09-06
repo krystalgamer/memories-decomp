@@ -46,7 +46,7 @@ void AiScript_JumpRandom(void)
 
     limit = values[index];
     result = AiScript_ReadShort();
-    if (rand() % 100 < limit) {
+    if (rand() % AI_SCRIPT_PERCENT_SCALE < limit) {
         result += (s32)gAiScript_State.script_base;
         gAiScript_State.script_cursor = (u8 *)result;
     }
