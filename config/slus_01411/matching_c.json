@@ -3736,7 +3736,7 @@
       "address": "0x8004671C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/func_8004671C.c"
+      "source": "src/game/sound_output_transition.c"
     },
     {
       "address": "0x8004695C",
