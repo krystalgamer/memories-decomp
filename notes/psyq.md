@@ -60,9 +60,15 @@ symbol review.
 | `0x80073870` | `CloseEvent` | Applied Psy-Q 4.6 identity; `MemCard_CloseIOEvents` calls it on each stored event descriptor during teardown. |
 | `0x80073880` | `TestEvent` | Applied Psy-Q 4.6 identity; matching helpers probe four result handles before an operation or map the first signaled handle to result `0`-`3`. |
 | `0x80073890` | `EnableEvent` | Applied Psy-Q 4.6 identity; called on all eight memory-card descriptors immediately after creation. |
+| `0x800738A0` | `DisableEvent` | Exact sound teardown disables the stored root-counter event immediately before passing the same handle to `CloseEvent`; the resident body is the adjacent BIOS event-service thunk. |
 | `0x800738B0` | `EnterCriticalSection` | Applied Psy-Q 4.6 identity; brackets event creation and teardown with `ExitCriticalSection`. |
 | `0x800738C0` | `ExitCriticalSection` | Applied Psy-Q 4.6 identity; paired critical-section exit. |
 | `0x80073920` | `nextfile` | Applied Psy-Q 4.6 identity; advances a caller-owned directory record and returns that same pointer on success. |
+| `0x80073950` | `SetRCnt` | The resident wrapper selects counters `0`-`2`, stores the target halfword, and derives the hardware control value from the documented mode bits; matching sound setup passes `RCntCNT2`, target `0xE000`, and `RCntMdINTR`. |
+| `0x800739EC` | `GetRCnt` | The resident wrapper returns the current counter halfword for counters `0`-`2`; `SD_SequenceTimerCallback` invokes it on `RCntCNT2` once per interrupt. |
+| `0x80073A24` | `StartRCnt` | The resident wrapper enables the selected counter's interrupt-mask bit; matching sound setup calls it after configuring the counter and enabling its event. |
+| `0x80073A54` | `StopRCnt` | The resident wrapper clears the selected counter's interrupt-mask bit; matching setup stops `RCntCNT2` before reconfiguration and both shutdown paths stop it again. |
+| `0x80073A88` | `ResetRCnt` | The resident wrapper writes zero to the selected current-count register for counters `0`-`2`, matching the Psy-Q 4.6 declaration and counter-register layout. |
 | `0x80073AC0` | `firstfile` | Applied Psy-Q 4.6 identity; receives a formatted device path and caller-owned directory record, returning that record on success. |
 | `0x80073E1C` | `InitPAD` | `Input_InitPads` passes two adjacent 34-byte receive buffers and their exact lengths. |
 | `0x80073EAC` | `StartPAD` | Called immediately after `InitPAD` to start the controller service before local input state is reset. |
@@ -129,6 +135,15 @@ symbol review.
 | `0x8007FD30` | `PutDrawEnv` | Draw-environment submission contract. |
 | `0x8007FEFC` | `PutDispEnv` | Display-environment submission contract. |
 | `0x800803F4` | `GetDispEnv` | Applied Psy-Q identity; `file_cd_helpers.c` passes the tracked `DISPENV` record and reuses its leading `disp` rectangle. |
+
+The root-counter identities are supported by the resident implementations, not
+only by their order in an external symbol list. `SetRCnt`, `GetRCnt`, and
+`ResetRCnt` address 16-byte hardware-counter records selected by the low
+descriptor bits; `StartRCnt` and `StopRCnt` set and clear the corresponding
+interrupt-mask entries. The exact sound lifecycle links those wrappers to the
+event API: it stops and configures `RCntCNT2`, opens and enables an `EvSpINT`
+event for `SD_SequenceTimerCallback`, starts the counter, then later stops the
+counter and disables and closes the same stored event handle.
 
 `SetRotMatrix` is backed by the 48-byte `MTX_09.OBJ` signature in
 [the Psy-Q 4.6 LIBGTE catalogue](https://github.com/lab313ru/psx_psyq_signatures/blob/e9e46e7e133ef275a79bfce650924f98edb086bc/460/LIBGTE.LIB.json).
