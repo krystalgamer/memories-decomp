@@ -218,6 +218,7 @@ verified — tracked in suspects.md.)
 | 0x800E9EC8 | `gFade_State` | The screen-fade state block (0x28 bytes): u32 colour, u8 current level, u8 target level, u8 flags (0x80 fade in flight, 0x01 strip-wipe mode, 0x10/0x20 colour latch), u8 step per frame, s16 head, u8 strips[30]. |
 | 0x800151D8 | `Fade_StepBands` | Per-frame strip walker: from the head value, 15 strips each 8 apart, clamped to [current, target], mirrored into strips[i] and strips[29-i]; then moves the head by step * D_8009B0D8. |
 | 0x80015310 | `Fade_Update` | Per-frame fade update: runs the strip walker (strip mode) or a flat level ramp, and when current reaches target clears the in-flight bit, latches the working RGB from the target RGB, and sets or clears the overlay-on flag. |
+| 0x800154E4 | `Fade_DrawOverlay` | Renders the current fade as 30 mirrored 320×8 bands or one full-screen flat/tinted box, and keeps the screen covered while the between-screen overlay latch is set. |
 | 0x800158B8 | `Fade_InitOut` | Arms a fade to black: head 255, target 0, in-flight flag set, all 30 strips filled with the current level, step 12. |
 | 0x80015904 | `Fade_StartOut` | `Fade_InitOut` plus step 8 and strip mode -- the menu-transition fade. |
 | 0x80015B00 | `Fade_WaitOut` | Starts the strip fade-out and then pumps the four per-frame update functions until the in-flight bit drops. Blocking; ~48 frames. |

@@ -10,7 +10,7 @@ extern s32 D_8009B0D4;
 
 extern void func_800136D4(void);
 extern void func_80014A5C(s32 a0);
-extern void func_800154E4(void);
+extern void Fade_DrawOverlay(void);
 extern void func_80041340(void);
 
 /* Per-frame dispatcher: runs the two fixed housekeeping calls, then each of
@@ -23,7 +23,7 @@ void func_8001306C(void) {
     s32 i;
     s32 cnt;
 
-    func_800154E4();
+    Fade_DrawOverlay();
     func_80041340();
 
     for (i = 0; i < 4; i++) {

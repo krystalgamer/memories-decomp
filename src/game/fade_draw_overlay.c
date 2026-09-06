@@ -63,7 +63,7 @@ extern u8 D_8009B141;
 
 extern void func_80015310(u8 *);
 
-void func_800154E4(void) {
+void Fade_DrawOverlay(void) {
     FadeBox *p;
     u8 *rec;
     s32 ot;
