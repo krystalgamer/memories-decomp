@@ -397,8 +397,8 @@ redefinition rather than a harmless compatibility choice. Selecting
 change register allocation and the emitted instruction schedule and therefore
 requires an exact-match check. Matching game C now uses `libgte.h` across
 camera, model, duel, display, image-transfer, and spatial-sound paths.
-The two direct GTE-instruction users `func_80041E7C.c` and
-`func_80041F90.c` also include `inline_c.h` for `gte_stopz`. No current game C
+The two direct GTE-instruction users in `display_object_projection.c` also
+include `inline_c.h` for `gte_stopz`. No current game C
 includes `inline_o.h` or `gtemac.h`.
 
 The remaining files target assembly sources. `inline_s.h` and `gtereg_s.h`
