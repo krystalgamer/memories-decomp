@@ -657,3 +657,69 @@ draw:
     return obj;
 }
 ```
+
+## free_duel `FreeDuel_PlaceCursor` at 0x80168090
+
+`gcc_2_8_1_g0_split`, 73 of 73 instructions, 5 differing positions.
+
+Residual is the leading pair of `lui` instructions: the target materialises the
+`%hi` of `D_8009B366` into `v1` first and keeps it live across the save of `s2`
+and the forming of the `D_800EB0F8` address, while this build forms the panel
+address first. Closed against source order over several passes.
+
+```c
+#include "../../src/types.h"
+
+typedef struct { u8 pad0[48]; s16 x; s16 y; } Widget;
+
+extern s8 D_8009B366;
+extern s8 D_8009B367;
+extern s8 D_8009B36C;
+extern s16 D_8009B32E;
+extern u8 gFreeDuel_abGridAvailable[];
+extern u8 D_800EB0F8[];
+extern s16 D_801D0000[];
+typedef struct { u32 lo; u32 hi; } Pair;
+extern Pair D_801D5608;
+extern void func_80035B7C(u8 *);
+extern void func_80035BE4(s32, s32, s32, s32, s32, s32);
+extern void func_80039A60(u8 *);
+
+void FreeDuel_PlaceCursor(Widget *w, s32 arm)
+{
+    s32 col;
+    s32 row;
+    s32 index;
+    s32 param;
+    s16 trunc;
+    u8 *panel;
+    s16 *base;
+    s16 *slot;
+
+    panel = D_800EB0F8;
+    col = D_8009B366;
+    row = D_8009B367;
+    w->x = col * 56 + 20;
+    w->y = row * 52 + 40;
+    func_80035B7C(panel);
+    if (arm == 0) {
+        return;
+    }
+    index = D_8009B36C + D_8009B367 * 5;
+    if (gFreeDuel_abGridAvailable[index] == 0) {
+        return;
+    }
+    slot = &D_8009B32E;
+    trunc = index - 31960;
+    *slot = trunc;
+    param = trunc;
+    if (index != 0) {
+        param = 12;
+        base = D_801D0000;
+        D_801D5608.lo = base[index * 2 + 910];
+        D_801D5608.hi = base[index * 2 + 911];
+    }
+    func_80035BE4(0, param, 16, 204, 288, 16);
+    func_80039A60(panel);
+}
+```
