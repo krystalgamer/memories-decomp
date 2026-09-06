@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-s32 func_80181EEC(s32 value)
+s32 MainMenu_CountDecimalDigits(s32 value)
 {
     s32 digits = 0;
     s32 next;
