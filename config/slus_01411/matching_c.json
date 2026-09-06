@@ -5428,13 +5428,13 @@
       "address": "0x80070870",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x54",
-      "source": "src/game/ai_set_queries.c"
+      "source": "src/game/ai_card_ranges.c"
     },
     {
       "address": "0x800708C4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5C",
-      "source": "src/game/ai_set_queries.c"
+      "source": "src/game/ai_card_ranges.c"
     },
     {
       "address": "0x80070920",

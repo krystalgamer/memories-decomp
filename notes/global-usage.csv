@@ -2945,8 +2945,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800705AC,AiScript_ReadShort,matching_c,game,C,src/game/ai_script_read_short.c,read_write,,gAiScript_State.cursor += 2; | u8 *p = gAiScript_State.cursor;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,,"bzero(state, sizeof(gAiScript_State)); | u8 *state = (u8 *)&gAiScript_State;"
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80070650,AiScript_Run,matching_c,game,C,src/game/ai_script_vm.c,read_write,,gAiScript_State.previous_cursor = gAiScript_State.script_cursor;
-0x800F5BE8,gAiScript_State,gAiScript_State,0x80070870,Ai_IsCardInSet,matching_c,game,C,src/game/ai_set_queries.c,address,8,set = (u16 *)gAiScript_State;
-0x800F5BE8,gAiScript_State,gAiScript_State,0x800708C4,Ai_IsTypeInSet,matching_c,game,C,src/game/ai_set_queries.c,address,8,set = gAiScript_State;
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80070870,Ai_IsCardInSet,matching_c,game,C,src/game/ai_card_ranges.c,address,8,set = (u16 *)gAiScript_State;
+0x800F5BE8,gAiScript_State,gAiScript_State,0x800708C4,Ai_IsTypeInSet,matching_c,game,C,src/game/ai_card_ranges.c,address,8,set = gAiScript_State;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80070988,AiScript_Jump,matching_c,game,C,src/game/ai_script_support.c,address,,register AiScriptState *state = &gAiScript_State;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800709C0,AiScript_JumpGreaterEqual,matching_c,game,C,src/game/ai_script_comparison_jumps.c,address,,"void AiScript_JumpGreaterEqual(void){int a=AiScript_ReadByte(),b=AiScript_ReadByte(),result=AiScript_ReadShort();regi..."
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80070A40,AiScript_JumpGreater,matching_c,game,C,src/game/ai_script_comparison_jumps.c,address,,"void AiScript_JumpGreater(void){int a=AiScript_ReadByte(),b=AiScript_ReadByte(),result=AiScript_ReadShort();register ..."
@@ -3186,8 +3186,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A9800,D_801A9800,D_801A9800,0x800171A8,Duel_LoadPackageStage,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0079a8.s,address,,"addiu $v0, $v0, %lo(D_801A9800) | lui $v0, %hi(D_801A9800)"
 0x801A9800,D_801A9800,D_801A9800,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00ddb4.s,address,,"addiu $a0, $a0, %lo(D_801A9800) | lui $a0, %hi(D_801A9800)"
 0x801AB000,gDuel_aActiveCards,gDuel_aActiveCards,0x8001BAF0,func_8001BAF0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c2f0.s,address,,"addiu $t0, $t0, %lo(gDuel_aActiveCards) | addiu $t1, $t1, %lo(gDuel_aActiveCards) | (+2 more)"
-0x801AB000,gDuel_aActiveCards,gDuel_aActiveCards,0x80070870,Ai_IsCardInSet,matching_c,game,C,src/game/ai_set_queries.c,read,,value = gDuel_aActiveCards[arg0].card_id;
-0x801AB000,gDuel_aActiveCards,gDuel_aActiveCards,0x800708C4,Ai_IsTypeInSet,matching_c,game,C,src/game/ai_set_queries.c,read,,value = gDuel_aActiveCards[arg0].card_type;
+0x801AB000,gDuel_aActiveCards,gDuel_aActiveCards,0x80070870,Ai_IsCardInSet,matching_c,game,C,src/game/ai_card_ranges.c,read,,value = gDuel_aActiveCards[arg0].card_id;
+0x801AB000,gDuel_aActiveCards,gDuel_aActiveCards,0x800708C4,Ai_IsTypeInSet,matching_c,game,C,src/game/ai_card_ranges.c,read,,value = gDuel_aActiveCards[arg0].card_type;
 0x801AB000,gDuel_aActiveCards,gDuel_aActiveCards,0x800712B4,AiScript_LoadCardID,matching_c,game,C,src/game/ai_script_card_info.c,read,,memory[AiScript_ReadByte()] = gDuel_aActiveCards[index].card_id;
 0x801AB000,gDuel_aActiveCards,gDuel_aActiveCards,0x80071320,AiScript_SetFaceDown,matching_c,game,C,src/game/ai_script_set_face_down.c,read,,if (gDuel_aActiveCards[val1].card_id == 0) { | } else if (gDuel_aActiveCards[val1].flags & DUEL_CARD_FLAG_FACE_DOWN) {
 0x801AB000,gDuel_aActiveCards,gDuel_aActiveCards,0x8007149C,AiScript_LoadDeckSize,matching_c,game,C,src/game/ai_script_load_deck_size.c,read,,if (gDuel_aActiveCards[i].card_id != 0) count++;
