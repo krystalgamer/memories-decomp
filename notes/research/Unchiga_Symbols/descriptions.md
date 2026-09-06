@@ -496,3 +496,18 @@ on the suspects side until proven.)
 |---|---|---|
 | 0x80168E0C | `CampaignMap_PickExit` | Tests town confirm/cancel input and four directional exits against their story flags, stores the selected move type, and returns a destination, an enter-location marker, or `-1`. |
 | 0x80168FCC | `CampaignMap_UpdateLocation` | Finishes active map movement and rebuilds the location scene, drives the fade into a selected destination, or polls exits and starts the next transition. |
+
+## Batch: controller state globals
+
+| address | name | description |
+|---|---|---|
+| 0x8009B394 | `gInput_wPad1Repeat` | Pad 1 input mask containing newly pressed buttons and timer-generated repeats. |
+| 0x8009B396 | `gInput_wPad2Repeat` | Pad 2 input mask containing newly pressed buttons and timer-generated repeats. |
+| 0x8009B398 | `gInput_wPad1Pressed` | Pad 1 rising-edge mask containing buttons newly pressed on the published update. |
+| 0x8009B39A | `gInput_wPad2Pressed` | Pad 2 rising-edge mask containing buttons newly pressed on the published update. |
+| 0x8009B39E | `gInput_wPad1RepeatBackup` | Temporary backup of pad 1's repeat mask while pad 2 is exposed through the pad 1 interface. |
+| 0x8009B3A0 | `gInput_wPad1PressedBackup` | Temporary backup of pad 1's newly pressed mask while pad 2 is exposed through the pad 1 interface. |
+| 0x8009B3A4 | `gInput_wPad1Held` | Pad 1 mask of buttons currently held on the latest published update. |
+| 0x8009B3A6 | `gInput_wPad2Held` | Pad 2 mask of buttons currently held on the latest published update. |
+| 0x8009B3A8 | `gInput_dwPendingHeld` | Combined pending held-button word accumulated by the pad service, with pad 1 in the low half and pad 2 in the high half. |
+| 0x8009B3AC | `gInput_wPad1HeldBackup` | Temporary backup of pad 1's held mask while pad 2 is exposed through the pad 1 interface. |
