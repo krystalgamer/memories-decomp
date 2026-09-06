@@ -508,13 +508,13 @@
       "address": "0x800175A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x130",
-      "source": "src/game/func_800175A0.c"
+      "source": "src/game/duel_state_init.c"
     },
     {
       "address": "0x800176D0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/func_800176D0.c"
+      "source": "src/game/duel_state_init.c"
     },
     {
       "address": "0x80017708",
