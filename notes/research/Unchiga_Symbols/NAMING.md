@@ -193,7 +193,7 @@ Screen modules load into one shared range (0x80160000.. for free duel, name
 entry, password; 0x80180000.. for the main menu), so a module address means
 something different per screen. `config/symbol_addrs.txt` names an address
 once and feeds the split, so it carries ONLY the EXE-referenced entry calls
-(`FreeDuel_Entry`, `func_801683EC`, `func_8016A080`, ...). Every
+(`FreeDuel_Entry`, `NameEntry_Init`, `func_8016A080`, ...). Every
 other module function or variable goes in `config/modules/<module>.txt`
 (same line syntax); `tools/module_symbols.py --check` refuses a duplicate.
 Tiers and rules above apply unchanged; the rosters list them under

@@ -242,6 +242,7 @@ Mode slot 6. An 8×5 opponent grid (Build Deck tile at top-left); the cursor roa
 | `FreeDuel_Init` (module: free_duel) | 0x8016824C | Screen init: bumps the returning duelist's W/L, builds the availability table from the met-flags, uploads the 40 portraits (48×48 8bpp + 64-colour CLUT each) to VRAM pages 18/20, spawns one sprite per available cell. |
 | `gFreeDuel_abGridAvailable` (module: free_duel) | 0x80169030 | 8×5 bytes: which cells can be selected. |
 | `Main_RunNameEntry` | 0x8002D62C | The name-entry screen's mode tick. |
+| `NameEntry_Init` (module: name_entry) | 0x801683EC | Initializes the name-entry state and save-name buffer, creates the text, cursor, and background objects, then starts the screen presentation. |
 | `gNameEntry_bColumn / Row` (module: name_entry) | 0x8016D401 / 02 | The crosshair on a 15×9 letter grid, wrapping both ways; pixels are col×20+22, row×18+24. |
 | `gNameEntry_nNameLen / gNameEntry_pName` (module: name_entry) | 0x8016D42C / 0x8016D418 | Characters typed (cap 5) and the pointer to the save-block name. |
 | `TextBox_GetGlyphAt` (module: name_entry) | 0x8016868C | How a letter is picked: the grid is itself a text box, so X looks up the glyph under the cursor and takes its Shift-JIS code. No character table anywhere. |

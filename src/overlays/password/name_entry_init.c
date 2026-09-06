@@ -33,7 +33,7 @@ extern void func_8004293C(u8 *);
 extern void func_80015A00(void);
 extern void func_801681A0(void);
 
-void func_801683EC(void)
+void NameEntry_Init(void)
 {
     u8 *obj;
     u8 *sprite;
