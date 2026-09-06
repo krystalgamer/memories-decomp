@@ -23,7 +23,7 @@ extern void func_80017DB4(struct Obj *a0);
 
 /* Clears a0->f8's bit 0x4 and a0->f22, then re-derives f22 (0x80) and f21
    (0xC0) from D_801A7AD8[a0->f6A]'s face-down and defense-position flags;
-   always sets fC to 0x808080, or 0x404040 if
+   always sets fC to DUEL_CARD_COLOR_NORMAL, or DUEL_CARD_COLOR_USED if
    DUEL_CARD_FLAG_USED_THIS_TURN is set; runs func_80017DB4(a0), then clears
    a0->f67 unless bit 0x2000 is set. */
 void Duel_ApplyCardObjectFlags(struct Obj *a0) {
@@ -42,9 +42,9 @@ void Duel_ApplyCardObjectFlags(struct Obj *a0) {
     if (rec->flags & DUEL_CARD_FLAG_DEFENSE_POSITION) {
         a0->f21 = 0xC0;
     }
-    a0->fC = 0x808080;
+    a0->fC = DUEL_CARD_COLOR_NORMAL;
     if (rec->flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
-        a0->fC = 0x404040;
+        a0->fC = DUEL_CARD_COLOR_USED;
     }
     func_80017DB4(a0);
     if (!(rec->flags & 0x2000)) {
