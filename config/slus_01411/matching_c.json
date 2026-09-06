@@ -4312,13 +4312,13 @@
       "address": "0x8004A43C",
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0xDC",
-      "source": "src/game/func_8004A43C.c"
+      "source": "src/game/sound_voice_setup.c"
     },
     {
       "address": "0x8004A518",
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0x1C0",
-      "source": "src/game/func_8004A518.c"
+      "source": "src/game/sound_voice_setup.c"
     },
     {
       "address": "0x8004A6D8",
