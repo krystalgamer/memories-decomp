@@ -71,6 +71,7 @@ source grouping.
 | `src/game/duel_card_state_helpers.c` | `gcc_2_8_1_g8` | Duel-card state export (`0x80028220`) and encoded slot normalization (`0x80028260`) |
 | `src/game/main_debug.c` | `gcc_2_8_1_g8` | Debug-mode setup wrapper (`0x8002CDE8`), `Main_RunDebugMenu` (`0x8002CE08`) |
 | `src/game/script_control_commands.c` | `gcc_2_8_1_g8` | Two script mode setters at `0x8002F930` and `0x8002F94C`, followed by the contiguous script-delay updater at `0x8002F968` |
+| `src/game/frontend_mode_states.c` | `gcc_2_8_1_g8` | Six contiguous debug/frontend, duel-effect mode, memory-card transition, duel setup, and effect-start handlers from `0x80030D5C` through `0x80030F80` |
 | `src/game/options_update.c` | `gcc_2_8_1_g8` | Contiguous options input handler (`0x8003C7A0`) and per-frame state dispatcher (`0x8003C8CC`) |
 | `src/game/game_over.c` | `gcc_2_8_1_g8_split` | Contiguous Game Over setup (`0x8003C950`) and per-frame update (`0x8003CA5C`) |
 | `src/game/input_update_pads.c` | `gcc_2_8_1_g8_split` | Contiguous raw controller-packet decoder (`0x8003CC38`) and held/pressed/repeat publisher (`0x8003CCD8`) |
@@ -94,8 +95,7 @@ source grouping.
 | `src/game/sound_mix.c` | `gcc_2_8_1_g0` | Three CD volume and mix helpers from `0x80044E90` through the current-volume query (`0x80044FE4`), including CD mix packet setup at `0x80044F58` |
 | `src/game/sound_output_state.c` | `gcc_2_8_1_g0` | Four output-state selection and command-queue helpers from `0x8004503C` through `0x800451E0` |
 | `src/game/sound_state_control.c` | `gcc_2_8_1_g8` | Secondary-state activation (`0x8004695C`) and main sound-state flag setup (`0x80046990`) |
-| `src/game/sound_command_wrappers.c` | `gcc_2_8_1_g8` | Four command/sequence wrappers at `0x800473CC-0x80047458` |
-| `src/game/sound_command_dispatch.c` | `gcc_2_8_1_g8` | Default-argument wrapper `func_80047314` (`0x80047314`) and its direct command dispatcher `func_8004733C` (`0x8004733C`), sharing `g_SDValue` and exactly covering `0xB8` bytes through `0x800473CC` |
+| `src/game/sound_command_dispatch.c` | `gcc_2_8_1_g8` | Six contiguous command dispatch, default-argument, and sequence-state wrappers from `func_80047314` (`0x80047314`) through `func_80047458` (`0x80047458`) |
 | `src/game/sound_voice_data.c` | `gcc_2_8_1_g0` | Voice-step assignment (`0x80048C0C`) and a 512-word transfer helper (`0x80048C70`) |
 | `src/game/sound_secondary_reset.c` | `gcc_2_8_1_g0` | Low-level state query (`0x800498BC`) and secondary-state reset (`0x800498F8`) |
 | `src/game/sound_secondary_playback.c` | `gcc_2_8_1_g0` | Ten secondary sequence attachment, playback lifecycle, object-upload, parameter, and status helpers from `0x80049A64` through `0x80049F50` |
