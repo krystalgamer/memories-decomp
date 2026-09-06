@@ -3140,3 +3140,49 @@ four over, because the two extra prologue stores cancel the two saved `lui`.
 Count parity with the wrong saved-register set is an artifact, so check the
 frame before reading anything into it — the companion to "Count the target's
 saved registers before blaming the allocator".
+
+## A pointer local reused across blocks is allocated by a different pass
+
+GCC 2.8.1 allocates registers in two passes. `local_alloc` handles pseudos that
+live and die inside one basic block and gets first pick, which on this target
+means `$v0`, `$v1`, then the argument registers. `global_alloc` runs afterwards
+for everything that crosses a block boundary, and takes what is left.
+
+That makes one C-level decision visible in the disassembly: whether a global
+was read into **one** local reused through the function, or into a **separate
+local in each block**. A single local crosses blocks, so it is allocated
+globally and lands wherever there is room; per-block locals are allocated
+locally and land in `$v0`/`$v1`. Both spellings emit the same loads and the
+same stores — only the register numbers differ, so the diff is total while the
+instruction count and the opcode histogram both already agree.
+
+Read it in that direction. A target that re-reads a global into `$v0` or `$v1`
+in block after block was written with a fresh local each time, and the fix is
+to declare one.
+
+`func_80046DE8` (`0x80046DE8`, 92 instructions) is the worked example. It reads
+`g_SDValue` seven times. Written with a single `SDValue *state`, it reaches the
+exact 92 instructions with the exact opcode histogram and **78 of 92 positions
+differing**, because the pointer sits in `$a2` everywhere instead of `$v0`.
+Splitting it into one local per block took that to 11 positions in a single
+change, and nothing else in the source moved.
+
+Three smaller consequences of the same rule closed the rest:
+
+- **The value locals split too.** One `s32 value` used for two independent
+  `!= -1` tests also crosses blocks; giving each test its own local — or
+  writing the comparison inline — put the loaded halfword back in `$v1`. That
+  was the last two positions.
+- **The tail store groups are readable.** Where the target re-reads a global
+  between two stores it could have shared, the source had a new local there;
+  where it stores five fields through one register, the source cached it. The
+  grouping in the disassembly maps one-to-one onto the locals in the source.
+- **A read hoisted above a store group was a local declared early.** The target
+  loads `g_SDValue` into `$v1` before four stores that go through a different
+  register, then uses it after them. Writing that as a local assigned before the
+  group, rather than as the last statement's own read, is what lets the
+  scheduler place the load there and removes a load-delay `nop`.
+
+This is a different mechanism from "Do not name an array base to reproduce a
+materialised base register", which is about the *cost* of naming a base. Here
+naming costs nothing and changes only which allocator sees the pseudo.

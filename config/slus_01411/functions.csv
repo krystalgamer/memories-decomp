@@ -736,7 +736,7 @@ address,size,name,status,module,notes
 0x8004695C,0x34,func_8004695C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80046990,0x78,func_80046990,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80046A08,0x3E0,func_80046A08,unmatched_asm,game,
-0x80046DE8,0x170,func_80046DE8,unmatched_asm,game,
+0x80046DE8,0x170,func_80046DE8,matching_c,game,"Sound driver reset: stops the active sequence, keys off every SPU voice and clears the voice, command and mix state in g_SDValue"
 0x80046F58,0x48,func_80046F58,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80046FA0,0x68,SD_SetOutputType,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80047008,0x14,func_80047008,matching_c,game,2 pre-policy variants: exact -G8; -G0 used absolute global access
