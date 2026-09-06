@@ -1213,11 +1213,11 @@ address,size,name,status,module,notes
 0x800738A0,0xC,DisableEvent,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A13.OBJ signature and matching sound-event teardown.
 0x800738B0,0x10,EnterCriticalSection,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A36.OBJ signature and matching event-management callers.
 0x800738C0,0x10,ExitCriticalSection,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A37.OBJ signature and matching event-management callers.
-0x800738D0,0xC,func_800738D0,sdk_asm,psyq/sdk,
-0x800738E0,0xC,func_800738E0,sdk_asm,psyq/sdk,
-0x800738F0,0xC,func_800738F0,sdk_asm,psyq/sdk,
-0x80073900,0xC,func_80073900,sdk_asm,psyq/sdk,
-0x80073910,0xC,func_80073910,sdk_asm,psyq/sdk,
+0x800738D0,0xC,open,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A50.OBJ signature.
+0x800738E0,0xC,lseek,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A51.OBJ signature.
+0x800738F0,0xC,read,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A52.OBJ signature.
+0x80073900,0xC,write,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A53.OBJ signature.
+0x80073910,0xC,close,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A54.OBJ signature.
 0x80073920,0xC,nextfile,sdk_asm,psyq/sdk,Identified as Psy-Q 4.6 nextfile by the libapi.h ABI; SDK symbol map; and matching directory caller.
 0x80073930,0xC,func_80073930,sdk_asm,psyq/sdk,
 0x80073940,0xC,func_80073940,sdk_asm,psyq/sdk,
