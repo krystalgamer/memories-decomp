@@ -37,8 +37,6 @@ struct Vec318 {
     s16 f4;
 };
 
-extern void SetGeomOffset(long, long);
-extern void SetGeomScreen(long);
 extern void func_80088C50(struct Vec308 *, struct Mat *);
 extern void GsSetLsMatrix(struct Mat *);
 extern s32 func_80089CF0(struct Vec308 *, struct Vec310 *, struct Vec318 *,

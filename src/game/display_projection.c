@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 typedef struct {
     u8 pad_00[0x28];
@@ -10,8 +11,6 @@ typedef struct {
 } ProjectionObject;
 
 extern u8 D_800FE148[];
-extern void SetGeomScreen(long);
-extern void SetGeomOffset(long, long);
 extern void GsSetLsMatrix(void *);
 
 void func_80015D18(ProjectionObject *object)

@@ -1,14 +1,11 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 extern s16 D_800EFE38[];
 extern u8 D_80090FCC[];
 extern u8 D_80090FDC[];
 extern void (*D_80090FB0[])(void);
-extern void SetBackColor(long, long, long);
-extern void SetFarColor(long, long, long);
 extern int GsSetFlatLight(int, void *);
-extern void SetGeomScreen(long);
-extern void SetGeomOffset(long, long);
 
 void func_80041340(void)
 {

@@ -60,8 +60,6 @@ struct Obj {
 
 typedef void (*ObjCallback)(struct Obj *, s32);
 
-extern void SetGeomOffset(long a0, long a1);
-extern void SetGeomScreen(long a0);
 extern void func_80088C50(struct Vec308 *a0, struct Mat *a1);
 extern void GsSetLsMatrix(struct Mat *a0);
 extern s32 func_80089CF0(

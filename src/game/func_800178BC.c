@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 typedef struct {
     s16 f0;
@@ -21,8 +22,6 @@ extern s16 D_8009B200;
 extern s16 D_8009B202;
 extern u8 D_800FE148[];
 extern void func_80017130(void);
-extern void SetGeomScreen(long);
-extern void SetGeomOffset(long, long);
 extern void func_8001352C(void);
 extern void GsSetLsMatrix(void *);
 

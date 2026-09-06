@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 /* Clears D_8009B260's bit 0x1, then walks all 8 D_800EAD88[] records. For
    each record whose f1C flags byte has 0x80 set: raises D_8009B260's bit 0
@@ -43,8 +44,6 @@ extern u8 D_8009B260;
 extern u8 D_8009B261;
 extern struct Rec *D_8009B264;
 extern void func_801462B0(s16 a0, s16 a1, s32 a2, struct Rec *a3);
-extern void SetGeomOffset(long a0, long a1);
-extern void SetGeomScreen(long a0);
 
 s32 func_8002C6C8(void) {
     struct Rec *rec;

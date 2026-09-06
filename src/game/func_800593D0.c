@@ -1,10 +1,9 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 #include "model.h"
-extern void PushMatrix(void);
 extern void func_8008A4A0(u8 *, u8 *);
 extern void GsSetLsMatrix(u8 *);
 extern void func_80087970(u8 *, s32, s32 *);
-extern void PopMatrix(void);
 
 s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 sp10[32];
