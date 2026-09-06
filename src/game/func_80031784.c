@@ -1,6 +1,7 @@
 #include "../types.h"
-
-extern void GsSortFastSprite();
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 void func_80031784(u8 *record, s32 arg1, u8 *data, s32 selected)
 {
@@ -19,7 +20,7 @@ void func_80031784(u8 *record, s32 arg1, u8 *data, s32 selected)
         record[15] = data[0] & 240;
         *(s16 *)(record + 16) = (cursor[0] & 240) | 512;
         cursor += 2;
-        GsSortFastSprite(record, arg1, 0);
+        GsSortFastSprite((GsSPRITE *)record, (GsOT *)arg1, 0);
         *(u16 *)(record + 4) += 18;
         data += 2;
     } while (i < 7);

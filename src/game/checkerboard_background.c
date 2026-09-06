@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 typedef struct {
     u8 pad_00[4];
@@ -22,8 +25,6 @@ typedef struct {
     u16 field_12;
     u32 field_14;
 } CheckerboardSprite;
-
-extern void GsSortFastSprite(void *, void *, s32);
 
 void func_8003D32C(void)
 {
@@ -60,7 +61,8 @@ void func_8003D334(CheckerboardState *state, void *ordering_table)
         sprite->field_06 = y;
         sprite->field_10 = 0x2C0;
         do {
-            GsSortFastSprite(sprite, ordering_table, mode & 0xFFFF);
+            GsSortFastSprite((GsSPRITE *)sprite, (GsOT *)ordering_table,
+                             mode & 0xFFFF);
             x += 0x40;
             sprite->field_04 = sprite->field_04 + 0x40;
         } while (x < 0x140);
@@ -70,7 +72,8 @@ void func_8003D334(CheckerboardState *state, void *ordering_table)
         sprite->field_0E = 0x50;
         sprite->field_10 = 0x2D0;
         do {
-            GsSortFastSprite(sprite, ordering_table, mode & 0xFFFF);
+            GsSortFastSprite((GsSPRITE *)sprite, (GsOT *)ordering_table,
+                             mode & 0xFFFF);
             x += 0x40;
             sprite->field_04 = sprite->field_04 + 0x40;
         } while (x < 0x140);
