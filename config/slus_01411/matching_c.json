@@ -2650,7 +2650,7 @@
       "address": "0x80039AFC",
       "profile": "gcc_2_8_1_g0",
       "size": "0xE4",
-      "source": "src/game/func_80039AFC.c"
+      "source": "src/game/display_object_fade_callbacks.c"
     },
     {
       "address": "0x80039BE0",
