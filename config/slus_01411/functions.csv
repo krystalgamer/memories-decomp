@@ -1239,8 +1239,8 @@ address,size,name,status,module,notes
 0x80074000,0xC,InitPAD2,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A18.OBJ signature.
 0x80074010,0xC,StartPAD2,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A19.OBJ signature.
 0x80074020,0xC,PAD_init2,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A21.OBJ signature.
-0x80074030,0xC,func_80074030,sdk_asm,psyq/sdk,
-0x80074040,0xC,func_80074040,sdk_asm,psyq/sdk,
+0x80074030,0xC,SysEnqIntRP,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/L02.OBJ signature.
+0x80074040,0xC,SysDeqIntRP,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/L03.OBJ signature.
 0x80074050,0x28,EnablePAD,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBAPI.LIB/PATCH.OBJ signature; DisablePAD is the internal entry at +0x14.
 0x80074078,0x70,_patch_pad,sdk_asm,psyq/sdk,Identified at offset 0x28 of the unique Psy-Q 4.6 LIBAPI.LIB/PATCH.OBJ signature.
 0x800740F0,0xC,FlushCache,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/C68.OBJ signature.
