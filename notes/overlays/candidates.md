@@ -1064,3 +1064,264 @@ s32 CampaignMap_UpdateLocationTransition(void)
     return D_801695D4;
 }
 ```
+
+## password `func_8016A37C` at 0x8016A37C
+
+`gcc_2_8_1_g0_split`, 368 instructions against 365, 221 differing positions,
+opcode distance 19.
+
+A fresh reconstruction. The row's recorded 365 of 365 with five differing
+positions was never stored and is gone; this is the first reproducible state.
+
+Two things are already settled and both cost heavily if got wrong. The five-way
+dispatch is a `switch` and its range check must not be duplicated: writing an
+explicit `if (state >= 5) return;` in front of it emits a second `slti` and
+branch that the target does not have. The starchip counter is unsigned; signed
+gives `mult` and `sra` where the target has `multu` and `srl`, which is worth
+eight instructions across the four division-by-constant chains.
+
+Together those two take the build from 375 instructions at distance 50 to 368
+at 19.
+
+The jump table reproduces: the dispatch matches the target instruction for
+instruction from the `lui` of the table base through `sll`, `addu`, `lw` and
+`jr`.
+
+```c
+#include "../../src/types.h"
+
+typedef struct {
+    u8 pad0[8];
+    u16 f8;
+    u8 pad10[23];
+    u8 f33;
+} Widget;
+
+typedef struct {
+    u8 pad0[96];
+    s16 f96;
+    u8 pad98[10];
+    u8 f108;
+} Cursor;
+
+typedef struct {
+    u32 lo;
+    u32 hi;
+} Pair;
+
+extern u16 D_8016D424;
+extern u32 D_800EB12C;
+extern u16 D_8016D49C;
+extern Widget *D_8016D418;
+extern s32 D_8016D428;
+extern Cursor *D_8016D420;
+extern u8 D_8016D410[];
+extern u32 D_8016D438;
+extern u32 D_801A8000[];
+extern Pair D_801D5608;
+extern u32 D_801D07E0;
+extern volatile u16 D_8009B394;
+extern volatile u16 D_8009B398;
+extern volatile u16 D_8009B3A4;
+extern u32 D_8009B0F4;
+extern u32 D_8009B134;
+extern u8 D_8009B269;
+extern u8 D_8009B26C;
+extern s8 D_8009B34D;
+
+extern void func_80039794(void);
+extern void SD_SEPlayFull(s32);
+extern void Password_SetDigitCursorTarget(Cursor *);
+extern void Password_RefreshDigitDisplay(void);
+extern void func_8003FF34(void);
+extern void Fade_WaitOut(void);
+extern s32 Password_LookupCardID(void);
+extern void func_80029164(s32, s32);
+extern void func_8016A02C(s32);
+extern s32 func_8002CCA8(void);
+extern void Password_CreateMessageBox(s32, s32);
+extern void func_8002CCE4(s32);
+extern void func_80021894(s32);
+extern void Password_RefreshStarchipDisplay(void);
+
+void func_8016A37C(void)
+{
+    Cursor *cursor;
+    Widget *widget;
+    u32 *stats;
+    s32 index;
+    s32 digit;
+    s32 state;
+    u32 count;
+    u32 step;
+    u16 flags;
+    u16 card;
+
+    func_80039794();
+    if ((D_8016D420->f108 & 0x40) != 0) {
+        return;
+    }
+    if ((D_800EB12C & 0x2008) != 0x2000) {
+        return;
+    }
+    state = D_8016D424 & 0x1F;
+    switch (state) {
+    case 0:
+        if ((D_8009B3A4 & 0xA000) != 0) {
+            if ((D_8009B3A4 & 0x2000) != 0) {
+                index = D_8016D428 + 1;
+                D_8016D428 = index;
+                if (index >= 8) {
+                    D_8016D428 = 7;
+                    return;
+                }
+            } else {
+                index = D_8016D428 - 1;
+                if (index < 0) {
+                    D_8016D428 = 0;
+                    return;
+                }
+                D_8016D428 = index;
+            }
+            SD_SEPlayFull(47);
+            cursor = D_8016D420;
+            Password_SetDigitCursorTarget(cursor);
+            cursor->f96 = 8;
+            cursor->f108 |= 0x40;
+            return;
+        }
+        if ((D_8009B394 & 0x5000) != 0) {
+            digit = D_8016D410[D_8016D428];
+            if ((D_8009B394 & 0x1000) != 0) {
+                digit = digit + 1;
+                if (digit >= 10) {
+                    digit = 0;
+                }
+            } else {
+                digit = digit - 1;
+                if (digit < 0) {
+                    digit = 9;
+                }
+            }
+            SD_SEPlayFull(7);
+            D_8016D410[D_8016D428] = digit;
+            Password_RefreshDigitDisplay();
+            return;
+        }
+        if ((D_8009B398 & 0x20) != 0) {
+            SD_SEPlayFull(8);
+            func_8003FF34();
+            Fade_WaitOut();
+            D_8009B26C = D_8009B269;
+            return;
+        }
+        if ((D_8009B398 & 0x40) != 0) {
+            card = Password_LookupCardID();
+            D_8016D49C = card;
+            if (card == 0) {
+                SD_SEPlayFull(9);
+                return;
+            }
+            D_8016D424 = 1;
+            SD_SEPlayFull(48);
+        }
+        return;
+    case 1:
+        flags = D_8016D424;
+        if ((flags & 0x8000) == 0) {
+            D_8016D424 = flags | 0x8000;
+            func_80029164(0, D_8016D49C);
+            return;
+        }
+        if ((flags & 0x4000) == 0) {
+            if (((D_8009B0F4 & 0x2000030) | D_8009B134) != 0) {
+                return;
+            }
+            D_8016D424 = flags | 0x4000;
+            func_8016A02C(D_8016D49C);
+            return;
+        }
+        widget = D_8016D418;
+        widget->f33 = widget->f33 + 8;
+        if (D_8016D418->f33 == 0) {
+            D_8016D418->f8 &= 0xFFFB;
+            SD_SEPlayFull(12);
+            D_8016D424 = 2;
+        }
+        return;
+    case 2:
+        flags = D_8016D424;
+        if ((flags & 0x8000) == 0) {
+            D_8016D424 = flags | 0x8000;
+            stats = D_801A8000;
+            D_801D5608.lo = stats[D_8016D49C * 2];
+            D_801D5608.hi = D_8016D49C;
+            if (func_8002CCA8() == 0) {
+                Password_CreateMessageBox(229, 128);
+                return;
+            }
+            if (D_801D07E0 < stats[D_8016D49C * 2]) {
+                Password_CreateMessageBox(227, 0);
+            } else {
+                Password_CreateMessageBox(228, 0);
+            }
+            D_8016D424 |= 0x4000;
+            return;
+        }
+        if ((flags & 0x4000) != 0) {
+            if (D_8009B34D == 0) {
+                D_8016D424 = flags & 0xBFFF;
+                func_8002CCE4(D_8016D49C + 1024);
+                func_80021894(D_8016D49C);
+                D_8016D424 = 3;
+                return;
+            }
+        }
+        D_8016D424 = 4;
+        return;
+    case 3:
+        flags = D_8016D424;
+        if ((flags & 0x8000) == 0) {
+            D_8016D424 = flags | 0x8000;
+            D_8016D438 = D_801A8000[D_8016D49C * 2];
+        }
+        count = D_8016D438;
+        if (count < 10) {
+            step = 1;
+        } else if (count < 100) {
+            step = count / 10;
+        } else if (count < 1000) {
+            step = count / 100;
+        } else if (count < 10000) {
+            step = count / 1000;
+        } else {
+            step = count / 10000;
+        }
+        if (step == 0) {
+            step = 1;
+        }
+        count = count - step;
+        D_8016D438 = count;
+        D_801D07E0 = D_801D07E0 - step;
+        if (count == 0) {
+            D_8016D424 = 4;
+            Password_RefreshStarchipDisplay();
+        }
+        return;
+    case 4:
+        flags = D_8016D424;
+        if ((flags & 0x8000) == 0) {
+            widget = D_8016D418;
+            D_8016D424 = flags | 0x8000;
+            widget->f8 |= 4;
+        }
+        widget = D_8016D418;
+        widget->f33 = widget->f33 + 8;
+        if ((s8)D_8016D418->f33 < 0) {
+            Password_CreateMessageBox(226, 0);
+            D_8016D424 = 0;
+        }
+        return;
+    }
+}
+```
