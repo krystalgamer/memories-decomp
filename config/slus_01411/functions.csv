@@ -824,7 +824,7 @@ address,size,name,status,module,notes
 0x8004A2F8,0xC4,func_8004A2F8,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004A3BC,0x80,func_8004A3BC,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004A43C,0xDC,func_8004A43C,matching_c,game,Exact linked bytes on gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference; the base local for two stores with the symbol inline elsewhere is load-bearing.
-0x8004A518,0x1C0,func_8004A518,unmatched_asm,game,
+0x8004A518,0x1C0,func_8004A518,matching_c,game,"Exact linked bytes on gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference (batch port, probe-verified)."
 0x8004A6D8,0x20,func_8004A6D8,matching_c,game,2 pre-policy variants: exact under -G0 and -G8; selected -G0 call wrapper
 0x8004A6F8,0x6C,func_8004A6F8,unmatched_asm,game,
 0x8004A764,0x5C,func_8004A764,unmatched_asm,game,
