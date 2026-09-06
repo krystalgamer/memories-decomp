@@ -88,6 +88,36 @@ its secondary-state cleanup and then calls `SpuQuit`. The output teardown path
 at `0x80046F58` disables the SPU IRQ with `SpuSetIRQ(0)` immediately before
 its own `SpuQuit` call.
 
+## SPU transfer and voice interfaces
+
+Matching sound initialization selects transfer mode zero with
+`SpuSetTransferMode(0)`. The secondary transfer path then calls
+`SpuSetTransferStartAddr` with either the configured SPU RAM base or that base
+plus `bytes_consumed` before advancing a transfer window. The status wrapper
+at `0x800498BC` forwards caller value zero as
+`SpuIsTransferCompleted(0)` and every nonzero value as
+`SpuIsTransferCompleted(1)`; local evidence does not assign stronger names to
+those two modes.
+
+Voice setup uses `SpuSetVoiceAttr` through two layout-compatible local views:
+the main driver submits the attribute block rooted at `g_SDValue+0x3C4`, while
+secondary sequence playback builds temporary attribute packets before each
+call. Those casts establish SDK call compatibility without claiming that the
+game-owned records are complete `SpuVoiceAttr` structures.
+
+Cleanup and slot-reuse paths pair `SpuSetKey(0, mask)` with
+`SpuGetKeyStatus(mask)`. Several loops wait until the returned status is `2`
+or `0`, while another path recognizes status `3` before forcing a key-off;
+the code therefore treats the values as distinct lifecycle states rather
+than a Boolean active flag. Matching envelope queries call
+`SpuGetVoiceEnvelope` for voices `20` through `23` and use the returned
+halfword when deciding whether a tracked voice entry remains active.
+
+The output-transition helper at `0x8004671C` also submits its 40-byte local
+record through `SpuSetCommonAttr`. As with the voice packets, the explicit
+`SpuCommonAttr *` cast records the verified SDK boundary while retaining the
+source shape required by the matching compiler.
+
 ## Structure safeguards
 
 The header contains compile-time size assertions for:
