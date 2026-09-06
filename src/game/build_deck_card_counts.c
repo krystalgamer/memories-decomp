@@ -35,10 +35,10 @@ void func_8003201C(u8 *state)
     state[0x5AC4] = 0;
 
     {
-        register s32 id asm("a2") = 1;
+        register s32 id asm("a2") = CARD_ID_FIRST;
         u8 *count = state + id;
 
-        for (; id < CARD_COUNT + 1; id++, count++) {
+        for (; id < CARD_ID_END; id++, count++) {
             s32 record_index;
             u8 *record;
             register u8 *output asm("a3");

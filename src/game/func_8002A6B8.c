@@ -28,7 +28,7 @@ s32 func_8002A6B8(void)
     column_ones = (s8)(column - column_tens * 10);
     index = base + column_ones;
     result = 0;
-    if (index < CARD_COUNT + 1) {
+    if (index < CARD_ID_END) {
         result = index;
     }
     return result;
