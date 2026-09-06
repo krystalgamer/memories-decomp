@@ -41,9 +41,9 @@ options:
   subalign: 2
 
   section_order:
-    - ".data"
     - ".rodata"
     - ".text"
+    - ".data"
     - ".sdata"
     - ".sbss"
     - ".bss"
@@ -68,45 +68,17 @@ segments:
       # strings, tables and switch jump tables. A matching C function that
       # owns a jump table declares it here, the way the ff8 and
       # silent-hill configurations do, and gaps are pad rather than data.
-      - [0x800, data, initial_data]
-
-  # Each piece of the read-only region is its own segment for the same reason
-  # the text is: Splat orders by section_order within a segment, so a .rodata
-  # subsegment sharing a segment with .data is moved behind it.
-  # The compiler marks a jump table eight byte aligned; retail places it on a
-  # four byte boundary, so the input alignment is overridden here.
-  - name: rodata_00214c
-    type: code
-    subalign: 4
-    start: 0x214C
-    vram: 0x8001194C
-    align: 4
-    subsegments:
-      # The gap to the next segment is padding between two output sections,
-      # each of which has its own explicit address, so it needs no subsegment.
+      # The region before the text is the compiler's read-only data. A
+      # matching C function that owns some declares it here, the way the ff8
+      # and silent-hill configurations do, and gaps are pad.
+      - [0x800, rodata, initial_data]
       - [0x214C, .rodata, game/ai_get_winning_card_range]
-
-  # The compiler marks a jump table eight byte aligned; retail places it on a
-  # four byte boundary, so the input alignment is overridden here.
-  - name: rodata_00216c
-    type: code
-    subalign: 4
-    start: 0x2168
-    vram: 0x80011968
-    align: 4
-    subsegments:
-      # The four byte gap belongs at the head of this segment, where the
-      # section order puts it ahead of the rodata rather than behind it.
       - [0x2168, pad]
       - [0x216C, .rodata, game/ai_get_card_range]
+      - [0x2194, rodata, initial_data_2]
 
-  - name: initial_data_2
-    type: data
-    start: 0x2194
-    vram: 0x80011994
-    align: 4
-    subsegments:
-      - [0x2194, data, initial_data_2]
+
+
 
   # The text and everything after it is its own segment, because Splat lays
   # out one output section per segment and groups by section_order inside it.
@@ -147,16 +119,46 @@ segments:
     subsegments:
       - [0xeef28, bin, reserved_zero]
 
-  - name: overlay_slots
+  # One segment per slot, so Splat keeps writing one asset per overlay for
+  # the overlay tooling to read.
+  - name: overlays/slot_8013a000
     type: bin
     start: 0x12a800
     vram: 0x8013A000
     align: 4
     subsegments:
       - [0x12a800, bin, overlays/slot_8013a000]
+
+  - name: overlays/slot_80146000
+    type: bin
+    start: 0x136800
+    vram: 0x80146000
+    align: 4
+    subsegments:
       - [0x136800, bin, overlays/slot_80146000]
+
+  - name: overlays/slot_80168000
+    type: bin
+    start: 0x158800
+    vram: 0x80168000
+    align: 4
+    subsegments:
       - [0x158800, bin, overlays/slot_80168000]
+
+  - name: overlays/slot_8017a000
+    type: bin
+    start: 0x16a800
+    vram: 0x8017A000
+    align: 4
+    subsegments:
       - [0x16a800, bin, overlays/slot_8017a000]
+
+  - name: overlays/slot_80180000
+    type: bin
+    start: 0x170800
+    vram: 0x80180000
+    align: 4
+    subsegments:
       - [0x170800, bin, overlays/slot_80180000]
 
   - name: tail_data

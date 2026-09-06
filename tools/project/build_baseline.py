@@ -426,7 +426,7 @@ def build(root: Path) -> Path:
             # The leading data blob is split wherever a matching C object owns
             # pre-text read-only data, so assemble every piece of it in order.
             for path in sorted(
-                (root / "tmp/splat/asm/data").glob("initial_data*.data.s")
+                (root / "tmp/splat/asm/data").glob("initial_data*.s")
             )
         ],
         *build_text_objects(root, assembler),
@@ -448,14 +448,15 @@ def build(root: Path) -> Path:
             "tmp/splat/assets/reserved_zero.bin",
             splat_object("tmp/splat/assets/reserved_zero.bin"),
         ),
-        # The overlay slots are contiguous and form one segment, so Splat
-        # extracts them as a single blob rather than one file per slot.
-        binary_object(
-            root,
-            objcopy,
-            "tmp/splat/assets/overlay_slots.bin",
-            splat_object("tmp/splat/assets/overlay_slots.bin"),
-        ),
+        *[
+            binary_object(
+                root,
+                objcopy,
+                f"tmp/splat/assets/{asset}.bin",
+                splat_object(f"tmp/splat/assets/{asset}.bin"),
+            )
+            for asset, _object_name in load_overlay_assets(root)
+        ],
         binary_object(
             root,
             objcopy,
