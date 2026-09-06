@@ -671,6 +671,20 @@ into an inventory row as a fact. This is the same kind of result as the `-O0` sc
 and worth the same trust: it is a cheap check that closes off a whole class of
 guesses rather than opening one.
 
+## Keep a near-miss candidate instead of rebuilding it
+
+Candidate sources live in `tmp/`, which is not tracked, so they disappear when
+a session ends and the next run rebuilds them from the prose in the function's
+inventory row. That has happened at least six times, three of them on
+`func_80168CDC`, and it costs several minutes and can drift from the state the
+row describes.
+
+`notes/overlays/candidates.md` is the durable copy. Put a candidate there once
+it is close enough that the next run would otherwise rebuild it, store the
+exact source rather than a tidied version, and re-verify it with
+`overlay_diff.py` before trusting it. The inventory row still holds the
+findings; the file holds only code.
+
 ## Answer a shape question with a probe instead of a reconstruction
 
 Most of the cost of a near-miss function is rebuilding its candidate from the
