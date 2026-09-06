@@ -1,32 +1,32 @@
 #include "../types.h"
+#include "../psyq/libapi.h"
 
 extern s32 gMemCard_nIOResult;
 
-extern s32 func_80073880(void *);
 extern void func_80073840(void);
 extern void func_80073940(s32);
 extern void func_8008B3E0(void);
 extern void func_8008B470(void);
 
-void func_80043D48(void **items)
+void func_80043D48(long *items)
 {
-    func_80073880(items[0]);
-    func_80073880(items[1]);
-    func_80073880(items[2]);
-    func_80073880(items[3]);
+    TestEvent(items[0]);
+    TestEvent(items[1]);
+    TestEvent(items[2]);
+    TestEvent(items[3]);
     gMemCard_nIOResult = -1;
 }
 
-s32 func_80043DA0(void **items, s32 stop)
+s32 func_80043DA0(long *items, s32 stop)
 {
     do {
-        if (func_80073880(items[0]) == 1)
+        if (TestEvent(items[0]) == 1)
             return 0;
-        if (func_80073880(items[1]) == 1)
+        if (TestEvent(items[1]) == 1)
             return 1;
-        if (func_80073880(items[2]) == 1)
+        if (TestEvent(items[2]) == 1)
             return 2;
-        if (func_80073880(items[3]) == 1)
+        if (TestEvent(items[3]) == 1)
             return 3;
     } while (stop == 0);
     return -1;

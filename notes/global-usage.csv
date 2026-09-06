@@ -2754,17 +2754,17 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2888,D_800F2888,D_800F2888,0x80044608,func_80044608,matching_c,game,C,src/game/func_80044608.c,read,,"D_8009B444 = D_800F2888; | func_80044470(D_8009B437, D_8009AF7C, D_800F2888, &D_8009B440);"
 0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80043E68,MemCard_CloseIOEvents,matching_c,game,C,src/game/mem_card_close_io_events.c,address,32,long *item = gMemCard_aIOEventHandles;
 0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80043EBC,MemCard_InitIOEvents,matching_c,game,C,src/game/mem_card_init_io_events.c,address,32,items = gMemCard_aIOEventHandles; | register long *base = gMemCard_aIOEventHandles;
-0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x800440F0,func_800440F0,matching_c,game,C,src/game/func_800440F0.c,address,,func_80043D48(gMemCard_aIOEventHandles);
-0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x8004413C,func_8004413C,matching_c,game,C,src/game/sound_request_wrappers.c,address,,func_80043D48(gMemCard_aIOEventHandles);
-0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x800441DC,func_800441DC,matching_c,game,C,src/game/sound_request_wrappers.c,address,,func_80043D48(gMemCard_aIOEventHandles);
-0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80044278,func_80044278,matching_c,game,C,src/game/sound_request_wrappers.c,address,,func_80043D48(gMemCard_aIOEventHandles);
-0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x800442E4,func_800442E4,matching_c,game,C,src/game/sound_request_wrappers.c,address,,func_80043D48(gMemCard_aIOEventHandles);
-0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80044380,func_80044380,matching_c,game,C,src/game/sound_request_wrappers.c,address,,func_80043D48(gMemCard_aIOEventHandles);
-0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x800443EC,func_800443EC,matching_c,game,C,src/game/sound_request_wrappers.c,address,,func_80043D48(gMemCard_aIOEventHandles);
+0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x800440F0,func_800440F0,matching_c,game,C,src/game/func_800440F0.c,address,32,func_80043D48(gMemCard_aIOEventHandles);
+0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x8004413C,func_8004413C,matching_c,game,C,src/game/sound_request_wrappers.c,address,32,func_80043D48(gMemCard_aIOEventHandles);
+0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x800441DC,func_800441DC,matching_c,game,C,src/game/sound_request_wrappers.c,address,32,func_80043D48(gMemCard_aIOEventHandles);
+0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80044278,func_80044278,matching_c,game,C,src/game/sound_request_wrappers.c,address,32,func_80043D48(gMemCard_aIOEventHandles);
+0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x800442E4,func_800442E4,matching_c,game,C,src/game/sound_request_wrappers.c,address,32,func_80043D48(gMemCard_aIOEventHandles);
+0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80044380,func_80044380,matching_c,game,C,src/game/sound_request_wrappers.c,address,32,func_80043D48(gMemCard_aIOEventHandles);
+0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x800443EC,func_800443EC,matching_c,game,C,src/game/sound_request_wrappers.c,address,32,func_80043D48(gMemCard_aIOEventHandles);
 0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80044608,func_80044608,matching_c,game,C,src/game/func_80044608.c,address,32,func_80043D48(gMemCard_aIOEventHandles);
 0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80044838,func_80044838,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_035038.s,address,,"addiu $a0, $a0, %lo(gMemCard_aIOEventHandles) | lui $a0, %hi(gMemCard_aIOEventHandles)"
-0x800F2AF0,D_800F2AF0,D_800F2AF0,0x80044038,func_80044038,matching_c,game,C,src/game/mem_card_init_io_events.c,address,,func_80043D48(D_800F2AF0);
-0x800F2AF0,D_800F2AF0,D_800F2AF0,0x8004413C,func_8004413C,matching_c,game,C,src/game/sound_request_wrappers.c,address,,func_80043D48(D_800F2AF0);
+0x800F2AF0,D_800F2AF0,D_800F2AF0,0x80044038,func_80044038,matching_c,game,C,src/game/mem_card_init_io_events.c,address,32,func_80043D48(D_800F2AF0);
+0x800F2AF0,D_800F2AF0,D_800F2AF0,0x8004413C,func_8004413C,matching_c,game,C,src/game/sound_request_wrappers.c,address,32,func_80043D48(D_800F2AF0);
 0x800F2AF0,D_800F2AF0,D_800F2AF0,0x80044608,func_80044608,matching_c,game,C,src/game/func_80044608.c,address,32,func_80043D48(D_800F2AF0);
 0x800F2AF0,D_800F2AF0,D_800F2AF0,0x80044838,func_80044838,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_035038.s,address,,"addiu $a0, $a0, %lo(D_800F2AF0) | lui $a0, %hi(D_800F2AF0)"
 0x800F2B00,D_800F2B00,D_800F2B00,0x800441DC,func_800441DC,matching_c,game,C,src/game/sound_request_wrappers.c,address,8,"func_8008F200(D_800F2B00, D_80010538, value, data);"
