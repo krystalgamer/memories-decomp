@@ -1,7 +1,8 @@
 # Name Entry Overlay
 
-This directory is reserved for matching source from the name-entry runtime
-module.
+This documentation-only directory records the verified name-entry package and
+its entry points into the front-end image shared with the password screen.
+Matching source for that image remains under `src/overlays/password/`.
 
 Verified scope:
 
@@ -49,7 +50,6 @@ Module-scoped symbol evidence is kept in
 These symbols are medium-confidence evidence because several modules reuse
 the same `0x80168xxx` addresses.
 
-No overlay source or build manifest is accepted yet. Keep extracted payloads,
-candidate sources, objects, and diffs under `tmp/` until a function passes an
-overlay-specific exact-match process. Do not add this module to the resident
-`config/slus_01411/matching_c.json`.
+No separate name-entry source copy or build manifest is accepted. Keep
+screen-specific probes and derived artifacts under `tmp/`, and do not add this
+screen to the resident `config/slus_01411/matching_c.json`.
