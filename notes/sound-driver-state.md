@@ -51,6 +51,43 @@ stride. It sets each record's byte at `0x24` and clears its leading word; the
 two exact functions remain separate because grouping changes resident text
 size.
 
+## SPU decoded data, reverb, and shutdown
+
+Matching `func_80045054` now imports the real `libspu.h` interface and calls:
+
+```c
+SpuReadDecodedData(
+    (SpuDecodedData *)((u8 *)g_SDValue + 0x53C),
+    5
+);
+```
+
+`SpuDecodedData` is four arrays of `0x200` signed halfwords (`cd_left`,
+`cd_right`, `voice1`, and `voice3`), so this call establishes a
+`0x1000`-byte SDK view over `g_SDValue+0x53C` through `+0x153B`. The shared
+`SDValue` definition retains its existing byte-array and padding split because
+other matching functions use narrower buffer views; the cast documents an
+additional ABI-compatible interpretation rather than changing their source
+shape.
+
+Matching `func_8004ACE4` handles two sound-sequence control entries:
+
+| Entry byte `+0x11` | Reverb operation |
+|---:|---|
+| `0x0F` | Disables active reverb, adjusts work-area reservation, submits `SPU_REV_MODE` with the requested mode byte at `+0x13`, re-reserves when required, enables reverb, and caches the byte at secondary-state offset `0x844`. |
+| `0x10` | Submits `SPU_REV_DEPTHL \| SPU_REV_DEPTHR` with the byte at `+0x13` shifted left by eight for both channels, enables reverb, and caches the byte at offset `0x845`. |
+
+The mode path queries `SpuIsReverbWorkAreaReserved` with `-1` before release
+and `-2` before reservation. Those query values are preserved as observed;
+the imported header does not assign them public symbolic names. Separate
+initialization paths call `SpuSetReverbModeType(0)` while resetting sound
+state.
+
+SPU shutdown is now explicit at both game-owned boundaries. `SD_Term` performs
+its secondary-state cleanup and then calls `SpuQuit`. The output teardown path
+at `0x80046F58` disables the SPU IRQ with `SpuSetIRQ(0)` immediately before
+its own `SpuQuit` call.
+
 ## Structure safeguards
 
 The header contains compile-time size assertions for:
