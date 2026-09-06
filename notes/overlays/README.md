@@ -603,3 +603,22 @@ Both are corrected in place. The lesson is worth the minute it costs: a rule
 written from a single match tends to record the whole shape that happened to
 work, including the parts that were incidental, and the only way to tell which
 parts carry weight is to break them one at a time.
+
+A second pass covered six of the older rules, the ones written before this
+window. Four hold with wide margins, and one of them reproduces its recorded
+number exactly: declaring `func_801812B4`'s narrow local `s32` costs six
+instructions, which is what the rule says. The operand-order pair on
+`func_801840F8` each cost one position, so they are real but slight.
+
+Two needed refining rather than correcting:
+
+- The chained assignment rule is load-bearing for its pointer form, where
+  splitting costs an instruction in either statement order, but **not** for the
+  plain-constant form beside it: two statements in descending order are
+  byte-identical, and only the order carries weight.
+- The conditional-expression rule costs an instruction at two of its four sites
+  in `func_801812B4` and none at the other two, which still differ by sixteen
+  positions. The tell is sound; the price is not uniform.
+
+Neither of those is a wrong rule, but both said more than the evidence
+supported, which is the same failure mode as the two corrected above.
