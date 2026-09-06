@@ -21,7 +21,7 @@ extern MainMenuCard D_801845FC[][CARD_COUNT];
 extern u8 D_80185CCC[];
 extern MainMenuState D_801A8000[];
 extern void func_80184030(s32, s32);
-extern void func_8008E400(void *, s32, s32, s32);
+extern void qsort(void *, s32, s32, s32);
 
 void func_8018338C(s32 slot, s32 force)
 {
@@ -53,7 +53,7 @@ void func_8018338C(s32 slot, s32 force)
     }
 
     if (mode != 0) {
-        func_8008E400(D_801845FC[slot], CARD_COUNT, 4, comparators.entries[mode - 1]);
+        qsort(D_801845FC[slot], CARD_COUNT, 4, comparators.entries[mode - 1]);
     }
 
     D_801A8000[slot].object[0x69] = mode;
