@@ -1165,7 +1165,7 @@ address,size,name,status,module,notes
 0x80071CB0,0x208,AiScript_FindDefenseStopper,unmatched_asm,game,
 0x80071EB8,0x110,AiScript_CountCards,matching_c,game,Post-terminal exact card-count scan; mixed GCC G0 split / MASPSX G8 profile with allocation-only type/count register pins.
 0x80071FC8,0x184,AiScript_FindFirstCard,matching_c,game,"AI script opcode: scans a zone's slot range for the first slot in the wanted state (0 empty, 1 face-up, 2 face-down), skipping cards already used this turn in the four acting zone types, and writes the slot index or 0 to the destination register."
-0x8007214C,0x180,AiScript_FindCard,unmatched_asm,game,
+0x8007214C,0x180,AiScript_FindCard,matching_c,game,"AI script opcode: scans a zone's slot range for the first slot holding a given card id, skipping cards already used this turn in the four acting zone types and, when the third operand is 1, face-down cards in zone types 5 and up; writes the slot index or 0."
 0x800722CC,0x1D0,AiScript_MatchType,matching_c,game,AI card-type search across a mode-selected active-card range; exact post-terminal collaborator match. Disabling strength reduction preserves the retail single-cursor loop for repeated flag reads.
 0x8007249C,0x128,AiScript_FindEquipTarget,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x800725C4,0x7C,AiScript_CheckRitual,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.

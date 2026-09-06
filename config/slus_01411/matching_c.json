@@ -5665,6 +5665,12 @@
       "source": "src/game/ai_script_find_first_card.c"
     },
     {
+      "address": "0x8007214C",
+      "profile": "gcc_2_8_1_cc_g0_as_g8_split",
+      "size": "0x180",
+      "source": "src/game/ai_script_find_card.c"
+    },
+    {
       "address": "0x800722CC",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x1D0",
