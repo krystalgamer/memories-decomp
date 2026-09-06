@@ -2217,3 +2217,67 @@ evidence produces a separately recorded exact result.
 If a new exact neighbor, original type declaration, or compiler artifact later
 changes one of these conclusions, record that evidence before revisiting any
 terminal function.
+
+## Binding a masked value blocks the single-bit-to-shift fold
+
+When a single-bit test feeds arithmetic, GCC 2.8.1 recognises the bit pattern
+and collapses the whole expression into one shift. Written directly,
+
+    off = ((u32)(id & 0x1F) << 1) + ((u32)((id & 0x100) != 0) << 6);
+
+compiles `((x >> 8) & 1) << 6` down to `(x >> 2) & 0x40`, emitting a single
+`srl`. Retail instead keeps the three-instruction form `andi`, `sltu`, `sll`.
+
+Binding the masked value to its own local before the comparison blocks the
+fold and restores the retail sequence:
+
+    m   = id & 0x100;
+    b   = m != 0;
+    off = ((u32)(id & 0x1F) << 1) + (b << 6);
+
+This was measured on `SD_SEPlay` (0x80048658): the direct form produced `srl`
+1 / `sltu` 0 against the target, and the bound form produced `sltu` 1 / `srl`
+0, with no other opcode counts disturbed.
+
+This refines the earlier rule that binding a local blocks folding only when
+the bound value is computed. Both `id & 0x100` and `(id & 0x100) != 0` are
+computed, but only binding the *mask* helps. Binding the boolean alone leaves
+the mask and the comparison adjacent, which is exactly the pattern the
+single-bit peephole matches. Bind the operand the peephole needs to see, not
+the result you want to keep.
+
+The same reading applies in reverse: an unexpected `srl` where the target has
+`andi`/`sltu` is evidence of a folded single-bit test, not of a genuine shift
+in the original source.
+
+## A canonicalising diff harness can invent differences as well as hide them
+
+While comparing `SD_SEPlay` (0x80048658) and `func_80047DB0`, both candidates
+appeared to materialise 0xFFFF with `addiu` where the target used `ori`. The
+apparent lesson was that the compared variable had to be widened. That
+conclusion was wrong, and the mechanism is worth recording.
+
+The target side of a comparison is Splat's assembly text, which prints real
+mnemonics. The candidate side is `objdump` output, and objdump prints the
+`li` *pseudo-instruction* rather than the encoding gas selected. A
+canonicalising rule that rewrote `li rd, imm` to `addiu rd, zero, imm`
+therefore mislabelled every unsigned 16-bit constant: gas assembles
+`li rd, 0xFFFF` to `ori`, because the `addiu` immediate would sign-extend to
+-1. The candidate had been emitting the correct instruction all along.
+
+The general rule when normalising two instruction streams for comparison:
+
+- Only canonicalise between forms that are genuinely encoding-identical.
+  `move`/`addu` and `nop`/`sll zero,zero,0` qualify. `li` does not, because it
+  expands to `addiu`, `ori`, or `lui`+`ori` depending on the constant.
+- Normalise both sides from the same representation where possible. Comparing
+  assembler text against disassembler text mixes two different renderings of
+  the same encoding.
+- A canonicalisation that fires on one side only is a bug. `li` never appears
+  in the Splat text, so the rule could only ever rewrite the candidate.
+
+Earlier instrument failures in this project flattered the candidate by hiding
+real differences. This one did the opposite, and cost two functions' worth of
+type changes chasing a difference that did not exist. Both directions come
+from the same cause: a metric that was not validated against a case with a
+known answer.
