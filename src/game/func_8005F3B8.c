@@ -30,7 +30,9 @@ void func_8005F3B8(int mode, int y, int a, int b, Vec *offset)
         ((int *)p)[5] += offset->z * sign;
     }
     q[0] = y;
-    q[1] = (a + (mode <= 0 ? 0x1C00 : 0x1400)) %
+    q[1] = (a + MODEL_ANGLE_FULL_TURN +
+            (mode <= 0 ? 3 * MODEL_ANGLE_QUARTER_TURN :
+                         MODEL_ANGLE_QUARTER_TURN)) %
         MODEL_ANGLE_FULL_TURN;
     q[2] = (b + MODEL_ANGLE_FULL_TURN) % MODEL_ANGLE_FULL_TURN;
     func_80058434(1, MODEL_ANGLE_FULL_TURN, 0, 0, 1);
