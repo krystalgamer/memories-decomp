@@ -1,13 +1,96 @@
 #include "../types.h"
-
 extern u8 D_800F5918[];
 u8 *func_80089E20(u8 **arg0);
 
-/* Sound-driver callback lookup: finds arg0 in the 80-entry pair table at
- * D_800F5918 (an address and a packed id), then maps the id -- a bank in
- * the high half, an event kind in the low half -- to one of the hand-written
- * handlers below, or returns arg0 itself when nothing maps. The case order
- * is retail's own arm order in memory, not sorted. */
+/* Maps an id to its handler in the second dispatch family: looks the id up
+ * in the 0x50-entry table at D_800F5918 (func_80089E20 is the sentinel that
+ * skips the search), then dispatches on the high halfword's group and the
+ * low halfword's kind. Returns arg0 unchanged when nothing matches. */
+
+void func_80069E44(void);
+void func_80069F94(void);
+void func_8006A0E8(void);
+void func_8006A268(void);
+void func_8006A3F0(void);
+void func_8006A540(void);
+void func_8006A694(void);
+void func_8006A814(void);
+void func_8006A99C(void);
+void func_8006AAFC(void);
+void func_8006AC88(void);
+void func_8006ADE8(void);
+
+s32 func_8005FC1C(s32 arg0) {
+    u8 *p;
+    s32 n;
+    s32 v;
+    u32 t;
+
+    p = D_800F5918;
+    n = 0;
+
+    if (arg0 == (s32)func_80089E20) {
+        v = -1;
+    } else {
+        do {
+            if (*(s32 *)p == arg0) {
+                v = *(s32 *)(p + 4);
+                goto have;
+            }
+            n++;
+            p += 8;
+        } while (n < 0x50);
+        v = -1;
+    }
+
+have:
+    t = v & 0xFFFF0000;
+
+    switch (t) {
+    case 0:
+    case 0x100000:
+    case 0x200000:
+    case 0x300000:
+        switch (v & 0xFFFF) {
+        case 9:
+            return (s32)func_80069E44;
+        case 0x209:
+            return (s32)func_8006A3F0;
+        case 0x11:
+            return (s32)func_8006A0E8;
+        case 0x211:
+            return (s32)func_8006A694;
+        case 0xD:
+            return (s32)func_80069F94;
+        case 0x20D:
+            return (s32)func_8006A540;
+        case 0x15:
+            return (s32)func_8006A268;
+        case 0x215:
+            return (s32)func_8006A814;
+        }
+        break;
+    case 0x1000000:
+    case 0x1100000:
+    case 0x1200000:
+    case 0x1300000:
+        switch (v & 0xFFFF) {
+        case 0xD:
+            return (s32)func_8006A99C;
+        case 0x20D:
+            return (s32)func_8006AC88;
+        case 0x15:
+            return (s32)func_8006AAFC;
+        case 0x215:
+            return (s32)func_8006ADE8;
+        }
+        break;
+    }
+    return arg0;
+}
+
+/* Maps the registered callback to the handler family selected by the packed
+ * registry id. The case order is retail's own arm order in memory. */
 void func_800612C0(void);
 void func_8006151C(void);
 void func_800617E0(void);
