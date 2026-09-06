@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/rand.h"
 #include "duel_effect.h"
 
 typedef void (*VoidFn)(void);
@@ -11,7 +12,6 @@ extern u16 D_8009B28C;
 extern u16 D_8009B27C;
 extern VoidFn D_80090C50[];
 
-extern s32 rand(void);
 extern void func_80039794(void);
 
 void func_8002FA54(void)

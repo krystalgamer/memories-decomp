@@ -1,4 +1,4 @@
 #include "../types.h"
+#include "../psyq/rand.h"
 
-extern int rand(void);
 int Rand_GetInterval(int divisor) { return rand() % divisor; }

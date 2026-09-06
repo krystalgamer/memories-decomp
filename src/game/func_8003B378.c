@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/rand.h"
 
 typedef float f32;
 typedef double f64;
@@ -15,8 +16,6 @@ typedef struct { u32 words[2]; } Blk8;
 
 extern s32 func_80040410();
 extern s32 func_80040424();
-extern s32 rand();
-
 void func_8003B378(u8 *p, s32 n) {
     s32 f;
     s32 g;

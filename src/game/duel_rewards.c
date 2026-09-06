@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/rand.h"
 #include "card_constants.h"
 
 typedef struct {
@@ -8,8 +9,6 @@ typedef struct {
 
 extern DuelDropTable gDuel_awSaPowCardDrops[];
 extern u8 gDuel_awPlayerDeck[];
-
-extern s32 rand(void);
 
 s32 Duel_SelectCardDrop(s32 opponent)
 {

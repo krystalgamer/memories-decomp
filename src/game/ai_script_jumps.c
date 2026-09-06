@@ -1,12 +1,11 @@
 #include "../types.h"
+#include "../psyq/rand.h"
 #include "ai.h"
 
 extern AiScriptState gAiScript_State;
 
 extern s32 AiScript_ReadByte(void);
 extern s32 AiScript_ReadShort(void);
-extern s32 rand(void);
-
 void AiScript_JumpNotEqual(void)
 {
     s32 first = AiScript_ReadByte();
