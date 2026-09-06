@@ -556,3 +556,18 @@ on the suspects side until proven.)
 | 0x8009B37C | `gOptions_bState` | Current Options-screen state dispatched by `Options_Update`. |
 | 0x8009B37D | `gOptions_bOutputType` | Options-screen working copy of the stereo/mono selection used by input and layout updates. |
 | 0x8009B384 | `gOptions_bSelection` | Selected row on the Options screen. |
+
+## Batch: file and persistent storage globals
+
+| address | name | description |
+|---|---|---|
+| 0x80011580 | `gFile_szModelMrgPath` | Development-path string `M:/mrgSU/model.mrg` used by the resident model loader. |
+| 0x800117C8 | `gFile_szSuMrgPath` | Development-path string `M:/mrgSU/SU.mrg` used by the resident main-menu package request. |
+| 0x8009078C | `gFile_apszName` | Null-terminated array of seven runtime data-file name pointers in disc lookup order. |
+| 0x800E9EA8 | `gFile_anLba` | Runtime sector table populated from those file names and indexed by the game file selectors. |
+| 0x8009B450 | `gMemCard_nIOResult` | Shared memory-card I/O result: `-1` pending, `0` complete, `1` timeout, `2` error, `3` new card, and `4` after new-card handling. |
+| 0x800F2AE0 | `gMemCard_aIOEventHandles` | Eight memory-card event handles: complete, timeout, error, and new-card results for both software and hardware card classes. |
+| 0x801D0200 | `gDuel_awPlayerDeck` | Current 40-card player deck stored at the start of the persistent save state. |
+| 0x801D0250 | `gLibrary_abCardChest` | One-byte quantity for each of the game's 722 trunk cards. |
+| 0x801D07BC | `gDuel_awRecentCardDrops` | Sixteen most recently acquired card IDs, updated by duel rewards and password purchases. |
+| 0x801D07E0 | `gLibrary_dwStarchips` | Current 32-bit starchip balance stored in the save state. |
