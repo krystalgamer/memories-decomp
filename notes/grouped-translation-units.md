@@ -73,6 +73,7 @@ source grouping.
 | `src/game/game_over.c` | `gcc_2_8_1_g8_split` | Contiguous Game Over setup (`0x8003C950`) and per-frame update (`0x8003CA5C`) |
 | `src/game/input_update_pads.c` | `gcc_2_8_1_g8_split` | Contiguous raw controller-packet decoder (`0x8003CC38`) and held/pressed/repeat publisher (`0x8003CCD8`) |
 | `src/game/mem_card_dialog_runtime.c` | `gcc_2_8_1_g8_split` | Memory-card modal object update (`0x8003F2B0`) and contiguous channel/object setup (`0x8003F388`) |
+| `src/game/mem_card_requests.c` | `gcc_2_8_1_g8_split` | Six contiguous memory-card request helpers from `0x8004413C` through `0x800443EC`, followed by the directory enumeration helper at `0x80044470` |
 | `src/game/model_handler_registry.c` | `gcc_2_8_1_g8_split` | `Model_RegisterHandlerKey` (`0x80060170`), `Model_FindHandlerKey` (`0x800601D0`), and the following model setup helper at `0x80060220` |
 | `src/game/model_slot_state_updates.c` | `gcc_2_8_1_g0_split` | Contiguous model-slot state/velocity update (`0x80059700`) and child-parameter propagation (`0x800597C8`) |
 | `src/game/model_view_adjustments.c` | `gcc_2_8_1_g8_split` | Contiguous model-view angle adjustment (`0x80052528`) and range/position controller (`0x80052694`) |
@@ -95,7 +96,7 @@ source grouping.
 | `src/game/sound_command_dispatch.c` | `gcc_2_8_1_g8` | Default-argument wrapper `func_80047314` (`0x80047314`) and its direct command dispatcher `func_8004733C` (`0x8004733C`), sharing `g_SDValue` and exactly covering `0xB8` bytes through `0x800473CC` |
 | `src/game/sound_voice_data.c` | `gcc_2_8_1_g0` | Voice-step assignment (`0x80048C0C`) and a 512-word transfer helper (`0x80048C70`) |
 | `src/game/sound_secondary_reset.c` | `gcc_2_8_1_g0` | Low-level state query (`0x800498BC`) and secondary-state reset (`0x800498F8`) |
-| `src/game/sound_secondary_playback.c` | `gcc_2_8_1_g0` | Eight secondary playback lifecycle, object-upload, parameter, and status helpers from `0x80049BAC` through `0x80049F50` |
+| `src/game/sound_secondary_playback.c` | `gcc_2_8_1_g0` | Ten secondary sequence attachment, playback lifecycle, object-upload, parameter, and status helpers from `0x80049A64` through `0x80049F50` |
 | `src/game/sound_secondary_object_selection.c` | `gcc_2_8_1_g0` | Secondary-object best-candidate selection (`0x8004A854`) and referenced-record counter update (`0x8004A8E4`) |
 
 The original pilots reduced four one-function source files to two coherent
