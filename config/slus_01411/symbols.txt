@@ -437,6 +437,7 @@ PopMatrix = 0x80087274; // type:func
 MulMatrix = 0x80087370; // type:func
 ScaleMatrix = 0x80087670; // type:func
 SetRotMatrix = 0x800877B0; // type:func
+SetFarColor = 0x80087890; // type:func
 SetGeomOffset = 0x800878B0; // type:func
 SetGeomScreen = 0x800878D0; // type:func
 RotAverage3 = 0x80087A50; // type:func
