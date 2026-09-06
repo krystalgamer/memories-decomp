@@ -22,6 +22,32 @@ Confidence levels:
 - **Tentative**: the patch effect is plausible, but its target or broader
   behavior still needs corroboration.
 
+## Introduction document variants
+
+The bundle contains the same introductory tool overview in three languages,
+with a base and a 1.2 revision for each:
+
+- `Introduction to Mod - ENG.docx`
+- `Introduction to Mod - ENG, 1.2.docx`
+- `Introducción a Mod - ESP.docx`
+- `Introducción a Mod - ESP, 1.2.docx`
+- `Introdução ao Mod - PT-BR.docx`
+- `Introdução ao Mod - PT-BR, 1.2.docx`
+
+The English, Spanish, and Portuguese documents repeat the same technical
+claims. Comparing each base/1.2 pair shows no changed dimensions, limits,
+offsets, or game behavior. Version 1.2 only adds `GenericMadScientist` to the
+HARDMOD attribution and appends a general reminder to credit tool and tutorial
+authors.
+
+These six files are therefore one translated source family, not six
+independent corroborations. The shared `102x96`/`40x32` image constraints are
+reconciled in [Card-image editor dimensions](#card-image-editor-dimensions),
+and the shared `2048` weighted-table warning is reconciled in
+[`modding-tutorial-gameplay-patches.md`](modding-tutorial-gameplay-patches.md#weighted-deck-and-drop-total).
+The remaining paragraphs are descriptions of third-party editing tools and do
+not establish retail offsets or runtime behavior.
+
 ## Initial duel life points
 
 **Tutorial:** `Alterar LP - Por Jael Rivera.txt`
