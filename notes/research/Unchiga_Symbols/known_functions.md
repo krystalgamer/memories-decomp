@@ -1033,8 +1033,8 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80044FE4 | `get_8009b45c_510` | fleet |
 | 0x8004503C | `set_8009b45c_512_49` | fleet |
 | 0x800451E0 | `call_80045208_masked_128` | fleet |
-| 0x8004544C | `clear_8009b45c_busy` | fleet |
-| 0x8004545C | `arm_state_and_register_cb` | fleet |
+| 0x8004544C | `SD_ClearBusyFlag` | fleet |
+| 0x8004545C | `SD_ArmBusyCallback` | fleet |
 | 0x80045484 | `entry_has_marker_byte` | fleet |
 | 0x80046F58 | `sound_shutdown_full` | fleet |
 | 0x80047008 | `get_8009b45c_48` | fleet |

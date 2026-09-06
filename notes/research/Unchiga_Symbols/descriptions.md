@@ -398,3 +398,14 @@ on the suspects side until proven.)
 | 0x80038530 | `Text_StartCampaignDuel` | Reads the opponent, two duel-descriptor bytes, terrain, and continuation value from the active text stream, selects the sound command from the opponent ID, initializes campaign-duel state, and switches the main mode to duel. |
 | 0x80038BA8 | `Text_SetCursorOffset` | Reads a 16-bit target from the active text stream and replaces the cursor's low halfword while preserving its current 64 KiB bank. |
 | 0x80038BF0 | `Text_HandleChoiceCommand` | Either jumps the active cursor through the selected same-bank target or initializes a choice prompt's count, enabled mask, display flags, input state, and update callback. |
+
+## Batch: sound callbacks and sequence tracks
+
+| address | name | description |
+|---|---|---|
+| 0x8004544C | `SD_ClearBusyFlag` | Registered callback that clears the main sound-driver busy byte. |
+| 0x8004545C | `SD_ArmBusyCallback` | Sets the main sound-driver busy byte and installs `SD_ClearBusyFlag` in the shared callback slot. |
+| 0x8004B734 | `SD_SequenceTimerCallback` | Root-counter callback that guards against disabled, busy, or reentrant state, runs eight sequence-track ticks, and periodically invokes secondary sound maintenance plus an optional callback. |
+| 0x8004BBBC | `SD_FindMidiTrackChunk` | Scans the bounded active sequence stream for the next four-byte `MTrk` marker and returns the offset immediately after it, or `-1` when none remains. |
+| 0x8004C8C8 | `SD_ProcessSequenceTracks` | Advances each active `0x2C`-byte track timer, dispatches sequence commands when its accumulator wraps, updates delay values, and contributes to the secondary running total. |
+| 0x8004CA60 | `SD_ResetSequenceTracks` | Marks every configured secondary sequence track stopped and clears its leading value. |
