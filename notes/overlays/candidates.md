@@ -99,7 +99,7 @@ void func_80168AB4(u8 *w)
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 380 of 382 instructions, 332 differing positions.
+`gcc_2_8_1_g0_split`, 380 of 382 instructions, 320 differing positions.
 
 Instructions 0 to 54 already agree. The first real difference is at 56, where
 the target fills the branch delay slot with the `lui` for `D_8016D401` and this
@@ -205,18 +205,20 @@ void func_8016913C(void)
                 flag = (D_8009B3A4[0] & 0x4000) != 0;
                 D_8016D401 = 11;
                 D_8016D402 = D_8016ABC0[(s8)D_8016D402][flag];
+                D_8016D426 = D_8016D402;
             } else if ((D_8009B3A4[0] & 0x1000) != 0) {
                 D_8016D402 = D_8016D402 - 1;
                 if ((s8)D_8016D402 < 0) {
                     D_8016D402 = 8;
                 }
+                D_8016D426 = D_8016D402;
             } else {
                 D_8016D402 = D_8016D402 + 1;
                 if ((s8)D_8016D402 >= 9) {
                     D_8016D402 = 0;
                 }
+                D_8016D426 = D_8016D402;
             }
-            D_8016D426 = D_8016D402;
         }
     } else if ((D_8009B398[0] & 0x800) != 0) {
         D_8016D401 = 14;
