@@ -1915,11 +1915,11 @@ is the same padding trap recorded above for `no_sched2`.
 | Base | Evidence-backed layout |
 |---|---|
 | `D_800F2848` | Signed 16-bit transform angles/parameters at `+0`, `+2`, and `+4`; object is larger than eight bytes |
-| `D_801D4244` | 32-bit card/property table indexed by signed 16-bit ID minus one |
+| `gDuel_adwCardStats` | 32-bit card/property table indexed by signed 16-bit ID minus one |
 | `D_800908A0` | Array of signed 16-bit coordinate pairs |
 | `D_801A7AD8` | `0x1C`-byte entries: pointer/value at `+0`, signed ID at `+0xC`, unsigned flags at `+0x16` |
 
-Observed `D_801D4244` property fields include:
+Observed `gDuel_adwCardStats` property fields include:
 
 ```text
 value >> 18 & 0x0F
@@ -1929,7 +1929,7 @@ value >> 26 & 0x1F
 
 ### Object and event state rooted through `D_8009B458`
 
-`D_8009B458` and `D_8009B45C` are global pointers using absolute
+`D_8009B458` and `g_SDValue` are global pointers using absolute
 `%hi`/`%lo` relocation pairs.
 
 Strongly repeated layouts include:
