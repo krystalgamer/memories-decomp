@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "card_constants.h"
+#include "duel_card_layout.h"
+#include "duel_grid.h"
 
 typedef struct {
     u8 *unk0;
@@ -37,11 +40,12 @@ void func_8001B938(u8 *p) {
     if (p[0x15] == 0) {
         b = D_8015C424;
         r = D_800EA030[*(s8 *)(p + 0xE)].unk0;
-        g = b + r[0x6A] * 28 + 0x48000;
-        i = (gDuel_adwCardStats[*(s16 *)*(s32 *)(g + 0x36B8) - 1] >> 26) & 0x1F;
+        g = b + r[0x6A] * DUEL_CARD_RECORD_SIZE + 0x48000;
+        i = (gDuel_adwCardStats[*(s16 *)*(s32 *)(g + 0x36B8) - 1] >>
+             CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
     k = i;
-        if (k >= 0x14) {
-            if (r[0x21] != 0 || k == 0x15) {
+        if (k >= CARD_TYPE_MAGIC) {
+            if (r[0x21] != 0 || k == CARD_TYPE_TRAP) {
                 D_8009B1B4[0x11] = 3;
                 D_8009B1B4[0x12] = 4;
             }
@@ -49,11 +53,14 @@ void func_8001B938(u8 *p) {
     }
 
     D_8009B1B4[0x10] = D_8009B1B4[0x11];
-    c = D_800907D8[*(s8 *)(D_8009B1B4 + 0x10) * 5 + D_8009B1D5 * 20];
-    e = D_801A7AD8 + c * 28;
+    c = D_800907D8[
+        *(s8 *)(D_8009B1B4 + 0x10) * DUEL_FIELD_ROW_SIZE +
+        D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
+    ];
+    e = D_801A7AD8 + c * DUEL_CARD_RECORD_SIZE;
 
-    for (i = 0; i < 5; i++, e += 0x1C) {
-        if ((*(u16 *)(e + 0x16) & 0x8000) == 0) {
+    for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++, e += DUEL_CARD_RECORD_SIZE) {
+        if ((*(u16 *)(e + 0x16) & DUEL_CARD_FLAG_OCCUPIED) == 0) {
             D_8009B1B4[0xF] = i;
             break;
         }
