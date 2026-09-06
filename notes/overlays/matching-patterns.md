@@ -805,6 +805,18 @@ The remaining pair resists this, because the symbol that must come first,
 function, while the one that must come second, `D_800EB0F8`, is held in a
 callee-saved register across two calls and so is set up early regardless.
 
+**Naming a base merges `%hi` materialisations, so do not reach for it when the
+target keeps two.** The obvious next move on the remaining pair is to name the
+coordinate base as well, `grid = &D_8009B366` then `grid[0]` and `grid[1]`.
+That builds one instruction **short**, because it gives both coordinate reads a
+single `%hi`. The target deliberately materialises `%hi` for that page twice:
+once transiently for `D_8009B366`, and once into a callee-saved register for
+`D_8009B367`, which survives the call and serves a later read of the same
+symbol for the grid index. Two reads of neighbouring symbols through separate
+`lui`s are evidence that the source names the two globals separately, and the
+lever above must be withheld there. It is a lever for a base that is genuinely
+used as a base, not for two adjacent scalars.
+
 ### What the previous occupant of this section taught
 
 `FreeDuel_UpdateSparkle` sat here with a transposition of two independent
