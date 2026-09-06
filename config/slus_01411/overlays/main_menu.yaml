@@ -72,7 +72,7 @@ segments:
       - [0x1728, asm, overlays/main_menu/text_1728]
       - [0x1CB8, c, overlays/main_menu/func_80181CB8]
       - [0x1E30, c, overlays/main_menu/func_80181E30]
-      - [0x1EEC, c, overlays/main_menu/func_80181EEC]
+      - [0x1EEC, c, overlays/main_menu/count_decimal_digits]
       - [0x1F20, c, overlays/main_menu/func_80181F20]
       - [0x1F68, c, overlays/main_menu/func_80181F68]
       - [0x21DC, asm, overlays/main_menu/text_21DC]

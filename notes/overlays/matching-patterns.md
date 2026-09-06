@@ -146,7 +146,7 @@ next = value / 10;
 value = next;
 ```
 
-Verified by `func_80181EEC` in the main menu module.
+Verified by `MainMenu_CountDecimalDigits` in the main menu module.
 
 The rule is about matching the original's locals, not about avoiding locals.
 Read the target both ways:
