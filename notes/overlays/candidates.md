@@ -878,3 +878,171 @@ s32 func_80180390(void)
     return -1;
 }
 ```
+
+## overworld `CampaignMap_UpdateLocationTransition` at 0x80168AA8
+
+`gcc_2_8_1_g0_split`, 209 instructions against 217, 182 differing positions,
+opcode distance 14. Matches in both overworld modules from one source.
+
+This is a fresh reconstruction from the disassembly and the inventory row. The
+row describes a candidate at 217 of 217 with seventy positions, but that one was
+never stored and is gone, so this is the first reproducible state.
+
+Residual is extra `andi` x1 and `j` x1 against missing `lui` x3, `bne` x1,
+`addu` x2, `nop` x1, `sltiu` x1, `lhu` x2 and `sll` x2.
+
+Three differences are already located by reading the columns. The target
+re-reads the state byte at index 64 before the 0x40 test where this build reuses
+the value it already holds. It loads the map object inside the 0x40 block, at 69,
+where this build hoists the load above the test. And it reloads the object's
++0x48 halfword at 87 to form +0x4A, where this build reuses the register it just
+stored.
+
+The five camera accumulators are confirmed against the disassembly: +0x5E4 by
++0x5F0 into camera+2, +0x5E8 by +0x5F4 into camera+4, +0x610 by +0x614 into
+camera+0, +0x5CC by +0x5DC into camera+0x1C, and +0x5D0 by +0x5E0 into
+camera+0x24, the last two as 32-bit stores.
+
+```c
+#include "../../src/types.h"
+
+typedef struct {
+    u8 pad0[8];
+    u16 f8;
+    u8 pad10[62];
+    u16 f72;
+    u16 f74;
+} MapObject;
+
+typedef struct {
+    u8 pad0[96];
+    s16 f96;
+} Marker;
+
+typedef struct {
+    u8 pad0[12];
+    u16 f12;
+    u16 f14;
+} Location;
+
+extern u8 D_801695EC;
+extern Marker *D_801695C8;
+extern MapObject *D_801695D8;
+extern u8 D_8016960C;
+extern u8 D_80169618;
+extern s32 D_80169608;
+extern s32 D_801695D4;
+extern Location D_801691A8[];
+extern u8 D_800F2848[];
+
+extern s32 D_801695E4;
+extern s32 D_801695F0;
+extern s32 D_801695E8;
+extern s32 D_801695F4;
+extern s32 D_80169610;
+extern s32 D_80169614;
+extern s32 D_801695CC;
+extern s32 D_801695DC;
+extern s32 D_801695D0;
+extern s32 D_801695E0;
+
+extern void func_80043178(Marker *);
+extern void func_801688BC(s32);
+extern void func_8004318C(Marker *, s32, s32, s32);
+extern void func_801681E8(s32);
+extern void func_8001352C(void);
+
+s32 CampaignMap_UpdateLocationTransition(void)
+{
+    MapObject *obj;
+    Marker *marker;
+    Location *entry;
+    Location *table;
+    u8 *camera;
+    u8 flags;
+    u8 raise;
+    s32 step;
+    s32 timer;
+    s32 quotient;
+
+    camera = D_800F2848;
+    flags = D_801695EC;
+    if ((flags & 0x80) == 0) {
+        marker = D_801695C8;
+        D_801695EC = flags | 0x80;
+        if (marker != 0) {
+            func_80043178(marker);
+            marker->f96 = 0;
+        }
+        D_801695D4 = D_80169608;
+        func_801688BC(D_8016960C);
+        if (D_8016960C < 10) {
+            if (D_80169618 >= 10) {
+                obj = D_801695D8;
+                obj->f72 = 180;
+                obj->f74 = 340;
+                flags = D_801695EC;
+                raise = obj->f8 | 0x40;
+                D_801695EC = flags | 0x60;
+                obj->f8 = raise;
+            }
+        } else if (D_80169618 < 10) {
+            D_801695EC |= 0x40;
+        }
+    }
+    flags = D_801695EC;
+    if ((flags & 0x40) != 0) {
+        obj = D_801695D8;
+        if ((flags & 0x20) == 0) {
+            obj->f72 = obj->f72 + 7;
+        } else {
+            step = obj->f72 - 7;
+            obj->f72 = step;
+            if ((s16)step < 32) {
+                obj->f72 = 32;
+            }
+        }
+        obj->f74 = obj->f72 + 160;
+    }
+    marker = D_801695C8;
+    if (marker != 0) {
+        timer = marker->f96;
+        if ((s16)timer < 2048) {
+            quotient = 2048 / D_80169608;
+            table = D_801691A8;
+            entry = table + D_8016960C;
+            timer = (u16)marker->f96 + quotient;
+            marker->f96 = timer;
+            func_8004318C(marker, entry->f12, entry->f14, (s16)timer);
+        }
+    }
+    D_801695E4 = D_801695E4 + D_801695F0;
+    *(s16 *)(camera + 2) = D_801695E4 >> 16;
+    D_801695E8 = D_801695E8 + D_801695F4;
+    D_80169610 = D_80169610 + D_80169614;
+    *(s16 *)(camera + 4) = D_801695E8 >> 16;
+    *(s16 *)(camera + 0) = D_80169610 >> 16;
+    D_801695CC = D_801695CC + D_801695DC;
+    *(s32 *)(camera + 28) = D_801695CC >> 16;
+    D_801695D0 = D_801695D0 + D_801695E0;
+    *(s32 *)(camera + 36) = D_801695D0 >> 16;
+    D_801695D4 = D_801695D4 - 1;
+    if (D_801695D4 == 0) {
+        func_801681E8(D_8016960C);
+        if ((D_801695EC & 0x20) != 0) {
+            obj = D_801695D8;
+            obj->f72 = 32;
+            obj->f74 = 192;
+        }
+        marker = D_801695C8;
+        if (marker != 0) {
+            table = D_801691A8;
+            entry = table + D_8016960C;
+            marker->f96 = entry->f12;
+            *(s16 *)((u8 *)marker + 50) = entry->f14;
+        }
+    }
+    func_8001352C();
+    return D_801695D4;
+}
+```
