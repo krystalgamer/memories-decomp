@@ -624,6 +624,46 @@ row locations, but not six distinct category assignments.
   those visual roles come from the tutorial, while their card-kind ordering
   and palette boundaries are exact.
 
+## Card-image editor dimensions
+
+**Tutorial:** `Introduction to Mod - ENG, 1.2.docx`
+
+The editor introduction requires large card images to be `102x96` pixels with
+256 indexed colours and small images to be `40x32` pixels with 64 indexed
+colours. Those dimensions agree with the retail per-card art record:
+
+| Record offset | Size | Retail role |
+|---:|---:|---|
+| `+0x0000` | `0x2640` | Large art: `102 * 96` bytes of 8-bit palette indices |
+| `+0x2640` | `0x0200` | Large-art CLUT: 256 16-bit BGR555 entries |
+| `+0x2840` | `0x02A0` | Baked card title: `96x14` 4-bpp image |
+| `+0x2AE0` | `0x0500` | Thumbnail: `40 * 32` bytes of 8-bit palette indices |
+| `+0x2FE0` | `0x0080` | Thumbnail CLUT: 64 16-bit BGR555 entries |
+
+The five regions occupy `0x3060` bytes inside each card's `0x3800`-byte,
+seven-sector record. The large-art upload uses a `51x96` rectangle of 16-bit
+VRAM words, which is the expected packed width for `102x96` 8-bpp pixels.
+
+The small image is likewise stored as one byte per pixel. "64 colours"
+describes the number of usable palette entries, not a packed 6-bpp format:
+`40 * 32` accounts for the complete `0x500`-byte image, followed by the
+separate `0x80`-byte CLUT. A byte-identical copy of each card's resulting
+`0x580`-byte thumbnail-plus-CLUT block also occupies that card's standalone
+sector in the first 722 sectors of `WA_MRG.MRG`; all 722 pairs match.
+
+The introduction does not mention the baked title between the two image
+forms. A tool that replaces complete records rather than just its advertised
+image regions must preserve or regenerate that `0x2A0`-byte title payload.
+
+**Confidence:**
+
+- **Confirmed** that the large and small retail image regions have the
+  tutorial's dimensions and palette-entry counts.
+- **Confirmed** that every embedded thumbnail-plus-CLUT block matches its
+  standalone WA sector copy.
+- **High** that these are the editor's intended import constraints; the editor
+  implementation itself is not part of the verified retail inputs.
+
 ## Duel-results image and palette package
 
 **Tutorial:** `Results - Paletas.docx`
