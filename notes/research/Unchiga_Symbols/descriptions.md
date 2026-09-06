@@ -100,13 +100,13 @@ on the suspects side until proven.)
 
 ## Batch 6 (functions — AI opcodes, board queries & pickers)
 
-(0x80071008 AiScript_CalcCardPower and 0x80071CB0
-AiScript_FindDefenseStopper excluded: bodies unmatched, behavior not 100%
-verified — tracked in suspects.md.)
+(0x80071CB0 AiScript_FindDefenseStopper excluded: body unmatched, behavior not
+100% verified — tracked in suspects.md.)
 
 | address | name | description |
 |---|---|---|
 | 0x80071000 | `AiScript_EndField` | Opcode: end-of-field-script marker — empty function, the loop reacts to the opcode itself. (First matched by MaChInEgUn3's independent decomp.) |
+| 0x80071008 | `AiScript_CalcCardPower` | Opcode: stores a monster's ATK, DEF, or higher stat according to the scripted mode; mode 0 instead maps non-monster cards 343–347 to their 50–1000 direct-damage values and gives other non-monsters zero. |
 | 0x80071194 | `AiScript_TestHighStat` | Opcode: reads a card id from `gAiScript_aMemory`, checks its 5-bit type field in `gDuel_adwCardStats` (bits 26-30); for monster types (< 20) evaluates `Duel_GetBaseCardStat` and stores the resulting stat. |
 | 0x80071248 | `AiScript_LoadCardType` | Opcode: copies a card's 5-bit type field (from its packed `gDuel_adwCardStats` word) into an `gAiScript_aMemory` slot. |
 | 0x800712B4 | `AiScript_LoadCardID` | Opcode: copies the card id (leading field) of an `gDuel_aActiveCards` entry into an `gAiScript_aMemory` slot. |
