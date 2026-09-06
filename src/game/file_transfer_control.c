@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_constants.h"
 
 extern volatile u16 D_8009B124;
 extern volatile s32 D_8009B0E8;
@@ -90,7 +91,7 @@ full:
     object->mode_46 = 3;
     base = D_8009B118;
     object->value_8 = base;
-    object->value_c = base + 2048;
+    object->value_c = base + FILE_SECTOR_SIZE;
     object->value_30 = shared->value_c;
     value = shared->value_14;
     object->value_1c = value;
@@ -107,7 +108,7 @@ reduced:
     object->value_1c = value;
 fix:
     if (value < 0)
-        object->value_1c = -(value << 11);
+        object->value_1c = -(value << FILE_SECTOR_SHIFT);
     return;
 tail:
     callback = D_8009B128;

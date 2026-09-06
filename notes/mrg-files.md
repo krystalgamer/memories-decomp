@@ -41,6 +41,12 @@ Loader offsets and counts for the three MRG files are expressed in
 `0x800`-byte logical sectors. `func_80013940` converts a file-relative sector
 to both a byte offset and an absolute disc LBA.
 
+`src/game/file_constants.h` names this unit as `FILE_SECTOR_SIZE` and its
+byte-conversion shift as `FILE_SECTOR_SHIFT`. The descriptor setup and transfer
+control paths use them for sector-to-byte conversion and the one-sector gap
+between alternating buffer destinations. This is the logical payload size,
+not the disc image's 2,352-byte raw sector size.
+
 ## Shared high-memory slots
 
 The fixed addresses beginning at `0x8013A000` are a shared runtime layout, not
