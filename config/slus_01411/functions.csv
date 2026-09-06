@@ -990,7 +990,7 @@ address,size,name,status,module,notes
 0x8005B620,0x2C,func_8005B620,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005B64C,0x210,func_8005B64C,unmatched_asm,game,
 0x8005B85C,0x44,func_8005B85C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
-0x8005B8A0,0x2DC,func_8005B8A0,unmatched_asm,game,
+0x8005B8A0,0x2DC,func_8005B8A0,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8005BB7C,0x2C0,func_8005BB7C,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8 from the ygofm reference (batch port, probe-verified)."
 0x8005BE3C,0x18C,func_8005BE3C,unmatched_asm,game,
 0x8005BFC8,0x22C,func_8005BFC8,unmatched_asm,game,
