@@ -72,7 +72,7 @@ The generator feeds multiple systems. Confirmed matching-C examples include:
 | `AiScript_JumpRandom` (`0x80070C60`) | Chooses whether a scripted branch is taken |
 | `AiScript_SetRandom` (`0x80070E20`) | Writes a value in a scripted inclusive range |
 | `duel_rewards.c` | Selects post-duel rewards |
-| `func_8016A930` | Builds the new-game starter deck from seven weighted rows |
+| `NameEntry_BuildStarterDeck` | Builds the new-game starter deck from seven weighted rows |
 | `main_run_frontend_menus.c` | Advances randomness while the main menu runs |
 
 Additional matching and unmatched callers use the same SDK routine for duel
@@ -154,8 +154,8 @@ substituting floating-point probabilities.
 
 ### Starter-deck stream consumption
 
-The matching starter-deck generator `func_8016A930` does not consume one RNG
-value per card. Each selection attempt first computes
+The matching starter-deck generator `NameEntry_BuildStarterDeck` does not
+consume one RNG value per card. Each selection attempt first computes
 `(rand() & 0x7FF) + 1`, then scans zero-based card indices `0`-`719`. Before
 adding each examined weight to the accumulator, it calls `rand()` once more
 and discards that result. Selecting card ID `n` therefore consumes `n + 1`

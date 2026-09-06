@@ -380,13 +380,13 @@ No card ID appears in more than one row. Altogether the generator can select
 cards and 28 equips. No trap or ritual has a nonzero starter weight, so the
 other 377 cards cannot be dealt into an unmodified new-game deck.
 
-Matching `func_8016A930` scans only zero-based indices `0`-`719` despite the
-722 stored weights, so Dark Magic Ritual (721) and Magician of Black Chaos
-(722) are structurally unreachable here. It tracks each card's count and
-retries a draw that would add a fourth copy. The retail final two weights are
-zero and every first-720 sum is still 2048, so the stock tables fill all 40
-slots with at most three copies of any card. The generator's variable RNG
-consumption is detailed in [`rng.md`](../rng.md).
+Matching `NameEntry_BuildStarterDeck` scans only zero-based indices `0`-`719`
+despite the 722 stored weights, so Dark Magic Ritual (721) and Magician of
+Black Chaos (722) are structurally unreachable here. It tracks each card's
+count and retries a draw that would add a fourth copy. The retail final two
+weights are zero and every first-720 sum is still 2048, so the stock tables
+fill all 40 slots with at most three copies of any card. The generator's
+variable RNG consumption is detailed in [`rng.md`](../rng.md).
 
 For every accepted draw, the generator also calls
 `Library_UpdateCardUsedFlag(i + 289)`. Since the resulting card ID is `i + 1`,
