@@ -287,8 +287,12 @@ return 1;
 ```
 
 The caller at `0x80018FC4` keeps duel state `4` when the check returns zero
-and changes it to state `0xE` when the check succeeds. Existing duel research
-identifies that state transition as the `SUMMON Exodia` instant-win path.
+and changes it to state `0xE` when the check succeeds. The duel-scene
+dispatcher uses the low state nibble to index `D_80090998`; slot `0xE` is
+`func_80018FEC`. That callback repositions five display objects by the Exodia
+piece IDs, then records the current side in `gDuel_bWinnerSide` and writes
+`0x28` (`+40`) to its duel-end score field before leaving for the result path.
+State `0xE` is therefore the `SUMMON Exodia` instant-win presentation.
 
 Changing the low immediate bytes from `0x11` and `0x16` to `0x00` makes the
 function search for card ID zero and changes the continuation test to
@@ -305,9 +309,9 @@ retail card data, where zero denotes an empty card and valid IDs are
   `0x11` through `0x15`.
 - **Confirmed** that the two-byte patch makes the check return zero for normal
   retail card data.
-- **High** that caller state `0xE` is specifically the Exodia summon/win
-  presentation; the caller and existing duel research agree, but the state
-  itself does not yet have a semantic symbol.
+- **Confirmed** that caller state `0xE` is the Exodia summon/win presentation:
+  dispatch slot `0xE` runs `func_80018FEC`, stages the five piece objects, and
+  records the current side as the `+40` Exodia winner.
 
 ## Editable Duel Master K deck
 
