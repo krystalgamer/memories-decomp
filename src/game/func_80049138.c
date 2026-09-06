@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 
 #define SDVALUE_CUSTOM_EXTERN
 #include "sound.h"
@@ -6,7 +7,6 @@
 extern u8 * volatile g_SDValue;
 extern void func_80046294(void);
 extern void func_80049010(void);
-extern long SpuSetReverbModeType(long);
 extern void func_800471D0(s32, s32, s32, s32, s32, s32);
 
 s32 func_80049138(s16 arg0, s32 arg1) {
