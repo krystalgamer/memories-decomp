@@ -52,7 +52,7 @@ a runtime code module under `src/overlays/<module>/`:
 | Attribution | WA package | Confirmed evidence | Source-scope status |
 |---|---|---|---|
 | Library | sectors `7629-7767` | `Main_RunLibraryMenu` calls resident loader `func_8002BFCC`; callback `func_8002BD0C` accounts for all six data phases | No phase is copied directly to a callable module slot; the Library package does not justify a `library/` overlay scope |
-| Campaign scene loader | sectors `7767-7816` | `func_8002FD10` requests the package; its `0x1000` phase at `0x801A8000` is the campaign event script | No executable phase is attributable to a runtime code module |
+| Campaign scene loader | sectors `7767-7816` | `func_8002FD10` requests the package; matching callback `func_8002FB78` accounts for the image, palette, event-script, and dialog-portrait phases | No phase is copied directly to a callable module slot |
 
 These attributions belong in the loader map, but they do not yet justify
 `library/` or campaign source directories. In particular, the campaign event
