@@ -4408,13 +4408,13 @@
       "address": "0x80052528",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x16C",
-      "source": "src/game/func_80052528.c"
+      "source": "src/game/model_view_adjustments.c"
     },
     {
       "address": "0x80052694",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x218",
-      "source": "src/game/func_80052694.c"
+      "source": "src/game/model_view_adjustments.c"
     },
     {
       "address": "0x800530C4",
