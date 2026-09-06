@@ -79,6 +79,7 @@ source grouping.
 | `src/game/sound_output_state.c` | `gcc_2_8_1_g0` | Four output-state selection and command-queue helpers from `0x8004503C` through `0x800451E0` |
 | `src/game/sound_state_control.c` | `gcc_2_8_1_g8` | Secondary-state activation (`0x8004695C`) and main sound-state flag setup (`0x80046990`) |
 | `src/game/sound_command_wrappers.c` | `gcc_2_8_1_g8` | Four command/sequence wrappers at `0x800473CC-0x80047458` |
+| `src/game/sound_command_dispatch.c` | `gcc_2_8_1_g8` | Default-argument wrapper `func_80047314` (`0x80047314`) and its direct command dispatcher `func_8004733C` (`0x8004733C`), sharing `g_SDValue` and exactly covering `0xB8` bytes through `0x800473CC` |
 | `src/game/sound_voice_data.c` | `gcc_2_8_1_g0` | Voice-step assignment (`0x80048C0C`) and a 512-word transfer helper (`0x80048C70`) |
 | `src/game/sound_secondary_reset.c` | `gcc_2_8_1_g0` | Low-level state query (`0x800498BC`) and secondary-state reset (`0x800498F8`) |
 | `src/game/sound_secondary_playback.c` | `gcc_2_8_1_g0` | Eight secondary playback lifecycle, object-upload, parameter, and status helpers from `0x80049BAC` through `0x80049F50` |
