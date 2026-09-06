@@ -71,10 +71,10 @@ The game/engine region currently contains:
 
 | Status | Functions | Bytes |
 |---|---:|---:|
-| Unmatched assembly | 1,131 | 349,976 (`0x55718`) |
-| Heuristically handwritten assembly | 63 | 46,236 (`0xB49C`) |
-| Matching C | 0 | 0 |
+| Unmatched compiler-generated assembly | 195 | 204,692 (`0x31F94`) |
+| Intentional handwritten assembly | 63 | 46,236 (`0xB49C`) |
+| Matching C | 938 | 145,284 (`0x23784`) |
 
-The 63 handwritten classifications are provisional disassembler heuristics.
-They require instruction-level review before being treated as final original
-source classifications.
+The handwritten functions are tracked separately from compiler-generated game
+code and are not decompilation candidates. The unmatched row is the remaining
+compiler-generated game code still using assembly fallback.
