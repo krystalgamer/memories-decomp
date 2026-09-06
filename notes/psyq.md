@@ -400,10 +400,11 @@ families, but they belong to different call surfaces. Matching layout or
 numeric values alone is not sufficient reason to substitute one family for
 the other.
 
-No current game C includes either sound header. The existing `SpuRead` and
-`SpuGetVoiceEnvelope` identifications in sound-driver comments describe the
-resident callees reached by the matching code; they do not yet establish that
-the surrounding game-owned state is an SDK `Spu*` or `Ss*` structure.
+Matching game C now includes `libspu.h` at confirmed low-level API boundaries
+for voice setup, key-state polling, key-off cleanup, and reverb control.
+No current game C includes `libsnd.h`. These imports establish individual
+`Spu*` call contracts; they do not imply that the surrounding game-owned
+sound state is an SDK `Spu*` or `Ss*` structure.
 
 `libpress.h` is the codec side of the media stack, not the disc-stream
 controller. It defines the `DECDCTENV` quantization/IDCT record, the

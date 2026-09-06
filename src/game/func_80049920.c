@@ -1,9 +1,9 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 
 extern u8 *D_8009B458;
 extern s32 D_80011434[];
 
-void SpuSetKey(long on_off, unsigned long voice_bit);
 s32 func_80077090(s32 arg0);
 
 /* Second pass over the 0x28-byte records at D_8009B458: for each record
