@@ -287,6 +287,55 @@ their offsets would overwrite adjacent text.
 - **Confirmed** that `0x1C92CE` is the encoded `Dragon` label selected by
   string ID `0x8300`.
 
+## Bundled glyph-table coverage
+
+**Tutorial artifact:** `table.tbl`
+
+The bundled WindHex table is an accurate but partial view of the game's text
+codes. It contains 79 mappings:
+
+- `0x00` as a space, which the text stream treats specially;
+- 77 ordinary glyph codes between `0x01` and `0x5B`;
+- `0xFE` as `[ENTER]`, matching the engine's newline control.
+
+The resident `gText_adwGlyphCodeTable` storage spans 93 words from
+`0x801D9000` through the word before `0x801D9174`. Entries `0x01`-`0x5B`
+are 91 nonzero Shift-JIS glyph codes, while entries `0x00` and `0x5C` are
+zero. Every ordinary mapping supplied by `table.tbl` agrees with the
+resident Shift-JIS entry after normalizing full-width Latin characters and
+curly quotes to the table's ASCII display.
+
+The file omits 14 valid resident glyphs:
+
+| Code | Resident glyph |
+|---:|---|
+| `0x27`, `0x28` | `《`, `》` |
+| `0x47` | middle dot `・` |
+| `0x49`, `0x4D` | female `♀`, male `♂` |
+| `0x4B`, `0x4C` | `)`, `(` |
+| `0x51`, `0x54` | `>`, `<` |
+| `0x52`, `0x53` | `⊂`, `⊃` |
+| `0x55` | Greek alpha `α` |
+| `0x58`, `0x5A` | left arrow `←`, right arrow `→` |
+
+Missing rows therefore do not mean those byte values are unused. An editor
+using this file will not display those symbols by name even though retail
+strings can contain them. Likewise, `[ENTER]` describes text newline control
+`0xFE`, not a controller button. `0xFF` is the string terminator, and the
+other `0xF0`-`0xFD` values belong to the engine's control-command range
+rather than this glyph map.
+
+The shorthand in `research/the-game.md` that the community table decodes
+`0x00`-`0x5B` identifies its target glyph-code range, not complete coverage
+of every resident glyph in that range.
+
+**Confidence:**
+
+- **Confirmed** that all 77 supplied ordinary glyph mappings agree with the
+  resident Shift-JIS table.
+- **Confirmed** that the file omits the 14 resident symbols listed above.
+- **Confirmed** that `0xFE` is newline and `0xFF` terminates the string.
+
 ## Main-menu palette region
 
 **Tutorial:** `Editar Menus.txt`
