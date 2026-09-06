@@ -28,10 +28,19 @@ below are provably wrong — see that section.
 | code | what it does |
 |---|---|
 | `301D0250 0063` … `301D0521 0063` | 99 copies of one card — 722 codes, one per card. Card *N* is at `0x801D0250 + (N-1)`, one byte each |
-| `5000FF02 0000` / `801D0250 C8C8` / `50006A02 0000` / `80105F96 C8C8` | 200 copies of every card at once (GameShark 2.2+) |
-| `B1050002 0000` / `801D0250 C8C8` | the same, for Caetla |
+| `5000FF02 0000` / `801D0250 C8C8` / `50006A02 0000` / `80105F96 C8C8` | Published as 200 copies of every card at once (GameShark 2.2+), but the second destination is outside the trunk |
+| `5000FF02 0000` / `801D0250 FAFA` / `50006A02 0000` / `80105F96 FAFA` | `Todas cartas 250 copias.jpg` makes the same off-target second write while changing each byte to 250 |
+| `B1050002 0000` / `801D0250 C8C8` | 200-copy variant published for Caetla |
 | `5000FF02 0000` / `801D0250 0505` / `50006A02 0000` / `801D044E 0505` | all 722 cards owned and marked seen in the Library |
 | `50001202 0101` / `80105D98 0101` (+11 more pairs) | unlimited use of every card |
+
+The first serial write in each "all cards" pair emits 255 halfword writes,
+covering the first 510 trunk bytes at `0x801D0250-0x801D044D`. The remaining
+212 bytes require 106 writes beginning at `0x801D044E`, as the owned-and-seen
+code does. `0x80105F96` is outside the `0x801D0250-0x801D0521` trunk, so the
+published 200-copy code and the 250-copy image cannot fill all 722 cards as
+written. Replacing that destination with `0x801D044E` is the layout-derived
+correction; it is not the address printed by either source.
 
 ## Starchips and passwords
 
@@ -249,10 +258,11 @@ claim. What was verified is the address and the instruction.
 **Sources.** gamehacking.org (70 code groups plus its separate master-codes
 table), almarsguides.com (its GameShark *and* Action Replay pages — they differ),
 kodewerx, neoseeker, a 2002 GeoCities page, and a 2013 gamehacking forum
-thread. cheatcc and gamefaqs are Cloudflare-blocked. `ps2-home.com` thread 8745
-is titled "[GAME FIX CODES] SLUS_014.11" and is the one source I could not read
-— by its title it is patch codes, which is the most valuable class here, so it
-is worth another attempt.
+thread. The issue #368 tutorial set supplied `Todas cartas 250 copias.jpg`.
+cheatcc and gamefaqs are Cloudflare-blocked. `ps2-home.com` thread 8745 is
+titled "[GAME FIX CODES] SLUS_014.11" and is the one source I could not read —
+by its title it is patch codes, which is the most valuable class here, so it is
+worth another attempt.
 
 **Credit.** The codes are the work of **Police NYPD**, **roughnight**,
 **hugopocked**, **StalkerX**, **00Kevin**, **Mantidactyle**, **M1CR0H4CK3R**,
