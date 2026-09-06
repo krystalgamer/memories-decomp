@@ -139,6 +139,9 @@ value `1` keeps the cards hidden while showing their order numbers. The
 static call chain confirms that these values select different image
 resources, but the exact appearance of those resource indices has not yet
 been independently verified against extracted art or a runtime trace.
+`tools/trace/opponent_card_resource_indices.lua` applies both values in one
+bounded emulator run, records the resulting display-object field, watches for
+later overrides, and restores the retail instruction byte afterward.
 
 **Confidence:**
 
