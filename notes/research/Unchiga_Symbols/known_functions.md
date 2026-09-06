@@ -1086,14 +1086,14 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80058EC0 | `get_D_800F2C40_slot_bf5_indexed_u16` | fleet |
 | 0x80058F20 | `get_D_800F2C40_slot_entry_clamped` | fleet |
 | 0x80058F74 | `get_D_800F2C40_slot_entry` | fleet |
-| 0x80058FB0 | `get_D_800F2C40_slot_u16_quad` | fleet |
+| 0x80058FB0 | `Model_CopySlotU16Values` | fleet |
 | 0x800591C0 | `get_D_800F39B0_slot_sub` | fleet |
 | 0x80059284 | `set_D_800F2C40_slot_field` | fleet |
 | 0x8005949C | `get_D_800F39F0_slot` | fleet |
 | 0x80059590 | `set_D_800F2C40_slot_bytes` | fleet |
 | 0x80059DD8 | `call_slot_handler_800fc1c_rows` | fleet |
 | 0x8005A1F4 | `dist_to_stored_pos` | fleet |
-| 0x8005A8C4 | `deck_capacity_check` | fleet |
+| 0x8005A8C4 | `Model_HasInsufficientBufferSpace` | fleet |
 | 0x8005B64C | `select_reverb_preset` | fleet |
 | 0x8005BFC8 | `str_stream_wait_and_decode_frame` | fleet |
 | 0x8005C388 | `lookup_speed_and_start_read` | fleet |
