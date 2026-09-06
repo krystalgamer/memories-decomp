@@ -428,6 +428,11 @@ Three rules:
 * the bought card is delivered when you leave the screen [the "arrive
   immediately" cheat removes the branch at `0x8016A880`].
 
+A successful purchase also shifts the 16-entry `gDuel_awRecentCardDrops` list
+at `0x801D07BC` and inserts the bought card at the front. Build Deck's
+**New** sort therefore includes password purchases as well as duel drops; the
+list is recent acquisition history, not a duel-only reward record.
+
 Costs run from 10 starchips (the cheapest cards) to 999,999 for the lottery cards;
 a starchip is earned only by winning duels (§6.3), 1–5 per win, so a 999,999
 card is not a realistic purchase — the cost exists to say "obtain this some
