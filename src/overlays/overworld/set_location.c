@@ -27,7 +27,7 @@ extern void func_800428A8(u8 *, s32, s32, s32, s32, s32, s32, s32, u8 *);
 extern void func_800428EC(u8 *, s32);
 extern void CampaignMap_SetCameraFromLocation(s32);
 extern u8 *CampaignMap_CreateLocationLabel(s32);
-extern void func_80168050(s32);
+extern void CampaignMap_RebuildLocationObjects(s32);
 extern u8 *CampaignMap_CreateLocationMarker(s32);
 extern s32 Campaign_TestStoryFlag(s32);
 extern void func_8003FF08(s32);
@@ -82,7 +82,7 @@ void CampaignMap_SetLocation(s32 index)
     D_801695D8 = obj;
     CampaignMap_SetCameraFromLocation(location);
     CampaignMap_CreateLocationLabel(gCampaignMap_Location);
-    func_80168050(gCampaignMap_Location);
+    CampaignMap_RebuildLocationObjects(gCampaignMap_Location);
     gCampaignMap_LocationPrev = gCampaignMap_Location;
     if ((u8)gCampaignMap_Location >= 10) {
         marker = CampaignMap_CreateLocationMarker(gCampaignMap_Location);

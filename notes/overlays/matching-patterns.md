@@ -497,10 +497,10 @@ for (i = 0; i < count; i++) {
     entry = record + offset;
 ```
 
-Measured on `func_80168050`, shared by both overworld overlays, where this
-reproduces the target exactly. The same source with `offset` initialised
-before the loop, or folded into `record + i * stride + base_offset`, fails in
-the two ways described above.
+Measured on `CampaignMap_RebuildLocationObjects`, shared by both overworld
+overlays, where this reproduces the target exactly. The same source with
+`offset` initialised before the loop, or folded into
+`record + i * stride + base_offset`, fails in the two ways described above.
 
 The mirror case is when the **address** is the one that must increment, so the
 loop body reads `addu $rDest, $rOffset, $rTable` with `addiu $rTable, $rTable,
@@ -654,7 +654,8 @@ addiu $s2, $zero, 0x12    # after them -> compiler-generated giv
 
 `record` and the counter must be source variables assigned after the call,
 and the offset must not be. Reading the order this way pinned every saved
-register in `func_80168050` before the first full build.
+register in `CampaignMap_RebuildLocationObjects` before the first full
+build.
 
 The corollary is that a value emitted *before* a hoisted address cannot be
 made to move after it by reordering statements, because no source position
@@ -663,8 +664,8 @@ hoisted addresses, the fix is to stop naming it, not to move it.
 
 Measured on `func_801840F8` in `main_menu`, where `table[slot][i]` reproduces
 the instruction count exactly, including the `361 << 3` expansion of the
-`2888`-byte row stride, and on `func_80168050` in the overworld overlays,
-where the body-computed offset produces a full match.
+`2888`-byte row stride, and on `CampaignMap_RebuildLocationObjects` in the
+overworld overlays, where the body-computed offset produces a full match.
 
 ## Struct members, not casts through a byte pointer
 

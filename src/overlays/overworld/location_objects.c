@@ -3,14 +3,14 @@
 extern u8 gCampaignMap_aLocationTable[];
 extern u8 D_801AF000[];
 extern u8 *D_801695F8[];
-extern void func_80168004(void);
+extern void CampaignMap_ClearLocationObjects(void);
 extern s32 Campaign_TestStoryFlag(s32);
 extern void *func_8004002C(void);
 extern u8 *func_800400AC(void *, s32);
 extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
 extern void func_800428EC(void *, s32);
 
-void func_80168050(s32 index)
+void CampaignMap_RebuildLocationObjects(s32 index)
 {
     u8 *record;
     u8 *entry;
@@ -18,7 +18,7 @@ void func_80168050(s32 index)
     s32 i;
     s32 offset;
 
-    func_80168004();
+    CampaignMap_ClearLocationObjects();
     record = gCampaignMap_aLocationTable + index * 66;
     for (i = 0; i < 4; i++) {
         offset = i * 12 + 0x12;

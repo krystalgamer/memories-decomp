@@ -3,7 +3,7 @@
 extern void *D_801695F8[];
 extern void func_8004036C(void *);
 
-void func_80168004(void)
+void CampaignMap_ClearLocationObjects(void)
 {
     s32 i;
 
