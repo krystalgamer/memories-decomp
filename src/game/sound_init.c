@@ -127,8 +127,8 @@ void func_80049434(void)
     final = D_8009B458;
     final->field_07E0 = -1;
     final->field_07E2 = 0;
-    final->field_07E6 = 127;
-    final->field_07E4 = 127;
+    final->field_07E6 = SD_SECONDARY_LEVEL_MAX;
+    final->field_07E4 = SD_SECONDARY_LEVEL_MAX;
     final->field_080C = 0;
     final->field_0810 = 0;
     final->field_081C = 0x1000;

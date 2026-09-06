@@ -53,8 +53,8 @@ void func_80049C40(void)
         state = D_8009B458;
         state->flag_0500 = 0;
         other = D_8009B458;
-        state->field_07E6 = 127;
-        state->field_07E4 = 127;
+        state->field_07E6 = SD_SECONDARY_LEVEL_MAX;
+        state->field_07E4 = SD_SECONDARY_LEVEL_MAX;
         state->field_07E2 = 2;
         other->flag_0502 = 0;
     }
@@ -68,8 +68,8 @@ void func_80049CB0(void)
         state->flag_0500 = 1;
         D_8009B458->field_07E0 = -1;
         D_8009B458->field_07E2 = 0;
-        D_8009B458->field_07E6 = 127;
-        D_8009B458->field_07E4 = 127;
+        D_8009B458->field_07E6 = SD_SECONDARY_LEVEL_MAX;
+        D_8009B458->field_07E4 = SD_SECONDARY_LEVEL_MAX;
         D_8009B458->flag_0500 = 0;
     }
 }
@@ -177,8 +177,8 @@ void func_80049EC8(s32 arg0, s32 arg1)
     SDSecondaryState *state = D_8009B458;
     s32 mode = state->field_07E2;
 
-    state->field_07E4 = arg0 & 0x7F;
-    state->field_07E6 = arg1 & 0x7F;
+    state->field_07E4 = arg0 & SD_SECONDARY_LEVEL_MASK;
+    state->field_07E6 = arg1 & SD_SECONDARY_LEVEL_MASK;
     if (mode != 2)
         func_8004A2F8();
 }
