@@ -2704,7 +2704,7 @@
       "address": "0x8003B734",
       "profile": "gcc_2_8_1_g8",
       "size": "0x10",
-      "source": "src/game/func_8003B734.c"
+      "source": "src/game/input_is_pad1_confirm_pressed.c"
     },
     {
       "address": "0x8003B744",

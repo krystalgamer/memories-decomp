@@ -116,7 +116,7 @@ __asm__(
     ".reloc .-4, R_MIPS_26, .text\n"
     ".word 0x00000000\n"
     ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8003B734\n"
+    ".reloc .-4, R_MIPS_26, Input_IsPad1ConfirmPressed\n"
     ".word 0x00000000\n"
     ".word 0x10400047\n"
     ".word 0x00000000\n"
