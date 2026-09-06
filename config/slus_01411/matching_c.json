@@ -598,13 +598,13 @@
       "address": "0x80018CF8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xBC",
-      "source": "src/game/duel_has_all_exodia_pieces.c"
+      "source": "src/game/duel_draw_resolution.c"
     },
     {
       "address": "0x80018DB4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x238",
-      "source": "src/game/func_80018DB4.c"
+      "source": "src/game/duel_draw_resolution.c"
     },
     {
       "address": "0x80019564",
