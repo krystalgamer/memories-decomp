@@ -391,3 +391,13 @@ on the suspects side until proven.)
 | 0x80060170 | `Model_RegisterHandlerKey` | Leaves an existing key unchanged or stores a new key/handler value in the first empty entry of the fixed 80-record model registry. |
 | 0x800601D0 | `Model_FindHandlerKey` | Reverse-searches the 80-record model registry by handler value and returns its key, or `-1` for the default sentinel or no match. |
 | 0x8006041C | `Model_GetPrimitiveHandler` | Decodes a packed model primitive type and returns the corresponding processing handler, falling back to the default handler for unsupported codes. |
+
+## Batch: script viewport and text commands
+
+| address | name | description |
+|---|---|---|
+| 0x8002E9A0 | `Script_OpViewportTween` | Reads little-endian target X, target Y, and frame-count halfwords from the script stream, then switches the script dispatcher to viewport-tween state `7`. |
+| 0x8002EA0C | `Script_UpdateViewportTween` | Derives 16.16 X/Y steps on the tween's first update, advances the viewport each frame, and snaps to the target while clearing the dispatcher state when the counter expires. |
+| 0x80038530 | `Text_StartCampaignDuel` | Reads the opponent, two duel-descriptor bytes, terrain, and continuation value from the active text stream, selects the sound command from the opponent ID, initializes campaign-duel state, and switches the main mode to duel. |
+| 0x80038BA8 | `Text_SetCursorOffset` | Reads a 16-bit target from the active text stream and replaces the cursor's low halfword while preserving its current 64 KiB bank. |
+| 0x80038BF0 | `Text_HandleChoiceCommand` | Either jumps the active cursor through the selected same-bank target or initializes a choice prompt's count, enabled mask, display flags, input state, and update callback. |
