@@ -696,7 +696,7 @@ The existing C sources expose several useful starting points:
 | Current source pattern | SDK target | Required proof |
 |---|---|---|
 | Local `InitPAD` / `StartPAD` declarations | `libapi.h` | Initial migration complete in `src/game/input_init_pads.c`; the real prototypes preserve the exact build. |
-| `DslFILE` in `src/psyq/libds.h` | Ds file-search result | Initial migration complete in `src/game/file_stream.c`; extend only when another caller's field use agrees with the shared layout. |
+| `DslFILE` in `src/psyq/libds.h` | Ds file-search result | Migration complete in `src/game/file_stream.c` and `File_Exists` in `src/game/file_cd_helpers.c`; the latter preserves its integer wrapper interface with explicit casts at the SDK boundary. |
 | `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Initial migration complete in `func_800249E0`; preserve byte-offset selection when extending it to other callers. |
 | Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `func_800582C0`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
 | Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_handler_registry.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
