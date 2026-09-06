@@ -1,11 +1,11 @@
 #include "../types.h"
 #include "../psyq/libapi.h"
 
-extern long D_800F2AE0[];
+extern long gMemCard_aIOEventHandles[];
 
 void MemCard_CloseIOEvents(void)
 {
-    long *item = D_800F2AE0;
+    long *item = gMemCard_aIOEventHandles;
     int count;
     EnterCriticalSection();
     count = 8;

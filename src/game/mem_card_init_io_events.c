@@ -5,7 +5,7 @@ extern signed char D_8009B43E;
 extern u8 D_8009B44E;
 extern int D_8009B444;
 extern volatile int gMemCard_nIOResult;
-extern long D_800F2AE0[];
+extern long gMemCard_aIOEventHandles[];
 extern void *D_800F2AF0[];
 extern void func_80043D48(void **);
 extern void func_8008B3A0(int);
@@ -22,11 +22,11 @@ void MemCard_InitIOEvents(void)
     register long (*cb2)(void);
     int count;
     {
-        register long *base = D_800F2AE0;
+        register long *base = gMemCard_aIOEventHandles;
         D_8009B43E = -1;
         D_8009B44E = 0;
         D_8009B444 = 0;
-        items = D_800F2AE0;
+        items = gMemCard_aIOEventHandles;
         EnterCriticalSection();
         cb0 = MemCard_SetIOResultCompleteCB;
         base[0] = OpenEvent(SwCARD, EvSpIOE, EvMdINTR, cb0);

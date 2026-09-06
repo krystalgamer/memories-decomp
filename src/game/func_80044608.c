@@ -10,7 +10,7 @@ extern void *D_8009B444;
 extern s32 D_8009B440;
 extern s32 D_8009B438;
 
-extern s32 D_800F2AE0[];
+extern s32 gMemCard_aIOEventHandles[];
 extern s32 D_800F2AF0[];
 extern u8 D_800F2888[];
 extern u8 D_8009AF7C[];
@@ -68,7 +68,7 @@ state0_info:
     if ((s8)v0 == 0) {
         goto ret;
     }
-    func_80043D48(D_800F2AE0);
+    func_80043D48(gMemCard_aIOEventHandles);
     func_8008B330(D_8009B437);
     return -1;
 
@@ -110,7 +110,7 @@ state1_zero:
     D_8009B43C = 0xA;
     D_8009B43D = 2;
 load_retry:
-    func_80043D48(D_800F2AE0);
+    func_80043D48(gMemCard_aIOEventHandles);
     func_8008B340(D_8009B437);
     return -1;
 
