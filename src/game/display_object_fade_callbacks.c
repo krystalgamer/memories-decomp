@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_fade.h"
 
 extern s32 D_8009B0D8;
 extern volatile s32 D_8009B0D8_volatile asm("D_8009B0D8");
@@ -14,12 +15,12 @@ void func_80039AFC(u8 *record)
         record[20] = 32;
     }
     record[20] = record[20] - D_8009B0D8 * 2;
-    if ((record[19] & 64) == 0) {
+    if ((record[19] & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE) == 0) {
         record[4] = record[4] + D_8009B0D8 * 16;
         if ((s8)record[4] < 0) {
             record[4] = 128;
             record[20] = 16;
-            record[19] |= 64;
+            record[19] |= DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
         }
         record[6] = record[4];
     } else {
@@ -42,10 +43,10 @@ void func_80039BE0(u8 *p)
         *(u32 *)(p + 4) = 0x80808080;
         p[0x14] = 0;
     }
-    if (!(p[0x13] & 0x40)) {
+    if (!(p[0x13] & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
         v = p[4] - (D_8009B0D8_volatile << 4);
         if (v <= 0) {
-            p[0x13] |= 0x40;
+            p[0x13] |= DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
             v = 0;
         }
         p[4] = v;
@@ -75,13 +76,13 @@ void func_80039C94(u8 *arg0) {
         arg0[4] = ((s16)a >> 4) + ((s16)b >> 3) + 1;
     }
 
-    if (!(arg0[0x13] & 0x40)) {
+    if (!(arg0[0x13] & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
         s32 v = arg0[4] - 1;
 
         arg0[4] = v;
 
         if ((u8)v == 0) {
-            arg0[0x13] |= 0x40;
+            arg0[0x13] |= DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
         }
     } else {
         s32 v = arg0[8] + 4;
