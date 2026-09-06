@@ -100,6 +100,7 @@ symbol review.
 | `0x80087274` | `PopMatrix` | Applied Psy-Q 4.6 identity; restores the matrix state saved by `PushMatrix` after projection work. |
 | `0x80087370` | `MulMatrix` | Applied Psy-Q 4.6 identity; the matching model path composes two rotation matrices before later transforms. |
 | `0x80087670` | `ScaleMatrix` | Applied Psy-Q 4.6 identity; matching model paths scale a rotation matrix by a fixed-point vector. |
+| `0x800877B0` | `SetRotMatrix` | Applied Psy-Q 4.6 identity; `func_80041F90` reloads the GTE rotation matrix after negating its first and third columns. |
 | `0x800878B0` | `SetGeomOffset` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE screen-center coordinates. |
 | `0x800878D0` | `SetGeomScreen` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE projection-plane distance. |
 | `0x80087A50` | `RotAverage3` | Applied Psy-Q 4.6 identity; the matching duel projection path transforms three vertices and inspects the returned flag. |
@@ -112,6 +113,15 @@ symbol review.
 | `0x8007FD30` | `PutDrawEnv` | Draw-environment submission contract. |
 | `0x8007FEFC` | `PutDispEnv` | Display-environment submission contract. |
 | `0x800803F4` | `GetDispEnv` | Applied Psy-Q identity; `file_cd_helpers.c` passes the tracked `DISPENV` record and reuses its leading `disp` rectangle. |
+
+`SetRotMatrix` is backed by the 48-byte `MTX_09.OBJ` signature in
+[the Psy-Q 4.6 LIBGTE catalogue](https://github.com/lab313ru/psx_psyq_signatures/blob/e9e46e7e133ef275a79bfce650924f98edb086bc/460/LIBGTE.LIB.json).
+It contains no wildcard bytes and occurs exactly once in the complete retail
+executable, at file offset `0x77FB0` (resident `0x800877B0`), with the
+`SetRotMatrix` label at object offset zero. The body loads five words from
+matrix offsets `0x00` through `0x10` into GTE control registers 0 through 4.
+The caller uses the existing `void SetRotMatrix(MATRIX *)` declaration from
+`libgte.h`; its local matrix has the same 3x3 signed-halfword rotation layout.
 
 Duplicate library copies require address-qualified symbols rather than aliases.
 For example, CD conversion helpers appear more than once in the executable,

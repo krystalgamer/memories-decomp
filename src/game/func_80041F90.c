@@ -70,7 +70,6 @@ extern s32 func_80089CF0(
     struct Vec318 *a2,
     struct Vec318 *a3
 );
-extern void func_800877B0(struct Mat *a0);
 
 s32 func_80041F90(struct Obj *obj, s32 arg1, s32 arg2, struct Out *out) {
     struct Mat *mtx = (struct Mat *)0x1F8002D0;
@@ -138,7 +137,7 @@ s32 func_80041F90(struct Obj *obj, s32 arg1, s32 arg2, struct Out *out) {
                 mtx->m[0][2] = -mtx->m[0][2];
                 mtx->m[1][2] = -mtx->m[1][2];
                 mtx->m[2][2] = -mtx->m[2][2];
-                func_800877B0(mtx);
+                SetRotMatrix((MATRIX *)mtx);
 
                 func_80089CF0(
                     v308,

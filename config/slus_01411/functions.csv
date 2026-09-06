@@ -1610,7 +1610,7 @@ address,size,name,status,module,notes
 0x800875E0,0x5C,func_800875E0,sdk_asm,psyq/sdk,
 0x80087640,0x24,func_80087640,sdk_asm,psyq/sdk,
 0x80087670,0x138,ScaleMatrix,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/MTX_08.OBJ signature and matching model-transform callers.
-0x800877B0,0x30,func_800877B0,sdk_asm,psyq/sdk,
+0x800877B0,0x30,SetRotMatrix,sdk_asm,psyq/sdk,Identified by the unique exact 48-byte Psy-Q 4.6 LIBGTE.LIB/MTX_09.OBJ signature and the matching projection caller.
 0x800877E0,0x30,func_800877E0,sdk_asm,psyq/sdk,
 0x80087810,0x30,func_80087810,sdk_asm,psyq/sdk,
 0x80087840,0x20,func_80087840,sdk_asm,psyq/sdk,
