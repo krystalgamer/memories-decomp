@@ -450,3 +450,41 @@ is specific to `func_80183B2C` and should not be tried elsewhere in the overlays
 without new evidence. This is the same kind of result as the `-O0` scan above,
 and worth the same trust: it is a cheap check that closes off a whole class of
 guesses rather than opening one.
+
+## Answer a shape question with a probe instead of a reconstruction
+
+Most of the cost of a near-miss function is rebuilding its candidate from the
+prose in its inventory row. When the open question is about one loop or one
+expression rather than the whole function, that cost is avoidable:
+`overlay_diff.py` will compile any file you hand it, so a few lines of C named
+after the function under study get compiled with the exact profile and
+disassembled beside the target.
+
+```sh
+cat > tmp/probe.c <<'PROBE'
+#include "../src/types.h"
+
+extern u8 D_801B125A[];
+
+u8 *func_80169734(void)
+{
+    u8 *p = D_801B125A;
+    u8 *last = 0;
+    s32 c = *p;
+    ...
+}
+PROBE
+tools/environments/python/bin/python tools/project/overlay_diff.py \
+    password 0x80169734 tmp/probe.c --profile gcc_2_8_1_g0_split
+```
+
+The instruction counts will not match and the diff will be nonsense, but the
+candidate column is the compiler's answer to the question you actually asked.
+The include path is `../src/types.h` because the probe sits in `tmp/` rather
+than two levels down in `src/overlays/<module>/`.
+
+This settled the recorded residual of `func_80169734`, a 309-instruction
+function, in a few minutes: the question was which source shape keeps `p++` and
+`next = p + 1` as two separate additions instead of folding them to `p + 2`,
+and twenty lines of C answered it without rebuilding the other three hundred
+instructions. Use it whenever a row's open question names a specific construct.
