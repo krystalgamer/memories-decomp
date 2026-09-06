@@ -791,6 +791,15 @@ scripts *do*, as observed by every guide since 1999:
   that deck, so Dark Magic Ritual (721) and Magician of Black Chaos (722)
   cannot be selected from their final two weights (§6.4).
 
+The scripts can also request an explicit card-power value
+[`AiScript_CalcCardPower`, `0x80071008`]. For monsters they choose ATK, DEF, or
+the higher stat. For non-monsters, mode 0 recognizes only Sparks through
+Tremendous Fire (IDs 343–347) and returns their direct-damage values
+`50, 100, 200, 500, 1000`; every other non-monster case returns zero. This
+lookup is independent of the non-monster effect-group table in §5.5, so
+changing a card's activation handler does not automatically change this AI
+valuation.
+
 > **Entered from:** campaign scenes, Free Duel select, 2P setup, the debug
 > menu. **Exits to:** the caller, with win/loss and the scoring counters
 > filled. **Reads:** both decks, the opponent id [`0x8009B361`], the terrain
