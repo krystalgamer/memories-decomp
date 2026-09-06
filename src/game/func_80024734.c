@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/qsort.h"
+#include "card_constants.h"
 
 extern u8 D_8017808C[];
 extern u8 D_80178130[];
@@ -22,12 +23,12 @@ void func_80024734(void)
     u8 *table;
     s32 value;
 
-    Util_CopyWords(source, source - 0xA4, 0xA0);
-    qsort(source, 0x50, 2, (int (*)())Util_CompareS16);
+    Util_CopyWords(source, source - 0xA4, COMBINED_DECK_SIZE * sizeof(u16));
+    qsort(source, COMBINED_DECK_SIZE, sizeof(u16), (int (*)())Util_CompareS16);
 
     output = source + 0xA4;
     previous = 0;
-    for (i = 0; i < 0x50; i++) {
+    for (i = 0; i < COMBINED_DECK_SIZE; i++) {
         value = *(u16 *)source;
         if (value != previous) {
             *(u16 *)output = value;
