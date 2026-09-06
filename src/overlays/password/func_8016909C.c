@@ -3,7 +3,7 @@
 extern s8 D_8016D42C;
 extern u8 *D_8016D43C;
 extern void func_801689B4(void);
-extern void func_8003FEE0(s32);
+extern void SD_SEPlayFull(s32);
 
 s32 func_8016909C(s32 delta, s32 arg)
 {
@@ -25,6 +25,6 @@ s32 func_8016909C(s32 delta, s32 arg)
     object[0x6C] = 2;
     *(s16 *)(object + 0x60) = arg;
     *(s16 *)(object + 0x46) = *(u16 *)(object + 0x32);
-    func_8003FEE0(0xC);
+    SD_SEPlayFull(0xC);
     return 1;
 }
