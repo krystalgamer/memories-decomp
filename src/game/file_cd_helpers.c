@@ -5,7 +5,6 @@
 extern int DsSearchFile(int, int);
 extern int func_8005BE3C(void);
 extern void func_8005BB7C(int);
-extern int IsIdleGPU(int);
 
 int File_Exists(int first, int second)
 {

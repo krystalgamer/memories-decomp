@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 
 typedef struct {
     u16 field_00;
@@ -16,8 +18,6 @@ typedef struct {
 } ModelTextureParams;
 
 extern int func_800598E4();
-extern int LoadImage2();
-extern int IsIdleGPU(int);
 extern int GsGetTimInfo();
 
 u32 func_80058A7C(int side, int mode, ModelTextureParams *params)
@@ -96,7 +96,9 @@ s32 func_80058B4C(u8 *data, s32 arg1, s32 mode, s32 arg3, s32 x, s32 y,
         bounds[3] = *(u16 *)(data + 0xA);
         while (IsIdleGPU(3) != 0) {
         }
-        while (LoadImage2(bounds, *(s32 *)(data + 0xC)) != 0) {
+        while (LoadImage2(
+            (RECT *)bounds, (u32 *)*(s32 *)(data + 0xC)
+        ) != 0) {
         }
         bounds[0] = *(u16 *)(data + 0x10);
         bounds[1] = *(u16 *)(data + 0x12);
@@ -104,7 +106,9 @@ s32 func_80058B4C(u8 *data, s32 arg1, s32 mode, s32 arg3, s32 x, s32 y,
         bounds[3] = *(u16 *)(data + 0x16);
         while (IsIdleGPU(3) != 0) {
         }
-        while (LoadImage2(bounds, *(s32 *)(data + 0x18)) != 0) {
+        while (LoadImage2(
+            (RECT *)bounds, (u32 *)*(s32 *)(data + 0x18)
+        ) != 0) {
         }
         while (IsIdleGPU(3) != 0) {
         }
