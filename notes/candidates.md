@@ -801,32 +801,45 @@ void func_80048F14(void)
 
 ## `func_8005B36C` at 0x8005B36C
 
-`gcc_2_8_1_g0`, 91 of 91 instructions, 17 differing positions.
+`gcc_2_8_1_g0`, 91 of 91 instructions, opcode distance 0, 17 differing
+positions.
 
-A GPU packet builder in the same family as `func_8005B260`. Rebuilt on the
-shape that matched that sibling in #1592: `D_800FE240` declared
+A GPU packet builder in the same family as `func_8005B260`. Built on the shape
+that matched that sibling in #1592: `D_800FE240` declared
 `extern u32 * __attribute__((section(".data")))` and indexed directly rather
 than cached in a local, `P_TAG` for the length byte, and `addPrim` on a `GsOT`
-for the ordering-table link. That took it from 89 of 91 with the opcode
-histogram short by two `addu` to the exact count with the whole body after the
-prologue already correct.
+for the ordering-table link.
 
-What is left is the prologue: the three argument copies come out in the order
-`table`, `index`, `s` where retail has `s`, `table`, `index`, and the two
-`D_800FE240` reads land in one register where retail uses two. Reordering the
-assignments makes it worse (47 and 76 differing), and splitting the second read
-into its own local is inert.
+Same 17 as the previous record, with two of the four pins removed. The entry
+required the ordering table in `$11` and the index in `$10`, and recorded that
+either one assigned early costs 28 or more positions. Neither pin is needed:
+with both left free, `index` assigned early and `table` assigned late, the
+build reaches the identical 17 at distance 0. Only the walking pointer in `$8`
+and the copy-loop source in `$4` still earn their place.
 
-Four pins are in place and each one corrects an allocation on a sequence that
-is otherwise exact: the walking pointer to `$8`, the copy-loop source to `$4`,
-the ordering table to `$11` and the index to `$10`. The last two only work when
-they are assigned late, immediately before `setlen`; assigning either early
-costs 28 or more positions.
+The early-assignment cost was real but belonged to the pins rather than to the
+placement. Holding `$10` across the body is what the 28 measured; once the
+index is an ordinary local the allocator places it freely and early assignment
+is free. Worth keeping in mind generally -- a pin and a statement position are
+not independent axes, and a cost measured for one while the other is fixed can
+be charged to the wrong one.
 
-The one non-pin lever worth keeping is the `0xE2000000` association. Written
-with the constant third in the `|` chain the body is 88 instructions; moving it
-to the front or second gives 89 and drops the differing positions from 84 to
-69.
+The one non-pin lever remains the `0xE2000000` association. Written with the
+constant third in the `|` chain the body is 88 instructions; moving it to the
+front or second gives 89.
+
+What is left is two allocation facts. The target emits the argument copies as
+`s`, `table`, `index`, interleaving the `lbu` and `lw` of the packet tag
+between the first pair and the third, where this build emits them back to
+back. And the target reads `D_800FE240` into `$v1` and then into `$a2`, where
+this build reloads into `$a1` both times. The instruction multiset is exact,
+so neither is structural.
+
+Crossed without improving on 17, over 144 variants: three pins for the table
+including none, three for the index including none, four placements of the two
+assignments, the second `D_800FE240` read as its own local against indexed
+directly, and two profiles. Splitting the pair so the table goes early costs
+22; keeping both late with the table pinned is what holds 17.
 
 ```c
 #include "../../src/types.h"
@@ -841,13 +854,14 @@ void func_8005B36C(u32 *src, GsOT *ot, s32 idx, s32 offx, s32 offy,
 {
     register u32 *s __asm__("$8");
     register u32 *from __asm__("$4");
-    register GsOT *table __asm__("$11");
+    GsOT *table;
     s32 len;
     s32 i;
     u32 *dst;
-    register s32 index __asm__("$10");
+    s32 index;
 
     s = src;
+    index = idx;
     len = ((P_TAG *)s)->len;
     D_800FE240[0] = *s++;
     D_800FE240[1] = 0xE2000000
@@ -862,7 +876,6 @@ void func_8005B36C(u32 *src, GsOT *ot, s32 idx, s32 offx, s32 offy,
     }
     D_800FE240[len + 2] = 0xE2000000;
     table = ot;
-    index = idx;
     setlen(D_800FE240, len + 2);
     addPrim(&table->org[index & 0xFFFF], D_800FE240);
     D_800FE240 = D_800FE240 + (len + 3);
