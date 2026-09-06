@@ -992,11 +992,11 @@ duel lost in the campaign is game over (§7.12), except the one scripted loss.
 
 `gDuel_bWinnerSide` (`0x8009B165`) selects the winning side throughout this
 result path. The record update uses that byte directly for the winner and
-XORs it with one for the loser. The consumed CPU-win trace recorded `1`
-through the one-shot end-credit latch, consistent with `0` for the player and
-`1` for the opponent; because the byte was already `1` when that trace began
-after a previous loss, the polarity remains high confidence pending the
-player-win control.
+XORs it with one for the loser. Paired traces confirm the polarity: a CPU win
+holds value `1` through the one-shot end-credit latch, while the player-win
+control began with that stale `1` after a previous loss, changed to `0` when
+the opponent's LP reached zero, and kept `0` through the fresh latch.
+Therefore side `0` is the player and side `1` is the opponent.
 
 > **This stage — entered from:** the duel's exit, by its caller. **Reads:**
 > the statistics record, the rank table and drop pools (disc block), the RNG.
