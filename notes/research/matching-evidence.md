@@ -2104,7 +2104,7 @@ selected by a signed byte.
 Exact `func_8005A1F4` and `func_8005A2E0` confirm two unsigned-halfword
 coordinate triplets in `D_800F56F0`, at offsets `0/4/8` and `0xC/0x10/0x14`.
 Both functions copy an alignment-one eight-byte vector packet, accumulate
-three signed square terms, and call `func_80086E50`.
+three signed square terms, and call `SquareRoot0`.
 
 Exact `func_800610E0` and `func_800611D0` reinforce the `0x70`-byte allocator
 object model through two related parent/child constructors.
