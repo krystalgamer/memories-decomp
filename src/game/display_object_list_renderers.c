@@ -79,7 +79,7 @@ void func_80040DD8(void) {
                 fl = *(u16 *)(e + 8);
                 *(s32 *)(g + 0x1C) = w4;
 
-                if ((fl & 8) == 0) {
+                if ((fl & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
                     dx = gGraphics_sViewportX;
                     *(u16 *)(g + 8) = *(u16 *)(g + 8) - dx;
                     *(u16 *)(g + 0x10) = *(u16 *)(g + 0x10) - dx;
@@ -191,7 +191,7 @@ void func_80041068(void) {
                 fl = *(u16 *)(e + 8);
                 *(u16 *)(g + 0x30) = w4;
 
-                if ((fl & 8) == 0) {
+                if ((fl & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
                     dx = gGraphics_sViewportX;
                     *(u16 *)(g + 8) = *(u16 *)(g + 8) - dx;
                     *(u16 *)(g + 0x14) = *(u16 *)(g + 0x14) - dx;

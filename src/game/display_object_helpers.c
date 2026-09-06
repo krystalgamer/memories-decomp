@@ -19,7 +19,7 @@ void func_800427DC(u8 *object, int value)
     *(u16 *)(object + 0x1A) = 0;
     *(u16 *)(object + 0x18) = 0;
     object[0x5A] = value;
-    *(u16 *)(object + 8) = flags | 8;
+    *(u16 *)(object + 8) = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 
 void func_80042824(u8 *object, int value)
@@ -41,7 +41,7 @@ void func_80042824(u8 *object, int value)
     *(u16 *)(object + 0x1A) = 0;
     *(u16 *)(object + 0x18) = 0;
     object[0x72] = value;
-    *(u16 *)(object + 8) = flags | 8;
+    *(u16 *)(object + 8) = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 
 typedef struct {

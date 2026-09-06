@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 extern u8 D_801AF000[];
 extern u8 D_801AF800[];
@@ -41,7 +42,8 @@ s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
         func_80042918(p);
         func_800428EC(p, f);
         *(s32 *)(p + 4) = *(s32 *)(p + 4) | m;
-        *(u16 *)(p + 8) = *(u16 *)(p + 8) | 8;
+        *(u16 *)(p + 8) =
+            *(u16 *)(p + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         out[0] = p;
 
         if (func_8003A198(tb, c, 1, 0) != 0) {
@@ -51,7 +53,8 @@ s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
             func_80042918(p);
             func_800428EC(p, f | 1);
             *(s32 *)(p + 4) = *(s32 *)(p + 4) | m;
-            *(u16 *)(p + 8) = *(u16 *)(p + 8) | 8;
+            *(u16 *)(p + 8) =
+                *(u16 *)(p + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         } else {
             p = (u8 *)0;
         }
@@ -64,7 +67,8 @@ s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
             func_80042918(p);
             func_800428EC(p, f | 1);
             *(s32 *)(p + 4) = *(s32 *)(p + 4) | 0x41000000;
-            *(u16 *)(p + 8) = *(u16 *)(p + 8) | 8;
+            *(u16 *)(p + 8) =
+                *(u16 *)(p + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         } else {
             p = (u8 *)0;
         }

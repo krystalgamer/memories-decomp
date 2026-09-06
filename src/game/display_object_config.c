@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 extern void DisplayObject_ResetPool(void);
 
@@ -118,7 +119,7 @@ DisplayObject *func_80040510(
     object->half_height = half_height;
     object->half_height_2 = half_height;
 
-    object->flags |= 8;
+    object->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 
     object->width = width;
     half_width = width / 2;

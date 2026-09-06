@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "display_object_layout.h"
 
 extern s16 gGraphics_sViewportX __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY __attribute__((section(".data")));
@@ -85,7 +86,8 @@ void func_8002BFCC(void) {
     o[0x5F] = 0x80;
     func_80042918(o);
     n = CARD_ID_FIRST;
-    *(u16 *)(o + 8) = *(u16 *)(o + 8) | 8;
+    *(u16 *)(o + 8) =
+        *(u16 *)(o + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     *(u8 **)(r + 0x48) = o;
     o = func_800400AC(func_8004002C(), 2);
     func_800404CC(o, *(s16 *)(r + 8), *(s16 *)(r + 0xA), 0, 2, 2, 0x1B, 0x147);
@@ -134,7 +136,8 @@ void func_8002BFCC(void) {
     m[0x5B] = 0x10;
     func_80039A14(m);
     func_8004293C(*(u8 **)(m + 0x28));
-    *(u16 *)(*(u8 **)(m + 0x28) + 8) &= 0xFFF7;
+    *(u16 *)(*(u8 **)(m + 0x28) + 8) &=
+        ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     func_8002A2F4(r);
     func_8003FF08(0x72D0);
 }

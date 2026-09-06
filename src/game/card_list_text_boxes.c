@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "display_object_layout.h"
 
 /* Builds the text box for one card slot of a trade or deck screen. The entry
    is picked out of the list at the scroll offset plus the slot, and the list
@@ -54,7 +55,7 @@ void func_80031CD4(CardList *list, s32 slot)
     }
     box = TextBox_Create(list->kind + 1, style, 0x22, 0x2B, 0x120, 0xB0);
     box->field3A = slot * 22;
-    box->child->flags &= 0xFFF7;
+    box->child->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     if ((list->entries[list->first + slot].flags & 0x80) != 0) {
         box->field54 = 4;
     }
