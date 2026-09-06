@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "card_constants.h"
 
 typedef struct {
@@ -13,7 +16,6 @@ extern DuelCardStatObject *func_800400AC(void *, s32);
 extern void func_80040510();
 extern void func_800428EC(DuelCardStatObject *, s32);
 extern void func_80042918(DuelCardStatObject *);
-extern void GsSortFastSprite();
 
 void func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {
@@ -86,7 +88,7 @@ void func_800316F0(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3)
 
             if (value < 0xA) {
                 arg0[0xE] = value * 8 - 0x80;
-                GsSortFastSprite(arg0, arg1, 0);
+                GsSortFastSprite((GsSPRITE *)arg0, (GsOT *)arg1, 0);
             }
             *(u16 *)(arg0 + 4) += 8;
             i--;
