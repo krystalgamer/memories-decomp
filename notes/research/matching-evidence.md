@@ -1668,6 +1668,52 @@ So: a materialised base register in the target is **not** evidence that the
 original source named it. Treat the addressing form as an output of register
 allocation, not as something the source chooses.
 
+## Changing what a value is works; asking for the same value twice does not
+
+Several notes here record that register-level differences resist source
+changes. `func_80048F14` shows both sides of that boundary in one function,
+which makes it a useful discriminator.
+
+**Reachable — change the value class.** Retail materialises two constants
+where the candidate materialised one:
+
+```
+addiu $v0, $zero, -1        # for four halfword stores
+sh    $v0, 5496($v1) ... sh $v0, 5502($v1)
+ori   $v0, $zero, 65535     # 0xFFFF materialised again, separately
+sh    $v0, 0($a0)
+```
+
+GCC merges these, because `-1` and `0xFFFF` are identical once truncated to a
+halfword. Writing the fifth store as `*(u16 *)addr = 0xFFFFU` instead of
+`*(s16 *)addr = 0xFFFF` gives the compiler a genuinely different value to
+materialise, and the second `ori` appears.
+
+**Not reachable — ask for a redundant copy.** The same function ends one
+instruction short on a plain register move:
+
+```
+sw   $a1, 5476($v1)
+addu $a0, $a1, $zero        # copy the pointer, then store through the copy
+sh   $v0, 0($a0)
+```
+
+Binding the pointer to a local used for both the field store and the
+dereference is score-neutral: GCC folds the local away and reuses the one
+register. There is no version of the source that asks for the *same* value in
+a *second* register, because that is a register-allocation decision rather
+than anything the source expresses.
+
+So the test before spending a lever is whether the source change alters what
+the value **is**. A different type, signedness or constant gives the compiler
+new information; a rename, an extra local or an alias for an identical value
+gives it none.
+
+**Instruction count outranks the diff number.** The `u16` change traded one
+extra diff for one extra instruction, moving the candidate from two short to
+one short. That is the right trade: a candidate short of the target can never
+match, so count is the binding constraint and the diff total is advisory.
+
 ## Value-level levers cannot move address CSE
 
 Where retail re-materialises an address that GCC keeps live in a register,
