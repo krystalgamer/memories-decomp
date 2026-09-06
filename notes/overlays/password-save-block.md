@@ -5,19 +5,25 @@ Derived from matched overlay code, cross-checked against the save map in
 address below is read from a function that reproduces the retail bytes
 exactly; the interpretation is flagged where it goes beyond that.
 
-## `NameEntry_Main` rebuilds the block from a template
+## `NameEntry_Main` clears and seeds the new-save workspace
 
-The function does three things in order:
+The function does five things in order:
 
 1. `Util_FillMemory(D_801D0000, 0, 0x3000)` (`0x80035748`) — clears
    `0x801D0000`–`0x801D3000`.
-2. `func_8008E870(D_80168090, D_801D0000, 0x3000)` — fills the same range from
-   overlay data. `0x90` is below the password module's first function at
-   `0x801680B4`, so the source is the module header region and not code.
-3. Stamps a non-zero word at `0x801D0534`, exactly `0x334` bytes after
+2. `printf("SaveLoadBuf add = 0x%x size = 0x%x\n", D_801D0000, 0x3000)` —
+   logs the cleared buffer's address and size. The 36-byte format string is
+   emitted at overlay address `0x80168090`; it is not source data for the
+   buffer.
+3. Runs `NameEntry_Init`, then advances the normal frame update and `rand`
+   until `NameEntry_PollCompletion` reports that name entry is finished.
+4. Calls `NameEntry_BuildStarterDeck`.
+5. Stamps a non-zero word at `0x801D0534`, exactly `0x334` bytes after
    `gDuel_awPlayerDeck` (`0x801D0200`), retrying until it is non-zero.
 
-The cleared/template range is much wider than the live persistent state.
+The cleared range is much wider than the live persistent state. No template
+is copied by the diagnostic call; the subsequent name-entry and starter-deck
+steps populate the new save after the workspace has been zeroed.
 `SaveData_RequestWrite` later copies exactly `0x680` bytes beginning at
 `gDuel_awPlayerDeck`, so the persisted state occupies
 `0x801D0200-0x801D087F`. The surrounding `0x801D0000-0x801D2FFF` overlay
