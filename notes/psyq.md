@@ -403,8 +403,8 @@ SPU-audio streaming interface.
 The resident movie setup path combines these layers: `func_8005B8A0` reaches
 the CD `St*` ring/stream calls and `DecDCTvlcBuild`. That call chain is evidence
 for cooperating APIs, not evidence that their similarly named stream
-interfaces are interchangeable. No current game C directly includes
-`libpress.h`.
+interfaces are interchangeable. Matching `func_8005C5D4` now includes
+`libpress.h` for the `DecDCTReset(1)` call used when its decode wait times out.
 
 `libsn.h` is a development-host interface, not a retail storage API.
 `PCinit`, `PCopen`, `PCcreat`, `PClseek`, `PCread`, `PCwrite`, and `PCclose`

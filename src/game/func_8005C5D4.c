@@ -1,6 +1,8 @@
 #include "../types.h"
+#include "../psyq/libpress.h"
+
 extern u8 D_8009B062;
-extern void DecDCTReset(s32);
+
 s32 func_8005C5D4(void)
 {
     s32 timeout = 0x800000;
