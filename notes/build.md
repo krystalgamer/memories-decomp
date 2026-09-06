@@ -138,9 +138,14 @@ make verify-disc
 - `verify-disc` verifies the original MODE2/2352 BIN/CUE, tracked ISO9660 LBAs,
   and every extracted file against its disc extent.
 
-The Splat linker script under `tmp/splat/` is diagnostic. The exact build uses
-the project linker script at `linker/slus_01411.ld`, which preserves the
-original data/text/data ordering and file load addresses.
+The exact build uses Splat's generated `tmp/splat/slus_01411.ld`. Its tracked
+source of truth is `config/slus_01411/split.yaml`, combined with
+`config/slus_01411/matching_c.json` by
+`tools/project/generate_build_config.py` before Splat runs.
+`config/slus_01411/c_symbols.ld` and
+`config/slus_01411/link_symbols.ld` supplement the generated script with fixed
+aliases and layout symbols; generated linker output under `tmp/` is not source
+and must not be edited.
 
 ## Mapping a section to a source file
 
@@ -170,9 +175,9 @@ limitation and is not one.
 Layout mistakes here are only caught by the final hash, so it is worth knowing
 the shapes in advance.
 
-- **Anything nobody placed is dropped.** Both `linker/slus_01411.ld` and the
-  generated Splat scripts end with `/DISCARD/ : { *(*); }`. A section that no
-  line claims does not fail the link; it silently disappears.
+- **Anything nobody placed is dropped.** The generated Splat script ends with
+  `/DISCARD/ : { *(*); }`. A section that no line claims does not fail the
+  link; it silently disappears.
 - **Undeclared object sections are appended, not placed.** Splat emits a
   `(.rodata)` line for *every* C object in a segment, so a file without an
   explicit dotted subsegment still gets one — at the end of the run. That is

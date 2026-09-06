@@ -80,9 +80,13 @@ Matching, attempt-ledger updates, and integration remain sequential.
   compiles matching C with its per-function profile, normalizes compiler
   assembly through the matching MASPSX version, converts binary regions to
   objects, and links everything in executable order.
-- `linker/slus_01411.ld` fixes the original VRAM addresses, file offsets,
-  section sizes, and total PS-X EXE size. `tools/project/match.py` accepts the
-  build only when `tmp/project-build/SLUS_014.11` has the retail target hash.
+- `config/slus_01411/split.yaml` fixes the original image layout and directs
+  Splat to generate `tmp/splat/slus_01411.ld`;
+  `config/slus_01411/link_symbols.ld` supplies the extra layout symbols that
+  generated script does not define.
+  `tools/project/build_baseline.py` links through those generated/tracked
+  scripts, and `tools/project/match.py` accepts the build only when
+  `tmp/project-build/SLUS_014.11` has the retail target hash.
 - `notes/` holds durable research and workflow documentation. Progress and
   global-usage data are generated from tracked metadata, not maintained as
   independent sources of truth.
