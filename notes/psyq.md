@@ -61,8 +61,8 @@ symbol review.
 | `0x80073890` | `EnableEvent` | Applied Psy-Q 4.6 identity; called on all eight memory-card descriptors immediately after creation. |
 | `0x800738B0` | `EnterCriticalSection` | Applied Psy-Q 4.6 identity; brackets event creation and teardown with `ExitCriticalSection`. |
 | `0x800738C0` | `ExitCriticalSection` | Applied Psy-Q 4.6 identity; paired critical-section exit. |
-| `0x80073920` | `nextfile` | Advances a caller-owned directory record and returns that same pointer on success. |
-| `0x80073AC0` | `firstfile` | Receives a formatted device path and caller-owned directory record, returning that record on success. |
+| `0x80073920` | `nextfile` | Applied Psy-Q 4.6 identity; advances a caller-owned directory record and returns that same pointer on success. |
+| `0x80073AC0` | `firstfile` | Applied Psy-Q 4.6 identity; receives a formatted device path and caller-owned directory record, returning that record on success. |
 | `0x80073E1C` | `InitPAD` | `Input_InitPads` passes two adjacent 34-byte receive buffers and their exact lengths. |
 | `0x80073EAC` | `StartPAD` | Called immediately after `InitPAD` to start the controller service before local input state is reset. |
 | `0x80074170` | `VSync` | Applied Psy-Q 4.6 identity; matching callers query frame timing for AI yielding and time-varying screen effects. |
@@ -250,10 +250,10 @@ register access, and raw memory-card services. The records passed to
 `libmcrd.h` is a higher-level card API and must not be substituted for the
 `_card_*` block operations merely because both address memory cards.
 
-`input_init_pads.c` directly includes `libapi.h` for the confirmed resident
-`InitPAD` and `StartPAD` calls. The `OpenEvent`, critical-section, `firstfile`,
-and `nextfile` call sites still use local declarations pending exact header
-migration. No current game C directly includes `kernel.h` or `libmcrd.h`.
+Game sources now include `libapi.h` directly for the confirmed pad lifecycle,
+memory-card and sound events, critical sections, and directory iteration.
+`func_80044470` uses the real `DIRENTRY`, `firstfile`, and `nextfile`
+interfaces. No current game C directly includes `kernel.h` or `libmcrd.h`.
 
 The graphics headers also form distinct layers. `libgpu.h` owns the GPU packet
 ABI: `RECT`, `DRAWENV`, `DISPENV`, primitive records, packet-construction
@@ -555,10 +555,10 @@ requiring a copied SDK structure definition.
 ### Memory-card directory evidence
 
 `func_80044470` formats a `bu%02X:%s` device path, passes it and a caller-owned
-record to `0x80073AC0`, then advances subsequent records through `0x80073920`.
-Both resident functions return the supplied record pointer on success, matching
-the `firstfile` and `nextfile` interfaces. The caller allows five retries after
-the initial attempt before stopping enumeration.
+record to `firstfile`, then advances subsequent records through `nextfile`.
+Both resident functions return the supplied record pointer on success. The
+caller allows five retries after the initial attempt before stopping
+enumeration.
 
 Three matching-C consumers independently establish the directory geometry:
 

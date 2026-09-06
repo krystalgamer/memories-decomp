@@ -61,6 +61,19 @@ operation, waits while the result is negative, and retries only result `1`
 `func_80044608` consumes the same values; its later conversion of result `3`
 to `4` is internal state-machine bookkeeping, not a fifth event callback.
 
+## Directory enumeration
+
+Matching `func_80044470` formats a `bu%02X:%s` device path and enumerates into
+caller-owned Psy-Q `DIRENTRY` records. It calls `firstfile` for the initial
+record and `nextfile` for subsequent records, accepting success only when
+each function returns the same record pointer it was given.
+
+The initial call and each failed advance allow five retries after the first
+attempt. A successful `nextfile` resets that retry budget, advances by one
+40-byte `DIRENTRY`, and increments the count. Enumeration stops at 15 records,
+matching the usable block count on a memory card, and optionally stores the
+final count through the caller's output pointer.
+
 ## Evidence boundary
 
 The descriptor values, event specifications, mode, and API prototypes are
