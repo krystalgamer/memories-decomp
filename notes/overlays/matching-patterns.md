@@ -754,9 +754,10 @@ uses `$v0` because the two registers already hold the same value.
 So when a value is copied into `$v0` shortly before the end and nothing else
 explains it, try returning it before reaching for a profile.
 
-Verified by `func_80168588`, shared by both overworld modules. Adding the
-`return` and giving the location-table base a named local shared by both record
-computations matches on the stock `gcc_2_8_1_g0_split`. The
+Verified by `CampaignMap_CreateLocationMarker`, shared by both overworld
+modules. Adding the `return` and giving the location-table base a named local
+shared by both record computations matches on the stock
+`gcc_2_8_1_g0_split`. The
 `-fno-schedule-insns` that had been recorded as necessary for its
 saved-register allocation makes it worse, at 58 instructions against 57.
 

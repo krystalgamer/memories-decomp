@@ -18,7 +18,7 @@ measured.
 | `func_80184254` | `-fno-schedule-insns2` fixes the epilogue but costs five instructions elsewhere, so sched2 is on | those five were the non-split address loads, same confound |
 | `func_8016868C` | blocked on base selection; GCC refuses the negative offset and splits one walker into two; neither `u8` nor `s16` typing helps | a symptom of loop rotation. `for (;;)` with explicit returns fixed the giv base and the offsets together |
 | `func_8016A02C` | sched1 hoists the `+0x8` load above the `+0x21` store; no profile with sched1 disabled exists | the fields were reached by casts through a byte pointer instead of struct members. Stock profile matches |
-| `func_80168588` | the remainder is a swap of the two temporaries in the tail; `-fno-schedule-insns` fixes the saved-register allocation | the `move` was the **return value copy**. Stock profile matches; `no_sched1` is worse |
+| `CampaignMap_CreateLocationMarker` | the remainder is a swap of the two temporaries in the tail; `-fno-schedule-insns` fixes the saved-register allocation | the `move` was the **return value copy**. Stock profile matches; `no_sched1` is worse |
 
 ## The three shapes they take
 
