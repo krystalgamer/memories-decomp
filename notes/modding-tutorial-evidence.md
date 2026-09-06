@@ -648,11 +648,17 @@ three-byte jump, the patch skips `0x9F` bytes of the original text stream.
 
 This is not a change to the campaign bytecode interpreter, opponent data, or
 the sound driver. Any skipped Heishin, music, or title presentation is encoded
-inside the bypassed text-stream region. The static data establishes the
-redirect exactly, but the complete visible sequence after the jump still
-needs a runtime trace. `tools/trace/opening_heishin_text_skip.lua` applies the
-three-byte patch in emulated RAM, records the resulting cursor jump, and
-restores the retail bytes after the observation window.
+inside the bypassed text-stream region.
+
+A controlled in-memory replay applied the three bytes before starting a new
+game. The ordinary dim-room sequence—Heishin walking, finding the treasure,
+and laughing—did not play. After name entry, the patched flow showed a black
+screen with an empty text box while the end-of-scene music played, faded
+through a main-menu-like image, and continued into the Simon Muran
+interaction. The script confirmed that it applied the RAM patch; although its
+cursor-jump breakpoint did not produce the intended detailed log, the human
+observation establishes the visible skip and that the campaign remained
+playable through the next scene.
 
 **Confidence:**
 
@@ -660,9 +666,8 @@ restores the retail bytes after the observation window.
   bytes `F7 05 00`.
 - **Confirmed** that `FD 1C 13` redirects the text cursor to `0x801B131C`
   while preserving its current 64 KiB bank.
-- **High** that this removes the opening Heishin segment described by the
-  tutorial; the jump span is proven, but the resulting presentation has not
-  been replayed locally.
+- **Confirmed** by controlled replay that this removes the opening Heishin
+  segment and continues through the transition into the Simon Muran scene.
 
 ## Campaign duel records and music selection
 
