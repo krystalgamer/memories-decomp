@@ -339,23 +339,24 @@ The imported `libgs.h` includes only `src/types.h` even though it refers to
 `GsARGUNIT*` records describe hierarchical-model primitive processing and
 depend on GTE, GPU, and `libgs` declarations without including those headers.
 
-Current game C includes `libgpu.h` in `func_800249E0.c`, where `RECT` backs
-two image transfers; `file_cd_helpers.c`, where `DISPENV` receives the
-current display environment and its leading `disp` rectangle is passed to
-`MoveImage2`; and `model_handler_registry.c`, where `DrawSync(0)` waits for
-queued GPU drawing after a model primitive handler runs.
-`func_800582C0.c` also uses the shared `MoveImage`, `LoadImage2`,
-`StoreImage2`, and `IsIdleGPU` prototypes while retaining its exact
-four-halfword rectangle storage. No current game C includes `libgs.h` or
-`libhmd.h`, so a local render or model record should not be migrated to one of
-their types from a matching size or similar role alone; field-level and
-resident-call evidence are still required.
+Matching game C now uses `libgpu.h` across image transfers, display
+environments, primitive records, and GPU synchronization. Representative
+migrations include `func_800249E0.c`, `func_800289BC.c`,
+`file_cd_helpers.c`, `func_800582C0.c`, and
+`model_handler_registry.c`. Confirmed camera, lighting, object, and sorting
+paths also use `libgs.h`, including `func_800134E0.c`,
+`func_800530C4.c`, `model_cleanup.c`, and `model_texture_upload.c`.
+No current game C includes `libhmd.h`. These imports justify their specific
+API and field uses; a local render or model record still requires field-level
+and resident-call evidence before migration to an SDK type.
 
 The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
-same `RECT *` / `u32 *` argument shape. The `LoadImage` migration is complete
-in `func_800249E0.c`; `func_800582C0.c` now uses the shared `LoadImage2`
-prototype with a rectangle-compatible local view. Other callers retain local
-declarations and still require an exact code-generation check.
+same `RECT *` / `u32 *` argument shape. Both current matching `LoadImage`
+callers, `func_800249E0.c` and `func_800289BC.c`, use that interface.
+`func_800582C0.c` likewise uses the shared `LoadImage2` prototype while
+retaining rectangle-compatible local storage. Other image-transfer callers
+may retain local record views where an SDK structure changes exact code
+generation.
 
 The GTE headers are a layered toolchain interface rather than interchangeable
 umbrellas. `libgte.h` owns the geometry records and callable library
@@ -379,10 +380,11 @@ These three macro headers also have no include guards and overlap in the
 redefinition rather than a harmless compatibility choice. Selecting
 `inline_c.h` versus `inline_o.h`, or a padded command versus its `_b` form, can
 change register allocation and the emitted instruction schedule and therefore
-requires an exact-match check. The current game sources use `libgte.h` in
-`func_800249E0.c`, `func_80041E7C.c`, and `func_80041F90.c`; the latter two
-also include `inline_c.h` for `gte_stopz`. No current game C includes
-`inline_o.h` or `gtemac.h`.
+requires an exact-match check. Matching game C now uses `libgte.h` across
+camera, model, duel, display, image-transfer, and spatial-sound paths.
+The two direct GTE-instruction users `func_80041E7C.c` and
+`func_80041F90.c` also include `inline_c.h` for `gte_stopz`. No current game C
+includes `inline_o.h` or `gtemac.h`.
 
 The remaining files target assembly sources. `inline_s.h` and `gtereg_s.h`
 use C-preprocessor definitions; `inline_s.h` explicitly identifies `aspsx` as
