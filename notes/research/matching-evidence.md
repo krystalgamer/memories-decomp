@@ -3186,3 +3186,48 @@ Three smaller consequences of the same rule closed the rest:
 This is a different mechanism from "Do not name an array base to reproduce a
 materialised base register", which is about the *cost* of naming a base. Here
 naming costs nothing and changes only which allocator sees the pseudo.
+
+## Four spellings of one global, and the addressing each produces
+
+A `u16` global read repeatedly in one function can be declared four ways, and
+under `-G8 -msplit-addresses` each produces different code for the *same*
+source. The choice is not cosmetic: it decides both which addressing form is
+used and whether the address survives as one register across the body.
+
+| declaration | access |
+| --- | --- |
+| `extern u16 g;` | `%gp_rel(g)($gp)`, one instruction |
+| `extern u16 g[];` | one `%hi` materialised once, reused by every access |
+| `extern volatile u16 g[];` | same — `volatile` stops the *load* being reused, not the address |
+| `extern volatile u16 g __attribute__((section(".data")));` | a fresh `lui %hi` / `%lo` pair at **every** access |
+
+Only the last reproduces a target that spells `lui $v0, %hi(g)` followed by
+`lhu $v0, %lo(g)($v0)` over and over with the same register. Read it in that
+direction: repeated `%hi` materialisation of a *small* global says the source
+declared it a `volatile` scalar in an explicit section, and no rearrangement of
+the C will produce it from the array form, because it is CSE unifying the
+address and CSE does not care that the load is volatile.
+
+The array form is still what a base whose address is genuinely taken wants, and
+the two can appear in one function. `func_80013360` (`0x80013360`, 85
+instructions) has both: `gInput_wPad1Held` and `gInput_wPad1Pressed` are
+volatile section scalars, re-materialised at each of their six reads, while
+`D_800E9D28` is an array whose base is computed once. `D_8009B098` is a plain
+scalar and comes out `%gp_rel`, which fixes the profile at `-G8` on both the
+compiler and the assembler.
+
+Two other things that function needed, both already recorded rules paying off:
+
+- the loop is a `goto` loop, so GCC's loop pass never sees it and does not hoist
+  anything out of the body — see "GCC 2.8's loop optimiser only sees loops the
+  front end marked";
+- `step = 2; if (held & CROSS) step = 4;` rather than an `if`/`else`, which is
+  "Initialise before the branch rather than in an else clause".
+
+What did not come free is the base register. `D_800E9D28`'s base has to live in
+`$s0` across the loop; declared as a plain local it is allocated globally and
+lands next to the `%hi` temporary instead of coalescing with it, and the seven
+prologue instructions come out permuted. One `register s16 *p asm("$16")` pin
+settles it. That is a pin correcting an allocation on an otherwise exact
+sequence, the weaker of the two kinds of pin, and it is the only one the
+function needs.
