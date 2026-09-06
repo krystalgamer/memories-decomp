@@ -3490,7 +3490,7 @@
       "address": "0x80043E68",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x54",
-      "source": "src/game/func_80043E68.c"
+      "source": "src/game/mem_card_close_io_events.c"
     },
     {
       "address": "0x80043EBC",

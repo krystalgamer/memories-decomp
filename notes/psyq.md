@@ -57,7 +57,7 @@ symbol review.
 | Address | Candidate SDK identity | Local evidence |
 |---|---|---|
 | `0x80073860` | `OpenEvent` | Applied Psy-Q 4.6 identity; memory-card setup passes documented event classes, specifications, mode, and callbacks. |
-| `0x80073870` | `CloseEvent` | Applied Psy-Q 4.6 identity; called on each stored event descriptor during teardown. |
+| `0x80073870` | `CloseEvent` | Applied Psy-Q 4.6 identity; `MemCard_CloseIOEvents` calls it on each stored event descriptor during teardown. |
 | `0x80073890` | `EnableEvent` | Applied Psy-Q 4.6 identity; called on all eight memory-card descriptors immediately after creation. |
 | `0x800738B0` | `EnterCriticalSection` | Applied Psy-Q 4.6 identity; brackets event creation and teardown with `ExitCriticalSection`. |
 | `0x800738C0` | `ExitCriticalSection` | Applied Psy-Q 4.6 identity; paired critical-section exit. |

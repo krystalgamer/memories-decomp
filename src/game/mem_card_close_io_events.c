@@ -3,7 +3,7 @@
 
 extern long D_800F2AE0[];
 
-void func_80043E68(void)
+void MemCard_CloseIOEvents(void)
 {
     long *item = D_800F2AE0;
     int count;
