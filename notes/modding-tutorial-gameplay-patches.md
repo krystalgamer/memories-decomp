@@ -433,6 +433,18 @@ branch selects `D_800E9FF0[playing_side]`, the active side, establishing the
 reflected-damage routing without assigning a semantic name to that state
 halfword.
 
+Both handlers use the same resident presentation sequencer when bit `0x20` of
+`D_8009B220` is set. Newly matching `func_8001F364` waits for the preceding
+screen effect, starts a first `func_80022D94` phase, and arms a 20-frame
+counter. When that counter expires it copies the selected card object's
+`+0x30`, `+0x32`, and `+0x34` values into a newly allocated type-8 effect
+object, updates the corresponding `0x1C`-byte duel-card record through
+`func_80024954`, and plays sound `0x17`. It then starts a second
+`func_80022D94` phase, waits another 20 frames, increments byte `+0x06` in
+the opposing side's `0x20`-byte state record, and reports completion. The
+recovery and damage tables change the LP amount; they do not select separate
+resident presentation timelines.
+
 The retail values therefore reproduce the documented effects:
 
 | Card sequence | Resulting LP change |
@@ -457,6 +469,8 @@ resident tables; they remain a separate asset-level investigation.
   zero.
 - **Confirmed** that the recovery path's `+0x16` halfword is the maximum LP
   value that caps the authoritative LP at `+0x14`.
+- **Confirmed** that recovery and direct damage share the matching
+  `func_8001F364` presentation sequence and its two 20-frame waits.
 
 ## Additional end-of-duel starchips
 
