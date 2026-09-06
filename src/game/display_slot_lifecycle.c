@@ -1,7 +1,5 @@
 #include "../types.h"
-
-#define DISPLAY_SLOT_RESERVED_COUNT 16
-#define DISPLAY_SLOT_COUNT 0x60
+#include "display_object_layout.h"
 
 typedef struct {
     s16 field_00;
@@ -34,16 +32,16 @@ typedef struct {
     u8 field_66;
     u8 pad_67[5];
     u8 field_6C;
-    u8 pad_6D[3];
+    u8 pad_6D[DISPLAY_OBJECT_RECORD_SIZE - 0x6D];
 } DisplaySlot;
 
 extern u16 D_8009AF74[4];
 extern u16 D_8009B410;
 extern u16 D_8009B412;
 extern s16 D_800EFE38[];
-extern DisplaySlot D_800EFE48[DISPLAY_SLOT_COUNT];
+extern DisplaySlot D_800EFE48[DISPLAY_OBJECT_POOL_CAPACITY];
 extern DisplaySlot D_800F0548[
-    DISPLAY_SLOT_COUNT - DISPLAY_SLOT_RESERVED_COUNT
+    DISPLAY_OBJECT_POOL_CAPACITY - DISPLAY_OBJECT_RESERVED_CAPACITY
 ];
 extern s16 D_800F2878[];
 extern u8 tail_data_start[];
@@ -53,7 +51,9 @@ s32 func_8004002C(void)
     DisplaySlot *entry = D_800F0548;
     s32 i;
 
-    for (i = DISPLAY_SLOT_RESERVED_COUNT; i < DISPLAY_SLOT_COUNT; i++, entry++) {
+    for (i = DISPLAY_OBJECT_RESERVED_CAPACITY;
+         i < DISPLAY_OBJECT_POOL_CAPACITY;
+         i++, entry++) {
         if ((entry->flags_08 & 0x80) == 0) {
             return i;
         }
@@ -66,7 +66,7 @@ s32 func_8004006C(void)
     DisplaySlot *entry = D_800EFE48;
     s32 i;
 
-    for (i = 0; i < DISPLAY_SLOT_COUNT; i++, entry++) {
+    for (i = 0; i < DISPLAY_OBJECT_POOL_CAPACITY; i++, entry++) {
         if ((entry->flags_08 & 0x80) == 0) {
             return i;
         }
