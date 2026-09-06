@@ -172,6 +172,7 @@ function,0x800240B0,Duel_UpdateCardPickCursor,confirmed,"Unchiga exact pure-C ca
 function,0x8002E370,DuelEffect_MarkObjectIfActive,high,"local matching body; D_800EB010 reverse scan","Sets an object flag when any of three effect entries has a nonnegative active marker."
 function,0x800255FC,DuelEffect_UpdateFieldMarker,high,"matching state-machine body; five-zone scan; arm_field_effect_marker collaborator name","Advances across one side's five field slots, spawns a marker, waits for its animation, and updates the marked card flags."
 function,0x80035AF0,DuelEffect_InitEntry,high,"local matching body; D_800EB0F8 record/range initialization","Initializes one effect entry, flags, table range, and default state fields."
+function,0x8003B714,DuelEffect_InitEntryDefaultFlags,high,"local matching wrapper; direct DuelEffect_InitEntry call with literal zero flags","Initializes one effect entry without adding caller-supplied flags."
 function,0x80035CE4,DuelEffect_ResetOccupancy,high,"local matching body; D_800EAF08 occupancy table","Clears the 240-byte effect occupancy table and resets its scan cursor."
 function,0x80035DB8,DuelEffect_ClearMatchingMarker,high,"local matching body; stride-28 D_800EB288 scan","Clears the marker byte on entries whose identifier matches the requested slot."
 function,0x80035DF4,DuelEffect_ResetEntryMarkers,high,"local matching body; stride-28 D_800EB288 scan","Clears two marker bytes across all 620 effect entries."
