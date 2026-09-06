@@ -3,9 +3,6 @@
 
 extern s32 gMemCard_nIOResult;
 
-extern void func_8008B3E0(void);
-extern void func_8008B470(void);
-
 void func_80043D48(long *items)
 {
     TestEvent(items[0]);
@@ -30,10 +27,10 @@ s32 func_80043DA0(long *items, s32 stop)
     return -1;
 }
 
-void func_80043E30(void)
+void func_80043E30(long value)
 {
-    func_8008B3E0();
-    func_8008B470();
+    InitCARD(value);
+    StartCARD();
     ChangeClearPAD(0);
     _bu_init();
 }

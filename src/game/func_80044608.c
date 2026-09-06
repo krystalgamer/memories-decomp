@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libapi.h"
 
 extern u8 D_8009B43D;
 extern volatile s32 gMemCard_nIOResult;
@@ -16,9 +17,6 @@ extern u8 D_800F2888[];
 extern u8 D_8009AF7C[];
 
 extern void func_80043D48(long *a0);
-extern s32 func_8008B330(s32 a0);
-extern s32 func_8008B3A0(s32 a0);
-extern s32 func_8008B340(s32 a0);
 extern void func_80044470();
 extern s32 func_80044544();
 
@@ -69,7 +67,7 @@ state0_info:
         goto ret;
     }
     func_80043D48(gMemCard_aIOEventHandles);
-    func_8008B330(D_8009B437);
+    _card_info(D_8009B437);
     return -1;
 
 state0_zero:
@@ -87,7 +85,7 @@ sub_poll_entry:
     D_8009B43D = (u8)(D_8009B43D + 1);
 sub_retry:
     func_80043D48(D_800F2AF0);
-    func_8008B3A0(D_8009B437);
+    _card_clear(D_8009B437);
     return -1;
 
 state1:
@@ -111,7 +109,7 @@ state1_zero:
     D_8009B43D = 2;
 load_retry:
     func_80043D48(gMemCard_aIOEventHandles);
-    func_8008B340(D_8009B437);
+    _card_load(D_8009B437);
     return -1;
 
 state2:

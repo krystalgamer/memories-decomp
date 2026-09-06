@@ -8,7 +8,6 @@ extern volatile int gMemCard_nIOResult;
 extern long gMemCard_aIOEventHandles[];
 extern long D_800F2AF0[];
 extern void func_80043D48(long *);
-extern void func_8008B3A0(int);
 extern long MemCard_SetIOResultCompleteCB(void);
 extern long MemCard_SetIOResultTimeoutCB(void);
 extern long MemCard_SetIOResultErrorCB(void);
@@ -57,7 +56,7 @@ void func_80044038(int value)
 
     do {
         func_80043D48(D_800F2AF0);
-        func_8008B3A0(value);
+        _card_clear(value);
         while (gMemCard_nIOResult < 0) {
         }
         if (gMemCard_nIOResult != 1)
