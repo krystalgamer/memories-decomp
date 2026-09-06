@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "../psyq/libapi.h"
 
 extern u8 *D_8009B458;
-extern void func_800739EC(unsigned int);
 extern void SD_ProcessSequenceTracks(void);
 extern void func_8004C84C(void);
 extern void func_8004AAFC(void);
@@ -18,7 +18,7 @@ long SD_SequenceTimerCallback(void)
         return 1;
     if (state[0x501] != 0)
         return 0;
-    func_800739EC(0xF2000002);
+    GetRCnt(RCntCNT2);
     D_8009B458[0x501] = 1;
     for (i = 0; i < 8; i++) {
         void (*callback)(void);
