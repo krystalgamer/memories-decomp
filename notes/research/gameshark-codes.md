@@ -169,8 +169,13 @@ Two of them write into the main executable, and those name functions.
 **`D002C322 1040` / `8002C322 2400` — "all cards in library"** (hugopocked).
 `0x8002C320` holds `beqz $v0, .L8002C358`, whose upper halfword is `0x1040`.
 Writing `0x2400` makes the word `0x2400000D` — an `addiu $zero, $zero`, a
-no-op. The branch is deleted so every card displays. The containing function is
-**`func_8002BFCC`**, and that `beqz` is the "have you seen this card" test.
+no-op. Exact matching C for the containing `func_8002BFCC` now shows the
+complete loop: for each card ID it calls
+`Campaign_TestStoryFlag(card_id + 0x120)`, increments the visible-card count,
+and marks the card's display record when that flag is set. The patched branch
+normally skips those writes when the flag is clear, so deleting it makes every
+card visible for that Library initialization. It does not set the persistent
+seen flags or change trunk quantities.
 
 **`D0038C60 3021` / `80038C60 000F` / `D0038C62 0080` / `80038C62 3406` — "no
 stars needed at the password screen"** (hugopocked). `0x80038C60` holds
@@ -241,8 +246,11 @@ Cards used by you:   800EA008 0023 / 801060F6 0023 / 801AB3F5 0023
 
 **Layout facts these codes establish.** Beyond the card array above: the trunk
 is 722 one-byte entries from `0x801D0250` — sources publishing only 250 give
-the wrong count; the Library's seen-flag lives in that same array; life points
-are a per-side record at stride `0x20`.
+the wrong count; the Library's seen state is the separate save flag
+`0x120 + card`, tested by `func_8002BFCC`; life points are a per-side record
+at stride `0x20`. `Library_MarkOwnedCards` derives seen flags from owned and
+deck cards when the screen starts, but the visibility loop itself reads the
+flag array rather than a bit in the trunk quantity byte.
 
 **How the checking worked.** Every `D0`/`C0`-family line states what a value
 already is, so it can be compared against `SLUS_014.11`. That is conclusive
