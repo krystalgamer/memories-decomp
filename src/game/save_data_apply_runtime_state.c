@@ -2,7 +2,7 @@
 
 typedef struct {
     u8 pad_000[0x404];
-    u32 field_404;
+    u32 save_sequence;
     u32 field_408;
     u8 pad_40C[0x5DC - 0x40C];
     u8 field_5DC;
@@ -28,7 +28,7 @@ void SaveData_ApplyRuntimeState(SaveDataRuntimeState *state) {
      * Symbolic stores allocate ordinary registers and change exact codegen.
      */
     D_8009B0C4 = state->field_408;
-    D_8009B3B8 = state->field_404;
+    D_8009B3B8 = state->save_sequence;
     D_8009B27A = state->field_5DC;
 
     if (gSD_bOutputType[0] < 0) {

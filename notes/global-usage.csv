@@ -2040,8 +2040,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3B4,D_8009B3B4,D_8009B3B4,0x8003CB7C,Input_ResetPads,matching_c,game,C,src/game/input_reset_pads.c,write,32,D_8009B3B4 = 0;
 0x8009B3B4,D_8009B3B4,D_8009B3B4,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,read_write,32,D_8009B3B4 = 0; | D_8009B3B4 |= newly_pressed; | (+1 more)
 0x8009B3B8,D_8009B3B8,D_8009B3B8,0x8003D03C,func_8003D03C,matching_c,game,C,src/game/save_data_build_payload.c,read,32,value = D_8009B3B8 + 1;
-0x8009B3B8,D_8009B3B8,D_8009B3B8,0x8003D0F4,SaveData_ApplyRuntimeState,matching_c,game,C,src/game/save_data_apply_runtime_state.c,write,32,D_8009B3B8 = state->field_404;
-0x8009B3B8,D_8009B3B8,D_8009B3B8,0x8003D2B8,func_8003D2B8,matching_c,game,C,src/game/save_data_validation.c,read,32,result = D_8009B3B8 == *(s32 *)(right + 0x404);
+0x8009B3B8,D_8009B3B8,D_8009B3B8,0x8003D0F4,SaveData_ApplyRuntimeState,matching_c,game,C,src/game/save_data_apply_runtime_state.c,write,32,D_8009B3B8 = state->save_sequence;
+0x8009B3B8,D_8009B3B8,D_8009B3B8,0x8003D2B8,func_8003D2B8,matching_c,game,C,src/game/save_data_validation.c,read,32,D_8009B3B8 == *(s32 *)(right + SAVE_DATA_SEQUENCE_OFFSET);
 0x8009B3B8,D_8009B3B8,D_8009B3B8,0x8003E854,func_8003E854,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02f054.s,read_write,32,"lw $v0, %gp_rel(D_8009B3B8)($gp) | sw $v0, %gp_rel(D_8009B3B8)($gp)"
 0x8009B3BC,D_8009B3BC,D_8009B3BC,0x8003F454,func_8003F454,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,32,D_8009B3BC = c;
 0x8009B3C0,D_8009B3C0,D_8009B3C0,0x8003F8D4,func_8003F8D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0300d4.s,read,8,"lbu $a1, %gp_rel(D_8009B3C0)($gp)"

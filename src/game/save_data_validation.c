@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "save_data.h"
 
 typedef struct {
     u8 pad_000[0x334];
@@ -25,7 +26,8 @@ int func_8003D2B8(SaveRecord *left, u8 *right)
     int result;
 
     if (SaveData_HasSameDuelistCode(left, (SaveRecord *)right)) {
-        result = D_8009B3B8 == *(s32 *)(right + 0x404);
+        result =
+            D_8009B3B8 == *(s32 *)(right + SAVE_DATA_SEQUENCE_OFFSET);
     } else {
         result = 0;
     }
