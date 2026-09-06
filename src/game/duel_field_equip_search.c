@@ -89,7 +89,7 @@ s32 func_80026DC8(void) {
     s32 u;
     s32 w;
 
-    if (Duel_CollectFieldCardsByType(b, 0, 0x17) != 0) {
+    if (Duel_CollectFieldCardsByType(b, 0, CARD_TYPE_EQUIP) != 0) {
         Duel_CollectFieldCardsByType(a, DUEL_FIELD_ROW_SIZE, -1);
         e = b[0];
         if (e != (u8 *)0) {
@@ -123,7 +123,7 @@ s32 func_80026DC8(void) {
         if (n < 0) {
             return 1;
         }
-        Duel_CollectFieldCardsBelowType(a, 0, 0x14);
+        Duel_CollectFieldCardsBelowType(a, 0, CARD_TYPE_MAGIC);
         e = b[0];
         if (e != (u8 *)0) {
             r = b;
