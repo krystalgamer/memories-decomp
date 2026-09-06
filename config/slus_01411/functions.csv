@@ -1278,22 +1278,22 @@ address,size,name,status,module,notes
 0x80074D8C,0xAC,func_80074D8C,sdk_asm,psyq/sdk,
 0x80074E38,0x24,func_80074E38,sdk_asm,psyq/sdk,
 0x80074E60,0x20,func_80074E60,sdk_asm,psyq/sdk,
-0x80074E80,0xE8,func_80074E80,sdk_asm,psyq/sdk,
-0x80074F68,0x70,func_80074F68,sdk_asm,psyq/sdk,
-0x80074FE0,0x280,func_80074FE0,sdk_asm,psyq/sdk,
+0x80074E80,0xE8,_SpuInit,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBSPU.LIB/S_INI.OBJ signature.
+0x80074F68,0x70,SpuStart,sdk_asm,psyq/sdk,Identified at offset 0xE8 of the unique Psy-Q 4.6 LIBSPU.LIB/S_INI.OBJ signature.
+0x80074FE0,0x280,_spu_init,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
 0x80075260,0x1C0,func_80075260,sdk_asm,psyq/sdk,
-0x80075420,0xBC,func_80075420,sdk_asm,psyq/sdk,
-0x800754DC,0xA8,func_800754DC,sdk_asm,psyq/sdk,
-0x80075584,0x280,func_80075584,sdk_asm,psyq/sdk,
-0x80075804,0x84,func_80075804,sdk_asm,psyq/sdk,
-0x80075888,0x64,func_80075888,sdk_asm,psyq/sdk,
-0x800758EC,0x44,func_800758EC,sdk_asm,psyq/sdk,
-0x80075930,0xA4,func_80075930,sdk_asm,psyq/sdk,
-0x800759D4,0x3C,func_800759D4,sdk_asm,psyq/sdk,
-0x80075A10,0x58,func_80075A10,sdk_asm,psyq/sdk,
+0x80075420,0xBC,_spu_FiDMA,sdk_asm,psyq/sdk,Identified at offset 0x440 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
+0x800754DC,0xA8,_spu_Fr_,sdk_asm,psyq/sdk,Identified at offset 0x4FC of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
+0x80075584,0x280,_spu_t,sdk_asm,psyq/sdk,Identified at offset 0x5A4 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
+0x80075804,0x84,_spu_Fw,sdk_asm,psyq/sdk,Identified at offset 0x824 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
+0x80075888,0x64,_spu_Fr,sdk_asm,psyq/sdk,Identified at offset 0x8A8 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
+0x800758EC,0x44,_spu_FsetRXX,sdk_asm,psyq/sdk,Identified at offset 0x90C of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
+0x80075930,0xA4,_spu_FsetRXXa,sdk_asm,psyq/sdk,Identified at offset 0x950 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
+0x800759D4,0x3C,_spu_FgetRXXa,sdk_asm,psyq/sdk,Identified at offset 0x9F4 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
+0x80075A10,0x58,_spu_FsetPCR,sdk_asm,psyq/sdk,Identified at offset 0xA30 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
 0x80075A68,0x28,func_80075A68,sdk_asm,psyq/sdk,
 0x80075A90,0x28,func_80075A90,sdk_asm,psyq/sdk,
-0x80075AB8,0x5C,func_80075AB8,sdk_asm,psyq/sdk,
+0x80075AB8,0x5C,_spu_Fw1ts,sdk_asm,psyq/sdk,Identified at offset 0xAD8 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
 0x80075B20,0xC,DeliverEvent,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A07.OBJ signature.
 0x80075B30,0x24,_SpuDataCallback,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_DCB.OBJ signature.
 0x80075B60,0x74,SpuQuit,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_Q.OBJ signature and matching sound shutdown callers.
