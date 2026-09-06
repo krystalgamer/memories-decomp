@@ -7,7 +7,7 @@ typedef char MemCardDirectoryEntry_size_must_match[
 ];
 
 extern u8 D_80010538[];
-extern void func_8008F200();
+extern s32 sprintf(char *, const char *, ...);
 
 s32 func_80044470(s32 a0, s32 a1, struct DIRENTRY *cursor, s32 *out_count)
 {
@@ -15,7 +15,7 @@ s32 func_80044470(s32 a0, s32 a1, struct DIRENTRY *cursor, s32 *out_count)
     s32 retry;
     s32 count;
 
-    func_8008F200(work, D_80010538, a0, a1);
+    sprintf(work, (char *)D_80010538, a0, a1);
     retry = MEM_CARD_DIRECTORY_RETRIES;
     while (firstfile(work, cursor) != cursor) {
         retry--;

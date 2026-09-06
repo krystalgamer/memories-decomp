@@ -1768,7 +1768,7 @@ address,size,name,status,module,notes
 0x8008EFA0,0xFC,func_8008EFA0,sdk_asm,psyq/sdk,
 0x8008F09C,0x3C,func_8008F09C,sdk_asm,psyq/sdk,
 0x8008F0D8,0x128,func_8008F0D8,sdk_asm,psyq/sdk,
-0x8008F200,0x880,func_8008F200,sdk_asm,psyq/sdk,
+0x8008F200,0x880,sprintf,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/SPRINTF.OBJ signature and matching format-string callers.
 0x8008FA80,0x6C,func_8008FA80,sdk_asm,psyq/sdk,
 0x8008FAF0,0x54,func_8008FAF0,sdk_asm,psyq/sdk,
 0x8008FB50,0x3C,func_8008FB50,sdk_asm,psyq/sdk,
