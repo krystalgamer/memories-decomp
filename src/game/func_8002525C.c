@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 /* Applies one of the five direct-damage cards. gDuel_abDirectDamageUnits holds
    the retail values 5/10/20/50/100; the selected one is scaled by 10 and taken
@@ -72,7 +73,9 @@ void func_8002525C(void) {
     } else {
         p = &D_800E9FF0[D_8009B1D5];
 apply:
-        remaining = p->life_points - gDuel_abDirectDamageUnits[unit] * 10;
+        remaining = p->life_points -
+                    gDuel_abDirectDamageUnits[unit] *
+                        DUEL_DIRECT_DAMAGE_SCALE;
         p->life_points = remaining;
         if ((s16) remaining < 0) {
             p->life_points = 0;
