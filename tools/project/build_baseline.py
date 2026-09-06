@@ -67,15 +67,15 @@ def normalize_text_alignment(root: Path, output: Path) -> None:
     if os.environ.get("USE_SYSTEM_MIPS_BINUTILS") != "1":
         return
     objcopy = tool(root, "objcopy")
-    run(
-        root,
-        [
-            str(objcopy),
-            "--set-section-alignment",
-            ".text=4",
-            str(output),
-        ],
-    )
+    arguments = [str(objcopy)]
+    # The system assembler rounds a section up to sixteen bytes, which makes
+    # an object longer than the region the linker script reserves for it. The
+    # read-only and data sections need this as much as the text does, now that
+    # the leading rodata region is split across several objects.
+    for section in (".text", ".data", ".rodata"):
+        arguments += ["--set-section-alignment", f"{section}=4"]
+    arguments.append(str(output))
+    run(root, arguments)
 
 
 def require_generated_file(root: Path, relative_path: str) -> Path:
