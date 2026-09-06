@@ -47,7 +47,7 @@ void CampaignMap_StartCameraTween(s32 index, s32 steps)
     D_80169614 = stepX;
     D_801695F4 = stepY;
     if (turn >= TRIG_ANGLE_HALF_TURN) {
-        turn -= TRIG_ANGLE_MASK;
+        turn -= TRIG_ANGLE_FULL_TURN - 1;
     }
     stepTurn = (turn << 16) / steps;
     stepPitch = ((*(s16 *)(entry + 8) - pitch) << 16) / steps;
