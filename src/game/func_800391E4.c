@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 typedef float f32;
 typedef double f64;
@@ -39,7 +40,7 @@ void func_800391E4(u8 *p) {
         f = *(u16 *)(e + 8);
         *(s32 *)(e + 0x4C) = (s32)func_80035E20;
         e[0x67] = b;
-        *(s16 *)(e + 8) = f | 8;
+        *(s16 *)(e + 8) = f | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         *(s32 *)(p + 0x28) = (s32)e;
     }
 

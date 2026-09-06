@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 typedef struct { char p[8]; u16 flags; char pA[0x60]; u8 index; } Object;
 typedef struct { char p[0xA]; u8 index; } Source;
@@ -18,7 +19,7 @@ Object *func_8001D518(Source *source)
         object->index = source->index;
         func_800428EC(object, 1);
         *(void **)((char *)object + 0x24) = func_80015DB8;
-        object->flags |= 8;
+        object->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     }
     return object;
 }
