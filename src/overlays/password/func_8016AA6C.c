@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../psyq/rand.h"
 
 extern u8 D_801D0000[];
 extern u8 D_801D0200[];
@@ -8,7 +9,6 @@ extern void func_80035748(void *, s32, s32);
 extern void func_8008E870(void *, void *, s32);
 extern void func_801683EC(void);
 extern void func_80012D4C(void);
-extern s32 rand(void);
 extern s32 func_80169C08(void);
 extern void func_8016A930(void);
 

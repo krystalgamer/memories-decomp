@@ -517,8 +517,9 @@ parsers plus `labs`. `qsort.h` retains the original `int (*)()` comparator
 prototype; changing a matching caller to a modern fully prototyped callback
 can change argument setup. `rand.h` fixes `RAND_MAX` at 32767 and exposes the
 `rand`/`srand` pair whose resident implementation is documented separately in
-[`rng.md`](rng.md). Current game C uses local declarations rather than
-including these component headers.
+[`rng.md`](rng.md). Matching resident C includes `qsort.h` and `rand.h`
+directly, and the password/name-entry starter generator and module main now
+use `rand.h` rather than duplicate the runtime declaration.
 
 The imported string headers form a compatibility stack rather than three
 independent libraries. `string.h` only includes `strings.h`; `strings.h`
