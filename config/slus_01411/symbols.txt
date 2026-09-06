@@ -429,6 +429,8 @@ write = 0x80073900; // type:func
 close = 0x80073910; // type:func
 
 nextfile = 0x80073920; // type:func
+Krom2RawAdd = 0x80073930; // type:func
+ChangeClearPAD = 0x80073940; // type:func
 firstfile = 0x80073AC0; // type:func
 InitPAD = 0x80073E1C; // type:func
 StartPAD = 0x80073EAC; // type:func
