@@ -4,7 +4,7 @@ extern u8 gCampaignMap_aLocationTable[];
 extern u8 D_801AF000[];
 extern u8 *D_801695F8[];
 extern void func_80168004(void);
-extern s32 func_8002CCA8(s32);
+extern s32 Campaign_TestStoryFlag(s32);
 extern void *func_8004002C(void);
 extern u8 *func_800400AC(void *, s32);
 extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
@@ -24,7 +24,8 @@ void func_80168050(s32 index)
         offset = i * 12 + 0x12;
         entry = record + offset;
         if (entry[9] != 0x10) {
-            if (*(u16 *)entry == 0 || func_8002CCA8(*(u16 *)entry) != 0) {
+            if (*(u16 *)entry == 0 ||
+                Campaign_TestStoryFlag(*(u16 *)entry) != 0) {
                 object = func_800400AC(func_8004002C(), 2);
                 func_800428A8(object, *(s16 *)(entry + 2), *(s16 *)(entry + 4), 0, 2,
                               entry[8], 0x17, 0x100, D_801AF000);

@@ -30,7 +30,7 @@ extern void func_801681E8(s32);
 extern void func_8016818C(s32);
 extern void func_80168050(s32);
 extern u8 *func_80168588(s32);
-extern s32 func_8002CCA8(s32);
+extern s32 Campaign_TestStoryFlag(s32);
 extern void func_8003FF08(s32);
 extern void func_80042C08(void);
 
@@ -93,7 +93,7 @@ void CampaignMap_SetLocation(s32 index)
         *(u16 *)(panel + 8) = flags & 0xFFBF;
     }
     track = 0x70A0;
-    if (func_8002CCA8(71) != 0) {
+    if (Campaign_TestStoryFlag(71) != 0) {
         track = 0x70B0;
     }
     func_8003FF08(track);
