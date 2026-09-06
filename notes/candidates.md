@@ -365,3 +365,91 @@ void Duel_LoadPackageStage(Object *object, s32 phase) {
     }
 }
 ```
+
+## `func_8001D5B4` at 0x8001D5B4
+
+`gcc_2_8_1_g8`, 45 instructions against a target of 47, opcode distance 6,
+34 differing positions.
+
+Computes a cursor step direction. It clears the direction, compares the
+target row against the cursor row and then the target column against the
+cursor column, and writes one of -1, 0, 1, 2 or 3 into `D_8009B160`.
+Returns 0 only when both coordinates already match, so the caller reads the
+return as "still moving". `D_8009B1D6` and `D_8009B1D7` are the destination
+column and row; the cursor's own pair sits at `+0xF` and `+0x10`.
+
+Missing two instructions against the target: one `sb` and one `j`. The
+target keeps five stores to `D_8009B160` and merges the top `-1` case with
+the bottom `2` case, both of which end `store; return 1`. This build merges
+a different pair and emits four.
+
+Measured and rejected, all three producing byte-identical output:
+
+- the early-return spelling stored here;
+- inverting the row test so the equality branch is taken rather than the
+  inequality one;
+- a direct transcription of the target's basic blocks using `goto` and a
+  shared store label, which is as close to the emitted shape as C gets.
+
+That all three normalise to the same 45 instructions is the useful part. The
+residual is not reachable by rearranging the branches, so the next attempt
+should look at the types rather than the control flow: the direction global
+is `s8` here and the comparisons are between `s8` values, and a different
+width or signedness for either would change the sign-extension work and the
+store count together.
+
+```c
+#include "../types.h"
+
+typedef struct {
+    u8 pad00[0xF];
+    s8 x;
+    s8 y;
+} Cursor;
+
+extern u16 D_8009B162;
+extern s8 D_8009B160;
+extern s8 D_8009B1D6;
+extern s8 D_8009B1D7;
+extern s32 func_80024088(Cursor *cursor, s8 dir);
+
+s32 func_8001D5B4(Cursor *cursor)
+{
+    s32 dir;
+
+    if (D_8009B162 != 0) {
+        dir = -1;
+        goto store;
+    }
+
+    if (func_80024088(cursor, D_8009B160) != 0) {
+        goto moved;
+    }
+
+    D_8009B160 = -1;
+    if (D_8009B1D7 != cursor->y) {
+        D_8009B160 = 1;
+        if (D_8009B1D7 >= cursor->y) {
+            goto moved;
+        }
+        D_8009B160 = 3;
+        return 1;
+    }
+
+    if (D_8009B1D6 == cursor->x) {
+        return 0;
+    }
+
+    D_8009B160 = 0;
+    if (D_8009B1D6 >= cursor->x) {
+        goto moved;
+    }
+    dir = 2;
+
+store:
+    D_8009B160 = dir;
+
+moved:
+    return 1;
+}
+```
