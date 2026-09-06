@@ -1355,8 +1355,8 @@ def append_evidence(
             f"{address:#010x}: {mode} history already ended with "
             f"{history[-1]['result']}"
         )
-    if len(history) >= maximum:
-        raise AuditError(f"{address:#010x}: {mode} budget exhausted")
+    if maximum is not None and len(history) >= maximum:
+        raise AuditError(f"{address:#010x}: {mode} allows {maximum} attempt(s)")
     candidate = resolve_within(
         root,
         manifest_row["candidate_source"],

@@ -92,14 +92,8 @@ def import_unmatched_results(root: Path, path: Path) -> int:
         )
         if duplicate:
             continue
-        if len(history) >= record_attempt.MAX_ATTEMPTS:
-            raise ImportError(f"{address:#010x}: attempt budget exhausted")
         attempt = len(history) + 1
-        outcome = (
-            "deferred"
-            if attempt == record_attempt.MAX_ATTEMPTS
-            else "nonmatch"
-        )
+        outcome = "nonmatch"
         rows.append(
             {
                 "address": f"0x{address:08X}",
@@ -157,8 +151,6 @@ def import_inline_results(root: Path, path: Path) -> int:
         ]
         if history and history[-1]["result"] in {"matched", "deferred"}:
             continue
-        if len(history) >= record_external_attempt.MAX_ATTEMPTS:
-            raise ImportError(f"{address:#010x}: refinement budget exhausted")
         profile = result["profile"]
         source = resolve_within(root, result["source"], must_exist=True)
         source_value = str(source.relative_to(root))
@@ -169,11 +161,7 @@ def import_inline_results(root: Path, path: Path) -> int:
         ):
             continue
         attempt = len(history) + 1
-        outcome = (
-            "deferred"
-            if attempt == record_external_attempt.MAX_ATTEMPTS
-            else "nonmatch"
-        )
+        outcome = "nonmatch"
         rows.append(
             {
                 "mode": "inline_refinement",

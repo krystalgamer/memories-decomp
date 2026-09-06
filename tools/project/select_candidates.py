@@ -20,7 +20,6 @@ class CandidateError(RuntimeError):
 
 ATTEMPT_FIELDS = ("address", "attempt", "compiler", "flags", "result", "summary")
 TERMINAL_RESULTS = {"matched", "deferred"}
-MAX_ATTEMPTS = 6
 
 
 def parse_integer(value: str) -> int:
@@ -46,10 +45,6 @@ def load_attempts(path: Path) -> dict[int, list[dict[str, str]]]:
             grouped[address].append(row)
 
     for address, rows in grouped.items():
-        if len(rows) > MAX_ATTEMPTS:
-            raise CandidateError(
-                f"{address:#010x}: exceeds six-attempt budget"
-            )
         for expected, row in enumerate(rows, start=1):
             try:
                 attempt = int(row["attempt"], 10)
@@ -94,7 +89,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--include-partial",
         action="store_true",
-        help="include nonterminal histories with remaining attempt budget",
+        help="include histories that have not reached a terminal result",
     )
     parser.add_argument(
         "--format",
@@ -140,7 +135,6 @@ def select(root: Path, args: argparse.Namespace) -> list[dict[str, Any]]:
                 "address": f"0x{function.address:08X}",
                 "size": f"0x{function.size:X}",
                 "attempt_count": len(history),
-                "remaining_attempts": MAX_ATTEMPTS - len(history),
             }
         )
 
@@ -169,7 +163,6 @@ def print_candidates(
             "address",
             "size",
             "attempt_count",
-            "remaining_attempts",
         ),
         lineterminator="\n",
     )

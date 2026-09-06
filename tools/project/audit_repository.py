@@ -36,7 +36,6 @@ ALLOWED_MARKDOWN_PATHS = {
 ALLOWED_MARKDOWN_NAME = "README.md"
 ATTEMPT_FIELDS = ("address", "attempt", "compiler", "flags", "result", "summary")
 ATTEMPT_RESULTS = {"matched", "nonmatch", "deferred"}
-MAX_FUNCTION_ATTEMPTS = 6
 EXTERNAL_ATTEMPT_FIELDS = (
     "mode",
     "address",
@@ -60,8 +59,8 @@ COLLABORATOR_REFERENCE_SETS = (
     "ygofm-decomp-machinegun",
 )
 EXTERNAL_MODE_LIMITS = {
-    "reference_match": MAX_FUNCTION_ATTEMPTS,
-    "inline_refinement": MAX_FUNCTION_ATTEMPTS,
+    "reference_match": None,
+    "inline_refinement": None,
     "collaborator_match": 1,
     "post_terminal_resolution": 1,
 }
@@ -338,10 +337,6 @@ def audit_attempts(root: Path) -> None:
 
     matched_attempts: set[int] = set()
     for address, rows in by_address.items():
-        if len(rows) > MAX_FUNCTION_ATTEMPTS:
-            raise AuditError(
-                f"{address:#010x}: exceeds six-attempt budget"
-            )
         ended = False
         for expected, row in enumerate(rows, start=1):
             attempt = parse_integer(row["attempt"], "attempt number")
@@ -482,7 +477,7 @@ def audit_attempts(root: Path) -> None:
 
     for (mode, address), rows in external_by_key.items():
         maximum = EXTERNAL_MODE_LIMITS[mode]
-        if len(rows) > maximum:
+        if maximum is not None and len(rows) > maximum:
             raise AuditError(
                 f"{address:#010x}: exceeds {maximum} {mode} attempts"
             )

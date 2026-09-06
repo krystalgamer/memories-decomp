@@ -40,10 +40,13 @@ MODES = {
 }
 RESULTS = {"matched", "nonmatch", "deferred"}
 TERMINAL_RESULTS = {"matched", "deferred"}
-MAX_ATTEMPTS = 6
+# None means the mode has no attempt ceiling. The campaign modes are
+# unbounded so that a hard function can be explored to a conclusion; the
+# single-shot modes are not budgets but escape hatches, each admitting one
+# row against one specific piece of new evidence.
 MODE_MAX_ATTEMPTS = {
-    "reference_match": MAX_ATTEMPTS,
-    "inline_refinement": MAX_ATTEMPTS,
+    "reference_match": None,
+    "inline_refinement": None,
     "collaborator_match": 1,
     "post_terminal_resolution": 1,
 }
@@ -310,7 +313,7 @@ def validate_rows(
 
     for (mode, address), history in grouped.items():
         maximum = MODE_MAX_ATTEMPTS[mode]
-        if len(history) > maximum:
+        if maximum is not None and len(history) > maximum:
             raise ExternalAttemptError(
                 f"{address:#010x}: exceeds {maximum} {mode} attempt(s)"
             )
@@ -333,14 +336,6 @@ def validate_rows(
                 )
             if row["result"] in TERMINAL_RESULTS:
                 ended = True
-            if (
-                maximum == MAX_ATTEMPTS
-                and expected == MAX_ATTEMPTS
-                and row["result"] == "nonmatch"
-            ):
-                raise ExternalAttemptError(
-                    f"{address:#010x}: sixth external attempt must be deferred"
-                )
 
 
 def sort_key(row: dict[str, str]) -> tuple[int, str, int]:
@@ -591,19 +586,11 @@ def main() -> int:
                 f"{history[-1]['result']}"
             )
         maximum = MODE_MAX_ATTEMPTS[args.mode]
-        if len(history) >= maximum:
+        if maximum is not None and len(history) >= maximum:
             raise ExternalAttemptError(
-                f"{address:#010x}: {args.mode} attempt budget is exhausted"
+                f"{address:#010x}: {args.mode} allows {maximum} attempt(s)"
             )
         attempt = len(history) + 1
-        if (
-            maximum == MAX_ATTEMPTS
-            and attempt == MAX_ATTEMPTS
-            and args.result == "nonmatch"
-        ):
-            raise ExternalAttemptError(
-                "record the sixth unsuccessful attempt as deferred"
-            )
 
         summary = args.summary
         if args.mode == "post_terminal_resolution":

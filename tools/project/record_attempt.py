@@ -16,7 +16,6 @@ class AttemptError(RuntimeError):
 
 FIELDS = ("address", "attempt", "compiler", "flags", "result", "summary")
 RESULTS = {"matched", "nonmatch", "deferred"}
-MAX_ATTEMPTS = 6
 
 
 def parse_address(value: str) -> int:
@@ -80,7 +79,10 @@ def write_attempts(path: Path, rows: list[dict[str, str]]) -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Record one decompilation attempt with a six-try limit."
+        description=(
+            "Record one decompilation attempt. Attempts are unbounded; a "
+            "history ends only when it is recorded as matched or deferred."
+        )
     )
     parser.add_argument("address", help="function address such as 0x80012345")
     parser.add_argument("--compiler", required=True, help="compiler identifier")
@@ -124,11 +126,6 @@ def main() -> int:
                 f"{address:#010x}: attempts already ended with "
                 f"{history[-1]['result']}"
             )
-        if len(history) >= MAX_ATTEMPTS:
-            raise AttemptError(
-                f"{address:#010x}: six-attempt budget is exhausted"
-            )
-
         attempt = len(history) + 1
         rows.append(
             {
@@ -154,10 +151,7 @@ def main() -> int:
         print(f"error: {error}", file=sys.stderr)
         return 1
 
-    print(
-        f"attempt {attempt}/{MAX_ATTEMPTS}: "
-        f"{address:#010x} {args.result}"
-    )
+    print(f"attempt {attempt}: {address:#010x} {args.result}")
     return 0
 
 
