@@ -371,6 +371,40 @@ Two subsegment spellings matter and they are different things:
   file and linked as `<name>.rodata.o(.rodata)`. Use it for the part not yet
   converted.
 
+**The dot is a general convention, not a rodata one.** It reads as "this
+section comes from our source" against "this range came from the original
+split", and it applies to the other sections the same way: `.data` beside
+`data`, `.bss` beside `bss`. So the module's `data` blob is convertible on
+exactly the same terms as the rodata one — a global moves out of the blob into
+the C file that owns it, and a `.data` subsegment names that file at the
+address the global has to keep.
+
+Only the `.rodata` half of that is verified in this repository, by the worked
+example below. The `.data` half is the same mechanism but has not been
+exercised here yet, and there is a specific reason to expect it to be harder,
+which is worth knowing before starting.
+
+### The overlay data blobs are mostly not `.data` at all
+
+Password's blob runs `0x5400`–`0x7800`, 9216 bytes, and only **1499 of them
+are non-zero**, the first at `0x5590`. Everything before that — the whole
+`D_8016D400` block of flags, pointers and counters this module works through —
+is zeros, and the non-zero part is sparse rather than tabular: `04` at
+`0x5590`, `10` at `0x55CA`, and so on. That is a struct with a few non-default
+fields, not a lookup table.
+
+The trap follows directly. A zero-valued global written in C as `u8 x;` or
+`u8 x = 0;` is not `.data`; the compiler puts it in `.bss`. Declaring a
+`.data` subsegment for a file whose globals are all zero therefore yields an
+empty section, the blob loses those bytes, and everything after it moves. It
+fails the same silent way everything else in this area fails — a whole-module
+hash mismatch with nothing naming the file responsible.
+
+So for these modules the `.data` conversion is really two questions, and only
+the second is about `.data`: which globals are genuinely initialised, and
+where the zero ones belong. Read the blob before assuming, the same way the
+rodata region was read before it was carved.
+
 That is the same spelling other PS1 projects use for jump tables; the
 references collected under `tmp/references/jtbl/` show `[0x1148, .rodata,
 map3_s03]`, `[0x988, .rodata, thread]` and `[0x40A30, .rodata, C82B8]` in
