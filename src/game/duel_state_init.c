@@ -82,7 +82,7 @@ void func_800175A0(void) {
     D_8009B1C8 = (u8 *)&D_800E9FF0[D_8009B1D5];
 }
 
-void func_800176D0(void)
+void Duel_ClearHandSlots(void)
 {
     u8 *entry = (u8 *)D_800EA030;
     int i = 0;

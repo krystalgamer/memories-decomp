@@ -278,6 +278,7 @@ Mode slot 6. An 8×5 opponent grid (Build Deck tile at top-left); the cursor roa
 | `gDuel_bTerrain` | 0x8009B364 | The current field terrain. |
 | `gDuel_wSelectedCardID` | 0x8009B338 | The currently selected card — game-wide: it is also the Library grid's cursor (RIGHT +1, DOWN +10, proven live). |
 | `gDuel_aDeckCardRecords` | 0x801A7E20 | Two 40-entry sets of 6-byte per-deck-card records, player then opponent. Each side's five visible hand slots contain indices into its set. |
+| `Duel_ClearHandSlots` | 0x800176D0 | Clears both display-object pointers and the active byte in all five duel hand slots. |
 | `gDuel_aActiveCards` | 0x801AB000 | The cards in play on the field. |
 | `gDuel_aPlayerMonsters` | 0x801A7B64 | Your five monster-zone slots. |
 | `gDuel_wPlayerLifePoint / gDuel_wPlayerLifePointDisplay` | 0x800EA004 / 002 | Your life points — actual vs the on-screen ticking number. |

@@ -877,7 +877,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x800170C8 | `Duel_CalcCardStats` | local |
 | 0x800171A8 | `Duel_LoadPackageStage` | fleet |
 | 0x8001755C | `call_530c4_533d8_56250` | fleet |
-| 0x800176D0 | `hand_slots_clear` | fleet |
+| 0x800176D0 | `Duel_ClearHandSlots` | fleet |
 | 0x80018DB4 | `duel_field_slot_spawn_dispatch` | fleet |
 | 0x80019564 | `spawn_container_marker_obj` | fleet |
 | 0x80019A08 | `Duel_CheckEquip` | local |
