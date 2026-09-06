@@ -79,6 +79,8 @@ function,0x8002D730,Main_RunGameOver,high,"gms.c gameOverLoop; main dispatcher",
 function,0x8002D7CC,Main_RunTrade,high,"gms.c tradeLoop; main dispatcher","Runs the card-trading state."
 function,0x8002DA1C,Main_RunCredits,high,"gms.c creditsLoop; main dispatcher","Runs the credits state."
 function,0x8002DD74,Main_Loop,high,"gms.c mainLoop; local top-level dispatch","Top-level game state loop."
+function,0x8002E9A0,Script_OpViewportTween,high,"matching body; three script u16 operands; state-7 transition; retail D_80090C50 slot 6","Reads viewport target X, target Y, and duration, then starts the viewport-tween dispatcher state."
+function,0x8002EA0C,Script_UpdateViewportTween,high,"matching 16.16 interpolation body; retail D_80090C50 slot 7; gGraphics_sViewportX/Y","Advances the script-driven viewport tween and snaps to its target when the frame count expires."
 function,0x8002EC74,Script_OpSound,high,"matching opcode body; gScript_pStream and gScript_wCommand state; DuelEffect sound-command sibling","Processes the story-script sound opcode, including immediate playback and persistent current-command control."
 function,0x80032B60,BuildDeck_CompareCard,high,"gms.c compDeckCard; local sort comparator","Compares deck-builder card records."
 function,0x800356A0,Util_CopyWords,high,"gms.c copyWords; local body and callers","Copies a caller-supplied number of words."

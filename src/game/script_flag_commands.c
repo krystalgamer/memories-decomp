@@ -37,7 +37,7 @@ void func_8002E918(void)
     D_8009B27C = 0;
 }
 
-void func_8002E9A0(void)
+void Script_OpViewportTween(void)
 {
     {
         u8 *cursor = D_8009B290;
