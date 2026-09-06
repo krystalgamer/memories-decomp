@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "duel_card_layout.h"
+#include "duel_display.h"
+#include "duel_grid.h"
 
 extern s32 D_8009B304;
 extern s32 D_8009B308;
@@ -42,7 +45,7 @@ void func_800164FC(void) {
         p4 = (s32 *)0x1F8000C0;
         p1 = (u8 *)0x1F800140;
         p3 = (u8 *)0x1F800180;
-        c = 0x808080;
+        c = DUEL_DISPLAY_COLOR_NORMAL;
         e = D_801A7B64;
         n = 0;
 
@@ -74,7 +77,7 @@ void func_800164FC(void) {
 
     do {
         h = *(u16 *)(e + 0x16);
-        if ((h & 0x8000) != 0) {
+        if ((h & DUEL_CARD_FLAG_OCCUPIED) != 0) {
             a = *(u8 **)e;
             if (a != (u8 *)0) {
                 if ((h & 0x400) != 0) {
@@ -88,15 +91,15 @@ void func_800164FC(void) {
         }
         n++;
     next:
-        e += 0x1C;
-    } while (n < 0xA);
+        e += DUEL_CARD_RECORD_SIZE;
+    } while (n < DUEL_FIELD_SIDE_ZONE_COUNT);
 
     t = D_801A7B64;
-    e = t + 0x1A4;
+    e = t + DUEL_CARD_SIDE_RECORD_COUNT * DUEL_CARD_RECORD_SIZE;
     n = 0;
     do {
         h = *(u16 *)(e + 0x16);
-        if ((h & 0x8000) != 0) {
+        if ((h & DUEL_CARD_FLAG_OCCUPIED) != 0) {
             a = *(u8 **)e;
             if (a != (u8 *)0) {
                 if ((h & 0x400) != 0) {
@@ -110,8 +113,8 @@ void func_800164FC(void) {
         }
         n++;
     next2:
-        e += 0x1C;
-    } while (n < 0xA);
+        e += DUEL_CARD_RECORD_SIZE;
+    } while (n < DUEL_FIELD_SIDE_ZONE_COUNT);
 
     SetGeomOffset(0, 0);
 }
