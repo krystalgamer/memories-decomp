@@ -1,7 +1,7 @@
 entrypoint = 0x800129D8; // type:func
 func_8002DDFC = 0x8002DDFC; // type:func
 func_80031000 = 0x80031000; // type:func
-text_end = 0x800906D4;
+text_end = 0x800906D4; // ignore:True
 initialized_data_start = 0x800906E0;
 runtime_gp = 0x8009AF08;
 bss_start = 0x8009B090;
