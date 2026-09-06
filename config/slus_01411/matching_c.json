@@ -4240,7 +4240,7 @@
       "address": "0x8004B734",
       "profile": "gcc_2_8_1_g0",
       "size": "0x120",
-      "source": "src/game/func_8004B734.c"
+      "source": "src/game/sd_sequence_timer_callback.c"
     },
     {
       "address": "0x8004B854",

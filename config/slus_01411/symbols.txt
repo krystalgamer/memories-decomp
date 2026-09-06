@@ -259,6 +259,7 @@ Util_FillMemory = 0x80035748; // type:func
 
 // Semantic names
 SD_ProcessSequenceTracks = 0x8004C8C8; // type:func
+SD_SequenceTimerCallback = 0x8004B734; // type:func
 
 // Semantic names
 DuelEffect_UpdateObjectLayout = 0x80036DBC; // type:func

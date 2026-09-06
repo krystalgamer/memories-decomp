@@ -5,7 +5,7 @@
 extern void func_80073A54(s32);
 extern void func_80073950(s32, s32, s32);
 extern void func_80073A24(s32);
-extern long func_8004B734(void);
+extern long SD_SequenceTimerCallback(void);
 
 void func_8004B854(void)
 {
@@ -21,7 +21,7 @@ void func_8004B854(void)
         register unsigned long descriptor asm("$4") = RCntCNT2;
         register long specification asm("$5") = EvSpINT;
         register long mode asm("$6") = EvMdINTR;
-        register long (*callback)(void) asm("$7") = func_8004B734;
+        register long (*callback)(void) asm("$7") = SD_SequenceTimerCallback;
 
         event = OpenEvent(descriptor, specification, mode, callback);
     }
