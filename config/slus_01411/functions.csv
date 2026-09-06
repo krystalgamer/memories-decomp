@@ -1699,9 +1699,9 @@ address,size,name,status,module,notes
 0x8008B730,0x70,_ExitCard,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBCARD.LIB/END.OBJ signature.
 0x8008B7B0,0x30,MemCardInit,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBMCRD.LIB/INIT.OBJ signature.
 0x8008B7E0,0x20,MemCardEnd,sdk_asm,psyq/sdk,Identified at offset 0x30 of the unique Psy-Q 4.6 LIBMCRD.LIB/INIT.OBJ signature.
-0x8008B800,0x28,func_8008B800,sdk_asm,psyq/sdk,
-0x8008B828,0x28,func_8008B828,sdk_asm,psyq/sdk,
-0x8008B850,0xC,func_8008B850,sdk_asm,psyq/sdk,
+0x8008B800,0x28,PushCallbackFunc,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
+0x8008B828,0x28,PullCallbackFunc,sdk_asm,psyq/sdk,Identified at offset 0x28 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
+0x8008B850,0xC,McrdGetGlobalStructure,sdk_asm,psyq/sdk,Identified at offset 0x50 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
 0x8008B85C,0x70,MemCardStart,sdk_asm,psyq/sdk,Identified at offset 0x5C of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature and matching dialog lifecycle caller.
 0x8008B8CC,0x40,MemCardStop,sdk_asm,psyq/sdk,Identified at offset 0xCC of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature and matching dialog lifecycle caller.
 0x8008B90C,0x68,MemCardExist,sdk_asm,psyq/sdk,Identified at offset 0x10C of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
@@ -1726,29 +1726,29 @@ address,size,name,status,module,notes
 0x8008CF74,0x54,func_8008CF74,sdk_asm,psyq/sdk,
 0x8008CFC8,0xAC,func_8008CFC8,sdk_asm,psyq/sdk,
 0x8008D074,0x5C,func_8008D074,sdk_asm,psyq/sdk,
-0x8008D0D0,0x10,func_8008D0D0,sdk_asm,psyq/sdk,
-0x8008D0E0,0x7C,func_8008D0E0,sdk_asm,psyq/sdk,
-0x8008D15C,0x6C,func_8008D15C,sdk_asm,psyq/sdk,
-0x8008D1C8,0x10,func_8008D1C8,sdk_asm,psyq/sdk,
-0x8008D1E0,0x14,func_8008D1E0,sdk_asm,psyq/sdk,
-0x8008D1F4,0x14,func_8008D1F4,sdk_asm,psyq/sdk,
-0x8008D208,0x14,func_8008D208,sdk_asm,psyq/sdk,
-0x8008D21C,0x14,func_8008D21C,sdk_asm,psyq/sdk,
-0x8008D230,0x14,func_8008D230,sdk_asm,psyq/sdk,
-0x8008D244,0x14,func_8008D244,sdk_asm,psyq/sdk,
-0x8008D258,0x14,func_8008D258,sdk_asm,psyq/sdk,
-0x8008D26C,0x14,func_8008D26C,sdk_asm,psyq/sdk,
-0x8008D280,0x30,func_8008D280,sdk_asm,psyq/sdk,
-0x8008D2B0,0x1DC,func_8008D2B0,sdk_asm,psyq/sdk,
-0x8008D48C,0x20,func_8008D48C,sdk_asm,psyq/sdk,
-0x8008D4AC,0xB4,func_8008D4AC,sdk_asm,psyq/sdk,
-0x8008D560,0x108,func_8008D560,sdk_asm,psyq/sdk,
-0x8008D668,0xD8,func_8008D668,sdk_asm,psyq/sdk,
-0x8008D740,0xD8,func_8008D740,sdk_asm,psyq/sdk,
-0x8008D818,0x3C,func_8008D818,sdk_asm,psyq/sdk,
-0x8008D854,0x3C,func_8008D854,sdk_asm,psyq/sdk,
-0x8008D890,0x3D0,func_8008D890,sdk_asm,psyq/sdk,
-0x8008DC60,0x6B4,func_8008DC60,sdk_asm,psyq/sdk,
+0x8008D0D0,0x10,UserFuncInit,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBMCRD.LIB/USERFUNC.OBJ signature.
+0x8008D0E0,0x7C,UserFuncOpen,sdk_asm,psyq/sdk,Identified at offset 0x10 of the unique Psy-Q 4.6 LIBMCRD.LIB/USERFUNC.OBJ signature.
+0x8008D15C,0x6C,UserFuncExecute,sdk_asm,psyq/sdk,Identified at offset 0x8C of the unique Psy-Q 4.6 LIBMCRD.LIB/USERFUNC.OBJ signature.
+0x8008D1C8,0x10,UserFuncComplete,sdk_asm,psyq/sdk,Identified at offset 0xF8 of the unique Psy-Q 4.6 LIBMCRD.LIB/USERFUNC.OBJ signature.
+0x8008D1E0,0x14,funcEvSpIOE,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D1F4,0x14,funcEvSpError,sdk_asm,psyq/sdk,Identified at offset 0x14 of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D208,0x14,funcEvSpTimeout,sdk_asm,psyq/sdk,Identified at offset 0x28 of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D21C,0x14,funcEvSpNewcard,sdk_asm,psyq/sdk,Identified at offset 0x3C of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D230,0x14,funcEvSpIOEx,sdk_asm,psyq/sdk,Identified at offset 0x50 of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D244,0x14,funcEvSpErrorx,sdk_asm,psyq/sdk,Identified at offset 0x64 of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D258,0x14,funcEvSpTimeoutx,sdk_asm,psyq/sdk,Identified at offset 0x78 of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D26C,0x14,funcEvSpNewcardx,sdk_asm,psyq/sdk,Identified at offset 0x8C of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D280,0x30,_card_open,sdk_asm,psyq/sdk,Identified at offset 0xA0 of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D2B0,0x1DC,_card_start,sdk_asm,psyq/sdk,Identified at offset 0xD0 of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D48C,0x20,_card_close,sdk_asm,psyq/sdk,Identified at offset 0x2AC of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D4AC,0xB4,_card_stop,sdk_asm,psyq/sdk,Identified at offset 0x2CC of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D560,0x108,_clr_card_event,sdk_asm,psyq/sdk,Identified at offset 0x380 of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D668,0xD8,_get_card_event,sdk_asm,psyq/sdk,Identified at offset 0x488 of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D740,0xD8,_get_card_event_x,sdk_asm,psyq/sdk,Identified at offset 0x560 of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D818,0x3C,_chk_card_event,sdk_asm,psyq/sdk,Identified at offset 0x638 of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D854,0x3C,_chk_card_event_x,sdk_asm,psyq/sdk,Identified at offset 0x674 of the unique Psy-Q 4.6 LIBMCRD.LIB/BIOS.OBJ signature.
+0x8008D890,0x3D0,_card_format2,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBMCRD.LIB/LOW.OBJ signature.
+0x8008DC60,0x6B4,_card_create2,sdk_asm,psyq/sdk,Identified at offset 0x3D0 of the unique Psy-Q 4.6 LIBMCRD.LIB/LOW.OBJ signature.
 0x8008E320,0x34,bcopy,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/BCOPY.OBJ signature.
 0x8008E360,0x30,bzero,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/BZERO.OBJ signature and matching AI state initialization calls.
 0x8008E390,0x34,memcpy,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/MEMCPY.OBJ signature.
