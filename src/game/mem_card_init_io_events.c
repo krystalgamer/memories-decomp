@@ -4,7 +4,7 @@
 extern signed char D_8009B43E;
 extern u8 D_8009B44E;
 extern int D_8009B444;
-extern volatile int D_8009B450;
+extern volatile int gMemCard_nIOResult;
 extern long D_800F2AE0[];
 extern void *D_800F2AF0[];
 extern void func_80043D48(void **);
@@ -58,9 +58,9 @@ void func_80044038(int value)
     do {
         func_80043D48(D_800F2AF0);
         func_8008B3A0(value);
-        while (D_8009B450 < 0) {
+        while (gMemCard_nIOResult < 0) {
         }
-        if (D_8009B450 != 1)
+        if (gMemCard_nIOResult != 1)
             break;
         count--;
     } while (count > 0);

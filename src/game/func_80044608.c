@@ -1,7 +1,7 @@
 #include "../types.h"
 
 extern u8 D_8009B43D;
-extern volatile s32 D_8009B450;
+extern volatile s32 gMemCard_nIOResult;
 extern u8 D_8009B43C;
 extern u8 D_8009B44E;
 extern s8 D_8009B43E;
@@ -43,7 +43,7 @@ s32 func_80044608(void) {
     goto ret;
 
 state0:
-    v1 = D_8009B450;
+    v1 = gMemCard_nIOResult;
     if (v1 == 1) {
         goto state0_info;
     }
@@ -78,7 +78,7 @@ state0_zero:
             goto ret;
         }
     }
-    D_8009B450 = 3;
+    gMemCard_nIOResult = 3;
 sub_poll_entry:
     if (D_8009B43E == 1) {
         goto ret;
@@ -91,11 +91,11 @@ sub_retry:
     return -1;
 
 state1:
-    v0 = D_8009B450;
+    v0 = gMemCard_nIOResult;
     if (v0 == 0) {
         goto state1_zero;
     }
-    v1 = D_8009B450;
+    v1 = gMemCard_nIOResult;
     if (v1 != 2) {
         goto ret;
     }
@@ -115,7 +115,7 @@ load_retry:
     return -1;
 
 state2:
-    v0 = D_8009B450;
+    v0 = gMemCard_nIOResult;
     if (v0 == 2) {
         v0 = D_8009B43C - 1;
         D_8009B43C = (u8)v0;
@@ -125,7 +125,7 @@ state2:
     }
 
     D_8009B44E |= 0x80;
-    v1 = D_8009B450;
+    v1 = gMemCard_nIOResult;
     if (v1 != 0) {
         goto after_load;
     }
@@ -134,9 +134,9 @@ state2:
     D_8009B438 = func_80044544(D_8009B444, D_8009B440);
 
 after_load:
-    if (D_8009B450 == 3) {
-        D_8009B450 = 4;
+    if (gMemCard_nIOResult == 3) {
+        gMemCard_nIOResult = 4;
     }
 ret:
-    return D_8009B450;
+    return gMemCard_nIOResult;
 }

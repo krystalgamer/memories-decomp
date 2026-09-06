@@ -700,7 +700,7 @@ address,size,name,status,module,notes
 0x80044470,0xD4,func_80044470,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80044544,0x54,func_80044544,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80044598,0x70,func_80044598,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80044608,0x230,func_80044608,matching_c,game,Exact resident match from newer collaborator evidence; state-machine block layout and volatile D_8009B450 reads preserve retail code generation.
+0x80044608,0x230,func_80044608,matching_c,game,Exact resident match from newer collaborator evidence; state-machine block layout and volatile gMemCard_nIOResult reads preserve retail code generation.
 0x80044838,0x49C,func_80044838,unmatched_asm,game,
 0x80044CD4,0x28,func_80044CD4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80044CFC,0x10,MemCard_SetIOResultCompleteCB,matching_c,game,26 pre-policy variants: exact (-G0/-G8); selected -G0 high-base $v0 form; simpler forms used $at/GP or extra addiu
