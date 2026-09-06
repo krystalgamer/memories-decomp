@@ -68,7 +68,7 @@ void func_800336F0(u8 *p)
         q = p + r;
         if (*(s32 *)(p + 0x5AA0) < DECK_SIZE &&
             q[0x5D97] != 0 &&
-            q[0x5AC4] < 3) {
+            q[0x5AC4] < DECK_CARD_COPY_LIMIT) {
             SD_SEPlayFull(7);
             BuildDeck_AddCard(p, r);
             func_80031F7C(p, r);
