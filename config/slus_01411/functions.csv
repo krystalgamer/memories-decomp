@@ -164,7 +164,7 @@ address,size,name,status,module,notes
 0x80021810,0x84,Duel_SelectCardDrop,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80021894,0x5C,Duel_AwardCard,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800218F0,0x7C8,func_800218F0,unmatched_asm,game,
-0x800220B8,0x23C,func_800220B8,unmatched_asm,game,
+0x800220B8,0x23C,func_800220B8,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x800222F4,0x324,func_800222F4,unmatched_asm,game,
 0x80022618,0x5C,func_80022618,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80022674,0x380,func_80022674,matching_c,game,Exact linked bytes with gcc_2_8_1_g8 from the ygofm reference; goto-laid arms in retail's address order and an s16 countdown local are load-bearing.
