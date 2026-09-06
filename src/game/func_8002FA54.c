@@ -22,22 +22,22 @@ void func_8002FA54(void)
 
     rand();
     f = D_8009B2A4;
-    if (f & 0x4000) {
+    if (f & DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE) {
         func_80039794();
         if ((D_800EB12C[0] & 0x2008) == TEXT_BOX_FLAG_DONE) {
-            D_8009B2A4 &= 0xBFFF;
+            D_8009B2A4 &= ~DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE;
         }
         return;
     }
     if (f == 0) {
         return;
     }
-    if ((f & 0x8000) == 0) {
+    if ((f & DUEL_EVENT_SCRIPT_FLAG_STARTED) == 0) {
         g = D_8009B2A4;
         D_8009B290 = D_801A8000 + *(u16 *)(D_801A8000 + g * 2);
         b = *D_8009B290++;
         D_8009B28C = 0;
-        D_8009B2A4 = g | 0x8000;
+        D_8009B2A4 = g | DUEL_EVENT_SCRIPT_FLAG_STARTED;
         D_8009B27C = b;
     }
     if (D_8009B28C != 0) {
