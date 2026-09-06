@@ -213,6 +213,7 @@ global,0x80179A04,gDuel_anRankScore,confirmed,"recomp live oracle; Duel_CalcRank
 global,0x8017A1D8,gDuel_awEquipTable,high,"local Duel_CheckEquip matching C; Unchiga IDB label","16-bit equipment compatibility table."
 global,0x801D4D8E,gCard_asNameSortKey,high,"local BuildDeck comparators; Unchiga live sort analysis","Signed 16-bit per-card secondary keys used for alphabetical ordering."
 function,0x8003D0F4,SaveData_ApplyRuntimeState,high,"matching body; gms.c pseudocode; func_8003F810 memory-card load path","Applies saved runtime globals and sound output mode after loaded save data is copied into persistent state."
+function,0x8003D288,SaveData_HasSameDuelistCode,high,"matching body compares save-record offset 0x334; func_8003F8D4 passes the two loaded save buffers; FM-Online same-code bypass","Tests whether two loaded save records carry the same duelist code."
 function,0x8003D46C,DuelEffect_CreateChannel,high,"matching body; shared D_800EB0F8 channel layout; func_8003DA40 callers","Initializes an effect channel, stamps its sequence byte, applies activation flags or waits for readiness, and returns it."
 function,0x8004544C,SD_ClearBusyFlag,high,"matching body; g_SDValue busy field; paired callback registration","Clears the sound-driver busy flag when the registered callback runs."
 function,0x8004545C,SD_ArmBusyCallback,high,"pure-C matching body; g_SDValue busy field; D_8009B128 callback slot","Sets the sound-driver busy flag and registers the callback that clears it."

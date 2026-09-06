@@ -164,8 +164,10 @@ instruction is `sb v0, D_8009B3EA(gp)` with `v0` already set to `0x0A`; the
 second is the jump delay-slot instruction `addu v0, zero, zero`. The patch
 therefore prevents state `0x0A` from being stored and changes that path's
 return value from zero to one. This directly identifies the bypassed path as a
-failed duelist-code validation result, although the broader semantics of
-`D_8009B3EA` remain unresolved.
+failed duelist-code validation result. The preceding exact
+`SaveData_HasSameDuelistCode` call compares the 32-bit field at offset `0x334`
+in the two loaded save buffers; equality takes this failure branch. The
+broader semantics of `D_8009B3EA` remain unresolved.
 
 The life-point width adjustment reads `RAM::lp[i] - 2`, so it tests the
 displayed values at `0x800EA002` and `0x800EA022`. Its loading and end-of-duel

@@ -968,6 +968,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8003CC38 | `Input_ReadRawPads` | matching C |
 | 0x8003CDF8 | `Input_BackupPad1AndUsePad2` | matching C |
 | 0x8003CE48 | `Input_RestorePad1FromBackup` | matching C |
+| 0x8003D288 | `SaveData_HasSameDuelistCode` | local |
 | 0x8003D334 | `draw_tiled_bg_sprites` | fleet |
 | 0x8003D614 | `reload_timer_or_delete_and_age_slot` | fleet |
 | 0x8003E46C | `set_flag_bits_mode` | fleet |
