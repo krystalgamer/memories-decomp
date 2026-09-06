@@ -2598,7 +2598,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE88,D_800EAE88,D_800EAE88,0x80027228,func_80027228,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_017a28.s,write,8,"addiu $s0, $a1, %lo(D_800EAE88) | addiu $s0, $s0, %lo(D_800EAE88) | (+4 more)"
 0x800EAE88,D_800EAE88,D_800EAE88,0x80027508,func_80027508,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_017a28.s,write,8,"addiu $s0, $a2, %lo(D_800EAE88) | lui $a2, %hi(D_800EAE88) | (+1 more)"
 0x800EAE88,D_800EAE88,D_800EAE88,0x800279BC,func_800279BC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0181bc.s,address,,"addiu $a1, $a1, %lo(D_800EAE88) | addiu $a2, $a2, %lo(D_800EAE88) | (+4 more)"
-0x800EAE88,D_800EAE88,D_800EAE88,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,,"func_8008E360(&D_800EAE88, sizeof(D_800EAE88));"
+0x800EAE88,D_800EAE88,D_800EAE88,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,,"bzero((u8 *)&D_800EAE88, sizeof(D_800EAE88));"
 0x800EAE88,D_800EAE88,D_800EAE88,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_play_field_card.c,write,,D_800EAE88.field_09 = (s8)first; | D_800EAE88.field_0A = (s8)category; | (+3 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x80072640,AiScript_FindFirstMonster,matching_c,game,C,src/game/ai_fusion.c,read,8,s32 index = D_800EAE88[i];
 0x800EAE88,D_800EAE88,D_800EAE88,0x800726F4,AiScript_FindFirstType,matching_c,game,C,src/game/ai_fusion.c,address,8,u8 *indices = D_800EAE88;
@@ -2702,7 +2702,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE18,D_800EFE18,D_800EFE18,0x8003E490,func_8003E490,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02ec90.s,address,,"addiu $a1, $a1, %lo(D_800EFE18) | lui $a1, %hi(D_800EFE18)"
 0x800EFE18,D_800EFE18,D_800EFE18,0x8003E854,func_8003E854,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02f054.s,address,,"addiu $a0, $a0, %lo(D_800EFE18) | addiu $a1, $a1, %lo(D_800EFE18) | (+2 more)"
 0x800EFE18,D_800EFE18,D_800EFE18,0x8003EED0,func_8003EED0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02f6d0.s,address,,"addiu $a1, $a1, %lo(D_800EFE18) | lui $a1, %hi(D_800EFE18)"
-0x800EFE18,D_800EFE18,D_800EFE18,0x8003F758,func_8003F758,matching_c,game,C,src/game/data_transfer_request.c,address,8,"func_8008E6F0(D_800EFE18, arg2);"
+0x800EFE18,D_800EFE18,D_800EFE18,0x8003F758,func_8003F758,matching_c,game,C,src/game/data_transfer_request.c,address,8,"strcpy(D_800EFE18, arg2);"
 0x800EFE38,D_800EFE38,D_800EFE38,0x800400AC,func_800400AC,matching_c,game,C,src/game/display_slot_lifecycle.c,read_write,16,D_800EFE38[key] = index; | other = D_800EFE38[key]; | (+1 more)
 0x800EFE38,D_800EFE38,D_800EFE38,0x8004020C,func_8004020C,matching_c,game,C,src/game/display_slot_lifecycle.c,write,16,D_800EFE38[index] = second;
 0x800EFE38,D_800EFE38,D_800EFE38,0x800402A0,func_800402A0,matching_c,game,C,src/game/func_800402A0.c,address,8,*(u16 *)(D_800EFE38 + arg1 * 2) = arg0->unkA[0]; | arg0->unk2 = *(u16 *)(D_800EFE38 + arg1 * 2); | (+1 more)
@@ -2892,7 +2892,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5918,D_800F5918,D_800F5918,0x8005FE44,func_8005FE44,matching_c,game,C,src/game/model_handler_dispatch.c,address,8,p = D_800F5918;
 0x800F5918,D_800F5918,D_800F5918,0x80060170,Model_RegisterHandlerKey,matching_c,game,C,src/game/model_handler_registry.c,read,,ModelHandlerRegistryEntry *e = D_800F5918;
 0x800F5918,D_800F5918,D_800F5918,0x800601D0,Model_FindHandlerKey,matching_c,game,C,src/game/model_handler_registry.c,read,,ModelHandlerRegistryEntry *e = D_800F5918;
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,read,,"func_8008E360(gAiScript_aMemory, sizeof(gAiScript_aMemory));"
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,read,,"bzero((u8 *)gAiScript_aMemory, sizeof(gAiScript_aMemory));"
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800709C0,AiScript_JumpGreaterEqual,matching_c,game,C,src/game/ai_script_comparison_jumps.c,address,32,"void AiScript_JumpGreaterEqual(void){int a=AiScript_ReadByte(),b=AiScript_ReadByte(),result=AiScript_ReadShort();regi..."
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070A40,AiScript_JumpGreater,matching_c,game,C,src/game/ai_script_comparison_jumps.c,address,32,"void AiScript_JumpGreater(void){int a=AiScript_ReadByte(),b=AiScript_ReadByte(),result=AiScript_ReadShort();register ..."
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070AC0,AiScript_JumpEqual,matching_c,game,C,src/game/ai_script_jump_equal.c,read,32,if (gAiScript_aMemory[first] == gAiScript_aMemory[second]) {
@@ -2944,7 +2944,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x8007368C,func_8007368C,matching_c,game,C,src/game/func_8007368C.c,address,32,D_800EAE8F[0] = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
 0x800F5BE8,gAiScript_State,gAiScript_State,0x8007058C,AiScript_ReadByte,matching_c,game,C,src/game/ai_script_read_byte.c,address,,register AiScriptState *stream = &gAiScript_State;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800705AC,AiScript_ReadShort,matching_c,game,C,src/game/ai_script_read_short.c,read_write,,gAiScript_State.cursor += 2; | u8 *p = gAiScript_State.cursor;
-0x800F5BE8,gAiScript_State,gAiScript_State,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,,"func_8008E360(state, sizeof(gAiScript_State)); | u8 *state = (u8 *)&gAiScript_State;"
+0x800F5BE8,gAiScript_State,gAiScript_State,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,,"bzero(state, sizeof(gAiScript_State)); | u8 *state = (u8 *)&gAiScript_State;"
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80070650,AiScript_Run,matching_c,game,C,src/game/ai_script_vm.c,read_write,,gAiScript_State.previous_cursor = gAiScript_State.script_cursor;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80070870,Ai_IsCardInSet,matching_c,game,C,src/game/ai_set_queries.c,address,8,set = (u16 *)gAiScript_State;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800708C4,Ai_IsTypeInSet,matching_c,game,C,src/game/ai_set_queries.c,address,8,set = gAiScript_State;

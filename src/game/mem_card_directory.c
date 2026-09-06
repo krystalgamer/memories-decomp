@@ -1,8 +1,7 @@
 #include "../types.h"
+#include "../psyq/strings.h"
 
 #include "mem_card.h"
-
-extern s32 func_8008E680(void *, s32);
 
 s32 func_80044544(u8 *entry, s32 count)
 {
@@ -25,7 +24,7 @@ s32 func_80044598(s32 value, u8 *entry, s32 count)
     s32 i;
 
     for (i = 0; i < count; i++, entry += MEM_CARD_DIRECTORY_ENTRY_SIZE) {
-        if (func_8008E680(entry, value) == 0) {
+        if (strcmp(entry, value) == 0) {
             return i;
         }
     }

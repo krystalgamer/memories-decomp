@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/strings.h"
 
 #include "mem_card.h"
 
@@ -25,7 +26,6 @@ void func_8003F740(s32 value)
 }
 
 extern u8 D_800EFE18[];
-extern void func_8008E6F0(void *, s32);
 extern u8 D_8009B3F9;
 extern u8 D_8009B3DC;
 extern u16 D_8009B3C2;
@@ -34,7 +34,7 @@ extern u32 D_8009B3D0;
 
 void func_8003F758(void *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    func_8008E6F0(D_800EFE18, arg2);
+    strcpy(D_800EFE18, arg2);
     D_8009B3F9 = 0;
     D_8009B3C2 = arg1;
     D_8009B3C4 = 0x200;

@@ -1749,28 +1749,28 @@ address,size,name,status,module,notes
 0x8008D854,0x3C,func_8008D854,sdk_asm,psyq/sdk,
 0x8008D890,0x3D0,func_8008D890,sdk_asm,psyq/sdk,
 0x8008DC60,0x6B4,func_8008DC60,sdk_asm,psyq/sdk,
-0x8008E320,0x34,func_8008E320,sdk_asm,psyq/sdk,
-0x8008E360,0x30,func_8008E360,sdk_asm,psyq/sdk,
-0x8008E390,0x34,func_8008E390,sdk_asm,psyq/sdk,
-0x8008E3D0,0x30,func_8008E3D0,sdk_asm,psyq/sdk,
+0x8008E320,0x34,bcopy,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/BCOPY.OBJ signature.
+0x8008E360,0x30,bzero,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/BZERO.OBJ signature and matching AI state initialization calls.
+0x8008E390,0x34,memcpy,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/MEMCPY.OBJ signature.
+0x8008E3D0,0x30,memset,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/MEMSET.OBJ signature and matching model-vector initialization calls.
 0x8008E400,0x150,qsort,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC/LIBC2 QSORT.OBJ signature and matching sort callers.
 0x8008E550,0x3C,func_8008E550,sdk_asm,psyq/sdk,
 0x8008E590,0x30,rand,sdk_asm,psyq/sdk,Confirmed Psy-Q C runtime implementation using the standard 0x41C64E6D/0x3039 recurrence and 15-bit return.
 0x8008E5C0,0xC,srand,sdk_asm,psyq/sdk,Confirmed Psy-Q C runtime seed setter; directly stores its argument to gRand_dwSeed.
-0x8008E5D0,0xA4,func_8008E5D0,sdk_asm,psyq/sdk,
-0x8008E680,0x64,func_8008E680,sdk_asm,psyq/sdk,
-0x8008E6F0,0x44,func_8008E6F0,sdk_asm,psyq/sdk,
-0x8008E740,0x34,func_8008E740,sdk_asm,psyq/sdk,
-0x8008E780,0x80,func_8008E780,sdk_asm,psyq/sdk,
-0x8008E800,0x70,func_8008E800,sdk_asm,psyq/sdk,
+0x8008E5D0,0xA4,strcat,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/STRCAT.OBJ signature.
+0x8008E680,0x64,strcmp,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/STRCMP.OBJ signature and matching memory-card directory search caller.
+0x8008E6F0,0x44,strcpy,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/STRCPY.OBJ signature and matching data-transfer request caller.
+0x8008E740,0x34,strlen,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/STRLEN.OBJ signature.
+0x8008E780,0x80,strncmp,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/STRNCMP.OBJ signature.
+0x8008E800,0x70,strncpy,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/STRNCPY.OBJ signature.
 0x8008E870,0x3C,func_8008E870,sdk_asm,psyq/sdk,
 0x8008E8B0,0x694,func_8008E8B0,sdk_asm,psyq/sdk,
-0x8008EF50,0x50,func_8008EF50,sdk_asm,psyq/sdk,
+0x8008EF50,0x50,memchr,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/MEMCHR.OBJ signature.
 0x8008EFA0,0xFC,func_8008EFA0,sdk_asm,psyq/sdk,
 0x8008F09C,0x3C,func_8008F09C,sdk_asm,psyq/sdk,
 0x8008F0D8,0x128,func_8008F0D8,sdk_asm,psyq/sdk,
 0x8008F200,0x880,sprintf,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/SPRINTF.OBJ signature and matching format-string callers.
-0x8008FA80,0x6C,func_8008FA80,sdk_asm,psyq/sdk,
+0x8008FA80,0x6C,memmove,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/MEMMOVE.OBJ signature.
 0x8008FAF0,0x54,func_8008FAF0,sdk_asm,psyq/sdk,
 0x8008FB50,0x3C,func_8008FB50,sdk_asm,psyq/sdk,
 0x8008FB8C,0x3C,func_8008FB8C,sdk_asm,psyq/sdk,

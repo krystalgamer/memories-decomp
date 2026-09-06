@@ -17,7 +17,7 @@
  * $PSLibId: Run-time Library Release 4.6$
  */
 
-#include <strings.h>
+#include "strings.h"
 
 /* ----------------------------------------------------------------
  *	End on File

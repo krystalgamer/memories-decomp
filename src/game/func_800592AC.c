@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../psyq/memory.h"
 #include "model.h"
 
 /* arg2's transform block: unk0 flag, a 0x20-byte MATRIX at +4, then the
@@ -17,7 +18,6 @@ typedef struct {
 
 extern MATRIX *func_800889C0(SVECTOR *r, MATRIX *m);
 extern void func_80088E50(SVECTOR *r, MATRIX *m);
-extern void *func_8008E3D0(void *p, s32 v, u32 n);
 extern u16 D_8009B47A;
 extern u16 D_8009B47C;
 
@@ -30,7 +30,7 @@ void func_800592AC(s32 arg0, s32 arg1, Obj *arg2) {
     MATRIX sp20;
     ModelSlot *slot;
 
-    func_8008E3D0(&raw, 0, 8);
+    memset(&raw, 0, 8);
     raw.vy = (s16)(MODEL_ANGLE_FULL_TURN - D_8009B47A);
     raw.vz = (s16)D_8009B47C;
 

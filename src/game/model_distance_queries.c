@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../psyq/memory.h"
 
 #include "model.h"
 
@@ -13,15 +14,13 @@ typedef struct {
 extern u8 D_800F3A10[];
 extern u16 D_800F56F0[];
 
-extern void func_8008E3D0(void *, s32, s32);
-
 s32 func_8005A1F4(s32 index)
 {
     ModelVector output;
     ModelVector difference;
     u8 *entry = D_800F3A10 + index * MODEL_SLOT_SIZE;
 
-    func_8008E3D0(&difference, 0, 8);
+    memset(&difference, 0, 8);
     difference.x = D_800F56F0[0] - *(u16 *)(entry + 0);
     difference.y = D_800F56F0[2] - *(u16 *)(entry + 2);
     difference.z = D_800F56F0[4] - *(u16 *)(entry + 4);
@@ -37,7 +36,7 @@ s32 func_8005A2E0(s32 index)
     ModelVector difference;
     u8 *entry = D_800F3A10 + index * MODEL_SLOT_SIZE;
 
-    func_8008E3D0(&difference, 0, 8);
+    memset(&difference, 0, 8);
     difference.x = D_800F56F0[6] - *(u16 *)(entry + 0);
     difference.y = D_800F56F0[8] - *(u16 *)(entry + 2);
     difference.z = D_800F56F0[10] - *(u16 *)(entry + 4);
