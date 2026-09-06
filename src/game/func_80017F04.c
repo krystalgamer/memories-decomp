@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "card_constants.h"
+#include "duel_card_layout.h"
 
 extern s32 gDuel_adwCardStats[];
 extern u8 D_801A7AD8[];
@@ -27,9 +29,9 @@ u8 *func_80017F04(u8 *arg0, s32 arg1, s32 arg2) {
     k = *(s16 *)(arg0 + 0xC) - 1;
     tbl = gDuel_adwCardStats;
     p[0x67] = 0;
-    p[0x68] = (tbl[k] >> 26) & 0x1F;
+    p[0x68] = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
     p[0x69] = 0;
-    p[0x6A] = ((u32)arg0 - (u32)D_801A7AD8) / 28;
+    p[0x6A] = ((u32)arg0 - (u32)D_801A7AD8) / DUEL_CARD_RECORD_SIZE;
     p[0x6B] = (*(u8 **)(arg0 + 4))[2];
     *(s16 *)(p + 0x30) = arg1;
     *(s16 *)(p + 0x32) = arg2;
