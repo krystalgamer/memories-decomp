@@ -564,12 +564,25 @@ Matching game C now uses `libgpu.h` across image transfers, display
 environments, primitive records, and GPU synchronization. Representative
 migrations include `func_800249E0.c`, `func_800289BC.c`,
 `file_cd_helpers.c`, `func_800582C0.c`, and
-`model_handler_registry.c`. Confirmed camera, lighting, object, and sorting
-paths also use `libgs.h`, including `func_800134E0.c`,
+`model_handler_registry.c`. Confirmed camera, lighting, object, packet, and
+sorting paths also use `libgs.h`, including `func_800134E0.c`,
+`func_8005B260.c`,
 `func_800530C4.c`, `model_cleanup.c`, and `model_texture_upload.c`.
 No current game C includes `libhmd.h`. These imports justify their specific
 API and field uses; a local render or model record still requires field-level
 and resident-call evidence before migration to an SDK type.
+
+Matching `func_8005B260` exercises the shared packet ABI directly. It reads
+the source primitive's `P_TAG.len`, copies that tag and payload into the
+packet work buffer, inserts one `0xE1` draw-mode word, changes the copied
+length to `len + 1`, and advances the buffer by the resulting `len + 2` total
+words. The low two `flags` bits select the draw-mode semi-transparency rate,
+and a nonnegative `flags` value also sets the copied primitive code's `0x2`
+semi-transparency flag. It then links the packet through
+`addPrim(&ot->org[index & 0xFFFF], packet)`. The exact build with `P_TAG`,
+`GsOT`, `setlen`, and `addPrim` confirms that the SDK tag bitfields,
+ordering-table member, and 24-bit link macros fit this resident path without a
+parallel local packet or ordering-table declaration.
 
 The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
 same `RECT *` / `u32 *` argument shape. Both current matching `LoadImage`
