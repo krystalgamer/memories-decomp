@@ -75,6 +75,7 @@ source grouping.
 | `src/game/options_update.c` | `gcc_2_8_1_g8` | Contiguous options input handler (`0x8003C7A0`) and per-frame state dispatcher (`0x8003C8CC`) |
 | `src/game/game_over.c` | `gcc_2_8_1_g8_split` | Contiguous Game Over setup (`0x8003C950`) and per-frame update (`0x8003CA5C`) |
 | `src/game/input_update_pads.c` | `gcc_2_8_1_g8_split` | Contiguous raw controller-packet decoder (`0x8003CC38`) and held/pressed/repeat publisher (`0x8003CCD8`) |
+| `src/game/input_state_backup.c` | `gcc_2_8_1_g8` | `Input_BackupPad1AndUsePad2` (`0x8003CDF8`) and the contiguous `Input_RestorePad1FromBackup` (`0x8003CE48`) counterpart |
 | `src/game/mem_card_dialog_runtime.c` | `gcc_2_8_1_g8_split` | Memory-card modal object update (`0x8003F2B0`) and contiguous channel/object setup (`0x8003F388`) |
 | `src/game/mem_card_requests.c` | `gcc_2_8_1_g8_split` | Six contiguous memory-card request helpers from `0x8004413C` through `0x800443EC`, followed by the directory enumeration helper at `0x80044470` |
 | `src/game/model_handler_registry.c` | `gcc_2_8_1_g8_split` | `Model_RegisterHandlerKey` (`0x80060170`), `Model_FindHandlerKey` (`0x800601D0`), and the following model setup helper at `0x80060220` |
