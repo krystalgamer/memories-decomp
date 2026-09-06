@@ -2,7 +2,7 @@
 
 extern s32 D_8009B0CC;
 extern u8 *gFreeDuel_pCursorWidget;
-extern void func_8008E590(void);
+extern s32 rand(void);
 extern void FreeDuel_UpdateScreen(void);
 extern void FreeDuel_UpdateSparkle(void);
 
@@ -10,7 +10,7 @@ void FreeDuel_Entry(void)
 {
     s32 phase;
 
-    func_8008E590();
+    rand();
     FreeDuel_UpdateScreen();
     phase = D_8009B0CC & 0x7F;
     if (phase < 0x10) {
