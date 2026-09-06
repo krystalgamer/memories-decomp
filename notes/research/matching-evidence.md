@@ -3003,3 +3003,34 @@ change, and each was worth 13 positions.
 That last part generalises less well than the first, but the diagnostic does:
 when the same small residual appears in two arms of one switch, it is one
 source-shape mistake made twice, not two coincidences.
+
+## Cross-jumping needs the arms textually identical, not merely equivalent
+
+GCC merges the common tail of two switch arms only when the statement
+sequences match. Two arms that do the same work in a different order do not
+merge, and the cost is a whole duplicated tail rather than a few instructions.
+
+Duel_LoadPackageStage (0x800171A8, 237 instructions, thirteen phases) has four
+tail groups, and one of them was written with its statements in a different
+order in each arm:
+
+    phase 6    w, h, mask and, mask or, kind, size, ptr, ptr+0x800
+    phase 12   w,    mask and, mask or, kind, size, h, ptr, ptr+0x800
+
+Semantically identical; the height assignment simply sits in a different
+place. That single difference kept the two arms from sharing their tail and
+cost eighteen instructions, 255 against a target of 237. Moving phase 6's
+height to where phase 12 has it took the candidate to 242 and the
+encoding-based histogram distance from 18 to 7, with no other edit.
+
+The diagnostic worth keeping is the shape of the excess rather than its size.
+The extra opcodes were not scattered: they were one clean copy of a single
+tail, and reading the histogram as a set of counts made that legible. When the
+excess resembles one recognisable block, the question is which two arms failed
+to merge, not which instruction is wrong.
+
+The corollary is a warning about writing candidates. It is natural to write
+each switch arm in whatever order reads best for that arm. Where arms share a
+tail, that instinct is actively harmful: the shared portion has to be
+byte-identical in the source, so the arms should be written to a common
+template even where a different order would read more naturally.
