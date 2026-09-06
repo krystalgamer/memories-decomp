@@ -2508,3 +2508,31 @@ Both findings above came from that pass on `func_8005B4D8`: the constant
 hoisting was invisible under the scheduling profiles, which spread the
 `lui`/`ori` pairs through the body, and only became legible once scheduling
 was switched off on both sides.
+
+## A switch and an if/else chain differ in branch polarity
+
+A multi-way dispatch on one value can be written either way, and the two are
+not interchangeable for matching purposes. The difference is visible without
+any register analysis.
+
+An `if`/`else if`/`else` chain tests each case and branches *away* on
+failure, so each comparison emits a `bne` that skips over the case body,
+with the bodies inline between the tests. A `switch` branches *into* the
+matching case, so each comparison emits a `beq` to a block placed after all
+the tests, and each block ends with a jump to the join point.
+
+Measured on `func_80045334` (0x80045334, 70 instructions), dispatching on
+`id & 0xF000` with two cases and a default. Written as an if/else chain the
+candidate had `beq` 2 against 0, `bne` 0 against 2, `j` 3 against 2, `lui` 3
+against 2 and `lw` 12 against 11. Rewriting it as a `switch` corrected all
+five counts at once and took the opcode-histogram delta from 9 to 3.
+
+So read the branch polarity before writing the dispatch. `beq` to a forward
+block, with the blocks gathered after the comparisons and each ending in a
+jump, means a `switch` even when there are only two cases and the values are
+not contiguous. `bne` skipping over inline bodies means a chain.
+
+The secondary counts move together with the polarity because the two shapes
+also differ in how many join-point jumps they need, and in whether a value
+loaded before the dispatch survives into each arm. That is why a single
+structural change corrected the load counts as well.
