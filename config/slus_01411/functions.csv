@@ -141,7 +141,7 @@ address,size,name,status,module,notes
 0x8001D344,0x80,func_8001D344,matching_c,game,Exact post-terminal match from the three-channel nested clamp loop shape.
 0x8001D3C4,0x154,func_8001D3C4,matching_c,game,Pure-C inline refinement matched the full executable.
 0x8001D518,0x9C,func_8001D518,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x8001D5B4,0xBC,func_8001D5B4,unmatched_asm,game,
+0x8001D5B4,0xBC,func_8001D5B4,matching_c,game,"Exact match with gcc_2_8_1_g8; cursor step direction, if/else-if/else with a return in each arm."
 0x8001D670,0x1600,func_8001D670,unmatched_asm,game,
 0x8001EC70,0xB0,func_8001EC70,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8001ED20,0x124,func_8001ED20,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
