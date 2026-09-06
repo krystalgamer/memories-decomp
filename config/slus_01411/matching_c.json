@@ -5002,13 +5002,13 @@
       "address": "0x8005C5C4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x10",
-      "source": "src/game/func_8005C5C4.c"
+      "source": "src/game/mdec_sync.c"
     },
     {
       "address": "0x8005C5D4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x58",
-      "source": "src/game/func_8005C5D4.c"
+      "source": "src/game/mdec_sync.c"
     },
     {
       "address": "0x8005C62C",
