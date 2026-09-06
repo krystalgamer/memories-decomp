@@ -476,3 +476,4 @@ DecDCTinCallback = 0x8008FE58; // type:func
 DecDCToutCallback = 0x8008FE7C; // type:func
 DecDCTvlcSize2 = 0x80090270; // type:func
 DecDCTvlc2 = 0x800902A0; // type:func
+DecDCTvlcBuild = 0x800905F0; // type:func

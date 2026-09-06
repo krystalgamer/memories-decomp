@@ -139,6 +139,7 @@ symbol review.
 | `0x8008FE7C` | `DecDCToutCallback` | Applied Psy-Q 4.6 identity at offset `0x29C` of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
 | `0x80090270` | `DecDCTvlcSize2` | Applied Psy-Q 4.6 identity at offset zero of the unique 896-byte `LIBPRESS.LIB/VLC_C.OBJ` signature. |
 | `0x800902A0` | `DecDCTvlc2` | Applied Psy-Q 4.6 identity at offset `0x30` of the unique 896-byte `LIBPRESS.LIB/VLC_C.OBJ` signature. |
+| `0x800905F0` | `DecDCTvlcBuild` | Applied Psy-Q 4.6 identity at offset zero of the unique 240-byte `LIBPRESS.LIB/BUILD.OBJ` signature. |
 | `0x8007FAF0` | `ClearOTag` | Ordering-table initialization behavior. |
 | `0x8007FC64` | `DrawPrim` | Direct GPU primitive submission behavior. |
 | `0x8007FCC0` | `DrawOTag` | Ordering-table submission behavior. |
