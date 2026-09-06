@@ -367,8 +367,9 @@ void Duel_LoadPackageStage(Object *object, s32 phase) {
 
 ## `func_8004A764` at 0x8004A764
 
-`gcc_2_8_1_g8_split`, 23 of 23 instructions, opcode distance 0, 8 differing
-positions.
+`gcc_2_8_1_g8_split`, 23 of 23 instructions, opcode distance 0, 6 differing
+positions. Supersedes the 8-position state previously recorded here; the
+structural reading below is that entry's and is unchanged.
 
 Fills the secondary sound state's `SpuVoiceAttr` at `+0x4C0` and hands it to
 `SpuSetVoiceAttr`. `voice` comes from `D_80011434[index]`, `mask` is `0x60100`,
@@ -377,42 +378,468 @@ Fills the secondary sound state's `SpuVoiceAttr` at `+0x4C0` and hands it to
 `+0x4C4` is `mask`, `+0x4E4` is `a_mode` at `+0x24`, and `+0x4FA`/`+0x4FC` are
 `adsr1`/`adsr2` at `+0x3A`/`+0x3C`.
 
-Two things had to be right together. The stores go through the **state**
-pointer at `0x4C0` offsets, not through an `attr` pointer, because the target
-keeps the state in `v1` and only computes `a0 = v1 + 0x4C0` as the call
-argument. And `D_8009B458` needs a local `section(".data")` alias, because the
-shared declaration in `sound.h` is small enough for `-G8` to make it
+Two things had to be right together, and both still hold. The stores go through
+the **state** pointer at `0x4C0` offsets, not through an `attr` pointer, because
+the target keeps the state in `v1` and only computes `a0 = v1 + 0x4C0` as the
+call argument. And `D_8009B458` needs a local `section(".data")` alias, because
+the shared declaration in `sound.h` is small enough for `-G8` to make it
 gp-relative while the target uses `lui`/`lw`.
+
+**Two positions come from the store order.** The target emits `voice`, `mask`,
+`adsr1`, `adsr2`, `a_mode`, with the `a_mode` store landing in the `jal` delay
+slot. Writing `a_mode` third, where it reads most naturally next to `mask`,
+costs those two. Writing it last matches. The `SPU_VOICE_*` names for the mask
+and `SPU_VOICE_EXPIncN` for the mode also decode `0x60100` and `5`, which is
+worth having in the source rather than in prose.
 
 What remains is scheduling only: the target finishes the `D_80011434` address
 arithmetic before materialising the state pointer, and sinks `sw $ra` two
 positions later than this build does.
 
-Do not treat the following as settled. Crossed without improving on 8: five
-attr-pointer register pins, three index spellings, four store orders, two
-declaration orders, and ten profiles, across sweeps of 120, 96, 630, 144, 150
-and 40 variants. `gcc_2_8_1_g0_split`, which the matched neighbour
-`func_8004A7C0` uses, is consistently three positions worse here.
+Do not treat the following as settled. Crossed without improving on the earlier
+8: five attr-pointer register pins, three index spellings, four store orders,
+two declaration orders, and ten profiles, across sweeps of 120, 96, 630, 144,
+150 and 40 variants. `gcc_2_8_1_g0_split`, which the matched neighbour
+`func_8004A7C0` uses, is consistently three positions worse here. Crossed
+without improving on 6: reordering the mask before the voice store, moving the
+table read into a local, naming the table base, and an early local for the mask
+constant.
 
 ```c
-#include "../types.h"
-#include "../psyq/libspu.h"
-#include "sound.h"
+#include "../../src/types.h"
+#include "../../src/psyq/libspu.h"
 
-extern int D_80011434[];
-extern SDSecondaryState *D_8009B458_d asm("D_8009B458")
-    __attribute__((section(".data")));
+extern s32 D_80011434[];
+extern u8 *D_8009B458_d asm("D_8009B458") __attribute__((section(".data")));
 
-#define ATTR(s) (*(SpuVoiceAttr *)((u8 *)(s) + 0x4C0))
-
-void func_8004A764(int index)
+void func_8004A764(s32 index)
 {
-    SDSecondaryState *s = D_8009B458_d;
-    ATTR(s).voice = D_80011434[index];
-    ATTR(s).mask = 0x60100;
-    ATTR(s).a_mode = 5;
-    ATTR(s).adsr1 = 0;
-    ATTR(s).adsr2 = 0;
-    SpuSetVoiceAttr(&ATTR(s));
+    u8 *p;
+
+    p = D_8009B458_d;
+    *(u32 *)(p + 0x4C0) = D_80011434[index];
+    *(u32 *)(p + 0x4C4) = SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_ADSR1 |
+                          SPU_VOICE_ADSR_ADSR2;
+    *(u16 *)(p + 0x4FA) = 0;
+    *(u16 *)(p + 0x4FC) = 0;
+    *(s32 *)(p + 0x4E4) = SPU_VOICE_EXPIncN;
+    SpuSetVoiceAttr((SpuVoiceAttr *)(p + 0x4C0));
+}
+```
+
+## `func_8004A6F8` at 0x8004A6F8
+
+`gcc_2_8_1_g8_split`, 27 of 27 instructions, opcode distance 0, 8 differing positions.
+
+The second member of the `SpuVoiceAttr` family at `+0x4C0`, and the same two
+requirements as `func_8004A764`: stores through the state pointer at `0x4C0`
+offsets, and a `section(".data")` alias so `D_8009B458` is not gp-relative.
+
+This one copies `adsr1`, `adsr2` and `a_mode` out of a second argument at
+`+0x20`, `+0x22` and `+0x24` rather than using constants, which is what the
+`0x60100` mask says it does. The argument is not a Psy-Q `VagAtr` -- that
+struct is `0x20` bytes and its `adsr1` is at `+0x10` -- so it stays a `u8 *`
+with hex offsets until something names it.
+
+The store order matters here too, in the opposite direction from
+`func_8004A764`: writing `voice` before `mask` gives 8, writing `mask` first
+gives 11, and the target emits `mask` first. Emission order is not source
+order for these two, and neither reading is guessable from the disassembly
+alone.
+
+What remains is the same prologue scheduling as its sibling.
+
+```c
+#include "../../src/types.h"
+#include "../../src/psyq/libspu.h"
+
+extern s32 D_80011434[];
+extern u8 *D_8009B458_d asm("D_8009B458") __attribute__((section(".data")));
+
+void func_8004A6F8(s32 index, u8 *tone)
+{
+    u8 *p;
+
+    p = D_8009B458_d;
+    *(u32 *)(p + 0x4C0) = D_80011434[index];
+    *(u32 *)(p + 0x4C4) = SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_ADSR1 |
+                          SPU_VOICE_ADSR_ADSR2;
+    *(u16 *)(p + 0x4FA) = *(u16 *)(tone + 0x20);
+    *(u16 *)(p + 0x4FC) = *(u16 *)(tone + 0x22);
+    *(u32 *)(p + 0x4E4) = *(u16 *)(tone + 0x24);
+    SpuSetVoiceAttr((SpuVoiceAttr *)(p + 0x4C0));
+}
+```
+
+## `func_8004A27C` at 0x8004A27C
+
+`gcc_2_8_1_g8_split`, 31 of 31 instructions, opcode distance 0, 9 differing positions.
+
+The third member of the family, and the one whose field names the
+`SpuVoiceAttr` reading confirms most directly: the mask is `0xF`, which is
+`SPU_VOICE_VOLL | VOLR | VOLMODEL | VOLMODER`, and the four fields written are
+`+0x4C8`/`+0x4CA` and `+0x4CC`/`+0x4CE`, which are `volume.left`/`right` at
+`+0x08`/`+0x0A` and `volmode.left`/`right` at `+0x0C`/`+0x0E`. So this is a
+volume set, the previous two are ADSR sets, and the `0x4C0` window is one
+`SpuVoiceAttr` shared by all three.
+
+The two volumes are `(x * state[0x514]) >> 7` and `(y * state[0x516]) >> 7`,
+which is a fixed-point scale by a pair of halfwords in the state block rather
+than a signed division -- there is no rounding bias in the target.
+
+Store order again: `volmode` pair, then `voice`, then `mask`, then the two
+volumes gives 9. Writing `mask` before `voice`, which is the target's emission
+order, gives 14. Naming the two products in locals is inert.
+
+What remains is scheduling and the register naming of the two `mflo` results.
+
+```c
+#include "../../src/types.h"
+#include "../../src/psyq/libspu.h"
+
+extern s32 D_80011434[];
+extern u8 *D_8009B458_d asm("D_8009B458") __attribute__((section(".data")));
+
+void func_8004A27C(s32 index, s32 x, s32 y)
+{
+    u8 *p;
+
+    p = D_8009B458_d;
+    *(u16 *)(p + 0x4CC) = 0;
+    *(u16 *)(p + 0x4CE) = 0;
+    *(u32 *)(p + 0x4C0) = D_80011434[index];
+    *(u32 *)(p + 0x4C4) = SPU_VOICE_VOLL | SPU_VOICE_VOLR |
+                          SPU_VOICE_VOLMODEL | SPU_VOICE_VOLMODER;
+    *(u16 *)(p + 0x4C8) = (x * *(u16 *)(p + 0x514)) >> 7;
+    *(u16 *)(p + 0x4CA) = (y * *(u16 *)(p + 0x516)) >> 7;
+    SpuSetVoiceAttr((SpuVoiceAttr *)(p + 0x4C0));
+}
+```
+
+## `func_80045334` at 0x80045334
+
+`gcc_2_8_1_g0`, 70 of 70 instructions, 2 differing positions.
+
+The instruction mix is exact and every register agrees. What is left is a
+scheduler tie-break between two independent stack stores: the target writes
+`f04` at `0xCC` and puts `f08` in the `jal` delay slot, and this build does the
+reverse. All six orderings of the three field assignments produce the same
+emitted order, so source order does not reach it; making the fields `volatile`
+pins the store order correctly but then costs the `addiu $a0, $sp, 0x10`
+placement, landing at 6 differing instead of 2.
+
+Three register pins are needed and each corrects an allocation on a sequence
+that is already exact: the `g_SDValue` pointer to `$a1` (unpinned it goes to a
+callee-saved register and shifts everything), the table pointer to `$v0`, and
+the request code to `$s3`. Two source-level facts also matter and are not
+pins: the three-way test on `arg0 & 0xF000` is a `switch`, not an `if`/`else if`
+chain -- the chain builds 67 instructions with `bne` where the target has `beq`
+plus a `j` to the default -- and the default arm reads `code += 0x6000` rather
+than `code = arg0 + 0x6000`, which is what keeps `$s3` live across it.
+
+```c
+#include "../../src/types.h"
+#include "../../src/game/sound.h"
+
+struct Request {
+    u8 tag;
+    u8 pad01;
+    s16 f02;
+    s32 f04;
+    s32 f08;
+    s32 f0C;
+    u8 pad10[0x30 - 0x10];
+};
+
+extern void func_800464F0(void);
+extern s32 func_80045BE8(struct Request *);
+
+void func_80045334(s32 arg0)
+{
+    struct Request req;
+    register SDValue *a asm("$5");
+    SDValue *b;
+    SDValue *c;
+    s32 value;
+    register s32 code asm("$19");
+    s32 kind;
+    register u8 *first asm("$16");
+    u8 *second;
+    register u32 *table asm("$2");
+
+    a = g_SDValue;
+    code = arg0;
+    if ((a->flags_004A & 0x80) == 0) {
+        return;
+    }
+    if ((a->flags_004A & 0x40) == 0) {
+        if ((u32)(code & 0xFFFF) > 0x9FFF) {
+            return;
+        }
+    }
+    if ((arg0 & 0x8000) == 0) {
+        return;
+    }
+    value = arg0 & 0xF000;
+    *(s16 *)((u8 *)a + 0x534) = arg0;
+    switch (value) {
+    case 0x8000:
+        code = arg0 + value;
+        table = *(u32 **)((u8 *)a + 0x51C);
+        kind = 0x50;
+        break;
+    case 0x9000:
+        code = arg0 + 0x7000;
+        table = *(u32 **)((u8 *)a + 0x518);
+        kind = 0x60;
+        break;
+    default:
+        code += 0x6000;
+        kind = 0x70;
+        b = g_SDValue;
+        table = *(u32 **)((u8 *)b + 0x520);
+        break;
+    }
+    first = *(u8 **)table;
+    second = (u8 *)table + 8;
+    func_800464F0();
+    req.tag = 0x21;
+    req.f02 = code;
+    req.f04 = (s32)first;
+    req.f08 = kind;
+    req.f0C = (s32)second;
+    func_80045BE8(&req);
+    c = g_SDValue;
+    c->flags_0040 = (c->flags_0040 | 1) & 0xFFFB;
+}
+```
+
+## `func_80048F14` at 0x80048F14
+
+`gcc_2_8_1_g0`, 62 of 63 instructions.
+
+One instruction short, and it is a register copy: the target materialises
+`0x801EA800` in `$a1`, stores it to `music_track`, and then copies it to `$a0`
+with `addu $a0, $a1, $zero` for the `0xFFFF` store. Every spelling tried keeps
+one register -- two pointer locals, reassigning one local, reusing a single
+local for both constants, and pinning the destination to `$4` -- because the
+ranges do not overlap and GCC coalesces the copy away.
+
+Everything else is exact, including the four reloads of `music_track` and the
+two load-delay `nop`s. Reading the field back into the same local before each
+of the four stores is what produces those reloads; caching it once leaves three,
+and a `volatile` view of the field does not help.
+
+```c
+#include "../../src/types.h"
+#include "../../src/psyq/libspu.h"
+#include "../../src/game/sound.h"
+
+typedef struct {
+    int first;
+    int second;
+    short third;
+    short fourth;
+    u8 padC[12];
+} Packet;
+
+extern void func_80049594(s32);
+extern void func_80049600(s32);
+extern void func_80049544(void);
+
+void func_80048F14(void)
+{
+    Packet packet;
+    SDValue *a;
+    SDValue *b;
+    SDValue *c;
+    u16 *p;
+
+    SpuReserveReverbWorkArea(1);
+    SpuSetReverb(1);
+    packet.first = 7;
+    packet.second = 2;
+    packet.third = 0x7FFF;
+    packet.fourth = 0x7FFF;
+    SpuSetReverbModeParam((SpuReverbAttr *)&packet);
+    a = g_SDValue;
+    a->field_1586 = 0;
+    a->field_1588 = 0;
+    ((u8 *)a)[0x158A] = 0;
+    b = g_SDValue;
+    *(s16 *)((u8 *)b + 0x1580) = 0xFF;
+    b->field_1584 = 0xFF;
+    c = g_SDValue;
+    b->field_1582 = 0;
+    p = (u16 *)0x801EA800;
+    c->music_track = p;
+    c->field_1560 = (u8 *)0x801E2000;
+    c->field_1578 = -1;
+    c->field_157A = -1;
+    *(s16 *)((u8 *)c + 0x157C) = -1;
+    c->field_157E = -1;
+    *p = 0xFFFF;
+    p = c->music_track;
+    *(s16 *)((u8 *)p + 2) = 0;
+    p = c->music_track;
+    *(s32 *)((u8 *)p + 4) = 0;
+    p = c->music_track;
+    *(s32 *)((u8 *)p + 8) = 0;
+    p = c->music_track;
+    *(s32 *)((u8 *)p + 0xC) = 0x40000;
+    func_80049594(2);
+    func_80049600(0x14);
+    func_80049544();
+}
+```
+
+## `func_8005B36C` at 0x8005B36C
+
+`gcc_2_8_1_g0`, 91 of 91 instructions, 17 differing positions.
+
+A GPU packet builder in the same family as `func_8005B260`. Rebuilt on the
+shape that matched that sibling in #1592: `D_800FE240` declared
+`extern u32 * __attribute__((section(".data")))` and indexed directly rather
+than cached in a local, `P_TAG` for the length byte, and `addPrim` on a `GsOT`
+for the ordering-table link. That took it from 89 of 91 with the opcode
+histogram short by two `addu` to the exact count with the whole body after the
+prologue already correct.
+
+What is left is the prologue: the three argument copies come out in the order
+`table`, `index`, `s` where retail has `s`, `table`, `index`, and the two
+`D_800FE240` reads land in one register where retail uses two. Reordering the
+assignments makes it worse (47 and 76 differing), and splitting the second read
+into its own local is inert.
+
+Four pins are in place and each one corrects an allocation on a sequence that
+is otherwise exact: the walking pointer to `$8`, the copy-loop source to `$4`,
+the ordering table to `$11` and the index to `$10`. The last two only work when
+they are assigned late, immediately before `setlen`; assigning either early
+costs 28 or more positions.
+
+The one non-pin lever worth keeping is the `0xE2000000` association. Written
+with the constant third in the `|` chain the body is 88 instructions; moving it
+to the front or second gives 89 and drops the differing positions from 84 to
+69.
+
+```c
+#include "../../src/types.h"
+#include "../../src/psyq/libgte.h"
+#include "../../src/psyq/libgpu.h"
+#include "../../src/psyq/libgs.h"
+
+extern u32 *D_800FE240 __attribute__((section(".data")));
+
+void func_8005B36C(u32 *src, GsOT *ot, s32 idx, s32 offx, s32 offy,
+                   s32 maskx, s32 masky)
+{
+    register u32 *s __asm__("$8");
+    register u32 *from __asm__("$4");
+    register GsOT *table __asm__("$11");
+    s32 len;
+    s32 i;
+    u32 *dst;
+    register s32 index __asm__("$10");
+
+    s = src;
+    len = ((P_TAG *)s)->len;
+    D_800FE240[0] = *s++;
+    D_800FE240[1] = 0xE2000000
+                  | ((((-maskx) & 0xFF) / 8) & 0x1F)
+                  | (((((-masky) & 0xFF) / 8) & 0x1F) << 5)
+                  | ((((offx & 0xFF) / 8) & 0x1F) << 10)
+                  | ((((offy & 0xFF) / 8) & 0x1F) << 15);
+    dst = D_800FE240 + 2;
+    from = s;
+    for (i = len - 1; i != -1; i--) {
+        *dst++ = *from++;
+    }
+    D_800FE240[len + 2] = 0xE2000000;
+    table = ot;
+    index = idx;
+    setlen(D_800FE240, len + 2);
+    addPrim(&table->org[index & 0xFFFF], D_800FE240);
+    D_800FE240 = D_800FE240 + (len + 3);
+}
+```
+
+## `SD_SEPlay` at 0x80048658
+
+`gcc_2_8_1_g0`, 65 of 68 instructions.
+
+Three short. Two are `andi` -- the mask on the volume argument, which the
+target computes separately in each of the two call paths where GCC cross-jumps
+it into the shared tail, and a redundant `andi $v0, $v1, 0xFF` on a value that
+came from `lbu` and is therefore already 8-bit. Neither a `u8` prototype, no
+prototype at all, a `u8` temporary nor an explicit cast reproduces the second
+one. The third is the `addu $a0, $t0, $zero` copy before the first call.
+
+The four argument copies at entry need `register` pins on `$8`, `$9`, `$6` and
+`$7`, in the same style as the matched sibling `src/game/func_80048920.c`, which
+shares this function's `(arg0 & 0x8000)` / `(arg0 & 0xF000) == 0x4000`
+structure and its `struct SoundState` view.
+
+```c
+#include "../../src/types.h"
+
+struct SoundState {
+    u8 pad0[0x43C];
+    u16 *p43C;
+    u8 pad1[0x444 - 0x440];
+    u8 *p444;
+    u8 pad2[0x44C - 0x448];
+    u16 tbl44C[64];
+};
+
+extern struct SoundState *g_SDValue;
+extern void func_800451E0(s32, s32);
+extern void func_800482B0(s32, s32, s32, s32, s32, s32);
+
+void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
+{
+    register s32 id asm("$8");
+    register s32 idc asm("$9");
+    register s32 vol asm("$6");
+    register s32 pan asm("$7");
+    s32 lo;
+    s32 hi;
+    s32 n;
+    u8 *e;
+
+    id = arg0;
+    pan = arg2;
+    idc = id;
+    vol = arg1;
+    if (id & 0x8000) {
+        func_800451E0(id & 0xFFFF, 0);
+        return;
+    }
+    if ((id & 0xF000) == 0x4000) {
+        struct SoundState *a = g_SDValue;
+        u16 v;
+
+        lo = (id & 0x1F) << 1;
+        hi = id & 0x100;
+        hi = (hi != 0) << 6;
+        v = *(u16 *)((u8 *)a + (lo + hi) + 0x44C);
+        if (v == 0xFFFF) {
+            return;
+        }
+        n = a->p43C[v];
+        if (n == 0xFFFF) {
+            return;
+        }
+        e = a->p444 + n * 8;
+        func_800482B0(v, 0, vol & 0xFF, (s16)pan, e[3], e[2] & 0xFF);
+    } else {
+        struct SoundState *b = g_SDValue;
+
+        n = b->p43C[idc & 0xFFFF];
+        if (n == 0xFFFF) {
+            return;
+        }
+        e = b->p444 + n * 8;
+        func_800482B0(idc & 0xFFFF, 0, vol & 0xFF, (s16)pan, e[3], e[2] & 0xFF);
+    }
 }
 ```

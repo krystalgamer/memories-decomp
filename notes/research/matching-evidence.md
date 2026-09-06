@@ -3231,3 +3231,100 @@ prologue instructions come out permuted. One `register s16 *p asm("$16")` pin
 settles it. That is a pin correcting an allocation on an otherwise exact
 sequence, the weaker of the two kinds of pin, and it is the only one the
 function needs.
+
+## Correction: the `0x4C0` sound-packet window is a Psy-Q `SpuVoiceAttr`
+
+The section "The sound-packet sibling group at `0x8004Axxx`" above reads the
+`0x4C0`-`0x4FF` window as the 16-byte-plus-padding `Packet` from
+`sound_secondary_playback.c`, names `0x4C0`/`0x4C4`/`0x4C8`/`0x4CA` as
+`image`/`type`/`x`/`y`, and says `0x4E4`, `0x4FA` and `0x4FC` "are still
+unnamed". That is superseded. `func_80077450` is `SpuSetVoiceAttr`, and the
+window is one `SpuVoiceAttr`, whose size is exactly the `pad04C0[0x40]` hole.
+Every offset the three functions touch decodes:
+
+| offset | `SpuVoiceAttr` field |
+| --- | --- |
+| `+0x4C0` | `voice` |
+| `+0x4C4` | `mask` |
+| `+0x4C8` / `+0x4CA` | `volume.left` / `volume.right` |
+| `+0x4CC` / `+0x4CE` | `volmode.left` / `volmode.right` |
+| `+0x4E4` | `a_mode` |
+| `+0x4FA` / `+0x4FC` | `adsr1` / `adsr2` |
+
+The masks decode too, and confirm the reading independently. `func_8004A27C`
+writes `0xF`, which is `SPU_VOICE_VOLL | VOLR | VOLMODEL | VOLMODER`, and the
+four fields it writes are exactly the volume and volume-mode pairs.
+`func_8004A764` and `func_8004A6F8` write `0x60100`, which is
+`SPU_VOICE_ADSR_AMODE | ADSR_ADSR1 | ADSR_ADSR2`, and the three fields they
+write are exactly `a_mode`, `adsr1` and `adsr2`. `func_8004A764`'s `a_mode`
+constant `5` is `SPU_VOICE_EXPIncN`.
+
+Two consequences for the group's recorded plateau, both measured:
+
+**The profile line is wrong as well.** "The compiler side is G0 for this
+group" no longer holds: `gcc_2_8_1_g8_split` with a `section(".data")` alias on
+`D_8009B458` is what reproduces the mixed addressing, because the shared
+declaration in `sound.h` is small enough for `-G8` to make it gp-relative while
+the target uses `lui`/`lw`.
+
+**The base must be a `u8 *` with hex offsets, not a struct pointer at the
+packet address.** The section above records binding a `Packet *` at `state +
+0x4C0` as the strongest available hypothesis and reports that it folds the
+member stores back to state-relative addressing but still allocates the base
+into the argument register. Storing through the *state* pointer at `0x4C0`
+offsets instead does not: the base stays in `$v1` and the argument is derived
+as `addiu $a0, $v1, 0x4C0`, which is retail's shape. All three functions then
+reach their exact instruction count with opcode distance 0, at 6, 8 and 9
+differing positions, and what is left in each is prologue scheduling. The
+stored candidates are in `notes/candidates.md`.
+
+### Emission order is not source order for a run of stores to one struct
+
+The same three functions disagree about which store order to write, and the
+disagreement is not guessable from the disassembly. `func_8004A764` emits
+`voice`, `mask`, `adsr1`, `adsr2`, `a_mode` and wants that order in the source,
+with `a_mode` last so it lands in the `jal` delay slot; writing it third, where
+it reads most naturally beside `mask`, costs two positions. `func_8004A6F8`
+emits `mask` before `voice` but wants `voice` first in the source: `mask` first
+costs three. So a run of stores through one pointer has to be measured in both
+directions rather than transcribed from the emitted order.
+
+## Operand association decides which term a constant folds into
+
+A constant OR-ed into a chain of shifted and masked fields is not associative
+as far as the emitted code is concerned, because GCC folds it into whichever
+partial term it is adjacent to, and that changes how many instructions the
+neighbouring terms need.
+
+`func_8005B36C` builds a GP0 `0xE2` texture-window word from four 5-bit fields.
+Written with the constant third in the chain the body is 88 instructions;
+moving it to the front or to second position gives 89 -- the target's count --
+and drops the differing positions from 84 to 69. Nothing else changed. The
+constant folds into the masked-and-shifted term next to it, and where two of
+those terms are already being folded from `sra`/`andi`/`sll` into a single
+`sll`/`andi` pair, which term absorbs the constant decides whether that fold
+still happens.
+
+Worth trying early on any `|` chain that mixes a large constant with shifted
+fields, because it costs one recompile per position and the alternatives are
+all register-level.
+
+## A three-way equality test on one value is a `switch`
+
+GCC 2.8.1 lowers even a two-case `switch` to a comparison tree, so the tell is
+the branch sense and the block layout rather than a jump table. A chain written
+as `if (v == A) ... else if (v == B) ... else ...` emits `bne` to skip each arm
+and lays the arms out in order. A `switch` on the same three values emits `beq`
+to each arm and a `j` to the default, with the arms placed *after* that jump.
+
+`func_80045334` tests `arg0 & 0xF000` against `0x8000` and `0x9000` with a
+default. As an `if`/`else if` chain it builds 67 instructions with `bne`; as a
+`switch` it builds the target's exact 70 with `beq`, `beq`, `j`. The three
+instructions are the difference between the two layouts, not between two
+spellings of the same one.
+
+This is the same family of tell as "A flat comparison chain is if/else, and the
+last arm is the else" in `notes/overlays/matching-patterns.md`, read from the
+other direction: that one says a *flat* chain of `beq`s was not a `switch`;
+this one says `beq` to each arm plus a `j` to the fall-through default was.
+
