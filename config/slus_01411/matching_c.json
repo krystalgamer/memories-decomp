@@ -4078,25 +4078,25 @@
       "address": "0x80049640",
       "profile": "gcc_2_8_1_g0",
       "size": "0x54",
-      "source": "src/game/sound_term.c"
+      "source": "src/game/sound_transfer_lifecycle.c"
     },
     {
       "address": "0x80049694",
       "profile": "gcc_2_8_1_g0",
       "size": "0x30",
-      "source": "src/game/sound_term.c"
+      "source": "src/game/sound_transfer_lifecycle.c"
     },
     {
       "address": "0x800496C4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x98",
-      "source": "src/game/sound_transfer_setup.c"
+      "source": "src/game/sound_transfer_lifecycle.c"
     },
     {
       "address": "0x8004975C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x84",
-      "source": "src/game/sound_transfer_setup.c"
+      "source": "src/game/sound_transfer_lifecycle.c"
     },
     {
       "address": "0x800497E0",

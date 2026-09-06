@@ -2220,9 +2220,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x800495DC,func_800495DC,matching_c,game,C,src/game/sound_init.c,write,,D_8009B458->field_0815 = 0;
 0x8009B458,D_8009B458,D_8009B458,0x800495EC,func_800495EC,matching_c,game,C,src/game/sound_init.c,write,,D_8009B458->field_0815 = 1;
 0x8009B458,D_8009B458,D_8009B458,0x80049600,func_80049600,matching_c,game,C,src/game/func_80049600.c,write,,D_8009B458->object_count = x;
-0x8009B458,D_8009B458,D_8009B458,0x80049640,func_80049640,matching_c,game,C,src/game/sound_term.c,read,,value = D_8009B458->field_081C;
-0x8009B458,D_8009B458,D_8009B458,0x800496C4,func_800496C4,matching_c,game,C,src/game/sound_transfer_setup.c,read,,"register u8 *initial asm(""$3"") = (u8 *)D_8009B458; | state = (u8 *)D_8009B458;"
-0x8009B458,D_8009B458,D_8009B458,0x8004975C,func_8004975C,matching_c,game,C,src/game/sound_transfer_setup.c,read,,SDSecondaryState *state = D_8009B458;
+0x8009B458,D_8009B458,D_8009B458,0x80049640,func_80049640,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,value = D_8009B458->field_081C;
+0x8009B458,D_8009B458,D_8009B458,0x800496C4,func_800496C4,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,"register u8 *initial asm(""$3"") = (u8 *)D_8009B458; | state = (u8 *)D_8009B458;"
+0x8009B458,D_8009B458,D_8009B458,0x8004975C,func_8004975C,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,SDSecondaryState *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x800497E0,func_800497E0,matching_c,game,C,src/game/func_800497E0.c,read_write,,D_8009B458->bytes_consumed = total; | SDSecondaryState *v1 = D_8009B458; | (+2 more)
 0x8009B458,D_8009B458,D_8009B458,0x800498F8,func_800498F8,matching_c,game,C,src/game/sound_secondary_reset.c,address,,s16 *value = &D_8009B458->transfer.field_0000;
 0x8009B458,D_8009B458,D_8009B458,0x80049920,func_80049920,matching_c,game,C,src/game/func_80049920.c,read,8,b1 = D_8009B458; | b2 = D_8009B458; | (+1 more)
