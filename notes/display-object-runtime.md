@@ -59,7 +59,7 @@ without losing the walk's continuation.
 1. Walk a `0x70`-byte slot list and run each `+0x24` callback.
 2. Require `(flags_08 & 0xC0) == 0xC0`.
 3. Copy slot geometry into scratchpad packet storage at `0x1F800344`.
-4. Subtract camera offsets `D_8009B146` and `D_8009B148` unless flags bit
+4. Subtract `gGraphics_sViewportX` and `gGraphics_sViewportY` unless flags bit
    `0x08` is set.
 5. When flags bit `0x04` is set, run `func_80041E7C` with scratch workspace
    at `0x1F800398`; reject a nonpositive result or add `0x04000000` to the
