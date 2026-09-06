@@ -38,7 +38,7 @@ address,size,name,status,module,notes
 0x8001455C,0x500,func_8001455C,unmatched_asm,game,
 0x80014A5C,0xD4,func_80014A5C,matching_c,game,Exact post-terminal file-service guard match from selective volatile state typing; no pins or assembly.
 0x80014B30,0x110,func_80014B30,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80014C40,0x1DC,func_80014C40,unmatched_asm,game,
+0x80014C40,0x1DC,func_80014C40,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x80014E1C,0xD0,File_RequestAsyncTransfer,matching_c,game,Exact post-terminal pure-C match from real function-pointer typing for D_8009B10C plus volatile effect-state access; no pins or assembly.
 0x80014EEC,0xB8,func_80014EEC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80014FA4,0x6C,func_80014FA4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -133,7 +133,7 @@ address,size,name,status,module,notes
 0x8001B780,0x2C,func_8001B780,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8001B7AC,0x10C,func_8001B7AC,matching_c,game,Pure-C inline refinement matched the full executable.
 0x8001B8B8,0x80,func_8001B8B8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8001B938,0x1B8,func_8001B938,unmatched_asm,game,
+0x8001B938,0x1B8,func_8001B938,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8001BAF0,0x258,func_8001BAF0,unmatched_asm,game,
 0x8001BD48,0x40,Duel_CheckQuitInput,matching_c,game,Checks Select only in the two-player duel path and arms gDuel_bQuitDialogState when a player requests the QUIT DUEL dialog. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8001BD88,0x14B8,func_8001BD88,unmatched_asm,game,
@@ -185,7 +185,7 @@ address,size,name,status,module,notes
 0x800240B0,0x150,Duel_UpdateCardPickCursor,matching_c,game,Unchiga pure-C structure independently verified with split addresses; exact linked bytes. Three isolated absolute-address stores preserve target register allocation.
 0x80024200,0x188,func_80024200,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80024388,0x6C,func_80024388,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x800243F4,0x1AC,Duel_ShuffleDeck,unmatched_asm,game,
+0x800243F4,0x1AC,Duel_ShuffleDeck,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x800245A0,0x4C,Duel_ShuffleBothDecks,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800245EC,0x118,func_800245EC,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_cc_g0_as_g8_no_split.
 0x80024704,0x30,Util_CompareS16,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -200,7 +200,7 @@ address,size,name,status,module,notes
 0x80024DC8,0x5C,func_80024DC8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80024E24,0x28,func_80024E24,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80024E4C,0xC,func_80024E4C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80024E58,0x1D0,func_80024E58,unmatched_asm,game,
+0x80024E58,0x1D0,func_80024E58,matching_c,game,"Exact linked bytes on gcc_2_8_1_cc_g8_as_g4_split from the ygofm reference (batch port, probe-verified)."
 0x80025028,0xA0,func_80025028,unmatched_asm,game,
 0x800250C8,0x194,func_800250C8,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x8002525C,0x130,func_8002525C,matching_c,game,"Applies one of the five direct-damage cards, and is the twin of func_800250C8 next door which runs the same phase structure for LP recovery. D_8009B1D2 minus 0x157 selects the entry in gDuel_abDirectDamageUnits; that value is scaled by 10 and subtracted from the target side's life points in D_800E9FF0, clamped at zero. Bit 0x40 of D_8009B220 gates the setup phase and bit 0x20 the retire phase, and func_8001F364 takes the pre-update flags. Lever: the side pointer must be computed separately in both predecessors with the damage body shared behind a label. Writing the body out twice makes GCC cross-jump a shorter suffix and duplicates the gDuel_abDirectDamageUnits address into the first copy; hoisting the index into a variable instead shares the pointer computation too and drops the duplicated D_800E9FF0 base that the target materialises in both blocks. Life points are read with lhu, so the field is u16 here rather than the s16 that ai.h gives AiDuelistState."
@@ -1178,7 +1178,7 @@ address,size,name,status,module,notes
 0x80072F54,0x38,AiScript_SkipField,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80072F8C,0xC4,AiScript_PlayFaceUp,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80073050,0x3C,AiScript_SetPosition,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8007308C,0x194,AiScript_FindBestAttack,unmatched_asm,game,
+0x8007308C,0x194,AiScript_FindBestAttack,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split_no_strength_reduce from the ygofm reference (batch port, probe-verified)."
 0x80073220,0x80,AiScript_PushComboCard,matching_c,game,Exact post-terminal match from the unconstrained two-loop collector shape.
 0x800732A0,0x60,AiScript_PushComboEmpty,matching_c,game,The collaborator count/filter loop matches under the G8 split-address profile; exact linked bytes and relocations.
 0x80073300,0x8,AiScript_HandNop,matching_c,game,1 pre-policy variants: Empty function matched jr-ra and nop exactly.
