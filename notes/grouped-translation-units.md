@@ -72,7 +72,10 @@ source grouping.
 | `src/game/util_memory.c` | `gcc_2_8_1_g8` | `Util_CopyWords` (`0x800356A0`) and contiguous repeated-byte fill counterpart `Util_FillMemory` (`0x80035748`) |
 | `src/game/display_object_brightness.c` | `gcc_2_8_1_g0_split` | Paired display-object RGB setters at `0x80030090` and `0x800300AC`, writing uniform brightness values `0x40` and `0x80` |
 | `src/game/display_object_position.c` | `gcc_2_8_1_g8` | Three-child position propagation (`0x8003A920`) and the contiguous group-position setter that also invokes it (`0x8003A95C`) |
+| `src/game/display_slot_lifecycle.c` | `gcc_2_8_1_g8_split` | Reserved/full-pool free-slot searches (`0x8004002C`, `0x8004006C`), linked-list slot initialization (`0x800400AC`), and contiguous unlink/free teardown (`0x8004020C`) |
+| `src/game/display_object_config.c` | `gcc_2_8_1_g8` | Seven pool-reset, state-byte, resource/color/texture, position, and dimension configuration helpers from `0x800403F0` through `0x80040510` |
 | `src/game/display_object_updates.c` | `gcc_2_8_1_g0_split` | Three display-list walkers from `0x80040BF8` through `0x80040D14`, invoking object updates and the list-specific render or secondary callbacks |
+| `src/game/display_object_stream_state.c` | `gcc_2_8_1_g8` | Five compact stream-state commands from `0x8004141C` through `0x80041464`, including counter resets, a constant-success handler, base-relative cursor jumps, and a flag-`0x800000` toggle |
 | `src/game/display_object_helpers.c` | `gcc_2_8_1_g8` | Eighteen contiguous display-object initialization, resource, animation, stream-offset, 8.8-velocity, and scalar-step helpers from `0x800427DC` through `func_80042B08` |
 | `src/game/display_object_lifecycle.c` | `gcc_2_8_1_g8` | One-shot flag-`0x80` activation test (`0x80042B98`) and contiguous brightness-step callback that destroys the object at zero (`0x80042BC0`) |
 | `src/game/display_object_interpolation.c` | `gcc_2_8_1_g0` | Cosine midpoint interpolation (`0x8004318C`) and signed-phase sine interpolation toward a target position (`0x80043230`) |
