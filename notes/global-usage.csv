@@ -203,7 +203,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80090FB0,D_80090FB0,D_80090FB0,0x80041340,func_80041340,matching_c,game,C,src/game/func_80041340.c,read,,D_80090FB0[i]();
 0x80090FCC,D_80090FCC,D_80090FCC,0x80041340,func_80041340,matching_c,game,C,src/game/func_80041340.c,address,8,"GsSetFlatLight(0, (GsF_LIGHT *)D_80090FCC);"
 0x80090FDC,D_80090FDC,D_80090FDC,0x80041340,func_80041340,matching_c,game,C,src/game/func_80041340.c,address,8,"GsSetFlatLight(1, (GsF_LIGHT *)D_80090FDC); | GsSetFlatLight(2, (GsF_LIGHT *)D_80090FDC);"
-0x80090FEC,D_80090FEC,D_80090FEC,0x80041C8C,func_80041C8C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_031d8c.s,address,,"addiu $s2, $v0, %lo(D_80090FEC) | lui $v0, %hi(D_80090FEC)"
+0x80090FEC,D_80090FEC,D_80090FEC,0x80041C8C,func_80041C8C,matching_c,game,C,src/game/func_80041C8C.c,read,,table = D_80090FEC;
 0x80091008,D_80091008,D_80091008,0x80053248,func_80053248,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_043a48.s,address,,"addiu $v1, $v1, %lo(D_80091008) | lui $v1, %hi(D_80091008)"
 0x80091008,D_80091008,D_80091008,0x80056504,Model_LoadMonsterMerge,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_046d04.s,address,,"addiu $v0, $v0, %lo(D_80091008) | lui $v0, %hi(D_80091008)"
 0x800914E8,D_800914E8,D_800914E8,0x800540B4,func_800540B4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_043cb8.s,address,,"addiu $s6, $v0, %lo(D_800914E8) | lui $v0, %hi(D_800914E8)"

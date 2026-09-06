@@ -647,7 +647,7 @@ address,size,name,status,module,notes
 0x8004149C,0x98,func_8004149C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80041534,0x58,func_80041534,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8004158C,0x700,func_8004158C,unmatched_asm,game,
-0x80041C8C,0xD4,func_80041C8C,unmatched_asm,game,
+0x80041C8C,0xD4,func_80041C8C,matching_c,game,"Script opcode dispatch loop; handler table entries take the context and the operand pointer, which pins the operand pointer to a1."
 0x80041D60,0x11C,func_80041D60,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_cc_g0_as_g8_no_split.
 0x80041E7C,0x114,func_80041E7C,matching_c,game,Exact post-terminal collaborator match using the real Psy-Q gte_stopz macro and an allocation-only a3 register pin.
 0x80041F90,0x1F8,func_80041F90,matching_c,game,Matched from newer collaborator evidence with real Psy-Q GTE macros and an allocation-only a3 scratchpad pointer pin.
