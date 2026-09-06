@@ -277,3 +277,15 @@ verified — tracked in suspects.md.)
 | 0x8002CCA8 | `Campaign_TestStoryFlag` | Tests one bit of `gCampaign_abStoryFlags`: byte (id & 0x7FF) >> 3, bit 0x80 >> (id & 7); if bit 0x8000 of the id is set the result is inverted. |
 | 0x801D0618 | `gCampaign_abStoryFlags` | The save block's story-progress bit array, MSB-first, read by `Campaign_TestStoryFlag`. |
 | 0x801D5800 | `gText_aGlobalOffsets` | u16 offsets, base 0x801D0000, for string ids 0x8000 and up: the always-resident bank holding location and card names. |
+
+## Batch: controller input runtime
+
+| address | name | description |
+|---|---|---|
+| 0x8003B734 | `Input_IsPad1ConfirmPressed` | Tests pad 1's newly pressed mask for either confirm button, X or Square, and returns the matching bits. |
+| 0x8003CB7C | `Input_ResetPads` | Clears both controllers' held, newly pressed, and repeat masks together with all 32 per-button repeat timers and pending input state. |
+| 0x8003CBE8 | `Input_InitPads` | Starts the Psy-Q pad service with one 34-byte receive buffer per port, installs the repeat timing defaults, and resets published input state. |
+| 0x8003CC38 | `Input_ReadRawPads` | Decodes both active-low Psy-Q receive buffers and accumulates pad 1 in the low half and pad 2 in the high half of the pending held mask. |
+| 0x8003CCD8 | `Input_UpdatePads` | Consumes the pending mask, derives rising-edge and timer-driven repeat bits, then publishes held, newly pressed, and repeat masks for both controllers. |
+| 0x8003CDF8 | `Input_BackupPad1AndUsePad2` | Saves pad 1's held, newly pressed, and repeat masks, then exposes the corresponding pad 2 masks through the pad 1 globals. |
+| 0x8003CE48 | `Input_RestorePad1FromBackup` | Restores pad 1's held, newly pressed, and repeat masks after the temporary pad 2 remap. |
