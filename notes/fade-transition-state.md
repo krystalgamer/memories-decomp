@@ -52,10 +52,11 @@ It also preserves the only same-address raw linker alias:
 extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 ```
 
-All 23 matching pure-C users reported for `D_800E9EC8` now include the shared
-header:
+Every matching pure-C user reported for `D_800E9EC8` now includes the shared
+header. The current generated usage report lists:
 
-- `func_800151B0`, `func_800154E4`, `func_800156B8`, `func_800156DC`;
+- `func_800151B0`, `func_800151D8`, `func_800154E4`, `func_800156B8`,
+  `func_800156DC`;
 - `func_8001572C`, `func_80015780`, `func_800157DC`;
 - `func_8001581C`, `func_80015870`, `Fade_InitOut`;
 - `Fade_StartOut`, `func_80015944`, `func_80015998`;
@@ -63,11 +64,14 @@ header:
 - `func_80015BD8`, `func_80015BF0`;
 - `func_80015C0C`, `func_80015C48`, `func_80015C84`, `func_80015CC0`.
 
+The later exact pure-C match for `func_800151D8` moved its symmetric
+30-band update out of the exception list while preserving the typed
+`FadeTransitionState` accesses.
+
 ## Exact-code exceptions
 
-Three assembly users remain untouched:
+Two assembly users remain untouched:
 
-- `func_800151D8` performs the symmetric 30-byte band update;
 - `func_80015310` advances and completes transitions;
 - `func_800218F0` reads `flags`, writes `level`, and calls the band fill during
   its larger assembly-only flow.
