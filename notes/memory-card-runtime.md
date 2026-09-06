@@ -15,6 +15,36 @@ its mode argument to `InitCARD`, calls `StartCARD`, passes zero to
 `InitCARD2`/`StartCARD2` entry points are not part of this matching wrapper.
 Event creation remains a separate step handled by `MemCard_InitIOEvents`.
 
+## High-level LIBMCRD dialog lifecycle
+
+The matching modal state machine at `func_8003F454` uses the separate
+high-level interface from `libmcrd.h`. On first entering its active state, it
+calls `MemCardStart`, creates the dialog object, and moves that object into
+place before dispatching the selected operation through
+`D_80090F9C[D_8009B3DE]`.
+
+When state bit `0x1000` marks a pending high-level command, the update calls:
+
+```c
+MemCardSync(
+    1,
+    (long *)&D_8009B3F0,
+    (long *)&D_8009B3F4
+);
+```
+
+The two output words retain their address-based names because this caller
+does not itself interpret their command and result values. It stores the
+function return in `D_8009B3BC` and advances only when that return is `1`;
+otherwise the modal update leaves the pending state intact and polls again.
+
+When the selected operation clears the modal state, or the dialog takes its
+acknowledged exit path, the function calls `MemCardStop`, starts the object
+moving off screen, and later destroys both the object and its text box. This
+per-dialog `MemCardStart`/`MemCardSync`/`MemCardStop` lifecycle is distinct
+from the subsystem-wide `InitCARD`/`StartCARD` startup and from the low-level
+`_card_info`/`_card_clear`/`_card_load` event sequence below.
+
 ## Registration matrix
 
 All eight calls use interrupt mode `EvMdINTR` (`0x1000`). The descriptor and
