@@ -1,0 +1,25 @@
+==== USER CONTEXT ====
+
+In "Free Duel" mode I first dueled "Duel Master K" and lost of purpose. Then I started another duel against same opponent and before the final blow (he only had 950 LP left) I injected the script. I hit him and his LP went to 0, so the "YOU WIN!" animation played. I waited on the stats screen for a bit and right after I pressed X and it faded to the "Free Duel" screen it printed the trace.
+
+ 
+==== TRACE RESULT ===== 
+ 
+script: duel_winner_side_player_win 
+status: captured player-win control 
+ 
+--- sample 1: entered duel mode --- 
+  mode=0xC3 winner_side=1 duel_state=0x8005 
+  opponent_id=39 player_lp=8000 opponent_lp=950 
+ 
+--- sample 2: winner-side byte changed --- 
+  mode=0xC3 winner_side=0 duel_state=0x000C 
+  opponent_id=39 player_lp=8000 opponent_lp=0 
+ 
+--- sample 3: fresh end-credit latch transition --- 
+  mode=0xC3 winner_side=0 duel_state=0xE00D 
+  opponent_id=39 player_lp=8000 opponent_lp=0 
+ 
+--- sample 4: three seconds after end-credit latch --- 
+  mode=0xC6 winner_side=0 duel_state=0xE00D 
+  opponent_id=39 player_lp=8000 opponent_lp=0 

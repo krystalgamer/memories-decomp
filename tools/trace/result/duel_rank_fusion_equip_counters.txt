@@ -1,0 +1,70 @@
+==== USER CONTEXT ====
+
+To make it easier I fought against Simon Muran (id 1) because getting both a Fusion and a Equip Card means that I need to toss cards away.
+
+For first turn, I use all the hand tossing 3 cards away and fusing "Mechanical Spider" (id 410) and "Air Marmot of Nefariousness" (id 202) into "Giga-tech Wolf" (id 412).
+For a couple turns I just tossed my whole hand. And then I got equipped from the hand "Skelengel" (id 540) with "Silver Bow and Arrow" (id 312) so his stats went from 900/400 to 1400/900. As soon as the "SELECT A GUARDIAN START" prompt appeared the trace was printed.
+
+The order of fusion and equip was as described.
+
+
+No other fusions or equips happened.
+
+when I fused it printed: duel_rank_fusion_equip_counters: player candidate +0x08 changed from 0 to 1 
+when i equipped it printed: duel_rank_fusion_equip_counters: player candidate +0x09 changed from 0 to 1 
+
+ 
+==== TRACE RESULT ===== 
+ 
+script: duel_rank_fusion_equip_counters 
+status: both player candidate counters changed, followed by quiet time 
+summary: changes=38 player_candidate_08=true player_candidate_09=true 
+ 
+--- snapshot: entered one-player duel --- 
+  frame=1 duel_frame=0 mode=3 active_side=0 opponent_id=1 
+  player +01=0 +02=0 +03=0 +04=0 +05=0 +06=0 +07=0 +08=0 +09=0 +18=5 
+  cpu    +01=0 +02=0 +03=0 +04=0 +05=0 +06=0 +07=0 +08=0 +09=0 +18=0 
+change=01 frame=277 duel_frame=276 side=player offset=+0x07 old=0 new=1 active_side=0 
+change=02 frame=443 duel_frame=442 side=player offset=+0x08 old=0 new=1 active_side=0 
+change=03 frame=1268 duel_frame=1267 side=cpu offset=+0x01 old=0 new=1 active_side=1 
+change=04 frame=1286 duel_frame=1285 side=cpu offset=+0x18 old=0 new=1 active_side=1 
+change=05 frame=1294 duel_frame=1293 side=cpu offset=+0x18 old=1 new=2 active_side=1 
+change=06 frame=1302 duel_frame=1301 side=cpu offset=+0x18 old=2 new=3 active_side=1 
+change=07 frame=1310 duel_frame=1309 side=cpu offset=+0x18 old=3 new=4 active_side=1 
+change=08 frame=1318 duel_frame=1317 side=cpu offset=+0x18 old=4 new=5 active_side=1 
+change=09 frame=1417 duel_frame=1416 side=cpu offset=+0x04 old=0 new=1 active_side=1 
+change=10 frame=1649 duel_frame=1648 side=player offset=+0x01 old=0 new=1 active_side=0 
+change=11 frame=1667 duel_frame=1666 side=player offset=+0x18 old=5 new=6 active_side=0 
+change=12 frame=1675 duel_frame=1674 side=player offset=+0x18 old=6 new=7 active_side=0 
+change=13 frame=1683 duel_frame=1682 side=player offset=+0x18 old=7 new=8 active_side=0 
+change=14 frame=1691 duel_frame=1690 side=player offset=+0x18 old=8 new=9 active_side=0 
+change=15 frame=1699 duel_frame=1698 side=player offset=+0x18 old=9 new=10 active_side=0 
+change=16 frame=2834 duel_frame=2833 side=player offset=+0x07 old=1 new=2 active_side=0 
+change=17 frame=3298 duel_frame=3297 side=cpu offset=+0x01 old=1 new=2 active_side=1 
+change=18 frame=3316 duel_frame=3315 side=cpu offset=+0x18 old=5 new=6 active_side=1 
+change=19 frame=3415 duel_frame=3414 side=cpu offset=+0x04 old=1 new=2 active_side=1 
+change=20 frame=4006 duel_frame=4005 side=player offset=+0x01 old=1 new=2 active_side=0 
+change=21 frame=4024 duel_frame=4023 side=player offset=+0x18 old=10 new=11 active_side=0 
+change=22 frame=4032 duel_frame=4031 side=player offset=+0x18 old=11 new=12 active_side=0 
+change=23 frame=4040 duel_frame=4039 side=player offset=+0x18 old=12 new=13 active_side=0 
+change=24 frame=4048 duel_frame=4047 side=player offset=+0x18 old=13 new=14 active_side=0 
+change=25 frame=4056 duel_frame=4055 side=player offset=+0x18 old=14 new=15 active_side=0 
+change=26 frame=4660 duel_frame=4659 side=player offset=+0x07 old=2 new=3 active_side=0 
+change=27 frame=5239 duel_frame=5238 side=player offset=+0x02 old=0 new=1 active_side=0 
+change=28 frame=5492 duel_frame=5491 side=cpu offset=+0x01 old=2 new=3 active_side=1 
+change=29 frame=5510 duel_frame=5509 side=cpu offset=+0x18 old=6 new=7 active_side=1 
+change=30 frame=5633 duel_frame=5632 side=cpu offset=+0x04 old=2 new=3 active_side=1 
+change=31 frame=6151 duel_frame=6150 side=player offset=+0x01 old=2 new=3 active_side=0 
+change=32 frame=6169 duel_frame=6168 side=player offset=+0x18 old=15 new=16 active_side=0 
+change=33 frame=6177 duel_frame=6176 side=player offset=+0x18 old=16 new=17 active_side=0 
+change=34 frame=6185 duel_frame=6184 side=player offset=+0x18 old=17 new=18 active_side=0 
+change=35 frame=6193 duel_frame=6192 side=player offset=+0x18 old=18 new=19 active_side=0 
+change=36 frame=6201 duel_frame=6200 side=player offset=+0x18 old=19 new=20 active_side=0 
+change=37 frame=7365 duel_frame=7364 side=player offset=+0x07 old=3 new=4 active_side=0 
+change=38 frame=7408 duel_frame=7407 side=player offset=+0x09 old=0 new=1 active_side=0 
+ 
+--- snapshot: final --- 
+  frame=7588 duel_frame=7587 mode=3 active_side=0 opponent_id=1 
+  player +01=3 +02=1 +03=0 +04=0 +05=0 +06=0 +07=4 +08=1 +09=1 +18=20 
+  cpu    +01=3 +02=0 +03=0 +04=3 +05=0 +06=0 +07=0 +08=0 +09=0 +18=7 
+ 
