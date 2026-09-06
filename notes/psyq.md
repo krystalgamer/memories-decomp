@@ -87,6 +87,8 @@ symbol review.
 | `0x80081ED4` | `StoreImage2` | Applied Psy-Q 4.6 identity; `func_800582C0` reads a VRAM rectangle into a local pixel buffer before transforming and re-uploading it. |
 | `0x80081FC0` | `MoveImage2` | Applied Psy-Q identity; `file_cd_helpers.c` passes the current display rectangle plus destination coordinates. |
 | `0x80082324` | `IsIdleGPU` | Applied Psy-Q 4.6 identity; matching upload and move paths poll mode `3` around GPU image operations. |
+| `0x80082A80` | `OpenTIM` | Applied Psy-Q 4.6 identity at offset zero of the unique 400-byte `LIBGPU.LIB/T00.OBJ` signature. |
+| `0x80082A90` | `ReadTIM` | Applied Psy-Q 4.6 identity at offset `0x10` of the same unique `LIBGPU.LIB/T00.OBJ` signature. |
 | `0x80084240` | `GsSortBoxFill` | Applied Psy-Q 4.6 identity; the matching fade renderer submits strip or full-screen box fills to its ordering table. |
 | `0x800849F0` | `GsSortFastSprite` | Applied Psy-Q 4.6 identity; matching UI paths submit sprite records to an ordering table at the requested priority. |
 | `0x800855D0` | `GsSetLsMatrix` | Applied Psy-Q 4.6 identity; matching projection paths install their local-screen matrix before GTE projection work. |
