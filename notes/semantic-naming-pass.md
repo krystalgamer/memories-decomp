@@ -1,10 +1,10 @@
 # Semantic Naming Pass
 
-Date: 2026-09-01
+Initial pass date: 2026-09-01
 
 ## Result
 
-The evidence-backed naming passes apply:
+The initial evidence-backed naming pass applied:
 
 | Kind | Applied names |
 |---|---:|
@@ -12,10 +12,12 @@ The evidence-backed naming passes apply:
 | Globals | 53 |
 | **Total** | **189** |
 
-The machine-readable registry is
-`notes/semantic-symbol-map.csv`. Each row records the address, accepted name,
-confidence, evidence, and caveat. `tools/project/apply_semantic_names.py`
-applies and checks the registry across:
+These counts are the preserved result of that dated pass, not current totals.
+Later semantic work continues to extend the machine-readable
+`notes/semantic-symbol-map.csv`, which is the authority for the current
+accepted set. Each row records the address, accepted name, confidence,
+evidence, and caveat. `tools/project/apply_semantic_names.py` applies and
+checks the registry across:
 
 - `config/slus_01411/functions.csv`;
 - `config/slus_01411/matching_c.json`;
@@ -39,7 +41,7 @@ All nonambiguous descriptive function labels in `tmp/references/gms.c` were
 reviewed against the current inventory and translated into the DOTR-style
 subsystem form documented in `notes/naming-conventions.md`.
 
-Applied function families:
+Major function families documented by the initial pass:
 
 | Prefix | Count | Scope |
 |---|---:|---|
