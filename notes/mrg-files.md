@@ -137,6 +137,24 @@ inside the first phase, their palettes inside the second, and eight
 [`modding-tutorial-evidence.md`](modding-tutorial-evidence.md) for the
 resource-level offsets, hashes, and visual-label confidence.
 
+### Name-entry screen package
+
+Matching `func_8003BBF8` requests 80 WA sectors beginning at sector `0x1EDF`,
+which is archive range `0xF6F800-0xF97800`. Its matching callback
+`func_8003BA14` accounts for the complete package:
+
+| WA range | Size | Callback behavior |
+|---:|---:|---|
+| `0xF6F800-0xF87800` | `0x18000` / 48 sectors | Schedules the first image phase. |
+| `0xF87800-0xF8F800` | `0x8000` / 16 sectors | Schedules the second image phase. |
+| `0xF8F800-0xF90000` | `0x800` / 1 sector | Uploads the complete block as a `256 x 4` palette rectangle to VRAM `(256, 240)`. |
+| `0xF90000-0xF97800` | `0x7800` / 15 sectors | Transfers the executable phase entered by the name-entry screen. |
+
+The final phase shares the password front-end image but differs inside its
+last data sector, so it remains a distinct verified binary rather than an
+interchangeable copy. Its entry points and both phase hashes are documented
+under [`src/overlays/name_entry/`](../src/overlays/name_entry/).
+
 ### Password screen package
 
 Matching `func_8003BEB8` requests 86 WA sectors beginning at sector `0x1F2F`,
