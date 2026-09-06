@@ -67,7 +67,10 @@ source grouping.
 | `src/game/duel_card_icon_setup.c` | `gcc_2_8_1_g8_split` | Card-type icon object creation (`0x80024C1C`) and the contiguous duel-card slot setup helper (`0x80024D34`) |
 | `src/game/duel_life_point_effects.c` | `gcc_2_8_1_g8_split` | Contiguous table-driven LP recovery (`0x800250C8`) and direct-damage (`0x8002525C`) effect handlers |
 | `src/game/util_memory.c` | `gcc_2_8_1_g8` | `Util_CopyWords` (`0x800356A0`) and contiguous repeated-byte fill counterpart `Util_FillMemory` (`0x80035748`) |
+| `src/game/display_object_brightness.c` | `gcc_2_8_1_g0_split` | Paired display-object RGB setters at `0x80030090` and `0x800300AC`, writing uniform brightness values `0x40` and `0x80` |
+| `src/game/display_object_position.c` | `gcc_2_8_1_g8` | Three-child position propagation (`0x8003A920`) and the contiguous group-position setter that also invokes it (`0x8003A95C`) |
 | `src/game/display_object_helpers.c` | `gcc_2_8_1_g8` | Eighteen contiguous display-object initialization, resource, animation, stream-offset, 8.8-velocity, and scalar-step helpers from `0x800427DC` through `func_80042B08` |
+| `src/game/display_object_interpolation.c` | `gcc_2_8_1_g0` | Cosine midpoint interpolation (`0x8004318C`) and signed-phase sine interpolation toward a target position (`0x80043230`) |
 | `src/game/display_object_list_renderers.c` | `gcc_2_8_1_cc_g8_as_g0_split` | Sibling visible-object list renderers at `0x80040DD8` and `0x80041068` for the `0x38` and `0x3C` packet forms |
 | `src/game/display_object_projection.c` | `gcc_2_8_1_g8` | Contiguous packed-angle projection helper (`0x80041E7C`) and display-object transform/projection helper (`0x80041F90`) sharing the scratchpad GTE workspace |
 | `src/game/two_player_save_setup.c` | `gcc_2_8_1_g8_split` | Two contiguous two-player save/deck setup helpers at `0x8003FD14` and `0x8003FE14` |
