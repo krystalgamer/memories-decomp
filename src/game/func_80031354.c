@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 typedef struct {
     u8 pad_00[8];
@@ -33,11 +34,11 @@ void func_80031354(void)
         LocalRecord *second = D_8009B2E4;
         u16 second_flags;
 
-        first->flags_08 |= 0x40;
+        first->flags_08 |= DISPLAY_OBJECT_FLAG_RENDERABLE;
 
         second_flags = second->flags_08;
         D_8009B2EB = 0;
-        second_flags |= 0x40;
+        second_flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         second->flags_08 = second_flags;
     } else {
         s32 value = Rand_GetInterval(4);
