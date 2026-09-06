@@ -18,7 +18,7 @@ extern void func_8002D458(int);
 extern int func_80180390(void);
 extern void func_8003BBF8(void);
 extern void func_801683EC(void);
-extern int func_80169C08(void);
+extern int NameEntry_PollCompletion(void);
 extern void func_8003BEB8(void);
 extern void func_8016A080(void);
 extern void func_8016A37C(void);
@@ -42,7 +42,7 @@ void Main_RunNameEntry(void)
         func_8003BBF8();
         func_801683EC();
     }
-    if (func_80169C08()) {
+    if (NameEntry_PollCompletion()) {
         value = D_8009B269;
         __asm__ volatile("nop");
         D_8009B26C = value;

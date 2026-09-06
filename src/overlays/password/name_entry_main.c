@@ -8,7 +8,7 @@ extern void func_80035748(void *, s32, s32);
 extern void func_8008E870(const char *, void *, s32);
 extern void func_801683EC(void);
 extern void func_80012D4C(void);
-extern s32 func_80169C08(void);
+extern s32 NameEntry_PollCompletion(void);
 extern void NameEntry_BuildStarterDeck(void);
 
 void NameEntry_Main(void)
@@ -25,7 +25,7 @@ void NameEntry_Main(void)
     do {
         func_80012D4C();
         rand();
-    } while (func_80169C08() == 0);
+    } while (NameEntry_PollCompletion() == 0);
     NameEntry_BuildStarterDeck();
     state = D_801D0200;
     checksum = 0;

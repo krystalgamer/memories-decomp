@@ -37,7 +37,7 @@ The resident callers enter the same image at different points, all inside
 
 | Screen | Resident mode | Overlay entry points |
 |---|---|---|
-| Name entry | `Main_RunNameEntry` | `func_801683EC`, `func_80169C08` |
+| Name entry | `Main_RunNameEntry` | `func_801683EC`, `NameEntry_PollCompletion` |
 | Password | `Main_RunPasswordMenu` | `func_8016A080`, `func_8016A37C` |
 
 Treat name entry as an entry point into the shared front-end screen image

@@ -1,5 +1,5 @@
 // name entry module -- resident while Main_RunNameEntry (0x8002D62C) is the mode tick.
-// EXE entries: func_801683EC, func_80169C08 (in symbol_addrs.txt). Findings F100-F101, notes/research/modules.md.
+// EXE entries: func_801683EC, NameEntry_PollCompletion (in symbol_addrs.txt). Findings F100-F101, notes/research/modules.md.
 NameEntry_Init = 0x801683EC; // type:func
 NameEntry_UpdateScreen = 0x8016913C; // type:func
 NameEntry_AdjustLength = 0x8016909C; // type:func
@@ -19,6 +19,7 @@ gNameEntry_pCaretWidget = 0x8016D43C;
 gNameEntry_abCellTable = 0x8016AB38;
 gNameEntry_abRowJump = 0x8016ABC0;
 NameEntry_UpdateDialog = 0x80169734; // type:func
+NameEntry_PollCompletion = 0x80169C08; // type:func
 gNameEntry_wPendingDialog = 0x8016D4D2;
 // Starter deck (findings F132-F135, static from the disc module; not yet live-traced).
 NameEntry_Main = 0x8016AA6C; // type:func
