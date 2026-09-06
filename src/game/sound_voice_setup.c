@@ -1,16 +1,16 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 
 extern s32 D_80011434[];
 extern u8 *D_8009B458;
 
 s32 func_8004A3BC(u8 *arg0, s32 arg1);
 s32 func_80049FB4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_80077450(u8 *arg0);
 
 /* Re-derives one record's voice parameters when its bank byte changed (or
  * when forced): stores the new bank in the record, converts the pitch through
  * func_8004A3BC into a 7.7 fixed value, fills the request block at
- * D_8009B458 + 0x4C0 and submits it through func_80077450. */
+ * D_8009B458 + 0x4C0 and submits it through SpuSetVoiceAttr. */
 void func_8004A43C(u8 *p, s32 force) {
     u8 *e;
     s32 v;
@@ -32,7 +32,7 @@ void func_8004A43C(u8 *p, s32 force) {
     *(s32 *)(b + 0x4C0) = D_80011434[p[0]];
     v = func_80049FB4(x, y, p[0x12], p[0x13]);
     *(s16 *)(D_8009B458 + 0x4D4) = v;
-    func_80077450(D_8009B458 + 0x4C0);
+    SpuSetVoiceAttr((SpuVoiceAttr *)(D_8009B458 + 0x4C0));
 }
 
 /* MATCH 2026-09-05, pure C at default -O2 -G8 with the assembler at -G0

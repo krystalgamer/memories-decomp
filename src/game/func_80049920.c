@@ -4,12 +4,10 @@
 extern u8 *D_8009B458;
 extern s32 D_80011434[];
 
-s32 func_80077090(s32 arg0);
-
 /* Second pass over the 0x28-byte records at D_8009B458: for each record
  * whose +0x18D counter is set and whose channel reports state 3, either
  * bumps the counter or, once it reaches 2, drains the channel through the
- * SpuSetKey/func_80077090 pair, clears the counter and ORs the channel mask
+ * SpuSetKey/SpuGetKeyStatus pair, clears the counter and ORs the channel mask
  * into one final SpuSetKey call. */
 void func_80049920(void) {
     u8 *base;
@@ -37,7 +35,7 @@ void func_80049920(void) {
         tbl = D_80011434;
         do {
             if (*(base + off + 0x18D) != 0) {
-                if (func_80077090(*tbl) == 3) {
+                if (SpuGetKeyStatus(*tbl) == 3) {
                     b1 = D_8009B458;
                     p = b1 + off;
                     b = p[0x18D];
@@ -46,7 +44,7 @@ void func_80049920(void) {
                         q = tbl;
                         do {
                             SpuSetKey(0, *q);
-                            v = func_80077090(*q);
+                            v = SpuGetKeyStatus(*q);
                         } while (v != two && v != 0);
                         b2 = D_8009B458;
                         *(b2 + off + 0x18D) = 0;

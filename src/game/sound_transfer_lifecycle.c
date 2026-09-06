@@ -5,7 +5,6 @@
 extern void func_80049434(void);
 extern void func_8004A6D8(void);
 extern void func_8004B910(void);
-extern void func_800771B0(void *);
 extern int func_80077150(int, int);
 
 void func_80049640(void)
@@ -63,7 +62,7 @@ int func_8004975C(int value, short expected)
     saved = value;
     {
         SDSecondaryTransfer *entry = &state->transfer;
-        func_800771B0(entry->field_0014);
+        SpuSetTransferStartAddr((u32)entry->field_0014);
         if (func_80077150(saved, entry->field_0010) != entry->field_0010)
             return -1;
         entry->field_000C = saved;

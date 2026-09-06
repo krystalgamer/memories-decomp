@@ -17,8 +17,6 @@ typedef struct { u32 words[2]; } Blk8;
 
 extern void func_80047788(u16);
 extern void func_8004763C(void);
-extern s32 func_80077090(s32);
-extern void func_80077450(void *);
 
 void func_80047864(s32 index)
 {
@@ -46,7 +44,7 @@ void func_80047864(s32 index)
         *(u16 *)(state + 0x3CC) = product >> 8;
         product = *(u16 *)(half + 0x41C) * (u32)byte[0x424];
         *(u16 *)(state + 0x3CE) = product >> 8;
-        func_80077450(state + 0x3C4);
+        SpuSetVoiceAttr((SpuVoiceAttr *)(state + 0x3C4));
     }
 }
 
@@ -85,14 +83,14 @@ void func_800478EC(void)
             timer -= 1;
             g_SDValue->voice_timer[i] = timer;
             if (timer == 0) {
-                v0 = func_80077090(mask);
+                v0 = SpuGetKeyStatus(mask);
                 if (v0 != 0) {
                     SpuSetKey(0, mask);
                     accum |= mask;
                 }
             }
         }
-        v0 = func_80077090(mask);
+        v0 = SpuGetKeyStatus(mask);
         if (v0 == 3 && !(accum & mask)) {
             SpuSetKey(0, mask);
             accum |= mask;
@@ -181,7 +179,7 @@ void func_80047C70(s32 value)
 
     for (count = 0; count < SD_KEY_OFF_RETRY_LIMIT; count++) {
         SpuSetKey(0, value);
-        if (func_80077090(value) == 0)
+        if (SpuGetKeyStatus(value) == 0)
             break;
     }
 }

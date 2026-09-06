@@ -1314,19 +1314,19 @@ address,size,name,status,module,notes
 0x80076D20,0x6C,SpuReadDecodedData,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_RDD.OBJ signature.
 0x80076D90,0x13C,SpuSetIRQ,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SI.OBJ signature and matching sound initialization caller.
 0x80076ED0,0x1BC,SpuSetKey,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SK.OBJ signature and matching voice-control callers.
-0x80077090,0x90,func_80077090,sdk_asm,psyq/sdk,
-0x80077120,0x30,func_80077120,sdk_asm,psyq/sdk,
+0x80077090,0x90,SpuGetKeyStatus,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_GKS.OBJ signature and matching voice-state callers.
+0x80077120,0x30,SpuSetKeyOnWithAttr,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SKOWA.OBJ signature.
 0x80077150,0x5C,func_80077150,sdk_asm,psyq/sdk,
-0x800771B0,0x5C,func_800771B0,sdk_asm,psyq/sdk,
-0x80077210,0x30,func_80077210,sdk_asm,psyq/sdk,
-0x80077240,0xA4,func_80077240,sdk_asm,psyq/sdk,
+0x800771B0,0x5C,SpuSetTransferStartAddr,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_STSA.OBJ signature and matching sound-transfer callers.
+0x80077210,0x30,SpuSetTransferMode,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_STM.OBJ signature and matching sound initialization caller.
+0x80077240,0xA4,SpuIsTransferCompleted,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_ITC.OBJ signature and matching transfer-status caller.
 0x800772F0,0xD4,SpuRGetAllKeysStatus,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBSPU.LIB/SR_GAKS.OBJ signature.
 0x800773C4,0x88,SpuGetAllKeysStatus,sdk_asm,psyq/sdk,Identified at offset 0xD4 of the unique Psy-Q 4.6 LIBSPU.LIB/SR_GAKS.OBJ signature and matching voice-status callers.
-0x80077450,0x5F8,func_80077450,sdk_asm,psyq/sdk,
-0x80077A50,0xD0,func_80077A50,sdk_asm,psyq/sdk,
-0x80077B20,0x130,func_80077B20,sdk_asm,psyq/sdk,
-0x80077C50,0x1C,func_80077C50,sdk_asm,psyq/sdk,
-0x80077C70,0x37C,func_80077C70,sdk_asm,psyq/sdk,
+0x80077450,0x5F8,SpuSetVoiceAttr,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SVA.OBJ signature and matching voice-setup callers.
+0x80077A50,0xD0,_spu_note2pitch,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBSPU.LIB/S_N2P.OBJ signature.
+0x80077B20,0x130,_spu_pitch2note,sdk_asm,psyq/sdk,Identified at offset 0xD0 of the unique Psy-Q 4.6 LIBSPU.LIB/S_N2P.OBJ signature.
+0x80077C50,0x1C,SpuGetVoiceEnvelope,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_GVEX.OBJ signature and matching voice-envelope callers.
+0x80077C70,0x37C,SpuSetCommonAttr,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SCA.OBJ signature and matching output-transition caller.
 0x80077FF0,0x1CC,SpuSetReverbModeType,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SRMT.OBJ signature and matching sound-state callers.
 0x800781C0,0x2C,StSetRing,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/CDROM.OBJ signature and matching movie-stream setup caller.
 0x800781F0,0x80,CdPosToInt,sdk_asm,psyq/sdk,Exact Psy-Q 4.6 LIBCD.LIB/SYS.OBJ signature match; canonical linked copy.

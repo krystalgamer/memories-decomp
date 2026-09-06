@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 
 #include "sound.h"
 
@@ -13,8 +14,6 @@ typedef struct {
     int field18;
     int pad1C[3];
 } Entry;
-
-extern void func_80077C70(Entry *);
 
 void func_8004666C(void)
 {
@@ -61,5 +60,5 @@ void func_8004671C(void)
     entry.field12 = 32767;
     entry.field14 = 0;
     entry.field18 = 1;
-    func_80077C70(&entry);
+    SpuSetCommonAttr((SpuCommonAttr *)&entry);
 }
