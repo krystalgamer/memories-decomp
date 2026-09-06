@@ -359,3 +359,12 @@ on the suspects side until proven.)
 | 0x800357E8 | `Text_EncodeDecimalDigits` | Encodes a value into the requested number of decimal digit bytes and replaces unused most-significant zero positions with the `0xA` blank marker. |
 | 0x800358A0 | `Text_EncodeDecimalNoPadding` | Runs the fixed-width decimal encoder, then converts its leading `0xA` blank markers back to zero in the output buffer. |
 | 0x800358FC | `Rand_GetInterval` | Returns the Psy-Q pseudorandom value modulo the caller-supplied interval. |
+
+## Batch: Options screen lifecycle
+
+| address | name | description |
+|---|---|---|
+| 0x8003C568 | `Options_UpdateLayout` | Positions the selection cursor for the current row and updates the stereo/mono widget from the working output type, setting that widget's `0x40` flag when another row is selected. |
+| 0x8003C628 | `Options_Init` | Creates the Options screen objects, initializes its active state and selection, copies the stored sound output type with negative values reset to stereo, lays out the widgets, and starts the screen sound. |
+| 0x8003C7A0 | `Options_HandleInput` | Toggles stereo/mono with horizontal input on row zero, commits the sound-driver setting immediately, confirms another row by changing state, or cancels the screen. |
+| 0x8003C8CC | `Options_Update` | Dispatches the low nibble of the Options state to fade-out waiting, input handling, an idle state, or a return to input, then returns the resulting state. |
