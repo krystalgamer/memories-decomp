@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model.h"
 
 typedef float f32;
 typedef double f64;
@@ -32,13 +33,14 @@ void func_80052528(void) {
         f = 0;
         if (x >= -0xC7 && *(s32 *)(b + 4) < x) {
             if (x < -0x64) {
-                f = (-200 - x) * 4096 / -100;
+                f = (-200 - x) * MODEL_FIXED_ONE / -100;
             } else {
-                f = 0x1000;
+                f = MODEL_FIXED_ONE;
             }
         }
 
-        v = (f * 3755 + (0x1000 - f) * 3968) / 4096;
+        v = (f * 3755 + (MODEL_FIXED_ONE - f) * 3968) /
+            MODEL_FIXED_ONE;
         lo = v - 0x10;
 
         do {
