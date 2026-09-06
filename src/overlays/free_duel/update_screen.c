@@ -21,7 +21,7 @@ extern void func_80033C90(void);
 extern void TextBox_Destroy(u8 *);
 extern void func_80035C38(s32, s32, s32, s32, s32, s32, s32);
 extern void func_80039794(void);
-extern void func_8003FEE0(s32);
+extern void SD_SEPlayFull(s32);
 extern void FreeDuel_PlaceCursor(void *, s32);
 extern void FreeDuel_UpdateCursorTween(void);
 extern void FreeDuel_UpdateScrollbar(void);
@@ -73,7 +73,7 @@ void FreeDuel_UpdateScreen(void)
         }
     } else {
         if ((D_8009B398 & 0x20) != 0) {
-            func_8003FEE0(8);
+            SD_SEPlayFull(8);
             D_8009B26C = 8;
             return;
         }
@@ -87,20 +87,20 @@ void FreeDuel_UpdateScreen(void)
             func_80033C90();
             D_8009B269 = 6;
             gFreeDuel_bReturnFlags = 0x40;
-            func_8003FEE0(0x30);
+            SD_SEPlayFull(0x30);
             return;
         }
         entry = D_801D0200;
         for (index = 0; index < DECK_SIZE; index++) {
             if (*entry == 0) {
-                func_8003FEE0(9);
+                SD_SEPlayFull(9);
                 func_80035C38(1, 8, 0x30, 0x6C, 0xE0, 0x10, 0x1028);
                 gFreeDuel_bScreenFlags |= 0x20;
                 return;
             }
             entry++;
         }
-        func_8003FEE0(0x30);
+        SD_SEPlayFull(0x30);
         gFreeDuel_bReturnFlags = 0x80;
         func_80024DC8(-1, D_8009B367 * 5 + D_8009B366, 0x6000, 0x6000);
         D_8009B368 = 6;

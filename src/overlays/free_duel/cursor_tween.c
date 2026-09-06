@@ -14,7 +14,7 @@ extern void func_800429D8(void *);
 extern void func_80042A78(void *);
 extern void func_800428EC(void *, s32);
 extern void func_80041D60(void *);
-extern void func_8003FEE0(s32);
+extern void SD_SEPlayFull(s32);
 
 void FreeDuel_UpdateCursorTween(void)
 {
@@ -56,7 +56,7 @@ void FreeDuel_UpdateCursorTween(void)
         D_8009B367 = D_8009B36D;
         FreeDuel_PlaceCursor(widget, 1);
         gFreeDuel_bScreenFlags &= ~0x40;
-        func_8003FEE0(47);
+        SD_SEPlayFull(47);
     } else {
         slot = FreeDuel_GetSparkleSlot();
         sparkle = FreeDuel_SpawnSparkle();

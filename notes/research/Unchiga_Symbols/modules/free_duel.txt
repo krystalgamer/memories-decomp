@@ -20,5 +20,6 @@ gFreeDuel_bReturnFlags = 0x8009B365;
 gGraphics_sViewportX = 0x8009B146;
 gGraphics_sViewportY = 0x8009B148;
 rand = 0x8008E590; // type:func
+SD_SEPlayFull = 0x8003FEE0; // type:func
 // Matching Free Duel C destroys the completed prompt through this resident helper.
 TextBox_Destroy = 0x80035B7C; // type:func
