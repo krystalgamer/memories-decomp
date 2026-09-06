@@ -94,7 +94,7 @@ s32 func_80041F90(struct Obj *obj, s32 arg1, s32 arg2, struct Out *out) {
     if (!(obj->field4 & 0x8000000)) {
         ((struct VecScale *)v308)->x = obj->field44;
         ((struct VecScale *)v308)->y = obj->field46;
-        ((struct VecScale *)v308)->z = 0x1000;
+        ((struct VecScale *)v308)->z = ONE;
         ScaleMatrix((MATRIX *)mtx, (VECTOR *)0x1F800308);
     }
 
