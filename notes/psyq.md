@@ -156,7 +156,7 @@ symbol review.
 | `0x800899A0` | `ratan2` | Applied Psy-Q 4.6 identity; matching view and duel callers derive 4096-unit angles from coordinate deltas. |
 | `0x8008AD50` | `GsSetRefView2` | Applied Psy-Q 4.6 identity; matching model paths install the shared 32-byte reference-view record. |
 | `0x8008E400` | `qsort` | Applied Psy-Q 4.6 identity from the unique 400-byte `LIBC.LIB`/`LIBC2.LIB` `QSORT.OBJ` signature; matching callers sort resident and overlay record arrays. |
-| `0x8008F200` | `sprintf` | Applied Psy-Q 4.6 identity from the unique 2,176-byte `LIBC2.LIB/SPRINTF.OBJ` signature; matching callers format memory-card paths and sound request strings. |
+| `0x8008F200` | `sprintf` | Applied Psy-Q 4.6 identity from the unique 2,176-byte `LIBC2.LIB/SPRINTF.OBJ` signature; matching callers format memory-card paths and request strings. |
 | `0x8008FBE0` | `DecDCTReset` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature; the matching wait path requests mode `1` after a decode timeout. |
 | `0x8008FC14` | `DecDCTGetEnv` | Applied Psy-Q 4.6 identity at offset `0x34` of the unique `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
 | `0x8008FCA0` | `DecDCTPutEnv` | Applied Psy-Q 4.6 identity at offset `0xC0` of the same unique `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
@@ -533,8 +533,9 @@ declares only `printf`, `sprintf`, and basic character/string input and output.
 There is no `FILE` type or `fopen`/`fread` family, and the `getc`/`putc`
 signatures use integer handles rather than stream pointers. It must not be
 substituted for the debugger-host file service in `libsn.h` or the retail
-disc and memory-card APIs. `func_80044470` and `sound_request_wrappers.c`
-include it for the resident `sprintf` declaration.
+disc and memory-card APIs. `src/game/mem_card_requests.c` includes it for the
+resident `sprintf` declaration used by `func_80044470` and three request
+formatters.
 
 `malloc.h` exposes three parallel allocator families:
 `InitHeap`/`malloc`/`calloc`/`realloc`/`free`, then identically shaped `*2`
