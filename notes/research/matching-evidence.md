@@ -2465,3 +2465,46 @@ exist, and the actual residual was register allocation.
 
 Before treating an addressing-form difference as real, read the object with
 relocations shown. A normalised diff is for ranking, not for diagnosis.
+
+## A multi-instruction constant materialised early is a source-level local
+
+An earlier note records that binding a local blocks folding only when the
+bound value is computed, because a bound literal is constant-propagated away.
+That holds for the *value*, but not for where the value is built.
+
+A constant that does not fit an immediate field needs `lui` plus `ori`.
+Where that pair is emitted is decided by whether the constant is a named
+local or an inline literal. Written inline, it is materialised at the point
+of use. Bound to a local, it is materialised at the top of the function and
+kept in a register until used.
+
+Measured on `func_8005B4D8` (0x8005B4D8, 73 instructions). The target builds
+`0xE1000200` and `0xE6000001` in its first five instructions, while their
+uses are eleven and twenty instructions later. Writing them inline placed
+both `lui`/`ori` pairs at the point of use; binding them to locals moved both
+to the top and took the diff from 54 to 49, with no change in length or
+opcode counts.
+
+So an early `lui`/`ori` pair whose result is not consumed for many
+instructions is evidence of a named constant in the original source, not of
+aggressive hoisting by the scheduler. Small constants that fit an immediate
+carry no such signal, since they are folded into the using instruction either
+way.
+
+## Read statement order off a no-scheduling profile
+
+Scheduling profiles reorder instructions, which makes the target's order weak
+evidence about the original source. Under `-fno-schedule-insns` the emitted
+order tracks source order closely, so the target can be read as evidence of
+the original statement order even when a scheduling profile is the one that
+finally matches.
+
+This is worth doing as a separate diagnostic pass. Compile the candidate
+under the no-scheduling variant, line the two up, and read off the order of
+the loads, the constant materialisations and the stores. Then apply what that
+tells you and go back to ranking profiles normally.
+
+Both findings above came from that pass on `func_8005B4D8`: the constant
+hoisting was invisible under the scheduling profiles, which spread the
+`lui`/`ori` pairs through the body, and only became legible once scheduling
+was switched off on both sides.
