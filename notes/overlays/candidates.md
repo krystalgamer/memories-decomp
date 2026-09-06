@@ -881,21 +881,24 @@ s32 func_80180390(void)
 
 ## password `func_80169734` at 0x80169734
 
-`gcc_2_8_1_g0_split`, 304 instructions against 309, 60 differing positions,
-opcode distance 5.
+`gcc_2_8_1_g0_split`, 308 instructions against 309, 48 differing positions,
+opcode distance 3. Residual is one extra `andi` against one missing `addiu`
+and one missing `j`.
 
-There are no extra instructions at all: the residual is purely five that are
-missing, one `addiu`, two `lbu`, one `nop` and one `j`.
+Two levers are applied here and both generalise.
 
-The box at 0x800EB1C0 is a symbol, not an integer cast to a pointer. The target
-forms its address with `lui` and `addiu`, which is what a symbol reference gives;
-a literal address gives `lui` and `ori`, because `addiu` sign-extends and `ori`
-does not. Writing it as `(Box *)0x800EB1C0` costs five on the distance and 149
-differing positions on its own.
+The box at 0x800EB1C0 is a symbol, not an integer cast to a pointer. A symbol
+reference is formed with `lui` then `addiu`; a literal address is formed with
+`lui` then `ori`, because `addiu` sign-extends and `ori` does not. Writing it as
+`(Box *)0x800EB1C0` costs five on the distance and 149 differing positions.
 
-Measured and inert against this base: re-reading `gNameEntry_bFlags` at the bit 2
-test, at the top-level bit 4 test, and at both tail tests, in every combination.
-The compiler canonicalises those, so the two missing `lbu` are elsewhere.
+The scan loop is entered at its zero test with the first character already
+loaded, not at the increment. Entering at the increment makes that initial load
+dead and the compiler deletes it, which costs the two `lbu` and the `j` the
+target has at 262 to 265.
+
+Measured and inert: re-reading `gNameEntry_bFlags` at the bit 2 test, the
+top-level bit 4 test and both tail tests, in every combination.
 
 ```c
 #include "../../src/types.h"
@@ -1100,21 +1103,21 @@ void func_80169734(void)
         return;
     }
     p = D_801B125A;
-    c = D_801B125A[0];
+    c = *p;
     next = 0;
-    goto test;
+    goto ztest;
 scan:
     if (*p >= 0xF0) {
-        next = p + 1;
         p++;
     }
     next = p + 1;
     p = next;
-test:
+zloop:
     p++;
     c = *p;
+ztest:
     if (c == 0) {
-        goto test;
+        goto zloop;
     }
     if (c != 0xFF) {
         goto scan;
