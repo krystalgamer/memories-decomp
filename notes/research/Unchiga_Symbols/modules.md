@@ -33,6 +33,7 @@ See findings F79-F86: `FreeDuel_Entry` 0x80168FB4, `FreeDuel_UpdateScreen`
 |---|---|---|
 | 0x80168FB4 | `name_entry_module_entry`? | not traced yet -- the EXE's `Main_RunNameEntry` (0x8002D62C) calls the module by fixed address; confirm the entry |
 | 0x8016913C | `NameEntry_UpdateScreen` | cursor tween (counter at widget+0x60, 8 frames), then DPAD from `gInput_wPad1Held`: RIGHT/LEFT wrap over 15 columns, UP/DOWN wrap over 9 rows, right-hand column uses the row-jump table |
+| 0x801689B4 | `NameEntry_UpdateCaretTween` | moves the name-length caret to its stored target over the requested frame count, then snaps and clears the callback |
 | 0x8016909C | `NameEntry_AdjustLength(delta, ?)` | len += delta with a 5-char cap; moves the caret widget (x = len*16 + 107); SE 0x0C |
 | 0x8016868C | `TextBox_GetGlyphAt(slot, x, y)` | finds the glyph entry of text record `slot` at pixel (x, y); +0 of the entry is the Shift-JIS code |
 | 0x80168CDC | `NameEntry_SpawnGlyphSprite` | spawns the animated copy of the picked letter (find_free_slot_0x10_0x60 + get_or_init slot) |

@@ -2,6 +2,7 @@
 // EXE entries: NameEntry_Init, NameEntry_PollCompletion (in symbol_addrs.txt). Findings F100-F101, notes/research/modules.md.
 NameEntry_Init = 0x801683EC; // type:func
 NameEntry_UpdateScreen = 0x8016913C; // type:func
+NameEntry_UpdateCaretTween = 0x801689B4; // type:func
 NameEntry_AdjustLength = 0x8016909C; // type:func
 TextBox_GetGlyphAt = 0x8016868C; // type:func
 NameEntry_SpawnGlyphSprite = 0x80168CDC; // type:func

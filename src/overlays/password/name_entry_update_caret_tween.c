@@ -3,7 +3,7 @@
 extern void func_800429D8(void);
 extern void func_80042A78(void *);
 
-void func_801689B4(u8 *object)
+void NameEntry_UpdateCaretTween(u8 *object)
 {
     u8 flags;
     s16 remaining;
