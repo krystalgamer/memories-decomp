@@ -1,11 +1,6 @@
 #include "../types.h"
-
-struct Rect {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-};
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 
 struct Rec {
     u8 pad0[4];
@@ -20,7 +15,7 @@ extern u8 D_8009B145 __attribute__((section(".data")));
 extern s16 gGraphics_sViewportX __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY __attribute__((section(".data")));
 extern u8 D_800E9D70[100];
-#define D_800E9D70 (*(struct Rect *)D_800E9D70)
+#define D_800E9D70 (*(RECT *)D_800E9D70)
 extern u8 D_800E9ECE[100];
 #define D_800E9ECE (D_800E9ECE[0])
 extern u8 D_800EAE98[100];
@@ -30,7 +25,6 @@ extern u16 D_8009B2A8;
 extern u16 D_8009B2AA;
 extern u16 D_8009B270;
 
-extern void MoveImage(struct Rect *, s32, s32);
 extern void func_8004036C(void *);
 extern void func_80015C0C(void);
 extern s32 func_8004006C(void);

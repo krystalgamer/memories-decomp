@@ -1,5 +1,7 @@
 #include "../types.h"
 #include "../psyq/libetc.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 
 typedef float f32;
 typedef double f64;
@@ -21,7 +23,6 @@ extern short D_8009B46A;
 extern short D_8009B46C;
 extern short D_8009B46E;
 extern u8 D_800F569F[];
-extern s32 MoveImage();
 
 void func_8004E9A0(void) {
     s32 k;
@@ -42,7 +43,7 @@ void func_8004E9A0(void) {
             D_8009B46E = 0x40;
             r = u_0 % 3;
             D_8009B468 = r * 16 + 0x2D0;
-            MoveImage(&D_8009B468, 0x2C0, 0x1C0);
+            MoveImage((RECT *)&D_8009B468, 0x2C0, 0x1C0);
             break;
         case 4:
             n = 8;
@@ -53,7 +54,7 @@ void func_8004E9A0(void) {
             D_8009B46C = 0x20;
             D_8009B46E = 0x18;
             D_8009B46A = q * 3 * 8 + 0x180;
-            MoveImage(&D_8009B468, 0x220, 0x168);
+            MoveImage((RECT *)&D_8009B468, 0x220, 0x168);
             break;
         }
     }
