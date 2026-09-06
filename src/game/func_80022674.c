@@ -26,9 +26,9 @@ void func_80022674(u8 *p) {
     if (func_80042B98(p) == 0) {
         m = *(u16 *)(e + 0x16);
         v = 0;
-        if ((m & 0x1000) == 0) {
+        if ((m & DUEL_CARD_FLAG_FACE_DOWN) == 0) {
             v = 1;
-            if ((m & 0x800) != 0) {
+            if ((m & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
                 v = 2;
             }
         }
@@ -58,7 +58,7 @@ m0:
         *(u16 *)(e + 0x16) = *(u16 *)(e + 0x16) | 0x400;
         *(s32 *)(p + 0x20) = 0x8000;
         *(u16 *)(p + 8) = *(u16 *)(p + 8) | 4;
-        if ((*(u16 *)(e + 0x16) & 0x800) != 0) {
+        if ((*(u16 *)(e + 0x16) & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
             p[0x22] = 0xC0;
         }
     }
