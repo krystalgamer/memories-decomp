@@ -5062,7 +5062,7 @@
       "address": "0x8005F3B8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1AC",
-      "source": "src/game/func_8005F3B8.c"
+      "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F564",
@@ -5098,7 +5098,7 @@
       "address": "0x8005F828",
       "profile": "gcc_2_8_1_g8",
       "size": "0xF4",
-      "source": "src/game/func_8005F828.c"
+      "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F91C",
