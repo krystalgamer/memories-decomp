@@ -489,3 +489,10 @@ on the suspects side until proven.)
 | 0x8016818C | `CampaignMap_CreateLocationLabel` | Creates and prepares the current location's label box from global string ID `0x8350 + gCampaignMap_Location`. |
 | 0x80168588 | `CampaignMap_CreateLocationMarker` | Creates a marker at the current location's coordinates and stores the indexed destination location's coordinates as its target. |
 | 0x8016866C | `CampaignMap_SetLocation` | Rebuilds the complete campaign-map scene for one location: render state, camera, label, gated objects, optional town marker, and background track. |
+
+## Batch: campaign-map navigation
+
+| address | name | description |
+|---|---|---|
+| 0x80168E0C | `CampaignMap_PickExit` | Tests town confirm/cancel input and four directional exits against their story flags, stores the selected move type, and returns a destination, an enter-location marker, or `-1`. |
+| 0x80168FCC | `CampaignMap_UpdateLocation` | Finishes active map movement and rebuilds the location scene, drives the fade into a selected destination, or polls exits and starts the next transition. |
