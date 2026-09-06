@@ -1,14 +1,15 @@
 #include "../types.h"
+#include "../psyq/libds.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
-extern int DsSearchFile(int, int);
 extern int func_8005BE3C(void);
 extern void func_8005BB7C(int);
 
 int File_Exists(int first, int second)
 {
-    register int result asm("$3") = DsSearchFile(second, first);
+    register int result asm("$3") =
+        (int)DsSearchFile((DslFILE *)second, (char *)first);
     register int output asm("$2") = -1;
 
     if (result == 0) {
