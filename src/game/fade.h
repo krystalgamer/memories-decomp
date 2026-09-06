@@ -6,6 +6,9 @@
 #define FADE_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
 #define FADE_BAND_COUNT 30
+#define FADE_BAND_HEIGHT 8
+#define FADE_SCREEN_WIDTH 320
+#define FADE_SCREEN_HEIGHT (FADE_BAND_COUNT * FADE_BAND_HEIGHT)
 #define FADE_TRANSITION_STATE_SIZE 0x28
 
 typedef struct {
