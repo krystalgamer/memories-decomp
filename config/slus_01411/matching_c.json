@@ -4015,6 +4015,12 @@
       "source": "src/game/sound_pending_entries.c"
     },
     {
+      "address": "0x80047788",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xDC",
+      "source": "src/game/func_80047788.c"
+    },
+    {
       "address": "0x80047864",
       "profile": "gcc_2_8_1_g0",
       "size": "0x88",
