@@ -24,6 +24,24 @@ Rules:
   `src/overlays/`.
 - The inventory row remains the place for findings, negatives and levers. This
   file holds only code.
+- If a row claims a near-miss state, the source that produces it belongs here.
+  A claimed state with no stored source is not a result, because nobody can
+  reproduce it. That has happened three times so far and each one cost a full
+  reconstruction to recover: `func_80169734`, which the row had at 309 of 309
+  with two differing positions, `CampaignMap_UpdateLocationTransition` at 217
+  of 217 with seventy, and `func_8016A37C` at 365 of 365 with five. The first
+  was rebuilt and then matched; the other two are still being recovered.
+
+At the time of writing the rows below are the unmatched functions whose claimed
+state is not stored here, in the order worth recovering:
+
+- `func_8016A37C`, claimed at 365 of 365 with five differing positions. The
+  closest unstored state in the project.
+- `func_80181728`, claimed within four instructions of the target, with the
+  residual attributed to four callee-saved hoists.
+- `FreeDuel_Init`, claimed at 446 of 468, with the variable-identity lever
+  already probe-verified.
+- `func_801821DC`, no claimed state.
 
 ## password `func_80168AB4` at 0x80168AB4
 
