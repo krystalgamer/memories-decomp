@@ -53,9 +53,8 @@ the applies and byte-verify once).
 | address | name | suspected role (IDB + family context, NOT verified) |
 |---|---|---|
 | `0x80071008` | `AiScript_CalcCardPower` | Evaluates a card's battle power into a VM slot. |
-| `0x80071B64` | `AiScript_FindKiller` | Finds a monster that beats a given target. |
 | `0x80071CB0` | `AiScript_FindDefenseStopper` | Finds a defender able to stop an attacker. |
-| `0x80072A48` | `AiScript_FindBestCombo` | Runs the full best-combo search (results feed the BestDiff trio's neighborhood). NOTE: AiScript_FindKiller may actually have a landed body — unit `equip_score_best_slot.c` per sibling comments; verify and graduate. |
+| `0x80072A48` | `AiScript_FindBestCombo` | Runs the full best-combo search (results feed the BestDiff trio's neighborhood). |
 
 ## From the SAVE flow (2026-08-31)
 

@@ -100,9 +100,9 @@ on the suspects side until proven.)
 
 ## Batch 6 (functions — AI opcodes, board queries & pickers)
 
-(0x80071008 AiScript_CalcCardPower, 0x80071B64 AiScript_FindKiller, 0x80071CB0
-AiScript_FindDefenseStopper excluded: bodies unmatched, behavior not 100% verified —
-tracked in suspects.md.)
+(0x80071008 AiScript_CalcCardPower and 0x80071CB0
+AiScript_FindDefenseStopper excluded: bodies unmatched, behavior not 100%
+verified — tracked in suspects.md.)
 
 | address | name | description |
 |---|---|---|
@@ -122,6 +122,7 @@ tracked in suspects.md.)
 | 0x800716C4 | `AiScript_LoadBestTarget` | Opcode: copies the precomputed best-target slot from `gAi_bBestTarget` into a `gAiScript_aMemory` slot — the trio a combo search leaves behind. |
 | 0x80071700 | `AiScript_FindStrongest` | Opcode: the big max-scanner (137 insns): takes 5 operands, gets a card-id range from `Ai_GetWinningCardRange`, scans `gDuel_aActiveCards[lo..hi]` with flag-gated skips, and writes the strongest entry's slot to the output. |
 | 0x80071924 | `AiScript_FindWeakest` | Opcode: sibling of `AiScript_FindStrongest` scanning for the weakest qualifying entry. |
+| 0x80071B64 | `AiScript_FindKiller` | Opcode: scans active-card slots 1–5 and stores the lowest-ATK eligible slot whose attack, including the Guardian Star matchup modifier, beats the selected target's scripted ATK-or-DEF comparison; stores zero when none qualifies. |
 | 0x80071EB8 | `AiScript_CountCards` | Opcode: counts cards matching the scripted criteria over a scanned range into a VM slot. |
 
 ## Batch 7 (functions — AI searchers, fusion solver, play emitters, 20 rows)
