@@ -355,6 +355,19 @@ row, Dragon Treasure, Magical Labyrinth, Salamandra and Winged Trumpeter each
 have weight 80 (`5/128`); the other 24 equip cards each have weight 72
 (`9/256`).
 
+The four monster pools are also weighted rather than uniform:
+
+| ATK+DEF band | Supported cards | Weight distribution |
+|---|---:|---|
+| `450-1050` | 42 | 38 cards at 48, 4 cards at 56 |
+| `1100-1550` | 84 | 80 cards at 24, 4 cards at 32 |
+| `1600-2050` | 97 | 35 cards at 16, 62 cards at 24 |
+| `2100-2450` | 86 | 2 cards at 16, 84 cards at 24 |
+
+Each distribution totals 2048. These are the static per-card pool weights;
+the rows that draw multiple monsters are not simple uniform choices within
+their ATK+DEF bands.
+
 Resetting until the magic card is Raigeki is the community's standard opening.
 
 ### 4.4 Library
