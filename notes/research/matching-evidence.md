@@ -2281,3 +2281,71 @@ real differences. This one did the opposite, and cost two functions' worth of
 type changes chasing a difference that did not exist. Both directions come
 from the same cause: a metric that was not validated against a case with a
 known answer.
+
+## Rank compiler profiles by opcode histogram, not by positional diff count
+
+A line-by-line diff against the target is a positional measure. One extra or
+missing instruction early in a function shifts every later line, so the count
+keeps rising even as the body converges. That makes it unfit for choosing
+between profiles, because profiles differ precisely in where they insert and
+schedule instructions.
+
+Measured on `func_80047DB0`: ranked by positional diff, `gcc_2_8_1_g0_split`
+looked clearly best at 53 against `gcc_2_8_1_g0` at 66. Ranked by the
+difference between the two opcode histograms, the order reverses, 12 against
+6. The positional count was selecting the wrong profile outright, and the
+work done under it was spent on differences that profile had introduced.
+
+The histogram measure is a multiset comparison: count each mnemonic in the
+target and in the candidate, and sum the absolute differences. It ignores
+ordering and register allocation, so it answers the question that actually
+matters when picking a profile - whether the candidate is emitting the right
+*work* - and defers scheduling and allocation, which are separate levers.
+
+Practical use:
+
+- Choose the profile by histogram delta. Only then read the positional diff,
+  to see ordering.
+- A histogram delta of zero with a nonzero positional diff means the remaining
+  problem is scheduling or register allocation, not the source.
+- Watch the two totals. When the candidate total settles at the target's real
+  instruction count, alignment padding has stopped inflating the comparison.
+
+## A known-constant local can become a variable shift amount
+
+If a local holds a compile-time constant and is live where an unrelated
+shift by that same constant occurs, GCC 2.8.1 will use the register as the
+shift amount rather than materialise the constant twice, emitting `sllv`
+where the target has `sll`.
+
+In `func_80047DB0` a bitmask local is initialised to 1 before a dispatch
+block, and a `<< 1` inside that block became `sllv v0,v0,s4` because `s4`
+already held 1. Moving the initialisation after the block, to just before the
+loop that actually consumes it, restored the constant `sll`.
+
+An unexplained `sllv` against a target's `sll` is therefore a liveness
+signal: some constant-valued local reaches that shift and should be
+initialised later. This is the mirror of the usual liveness question - here
+the fix is to *shorten* a live range rather than extend one.
+
+## Initialise before the branch rather than in an else clause
+
+Where a value has a default and one branch overrides it, the two spellings
+
+    if (cond) { x = f(); ... } else { x = id; }
+
+and
+
+    x = id;
+    if (cond) { x = f(); ... }
+
+are not equivalent to the register allocator. The second form makes the
+default live before the branch, which is what produces a parameter copy in
+the entry block. In `func_80047DB0` switching to the second form removed two
+instruction-count differences and brought the candidate to within one
+instruction of the target, because retail initialises the match value from
+the argument before testing it and overwrites it only in the taken branch.
+
+Read the entry block for this: copies of an argument made before the first
+conditional branch indicate a default assignment that precedes the branch in
+the source.
