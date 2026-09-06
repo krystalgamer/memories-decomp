@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "duel_card_layout.h"
+#include "duel_card.h"
 #include "duel_grid.h"
 
 extern u8 *D_8009B17C;
@@ -8,7 +8,6 @@ extern s16 D_8009B20C[4];
 extern u16 D_8009B220;
 extern u8 D_800907D8[];
 extern DuelFieldPosition D_80090800[];
-extern u8 D_801A7AD8[];
 
 extern void func_80019BA0(u8 *arg0, u8 arg1, s16 arg2, s16 arg3);
 extern s32 func_80024E24(void);
@@ -16,7 +15,7 @@ extern u8 *func_8002C604(s32 arg0);
 extern void SD_SEPlayFull(s32 arg0);
 
 void DuelEffect_UpdateFieldMarker(void) {
-    u8 *r;
+    DuelCardRecord *r;
     u8 *p;
     u8 *e;
     u8 *t;
@@ -38,10 +37,11 @@ void DuelEffect_UpdateFieldMarker(void) {
                 n = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                     DUEL_FIELD_ROW_SIZE;
                 c = D_800907D8[D_8009B20C[1] + n];
-                r = D_801A7AD8 + c * DUEL_CARD_RECORD_SIZE;
-                if ((*(s32 *)(r + 0x14) & 0x88000000) == 0x88000000) {
-                    func_80019BA0((u8 *)*(s32 *)r, 0xC0, 0, 6);
-                    *(s16 *)(r + 0x16) = *(u16 *)(r + 0x16) & 0xF7FF;
+                r = &D_801A7AD8[c];
+                if ((*(s32 *)&r->terrain_modifier & 0x88000000) ==
+                    0x88000000) {
+                    func_80019BA0((u8 *)r->object, 0xC0, 0, 6);
+                    r->flags &= ~DUEL_CARD_FLAG_DEFENSE_POSITION;
                 }
                 D_8009B220 = D_8009B220 | 0x20;
             }

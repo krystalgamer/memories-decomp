@@ -11,7 +11,7 @@ their guessed declarations were not copied.
 
 `notes/global-usage.csv` records 52 game functions using this address. The
 current split is 29 matching-C users and 23 assembly users. Of those 29
-matching-C users, the typed-migration snapshot documented below covers 21;
+matching-C users, the typed-migration snapshot documented below covers 22;
 the generated report remains the authority as ongoing decompilation changes
 that split. `func_8002C9B4` is an additional matching C source whose address
 formation names `D_801A7AD8` only inside an inline-assembly string, so it is
@@ -61,13 +61,14 @@ Corroboration agrees without defining the shared type:
 
 ## Typed migration snapshot
 
-At this snapshot, 21 pure-C report users include `duel_card.h` and
+At this snapshot, 22 pure-C report users include `duel_card.h` and
 use its typed extern:
 
 `func_8001778C`, `func_80017DB4`, `func_80017E3C`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
 `func_8001EFD4`, `func_80023090`, `Duel_UpdateCardPickCursor`, `func_800249E0`,
-`func_80025B28`, `func_80025BEC`, `func_80025F3C`, `func_80026A3C`,
+`DuelEffect_UpdateFieldMarker`, `func_80025B28`, `func_80025BEC`,
+`func_80025F3C`, `func_80026A3C`,
 `func_80026C0C`,
 `Duel_CollectFieldCardsBelowType`, `Duel_CollectFieldCardsByType`,
 `func_8002778C`, `func_800278A0`, `func_80027DF8`, and `func_8002C938`.
@@ -87,13 +88,14 @@ Raw local views retained for exact code generation:
   `0xA0000000` mask remains a single `lw`-based test.
 - `func_80025F3C` likewise keeps the target's 32-bit `+0x14` read for the
   `0x90000000` state test.
+- `DuelEffect_UpdateFieldMarker` uses the shared record and flags, but keeps
+  the target's 32-bit `+0x14` read for its `0x88000000` state test.
 - `func_8002C938` keeps its explicit byte-address construction and fixed
   register variables, then uses `DuelCardRecord` once the address is formed.
 
-The other eight matching-C report users do not yet include `duel_card.h`:
+The other seven matching-C report users do not yet include `duel_card.h`:
 `func_80016784`, `func_80018DB4`, `func_8001F364`, `func_80022674`,
-`func_800229F4`, `func_8002538C`, `DuelEffect_UpdateFieldMarker`, and
-`func_8002596C`.
+`func_800229F4`, `func_8002538C`, and `func_8002596C`.
 
 `func_8002C9B4` remains wholly unchanged because its `D_801A7AD8` address
 formation is inline assembly. Its local record view and the interior
