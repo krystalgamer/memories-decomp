@@ -1102,19 +1102,19 @@
       "address": "0x80026C6C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xAC",
-      "source": "src/game/duel_field_card_filters.c"
+      "source": "src/game/duel_field_equip_search.c"
     },
     {
       "address": "0x80026D18",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB0",
-      "source": "src/game/duel_field_card_filters.c"
+      "source": "src/game/duel_field_equip_search.c"
     },
     {
       "address": "0x80026DC8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x298",
-      "source": "src/game/func_80026DC8.c"
+      "source": "src/game/duel_field_equip_search.c"
     },
     {
       "address": "0x80027060",
