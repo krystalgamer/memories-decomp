@@ -1,6 +1,20 @@
 #include "../types.h"
 #include "sound.h"
 
+/* Compares arg2 bytes; returns the difference at the first mismatch. */
+s32 SD_CompareBytes(u8 *arg0, u8 *arg1, s32 arg2) {
+    if (arg2 == 0) {
+        return -1;
+    }
+
+    while (--arg2 != 0 && *arg0 == *arg1) {
+        arg0++;
+        arg1++;
+    }
+
+    return *arg0 - *arg1;
+}
+
 int SD_ReadSequenceByte(u8 *reader)
 {
     SDSecondaryState *state = D_8009B458;
