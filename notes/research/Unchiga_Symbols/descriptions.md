@@ -319,3 +319,11 @@ on the suspects side until proven.)
 | 0x80019A60 | `Duel_CheckFusion` | Normalizes two card IDs, searches their packed fusion-table row, and returns the fusion result card ID or zero when no recipe exists. |
 | 0x8001BD48 | `Duel_CheckQuitInput` | In a two-player duel, detects a newly pressed Select button, requests the quit-confirmation dialog, and reports that it handled the input. |
 | 0x80021894 | `Duel_AwardCard` | Adds one card to the trunk with quantity saturation at 250, shifts the 16-entry recent-award history, and inserts the new card at the front. |
+
+## Batch: file transfer lifecycle
+
+| address | name | description |
+|---|---|---|
+| 0x80013998 | `File_InitTransferDescriptor` | Fills a caller-provided transfer descriptor with its file selector, position, size, phase callback, seed, and optional destination, selecting sector-count or byte-count and buffered or direct transfer state. |
+| 0x800143DC | `File_ActivateTransfer` | Copies the queued transfer descriptor into active state, promotes the next shared 32-byte buffer record, raises the mode-4 flag when needed, and publishes the descriptor's active flags. |
+| 0x80014E1C | `File_RequestAsyncTransfer` | Starts the game-facing asynchronous request: marks the handoff, invokes an installed transfer callback when present, initializes the active descriptor when available, and returns that descriptor. |
