@@ -67,14 +67,19 @@ library object or another high-confidence signature.
 
 ## Game-region status
 
-The game/engine region currently contains:
+The game/engine ownership totals are stable:
 
-| Status | Functions | Bytes |
+| Classification | Functions | Bytes |
 |---|---:|---:|
-| Unmatched compiler-generated assembly | 195 | 204,692 (`0x31F94`) |
+| Compiler-generated game code | 1,133 | 349,976 (`0x55718`) |
 | Intentional handwritten assembly | 63 | 46,236 (`0xB49C`) |
-| Matching C | 938 | 145,284 (`0x23784`) |
+| Total game/engine region | 1,196 | 396,212 (`0x60BB4`) |
+
+The split of compiler-generated code between matching C and assembly fallback
+changes whenever a function is integrated, so it is not duplicated here.
+`config/slus_01411/functions.csv` is the source of truth; the generated
+progress table in the root [`README.md`](../README.md) is the current readable
+snapshot.
 
 The handwritten functions are tracked separately from compiler-generated game
-code and are not decompilation candidates. The unmatched row is the remaining
-compiler-generated game code still using assembly fallback.
+code and are not decompilation candidates.
