@@ -1,5 +1,6 @@
 // campaign overworld module -- resident while Main_RunCampaignMap (0x8002D2D8) is the mode tick (mode byte 0xC5).
 // Findings F117-F120. Location name = global string 0x8350 + index (Metropolis..Hiding, 16 entries).
+CampaignMap_ResetCamera = 0x80168310; // type:func
 CampaignMap_MoveCameraDpad = 0x80168388; // type:func
 CampaignMap_SetLocation = 0x8016866C; // type:func
 CampaignMap_StartCameraTween = 0x801688BC; // type:func

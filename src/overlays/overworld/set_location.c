@@ -18,7 +18,7 @@ extern void func_800533D8(void);
 extern void func_80056250(s32, s32, s32, s32);
 extern u8 *func_80058F74(s32);
 extern void func_8005922C(u8 *, s32 *);
-extern void func_80168310(void);
+extern void CampaignMap_ResetCamera(void);
 extern void SetFarColor(long, long, long);
 extern void SetFogNearFar(long, long, long);
 extern void func_80035668(s32);
@@ -61,7 +61,7 @@ void CampaignMap_SetLocation(s32 index)
     colour[1] = 1365;
     colour[2] = 1365;
     func_8005922C(obj, colour);
-    func_80168310();
+    CampaignMap_ResetCamera();
     SetFarColor(0, 0, 0);
     SetFogNearFar(6000, 8000, D_800F2856);
     D_800E9DBC = func_80168258;
