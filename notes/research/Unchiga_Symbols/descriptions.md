@@ -379,3 +379,15 @@ on the suspects side until proven.)
 | 0x80044D0C | `MemCard_SetIOResultTimeoutCB` | Event callback that stores timeout result `1` in the shared memory-card I/O result word. |
 | 0x80044D20 | `MemCard_SetIOResultErrorCB` | Event callback that stores error result `2` in the shared memory-card I/O result word. |
 | 0x80044D34 | `MemCard_SetIOResultNewCardCB` | Event callback that stores new-card result `3` in the shared memory-card I/O result word. |
+
+## Batch: model support and handler registry
+
+| address | name | description |
+|---|---|---|
+| 0x80057F38 | `Model_UpdateViewMetrics` | Uses or copies the 32-byte reference-view record, derives yaw and pitch through the horizontal distance, stores the full three-dimensional distance, and normalizes both angles to one turn. |
+| 0x80058FB0 | `Model_CopySlotU16Values` | Copies the four 16-bit values at model-slot offset `0xDD0` into the caller's output buffer. |
+| 0x80059134 | `Model_InitLightTriplet` | Initializes three fixed coordinate and intensity records at model-slot offsets `0xD70`, `0xD80`, and `0xD90`. |
+| 0x8005A8C4 | `Model_HasInsufficientBufferSpace` | Computes remaining model-buffer space from the moving heap pointer, active bank base, and selected slot's data size, counting type `5` twice, and reports whether the minimum reserve would be violated. |
+| 0x80060170 | `Model_RegisterHandlerKey` | Leaves an existing key unchanged or stores a new key/handler value in the first empty entry of the fixed 80-record model registry. |
+| 0x800601D0 | `Model_FindHandlerKey` | Reverse-searches the 80-record model registry by handler value and returns its key, or `-1` for the default sentinel or no match. |
+| 0x8006041C | `Model_GetPrimitiveHandler` | Decodes a packed model primitive type and returns the corresponding processing handler, falling back to the default handler for unsupported codes. |
