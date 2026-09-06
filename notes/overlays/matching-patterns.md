@@ -169,7 +169,8 @@ register in the target hold a value the source named?
 
 Naming the base of an indexed access is the addressing form of this rule, and
 it is worth checking separately because the symptom does not look like a
-redundant copy at all. `func_80168FCC` indexes the 66-byte location table:
+redundant copy at all. `CampaignMap_UpdateLocation` indexes the 66-byte
+location table:
 
 ```c
 /* seven instructions differ: the multiply is evaluated first, the address is

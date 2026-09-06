@@ -1184,6 +1184,7 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 | 0x801688BC | `CampaignMap_StartCameraTween` |
 | 0x80168AA8 | `CampaignMap_UpdateLocationTransition` |
 | 0x80168E0C | `CampaignMap_PickExit` |
+| 0x80168FCC | `CampaignMap_UpdateLocation` |
 
 ### main_menu
 

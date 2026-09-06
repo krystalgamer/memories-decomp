@@ -12,6 +12,7 @@ CampaignMap_SetLocation = 0x8016866C; // type:func
 CampaignMap_StartCameraTween = 0x801688BC; // type:func
 CampaignMap_UpdateLocationTransition = 0x80168AA8; // type:func
 CampaignMap_PickExit = 0x80168E0C; // type:func
+CampaignMap_UpdateLocation = 0x80168FCC; // type:func
 gCampaignMap_aLocationTable = 0x801691A8;
 gCampaignMap_MoveState = 0x80169608;
 gCampaignMap_Location = 0x8016960C;
@@ -23,8 +24,8 @@ gInput_wPad1Pressed = 0x8009B398;
 gInput_wPad1Held = 0x8009B3A4;
 Campaign_TestStoryFlag = 0x8002CCA8; // type:func
 SD_SEPlayFull = 0x8003FEE0; // type:func
-// Same reason: func_80168FCC held the module's last assembly reference to the
-// resident fade entry point.
+// Same reason: CampaignMap_UpdateLocation held the module's last assembly
+// reference to the resident fade entry point.
 Fade_InitOut = 0x800158B8; // type:func
 // Same reason: CampaignMap_SetLocation hangs this resident callback off the
 // map object and holds the module's only reference to it.
