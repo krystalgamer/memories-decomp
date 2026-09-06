@@ -940,10 +940,10 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x800356A0 | `Util_CopyWords` | local |
 | 0x800357E8 | `Text_EncodeDecimalDigits` | local |
 | 0x800358FC | `Rand_GetInterval` | local |
-| 0x80035DF4 | `clear_two_fields_800eb288` | fleet |
+| 0x80035DF4 | `DuelEffect_ResetEntryMarkers` | fleet |
 | 0x80036BCC | `find_entry_by_be16_id` | fleet |
 | 0x80036D70 | `read_stream_u32be` | fleet |
-| 0x8003735C | `scan_flag80_entries_800eb288` | fleet |
+| 0x8003735C | `DuelEffect_HasActiveEntry` | fleet |
 | 0x800374A8 | `set_field81_call_373c8` | fleet |
 | 0x800384E4 | `read_stream_byte_set_bit12` | fleet |
 | 0x80038B08 | `call_4036c_reset_field48_81_98` | fleet |
