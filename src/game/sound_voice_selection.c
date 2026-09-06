@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 #include "sound.h"
 
 typedef float f32;
@@ -16,7 +17,6 @@ typedef struct { u32 words[2]; } Blk8;
 
 extern void func_80047788(u16);
 extern void func_8004763C(void);
-extern void SpuSetKey(long, unsigned long);
 extern s32 func_80077090(s32);
 extern void func_80077450(void *);
 
