@@ -899,7 +899,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80023FBC | `decode_status_flags_call_80023d08` | fleet |
 | 0x800240B0 | `Duel_UpdateCardPickCursor` | local |
 | 0x800245EC | `duel_seq_step` | fleet |
-| 0x80024704 | `card_id_compare` | fleet |
+| 0x80024704 | `Util_CompareS16` | local |
 | 0x800249E0 | `card_record_fill` | fleet |
 | 0x80024C1C | `spawn_card_type_icon_obj` | fleet |
 | 0x80024D34 | `opponent_field_record_fill` | fleet |
@@ -937,9 +937,9 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80032BD4 | `compare_rec_two_level_std` | fleet |
 | 0x800338E4 | `BuildDeck_UpdatePaneTransition` | matching C |
 | 0x800355C8 | `relink_active_ptr_and_flag4` | fleet |
-| 0x800356A0 | `backward_word_copy_with_tail_dispatch` | fleet |
-| 0x800357E8 | `int_to_digits` | fleet |
-| 0x800358FC | `call_8e590_mod` | fleet |
+| 0x800356A0 | `Util_CopyWords` | local |
+| 0x800357E8 | `Text_EncodeDecimalDigits` | local |
+| 0x800358FC | `Rand_GetInterval` | local |
 | 0x80035DF4 | `clear_two_fields_800eb288` | fleet |
 | 0x80036BCC | `find_entry_by_be16_id` | fleet |
 | 0x80036D70 | `read_stream_u32be` | fleet |
