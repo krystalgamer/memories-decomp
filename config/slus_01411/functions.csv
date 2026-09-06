@@ -1790,6 +1790,6 @@ address,size,name,status,module,notes
 0x80090140,0x94,func_80090140,sdk_asm,psyq/sdk,
 0x800901D4,0x18,func_800901D4,sdk_asm,psyq/sdk,
 0x800901EC,0x7C,func_800901EC,sdk_asm,psyq/sdk,
-0x80090270,0x30,func_80090270,sdk_asm,psyq/sdk,
-0x800902A0,0x34C,func_800902A0,sdk_asm,psyq/sdk,
+0x80090270,0x30,DecDCTvlcSize2,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBPRESS.LIB/VLC_C.OBJ signature.
+0x800902A0,0x34C,DecDCTvlc2,sdk_asm,psyq/sdk,Identified at offset 0x30 of the unique Psy-Q 4.6 LIBPRESS.LIB/VLC_C.OBJ signature.
 0x800905F0,0xE4,func_800905F0,sdk_asm,psyq/sdk,
