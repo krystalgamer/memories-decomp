@@ -113,6 +113,39 @@ unassigned. The staged write still fits within one `0x2000`-byte memory-card
 block; these calls do not establish how the remaining on-card bytes are
 populated.
 
+## Save integrity and successful-load application
+
+The `0x680`-byte state contains three independently protected regions.
+`func_8003CEB8` computes CRC-16/XMODEM with polynomial `0x1021` and a zero
+initial value. The writers duplicate each 16-bit CRC into two adjacent
+halfwords, copy that CRC into both halves of the two-word mask state, and fill
+the region's mask words by repeatedly calling `SaveData_NextMaskWord`:
+
+| Region | CRC input | Generated mask words | Duplicated CRC |
+|---|---|---|---|
+| Primary | `+0x000..+0x33F` (`0x340` bytes) | 15 words at `+0x340..+0x37B` | `+0x37C`, `+0x37E` |
+| Secondary | `+0x380..+0x3EB` (`0x6C` bytes) | 4 words at `+0x3EC..+0x3FB` | `+0x3FC`, `+0x3FE` |
+| Tertiary | `+0x400..+0x603` (`0x204` bytes) | 8 words at `+0x608..+0x627` | `+0x604`, `+0x606` |
+
+`func_8003CF14` writes the primary and secondary records, while
+`func_8003CFC8` writes the tertiary record. Matching `func_8003D174`
+recomputes all three CRC seeds and compares every generated mask word in
+descending address order; it returns false on the first mismatch.
+
+`SaveData_RequestLoad` reads one `0x680`-byte state into `0x801D3200`.
+`SaveData_PollLoad` waits for the request result and, only when the result is
+`1`, copies that state over the live block at `gDuel_awPlayerDeck` before
+calling `SaveData_ApplyRuntimeState`. That final step rebuilds the player-name
+glyph string from save offset `+0x40C`, restores runtime fields from `+0x404`,
+`+0x408`, and `+0x5DC`, and reapplies the saved sound output type at `+0x5DE`
+when `gSD_bOutputType` is negative.
+
+The two-save comparison path first uses `SaveData_HasSameDuelistCode` on the
+32-bit field at `+0x334`. Its contiguous companion at `0x8003D2B8` accepts the
+pair only when that code matches and the second save's word at `+0x404` equals
+the current `D_8009B3B8` value. The role of that latter word remains
+address-based.
+
 ## Evidence boundary
 
 The descriptor values, event specifications, mode, and API prototypes are
