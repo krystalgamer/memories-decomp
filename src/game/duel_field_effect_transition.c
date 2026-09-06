@@ -18,7 +18,7 @@ typedef struct Obj {
     u8 active;
 } Obj;
 
-extern u8 D_800907D8[2][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
+extern u8 D_800907D8[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 extern u8 D_8009B1D5;
 extern Obj *D_8009B17C;
 extern u16 D_8009B220;
