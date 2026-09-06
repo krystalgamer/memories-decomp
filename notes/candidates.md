@@ -698,19 +698,41 @@ void func_80045334(s32 arg0)
 
 ## `func_80048F14` at 0x80048F14
 
-`gcc_2_8_1_g0`, 62 of 63 instructions.
+`gcc_2_8_1_g0`, 63 of 63 instructions, opcode distance 0, 28 differing
+positions.
 
-One instruction short, and it is a register copy: the target materialises
-`0x801EA800` in `$a1`, stores it to `music_track`, and then copies it to `$a0`
-with `addu $a0, $a1, $zero` for the `0xFFFF` store. Every spelling tried keeps
-one register -- two pointer locals, reassigning one local, reusing a single
-local for both constants, and pinning the destination to `$4` -- because the
-ranges do not overlap and GCC coalesces the copy away.
+Supersedes the 62-instruction record. The missing instruction was the register
+copy `addu $a0, $a1, $zero`, and the previous entry read it as a copy that
+coalescing kept removing. It is not a copy in the source at all -- it is a
+*read*.
 
-Everything else is exact, including the four reloads of `music_track` and the
-two load-delay `nop`s. Reading the field back into the same local before each
-of the four stores is what produces those reloads; caching it once leaves three,
-and a `volatile` view of the field does not help.
+The target reads `c->music_track` back five times: once before the `0xFFFF`
+store and once before each of the four that follow. Only the last four are
+loads. The first is emitted as a register copy because GCC forwards the value
+it has just stored to that field, and the four after it cannot be forwarded
+because the intervening store *through* the pointer may alias the field
+itself. So the shape that produces the copy is an ordinary fifth read, written
+through a second local so it is not confused with the constant already held.
+
+That is worth carrying: when one redundant-looking `move` is missing and the
+same field is reloaded nearby, look for a read that was folded into a copy
+rather than for a way to defeat coalescing. Reaching for a barrier or a
+register pin cannot produce it, which is why every spelling tried before kept
+one register.
+
+The instruction multiset is now exact. What remains is placement of the two
+large constants: the target builds `0x801EA800` before the first `g_SDValue`
+load and splits `0x801E2000` with its `lui` at `0x4c` and its `ori` at `0x78`,
+while this build loads `g_SDValue` first and materialises both constants after.
+The three `g_SDValue` reloads then land in different registers, which is what
+most of the 28 positions are.
+
+Crossed without improving on 28, over 100 variants: introducing the
+`0x801EA800` constant at four points from the top of the function to just
+before its use, the same four positions for `0x801E2000` as a named local, that
+constant written inline instead, and five profiles. Statement position does not
+move either constant, so the next attempt needs something that changes what the
+back end emits rather than where the assignment is written.
 
 ```c
 #include "../../src/types.h"
@@ -736,6 +758,7 @@ void func_80048F14(void)
     SDValue *b;
     SDValue *c;
     u16 *p;
+    u16 *q;
 
     SpuReserveReverbWorkArea(1);
     SpuSetReverb(1);
@@ -760,9 +783,10 @@ void func_80048F14(void)
     c->field_157A = -1;
     *(s16 *)((u8 *)c + 0x157C) = -1;
     c->field_157E = -1;
-    *p = 0xFFFF;
-    p = c->music_track;
-    *(s16 *)((u8 *)p + 2) = 0;
+    q = c->music_track;
+    *q = 0xFFFF;
+    q = c->music_track;
+    *(s16 *)((u8 *)q + 2) = 0;
     p = c->music_track;
     *(s32 *)((u8 *)p + 4) = 0;
     p = c->music_track;
