@@ -35,6 +35,8 @@ from workspace import WorkspaceError, require_workspace_root, resolve_within  # 
 
 LOAD = re.compile(r"^(lw|lh|lhu|lb|lbu)\s+\w+,(-?\d+)\((\w+)\)$")
 STORE = re.compile(r"^(sw|sh|sb|swl|swr)\b")
+STORE_ADDR = re.compile(r"^(sw|sh|sb)\s+(\w+),(-?\d+)\((\w+)\)$")
+WIDTH = {"sw": {"lw"}, "sh": {"lh", "lhu"}, "sb": {"lb", "lbu"}}
 FLOW = re.compile(r"^(b|j|jal|jr)")
 
 MODULES = (
@@ -76,6 +78,41 @@ def worst_reload(instructions: list[str]) -> tuple[int, str | None]:
     return best, culprit
 
 
+def reload_after_own_store(instructions: list[str]) -> str | None:
+    """A load of the address a store just wrote is a second volatile tell.
+
+    A store tells the compiler what the location now holds, so re-reading it
+    immediately is redundant unless the object is `volatile`. This case is
+    invisible to `worst_reload`, which treats any store as a legitimate reason
+    to reload and clears its record.
+    """
+    for block in basic_blocks(instructions):
+        stored: tuple[str, str, str, str] | None = None
+        for text in block:
+            store = STORE_ADDR.match(text)
+            if store is not None:
+                stored = store.groups()
+                continue
+            match = LOAD.match(text)
+            if match is None:
+                continue
+            if stored is not None:
+                opcode, source, offset, base = stored
+                # Same address and width, but a different destination register:
+                # the value is already in `source`, so the reload buys nothing.
+                # A narrower load is a truncation and a reload into the same
+                # register is an ordinary re-read of a field just written.
+                same_place = (offset, base) == (match.group(2), match.group(3))
+                if (
+                    same_place
+                    and match.group(1) in WIDTH.get(opcode, set())
+                    and text.split()[1].split(",")[0] != source
+                ):
+                    return text
+            stored = None
+    return None
+
+
 def unmatched_rows(root: Path, module: str) -> list[dict[str, str]]:
     path = resolve_within(
         root, f"config/slus_01411/overlays/{module}_functions.csv", must_exist=True
@@ -109,10 +146,14 @@ def main() -> int:
                 words = target_words(root, module, address, int(row["size"], 16))
                 instructions = disassemble(root, words)
                 count, culprit = worst_reload(instructions)
+                after_store = reload_after_own_store(instructions)
                 flag = ""
                 if count >= 2:
                     hits += 1
                     flag = f"  <== volatile signature: {culprit}"
+                elif after_store is not None:
+                    hits += 1
+                    flag = f"  <== volatile signature, reload after own store: {after_store}"
                 print(
                     f"{name:22s} {row['address']} "
                     f"{len(instructions):5d} instructions  "
