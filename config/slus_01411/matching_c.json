@@ -3922,25 +3922,25 @@
       "address": "0x800473CC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x24",
-      "source": "src/game/sound_command_wrappers.c"
+      "source": "src/game/sound_command_dispatch.c"
     },
     {
       "address": "0x800473F0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x40",
-      "source": "src/game/sound_command_wrappers.c"
+      "source": "src/game/sound_command_dispatch.c"
     },
     {
       "address": "0x80047430",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/sound_command_wrappers.c"
+      "source": "src/game/sound_command_dispatch.c"
     },
     {
       "address": "0x80047458",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/sound_command_wrappers.c"
+      "source": "src/game/sound_command_dispatch.c"
     },
     {
       "address": "0x80047480",
