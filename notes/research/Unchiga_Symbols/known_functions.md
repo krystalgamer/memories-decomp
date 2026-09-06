@@ -871,17 +871,17 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80015C0C | `call_80015780_flag_and_8001572c` | fleet |
 | 0x80016D04 | `forward_fields_30_32_to_80016784` | fleet |
 | 0x80016D2C | `draw_digit_sprites` | fleet |
-| 0x80016E70 | `draw_digit_widget_pair` | fleet |
+| 0x80016E70 | `Duel_DrawLifePointsAndDeckCounts` | local |
 | 0x8001700C | `card_flag_test_c000` | fleet |
 | 0x80017034 | `card_pick_on_up` | fleet |
-| 0x800170C8 | `calc_clamped_pair` | fleet |
+| 0x800170C8 | `Duel_CalcCardStats` | local |
 | 0x800171A8 | `Duel_LoadPackageStage` | fleet |
 | 0x8001755C | `call_530c4_533d8_56250` | fleet |
 | 0x800176D0 | `hand_slots_clear` | fleet |
 | 0x80018DB4 | `duel_field_slot_spawn_dispatch` | fleet |
 | 0x80019564 | `spawn_container_marker_obj` | fleet |
-| 0x80019A08 | `equip_table_lookup` | fleet |
-| 0x80019A60 | `fusion_table_lookup` | fleet |
+| 0x80019A08 | `Duel_CheckEquip` | local |
+| 0x80019A60 | `Duel_CheckFusion` | local |
 | 0x80019B2C | `counter_tween_tick` | fleet |
 | 0x80019BA0 | `counter_tween_start` | fleet |
 | 0x80019CC8 | `call_ccce4_guarded_offset288` | fleet |
@@ -893,11 +893,11 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8001D3C4 | `tick_lerp_position_toward_target` | fleet |
 | 0x8001F364 | `duel_flags_state_and_field_spawn_dispatch` | fleet |
 | 0x80020D4C | `update_orbiting_effect_obj` | fleet |
-| 0x80021894 | `ring_buffer_insert_801d0200` | fleet |
+| 0x80021894 | `Duel_AwardCard` | local |
 | 0x80022EEC | `apply_stat_template_or_delete` | fleet |
 | 0x800235C0 | `update_active_move_record` | fleet |
 | 0x80023FBC | `decode_status_flags_call_80023d08` | fleet |
-| 0x800240B0 | `cursor_card_pick_tick` | fleet |
+| 0x800240B0 | `Duel_UpdateCardPickCursor` | local |
 | 0x800245EC | `duel_seq_step` | fleet |
 | 0x80024704 | `card_id_compare` | fleet |
 | 0x800249E0 | `card_record_fill` | fleet |
@@ -908,8 +908,8 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x800255FC | `DuelEffect_UpdateFieldMarker` | matching C |
 | 0x80025BEC | `spawn_or_rearm_field_effect_marker` | fleet |
 | 0x800262D4 | `obj_lifecycle_state_dispatch` | fleet |
-| 0x80026C6C | `table801a7ad8_collect_below_threshold` | fleet |
-| 0x80026D18 | `table801a7ad8_find_matches` | fleet |
+| 0x80026C6C | `Duel_CollectFieldCardsBelowType` | local |
+| 0x80026D18 | `Duel_CollectFieldCardsByType` | local |
 | 0x80028220 | `init_801ab00c_pair` | fleet |
 | 0x800291E0 | `init_container_entry_objs` | fleet |
 | 0x80029528 | `call_4036c_clear_entry_fields` | fleet |
@@ -918,7 +918,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8002C518 | `test_byte_flag_591_else_find_id_index` | fleet |
 | 0x8002C598 | `reset_pool_800ead88` | fleet |
 | 0x8002C6C8 | `duel_phase_overlay_dispatch` | fleet |
-| 0x8002C7E8 | `table801a7ad8_recipe_lookup` | fleet |
+| 0x8002C7E8 | `Duel_CheckRitual` | local |
 | 0x8002C9B4 | `collect_field_slot_ptrs` | fleet |
 | 0x8002CD48 | `call_ccca8_then_cce4_if_zero` | fleet |
 | 0x8002CE08 | `mask_test_call_800eb26c_two_calls` | fleet |
