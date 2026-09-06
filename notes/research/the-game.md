@@ -433,6 +433,10 @@ at `0x801D07BC` and inserts the bought card at the front. Build Deck's
 **New** sort therefore includes password purchases as well as duel drops; the
 list is recent acquisition history, not a duel-only reward record.
 
+The shop does not enforce the deck's three-copy limit on trunk ownership: a
+live purchase of Mystical Elf raised its trunk quantity from 3 to 4. The deck
+editor still permits at most three copies of that card in the active deck.
+
 Costs run from 10 starchips (the cheapest cards) to 999,999 for the lottery cards;
 a starchip is earned only by winning duels (§6.3), 1–5 per win, so a 999,999
 card is not a realistic purchase — the cost exists to say "obtain this some
