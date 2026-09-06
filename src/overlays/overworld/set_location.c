@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
 
 extern u8 gCampaignMap_Location;
 extern u8 gCampaignMap_LocationPrev;
@@ -19,8 +20,6 @@ extern void func_80056250(s32, s32, s32, s32);
 extern u8 *func_80058F74(s32);
 extern void func_8005922C(u8 *, s32 *);
 extern void CampaignMap_ResetCamera(void);
-extern void SetFarColor(long, long, long);
-extern void SetFogNearFar(long, long, long);
 extern void func_80035668(s32);
 extern s32 func_8004002C(void);
 extern u8 *func_800400AC(s32, s32);

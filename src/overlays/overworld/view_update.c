@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
 
 extern u8 D_800F2848[];
 extern u32 D_8009B304;
@@ -6,10 +7,6 @@ extern u32 D_8009B308;
 extern u32 D_8009B30C;
 extern u32 D_8009B310;
 extern u32 D_8009B314;
-extern void SetGeomScreen(long);
-extern void SetGeomOffset(long, long);
-extern void SetFarColor(long, long, long);
-extern void SetFogNearFar(long, long, long);
 extern void func_800540B4(int);
 
 void func_80168258(void)

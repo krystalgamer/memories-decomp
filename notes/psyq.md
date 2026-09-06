@@ -147,6 +147,10 @@ symbol review.
 | `0x8007FEFC` | `PutDispEnv` | Display-environment submission contract. |
 | `0x800803F4` | `GetDispEnv` | Applied Psy-Q identity; `file_cd_helpers.c` passes the tracked `DISPENV` record and reuses its leading `disp` rectangle. |
 
+Matching campaign-map setup and per-frame view sources now include
+`libgte.h` for `SetFarColor`, `SetFogNearFar`, `SetGeomOffset`, and
+`SetGeomScreen`; no overlay-local declarations of those interfaces remain.
+
 The root-counter identities are supported by the resident implementations, not
 only by their order in an external symbol list. `SetRCnt`, `GetRCnt`, and
 `ResetRCnt` address 16-byte hardware-counter records selected by the low
