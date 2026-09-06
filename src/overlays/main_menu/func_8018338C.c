@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/card_constants.h"
 
 typedef struct {
     s16 id;
@@ -16,7 +17,7 @@ typedef struct {
 
 extern s32 D_80180000[];
 extern u8 D_801D1200[];
-extern MainMenuCard D_801845FC[][722];
+extern MainMenuCard D_801845FC[][CARD_COUNT];
 extern u8 D_80185CCC[];
 extern MainMenuState D_801A8000[];
 extern void func_80184030(s32, s32);
@@ -37,7 +38,7 @@ void func_8018338C(s32 slot, s32 force)
     if (force != 0 || mode == 0) {
         row = D_801D1200 + slot * 0x1000;
         counts = row + 0x50;
-        for (i = 0; i < 0x2D2; i++) {
+        for (i = 0; i < CARD_COUNT; i++) {
             if (counts[i] != 0) {
                 id = i + 1;
             } else {
@@ -52,7 +53,7 @@ void func_8018338C(s32 slot, s32 force)
     }
 
     if (mode != 0) {
-        func_8008E400(D_801845FC[slot], 0x2D2, 4, comparators.entries[mode - 1]);
+        func_8008E400(D_801845FC[slot], CARD_COUNT, 4, comparators.entries[mode - 1]);
     }
 
     D_801A8000[slot].object[0x69] = mode;
