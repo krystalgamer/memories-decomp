@@ -213,7 +213,7 @@ address,size,name,status,module,notes
 0x80025D30,0x1B0,func_80025D30,unmatched_asm,game,
 0x80025EE0,0x5C,func_80025EE0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80025F3C,0x194,func_80025F3C,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x800260D0,0x15C,func_800260D0,unmatched_asm,game,
+0x800260D0,0x15C,func_800260D0,matching_c,game,"Field-wide effect sweep step: advances D_8009B20C[1] on a 16-frame D_8009B1D0 countdown, spawns a type-8 effect object over slots 10..14 of the acting side and clears a negative stat modifier on the card it passes."
 0x8002622C,0xA8,func_8002622C,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800262D4,0x768,func_800262D4,unmatched_asm,game,
 0x80026A3C,0xF8,func_80026A3C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
