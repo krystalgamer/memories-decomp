@@ -13,7 +13,7 @@ extern void *D_800E9DBC;
 extern s16 D_800F2856;
 extern s32 D_80010000;
 extern u8 D_801AF000[];
-extern void func_80168258(void);
+extern void CampaignMap_UpdateView(void);
 extern void func_800530C4(void);
 extern void func_800533D8(void);
 extern void func_80056250(s32, s32, s32, s32);
@@ -63,7 +63,7 @@ void CampaignMap_SetLocation(s32 index)
     CampaignMap_ResetCamera();
     SetFarColor(0, 0, 0);
     SetFogNearFar(6000, 8000, D_800F2856);
-    D_800E9DBC = func_80168258;
+    D_800E9DBC = CampaignMap_UpdateView;
     func_80035668(0);
     obj = func_800400AC(func_8004002C(), 2);
     func_800428A8(obj, 96, 24, 0, 0, 0, 23, 256, D_801AF000);

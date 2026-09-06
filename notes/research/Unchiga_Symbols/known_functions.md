@@ -1169,6 +1169,7 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 | 0x80168050 | `CampaignMap_RebuildLocationObjects` |
 | 0x8016818C | `CampaignMap_CreateLocationLabel` |
 | 0x801681E8 | `CampaignMap_SetCameraFromLocation` |
+| 0x80168258 | `CampaignMap_UpdateView` |
 | 0x80168310 | `CampaignMap_ResetCamera` |
 | 0x80168388 | `CampaignMap_MoveCameraDpad` |
 | 0x80168588 | `CampaignMap_CreateLocationMarker` |
