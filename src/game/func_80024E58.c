@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card_layout.h"
 
 extern s32 D_8009B0F4[2];
 extern s32 D_8009B134[2];
@@ -81,13 +82,13 @@ void func_80024E58(void) {
     i = 0;
     p = q + 0x14;
     do {
-        if ((*(u16 *)(p + 2) & 0x8000) != 0) {
+        if ((*(u16 *)(p + 2) & DUEL_CARD_FLAG_OCCUPIED) != 0) {
             *(s16 *)(p + 0) = Duel_GetTerrainBoost((*(u8 **)q)[0x68]);
         }
         i++;
-        p += 0x1C;
-        q += 0x1C;
-    } while (i < 0x1E);
+        p += DUEL_CARD_RECORD_SIZE;
+        q += DUEL_CARD_RECORD_SIZE;
+    } while (i < DUEL_CARD_RECORD_COUNT);
 
     D_8009B220 = 0;
 }
