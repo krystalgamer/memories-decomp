@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model.h"
 
 typedef struct { short x, y, z, w; } Vec;
 extern unsigned short *func_800591FC(void), *func_80059208(void);
@@ -29,9 +30,10 @@ void func_8005F3B8(int mode, int y, int a, int b, Vec *offset)
         ((int *)p)[5] += offset->z * sign;
     }
     q[0] = y;
-    q[1] = (a + (mode <= 0 ? 0x1C00 : 0x1400)) % 0x1000;
-    q[2] = (b + 0x1000) % 0x1000;
-    func_80058434(1, 0x1000, 0, 0, 1);
+    q[1] = (a + (mode <= 0 ? 0x1C00 : 0x1400)) %
+        MODEL_ANGLE_FULL_TURN;
+    q[2] = (b + MODEL_ANGLE_FULL_TURN) % MODEL_ANGLE_FULL_TURN;
+    func_80058434(1, MODEL_ANGLE_FULL_TURN, 0, 0, 1);
     func_8005F070(1);
     func_80059EBC(-1);
 }
