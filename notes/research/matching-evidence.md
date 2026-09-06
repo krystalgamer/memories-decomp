@@ -3328,3 +3328,32 @@ last arm is the else" in `notes/overlays/matching-patterns.md`, read from the
 other direction: that one says a *flat* chain of `beq`s was not a `switch`;
 this one says `beq` to each arm plus a `j` to the fall-through default was.
 
+## `no_sched2` reads the natural store order, and `volatile` is the knob
+
+The existing "Read statement order off a no-scheduling profile" note covers
+`-fno-schedule-insns`, the pre-reload pass, and uses it to recover the original
+*statement* order. The post-reload pass is a separate question and needs a
+separate profile. `gcc_2_8_1_g0_no_sched2` is the one that shows which order
+the back end hands to the scheduler, and it also fills no delay slots, so its
+listing is usually one instruction longer than the target. Read the order, not
+the length.
+
+This matters because that natural order can be completely invariant to the
+source. On `func_80045334` the three stack stores that build a request emit as
+`kind`, `second`, `first` under `no_sched2`, and the target needs `first`,
+`second`, `kind`. About 1800 variants crossing assignment order, declaration
+order, `volatile` subsets, member against pointer against cast-address stores,
+named locals against inline expressions, register pins and every profile all
+produced the same natural order. When a residual is two swapped independent
+stores, check this first: if the order does not move under `no_sched2`,
+rewriting the statements is not going to move it either, and the sweep should
+go somewhere else instead of enumerating orderings.
+
+The lever that does control it is `volatile` on the destination fields, which
+forces the emitted store order to be exactly the source order. It is a real
+tool for pinning an order, with one cost that decides whether it can finish a
+match: a `volatile` store may not sink into a `jal` delay slot. So it works
+when the stores are all interior, and it cannot produce a target whose last
+store sits in the delay slot -- there the argument setup takes the slot
+instead. Marking a subset `volatile` pins the relative order of just that
+subset and leaves the rest free to sink.

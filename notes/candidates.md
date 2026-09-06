@@ -523,10 +523,31 @@ void func_8004A27C(s32 index, s32 x, s32 y)
 The instruction mix is exact and every register agrees. What is left is a
 scheduler tie-break between two independent stack stores: the target writes
 `f04` at `0xCC` and puts `f08` in the `jal` delay slot, and this build does the
-reverse. All six orderings of the three field assignments produce the same
-emitted order, so source order does not reach it; making the fields `volatile`
-pins the store order correctly but then costs the `addiu $a0, $sp, 0x10`
-placement, landing at 6 differing instead of 2.
+reverse.
+
+`gcc_2_8_1_g0_no_sched2` reads the order out directly, and it is the fact that
+matters here: the natural store order is `f08`, `f0C`, `f04` -- `kind`,
+`second`, `first` -- and the target needs `f04`, `f0C`, `f08`. Everything else
+in the function, including `addiu $a0, $sp, 0x10` at `0xC0`, is already
+correct on this base.
+
+That natural order is invariant. About 1800 variants were compiled crossing
+assignment order, local declaration order, `volatile` subsets, the lvalue
+spelling of each store (member, through a `struct Request *`, and through a
+cast address), named local against inline expression for `first` and `second`,
+register pins on `first`, `second` and `kind`, the position of `kind` within
+each switch arm, and every profile. None moved it off `f04`/`f08` swapped, so
+statement order is not the input the order is computed from.
+
+`volatile` is the one control that does reach it, and it is worth knowing as a
+lever rather than as a failed experiment: marking the fields `volatile` makes
+the emitted store order exactly the source order. It cannot finish the job
+here because a `volatile` store may not sink into the `jal` delay slot, so the
+last store stays put and `addiu $a0, $sp, 0x10` takes the slot instead. All
+three `volatile` lands at 5, not the 6 recorded previously; `f04`+`f0C`
+`volatile` with the source ordered `f04`, `f0C`, `f08` -- the shape the target
+implies -- lands at 4. So the remaining move is something that orders these
+two stores without making the third one immovable.
 
 Three register pins are needed and each corrects an allocation on a sequence
 that is already exact: the `g_SDValue` pointer to `$a1` (unpinned it goes to a
