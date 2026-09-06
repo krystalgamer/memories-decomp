@@ -19,6 +19,8 @@
 --      context.
 --
 --   No breakpoint, debugger pause, or interpreter CPU is required.
+--   The script accepts only a fresh low-to-high end-credit latch transition
+--   after observing duel mode; a latch already set when it starts is ignored.
 --
 -- WHAT TO WRITE IN THE CONTEXT
 --   Confirm that the immediately previous duel was a loss, that this duel was
@@ -65,6 +67,7 @@ local samples = 0
 local frames = 0
 local enteredDuel = false
 local latchSeen = false
+local lastLatchSet = false
 local postLatchFrames = 0
 local lastWinner = nil
 local done = false
@@ -127,6 +130,7 @@ local function poll()
         if mode == DUEL_MODE then
             enteredDuel = true
             lastWinner = u8(WINNER_SIDE)
+            lastLatchSet = hasBit(u16(DUEL_STATE), END_CREDIT_LATCH)
             capture('entered duel mode')
         elseif frames >= TIMEOUT_FRAMES then
             finish('timed out before duel mode was observed')
@@ -140,9 +144,10 @@ local function poll()
         capture('winner-side byte changed')
     end
 
-    if not latchSeen and hasBit(u16(DUEL_STATE), END_CREDIT_LATCH) then
+    local latchSet = hasBit(u16(DUEL_STATE), END_CREDIT_LATCH)
+    if not latchSeen and latchSet and not lastLatchSet then
         latchSeen = true
-        capture('end-credit latch set')
+        capture('fresh end-credit latch transition')
     elseif latchSeen then
         postLatchFrames = postLatchFrames + 1
         if postLatchFrames >= POST_LATCH_FRAMES then
@@ -156,6 +161,7 @@ local function poll()
         capture('timeout snapshot')
         finish('timed out before the end-credit latch was observed')
     end
+    lastLatchSet = latchSet
 end
 
 listener_duel_winner_side_player_win = PCSX.Events.createEventListener(
