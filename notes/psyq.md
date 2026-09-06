@@ -80,6 +80,9 @@ symbol review.
 | `0x80073A54` | `StopRCnt` | Applied at offset `0x104` of the same unique counter signature; matching setup stops `RCntCNT2` before reconfiguration and both shutdown paths stop it again. |
 | `0x80073A88` | `ResetRCnt` | Applied at offset `0x138` of the same unique counter signature; the resident wrapper writes zero to the selected current-count register. |
 | `0x80073AC0` | `firstfile` | Applied Psy-Q 4.6 identity; receives a formatted device path and caller-owned directory record, returning that record on success. |
+| `0x80073D60` | `firstfile2` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A66.OBJ` signature. |
+| `0x80073D7C` | `ReadInitPadFlag` | Applied at offset `0xC` of the unique 656-byte Psy-Q 4.6 `LIBAPI.LIB/PAD.OBJ` signature. |
+| `0x80073D8C` | `PAD_init` | Applied at offset `0x1C` of the same unique `LIBAPI.LIB/PAD.OBJ` signature. |
 | `0x80073E1C` | `InitPAD` | `Input_InitPads` passes two adjacent 34-byte receive buffers and their exact lengths. |
 | `0x80073EAC` | `StartPAD` | Called immediately after `InitPAD` to start the controller service before local input state is reset. |
 | `0x80074000` | `InitPAD2` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A18.OBJ` signature. |
@@ -92,6 +95,7 @@ symbol review.
 | `0x800740F0` | `FlushCache` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C68.OBJ` signature. |
 | `0x80074100` | `_remove_ChgclrPAD` | Applied at offset zero of the unique `0x70`-byte Psy-Q 4.6 `LIBAPI.LIB/CHCLRPAD.OBJ` signature. |
 | `0x80074170` | `VSync` | Applied Psy-Q 4.6 identity; matching callers query frame timing for AI yielding and time-varying screen effects. |
+| `0x80074380` | `ChangeClearRCnt` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/L10.OBJ` signature. |
 | `0x80074A58` | `_96_remove` | Applied at offset `0x8` of the unique 32-byte Psy-Q 4.6 `LIBAPI.LIB/C114.OBJ` signature. |
 | `0x80074A70` | `ReturnFromException` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A23.OBJ` signature. |
 | `0x80074A80` | `ResetEntryInt` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A24.OBJ` signature. |
@@ -145,6 +149,7 @@ symbol review.
 | `0x80081DE8` | `LoadImage2` | Applied Psy-Q identity; streamed package callbacks pass rectangle-shaped records and staged image data. |
 | `0x80081ED4` | `StoreImage2` | Applied Psy-Q 4.6 identity; `func_800582C0` reads a VRAM rectangle into a local pixel buffer before transforming and re-uploading it. |
 | `0x80081FC0` | `MoveImage2` | Applied Psy-Q identity; `file_cd_helpers.c` passes the current display rectangle plus destination coordinates. |
+| `0x80082250` | `GPU_cw` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C73.OBJ` signature. |
 | `0x80082324` | `IsIdleGPU` | Applied Psy-Q 4.6 identity; matching upload and move paths poll mode `3` around GPU image operations. |
 | `0x80082A80` | `OpenTIM` | Applied Psy-Q 4.6 identity at offset zero of the unique 400-byte `LIBGPU.LIB/T00.OBJ` signature. |
 | `0x80082A90` | `ReadTIM` | Applied Psy-Q 4.6 identity at offset `0x10` of the same unique `LIBGPU.LIB/T00.OBJ` signature. |
