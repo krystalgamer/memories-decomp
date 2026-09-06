@@ -287,6 +287,7 @@ TextBox_CreateFlagged = 0x80035C38; // type:func
 Dialog_HighlightChoice = 0x80036F80; // type:func
 Dialog_OpenChoice = 0x800374F4; // type:func
 TextBox_SetPos = 0x80039934; // type:func
+MemCard_CloseIOEvents = 0x80043E68; // type:func
 MemCard_InitIOEvents = 0x80043EBC; // type:func
 MemCard_SetIOResultCompleteCB = 0x80044CFC; // type:func
 MemCard_SetIOResultTimeoutCB = 0x80044D0C; // type:func

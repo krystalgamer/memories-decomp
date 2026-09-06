@@ -26,7 +26,7 @@ after the complete set is active. It also resets three surrounding
 memory-card state values at `D_8009B43E`, `D_8009B44E`, and `D_8009B444`;
 their broader roles remain address-based.
 
-The paired matching teardown at `func_80043E68` enters a critical section,
+The paired matching `MemCard_CloseIOEvents` teardown enters a critical section,
 closes the same eight `D_800F2AE0` handles in order, and then exits the
 critical section.
 
@@ -66,7 +66,7 @@ to `4` is internal state-machine bookkeeping, not a fifth event callback.
 The descriptor values, event specifications, mode, and API prototypes are
 direct matches for the imported Psy-Q 4.6 headers. The registration order,
 callback mapping, result values, retry condition, and teardown are established
-by local matching C. `MemCard_InitIOEvents` and `func_80043E68` now include
+by local matching C. `MemCard_InitIOEvents` and `MemCard_CloseIOEvents` include
 `libapi.h`, use its event interfaces, and spell the descriptors,
 specifications, and interrupt mode with the SDK constants. This identifies
 the runtime contract without claiming that the original game source used

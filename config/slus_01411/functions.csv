@@ -686,7 +686,7 @@ address,size,name,status,module,notes
 0x80043D48,0x58,func_80043D48,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80043DA0,0x90,func_80043DA0,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80043E30,0x38,func_80043E30,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80043E68,0x54,func_80043E68,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
+0x80043E68,0x54,MemCard_CloseIOEvents,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x80043EBC,0x17C,MemCard_InitIOEvents,matching_c,game,Pure-C inline refinement matched the full executable.
 0x80044038,0x7C,func_80044038,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800440B4,0x3C,func_800440B4,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
