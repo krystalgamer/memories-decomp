@@ -992,11 +992,28 @@ duel lost in the campaign is game over (§7.12), except the one scripted loss.
 
 `gDuel_bWinnerSide` (`0x8009B165`) selects the winning side throughout this
 result path. The record update uses that byte directly for the winner and
-XORs it with one for the loser. The consumed CPU-win trace recorded `1`
-through the one-shot end-credit latch, consistent with `0` for the player and
-`1` for the opponent; because the byte was already `1` when that trace began
-after a previous loss, the polarity remains high confidence pending the
-player-win control.
+XORs it with one for the loser. **In a single-player duel, `0` is the player
+and `1` is the opponent.** The consumed CPU-win trace recorded `1` through
+the one-shot end-credit latch, but began after a previous loss. The subsequent
+`duel_winner_side_player_win` control (result supplied in commit `45d8f22d`)
+resolved that stale-state ambiguity: the human first lost to Duel Master K
+(ID 39), started another Free Duel against him, and installed the trace before
+the final blow. They observed his LP fall from 950 to zero and the YOU WIN
+animation, then returned to Free Duel.
+
+| Control sample | Mode | Duel state | Winner side | Player / opponent LP |
+|---|---|---|---:|---:|
+| Before final blow | `0xC3` | `0x8005` | 1 | 8000 / 950 |
+| Winner byte changed | `0xC3` | `0x000C` | 0 | 8000 / 0 |
+| Fresh end-credit latch | `0xC3` | `0xE00D` | 0 | 8000 / 0 |
+| 180 VSync events after latch | `0xC6` | `0xE00D` | 0 | 8000 / 0 |
+
+The observed `1 -> 0` change occurred before the fresh `0x2000` latch
+transition, and the value persisted after returning to the Free Duel screen.
+The old result therefore cannot explain the player-win value. This control
+establishes single-player polarity; it does not identify physical controllers
+in a two-player duel. The completed script/result pair was consumed under
+issue #418.
 
 > **This stage — entered from:** the duel's exit, by its caller. **Reads:**
 > the statistics record, the rank table and drop pools (disc block), the RNG.
