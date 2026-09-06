@@ -1,0 +1,12 @@
+==== USER CONTEXT ====
+
+Trace didn't finish, it just emitted that phase 0 was armed. For setup I went to "Free Duel" and chose "Duel Master K", right before finishing my turn I injected the script and it printed what's shown in trace. When the camera panned to his side I could see his hand, usually the cards are "blocked". The card image has only a grey mist and not stats are shown.
+
+I kept dueling and even waited 10 seconds but no more traces were printed. There's a small thing I learned that might be related to the "hand sizes" of the opponents. When he was fusing cards, as soon he chose a card to be fused (pressing up on the d-pad) it'd change the card that was displayed.
+
+
+
+==== TRACE RESULT =====
+
+opponent_card_resource_indices: loaded; phase 0 will arm on the next VSync 
+opponent_card_resource_indices: phase 0 armed; trigger an opponent-card display 

@@ -1,0 +1,46 @@
+==== USER CONTEXT ====
+
+I booted the game and loaded a save file that had 0 progress. Just "New Game" > Run away from Simon Muran > Save in the Card Shop. So in "Free Duel" only "Duel Master K" (id 39) was available to duel.
+
+I then injected the Lua script and using PCSX-Redux memory editor wrote 0xFFFF to both addresses described. When I went into "Free Duel" all duelists until "Labyrinth Mage" (id 31) were now unlocked. All duelists from Seto 2nd to Nitemare (ids 32 to 38) were not unlocked. As my cursor went through one of these empty spots the trace was hit.
+
+Yes, "Duel Master K" was still present.
+
+ 
+==== TRACE RESULT ===== 
+ 
+script: free_duel_unlock_tail 
+status: observation window completed 
+summary: snapshots=1 cursor_samples=4 
+baseline_unlock_bytes_F4_F8=00 00 00 00 00 
+unlock_change frame=300 old=00 00 00 00 00 new=FF 00 00 00 00 
+unlock_change frame=331 old=FF 00 00 00 00 new=FF FF 00 00 00 
+unlock_change frame=366 old=FF FF 00 00 00 new=FF FF FF 00 00 
+unlock_change frame=411 old=FF FF FF 00 00 new=FF FF FF FF 00 
+entered_free_duel frame=823 unlock_bytes_F4_F8=FF FF FF FF 00 
+ 
+--- snapshot 1: overlay settled after entering Free Duel --- 
+  frame=942 mode=6 screen_flags=0x20 
+  module_signature id=0x00000013 update=0x27BDFFD8 entry=0x27BDFFE8 
+  unlock_bytes_F4_F8=FF FF FF FF 00 
+  grid_row_0_ids_00_04=1 1 1 1 1 
+  grid_row_1_ids_05_09=1 1 1 1 1 
+  grid_row_2_ids_10_14=1 1 1 1 1 
+  grid_row_3_ids_15_19=1 1 1 1 1 
+  grid_row_4_ids_20_24=1 1 1 1 1 
+  grid_row_5_ids_25_29=1 1 1 1 1 
+  grid_row_6_ids_30_34=1 1 0 0 0 
+  grid_row_7_ids_35_39=0 0 0 0 1 
+  flag_grid_mismatches=none 
+  tail_id=32 cell=(2,6) flag=0 grid=0 
+  tail_id=33 cell=(3,6) flag=0 grid=0 
+  tail_id=34 cell=(4,6) flag=0 grid=0 
+  tail_id=35 cell=(0,7) flag=0 grid=0 
+  tail_id=36 cell=(1,7) flag=0 grid=0 
+  tail_id=37 cell=(2,7) flag=0 grid=0 
+  tail_id=38 cell=(3,7) flag=0 grid=0 
+  tail_id=39 cell=(4,7) flag=not-tested grid=1 
+cursor_sample=1 frame=1181 id=33 cell=(3,6) grid=0 target=(3,7) 
+cursor_sample=2 frame=1189 id=38 cell=(3,7) grid=0 target=(3,7) 
+cursor_sample=3 frame=1260 id=37 cell=(2,7) grid=0 target=(2,7) 
+cursor_sample=4 frame=1272 id=36 cell=(1,7) grid=0 target=(1,7) 

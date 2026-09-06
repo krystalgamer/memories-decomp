@@ -1,0 +1,41 @@
+==== USER CONTEXT ==== 
+ 
+
+Started a new game with Duelist Code "Z", watched Heishin cutscene. The game starts with Simon Muran shaming you for being out so late and to go back home. I chose the option "<Run Away>", he looks surprised and then the screen fades to black and the overworld (pre-coup) is shown. The cursor starts at the "Pharaoh's Palace" so selecting it brings me back to Simon.
+
+He looks surprised for me being back and offers to duel with me (it's possible to "Pass"). As soon I hit the "Duel" option the trace was hit.
+
+This is way before the festival and I haven't dueled anyone at this stage. So the optional duel is offered right from the start.
+
+
+Important to note: If the user chooses "<Keep Listening>" on the first interaction with Simon, it'll have more prompts with "<Run Away>" and "<Keep Listening>". If the user keeps choosing to listen to him. It'll skip a bunch of the story and go straight to the start of the Heishin Coup.
+ 
+==== TRACE RESULT ===== 
+ 
+script: simon_duel_timing 
+status: captured Simon duel timing 
+ 
+--- sample 1 of 64: mode, opponent, or timing flag changed --- 
+  screen=other mode=0x00 opponent_id=0 
+  evening_flag_006E=0 festival_flag_006F=0 
+  script_state=0x0000 script_command=0x0000 script_stream=0x00000000 
+ 
+--- sample 2 of 64: mode, opponent, or timing flag changed --- 
+  screen=Campaign dialogue mode=0x02 opponent_id=0 
+  evening_flag_006E=0 festival_flag_006F=0 
+  script_state=0x0000 script_command=0x0000 script_stream=0x00000000 
+ 
+--- sample 3 of 64: mode, opponent, or timing flag changed --- 
+  screen=Campaign map mode=0x05 opponent_id=0 
+  evening_flag_006E=0 festival_flag_006F=0 
+  script_state=0x8030 script_command=0x0008 script_stream=0x801A82F2 
+ 
+--- sample 4 of 64: mode, opponent, or timing flag changed --- 
+  screen=Campaign dialogue mode=0x02 opponent_id=0 
+  evening_flag_006E=0 festival_flag_006F=0 
+  script_state=0x8030 script_command=0x0008 script_stream=0x801A82F2 
+ 
+--- sample 5 of 64: entered Simon Muran duel --- 
+  screen=Duel mode=0x03 opponent_id=1 
+  evening_flag_006E=0 festival_flag_006F=0 
+  script_state=0xC02E script_command=0x8002 script_stream=0x801A82B4 

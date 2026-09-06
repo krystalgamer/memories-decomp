@@ -1,0 +1,8 @@
+==== USER CONTEXT ====
+
+Injected the script, set it to auto-run and resetted the emulator. Nothing. Even rebooted the game a couple times, fought Simon Miron. Nothing.
+At the boot, there's the Konami screen, then the movie plays and then we're at a screen that says "Press Start Button" and it flashes slightly.
+
+
+==== TRACE RESULT =====
+N/A
