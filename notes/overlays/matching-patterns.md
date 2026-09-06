@@ -1258,8 +1258,20 @@ if (obj[0][0xC] < 0x41 || (s8)obj[0][0xC] < 0) {
 ```
 
 through a `u8 *`. The unsigned compare catches the low end and the signed test
-catches the high end. Writing it as a single two-sided comparison on either
-signedness produces one load and a different branch shape.
+catches the high end.
+
+**The high test is free; the low one is not.** Measured by perturbing the
+matched source: writing the high end as an unsigned `obj[0][0xC] > 0x7F`
+instead of the signed test is **byte-identical**, so the two spellings are the
+same to the compiler and the earlier claim here that a two-sided comparison
+changes the shape was wrong. What does break it is making the *low* test
+signed, `(s8)obj[0][0xC] < 0x41`, which costs two positions, or collapsing both
+ends into one unsigned subtract and compare, `(u8)(obj[0][0xC] - 0x41) > 0x3E`,
+which builds 211 instructions against 216.
+
+So the content of the rule is narrower than it first looked: the low test must
+be unsigned and the two ends must stay two tests. How the high end is spelled
+does not matter.
 
 ## Inline the call argument when locals lose the register contest
 
@@ -1291,25 +1303,24 @@ lever is whether the value is a named local, not where it is declared.
 
 Verified by `func_80183B2C` in the main menu module.
 
-## A subtraction whose destination is its second operand
+## A subtraction's destination follows the variable, not the statement
 
-The recorded rule above says accumulating into a variable pins it to the
-**first** operand: `x += v` gives `addu $rX, $rX, $rV`. The mirror image is
-worth stating separately, because a subtraction cannot be written the other way
-round without changing the value.
-
-`subu $rD, $rA, $rB` where `$rD` is the register that held `B` means the result
-was assigned back into the variable that held the **subtrahend**:
+An earlier version of this section claimed that `subu $rD, $rA, $rB` with `$rD`
+holding `B` means the result was **assigned back** in a separate statement:
 
 ```c
-d = *(s16 *)(widget + 0x30);   /* d holds the current coordinate */
-d = target - d;                /* subu $rD, $rTarget, $rD        */
+d = *(s16 *)(widget + 0x30);   /* claimed to be required */
+d = target - d;
 ```
 
-Writing the same value into a fresh local, or spelling the load inline inside
-the expression, both put the result in the register that held `target`
-instead. `FreeDuel_UpdateCursorTween` needed this twice, once per axis, and it
-was the whole of its recorded four-position residual.
+Measured by perturbing the matched source, that is wrong. Collapsing the two
+statements into `d = target - *(s16 *)(widget + 0x30);` is **byte-identical**.
+The intermediate assignment buys nothing.
+
+What does matter is *which variable* receives the result. Giving the difference
+a fresh local instead of reusing `d` costs two positions, and that is the whole
+of the effect. So this is not a separate rule about subtraction at all — it is
+the live-range rule below, seen from one side. Read that one instead.
 
 ### One variable can have to carry three values in a row
 
@@ -1331,9 +1342,17 @@ d = tx - d;                    /* the difference       */
 sx = (d << 8) / 8;
 ```
 
-That built the match. Reusing one variable across both axes but *not* also
-carrying the grid coordinate still builds 119, so it is the three-value chain
-that matters, not economy of locals.
+That built the match. Two perturbations of the matched source bound it from
+both sides: dropping the grid coordinate from the chain, so `tx` is computed
+straight from `D_8009B36C`, builds 119 against 120; and keeping the chain but
+giving the difference a fresh local costs two positions. So all three values
+have to pass through the one variable, and it is the chain that matters rather
+than economy of locals.
+
+This is the rule the subtraction section above collapses into. A register that
+holds several values in sequence is evidence that the source named them with
+one variable — and that is the whole of it. How the individual assignments are
+split into statements does not matter.
 
 The general point is the same one the volatile rule makes from the other side:
 **a register that holds several values in sequence is evidence that the source
