@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern u8 D_800F2C40[];
+#include "model.h"
 
 void func_8004CB0C(void);
 void func_8004D75C(s32 arg0);
@@ -10,12 +9,11 @@ void func_800590DC(s32 arg0);
 void func_8005A468(s32 arg0, s32 arg1);
 void func_8005A4C4(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
-/* Duel-side layout pass for one player's record (0xE20 bytes at
- * D_800F2C40 + arg0 * 0xE20): sums the hand's card widths (0x14 for the
- * cards flagged in the +0xBEC bitfield, 0xC otherwise), derives the two
- * cursor limits at +0xDF0/+0xDF4, resets each card object's sprite fields,
- * and applies the mode-dependent horizontal offset through func_8005A468
- * before func_800582C0 draws it. */
+/* Duel-side layout pass for one player's model slot: sums the hand's card
+ * widths (0x14 for the cards flagged in the +0xBEC bitfield, 0xC otherwise),
+ * derives the two cursor limits at +0xDF0/+0xDF4, resets each card object's
+ * sprite fields, and applies the mode-dependent horizontal offset through
+ * func_8005A468 before func_800582C0 draws it. */
 void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     u8 *p;
     u8 *q;
@@ -39,7 +37,7 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     }
     func_8004D75C(arg0);
     func_8004D914(arg0);
-    p = arg0 * 0xE20 + D_800F2C40;
+    p = arg0 * MODEL_SLOT_SIZE + (u8 *)D_800F2C40;
     sum = 0;
     if (arg0 < 2) {
         i = sum;
@@ -63,7 +61,7 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     *(s32 *)(p + 0xDF4) = v + *(u16 *)(p + 0xE02) * 4;
     func_8005A4C4(p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
 
-    q = arg0 * 0xE20 + D_800F2C40;
+    q = arg0 * MODEL_SLOT_SIZE + (u8 *)D_800F2C40;
     c = (u8 **)(q + 0x1E0);
     for (j = 0; j < q[0xE1B]; j++) {
         *(u16 *)(*c + 8) = 0xFFFF;
@@ -75,8 +73,8 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
         c++;
     }
 
-    b = D_800F2C40;
-    e = arg0 * 0xE20 + b;
+    b = (u8 *)D_800F2C40;
+    e = arg0 * MODEL_SLOT_SIZE + b;
     e[0xE1F] = 1;
     func_800590DC(arg0);
     v = e[0xE0D] * 2;
@@ -96,8 +94,8 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
         break;
     }
     if (arg0 < 2) {
-        b2 = D_800F2C40;
-        r = arg0 * 0xE20 + b2;
+        b2 = (u8 *)D_800F2C40;
+        r = arg0 * MODEL_SLOT_SIZE + b2;
         func_800582C0(arg0, r[0xE0C], *(u16 *)(r + 0xE0A));
     }
 }

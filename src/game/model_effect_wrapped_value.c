@@ -1,11 +1,12 @@
 #include "../types.h"
+#include "model.h"
 
 extern u8 D_800F3938[];
 extern u8 *func_8005F1A4(s32 index);
 
 s32 func_8005A618(s32 index)
 {
-    s32 offset = index * 3616;
+    s32 offset = index * MODEL_SLOT_SIZE;
     u8 *coefficient;
     s32 value;
     s32 record;

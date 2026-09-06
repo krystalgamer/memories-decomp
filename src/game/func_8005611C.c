@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern u8 D_800F2C40[];
+#include "model.h"
 
 void func_8005B5FC(s32 *destination, s32 value, u32 count);
 void Model_InitLightTriplet(s32 index);
@@ -12,7 +11,7 @@ void func_8005611C(s32 arg0)
     s32 i;
     s32 n;
 
-    p = D_800F2C40 + arg0 * 3616;
+    p = (u8 *)D_800F2C40 + arg0 * MODEL_SLOT_SIZE;
     func_8005B5FC((s32 *)p, 0, 0x388);
 
     *(s32 *)(p + 0xDA8) = 0x800;

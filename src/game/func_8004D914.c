@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern u8 D_800F2C40[];
+#include "model.h"
 
 void func_8004D914(s32 arg0) {
     u8 *b;
@@ -24,7 +23,7 @@ void func_8004D914(s32 arg0) {
     s32 mask;
     s32 bit;
 
-    b = D_800F2C40 + arg0 * 0xE20;
+    b = (u8 *)D_800F2C40 + arg0 * MODEL_SLOT_SIZE;
     o = 0;
     if (*(volatile s32 *)(b + 0xDD8) == 0) {
         return;
