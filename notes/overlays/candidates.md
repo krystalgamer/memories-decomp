@@ -99,13 +99,13 @@ void func_80168AB4(u8 *w)
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 380 of 382 instructions, 320 differing positions.
+`gcc_2_8_1_g0_split`, 378 of 382 instructions, 321 differing positions, and 9
+unconditional jumps against the target's 9.
 
-Instructions 0 to 54 already agree. The first real difference is at 56, where
-the target fills the branch delay slot with the `lui` for `D_8016D401` and this
-build emits a `nop`, which shifts everything after it and accounts for most of
-the differing positions. The remaining work is that slot and the block layout,
-not the semantics.
+Block placement is correct: the select branch is written as a trailing label so
+the compiler sinks it past the join, which is what makes the jump count agree.
+An earlier shape that kept select as an `else` arm built 380 with 320 positions
+but 11 jumps, so it scored better on count while being structurally wrong.
 
 ```c
 #include "../../src/types.h"
@@ -224,73 +224,7 @@ void func_8016913C(void)
         D_8016D401 = 14;
         D_8016D402 = 8;
     } else {
-        if ((D_8009B394[0] & 0xC0) == 0) {
-            if ((D_8009B394[0] & 0x20) != 0) {
-                if (NameEntry_AdjustLength(-1, 6) == 0) {
-                    func_8003FEE0(9);
-                }
-            }
-            return;
-        }
-        kind = 0;
-        second = kind;
-        row = (s8)D_8016D402;
-        col = (s8)D_8016D401;
-        n = ((u8 *)D_8016AB38)[row * 15 + col] & 0xF;
-        gx = kind;
-        if (n == 4) {
-            if (col != 11) {
-                d = 1;
-                gx = 20;
-            } else {
-                d = -1;
-            }
-            if (NameEntry_AdjustLength(d, 6) == 0) {
-                func_8003FEE0(9);
-            }
-            gy = 36;
-        } else if (n == 6) {
-            second = 2;
-            gy = 72;
-            D_8016D400 |= 0x40;
-        } else {
-            kind = 1;
-            gx = (s8)D_8016D401 * 20;
-            gy = ((s8)D_8016D402 * 9) << kind;
-            func_8003FEE0(41);
-        }
-        node = TextBox_GetGlyphAt(kind, gx, gy);
-        obj = func_80168CDC(kind, node);
-        obj[0x6C] = 1;
-        *(void **)(obj + 0x24) = func_80168708;
-        if (node == 0) {
-            *(u16 *)(obj + 8) &= 0xFFBF;
-        }
-        if (second != 0) {
-            *(s16 *)(obj + 0x48) = 20;
-            node = TextBox_GetGlyphAt(kind, gx + 20, gy);
-            obj = func_80168CDC(kind, node);
-            obj[0x6C] = 1;
-            *(void **)(obj + 0x24) = func_80168708;
-            *(s16 *)(obj + 0x48) = 0;
-        }
-        if (kind == 1) {
-            u16 *slot;
-            D_8016D400 |= 0x80;
-            slot = &D_8016D418[D_8016D42C];
-            if (node != 0) {
-                *slot = *(u16 *)node;
-            } else {
-                *slot = 0;
-            }
-            obj = func_80168CDC(1, node);
-            *(s16 *)(obj + 0x60) = 8;
-            *(void **)(obj + 0x24) = func_80168AB4;
-            *(s16 *)(obj + 0x46) = 204;
-            obj[0x6C] = 6;
-            *(s16 *)(obj + 0x44) = (D_8016D42C << 4) + 112;
-        }
-        return;
+        goto select;
     }
     func_8003FEE0(47);
     row = (s8)D_8016D402;
@@ -323,5 +257,75 @@ void func_8016913C(void)
     w->f36 = ((D_8016D434 - w->f30) << 8) / 8;
     w->f38 = ((D_8016D436 - w->f32) << 8) / 8;
     D_8016D4D4 |= 0x4000;
+
+
+select:
+    if ((D_8009B394[0] & 0xC0) == 0) {
+        if ((D_8009B394[0] & 0x20) != 0) {
+            if (NameEntry_AdjustLength(-1, 6) == 0) {
+                func_8003FEE0(9);
+            }
+        }
+        return;
+    }
+    kind = 0;
+    second = kind;
+    row = (s8)D_8016D402;
+    col = (s8)D_8016D401;
+    n = ((u8 *)D_8016AB38)[row * 15 + col] & 0xF;
+    gx = kind;
+    if (n == 4) {
+        if (col != 11) {
+            d = 1;
+            gx = 20;
+        } else {
+            d = -1;
+        }
+        if (NameEntry_AdjustLength(d, 6) == 0) {
+            func_8003FEE0(9);
+        }
+        gy = 36;
+    } else if (n == 6) {
+        second = 2;
+        gy = 72;
+        D_8016D400 |= 0x40;
+    } else {
+        kind = 1;
+        gx = (s8)D_8016D401 * 20;
+        gy = ((s8)D_8016D402 * 9) << kind;
+        func_8003FEE0(41);
+    }
+    node = TextBox_GetGlyphAt(kind, gx, gy);
+    obj = func_80168CDC(kind, node);
+    obj[0x6C] = 1;
+    *(void **)(obj + 0x24) = func_80168708;
+    if (node == 0) {
+        *(u16 *)(obj + 8) &= 0xFFBF;
+    }
+    if (second != 0) {
+        *(s16 *)(obj + 0x48) = 20;
+        node = TextBox_GetGlyphAt(kind, gx + 20, gy);
+        obj = func_80168CDC(kind, node);
+        obj[0x6C] = 1;
+        *(void **)(obj + 0x24) = func_80168708;
+        *(s16 *)(obj + 0x48) = 0;
+    }
+    if (kind == 1) {
+        u16 *slot;
+        D_8016D400 |= 0x80;
+        slot = &D_8016D418[D_8016D42C];
+        if (node != 0) {
+            *slot = *(u16 *)node;
+        } else {
+            *slot = 0;
+        }
+        obj = func_80168CDC(1, node);
+        *(s16 *)(obj + 0x60) = 8;
+        *(void **)(obj + 0x24) = func_80168AB4;
+        *(s16 *)(obj + 0x46) = 204;
+        obj[0x6C] = 6;
+        *(s16 *)(obj + 0x44) = (D_8016D42C << 4) + 112;
+    }
+    return;
 }
 ```
