@@ -445,11 +445,13 @@ work of writing source whose emitted `.rodata` is byte-correct.
 
 ### A worked example that is in the tree
 
-`NameEntry_Main` in password already called `func_8008E870(D_80168090, ...)`,
-where `D_80168090` was an extern into the blob. Those 36 bytes are the string
-`SaveLoadBuf add = 0x%x size = 0x%x\n` — `func_8008E870` is a printf. Replacing
-the extern with the literal and declaring the parameter `const char *` makes
-the compiler emit it, and the yaml hands that section its address:
+`NameEntry_Main` now calls the resident `printf` with the literal
+`SaveLoadBuf add = 0x%x size = 0x%x\n`. Before the `.rodata` integration,
+matching source expressed the same call as
+the callee at `0x8008E870` with `D_80168090` as an extern into the blob.
+Replacing that address-based callee and extern format pointer with `printf`
+and the literal makes the compiler emit all 36 bytes, and the yaml hands that
+section its address:
 
 ```yaml
       - [0x4, rodata, overlays/password/module_rodata]
