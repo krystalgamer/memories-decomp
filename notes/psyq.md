@@ -201,11 +201,27 @@ symbol review.
 | `0x8007F5D4` | `DrawSyncCallback` | Applied at offset `0x284` of the same unique `SYS.OBJ` signature. |
 | `0x8007F634` | `SetDispMask` | Applied at offset `0x2E4` of the same unique `SYS.OBJ` signature. |
 | `0x8007F6CC` | `DrawSync` | Applied Psy-Q 4.6 identity; `model_handler_registry.c` waits for queued GPU drawing after dispatching a model primitive handler. |
+| `0x8007F850` | `ClearImage` | Applied at offset `0x500` of the unique Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature; matching movie paths clear their display rectangles with the configured RGB triplet. |
+| `0x8007F8E0` | `ClearImage2` | Applied at offset `0x590` of the same unique `SYS.OBJ` signature. |
 | `0x8007F978` | `LoadImage` | Applied Psy-Q identity; `func_800249E0` uses the tracked `RECT *` / `u32 *` prototype for two image transfers. |
+| `0x8007F9D8` | `StoreImage` | Applied at offset `0x688` of the same unique `SYS.OBJ` signature. |
 | `0x8007FA38` | `MoveImage` | Applied Psy-Q 4.6 identity; matching callers copy rectangular VRAM regions for screen transitions and palette processing. |
+| `0x8007FAF0` | `ClearOTag` | Applied at offset `0x7A0` of the same unique `SYS.OBJ` signature. |
+| `0x8007FBB8` | `ClearOTagR` | Applied at offset `0x868` of the same unique `SYS.OBJ` signature. |
+| `0x8007FC64` | `DrawPrim` | Applied at offset `0x914` of the same unique `SYS.OBJ` signature. |
+| `0x8007FCC0` | `DrawOTag` | Applied at offset `0x970` of the same unique `SYS.OBJ` signature. |
+| `0x8007FD30` | `PutDrawEnv` | Applied at offset `0x9E0` of the same unique `SYS.OBJ` signature. |
+| `0x8007FDF0` | `DrawOTagEnv` | Applied at offset `0xAA0` of the same unique `SYS.OBJ` signature. |
+| `0x8007FEC8` | `GetDrawEnv` | Applied at offset `0xB78` of the same unique `SYS.OBJ` signature. |
+| `0x8007FEFC` | `PutDispEnv` | Applied at offset `0xBAC` of the same unique `SYS.OBJ` signature. |
+| `0x80080428` | `GetODE` | Applied at offset `0x10D8` of the same unique `SYS.OBJ` signature. |
+| `0x80080458` | `SetDrawArea` | Applied at offset `0x1108` of the same unique `SYS.OBJ` signature. |
+| `0x800804D8` | `SetDrawOffset` | Applied at offset `0x1188` of the same unique `SYS.OBJ` signature. |
+| `0x80080518` | `SetDrawEnv` | Applied at offset `0x11C8` of the same unique `SYS.OBJ` signature. |
 | `0x80081DE8` | `LoadImage2` | Applied Psy-Q identity; streamed package callbacks pass rectangle-shaped records and staged image data. |
 | `0x80081ED4` | `StoreImage2` | Applied Psy-Q 4.6 identity; `func_800582C0` reads a VRAM rectangle into a local pixel buffer before transforming and re-uploading it. |
 | `0x80081FC0` | `MoveImage2` | Applied Psy-Q identity; `file_cd_helpers.c` passes the current display rectangle plus destination coordinates. |
+| `0x80082104` | `DrawOTag2` | Applied at offset `0x2DB4` of the unique Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature. |
 | `0x80082200` | `_GPU_ResetCallback` | Applied at offset `0x2EB0` of the unique Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature. |
 | `0x80082250` | `GPU_cw` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C73.OBJ` signature. |
 | `0x80082290` | `BreakDraw` | Applied at offset zero of the unique 544-byte Psy-Q 4.6 `LIBGPU.LIB/BREAK.OBJ` signature. |

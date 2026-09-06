@@ -46,7 +46,7 @@ s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
         rect[1] = 0;
         rect[2] = D_800FE0D0;
         rect[3] = D_800FE0D4;
-        func_8007F850(rect, D_8009B144, D_8009B143, D_8009B142);
+        ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);
         DrawSync(0);
         VSync(0);
         func_80085500();
@@ -54,12 +54,12 @@ s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
         rect[2] = D_800FE0D0;
         rect[1] = 0;
         rect[3] = D_800FE0D4;
-        func_8007F850(rect, D_8009B144, D_8009B143, D_8009B142);
+        ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);
         rect[0] = 0;
         rect[1] = 0x100;
         rect[2] = *(s32 *)&D_800FE0D0 * 0x1800 / 4096;
         rect[3] = D_800FE0D4;
-        func_8007F850(rect, D_8009B144, D_8009B143, D_8009B142);
+        ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);
         DrawSync(0);
         VSync(0);
         D_800FE0CC = 1;
