@@ -1,5 +1,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "duel_card.h"
 
 typedef struct {
@@ -17,7 +19,6 @@ extern u8 D_800FE148[];
 extern u8 D_8009B1D5;
 extern u16 D_800908A0[];
 extern ScreenPair D_800EA070[];
-extern void GsSetLsMatrix(void *);
 
 /* Projects the thirty coordinate pairs in D_800908A0 through the GTE, one per
    iteration, and writes the biased screen pairs to D_800EA070. Same scratchpad
@@ -39,7 +40,7 @@ void func_800177C4(void)
 
     SetGeomScreen(D_800F2856[0]);
     SetGeomOffset(0xA0, 0x6C);
-    GsSetLsMatrix(D_800FE148);
+    GsSetLsMatrix((MATRIX *)D_800FE148);
     pad = (u8 *)0x1F8003E0;
     i = 0;
     pp = &p;

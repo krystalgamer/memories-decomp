@@ -1,10 +1,11 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 extern s16 D_800F2856;
 extern u8 D_800FE148[];
 extern u16 D_800908A0[];
-extern void GsSetLsMatrix(void *);
 
 /* Projects the coordinate pair at D_800908A0[index * 2] through the GTE and
    returns the projected screen X. The result is read back as a signed halfword,
@@ -19,7 +20,7 @@ s16 func_8001B0CC(s32 index)
     SetGeomScreen(D_800F2856);
     coord = coord * 4;
     SetGeomOffset(0xA0, 0x6C);
-    GsSetLsMatrix(D_800FE148);
+    GsSetLsMatrix((MATRIX *)D_800FE148);
     __asm__ volatile(
         "lui $3, 0x1F80\n"
         "ori $3, $3, 0x03E0\n"

@@ -1,5 +1,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
 
 struct Out {
@@ -38,7 +40,6 @@ struct Vec318 {
 };
 
 extern void func_80088C50(struct Vec308 *, struct Mat *);
-extern void GsSetLsMatrix(struct Mat *);
 extern s32 func_80089CF0(struct Vec308 *, struct Vec310 *, struct Vec318 *,
                         struct Vec318 *);
 
@@ -68,7 +69,7 @@ s32 func_80041E7C(u32 arg0, s32 arg1, s32 arg2, struct Out *arg3)
     mtx->f18 = 0;
     mtx->f1C = 0x12C;
 
-    GsSetLsMatrix(mtx);
+    GsSetLsMatrix((MATRIX *)mtx);
 
     {
         register struct Vec318 *v318 __asm__("$7") =
