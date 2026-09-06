@@ -222,11 +222,13 @@ file is byte-identical to its original disc extent.
 │       ├── target.yaml
 │       ├── files.sha256
 │       ├── split.yaml
+│       ├── matching_c.json
+│       ├── c_symbols.ld
+│       ├── link_symbols.ld
 │       ├── symbols.txt
-│       └── undefined_syms.txt
+│       └── relocations.txt
 ├── game/                       # Immutable, ignored user inputs
 ├── include/                    # Project headers
-├── linker/                     # Linker scripts and section-order inputs
 ├── notes/                      # All human documentation and research
 │   └── decompilation-plan.md   # Durable copy of the approved plan
 ├── README.md                   # Overview with generated current progress
