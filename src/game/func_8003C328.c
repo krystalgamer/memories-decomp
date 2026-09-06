@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 
 typedef struct {
     s16 x;
@@ -19,7 +21,6 @@ typedef struct {
 extern volatile u32 D_8009B0F4;
 extern s32 D_8009B118;
 extern u8 D_801AF000[];
-extern void LoadImage2(Object *object, s32 *data);
 
 void func_8003C328(Object *object, s32 mode)
 {
@@ -50,7 +51,7 @@ void func_8003C328(Object *object, s32 mode)
         object->y = 0xF0;
         object->w = 0x100;
         object->h = 4;
-        LoadImage2(object, (s32 *)D_8009B118);
+        LoadImage2((RECT *)object, (u32 *)D_8009B118);
         object->field0C = (s32)D_801AF000;
         object->field08 = (s32)D_801AF000;
         object->field1C = 0x800;
