@@ -10,7 +10,7 @@ address,size,name,status,module,notes
 0x80012E5C,0x210,func_80012E5C,unmatched_asm,game,
 0x8001306C,0xE8,func_8001306C,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80013154,0x20C,func_80013154,unmatched_asm,game,
-0x80013360,0x154,func_80013360,unmatched_asm,game,
+0x80013360,0x154,func_80013360,matching_c,game,"Debug position adjuster: nudges the D_800E9D28 pair with the d-pad, twice as fast with Cross, until Start is pressed"
 0x800134B4,0x2C,func_800134B4,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x800134E0,0x4C,func_800134E0,matching_c,game,Object vector offset update using GCC 2.8.1 -O2 -G8
 0x8001352C,0xD0,func_8001352C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
