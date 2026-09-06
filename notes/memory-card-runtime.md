@@ -93,9 +93,25 @@ The builder lays out:
 The complete staged region through the duplicate is therefore `0xF00` bytes.
 The subsequent `func_8003F758` call receives pointer `0x801D3200` and length
 `0xD00`, exactly the contiguous pair of `0x680`-byte state copies. Its final
-argument is `2`; this note does not assign that unnamed mode a role. The
-staged data fits within one `0x2000`-byte memory-card block, but these calls do
-not establish how the remaining on-card bytes are populated.
+argument is the request selector. `func_8003F758` stores it unchanged at
+`D_8009B3DE` through `func_8003F740` while setting the pending flag
+`D_8009B3FA` to `0x8000`.
+
+The exact callers use four selector values:
+
+| Selector | Caller context | Buffer and length |
+|---:|---|---|
+| `0` | `SaveData_RequestLoad` | `0x801D3200`, `0x680` |
+| `1` | Two paths in assembly `func_8003F8D4` | `0x801D1200` or `0x801D2200`, each `0x680` |
+| `2` | `SaveData_RequestWrite` | `0x801D3200`, `0xD00` |
+| `4` | `func_8003FE14` in the two-player save setup | `0x801D1880`, `0x400` |
+
+The named callers establish selectors `0` and `2` as the normal single-save
+load and write requests. Selectors `1` and `4` belong to distinct parts of the
+two-save workflow, but their broader state-machine operation names remain
+unassigned. The staged write still fits within one `0x2000`-byte memory-card
+block; these calls do not establish how the remaining on-card bytes are
+populated.
 
 ## Evidence boundary
 
