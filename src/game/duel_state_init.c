@@ -43,8 +43,8 @@ void func_800175A0(void) {
         sp[0] = D_8009B234;
         sp[1] = D_8009B236;
     } else {
-        sp[1] = 0x1F40;
-        sp[0] = 0x1F40;
+        sp[1] = DUEL_STARTING_LIFE_POINTS;
+        sp[0] = DUEL_STARTING_LIFE_POINTS;
     }
 
     for (k = 0; k < 2; k++, e++) {
