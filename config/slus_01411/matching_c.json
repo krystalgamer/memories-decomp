@@ -1495,6 +1495,12 @@
       "source": "src/game/main_run_selection_menus.c"
     },
     {
+      "address": "0x8002D458",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x130",
+      "source": "src/game/func_8002D458.c"
+    },
+    {
       "address": "0x8002D588",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA4",
