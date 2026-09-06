@@ -139,9 +139,20 @@ value `1` keeps the cards hidden while showing their order numbers. The
 static call chain confirms that these values select different image
 resources, but the exact appearance of those resource indices has not yet
 been independently verified against extracted art or a runtime trace.
-`tools/trace/opponent_card_resource_indices.lua` applies both values in one
-bounded emulator run, records the resulting display-object field, watches for
-later overrides, and restores the retail instruction byte afterward.
+
+A partial controlled run confirmed that the script applied phase-0 immediate
+`0`. In the retail presentation, Duel Master K's hand is obscured by grey
+mist and has no visible stats; with the patch active, the player could see the
+actual cards in his hand. The displayed card also changed as he selected each
+fusion ingredient. The execution breakpoints did not capture
+`func_80018004` returning, however, and phase `1` never ran. The observation
+therefore confirms the visible meaning of resource `0` in this path, but not
+whether a later update restores `0xFF` or what resource `1` displays.
+
+`tools/trace/opponent_card_resource_indices.lua` remains pending for a
+two-phase interpreter run. It now warns when phase 0 is armed in duel mode but
+no execution breakpoint has fired, so a CPU-core setup failure is visible
+before another long observation.
 
 **Confidence:**
 
@@ -149,9 +160,12 @@ later overrides, and restores the retail instruction byte afterward.
   `field_67 = 0xFF` assignment in `func_80018004`.
 - **Confirmed** that `field_67` becomes an image resource index and does not
   modify card identity or duel state.
-- **Tentative** that resource indices `0` and `1` have exactly the two visual
-  meanings reported by the tutorial; runtime or asset-level corroboration is
-  still required.
+- **Confirmed** by controlled replay that resource `0` exposes the opponent's
+  actual hand cards instead of the normal grey-mist presentation in the
+  observed Duel Master K path.
+- **Tentative** that resource `1` has the order-number presentation reported
+  by the tutorial, and whether either replacement survives every later card
+  object update.
 
 ## Dialogue pointer redirects
 
