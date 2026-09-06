@@ -15,7 +15,7 @@ extern u16 D_8009B162;
 extern u8 *D_8009B1B4;
 extern u8 D_8009B1D5;
 extern u8 D_800E9F48[];
-extern Rec0C D_800EA030[];
+extern Rec0C D_800EA030[HAND_SIZE];
 extern u8 D_8015C424[];
 extern u8 D_801A7AD8[];
 extern s32 gDuel_adwCardStats[];
