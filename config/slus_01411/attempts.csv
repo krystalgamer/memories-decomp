@@ -111,7 +111,6 @@ address,attempt,compiler,flags,result,summary
 0x80058DC0,1,gcc_2_8_1_g8,pre-policy-1 final -O2 -G8,matched,1 pre-policy variants: Straight unsigned-byte G8 getter matched linked bytes and GPREL16 relocation.
 0x80058DCC,1,gcc_2_8_1_g8,pre-policy-1 final -O2 -G8,matched,1 pre-policy variants: Straight unsigned-byte G8 getter matched linked bytes and GPREL16 relocation.
 0x80058E1C,1,gcc_2_8_1_g8,pre-policy-3 final -O2 -G8,matched,3 pre-policy variants: Volatile byte reload plus unsigned result fixed to $3 reproduced the clamp sequence; two simpler forms failed scheduling/allocation.
-0x80058F10,1,gcc_2_8_1_g0,pre-policy-1 final -O2 -G0,matched,1 pre-policy variants: Straight G0 integer getter matched linked bytes and HI16/LO16 relocations.
 0x800591FC,1,gcc_2_8_1_g0_split,pre-policy-3 final -O2 -G0 -mgas -msplit-addresses,matched,3 pre-policy variants: Plain address return and split-only failed; -mgas -msplit-addresses placed LO16 in the return delay slot.
 0x80059208,1,gcc_2_8_1_g8,pre-policy-1 final -O2 -G8,matched,1 pre-policy variants: Straight address-of-byte G8 return matched linked bytes and GPREL16 relocation.
 0x80059214,1,gcc_2_8_1_g0_split,pre-policy-3 final -O2 -G0 -mgas -msplit-addresses,matched,3 pre-policy variants: Plain address return and split-only failed; -mgas -msplit-addresses placed LO16 in the return delay slot.
