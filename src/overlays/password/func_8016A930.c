@@ -3,7 +3,7 @@
 
 extern u16 *D_8016D3DC[];
 extern s16 D_801D0200[];
-extern s32 func_8008E590(void);
+extern s32 rand(void);
 extern void func_8002CCE4(s32);
 
 void func_8016A930(void)
@@ -28,12 +28,12 @@ void func_8016A930(void)
         remaining = *entry;
         entry++;
         do {
-            threshold = (func_8008E590() & 0x7FF) + 1;
+            threshold = (rand() & 0x7FF) + 1;
             acc = 0;
             i = 0;
             p = entry;
             do {
-                func_8008E590();
+                rand();
                 acc += *p;
                 if (acc >= threshold) {
                     if (counts[i] >= 3) {

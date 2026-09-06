@@ -8,7 +8,7 @@ extern void func_80035748(void *, s32, s32);
 extern void func_8008E870(void *, void *, s32);
 extern void func_801683EC(void);
 extern void func_80012D4C(void);
-extern s32 func_8008E590(void);
+extern s32 rand(void);
 extern s32 func_80169C08(void);
 extern void func_8016A930(void);
 
@@ -25,7 +25,7 @@ void func_8016AA6C(void)
     func_801683EC();
     do {
         func_80012D4C();
-        func_8008E590();
+        rand();
     } while (func_80169C08() == 0);
     func_8016A930();
     state = D_801D0200;
@@ -37,6 +37,6 @@ void func_8016AA6C(void)
     }
     value = D_8009B09C << 8;
     while ((*(s32 *)(state + 0x334) = value | checksum) == 0) {
-        value = func_8008E590() << 8;
+        value = rand() << 8;
     }
 }
