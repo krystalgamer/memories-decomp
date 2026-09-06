@@ -541,3 +541,18 @@ on the suspects side until proven.)
 | 0x80178D40 | `gDuel_awBcdCardDrops` | Per-opponent 722-entry weighted card-drop rows used for B/C/D rewards. |
 | 0x801792F4 | `gDuel_awSaTecCardDrops` | Per-opponent 722-entry weighted card-drop rows used for S/A-TEC rewards. |
 | 0x801798A8 | `gDuel_awRankScoreChange` | Threshold/value rows used to convert tracked duel statistics into the final rank score. |
+
+## Batch: frontend selection state
+
+| address | name | description |
+|---|---|---|
+| 0x80184594 | `gMain_bMenuID` | Current main-menu entry ID, covering pre-game entries `0`-`4` and post-load entries `5`-`10`. |
+| 0x80184568 | `gMain_apMenuEntries` | Eleven main-menu entry object pointers indexed by `gMain_bMenuID`, with five pre-game and six post-load slots. |
+| 0x8009B258 | `gCardGrid_bCursorColumn` | Column of the shared ten-wide card-grid cursor. |
+| 0x8009B259 | `gCardGrid_bCursorRow` | Row component of the shared card-grid cursor position. |
+| 0x8009B366 | `gFreeDuel_bCursorColumn` | Committed column of the Free Duel opponent-grid cursor. |
+| 0x8009B367 | `gFreeDuel_bCursorRow` | Committed row of the Free Duel opponent-grid cursor. |
+| 0x8009B365 | `gFreeDuel_bReturnFlags` | Free Duel return-action flags: `0x40` after visiting Build Deck and `0x80` after starting a duel. |
+| 0x8009B37C | `gOptions_bState` | Current Options-screen state dispatched by `Options_Update`. |
+| 0x8009B37D | `gOptions_bOutputType` | Options-screen working copy of the stereo/mono selection used by input and layout updates. |
+| 0x8009B384 | `gOptions_bSelection` | Selected row on the Options screen. |
