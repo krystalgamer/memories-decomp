@@ -1,12 +1,13 @@
 #include "../types.h"
 #include "../psyq/rand.h"
+#include "card_constants.h"
 
 extern u8 gDuel_awOpponentDeckPool[];
 
 s32 Rand_GetInterval(s32 arg0);
 
 void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
-    u8 buf[0x2D2];
+    u8 buf[CARD_COUNT];
     u8 *b16;
     u8 *b8;
     u8 *e;
@@ -27,14 +28,14 @@ void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
     b8 = out8;
 
     if (src == 0) {
-        for (i = 0x2D1; i >= 0; i--) {
+        for (i = CARD_COUNT - 1; i >= 0; i--) {
             buf[i] = 0;
         }
 
         t = gDuel_awOpponentDeckPool;
         n = 0;
-        while (n < 0x28) {
-            lim = (rand() & 0x7FF) + 1;
+        while (n < DECK_SIZE) {
+            lim = (rand() & (DUEL_DROP_WEIGHT_TOTAL - 1)) + 1;
             acc = 0;
             i = 0;
             e = t;
@@ -42,7 +43,7 @@ void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
                 acc += *(u16 *)e;
                 if (acc >= lim) {
                     q = buf + i;
-                    if (*q < 3) {
+                    if (*q < DECK_CARD_COPY_LIMIT) {
                         *(s16 *)out16 = i + 1;
                         *out8 = n;
                         n++;
@@ -59,13 +60,13 @@ void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
                 }
                 i++;
                 e += 2;
-                if (i >= 0x2D0) {
+                if (i >= STARTER_DECK_WEIGHT_SCAN_COUNT) {
                     break;
                 }
             }
         }
     } else {
-        for (i = 0; i < 0x28; i++) {
+        for (i = 0; i < DECK_SIZE; i++) {
             *(s16 *)out16 = *(u16 *)src;
             src += 2;
             *out8 = i;
@@ -74,9 +75,9 @@ void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
         }
     }
 
-    for (i = 0; i < 0xA0; i++) {
-        x = Rand_GetInterval(0x28);
-        y = Rand_GetInterval(0x28);
+    for (i = 0; i < DUEL_DECK_SHUFFLE_SWAP_COUNT; i++) {
+        x = Rand_GetInterval(DECK_SIZE);
+        y = Rand_GetInterval(DECK_SIZE);
         t16 = t8 = *(u16 *)(b16 + x * 2);
         u16b = *(u16 *)(b16 + y * 2);
         *(s16 *)(b16 + x * 2) = u16b;
