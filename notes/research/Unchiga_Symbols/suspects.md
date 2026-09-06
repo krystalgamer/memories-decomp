@@ -12,7 +12,6 @@ the applies and byte-verify once).
 
 | address | current name | observed | suspicion |
 |---|---|---|---|
-| `0x8003FEE0` | `call_80048658_255_0` | Body called SD_SEPlay(8, 0xFF) when Circle cancelled out of OPTION (ra 0x8003FEF8 inside it). The fleet name's "255_0" does not match observed args. | SE-play convenience wrapper, maybe `SD_SEPlayDefault(id)`; the cancel sound goes through it. Re-read the matched body before renaming. |
 | `0x80013C28` | `func_80013C28` | Fired on X->OPTION build AND on password card-art reveal — both disc-load moments (with the 0x800137E4/13940/13998/1455C streaming family). | CD streaming/read-request path member, NOT a fade. |
 | `0x80015xxx` family | `reset_obj_*` (fleet) | CONFIRMED REPEATABLE: identical 20-function exit path on both Circle-exits (teardown family + cancel blip + flag setters 0x80047430/0x80049108/0x8004A2F8/0x80084240). Also proven: exiting OPTION commits nothing to the 0x801D0xxx save region. | Menu-screen teardown path; names stay fleet-mechanical until per-function roles emerge. |
 | `0x8004002C`-`0x800404CC` + `0x80041428` | various `func_`/`myst` | Fired only during the X->OPTION build-up (with the widget setter 0x80040410 triple). | Widget/object constructor-initializer family for building a menu screen. |
@@ -23,13 +22,9 @@ the applies and byte-verify once).
 
 | address | current name | observed | suspicion |
 |---|---|---|---|
-| `0x8009B37D` (byte) | `gOptions_bOutputType` | Flips with the setting; `Options_Init` writes it from `gSD_bOutputType`, and `Options_UpdateLayout` uses it as an options-label table index. | APPLIED |
 | `0x80044DC0` | `func_80044DC0` | Called by SD_SetOutputType with the master volume field; matched body builds the 4-byte CdMix packet, channel slot picked by the mode byte. | `SD_UpdateCdMix`-ish CD-audio re-mixer. |
 | `0x8007CDC0` -> `0x8007A048` | (mid-entries) | CD volume apply path beneath the CdMix packet (0x8007A048 sits in CD_vol's extent; entries are mid-function dispatch quirks). | Library-side CD volume application; verify extents before naming anything. |
-| `0x8003C568` | `Options_UpdateLayout` | Positions the selection cursor and stereo/mono widget from `gOptions_bSelection` and `gOptions_bOutputType`; runs again after each sound-mode toggle. | APPLIED |
-| `0x8003C628` | `Options_Init` | Body initializes `gOptions_bState`, `gOptions_bOutputType`, and `gOptions_bSelection` from `gSD_bOutputType` and screen defaults while creating the screen widgets. | APPLIED |
 | `0x80047F38(1, 0x11, 0xFF)` | `func_80047F38` | Fired inside the SE-play path on every blip. | SE voice setup/allocation. |
-| `0x8009B37C` (byte) | `gOptions_bState` | Initialized to 1, dispatched by `Options_Update`, changed to the selected row plus one on confirm, and cleared on Circle. | APPLIED |
 | `D_8009B45C->f48` | (struct field) | The sound-state struct's output-mode byte (written by SD_SetOutputType, read by the CdMix builder). | Document as `outputType` when the struct gets a header. |
 
 ## From the TRADE card flow (2026-08-31)
@@ -74,14 +69,7 @@ the applies and byte-verify once).
 
 | address | current name | observed | suspicion |
 |---|---|---|---|
-| `0x80032BD4` | `compare_rec_two_level_std` | RESOLVED: it is the fleet-matched std-convention two-level comparator; used for several sort modes, BuildDeck_CompareCard for the rest. No rename needed. |
 | `0x80100004` | (in `playerMonModel` buffer) | 722 x 16-byte trunk-view records, qsort target for all modes; per-mode cached orders recopied on mode change. | Trunk view/sort arena — document as scratch reuse of the model buffer. |
-
-## From the deck pane (2026-08-31)
-
-| address | current name | observed | suspicion |
-|---|---|---|---|
-| `0x8009B0AC` | `gGraphics_bActiveBuffer` | Alternates 0/1 every frame in a stationary Library screen; `func_80012E5C` stores `GsGetActiveBuff()` here. | RESOLVED: active graphics double-buffer index, not a pane selector. |
 
 ## SE id catalog (facts, kept here until the table earns a home)
 
@@ -93,5 +81,4 @@ Via SD_SEPlay(id, 0xFF): 6 = menu cursor move, 7 = confirm (X), 8 = cancel
 
 | address | current name | observed | suspicion |
 |---|---|---|---|
-| `0x8009B394..0x8009B39A`, `0x8009B3A4..0x8009B3A6` | `gInput_wPad1/2Repeat`, `gInput_wPad1/2Pressed`, `gInput_wPad1/2Held` | RESOLVED by matching `Input_UpdatePads`: 394/396 are repeat masks, 398/39A newly-pressed masks, and 3A4/3A6 held masks for pads 1/2 respectively. | APPLIED |
 | `0x800F07E8`, `0x800F0858` | widget pool slots | Thumb widget and cursor widget instances (pool D_800F0548, 0x70-byte records: +0x30 x, +0x32 y, +0x36/38 vel, +0x60 counter, +0x62 frac). | Name the pool struct first; these are instances. |
