@@ -368,6 +368,11 @@ Each distribution totals 2048. These are the static per-card pool weights;
 the rows that draw multiple monsters are not simple uniform choices within
 their ATK+DEF bands.
 
+No card ID appears in more than one row. Altogether the generator can select
+345 of the 722 cards: 309 monsters plus Dark Hole, Raigeki, the six terrain
+cards and 28 equips. No trap or ritual has a nonzero starter weight, so the
+other 377 cards cannot be dealt into an unmodified new-game deck.
+
 Resetting until the magic card is Raigeki is the community's standard opening.
 
 ### 4.4 Library
