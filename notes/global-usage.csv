@@ -2225,8 +2225,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x800497E0,func_800497E0,matching_c,game,C,src/game/func_800497E0.c,read_write,,D_8009B458->bytes_consumed = total; | SDSecondaryState *v1 = D_8009B458; | (+2 more)
 0x8009B458,D_8009B458,D_8009B458,0x800498F8,func_800498F8,matching_c,game,C,src/game/sound_secondary_reset.c,address,,s16 *value = &D_8009B458->transfer.field_0000;
 0x8009B458,D_8009B458,D_8009B458,0x80049920,func_80049920,matching_c,game,C,src/game/func_80049920.c,read,8,b1 = D_8009B458; | b2 = D_8009B458; | (+1 more)
-0x8009B458,D_8009B458,D_8009B458,0x80049A64,func_80049A64,matching_c,game,C,src/game/sound_secondary_control.c,read_write,,D_8009B458->flag_0500 = 1; | state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x80049AF4,func_80049AF4,matching_c,game,C,src/game/sound_secondary_control.c,read_write,,D_8009B458->field_07DC = D_8009B458->field_07E8; | D_8009B458->field_07E2 = 1; | (+7 more)
+0x8009B458,D_8009B458,D_8009B458,0x80049A64,func_80049A64,matching_c,game,C,src/game/sound_secondary_playback.c,read_write,,D_8009B458->flag_0500 = 1; | state = D_8009B458;
+0x8009B458,D_8009B458,D_8009B458,0x80049AF4,func_80049AF4,matching_c,game,C,src/game/sound_secondary_playback.c,read_write,,D_8009B458->field_07DC = D_8009B458->field_07E8; | D_8009B458->field_07E2 = 1; | (+7 more)
 0x8009B458,D_8009B458,D_8009B458,0x80049BAC,func_80049BAC,matching_c,game,C,src/game/sound_secondary_playback.c,read_write,,D_8009B458->flag_0500 = 1; | first = D_8009B458; | (+2 more)
 0x8009B458,D_8009B458,D_8009B458,0x80049C40,func_80049C40,matching_c,game,C,src/game/sound_secondary_playback.c,read,,SDSecondaryState *initial = D_8009B458; | other = D_8009B458; | (+1 more)
 0x8009B458,D_8009B458,D_8009B458,0x80049CB0,func_80049CB0,matching_c,game,C,src/game/sound_secondary_playback.c,read_write,,D_8009B458->field_07E0 = -1; | D_8009B458->field_07E2 = 0; | (+4 more)
@@ -3083,6 +3083,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8015C424,D_8015C424,D_8015C424,0x80024D34,func_80024D34,matching_c,game,C,src/game/duel_card_icon_setup.c,address,8,tb = D_8015C424;
 0x8015C424,D_8015C424,D_8015C424,0x800262D4,func_800262D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_016ad4.s,address,,"addiu $v1, $v1, %lo(D_8015C424) | lui $v1, %hi(D_8015C424)"
 0x8015C424,D_8015C424,D_8015C424,0x80027DF8,func_80027DF8,matching_c,game,C,src/game/func_80027DF8.c,read,,id = D_8015C424.cards[n].id;
+0x801683EC,NameEntry_Init,NameEntry_Init,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_frontend_menus.c,read,,NameEntry_Init();
 0x80168FCC,CampaignMap_UpdateLocation,CampaignMap_UpdateLocation,0x8002D2D8,Main_RunCampaignMap,matching_c,game,C,src/game/main_run_selection_menus.c,read,,void Main_RunCampaignMap(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;D_8009B0A3[0]=10;func_800...
 0x80169C08,NameEntry_PollCompletion,NameEntry_PollCompletion,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_frontend_menus.c,read,32,if (NameEntry_PollCompletion()) {
 0x80177EA4,D_80177EA4,D_80177EA4,0x800249E0,func_800249E0,matching_c,game,C,src/game/func_800249E0.c,address,8,base = D_80177EA4;
