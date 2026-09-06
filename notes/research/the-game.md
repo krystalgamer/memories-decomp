@@ -148,10 +148,12 @@ card shop with "Return to Title" shows the **loaded menu** instead:
   (§10).
 
 The two menus are the same mode [`Main_RunMenu`]; which set is offered depends
-on whether a game is loaded. The Data Crystal menu-ID list (UNVERIFIED) numbers
-them 00 New Game, 01 Load, 02 2P Duel, 03 Trade, 04 Option, 05 Campaign, 06
-Free Duel, 07 Build Deck, 08 Library, 09 Password, 0A Save, 0B Debug Menu —
-which is why writing `0x0B` to the menu byte opens the developer menu.
+on whether a game is loaded. The main-menu module's eleven entry objects and
+live cursor confirm the entry/result IDs: 00 New Game, 01 Load, 02 2P Duel,
+03 Trade, 04 Option, 05 Campaign, 06 Free Duel, 07 Build Deck, 08 Library,
+09 Password and 0A Save. The forced value 0B opens the Debug Menu, but is not
+an ordinary table slot: resident `func_8002D458` accepts normal results only
+when they are below `0x0B`.
 
 > **Entered from:** boot; every other mode's "back". **Exits to:** name entry,
 > campaign, Free Duel, Build Deck, Library, Password, trade/2P, options, save.
