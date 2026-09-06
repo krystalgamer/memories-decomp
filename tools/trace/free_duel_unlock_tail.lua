@@ -25,6 +25,8 @@
 --      tools/trace/result/free_duel_unlock_tail.txt and fill in the context.
 --
 --   No breakpoint, debugger pause, or interpreter CPU is required.
+--   The script verifies the Free Duel module ID and two function prologues
+--   before reading the shared overlay data range.
 --
 -- WHAT TO WRITE IN THE CONTEXT
 --   State which high-ID duelists were locked before the test, confirm the two
@@ -44,8 +46,12 @@ local CURSOR_COLUMN = 0x8009b366
 local CURSOR_ROW = 0x8009b367
 local TARGET_COLUMN = 0x8009b36c
 local TARGET_ROW = 0x8009b36d
+local MODULE_BASE = 0x80168000
 local UPDATE_SCREEN = 0x80168c7c
 local MODULE_ENTRY = 0x80168fb4
+local EXPECTED_MODULE_ID = 0x00000013
+local EXPECTED_UPDATE_WORD = 0x27bdffd8
+local EXPECTED_ENTRY_WORD = 0x27bdffe8
 local GRID_SIZE = 40
 local SETTLE_FRAMES = 120
 local OBSERVE_FRAMES = 1200
@@ -65,6 +71,19 @@ end
 
 local function u32(addr)
     return tonumber(ffi.cast('uint32_t*', mem + phys(addr))[0])
+end
+
+local function moduleSignature()
+    return string.format(
+        'id=0x%08X update=0x%08X entry=0x%08X',
+        u32(MODULE_BASE), u32(UPDATE_SCREEN), u32(MODULE_ENTRY)
+    )
+end
+
+local function isFreeDuelModule()
+    return u32(MODULE_BASE) == EXPECTED_MODULE_ID
+        and u32(UPDATE_SCREEN) == EXPECTED_UPDATE_WORD
+        and u32(MODULE_ENTRY) == EXPECTED_ENTRY_WORD
 end
 
 local function storyFlag(id)
@@ -123,10 +142,7 @@ local function capture(reason)
         '  frame=%d mode=%d screen_flags=0x%02X',
         frames, mainMode(), u8(SCREEN_FLAGS)
     ))
-    emit(string.format(
-        '  module_signature update=0x%08X entry=0x%08X',
-        u32(UPDATE_SCREEN), u32(MODULE_ENTRY)
-    ))
+    emit('  module_signature ' .. moduleSignature())
     emit('  unlock_bytes_F4_F8=' .. unlockKey())
 
     for row = 0, 7 do
@@ -259,6 +275,12 @@ local function poll()
 
     freeDuelFrames = freeDuelFrames + 1
     if freeDuelFrames < SETTLE_FRAMES then
+        return
+    end
+
+    if not isFreeDuelModule() then
+        emit('module_signature_mismatch ' .. moduleSignature())
+        finish('Free Duel module signature mismatch after settle')
         return
     end
 
