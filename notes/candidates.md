@@ -429,41 +429,63 @@ void func_8004A764(s32 index)
 
 ## `func_8004A6F8` at 0x8004A6F8
 
-`gcc_2_8_1_g8_split`, 27 of 27 instructions, opcode distance 0, 8 differing positions.
+`gcc_2_8_1_cc_g8_as_g0_split`, 27 of 27 instructions, opcode distance 0, 6
+differing positions.
 
-The second member of the `SpuVoiceAttr` family at `+0x4C0`, and the same two
-requirements as `func_8004A764`: stores through the state pointer at `0x4C0`
-offsets, and a `section(".data")` alias so `D_8009B458` is not gp-relative.
+The second member of the `SpuVoiceAttr` family at `+0x4C0`. It copies `adsr1`,
+`adsr2` and `a_mode` out of a second argument at `+0x20`, `+0x22` and `+0x24`
+rather than using constants, which is what the `0x60100` mask says it does.
+The argument is not a Psy-Q `VagAtr` -- that struct is `0x20` bytes and its
+`adsr1` is at `+0x10` -- so it stays a `u8 *` with hex offsets until something
+names it.
 
-This one copies `adsr1`, `adsr2` and `a_mode` out of a second argument at
-`+0x20`, `+0x22` and `+0x24` rather than using constants, which is what the
-`0x60100` mask says it does. The argument is not a Psy-Q `VagAtr` -- that
-struct is `0x20` bytes and its `adsr1` is at `+0x10` -- so it stays a `u8 *`
-with hex offsets until something names it.
+Two things brought this from 8 to 6, and they only work together. Hoisting the
+table word into a local and storing the mask at `+0x4C4` before the voice word
+at `+0x4C0` reproduces both stores exactly. The previous entry recorded that
+writing `mask` first costs 11, and that is true while the table read is left
+inline in the voice store; once the read is a named local, mask-first is the
+better of the two. The two stores now agree, so that negative should not be
+carried forward on its own.
 
-The store order matters here too, in the opposite direction from
-`func_8004A764`: writing `voice` before `mask` gives 8, writing `mask` first
-gives 11, and the target emits `mask` first. Emission order is not source
-order for these two, and neither reading is guessable from the disassembly
-alone.
+Neither the `section(".data")` alias nor an `asm` label is needed. The matched
+sibling `func_8004A7C0` uses `D_8009B458` straight from `sound.h`, and doing
+the same here reaches the same 6 while keeping the source plain C, which is
+also what the attempt recorder requires.
 
-What remains is the same prologue scheduling as its sibling.
+What remains is positions 5 to 10, and the multiset there is already exact, so
+it is placement only. The target completes the `D_80011434` address before
+loading `D_8009B458` and emits `ori $a2` before `sw $ra`; this build loads
+`D_8009B458` first and sinks the `ori` one position later. `no_sched2` shows
+the natural order puts `sw $ra` first and the state load ahead of the table
+address, so sched2 is what moves them and the source is not choosing it.
+
+Crossed without improving on 6, on this base rather than the old one: five
+statement orders including the value local at every position, the mask inline
+against a named local introduced at four points, `s32`/`int` table element
+types, `s32`/`u32` for the value, three index spellings including the multiply
+that closed `func_80047788`, `u8 *` against `SDSecondaryState *` against
+`SpuVoiceAttr *` against no pointer local at all, and six profiles, across
+sweeps of 420, 624 and 64 variants.
+
+This is the same residual as `func_8004A764`, which also sits at 6 with the
+multiset exact, so one prologue insight would close both.
 
 ```c
 #include "../../src/types.h"
 #include "../../src/psyq/libspu.h"
+#include "../../src/game/sound.h"
 
 extern s32 D_80011434[];
-extern u8 *D_8009B458_d asm("D_8009B458") __attribute__((section(".data")));
+#define MASK (SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_ADSR1 | SPU_VOICE_ADSR_ADSR2)
 
 void func_8004A6F8(s32 index, u8 *tone)
 {
     u8 *p;
-
-    p = D_8009B458_d;
-    *(u32 *)(p + 0x4C0) = D_80011434[index];
-    *(u32 *)(p + 0x4C4) = SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_ADSR1 |
-                          SPU_VOICE_ADSR_ADSR2;
+    s32 value;
+    p = (u8 *)D_8009B458;
+    value = D_80011434[index];
+    *(u32 *)(p + 0x4C4) = MASK;
+    *(u32 *)(p + 0x4C0) = value;
     *(u16 *)(p + 0x4FA) = *(u16 *)(tone + 0x20);
     *(u16 *)(p + 0x4FC) = *(u16 *)(tone + 0x22);
     *(u32 *)(p + 0x4E4) = *(u16 *)(tone + 0x24);
