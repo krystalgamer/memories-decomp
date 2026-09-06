@@ -42,12 +42,6 @@ the applies and byte-verify once).
 | `0x8002CEE8` | `Main_RunDuel` | Matched body reads as disc-swap/lid-open state machine (D_8009B26C bit 0x40 gate), not a duel mode tick. Adjudicate by live trace: enter a duel and check ambience. |
 | `0x800218F0` | `Duel_MaybeEndOfDuel` | Matched body reads as per-frame duel-round setup/dispatch, not end-of-duel. Same adjudication: live duel trace. |
 
-## Unverified-body AI opcodes (excluded from descriptions until proven)
-
-| address | name | suspected role (IDB + family context, NOT verified) |
-|---|---|---|
-| `0x80072A48` | `AiScript_FindBestCombo` | Runs the full best-combo search (results feed the BestDiff trio's neighborhood). |
-
 ## From the SAVE flow (2026-08-31)
 
 | address | current name | observed | suspicion |
