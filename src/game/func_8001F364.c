@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "duel_card_layout.h"
+#include "duel_card.h"
 
 extern u16 D_8009B162;
 extern u16 D_8009B210;
@@ -9,11 +9,10 @@ extern u8 D_8009B1D5;
 extern s16 D_800F284A[];
 extern u8 D_8015C424[];
 extern u8 D_800E9FF0[];
-extern u8 D_801A7AD8[];
 
 void func_80022D94(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 u8 *func_8002C68C(s32 arg0);
-void func_80024954(u8 *arg0);
+void func_80024954(DuelCardRecord *arg0);
 void SD_SEPlayFull(s32 arg0);
 
 /* Four-state presentation sequencer on the D_8009B210 mode byte: mode 0
@@ -80,7 +79,7 @@ m1:
     *(u16 *)(e + 2) = *(u16 *)(p + 0x32);
     q34 = p + 0x34;
     *(d = (u16 *)(e + 4)) = *(u16 *)q34;
-    func_80024954(D_801A7AD8 + p[0x6A] * DUEL_CARD_RECORD_SIZE);
+    func_80024954(&D_801A7AD8[p[0x6A]]);
     SD_SEPlayFull(0x17);
     D_8009B210 = 2;
     }
