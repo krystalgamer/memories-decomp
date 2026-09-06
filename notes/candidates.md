@@ -32,31 +32,25 @@ right base to continue from rather than something to rewrite.
 
 ## `func_80046294` at 0x80046294
 
-`gcc_2_8_1_g8_split`, 151 of 151 instructions, opcode distance 0, 19 differing
+`gcc_2_8_1_g8_split`, 151 of 151 instructions, opcode distance 0, 17 differing
 positions.
 
-The instruction multiset is now exact, so no change of source shape can improve
-this; only register choice and two placement differences remain.
+The instruction multiset is exact. Three differences remain and all three are
+placement or register choice rather than shape:
 
-What moved it from 74 differing positions to 19, in order:
+- the `k` and `j` initialisers are emitted two instructions earlier than in the
+  target, which puts them before the jump table hoist rather than after;
+- `addu v1,v1,t0` sits one position earlier;
+- the `0x20` arm computes its address as `addu a0,a2,a1` where the target has
+  `addu a0,a1,a2`. `addu` is commutative and GCC canonicalises the operand
+  order, so this one is probably not reachable from C at all.
 
-- the sibling `func_800464F0.c` expression form for the copy, with a separate
-  `src_base` and the `+0x80` applied as its own statement, which took the
-  opcode distance from 2 to 0;
-- a `do { } while` back edge rather than a `goto` loop, which lets the jump
-  table base be hoisted out of the loop as the target does;
-- pinning the state pointer to `v1`, which the target reuses for `src_base`;
-- a separate state pointer for the `0x20` arm, pinned to `a1`.
-
-Both remaining differences are visible in an aligned diff. The target computes
-the tag address into `v0` and keeps the state pointer live in `v1`, while this
-build computes into `v1` and clobbers it. And the `k` and `j` initialisers are
-emitted two instructions earlier here than in the target, which places them
-before the jump table hoist rather than after.
-
-Measured and unhelpful: removing either pointer reload loses instructions
-outright; three spellings of the tag address all give the same 19; `gcc_2_8_1_g0_split`
-is far worse.
+Do not treat the following as settled, because each was measured against one
+configuration and two of them have already reversed once. Pinning the state
+pointer to `v1` helped when the copy used my own expression form and hurt once
+it used the sibling's, so it is unpinned here. Four declaration orders, three
+initialiser orders, four address spellings for the `0x20` arm, and seven
+profiles were crossed at 17 without moving it.
 
 ```c
 #include "../types.h"
@@ -84,7 +78,7 @@ extern void func_80049C40(s16 arg0);
 
 void func_80046294(void)
 {
-    register SoundState *p asm("v1");
+    SoundState *p;
     register s32 i asm("a3");
     register s32 j asm("a2");
     register s32 k asm("t0");
