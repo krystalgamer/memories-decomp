@@ -96,3 +96,230 @@ void func_80168AB4(u8 *w)
     o[0x6C] = 5;
 }
 ```
+
+## password `func_8016913C` at 0x8016913C
+
+`gcc_2_8_1_g0_split`, 380 of 382 instructions, 332 differing positions.
+
+Instructions 0 to 54 already agree. The first real difference is at 56, where
+the target fills the branch delay slot with the `lui` for `D_8016D401` and this
+build emits a `nop`, which shifts everything after it and accounts for most of
+the differing positions. The remaining work is that slot and the block layout,
+not the semantics.
+
+```c
+#include "../../src/types.h"
+
+typedef struct {
+    u8 pad0[48];
+    s16 f30;
+    s16 f32;
+    u8 pad34[2];
+    s16 f36;
+    s16 f38;
+    u8 pad3A[2];
+    u16 f3C;
+    u8 pad3E[56];
+    u8 f5E;
+    u8 pad5F;
+    s16 f60;
+} W;
+
+extern u16 D_8016D4D4;
+extern W *D_8016D404;
+extern s16 D_8016D434;
+extern s16 D_8016D436;
+extern s8 D_8016D401;
+extern u8 D_8016D402;
+extern u8 D_8016D426;
+extern s8 D_8016D42C;
+extern u16 *D_8016D418;
+extern u8 D_8016D400;
+extern s8 D_8016AB38[][15];
+extern u8 D_8016ABC0[][2];
+extern volatile u16 D_8009B3A4[];
+extern volatile u16 D_8009B394[];
+extern volatile u16 D_8009B398[];
+
+extern void func_80042A78(W *);
+extern void func_800429D8(W *);
+extern void func_8003FEE0(s32);
+extern s32 NameEntry_AdjustLength(s32, s32);
+extern u8 *TextBox_GetGlyphAt(s32, s32, s32);
+extern u8 *func_80168CDC(s32, u8 *);
+extern void func_80168708(void);
+extern void func_80168AB4(void);
+
+void func_8016913C(void)
+{
+    W *w;
+    s32 home;
+    s32 delta;
+    s32 n;
+    s32 cell;
+    s32 col;
+    s32 row;
+    s32 flag;
+    s32 x;
+    s32 y;
+    u8 *node;
+    u8 *obj;
+    s32 kind;
+    s32 second;
+    s32 gx;
+    s32 gy;
+    s32 d;
+
+    w = D_8016D404;
+    if ((D_8016D4D4 & 0x4000) != 0) {
+        home = w->f3C - 16;
+        delta = w->f5E - home;
+        if (delta != 0) {
+            w->f3C = (delta >= 0) ? (w->f3C + 2) : (w->f3C - 2);
+        }
+        func_80042A78(w);
+        n = w->f60 - 1;
+        w->f60 = n;
+        if ((s16)n != 0) {
+            return;
+        }
+        w->f3C = w->f5E + 16;
+        w->f30 = D_8016D434;
+        w->f32 = D_8016D436;
+        D_8016D4D4 &= 0xBFFF;
+    }
+    if ((D_8009B3A4[0] & 0xF000) != 0) {
+        if ((D_8009B3A4[0] & 0x2000) != 0) {
+            D_8016D401 = D_8016D401 + 1;
+            if (D_8016D401 >= 15) {
+                D_8016D401 = 0;
+            }
+        } else if ((D_8009B3A4[0] & 0x8000) != 0) {
+            D_8016D401 = D_8016D401 - 1;
+            if (D_8016D401 < 0) {
+                D_8016D401 = 14;
+            }
+        }
+        if ((D_8009B3A4[0] & 0x5000) != 0) {
+            if (D_8016D401 >= 11) {
+                flag = (D_8009B3A4[0] & 0x4000) != 0;
+                D_8016D401 = 11;
+                D_8016D402 = D_8016ABC0[(s8)D_8016D402][flag];
+            } else if ((D_8009B3A4[0] & 0x1000) != 0) {
+                D_8016D402 = D_8016D402 - 1;
+                if ((s8)D_8016D402 < 0) {
+                    D_8016D402 = 8;
+                }
+            } else {
+                D_8016D402 = D_8016D402 + 1;
+                if ((s8)D_8016D402 >= 9) {
+                    D_8016D402 = 0;
+                }
+            }
+            D_8016D426 = D_8016D402;
+        }
+    } else if ((D_8009B398[0] & 0x800) != 0) {
+        D_8016D401 = 14;
+        D_8016D402 = 8;
+    } else {
+        if ((D_8009B394[0] & 0xC0) == 0) {
+            if ((D_8009B394[0] & 0x20) != 0) {
+                if (NameEntry_AdjustLength(-1, 6) == 0) {
+                    func_8003FEE0(9);
+                }
+            }
+            return;
+        }
+        kind = 0;
+        second = kind;
+        row = (s8)D_8016D402;
+        col = (s8)D_8016D401;
+        n = ((u8 *)D_8016AB38)[row * 15 + col] & 0xF;
+        gx = kind;
+        if (n == 4) {
+            if (col != 11) {
+                d = 1;
+                gx = 20;
+            } else {
+                d = -1;
+            }
+            if (NameEntry_AdjustLength(d, 6) == 0) {
+                func_8003FEE0(9);
+            }
+            gy = 36;
+        } else if (n == 6) {
+            second = 2;
+            gy = 72;
+            D_8016D400 |= 0x40;
+        } else {
+            kind = 1;
+            gx = (s8)D_8016D401 * 20;
+            gy = ((s8)D_8016D402 * 9) << kind;
+            func_8003FEE0(41);
+        }
+        node = TextBox_GetGlyphAt(kind, gx, gy);
+        obj = func_80168CDC(kind, node);
+        obj[0x6C] = 1;
+        *(void **)(obj + 0x24) = func_80168708;
+        if (node == 0) {
+            *(u16 *)(obj + 8) &= 0xFFBF;
+        }
+        if (second != 0) {
+            *(s16 *)(obj + 0x48) = 20;
+            node = TextBox_GetGlyphAt(kind, gx + 20, gy);
+            obj = func_80168CDC(kind, node);
+            obj[0x6C] = 1;
+            *(void **)(obj + 0x24) = func_80168708;
+            *(s16 *)(obj + 0x48) = 0;
+        }
+        if (kind == 1) {
+            u16 *slot;
+            D_8016D400 |= 0x80;
+            slot = &D_8016D418[D_8016D42C];
+            if (node != 0) {
+                *slot = *(u16 *)node;
+            } else {
+                *slot = 0;
+            }
+            obj = func_80168CDC(1, node);
+            *(s16 *)(obj + 0x60) = 8;
+            *(void **)(obj + 0x24) = func_80168AB4;
+            *(s16 *)(obj + 0x46) = 204;
+            obj[0x6C] = 6;
+            *(s16 *)(obj + 0x44) = (D_8016D42C << 4) + 112;
+        }
+        return;
+    }
+    func_8003FEE0(47);
+    row = (s8)D_8016D402;
+    col = (s8)D_8016D401;
+    cell = D_8016AB38[row][col];
+    if (cell < 0) {
+        do {
+            col = col + cell;
+            D_8016D401 = col;
+            cell = D_8016AB38[row][(s8)col];
+        } while (cell < 0);
+    }
+    D_8016D402 = D_8016D426;
+    w->f5E = 0;
+    if (cell != 0) {
+        if ((cell & 0x40) != 0) {
+            w->f5E = 20;
+        }
+        D_8016D402 = cell & 0xF;
+    }
+    x = (s8)D_8016D401 * 20 + 22;
+    if ((s8)D_8016D401 >= 11) {
+        x = (s8)D_8016D401 * 20 + 42;
+    }
+    D_8016D434 = x;
+    y = (s8)D_8016D402 * 18 + 24;
+    func_800429D8(w);
+    D_8016D436 = y;
+    w->f60 = 8;
+    w->f36 = ((D_8016D434 - w->f30) << 8) / 8;
+    w->f38 = ((D_8016D436 - w->f32) << 8) / 8;
+    D_8016D4D4 |= 0x4000;
+}
+```
