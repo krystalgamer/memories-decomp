@@ -426,3 +426,15 @@ on the suspects side until proven.)
 | 0x800240B0 | `Duel_UpdateCardPickCursor` | Initializes and advances the field card-pick cursor, resolves its current row and column to a card record, publishes a successful pick, and manages the hold and teardown timers around that selection. |
 | 0x80026C6C | `Duel_CollectFieldCardsBelowType` | Collects occupied cards from one five-slot row on the current side whose packed card type is below the requested threshold, null-terminates the output list, and returns its count. |
 | 0x80026D18 | `Duel_CollectFieldCardsByType` | Collects occupied cards from one five-slot row on the current side that match the requested packed card type, accepting every type when the selector is negative, then null-terminates the list and returns its count. |
+
+## Batch: DuelEffect runtime helpers
+
+| address | name | description |
+|---|---|---|
+| 0x800255FC | `DuelEffect_UpdateFieldMarker` | Advances a marker across the current side's five field slots, waits for each marker animation, and updates the qualifying marked card before moving to the next slot. |
+| 0x8002892C | `DuelEffect_UpdateState` | Latches a newly selected effect state, dispatches its callback on later updates, and clears the state when its cancel bit is set. |
+| 0x8002E370 | `DuelEffect_MarkObjectIfActive` | Reverse-scans three effect records and sets object flag `0x2` when any record has a nonnegative signed marker. |
+| 0x80038798 | `DuelEffect_PlaySoundCommand` | Plays a normal 16-bit sound ID immediately, or uses a high-bit command to start the flagged sound path, read its follow-up value, and arm effect state `0x11`. |
+| 0x80039D64 | `DuelEffect_ProcessEntries` | Dispatches handlers for the channel's active effect entries and, when requested, compacts its bounded entry range before writing a new terminator. |
+| 0x8003B714 | `DuelEffect_InitEntryDefaultFlags` | Calls `DuelEffect_InitEntry` for one entry with the caller-supplied pointers and default flags value zero. |
+| 0x8003D46C | `DuelEffect_CreateChannel` | Resets the dialog choice, creates a fixed-size channel from the request's low 15 bits, stamps its sequence byte, and applies activation flags or the high-bit setup path. |
