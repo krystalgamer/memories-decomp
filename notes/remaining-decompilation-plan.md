@@ -50,6 +50,9 @@ evidence must resolve.
 - Preserve the original six-attempt ledgers as immutable history. Any
   post-terminal investigation must begin from one concrete new discriminator,
   remain bounded, and record its result before another variant is considered.
+- Treat each terminal history as a set of measurements against specific source
+  shapes, not proof of a general capability or compiler ceiling. Audit the full
+  history with `make review-deferred` before relying on its explanation.
 - Record an exact post-terminal pure-C resolution as
   `post_terminal_resolution` evidence; this one-shot success record does not
   rewrite or append speculative variants to the original six-attempt

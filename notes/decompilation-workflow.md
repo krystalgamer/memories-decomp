@@ -145,6 +145,56 @@ matching work must document genuinely new evidence before reconsidering a
 deferred function. PsyQ CRT/SDK functions are not decompilation candidates and
 must never be added to `attempts.csv`.
 
+Review deferred histories without reopening their canonical attempt budgets:
+
+```sh
+make review-deferred
+make review-deferred \
+  REVIEW_DEFERRED_ARGS="--contains scheduler --limit 20 --format json"
+```
+
+The CSV view shows the last recorded result plus measured counts for distinct
+compilers, source paths, and tool-error attempts. Those counts expose histories
+that spent variants without testing a new source representation. JSON includes
+every canonical attempt so interacting changes can be compared together. This
+command is a research queue, not permission to append a seventh speculative
+attempt. A post-terminal candidate still requires one concrete new
+discriminator and can only be recorded after an exact match.
+
+### Hypothesis audit before post-terminal work
+
+Treat attempt records as measurements made against one source shape, not as
+general compiler laws. Before reconsidering a deferred function:
+
+1. Separate observation from explanation. Record the exact instruction,
+   relocation, section, or size difference first. Label its proposed cause as
+   a hypothesis unless independent evidence establishes it.
+2. Read the complete history together. A change that failed in one surrounding
+   source does not establish that it fails after another structural change.
+   Test coupled changes when they alter the same dependency, live range, or
+   block layout.
+3. Reconsider the representation, not only statement order. Recheck
+   prototypes, signedness, widths, aggregate dimensions, aliasing, loop form,
+   and ownership before tuning a near-match. Preserve the closest reproduction
+   under `tmp/`, but do not let it become the only source model considered.
+4. Distinguish source, compiler, and layout hypotheses. Compiler-generated
+   jump tables or initializers that cannot be placed by the current manifests
+   require a build/layout task; more function-local permutations are not a
+   meaningful test of that hypothesis.
+5. Compare compiler behavior with controlled variables. A profile comparison
+   that changes several flags at once does not identify which flag caused the
+   result, and a failed set of source permutations does not prove a compiler
+   ceiling.
+6. Generalize only from repeated evidence. Promote a blocker into shared
+   guidance after independent examples reproduce it; otherwise preserve the
+   narrow scope in the attempt summary and candidate notes.
+
+Two overlay matches demonstrate why this discipline matters:
+`func_80184030` required two individually unsuccessful changes together, while
+`func_8018338C` recovered most apparent address and scheduling tricks by fixing
+its declarations. The resident matching-evidence note likewise records
+post-terminal matches unlocked by corrected profiles and source structure.
+
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:
 
