@@ -4372,19 +4372,19 @@
       "address": "0x8004B910",
       "profile": "gcc_2_8_1_g0",
       "size": "0x80",
-      "source": "src/game/sound_event_shutdown.c"
+      "source": "src/game/sound_event_runtime.c"
     },
     {
       "address": "0x8004B990",
       "profile": "gcc_2_8_1_g0",
       "size": "0x50",
-      "source": "src/game/sound_event_shutdown.c"
+      "source": "src/game/sound_event_runtime.c"
     },
     {
       "address": "0x8004B9E0",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC0",
-      "source": "src/game/func_8004B9E0.c"
+      "source": "src/game/sound_event_runtime.c"
     },
     {
       "address": "0x8004BAA0",
