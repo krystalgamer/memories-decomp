@@ -101,19 +101,25 @@ void func_80168AB4(u8 *w)
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 382 of 382 instructions, 311 differing positions, opcode
-distance 26.
+`gcc_2_8_1_g0_split`, 387 instructions against 382, 326 differing positions,
+opcode distance 19.
 
-The digit-walk loop is written with an explicit goto rather than as a do/while.
-GCC 2.8.1 with -msplit-addresses hoists the high half of any global address read
-inside a loop it recognises into a callee-saved register, and the target does not
-do that. The goto form is not seen as a loop by the front end, so the hoist does
-not happen: it takes the length from 378 to the target's 382 and the missing lui
-count from five to three.
+The three-way dispatch on the cell's low nibble is a `switch`, not an `else if`
+chain. The target branches *to* each case body, with `beq` against 4 and then
+against 6 at indices 252 and 255, and falls through to the default; an `else if`
+chain inlines the first body and branches away when it does not match. Writing
+it as a switch takes the distance from 26 to 19.
 
-The three that remain are the select branch's reads of D_8016D401, D_8016D402 and
-D_8016AB38, which the target loads separately on that path while the compiler
-hoists them above the branch so one materialisation serves both.
+The digit-walk loop is still an explicit goto rather than a do/while, which is
+what stops the compiler hoisting the high half of a global address read inside a
+loop it recognises.
+
+Note the trade: the `else if` form reaches the target's exact 382 instructions
+while this one is five over at 387. Distance is the primary metric and 19 beats
+26, but if a later pass finds the five, the count is already known reachable.
+
+Measured and inert against both forms: all sixteen combinations of declaring the
++0x5E field, D_8016D400, D_8016D402 and D_8016D426 signed.
 
 ```c
 #include "../../src/types.h"
@@ -284,7 +290,8 @@ select:
     col = (s8)D_8016D401;
     n = ((u8 *)D_8016AB38)[row * 15 + col] & 0xF;
     gx = kind;
-    if (n == 4) {
+    switch (n) {
+    case 4:
         if (col != 11) {
             d = 1;
             gx = 20;
@@ -295,15 +302,18 @@ select:
             func_8003FEE0(9);
         }
         gy = 36;
-    } else if (n == 6) {
+        break;
+    case 6:
         second = 2;
         gy = 72;
         D_8016D400 |= 0x40;
-    } else {
+        break;
+    default:
         kind = 1;
         gx = (s8)D_8016D401 * 20;
         gy = ((s8)D_8016D402 * 9) << kind;
         func_8003FEE0(41);
+        break;
     }
     node = TextBox_GetGlyphAt(kind, gx, gy);
     obj = func_80168CDC(kind, node);
