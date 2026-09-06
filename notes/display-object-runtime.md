@@ -5,23 +5,33 @@ Matching initialization, allocation, list-management, update, and submission
 functions establish the pool geometry and the seven independent processing
 lists without requiring semantic names for the globals.
 
+`src/game/display_object_layout.h` now centralizes the cross-function
+constants: `DISPLAY_OBJECT_RECORD_SIZE` is `0x70`,
+`DISPLAY_OBJECT_POOL_CAPACITY` is 96,
+`DISPLAY_OBJECT_RESERVED_CAPACITY` is 16,
+`DISPLAY_OBJECT_FLAG_ALLOCATED` is `0x80`, and
+`DISPLAY_OBJECT_RENDERABLE_MASK` is `0xC0`. The header deliberately defines
+only shared geometry and flags, not a complete display-object structure.
+
 ## Pool and list geometry
 
 `DisplayObject_ResetPool` clears the field at slot offset `+0x08` across 96
-records with a `0x70`-byte stride. It also initializes seven signed 16-bit
-entries at `D_800EFE38` and seven companion entries at `D_800F2878` to `-1`.
+records with the `DISPLAY_OBJECT_RECORD_SIZE` stride. It also initializes
+seven signed 16-bit entries at `D_800EFE38` and seven companion entries at
+`D_800F2878` to `-1`.
 
 The two allocation scans divide the pool:
 
 | Function | Slots scanned | Role established by the scan |
 |---|---:|---|
 | `func_8004006C` | `0-95` | Searches the complete 96-slot pool. |
-| `func_8004002C` | `16-95` | Searches the 80-slot general-use subrange beginning at `D_800F0548`. |
+| `func_8004002C` | `16-95` | Skips the 16 reserved slots and searches the 80-slot general-use subrange beginning at `D_800F0548`. |
 
-Both return the first slot whose `+0x08` flags do not contain bit `0x80`.
-`func_800400AC` initializes a newly claimed slot with flags `0x00C0`, so bit
-`0x80` marks allocation and the render/update passes require the complete
-`0xC0` mask before submitting visible content.
+Both return the first slot whose `+0x08` flags do not contain
+`DISPLAY_OBJECT_FLAG_ALLOCATED`. `func_800400AC` initializes a newly claimed
+slot with `DISPLAY_OBJECT_RENDERABLE_MASK`, whose `0x80` component marks
+allocation. Render and update passes require the complete `0xC0` mask before
+submitting visible content.
 
 Each slot begins with two signed 16-bit links at `+0x00` and `+0x02`.
 `func_800400AC` inserts a slot at the head selected by its list key, records
@@ -42,8 +52,8 @@ Matching consumers establish these heads and pass shapes:
 |---:|---:|---|---|
 | `0` | `D_800EFE38` | `func_80040CAC` | Runs each slot's `+0x24` callback without a submission step. |
 | `1` | `D_800EFE3A` | not yet identified in matching C | The dispatcher still treats it as one of the seven lists. |
-| `2` | `D_800EFE3C` | `func_80040814` | Runs the callback, then `func_80041D60` and `func_8004158C` for slots with flags `0xC0`. |
-| `3` | `D_800EFE3E` | `func_80040BF8` | Runs the callback, then submits through `func_800408D0` for slots with flags `0xC0`. |
+| `2` | `D_800EFE3C` | `func_80040814` | Runs the callback, then `func_80041D60` and `func_8004158C` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
+| `3` | `D_800EFE3E` | `func_80040BF8` | Runs the callback, then submits through `func_800408D0` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
 | `4` | `D_800EFE40` | `func_80040DD8` | Builds and submits the `0x38` packet form described below. |
 | `5` | `D_800EFE42` | `func_80041068` | Builds and submits the larger `0x3C` packet form described below. |
 | `6` | `D_800EFE44` | `func_80040D14` | Runs the callback, then invokes the optional secondary callback at `+0x4C`. |
@@ -56,8 +66,10 @@ without losing the walk's continuation.
 
 `func_80040DD8` and `func_80041068` share the same high-level path:
 
-1. Walk a `0x70`-byte slot list and run each `+0x24` callback.
-2. Require `(flags_08 & 0xC0) == 0xC0`.
+1. Walk the slot list with `DISPLAY_OBJECT_RECORD_SIZE` and run each `+0x24`
+   callback.
+2. Require `(flags_08 & DISPLAY_OBJECT_RENDERABLE_MASK) ==
+   DISPLAY_OBJECT_RENDERABLE_MASK`.
 3. Copy slot geometry into scratchpad packet storage at `0x1F800344`.
 4. Subtract `gGraphics_sViewportX` and `gGraphics_sViewportY` unless flags bit
    `0x08` is set.
@@ -98,6 +110,7 @@ active command and snaps both viewport coordinates to the exact targets.
 
 The counts, strides, links, flags, list heads, callback order, scratchpad
 addresses, camera adjustment, clip gate, packet bytes, and submission
-arguments above come from local matching C. The slot fields and list globals
+arguments above come from local matching C. Shared pool geometry and flag
+names now live in `display_object_layout.h`; slot fields and list globals
 remain address- or offset-based because their complete ownership and original
 type names are not yet established.
