@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 
 extern u8 D_8009B428;
 extern short D_8009B098[];
@@ -8,8 +10,6 @@ extern void func_80043328(void);
 extern void File_RequestAsyncTransfer(int, int, int, int, void *, int, int);
 extern void func_800137E4(void);
 extern void func_8007E910(int, int);
-extern int func_8007E9B0(int, int, int, int, int, int);
-extern void func_8007E8D0(int);
 extern void func_80047AD0(int);
 extern void func_80012D84(int);
 extern void func_80015780(void);
@@ -40,8 +40,8 @@ void func_80043960(int mode)
         int display;
         func_800137E4();
         func_8007E910(0x2C0, 0);
-        display = func_8007E9B0(0x10, 0x10, 0x140, 0xF0, 0, 1000);
-        func_8007E8D0(display);
+        display = FntOpen(0x10, 0x10, 0x140, 0xF0, 0, 1000);
+        SetDumpFnt(display);
         D_8009B098[0] = 0;
         func_80047AD0(2);
         func_80012D84(4);
@@ -56,7 +56,7 @@ void func_80043960(int mode)
     func_8004365C(0, object);
     func_800438B8(4);
     func_8007E910(0x2C0, 0);
-    func_8007E8D0(func_8007E9B0(0x10, 0x10, 0x140, 0xF0, 0, 1000));
+    SetDumpFnt(FntOpen(0x10, 0x10, 0x140, 0xF0, 0, 1000));
     D_8009B098[0] = 0;
     func_8007E350();
     first = object;

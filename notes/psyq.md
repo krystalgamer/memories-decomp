@@ -89,6 +89,10 @@ symbol review.
 | `0x8007E7F0` | `CdControlB` | Submits the three-argument CD command and blocks until the internal completion code is `2`. |
 | `0x8007E860` | `CdReadyCallback` | Replaces and returns the callback invoked with a ready-event status and result pointer. |
 | `0x8007E880` | `CdSyncCallback` | Replaces and returns the callback invoked from the command-completion path. |
+| `0x8007E8D0` | `SetDumpFnt` | Applied at offset zero of the unique Psy-Q 4.6 `LIBGPU.LIB/FONT.OBJ` signature; matching setup paths select the debug-font stream returned by `FntOpen`. |
+| `0x8007E9B0` | `FntOpen` | Applied at offset `0xE0` of the unique `FONT.OBJ` signature; matching callers open a 320x240 on-screen debug text window. |
+| `0x8007EC68` | `FntFlush` | Applied at offset `0x398` of the unique `FONT.OBJ` signature. |
+| `0x8007EF84` | `FntPrint` | Applied at offset `0x6B4` of the unique `FONT.OBJ` signature; the matching duel debug helper prints its effect values and divider strings. |
 | `0x8007F350` | `ResetGraph` | Anchored by GPU `sys.c` evidence and the documented graph-reset contract. |
 | `0x8007F6CC` | `DrawSync` | Applied Psy-Q 4.6 identity; `model_handler_registry.c` waits for queued GPU drawing after dispatching a model primitive handler. |
 | `0x8007F978` | `LoadImage` | Applied Psy-Q identity; `func_800249E0` uses the tracked `RECT *` / `u32 *` prototype for two image transfers. |
