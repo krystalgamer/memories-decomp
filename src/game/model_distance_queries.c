@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 #include "model.h"
 
@@ -13,7 +14,6 @@ extern u8 D_800F3A10[];
 extern u16 D_800F56F0[];
 
 extern void func_8008E3D0(void *, s32, s32);
-extern long SquareRoot0(long);
 
 s32 func_8005A1F4(s32 index)
 {
