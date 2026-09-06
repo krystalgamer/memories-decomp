@@ -6,7 +6,7 @@ typedef struct {
 } MainMenuSortEntry;
 
 extern s16 D_801D4D8E[];
-extern s32 func_8008E590(void);
+extern s32 rand(void);
 
 s32 func_80184254(MainMenuSortEntry *a, MainMenuSortEntry *b)
 {
@@ -21,7 +21,7 @@ s32 func_80184254(MainMenuSortEntry *a, MainMenuSortEntry *b)
     idA = a->id;
     idB = b->id;
     if (idA == idB) {
-        if (func_8008E590() & 1) {
+        if (rand() & 1) {
             result = 1;
         } else {
             result = -1;
