@@ -1067,25 +1067,34 @@ s32 CampaignMap_UpdateLocationTransition(void)
 
 ## password `func_8016A37C` at 0x8016A37C
 
-`gcc_2_8_1_g0_split`, 368 instructions against 365, 221 differing positions,
-opcode distance 19.
+`gcc_2_8_1_g0_split`, 368 instructions against 365, 167 differing positions,
+opcode distance 13.
 
-A fresh reconstruction. The row's recorded 365 of 365 with five differing
-positions was never stored and is gone; this is the first reproducible state.
+A reconstruction. The row's recorded 365 of 365 with five differing positions was
+never stored and is gone; this is the reproducible replacement.
 
-Two things are already settled and both cost heavily if got wrong. The five-way
-dispatch is a `switch` and its range check must not be duplicated: writing an
-explicit `if (state >= 5) return;` in front of it emits a second `slti` and
-branch that the target does not have. The starchip counter is unsigned; signed
-gives `mult` and `sra` where the target has `multu` and `srl`, which is worth
-eight instructions across the four division-by-constant chains.
+Six things are settled and each was worth measuring.
 
-Together those two take the build from 375 instructions at distance 50 to 368
-at 19.
+The five-way dispatch is a `switch` and its range check must not be duplicated:
+an explicit `if (state >= 5) return;` in front of it emits a second `slti` and
+branch the target does not have.
 
-The jump table reproduces: the dispatch matches the target instruction for
-instruction from the `lui` of the table base through `sll`, `addu`, `lw` and
-`jr`.
+The starchip counter is unsigned; signed gives `mult` and `sra` where the target
+has `multu` and `srl`.
+
+State 1 falls through into state 2. Its `case` has no `break`, and the early
+exits inside it need an explicit `else` around the return; the fallthrough
+without the else is worse than either alternative.
+
+The cursor's decrement arm stores the new index before testing it, the same way
+the increment arm does, which puts the store in the branch delay slot. Testing
+first costs 127 differing positions and nothing on the distance.
+
+The two message-box calls in state 2 are one call with the id chosen first, and
+the comparison selects 227 when the pool is not below the cost.
+
+`func_8002CCA8` takes an argument, the card id plus 1024, the same form the
+later `func_8002CCE4` call uses. Declaring it `void` loses that `addiu`.
 
 ```c
 #include "../../src/types.h"
@@ -1138,7 +1147,7 @@ extern void Fade_WaitOut(void);
 extern s32 Password_LookupCardID(void);
 extern void func_80029164(s32, s32);
 extern void func_8016A02C(s32);
-extern s32 func_8002CCA8(void);
+extern s32 func_8002CCA8(s32);
 extern void Password_CreateMessageBox(s32, s32);
 extern void func_8002CCE4(s32);
 extern void func_80021894(s32);
@@ -1156,6 +1165,7 @@ void func_8016A37C(void)
     u32 step;
     u16 flags;
     u16 card;
+    s32 msg;
 
     func_80039794();
     if ((D_8016D420->f108 & 0x40) != 0) {
@@ -1177,11 +1187,11 @@ void func_8016A37C(void)
                 }
             } else {
                 index = D_8016D428 - 1;
+                D_8016D428 = index;
                 if (index < 0) {
                     D_8016D428 = 0;
                     return;
                 }
-                D_8016D428 = index;
             }
             SD_SEPlayFull(47);
             cursor = D_8016D420;
@@ -1247,8 +1257,10 @@ void func_8016A37C(void)
             D_8016D418->f8 &= 0xFFFB;
             SD_SEPlayFull(12);
             D_8016D424 = 2;
+        } else {
+            return;
         }
-        return;
+        /* fallthrough */
     case 2:
         flags = D_8016D424;
         if ((flags & 0x8000) == 0) {
@@ -1256,15 +1268,16 @@ void func_8016A37C(void)
             stats = D_801A8000;
             D_801D5608.lo = stats[D_8016D49C * 2];
             D_801D5608.hi = D_8016D49C;
-            if (func_8002CCA8() == 0) {
+            if (func_8002CCA8(D_8016D49C + 1024) == 0) {
                 Password_CreateMessageBox(229, 128);
                 return;
             }
             if (D_801D07E0 < stats[D_8016D49C * 2]) {
-                Password_CreateMessageBox(227, 0);
+                msg = 227;
             } else {
-                Password_CreateMessageBox(228, 0);
+                msg = 228;
             }
+            Password_CreateMessageBox(msg, 0);
             D_8016D424 |= 0x4000;
             return;
         }
