@@ -135,6 +135,8 @@ symbol review.
 | `0x8008FDB4` | `DecDCTout` | Applied Psy-Q 4.6 identity at offset `0x1D4` of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
 | `0x8008FDD4` | `DecDCTinSync` | Applied Psy-Q 4.6 identity at offset `0x1F4` of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
 | `0x8008FE10` | `DecDCToutSync` | Applied Psy-Q 4.6 identity at offset `0x230` of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
+| `0x8008FE58` | `DecDCTinCallback` | Applied Psy-Q 4.6 identity at offset `0x278` of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
+| `0x8008FE7C` | `DecDCToutCallback` | Applied Psy-Q 4.6 identity at offset `0x29C` of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
 | `0x80090270` | `DecDCTvlcSize2` | Applied Psy-Q 4.6 identity at offset zero of the unique 896-byte `LIBPRESS.LIB/VLC_C.OBJ` signature. |
 | `0x800902A0` | `DecDCTvlc2` | Applied Psy-Q 4.6 identity at offset `0x30` of the unique 896-byte `LIBPRESS.LIB/VLC_C.OBJ` signature. |
 | `0x8007FAF0` | `ClearOTag` | Ordering-table initialization behavior. |

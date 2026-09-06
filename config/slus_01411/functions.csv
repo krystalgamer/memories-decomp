@@ -1781,8 +1781,8 @@ address,size,name,status,module,notes
 0x8008FDB4,0x20,DecDCTout,sdk_asm,psyq/sdk,Identified at offset 0x1D4 of the unique Psy-Q 4.6 LIBPRESS.LIB/LIBPRESS.OBJ signature.
 0x8008FDD4,0x3C,DecDCTinSync,sdk_asm,psyq/sdk,Identified at offset 0x1F4 of the unique Psy-Q 4.6 LIBPRESS.LIB/LIBPRESS.OBJ signature.
 0x8008FE10,0x48,DecDCToutSync,sdk_asm,psyq/sdk,Identified at offset 0x230 of the unique Psy-Q 4.6 LIBPRESS.LIB/LIBPRESS.OBJ signature.
-0x8008FE58,0x24,func_8008FE58,sdk_asm,psyq/sdk,
-0x8008FE7C,0x24,func_8008FE7C,sdk_asm,psyq/sdk,
+0x8008FE58,0x24,DecDCTinCallback,sdk_asm,psyq/sdk,Identified at offset 0x278 of the unique Psy-Q 4.6 LIBPRESS.LIB/LIBPRESS.OBJ signature.
+0x8008FE7C,0x24,DecDCToutCallback,sdk_asm,psyq/sdk,Identified at offset 0x29C of the unique Psy-Q 4.6 LIBPRESS.LIB/LIBPRESS.OBJ signature.
 0x8008FEA0,0xF0,func_8008FEA0,sdk_asm,psyq/sdk,
 0x8008FF90,0x90,func_8008FF90,sdk_asm,psyq/sdk,
 0x80090020,0x8C,func_80090020,sdk_asm,psyq/sdk,
