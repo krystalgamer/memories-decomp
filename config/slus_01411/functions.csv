@@ -128,7 +128,7 @@ address,size,name,status,module,notes
 0x80019BD0,0xF8,func_80019BD0,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80019CC8,0x50,func_80019CC8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80019D18,0x13B4,func_80019D18,unmatched_asm,game,
-0x8001B0CC,0xA4,func_8001B0CC,matching_c,game,"Post-terminal resolution; the terminal six were all G8 profiles, which put D_800F2856 in small data and truncate; gcc_2_8_1_g0_split plus an s16 return reproduces exact linked bytes and relocations."
+0x8001B0CC,0xA4,func_8001B0CC,matching_c,game,"Matched in PR #826 without a post_terminal_resolution ledger row; the terminal six were all G8 profiles, which put D_800F2856 in small data and truncate; gcc_2_8_1_g0_split plus an s16 return reproduces exact linked bytes and relocations."
 0x8001B170,0x610,func_8001B170,unmatched_asm,game,
 0x8001B780,0x2C,func_8001B780,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8001B7AC,0x10C,func_8001B7AC,matching_c,game,Pure-C inline refinement matched the full executable.
