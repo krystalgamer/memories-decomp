@@ -6,7 +6,7 @@ extern u8 D_8015C424[];
 extern u32 D_8009B0F4;
 
 extern void Util_CopyWords(void *, void *, s32);
-extern void func_8008E400(void *, s32, s32, void *);
+extern void qsort(void *, s32, s32, void *);
 extern s32 Util_CompareS16(s16 *, s16 *);
 extern s32 func_800245EC(s32, s32);
 extern u8 *func_80014EEC(s32, u8 *, s32, s32, void *, s32, s32);
@@ -23,7 +23,7 @@ void func_80024734(void)
     s32 value;
 
     Util_CopyWords(source, source - 0xA4, 0xA0);
-    func_8008E400(source, 0x50, 2, Util_CompareS16);
+    qsort(source, 0x50, 2, Util_CompareS16);
 
     output = source + 0xA4;
     previous = 0;

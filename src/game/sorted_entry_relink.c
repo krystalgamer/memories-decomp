@@ -23,7 +23,7 @@ void func_800355C8(void)
     if (count >= 2) {
         s32 (*compare)(u32 *, u32 *) = func_80035598;
 
-        func_8008E400(entry, count, 8, compare);
+        qsort(entry, count, 8, compare);
     }
 
     sorted_count = D_8009B308;

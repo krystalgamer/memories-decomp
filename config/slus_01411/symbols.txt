@@ -458,4 +458,5 @@ RotAverage3 = 0x80087A50; // type:func
 RotAverage4 = 0x80087AB0; // type:func
 ratan2 = 0x800899A0; // type:func
 GsSetRefView2 = 0x8008AD50; // type:func
+qsort = 0x8008E400; // type:func
 sprintf = 0x8008F200; // type:func

@@ -5,3 +5,4 @@ gMain_bMenuID = 0x80184594;
 // generated assembly, and converting func_80180B4C to C removed the module's
 // last such reference to the ordering table root.
 D_800E9D90 = 0x800E9D90;
+qsort = 0x8008E400; // type:func
