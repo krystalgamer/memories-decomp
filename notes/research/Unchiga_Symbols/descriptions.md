@@ -461,3 +461,11 @@ on the suspects side until proven.)
 | 0x80181E30 | `MainMenu_FinishValueSetup` | Writes both edited values and the final toggle back to their callers, releases all five setup objects, and clears the screen callback. |
 | 0x80181EEC | `MainMenu_CountDecimalDigits` | Counts a nonnegative value's decimal digits by repeated division by ten, returning one digit for zero. |
 | 0x80181F20 | `MainMenu_StartValueWidgetTween` | Records a value widget's current position, assigns its index and target mode, installs the tween callback, and starts its ten-update timer. |
+
+## Batch: Free Duel cursor sparkles
+
+| address | name | description |
+|---|---|---|
+| 0x801681B4 | `FreeDuel_SpawnSparkle` | Allocates and configures one display object for the Free Duel cursor-trail sparkle, using the shared sparkle asset and returning the new object. |
+| 0x8016899C | `FreeDuel_GetSparkleSlot` | Reverse-scans the 16-entry sparkle pointer pool and returns the highest-index empty slot, or null when every slot is occupied. |
+| 0x801689D4 | `FreeDuel_UpdateSparkle` | Initializes newly active sparkles to a 16-update grey fade, subtracts four from every colour channel per update, then releases the object and clears its pool slot. |
