@@ -417,3 +417,12 @@ on the suspects side until proven.)
 | 0x800320BC | `BuildDeck_AddCard` | Finds the first free entry in the 40-card Build Deck list, fills it with the selected card's ID, type, ATK, and DEF, then refreshes the deck's derived state. |
 | 0x800338E4 | `BuildDeck_UpdatePaneTransition` | Initializes and advances the 16-tick horizontal slide between Build Deck panes, plays sound `30`, snaps the viewport to its target, and records the completed pane. |
 | 0x80040390 | `DisplayObject_ResetPool` | Clears the allocation field in all 96 display-object slots, resets both shared counters, and marks the head and companion entries of all seven processing lists empty. |
+
+## Batch: duel card-object and field collectors
+
+| address | name | description |
+|---|---|---|
+| 0x80018080 | `Duel_ApplyCardObjectFlags` | Rebuilds a duel card object's face-down, defense-position, and normal/used colour state from its card record, refreshes the object, and clears its image-resource byte unless record flag `0x2000` preserves it. |
+| 0x800240B0 | `Duel_UpdateCardPickCursor` | Initializes and advances the field card-pick cursor, resolves its current row and column to a card record, publishes a successful pick, and manages the hold and teardown timers around that selection. |
+| 0x80026C6C | `Duel_CollectFieldCardsBelowType` | Collects occupied cards from one five-slot row on the current side whose packed card type is below the requested threshold, null-terminates the output list, and returns its count. |
+| 0x80026D18 | `Duel_CollectFieldCardsByType` | Collects occupied cards from one five-slot row on the current side that match the requested packed card type, accepting every type when the selector is negative, then null-terminates the list and returns its count. |
