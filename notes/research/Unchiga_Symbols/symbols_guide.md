@@ -246,6 +246,7 @@ Mode slot 6. An 8×5 opponent grid (Build Deck tile at top-left); the cursor roa
 | `gNameEntry_bColumn / Row` (module: name_entry) | 0x8016D401 / 02 | The crosshair on a 15×9 letter grid, wrapping both ways; pixels are col×20+22, row×18+24. |
 | `gNameEntry_nNameLen / gNameEntry_pName` (module: name_entry) | 0x8016D42C / 0x8016D418 | Characters typed (cap 5) and the pointer to the save-block name. |
 | `TextBox_GetGlyphAt` (module: name_entry) | 0x8016868C | How a letter is picked: the grid is itself a text box, so X looks up the glyph under the cursor and takes its Shift-JIS code. No character table anywhere. |
+| `NameEntry_AdjustLength` (module: name_entry) | 0x8016909C | Changes the pending name length within 0–5, moves the caret target to `107 + 16 * length`, starts its tween, and plays the edit sound. |
 | `NameEntry_UpdateDialog` (module: name_entry) | 0x80169734 | Builds the “Your NAME is …” box from a pending string id and polls `gDialog_bChoice`: NO returns to typing, YES leaves the screen. |
 | `NameEntry_PollCompletion` (module: name_entry) | 0x80169C08 | Updates the confirmation dialog and returns the module's completion bit, as polled by both `Main_RunNameEntry` and `NameEntry_Main`. |
 | `NameEntry_BuildStarterDeck` (module: name_entry) | 0x8016A930 | Draws the new game's 40-card starter deck from seven weighted rows, retries fourth copies, and marks each accepted card seen in the Library. |
