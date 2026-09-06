@@ -2932,3 +2932,37 @@ committed one level deeper. A normalisation table is itself an assumption
 about the data, and an entry that is right most of the time still fabricates
 differences on the cases where it is wrong. Anything mapping a pseudo-op to a
 real one needs checking against the encodings rather than trusting the name.
+
+## Correction: classify opcodes from encodings, not printed names
+
+The alias-normalisation rule recorded above needs replacing rather than
+patching. Two corrections in a row on the same idea is the signal that the
+idea itself was wrong.
+
+The first correction removed li from the alias table, because li assembles to
+addiu or ori depending on the value. That left li unmapped, which is worse:
+the tool then counted it as an opcode in its own right and inflated every
+distance involving one.
+
+Measured on func_800577B0 (0x800577B0, 209 instructions), the same candidate
+object, three versions of the same instrument:
+
+    alias table with li mapped to addiu     distance 52
+    alias table with li removed             distance 52, for a different reason
+    classified from the encoding            distance 0
+
+Distance zero was the truth. The candidate has the target's exact opcode
+multiset and differs only in register choice and scheduling, which the
+positional diff reports separately as 82.
+
+The fix is to stop reading mnemonics. Every MIPS instruction carries its
+opcode in bits 31..26, with the SPECIAL functions in bits 5..0, and both the
+splat listing and objdump print the raw encoding next to the text. Classifying
+from those bits needs no table of aliases and cannot disagree with the
+assembler about what li meant this time.
+
+The general lesson is not about MIPS. A normalisation table sits between the
+measurement and the thing being measured, and it is exactly as trustworthy as
+its least accurate entry. When a derived name and a raw encoding are both
+available, deriving from the encoding removes a whole class of quiet errors
+rather than fixing one of them.
