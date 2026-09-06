@@ -178,7 +178,7 @@
       "address": "0x80014C40",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1DC",
-      "source": "src/game/func_80014C40.c"
+      "source": "src/game/file_transfer_control.c"
     },
     {
       "address": "0x80014E1C",

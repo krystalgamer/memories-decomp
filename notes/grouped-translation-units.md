@@ -50,7 +50,7 @@ source grouping.
 | `src/game/file_stream.c` | `gcc_2_8_1_g8` | File-state initialization (`0x80013898`), `File_GetPosition`, and three transfer setup helpers through `0x80013A94` |
 | `src/game/file_transfer_setup.c` | `gcc_2_8_1_g8_split` | Two contiguous transfer-descriptor setup helpers at `0x80013B04` and `0x80013B68` |
 | `src/game/file_cd_transfer.c` | `gcc_2_8_1_g8_split` | Eight asynchronous disc-transfer callbacks and helpers from `0x800140A0` through `File_ActivateTransfer` (`0x800143DC`) |
-| `src/game/file_transfer_control.c` | `gcc_2_8_1_g8_split` | Contiguous transfer-service and object-state callbacks at `0x80014A5C` and `0x80014B30` |
+| `src/game/file_transfer_control.c` | `gcc_2_8_1_g8_split` | Three contiguous transfer-service, object-state, and descriptor-dispatch helpers from `0x80014A5C` through `func_80014C40` |
 | `src/game/file_transfer_flags.c` | `gcc_2_8_1_g8` | Six contiguous active/secondary transfer-request and cancellation helpers from `0x80014E1C` through `0x80015078` |
 | `src/game/movie_stream_requests.c` | `gcc_2_8_1_g0_split` | Indexed `MOVIE.STR` range setup (`0x8005C388`) and named-file stream setup (`0x8005C464`) |
 | `src/game/file_cd_helpers.c` | `gcc_2_8_1_g0` | `File_Exists` (`0x8005C4F0`) and two contiguous low-level CD state/wait helpers through `0x8005C568` |
