@@ -10,9 +10,14 @@ verified:
 src/overlays/<module>/
 ```
 
+When a screen has a verified package but its executable phase is shared with
+another module, a documentation-only directory may record the screen-specific
+entry points without duplicating matching source.
+
 Use the stable module names recorded in
 [`notes/overlays/module-crosswalk.md`](../../notes/overlays/module-crosswalk.md),
-such as `free_duel`, `password`, `overworld`, `main_menu`, and `name_entry`.
+such as `free_duel`, `password`, `overworld`, and `main_menu`; `name_entry`
+is the documented shared-image exception.
 Do not create a module directory from an address alone: different overlays
 reuse the same VRAM ranges, especially `0x80168xxx`, so an address-based source
 path would merge unrelated code.
@@ -42,5 +47,6 @@ Initialized module directories:
   reuse the same runtime code range.
 - [`main_menu/`](main_menu/) records the verified SU phase and keeps the
   second, unidentified SU image outside the module scope.
-- [`name_entry/`](name_entry/) records the verified WA screen bank and known
-  symbol range while leaving the unresolved archive package unassigned.
+- [`name_entry/`](name_entry/) records the verified WA package and entry
+  points into the front-end image shared with `password/`; matching source is
+  not duplicated under both directories.
