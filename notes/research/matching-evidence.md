@@ -2536,3 +2536,33 @@ The secondary counts move together with the polarity because the two shapes
 also differ in how many join-point jumps they need, and in whether a value
 loaded before the dispatch survives into each arm. That is why a single
 structural change corrected the load counts as well.
+
+## Re-sweep profiles after every structural source change
+
+The best profile for a function is a property of the candidate source, not of
+the function. Changing the shape of the source can change which profile is
+closest, so a ranking taken before a structural edit is stale afterwards.
+
+Measured on `func_80045334` (0x80045334, 70 instructions). An early sweep
+ranked `gcc_2_8_1_g0` best, and it stayed the working profile across two
+sessions at 71 instructions against a 70 instruction target. After the
+dispatch was rewritten from an if/else chain to a `switch`, re-sweeping
+showed `gcc_2_8_1_g0_no_sched1` producing exactly 70 with an
+opcode-histogram delta of 2, while `gcc_2_8_1_g0` still produced 71. The
+better profile had been available the whole time and was invisible because
+the ranking predated the rewrite.
+
+This compounds with the earlier finding that scheduling flags change
+instruction counts. A structural edit changes what there is to schedule, so
+the scheduling variants are exactly the ones whose ranking is least stable
+across such an edit.
+
+The rule: after any change to control flow, to the number of statements, or
+to which values are named, re-run the sweep before drawing conclusions from
+the diff. Ranking is cheap; a wrong profile silently caps how close the
+candidate can get and makes the residual look like an unreachable
+allocation problem when it is not.
+
+A corollary for recorded results: a profile named in a saved note is only
+valid for the source that was measured with it. When resuming a parked
+function after editing it, re-establish the ranking first.
