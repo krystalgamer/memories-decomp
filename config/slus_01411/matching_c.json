@@ -4630,7 +4630,7 @@
       "address": "0x800593D0",
       "profile": "gcc_2_8_1_g0",
       "size": "0xCC",
-      "source": "src/game/func_800593D0.c"
+      "source": "src/game/model_slot_properties.c"
     },
     {
       "address": "0x8005949C",
