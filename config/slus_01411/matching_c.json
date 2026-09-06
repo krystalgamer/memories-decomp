@@ -1351,6 +1351,12 @@
       "source": "src/game/library_mark_owned_cards.c"
     },
     {
+      "address": "0x8002BFCC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x434",
+      "source": "src/game/func_8002BFCC.c"
+    },
+    {
       "address": "0x8002C400",
       "profile": "gcc_2_8_1_g0",
       "size": "0x84",

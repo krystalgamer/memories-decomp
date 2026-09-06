@@ -268,7 +268,7 @@ address,size,name,status,module,notes
 0x8002BAB4,0x258,func_8002BAB4,unmatched_asm,game,
 0x8002BD0C,0x230,func_8002BD0C,matching_c,game,"Exact match with gcc_2_8_1_g8_split; Library package phase callback, owns jtbl_80010208."
 0x8002BF3C,0x90,Library_MarkOwnedCards,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8002BFCC,0x434,func_8002BFCC,unmatched_asm,game,
+0x8002BFCC,0x434,func_8002BFCC,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8002C400,0x84,func_8002C400,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002C484,0x58,func_8002C484,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002C4DC,0x3C,func_8002C4DC,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
