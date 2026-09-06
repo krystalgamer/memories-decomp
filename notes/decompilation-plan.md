@@ -145,17 +145,16 @@ with full-file comparison as the merge gate.
   locally with explicit PSX flags; it is not treated as Sony CCPSX.
 - The executable has a validated region map, Splat configuration, linker
   script, exact assembly/data build, ownership classifications, and a tracked
-  1,792-function inventory.
+  resident-function inventory in `config/slus_01411/functions.csv`.
 - `make match` reproduces the target SHA-256 exactly, and `make audit` verifies
   repository policy and clean deterministic regeneration.
-- Six hundred twenty-three game functions totaling 60,596 bytes (`0xECB4`)
-  are matching C using the GCC 2.8.1 probe. Five hundred eight
-  compiler-generated game functions totaling 289,380 bytes (`0x46A64`) and 63
-  handwritten game functions totaling 46,236 bytes (`0xB49C`) remain in exact
-  assembly.
-- The first pass is complete: all 1,194 game functions have at least one
-  tracked attempt, comprising 623 matches, 349 terminal deferrals, and 222
-  partial histories with remaining budget. No PsyQ function has an attempt.
+- `functions.csv` is the authority for current ownership and matching status;
+  the root `README.md` generates the current progress totals from that
+  inventory. Historical campaign snapshots remain dated in their dedicated
+  sections rather than being repeated as live status here.
+- The attempt ledgers under `config/slus_01411/` record bounded
+  source/compiler experiments for game-owned functions. PsyQ functions remain
+  outside that decompilation process.
 - Further conversion uses 2.8.1 first and falls back to GCC 2.7.2 only when
   recorded evidence points to the DOS cohort; a function is deferred after six
   unsuccessful variants.
