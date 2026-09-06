@@ -2056,19 +2056,19 @@
       "address": "0x8003594C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x64",
-      "source": "src/game/func_8003594C.c"
+      "source": "src/game/movie_playback_control.c"
     },
     {
       "address": "0x800359B0",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA8",
-      "source": "src/game/duel_effect_flag_update.c"
+      "source": "src/game/movie_playback_control.c"
     },
     {
       "address": "0x80035A58",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/duel_effect_flag_update.c"
+      "source": "src/game/movie_playback_control.c"
     },
     {
       "address": "0x80035A64",
