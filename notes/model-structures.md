@@ -139,8 +139,8 @@ Three additional matching-C functions retain raw model-base views:
 
 - `func_8005611C` clears and initializes one `0xE20`-byte slot through
   explicit offsets while preserving its accepted compiler schedule.
-- `func_80059700` uses a private late-slot layout for `type` and `state`
-  while selecting the signed velocity passed to `func_8005A468`.
+- `func_80059700` uses shared `field_E0D` and `field_E16` members while
+  selecting the signed velocity passed to `func_8005A468`.
 - `Model_HasInsufficientBufferSpace` includes `model.h` for
   `MODEL_SLOT_SIZE`, but retains a byte-array extern so its `+0xE00` size load
   keeps the accepted address construction.

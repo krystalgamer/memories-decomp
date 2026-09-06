@@ -1,15 +1,8 @@
 #include "../types.h"
+#include "model.h"
 
-typedef struct {
-    u8 pad_000[0xE0D];
-    u8 type;
-    u8 pad_E0E[0xE16 - 0xE0E];
-    u8 state;
-    u8 pad_E17[0xE20 - 0xE17];
-} ModelSlot;
-
-extern ModelSlot D_800F2C40[];
 extern void func_8005A468(s32, s32);
+extern s32 func_8004DC38(void *, s32, s32, s32);
 
 void func_80059700(s32 index, s32 sign)
 {
@@ -30,20 +23,20 @@ void func_80059700(s32 index, s32 sign)
         goto state_62;
     if (sign >= 0)
         goto state_35;
-    slot->state = 60;
+    slot->field_E16 = 60;
     goto update;
 state_35:
-    slot->state = 35;
+    slot->field_E16 = 35;
     goto update;
 state_62:
-    slot->state = 62;
+    slot->field_E16 = 62;
 
 update:
     {
         ModelSlot *current = &D_800F2C40[index];
 
-        doubled = current->type * 2;
-        state = current->state;
+        doubled = current->field_E0D * 2;
+        state = current->field_E16;
     }
     doubled_copy = doubled;
     velocity = doubled;
@@ -65,4 +58,37 @@ negate:
     velocity = -velocity;
 apply:
     func_8005A468(index, velocity);
+}
+
+void func_800597C8(s32 idx, s32 flag, s32 val)
+{
+    s32 i = 0;
+    ModelSlot *rec = &D_800F2C40[idx];
+    s32 count;
+    s32 arg3;
+
+    count = rec->field_E1B;
+    rec->field_E06 = val << 4;
+    arg3 = rec->field_E06;
+
+    if (count != 0) {
+        do {
+            s32 arg2 = rec->field_BF5;
+
+            if (flag != 0) {
+                u8 *entry = rec->field_1E0[i];
+                arg2 = flag;
+                entry[0xC] = flag;
+            }
+
+            func_8004DC38(rec, i, arg2, arg3);
+            count = rec->field_E1B;
+            i++;
+        } while (i < count);
+    }
+
+    if (flag != 0) {
+        rec->field_BF5 = flag;
+    }
+    rec->field_DC8[3] = 0;
 }
