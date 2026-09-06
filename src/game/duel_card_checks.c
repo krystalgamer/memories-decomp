@@ -51,17 +51,21 @@ s32 Duel_CheckFusion(s32 arg0, s32 arg1)
     p = base + off;
     n = p[0];
     if (n == 0) {
-        n = 0x1FF - p[1];
+        n = FUSION_TABLE_EXTENDED_COUNT_BASE - p[1];
         p++;
     }
     p++;
     do {
         b = p[0];
-        if ((((b << 8) & 0x300) | p[1]) == arg1) {
-            return ((b << 6) & 0x300) | p[2];
+        if ((((b << FUSION_TABLE_FIRST_PARTNER_SHIFT) &
+              FUSION_TABLE_CARD_ID_HIGH_MASK) | p[1]) == arg1) {
+            return ((b << FUSION_TABLE_FIRST_RESULT_SHIFT) &
+                    FUSION_TABLE_CARD_ID_HIGH_MASK) | p[2];
         }
-        if ((((b << 4) & 0x300) | p[3]) == arg1) {
-            return ((b << 2) & 0x300) | p[4];
+        if ((((b << FUSION_TABLE_SECOND_PARTNER_SHIFT) &
+              FUSION_TABLE_CARD_ID_HIGH_MASK) | p[3]) == arg1) {
+            return ((b << FUSION_TABLE_SECOND_RESULT_SHIFT) &
+                    FUSION_TABLE_CARD_ID_HIGH_MASK) | p[4];
         }
         p += FUSION_TABLE_ENTRY_SIZE;
         n -= FUSION_TABLE_PAIRS_PER_ENTRY;
