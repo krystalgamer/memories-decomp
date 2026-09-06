@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 typedef void (*DisplayObjectCallback)(u8 *);
 
@@ -9,7 +10,7 @@ typedef struct DisplayObject {
     u16 flags;
     u16 pad_0A[13];
     DisplayObjectCallback update;
-    u8 pad_28[0x70 - 0x28];
+    u8 pad_28[DISPLAY_OBJECT_RECORD_SIZE - 0x28];
 } DisplayObject;
 
 extern s16 D_800EFE38;
@@ -29,7 +30,7 @@ void func_80040BF8(void)
 
         do {
             DisplayObject *object =
-                (DisplayObject *)(i * 112 + (s32)base);
+                (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback callback = object->update;
             u8 *data = (u8 *)object;
 
@@ -71,7 +72,7 @@ void func_80040D14(void)
 
         do {
             DisplayObject *object =
-                (DisplayObject *)(i * 112 + (s32)base);
+                (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback callback = object->update;
             u8 *data = (u8 *)object;
 

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 typedef void (*ObjFn)(u8 *);
 
@@ -12,7 +13,7 @@ extern u8 D_800EFE48[];
 s32 func_80041E7C(s32 arg0, s32 arg1, s32 arg2, u8 *arg3);
 void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
-/* Walks the 0x70-byte object list from the head index at D_800EFE40, calls
+/* Walks the display-object list from the head index at D_800EFE40, calls
  * each object's callback, and for every visible object copies its vertices
  * into the scratchpad quad at 0x1F800344, offsets them by the viewport origin
  * unless bit 3 is set, runs the bit-2 clip test through
@@ -52,7 +53,7 @@ void func_80040DD8(void) {
         bit = 0x40000;
 
         do {
-            e = (u8 *)D_800EFE48 + i * 0x70;
+            e = (u8 *)D_800EFE48 + i * DISPLAY_OBJECT_RECORD_SIZE;
             fn = *(ObjFn *)(e + 0x24);
             i = *(s16 *)(e + 2);
             if (fn != (ObjFn)0) {
@@ -159,7 +160,7 @@ void func_80041068(void) {
         bit = 0x50000;
 
         do {
-            e = (u8 *)D_800EFE48 + i * 0x70;
+            e = (u8 *)D_800EFE48 + i * DISPLAY_OBJECT_RECORD_SIZE;
             fn = *(ObjFn *)(e + 0x24);
             i = *(s16 *)(e + 2);
             if (fn != (ObjFn)0) {

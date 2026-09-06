@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 typedef void (*ObjFn)(u8 *);
 typedef struct Slot70 {
@@ -8,7 +9,7 @@ typedef struct Slot70 {
     u16 flags;
     u16 unkA[13];
     ObjFn unk24;
-    u8 pad28[0x70 - 0x28];
+    u8 pad28[DISPLAY_OBJECT_RECORD_SIZE - 0x28];
 } Slot70;
 extern s16 D_800EFE3C[];
 extern Slot70 D_800EFE48[];
@@ -24,7 +25,8 @@ void func_80040814(void) {
         s32 *t = (s32 *)D_800E9D90;
 
         do {
-            Slot70 *p = (Slot70 *)(i * 112 + (s32)base);
+            Slot70 *p =
+                (Slot70 *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             ObjFn f = p->unk24;
             u8 *q = (u8 *)p;
 
