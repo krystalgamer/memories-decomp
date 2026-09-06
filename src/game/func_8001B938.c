@@ -2,6 +2,7 @@
 #include "card_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
+#include "duel_selection_layout.h"
 
 typedef struct {
     u8 *unk0;
@@ -29,7 +30,7 @@ void func_8001B938(u8 *p) {
     s32 c;
     s32 i;
 
-    D_8009B1B4 = D_800E9F48 + D_8009B1D5 * 112;
+    D_8009B1B4 = D_800E9F48 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
     D_8009B1B4[0x19] = 0;
     D_8009B1B4[0x13] = 1;
     *(s16 *)(D_8009B1B4 + 0xC) = 0x74;
