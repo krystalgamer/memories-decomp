@@ -301,3 +301,11 @@ verified — tracked in suspects.md.)
 | 0x8003F7D4 | `SaveData_RequestLoad` | Clears the load-result flag and starts an asynchronous read of the `0x680`-byte save state into the staging buffer. |
 | 0x8003F810 | `SaveData_PollLoad` | Polls the pending read; on success copies the staged state into persistent memory and applies its runtime fields. |
 | 0x8003F87C | `SaveData_RequestWrite` | Copies the current save state into staging, prepares its checksum block, and starts the `0xD00`-byte memory-card write. |
+
+## Batch: duel HUD and effective stats
+
+| address | name | description |
+|---|---|---|
+| 0x80016DDC | `Duel_UpdateLifePointDisplay` | Moves one side's displayed life points toward its authoritative value with larger steps for larger differences and clamps the final step to avoid overshooting. |
+| 0x80016E70 | `Duel_DrawLifePointsAndDeckCounts` | Updates both displayed life-point values, then draws four LP digits and two remaining-deck digits for each side with the active-side shading. |
+| 0x800170C8 | `Duel_CalcCardStats` | Adds the card's base ATK/DEF, stat modifier, and terrain modifier, clamps each result to 0–9999, and returns packed `DEF << 16 | ATK`. |
