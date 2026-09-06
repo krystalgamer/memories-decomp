@@ -881,24 +881,32 @@ s32 func_80180390(void)
 
 ## password `func_80169734` at 0x80169734
 
-`gcc_2_8_1_g0_split`, 305 instructions against 309, 209 differing positions,
-opcode distance 10.
+`gcc_2_8_1_g0_split`, 309 of 309 instructions, 12 differing positions, opcode
+distance 0. The instruction mix is exact; what is left is register choice and
+scheduling in two blocks.
 
-This is a fresh reconstruction from the disassembly and the inventory row, not
-the 309-instruction candidate the row describes; that one was never stored and
-is lost. Store any improvement here rather than rebuilding a third time.
+Four levers are applied and all four generalise.
 
-Three shape facts are settled by measurement and are already applied:
-the box field at +0x34 is a `u16` for the read-modify-write at the wait path
-but is read as a 32-bit word for the 0x2008 test, so it needs a cast at that
-one site; `gDialog_bChoice` is signed, which is the target's single `lb`; and
-the panel block near the end is one base pointer with offsets 300, 390 and 391
-rather than three absolute addresses.
+The box at 0x800EB1C0 is a symbol, not an integer cast to a pointer. A symbol
+gives `lui` then `addiu`; a literal gives `lui` then `ori`, because `addiu`
+sign-extends and `ori` does not. The literal form costs five on the distance.
 
-Residual is extra `lui` x1 and `ori` x2 against missing `addiu` x2, `lbu` x2,
-`nop` x1, `addu` x1 and `j` x1. The missing `j` is the most informative: one
-of the returns should reach the epilogue through a jump rather than its own
-return sequence.
+The scan loop is entered at its zero test with the first character already
+loaded, and its two-byte arm jumps past the zero-skip increment. Entering at the
+increment makes the initial load dead and the compiler deletes it, taking two
+`lbu` and a `j` with it.
+
+The scanned character is an `s32`, not a `u8`. A `u8` local is re-masked with
+`andi 0xff` at each test, which the target does not do.
+
+The terminator written to `*next` comes from its own local assigned at the top,
+not from the literal at the store. Written as a literal the compiler shares the
+loop test's constant instead of rematerialising it, and the target's `li v0,255`
+at 288 is the missing `addiu`.
+
+The remaining twelve positions are two ordering blocks: the caret setup at 83 to
+92, where the target fills the call's delay slot with the `box->f44` store, and
+the message-id block at 291 to 296.
 
 ```c
 #include "../../src/types.h"
@@ -931,6 +939,7 @@ extern s8 gDialog_bChoice;
 extern u16 gInput_wPad1Pressed;
 extern u8 D_801B125A[];
 extern u8 D_800EB0F8[];
+extern Box D_800EB1C0;
 extern u8 *gNameEntry_pName;
 extern u8 D_8016D41C;
 
@@ -975,7 +984,8 @@ void func_80169734(void)
     u8 *p;
     u8 *next;
     u8 *panel;
-    u8 c;
+    s32 c;
+    s32 term;
 
     if (gNameEntry_wPendingDialog != 0) {
         flags = gNameEntry_bFlags;
@@ -1003,14 +1013,14 @@ void func_80169734(void)
             func_80042918(caret);
             func_800428EC(caret, 19);
             caret->f8 |= 8;
-            func_80043178(caret);
             box->f44 = caret;
+            func_80043178(caret);
             fa = gNameEntry_bFlags;
             caret->f96 = -1024;
             gNameEntry_bFlags = fa | 2;
             return;
         }
-        box = (Box *)0x800EB1C0;
+        box = &D_800EB1C0;
         caret = box->f44;
         if ((flags & 2) != 0) {
             pos = caret->f96;
@@ -1101,22 +1111,25 @@ void func_80169734(void)
         NameEntry_UpdateScreen();
         return;
     }
+    term = 0xFF;
     p = D_801B125A;
-    c = D_801B125A[0];
+    c = *p;
     next = 0;
-    goto test;
+    goto ztest;
 scan:
     if (*p >= 0xF0) {
-        next = p + 1;
         p++;
     }
     next = p + 1;
     p = next;
-test:
+    goto load;
+zloop:
     p++;
+load:
     c = *p;
+ztest:
     if (c == 0) {
-        goto test;
+        goto zloop;
     }
     if (c != 0xFF) {
         goto scan;
@@ -1124,7 +1137,7 @@ test:
     fg = gNameEntry_bFlags;
     gNameEntry_bFlags = fg & 0xBF;
     if (next != 0) {
-        *next = 0xFF;
+        *next = term;
         gNameEntry_wPendingDialog = 0x80F5;
         D_8016D41C = 0;
         fa = gNameEntry_bFlags;
