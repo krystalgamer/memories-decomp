@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_grid.h"
 
 /* Draws the paired digit-sprite readout for both players' D_800E9FF0 slots.
    D_8009B1D5 selects which side (0 or 1) currently renders in the "active"
@@ -39,7 +40,7 @@ struct DigitPacket {
     u32 unk14;
 };
 
-extern struct WidgetEntry D_800E9FF0[2];
+extern struct WidgetEntry D_800E9FF0[DUEL_SIDE_COUNT];
 extern u8 D_8009B1D5;
 void Duel_UpdateLifePointDisplay(struct WidgetEntry *);
 void func_80016D2C(void *, void *, s32, s32);

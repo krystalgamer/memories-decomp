@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "duel_grid.h"
 
 typedef struct {
     u8 unk0[0x14];
@@ -29,7 +30,7 @@ extern s8 D_800EA02F[];
 extern HandEntry D_800EA030[HAND_SIZE];
 
 void func_800175A0(void) {
-    u16 sp[2];
+    u16 sp[DUEL_SIDE_COUNT];
     Rec20 *e;
     s32 k;
     s32 j;
@@ -47,7 +48,7 @@ void func_800175A0(void) {
         sp[0] = DUEL_STARTING_LIFE_POINTS;
     }
 
-    for (k = 0; k < 2; k++, e++) {
+    for (k = 0; k < DUEL_SIDE_COUNT; k++, e++) {
         j = 4;
         r = (s8 *)e + j;
         for (; j >= 0; j--, r--) {

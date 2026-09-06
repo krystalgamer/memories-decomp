@@ -3,6 +3,7 @@
 
 #include "../types.h"
 
+#define DUEL_SIDE_COUNT 2
 #define DUEL_FIELD_ROW_SIZE 5
 #define DUEL_FIELD_SIDE_ZONE_COUNT 10
 #define DUEL_FIELD_SIDE_GRID_SLOT_COUNT 20
