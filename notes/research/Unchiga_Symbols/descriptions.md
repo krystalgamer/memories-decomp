@@ -409,3 +409,11 @@ on the suspects side until proven.)
 | 0x8004BBBC | `SD_FindMidiTrackChunk` | Scans the bounded active sequence stream for the next four-byte `MTrk` marker and returns the offset immediately after it, or `-1` when none remains. |
 | 0x8004C8C8 | `SD_ProcessSequenceTracks` | Advances each active `0x2C`-byte track timer, dispatches sequence commands when its accumulator wraps, updates delay values, and contributes to the secondary running total. |
 | 0x8004CA60 | `SD_ResetSequenceTracks` | Marks every configured secondary sequence track stopped and clears its leading value. |
+
+## Batch: Build Deck and display-pool helpers
+
+| address | name | description |
+|---|---|---|
+| 0x800320BC | `BuildDeck_AddCard` | Finds the first free entry in the 40-card Build Deck list, fills it with the selected card's ID, type, ATK, and DEF, then refreshes the deck's derived state. |
+| 0x800338E4 | `BuildDeck_UpdatePaneTransition` | Initializes and advances the 16-tick horizontal slide between Build Deck panes, plays sound `30`, snaps the viewport to its target, and records the completed pane. |
+| 0x80040390 | `DisplayObject_ResetPool` | Clears the allocation field in all 96 display-object slots, resets both shared counters, and marks the head and companion entries of all seven processing lists empty. |
