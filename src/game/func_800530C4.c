@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 typedef struct { int v[8]; } Block;
 typedef struct { unsigned char b[8]; } __attribute__((packed)) Packed8;
@@ -19,7 +22,7 @@ extern Packed8 D_8009B480;
 extern Block D_800F56F0, D_800F5710;
 extern Object D_800F56A0;
 extern void func_800857C0(int), func_80058434(int, int, int, int, int);
-extern void GsSetRefView2(void *), func_80088E50(void *, void *);
+extern void func_80088E50(void *, void *);
 extern void func_8004E7B0(int), func_80052D2C(int, int, int, int);
 extern void func_8005FAE4(void);
 extern int func_8005F174(void), func_8005F18C(void);
@@ -42,7 +45,7 @@ void func_800530C4(void)
     D_800F56F0.v[6] = 0;
     D_800F56F0.v[7] = 0;
     func_80058434(1, 0x80, -85, 1200, 0);
-    GsSetRefView2(&D_800F56F0);
+    GsSetRefView2((GsRVIEW2 *)&D_800F56F0);
     {
         Object *o = &D_800F56A0;
         o->r48 = 0;

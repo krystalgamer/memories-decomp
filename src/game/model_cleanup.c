@@ -1,11 +1,13 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 #include "model.h"
 
 extern u8 D_800F56F0[];
 extern u8 D_8009AF94;
 
-extern void GsSetRefView2(void *);
 extern void func_8004EB00(void);
 extern void func_8004FE2C(void);
 extern void func_800507D0(void);
@@ -25,7 +27,7 @@ void func_80059CE4(void)
 {
     u8 *state = D_800F56F0;
 
-    GsSetRefView2(state);
+    GsSetRefView2((GsRVIEW2 *)state);
     if (D_8009AF94 == 15) {
         func_8004EB00();
     }
@@ -35,7 +37,7 @@ void func_80059CE4(void)
     if (D_8009AF94 == 20) {
         func_800507D0();
     }
-    GsSetRefView2(state);
+    GsSetRefView2((GsRVIEW2 *)state);
     func_800540B4(0);
     func_800540B4(1);
     func_800540B4(2);
