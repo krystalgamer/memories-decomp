@@ -2,6 +2,12 @@
 #include "../psyq/libpress.h"
 
 extern u8 D_8009B062;
+extern u8 D_8009B064;
+
+void func_8005C5C4(void)
+{
+    D_8009B064 = 1;
+}
 
 s32 func_8005C5D4(void)
 {
