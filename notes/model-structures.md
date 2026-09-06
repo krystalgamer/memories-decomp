@@ -126,21 +126,19 @@ their packed-ID switch layout and accepted code generation remain unchanged.
 
 ## Migration snapshot and exact-code exceptions
 
-After later matches, `notes/global-usage.csv` reports 29 matching-C users and
-24 assembly users. The generated report is the authority for current status.
-The 24 assembly users at this snapshot are:
-`func_8004CB0C`, `func_8004D58C`, `func_8004D75C`,
-`func_8004EB00`, `func_8004FE2C`, `func_80050584`, `func_800507D0`,
-`func_80050F24`, `func_8005106C`, `func_80051350`, `func_80051A48`,
-`func_800528AC`, `func_80053248`, `func_800534B8`, `func_800540B4`,
-`func_800556E8`, `func_800559D4`, `Model_LoadMonsterMerge`,
-`func_80056828`, `func_80056D7C`, `func_800577B0`, `func_80057AF4`,
-`func_800580D4`, and `func_80058938`.
+`notes/global-usage.csv` is the authority for the current matching-C and
+assembly users of `D_800F2C40`; those sets change whenever another function
+is integrated and are not duplicated here.
 
-Three additional matching-C functions retain raw model-base views:
+Five additional matching-C functions include `model.h` but retain raw
+model-base views:
 
+- `func_8004D914` uses `MODEL_SLOT_SIZE` while preserving explicit accesses
+  across a large display-list construction path.
 - `func_8005611C` clears and initializes one `0xE20`-byte slot through
   explicit offsets while preserving its accepted compiler schedule.
+- `func_80056250` uses `MODEL_SLOT_SIZE` while keeping the duel-side layout
+  pass in raw offsets.
 - `func_80059700` uses shared `field_E0D` and `field_E16` members while
   selecting the signed velocity passed to `func_8005A468`.
 - `Model_HasInsufficientBufferSpace` includes `model.h` for
@@ -155,6 +153,10 @@ Two typed pure-C functions retain raw local byte views:
 - `func_800593D0` keeps its byte-pointer chase through the leading
   eight-byte entries and `field_D14`. Direct `ModelSlotHeadEntry` member
   syntax changed the resident text size.
+
+Any matching-C report user not covered by the typed inventory or the
+exceptions above has not yet adopted `model.h`; derive that changing set from
+`notes/global-usage.csv`.
 
 `func_80059000` retains its packed eight-byte local copy type because the
 target uses `lwl`/`lwr` and `swl`/`swr`; the model base and source fields are
