@@ -1,9 +1,8 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 #include "model.h"
 
 extern u8 D_800F2848[];
-extern int rcos(int);
-extern int rsin(int);
 extern void func_800134E0(u8 *, s32, s32, s32);
 
 void func_8001352C(void) {
