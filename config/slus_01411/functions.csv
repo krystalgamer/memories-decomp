@@ -1615,7 +1615,7 @@ address,size,name,status,module,notes
 0x80087810,0x30,func_80087810,sdk_asm,psyq/sdk,
 0x80087840,0x20,func_80087840,sdk_asm,psyq/sdk,
 0x80087860,0xC,func_80087860,sdk_asm,psyq/sdk,
-0x80087870,0x20,func_80087870,sdk_asm,psyq/sdk,
+0x80087870,0x20,SetBackColor,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG10.OBJ signature and matching scene-lighting caller.
 0x80087890,0x20,SetFarColor,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG11.OBJ signature and matching scene-lighting callers.
 0x800878B0,0x18,SetGeomOffset,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG12.OBJ signature and matching projection callers.
 0x800878D0,0xC,SetGeomScreen,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG13.OBJ signature and matching projection callers.

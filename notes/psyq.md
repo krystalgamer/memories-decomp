@@ -103,6 +103,7 @@ symbol review.
 | `0x80087370` | `MulMatrix` | Applied Psy-Q 4.6 identity; the matching model path composes two rotation matrices before later transforms. |
 | `0x80087670` | `ScaleMatrix` | Applied Psy-Q 4.6 identity; matching model paths scale a rotation matrix by a fixed-point vector. |
 | `0x800877B0` | `SetRotMatrix` | Applied Psy-Q 4.6 identity; `func_80041F90` reloads the GTE rotation matrix after negating its first and third columns. |
+| `0x80087870` | `SetBackColor` | Applied Psy-Q 4.6 identity; the matching scene-lighting setup installs equal ambient red, green, and blue values. |
 | `0x80087890` | `SetFarColor` | Applied Psy-Q 4.6 identity; matching scene setup paths clear or configure the GTE far color before lighting and fog work. |
 | `0x800878B0` | `SetGeomOffset` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE screen-center coordinates. |
 | `0x800878D0` | `SetGeomScreen` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE projection-plane distance. |
