@@ -45,7 +45,7 @@ Runs on every screen. A live-computed core of 147 functions (GPU frame pump, SPU
 | `gText_adwGlyphCodeTable` | 0x801D9000 | One u32 per font glyph, low half = its Shift-JIS code. ‘A’ is glyph 24, ‘B’ 45, ‘a’ 3, ‘0’ 56. |
 | `Text_SjisToGlyphCodes` | 0x8003BC40 | The inverse: a Shift-JIS string (like the player name) into glyph codes so the typewriter can show it. |
 | `TextBox_Create / TextBox_CreateFlagged` | 0x80035BE4 / 0x80035C38 | Open a box: slot, string id, x, y, w, h (and extra flags). |
-| `TextBox_SetRect / TextBox_InitRecord` | 0x80035AB8 / 0x80035AF0 | The two halves of create: geometry, then id, cell size and sprite budget. |
+| `TextBox_SetRect / DuelEffect_InitEntry` | 0x80035AB8 / 0x80035AF0 | The two halves used by text-box creation: geometry, then shared effect-channel value, cell size, sprite budget, and flags. |
 | `TextBox_BuildStep` | 0x800393B0 | The typewriter: first call resolves the string and allocates the widgets, then one glyph per call. `poll_call_393b0_until_bit13` spins it to the end at once. |
 | `TextBox_SetPos / TextBox_Destroy` | 0x80039934 / 0x80035B7C | Move a box with its widgets; close it and free everything. |
 | `Widget_SlideSine` | 0x80043230 | The sine slide dialogs use to enter and leave (the name prompt travels y 248 ↔ 176 on it). |

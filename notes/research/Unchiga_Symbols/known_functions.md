@@ -58,7 +58,7 @@ Names that say what something IS in the game.
 | 0x8002FA54 | `Script_RunTick` | idb2018 |
 | 0x80032B60 | `BuildDeck_CompareCard` | idb2018 |
 | 0x80035AB8 | `TextBox_SetRect` | idb2018 |
-| 0x80035AF0 | `TextBox_InitRecord` | idb2018 |
+| 0x80035AF0 | `DuelEffect_InitEntry` | local |
 | 0x80035B7C | `TextBox_Destroy` | idb2018 |
 | 0x80035BE4 | `TextBox_Create` | idb2018 |
 | 0x80035C38 | `TextBox_CreateFlagged` | idb2018 |
