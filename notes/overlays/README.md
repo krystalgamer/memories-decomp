@@ -372,7 +372,7 @@ is needed:
     vram: 0x80168004
     subsegments:
       - [0x4, rodata, overlays/password/module_rodata]
-      - [0x90, .rodata, overlays/password/func_8016AA6C]
+      - [0x90, .rodata, overlays/password/name_entry_main]
       - [0xB4, c, overlays/password/func_801680B4]
       ...
       - [0x5400, data, overlays/password/data]
@@ -434,7 +434,7 @@ produces exactly the required line, at the required address:
 {
     module_RODATA_START = .;
     .../asm/data/overlays/password/module_rodata.rodata.o(.rodata);
-    .../src/overlays/password/func_8016AA6C.o(.rodata);
+    .../src/overlays/password/name_entry_main.o(.rodata);
     ...
 }
 ```
@@ -445,7 +445,7 @@ work of writing source whose emitted `.rodata` is byte-correct.
 
 ### A worked example that is in the tree
 
-`func_8016AA6C` in password already called `func_8008E870(D_80168090, ...)`,
+`NameEntry_Main` in password already called `func_8008E870(D_80168090, ...)`,
 where `D_80168090` was an extern into the blob. Those 36 bytes are the string
 `SaveLoadBuf add = 0x%x size = 0x%x\n` — `func_8008E870` is a printf. Replacing
 the extern with the literal and declaring the parameter `const char *` makes
@@ -453,13 +453,13 @@ the compiler emit it, and the yaml hands that section its address:
 
 ```yaml
       - [0x4, rodata, overlays/password/module_rodata]
-      - [0x90, .rodata, overlays/password/func_8016AA6C]
+      - [0x90, .rodata, overlays/password/name_entry_main]
 ```
 
 All five modules still hash byte-exactly, and the evidence that the bytes
 really moved is on both sides of the change:
 
-- `objdump -h` on `func_8016AA6C.o` reports `.rodata` of `0x24` — the exact
+- `objdump -h` on `name_entry_main.o` reports `.rodata` of `0x24` — the exact
   string length. Before this, *every* overlay C object had an empty `.rodata`,
   which is why the path had never been exercised.
 - the extracted blob `module_rodata.rodata.s` now ends at `0x8C`, the last word

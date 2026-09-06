@@ -247,6 +247,7 @@ Mode slot 6. An 8×5 opponent grid (Build Deck tile at top-left); the cursor roa
 | `TextBox_GetGlyphAt` (module: name_entry) | 0x8016868C | How a letter is picked: the grid is itself a text box, so X looks up the glyph under the cursor and takes its Shift-JIS code. No character table anywhere. |
 | `NameEntry_UpdateDialog` (module: name_entry) | 0x80169734 | Builds the “Your NAME is …” box from a pending string id and polls `gDialog_bChoice`: NO returns to typing, YES leaves the screen. |
 | `NameEntry_BuildStarterDeck` (module: name_entry) | 0x8016A930 | Draws the new game's 40-card starter deck from seven weighted rows, retries fourth copies, and marks each accepted card seen in the Library. |
+| `NameEntry_Main` (module: name_entry) | 0x8016AA6C | Initializes the new-save template, runs name entry to completion, builds the starter deck, and stamps a nonzero word from the entered name and RNG state. |
 
 
 ## Duel — setup

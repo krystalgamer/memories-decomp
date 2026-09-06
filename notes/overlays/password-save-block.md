@@ -5,7 +5,7 @@ Derived from matched overlay code, cross-checked against the save map in
 address below is read from a function that reproduces the retail bytes
 exactly; the interpretation is flagged where it goes beyond that.
 
-## `func_8016AA6C` rebuilds the block from a template
+## `NameEntry_Main` rebuilds the block from a template
 
 The function does three things in order:
 
@@ -70,6 +70,6 @@ needed to be written that way. One such expression would be incidental
 phrasing; two independent offsets from the same base is a much better
 argument that whoever wrote the map was reading a structure rooted there.
 
-That is consistent with `func_8016AA6C` stamping a single word at exactly
+That is consistent with `NameEntry_Main` stamping a single word at exactly
 `0x801D0534` — a header field at offset zero of that structure — but the
 function alone does not establish it, since it never reads the word back.
