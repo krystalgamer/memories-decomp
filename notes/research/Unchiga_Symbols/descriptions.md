@@ -101,9 +101,6 @@ on the suspects side until proven.)
 
 ## Batch 6 (functions — AI opcodes, board queries & pickers)
 
-(0x80071CB0 AiScript_FindDefenseStopper excluded: body unmatched, behavior not
-100% verified — tracked in suspects.md.)
-
 | address | name | description |
 |---|---|---|
 | 0x80071000 | `AiScript_EndField` | Opcode: end-of-field-script marker — empty function, the loop reacts to the opcode itself. (First matched by MaChInEgUn3's independent decomp.) |
@@ -124,6 +121,7 @@ on the suspects side until proven.)
 | 0x80071700 | `AiScript_FindStrongest` | Opcode: the big max-scanner (137 insns): takes 5 operands, gets a card-id range from `Ai_GetWinningCardRange`, scans `gDuel_aActiveCards[lo..hi]` with flag-gated skips, and writes the strongest entry's slot to the output. |
 | 0x80071924 | `AiScript_FindWeakest` | Opcode: sibling of `AiScript_FindStrongest` scanning for the weakest qualifying entry. |
 | 0x80071B64 | `AiScript_FindKiller` | Opcode: scans active-card slots 1–5 and stores the lowest-ATK eligible slot whose attack, including the Guardian Star matchup modifier, beats the selected target's scripted ATK-or-DEF comparison; stores zero when none qualifies. |
+| 0x80071CB0 | `AiScript_FindDefenseStopper` | Opcode: repeatedly pairs the strongest unused cards in slot ranges 1–5 and 56–60, optionally excludes face-down cards from the second range, and stores `1` only when at least one pair runs and every first-range power is strictly greater; otherwise stores `0`. |
 | 0x80071EB8 | `AiScript_CountCards` | Opcode: counts cards matching the scripted criteria over a scanned range into a VM slot. |
 
 ## Batch 7 (functions — AI searchers, fusion solver, play emitters, 20 rows)

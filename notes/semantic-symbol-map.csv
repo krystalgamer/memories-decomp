@@ -137,7 +137,7 @@ function,0x800716C4,AiScript_LoadBestTarget,high,"gms.c aiInstBestTarg; local bo
 function,0x80071700,AiScript_FindStrongest,high,"gms.c aiInstStrongest; local search flow","Finds the strongest card satisfying scripted filters."
 function,0x80071924,AiScript_FindWeakest,high,"gms.c aiInstWeakest; local search flow","Finds the weakest card satisfying scripted filters."
 function,0x80071B64,AiScript_FindKiller,high,"gms.c aiInstKiller; local battle search","Finds a card that can defeat the selected target."
-function,0x80071CB0,AiScript_FindDefenseStopper,high,"gms.c aiInstStopDef; local defense search","Finds a card that can stop the selected defender."
+function,0x80071CB0,AiScript_FindDefenseStopper,high,"gms.c aiInstStopDef; exact matching body; paired strongest-card scans over slots 1-5 and 56-60","Tests whether every strongest-to-strongest field pairing favors the first slot range, optionally excluding face-down cards from the second range."
 function,0x80071EB8,AiScript_CountCards,high,"gms.c aiInstCntCard; local search loop","Counts cards satisfying scripted filters."
 function,0x80071FC8,AiScript_FindFirstCard,high,"gms.c aiInstFindFirst; local search loop","Finds the first card satisfying scripted filters."
 function,0x8007214C,AiScript_FindCard,high,"gms.c aiInstFindCard; local search loop","Finds a card satisfying scripted filters."
