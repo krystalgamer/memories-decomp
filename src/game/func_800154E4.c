@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 #include "fade.h"
 
@@ -59,7 +62,6 @@ extern u8 D_8009B140;
 extern u8 D_8009B141;
 
 extern void func_80015310(u8 *);
-extern void GsSortBoxFill(FadeBox *, s32, s32);
 
 void func_800154E4(void) {
     FadeBox *p;
@@ -90,7 +92,7 @@ void func_800154E4(void) {
                 p->b = (u8) band;
                 p->g = (u8) band;
                 p->r = (u8) band;
-                GsSortBoxFill(p, ot, 4);
+                GsSortBoxFill((GsBOXF *)p, (GsOT *)ot, 4);
                 FADEBOX_Y(p) = FADEBOX_Y(p) + 8;
             }
             if (!(D_800E9ECE[0] & 2)) {
@@ -122,6 +124,6 @@ void func_800154E4(void) {
             if (tint < 0) tint = 0;
             p->b = (u8) tint;
         }
-        GsSortBoxFill(p, ot, depth);
+        GsSortBoxFill((GsBOXF *)p, (GsOT *)ot, depth);
     }
 }
