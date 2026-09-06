@@ -1063,6 +1063,12 @@
       "source": "src/game/duel_field_effect_transition.c"
     },
     {
+      "address": "0x80025D30",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1B0",
+      "source": "src/game/func_80025D30.c"
+    },
+    {
       "address": "0x80025EE0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x5C",
