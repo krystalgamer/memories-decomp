@@ -724,3 +724,320 @@ void FreeDuel_PlaceCursor(Widget *w, s32 arm)
     func_80039A60(panel);
 }
 ```
+
+## main_menu `func_80180390` at 0x80180390
+
+`gcc_2_8_1_g0_split`, 499 of 495 instructions, opcode distance 32. Frame,
+saved-register set and prologue order all match the target exactly: `-0x28`
+with `s0`-`s4` and `ra`, and no `s5`.
+
+First reconstruction of this function; there were no prior attempts. The
+remaining four instructions are the four flag blocks at the top, each of which
+rematerialises `%hi` for its store where the target reuses the one it left in
+`$s0`. See the inventory row for what was measured against that, and for the
+`goto` loop that keeps `%hi(gMain_bMenuID)` inside the entry loop.
+
+```c
+#include "../../src/types.h"
+
+extern u8 *D_80184560;
+extern u8 *gMain_apMenuEntries[];
+extern u8 gMain_bMenuID;
+extern u8 D_80184595;
+extern u8 D_80184596;
+extern u8 D_80184597;
+extern s8 D_80184598;
+extern u8 D_80184599;
+extern u8 D_8018459A;
+extern u8 D_8018459B;
+extern u8 D_8018459C;
+extern u8 D_8018459D;
+extern u16 D_8009B0D8;
+extern u16 D_8009B394;
+extern u16 D_8009B398;
+extern u8 D_8009B3EA;
+extern u8 D_8009B3ED;
+
+extern void func_80180D2C(s32);
+extern void func_80180E6C(u8 *);
+extern void func_80040410(u8 *, s32);
+extern void Input_ResetPads(void);
+extern s32 SaveData_PollLoad(void);
+extern void SaveData_RequestLoad(void);
+extern s32 func_8003FCD8(void);
+extern s32 func_8003FD14(void);
+extern s32 func_8003F70C(void);
+extern void func_8003F87C(void);
+extern void SD_SEPlay(s32, s32, s32);
+extern s32 rsin(s32);
+
+s32 func_80180390(void)
+{
+    u8 *entry;
+    u8 **slot;
+    s32 step;
+    s32 level;
+    s32 value;
+    s32 frame;
+    s32 delta;
+    s32 moved;
+    s32 i;
+    s32 base;
+    s32 count;
+
+    if (D_8018459B != 0) {
+        value = SaveData_PollLoad();
+        if (value != 0) {
+            if (value == 1) {
+                Input_ResetPads();
+                func_80180D2C(1);
+            } else {
+                Input_ResetPads();
+            }
+            D_8018459B = 0;
+        }
+        return -1;
+    }
+
+    if (D_8018459C != 0) {
+        value = func_8003FCD8();
+        if (value != 0) {
+            if (value == 1) {
+                Input_ResetPads();
+                func_80180D2C(1);
+            } else {
+                Input_ResetPads();
+            }
+            D_8018459C = 0;
+        }
+        return -1;
+    }
+
+    if (D_8018459D != 0) {
+        value = func_8003FD14();
+        if (value != 0) {
+            if (value == 1) {
+                Input_ResetPads();
+                func_80180D2C(1);
+            } else {
+                Input_ResetPads();
+            }
+            D_8018459D = 0;
+        }
+        return -1;
+    }
+
+    if (D_8018459A != 0) {
+        if (func_8003F70C() == 0) {
+            return -1;
+        }
+        Input_ResetPads();
+        D_8018459A = 0;
+        return -1;
+    }
+
+    step = D_80184598;
+    if (step != 0) {
+        level = D_80184597 + (step << 3);
+        D_80184597 = level;
+        if (step > 0) {
+            if ((s8)level < 0) {
+                goto fade_done;
+            }
+        }
+        if (step >= 0) {
+            return -1;
+        }
+        if ((u8)level != 0) {
+            return -1;
+        }
+    fade_done:
+        if (D_80184598 < 0) {
+            entry = D_80184560;
+            entry[0xE] = 0x80;
+            entry[0xD] = 0x80;
+            entry[0xC] = 0x80;
+            *(u16 *)(entry + 8) |= 0x40;
+            D_80184560[0x6C] = 0x3C;
+            *(s16 *)(D_80184560 + 0x36) = 0;
+        }
+        D_80184598 = 0;
+        return -1;
+    }
+
+    entry = D_80184560;
+    if (entry != 0 && (*(u16 *)(entry + 8) & 0x40) != 0) {
+        if (entry[0x6C] != 0) {
+            entry[0x6C] = entry[0x6C] - 1;
+        } else {
+            value = entry[0xE] + entry[0x60];
+            entry[0xE] = value;
+            entry[0xD] = value;
+            entry[0xC] = value;
+            entry = D_80184560;
+            value = entry[0xC];
+            if ((u32)(value - 0x41) >= 0x3F) {
+                if ((s8)value < 0) {
+                    entry[0x6C] = 0x3C;
+                }
+                entry = D_80184560;
+                value = *(s16 *)(entry + 0x60);
+                *(s16 *)(entry + 0x60) = -value;
+            }
+        }
+        if ((D_8009B398 & 0x800) != 0) {
+            SD_SEPlay(7, 0xFF, 0);
+            entry = D_80184560;
+            *(u16 *)(entry + 8) &= 0xFFBF;
+            func_80180D2C(0);
+            D_80184598 = 1;
+            return -1;
+        }
+        entry = D_80184560;
+        value = *(u16 *)(entry + 0x36) + D_8009B0D8;
+        *(s16 *)(entry + 0x36) = value;
+        if ((s16)value >= 0xBB8) {
+            return -2;
+        }
+        return -1;
+    }
+
+    if (D_80184599 != 0) {
+        moved = 0;
+        slot = gMain_apMenuEntries;
+        i = 0;
+    entry_loop:
+        entry = *slot;
+        if (entry == 0) {
+            goto next_entry;
+        }
+        if (*(s16 *)(entry + 0x60) <= 0) {
+            goto next_entry;
+        }
+        *(s16 *)(entry + 0x60) = *(u16 *)(entry + 0x60) - 1;
+        if ((u32)gMain_bMenuID < 5) {
+            if (i >= 5) {
+                goto hide_entry;
+            }
+        } else {
+            if (i < 5) {
+                goto hide_entry;
+            }
+        }
+        entry = *slot;
+        delta = *(s16 *)(entry + 0x38) - *(s16 *)(entry + 0x36);
+        frame = 0x10 - *(s16 *)(entry + 0x60);
+        value = *(u16 *)(entry + 0x38);
+        if (frame != 0x10) {
+            value = rsin(frame << 6) * delta / 0x1000;
+            entry = *slot;
+            value = *(u16 *)(entry + 0x36) + value;
+        }
+        *(s16 *)(entry + 0x30) = value;
+        if ((frame & 1) != 0) {
+            func_80180E6C(*slot);
+        }
+        entry = *slot;
+        *(u16 *)(entry + 8) = *(u16 *)(entry + 8) | 0x40;
+        goto tick_entry;
+    hide_entry:
+        entry = *slot;
+        *(u16 *)(entry + 8) = *(u16 *)(entry + 8) & 0xFFBF;
+    tick_entry:
+        moved++;
+        func_80040410(*slot, (i << 1) | (gMain_bMenuID != i));
+    next_entry:
+        i++;
+        slot++;
+        if (i < 0xB) {
+            goto entry_loop;
+        }
+        if (moved != 0) {
+            return -1;
+        }
+        value = D_80184596;
+        D_80184599 = 0;
+        if (value == 0) {
+            return -1;
+        }
+        if (D_80184595 != 0) {
+            if ((u32)gMain_bMenuID < 5) {
+                for (i = 0; i < 0xB; i++) {
+                    entry = gMain_apMenuEntries[i];
+                    if (entry != 0) {
+                        *(u16 *)(entry + 8) &= 0xFFBF;
+                    }
+                }
+                D_80184598 = -1;
+            } else {
+                func_80180D2C(0);
+                gMain_bMenuID = 1;
+            }
+            D_80184595 = 0;
+            return -1;
+        }
+        if (gMain_bMenuID != 1) {
+            return gMain_bMenuID;
+        }
+        func_80180D2C(0);
+        gMain_bMenuID = 5;
+        return -1;
+    }
+
+    if ((D_8009B394 & 0x5000) != 0) {
+        if ((u32)gMain_bMenuID < 5) {
+            base = 0;
+            count = 5;
+        } else {
+            base = 5;
+            count = 6;
+        }
+        func_80040410(gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
+        if ((D_8009B394 & 0x1000) != 0) {
+            value = gMain_bMenuID - base + count - 1;
+        } else {
+            value = gMain_bMenuID - base + count + 1;
+        }
+        gMain_bMenuID = value % count + base;
+        func_80040410(gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
+        SD_SEPlay(6, 0xFF, 0);
+        return -1;
+    }
+
+    if ((D_8009B398 & 0x8E0) == 0) {
+        return -1;
+    }
+    if ((D_8009B398 & 0x20) != 0) {
+        if ((u32)gMain_bMenuID < 5) {
+            SD_SEPlay(9, 0xFF, 0);
+            return -1;
+        }
+        SD_SEPlay(8, 0xFF, 0);
+        D_80184595 = 1;
+    } else {
+        SD_SEPlay(7, 0xFF, 0);
+        switch (gMain_bMenuID) {
+        case 1:
+            SaveData_RequestLoad();
+            D_8018459B = D_8018459B + 1;
+            return -1;
+        case 3:
+            D_8009B3ED = 0;
+            D_8009B3EA = 0;
+            D_8018459C = D_8018459C + 1;
+            return -1;
+        case 2:
+            D_8009B3ED = 0;
+            D_8009B3EA = 0;
+            D_8018459D = D_8018459D + 1;
+            return -1;
+        case 0xA:
+            func_8003F87C();
+            D_8018459A = D_8018459A + 1;
+            return -1;
+        }
+    }
+    func_80180D2C(1);
+    return -1;
+}
+```

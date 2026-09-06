@@ -3093,3 +3093,50 @@ Note the contrast with "Do not name an array base to reproduce a materialised
 base register": that result says introducing a *variable* for a base costs an
 instruction. This one introduces no variable — the base already exists — and
 only changes its declared type.
+
+## GCC 2.8's loop optimiser only sees loops the front end marked
+
+A global read inside a `for` or `while` loop has a loop-invariant address, and
+under `-msplit-addresses` that address is a separate `lui` insn. GCC 2.8.1
+hoists it into the preheader and keeps it in a callee-saved register for the
+whole loop. So a target that **rematerialises** `lui %hi(sym)` at each read
+inside a loop was not compiled from a structured loop.
+
+The same body written with an explicit `goto` back edge is not hoisted at all.
+GCC 2.8's `loop.c` works from the `NOTE_INSN_LOOP_BEG` / `NOTE_INSN_LOOP_END`
+notes the front end emits for `for`, `while` and `do`; a loop assembled out of
+labels and `goto` carries no notes, so the loop optimiser never runs on it.
+
+Reduced to a probe, with `f1` a call so that a hoisted address needs a
+callee-saved register:
+
+```c
+for (i = 0; i < 0xB; i++, slot++) {      /* lui $18,%hi(gID) before the loop */
+    ...                                   /* both reads use $18 */
+    f1(*slot, (i << 1) | (gID != i));
+}
+
+i = 0;                                    /* lui $2,%hi(gID) at each read */
+top:
+    ...
+    f1(*slot, (i << 1) | (gID != i));
+    i++; slot++;
+    if (i < 0xB) goto top;
+```
+
+Read it as a diagnostic before it is a lever. Two `lui` of the same symbol
+inside one loop is not a scheduling accident and not something source order can
+produce; it says the loop had no loop notes. The cost of getting it wrong is
+larger than the two instructions it looks like, because the hoisted address
+occupies a callee-saved register and so changes the frame size and the whole
+saved-register set.
+
+`func_80180390` in the main menu overlay is the worked example. As a `for` loop
+it builds a `-0x30` frame saving `s0`-`s5`; as a `goto` loop it builds the
+target's `-0x28` frame saving `s0`-`s4`, and both reads of `gMain_bMenuID`
+rematerialise `%hi` exactly as retail does. Note also what the count did: the
+`for` version reaches exactly 495 of 495 instructions and the `goto` version is
+four over, because the two extra prologue stores cancel the two saved `lui`.
+Count parity with the wrong saved-register set is an artifact, so check the
+frame before reading anything into it — the companion to "Count the target's
+saved registers before blaming the allocator".
