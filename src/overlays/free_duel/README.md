@@ -21,6 +21,11 @@ The verified executable phase is tracked in
 `make overlays` extracts it to `tmp/overlays/free_duel/module.bin`, and
 `make verify-overlays` checks the archive and payload hashes.
 
-No overlay source is accepted yet. Keep candidate sources, objects, and diffs
-under `tmp/` until a function passes an overlay-specific exact-match process.
-Do not add this module to the resident `config/slus_01411/matching_c.json`.
+Its accepted build layout is
+[`config/slus_01411/overlays/free_duel.yaml`](../../../config/slus_01411/overlays/free_duel.yaml).
+The adjacent `_functions.csv` inventory tracks per-function status, and
+`free_duel_matching_c.json` maps accepted source/profile pairs.
+`make match-overlays` remains the complete module's exact-byte gate.
+
+Keep unaccepted candidate sources, objects, and diffs under `tmp/`. Do not add
+this module to the resident `config/slus_01411/matching_c.json`.
