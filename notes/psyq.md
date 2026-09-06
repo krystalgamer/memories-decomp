@@ -85,6 +85,8 @@ symbol review.
 | `0x80074000` | `InitPAD2` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A18.OBJ` signature. |
 | `0x80074010` | `StartPAD2` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A19.OBJ` signature. |
 | `0x80074020` | `PAD_init2` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A21.OBJ` signature. |
+| `0x80074030` | `SysEnqIntRP` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/L02.OBJ` signature. |
+| `0x80074040` | `SysDeqIntRP` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/L03.OBJ` signature. |
 | `0x80074050`, `0x80074064` | `EnablePAD`, `DisablePAD` | Applied at offsets zero and `0x14` of the unique `0xA0`-byte Psy-Q 4.6 `LIBAPI.LIB/PATCH.OBJ` signature. |
 | `0x80074078` | `_patch_pad` | Applied at offset `0x28` of the same unique `PATCH.OBJ` signature. |
 | `0x800740F0` | `FlushCache` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C68.OBJ` signature. |
