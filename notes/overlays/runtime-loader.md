@@ -195,19 +195,19 @@ The following packages tile WA sectors `5776-8661` without gaps:
 
 | Package | WA sector range | Count | WA byte range |
 |---|---|---:|---|
-| Fixed package | `5776-5830` | 54 | `0xB48000-0xB63000` |
-| Seven records | `5830-7475` | `7 * 235` | `0xB63000-0xE99800` |
-| Mini-record family | `7475-7595` | inferred `40 * 3` | `0xE99800-0xED5800` |
-| Fixed package | `7595-7629` | 34 | `0xED5800-0xEE6800` |
-| Fixed package | `7629-7767` | 138 | `0xEE6800-0xF2B800` |
-| Fixed package | `7767-7816` | 49 | `0xF2B800-0xF44000` |
-| Fixed package | `7816-7903` | 87 | `0xF44000-0xF6F800` |
-| Fixed package | `7903-7983` | 80 | `0xF6F800-0xF97800` |
-| Fixed package | `7983-8069` | 86 | `0xF97800-0xFC2800` |
+| Boot UI package | `5776-5830` | 54 | `0xB48000-0xB63000` |
+| Seven duel-terrain packages | `5830-7475` | `7 * 235` | `0xB63000-0xE99800` |
+| Opponent deck/drop/rank records | `7475-7595` | inferred `40 * 3` | `0xE99800-0xED5800` |
+| Duel-results package | `7595-7629` | 34 | `0xED5800-0xEE6800` |
+| Library package | `7629-7767` | 138 | `0xEE6800-0xF2B800` |
+| Campaign-scene package | `7767-7816` | 49 | `0xF2B800-0xF44000` |
+| Free Duel package | `7816-7903` | 87 | `0xF44000-0xF6F800` |
+| Name-entry package | `7903-7983` | 80 | `0xF6F800-0xF97800` |
+| Password-screen package | `7983-8069` | 86 | `0xF97800-0xFC2800` |
 | Fixed package | `8069-8103` | 34 | `0xFC2800-0xFD3800` |
-| Fixed package | `8103-8153` | 50 | `0xFD3800-0xFEC800` |
-| Variant A | `8153-8311` | 158 | `0xFEC800-0x103B800` |
-| Variant B | `8311-8469` | 158 | `0x103B800-0x108A800` |
+| Menu background/symbol package | `8103-8153` | 50 | `0xFD3800-0xFEC800` |
+| Egypt overworld before coup | `8153-8311` | 158 | `0xFEC800-0x103B800` |
+| Egypt overworld after coup | `8311-8469` | 158 | `0x103B800-0x108A800` |
 | Fixed package | `8469-8519` | 50 | `0x108A800-0x10A3800` |
 | Direct bank load | `8519-8535` | 16 | `0x10A3800-0x10AB800` |
 | Fixed package | `8535-8585` | 50 | `0x10AB800-0x10C4800` |
