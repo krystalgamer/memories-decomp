@@ -194,15 +194,23 @@ symbol review.
 | `0x8007E9B0` | `FntOpen` | Applied at offset `0xE0` of the unique `FONT.OBJ` signature; matching callers open a 320x240 on-screen debug text window. |
 | `0x8007EC68` | `FntFlush` | Applied at offset `0x398` of the unique `FONT.OBJ` signature. |
 | `0x8007EF84` | `FntPrint` | Applied at offset `0x6B4` of the unique `FONT.OBJ` signature; the matching duel debug helper prints its effect values and divider strings. |
-| `0x8007F350` | `ResetGraph` | Anchored by GPU `sys.c` evidence and the documented graph-reset contract. |
+| `0x8007F350` | `ResetGraph` | Applied at offset zero of the unique 12,032-byte Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature. |
+| `0x8007F4C4` | `SetGraphDebug` | Applied at offset `0x174` of the same unique `SYS.OBJ` signature. |
+| `0x8007F520` | `SetGraphQueue` | Applied at offset `0x1D0` of the same unique `SYS.OBJ` signature. |
+| `0x8007F5C4` | `GetGraphDebug` | Applied at offset `0x274` of the same unique `SYS.OBJ` signature. |
+| `0x8007F5D4` | `DrawSyncCallback` | Applied at offset `0x284` of the same unique `SYS.OBJ` signature. |
+| `0x8007F634` | `SetDispMask` | Applied at offset `0x2E4` of the same unique `SYS.OBJ` signature. |
 | `0x8007F6CC` | `DrawSync` | Applied Psy-Q 4.6 identity; `model_handler_registry.c` waits for queued GPU drawing after dispatching a model primitive handler. |
 | `0x8007F978` | `LoadImage` | Applied Psy-Q identity; `func_800249E0` uses the tracked `RECT *` / `u32 *` prototype for two image transfers. |
 | `0x8007FA38` | `MoveImage` | Applied Psy-Q 4.6 identity; matching callers copy rectangular VRAM regions for screen transitions and palette processing. |
 | `0x80081DE8` | `LoadImage2` | Applied Psy-Q identity; streamed package callbacks pass rectangle-shaped records and staged image data. |
 | `0x80081ED4` | `StoreImage2` | Applied Psy-Q 4.6 identity; `func_800582C0` reads a VRAM rectangle into a local pixel buffer before transforming and re-uploading it. |
 | `0x80081FC0` | `MoveImage2` | Applied Psy-Q identity; `file_cd_helpers.c` passes the current display rectangle plus destination coordinates. |
+| `0x80082200` | `_GPU_ResetCallback` | Applied at offset `0x2EB0` of the unique Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature. |
 | `0x80082250` | `GPU_cw` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C73.OBJ` signature. |
+| `0x80082290` | `BreakDraw` | Applied at offset zero of the unique 544-byte Psy-Q 4.6 `LIBGPU.LIB/BREAK.OBJ` signature. |
 | `0x80082324` | `IsIdleGPU` | Applied Psy-Q 4.6 identity; matching upload and move paths poll mode `3` around GPU image operations. |
+| `0x80082384` | `ContinueDraw` | Applied at offset `0xF4` of the same unique `BREAK.OBJ` signature. |
 | `0x80082780` | `GetTPage` | Applied from the unique 64-byte Psy-Q 4.6 `LIBGPU.LIB/P00.OBJ` signature. |
 | `0x800827C0` | `GetClut` | Applied from the unique 32-byte Psy-Q 4.6 `LIBGPU.LIB/P01.OBJ` signature. |
 | `0x800827E0` | `AddPrim` | Applied from the unique 64-byte Psy-Q 4.6 `LIBGPU.LIB/P06.OBJ` signature. |
