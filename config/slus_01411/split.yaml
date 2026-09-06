@@ -64,10 +64,6 @@ segments:
     vram: 0x80010000
     align: 4
     subsegments:
-      # The region before the text is the compiler's read-only data:
-      # strings, tables and switch jump tables. A matching C function that
-      # owns a jump table declares it here, the way the ff8 and
-      # silent-hill configurations do, and gaps are pad rather than data.
       # The region before the text is the compiler's read-only data. A
       # matching C function that owns some declares it here, the way the ff8
       # and silent-hill configurations do, and gaps are pad.
