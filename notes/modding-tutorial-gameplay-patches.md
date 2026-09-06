@@ -69,6 +69,51 @@ retail consumer, not the meaning of each byte after the drops tool rewrites it.
   complete. Establishing either requires the prerequisite tool output and
   validation of its injected logic; these edits alone do not prove it.
 
+## Opaque hand-script insertion bundle
+
+**Tutorial artifact:** `insert_script_script+gs.zip`
+
+The nested archive contains no readme, offset list, or separate textual
+GameShark code file:
+
+| File | Size | SHA-256 |
+|---|---:|---|
+| `InsertScript.exe` | `52224` bytes | `4103f077085ba244ad60f51c0a564f060ba8fe15e0b2e15c81704d7eb6bba336` |
+| `hand_script.fmbc` | `5285` bytes (`0x14A5`) | `92c501d05fab10cdfefe693015ca88745cdb3df432524f632ce6785d61bace3f` |
+
+Static file inspection identifies `InsertScript.exe` as an obfuscated 32-bit
+.NET GUI. It was not executed. The `.fmbc` payload does not occur verbatim in
+the retail executable, `SU.MRG`, or `WA_MRG.MRG`.
+
+The payload is nevertheless tied to the duel AI data. Its first `0x278` bytes
+match the start of the `0x1800`-byte block at package offset `+0x5C000` in
+all seven terrain packages. That retail block is loaded to `0x801A8000`, the
+AI hand-script area. The adjacent `+0x5D800` block in every package shares
+only the first `0x5F` bytes; `+0x5C000` continues through `0x278` and is the
+uniquely longer lineage match.
+
+After offset `+0x278`, the custom payload differs from the retail hand-script
+slice at 1973 byte positions through its final byte at `+0x14A4`. It is also
+`0x35B` bytes shorter than one complete retail `0x1800`-byte script block.
+This establishes a modified hand-script payload, not a retail copy or a
+self-describing patch.
+
+Without a manual, source code, or a controlled before/after archive produced
+by the tool, the bundle does not establish where `InsertScript.exe` writes,
+whether it updates all seven terrain copies, how it handles the adjacent
+script block, or what GameShark component the archive name refers to. Those
+properties must not be inferred from the payload filename alone.
+
+**Confidence:**
+
+- **Confirmed** for the archive contents, hashes, absent full retail match,
+  and `+0x5C000` common-prefix measurement.
+- **High** that `hand_script.fmbc` is a custom AI hand-script payload, based
+  on both its filename and the uniquely long match to the loaded hand-script
+  block.
+- **Unresolved** for the insertion program's write targets and patch
+  procedure because the supplied executable is opaque and undocumented.
+
 ## Weighted deck and drop total
 
 **Tutorial:** `Introduction to Mod - ENG, 1.2.docx`
