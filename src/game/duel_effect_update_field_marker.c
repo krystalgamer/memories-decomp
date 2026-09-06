@@ -56,7 +56,7 @@ void DuelEffect_UpdateFieldMarker(void) {
 
     v = *(u16 *)&D_8009B20C[1] + 1;
     D_8009B20C[1] = v;
-    if ((s16)v >= 5) {
+    if ((s16)v >= DUEL_FIELD_ROW_SIZE) {
         D_8009B220 = 0;
         return;
     }
