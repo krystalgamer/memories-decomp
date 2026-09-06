@@ -115,7 +115,7 @@ symbol review.
 | `0x80086770` | `rcos` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point cosine output alongside `rsin`. |
 | `0x80086810` | `SetFogNearFar` | Applied Psy-Q 4.6 identity; matching campaign-map callers configure near and far depth-cue distances from the current camera projection. |
 | `0x80086DC8` | `InitGeom` | Applied Psy-Q 4.6 identity at offset `0x8` of `LIBGTE.LIB/MSC00.OBJ`; resident startup paths invoke it before further GTE setup. |
-| `0x80086E50` | `SquareRoot0` | Applied Psy-Q 4.6 identity; matching model and duel callers derive integer distances from sums of squared coordinates. |
+| `0x80086E50` | `SquareRoot0` | Applied Psy-Q 4.6 identity; matching model, duel, and spatial-sound callers derive integer distances from sums of squared coordinates. |
 | `0x80087070` | `ApplyMatrixLV` | Applied Psy-Q 4.6 identity from the unique 352-byte `LIBGTE.LIB/MTX_004.OBJ` signature. |
 | `0x800871D0` | `PushMatrix` | Applied Psy-Q 4.6 identity; the matching model transform path saves the active GTE matrix state. |
 | `0x80087274` | `PopMatrix` | Applied Psy-Q 4.6 identity; restores the matrix state saved by `PushMatrix` after projection work. |
