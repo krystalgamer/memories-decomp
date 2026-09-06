@@ -485,7 +485,10 @@ archive placement are confirmed directly from the retail `WA_MRG.MRG`.
 
 ## Small and large card-frame palettes
 
-**Tutorial:** `Cards.txt`
+**Tutorials:**
+
+- `Cards.txt`
+- `PALETAS E OFFSET PARA CARTAS.xlsx`
 
 The tutorial's `0x200`-byte spacing identifies palette rows, not separate
 card images. In each duel-terrain package, resident loader callback
@@ -533,6 +536,15 @@ copies. The large-Magic row differs only in its final `0x20` bytes, where the
 password package uses sixteen `0x0001` entries instead of the shared row's
 final sixteen colours.
 
+The workbook independently lists the same ten package starts and absolute
+large-card palette offsets. For the seven terrain packages plus Library and
+Password, its six rows are at package offsets `+0x21000`, `+0x21200`,
+`+0x21400`, `+0x21600`, `+0x21800`, and `+0x21A00`; the Build Deck copies are
+shifted to `+0x25000` through `+0x25A00`. Its category headings differ from
+`Cards.txt`: it labels `+0x21200` as Equip and repeats every `+0x21800` address
+under both Magic and "purple Fusion." The workbook therefore corroborates the
+row locations, but not six distinct category assignments.
+
 **Confidence:**
 
 - **Confirmed** that the listed offsets are 256-colour rows in the
@@ -540,6 +552,8 @@ final sixteen colours.
   VRAM upload geometry.
 - **Confirmed** that all eight full terrain/Library blocks are identical and
   that tutorial entries 4 and 5 are duplicates.
+- **Confirmed** that the workbook's Magic and "purple Fusion" columns contain
+  the same ten offsets.
 - **High** that the row labels describe small and large card-frame variants;
   those visual roles come from the tutorial, while their card-kind ordering
   and palette boundaries are exact.
