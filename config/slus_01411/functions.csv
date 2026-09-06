@@ -1689,14 +1689,14 @@ address,size,name,status,module,notes
 0x8008B4E0,0xC,InitCARD2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/A74.OBJ signature.
 0x8008B4F0,0xC,StartCARD2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/A75.OBJ signature.
 0x8008B500,0xC,StopCARD2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/A76.OBJ signature.
-0x8008B510,0x44,func_8008B510,sdk_asm,psyq/sdk,
+0x8008B510,0x44,_patch_card_info,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBCARD.LIB/PATCH.OBJ signature.
 0x8008B554,0x2C,func_8008B554,sdk_asm,psyq/sdk,
 0x8008B580,0x44,func_8008B580,sdk_asm,psyq/sdk,
 0x8008B5C4,0x24,func_8008B5C4,sdk_asm,psyq/sdk,
-0x8008B5EC,0x94,func_8008B5EC,sdk_asm,psyq/sdk,
-0x8008B680,0x70,func_8008B680,sdk_asm,psyq/sdk,
-0x8008B6F0,0x34,func_8008B6F0,sdk_asm,psyq/sdk,
-0x8008B730,0x70,func_8008B730,sdk_asm,psyq/sdk,
+0x8008B5EC,0x94,_patch_card,sdk_asm,psyq/sdk,Identified at offset 0xDC of the unique Psy-Q 4.6 LIBCARD.LIB/PATCH.OBJ signature.
+0x8008B680,0x70,_patch_card2,sdk_asm,psyq/sdk,Identified at offset 0x170 of the unique Psy-Q 4.6 LIBCARD.LIB/PATCH.OBJ signature.
+0x8008B6F0,0x34,_copy_memcard_patch,sdk_asm,psyq/sdk,Identified at offset 0x1E0 of the unique Psy-Q 4.6 LIBCARD.LIB/PATCH.OBJ signature.
+0x8008B730,0x70,_ExitCard,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBCARD.LIB/END.OBJ signature.
 0x8008B7B0,0x30,func_8008B7B0,sdk_asm,psyq/sdk,
 0x8008B7E0,0x20,func_8008B7E0,sdk_asm,psyq/sdk,
 0x8008B800,0x28,func_8008B800,sdk_asm,psyq/sdk,

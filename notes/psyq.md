@@ -195,6 +195,11 @@ symbol review.
 | `0x8008B4E0` | `InitCARD2` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/A74.OBJ` signature. |
 | `0x8008B4F0` | `StartCARD2` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/A75.OBJ` signature. |
 | `0x8008B500` | `StopCARD2` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/A76.OBJ` signature. |
+| `0x8008B510` | `_patch_card_info` | Applied at offset zero of the unique 544-byte Psy-Q 4.6 `LIBCARD.LIB/PATCH.OBJ` signature. |
+| `0x8008B5EC` | `_patch_card` | Applied at offset `0xDC` of the same unique `LIBCARD.LIB/PATCH.OBJ` signature. |
+| `0x8008B680` | `_patch_card2` | Applied at offset `0x170` of the same unique `LIBCARD.LIB/PATCH.OBJ` signature. |
+| `0x8008B6F0` | `_copy_memcard_patch` | Applied at offset `0x1E0` of the same unique `LIBCARD.LIB/PATCH.OBJ` signature. |
+| `0x8008B730` | `_ExitCard` | Applied at offset zero of the unique 128-byte Psy-Q 4.6 `LIBCARD.LIB/END.OBJ` signature. |
 | `0x8008E320` | `bcopy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/BCOPY.OBJ` signature. |
 | `0x8008E360` | `bzero` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBC2.LIB/BZERO.OBJ` signature; `AiScript_Init` clears its three resident state blocks through this entry point. |
 | `0x8008E390` | `memcpy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/MEMCPY.OBJ` signature. |
