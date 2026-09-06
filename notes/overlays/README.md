@@ -728,6 +728,28 @@ So when a profile sweep closes a count, check the distance before adopting the
 profile. If the distance rose, the profile is fitting the length rather than
 the function, and building on it puts every later measurement on a worse base.
 
+## Score a lever on the axis it targets, not on the total distance
+
+The total opcode distance is the right thing to compare two *candidates* by.
+It is the wrong thing to judge a single *lever* by, because a lever that fixes
+the axis it aims at often disturbs another at the same time, and the total then
+reports no change.
+
+Five signedness flips on `func_8016913C` all measured at distance 26, exactly
+the baseline, which read as five inert changes. Scoring them on the byte loads
+alone showed something quite different: four were genuinely inert, changing
+nothing whatever, while the fifth halved that axis, took `lbu` from one too
+many to exactly right, and moved the length two instructions closer to the
+target. Its cost was a sign-extension pair elsewhere, which is why the total
+did not move.
+
+So when testing a lever, decide beforehand which opcode classes it should
+change, and read those counts. A lever that improves its own axis and pays for
+it elsewhere is usually a real finding with a second fault still in front of
+it, and it is worth recording as evidence even when you do not adopt it. A
+lever that leaves its own axis untouched is inert, and that is worth recording
+too, because it removes a hypothesis permanently.
+
 ## Keep a near-miss candidate instead of rebuilding it
 
 Candidate sources live in `tmp/`, which is not tracked, so they disappear when
