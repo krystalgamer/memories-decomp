@@ -472,6 +472,77 @@ resident tables; they remain a separate asset-level investigation.
 - **Confirmed** that recovery and direct damage share the matching
   `func_8001F364` presentation sequence and its two 20-frame waits.
 
+## FM2 trap and immunity rewrite
+
+**Tutorial:** `FM2 Traps e  Imunidade - Por Claudio Lima.txt`
+
+This is not a one-byte balance edit. It replaces seven instruction sequences
+inside the resident `func_8001F0D0` trap-selection routine and installs two
+code/data payloads:
+
+| SLUS range | VRAM range | Size | Retail destination |
+|---:|---:|---:|---|
+| `0x81808-0x81A1D` | `0x80091008-0x8009121D` | `0x216` bytes | First three `0xB2`-byte entries of a live model/effect descriptor table |
+| `0x1BE230-0x1BF9D1` | `0x801CDA30-0x801CF1D1` | `0x17A2` bytes | Entirely zero-filled |
+
+The two separately listed writes at `0x81930` and `0x81998` fall inside the
+first range and repeat bytes already present in the `0x81808` payload. The
+final payload hashes are:
+
+```text
+0x81808:  faabcafa86a1253eacff346c37182ee607266c3da9ac8baceabf80462a180772
+0x1BE230: 5534e85dc5dba7116329a281df8a54afc0d7885033966e7295c08aa7c4d882ea
+```
+
+The resident hooks all land inside the second payload:
+
+| SLUS offset | VRAM | Replaced bytes | Injected target | Retail operation at the hook |
+|---:|---:|---:|---:|---|
+| `0xF8F0` | `0x8001F0F0` | 8 | `0x801CE4F8` | Clear one of six temporary trap halfwords and advance the loop |
+| `0xF978` | `0x8001F178` | 8 | `0x801CE1F0` | Test whether an occupied field card is in the retail trap-ID range `681`-`686` |
+| `0xFA80` | `0x8001F280` | 8 | `0x801CE48C` | Reject the path when no threshold-qualified trap slot was selected |
+| `0xFA90` | `0x8001F290` | 12 | `0x801CDFD0` | Begin committing the selected trap ID and temporary-table lookup |
+| `0xFAA8` | `0x8001F2A8` | 8 | `0x801CE4CC` | Finish the selected temporary-table address calculation |
+| `0xFAB8` | `0x8001F2B8` | 4 | `0x801CF038` | Load the selected duel-card record's object pointer |
+| `0xFB30` | `0x8001F330` | 8 | `0x801CEFE4` | Compare an occupied field card against retail card ID `690` (`Fake Trap`) |
+
+The untouched routine clears six temporary entries, scans the active side's
+five field slots for occupied cards with IDs `681`-`686`, chooses among those
+traps using the current card's calculated attack and the resident threshold
+table, then falls back to a separate search for ID `690`. The hook locations
+therefore establish that the injected code replaces and extends trap
+selection rather than merely changing card data.
+
+The first payload is especially invasive. `func_80053248` and
+`Model_LoadMonsterMerge` index `D_80091008` in `0xB2`-byte steps; the
+`0x216`-byte write is exactly three such entries. Thirty-five bytes in that
+retail destination are nonzero. Direct jumps from the larger payload to
+`0x80091018`, `0x8009103C`, and `0x8009116C` show that the replacement bytes
+are executed as helper code, so those three original records are deliberately
+sacrificed. This matches the tutorial's warning that the method is intended
+for mods without effects.
+
+The injected routines also use unsymbolized RAM at `0x8000FE80`,
+`0x8000FE82`, `0x8000FE90`, `0x8000FEAC`, and `0x8000FEB8`. These addresses
+are below the executable's `0x80010000` load base, and the repository does not
+currently establish that they are safe scratch storage in every runtime
+environment. The payload branches on duel side, life points, fusion-result
+card ID, card-record flags, and several hard-coded card IDs. Because the
+tutorial targets effect-free FM2 mods, stock card names do not establish the
+intended meaning of those IDs in a patched game.
+
+**Confidence:**
+
+- **Confirmed** that all seven hook offsets are inside `func_8001F0D0` and
+  redirect to the zero-filled `0x801CDA30` payload.
+- **Confirmed** that the smaller payload overwrites three live `0xB2`-byte
+  descriptor records and is reached as executable helper code.
+- **Confirmed** that the retail routine being replaced selects among the six
+  standard damage traps and the separate Fake Trap fallback.
+- **Unresolved** are the complete card-by-card immunity rules, the ownership
+  of the low-RAM scratch area, and safe interaction with mods that still use
+  the overwritten model/effect descriptors.
+
 ## Additional end-of-duel starchips
 
 **Tutorial:** `Alterar Starchips - Por Wladmir Ghost.txt`
