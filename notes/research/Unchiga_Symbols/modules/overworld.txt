@@ -3,6 +3,7 @@
 CampaignMap_CreateLocationLabel = 0x8016818C; // type:func
 CampaignMap_ResetCamera = 0x80168310; // type:func
 CampaignMap_MoveCameraDpad = 0x80168388; // type:func
+CampaignMap_CreateLocationMarker = 0x80168588; // type:func
 CampaignMap_SetLocation = 0x8016866C; // type:func
 CampaignMap_StartCameraTween = 0x801688BC; // type:func
 CampaignMap_PickExit = 0x80168E0C; // type:func

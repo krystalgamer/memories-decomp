@@ -8,7 +8,7 @@ extern u8 *func_800400AC(void *, s32);
 extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
 extern void func_800428EC(void *, s32);
 
-u8 *func_80168588(s32 index)
+u8 *CampaignMap_CreateLocationMarker(s32 index)
 {
     u8 *object;
     u8 *table;
