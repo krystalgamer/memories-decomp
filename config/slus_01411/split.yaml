@@ -68,6 +68,7 @@ segments:
       # matching C function that owns some declares it here, the way the ff8
       # and silent-hill configurations do, and gaps are pad.
       - [0x800, rodata, initial_data]
+      - [0xA08, .rodata, game/func_8002BD0C]
       - [0xA24, .rodata, game/func_8002D458]
       - [0xA50, rodata, initial_data_1]
       - [0xB48, .rodata, game/func_8003B808]

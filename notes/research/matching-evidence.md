@@ -2758,3 +2758,50 @@ Two things worth carrying:
 The same reasoning applies in reverse: a candidate whose frame is *larger*
 than the target has a local the original did not need, usually because a value
 was spilled that the original kept in a register or recomputed.
+
+## A pointer cast writes the same bytes as a union but not the same schedule
+
+Writing a wider view of two adjacent struct fields through a pointer cast and
+writing it through a union member produce the identical store. They do not
+produce the identical instruction order, because the cast constrains what the
+scheduler is allowed to move across it.
+
+`func_8002BD0C` (0x8002BD0C) stores one word over `field30` and `field32`,
+which are `s16` elsewhere in the same function. Spelled as a cast:
+
+    *(s32 *)&object->field30 = 0x26810;
+
+the candidate held at six diffs out of 140, all inside that one arm. The
+target completes the constant *after* an intervening global load:
+
+    lui   $v1, 0x2                  begin 0x26810
+    addiu $v0, $zero, 3
+    sb    $v0, 0x46($s2)
+    lui   $v0, %hi(D_8009B118)
+    lw    $v0, %lo(D_8009B118)($v0)
+    ori   $v1, $v1, 0x6810          finish 0x26810, filling the load delay
+    sw    $v1, 0x30($s2)
+
+The cast version emitted the same instructions with the load last, leaving the
+load delay unfilled. Declaring the field as a union of a two-`s16` struct and
+an `s32`, and writing `object->field30.w`, took it to zero:
+
+    union {
+        struct { s16 lo; s16 hi; } h;
+        s32 w;
+    } field30;
+
+The reason is aliasing. A store through a cast pointer is not provably
+confined to the object, so GCC will not schedule an unrelated load across it.
+A union member is a typed access to a known field, and the load moves freely.
+
+Practical form of this: when a residual is confined to one arm, the
+instruction *set* already matches, and the difference is ordering around a
+type-punned store, the punning construct is the suspect rather than the
+statement order. Reordering the statements is the natural thing to try and it
+does not help here; both orders were measured, and one was worse.
+
+Note also that scheduling-variant profiles are not the answer to this class of
+difference. `no_sched2`, `no_strength_reduce` and an as-G0 variant were all
+measured against this function and left the count unchanged at six, because
+the constraint came from the source, not the flags.
