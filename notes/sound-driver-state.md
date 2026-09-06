@@ -132,7 +132,9 @@ All operations are integer operations. A zero-length view axis leaves pan at
 zero. The function never reads the Y coordinates, never lowers volume below
 `0x10`, and stores negative pan through the caller's byte pointer. This is a
 game-side spatial-audio helper built on camera geometry, not a field in either
-sound-driver state structure.
+sound-driver state structure. Its matching source now imports `libgte.h` for
+the canonical `SquareRoot0` interface while retaining local offset reads for
+the game-owned reference-view storage.
 
 ## Secondary state (`D_8009B458`)
 

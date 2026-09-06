@@ -1,8 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 extern u8 D_800F56F0[];
-
-s32 SquareRoot0(s32 arg0);
 
 /* Distance-to-camera fade and pan for one sound source: the square root of
  * the distance from the listener record at D_800F56F0, minus 700, sets the
