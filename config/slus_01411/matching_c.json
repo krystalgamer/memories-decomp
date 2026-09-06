@@ -2458,31 +2458,31 @@
       "address": "0x800389C4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x14",
-      "source": "src/game/func_800389C4.c"
+      "source": "src/game/duel_effect_object_commands.c"
     },
     {
       "address": "0x800389D8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x6C",
-      "source": "src/game/duel_effect_stream_offsets.c"
+      "source": "src/game/duel_effect_object_commands.c"
     },
     {
       "address": "0x80038A44",
       "profile": "gcc_2_8_1_g8",
       "size": "0x6C",
-      "source": "src/game/duel_effect_stream_offsets.c"
+      "source": "src/game/duel_effect_object_commands.c"
     },
     {
       "address": "0x80038AB0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x58",
-      "source": "src/game/duel_effect_tail_commands.c"
+      "source": "src/game/duel_effect_object_commands.c"
     },
     {
       "address": "0x80038B08",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/duel_effect_tail_commands.c"
+      "source": "src/game/duel_effect_object_commands.c"
     },
     {
       "address": "0x80038B4C",
