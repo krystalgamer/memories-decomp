@@ -85,9 +85,10 @@ camera values:
 - both angles are normalized into the 4096-unit turn range.
 
 `func_800592AC` consumes the two angles when building a model rotation matrix.
-The current matching sources retain local byte/word views because replacing
-them with `GsRVIEW2` member accesses has not yet been checked for exact code
-generation.
+Matching `func_800134E0` now uses `GsRVIEW2` member accesses for a separate
+view record embedded at object offset `+0x10`, with byte-identical code
+generation. Sources accessing the shared `D_800F56F0` block retain local
+byte/word views until that migration is checked independently.
 
 The output transform in `func_800592AC` uses the imported `libgte.h` types:
 an eight-byte `SVECTOR` for each local angle triplet and a 32-byte `MATRIX`
