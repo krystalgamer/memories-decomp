@@ -147,7 +147,7 @@ function,0x800725C4,AiScript_CheckRitual,high,"gms.c aiInstCheckRitual; local ri
 function,0x80072640,AiScript_FindFirstMonster,high,"gms.c aiInstFirstMon; local card scan","Finds the first monster satisfying scripted filters."
 function,0x800726F4,AiScript_FindFirstType,high,"gms.c aiInstFirstType; local card scan","Finds the first card of a scripted type."
 function,0x800727C0,Ai_CompleteFusion,high,"gms.c aiCompleteFusion; local combo callers","Completes the current AI fusion sequence."
-function,0x80072A48,AiScript_FindBestCombo,high,"gms.c aiInstBestCombo; local combo search","Finds the best available AI card combination."
+function,0x80072A48,AiScript_FindBestCombo,high,"gms.c aiInstBestCombo; exact matching body; gAiScript_State combo scratch; Ai_CompleteFusion recursion","Searches field and hand candidates for the strongest direct or recursive fusion result and classifies where the winning combination starts."
 function,0x80072DC0,AiScript_EvaluateFusion,high,"gms.c aiInstFusePerf; local fusion search","Evaluates fusion performance for scripted selection."
 function,0x80072F1C,AiScript_SkipHand,high,"gms.c aiInstHandSkip; script cursor update","Skips the current hand-action bytecode block."
 function,0x80072F54,AiScript_SkipField,high,"gms.c aiInstFieldSkip; script cursor update","Skips the current field-action bytecode block."

@@ -126,8 +126,6 @@ on the suspects side until proven.)
 
 ## Batch 7 (functions — AI searchers, fusion solver, play emitters, 20 rows)
 
-(0x80072A48 `AiScript_FindBestCombo` excluded: body unmatched, not 100% — suspects.)
-
 | address | name | description |
 |---|---|---|
 | 0x80071FC8 | `AiScript_FindFirstCard` | Opcode: scans `gDuel_aActiveCards` over an `Ai_GetCardRange` window and stores the first slot matching the scripted target/type criteria (two `gAiScript_aMemory` operands). |
@@ -138,6 +136,7 @@ on the suspects side until proven.)
 | 0x80072640 | `AiScript_FindFirstMonster` | Opcode: scans the field records for the first qualifying monster and stores its slot. |
 | 0x800726F4 | `AiScript_FindFirstType` | Opcode: sibling scan — first entry of the scripted type. |
 | 0x800727C0 | `Ai_CompleteFusion` | The AI's fusion-chain solver: recursive combo search over the `gAiScript_State` rows, resolving each key through `gDuel_aActiveCards`, skipping used/rejected rows, testing fusion/equip validity at each depth. |
+| 0x80072A48 | `AiScript_FindBestCombo` | Opcode: initializes the combo-search scratch from script depth, excluded sets, and hand size; scans the five field slots and then the hand while recursing through `Ai_CompleteFusion`; and stores `3` for no result, `0` when the best start lies past the field, or `1`/`2` from the field result's second combo byte. |
 | 0x80072DC0 | `AiScript_EvaluateFusion` | Opcode: preps and scores a fusion attempt — fills the combo-search header at `gAiScript_State+0x9C` from four operands plus `Ai_GetHandSize`, evaluates `Duel_GetBaseCardStat` both ways (ATK and DEF), and keeps the higher. |
 | 0x80072F1C | `AiScript_SkipHand` | Opcode: advances the script cursor 4 bytes, discarding them — the hand-script skip. |
 | 0x80072F54 | `AiScript_SkipField` | Opcode: identical 4-byte skip for field scripts. |
