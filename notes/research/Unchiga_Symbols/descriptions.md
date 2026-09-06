@@ -289,3 +289,14 @@ verified — tracked in suspects.md.)
 | 0x8003CCD8 | `Input_UpdatePads` | Consumes the pending mask, derives rising-edge and timer-driven repeat bits, then publishes held, newly pressed, and repeat masks for both controllers. |
 | 0x8003CDF8 | `Input_BackupPad1AndUsePad2` | Saves pad 1's held, newly pressed, and repeat masks, then exposes the corresponding pad 2 masks through the pad 1 globals. |
 | 0x8003CE48 | `Input_RestorePad1FromBackup` | Restores pad 1's held, newly pressed, and repeat masks after the temporary pad 2 remap. |
+
+## Batch: save-data runtime
+
+| address | name | description |
+|---|---|---|
+| 0x8003CE74 | `SaveData_NextMaskWord` | Advances the two-word save mask state and returns the next 32-bit word used when generating and validating the save's masked checksum blocks. |
+| 0x8003D0F4 | `SaveData_ApplyRuntimeState` | Rebuilds the saved player-name glyphs, restores runtime globals, and reapplies the saved sound output mode after persistent data is loaded. |
+| 0x8003D288 | `SaveData_HasSameDuelistCode` | Tests whether two loaded save records carry the same duelist code at record offset `0x334`. |
+| 0x8003F7D4 | `SaveData_RequestLoad` | Clears the load-result flag and starts an asynchronous read of the `0x680`-byte save state into the staging buffer. |
+| 0x8003F810 | `SaveData_PollLoad` | Polls the pending read; on success copies the staged state into persistent memory and applies its runtime fields. |
+| 0x8003F87C | `SaveData_RequestWrite` | Copies the current save state into staging, prepares its checksum block, and starts the `0xD00`-byte memory-card write. |
