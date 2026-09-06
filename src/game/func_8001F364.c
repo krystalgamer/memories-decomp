@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card_layout.h"
 
 extern u16 D_8009B162;
 extern u16 D_8009B210;
@@ -79,7 +80,7 @@ m1:
     *(u16 *)(e + 2) = *(u16 *)(p + 0x32);
     q34 = p + 0x34;
     *(d = (u16 *)(e + 4)) = *(u16 *)q34;
-    func_80024954(D_801A7AD8 + p[0x6A] * 0x1C);
+    func_80024954(D_801A7AD8 + p[0x6A] * DUEL_CARD_RECORD_SIZE);
     SD_SEPlayFull(0x17);
     D_8009B210 = 2;
     }
