@@ -119,9 +119,10 @@ same-address functions agree on the order and count. The modeled extent is
 `80 * 8 == 0x280`; `gAiScript_aMemory` (`0x800F5B98`) starts exactly at
 `D_800F5918 + 0x280`.
 
-Both pure-C users, `Model_RegisterHandlerKey` and `Model_FindHandlerKey`, use
-the shared entry type and typed extern. Assembly users `func_8005FC1C` and
-`func_8005FE44` remain unchanged.
+`Model_RegisterHandlerKey` and `Model_FindHandlerKey` use the shared entry
+type and typed extern. The two matching dispatch maps in
+`model_handler_dispatch.c` retain a raw byte walk over the same registry so
+their packed-ID switch layout and accepted code generation remain unchanged.
 
 ## Migration snapshot and exact-code exceptions
 
