@@ -65,3 +65,11 @@ void func_80031CD4(CardList *list, s32 slot)
     }
     func_80039A14(box);
 }
+
+void func_80031E04(CardList *list, s32 count)
+{
+    s32 i;
+
+    for (i = 0; i < count; i++)
+        func_80031CD4(list, i);
+}
