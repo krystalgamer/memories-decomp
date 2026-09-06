@@ -851,6 +851,19 @@ additions, and compares that product with the attacking monster's calculated
 ATK. The comparison accepts equal values, matching the documented "ATK less
 than or equal to" effects.
 
+The descending scan does not give the broadest trap priority. Every available
+trap whose threshold still covers the attack replaces the current selection,
+and the loop stops once it reaches an available threshold that is too low.
+With the retail table's increasing thresholds, the result is the
+lowest-threshold available trap that can destroy the attacker; Widespread
+Ruin wins only when no narrower set trap qualifies.
+
+That early stop also matters when editing the table. Non-monotonic values can
+make a lower-index trap unreachable whenever an available higher-index trap
+with a smaller threshold terminates the scan first. Keeping thresholds
+nondecreasing from card IDs `681` through `686` preserves the retail
+selection model.
+
 After selecting an index, the function adds `0x2A9` (decimal `681`) to
 produce the trap card ID. This independently fixes the table order to the
 first six trap cards. The retail value `255` gives Widespread Ruin an
@@ -870,6 +883,8 @@ Values above `25500` cannot be represented by this one-byte table.
   with calculated ATK.
 - **Confirmed** that indices `0`-`5` map to card IDs `681`-`686` in the trap
   order shown above.
+- **Confirmed** that, with the retail table order, simultaneous qualifying
+  traps are prioritized from the lowest sufficient threshold upward.
 
 ## Guardian Star bonus magnitude
 

@@ -682,7 +682,10 @@ when. Their triggers, from the cards' own text:
 
 The six "attacker destroyed" traps only fire on an attack whose ATK is within
 the limit; a stronger attacker is unaffected and the trap stays. One trap
-fires per attack, and once fired it is gone.
+fires per attack, and once fired it is gone. If several set traps qualify, the
+game chooses the available trap with the lowest threshold that still covers
+the attack. Widespread Ruin is therefore selected only when no narrower set
+trap can destroy that attacker.
 
 **Rituals** (24 cards) are played to the magic/trap row and **activated**: if
 the three specific monsters the ritual names are face-up on your field, they
