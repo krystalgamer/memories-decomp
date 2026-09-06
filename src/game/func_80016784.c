@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 #include "duel_card_layout.h"
 
 extern u8 D_801A7AD8[];
@@ -81,18 +82,18 @@ void func_80016784(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
                     *(u16 *)(k + 4) = *(u16 *)(o + 8) + 0xA;
                     *(u16 *)(k + 6) = *(u16 *)(o + 0xA) + 0x28;
                     switch (arg0[0x68]) {
-                    case 23:
+                    case CARD_TYPE_EQUIP:
                         k[0xE] = 0x20;
-                    case 20:
+                    case CARD_TYPE_MAGIC:
                         func_80042188(k, y, arg1, fl, o);
                         *(u16 *)(k + 0x12) = *(u16 *)(k + 0x12) + 1;
                         break;
-                    case 21:
+                    case CARD_TYPE_TRAP:
                         k[0xE] = 0x40;
                         func_80042188(k, y, arg1, fl, o);
                         *(u16 *)(k + 0x12) = *(u16 *)(k + 0x12) + 2;
                         break;
-                    case 22:
+                    case CARD_TYPE_RITUAL:
                         k[0xE] = 0x60;
                         func_80042188(k, y, arg1, fl, o);
                         *(u16 *)(k + 0x12) = *(u16 *)(k + 0x12) + 3;
