@@ -10,6 +10,9 @@ constants: `DISPLAY_OBJECT_RECORD_SIZE` is `0x70`,
 `DISPLAY_OBJECT_POOL_CAPACITY` is 96,
 `DISPLAY_OBJECT_RESERVED_CAPACITY` is 16,
 `DISPLAY_OBJECT_LIST_COUNT` is 7,
+`DISPLAY_OBJECT_FLAG_CLIP_TEST` is `0x04`,
+`DISPLAY_OBJECT_FLAG_SCREEN_SPACE` is `0x08`,
+`DISPLAY_OBJECT_FLAG_RENDERABLE` is `0x40`,
 `DISPLAY_OBJECT_FLAG_ALLOCATED` is `0x80`, and
 `DISPLAY_OBJECT_RENDERABLE_MASK` is `0xC0`. The header deliberately defines
 only shared geometry and flags, not a complete display-object structure.
@@ -30,9 +33,9 @@ The two allocation scans divide the pool:
 
 Both return the first slot whose `+0x08` flags do not contain
 `DISPLAY_OBJECT_FLAG_ALLOCATED`. `func_800400AC` initializes a newly claimed
-slot with `DISPLAY_OBJECT_RENDERABLE_MASK`, whose `0x80` component marks
-allocation. Render and update passes require the complete `0xC0` mask before
-submitting visible content.
+slot with `DISPLAY_OBJECT_RENDERABLE_MASK`, the combination of
+`DISPLAY_OBJECT_FLAG_RENDERABLE` and `DISPLAY_OBJECT_FLAG_ALLOCATED`. Render
+and update passes require both bits before submitting visible content.
 
 Each slot begins with two signed 16-bit links at `+0x00` and `+0x02`.
 `func_800400AC` inserts a slot at the head selected by its list key, records
@@ -95,11 +98,11 @@ without losing the walk's continuation.
 2. Require `(flags_08 & DISPLAY_OBJECT_RENDERABLE_MASK) ==
    DISPLAY_OBJECT_RENDERABLE_MASK`.
 3. Copy slot geometry into scratchpad packet storage at `0x1F800344`.
-4. Subtract `gGraphics_sViewportX` and `gGraphics_sViewportY` unless flags bit
-   `0x08` is set.
-5. When flags bit `0x04` is set, run `func_80041E7C` with scratch workspace
-   at `0x1F800398`; reject a nonpositive result or add `0x04000000` to the
-   packet control word.
+4. Subtract `gGraphics_sViewportX` and `gGraphics_sViewportY` unless
+   `DISPLAY_OBJECT_FLAG_SCREEN_SPACE` is set.
+5. When `DISPLAY_OBJECT_FLAG_CLIP_TEST` is set, run `func_80041E7C` with
+   scratch workspace at `0x1F800398`; reject a nonpositive result or add
+   `0x04000000` to the packet control word.
 6. Select the ordering table through slot byte `+0x17` and submit through
    `func_80042188`.
 
