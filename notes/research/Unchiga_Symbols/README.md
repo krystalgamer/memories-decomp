@@ -39,7 +39,7 @@ on a recompiled build).
 | `findings.md` | The live-trace evidence ledger (F1–F157) recording what was proven, how, and the status of each claim. |
 | `suspects.md` | The not-yet-100% identifications, kept apart from the confirmed set with the evidence gathered and what would graduate each. |
 | `modules.md` | What the disc-loaded screen modules are and how their shared address range was traced. |
-| `modules/` | Per-module symbol files (41 symbols) for free duel, name entry, password, main menu and overworld, kept separate because those screens load into the same addresses. |
+| `modules/` | Per-module symbol files (59 symbols) for free duel, name entry, password, main menu and overworld, kept separate because those screens load into the same addresses. |
 | `NAMING.md` | Where each kind of name comes from in the source repo, how much to trust each evidence tier, and the convention used in this corpus. |
 
 Source repository: Unchiga/ygofm-decomp (private); contact Unchiga for
