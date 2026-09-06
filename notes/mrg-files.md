@@ -100,6 +100,24 @@ win/lose graphics described in
 labels come from the tutorial; the package boundaries, upload geometry, and
 final destination come from the resident request and matching callback.
 
+### Menu background and symbol package
+
+Resident `func_8002F630` requests 50 WA sectors beginning at sector `0x1FA7`,
+which is archive range `0xFD3800-0xFEC800`. Matching callback
+`func_8002F4C0` divides the package into three transfer phases:
+
+| WA range | Size | Callback behavior |
+|---:|---:|---|
+| `0xFD3800-0xFEB800` | `0x18000` / 48 sectors | Schedules the image payload. The tutorial evidence divides it into a `0x10000`-byte menu-background range and a `0x8000`-byte symbol range at `0xFE3800`. |
+| `0xFEB800-0xFEC000` | `0x800` / 1 sector | Stages palette data; the callback uploads its first `0x400` bytes as a `256 x 2` rectangle to VRAM `(0, 244)`. The remaining half-sector is not assigned a role. |
+| `0xFEC000-0xFEC800` | `0x800` / 1 sector | Schedules a transfer to `0x801AF000`; its later role remains unnamed. |
+
+The tutorial places a 256-colour background palette at `0xFEB800` and a
+16-colour symbol palette at `0xFEBA00`, which map to the first full VRAM row
+and the first 16 entries of the second row. See
+[`modding-tutorial-evidence.md`](modding-tutorial-evidence.md) for the
+resource hashes and the visual-label confidence boundary.
+
 ## Development-path evidence
 
 The executable preserves paths including:
