@@ -1,13 +1,11 @@
 #include "../types.h"
+#include "../psyq/libapi.h"
 
-extern void *D_800F2AE0[];
-extern int EnterCriticalSection(void);
-extern void CloseEvent(void *);
-extern void ExitCriticalSection(void);
+extern long D_800F2AE0[];
 
 void func_80043E68(void)
 {
-    void **item = D_800F2AE0;
+    long *item = D_800F2AE0;
     int count;
     EnterCriticalSection();
     count = 8;

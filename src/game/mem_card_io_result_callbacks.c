@@ -1,6 +1,6 @@
 #include "../types.h"
 
-int MemCard_SetIOResultCompleteCB(void)
+long MemCard_SetIOResultCompleteCB(void)
 {
     register char *base asm("$2") = (char *)0x800A0000;
     asm("" : "+r"(base));
@@ -8,7 +8,7 @@ int MemCard_SetIOResultCompleteCB(void)
     return 0;
 }
 
-int MemCard_SetIOResultTimeoutCB(void)
+long MemCard_SetIOResultTimeoutCB(void)
 {
     register char *base asm("$3") = (char *)0x800A0000;
     register int value asm("$2") = 1;
@@ -17,7 +17,7 @@ int MemCard_SetIOResultTimeoutCB(void)
     return 0;
 }
 
-int MemCard_SetIOResultErrorCB(void)
+long MemCard_SetIOResultErrorCB(void)
 {
     register char *base asm("$3") = (char *)0x800A0000;
     register int value asm("$2") = 2;
@@ -26,7 +26,7 @@ int MemCard_SetIOResultErrorCB(void)
     return 0;
 }
 
-int MemCard_SetIOResultNewCardCB(void)
+long MemCard_SetIOResultNewCardCB(void)
 {
     register char *base asm("$3") = (char *)0x800A0000;
     register int value asm("$2") = 3;

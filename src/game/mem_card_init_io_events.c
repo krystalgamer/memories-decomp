@@ -1,50 +1,47 @@
 #include "../types.h"
+#include "../psyq/libapi.h"
 
 extern signed char D_8009B43E;
 extern u8 D_8009B44E;
 extern int D_8009B444;
 extern volatile int D_8009B450;
-extern void *D_800F2AE0[];
+extern long D_800F2AE0[];
 extern void *D_800F2AF0[];
-extern int EnterCriticalSection(void);
-extern void *OpenEvent(int, int, int, void *);
-extern void EnableEvent(void *);
-extern void ExitCriticalSection(void);
 extern void func_80043D48(void **);
 extern void func_8008B3A0(int);
-extern void MemCard_SetIOResultCompleteCB(void);
-extern void MemCard_SetIOResultTimeoutCB(void);
-extern void MemCard_SetIOResultErrorCB(void);
-extern void MemCard_SetIOResultNewCardCB(void);
+extern long MemCard_SetIOResultCompleteCB(void);
+extern long MemCard_SetIOResultTimeoutCB(void);
+extern long MemCard_SetIOResultErrorCB(void);
+extern long MemCard_SetIOResultNewCardCB(void);
 
 void MemCard_InitIOEvents(void)
 {
-    register void **items;
-    register void *cb0;
-    register void *cb1;
-    register void *cb2;
+    register long *items;
+    register long (*cb0)(void);
+    register long (*cb1)(void);
+    register long (*cb2)(void);
     int count;
     {
-        register void **base = D_800F2AE0;
+        register long *base = D_800F2AE0;
         D_8009B43E = -1;
         D_8009B44E = 0;
         D_8009B444 = 0;
         items = D_800F2AE0;
         EnterCriticalSection();
         cb0 = MemCard_SetIOResultCompleteCB;
-        base[0] = OpenEvent(0xF4000001, 4, 0x1000, cb0);
+        base[0] = OpenEvent(SwCARD, EvSpIOE, EvMdINTR, cb0);
         cb1 = MemCard_SetIOResultTimeoutCB;
-        items[1] = OpenEvent(0xF4000001, 0x100, 0x1000, cb1);
+        items[1] = OpenEvent(SwCARD, EvSpTIMOUT, EvMdINTR, cb1);
     }
     cb2 = MemCard_SetIOResultErrorCB;
-    items[2] = OpenEvent(0xF4000001, 0x8000, 0x1000, cb2);
+    items[2] = OpenEvent(SwCARD, EvSpERROR, EvMdINTR, cb2);
     {
-        register void *cb3 = MemCard_SetIOResultNewCardCB;
-        items[3] = OpenEvent(0xF4000001, 0x2000, 0x1000, cb3);
-        items[4] = OpenEvent(0xF0000011, 4, 0x1000, cb0);
-        items[5] = OpenEvent(0xF0000011, 0x100, 0x1000, cb1);
-        items[6] = OpenEvent(0xF0000011, 0x8000, 0x1000, cb2);
-        items[7] = OpenEvent(0xF0000011, 0x2000, 0x1000, cb3);
+        register long (*cb3)(void) = MemCard_SetIOResultNewCardCB;
+        items[3] = OpenEvent(SwCARD, EvSpNEW, EvMdINTR, cb3);
+        items[4] = OpenEvent(HwCARD, EvSpIOE, EvMdINTR, cb0);
+        items[5] = OpenEvent(HwCARD, EvSpTIMOUT, EvMdINTR, cb1);
+        items[6] = OpenEvent(HwCARD, EvSpERROR, EvMdINTR, cb2);
+        items[7] = OpenEvent(HwCARD, EvSpNEW, EvMdINTR, cb3);
     }
     count = 8;
     do {
