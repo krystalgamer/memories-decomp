@@ -152,9 +152,10 @@ The rule is about matching the original's locals, not about avoiding locals.
 Read the target both ways:
 
 - If the target does **not** materialise something in a register, do not give
-  it a local. `func_80169D10` writes `D_800EB0F8` base-relative at absolute
-  offsets, and adding a local for the element makes GCC fold the base and the
-  offset into one `addiu`. `FreeDuel_Entry` is the same in miniature: hoisting
+  it a local. `Password_RefreshStarchipDisplay` writes `D_800EB0F8`
+  base-relative at absolute offsets, and adding a local for the element makes
+  GCC fold the base and the offset into one `addiu`. `FreeDuel_Entry` is the
+  same in miniature: hoisting
   a repeated expression into a local displaces an address load out of a branch
   delay slot.
 - If the target **does** materialise one, the local is required.
