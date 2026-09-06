@@ -106,7 +106,7 @@ address,size,name,status,module,notes
 0x800179F4,0x3C0,func_800179F4,unmatched_asm,game,
 0x80017DB4,0x88,func_80017DB4,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80017E3C,0xC8,func_80017E3C,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
-0x80017F04,0x100,func_80017F04,unmatched_asm,game,
+0x80017F04,0x100,func_80017F04,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference; adds the gDuel_adwCardStats linker alias (0x801D4244, the symbols.txt name); the named index-minus-one and the store interleaving are load-bearing."
 0x80018004,0x7C,func_80018004,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80018080,0xD0,Duel_ApplyCardObjectFlags,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80018150,0x9C,func_80018150,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -1241,7 +1241,7 @@ address,size,name,status,module,notes
 0x80074020,0xC,PAD_init2,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A21.OBJ signature.
 0x80074030,0xC,func_80074030,sdk_asm,psyq/sdk,
 0x80074040,0xC,func_80074040,sdk_asm,psyq/sdk,
-0x80074050,0x28,EnablePAD,sdk_asm,psyq/sdk,"Identified at offset zero of the unique Psy-Q 4.6 LIBAPI.LIB/PATCH.OBJ signature; DisablePAD is the internal entry at +0x14."
+0x80074050,0x28,EnablePAD,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBAPI.LIB/PATCH.OBJ signature; DisablePAD is the internal entry at +0x14.
 0x80074078,0x70,_patch_pad,sdk_asm,psyq/sdk,Identified at offset 0x28 of the unique Psy-Q 4.6 LIBAPI.LIB/PATCH.OBJ signature.
 0x800740F0,0xC,func_800740F0,sdk_asm,psyq/sdk,
 0x80074100,0x68,_remove_ChgclrPAD,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBAPI.LIB/CHCLRPAD.OBJ signature.
