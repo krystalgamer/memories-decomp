@@ -1328,18 +1328,18 @@ address,size,name,status,module,notes
 0x80077C50,0x1C,func_80077C50,sdk_asm,psyq/sdk,
 0x80077C70,0x37C,func_80077C70,sdk_asm,psyq/sdk,
 0x80077FF0,0x1CC,SpuSetReverbModeType,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SRMT.OBJ signature and matching sound-state callers.
-0x800781C0,0x2C,func_800781C0,sdk_asm,psyq/sdk,
+0x800781C0,0x2C,StSetRing,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/CDROM.OBJ signature and matching movie-stream setup caller.
 0x800781F0,0x80,CdPosToInt,sdk_asm,psyq/sdk,Exact Psy-Q 4.6 LIBCD.LIB/SYS.OBJ signature match; canonical linked copy.
-0x80078270,0x60,func_80078270,sdk_asm,psyq/sdk,
-0x800782D0,0x80,func_800782D0,sdk_asm,psyq/sdk,
+0x80078270,0x60,StClearRing,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_002.OBJ signature and matching movie-stream setup caller.
+0x800782D0,0x80,StUnSetRing,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_003.OBJ signature and matching movie-stream teardown caller.
 0x80078350,0x8C,func_80078350,sdk_asm,psyq/sdk,
-0x800783DC,0x58,func_800783DC,sdk_asm,psyq/sdk,
-0x80078440,0x84,func_80078440,sdk_asm,psyq/sdk,
-0x800784D0,0xAC,func_800784D0,sdk_asm,psyq/sdk,
+0x800783DC,0x58,StGetBackloc,sdk_asm,psyq/sdk,Identified at offset 0x8C of the unique Psy-Q 4.6 LIBCD.LIB/C_004.OBJ signature.
+0x80078440,0x84,StSetStream,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_005.OBJ signature and matching movie-stream setup caller.
+0x800784D0,0xAC,StFreeRing,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_007.OBJ signature.
 0x80078580,0x34,func_80078580,sdk_asm,psyq/sdk,
-0x800785C0,0xB8,func_800785C0,sdk_asm,psyq/sdk,
-0x80078680,0x1C,func_80078680,sdk_asm,psyq/sdk,
-0x800786A0,0x91C,func_800786A0,sdk_asm,psyq/sdk,
+0x800785C0,0xB8,StGetNext,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_009.OBJ signature.
+0x80078680,0x1C,StSetMask,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_010.OBJ signature.
+0x800786A0,0x91C,StCdInterrupt,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_011.OBJ signature.
 0x80078FBC,0x2C,func_80078FBC,sdk_asm,psyq/sdk,
 0x80078FE8,0x1A8,func_80078FE8,sdk_asm,psyq/sdk,
 0x80079190,0x564,func_80079190,sdk_asm,psyq/sdk,
