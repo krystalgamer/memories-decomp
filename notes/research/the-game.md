@@ -1386,9 +1386,10 @@ unlocked, and receives a **copy of your own deck**. The setup comparison at
 `Duel_ShuffleBothDecks(player_deck, player_deck)`. The tutorial edit at file
 offset `0x8585` changes the comparison limit from 39 to 295, making ID 39
 take the ordinary-opponent branch; the edited byte is part of that signed
-immediate, not a standalone deck-mode flag. The reported editable-deck result
-remains high confidence rather than confirmed because `Duel_ShuffleDeck`
-remains assembly
+immediate, not a standalone deck-mode flag. Exact matching C for
+`Duel_ShuffleDeck` confirms that a null source generates 40 cards from
+`gDuel_awOpponentDeckPool`, while a non-null source copies its 40 card IDs
+before shuffling; the tutorial's editable-deck result is therefore confirmed
 [[verified tutorial mapping](../modding-tutorial-gameplay-patches.md#editable-duel-master-k-deck)].
 His drop pools are a copy of Villager 3's (§6.4).
 
