@@ -71,6 +71,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1DC",
       "source": "src/overlays/overworld/location_tick.c"
+    },
+    {
+      "address": "0x80169A9C",
+      "profile": "gcc_2_8_1_o0_g0_split",
+      "size": "0x3B8",
+      "source": "src/overlays/overworld/func_80169A9C.c"
     }
   ],
   "schema": 1
