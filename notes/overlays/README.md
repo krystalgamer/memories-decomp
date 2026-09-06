@@ -572,6 +572,34 @@ way, and keep any other work that competes for registers. A probe is cheap
 enough to include the consumer, and a probe without one can return a confident
 wrong answer.
 
+### A prefix probe verifies a prefix, and immediate scheduling is not part of it
+
+A large function cannot be reconstructed and iterated in one sitting, but its
+opening can be probed on its own. Write only the leading section, compile it
+under the function's own name and profile, and read the candidate column
+against the target's first instructions. The prologue differs — a partial probe
+saves fewer registers, so stack slots and the save list shift — but everything
+after it lines up, and what it confirms is real: operand widths, the exact form
+of a pointer computation, which global the compiler parks in a callee-saved
+base register, and the shape of each loop.
+
+`FreeDuel_Init` is 468 instructions and had been decoded but never
+reconstructed. A probe of its first three sections reproduced target
+instructions 0 through 104 exactly, which pins the record-pointer arithmetic,
+the sign-extended clamp, the base register holding `gFreeDuel_bScreenFlags`,
+both table-clear loops and the unlock loop, and turns 105 instructions of the
+eventual reconstruction from prose into confirmed source.
+
+The bound is specific and worth stating, because it looks like a mismatch. Two
+differences survived, and both were the *position of an immediate*: the target
+materialises all four register arguments of a call up front where the probe
+emits them just before the `jal`, and hoists a `li` above a base computation
+where the probe emits it after. Where an immediate is materialised depends on
+register pressure, and a probe that omits 363 instructions has far less of it.
+So a prefix probe is authoritative about structure and widths and silent about
+immediate scheduling. Re-check that class of difference against the full
+reconstruction, and do not perturb the opening trying to fix it.
+
 ## Verify a rule by perturbing the source it was drawn from
 
 Every rule in `matching-patterns.md` cites a function, and those functions are
