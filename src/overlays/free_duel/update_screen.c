@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/card_constants.h"
 
 extern u8 gFreeDuel_bScreenFlags;
 extern u8 *gFreeDuel_pCursorWidget;
@@ -90,7 +91,7 @@ void FreeDuel_UpdateScreen(void)
             return;
         }
         entry = D_801D0200;
-        for (index = 0; index < 0x28; index++) {
+        for (index = 0; index < DECK_SIZE; index++) {
             if (*entry == 0) {
                 func_8003FEE0(9);
                 func_80035C38(1, 8, 0x30, 0x6C, 0xE0, 0x10, 0x1028);
