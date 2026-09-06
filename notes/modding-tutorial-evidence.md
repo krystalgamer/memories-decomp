@@ -450,6 +450,48 @@ row, loader range, and VRAM upload geometry. The tutorial's suggested blue,
 purple, red, orange, yellow, and green replacements are custom palettes rather
 than retail data.
 
+## Shared duel-hand graphics block
+
+**Tutorial:** `Fields WA.txt`
+
+The tutorial lists one "DUEL DISK HAND" offset for every duel terrain and one
+for the Library:
+
+| Context | WA offset |
+|---|---:|
+| Normal | `0xB7B000` |
+| Forest | `0xBF0800` |
+| Wasteland | `0xC66000` |
+| Mountain | `0xCDB800` |
+| Meadow | `0xD51000` |
+| Umi | `0xDC6800` |
+| Yami | `0xE3C000` |
+| Library | `0xEFE800` |
+
+Each address is package offset `+0x18000`. In the seven `0x75800`-byte duel
+terrain records, that is the final `0x8000` bytes of
+`Duel_LoadPackageStage` phase 0; the Library package uses the same relative
+position. All eight retail ranges are byte-identical:
+
+```text
+SHA-256: 5e94e1a373c529a29e03cf1845eea74c1ac29a94f607a00d479df1cd4c9e1f13
+```
+
+The offsets therefore select duplicate copies of one shared payload rather
+than terrain-specific graphics. Editing one copy changes only its containing
+terrain or the Library, so a replacement intended for every listed context
+must be applied at all eight offsets. The package starts and complete phase
+geometry are documented in
+[`overlays/runtime-loader.md`](overlays/runtime-loader.md#shared-duel-hand-graphics-block).
+
+**Confidence:**
+
+- **Confirmed** that all eight offsets are package-relative `+0x18000` and
+  begin byte-identical `0x8000`-byte ranges.
+- **Confirmed** that the seven terrain copies occupy the end of phase 0.
+- **High** that the payload is the duel-hand graphic; that visual identity is
+  the tutorial's observed label rather than a decoded asset name.
+
 ## Attribute icon images and palettes
 
 **Tutorials:**
