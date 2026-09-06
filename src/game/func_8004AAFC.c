@@ -1,12 +1,11 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 
 extern u8 *D_8009B458;
 extern s32 D_80011434[];
 
-void SpuGetAllKeysStatus(char *status);
 void func_8004A43C(u8 *arg0, s32 arg1);
 void func_8004A7C0(s32 arg0, s32 arg1);
-void SpuSetKey(long on_off, unsigned long voice_bit);
 s32 func_80077090(s32 arg0);
 
 /* Per-entry sweep over the 0x28-byte records at D_8009B458 + 0x180: sends the
