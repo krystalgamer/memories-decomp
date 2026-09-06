@@ -432,6 +432,7 @@ rcos = 0x80086770; // type:func
 SetFogNearFar = 0x80086810; // type:func
 InitGeom = 0x80086DC8; // type:func
 SquareRoot0 = 0x80086E50; // type:func
+ApplyMatrixLV = 0x80087070; // type:func
 PushMatrix = 0x800871D0; // type:func
 PopMatrix = 0x80087274; // type:func
 MulMatrix = 0x80087370; // type:func
