@@ -8,7 +8,7 @@ extern void func_8003B6AC(s32, s32);
 extern void func_80035BE4(s32, s32, s32, s32, s32, s32);
 extern void func_80039A14(void *);
 
-void func_80169C30(void)
+void Password_RefreshDigitDisplay(void)
 {
     u8 *out;
     s32 i;
