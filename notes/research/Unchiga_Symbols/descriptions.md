@@ -479,3 +479,13 @@ on the suspects side until proven.)
 | 0x80168310 | `CampaignMap_ResetCamera` | Restores the campaign map's fixed camera, projection, and matrix defaults before recomputing the view. |
 | 0x80168388 | `CampaignMap_MoveCameraDpad` | Provides free-look controls that adjust camera position or angle, pitch, and distance from held pad combinations, then recomputes the view. |
 | 0x801688BC | `CampaignMap_StartCameraTween` | Seeds 16.16 accumulators and per-step deltas from the live camera to a location's position, shortest-path turn, pitch, and distance targets. |
+
+## Batch: campaign-map location lifecycle
+
+| address | name | description |
+|---|---|---|
+| 0x80168004 | `CampaignMap_ClearLocationObjects` | Releases each of the four current location objects and clears all four module pointer slots. |
+| 0x80168050 | `CampaignMap_RebuildLocationObjects` | Clears the prior location objects, then creates the enabled and story-flag-approved objects from the selected location's four spawn records. |
+| 0x8016818C | `CampaignMap_CreateLocationLabel` | Creates and prepares the current location's label box from global string ID `0x8350 + gCampaignMap_Location`. |
+| 0x80168588 | `CampaignMap_CreateLocationMarker` | Creates a marker at the current location's coordinates and stores the indexed destination location's coordinates as its target. |
+| 0x8016866C | `CampaignMap_SetLocation` | Rebuilds the complete campaign-map scene for one location: render state, camera, label, gated objects, optional town marker, and background track. |
