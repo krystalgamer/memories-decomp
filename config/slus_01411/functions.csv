@@ -1456,12 +1456,12 @@ address,size,name,status,module,notes
 0x8007E9B0,0x2B8,FntOpen,sdk_asm,psyq/sdk,
 0x8007EC68,0x31C,FntFlush,sdk_asm,psyq/sdk,
 0x8007EF84,0x3C0,FntPrint,sdk_asm,psyq/sdk,
-0x8007F350,0x174,func_8007F350,sdk_asm,psyq/sdk,
-0x8007F4C4,0x5C,func_8007F4C4,sdk_asm,psyq/sdk,
-0x8007F520,0xA4,func_8007F520,sdk_asm,psyq/sdk,
-0x8007F5C4,0x10,func_8007F5C4,sdk_asm,psyq/sdk,
-0x8007F5D4,0x60,func_8007F5D4,sdk_asm,psyq/sdk,
-0x8007F634,0x98,func_8007F634,sdk_asm,psyq/sdk,
+0x8007F350,0x174,ResetGraph,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature.
+0x8007F4C4,0x5C,SetGraphDebug,sdk_asm,psyq/sdk,Identified at offset 0x174 of the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature.
+0x8007F520,0xA4,SetGraphQueue,sdk_asm,psyq/sdk,Identified at offset 0x1D0 of the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature.
+0x8007F5C4,0x10,GetGraphDebug,sdk_asm,psyq/sdk,Identified at offset 0x274 of the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature.
+0x8007F5D4,0x60,DrawSyncCallback,sdk_asm,psyq/sdk,Identified at offset 0x284 of the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature.
+0x8007F634,0x98,SetDispMask,sdk_asm,psyq/sdk,Identified at offset 0x2E4 of the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature.
 0x8007F6CC,0x68,DrawSync,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature and matching model-render caller.
 0x8007F734,0x11C,func_8007F734,sdk_asm,psyq/sdk,
 0x8007F850,0x90,func_8007F850,sdk_asm,psyq/sdk,
@@ -1510,13 +1510,13 @@ address,size,name,status,module,notes
 0x80081ED4,0xEC,StoreImage2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature and matching readback caller.
 0x80081FC0,0x144,MoveImage2,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBGPU.LIB/SYS.OBJ MoveImage2.
 0x80082104,0xFC,func_80082104,sdk_asm,psyq/sdk,
-0x80082200,0x28,func_80082200,sdk_asm,psyq/sdk,
+0x80082200,0x28,_GPU_ResetCallback,sdk_asm,psyq/sdk,Identified at offset 0x2EB0 of the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature.
 0x80082228,0x24,func_80082228,sdk_asm,psyq/sdk,
 0x80082250,0x24,GPU_cw,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/C73.OBJ signature.
 0x80082274,0x10,func_80082274,sdk_asm,psyq/sdk,
-0x80082290,0x94,func_80082290,sdk_asm,psyq/sdk,
+0x80082290,0x94,BreakDraw,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGPU.LIB/BREAK.OBJ signature.
 0x80082324,0x60,IsIdleGPU,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/BREAK.OBJ signature and matching GPU synchronization loops.
-0x80082384,0x120,func_80082384,sdk_asm,psyq/sdk,
+0x80082384,0x120,ContinueDraw,sdk_asm,psyq/sdk,Identified at offset 0xF4 of the unique Psy-Q 4.6 LIBGPU.LIB/BREAK.OBJ signature.
 0x800824B0,0xE8,func_800824B0,sdk_asm,psyq/sdk,
 0x800825A0,0x64,func_800825A0,sdk_asm,psyq/sdk,
 0x80082610,0x64,func_80082610,sdk_asm,psyq/sdk,
