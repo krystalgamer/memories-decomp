@@ -6,6 +6,15 @@ card notifications into a small polling result. Matching
 `gMemCard_aIOEventHandles` (`0x800F2AE0`): the same four event specifications
 are registered once for `SwCARD` and once for `HwCARD`.
 
+## Subsystem startup
+
+Matching `func_80043E30` establishes the game-owned startup order. It forwards
+its mode argument to `InitCARD`, calls `StartCARD`, passes zero to
+`ChangeClearPAD`, and then invokes `_bu_init`. This is the legacy
+`InitCARD`/`StartCARD` path; the separately identified
+`InitCARD2`/`StartCARD2` entry points are not part of this matching wrapper.
+Event creation remains a separate step handled by `MemCard_InitIOEvents`.
+
 ## Registration matrix
 
 All eight calls use interrupt mode `EvMdINTR` (`0x1000`). The descriptor and
