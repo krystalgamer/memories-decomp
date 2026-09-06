@@ -1295,24 +1295,24 @@ address,size,name,status,module,notes
 0x80075A90,0x28,func_80075A90,sdk_asm,psyq/sdk,
 0x80075AB8,0x5C,func_80075AB8,sdk_asm,psyq/sdk,
 0x80075B20,0xC,DeliverEvent,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A07.OBJ signature.
-0x80075B30,0x24,func_80075B30,sdk_asm,psyq/sdk,
-0x80075B60,0x74,func_80075B60,sdk_asm,psyq/sdk,
-0x80075BE0,0xCC,func_80075BE0,sdk_asm,psyq/sdk,
-0x80075CB0,0x80,func_80075CB0,sdk_asm,psyq/sdk,
-0x80075D30,0x8C,func_80075D30,sdk_asm,psyq/sdk,
-0x80075DC0,0x20,func_80075DC0,sdk_asm,psyq/sdk,
-0x80075DE0,0x4D4,func_80075DE0,sdk_asm,psyq/sdk,
-0x800762C0,0x4D0,func_800762C0,sdk_asm,psyq/sdk,
-0x80076790,0x4C,func_80076790,sdk_asm,psyq/sdk,
-0x800767E0,0x40,func_800767E0,sdk_asm,psyq/sdk,
-0x80076820,0x24,func_80076820,sdk_asm,psyq/sdk,
-0x80076850,0x2BC,func_80076850,sdk_asm,psyq/sdk,
-0x80076B10,0x24,func_80076B10,sdk_asm,psyq/sdk,
-0x80076B40,0x30,func_80076B40,sdk_asm,psyq/sdk,
-0x80076B70,0x194,func_80076B70,sdk_asm,psyq/sdk,
+0x80075B30,0x24,_SpuDataCallback,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_DCB.OBJ signature.
+0x80075B60,0x74,SpuQuit,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_Q.OBJ signature and matching sound shutdown callers.
+0x80075BE0,0xCC,SpuSetReverb,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SR.OBJ signature and matching reverb control caller.
+0x80075CB0,0x80,_SpuIsInAllocateArea,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBSPU.LIB/S_M_UTIL.OBJ signature.
+0x80075D30,0x8C,_SpuIsInAllocateArea_,sdk_asm,psyq/sdk,Identified at offset 0x80 of the unique Psy-Q 4.6 LIBSPU.LIB/S_M_UTIL.OBJ signature.
+0x80075DC0,0x20,SpuGetReverb,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_GR.OBJ signature and matching reverb control caller.
+0x80075DE0,0x4D4,SpuSetReverbModeParam,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SRMP.OBJ signature and matching reverb parameter caller.
+0x800762C0,0x4D0,_spu_setReverbAttr,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SRA.OBJ signature.
+0x80076790,0x4C,SpuReserveReverbWorkArea,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_RRWA.OBJ signature and matching reverb setup caller.
+0x800767E0,0x40,SpuIsReverbWorkAreaReserved,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_IRWAR.OBJ signature and matching reverb status caller.
+0x80076820,0x24,SpuSetReverbVoice,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SRV.OBJ signature.
+0x80076850,0x2BC,_SpuSetAnyVoice,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SAV.OBJ signature.
+0x80076B10,0x24,SpuGetReverbVoice,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_GRV.OBJ signature.
+0x80076B40,0x30,_SpuGetAnyVoice,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_GAV.OBJ signature.
+0x80076B70,0x194,SpuClearReverbWorkArea,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_CRWA.OBJ signature.
 0x80076D10,0xC,WaitEvent,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A10.OBJ signature.
-0x80076D20,0x6C,func_80076D20,sdk_asm,psyq/sdk,
-0x80076D90,0x13C,func_80076D90,sdk_asm,psyq/sdk,
+0x80076D20,0x6C,SpuReadDecodedData,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_RDD.OBJ signature.
+0x80076D90,0x13C,SpuSetIRQ,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SI.OBJ signature and matching sound initialization caller.
 0x80076ED0,0x1BC,SpuSetKey,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SK.OBJ signature and matching voice-control callers.
 0x80077090,0x90,func_80077090,sdk_asm,psyq/sdk,
 0x80077120,0x30,func_80077120,sdk_asm,psyq/sdk,

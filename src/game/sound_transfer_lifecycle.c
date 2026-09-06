@@ -1,10 +1,10 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 #include "sound.h"
 
 extern void func_80049434(void);
 extern void func_8004A6D8(void);
 extern void func_8004B910(void);
-extern void func_80075B60(void);
 extern void func_800771B0(void *);
 extern int func_80077150(int, int);
 
@@ -25,7 +25,7 @@ void SD_Term(void)
 {
     func_8004A6D8();
     func_80049434();
-    func_80075B60();
+    SpuQuit();
 }
 
 int func_800496C4(u8 *input, short expected, int value)
