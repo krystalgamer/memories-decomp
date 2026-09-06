@@ -1,10 +1,10 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 
 extern volatile s32 D_8009B0F4;
 extern s32 D_8009B118;
 extern s16 D_800E9D70[];
-
-extern void LoadImage2(s16 *arg0, s32 arg1);
 
 void func_80032184(u8 *p, s32 mode) {
     s32 one;
@@ -92,5 +92,5 @@ m3:
     g[1] = 0xF0;
     g[2] = c;
     g[3] = 0x10;
-    LoadImage2(g, D_8009B118);
+    LoadImage2((RECT *)g, (u32 *)D_8009B118);
 }
