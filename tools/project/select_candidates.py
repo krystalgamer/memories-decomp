@@ -95,7 +95,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--include-partial",
         action="store_true",
-        help="include histories whose canonical ledger is not yet closed",
+        help="include functions that already have a canonical attempt history",
     )
     parser.add_argument(
         "--format",
@@ -132,7 +132,10 @@ def select(root: Path, args: argparse.Namespace) -> list[dict[str, Any]]:
         ):
             continue
         history = attempts.get(function.address, [])
-        if history and history[-1]["result"] in TERMINAL_RESULTS:
+        # A closed canonical ledger records that the first campaign ended, not
+        # that the function is finished. Only an exact match means there is
+        # nothing left to explore.
+        if history and history[-1]["result"] == "matched":
             continue
         if history and not args.include_partial:
             continue
@@ -141,7 +144,6 @@ def select(root: Path, args: argparse.Namespace) -> list[dict[str, Any]]:
                 "address": f"0x{function.address:08X}",
                 "size": f"0x{function.size:X}",
                 "attempt_count": len(history),
-                "remaining_attempts": MAX_ATTEMPTS - len(history),
             }
         )
 
@@ -170,7 +172,6 @@ def print_candidates(
             "address",
             "size",
             "attempt_count",
-            "remaining_attempts",
         ),
         lineterminator="\n",
     )
