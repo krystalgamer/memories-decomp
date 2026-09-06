@@ -3,8 +3,8 @@
 The resident memory-card layer uses Psy-Q BIOS events to convert asynchronous
 card notifications into a small polling result. Matching
 `MemCard_InitIOEvents` creates eight event handles in the array at
-`D_800F2AE0`: the same four event specifications are registered once for
-`SwCARD` and once for `HwCARD`.
+`gMemCard_aIOEventHandles` (`0x800F2AE0`): the same four event specifications
+are registered once for `SwCARD` and once for `HwCARD`.
 
 ## Registration matrix
 
@@ -27,8 +27,8 @@ memory-card state values at `D_8009B43E`, `D_8009B44E`, and `D_8009B444`;
 their broader roles remain address-based.
 
 The paired matching `MemCard_CloseIOEvents` teardown enters a critical section,
-closes the same eight `D_800F2AE0` handles in order, and then exits the
-critical section.
+closes the same eight `gMemCard_aIOEventHandles` entries in order, and then
+exits the critical section.
 
 ## Shared result
 

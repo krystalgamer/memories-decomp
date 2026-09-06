@@ -114,6 +114,7 @@ Model_LoadMonsterMerge = 0x80056504; // type:func
 File_Exists = 0x8005C4F0; // type:func
 
 // Semantic names
+gMemCard_aIOEventHandles = 0x800F2AE0;
 gAiScript_aMemory = 0x800F5B98;
 gAi_wBestDifference = 0x800F5C80;
 gAi_bBestAttacker = 0x800F5C82;
