@@ -109,3 +109,11 @@ jobs:
             echo "::warning title=Global usage data is stale::Run make global-usage in a dedicated report update."
             exit 1
           fi
+
+      - name: Report generated progress drift
+        continue-on-error: true
+        run: |
+          if ! make check-progress; then
+            echo "::warning title=README progress is stale::Run make progress in a dedicated report update."
+            exit 1
+          fi

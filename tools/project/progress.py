@@ -52,6 +52,37 @@ def load_text_size(root: Path) -> int:
     raise ProgressError("image map has no text region")
 
 
+def format_address_sample(addresses: set[int], limit: int = 5) -> str:
+    ordered = sorted(addresses)
+    shown = ", ".join(f"{address:#010x}" for address in ordered[:limit])
+    if len(ordered) > limit:
+        shown += f", and {len(ordered) - limit} more"
+    return shown
+
+
+def describe_inventory_mismatch(
+    generated: set[int], expected: set[int]
+) -> str:
+    extra = generated - expected
+    missing = expected - generated
+    parts: list[str] = []
+    if extra:
+        parts.append(
+            "the split defines "
+            f"{len(extra)} function(s) the inventory does not list "
+            f"({format_address_sample(extra)}); a symbol declared inside the "
+            "text range but outside any function, such as a segment boundary "
+            "marker, produces this and should carry ignore:True in symbols.txt"
+        )
+    if missing:
+        parts.append(
+            "the inventory lists "
+            f"{len(missing)} non-matching function(s) the split does not "
+            f"define ({format_address_sample(missing)}); run make inventory"
+        )
+    return "; ".join(parts)
+
+
 def validate_inventory(
     generated: list[Function], inventory: list[Function]
 ) -> None:
@@ -68,7 +99,10 @@ def validate_inventory(
     }
     if set(generated_by_address) != expected_generated:
         raise ProgressError(
-            "function inventory does not match the generated split; run make inventory"
+            "function inventory does not match the generated split; "
+            + describe_inventory_mismatch(
+                set(generated_by_address), expected_generated
+            )
         )
     for address, generated_function in generated_by_address.items():
         inventory_function = inventory_by_address[address]
