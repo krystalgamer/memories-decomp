@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 typedef struct {
     int field_00;
@@ -8,7 +9,7 @@ typedef struct {
     u8 pad_0A[2];
 } Entry;
 
-extern Entry D_800EA030[5];
+extern Entry D_800EA030[HAND_SIZE];
 
 void func_800176D0(void)
 {
@@ -23,5 +24,5 @@ void func_800176D0(void)
         field_09 += sizeof(Entry);
         i++;
         entry += sizeof(Entry);
-    } while (i < 5);
+    } while (i < HAND_SIZE);
 }
