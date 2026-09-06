@@ -13,7 +13,7 @@ extern u8 D_8009B26C;
 extern u8 D_8009B27A;
 extern s32 func_80168AA8(void);
 extern void func_80168050(s32);
-extern void func_8016818C(s32);
+extern u8 *CampaignMap_CreateLocationLabel(s32);
 extern u8 *func_80168588(s32);
 extern void func_8004036C(u8 *);
 extern void func_80168004(void);
@@ -34,7 +34,7 @@ void func_80168FCC(void)
         }
         D_801695EC = 0;
         func_80168050(gCampaignMap_Location);
-        func_8016818C(gCampaignMap_Location);
+        CampaignMap_CreateLocationLabel(gCampaignMap_Location);
         if (gCampaignMap_Location >= 10) {
             if (D_801695C8 == 0) {
                 D_801695C8 = func_80168588(gCampaignMap_Location);

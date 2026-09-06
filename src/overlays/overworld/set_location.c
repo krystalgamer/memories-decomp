@@ -27,7 +27,7 @@ extern u8 *func_800400AC(s32, s32);
 extern void func_800428A8(u8 *, s32, s32, s32, s32, s32, s32, s32, u8 *);
 extern void func_800428EC(u8 *, s32);
 extern void func_801681E8(s32);
-extern void func_8016818C(s32);
+extern u8 *CampaignMap_CreateLocationLabel(s32);
 extern void func_80168050(s32);
 extern u8 *func_80168588(s32);
 extern s32 Campaign_TestStoryFlag(s32);
@@ -82,7 +82,7 @@ void CampaignMap_SetLocation(s32 index)
     *(void **)(obj + 0x4C) = func_80042C08;
     D_801695D8 = obj;
     func_801681E8(location);
-    func_8016818C(gCampaignMap_Location);
+    CampaignMap_CreateLocationLabel(gCampaignMap_Location);
     func_80168050(gCampaignMap_Location);
     gCampaignMap_LocationPrev = gCampaignMap_Location;
     if ((u8)gCampaignMap_Location >= 10) {
