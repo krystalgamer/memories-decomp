@@ -988,7 +988,7 @@ address,size,name,status,module,notes
 0x8005B4D8,0x124,func_8005B4D8,unmatched_asm,game,
 0x8005B5FC,0x24,func_8005B5FC,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005B620,0x2C,func_8005B620,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8005B64C,0x210,func_8005B64C,unmatched_asm,game,
+0x8005B64C,0x210,func_8005B64C,matching_c,game,"Exact match with gcc_2_8_1_g8_split; SU.mrg main-menu phase callback, owns jtbl_800117D8."
 0x8005B85C,0x44,func_8005B85C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8005B8A0,0x2DC,func_8005B8A0,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8005BB7C,0x2C0,func_8005BB7C,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8 from the ygofm reference (batch port, probe-verified)."
