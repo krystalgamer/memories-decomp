@@ -160,6 +160,8 @@ symbol review.
 | `0x8008E390` | `memcpy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/MEMCPY.OBJ` signature. |
 | `0x8008E3D0` | `memset` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBC2.LIB/MEMSET.OBJ` signature; matching model paths clear eight-byte vector records before filling their components. |
 | `0x8008E400` | `qsort` | Applied Psy-Q 4.6 identity from the unique 400-byte `LIBC.LIB`/`LIBC2.LIB` `QSORT.OBJ` signature; matching callers sort resident and overlay record arrays. |
+| `0x8008E590` | `rand` | Confirmed Psy-Q C runtime implementation: advances `gRand_dwSeed` with the standard `0x41C64E6D`/`0x3039` recurrence and returns bits 16–30, matching `RAND_MAX` 32767 in `rand.h`. |
+| `0x8008E5C0` | `srand` | Confirmed Psy-Q C runtime seed entry point; directly stores its argument in `gRand_dwSeed`. |
 | `0x8008E5D0` | `strcat` | Applied Psy-Q 4.6 identity from the unique 176-byte `LIBC2.LIB/STRCAT.OBJ` signature. |
 | `0x8008E680` | `strcmp` | Applied Psy-Q 4.6 identity from the unique 112-byte `LIBC2.LIB/STRCMP.OBJ` signature; the matching memory-card directory search compares each entry against the requested name. |
 | `0x8008E6F0` | `strcpy` | Applied Psy-Q 4.6 identity from the unique 80-byte `LIBC2.LIB/STRCPY.OBJ` signature; the matching data-transfer path copies its request string into the resident buffer. |
