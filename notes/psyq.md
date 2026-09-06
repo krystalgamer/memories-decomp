@@ -730,6 +730,40 @@ caller that needs a defined `track` value must initialize it separately.
 Together, the two resident routines verify both conversion directions without
 requiring a copied SDK structure definition.
 
+### Controller receive-buffer evidence
+
+`Input_InitPads` calls the real `libapi.h` `InitPAD` interface with two
+adjacent receive buffers:
+
+```text
+port 1: gInput_abRawPadBuffers + 0x00, length 0x22
+port 2: gInput_abRawPadBuffers + 0x22, length 0x22
+```
+
+It starts the service with `StartPAD` before resetting the game's published
+input state. Matching `Input_ReadRawPads`, called from `Main_VBlankCB`, reads
+the first four bytes of each record:
+
+| Buffer offset | Observed role |
+|---:|---|
+| `+0` | Packet status; the game accepts the record only when this byte is zero. |
+| `+1` | Controller/type byte; the game requires its low nibble to be nonzero. |
+| `+2`, `+3` | Active-low 16-bit button word, read in high-byte/low-byte order. |
+
+The parser XORs the button word with `0xFFFF`, turning pressed buttons into
+set bits. Port 1 is accumulated into the low half of
+`gInput_dwPendingHeld`; port 2 is shifted into the high half. This agrees with
+the `_PAD(port, button)` convention in `libetc.h`, which shifts a 16-bit
+button mask by 16 bits for the second controller. `Input_UpdatePads` later
+consumes and clears the pending word, then publishes held, newly pressed, and
+timer-repeated halfwords for both ports.
+
+Only these four packet bytes currently have matching-C consumers. The
+remaining `0x1E` bytes in each service-owned record should stay as an opaque
+receive buffer until a resident caller establishes an extended controller
+layout; importing a newer pad structure solely because it also fits the
+buffer would exceed the local ABI evidence.
+
 ### Memory-card directory evidence
 
 `func_80044470` formats a `bu%02X:%s` device path, passes it and a caller-owned
