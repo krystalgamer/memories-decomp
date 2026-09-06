@@ -5647,6 +5647,12 @@
       "source": "src/game/ai_script_load_best_values.c"
     },
     {
+      "address": "0x80071700",
+      "profile": "gcc_2_8_1_cc_g0_as_g8_split",
+      "size": "0x224",
+      "source": "src/game/ai_script_find_strongest.c"
+    },
+    {
       "address": "0x80071B64",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x14C",

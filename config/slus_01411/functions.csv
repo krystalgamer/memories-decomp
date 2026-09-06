@@ -1159,7 +1159,7 @@ address,size,name,status,module,notes
 0x8007164C,0x3C,AiScript_LoadBestDifference,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80071688,0x3C,AiScript_LoadBestAttacker,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800716C4,0x3C,AiScript_LoadBestTarget,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80071700,0x224,AiScript_FindStrongest,unmatched_asm,game,
+0x80071700,0x224,AiScript_FindStrongest,matching_c,game,"AI script opcode: ranks a zone's winning-card range by attack, defence or the better of the two and writes the strongest qualifying slot index, honouring the position and face-down filters for the zone type and an excluded-set operand."
 0x80071924,0x240,AiScript_FindWeakest,unmatched_asm,game,
 0x80071B64,0x14C,AiScript_FindKiller,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split_no_strength_reduce from the ygofm reference (batch port, probe-verified)."
 0x80071CB0,0x208,AiScript_FindDefenseStopper,matching_c,game,"AI script opcode: pairs the two monster fields strongest against strongest for up to five rounds and answers 1 only if every round was won, optionally treating face-down opponent cards as invisible."
