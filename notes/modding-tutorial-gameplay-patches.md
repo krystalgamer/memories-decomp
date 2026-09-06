@@ -69,6 +69,47 @@ retail consumer, not the meaning of each byte after the drops tool rewrites it.
   complete. Establishing either requires the prerequisite tool output and
   validation of its injected logic; these edits alone do not prove it.
 
+## Weighted deck and drop total
+
+**Tutorial:** `Introduction to Mod - ENG, 1.2.docx`
+
+The editor introduction warns that its deck byte counter should remain at
+`2048` to avoid bad results. This is the sum of one weighted selection row,
+not the number or sum of card IDs in a literal 40-card deck.
+
+Every retail opponent block contains four 722-entry `u16` weight rows: the
+deck pool and the S/A-POW, B/C/D, and S/A-TEC drop pools. Directly checking
+all 39 blocks confirms that each of those 156 rows sums to `2048`. The seven
+starter-deck selection rows used by the name-entry module also each sum to
+`2048`.
+
+Matching `Duel_SelectCardDrop` draws a threshold with
+`(rand() & (2048 - 1)) + 1`, then walks one 722-entry row until its
+accumulator reaches that threshold. A row totaling less than `2048` leaves
+some thresholds uncovered and returns no card. A row totaling more than
+`2048` still receives only thresholds `1` through `2048`, so weight beyond
+that range cannot add proportional probability.
+
+Matching `NameEntry_BuildStarterDeck` uses the same threshold range but scans
+only the first 720 entries. The retail rows keep their final two weights at
+zero and still total `2048` over the reachable entries. If an edited reachable
+total falls short, a draw can consume its threshold and scan RNG values
+without adding a card, leaving the generated starter deck short.
+
+The tutorial warning is therefore a valid normalization rule for these
+weighted editor tables. It does not apply to fixed player decks, which are
+stored as 40 card IDs and have no `2048` total.
+
+**Confidence:**
+
+- **Confirmed** that all 156 opponent deck/drop rows and all seven starter
+  rows in the retail archive sum to `2048`.
+- **Confirmed** that the matching drop and starter selectors use thresholds
+  `1` through `2048`, and that underfilled rows can fail to select a card.
+- **High** that the editor's displayed total is the sum of the active weight
+  row; the editor implementation itself is not part of the verified retail
+  inputs.
+
 ## Deck copy limits
 
 **Tutorials:**
