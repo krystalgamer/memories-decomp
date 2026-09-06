@@ -3034,3 +3034,62 @@ each switch arm in whatever order reads best for that arm. Where arms share a
 tail, that instinct is actively harmful: the shared portion has to be
 byte-identical in the source, so the arms should be written to a common
 template even where a different order would read more naturally.
+
+## Two independent levers decide the `addu` operand order at an indexed load
+
+A base plus an index plus a constant displacement compiles to one `addu` and a
+displacement on the load, whichever way it is spelled. Which register lands in
+`rs` is not free: `addu $v0, $s1, $v0` and `addu $v0, $v0, $s1` are different
+words, so this shows up as a diff even when the count, the shape and the whole
+register allocation already agree. Two separate things decide it.
+
+**With an unscaled index, the lever is where the constant is grouped.**
+Compiled at `gcc_2_8_1_g8_split`, `q` in `$a0` and `i` in `$a1`:
+
+| spelling | emitted |
+| --- | --- |
+| `q[i + 0xA]` | `addu a0,a1,a0` |
+| `*(q + i + 0xA)` | `addu a0,a0,a1` |
+| `*(i + q + 0xA)` | `addu a0,a0,a1` |
+
+Indexing binds the constant to the index, so GCC adds `i + 0xA` first and the
+base arrives second. Writing the sum as `(q + i) + 0xA` puts the base first.
+Reversing the two terms textually is inert; only the grouping matters.
+
+**With a scaled index, no spelling of pointer arithmetic works.** The multiply
+puts its result in `rs` and leaves the base in `rt`, whatever the source says:
+
+| spelling | emitted |
+| --- | --- |
+| `*(u16 *)(q + i * 2 + 0xC)` | `addu a1,a1,a0` |
+| `*(u16 *)(i * 2 + q + 0xC)` | `addu a1,a1,a0` |
+| `((u16 *)(q + 0xC))[i]` | `addu a1,a1,a0` |
+| `((Entry *)(p + 0x7C4))[i].field_00` | `addu v0,v0,a0` |
+| `((Rec *)q)->field_0C[i]` | `addu a0,a0,a1` |
+| `((ModelSlot *)p)->field_7C4[i].field_00` | `addu a0,a0,v0` |
+
+Only a **member reference off a struct pointer** puts the base first. Casting
+the base to the element type, or to the element type at an offset, does not:
+the array has to be a member of a struct the base points at. So where a target
+derives a second base register and uses it with small displacements, that base
+is a struct in the original source, and typing it as one is what supplies the
+member reference.
+
+`func_80050F24` (`0x80050F24`, 82 instructions) is the worked example. Written
+with `u8 *` bases and hex offsets it reaches the exact instruction count with
+every register allocated as retail has it, and four `addu`s in the wrong order.
+Regrouping the two unscaled sites closed those; the two scaled sites needed the
+types. Naming `ModelSlot.field_DFE`, giving the `0xCF8`-`0xD13` window the type
+`ModelSlotCF8Block`, and reaching `field_7C4[]`, `field_0A[]` and `field_0C[]`
+through struct members closes all four.
+
+The block's own shape is fixed by evidence rather than guessed: it starts at
+`0xCF8` and cannot reach past `field_D14`, which bounds it at `0x1C` bytes; the
+halfword access at `+0xC` bounds the leading byte array at two elements; and the
+remaining `0x10` bytes are exactly eight halfwords. Both arrays are indexed by
+the same `field_DFE`.
+
+Note the contrast with "Do not name an array base to reproduce a materialised
+base register": that result says introducing a *variable* for a base costs an
+instruction. This one introduces no variable — the base already exists — and
+only changes its declared type.

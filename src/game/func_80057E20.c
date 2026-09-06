@@ -11,7 +11,7 @@ typedef struct {
    clamp"). Finally sets out->w to the largest of {x (if positive), y, z}. */
 void func_80057E20(s32 idx, Vec4s *out) {
     ModelSlot *rec = &D_800F2C40[idx];
-    u8 *thresh = rec->field_CF8;
+    u8 *thresh = rec->field_CF8.field_00;
 
     *out = *(Vec4s *)rec->field_DC8;
 
