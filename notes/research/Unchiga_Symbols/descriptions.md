@@ -327,3 +327,13 @@ on the suspects side until proven.)
 | 0x80013998 | `File_InitTransferDescriptor` | Fills a caller-provided transfer descriptor with its file selector, position, size, phase callback, seed, and optional destination, selecting sector-count or byte-count and buffered or direct transfer state. |
 | 0x800143DC | `File_ActivateTransfer` | Copies the queued transfer descriptor into active state, promotes the next shared 32-byte buffer record, raises the mode-4 flag when needed, and publishes the descriptor's active flags. |
 | 0x80014E1C | `File_RequestAsyncTransfer` | Starts the game-facing asynchronous request: marks the handoff, invokes an installed transfer callback when present, initializes the active descriptor when available, and returns that descriptor. |
+
+## Batch: sound sequence readers
+
+| address | name | description |
+|---|---|---|
+| 0x8004BAA0 | `SD_CompareBytes` | Compares a nonempty byte range and returns the first byte difference, or zero when all requested bytes match; a zero-length request returns `-1`. |
+| 0x8004BAE4 | `SD_ReadSequenceByte` | Reads and advances one byte from the active sound sequence, marking the reader exhausted and returning `-1` when the new offset passes its configured bound. |
+| 0x8004BB34 | `SD_ReadVariableLengthValue` | Decodes a MIDI-style 7-bit continuation value from the active sequence; byte `0xFF` marks the reader exhausted and yields zero. |
+| 0x8004BC2C | `SD_ReadSequenceU32BE` | Reads four sequence bytes in order and combines them into one 32-bit big-endian value. |
+| 0x8004BCA8 | `SD_ReadSequenceU16BE` | Reads two sequence bytes in order and combines them into one 16-bit big-endian value. |

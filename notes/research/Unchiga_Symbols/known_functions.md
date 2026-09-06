@@ -1062,9 +1062,9 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80049F10 | `set_pos_514_and_notify` | fleet |
 | 0x8004A6D8 | `call_8004A518_wrapper` | fleet |
 | 0x8004B854 | `guarded_start_stream_and_set_handle` | fleet |
-| 0x8004BAA0 | `byte_seq_compare_n` | fleet |
-| 0x8004BAE4 | `read_stream_byte` | fleet |
-| 0x8004BCA8 | `combine_two_8004BAE4_calls` | fleet |
+| 0x8004BAA0 | `SD_CompareBytes` | fleet |
+| 0x8004BAE4 | `SD_ReadSequenceByte` | fleet |
+| 0x8004BCA8 | `SD_ReadSequenceU16BE` | fleet |
 | 0x8004BCE8 | `setup_track_tempo_and_division` | fleet |
 | 0x8004BE6C | `int_add_inplace` | fleet |
 | 0x8004BE88 | `handle_seq_meta_event` | fleet |
