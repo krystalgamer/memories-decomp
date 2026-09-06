@@ -95,6 +95,9 @@ symbol review.
 | `0x80082A90` | `ReadTIM` | Applied Psy-Q 4.6 identity at offset `0x10` of the same unique `LIBGPU.LIB/T00.OBJ` signature. |
 | `0x80084240` | `GsSortBoxFill` | Applied Psy-Q 4.6 identity; the matching fade renderer submits strip or full-screen box fills to its ordering table. |
 | `0x800849F0` | `GsSortFastSprite` | Applied Psy-Q 4.6 identity; matching UI paths submit sprite records to an ordering table at the requested priority. |
+| `0x80084DD0` | `GsInitGraph` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,360-byte `LIBGS.LIB/GS_001.OBJ` signature. |
+| `0x80084F60` | `GsInitGraph2` | Applied Psy-Q 4.6 identity at offset `0x190` of the same `LIBGS.LIB/GS_001.OBJ` object. |
+| `0x800851E8` | `GsSortClear` | Applied Psy-Q 4.6 identity at offset `0x418` of the same `LIBGS.LIB/GS_001.OBJ` object. |
 | `0x800855D0` | `GsSetLsMatrix` | Applied Psy-Q 4.6 identity; matching projection paths install their local-screen matrix before GTE projection work. |
 | `0x800857E0` | `GsSetFlatLight` | Applied Psy-Q 4.6 identity; the matching scene setup installs three directional light records. |
 | `0x80086100` | `GsGetTimInfo` | Applied Psy-Q 4.6 identity; `model_texture_upload.c` parses a TIM image header before uploading its pixel and CLUT rectangles. |
