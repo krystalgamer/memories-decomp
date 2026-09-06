@@ -9,7 +9,7 @@ s32 Duel_GetTerrainBoost(s32 card)
 {
     u8 *terrain = D_8009B364;
 
-    if (gDuel_bTerrain[0] == 0 || card >= 20) {
+    if (gDuel_bTerrain[0] == 0 || card >= CARD_TYPE_MAGIC) {
         return 0;
     }
 
