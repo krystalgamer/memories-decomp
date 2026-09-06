@@ -2566,3 +2566,32 @@ allocation problem when it is not.
 A corollary for recorded results: a profile named in a saved note is only
 valid for the source that was measured with it. When resuming a parked
 function after editing it, re-establish the ranking first.
+
+## Count the target's saved registers before blaming the allocator
+
+The prologue states, exactly, how many values the original keeps live across
+a call: one `sw` of a callee-saved register per value. Comparing that count
+against the candidate's turns a vague allocation complaint into a countable
+discrepancy.
+
+Measured on `func_80047DB0` (0x80047DB0, 69 instructions). Retail sets up a
+0x28 frame and saves `s0` through `s4`, five registers. The candidate set up
+0x30 and saved `s0` through `s5`, six. The extra `sw`/`lw` pair was the whole
+length difference, showing up in the histogram as `sw` 6 against 7 and `lw` 8
+against 9.
+
+Reading it that way also collapsed two apparently separate problems into one.
+The target's entry has two register copies the candidate lacked, and the
+candidate had one saved register too many. Both are the same fact: the target
+keeps the incoming argument in a caller-saved register, which is why it
+copies it at entry and why it never needs a sixth callee-saved register,
+while the compiler parks that argument in the callee-saved bank even though
+its live range ends before the first call.
+
+So when a candidate is one or two instructions long and the extra
+instructions are a `sw`/`lw` pair, do not look for a missing statement. Count
+the saved registers on both sides, identify which value the compiler is
+preserving that the original did not, and work on that value's live range.
+
+A frame size that differs by exactly four bytes per extra saved register is
+the confirming signal, since the saves and the frame move together.
