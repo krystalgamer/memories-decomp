@@ -11,7 +11,7 @@ extern void func_800540B4(void);
 void func_80059000(s32 index, s16 *output)
 {
     register ModelSlot *entry = &D_800F2C40[index];
-    register u8 *source = entry->field_CF8;
+    register u8 *source = entry->field_CF8.field_00;
     s32 value;
 
     *(ModelSlotBytes8 *)output = *(ModelSlotBytes8 *)entry->field_DC8;

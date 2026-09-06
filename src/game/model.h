@@ -48,6 +48,12 @@ typedef struct {
 } ModelSlotS32Quad;
 
 typedef struct {
+    u8 field_00[0xA];
+    u8 field_0A[2];
+    u16 field_0C[8];
+} ModelSlotCF8Block;
+
+typedef struct {
     u8 pad_00[0x44];
     u16 field_44;
     u16 field_46;
@@ -63,8 +69,7 @@ typedef struct {
     u8 pad_83A[0x3BB];
     u8 field_BF5;
     u8 pad_BF6[0x102];
-    u8 field_CF8[10];
-    u8 pad_D02[0x12];
+    ModelSlotCF8Block field_CF8;
     u8 *field_D14;
     ModelSlotRotationEntry *field_D18;
     u8 pad_D1C[0x54];
@@ -75,7 +80,9 @@ typedef struct {
     u8 field_DC0[8];
     u16 field_DC8[4];
     u16 field_DD0[4];
-    u8 pad_DD8[0x2E];
+    u8 pad_DD8[0x26];
+    u8 field_DFE;
+    u8 pad_DFF[7];
     u16 field_E06;
     u8 pad_E08[5];
     u8 field_E0D;
@@ -105,6 +112,15 @@ typedef char ModelSlotHeadEntry_size_must_be_0x8[
 ];
 typedef char ModelSlotIndexedEntry_size_must_be_0x76[
     sizeof(ModelSlotIndexedEntry) == 0x76 ? 1 : -1
+];
+typedef char ModelSlotCF8Block_size_must_be_0x1C[
+    sizeof(ModelSlotCF8Block) == 0x1C ? 1 : -1
+];
+typedef char ModelSlotCF8Block_field_0A_offset_must_be_0xA[
+    MODEL_OFFSET(ModelSlotCF8Block, field_0A) == 0xA ? 1 : -1
+];
+typedef char ModelSlotCF8Block_field_0C_offset_must_be_0xC[
+    MODEL_OFFSET(ModelSlotCF8Block, field_0C) == 0xC ? 1 : -1
 ];
 typedef char ModelSlotLightEntry_size_must_be_0x10[
     sizeof(ModelSlotLightEntry) == 0x10 ? 1 : -1
@@ -153,6 +169,9 @@ typedef char ModelSlot_field_DC8_offset_must_be_0xDC8[
 ];
 typedef char ModelSlot_field_DD0_offset_must_be_0xDD0[
     MODEL_OFFSET(ModelSlot, field_DD0) == 0xDD0 ? 1 : -1
+];
+typedef char ModelSlot_field_DFE_offset_must_be_0xDFE[
+    MODEL_OFFSET(ModelSlot, field_DFE) == 0xDFE ? 1 : -1
 ];
 typedef char ModelSlot_field_E06_offset_must_be_0xE06[
     MODEL_OFFSET(ModelSlot, field_E06) == 0xE06 ? 1 : -1

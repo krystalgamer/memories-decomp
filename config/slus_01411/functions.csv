@@ -878,7 +878,7 @@ address,size,name,status,module,notes
 0x8004FE2C,0x758,func_8004FE2C,unmatched_asm,game,
 0x80050584,0x24C,func_80050584,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x800507D0,0x754,func_800507D0,unmatched_asm,game,
-0x80050F24,0x148,func_80050F24,unmatched_asm,game,
+0x80050F24,0x148,func_80050F24,matching_c,game,"Model slot cue request: scales the field_7C4 duration by 2/3, clamps it to 60, and lets the 0xCF8 block override it"
 0x8005106C,0x2E4,func_8005106C,unmatched_asm,game,
 0x80051350,0x6F8,func_80051350,unmatched_asm,game,
 0x80051A48,0xAE0,func_80051A48,unmatched_asm,game,
