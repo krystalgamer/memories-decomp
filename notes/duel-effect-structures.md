@@ -103,13 +103,16 @@ The 18 remaining assembly users of `D_800EB0F8` are
 `func_8003F8D4`, and `func_80043BCC`.
 For `D_800EB288`, the sole remaining assembly user is `func_800393B0`.
 
-`duel_effect_entry_scan.c` is the sole raw-view exception among migrated
-pure-C users. Both functions include the shared header and use its typed
-global declaration, but retain byte-pointer field expressions. Replacing
-those expressions with direct `DuelEffectEntry` member access shortened the
-two exact functions by eight bytes in total and failed the resident text-size
+`DuelEffect_HasActiveEntry` and `func_800373C8` in
+`duel_effect_entry_control.c` are the sole raw-view exceptions among migrated
+pure-C users. Both include the shared header and use its typed global
+declaration, but retain byte-pointer field expressions. Replacing those
+expressions with direct `DuelEffectEntry` member access shortened the two
+exact functions by eight bytes in total and failed the resident text-size
 check. The retained expressions preserve GCC 2.8.1's address-adjustment and
-register schedule; they are not a competing layout declaration.
+register schedule; they are not a competing layout declaration. The third
+function in that grouped source, `func_8003741C`, uses the shared
+`DuelEffectEntry` fields directly.
 
 The shared field syntax was exact-tested successfully in the other migrated
 users, including direct indexing in `DuelEffect_InitEntry` and both marker
