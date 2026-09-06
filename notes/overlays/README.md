@@ -488,3 +488,22 @@ function, in a few minutes: the question was which source shape keeps `p++` and
 `next = p + 1` as two separate additions instead of folding them to `p + 2`,
 and twenty lines of C answered it without rebuilding the other three hundred
 instructions. Use it whenever a row's open question names a specific construct.
+
+### Give the probe a representative consumer
+
+A probe answers the question you asked, and what you ask includes what happens
+to the values afterwards. Register allocation depends on how long a value stays
+live and on what competes with it, so a probe that ends in a placeholder call
+is asking a different question from the real function.
+
+`func_80183514` showed this sharply. Its open question was which source form
+keeps three values in three registers. Ending the probe with `return sink(hi,
+lo)` made **six** different spellings collapse to the same shape, and that shape
+was not the target's. Replacing the call with the four-comparison chain the real
+function actually ends with, and changing nothing else, made the same source
+produce the target's structure.
+
+So keep the surrounding shape: return the same way, consume the values the same
+way, and keep any other work that competes for registers. A probe is cheap
+enough to include the consumer, and a probe without one can return a confident
+wrong answer.
