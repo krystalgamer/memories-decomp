@@ -78,6 +78,7 @@ source grouping.
 | `src/game/input_state_backup.c` | `gcc_2_8_1_g8` | `Input_BackupPad1AndUsePad2` (`0x8003CDF8`) and the contiguous `Input_RestorePad1FromBackup` (`0x8003CE48`) counterpart |
 | `src/game/save_data_checksum.c` | `gcc_2_8_1_g8` | `SaveData_NextMaskWord` (`0x8003CE74`), the contiguous CRC-16/XMODEM calculator (`0x8003CEB8`), and primary/secondary checksum-mask writer (`0x8003CF14`) |
 | `src/game/save_data_validation.c` | `gcc_2_8_1_g8` | `SaveData_HasSameDuelistCode` (`0x8003D288`) and the contiguous helper that also compares saved word `+0x404` with `D_8009B3B8` (`0x8003D2B8`) |
+| `src/game/dialog_transition.c` | `gcc_2_8_1_g8` | Three contiguous dialog/card-reveal transition handlers from `0x8003D518` through `0x8003D74C`, sharing display objects and `D_8009B3C1` state bits |
 | `src/game/mem_card_dialog_runtime.c` | `gcc_2_8_1_g8_split` | Memory-card modal object update (`0x8003F2B0`) and contiguous channel/object setup (`0x8003F388`) |
 | `src/game/mem_card_requests.c` | `gcc_2_8_1_g8_split` | Six contiguous memory-card request helpers from `0x8004413C` through `0x800443EC`, followed by the directory enumeration helper at `0x80044470` |
 | `src/game/model_handler_registry.c` | `gcc_2_8_1_g8_split` | `Model_RegisterHandlerKey` (`0x80060170`), `Model_FindHandlerKey` (`0x800601D0`), and the following model setup helper at `0x80060220` |
