@@ -68,7 +68,7 @@ need declaration/source repair rather than another profile.
 
 After the sweep:
 
-- 218 unmatched game functions have terminal six-attempt deferrals;
+- 218 unmatched game functions have six recorded deferral measurements;
 - 145 unmatched game functions remain nonterminal;
 - their canonical attempt counts are 26 at one, 44 at two, 69 at three, five
   at four, and one at five.
@@ -95,9 +95,9 @@ Together with the earlier `AiScript_JumpEqual` source-shape fix, this campaign
 replaced 21 matching inline-assembly sources with exact pure C.
 
 The 59 matching sources that still contain GCC assembly now each have a
-terminal six-attempt `inline_refinement` history. They remain exact current
-sources; no further pure-C retry is allowed without genuinely new compiler or
-source evidence.
+six-row `inline_refinement` campaign history. They remain exact current
+sources, while further pure-C investigation may continue from the recorded
+compiler and source evidence.
 
 The profile pass also showed why declaration repair must be separated from
 profile variation: recurrent errors include invalid G8 small-data placement,
@@ -128,7 +128,7 @@ out-of-range small-data relocations were repaired by forcing G0:
 | GCC 2.7.2 | 10 | 0 |
 | No second scheduler pass | 5 | 0 |
 
-All ten GPREL-repair histories are now terminal. The source repair was
+All ten GPREL-repair histories ended the recorded campaign as deferred. The source repair was
 successful—the candidates compile and link—but their C structure still does
 not reproduce retail code.
 
@@ -136,7 +136,8 @@ not reproduce retail code.
 unaligned 32-bit copies. Pure-C `memcpy`, packed-pointer assignment, and
 packed-parameter forms all trigger a GCC `cc1` signal-11 internal compiler
 error under both 2.8.1 and 2.7.2. Its six-attempt history is terminal with the
-record layout and compiler blocker documented.
+record layout and compiler blocker documented; further source investigation
+remains open.
 
 Current canonical state:
 
@@ -204,10 +205,9 @@ results:
 | `0x8003D46C` | `DuelEffect_CreateChannel` | Shared `DuelEffectChannel` C already emitted the retail instructions. One verified absolute byte store preserves `$at` materialization; the full executable matches. |
 | `0x8004545C` | `SD_ArmBusyCallback` | Replaced register-pinned matching C with two ordinary C absolute-address stores, eliminating one GCC asm-bearing source while retaining the exact executable. |
 
-The immutable six-attempt histories remain unchanged. Each accepted result is
-recorded once as `post_terminal_resolution` evidence, which is allowed only
-after a deferred canonical or inline-refinement history and only for an exact
-pure-C result.
+The historical six-row campaign records remain unchanged. Each accepted later
+result is recorded as `post_terminal_resolution` evidence after a deferred
+canonical or inline-refinement history and only for an exact pure-C result.
 
 State after this wave:
 

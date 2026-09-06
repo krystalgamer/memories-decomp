@@ -107,12 +107,14 @@ Matching, attempt-ledger updates, and integration remain sequential.
   candidates; Psy-Q CRT/SDK functions never belong in the attempt ledgers.
 - Use named profiles from `compiler_profiles.json`; do not hide one-off flags
   in ad hoc commands. Try GCC 2.8.1 profiles first. Use GCC 2.7.2 only after
-  recorded evidence indicates that cohort or the 2.8.1 budget is exhausted.
+  recorded evidence indicates that cohort or the useful 2.8.1 profiles have
+  been explored.
   Pair GCC 2.8.1 with MASPSX 2.81 and GCC 2.7.2 with MASPSX 2.72.
-- Record every distinct source/compiler experiment immediately with
-  `tools/project/record_attempt.py`. Each function has a maximum of six
-  canonical attempts, and `matched` or `deferred` is terminal. Record the
-  precise mismatch reason rather than a generic failure.
+- Record every materially distinct source/compiler experiment and its precise
+  mismatch reason. The original six-row canonical ledgers are historical
+  campaign evidence, not a limit on further investigation; keep additional
+  candidates, compiler probes, and diffs under `tmp/` until an exact result is
+  ready for durable integration.
 - Keep candidate sources, compiler probes, object files, and diffs under
   `tmp/`. After a terminal matched record, promote the verified source with
   `tools/project/integrate_verified_match.py`; it updates

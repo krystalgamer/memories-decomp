@@ -2146,8 +2146,9 @@ object model through two related parent/child constructors.
 ## Deferred-function guidance
 
 The following evidence narrowed future analysis at this snapshot. Deferred
-functions remain terminal under the six-attempt policy unless genuinely new
-evidence produces a separately recorded exact result.
+histories are starting measurements rather than an exploration limit; continue
+with materially distinct hypotheses and preserve later candidates under
+`tmp/` until an exact result can be recorded.
 
 - At this snapshot, `func_8003D334` had exact size and relocations but still
   differed in scratchpad-packet initialization and register scheduling. A
