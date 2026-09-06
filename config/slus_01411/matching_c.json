@@ -976,13 +976,13 @@
       "address": "0x80025B28",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC4",
-      "source": "src/game/func_80025B28.c"
+      "source": "src/game/duel_field_effect_transition.c"
     },
     {
       "address": "0x80025BEC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x144",
-      "source": "src/game/func_80025BEC.c"
+      "source": "src/game/duel_field_effect_transition.c"
     },
     {
       "address": "0x80025EE0",

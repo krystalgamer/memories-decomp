@@ -56,6 +56,7 @@ source grouping.
 | `src/game/build_deck_compare.c` | `gcc_2_8_1_g0_split` | `BuildDeck_CompareCard` (`0x80032B60`) and its reverse-primary comparator at `0x80032BD4` |
 | `src/game/duel_effect_entry_occupancy.c` | `gcc_2_8_1_g8_split` | Five entry-allocation and marker helpers from `0x80035CA8` through `DuelEffect_ResetEntryMarkers` (`0x80035DF4`) |
 | `src/game/duel_effect_entry_scan.c` | `gcc_2_8_1_g8_split` | `DuelEffect_HasActiveEntry` (`0x8003735C`) and the following entry marker writer at `0x800373C8` |
+| `src/game/duel_field_effect_transition.c` | `gcc_2_8_1_g8_split` | Card-object transition callback (`0x80025B28`) and the contiguous prompt/controller that installs it (`0x80025BEC`) |
 | `src/game/util_memory.c` | `gcc_2_8_1_g8` | `Util_CopyWords` (`0x800356A0`) and contiguous repeated-byte fill counterpart `Util_FillMemory` (`0x80035748`) |
 | `src/game/display_object_animation_state.c` | `gcc_2_8_1_g8` | Four contiguous display-object animation state, callback, and completion helpers from `0x800428EC` through `0x80042960` |
 | `src/game/display_object_stream_and_velocity.c` | `gcc_2_8_1_g8` | Two stream-offset readers and six contiguous 8.8-velocity helpers from `0x800429A8` through `0x80042AA4` |
