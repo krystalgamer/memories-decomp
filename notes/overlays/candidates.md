@@ -881,24 +881,21 @@ s32 func_80180390(void)
 
 ## password `func_80169734` at 0x80169734
 
-`gcc_2_8_1_g0_split`, 305 instructions against 309, 209 differing positions,
-opcode distance 10.
+`gcc_2_8_1_g0_split`, 304 instructions against 309, 60 differing positions,
+opcode distance 5.
 
-This is a fresh reconstruction from the disassembly and the inventory row, not
-the 309-instruction candidate the row describes; that one was never stored and
-is lost. Store any improvement here rather than rebuilding a third time.
+There are no extra instructions at all: the residual is purely five that are
+missing, one `addiu`, two `lbu`, one `nop` and one `j`.
 
-Three shape facts are settled by measurement and are already applied:
-the box field at +0x34 is a `u16` for the read-modify-write at the wait path
-but is read as a 32-bit word for the 0x2008 test, so it needs a cast at that
-one site; `gDialog_bChoice` is signed, which is the target's single `lb`; and
-the panel block near the end is one base pointer with offsets 300, 390 and 391
-rather than three absolute addresses.
+The box at 0x800EB1C0 is a symbol, not an integer cast to a pointer. The target
+forms its address with `lui` and `addiu`, which is what a symbol reference gives;
+a literal address gives `lui` and `ori`, because `addiu` sign-extends and `ori`
+does not. Writing it as `(Box *)0x800EB1C0` costs five on the distance and 149
+differing positions on its own.
 
-Residual is extra `lui` x1 and `ori` x2 against missing `addiu` x2, `lbu` x2,
-`nop` x1, `addu` x1 and `j` x1. The missing `j` is the most informative: one
-of the returns should reach the epilogue through a jump rather than its own
-return sequence.
+Measured and inert against this base: re-reading `gNameEntry_bFlags` at the bit 2
+test, at the top-level bit 4 test, and at both tail tests, in every combination.
+The compiler canonicalises those, so the two missing `lbu` are elsewhere.
 
 ```c
 #include "../../src/types.h"
@@ -931,6 +928,7 @@ extern s8 gDialog_bChoice;
 extern u16 gInput_wPad1Pressed;
 extern u8 D_801B125A[];
 extern u8 D_800EB0F8[];
+extern Box D_800EB1C0;
 extern u8 *gNameEntry_pName;
 extern u8 D_8016D41C;
 
@@ -1010,7 +1008,7 @@ void func_80169734(void)
             gNameEntry_bFlags = fa | 2;
             return;
         }
-        box = (Box *)0x800EB1C0;
+        box = &D_800EB1C0;
         caret = box->f44;
         if ((flags & 2) != 0) {
             pos = caret->f96;
