@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "model.h"
-#include "trig_constants.h"
 
 /* arg2's transform block: unk0 flag, a 0x20-byte MATRIX at +4, then the
    computed rotation angles at +0x44/+0x46/+0x48, and an id/handle at +0x4C. */
@@ -32,7 +31,7 @@ void func_800592AC(s32 arg0, s32 arg1, Obj *arg2) {
     ModelSlot *slot;
 
     func_8008E3D0(&raw, 0, 8);
-    raw.vy = (s16)(TRIG_ANGLE_FULL_TURN - D_8009B47A);
+    raw.vy = (s16)(MODEL_ANGLE_FULL_TURN - D_8009B47A);
     raw.vz = (s16)D_8009B47C;
 
     slot = &D_800F2C40[arg0];
@@ -41,11 +40,11 @@ void func_800592AC(s32 arg0, s32 arg1, Obj *arg2) {
 
     arg2->f0 = 0;
     arg2->f44 =
-        (s16)(TRIG_ANGLE_FULL_TURN - slot->field_D18->field_44);
+        (s16)(MODEL_ANGLE_FULL_TURN - slot->field_D18->field_44);
     arg2->f46 =
-        (s16)(TRIG_ANGLE_FULL_TURN - slot->field_D18->field_46);
+        (s16)(MODEL_ANGLE_FULL_TURN - slot->field_D18->field_46);
     arg2->f48 =
-        (s16)(TRIG_ANGLE_FULL_TURN - slot->field_D18->field_48);
+        (s16)(MODEL_ANGLE_FULL_TURN - slot->field_D18->field_48);
 
     func_800889C0((SVECTOR *)&arg2->f44, &arg2->f4);
     func_80088E50(&packed, &sp20);
