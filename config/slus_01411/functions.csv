@@ -1236,15 +1236,15 @@ address,size,name,status,module,notes
 0x80073EDC,0x78,func_80073EDC,sdk_asm,psyq/sdk,
 0x80073F54,0x68,func_80073F54,sdk_asm,psyq/sdk,
 0x80073FBC,0x40,func_80073FBC,sdk_asm,psyq/sdk,
-0x80074000,0xC,func_80074000,sdk_asm,psyq/sdk,
-0x80074010,0xC,func_80074010,sdk_asm,psyq/sdk,
-0x80074020,0xC,func_80074020,sdk_asm,psyq/sdk,
+0x80074000,0xC,InitPAD2,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A18.OBJ signature.
+0x80074010,0xC,StartPAD2,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A19.OBJ signature.
+0x80074020,0xC,PAD_init2,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A21.OBJ signature.
 0x80074030,0xC,func_80074030,sdk_asm,psyq/sdk,
 0x80074040,0xC,func_80074040,sdk_asm,psyq/sdk,
-0x80074050,0x28,func_80074050,sdk_asm,psyq/sdk,
-0x80074078,0x70,func_80074078,sdk_asm,psyq/sdk,
+0x80074050,0x28,EnablePAD,sdk_asm,psyq/sdk,"Identified at offset zero of the unique Psy-Q 4.6 LIBAPI.LIB/PATCH.OBJ signature; DisablePAD is the internal entry at +0x14."
+0x80074078,0x70,_patch_pad,sdk_asm,psyq/sdk,Identified at offset 0x28 of the unique Psy-Q 4.6 LIBAPI.LIB/PATCH.OBJ signature.
 0x800740F0,0xC,func_800740F0,sdk_asm,psyq/sdk,
-0x80074100,0x68,func_80074100,sdk_asm,psyq/sdk,
+0x80074100,0x68,_remove_ChgclrPAD,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBAPI.LIB/CHCLRPAD.OBJ signature.
 0x80074170,0x178,VSync,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBETC.LIB/VSYNC.OBJ signature and matching frame-timing callers.
 0x800742E8,0x98,func_800742E8,sdk_asm,psyq/sdk,
 0x80074380,0xC,func_80074380,sdk_asm,psyq/sdk,
