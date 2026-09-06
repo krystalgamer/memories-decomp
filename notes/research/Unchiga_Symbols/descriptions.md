@@ -309,3 +309,13 @@ on the suspects side until proven.)
 | 0x80016DDC | `Duel_UpdateLifePointDisplay` | Moves one side's displayed life points toward its authoritative value with larger steps for larger differences and clamps the final step to avoid overshooting. |
 | 0x80016E70 | `Duel_DrawLifePointsAndDeckCounts` | Updates both displayed life-point values, then draws four LP digits and two remaining-deck digits for each side with the active-side shading. |
 | 0x800170C8 | `Duel_CalcCardStats` | Adds the card's base ATK/DEF, stat modifier, and terrain modifier, clamps each result to 0–9999, and returns packed `DEF << 16 | ATK`. |
+
+## Batch: duel rules and rewards
+
+| address | name | description |
+|---|---|---|
+| 0x80018CF8 | `Duel_HasAllExodiaPieces` | Returns whether the current five-card hand contains every Exodia piece, marking each matched temporary slot so one card cannot satisfy two required IDs. |
+| 0x80019A08 | `Duel_CheckEquip` | Looks up an equip card in the compatibility table and returns the monster card ID when that pair is valid, or zero otherwise. |
+| 0x80019A60 | `Duel_CheckFusion` | Normalizes two card IDs, searches their packed fusion-table row, and returns the fusion result card ID or zero when no recipe exists. |
+| 0x8001BD48 | `Duel_CheckQuitInput` | In a two-player duel, detects a newly pressed Select button, requests the quit-confirmation dialog, and reports that it handled the input. |
+| 0x80021894 | `Duel_AwardCard` | Adds one card to the trunk with quantity saturation at 250, shifts the 16-entry recent-award history, and inserts the new card at the front. |
