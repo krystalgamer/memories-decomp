@@ -4,7 +4,7 @@ extern u8 D_800F2848[];
 extern void func_800857C0(int);
 extern void func_8001352C(void);
 
-void func_80168310(void)
+void CampaignMap_ResetCamera(void)
 {
     u8 *camera = D_800F2848;
     u8 *matrix = D_800F2848 + 0x10;
