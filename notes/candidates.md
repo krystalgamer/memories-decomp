@@ -367,59 +367,71 @@ void Duel_LoadPackageStage(Object *object, s32 phase) {
 
 ## `func_8004A764` at 0x8004A764
 
-`gcc_2_8_1_g8_split`, 23 of 23 instructions, opcode distance 0, 6 differing
-positions. Supersedes the 8-position state previously recorded here; the
-structural reading below is that entry's and is unchanged.
+`gcc_2_8_1_cc_g8_as_g0_split`, 23 of 23 instructions, opcode distance 0, 6
+differing positions.
 
-Fills the secondary sound state's `SpuVoiceAttr` at `+0x4C0` and hands it to
-`SpuSetVoiceAttr`. `voice` comes from `D_80011434[index]`, `mask` is `0x60100`,
-`a_mode` is 5 and both ADSR words are cleared. The `pad04C0[0x40]` member in
-`sound.h` is exactly `sizeof(SpuVoiceAttr)`, which is what the offsets confirm:
-`+0x4C4` is `mask`, `+0x4E4` is `a_mode` at `+0x24`, and `+0x4FA`/`+0x4FC` are
-`adsr1`/`adsr2` at `+0x3A`/`+0x3C`.
+Same 6 as the previous record, but in plain C and in the same shape as its
+sibling `func_8004A6F8`. Two things were wrong with the stored source rather
+than with the result.
 
-Two things had to be right together, and both still hold. The stores go through
-the **state** pointer at `0x4C0` offsets, not through an `attr` pointer, because
-the target keeps the state in `v1` and only computes `a0 = v1 + 0x4C0` as the
-call argument. And `D_8009B458` needs a local `section(".data")` alias, because
-the shared declaration in `sound.h` is small enough for `-G8` to make it
-gp-relative while the target uses `lui`/`lw`.
+The `section(".data")` attribute was doing nothing: GCC reports "section
+attribute ignored for uninitialized variable" for it, so the addressing it was
+credited with came from the profile, not the attribute. Using `D_8009B458`
+straight from `sound.h`, as the matched sibling `func_8004A7C0` does, reaches
+the identical 6.
 
-**Two positions come from the store order.** The target emits `voice`, `mask`,
-`adsr1`, `adsr2`, `a_mode`, with the `a_mode` store landing in the `jal` delay
-slot. Writing `a_mode` third, where it reads most naturally next to `mask`,
-costs those two. Writing it last matches. The `SPU_VOICE_*` names for the mask
-and `SPU_VOICE_EXPIncN` for the mode also decode `0x60100` and `5`, which is
-worth having in the source rather than in prose.
+More importantly the `extern ... asm("D_8009B458")` alias made this candidate
+impossible to ship. `record_external_attempt.py` rejects any asm extension, and
+`--allow-register-pins` only rewrites `register x asm("$n")` pins, not symbol
+aliases, so the stored source would have been refused at the moment it finally
+matched. Any candidate carrying an alias has the same latent problem.
 
-What remains is scheduling only: the target finishes the `D_80011434` address
-arithmetic before materialising the state pointer, and sinks `sw $ra` two
-positions later than this build does.
+The store order fix found for `func_8004A6F8` applies here too: hoisting the
+table word into a local and writing the mask at `+0x4C4` before the voice word
+at `+0x4C0` reaches 6 from this shape as well, so both siblings now share one
+source shape and one residual.
 
-Do not treat the following as settled. Crossed without improving on the earlier
-8: five attr-pointer register pins, three index spellings, four store orders,
-two declaration orders, and ten profiles, across sweeps of 120, 96, 630, 144,
-150 and 40 variants. `gcc_2_8_1_g0_split`, which the matched neighbour
-`func_8004A7C0` uses, is consistently three positions worse here. Crossed
-without improving on 6: reordering the mask before the voice store, moving the
-table read into a local, naming the table base, and an early local for the mask
-constant.
+That residual is byte-identical between the two functions, at the same six
+positions, and the multiset is exact, so it is placement only. The target
+orders the prologue as [complete table address] [load state] [read table] and
+emits `ori` before `sw $ra`; both candidates load the state first.
+
+This is not reachable by reordering statements, and that is now a measured
+fact rather than a guess. Under `gcc_2_8_1_g8_no_sched2` and
+`gcc_2_8_1_g0_no_sched2` the natural order is identical for every source shape
+tried -- `sw $ra`, the mask `lui`, the `sll`, the state load, the table
+address, the table read, the `ori` -- including the variants that split the
+table access into a separate address local. Per the rule recorded in
+matching-evidence, an order that does not move under `no_sched2` will not move
+by rewriting the statements, so the next attempt should look for something that
+changes what the back end produces, not the order it is written in.
+
+Crossed without improving on 6, across sweeps of 420, 624, 64 and 770 variants
+plus a full profile sweep of all 29 profiles on both siblings: statement order
+with the value local at every legal position, the mask inline against a named
+local, `s32`/`int` element types, `s32`/`u32` values, index spellings by array,
+by pointer, by multiply and by shift, splitting the table access into a
+separate `s32 *`, `u8 *` or offset local, and four spellings of the state
+pointer including none at all. The address split is consistently worse at 9.
 
 ```c
 #include "../../src/types.h"
 #include "../../src/psyq/libspu.h"
+#include "../../src/game/sound.h"
 
 extern s32 D_80011434[];
-extern u8 *D_8009B458_d asm("D_8009B458") __attribute__((section(".data")));
+
+#define MASK (SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_ADSR1 | \
+              SPU_VOICE_ADSR_ADSR2)
 
 void func_8004A764(s32 index)
 {
     u8 *p;
-
-    p = D_8009B458_d;
-    *(u32 *)(p + 0x4C0) = D_80011434[index];
-    *(u32 *)(p + 0x4C4) = SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_ADSR1 |
-                          SPU_VOICE_ADSR_ADSR2;
+    s32 value;
+    p = (u8 *)D_8009B458;
+    value = D_80011434[index];
+    *(u32 *)(p + 0x4C4) = MASK;
+    *(u32 *)(p + 0x4C0) = value;
     *(u16 *)(p + 0x4FA) = 0;
     *(u16 *)(p + 0x4FC) = 0;
     *(s32 *)(p + 0x4E4) = SPU_VOICE_EXPIncN;
