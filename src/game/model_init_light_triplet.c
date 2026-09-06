@@ -12,21 +12,21 @@ void Model_InitLightTriplet(s32 a0) {
     *(s32 *)(base + 0xD70) = 3000;
     *(s32 *)(base + 0xD74) = 5000;
     *(s32 *)(base + 0xD78) = 2000;
-    *(base + 0xD7C) = 128;
-    *(base + 0xD7D) = 128;
-    *(base + 0xD7E) = 128;
+    *(base + 0xD7C) = MODEL_LIGHT_BASE_INTENSITY;
+    *(base + 0xD7D) = MODEL_LIGHT_BASE_INTENSITY;
+    *(base + 0xD7E) = MODEL_LIGHT_BASE_INTENSITY;
 
     *(s32 *)(base + 0xD80) = -3000;
     *(s32 *)(base + 0xD84) = 5000;
     *(s32 *)(base + 0xD88) = -2000;
-    *(base + 0xD8C) = 128;
-    *(base + 0xD8D) = 128;
-    *(base + 0xD8E) = 128;
+    *(base + 0xD8C) = MODEL_LIGHT_BASE_INTENSITY;
+    *(base + 0xD8D) = MODEL_LIGHT_BASE_INTENSITY;
+    *(base + 0xD8E) = MODEL_LIGHT_BASE_INTENSITY;
 
     *(s32 *)(base + 0xD90) = 0;
     *(s32 *)(base + 0xD94) = -5000;
     *(s32 *)(base + 0xD98) = 0;
-    *(base + 0xD9C) = 64;
-    *(base + 0xD9D) = 64;
-    *(base + 0xD9E) = 64;
+    *(base + 0xD9C) = MODEL_LIGHT_DIM_INTENSITY;
+    *(base + 0xD9D) = MODEL_LIGHT_DIM_INTENSITY;
+    *(base + 0xD9E) = MODEL_LIGHT_DIM_INTENSITY;
 }
