@@ -466,3 +466,5 @@ GsSetRefView2 = 0x8008AD50; // type:func
 qsort = 0x8008E400; // type:func
 sprintf = 0x8008F200; // type:func
 DecDCTReset = 0x8008FBE0; // type:func
+DecDCTGetEnv = 0x8008FC14; // type:func
+DecDCTPutEnv = 0x8008FCA0; // type:func
