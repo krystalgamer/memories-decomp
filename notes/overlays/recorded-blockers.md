@@ -16,7 +16,7 @@ measured.
 |---|---|---|
 | `func_8018416C` | `no_sched2` is far worse, so sched2 is on and the epilogue is not reachable by flags | `no_sched2` was the only such profile and it is **non-split**, so it moved the scheduling flag and every `%hi`/`%lo` load at once |
 | `func_80184254` | `-fno-schedule-insns2` fixes the epilogue but costs five instructions elsewhere, so sched2 is on | those five were the non-split address loads, same confound |
-| `func_8016868C` | blocked on base selection; GCC refuses the negative offset and splits one walker into two; neither `u8` nor `s16` typing helps | a symptom of loop rotation. `for (;;)` with explicit returns fixed the giv base and the offsets together |
+| `TextBox_GetGlyphAt` | blocked on base selection; GCC refuses the negative offset and splits one walker into two; neither `u8` nor `s16` typing helps | a symptom of loop rotation. `for (;;)` with explicit returns fixed the giv base and the offsets together |
 | `func_8016A02C` | sched1 hoists the `+0x8` load above the `+0x21` store; no profile with sched1 disabled exists | the fields were reached by casts through a byte pointer instead of struct members. Stock profile matches |
 | `CampaignMap_CreateLocationMarker` | the remainder is a swap of the two temporaries in the tail; `-fno-schedule-insns` fixes the saved-register allocation | the `move` was the **return value copy**. Stock profile matches; `no_sched1` is worse |
 

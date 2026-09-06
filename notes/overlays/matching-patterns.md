@@ -898,7 +898,7 @@ for (;;) {
 
 Both verified by `Password_LookupCardID` in the password module.
 
-`func_8016868C` in the same module confirms it, and shows how far the damage
+`TextBox_GetGlyphAt` in the same module confirms it, and shows how far the damage
 travels. Its recorded blocker was about induction variables, not loops: GCC
 was said to refuse a negative load offset and to split one walker into two,
 giving three induction variables where the target has two. That was entirely
