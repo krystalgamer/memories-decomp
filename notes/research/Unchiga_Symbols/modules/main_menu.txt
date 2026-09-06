@@ -1,5 +1,7 @@
 // main menu module (NEW GAME/LOAD/... and the post-load menu) -- resident while Main_RunMenu (0x8002D588) is the mode tick.
+MainMenu_StartValueSetup = 0x80180FD8; // type:func
 MainMenu_UpdateValueWidgetTween = 0x80181CB8; // type:func
+MainMenu_FinishValueSetup = 0x80181E30; // type:func
 MainMenu_CountDecimalDigits = 0x80181EEC; // type:func
 MainMenu_StartValueWidgetTween = 0x80181F20; // type:func
 gMain_apMenuEntries = 0x80184568;

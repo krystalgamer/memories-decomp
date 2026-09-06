@@ -9,7 +9,7 @@ extern void *D_801845B0[];
 extern s32 D_800E9DB0;
 extern void func_8004036C(void *);
 
-void func_80181E30(void)
+void MainMenu_FinishValueSetup(void)
 {
     u8 *state = D_801845C0;
 

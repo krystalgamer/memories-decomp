@@ -234,7 +234,7 @@ Two signals, either of which is enough:
 - A **negative** load offset. A struct member should never need one, so it
   means the base register points at some other member.
 
-Verified by `func_80181E30` in the main menu module.
+Verified by `MainMenu_FinishValueSetup` in the main menu module.
 
 ## Signed and unsigned short tests
 
@@ -946,7 +946,7 @@ D_801845BC[2] = (*toggle == 0);
 This is worth checking before blaming the scheduler, because a wrong s-register
 assignment reorders the whole tail and looks like many independent misses.
 
-Verified by `func_80180FD8` in the main menu module.
+Verified by `MainMenu_StartValueSetup` in the main menu module.
 
 ## A chained assignment loads once and stores right to left
 
@@ -977,7 +977,7 @@ is not required; it is required for the pointer form above, where splitting it
 costs an instruction whichever order the two statements are written in, because
 the second store no longer shares the load.
 
-Verified by `func_80180FD8` in the main menu module.
+Verified by `MainMenu_StartValueSetup` in the main menu module.
 
 ## Passing the global rather than the local sinks the first argument
 
@@ -1000,13 +1000,13 @@ register -- so this is invisible except as a four-position permutation of the
 argument setup, and it is not reachable by reordering anything. Read the
 argument spelling off the target rather than assuming the local.
 
-The two forms can legitimately coexist in one function: in `func_80180FD8` the
-two objects held in scalar globals pass the local and keep `a0` first, while
+The two forms can legitimately coexist in `MainMenu_StartValueSetup`: the two
+objects held in scalar globals pass the local and keep `a0` first, while
 the three held in an array pass `D_801845B0[i]` and sink it. That is consistent
 with the array elements also being re-read for the field update that follows,
 where a scalar global is read once and an array element twice.
 
-Verified by `func_80180FD8` in the main menu module.
+Verified by `MainMenu_StartValueSetup` in the main menu module.
 
 ## A value moved through a scratch register is a conditional expression
 
