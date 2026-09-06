@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 #include "sound.h"
 
 extern void func_80044DC0(s32);
@@ -22,8 +23,6 @@ extern void func_800495A4(void);
 extern void func_800495DC(void);
 extern void func_800495EC(void);
 extern void func_80049640(void);
-extern void func_80075B60(void);
-extern void func_80076D90(s32);
 extern void SD_Init(void);
 extern SDValue * volatile D_8009B45C_volatile asm("g_SDValue");
 
@@ -37,8 +36,8 @@ void func_80046F58(void)
     func_8004763C();
     SD_Init();
     func_80049640();
-    func_80076D90(0);
-    func_80075B60();
+    SpuSetIRQ(0);
+    SpuQuit();
 }
 
 void SD_SetOutputType(s16 value)

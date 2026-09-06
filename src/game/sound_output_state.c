@@ -1,8 +1,8 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 
 #include "sound.h"
 
-extern int func_80076D20(short *, int);
 extern s32 func_80045208(u16, s32);
 extern void func_80045BE8(u8 *);
 
@@ -14,8 +14,8 @@ void func_8004503C(short value, unsigned char flag, int unused)
 
 int func_80045054(void)
 {
-    int select = func_80076D20(
-        (short *)((u8 *)g_SDValue + 0x53C),
+    int select = SpuReadDecodedData(
+        (SpuDecodedData *)((u8 *)g_SDValue + 0x53C),
         5
     );
     register u8 *choice_state asm("$3") = (u8 *)g_SDValue;

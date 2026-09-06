@@ -113,7 +113,24 @@ symbol review.
 | `0x80074A90` | `HookEntryInt` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A25.OBJ` signature. |
 | `0x80074AA0` | `startIntrVSync` | Applied at offset zero of the unique 288-byte Psy-Q 4.6 `LIBETC.LIB/INTR_VB.OBJ` signature. |
 | `0x80075B20` | `DeliverEvent` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A07.OBJ` signature. |
+| `0x80075B30` | `_SpuDataCallback` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_DCB.OBJ` signature. |
+| `0x80075B60` | `SpuQuit` | Applied from the unique 128-byte Psy-Q 4.6 `LIBSPU.LIB/S_Q.OBJ` signature; matching shutdown paths stop the SPU after releasing game-owned sound state. |
+| `0x80075BE0` | `SpuSetReverb` | Applied from the unique 208-byte Psy-Q 4.6 `LIBSPU.LIB/S_SR.OBJ` signature; matching sound control toggles the active reverb engine. |
+| `0x80075CB0` | `_SpuIsInAllocateArea` | Applied at offset zero of the unique 272-byte Psy-Q 4.6 `LIBSPU.LIB/S_M_UTIL.OBJ` signature. |
+| `0x80075D30` | `_SpuIsInAllocateArea_` | Applied at offset `0x80` of the same unique `LIBSPU.LIB/S_M_UTIL.OBJ` signature. |
+| `0x80075DC0` | `SpuGetReverb` | Applied from the unique 32-byte Psy-Q 4.6 `LIBSPU.LIB/S_GR.OBJ` signature; matching sound control queries the current reverb state. |
+| `0x80075DE0` | `SpuSetReverbModeParam` | Applied from the unique 1,248-byte Psy-Q 4.6 `LIBSPU.LIB/S_SRMP.OBJ` signature; matching sound commands submit the 20-byte reverb parameter prefix. |
+| `0x800762C0` | `_spu_setReverbAttr` | Applied from the unique 1,232-byte Psy-Q 4.6 `LIBSPU.LIB/S_SRA.OBJ` signature. |
+| `0x80076790` | `SpuReserveReverbWorkArea` | Applied from the unique 80-byte Psy-Q 4.6 `LIBSPU.LIB/S_RRWA.OBJ` signature; matching sound setup reserves or releases the work area. |
+| `0x800767E0` | `SpuIsReverbWorkAreaReserved` | Applied from the unique 64-byte Psy-Q 4.6 `LIBSPU.LIB/S_IRWAR.OBJ` signature; matching sound setup checks the reservation state. |
+| `0x80076820` | `SpuSetReverbVoice` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_SRV.OBJ` signature. |
+| `0x80076850` | `_SpuSetAnyVoice` | Applied from the unique 704-byte Psy-Q 4.6 `LIBSPU.LIB/S_SAV.OBJ` signature. |
+| `0x80076B10` | `SpuGetReverbVoice` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_GRV.OBJ` signature. |
+| `0x80076B40` | `_SpuGetAnyVoice` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_GAV.OBJ` signature. |
+| `0x80076B70` | `SpuClearReverbWorkArea` | Applied from the unique 416-byte Psy-Q 4.6 `LIBSPU.LIB/S_CRWA.OBJ` signature. |
 | `0x80076D10` | `WaitEvent` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A10.OBJ` signature. |
+| `0x80076D20` | `SpuReadDecodedData` | Applied from the unique 112-byte Psy-Q 4.6 `LIBSPU.LIB/S_RDD.OBJ` signature. |
+| `0x80076D90` | `SpuSetIRQ` | Applied from the unique 320-byte Psy-Q 4.6 `LIBSPU.LIB/S_SI.OBJ` signature; matching sound initialization disables the SPU IRQ before shutdown. |
 | `0x80076ED0` | `SpuSetKey` | Applied Psy-Q 4.6 identity; matching sound-driver paths switch selected voice masks off during cleanup and slot reuse. |
 | `0x800772F0` | `SpuRGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset zero of the unique 352-byte `LIBSPU.LIB/SR_GAKS.OBJ` signature. |
 | `0x800773C4` | `SpuGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset `0xD4` of the same object; matching sound-driver callers collect all voice key states before update or cleanup work. |
