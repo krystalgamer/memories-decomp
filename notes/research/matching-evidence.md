@@ -2966,3 +2966,40 @@ measurement and the thing being measured, and it is exactly as trustworthy as
 its least accurate entry. When a derived name and a raw encoding are both
 available, deriving from the encoding removes a whole class of quiet errors
 rather than fixing one of them.
+
+## Switch arms are emitted in source order, so the layout names the order
+
+GCC lays out switch case bodies in the order they appear in the source, and
+the jump table records where each body ended up. Sorting the table's targets
+by address therefore reads the source order back out directly, before any
+compiling is attempted.
+
+func_800577B0 (0x800577B0, 209 instructions, eleven entries) has a shared
+case 5 and 9 body. Written in numeric order, between case 4 and case 6, the
+candidate sat at 82 differing positions. The target's block addresses say
+otherwise:
+
+    case 0  1  2  3  4  6  7  8  5and9  10
+
+Moving the shared body to sit after case 8, which is where its block lives,
+took the count from 82 to 26 in one edit and changed nothing else.
+
+Two things worth carrying:
+
+- Read the case order off the table before writing any C. It costs one sort
+  and removes a whole class of positional noise that otherwise looks like an
+  allocation problem.
+- A shared body has no natural place in numeric order, so it is exactly the
+  arm most likely to be written somewhere surprising. Numeric order is a
+  guess; the layout is evidence.
+
+The remaining 26 were a scheduling detail with the same shape in two arms. A
+volatile read-modify-write of a global was being hoisted ahead of plain struct
+stores that precede it in source. Writing the second halfword store of the
+field30 union third, immediately before the height assignment rather than
+after the mask, gave the target's order. Cases 1 and 6 needed the identical
+change, and each was worth 13 positions.
+
+That last part generalises less well than the first, but the diagnostic does:
+when the same small residual appears in two arms of one switch, it is one
+source-shape mistake made twice, not two coincidences.
