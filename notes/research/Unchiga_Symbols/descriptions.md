@@ -526,3 +526,18 @@ on the suspects side until proven.)
 | 0x800EA118 | `gDuel_wFusionResultCardID` | Card ID produced by the current fusion result. |
 | 0x8009B165 | `gDuel_bWinnerSide` | Winning duel side index: `0` for the player and `1` for the opponent. |
 | 0x8009B164 | `gDuel_bQuitDialogState` | Two-player quit-dialog state: bit `0x01` requests the prompt and bit `0x80` marks it initialized. |
+
+## Batch: deck randomization and rewards
+
+| address | name | description |
+|---|---|---|
+| 0x800FE6F8 | `gRand_dwSeed` | Seed advanced by the resident `rand` implementation for shuffles, weighted card selection, AI choices, and other pseudorandom behavior. |
+| 0x80177F94 | `gDuel_awPlayerDeckShuffle` | Player-side permutation buffer passed to `Duel_ShuffleDeck`. |
+| 0x80177FBC | `gDuel_awOpponentDeckShuffle` | Opponent-side permutation buffer passed to `Duel_ShuffleDeck`. |
+| 0x80177FE8 | `gDuel_awPlayerShuffledDeck` | Forty-card shuffled working copy of the player's deck. |
+| 0x80178038 | `gDuel_awOpponentShuffledDeck` | Forty-card shuffled working copy of the opponent's deck. |
+| 0x801781D8 | `gDuel_awOpponentDeckPool` | Weighted source pool used to generate the opponent's 40-card deck before shuffling. |
+| 0x8017878C | `gDuel_awSaPowCardDrops` | Per-opponent 722-entry weighted card-drop rows used for S/A-POW rewards. |
+| 0x80178D40 | `gDuel_awBcdCardDrops` | Per-opponent 722-entry weighted card-drop rows used for B/C/D rewards. |
+| 0x801792F4 | `gDuel_awSaTecCardDrops` | Per-opponent 722-entry weighted card-drop rows used for S/A-TEC rewards. |
+| 0x801798A8 | `gDuel_awRankScoreChange` | Threshold/value rows used to convert tracked duel statistics into the final rank score. |
