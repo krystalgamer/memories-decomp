@@ -1,6 +1,0 @@
-==== USER CONTEXT ====
-
-Nothing was triggered. Did duels, where I moved my card, triggered the 3D fight. Moved around menus, nothing.
-
-==== TRACE RESULT =====
-N/A

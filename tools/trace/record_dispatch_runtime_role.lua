@@ -12,6 +12,10 @@
 --   That evidence can decide whether func_8005F91C should receive a sound
 --   queue/dispatcher name or retain a broader model/effect role.
 --
+--   A first run produced no dispatcher hits. This version also probes the
+--   four matching-C caller entries, so it can distinguish an action that
+--   never reaches this subsystem from a dispatcher-breakpoint/setup failure.
+--
 -- HOW TO RUN
 --   1. Open PCSX-Redux with the game and enable the debugger.
 --   2. Select the interpreter CPU. Execution breakpoints do not fire on the
@@ -23,6 +27,8 @@
 --      with a clearly audible sound but no model animation.
 --   5. Note what was visible and audible when each numbered sequence starts
 --      and when the script reports that its queued records were processed.
+--      Caller-probe messages are useful too: record the action that caused
+--      each address to appear.
 --   6. Copy the whole document into
 --      tools/trace/result/record_dispatch_runtime_role.txt and fill in the
 --      context.
@@ -36,6 +42,7 @@ local ffi = require('ffi')
 
 local SCRIPT_NAME = 'record_dispatch_runtime_role'
 local DISPATCH = 0x8005f91c
+local CALLERS = {0x8005d994, 0x8005f714, 0x8005f7b0, 0x8005f828}
 local MAIN_MODE = 0x8009b26c
 local QUEUE_COUNT = 0x8009b078
 local QUEUE_ACTIVE = 0x8009b079
@@ -44,6 +51,7 @@ local QUEUE_CAPACITY = 10
 local QUEUE_RECORD_SIZE = 0x28
 local TARGET_SEQUENCES = 4
 local MAX_HITS = 96
+local NO_HIT_WARNING_FRAMES = 600
 local MIN_CAPTURE_FRAMES = 1800
 local QUIET_FRAMES = 180
 local TIMEOUT_FRAMES = 72000
@@ -126,9 +134,12 @@ local sequence = 0
 local completedSequences = 0
 local sequenceOpen = false
 local modeCounts = {[0] = 0, [1] = 0, [2] = 0}
+local callerHits = 0
+local seenCallers = {}
 local firstHitFrame = nil
 local callbackError = nil
 local hitLimitReached = false
+local noHitWarningPrinted = false
 local armed = false
 local done = false
 
@@ -138,6 +149,26 @@ end
 
 local function callSite(regs)
     return normalize32(tonumber(regs.GPR.n.ra) - 8)
+end
+
+local function onCaller(address)
+    if done or callbackError ~= nil then
+        return
+    end
+
+    address = normalize32(address)
+    callerHits = callerHits + 1
+    if not seenCallers[address] then
+        seenCallers[address] = true
+        emit(string.format(
+            'caller_probe frame=%06d main_mode=0x%02X address=0x%08X',
+            frames, u8(MAIN_MODE), address
+        ))
+        print(string.format(
+            '%s: caller 0x%08X reached; note the action and presentation',
+            SCRIPT_NAME, address
+        ))
+    end
 end
 
 local function dumpQueue(sequenceNumber, count)
@@ -238,6 +269,11 @@ local function finish(reason)
     if breakpoint_record_dispatch_runtime_role ~= nil then
         breakpoint_record_dispatch_runtime_role:disable()
     end
+    if breakpoints_record_dispatch_callers ~= nil then
+        for _, breakpoint in ipairs(breakpoints_record_dispatch_callers) do
+            breakpoint:disable()
+        end
+    end
 
     print('')
     print('==== USER CONTEXT ====')
@@ -245,14 +281,17 @@ local function finish(reason)
     print('<for every sequence, state the screen and exact action; describe')
     print(' visible model/particle effects and audible sounds; say whether each')
     print(' began before or after the corresponding mode-2 message>')
+    print('<also identify the action behind each caller-probe address>')
     print('')
     print('==== TRACE RESULT =====')
     print('')
     print('script: ' .. SCRIPT_NAME)
     print('status: ' .. reason)
     print(string.format(
-        'summary: hits=%d sequences=%d completed=%d modes_0_1_2=%d/%d/%d',
+        'summary: hits=%d caller_hits=%d sequences=%d completed=%d '
+        .. 'modes_0_1_2=%d/%d/%d',
         hits,
+        callerHits,
         sequence,
         completedSequences,
         modeCounts[0],
@@ -284,6 +323,21 @@ local function poll()
         return
     end
 
+    if not noHitWarningPrinted
+        and frames >= NO_HIT_WARNING_FRAMES
+        and hits == 0 then
+        noHitWarningPrinted = true
+        if callerHits == 0 then
+            print(SCRIPT_NAME
+                .. ': no caller or dispatcher hits; confirm interpreter CPU '
+                .. 'and trigger a model/particle action')
+        else
+            print(SCRIPT_NAME
+                .. ': caller probes fired but dispatcher did not; keep '
+                .. 'running and record which caller addresses appeared')
+        end
+    end
+
     if armed then
         quietFrames = quietFrames + 1
         if completedSequences >= TARGET_SEQUENCES
@@ -297,6 +351,8 @@ local function poll()
     if frames >= TIMEOUT_FRAMES then
         if armed then
             finish('timed out after partial dispatcher activity')
+        elseif callerHits > 0 then
+            finish('timed out after caller activity without a dispatcher hit')
         else
             finish('timed out without a dispatcher hit; use interpreter CPU')
         end
@@ -315,6 +371,23 @@ breakpoint_record_dispatch_runtime_role = PCSX.addBreakpoint(
         end
     end
 )
+
+breakpoints_record_dispatch_callers = {}
+for _, address in ipairs(CALLERS) do
+    breakpoints_record_dispatch_callers[#breakpoints_record_dispatch_callers + 1] =
+        PCSX.addBreakpoint(
+            address,
+            'Exec',
+            4,
+            'Trace a record-dispatch caller',
+            function(hitAddress)
+                local ok, err = pcall(onCaller, hitAddress)
+                if not ok then
+                    callbackError = tostring(err)
+                end
+            end
+        )
+end
 
 listener_record_dispatch_runtime_role = PCSX.Events.createEventListener(
     'GPU::Vsync',
