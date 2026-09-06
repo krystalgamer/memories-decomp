@@ -1,10 +1,10 @@
 #include "../../types.h"
 
 extern u8 D_8016D400;
-extern void func_80169734(void);
+extern void NameEntry_UpdateDialog(void);
 
 int NameEntry_PollCompletion(void)
 {
-    func_80169734();
+    NameEntry_UpdateDialog();
     return D_8016D400 & 0x10;
 }
