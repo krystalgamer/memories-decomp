@@ -2303,8 +2303,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x80047140,func_80047140,matching_c,game,C,src/game/sound_output.c,read_write,,g_SDValue->flags_0040 |= 2;
 0x8009B45C,g_SDValue,g_SDValue,0x800471D0,func_800471D0,matching_c,game,C,src/game/sound_output.c,read_write,,g_SDValue->flags_0040 |= 2;
 0x8009B45C,g_SDValue,g_SDValue,0x800472A8,func_800472A8,matching_c,game,C,src/game/sound_output.c,read,,if ((g_SDValue->flags_004A & 2) == 0) {
-0x8009B45C,g_SDValue,g_SDValue,0x80047314,func_80047314,matching_c,game,C,src/game/sound_command_dispatch.c,read,,"func_8004733C(value & 0xFFFF, g_SDValue->field_164B);"
-0x8009B45C,g_SDValue,g_SDValue,0x8004733C,func_8004733C,matching_c,game,C,src/game/sound_command_dispatch.c,read,,if ((g_SDValue->flags_004A & 2) == 0) {
+0x8009B45C,g_SDValue,D_8009B45C_volatile,0x80047314,func_80047314,matching_c,game,C,src/game/sound_output.c,read,,"func_8004733C(value & 0xFFFF, D_8009B45C_volatile->field_164B);"
+0x8009B45C,g_SDValue,D_8009B45C_volatile,0x8004733C,func_8004733C,matching_c,game,C,src/game/sound_output.c,read,,if ((D_8009B45C_volatile->flags_004A & 2) == 0) {
 0x8009B45C,g_SDValue,g_SDValue,0x80047480,func_80047480,matching_c,game,C,src/game/func_80047480.c,read_write,8,(g_SDValue + i)[0x40C] = 0; | (g_SDValue + i)[0x410] = 0; | (+9 more)
 0x8009B45C,g_SDValue,g_SDValue,0x8004763C,func_8004763C,matching_c,game,C,src/game/sound_pending_entries.c,read_write,,SDValue *a1 = g_SDValue; | g_SDValue->field_0438 = | (+2 more)
 0x8009B45C,g_SDValue,g_SDValue,0x800476B4,func_800476B4,matching_c,game,C,src/game/sound_pending_entries.c,read,,(SoundPendingState *)g_SDValue;
