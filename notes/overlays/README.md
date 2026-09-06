@@ -343,10 +343,12 @@ so a section nobody placed is dropped rather than diagnosed. A wrong attempt
 does not fail at link time; it surfaces later as a module hash mismatch from
 `make match-overlays`, with nothing pointing at the discarded section.
 
-Worth knowing before starting: **all 75 overlay C objects currently have an
-empty `.rodata`**, measured with `objdump -h`. Nothing in the overlays has ever
-exercised this path, so there is no working example to copy from and no reason
-to assume the rodata lines in the generated script are correct.
+Worth knowing before starting: **every currently tracked overlay C object has
+an empty `.rodata`**, measured with `objdump -h`. Treat this as a pre-flight
+property to recheck as C coverage grows rather than a fixed object count.
+Nothing in the overlays has ever exercised this path, so there is no working
+example to copy from and no reason to assume the rodata lines in the generated
+script are correct.
 
 So the pre-flight check has two halves: `grep 'jtbl_'` as well as looking for
 the frame-bound block copy. Every unmatched function in all five modules was
