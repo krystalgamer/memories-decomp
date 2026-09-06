@@ -1,10 +1,10 @@
 #include "../types.h"
 #include "../psyq/rand.h"
+#include "../psyq/stdio.h"
 #include "ai.h"
 
 extern int AiScript_ReadShort(void);
 extern s32 AiScript_ReadByte(void);
-extern void func_8008E870();
 extern AiScriptState gAiScript_State;
 extern char D_800118AC[];
 extern char D_800118E4[];
@@ -20,8 +20,8 @@ void AiScript_Call(void) {
         gAiScript_State.return_depth =
             gAiScript_State.return_depth + 1;
     } else {
-        func_8008E870(D_800118AC);
-        func_8008E870(D_8009B084, D_800118CC, 0x17B);
+        printf(D_800118AC);
+        printf(D_8009B084, D_800118CC, 0x17B);
         for (;;)
             ;
     }
@@ -41,8 +41,8 @@ void AiScript_Return(void) {
         gAiScript_State.script_cursor = gAiScript_State.return_stack[count];
         return;
     }
-    func_8008E870(D_800118E4);
-    func_8008E870(D_8009B084, D_800118CC, 0x193);
+    printf(D_800118E4);
+    printf(D_8009B084, D_800118CC, 0x193);
     for (;;)
         ;
 }

@@ -192,7 +192,7 @@ __asm__(
     ".reloc .-4, R_MIPS_HI16, D_80010288\n"
     ".word 0x90450018\n"
     ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8008E870\n"
+    ".reloc .-4, R_MIPS_26, printf\n"
     ".word 0x24840000\n"
     ".reloc .-4, R_MIPS_LO16, D_80010288\n"
     ".word 0x00002021\n"

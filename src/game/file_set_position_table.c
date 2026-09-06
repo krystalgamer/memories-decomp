@@ -40,7 +40,7 @@ void File_SetPositionTable(void)
             break;
         }
         File_GetPosition(position, (s32)current);
-        func_8008E870(D_80010038, current, *position);
+        printf(D_80010038, current, *position);
         position++;
         name++;
         i++;

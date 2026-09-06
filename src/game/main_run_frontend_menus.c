@@ -1,11 +1,12 @@
 #include "../types.h"
 #include "../psyq/rand.h"
+#include "../psyq/setjmp.h"
 
 extern unsigned char D_8009B26C;
 extern unsigned char D_8009B268;
 extern unsigned char D_8009B269;
 extern unsigned char D_8009B26D;
-extern unsigned char D_800E9DC0[];
+extern jmp_buf D_800E9DC0;
 extern void func_8005B85C(void);
 extern void func_800137E4(void);
 extern void func_80039E9C(void);
@@ -28,7 +29,6 @@ extern int Options_Update(void);
 extern void func_8003C498(void);
 extern void func_8003C950(void);
 extern int func_8003CA5C(void);
-extern void func_8008FB8C(void *, int);
 
 void Main_RunMenu(void){unsigned char f=D_8009B26C;int r;if((f&0x40)==0){D_8009B26C=f|0x40;func_8005B85C();func_800137E4();func_80039E9C();func_8018001C(D_8009B268,D_8009B26D);func_80015A00();}rand();r=func_80180390();if(r>=0){func_8003FF34();Fade_WaitOut();func_80180DD0();func_8002D458(r);D_8009B269=8;}}
 
@@ -81,7 +81,7 @@ void Main_RunOptionsMenu(void)
     }
 }
 
-void Main_RunGameOver(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8003C498();func_8003C950();}if(func_8003CA5C()==0){unsigned char v;func_8003FF34();Fade_WaitOut();v=D_8009B269;__asm__ volatile("nop");D_8009B26C=v;if(v){D_8009B268=1;D_8009B26D=0;D_8009B26C=8;func_8008FB8C(D_800E9DC0,1);}}}
+void Main_RunGameOver(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8003C498();func_8003C950();}if(func_8003CA5C()==0){unsigned char v;func_8003FF34();Fade_WaitOut();v=D_8009B269;__asm__ volatile("nop");D_8009B26C=v;if(v){D_8009B268=1;D_8009B26D=0;D_8009B26C=8;longjmp(D_800E9DC0,1);}}}
 
 void func_8002D7C4(void)
 {
