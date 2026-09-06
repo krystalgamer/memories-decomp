@@ -12,6 +12,7 @@ gCampaignMap_LocationPrev = 0x80169618;
 // and converting that function to C removed their last such reference.
 gInput_wPad1Pressed = 0x8009B398;
 gInput_wPad1Held = 0x8009B3A4;
+Campaign_TestStoryFlag = 0x8002CCA8; // type:func
 // Same reason: func_80168FCC held the module's last assembly reference to the
 // resident fade entry point.
 Fade_InitOut = 0x800158B8; // type:func
