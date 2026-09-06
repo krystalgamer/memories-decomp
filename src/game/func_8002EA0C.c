@@ -1,7 +1,7 @@
 #include "../types.h"
 
-extern u16 D_8009B146[4];
-extern u16 D_8009B148[4];
+extern u16 gGraphics_sViewportX[4];
+extern u16 gGraphics_sViewportY[4];
 extern s16 D_8009B27C;
 extern s32 D_8009B284;
 extern s32 D_8009B288;
@@ -28,10 +28,10 @@ void func_8002EA0C(void) {
     s32 d;
 
     if (func_8002E3B4() == 0) {
-        sx = *(s16 *)&D_8009B146[0];
+        sx = *(s16 *)&gGraphics_sViewportX[0];
         n = *(s16 *)&D_8009B29C;
         D_8009B294 = ((*(s16 *)&D_8009B2A8 - sx) << 16) / n;
-        sy = *(s16 *)&D_8009B148[0];
+        sy = *(s16 *)&gGraphics_sViewportY[0];
         D_8009B298 = ((*(s16 *)&D_8009B2AA - sy) << 16) / n;
         D_8009B284 = (sx << 16) | 0x8000;
         D_8009B288 = (sy << 16) | 0x8000;
@@ -43,16 +43,16 @@ void func_8002EA0C(void) {
     d = D_8009B298;
     a = a + b;
     D_8009B284 = a;
-    D_8009B146[0] = a >> 16;
+    gGraphics_sViewportX[0] = a >> 16;
     c = c + d;
     D_8009B288 = c;
-    D_8009B148[0] = c >> 16;
+    gGraphics_sViewportY[0] = c >> 16;
 
     v = D_8009B29C - 1;
     D_8009B29C = v;
     if ((s16)v <= 0) {
         D_8009B27C = 0;
-        D_8009B146[0] = D_8009B2A8;
-        D_8009B148[0] = D_8009B2AA;
+        gGraphics_sViewportX[0] = D_8009B2A8;
+        gGraphics_sViewportY[0] = D_8009B2AA;
     }
 }

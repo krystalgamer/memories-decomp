@@ -2,8 +2,8 @@
 
 typedef void (*ObjFn)(u8 *);
 
-extern s16 D_8009B146;
-extern s16 D_8009B148;
+extern s16 gGraphics_sViewportX;
+extern s16 gGraphics_sViewportY;
 extern u8 D_800E9D90[];
 extern s16 D_800EFE40[];
 extern u8 D_800EFE48[];
@@ -13,8 +13,8 @@ void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
 /* Walks the 0x70-byte object list from the head index at D_800EFE40, calls
  * each object's callback, and for every visible object copies its vertices
- * into the scratchpad quad at 0x1F800344, offsets them by the camera at
- * D_8009B146/148 unless bit 3 is set, runs the bit-2 clip test through
+ * into the scratchpad quad at 0x1F800344, offsets them by the viewport origin
+ * unless bit 3 is set, runs the bit-2 clip test through
  * func_80041E7C, and submits the quad -- twice when the +0x72 flag asks for
  * the second texture -- through func_80042188. The sibling of func_80041068. */
 void func_80040DD8(void) {
@@ -77,12 +77,12 @@ void func_80040DD8(void) {
                 *(s32 *)(g + 0x1C) = w4;
 
                 if ((fl & 8) == 0) {
-                    dx = D_8009B146;
+                    dx = gGraphics_sViewportX;
                     *(u16 *)(g + 8) = *(u16 *)(g + 8) - dx;
                     *(u16 *)(g + 0x10) = *(u16 *)(g + 0x10) - dx;
                     *(u16 *)(g + 0x18) = *(u16 *)(g + 0x18) - dx;
                     *(u16 *)(g + 0x20) = *(u16 *)(g + 0x20) - dx;
-                    dx = D_8009B148;
+                    dx = gGraphics_sViewportY;
                     *(u16 *)(g + 0xA) = *(u16 *)(g + 0xA) - dx;
                     *(u16 *)(g + 0x12) = *(u16 *)(g + 0x12) - dx;
                     *(u16 *)(g + 0x1A) = *(u16 *)(g + 0x1A) - dx;

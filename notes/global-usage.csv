@@ -1078,7 +1078,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x8002BFCC,func_8002BFCC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01c7cc.s,write,16,"lui $at, %hi(gGraphics_sViewportX) | sh $zero, %lo(gGraphics_sViewportX)($at)"
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x8002E470,func_8002E470,matching_c,game,C,src/game/func_8002E470.c,write,16,gGraphics_sViewportX = 0; | gGraphics_sViewportX = script[2] | (next[1] << 8);
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x8002E730,func_8002E730,matching_c,game,C,src/game/func_8002E730.c,write,16,gGraphics_sViewportX = D_8009B2A8;
-0x8009B146,gGraphics_sViewportX,D_8009B146,0x8002EA0C,func_8002EA0C,matching_c,game,C,src/game/func_8002EA0C.c,write,16,D_8009B146[0] = D_8009B2A8; | D_8009B146[0] = a >> 16; | (+1 more)
+0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x8002EA0C,func_8002EA0C,matching_c,game,C,src/game/func_8002EA0C.c,write,16,gGraphics_sViewportX[0] = D_8009B2A8; | gGraphics_sViewportX[0] = a >> 16; | (+1 more)
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x8002FD10,func_8002FD10,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_020510.s,write,16,"lui $at, %hi(gGraphics_sViewportX) | sh $zero, %lo(gGraphics_sViewportX)($at)"
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80031874,func_80031874,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022074.s,read,16,"lh $v1, %lo(gGraphics_sViewportX)($v1) | lui $v1, %hi(gGraphics_sViewportX)"
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x800323F8,func_800323F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022bf8.s,write,16,"lui $at, %hi(gGraphics_sViewportX) | sh $zero, %lo(gGraphics_sViewportX)($at)"
@@ -1087,8 +1087,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80037A58,func_80037A58,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,16,D_8009B348[0] = gGraphics_sViewportX[0]; | gGraphics_sViewportX[0] = D_8009B348[0] + ((rand() & 7) - 4); | (+1 more)
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80040588,func_80040588,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_030d88.s,read,16,"lhu $a0, %lo(gGraphics_sViewportX)($a0) | lui $a0, %hi(gGraphics_sViewportX)"
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x800408D0,func_800408D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0310d0.s,read,16,"lhu $a0, %lo(gGraphics_sViewportX)($a0) | lui $a0, %hi(gGraphics_sViewportX)"
-0x8009B146,gGraphics_sViewportX,D_8009B146,0x80040DD8,func_80040DD8,matching_c,game,C,src/game/func_80040DD8.c,read,16,dx = D_8009B146;
-0x8009B146,gGraphics_sViewportX,D_8009B146,0x80041068,func_80041068,matching_c,game,C,src/game/func_80041068.c,read,16,dx = D_8009B146;
+0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80040DD8,func_80040DD8,matching_c,game,C,src/game/func_80040DD8.c,read,16,dx = gGraphics_sViewportX;
+0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80041068,func_80041068,matching_c,game,C,src/game/func_80041068.c,read,16,dx = gGraphics_sViewportX;
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x8004158C,func_8004158C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_031d8c.s,read,16,"lh $v0, %lo(gGraphics_sViewportX)($v0) | lui $v0, %hi(gGraphics_sViewportX)"
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80061008,func_80061008,matching_c,game,C,src/game/func_80061008.c,write,16,gGraphics_sViewportX = 0;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,write,16,"lui $at, %hi(gGraphics_sViewportY) | sh $zero, %lo(gGraphics_sViewportY)($at)"
@@ -1098,7 +1098,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x8002BFCC,func_8002BFCC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01c7cc.s,write,16,"lui $at, %hi(gGraphics_sViewportY) | sh $zero, %lo(gGraphics_sViewportY)($at)"
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x8002E470,func_8002E470,matching_c,game,C,src/game/func_8002E470.c,write,16,gGraphics_sViewportY = 0; | gGraphics_sViewportY = script[4] | (next2[1] << 8);
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x8002E730,func_8002E730,matching_c,game,C,src/game/func_8002E730.c,write,16,gGraphics_sViewportY = D_8009B2AA;
-0x8009B148,gGraphics_sViewportY,D_8009B148,0x8002EA0C,func_8002EA0C,matching_c,game,C,src/game/func_8002EA0C.c,write,16,D_8009B148[0] = D_8009B2AA; | D_8009B148[0] = c >> 16; | (+1 more)
+0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x8002EA0C,func_8002EA0C,matching_c,game,C,src/game/func_8002EA0C.c,write,16,gGraphics_sViewportY[0] = D_8009B2AA; | gGraphics_sViewportY[0] = c >> 16; | (+1 more)
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x8002FD10,func_8002FD10,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_020510.s,write,16,"lui $at, %hi(gGraphics_sViewportY) | sh $zero, %lo(gGraphics_sViewportY)($at)"
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80031874,func_80031874,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022074.s,read,16,"lh $v0, %lo(gGraphics_sViewportY)($v0) | lui $v0, %hi(gGraphics_sViewportY)"
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x800323F8,func_800323F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022bf8.s,write,16,"lui $at, %hi(gGraphics_sViewportY) | sh $zero, %lo(gGraphics_sViewportY)($at)"
@@ -1106,8 +1106,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80037A58,func_80037A58,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,16,D_8009B348[1] = gGraphics_sViewportY[0]; | gGraphics_sViewportY[0] = D_8009B348[1] + ((rand() & 3) - 2); | (+1 more)
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80040588,func_80040588,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_030d88.s,read,16,"lhu $a1, %lo(gGraphics_sViewportY)($a1) | lui $a1, %hi(gGraphics_sViewportY)"
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x800408D0,func_800408D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0310d0.s,read,16,"lhu $a1, %lo(gGraphics_sViewportY)($a1) | lui $a1, %hi(gGraphics_sViewportY)"
-0x8009B148,gGraphics_sViewportY,D_8009B148,0x80040DD8,func_80040DD8,matching_c,game,C,src/game/func_80040DD8.c,read,16,dx = D_8009B148;
-0x8009B148,gGraphics_sViewportY,D_8009B148,0x80041068,func_80041068,matching_c,game,C,src/game/func_80041068.c,read,16,dx = D_8009B148;
+0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80040DD8,func_80040DD8,matching_c,game,C,src/game/func_80040DD8.c,read,16,dx = gGraphics_sViewportY;
+0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80041068,func_80041068,matching_c,game,C,src/game/func_80041068.c,read,16,dx = gGraphics_sViewportY;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x8004158C,func_8004158C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_031d8c.s,read,16,"lh $v1, %lo(gGraphics_sViewportY)($v1) | lui $v1, %hi(gGraphics_sViewportY)"
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80061008,func_80061008,matching_c,game,C,src/game/func_80061008.c,write,16,gGraphics_sViewportY = 0;
 0x8009B14A,D_8009B14A,D_8009B14A,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"lui $at, %hi(D_8009B14A) | sb $v1, %lo(D_8009B14A)($at)"
