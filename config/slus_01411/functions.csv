@@ -1162,7 +1162,7 @@ address,size,name,status,module,notes
 0x80071700,0x224,AiScript_FindStrongest,unmatched_asm,game,
 0x80071924,0x240,AiScript_FindWeakest,unmatched_asm,game,
 0x80071B64,0x14C,AiScript_FindKiller,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split_no_strength_reduce from the ygofm reference (batch port, probe-verified)."
-0x80071CB0,0x208,AiScript_FindDefenseStopper,unmatched_asm,game,
+0x80071CB0,0x208,AiScript_FindDefenseStopper,matching_c,game,"AI script opcode: pairs the two monster fields strongest against strongest for up to five rounds and answers 1 only if every round was won, optionally treating face-down opponent cards as invisible."
 0x80071EB8,0x110,AiScript_CountCards,matching_c,game,Post-terminal exact card-count scan; mixed GCC G0 split / MASPSX G8 profile with allocation-only type/count register pins.
 0x80071FC8,0x184,AiScript_FindFirstCard,matching_c,game,"AI script opcode: scans a zone's slot range for the first slot in the wanted state (0 empty, 1 face-up, 2 face-down), skipping cards already used this turn in the four acting zone types, and writes the slot index or 0 to the destination register."
 0x8007214C,0x180,AiScript_FindCard,matching_c,game,"AI script opcode: scans a zone's slot range for the first slot holding a given card id, skipping cards already used this turn in the four acting zone types and, when the third operand is 1, face-down cards in zone types 5 and up; writes the slot index or 0."
