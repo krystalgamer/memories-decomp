@@ -1203,9 +1203,9 @@ address,size,name,status,module,notes
 0x80073734,0x24,func_80073734,sdk_asm,psyq/sdk,
 0x80073758,0xC0,func_80073758,sdk_asm,psyq/sdk,
 0x80073818,0x18,func_80073818,sdk_asm,psyq/sdk,
-0x80073830,0xC,func_80073830,sdk_asm,psyq/sdk,
-0x80073840,0xC,func_80073840,sdk_asm,psyq/sdk,
-0x80073850,0xC,func_80073850,sdk_asm,psyq/sdk,
+0x80073830,0xC,InitHeap,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/C57.OBJ signature.
+0x80073840,0xC,_bu_init,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/C112.OBJ signature and matching backup-unit initialization callers.
+0x80073850,0xC,SetMem,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/C159.OBJ signature and the startup call SetMem(2).
 0x80073860,0xC,OpenEvent,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A08.OBJ signature and matching event-registration callers.
 0x80073870,0xC,CloseEvent,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A09.OBJ signature and matching event-teardown callers.
 0x80073880,0xC,TestEvent,sdk_asm,psyq/sdk,Identified as Psy-Q 4.6 TestEvent by the libapi.h ABI; SDK symbol map; and matching event-result callers.
