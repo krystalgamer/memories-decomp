@@ -25,6 +25,9 @@ Konami type or field naming.
 | `0x0428` | `voice_step[4]` | Four per-voice decrement values. |
 | `0x042C` | `voice_timer[4]` | Four 16-bit countdown timers. |
 | `0x0434` | `voice_active_mask` | One bit per voice entry. |
+| `0x0438` | `field_0438` | Cursor initialized from the first link entry and advanced by each selected entry's second word. |
+| `0x0442` | `field_0442` | Selected link-table index; reset to `0xFFFF` and used to suppress duplicate requests. |
+| `0x0448` | `field_0448` | Pointer to the 8-byte `SDValueLink` table used by pending sound-data requests. |
 | `0x0510` | `cd_volume` | Sound output changes recalculate and store this signed 16-bit value. |
 | `0x0514` | `channel_volume[2]` | Two byte channel-volume scalars. |
 | `0x0533` | `mix_multiplier` | Multiplies the shared CD mix scale. |
@@ -36,6 +39,24 @@ Konami type or field naming.
 
 The remaining named `field_XXXX` members have verified offsets and widths but
 insufficient semantic evidence for stronger names.
+
+Matching `func_80047788` and its adjacent callers establish the link-table
+lifecycle. `func_8004763C` resets `field_0442` to `0xFFFF` and initializes
+`field_0438` to the first link's second word plus `0x1010`.
+`func_80047AD0` ignores a requested index when that entry's second word is
+zero or when the same index is already selected; accepted indices are stored
+in `field_0442` before dispatch.
+
+`func_80047788` masks the requested index to 16 bits and uses it to select one
+8-byte `SDValueLink`. It multiplies the state halfword at offset `+0x02` by
+eight, rounds that byte count up to `0x800`-byte units, adds one, and adds the
+result to the entry's leading halfword. The adjusted value, current
+`field_0438`, fixed buffer `0x801E6800`, and entry's second word feed the
+existing six-argument command wrapper. It then queues a separate type-`0x51`
+request carrying the same cursor and fixed buffer. Finally it advances
+`field_0438` by the selected entry's second word. That repeated use proves the
+field is an entry span/cursor increment, but not whether its original source
+name described bytes, sectors, or another sound-container unit.
 
 `SD_ArmBusyCallback` now expresses the registration path in pure C: it sets
 `busy` and installs `SD_ClearBusyFlag` in the main callback slot. This replaces
