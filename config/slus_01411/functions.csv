@@ -1326,7 +1326,7 @@ address,size,name,status,module,notes
 0x80077B20,0x130,func_80077B20,sdk_asm,psyq/sdk,
 0x80077C50,0x1C,func_80077C50,sdk_asm,psyq/sdk,
 0x80077C70,0x37C,func_80077C70,sdk_asm,psyq/sdk,
-0x80077FF0,0x1CC,func_80077FF0,sdk_asm,psyq/sdk,
+0x80077FF0,0x1CC,SpuSetReverbModeType,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SRMT.OBJ signature and matching sound-state callers.
 0x800781C0,0x2C,func_800781C0,sdk_asm,psyq/sdk,
 0x800781F0,0x80,CdPosToInt,sdk_asm,psyq/sdk,Exact Psy-Q 4.6 LIBCD.LIB/SYS.OBJ signature match; canonical linked copy.
 0x80078270,0x60,func_80078270,sdk_asm,psyq/sdk,

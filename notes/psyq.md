@@ -69,6 +69,7 @@ symbol review.
 | `0x80076ED0` | `SpuSetKey` | Applied Psy-Q 4.6 identity; matching sound-driver paths switch selected voice masks off during cleanup and slot reuse. |
 | `0x800772F0` | `SpuRGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset zero of the unique 352-byte `LIBSPU.LIB/SR_GAKS.OBJ` signature. |
 | `0x800773C4` | `SpuGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset `0xD4` of the same object; matching sound-driver callers collect all voice key states before update or cleanup work. |
+| `0x80077FF0` | `SpuSetReverbModeType` | Applied Psy-Q 4.6 identity; matching sound-state paths select reverb mode zero while resetting playback state. |
 | `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | Byte-identical wrappers that install a callback on DMA channel `3`. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
 | `0x8007E350` | `CdFlush` | No-argument wrapper around the CD library's internal state-reset routine. |

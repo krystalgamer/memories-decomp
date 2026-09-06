@@ -20,7 +20,7 @@ extern void func_8004A6D8(void);
 extern void func_8004B854(void);
 extern void func_8004B9E0(void);
 extern void func_80074E60(void);
-extern void func_80077FF0(s32);
+extern long SpuSetReverbModeType(long);
 
 void func_80049230(s32 value, s32 data);
 
@@ -52,7 +52,7 @@ void SD_Init(void)
 {
     func_80046294();
     func_80049010();
-    func_80077FF0(0);
+    SpuSetReverbModeType(0);
 }
 
 void func_80049308(void)

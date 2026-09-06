@@ -6,7 +6,7 @@
 extern u8 * volatile g_SDValue;
 extern void func_80046294(void);
 extern void func_80049010(void);
-extern void func_80077FF0(s32);
+extern long SpuSetReverbModeType(long);
 extern void func_800471D0(s32, s32, s32, s32, s32, s32);
 
 s32 func_80049138(s16 arg0, s32 arg1) {
@@ -19,7 +19,7 @@ s32 func_80049138(s16 arg0, s32 arg1) {
 
         func_80046294();
         func_80049010();
-        func_80077FF0(0);
+        SpuSetReverbModeType(0);
 
         q = g_SDValue;
         *(u16 *)(q + 0x40) |= 2;
