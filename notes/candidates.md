@@ -507,43 +507,70 @@ void func_8004A6F8(s32 index, u8 *tone)
 
 ## `func_8004A27C` at 0x8004A27C
 
-`gcc_2_8_1_g8_split`, 31 of 31 instructions, opcode distance 0, 9 differing positions.
+`gcc_2_8_1_cc_g8_as_g0_split`, 31 of 31 instructions, opcode distance 0, 9
+differing positions.
 
-The third member of the family, and the one whose field names the
-`SpuVoiceAttr` reading confirms most directly: the mask is `0xF`, which is
+The third member of the `SpuVoiceAttr` family, and the one whose field names
+the reading confirms most directly: the mask is `0xF`, which is
 `SPU_VOICE_VOLL | VOLR | VOLMODEL | VOLMODER`, and the four fields written are
 `+0x4C8`/`+0x4CA` and `+0x4CC`/`+0x4CE`, which are `volume.left`/`right` at
 `+0x08`/`+0x0A` and `volmode.left`/`right` at `+0x0C`/`+0x0E`. So this is a
-volume set, the previous two are ADSR sets, and the `0x4C0` window is one
+volume set, the other two are ADSR sets, and the `0x4C0` window is one
 `SpuVoiceAttr` shared by all three.
 
 The two volumes are `(x * state[0x514]) >> 7` and `(y * state[0x516]) >> 7`,
-which is a fixed-point scale by a pair of halfwords in the state block rather
-than a signed division -- there is no rounding bias in the target.
+a fixed-point scale by a pair of halfwords rather than a signed division --
+there is no rounding bias in the target.
 
-Store order again: `volmode` pair, then `voice`, then `mask`, then the two
-volumes gives 9. Writing `mask` before `voice`, which is the target's emission
-order, gives 14. Naming the two products in locals is inert.
+Same 9 as the previous record, but in plain C. The stored source carried an
+`extern ... asm("D_8009B458")` alias, which `record_external_attempt.py`
+rejects outright: `--allow-register-pins` only rewrites `register x asm("$n")`
+pins, not symbol aliases, so that source could not have been promoted at the
+moment it matched. Using `D_8009B458` from `sound.h`, as the matched sibling
+`func_8004A7C0` does, reaches the identical 9. All three siblings are now
+stored in a form that can actually be shipped.
 
-What remains is scheduling and the register naming of the two `mflo` results.
+What remains is allocation, not order. The schedule already agrees: the target
+loads the second scale into `$a1`, reusing the register that held `x` once the
+first multiply has consumed it, and lands the two products in `$a3` and `$t1`;
+this build loads the scale into `$v0` and lands the products in `$a1` and
+`$t0`. The `lhu` and `mflo` sit at the same positions in both. Separately the
+target emits the `0x4C0` store two positions earlier, before the `0x4C8` pair
+rather than after.
+
+The allocation is fixed before scheduling and does not depend on the source.
+Under `gcc_2_8_1_g8_no_sched2` every shape tried produces the identical natural
+form -- both scales loaded into `$v0`, then `mflo $t0` and `mflo $a1` -- so by
+the rule recorded in matching-evidence this will not move by rewriting
+statements. The next attempt should change what the back end produces rather
+than the order it is written in.
+
+Crossed without improving on 9, across a sweep of 1920 variants: all 24
+orderings of the four `0x4C0` window stores, the table word inline against a
+named local, the two products inline against named locals, the two scales
+inline against named locals, `>> 7` against `/ 128`, and five profiles. The
+mask-before-voice ordering that closed `func_8004A6F8` and `func_8004A764` is
+inert here, which is worth knowing: the family shares a shape but not this
+lever.
 
 ```c
 #include "../../src/types.h"
 #include "../../src/psyq/libspu.h"
+#include "../../src/game/sound.h"
 
 extern s32 D_80011434[];
-extern u8 *D_8009B458_d asm("D_8009B458") __attribute__((section(".data")));
+
+#define MASK (SPU_VOICE_VOLL | SPU_VOICE_VOLR | \
+              SPU_VOICE_VOLMODEL | SPU_VOICE_VOLMODER)
 
 void func_8004A27C(s32 index, s32 x, s32 y)
 {
     u8 *p;
-
-    p = D_8009B458_d;
+    p = (u8 *)D_8009B458;
     *(u16 *)(p + 0x4CC) = 0;
     *(u16 *)(p + 0x4CE) = 0;
     *(u32 *)(p + 0x4C0) = D_80011434[index];
-    *(u32 *)(p + 0x4C4) = SPU_VOICE_VOLL | SPU_VOICE_VOLR |
-                          SPU_VOICE_VOLMODEL | SPU_VOICE_VOLMODER;
+    *(u32 *)(p + 0x4C4) = MASK;
     *(u16 *)(p + 0x4C8) = (x * *(u16 *)(p + 0x514)) >> 7;
     *(u16 *)(p + 0x4CA) = (y * *(u16 *)(p + 0x516)) >> 7;
     SpuSetVoiceAttr((SpuVoiceAttr *)(p + 0x4C0));
