@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 typedef struct {
     u8 unk0[0x14];
@@ -7,6 +8,14 @@ typedef struct {
     s8 unk19;
     u8 unk1A[6];
 } Rec20;
+
+typedef struct {
+    int field_00;
+    int field_04;
+    u8 pad_08;
+    u8 field_09;
+    u8 pad_0A[2];
+} HandEntry;
 
 extern u8 *D_8009B1C8;
 extern u8 D_8009B1D5;
@@ -17,6 +26,7 @@ extern s8 D_8009B360[];
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern Rec20 D_800E9FF0[];
 extern s8 D_800EA02F[];
+extern HandEntry D_800EA030[HAND_SIZE];
 
 void func_800175A0(void) {
     u16 sp[2];
@@ -70,4 +80,20 @@ void func_800175A0(void) {
         }
     }
     D_8009B1C8 = (u8 *)&D_800E9FF0[D_8009B1D5];
+}
+
+void func_800176D0(void)
+{
+    u8 *entry = (u8 *)D_800EA030;
+    int i = 0;
+    u8 *field_09 = entry + 9;
+
+    do {
+        *(int *)(field_09 - 5) = 0;
+        *(int *)entry = 0;
+        *field_09 = 0;
+        field_09 += sizeof(HandEntry);
+        i++;
+        entry += sizeof(HandEntry);
+    } while (i < HAND_SIZE);
 }
