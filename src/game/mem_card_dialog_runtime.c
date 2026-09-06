@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libmcrd.h"
 #include "duel_effect.h"
 
 typedef struct {
@@ -74,9 +75,6 @@ extern u8 *TextBox_Create(s32, s32, s32, s32, s32, s32);
 extern void func_8004036C(s32);
 extern void func_80039794(void);
 extern void func_80039A14(u8 *);
-extern void func_8008B85C(void);
-extern void func_8008B8CC(void);
-extern s32 func_8008CCE8(s32, s32 *, s32 *);
 extern s32 func_8003F2B0_int(ObjectState *, s32, s32, s32)
     asm("func_8003F2B0");
 
@@ -166,7 +164,7 @@ void func_8003F454(void)
     if ((f & 0x4000) == 0) {
         if ((f & 0x2000) == 0) {
             D_8009B3FA = f | 0x2000;
-            func_8008B85C();
+            MemCardStart();
             D_8009B3EF = 2;
             func_8003F388();
             *(s16 *)(D_8009B3D8 + 0x60) = -0x400;
@@ -180,7 +178,9 @@ void func_8003F454(void)
         return;
     }
     if ((f & 0x1000) != 0) {
-        c = func_8008CCE8(1, &D_8009B3F0, &D_8009B3F4);
+        c = MemCardSync(
+            1, (long *)&D_8009B3F0, (long *)&D_8009B3F4
+        );
         D_8009B3BC = c;
         if (c != 1) {
             return;
@@ -194,5 +194,5 @@ void func_8003F454(void)
 b25:
     D_8009B3FA = D_8009B3FA | 0x800;
     *(s16 *)(D_8009B3D8 + 0x60) = 0x400;
-    func_8008B8CC();
+    MemCardStop();
 }
