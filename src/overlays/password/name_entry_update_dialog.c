@@ -56,7 +56,7 @@ extern void func_80039A60(u8 *);
 extern s32 NameEntry_AdjustLength(s32, s32);
 extern void func_8016913C(void);
 
-void func_80169734(void)
+void NameEntry_UpdateDialog(void)
 {
     Box *box;
     Caret *caret;

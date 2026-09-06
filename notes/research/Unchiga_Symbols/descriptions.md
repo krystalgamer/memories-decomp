@@ -445,3 +445,9 @@ on the suspects side until proven.)
 |---|---|---|
 | 0x8002CE08 | `Main_RunDebugMenu` | Sets the debug menu's one-shot initialization flag and initializes it on first entry, then runs its per-frame updater and clears the companion state byte when the menu exits. |
 | 0x8003B9BC | `Main_InitFreeDuelMenu` | Queues and waits for the `0x57`-sector Free Duel package at WA sector `0x1E88`, then initializes the loaded module with the primary load arena. |
+
+## Batch: name-entry dialog
+
+| address | name | description |
+|---|---|---|
+| 0x80169734 | `NameEntry_UpdateDialog` | Drives the name-entry dialog state machine: creates and slides pending boxes, handles confirmation choices, rebuilds the typed-name box after END, and starts the screen exit after acceptance. |

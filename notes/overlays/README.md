@@ -860,7 +860,7 @@ cat > tmp/probe.c <<'PROBE'
 
 extern u8 D_801B125A[];
 
-u8 *func_80169734(void)
+void NameEntry_UpdateDialog(void)
 {
     u8 *p = D_801B125A;
     u8 *last = 0;
@@ -877,11 +877,12 @@ candidate column is the compiler's answer to the question you actually asked.
 The include path is `../src/types.h` because the probe sits in `tmp/` rather
 than two levels down in `src/overlays/<module>/`.
 
-This settled the recorded residual of `func_80169734`, a 309-instruction
-function, in a few minutes: the question was which source shape keeps `p++` and
-`next = p + 1` as two separate additions instead of folding them to `p + 2`,
-and twenty lines of C answered it without rebuilding the other three hundred
-instructions. Use it whenever a row's open question names a specific construct.
+This settled the recorded residual of `NameEntry_UpdateDialog`
+(`0x80169734`), a 309-instruction function, in a few minutes: the question was
+which source shape keeps `p++` and `next = p + 1` as two separate additions
+instead of folding them to `p + 2`, and twenty lines of C answered it without
+rebuilding the other three hundred instructions. Use it whenever a row's open
+question names a specific construct.
 
 ### Give the probe a representative consumer
 
