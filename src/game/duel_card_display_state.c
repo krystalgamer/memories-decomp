@@ -2,6 +2,7 @@
 
 #include "card_constants.h"
 #include "duel_card.h"
+#include "duel_display.h"
 
 typedef struct {
     u8 pad_00[4];
@@ -73,9 +74,9 @@ void func_80017E3C(DuelCardDisplayObject *object)
             object->field_22 = 0xC0;
         }
     }
-    object->color = DUEL_CARD_COLOR_NORMAL;
+    object->color = DUEL_DISPLAY_COLOR_NORMAL;
     if (card->flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
-        object->color = DUEL_CARD_COLOR_USED;
+        object->color = DUEL_DISPLAY_COLOR_DIMMED;
     }
 }
 
