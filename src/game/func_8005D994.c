@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model.h"
 
 extern s8 D_8009B07A;
 extern u8 D_8009B07B;
@@ -54,28 +55,30 @@ void func_8005D994(
 
     b[0] = arg1;
     x = *(s16 *)(s + 2);
-    t = arg2 + 0x1000;
+    t = arg2 + MODEL_ANGLE_FULL_TURN;
     if (arg0 <= 0) {
         x = x - 0xC00;
     } else {
         x = x - 0x400;
     }
-    b[1] = (t - x) - (t - x) / 0x1000 * 0x1000;
+    b[1] = (t - x) - (t - x) / MODEL_ANGLE_FULL_TURN *
+        MODEL_ANGLE_FULL_TURN;
     r = b[1];
-    if (*(s16 *)&b[1] >= 0x801) {
-        b[1] = r - 0x1000;
+    if (*(s16 *)&b[1] >= MODEL_ANGLE_WRAP_THRESHOLD) {
+        b[1] = r - MODEL_ANGLE_FULL_TURN;
     }
-    if (*(s16 *)&b[1] < -0x800) {
-        b[1] = b[1] + 0x1000;
+    if (*(s16 *)&b[1] < -MODEL_ANGLE_HALF_TURN) {
+        b[1] = b[1] + MODEL_ANGLE_FULL_TURN;
     }
 
-    q = arg3 + 0x1000;
-    b[2] = (q - q / 0x1000 * 0x1000) - *(u16 *)(s + 4);
-    if (*(s16 *)&b[2] >= 0x801) {
-        b[2] = b[2] - 0x1000;
+    q = arg3 + MODEL_ANGLE_FULL_TURN;
+    b[2] = (q - q / MODEL_ANGLE_FULL_TURN * MODEL_ANGLE_FULL_TURN) -
+        *(u16 *)(s + 4);
+    if (*(s16 *)&b[2] >= MODEL_ANGLE_WRAP_THRESHOLD) {
+        b[2] = b[2] - MODEL_ANGLE_FULL_TURN;
     }
-    if (*(s16 *)&b[2] < -0x800) {
-        b[2] = b[2] + 0x1000;
+    if (*(s16 *)&b[2] < -MODEL_ANGLE_HALF_TURN) {
+        b[2] = b[2] + MODEL_ANGLE_FULL_TURN;
     }
 
     first = *(s8 *)&D_8009B07A;

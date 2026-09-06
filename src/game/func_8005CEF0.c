@@ -1,10 +1,11 @@
 #include "../types.h"
+#include "model.h"
 
 void func_80089060(u8 *arg0, u8 *arg1);
 
 /* Advances one animation track: interpolates the translation (+0x18) and
  * the three rotation angles (+0x44) between the track's two keyframes over
- * its duration, wrapping angles across the 0x1000 boundary on 16-tick
+ * its duration, wrapping angles across the full-turn boundary on 16-tick
  * tracks, rebuilds the matrix through func_80089060, and mirrors the six
  * results into the track's optional output record. Returns 1 when the
  * track has no duration. */
@@ -48,20 +49,20 @@ u8 *func_8005CEF0(u8 **arg0) {
         if ((s16)a0 - (s16)b0 < 0) {
             goto n0;
         }
-        if ((s16)a0 - (s16)b0 >= 0x801) {
+        if ((s16)a0 - (s16)b0 >= MODEL_ANGLE_WRAP_THRESHOLD) {
             goto w0;
         }
         goto d0;
     n0:
-        if ((s16)b0 - (s16)a0 < 0x801) {
+        if ((s16)b0 - (s16)a0 < MODEL_ANGLE_WRAP_THRESHOLD) {
             goto d0;
         }
     w0:
         v = (s16)b0;
         if (v > 0) {
-            v = v - 0x1000;
+            v = v - MODEL_ANGLE_FULL_TURN;
         } else {
-            v = v + 0x1000;
+            v = v + MODEL_ANGLE_FULL_TURN;
         }
         b0 = v;
     d0:
@@ -69,20 +70,20 @@ u8 *func_8005CEF0(u8 **arg0) {
         if ((s16)a1 - (s16)b1 < 0) {
             goto n1;
         }
-        if ((s16)a1 - (s16)b1 >= 0x801) {
+        if ((s16)a1 - (s16)b1 >= MODEL_ANGLE_WRAP_THRESHOLD) {
             goto w1;
         }
         goto d1;
     n1:
-        if ((s16)b1 - (s16)a1 < 0x801) {
+        if ((s16)b1 - (s16)a1 < MODEL_ANGLE_WRAP_THRESHOLD) {
             goto d1;
         }
     w1:
         v = (s16)b1;
         if (v > 0) {
-            v = v - 0x1000;
+            v = v - MODEL_ANGLE_FULL_TURN;
         } else {
-            v = v + 0x1000;
+            v = v + MODEL_ANGLE_FULL_TURN;
         }
         b1 = v;
     d1:
@@ -90,20 +91,20 @@ u8 *func_8005CEF0(u8 **arg0) {
         if ((s16)a2 - (s16)b2 < 0) {
             goto n2;
         }
-        if ((s16)a2 - (s16)b2 >= 0x801) {
+        if ((s16)a2 - (s16)b2 >= MODEL_ANGLE_WRAP_THRESHOLD) {
             goto w2;
         }
         goto d2;
     n2:
-        if ((s16)b2 - (s16)a2 < 0x801) {
+        if ((s16)b2 - (s16)a2 < MODEL_ANGLE_WRAP_THRESHOLD) {
             goto d2;
         }
     w2:
         v = (s16)b2;
         if (v > 0) {
-            v = v - 0x1000;
+            v = v - MODEL_ANGLE_FULL_TURN;
         } else {
-            v = v + 0x1000;
+            v = v + MODEL_ANGLE_FULL_TURN;
         }
         b2 = v;
     d2:
