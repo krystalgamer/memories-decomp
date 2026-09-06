@@ -3,7 +3,7 @@
 extern u8 gPassword_abDigits[];
 extern s32 D_801A8008[];
 
-s32 func_8016A304(void)
+s32 Password_LookupCardID(void)
 {
     s32 packed = 0;
     s32 *entry = D_801A8008;

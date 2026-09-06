@@ -895,7 +895,7 @@ for (;;) {
 }
 ```
 
-Both verified by `func_8016A304` in the password module.
+Both verified by `Password_LookupCardID` in the password module.
 
 `func_8016868C` in the same module confirms it, and shows how far the damage
 travels. Its recorded blocker was about induction variables, not loops: GCC

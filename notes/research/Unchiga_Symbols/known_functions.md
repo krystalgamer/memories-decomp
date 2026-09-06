@@ -1162,6 +1162,12 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 | 0x8016A930 | `NameEntry_BuildStarterDeck` |
 | 0x8016AA6C | `NameEntry_Main` |
 
+### password
+
+| address | name |
+|---|---|
+| 0x8016A304 | `Password_LookupCardID` |
+
 ### overworld
 
 | address | name |
