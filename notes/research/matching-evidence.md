@@ -2415,3 +2415,53 @@ the histogram note above:
 
 `gcc_2_7_2_g0` produced 38 here against a target of 45, which is the usual
 signal that the cohort is wrong rather than that the source is wrong.
+
+## A constant assigned before a single exit costs two instructions
+
+Where a function clamps a value and returns it, these two spellings differ by
+one instruction:
+
+    if (total < 0)       return 0;
+    if (total < 10000)   return total;
+    total = 9999;
+    return total;
+
+    if (total < 0)       return 0;
+    if (total >= 10000)  total = 9999;
+    return total;
+
+The first gives the compiler a `return` whose operand is a literal, so the
+constant is materialised straight into the return register: one
+`addiu v0,zero,9999`. The second assigns the *variable*, which lives in a
+callee-saved register, and then falls through to a single `return` that
+copies it out: `addiu s0,zero,9999` followed by `addu v0,s0,zero`.
+
+That two-instruction pair is a readable signature. A constant materialised
+into a non-return register and immediately copied to `v0` means the original
+assigned a variable and fell through to one exit; it does not mean the
+allocator made a poor choice. Conversely a bare `addiu v0,zero,K` before the
+epilogue means the source returned the literal directly.
+
+Measured on `Duel_GetBaseCardStat` (0x8002CBF4). Switching to the
+single-exit form took the candidate from 44 instructions to the target's 45
+and the opcode-histogram delta from 1 to 0, leaving only register allocation.
+
+This is the same principle as the default-before-branch note above: what the
+source names as a variable, rather than what it computes, is what decides
+whether a value gets its own register and its own copy.
+
+## Confirm addressing-form differences against the object
+
+An aligned diff that renders `%lo(sym)` as a placeholder can make a plain
+zero displacement and a `%lo` displacement look like different addressing
+forms. While working the function above, the diff appeared to show
+`lw v0,REL(v0)` against a target `lw v1,0(v0)`, which would have meant the
+compiler was folding `%lo` into the load where retail materialised the base.
+
+`objdump -dr` on the object showed the real instruction was `lw v0,0(v0)`
+with no relocation at that offset - the same form as the target, differing
+only in destination register. The apparent addressing difference did not
+exist, and the actual residual was register allocation.
+
+Before treating an addressing-form difference as real, read the object with
+relocations shown. A normalised diff is for ranking, not for diagnosis.
