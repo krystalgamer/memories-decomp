@@ -22,6 +22,13 @@ class BuildError(RuntimeError):
 
 TOOLCHAIN = "tools/toolchains/binutils-2.42/bin"
 OBJECT_DIRECTORY = "tmp/project-build/obj"
+SPLAT_BUILD_DIRECTORY = "tmp/splat/build"
+
+
+def splat_object(source_path: str) -> str:
+    """Object path Splat's generated linker script expects for a source."""
+    trimmed = source_path[: source_path.rindex(".")]
+    return f"{SPLAT_BUILD_DIRECTORY}/{trimmed}.o"
 ASM_DIRECTORY = "tmp/project-build/asm"
 OVERLAY_REGION_KIND = "overlay_load_slot"
 OVERLAY_REGION_PREFIX = "overlay_"
@@ -162,7 +169,7 @@ def compile_c(
         raise BuildError(f"invalid C build input for {source}")
 
     object_name = str(segment["object"])
-    output = resolve_within(root, f"{object_directory}/{object_name}")
+    output = resolve_within(root, splat_object(str(segment["source"])))
     raw_assembly = resolve_within(
         root, f"{asm_directory}/{object_name}.compiler.s"
     )
@@ -358,7 +365,7 @@ def build_text_objects(root: Path, assembler: Path) -> list[Path]:
                     root,
                     assembler,
                     source,
-                    f"{OBJECT_DIRECTORY}/{object_name}",
+                    splat_object(source),
                 )
             )
         else:
@@ -407,14 +414,14 @@ def build(root: Path) -> Path:
             root,
             assembler,
             "tmp/splat/asm/header.s",
-            f"{OBJECT_DIRECTORY}/header.o",
+            splat_object("tmp/splat/asm/header.s"),
         ),
         *[
             assemble(
                 root,
                 assembler,
                 f"tmp/splat/asm/data/{path.name}",
-                f"{OBJECT_DIRECTORY}/{path.name.split('.')[0]}.o",
+                splat_object(f"tmp/splat/asm/data/{path.name}"),
             )
             # The leading data blob is split wherever a matching C object owns
             # pre-text read-only data, so assemble every piece of it in order.
@@ -427,39 +434,38 @@ def build(root: Path) -> Path:
             root,
             assembler,
             "tmp/splat/asm/data/initialized_data.data.s",
-            f"{OBJECT_DIRECTORY}/initialized_data.o",
+            splat_object("tmp/splat/asm/data/initialized_data.data.s"),
         ),
         binary_object(
             root,
             objcopy,
             "tmp/splat/assets/bss_image.bin",
-            f"{OBJECT_DIRECTORY}/bss_image.o",
+            splat_object("tmp/splat/assets/bss_image.bin"),
         ),
         binary_object(
             root,
             objcopy,
             "tmp/splat/assets/reserved_zero.bin",
-            f"{OBJECT_DIRECTORY}/reserved_zero.o",
+            splat_object("tmp/splat/assets/reserved_zero.bin"),
         ),
-        *[
-            binary_object(
-                root,
-                objcopy,
-                f"tmp/splat/assets/{asset}.bin",
-                f"{OBJECT_DIRECTORY}/{object_name}",
-            )
-            for asset, object_name in load_overlay_assets(root)
-        ],
+        # The overlay slots are contiguous and form one segment, so Splat
+        # extracts them as a single blob rather than one file per slot.
+        binary_object(
+            root,
+            objcopy,
+            "tmp/splat/assets/overlay_slots.bin",
+            splat_object("tmp/splat/assets/overlay_slots.bin"),
+        ),
         binary_object(
             root,
             objcopy,
             "tmp/splat/assets/tail_data.bin",
-            f"{OBJECT_DIRECTORY}/tail_data.o",
+            splat_object("tmp/splat/assets/tail_data.bin"),
         ),
     ]
 
     linker_script = resolve_within(
-        root, "linker/slus_01411.ld", must_exist=True
+        root, "tmp/splat/slus_01411.ld", must_exist=True
     )
     output_elf = resolve_within(root, "tmp/project-build/SLUS_014.11.elf")
     output_map = resolve_within(root, "tmp/project-build/SLUS_014.11.map")
@@ -474,11 +480,26 @@ def build(root: Path) -> Path:
             *linker_compatibility_flags(),
             "-T",
             str(linker_script),
+            *[
+                argument
+                for relative in (
+                    "tmp/splat/undefined_funcs_auto.txt",
+                    "tmp/splat/undefined_syms_auto.txt",
+                    "config/slus_01411/c_symbols.ld",
+                    "config/slus_01411/link_symbols.ld",
+                )
+                for argument in (
+                    "-T",
+                    str(resolve_within(root, relative, must_exist=True)),
+                )
+            ],
             "-Map",
             str(output_map),
             "-o",
             str(output_elf),
-            *[str(path) for path in objects],
+            # No object arguments. Splat's script names every input file
+            # itself, so the linker loads them from there; passing them again
+            # loads each one twice and every symbol becomes multiply defined.
         ],
     )
     run(
