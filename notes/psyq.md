@@ -202,6 +202,9 @@ symbol review.
 | `0x8008B730` | `_ExitCard` | Applied at offset zero of the unique 128-byte Psy-Q 4.6 `LIBCARD.LIB/END.OBJ` signature. |
 | `0x8008B7B0` | `MemCardInit` | Applied at offset zero of the unique 80-byte Psy-Q 4.6 `LIBMCRD.LIB/INIT.OBJ` signature. |
 | `0x8008B7E0` | `MemCardEnd` | Applied at offset `0x30` of the same unique `LIBMCRD.LIB/INIT.OBJ` signature. |
+| `0x8008B800` | `PushCallbackFunc` | Applied at offset zero of the unique 6,352-byte Psy-Q 4.6 `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008B828` | `PullCallbackFunc` | Applied at offset `0x28` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008B850` | `McrdGetGlobalStructure` | Applied at offset `0x50` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
 | `0x8008B85C` | `MemCardStart` | Applied at offset `0x5C` of the unique 6,352-byte Psy-Q 4.6 `LIBMCRD.LIB/LIBMCRD.OBJ` signature; matching dialog setup starts the high-level card service. |
 | `0x8008B8CC` | `MemCardStop` | Applied at offset `0xCC` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature; matching dialog teardown stops the service. |
 | `0x8008B90C` | `MemCardExist` | Applied at offset `0x10C` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
@@ -217,6 +220,29 @@ symbol review.
 | `0x8008CCE8` | `MemCardSync` | Applied at offset `0x14E8` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature; matching dialog code polls command and result words until completion. |
 | `0x8008CE04` | `MemCardCreateFile` | Applied at offset `0x1604` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
 | `0x8008CF00` | `MemCardFormat` | Applied at offset `0x1700` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008D0D0` | `UserFuncInit` | Applied at offset zero of the unique 272-byte Psy-Q 4.6 `LIBMCRD.LIB/USERFUNC.OBJ` signature. |
+| `0x8008D0E0` | `UserFuncOpen` | Applied at offset `0x10` of the same unique `LIBMCRD.LIB/USERFUNC.OBJ` signature. |
+| `0x8008D15C` | `UserFuncExecute` | Applied at offset `0x8C` of the same unique `LIBMCRD.LIB/USERFUNC.OBJ` signature. |
+| `0x8008D1C8` | `UserFuncComplete` | Applied at offset `0xF8` of the same unique `LIBMCRD.LIB/USERFUNC.OBJ` signature. |
+| `0x8008D1E0` | `funcEvSpIOE` | Applied at offset zero of the unique 1,712-byte Psy-Q 4.6 `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D1F4` | `funcEvSpError` | Applied at offset `0x14` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D208` | `funcEvSpTimeout` | Applied at offset `0x28` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D21C` | `funcEvSpNewcard` | Applied at offset `0x3C` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D230` | `funcEvSpIOEx` | Applied at offset `0x50` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D244` | `funcEvSpErrorx` | Applied at offset `0x64` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D258` | `funcEvSpTimeoutx` | Applied at offset `0x78` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D26C` | `funcEvSpNewcardx` | Applied at offset `0x8C` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D280` | `_card_open` | Applied at offset `0xA0` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D2B0` | `_card_start` | Applied at offset `0xD0` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D48C` | `_card_close` | Applied at offset `0x2AC` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D4AC` | `_card_stop` | Applied at offset `0x2CC` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D560` | `_clr_card_event` | Applied at offset `0x380` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D668` | `_get_card_event` | Applied at offset `0x488` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D740` | `_get_card_event_x` | Applied at offset `0x560` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D818` | `_chk_card_event` | Applied at offset `0x638` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D854` | `_chk_card_event_x` | Applied at offset `0x674` of the same unique `LIBMCRD.LIB/BIOS.OBJ` signature. |
+| `0x8008D890` | `_card_format2` | Applied at offset zero of the unique 2,704-byte Psy-Q 4.6 `LIBMCRD.LIB/LOW.OBJ` signature. |
+| `0x8008DC60` | `_card_create2` | Applied at offset `0x3D0` of the same unique `LIBMCRD.LIB/LOW.OBJ` signature. |
 | `0x8008E320` | `bcopy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/BCOPY.OBJ` signature. |
 | `0x8008E360` | `bzero` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBC2.LIB/BZERO.OBJ` signature; `AiScript_Init` clears its three resident state blocks through this entry point. |
 | `0x8008E390` | `memcpy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/MEMCPY.OBJ` signature. |
