@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 /* Runs the table-driven LP change phases. Recovery values are scaled by 100,
    added to the selected side's life points, and capped at its maximum; the
@@ -55,7 +56,8 @@ void func_800250C8(void) {
         D_8009B220 = flag | 0x60;
         if (D_8009B22A == 0) {
             u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
-            v1 = D_8009B1C8->life_points + (*p) * 0x64;
+            v1 = D_8009B1C8->life_points +
+                 (*p) * DUEL_LIFE_POINT_RECOVERY_SCALE;
             D_8009B1C8->life_points = v1;
             if (D_8009B1C8->maximum_life_points < (s16) v1) {
                 D_8009B1C8->life_points =
@@ -77,7 +79,8 @@ block_9:
         }
     } else {
         u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
-        v1 = D_8009B1C8->life_points - (*p) * 0x64;
+        v1 = D_8009B1C8->life_points -
+             (*p) * DUEL_LIFE_POINT_RECOVERY_SCALE;
         D_8009B1C8->life_points = v1;
         if ((s16) v1 < 0) {
             D_8009B1C8->life_points = 0;
