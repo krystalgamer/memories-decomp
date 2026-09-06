@@ -3,10 +3,9 @@
 
 extern u8 D_801D0000[];
 extern u8 D_801D0200[];
-extern u8 D_80168090[];
 extern s32 D_8009B09C;
 extern void func_80035748(void *, s32, s32);
-extern void func_8008E870(void *, void *, s32);
+extern void func_8008E870(const char *, void *, s32);
 extern void func_801683EC(void);
 extern void func_80012D4C(void);
 extern s32 func_80169C08(void);
@@ -21,7 +20,7 @@ void func_8016AA6C(void)
     s32 i;
 
     func_80035748(D_801D0000, 0, 0x3000);
-    func_8008E870(D_80168090, D_801D0000, 0x3000);
+    func_8008E870("SaveLoadBuf add = 0x%x size = 0x%x\n", D_801D0000, 0x3000);
     func_801683EC();
     do {
         func_80012D4C();

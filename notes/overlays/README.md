@@ -392,6 +392,46 @@ so a C object's `.rodata` can be placed ahead of the module's text today, with
 no tooling change. What remains for the two blocked functions is the ordinary
 work of writing source whose emitted `.rodata` is byte-correct.
 
+### A worked example that is in the tree
+
+`func_8016AA6C` in password already called `func_8008E870(D_80168090, ...)`,
+where `D_80168090` was an extern into the blob. Those 36 bytes are the string
+`SaveLoadBuf add = 0x%x size = 0x%x\n` — `func_8008E870` is a printf. Replacing
+the extern with the literal and declaring the parameter `const char *` makes
+the compiler emit it, and the yaml hands that section its address:
+
+```yaml
+      - [0x4, rodata, overlays/password/module_rodata]
+      - [0x90, .rodata, overlays/password/func_8016AA6C]
+```
+
+All five modules still hash byte-exactly, and the evidence that the bytes
+really moved is on both sides of the change:
+
+- `objdump -h` on `func_8016AA6C.o` reports `.rodata` of `0x24` — the exact
+  string length. Before this, *every* overlay C object had an empty `.rodata`,
+  which is why the path had never been exercised.
+- the extracted blob `module_rodata.rodata.s` now ends at `0x8C`, the last word
+  of the jump table, instead of running to `0xB4`.
+
+So the pre-text region is no longer a wall. It is an ordinary boundary that
+moves down as functions are converted, one `.rodata` subsegment at a time.
+
+Two practical points from doing it:
+
+- **Split the segment before converting anything.** `module_header` covering
+  `0x0`–`0xB4` cannot hold a `.rodata` run in the right place, because
+  `section_order` would put rodata ahead of the count word. Giving `0x4`
+  onwards its own segment is a separate, independently verifiable change:
+  password and main_menu were both split with the region still a plain blob,
+  and all five modules stayed byte-exact.
+- **The order of `.rodata` subsegments is the order of the owning functions.**
+  Password's three items sit at `0x4`, `0x7C` and `0x90` for functions at
+  `0xCDC`, `0x237C` and `0x2A6C`. That is ordinary linker behaviour — rodata
+  contributions follow object order — and it means the addresses are a
+  prediction, not a free choice: if a conversion puts a section at the wrong
+  offset, the owning function is wrong.
+
 **The failure is silent.** The script ends with
 
 ```
