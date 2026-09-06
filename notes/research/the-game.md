@@ -336,10 +336,16 @@ in a duel, §4.4 and §5.4, is never in the trunk at all).
 A new game deals **40 random cards** from seven pools, by ATK+DEF band: 16
 monsters below 1100, 16 from 1100 to 1599, 4 from 1600 to 2099, 1 of 2100 or
 more, plus **one magic card, one field card and one equip** — so every
-starter has a Raigeki or a Dark Hole, one terrain, and one equip. The game's
-own generator works from pointer tables of card groups [Data Crystal's ROM
-map names the routine and its group tables; UNVERIFIED here]. Resetting until
-the magic card is Raigeki is the community's standard opening.
+starter has a Raigeki or a Dark Hole, one terrain, and one equip.
+
+This classification is verified directly from two byte-identical tables in
+`WA_MRG.MRG` at `0xF92BD4` and `0xFBDBD4`. Each table has seven `0x5B8`-byte
+records containing a draw count, 722 card weights and 18 zero bytes. The draw
+counts are `16, 16, 4, 1, 1, 1, 1`, and every row's weights total 2048.
+Cross-checking the nonzero weights against the verified card catalogue gives
+monster ATK+DEF ranges `450-1050`, `1100-1550`, `1600-2050` and `2100-2450`,
+then exactly Dark Hole/Raigeki, the six terrain cards, and 28 equip cards.
+Resetting until the magic card is Raigeki is the community's standard opening.
 
 ### 4.4 Library
 
