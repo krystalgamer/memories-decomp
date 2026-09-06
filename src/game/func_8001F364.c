@@ -15,11 +15,12 @@ u8 *func_8002C68C(s32 arg0);
 void func_80024954(u8 *arg0);
 void SD_SEPlayFull(s32 arg0);
 
-/* Four-state fade sequencer on the D_8009B210 mode byte: mode 0 starts the
- * first fade and arms the 0x14-frame counter, mode 1 counts it down and on
- * zero copies the selected card's position into a fresh sound request,
- * fires its sprite and the SE, mode 2 starts the second fade, mode 3 idles.
- * Returns 1 while busy. */
+/* Four-state presentation sequencer on the D_8009B210 mode byte: mode 0
+ * starts the first screen effect and arms the 0x14-frame counter; mode 1
+ * copies the selected card's position into a type-8 effect object, updates
+ * the card record and plays the SE when that counter expires; mode 2 starts
+ * the second screen effect; mode 3 waits once more, advances the opposing
+ * side's state byte at +6 and completes. Returns 1 while busy. */
 s32 func_8001F364(void) {
     u8 *e;
     u8 *g;
