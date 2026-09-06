@@ -64,9 +64,9 @@ verified slice by `make match-overlays`.
 |---|---|---:|---:|---|
 | `free_duel` | `WA_MRG.MRG` | `7898` x5 | `0x80168000` | Yes |
 | `password` | `WA_MRG.MRG` | `8054` x15 | `0x80168000` | Yes |
-| `overworld_before_coup` | `WA_MRG.MRG` | `8153` x6 | `0x80168000` | Not yet |
-| `overworld_after_coup` | `WA_MRG.MRG` | `8311` x6 | `0x80168000` | Not yet |
-| `main_menu` | `SU.MRG` | `98` x16 | `0x80180000` | Not yet |
+| `overworld_before_coup` | `WA_MRG.MRG` | `8153` x6 | `0x80168000` | Yes |
+| `overworld_after_coup` | `WA_MRG.MRG` | `8311` x6 | `0x80168000` | Yes |
+| `main_menu` | `SU.MRG` | `98` x16 | `0x80180000` | Yes |
 
 A module joins the build gate once `config/slus_01411/overlays.json` gives it a
 `layout`. A `config/slus_01411/overlays/<module>_matching_c.json` then lets
