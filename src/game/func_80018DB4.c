@@ -12,7 +12,7 @@ typedef struct {
 
 typedef struct {
     u8 *unk0;
-    u8 unk4[HAND_SIZE];
+    u8 unk4[0x9 - 0x4];
     u8 unk9;
     u8 unkA[2];
 } Rec0C;
@@ -25,7 +25,7 @@ extern u8 gDuel_bWinnerSide;
 extern u8 D_8009B1D5;
 extern u8 D_800907CC[];
 extern Rec20 D_800E9FF0[];
-extern Rec0C D_800EA030[];
+extern Rec0C D_800EA030[HAND_SIZE];
 extern u8 D_8015C424[];
 extern u8 D_801A7AD8[];
 
