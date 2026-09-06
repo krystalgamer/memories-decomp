@@ -640,7 +640,9 @@ This is not a change to the campaign bytecode interpreter, opponent data, or
 the sound driver. Any skipped Heishin, music, or title presentation is encoded
 inside the bypassed text-stream region. The static data establishes the
 redirect exactly, but the complete visible sequence after the jump still
-needs a runtime trace.
+needs a runtime trace. `tools/trace/opening_heishin_text_skip.lua` applies the
+three-byte patch in emulated RAM, records the resulting cursor jump, and
+restores the retail bytes after the observation window.
 
 **Confidence:**
 
