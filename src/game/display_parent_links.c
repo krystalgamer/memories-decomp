@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_grid.h"
 
 typedef struct DisplayObject {
     u8 pad_00[0x24];
@@ -68,6 +69,6 @@ void func_80022FF0(DisplayParent *argument, int flag)
             b++;
             i++;
             a++;
-        } while (i < 5);
+        } while (i < DUEL_FIELD_ROW_SIZE);
     }
 }
