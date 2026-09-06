@@ -1853,6 +1853,50 @@ The general form: an aggregate that hides candidates is as dangerous as a
 metric that ranks them wrongly, and both are cheaper to fix than the cycles
 they cost.
 
+## Keep a segment offset out of the field offset
+
+When retail addresses a far-away structure, it often holds the large segment
+offset in a register across a loop and uses only the small field offset as a
+load displacement:
+
+```
+lui   $s5, 1
+ori   $s5, $s5, 32768      # $s5 = 0x18000, live for the whole loop
+addu  $v0, $s3, $s5
+lhu   $v1, 15300($v0)      # field offset stays in the displacement
+```
+
+Writing the two offsets together in one subscript hands the folder a single
+large constant to combine:
+
+```c
+D_8015C424[i + 0x18000 + 0x3B70]     /* folds to one 0x1BB70 literal */
+```
+
+GCC then materialises a separate `lui`/`ori` pair per combined constant — two
+pairs where retail has one. Binding the segment base outside the loop
+reproduces retail's form:
+
+```c
+base   = D_8015C424 + 0x18000;
+id     = *(u16 *)(base + i * 2 + 0x3BC4);
+rec[4] = base[i + 0x3B70];
+```
+
+On `func_80024824` that removed three instructions and three diffs, taking the
+candidate from two over the target to one short.
+
+**When to apply it.** This is the opposite of what several other functions
+want, where naming or sharing an address consistently costs instructions. The
+distinguishing evidence is in the target, not in a general rule: if retail
+keeps the value **live in a register across the loop**, bind it; if retail
+recomputes the address at each use, do not. A small displacement on the load
+plus a separate base register is the signature of the first case.
+
+The mechanism is worth remembering on its own. Several constant offsets in one
+expression invite constant folding, and the folded literal is more expensive to
+materialise than the base-plus-displacement form it replaced.
+
 ## Instructions the compiler folds away
 
 A candidate that is *short* by a few instructions is usually read as a missing
