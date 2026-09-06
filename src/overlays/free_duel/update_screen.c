@@ -18,7 +18,7 @@ extern s8 D_8009B36D;
 extern u16 D_801D0200[];
 extern void func_80024DC8(s32, s32, s32, s32);
 extern void func_80033C90(void);
-extern void func_80035B7C(void *);
+extern void TextBox_Destroy(u8 *);
 extern void func_80035C38(s32, s32, s32, s32, s32, s32, s32);
 extern void func_80039794(void);
 extern void func_8003FEE0(s32);
@@ -37,7 +37,7 @@ void FreeDuel_UpdateScreen(void)
         panel = D_800EB15C;
         if ((*(u16 *)(panel + 0x34) & 8) == 0) {
             gFreeDuel_bScreenFlags &= 0xDF;
-            func_80035B7C(panel);
+            TextBox_Destroy(panel);
             *(u16 *)(gFreeDuel_pCursorWidget + 8) |= 0x40;
             FreeDuel_PlaceCursor(gFreeDuel_pCursorWidget, 1);
         }

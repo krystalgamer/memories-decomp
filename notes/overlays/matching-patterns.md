@@ -113,13 +113,13 @@ the `jal` two instructions later, which says the base is that call's argument:
 ```c
 /* builds 205 against 206 -- the offset folds and the base vanishes */
 if ((*(u16 *)(D_800EB15C + 0x34) & 8) == 0) {
-    func_80035B7C(D_800EB15C);
+    TextBox_Destroy(D_800EB15C);
 }
 
 /* matches */
 panel = D_800EB15C;
 if ((*(u16 *)(panel + 0x34) & 8) == 0) {
-    func_80035B7C(panel);
+    TextBox_Destroy(panel);
 }
 ```
 
