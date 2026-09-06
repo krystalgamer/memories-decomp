@@ -9,7 +9,7 @@ extern void func_8008E870(const char *, void *, s32);
 extern void func_801683EC(void);
 extern void func_80012D4C(void);
 extern s32 func_80169C08(void);
-extern void func_8016A930(void);
+extern void NameEntry_BuildStarterDeck(void);
 
 void func_8016AA6C(void)
 {
@@ -26,7 +26,7 @@ void func_8016AA6C(void)
         func_80012D4C();
         rand();
     } while (func_80169C08() == 0);
-    func_8016A930();
+    NameEntry_BuildStarterDeck();
     state = D_801D0200;
     checksum = 0;
     entry = state + 0x40C;

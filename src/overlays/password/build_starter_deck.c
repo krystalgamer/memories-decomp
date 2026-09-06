@@ -6,7 +6,7 @@ extern u16 *D_8016D3DC[];
 extern s16 D_801D0200[];
 extern void func_8002CCE4(s32);
 
-void func_8016A930(void)
+void NameEntry_BuildStarterDeck(void)
 {
     u8 counts[CARD_COUNT];
     u16 **table;
