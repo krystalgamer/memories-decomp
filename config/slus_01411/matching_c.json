@@ -1816,37 +1816,37 @@
       "address": "0x80030D5C",
       "profile": "gcc_2_8_1_g8",
       "size": "0xD4",
-      "source": "src/game/func_80030D5C.c"
+      "source": "src/game/frontend_mode_states.c"
     },
     {
       "address": "0x80030E30",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/duel_effect_mode_states.c"
+      "source": "src/game/frontend_mode_states.c"
     },
     {
       "address": "0x80030E7C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/duel_effect_mode_states.c"
+      "source": "src/game/frontend_mode_states.c"
     },
     {
       "address": "0x80030EC8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x78",
-      "source": "src/game/func_80030EC8.c"
+      "source": "src/game/frontend_mode_states.c"
     },
     {
       "address": "0x80030F40",
       "profile": "gcc_2_8_1_g8",
       "size": "0x40",
-      "source": "src/game/func_80030F40.c"
+      "source": "src/game/frontend_mode_states.c"
     },
     {
       "address": "0x80030F80",
       "profile": "gcc_2_8_1_g8",
       "size": "0x20",
-      "source": "src/game/func_80030F80.c"
+      "source": "src/game/frontend_mode_states.c"
     },
     {
       "address": "0x80030FA0",

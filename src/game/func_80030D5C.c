@@ -1,4 +1,0 @@
-#include "../types.h"
-
-extern unsigned char D_8009B2EB;extern unsigned short gDebug_nSceneOrSoundID;extern unsigned char D_80090D44[];extern void func_80030250(void*,int,int,int,int,int,int),func_8003594C(int);extern int func_80030294(void);
-void func_80030D5C(void){{unsigned char f=D_8009B2EB;if((f&0x80)==0){D_8009B2EB=f|0x80;gDebug_nSceneOrSoundID=0;func_80030250(D_80090D44,0x1D,0,0,5,2,1);}}{unsigned char f=D_8009B2EB;if(f&0x40){register unsigned int word __asm__("$2");__asm__ volatile("lui $2,%%hi(D_8009B0F4)\n\tlw $2,%%lo(D_8009B0F4)($2)":"=r"(word)::"memory");if((word&0x02000000)==0)D_8009B2EB=f&0xBF;}else{int r=func_80030294();if(r){if(r<0)D_8009B2EB=0;else{func_8003594C(gDebug_nSceneOrSoundID);D_8009B2EB|=0x40;}}}}}
