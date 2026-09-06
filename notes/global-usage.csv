@@ -3111,7 +3111,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001778C,func_8001778C,matching_c,game,C,src/game/func_8001778C.c,read,,u8 *entry = (u8 *)D_801A7AD8;
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80017DB4,func_80017DB4,matching_c,game,C,src/game/duel_card_display_state.c,address,,DuelCardRecord *card = &D_801A7AD8[object->card_index];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80017E3C,func_80017E3C,matching_c,game,C,src/game/duel_card_display_state.c,address,,DuelCardRecord *card = &D_801A7AD8[object->card_index];
-0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80017F04,func_80017F04,matching_c,game,C,src/game/func_80017F04.c,address,8,p[0x6A] = ((u32)arg0 - (u32)D_801A7AD8) / 28;
+0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80017F04,func_80017F04,matching_c,game,C,src/game/func_80017F04.c,address,8,p[0x6A] = ((u32)arg0 - (u32)D_801A7AD8) / DUEL_CARD_RECORD_SIZE;
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80018080,Duel_ApplyCardObjectFlags,matching_c,game,C,src/game/duel_apply_card_object_flags.c,address,,rec = &D_801A7AD8[type];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001825C,func_8001825C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,address,,"addiu $a0, $a0, %lo(D_801A7AD8) | addiu $s0, $v1, %lo(D_801A7AD8) | (+2 more)"
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001898C,func_8001898C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,address,,"addiu $s2, $v0, %lo(D_801A7AD8) | addiu $v0, $v0, %lo(D_801A7AD8) | (+1 more)"
