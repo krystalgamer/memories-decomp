@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libapi.h"
 
 #include "sound.h"
 
@@ -6,6 +7,10 @@ extern int func_8004A0FC();
 extern int func_8004A27C();
 extern int func_8004A2F8();
 extern int func_8004ACE4();
+extern u8 *D_8009B458_bytes asm("D_8009B458");
+extern void SD_ProcessSequenceTracks(void);
+extern void func_8004C84C(void);
+extern void func_8004AAFC(void);
 
 void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
 {
@@ -124,4 +129,39 @@ void func_8004B70C(unsigned char index, int unused, int value)
     entries += index;
 
     entries->field_0007 = value & 0x7F;
+}
+
+long SD_SequenceTimerCallback(void)
+{
+    u8 *state = D_8009B458_bytes;
+    int i;
+    if (state[0x814] == 0)
+        return 1;
+    if (state[0x500] != 0)
+        return 1;
+    if (state[0x509] != 0)
+        return 1;
+    if (state[0x501] != 0)
+        return 0;
+    GetRCnt(RCntCNT2);
+    D_8009B458_bytes[0x501] = 1;
+    for (i = 0; i < 8; i++) {
+        void (*callback)(void);
+        SD_ProcessSequenceTracks();
+        D_8009B458_bytes[0x508]++;
+        state = D_8009B458_bytes;
+        if (state[0x508] >= 11) {
+            state[0x508] = 0;
+            func_8004C84C();
+            func_8004AAFC();
+            callback = *(void (**)(void))(D_8009B458_bytes + 0x50C);
+            if (callback != 0)
+                callback();
+        }
+    }
+    {
+        register u8 *final asm("$2") = D_8009B458_bytes;
+        final[0x501] = 0;
+    }
+    return 0;
 }

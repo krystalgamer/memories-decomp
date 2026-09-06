@@ -4384,7 +4384,7 @@
       "address": "0x8004B734",
       "profile": "gcc_2_8_1_g0",
       "size": "0x120",
-      "source": "src/game/sd_sequence_timer_callback.c"
+      "source": "src/game/sound_secondary_commands.c"
     },
     {
       "address": "0x8004B854",

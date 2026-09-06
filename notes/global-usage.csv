@@ -2253,7 +2253,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004B49C,func_8004B49C,matching_c,game,C,src/game/sound_secondary_commands.c,read,,b = D_8009B458; | c = D_8009B458; | (+1 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004B6E8,func_8004B6E8,matching_c,game,C,src/game/sound_secondary_commands.c,read,,(SDSecondaryRecord *)D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004B70C,func_8004B70C,matching_c,game,C,src/game/sound_secondary_commands.c,read,,(SDSecondaryRecord *)D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004B734,SD_SequenceTimerCallback,matching_c,game,C,src/game/sd_sequence_timer_callback.c,read_write,8,D_8009B458[0x501] = 1; | D_8009B458[0x508]++; | (+4 more)
+0x8009B458,D_8009B458,D_8009B458_bytes,0x8004B734,SD_SequenceTimerCallback,matching_c,game,C,src/game/sound_secondary_commands.c,read_write,,D_8009B458_bytes[0x501] = 1; | D_8009B458_bytes[0x508]++; | (+4 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004B854,func_8004B854,matching_c,game,C,src/game/func_8004B854.c,read_write,,D_8009B458->event_guard = 0; | D_8009B458->event_guard = 1; | (+3 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004B910,func_8004B910,matching_c,game,C,src/game/sound_event_runtime.c,read_write,,CloseEvent(D_8009B458->event_handle); | D_8009B458->event_guard = 1; | (+2 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004B990,func_8004B990,matching_c,game,C,src/game/sound_event_runtime.c,write,,D_8009B458->event_guard = 1; | D_8009B458->flag_0500 = 0;
