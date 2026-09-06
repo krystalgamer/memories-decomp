@@ -1165,6 +1165,7 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 
 | address | name |
 |---|---|
+| 0x8016818C | `CampaignMap_CreateLocationLabel` |
 | 0x80168310 | `CampaignMap_ResetCamera` |
 | 0x80168388 | `CampaignMap_MoveCameraDpad` |
 | 0x8016866C | `CampaignMap_SetLocation` |
