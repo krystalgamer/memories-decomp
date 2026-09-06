@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_constants.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
 
@@ -85,7 +86,7 @@ void func_80013940(
     transfer->field_10 = vertical;
     file_index &= 0xF;
     if (vertical < 0)
-        transfer->field_10 = -(vertical << 11);
+        transfer->field_10 = -(vertical << FILE_SECTOR_SHIFT);
 
     if (sector_offset < 0) {
         transfer->field_14 = 0;
@@ -93,7 +94,7 @@ void func_80013940(
     } else {
         register volatile s32 *lbas = gFile_anLba;
 
-        transfer->field_14 = sector_offset << 11;
+        transfer->field_14 = sector_offset << FILE_SECTOR_SHIFT;
         transfer->field_24 = lbas[file_index] + sector_offset;
     }
 }
@@ -134,7 +135,7 @@ FileTransfer *File_InitTransferDescriptor(
                 transfer->width = 0x40;
                 transfer->height = 0x10;
                 transfer->field_08 = D_8009B118;
-                transfer->field_0C = D_8009B118 + 0x800;
+                transfer->field_0C = D_8009B118 + FILE_SECTOR_SIZE;
             }
         }
     }
