@@ -79,7 +79,7 @@ segments:
       - [0x1F68, c, overlays/main_menu/func_80181F68]
       - [0x21DC, asm, overlays/main_menu/text_21DC]
       - [0x338C, c, overlays/main_menu/func_8018338C]
-      - [0x3514, asm, overlays/main_menu/text_3514]
+      - [0x3514, c, overlays/main_menu/func_80183514]
       - [0x36F4, c, overlays/main_menu/func_801836F4]
       - [0x3884, c, overlays/main_menu/func_80183884]
       - [0x3A14, c, overlays/main_menu/func_80183A14]
