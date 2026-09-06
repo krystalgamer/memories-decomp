@@ -337,3 +337,13 @@ on the suspects side until proven.)
 | 0x8004BB34 | `SD_ReadVariableLengthValue` | Decodes a MIDI-style 7-bit continuation value from the active sequence; byte `0xFF` marks the reader exhausted and yields zero. |
 | 0x8004BC2C | `SD_ReadSequenceU32BE` | Reads four sequence bytes in order and combines them into one 32-bit big-endian value. |
 | 0x8004BCA8 | `SD_ReadSequenceU16BE` | Reads two sequence bytes in order and combines them into one 16-bit big-endian value. |
+
+## Batch: duel-effect state helpers
+
+| address | name | description |
+|---|---|---|
+| 0x80035CE4 | `DuelEffect_ResetOccupancy` | Clears all 240 bytes of the duel-effect occupancy table and resets its row and column scan cursors to zero. |
+| 0x80035DB8 | `DuelEffect_ClearMatchingMarker` | Scans all 620 effect entries and clears the marker byte on every entry whose stored one-based identifier matches the requested zero-based slot. |
+| 0x80035DF4 | `DuelEffect_ResetEntryMarkers` | Clears both tracked marker bytes in every one of the 620 effect entries. |
+| 0x80036DBC | `DuelEffect_UpdateObjectLayout` | Copies the channel's coordinate bounds into the linked display object, then positions its repeated choice fields from the entry layout variant, display mode, and selected choice. |
+| 0x8003735C | `DuelEffect_HasActiveEntry` | Scans the object's bounded effect-entry range, stopping at the first inactive marker and returning whether an active entry has a nonzero payload byte. |
