@@ -22,8 +22,8 @@ extern u16 D_8009B210;
 extern s16 D_8009B22A;
 extern u8 D_8009B1D5;
 extern struct DuelSideState D_800E9FF0[];
-extern u8 gDuel_abLifePointRecoveryUnits[5];
-extern u8 gDuel_abDirectDamageUnits[5];
+extern u8 gDuel_abLifePointRecoveryUnits[DUEL_LIFE_POINT_EFFECT_COUNT];
+extern u8 gDuel_abDirectDamageUnits[DUEL_LIFE_POINT_EFFECT_COUNT];
 
 s32 func_80024E24(void);
 s32 func_8001F364(s32);
@@ -105,7 +105,7 @@ void func_8002525C(void) {
     unit = D_8009B1D2 - 0x157;
     if (func_80024E24() == 0) {
         if (func_80025028(0x2AF) != 0) {
-            unit = 5;
+            unit = DUEL_LIFE_POINT_EFFECT_COUNT;
         }
         obj = func_8002C68C(6);
         obj->field0 = 0xA0;
