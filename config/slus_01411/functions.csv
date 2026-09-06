@@ -992,7 +992,7 @@ address,size,name,status,module,notes
 0x8005B85C,0x44,func_8005B85C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8005B8A0,0x2DC,func_8005B8A0,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8005BB7C,0x2C0,func_8005BB7C,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8 from the ygofm reference (batch port, probe-verified)."
-0x8005BE3C,0x18C,func_8005BE3C,unmatched_asm,game,
+0x8005BE3C,0x18C,func_8005BE3C,matching_c,game,"Movie playback: decodes and presents one frame, centring the frame and display rects in the work area against the current drawing clip, feeding the coded ring slot to DecDCTin and the decoded slot to DecDCTout, and handling the fade-out that ends the stream."
 0x8005BFC8,0x22C,func_8005BFC8,unmatched_asm,game,
 0x8005C1F4,0x180,func_8005C1F4,unmatched_asm,game,
 0x8005C374,0x14,func_8005C374,matching_c,game,1 pre-policy variants: Three direct G8 byte assignments matched instruction order and all three GPREL16 relocations.
