@@ -56,6 +56,9 @@ symbol review.
 
 | Address | Candidate SDK identity | Local evidence |
 |---|---|---|
+| `0x80073830` | `InitHeap` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C57.OBJ` signature. |
+| `0x80073840` | `_bu_init` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C112.OBJ` signature; matching memory-card setup invokes it after lower-level card initialization. |
+| `0x80073850` | `SetMem` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C159.OBJ` signature; resident startup calls `SetMem(2)`. |
 | `0x80073860` | `OpenEvent` | Applied Psy-Q 4.6 identity; memory-card setup passes documented event classes, specifications, mode, and callbacks. |
 | `0x80073870` | `CloseEvent` | Applied Psy-Q 4.6 identity; `MemCard_CloseIOEvents` calls it on each stored event descriptor during teardown. |
 | `0x80073880` | `TestEvent` | Applied Psy-Q 4.6 identity; matching helpers probe four result handles before an operation or map the first signaled handle to result `0`-`3`. |

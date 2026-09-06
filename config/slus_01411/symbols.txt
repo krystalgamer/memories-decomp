@@ -408,6 +408,11 @@ gText_abColorSlots = 0x801D5708;
 // Semantic names
 gDuel_abCardLevelAttr = 0x801D5332;
 
+// Psy-Q LIBAPI.LIB syscall thunks
+InitHeap = 0x80073830; // type:func
+_bu_init = 0x80073840; // type:func
+SetMem = 0x80073850; // type:func
+
 // Psy-Q LIBAPI.LIB/PAD.OBJ
 OpenEvent = 0x80073860; // type:func
 CloseEvent = 0x80073870; // type:func
