@@ -38,6 +38,8 @@ STORE = re.compile(r"^(sw|sh|sb|swl|swr)\b")
 STORE_ADDR = re.compile(r"^(sw|sh|sb)\s+(\w+),(-?\d+)\((\w+)\)$")
 WIDTH = {"sw": {"lw"}, "sh": {"lh", "lhu"}, "sb": {"lb", "lbu"}}
 FLOW = re.compile(r"^(b|j|jal|jr)")
+TARGET = re.compile(r",(?:\s*)(?:0x)?([0-9a-f]+)(?:\s|$|<)")
+JUMP = re.compile(r"^j\s+0x([0-9a-f]+)$")
 
 MODULES = (
     "free_duel",
@@ -48,20 +50,55 @@ MODULES = (
 )
 
 
-def basic_blocks(instructions: list[str]) -> list[list[str]]:
-    blocks: list[list[str]] = [[]]
+def branch_targets(instructions: list[str], base: int = 0) -> set[int]:
+    """Instruction indices that some branch or jump can land on.
+
+    A load at a branch target may be reached without executing the store that
+    precedes it in the listing, so a block must start there. Splitting only at
+    branch instructions merges the two and invents reloads that are not
+    redundant at all.
+    """
+    targets: set[int] = set()
     for text in instructions:
+        if not FLOW.match(text):
+            continue
+        # A conditional branch prints an offset from the start of the
+        # function; an unconditional j prints the raw jump field, which is
+        # only useful once the function's own address is known.
+        jump = JUMP.match(text)
+        if jump is not None:
+            index = (int(jump.group(1), 16) - (base & 0x0FFFFFFF)) // 4
+            if 0 <= index < len(instructions):
+                targets.add(index)
+            continue
+        match = TARGET.search(text)
+        if match is None:
+            continue
+        offset = int(match.group(1), 16)
+        if offset % 4 == 0 and offset // 4 < len(instructions):
+            targets.add(offset // 4)
+    return targets
+
+
+def basic_blocks(instructions: list[str], base: int = 0) -> list[list[str]]:
+    targets = branch_targets(instructions, base)
+    blocks: list[list[str]] = [[]]
+    for index, text in enumerate(instructions):
+        # A delay slot belongs with its branch, so a target one past a branch
+        # still opens its block at the target itself.
+        if index in targets and blocks[-1]:
+            blocks.append([])
         blocks[-1].append(text)
         if FLOW.match(text):
             blocks.append([])
     return blocks
 
 
-def worst_reload(instructions: list[str]) -> tuple[int, str | None]:
+def worst_reload(instructions: list[str], base: int = 0) -> tuple[int, str | None]:
     """Largest number of identical loads in one block with no store between."""
     best = 0
     culprit = None
-    for block in basic_blocks(instructions):
+    for block in basic_blocks(instructions, base):
         seen: dict[tuple[str, str, str], int] = {}
         for text in block:
             if STORE.match(text):
@@ -78,7 +115,7 @@ def worst_reload(instructions: list[str]) -> tuple[int, str | None]:
     return best, culprit
 
 
-def reload_after_own_store(instructions: list[str]) -> str | None:
+def reload_after_own_store(instructions: list[str], base: int = 0) -> str | None:
     """A load of the address a store just wrote is a second volatile tell.
 
     A store tells the compiler what the location now holds, so re-reading it
@@ -86,7 +123,7 @@ def reload_after_own_store(instructions: list[str]) -> str | None:
     invisible to `worst_reload`, which treats any store as a legitimate reason
     to reload and clears its record.
     """
-    for block in basic_blocks(instructions):
+    for block in basic_blocks(instructions, base):
         stored: tuple[str, str, str, str] | None = None
         for text in block:
             store = STORE_ADDR.match(text)
@@ -145,8 +182,8 @@ def main() -> int:
                 address = int(row["address"], 16)
                 words = target_words(root, module, address, int(row["size"], 16))
                 instructions = disassemble(root, words)
-                count, culprit = worst_reload(instructions)
-                after_store = reload_after_own_store(instructions)
+                count, culprit = worst_reload(instructions, address)
+                after_store = reload_after_own_store(instructions, address)
                 flag = ""
                 if count >= 2:
                     hits += 1

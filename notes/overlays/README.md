@@ -470,16 +470,33 @@ reload into the same register is a normal re-read of a field just written, and
 `-O0` code stores and reloads every local by construction. Requiring the same
 width **and** a different destination register cuts it to three functions.
 
+### Both tells need blocks that start at branch targets
+
+The first version of this scan split blocks at branch *instructions* only. That
+is not enough: a load at a branch **target** may be reached without executing
+the store that precedes it in the listing, so the two belong to different
+blocks and the reload is not redundant at all.
+
+That flaw produced a confident false lead. `func_80169734` clears bit `0x20` of
+`D_8016D400` and then tests bit `0x20`, which reads as redundant — except the
+clear is conditional and the test is at the branch target, so on the other path
+the bit is whatever it was. Reported as a volatile candidate, it was neither.
+
+Two things are needed for correct blocks, and the second is easy to miss: a
+conditional branch prints an offset from the start of the function, while an
+unconditional `j` prints the raw jump field, so the function's own address has
+to be known before its targets can be resolved. Handling only the first kind
+still leaves blocks merged across every `j`.
+
 **Current state of both tells across all remaining unmatched entries:**
 
 | Function | Tell |
 |---|---|
 | `func_8016A080` | reload after own store — confirmed `volatile` by probe |
-| `func_80169734` | reload after own store on `D_8016D400`, not yet confirmed |
-| `func_801697D0` | reload after own store, but this is the `-O0` function above, where it means nothing |
 
-So the first tell remains specific to `func_80183B2C`, and the second adds one
-confirmed case and one lead. This is the same kind of result as the `-O0` scan above,
+That is the whole list. Before the block fix the same scan reported three
+functions, and before the width and destination-register conditions were added
+it reported eleven. The first tell remains specific to `func_80183B2C`. This is the same kind of result as the `-O0` scan above,
 and worth the same trust: it is a cheap check that closes off a whole class of
 guesses rather than opening one.
 
