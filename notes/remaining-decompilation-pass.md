@@ -39,7 +39,7 @@ A later post-terminal pass resolved the function completely. A direct
 three-case object-mode switch, together with a `volatile` declaration for
 the two independent `D_8009B0F4` read-modify-write sequences, matches all
 304 bytes and relocations under `gcc_2_8_1_g0`. The accepted source now lives
-in `src/game/func_8002DDFC.c`; the paragraph above remains the original
+in `src/game/script_image_objects.c`; the paragraph above remains the original
 campaign result.
 
 ## Preserved-candidate profile sweep
