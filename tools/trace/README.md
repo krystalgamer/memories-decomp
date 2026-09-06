@@ -24,9 +24,17 @@ script/result pair takes priority over the number of unanswered scripts; the
 
 1. Open PCSX-Redux with the game and enable the debugger.
 2. Select the **interpreter** CPU. Breakpoints do not fire on the dynarec.
-3. Debug -> Lua editor, paste the script, let it auto-run.
+3. Debug -> Lua editor, paste the script, let it run, and confirm its armed or
+   breakpoint-installed message appears.
 4. Follow the instructions the script prints, then copy the whole document it
    produces into `tools/trace/result/<name>.txt`.
+
+PCSX-Redux removes Lua breakpoints during a console reset. A trace that spans
+a hard or soft reset must keep global `ExecutionFlow::Reset` and
+`ExecutionFlow::ShellReached` listeners, clear its capture state on reset,
+and reinstall its breakpoints when the BIOS shell is reached. Such a script
+should print both reset and reinstall milestones; silence after reset is a
+setup failure, not a negative result.
 
 Every script prints the surrounding document itself, so the only thing left to
 write by hand is the context section:
