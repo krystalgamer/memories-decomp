@@ -210,6 +210,11 @@ This agrees with the runtime text model:
 - Stored message data can therefore use compact glyph indices while dynamic
   input remains Shift-JIS.
 
+The resident table occupies 93 32-bit words through the word before
+`0x801D9174`. Indices `0x01`-`0x5B` are 91 nonzero Shift-JIS entries;
+indices `0x00` and `0x5C` are zero. Text-stream code `0x00` is handled as a
+space even though table entry zero has no Shift-JIS value.
+
 The matching converter also defines the encoded stream format. It searches the
 32-bit table entries by their low 16-bit Shift-JIS value, then writes:
 
@@ -223,10 +228,12 @@ Shift-JIS character slots are converted, `Text_SjisToGlyphCodes` appends
 `0xFF` as the stream terminator. The TBL values are therefore decoded glyph
 indices, not bytes that can be copied directly from a Shift-JIS string.
 
-The TBL page contains suspicious duplicate character labels, including two
-entries each for `<` and `>`, and `0x55 = a`. Preserve the numeric value when
-testing those entries; do not normalize or silently correct the community
-table.
+The TBL page's apparent duplicate angle brackets and `0x55 = a` are label
+losses rather than duplicate resident glyphs. The executable maps
+`0x51`-`0x54` to `>`, `⊂`, `⊃`, `<` and maps `0x55` to Greek alpha `α`.
+The bundled community `table.tbl` omits the subset, superset, and alpha rows
+entirely. Preserve the numeric value when testing community labels and use
+the resident Shift-JIS table when an ASCII rendering is ambiguous.
 
 ## Verification workflow
 
