@@ -934,13 +934,13 @@
       "address": "0x80024C1C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x118",
-      "source": "src/game/func_80024C1C.c"
+      "source": "src/game/duel_card_icon_setup.c"
     },
     {
       "address": "0x80024D34",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/func_80024D34.c"
+      "source": "src/game/duel_card_icon_setup.c"
     },
     {
       "address": "0x80024DC8",
