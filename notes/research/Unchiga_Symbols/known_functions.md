@@ -957,7 +957,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8003A920 | `propagate_pos_to_slots` | fleet |
 | 0x8003A95C | `set_pos_propagate` | fleet |
 | 0x8003B714 | `DuelEffect_InitEntryDefaultFlags` | local |
-| 0x8003B734 | `pad_down_left` | fleet |
+| 0x8003B734 | `Input_IsPad1ConfirmPressed` | local |
 | 0x8003B7E0 | `read_stream_byte_advance` | fleet |
 | 0x8003BBF8 | `register_handler_8003BA14` | fleet |
 | 0x8003BEB8 | `register_handler_8003BD14` | fleet |

@@ -23,6 +23,7 @@ Runs on every screen. A live-computed core of 147 functions (GPU frame pump, SPU
 | `gInput_wPad1Held / gInput_wPad2Held` | 0x8009B3A4 / 0x8009B3A6 | Current held-button masks for controllers 1 and 2. |
 | `gInput_wPad1Pressed / gInput_wPad2Pressed` | 0x8009B398 / 0x8009B39A | Rising-edge button masks for controllers 1 and 2. |
 | `gInput_wPad1Repeat / gInput_wPad2Repeat` | 0x8009B394 / 0x8009B396 | Newly pressed buttons plus timer-generated repeats for controllers 1 and 2. |
+| `Input_IsPad1ConfirmPressed` | 0x8003B734 | Tests the pad 1 newly-pressed mask for either confirm button, X or Square. |
 | `gRand_dwSeed` | 0x800FE6F8 | The random-number seed — shuffles, drops, and AI coin-flips all trace back here. |
 | `File_SetPositionTable` | 0x800136E4 | Boot: resolves every file in `gFile_apszName` to its disc position. |
 | `gFile_apszName` | 0x8009078C | Names of the data files on the disc. |
