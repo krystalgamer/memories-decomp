@@ -9,6 +9,7 @@ lists without requiring semantic names for the globals.
 constants: `DISPLAY_OBJECT_RECORD_SIZE` is `0x70`,
 `DISPLAY_OBJECT_POOL_CAPACITY` is 96,
 `DISPLAY_OBJECT_RESERVED_CAPACITY` is 16,
+`DISPLAY_OBJECT_LIST_COUNT` is 7,
 `DISPLAY_OBJECT_FLAG_ALLOCATED` is `0x80`, and
 `DISPLAY_OBJECT_RENDERABLE_MASK` is `0xC0`. The header deliberately defines
 only shared geometry and flags, not a complete display-object structure.
@@ -92,6 +93,34 @@ and `5` are distinct primitive paths rather than interchangeable ordering
 groups. The observed `+0x72` test lies two bytes beyond the nominal `0x70`
 slot stride, so its ownership remains unresolved rather than being modeled as
 a normal `DisplaySlot` field.
+
+## Two-phase display-object fades
+
+`src/game/display_object_fade.h` defines two bits in object byte `+0x13`:
+
+| Flag | Value | Matching behavior |
+|---|---:|---|
+| `DISPLAY_OBJECT_FADE_FLAG_INITIALIZED` | `0x80` | `func_80039AAC` sets it on the first update and returns zero; later updates return one. |
+| `DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE` | `0x40` | The three contiguous fade callbacks set or test it when moving from their first phase to their second. |
+
+The callbacks at `0x80039AFC-0x80039C94` share this one-shot initialization
+latch but use different byte lanes:
+
+- `func_80039AFC` initializes state bytes `+0x14/+0x15`, advances bytes
+  `+0x04/+0x06` until signed wrap selects the second phase, then advances
+  `+0x05/+0x07` and clears the local fade state.
+- `func_80039BE0` initializes bytes `+0x04`-`+0x07` to `0x80`, fades the first
+  pair to zero, then fades the second pair and calls the shared completion
+  helper.
+- `func_80039C94` derives an initial delay from two halfwords, counts that
+  delay down, then raises bytes `+0x08`-`+0x0A` by four until `0x40` before
+  calling the same completion helper.
+
+These are per-object callbacks and are independent of the
+`FadeTransitionState` screen overlay documented in
+[`fade-transition-state.md`](fade-transition-state.md). The shared fade header
+names only the two proven state bits; the surrounding object layouts remain
+local because the three callbacks use incompatible field views.
 
 ## Script-driven viewport tween
 
