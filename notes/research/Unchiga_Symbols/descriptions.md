@@ -438,3 +438,10 @@ on the suspects side until proven.)
 | 0x80039D64 | `DuelEffect_ProcessEntries` | Dispatches handlers for the channel's active effect entries and, when requested, compacts its bounded entry range before writing a new terminator. |
 | 0x8003B714 | `DuelEffect_InitEntryDefaultFlags` | Calls `DuelEffect_InitEntry` for one entry with the caller-supplied pointers and default flags value zero. |
 | 0x8003D46C | `DuelEffect_CreateChannel` | Resets the dialog choice, creates a fixed-size channel from the request's low 15 bits, stamps its sequence byte, and applies activation flags or the high-bit setup path. |
+
+## Batch: remaining main-mode helpers
+
+| address | name | description |
+|---|---|---|
+| 0x8002CE08 | `Main_RunDebugMenu` | Sets the debug menu's one-shot initialization flag and initializes it on first entry, then runs its per-frame updater and clears the companion state byte when the menu exits. |
+| 0x8003B9BC | `Main_InitFreeDuelMenu` | Queues and waits for the `0x57`-sector Free Duel package at WA sector `0x1E88`, then initializes the loaded module with the primary load arena. |
