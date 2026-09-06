@@ -238,7 +238,7 @@
       "address": "0x800154E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1D4",
-      "source": "src/game/func_800154E4.c"
+      "source": "src/game/fade_draw_overlay.c"
     },
     {
       "address": "0x800156B8",

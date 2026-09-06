@@ -17,7 +17,7 @@ The collaborator sources were treated as hypotheses and compiled with the local 
 | --- | --- | --- | --- |
 | `0x8001306C` | `func_8001306C` | `inline_refinement` | `gcc_2_8_1_g8_split` |
 | `0x800134B4` | `func_800134B4` | `inline_refinement` | `gcc_2_8_1_g8_split` |
-| `0x800154E4` | `func_800154E4` | `collaborator_match` | `gcc_2_8_1_g8_split` |
+| `0x800154E4` | `Fade_DrawOverlay` | `collaborator_match` | `gcc_2_8_1_g8_split` |
 | `0x80017DB4` | `func_80017DB4` | `inline_refinement` | `gcc_2_8_1_g8_split` |
 | `0x80017E3C` | `func_80017E3C` | `inline_refinement` | `gcc_2_8_1_g8_split` |
 | `0x80020D4C` | `func_80020D4C` | `inline_refinement` | `gcc_2_8_1_g8_no_split` |
