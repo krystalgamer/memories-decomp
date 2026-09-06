@@ -985,7 +985,7 @@ address,size,name,status,module,notes
 0x8005B0B4,0x1AC,func_8005B0B4,unmatched_asm,game,
 0x8005B260,0x10C,func_8005B260,unmatched_asm,game,
 0x8005B36C,0x16C,func_8005B36C,unmatched_asm,game,
-0x8005B4D8,0x124,func_8005B4D8,unmatched_asm,game,
+0x8005B4D8,0x124,func_8005B4D8,matching_c,game,"Mask-write variant of func_8005B260: brackets the copied GPU primitive with a 0xE6 pair that turns mask-bit drawing on and off, then links the packet into an ordering table."
 0x8005B5FC,0x24,func_8005B5FC,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005B620,0x2C,func_8005B620,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005B64C,0x210,func_8005B64C,matching_c,game,"Exact match with gcc_2_8_1_g8_split; SU.mrg main-menu phase callback, owns jtbl_800117D8."
