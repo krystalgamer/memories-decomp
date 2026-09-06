@@ -22,7 +22,7 @@ extern void func_8003FF58(s32);
 extern void func_8001352C(void);
 extern s32 CampaignMap_PickExit(void);
 
-void func_80168FCC(void)
+void CampaignMap_UpdateLocation(void)
 {
     u8 *table;
     u8 *record;

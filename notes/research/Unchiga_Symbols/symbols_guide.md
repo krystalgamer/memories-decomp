@@ -155,6 +155,7 @@ NEW GAME / LOAD / 2P DUEL / TRADE / OPTION. The menu's own logic runs from a mod
 | `CampaignMap_ResetCamera` (module: overworld) | 0x80168310 | Restores the campaign map's fixed camera, projection, and matrix defaults before recomputing the view. |
 | `CampaignMap_StartCameraTween` (module: overworld) | 0x801688BC | Snapshots five live camera channels and computes signed 16.16 deltas toward the selected location record. |
 | `CampaignMap_UpdateLocationTransition` (module: overworld) | 0x80168AA8 | Primes and advances a location change, updating the five camera channels, map-object slide, and marker interpolation until the destination is ready. |
+| `CampaignMap_UpdateLocation` (module: overworld) | 0x80168FCC | Per-frame location controller: completes pending moves and rebuilds their objects, drives the departure fade into the chosen destination, or polls the exits to start the next move. |
 | `CampaignMap_MoveCameraDpad` (module: overworld) | 0x80168388 | Free-look camera control while the campaign map is idle. |
 
 
