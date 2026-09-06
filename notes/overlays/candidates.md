@@ -871,3 +871,260 @@ s32 func_80180390(void)
     return -1;
 }
 ```
+
+## password `func_80169734` at 0x80169734
+
+`gcc_2_8_1_g0_split`, 305 instructions against 309, 209 differing positions,
+opcode distance 10.
+
+This is a fresh reconstruction from the disassembly and the inventory row, not
+the 309-instruction candidate the row describes; that one was never stored and
+is lost. Store any improvement here rather than rebuilding a third time.
+
+Three shape facts are settled by measurement and are already applied:
+the box field at +0x34 is a `u16` for the read-modify-write at the wait path
+but is read as a 32-bit word for the 0x2008 test, so it needs a cast at that
+one site; `gDialog_bChoice` is signed, which is the target's single `lb`; and
+the panel block near the end is one base pointer with offsets 300, 390 and 391
+rather than three absolute addresses.
+
+Residual is extra `lui` x1 and `ori` x2 against missing `addiu` x2, `lbu` x2,
+`nop` x1, `addu` x1 and `j` x1. The missing `j` is the most informative: one
+of the returns should reach the epilogue through a jump rather than its own
+return sequence.
+
+```c
+#include "../../src/types.h"
+
+typedef struct {
+    u8 pad0[8];
+    u16 f8;
+    u8 pad10[38];
+    s16 f48;
+    s16 f50;
+    u8 pad52[44];
+    s16 f96;
+    u8 pad98[10];
+    u8 f108;
+} Caret;
+
+typedef struct {
+    u8 pad0[44];
+    Caret *f44;
+    s32 f48;
+    u16 f52;
+    u16 f54;
+    u8 pad56[33];
+    u8 f89;
+} Box;
+
+extern u16 gNameEntry_wPendingDialog;
+extern u8 gNameEntry_bFlags;
+extern s8 gDialog_bChoice;
+extern u16 gInput_wPad1Pressed;
+extern u8 D_801B125A[];
+extern u8 D_800EB0F8[];
+extern u8 *gNameEntry_pName;
+extern u8 D_8016D41C;
+
+extern void func_8003B6AC(s32, s32);
+extern Box *TextBox_Create(s32, s32, s32, s32, s32, s32);
+extern void func_80039A14(Box *);
+extern s32 Dialog_OpenChoice(Box *);
+extern void func_80039794(void);
+extern void *func_8004002C(void);
+extern Caret *func_800400AC(void *, s32);
+extern void func_800404CC(Caret *, s32, s32, s32, s32, s32, s32, s32);
+extern void func_80042918(Caret *);
+extern void func_800428EC(Caret *, s32);
+extern void func_80043178(Caret *);
+extern void func_80043230(Caret *, s32, s32, s32);
+extern void TextBox_Destroy(Box *);
+extern void TextBox_SetPos(Box *, s32, s32);
+extern void SD_SEPlayFull(s32);
+extern void func_8003FF34(void);
+extern void Fade_WaitOut(void);
+extern Caret *func_80042B40(s32);
+extern void func_8004036C(Caret *);
+extern void Text_SjisToGlyphCodes(u8 *, u8 *, s32);
+extern void func_80039A60(u8 *);
+extern s32 NameEntry_AdjustLength(s32, s32);
+extern void NameEntry_UpdateScreen(void);
+
+void func_80169734(void)
+{
+    Box *box;
+    Caret *caret;
+    u8 flags;
+    u8 fa;
+    u8 fb;
+    u8 fc;
+    u8 fd;
+    u8 fe;
+    u8 ff;
+    u8 fg;
+    s32 id;
+    s16 pos;
+    u8 *p;
+    u8 *next;
+    u8 *panel;
+    u8 c;
+
+    if (gNameEntry_wPendingDialog != 0) {
+        flags = gNameEntry_bFlags;
+        if ((flags & 4) == 0) {
+            gNameEntry_bFlags = flags | 4;
+            func_8003B6AC(2, 2);
+            box = TextBox_Create(2, gNameEntry_wPendingDialog & 0xFFF, 16, 248,
+                                 288, 48);
+            box->f89 = 20;
+            id = gNameEntry_wPendingDialog;
+            if ((id & 0x8000) == 0) {
+                if ((id & 0x4000) == 0) {
+                    func_80039A14(box);
+                    gDialog_bChoice = 0;
+                }
+                box->f48 = Dialog_OpenChoice(box);
+            } else {
+                box->f52 |= 8;
+                do {
+                    func_80039794();
+                } while (box->f48 == 0);
+            }
+            caret = func_800400AC(func_8004002C(), 2);
+            func_800404CC(caret, 16, 248, 0, 0, 0, 23, 257);
+            func_80042918(caret);
+            func_800428EC(caret, 19);
+            caret->f8 |= 8;
+            func_80043178(caret);
+            box->f44 = caret;
+            fa = gNameEntry_bFlags;
+            caret->f96 = -1024;
+            gNameEntry_bFlags = fa | 2;
+            return;
+        }
+        box = (Box *)0x800EB1C0;
+        caret = box->f44;
+        if ((flags & 2) != 0) {
+            pos = caret->f96;
+            if (pos >= 0) {
+                caret->f96 = pos - 85;
+                func_80043230(caret, 16, 248, (s16)(pos - 85));
+                if (caret->f96 < 0) {
+                    caret->f48 = 16;
+                    fb = gNameEntry_bFlags;
+                    caret->f50 = 248;
+                    gNameEntry_bFlags = fb & 0xF9;
+                    TextBox_Destroy(box);
+                    gNameEntry_wPendingDialog = 0;
+                    return;
+                }
+            } else {
+                caret->f96 = pos + 85;
+                func_80043230(caret, 16, 176, (s16)(pos + 85));
+                if (caret->f96 >= 0) {
+                    caret->f48 = 16;
+                    fc = gNameEntry_bFlags;
+                    caret->f50 = 176;
+                    gNameEntry_bFlags = fc & 0xFD;
+                }
+            }
+            TextBox_SetPos(box, caret->f48, caret->f50);
+            return;
+        }
+        if ((gNameEntry_wPendingDialog & 0x8000) == 0) {
+            if ((gInput_wPad1Pressed & 0xE0) == 0) {
+                SD_SEPlayFull(11);
+                return;
+            }
+        } else {
+            func_80039794();
+            if ((*(u32 *)&box->f52 & 0x2008) != 0x2000) {
+                return;
+            }
+        }
+        if (gDialog_bChoice != 0) {
+            fd = gNameEntry_bFlags;
+            gNameEntry_bFlags = fd & 0xDF;
+        }
+        if ((gNameEntry_bFlags & 0x20) != 0) {
+            gNameEntry_wPendingDialog = 0;
+        }
+        func_80043178(caret);
+        fe = gNameEntry_bFlags;
+        caret->f96 = 1024;
+        gNameEntry_bFlags = fe | 2;
+        return;
+    }
+    flags = gNameEntry_bFlags;
+    if ((flags & 0x20) != 0) {
+        SD_SEPlayFull(45);
+        func_8003FF34();
+        Fade_WaitOut();
+        gNameEntry_bFlags = gNameEntry_bFlags | 0x10;
+        return;
+    }
+    if ((flags & 0x80) != 0) {
+        caret = func_80042B40(6);
+        if (caret == 0) {
+            return;
+        }
+        if ((caret->f108 & 0x40) == 0) {
+            return;
+        }
+        func_8004036C(caret);
+        ff = gNameEntry_bFlags;
+        gNameEntry_bFlags = ff & 0x7F;
+        Text_SjisToGlyphCodes(D_801B125A, gNameEntry_pName, 6);
+        TextBox_Create(3, 254, 112, 204, 96, 16);
+        panel = D_800EB0F8;
+        panel[390] = 16;
+        panel[391] = 16;
+        func_80039A60(panel + 300);
+        NameEntry_AdjustLength(1, 6);
+        return;
+    }
+    if (func_80042B40(1) != 0) {
+        return;
+    }
+    if (func_80042B40(2) != 0) {
+        return;
+    }
+    if ((gNameEntry_bFlags & 0x40) == 0) {
+        NameEntry_UpdateScreen();
+        return;
+    }
+    p = D_801B125A;
+    c = D_801B125A[0];
+    next = 0;
+    goto test;
+scan:
+    if (*p >= 0xF0) {
+        next = p + 1;
+        p++;
+    }
+    next = p + 1;
+    p = next;
+test:
+    p++;
+    c = *p;
+    if (c == 0) {
+        goto test;
+    }
+    if (c != 0xFF) {
+        goto scan;
+    }
+    fg = gNameEntry_bFlags;
+    gNameEntry_bFlags = fg & 0xBF;
+    if (next != 0) {
+        *next = 0xFF;
+        gNameEntry_wPendingDialog = 0x80F5;
+        D_8016D41C = 0;
+        fa = gNameEntry_bFlags;
+        gNameEntry_bFlags = fa | 0x20;
+        SD_SEPlayFull(48);
+        return;
+    }
+    SD_SEPlayFull(9);
+}
+```
