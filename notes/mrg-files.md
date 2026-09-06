@@ -80,6 +80,26 @@ The complete loader trace, descriptor layout, sector map, phase table, archive
 attribution, and called-address checks are recorded in
 `notes/overlays/runtime-loader.md`.
 
+### End-of-duel results package
+
+Resident `func_80020F4C` requests 34 WA sectors beginning at sector `0x1DAB`,
+which is archive range `0xED5800-0xEE6800`. Matching callback
+`func_80020BE4` accounts for the complete package:
+
+| WA range | Size | Callback behavior |
+|---:|---:|---|
+| `0xED5800-0xEE5800` | `0x10000` / 32 sectors | Schedules the main image payload. The tutorial evidence divides it into two `0x8000`-byte image halves at `0xED5800` and `0xEDD800`. |
+| `0xEE5800-0xEE6000` | `0x800` / 1 sector | Uploads a `256 x 4` palette rectangle to VRAM `(0, 248)`. |
+| `0xEE6000-0xEE6800` | `0x800` / 1 sector | Schedules a transfer to `0x801AF000`; its later role remains unnamed. |
+
+The palette sector has SHA-256
+`bc1bbeb55e28cef036ec35e90d232b070df8221d5d114b4116a9743498fe7776`.
+Its 16-colour slots cover the result, rank, statistics, card, and player
+win/lose graphics described in
+[`modding-tutorial-evidence.md`](modding-tutorial-evidence.md). Those visual
+labels come from the tutorial; the package boundaries, upload geometry, and
+final destination come from the resident request and matching callback.
+
 ## Development-path evidence
 
 The executable preserves paths including:
