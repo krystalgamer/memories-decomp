@@ -160,7 +160,7 @@ local function dumpQueue(sequenceNumber, count)
 end
 
 local function onDispatch()
-    if done then
+    if done or hitLimitReached or callbackError ~= nil then
         return
     end
 
