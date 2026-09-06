@@ -432,6 +432,7 @@ SetFogNearFar = 0x80086810; // type:func
 SquareRoot0 = 0x80086E50; // type:func
 PushMatrix = 0x800871D0; // type:func
 PopMatrix = 0x80087274; // type:func
+MulMatrix = 0x80087370; // type:func
 ScaleMatrix = 0x80087670; // type:func
 SetGeomOffset = 0x800878B0; // type:func
 SetGeomScreen = 0x800878D0; // type:func

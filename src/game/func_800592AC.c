@@ -22,7 +22,7 @@ typedef struct {
     s32 f4C;
 } Obj;
 
-extern MATRIX *func_80087370(MATRIX *m0, MATRIX *m1);
+extern MATRIX *MulMatrix(MATRIX *m0, MATRIX *m1);
 extern MATRIX *func_800889C0(SVECTOR *r, MATRIX *m);
 extern void func_80088E50(SVECTOR *r, MATRIX *m);
 extern void *func_8008E3D0(void *p, s32 v, u32 n);
@@ -53,7 +53,7 @@ void func_800592AC(s32 arg0, s32 arg1, Obj *arg2) {
 
     func_800889C0((SVECTOR *)&arg2->f44, (MATRIX *)((u8 *)arg2 + 4));
     func_80088E50(&packed, &sp20);
-    func_80087370((MATRIX *)((u8 *)arg2 + 4), &sp20);
+    MulMatrix((MATRIX *)((u8 *)arg2 + 4), &sp20);
 
     *(s32 *)((u8 *)arg2 + 0x20) = 0;
     *(s32 *)((u8 *)arg2 + 0x1C) = 0;
