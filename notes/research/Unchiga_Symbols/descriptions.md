@@ -64,7 +64,7 @@ on the suspects side until proven.)
 |---|---|---|
 | 0x8002DD74 | `Main_Loop` | The game's infinite task-dispatch loop; never returns. Each pass runs the four update funcs, then dispatches the current mode through the `D_80090B64[]` function-pointer table indexed by the low 5 bits of the mode flag byte — that table is where every `*Loop` lives. |
 | 0x80032B60 | `BuildDeck_CompareCard` | Card comparator for sorting deck/trunk lists: compares a primary key first, then breaks ties through a secondary-key translation table (`gCard_asNameSortKey`, indexed by secondary−1) — alphabetical order. |
-| 0x80046768 | `SD_InitState` | Sound-state bootstrap: initializes the sound-state struct (`D_8009B45C`, DotR `g_SDValue`), its work buffers, callbacks and defaults. The sound file names `sd_bgm.dat`, `sd_se.dat` and `master.xa` are its own strings, but the disc reads themselves happen in the request path, not in this body (memories-decomp analysis; formerly `SD_LoadData`). |
+| 0x80046768 | `SD_InitState` | Sound-state bootstrap: initializes the sound-state struct at `g_SDValue`, its work buffers, callbacks and defaults. The sound file names `sd_bgm.dat`, `sd_se.dat` and `master.xa` are its own strings, but the disc reads themselves happen in the request path, not in this body (memories-decomp analysis; formerly `SD_LoadData`). |
 | 0x80048658 | `SD_SEPlay` | Plays sound effect `id` at volume `vol` (0xFF = full). Live-proven: every menu blip is a call here; the chain bottoms out in PsyQ `_spu_note2pitch` / `SpuGetVoiceEnvelope`. Body itself not yet matched. |
 | 0x800492D8 | `SD_Init` | Sound-system init: runs two internal setup calls, then disables SPU reverb via the BIOS (`SpuSetReverbModeType`). |
 | 0x80049694 | `SD_Term` | Sound-system shutdown: two internal cleanup calls, then the BIOS `SpuQuit()`. Mirror of `SD_Init`. |
@@ -117,9 +117,9 @@ tracked in suspects.md.)
 | 0x8007149C | `AiScript_LoadDeckSize` | Opcode: counts the occupied entries (nonzero leading field) across a record range — the AI's remaining-cards count — into a VM slot. |
 | 0x8007154C | `AiScript_TestPinned` | Opcode: tests the flag byte at offset 0x19 of the duel-side record (the "pinned" state) and stores the result. |
 | 0x800715C4 | `AiScript_StartCombo` | Opcode: scans the 5-entry combo window in the VM state block (offset 0x38, shared with `AiScript_PushComboCard`) and writes the found entry — or a default — into `gAiScript_aMemory`. |
-| 0x8007164C | `AiScript_LoadBestDifference` | Opcode: copies the precomputed best-combo score (u16 at `D_800F5C80`) into an `gAiScript_aMemory` slot. |
-| 0x80071688 | `AiScript_LoadBestAttacker` | Opcode: copies the precomputed best-attacker slot (byte `D_800F5C82`) into an `gAiScript_aMemory` slot. |
-| 0x800716C4 | `AiScript_LoadBestTarget` | Opcode: copies the precomputed best-target slot (byte `D_800F5C83`) into an `gAiScript_aMemory` slot — the trio a combo search leaves behind. |
+| 0x8007164C | `AiScript_LoadBestDifference` | Opcode: copies the precomputed best-combo score from `gAi_wBestDifference` into a `gAiScript_aMemory` slot. |
+| 0x80071688 | `AiScript_LoadBestAttacker` | Opcode: copies the precomputed best-attacker slot from `gAi_bBestAttacker` into a `gAiScript_aMemory` slot. |
+| 0x800716C4 | `AiScript_LoadBestTarget` | Opcode: copies the precomputed best-target slot from `gAi_bBestTarget` into a `gAiScript_aMemory` slot — the trio a combo search leaves behind. |
 | 0x80071700 | `AiScript_FindStrongest` | Opcode: the big max-scanner (137 insns): takes 5 operands, gets a card-id range from `Ai_GetWinningCardRange`, scans `gDuel_aActiveCards[lo..hi]` with flag-gated skips, and writes the strongest entry's slot to the output. |
 | 0x80071924 | `AiScript_FindWeakest` | Opcode: sibling of `AiScript_FindStrongest` scanning for the weakest qualifying entry. |
 | 0x80071EB8 | `AiScript_CountCards` | Opcode: counts cards matching the scripted criteria over a scanned range into a VM slot. |
@@ -143,7 +143,7 @@ tracked in suspects.md.)
 | 0x80072F54 | `AiScript_SkipField` | Opcode: identical 4-byte skip for field scripts. |
 | 0x80072F8C | `AiScript_PlayFaceUp` | Opcode: emits a face-up play — fills the play-command record `D_800EAE88[0..4]` with five `gAiScript_aMemory`-selected values. |
 | 0x80073050 | `AiScript_SetPosition` | Opcode: low-byte copy between VM slots — how scripts set a play's position (attack/defense) value. |
-| 0x8007308C | `AiScript_FindBestAttack` | Opcode: the best attack-matchup search. Pits each own monster (slots 1-5) against each opposing slot, scoring ATK difference + `Duel_CalcGuardianStarMatchup`, tracking the best score/attacker/target into `gAiScript_State+0x98/9A/9B` (= `D_800F5C80/82/83`). |
+| 0x8007308C | `AiScript_FindBestAttack` | Opcode: the best attack-matchup search. Pits each own monster (slots 1-5) against each opposing slot, scoring ATK difference + `Duel_CalcGuardianStarMatchup`, tracking the best score/attacker/target into `gAi_wBestDifference`, `gAi_bBestAttacker` and `gAi_bBestTarget`. |
 | 0x80073220 | `AiScript_PushComboCard` | Opcode: clears the play-command record, then collects the found combo — scans the `gAiScript_State+0x38` window (bounded by `gAiScript_State[0xA3]`) and pushes values >= 11 into `D_800EAE88[]`. "C" = with clear. |
 | 0x800732A0 | `AiScript_PushComboEmpty` | Opcode: the same combo collect WITHOUT the leading clear ("Nc" = no clear). |
 | 0x80073300 | `AiScript_HandNop` | Opcode: hand-script no-op — empty function. |
