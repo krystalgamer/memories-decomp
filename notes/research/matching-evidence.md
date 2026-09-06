@@ -1943,6 +1943,49 @@ The mechanism is worth remembering on its own. Several constant offsets in one
 expression invite constant folding, and the folded literal is more expensive to
 materialise than the base-plus-displacement form it replaced.
 
+## Read signedness off the opcodes before guessing at the source
+
+MIPS encodes signedness in the mnemonic, so the target states outright which C
+types produced it. Two fixes on `func_80017F04` came from that alone, and
+neither was visible in the diff count.
+
+**An unsigned divide is not a pointer difference.** The target computes an
+index with:
+
+```
+subu  $v0, $s1, base
+srl   $v0, $v0, 2
+multu $v0, 0x24924925     # magic multiplier for /7
+mfhi  $a3
+```
+
+`0x24924925` with the preceding `srl 2` is a division by 28, the stride of
+`DuelCardRecord`, so this looks exactly like `rec - array`. Writing that
+pointer difference produces no `multu` and no `mfhi` at all — GCC emits a
+shift-and-add sequence instead. The reason is in the opcodes: `srl` is a
+*logical* shift and `multu` an *unsigned* multiply, while a pointer difference
+has signed type `ptrdiff_t` and would compile to `sra` and `mult`. The source
+computed an unsigned byte offset and divided by the stride explicitly:
+
+```c
+(u32)((u8 *)rec - (u8 *)base) / 0x1C
+```
+
+That took the candidate from six instructions over the target to exact count.
+
+**A shared header may need a cast at the use site.** The same function loads a
+card id with `lh`, but `DuelCardRecord` declares `u16 card_id`, so the
+candidate emitted `lhu`. Casting at the use site — `(s16)rec->card_id` —
+restores the signed load. The header is not wrong; other callers may want the
+unsigned field. Any function whose target uses `lh` on that field needs the
+cast.
+
+**Check opcode presence, not the diff total.** Both of these were settled by
+counting `multu`/`mfhi` and `lh`/`lhu` in the candidate. The diff total was
+unchanged across the `lh` fix and identical across a *wrong* lever tried
+earlier, so it could not have distinguished either case. When the question is
+"which idiom is the compiler choosing", grep the opcode.
+
 ## Instructions the compiler folds away
 
 A candidate that is *short* by a few instructions is usually read as a missing
