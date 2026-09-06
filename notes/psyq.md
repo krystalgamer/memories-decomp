@@ -72,6 +72,8 @@ symbol review.
 | `0x80073900` | `write` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A53.OBJ` signature. |
 | `0x80073910` | `close` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A54.OBJ` signature. |
 | `0x80073920` | `nextfile` | Applied Psy-Q 4.6 identity; advances a caller-owned directory record and returns that same pointer on success. |
+| `0x80073930` | `Krom2RawAdd` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A81.OBJ` signature. |
+| `0x80073940` | `ChangeClearPAD` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A91.OBJ` signature; matching memory-card setup passes zero immediately before `_bu_init`. |
 | `0x80073950` | `SetRCnt` | Applied at offset zero of the unique 368-byte Psy-Q 4.6 `LIBAPI.LIB/COUNTER.OBJ` signature; matching sound setup passes `RCntCNT2`, target `0xE000`, and `RCntMdINTR`. |
 | `0x800739EC` | `GetRCnt` | Applied at offset `0x9C` of the same unique counter signature; `SD_SequenceTimerCallback` invokes it on `RCntCNT2` once per interrupt. |
 | `0x80073A24` | `StartRCnt` | Applied at offset `0xD4` of the same unique counter signature; matching sound setup calls it after configuring the counter and enabling its event. |
