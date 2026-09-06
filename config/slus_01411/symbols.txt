@@ -420,6 +420,14 @@ TestEvent = 0x80073880; // type:func
 EnableEvent = 0x80073890; // type:func
 EnterCriticalSection = 0x800738B0; // type:func
 ExitCriticalSection = 0x800738C0; // type:func
+
+// Psy-Q LIBAPI.LIB file-service thunks
+open = 0x800738D0; // type:func
+lseek = 0x800738E0; // type:func
+read = 0x800738F0; // type:func
+write = 0x80073900; // type:func
+close = 0x80073910; // type:func
+
 nextfile = 0x80073920; // type:func
 firstfile = 0x80073AC0; // type:func
 InitPAD = 0x80073E1C; // type:func

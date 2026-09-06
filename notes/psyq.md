@@ -66,6 +66,11 @@ symbol review.
 | `0x800738A0` | `DisableEvent` | Applied from the unique Psy-Q 4.6 `LIBAPI.LIB/A13.OBJ` signature; exact sound teardown disables the stored root-counter event immediately before passing the same handle to `CloseEvent`. |
 | `0x800738B0` | `EnterCriticalSection` | Applied Psy-Q 4.6 identity; brackets event creation and teardown with `ExitCriticalSection`. |
 | `0x800738C0` | `ExitCriticalSection` | Applied Psy-Q 4.6 identity; paired critical-section exit. |
+| `0x800738D0` | `open` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A50.OBJ` signature. |
+| `0x800738E0` | `lseek` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A51.OBJ` signature. |
+| `0x800738F0` | `read` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A52.OBJ` signature. |
+| `0x80073900` | `write` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A53.OBJ` signature. |
+| `0x80073910` | `close` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A54.OBJ` signature. |
 | `0x80073920` | `nextfile` | Applied Psy-Q 4.6 identity; advances a caller-owned directory record and returns that same pointer on success. |
 | `0x80073950` | `SetRCnt` | Applied at offset zero of the unique 368-byte Psy-Q 4.6 `LIBAPI.LIB/COUNTER.OBJ` signature; matching sound setup passes `RCntCNT2`, target `0xE000`, and `RCntMdINTR`. |
 | `0x800739EC` | `GetRCnt` | Applied at offset `0x9C` of the same unique counter signature; `SD_SequenceTimerCallback` invokes it on `RCntCNT2` once per interrupt. |
