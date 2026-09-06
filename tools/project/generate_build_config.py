@@ -137,8 +137,6 @@ def load_matching_functions(root: Path) -> list[dict[str, Any]]:
                 "source": source_value,
                 "segment": source_relative.with_suffix("").as_posix(),
                 "profile": profile,
-                "rodata": function.get("rodata"),
-                "rodata_end": function.get("rodata_end"),
             }
         )
         seen_addresses.add(address)
@@ -203,18 +201,6 @@ def group_translation_units(
                 "source": first["source"],
                 "segment": first["segment"],
                 "profile": first["profile"],
-                "rodata": next(
-                    (m["rodata"] for m in members if m.get("rodata") is not None),
-                    None,
-                ),
-                "rodata_end": next(
-                    (
-                        m["rodata_end"]
-                        for m in members
-                        if m.get("rodata_end") is not None
-                    ),
-                    None,
-                ),
                 "members": [member["address"] for member in members],
             }
         )
@@ -307,47 +293,35 @@ def generate(root: Path) -> tuple[Path, Path]:
     regions = load_image_regions(root)
     text_start = parse_integer(regions["text"]["file_start"], "text start")
     text_end = parse_integer(regions["text"]["file_end"], "text end")
+    segments = split_config.get("segments")
+    if not isinstance(segments, list):
+        raise GenerationError("Splat configuration has no segments list")
+    main_segments = [
+        segment
+        for segment in segments
+        if isinstance(segment, dict) and segment.get("name") == "main"
+    ]
+    if len(main_segments) != 1:
+        raise GenerationError("Splat configuration must contain one main segment")
+    main_segment_template = main_segments[0]
     cursor = text_start
 
-    # Pre-text read-only data owned by matching C objects. A compiler-generated
-    # jump table lands in the object's .rodata, and the retail layout places it
-    # inside the leading data blob rather than after the text, so that blob is
-    # split and the object's own section is named at the right offset.
-    rodata_claims: list[tuple[int, str]] = []
-    for unit in units:
-        offset_value = unit.get("rodata")
-        if offset_value is None:
-            continue
-        offset = parse_integer(offset_value, "rodata offset")
-        if not 0x800 <= offset < text_start:
-            raise GenerationError(
-                f"rodata offset {offset:#x} is outside the leading data region"
-            )
-        end_value = unit.get("rodata_end")
-        if end_value is None:
-            raise GenerationError(
-                f"rodata claim at {offset:#x} needs a rodata_end"
-            )
-        end = parse_integer(end_value, "rodata end")
-        if end <= offset or end > text_start:
-            raise GenerationError(f"invalid rodata end {end:#x}")
-        rodata_claims.append((offset, end, unit["segment"], unit["address"]))
-    rodata_claims.sort()
+    # The region before the text is the compiler's read-only data. It is
+    # declared in the Splat template, one entry per owning object, the way the
+    # ff8 and silent-hill configurations declare theirs, so adding a function
+    # that owns rodata is a template edit and nothing else.
+    template_subsegments = main_segment_template.get("subsegments") or []
+    leading: list[list[Any]] = []
+    for entry in template_subsegments:
+        if not isinstance(entry, list) or not entry:
+            raise GenerationError("subsegment entries must be non-empty lists")
+        if parse_integer(entry[0], "subsegment start") >= text_start:
+            break
+        leading.append(list(entry))
+    if not leading:
+        raise GenerationError("the template declares no leading data region")
+    subsegments: list[list[Any]] = [list(entry) for entry in leading]
 
-    subsegments: list[list[Any]] = []
-    data_cursor = 0x800
-    for index, (offset, end, segment, _owner) in enumerate(rodata_claims):
-        if offset < data_cursor:
-            raise GenerationError(f"overlapping rodata claim at {offset:#x}")
-        name = "initial_data" if index == 0 else f"initial_data_{data_cursor:06x}"
-        if offset > data_cursor:
-            subsegments.append([data_cursor, "data", name])
-        subsegments.append([offset, ".rodata", segment])
-        data_cursor = end
-    if not rodata_claims:
-        subsegments.append([0x800, "data", "initial_data"])
-    elif data_cursor < text_start:
-        subsegments.append([data_cursor, "data", f"initial_data_{data_cursor:06x}"])
     text_sources: list[dict[str, Any]] = []
 
     for unit in units:
@@ -436,16 +410,6 @@ def generate(root: Path) -> tuple[Path, Path]:
         ]
     )
 
-    segments = split_config.get("segments")
-    if not isinstance(segments, list):
-        raise GenerationError("Splat configuration has no segments list")
-    main_segments = [
-        segment
-        for segment in segments
-        if isinstance(segment, dict) and segment.get("name") == "main"
-    ]
-    if len(main_segments) != 1:
-        raise GenerationError("Splat configuration must contain one main segment")
     main_segments[0]["subsegments"] = subsegments
 
     generated_directory = resolve_within(root, "tmp/generated")
@@ -454,45 +418,52 @@ def generate(root: Path) -> tuple[Path, Path]:
     write_yaml(split_path, split_config)
     write_json(text_path, {"schema": 1, "segments": text_sources})
 
-    # The leading data region is emitted rather than hand written, because a
-    # matching C object may own read-only data inside it. Each piece keeps an
-    # explicit VRAM, load address and size assertion, so the region stays
-    # pinned end to end however many claims there are.
+    # The linker sections for the leading region are emitted from the same
+    # template entries Splat uses, so the declaration lives in one place.
+    owner_by_segment = {
+        function["segment"].rsplit("/", 1)[-1]: function["address"]
+        for function in functions
+    }
     lines = ["/* Generated by tools/project/generate_build_config.py. */", ""]
-    pieces: list[tuple[int, int, str | None]] = []
-    cursor = 0x800
-    for offset, end, _segment, owner in rodata_claims:
-        if offset > cursor:
-            pieces.append((cursor, offset, None))
-        pieces.append((offset, end, f"c_{owner:08x}.o"))
-        cursor = end
-    if cursor < text_start:
-        pieces.append((cursor, text_start, None))
-    for start_offset, end_offset, owner_object in pieces:
-        vram = 0x80010000 + start_offset - 0x800
-        if owner_object is None:
-            suffix = "" if start_offset == 0x800 else f"_{start_offset:06x}"
-            name = f".initial_data{suffix}"
-            member = f"KEEP(*initial_data{suffix}.o(.data))"
-            align = ""
-        else:
-            name = f".rodata_{start_offset:06x}"
-            member = f"KEEP(*{owner_object}(.rodata))"
-            # The compiler marks a jump table eight byte aligned; retail places
-            # it on a four byte boundary, so the override is scoped to this
-            # section rather than the surrounding region.
+    for index, entry in enumerate(leading):
+        piece_start = parse_integer(entry[0], "subsegment start")
+        piece_end = (
+            parse_integer(leading[index + 1][0], "subsegment start")
+            if index + 1 < len(leading)
+            else text_start
+        )
+        kind = str(entry[1])
+        if kind == "pad":
+            # Left as a gap between sections, exactly as the reference PSX
+            # configurations treat padding inside a read-only data region.
+            continue
+        vram = 0x80010000 + piece_start - 0x800
+        if kind == ".rodata":
+            segment_name = str(entry[2])
+            owner = owner_by_segment.get(segment_name)
+            if owner is None:
+                raise GenerationError(
+                    f"{segment_name}: rodata subsegment has no matching C function"
+                )
+            name = f".rodata_{piece_start:06x}"
+            member = f"KEEP(*c_{owner:08x}.o(.rodata))"
             align = " SUBALIGN(4)"
-        lines.append(f"    {name} {vram:#010x} : AT({start_offset:#08x}){align}")
+        else:
+            name = f".{entry[2]}"
+            member = f"KEEP(*{entry[2]}.o(.data))"
+            align = ""
+        lines.append(f"    {name} {vram:#010x} : AT({piece_start:#08x}){align}")
         lines.append("    {")
         lines.append(f"        {member}")
         lines.append("    }")
         lines.append(
-            f'    ASSERT(SIZEOF({name}) == {end_offset - start_offset:#x},'
+            f'    ASSERT(SIZEOF({name}) == {piece_end - piece_start:#x},'
             f' "{name} size mismatch")'
         )
         lines.append("")
-    fragment = generated_directory / "initial_data.ld"
-    fragment.write_text("\n".join(lines), encoding="utf-8")
+    (generated_directory / "initial_data.ld").write_text(
+        "\n".join(lines), encoding="utf-8"
+    )
     return split_path, text_path
 
 
