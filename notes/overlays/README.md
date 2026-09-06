@@ -444,10 +444,42 @@ With no arguments it scans every function still marked `unmatched_asm` in all
 five modules. Both controls behave: `func_80183B2C`, the one function known to
 use a volatile local, reports 3, while `func_80180390` reports 1.
 
-**Measured across all nineteen remaining unmatched entries in the five modules:
-none of them shows the signature.** Every one reports 1. So the volatile lever
-is specific to `func_80183B2C` and should not be tried elsewhere in the overlays
-without new evidence. This is the same kind of result as the `-O0` scan above,
+### The second tell: a reload of the address a store just wrote
+
+The check above clears its record on any store, because a store is a legitimate
+reason to reload. That hides a second and equally reliable volatile signature:
+re-reading the location a store *just wrote*. The store already told the
+compiler what is there, so the load buys nothing unless the object is
+`volatile`.
+
+`func_8016A080` has exactly that, and a probe confirms it reproduces only with
+the qualifier:
+
+```
+jal  func_80029574
+sw   v0,%lo(D_8016D430)(s0)      # store, in the call's delay slot
+lw   v1,%lo(D_8016D430)(s0)      # reload into a different register
+li   v0,320
+sh   v0,40(v1)
+```
+
+The test has to be narrow or it is useless. Written loosely — any load of an
+address a store just wrote — it fires on eleven of the nineteen functions,
+almost all of them ordinary: a wider store reloaded narrowly is a truncation, a
+reload into the same register is a normal re-read of a field just written, and
+`-O0` code stores and reloads every local by construction. Requiring the same
+width **and** a different destination register cuts it to three functions.
+
+**Current state of both tells across all remaining unmatched entries:**
+
+| Function | Tell |
+|---|---|
+| `func_8016A080` | reload after own store — confirmed `volatile` by probe |
+| `func_80169734` | reload after own store on `D_8016D400`, not yet confirmed |
+| `func_801697D0` | reload after own store, but this is the `-O0` function above, where it means nothing |
+
+So the first tell remains specific to `func_80183B2C`, and the second adds one
+confirmed case and one lead. This is the same kind of result as the `-O0` scan above,
 and worth the same trust: it is a cheap check that closes off a whole class of
 guesses rather than opening one.
 
