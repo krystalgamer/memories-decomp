@@ -149,7 +149,7 @@ address,size,name,status,module,notes
 0x8001EF1C,0x5C,Duel_CalcBattleAttack,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8001EF78,0x5C,Duel_CalcBattleDefense,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8001EFD4,0xFC,func_8001EFD4,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8001F0D0,0x294,func_8001F0D0,unmatched_asm,game,
+0x8001F0D0,0x294,func_8001F0D0,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8001F364,0x1F8,func_8001F364,matching_c,game,Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference; adds three linker symbols the listing references by name; the single arm pin and the embedded store-address assignment are load-bearing.
 0x8001F55C,0x1378,func_8001F55C,unmatched_asm,game,
 0x800208D4,0xB4,func_800208D4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
