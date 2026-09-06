@@ -898,7 +898,7 @@ address,size,name,status,module,notes
 0x80056504,0x324,Model_LoadMonsterMerge,unmatched_asm,game,
 0x80056828,0x554,func_80056828,unmatched_asm,game,
 0x80056D7C,0x7C8,func_80056D7C,unmatched_asm,game,
-0x80057544,0x26C,func_80057544,unmatched_asm,game,
+0x80057544,0x26C,func_80057544,matching_c,game,"Exact match with gcc_2_8_1_g8_split; transfer-phase callback, owns jtbl_80011784."
 0x800577B0,0x344,func_800577B0,unmatched_asm,game,
 0x80057AF4,0x32C,func_80057AF4,unmatched_asm,game,
 0x80057E20,0x118,func_80057E20,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.

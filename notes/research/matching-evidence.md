@@ -2900,3 +2900,35 @@ the hope that GCC's loop-invariant pass would hoist the jump table base into a
 register, as the target does, left the histogram distance unchanged at 2. The
 hoist is still unexplained, and it is the remaining difference on this
 function along with the choice of register holding the state pointer.
+
+## Correction: li cannot be normalised to a single opcode
+
+The alias-normalisation rule recorded above is right in shape and wrong in one
+entry. The pseudo-instruction li is not a spelling of addiu. The assembler
+picks the encoding from the value: addiu for something that fits a signed
+16-bit immediate, ori for an unsigned one such as 0x9000. Mapping li to addiu
+unconditionally therefore invents a difference.
+
+Caught on func_80057544 (0x80057544, 155 instructions), where the two
+measurements disagreed:
+
+    positional diff, comparing encodings    0
+    normalised histogram                    2   addiu 32/33, ori 6/5
+
+The candidate was byte-exact and the histogram was wrong. The target's
+ori $v0, $zero, 0x9000 had been normalised into an addiu on the candidate side
+only, because splat prints the real mnemonic and objdump prints li.
+
+Two things follow.
+
+The positional comparison works on instruction encodings and the histogram
+works on printed names, so where they disagree the encoding comparison is the
+authority. The histogram is the better instrument for ranking candidates,
+because it does not cascade, but it is the weaker one for deciding whether a
+candidate is finished.
+
+More generally this is the same failure the alias note was written about,
+committed one level deeper. A normalisation table is itself an assumption
+about the data, and an entry that is right most of the time still fabricates
+differences on the cases where it is wrong. Anything mapping a pseudo-op to a
+real one needs checking against the encodings rather than trusting the name.
