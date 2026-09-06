@@ -130,11 +130,13 @@ their packed-ID switch layout and accepted code generation remain unchanged.
 assembly users of `D_800F2C40`; those sets change whenever another function
 is integrated and are not duplicated here.
 
-Five additional matching-C functions include `model.h` but retain raw
+Six additional matching-C functions include `model.h` but retain raw
 model-base views:
 
 - `func_8004D914` uses `MODEL_SLOT_SIZE` while preserving explicit accesses
   across a large display-list construction path.
+- `func_80050584` uses the shared slot, angle, and card-count constants while
+  preserving raw offsets through its random model-selection path.
 - `func_8005611C` clears and initializes one `0xE20`-byte slot through
   explicit offsets while preserving its accepted compiler schedule.
 - `func_80056250` uses `MODEL_SLOT_SIZE` while keeping the duel-side layout
