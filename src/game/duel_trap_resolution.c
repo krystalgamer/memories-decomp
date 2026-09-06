@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 
@@ -9,7 +10,7 @@ extern u8 D_8009B1B8;
 extern u8 D_8009B1D5;
 extern u16 D_8009B22A;
 extern u8 D_8015C424[];
-extern u8 D_801A7AD8[];
+extern u8 D_801A7AD8_raw[] asm("D_801A7AD8");
 
 s32 Duel_CalcCardStats(u8 *arg0);
 
@@ -52,7 +53,7 @@ s32 func_8001F0D0(u8 *p) {
     n = 0;
     i = n;
     tbl2 = D_800907D8;
-    rec2 = D_801A7AD8;
+    rec2 = D_801A7AD8_raw;
     b2 = D_8015C424;
     off2 = 0x18000;
     h2 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
@@ -75,7 +76,7 @@ s32 func_8001F0D0(u8 *p) {
     if (n != 0) {
         do {
             th = Duel_CalcCardStats(
-                D_801A7AD8 + p[0x6A] * DUEL_CARD_RECORD_SIZE
+                D_801A7AD8_raw + p[0x6A] * DUEL_CARD_RECORD_SIZE
             ) & 0xFFFF;
         } while (0);
         sel = -1;
@@ -113,7 +114,7 @@ s32 func_8001F0D0(u8 *p) {
     }
     i = 0;
     tbl3 = D_800907D8;
-    rec3 = D_801A7AD8;
+    rec3 = D_801A7AD8_raw;
     h3 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     k = DUEL_FAKE_TRAP_CARD_ID;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
@@ -126,5 +127,105 @@ s32 func_8001F0D0(u8 *p) {
             }
         }
     }
+    return 0;
+}
+
+extern u16 D_8009B162;
+extern u16 D_8009B210;
+extern u16 D_8009B1D0;
+extern s16 D_800F284A[];
+extern u8 D_800E9FF0[];
+
+void func_80022D94(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+u8 *func_8002C68C(s32 arg0);
+void func_80024954(DuelCardRecord *arg0);
+void SD_SEPlayFull(s32 arg0);
+
+/* Four-state presentation sequencer on the D_8009B210 mode byte: mode 0
+ * starts the first screen effect and arms the 0x14-frame counter; mode 1
+ * copies the selected card's position into a type-8 effect object, updates
+ * the card record and plays the SE when that counter expires; mode 2 starts
+ * the second screen effect; mode 3 waits once more, advances the opposing
+ * side's state byte at +6 and completes. Returns 1 while busy. */
+s32 func_8001F364(void) {
+    u8 *e;
+    u8 *g;
+    u8 *p;
+    u8 *q;
+    u8 *r;
+    s32 one;
+    s32 v;
+    u16 t;
+    u8 *q34;
+    u16 *d;
+
+    if (D_8009B162 != 0) {
+        return 1;
+    }
+
+    one = 1;
+    v = D_8009B210 & 0xF;
+
+    if (v == one) {
+        goto m1;
+    }
+    if (v < 2) {
+        if (v == 0) {
+            goto m0;
+        }
+        return 1;
+    }
+    if (v == 2) {
+        goto m2;
+    }
+    if (v == 3) {
+        goto m3;
+    }
+
+    return 1;
+
+m0:
+    func_80022D94(0x10, 0x208, 0x200, D_800F284A[0],
+                  0xB2 - D_8009B1D5 * 0x164);
+    D_8009B162 = 0x10;
+    D_8009B210 = one;
+    D_8009B1D0 = 0x14;
+    do {
+    return 1;
+
+m1:
+    t = D_8009B1D0 - 1;
+    D_8009B1D0 = t;
+    if ((s16)t <= 0) {
+    r = D_8015C424;
+    g = r + D_8009B1B8 * 0x1C + 0x48000;
+    p = *(u8 **)(g + 0x36B4);
+    e = func_8002C68C(8);
+    *(u16 *)(e + 0) = *(u16 *)(p + 0x30);
+    *(u16 *)(e + 2) = *(u16 *)(p + 0x32);
+    q34 = p + 0x34;
+    *(d = (u16 *)(e + 4)) = *(u16 *)q34;
+    func_80024954(&D_801A7AD8[p[0x6A]]);
+    SD_SEPlayFull(0x17);
+    D_8009B210 = 2;
+    }
+    return 1;
+
+m2:
+    func_80022D94(0x10, 0x258, 0x100, D_800F284A[0], 0);
+    D_8009B162 = 0x10;
+    D_8009B210 = 3;
+    D_8009B1D0 = 0x14;
+    } while (0);
+    return 1;
+
+m3:
+    t = D_8009B1D0 - 1;
+    D_8009B1D0 = t;
+    if ((s16)t > 0) {
+        return 1;
+    }
+    q = (u8 *)D_800E9FF0 + (D_8009B1D5 ^ 1) * 0x20;
+    q[6] = q[6] + 1;
     return 0;
 }
