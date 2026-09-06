@@ -115,6 +115,7 @@ source grouping.
 | `src/game/sound_secondary_playback.c` | `gcc_2_8_1_g0` | Ten secondary sequence attachment, playback lifecycle, object-upload, parameter, and status helpers from `0x80049A64` through `0x80049F50` |
 | `src/game/sound_voice_setup.c` | `gcc_2_8_1_cc_g8_as_g0_split` | Per-record voice-parameter refresh (`0x8004A43C`) and the contiguous driver voice/key initialization routine (`0x8004A518`) |
 | `src/game/sound_secondary_object_selection.c` | `gcc_2_8_1_g0` | Secondary-object best-candidate selection (`0x8004A854`) and referenced-record counter update (`0x8004A8E4`) |
+| `src/game/sound_secondary_commands.c` | `gcc_2_8_1_g0` | Three secondary-record command setters from `0x8004B49C` through `0x8004B70C`, followed by contiguous `SD_SequenceTimerCallback` (`0x8004B734`) |
 
 The original pilots reduced four one-function source files to two coherent
 translation units. The later subsystem pass applies the same invariants across
