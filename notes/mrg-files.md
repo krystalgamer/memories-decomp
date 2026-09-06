@@ -137,6 +137,25 @@ inside the first phase, their palettes inside the second, and eight
 [`modding-tutorial-evidence.md`](modding-tutorial-evidence.md) for the
 resource-level offsets, hashes, and visual-label confidence.
 
+### Password screen package
+
+Matching `func_8003BEB8` requests 86 WA sectors beginning at sector `0x1F2F`,
+which is archive range `0xF97800-0xFC2800`. Its matching callback
+`func_8003BD14` accounts for the complete package:
+
+| WA range | Size | Callback behavior |
+|---:|---:|---|
+| `0xF97800-0xFB7800` | `0x20000` / 64 sectors | Schedules the password-screen image payload. |
+| `0xFB7800-0xFB9800` | `0x2000` / 4 sectors | Uploads the complete block as a `256 x 16` palette rectangle to VRAM `(256, 240)`. |
+| `0xFB9800-0xFBB000` | `0x1800` / 3 sectors | Transfers to `0x801A8000`. The 723 eight-byte password/cost records occupy the first `0x1698` bytes; the remaining bytes retain no assigned role. |
+| `0xFBB000-0xFC2800` | `0x7800` / 15 sectors | Transfers the executable phase used by the tracked password overlay. |
+
+Tutorial offsets place the card, cursor, and frame images in the first phase
+and their palette rows in the second. The executable phase and its exact hash
+are tracked under [`src/overlays/password/`](../src/overlays/password/).
+See [`modding-tutorial-evidence.md`](modding-tutorial-evidence.md) for the
+resource-level offsets and visual-label confidence.
+
 ## Development-path evidence
 
 The executable preserves paths including:
