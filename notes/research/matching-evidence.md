@@ -2624,3 +2624,42 @@ route, which in C is a `goto` to a shared label against a direct `return`.
 Re-sweeping profiles after this change moved the best profile from
 `gcc_2_8_1_g0` to `gcc_2_8_1_g0_no_sched2_split` and the diff from 47 to 33,
 which is the rule from the preceding note paying off a second time.
+
+## A standalone probe cannot measure small-data addressing
+
+Functions that reference external data through `%gp_rel` cannot be measured
+reliably by assembling one translation unit on its own, and the failure is
+quiet: it shows up as a plausible-looking instruction-count shortfall rather
+than as an error.
+
+GCC does not emit the addressing itself. It emits `la` and `lb`-style macros
+naming the symbol, and the assembler expands each one either to a single
+gp-relative instruction or to a `lui` plus `%lo` pair. For a symbol the
+assembler cannot see the definition of, that choice follows the assembler's
+own `-G` flag rather than the section the symbol really lands in.
+
+Measured on `func_800175A0` (0x800175A0, 76 instructions, a leaf):
+
+    assembled with -G8    candidate 72
+    assembled with -G0    candidate 82
+    target                76, with five %gp_rel and nine lui
+
+The target uses a *mix*, because some of the symbols it touches are in small
+data and others are not. No single `-G` value can reproduce a mix, so both
+measurements are wrong and the candidate sits between them. A six instruction
+gap read as missing work in the source, and it was not.
+
+Two practical consequences:
+
+- Before treating a length difference as missing work, check whether the
+  target mixes `%gp_rel` and `%hi`/`%lo` for *data*. If it does, the
+  standalone count is not evidence either way, and the full build is the only
+  authority.
+- The existing rule that `%gp_rel` in the target implies a G8 profile is
+  about the compiler side and still holds. This is a separate, assembler-side
+  decision, and the two can disagree for one function.
+
+The general shape of this is familiar from the earlier instrument failures
+recorded above: a tool that silently substitutes its own default for
+information it does not have, and reports the result with the same confidence
+as a real measurement.
