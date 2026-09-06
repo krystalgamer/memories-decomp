@@ -2864,3 +2864,39 @@ The same repository declares this symbol both ways in different translation
 units, so neither spelling is wrong in general. The saved-register set is what
 distinguishes them, and it is cheap to read: count `sw $sN` in the target
 prologue and compare.
+
+## Read the jump count to place a shared tail
+
+Two case arms ending in the same statements can be spelled with a shared label
+and a `goto`, or by repeating the statements in each arm and letting
+cross-jumping merge them. Both are correct C and they produce a different
+block order, which the jump count exposes before anything else does.
+
+In `func_80046294` the target has exactly two `j` instructions. A candidate
+using a shared `decrement:` label had three, and the extra one was the second
+arm jumping to a label that a third block had been laid out in front of:
+
+    candidate    BODY_A -> j    BODY_B -> j    default    decrement
+    target       BODY_A -> j    BODY_B         decrement  default
+
+Writing the decrement into both arms instead of jumping to it lets GCC merge
+the identical tails and place the merged copy immediately after the second arm,
+so the second arm falls through and only the first jumps. That also moved the
+default body after the merged tail, matching the target's layout.
+
+Measured effect on this function: normalised histogram distance 4 to 2, and
+the instruction count went from 149 to 151 against a target of 151 under
+`gcc_2_8_1_g8_split`.
+
+This is the same lever recorded above for assigning a value in each switch arm
+rather than selecting an index, and it generalises: **the count of `j`
+instructions is a statement about block placement, and block placement is a
+statement about where the shared code was written.** It is worth reading before
+register allocation, because it is a property of the source rather than the
+allocator.
+
+Not everything helped. Rewriting the loop's back edge as a `do { } while` in
+the hope that GCC's loop-invariant pass would hoist the jump table base into a
+register, as the target does, left the histogram distance unchanged at 2. The
+hoist is still unexplained, and it is the remaining difference on this
+function along with the choice of register holding the state pointer.
