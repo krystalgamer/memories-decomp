@@ -7,9 +7,9 @@ lists without requiring semantic names for the globals.
 
 ## Pool and list geometry
 
-`func_80040390` clears the field at slot offset `+0x08` across 96 records with
-a `0x70`-byte stride. It also initializes seven signed 16-bit entries at
-`D_800EFE38` and seven companion entries at `D_800F2878` to `-1`.
+`DisplayObject_ResetPool` clears the field at slot offset `+0x08` across 96
+records with a `0x70`-byte stride. It also initializes seven signed 16-bit
+entries at `D_800EFE38` and seven companion entries at `D_800F2878` to `-1`.
 
 The two allocation scans divide the pool:
 
