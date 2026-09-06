@@ -3,13 +3,15 @@
 
 extern void func_80044DC0(s32);
 extern void func_8004503C(s32, s32, s32);
+extern void func_80045334(s32);
 extern void func_80045BE8(SDCommand *);
 extern void func_80045F3C(void);
 extern void func_80046A08(void);
-extern void func_800472A8(u32);
+extern void func_800472A8(s32);
 extern void func_8004763C(void);
 extern void func_80047AD0(u32);
 extern void func_80047EC4(void);
+extern void func_80049138(s32, s32);
 extern void func_800495A4(void);
 extern void func_800495DC(void);
 extern void func_800495EC(void);
@@ -126,4 +128,23 @@ void func_80047278(u32 value)
 {
     func_800472A8(value >> 16);
     func_80047AD0(value & 0xFFFF);
+}
+
+void func_800472A8(s32 arg0)
+{
+    register s32 v asm("v1") = arg0;
+
+    if ((g_SDValue->flags_004A & 2) == 0) {
+        return;
+    }
+    if (arg0 & 0x8000) {
+        func_80045334(v & 0xFFFF);
+    } else {
+        register u32 masked asm("v0") = (u32)(v & 0xFFFF);
+
+        if (masked >= 0x7000) {
+            arg0 -= 0x7000;
+        }
+        func_80049138((s16)arg0, 1);
+    }
 }
