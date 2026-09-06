@@ -58,9 +58,9 @@ order:
 | 11 | `Main_RunOptionsMenu` [`0x8002D6C8`] | Options |
 | 12 | `Main_RunGameOver` [`0x8002D730`] | campaign loss |
 | 13 | `func_8002D7C4` | an eight-byte empty retail stub |
-| 14 | `Main_RunTrade` [`0x8002D7CC`] | Trade and 2P Duel setup |
+| 14 | `Main_RunTrade` [`0x8002D7CC`] | Trade and the shared two-save flow |
 | 15 | `Main_RunCredits` [`0x8002DA1C`] | the ending |
-| 16 | `func_8002DC38` | unnamed |
+| 16 | `func_8002DC38` | 2P Duel starting-LP setup |
 
 These are the repository's accepted semantic names, backed by the dispatcher
 and local function evidence. The older `*Loop` labels imported from a
@@ -1430,8 +1430,16 @@ save dueling a copy of itself. The duel is the normal
 engine with the AI replaced by the second controller; there is no scoring,
 no drop and no record. On the active player's turn, Select opens
 `QUIT DUEL? NO YES`; choosing Yes fades directly back to the initial menu.
-[`Main_RunTrade` `0x8002D7CC` hosts both this setup and Trade; scene texts
-`2PDUEL`, `PvP Duel Screen`.]
+The setup chooses starting LP separately for both sides. Each defaults to
+8000, and pad 1 or pad 2 adjusts its own value to `1` or a multiple of 500
+from 500 through 8000 [`func_8002DC38` initializes the two values and the
+main-menu handler at `0x801812B4` edits them]. Because 2P uses the negative
+opponent-ID path, `func_800175A0` copies those selections into both the
+authoritative and maximum LP fields; recovery is therefore capped at the
+chosen starting value.
+[`func_8002DC38` hosts the starting-LP screen; `Main_RunTrade` `0x8002D7CC`
+hosts the two-save flow shared with Trade; scene texts `2PDUEL`,
+`PvP Duel Screen`.]
 
 ### 9.2 Trade
 

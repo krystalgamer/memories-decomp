@@ -67,9 +67,13 @@ value at `+0x14`, then clamps it to the `+0x16` value. The display counter at
 `Duel_UpdateLifePointDisplay`.
 
 The constant is used only when `gDuel_bOpponentID >= 0`, the ordinary duel
-path. When the opponent ID is negative, `func_800175A0` instead initializes
-the two values from `D_8009B234` and `D_8009B236`, so changing `0x7DD0` does
-not affect that alternate path.
+path. The negative-opponent-ID path is the 2P Duel setup: menu result `2`
+dispatches to `func_8002DC38`, which initializes `D_8009B234` and
+`D_8009B236` to 8000 and passes both addresses to the main-menu value editor
+at `0x80180FD8`. Its matching input handler at `0x801812B4` lets pad 1 and
+pad 2 adjust their respective values to `1` or a multiple of 500 from 500
+through 8000. `func_800175A0` then initializes each duel side from those two
+selected values, so changing `0x7DD0` does not affect 2P Duel.
 
 **Confidence:**
 
@@ -79,6 +83,9 @@ not affect that alternate path.
   opponent LP values on the ordinary duel path.
 - **Confirmed** that the adjacent `+0x16` fields are maximum LP values used to
   cap recovery.
+- **Confirmed** that 2P Duel instead defaults both sides to 8000, exposes the
+  two values to their respective controllers, and uses the selected values as
+  each side's initial and maximum LP.
 
 For a value representable by one 16-bit halfword, the tutorial's byte-edit
 method preserves the instruction opcode: decimal 9000 is hexadecimal
