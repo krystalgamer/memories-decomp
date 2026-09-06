@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libapi.h"
+#include "../psyq/stdio.h"
 #include "mem_card.h"
 
 typedef char MemCardDirectoryEntry_size_must_match[
@@ -7,7 +8,6 @@ typedef char MemCardDirectoryEntry_size_must_match[
 ];
 
 extern u8 D_80010538[];
-extern s32 sprintf(char *, const char *, ...);
 
 s32 func_80044470(s32 a0, s32 a1, struct DIRENTRY *cursor, s32 *out_count)
 {

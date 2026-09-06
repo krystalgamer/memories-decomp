@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/stdio.h"
 
 extern u8 D_80010538[];
 extern u8 D_800F2B00[];
@@ -14,7 +15,6 @@ extern void func_80043D48(long *);
 extern void func_8008B330(int);
 extern void func_8008B340(int);
 extern void func_8008B3A0(int);
-extern s32 sprintf(char *, const char *, ...);
 
 int func_8004413C(int value)
 {

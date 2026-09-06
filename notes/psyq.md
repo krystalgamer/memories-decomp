@@ -495,7 +495,8 @@ declares only `printf`, `sprintf`, and basic character/string input and output.
 There is no `FILE` type or `fopen`/`fread` family, and the `getc`/`putc`
 signatures use integer handles rather than stream pointers. It must not be
 substituted for the debugger-host file service in `libsn.h` or the retail
-disc and memory-card APIs. No current game C includes this header.
+disc and memory-card APIs. `func_80044470` and `sound_request_wrappers.c`
+include it for the resident `sprintf` declaration.
 
 `malloc.h` exposes three parallel allocator families:
 `InitHeap`/`malloc`/`calloc`/`realloc`/`free`, then identically shaped `*2`
