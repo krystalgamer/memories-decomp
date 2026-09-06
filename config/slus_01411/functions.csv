@@ -1409,16 +1409,16 @@ address,size,name,status,module,notes
 0x8007CD24,0x48,func_8007CD24,sdk_asm,psyq/sdk,
 0x8007CD6C,0x48,func_8007CD6C,sdk_asm,psyq/sdk,
 0x8007CDC0,0x20,func_8007CDC0,sdk_asm,psyq/sdk,
-0x8007CDE0,0x130,func_8007CDE0,sdk_asm,psyq/sdk,
+0x8007CDE0,0x130,DsRead,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBDS.LIB/DSREAD.OBJ signature.
 0x8007CF10,0x34,func_8007CF10,sdk_asm,psyq/sdk,
 0x8007CF44,0x178,func_8007CF44,sdk_asm,psyq/sdk,
 0x8007D0BC,0xD4,func_8007D0BC,sdk_asm,psyq/sdk,
-0x8007D190,0x70,func_8007D190,sdk_asm,psyq/sdk,
-0x8007D200,0x14,func_8007D200,sdk_asm,psyq/sdk,
-0x8007D214,0x20,func_8007D214,sdk_asm,psyq/sdk,
+0x8007D190,0x70,DsReadSync,sdk_asm,psyq/sdk,Identified at offset 0x3B0 of the unique Psy-Q 4.6 LIBDS.LIB/DSREAD.OBJ signature.
+0x8007D200,0x14,DsReadCallback,sdk_asm,psyq/sdk,Identified at offset 0x420 of the unique Psy-Q 4.6 LIBDS.LIB/DSREAD.OBJ signature.
+0x8007D214,0x20,DsReadBreak,sdk_asm,psyq/sdk,Identified at offset 0x434 of the unique Psy-Q 4.6 LIBDS.LIB/DSREAD.OBJ signature.
 0x8007D234,0x9C,func_8007D234,sdk_asm,psyq/sdk,
-0x8007D2D0,0x1C,func_8007D2D0,sdk_asm,psyq/sdk,
-0x8007D2F0,0xD4,func_8007D2F0,sdk_asm,psyq/sdk,
+0x8007D2D0,0x1C,DsReadMode,sdk_asm,psyq/sdk,Identified at offset 0x4F0 of the unique Psy-Q 4.6 LIBDS.LIB/DSREAD.OBJ signature.
+0x8007D2F0,0xD4,DsRead2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBDS.LIB/DSREAD2.OBJ signature and matching movie control caller.
 0x8007D3C4,0x20,func_8007D3C4,sdk_asm,psyq/sdk,
 0x8007D3F0,0x2E0,DsSearchFile,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBDS.LIB DsSearchFile.
 0x8007D6D0,0x20,func_8007D6D0,sdk_asm,psyq/sdk,
@@ -1426,9 +1426,9 @@ address,size,name,status,module,notes
 0x8007D9B4,0xA4,func_8007D9B4,sdk_asm,psyq/sdk,
 0x8007DA58,0x29C,func_8007DA58,sdk_asm,psyq/sdk,
 0x8007DCF4,0x5C,func_8007DCF4,sdk_asm,psyq/sdk,
-0x8007DD50,0x84,func_8007DD50,sdk_asm,psyq/sdk,
-0x8007DDD4,0x64,func_8007DDD4,sdk_asm,psyq/sdk,
-0x8007DE38,0x14,func_8007DE38,sdk_asm,psyq/sdk,
+0x8007DD50,0x84,DsStartReadySystem,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBDS.LIB/DSREADY.OBJ signature and matching file-transfer callback setup.
+0x8007DDD4,0x64,DsEndReadySystem,sdk_asm,psyq/sdk,Identified at offset 0x84 of the unique Psy-Q 4.6 LIBDS.LIB/DSREADY.OBJ signature.
+0x8007DE38,0x14,DsReadySystemMode,sdk_asm,psyq/sdk,Identified at offset 0xE8 of the unique Psy-Q 4.6 LIBDS.LIB/DSREADY.OBJ signature and matching file-transfer setup.
 0x8007DE4C,0x2DC,func_8007DE4C,sdk_asm,psyq/sdk,
 0x8007E128,0xB8,func_8007E128,sdk_asm,psyq/sdk,
 0x8007E1E0,0x78,func_8007E1E0,sdk_asm,psyq/sdk,
@@ -1439,14 +1439,14 @@ address,size,name,status,module,notes
 0x8007E320,0x24,func_8007E320,sdk_asm,psyq/sdk,
 0x8007E350,0x20,func_8007E350,sdk_asm,psyq/sdk,
 0x8007E370,0x20,func_8007E370,sdk_asm,psyq/sdk,
-0x8007E390,0x38,func_8007E390,sdk_asm,psyq/sdk,
+0x8007E390,0x38,DsFlush,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBDS.LIB/D2_005.OBJ signature.
 0x8007E3D0,0x20,func_8007E3D0,sdk_asm,psyq/sdk,
 0x8007E3F0,0x100,func_8007E3F0,sdk_asm,psyq/sdk,
 0x8007E4F0,0x20,func_8007E4F0,sdk_asm,psyq/sdk,
 0x8007E510,0xEC,func_8007E510,sdk_asm,psyq/sdk,
 0x8007E600,0x104,CdIntToPos_8007E600,sdk_asm,psyq/sdk,Second byte-identical match of the Psy-Q 4.6 LIBCD.LIB/S_002.OBJ CdIntToPos signature; address-qualified because both copies are resident.
 0x8007E710,0x80,CdPosToInt_8007E710,sdk_asm,psyq/sdk,Second byte-identical match of the Psy-Q 4.6 LIBCD.LIB/SYS.OBJ CdPosToInt signature; address-qualified because both copies are resident.
-0x8007E790,0x54,func_8007E790,sdk_asm,psyq/sdk,
+0x8007E790,0x54,DsLastPos,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBDS.LIB/D3_008.OBJ signature.
 0x8007E7F0,0x68,func_8007E7F0,sdk_asm,psyq/sdk,
 0x8007E860,0x14,func_8007E860,sdk_asm,psyq/sdk,
 0x8007E880,0x14,func_8007E880,sdk_asm,psyq/sdk,
