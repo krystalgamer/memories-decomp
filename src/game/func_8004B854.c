@@ -1,47 +1,35 @@
 #include "../types.h"
+#include "../psyq/libapi.h"
+#include "sound.h"
 
-typedef struct {
-    u8 pad_000[0x500];
-    u8 active;
-    u8 pad_501[2];
-    u8 guard;
-    s32 event;
-} SoundState;
-
-extern SoundState *D_8009B458;
-
-extern int EnterCriticalSection(void);
 extern void func_80073A54(s32);
-extern s32 OpenEvent(s32, s32, s32, void (*)(void));
-extern void EnableEvent(s32);
 extern void func_80073950(s32, s32, s32);
 extern void func_80073A24(s32);
-extern void ExitCriticalSection(void);
-extern void func_8004B734(void);
+extern long func_8004B734(void);
 
 void func_8004B854(void)
 {
-    s32 event;
+    long event;
 
-    if (D_8009B458->guard)
+    if (D_8009B458->event_guard)
         return;
 
-    D_8009B458->guard = 1;
+    D_8009B458->event_guard = 1;
     EnterCriticalSection();
-    func_80073A54(0xF2000002);
+    func_80073A54(RCntCNT2);
     {
-        register s32 descriptor asm("$4") = 0xF2000002;
-        register s32 mode asm("$5") = 2;
-        register s32 flags asm("$6") = 0x1000;
-        register void (*callback)(void) asm("$7") = func_8004B734;
+        register unsigned long descriptor asm("$4") = RCntCNT2;
+        register long specification asm("$5") = EvSpINT;
+        register long mode asm("$6") = EvMdINTR;
+        register long (*callback)(void) asm("$7") = func_8004B734;
 
-        event = OpenEvent(descriptor, mode, flags, callback);
+        event = OpenEvent(descriptor, specification, mode, callback);
     }
-    D_8009B458->event = event;
+    D_8009B458->event_handle = event;
     EnableEvent(event);
-    func_80073950(0xF2000002, 0xE000, 0x1000);
-    func_80073A24(0xF2000002);
+    func_80073950(RCntCNT2, 0xE000, 0x1000);
+    func_80073A24(RCntCNT2);
     ExitCriticalSection();
-    D_8009B458->active = 0;
-    D_8009B458->guard = 0;
+    D_8009B458->flag_0500 = 0;
+    D_8009B458->event_guard = 0;
 }

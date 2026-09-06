@@ -153,8 +153,9 @@ explicit typed/raw views rather than speculative fields.
 | `0x0000` | `0x18` stride | `SDSecondaryRecord` view | `func_8004B49C`, `func_8004B6E8`, and `func_8004B70C` index the same records and establish byte fields at `+0x00`, `+0x01`, `+0x03`, `+0x05`-`+0x07`, and `+0x10`-`+0x13`. |
 | `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `func_8004B49C`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are bytes at `+0x03` and `+0x0F`, and a `u16` at `+0x1E`. |
 | `0x04A4` | `0x1C` | `transfer` | `func_80049434`, `func_800496C4`, `func_8004975C`, `func_800497E0`, and `func_800498F8`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
-| `0x0500`-`0x0503` | `u8` | `flag_0500`-`flag_0503` | Initialization, playback, update, and shutdown routines independently read/write these flags. |
-| `0x0504` | pointer | `field_0504` | `func_8004B910` passes it to both stop/cleanup calls. |
+| `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |
+| `0x0503` | `u8` | `event_guard` | `func_8004B854` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |
+| `0x0504` | `long` | `event_handle` | `func_8004B854` stores the `OpenEvent` result; `func_8004B910` disables and closes the same handle. |
 | `0x0508` | `u8` | `field_0508` | `func_8004B734` increments and wraps it at 11. |
 | `0x0509` | `u8` | `field_0509` | `func_8004695C`, `func_80047050`, and `func_8004B734` set/test it. |
 | `0x050C` | callback pointer | `field_050C` | `func_8004B734` conditionally invokes it. |
@@ -172,6 +173,13 @@ explicit typed/raw views rather than speculative fields.
 | `0x0818` | `u32` | `bytes_consumed` | `func_800496C4` clears it and `func_800497E0` advances it across a transfer window. |
 | `0x081C` | `s32` | `field_081C` | Initialized to `0x1000`, read by update/termination paths, and set by `func_80049594`. |
 | `0x0844`, `0x0845` | `u8` | offset-based fields | `func_8004ACE4` stores two control-event byte values. |
+
+`func_8004B854` registers `func_8004B734` for an interrupt event on
+`RCntCNT2` with specification `EvSpINT` and mode `EvMdINTR`, stores the event
+handle at `+0x504`, and enables it. `func_8004B910` later disables and closes
+that handle. Both lifecycle paths now use the imported Psy-Q `libapi.h`
+declarations and `kernel.h` constants; the remaining unnamed counter-control
+wrappers retain their address-based identities.
 
 The header uses GCC-2.8.1-compatible negative-array assertions for the
 `0x18`, `0x28`, and `0x1C` subview sizes, the complete `0x848` state size, and

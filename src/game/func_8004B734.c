@@ -6,7 +6,7 @@ extern void SD_ProcessSequenceTracks(void);
 extern void func_8004C84C(void);
 extern void func_8004AAFC(void);
 
-int func_8004B734(void)
+long func_8004B734(void)
 {
     u8 *state = D_8009B458;
     int i;
