@@ -3094,7 +3094,7 @@
       "address": "0x8003F454",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2B8",
-      "source": "src/game/func_8003F454.c"
+      "source": "src/game/mem_card_dialog_runtime.c"
     },
     {
       "address": "0x8003F70C",
