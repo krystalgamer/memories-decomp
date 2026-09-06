@@ -1,0 +1,8 @@
+==== USER CONTEXT ====
+
+Emulator was in CPU and and trace never printed. I've tried multiple approaches, injecting only on the OPTION screen and then pressing O and going back in and going back out. Nothing.
+Also tried to inject at boot-time (auto-run) and nothing happened.
+
+==== TRACE RESULT =====
+
+N/A

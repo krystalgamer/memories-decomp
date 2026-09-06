@@ -1,0 +1,14 @@
+==== USER CONTEXT ====
+
+I injected the script and it printed the first line saying the script was armed. During the boot of the game it printed that the patch was applied, but after that nothing else was printed.
+
+
+I chose "New Game" and Duelist Code "A". Then instead of playing the regular Heishin cutscene it just loaded a black page with an empty textbox and played the end music for his cutscene. While the music played hit faded to black and showed an image that's very similar (or even the same) as the main menu one. Then it faded again and went to the Simon Muran interaction.
+
+
+Basically the whole Heishin scene was skipped. Usually it starts dark with footsteps playing and there's an image of him walking in a dim room. He then says that he found the treasure and laughs. That's when the fade to black and dramatic music play going into the image I described. Overall the patch worked, no idea why the trace didn't produce anything else.
+
+
+==== TRACE RESULT =====
+opening_heishin_text_skip: armed; start a new game and enter the campaign intro 
+opening_heishin_text_skip: in-memory text patch applied 
