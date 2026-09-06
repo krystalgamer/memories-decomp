@@ -48,7 +48,8 @@ def load_attempts(path: Path) -> dict[int, list[dict[str, str]]]:
     for address, rows in grouped.items():
         if len(rows) > MAX_ATTEMPTS:
             raise CandidateError(
-                f"{address:#010x}: exceeds six-attempt budget"
+                f"{address:#010x}: canonical ledger has more than "
+                f"{MAX_ATTEMPTS} rows, so the campaign history is malformed"
             )
         for expected, row in enumerate(rows, start=1):
             try:
@@ -94,7 +95,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--include-partial",
         action="store_true",
-        help="include nonterminal histories with remaining attempt budget",
+        help="include histories whose canonical ledger is not yet closed",
     )
     parser.add_argument(
         "--format",

@@ -93,7 +93,9 @@ def import_unmatched_results(root: Path, path: Path) -> int:
         if duplicate:
             continue
         if len(history) >= record_attempt.MAX_ATTEMPTS:
-            raise ImportError(f"{address:#010x}: attempt budget exhausted")
+            raise ImportError(
+                f"{address:#010x}: canonical ledger is closed campaign history"
+            )
         attempt = len(history) + 1
         outcome = (
             "deferred"
@@ -158,7 +160,9 @@ def import_inline_results(root: Path, path: Path) -> int:
         if history and history[-1]["result"] in {"matched", "deferred"}:
             continue
         if len(history) >= record_external_attempt.MAX_ATTEMPTS:
-            raise ImportError(f"{address:#010x}: refinement budget exhausted")
+            raise ImportError(
+                f"{address:#010x}: refinement ledger is closed campaign history"
+            )
         profile = result["profile"]
         source = resolve_within(root, result["source"], must_exist=True)
         source_value = str(source.relative_to(root))

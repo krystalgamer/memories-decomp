@@ -85,9 +85,12 @@ Rebuild the queue from the current inventory and terminal evidence:
    several functions.
 5. Larger functions with exact-size and exact-relocation candidates.
 
-Do not rerun Unchiga's exhaustive `msearch.py` cross-products. They can contain
-hundreds or thousands of variants and would violate this project's six-variant
-policy. Extract only a concrete recorded source or residual discriminator.
+Do not rerun Unchiga's exhaustive `msearch.py` cross-products. The objection is
+not the number of variants, since depth is now encouraged, but that a blind
+cross-product of hundreds or thousands of flag combinations produces a hit
+without an explanation of why it works, which is the opposite of what this
+project records. Extract only a concrete recorded source or residual
+discriminator, then reason from it.
 
 ### 2. Recover and verify source
 

@@ -340,7 +340,9 @@ def audit_attempts(root: Path) -> None:
     for address, rows in by_address.items():
         if len(rows) > MAX_FUNCTION_ATTEMPTS:
             raise AuditError(
-                f"{address:#010x}: exceeds six-attempt budget"
+                f"{address:#010x}: canonical ledger has more than "
+                f"{MAX_FUNCTION_ATTEMPTS} rows, so the campaign history is "
+                "malformed"
             )
         ended = False
         for expected, row in enumerate(rows, start=1):

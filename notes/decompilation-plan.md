@@ -111,9 +111,11 @@ with full-file comparison as the merge gate.
   files, and other temporary work under `tmp/`.
 - Commit implementation work continuously in small, independently understandable
   and verifiable changes rather than accumulating a large uncommitted batch.
-- Attempt at most six distinct source/compiler variants for one function.
-  Record every result in `config/slus_01411/attempts.csv`; defer the function
-  after the sixth nonmatching attempt.
+- Explore as many materially distinct source/compiler variants as a function
+  needs; there is no cap. The six canonical rows in
+  `config/slus_01411/attempts.csv` are closed campaign history rather than a
+  quota, so once a ledger is closed continue in `tmp/` and record each result,
+  including the negatives, in the function's inventory notes.
 - Keep commits atomic and push accumulated commits to `origin/master` about
   every 15 minutes during active decompilation. Continue working between push
   windows rather than waiting for the timer.

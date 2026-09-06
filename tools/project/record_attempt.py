@@ -126,7 +126,9 @@ def main() -> int:
             )
         if len(history) >= MAX_ATTEMPTS:
             raise AttemptError(
-                f"{address:#010x}: six-attempt budget is exhausted"
+                f"{address:#010x}: the canonical ledger for this function is "
+                "closed campaign history; keep exploring under tmp/ and "
+                "record what you measure in the function's inventory notes"
             )
 
         attempt = len(history) + 1
