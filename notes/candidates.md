@@ -32,25 +32,31 @@ right base to continue from rather than something to rewrite.
 
 ## `func_80046294` at 0x80046294
 
-`gcc_2_8_1_g8_split`, 151 of 151 instructions, opcode distance 2, 74 differing
+`gcc_2_8_1_g8_split`, 151 of 151 instructions, opcode distance 0, 19 differing
 positions.
 
-A sound-driver dispatcher with two jump tables. The instruction mix is nearly exact; what remains is register allocation and one delay-slot
-placement. The target hoists the jump table base into `$t1` as a loop
-invariant and this build does not, and the target leaves a load-delay `nop`
-where this build fills it.
+The instruction multiset is now exact, so no change of source shape can improve
+this; only register choice and two placement differences remain.
 
-Measured and rejected: rewriting the back edge as `do { } while` to invite
-the loop-invariant hoist changed nothing. Declaring `g_SDValue` as an array
-caches `%hi` in `$s0` across the calls and adds a saved register the target
-does not use; the scalar with `section(".data")` recorded here is correct.
+What moved it from 74 differing positions to 19, in order:
 
-Layout: `jtbl_800106C0` at file offset `0xEC0`, 41 entries ending `0xF64`;
-four byte gap; `jtbl_80010768` at `0xF68`, 7 entries. Both table addresses are
-8-aligned, so GCC's `.align 3` accounts for the gap without a `pad` entry.
-The 41 entries reach only three bodies: tag `0x20` alone, tags
-`{0x42, 0x43, 0x45, 0x46, 0x48}` together, and the rest default. The second
-table keys on the same five tags.
+- the sibling `func_800464F0.c` expression form for the copy, with a separate
+  `src_base` and the `+0x80` applied as its own statement, which took the
+  opcode distance from 2 to 0;
+- a `do { } while` back edge rather than a `goto` loop, which lets the jump
+  table base be hoisted out of the loop as the target does;
+- pinning the state pointer to `v1`, which the target reuses for `src_base`;
+- a separate state pointer for the `0x20` arm, pinned to `a1`.
+
+Both remaining differences are visible in an aligned diff. The target computes
+the tag address into `v0` and keeps the state pointer live in `v1`, while this
+build computes into `v1` and clobbers it. And the `k` and `j` initialisers are
+emitted two instructions earlier here than in the target, which places them
+before the jump table hoist rather than after.
+
+Measured and unhelpful: removing either pointer reload loses instructions
+outright; three spellings of the tag address all give the same 19; `gcc_2_8_1_g0_split`
+is far worse.
 
 ```c
 #include "../types.h"
@@ -68,11 +74,9 @@ typedef struct {
     s16 f157E;
 } SoundState;
 
-typedef struct {
-    u32 words[12];
-} SoundEntry;
+typedef struct { u32 words[12]; } SoundEntry;
 
-extern SoundState * volatile g_SDValue __attribute__((section(".data")));
+extern SoundState *g_SDValue __attribute__((section(".data")));
 #define SOUND_STATE (g_SDValue)
 
 extern s16 func_80049F50(void);
@@ -80,13 +84,15 @@ extern void func_80049C40(s16 arg0);
 
 void func_80046294(void)
 {
-    SoundState *p;
+    register SoundState *p asm("v1");
     register s32 i asm("a3");
     register s32 j asm("a2");
     register s32 k asm("t0");
+    register SoundState *q asm("a1");
     s32 tag;
-    SoundEntry *dst;
-    SoundEntry *src;
+    register SoundEntry *dst asm("v0");
+    register u8 *src_base asm("v1");
+    register SoundEntry *src asm("a0");
 
     p = SOUND_STATE;
     i = 0;
@@ -96,7 +102,7 @@ void func_80046294(void)
     k = 0x30;
     j = i;
 
-loop:
+    do {
     if (p->count == 0) {
         goto tail;
     }
@@ -108,25 +114,29 @@ loop:
     case 0x46:
     case 0x48:
         p = SOUND_STATE;
-        dst = (SoundEntry *)&p->entries[j];
-        src = (SoundEntry *)&p->entries[k];
+        dst = (SoundEntry *)((u8 *)p + j);
+        dst = (SoundEntry *)((u8 *)dst + 0x80);
+        src_base = (u8 *)p + k;
+        src = (SoundEntry *)(src_base + 0x80);
         *dst = *src;
         p = SOUND_STATE;
         p->count = (u16)p->count - 1;
         goto test;
-
     case 0x20:
-        p = SOUND_STATE;
-        if (*(s32 *)&p->entries[j + 0x10] != 0x20) {
+        q = SOUND_STATE;
+        if (*(s32 *)&q->entries[j + 0x10] != 0x20) {
             goto test;
         }
-        dst = (SoundEntry *)&p->entries[j];
-        src = (SoundEntry *)&p->entries[k];
+        p = q;
+        p = SOUND_STATE;
+        dst = (SoundEntry *)((u8 *)p + j);
+        dst = (SoundEntry *)((u8 *)dst + 0x80);
+        src_base = (u8 *)p + k;
+        src = (SoundEntry *)(src_base + 0x80);
         *dst = *src;
         p = SOUND_STATE;
         p->count = (u16)p->count - 1;
         goto test;
-
     default:
         k += 0x30;
         j += 0x30;
@@ -136,13 +146,8 @@ loop:
 
 test:
     p = SOUND_STATE;
-    if (i >= p->count) {
-        goto tail;
-    }
-    if (i < 0) {
-        goto tail;
-    }
-    goto loop;
+    } while (i < p->count && i >= 0);
+    goto tail;
 
 tail:
     switch (SOUND_STATE->f7C) {
