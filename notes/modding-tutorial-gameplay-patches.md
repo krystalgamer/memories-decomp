@@ -231,6 +231,15 @@ while the AI reads card type from bits `26`-`30` of
 `gDuel_adwCardStats`. A card must still reach the normal activation path for
 its edited effect group to run.
 
+Matching `AiScript_CalcCardPower` confirms that the AI's explicit power value
+is separate from this table. For monsters, the opcode stores ATK, DEF, or the
+higher of the two according to its scripted mode. For non-monsters in mode
+`0`, it recognizes only card IDs `343`-`347` (Sparks through Tremendous Fire)
+and stores `50, 100, 200, 500, 1000`; every other non-monster receives zero.
+The opcode never reads the effect-group table. Reassigning a card's effect
+group can therefore change what happens on activation without changing this
+AI power value.
+
 The tutorial's offset list contains two card-number errors:
 
 - `0x8132F` is table index `91`, card ID `692` (Turtle Oath), not a second
@@ -250,8 +259,12 @@ before the next resident symbol at `0x80090B3C`.
 - **Confirmed** that each byte selects the duel effect-handler group.
 - **Confirmed** that the tutorial's card `691` and `722` labels at the final
   offsets are off by one.
-- **Unverified** that editing this table alone changes CPU prioritization or
-  understanding; no direct AI consumer is currently known.
+- **Confirmed** that editing this table alone does not change
+  `AiScript_CalcCardPower`, which values the five direct-damage cards through
+  a separate ID-based path.
+- **Unverified** how an effect-group edit changes overall CPU prioritization;
+  broader script decisions still require script analysis or a controlled
+  trace.
 
 ## Disable Exodia win detection
 
