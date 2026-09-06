@@ -529,7 +529,9 @@ Game sources now include `libapi.h` directly for the confirmed pad lifecycle,
 raw memory-card operations, memory-card and sound events, critical sections,
 and directory iteration. `func_80044470` uses the real `DIRENTRY`,
 `firstfile`, and `nextfile` interfaces. No current game C directly includes
-`kernel.h` or `libmcrd.h`.
+`kernel.h`. The higher-level dialog path in `mem_card_dialog_runtime.c`
+separately includes `libmcrd.h` for its `MemCard*` lifecycle, as detailed
+below.
 
 The graphics headers also form distinct layers. `libgpu.h` owns the GPU packet
 ABI: `RECT`, `DRAWENV`, `DISPENV`, primitive records, packet-construction
