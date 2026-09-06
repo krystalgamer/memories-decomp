@@ -131,6 +131,8 @@ symbol review.
 | `0x8008FBE0` | `DecDCTReset` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature; the matching wait path requests mode `1` after a decode timeout. |
 | `0x8008FC14` | `DecDCTGetEnv` | Applied Psy-Q 4.6 identity at offset `0x34` of the unique `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
 | `0x8008FCA0` | `DecDCTPutEnv` | Applied Psy-Q 4.6 identity at offset `0xC0` of the same unique `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
+| `0x8008FDD4` | `DecDCTinSync` | Applied Psy-Q 4.6 identity at offset `0x1F4` of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
+| `0x8008FE10` | `DecDCToutSync` | Applied Psy-Q 4.6 identity at offset `0x230` of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
 | `0x8007FAF0` | `ClearOTag` | Ordering-table initialization behavior. |
 | `0x8007FC64` | `DrawPrim` | Direct GPU primitive submission behavior. |
 | `0x8007FCC0` | `DrawOTag` | Ordering-table submission behavior. |

@@ -468,3 +468,5 @@ sprintf = 0x8008F200; // type:func
 DecDCTReset = 0x8008FBE0; // type:func
 DecDCTGetEnv = 0x8008FC14; // type:func
 DecDCTPutEnv = 0x8008FCA0; // type:func
+DecDCTinSync = 0x8008FDD4; // type:func
+DecDCToutSync = 0x8008FE10; // type:func
