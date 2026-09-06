@@ -141,7 +141,9 @@ NEW GAME / LOAD / 2P DUEL / TRADE / OPTION. The menu's own logic runs from a mod
 | `gCampaignMap_Location` (module: overworld) | 0x8016960C | Where you stand: 0–9 the world-map sites, 10–15 the town (Town Plaza, Shrine, Duel Ground, Card Shop, Pharaoh's Palace, Hiding). The name box shows global string 0x8350 + index. |
 | `gCampaignMap_aLocationTable` (module: overworld) | 0x801691A8 | 16 records of 0x42 bytes: lock flag, camera, marker, then four exits — story flag, target x/y, DPAD mask, destination (16 = none), move type. |
 | `CampaignMap_PickExit` (module: overworld) | 0x80168E0C | Walks the four exits in order: skip unused, skip if the flag test fails, take the first whose mask matches the pressed direction. From the Palace: DOWN Duel Ground; RIGHT Shrine while flag 71 is clear, Hiding once flag 90 is set. |
-| `CampaignMap_SetLocation / CampaignMap_MoveCameraDpad` (module: overworld) | 0x8016866C / 0x80168388 | Commit a move (the camera lerps between sites); the free-look camera on the world map. |
+| `CampaignMap_SetLocation` (module: overworld) | 0x8016866C | Rebuilds the map scene for a committed location and installs its camera, label, objects, marker, and background track. |
+| `CampaignMap_StartCameraTween` (module: overworld) | 0x801688BC | Snapshots five live camera channels and computes signed 16.16 deltas toward the selected location record. |
+| `CampaignMap_MoveCameraDpad` (module: overworld) | 0x80168388 | Free-look camera control while the campaign map is idle. |
 
 
 ## Build deck & trunk

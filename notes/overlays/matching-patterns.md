@@ -702,8 +702,8 @@ store instead of hoisting above one, for the same reason: the byte-pointer
 `MEM` carries no type, so GCC cannot rule out an alias with the global being
 stored between the two loads.
 
-`func_801688BC` snapshots five camera channels. The last two are 32-bit and
-sit at `+0x1C` and `+0x24`; the target loads them back to back:
+`CampaignMap_StartCameraTween` snapshots five camera channels. The last two
+are 32-bit and sit at `+0x1C` and `+0x24`; the target loads them back to back:
 
 ```
 sw   t0,%lo(D_80169610)(v0)
