@@ -1,6 +1,6 @@
 #include "../types.h"
 
-extern void func_80040390(void);
+extern void DisplayObject_ResetPool(void);
 
 typedef struct {
     u8 pad_00[8];
@@ -13,7 +13,7 @@ typedef struct {
 
 void func_800403F0(void)
 {
-    func_80040390();
+    DisplayObject_ResetPool();
 }
 
 void func_80040410(DisplayObjectConfig *object, u8 value)

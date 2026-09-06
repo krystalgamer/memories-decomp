@@ -3148,7 +3148,7 @@
       "address": "0x80040390",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/func_80040390.c"
+      "source": "src/game/display_object_reset_pool.c"
     },
     {
       "address": "0x800403F0",

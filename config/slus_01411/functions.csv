@@ -622,7 +622,7 @@ address,size,name,status,module,notes
 0x8004020C,0x94,func_8004020C,matching_c,game,Post-terminal split-address profile recovery; exact full-executable SHA-256 match.
 0x800402A0,0xCC,func_800402A0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8004036C,0x24,func_8004036C,matching_c,game,Nullable-object conditional call matched exact branch and frame scheduling.
-0x80040390,0x60,func_80040390,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x80040390,0x60,DisplayObject_ResetPool,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800403F0,0x20,func_800403F0,matching_c,game,No-argument call wrapper matched exactly.
 0x80040410,0x14,func_80040410,matching_c,game,Byte assignment followed by flags clear matched exact scheduling.
 0x80040424,0x28,func_80040424,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
