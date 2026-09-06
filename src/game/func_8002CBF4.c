@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 extern s32 gDuel_adwCardStats[];
 
@@ -34,28 +35,29 @@ s32 Duel_GetBaseCardStat(s32 arg0, s32 arg1) {
 
     if (arg1 != 0) {
         v = gDuel_adwCardStats[arg0 - 1];
-        v = v >> 9;
+        v = v >> CARD_STAT_DEFENSE_SHIFT;
     } else {
         v = gDuel_adwCardStats[arg0 - 1];
     }
 
-    v &= 0x1FF;
+    v &= CARD_STAT_VALUE_MASK;
     do {
-        s = v * 10;
+        s = v * CARD_STAT_SCALE;
         if (!s) {
             v = !s;
         }
     } while (0);
     t = gDuel_adwCardStats;
     k = arg0 - 1;
-    s += Duel_GetTerrainBoost((t[k] >> 26) & 0x1F);
+    s += Duel_GetTerrainBoost((t[k] >> CARD_STAT_TYPE_SHIFT) &
+                              CARD_STAT_TYPE_MASK);
 
     if (s < 0) {
         return 0;
     }
 
-    if (s >= 0x2710) {
-        s = 0x270F;
+    if (s >= CARD_STAT_MAX + 1) {
+        s = CARD_STAT_MAX;
     }
 
     return s;
