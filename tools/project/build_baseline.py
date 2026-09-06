@@ -155,6 +155,7 @@ def compile_c(
     *,
     object_directory: str = OBJECT_DIRECTORY,
     asm_directory: str = ASM_DIRECTORY,
+    use_splat_object_paths: bool = False,
 ) -> Path:
     source = resolve_within(root, str(segment["source"]), must_exist=True)
     profile_name = segment.get("profile")
@@ -169,7 +170,13 @@ def compile_c(
         raise BuildError(f"invalid C build input for {source}")
 
     object_name = str(segment["object"])
-    output = resolve_within(root, splat_object(str(segment["source"])))
+    # The resident build names objects for their source so Splat's generated
+    # script finds them; overlays link their own script and pass their own
+    # object directory, so they keep the flat name.
+    if use_splat_object_paths:
+        output = resolve_within(root, splat_object(str(segment["source"])))
+    else:
+        output = resolve_within(root, f"{object_directory}/{object_name}")
     raw_assembly = resolve_within(
         root, f"{asm_directory}/{object_name}.compiler.s"
     )
@@ -369,7 +376,15 @@ def build_text_objects(root: Path, assembler: Path) -> list[Path]:
                 )
             )
         else:
-            objects.append(compile_c(root, assembler, segment, profiles))
+            objects.append(
+                compile_c(
+                    root,
+                    assembler,
+                    segment,
+                    profiles,
+                    use_splat_object_paths=True,
+                )
+            )
     return objects
 
 
