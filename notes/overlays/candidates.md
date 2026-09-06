@@ -101,13 +101,19 @@ void func_80168AB4(u8 *w)
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 378 of 382 instructions, 321 differing positions, and 9
-unconditional jumps against the target's 9.
+`gcc_2_8_1_g0_split`, 382 of 382 instructions, 311 differing positions, opcode
+distance 26.
 
-Block placement is correct: the select branch is written as a trailing label so
-the compiler sinks it past the join, which is what makes the jump count agree.
-An earlier shape that kept select as an `else` arm built 380 with 320 positions
-but 11 jumps, so it scored better on count while being structurally wrong.
+The digit-walk loop is written with an explicit goto rather than as a do/while.
+GCC 2.8.1 with -msplit-addresses hoists the high half of any global address read
+inside a loop it recognises into a callee-saved register, and the target does not
+do that. The goto form is not seen as a loop by the front end, so the hoist does
+not happen: it takes the length from 378 to the target's 382 and the missing lui
+count from five to three.
+
+The three that remain are the select branch's reads of D_8016D401, D_8016D402 and
+D_8016AB38, which the target loads separately on that path while the compiler
+hoists them above the branch so one materialisation serves both.
 
 ```c
 #include "../../src/types.h"
@@ -233,11 +239,13 @@ void func_8016913C(void)
     col = (s8)D_8016D401;
     cell = D_8016AB38[row][col];
     if (cell < 0) {
-        do {
-            col = col + cell;
-            D_8016D401 = col;
-            cell = D_8016AB38[row][(s8)col];
-        } while (cell < 0);
+    again:
+        col = col + cell;
+        D_8016D401 = col;
+        cell = D_8016AB38[row][(s8)col];
+        if (cell < 0) {
+            goto again;
+        }
     }
     D_8016D402 = D_8016D426;
     w->f5E = 0;
@@ -331,7 +339,6 @@ select:
     return;
 }
 ```
-
 ## password `func_801681A0` at 0x801681A0
 
 `gcc_2_8_1_g0_split`, 150 instructions against 147, 109 differing positions, opcode
