@@ -157,8 +157,8 @@ typedef struct {
     u8 flag_0500;
     u8 flag_0501;
     u8 flag_0502;
-    u8 flag_0503;
-    void *field_0504;
+    u8 event_guard;
+    long event_handle;
     u8 field_0508;
     u8 field_0509;
     u8 pad050A[2];
@@ -225,6 +225,12 @@ typedef char SDSecondaryState_transfer_offset_must_be_0x4A4[
 ];
 typedef char SDSecondaryState_flag_0500_offset_must_be_0x500[
     SD_STATE_OFFSET(SDSecondaryState, flag_0500) == 0x500 ? 1 : -1
+];
+typedef char SDSecondaryState_event_guard_offset_must_be_0x503[
+    SD_STATE_OFFSET(SDSecondaryState, event_guard) == 0x503 ? 1 : -1
+];
+typedef char SDSecondaryState_event_handle_offset_must_be_0x504[
+    SD_STATE_OFFSET(SDSecondaryState, event_handle) == 0x504 ? 1 : -1
 ];
 typedef char SDSecondaryState_object_count_offset_must_be_0x510[
     SD_STATE_OFFSET(SDSecondaryState, object_count) == 0x510 ? 1 : -1
