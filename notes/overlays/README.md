@@ -774,17 +774,91 @@ or two and the five differing positions do not move. Change all three and
 they go to zero. No amount of further one-at-a-time measurement would have
 found it.
 
-The same check applied to `func_80168AB4`, where six statement orders and
-28 profiles had each been swept separately, showed the reverse and is worth
-recording for that reason: the full 8064-cell product across six axes leaves
-its residual untouched, so there the axes really are inert, and now that is
-known rather than assumed.
-
 Before writing that an axis is closed, exhausted or inert, ask which cross
 product has not been run. "I measured six things and they were inert" is not
 a stopping condition.
 
-## Use overlay_sweep.py to make that affordable
+But a cross product is still only as wide as the axes you thought of, and
+`func_80168AB4` is the cautionary example. Roughly 10,800 cells were measured
+against its one remaining rotation, across statement order, read-modify-write
+splitting, `volatile`, aliased pointers, local naming, declaration order and
+all 29 profiles. Every cell returned the same ten differing positions, and its
+row concluded the residual was unreachable from source and the function should
+be left alone. That was wrong. The match needed an axis none of those cells
+touched -- moving a store out of statement position and into an argument -- and
+it is described in the next section.
+
+The size of a negative result is not evidence about its completeness. Ten
+thousand cells across seven axes say exactly as much about the eighth axis as
+one cell would.
+
+## A side effect in an argument is emitted later than the same statement
+
+When two instructions are both ready at the same point in a block and neither
+has a longer chain to the end, GCC 2.8.1 breaks the tie on the order they were
+emitted into RTL. Statement order does not decide that, because every statement
+in a block is emitted before any of the call's argument setup. So a store
+written as the statement before a call is always emitted ahead of the argument
+moves, no matter where among its neighbouring statements it is placed.
+
+Written inside an argument instead, the same store is emitted with that
+argument -- after the values of the earlier arguments have been computed. That
+is the only way source has of moving a side effect past argument setup, and it
+is a real lever whenever a residual is a rotation of a block that ends in a
+call.
+
+`func_80168AB4` is the worked example. Its last block was already exact in
+content: 138 of 138 instructions, opcode distance 0, the same instruction
+multiset, and the seven middle instructions in the same relative order. The
+target opened the block with the argument move
+
+```
+move a2,zero
+```
+
+and closed it with the timer rearm
+
+```
+li v0,2
+sh v0,96(s1)
+```
+
+while every build did precisely the reverse. Both are ready as soon as the call
+is, and both sit one step from it, so the tie falls to emission order. As a
+statement the rearm is emitted first and takes the head of the block, pushing
+the argument move to the end:
+
+```c
+    *(s16 *)(w + 0x60) = 2;
+    node = TextBox_GetGlyphAt(3, D_8016D42C << 4, 0);
+```
+
+Carried in the third argument it is emitted after `a1` is computed, falls to
+the end of the block, and lets the argument move take the head, which matches:
+
+```c
+    node = TextBox_GetGlyphAt(3, D_8016D42C << 4, (*(s16 *)(w + 0x60) = 2, 0));
+```
+
+Which argument matters. The same store folded into the first or the second
+argument is emitted too early and measures exactly the same as the statement
+form; only the last argument puts it after the rest of the setup.
+
+Two things make this axis easy to miss. The first is that it looks like a
+scheduling problem, and scheduling is the standard example of something source
+cannot reach -- but the scheduler's *input order* is source-reachable even when
+its algorithm is not. The second is that every cheap experiment lands on the
+wrong side of it: reordering statements, splitting the store, pinning it with
+`volatile`, aliasing the pointer and renaming locals are all statement-level
+changes, and statement-level changes cannot move a store past argument setup by
+construction. A sweep over thousands of those cells returns one number and
+reads like proof.
+
+The tell to look for: a residual that is a **rotation** rather than a
+substitution -- distance 0, the two columns holding the same instructions, and
+a block that ends in a call, with the pieces that swapped being one side effect
+and one argument move.
+
 
 The reason cross products were not being run is that they cost too much.
 `overlay_diff.py` takes about thirty seconds per candidate, so a few hundred
