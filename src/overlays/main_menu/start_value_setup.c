@@ -15,7 +15,7 @@ extern void func_800404CC(void *, s32, s32, s32, s32, s32, s32, s32);
 extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
 extern void func_800428EC(void *, s32);
 
-void func_80180FD8(u16 *first, u16 *second, u8 *toggle)
+void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
     u8 *object;
     u8 *state;

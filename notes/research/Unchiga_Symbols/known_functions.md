@@ -1182,6 +1182,8 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 
 | address | name |
 |---|---|
+| 0x80180FD8 | `MainMenu_StartValueSetup` |
 | 0x80181CB8 | `MainMenu_UpdateValueWidgetTween` |
+| 0x80181E30 | `MainMenu_FinishValueSetup` |
 | 0x80181EEC | `MainMenu_CountDecimalDigits` |
 | 0x80181F20 | `MainMenu_StartValueWidgetTween` |
