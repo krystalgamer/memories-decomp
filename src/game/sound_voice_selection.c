@@ -179,7 +179,7 @@ void func_80047C70(s32 value)
 {
     s32 count;
 
-    for (count = 0; count < 256; count++) {
+    for (count = 0; count < SD_KEY_OFF_RETRY_LIMIT; count++) {
         SpuSetKey(0, value);
         if (func_80077090(value) == 0)
             break;
