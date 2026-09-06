@@ -149,7 +149,7 @@ address,size,name,status,module,notes
 0x8001EF1C,0x5C,Duel_CalcBattleAttack,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8001EF78,0x5C,Duel_CalcBattleDefense,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8001EFD4,0xFC,func_8001EFD4,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8001F0D0,0x294,func_8001F0D0,unmatched_asm,game,
+0x8001F0D0,0x294,func_8001F0D0,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8001F364,0x1F8,func_8001F364,matching_c,game,Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference; adds three linker symbols the listing references by name; the single arm pin and the embedded store-address assignment are load-bearing.
 0x8001F55C,0x1378,func_8001F55C,unmatched_asm,game,
 0x800208D4,0xB4,func_800208D4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
@@ -1241,7 +1241,7 @@ address,size,name,status,module,notes
 0x80074020,0xC,PAD_init2,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A21.OBJ signature.
 0x80074030,0xC,func_80074030,sdk_asm,psyq/sdk,
 0x80074040,0xC,func_80074040,sdk_asm,psyq/sdk,
-0x80074050,0x28,EnablePAD,sdk_asm,psyq/sdk,"Identified at offset zero of the unique Psy-Q 4.6 LIBAPI.LIB/PATCH.OBJ signature; DisablePAD is the internal entry at +0x14."
+0x80074050,0x28,EnablePAD,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBAPI.LIB/PATCH.OBJ signature; DisablePAD is the internal entry at +0x14.
 0x80074078,0x70,_patch_pad,sdk_asm,psyq/sdk,Identified at offset 0x28 of the unique Psy-Q 4.6 LIBAPI.LIB/PATCH.OBJ signature.
 0x800740F0,0xC,FlushCache,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/C68.OBJ signature.
 0x80074100,0x68,_remove_ChgclrPAD,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBAPI.LIB/CHCLRPAD.OBJ signature.
