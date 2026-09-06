@@ -416,6 +416,7 @@ VSync = 0x80074170; // type:func
 SpuSetKey = 0x80076ED0; // type:func
 SpuRGetAllKeysStatus = 0x800772F0; // type:func
 SpuGetAllKeysStatus = 0x800773C4; // type:func
+SpuSetReverbModeType = 0x80077FF0; // type:func
 CdPosToInt = 0x800781F0; // type:func
 CdIntToPos = 0x8007A710; // type:func
 DsSearchFile = 0x8007D3F0; // type:func
