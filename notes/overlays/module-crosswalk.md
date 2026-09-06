@@ -44,15 +44,15 @@ File_RequestAsyncTransfer(
 | Password | `func_8003BEB8` | `0x1F2F`, `0x56` | `7983-8069` |
 | Egypt overworld | `func_8003C0C0` | `0x1FD9`, `0x9E`; first sector `+0x9E` when story flag `0x47` is set | `8153-8311`, `8311-8469` |
 
-## Identified packages not ready for source scopes
+## Identified packages without source scopes
 
-Some WA packages have a screen or subsystem attribution but still lack the
-code-phase boundaries needed for `src/overlays/<module>/`:
+Some WA packages have a screen or subsystem attribution but do not establish
+a runtime code module under `src/overlays/<module>/`:
 
-| Attribution | WA package | Confirmed evidence | Missing evidence |
+| Attribution | WA package | Confirmed evidence | Source-scope status |
 |---|---|---|---|
-| Library | sectors `7629-7767` | `Main_RunLibraryMenu` calls resident loader `func_8002BFCC`, which requests this 138-sector package | Per-phase destinations, exact executable slice, and module-scoped symbols |
-| Campaign scene loader | sectors `7767-7816` | `func_8002FD10` requests the package; its `0x1000` phase at `0x801A8000` is the campaign event script | Any executable phase attributable to a runtime code module |
+| Library | sectors `7629-7767` | `Main_RunLibraryMenu` calls resident loader `func_8002BFCC`; callback `func_8002BD0C` accounts for all six data phases | No phase is copied directly to a callable module slot; the Library package does not justify a `library/` overlay scope |
+| Campaign scene loader | sectors `7767-7816` | `func_8002FD10` requests the package; its `0x1000` phase at `0x801A8000` is the campaign event script | No executable phase is attributable to a runtime code module |
 
 These attributions belong in the loader map, but they do not yet justify
 `library/` or campaign source directories. In particular, the campaign event
