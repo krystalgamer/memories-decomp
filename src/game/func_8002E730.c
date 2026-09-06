@@ -2,6 +2,9 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
+#define VRAM_COPY_WIDTH 0x140
+#define VRAM_COPY_HEIGHT 0xA0
+
 struct Rec {
     u8 pad0[4];
     s32 unk4;
@@ -50,10 +53,10 @@ void func_8002E730(void) {
     if (ret == 0) {
         D_800E9D70.x = 0;
         D_800E9D70.y = 0;
-        D_800E9D70.w = 0x140;
-        D_800E9D70.h = 0xA0;
+        D_800E9D70.w = VRAM_COPY_WIDTH;
+        D_800E9D70.h = VRAM_COPY_HEIGHT;
         if (gGraphics_bActiveBuffer == 0) {
-            D_800E9D70.x = 0x140;
+            D_800E9D70.x = VRAM_COPY_WIDTH;
         }
         MoveImage(&D_800E9D70, 0x1C0, 0x100);
         return;
@@ -72,7 +75,8 @@ void func_8002E730(void) {
     if (!(flags & 0x4000)) {
         D_8009B27C = flags | 0x4000;
         rec = func_800400AC(func_8004006C(), 3);
-        func_80040510((s32)rec, 0, 0, 0x140, 0xA0, 0, 0, 0x17, 0, 0xF4);
+        func_80040510((s32)rec, 0, 0, VRAM_COPY_WIDTH,
+            VRAM_COPY_HEIGHT, 0, 0, 0x17, 0, 0xF4);
         D_8009B280 = rec;
         rec->unk4 |= 0x2000000;
         func_8002E00C(D_800EAE98);
