@@ -1293,7 +1293,7 @@ address,size,name,status,module,notes
 0x80075A68,0x28,func_80075A68,sdk_asm,psyq/sdk,
 0x80075A90,0x28,func_80075A90,sdk_asm,psyq/sdk,
 0x80075AB8,0x5C,func_80075AB8,sdk_asm,psyq/sdk,
-0x80075B20,0xC,func_80075B20,sdk_asm,psyq/sdk,
+0x80075B20,0xC,DeliverEvent,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A07.OBJ signature.
 0x80075B30,0x24,func_80075B30,sdk_asm,psyq/sdk,
 0x80075B60,0x74,func_80075B60,sdk_asm,psyq/sdk,
 0x80075BE0,0xCC,func_80075BE0,sdk_asm,psyq/sdk,
@@ -1309,7 +1309,7 @@ address,size,name,status,module,notes
 0x80076B10,0x24,func_80076B10,sdk_asm,psyq/sdk,
 0x80076B40,0x30,func_80076B40,sdk_asm,psyq/sdk,
 0x80076B70,0x194,func_80076B70,sdk_asm,psyq/sdk,
-0x80076D10,0xC,func_80076D10,sdk_asm,psyq/sdk,
+0x80076D10,0xC,WaitEvent,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A10.OBJ signature.
 0x80076D20,0x6C,func_80076D20,sdk_asm,psyq/sdk,
 0x80076D90,0x13C,func_80076D90,sdk_asm,psyq/sdk,
 0x80076ED0,0x1BC,SpuSetKey,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SK.OBJ signature and matching voice-control callers.
