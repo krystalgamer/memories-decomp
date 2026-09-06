@@ -17,6 +17,7 @@ named yet.
 | 0x80012CD4 | `Main_VBlankCB` | The VSync interrupt callback. Ticks the per-frame counters and flags that the game's pacing and update loops read. |
 | 0x800136E4 | `File_SetPositionTable` | Boot-time init that also sets up the draw environment: installs the per-frame pump callback, then resolves each name in `gFile_apszName[]` to its disc location, building the file-position table (with debug prints). |
 | 0x800138F4 | `File_GetPosition` | Looks up a file's disc location in the table `File_SetPositionTable` built at boot and returns that entry for the requested file. |
+| 0x800176D0 | `Duel_ClearHandSlots` | Clears both display-object pointers and the active byte in each of the five duel hand slots. |
 | 0x8001EE44 | `Duel_CalcGuardianStarBonus` | Guardian-star advantage between two monsters, in ATK/DEF points. Reads each side's two 4-bit star ids out of the packed `gDuel_adwCardStats` word and returns the resulting bonus. |
 | 0x8001EF1C | `Duel_CalcBattleAttack` | A monster's effective ATK for battle resolution: base stat plus every applicable bonus (guardian star, terrain, equips). |
 | 0x8001EF78 | `Duel_CalcBattleDefense` | Same as `Duel_CalcBattleAttack`, but for DEF. |
