@@ -2,7 +2,7 @@
 #include "sound.h"
 
 extern void SpuSetKey(long, unsigned long);
-extern void func_800773C4(void *);
+extern void SpuGetAllKeysStatus(char *);
 
 void func_80047EC4(void)
 {
@@ -11,7 +11,7 @@ void func_80047EC4(void)
 
     do {
         SpuSetKey(0, 0x00F00000);
-        func_800773C4(g_SDValue->field_15D8);
+        SpuGetAllKeysStatus((char *)g_SDValue->field_15D8);
         total = g_SDValue->field_15EF + g_SDValue->field_15ED +
                 g_SDValue->field_15EE + g_SDValue->field_15EF;
         count++;

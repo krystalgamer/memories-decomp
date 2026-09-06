@@ -3,7 +3,7 @@
 extern u8 *D_8009B458;
 extern s32 D_80011434[];
 
-void func_800773C4(u8 *arg0);
+void SpuGetAllKeysStatus(char *status);
 void func_8004A43C(u8 *arg0, s32 arg1);
 void func_8004A7C0(s32 arg0, s32 arg1);
 void SpuSetKey(long on_off, unsigned long voice_bit);
@@ -32,7 +32,7 @@ void func_8004AAFC(void) {
     u32 c;
     s32 v;
 
-    func_800773C4(sp10);
+    SpuGetAllKeysStatus((char *)sp10);
     p = D_8009B458;
     i = 0;
     m = i;

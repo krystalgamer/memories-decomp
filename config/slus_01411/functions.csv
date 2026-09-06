@@ -1319,8 +1319,8 @@ address,size,name,status,module,notes
 0x800771B0,0x5C,func_800771B0,sdk_asm,psyq/sdk,
 0x80077210,0x30,func_80077210,sdk_asm,psyq/sdk,
 0x80077240,0xA4,func_80077240,sdk_asm,psyq/sdk,
-0x800772F0,0xD4,func_800772F0,sdk_asm,psyq/sdk,
-0x800773C4,0x88,func_800773C4,sdk_asm,psyq/sdk,
+0x800772F0,0xD4,SpuRGetAllKeysStatus,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBSPU.LIB/SR_GAKS.OBJ signature.
+0x800773C4,0x88,SpuGetAllKeysStatus,sdk_asm,psyq/sdk,Identified at offset 0xD4 of the unique Psy-Q 4.6 LIBSPU.LIB/SR_GAKS.OBJ signature and matching voice-status callers.
 0x80077450,0x5F8,func_80077450,sdk_asm,psyq/sdk,
 0x80077A50,0xD0,func_80077A50,sdk_asm,psyq/sdk,
 0x80077B20,0x130,func_80077B20,sdk_asm,psyq/sdk,
