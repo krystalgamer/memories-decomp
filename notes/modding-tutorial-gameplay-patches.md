@@ -642,8 +642,12 @@ it tests pad 1 bits `0x40`, `0x80`, and `0x800`: Cross, Square, and Start. If
 any is present, it clears the complete pending 32-bit controller word before
 the normal held/pressed publication logic runs. If none is present, the path
 still reaches the edge calculation with its previous-state operand cleared.
-The supplied patch therefore prevents those menu entries from being
-activated; it does not remove their menu objects or labels.
+`Input_UpdatePads` computes newly pressed bits as
+`(previous ^ current) & current`, so substituting zero for `previous` makes
+every remaining held button look newly pressed on that update. The supplied
+patch therefore prevents those menu entries from being activated, but also
+re-publishes other held buttons as fresh presses while one of those menu
+entries remains selected; it does not remove their menu objects or labels.
 
 For other menu IDs, the injected code performs the displaced previous-state
 load and checks the authoritative opponent and player life points at
@@ -667,6 +671,8 @@ to the rest of the blob.
   range match the untouched retail executable.
 - **Confirmed** that menu IDs `2` and `3` suppress Cross, Square, and Start
   before `Input_UpdatePads` publishes input.
+- **Confirmed** that their zeroed previous-state operand makes every other
+  held button appear in the newly pressed mask on each affected update.
 - **Confirmed** that the non-menu path suppresses Square while both
   authoritative life-point values are nonzero.
 - **High** that the advertised 2P/Trade lockout is input-based rather than a
