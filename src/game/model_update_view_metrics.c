@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model.h"
 
 extern u8 D_8009B478;
 extern u16 D_8009B47A;
@@ -32,6 +33,8 @@ void Model_UpdateViewMetrics(u8 *m) {
 
     *(s16 *)&D_8009B478 = SquareRoot0((*(s32 *)(m + 0) - *(s32 *)(m + 0xC)) * (*(s32 *)(m + 0) - *(s32 *)(m + 0xC)) + (*(s32 *)(m + 4) - *(s32 *)(m + 0x10)) * (*(s32 *)(m + 4) - *(s32 *)(m + 0x10)) + (*(s32 *)(m + 8) - *(s32 *)(m + 0x14)) * (*(s32 *)(m + 8) - *(s32 *)(m + 0x14)));
 
-    D_8009B47A = (*(s16 *)&D_8009B47A + 0x1000) % 4096;
-    D_8009B47C = (*(s16 *)&D_8009B47C + 0x1000) % 4096;
+    D_8009B47A = (*(s16 *)&D_8009B47A + MODEL_ANGLE_FULL_TURN) %
+        MODEL_ANGLE_FULL_TURN;
+    D_8009B47C = (*(s16 *)&D_8009B47C + MODEL_ANGLE_FULL_TURN) %
+        MODEL_ANGLE_FULL_TURN;
 }

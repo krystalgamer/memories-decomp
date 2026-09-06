@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model.h"
 
 extern u8 D_8009B478;
 extern u16 D_8009B47A;
@@ -39,26 +40,28 @@ void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         *(u16 *)&D_8009B478 = *(u16 *)&D_8009B478 + arg3;
     }
 
-    if ((arg1 & 0xFFF) != 0) {
-        v = *(s16 *)&D_8009B47A + arg1 + 0x1000;
-        D_8009B47A = v - v / 0x1000 * 0x1000;
+    if ((arg1 & MODEL_ANGLE_MASK) != 0) {
+        v = *(s16 *)&D_8009B47A + arg1 + MODEL_ANGLE_FULL_TURN;
+        D_8009B47A = v - v / MODEL_ANGLE_FULL_TURN *
+            MODEL_ANGLE_FULL_TURN;
     }
 
-    if ((arg2 & 0xFFF) != 0) {
-        v = *(s16 *)&D_8009B47C + arg2 + 0x1000;
-        D_8009B47C = v - v / 0x1000 * 0x1000;
+    if ((arg2 & MODEL_ANGLE_MASK) != 0) {
+        v = *(s16 *)&D_8009B47C + arg2 + MODEL_ANGLE_FULL_TURN;
+        D_8009B47C = v - v / MODEL_ANGLE_FULL_TURN *
+            MODEL_ANGLE_FULL_TURN;
     }
 
     if (arg1 != 0 || arg2 != 0 || arg3 != 0) {
         c = rcos(*(s16 *)&D_8009B47C);
         sn = rsin(*(s16 *)&D_8009B47C);
         r = *(s16 *)&D_8009B478;
-        u = r * c / 0x1000;
-        w = r * sn / 0x1000;
+        u = r * c / MODEL_FIXED_ONE;
+        w = r * sn / MODEL_FIXED_ONE;
         c = rcos(*(s16 *)&D_8009B47A);
         sn = rsin(*(s16 *)&D_8009B47A);
-        z = u * sn / 0x1000;
-        u = u * c / 0x1000;
+        z = u * sn / MODEL_FIXED_ONE;
+        u = u * c / MODEL_FIXED_ONE;
         *(s32 *)(t + 0) = *(s32 *)(b + 0) + u * arg0;
         *(s32 *)(t + 4) = *(s32 *)(b + 4) + w * arg0;
         *(s32 *)(t + 8) = *(s32 *)(b + 8) + z * arg0;

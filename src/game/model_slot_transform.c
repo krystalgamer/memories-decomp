@@ -22,8 +22,8 @@ void func_800594C0(int index, ModelSlotTransform *source)
     if (source != 0) {
         entry->field_DB0 = *source;
     } else {
-        entry->field_DB0.field_08 = 0x1000;
-        entry->field_DB0.field_04 = 0x1000;
-        entry->field_DB0.field_00 = 0x1000;
+        entry->field_DB0.field_08 = MODEL_FIXED_ONE;
+        entry->field_DB0.field_04 = MODEL_FIXED_ONE;
+        entry->field_DB0.field_00 = MODEL_FIXED_ONE;
     }
 }
