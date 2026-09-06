@@ -11,7 +11,7 @@ extern u8 D_800E9ECF;
 extern u16 D_800F2848;
 extern u8 D_8009B26C;
 extern u8 D_8009B27A;
-extern s32 func_80168AA8(void);
+extern s32 CampaignMap_UpdateLocationTransition(void);
 extern void CampaignMap_RebuildLocationObjects(s32);
 extern u8 *CampaignMap_CreateLocationLabel(s32);
 extern u8 *CampaignMap_CreateLocationMarker(s32);
@@ -29,7 +29,7 @@ void func_80168FCC(void)
     s32 exit;
 
     if (D_801695EC != 0) {
-        if (func_80168AA8() != 0) {
+        if (CampaignMap_UpdateLocationTransition() != 0) {
             return;
         }
         D_801695EC = 0;

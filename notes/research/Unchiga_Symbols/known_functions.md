@@ -1176,6 +1176,7 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 | 0x80168588 | `CampaignMap_CreateLocationMarker` |
 | 0x8016866C | `CampaignMap_SetLocation` |
 | 0x801688BC | `CampaignMap_StartCameraTween` |
+| 0x80168AA8 | `CampaignMap_UpdateLocationTransition` |
 | 0x80168E0C | `CampaignMap_PickExit` |
 
 ### main_menu
