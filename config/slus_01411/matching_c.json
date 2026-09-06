@@ -4210,13 +4210,13 @@
       "address": "0x8004A854",
       "profile": "gcc_2_8_1_g0",
       "size": "0x90",
-      "source": "src/game/func_8004A854.c"
+      "source": "src/game/sound_secondary_object_selection.c"
     },
     {
       "address": "0x8004A8E4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",
-      "source": "src/game/func_8004A8E4.c"
+      "source": "src/game/sound_secondary_object_selection.c"
     },
     {
       "address": "0x8004AAFC",
