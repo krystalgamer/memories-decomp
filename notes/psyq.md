@@ -2,13 +2,15 @@
 
 ## Scope
 
-The resident executable contains 598 functions classified as Psy-Q CRT or SDK
+The resident executable contains 600 functions classified as Psy-Q CRT or SDK
 code:
 
 | Region | Address range | Functions | Bytes |
 |---|---:|---:|---:|
 | CRT startup | `0x800129D8-0x80012B50` | 3 | `0x178` |
-| SDK and runtime | `0x80073704-0x800906D4` | 595 | `0x1C8DC` |
+| Embedded LIBGS getter | `0x80058F10-0x80058F20` | 1 | `0x10` |
+| SDK and runtime | `0x80073704-0x800906D4` | 596 | `0x1C8DC` |
+| **Total** | | **600** | **`0x1CA64`** |
 
 These functions remain exact assembly and do not count toward game-code
 decompilation progress. The goal is to identify their original interfaces and
