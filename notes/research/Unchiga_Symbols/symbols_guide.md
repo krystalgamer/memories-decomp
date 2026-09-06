@@ -199,6 +199,7 @@ Mode slot 10 — a real mode switch. Passwords are one-time-use per save; a wron
 |---|---|---|
 | `Main_RunPasswordMenu` | 0x8002D684 | The password screen's mode tick (a name dispute settled by tracing). |
 | `Password_RefreshDigitDisplay` (module: password) | 0x80169C30 | Re-encodes all eight entered digits through the glyph table, terminates the string, and rebuilds the digit text object after initialization or a value change. |
+| `Password_CreateMessageBox` (module: password) | 0x80169D84 | Replaces text-box slot 0 with the requested password message in a fixed 160×64 rectangle; caller flags select extra box setup and display flag `0x8`. |
 | `Password_UpdateDigitCursorDecoration` (module: password) | 0x80169F38 | Updates one of four cursor decorations: fixed boundary markers hide at the first or last digit, while two followers track the active digit above and below. |
 | `Password_SetDigitCursorTarget` (module: password) | 0x8016A00C | Sets the digit cursor's target to `(163 + 16 * selected index, 99)` after initialization or horizontal input. |
 | `Password_LookupCardID` (module: password) | 0x8016A304 | Packs the eight entered digits and returns the matching one-based card ID, or zero when the password table sentinel is reached. |
