@@ -2595,3 +2595,32 @@ preserving that the original did not, and work on that value's live range.
 
 A frame size that differs by exactly four bytes per extra saved register is
 the confirming signal, since the saves and the frame move together.
+
+## Two exit blocks returning the same value came from two spellings
+
+When a function returns the same constant from several guards, the compiler
+will tail-merge those exits into one block if the source spells them the same
+way. So a target that has *two* separate exit blocks producing the same value
+is evidence that the original did not spell them the same way.
+
+Measured on `func_80045208` (0x80045208, 75 instructions), which returns 0
+from three guards. Retail has two distinct failure paths: two of the guards
+branch to a shared block that sets the return register to zero and falls into
+the epilogue, while the third branches straight to the epilogue with the zero
+already placed in its delay slot.
+
+Writing all three guards as a plain `return 0;` let the compiler merge them
+into a single block, and cost four opcode differences. Writing the two that
+share as `goto fail;`, with a `fail:` label before a final `return 0;`, and
+leaving the third as a direct `return 0;`, reproduced the asymmetry exactly
+and took the opcode-histogram delta from 4 to 2 and the diff from 64 to 47.
+
+The reasoning generalises. Count the distinct exit blocks in the target that
+produce the same value. That count is a lower bound on the number of distinct
+spellings in the original. One block means every guard used the same
+statement; two means at least one guard reached the epilogue by a different
+route, which in C is a `goto` to a shared label against a direct `return`.
+
+Re-sweeping profiles after this change moved the best profile from
+`gcc_2_8_1_g0` to `gcc_2_8_1_g0_no_sched2_split` and the diff from 47 to 33,
+which is the rule from the preceding note paying off a second time.
