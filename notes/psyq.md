@@ -97,10 +97,21 @@ symbol review.
 | `0x80074100` | `_remove_ChgclrPAD` | Applied at offset zero of the unique `0x70`-byte Psy-Q 4.6 `LIBAPI.LIB/CHCLRPAD.OBJ` signature. |
 | `0x80074170` | `VSync` | Applied Psy-Q 4.6 identity; matching callers query frame timing for AI yielding and time-varying screen effects. |
 | `0x80074380` | `ChangeClearRCnt` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/L10.OBJ` signature. |
+| `0x80074390` | `ResetCallback` | Applied at offset zero of the unique 1,728-byte Psy-Q 4.6 `LIBETC.LIB/INTR.OBJ` signature. |
+| `0x800743C0` | `InterruptCallback` | Applied at offset `0x30` of the same unique `LIBETC.LIB/INTR.OBJ` signature. |
+| `0x800743F0` | `DMACallback` | Applied at offset `0x60` of the same unique `LIBETC.LIB/INTR.OBJ` signature. |
+| `0x80074420` | `VSyncCallback` | Applied at offset `0x90` of the same unique `LIBETC.LIB/INTR.OBJ` signature. |
+| `0x80074454` | `VSyncCallbacks` | Applied at offset `0xC4` of the same unique `LIBETC.LIB/INTR.OBJ` signature. |
+| `0x80074484` | `StopCallback` | Applied at offset `0xF4` of the same unique `LIBETC.LIB/INTR.OBJ` signature. |
+| `0x800744B4` | `RestartCallback` | Applied at offset `0x124` of the same unique `LIBETC.LIB/INTR.OBJ` signature. |
+| `0x800744E4` | `CheckCallback` | Applied at offset `0x154` of the same unique `LIBETC.LIB/INTR.OBJ` signature. |
+| `0x800744F4` | `GetIntrMask` | Applied at offset `0x164` of the same unique `LIBETC.LIB/INTR.OBJ` signature. |
+| `0x8007450C` | `SetIntrMask` | Applied at offset `0x17C` of the same unique `LIBETC.LIB/INTR.OBJ` signature. |
 | `0x80074A58` | `_96_remove` | Applied at offset `0x8` of the unique 32-byte Psy-Q 4.6 `LIBAPI.LIB/C114.OBJ` signature. |
 | `0x80074A70` | `ReturnFromException` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A23.OBJ` signature. |
 | `0x80074A80` | `ResetEntryInt` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A24.OBJ` signature. |
 | `0x80074A90` | `HookEntryInt` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A25.OBJ` signature. |
+| `0x80074AA0` | `startIntrVSync` | Applied at offset zero of the unique 288-byte Psy-Q 4.6 `LIBETC.LIB/INTR_VB.OBJ` signature. |
 | `0x80075B20` | `DeliverEvent` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A07.OBJ` signature. |
 | `0x80076D10` | `WaitEvent` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A10.OBJ` signature. |
 | `0x80076ED0` | `SpuSetKey` | Applied Psy-Q 4.6 identity; matching sound-driver paths switch selected voice masks off during cleanup and slot reuse. |
