@@ -18,15 +18,16 @@ s32 func_8001EFD4(u8 *left, u8 *right)
     b = &D_801A7AD8[right[106]];
     packed = Duel_CalcCardStats(b);
     wanted = packed & 65535;
-    if (b->flags & 2048)
+    if (b->flags & DUEL_CARD_FLAG_DEFENSE_POSITION)
         wanted = (u32)packed >> 16;
-    if (a->flags & 2048)
+    if (a->flags & DUEL_CARD_FLAG_DEFENSE_POSITION)
         actual = Duel_CalcBattleDefense(a, b);
     else
         actual = Duel_CalcBattleAttack(a, b);
     if (actual != wanted)
         return actual - wanted;
-    if ((a->flags & 2048) || (b->flags & 2048))
+    if ((a->flags & DUEL_CARD_FLAG_DEFENSE_POSITION) ||
+        (b->flags & DUEL_CARD_FLAG_DEFENSE_POSITION))
         return 0;
     return -1;
 }

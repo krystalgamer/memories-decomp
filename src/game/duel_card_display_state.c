@@ -53,14 +53,15 @@ void func_80017E3C(DuelCardDisplayObject *object)
     }
     flags = object->flags & 0xFFFB;
     object->flags = flags;
-    if (card->flags & 0x1800) {
+    if (card->flags &
+        (DUEL_CARD_FLAG_DEFENSE_POSITION | DUEL_CARD_FLAG_FACE_DOWN)) {
         object->flags = flags | 4;
         object->field_21 = 0;
         if (card->flags & DUEL_CARD_FLAG_FACE_DOWN) {
             object->field_21 = 0x80;
         }
         object->field_22 = 0;
-        if (card->flags & 0x800) {
+        if (card->flags & DUEL_CARD_FLAG_DEFENSE_POSITION) {
             object->field_22 = 0xC0;
         }
     }

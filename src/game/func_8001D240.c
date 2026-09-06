@@ -6,6 +6,6 @@ extern int func_80042B98(Object*);
 void func_8001D240(Object*o)
 {
  if(!func_80042B98(o)){o->flags|=4;if(!o->mode){o->dx=-8;o->dy=0xC0;}else{o->dx=8;o->dy=0;}}
- o->mode+=o->dx;if(o->mode<0xC0){DuelCardRecord*e=&D_801A7AD8[o->index];e->flags|=0x800;o->mode=o->dy;
-  if(!o->mode){e->flags&=~0x800;if(!o->current)o->flags&=~4;}o->active=0;o->callback=0;}
+ o->mode+=o->dx;if(o->mode<0xC0){DuelCardRecord*e=&D_801A7AD8[o->index];e->flags|=DUEL_CARD_FLAG_DEFENSE_POSITION;o->mode=o->dy;
+  if(!o->mode){e->flags&=~DUEL_CARD_FLAG_DEFENSE_POSITION;if(!o->current)o->flags&=~4;}o->active=0;o->callback=0;}
 }
