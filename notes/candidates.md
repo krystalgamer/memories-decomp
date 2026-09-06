@@ -364,3 +364,55 @@ void Duel_LoadPackageStage(Object *object, s32 phase) {
     }
 }
 ```
+
+## `func_8004A764` at 0x8004A764
+
+`gcc_2_8_1_g8_split`, 23 of 23 instructions, opcode distance 0, 8 differing
+positions.
+
+Fills the secondary sound state's `SpuVoiceAttr` at `+0x4C0` and hands it to
+`SpuSetVoiceAttr`. `voice` comes from `D_80011434[index]`, `mask` is `0x60100`,
+`a_mode` is 5 and both ADSR words are cleared. The `pad04C0[0x40]` member in
+`sound.h` is exactly `sizeof(SpuVoiceAttr)`, which is what the offsets confirm:
+`+0x4C4` is `mask`, `+0x4E4` is `a_mode` at `+0x24`, and `+0x4FA`/`+0x4FC` are
+`adsr1`/`adsr2` at `+0x3A`/`+0x3C`.
+
+Two things had to be right together. The stores go through the **state**
+pointer at `0x4C0` offsets, not through an `attr` pointer, because the target
+keeps the state in `v1` and only computes `a0 = v1 + 0x4C0` as the call
+argument. And `D_8009B458` needs a local `section(".data")` alias, because the
+shared declaration in `sound.h` is small enough for `-G8` to make it
+gp-relative while the target uses `lui`/`lw`.
+
+What remains is scheduling only: the target finishes the `D_80011434` address
+arithmetic before materialising the state pointer, and sinks `sw $ra` two
+positions later than this build does.
+
+Do not treat the following as settled. Crossed without improving on 8: five
+attr-pointer register pins, three index spellings, four store orders, two
+declaration orders, and ten profiles, across sweeps of 120, 96, 630, 144, 150
+and 40 variants. `gcc_2_8_1_g0_split`, which the matched neighbour
+`func_8004A7C0` uses, is consistently three positions worse here.
+
+```c
+#include "../types.h"
+#include "../psyq/libspu.h"
+#include "sound.h"
+
+extern int D_80011434[];
+extern SDSecondaryState *D_8009B458_d asm("D_8009B458")
+    __attribute__((section(".data")));
+
+#define ATTR(s) (*(SpuVoiceAttr *)((u8 *)(s) + 0x4C0))
+
+void func_8004A764(int index)
+{
+    SDSecondaryState *s = D_8009B458_d;
+    ATTR(s).voice = D_80011434[index];
+    ATTR(s).mask = 0x60100;
+    ATTR(s).a_mode = 5;
+    ATTR(s).adsr1 = 0;
+    ATTR(s).adsr2 = 0;
+    SpuSetVoiceAttr(&ATTR(s));
+}
+```
