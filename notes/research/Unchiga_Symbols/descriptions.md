@@ -368,3 +368,14 @@ on the suspects side until proven.)
 | 0x8003C628 | `Options_Init` | Creates the Options screen objects, initializes its active state and selection, copies the stored sound output type with negative values reset to stereo, lays out the widgets, and starts the screen sound. |
 | 0x8003C7A0 | `Options_HandleInput` | Toggles stereo/mono with horizontal input on row zero, commits the sound-driver setting immediately, confirms another row by changing state, or cancels the screen. |
 | 0x8003C8CC | `Options_Update` | Dispatches the low nibble of the Options state to fade-out waiting, input handling, an idle state, or a return to input, then returns the resulting state. |
+
+## Batch: memory-card I/O events
+
+| address | name | description |
+|---|---|---|
+| 0x80043E68 | `MemCard_CloseIOEvents` | Enters a critical section, closes all eight stored memory-card event handles in order, and then exits the critical section. |
+| 0x80043EBC | `MemCard_InitIOEvents` | Resets local card state, opens complete/timeout/error/new-card events for both `SwCARD` and `HwCARD`, enables all eight handles, and performs the setup inside one critical section. |
+| 0x80044CFC | `MemCard_SetIOResultCompleteCB` | Event callback that stores result `0` in the shared memory-card I/O result word. |
+| 0x80044D0C | `MemCard_SetIOResultTimeoutCB` | Event callback that stores timeout result `1` in the shared memory-card I/O result word. |
+| 0x80044D20 | `MemCard_SetIOResultErrorCB` | Event callback that stores error result `2` in the shared memory-card I/O result word. |
+| 0x80044D34 | `MemCard_SetIOResultNewCardCB` | Event callback that stores new-card result `3` in the shared memory-card I/O result word. |
