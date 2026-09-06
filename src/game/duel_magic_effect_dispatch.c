@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/stdio.h"
 
 #include "duel_card.h"
 
@@ -18,7 +19,6 @@ extern void (*D_80090A5C[])(void);
 
 extern int func_80024E24(void);
 extern NewObject *func_8002C68C(int);
-extern void func_8008E870(char *, int);
 extern void func_80024954(DuelCardRecord *);
 
 void func_80026A3C(void)
@@ -30,7 +30,7 @@ void func_80026A3C(void)
         int side = D_8009B1D5 ^ 1;
 
         object->y = D_80090800[side][0].y;
-        func_8008E870(D_8009AF40, (short)object->y);
+        printf(D_8009AF40, (short)object->y);
     } else {
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
             int position =

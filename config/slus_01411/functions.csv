@@ -1763,18 +1763,18 @@ address,size,name,status,module,notes
 0x8008E740,0x34,strlen,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/STRLEN.OBJ signature.
 0x8008E780,0x80,strncmp,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/STRNCMP.OBJ signature.
 0x8008E800,0x70,strncpy,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/STRNCPY.OBJ signature.
-0x8008E870,0x3C,func_8008E870,sdk_asm,psyq/sdk,
-0x8008E8B0,0x694,func_8008E8B0,sdk_asm,psyq/sdk,
+0x8008E870,0x3C,printf,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/PRINTF.OBJ signature and matching diagnostic callers.
+0x8008E8B0,0x694,prnt,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBC2.LIB/PRNT.OBJ signature.
 0x8008EF50,0x50,memchr,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/MEMCHR.OBJ signature.
-0x8008EFA0,0xFC,func_8008EFA0,sdk_asm,psyq/sdk,
-0x8008F09C,0x3C,func_8008F09C,sdk_asm,psyq/sdk,
-0x8008F0D8,0x128,func_8008F0D8,sdk_asm,psyq/sdk,
+0x8008EFA0,0xFC,_putchar,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBC2.LIB/PUTCHAR.OBJ signature.
+0x8008F09C,0x3C,_putchar_flash,sdk_asm,psyq/sdk,Identified at offset 0xFC of the unique Psy-Q 4.6 LIBC2.LIB/PUTCHAR.OBJ signature.
+0x8008F0D8,0x128,putchar,sdk_asm,psyq/sdk,Identified at offset 0x138 of the unique Psy-Q 4.6 LIBC2.LIB/PUTCHAR.OBJ signature.
 0x8008F200,0x880,sprintf,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/SPRINTF.OBJ signature and matching format-string callers.
 0x8008FA80,0x6C,memmove,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/MEMMOVE.OBJ signature.
-0x8008FAF0,0x54,func_8008FAF0,sdk_asm,psyq/sdk,
-0x8008FB50,0x3C,func_8008FB50,sdk_asm,psyq/sdk,
-0x8008FB8C,0x3C,func_8008FB8C,sdk_asm,psyq/sdk,
-0x8008FBD0,0xC,func_8008FBD0,sdk_asm,psyq/sdk,
+0x8008FAF0,0x54,puts,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/PUTS.OBJ signature.
+0x8008FB50,0x3C,setjmp,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBC2.LIB/SETJMP.OBJ signature.
+0x8008FB8C,0x3C,longjmp,sdk_asm,psyq/sdk,Identified at offset 0x3C of the unique Psy-Q 4.6 LIBC2.LIB/SETJMP.OBJ signature and matching non-local return callers.
+0x8008FBD0,0xC,exit,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/EXIT.OBJ signature.
 0x8008FBE0,0x34,DecDCTReset,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBPRESS.LIB/LIBPRESS.OBJ signature and its matching timeout caller.
 0x8008FC14,0x8C,DecDCTGetEnv,sdk_asm,psyq/sdk,Identified at offset 0x34 of the unique Psy-Q 4.6 LIBPRESS.LIB/LIBPRESS.OBJ signature.
 0x8008FCA0,0x98,DecDCTPutEnv,sdk_asm,psyq/sdk,Identified at offset 0xC0 of the unique Psy-Q 4.6 LIBPRESS.LIB/LIBPRESS.OBJ signature.

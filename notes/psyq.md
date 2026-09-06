@@ -168,9 +168,18 @@ symbol review.
 | `0x8008E740` | `strlen` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/STRLEN.OBJ` signature. |
 | `0x8008E780` | `strncmp` | Applied Psy-Q 4.6 identity from the unique 128-byte `LIBC2.LIB/STRNCMP.OBJ` signature. |
 | `0x8008E800` | `strncpy` | Applied Psy-Q 4.6 identity from the unique 112-byte `LIBC2.LIB/STRNCPY.OBJ` signature. |
+| `0x8008E870` | `printf` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/PRINTF.OBJ` signature; matching diagnostic callers print file positions, AI state failures, duel values, and password-buffer details. |
+| `0x8008E8B0` | `prnt` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,696-byte `LIBC2.LIB/PRNT.OBJ` signature. |
 | `0x8008EF50` | `memchr` | Applied Psy-Q 4.6 identity from the unique 80-byte `LIBC2.LIB/MEMCHR.OBJ` signature. |
+| `0x8008EFA0` | `_putchar` | Applied Psy-Q 4.6 identity at offset zero of the unique 608-byte `LIBC2.LIB/PUTCHAR.OBJ` signature. |
+| `0x8008F09C` | `_putchar_flash` | Applied Psy-Q 4.6 identity at offset `0xFC` of the same unique `LIBC2.LIB/PUTCHAR.OBJ` signature. |
+| `0x8008F0D8` | `putchar` | Applied Psy-Q 4.6 identity at offset `0x138` of the same unique `LIBC2.LIB/PUTCHAR.OBJ` signature. |
 | `0x8008F200` | `sprintf` | Applied Psy-Q 4.6 identity from the unique 2,176-byte `LIBC2.LIB/SPRINTF.OBJ` signature; matching callers format memory-card paths and request strings. |
 | `0x8008FA80` | `memmove` | Applied Psy-Q 4.6 identity from the unique 112-byte `LIBC2.LIB/MEMMOVE.OBJ` signature. |
+| `0x8008FAF0` | `puts` | Applied Psy-Q 4.6 identity from the unique 96-byte `LIBC2.LIB/PUTS.OBJ` signature. |
+| `0x8008FB50` | `setjmp` | Applied Psy-Q 4.6 identity at offset zero of the unique 128-byte `LIBC2.LIB/SETJMP.OBJ` signature. |
+| `0x8008FB8C` | `longjmp` | Applied Psy-Q 4.6 identity at offset `0x3C` of the same unique `LIBC2.LIB/SETJMP.OBJ` signature; matching frontend paths use the shared jump buffer for non-local returns. |
+| `0x8008FBD0` | `exit` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBC2.LIB/EXIT.OBJ` signature. |
 | `0x8008FBE0` | `DecDCTReset` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature; the matching wait path requests mode `1` after a decode timeout. |
 | `0x8008FC14` | `DecDCTGetEnv` | Applied Psy-Q 4.6 identity at offset `0x34` of the unique `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
 | `0x8008FCA0` | `DecDCTPutEnv` | Applied Psy-Q 4.6 identity at offset `0xC0` of the same unique `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
@@ -538,8 +547,9 @@ single-task form and carries no signal mask or host-thread context.
 `assert.h` expands a failed assertion to a formatted `printf` followed by
 `exit(1)`; when `NDEBUG` is defined, both `assert` and the underlying
 `_assert` macro expand to nothing. Neither header includes the declarations
-for those output/termination functions itself, and no current game C includes
-either header.
+for those output/termination functions itself. Matching frontend C includes
+`setjmp.h` for the two confirmed `longjmp` calls; no current game C includes
+`assert.h`.
 
 `stdio.h` is not a complete hosted C stream interface. It defines
 `BUFSIZ`, `EOF`, the three seek-origin constants, and a local `size_t`, then
@@ -547,9 +557,11 @@ declares only `printf`, `sprintf`, and basic character/string input and output.
 There is no `FILE` type or `fopen`/`fread` family, and the `getc`/`putc`
 signatures use integer handles rather than stream pointers. It must not be
 substituted for the debugger-host file service in `libsn.h` or the retail
-disc and memory-card APIs. `src/game/mem_card_requests.c` includes it for the
-resident `sprintf` declaration used by `func_80044470` and three request
-formatters.
+disc and memory-card APIs. Matching game and password-overlay C includes it
+for the resident `printf` diagnostics, while `src/game/mem_card_requests.c`
+uses its `sprintf` declaration for `func_80044470` and three request
+formatters. `file_set_position_table.c` keeps its `printf` call unprototyped:
+adding any declaration changes GCC 2.8.1's loop layout by three instructions.
 
 `malloc.h` exposes three parallel allocator families:
 `InitHeap`/`malloc`/`calloc`/`realloc`/`free`, then identically shaped `*2`
