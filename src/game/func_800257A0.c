@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "duel_card_layout.h"
+#include "duel_grid.h"
 
 extern u8 D_800907D8[];
 extern volatile u16 D_8009B112 __attribute__((section(".data")));
@@ -48,32 +50,35 @@ void func_800257A0(void) {
     }
 
     if ((f & 0x40) != 0) {
-        i = 5;
+        i = DUEL_FIELD_ROW_SIZE;
         while (1) {
-            p = D_800907D8[i + D_8009B1D5 * 20] * 28 + D_801A7AD8;
-            if ((*(u16 *)(p + 0x16) & 0x8000) != 0 && (*(u8 **)p)[0x68] == 0) {
+            p = D_800907D8[
+                i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
+            ] * DUEL_CARD_RECORD_SIZE + D_801A7AD8;
+            if ((*(u16 *)(p + 0x16) & DUEL_CARD_FLAG_OCCUPIED) != 0 &&
+                (*(u8 **)p)[0x68] == 0) {
                 func_80024954(p);
             }
             i++;
-            if (i >= 0xA) {
+            if (i >= DUEL_FIELD_SIDE_ZONE_COUNT) {
                 break;
             }
         }
     } else {
         p = D_801A7B64;
-        q = p + 0x1A4;
+        q = p + DUEL_CARD_SIDE_RECORD_COUNT * DUEL_CARD_RECORD_SIZE;
         i = 0;
         do {
-            if ((*(u16 *)(p + 0x16) & 0x8000) != 0) {
+            if ((*(u16 *)(p + 0x16) & DUEL_CARD_FLAG_OCCUPIED) != 0) {
                 func_80024954(p);
             }
-            if ((*(u16 *)(q + 0x16) & 0x8000) != 0) {
+            if ((*(u16 *)(q + 0x16) & DUEL_CARD_FLAG_OCCUPIED) != 0) {
                 func_80024954(q);
             }
             i++;
-            p += 0x1C;
-            q += 0x1C;
-        } while (i < 0xA);
+            p += DUEL_CARD_RECORD_SIZE;
+            q += DUEL_CARD_RECORD_SIZE;
+        } while (i < DUEL_FIELD_SIDE_ZONE_COUNT);
     }
 
     D_8009B220 = 0;
