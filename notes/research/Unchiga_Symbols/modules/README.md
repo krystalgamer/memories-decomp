@@ -8,7 +8,7 @@ for the main menu), so an address inside a module means something different
 on every screen. `config/symbol_addrs.txt` names an address ONCE and feeds the
 byte-verified split, so it may only carry what the EXE itself references:
 each screen loop's fixed-address entry call (`FreeDuel_Entry`,
-`func_801683EC`, ...) stays there; everything else module-resident lives in
+`NameEntry_Init`, ...) stays there; everything else module-resident lives in
 these files, one per module, same line syntax as symbol_addrs.txt:
 
     name = 0xADDR;              // data
