@@ -451,3 +451,13 @@ on the suspects side until proven.)
 | address | name | description |
 |---|---|---|
 | 0x80169734 | `NameEntry_UpdateDialog` | Drives the name-entry dialog state machine: creates and slides pending boxes, handles confirmation choices, rebuilds the typed-name box after END, and starts the screen exit after acceptance. |
+
+## Batch: main-menu value setup
+
+| address | name | description |
+|---|---|---|
+| 0x80180FD8 | `MainMenu_StartValueSetup` | Allocates the dual-value setup screen's five display objects, snapshots two caller-owned values and a toggle, initializes its widget modes, and installs the screen callback. |
+| 0x80181CB8 | `MainMenu_UpdateValueWidgetTween` | Interpolates one value widget over ten updates toward its resting position or the bar position derived from the current value, then publishes the completed mode. |
+| 0x80181E30 | `MainMenu_FinishValueSetup` | Writes both edited values and the final toggle back to their callers, releases all five setup objects, and clears the screen callback. |
+| 0x80181EEC | `MainMenu_CountDecimalDigits` | Counts a nonnegative value's decimal digits by repeated division by ten, returning one digit for zero. |
+| 0x80181F20 | `MainMenu_StartValueWidgetTween` | Records a value widget's current position, assigns its index and target mode, installs the tween callback, and starts its ten-update timer. |
