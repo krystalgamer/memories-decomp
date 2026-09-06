@@ -520,7 +520,8 @@ can change argument setup. `rand.h` fixes `RAND_MAX` at 32767 and exposes the
 [`rng.md`](rng.md). Matching resident C includes `qsort.h` and `rand.h`
 directly. The password/name-entry starter generator and module main, plus the
 five matching main-menu sort comparators, now use `rand.h` rather than
-duplicate the runtime declaration.
+duplicate the runtime declaration. The main-menu card-list builder also uses
+`qsort.h` with the original unprototyped comparator shape.
 
 The imported string headers form a compatibility stack rather than three
 independent libraries. `string.h` only includes `strings.h`; `strings.h`
