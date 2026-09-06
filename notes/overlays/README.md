@@ -334,15 +334,30 @@ and three modules only avoid it because they have none.
 An earlier version of this note concluded that the generated linker script
 could not place a C object's `.rodata` before the module text, because
 `section_order` is `.text, .rodata, ...` and `.module` therefore opens its
-rodata run immediately after `module_TEXT_END`. That reasoning is wrong, and
-the mistake is worth naming because it is easy to repeat: **`section_order`
-orders sections within one segment.** It says nothing about where two
-different segments land, because each splat segment becomes its own output
-section with its own explicit VRAM address.
+rodata run immediately after `module_TEXT_END`.
 
-So the pre-text rodata does not need `section_order` changed, and does not
-need the layout generator touched. It needs its own segment, declared before
-the text segment:
+The conclusion was wrong, but so was the first correction to it. That first
+correction said `section_order` cannot help because it only orders sections
+*within* one segment, and therefore the rodata needs a segment of its own
+declared ahead of the text. Both halves of that are true, and it does work —
+but it treats a symptom. `section_order` is not a constraint to work around;
+it is a **description of the module's layout**, and ours simply described the
+wrong layout. The modules are `.rodata` then `.text`, so the option should say
+so:
+
+```yaml
+  section_order:
+    - ".rodata"
+    - ".text"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+```
+
+With that, the whole pre-text region belongs to the ordinary `module` segment,
+which simply starts at `0x4` instead of after the rodata, and no extra segment
+is needed:
 
 ```yaml
   - name: module_header
@@ -352,15 +367,29 @@ the text segment:
     subsegments:
       - [0x0, data, overlays/password/module_header]
 
-  - name: module_rodata
+  - name: module
     type: code
     start: 0x4
     vram: 0x80168004
     subsegments:
-      - [0x4, .rodata, overlays/password/func_80168CDC]
-      - [0x7C, .rodata, overlays/password/func_8016A37C]
-      - [0x90, rodata, overlays/password/module_rodata_tail]
+      - [0x4, rodata, overlays/password/module_rodata]
+      - [0x90, .rodata, overlays/password/func_8016AA6C]
+      - [0xB4, c, overlays/password/func_801680B4]
+      ...
+      - [0x5400, data, overlays/password/data]
 ```
+
+The linker script then opens `.module` at `0x80168004` with
+`module_RODATA_START`, runs the rodata, and only then reaches the text — which
+is what the retail module is. `.data` still follows the text, so the `0x5400`
+blob is unaffected. Both password and main_menu are configured this way and
+all five modules stay byte-exact.
+
+`configs/JAP10/main.yaml` in `khasinski/rage-racer-decomp` is the same
+arrangement on a whole executable: `section_order` with `.rodata` first, one
+`main` segment, and dozens of `.rodata` and `rodata` subsegments interleaved
+in address order. It is worth reading because it shows the steady state this
+grows into rather than the first step.
 
 Two subsegment spellings matter and they are different things:
 
@@ -376,14 +405,15 @@ references collected under `tmp/references/jtbl/` show `[0x1148, .rodata,
 map3_s03]`, `[0x988, .rodata, thread]` and `[0x40A30, .rodata, C82B8]` in
 three separate repositories.
 
-**Verified, not inferred.** Splitting password's header as above and running
-splat produces exactly the required line, at the required address:
+**Verified, not inferred.** Configuring password as above and running splat
+produces exactly the required line, at the required address:
 
 ```
-.module_rodata 0x80168004 : AT(module_rodata_ROM_START) SUBALIGN(2)
+.module 0x80168004 : AT(module_ROM_START) SUBALIGN(2)
 {
-    module_rodata_RODATA_START = .;
-    tmp/overlays/password/build/src/overlays/password/func_8016A930.o(.rodata);
+    module_RODATA_START = .;
+    .../asm/data/overlays/password/module_rodata.rodata.o(.rodata);
+    .../src/overlays/password/func_8016AA6C.o(.rodata);
     ...
 }
 ```
@@ -391,6 +421,55 @@ splat produces exactly the required line, at the required address:
 so a C object's `.rodata` can be placed ahead of the module's text today, with
 no tooling change. What remains for the two blocked functions is the ordinary
 work of writing source whose emitted `.rodata` is byte-correct.
+
+### A worked example that is in the tree
+
+`func_8016AA6C` in password already called `func_8008E870(D_80168090, ...)`,
+where `D_80168090` was an extern into the blob. Those 36 bytes are the string
+`SaveLoadBuf add = 0x%x size = 0x%x\n` — `func_8008E870` is a printf. Replacing
+the extern with the literal and declaring the parameter `const char *` makes
+the compiler emit it, and the yaml hands that section its address:
+
+```yaml
+      - [0x4, rodata, overlays/password/module_rodata]
+      - [0x90, .rodata, overlays/password/func_8016AA6C]
+```
+
+All five modules still hash byte-exactly, and the evidence that the bytes
+really moved is on both sides of the change:
+
+- `objdump -h` on `func_8016AA6C.o` reports `.rodata` of `0x24` — the exact
+  string length. Before this, *every* overlay C object had an empty `.rodata`,
+  which is why the path had never been exercised.
+- the extracted blob `module_rodata.rodata.s` now ends at `0x8C`, the last word
+  of the jump table, instead of running to `0xB4`.
+
+So the pre-text region is no longer a wall. It is an ordinary boundary that
+moves down as functions are converted, one `.rodata` subsegment at a time.
+
+Three practical points from doing it:
+
+- **Move the region into the text segment before converting anything.** The
+  count word has to stay in its own `module_header` segment, because
+  `section_order` now puts `.rodata` first and would otherwise place the
+  rodata ahead of it. Extending `module` down to `0x4` with the region still a
+  plain blob is a separate, independently verifiable change: password and
+  main_menu were both moved that way first, and all five modules stayed
+  byte-exact before any C was touched.
+- **The order of `.rodata` subsegments is the order of the owning functions.**
+  Password's three items sit at `0x4`, `0x7C` and `0x90` for functions at
+  `0xCDC`, `0x237C` and `0x2A6C`. That is ordinary linker behaviour — rodata
+  contributions follow object order — and it means the addresses are a
+  prediction, not a free choice: if a conversion puts a section at the wrong
+  offset, the owning function is wrong.
+- **Every C file that emits rodata needs its own `.rodata` subsegment.** Splat
+  emits a `(.rodata)` line for *every* C object in the segment, and the ones
+  without an explicit subsegment are appended after the declared run. They are
+  harmless only while they are empty. The moment such a file gains a string or
+  a table its bytes land at the end of the rodata instead of at its own
+  address, pushing the text down — and because the layout is only checked by
+  the final hash, that surfaces as a whole-module mismatch with nothing
+  pointing at the file responsible.
 
 **The failure is silent.** The script ends with
 

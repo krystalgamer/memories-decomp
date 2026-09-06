@@ -38,8 +38,8 @@ options:
   subalign: 2
 
   section_order:
-    - ".text"
     - ".rodata"
+    - ".text"
     - ".data"
     - ".sdata"
     - ".sbss"
@@ -54,12 +54,14 @@ segments:
     subsegments:
       - [0x0, data, overlays/main_menu/module_header]
 
+
   - name: module
     type: code
-    start: 0x1C
-    vram: 0x8018001C
+    start: 0x4
+    vram: 0x80180004
     align: 4
     subsegments:
+      - [0x4, rodata, overlays/main_menu/module_rodata]
       - [0x1C, c, overlays/main_menu/func_8018001C]
       - [0x390, asm, overlays/main_menu/text_390]
       - [0xB4C, c, overlays/main_menu/func_80180B4C]
