@@ -77,6 +77,29 @@ Six pure-C functions now use the shared declaration:
 `DuelEffect_HasActiveEntry`, `func_800373C8`, `func_8003741C`, and
 `func_8003B6AC`.
 
+## Runtime state and channel lifecycle
+
+Matching `DuelEffect_UpdateState` defines the global dispatcher lifecycle.
+State zero is inactive. On the first update of a nonzero state, the function
+copies its value to the callback index, sets bit `0x80` as the initialized
+latch, clears the companion state byte, and reports active. A later bit
+`0x40` cancels and clears the state; otherwise the latched index dispatches
+through `D_80090B3C`.
+
+`DuelEffect_CreateChannel` resets the current dialog choice to `-1`, creates a
+`DuelEffectChannel` through `TextBox_Create` using the low 15 bits of its
+request value, and stamps `field_59` from the shared sequence byte minus one.
+A nonzero setup argument adds flags `0x1008`; otherwise a high request bit
+selects the alternate `func_80039A14` setup path before the channel is
+returned.
+
+`DuelEffect_MarkObjectIfActive` scans the separate three-entry table at
+`D_800EB010` from the last entry backward. It sets object flag `0x2` when any
+entry has a nonnegative signed marker, and leaves the object unchanged when
+all three markers are negative. `DuelEffect_InitEntryDefaultFlags` is the
+zero-flags wrapper around `DuelEffect_InitEntry`, making the default entry
+construction path explicit without broadening either shared structure.
+
 ## Deferred and exact-code exceptions
 
 Matching-C functions implemented with inline assembly remain unchanged:
