@@ -156,9 +156,9 @@ explicit typed/raw views rather than speculative fields.
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |
 | `0x0503` | `u8` | `event_guard` | `func_8004B854` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |
 | `0x0504` | `long` | `event_handle` | `func_8004B854` stores the `OpenEvent` result; `func_8004B910` disables and closes the same handle. |
-| `0x0508` | `u8` | `field_0508` | `func_8004B734` increments and wraps it at 11. |
-| `0x0509` | `u8` | `field_0509` | `func_8004695C`, `func_80047050`, and `func_8004B734` set/test it. |
-| `0x050C` | callback pointer | `field_050C` | `func_8004B734` conditionally invokes it. |
+| `0x0508` | `u8` | `field_0508` | `SD_SequenceTimerCallback` increments and wraps it at 11. |
+| `0x0509` | `u8` | `field_0509` | `func_8004695C`, `func_80047050`, and `SD_SequenceTimerCallback` set/test it. |
+| `0x050C` | callback pointer | `field_050C` | `SD_SequenceTimerCallback` conditionally invokes it. |
 | `0x0510` | `s16` | `object_count` | Initialized/set by `func_80049434` and `func_80049600`; bounds the `0x28`-byte object scans in several matched functions. |
 | `0x0512`, `0x0514`, `0x0516` | `s16` | `field_0512`, `field_0514`, `field_0516` | Initialization and parameter-update functions establish signed halfword accesses. |
 | `0x07DC` | pointer | `field_07DC` | Playback copies `field_07E8` here; `SD_ReadSequenceByte` reads indexed stream bytes through it, and `SD_FindMidiTrackChunk` scans for `MTrk`. |
@@ -174,7 +174,7 @@ explicit typed/raw views rather than speculative fields.
 | `0x081C` | `s32` | `field_081C` | Initialized to `0x1000`, read by update/termination paths, and set by `func_80049594`. |
 | `0x0844`, `0x0845` | `u8` | offset-based fields | `func_8004ACE4` stores two control-event byte values. |
 
-`func_8004B854` registers `func_8004B734` for an interrupt event on
+`func_8004B854` registers `SD_SequenceTimerCallback` for an interrupt event on
 `RCntCNT2` with specification `EvSpINT` and mode `EvMdINTR`, stores the event
 handle at `+0x504`, and enables it. `func_8004B910` later disables and closes
 that handle. Both lifecycle paths now use the imported Psy-Q `libapi.h`
@@ -193,7 +193,8 @@ batch retained the exact full executable hash.
 
 Six matching-C functions containing GCC inline assembly remain unchanged and
 keep their local raw declarations: `func_80049CF8`, `func_80049DD8`,
-`func_8004A2F8`, `func_8004A854`, `func_8004B734`, and `func_8004C77C`.
+`func_8004A2F8`, `func_8004A854`, `SD_SequenceTimerCallback`, and
+`func_8004C77C`.
 
 Three migrated functions retain explicit raw indexing where the shared type
 cannot replace the exact source shape:
