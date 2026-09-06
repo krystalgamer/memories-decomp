@@ -7,7 +7,7 @@ extern void func_8003B6AC(int, int);
 extern void func_80035BE4(int, int, int, int, int, int);
 extern void func_80039A14(void *);
 
-void func_80169D10(void)
+void Password_RefreshStarchipDisplay(void)
 {
     D_801D5608 = D_801D07E0;
     func_8003B6AC(3, 1);
