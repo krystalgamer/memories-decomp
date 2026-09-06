@@ -5515,6 +5515,12 @@
       "source": "src/game/ai_script_end.c"
     },
     {
+      "address": "0x80071008",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x18C",
+      "source": "src/game/ai_script_calc_card_power.c"
+    },
+    {
       "address": "0x80071194",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xB4",
