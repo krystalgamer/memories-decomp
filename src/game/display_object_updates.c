@@ -40,7 +40,8 @@ void func_80040BF8(void)
                 callback(data);
             }
 
-            if (((object->flags & 0xC0) ^ 0xC0) == 0) {
+            if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
+                 DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 func_800408D0(data, table[data[0x17]], *(s16 *)(data + 0x14));
             }
         } while (i >= 0);
@@ -82,7 +83,8 @@ void func_80040D14(void)
                 callback(data);
             }
 
-            if (((object->flags & 0xC0) ^ 0xC0) == 0) {
+            if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
+                 DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 void (*secondary)(u8 *, s32) =
                     *(void (**)(u8 *, s32))(data + 0x4C);
 

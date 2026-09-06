@@ -54,7 +54,7 @@ s32 func_8004002C(void)
     for (i = DISPLAY_OBJECT_RESERVED_CAPACITY;
          i < DISPLAY_OBJECT_POOL_CAPACITY;
          i++, entry++) {
-        if ((entry->flags_08 & 0x80) == 0) {
+        if ((entry->flags_08 & DISPLAY_OBJECT_FLAG_ALLOCATED) == 0) {
             return i;
         }
     }
@@ -67,7 +67,7 @@ s32 func_8004006C(void)
     s32 i;
 
     for (i = 0; i < DISPLAY_OBJECT_POOL_CAPACITY; i++, entry++) {
-        if ((entry->flags_08 & 0x80) == 0) {
+        if ((entry->flags_08 & DISPLAY_OBJECT_FLAG_ALLOCATED) == 0) {
             return i;
         }
     }
@@ -85,7 +85,7 @@ DisplaySlot *func_800400AC(s32 index, s32 key)
     }
 
     slot = &D_800EFE48[index];
-    initialized = slot->flags_08 & 0x80;
+    initialized = slot->flags_08 & DISPLAY_OBJECT_FLAG_ALLOCATED;
     D_8009B412++;
     if (!initialized) {
         other = D_800EFE38[key];
@@ -101,7 +101,7 @@ DisplaySlot *func_800400AC(s32 index, s32 key)
         slot->field_00 = -1;
         D_800EFE38[key] = index;
         slot->field_04 = 0x08000000;
-        slot->flags_08 = 0xC0;
+        slot->flags_08 = DISPLAY_OBJECT_RENDERABLE_MASK;
         slot->field_17 = 2;
         slot->field_54 = tail_data_start;
         slot->field_6C = 0;

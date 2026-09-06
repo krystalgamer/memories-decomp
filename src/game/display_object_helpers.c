@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 void func_800427DC(u8 *object, int value)
 {
@@ -138,7 +139,8 @@ int func_80042960(char *object)
 
     if (callback != 0)
         callback();
-    return ((*(u16 *)(object + 8) & 0xC0) == 0xC0);
+    return ((*(u16 *)(object + 8) & DISPLAY_OBJECT_RENDERABLE_MASK) ==
+            DISPLAY_OBJECT_RENDERABLE_MASK);
 }
 
 typedef struct {

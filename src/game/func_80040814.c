@@ -36,7 +36,8 @@ void func_80040814(void) {
                 f(q);
             }
 
-            if (((p->flags & 0xC0) ^ 0xC0) == 0) {
+            if (((p->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
+                 DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 func_80041D60(q);
                 func_8004158C(q, t[q[0x17]], *(s16 *)(q + 0x14));
             }

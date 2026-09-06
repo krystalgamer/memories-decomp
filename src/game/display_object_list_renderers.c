@@ -59,7 +59,8 @@ void func_80040DD8(void) {
             if (fn != (ObjFn)0) {
                 fn(e);
             }
-            if (((*(u16 *)(e + 8) & 0xC0) ^ 0xC0) == 0) {
+            if (((*(u16 *)(e + 8) & DISPLAY_OBJECT_RENDERABLE_MASK) ^
+                 DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 v = *(s32 *)(e + 4);
                 w0 = *(s32 *)(e + 0x28);
                 w1 = *(s32 *)(e + 0x30);
@@ -166,7 +167,8 @@ void func_80041068(void) {
             if (fn != (ObjFn)0) {
                 fn(e);
             }
-            if (((*(u16 *)(e + 8) & 0xC0) ^ 0xC0) == 0) {
+            if (((*(u16 *)(e + 8) & DISPLAY_OBJECT_RENDERABLE_MASK) ^
+                 DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 v = *(s32 *)(e + 4);
                 w0 = *(s32 *)(e + 0x28);
                 w1 = *(s32 *)(e + 0x34);
