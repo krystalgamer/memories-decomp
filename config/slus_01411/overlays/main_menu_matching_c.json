@@ -52,7 +52,7 @@
       "address": "0x80181CB8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x178",
-      "source": "src/overlays/main_menu/func_80181CB8.c"
+      "source": "src/overlays/main_menu/update_value_widget_tween.c"
     },
     {
       "address": "0x80181E30",
@@ -70,7 +70,7 @@
       "address": "0x80181F20",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x48",
-      "source": "src/overlays/main_menu/func_80181F20.c"
+      "source": "src/overlays/main_menu/start_value_widget_tween.c"
     },
     {
       "address": "0x80181F68",

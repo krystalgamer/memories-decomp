@@ -6,7 +6,7 @@ extern u16 D_801845C0[];
 extern volatile u16 D_8009B394[];
 extern volatile u16 D_8009B398[];
 extern void func_80048658(s32, s32, s32);
-extern void func_80181F20(s32, s32);
+extern void MainMenu_StartValueWidgetTween(s32, s32);
 
 s32 func_801812B4(void)
 {
@@ -79,7 +79,7 @@ s32 func_801812B4(void)
                     D_801845BC[1] = D_801845BC[2];
                 }
             } else if (D_8009B394[0] & 0x4000) {
-                func_80181F20(0, 2);
+                MainMenu_StartValueWidgetTween(0, 2);
             }
         } else {
             if (D_8009B394[0] & 0xA000) {
@@ -94,7 +94,7 @@ s32 func_801812B4(void)
                 }
                 D_801845C0[0] = value;
             } else if (D_8009B394[0] & 0x1000) {
-                func_80181F20(0, D_801845BC[2]);
+                MainMenu_StartValueWidgetTween(0, D_801845BC[2]);
             }
         }
     }
@@ -113,7 +113,7 @@ s32 func_801812B4(void)
                     D_801845BC[0] = D_801845BC[2];
                 }
             } else if (D_8009B394[1] & 0x4000) {
-                func_80181F20(1, 2);
+                MainMenu_StartValueWidgetTween(1, 2);
             }
         } else {
             if (D_8009B394[1] & 0xA000) {
@@ -128,7 +128,7 @@ s32 func_801812B4(void)
                 }
                 D_801845C0[6] = value;
             } else if (D_8009B394[1] & 0x1000) {
-                func_80181F20(1, D_801845BC[2]);
+                MainMenu_StartValueWidgetTween(1, D_801845BC[2]);
             }
         }
     }

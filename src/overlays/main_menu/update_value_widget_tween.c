@@ -4,7 +4,7 @@ extern u8 *D_801845B8;
 extern u8 D_801845BC[];
 extern u16 D_801845C0[];
 
-void func_80181CB8(u8 *obj)
+void MainMenu_UpdateValueWidgetTween(u8 *obj)
 {
     u8 *widget;
     s32 targetX;

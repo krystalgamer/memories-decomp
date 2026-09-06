@@ -110,6 +110,7 @@ NEW GAME / LOAD / 2P DUEL / TRADE / OPTION. The menu's own logic runs from a mod
 |---|---|---|
 | `Main_RunMenu` | 0x8002D588 | The main-menu mode tick. Dialogs (like TRADE's memory-card prompt) are modals inside it — the game never leaves this mode for them. |
 | `gMain_bMenuID` (module: main_menu) | 0x80184594 | The shared menu cursor: 0–4 on the main menu, 5–10 on the post-load menu (CAMPAIGN=5 … SAVE=10). |
+| `MainMenu_StartValueWidgetTween` / `MainMenu_UpdateValueWidgetTween` (module: main_menu) | 0x80181F20 / 0x80181CB8 | Starts and advances a ten-frame widget move on the adjacent dual-value setup screen; mode 2 targets the current value's bar position. |
 | `MainMenu_CountDecimalDigits` (module: main_menu) | 0x80181EEC | Counts the decimal digits in a non-negative value by repeated division by ten; the adjacent dual-value setup screen uses it for numeric field widths. |
 
 
