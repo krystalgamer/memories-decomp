@@ -1,13 +1,11 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 #include "model.h"
 
 extern u8 D_8009B478;
 extern u16 D_8009B47A;
 extern u16 D_8009B47C;
 extern u8 D_800F56F0[];
-
-extern long SquareRoot0(long value);
-extern long ratan2(long y, long x);
 
 typedef struct {
     s32 w[8];

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 typedef struct {
     s32 x0;
@@ -10,7 +11,6 @@ typedef struct {
 } LocalVectorSet;
 
 extern LocalVectorSet D_800F56F0;
-extern long SquareRoot0(long);
 extern void SD_SEPlay(u16, u8, s8);
 extern void func_80048A28(u16, u8, s8);
 

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 struct Rec {
     s16 f0;
@@ -8,8 +9,6 @@ struct Rec {
 };
 extern struct Rec *D_8009B310;
 extern u32 D_8009B314;
-extern long SquareRoot0(long);
-extern long ratan2(long, long);
 
 void func_80033CF8(s32 dx, s32 dy, s32 dz) {
     struct Rec *p;
