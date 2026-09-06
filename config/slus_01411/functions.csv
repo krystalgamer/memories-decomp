@@ -1249,16 +1249,16 @@ address,size,name,status,module,notes
 0x80074170,0x178,VSync,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBETC.LIB/VSYNC.OBJ signature and matching frame-timing callers.
 0x800742E8,0x98,func_800742E8,sdk_asm,psyq/sdk,
 0x80074380,0xC,ChangeClearRCnt,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/L10.OBJ signature.
-0x80074390,0x30,func_80074390,sdk_asm,psyq/sdk,
-0x800743C0,0x30,func_800743C0,sdk_asm,psyq/sdk,
-0x800743F0,0x30,func_800743F0,sdk_asm,psyq/sdk,
-0x80074420,0x34,func_80074420,sdk_asm,psyq/sdk,
-0x80074454,0x30,func_80074454,sdk_asm,psyq/sdk,
-0x80074484,0x30,func_80074484,sdk_asm,psyq/sdk,
-0x800744B4,0x30,func_800744B4,sdk_asm,psyq/sdk,
-0x800744E4,0x10,func_800744E4,sdk_asm,psyq/sdk,
-0x800744F4,0x18,func_800744F4,sdk_asm,psyq/sdk,
-0x8007450C,0x18,func_8007450C,sdk_asm,psyq/sdk,
+0x80074390,0x30,ResetCallback,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBETC.LIB/INTR.OBJ signature.
+0x800743C0,0x30,InterruptCallback,sdk_asm,psyq/sdk,Identified at offset 0x30 of the unique Psy-Q 4.6 LIBETC.LIB/INTR.OBJ signature.
+0x800743F0,0x30,DMACallback,sdk_asm,psyq/sdk,Identified at offset 0x60 of the unique Psy-Q 4.6 LIBETC.LIB/INTR.OBJ signature.
+0x80074420,0x34,VSyncCallback,sdk_asm,psyq/sdk,Identified at offset 0x90 of the unique Psy-Q 4.6 LIBETC.LIB/INTR.OBJ signature.
+0x80074454,0x30,VSyncCallbacks,sdk_asm,psyq/sdk,Identified at offset 0xC4 of the unique Psy-Q 4.6 LIBETC.LIB/INTR.OBJ signature.
+0x80074484,0x30,StopCallback,sdk_asm,psyq/sdk,Identified at offset 0xF4 of the unique Psy-Q 4.6 LIBETC.LIB/INTR.OBJ signature.
+0x800744B4,0x30,RestartCallback,sdk_asm,psyq/sdk,Identified at offset 0x124 of the unique Psy-Q 4.6 LIBETC.LIB/INTR.OBJ signature.
+0x800744E4,0x10,CheckCallback,sdk_asm,psyq/sdk,Identified at offset 0x154 of the unique Psy-Q 4.6 LIBETC.LIB/INTR.OBJ signature.
+0x800744F4,0x18,GetIntrMask,sdk_asm,psyq/sdk,Identified at offset 0x164 of the unique Psy-Q 4.6 LIBETC.LIB/INTR.OBJ signature.
+0x8007450C,0x18,SetIntrMask,sdk_asm,psyq/sdk,Identified at offset 0x17C of the unique Psy-Q 4.6 LIBETC.LIB/INTR.OBJ signature.
 0x80074524,0xD8,func_80074524,sdk_asm,psyq/sdk,
 0x800745FC,0x1D0,func_800745FC,sdk_asm,psyq/sdk,
 0x800747CC,0x148,func_800747CC,sdk_asm,psyq/sdk,
@@ -1269,7 +1269,7 @@ address,size,name,status,module,notes
 0x80074A70,0xC,ReturnFromException,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A23.OBJ signature.
 0x80074A80,0xC,ResetEntryInt,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A24.OBJ signature.
 0x80074A90,0xC,HookEntryInt,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A25.OBJ signature.
-0x80074AA0,0x58,func_80074AA0,sdk_asm,psyq/sdk,
+0x80074AA0,0x58,startIntrVSync,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBETC.LIB/INTR_VB.OBJ signature.
 0x80074AF8,0x6C,func_80074AF8,sdk_asm,psyq/sdk,
 0x80074B64,0x2C,func_80074B64,sdk_asm,psyq/sdk,
 0x80074B90,0x24,func_80074B90,sdk_asm,psyq/sdk,
