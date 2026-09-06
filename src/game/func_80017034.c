@@ -21,7 +21,7 @@ int func_80017034(Object *argument)
         valid = (unsigned int)mask < 1;
     }
     if ((gInput_wPad1Pressed[0] & PAD_BUTTON_TRIANGLE) &&
-        (object->flags & 0x8000) && valid)
+        (object->flags & DUEL_CARD_FLAG_OCCUPIED) && valid)
         return object->result;
     return 0;
 }
