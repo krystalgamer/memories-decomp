@@ -1,13 +1,6 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 #include "model.h"
-
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVECTOR;
-
-typedef struct {
-    char pad0[0x20];
-} MATRIX;
 
 /* arg2's transform block: unk0 flag, a 0x20-byte MATRIX at +4, then the
    computed rotation angles at +0x44/+0x46/+0x48, and an id/handle at +0x4C. */
@@ -22,7 +15,6 @@ typedef struct {
     s32 f4C;
 } Obj;
 
-extern MATRIX *MulMatrix(MATRIX *m0, MATRIX *m1);
 extern MATRIX *func_800889C0(SVECTOR *r, MATRIX *m);
 extern void func_80088E50(SVECTOR *r, MATRIX *m);
 extern void *func_8008E3D0(void *p, s32 v, u32 n);
@@ -51,12 +43,12 @@ void func_800592AC(s32 arg0, s32 arg1, Obj *arg2) {
     arg2->f46 = (s16)(0x1000 - slot->field_D18->field_46);
     arg2->f48 = (s16)(0x1000 - slot->field_D18->field_48);
 
-    func_800889C0((SVECTOR *)&arg2->f44, (MATRIX *)((u8 *)arg2 + 4));
+    func_800889C0((SVECTOR *)&arg2->f44, &arg2->f4);
     func_80088E50(&packed, &sp20);
-    MulMatrix((MATRIX *)((u8 *)arg2 + 4), &sp20);
+    MulMatrix(&arg2->f4, &sp20);
 
-    *(s32 *)((u8 *)arg2 + 0x20) = 0;
-    *(s32 *)((u8 *)arg2 + 0x1C) = 0;
-    *(s32 *)((u8 *)arg2 + 0x18) = 0;
+    arg2->f4.t[2] = 0;
+    arg2->f4.t[1] = 0;
+    arg2->f4.t[0] = 0;
     arg2->f4C = arg1;
 }

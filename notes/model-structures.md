@@ -89,6 +89,15 @@ The current matching sources retain local byte/word views because replacing
 them with `GsRVIEW2` member accesses has not yet been checked for exact code
 generation.
 
+The output transform in `func_800592AC` uses the imported `libgte.h` types:
+an eight-byte `SVECTOR` for each local angle triplet and a 32-byte `MATRIX`
+at object offset `+0x04`. On the PSX ABI, the matrix's translation vector
+starts at matrix offset `+0x14`, so `f4.t[0..2]` occupies object offsets
+`+0x18`, `+0x1C`, and `+0x20`. The function clears these components after
+`MulMatrix`, preserving the original reverse store order. The object remains
+a game-specific local record; its rotation angles and id are at `+0x44` and
+`+0x4C`, beyond the SDK matrix.
+
 The initial typed-migration snapshot had 24 pure-C users of `D_800F2C40`;
 all include the shared header:
 `func_80057E20`, `func_80058DD8`, `func_80058E3C`, `func_80058E68`,
