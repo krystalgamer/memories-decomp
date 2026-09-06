@@ -493,6 +493,12 @@
       "source": "src/game/func_8001755C.c"
     },
     {
+      "address": "0x800175A0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x130",
+      "source": "src/game/func_800175A0.c"
+    },
+    {
       "address": "0x800176D0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
@@ -1373,6 +1379,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x74",
       "source": "src/game/duel_calc_guardian_star_matchup.c"
+    },
+    {
+      "address": "0x8002CBF4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xB4",
+      "source": "src/game/func_8002CBF4.c"
     },
     {
       "address": "0x8002CCA8",
@@ -3511,6 +3523,12 @@
       "source": "src/game/func_80043960.c"
     },
     {
+      "address": "0x80043BCC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x17C",
+      "source": "src/game/func_80043BCC.c"
+    },
+    {
       "address": "0x80043D48",
       "profile": "gcc_2_8_1_g8",
       "size": "0x58",
@@ -4267,6 +4285,12 @@
       "source": "src/game/func_8004ACE4.c"
     },
     {
+      "address": "0x8004B374",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
+      "size": "0x128",
+      "source": "src/game/func_8004B374.c"
+    },
+    {
       "address": "0x8004B49C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x24C",
@@ -4349,6 +4373,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x40",
       "source": "src/game/sound_sequence_values.c"
+    },
+    {
+      "address": "0x8004BCE8",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
+      "size": "0x184",
+      "source": "src/game/func_8004BCE8.c"
     },
     {
       "address": "0x8004BE6C",
@@ -5489,6 +5519,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x3C",
       "source": "src/game/ai_script_load_best_values.c"
+    },
+    {
+      "address": "0x80071B64",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "size": "0x14C",
+      "source": "src/game/func_80071B64.c"
     },
     {
       "address": "0x80071EB8",

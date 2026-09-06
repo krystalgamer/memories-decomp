@@ -96,7 +96,7 @@ address,size,name,status,module,notes
 0x80017130,0x78,func_80017130,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800171A8,0x3B4,Duel_LoadPackageStage,unmatched_asm,game,Thirteen-stage callback for the 235-sector duel terrain package; chunk sizes cover the complete 0x75800-byte load and image stages use LoadImage2.
 0x8001755C,0x44,func_8001755C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x800175A0,0x130,func_800175A0,unmatched_asm,game,
+0x800175A0,0x130,func_800175A0,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x800176D0,0x38,func_800176D0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80017708,0x84,func_80017708,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8001778C,0x38,func_8001778C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
@@ -286,7 +286,7 @@ address,size,name,status,module,notes
 0x8002C9B4,0x19C,func_8002C9B4,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002CB50,0x30,func_8002CB50,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8002CB80,0x74,Duel_CalcGuardianStarMatchup,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
-0x8002CBF4,0xB4,Duel_GetBaseCardStat,unmatched_asm,game,
+0x8002CBF4,0xB4,Duel_GetBaseCardStat,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8002CCA8,0x3C,Campaign_TestStoryFlag,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8002CCE4,0x64,Library_UpdateCardUsedFlag,matching_c,game,Sets or clears one card bit in the D_801D0000+0x618 used bitmap; bit 0x8000 of the argument selects clear. Ten register pins reproduce the ROM register allocation and delay-slot fill (issue #5).
 0x8002CD48,0x44,func_8002CD48,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
@@ -682,7 +682,7 @@ address,size,name,status,module,notes
 0x8004365C,0x25C,func_8004365C,matching_c,game,Pure-C inline refinement matched the full executable.
 0x800438B8,0xA8,func_800438B8,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80043960,0x26C,func_80043960,matching_c,game,Pure-C inline refinement matched the full executable.
-0x80043BCC,0x17C,func_80043BCC,unmatched_asm,game,
+0x80043BCC,0x17C,func_80043BCC,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x80043D48,0x58,func_80043D48,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80043DA0,0x90,func_80043DA0,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80043E30,0x38,func_80043E30,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -835,7 +835,7 @@ address,size,name,status,module,notes
 0x8004AAFC,0x1E8,func_8004AAFC,matching_c,game,"Exact linked bytes on gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference; the unit has no gp-relative access, so the pointer scalar wants the assembler at -G0."
 0x8004ACE4,0x104,func_8004ACE4,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004ADE8,0x58C,func_8004ADE8,unmatched_asm,game,
-0x8004B374,0x128,func_8004B374,unmatched_asm,game,
+0x8004B374,0x128,func_8004B374,matching_c,game,"Exact linked bytes on gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference (batch port, probe-verified)."
 0x8004B49C,0x24C,func_8004B49C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8004B6E8,0x24,func_8004B6E8,matching_c,game,Pure-C inline refinement matched the full executable.
 0x8004B70C,0x28,func_8004B70C,matching_c,game,Pure-C inline refinement matched the full executable.
@@ -850,7 +850,7 @@ address,size,name,status,module,notes
 0x8004BBBC,0x70,SD_FindMidiTrackChunk,matching_c,game,Scans the active sound-sequence data range for the next four-byte marker. Scalar D_8009B458 plus unsized marker array D_8009AF80 requires compiler -G8 split addresses with MASPSX -G0.
 0x8004BC2C,0x7C,SD_ReadSequenceU32BE,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004BCA8,0x40,SD_ReadSequenceU16BE,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8004BCE8,0x184,func_8004BCE8,unmatched_asm,game,
+0x8004BCE8,0x184,func_8004BCE8,matching_c,game,"Exact linked bytes on gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference (batch port, probe-verified)."
 0x8004BE6C,0x14,func_8004BE6C,matching_c,game,4 pre-policy variants: exact for void/return forms under -G0/-G8; selected void -G0
 0x8004BE80,0x8,func_8004BE80,matching_c,game,2 pre-policy variants: exact under -G0 and -G8; selected -G0 empty function
 0x8004BE88,0x224,func_8004BE88,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
@@ -1161,7 +1161,7 @@ address,size,name,status,module,notes
 0x800716C4,0x3C,AiScript_LoadBestTarget,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80071700,0x224,AiScript_FindStrongest,unmatched_asm,game,
 0x80071924,0x240,AiScript_FindWeakest,unmatched_asm,game,
-0x80071B64,0x14C,AiScript_FindKiller,unmatched_asm,game,
+0x80071B64,0x14C,AiScript_FindKiller,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split_no_strength_reduce from the ygofm reference (batch port, probe-verified)."
 0x80071CB0,0x208,AiScript_FindDefenseStopper,unmatched_asm,game,
 0x80071EB8,0x110,AiScript_CountCards,matching_c,game,Post-terminal exact card-count scan; mixed GCC G0 split / MASPSX G8 profile with allocation-only type/count register pins.
 0x80071FC8,0x184,AiScript_FindFirstCard,unmatched_asm,game,
