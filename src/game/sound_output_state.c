@@ -41,7 +41,7 @@ int func_80045054(void)
         *(unsigned int *)(state + 0x154C) += square >> 8;
         i++;
         values++;
-    } while (i < 256);
+    } while (i < SD_MIX_SAMPLE_COUNT);
     {
         register int result asm("$2");
         register int flags asm("$3");
