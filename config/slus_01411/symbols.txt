@@ -474,3 +474,4 @@ DecDCTinSync = 0x8008FDD4; // type:func
 DecDCToutSync = 0x8008FE10; // type:func
 DecDCTvlcSize2 = 0x80090270; // type:func
 DecDCTvlc2 = 0x800902A0; // type:func
+DecDCTvlcBuild = 0x800905F0; // type:func
