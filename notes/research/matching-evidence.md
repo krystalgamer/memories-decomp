@@ -2805,3 +2805,62 @@ Note also that scheduling-variant profiles are not the answer to this class of
 difference. `no_sched2`, `no_strength_reduce` and an as-G0 variant were all
 measured against this function and left the count unchanged at six, because
 the constraint came from the source, not the flags.
+
+## Normalise objdump aliases before trusting an opcode histogram
+
+The opcode histogram is the right instrument for ranking profiles, because it
+ignores position and so does not cascade. It reports a false gap unless the two
+sides are spelled the same way first.
+
+Splat's generated listings print real mnemonics. `objdump` prints assembler
+aliases for the same encodings, so a candidate that is byte-identical in those
+positions still looks different:
+
+    li   $v0, 1        is  addiu $v0, $zero, 1
+    move $a2, $a3      is  addu  $a2, $a3, $zero
+    nop                is  sll   $zero, $zero, 0
+
+Measured on `func_80046294` (0x80046294, 151 instructions), the same candidate
+and the same object:
+
+    raw histogram distance        14
+    alias-normalised distance      4
+
+Ten of the fourteen were the alias spelling alone. Ranking four profiles on the
+raw number also picked a different winner from ranking them on the normalised
+one, so the error is not merely cosmetic.
+
+The second half of this is the more useful half. For the same candidate:
+
+    positional diff (DIFFS)      104
+    normalised histogram           4
+
+Both numbers are correct and they measure different things. The candidate has
+151 of 151 instructions and four opcodes out of place; the other hundred
+positions differ only in which register was chosen, and one early allocation
+difference shifts everything after it. Reading 104 as "far away" is wrong, and
+it is the reading that invites abandoning a nearly-correct structure to go
+hunting for a different one.
+
+Practical order: get the instruction *count* equal, then the normalised
+histogram to single digits, and only then chase positions. A large positional
+count on top of a small histogram distance is an allocation problem, not a
+structural one.
+
+## The target's saved-register set names the wrong declaration
+
+`func_80046294` saves only `$ra`. An early candidate saved `$s0` as well, and
+the reason was visible in what `$s0` held: `%hi(g_SDValue)`, cached once and
+reused across the calls in the tail.
+
+That followed from declaring the global as an array, `extern SoundState
+*g_SDValue[]`, which is not small data, so `-msplit-addresses` splits the
+address into a register and common-subexpression elimination then keeps it
+alive across calls in a callee-saved one. The target rebuilds `%hi` at each
+use, which is the assembler macro form, which needs the scalar declaration
+carrying `__attribute__((section(".data")))`.
+
+The same repository declares this symbol both ways in different translation
+units, so neither spelling is wrong in general. The saved-register set is what
+distinguishes them, and it is cheap to read: count `sw $sN` in the target
+prologue and compare.
