@@ -200,6 +200,23 @@ symbol review.
 | `0x8008B680` | `_patch_card2` | Applied at offset `0x170` of the same unique `LIBCARD.LIB/PATCH.OBJ` signature. |
 | `0x8008B6F0` | `_copy_memcard_patch` | Applied at offset `0x1E0` of the same unique `LIBCARD.LIB/PATCH.OBJ` signature. |
 | `0x8008B730` | `_ExitCard` | Applied at offset zero of the unique 128-byte Psy-Q 4.6 `LIBCARD.LIB/END.OBJ` signature. |
+| `0x8008B7B0` | `MemCardInit` | Applied at offset zero of the unique 80-byte Psy-Q 4.6 `LIBMCRD.LIB/INIT.OBJ` signature. |
+| `0x8008B7E0` | `MemCardEnd` | Applied at offset `0x30` of the same unique `LIBMCRD.LIB/INIT.OBJ` signature. |
+| `0x8008B85C` | `MemCardStart` | Applied at offset `0x5C` of the unique 6,352-byte Psy-Q 4.6 `LIBMCRD.LIB/LIBMCRD.OBJ` signature; matching dialog setup starts the high-level card service. |
+| `0x8008B8CC` | `MemCardStop` | Applied at offset `0xCC` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature; matching dialog teardown stops the service. |
+| `0x8008B90C` | `MemCardExist` | Applied at offset `0x10C` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008BC90` | `MemCardAccept` | Applied at offset `0x490` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008BFA0` | `MemCardOpen` | Applied at offset `0x7A0` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008C128` | `MemCardClose` | Applied at offset `0x928` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008C16C` | `MemCardReadData` | Applied at offset `0x96C` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008C3D4` | `MemCardWriteData` | Applied at offset `0xBD4` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008C638` | `MemCardReadFile` | Applied at offset `0xE38` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008C858` | `MemCardWriteFile` | Applied at offset `0x1058` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008CA78` | `MemCardGetDirentry` | Applied at offset `0x1278` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008CCD4` | `MemCardCallback` | Applied at offset `0x14D4` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008CCE8` | `MemCardSync` | Applied at offset `0x14E8` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature; matching dialog code polls command and result words until completion. |
+| `0x8008CE04` | `MemCardCreateFile` | Applied at offset `0x1604` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008CF00` | `MemCardFormat` | Applied at offset `0x1700` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
 | `0x8008E320` | `bcopy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/BCOPY.OBJ` signature. |
 | `0x8008E360` | `bzero` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBC2.LIB/BZERO.OBJ` signature; `AiScript_Init` clears its three resident state blocks through this entry point. |
 | `0x8008E390` | `memcpy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/MEMCPY.OBJ` signature. |
@@ -684,9 +701,10 @@ These three memory-card-adjacent headers are not interchangeable.
 `libmcrd.h` provides file and block operations, `libmcx.h` exposes the
 separate `Mcx` device command family, and `mcgui.h` combines card metadata
 with background, controller, sound, texture, and cursor resources for
-`McGuiSave`/`McGuiLoad`. No current game C includes `libmcx.h` or `mcgui.h`,
-so these rows document the imported header boundaries rather than claiming a
-resident function identity.
+`McGuiSave`/`McGuiLoad`. Matching memory-card dialog C includes `libmcrd.h`
+for `MemCardStart`, `MemCardSync`, and `MemCardStop`. No current game C
+includes `libmcx.h` or `mcgui.h`, so those rows document the imported header
+boundaries rather than claiming a resident function identity.
 
 The real `src/psyq/libds.h` and `src/psyq/libcd.h` provide parallel record
 families. The resident file-search anchor is `DsSearchFile`; matching
