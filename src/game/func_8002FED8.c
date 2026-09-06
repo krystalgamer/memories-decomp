@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "trig_constants.h"
 
 extern u8 *D_800EAE98[];
 
@@ -14,7 +15,7 @@ void func_8002FED8(u8 *state, u8 *color)
         *(u16 *)(state + 4) |= 0x8000;
         *(s16 *)(state + 6) = 0;
     }
-    angle = (*(u16 *)(state + 6) + 32) & (ONE - 1);
+    angle = (*(u16 *)(state + 6) + 32) & TRIG_ANGLE_MASK;
     *(u16 *)(state + 6) = angle;
     intensity = rsin(angle) * 24 / ONE;
     if (intensity == 0)

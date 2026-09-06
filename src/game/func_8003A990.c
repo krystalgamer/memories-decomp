@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "trig_constants.h"
 
 extern s32 func_80039F1C(u8 *);
 extern void func_8003A95C(u8 *, s32, s32);
@@ -13,8 +14,8 @@ void func_8003A990(u8 *p)
     s32 dy;
 
     if (func_80039F1C(p) == 0) {
-        *(s16 *)(p + 0x48) = ONE / 4;
-        d = (ONE / 4) / *(s16 *)(p + 0x44);
+        *(s16 *)(p + 0x48) = TRIG_ANGLE_QUARTER_TURN;
+        d = TRIG_ANGLE_QUARTER_TURN / *(s16 *)(p + 0x44);
         *(s16 *)(p + 0x4A) = d;
         if (d >= 0) {
             *(s16 *)(p + 0x48) = 0;
@@ -26,7 +27,7 @@ void func_8003A990(u8 *p)
     t = *(u16 *)(p + 0x48) + *(u16 *)(p + 0x4A);
     *(s16 *)(p + 0x48) = t;
 
-    if ((u16)(t - 1) >= (ONE / 4) - 1) {
+    if ((u16)(t - 1) >= TRIG_ANGLE_QUARTER_TURN - 1) {
         func_8003A95C(p, *(s16 *)(p + 0x40), *(s16 *)(p + 0x42));
         p[0x33] = 0;
     } else {

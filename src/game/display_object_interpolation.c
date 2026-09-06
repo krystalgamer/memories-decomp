@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "trig_constants.h"
 
 typedef struct {
     u8 pad_00[0x30];
@@ -35,7 +36,7 @@ void func_80043230(
     int factor;
 
     if (phase < 0) {
-        factor = rsin(phase + ONE / 4);
+        factor = rsin(phase + TRIG_ANGLE_QUARTER_TURN);
         object->out_x = object->x - (dx * factor) / ONE;
         object->out_y = object->y - (dy * factor) / ONE;
     } else {
