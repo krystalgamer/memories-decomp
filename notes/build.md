@@ -142,6 +142,56 @@ The Splat linker script under `tmp/splat/` is diagnostic. The exact build uses
 the project linker script at `linker/slus_01411.ld`, which preserves the
 original data/text/data ordering and file load addresses.
 
+## Mapping a section to a source file
+
+A Splat subsegment says two things: which byte range it covers, and where the
+bytes are to come from. For everything that is not text there are two
+spellings of the same section, and they mean opposite things:
+
+| spelling | meaning | what Splat emits |
+|---|---|---|
+| `.rodata`, `.data`, `.bss` — **with a dot**, plus a source file name | this section is produced by **our** C file | `build/.../<name>.o(.rodata);` |
+| `rodata`, `data`, `bss` — **no dot** | extract this range from the original image as a blob | `<name>.rodata.o(.rodata);` |
+
+So converting data is the same move as converting code: a definition leaves
+the extracted blob, moves into the C file that owns it, and a dotted
+subsegment names that file at the address the definition has to keep. The blob
+shrinks; the boundary moves.
+
+`section_order` is the other half, and it is easy to misread as a constraint.
+**It is a description of the image's layout**, applied within each segment. If
+a module is laid out rodata-then-text, the option should say so; the answer to
+"the rodata is landing after the text" is to describe the image correctly, not
+to build a segment to work around it. Getting this wrong looks like a tooling
+limitation and is not one.
+
+### Three ways this fails without telling you
+
+Layout mistakes here are only caught by the final hash, so it is worth knowing
+the shapes in advance.
+
+- **Anything nobody placed is dropped.** Both `linker/slus_01411.ld` and the
+  generated Splat scripts end with `/DISCARD/ : { *(*); }`. A section that no
+  line claims does not fail the link; it silently disappears.
+- **Undeclared object sections are appended, not placed.** Splat emits a
+  `(.rodata)` line for *every* C object in a segment, so a file without an
+  explicit dotted subsegment still gets one — at the end of the run. That is
+  harmless only while the section is empty. The first time such a file gains a
+  string or a table its bytes land in the wrong place and push everything
+  after them down.
+- **A zero-valued global is not `.data`.** Written as `u8 x;` or `u8 x = 0;`
+  it goes to `.bss`. Declaring a `.data` subsegment for a file whose globals
+  are all zero yields an empty section and loses the blob's bytes.
+
+The resident script guards its largest section explicitly —
+`ASSERT(SIZEOF(.text) == 0x7DCFC, ...)` — which turns one class of this into a
+link error rather than a hash mismatch. The generated overlay scripts have no
+equivalent, so there the hash is the only check.
+
+`notes/overlays/README.md` has the worked example: a printf format string
+moved out of an extracted blob into the C file that uses it, placed ahead of
+the module's text, with all five overlay modules still byte-exact.
+
 ## Exact baseline build
 
 ```sh
