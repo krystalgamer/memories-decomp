@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 #include "sound.h"
 
-extern void func_800771B0(void *a0);
 extern s32 func_80077150(void *a0, s32 a1);
 
 /* Validates the caller's state token against the pending transfer's
@@ -19,7 +19,9 @@ s32 func_800497E0(void *rec, s32 count, s32 state) {
     }
 
     s1 = &v1->transfer;
-    func_800771B0((void *)(s1->field_0014 + v1->bytes_consumed));
+    SpuSetTransferStartAddr(
+        (u32)(s1->field_0014 + v1->bytes_consumed)
+    );
 
     {
         s32 remaining = s1->field_0010 - D_8009B458->bytes_consumed;

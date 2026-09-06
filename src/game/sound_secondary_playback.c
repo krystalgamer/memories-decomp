@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 #include "sound.h"
 
 typedef struct {
@@ -19,7 +20,6 @@ extern void func_8004C77C(SDSecondaryState *);
 /* Preserve the no-argument call form used by the playback-start variant. */
 extern void func_8004C77C_no_arg(void) asm("func_8004C77C");
 extern s32 func_8004CABC(void);
-extern void func_80077450(Packet *);
 extern void SD_ResetSequenceTracks(void);
 
 int func_80049A64(void *input, short value)
@@ -158,7 +158,7 @@ void func_80049CF8(void)
                 packet.image = *image;
                 packet.x = 0;
                 packet.y = 0;
-                func_80077450(&packet);
+                SpuSetVoiceAttr((SpuVoiceAttr *)&packet);
             }
             image++;
             asm volatile("" : "+r"(image));
@@ -207,7 +207,7 @@ void func_80049DD8(void)
                 packet.image = *image;
                 packet.x = *(u16 *)(entry + 0x194);
                 packet.y = *(u16 *)(entry + 0x196);
-                func_80077450(&packet);
+                SpuSetVoiceAttr((SpuVoiceAttr *)&packet);
             }
             image++;
             asm volatile("" : "+r"(image));

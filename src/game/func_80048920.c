@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 
 struct SoundState {
     u8 pad0[0x404];
@@ -13,7 +14,6 @@ struct SoundState {
 
 extern struct SoundState *g_SDValue;
 extern void func_80044DC0(u8);
-extern void func_80077C50(s32, void *);
 extern void func_80047864(s32);
 
 void func_80048920(s32 arg0, s32 arg1)
@@ -54,7 +54,7 @@ void func_80048920(s32 arg0, s32 arg1)
         s16 local;
         struct SoundState *b;
 
-        func_80077C50(i + 0x14, &local);
+        SpuGetVoiceEnvelope(i + 0x14, &local);
         b = g_SDValue;
         if (b->ids[i] == idm && local != 0) {
             b->arr424[i] = a1v;

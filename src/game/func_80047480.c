@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 
 extern u8 *g_SDValue;
-extern void func_80077210(s32);
 
 void func_80047480(void) {
     u8 *p;
@@ -24,7 +24,7 @@ void func_80047480(void) {
         *(s16 *)&(g_SDValue + (i + i))[0x42C] = 0;
     }
 
-    func_80077210(0);
+    SpuSetTransferMode(0);
 
     p = g_SDValue;
     *(s16 *)(p + 0x394) = 0x3FFF;

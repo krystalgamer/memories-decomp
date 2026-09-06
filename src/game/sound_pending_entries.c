@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 #include "sound.h"
 
 typedef struct {
@@ -13,8 +14,6 @@ typedef struct {
     u8 pad0442[2];
     SoundPendingEntry *field_0444;
 } SoundPendingState;
-
-extern void func_80077450(void *);
 
 /* Same *g_SDValue struct as other siblings. Fills the u16 array at f43C
    from index f4 up to (but not including) f0 with 0xFFFF, always sets

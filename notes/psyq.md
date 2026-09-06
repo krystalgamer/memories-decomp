@@ -132,8 +132,18 @@ symbol review.
 | `0x80076D20` | `SpuReadDecodedData` | Applied from the unique 112-byte Psy-Q 4.6 `LIBSPU.LIB/S_RDD.OBJ` signature. |
 | `0x80076D90` | `SpuSetIRQ` | Applied from the unique 320-byte Psy-Q 4.6 `LIBSPU.LIB/S_SI.OBJ` signature; matching sound initialization disables the SPU IRQ before shutdown. |
 | `0x80076ED0` | `SpuSetKey` | Applied Psy-Q 4.6 identity; matching sound-driver paths switch selected voice masks off during cleanup and slot reuse. |
+| `0x80077090` | `SpuGetKeyStatus` | Applied from the unique 144-byte Psy-Q 4.6 `LIBSPU.LIB/S_GKS.OBJ` signature; matching sound-driver paths poll individual voice masks during cleanup and reuse. |
+| `0x80077120` | `SpuSetKeyOnWithAttr` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_SKOWA.OBJ` signature. |
+| `0x800771B0` | `SpuSetTransferStartAddr` | Applied from the unique 96-byte Psy-Q 4.6 `LIBSPU.LIB/S_STSA.OBJ` signature; matching transfer paths select the SPU RAM destination. |
+| `0x80077210` | `SpuSetTransferMode` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_STM.OBJ` signature; matching initialization selects DMA mode zero. |
+| `0x80077240` | `SpuIsTransferCompleted` | Applied from the unique 176-byte Psy-Q 4.6 `LIBSPU.LIB/S_ITC.OBJ` signature; matching reset code selects blocking or nonblocking status. |
 | `0x800772F0` | `SpuRGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset zero of the unique 352-byte `LIBSPU.LIB/SR_GAKS.OBJ` signature. |
 | `0x800773C4` | `SpuGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset `0xD4` of the same object; matching sound-driver callers collect all voice key states before update or cleanup work. |
+| `0x80077450` | `SpuSetVoiceAttr` | Applied from the unique 1,536-byte Psy-Q 4.6 `LIBSPU.LIB/S_SVA.OBJ` signature; matching sound paths submit raw layout-compatible voice attribute blocks. |
+| `0x80077A50` | `_spu_note2pitch` | Applied at offset zero of the unique 512-byte Psy-Q 4.6 `LIBSPU.LIB/S_N2P.OBJ` signature. |
+| `0x80077B20` | `_spu_pitch2note` | Applied at offset `0xD0` of the same unique `LIBSPU.LIB/S_N2P.OBJ` signature. |
+| `0x80077C50` | `SpuGetVoiceEnvelope` | Applied from the unique 32-byte Psy-Q 4.6 `LIBSPU.LIB/S_GVEX.OBJ` signature; matching sound queries read envelope levels for voices 20-23. |
+| `0x80077C70` | `SpuSetCommonAttr` | Applied from the unique 896-byte Psy-Q 4.6 `LIBSPU.LIB/S_SCA.OBJ` signature; matching output transition code submits a layout-compatible common attribute record. |
 | `0x80077FF0` | `SpuSetReverbModeType` | Applied Psy-Q 4.6 identity; matching sound-state paths select reverb mode zero while resetting playback state. |
 | `0x800781C0` | `StSetRing` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBCD.LIB/CDROM.OBJ` signature; the matching movie setup installs its sector ring buffer. |
 | `0x80078270` | `StClearRing` | Applied Psy-Q 4.6 identity from the unique 96-byte `LIBCD.LIB/C_002.OBJ` signature; the matching movie setup clears the installed ring. |

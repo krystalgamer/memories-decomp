@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 
 extern s32 D_80011434[];
 extern u8 *D_8009B458;
@@ -59,7 +60,7 @@ void func_8004B374(s32 arg0, s32 arg1) {
     if (mask != 0) {
         do {
             SpuSetKey(0, mask);
-            v0 = func_80077090(mask);
+            v0 = SpuGetKeyStatus(mask);
         } while (v0 != 2 && v0 != 0);
     }
 

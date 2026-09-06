@@ -6,12 +6,11 @@ extern s32 D_80011434[];
 
 void func_8004A43C(u8 *arg0, s32 arg1);
 void func_8004A7C0(s32 arg0, s32 arg1);
-s32 func_80077090(s32 arg0);
 
 /* Per-entry sweep over the 0x28-byte records at D_8009B458 + 0x180: sends the
  * under-0x10 ones through func_8004A43C, resets a record whose lane at sp10
  * is idle, advances the +0xD counter in lane 3, drains lane 1/2 records through
- * the SpuSetKey/func_80077090 pair, and ORs the touched masks into one final
+ * the SpuSetKey/SpuGetKeyStatus pair, and ORs the touched masks into one final
  * SpuSetKey call. */
 
 void func_8004AAFC(void) {
@@ -76,7 +75,7 @@ next:
                 u = t;
                 while (1) {
                     SpuSetKey(0, *u);
-                    v = func_80077090(*u);
+                    v = SpuGetKeyStatus(*u);
                     if (v == two) {
                         break;
                     }

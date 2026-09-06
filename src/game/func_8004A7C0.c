@@ -3,7 +3,6 @@
 #include "sound.h"
 
 extern int D_80011434[];
-extern int func_80077090(int);
 
 void func_8004A7C0(int index)
 {
@@ -19,7 +18,7 @@ void func_8004A7C0(int index)
     item = (int *)((u8 *)D_80011434 + table_offset);
     do {
         SpuSetKey(0, *item);
-        result = func_80077090(*item);
+        result = SpuGetKeyStatus(*item);
         if (result == 2)
             break;
     } while (result != 0);
