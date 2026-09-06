@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 #include "duel_card_layout.h"
 
 typedef struct {
@@ -11,7 +12,7 @@ typedef struct {
 
 typedef struct {
     u8 *unk0;
-    u8 unk4[5];
+    u8 unk4[HAND_SIZE];
     u8 unk9;
     u8 unkA[2];
 } Rec0C;
@@ -71,8 +72,8 @@ void func_80018DB4(void) {
             D_8009B23A = 0xC;
             return;
         }
-        i = 4 - (s8)b;
-        a = D_800907CC[i + D_8009B1D5 * 5];
+        i = HAND_SIZE - 1 - (s8)b;
+        a = D_800907CC[i + D_8009B1D5 * HAND_SIZE];
         if ((a & 0x80) != 0) {
             k = (a & 0x7F) + 0xF;
         } else {
