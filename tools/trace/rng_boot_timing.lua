@@ -12,12 +12,19 @@
 --   mode, call site, old seed, and the state/result implied by the confirmed
 --   runtime implementation. Human context supplies the visible-screen labels.
 --
+--   PCSX-Redux removes Lua breakpoints during a console reset. The script
+--   therefore listens for ExecutionFlow::Reset and reinstalls both execution
+--   breakpoints when ExecutionFlow::ShellReached fires before the game boots.
+--
 -- HOW TO RUN
 --   1. Open PCSX-Redux with the game and enable the debugger.
 --   2. Select the interpreter CPU. Execution breakpoints do not fire on the
 --      dynarec.
---   3. Debug -> Lua editor, paste this file, and let it auto-run.
---   4. Hard-reset the emulated console. Do not skip the intro or press buttons.
+--   3. Debug -> Lua editor, paste this file, and let it run. Confirm that it
+--      prints "breakpoints installed".
+--   4. Hard-reset the emulated console. The script should print both
+--      "reset observed" and "breakpoints reinstalled at BIOS shell".
+--      Do not skip the intro or press buttons.
 --   5. Note what is visible when the script reports the boot seed, the 0x56
 --      reseed, the first rand call, and entry into main mode 8.
 --   6. After the trace prints, copy the whole document into
@@ -39,6 +46,7 @@ local MENU_MODE = 8
 local BOOT_SEED = 0x55555555
 local STARTUP_SEED = 0x00000056
 local POST_MENU_FRAMES = 180
+local NO_BOOT_SEED_WARNING_FRAMES = 600
 local MAX_EVENTS = 768
 local TIMEOUT_FRAMES = 36000
 
@@ -86,10 +94,30 @@ local sawStartupSeed = false
 local callbackError = nil
 local eventLimitReached = false
 local armed = false
+local resetSeen = false
+local noBootSeedWarningPrinted = false
 local done = false
 
 local function emit(text)
     lines[#lines + 1] = text
+end
+
+local function resetCaptureState()
+    lines = {}
+    vsyncFrames = 0
+    bootFrame = nil
+    menuFrame = nil
+    lastMode = nil
+    eventCount = 0
+    randCalls = 0
+    srandCalls = 0
+    sawStartupSeed = false
+    callbackError = nil
+    eventLimitReached = false
+    armed = false
+    resetSeen = true
+    noBootSeedWarningPrinted = false
+    done = false
 end
 
 local function relativeFrame()
@@ -230,6 +258,13 @@ local function poll()
     end
 
     if not armed then
+        if resetSeen
+            and not noBootSeedWarningPrinted
+            and vsyncFrames >= NO_BOOT_SEED_WARNING_FRAMES then
+            noBootSeedWarningPrinted = true
+            print('rng_boot_timing: no boot seed hit after reset; confirm '
+                .. 'the reinstall messages and interpreter CPU')
+        end
         if vsyncFrames >= TIMEOUT_FRAMES then
             finish('timed out before srand(0x55555555); use interpreter CPU')
         end
@@ -265,26 +300,64 @@ local function poll()
     end
 end
 
-breakpoint_rng_boot_rand = PCSX.addBreakpoint(
-    RAND,
-    'Exec',
-    4,
-    'Trace rand during boot',
+local function installBreakpoints(reason)
+    if breakpoint_rng_boot_rand ~= nil then
+        breakpoint_rng_boot_rand:remove()
+    end
+    if breakpoint_rng_boot_srand ~= nil then
+        breakpoint_rng_boot_srand:remove()
+    end
+
+    breakpoint_rng_boot_rand = PCSX.addBreakpoint(
+        RAND,
+        'Exec',
+        4,
+        'Trace rand during boot',
+        function()
+            local ok, err = pcall(onRand)
+            if not ok then
+                callbackError = tostring(err)
+            end
+        end
+    )
+
+    breakpoint_rng_boot_srand = PCSX.addBreakpoint(
+        SRAND,
+        'Exec',
+        4,
+        'Trace srand during boot',
+        function()
+            local ok, err = pcall(onSrand)
+            if not ok then
+                callbackError = tostring(err)
+            end
+        end
+    )
+
+    print('rng_boot_timing: breakpoints ' .. reason)
+end
+
+listener_rng_boot_reset = PCSX.Events.createEventListener(
+    'ExecutionFlow::Reset',
     function()
-        local ok, err = pcall(onRand)
+        local ok, err = pcall(function()
+            breakpoint_rng_boot_rand = nil
+            breakpoint_rng_boot_srand = nil
+            resetCaptureState()
+            print('rng_boot_timing: reset observed; waiting for BIOS shell')
+        end)
         if not ok then
             callbackError = tostring(err)
         end
     end
 )
 
-breakpoint_rng_boot_srand = PCSX.addBreakpoint(
-    SRAND,
-    'Exec',
-    4,
-    'Trace srand during boot',
+listener_rng_boot_shell = PCSX.Events.createEventListener(
+    'ExecutionFlow::ShellReached',
     function()
-        local ok, err = pcall(onSrand)
+        local ok, err = pcall(function()
+            installBreakpoints('reinstalled at BIOS shell')
+        end)
         if not ok then
             callbackError = tostring(err)
         end
@@ -301,4 +374,5 @@ listener_rng_boot_timing = PCSX.Events.createEventListener(
     end
 )
 
+installBreakpoints('installed')
 print('rng_boot_timing: armed; hard-reset without skipping the intro')
