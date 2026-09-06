@@ -2293,7 +2293,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x80046768,SD_InitState,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_036f68.s,read_write,32,"lw $a0, %gp_rel(g_SDValue)($gp) | lw $a3, %gp_rel(g_SDValue)($gp) | (+3 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x80046990,func_80046990,matching_c,game,C,src/game/sound_state_control.c,read_write,,g_SDValue->field_003C = 0; | g_SDValue->flags_0040 |= 0xA; | (+3 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80046A08,func_80046A08,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_037208.s,read,32,"lw $v0, %gp_rel(g_SDValue)($gp) | lw $v1, %gp_rel(g_SDValue)($gp)"
-0x8009B45C,g_SDValue,g_SDValue,0x80046DE8,func_80046DE8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_037208.s,read,32,"lw $a0, %gp_rel(g_SDValue)($gp) | lw $v0, %gp_rel(g_SDValue)($gp) | (+1 more)"
+0x8009B45C,g_SDValue,g_SDValue,0x80046DE8,func_80046DE8,matching_c,game,C,src/game/func_80046DE8.c,read_write,,((u8 *)g_SDValue)[0x7D] = 0; | *((u8 *)g_SDValue + i + 0x40C) = 0; | (+13 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80046FA0,SD_SetOutputType,matching_c,game,C,src/game/sound_output.c,read,,SDValue *state = g_SDValue; | func_80044DC0(g_SDValue->cd_volume);
 0x8009B45C,g_SDValue,g_SDValue,0x80047008,func_80047008,matching_c,game,C,src/game/sound_output.c,read,,return g_SDValue->output_type;
 0x8009B45C,g_SDValue,g_SDValue,0x8004701C,func_8004701C,matching_c,game,C,src/game/sound_output.c,read_write,,(g_SDValue->flags_004A & 0xF0) | value; | g_SDValue->flags_004A =
