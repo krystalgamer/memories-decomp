@@ -983,7 +983,7 @@ address,size,name,status,module,notes
 0x8005AE68,0x1EC,func_8005AE68,unmatched_asm,game,
 0x8005B054,0x60,func_8005B054,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005B0B4,0x1AC,func_8005B0B4,unmatched_asm,game,
-0x8005B260,0x10C,func_8005B260,unmatched_asm,game,
+0x8005B260,0x10C,func_8005B260,matching_c,game,"Copies one GPU primitive into the packet buffer with a 0xE1 draw-mode word carrying the semi-transparency rate, links it into an ordering table with addPrim, and advances the buffer pointer."
 0x8005B36C,0x16C,func_8005B36C,unmatched_asm,game,
 0x8005B4D8,0x124,func_8005B4D8,unmatched_asm,game,
 0x8005B5FC,0x24,func_8005B5FC,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
