@@ -155,6 +155,20 @@ symbol review.
 | `0x80087AB0` | `RotAverage4` | Applied Psy-Q 4.6 identity; the matching duel renderer transforms four vertices and returns depth and flag outputs. |
 | `0x800899A0` | `ratan2` | Applied Psy-Q 4.6 identity; matching view and duel callers derive 4096-unit angles from coordinate deltas. |
 | `0x8008AD50` | `GsSetRefView2` | Applied Psy-Q 4.6 identity; matching model paths install the shared 32-byte reference-view record. |
+| `0x8008B330` | `_card_info` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/C171.OBJ` signature; matching memory-card request paths issue this BIOS operation before polling their event handles. |
+| `0x8008B340` | `_card_load` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/C172.OBJ` signature; matching memory-card request paths issue it before polling load completion. |
+| `0x8008B350` | `_card_write` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/A78.OBJ` signature. |
+| `0x8008B360` | `_card_read` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/A79.OBJ` signature. |
+| `0x8008B370` | `_new_card` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/A80.OBJ` signature. |
+| `0x8008B380` | `_card_status` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/A92.OBJ` signature. |
+| `0x8008B390` | `_card_wait` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/A93.OBJ` signature. |
+| `0x8008B3A0` | `_card_clear` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBCARD.LIB/CARD.OBJ` signature; matching initialization and retry paths clear a channel before polling its events. |
+| `0x8008B3E0` | `InitCARD` | Applied Psy-Q 4.6 identity at offset zero of the unique 256-byte `LIBCARD.LIB/INIT.OBJ` signature; the matching card setup forwards its incoming mode value. |
+| `0x8008B470` | `StartCARD` | Applied Psy-Q 4.6 identity at offset `0x90` of the same unique `LIBCARD.LIB/INIT.OBJ` signature; the matching setup starts the card subsystem immediately after initialization. |
+| `0x8008B4B8` | `StopCARD` | Applied Psy-Q 4.6 identity at offset `0xD8` of the same unique `LIBCARD.LIB/INIT.OBJ` signature. |
+| `0x8008B4E0` | `InitCARD2` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/A74.OBJ` signature. |
+| `0x8008B4F0` | `StartCARD2` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/A75.OBJ` signature. |
+| `0x8008B500` | `StopCARD2` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/A76.OBJ` signature. |
 | `0x8008E320` | `bcopy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/BCOPY.OBJ` signature. |
 | `0x8008E360` | `bzero` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBC2.LIB/BZERO.OBJ` signature; `AiScript_Init` clears its three resident state blocks through this entry point. |
 | `0x8008E390` | `memcpy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/MEMCPY.OBJ` signature. |
@@ -346,9 +360,10 @@ register access, and raw memory-card services. The records passed to
 `_card_*` block operations merely because both address memory cards.
 
 Game sources now include `libapi.h` directly for the confirmed pad lifecycle,
-memory-card and sound events, critical sections, and directory iteration.
-`func_80044470` uses the real `DIRENTRY`, `firstfile`, and `nextfile`
-interfaces. No current game C directly includes `kernel.h` or `libmcrd.h`.
+raw memory-card operations, memory-card and sound events, critical sections,
+and directory iteration. `func_80044470` uses the real `DIRENTRY`,
+`firstfile`, and `nextfile` interfaces. No current game C directly includes
+`kernel.h` or `libmcrd.h`.
 
 The graphics headers also form distinct layers. `libgpu.h` owns the GPU packet
 ABI: `RECT`, `DRAWENV`, `DISPENV`, primitive records, packet-construction

@@ -1675,20 +1675,20 @@ address,size,name,status,module,notes
 0x8008B20C,0xC8,func_8008B20C,sdk_asm,psyq/sdk,
 0x8008B2D4,0x1C,func_8008B2D4,sdk_asm,psyq/sdk,
 0x8008B2F0,0x40,func_8008B2F0,sdk_asm,psyq/sdk,
-0x8008B330,0xC,func_8008B330,sdk_asm,psyq/sdk,
-0x8008B340,0xC,func_8008B340,sdk_asm,psyq/sdk,
-0x8008B350,0xC,func_8008B350,sdk_asm,psyq/sdk,
-0x8008B360,0xC,func_8008B360,sdk_asm,psyq/sdk,
-0x8008B370,0xC,func_8008B370,sdk_asm,psyq/sdk,
-0x8008B380,0xC,func_8008B380,sdk_asm,psyq/sdk,
-0x8008B390,0xC,func_8008B390,sdk_asm,psyq/sdk,
-0x8008B3A0,0x34,func_8008B3A0,sdk_asm,psyq/sdk,
-0x8008B3E0,0x90,func_8008B3E0,sdk_asm,psyq/sdk,
-0x8008B470,0x48,func_8008B470,sdk_asm,psyq/sdk,
-0x8008B4B8,0x28,func_8008B4B8,sdk_asm,psyq/sdk,
-0x8008B4E0,0xC,func_8008B4E0,sdk_asm,psyq/sdk,
-0x8008B4F0,0xC,func_8008B4F0,sdk_asm,psyq/sdk,
-0x8008B500,0xC,func_8008B500,sdk_asm,psyq/sdk,
+0x8008B330,0xC,_card_info,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/C171.OBJ signature and matching memory-card request callers.
+0x8008B340,0xC,_card_load,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/C172.OBJ signature and matching memory-card request callers.
+0x8008B350,0xC,_card_write,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/A78.OBJ signature.
+0x8008B360,0xC,_card_read,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/A79.OBJ signature.
+0x8008B370,0xC,_new_card,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/A80.OBJ signature.
+0x8008B380,0xC,_card_status,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/A92.OBJ signature.
+0x8008B390,0xC,_card_wait,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/A93.OBJ signature.
+0x8008B3A0,0x34,_card_clear,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/CARD.OBJ signature and matching memory-card retry callers.
+0x8008B3E0,0x90,InitCARD,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBCARD.LIB/INIT.OBJ signature and its matching initialization caller.
+0x8008B470,0x48,StartCARD,sdk_asm,psyq/sdk,Identified at offset 0x90 of the unique Psy-Q 4.6 LIBCARD.LIB/INIT.OBJ signature and its matching initialization caller.
+0x8008B4B8,0x28,StopCARD,sdk_asm,psyq/sdk,Identified at offset 0xD8 of the unique Psy-Q 4.6 LIBCARD.LIB/INIT.OBJ signature.
+0x8008B4E0,0xC,InitCARD2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/A74.OBJ signature.
+0x8008B4F0,0xC,StartCARD2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/A75.OBJ signature.
+0x8008B500,0xC,StopCARD2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/A76.OBJ signature.
 0x8008B510,0x44,func_8008B510,sdk_asm,psyq/sdk,
 0x8008B554,0x2C,func_8008B554,sdk_asm,psyq/sdk,
 0x8008B580,0x44,func_8008B580,sdk_asm,psyq/sdk,

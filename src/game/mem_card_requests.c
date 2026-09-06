@@ -19,9 +19,6 @@ extern s16 D_8009B44C;
 extern volatile s32 gMemCard_nIOResult;
 extern int func_800440B4(int, int);
 extern void func_80043D48(long *);
-extern void func_8008B330(int);
-extern void func_8008B340(int);
-extern void func_8008B3A0(int);
 
 int func_8004413C(int value)
 {
@@ -29,15 +26,15 @@ int func_8004413C(int value)
         return 0;
     }
     func_80043D48(gMemCard_aIOEventHandles);
-    func_8008B330(value);
+    _card_info(value);
     while (gMemCard_nIOResult < 0) {
     }
     func_80043D48(D_800F2AF0);
-    func_8008B3A0(D_8009B437);
+    _card_clear(D_8009B437);
     while (gMemCard_nIOResult < 0) {
     }
     func_80043D48(gMemCard_aIOEventHandles);
-    func_8008B340(value);
+    _card_load(value);
     while (gMemCard_nIOResult < 0) {
     }
     return 1;
@@ -53,7 +50,7 @@ int func_800441DC(int value, int data, int global_data, int small, int extra)
         D_8009B430 = global_data;
         D_8009B434 = extra;
         func_80043D48(gMemCard_aIOEventHandles);
-        func_8008B330(value);
+        _card_info(value);
         result = 1;
     } else {
         result = 0;
@@ -69,7 +66,7 @@ int func_80044278(int value, int data, int small)
         D_8009B44C = small;
         D_8009B430 = data;
         func_80043D48(gMemCard_aIOEventHandles);
-        func_8008B330(value);
+        _card_info(value);
         result = 1;
     } else {
         result = 0;
@@ -87,7 +84,7 @@ int func_800442E4(int value, int data, int global_data, int small, int extra)
         D_8009B430 = global_data;
         D_8009B434 = extra;
         func_80043D48(gMemCard_aIOEventHandles);
-        func_8008B330(value);
+        _card_info(value);
         result = 1;
     } else {
         result = 0;
@@ -103,7 +100,7 @@ int func_80044380(int value, int data, int small)
         D_8009B44C = small;
         D_8009B430 = data;
         func_80043D48(gMemCard_aIOEventHandles);
-        func_8008B330(value);
+        _card_info(value);
         result = 1;
     } else {
         result = 0;
@@ -119,7 +116,7 @@ int func_800443EC(int value, int data, int small)
         sprintf((char *)D_800F2B00, (char *)D_80010538, value, data);
         D_8009B434 = small;
         func_80043D48(gMemCard_aIOEventHandles);
-        func_8008B330(value);
+        _card_info(value);
         result = 1;
     } else {
         result = 0;
