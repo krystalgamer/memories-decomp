@@ -709,6 +709,38 @@ fill those four slots. Fix the arithmetic and the `nop`s close on their own.
 Chasing the `nop`s directly cannot work, because there is no way to spell an
 unfilled delay slot in C.
 
+## Pass a small constant as a literal, not through a local
+
+When a constant is both passed as an argument and used elsewhere in the
+function, whether the source names it decides where the compiler materialises
+it, and that is visible in the output.
+
+A local holding the constant is one value with one live range, so the compiler
+materialises it once, early, and keeps it in a register across the whole block.
+Passing the literal at the call site instead lets it be rematerialised at each
+point of use, which on this compiler means inside each branch arm, typically in
+a delay slot that would otherwise be empty.
+
+`func_80168CDC` is the worked example, and the effect is not marginal. Its
+draw call takes 16 as argument 4, and the same 16 is the shift amount for an
+s16 truncation. Written with a local for both, the compiler emits one early
+`li` and leaves four delay slots in the arms empty. Written with the literal
+at the call, it emits `li a3,16` inside each arm instead. That one line took
+the function from 239 of 240 instructions at opcode distance 9 to 240 of 240
+at distance 2, and the differing positions from 123 to 44.
+
+This is also why the earlier reading of that residual was wrong in a useful
+way. It looked like three missing `addiu` and four extra `nop`, four separate
+faults plus some padding. It was one fault: `li` assembles to `addiu`, the
+three missing ones were the rematerialisations, and the four `nop`s were the
+slots those instructions would have filled. Whenever missing `addiu` and extra
+`nop` appear together, check where a constant is being named.
+
+The reverse is not automatic. Spelling *every* use as a literal can be worse:
+on the same function, making the shift amount a literal too collapsed the
+variable `sllv`/`srav` pair into shifts by immediate and lost two instructions.
+Change one use at a time and measure.
+
 ## A matching count under `no_sched1` can be a false positive
 
 Turning off the first scheduling pass changes how many instructions the
