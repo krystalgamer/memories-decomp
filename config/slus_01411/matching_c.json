@@ -2278,13 +2278,13 @@
       "address": "0x800375A4",
       "profile": "gcc_2_8_1_g8",
       "size": "0xD8",
-      "source": "src/game/func_800375A4.c"
+      "source": "src/game/duel_effect_interaction_states.c"
     },
     {
       "address": "0x8003767C",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
-      "source": "src/game/duel_effect_state_5.c"
+      "source": "src/game/duel_effect_interaction_states.c"
     },
     {
       "address": "0x8003771C",
