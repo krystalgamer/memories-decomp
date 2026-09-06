@@ -155,8 +155,20 @@ symbol review.
 | `0x80087AB0` | `RotAverage4` | Applied Psy-Q 4.6 identity; the matching duel renderer transforms four vertices and returns depth and flag outputs. |
 | `0x800899A0` | `ratan2` | Applied Psy-Q 4.6 identity; matching view and duel callers derive 4096-unit angles from coordinate deltas. |
 | `0x8008AD50` | `GsSetRefView2` | Applied Psy-Q 4.6 identity; matching model paths install the shared 32-byte reference-view record. |
+| `0x8008E320` | `bcopy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/BCOPY.OBJ` signature. |
+| `0x8008E360` | `bzero` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBC2.LIB/BZERO.OBJ` signature; `AiScript_Init` clears its three resident state blocks through this entry point. |
+| `0x8008E390` | `memcpy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/MEMCPY.OBJ` signature. |
+| `0x8008E3D0` | `memset` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBC2.LIB/MEMSET.OBJ` signature; matching model paths clear eight-byte vector records before filling their components. |
 | `0x8008E400` | `qsort` | Applied Psy-Q 4.6 identity from the unique 400-byte `LIBC.LIB`/`LIBC2.LIB` `QSORT.OBJ` signature; matching callers sort resident and overlay record arrays. |
+| `0x8008E5D0` | `strcat` | Applied Psy-Q 4.6 identity from the unique 176-byte `LIBC2.LIB/STRCAT.OBJ` signature. |
+| `0x8008E680` | `strcmp` | Applied Psy-Q 4.6 identity from the unique 112-byte `LIBC2.LIB/STRCMP.OBJ` signature; the matching memory-card directory search compares each entry against the requested name. |
+| `0x8008E6F0` | `strcpy` | Applied Psy-Q 4.6 identity from the unique 80-byte `LIBC2.LIB/STRCPY.OBJ` signature; the matching data-transfer path copies its request string into the resident buffer. |
+| `0x8008E740` | `strlen` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/STRLEN.OBJ` signature. |
+| `0x8008E780` | `strncmp` | Applied Psy-Q 4.6 identity from the unique 128-byte `LIBC2.LIB/STRNCMP.OBJ` signature. |
+| `0x8008E800` | `strncpy` | Applied Psy-Q 4.6 identity from the unique 112-byte `LIBC2.LIB/STRNCPY.OBJ` signature. |
+| `0x8008EF50` | `memchr` | Applied Psy-Q 4.6 identity from the unique 80-byte `LIBC2.LIB/MEMCHR.OBJ` signature. |
 | `0x8008F200` | `sprintf` | Applied Psy-Q 4.6 identity from the unique 2,176-byte `LIBC2.LIB/SPRINTF.OBJ` signature; matching callers format memory-card paths and request strings. |
+| `0x8008FA80` | `memmove` | Applied Psy-Q 4.6 identity from the unique 112-byte `LIBC2.LIB/MEMMOVE.OBJ` signature. |
 | `0x8008FBE0` | `DecDCTReset` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature; the matching wait path requests mode `1` after a decode timeout. |
 | `0x8008FC14` | `DecDCTGetEnv` | Applied Psy-Q 4.6 identity at offset `0x34` of the unique `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
 | `0x8008FCA0` | `DecDCTPutEnv` | Applied Psy-Q 4.6 identity at offset `0xC0` of the same unique `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
@@ -564,10 +576,11 @@ The imported string headers form a compatibility stack rather than three
 independent libraries. `string.h` only includes `strings.h`; `strings.h`
 declares the string routines and includes `memory.h`; `memory.h` declares the
 memory routines and BSD-compatible aliases. Several prototypes intentionally
-omit parameter types to avoid conflicts with old compiler built-ins. No
-current game C includes this stack, and replacing an exact hand-written copy
-loop with `memcpy` or `bcopy` still requires a full executable match because
-GCC may choose different load/store sequences.
+omit parameter types to avoid conflicts with old compiler built-ins. Matching
+game C now includes `memory.h` for the confirmed `bzero` and `memset` calls,
+and includes `strings.h` for confirmed `strcmp` and `strcpy` calls. Replacing
+an exact hand-written copy loop with `memcpy` or `bcopy` still requires a full
+executable match because GCC may choose different load/store sequences.
 
 Do not add `src/types.h` to an imported header solely for uniformity. Headers
 that expose project-adapted fixed-width records must include it directly and

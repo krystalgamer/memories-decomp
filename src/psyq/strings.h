@@ -20,7 +20,7 @@
 typedef unsigned int size_t;  /* result type of the sizeof operator (ANSI) */
 #endif
 
-#include <memory.h>
+#include "memory.h"
 
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 extern "C" {
@@ -49,4 +49,3 @@ extern char *strstr (const char *, const char *);
 #define strdup(p)	( strcpy(malloc(strlen(p)+1),p); )
 
 #endif	/* _STRINGS_H */
-
