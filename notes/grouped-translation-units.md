@@ -75,6 +75,7 @@ source grouping.
 | `src/game/main_debug.c` | `gcc_2_8_1_g8` | Debug-mode setup wrapper (`0x8002CDE8`), `Main_RunDebugMenu` (`0x8002CE08`) |
 | `src/game/script_control_commands.c` | `gcc_2_8_1_g8` | Two script mode setters at `0x8002F930` and `0x8002F94C`, followed by the contiguous script-delay updater at `0x8002F968` |
 | `src/game/frontend_mode_states.c` | `gcc_2_8_1_g8` | Six contiguous debug/frontend, duel-effect mode, memory-card transition, duel setup, and effect-start handlers from `0x80030D5C` through `0x80030F80` |
+| `src/game/display_object_fade_callbacks.c` | `gcc_2_8_1_g0` | Three contiguous display-object fade callbacks from `0x80039AFC` through `0x80039C94`, sharing initialization flags and frame-step state |
 | `src/game/options_update.c` | `gcc_2_8_1_g8` | Contiguous options input handler (`0x8003C7A0`) and per-frame state dispatcher (`0x8003C8CC`) |
 | `src/game/game_over.c` | `gcc_2_8_1_g8_split` | Contiguous Game Over setup (`0x8003C950`) and per-frame update (`0x8003CA5C`) |
 | `src/game/input_update_pads.c` | `gcc_2_8_1_g8_split` | Contiguous raw controller-packet decoder (`0x8003CC38`) and held/pressed/repeat publisher (`0x8003CCD8`) |
