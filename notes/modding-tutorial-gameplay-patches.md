@@ -26,6 +26,7 @@ Confidence levels:
 **Tutorials:**
 
 - `Alterar Limite de Cartas - Por Jael Rivera.txt`
+- `Inserir Limites e Personalizar - Por Wladmir Ghost.txt`
 - `Tirar o Limite de Cartas.txt`
 
 The tutorials identify two SLUS offsets in the deck editor:
@@ -64,20 +65,53 @@ decimal 64, not decimal 40; because a deck contains only 40 cards, either
 limit is effectively nonbinding for a valid deck. To set a literal limit of
 40, the immediate byte would be `0x28`.
 
-The tutorial also instructs users to zero 52 bytes at file offset `0x1BFB24`.
-Those bytes are already zero in the unmodified North American retail
-executable. That step is therefore a no-op on the verified target and cannot
-be accepted as a retail limited-card table. It may repair data moved by a
-third-party card editor, but that editor-specific interpretation needs a
-modified input demonstrating the before/after layout.
+### Custom per-card limit injection
+
+`Inserir Limites e Personalizar` explains the provenance of the separate
+`0x1BFB24` region. It is not a hidden retail table: the tutorial first writes a
+`0x1AC`-byte code-and-data payload at SLUS offset `0x1BFA48` (VRAM
+`0x801CF248`). Every byte in that destination range is zero in the verified
+retail executable.
+
+The tutorial then installs two hooks:
+
+| SLUS offset | VRAM | Retail sequence | Injected behavior |
+|---:|---:|---|---|
+| `0x22418` | `0x80031C18` | Load the selected card's deck count and test it against `3` | Jump to `0x801CF248`, select a per-card limit, update the list-display comparison and its color constant, then resume at `0x80031C24` |
+| `0x24064` | `0x80033864` | Load the selected card's deck count before `sltiu $v0, $v0, 3` | Jump to `0x801CF364`, return the selected limit in `$a0`, and replace the fixed comparison with `sltu $v0, $v0, $a0` |
+
+The first hook lies in unmatched `func_80031874`; the second lies in the exact
+matching deck-add path `func_800336F0`.
+
+The injected lookup contains 26 little-endian halfword slots:
+
+- 16 slots at `0x1BFB24-0x1BFB43`, whose limit immediate is stored at
+  `0x1BFB8C` and defaults to `2`;
+- 10 slots at `0x1BFB44-0x1BFB57`, whose limit immediate is stored at
+  `0x1BFBCC` and defaults to `1`;
+- cards absent from both groups use the immediate at `0x1BFBD0`, which defaults
+  to the retail limit `3`.
+
+The tutorial encodes each selected card as `card_id + 0x7ADC`. The injected
+routine derives the same key from the selected-card pointer before scanning
+the two groups. Its initial `0x7ADC` entries represent empty slots because
+retail card IDs begin at one.
+
+The older instruction to zero 52 bytes at `0x1BFB24` is therefore still a
+no-op on the untouched executable, but it now has a supported modified-build
+interpretation: it clears the 26-entry table created by this injection. It
+does not reveal a retail restricted-card table.
 
 **Confidence:**
 
 - **Confirmed** that `0x24020` controls the five Exodia-piece count test.
 - **Confirmed** that `0x24070` controls the general per-card count test.
-- **Confirmed** that `0x1BFB24` is already zero in the verified retail target.
-- **Tentative** that the `0x1BFB24` step repairs a particular editor's
-  relocated restricted-card data.
+- **Confirmed** that `0x1BFA48-0x1BFBF3`, including the table at `0x1BFB24`,
+  is zero-filled in the verified retail target.
+- **Confirmed** that the custom payload replaces the fixed limit with
+  `2`/`1`/`3` selection over two injected card groups.
+- **High** that tutorials which only clear `0x1BFB24-0x1BFB57` assume this or
+  a compatible injected limit system rather than retail data.
 
 ## Rebuy cards from the password shop
 
