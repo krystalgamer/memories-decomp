@@ -11,7 +11,7 @@ extern void func_80012D4C(void);
 extern s32 func_80169C08(void);
 extern void NameEntry_BuildStarterDeck(void);
 
-void func_8016AA6C(void)
+void NameEntry_Main(void)
 {
     u8 *state;
     u8 *entry;
