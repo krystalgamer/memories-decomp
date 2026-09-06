@@ -3,6 +3,54 @@
 #include "duel_card_layout.h"
 
 typedef struct {
+    u8 pad[0x1A];
+    s8 hand[HAND_SIZE];
+} DuelHandState;
+
+typedef struct {
+    s16 id;
+    u8 type;
+    u8 pad3[3];
+} ExodiaCardRecord;
+
+typedef struct {
+    u8 pad0[0x4B9FC];
+    ExodiaCardRecord cards[1];
+} ExodiaCardDatabase;
+
+extern DuelHandState *D_8009B1C8_hand asm("D_8009B1C8");
+extern ExodiaCardDatabase D_8015C424_cards asm("D_8015C424");
+
+s32 Duel_HasAllExodiaPieces(void) {
+    s16 hand[HAND_SIZE];
+    s32 i;
+    s32 card_id;
+
+    for (i = 0; i < HAND_SIZE; i++) {
+        hand[i] = D_8009B1C8_hand->hand[i];
+    }
+
+    for (card_id = EXODIA_FIRST_CARD_ID;
+         card_id < EXODIA_CARD_ID_END;
+         card_id++) {
+        for (i = 0; i < HAND_SIZE; i++) {
+            s16 index = hand[i];
+            if (index >= 0) {
+                s16 id = D_8015C424_cards.cards[index].id;
+                if (id == card_id) {
+                    hand[i] = -1;
+                    goto found;
+                }
+            }
+        }
+        return 0;
+    found:;
+    }
+
+    return 1;
+}
+
+typedef struct {
     u8 unk0[0x14];
     s16 unk14;
     u8 unk16[3];
@@ -30,7 +78,6 @@ extern u8 D_8015C424[];
 extern u8 D_801A7AD8[];
 
 void func_80018C34(u8 *arg0);
-s32 Duel_HasAllExodiaPieces(void);
 s32 func_80042B40(s32 arg0);
 u8 *func_80018004();
 void SD_SEPlayFull(s32 sound_id);
