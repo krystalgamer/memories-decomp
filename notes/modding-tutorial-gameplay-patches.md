@@ -21,6 +21,54 @@ Confidence levels:
 - **Tentative**: the claimed effect depends on an external editor or modified
   input that is not present in the verified retail target.
 
+## Extra drops require the tutorial's earlier tool patch
+
+**Tutorial:** `Drops 16 até 37.docx`
+
+The tutorial begins by requiring the codes from a separate drops tool, which
+it says already adds 15 drops. Its follow-up table encodes a requested count
+`N` as hexadecimal values `N + 1` and `N`: the 37-drop example uses `26`
+and `25`. These are edits to the tool's modified archive, not established
+retail drop-count settings. The document does not supply the prerequisite
+tool payload.
+
+All 22 listed WA offsets fall in phase 9 of the seven terrain packages.
+The package stride is `0x75800`; phase 9 spans package-relative
+`0x5D800-0x5EFFF` and is copied to `0x801A9800-0x801AAFFF` by
+`Duel_LoadPackageStage`. The normal-terrain sites reduce to four locations:
+
+| Normal WA offset | Phase offset | Loaded address | Retail bytes | Tutorial byte for 37 drops |
+|---:|---:|---:|---|---|
+| `0xBC17E4` | `0xFE4` | `0x801AA7E4` | `00 00 02 3F` | `26` |
+| `0xBC1C78` | `0x1478` | `0x801AAC78` | `00 00 03 1F` | `26` |
+| `0xBC1D74` | `0x1574` | `0x801AAD74` | `04 01 AB 8F` | `26` |
+| `0xBC1DEC` | `0x15EC` | `0x801AADEC` | `C8 19 82 94` | `25` |
+
+The last three rows recur at the same offsets within all seven terrain
+packages. The first row is listed only for Normal; the document provides no
+corresponding edit for the other six copies. That asymmetry is preserved here
+rather than silently adding patch sites.
+
+The complete retail `0x1800`-byte phase is identical in all seven packages:
+
+```text
+SHA-256: d8bf4e5b8d135721ac2e2a45e45ca8c6b1d9d3ade9e5c9dbb668130f127e2fac
+```
+
+This is a live script buffer: `func_8001D670` passes its base `0x801A9800`
+to `AiScript_Init` at the call at `0x8001D7D8`. That establishes the block's
+retail consumer, not the meaning of each byte after the drops tool rewrites it.
+
+**Confidence:**
+
+- **Confirmed** that the 22 listed sites map to the phase and bytes above in
+  the verified retail archive, and that the seven phase copies are identical.
+- **Confirmed** that the tutorial requires a prior tool patch and lists
+  count-plus-one/count values, rather than a self-contained retail patch.
+- **Tentative** that 37 is a working maximum or that the asymmetric list is
+  complete. Establishing either requires the prerequisite tool output and
+  validation of its injected logic; these edits alone do not prove it.
+
 ## Deck copy limits
 
 **Tutorials:**
