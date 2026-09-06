@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 /* Per-frame update for an object that orbits a fixed base position
    (unk2C/unk2E) at a constant angular step of 0x30/frame, with radius
@@ -8,7 +9,7 @@
    returns. Otherwise, while D_8009B0CC's bit 0 is set, spawns a companion
    slot object at the object's current position (tagged via
    sub_table_lookup_set_flag using unk16-1), then advances the angle and
-   recomputes the orbit position from base + (rcos,rsin)*radius/4096. */
+   recomputes the orbit position from base + (rcos,rsin)*radius/ONE. */
 
 struct Obj {
     u8 pad0[0x16];
@@ -55,9 +56,6 @@ s32 func_8004002C(void);
 struct Slot *func_800400AC(s32, s32);
 void func_800428A8(struct Slot *, s32, s32, s32, s32, s32, s32, s32, s32);
 void func_800428EC(struct Slot *, s8);
-int rsin(int);
-int rcos(int);
-
 void func_80020D4C(struct Obj *arg0) {
     s16 timer;
     u16 angle;
@@ -90,7 +88,7 @@ void func_80020D4C(struct Obj *arg0) {
 
     angle = arg0->unk2A + 0x30;
     arg0->unk2A = angle;
-    arg0->unk30 = arg0->unk2C + rcos((s16) angle) * arg0->unk28 / 4096;
+    arg0->unk30 = arg0->unk2C + rcos((s16) angle) * arg0->unk28 / ONE;
     vy = rsin((s16) arg0->unk2A) * arg0->unk28;
-    arg0->unk32 = arg0->unk2E + vy / 4096;
+    arg0->unk32 = arg0->unk2E + vy / ONE;
 }
