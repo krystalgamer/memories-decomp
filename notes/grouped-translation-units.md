@@ -102,6 +102,8 @@ source grouping.
 | `src/game/sound_voice_selection.c` | `gcc_2_8_1_g0` | Nine voice update, lifetime, selection, normalization, release, and slot-removal helpers from `0x80047864` through `0x80047CC4` |
 | `src/game/sound_voice_status.c` | `gcc_2_8_1_g0` | Late voice cleanup (`0x80047EC4`) and voice-group mask selection (`0x80047F38`) |
 | `src/game/sound_sequence_state.c` | `gcc_2_8_1_g0` | Two sequence-state setters (`0x800490F0`, `0x80049108`) and the active-state test at `0x80049120` |
+| `src/game/sound_sequence_reader.c` | `gcc_2_8_1_g0` | Bounded `SD_ReadSequenceByte` (`0x8004BAE4`) and the contiguous MIDI-style `SD_ReadVariableLengthValue` decoder (`0x8004BB34`) |
+| `src/game/sound_sequence_values.c` | `gcc_2_8_1_g0` | Fixed-width `SD_ReadSequenceU32BE` (`0x8004BC2C`) and `SD_ReadSequenceU16BE` (`0x8004BCA8`) readers built from the sequence-byte helper |
 | `src/game/sound_transfer_lifecycle.c` | `gcc_2_8_1_g0` | Four contiguous helpers from pre-termination cleanup (`0x80049640`) and `SD_Term` through the two transfer-setup functions ending at `0x8004975C` |
 | `src/game/sound_buffer_init.c` | `gcc_2_8_1_g0` | Sound work-buffer pointer setup (`0x80044D48`) and channel-volume defaults (`0x80044DA0`) |
 | `src/game/sound_mix.c` | `gcc_2_8_1_g0` | Three CD volume and mix helpers from `0x80044E90` through the current-volume query (`0x80044FE4`), including CD mix packet setup at `0x80044F58` |
