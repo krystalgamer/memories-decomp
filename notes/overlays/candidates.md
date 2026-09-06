@@ -545,25 +545,27 @@ void func_801681A0(Record *r, void *ot)
 
 ## password `func_80168CDC` at 0x80168CDC
 
-`gcc_2_8_1_g0_split`, 239 of 240 instructions, opcode distance 9.
+`gcc_2_8_1_g0_split`, 240 of 240 instructions, 44 differing positions, opcode
+distance 2.
 
 Do not rebuild this from scratch; it has been reconstructed three times.
 
-Residual is extra `nop` x4 against missing `addiu` x3 and `addu` x2.
+Residual is one extra `addiu` against one missing `addu`.
 
-The residual decomposes into a cause and a symptom. The five missing
-arithmetic instructions are the cause: the target recomputes an address at
-each use where this candidate hoists it into a register. The four extra
-`nop`s are the symptom -- with five fewer instructions available to fill
-delay slots, the scheduler emits padding instead. Chasing the `nop`s
-directly will not work; they close on their own once the arithmetic
-appears.
+The remaining difference is where the constant 16 lives. The target keeps it
+in `a3`, the register that also carries argument 4, and uses that same
+register as the shift amount at the `sllv`/`srav` pair. This candidate passes
+the argument as a literal and keeps a separate local for the shift, so it
+materialises 16 twice. Spelling the shift with a literal too collapses it to
+`sll`/`sra` by immediate and loses the variable shift, which is worse: 237
+instructions at distance 3. Passing the local for either argument position is
+also worse (`n, n` 238 at distance 10; `n, 16` 239 at distance 9; `16, n` and
+`m, n` 239 at distance 3).
 
-**Do not measure this function under `no_sched1`.** That profile reports
-240/240, an exact position count, but its opcode distance is 16 -- it
-reaches the right total by way of a worse instruction mix. See the
-"A matching count under `no_sched1` can be a false positive" section in
-`README.md`.
+**Do not measure this function under `no_sched1`.** That profile reports an
+exact position count on the older 239-instruction candidate but at opcode
+distance 16. See the "A matching count under `no_sched1` can be a false
+positive" section in `README.md`.
 
 ```c
 #include "../../src/types.h"
@@ -597,7 +599,6 @@ Obj *func_80168CDC(s32 slot, Widget *w)
     obj = func_800400AC(func_8004002C(), 1);
     if (w != 0) {
         s32 n = 16;
-        s32 m = n;
         p = &D_800EB0F8[slot];
         switch (code) {
         case 0x8171: case 0x8173: code = 0x8183; break;
@@ -643,7 +644,7 @@ Obj *func_80168CDC(s32 slot, Widget *w)
         }
 draw:
         func_80040510(obj, p->ox + w->x + ((shift << n) >> n), p->oy + w->y,
-                      n, m, u & 0xFF, v & 0xFF, 10, 640, p->pal + 232);
+                      16, 16, u & 0xFF, v & 0xFF, 10, 640, p->pal + 232);
         obj->f106 = D_8016D408;
         D_8016D408 = D_8016D408 + 1;
     } else {
