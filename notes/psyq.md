@@ -400,6 +400,20 @@ separate `EncSPU*` PCM-to-SPU-waveform encoders. The `StSetRing`,
 both `libcd.h` and `libds.h`; the `SpuSt*` family in `libspu.h` is a third,
 SPU-audio streaming interface.
 
+The applied DCT identities delimit three contiguous Psy-Q 4.6 object
+signatures:
+
+| Object | Resident signature range | Current naming boundary |
+|---|---:|---|
+| `LIBPRESS.LIB/LIBPRESS.OBJ` | `0x8008FBE0-0x80090270` (`0x690` bytes) | Nine API names are applied from `DecDCTReset` through `DecDCToutCallback`. Seven following function entries at `0x8008FEA0-0x800901EC` remain address-based; the final `0x8` bytes are zero alignment. |
+| `LIBPRESS.LIB/VLC_C.OBJ` | `0x80090270-0x800905F0` (`0x380` bytes) | `DecDCTvlcSize2` and `DecDCTvlc2` occupy the range through `0x800905EC`; the final `0x4` bytes are zero alignment. |
+| `LIBPRESS.LIB/BUILD.OBJ` | `0x800905F0-0x800906E0` (`0xF0` bytes) | `DecDCTvlcBuild` occupies `0xE4` bytes; the final `0xC` bytes are the executable's text padding. |
+
+Exact object membership is not enough to name the seven remaining
+`LIBPRESS.OBJ` bodies. They may include additional public header interfaces
+and private helpers, so they retain address-based identities until an export
+offset, caller contract, or implementation signature distinguishes them.
+
 The resident movie setup path combines these layers: `func_8005B8A0` reaches
 the CD `St*` ring/stream calls and `DecDCTvlcBuild`. That call chain is evidence
 for cooperating APIs, not evidence that their similarly named stream
