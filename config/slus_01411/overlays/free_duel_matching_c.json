@@ -7,6 +7,12 @@
       "source": "src/overlays/free_duel/scrollbar.c"
     },
     {
+      "address": "0x80168090",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x124",
+      "source": "src/overlays/free_duel/place_cursor.c"
+    },
+    {
       "address": "0x801681B4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x98",
