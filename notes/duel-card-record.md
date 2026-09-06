@@ -11,7 +11,7 @@ their guessed declarations were not copied.
 
 `notes/global-usage.csv` records 52 game functions using this address. The
 current split is 29 matching-C users and 23 assembly users. Of those 29
-matching-C users, the typed-migration snapshot documented below covers 22;
+matching-C users, the typed-migration snapshot documented below covers 23;
 the generated report remains the authority as ongoing decompilation changes
 that split. `func_8002C9B4` is an additional matching C source whose address
 formation names `D_801A7AD8` only inside an inline-assembly string, so it is
@@ -61,12 +61,13 @@ Corroboration agrees without defining the shared type:
 
 ## Typed migration snapshot
 
-At this snapshot, 22 pure-C report users include `duel_card.h` and
+At this snapshot, 23 pure-C report users include `duel_card.h` and
 use its typed extern:
 
 `func_8001778C`, `func_80017DB4`, `func_80017E3C`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
-`func_8001EFD4`, `func_80023090`, `Duel_UpdateCardPickCursor`, `func_800249E0`,
+`func_8001EFD4`, `func_8001F364`, `func_80023090`,
+`Duel_UpdateCardPickCursor`, `func_800249E0`,
 `DuelEffect_UpdateFieldMarker`, `func_80025B28`, `func_80025BEC`,
 `func_80025F3C`, `func_80026A3C`,
 `func_80026C0C`,
@@ -93,9 +94,9 @@ Raw local views retained for exact code generation:
 - `func_8002C938` keeps its explicit byte-address construction and fixed
   register variables, then uses `DuelCardRecord` once the address is formed.
 
-The other seven matching-C report users do not yet include `duel_card.h`:
-`func_80016784`, `func_80018DB4`, `func_8001F364`, `func_80022674`,
-`func_800229F4`, `func_8002538C`, and `func_8002596C`.
+The other six matching-C report users do not yet include `duel_card.h`:
+`func_80016784`, `func_80018DB4`, `func_80022674`, `func_800229F4`,
+`func_8002538C`, and `func_8002596C`.
 
 `func_8002C9B4` remains wholly unchanged because its `D_801A7AD8` address
 formation is inline assembly. Its local record view and the interior
