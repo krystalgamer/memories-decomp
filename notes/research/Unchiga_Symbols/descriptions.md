@@ -469,3 +469,13 @@ on the suspects side until proven.)
 | 0x801681B4 | `FreeDuel_SpawnSparkle` | Allocates and configures one display object for the Free Duel cursor-trail sparkle, using the shared sparkle asset and returning the new object. |
 | 0x8016899C | `FreeDuel_GetSparkleSlot` | Reverse-scans the 16-entry sparkle pointer pool and returns the highest-index empty slot, or null when every slot is occupied. |
 | 0x801689D4 | `FreeDuel_UpdateSparkle` | Initializes newly active sparkles to a 16-update grey fade, subtracts four from every colour channel per update, then releases the object and clears its pool slot. |
+
+## Batch: campaign-map camera
+
+| address | name | description |
+|---|---|---|
+| 0x801681E8 | `CampaignMap_SetCameraFromLocation` | Copies the selected location record's camera position, angle, pitch, and distance into the live map camera, then recomputes the view. |
+| 0x80168258 | `CampaignMap_UpdateView` | Applies the live camera's projection, geometry offset, far colour, and fog settings, then advances the shared view transition state. |
+| 0x80168310 | `CampaignMap_ResetCamera` | Restores the campaign map's fixed camera, projection, and matrix defaults before recomputing the view. |
+| 0x80168388 | `CampaignMap_MoveCameraDpad` | Provides free-look controls that adjust camera position or angle, pitch, and distance from held pad combinations, then recomputes the view. |
+| 0x801688BC | `CampaignMap_StartCameraTween` | Seeds 16.16 accumulators and per-step deltas from the live camera to a location's position, shortest-path turn, pitch, and distance targets. |
