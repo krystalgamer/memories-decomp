@@ -4672,13 +4672,13 @@
       "address": "0x80059700",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC8",
-      "source": "src/game/func_80059700.c"
+      "source": "src/game/model_slot_state_updates.c"
     },
     {
       "address": "0x800597C8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC4",
-      "source": "src/game/func_800597C8.c"
+      "source": "src/game/model_slot_state_updates.c"
     },
     {
       "address": "0x8005988C",
