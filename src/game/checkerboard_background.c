@@ -3,6 +3,11 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 
+#define CHECKERBOARD_CELL_WIDTH 0x40
+#define CHECKERBOARD_CELL_HEIGHT 0x20
+#define CHECKERBOARD_SCREEN_WIDTH 0x140
+#define CHECKERBOARD_SCREEN_HEIGHT 0xF0
+
 typedef struct {
     u8 pad_00[4];
     s32 field_04;
@@ -63,9 +68,10 @@ void func_8003D334(CheckerboardState *state, void *ordering_table)
         do {
             GsSortFastSprite((GsSPRITE *)sprite, (GsOT *)ordering_table,
                              mode & 0xFFFF);
-            x += 0x40;
-            sprite->field_04 = sprite->field_04 + 0x40;
-        } while (x < 0x140);
+            x += CHECKERBOARD_CELL_WIDTH;
+            sprite->field_04 =
+                sprite->field_04 + CHECKERBOARD_CELL_WIDTH;
+        } while (x < CHECKERBOARD_SCREEN_WIDTH);
 
         x = 0;
         sprite->field_04 = (flip ^ 1) << 5;
@@ -74,11 +80,12 @@ void func_8003D334(CheckerboardState *state, void *ordering_table)
         do {
             GsSortFastSprite((GsSPRITE *)sprite, (GsOT *)ordering_table,
                              mode & 0xFFFF);
-            x += 0x40;
-            sprite->field_04 = sprite->field_04 + 0x40;
-        } while (x < 0x140);
+            x += CHECKERBOARD_CELL_WIDTH;
+            sprite->field_04 =
+                sprite->field_04 + CHECKERBOARD_CELL_WIDTH;
+        } while (x < CHECKERBOARD_SCREEN_WIDTH);
 
-        y += 0x20;
+        y += CHECKERBOARD_CELL_HEIGHT;
         flip ^= 1;
-    } while (y < 0xF0);
+    } while (y < CHECKERBOARD_SCREEN_HEIGHT);
 }
