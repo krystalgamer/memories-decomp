@@ -44,8 +44,8 @@ trailing data range and is zero in the image, consistent with a variable
 rather than initialised content.
 
 `Main_RunMenu` enters the image at `func_8018001C`, `func_80180390` and
-`func_80180DD0`; the latter two begin with `addiu $sp, $sp, -0x28` and
-`addiu $sp, $sp, -0x20` at their exact loaded offsets.
+`func_80180DD0`. The initializer and teardown now build from matching C;
+`func_80180390`, the selection/update path, remains mapped assembly.
 
 The loaded bytes contain resident call targets throughout `0x80180xxx` and
 the module-scoped `gMain_bMenuID` at `0x80184594`. A second SU phase at sectors
@@ -58,28 +58,31 @@ must not be merged into this source scope.
 Module-scoped symbol evidence is kept in
 [`notes/research/Unchiga_Symbols/modules/main_menu.txt`](../../../notes/research/Unchiga_Symbols/modules/main_menu.txt).
 
-No overlay source or build manifest is accepted yet. Keep extracted payloads,
-candidate sources, objects, and diffs under `tmp/` until a function passes an
-overlay-specific exact-match process. Do not add this module to the resident
+The module has its own tracked overlay layout and matching-C manifest under
+`config/slus_01411/overlays/`. It rebuilds independently from the resident
+executable; main-menu entries must not be added to the resident
 `config/slus_01411/matching_c.json`.
 
 ## What the menu shows
 
-Established by the `main_menu_entry_slots` trace together with the player
-report that produced it. The module drives **two** menus, not one, and
-`gMain_apMenuEntries` holds the entries of both:
+Exact matching `func_8018001C` establishes the eleven-entry table, its `5+6`
+position split, and the modulo-11 initial cursor. The
+`main_menu_entry_slots` trace and player report supply the human-readable
+entry labels and confirm the visible motion. The module drives **two** menus,
+not one, and `gMain_apMenuEntries` holds the entries of both:
 
 | slots | menu | entries |
 |---|---|---|
 | 0-4 | before a game is loaded | New Game, Load, 2P Duel, Trade, Option |
 | 5-10 | after a game is loaded | Campaign, Free Duel, Build Deck, Library, Password, Save |
 
-Five plus six is eleven, which is why every function that touches the table
-iterates all eleven regardless of which menu is on screen.
+The initializer loops over all eleven slots regardless of which menu is on
+screen. It computes the first five y positions as `i * 32 + 50` and the
+remaining six as `(i - 5) * 32 + 42`.
 
-Measured y positions confirm the split: slots 0-4 sit at 50, 82, 114, 146 and
-178, and slots 5-10 at 42, 74, 106, 138, 170 and 202. Both use a 32 pixel
-pitch, and each group is centred separately, at 114 and 122.
+The resulting positions are 50, 82, 114, 146 and 178 for slots 0-4, then 42,
+74, 106, 138, 170 and 202 for slots 5-10. Both use a 32 pixel pitch, and each
+group is centred separately, at 114 and 122.
 
 ### Entries alternate by slot index, not by menu position
 
@@ -116,8 +119,10 @@ which occupy `0x80184568`-`0x80184593`. The two use the same numbering:
 | 0-4 | 0-4 | New Game, Load, 2P Duel, Trade, Option |
 | 5-10 | 5-10 | Campaign, Free Duel, Build Deck, Library, Password, Save |
 
-The cursor range was established independently of this module's code, by
-reading the byte live while moving the highlight: see `F1` and `F18` in
+Matching `func_8018001C` reduces its incoming menu value modulo 11 and uses
+`gMain_bMenuID != i` while configuring each corresponding entry. The cursor
+range and label mapping were also established independently by reading the
+byte live while moving the highlight: see `F1` and `F18` in
 [`../../../notes/research/Unchiga_Symbols/findings.md`](../../../notes/research/Unchiga_Symbols/findings.md),
 which proved `CAMPAIGN=5` and `SAVE=10` and named the continuation past 0-4.
 
