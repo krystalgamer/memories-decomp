@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../psyq/qsort.h"
 #include "../../game/card_constants.h"
 
 typedef struct {
@@ -7,7 +8,7 @@ typedef struct {
 } MainMenuCard;
 
 typedef struct {
-    s32 entries[6];
+    int (*entries[6])();
 } MainMenuComparators;
 
 typedef struct {
@@ -21,7 +22,6 @@ extern MainMenuCard D_801845FC[][CARD_COUNT];
 extern u8 D_80185CCC[];
 extern MainMenuState D_801A8000[];
 extern void func_80184030(s32, s32);
-extern void qsort(void *, s32, s32, s32);
 
 void func_8018338C(s32 slot, s32 force)
 {
