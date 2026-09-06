@@ -381,6 +381,12 @@ zero and every first-720 sum is still 2048, so the stock tables fill all 40
 slots with at most three copies of any card. The generator's variable RNG
 consumption is detailed in [`rng.md`](../rng.md).
 
+For every accepted draw, the generator also calls
+`Library_UpdateCardUsedFlag(i + 289)`. Since the resulting card ID is `i + 1`,
+that argument is exactly the Library's `0x120 + card` seen flag. Every distinct
+card in the starter deck is therefore already marked seen when the new game
+begins, before it appears in a duel.
+
 Resetting until the magic card is Raigeki is the community's standard opening.
 
 ### 4.4 Library
