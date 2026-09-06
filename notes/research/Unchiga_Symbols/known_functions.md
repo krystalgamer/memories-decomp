@@ -1166,6 +1166,7 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 
 | address | name |
 |---|---|
+| 0x80169F38 | `Password_UpdateDigitCursorDecoration` |
 | 0x8016A00C | `Password_SetDigitCursorTarget` |
 | 0x8016A304 | `Password_LookupCardID` |
 
