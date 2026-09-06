@@ -571,3 +571,35 @@ So keep the surrounding shape: return the same way, consume the values the same
 way, and keep any other work that competes for registers. A probe is cheap
 enough to include the consumer, and a probe without one can return a confident
 wrong answer.
+
+## Verify a rule by perturbing the source it was drawn from
+
+Every rule in `matching-patterns.md` cites a function, and those functions are
+matched and committed. That makes each rule falsifiable in about a minute:
+apply the change the rule says is wrong to the matched source, run
+`overlay_diff.py` on that one function, and see whether the match survives. If
+it does, the rule is not load-bearing and says more than the evidence supports.
+
+Six rules were checked this way. Four are load-bearing, and the perturbation
+costs are large enough to be unambiguous:
+
+| Rule | Perturbation | Result |
+|---|---|---|
+| volatile aggregate local | drop the qualifier | 195 of 216 |
+| compound assignment for the sign flip | write it out as `x = -x` | 217, 153 positions |
+| a re-read needs its own local | spell the global in the third statement | 222, 108 positions |
+| `s16` local for a frame count | test the field directly | 1 position |
+
+Two were not, and both were mine:
+
+- The high end of the `func_80183B2C` range test can be written unsigned rather
+  than as a signed-negative test, byte-identically. The rule had claimed any
+  two-sided comparison changes the shape.
+- The subtraction in `FreeDuel_UpdateCursorTween` does not need its
+  intermediate assign-back statement; collapsing it is byte-identical. Only the
+  choice of variable matters, which the live-range rule beside it already says.
+
+Both are corrected in place. The lesson is worth the minute it costs: a rule
+written from a single match tends to record the whole shape that happened to
+work, including the parts that were incidental, and the only way to tell which
+parts carry weight is to break them one at a time.
