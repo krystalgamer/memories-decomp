@@ -760,6 +760,55 @@ So when a profile sweep closes a count, check the distance before adopting the
 profile. If the distance rose, the profile is fitting the length rather than
 the function, and building on it puts every later measurement on a worse base.
 
+## Sweep the cross product, not each axis in turn
+
+Levers are not independent, and the habit of testing them one at a time is
+how a reachable match gets recorded as closed.
+
+`FreeDuel_PlaceCursor` is the worked example. Its row said the residual was
+closed against source order over several passes, and that was honest: every
+axis really is inert on its own. The match needs three things at once --
+reading the column into a local before forming the panel address, *not*
+naming the row as a local, and keeping the panel as a local. Change any one
+or two and the five differing positions do not move. Change all three and
+they go to zero. No amount of further one-at-a-time measurement would have
+found it.
+
+The same check applied to `func_80168AB4`, where six statement orders and
+28 profiles had each been swept separately, showed the reverse and is worth
+recording for that reason: the full 8064-cell product across six axes leaves
+its residual untouched, so there the axes really are inert, and now that is
+known rather than assumed.
+
+Before writing that an axis is closed, exhausted or inert, ask which cross
+product has not been run. "I measured six things and they were inert" is not
+a stopping condition.
+
+## Use overlay_sweep.py to make that affordable
+
+The reason cross products were not being run is that they cost too much.
+`overlay_diff.py` takes about thirty seconds per candidate, so a few hundred
+cells is a few hours and nobody tries it.
+
+`tools/project/overlay_sweep.py` compiles the whole product in parallel and
+sorts by distance, then positions. The 3360-cell sweep that matched
+`FreeDuel_PlaceCursor` took under two minutes. As a library:
+
+    from overlay_sweep import sweep, show
+    show(sweep("free_duel", 0x80168090, "FreeDuel_PlaceCursor",
+               {"label": source_text, ...}, profiles=[...]))
+
+Generate the variants programmatically from the axes rather than writing them
+out; the point is to cover combinations a person would not think to try. Keep
+spellings that are known to be worse alone in the set, because a lever that
+loses on its own can still be part of the winning combination.
+
+From the command line it sweeps one source across every profile:
+
+    tools/project/overlay_sweep.py free_duel 0x80168090 cand.c --all-profiles
+
+Always confirm a hit with `overlay_diff.py` before integrating it.
+
 ## Score a lever on the axis it targets, not on the total distance
 
 The total opcode distance is the right thing to compare two *candidates* by.
