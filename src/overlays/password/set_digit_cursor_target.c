@@ -2,7 +2,7 @@
 
 extern s32 gPassword_nDigitIndex;
 
-void func_8016A00C(u8 *a)
+void Password_SetDigitCursorTarget(u8 *a)
 {
     s32 value = gPassword_nDigitIndex;
 
