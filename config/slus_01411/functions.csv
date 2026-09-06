@@ -1555,11 +1555,11 @@ address,size,name,status,module,notes
 0x800844F0,0x4F8,func_800844F0,sdk_asm,psyq/sdk,
 0x800849F0,0x17C,GsSortFastSprite,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/2D_SP1.OBJ signature and matching sprite-render callers.
 0x80084B70,0x258,func_80084B70,sdk_asm,psyq/sdk,
-0x80084DD0,0x74,func_80084DD0,sdk_asm,psyq/sdk,
+0x80084DD0,0x74,GsInitGraph,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGS.LIB/GS_001.OBJ signature.
 0x80084E44,0x11C,func_80084E44,sdk_asm,psyq/sdk,
-0x80084F60,0x68,func_80084F60,sdk_asm,psyq/sdk,
+0x80084F60,0x68,GsInitGraph2,sdk_asm,psyq/sdk,Identified at offset 0x190 of the unique Psy-Q 4.6 LIBGS.LIB/GS_001.OBJ signature.
 0x80084FC8,0x220,func_80084FC8,sdk_asm,psyq/sdk,
-0x800851E8,0x138,func_800851E8,sdk_asm,psyq/sdk,
+0x800851E8,0x138,GsSortClear,sdk_asm,psyq/sdk,Identified at offset 0x418 of the unique Psy-Q 4.6 LIBGS.LIB/GS_001.OBJ signature.
 0x80085320,0x10,func_80085320,sdk_asm,psyq/sdk,
 0x80085330,0x108,func_80085330,sdk_asm,psyq/sdk,
 0x80085440,0x78,func_80085440,sdk_asm,psyq/sdk,
