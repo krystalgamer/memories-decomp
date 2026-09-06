@@ -36,6 +36,7 @@ source grouping.
 | `src/game/duel_battle_stats.c` | `gcc_2_8_1_g8` | `Duel_CalcBattleAttack` (`0x8001EF1C`), `Duel_CalcBattleDefense` (`0x8001EF78`) |
 | `src/game/ai_fusion.c` | `gcc_2_8_1_g0_split` | `AiScript_FindEquipTarget` (`0x8007249C`) through `Ai_CompleteFusion` (`0x800727C0`) |
 | `src/game/ai_script_vm.c` | `gcc_2_8_1_g0_split` | `AiScript_Init` (`0x800705D8`), `AiScript_Run` (`0x80070650`) |
+| `src/game/ai_card_ranges.c` | `gcc_2_8_1_g0_split` | Contiguous winning-card (`0x80070738`) and general card (`0x800707C4`) range decoders, including their adjacent compiler-owned jump tables |
 | `src/game/ai_set_queries.c` | `gcc_2_8_1_g0_split` | `Ai_IsCardInSet` (`0x80070870`), `Ai_IsTypeInSet` (`0x800708C4`) |
 | `src/game/ai_script_card_info.c` | `gcc_2_8_1_g0_split` | `AiScript_TestHighStat` (`0x80071194`) through `AiScript_LoadCardID` (`0x800712B4`) |
 | `src/game/ai_script_jumps.c` | `gcc_2_8_1_g0_split` | `AiScript_JumpNotEqual` (`0x80070B3C`), `AiScript_JumpBetween` (`0x80070BB8`), `AiScript_JumpRandom` (`0x80070C60`) |

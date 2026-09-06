@@ -74,9 +74,7 @@ segments:
       - [0xB5C, rodata, initial_data_1b]
       - [0xB60, .rodata, game/func_8003BF00]
       - [0xB78, rodata, initial_data_1c]
-      - [0x214C, .rodata, game/ai_get_winning_card_range]
-      - [0x2168, pad]
-      - [0x216C, .rodata, game/ai_get_card_range]
+      - [0x214C, .rodata, game/ai_card_ranges]
       - [0x2194, .rodata, game/ai_script_calc_card_power]
       - [0x21A8, rodata, initial_data_2]
 
