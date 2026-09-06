@@ -30,15 +30,20 @@ extern void SD_SEPlayFull(s32);
 extern void Duel_ApplyCardObjectFlags(Obj *);
 extern s32 func_80042B40(s32);
 
+#define DUEL_FIELD_EFFECT_TIMER_STEP 8
+#define DUEL_FIELD_EFFECT_MARK_THRESHOLD 40
+#define DUEL_FIELD_EFFECT_TIMER_LIMIT 64
+
 void func_80025B28(Obj *o)
 {
-    o->timer += 8;
-    if (!(o->active & 0x80) && o->timer >= 40) {
+    o->timer += DUEL_FIELD_EFFECT_TIMER_STEP;
+    if (!(o->active & 0x80) &&
+        o->timer >= DUEL_FIELD_EFFECT_MARK_THRESHOLD) {
         o->active |= 0x80;
         D_801A7AD8[o->index].flags &= ~0x2000;
         o->mark = 0;
     }
-    if (o->timer < 64) {
+    if (o->timer < DUEL_FIELD_EFFECT_TIMER_LIMIT) {
         o->timer = 0;
         o->active = 0;
         o->callback = 0;
