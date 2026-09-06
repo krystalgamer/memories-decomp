@@ -1,5 +1,6 @@
 #include "../types.h"
 
+#include "card_constants.h"
 #include "duel_card.h"
 
 typedef struct {
@@ -27,6 +28,13 @@ typedef struct {
 } DuelCardDisplayObject;
 
 extern DuelCardDisplayState *D_8009B1C8;
+extern s32 gDuel_adwCardStats[];
+
+u8 *func_8004002C(void);
+u8 *func_800400AC(u8 *arg0, s32 arg1);
+void func_80016778();
+void func_80016D04();
+void func_80042918(u8 *arg0);
 
 void func_80017DB4(DuelCardDisplayObject *object)
 {
@@ -69,4 +77,31 @@ void func_80017E3C(DuelCardDisplayObject *object)
     if (card->flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
         object->color = 0x404040;
     }
+}
+
+/* Creates a display object for the supplied duel card record. The caller at
+ * 0x80018004 only supplies the record; arg1 and arg2 are the retail a1/a2
+ * position values and intentionally remain part of this prototype. */
+u8 *func_80017F04(u8 *arg0, s32 arg1, s32 arg2)
+{
+    u8 *p = func_800400AC(func_8004002C(), 6);
+    s32 *tbl;
+    s32 k;
+
+    k = *(s16 *)(arg0 + 0xC) - 1;
+    tbl = gDuel_adwCardStats;
+    p[0x67] = 0;
+    p[0x68] = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+    p[0x69] = 0;
+    p[0x6A] = ((u32)arg0 - (u32)D_801A7AD8) / DUEL_CARD_RECORD_SIZE;
+    p[0x6B] = (*(u8 **)(arg0 + 4))[2];
+    *(s16 *)(p + 0x30) = arg1;
+    *(s16 *)(p + 0x32) = arg2;
+    *(s32 *)(p + 4) |= 0x1000000;
+    *(void **)(p + 0x10) = func_80016778;
+    func_80042918(p);
+    *(void **)(p + 0x4C) = func_80016D04;
+    func_80017E3C((DuelCardDisplayObject *)p);
+    func_80017DB4((DuelCardDisplayObject *)p);
+    return p;
 }
