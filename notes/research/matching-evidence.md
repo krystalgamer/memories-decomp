@@ -2721,3 +2721,40 @@ The useful part is the diagnosis rather than the fix: an ordering difference
 confined to one arm of an otherwise uniform switch is not arbitrary, and it is
 worth checking the constant costs before treating it as noise or reaching for
 a different profile.
+## A residual at +0x0 is a frame size, so it names a missing local
+
+The first instruction of a non-leaf function is `addiu $sp, $sp, -N`. A
+recorded mismatch at offset `+0x0` therefore says nothing about the body: it
+says the candidate declared different stack storage from the original, and the
+difference is readable directly off the two constants.
+
+`func_8005B64C` (0x8005B64C) deferred with:
+
+    byte +0x0: e0!=e8; word +0x0: e0ffbd27!=e8ffbd27
+
+`0xe8` is -0x18 and `0xe0` is -0x20, so the target's frame is eight bytes
+larger. Eight bytes is one `RECT`, and the missing statement was a struct copy
+by value into a local:
+
+    RECT rect = *(RECT *)D_8009B058;
+    LoadImage2(&rect, (u32 *)D_801DD000);
+
+The give-away in the target is the `lwl`/`lwr` pair feeding a `swl`/`swr`
+pair. That is how GCC copies a small aggregate whose alignment it cannot
+prove, which happens when the source is reached through a `u8 []` symbol
+rather than a typed one. Passing the global's address straight to `LoadImage2`
+compiles and looks equivalent, but allocates no local and builds the smaller
+frame.
+
+Two things worth carrying:
+
+- Read `+0x0` before reading anything else. It is the cheapest residual in the
+  ledger to interpret, and it constrains the search to declarations rather
+  than control flow.
+- `lwl`/`lwr` into `swl`/`swr` over a fixed small size is a by-value aggregate
+  copy, not clever pointer arithmetic. The size of the copy is the size of the
+  local.
+
+The same reasoning applies in reverse: a candidate whose frame is *larger*
+than the target has a local the original did not need, usually because a value
+was spilled that the original kept in a register or recomputed.

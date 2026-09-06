@@ -5047,6 +5047,12 @@
       "source": "src/game/model_word_memory.c"
     },
     {
+      "address": "0x8005B64C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x210",
+      "source": "src/game/func_8005B64C.c"
+    },
+    {
       "address": "0x8005B85C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x44",
