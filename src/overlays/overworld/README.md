@@ -34,7 +34,12 @@ serve both modules through an entry in each module's `_matching_c.json`.
 Module-scoped symbol evidence is kept in
 [`notes/research/Unchiga_Symbols/modules/overworld.txt`](../../../notes/research/Unchiga_Symbols/modules/overworld.txt).
 
-No overlay source or Splat build layout is accepted yet. Keep extracted payloads,
-candidate sources, objects, and diffs under `tmp/` until a function passes an
-overlay-specific exact-match process. Do not add either variant to the
-resident `config/slus_01411/matching_c.json`.
+Both variants now have accepted Splat layouts under
+`config/slus_01411/overlays/` and share the matching sources in this directory.
+Their `_functions.csv` inventories track per-function status, while their
+separate `_matching_c.json` manifests map accepted source/profile pairs.
+`make match-overlays` remains the exact-byte gate.
+
+Keep extracted payloads, unaccepted candidates, objects, and diffs under
+`tmp/`. Do not add either variant to the resident
+`config/slus_01411/matching_c.json`.
