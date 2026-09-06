@@ -746,7 +746,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005F588,func_8005F588,matching_c,game,C,src/game/model_effect_state.c,write,8,D_8009B07A = -1; | D_8009B07A = 0;
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_state.c,read_write,8,D_8009B07A++; | flag = (s8)D_8009B07A;
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005F7B0,func_8005F7B0,matching_c,game,C,src/game/model_effect_state.c,read_write,8,D_8009B07A = next + 1; | flag = (s8)D_8009B07A; | (+1 more)
-0x8009B07A,D_8009B07A,D_8009B07A,0x8005F828,func_8005F828,matching_c,game,C,src/game/func_8005F828.c,read_write,8,D_8009B07A = (u8)D_8009B07A + 1; | raw172 = D_8009B07A;
+0x8009B07A,D_8009B07A,D_8009B07A,0x8005F828,func_8005F828,matching_c,game,C,src/game/model_effect_state.c,read_write,8,D_8009B07A = (u8)D_8009B07A + 1; | raw172 = D_8009B07A;
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005F91C,func_8005F91C,matching_c,game,C,src/game/func_8005F91C.c,write,8,D_8009B07A = -1;
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005FAE4,func_8005FAE4,matching_c,game,C,src/game/model_transfer_state.c,write,8,D_8009B07A = -1;
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005D994,func_8005D994,matching_c,game,C,src/game/func_8005D994.c,read,8,if (D_8009B07B == one && D_8009B07C == one) {
@@ -754,12 +754,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005F174,func_8005F174,matching_c,game,C,src/game/model_transfer_flags.c,read,8,return D_8009B07B;
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005F180,func_8005F180,matching_c,game,C,src/game/model_transfer_flags.c,write,8,D_8009B07B = value;
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005F27C,func_8005F27C,matching_c,game,C,src/game/func_8005F27C.c,read,8,if (D_8009B07B == 1) {
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F3B8,func_8005F3B8,matching_c,game,C,src/game/func_8005F3B8.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1)
+0x8009B07B,D_8009B07B,D_8009B07B,0x8005F3B8,func_8005F3B8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1)
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005F588,func_8005F588,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B != 1 || D_8009B07C != 1) {
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005F5C8,func_8005F5C8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1) {
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005F7B0,func_8005F7B0,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1) {
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F828,func_8005F828,matching_c,game,C,src/game/func_8005F828.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
+0x8009B07B,D_8009B07B,D_8009B07B,0x8005F828,func_8005F828,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005F91C,func_8005F91C,matching_c,game,C,src/game/func_8005F91C.c,read,8,if (D_8009B07B == one && D_8009B07C == one) {
 0x8009B07B,D_8009B07B,D_8009B07B,0x8005FAE4,func_8005FAE4,matching_c,game,C,src/game/model_transfer_state.c,write,8,D_8009B07B = 0;
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005D994,func_8005D994,matching_c,game,C,src/game/func_8005D994.c,read,8,if (D_8009B07B == one && D_8009B07C == one) {
@@ -767,12 +767,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F18C,func_8005F18C,matching_c,game,C,src/game/model_transfer_flags.c,read,8,return D_8009B07C;
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F198,func_8005F198,matching_c,game,C,src/game/model_transfer_flags.c,write,8,D_8009B07C = value;
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F27C,func_8005F27C,matching_c,game,C,src/game/func_8005F27C.c,read,8,if (D_8009B07C == 1) {
-0x8009B07C,D_8009B07C,D_8009B07C,0x8005F3B8,func_8005F3B8,matching_c,game,C,src/game/func_8005F3B8.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1)
+0x8009B07C,D_8009B07C,D_8009B07C,0x8005F3B8,func_8005F3B8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1)
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F588,func_8005F588,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B != 1 || D_8009B07C != 1) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F5C8,func_8005F5C8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F7B0,func_8005F7B0,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1) {
-0x8009B07C,D_8009B07C,D_8009B07C,0x8005F828,func_8005F828,matching_c,game,C,src/game/func_8005F828.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
+0x8009B07C,D_8009B07C,D_8009B07C,0x8005F828,func_8005F828,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F91C,func_8005F91C,matching_c,game,C,src/game/func_8005F91C.c,read,8,if (D_8009B07B == one && D_8009B07C == one) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005FAE4,func_8005FAE4,matching_c,game,C,src/game/model_transfer_state.c,write,8,D_8009B07C = 0;
 0x8009B084,D_8009B084,D_8009B084,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_call_control.c,address,8,"func_8008E870(D_8009B084, D_800118CC, 0x17B);"
