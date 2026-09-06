@@ -1,26 +1,22 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 typedef struct {
-    unsigned char padding[0x10];
-    int x;
-    int y;
-    int z;
-    int x_offset;
-    int y_offset;
-    int z_offset;
+    u8 padding[0x10];
+    GsRVIEW2 view;
 } Object;
-
-extern void GsSetRefView2(int *, int, int, int);
 
 void func_800134E0(Object *object, int x, int y, int z)
 {
-    int *vector = &object->x;
+    GsRVIEW2 *view = &object->view;
 
-    x += vector[3];
-    vector[0] = x;
-    y += vector[4];
-    z += vector[5];
-    vector[1] = y;
-    vector[2] = z;
-    GsSetRefView2(vector, x, y, z);
+    x += view->vrx;
+    view->vpx = x;
+    y += view->vry;
+    z += view->vrz;
+    view->vpy = y;
+    view->vpz = z;
+    GsSetRefView2(view);
 }

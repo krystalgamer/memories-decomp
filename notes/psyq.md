@@ -318,8 +318,10 @@ The resident block at `0x800F56F0` now has field-level evidence matching the
 32-byte `GsRVIEW2` record: viewpoint and reference-point triplets, roll, and a
 parent-coordinate pointer. Game code initializes it before `GsSetRefView2`
 and derives a distance plus two 4096-unit angles from the two points. Matching
-sources still use local views until a shared-type migration is proven
-byte-identical.
+`func_800134E0` also uses an embedded `GsRVIEW2` at object offset `+0x10` and
+now calls the canonical one-argument `GsSetRefView2` interface byte-identically.
+Other matching sources still use local views until their shared-type
+migrations are proven exact.
 
 The imported `libgs.h` includes only `src/types.h` even though it refers to
 `MATRIX`, `VECTOR`, `SVECTOR`, `CVECTOR`, `RECT`, `DRAWENV`, `DISPENV`, and
