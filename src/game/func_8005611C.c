@@ -14,9 +14,9 @@ void func_8005611C(s32 arg0)
     p = (u8 *)D_800F2C40 + arg0 * MODEL_SLOT_SIZE;
     func_8005B5FC((s32 *)p, 0, 0x388);
 
-    *(s32 *)(p + 0xDA8) = 0x800;
-    *(s32 *)(p + 0xDA4) = 0x800;
-    *(s32 *)(p + 0xDA0) = 0x800;
+    *(s32 *)(p + 0xDA8) = MODEL_FIXED_HALF;
+    *(s32 *)(p + 0xDA4) = MODEL_FIXED_HALF;
+    *(s32 *)(p + 0xDA0) = MODEL_FIXED_HALF;
     *(s32 *)(p + 0xDB8) = MODEL_FIXED_ONE;
     *(s32 *)(p + 0xDB4) = MODEL_FIXED_ONE;
     *(s32 *)(p + 0xDB0) = MODEL_FIXED_ONE;
