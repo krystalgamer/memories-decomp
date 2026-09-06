@@ -289,6 +289,13 @@ type. The seventh is pane-specific: **New** puts recently acquired cards first
 in the trunk, while **Shuffle** assigns fresh random keys to the deck each
 time it is selected.
 
+The 16-entry recent-card history is not permanent. Matching `func_80032370`
+removes any listed card whose current trunk quantity is zero, then compacts the
+surviving IDs toward the front without changing their order. **New** therefore
+means a recent acquisition that is still represented in the trunk; moving the
+last trunk copy into the deck or trading it away removes that ID at the next
+cleanup.
+
 Switching between panes animates the shared `gGraphics_sViewportX` from
 `0` to `320` or back over 16 ticks through `BuildDeck_UpdatePaneTransition`.
 The paired `gGraphics_sViewportY` remains zero during Build Deck list
