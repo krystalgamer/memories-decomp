@@ -6,7 +6,7 @@ extern u16 gInput_wPad1Pressed;
 extern volatile u16 gInput_wPad1Held;
 extern s32 gCampaignMap_MoveState;
 extern s32 Campaign_TestStoryFlag(s32);
-extern void func_8003FEE0(s32);
+extern void SD_SEPlayFull(s32);
 
 s32 CampaignMap_PickExit(void)
 {
@@ -20,7 +20,7 @@ s32 CampaignMap_PickExit(void)
     if (gCampaignMap_Location >= 10) {
         if (Campaign_TestStoryFlag(71) != 0 &&
             (gInput_wPad1Pressed & 0x20) != 0) {
-            func_8003FEE0(48);
+            SD_SEPlayFull(48);
             gCampaignMap_MoveState = 24;
             return 0;
         }
@@ -35,10 +35,10 @@ s32 CampaignMap_PickExit(void)
         if (ready == 0) {
             if (record[0x10] != 0) {
                 gCampaignMap_MoveState = 24;
-                func_8003FEE0(48);
+                SD_SEPlayFull(48);
                 return record[0x10];
             }
-            func_8003FEE0(48);
+            SD_SEPlayFull(48);
             return gCampaignMap_Location | 0x8000;
         }
     }
@@ -48,7 +48,7 @@ s32 CampaignMap_PickExit(void)
                 Campaign_TestStoryFlag(*(u16 *)exits) != 0) {
                 if ((gInput_wPad1Held & *(u16 *)(exits + 6)) != 0) {
                     gCampaignMap_MoveState = exits[0xA];
-                    func_8003FEE0(6);
+                    SD_SEPlayFull(6);
                     return exits[9];
                 }
             }
