@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 typedef struct {
     u16 field_00;
@@ -18,7 +19,6 @@ typedef struct {
 } ModelTextureParams;
 
 extern int func_800598E4();
-extern int GsGetTimInfo();
 
 u32 func_80058A7C(int side, int mode, ModelTextureParams *params)
 {
@@ -59,7 +59,7 @@ s32 func_80058B4C(u8 *data, s32 arg1, s32 mode, s32 arg3, s32 x, s32 y,
     low = high;
 
     if (func_800598E4(arg1, 0x80400000) > 0) {
-        GsGetTimInfo(0x80400004, data);
+        GsGetTimInfo((unsigned long *)0x80400004, (GsIMAGE *)data);
         if (mode < 2) {
             if (*(s32 *)(data + 4) == 0) {
                 *(s16 *)(data + 4) = 0xC0;
