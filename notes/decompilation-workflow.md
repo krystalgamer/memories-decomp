@@ -355,11 +355,16 @@ be corroborated before being treated as final.
 - Try GCC 2.8.1 first. Use GCC 2.7.2 only after the 2.8.1 attempts are recorded
   and exhausted or when code evidence specifically indicates the DOS cohort.
 - Pair GCC 2.8.1 with MASPSX 2.81 and GCC 2.7.2 with MASPSX 2.72.
-- Attempt no more than six distinct variants for one function.
-- Record every attempt in `config/slus_01411/attempts.csv` with compiler, flags,
-  outcome, and the exact mismatch reason.
-- After the sixth nonmatching attempt, leave the assembly fallback intact and
-  defer the function so future sessions do not repeat the same work.
+- Explore as many materially distinct variants as a function needs. Depth on a
+  hard function is worth more than breadth across easy ones.
+- The six canonical rows in `config/slus_01411/attempts.csv` are the closed
+  historical record of the first campaign, not a quota. Record compiler, flags,
+  outcome, and the exact mismatch reason for every experiment; once that ledger
+  is closed, continue in `tmp/` and write findings into the function's
+  inventory notes.
+- Leave the assembly fallback intact until a candidate matches the whole
+  executable, and record what was measured so a later session resumes from the
+  evidence instead of repeating it.
 - Do not infer the compiler solely from the North American release year.
 - Do not download or commit proprietary PsyQ binaries. Any user-supplied
   candidate remains ignored under `tools/toolchains/`.

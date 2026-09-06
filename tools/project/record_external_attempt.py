@@ -593,7 +593,9 @@ def main() -> int:
         maximum = MODE_MAX_ATTEMPTS[args.mode]
         if len(history) >= maximum:
             raise ExternalAttemptError(
-                f"{address:#010x}: {args.mode} attempt budget is exhausted"
+                f"{address:#010x}: the {args.mode} ledger for this function "
+                "is closed campaign history; keep exploring under tmp/ and "
+                "record what you measure in the function's inventory notes"
             )
         attempt = len(history) + 1
         if (
