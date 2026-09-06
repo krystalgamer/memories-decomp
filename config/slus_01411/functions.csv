@@ -1218,7 +1218,7 @@ address,size,name,status,module,notes
 0x800738F0,0xC,func_800738F0,sdk_asm,psyq/sdk,
 0x80073900,0xC,func_80073900,sdk_asm,psyq/sdk,
 0x80073910,0xC,func_80073910,sdk_asm,psyq/sdk,
-0x80073920,0xC,func_80073920,sdk_asm,psyq/sdk,
+0x80073920,0xC,nextfile,sdk_asm,psyq/sdk,Identified as Psy-Q 4.6 nextfile by the libapi.h ABI; SDK symbol map; and matching directory caller.
 0x80073930,0xC,func_80073930,sdk_asm,psyq/sdk,
 0x80073940,0xC,func_80073940,sdk_asm,psyq/sdk,
 0x80073950,0x9C,func_80073950,sdk_asm,psyq/sdk,
@@ -1226,7 +1226,7 @@ address,size,name,status,module,notes
 0x80073A24,0x30,func_80073A24,sdk_asm,psyq/sdk,
 0x80073A54,0x34,func_80073A54,sdk_asm,psyq/sdk,
 0x80073A88,0x34,func_80073A88,sdk_asm,psyq/sdk,
-0x80073AC0,0x19C,func_80073AC0,sdk_asm,psyq/sdk,
+0x80073AC0,0x19C,firstfile,sdk_asm,psyq/sdk,Identified as Psy-Q 4.6 firstfile by the libapi.h ABI; SDK symbol map; and matching directory caller.
 0x80073C5C,0x100,func_80073C5C,sdk_asm,psyq/sdk,
 0x80073D60,0x1C,func_80073D60,sdk_asm,psyq/sdk,
 0x80073D7C,0x10,func_80073D7C,sdk_asm,psyq/sdk,
