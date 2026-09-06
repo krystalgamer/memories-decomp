@@ -5,7 +5,7 @@ extern u8 *D_8016D43C;
 extern void func_801689B4(void);
 extern void SD_SEPlayFull(s32);
 
-s32 func_8016909C(s32 delta, s32 arg)
+s32 NameEntry_AdjustLength(s32 delta, s32 arg)
 {
     u8 *object;
 
