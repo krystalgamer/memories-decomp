@@ -1167,4 +1167,5 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 |---|---|
 | 0x80168388 | `CampaignMap_MoveCameraDpad` |
 | 0x8016866C | `CampaignMap_SetLocation` |
+| 0x801688BC | `CampaignMap_StartCameraTween` |
 | 0x80168E0C | `CampaignMap_PickExit` |

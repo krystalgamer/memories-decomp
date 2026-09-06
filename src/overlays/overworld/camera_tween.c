@@ -13,7 +13,7 @@ extern s32 D_801695F4;
 extern s32 D_80169610;
 extern s32 D_80169614;
 
-void func_801688BC(s32 index, s32 steps)
+void CampaignMap_StartCameraTween(s32 index, s32 steps)
 {
     u8 *camera = D_800F2848;
     s32 *cameraLong = (s32 *)D_800F2848;

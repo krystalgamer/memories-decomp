@@ -2,6 +2,7 @@
 // Findings F117-F120. Location name = global string 0x8350 + index (Metropolis..Hiding, 16 entries).
 CampaignMap_MoveCameraDpad = 0x80168388; // type:func
 CampaignMap_SetLocation = 0x8016866C; // type:func
+CampaignMap_StartCameraTween = 0x801688BC; // type:func
 CampaignMap_PickExit = 0x80168E0C; // type:func
 gCampaignMap_aLocationTable = 0x801691A8;
 gCampaignMap_MoveState = 0x80169608;
