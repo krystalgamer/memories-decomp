@@ -41,6 +41,29 @@ was empty. `func_8004020C` removes a slot by reconnecting both neighboring
 links and clears its allocation flags. `func_800402A0` removes and reinserts
 an existing slot under another list key while preserving its flags.
 
+## Parent-linked duel rows
+
+Matching `func_80022F98` and `func_80022FF0` use a separate local parent view
+to attach display objects to one reference position. For every non-null
+object, `func_80022F98`:
+
+- stores object coordinates `+0x30/+0x32` relative to the parent's reference
+  object in fields `+0x28/+0x2A`;
+- copies the parent's one-byte index to object halfword `+0x2C`;
+- installs `func_80022EEC` as callback `+0x24`;
+- sets object byte `+0x6C` to one.
+
+`func_80022FF0` applies that setup first to the parent's standalone base
+object, then to two object-pointer lanes in each of
+`DUEL_FIELD_ROW_SIZE` five 12-byte rows. It always clears the standalone base
+pointer after processing it. When the caller's clear argument is nonzero, it
+also clears both pointers in every row after attaching their objects.
+
+This proves an eleven-object traversal shape: one standalone base plus two
+lanes across five duel columns. The parent, row, and object structures remain
+local to `display_parent_links.c`; only the already established duel row count
+is shared.
+
 ## Seven processing lists
 
 `func_80041340` visits list keys `6` down to `0`. For every nonempty head it
