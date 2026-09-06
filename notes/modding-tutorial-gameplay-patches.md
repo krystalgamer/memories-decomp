@@ -155,6 +155,53 @@ stored as 40 card IDs and have no `2048` total.
   row; the editor implementation itself is not part of the verified retail
   inputs.
 
+## The 250-copy GameShark image has an off-target second write
+
+**Tutorial artifact:** `Todas cartas 250 copias.jpg`
+
+The image prints:
+
+```text
+5000FF02 0000
+801D0250 FAFA
+50006A02 0000
+80105F96 FAFA
+```
+
+`gLibrary_abCardChest` is the 722-byte trunk quantity array at
+`0x801D0250-0x801D0521`. Each `FA` byte represents 250 copies, and the
+`50` repeat directives advance the following 16-bit write by two bytes.
+
+The first pair performs `0xFF` halfword writes and therefore fills the first
+510 trunk bytes, through `0x801D044D`. The remaining 212 bytes require the
+second pair's `0x6A` halfword writes beginning at `0x801D044E`. The image
+instead prints `0x80105F96`, which is outside the trunk, so the code as shown
+cannot set all 722 card quantities.
+
+The layout-derived correction is:
+
+```text
+50006A02 0000
+801D044E FAFA
+```
+
+Together with the unchanged first pair, that covers exactly 722 bytes and
+ends at `0x801D0521`. Matching `Duel_AwardCard` independently confirms that
+250 (`0xFA`) is the normal award-path quantity cap. These direct writes affect
+only trunk quantities; they do not set the separate Library-seen flags or add
+cards to the recent-acquisition history.
+
+The same transcription and repeat-code analysis is retained in
+[`research/gameshark-codes.md`](research/gameshark-codes.md#cards-you-own).
+
+**Confidence:**
+
+- **Confirmed** that the image prints the off-target `0x80105F96` address.
+- **Confirmed** that `0x801D044E` is the correct start for the remaining 212
+  trunk bytes.
+- **Confirmed** that the corrected two repeat ranges cover all 722 quantity
+  bytes and that normal duel awards cap those bytes at 250.
+
 ## Deck copy limits
 
 **Tutorials:**
