@@ -16,11 +16,10 @@ SECTIONS
     }
     ASSERT(SIZEOF(.header) == 0x800, "PS-X EXE header size mismatch")
 
-    .initial_data 0x80010000 : AT(0x000800)
-    {
-        KEEP(*initial_data.o(.data))
-    }
-    ASSERT(SIZEOF(.initial_data) == 0x29D8, "initial data size mismatch")
+    /* The region before the text is the compiler's read-only data. Its
+       layout is declared in config/slus_01411/split.yaml, one entry per
+       owning object, and the sections are emitted from those entries. */
+    INCLUDE tmp/generated/initial_data.ld
 
     .text 0x800129D8 : AT(0x0031D8)
     {

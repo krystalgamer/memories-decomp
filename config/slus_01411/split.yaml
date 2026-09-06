@@ -42,8 +42,8 @@ options:
 
   section_order:
     - ".data"
-    - ".text"
     - ".rodata"
+    - ".text"
     - ".sdata"
     - ".sbss"
     - ".bss"
@@ -63,7 +63,15 @@ segments:
     start: 0x800
     vram: 0x80010000
     subsegments:
+      # The region before the text is the compiler's read-only data:
+      # strings, tables and switch jump tables. A matching C function that
+      # owns a jump table declares it here, the way the ff8 and
+      # silent-hill configurations do, and gaps are pad rather than data.
       - [0x800, data, initial_data]
+      - [0x214C, .rodata, ai_get_winning_card_range]
+      - [0x2168, pad]
+      - [0x216C, .rodata, ai_get_card_range]
+      - [0x2194, data, initial_data_2]
       - [0x31d8, asm, entry]
       - [0x80ed4, pad]
       - [0x80ee0, data, initialized_data]

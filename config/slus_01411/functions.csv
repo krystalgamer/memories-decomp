@@ -1125,8 +1125,8 @@ address,size,name,status,module,notes
 0x800705D8,0x78,AiScript_Init,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80070650,0xC0,AiScript_Run,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80070710,0x28,Ai_GetHandSize,matching_c,game,"Post-terminal resolution; the target needs the macro address form for gDuel_bOpponentID and the split form for gDuel_aOpponentData in one body, which gcc_2_8_1_cc_g8_as_g0_split supplies; pure C, exact linked bytes and relocations."
-0x80070738,0x8C,Ai_GetWinningCardRange,unmatched_asm,game,
-0x800707C4,0xAC,Ai_GetCardRange,unmatched_asm,game,
+0x80070738,0x8C,Ai_GetWinningCardRange,matching_c,game,First compiler-generated jump table integrated; the object's .rodata is placed at 0x8001194C by its own linker output section.
+0x800707C4,0xAC,Ai_GetCardRange,matching_c,game,Second jump table; placed at 0x8001196C from its rodata claim alone.
 0x80070870,0x54,Ai_IsCardInSet,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800708C4,0x5C,Ai_IsTypeInSet,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80070920,0x68,Ai_IsCardInSets,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
