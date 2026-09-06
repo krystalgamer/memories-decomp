@@ -12,11 +12,11 @@ extern u16 D_800F2848;
 extern u8 D_8009B26C;
 extern u8 D_8009B27A;
 extern s32 func_80168AA8(void);
-extern void func_80168050(s32);
+extern void CampaignMap_RebuildLocationObjects(s32);
 extern u8 *CampaignMap_CreateLocationLabel(s32);
 extern u8 *CampaignMap_CreateLocationMarker(s32);
 extern void func_8004036C(u8 *);
-extern void func_80168004(void);
+extern void CampaignMap_ClearLocationObjects(void);
 extern void Fade_InitOut(void);
 extern void func_8003FF58(s32);
 extern void func_8001352C(void);
@@ -33,7 +33,7 @@ void func_80168FCC(void)
             return;
         }
         D_801695EC = 0;
-        func_80168050(gCampaignMap_Location);
+        CampaignMap_RebuildLocationObjects(gCampaignMap_Location);
         CampaignMap_CreateLocationLabel(gCampaignMap_Location);
         if (gCampaignMap_Location >= 10) {
             if (D_801695C8 == 0) {
@@ -54,7 +54,7 @@ void func_80168FCC(void)
             D_8016960D = D_8016960D | 0x80;
             Fade_InitOut();
             D_800E9ECF = 2;
-            func_80168004();
+            CampaignMap_ClearLocationObjects();
             func_8004036C(D_801695C8);
             func_8003FF58(4);
         }
@@ -80,6 +80,6 @@ void func_80168FCC(void)
         func_8004036C(D_801695C8);
         D_801695C8 = 0;
     }
-    func_80168004();
+    CampaignMap_ClearLocationObjects();
     D_801695EC = 1;
 }

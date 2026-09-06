@@ -140,6 +140,8 @@ NEW GAME / LOAD / 2P DUEL / TRADE / OPTION. The menu's own logic runs from a mod
 | `Main_RunCampaignMap` | 0x8002D2D8 | Mode 0xC5: the fogged 3D map you walk between locations (IDB name, live-confirmed). |
 | `gCampaignMap_Location` (module: overworld) | 0x8016960C | Where you stand: 0–9 the world-map sites, 10–15 the town (Town Plaza, Shrine, Duel Ground, Card Shop, Pharaoh's Palace, Hiding). The name box shows global string 0x8350 + index. |
 | `gCampaignMap_aLocationTable` (module: overworld) | 0x801691A8 | 16 records of 0x42 bytes: lock flag, camera, marker, then four exits — story flag, target x/y, DPAD mask, destination (16 = none), move type. |
+| `CampaignMap_ClearLocationObjects` (module: overworld) | 0x80168004 | Releases and clears the four location-object slots. |
+| `CampaignMap_RebuildLocationObjects` (module: overworld) | 0x80168050 | Clears those slots, then creates the enabled objects from the selected location's four spawn records. |
 | `CampaignMap_CreateLocationLabel` (module: overworld) | 0x8016818C | Creates and registers the current location's label object from global string `0x8350 + gCampaignMap_Location`. |
 | `CampaignMap_SetCameraFromLocation` (module: overworld) | 0x801681E8 | Copies five camera fields from the indexed location record into the live map camera and recomputes the view immediately. |
 | `CampaignMap_CreateLocationMarker` (module: overworld) | 0x80168588 | Creates the map marker at the current location and sets its destination coordinates from the indexed location record. |
