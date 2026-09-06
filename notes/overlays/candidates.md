@@ -435,3 +435,107 @@ void func_8016A080(void)
     func_80015A00();
 }
 ```
+
+## password `func_801681A0` at 0x801681A0
+
+`gcc_2_8_1_g0_split`, 150 instructions against 147, 109 differing positions, opcode
+distance 9.
+
+Remaining mix difference is two `srl` where the target has `srlv`, plus one
+`lhu` and the `lw`/`sw` pair around the spilled `x + 3` corner. The target
+shifts by the register holding the fourth argument's 1; naming a local for it
+here is constant-folded.
+
+```c
+#include "../../src/types.h"
+
+typedef struct {
+    u8 pad0[20];
+    s16 f14;
+    u8 pad16[26];
+    s16 f30;
+    s16 f32;
+    u8 pad34[8];
+    u16 f3C;
+    u16 f3E;
+} Record;
+
+extern void func_8005B260(void *, void *, u16, s32);
+
+void func_801681A0(Record *r, void *ot)
+{
+    u8 *poly;
+    u8 *line;
+    s32 pri;
+    s32 x;
+    s32 y;
+    u32 w;
+    u32 h;
+    s32 xm1;
+    s32 xp3;
+    s32 right;
+    s32 bottom;
+    s32 one;
+
+    one = 1;
+    poly = (u8 *)0x1F800000;
+    line = (u8 *)0x1F800040;
+    *(u32 *)(poly + 4) = 0x0000FF00;
+    *(u32 *)(line + 4) = 0x0000FF00;
+    *(u32 *)(line + 12) = 0;
+    pri = r->f14;
+    x = r->f30;
+    y = r->f32;
+    w = r->f3C;
+    h = r->f3E;
+    poly[3] = 5;
+    poly[7] = 0x48;
+    *(u32 *)(poly + 20) = 0x55555555;
+    line[3] = 4;
+    line[7] = 0x50;
+    xm1 = x - 1;
+    xp3 = x + 3;
+    *(s16 *)(poly + 12) = xm1;
+    *(s16 *)(poly + 8) = xm1;
+    *(s16 *)(poly + 18) = y - 1;
+    *(s16 *)(poly + 14) = y - 1;
+    *(s16 *)(poly + 10) = y + 3;
+    *(s16 *)(poly + 16) = xp3;
+    func_8005B260(poly, ot, pri, one);
+    right = x + w;
+    *(s16 *)(poly + 12) = right + 1;
+    *(s16 *)(poly + 8) = right + 1;
+    *(s16 *)(poly + 16) = right - 3;
+    func_8005B260(poly, ot, pri, one);
+    bottom = y + h;
+    *(s16 *)(poly + 18) = bottom + 1;
+    *(s16 *)(poly + 14) = bottom + 1;
+    *(s16 *)(poly + 10) = bottom - 3;
+    func_8005B260(poly, ot, pri, one);
+    *(s16 *)(poly + 12) = xm1;
+    *(s16 *)(poly + 8) = xm1;
+    *(s16 *)(poly + 16) = xp3;
+    func_8005B260(poly, ot, pri, one);
+    w = w >> one;
+    w = x + w;
+    *(s16 *)(line + 16) = w;
+    *(s16 *)(line + 8) = w;
+    *(s16 *)(line + 10) = y + 2;
+    *(s16 *)(line + 18) = 0;
+    func_8005B260(line, ot, pri, one);
+    bottom -= 2;
+    *(s16 *)(line + 10) = bottom;
+    *(s16 *)(line + 18) = 192;
+    func_8005B260(line, ot, pri, one);
+    y = y + (h >> one);
+    *(s16 *)(line + 18) = y;
+    *(s16 *)(line + 10) = y;
+    x += 2;
+    *(s16 *)(line + 8) = x;
+    *(s16 *)(line + 16) = 0;
+    func_8005B260(line, ot, pri, one);
+    *(s16 *)(line + 8) = right - 2;
+    *(s16 *)(line + 16) = 320;
+    func_8005B260(line, ot, pri, one);
+}
+```
