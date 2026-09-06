@@ -1,8 +1,8 @@
 #include "../../types.h"
+#include "../../psyq/rand.h"
 
 extern s32 D_8009B0CC;
 extern u8 *gFreeDuel_pCursorWidget;
-extern s32 rand(void);
 extern void FreeDuel_UpdateScreen(void);
 extern void FreeDuel_UpdateSparkle(void);
 
