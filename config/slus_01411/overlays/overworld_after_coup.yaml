@@ -74,6 +74,7 @@ segments:
       - [0xE0C, c, overlays/overworld/pick_exit]
       - [0xFCC, c, overlays/overworld/location_tick]
       - [0x11A8, asm, overlays/overworld_after_coup/text_11A8]
+      - [0x1A9C, c, overlays/overworld/func_80169A9C]
       - [0x1E54, data, overlays/overworld_after_coup/data]
 
   - [0x3000]
