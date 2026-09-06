@@ -1172,7 +1172,7 @@ address,size,name,status,module,notes
 0x80072640,0xB4,AiScript_FindFirstMonster,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x800726F4,0xCC,AiScript_FindFirstType,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800727C0,0x288,Ai_CompleteFusion,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80072A48,0x378,AiScript_FindBestCombo,unmatched_asm,game,
+0x80072A48,0x378,AiScript_FindBestCombo,matching_c,game,"AI script opcode: seeds the gAiScript_State combo scratch, walks the field slots and then the hand recording the strongest card and recursing through Ai_CompleteFusion, and classifies where the best combo starts."
 0x80072DC0,0x15C,AiScript_EvaluateFusion,matching_c,game,Matched from updated collaborator source: the zero-fill loop condition supplies the single retail entry guard.
 0x80072F1C,0x38,AiScript_SkipHand,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80072F54,0x38,AiScript_SkipField,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
