@@ -63,7 +63,7 @@ Corroboration agrees without defining the shared type:
 The following pure-C report users include `duel_card.h` and use its typed
 extern:
 
-`func_8001778C`, `func_80017DB4`, `func_80017E3C`,
+`func_8001778C`, `func_80017DB4`, `func_80017E3C`, `func_80017F04`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
 `func_8001EFD4`, `func_8001F364`, `func_80023090`,
 `Duel_UpdateCardPickCursor`, `func_800249E0`,
@@ -86,6 +86,9 @@ Raw local views retained for exact code generation:
   size/count constants.
 - `func_80017DB4` keeps the target's 32-bit read beginning at `+0x14` so the
   `0xA0000000` mask remains a single `lw`-based test.
+- `func_80017F04` uses the shared table declaration for its record-index
+  calculation, but keeps the incoming record as a byte pointer so its
+  field loads and pointer-difference expression preserve the accepted code.
 - `func_80025F3C` likewise keeps the target's 32-bit `+0x14` read for the
   `0x90000000` state test.
 - `DuelEffect_UpdateFieldMarker` uses the shared record and flags, but keeps
@@ -93,10 +96,9 @@ Raw local views retained for exact code generation:
 - `func_8002C938` keeps its explicit byte-address construction and fixed
   register variables, then uses `DuelCardRecord` once the address is formed.
 
-The matching-C report users that do not yet include `duel_card.h` are
-`func_80016784`, `func_80017F04`, `func_80018DB4`, `func_8001F0D0`,
-`func_80022674`, `func_800229F4`, `func_8002538C`, `func_800257A0`, and
-`func_8002596C`.
+Any matching-C report user not listed in the typed inventory above still
+retains a local or raw record view. Derive that changing set from
+`notes/global-usage.csv` rather than duplicating it here.
 
 `func_8002C9B4` remains wholly unchanged because its `D_801A7AD8` address
 formation is inline assembly. Its local record view and the interior
