@@ -5403,6 +5403,14 @@
       "rodata_end": "0x2168"
     },
     {
+      "address": "0x800707C4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xAC",
+      "source": "src/game/ai_get_card_range.c",
+      "rodata": "0x216C",
+      "rodata_end": "0x2194"
+    },
+    {
       "address": "0x80070870",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x54",

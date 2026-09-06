@@ -464,7 +464,7 @@ def generate(root: Path) -> tuple[Path, Path]:
     for offset, end, _segment, owner in rodata_claims:
         if offset > cursor:
             pieces.append((cursor, offset, None))
-        pieces.append((offset, end, f"c_{owner:08X}.o"))
+        pieces.append((offset, end, f"c_{owner:08x}.o"))
         cursor = end
     if cursor < text_start:
         pieces.append((cursor, text_start, None))
