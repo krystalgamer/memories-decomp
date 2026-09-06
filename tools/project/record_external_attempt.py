@@ -39,7 +39,10 @@ MODES = {
     "post_terminal_resolution",
 }
 RESULTS = {"matched", "nonmatch", "deferred"}
-TERMINAL_RESULTS = {"matched", "deferred"}
+# Only an exact match ends a history for good. `deferred` records that a
+# session stopped, which a later session with new evidence may resume; it was
+# never an independent judgement while the six-attempt budget forced it.
+TERMINAL_RESULTS = {"matched"}
 # None means the mode has no attempt ceiling. The campaign modes are
 # unbounded so that a hard function can be explored to a conclusion; the
 # single-shot modes are not budgets but escape hatches, each admitting one

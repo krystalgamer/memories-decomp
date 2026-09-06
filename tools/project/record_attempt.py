@@ -121,7 +121,7 @@ def main() -> int:
 
         rows = load_attempts(attempts_path)
         history = validate_history(rows, address)
-        if history and history[-1]["result"] in {"matched", "deferred"}:
+        if history and history[-1]["result"] == "matched":
             raise AttemptError(
                 f"{address:#010x}: attempts already ended with "
                 f"{history[-1]['result']}"

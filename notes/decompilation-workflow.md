@@ -363,6 +363,9 @@ be corroborated before being treated as final.
 - Defer a function when its evidence is genuinely exhausted, not when a counter
   runs out. Leave the assembly fallback intact and state what was ruled out and
   how it was measured, so a later session resumes rather than repeats the work.
+- `deferred` marks a pause, not an ending: a later session holding new evidence
+  may append further attempts to a deferred history. Only `matched` closes a
+  history for good.
 - Do not infer the compiler solely from the North American release year.
 - Do not download or commit proprietary PsyQ binaries. Any user-supplied
   candidate remains ignored under `tools/toolchains/`.

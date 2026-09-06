@@ -169,7 +169,7 @@ def candidates(
             if (
                 not history
                 or len(history) >= 6
-                or history[-1]["result"] in {"matched", "deferred"}
+                or history[-1]["result"] in {"matched"}
             ):
                 continue
             candidate = normalize_source(root, history[-1]["candidate_source"])
@@ -224,7 +224,7 @@ def candidates(
             or function["status"] != "unmatched_asm"
             or not history
             or len(history) >= 6
-            or history[-1]["result"] in {"matched", "deferred"}
+            or history[-1]["result"] in {"matched"}
             or tool_error and not (repair_gprel and gprel_error)
         ):
             continue

@@ -19,7 +19,9 @@ class CandidateError(RuntimeError):
 
 
 ATTEMPT_FIELDS = ("address", "attempt", "compiler", "flags", "result", "summary")
-TERMINAL_RESULTS = {"matched", "deferred"}
+# Only an exact match ends a history for good; `deferred` marks a pause that a
+# later session may resume.
+TERMINAL_RESULTS = {"matched"}
 
 
 def parse_integer(value: str) -> int:

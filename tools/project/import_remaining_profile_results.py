@@ -80,7 +80,7 @@ def import_unmatched_results(root: Path, path: Path) -> int:
         if address not in functions:
             raise ImportError(f"{address:#010x}: unknown function")
         history = record_attempt.validate_history(rows, address)
-        if history and history[-1]["result"] in {"matched", "deferred"}:
+        if history and history[-1]["result"] in {"matched"}:
             continue
         profile = result["profile"]
         source = resolve_within(root, result["source"], must_exist=True)
@@ -149,7 +149,7 @@ def import_inline_results(root: Path, path: Path) -> int:
             if row["mode"] == "inline_refinement"
             and record_external_attempt.parse_address(row["address"]) == address
         ]
-        if history and history[-1]["result"] in {"matched", "deferred"}:
+        if history and history[-1]["result"] in {"matched"}:
             continue
         profile = result["profile"]
         source = resolve_within(root, result["source"], must_exist=True)
