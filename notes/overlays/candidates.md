@@ -462,27 +462,24 @@ void func_801681A0(Record *r, void *ot)
 
 ## password `func_80168CDC` at 0x80168CDC
 
-`gcc_2_8_1_g0_split`, 240 of 240 instructions, 44 differing positions, opcode
+`gcc_2_8_1_g0_split`, 240 of 240 instructions, 43 differing positions, opcode
 distance 2.
 
 Do not rebuild this from scratch; it has been reconstructed three times.
 
-Residual is one extra `addiu` against one missing `addu`.
+Residual is one extra `addiu` against one missing `addu`, and it is the same
+thing twice over. The extra `addiu` is the `li` that gives the variable shift
+amount its own register. The target holds 16 in `a3` and uses `a3` for three
+things at once -- the shift at `sllv`/`srav`, argument 4, and argument 5 by way
+of `move v0,a3` -- and defines it as the first instruction of the `draw` block.
+This candidate defines a separate local for the shift at the top of the
+`if (w != 0)` body, so 16 is materialised a seventh time, in `t4`. That is also
+why the block copy runs `t5`-`t8` here and `t4`-`t7` in the target: `t4` is
+taken.
 
-The remaining difference is where the constant 16 lives. The target keeps it
-in `a3`, the register that also carries argument 4, and uses that same
-register as the shift amount at the `sllv`/`srav` pair. This candidate passes
-the argument as a literal and keeps a separate local for the shift, so it
-materialises 16 twice. Spelling the shift with a literal too collapses it to
-`sll`/`sra` by immediate and loses the variable shift, which is worse: 237
-instructions at distance 3. Passing the local for either argument position is
-also worse (`n, n` 238 at distance 10; `n, 16` 239 at distance 9; `16, n` and
-`m, n` 239 at distance 3).
-
-**Do not measure this function under `no_sched1`.** That profile reports an
-exact position count on the older 239-instruction candidate but at opcode
-distance 16. See the "A matching count under `no_sched1` can be a false
-positive" section in `README.md`.
+The six `li a3,16` before `draw` are not six definitions. Five of them are
+delay-slot copies reorg made of the `draw` block's first instruction, with the
+branches retargeted past it, and they already match.
 
 ```c
 #include "../../src/types.h"
@@ -537,7 +534,7 @@ Obj *func_80168CDC(s32 slot, Widget *w)
             };
             i = 0;
             for (;;) {
-                if (tbl[i] == code) {
+                if (code == tbl[i]) {
                     if (i < 15) { u = i << 4; v = 72; }
                     else if (i < 22) { u = (i << 4) - 96; v = 88; }
                     else {
@@ -575,7 +572,6 @@ draw:
     return obj;
 }
 ```
-
 ## main_menu `func_80180390` at 0x80180390
 
 `gcc_2_8_1_g0_split`, 498 instructions against 495, 476 differing positions,
