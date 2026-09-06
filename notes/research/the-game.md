@@ -67,8 +67,9 @@ and local function evidence. The older `*Loop` labels imported from a
 community IDA database helped identify the handlers, but they are analyst
 names rather than recovered Konami symbols.
 
-**What persists.** Everything the player accumulates lives in one save block
-[`0x801D0200` onward] and is written to the memory card as one file:
+**What persists.** Everything the player accumulates lives in one `0x680`-byte
+state block [`0x801D0200`–`0x801D087F`] and is written to the memory card as
+one file:
 
 | what | where | shape |
 |---|---|---|
@@ -1396,6 +1397,14 @@ restores it and shows the loaded menu; the campaign resumes at the last
 scene. The dialogue messages are listed in §2.3. Nothing is auto-saved: a
 Free Duel win that is not saved is lost on power-off, and so is a campaign
 loss you did not save after.
+
+The resident save builder stages a `0x200`-byte header followed by two
+identical `0x680`-byte state copies, for `0xF00` bytes through the end of the
+duplicate. `SaveData_RequestWrite` copies the live state to `0x801D3200`;
+`func_8003D03C` builds the header at `0x801D3000`, normalizes the primary
+copy, and duplicates it at `0x801D3880`. The final request passes
+`0x801D3200` and length `0xD00`, exactly the contiguous primary-plus-duplicate
+state pair. Its final mode value remains unnamed.
 
 ---
 

@@ -75,6 +75,28 @@ attempt. A successful `nextfile` resets that retry budget, advances by one
 matching the usable block count on a memory card, and optionally stores the
 final count through the caller's output pointer.
 
+## Save payload staging
+
+`SAVE_DATA_STATE_SIZE` fixes the live persistent state at `0x680` bytes,
+beginning at `gDuel_awPlayerDeck` (`0x801D0200`). `SaveData_RequestWrite`
+copies that state to `0x801D3200`, then calls `func_8003D03C` with staging base
+`0x801D3000`.
+
+The builder lays out:
+
+| Staging offset | Size | Contents |
+|---:|---:|---|
+| `+0x000` | `0x200` | Header copied from the template at `0x801D4000`. |
+| `+0x200` | `0x680` | Primary normalized game state. |
+| `+0x880` | `0x680` | Duplicate copied from the completed primary state. |
+
+The complete staged region through the duplicate is therefore `0xF00` bytes.
+The subsequent `func_8003F758` call receives pointer `0x801D3200` and length
+`0xD00`, exactly the contiguous pair of `0x680`-byte state copies. Its final
+argument is `2`; this note does not assign that unnamed mode a role. The
+staged data fits within one `0x2000`-byte memory-card block, but these calls do
+not establish how the remaining on-card bytes are populated.
+
 ## Evidence boundary
 
 The descriptor values, event specifications, mode, and API prototypes are
