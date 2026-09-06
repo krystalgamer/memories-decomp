@@ -21,6 +21,6 @@ void func_80044D48(void)
 
 void func_80044DA0(void)
 {
-    g_SDValue->channel_volume[0] = 0x80;
-    g_SDValue->channel_volume[1] = 0x80;
+    g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
+    g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
 }

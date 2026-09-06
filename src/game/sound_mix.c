@@ -8,15 +8,16 @@ void func_80044E90(s32 value)
 {
     register s32 saved asm("$5") = value;
 
-    if ((u16)(value - 1) < 128) {
-        g_SDValue->channel_volume[0] = -128 - saved;
-        g_SDValue->channel_volume[1] = 128;
-    } else if ((u16)(value + 128) < 128) {
-        g_SDValue->channel_volume[0] = 128;
-        g_SDValue->channel_volume[1] = -128 - saved;
+    if ((u16)(value - 1) < SD_CHANNEL_VOLUME_MAX) {
+        g_SDValue->channel_volume[0] = -SD_CHANNEL_VOLUME_MAX - saved;
+        g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
+    } else if ((u16)(value + SD_CHANNEL_VOLUME_MAX) <
+        SD_CHANNEL_VOLUME_MAX) {
+        g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
+        g_SDValue->channel_volume[1] = -SD_CHANNEL_VOLUME_MAX - saved;
     } else {
-        g_SDValue->channel_volume[0] = 128;
-        g_SDValue->channel_volume[1] = 128;
+        g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
+        g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
     }
     func_80044DC0(g_SDValue->cd_volume);
 }
