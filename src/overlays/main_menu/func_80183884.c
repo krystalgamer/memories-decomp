@@ -1,9 +1,9 @@
 #include "../../types.h"
+#include "../../psyq/rand.h"
 #include "../../game/card_constants.h"
 
 extern s16 D_801D4D8E[];
 extern s32 D_801D4244[];
-extern s32 rand(void);
 
 s32 func_80183884(s16 *a, s16 *b)
 {

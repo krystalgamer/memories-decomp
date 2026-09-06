@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../psyq/rand.h"
 
 typedef struct {
     s16 id;
@@ -6,7 +7,6 @@ typedef struct {
 } MainMenuSortEntry;
 
 extern s16 D_801D4D8E[];
-extern s32 rand(void);
 
 s32 func_80184254(MainMenuSortEntry *a, MainMenuSortEntry *b)
 {

@@ -1,7 +1,7 @@
 #include "../../types.h"
+#include "../../psyq/rand.h"
 
 extern s16 D_801D4D8E[];
-extern s32 rand(void);
 
 s32 func_8018416C(s16 *a, s16 *b)
 {
