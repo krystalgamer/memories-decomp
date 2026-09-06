@@ -71,6 +71,7 @@ source grouping.
 | `src/game/duel_field_equip_search.c` | `gcc_2_8_1_g8_split` | Two contiguous field-card filters (`0x80026C6C`, `0x80026D18`) and their following equip-pair search (`0x80026DC8`) |
 | `src/game/util_memory.c` | `gcc_2_8_1_g8` | `Util_CopyWords` (`0x800356A0`) and contiguous repeated-byte fill counterpart `Util_FillMemory` (`0x80035748`) |
 | `src/game/display_object_brightness.c` | `gcc_2_8_1_g0_split` | Paired display-object RGB setters at `0x80030090` and `0x800300AC`, writing uniform brightness values `0x40` and `0x80` |
+| `src/game/display_parent_links.c` | `gcc_2_8_1_g8` | Relative-position parent attachment (`0x80022F98`) and the contiguous one-plus-two-by-five object-row traversal with optional pointer clearing (`0x80022FF0`) |
 | `src/game/display_object_position.c` | `gcc_2_8_1_g8` | Three-child position propagation (`0x8003A920`) and the contiguous group-position setter that also invokes it (`0x8003A95C`) |
 | `src/game/display_slot_lifecycle.c` | `gcc_2_8_1_g8_split` | Reserved/full-pool free-slot searches (`0x8004002C`, `0x8004006C`), linked-list slot initialization (`0x800400AC`), and contiguous unlink/free teardown (`0x8004020C`) |
 | `src/game/display_object_config.c` | `gcc_2_8_1_g8` | Seven pool-reset, state-byte, resource/color/texture, position, and dimension configuration helpers from `0x800403F0` through `0x80040510` |
