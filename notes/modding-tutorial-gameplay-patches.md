@@ -525,3 +525,72 @@ possible duel or debug path.
 - **Confirmed** that the immediate increases the existing duel award rather
   than replacing the player's starchip total.
 - **Confirmed** that the updated total is capped at 999,999.
+
+## Disable Trade, 2P Duel, and Square input
+
+**Tutorials:**
+
+- `Remover Trade, Bloquear B. Quadrado e 2P.txt`
+- `Remover Trade, Bloquear B. Quadrado e 2P - CÓDIGOS.txt`
+
+The installer makes two edits:
+
+| SLUS offset | VRAM | Size | Purpose |
+|---:|---:|---:|---|
+| `0x2D4EC` | `0x8003CCEC` | 8 bytes | Replace two loads in `Input_UpdatePads` with a jump to the injected input filter while preserving the first load in the delay slot |
+| `0x1BDDA0` | `0x801CD5A0` | `0x22B4` bytes | Install the code-and-data payload; the documented hook enters it at `0x801CD8BC` (`+0x31C`) |
+
+The complete destination range `0x1BDDA0-0x1C0053` is zero-filled in the
+verified retail executable. The decoded payload is 8,884 bytes with SHA-256
+`254fcc7c75fc18b42b9d3b1666f1ced8c3970a69412c5d25775d3bce05da699b`.
+
+The retail instructions at the hook are the two state loads used by
+`Input_UpdatePads`:
+
+```mips
+lw    $t2, 0x4A0($gp)  # gInput_dwPendingHeld
+lw    $v0, 0x488($gp)  # previous combined held state
+```
+
+The replacement is:
+
+```mips
+j     0x801CD8BC
+lw    $t2, 0x4A0($gp)  # preserved in the delay slot
+```
+
+The injected path eventually resumes at `0x8003CCF4`, immediately after the
+overwritten pair. For main-menu IDs `2` and `3`, which are 2P Duel and Trade,
+it tests pad 1 bits `0x40`, `0x80`, and `0x800`: Cross, Square, and Start. If
+any is present, it clears the complete pending 32-bit controller word before
+the normal held/pressed publication logic runs. If none is present, the path
+still reaches the edge calculation with its previous-state operand cleared.
+The supplied patch therefore prevents those menu entries from being
+activated; it does not remove their menu objects or labels.
+
+For other menu IDs, the injected code performs the displaced previous-state
+load and checks the authoritative opponent and player life points at
+`gDuel_wOpponentLifePoint` (`0x800EA024`) and
+`gDuel_wPlayerLifePoint` (`0x800EA004`). While both are nonzero, bit `0x80`
+(Square) is filtered from the current and previous input states by clearing
+the corresponding complete 32-bit word. A simultaneous input on either pad
+can therefore be discarded along with Square; this is broader than clearing
+only one button bit.
+
+The hook also clears the unnamed byte at `0x801B1AB4` when
+`gMain_bMenuID == 1` (Load). Its purpose is not established by the tutorial
+or current local symbols. The payload contains many additional routines and
+data beyond the input-filter path, so this analysis does not assign semantics
+to the rest of the blob.
+
+**Confidence:**
+
+- **Confirmed** that both file offsets, the runtime addresses, the original
+  hook instructions, the injected jump target, and the zero-filled destination
+  range match the untouched retail executable.
+- **Confirmed** that menu IDs `2` and `3` suppress Cross, Square, and Start
+  before `Input_UpdatePads` publishes input.
+- **Confirmed** that the non-menu path suppresses Square while both
+  authoritative life-point values are nonzero.
+- **High** that the advertised 2P/Trade lockout is input-based rather than a
+  visual menu removal; the unrelated `0x801B1AB4` write remains unresolved.
