@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card.h"
 
 typedef struct {
     u16 x;
@@ -67,17 +68,17 @@ void func_800177C4(void)
         y = p.y;
         out->y = y - 0x1E;
         if (D_8009B1D5 != 0) {
-            if (i < 0xF) {
+            if (i < DUEL_CARD_SIDE_RECORD_COUNT) {
                 out->y = y - 0x1D;
             }
         } else {
-            if (i >= 0xF) {
+            if (i >= DUEL_CARD_SIDE_RECORD_COUNT) {
                 out->y = y - 0x1D;
             }
         }
         out++;
         src += 2;
         i++;
-    } while (i < 0x1E);
+    } while (i < DUEL_CARD_RECORD_COUNT);
     SetGeomOffset(0, 0);
 }
