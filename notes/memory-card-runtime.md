@@ -56,11 +56,22 @@ operation. `func_80043DA0` provides a synchronous companion: it tests the same
 four slots in order and returns `0` through `3` for the first signaled event,
 or `-1` when its caller requests a single nonblocking pass and none is ready.
 
-Matching `func_80044038` shows how the result drives retries. It starts an
-operation, waits while the result is negative, and retries only result `1`
-(timeout), with at most ten attempts. The larger memory-card state machine in
-`func_80044608` consumes the same values; its later conversion of result `3`
-to `4` is internal state-machine bookkeeping, not a fifth event callback.
+Matching `func_80044038` shows how the result drives retries. It prepares the
+alternate four-handle set, calls `_card_clear(value)`, waits while the result
+is negative, and retries only result `1` (timeout), with at most ten attempts.
+The larger memory-card state machine in `func_80044608` consumes the same
+values; its later conversion of result `3` to `4` is internal state-machine
+bookkeeping, not a fifth event callback.
+
+The request wrappers establish two other low-level sequences. `func_800440F0`
+prepares `gMemCard_aIOEventHandles` and starts `_card_info(channel)` without
+waiting. After its mode-2 request gate succeeds, `func_8004413C` runs the
+blocking three-stage path: `_card_info(channel)` against that primary handle
+set, `_card_clear` against the alternate set using channel byte
+`D_8009B437`, then `_card_load(channel)` against the primary set again. It
+resets the shared result before every stage and waits for a nonnegative event
+result after each call; the function does not reinterpret those three results
+before returning `1`.
 
 ## Directory enumeration
 
