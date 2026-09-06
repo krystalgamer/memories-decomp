@@ -102,19 +102,48 @@ Observed fields in each `0x48`-byte descriptor are:
 | `+0x46` | 8-bit | Transfer state |
 | `+0x47` | 8-bit | Transfer substate |
 
-`func_80013940` applies:
+`func_80013940` interprets its third argument (`position`) and fourth argument
+(`size`) by sign. The matching body in `src/game/file_stream.c` applies:
 
 ```c
-file_index                = file_flags & 0xF;
-descriptor->file_bytes    = sector_offset << 11;
-descriptor->absolute_lba  = gFile_anLba[file_index] + sector_offset;
-descriptor->total_bytes   = abs(sector_count << 11);
+file_index = file_flags & 0xF;
+descriptor->total_bytes = size;
+if (size < 0)
+    descriptor->total_bytes = -(size << 11);
+
+if (position < 0) {
+    descriptor->file_bytes = 0;
+    descriptor->absolute_lba = -position;
+} else {
+    descriptor->file_bytes = position << 11;
+    descriptor->absolute_lba = gFile_anLba[file_index] + position;
+}
 ```
 
-`File_InitTransferDescriptor` initializes a descriptor.
+Thus a nonnegative position is a file-relative sector offset; a negative
+position supplies the negated absolute LBA and bypasses the file LBA table.
+The retail branches at `0x80013944` and `0x80013958` independently select the
+size and position modes. In the helper, nonnegative sizes are already bytes;
+only negative sizes are converted from sectors.
+
+`File_InitTransferDescriptor` negates its fifth argument before passing it as
+the helper's fourth argument (`negu a3,v0` at `0x800139D8`, in the call's delay
+slot). Its public size convention is therefore the reverse:
+
+| Initializer size argument | Helper size argument | Descriptor total bytes |
+|---:|---:|---:|
+| `3` | `-3` | `0x1800` (three sectors) |
+| `-513` | `513` | `513` (bytes, with no sector rounding) |
+| `0` | `0` | `0` |
+
 `File_RequestAsyncTransfer` is the common game-facing asynchronous loader
-using the active descriptor. Its relevant arguments are the file selector,
-file-relative sector offset, sector count, phase callback, phase seed, and
+using the active descriptor. It forwards its third and fourth arguments as
+the initializer's position and size, respectively: nonnegative positions are
+file-relative sectors, negative positions are negated absolute LBAs, positive
+sizes count sectors, and negative sizes give the negated byte count. For
+example, position `-954` and size `-513` select absolute LBA `954`, file byte
+offset zero, and 513 total bytes. Its other arguments provide the file
+selector, caller-specific loader argument, phase callback, phase seed, and
 optional direct destination.
 
 `func_8001455C` services the CD transfer. `func_80013C28` consumes one sector
