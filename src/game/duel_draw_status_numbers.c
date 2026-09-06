@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_display.h"
 #include "duel_grid.h"
 
 /* Draws the paired digit-sprite readout for both players' D_800E9FF0 slots.
@@ -63,9 +64,9 @@ void Duel_DrawLifePointsAndDeckCounts(struct Widget *arg0) {
     scratch->unkC = 0x1E;
     scratch->unkE = 0x5800;
     scratch->unk8 = 0x80008;
-    scratch->unk14 = 0x808080;
+    scratch->unk14 = DUEL_DISPLAY_COLOR_NORMAL;
     if (D_8009B1D5 == 0) {
-        scratch->unk14 = 0x404040;
+        scratch->unk14 = DUEL_DISPLAY_COLOR_DIMMED;
     }
 
     scratch->unk4 = pos->unk30 - 3;
@@ -76,9 +77,9 @@ void Duel_DrawLifePointsAndDeckCounts(struct Widget *arg0) {
     scratch->unk6 = pos->unk32 - 5;
     func_80016D2C(pos, scratch, 0x28 - D_800E9FF0[1].field18, 2);
 
-    scratch->unk14 = 0x808080;
+    scratch->unk14 = DUEL_DISPLAY_COLOR_NORMAL;
     if (D_8009B1D5 != 0) {
-        scratch->unk14 = 0x404040;
+        scratch->unk14 = DUEL_DISPLAY_COLOR_DIMMED;
     }
 
     scratch->unk4 = pos->unk30 - 3;
