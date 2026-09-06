@@ -8,7 +8,7 @@ extern s32 D_8009B430;
 extern s16 D_8009B434;
 extern u8 D_8009B437;
 extern s16 D_8009B44C;
-extern volatile s32 D_8009B450;
+extern volatile s32 gMemCard_nIOResult;
 extern int func_800440B4(int, int);
 extern void func_80043D48(void **);
 extern void func_8008B330(int);
@@ -23,15 +23,15 @@ int func_8004413C(int value)
     }
     func_80043D48(D_800F2AE0);
     func_8008B330(value);
-    while (D_8009B450 < 0) {
+    while (gMemCard_nIOResult < 0) {
     }
     func_80043D48(D_800F2AF0);
     func_8008B3A0(D_8009B437);
-    while (D_8009B450 < 0) {
+    while (gMemCard_nIOResult < 0) {
     }
     func_80043D48(D_800F2AE0);
     func_8008B340(value);
-    while (D_8009B450 < 0) {
+    while (gMemCard_nIOResult < 0) {
     }
     return 1;
 }

@@ -32,7 +32,8 @@ critical section.
 
 ## Shared result
 
-The four callbacks write the volatile word at `D_8009B450`. Their high-base
+The four callbacks write the volatile `gMemCard_nIOResult` word at
+`0x8009B450`. Their high-base
 address expressions all resolve to that same word:
 
 ```text

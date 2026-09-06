@@ -213,6 +213,7 @@ gOptions_bState = 0x8009B37C;
 gOptions_bOutputType = 0x8009B37D;
 gOptions_bSelection = 0x8009B384;
 gSD_bOutputType = 0x8009B408;
+gMemCard_nIOResult = 0x8009B450;
 gFile_anLba = 0x800E9EA8;
 gPassword_abDigits = 0x8016D410;
 gDuel_awRitualData = 0x801799D8;
