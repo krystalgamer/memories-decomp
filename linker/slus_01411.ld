@@ -16,29 +16,11 @@ SECTIONS
     }
     ASSERT(SIZEOF(.header) == 0x800, "PS-X EXE header size mismatch")
 
-    .initial_data 0x80010000 : AT(0x000800)
-    {
-        KEEP(*initial_data.o(.data))
-    }
-    ASSERT(SIZEOF(.initial_data) == 0x194C, "initial data size mismatch")
-
-    /* Pre-text read-only data owned by a matching C object. A compiler
-       generated jump table lands in that object's .rodata, and retail places
-       it inside the leading data region rather than after the text, so it
-       gets its own output section at its own VRAM. SUBALIGN is scoped here
-       because GCC marks the table 8-byte aligned while retail places it on a
-       4-byte boundary; applying it to the whole blob would move other data. */
-    .jtbl_rodata 0x8001194C : AT(0x00214C) SUBALIGN(4)
-    {
-        KEEP(*c_80070738.o(.rodata))
-    }
-    ASSERT(SIZEOF(.jtbl_rodata) == 0x1C, "jump table rodata size mismatch")
-
-    .initial_data_tail 0x80011968 : AT(0x002168)
-    {
-        KEEP(*initial_data_002168.o(.data))
-    }
-    ASSERT(SIZEOF(.initial_data_tail) == 0x1070, "initial data tail mismatch")
+    /* The leading data region is generated, because a matching C object may
+       own read-only data inside it. Declaring that in the build configuration
+       splits the region and emits the sections here, so no function specific
+       rule is written by hand. */
+    INCLUDE tmp/generated/initial_data.ld
 
     .text 0x800129D8 : AT(0x0031D8)
     {
