@@ -1,11 +1,11 @@
 #include "../types.h"
+#include "../psyq/libetc.h"
 #include "ai.h"
 
 extern AiFieldCardState D_800EAE88;
 extern AiScriptState gAiScript_State;
 
 extern s32 AiScript_ReadByte(void);
-extern int VSync(int);
 extern void func_8008E360(void *, s32);
 extern void AiScript_EndHand(void);
 extern void AiScript_EndField(void);

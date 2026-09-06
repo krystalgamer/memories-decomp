@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libetc.h"
 
 typedef float f32;
 typedef double f64;
@@ -20,7 +21,6 @@ extern short D_8009B46A;
 extern short D_8009B46C;
 extern short D_8009B46E;
 extern u8 D_800F569F[];
-extern int VSync(int);
 extern s32 MoveImage();
 
 void func_8004E9A0(void) {
