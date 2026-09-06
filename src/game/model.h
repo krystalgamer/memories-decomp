@@ -203,7 +203,9 @@ typedef char ModelHandlerRegistryEntry_key_offset_must_be_0x4[
 #ifndef MODEL_SLOT_CUSTOM_EXTERN
 extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
 #endif
+#ifndef MODEL_HANDLER_REGISTRY_CUSTOM_EXTERN
 extern ModelHandlerRegistryEntry
     D_800F5918[MODEL_HANDLER_REGISTRY_COUNT];
+#endif
 
 #endif

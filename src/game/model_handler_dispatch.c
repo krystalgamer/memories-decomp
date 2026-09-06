@@ -1,9 +1,12 @@
 #include "../types.h"
+#define MODEL_HANDLER_REGISTRY_CUSTOM_EXTERN
+#include "model.h"
+
 extern u8 D_800F5918[];
 u8 *func_80089E20(u8 **arg0);
 
 /* Maps an id to its handler in the second dispatch family: looks the id up
- * in the 0x50-entry table at D_800F5918 (func_80089E20 is the sentinel that
+ * in the handler registry at D_800F5918 (func_80089E20 is the sentinel that
  * skips the search), then dispatches on the high halfword's group and the
  * low halfword's kind. Returns arg0 unchanged when nothing matches. */
 
@@ -39,7 +42,7 @@ s32 func_8005FC1C(s32 arg0) {
             }
             n++;
             p += 8;
-        } while (n < 0x50);
+        } while (n < MODEL_HANDLER_REGISTRY_COUNT);
         v = -1;
     }
 
@@ -135,7 +138,7 @@ s32 func_8005FE44(s32 arg0) {
             }
             n++;
             p += 8;
-        } while (n < 0x50);
+        } while (n < MODEL_HANDLER_REGISTRY_COUNT);
         v = -1;
     }
 
