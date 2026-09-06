@@ -54,6 +54,36 @@ agree except card 480: the executable glyph at index `0x55` maps through
 `gText_adwGlyphCodeTable` to Shift-JIS `alpha`, so the catalog preserves the
 in-game name `Kuwagata α` rather than the database's ASCII `Kuwagata a`.
 
+## Library visibility and display groups
+
+The catalogue metadata above is independent of whether the in-game Library
+currently reveals a card. Matching `func_8002BFCC`, the Library initializer,
+first calls `Library_MarkOwnedCards`. That helper sets the persistent
+`0x120 + card_id` seen flag for every nonzero trunk quantity and every
+nonzero card ID in the 40-card deck.
+
+The initializer then walks card IDs `1` through `722` and tests each same
+`0x120 + card_id` flag through `Campaign_TestStoryFlag`. A set flag increments
+the visible-card count and sets byte `0x80` in that card's display record.
+When `func_8002C518(card_id)` returns a negative value, the initializer also
+sets that record's low bit; the matching body establishes the bit but not a
+safe semantic name for it.
+
+Each display record also receives a selector derived from the packed card
+type:
+
+| Card type | Display selector |
+|---|---:|
+| Monster types `0`-`19` | `0x160` |
+| Magic or Equip | `0x170` |
+| Trap | `0x180` |
+| Ritual | `0x190` |
+
+These are Library presentation groups, not replacements for the card-type
+values in `gDuel_adwCardStats`. Seen state likewise does not share the
+one-byte trunk quantity: entering the Library can set a card's separate seen
+flag from current ownership, and the visibility pass reads that flag array.
+
 ## Retail password and cost verification
 
 The retail password/cost table begins at `WA_MRG.MRG` offset `0xFB9800` and
