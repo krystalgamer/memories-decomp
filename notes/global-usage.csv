@@ -2423,7 +2423,6 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9D98,D_800E9D98,D_800E9D98,0x80015DFC,func_80015DFC,matching_c,game,C,src/game/display_projection.c,read,,"func_80016784(object->record, D_800E9D98[0], object->screen_x,"
 0x800E9D98,D_800E9D98,D_800E9D98,0x8004CB0C,func_8004CB0C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03d30c.s,read,32,"lui $v0, %hi(D_800E9D98) | lw $fp, %lo(D_800E9D98)($v0)"
 0x800E9D98,D_800E9D98,D_800E9D98,0x800540B4,func_800540B4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_043cb8.s,read,32,"lui $v0, %hi(D_800E9D98) | lw $v0, %lo(D_800E9D98)($v0)"
-0x800E9D98,D_800E9D98,D_800E9D98,0x80058F10,func_80058F10,matching_c,game,C,src/game/func_80058F10.c,read,32,return D_800E9D98;
 0x800E9D9C,D_800E9D9C,D_800E9D9C,0x80029934,func_80029934,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01a134.s,read,32,"lui $v0, %hi(D_800E9D9C) | lw $s6, %lo(D_800E9D9C)($v0)"
 0x800E9D9C,D_800E9D9C,D_800E9D9C,0x80029EC4,func_80029EC4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01a6c4.s,read,32,"lui $v0, %hi(D_800E9D9C) | lw $v0, %lo(D_800E9D9C)($v0)"
 0x800E9D9C,D_800E9D9C,D_800E9D9C,0x8004CB0C,func_8004CB0C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03d30c.s,read,32,"lui $v0, %hi(D_800E9D9C) | lw $fp, %lo(D_800E9D9C)($v0)"

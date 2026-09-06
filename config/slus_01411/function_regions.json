@@ -12,9 +12,24 @@
     {
       "name": "game",
       "start": "0x80012B50",
+      "end": "0x80058F10",
+      "module": "game",
+      "evidence": "Game and engine code, bounded by the startup transfer and the embedded LIBGS work-base getter."
+    },
+    {
+      "name": "embedded-libgs-work-base-getter",
+      "start": "0x80058F10",
+      "end": "0x80058F20",
+      "module": "psyq/sdk",
+      "status": "sdk_asm",
+      "evidence": "Canonical GsGetWorkBase body and PACKET pointer contract, independently identified by the GMS and Unchiga IDBs."
+    },
+    {
+      "name": "game-after-libgs-getter",
+      "start": "0x80058F20",
       "end": "0x80073704",
       "module": "game",
-      "evidence": "Game and engine code, bounded by the startup transfer and the first SN/PsyQ host-I/O break wrapper."
+      "evidence": "Game and engine code following the embedded LIBGS getter and ending at the first SN/PsyQ host-I/O break wrapper."
     },
     {
       "name": "sdk",

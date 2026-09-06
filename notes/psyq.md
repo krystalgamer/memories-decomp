@@ -56,6 +56,7 @@ symbol review.
 
 | Address | Candidate SDK identity | Local evidence |
 |---|---|---|
+| `0x80058F10` | `GsGetWorkBase` | Confirmed from the canonical four-instruction getter, the real `libgs.h` `PACKET *` return type, and independent GMS and Unchiga identities. Unlike the three false-positive 16-byte FLIRT matches in the resident LIBDS range, this function returns the actual LIBGS packet work-base pointer consumed by model renderers. |
 | `0x80073830` | `InitHeap` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C57.OBJ` signature. |
 | `0x80073840` | `_bu_init` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C112.OBJ` signature; matching memory-card setup invokes it after lower-level card initialization. |
 | `0x80073850` | `SetMem` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C159.OBJ` signature; resident startup calls `SetMem(2)`. |

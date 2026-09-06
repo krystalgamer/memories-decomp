@@ -919,7 +919,7 @@ address,size,name,status,module,notes
 0x80058E68,0x2C,func_80058E68,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x80058E94,0x2C,func_80058E94,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x80058EC0,0x50,func_80058EC0,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
-0x80058F10,0x10,func_80058F10,matching_c,game,1 pre-policy variants: Straight G0 integer getter matched linked bytes and HI16/LO16 relocations.
+0x80058F10,0x10,GsGetWorkBase,sdk_asm,psyq/sdk,Identified from the canonical LIBGS getter body and real libgs.h return type; both GMS and Unchiga independently assign this identity.
 0x80058F20,0x54,func_80058F20,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80058F74,0x3C,func_80058F74,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80058FB0,0x50,Model_CopySlotU16Values,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.

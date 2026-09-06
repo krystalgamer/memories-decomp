@@ -1,5 +1,6 @@
 kind,address,name,confidence,evidence,notes
 function,0x800877B0,SetRotMatrix,confirmed,Unique exact Psy-Q 4.6 LIBGTE.LIB/MTX_09.OBJ signature; libgte.h; func_80041F90 caller,Loads the rotation matrix into GTE control registers 0-4; the 48-byte signature has no wildcards and matches only executable offset 0x77FB0.
+function,0x80058F10,GsGetWorkBase,confirmed,"canonical four-instruction getter; real libgs.h prototype; GMS and Unchiga IDBs","Returns the current LIBGS packet work-base pointer used by the resident model renderers."
 global,0x8009B45C,g_SDValue,confirmed,"FM debug string; gms.c xref; dotr.c symbol","Sound-driver root state pointer; exact successor-game symbol spelling."
 function,0x800170C8,Duel_CalcCardStats,high,"gms.c calcStats; local body and callers","Returns effective DEF in the high half and ATK in the low half, with stat and terrain modifiers summed and each value clamped to 0-9999."
 function,0x80016DDC,Duel_UpdateLifePointDisplay,high,"matching body; D_800E9FF0 per-side records; Duel_DrawLifePointsAndDeckCounts caller","Moves one side's displayed life-point value toward its authoritative value using magnitude-dependent steps."
