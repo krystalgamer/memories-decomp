@@ -2381,3 +2381,37 @@ The general point is the one already recorded for the `li` canonicalisation:
 a comparison tool's own output format must not be allowed to enter the
 measurement. Both bugs came from tokenising rendered text without first
 removing what the renderer had added.
+## Scheduling flags change instruction counts, not only instruction order
+
+It is natural to treat `-fno-schedule-insns` and `-fno-schedule-insns2` as
+ordering-only levers, to be tried once the candidate already has the right
+number of instructions. That is wrong, and skipping them while a length
+difference remains can leave the best profile unmeasured.
+
+Measured on `Duel_GetBaseCardStat` (0x8002CBF4, 45 instructions). Candidate
+lengths across the G0 GCC 2.8.1 profiles:
+
+    gcc_2_8_1_g0_split_no_sched1     44
+    gcc_2_8_1_g0_split               43
+    gcc_2_8_1_g0_no_sched2_split     43
+    gcc_2_8_1_o1_g0                  41
+    gcc_2_8_1_g0                     40
+    gcc_2_8_1_g0_no_split            40
+
+`gcc_2_8_1_g0_split` and `gcc_2_8_1_g0_split_no_sched1` differ only by
+`-fno-schedule-insns`, and they differ by one instruction in length. The
+mechanism is that scheduling feeds back into addressing decisions and
+delay-slot filling, both of which can add or remove an instruction rather
+than merely move one.
+
+So sweep the scheduling variants at the same time as the rest, and rank on
+candidate length first. The practical rule that follows from this and from
+the histogram note above:
+
+1. Compare `target=` and `candidate=` lengths. A length difference outranks
+   everything else.
+2. Among profiles tied on length, rank by opcode histogram delta.
+3. Only then look at the positional diff, which describes ordering.
+
+`gcc_2_7_2_g0` produced 38 here against a target of 45, which is the usual
+signal that the cohort is wrong rather than that the source is wrong.
