@@ -117,9 +117,20 @@ symbol review.
 | `0x8007E3D0` | `CdGetSector` | Identified CD-sector transfer interface in the resident CD library. |
 | `0x8007E4F0` | `CdGetSector2` | Parallel two-argument sector-transfer wrapper using the library's second transfer path. |
 | `0x8007A710` | `CdIntToPos` | Applied Psy-Q 4.6 LIBCD identity; canonical copy of the sector-to-packed-BCD position conversion. |
+| `0x8007CDE0` | `DsRead` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,296-byte `LIBDS.LIB/DSREAD.OBJ` signature. |
+| `0x8007D190` | `DsReadSync` | Applied Psy-Q 4.6 identity at offset `0x3B0` of the same unique `LIBDS.LIB/DSREAD.OBJ` signature. |
+| `0x8007D200` | `DsReadCallback` | Applied Psy-Q 4.6 identity at offset `0x420` of the same unique `LIBDS.LIB/DSREAD.OBJ` signature. |
+| `0x8007D214` | `DsReadBreak` | Applied Psy-Q 4.6 identity at offset `0x434` of the same unique `LIBDS.LIB/DSREAD.OBJ` signature. |
+| `0x8007D2D0` | `DsReadMode` | Applied Psy-Q 4.6 identity at offset `0x4F0` of the same unique `LIBDS.LIB/DSREAD.OBJ` signature. |
+| `0x8007D2F0` | `DsRead2` | Applied Psy-Q 4.6 identity from the unique 256-byte `LIBDS.LIB/DSREAD2.OBJ` signature; the matching movie control path retries this two-argument read. |
 | `0x8007E600` | `CdIntToPos_8007E600` | Applied address-qualified identity for the second byte-identical resident copy used by matching game C. |
 | `0x800781F0` | `CdPosToInt` | Applied Psy-Q 4.6 LIBCD identity; canonical copy of the packed-BCD position-to-sector conversion. |
 | `0x8007E710` | `CdPosToInt_8007E710` | Applied address-qualified identity for the second byte-identical resident copy used by matching game C. |
+| `0x8007DD50` | `DsStartReadySystem` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,440-byte `LIBDS.LIB/DSREADY.OBJ` signature; the matching file-transfer path installs its ready callback with an unlimited count. |
+| `0x8007DDD4` | `DsEndReadySystem` | Applied Psy-Q 4.6 identity at offset `0x84` of the same unique `LIBDS.LIB/DSREADY.OBJ` signature. |
+| `0x8007DE38` | `DsReadySystemMode` | Applied Psy-Q 4.6 identity at offset `0xE8` of the same unique `LIBDS.LIB/DSREADY.OBJ` signature; the matching file-transfer path selects mode `1`. |
+| `0x8007E390` | `DsFlush` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBDS.LIB/D2_005.OBJ` signature. |
+| `0x8007E790` | `DsLastPos` | Applied Psy-Q 4.6 identity from the unique 96-byte `LIBDS.LIB/D3_008.OBJ` signature. |
 | `0x8007E7F0` | `CdControlB` | Submits the three-argument CD command and blocks until the internal completion code is `2`. |
 | `0x8007E860` | `CdReadyCallback` | Replaces and returns the callback invoked with a ready-event status and result pointer. |
 | `0x8007E880` | `CdSyncCallback` | Replaces and returns the callback invoked from the command-completion path. |
@@ -667,9 +678,11 @@ so these rows document the imported header boundaries rather than claiming a
 resident function identity.
 
 The real `src/psyq/libds.h` and `src/psyq/libcd.h` provide parallel record
-families. The resident file-search anchor is `DsSearchFile`, while the
-position conversion used by `File_GetPosition` is the address-qualified
-CD-library copy `CdPosToInt_8007E710`:
+families. The resident file-search anchor is `DsSearchFile`; matching
+file-transfer C now uses `DsStartReadySystem` and `DsReadySystemMode`, while
+the movie control path uses `DsRead2`. The position conversion used by
+`File_GetPosition` is the address-qualified CD-library copy
+`CdPosToInt_8007E710`:
 
 | Record | Verified ABI surface |
 |---|---|

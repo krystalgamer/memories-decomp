@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libds.h"
 
 typedef struct {
     s32 value[18];
@@ -22,11 +23,9 @@ extern u8 D_800E9E18[];
 extern u8 D_801D4200[];
 extern u16 D_8009B112;
 
-extern void func_80013C28(void);
+extern void func_80013C28(u8, u8 *, u32 *);
 extern void func_8007B1F4(s32, void *, void *, s32);
 extern void func_8007B468();
-extern void func_8007DD50(void *, s32);
-extern void func_8007DE38(s32);
 extern s32 CdPosToInt_8007E710(s32);
 
 void func_800140A0(u8 event)
@@ -35,8 +34,8 @@ void func_800140A0(u8 event)
         D_8009B130++;
         func_8007B468(0xA0, D_8009B104, 6, func_800140A0, -1);
     } else if (event == 2) {
-        func_8007DE38(1);
-        func_8007DD50(func_80013C28, -1);
+        DsReadySystemMode(1);
+        DsStartReadySystem(func_80013C28, -1);
         D_8009B114 = 0;
         D_8009B138 = 0;
         D_8009B0F4 &= ~0x400;
