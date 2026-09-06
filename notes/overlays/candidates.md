@@ -442,9 +442,10 @@ void func_8016A080(void)
 distance 9.
 
 Remaining mix difference is two `srl` where the target has `srlv`, plus one
-`lhu` and the `lw`/`sw` pair around the spilled `x + 3` corner. The target
-shifts by the register holding the fourth argument's 1; naming a local for it
-here is constant-folded.
+`lhu` and the `lw`/`sw` pair around the spilled `x + 3` corner. The target shifts by the register holding the fourth argument's 1. Naming a
+local for that 1 is inert and has been removed from this candidate, since the
+compiler folds it either way and its presence suggested a lever that is not
+there.
 
 ```c
 #include "../../src/types.h"
@@ -475,9 +476,7 @@ void func_801681A0(Record *r, void *ot)
     s32 xp3;
     s32 right;
     s32 bottom;
-    s32 one;
 
-    one = 1;
     poly = (u8 *)0x1F800000;
     line = (u8 *)0x1F800040;
     *(u32 *)(poly + 4) = 0x0000FF00;
@@ -501,41 +500,41 @@ void func_801681A0(Record *r, void *ot)
     *(s16 *)(poly + 14) = y - 1;
     *(s16 *)(poly + 10) = y + 3;
     *(s16 *)(poly + 16) = xp3;
-    func_8005B260(poly, ot, pri, one);
+    func_8005B260(poly, ot, pri, 1);
     right = x + w;
     *(s16 *)(poly + 12) = right + 1;
     *(s16 *)(poly + 8) = right + 1;
     *(s16 *)(poly + 16) = right - 3;
-    func_8005B260(poly, ot, pri, one);
+    func_8005B260(poly, ot, pri, 1);
     bottom = y + h;
     *(s16 *)(poly + 18) = bottom + 1;
     *(s16 *)(poly + 14) = bottom + 1;
     *(s16 *)(poly + 10) = bottom - 3;
-    func_8005B260(poly, ot, pri, one);
+    func_8005B260(poly, ot, pri, 1);
     *(s16 *)(poly + 12) = xm1;
     *(s16 *)(poly + 8) = xm1;
     *(s16 *)(poly + 16) = xp3;
-    func_8005B260(poly, ot, pri, one);
-    w = w >> one;
+    func_8005B260(poly, ot, pri, 1);
+    w = w >> 1;
     w = x + w;
     *(s16 *)(line + 16) = w;
     *(s16 *)(line + 8) = w;
     *(s16 *)(line + 10) = y + 2;
     *(s16 *)(line + 18) = 0;
-    func_8005B260(line, ot, pri, one);
+    func_8005B260(line, ot, pri, 1);
     bottom -= 2;
     *(s16 *)(line + 10) = bottom;
     *(s16 *)(line + 18) = 192;
-    func_8005B260(line, ot, pri, one);
-    y = y + (h >> one);
+    func_8005B260(line, ot, pri, 1);
+    y = y + (h >> 1);
     *(s16 *)(line + 18) = y;
     *(s16 *)(line + 10) = y;
     x += 2;
     *(s16 *)(line + 8) = x;
     *(s16 *)(line + 16) = 0;
-    func_8005B260(line, ot, pri, one);
+    func_8005B260(line, ot, pri, 1);
     *(s16 *)(line + 8) = right - 2;
     *(s16 *)(line + 16) = 320;
-    func_8005B260(line, ot, pri, one);
+    func_8005B260(line, ot, pri, 1);
 }
 ```
