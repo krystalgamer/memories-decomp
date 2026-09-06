@@ -35,7 +35,7 @@ s32 value = gPassword_nDigitIndex;
 *(s16 *)(a + 0x18) = value * 16 + 0xA3;
 ```
 
-Verified by `func_8016A00C` in the password module.
+Verified by `Password_SetDigitCursorTarget` in the password module.
 
 ## A stall can point to access syntax
 

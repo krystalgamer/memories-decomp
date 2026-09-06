@@ -198,6 +198,7 @@ Mode slot 10 — a real mode switch. Passwords are one-time-use per save; a wron
 | symbol | address | description |
 |---|---|---|
 | `Main_RunPasswordMenu` | 0x8002D684 | The password screen's mode tick (a name dispute settled by tracing). |
+| `Password_SetDigitCursorTarget` (module: password) | 0x8016A00C | Sets the digit cursor's target to `(163 + 16 * selected index, 99)` after initialization or horizontal input. |
 | `Password_LookupCardID` (module: password) | 0x8016A304 | Packs the eight entered digits and returns the matching one-based card ID, or zero when the password table sentinel is reached. |
 | `gPassword_abDigits` (module: password) | 0x8016D410 | The 8 entry digits, one byte each. |
 | `gLibrary_aPasswordCardData` | 0x801A8008 | The password + starchip-cost table the entry screen checks against — entering a password spends `gLibrary_dwStarchips` from your save. |
