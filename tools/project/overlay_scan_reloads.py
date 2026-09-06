@@ -83,14 +83,20 @@ def branch_targets(instructions: list[str], base: int = 0) -> set[int]:
 def basic_blocks(instructions: list[str], base: int = 0) -> list[list[str]]:
     targets = branch_targets(instructions, base)
     blocks: list[list[str]] = [[]]
+    pending = False
     for index, text in enumerate(instructions):
-        # A delay slot belongs with its branch, so a target one past a branch
-        # still opens its block at the target itself.
+        if pending:
+            # The delay slot executes before control transfers, so it belongs
+            # to the block it is written after, not to the one that follows.
+            blocks[-1].append(text)
+            blocks.append([])
+            pending = False
+            continue
         if index in targets and blocks[-1]:
             blocks.append([])
         blocks[-1].append(text)
         if FLOW.match(text):
-            blocks.append([])
+            pending = True
     return blocks
 
 

@@ -488,15 +488,30 @@ unconditional `j` prints the raw jump field, so the function's own address has
 to be known before its targets can be resolved. Handling only the first kind
 still leaves blocks merged across every `j`.
 
-**Current state of both tells across all remaining unmatched entries:**
+### A delay slot belongs to the block before the transfer
 
-| Function | Tell |
-|---|---|
-| `func_8016A080` | reload after own store — confirmed `volatile` by probe |
+The last false positive was subtler than the branch-target one. An instruction
+in a delay slot executes **before** control transfers, so a store written in a
+call's delay slot is followed by the call, even though the listing prints the
+`jal` first. Attributing the delay slot to the block after the transfer makes
+the store and the next load look adjacent when a whole function ran between
+them.
 
-That is the whole list. Before the block fix the same scan reported three
-functions, and before the width and destination-register conditions were added
-it reported eleven. The first tell remains specific to `func_80183B2C`. This is the same kind of result as the `-O0` scan above,
+`func_8016A080` was flagged that way, and recorded here as a confirmed
+`volatile`. It is not. Its reload has an ordinary explanation: the store is
+followed by a call, and a call invalidates memory.
+
+**Current state of both tells across all remaining unmatched entries: nothing
+is flagged.** The second tell has no hits at all once delay slots are attributed
+correctly. The first remains specific to `func_80183B2C`, which is still caught
+when queried directly.
+
+That is worth saying plainly rather than quietly deleting a row: the scan
+reported eleven functions when it was written loosely, three after the width
+and destination-register conditions, one after blocks were split at branch
+targets, and none once delay slots were placed correctly. Every one of those
+reductions removed a false positive, and one of them had already been written
+into an inventory row as a fact. This is the same kind of result as the `-O0` scan above,
 and worth the same trust: it is a cheap check that closes off a whole class of
 guesses rather than opening one.
 
