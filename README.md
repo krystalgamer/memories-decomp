@@ -97,7 +97,8 @@ value explicitly on memory-constrained systems.
 1. Select a game-owned assembly function from
    `config/slus_01411/functions.csv`.
 2. Record each distinct source/compiler attempt in the appropriate attempt
-   ledger, with a maximum of six variants per function.
+   ledger, with a maximum of six canonical variants per function. That bound
+   prevents repetitive search; it does not prove the source space exhausted.
 3. Accept C only when `make match` reproduces the entire executable exactly.
 4. Commit the matching source and authoritative metadata. Refresh the README
    separately with `make progress` when a project-wide snapshot is desired.

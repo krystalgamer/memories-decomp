@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272 check-tools check-build-tools info extract map split build match overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272 check-tools check-build-tools info extract map split build match overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -46,6 +46,7 @@ help:
 		'  inventory      Update the tracked resident-function inventory' \
 		'  classify-functions  Apply verified ownership classifications' \
 		'  candidates     List smallest zero-attempt game functions' \
+		'  review-deferred  List terminal histories for hypothesis review' \
 		'  siblings       Find exact-C functions with similar instruction shapes' \
 		'  external-attempts  Validate external-reference/refinement attempts' \
 		'  basic-types    Verify all C sources use src/types.h' \
@@ -157,6 +158,9 @@ classify-functions: inventory
 
 candidates: workspace
 	@$(PYTHON) tools/project/select_candidates.py $(CANDIDATE_ARGS)
+
+review-deferred: workspace
+	@$(PYTHON) tools/project/review_deferred.py $(REVIEW_DEFERRED_ARGS)
 
 siblings: verify-inputs
 	@$(PYTHON) tools/project/find_siblings.py $(SIBLING_ARGS)
