@@ -553,15 +553,14 @@ draw:
 
 ## main_menu `func_80180390` at 0x80180390
 
-`gcc_2_8_1_g0_split`, 499 of 495 instructions, opcode distance 32. Frame,
-saved-register set and prologue order all match the target exactly: `-0x28`
-with `s0`-`s4` and `ra`, and no `s5`.
+`gcc_2_8_1_g0_split`, 498 instructions against 495, 476 differing positions,
+opcode distance 21.
 
-First reconstruction of this function; there were no prior attempts. The
-remaining four instructions are the four flag blocks at the top, each of which
-rematerialises `%hi` for its store where the target reuses the one it left in
-`$s0`. See the inventory row for what was measured against that, and for the
-`goto` loop that keeps `%hi(gMain_bMenuID)` inside the entry loop.
+The six consecutive bytes from 0x80184598 to 0x8018459D are one struct, not
+six scalar globals. That is what lets the compiler hold the high half of the
+address in a callee-saved register across the poll calls and fold the low half
+plus the member offset into each access, which is the form the target uses and
+the one the row had recorded as unreachable.
 
 ```c
 #include "../../src/types.h"
@@ -572,12 +571,17 @@ extern u8 gMain_bMenuID;
 extern u8 D_80184595;
 extern u8 D_80184596;
 extern u8 D_80184597;
-extern s8 D_80184598;
-extern u8 D_80184599;
-extern u8 D_8018459A;
-extern u8 D_8018459B;
-extern u8 D_8018459C;
-extern u8 D_8018459D;
+
+typedef struct {
+    s8 f98;
+    u8 f99;
+    u8 f9A;
+    u8 f9B;
+    u8 f9C;
+    u8 f9D;
+} MenuFlags;
+
+extern MenuFlags D_80184598;
 extern u16 D_8009B0D8;
 extern u16 D_8009B394;
 extern u16 D_8009B398;
@@ -611,7 +615,7 @@ s32 func_80180390(void)
     s32 base;
     s32 count;
 
-    if (D_8018459B != 0) {
+    if (D_80184598.f9B != 0) {
         value = SaveData_PollLoad();
         if (value != 0) {
             if (value == 1) {
@@ -620,12 +624,12 @@ s32 func_80180390(void)
             } else {
                 Input_ResetPads();
             }
-            D_8018459B = 0;
+            D_80184598.f9B = 0;
         }
         return -1;
     }
 
-    if (D_8018459C != 0) {
+    if (D_80184598.f9C != 0) {
         value = func_8003FCD8();
         if (value != 0) {
             if (value == 1) {
@@ -634,12 +638,12 @@ s32 func_80180390(void)
             } else {
                 Input_ResetPads();
             }
-            D_8018459C = 0;
+            D_80184598.f9C = 0;
         }
         return -1;
     }
 
-    if (D_8018459D != 0) {
+    if (D_80184598.f9D != 0) {
         value = func_8003FD14();
         if (value != 0) {
             if (value == 1) {
@@ -648,21 +652,21 @@ s32 func_80180390(void)
             } else {
                 Input_ResetPads();
             }
-            D_8018459D = 0;
+            D_80184598.f9D = 0;
         }
         return -1;
     }
 
-    if (D_8018459A != 0) {
+    if (D_80184598.f9A != 0) {
         if (func_8003F70C() == 0) {
             return -1;
         }
         Input_ResetPads();
-        D_8018459A = 0;
+        D_80184598.f9A = 0;
         return -1;
     }
 
-    step = D_80184598;
+    step = D_80184598.f98;
     if (step != 0) {
         level = D_80184597 + (step << 3);
         D_80184597 = level;
@@ -678,7 +682,7 @@ s32 func_80180390(void)
             return -1;
         }
     fade_done:
-        if (D_80184598 < 0) {
+        if (D_80184598.f98 < 0) {
             entry = D_80184560;
             entry[0xE] = 0x80;
             entry[0xD] = 0x80;
@@ -687,7 +691,7 @@ s32 func_80180390(void)
             D_80184560[0x6C] = 0x3C;
             *(s16 *)(D_80184560 + 0x36) = 0;
         }
-        D_80184598 = 0;
+        D_80184598.f98 = 0;
         return -1;
     }
 
@@ -716,7 +720,7 @@ s32 func_80180390(void)
             entry = D_80184560;
             *(u16 *)(entry + 8) &= 0xFFBF;
             func_80180D2C(0);
-            D_80184598 = 1;
+            D_80184598.f98 = 1;
             return -1;
         }
         entry = D_80184560;
@@ -728,7 +732,7 @@ s32 func_80180390(void)
         return -1;
     }
 
-    if (D_80184599 != 0) {
+    if (D_80184598.f99 != 0) {
         moved = 0;
         slot = gMain_apMenuEntries;
         i = 0;
@@ -782,7 +786,7 @@ s32 func_80180390(void)
             return -1;
         }
         value = D_80184596;
-        D_80184599 = 0;
+        D_80184598.f99 = 0;
         if (value == 0) {
             return -1;
         }
@@ -794,7 +798,7 @@ s32 func_80180390(void)
                         *(u16 *)(entry + 8) &= 0xFFBF;
                     }
                 }
-                D_80184598 = -1;
+                D_80184598.f98 = -1;
             } else {
                 func_80180D2C(0);
                 gMain_bMenuID = 1;
@@ -845,21 +849,21 @@ s32 func_80180390(void)
         switch (gMain_bMenuID) {
         case 1:
             SaveData_RequestLoad();
-            D_8018459B = D_8018459B + 1;
+            D_80184598.f9B = D_80184598.f9B + 1;
             return -1;
         case 3:
             D_8009B3ED = 0;
             D_8009B3EA = 0;
-            D_8018459C = D_8018459C + 1;
+            D_80184598.f9C = D_80184598.f9C + 1;
             return -1;
         case 2:
             D_8009B3ED = 0;
             D_8009B3EA = 0;
-            D_8018459D = D_8018459D + 1;
+            D_80184598.f9D = D_80184598.f9D + 1;
             return -1;
         case 0xA:
             func_8003F87C();
-            D_8018459A = D_8018459A + 1;
+            D_80184598.f9A = D_80184598.f9A + 1;
             return -1;
         }
     }
