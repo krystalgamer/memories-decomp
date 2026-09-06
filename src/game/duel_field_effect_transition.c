@@ -40,7 +40,7 @@ void func_80025B28(Obj *o)
     if (!(o->active & 0x80) &&
         o->timer >= DUEL_FIELD_EFFECT_MARK_THRESHOLD) {
         o->active |= 0x80;
-        D_801A7AD8[o->index].flags &= ~0x2000;
+        D_801A7AD8[o->index].flags &= ~DUEL_CARD_FLAG_DISPLAY_MARKER;
         o->mark = 0;
     }
     if (o->timer < DUEL_FIELD_EFFECT_TIMER_LIMIT) {
