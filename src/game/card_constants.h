@@ -4,6 +4,8 @@
 #define CARD_COUNT 722
 #define HAND_SIZE 5
 #define DECK_SIZE 40
+/* Retail starter generation ignores the final two weight entries. */
+#define STARTER_DECK_WEIGHT_SCAN_COUNT (CARD_COUNT - 2)
 #define DUEL_RECENT_CARD_DROP_COUNT 16
 #define DUEL_DROP_WEIGHT_TOTAL 2048
 #define DUEL_DROP_TABLE_PADDING_SIZE 16

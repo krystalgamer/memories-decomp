@@ -48,7 +48,7 @@ void func_8016A930(void)
                 }
                 i++;
                 p++;
-            } while (i < 720);
+            } while (i < STARTER_DECK_WEIGHT_SCAN_COUNT);
             remaining--;
         } while (remaining != 0);
         table++;
