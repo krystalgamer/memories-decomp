@@ -247,6 +247,7 @@ Model_GetPrimitiveHandler = 0x8006041C; // type:func
 
 // Semantic names
 SaveData_ApplyRuntimeState = 0x8003D0F4; // type:func
+SaveData_HasSameDuelistCode = 0x8003D288; // type:func
 
 // Semantic names
 DuelEffect_CreateChannel = 0x8003D46C; // type:func
