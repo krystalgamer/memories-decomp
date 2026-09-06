@@ -95,13 +95,11 @@ view and byte-offset accesses, so it is not counted among the seven
 verified 100-byte channel stride while coordinating the duel-intro card
 reveal.
 
-The 18 remaining assembly users of `D_800EB0F8` are
-`func_80019D18`, `func_8001B170`, `func_800235C0`, `func_800262D4`,
-`func_800283F4`, `func_8002ACA4`, `Main_RunTrade`, `func_8002DC38`,
-`func_8002E5AC`, `func_8002EE94`, `func_80031084`, `func_800339D0`,
-`func_80035E20`, `func_80039794`, `func_8003DC1C`, `func_8003F454`,
-`func_8003F8D4`, and `func_80043BCC`.
-For `D_800EB288`, the sole remaining assembly user is `func_800393B0`.
+The changing assembly-user lists for `D_800EB0F8` and `D_800EB288` are not
+duplicated here. [`global-usage.csv`](global-usage.csv) is the generated
+authority: filter by `global_address` and a `function_status` other than
+`matching_c`. Regenerate it with `make global-usage` whenever source or symbol
+changes affect these globals.
 
 `DuelEffect_HasActiveEntry` and `func_800373C8` in
 `duel_effect_entry_control.c` are the sole raw-view exceptions among migrated
