@@ -1243,7 +1243,7 @@ address,size,name,status,module,notes
 0x80074040,0xC,func_80074040,sdk_asm,psyq/sdk,
 0x80074050,0x28,EnablePAD,sdk_asm,psyq/sdk,"Identified at offset zero of the unique Psy-Q 4.6 LIBAPI.LIB/PATCH.OBJ signature; DisablePAD is the internal entry at +0x14."
 0x80074078,0x70,_patch_pad,sdk_asm,psyq/sdk,Identified at offset 0x28 of the unique Psy-Q 4.6 LIBAPI.LIB/PATCH.OBJ signature.
-0x800740F0,0xC,func_800740F0,sdk_asm,psyq/sdk,
+0x800740F0,0xC,FlushCache,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/C68.OBJ signature.
 0x80074100,0x68,_remove_ChgclrPAD,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBAPI.LIB/CHCLRPAD.OBJ signature.
 0x80074170,0x178,VSync,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBETC.LIB/VSYNC.OBJ signature and matching frame-timing callers.
 0x800742E8,0x98,func_800742E8,sdk_asm,psyq/sdk,
@@ -1264,10 +1264,10 @@ address,size,name,status,module,notes
 0x80074914,0xA0,func_80074914,sdk_asm,psyq/sdk,
 0x800749B4,0x78,func_800749B4,sdk_asm,psyq/sdk,
 0x80074A2C,0x24,func_80074A2C,sdk_asm,psyq/sdk,
-0x80074A58,0xC,func_80074A58,sdk_asm,psyq/sdk,
-0x80074A70,0xC,func_80074A70,sdk_asm,psyq/sdk,
-0x80074A80,0xC,func_80074A80,sdk_asm,psyq/sdk,
-0x80074A90,0xC,func_80074A90,sdk_asm,psyq/sdk,
+0x80074A58,0xC,_96_remove,sdk_asm,psyq/sdk,Identified at offset 0x8 of the unique 32-byte Psy-Q 4.6 LIBAPI.LIB/C114.OBJ signature.
+0x80074A70,0xC,ReturnFromException,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A23.OBJ signature.
+0x80074A80,0xC,ResetEntryInt,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A24.OBJ signature.
+0x80074A90,0xC,HookEntryInt,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A25.OBJ signature.
 0x80074AA0,0x58,func_80074AA0,sdk_asm,psyq/sdk,
 0x80074AF8,0x6C,func_80074AF8,sdk_asm,psyq/sdk,
 0x80074B64,0x2C,func_80074B64,sdk_asm,psyq/sdk,
