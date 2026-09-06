@@ -746,6 +746,11 @@ A duel ends the moment one of these holds, checked after every action:
   `SUMMON Exodia` [the check exists in the executable; the community's
   "disable Exodia" patch flips two bytes at file offsets `0x952C`/`0x959C`].
 
+The successful hand check changes the duel-scene state to `0xE`. Dispatch
+slot `0xE` runs `func_80018FEC`, which stages the five piece objects, records
+the current side as `gDuel_bWinnerSide`, and writes the `+40` Exodia end
+reason before the result path.
+
 In **2P Duel only**, Select on the active player's turn offers
 `QUIT DUEL? NO YES`, with No selected by default. The input check
 [`Duel_CheckQuitInput`] is gated by the negative opponent id used for two-player
