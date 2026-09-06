@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 #include "model.h"
 
 extern u8 D_8009B478;
@@ -12,9 +13,6 @@ typedef struct {
 
 extern Vec32 D_800F56F0;
 extern Vec32 D_800F56FC;
-
-extern int rsin(int);
-extern int rcos(int);
 
 void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
