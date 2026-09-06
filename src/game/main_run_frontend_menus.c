@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/rand.h"
 
 extern unsigned char D_8009B26C;
 extern unsigned char D_8009B268;
@@ -14,7 +15,6 @@ extern void func_8003FF34(void);
 extern void Fade_WaitOut(void);
 extern void func_80180DD0(void);
 extern void func_8002D458(int);
-extern int rand(void);
 extern int func_80180390(void);
 extern void func_8003BBF8(void);
 extern void func_801683EC(void);

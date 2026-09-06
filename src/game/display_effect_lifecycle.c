@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/rand.h"
 
 typedef struct {
     u8 pad_00[0x31];
@@ -11,7 +12,6 @@ typedef struct {
     u16 field_3E;
 } DisplayEffectState;
 
-extern s32 rand(void);
 extern void func_8004036C(void *);
 
 s32 func_80039F1C(DisplayEffectState *object)

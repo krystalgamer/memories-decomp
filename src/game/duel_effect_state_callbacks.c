@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/rand.h"
 
 extern u32 D_8009B0CC[];
 extern u32 D_8009B0F4[];
@@ -10,8 +11,6 @@ extern u8 *D_8009B328;
 extern u16 D_8009B348[2];
 extern int func_80036D3C(u8 *);
 extern int func_80049120(void *);
-extern int rand(void);
-
 void func_800378D8(u8 *object)
 {
     u8 flags = object[0x51];
