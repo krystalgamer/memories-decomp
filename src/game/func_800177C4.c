@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 #include "duel_card.h"
 
 typedef struct {
@@ -16,8 +17,6 @@ extern u8 D_800FE148[];
 extern u8 D_8009B1D5;
 extern u16 D_800908A0[];
 extern ScreenPair D_800EA070[];
-extern void SetGeomScreen(long);
-extern void SetGeomOffset(long, long);
 extern void GsSetLsMatrix(void *);
 
 /* Projects the thirty coordinate pairs in D_800908A0 through the GTE, one per

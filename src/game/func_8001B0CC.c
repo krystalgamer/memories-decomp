@@ -1,10 +1,9 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 extern s16 D_800F2856;
 extern u8 D_800FE148[];
 extern u16 D_800908A0[];
-extern void SetGeomScreen(long);
-extern void SetGeomOffset(long, long);
 extern void GsSetLsMatrix(void *);
 
 /* Projects the coordinate pair at D_800908A0[index * 2] through the GTE and
