@@ -137,6 +137,8 @@ def load_matching_functions(root: Path) -> list[dict[str, Any]]:
                 "source": source_value,
                 "segment": source_relative.with_suffix("").as_posix(),
                 "profile": profile,
+                "rodata": function.get("rodata"),
+                "rodata_end": function.get("rodata_end"),
             }
         )
         seen_addresses.add(address)
@@ -201,6 +203,18 @@ def group_translation_units(
                 "source": first["source"],
                 "segment": first["segment"],
                 "profile": first["profile"],
+                "rodata": next(
+                    (m["rodata"] for m in members if m.get("rodata") is not None),
+                    None,
+                ),
+                "rodata_end": next(
+                    (
+                        m["rodata_end"]
+                        for m in members
+                        if m.get("rodata_end") is not None
+                    ),
+                    None,
+                ),
                 "members": [member["address"] for member in members],
             }
         )
@@ -294,7 +308,46 @@ def generate(root: Path) -> tuple[Path, Path]:
     text_start = parse_integer(regions["text"]["file_start"], "text start")
     text_end = parse_integer(regions["text"]["file_end"], "text end")
     cursor = text_start
-    subsegments: list[list[Any]] = [[0x800, "data", "initial_data"]]
+
+    # Pre-text read-only data owned by matching C objects. A compiler-generated
+    # jump table lands in the object's .rodata, and the retail layout places it
+    # inside the leading data blob rather than after the text, so that blob is
+    # split and the object's own section is named at the right offset.
+    rodata_claims: list[tuple[int, str]] = []
+    for unit in units:
+        offset_value = unit.get("rodata")
+        if offset_value is None:
+            continue
+        offset = parse_integer(offset_value, "rodata offset")
+        if not 0x800 <= offset < text_start:
+            raise GenerationError(
+                f"rodata offset {offset:#x} is outside the leading data region"
+            )
+        end_value = unit.get("rodata_end")
+        if end_value is None:
+            raise GenerationError(
+                f"rodata claim at {offset:#x} needs a rodata_end"
+            )
+        end = parse_integer(end_value, "rodata end")
+        if end <= offset or end > text_start:
+            raise GenerationError(f"invalid rodata end {end:#x}")
+        rodata_claims.append((offset, end, unit["segment"]))
+    rodata_claims.sort()
+
+    subsegments: list[list[Any]] = []
+    data_cursor = 0x800
+    for index, (offset, end, segment) in enumerate(rodata_claims):
+        if offset < data_cursor:
+            raise GenerationError(f"overlapping rodata claim at {offset:#x}")
+        name = "initial_data" if index == 0 else f"initial_data_{data_cursor:06x}"
+        if offset > data_cursor:
+            subsegments.append([data_cursor, "data", name])
+        subsegments.append([offset, ".rodata", segment])
+        data_cursor = end
+    if not rodata_claims:
+        subsegments.append([0x800, "data", "initial_data"])
+    elif data_cursor < text_start:
+        subsegments.append([data_cursor, "data", f"initial_data_{data_cursor:06x}"])
     text_sources: list[dict[str, Any]] = []
 
     for unit in units:
