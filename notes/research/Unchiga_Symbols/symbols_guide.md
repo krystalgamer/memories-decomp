@@ -144,6 +144,7 @@ NEW GAME / LOAD / 2P DUEL / TRADE / OPTION. The menu's own logic runs from a mod
 | `CampaignMap_RebuildLocationObjects` (module: overworld) | 0x80168050 | Clears those slots, then creates the enabled objects from the selected location's four spawn records. |
 | `CampaignMap_CreateLocationLabel` (module: overworld) | 0x8016818C | Creates and registers the current location's label object from global string `0x8350 + gCampaignMap_Location`. |
 | `CampaignMap_SetCameraFromLocation` (module: overworld) | 0x801681E8 | Copies five camera fields from the indexed location record into the live map camera and recomputes the view immediately. |
+| `CampaignMap_UpdateView` (module: overworld) | 0x80168258 | Refreshes the GTE screen, offset, far color, and fog from the live map camera, then advances the shared view state. |
 | `CampaignMap_CreateLocationMarker` (module: overworld) | 0x80168588 | Creates the map marker at the current location and sets its destination coordinates from the indexed location record. |
 | `CampaignMap_PickExit` (module: overworld) | 0x80168E0C | Walks the four exits in order: skip unused, skip if the flag test fails, take the first whose mask matches the pressed direction. From the Palace: DOWN Duel Ground; RIGHT Shrine while flag 71 is clear, Hiding once flag 90 is set. |
 | `CampaignMap_SetLocation` (module: overworld) | 0x8016866C | Rebuilds the map scene for a committed location and installs its camera, label, objects, marker, and background track. |

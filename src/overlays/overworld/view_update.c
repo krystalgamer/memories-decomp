@@ -9,7 +9,7 @@ extern u32 D_8009B310;
 extern u32 D_8009B314;
 extern void func_800540B4(int);
 
-void func_80168258(void)
+void CampaignMap_UpdateView(void)
 {
     u8 *camera = D_800F2848;
     u32 flags;
