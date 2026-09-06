@@ -51,7 +51,6 @@ the applies and byte-verify once).
 
 | address | name | suspected role (IDB + family context, NOT verified) |
 |---|---|---|
-| `0x80071008` | `AiScript_CalcCardPower` | Evaluates a card's battle power into a VM slot. |
 | `0x80071CB0` | `AiScript_FindDefenseStopper` | Finds a defender able to stop an attacker. |
 | `0x80072A48` | `AiScript_FindBestCombo` | Runs the full best-combo search (results feed the BestDiff trio's neighborhood). |
 

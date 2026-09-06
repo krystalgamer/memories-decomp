@@ -118,7 +118,7 @@ function,0x80070EB4,AiScript_Subtract,high,"gms.c aiInstSub; local body","Subtra
 function,0x80070F1C,AiScript_PlayFieldCard,high,"gms.c aiInstFieldPlay; dispatcher result","Selects the field-play action and ends the current interpreter run."
 function,0x80070FF8,AiScript_EndHand,high,"gms.c aiInstEndHand; dispatcher result","Ends AI hand processing."
 function,0x80071000,AiScript_EndField,high,"gms.c aiInstEndField; dispatcher result","Ends AI field processing."
-function,0x80071008,AiScript_CalcCardPower,high,"gms.c aiInstCardPower; local card-stat flow","Calculates card power for later AI comparisons."
+function,0x80071008,AiScript_CalcCardPower,high,"matching body and compiler-owned jump table; Duel_GetBaseCardStat; direct-damage cards 343-347","Stores scripted monster ATK, DEF, or higher stat; mode 0 maps the five direct-damage magic cards to their effect values and other non-monsters to zero."
 function,0x80071194,AiScript_TestHighStat,high,"gms.c aiInstHighStat; local attack/defense comparison","Tests whether the selected card's high stat meets the scripted condition."
 function,0x80071248,AiScript_LoadCardType,high,"gms.c aiInstCtype; local packed-stat lookup","Loads a card type into AI operand memory."
 function,0x800712B4,AiScript_LoadCardID,high,"gms.c aiInstReadCard; active-card lookup","Loads an active card ID into AI operand memory."
