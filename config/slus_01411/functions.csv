@@ -1538,8 +1538,8 @@ address,size,name,status,module,notes
 0x800829A0,0x14,func_800829A0,sdk_asm,psyq/sdk,
 0x800829C0,0x14,func_800829C0,sdk_asm,psyq/sdk,
 0x800829E0,0x94,func_800829E0,sdk_asm,psyq/sdk,
-0x80082A80,0x10,func_80082A80,sdk_asm,psyq/sdk,
-0x80082A90,0x64,func_80082A90,sdk_asm,psyq/sdk,
+0x80082A80,0x10,OpenTIM,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGPU.LIB/T00.OBJ signature.
+0x80082A90,0x64,ReadTIM,sdk_asm,psyq/sdk,Identified at offset 0x10 of the unique Psy-Q 4.6 LIBGPU.LIB/T00.OBJ signature.
 0x80082AF4,0x118,func_80082AF4,sdk_asm,psyq/sdk,
 0x80082C10,0xAC,func_80082C10,sdk_asm,psyq/sdk,
 0x80082CC0,0x52C,func_80082CC0,sdk_asm,psyq/sdk,
