@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 extern u8 *D_800EAE98[];
-extern int rsin(int);
 
 void func_8002FED8(u8 *state, u8 *color)
 {
@@ -14,9 +14,9 @@ void func_8002FED8(u8 *state, u8 *color)
         *(u16 *)(state + 4) |= 0x8000;
         *(s16 *)(state + 6) = 0;
     }
-    angle = (*(u16 *)(state + 6) + 32) & 4095;
+    angle = (*(u16 *)(state + 6) + 32) & (ONE - 1);
     *(u16 *)(state + 6) = angle;
-    intensity = rsin(angle) * 24 / 4096;
+    intensity = rsin(angle) * 24 / ONE;
     if (intensity == 0)
         intensity = 1;
     if (intensity == 24)

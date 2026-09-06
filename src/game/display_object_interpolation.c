@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 typedef struct {
     u8 pad_00[0x30];
@@ -9,9 +10,6 @@ typedef struct {
     s16 y;
 } DisplayObjectPosition;
 
-extern int rcos(int);
-extern int rsin(int);
-
 void func_8004318C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     s32 x = (*(s16 *)(arg0 + 0x36) + arg1) >> 1;
@@ -20,9 +18,9 @@ void func_8004318C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 scale2 = scale;
 
     *(u16 *)(arg0 + 0x30) =
-        x + (*(s16 *)(arg0 + 0x36) - x) * scale / 4096;
+        x + (*(s16 *)(arg0 + 0x36) - x) * scale / ONE;
     *(u16 *)(arg0 + 0x32) =
-        y + (*(s16 *)(arg0 + 0x38) - y) * scale2 / 4096;
+        y + (*(s16 *)(arg0 + 0x38) - y) * scale2 / ONE;
 }
 
 void func_80043230(
@@ -37,12 +35,12 @@ void func_80043230(
     int factor;
 
     if (phase < 0) {
-        factor = rsin(phase + 0x400);
-        object->out_x = object->x - (dx * factor) / 4096;
-        object->out_y = object->y - (dy * factor) / 4096;
+        factor = rsin(phase + ONE / 4);
+        object->out_x = object->x - (dx * factor) / ONE;
+        object->out_y = object->y - (dy * factor) / ONE;
     } else {
         factor = -rsin(phase);
-        object->out_x = target_x - (dx * factor) / 4096;
-        object->out_y = target_y - (dy * factor) / 4096;
+        object->out_x = target_x - (dx * factor) / ONE;
+        object->out_y = target_y - (dy * factor) / ONE;
     }
 }
