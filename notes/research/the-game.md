@@ -906,6 +906,13 @@ writes `index + 1`, leaving the weights for card ids 721 and 722 unreachable.
 The three drop pools do walk all 722 entries. The dropped card is added to the
 trunk and marked seen.
 
+Matching `Duel_AwardCard` keeps quantities reached through normal duel awards
+capped at 250 copies (`0xFA`) in the one-byte trunk field. It also shifts all
+15 existing recent-card slots one place toward the tail and writes the awarded
+ID at the front, evicting the previous oldest entry. The insertion is not
+deduplicated, so repeated drops of the same card can occupy multiple history
+slots until the later cleanup described in §4.1.
+
 The complete nonzero deck/drop weights and per-duelist pool summaries are in
 [`fusion-and-drop-tables/`](fusion-and-drop-tables/README.md).
 
