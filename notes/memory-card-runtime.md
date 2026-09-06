@@ -66,6 +66,8 @@ to `4` is internal state-machine bookkeeping, not a fifth event callback.
 The descriptor values, event specifications, mode, and API prototypes are
 direct matches for the imported Psy-Q 4.6 headers. The registration order,
 callback mapping, result values, retry condition, and teardown are established
-by local matching C. This identifies the runtime contract without claiming
-that the surviving game source originally used the SDK macro spellings rather
-than their numeric values.
+by local matching C. `MemCard_InitIOEvents` and `func_80043E68` now include
+`libapi.h`, use its event interfaces, and spell the descriptors,
+specifications, and interrupt mode with the SDK constants. This identifies
+the runtime contract without claiming that the original game source used
+those macro spellings rather than their numeric values.

@@ -2752,8 +2752,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2878,D_800F2878,D_800F2878,0x800402A0,func_800402A0,matching_c,game,C,src/game/func_800402A0.c,address,8,*(u16 *)(D_800F2878 + arg1 * 2) = arg0->unkA[0];
 0x800F2878,D_800F2878,D_800F2878,0x80040390,func_80040390,matching_c,game,C,src/game/func_80040390.c,address,16,void func_80040390(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=0;for(;i<7...
 0x800F2888,D_800F2888,D_800F2888,0x80044608,func_80044608,matching_c,game,C,src/game/func_80044608.c,read,,"D_8009B444 = D_800F2888; | func_80044470(D_8009B437, D_8009AF7C, D_800F2888, &D_8009B440);"
-0x800F2AE0,D_800F2AE0,D_800F2AE0,0x80043E68,func_80043E68,matching_c,game,C,src/game/func_80043E68.c,address,,void **item = D_800F2AE0;
-0x800F2AE0,D_800F2AE0,D_800F2AE0,0x80043EBC,MemCard_InitIOEvents,matching_c,game,C,src/game/mem_card_init_io_events.c,address,,items = D_800F2AE0; | register void **base = D_800F2AE0;
+0x800F2AE0,D_800F2AE0,D_800F2AE0,0x80043E68,func_80043E68,matching_c,game,C,src/game/func_80043E68.c,address,32,long *item = D_800F2AE0;
+0x800F2AE0,D_800F2AE0,D_800F2AE0,0x80043EBC,MemCard_InitIOEvents,matching_c,game,C,src/game/mem_card_init_io_events.c,address,32,items = D_800F2AE0; | register long *base = D_800F2AE0;
 0x800F2AE0,D_800F2AE0,D_800F2AE0,0x800440F0,func_800440F0,matching_c,game,C,src/game/func_800440F0.c,address,,func_80043D48(D_800F2AE0);
 0x800F2AE0,D_800F2AE0,D_800F2AE0,0x8004413C,func_8004413C,matching_c,game,C,src/game/sound_request_wrappers.c,address,,func_80043D48(D_800F2AE0);
 0x800F2AE0,D_800F2AE0,D_800F2AE0,0x800441DC,func_800441DC,matching_c,game,C,src/game/sound_request_wrappers.c,address,,func_80043D48(D_800F2AE0);
