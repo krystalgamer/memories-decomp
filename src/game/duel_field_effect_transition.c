@@ -69,7 +69,7 @@ void func_80025BEC(void)
     if ((flags & 0x40) == 0 && D_8009B17C->field_1D != 0) {
         D_8009B220 = flags | 0x40;
         SD_SEPlayFull(0x1D);
-        for (i = 5; i < 0xF; i++) {
+        for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++) {
             record = &D_801A7AD8[D_800907D8[D_8009B1D5][i]];
             /* The retail code tests the two halfwords at +0x14 as one
                word; 0x90000000 selects bits 0x9000 of flags at +0x16. */
