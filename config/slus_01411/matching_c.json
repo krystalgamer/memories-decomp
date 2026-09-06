@@ -2194,19 +2194,19 @@
       "address": "0x8003735C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/duel_effect_entry_scan.c"
+      "source": "src/game/duel_effect_entry_control.c"
     },
     {
       "address": "0x800373C8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/duel_effect_entry_scan.c"
+      "source": "src/game/duel_effect_entry_control.c"
     },
     {
       "address": "0x8003741C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8C",
-      "source": "src/game/duel_effect_page_wait.c"
+      "source": "src/game/duel_effect_entry_control.c"
     },
     {
       "address": "0x800374A8",
