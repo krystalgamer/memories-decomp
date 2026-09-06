@@ -6,25 +6,27 @@
 --   D_8009B1D5 and, when nonnegative, D_8009B238.
 --
 --   The first trace used execution breakpoints on the remap helpers, but a
---   complete two-player run produced no hits. This version samples the two
---   selector bytes and both controllers' published masks every vertical blank.
---   It therefore works on either CPU core and can establish which selector
---   follows the player whose turn or prompt is currently active.
+--   complete two-player run produced no hits. The next version sampled every
+--   input-mask change and exhausted its limit during player 1's first turn.
+--   This version records selector changes plus only the first occurrence of
+--   each pressed mask for each pad/selected side, so repeated button taps
+--   cannot crowd out the player-2 transition.
 --
 -- HOW TO RUN
 --   1. Open PCSX-Redux with the game.
 --   2. Debug -> Lua editor, paste this file, and let it auto-run.
 --   3. Start a two-player duel.
---   4. On several prompts during each player's turn, press distinct buttons
---      on pad 1 and pad 2. Include the result screen if possible.
+--   4. During each player's turn, tap one distinctive button on pad 1 and
+--      then one on pad 2. They do not need to be pressed simultaneously.
+--      Include the result screen if possible.
 --   5. Copy the whole document into
 --      tools/trace/result/duel_pad2_remap.txt and fill in the context.
 --
 --   No breakpoint, debugger pause, or interpreter CPU is required.
 --
 -- WHAT TO WRITE IN THE CONTEXT
---   For each sample, state whose turn or prompt was visible, which controller
---   was accepted by the game, and which buttons were held or newly pressed.
+--   For each selector transition, state whose turn or prompt was visible.
+--   Also say which controller was accepted for each distinctive button tap.
 
 local ffi = require('ffi')
 
@@ -43,7 +45,6 @@ local PAD1_PRESSED = 0x8009b398
 local PAD2_PRESSED = 0x8009b39a
 local PAD1_HELD = 0x8009b3a4
 local PAD2_HELD = 0x8009b3a6
-local MIN_SAMPLES = 12
 local MAX_SAMPLES = 64
 local SETTLE_FRAMES = 1800
 local TIMEOUT_FRAMES = 216000
@@ -77,7 +78,8 @@ local frames = 0
 local quiet = 0
 local enteredTwoPlayerDuel = false
 local seenPlayingSides = {}
-local lastKey = nil
+local seenPresses = {}
+local lastSelectorKey = nil
 local done = false
 
 local function emit(text)
@@ -103,18 +105,11 @@ local function selectedInputSide()
     return side
 end
 
-local function key()
+local function selectorKey()
     return string.format(
-        '%d,%d,%d,%d,%d,%d,%d,%d,%d,%d',
+        '%d,%d,%d',
         u8(PLAYING_SIDE),
         s8(INPUT_SIDE_OVERRIDE),
-        u16(DUEL_STATE),
-        u16(PAD1_HELD),
-        u16(PAD2_HELD),
-        u16(PAD1_PRESSED),
-        u16(PAD2_PRESSED),
-        u16(PAD1_REPEAT),
-        u16(PAD2_REPEAT),
         selectedInputSide()
     )
 end
@@ -148,6 +143,26 @@ local function capture(reason)
     ))
 end
 
+local function captureNewPresses()
+    local selectedSide = selectedInputSide()
+    local pressed = {u16(PAD1_PRESSED), u16(PAD2_PRESSED)}
+
+    for pad = 1, 2 do
+        local value = pressed[pad]
+        if value ~= 0 then
+            local pressKey = string.format('%d,%d,%04X',
+                                           selectedSide, pad, value)
+            if not seenPresses[pressKey] then
+                seenPresses[pressKey] = true
+                capture(string.format(
+                    'first pad %d pressed mask 0x%04X for selected side %d',
+                    pad, value, selectedSide
+                ))
+            end
+        end
+    end
+end
+
 local function finish(reason)
     if done then
         return
@@ -157,13 +172,19 @@ local function finish(reason)
     print('')
     print('==== USER CONTEXT ====')
     print('')
-    print('<for each sample, state whose turn or prompt was visible, which')
-    print(' controller was accepted, and which buttons were held or pressed>')
+    print('<for each selector transition, state whose turn or prompt was')
+    print(' visible; for each distinctive tap, say which pad was accepted>')
     print('')
     print('==== TRACE RESULT =====')
     print('')
     print('script: ' .. SCRIPT_NAME)
     print('status: ' .. reason)
+    print(string.format(
+        'summary: samples=%d saw_playing_side_0=%s saw_playing_side_1=%s',
+        samples,
+        tostring(seenPlayingSides[0] == true),
+        tostring(seenPlayingSides[1] == true)
+    ))
     for _, line in ipairs(lines) do
         print(line)
     end
@@ -188,21 +209,22 @@ local function poll()
     end
 
     enteredTwoPlayerDuel = true
-    local currentKey = key()
-    if currentKey ~= lastKey then
-        local reason = lastKey == nil and 'entered two-player duel'
-            or 'selector or input mask changed'
-        lastKey = currentKey
+    local currentSelectorKey = selectorKey()
+    if currentSelectorKey ~= lastSelectorKey then
+        local reason = lastSelectorKey == nil and 'entered two-player duel'
+            or 'selector changed'
+        lastSelectorKey = currentSelectorKey
         capture(reason)
-        if samples >= MAX_SAMPLES then
-            finish('maximum sample count reached')
-        end
+    end
+
+    captureNewPresses()
+    if samples >= MAX_SAMPLES then
+        finish('maximum sample count reached')
         return
     end
 
     quiet = quiet + 1
-    if samples >= MIN_SAMPLES
-        and seenPlayingSides[0]
+    if seenPlayingSides[0]
         and seenPlayingSides[1]
         and quiet >= SETTLE_FRAMES then
         finish('observed both playing-side values and then settled')
@@ -221,4 +243,4 @@ listener_duel_pad2_remap = PCSX.Events.createEventListener(
     end
 )
 
-print('duel_pad2_remap: waiting for a two-player duel; use both pads')
+print('duel_pad2_remap: waiting for a two-player duel; tap each pad in turn')
