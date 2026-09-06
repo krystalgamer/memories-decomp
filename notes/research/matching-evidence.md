@@ -2349,3 +2349,35 @@ the argument before testing it and overwrites it only in the taken branch.
 Read the entry block for this: copies of an argument made before the first
 conditional branch indicate a default assignment that precedes the branch in
 the source.
+
+## The histogram metric must exclude alignment padding, and report both lengths
+
+The opcode-histogram comparison recorded above is the right way to rank
+profiles, but it has a failure mode of its own that has to be closed before
+the numbers can be trusted.
+
+An aligned diff prints a placeholder on whichever side is short. If the
+histogram is built by tokenising each column and counting the first word, the
+placeholder is counted as though it were a mnemonic. The two totals then
+agree even when the candidate is genuinely shorter, because the padding makes
+up the difference exactly.
+
+Measured on `func_8001944C`: the histogram reported 70 against 70, while the
+diff header reported `target=70 candidate=68`. The candidate was two
+instructions short and the metric said the lengths matched. Re-checking
+`func_80047DB0` after the fix moved it from "one `addu` allocated
+differently" to "one instruction missing", which is a different and more
+tractable problem: a missing instruction means the source is not asking for
+enough work, whereas a differently-allocated one means it is.
+
+Two requirements follow:
+
+- Exclude the placeholder token when counting. Only real mnemonics count.
+- Always print both totals and flag them when they differ. A length mismatch
+  outranks every per-opcode difference, because until the lengths agree the
+  per-opcode counts are describing two different amounts of work.
+
+The general point is the one already recorded for the `li` canonicalisation:
+a comparison tool's own output format must not be allowed to enter the
+measurement. Both bugs came from tokenising rendered text without first
+removing what the renderer had added.
