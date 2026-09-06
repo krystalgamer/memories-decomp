@@ -60,7 +60,8 @@ segments:
     vram: 0x8018001C
     align: 4
     subsegments:
-      - [0x1C, asm, overlays/main_menu/text]
+      - [0x1C, c, overlays/main_menu/func_8018001C]
+      - [0x390, asm, overlays/main_menu/text_390]
       - [0xB4C, c, overlays/main_menu/func_80180B4C]
       - [0xD2C, c, overlays/main_menu/func_80180D2C]
       - [0xDD0, c, overlays/main_menu/func_80180DD0]

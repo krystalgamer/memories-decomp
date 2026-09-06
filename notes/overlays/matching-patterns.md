@@ -1366,3 +1366,40 @@ or `bnez` — is evidence.
 
 Both rules verified by `FreeDuel_UpdateCursorTween` in the free duel module;
 the limit on the second measured on `func_80168AB4` in the password module.
+
+## A re-read that must land early needs its own local
+
+When a global pointer is stored through and then read again, the store may
+alias the global, so the compiler must reload — and the scheduler cannot hoist
+that reload back above the store. If the target issues the reload *earlier*
+than the statement that consumes it, the only way to get it there is to write
+it earlier, which means giving it its own local.
+
+`func_8018001C` writes three fields of `D_80184560` and the target uses two
+loads for them, pairing `+0x6C` and `+0x60` on the first and `+0x36` on the
+second:
+
+```c
+third = D_80184560;
+third[0x6C] = 0x3C;
+fourth = D_80184560;               /* the re-read, written early */
+*(s16 *)(third + 0x60) = -2;
+*(u16 *)(fourth + 0x36) = 0;
+```
+
+Spelling the global in the third statement instead of naming `fourth` produces
+the same two loads and the same pairing, but issues the second one immediately
+before its own store, where it stalls: one extra `nop`, one instruction over.
+
+Two rules combine here and are worth separating:
+
+- **Which statement re-reads** decides the load-to-store pairing. A local for
+  the first group and the global for the last gives one load per group.
+- **Where the re-read is written** decides its position, and therefore whether
+  its use stalls. A store through the earlier local pins it.
+
+The general form: a reload's position in the output is the position of the
+source expression that caused it, not the position of the value's use. When
+those differ in the target, the source named the value.
+
+Verified by `func_8018001C` in the main menu module.
