@@ -235,7 +235,7 @@ tracked in suspects.md.)
 | 0x80035BE4 | `TextBox_Create` | Opens a text box: sets its rect then initialises the record with the string id. |
 | 0x80035C38 | `TextBox_CreateFlagged` | `TextBox_Create`, then ORs extra flags into the record's flag word. |
 | 0x80035AB8 | `TextBox_SetRect` | Stores the box position and size into the record. |
-| 0x80035AF0 | `TextBox_InitRecord` | Initialises a record: string id, default 8x12 glyph cell, sprite slot base/count from `gTextBox_awSpriteSlotRange`, counters cleared. |
+| 0x80035AF0 | `DuelEffect_InitEntry` | Initializes a shared effect channel: value, default 8x12 cell, sprite slot base/count from `gTextBox_awSpriteSlotRange`, flags, and counters. |
 | 0x80035B7C | `TextBox_Destroy` | Closes a box: releases its glyph list and frees the box, highlight and shadow widgets. |
 | 0x80039934 | `TextBox_SetPos` | Moves a box and its three widgets to a new position. |
 | 0x800393B0 | `TextBox_BuildStep` | The typewriter: on the first call resolves the string and allocates the widgets; every call emits one glyph sprite; sets the done bit at the terminator. |
