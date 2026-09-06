@@ -17,9 +17,9 @@ void func_8005611C(s32 arg0)
     *(s32 *)(p + 0xDA8) = 0x800;
     *(s32 *)(p + 0xDA4) = 0x800;
     *(s32 *)(p + 0xDA0) = 0x800;
-    *(s32 *)(p + 0xDB8) = 0x1000;
-    *(s32 *)(p + 0xDB4) = 0x1000;
-    *(s32 *)(p + 0xDB0) = 0x1000;
+    *(s32 *)(p + 0xDB8) = MODEL_FIXED_ONE;
+    *(s32 *)(p + 0xDB4) = MODEL_FIXED_ONE;
+    *(s32 *)(p + 0xDB0) = MODEL_FIXED_ONE;
     p[0xDC2] = 0x80;
     p[0xDC1] = 0x80;
     p[0xDC0] = 0x80;
