@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libcd.h"
 
 extern u8 *D_80010000 __attribute__((section(".data")));
 extern u8 D_8009B060;
@@ -84,9 +85,9 @@ s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     DecDCTReset(0);
     DecDCToutCallback(func_8005C1F4);
     DecDCTvlcBuild(D_8009B498);
-    func_800781C0(D_8009B498 + 0x11000, 0x14);
-    func_80078270();
-    func_80078440(D_8009B060, D_8009B068, D_8009B06C, 0, func_8005C690);
+    StSetRing((u32 *)(D_8009B498 + 0x11000), 0x14);
+    StClearRing();
+    StSetStream(D_8009B060, D_8009B068, D_8009B06C, 0, func_8005C690);
     if (D_8009B06C >= 5) {
         D_8009B06C = D_8009B06C - 4;
     }

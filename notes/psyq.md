@@ -102,6 +102,15 @@ symbol review.
 | `0x800772F0` | `SpuRGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset zero of the unique 352-byte `LIBSPU.LIB/SR_GAKS.OBJ` signature. |
 | `0x800773C4` | `SpuGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset `0xD4` of the same object; matching sound-driver callers collect all voice key states before update or cleanup work. |
 | `0x80077FF0` | `SpuSetReverbModeType` | Applied Psy-Q 4.6 identity; matching sound-state paths select reverb mode zero while resetting playback state. |
+| `0x800781C0` | `StSetRing` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBCD.LIB/CDROM.OBJ` signature; the matching movie setup installs its sector ring buffer. |
+| `0x80078270` | `StClearRing` | Applied Psy-Q 4.6 identity from the unique 96-byte `LIBCD.LIB/C_002.OBJ` signature; the matching movie setup clears the installed ring. |
+| `0x800782D0` | `StUnSetRing` | Applied Psy-Q 4.6 identity from the unique 128-byte `LIBCD.LIB/C_003.OBJ` signature; the matching movie teardown releases the ring setup. |
+| `0x800783DC` | `StGetBackloc` | Applied Psy-Q 4.6 identity at offset `0x8C` of the unique 240-byte `LIBCD.LIB/C_004.OBJ` signature. |
+| `0x80078440` | `StSetStream` | Applied Psy-Q 4.6 identity from the unique 144-byte `LIBCD.LIB/C_005.OBJ` signature; the matching movie setup supplies mode, frame bounds, and completion callback. |
+| `0x800784D0` | `StFreeRing` | Applied Psy-Q 4.6 identity from the unique 176-byte `LIBCD.LIB/C_007.OBJ` signature. |
+| `0x800785C0` | `StGetNext` | Applied Psy-Q 4.6 identity from the unique 192-byte `LIBCD.LIB/C_009.OBJ` signature. |
+| `0x80078680` | `StSetMask` | Applied Psy-Q 4.6 identity from the unique 32-byte `LIBCD.LIB/C_010.OBJ` signature. |
+| `0x800786A0` | `StCdInterrupt` | Applied Psy-Q 4.6 identity from the unique 2,800-byte `LIBCD.LIB/C_011.OBJ` signature. |
 | `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | Byte-identical wrappers that install a callback on DMA channel `3`. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
 | `0x8007E350` | `CdFlush` | No-argument wrapper around the CD library's internal state-reset routine. |
@@ -493,8 +502,10 @@ offset, caller contract, or implementation signature distinguishes them.
 The resident movie setup path combines these layers: `func_8005B8A0` reaches
 the CD `St*` ring/stream calls and `DecDCTvlcBuild`. That call chain is evidence
 for cooperating APIs, not evidence that their similarly named stream
-interfaces are interchangeable. Matching `func_8005C5D4` now includes
-`libpress.h` for the `DecDCTReset(1)` call used when its decode wait times out.
+interfaces are interchangeable. Matching movie setup and teardown C now
+includes `libcd.h` for `StSetRing`, `StClearRing`, `StSetStream`, and
+`StUnSetRing`. Matching `func_8005C5D4` includes `libpress.h` for the
+`DecDCTReset(1)` call used when its decode wait times out.
 
 `libsn.h` is a development-host interface, not a retail storage API.
 `PCinit`, `PCopen`, `PCcreat`, `PClseek`, `PCread`, `PCwrite`, and `PCclose`

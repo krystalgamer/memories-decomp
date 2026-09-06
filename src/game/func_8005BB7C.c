@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libcd.h"
 
 extern u8 D_8009B060;
 extern u8 D_8009B061;
@@ -23,7 +24,7 @@ s32 func_8005BB7C(s32 arg0) {
        delay slot empty, which only a store that cannot enter a slot gives. */
     *(volatile u8 *)&D_8009B063 = 1;
     DecDCToutCallback(0);
-    func_800782D0();
+    StUnSetRing();
     while (func_8007E7F0(9, 0, 0) == 0) {
     }
     if (D_8009B061 != 0 || arg0 != 0) {
