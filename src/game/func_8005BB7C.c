@@ -81,7 +81,7 @@ s32 func_8005BB7C(s32 arg0) {
         rect[1] = 0;
         rect[2] = *(s32 *)&D_800FE0D0 * 2;
         rect[3] = *(u16 *)&D_800FE0D4;
-        func_8007F850(rect, D_8009B144, D_8009B143, D_8009B142);
+        ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);
         D_8009B060 = 0;
     }
     return 0;
