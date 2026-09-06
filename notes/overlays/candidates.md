@@ -905,6 +905,19 @@ never stored and is gone, so this is the first reproducible state.
 Residual is extra `andi` x1 and `j` x1 against missing `lui` x3, `bne` x1,
 `addu` x2, `nop` x1, `sltiu` x1, `lhu` x2 and `sll` x2.
 
+The three missing `lui` are now located precisely, and they are not a
+register-allocation wall. Indices 0 to 53 already match, so both builds reach
+the `D_801695EC |= 0x40` block with the same registers live and with the
+global's `%hi` already in `s1`. The target does not use it: it forms a fresh
+`lui` inside that block and addresses the byte off it, then forms another for
+the re-read in the next block. This build reuses `s1` for the read-modify-write
+and only forms one `lui`, for the re-read. So the difference is which accesses
+are allowed to share one `%hi`, and since the prefix is identical it is a
+property of how the accesses are spelled in that block rather than of pressure
+earlier in the function. Under `-msplit-addresses` the `high` is its own insn
+and CSE will share it across an extended basic block, so the question to answer
+next is what puts the target's two accesses in separate extended blocks.
+
 Three differences are already located by reading the columns. The target
 re-reads the state byte at index 64 before the 0x40 test where this build reuses
 the value it already holds. It loads the map object inside the 0x40 block, at 69,
