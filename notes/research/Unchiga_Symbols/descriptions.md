@@ -511,3 +511,18 @@ on the suspects side until proven.)
 | 0x8009B3A6 | `gInput_wPad2Held` | Pad 2 mask of buttons currently held on the latest published update. |
 | 0x8009B3A8 | `gInput_dwPendingHeld` | Combined pending held-button word accumulated by the pad service, with pad 1 in the low half and pad 2 in the high half. |
 | 0x8009B3AC | `gInput_wPad1HeldBackup` | Temporary backup of pad 1's held mask while pad 2 is exposed through the pad 1 interface. |
+
+## Batch: duel state globals
+
+| address | name | description |
+|---|---|---|
+| 0x8009B338 | `gDuel_wSelectedCardID` | Card ID currently selected by the shared duel and card-grid interfaces. |
+| 0x8009B361 | `gDuel_bOpponentID` | Current opponent or duelist ID; negative values select the two-player setup path instead of a normal opponent. |
+| 0x8009B364 | `gDuel_bTerrain` | Current duel terrain ID used for terrain package loading and monster stat adjustments. |
+| 0x800EA002 | `gDuel_wPlayerLifePointDisplay` | Player life-point value currently shown by the ticking duel HUD counter. |
+| 0x800EA004 | `gDuel_wPlayerLifePoint` | Authoritative player life-point value used by duel calculations. |
+| 0x800EA022 | `gDuel_wOpponentLifePointDisplay` | Opponent life-point value currently shown by the ticking duel HUD counter. |
+| 0x800EA024 | `gDuel_wOpponentLifePoint` | Authoritative opponent life-point value used by duel calculations. |
+| 0x800EA118 | `gDuel_wFusionResultCardID` | Card ID produced by the current fusion result. |
+| 0x8009B165 | `gDuel_bWinnerSide` | Winning duel side index: `0` for the player and `1` for the opponent. |
+| 0x8009B164 | `gDuel_bQuitDialogState` | Two-player quit-dialog state: bit `0x01` requests the prompt and bit `0x80` marks it initialized. |
