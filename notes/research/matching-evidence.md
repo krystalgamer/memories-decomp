@@ -2250,17 +2250,34 @@ The same reading applies in reverse: an unexpected `srl` where the target has
 `andi`/`sltu` is evidence of a folded single-bit test, not of a genuine shift
 in the original source.
 
-## The 0xFFFF compare reveals the width of the compared variable
+## A canonicalising diff harness can invent differences as well as hide them
 
-`addiu rd, zero, 0xFFFF` and `ori rd, zero, 0xFFFF` disassemble to the same
-decimal immediate but are not the same value: the `addiu` immediate is
-sign-extended, so it materialises -1, while `ori` materialises 0x0000FFFF.
+While comparing `SD_SEPlay` (0x80048658) and `func_80047DB0`, both candidates
+appeared to materialise 0xFFFF with `addiu` where the target used `ori`. The
+apparent lesson was that the compared variable had to be widened. That
+conclusion was wrong, and the mechanism is worth recording.
 
-A `u16` variable compared against `0xFFFF` lets GCC narrow the test to
-`(s16)x == -1` and emit the cheaper `addiu`. A target that materialises the
-constant with `ori` therefore had a *wider* variable, where that narrowing is
-invalid. Declaring the value `s32` rather than `u16` is the lever, even when
-the value is loaded with `lhu` and cannot exceed 16 bits.
+The target side of a comparison is Splat's assembly text, which prints real
+mnemonics. The candidate side is `objdump` output, and objdump prints the
+`li` *pseudo-instruction* rather than the encoding gas selected. A
+canonicalising rule that rewrote `li rd, imm` to `addiu rd, zero, imm`
+therefore mislabelled every unsigned 16-bit constant: gas assembles
+`li rd, 0xFFFF` to `ori`, because the `addiu` immediate would sign-extend to
+-1. The candidate had been emitting the correct instruction all along.
 
-When ranking candidates, read the mnemonic rather than the printed immediate;
-the decimal shown by objdump is identical in both cases.
+The general rule when normalising two instruction streams for comparison:
+
+- Only canonicalise between forms that are genuinely encoding-identical.
+  `move`/`addu` and `nop`/`sll zero,zero,0` qualify. `li` does not, because it
+  expands to `addiu`, `ori`, or `lui`+`ori` depending on the constant.
+- Normalise both sides from the same representation where possible. Comparing
+  assembler text against disassembler text mixes two different renderings of
+  the same encoding.
+- A canonicalisation that fires on one side only is a bug. `li` never appears
+  in the Splat text, so the rule could only ever rewrite the candidate.
+
+Earlier instrument failures in this project flattered the candidate by hiding
+real differences. This one did the opposite, and cost two functions' worth of
+type changes chasing a difference that did not exist. Both directions come
+from the same cause: a metric that was not validated against a case with a
+known answer.
