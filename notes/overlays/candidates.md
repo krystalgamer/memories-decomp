@@ -881,24 +881,32 @@ s32 func_80180390(void)
 
 ## password `func_80169734` at 0x80169734
 
-`gcc_2_8_1_g0_split`, 308 instructions against 309, 48 differing positions,
-opcode distance 3. Residual is one extra `andi` against one missing `addiu`
-and one missing `j`.
+`gcc_2_8_1_g0_split`, 309 of 309 instructions, 12 differing positions, opcode
+distance 0. The instruction mix is exact; what is left is register choice and
+scheduling in two blocks.
 
-Two levers are applied here and both generalise.
+Four levers are applied and all four generalise.
 
 The box at 0x800EB1C0 is a symbol, not an integer cast to a pointer. A symbol
-reference is formed with `lui` then `addiu`; a literal address is formed with
-`lui` then `ori`, because `addiu` sign-extends and `ori` does not. Writing it as
-`(Box *)0x800EB1C0` costs five on the distance and 149 differing positions.
+gives `lui` then `addiu`; a literal gives `lui` then `ori`, because `addiu`
+sign-extends and `ori` does not. The literal form costs five on the distance.
 
 The scan loop is entered at its zero test with the first character already
-loaded, not at the increment. Entering at the increment makes that initial load
-dead and the compiler deletes it, which costs the two `lbu` and the `j` the
-target has at 262 to 265.
+loaded, and its two-byte arm jumps past the zero-skip increment. Entering at the
+increment makes the initial load dead and the compiler deletes it, taking two
+`lbu` and a `j` with it.
 
-Measured and inert: re-reading `gNameEntry_bFlags` at the bit 2 test, the
-top-level bit 4 test and both tail tests, in every combination.
+The scanned character is an `s32`, not a `u8`. A `u8` local is re-masked with
+`andi 0xff` at each test, which the target does not do.
+
+The terminator written to `*next` comes from its own local assigned at the top,
+not from the literal at the store. Written as a literal the compiler shares the
+loop test's constant instead of rematerialising it, and the target's `li v0,255`
+at 288 is the missing `addiu`.
+
+The remaining twelve positions are two ordering blocks: the caret setup at 83 to
+92, where the target fills the call's delay slot with the `box->f44` store, and
+the message-id block at 291 to 296.
 
 ```c
 #include "../../src/types.h"
@@ -976,7 +984,8 @@ void func_80169734(void)
     u8 *p;
     u8 *next;
     u8 *panel;
-    u8 c;
+    s32 c;
+    s32 term;
 
     if (gNameEntry_wPendingDialog != 0) {
         flags = gNameEntry_bFlags;
@@ -1004,8 +1013,8 @@ void func_80169734(void)
             func_80042918(caret);
             func_800428EC(caret, 19);
             caret->f8 |= 8;
-            func_80043178(caret);
             box->f44 = caret;
+            func_80043178(caret);
             fa = gNameEntry_bFlags;
             caret->f96 = -1024;
             gNameEntry_bFlags = fa | 2;
@@ -1102,6 +1111,7 @@ void func_80169734(void)
         NameEntry_UpdateScreen();
         return;
     }
+    term = 0xFF;
     p = D_801B125A;
     c = *p;
     next = 0;
@@ -1112,8 +1122,10 @@ scan:
     }
     next = p + 1;
     p = next;
+    goto load;
 zloop:
     p++;
+load:
     c = *p;
 ztest:
     if (c == 0) {
@@ -1125,7 +1137,7 @@ ztest:
     fg = gNameEntry_bFlags;
     gNameEntry_bFlags = fg & 0xBF;
     if (next != 0) {
-        *next = 0xFF;
+        *next = term;
         gNameEntry_wPendingDialog = 0x80F5;
         D_8016D41C = 0;
         fa = gNameEntry_bFlags;
