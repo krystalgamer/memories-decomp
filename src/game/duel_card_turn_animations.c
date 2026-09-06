@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 #include "duel_card_layout.h"
 
 extern u8 D_8009B1D5;
@@ -58,7 +59,8 @@ m0:
         *(u16 *)(p + 0x60) = 8;
         *(u16 *)(e + 0x16) = *(u16 *)(e + 0x16) | 0x400;
         *(s32 *)(p + 0x20) = 0x8000;
-        *(u16 *)(p + 8) = *(u16 *)(p + 8) | 4;
+        *(u16 *)(p + 8) =
+            *(u16 *)(p + 8) | DISPLAY_OBJECT_FLAG_CLIP_TEST;
         if ((*(u16 *)(e + 0x16) & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
             p[0x22] = 0xC0;
         }
@@ -101,7 +103,7 @@ m1:
     *(s32 *)(p + 0x20) = 0x4000;
     *(s16 *)(p + 0x2A) = 0x4080;
     *(u16 *)(p + 0x60) = 4;
-    *(u16 *)(p + 8) = *(u16 *)(p + 8) | 4;
+    *(u16 *)(p + 8) = *(u16 *)(p + 8) | DISPLAY_OBJECT_FLAG_CLIP_TEST;
     return;
 alt1:
     *(u16 *)(p + 0x2A) = *(u16 *)(p + 0x2A) - *(u16 *)(p + 0x28);
@@ -141,7 +143,7 @@ m2:
     *(s16 *)(p + 0x2A) = -0x3F80;
     *(s32 *)(p + 0x20) = 0xC000C0;
     *(u16 *)(p + 0x60) = 4;
-    *(u16 *)(p + 8) = *(u16 *)(p + 8) | 4;
+    *(u16 *)(p + 8) = *(u16 *)(p + 8) | DISPLAY_OBJECT_FLAG_CLIP_TEST;
     return;
 alt2:
     *(u16 *)(p + 0x2A) = *(u16 *)(p + 0x2A) + *(u16 *)(p + 0x28);
@@ -233,7 +235,8 @@ m1:
         *(u16 *)(p + 0x2A) = 0x80;
         *(s32 *)(p + 0x20) = 0;
         *(u16 *)(p + 0x60) = 4;
-        *(u16 *)(p + 8) = *(u16 *)(p + 8) | 4;
+        *(u16 *)(p + 8) =
+            *(u16 *)(p + 8) | DISPLAY_OBJECT_FLAG_CLIP_TEST;
     }
     if ((p[0x6C] & 0x20) != 0) {
         goto alt1;

@@ -92,7 +92,7 @@ void func_80040DD8(void) {
                     *(u16 *)(g + 0x22) = *(u16 *)(g + 0x22) - dx;
                 }
 
-                if ((*(u16 *)(e + 8) & 4) != 0) {
+                if ((*(u16 *)(e + 8) & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     if (func_80041E7C(*(s32 *)(e + 0x20),
                                       (s16)*(u16 *)(g + 8) + *(s16 *)(e + 0x18),
                                       (s16)*(u16 *)(g + 0xA) +
@@ -204,7 +204,7 @@ void func_80041068(void) {
                     *(u16 *)(g + 0x2E) = *(u16 *)(g + 0x2E) - dx;
                 }
 
-                if ((*(u16 *)(e + 8) & 4) != 0) {
+                if ((*(u16 *)(e + 8) & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     if (func_80041E7C(*(s32 *)(e + 0x20),
                                       (s16)*(u16 *)(g + 8) + *(s16 *)(e + 0x18),
                                       (s16)*(u16 *)(g + 0xA) +

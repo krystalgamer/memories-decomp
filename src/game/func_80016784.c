@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
 
@@ -44,7 +45,7 @@ void func_80016784(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 *(s32 *)k = t;
                 *(s32 *)z = t;
                 arg0[0x69] = 0;
-                if (*(u16 *)(arg0 + 8) & 4) {
+                if (*(u16 *)(arg0 + 8) & DISPLAY_OBJECT_FLAG_CLIP_TEST) {
                     fl = *(u16 *)(arg0 + 0x14) | 0xF0000;
                     if (func_80041F90(arg0, (s16)*(u16 *)(o + 8) + 0x1A,
                                       (s16)*(u16 *)(o + 0xA) + 0x1E, 0x1F8003E0) < 0) {

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 #include "duel_card.h"
 #include "duel_display.h"
 
@@ -34,7 +35,7 @@ void Duel_ApplyCardObjectFlags(struct Obj *a0) {
     DuelCardRecord *rec;
 
     a0->f22 = 0;
-    a0->f8 = flags8 & 0xFFFB;
+    a0->f8 = flags8 & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
     rec = &D_801A7AD8[type];
 
     if (rec->flags & DUEL_CARD_FLAG_FACE_DOWN) {

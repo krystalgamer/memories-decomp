@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 extern u8 D_8009B152;
 extern u8 *D_8009B188;
@@ -46,7 +47,8 @@ s32 func_80020988(void) {
     q = D_8009B1CC;
 
     if ((D_8009B152 & 0x40) != 0) {
-        *(u16 *)(q + 8) = *(u16 *)(q + 8) | 4;
+        *(u16 *)(q + 8) =
+            *(u16 *)(q + 8) | DISPLAY_OBJECT_FLAG_CLIP_TEST;
         v = q[0x21] + q[0x60];
         q[0x21] = v;
         w = v;
@@ -54,7 +56,8 @@ s32 func_80020988(void) {
             return 0;
         }
         if ((w & 0xFF) == 0) {
-            *(u16 *)(q + 8) = *(u16 *)(q + 8) & 0xFFFB;
+            *(u16 *)(q + 8) =
+                *(u16 *)(q + 8) & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
         }
         do { D_8009B152 = D_8009B152 & 0xBF; } while (0);
         return 0;

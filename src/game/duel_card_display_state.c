@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 #include "card_constants.h"
 #include "duel_card.h"
@@ -60,11 +61,11 @@ void func_80017E3C(DuelCardDisplayObject *object)
     if (!(card->flags & DUEL_CARD_FLAG_DISPLAY_MARKER)) {
         object->field_67 = 0;
     }
-    flags = object->flags & 0xFFFB;
+    flags = object->flags & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
     object->flags = flags;
     if (card->flags &
         (DUEL_CARD_FLAG_DEFENSE_POSITION | DUEL_CARD_FLAG_FACE_DOWN)) {
-        object->flags = flags | 4;
+        object->flags = flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
         object->field_21 = 0;
         if (card->flags & DUEL_CARD_FLAG_FACE_DOWN) {
             object->field_21 = 0x80;

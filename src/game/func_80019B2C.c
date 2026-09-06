@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 typedef struct {
     char p0[8]; u16 flags; char pA[0x17]; u8 current;
@@ -24,7 +25,7 @@ void func_80019B2C(u8 *arg0) {
         *(s32 *)(arg0 + 0x24) = 0;
         arg0[0x21] = c;
         if (c == 0) {
-            *(u16 *)(arg0 + 8) &= 0xFFFB;
+            *(u16 *)(arg0 + 8) &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
         }
     }
 }

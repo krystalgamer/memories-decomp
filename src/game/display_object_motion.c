@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 typedef struct {
     u8 pad_00[0x08];
@@ -54,7 +55,7 @@ void func_8001ED20(DisplayObjectMotion *object)
         object->old_position = *(s32 *)((u8 *)object + 0x28);
         object->mode = 0;
         if (!object->current) {
-            object->flags &= ~4;
+            object->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
         }
         object->active = 0;
         object->callback = 0;
