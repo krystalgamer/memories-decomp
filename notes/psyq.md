@@ -203,6 +203,23 @@ symbol review.
 | `0x80081FC0` | `MoveImage2` | Applied Psy-Q identity; `file_cd_helpers.c` passes the current display rectangle plus destination coordinates. |
 | `0x80082250` | `GPU_cw` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C73.OBJ` signature. |
 | `0x80082324` | `IsIdleGPU` | Applied Psy-Q 4.6 identity; matching upload and move paths poll mode `3` around GPU image operations. |
+| `0x80082780` | `GetTPage` | Applied from the unique 64-byte Psy-Q 4.6 `LIBGPU.LIB/P00.OBJ` signature. |
+| `0x800827C0` | `GetClut` | Applied from the unique 32-byte Psy-Q 4.6 `LIBGPU.LIB/P01.OBJ` signature. |
+| `0x800827E0` | `AddPrim` | Applied from the unique 64-byte Psy-Q 4.6 `LIBGPU.LIB/P06.OBJ` signature. |
+| `0x80082820` | `TermPrim` | Applied from the unique 32-byte Psy-Q 4.6 `LIBGPU.LIB/P09.OBJ` signature. |
+| `0x80082840` | `SetSemiTrans` | Applied from the unique 40-byte Psy-Q 4.6 `LIBGPU.LIB/P10.OBJ` signature. |
+| `0x80082870` | `SetShadeTex` | Applied from the unique 40-byte Psy-Q 4.6 `LIBGPU.LIB/P11.OBJ` signature. |
+| `0x800828A0` | `SetPolyF3` | Applied from the unique 20-byte Psy-Q 4.6 `LIBGPU.LIB/P12.OBJ` signature. |
+| `0x800828C0` | `SetPolyFT3` | Applied from the unique 20-byte Psy-Q 4.6 `LIBGPU.LIB/P13.OBJ` signature. |
+| `0x800828E0` | `SetPolyG3` | Applied from the unique 20-byte Psy-Q 4.6 `LIBGPU.LIB/P14.OBJ` signature. |
+| `0x80082900` | `SetPolyGT3` | Applied from the unique 20-byte Psy-Q 4.6 `LIBGPU.LIB/P15.OBJ` signature. |
+| `0x80082920` | `SetPolyF4` | Applied from the unique 20-byte Psy-Q 4.6 `LIBGPU.LIB/P16.OBJ` signature. |
+| `0x80082940` | `SetPolyFT4` | Applied from the unique 20-byte Psy-Q 4.6 `LIBGPU.LIB/P17.OBJ` signature. |
+| `0x80082960` | `SetPolyG4` | Applied from the unique 20-byte Psy-Q 4.6 `LIBGPU.LIB/P18.OBJ` signature. |
+| `0x80082980` | `SetPolyGT4` | Applied from the unique 20-byte Psy-Q 4.6 `LIBGPU.LIB/P19.OBJ` signature. |
+| `0x800829A0` | `SetSprt8` | Applied from the unique 20-byte Psy-Q 4.6 `LIBGPU.LIB/P20.OBJ` signature. |
+| `0x800829C0` | `SetTile` | Applied from the unique 20-byte Psy-Q 4.6 `LIBGPU.LIB/P26.OBJ` signature. |
+| `0x800829E0` | `SetDrawMode` | Applied from the unique 148-byte Psy-Q 4.6 `LIBGPU.LIB/P41.OBJ` signature. |
 | `0x80082A80` | `OpenTIM` | Applied Psy-Q 4.6 identity at offset zero of the unique 400-byte `LIBGPU.LIB/T00.OBJ` signature. |
 | `0x80082A90` | `ReadTIM` | Applied Psy-Q 4.6 identity at offset `0x10` of the same unique `LIBGPU.LIB/T00.OBJ` signature. |
 | `0x80084240` | `GsSortBoxFill` | Applied Psy-Q 4.6 identity; the matching fade renderer submits strip or full-screen box fills to its ordering table. |

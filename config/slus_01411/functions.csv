@@ -1522,23 +1522,23 @@ address,size,name,status,module,notes
 0x80082610,0x64,func_80082610,sdk_asm,psyq/sdk,
 0x80082680,0xB4,func_80082680,sdk_asm,psyq/sdk,
 0x80082740,0x3C,func_80082740,sdk_asm,psyq/sdk,
-0x80082780,0x3C,func_80082780,sdk_asm,psyq/sdk,
-0x800827C0,0x18,func_800827C0,sdk_asm,psyq/sdk,
-0x800827E0,0x3C,func_800827E0,sdk_asm,psyq/sdk,
-0x80082820,0x18,func_80082820,sdk_asm,psyq/sdk,
-0x80082840,0x28,func_80082840,sdk_asm,psyq/sdk,
-0x80082870,0x28,func_80082870,sdk_asm,psyq/sdk,
-0x800828A0,0x14,func_800828A0,sdk_asm,psyq/sdk,
-0x800828C0,0x14,func_800828C0,sdk_asm,psyq/sdk,
-0x800828E0,0x14,func_800828E0,sdk_asm,psyq/sdk,
-0x80082900,0x14,func_80082900,sdk_asm,psyq/sdk,
-0x80082920,0x14,func_80082920,sdk_asm,psyq/sdk,
-0x80082940,0x14,func_80082940,sdk_asm,psyq/sdk,
-0x80082960,0x14,func_80082960,sdk_asm,psyq/sdk,
-0x80082980,0x14,func_80082980,sdk_asm,psyq/sdk,
-0x800829A0,0x14,func_800829A0,sdk_asm,psyq/sdk,
-0x800829C0,0x14,func_800829C0,sdk_asm,psyq/sdk,
-0x800829E0,0x94,func_800829E0,sdk_asm,psyq/sdk,
+0x80082780,0x3C,GetTPage,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P00.OBJ signature.
+0x800827C0,0x18,GetClut,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P01.OBJ signature.
+0x800827E0,0x3C,AddPrim,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P06.OBJ signature.
+0x80082820,0x18,TermPrim,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P09.OBJ signature.
+0x80082840,0x28,SetSemiTrans,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P10.OBJ signature.
+0x80082870,0x28,SetShadeTex,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P11.OBJ signature.
+0x800828A0,0x14,SetPolyF3,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P12.OBJ signature.
+0x800828C0,0x14,SetPolyFT3,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P13.OBJ signature.
+0x800828E0,0x14,SetPolyG3,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P14.OBJ signature.
+0x80082900,0x14,SetPolyGT3,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P15.OBJ signature.
+0x80082920,0x14,SetPolyF4,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P16.OBJ signature.
+0x80082940,0x14,SetPolyFT4,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P17.OBJ signature.
+0x80082960,0x14,SetPolyG4,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P18.OBJ signature.
+0x80082980,0x14,SetPolyGT4,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P19.OBJ signature.
+0x800829A0,0x14,SetSprt8,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P20.OBJ signature.
+0x800829C0,0x14,SetTile,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P26.OBJ signature.
+0x800829E0,0x94,SetDrawMode,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P41.OBJ signature.
 0x80082A80,0x10,OpenTIM,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGPU.LIB/T00.OBJ signature.
 0x80082A90,0x64,ReadTIM,sdk_asm,psyq/sdk,Identified at offset 0x10 of the unique Psy-Q 4.6 LIBGPU.LIB/T00.OBJ signature.
 0x80082AF4,0x118,func_80082AF4,sdk_asm,psyq/sdk,
