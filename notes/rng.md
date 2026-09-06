@@ -72,6 +72,7 @@ The generator feeds multiple systems. Confirmed matching-C examples include:
 | `AiScript_JumpRandom` (`0x80070C60`) | Chooses whether a scripted branch is taken |
 | `AiScript_SetRandom` (`0x80070E20`) | Writes a value in a scripted inclusive range |
 | `duel_rewards.c` | Selects post-duel rewards |
+| `func_8016A930` | Builds the new-game starter deck from seven weighted rows |
 | `main_run_frontend_menus.c` | Advances randomness while the main menu runs |
 
 Additional matching and unmatched callers use the same SDK routine for duel
@@ -150,6 +151,28 @@ thresholds from 1 through 99 are slightly more likely than their nominal
 percentage because the extra source values are concentrated at results 0-67.
 Seed tools and traces should preserve these integer transforms instead of
 substituting floating-point probabilities.
+
+### Starter-deck stream consumption
+
+The matching starter-deck generator `func_8016A930` does not consume one RNG
+value per card. Each selection attempt first computes
+`(rand() & 0x7FF) + 1`, then scans zero-based card indices `0`-`719`. Before
+adding each examined weight to the accumulator, it calls `rand()` once more
+and discards that result. Selecting card ID `n` therefore consumes `n + 1`
+values on that attempt: one threshold value and one discarded value for each
+scanned ID through `n`.
+
+The generator also tracks how many copies of each card have already been
+dealt. A selection that would exceed three copies is discarded and the draw
+is retried, consuming another threshold and variable-length scan. A threshold
+that is not reached within the first 720 weights consumes 721 values but adds
+no card. In the retail tables the final two weights are zero and each reachable
+row still totals 2048, so the stock path fills all 40 slots; an edited row can
+produce a short deck if its first 720 weights total less than 2048.
+
+Starting-deck prediction must reproduce these discarded calls and redraws.
+The selected cards determine how far the stream advances, so the deck and the
+RNG state immediately after generation cannot be modeled independently.
 
 ## Community timing observations
 
