@@ -843,3 +843,196 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
     }
 }
 ```
+
+## `func_80047788` at 0x80047788
+
+`gcc_2_8_1_g8_split`, 55 of 55 instructions, opcode distance 0, 4 differing
+positions.
+
+Issues a type-32 sound request for one entry of the `field_0448` table and then
+advances `field_0438` by that entry's second word. The `0x51` request built on
+the stack afterwards carries the *pre-advance* `field_0438` and the same
+`0x801E6800` address the first call is given.
+
+Three things had to be right, and only the first is specific to this function.
+
+**The frame count fixed the divide.** `((field_0002 << 3) + 0x7FF) / 0x800`
+written as one expression folds to `(field_0002 + 0xFF) / 0x100` -- identical
+arithmetic, one instruction shorter, no `sll` -- which is the reassociation
+already recorded under "Split a multiply and a divide across three assignments".
+Three assignments to one variable keep the shift, both bias arms and the
+`sra $t0, $v0, 11` exactly as retail has them.
+
+**`g_SDValue` needs the `section(".data")` alias**, the same as the
+`SpuVoiceAttr` family: the `sound.h` declaration is small enough for `-G8` to
+make it gp-relative, and this target uses `lui`/`lw` at all three reads.
+
+**The tail is two statements, not one.** Written as
+`c->field_0438 += entry->field_0004;` the build is 54 instructions and reads
+`field_0438` before `field_0448`; splitting the entry pointer into its own
+statement first gives the exact 55 and retail's read order. That is the same
+shape as the per-block-locals rule -- the pointer wants to be a named local at
+the point it is used.
+
+What remains is two allocation pairs, both of which reuse an input register as
+the destination where this build takes a fresh one: `lw $v1, 0x448($a3)`
+followed by `addu $v1, $s0, $v1`, and the tail's `addu $s0, $s0, $v0`.
+Assigning the tail's entry back into `off` reproduces the second pair exactly
+and costs the prologue's constant placement instead, landing at 5. Crossed
+without improving on 4: both operand orders at each of the two sites, a `u8 *`
+entry pointer, pinning `off` to `$16`, pinning the entry to `$3`, splitting the
+`off` shift, and a named local for the `0x801E6800` constant, which is much
+worse at 57 instructions.
+
+```c
+#include "../../src/types.h"
+#include "../../src/game/sound.h"
+
+extern SDValue *g_SDValue_d asm("g_SDValue") __attribute__((section(".data")));
+
+struct Request {
+    u8 tag;
+    u8 pad01[3];
+    s32 f04;
+    s32 f08;
+    s32 f0C;
+    u8 pad10[0x30 - 0x10];
+};
+
+extern void func_800471D0(s32, s32, s32, s32, s32, s32);
+extern s32 func_80045BE8(struct Request *);
+
+void func_80047788(s32 arg0)
+{
+    struct Request req;
+    SDValue *a;
+    SDValue *b;
+    SDValue *c;
+    s32 step;
+    s32 off;
+    SDValueLink *entry;
+
+    a = g_SDValue_d;
+    step = (s32)(*(u16 *)((u8 *)a + 2) << 3);
+    step = (step + 0x7FF) / 0x800;
+    step = step + 1;
+    off = (arg0 & 0xFFFF) << 3;
+    entry = (SDValueLink *)((u8 *)a->field_0448 + off);
+    func_800471D0(a->field_0438, 0x801E6800,
+                  step + *(u16 *)entry, entry->field_0004, 0x800, 0x10);
+    b = g_SDValue_d;
+    req.tag = 0x51;
+    req.f04 = b->field_0438;
+    req.f0C = 0x801E6800;
+    func_80045BE8(&req);
+    c = g_SDValue_d;
+    entry = (SDValueLink *)((u8 *)c->field_0448 + off);
+    c->field_0438 = c->field_0438 + entry->field_0004;
+}
+```
+
+## `func_80047DB0` at 0x80047DB0
+
+`gcc_2_8_1_g0`, 68 of 69 instructions, one `addu` short.
+
+Keys off whichever of the four voices is playing the given id, clearing its bit
+in `+0x434` and calling `func_80047C70` per voice, then issues one `SpuSetKey`
+for all of them. Structurally it is `func_80048920`'s twin -- the same
+`arg0 & 0x8000` early exit, the same `(arg0 & 0xF000) == 0x4000` table lookup
+through `+0x44C`, and the same four-iteration `do`/`while` -- so that matched
+file is the right template and its `struct SoundState` view is reused here.
+
+**A known-constant local became a variable shift.** `mask = 1;` written before
+the `0x4000` block puts the constant 1 in a register that is still live at
+`lo = (in & 0x1F) << 1`, and GCC uses it: the shift comes out `sllv v1,v1,s2`
+instead of `sll`. Moving the initialisation after the block removes it. That is
+"A known-constant local can become a variable shift amount" in
+`matching-evidence.md`, and it is worth knowing it fires across an `if` and not
+just adjacent to the shift. It costs nothing to check -- one `sllv` in the
+build where the target has `sll` names the cause exactly.
+
+**Two pins hold the argument copies.** The target copies `arg0` into `$a1` and
+then `$a1` into `$a0`, keeping the tests on `$a1` while `$a0` receives the
+table value in the `0x4000` branch. `register` on `$5` and `$4` reproduces the
+first copy; the second is the one still missing, and it is the same redundant
+round trip that GCC coalesces in this family.
+
+Crossed without producing the second copy: assigning both from the parameter
+rather than in sequence, swapping the declaration order, and an
+`__asm__ volatile("" : "+r"(...))` barrier on either variable. A barrier placed
+on `value` inside the `0x4000` branch does reach 69 of 69, but it adds a
+different instruction rather than that copy, and statement-level inline
+assembly is rejected at integration in any case, so it is not stored here.
+
+```c
+#include "../../src/types.h"
+#include "../../src/psyq/libspu.h"
+
+struct SoundState {
+    u8 pad0[0x404];
+    u16 ids[4];
+    u8 pad1[0x434 - 0x40C];
+    u8 active;
+    u8 pad2[0x44C - 0x435];
+    u16 tbl44C[64];
+};
+
+extern struct SoundState *g_SDValue;
+extern void func_800464F0(void);
+extern void func_80045114(void);
+extern void func_80047C70(s32);
+
+void func_80047DB0(s32 arg0)
+{
+    register s32 i __asm__("$16");
+    register s32 bit __asm__("$17");
+    register s32 mask __asm__("$18");
+    register s32 keys __asm__("$19");
+    register s32 id __asm__("$20");
+    s32 lo;
+    s32 hi;
+    register s32 value __asm__("$4");
+    register s32 in __asm__("$5");
+
+    in = arg0;
+    value = in;
+    if (in & 0x8000) {
+        func_800464F0();
+        func_80045114();
+        return;
+    }
+    if ((in & 0xF000) == 0x4000) {
+        struct SoundState *a = g_SDValue;
+        u16 v;
+
+        lo = (in & 0x1F) << 1;
+        hi = in & 0x100;
+        hi = (hi != 0) << 6;
+        v = *(u16 *)((u8 *)a + (lo + hi) + 0x44C);
+        if (v == 0xFFFF) {
+            return;
+        }
+        value = v;
+    }
+    mask = 1;
+    keys = 0;
+    bit = 0x100000;
+    i = keys;
+    id = value & 0xFFFF;
+    do {
+        struct SoundState *b = g_SDValue;
+
+        if (b->ids[i] == id) {
+            keys |= bit;
+            b->active = b->active & ~mask;
+            func_80047C70(bit);
+        }
+        mask <<= 1;
+        i++;
+        bit <<= 1;
+    } while (i < 4);
+    if (keys != 0) {
+        SpuSetKey(0, keys);
+    }
+}
+```
