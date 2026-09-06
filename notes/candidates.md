@@ -871,19 +871,38 @@ void func_8005B36C(u32 *src, GsOT *ot, s32 idx, s32 offx, s32 offy,
 
 ## `SD_SEPlay` at 0x80048658
 
-`gcc_2_8_1_g0`, 65 of 68 instructions.
+`gcc_2_8_1_g0`, 66 of 68 instructions, opcode distance 2.
 
-Three short. Two are `andi` -- the mask on the volume argument, which the
-target computes separately in each of the two call paths where GCC cross-jumps
-it into the shared tail, and a redundant `andi $v0, $v1, 0xFF` on a value that
-came from `lbu` and is therefore already 8-bit. Neither a `u8` prototype, no
-prototype at all, a `u8` temporary nor an explicit cast reproduces the second
-one. The third is the `addu $a0, $t0, $zero` copy before the first call.
+Supersedes the 65-instruction record at distance 3. Two changes account for the
+gain, and the opcode census now names exactly what is left: one `addu` and one
+`andi` missing, with nothing extra.
 
-The four argument copies at entry need `register` pins on `$8`, `$9`, `$6` and
-`$7`, in the same style as the matched sibling `src/game/func_80048920.c`, which
-shares this function's `(arg0 & 0x8000)` / `(arg0 & 0xF000) == 0x4000`
-structure and its `struct SoundState` view.
+**A temporary for `e[2]` keeps its mask.** The sixth argument is
+`e[2] & 0xFF` on a value that came from `lbu` and is therefore already 8-bit,
+so GCC folds the mask away. Reading the byte into an `s32` local first and
+masking the local restores it. The previous entry recorded a `u8` prototype, no
+prototype, a `u8` temporary and an explicit cast as all failing, and they do --
+the width of the temporary is not the lever. What matters is that the value is
+read into a separate variable before the mask, which is the same shape that
+supplied the missing copy in `func_80048F14`.
+
+**Masking `vol` in place inside each arm.** Written as `vol & 0xFF` at both
+call sites, GCC cross-jumps the identical argument setup into a shared tail and
+emits one mask; the target has one in each arm. Writing `vol &= 0xFF;` as a
+statement in each branch changes it from an expression into a side effect on a
+pinned register, which the two arms no longer share.
+
+The four argument copies at entry still need `register` pins on `$8`, `$9`,
+`$6` and `$7`, in the same style as the matched sibling
+`src/game/func_80048920.c`, which shares this function's `(arg0 & 0x8000)` and
+`(arg0 & 0xF000) == 0x4000` structure and its `struct SoundState` view.
+
+What remains is one `addu` and one `andi`. The `addu` is the copy at `0x20`:
+the target moves `id` into `$a0` and then masks `$a0` in place for the
+`func_800451E0` call, where this build emits `andi $a0, $t0, 0xFFFF` in one
+instruction. Introducing a named local for that argument and masking it in
+place does not reproduce it, so it is the same redundant-move class as
+`func_80047DB0` rather than a spelling of the mask.
 
 ```c
 #include "../../src/types.h"
@@ -911,6 +930,7 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
     s32 hi;
     s32 n;
     u8 *e;
+    s32 t2;
 
     id = arg0;
     pan = arg2;
@@ -936,7 +956,9 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
             return;
         }
         e = a->p444 + n * 8;
-        func_800482B0(v, 0, vol & 0xFF, (s16)pan, e[3], e[2] & 0xFF);
+        t2 = e[2];
+        vol &= 0xFF;
+        func_800482B0(v, 0, vol, (s16)pan, e[3], t2 & 0xFF);
     } else {
         struct SoundState *b = g_SDValue;
 
@@ -945,7 +967,9 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
             return;
         }
         e = b->p444 + n * 8;
-        func_800482B0(idc & 0xFFFF, 0, vol & 0xFF, (s16)pan, e[3], e[2] & 0xFF);
+        t2 = e[2];
+        vol &= 0xFF;
+        func_800482B0(idc & 0xFFFF, 0, vol, (s16)pan, e[3], t2 & 0xFF);
     }
 }
 ```
