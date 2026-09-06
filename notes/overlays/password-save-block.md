@@ -17,8 +17,13 @@ The function does three things in order:
 3. Stamps a non-zero word at `0x801D0534`, exactly `0x334` bytes after
    `gDuel_awPlayerDeck` (`0x801D0200`), retrying until it is non-zero.
 
-The cleared range is wider than the save block itself, which the game notes
-place at `0x801D0200` onward.
+The cleared/template range is much wider than the live persistent state.
+`SaveData_RequestWrite` later copies exactly `0x680` bytes beginning at
+`gDuel_awPlayerDeck`, so the persisted state occupies
+`0x801D0200-0x801D087F`. The surrounding `0x801D0000-0x801D2FFF` overlay
+workspace must not be interpreted as the save-file size; the separate header
+and duplicate-state staging layout is documented in
+[`../memory-card-runtime.md`](../memory-card-runtime.md#save-payload-staging).
 
 ## The stamped word and its source
 
