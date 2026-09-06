@@ -409,6 +409,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--result", choices=sorted(RESULTS))
     parser.add_argument("--summary")
     parser.add_argument(
+        "--new-discriminator",
+        help=(
+            "new source, compiler, structure, runtime, or layout evidence; "
+            "required for post_terminal_resolution"
+        ),
+    )
+    parser.add_argument(
         "--ledger",
         default="config/slus_01411/external_attempts.csv",
         help="ledger path relative to the repository root",
@@ -481,6 +488,8 @@ def main() -> int:
             "result": args.result,
             "summary": args.summary,
         }
+        if args.mode == "post_terminal_resolution":
+            required["new-discriminator"] = args.new_discriminator
         missing = [key for key, value in required.items() if not value]
         if missing:
             raise ExternalAttemptError(
@@ -596,6 +605,13 @@ def main() -> int:
                 "record the sixth unsuccessful attempt as deferred"
             )
 
+        summary = args.summary
+        if args.mode == "post_terminal_resolution":
+            summary = (
+                f"New discriminator: {args.new_discriminator}; "
+                f"exact result: {args.summary}"
+            )
+
         rows.append(
             {
                 "mode": args.mode,
@@ -607,7 +623,7 @@ def main() -> int:
                 "candidate_source": str(candidate.relative_to(root)),
                 "candidate_sha256": sha256(candidate),
                 "result": args.result,
-                "summary": args.summary,
+                "summary": summary,
             }
         )
         validate_rows(

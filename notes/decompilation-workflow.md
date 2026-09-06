@@ -186,14 +186,35 @@ general compiler laws. Before reconsidering a deferred function:
    result, and a failed set of source permutations does not prove a compiler
    ceiling.
 6. Generalize only from repeated evidence. Promote a blocker into shared
-   guidance after independent examples reproduce it; otherwise preserve the
-   narrow scope in the attempt summary and candidate notes.
+   guidance only when the same controlled single-variable change reproduces
+   the effect in at least two independent functions, or when one exact match
+   is corroborated by direct compiler, linker, or original-source evidence.
+   Otherwise preserve the narrow scope in the attempt summary and candidate
+   notes.
 
 Two overlay matches demonstrate why this discipline matters:
 `func_80184030` required two individually unsuccessful changes together, while
 `func_8018338C` recovered most apparent address and scheduling tricks by fixing
 its declarations. The resident matching-evidence note likewise records
 post-terminal matches unlocked by corrected profiles and source structure.
+
+Record the discriminator explicitly when an audited deferred function reaches
+an exact result:
+
+```sh
+tools/environments/python/bin/python \
+  tools/project/record_external_attempt.py 0x80012345 \
+  --mode post_terminal_resolution \
+  --profile gcc_2_8_1_g8_split \
+  --candidate tmp/candidates/func_80012345.c \
+  --result matched \
+  --new-discriminator "corrected callback prototype from two matching callers" \
+  --summary "complete executable and relocations match"
+```
+
+The recorder prefixes the durable summary with the new discriminator. Omitting
+it is rejected, so later sessions cannot see a post-terminal success without
+the evidence that justified reopening the hypothesis.
 
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:

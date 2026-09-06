@@ -57,6 +57,8 @@ evidence must resolve.
   `post_terminal_resolution` evidence; this one-shot success record does not
   rewrite or append speculative variants to the original six-attempt
   canonical or inline-refinement history.
+- Supply `--new-discriminator` when recording that resolution so the evidence
+  that justified revisiting the terminal history remains durable.
 - Keep exact assembly until a replacement passes the complete executable match.
 - Treat GenericMadScientist's IDA decompilation (`gms.c`), Unchiga's decomp,
   and Unchiga's recomp as evidence, not ground truth. Do not copy their guessed
