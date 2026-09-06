@@ -1,8 +1,8 @@
 #include "../types.h"
 
-extern void *gMemCard_aIOEventHandles[];
+extern long gMemCard_aIOEventHandles[];
 extern int func_800440B4(int, int);
-extern void func_80043D48(void **);
+extern void func_80043D48(long *);
 extern void func_8008B330(int);
 
 int func_800440F0(int value)

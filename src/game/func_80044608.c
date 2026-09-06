@@ -10,12 +10,12 @@ extern void *D_8009B444;
 extern s32 D_8009B440;
 extern s32 D_8009B438;
 
-extern s32 gMemCard_aIOEventHandles[];
-extern s32 D_800F2AF0[];
+extern long gMemCard_aIOEventHandles[];
+extern long D_800F2AF0[];
 extern u8 D_800F2888[];
 extern u8 D_8009AF7C[];
 
-extern void func_80043D48(s32 *a0);
+extern void func_80043D48(long *a0);
 extern s32 func_8008B330(s32 a0);
 extern s32 func_8008B3A0(s32 a0);
 extern s32 func_8008B340(s32 a0);

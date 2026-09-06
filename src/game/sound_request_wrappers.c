@@ -2,15 +2,15 @@
 
 extern u8 D_80010538[];
 extern u8 D_800F2B00[];
-extern void *gMemCard_aIOEventHandles[];
-extern void *D_800F2AF0[];
+extern long gMemCard_aIOEventHandles[];
+extern long D_800F2AF0[];
 extern s32 D_8009B430;
 extern s16 D_8009B434;
 extern u8 D_8009B437;
 extern s16 D_8009B44C;
 extern volatile s32 gMemCard_nIOResult;
 extern int func_800440B4(int, int);
-extern void func_80043D48(void **);
+extern void func_80043D48(long *);
 extern void func_8008B330(int);
 extern void func_8008B340(int);
 extern void func_8008B3A0(int);

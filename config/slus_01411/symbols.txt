@@ -408,6 +408,7 @@ gDuel_abCardLevelAttr = 0x801D5332;
 // Psy-Q LIBAPI.LIB/PAD.OBJ
 OpenEvent = 0x80073860; // type:func
 CloseEvent = 0x80073870; // type:func
+TestEvent = 0x80073880; // type:func
 EnableEvent = 0x80073890; // type:func
 EnterCriticalSection = 0x800738B0; // type:func
 ExitCriticalSection = 0x800738C0; // type:func

@@ -1208,7 +1208,7 @@ address,size,name,status,module,notes
 0x80073850,0xC,func_80073850,sdk_asm,psyq/sdk,
 0x80073860,0xC,OpenEvent,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A08.OBJ signature and matching event-registration callers.
 0x80073870,0xC,CloseEvent,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A09.OBJ signature and matching event-teardown callers.
-0x80073880,0xC,func_80073880,sdk_asm,psyq/sdk,
+0x80073880,0xC,TestEvent,sdk_asm,psyq/sdk,Identified as Psy-Q 4.6 TestEvent by the libapi.h ABI; SDK symbol map; and matching event-result callers.
 0x80073890,0xC,EnableEvent,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A12.OBJ signature and matching event-registration callers.
 0x800738A0,0xC,func_800738A0,sdk_asm,psyq/sdk,
 0x800738B0,0x10,EnterCriticalSection,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A36.OBJ signature and matching event-management callers.

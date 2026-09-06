@@ -50,11 +50,11 @@ The callback and polling meanings are:
 | `2` | An error event fired. |
 | `3` | A new-card event fired. |
 
-`func_80043D48` first probes the four handles supplied by its caller and then
-sets the shared result to `-1`, preparing the next asynchronous operation.
-`func_80043DA0` provides a synchronous companion: it probes the same four
-slots in order and returns `0` through `3` for the first signaled event, or
-`-1` when its caller requests a single nonblocking pass and none is ready.
+`func_80043D48` first calls `TestEvent` on the four handles supplied by its
+caller and then sets the shared result to `-1`, preparing the next asynchronous
+operation. `func_80043DA0` provides a synchronous companion: it tests the same
+four slots in order and returns `0` through `3` for the first signaled event,
+or `-1` when its caller requests a single nonblocking pass and none is ready.
 
 Matching `func_80044038` shows how the result drives retries. It starts an
 operation, waits while the result is negative, and retries only result `1`
