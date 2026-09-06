@@ -1540,6 +1540,61 @@ The practical rule is that once shape, count, profile and types are settled
 and the only difference is which register holds a long-lived address, further
 source permutation is low-yield — record what was measured and move on.
 
+## Reading loop shape, and what retail's registers do not tell you
+
+Two independent results from `func_8003B5C8`, a leaf that searches a table
+for each 16-bit value in a 20-byte buffer.
+
+**Removing a rotation fixup.** A search loop written as `do { ... } while
+(*p != 0)` with a `break` on the match produces a compensating pair:
+
+```
+addiu $a0, $a0, 4      # advance
+...
+addiu $a0, $a0, -4     # and undo it after the exit
+```
+
+Rewriting the exit test does not remove it — a `for (;;)` with an explicit
+bottom `break` is byte-identical. What removes it is putting the advance in
+the loop's third clause and testing one element **ahead**:
+
+```c
+for (;; e += 4, idx++) {
+    if (*(u16 *)e == v) { out = idx; break; }
+    if (*(s32 *)(e + 4) == 0) break;
+}
+```
+
+The advance then becomes the back edge and nothing is rewound. That recovered
+the exact instruction count as well as six diffs.
+
+**Register count is not variable count.** Retail here keeps a pointer and a
+second counter, initialised with `addiu $t0, $zero, 1` and stepped with
+`addiu $t0, $t0, 2` — which reads exactly like a source-level `k = 1; ...
+k += 2;` used as `buf[k]`. It is not. Writing that second index costs two
+instructions; plain `buf[i + 1]` matches. Both extra registers are induction
+variables GCC derived from one index loop.
+
+The same trap appears in the other direction with array bases, so state it
+generally: an extra register in the target usually means the compiler
+strength-reduced an index, not that the programmer declared another variable.
+
+**Loop fixes do not transfer between loops.** In this one function the outer
+loop needed an integer index — retail compares with a signed `slt`, and
+pointer comparisons are unsigned — while the inner loop needed a real
+pointer walk. Applying the outer loop's fix to the inner one was the worst
+result measured:
+
+| inner-loop form | result |
+| --- | --- |
+| `do/while` with bottom test | baseline |
+| `for(;;)` with explicit break | identical |
+| fixed base + integer offset | 5 instructions over |
+| `for(;; advance)` testing `e + 4` | exact count, best |
+
+Read each loop's own evidence rather than reusing what worked elsewhere in
+the same function.
+
 ## Statement order is a lever at call boundaries, not within a block
 
 On a function containing calls, the highest-yield source change is usually
