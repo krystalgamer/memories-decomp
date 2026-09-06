@@ -1228,9 +1228,9 @@ address,size,name,status,module,notes
 0x80073A88,0x34,ResetRCnt,sdk_asm,psyq/sdk,Identified at offset 0x138 of the unique Psy-Q 4.6 LIBAPI.LIB/COUNTER.OBJ signature.
 0x80073AC0,0x19C,firstfile,sdk_asm,psyq/sdk,Identified as Psy-Q 4.6 firstfile by the libapi.h ABI; SDK symbol map; and matching directory caller.
 0x80073C5C,0x100,func_80073C5C,sdk_asm,psyq/sdk,
-0x80073D60,0x1C,func_80073D60,sdk_asm,psyq/sdk,
-0x80073D7C,0x10,func_80073D7C,sdk_asm,psyq/sdk,
-0x80073D8C,0x90,func_80073D8C,sdk_asm,psyq/sdk,
+0x80073D60,0x1C,firstfile2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A66.OBJ signature.
+0x80073D7C,0x10,ReadInitPadFlag,sdk_asm,psyq/sdk,Identified at offset 0xC of the unique Psy-Q 4.6 LIBAPI.LIB/PAD.OBJ signature.
+0x80073D8C,0x90,PAD_init,sdk_asm,psyq/sdk,Identified at offset 0x1C of the unique Psy-Q 4.6 LIBAPI.LIB/PAD.OBJ signature.
 0x80073E1C,0x90,InitPAD,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBAPI.LIB/PAD.OBJ InitPAD.
 0x80073EAC,0x30,StartPAD,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBAPI.LIB/PAD.OBJ StartPAD.
 0x80073EDC,0x78,func_80073EDC,sdk_asm,psyq/sdk,
@@ -1248,7 +1248,7 @@ address,size,name,status,module,notes
 0x80074100,0x68,_remove_ChgclrPAD,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBAPI.LIB/CHCLRPAD.OBJ signature.
 0x80074170,0x178,VSync,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBETC.LIB/VSYNC.OBJ signature and matching frame-timing callers.
 0x800742E8,0x98,func_800742E8,sdk_asm,psyq/sdk,
-0x80074380,0xC,func_80074380,sdk_asm,psyq/sdk,
+0x80074380,0xC,ChangeClearRCnt,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/L10.OBJ signature.
 0x80074390,0x30,func_80074390,sdk_asm,psyq/sdk,
 0x800743C0,0x30,func_800743C0,sdk_asm,psyq/sdk,
 0x800743F0,0x30,func_800743F0,sdk_asm,psyq/sdk,
@@ -1512,7 +1512,7 @@ address,size,name,status,module,notes
 0x80082104,0xFC,func_80082104,sdk_asm,psyq/sdk,
 0x80082200,0x28,func_80082200,sdk_asm,psyq/sdk,
 0x80082228,0x24,func_80082228,sdk_asm,psyq/sdk,
-0x80082250,0x24,func_80082250,sdk_asm,psyq/sdk,
+0x80082250,0x24,GPU_cw,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/C73.OBJ signature.
 0x80082274,0x10,func_80082274,sdk_asm,psyq/sdk,
 0x80082290,0x94,func_80082290,sdk_asm,psyq/sdk,
 0x80082324,0x60,IsIdleGPU,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/BREAK.OBJ signature and matching GPU synchronization loops.
