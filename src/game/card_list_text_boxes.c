@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 /* Builds the text box for one card slot of a trade or deck screen. The entry
    is picked out of the list at the scroll offset plus the slot, and the list
@@ -13,7 +14,7 @@ typedef struct {
 } CardEntry;
 
 typedef struct {
-    CardEntry entries[0x2D3];
+    CardEntry entries[CARD_ID_END];
     u8 pad_2D30[0xC];
     s16 first;
     u8 pad_2D3E[9];
