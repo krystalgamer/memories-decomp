@@ -2217,3 +2217,50 @@ evidence produces a separately recorded exact result.
 If a new exact neighbor, original type declaration, or compiler artifact later
 changes one of these conclusions, record that evidence before revisiting any
 terminal function.
+
+## Binding a masked value blocks the single-bit-to-shift fold
+
+When a single-bit test feeds arithmetic, GCC 2.8.1 recognises the bit pattern
+and collapses the whole expression into one shift. Written directly,
+
+    off = ((u32)(id & 0x1F) << 1) + ((u32)((id & 0x100) != 0) << 6);
+
+compiles `((x >> 8) & 1) << 6` down to `(x >> 2) & 0x40`, emitting a single
+`srl`. Retail instead keeps the three-instruction form `andi`, `sltu`, `sll`.
+
+Binding the masked value to its own local before the comparison blocks the
+fold and restores the retail sequence:
+
+    m   = id & 0x100;
+    b   = m != 0;
+    off = ((u32)(id & 0x1F) << 1) + (b << 6);
+
+This was measured on `SD_SEPlay` (0x80048658): the direct form produced `srl`
+1 / `sltu` 0 against the target, and the bound form produced `sltu` 1 / `srl`
+0, with no other opcode counts disturbed.
+
+This refines the earlier rule that binding a local blocks folding only when
+the bound value is computed. Both `id & 0x100` and `(id & 0x100) != 0` are
+computed, but only binding the *mask* helps. Binding the boolean alone leaves
+the mask and the comparison adjacent, which is exactly the pattern the
+single-bit peephole matches. Bind the operand the peephole needs to see, not
+the result you want to keep.
+
+The same reading applies in reverse: an unexpected `srl` where the target has
+`andi`/`sltu` is evidence of a folded single-bit test, not of a genuine shift
+in the original source.
+
+## The 0xFFFF compare reveals the width of the compared variable
+
+`addiu rd, zero, 0xFFFF` and `ori rd, zero, 0xFFFF` disassemble to the same
+decimal immediate but are not the same value: the `addiu` immediate is
+sign-extended, so it materialises -1, while `ori` materialises 0x0000FFFF.
+
+A `u16` variable compared against `0xFFFF` lets GCC narrow the test to
+`(s16)x == -1` and emit the cheaper `addiu`. A target that materialises the
+constant with `ori` therefore had a *wider* variable, where that narrowing is
+invalid. Declaring the value `s32` rather than `u16` is the lever, even when
+the value is loaded with `lhu` and cannot exceed 16 bits.
+
+When ranking candidates, read the mnemonic rather than the printed immediate;
+the decimal shown by objdump is identical in both cases.
