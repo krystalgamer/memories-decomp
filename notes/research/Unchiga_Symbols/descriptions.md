@@ -347,3 +347,14 @@ on the suspects side until proven.)
 | 0x80035DF4 | `DuelEffect_ResetEntryMarkers` | Clears both tracked marker bytes in every one of the 620 effect entries. |
 | 0x80036DBC | `DuelEffect_UpdateObjectLayout` | Copies the channel's coordinate bounds into the linked display object, then positions its repeated choice fields from the entry layout variant, display mode, and selected choice. |
 | 0x8003735C | `DuelEffect_HasActiveEntry` | Scans the object's bounded effect-entry range, stopping at the first inactive marker and returning whether an active entry has a nonzero payload byte. |
+
+## Batch: utility and numeric helpers
+
+| address | name | description |
+|---|---|---|
+| 0x80024704 | `Util_CompareS16` | Compares two signed 16-bit values and returns `-1`, `0`, or `1` for ascending-order sorting. |
+| 0x800356A0 | `Util_CopyWords` | Copies complete 32-bit words backward through a region; a partial trailing length causes one additional full-word copy, matching the routine's word-oriented contract. |
+| 0x80035748 | `Util_FillMemory` | Replicates the low byte of the requested value across 32-bit words and fills backward; a partial trailing length still writes one final full word. |
+| 0x800357E8 | `Text_EncodeDecimalDigits` | Encodes a value into the requested number of decimal digit bytes and replaces unused most-significant zero positions with the `0xA` blank marker. |
+| 0x800358A0 | `Text_EncodeDecimalNoPadding` | Runs the fixed-width decimal encoder, then converts its leading `0xA` blank markers back to zero in the output buffer. |
+| 0x800358FC | `Rand_GetInterval` | Returns the Psy-Q pseudorandom value modulo the caller-supplied interval. |
