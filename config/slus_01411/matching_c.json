@@ -1546,7 +1546,7 @@
       "address": "0x8002EA0C",
       "profile": "gcc_2_8_1_cc_g8_as_g4_split",
       "size": "0x13C",
-      "source": "src/game/func_8002EA0C.c"
+      "source": "src/game/script_update_viewport_tween.c"
     },
     {
       "address": "0x8002EB48",

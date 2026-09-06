@@ -17,7 +17,7 @@ s32 func_8002E3B4(void);
  * 16.16 deltas from the distance to the target over the remaining frame
  * count, then advances both accumulators, publishes their high halves as
  * the camera position, and snaps to the target when the counter runs out. */
-void func_8002EA0C(void) {
+void Script_UpdateViewportTween(void) {
     s32 sx;
     s32 sy;
     s32 n;

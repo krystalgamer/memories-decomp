@@ -81,6 +81,19 @@ groups. The observed `+0x72` test lies two bytes beyond the nominal `0x70`
 slot stride, so its ownership remains unresolved rather than being modeled as
 a normal `DisplaySlot` field.
 
+## Script-driven viewport tween
+
+The duel-event script dispatch table at `D_80090C50` pairs slots `6` and `7`
+for viewport movement. `Script_OpViewportTween` reads target X, target Y, and
+frame count as three little-endian 16-bit operands, then switches the active
+script command to state `7`.
+
+`Script_UpdateViewportTween` derives signed 16.16 per-frame deltas from the
+current `gGraphics_sViewportX/Y` values on the state's first frame. Each update
+advances the two 16.16 accumulators, publishes their high halves as the
+viewport origin, and decrements the frame count. The last update clears the
+active command and snaps both viewport coordinates to the exact targets.
+
 ## Evidence boundary
 
 The counts, strides, links, flags, list heads, callback order, scratchpad

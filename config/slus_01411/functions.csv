@@ -325,8 +325,8 @@ address,size,name,status,module,notes
 0x8002E6B8,0x78,func_8002E6B8,matching_c,game,Pure-C inline refinement matched the full executable.
 0x8002E730,0x1E8,func_8002E730,matching_c,game,Matched from newer collaborator evidence with assembler -G4 and an allocation-only v0 mask pin.
 0x8002E918,0x88,func_8002E918,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x8002E9A0,0x6C,func_8002E9A0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8002EA0C,0x13C,func_8002EA0C,matching_c,game,Exact linked bytes on gcc_2_8_1_cc_g8_as_g4_split from the ygofm reference; the four named accumulator reads and the pinned D_8009B294 read are load-bearing.
+0x8002E9A0,0x6C,Script_OpViewportTween,matching_c,game,Reads viewport target X; target Y; and duration then switches the script dispatcher to state 7; exact linked bytes and relocations.
+0x8002EA0C,0x13C,Script_UpdateViewportTween,matching_c,game,State-7 viewport interpolation; exact linked bytes on gcc_2_8_1_cc_g8_as_g4_split; the four accumulator reads and pinned D_8009B294 read are load-bearing.
 0x8002EB48,0x30,func_8002EB48,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002EB78,0xFC,func_8002EB78,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8002EC74,0x13C,Script_OpSound,matching_c,game,Handles the story-script sound opcode including immediate effects current-command updates and asynchronous completion. Exact collaborator-derived match: aggregate command globals preserve absolute addressing while parser state remains gp-relative.
