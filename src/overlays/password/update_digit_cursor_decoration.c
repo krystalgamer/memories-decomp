@@ -13,7 +13,7 @@ typedef struct {
 extern s32 gPassword_nDigitIndex;
 extern PasswordNode *gPassword_pDigitCursorWidget;
 
-void func_80169F38(PasswordNode *obj)
+void Password_UpdateDigitCursorDecoration(PasswordNode *obj)
 {
     switch (obj->kind) {
     case 0:
