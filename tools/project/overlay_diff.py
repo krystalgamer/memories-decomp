@@ -186,6 +186,11 @@ def opcode_class(word: int) -> tuple[str, int]:
     rendering, so it cannot disagree with the assembler.
     """
 
+    if word == 0:
+        # nop encodes as sll $0,$0,0, so counting it as a shift reports an
+        # unfilled delay slot as an arithmetic difference. They need separate
+        # advice: a nop is scheduling, a shift is shape.
+        return ("nop", 0)
     op = word >> 26
     if op == 0:
         return ("special", word & 0x3F)

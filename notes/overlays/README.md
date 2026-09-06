@@ -691,6 +691,43 @@ inflates the count far beyond the real damage. On `func_8016913C` the two read
 321 and 26 for the same candidate. Read the distance first, then the jump
 count for block placement, and only then the positions.
 
+`nop` is classified separately from `sll` even though it encodes as
+`sll $0,$0,0`. Bucketing them together is wrong in a way that misdirects the
+next pass: a shift difference is a shape error in the source, while a `nop`
+difference is the scheduler failing to fill a delay slot, and those call for
+opposite responses. `func_80168CDC` showed this. Its residual read as four
+extra shifts, which sent a pass looking for a shift the source did not have;
+both sides in fact emit exactly eight real `sll`, and the four extra were
+unfilled delay slots.
+
+Once they are separated the residual usually splits into a cause and a
+symptom. `func_80168CDC` reads as four extra `nop` against three missing
+`addiu` and two missing `addu`, which is not five faults but one: the target
+recomputes an address at each use where the candidate hoists it, and the five
+instructions that go missing are the ones the scheduler would have used to
+fill those four slots. Fix the arithmetic and the `nop`s close on their own.
+Chasing the `nop`s directly cannot work, because there is no way to spell an
+unfilled delay slot in C.
+
+## A matching count under `no_sched1` can be a false positive
+
+Turning off the first scheduling pass changes how many instructions the
+compiler emits, so sweeping it against a near-miss candidate will sometimes
+land exactly on the target's length. That is not the same as being closer, and
+the position count cannot tell the two apart.
+
+`func_80168CDC` is the worked example. Under `gcc_2_8_1_g0_split` it builds
+239 of 240 at opcode distance 9; under `gcc_2_8_1_g0_no_sched1_split` it builds
+240 of 240 at distance 16. The exact count is reached by way of a worse
+instruction mix. Its inventory row had already noticed the trade in prose --
+the profile "closes the count by changing the null path instead" -- but judged
+it genuine, because with only a count there was nothing to weigh the trade
+against. The distance prices it, and reverses the conclusion.
+
+So when a profile sweep closes a count, check the distance before adopting the
+profile. If the distance rose, the profile is fitting the length rather than
+the function, and building on it puts every later measurement on a worse base.
+
 ## Keep a near-miss candidate instead of rebuilding it
 
 Candidate sources live in `tmp/`, which is not tracked, so they disappear when
