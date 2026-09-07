@@ -144,8 +144,14 @@ The complete staged region through the duplicate is therefore `0xF00` bytes.
 The subsequent `func_8003F758` call receives pointer `0x801D3200` and length
 `0xD00`, exactly the contiguous pair of `0x680`-byte state copies. Its final
 argument is the request selector. `func_8003F758` stores it unchanged at
-`D_8009B3DE` through `func_8003F740` while setting the pending flag
-`gMemCard_wDialogFlags` to `0x8000`.
+`D_8009B3DE` through `func_8003F740` while setting the active marker
+`gMemCard_wDialogFlags` to `MEM_CARD_DIALOG_FLAG_ACTIVE`.
+
+The operation handlers add `MEM_CARD_DIALOG_FLAG_RESULT_READY` when their
+result code is ready for display. Once the opening phase has completed,
+`func_8003F454` creates the result object and records that with
+`MEM_CARD_DIALOG_FLAG_RESULT_CREATED`; it clears the ready bit after the
+result animation completes.
 
 The exact callers use four selector values:
 

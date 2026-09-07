@@ -126,9 +126,12 @@ void func_8003F454(void)
         }
         return;
     }
-    if ((f & 0x4080) == 0x4080) {
-        if ((f & 0x40) == 0) {
-            gMemCard_wDialogFlags = f | 0x40;
+    if ((f & (MEM_CARD_DIALOG_FLAG_OPENED |
+              MEM_CARD_DIALOG_FLAG_RESULT_READY)) ==
+        (MEM_CARD_DIALOG_FLAG_OPENED | MEM_CARD_DIALOG_FLAG_RESULT_READY)) {
+        if ((f & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) {
+            gMemCard_wDialogFlags =
+                f | MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
             p = TextBox_Create(
                 D_8009B3EE, D_8009B3C6, 0x20, 0x50, 0x100, 0x30
             );
@@ -155,7 +158,8 @@ void func_8003F454(void)
     b14:
         t = gMemCard_wDialogFlags;
         u = t & 8;
-        gMemCard_wDialogFlags = t & 0xFF7F;
+        gMemCard_wDialogFlags =
+            t & ~MEM_CARD_DIALOG_FLAG_RESULT_READY;
         if (u == 0) {
             return;
         }

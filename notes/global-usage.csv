@@ -2136,9 +2136,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003E80C,func_8003E80C,matching_c,game,C,src/game/duel_effect_state_entry.c,read_write,16,gMemCard_wDialogFlags |= 0x200;
 0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003E854,func_8003E854,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02f054.s,read_write,16,"lhu $v0, %gp_rel(gMemCard_wDialogFlags)($gp) | sh $v0, %gp_rel(gMemCard_wDialogFlags)($gp)"
 0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003EED0,func_8003EED0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02f6d0.s,read_write,16,"lhu $v0, %gp_rel(gMemCard_wDialogFlags)($gp) | sh $v0, %gp_rel(gMemCard_wDialogFlags)($gp)"
-0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003F454,func_8003F454,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,16,f = gMemCard_wDialogFlags; | gMemCard_wDialogFlags & ~MEM_CARD_DIALOG_FLAG_IO_PENDING; | (+11 more)
+0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003F454,func_8003F454,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,16,f = gMemCard_wDialogFlags; | gMemCard_wDialogFlags & ~MEM_CARD_DIALOG_FLAG_IO_PENDING; | (+9 more)
 0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003F70C,func_8003F70C,matching_c,game,C,src/game/data_transfer_request.c,read,16,if (gMemCard_wDialogFlags != 0) {
-0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003F740,func_8003F740,matching_c,game,C,src/game/data_transfer_request.c,write,16,gMemCard_wDialogFlags = 0x8000;
+0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003F740,func_8003F740,matching_c,game,C,src/game/data_transfer_request.c,write,16,gMemCard_wDialogFlags = MEM_CARD_DIALOG_FLAG_ACTIVE;
 0x8009B400,D_8009B400,D_8009B400,0x8002EC74,Script_OpSound,matching_c,game,C,src/game/script_stream_commands.c,read,32,D_8009B404 = D_8009B400[0];
 0x8009B400,D_8009B400,D_8009B400,0x800386B8,func_800386B8,matching_c,game,C,src/game/duel_effect_play_sound_command.c,read,32,D_8009B404[0] = D_8009B400[0];
 0x8009B400,D_8009B400,D_8009B400,0x8003FF08,func_8003FF08,matching_c,game,C,src/game/sound_frontend.c,write,32,D_8009B400 = command;

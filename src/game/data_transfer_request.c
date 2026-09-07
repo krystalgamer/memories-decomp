@@ -20,7 +20,7 @@ int func_8003F70C(void)
 
 void func_8003F740(s32 value)
 {
-    gMemCard_wDialogFlags = 0x8000;
+    gMemCard_wDialogFlags = MEM_CARD_DIALOG_FLAG_ACTIVE;
     D_8009B3DE = value;
     D_8009B3C1 = 0;
 }
