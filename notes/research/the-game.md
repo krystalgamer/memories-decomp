@@ -414,13 +414,17 @@ This classification is verified directly from two byte-identical tables in
 `WA_MRG.MRG` at `0xF92BD4` and `0xFBDBD4`. Each table has seven `0x5B8`-byte
 records containing a draw count, 722 card weights and 18 zero bytes. The draw
 counts are `16, 16, 4, 1, 1, 1, 1`, and every row's weights total 2048.
+The pointer list at `0x8016D3DC` contains seven pool pointers followed by a
+null pointer. Its contents determine the pool count and order, rather than
+a hard-coded seven-iteration loop.
 Cross-checking the nonzero weights against the verified card catalogue gives
 monster ATK+DEF ranges `450-1050`, `1100-1550`, `1600-2050` and `2100-2450`,
 then exactly Dark Hole/Raigeki, the six terrain cards, and 28 equip cards.
 
-Because every row totals 2048, the three one-card pools have exact draw
-probabilities. Dark Hole and Raigeki each have weight 1024, so the magic card
-is a 50/50 choice. Forest, Wasteland, Mountain and Sogen each have weight 344
+For a threshold uniformly distributed over `1..2048`, the three one-card
+pools' per-draw probabilities are exactly their weight fractions. Dark Hole
+and Raigeki each have weight 1024, so the magic card is a 50/50 choice under
+that model. Forest, Wasteland, Mountain and Sogen each have weight 344
 (`43/256`), while Umi and Yami each have weight 336 (`21/128`). In the equip
 row, Dragon Treasure, Magical Labyrinth, Salamandra and Winged Trumpeter each
 have weight 80 (`5/128`); the other 24 equip cards each have weight 72
@@ -444,7 +448,9 @@ No card ID appears in more than one row. Altogether the generator can select
 cards and 28 equips. No trap or ritual has a nonzero starter weight, so the
 other 377 cards cannot be dealt into an unmodified new-game deck.
 
-Matching `NameEntry_BuildStarterDeck` scans only zero-based indices `0`-`719`
+Matching
+[`NameEntry_BuildStarterDeck`](../../src/overlays/password/build_starter_deck.c)
+scans only zero-based indices `0`-`719`
 despite the 722 stored weights, so Dark Magic Ritual (721) and Magician of
 Black Chaos (722) are structurally unreachable here. It tracks each card's
 count and retries a draw that would add a fourth copy. The retail final two
@@ -1886,7 +1892,6 @@ Not verified in code:
   independently corroborated here. The three victory adjustments are now
   code-backed, and the fusion/equip rows have their own controlled trace
   evidence (§6.1);
-* the initial-deck generator's group tables (Data Crystal names them);
 * the whole duelist-id order rests on 92–100 % matches against one
   independent list, and on every unlock opcode sitting in the right win
   dialogue (§7.11);
