@@ -83,6 +83,7 @@ SaveData_SetMaskSeed = 0x8003FE70; // type:func
 Sound_InitFrontend = 0x8003FE80; // type:func
 SD_BGMFadeOut = 0x8003FF34; // type:func
 SD_BGMFadeOutWithStep = 0x8003FF58; // type:func
+SD_KeyOffVoiceSlots = 0x80047EC4; // type:func
 gSaveDataSequence = 0x8009B3B8;
 gMemCard_szSaveFileName = 0x80010384;
 gSaveData_aTransferBuffer = 0x801D3200;

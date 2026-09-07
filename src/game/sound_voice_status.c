@@ -2,7 +2,7 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 
-void func_80047EC4(void)
+void SD_KeyOffVoiceSlots(void)
 {
     s32 count = 0;
     s32 total;

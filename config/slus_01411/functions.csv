@@ -768,7 +768,7 @@ address,size,name,status,module,notes
 0x80047C70,0x54,func_80047C70,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047CC4,0xEC,func_80047CC4,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047DB0,0x114,func_80047DB0,unmatched_asm,game,
-0x80047EC4,0x74,func_80047EC4,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80047EC4,0x74,SD_KeyOffVoiceSlots,matching_c,game,"Keys off the four dedicated SPU voice slots and polls their status for at most 24 iterations; exact full-executable match with gcc_2_8_1_g0."
 0x80047F38,0x74,func_80047F38,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047FAC,0x90,func_80047FAC,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_cc_g0_as_g8_no_split.
 0x8004803C,0x274,func_8004803C,unmatched_asm,game,

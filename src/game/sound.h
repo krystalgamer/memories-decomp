@@ -285,5 +285,6 @@ extern SDSecondaryState *D_8009B458;
 void Sound_InitFrontend(void);
 void SD_BGMFadeOut(void);
 void SD_BGMFadeOutWithStep(s32);
+void SD_KeyOffVoiceSlots(void);
 
 #endif

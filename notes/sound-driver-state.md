@@ -46,6 +46,10 @@ fade-out, establishing the standard BGM attenuation rate as eight units per
 frame. `SD_BGMFadeOutWithStep` uses the same path after converting a positive
 script or campaign-map step to its negative per-frame delta.
 
+`SD_KeyOffVoiceSlots` calls Psy-Q `SpuSetKey` with key-off mode and the mask
+covering the four dedicated voice slots, then polls their four status bytes.
+It stops after they clear or after 24 iterations.
+
 `Sound_InitFrontend` is the game-facing bridge into this lower-level state. It
 sets `gSD_bOutputType` to the unresolved sentinel `-1`, then passes
 `gFile_anLba[4]`, `[5]`, and `[6]` to `func_80046990`. The runtime file table

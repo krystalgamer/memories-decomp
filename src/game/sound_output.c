@@ -13,7 +13,7 @@ extern void func_80046A08(void);
 extern void func_800472A8(s32);
 extern void func_8004763C(void);
 extern void func_80047AD0(u32);
-extern void func_80047EC4(void);
+extern void SD_KeyOffVoiceSlots(void);
 extern void func_800490F0(s16, u8);
 extern void func_80049108(s16, u8);
 extern void func_80049138(s32, s32);
@@ -32,7 +32,7 @@ void func_800473F0(u16 flags, s32 value);
 
 void func_80046F58(void)
 {
-    func_80047EC4();
+    SD_KeyOffVoiceSlots();
     func_8004763C();
     SD_Init();
     func_80049640();
