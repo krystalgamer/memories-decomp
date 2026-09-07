@@ -392,7 +392,65 @@ select:
 ```
 ## main_menu `func_80180390` at 0x80180390
 
-`gcc_2_8_1_g0_split`, 496 instructions against 495, opcode distance 13.
+`gcc_2_8_1_g0_split`, 497 instructions against 495, opcode distance 12.
+The longest common subsequence of mnemonics is 445 of 495 and the first
+instruction is the only agreeing prefix.
+
+The sixth `slti` is a comparison the target computes twice and this build
+computed once, and recovering it needs the copy to land in a local that has
+other definitions.
+
+The visibility test reads
+
+    if ((u32)gMain_bMenuID < 5) {
+        if (i >= 5) goto hide_entry;
+    } else {
+        if (i < 5) goto hide_entry;
+    }
+
+and both arms compare `i` against 5. GCC canonicalises `i >= 5` into the
+negation of `i < 5`, so the two arms hold the same expression and it is
+computed once and the result reused across the join. The target emits
+`slti v0,s2,5` in both arms, off the same register, so the value is not
+carried between them.
+
+Assigning `i` to a local in the second arm and comparing the local defeats the
+reuse, but only if that local is one the function already defines elsewhere.
+A freshly declared local for the purpose is worth nothing at all: it has a
+single definition and a single use, so it is coalesced away and the common
+subexpression comes straight back. `count`, which the menu-wrap block below
+assigns in both of its arms before any read, is not coalescable in the same
+way, and with it the second `slti` appears with no `move` introduced to pay
+for it. Worth one of the distance, and the assignment is provably dead
+because every later read of `count` is dominated by one of that block's two
+assignments.
+
+The general form is worth stating: a copy inserted to break a common
+subexpression has to be a copy the compiler cannot see through, and in this
+compiler that means a variable with other live definitions. This also suggests
+the original reused a small pool of scratch locals across unrelated purposes,
+which is ordinary for the period and is why the reuse is the natural spelling
+rather than a trick.
+
+The addressing form was re-examined at the same time and the struct is
+confirmed correct, which is worth recording because the disassembly argues the
+opposite at first reading. The target holds only the high half of the address,
+`lui s0,0x8018`, and folds the low half and the member offset into each
+displacement as `17819(s0)`, `17820(s0)` and `17821(s0)`. This build
+materialises the whole address once, `lui` then `addiu`, and uses `3(s0)` and
+`4(s0)`, which costs the two surplus `addiu` and looks like the wrong shape.
+Splitting the object into six separate globals, one per byte, does remove
+those two `addiu`, and it raises the common subsequence from 444 to 464
+because the front of the function then lines up. It is still much worse:
+distinct symbols cannot share a `%hi` the way one symbol at several offsets
+can, so GCC re-materialises the high half at every access and the distance
+goes from 13 to 24, eight surplus `lui` filling five load-delay slots the
+target leaves as `nop`. Declaring it as a `u8` or `s8` array indexed by
+constants is byte-identical to the struct. All twenty-nine profiles were
+re-run and only `gcc_2_8_1_cc_g0_as_g8_split` ties the current one; the
+non-split profiles cost twenty-three instructions, so `-msplit-addresses` is
+not the lever either.
+
 
 `D_8009B398` is volatile. The target reads the two pad words at 0x8009B394
 and 0x8009B398 more often than a non-volatile declaration allows: aligning
@@ -641,7 +699,8 @@ s32 func_80180390(void)
                 goto hide_entry;
             }
         } else {
-            if (i < 5) {
+            count = i;
+            if (count < 5) {
                 goto hide_entry;
             }
         }
