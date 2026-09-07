@@ -117,6 +117,7 @@ Names that say what something IS in the game.
 | 0x8003CEB8 | `SaveData_CalcCrc16` | matching C |
 | 0x8003CF14 | `SaveData_WritePrimarySecondaryIntegrity` | matching C |
 | 0x8003CFC8 | `SaveData_WriteTertiaryIntegrity` | matching C |
+| 0x8003D03C | `SaveData_BuildPayload` | matching C |
 | 0x8003D0F4 | `SaveData_ApplyRuntimeState` | matching C |
 | 0x8003D174 | `SaveData_ValidateIntegrity` | matching C |
 | 0x8003D46C | `DuelEffect_CreateChannel` | matching C |
