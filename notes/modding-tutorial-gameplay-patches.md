@@ -191,6 +191,14 @@ ends at `0x801D0521`. Matching `Duel_AwardCard` independently confirms that
 only trunk quantities; they do not set the separate Library-seen flags or add
 cards to the recent-acquisition history.
 
+The shared `CARD_CHEST_QUANTITY_MAX` names that `250` limit. The award
+routine still increments the byte before clamping values at or above `251`;
+it is not a wider integer saturating increment. The working-trunk helper
+`func_80031EE4`, called when returning a card from the deck, instead refuses
+an increment only when the existing count equals the limit. The named
+constant preserves both comparisons, including their different behavior for
+out-of-range input bytes.
+
 The same transcription and repeat-code analysis is retained in
 [`research/gameshark-codes.md`](research/gameshark-codes.md#cards-you-own).
 

@@ -34,8 +34,8 @@ void Duel_AwardCard(s32 card_id)
     u16 *entry;
 
     (*quantity)++;
-    if (*quantity >= 0xFB)
-        *quantity = 0xFA;
+    if (*quantity >= CARD_CHEST_QUANTITY_MAX + 1)
+        *quantity = CARD_CHEST_QUANTITY_MAX;
     i = DUEL_RECENT_CARD_DROP_COUNT - 2;
     entry = destination + (DUEL_RECENT_CARD_DROP_COUNT - 2);
     do {

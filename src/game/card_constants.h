@@ -14,6 +14,7 @@
 #define DUEL_UNIQUE_DECK_CARD_IDS_OFFSET 0x1BD0C
 #define DUEL_CARD_ID_LIST_END 0xFFFF
 #define DECK_CARD_COPY_LIMIT 3
+#define CARD_CHEST_QUANTITY_MAX 250
 /* Retail starter generation ignores the final two weight entries. */
 #define STARTER_DECK_WEIGHT_SCAN_COUNT (CARD_COUNT - 2)
 #define DUEL_DECK_SHUFFLE_SWAP_COUNT (DECK_SIZE * 4)
