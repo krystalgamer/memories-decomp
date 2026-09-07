@@ -63,7 +63,7 @@ segments:
       - [0x4, c, overlays/free_duel/scrollbar]
       - [0x90, c, overlays/free_duel/place_cursor]
       - [0x1B4, c, overlays/free_duel/sparkle]
-      - [0x24C, asm, overlays/free_duel/text_24C]
+      - [0x24C, c, overlays/free_duel/init]
       - [0x99C, c, overlays/free_duel/sparkle_slot]
       - [0x9D4, c, overlays/free_duel/sparkle_update]
       - [0xA9C, c, overlays/free_duel/cursor_tween]

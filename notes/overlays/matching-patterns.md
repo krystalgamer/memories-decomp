@@ -1498,3 +1498,96 @@ Two corollaries worth carrying:
   is exactly what denies it the register form.
 
 Verified by `func_801681A0` in the password module.
+
+## An address passed to a call wants to be an expression, not a pointer local
+
+`FreeDuel_Init` uploads forty duelist portraits through two rectangles that sit
+eight bytes apart. Writing the obvious pointer local
+
+```c
+Rect *clut = &D_800E9D70.clut;
+Rect *img = clut - 1;
+...
+LoadImage2(img, src);
+LoadImage2(img + 1, src + 2304);
+```
+
+produces every instruction of the function correctly and still cannot be made
+to match, because one `lui` lands three positions too late. Dropping the local
+and passing the address itself
+
+```c
+Rect *clut = &D_800E9D70.clut;
+...
+LoadImage2(&D_800E9D70.img, src);
+LoadImage2(&D_800E9D70.clut, src + 2304);
+```
+
+matches exactly.
+
+The reason is where the address is *created*. A pointer local is an ordinary
+assignment, so its `addiu` is emitted with the surrounding statements, before
+the loop. As an argument expression inside the loop it is instead a loop
+invariant, so `loop.c` hoists it and inserts it immediately before
+`NOTE_INSN_LOOP_BEG` — which sits *after* the `for` initialiser and after every
+other invariant already hoisted from that loop. It therefore lands next to the
+hoisted `%hi` instead of several statements ahead of it, and `cse2` afterwards
+rewrites the hoisted `lui`/`addiu` pair as the neighbouring pointer minus eight
+because it already knows that register's value.
+
+Two rules follow, and both generalise:
+
+- **The loop preheader is not the same place as "just before the loop".**
+  Anything the loop optimiser creates — hoisted invariants first, then derived
+  induction variables — is appended at the loop's begin note, so it always
+  follows the source statements that precede the loop. If the target orders a
+  constant *after* something the compiler generated, that constant cannot be a
+  source statement before the loop. In this function `y` had to stop being a
+  variable and become `row * 48 + 256`, so that its initialiser came from
+  strength reduction and could follow the hoisted `%hi`.
+- **A field at offset 0 is addressed differently from its siblings.** GCC folds
+  a zero-offset access on a known-constant address back to the absolute
+  `lui`/`%lo` form and hoists the `lui`, while offsets 2, 4 and 6 go through a
+  base register. So a target that shows a `%hi`-only base for `x` and a pointer
+  for `y`, `w` and `h` is not evidence of two different objects; it is one
+  object written the ordinary way.
+
+Verified by `FreeDuel_Init` in the free_duel module.
+
+## Give the object a struct type when a global load will not move
+
+The same function ends with three sprites and leaves two `nop`s that no
+statement order removes: a load-delay slot after `lhu v0,8(s3)` and another
+after the `lbu` of `gFreeDuel_bReturnFlags`. In both the target fills the slot
+with an access to an unrelated global, and in the candidate the scheduler
+refuses to move it.
+
+Writing the object through casts,
+
+```c
+*(u16 *)(obj + 8) |= 0x28;
+gFreeDuel_pThumbWidget = obj;
+```
+
+leaves both `nop`s. Declaring a struct and using members,
+
+```c
+obj->attr |= 0x28;
+gFreeDuel_pThumbWidget = (u8 *)obj;
+```
+
+removes both, and took the function from opcode distance 2 to 0.
+
+GCC 2.x sets `MEM_IN_STRUCT_P` on a reference reached through an aggregate and
+treats such a reference as unable to conflict with a scalar that is not in a
+structure. The cast spelling produces a bare `MEM` whose base is a pointer of
+unknown provenance, which conflicts with everything, so neither the store to
+`gFreeDuel_pThumbWidget` nor the load of `gFreeDuel_bReturnFlags` may cross the
+neighbouring object access and the slots stay empty.
+
+The practical form of the rule: **an unexplained load-delay `nop` next to a
+global is an aliasing result, not a scheduling one.** Reach for a struct type
+on the pointer before reordering statements, because no amount of reordering
+can grant the compiler permission it does not have.
+
+Verified by `FreeDuel_Init` in the free_duel module.

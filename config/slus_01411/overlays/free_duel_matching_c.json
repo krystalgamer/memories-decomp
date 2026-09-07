@@ -19,6 +19,12 @@
       "source": "src/overlays/free_duel/sparkle.c"
     },
     {
+      "address": "0x8016824C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x750",
+      "source": "src/overlays/free_duel/init.c"
+    },
+    {
       "address": "0x8016899C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x38",

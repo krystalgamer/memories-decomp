@@ -31,6 +31,8 @@ Rules:
   with two differing positions, `CampaignMap_UpdateLocationTransition` at 217
   of 217 with seventy, and `func_8016A37C` at 365 of 365 with five. The first
   two were rebuilt and then matched; the third is still being recovered.
+  `FreeDuel_Init` was recovered the same way and has now matched, so a lost
+  reconstruction is worth rebuilding from the row's own prose every time.
 
 At the time of writing the rows below are the unmatched functions whose claimed
 state is not stored here, in the order worth recovering:
@@ -39,8 +41,6 @@ state is not stored here, in the order worth recovering:
   closest unstored state in the project.
 - `func_80181728`, claimed within four instructions of the target, with the
   residual attributed to four callee-saved hoists.
-- `FreeDuel_Init`, claimed at 446 of 468, with the variable-identity lever
-  already probe-verified.
 - `func_801821DC`, no claimed state.
 
 ## password `func_8016913C` at 0x8016913C

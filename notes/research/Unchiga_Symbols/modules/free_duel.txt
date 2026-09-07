@@ -23,3 +23,11 @@ rand = 0x8008E590; // type:func
 SD_SEPlayFull = 0x8003FEE0; // type:func
 // Matching Free Duel C destroys the completed prompt through this resident helper.
 TextBox_Destroy = 0x80035B7C; // type:func
+// Resident helpers reached only from FreeDuel_Init. Declared here because splat
+// emits undefined symbols only while generated assembly still references them,
+// and converting that function to C removed its last such reference.
+Campaign_TestStoryFlag = 0x8002CCA8; // type:func
+// The forty duelist win/loss records the completed duel is written back to.
+gFreeDuel_aDuelistRecords = 0x801D071C;
+LoadImage2 = 0x80081DE8; // type:func
+IsIdleGPU = 0x80082324; // type:func
