@@ -45,7 +45,25 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 380 instructions against 382, opcode distance 18.
+`gcc_2_8_1_g0_split`, 381 instructions against 382, opcode distance 15.
+
+Two content faults were read off the target's opcode classes rather than off
+its positions, and both are about where a value is written rather than what
+the code says.
+
+The frame countdown is a `u16` local. The target stores the raw decremented
+value with `sh` and then tests it with `sll v0,v0,0x10` followed by `bnez`,
+which is the canonical way to ask whether the low sixteen bits are non-zero.
+An `s32` local tests all thirty-two and needs no shift. Worth one of the
+distance.
+
+The `0x4000` flag is masked into a local before it is tested. Written as
+`flag = (D_8009B3A4[0] & 0x4000) != 0` the compiler recognises a single-bit
+test and folds it to `srl` by fourteen and `andi` by one. The target instead
+has `andi` by `0x4000` followed by `sltu s0,zero,v0`, which is what a
+comparison against a value it cannot see as one bit produces. Naming the
+masked value defeats the fold. Worth two more.
+
 
 The two `NameEntry_AdjustLength` sites always play a sound; they do not test
 its result to decide whether to play one. The target reads
@@ -143,6 +161,7 @@ void func_8016913C(void)
     s32 home;
     s32 delta;
     s32 n;
+    u16 cnt;
     s32 cell;
     s32 col;
     s32 row;
@@ -165,9 +184,9 @@ void func_8016913C(void)
             w->f3C = (delta >= 0) ? (w->f3C + 2) : (w->f3C - 2);
         }
         func_80042A78(w);
-        n = w->f60 - 1;
-        w->f60 = n;
-        if (n != 0) {
+        cnt = w->f60 - 1;
+        w->f60 = cnt;
+        if (cnt != 0) {
             return;
         }
         w->f3C = w->f5E + 16;
@@ -189,7 +208,8 @@ void func_8016913C(void)
         }
         if ((D_8009B3A4[0] & 0x5000) != 0) {
             if (D_8016D401 >= 11) {
-                flag = (D_8009B3A4[0] & 0x4000) != 0;
+                n = D_8009B3A4[0] & 0x4000;
+                flag = (n != 0);
                 D_8016D401 = 11;
                 D_8016D402 = D_8016ABC0[(s8)D_8016D402][flag];
                 D_8016D426 = D_8016D402;
