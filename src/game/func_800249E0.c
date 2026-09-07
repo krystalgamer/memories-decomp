@@ -66,7 +66,7 @@ u8 *func_800249E0(s32 a, s32 b) {
 
     base = D_80177EA4;
     q = (RECT *)(base + idx * 0x10);
-    off = *((u8 *)p->data + 3) * 0x580;
+    off = *((u8 *)p->data + 3) * DUEL_CARD_DATA_BLOCK_SIZE;
     q->w = 0x14;
     q->h = 0x20;
     q->x = (idx % DUEL_FIELD_ROW_SIZE) * 0x14 + 0x380;

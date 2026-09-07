@@ -89,11 +89,11 @@ void Duel_PopulateCombinedDeckData(void)
         w = *p;
         p++;
         if (w != id) {
-            src += 0x580;
+            src += DUEL_CARD_DATA_BLOCK_SIZE;
             goto search;
         }
-        Util_CopyWords(dst, src, 0x580);
-        dst += 0x580;
+        Util_CopyWords(dst, src, DUEL_CARD_DATA_BLOCK_SIZE);
+        dst += DUEL_CARD_DATA_BLOCK_SIZE;
         rec++;
     }
 }

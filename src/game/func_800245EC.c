@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 /* Duel effect sequencer step. Walks a list of s16 counts; each call in
    mode 1 advances the counter, finishing the current entry when it hits
@@ -38,7 +39,7 @@ void func_800245EC(struct Seq *o, int mode) {
     if (mode == 1) {
         p++;
         o->list = p;
-        o->pos += 0x580;
+        o->pos += DUEL_CARD_DATA_BLOCK_SIZE;
     }
     o->counter++;
     if (o->counter == *p) {
