@@ -472,12 +472,23 @@ WA[0xFEB800:0xFEBA00]  SHA-256 59a8f715e25f09a875747f647b700aefa0d78d75951240017
 WA[0xFEBA00:0xFEBA20]  SHA-256 6c98c1e36e44f6b060ef7c9fd751cb651dc3aea83c362fbfa1a627e10894c25a
 ```
 
+The range sizes independently support the palette pairing. Interpreted with
+the adjacent palettes, a `0x10000`-byte 8-bit indexed image contains 65,536
+pixels and uses a 256-colour CLUT, while a `0x8000`-byte 4-bit indexed image
+contains the same 65,536 pixels and uses a 16-colour CLUT. The exact 2:1 byte
+ratio is therefore the one required for equal-pixel-count 8-bit and 4-bit
+images. This supports the format split without treating the tutorial's visual
+labels as code-derived names.
+
 **Confidence:**
 
 - **Confirmed** that all four offsets belong to the fixed 50-sector package
   loaded from WA sector `0x1FA7`.
 - **Confirmed** that the two palette offsets map to the first full row and
   the first 16 entries of the second row in the callback's VRAM upload.
+- **High** that the image and palette spans are paired as equal 65,536-pixel
+  8-bit/256-colour and 4-bit/16-colour data; their sizes and capacities agree,
+  while the texture consumers are not fully mapped.
 - **High** that the two front ranges are respectively the menu background
   and symbol images; their boundaries and loader are exact, while the visual
   labels come from the tutorial.
