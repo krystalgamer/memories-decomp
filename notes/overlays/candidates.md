@@ -45,8 +45,53 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 380 instructions against 382, opcode distance 4,
-and the first 91 instructions agree.
+`gcc_2_8_1_g0_split`, 384 instructions against 382, opcode distance 4
+with the unconditional jump count exact, and the first 91 instructions
+agree.
+
+The select dispatch is now reproduced instruction for instruction, and the
+whole residual is two surplus `lui`, one inverted branch and an `addu` that
+should be a `move`. The distance is still four and the composition behind it is
+much better: the mnemonic-level total falls from ten to six, the longest common
+subsequence rises from 322 to 333, and the unconditional jump count, which is
+the second metric in the ordering, goes from one short to exact.
+
+Two changes did it and neither is worth anything without the other, which is
+why previous cycles kept landing on the chain.
+
+The three arms are reached out of line. `beq` to the `n == 4` arm, `beq` to the
+`n == 6` arm, an unconditional `j` to the default, and the three bodies laid
+out afterwards behind labels. Written that way the eight instructions from the
+first comparison to the jump match the target exactly, including which constant
+lands in each delay slot. On its own that layout is three worse, because it
+inverts the test inside the fourth arm.
+
+The fourth arm's test is a store of the default followed by a test for equality.
+Writing `d = 1;` and then `if (col == 11) { d = -1; } else { gx = 20; }` puts
+the common value where the target puts it and leaves only the exceptional
+assignment in the branch, which is what produces the target's `bne` against the
+literal eleven rather than a `beq` past the arm. Five other spellings of that
+same test were measured under the same layout, including hoisting the default
+with the comparison inverted, swapping the two assignments inside the arm, and
+writing the whole thing with an explicit label and `goto`, and all five leave
+the branch inverted. The combination measures every one of `beq`, `bne`, `lb`,
+`j` and `nop` at exactly the target's count.
+
+The measurement that made this findable was per-mnemonic rather than aggregate.
+Opcode distance folds `beq` with `beqz` and `bne` with `bnez`, because they
+share a primary opcode, so an inverted comparison against a register cancels
+against a compensating comparison against zero and the aggregate cannot see it.
+Reporting the signed count for each mnemonic separately showed that the chain
+layout and the out-of-line layout were wrong in opposite directions on the same
+pair, one at plus one and the other at minus one, with the target between them.
+
+What remains is two surplus `lui` and the branch that goes with them. The
+target keeps a `%hi` base in `s0` across the tail of the function and reads
+`D_8016D42C` through it; this build rematerialises the base at that point and
+again once more. It is the same register-pressure disagreement already recorded
+for the `addu` in the walk loop, where the target keeps the row offset and the
+array base in two registers and this build folds them into one.
+
 
 A fourth came from declaring `D_8016D400` volatile. It is the pad-owned bit
 field the select path sets with `|= 0x40` and `|= 0x80`, and without the
@@ -535,24 +580,34 @@ select:
     n = D_8016AB38[row][col] & 0xF;
     gx = kind;
     if (n == 4) {
-        if (col != 11) {
-            d = 1;
-            gx = 20;
-        } else {
-            d = -1;
-        }
-        func_8003FEE0(NameEntry_AdjustLength(d, 6) != 0 ? 12 : 9);
-        gy = 36;
-    } else if (n == 6) {
-        second = 2;
-        gy = 72;
-        D_8016D400 |= 0x40;
-    } else {
-        kind = 1;
-        gx = (s8)D_8016D401 * 20;
-        gy = ((s8)D_8016D402 * 9) << kind;
-        func_8003FEE0(41);
+        goto arm4;
     }
+    if (n == 6) {
+        goto arm6;
+    }
+    goto arme;
+arm4:
+    d = 1;
+    if (col == 11) {
+        d = -1;
+    } else {
+        gx = 20;
+    }
+    func_8003FEE0(NameEntry_AdjustLength(d, 6) != 0 ? 12 : 9);
+    gy = 36;
+    goto join;
+arm6:
+    second = 2;
+    gy = 72;
+    D_8016D400 |= 0x40;
+    goto join;
+arme:
+    kind = 1;
+    gx = (s8)D_8016D401 * 20;
+    gy = ((s8)D_8016D402 * 9) << kind;
+    func_8003FEE0(41);
+join:
+    ;
     node = TextBox_GetGlyphAt(kind, gx, gy);
     obj = func_80168CDC(kind, node);
     obj[0x6C] = 1;
