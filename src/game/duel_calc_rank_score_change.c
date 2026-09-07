@@ -1,6 +1,5 @@
 #include "../types.h"
-
-#define DUEL_RANK_SCORE_THRESHOLD_COUNT 5
+#include "duel_rank.h"
 
 typedef struct {
     s16 threshold;

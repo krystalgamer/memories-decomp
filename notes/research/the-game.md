@@ -944,6 +944,15 @@ counter supplies the value added to the score. The rows, measured:
 | 8 | +0x08 | 0: +4 · 1–4: 0 · 5–9: −4 · 10–14: −8 · 15+: −12 | **INITIATE FUSION** — successful fusions initiated from the hand |
 | 9 | +0x09 | same as row 8 | **EQUIP MAGIC** — valid equips used |
 
+The matching score calculation uses `DUEL_RANK_RULE_*` names from
+`src/game/duel_rank.h` for these ten threshold-table rows. They are not the
+indices of the sixteen displayed statistics: the raw-stat copy order and
+the score-rule call order remain separate. The same header names the starting
+value as `DUEL_RANK_SCORE_INITIAL` (`50`) and retains
+`DUEL_RANK_SCORE_THRESHOLD_COUNT` (`5`) for each row's pair count.
+`Duel_CalcRankScoreChange` still selects the first strictly greater threshold;
+the named indices do not introduce new range checks or a bounded scan.
+
 The +0 byte records the **way the duel ended**, and the three documented
 adjustments are code-backed rather than only community values. The
 resolution paths write the following byte into the selected winner's

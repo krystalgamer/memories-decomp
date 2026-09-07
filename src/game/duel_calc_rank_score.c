@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_grid.h"
+#include "duel_rank.h"
 
 typedef struct {
     s8 unk0;
@@ -32,11 +33,11 @@ extern s32 D_801D5608[16][DUEL_SIDE_COUNT];
 
 s32 Duel_CalcRankScoreChange(s32, s32);
 
-/* Fills the duel result display: rank letters at +0x34 ('D', '@', 'E',
-   with the middle one 'B' or 'A' when the winner's first byte is +/-40),
-   then both side scores at +0x2C start at 50 and are adjusted through
-   Duel_CalcRankScoreChange for each stat, and the raw stats into
-   D_801D5608[stat][side]. */
+/* Initializes result-message selectors at +0x34; the winner's signed
+   end-reason adjustment selects the middle variant, not a rank letter.
+   Both side scores at +0x2C start at DUEL_RANK_SCORE_INITIAL, then receive
+   the end-reason and threshold-rule adjustments. Raw statistics are also
+   copied into the separate D_801D5608[stat][side] display table. */
 void Duel_CalcRankScore(void) {
     u8 *p;
     RankEntry *e;
@@ -57,35 +58,45 @@ void Duel_CalcRankScore(void) {
         p[0x35] = 0x41;
     }
 
-    *(s32 *)(p + 0x30) = 50;
-    *(s32 *)(p + 0x2C) = 50;
+    *(s32 *)(p + 0x30) = DUEL_RANK_SCORE_INITIAL;
+    *(s32 *)(p + 0x2C) = DUEL_RANK_SCORE_INITIAL;
     for (i = 0; i < DUEL_SIDE_COUNT; i++, e++, q++) {
         *(s32 *)(p + 0x2C + i * 4) += e->unk0;
         v = e->unk18; q[0 * DUEL_SIDE_COUNT] = v;
-        *(s32 *)(p + 0x2C + i * 4) += Duel_CalcRankScoreChange(6, v);
+        *(s32 *)(p + 0x2C + i * 4) +=
+            Duel_CalcRankScoreChange(DUEL_RANK_RULE_CARDS_USED, v);
         v = e->unk14; q[1 * DUEL_SIDE_COUNT] = v;
-        *(s32 *)(p + 0x2C + i * 4) += Duel_CalcRankScoreChange(7, v);
+        *(s32 *)(p + 0x2C + i * 4) +=
+            Duel_CalcRankScoreChange(DUEL_RANK_RULE_REMAINING_LP, v);
         q[2 * DUEL_SIDE_COUNT] = e->unkE;
         q[3 * DUEL_SIDE_COUNT] = e->unkB;
         v = e->unk2; q[4 * DUEL_SIDE_COUNT] = v;
-        *(s32 *)(p + 0x2C + i * 4) += Duel_CalcRankScoreChange(1, v);
+        *(s32 *)(p + 0x2C + i * 4) +=
+            Duel_CalcRankScoreChange(DUEL_RANK_RULE_EFFECTIVE_ATTACKS, v);
         q[5 * DUEL_SIDE_COUNT] = e->unk10;
         q[6 * DUEL_SIDE_COUNT] = e->unkC;
         v = e->unk3; q[7 * DUEL_SIDE_COUNT] = v;
-        *(s32 *)(p + 0x2C + i * 4) += Duel_CalcRankScoreChange(2, v);
+        *(s32 *)(p + 0x2C + i * 4) +=
+            Duel_CalcRankScoreChange(DUEL_RANK_RULE_DEFENSIVE_WINS, v);
         q[8 * DUEL_SIDE_COUNT] = e->unk7;
         v = e->unk4; q[9 * DUEL_SIDE_COUNT] = v;
-        *(s32 *)(p + 0x2C + i * 4) += Duel_CalcRankScoreChange(3, v);
+        *(s32 *)(p + 0x2C + i * 4) +=
+            Duel_CalcRankScoreChange(DUEL_RANK_RULE_FACE_DOWN_PLAYS, v);
         v = e->unk8; q[10 * DUEL_SIDE_COUNT] = v;
-        *(s32 *)(p + 0x2C + i * 4) += Duel_CalcRankScoreChange(8, v);
+        *(s32 *)(p + 0x2C + i * 4) +=
+            Duel_CalcRankScoreChange(DUEL_RANK_RULE_INITIATE_FUSION, v);
         v = e->unk9; q[11 * DUEL_SIDE_COUNT] = v;
-        *(s32 *)(p + 0x2C + i * 4) += Duel_CalcRankScoreChange(9, v);
+        *(s32 *)(p + 0x2C + i * 4) +=
+            Duel_CalcRankScoreChange(DUEL_RANK_RULE_EQUIP_MAGIC, v);
         q[12 * DUEL_SIDE_COUNT] = e->unkA;
         v = e->unk5; q[13 * DUEL_SIDE_COUNT] = v;
-        *(s32 *)(p + 0x2C + i * 4) += Duel_CalcRankScoreChange(4, v);
+        *(s32 *)(p + 0x2C + i * 4) +=
+            Duel_CalcRankScoreChange(DUEL_RANK_RULE_PURE_MAGIC, v);
         v = e->unk6; q[14 * DUEL_SIDE_COUNT] = v;
-        *(s32 *)(p + 0x2C + i * 4) += Duel_CalcRankScoreChange(5, v);
+        *(s32 *)(p + 0x2C + i * 4) +=
+            Duel_CalcRankScoreChange(DUEL_RANK_RULE_TRAPS_TRIGGERED, v);
         v = e->unk1; q[15 * DUEL_SIDE_COUNT] = v;
-        *(s32 *)(p + 0x2C + i * 4) += Duel_CalcRankScoreChange(0, v);
+        *(s32 *)(p + 0x2C + i * 4) +=
+            Duel_CalcRankScoreChange(DUEL_RANK_RULE_TURNS, v);
     }
 }
