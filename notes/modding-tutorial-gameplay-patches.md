@@ -631,9 +631,32 @@ Each SLUS edit changes one unsigned byte before scaling. For example, recovery
 byte `50` (`0x32`) produces `5000`, while damage byte `100` (`0x64`) produces
 `1000`. The combined trap/magic tutorial correctly states the damage scale as
 `x10`, but its final parenthetical prints `10x100`; the listed input and
-result still correspond to `100 * 10 = 1000`. The other tutorial's separate
-WA offsets control presentation data and are not established by these
-resident tables; they remain a separate asset-level investigation.
+result still correspond to `100 * 10 = 1000`.
+
+The other tutorial's WA offsets are separate presentation records inside
+phase 7 of each 235-sector terrain package. For the Normal package, phase 7 is
+WA `0xBA9000-0xBBF000`, loaded at `0x80146000-0x8015C000`. The listed damage
+and recovery values occupy these indexed record members:
+
+| Family | Runtime record base | Stride/count | Value member | Retail values |
+|---|---:|---:|---:|---|
+| Direct damage | `0x8015B3D8` | `0x1E` x 6 | signed `s16` at `+0x1C` | `-50, -100, -200, -500, -1000`, then zero |
+| LP recovery | `0x8015B4BC` | `0x24` x 10 | word at `+0x1C` | `200, 500, 1000, 2000, 5000`, repeated twice |
+
+The damage setup at `0x80155658-0x8015566C` multiplies its selector by
+`0x1E`; `0x80155F70` loads member `+0x1C` with signed `lh`. The recovery setup
+at `0x80156B60-0x80156B78` multiplies its selector by `0x24`;
+`0x80156F78` loads the same member with `lw`. Both values become the first
+argument to the shared overlay routine at `0x8014891C`. This establishes them
+as presentation parameters separate from the resident LP application tables,
+without assigning the common routine a visual-axis or motion name.
+
+All seven phase-7 chunks are byte-identical. Their terrain packages are
+`0x75800` bytes apart, so editing only the tutorial's Normal-package offsets
+changes only that package. Applying the visual change regardless of terrain
+requires the same relative edits in all seven package copies. The recovered
+terrain-package and phase layout is detailed in
+[`mrg-files.md`](mrg-files.md#duel-terrain-packages).
 
 **Confidence:**
 
@@ -646,6 +669,12 @@ resident tables; they remain a separate asset-level investigation.
   value that caps the authoritative LP at `+0x14`.
 - **Confirmed** that recovery and direct damage share the matching
   `func_8001F364` presentation sequence and its two 20-frame waits.
+- **Confirmed** that the tutorial's ten WA values match the retail archive,
+  occupy the indexed phase-7 record members above, and are duplicated across
+  all seven terrain packages.
+- **High confidence** that these members parameterize the visual presentation
+  because both overlay consumers pass them to the same helper; the exact
+  on-screen axis and motion remain untraced.
 
 ## FM2 trap and immunity rewrite
 
