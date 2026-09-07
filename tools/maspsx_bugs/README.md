@@ -4,12 +4,23 @@
 dirty one. Suspected divergences from ASPSX are reported here for verification
 rather than patched.
 
-Only file something here once everything else has been ruled out. Most apparent
-maspsx faults are not faults: the small-extern load-delay `nop` looked like one
-for a long time, was measured against ASPSX, and turned out to be faithful
-emulation with a source-side fix — define the global the translation unit owns
-and build with `--use-comm-section`. See the correction in
-`notes/research/matching-evidence.md`.
+Only file something here once everything else has been ruled out. **So far
+every suspected fault has turned out not to be one**, and both were measured
+against ASPSX and found to agree:
+
+- The **small-extern load-delay `nop`** was faithful emulation. The fix was to
+  define the global the translation unit owns and build with
+  `--use-comm-section`; see `func_80025028`.
+- The **unfilled reorder-mode branch delay slot** was also faithful — ASPSX
+  pads such a branch too. Where retail has a filled slot, *GCC* filled it, so
+  the question is why GCC handed the assembler a reorder-mode branch at all.
+  `func_80012DB4` was filed here, then matched with no tooling change: a
+  ternary instead of an `if`/`else` made GCC fill the slot, and dropping a
+  `volatile` freed a call argument to sink into another. See the corrections in
+  `notes/research/matching-evidence.md`.
+
+The standing lesson is that a difference which looks like the assembler's is
+almost always the shape of the C. Exhaust that first.
 
 ## Layout
 

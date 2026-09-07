@@ -845,6 +845,15 @@ function's unit owns one of the globals it touches.
 
 #### MASPSX does not fill reorder-mode delay slots
 
+> **Corrected: this is not a tooling blocker.** ASPSX pads a reorder-mode
+> branch exactly as MASPSX does; the two were compared on this input and agree.
+> The observations below are accurate and worth keeping as a description of the
+> mechanism, but the conclusion drawn from them was wrong, and the functions
+> listed as blocked by it are not blocked. See
+> *Correction: the reorder-mode slot is a source-shape problem* at the end of
+> this section for what actually reaches it, and `func_80012DB4` for a function
+> that was attributed to this and then matched without any tooling change.
+
 A third build-tooling blocker, alongside the jump tables and the load-delay nop,
 and it is invisible from the C.
 
@@ -1088,6 +1097,32 @@ what every one of those rows recorded. Two nearby reads are width-sensitive in
 the same spirit: `D_8009B0C8` is read once and used for both the store and the
 `& 0xFF` test, and `D_8009B0D8` is written as a word but read back as a byte, so
 that read has to be `*(volatile u8 *)&D_8009B0D8`.
+
+##### Correction: the reorder-mode slot is a source-shape problem
+
+The framing above treats the slot as something the assembler owes us. It is not:
+ASPSX pads a reorder-mode branch just as MASPSX does. Where retail has a filled
+slot, **GCC filled it**, bracketing the pair in `.set noreorder` itself. So the
+question is never "why did the assembler not fill this", it is "why did GCC
+hand the assembler a reorder-mode branch here when retail's GCC did not".
+
+`func_80012DB4` is the worked example, and it was filed as a MASPSX defect
+before being matched with no tooling change at all. Two source facts moved it:
+
+- **Writing the `D_8009AFA3` selection as a ternary** rather than an
+  `if`/`else` makes GCC fill the `beq` slot itself with `li $v0, 1` and emit
+  `.set noreorder`. Same instructions either way; only the mode changes.
+- **Dropping `volatile` from `D_8009AFA3`** removes a scheduling barrier that
+  was stranding the `VSync` argument above the stores, so reorg can take
+  `move $a0, $zero` into the call delay slot instead of padding it.
+
+With both, plus `D_8009B0C1` defined rather than declared for the small-data
+`nop`, the function matches 42 of 42.
+
+The general rule: an unfilled slot in the build is evidence about the *shape*
+of the C, usually a barrier in the wrong place or a branch GCC could not fill
+because the only candidate computed the branch operand. Reach for the source
+before reaching for the assembler.
 
 #### The recorded fix does not work as stated
 
