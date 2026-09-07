@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_transfer.h"
 
 struct FilePositionState {
     char pad24[0x24];
@@ -42,9 +43,9 @@ struct FileTransferState *func_80013B68(s32 a, s32 b, s32 c, s32 d)
 {
     struct FileTransferState *p;
 
-    D_8009B0F4 &= ~0x20;
+    D_8009B0F4 &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
     p = &gFile_SecondaryTransferDescriptor;
-    if (D_8009B0F4 & 0x10) {
+    if (D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) {
         if (D_8009B0F4 & 0x80000) {
             func_80015010();
         }
@@ -55,6 +56,6 @@ struct FileTransferState *func_80013B68(s32 a, s32 b, s32 c, s32 d)
     p->f39 = (u8)d;
     p->f46 = 4;
     p->f2C = 0x80000;
-    D_8009B0F4 |= 0x20;
+    D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return p;
 }

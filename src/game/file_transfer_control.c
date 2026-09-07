@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "file_constants.h"
+#include "file_transfer.h"
 
 extern volatile u16 D_8009B124;
 extern volatile u16 D_8009B112;
@@ -27,10 +28,11 @@ void func_80014A5C(s32 arg0)
         return;
     }
     D_8009B0E8 = 1;
-    if (!(D_8009B0F4 & 0x10) && (D_8009B0F4 & 0x20)) {
+    if (!(D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
+        (D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING)) {
         File_ActivateTransfer();
     }
-    if (D_8009B0F4 & 0x10) {
+    if (D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) {
         if (D_8009B134 != 0 && !(D_8009B134 & 0x40)) {
             D_8009B134 |= 0x40;
             gFile_PrimaryTransferDescriptor[0x46] = 5;
@@ -142,7 +144,7 @@ s32 func_80014C40(u8 *p, u8 *q) {
     s32 t;
 
     if (p == (u8 *)0) {
-        return D_8009B0F4 & 0x20;
+        return D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING;
     }
 
     a = *(s32 *)(p + 0x14);
@@ -179,11 +181,12 @@ s32 func_80014C40(u8 *p, u8 *q) {
         r = D_801D4200_raw;
         *(Blk32 *)(r + 0x20) = *(Blk32 *)p;
         m = *(s32 *)(p + 4);
-        D_8009B0F4 = D_8009B0F4 & ~0x20;
+        D_8009B0F4 =
+            D_8009B0F4 & ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
         v = w | 0x1400000;
         f = func_80014B30_callback;
 
-        if ((D_8009B0F4 & 0x10) != 0) {
+        if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) != 0) {
             if ((D_8009B0F4 & 0x80000) != 0) {
                 func_80015010();
             }
@@ -193,7 +196,8 @@ s32 func_80014C40(u8 *p, u8 *q) {
             gFile_SecondaryTransferDescriptor, v, q, m, t, f, 0, (s32)p
         );
         e = gFile_SecondaryTransferDescriptor;
-        D_8009B0F4 = D_8009B0F4 | 0x20;
+        D_8009B0F4 =
+            D_8009B0F4 | FILE_TRANSFER_STATE_SECONDARY_PENDING;
     }
 
     return (s32)e;

@@ -3,6 +3,9 @@
 
 #include "../types.h"
 
+#define FILE_TRANSFER_STATE_PRIMARY_ACTIVE 0x10
+#define FILE_TRANSFER_STATE_SECONDARY_PENDING 0x20
+
 typedef struct {
     u8 pad_00[0x8];
     u32 value_08;

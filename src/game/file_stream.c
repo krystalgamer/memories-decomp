@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "file_constants.h"
+#include "file_transfer.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
 
@@ -147,13 +148,13 @@ FileTransfer *func_80013A94(s32 file_index, s32 sector_offset)
 {
     FileTransfer *transfer;
 
-    if (D_8009B0F4 & 0x20)
+    if (D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING)
         return 0;
 
     transfer = &gFile_SecondaryTransferDescriptor;
     func_80013940(transfer, file_index & 0xF, sector_offset, 0);
     transfer->state = 0;
     transfer->flags = 0x00100000;
-    D_8009B0F4 |= 0x20;
+    D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return transfer;
 }

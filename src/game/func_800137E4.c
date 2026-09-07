@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_transfer.h"
 
 extern u32 D_8009B0F4;
 extern u32 D_8009B134;
@@ -10,7 +11,7 @@ void func_800137E4(void) {
         if (((D_8009B0F4 & 0x02000030) | D_8009B134) == 0) {
             break;
         }
-        if ((D_8009B0F4 & 0x20) == 0) {
+        if ((D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING) == 0) {
             func_80015038();
         }
         func_80012D4C();

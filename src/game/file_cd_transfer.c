@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libds.h"
+#include "file_transfer.h"
 
 typedef struct {
     s32 value[18];
@@ -121,6 +122,6 @@ void File_ActivateTransfer(void) {
     *(Block32 *)D_801D4200 = *(Block32 *)(D_801D4200 + 32);
     if (gFile_PrimaryTransferDescriptor[70] == 4)
         D_8009B112 |= 1;
-    D_8009B0F4 =
-        *(s32 *)(gFile_PrimaryTransferDescriptor + 44) | 16;
+    D_8009B0F4 = *(s32 *)(gFile_PrimaryTransferDescriptor + 44) |
+                 FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }

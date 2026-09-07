@@ -61,7 +61,8 @@ void Duel_RequestCombinedDeckData(void)
     );
     result->callback_data = gDuel_awUniqueDeckCardIds;
     result->position = (u32)table;
-    D_8009B0F4 = result->status_flags | 0x10;
+    D_8009B0F4 =
+        result->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
 
 void Duel_PopulateCombinedDeckData(void)

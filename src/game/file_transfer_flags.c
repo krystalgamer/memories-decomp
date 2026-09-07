@@ -44,7 +44,8 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
     );
     result = (FileTransferDescriptor *)gFile_PrimaryTransferDescriptor;
 out:
-    D_8009B0F4_signed = result->status_flags | 0x10;
+    D_8009B0F4_signed =
+        result->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
     return result;
 }
 
@@ -78,7 +79,8 @@ void func_80014FA4(void)
 
     if ((D_8009B0F4 & 0x2000030) | D_8009B134) {
         value = 0x80;
-        if ((D_8009B0F4 & 0x10) && (D_8009B0F4 & 0x80000)) {
+        if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
+            (D_8009B0F4 & 0x80000)) {
             func_80015010();
         }
         D_8009B134 = value;
@@ -93,7 +95,8 @@ void func_80015010(void)
 
 void func_80015038(void)
 {
-    if ((D_8009B0F4 & 0x10) && (D_8009B0F4 & 0x80000)) {
+    if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
+        (D_8009B0F4 & 0x80000)) {
         func_80015010();
     }
 }
@@ -110,8 +113,9 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
 {
     FileTransferDescriptor *state;
 
-    D_8009B0F4 &= ~0x20;
-    if ((D_8009B0F4 & 0x10) && (D_8009B0F4 & 0x80000)) {
+    D_8009B0F4 &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
+    if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
+        (D_8009B0F4 & 0x80000)) {
         func_80015010();
     }
 
@@ -119,6 +123,6 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
     File_InitTransferDescriptor(
         (u8 *)state, arg0, arg1, arg2, arg3, arg4, arg5, arg6
     );
-    D_8009B0F4 |= 0x20;
+    D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return state;
 }

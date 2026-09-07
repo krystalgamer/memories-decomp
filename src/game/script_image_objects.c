@@ -105,7 +105,8 @@ void func_8002DF2C(volatile u8 *owner, s32 value)
         func_8002DDFC, 0, 0
     );
     object->callback_data = (void *)(stride - 1);
-    D_8009B0F4 = object->status_flags | 0x10;
+    D_8009B0F4 =
+        object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
 
 void func_8002E00C(ScriptImageEntry *entries)
