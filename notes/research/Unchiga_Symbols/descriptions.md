@@ -730,3 +730,18 @@ entries that were not yet represented in this naming gate.
 | 0x8009B3B8 | `gSaveDataSequence` | Runtime save sequence restored from state offset `+0x404`, incremented in outgoing payloads, and used to select the current two-save record. |
 | 0x801D3200 | `gSaveData_aTransferBuffer` | Shared staging buffer for asynchronous save-data reads and duplicated-state writes. |
 | 0x801D4000 | `gSaveData_aHeaderTemplate` | Template copied into the first `0x200` bytes of each staged memory-card write payload. |
+
+## Batch: save, display, and sound runtime names
+
+| address | name | description |
+|---|---|---|
+| 0x800249E0 | `Duel_SetupCardRecord` | Initializes one duel card record from a combined-deck entry, derives its stats and terrain modifier, and uploads its card image regions. |
+| 0x80039AAC | `DisplayObjectFade_MarkInitialized` | Sets the display-object fade initialization flag and reports whether the record was already initialized. |
+| 0x8003FE70 | `SaveData_SetMaskSeed` | Seeds both words of the private save-integrity mask recurrence with the caller's value. |
+| 0x8003FE80 | `Sound_InitFrontend` | Initializes the game-facing sound runtime from the three sound-file positions and waits for startup work to complete. |
+| 0x8003FF34 | `SD_BGMFadeOut` | Starts the standard fixed-step BGM fade-out paired with frontend screen transitions. |
+| 0x8003FF58 | `SD_BGMFadeOutWithStep` | Starts a BGM fade-out using a caller-supplied positive per-frame step. |
+| 0x80047EC4 | `SD_KeyOffVoiceSlots` | Keys off the four dedicated SPU voice slots and polls briefly for their statuses to clear. |
+| 0x8009AF64 | `gSaveData_dwMaskStateLow` | Low word of the private save-integrity mask recurrence. |
+| 0x8009AF68 | `gSaveData_dwMaskStateHigh` | High word of the private save-integrity mask recurrence. |
+| 0x8009B3FA | `gMemCard_wDialogFlags` | Memory-card dialog and operation state flags spanning open, I/O-pending, result, and closing phases. |
