@@ -574,10 +574,16 @@ initialized data:
 
 The recovery table maps, in order, to Mooyan Curry, Red Medicine, Goblin's
 Secret Remedy, Soul of the Pure, and Dian Keto the Cure Master. Exact
-matching C in `func_800250C8` indexes `gDuel_abLifePointRecoveryUnits`,
-multiplies the selected byte by `DUEL_LIFE_POINT_RECOVERY_SCALE` (`100`), adds
-it to the selected duel-side LP at `+0x14`, and clamps the result to that
-side's maximum LP at `+0x16`.
+matching C in `func_800250C8` subtracts
+`DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID` (`338`) to obtain table indices
+`0`-`4`, indexes `gDuel_abLifePointRecoveryUnits`, and multiplies the selected
+byte by `DUEL_LIFE_POINT_RECOVERY_SCALE` (`100`). During presentation setup,
+`func_80025028(DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID)` detects Bad Reaction to
+Simochi (`688`) and shifts only the effect-object index into `5`-`9`; that
+branch returns before any table lookup. The later application phase still
+uses indices `0`-`4`: its normal branch adds the amount to LP at `+0x14` and
+caps it at the maximum at `+0x16`, while the alternate branch subtracts the
+same amount and clamps it to zero.
 
 The damage table maps to Sparks, Hinotama, Final Flame, Ookazi, and
 Tremendous Fire. Exact matching C in `func_8002525C` subtracts
