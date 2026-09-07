@@ -111,6 +111,16 @@ costs two instructions here rather than the one it should, so the target is
 saving those two somewhere this build still spends them, and the mask is
 being held back until that is found.
 
+Two of the declared locals were dead and neither the emitted code nor any
+metric changed when they were removed, which is worth stating because the
+declaration list is often assumed to be a register-allocation lever in this
+compiler. Nine orders of the remaining sixteen, including reversing them,
+grouping the pointers first and grouping them last, and moving the struct
+pointer to the end, all produce byte-identical output. Declaration order is
+inert here; the allocation that is still wrong is being decided by something
+else. The twenty-nine compiler profiles are closed at this base too: only
+`gcc_2_8_1_cc_g0_as_g8_split` ties the current profile and nothing beats it.
+
 
 The instruction count is exact again and the last cursor-column scale is
 written as a multiplication rather than a shift.
@@ -283,12 +293,10 @@ void func_8016913C(void)
     s32 home;
     s32 delta;
     s32 n;
-    u16 cnt;
     s32 cell;
     s32 col;
     s32 row;
     s32 flag;
-    s32 x;
     s32 y;
     u8 *node;
     u8 *obj;
