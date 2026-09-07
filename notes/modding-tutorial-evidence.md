@@ -304,10 +304,12 @@ names. Both offsets belong to one table:
 | `0x1C6600` | `0x801D5E00` | entry `0x300` / string ID `0x8300` | Start of the card-type labels within the same table |
 
 Exact matching C in `Text_LookupString` indexes this table with
-`string_id - 0x8000`, then combines the selected 16-bit offset with the
-`0x801D0000` text-bank base. Entry zero points to an empty string. Entries
-`0x001`-`0x2D2` correspond to card IDs 1-722, while the 45 entries through
-`0x2FF` all point back to that empty string.
+`string_id - TEXT_GLOBAL_STRING_ID_BASE`, where the base is `0x8000`. It
+combines the selected 16-bit offset with the `0x801D0000` text-bank base.
+`TEXT_BANK_ADDRESS_MASK` (`0xFFFF0000`) retains the bank address's upper
+16 bits in both `Text_LookupString` and `func_800383DC`. Entry zero points
+to an empty string. Entries `0x001`-`0x2D2` correspond to card IDs 1-722,
+while the 45 entries through `0x2FF` all point back to that empty string.
 
 The `0x8300` subrange begins with the 24 card-type labels from `Dragon`
 through `Equip`. IDs `0x8318`-`0x8321` are the ten Guardian Star names.
@@ -325,7 +327,8 @@ their offsets would overwrite adjacent text.
 **Confidence:**
 
 - **Confirmed** that `0x1C6000` maps to `gText_aGlobalOffsets` and that
-  `Text_LookupString` uses it for IDs `0x8000` and above.
+  `Text_LookupString` dispatches IDs `0x8000`-`0xCFFF` through it; IDs
+  `0xD000` and above take the earlier, separate bank path.
 - **Confirmed** that `0x1C6600` is entry `0x300` of that same table rather
   than an independent pointer block.
 - **Confirmed** that `0x1C92CE` is the encoded `Dragon` label selected by

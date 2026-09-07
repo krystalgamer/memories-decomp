@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_constants.h"
 
 struct Obj {
     u8 pad[0x58];
@@ -18,14 +19,16 @@ u32 *func_800383DC(struct Obj *a0) {
     u32 *slot;
 
     if (a2 > 0xCFFF) {
-        v1 = ((u32)D_801C0000 & 0xFFFF0000) + D_801C0000[a2 - 0xD000];
-    } else if (a2 > 0x7FFF) {
-        v1 = ((u32)D_801D5800 & 0xFFFF0000) + D_801D5800[a2 - 0x8000];
+        v1 = ((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) +
+             D_801C0000[a2 - 0xD000];
+    } else if (a2 > (TEXT_GLOBAL_STRING_ID_BASE - 1)) {
+        v1 = ((u32)D_801D5800 & TEXT_BANK_ADDRESS_MASK) +
+             D_801D5800[a2 - TEXT_GLOBAL_STRING_ID_BASE];
     } else {
         if (a2 >= 0x500) {
             a2 -= 0x100;
         }
-        v1 = ((u32)D_801B0000 & 0xFFFF0000) + D_801C0000[a2];
+        v1 = ((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) + D_801C0000[a2];
     }
 
     counter = a3->counter + 1;
