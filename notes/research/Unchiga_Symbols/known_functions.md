@@ -26,6 +26,7 @@ Names that say what something IS in the game.
 | 0x800136E4 | `File_SetPositionTable` | idb2018 |
 | 0x800138F4 | `File_GetPosition` | idb2018 |
 | 0x80013998 | `File_InitTransferDescriptor` | matching C |
+| 0x80013B68 | `File_RequestSecondaryRangeTransfer` | matching C |
 | 0x80014E1C | `File_RequestAsyncTransfer` | matching C |
 | 0x80014EEC | `File_TryRequestAsyncTransfer` | matching C |
 | 0x80015078 | `File_RequestSecondaryAsyncTransfer` | matching C |
