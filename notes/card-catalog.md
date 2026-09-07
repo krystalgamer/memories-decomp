@@ -34,6 +34,15 @@ exclude non-monsters. It then checks intermediate digit bytes against
 both happen to be ten but name different operations. The packed deck-entry
 mask and dimming flag, sprite geometry, and colour values remain separate.
 
+The two Guardian Star fields draw from the same ten-ID domain.
+`Duel_CalcGuardianStarMatchup` names the independent ID cycles locally:
+the first starts at `1` and has six members; the second starts at `7` and
+has four. These cycles are not the card's first and second selection fields.
+For valid IDs, adjacent members produce `+500` or `-500` according to their
+order; all other pairs, including cross-cycle pairs, produce zero.
+Naming the bounds retains the original
+arithmetic, control flow, and handling outside the valid ID domain.
+
 `gText_aGlobalOffsets` is broader than the card catalog. The verified table
 layout is:
 
