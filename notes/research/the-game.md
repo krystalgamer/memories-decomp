@@ -631,6 +631,14 @@ and which cards share a behaviour is data:
 | 12 | all 24 rituals | validates the tributes and performs the summon (§5.7) |
 | 13 | Harpie's Feather Duster | destroys every magic/trap card the opponent has in play |
 
+Within group 2, matching `func_800250C8` subtracts
+`DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID` (`338`) to map the five cards to
+recovery-table indices `0`-`4`. During presentation setup, finding
+`DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID` (`688`) shifts only the effect-object
+index into `5`-`9` and returns before a table lookup. The later application
+phase recomputes `0`-`4`: the normal path adds and caps the recovery amount,
+while the alternate path subtracts it and floors LP at zero.
+
 Within group 9, matching `func_80025D30` identifies Spellbinding Circle with
 `DUEL_SPELLBINDING_CIRCLE_CARD_ID` (`349`) and subtracts one
 `DUEL_STAT_PENALTY_PER_LEVEL` (`500`) from each occupied target's
