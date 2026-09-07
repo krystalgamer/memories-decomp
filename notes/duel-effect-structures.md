@@ -86,6 +86,15 @@ latch, clears the companion state byte, and reports active. A later bit
 `0x40` cancels and clears the state; otherwise the latched index dispatches
 through `D_80090B3C`.
 
+That dispatcher byte is separate from `D_8009B3C1`. In the later callback
+state family, `DUEL_EFFECT_STATE_FLAG_INITIALIZED` (`0x80`) is the shared
+one-shot entry latch. The matching callbacks in `dialog_transition.c`,
+`func_8003DA40.c`, `duel_effect_state_entry.c`, and
+`duel_effect_late_state.c` test and set it before their first-frame object or
+companion-state setup, so subsequent frames skip that initialization. This is
+a state-machine flag, not the unrelated `0x80` bit in
+`DuelEffectEntry.flags_11`.
+
 `DuelEffect_CreateChannel` resets the current dialog choice to `-1`, creates a
 `DuelEffectChannel` through `TextBox_Create` using the low 15 bits of its
 request value, and stamps `field_59` from the shared sequence byte minus one.
