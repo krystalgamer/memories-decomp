@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libcd.h"
+#include "graphics_constants.h"
 
 extern u8 D_8009B060;
 extern u8 D_8009B061;
@@ -76,7 +77,7 @@ s32 func_8005BB7C(s32 arg0) {
         D_800FE0CC = 1;
         func_80085500();
         func_800856A0(0, 0, 0x140, 0);
-        GsInitGraph2(0x140, 0xF0, 4, 1, 0);
+        GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 0);
         rect[0] = 0;
         rect[1] = 0;
         rect[2] = *(s32 *)&D_800FE0D0 * 2;

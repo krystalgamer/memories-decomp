@@ -443,6 +443,14 @@ function assigns CLUT value `0x3D00` to textured quads that tile the complete
 fifth populated row, stored at `SU.MRG+0x30800`—is the full-screen menu
 background palette.
 
+The resident startup request in `func_80013154` and movie entry/exit requests
+in `func_8005B8A0` and `func_8005BB7C` use the same `320 x 240` dimensions
+with `GsInitGraph` or `GsInitGraph2`. `graphics_constants.h` names those
+arguments as `GRAPHICS_DEFAULT_WIDTH` and `GRAPHICS_DEFAULT_HEIGHT`.
+These are requested display dimensions, not buffer-placement coordinates:
+the movie path's `0x100` vertical placement, rectangle geometry, and GTE
+projection values remain separate.
+
 **Confidence:**
 
 - **Confirmed** that the tutorial's decimal offset is `SU.MRG+0x30000` and

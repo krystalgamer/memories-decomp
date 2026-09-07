@@ -4,6 +4,7 @@
 #include "../psyq/libgs.h"
 #include "../psyq/rand.h"
 #include "rand_constants.h"
+#include "graphics_constants.h"
 
 typedef struct {
     s16 v[10];
@@ -62,7 +63,7 @@ void func_80013154(u8 *base)
     register u8 count __asm__("$3");
 
     ResetGraph(0);
-    GsInitGraph(0x140, 0xF0, 4, 1, 0);
+    GsInitGraph(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 0);
     func_800856A0(0, 0, 0x140, 0);
     six = 6;
     buf = base;

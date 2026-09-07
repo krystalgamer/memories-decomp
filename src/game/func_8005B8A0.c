@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libcd.h"
+#include "graphics_constants.h"
 
 extern u8 *D_80010000 __attribute__((section(".data")));
 extern u8 D_8009B060;
@@ -65,7 +66,7 @@ s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
         D_800FE0CC = 1;
         func_80085500();
         func_800856A0(0, 0, 0, 0x100);
-        GsInitGraph2(0x140, 0xF0, 4, 1, 1);
+        GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 1);
     }
     if (src != (u8 *)0) {
         *(Bytes4 *)&D_8009B49C = *(Bytes4 *)src;
