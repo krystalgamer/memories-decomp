@@ -72,17 +72,20 @@ A choice box is an ordinary text box whose string ends in a choice attribute. Th
 
 ### Screen fades (also everywhere)
 
-Every screen change goes through one fade system. The fade-out blocks: the mode loop calls it and nothing else on the screen runs until it lands, about 48 frames at step 8.
+The recorded menu transitions use this shared fade system. `Fade_WaitOut`
+blocks its caller but repeatedly calls `func_80012D4C` until the active flag
+clears. The roughly 48-frame, step-8 result describes those captures, not
+every setup path.
 
 | symbol | address | description |
 |---|---|---|
 | `gFade_State` | 0x800E9EC8 | The fade block: colour, current level, target, flags (0x80 in flight, 0x01 strip mode), step, head, and 30 per-strip brightness bytes. |
 | `Fade_WaitOut` | 0x80015B00 | What mode loops call: starts the fade to black and pumps frames until done. |
-| `Fade_StartOut / Fade_InitOut` | 0x80015904 / 0x800158B8 | Start (strip mode, step 8) and init (head 255, target 0, all strips at the current level). |
+| `Fade_StartOut / Fade_InitOut` | 0x80015904 / 0x800158B8 | Request strip mode/step 8 after initializing head 255, target 0 and all strips at the current level; the final color helper can override the request with non-strip flags and step 12. |
 | `Fade_Update` | 0x80015310 | Per-frame update; latches the RGB and the overlay flag when the target is reached. |
 | `Fade_StepBands` | 0x800151D8 | The mirrored walker: strips `i` and `29-i` share a value, so fade-out closes from the top and bottom edges to the middle and fade-in opens from the middle. |
-| `Fade_DrawOverlay` | 0x800154E4 | Draws 30 semi-transparent black 320×8 boxes, darkness 255 − strip. |
-| `gFade_bOverlayOn` | 0x8009B141 | Keeps the overlay painting solid black between a fade-out and the next screen's fade-in — that is what hides the disc load. |
+| `Fade_DrawOverlay` | 0x800154E4 | Updates before testing the draw gate; submits 30 bands, one full-screen box, or bands plus an extra height-8 tail box according to flags 0x01/0x02. See the local [draw/submission evidence](../../fade-transition-state.md#draw-eligibility-and-box-submission). |
+| `gFade_bOverlayOn` | 0x8009B141 | Separate draw-control byte with a high-bit updater control. Without an active fade, a nonzero value allows drawing only when level != 255; the byte alone does not prove that a black cover remains during disc loading. |
 
 
 ### Story flags (also everywhere)

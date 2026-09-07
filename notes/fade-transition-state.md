@@ -21,7 +21,7 @@ The shared `FadeTransitionState` layout is:
 | `0x06` | `flags` | 1 | byte bit tests/writes for `0x01`, `0x02`, `0x04`, `0x10`, `0x20`, and `0x80` |
 | `0x07` | `step` | 1 | setup values `8` and `0x0C`; `func_800151D8` uses this byte for both band spacing and the scaled head advance |
 | `0x08` | `field_08` | 2 | band-ramp head: `func_800151D8` starts its walk from `(s16)field_08`, then advances the stored halfword; setup initializes it to `0` or `0xFF` |
-| `0x0A` | `band_levels[30]` | 30 | `func_800156B8` fills offsets `0x0A..0x27`; `Fade_DrawOverlay` renders exactly 30 bands |
+| `0x0A` | `band_levels[30]` | 30 | `func_800156B8` fills offsets `0x0A..0x27`; the band loop in `Fade_DrawOverlay` renders those 30 entries |
 
 The end of `band_levels` gives a minimum record size of `0x28`.
 `D_800E9EF0`, the next linker symbol, is exactly `0x28` bytes after
@@ -103,6 +103,74 @@ describe particular menu runs; their eight-unit step and approximate
 each setup path, and which values `D_8009B0D8` takes during them, still need
 caller-specific evidence and human context before assigning fixed timings
 or screen-specific meanings.
+
+## Draw eligibility and box submission
+
+[`Fade_DrawOverlay`](../src/game/fade_draw_overlay.c) calls `func_80015310`
+**before** testing whether to draw. Its condition uses the updated state:
+
+```c
+(flags & 0x80) || (D_8009B141 != 0 && level != 0xFF)
+```
+
+| Active flag `0x80` | `D_8009B141` | `level` | Submits boxes |
+|---|---|---|---|
+| set | any | any | yes |
+| clear | zero | any | no |
+| clear | nonzero | `0xFF` | no |
+| clear | nonzero | not `0xFF` | yes |
+
+Thus a nonzero `D_8009B141` does not unconditionally keep a black overlay on
+screen, nor does `level == 0xFF` unconditionally stop drawing. The untinted
+input color is `0xFF - level` (or the corresponding band level); `0xFF`
+therefore supplies zero color, not a general "fully faded" or "finished"
+sentinel. Completion is based on the current level reaching its target,
+which need not be `0xFF`.
+
+The resident updater at `0x80015310` confirms that this separate control byte
+is not a simple record of fade-in versus fade-out. When an active update
+enters with `level == target_level == 0xFF`, `0x80015384..0x800153C8` clears
+the active flag and calls `func_80015CFC` to write `D_8009B141 = 1`; the
+renderer still submits nothing because the level is `0xFF`. Conversely, an
+equal-zero update entering with flags `0x80` calls `func_80015D0C` and leaves
+the control byte zero. Other zero-target flags can retain it or write
+`0x80` (`0x800153D0..0x80015404`), and the tinted completion path can re-arm
+the active flag (`0x80015414..0x80015478`). The entry check at
+`0x80015340..0x80015358` also preserves a control byte whose high bit is set
+instead of forcing it to `1`. These are target-assembly facts, not claims
+that the still-unmatched updater has become matching C.
+
+When the draw gate passes, the low two flag bits choose these submissions.
+The coordinates below belong to the scratchpad descriptor:
+
+| `flags & 0x03` | Band-loop submissions | Tail submission | Tail depth |
+|---|---|---|---|
+| `0x00` | none | one `320x240` box at `(0,0)` | `4` |
+| `0x01` | 30 `320x8` boxes at `(0,8*i)`, `i=0..29`, depth `4` | none | not applicable |
+| `0x02` | none | one `320x240` box at `(0,0)` | `D_8009B140`, or `0x3F` if zero |
+| `0x03` | the same 30 boxes at depth `4` | one `320x8` box at `(0,240)` | `D_8009B140`, or `0x3F` if zero |
+
+The combined `0x03` path does **not** restore height or y after the band
+loop. Its extra submission is not another full-screen cover. The resident
+`GsSortBoxFill` at `0x80084240` reads the descriptor geometry without writing
+it back (`0x800842B4..0x800842FC`), so the SDK does not restore those fields
+either. It adds the position offsets at `D_800FE0BC`/`D_800FE0BE` to x/y
+while building the packet. Consequently, `(0,240)` here is not by itself
+evidence that the resulting rectangle is invisible or clipped.
+
+The scratchpad `FadeBox.tag` is a `GsBOXF.attribute` word, not a GPU packet
+tag or command byte. The SDK translates `0x60000000` and `0x50000000` into
+draw-mode words `0xE1000240` and `0xE1000220`, respectively
+(`0x80084258..0x80084280`); both produce rectangle command byte `0x62`,
+including semi-transparency, rather than `0x60`
+(`0x8008429C..0x800842AC`). The tinted path changes the attribute and clamps
+each input channel to `max(tint_channel - level, 0)`.
+
+These corrections are high-confidence static conclusions from matching C,
+the resident assembly, and the existing `GsBOXF` layout in
+[`libgs.h`](../src/psyq/libgs.h). Which callers actually combine band mode
+with `0x02`, and what the extra tail box contributes on screen, remain
+runtime questions; no trace result or behavior change is implied here.
 
 ## Shared declarations and migrated users
 

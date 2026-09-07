@@ -9,26 +9,29 @@
    func_8001306C's dispatcher.
 
    The fade state lives in the D_800E9EC8 record: byte 4 is the current
-   fade level (0 = no fade, 0xFF = fully faded, and 0xFF also doubles as
-   the "finished" sentinel), byte 6 is the flag word, bytes 0/1/2 are a
-   per-channel target colour, and bytes 0xA..0x27 are 30 per-band levels.
-   func_80015310 advances that state; this function only renders it.
+   level, byte 6 is the flag byte, bytes 0/1/2 are per-channel tint, and
+   bytes 0xA..0x27 are 30 per-band levels. func_80015310 updates the state
+   before the draw gate: active flag 0x80, or a nonzero D_8009B141 with
+   level != 0xFF. Level 0xFF is not a universal completion sentinel.
 
-   Rendering builds one GPU flat box-fill primitive in PS1 scratchpad RAM
-   at 0x1F8003C0 and submits it through GsSortBoxFill:
+   Rendering reuses a GsBOXF-compatible descriptor in PS1 scratchpad RAM
+   at 0x1F8003C0. GsSortBoxFill builds the GPU packet from it:
 
      - flag bit 0 set: 30 stacked bands, each 320x8, stepping y by 8 for
        240 lines total -- one band per level byte at 0xA+i, each shaded
        0xFF - level. This is the banded/wipe variant.
-     - then (or instead) a single 320x240 box shaded 0xFF - level[4].
-       If flag bit 0x10 is set the tag switches to 0x50000000 and the
+     - without band mode, the tail submits one 320x240 box at (0,0).
+       After the bands it returns unless flag 0x02 is set; that combined
+       path reaches the tail with height 8 and y=240, not a full-screen
+       box. The tail shades by 0xFF - level[4].
+       If flag 0x10 is set the attribute switches to 0x50000000 and the
        three channels are shaded independently by colour[n] - level[4],
        clamped at 0, giving a tinted rather than grey fade.
 
-   The submit "depth" argument is normally 4, but when D_800E9ECE bit 1 is
-   set it comes from D_8009B140 (falling back to 0x3F when that is zero).
+   Bands always submit at depth 4. The tail also uses 4 unless flag 0x02
+   is set, when it uses D_8009B140 (falling back to 0x3F when that is zero).
 
-   Shape notes for anyone re-deriving this: the primitive's 0x04 and 0x08
+   Shape notes for anyone re-deriving this: the descriptor's 0x04 and 0x08
    words are each written whole (x+y and w+h together), while y and h are
    updated as halves, so those two go through casts. The tail reads the
    fade record through D_800E9EC8 and the tint block through the pointer
@@ -36,9 +39,9 @@
    the record address once for the tail instead of reusing $s2 throughout.
    Matches 0/117 with -G8 -msplit-addresses. */
 
-/* GPU box-fill primitive assembled in scratchpad at 0x1F8003C0. */
+/* GsBOXF-compatible descriptor at 0x1F8003C0, not a GPU packet. */
 typedef struct {
-    u32 tag;   /* 0x00  0x60000000 flat box, 0x50000000 tinted box */
+    u32 tag;   /* 0x00  SDK attribute: 0x60000000 default, 0x50000000 tinted */
     u32 xy;    /* 0x04  x = low half, y = high half (stepped per band) */
     u32 wh;    /* 0x08  w = low half (320), h = high half (240, or 8) */
     u8  r;     /* 0x0C */

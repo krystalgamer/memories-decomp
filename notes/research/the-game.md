@@ -87,7 +87,7 @@ Millennium Items are held — is not a variable but **flags in that array**,
 set and tested by the campaign's event script and by the dialogue texts
 themselves (§7.10, §7.11).
 
-**What is shared.** Four systems are used by more than one mode and are worth
+**What is shared.** Five systems are used by more than one mode and are worth
 knowing by name before reading any of them:
 
 * the **card database** — 722 records of stats, type, attribute, level,
@@ -102,7 +102,10 @@ knowing by name before reading any of them:
 * the **disc loader** — everything that is not in the executable comes in as
   sector ranges of `WA_MRG.MRG` through one request function
   [`File_RequestAsyncTransfer`] with a per-screen callback that routes the
-  chunks (§12).
+  chunks (§12);
+* the **screen-fade system** — shared transition state and box rendering,
+  used by menu entry/exit paths rather than stored in a save
+  [`Fade_DrawOverlay` `0x800154E4`, state `0x800E9EC8`; §1.1].
 
 **How the modes connect** (arrows are the exits described in each section):
 
@@ -121,6 +124,48 @@ Every duel, whatever started it, runs in `Main_RunDuel` and returns to whoever
 started it; the 3-D battle animation is a sub-mode the duel enters and leaves.
 The card shop inside the campaign is not a mode of its own: it is a dialogue
 scene whose menu jumps into Build Deck, Save and the "loaded" main menu.
+
+### 1.1 Shared screen fades
+
+Changing menus can include a blocking visual transition, not just a new mode
+number. The matched `Main_RunMenu` and `Main_RunBuildDeckMenu` call
+`func_80015A00` during initialization to start and wait for a transition
+toward level `255`. On exit they call `SD_BGMFadeOut`, then `Fade_WaitOut`
+[`0x80015B00`] before processing the destination. That wait repeatedly calls
+`func_80012D4C` until the fade's active flag clears: the caller waits while
+the frame-update helper continues, rather than freezing the whole console.
+
+**The banded path.** A shared `0x28`-byte record contains current and target
+levels, tint, flags, a configured step, a signed sweep head, and 30 band
+levels [`0x800E9EC8`]. The renderer uses thirty `320x8` boxes; paired bands
+`i` and `29-i` share a level. The historically captured black-menu fades
+close from the top/bottom edges and open from the middle. Matching
+`func_800151D8` establishes the two traversal directions, but the observed
+step `8` and roughly 48-frame duration are not universal: the final color
+helpers can override a banded request with non-band flags and step `12`.
+
+**When the overlay is drawn.** `Fade_DrawOverlay` updates the state first,
+then draws if the active flag is set, or if the separate byte `D_8009B141`
+is nonzero and the current level is not `255`. A nonzero control byte alone
+does not mean a black cover is still being painted during loading. Nor is
+level `255` a universal "finished" marker: completion depends on reaching
+the target, and the active flag can still allow band rendering at that
+level.
+
+**Remaining presentation question.** Non-band mode submits a full-screen
+box. Combining band mode with flag `0x02` instead submits the 30 bands plus
+an extra height-8 box at descriptor position `(0,240)`, not a restored
+full-screen box. The SDK also applies its current position offsets, so
+whether that extra box is visible, and which screens use the combination,
+remain unverified. The [fade-state evidence](../fade-transition-state.md)
+separates matching-C mechanics, updater/SDK assembly, and the older menu
+observations; these are not new emulator measurements.
+
+> **Entered from:** shared menu initialization and departure paths. **Exits
+> to:** the waiting caller when the active flag clears. **Reads/Writes:** no
+> persistent save data in the fade helpers; the transition record, draw
+> controls and color latches are transient. **Uses:** the frame-update
+> helper and the SDK's `GsSortBoxFill` ordering-table submission.
 
 ---
 
