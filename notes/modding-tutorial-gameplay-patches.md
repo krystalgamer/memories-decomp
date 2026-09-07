@@ -367,8 +367,12 @@ its edited effect group to run.
 Matching `AiScript_CalcCardPower` confirms that the AI's explicit power value
 is separate from this table. For monsters, the opcode stores ATK, DEF, or the
 higher of the two according to its scripted mode. For non-monsters in mode
-`0`, it recognizes only card IDs `343`-`347` (Sparks through Tremendous Fire)
-and stores `50, 100, 200, 500, 1000`; every other non-monster receives zero.
+`0`, it recognizes only `DUEL_DIRECT_DAMAGE_FIRST_CARD_ID` (`343`) through
+that ID plus four (Sparks through Tremendous Fire). The matching source names
+their returned values `DUEL_SPARKS_DAMAGE`, `DUEL_HINOTAMA_DAMAGE`,
+`DUEL_FINAL_FLAME_DAMAGE`, `DUEL_OOKAZI_DAMAGE`, and
+`DUEL_TREMENDOUS_FIRE_DAMAGE`: `50, 100, 200, 500, 1000`. Every other
+non-monster receives zero.
 The opcode never reads the effect-group table. Reassigning a card's effect
 group can therefore change what happens on activation without changing this
 AI power value.
@@ -571,15 +575,17 @@ initialized data:
 The recovery table maps, in order, to Mooyan Curry, Red Medicine, Goblin's
 Secret Remedy, Soul of the Pure, and Dian Keto the Cure Master. Exact
 matching C in `func_800250C8` indexes `gDuel_abLifePointRecoveryUnits`,
-multiplies the selected byte by `0x64` (decimal `100`), adds it to the
-selected duel-side LP at `+0x14`, and clamps the result to that side's maximum
-LP at `+0x16`.
+multiplies the selected byte by `DUEL_LIFE_POINT_RECOVERY_SCALE` (`100`), adds
+it to the selected duel-side LP at `+0x14`, and clamps the result to that
+side's maximum LP at `+0x16`.
 
 The damage table maps to Sparks, Hinotama, Final Flame, Ookazi, and
-Tremendous Fire. Exact matching C in `func_8002525C` loads the selected byte
-from `gDuel_abDirectDamageUnits`, multiplies it by `10`, subtracts it from the
-selected LP halfword at `+0x14`, and clamps a negative result to zero. When
-the alternate-state halfword at `0x8009B22A` is zero, the function selects
+Tremendous Fire. Exact matching C in `func_8002525C` subtracts
+`DUEL_DIRECT_DAMAGE_FIRST_CARD_ID` from the current card ID, loads that entry
+from `gDuel_abDirectDamageUnits`, and multiplies it by
+`DUEL_DIRECT_DAMAGE_SCALE` (`10`) before reducing the selected LP halfword at
+`+0x14` and clamping a negative result to zero. When the alternate-state
+halfword at `0x8009B22A` is zero, the function selects
 `D_800E9FF0[playing_side ^ 1]`, the opposing side. Its other application
 branch selects `D_800E9FF0[playing_side]`, the active side, establishing the
 reflected-damage routing without assigning a semantic name to that state
