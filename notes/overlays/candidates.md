@@ -1254,6 +1254,26 @@ ret_m1:
 
 ## password `func_8016A37C` at 0x8016A37C
 
+The residual is three instruction placements, not the four large clusters an
+unaligned position count suggests. Aligning the two streams on mnemonic plus
+immediates, so that register renaming does not block the alignment, splits the
+206 raw disagreements into 74 register renames, 51 masked relocations and 81
+genuine ones, and reduces the genuine ones to three points. The candidate is
+missing a `lui` at word 236, missing another at word 267, and materialises one
+it should not at word 279; everything between those points is the same
+instructions shifted by one position and renamed.
+
+All three concern where a `%hi(0x8017)` lives. At word 236 the target
+rematerialises the high half into `v1` for `D_8016D424 |= 0x4000` even though
+`s1` already holds it from the top of the case, and this candidate reuses `s1`.
+At word 267 the target fills the delay slot of the preceding `bnez` with a
+`lui a2`, speculative work for the branch target, and then reuses `a2` at words
+279 and 319; this candidate has no such register live and pays for a fresh one
+at 279. Seven spellings of the `0x4000` update, covering the compound and
+explicit forms, a volatile cast at the site, a volatile read, a volatile
+declaration, a local copy and reuse of the already-loaded `flags`, all leave the
+agreeing prefix at 236, and the two that change anything are worse.
+
 `gcc_2_8_1_g0_split`, 365 of 365 instructions, 94 differing positions,
 opcode distance 0.
 

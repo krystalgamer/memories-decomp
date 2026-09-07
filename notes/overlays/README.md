@@ -1631,3 +1631,43 @@ instruction order, not about scheduling freedom. Splitting a store off its
 computation kept the following statement's address setup from being hoisted
 into that slot and took the mnemonic subsequence from 492 to 494.
 
+## Classify a difference before counting it, and align before classifying
+
+A raw position count answers "how many words disagree", which is rarely the
+question. Three quite different things produce a disagreement, and only one of
+them is work:
+
+- **Relocation masking.** `candidate_words` zeroes relocated fields, so every
+  `%lo` displacement and every call target reads as `0` in the candidate. These
+  are not differences at all.
+- **Register naming.** Same mnemonic, same immediates, different registers.
+  Real, but only fixable through allocation.
+- **A genuine difference.** A different mnemonic, or the same mnemonic with a
+  different immediate or displacement where neither side is a masked
+  relocation.
+
+Separating the three is mechanical: take the mnemonic, the register list and
+the numeric-literal list of each side; equal literals with different registers
+is naming, a candidate literal of `0` against a non-zero target literal in a
+relocated field is masking, and anything else is genuine. On `func_8016A37C`
+that splits 206 raw disagreements into 74 register renames, 51 masked
+relocations and 81 genuine ones, and the 81 turn out not to be independent at
+all.
+
+The second half matters more. Before reading any of those numbers, align the
+two streams with a sequence matcher keyed on mnemonic plus immediates, so that
+register renaming does not block the alignment. What looked like four immovable
+clusters spanning a hundred words on `func_8016A37C` is, once aligned, three
+insertion points: the candidate is missing a `lui` at word 236 and another at
+word 267, and materialises one it should not at word 279. Everything else in
+those "clusters" is the same instructions shifted by one and renamed. That is a
+three-instruction problem described as a ninety-four-word one, and the two
+descriptions suggest completely different work.
+
+The related trap is in the other direction, and it cost several runs on
+`func_80180390`. Normalising a field so registers can be compared in isolation
+also hides every difference in that field: two `lh` instructions were reported
+as agreeing when they differed in their offsets, because the offsets had been
+normalised away. Read a normalised diff against an unnormalised one before
+concluding a region differs only by register.
+
