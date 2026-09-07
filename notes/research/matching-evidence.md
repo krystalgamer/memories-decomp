@@ -811,6 +811,38 @@ Screen for it the same way you screen for `jtbl_`: a load whose result is stored
 straight to a `%gp_rel` symbol, with a `nop` between them in the target, cannot
 be reproduced.
 
+##### Correction: this is not a maspsx bug, and it does not block anything
+
+Everything measured above is accurate; the diagnosis drawn from it is not.
+maspsx was compared against ASPSX on this input and the two agree, so skipping
+the `nop` before a bare-symbol store is faithful emulation rather than a defect.
+Patching maspsx to insert it is therefore wrong, and the "14 functions,
+28,748 bytes" figure is not a blocked-work inventory.
+
+What the measurement actually shows is that **the input assembly is wrong, not
+the assembler**. The assembler only resolves a small global gp-relative when the
+translation unit *defines* it. Everything under `src/` declares its globals
+`extern`, so the store stays a bare-symbol macro, ASPSX and maspsx alike leave
+the delay unfilled, and the function comes out one instruction short. The retail
+unit defined the global, which is why retail has the `nop`.
+
+Two things follow, and both are reproducible on `func_80025028`:
+
+- Declaring the global in the unit (`u8 D_8009B1B8;` instead of `extern`) makes
+  GCC emit `.comm D_8009B1B8,1`, which lands in `sbss_entries`, so `_uses_gp`
+  returns true and the `nop` appears with an unpatched maspsx.
+- By default maspsx then emits that symbol as a *local* `.sbss` label with
+  `.space`, which allocates storage and relocates against the section, so it
+  will not link at its retail address. `--use-comm-section` makes it emit a real
+  `.comm` instead: the relocation is `R_MIPS_GPREL16` against the symbol, the
+  symbol is `*COM*`, and `c_symbols.ld` overrides it. The linked image has no
+  `.sbss`, `nm` reports `8009b1b8 A D_8009B1B8`, and the executable hash is
+  unchanged.
+
+`gcc_2_8_1_g8_split_comm` is that profile. `func_80025028` matches 40 of 40
+through it, so the pattern is not a blocker at all — it is a signal that the
+function's unit owns one of the globals it touches.
+
 #### MASPSX does not fill reorder-mode delay slots
 
 A third build-tooling blocker, alongside the jump tables and the load-delay nop,
@@ -1098,6 +1130,27 @@ hazard check may consult `.extern` sizes, the addressing rewrite may not. Giving
 `uses_at(next) and nop_at_expansion` and is dead only because
 `nop_at_expansion` is False above ASPSX 2.30 — reaches the nop without touching
 the form gas is left to choose. That is a smaller change than it looked.
+
+##### Correction: no maspsx change is needed, and the link error is the clue
+
+The failure recorded above is real but it was read as an obstacle to a maspsx
+fix, when it is the evidence that no maspsx fix is wanted. Marking *every*
+small `.extern` gp-relative is wrong precisely because a declared size is not
+evidence of reachability from `$gp` — as the three truncated relocations show.
+
+Marking the symbols a unit *defines* is a different claim, and a true one. Define
+the global in the unit and build with `--use-comm-section`
+(`gcc_2_8_1_g8_split_comm`): it enters `sbss_entries`, so the hazard check fires
+and the nop appears, the rewrite converts only that symbol, and the emitted
+`.comm` stays a COMMON that `c_symbols.ld` overrides — no storage, no section,
+and the address still fixed absolutely. `func_80025028` matches 40 of 40 this
+way against an unpatched, pinned maspsx.
+
+The `runtime_gp` truncation cannot recur under this route, because a unit only
+defines the globals it owns and those are by construction the ones the retail
+unit reached through `$gp`. If a defined symbol ever does fall outside ±32 KB of
+`runtime_gp`, the link fails loudly rather than silently mis-addressing, which is
+the safe direction.
 
 #### A third worked example, and it is finished C
 
