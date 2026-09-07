@@ -125,7 +125,7 @@ void func_80018DB4(void) {
         i = HAND_SIZE - 1 - (s8)b;
         a = D_800907CC[i + D_8009B1D5 * HAND_SIZE];
         if ((a & 0x80) != 0) {
-            k = (a & 0x7F) + 0xF;
+            k = (a & 0x7F) + DUEL_CARD_SIDE_RECORD_COUNT;
         } else {
             k = a;
         }

@@ -26,7 +26,7 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     s32 v;
 
     if ((a & 0x80) != 0) {
-        idx = (a & 0x7F) + 0xF;
+        idx = (a & 0x7F) + DUEL_CARD_SIDE_RECORD_COUNT;
     } else {
         idx = a;
     }

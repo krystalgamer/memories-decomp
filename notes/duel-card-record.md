@@ -45,6 +45,14 @@ stride: `Duel_SetupCardRecord` scales an index by 28,
 five-record slices within 15 records per side, and `func_80027DF8` selects
 the two 15-record side blocks.
 
+The encoded field-card slot paths in `func_80028260`,
+`Duel_SetupCardRecord`, `func_80024D34`, and `func_80018DB4` add
+`DUEL_CARD_SIDE_RECORD_COUNT` (`15`) after masking a tagged value with
+`0x7F`. The `0x80` tag test is unchanged, and untagged values are still
+passed through without that normalization or new bounds checks.
+This offset belongs to the 30-entry field-card table. The separate deck-card
+index normalization in `Duel_SetupCardRecord` still uses `DECK_SIZE` (`40`).
+
 Matching `Duel_CheckRitual` scans the five records at indices `5-9` for a
 zero `D_8009B1D5`, or `20-24` for any nonzero value. These are expressed as
 `DUEL_FIELD_ROW_SIZE` and `DUEL_CARD_SIDE_RECORD_COUNT + DUEL_FIELD_ROW_SIZE`,

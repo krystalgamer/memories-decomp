@@ -106,7 +106,7 @@ void func_80024D34(s32 a, s32 b)
     slot = Duel_SetupCardRecord(a, b);
     idx = a;
     if ((idx & 0x80) != 0) {
-        idx = (idx & 0x7F) + 0xF;
+        idx = (idx & 0x7F) + DUEL_CARD_SIDE_RECORD_COUNT;
     }
     tb = D_8015C424;
     blob = (struct Blob *)(tb + idx * sizeof(DuelCardRecord) + 0x48000);
