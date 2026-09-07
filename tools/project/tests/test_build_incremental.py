@@ -326,6 +326,48 @@ class DependencyFingerprintTests(WorkspaceTests):
                     build_incremental.dependency_context(self.root, {"test": profile})
 
 
+class CacheCheckpointTests(WorkspaceTests):
+    def test_first_rebuild_then_fixed_batches_and_forced_remainder(self) -> None:
+        signatures = {"example.o": "signature"}
+        checkpointed = 0
+        checkpoints = []
+
+        with patch.object(build_incremental, "write_cache") as write_cache:
+            self.assertEqual(
+                build_incremental.checkpoint_cache(
+                    self.root,
+                    signatures,
+                    rebuilt=0,
+                    checkpointed=0,
+                    force=True,
+                ),
+                0,
+            )
+            for rebuilt in range(1, 35):
+                previous = checkpointed
+                checkpointed = build_incremental.checkpoint_cache(
+                    self.root,
+                    signatures,
+                    rebuilt=rebuilt,
+                    checkpointed=checkpointed,
+                )
+                if checkpointed != previous:
+                    checkpoints.append(checkpointed)
+
+            self.assertEqual(checkpoints, [1, 17, 33])
+            self.assertEqual(checkpointed, 33)
+            checkpointed = build_incremental.checkpoint_cache(
+                self.root,
+                signatures,
+                rebuilt=34,
+                checkpointed=checkpointed,
+                force=True,
+            )
+
+        self.assertEqual(checkpointed, 34)
+        self.assertEqual(write_cache.call_count, 4)
+
+
 class IncrementalBuildTests(WorkspaceTests):
     def setUp(self) -> None:
         super().setUp()

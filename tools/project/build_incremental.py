@@ -21,6 +21,7 @@ from workspace import WorkspaceError, require_workspace_root, resolve_within
 CACHE_DIRECTORY = "tmp/incremental"
 CACHE_OBJECT_DIRECTORY = f"{CACHE_DIRECTORY}/obj"
 CACHE_PATH = f"{CACHE_DIRECTORY}/cache.json"
+CACHE_CHECKPOINT_INTERVAL = 16
 TARGET_PATH = "game/SLUS_014.11"
 OUTPUT_ELF = "tmp/project-build/SLUS_014.11.elf"
 OUTPUT_MAP = "tmp/project-build/SLUS_014.11.map"
@@ -246,6 +247,26 @@ def write_cache(root: Path, signatures: dict[str, str]) -> None:
         encoding="utf-8",
     )
     temporary.replace(path)
+
+
+def checkpoint_cache(
+    root: Path,
+    signatures: dict[str, str],
+    *,
+    rebuilt: int,
+    checkpointed: int,
+    force: bool = False,
+) -> int:
+    if rebuilt == checkpointed:
+        return checkpointed
+    if (
+        not force
+        and checkpointed != 0
+        and rebuilt - checkpointed < CACHE_CHECKPOINT_INTERVAL
+    ):
+        return checkpointed
+    write_cache(root, signatures)
+    return rebuilt
 
 
 def dependency_context(
@@ -588,6 +609,7 @@ def build_incrementally(root: Path, *, seed: bool) -> Path | None:
     reused = 0
     retained = 0
     materialized = 0
+    checkpointed = 0
     for component in components:
         output = object_path(root, component)
         cached = cached_object_path(root, component)
@@ -613,10 +635,22 @@ def build_incrementally(root: Path, *, seed: bool) -> Path | None:
             )
             copy_object(output, cached)
             cache[component.object_name] = signatures[component.object_name]
-            write_cache(root, cache)
             rebuilt += 1
+            checkpointed = checkpoint_cache(
+                root,
+                cache,
+                rebuilt=rebuilt,
+                checkpointed=checkpointed,
+            )
         objects.append(output)
 
+    checkpoint_cache(
+        root,
+        cache,
+        rebuilt=rebuilt,
+        checkpointed=checkpointed,
+        force=True,
+    )
     output = link(root, objects)
     write_cache(root, signatures)
     print(

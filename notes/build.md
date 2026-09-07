@@ -288,15 +288,22 @@ altered installed objects are restored or rebuilt. The driver reports
 hashes the complete executable. Run builds sequentially; neither cache is a
 concurrent-writer protocol.
 
+The first rebuilt object is checkpointed immediately. Further signature
+updates are written every 16 rebuilt objects, with any remainder flushed before
+the full relink. This avoids rewriting the complete JSON cache after every
+object while preserving immediate recovery for the common one-object edit and
+bounding interrupted bulk builds to at most 15 signatures that must be
+recomputed. Cached object files remain content-validated on the next run.
+
 The optimization targets this local worker loop, not repeated CI benchmarking.
 CI keeps its existing clean acceptance build, a small cache-regression suite,
 and a warm-loop smoke check. It does not upload build/performance artifacts.
 
 Compilation and linking remain sequential. Remaining worker-loop costs include
-repeated full-cache JSON checkpoints after rebuilt objects, prerequisite/tool checks,
-content validation of generated output and cached objects, and the mandatory
-full relink/hash. These are distinct from Make's prerequisite-level parallelism;
-raising `MAKEFLAGS` alone does not parallelize Python's compilation loops.
+prerequisite/tool checks, content validation of generated output and cached
+objects, and the mandatory full relink/hash. These are distinct from Make's
+prerequisite-level parallelism; raising `MAKEFLAGS` alone does not parallelize
+Python's compilation loops.
 
 ## Full repository audit
 
