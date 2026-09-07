@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_card_layout.h"
+#include "duel_package.h"
 #include "file_transfer.h"
 
 extern s32 D_8009B0F4[2];
@@ -57,8 +58,12 @@ void func_80024E58(void) {
     if ((f & 0x40) == 0) {
         if (D_8009B17C[0x1D] != 0) {
             D_8009B220 = f | 0x40;
-            File_RequestAsyncTransfer(0, (u8 *)0, D_8009B364[0] * 0xEB + 0x1791, 0x10,
-                          (u8 *)0, 0, 0x1000280);
+            File_RequestAsyncTransfer(
+                0, (u8 *)0,
+                D_8009B364[0] * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT +
+                    DUEL_TERRAIN_EFFECT_DATA_FIRST_SECTOR,
+                DUEL_TERRAIN_EFFECT_DATA_SECTOR_COUNT,
+                (u8 *)0, 0, 0x1000280);
         }
         return;
     }
