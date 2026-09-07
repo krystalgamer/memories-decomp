@@ -4191,3 +4191,69 @@ and a single function routinely needs three different answers. If no single
 C. And do not spend a rotation on a target whose `%hi` is held in a callee-saved
 register and reused as a base: that is the separate, still-unmatchable class
 recorded under "Screen for split addressing before starting".
+
+## 2026-09-07: `func_80039794` — load macros select the useful invariant
+
+The existing stored candidate reproduced 103/104 instructions and opcode
+distance 1 with the pinned CI compiler and
+`gcc_2_8_1_g8_split_no_strength_reduce`. Its historical positional-opcode count
+of 7 did not reproduce as a direct encoding-class positional comparison: that
+count is 84, and 95 complete instruction words differ with relocations resolved.
+The shifted instruction stream makes the latter counts poor measures of the
+small underlying residual; all comparisons in this cycle also retained full
+resolved diffs.
+
+Four cumulative source variants reached the exact 104-instruction function.
+No compiler flags, profiles, shared headers or volatile qualifiers changed.
+
+| Source discriminator | Instructions | Opcode distance | Resolved differing words |
+| --- | --- | --- | --- |
+| Stored baseline | 103/104 | 1 | 95 |
+| Absolute scalar loop-limit access | 103/104 | 1 | 59 |
+| Also use absolute scalar pad access | 104/104 | 0 | 8 |
+| Store the reset value before initializing the counter | 104/104 | 0 | 7 |
+| Explicit reset/table/cursor preheader order | 104/104 | 0 | 0 |
+
+**Hide the loop-limit high-half inside the load macro, not a pinned register.**
+The candidate declared `D_8009B0C1` as an array and read element zero. GCC
+therefore exposed its high-half as a loop invariant and allocated it to `$s5`;
+the table address at `D_801D9000` was instead materialized within the loop.
+Declaring the same byte as a scalar with `section(".data")` avoids a small-data
+access while preserving the absolute load macro. Its address is no longer a
+separate loop invariant, so the table base becomes the useful `$s5` hoist.
+Both declarations read exactly the same byte; neither defines or moves data.
+
+**The pad-read `nop` is another consequence of that distinction.**
+`gInput_wPad1Pressed[0]` exposed a high-half that GCC moved into the preceding
+branch delay slot, where retail has a `nop`. An absolute scalar `u16` declaration
+with the same section attribute keeps the address inside the halfword-load
+macro. That preserves the delay slot and restores instruction 104, with the
+target's `lui`/`lhu` register pair. This is the same original halfword read,
+not a change to the controller mask or input semantics.
+
+**Ordering two assignments chooses the already-held minus-one register.**
+Writing `cnt = -1` before the global reset let CSE use `$s0` for the halfword
+store. Writing the global reset first makes it use the held `$s4`; scheduling
+still puts the counter initialization into the earlier branch delay slot.
+Only that store register changes.
+
+**Explicit preheader values work after removing the competing invariant.**
+The older candidate's explicit table/minus-one attempts had lost while the
+loop-limit address still competed for hoisting. On the corrected base,
+initializing `reset_value = -1`, then `table = D_801D9000`, then the second
+cursor reproduces the seven remaining prologue positions. The two cursors,
+0x64-byte stride, out-of-line reset arm, calls and loop bodies remain intact.
+
+The terminal post-policy result was recorded with `record_external_attempt.py`
+and promoted through `integrate_verified_match.py`. All address-based callees
+were checked against the current inventory. The promoted source is
+`src/game/func_80039794.c`; its only promotion adjustment is the relative
+`src/types.h` include. The stored candidate entry was removed.
+
+`MAKEFLAGS=-j2 make clean` followed by `MAKEFLAGS=-j2 make match` passed without
+excluding any matching entries. The complete rebuilt executable has SHA-256
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
+Sources, source hashes, profile selections, compiler/MASPSX assembly, relocation
+records, resolved binaries/diffs and canonical logs are retained under
+`tmp/copilot-fixer/attempts/func-80039794-cycle1/`; the original note is preserved
+there as `baseline-note.md`.
