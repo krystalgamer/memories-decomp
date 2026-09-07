@@ -8,9 +8,12 @@
 GENERATED from config/symbol_addrs.txt -- regenerate with tools/gen_research_notes.py
 after any naming change. Source tags: `idb2018` = idb_raymond_2018 import, `ramMap` =
 datacrystal RAM map, `dotr` = DotR-style naming, `psyq` = original SDK symbol
-(libsyms signature match), `fleet` = behavior-derived by this project. Evidence: NAMING.md.
+identified by signatures or locally corroborated API behavior, `fleet` =
+behavior-derived by this project. Evidence: NAMING.md.
 
-1096 named functions (160 game-meaningful, 669 sdk, 267 mechanical).
+The roster is divided into game-meaningful, SDK/library, mechanical, and
+module sections. Derive current totals from the rows rather than maintaining a
+duplicate snapshot here.
 
 ## Game-meaningful names
 
@@ -167,7 +170,6 @@ Names that say what something IS in the game.
 | 0x80075B20 | `DeliverEvent` | idb2018 |
 | 0x80075BE0 | `SpuSetReverb` | idb2018 |
 | 0x80076D10 | `WaitEvent` | idb2018 |
-| 0x8007E350 | `PadChkVsync` | idb2018 |
 | 0x8007E600 | `CdIntToPos_8007E600` | idb2018 |
 | 0x8007E710 | `CdPosToInt_8007E710` | idb2018 |
 | 0x8007E8D0 | `SetDumpFnt` | idb2018 |
@@ -461,12 +463,17 @@ Original Sony PsyQ names -- meaningful if you know the SDK.
 | 0x8007E288 | `ER_active` | psyq |
 | 0x8007E298 | `ER_clear` | psyq |
 | 0x8007E2F0 | `DS_sync` | psyq |
+| 0x8007E350 | `CdFlush` | psyq |
 | 0x8007E390 | `DsFlush` | psyq |
 | 0x8007E3D0 | `CdGetSector` | psyq |
 | 0x8007E3F0 | `CD_getsector` | psyq |
+| 0x8007E4F0 | `CdGetSector2` | psyq |
 | 0x8007E510 | `CD_getsector2` | psyq |
 | 0x8007E790 | `DsLastPos` | psyq |
-| 0x8007E7F0 | `DsControl` | psyq |
+| 0x8007E7F0 | `CdControlB` | psyq |
+| 0x8007E860 | `CdReadyCallback` | psyq |
+| 0x8007E880 | `CdSyncCallback` | psyq |
+| 0x8007E8A0 | `CdDataCallback_8007E8A0` | psyq |
 | 0x8007F350 | `ResetGraph` | psyq |
 | 0x8007F4C4 | `SetGraphDebug` | psyq |
 | 0x8007F520 | `SetGraphQueue` | psyq |
