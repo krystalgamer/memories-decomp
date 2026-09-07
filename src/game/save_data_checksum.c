@@ -24,7 +24,7 @@ u32 SaveData_NextMaskWord(void)
 }
 
 /* CRC-16/XMODEM (poly 0x1021, zero-initialized) over data[0..len). */
-u32 func_8003CEB8(u8 *data, s32 len)
+u32 SaveData_CalcCrc16(u8 *data, s32 len)
 {
     u16 crc = 0;
     s32 i;
@@ -50,7 +50,7 @@ u32 func_8003CEB8(u8 *data, s32 len)
 
 void func_8003CF14(u8 *data)
 {
-    s32 value = func_8003CEB8(data, SAVE_DATA_PRIMARY_LENGTH);
+    s32 value = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH);
     u32 seed = value & 0xFFFF;
     s32 *output = (s32 *)(data + SAVE_DATA_PRIMARY_MASK_LAST_OFFSET);
     s32 i = SAVE_DATA_PRIMARY_MASK_WORD_COUNT;
@@ -66,7 +66,7 @@ void func_8003CF14(u8 *data)
         output--;
     } while (i != 0);
 
-    value = func_8003CEB8(
+    value = SaveData_CalcCrc16(
         data + SAVE_DATA_SECONDARY_OFFSET,
         SAVE_DATA_SECONDARY_LENGTH
     );

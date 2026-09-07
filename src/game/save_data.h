@@ -35,4 +35,7 @@
 #define SAVE_DATA_TERTIARY_MASK_LAST_OFFSET 0x624
 #define SAVE_DATA_TERTIARY_MASK_WORD_COUNT 8
 
+u32 SaveData_NextMaskWord(void);
+u32 SaveData_CalcCrc16(u8 *, s32);
+
 #endif

@@ -72,6 +72,7 @@ File_SetPositionTable = 0x800136E4; // type:func
 File_GetPosition = 0x800138F4; // type:func
 File_RequestSecondaryRangeTransfer = 0x80013B68; // type:func
 Duel_SetupCardRecord = 0x800249E0; // type:func
+SaveData_CalcCrc16 = 0x8003CEB8; // type:func
 Duel_CheckEquip = 0x80019A08; // type:func
 Duel_CheckFusion = 0x80019A60; // type:func
 Duel_CalcGuardianStarBonus = 0x8001EE44; // type:func

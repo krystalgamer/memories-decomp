@@ -172,7 +172,7 @@ populated.
 ## Save integrity and successful-load application
 
 The `0x680`-byte state contains three independently protected regions.
-`func_8003CEB8` computes CRC-16/XMODEM with polynomial `0x1021` and a zero
+`SaveData_CalcCrc16` computes CRC-16/XMODEM with polynomial `0x1021` and a zero
 initial value. The writers duplicate each 16-bit CRC into two adjacent
 halfwords, copy that CRC into both halves of the two-word mask state, and fill
 the region's mask words by repeatedly calling `SaveData_NextMaskWord`:
