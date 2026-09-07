@@ -1671,3 +1671,35 @@ as agreeing when they differed in their offsets, because the offsets had been
 normalised away. Read a normalised diff against an unnormalised one before
 concluding a region differs only by register.
 
+## A shared `%hi` in the target does not mean a shared symbol
+
+When the target reaches two nearby globals through the same register, it is
+tempting to read that as one object accessed at two offsets, and to group the
+declarations into a struct or an array. That inference has now been tested twice
+on `func_8016913C` and is wrong both times.
+
+The first case looked conclusive. The target stores to 0x8016D401 and loads from
+0x8016D402 through `a0` at displacements -11263 and -11262, one byte apart,
+which is exactly what an array at two indices produces. Declaring them as one
+struct or one array, across four variants covering signed and unsigned element
+types, moved the opcode distance from 2 to 22 and the agreeing prefix from 91 to
+57. Reading the surrounding instructions rather than the two in isolation shows
+why: the two `a0` values come from different `lui` instructions either side of a
+reload, so each byte carries its own high half and the shared register name is a
+coincidence of allocation.
+
+The second case is subtler and the same answer. Three pad globals at 0x8009B394,
+0x8009B398 and 0x8009B3A4 share a high half, because all three have a `%lo` with
+the top bit set and therefore the same `%hi` of 0x800a. Grouping them into one
+`u16` array, one `u32` array or one struct with named fields all make things
+worse, by four on the distance and four on the instruction count, because GCC
+emits `%hi(sym)` per symbol and a grouped declaration changes which symbol every
+access names.
+
+The rule that survives is narrower than it first appears. Two accesses sharing a
+`lui` is evidence about register allocation and about the page the addresses lie
+in, not about the declaration. Before grouping, check whether the shared register
+is written more than once in the region; if it is, the sharing is allocation and
+the symbols are separate. Grouping is worth trying when it buys aliasing, as
+`MEM_IN_STRUCT_P` does, but not on the strength of a shared base register alone.
+
