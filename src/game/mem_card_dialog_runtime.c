@@ -112,7 +112,7 @@ void func_8003F454(void)
     s32 c;
 
     f = D_8009B3FA;
-    if ((f & 0x800) != 0) {
+    if ((f & MEM_CARD_DIALOG_FLAG_CLOSING) != 0) {
         if (D_8009B3D8 == (u8 *)0) {
             D_8009B3FA = 0;
             return;
@@ -178,7 +178,7 @@ void func_8003F454(void)
         }
         return;
     }
-    if ((f & 0x1000) != 0) {
+    if ((f & MEM_CARD_DIALOG_FLAG_IO_PENDING) != 0) {
         c = MemCardSync(
             1, (long *)&D_8009B3F0, (long *)&D_8009B3F4
         );
@@ -186,14 +186,14 @@ void func_8003F454(void)
         if (c != 1) {
             return;
         }
-        D_8009B3FA = D_8009B3FA & 0xEFFF;
+        D_8009B3FA = D_8009B3FA & ~MEM_CARD_DIALOG_FLAG_IO_PENDING;
     }
     D_80090F9C[D_8009B3DE]();
     if (D_8009B3FA != 0) {
         return;
     }
 b25:
-    D_8009B3FA = D_8009B3FA | 0x800;
+    D_8009B3FA = D_8009B3FA | MEM_CARD_DIALOG_FLAG_CLOSING;
     *(s16 *)(D_8009B3D8 + 0x60) = 0x400;
     MemCardStop();
 }
