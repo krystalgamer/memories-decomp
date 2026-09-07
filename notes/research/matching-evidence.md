@@ -4342,3 +4342,58 @@ seven positions were all register names at identical positions - an *allocation*
 disagreement, which register constraints reach. That is why it was chosen ahead
 of `func_80023144`, `func_80012E5C` and `func_8002FD10`, whose residuals are
 instructions in different *positions*, which they do not.
+
+## `func_80057AF4`: the variable-count diagnostic, in both directions
+
+Sixty-two differing positions, every one a register name at the right position,
+closed to zero. The instrument that made it tractable is the classification
+itself: a residual whose differing positions all carry the *same mnemonic* on
+both sides is an allocation disagreement and is reachable by constraining
+registers; one whose positions carry *different* mnemonics is a placement
+disagreement and is not. `tmp/harness/triage.py` applies that test to every
+stored candidate, and it is what selected this function.
+
+**Pin one side of a swapped pair, not both.** The slot index and the slot
+pointer were `$s1`/`$s2` the other way round. Pinning only the pointer swaps the
+pair and takes 62 to 27; pinning the index as well costs 175. Constrain one
+side and let the allocator place the other.
+
+**A pin makes GCC compute into the pinned register.** With the slot pointer
+pinned, GCC built the whole `index * 0xE20` chain directly into `$s1`, where
+retail computes it in a temporary and only then forms the pointer. The same
+happened one level up with the table base. Naming each - `off` pinned to `$2`,
+a block-scoped `tbl` pinned to `$3` - restores the temporaries: 27 to 22 to 18.
+The unpinned naming is neutral in both cases, so the register is the lever and
+the name only creates somewhere to put it. **This is the standing cost of
+pinning a destination: everything that feeds it tends to collapse into it.**
+
+**Count the hard registers retail uses for a value, and give the source that
+many variables.** Two applications, in opposite directions:
+
+- Retail holds the map entry in `$a0` in one walk and `$v1` in another. One
+  function-scope variable is one pseudo and therefore one hard register, so it
+  cannot do that. Declaring `entry` separately inside each `switch` case takes
+  18 to 6 (with the bit-index pin, which is worth another 4 on its own).
+- The last four positions were retail computing the map address *in place*,
+  `addu a0,s1,a0`, reusing the register that already held the running offset,
+  where the candidate allocated a fresh `$v0`. Spelling the subscript as an
+  accumulating offset in a single pinned variable -
+  `o = i * 2; o += m->current * 116; entry = *(u16 *)((u8 *)m + o + 712);` with
+  `o` pinned to `$4` - reproduces the in-place accumulation exactly. **203 of
+  203, zero differences.**
+
+The unpinned form of that last step is 4 and the pointer-typed form 2, so all
+three parts matter: one variable, the right register, and integer rather than
+pointer accumulation. Taking `&m->map[m->current][i]` as a pinned pointer
+instead costs 146, because the row stride then folds differently.
+
+All five pins are load-bearing; removing them one at a time costs 53, 9, 4, 12
+and 4 positions.
+
+**Together with `func_80045C98` this is a matched pair of opposite cases.**
+There, two locals spelt as separate stages of one chain had to become one
+variable because retail allocated them to one register. Here, one local used in
+two independent walks had to become two, and an anonymous temporary had to be
+folded into the variable that already held the running value. The rule is the
+same in both directions and it is about counting registers, not about
+preferring more or fewer locals.
