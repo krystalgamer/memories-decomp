@@ -1,6 +1,9 @@
 # Known function names (SLUS_014.11)
 
-> **External reference — mirror of Unchiga/ygofm-decomp.** This file is copied verbatim from that repository's `notes/research/` (the matching decomp the research was done in). Paths, tools and rules it names (`config/symbol_addrs.txt`, `tools/gen_symbols.py`, `tools/setup.sh`, `config/modules/`, `tools/gen_research_notes.py`, ...) are that project's, not this one's. The addresses and evidence are the claim; the names follow this repo's `notes/naming-conventions.md` (`Subsystem_VerbObject` / `gSubsystem_Role`) since 2026-09-03 and are ready for `config/slus_01411/symbols.txt` and `notes/semantic-symbol-map.csv` after the usual per-address review.
+> **External-reference provenance.** This file originated in
+> Unchiga/ygofm-decomp and retains its upstream evidence. Memories-decomp may
+> add local reconciliations and corrections; upstream-only paths, tools, and
+> rules are not this repository's policy. See [`README.md`](README.md).
 
 GENERATED from config/symbol_addrs.txt -- regenerate with tools/gen_research_notes.py
 after any naming change. Source tags: `idb2018` = idb_raymond_2018 import, `ramMap` =
