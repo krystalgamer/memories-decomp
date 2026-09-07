@@ -685,3 +685,18 @@ entries that were not yet represented in this naming gate.
 | 0x8002D7CC | `Main_RunTrade` | Main-mode tick for Trade and the shared two-save memory-card flow used by 2P Duel, including its fade/setup and loaded-screen dispatch lifecycle. |
 | 0x8009B39C | `gInput_bRepeatDelay` | Held-input timer threshold before a button produces its first automatic repeat event. |
 | 0x8009B3A2 | `gInput_bRepeatInterval` | Held-input timer reload value that controls the interval between subsequent automatic repeat events. |
+
+## Batch: GTE matrix and register interfaces
+
+| address | name | description |
+|---|---|---|
+| 0x80086F60 | `MulMatrix0` | Composes two rotation matrices through the GTE and writes the resulting matrix through the third argument. |
+| 0x80087320 | `ReadRotMatrix` | Reads GTE control registers 0 through 7 into a `MATRIX`, recovering both its rotation block and translation vector. |
+| 0x80087480 | `MulMatrix2` | Uses the same matrix-composition body as `MulMatrix`, but writes the product through the second argument. |
+| 0x80087590 | `ApplyMatrix` | Applies a matrix to a `VECTOR` and stores the three `MAC1`-`MAC3` results as 32-bit components. |
+| 0x800875E0 | `ApplyMatrixSV` | Applies a matrix and stores the three `IR1`-`IR3` results as signed 16-bit `SVECTOR` components. |
+| 0x80087640 | `TransMatrix` | Copies a three-long vector into the translation fields of a `MATRIX`. |
+| 0x800877E0 | `SetLightMatrix` | Loads a matrix-shaped block into GTE light-matrix control registers 8 through 12. |
+| 0x80087810 | `SetColorMatrix` | Loads a matrix-shaped block into GTE colour-matrix control registers 16 through 20. |
+| 0x80087840 | `SetTransMatrix` | Loads a `MATRIX` translation vector into GTE control registers 5 through 7. |
+| 0x80087860 | `ReadGeomScreen` | Returns GTE control register 26, the projection-plane distance written by `SetGeomScreen`. |
