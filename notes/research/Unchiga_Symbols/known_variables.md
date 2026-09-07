@@ -72,6 +72,7 @@ Names that say what something IS in the game.
 | 0x8009B3A6 | `gInput_wPad2Held` | matching C |
 | 0x8009B3A8 | `gInput_dwPendingHeld` | matching C |
 | 0x8009B3AC | `gInput_wPad1HeldBackup` | matching C |
+| 0x8009B3FA | `gMemCard_wDialogFlags` | matching C |
 | 0x8009B408 | `gSD_bOutputType` | live |
 | 0x8009B450 | `gMemCard_nIOResult` | matching C |
 | 0x8009B45C | `g_SDValue` | dotr |
