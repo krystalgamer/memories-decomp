@@ -1536,3 +1536,98 @@ So the rule is not "prefer structured loops". It is:
 
 Read the sign off the per-mnemonic counts before changing anything, because the
 two cases look identical in the opcode distance alone.
+
+## Variable identity is register allocation, in both directions
+
+GCC 2.8.1 has no SSA. Every reference to a C local belongs to one allocno and
+receives one hard register for the whole function, so the set of variables you
+declare *is* the input to register allocation. When a candidate is distance
+zero and only registers are left, the variable set is the remaining lever, and
+it works in both directions.
+
+**Splitting** a variable shortens live ranges and raises the
+frequency-weighted priority of the part that sits in a loop. Three separate
+gains on `func_80180390` came from this. A pointer reassigned both inside and
+outside the entry loop was holding `a1`; giving the loop its own copy moved it
+to `a0`, which the rest of that block is allocated around. A later loop that
+reused the first loop's counter and walking pointer was stretching both live
+ranges enough to produce a three-way rotation, in which `frame`, `slot` and `i`
+held `s2`, `s0` and `s1` where the target has `s0`, `s1` and `s2`; giving the
+second loop its own counter and pointer undid it. And reusing a name that was
+already live in an unrelated block silently merged two ranges — using a fresh
+name instead took the differing positions from 43 to 28.
+
+**Merging** is just as often the answer, and it is easy to miss because it
+looks like worse source. Read the target for a register that holds several
+unrelated values in succession: that is the signature of one C variable reused,
+not of three temporaries. On `func_80180390` the target's `v0` holds three
+different structure fields one after another. While those were three separate
+expressions the third load had a free register and hoisted into a load-delay
+slot the target leaves empty; once they shared one variable the third load
+could no longer move above the second's use and the `nop` came back. That
+single change improved the agreeing prefix, the differing positions and the
+mnemonic subsequence at the same time, which is rare enough to be worth
+recognising as a signature of the right lever.
+
+The corollary matters too. Where the target holds a pointer in a caller-saved
+temporary for two or three instructions, the source dereferenced it inline; a
+named variable forces a longer range and a different class. Declaration order,
+by contrast, is inert: twenty-four random permutations of twenty-two
+declarations produced byte-identical output, so it is not the tie-break it
+looks like.
+
+## `volatile` is a scheduling instruction, so measure every occurrence
+
+A volatile memory reference is a scheduling barrier, and on these modules that
+is usually what it is being used for rather than a statement about hardware. On
+`func_80180390` a volatile store on an accumulation prevented the `li` of a
+return value below it from reaching a branch delay slot, so it drifted up into
+a load-delay slot the target leaves as `nop`; removing that one qualifier moved
+the agreeing prefix from 190 to 204. Two other volatile writes in the same
+function are genuinely required — removing them costs four and two instructions
+— and on `func_8016A37C` all three volatile externs are required, each removal
+losing an instruction.
+
+So neither adding nor removing volatile is a rule. Enumerate the qualified
+accesses and sweep the subsets; it is a small product and it distinguishes the
+occurrences that carry semantics from the ones that are accidentally pinning
+the scheduler.
+
+## `return` versus `goto` only pays where the delay slot carries a value
+
+Rewriting an early `return` as a `goto` to a shared exit changes code only when
+the function returns a value. In a value-returning function the two forms are
+genuinely different: `if (cond) return A; return B;` lets GCC put each return
+value in its own branch or jump delay slot and send both straight to the shared
+epilogue, whereas reaching a labelled block costs `{j +1, nop +1}` for the
+extra jump. On `func_80180390` the choice is not even uniform across the
+function — the site after the entry loop wants the inline `return` so its value
+fills a `bnez` delay slot, while the very next test wants the `goto` so it
+branches to the shared `li v0,-1` block. Sweeping all eleven sites one at a
+time was the only reliable way to tell, and it was worth about a hundred
+positions of agreeing prefix.
+
+In a `void` function the lever does not exist. All nineteen `return;`
+statements in `func_8016A37C` were swept against a shared `goto`, and every one
+produced byte-identical output, because both forms are already just a jump to
+the epilogue with nothing to carry. Do not spend cells on it there.
+
+## A block boundary decides what the scheduler is allowed to fill
+
+Signed division by a power of two expands to a rounding branch, which splits
+the basic block. Anything the target schedules on the far side of that branch
+cannot have come from a source statement after the division, and anything it
+schedules between the multiply and the branch must come from a statement before
+it. On `func_80180390` the target reloads a pointer between `mult` and the
+rounding `bgez`, so the reload has to precede the divide in the source, and the
+product needs its own local or the divide pays a `move` because its destination
+cannot coalesce. Writing it as three statements — product, reload, divide —
+moved the agreeing prefix from 244 to 283.
+
+The same reasoning applies to hazard slots that the assembler rather than the
+compiler fills. A `nop` after `mfhi` appears only if GCC emitted the consuming
+instruction close behind it, so a `nop` there is evidence about GCC's
+instruction order, not about scheduling freedom. Splitting a store off its
+computation kept the following statement's address setup from being hoisted
+into that slot and took the mnemonic subsequence from 492 to 494.
+
