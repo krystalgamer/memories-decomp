@@ -146,9 +146,12 @@ at `+0x400`, snapshots the runtime VBlank counter at `+0x408`, changes a
 negative `gSD_bOutputType` to zero, and stores the resulting byte at `+0x5DE`.
 It writes `gSaveDataSequence + 1` at `+0x404` in both the primary and duplicate
 sequence slots, generates all three integrity records over the primary state,
-and clears `+0x628..+0x67F`. The final `0x680`-byte copy from `+0x200` to
-`+0x880` supersedes the early duplicate-sequence write and makes the two state
-records identical, including their integrity words and normalized tail.
+and clears the `SAVE_DATA_RESERVED_TAIL_OFFSET` through state-end range
+(`+0x628..+0x67F`). Its offset and `0x58`-byte size are derived from the end
+of the tertiary mask record and `SAVE_DATA_STATE_SIZE`. The final `0x680`-byte
+copy from `+0x200` to `+0x880` supersedes the early duplicate-sequence write
+and makes the two state records identical, including their integrity words and
+normalized tail.
 
 The complete staged region through the duplicate is therefore `0xF00` bytes.
 The subsequent `func_8003F758` call receives pointer `0x801D3200` and length
