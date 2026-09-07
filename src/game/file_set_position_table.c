@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_constants.h"
 
 extern u8 gLibrary_aCardArtRecord[];
 extern s32 D_8009B10C;
@@ -44,7 +45,7 @@ void File_SetPositionTable(void)
         position++;
         name++;
         i++;
-        if (i >= 7) {
+        if (i >= FILE_POSITION_TABLE_CAPACITY) {
             break;
         }
     }

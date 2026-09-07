@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_constants.h"
 #include "sound.h"
 
 extern s32 gFile_anLba[];
@@ -20,7 +21,10 @@ void Sound_InitFrontend(void)
     register volatile s32 *lbas = gFile_anLba;
 
     gSD_bOutputType = -1;
-    func_80046990(lbas[4], lbas[5], lbas[6]);
+    func_80046990(
+        lbas[FILE_LBA_INDEX_SD_SE],
+        lbas[FILE_LBA_INDEX_SD_BGM],
+        lbas[FILE_LBA_INDEX_MASTER_XA]);
     while (func_8004703C() & 8) {
         func_80012D4C();
     }

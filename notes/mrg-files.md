@@ -37,6 +37,13 @@ A boot-time PCSX-Redux trace observed all seven words populated before the
 Konami screen, with these exact values and a null filename pointer after index
 6. This confirms that the runtime lookup agrees with the retail disc layout.
 
+`File_SetPositionTable` bounds its scan with `FILE_POSITION_TABLE_CAPACITY`
+(`7`) while still stopping early on a null filename. `Sound_InitFrontend`
+uses `FILE_LBA_INDEX_SD_SE` (`4`), `FILE_LBA_INDEX_SD_BGM` (`5`), and
+`FILE_LBA_INDEX_MASTER_XA` (`6`) to read the three sound-file positions.
+These constants are indices into `gFile_anLba`, not the disc LBAs themselves;
+the table remains populated by file lookup at runtime.
+
 Loader offsets and counts for the three MRG files are expressed in
 `0x800`-byte logical sectors. `func_80013940` converts a file-relative sector
 to both a byte offset and an absolute disc LBA.
