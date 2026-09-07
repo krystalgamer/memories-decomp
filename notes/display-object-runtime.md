@@ -126,7 +126,7 @@ a normal `DisplaySlot` field.
 
 | Flag | Value | Matching behavior |
 |---|---:|---|
-| `DISPLAY_OBJECT_FADE_FLAG_INITIALIZED` | `0x80` | `func_80039AAC` sets it on the first update and returns zero; later updates return one. |
+| `DISPLAY_OBJECT_FADE_FLAG_INITIALIZED` | `0x80` | `DisplayObjectFade_MarkInitialized` sets it on the first update and returns zero; later updates return one. |
 | `DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE` | `0x40` | The three contiguous fade callbacks set or test it when moving from their first phase to their second. |
 
 The callbacks at `0x80039AFC-0x80039C94` share this one-shot initialization

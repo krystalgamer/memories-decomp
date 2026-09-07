@@ -2674,7 +2674,7 @@
       "address": "0x80039AAC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_80039AAC.c"
+      "source": "src/game/display_object_fade_mark_initialized.c"
     },
     {
       "address": "0x80039AD4",

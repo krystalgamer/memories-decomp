@@ -509,7 +509,7 @@ address,size,name,status,module,notes
 0x80039934,0xE0,TextBox_SetPos,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80039A14,0x4C,func_80039A14,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80039A60,0x4C,func_80039A60,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80039AAC,0x28,func_80039AAC,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80039AAC,0x28,DisplayObjectFade_MarkInitialized,matching_c,game,"Sets DISPLAY_OBJECT_FADE_FLAG_INITIALIZED on the first call and reports whether the record was already initialized; exact full-executable SHA-256 match with gcc_2_8_1_g8."
 0x80039AD4,0x28,func_80039AD4,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80039AFC,0xE4,func_80039AFC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80039BE0,0xB4,func_80039BE0,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.

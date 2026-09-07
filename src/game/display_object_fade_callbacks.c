@@ -4,12 +4,11 @@
 extern s32 D_8009B0D8;
 extern volatile s32 D_8009B0D8_volatile asm("D_8009B0D8");
 
-extern s32 func_80039AAC(u8 *);
 extern void func_80039AD4(u8 *);
 
 void func_80039AFC(u8 *record)
 {
-    if (func_80039AAC(record) == 0) {
+    if (DisplayObjectFade_MarkInitialized(record) == 0) {
         record[21] = 2;
         *(s32 *)(record + 4) = 0;
         record[20] = 32;
@@ -38,7 +37,7 @@ void func_80039BE0(u8 *p)
 {
     s32 v;
 
-    if (!func_80039AAC(p)) {
+    if (!DisplayObjectFade_MarkInitialized(p)) {
         p[0x15] = 2;
         *(u32 *)(p + 4) = 0x80808080;
         p[0x14] = 0;
@@ -63,7 +62,7 @@ void func_80039BE0(u8 *p)
 }
 
 void func_80039C94(u8 *arg0) {
-    if (func_80039AAC(arg0) == 0) {
+    if (DisplayObjectFade_MarkInitialized(arg0) == 0) {
         s32 a;
         s32 b;
 
