@@ -59,6 +59,20 @@ the temporary list before the next tribute search, so repeated tribute IDs
 must come from distinct field records. The optional output contains the three
 matched records' first words; the return value is the recipe's result ID.
 
+The draw-phase entry `func_8001898C` scans `DUEL_CARD_RECORD_COUNT` (`30`)
+records at `DUEL_CARD_RECORD_SIZE` (`0x1C`) strides to reset per-turn flags.
+That bound belongs to this record table, not to the separate
+`DUEL_FIELD_SIDE_GRID_SLOT_COUNT` layout. Occupied records retain their
+other flags while `DUEL_CARD_FLAG_USED_THIS_TURN` is cleared; unoccupied
+records have their flag word cleared.
+
+Its hand snapshot and rebuild loops use `HAND_SIZE` (`5`). The active side's
+base index is `side * DUEL_CARD_SIDE_RECORD_COUNT`, with 15 records per side.
+The remaining draw count is still `HAND_SIZE - n` after compacting valid hand
+entries. These names preserve the local byte views, record traversal, and
+object creation. The pending-object table's extent is `DUEL_SIDE_COUNT`
+(`2`); it is still indexed by the active side.
+
 Corroboration agrees without defining the shared type:
 
 - GMS declares a guessed `int[]`, but consistently indexes records as seven

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "duel_selection_layout.h"
@@ -8,7 +9,7 @@ extern u8 *D_8009B21C;
 extern u8 D_8009B1D5;
 extern u8 *D_8009B1C8;
 extern u8 *D_8009B1B4;
-extern u8 *D_8009B1F0[2];
+extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
 extern u8 D_8009B1EC;
 extern u16 D_8009B162;
 extern u8 D_800E9F10[];
@@ -31,7 +32,7 @@ extern u8 *func_80018004(u8 *, s32, s32);
    for the draw. Later calls only clear the phase flag once the message
    state has returned to zero. */
 void func_8001898C(void) {
-    u8 hand[5];
+    u8 hand[HAND_SIZE];
     u8 *rec;
     u8 *fl;
     u8 *placed;
@@ -66,16 +67,16 @@ void func_8001898C(void) {
         }
         D_8009B1C8[1]++;
         rec = D_801A7AD8;
-        for (i = 0; i < DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 10; i++, rec += DUEL_CARD_RECORD_SIZE) {
+        for (i = 0; i < DUEL_CARD_RECORD_COUNT; i++, rec += DUEL_CARD_RECORD_SIZE) {
             flags = *(u16 *)(rec + 0x16);
-            if (flags & 0x8000) {
-                *(u16 *)(rec + 0x16) = flags & 0xBFFF;
+            if (flags & DUEL_CARD_FLAG_OCCUPIED) {
+                *(u16 *)(rec + 0x16) = flags & ~DUEL_CARD_FLAG_USED_THIS_TURN;
                 Duel_ApplyCardObjectFlags(*(u8 **)rec);
             } else {
                 *(u16 *)(rec + 0x16) = 0;
             }
         }
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < HAND_SIZE; i++) {
             hand[i] = (D_8009B1C8 + i)[0x1A];
             *(s8 *)(D_8009B1C8 + i + 0x1A) = -1;
         }
@@ -83,10 +84,10 @@ void func_8001898C(void) {
         i = n;
         slot = base;
         y = 0xE;
-        idx = D_8009B1D5 * 15;
+        idx = D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT;
         rec = D_801A7AD8 + idx * DUEL_CARD_RECORD_SIZE;
         placed = rec;
-        for (; i < 5; i++, rec += DUEL_CARD_RECORD_SIZE) {
+        for (; i < HAND_SIZE; i++, rec += DUEL_CARD_RECORD_SIZE) {
             p = &hand[i];
             *(u16 *)(rec + 0x16) = 0;
             *(u8 **)rec = 0;
@@ -101,7 +102,7 @@ void func_8001898C(void) {
                 placed += DUEL_CARD_RECORD_SIZE;
             }
         }
-        D_8009B1EC = 5 - n;
+        D_8009B1EC = HAND_SIZE - n;
         D_8009B162 = 2;
         D_8009B1B4 = D_800E9F10 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
         *(u16 *)(D_8009B1B4 + 0xC) = 0xAE;
