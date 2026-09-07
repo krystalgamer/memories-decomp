@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "graphics_constants.h"
 #include "input.h"
 
 extern u8 D_801AF000[];
@@ -23,7 +24,10 @@ void func_8003C950(void)
 {
     u8 *object;
     object = func_800400AC(func_8004002C(), 3);
-    func_80040510(object, 0, 0, 320, 240, 0, 0, 16, 0, 240);
+    func_80040510(
+        object, 0, 0, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
+        0, 0, 16, 0, 240
+    );
     *(s32 *)(object + 4) |= 0x1000000;
     object = func_800400AC(func_8004002C(), 2);
     func_800428A8(object, 448, 192, 0, 0, 0, 18, 1, D_801AF000);
