@@ -4225,6 +4225,12 @@
       "source": "src/game/sound_voice_selection.c"
     },
     {
+      "address": "0x80047DB0",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x114",
+      "source": "src/game/func_80047DB0.c"
+    },
+    {
       "address": "0x80047EC4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x74",
