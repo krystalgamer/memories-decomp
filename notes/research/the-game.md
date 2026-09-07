@@ -998,6 +998,30 @@ control began with that stale `1` after a previous loss, changed to `0` when
 the opponent's LP reached zero, and kept `0` through the fresh latch.
 Therefore side `0` is the player and side `1` is the opponent.
 
+The player-win control (`duel_winner_side_player_win`, result supplied in
+commit `45d8f22d`) recorded these four samples. The player first lost a Free
+Duel to Duel Master K (ID 39) on purpose, started a second duel against the
+same opponent, installed the trace before the final blow, then saw the
+opponent's life points reach zero and the YOU WIN animation, and returned to
+the Free Duel screen.
+
+| Control sample | Mode | Duel state | Winner side | Player LP | Opponent LP |
+|---|---|---|---:|---:|---:|
+| 1. entered duel mode | `0xC3` | `0x8005` | 1 | 8000 | 950 |
+| 2. winner-side byte changed | `0xC3` | `0x000C` | 0 | 8000 | 0 |
+| 3. fresh end-credit latch | `0xC3` | `0xE00D` | 0 | 8000 | 0 |
+| 4. three seconds after the latch | `0xC6` | `0xE00D` | 0 | 8000 | 0 |
+
+Every sample has the mode byte's two high bits set, so none of them was taken
+on a screen where the duel globals are stale. The opponent was ID 39 (Duel
+Master K) throughout. Two things in the table carry the conclusion. The
+`1 -> 0` change is recorded at sample 2, one transition **before** the fresh
+`0x2000` end-credit latch bit appears at sample 3, so the `0` cannot be left
+over from the earlier loss that seeded the `1`. And it survives to sample 4,
+after the fade back to Free Duel. The control establishes single-player
+polarity only; it says nothing about which physical controller drives which
+side in a two-player duel.
+
 > **This stage — entered from:** the duel's exit, by its caller. **Reads:**
 > the statistics record, the rank table and drop pools (disc block), the RNG.
 > **Writes:** starchips, trunk (+ seen), records, unlock mask — all in the
