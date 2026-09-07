@@ -51,6 +51,22 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
+Writing the `? 12 : 9` argument as an explicit assignment in each arm, at the
+`arm4` call site only, takes the opcode distance from 4 to 2 and the subsequence
+from 362 to 363, so it improves both keys at once. The target materialises 9 and
+12 straight into `a0` after `NameEntry_AdjustLength` returns; the conditional
+expression makes GCC produce the constant before the call instead, hold it in a
+callee-saved register across the call and copy it into `a0`, which is where the
+two surplus `move` instructions came from. Assigning through a named local in
+each arm removes one of them.
+
+Applying the same rewrite at both call sites reaches a subsequence of 364 but
+returns the distance to 4, so only the first site is taken. Nine earlier cells
+covering ternary, if-else and a named intermediate at both sites were all
+byte-identical, and the difference here is that the assignment happens in the
+arms rather than in the argument, which is what separates the constant's
+materialisation from the call.
+
 The `D_8009B398[0] & 0x800` arm also belongs out of line, and moving it takes
 the longest common mnemonic subsequence from 351 to 362. The evidence is the
 same alignment argument as the select-screen block above: the target ends that
@@ -821,7 +837,13 @@ arm4:
     } else {
         gx = 20;
     }
-    func_8003FEE0(NameEntry_AdjustLength(d, 6) != 0 ? 12 : 9);
+    n = NameEntry_AdjustLength(d, 6);
+    if (n != 0) {
+        n = 12;
+    } else {
+        n = 9;
+    }
+    func_8003FEE0(n);
     gy = 36;
     goto join;
 arm6:
