@@ -3357,3 +3357,37 @@ when the stores are all interior, and it cannot produce a target whose last
 store sits in the delay slot -- there the argument setup takes the slot
 instead. Marking a subset `volatile` pins the relative order of just that
 subset and leaves the rest free to sink.
+
+## A `u8` local loses the mask that a `(u8)` cast keeps
+
+`(x & 7) & 0xFF` is redundant and GCC 2.8.1 knows it: `nonzero_bits` proves the
+upper bits of `x & 7` are already zero, so the second mask folds away. That is
+the right answer for the value and the wrong answer for the match whenever the
+target keeps the `andi`.
+
+Which spelling is used decides whether the fold happens at all, and the two
+spellings are not interchangeable even though they compute the same value:
+
+- `u8 mode = flags & 7;` and every variation on it -- a separate `s32 idx`
+  assigned first, `flags % 8`, `(flags << 29) >> 29`, `u32` instead of `s32`,
+  the variable held in a one-member struct -- all emit `move`, not `andi`. The
+  narrow local is promoted to `SImode` with its unsignedness tracked, so no
+  extension insn is ever created and there is nothing left for the fold to
+  remove.
+- `(u8)idx` written at each use site emits `andi ..., 0xFF`, because the cast
+  creates a real conversion in the expression and CSE then shares one `andi`
+  across every use of it.
+
+On `func_8005B0B4` this single choice was worth 7 of 15 differing positions,
+and none of them looked like a masking problem. The `andi` is what keeps the
+masked value in a *different* pseudo from the unmasked one, so with the `u8`
+local GCC coalesced the two and the whole downstream register assignment
+followed the wrong one: the loop index, the branch destination and the operand
+of the `+ 3` all came out of the wrong register. With the casts the pseudos
+stay apart and all seven positions fall out together.
+
+So when the target has an `andi ..., 0xFF` on a value the compiler could prove
+is already narrow, do not read it as the compiler being redundant. Read it as
+evidence that the source wrote a cast in an expression rather than declaring a
+narrow variable, and reach for it early -- the symptom shows up as register
+choice several instructions away, not as a missing mask.

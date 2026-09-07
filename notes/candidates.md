@@ -1092,3 +1092,139 @@ void func_80047DB0(s32 arg0)
     }
 }
 ```
+
+## `func_8005B0B4` at 0x8005B0B4
+
+`gcc_2_8_1_g8`, 107 of 107 instructions, opcode distance 0, 3 differing
+positions.
+
+The tint routine that sits between the two conversion siblings. It calls
+`func_8005A98C` to turn the RGB triple at its second, third and fourth
+arguments into the `{s32 h; u16 s; u16 v;}` record that function already
+documents, overrides the hue from the low three bits of the flag word,
+scales the third field by a 1/4096 fixed-point factor, converts back through
+`func_8005ABA0`, and clamps each output channel away from zero. Bit 3 of the
+flag word is an invert: it rotates the hue index by three of six and
+subtracts each returned channel from the limit.
+
+The six canonical attempts are all terminal and all recorded the same state:
+432 or 428 bytes with the first residual at +0x70, described as "the hue
+temporary register". That description was pointing at a symptom. The cause is
+14 instructions earlier, and once it is fixed +0x70 and six other positions go
+with it.
+
+**What fixed it.** Three things, in order of how much they were worth.
+
+- The mode value must be spelled `(u8)idx` at each use, not stored in a `u8`
+  local. This is worth 7 positions and is written up on its own in
+  `notes/research/matching-evidence.md`, because the symptom is register
+  choice a dozen instructions away rather than a missing mask.
+- The three zero clamps store unconditionally. `if (c.r == 0) c.r = 1;`
+  branches over the store; the target computes the value conditionally and
+  stores it either way, which is a temporary plus an unconditional write. The
+  give-away is the target's stores sitting in the *next* comparison's branch
+  delay slot -- a conditional store cannot be scheduled there.
+- The last of the three temporaries is pinned to `$v0`. Worth 5 positions. Not
+  pinned, the return value's `addu $v0, $s6, $zero` is scheduled into the slot
+  the third temporary wants, which pushes that temporary to `$a0` and drags
+  three more positions with it. Pinning only the third is enough; pinning all
+  three measures the same.
+
+**What is left** is the three stores of the final struct copy. The target uses
+`$s6`, the parameter's own register, and this build uses `$v0`. Both spellings
+cost one copy: GCC's `move_by_pieces` always copies the destination address
+into a fresh pseudo, and that pseudo can either coalesce with the parameter
+(the target, leaving a separate copy for the return value) or with the return
+register (this build, leaving the parameter's copy to be elided). The
+instruction count and the opcode multiset are identical either way, so this is
+a local-allocation tie-break rather than anything the source is saying.
+
+Crossed without moving it, about thirty variants: `*out = c` against
+`out[0] = c`, `*(Color *)out = c` with a `void *` parameter, the comma
+operator, a `const` parameter, plain `register` on the parameter, an
+`__asm__("$22")` pin on the destination and on an alias of it, capturing the
+returned pointer before the copy and at the top of the function, three
+placements of that capture, an explicit three-byte copy through an `s8 *` view
+of the local (108 instructions, so the block move is not optional), a
+`memcpy` tail, four declaration orders, and all eighteen viable profiles.
+Returning `void` drops to 106 instructions and confirms the copy under
+discussion is the return value rather than part of the copy.
+
+`hsv` has to be declared before `c` or the two locals swap stack slots and the
+count moves to 27 differing.
+
+```c
+#include "../types.h"
+
+typedef struct {
+    s32 h;
+    u16 s;
+    u16 v;
+} HsvT;
+
+typedef struct {
+    u8 r, g, b;
+} Color;
+
+extern HsvT *func_8005A98C(HsvT *, u8, u8, u8, u8);
+extern void func_8005ABA0(Color *, s32, u32, u32, s32);
+
+Color *func_8005B0B4(Color *out, u8 r, u8 g, u8 b, s32 flags, u16 scale, u8 lim) {
+    HsvT hsv;
+    Color c;
+    s32 idx;
+    s32 inv;
+    s32 flat;
+    u8 k;
+    u8 tr;
+    u8 tg;
+    register u8 tb __asm__("$2");
+
+    inv = flags & 8;
+    idx = flags & 7;
+    flat = ((u8)idx == 6);
+
+    func_8005A98C(&hsv, r, g, b, lim);
+
+    if ((u8)idx < 7) {
+        k = idx;
+        if (inv) {
+            k = (k + 3) % 6;
+        }
+        hsv.h = k << 12;
+    }
+
+    if (flat) {
+        hsv.v = 0;
+    } else {
+        hsv.v = hsv.v * scale / 4096;
+    }
+
+    func_8005ABA0(&c, hsv.h, hsv.s, hsv.v, lim);
+
+    if (inv) {
+        c.r = lim - c.r;
+        c.g = lim - c.g;
+        c.b = lim - c.b;
+    }
+
+    tr = c.r;
+    if (tr == 0) {
+        tr = 1;
+    }
+    c.r = tr;
+    tg = c.g;
+    if (tg == 0) {
+        tg = 1;
+    }
+    c.g = tg;
+    tb = c.b;
+    if (tb == 0) {
+        tb = 1;
+    }
+    c.b = tb;
+
+    *out = c;
+    return out;
+}
+```
