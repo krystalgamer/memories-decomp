@@ -4342,3 +4342,48 @@ seven positions were all register names at identical positions - an *allocation*
 disagreement, which register constraints reach. That is why it was chosen ahead
 of `func_80023144`, `func_80012E5C` and `func_8002FD10`, whose residuals are
 instructions in different *positions*, which they do not.
+
+## `func_8001BAF0`: pointer casts, operand order, and reusing an existing local
+
+Sixty-one differing positions, all register names at the right positions, closed
+to zero. Two of the levers are new and one earlier finding in this repository
+was too broad.
+
+**Casting a pointer to `s32` escapes `plus` canonicalisation.** An earlier pass
+on this function measured that flipping a C addition does not change the
+emitted `addu` operand order, and recorded it as a general rule. That is right
+for *pointer* arithmetic - `deck + sidx * 6` and `sidx * 6 + deck` are
+identical, because GCC canonicalises the `plus` before the allocator sees it -
+but wrong in general. Writing
+`(DeckCardRecord *)(sidx * 6 + (s32)deck)`, so that the addition is between two
+integers, **does** flip the emitted order. Six positions here came back that
+way. The direction is per-site: of the four additions changed, one wants the
+base first and three want it last, so they cannot be treated as a group.
+
+**Pinning a destination is materialised as early as its declaration allows.**
+Naming the inner re-read of `gDuel_aActiveCards` and pinning it to `$t1` fixed
+its register but put the `lui`/`addiu` five positions too early, before the
+`v * 12` chain that retail computes first. Wrapping the multiply in an enclosing
+scope, so it is a finished statement before the pinned declaration is reached,
+reorders them. This is the placement half of a cost whose allocation half was
+recorded on `func_80057AF4`: everything feeding a pinned value collapses into
+it, *and* the value is materialised as early as it can be.
+
+**The last two positions were a store reusing an existing local.**
+`sel[v - 0xB] = -1;` computed its address into `$a1`, reusing the pinned hand
+value that dies there, where retail uses `$v0`. Five spellings of the store, a
+`continue`-shaped loop, a pointer walk, a separate loop variable and a pinned
+address temporary were all neutral or worse. What works is assigning the address
+to `p`, **the `u8 *` local that already exists in the function and holds
+`D_8009B1C8` earlier**, and storing through it. Using the function's other
+pointer local `q`, an `s8 *`, costs nine, so it is that specific variable.
+
+That last change exposed a second, smaller thing worth stating: with `p` typed
+`u8 *`, `*p = -1` compiles to `li a2,255`, and retail has `li a2,-1`. The store
+has to be written `*(s8 *)p = -1` to keep the value signed. **A one-instruction
+immediate difference of 255 against -1 is a sign-of-the-pointee problem, not an
+allocation problem.**
+
+**150 of 150, zero differences**, on `gcc_2_8_1_g8_split`. All six pins are
+load-bearing, costing 24, 9, 18, 14, 4 and 34 positions when removed one at a
+time.
