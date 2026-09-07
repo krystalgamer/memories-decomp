@@ -44,8 +44,10 @@ to both a byte offset and an absolute disc LBA.
 `src/game/file_constants.h` names this unit as `FILE_SECTOR_SIZE` and its
 byte-conversion shift as `FILE_SECTOR_SHIFT`. The descriptor setup and transfer
 control paths use them for sector-to-byte conversion and the one-sector gap
-between alternating buffer destinations. This is the logical payload size,
-not the disc image's 2,352-byte raw sector size.
+between alternating buffer destinations. The named-file movie request
+`func_8005C464` also uses them to round the search result's byte size up to
+a sector count before adding it to the file's starting sector. This is the
+logical payload size, not the disc image's 2,352-byte raw sector size.
 
 ## Shared high-memory slots
 
