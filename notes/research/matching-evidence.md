@@ -3903,3 +3903,84 @@ send you looking in the wrong place. Resolve the relocations instead.
 the source** when sched2 is free to move it, and an independent store to a
 provably distinct symbol always is. **Write it where it makes the allocator
 behave, not where it lands.**
+
+## A two-arm `if` also has a branch polarity, and it is the fall-through arm
+
+The switch-versus-chain entry above reads polarity off a multi-way dispatch.
+The same reading applies to an ordinary two-arm `if`, and it moves far more
+than a handful of positions.
+
+GCC 2.8 emits `branch_if_not_C -> else_label`, so the **then** arm is the
+fall-through and the **else** arm is the branch target. Read that backwards
+off retail: whichever block the conditional branch jumps *to* is the else arm,
+and the source condition is whatever makes the other block the then arm. The
+obvious reading of the test is wrong half the time.
+
+Measured on `func_8003B054` (0x8003B054, 201 instructions). Retail opens with
+`beq $v0, $zero, <build>` — the branch target is the large object-building
+block, so the small reuse block is the fall-through and the source condition
+is `!= 0`, not the `== 0` the code reads as. Written the obvious way the build
+was 191 differing positions; inverted it was 87, from that one change. The
+same inversion applied to two later countdown tests took it to 47.
+
+The tell is not subtle once you look for it: an inverted arm shows up as a
+`bnez` where retail has `beqz`, or as the two blocks appearing in the opposite
+order, and every register name downstream shifts with them. Check polarity on
+every `if` in the function before chasing anything else.
+
+## A shared exit block sits between the arms, and needs explicit labels
+
+When two arms of a chain end in the same statement, retail frequently reaches
+it with a `j` from the first arm and *falls into* it from the second, so the
+shared block is emitted between them. Neither natural C form produces that
+placement.
+
+Measured on `func_8003B054` (0x8003B054), where three arms end in
+`p[0x33] = 0`. Duplicating the store in both arms costs one instruction,
+because GCC will not cross-jump the pair once the delay-slot filler has taken
+different insns for each. Hoisting it after the whole chain costs two, because
+the block then lands after the third arm, which needs a jump over it. Writing
+the third arm as `if (n < 20) goto fade;` with explicit `done:` and `fade:`
+labels puts the block exactly where retail has it and closes both instructions,
+taking the build from 47 differing positions at +2 to 17 at the exact count.
+
+So when the residue is one or two instructions around a common tail, look at
+where retail placed that tail relative to the arms, and use a label to put it
+there. `goto` is the right tool; there is no arrangement of `if`/`else` that
+expresses "between the arms".
+
+## Store, reload, store on one global is a `volatile` signature
+
+A global written, immediately read back, and written again is not redundant
+code that the compiler failed to fold. It is what a `volatile` object emits,
+and a plain declaration folds the pair.
+
+Measured on `func_80023144` (0x80023144, 210 instructions). Retail stores a
+masked nibble to `D_8009B344`, reloads it with a load-delay `nop`, adds 23 and
+stores again — five instructions. Declared `extern u8` the candidate keeps the
+value in a register and emits `andi`, `addiu`, `sb`, which is three
+instructions short and no source reordering recovers them. Declaring it
+`extern volatile u8` restores the store/reload/store exactly and brought the
+build to the target's instruction count.
+
+The same reading applies in reverse: if a candidate emits a reload that retail
+does not have, the global is probably *not* volatile in the original.
+
+## A lower diff score can mean a wrong reconstruction
+
+Scoring candidates by differing positions rewards any change that removes
+instructions, including changes that remove instructions because they are
+semantically wrong. The metric cannot tell a better source from a smaller one.
+
+Measured on `func_80023144` (0x80023144). Retail compares a side flag against
+`index >= 15`, which it spells `slti` on `< 15` followed by `xori ...,1`. The
+candidate had `(index < 15) == D_8009B1D5`, which is the same truth value with
+the operands folded differently and needs no `xori` — one instruction shorter,
+and it scored two positions better than the correct `(index >= 15) ==
+D_8009B1D5`.
+
+So when a spelling scores better *and* drops an instruction retail has, check
+that it still computes the same thing before keeping it. An `xori ...,1` or a
+`seq`/`sne` pattern in retail is evidence that the source inverted a
+comparison rather than folding it, and folding it away is a regression even
+when the diff improves.
