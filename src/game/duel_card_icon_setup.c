@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "duel_card.h"
+#include "duel_deck_card.h"
 
 struct Obj {
     char pad4[0x4];
@@ -39,7 +40,6 @@ extern s32 gDuel_adwCardStats[];
 extern void func_80016778(void);
 extern u8 D_8015C424[];
 extern struct Coords D_800908A0[];
-extern u8 *func_800249E0(s32, s32);
 
 /* Allocates a display object, positions it, wires up its per-frame callback,
    and selects a small icon variant for non-monster card types. */
@@ -103,7 +103,7 @@ void func_80024D34(s32 a, s32 b)
     struct Blob *blob;
     struct Obj *obj;
 
-    slot = func_800249E0(a, b);
+    slot = Duel_SetupCardRecord(a, b);
     idx = a;
     if ((idx & 0x80) != 0) {
         idx = (idx & 0x7F) + 0xF;

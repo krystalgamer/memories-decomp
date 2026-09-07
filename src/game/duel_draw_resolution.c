@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
+#include "duel_deck_card.h"
 
 typedef struct {
     u8 pad[0x1A];
@@ -126,7 +127,7 @@ void func_80018DB4(void) {
         } else {
             k = a;
         }
-        func_800249E0(k, *(s8 *)(D_8009B1C8 + 0x18));
+        Duel_SetupCardRecord(k, *(s8 *)(D_8009B1C8 + 0x18));
         p = func_80018004(
             &D_801A7AD8[k * DUEL_CARD_RECORD_SIZE],
             i * 60 + 0x14E,

@@ -12,7 +12,7 @@ extern u8 D_8018C7D8[];
 extern s32 gDuel_adwCardStats[];
 extern int Duel_GetTerrainBoost();
 
-u8 *func_800249E0(s32 a, s32 b) {
+u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     DuelCardRecord *p;
     RECT *q;
     RECT *r;

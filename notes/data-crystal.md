@@ -138,7 +138,7 @@ values `0x14-0x17` are outside the monster range.
 
 The same packed word also stores base attack in bits 0-8, base defense in bits
 9-17, and the two guardian-star IDs in bits 18-21 and 22-25.
-`func_80027DF8` decodes all five fields together, and `func_800249E0`
+`func_80027DF8` decodes all five fields together, and `Duel_SetupCardRecord`
 multiplies the two nine-bit stats by ten when initializing a duel-card record.
 This is the in-memory card-stat table layout; it does not establish the
 on-disc encoding of any archive member.

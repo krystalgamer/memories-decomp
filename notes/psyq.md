@@ -206,7 +206,7 @@ explicitly marked **candidate** remain address-based in `functions.csv` and
 | `0x8007F6CC` | `DrawSync` | Applied Psy-Q 4.6 identity; `model_handler_registry.c` waits for queued GPU drawing after dispatching a model primitive handler. |
 | `0x8007F850` | `ClearImage` | Applied at offset `0x500` of the unique Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature; matching movie paths clear their display rectangles with the configured RGB triplet. |
 | `0x8007F8E0` | `ClearImage2` | Applied at offset `0x590` of the same unique `SYS.OBJ` signature. |
-| `0x8007F978` | `LoadImage` | Applied Psy-Q identity; `func_800249E0` uses the tracked `RECT *` / `u32 *` prototype for two image transfers. |
+| `0x8007F978` | `LoadImage` | Applied Psy-Q identity; `Duel_SetupCardRecord` uses the tracked `RECT *` / `u32 *` prototype for two image transfers. |
 | `0x8007F9D8` | `StoreImage` | Applied at offset `0x688` of the same unique `SYS.OBJ` signature. |
 | `0x8007FA38` | `MoveImage` | Applied Psy-Q 4.6 identity; matching callers copy rectangular VRAM regions for screen transitions and palette processing. |
 | `0x8007FAF0` | `ClearOTag` | Applied at offset `0x7A0` of the same unique `SYS.OBJ` signature. |
@@ -581,7 +581,7 @@ depend on GTE, GPU, and `libgs` declarations without including those headers.
 
 Matching game C now uses `libgpu.h` across image transfers, display
 environments, primitive records, and GPU synchronization. Representative
-migrations include `func_800249E0.c`, `func_800289BC.c`,
+migrations include `duel_setup_card_record.c`, `func_800289BC.c`,
 `file_cd_helpers.c`, `func_800582C0.c`, and
 `model_handler_registry.c`. Confirmed camera, lighting, object, packet, and
 sorting paths also use `libgs.h`, including `func_800134E0.c`,
@@ -605,7 +605,7 @@ parallel local packet or ordering-table declaration.
 
 The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
 same `RECT *` / `u32 *` argument shape. Both current matching `LoadImage`
-callers, `func_800249E0.c` and `func_800289BC.c`, use that interface.
+callers, `duel_setup_card_record.c` and `func_800289BC.c`, use that interface.
 `func_800582C0.c` likewise uses the shared `LoadImage2` prototype while
 retaining rectangle-compatible local storage. Other image-transfer callers
 may retain local record views where an SDK structure changes exact code
@@ -988,7 +988,7 @@ library variant.
 
 ### Rectangle layout evidence
 
-`func_800249E0` builds two consecutive eight-byte records in `D_80177EA4`.
+`Duel_SetupCardRecord` builds two consecutive eight-byte records in `D_80177EA4`.
 Each record receives signed halfword stores at offsets `0`, `2`, `4`, and `6`,
 then is passed to the resident `LoadImage` function at `0x8007F978`:
 
@@ -999,7 +999,7 @@ then is passed to the resident `LoadImage` function at `0x8007F978`:
 
 This verifies the Psy-Q `RECT` ABI surface as four signed 16-bit fields in
 `x`, `y`, `w`, `h` order and a total size of eight bytes. The declaration
-lives in the real `src/psyq/libgpu.h`; `func_800249E0` uses it for both GPU
+lives in the real `src/psyq/libgpu.h`; `Duel_SetupCardRecord` uses it for both GPU
 transfer rectangles while retaining the original byte-offset arithmetic that
 selects each record.
 
@@ -1021,7 +1021,7 @@ The existing C sources expose several useful starting points:
 |---|---|---|
 | Local `InitPAD` / `StartPAD` declarations | `libapi.h` | Initial migration complete in `src/game/input_init_pads.c`; the real prototypes preserve the exact build. |
 | `DslFILE` in `src/psyq/libds.h` | Ds file-search result | Migration complete in `src/game/file_stream.c` and `File_Exists` in `src/game/file_cd_helpers.c`; the latter preserves its integer wrapper interface with explicit casts at the SDK boundary. |
-| `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Initial migration complete in `func_800249E0`; preserve byte-offset selection when extending it to other callers. |
+| `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Initial migration complete in `Duel_SetupCardRecord`; preserve byte-offset selection when extending it to other callers. |
 | Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `func_800582C0`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
 | Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_handler_registry.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `func_8005BE3C.c` uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |

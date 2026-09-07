@@ -12,5 +12,6 @@ typedef struct {
 } DuelDeckCardRecord;
 
 extern DuelDeckCardRecord gDuel_aDeckCardRecords[];
+u8 *Duel_SetupCardRecord(s32, s32);
 
 #endif
