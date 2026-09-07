@@ -4,7 +4,7 @@
 extern u8 D_801D4000[];
 extern s32 D_8009B0C4[];
 extern s8 gSD_bOutputType __attribute__((section(".data")));
-extern s32 D_8009B3B8;
+extern s32 gSaveDataSequence;
 
 extern void Util_CopyWords(void *, void *, u32);
 void SaveData_BuildPayload(u8 *data)
@@ -28,7 +28,7 @@ void SaveData_BuildPayload(u8 *data)
 
     data[SAVE_DATA_HEADER_SIZE + SAVE_DATA_OUTPUT_TYPE_OFFSET] = gSD_bOutputType;
     copy = data + SAVE_DATA_HEADER_SIZE;
-    value = D_8009B3B8 + 1;
+    value = gSaveDataSequence + 1;
     *(s32 *)(data + SAVE_DATA_HEADER_SIZE + SAVE_DATA_SEQUENCE_OFFSET) = value;
     *(s32 *)(data + SAVE_DATA_DUPLICATE_STATE_OFFSET +
              SAVE_DATA_SEQUENCE_OFFSET) = value;

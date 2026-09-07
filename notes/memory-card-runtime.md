@@ -199,9 +199,9 @@ into the runtime `gCampaignSceneIndex`, and reapplies the saved sound output
 type at `+0x5DE` when `gSD_bOutputType` is negative.
 
 The two-save comparison path first uses `SaveData_HasSameDuelistCode` on the
-32-bit field at `+0x334`. Its contiguous companion at `0x8003D2B8` accepts the
-pair only when that code matches and the second save's sequence at `+0x404`
-equals the current `D_8009B3B8` value.
+32-bit field at `+0x334`. `SaveData_MatchesDuelistAndCurrentSequence` accepts
+the pair only when that code matches and the second save's sequence at `+0x404`
+equals the current `gSaveDataSequence` value.
 
 ## Evidence boundary
 

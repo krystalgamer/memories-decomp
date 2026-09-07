@@ -17,7 +17,7 @@ typedef struct {
 
 extern u8 D_801B125A[16];
 extern void Text_SjisToGlyphCodes(void *, void *, s32);
-extern u32 D_8009B3B8;
+extern u32 gSaveDataSequence;
 extern s8 gSD_bOutputType[16];
 extern void SD_SetOutputType(s16);
 
@@ -33,7 +33,7 @@ void SaveData_ApplyRuntimeState(SaveDataRuntimeState *state) {
      * Symbolic stores allocate ordinary registers and change exact codegen.
      */
     D_8009B0C4 = state->vblank_counter;
-    D_8009B3B8 = state->save_sequence;
+    gSaveDataSequence = state->save_sequence;
     gCampaignSceneIndex = state->campaign_scene_index;
 
     if (gSD_bOutputType[0] < 0) {

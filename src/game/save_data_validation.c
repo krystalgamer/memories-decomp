@@ -6,11 +6,11 @@ typedef struct {
     s32 duelist_code;
 } SaveRecord;
 
-extern s32 D_8009B3B8;
+extern s32 gSaveDataSequence;
 
-int SaveData_HasSameDuelistCode(SaveRecord *left, SaveRecord *right)
+s32 SaveData_HasSameDuelistCode(SaveRecord *left, SaveRecord *right)
 {
-    int i;
+    s32 i;
 
     if (left->duelist_code == right->duelist_code) {
         i = 6;
@@ -21,13 +21,13 @@ int SaveData_HasSameDuelistCode(SaveRecord *left, SaveRecord *right)
     return 0;
 }
 
-int func_8003D2B8(SaveRecord *left, u8 *right)
+s32 SaveData_MatchesDuelistAndCurrentSequence(SaveRecord *left, u8 *right)
 {
-    int result;
+    s32 result;
 
     if (SaveData_HasSameDuelistCode(left, (SaveRecord *)right)) {
         result =
-            D_8009B3B8 == *(s32 *)(right + SAVE_DATA_SEQUENCE_OFFSET);
+            gSaveDataSequence == *(s32 *)(right + SAVE_DATA_SEQUENCE_OFFSET);
     } else {
         result = 0;
     }

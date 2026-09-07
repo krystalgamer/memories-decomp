@@ -575,7 +575,7 @@ address,size,name,status,module,notes
 0x8003D0F4,0x80,SaveData_ApplyRuntimeState,matching_c,game,Post-terminal pure-C match from collaborator source; three verified absolute store literals preserve retail $at materialization.
 0x8003D174,0x114,SaveData_ValidateIntegrity,matching_c,game,"Recomputes the CRC-derived mask stream for all three protected save-data regions and rejects the first mismatching word; exact save-data mask validation with G8 split addressing."
 0x8003D288,0x30,SaveData_HasSameDuelistCode,matching_c,game,Compares the duelist-code field at offset 0x334 in two loaded save records; exact linked bytes and relocations.
-0x8003D2B8,0x48,func_8003D2B8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8003D2B8,0x48,SaveData_MatchesDuelistAndCurrentSequence,matching_c,game,"Requires equal duelist codes and a candidate save sequence equal to gSaveDataSequence; exact full-executable SHA-256 match with gcc_2_8_1_g8."
 0x8003D300,0x2C,func_8003D300,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8003D32C,0x8,func_8003D32C,matching_c,game,Empty void function matched the return-and-nop sequence.
 0x8003D334,0x138,func_8003D334,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
