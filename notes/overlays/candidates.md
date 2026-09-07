@@ -1862,9 +1862,26 @@ void func_8016A37C(void)
 
 ## main_menu `func_80181728` at 0x80181728
 
-`gcc_2_8_1_g0_split`, 353 instructions against 356, opcode distance 3.
-The longest common subsequence of mnemonics is 318 of 356 and 342 positions
-differ.
+`gcc_2_8_1_g0_split`, 354 instructions against 356, opcode distance 2.
+The longest common subsequence of mnemonics is 291 of 356, the first 231
+instructions agree, and 143 positions differ.
+
+Three changes together took this from distance four to two. The walking offset
+must not be a variable at all but a derived induction variable, written as
+`span1 + 126 - i * 8`, so that `loop.c` emits its initialiser at the loop start
+where the target has it rather than a hundred instructions early where a
+constant with no dependencies otherwise drifts. The marker widget must be read
+into a local for its first store and re-read for its second, which is what puts
+its address live before the branch and takes the agreeing prefix from five to
+one hundred and twenty-eight. And the texture v constant must be a named local
+rather than a literal, which is what finally creates the register pressure the
+target has: naming it added both of the missing spills at once and took the
+distance from five to two.
+
+The residual is two instructions, one `li` and one `nop`. The remaining
+structural difference is which value gets spilled: the target spills the width
+times eight and keeps the four y and v constants in registers, while this build
+keeps the width times eight in a register and spills two of the constants.
 
 The second digit loop must have its own walking offset rather than reuse the
 first loop's. That is worth one of the distance and forty-five of the common
@@ -1987,7 +2004,7 @@ already repeated each pass and the qualifier does not reach the address
 computation.
 
 ```c
-#include "../../src/types.h"
+#include "../../types.h"
 
 typedef struct {
     u8 t0, t1, t2, len;
@@ -2044,23 +2061,27 @@ void func_80181728(void)
     POLY_GT4 digit;
     POLY_G4 bar;
     Widget *w;
+    Widget *mk;
     s32 first;
     s32 second;
     s32 x;
     s32 i;
     s32 count;
     s32 width;
-    s32 walk;
-    s32 walk2;
+    s32 c120;
+    s32 c114;
+    s32 c106;
+    s32 span1;
 
     first = D_801845C0[1];
     second = D_801845C0[7];
+    mk = D_801845B0[2];
     if (D_801845BC[2] == 0) {
         x = 116;
     } else {
         x = 220;
     }
-    D_801845B0[2]->f30 = x;
+    mk->f30 = x;
     D_801845B0[2]->f32 = 74;
 
     w = D_801845B0[0];
@@ -2155,22 +2176,24 @@ void func_80181728(void)
     digit.b3 = 255;
 
     width = MainMenu_CountDecimalDigits(8000);
+    c120 = 120;
+    c114 = 114;
+    c106 = 106;
     count = MainMenu_CountDecimalDigits(first);
-    walk = -126;
+    span1 = width * 8;
     for (i = 0; i < count; i++) {
-        digit.x0 = width * 8 - walk;
+        digit.x0 = span1 + 126 - i * 8;
         digit.x2 = digit.x0;
         digit.x1 = digit.x0 + 8;
         digit.x3 = digit.x1;
-        walk = walk + 8;
-        digit.y0 = 106;
-        digit.y1 = 106;
-        digit.y2 = 114;
-        digit.y3 = 114;
+        digit.y0 = c106;
+        digit.y1 = c106;
+        digit.y2 = c114;
+        digit.y3 = c114;
         digit.v0 = 112;
         digit.v1 = 112;
-        digit.v2 = 120;
-        digit.v3 = 120;
+        digit.v2 = c120;
+        digit.v3 = c120;
         digit.u0 = (first % 10) * 8 - 128;
         digit.u1 = (first % 10) * 8 - 120;
         digit.u2 = digit.u0;
@@ -2180,21 +2203,20 @@ void func_80181728(void)
     }
 
     count = MainMenu_CountDecimalDigits(second);
-    walk2 = -126;
+    span1 = width * 8;
     for (i = 0; i < count; i++) {
-        digit.x0 = width * 8 - walk2;
+        digit.x0 = span1 + 126 - i * 8;
         digit.x2 = digit.x0;
         digit.x1 = digit.x0 + 8;
         digit.x3 = digit.x1;
-        walk2 = walk2 + 8;
         digit.y0 = 134;
         digit.y1 = 134;
         digit.y2 = 142;
         digit.y3 = 142;
         digit.v0 = 112;
         digit.v1 = 112;
-        digit.v2 = 120;
-        digit.v3 = 120;
+        digit.v2 = c120;
+        digit.v3 = c120;
         digit.u0 = (second % 10) * 8 - 128;
         digit.u1 = (second % 10) * 8 - 120;
         digit.u2 = digit.u0;
