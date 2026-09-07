@@ -113,7 +113,7 @@ address,size,name,status,module,notes
 0x800181EC,0x70,func_800181EC,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8001825C,0x3AC,func_8001825C,unmatched_asm,game,
 0x80018608,0x384,func_80018608,unmatched_asm,game,
-0x8001898C,0x2A8,func_8001898C,unmatched_asm,game,
+0x8001898C,0x2A8,func_8001898C,matching_c,game,"Single-set base pointer for D_800EA030, s8 decrement local, signed -1 store, pointer-first hand addressing"
 0x80018C34,0xC4,func_80018C34,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80018CF8,0xBC,Duel_HasAllExodiaPieces,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80018DB4,0x238,func_80018DB4,matching_c,game,Exact resident match from newer collaborator evidence; staged card-table base and verified byte/halfword declarations preserve retail code generation.
