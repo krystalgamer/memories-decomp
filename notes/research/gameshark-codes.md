@@ -60,7 +60,11 @@ later. Duelist IDs 1–39 occupy slots 1–39 of a 40-record grid table beginnin
 at `gFreeDuel_aDuelistRecords` (`0x801D071C`); their first record is at
 `0x801D0720`.
 
-| wins / losses | duelist |
+The following table preserves the **published** addresses and labels for
+comparison. It is not a corrected address list; the first rows and the
+late-boss labels need the qualifications below.
+
+| published wins / losses | duelist |
 |---|---|
 | `801D0720` / `801D0724` | Simon Muran |
 | `801D0726` / `801D0728` | Teana |
@@ -102,23 +106,40 @@ at `gFreeDuel_aDuelistRecords` (`0x801D071C`); their first record is at
 | `801D07B4` / `801D07B6` | Darknite |
 | `801D07B8` / `801D07BA` | Duel Master K |
 
-Write `270F` to a wins address, `0000` to a losses address.
+The archive recommends `270F` at a wins address and `0000` at a losses
+address.
 The normal Free Duel update clamps each counter to 999 (`0x03E7`), so 9999 is
-a cheat-forced value rather than the natural gameplay maximum.
+a cheat-forced value rather than the natural gameplay maximum. Incrementing
+that counter from 9999 through the normal updater reduces it to 999.
 
-**Two rows above are wrong as published, and this is where Unchiga's warning
-bites.** He found incorrect Free Duel record codes while building the rematch
-mod; the stride says which ones:
+**The earlier two-row correction was itself wrong.** Matching
+[`FreeDuel_Init`](../../src/overlays/free_duel/init.c) uses
+`0x801D071C + 4 * (row * 5 + column)`, adding two bytes for a loss.
+[`FreeDuel_UpdateScreen`](../../src/overlays/free_duel/update_screen.c) passes
+that same grid index to the duel initializer, which stores it unchanged as
+the opponent ID. Using the early ID/name mapping in the
+[primary game description](the-game.md#64-the-dropped-card), the corrected
+pairs are:
 
-* **Simon Muran's losses should be `801D0722`.** His pair is 4 apart where
-  every other duelist's pair is 2 apart.
-* **Villager 3's wins should be `801D0736`, losses `801D0738`.** As published,
-  his wins address is Villager 2's losses field.
+| Grid slot / ID | Listed duelist | Wins | Losses |
+|---:|---|---|---|
+| 1 | Simon Muran | `801D0720` | `801D0722` |
+| 2 | Teana | `801D0724` | `801D0726` |
+| 3 | Jono | `801D0728` | `801D072A` |
+| 4 | Villager 1 | `801D072C` | `801D072E` |
+| 5 | Villager 2 | `801D0730` | `801D0732` |
+| 6 | Villager 3 | `801D0734` | `801D0736` |
 
-Corrected, the duelist records have stride 4 with no gaps from `0x801D0720`
-through `0x801D07BB`. They are slots 1–39 of the 40-slot backing table at
-`gFreeDuel_aDuelistRecords` (`0x801D071C`); slot 0 corresponds to the
-non-duelist Build Deck grid tile.
+Thus the first five published rows need correction; Villager 3's published
+pair already fits. Moving it to `801D0736`/`801D0738`, as this note
+previously advised, would instead select Villager 3's loss and slot 7's win.
+The duelist records occupy `[0x801D0720, 0x801D07BC)` without gaps; slot 0
+at `0x801D071C` is the non-duelist Build Deck tile.
+
+This establishes addresses for numeric IDs, not every published name label.
+In particular, the DarkNite/Nitemare naming conflict remains qualified in
+the primary description. It is not evidence for changing the record stride
+or adding a hidden grid-to-opponent remapping.
 
 | code | what it does |
 |---|---|

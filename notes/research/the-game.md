@@ -826,9 +826,10 @@ In **2P Duel only**, Select on the active player's turn offers
 `QUIT DUEL? NO YES`, with No selected by default. The input check
 [`Duel_CheckQuitInput`] is gated by the negative opponent id used for two-player
 battles, so the prompt is not a single-player surrender option. Choosing Yes
-fades to black and returns to the initial menu; 2P Duel has no score, drop, or
-persistent record (§9.1). What a normal win or loss *means* is decided by the
-caller (§6, §7.12, §8).
+fades to black and returns to the initial menu. 2P Duel does not use the
+single-player score/drop or Free Duel grid-record paths; its separate
+per-save counter path is distinguished in §6.5 and §9.1. What a normal win
+or loss *means* is decided by the caller (§6, §7.12, §8).
 
 ### 5.11 The opponent
 
@@ -1044,29 +1045,67 @@ its stored deck is a placeholder identical to Simon Muran's, because his
 duel setup copies the player's deck instead (§8). It also corrects the
 earlier version of this document, which named the blocks by the GameShark
 record order and was off by one from Teana onward — and it means the two
-**GameShark win/loss labels for Nitemare and DarkNite are probably swapped**
-(their records at `0x801D0720 + 4·(id − 1)` would put DarkNite at 36 and
-Nitemare at 37, the archives publish the reverse). The bound for those two:
-the block order is measured, the record order is the archives' claim.
+**GameShark win/loss labels for Nitemare and DarkNite are probably swapped**.
+On the ID/name mapping above, DarkNite's ID 37 gives wins at `0x801D07B0`,
+and Nitemare's ID 38 gives wins at `0x801D07B4`; the archived labels assign
+those addresses the other way around. The remaining uncertainty is the
+boss **name-to-ID/label correspondence**, not an alternative record stride
+or an ID-to-record remapping: the normal Free Duel launch and record paths
+use the same grid index (§6.5).
 
 ### 6.5 Records and unlocks
 
-After a single-player duel the caller updates the beaten (or beating)
-duelist's **win/loss record** [slot `gDuel_bOpponentID` in the 40-entry table
-`gFreeDuel_aDuelistRecords` (`0x801D071C`); IDs 1–39 begin at
-`0x801D0720`]. Normal Free Duel updates cap each counter at 999. In the
-campaign, the caller also sets the duelist's **Free Duel unlock bit**
-[`0x801D06F4`]. Free Duel shows the record as `WIN n LOSS n` on its select
-screen. A duel lost in Free Duel records a loss and nothing else happens; a
-duel lost in the campaign is game over (§7.12), except the one scripted loss.
+**Per-duelist grid records.** Free Duel displays `WIN n LOSS n` from a
+40-record table at `gFreeDuel_aDuelistRecords` (`0x801D071C`). For grid index
+`i = row * 5 + column`, wins are at `0x801D071C + 4*i`, losses two bytes
+later. Slot 0 is the Build Deck tile; duelist cells 1–39 start at
+`0x801D0720`. Matching
+[`FreeDuel_UpdateScreen`](../../src/overlays/free_duel/update_screen.c)
+passes the selected index unchanged to
+[`func_80024DC8`](../../src/game/func_80024DC8.c), which stores it in
+`gDuel_bOpponentID`. This normal launch path does not remap the grid index.
 
-`gDuel_bWinnerSide` (`0x8009B165`) selects the winning side throughout this
-result path. The record update uses that byte directly for the winner and
-XORs it with one for the loser. Paired traces confirm the polarity: a CPU win
-holds value `1` through the one-shot end-credit latch, while the player-win
-control began with that stale `1` after a previous loss, changed to `0` when
-the opponent's LP reached zero, and kept `0` through the fresh latch.
-Therefore side `0` is the player and side `1` is the opponent.
+On return, matching
+[`FreeDuel_Init`](../../src/overlays/free_duel/init.c) updates the retained
+row/column's record when `gFreeDuel_bReturnFlags & 0x80` is set. It selects
+the second halfword only when **`D_8009B362 == 1`**, otherwise the first,
+and caps normal counter values at 999. It does not index this table by
+`gDuel_bWinnerSide` or XOR a row index to find a loser.
+
+The result setup at `0x80020F90..0x80020FA8` explains the connection:
+`D_8009B362` becomes zero when `gDuel_bWinnerSide` (`0x8009B165`) is zero,
+and one otherwise. The paired single-player observations below establish
+`0 = player wins`, `1 = opponent wins`; together with the matching updater
+they support wins-first/losses-second. The trace itself did not sample the
+record halfwords.
+
+In the campaign, the caller also sets the duelist's **Free Duel unlock bit**
+[`0x801D06F4`]. A duel lost in Free Duel records a loss and returns to that
+menu; a campaign loss is game over (§7.12), except the scripted loss. The
+initializer above pins the Free Duel return path, not every campaign
+record-writing path.
+
+**Separate per-save counters.** The resident block at
+`0x80021F24..0x80021FAC` instead indexes the save-pointer table at
+`0x8009B1D8` with `gDuel_bWinnerSide`, increments the winner's halfword at
+save offset `+0x518`, then uses `winner_side ^ 1` for the loser's `+0x51A`.
+Its normal ceiling is 9999, not the grid's 999. After a non-null
+winner-pointer check, this branch is selected when signed `D_8009B360 >= 0`
+or signed `gDuel_bOpponentID < 0`; otherwise the credit path awards starchips
+and a card. The normal Free Duel launch supplies `(-1, i)` with `i > 0`,
+which does not select that counter branch. These offsets and selectors must
+not be presented as the Free Duel grid update. The RAM writes alone do not
+establish the later memory-card persistence policy of every two-save flow.
+
+**What the winner-side trace establishes.** The CPU-win observation held
+value `1`; the player-win control began with that stale `1` after a previous
+loss, changed to `0` when the opponent's LP reached zero, and retained `0`
+as the result proceeded. This establishes single-player side polarity.
+The `0x2000` bit observed at `D_8009B23A` marks the result's departure fade:
+`0x80021E54..0x80021E5C` sets it before `Fade_StartOut`. The later
+credit/return block sets a **different** `0x2000` bit in `D_8009B16C` at
+`0x80021E8C..0x80021E98`. The traced fade marker is not by itself proof of
+a record write.
 
 The player-win control (`duel_winner_side_player_win`, result supplied in
 commit `45d8f22d`) recorded these four samples. The player first lost a Free
@@ -1079,23 +1118,25 @@ the Free Duel screen.
 |---|---|---|---:|---:|---:|
 | 1. entered duel mode | `0xC3` | `0x8005` | 1 | 8000 | 950 |
 | 2. winner-side byte changed | `0xC3` | `0x000C` | 0 | 8000 | 0 |
-| 3. fresh end-credit latch | `0xC3` | `0xE00D` | 0 | 8000 | 0 |
-| 4. three seconds after the latch | `0xC6` | `0xE00D` | 0 | 8000 | 0 |
+| 3. result-fade marker appears | `0xC3` | `0xE00D` | 0 | 8000 | 0 |
+| 4. three seconds after the marker | `0xC6` | `0xE00D` | 0 | 8000 | 0 |
 
-Every sample has the mode byte's two high bits set, so none of them was taken
-on a screen where the duel globals are stale. The opponent was ID 39 (Duel
-Master K) throughout. Two things in the table carry the conclusion. The
-`1 -> 0` change is recorded at sample 2, one transition **before** the fresh
-`0x2000` end-credit latch bit appears at sample 3, so the `0` cannot be left
-over from the earlier loss that seeded the `1`. And it survives to sample 4,
-after the fade back to Free Duel. The control establishes single-player
-polarity only; it says nothing about which physical controller drives which
-side in a two-player duel.
+Samples 1–3 are in duel mode (`0xC3 & 0x1F == 3`); sample 4 is already in
+Free Duel (`0xC6 & 0x1F == 6`). The high mode bits alone do not establish
+freshness of duel globals. The opponent byte remained ID 39 (Duel Master K),
+but the menu sample shows persistence of the old duel values, not a new
+duel-state observation. The decisive `1 -> 0` change occurs at sample 2,
+**before** the new `0x2000` fade marker at sample 3, so the winning `0`
+cannot be left over from the earlier loss that seeded the `1`. The control
+establishes single-player polarity only; it says nothing about which physical
+controller drives which side in a two-player duel.
 
-> **This stage — entered from:** the duel's exit, by its caller. **Reads:**
-> the statistics record, the rank table and drop pools (disc block), the RNG.
-> **Writes:** starchips, trunk (+ seen), records, unlock mask — all in the
-> save block, not yet on the memory card until the player saves. **Uses:** the
+> **This stage — entered from:** the duel's result flow and the returning
+> mode caller. **Reads:** the statistics record, rank table and drop pools
+> (disc block), RNG, result selectors and selected grid cell.
+> **Writes:** RAM state such as starchips, trunk (+ seen), records and
+> unlock flags. These stores do not themselves write a memory-card file;
+> persistence follows the relevant save flow (§10). **Uses:** the
 > RNG [`0x8008E590`], the card database.
 
 ---
@@ -1563,8 +1604,11 @@ NOT READY`) and that the two saves are **different people** — every save
 carries a **duelist code** (shown as `SECRET NO. 00000000` on these
 screens), and `YOU CANNOT COMPETE WITH THE SAME DUELIST CODES!` refuses a
 save dueling a copy of itself. The duel is the normal
-engine with the AI replaced by the second controller; there is no scoring,
-no drop and no record. On the active player's turn, Select opens
+engine with the AI replaced by the second controller; it does not use the
+single-player score/drop awards or per-opponent Free Duel grid records.
+The resident result path can update separate per-save win/loss counters
+(§6.5); those RAM stores alone do not establish subsequent memory-card
+writes. On the active player's turn, Select opens
 `QUIT DUEL? NO YES`; choosing Yes fades directly back to the initial menu.
 The setup chooses starting LP separately for both sides. Each defaults to
 8000, and pad 1 or pad 2 adjusts its own value to `1` or a multiple of 500
@@ -1591,7 +1635,9 @@ original). The starter deck of any new save can likewise be traded away,
 forty cards at a time.
 
 > **Entered from:** initial menu. **Exits to:** initial menu; duel (2P).
-> **Reads/writes:** two save blocks' trunks and decks; nothing else.
+> **Reads:** two save blocks, including deck readiness and duelist codes.
+> **Writes:** Trade changes trunks/decks; the 2P result path also has the
+> separate RAM counters described in §6.5.
 > **Uses:** memory-card I/O on both slots, the duel engine (2P).
 
 ---
@@ -1810,8 +1856,9 @@ Not verified in code:
 * the whole duelist-id order rests on 92–100 % matches against one
   independent list, and on every unlock opcode sitting in the right win
   dialogue (§7.11);
-* the win/loss record order (the archives' claim; only the drop-block order
-  is measured);
+* the remaining boss name-to-ID/archived-label correspondence (§6.4), not
+  the record field order: the grid/ID mapping, four-byte stride and
+  wins-first/losses-second update are code-backed (§6.5);
 * the full gameplay effects and necessity of the two "enable" GameShark
   codes. Their image and branch sites are now located in the WA startup
   phase (§12.2), and both force an existing branch unconditionally; no
