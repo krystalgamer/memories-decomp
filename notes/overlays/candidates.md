@@ -16,6 +16,12 @@ Rules:
 
 - Store the exact source that produces the recorded state, not a tidied version.
   These are measurements, and reformatting them can change the output.
+- Use the include an integrated overlay source uses, `#include "../../types.h"`,
+  which is what every file under `src/overlays/<module>/` has. A stored
+  candidate is meant to be promotable as-is, so an include that only resolves
+  from a scratch directory makes it fail to build the moment someone integrates
+  it. A sweep harness that compiles from somewhere else should rewrite the
+  include as it writes its temporary file rather than change what is stored.
 - Record the profile and the measured result in the heading, and re-verify with
   `overlay_diff.py` before trusting a stored candidate. If it no longer
   reproduces, say so in the function's inventory row rather than silently
@@ -44,6 +50,24 @@ state is not stored here, in the order worth recovering:
 - `func_801821DC`, no claimed state.
 
 ## password `func_8016913C` at 0x8016913C
+
+`D_8016D400`, `D_8016D401` and `D_8016D402` are three separate symbols, not one
+grouped object, and that is settled rather than assumed. The target addresses
+0x8016D401 and 0x8016D402 through `a0` with the displacements -11263 and -11262,
+which looks like one symbol reached at two offsets, but the two `a0` values come
+from different `lui` instructions either side of the reload at index 95, so each
+byte carries its own `%hi`. Declaring them as one struct or one array, in four
+variants covering signed and unsigned element types, takes the opcode distance
+from 2 to 22 and the agreeing prefix from 91 to 57. Keep them separate.
+
+The residual is a register-allocation inversion at index 91. The target leaves
+the `bnez` delay slot empty because the register it would materialise the
+constant 11 into is `v1`, which is still holding a `%hi` used by the load at
+index 92; this candidate puts the constant in `v0` and the `%hi` in `v1`, so
+nothing stops it filling the slot. Eight cells covering the position of the
+`D_8016D401 = 11` assignment within its block against three spellings of the
+flag expression leave the prefix at 91 in every case, which is consistent with
+the cause being allocation rather than statement order.
 
 `gcc_2_8_1_g0_split`, 384 instructions against 382, opcode distance 2
 with the unconditional jump count exact, and the first 91 instructions
@@ -894,7 +918,7 @@ the identity of the temporaries in those five clusters, on the evidence that
 variable identity has produced every one of the last four gains.
 
 ```c
-#include "../../src/types.h"
+#include "../../types.h"
 
 extern u8 *D_80184560;
 extern u8 *gMain_apMenuEntries[];
@@ -1353,7 +1377,7 @@ position in it differs either way; the register-blind instruction multiset
 can, and it improves by sixteen.
 
 ```c
-#include "../../src/types.h"
+#include "../../types.h"
 
 typedef struct {
     u8 pad0[8];
