@@ -57,9 +57,10 @@ after adding or removing an entry.
 | [`func_8004A6F8`](func_8004A6F8.md) | `0X8004A6F8` | `gcc_2_8_1_cc_g8_as_g0_split`, 27 of 27 instructions, opcode distance 0, 6 |
 | [`func_8004A764`](func_8004A764.md) | `0X8004A764` | `gcc_2_8_1_cc_g8_as_g0_split`, 23 of 23 instructions, opcode distance 0, 6 |
 | [`func_8004D75C`](func_8004D75C.md) | `0X8004D75C` | `gcc_2_8_1_g0`, 110 of 110 instructions, opcode distance 2, 65 differing |
+| [`func_80058938`](func_80058938.md) | `0X80058938` | `gcc_2_8_1_g8_split`, 82 instructions against a target of 81, opcode |
 | [`func_8005B36C`](func_8005B36C.md) | `0X8005B36C` | `gcc_2_8_1_g0`, 91 of 91 instructions, opcode distance 0, 17 differing |
 | [`func_8006C120`](func_8006C120.md) | `0X8006C120` | `gcc_2_8_1_g0`, 119 of 119 instructions, opcode distance 0, 8 differing |
 
-21 stored candidates.
+22 stored candidates.
 
 <!-- END GENERATED CANDIDATE INDEX -->
