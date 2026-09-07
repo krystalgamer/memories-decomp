@@ -1503,3 +1503,36 @@ any of them is byte-identical, and the three `flags` reads are the only real
 sharing there, of which one split is byte-identical and the other two cost
 seven positions. There is nothing to separate, which is why that function's
 residual has not moved for several cycles while this one's has.
+
+## Loop form is a spill-pressure lever, with a known direction
+
+A loop written with a label and a `goto` carries no `NOTE_INSN_LOOP_BEG`, so
+`loop.c` never scans it. It gets no invariant hoisting and no strength
+reduction. The same loop written as `for`, `while` or `do`/`while` does, and
+those three are byte-identical to each other, so the only choice that matters
+is goto against structured, not which structured form.
+
+That makes loop form a lever on register pressure with a predictable sign:
+
+- **Structured** enables hoisting, which creates a value that must live across
+  the whole body, which costs spills.
+- **Goto** suppresses hoisting, which keeps the body's pressure low and
+  rematerialises addresses instead.
+
+Both directions have now been measured on real functions. On `func_8016913C`
+the walk after a negative cell was a `goto` loop, so the `%hi` of its store
+target was rebuilt every iteration; making it a `while` hoisted that `%hi` once
+and removed **both** of the surplus `lui` the row had been stuck on, because
+every global in that range shares a high half. On `func_80180390` the opposite
+holds: its entry loop is a `goto` loop and must stay one, since every
+structured form hoists an address and pays two extra `sw`/`lw` for it, moving a
+candidate whose instruction mix was already exact to opcode distance 5.
+
+So the rule is not "prefer structured loops". It is:
+
+> If the residual is a surplus `lui` inside a loop, the loop probably wants to
+> be structured. If the residual is surplus spills, or the mix is already
+> exact, the loop probably wants to be a `goto`.
+
+Read the sign off the per-mnemonic counts before changing anything, because the
+two cases look identical in the opcode distance alone.
