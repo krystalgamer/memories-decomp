@@ -25,7 +25,7 @@ s32 func_8005BB7C(s32 arg0) {
     *(volatile u8 *)&D_8009B063 = 1;
     DecDCToutCallback(0);
     StUnSetRing();
-    while (func_8007E7F0(9, 0, 0) == 0) {
+    while (CdControlB(9, 0, 0) == 0) {
     }
     if (D_8009B061 != 0 || arg0 != 0) {
         func_8005C568(0, 0x100);

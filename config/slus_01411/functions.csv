@@ -1357,7 +1357,7 @@ address,size,name,status,module,notes
 0x8007A710,0x104,CdIntToPos,sdk_asm,psyq/sdk,Exact Psy-Q 4.6 LIBCD.LIB/S_002.OBJ signature match; canonical linked copy.
 0x8007A820,0x20,func_8007A820,sdk_asm,psyq/sdk,
 0x8007A840,0x14,func_8007A840,sdk_asm,psyq/sdk,
-0x8007A860,0x24,func_8007A860,sdk_asm,psyq/sdk,
+0x8007A860,0x24,CdDataCallback,sdk_asm,psyq/sdk,
 0x8007A890,0x30,func_8007A890,sdk_asm,psyq/sdk,
 0x8007A8C0,0xEC,func_8007A8C0,sdk_asm,psyq/sdk,
 0x8007A9AC,0x60,func_8007A9AC,sdk_asm,psyq/sdk,
@@ -1437,20 +1437,20 @@ address,size,name,status,module,notes
 0x8007E298,0x50,func_8007E298,sdk_asm,psyq/sdk,
 0x8007E2F0,0x24,func_8007E2F0,sdk_asm,psyq/sdk,
 0x8007E320,0x24,func_8007E320,sdk_asm,psyq/sdk,
-0x8007E350,0x20,func_8007E350,sdk_asm,psyq/sdk,
+0x8007E350,0x20,CdFlush,sdk_asm,psyq/sdk,
 0x8007E370,0x20,func_8007E370,sdk_asm,psyq/sdk,
 0x8007E390,0x38,DsFlush,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBDS.LIB/D2_005.OBJ signature.
-0x8007E3D0,0x20,func_8007E3D0,sdk_asm,psyq/sdk,
+0x8007E3D0,0x20,CdGetSector,sdk_asm,psyq/sdk,
 0x8007E3F0,0x100,func_8007E3F0,sdk_asm,psyq/sdk,
-0x8007E4F0,0x20,func_8007E4F0,sdk_asm,psyq/sdk,
+0x8007E4F0,0x20,CdGetSector2,sdk_asm,psyq/sdk,
 0x8007E510,0xEC,func_8007E510,sdk_asm,psyq/sdk,
 0x8007E600,0x104,CdIntToPos_8007E600,sdk_asm,psyq/sdk,Second byte-identical match of the Psy-Q 4.6 LIBCD.LIB/S_002.OBJ CdIntToPos signature; address-qualified because both copies are resident.
 0x8007E710,0x80,CdPosToInt_8007E710,sdk_asm,psyq/sdk,Second byte-identical match of the Psy-Q 4.6 LIBCD.LIB/SYS.OBJ CdPosToInt signature; address-qualified because both copies are resident.
 0x8007E790,0x54,DsLastPos,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBDS.LIB/D3_008.OBJ signature.
-0x8007E7F0,0x68,func_8007E7F0,sdk_asm,psyq/sdk,
-0x8007E860,0x14,func_8007E860,sdk_asm,psyq/sdk,
-0x8007E880,0x14,func_8007E880,sdk_asm,psyq/sdk,
-0x8007E8A0,0x24,func_8007E8A0,sdk_asm,psyq/sdk,
+0x8007E7F0,0x68,CdControlB,sdk_asm,psyq/sdk,
+0x8007E860,0x14,CdReadyCallback,sdk_asm,psyq/sdk,
+0x8007E880,0x14,CdSyncCallback,sdk_asm,psyq/sdk,
+0x8007E8A0,0x24,CdDataCallback_8007E8A0,sdk_asm,psyq/sdk,
 0x8007E8D0,0x40,SetDumpFnt,sdk_asm,psyq/sdk,
 0x8007E910,0xA0,func_8007E910,sdk_asm,psyq/sdk,
 0x8007E9B0,0x2B8,FntOpen,sdk_asm,psyq/sdk,

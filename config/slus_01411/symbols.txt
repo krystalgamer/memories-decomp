@@ -754,3 +754,13 @@ Main_ResetFrontendRuntime = 0x8002CD8C; // type:func
 Duel_RequestCombinedDeckData = 0x80024734; // type:func
 Duel_PopulateCombinedDeckData = 0x80024824; // type:func
 Model_SetSlotProperties = 0x80053248; // type:func
+
+// Semantic names
+CdDataCallback = 0x8007A860; // type:func
+CdFlush = 0x8007E350; // type:func
+CdGetSector = 0x8007E3D0; // type:func
+CdGetSector2 = 0x8007E4F0; // type:func
+CdControlB = 0x8007E7F0; // type:func
+CdReadyCallback = 0x8007E860; // type:func
+CdSyncCallback = 0x8007E880; // type:func
+CdDataCallback_8007E8A0 = 0x8007E8A0; // type:func

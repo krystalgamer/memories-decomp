@@ -18,7 +18,7 @@ extern u8 *func_800400AC(void *, int);
 extern void func_800428A8(void *, int, int, int, int, int, int, int, int);
 extern void func_8004365C(void *, void *);
 extern void func_800438B8(int);
-extern void func_8007E350(void);
+extern void CdFlush(void);
 extern void func_801680F4(void);
 extern int func_80168160(int);
 extern void func_8007AFA4(void);
@@ -58,7 +58,7 @@ void func_80043960(int mode)
     func_8007E910(0x2C0, 0);
     SetDumpFnt(FntOpen(0x10, 0x10, 0x140, 0xF0, 0, 1000));
     D_8009B098[0] = 0;
-    func_8007E350();
+    CdFlush();
     first = object;
     func_801680F4();
     while (func_80168160(1) != 0) {

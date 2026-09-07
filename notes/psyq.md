@@ -53,11 +53,9 @@ not be imported in bulk or used to override a conflicting local signature.
 ## Confirmed interface anchors
 
 The following resident addresses have especially strong API-level evidence.
-Most rows below are already applied project symbols. The seven CD-library rows
-explicitly marked **candidate** remain address-based in `functions.csv` and
-`symbols.txt` until they pass the normal semantic-name review.
+Every row below is now an applied project symbol.
 
-| Address | Candidate SDK identity | Local evidence |
+| Address | SDK identity | Local evidence |
 |---|---|---|
 | `0x80058F10` | `GsGetWorkBase` | Confirmed from the canonical four-instruction getter, the real `libgs.h` `PACKET *` return type, and independent GMS and Unchiga identities. Unlike the three false-positive 16-byte FLIRT matches in the resident LIBDS range, this function returns the actual LIBGS packet work-base pointer consumed by model renderers. |
 | `0x80073830` | `InitHeap` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C57.OBJ` signature. |
@@ -170,11 +168,11 @@ explicitly marked **candidate** remain address-based in `functions.csv` and
 | `0x800785C0` | `StGetNext` | Applied Psy-Q 4.6 identity from the unique 192-byte `LIBCD.LIB/C_009.OBJ` signature. |
 | `0x80078680` | `StSetMask` | Applied Psy-Q 4.6 identity from the unique 32-byte `LIBCD.LIB/C_010.OBJ` signature. |
 | `0x800786A0` | `StCdInterrupt` | Applied Psy-Q 4.6 identity from the unique 2,800-byte `LIBCD.LIB/C_011.OBJ` signature. |
-| `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | **Candidate, not yet applied.** Byte-identical wrappers that install a callback on DMA channel `3`. |
+| `0x8007A860`, `0x8007E8A0` | `CdDataCallback`, `CdDataCallback_8007E8A0` | Applied confirmed identities for byte-identical wrappers that install a callback on DMA channel `3`; the second copy is address-qualified because both are resident and live. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
-| `0x8007E350` | `CdFlush` | **Candidate, not yet applied.** No-argument wrapper around the CD library's internal state-reset routine. |
-| `0x8007E3D0` | `CdGetSector` | **Candidate, not yet applied.** Identified CD-sector transfer interface in the resident CD library. |
-| `0x8007E4F0` | `CdGetSector2` | **Candidate, not yet applied.** Parallel two-argument sector-transfer wrapper using the library's second transfer path. |
+| `0x8007E350` | `CdFlush` | Applied confirmed identity for the no-argument wrapper around the CD library's internal state-reset routine. |
+| `0x8007E3D0` | `CdGetSector` | Applied confirmed identity for the resident CD-sector transfer interface. |
+| `0x8007E4F0` | `CdGetSector2` | Applied confirmed identity for the parallel two-argument sector-transfer wrapper using the library's second transfer path. |
 | `0x8007A710` | `CdIntToPos` | Applied Psy-Q 4.6 LIBCD identity; canonical copy of the sector-to-packed-BCD position conversion. |
 | `0x8007CDE0` | `DsRead` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,296-byte `LIBDS.LIB/DSREAD.OBJ` signature. |
 | `0x8007D190` | `DsReadSync` | Applied Psy-Q 4.6 identity at offset `0x3B0` of the same unique `LIBDS.LIB/DSREAD.OBJ` signature. |
@@ -190,9 +188,9 @@ explicitly marked **candidate** remain address-based in `functions.csv` and
 | `0x8007DE38` | `DsReadySystemMode` | Applied Psy-Q 4.6 identity at offset `0xE8` of the same unique `LIBDS.LIB/DSREADY.OBJ` signature; the matching file-transfer path selects mode `1`. |
 | `0x8007E390` | `DsFlush` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBDS.LIB/D2_005.OBJ` signature. |
 | `0x8007E790` | `DsLastPos` | Applied Psy-Q 4.6 identity from the unique 96-byte `LIBDS.LIB/D3_008.OBJ` signature. |
-| `0x8007E7F0` | `CdControlB` | **Candidate, not yet applied.** Submits the three-argument CD command and blocks until the internal completion code is `2`. |
-| `0x8007E860` | `CdReadyCallback` | **Candidate, not yet applied.** Replaces and returns the callback invoked with a ready-event status and result pointer. |
-| `0x8007E880` | `CdSyncCallback` | **Candidate, not yet applied.** Replaces and returns the callback invoked from the command-completion path. |
+| `0x8007E7F0` | `CdControlB` | Applied confirmed identity for the three-argument CD command that blocks until the internal completion code is `2`. |
+| `0x8007E860` | `CdReadyCallback` | Applied confirmed identity for the setter that replaces and returns the callback invoked with a ready-event status and result pointer. |
+| `0x8007E880` | `CdSyncCallback` | Applied confirmed identity for the setter that replaces and returns the callback invoked from the command-completion path. |
 | `0x8007E8D0` | `SetDumpFnt` | Applied at offset zero of the unique Psy-Q 4.6 `LIBGPU.LIB/FONT.OBJ` signature; matching setup paths select the debug-font stream returned by `FntOpen`. |
 | `0x8007E9B0` | `FntOpen` | Applied at offset `0xE0` of the unique `FONT.OBJ` signature; matching callers open a 320x240 on-screen debug text window. |
 | `0x8007EC68` | `FntFlush` | Applied at offset `0x398` of the unique `FONT.OBJ` signature. |
@@ -429,13 +427,15 @@ One original name cannot be assigned to multiple resident addresses.
 
 The callback invocation paths distinguish the two adjacent setter routines:
 
-- `0x8007E860` swaps the pointer at `D_800F8394`. Initialization registers
-  dispatcher `0x8007BB74` through `0x8007BED4`, whose destination is
+- `CdReadyCallback` (`0x8007E860`) swaps the pointer at `D_800F8394`.
+  Initialization registers dispatcher `0x8007BB74` through `0x8007BED4`,
+  whose destination is
   `D_800F5F88`. That dispatcher explicitly recognizes event code `1`
   (`CdlDataReady`) and forwards its one-byte event code and result pointer to
   `D_800F8394`.
-- `0x8007E880` swaps the distinct pointer at `D_800F8398`. Initialization
-  registers dispatcher `0x8007BC48` through `0x8007BEE0`, whose destination is
+- `CdSyncCallback` (`0x8007E880`) swaps the distinct pointer at `D_800F8398`.
+  Initialization registers dispatcher `0x8007BC48` through `0x8007BEE0`,
+  whose destination is
   `D_800F5F8C`. The command state machine at `0x8007C7D4` calls
   `D_800F5F8C` with literal event code `2` (`CdlComplete`) at `0x8007C940`;
   `0x8007BC48` then forwards the status and unchanged second argument to
@@ -955,7 +955,7 @@ These values are centralized as `MEM_CARD_DIRECTORY_ENTRY_SIZE`,
 `MEM_CARD_BLOCK_SIZE`, and `MEM_CARD_BLOCK_COUNT` in `src/game/mem_card.h`.
 This proves the directory-record ABI surface used by the game.
 
-The routine at `0x8007E7F0` matches the blocking `CdControlB` interface rather
+`CdControlB` at `0x8007E7F0` matches the blocking interface rather
 than the asynchronous `CdControl` variant. It truncates the command argument
 to one byte, submits the command and parameter pointer, then repeatedly polls
 the command handle while passing through the caller's result pointer. It
@@ -964,23 +964,22 @@ command submission fails. Game callers corroborate the command contract:
 `func_8005C62C` issues command `0x02` (`CdlSetloc`) followed by `0x16`
 (`CdlSeekP`), while another caller loops on command `0x09` (`CdlPause`).
 
-The no-argument wrapper at `0x8007E350` calls `0x8007BE00`, which clears the
+`CdFlush` at `0x8007E350` calls `0x8007BE00`, which clears the
 resident CD command-active flag and two associated state words before
 calling the lower-level hook with both arguments zero. This
 reset-without-reinitialization contract matches `CdFlush`, whose purpose is to
 discard the current command state while leaving the CD library available for
 later operations. The wrapper itself adds no arguments or result
 transformation. Matching-C caller `func_80043960` declares the wrapper as
-`void func_8007E350(void)` and invokes it immediately before transferring
+`void CdFlush(void)` and invokes it immediately before transferring
 control to an overlay and polling that module. The overlay continues using
 the drive afterward, independently confirming a flush rather than full
 CD-library teardown.
 
-The sector-transfer wrappers at `0x8007E3D0` and `0x8007E4F0` preserve the
+`CdGetSector` (`0x8007E3D0`) and `CdGetSector2` (`0x8007E4F0`) preserve the
 same destination-pointer and word-count arguments, call distinct low-level
 transfer routines, and convert a zero low-level result into return value one.
-This mirrored contract and the documented adjacent `CdGetSector` /
-`CdGetSector2` interface pair identify `0x8007E4F0` as `CdGetSector2`.
+This mirrored contract matches the documented adjacent interface pair.
 The resident streaming path at `0x8007CF9C` calls `0x8007E4F0`, while its
 alternate branch at `0x8007CFEC` passes the same saved arguments to
 `0x8007E3D0`; the second entry is therefore live code rather than an unused
