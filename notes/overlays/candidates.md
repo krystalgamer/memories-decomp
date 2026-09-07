@@ -782,8 +782,43 @@ join:
 
 `gcc_2_8_1_g0_split`, 495 instructions against 495, opcode distance 0
 with every mnemonic count exact. The longest common subsequence of
-mnemonics is 479 of 495, the first 192 instructions agree, and 206
+mnemonics is 479 of 495, the first 192 instructions agree, and 189
 positions differ.
+
+Three more shared locals separated, taking the differing positions from 206 to
+189. The method is the same each time: cluster the differing positions, read
+the first cluster, find the local that two blocks share, and give the block its
+own.
+
+The level-up accumulation gets its own. `value = entry[0xE] + entry[0x60]`
+followed by three byte stores of the result held that value in `a1` where the
+target holds it in `v0`; a dedicated local is worth six positions. The
+comparison sense of the pad-hold test was measured against it at the same time,
+in twelve cells, and is inert in all of them.
+
+The character-range test gets its own, and so does the entry pointer beside it,
+but not the counter between them. Splitting the character code and the entry
+pointer is worth nine; splitting the counter as well takes two of those nine
+back. All eight subsets were measured, and the best is not the largest, which
+is the third time on this function that the subset has mattered more than the
+count.
+
+The negated frame counter wants a dedicated local of exactly the right width.
+`s32` is worth two more positions; `s16`, which is the natural width for a
+field that is stored back as a halfword, costs two of the distance instead,
+because GCC then sign-extends before negating rather than after. Negating in
+place without a local costs the same two. Six spellings were measured and only
+the `s32` local reaches it.
+
+The remaining 189 are one cluster covering the whole tail from instruction 186.
+It begins at the pad-hold accumulation, where the target keeps the entry
+pointer in `a1` and the pad delta in `a0` and stores the sum before the sign
+extension, while this build keeps them in `a0` and `v0` and stores after. A
+sixteen-cell product over a dedicated entry pointer, a dedicated accumulator,
+both comparison senses and the `volatile` qualifier on the store leaves the
+current shape in front, so the tail needs a different handle than the one that
+worked on the first three clusters.
+
 
 With the instruction mix exact, the residual is register assignment, and it
 responds to which local a value is given. Three changes take the differing
@@ -1150,6 +1185,10 @@ s32 func_80180390(void)
     s32 i;
     s32 base;
     s32 count;
+    s32 lvl;
+    s32 neg;
+    s32 chr;
+    u8 *ent5;
     s32 poll;
     u8 *ent2;
 
@@ -1241,19 +1280,19 @@ s32 func_80180390(void)
         if (entry[0x6C] != 0) {
             entry[0x6C] = entry[0x6C] - 1;
         } else {
-            value = entry[0xE] + entry[0x60];
-            entry[0xE] = value;
-            entry[0xD] = value;
-            entry[0xC] = value;
+            lvl = entry[0xE] + entry[0x60];
+            entry[0xE] = lvl;
+            entry[0xD] = lvl;
+            entry[0xC] = lvl;
             entry = D_80184560;
-            value = entry[0xC];
-            if ((u32)(value - 0x41) >= 0x3F) {
-                if ((s8)value < 0) {
+            chr = entry[0xC];
+            if ((u32)(chr - 0x41) >= 0x3F) {
+                if ((s8)chr < 0) {
                     entry[0x6C] = 0x3C;
                 }
-                entry = D_80184560;
-                value = *(s16 *)(entry + 0x60);
-                *(s16 *)(entry + 0x60) = -value;
+                ent5 = D_80184560;
+                neg = *(s16 *)(ent5 + 0x60);
+                *(s16 *)(ent5 + 0x60) = -neg;
             }
         }
         if ((D_8009B398 & 0x800) != 0) {
