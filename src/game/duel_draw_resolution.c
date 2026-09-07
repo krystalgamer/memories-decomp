@@ -2,6 +2,7 @@
 #include "card_constants.h"
 #include "duel_card_layout.h"
 #include "duel_deck_card.h"
+#include "duel_rank.h"
 
 typedef struct {
     u8 pad[0x1A];
@@ -114,9 +115,10 @@ void func_80018DB4(void) {
         b = D_8009B1EC - 1;
         c = D_8009B1C8;
         D_8009B1EC = b;
-        if (*(s8 *)(c + 0x18) >= 0x28) {
+        if (*(s8 *)(c + 0x18) >= DECK_SIZE) {
             gDuel_bWinnerSide = D_8009B1D5 ^ 1;
-            *(s8 *)&D_800E9FF0[gDuel_bWinnerSide] = -0x28;
+            *(s8 *)&D_800E9FF0[gDuel_bWinnerSide] =
+                DUEL_RANK_ADJUST_DECK_OUT_WIN;
             D_8009B23A = 0xC;
             return;
         }

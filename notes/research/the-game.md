@@ -970,6 +970,13 @@ resolution paths write the following byte into the selected winner's
 | Draw exhaustion | `0xD8` | `-40` | Matching [`func_80018DB4`](../../src/game/duel_draw_resolution.c) tests the active side's signed draw counter at +0x18 against `40`, selects the other side, and writes `-0x28` to its record +0. |
 | Exodia resolution | `0x28` | `+40` | The state-`0xE` handler `func_80018FEC` selects the current side as winner and stores `0x28` at record +0 at `0x800193F0`. |
 
+`duel_rank.h` names the two special adjustments as
+`DUEL_RANK_ADJUST_EXODIA_WIN` (`40`) and `DUEL_RANK_ADJUST_DECK_OUT_WIN`
+(`-40`). They remain separate from `DECK_SIZE`, which names the draw-counter
+limit in `func_80018DB4` despite its equal magnitude. The deck-out writer
+still stores the negative adjustment through a signed byte, and the rank
+reader uses the same named values to select its message variants.
+
 The reader closes the arithmetic: `Duel_CalcRankScore` initializes both
 score words to `50` at `0x80021638..0x80021640`, then uses signed `lb` at
 `0x80021644` and adds the result at `0x80021650`. Its two-iteration loop

@@ -51,10 +51,10 @@ void Duel_CalcRankScore(void) {
     p[0x34] = 0x44;
     p[0x35] = 0x40;
     p[0x36] = 0x45;
-    if (D_800E9FF0[gDuel_bWinnerSide].unk0 == 0x28) {
+    if (D_800E9FF0[gDuel_bWinnerSide].unk0 == DUEL_RANK_ADJUST_EXODIA_WIN) {
         p[0x35] = 0x42;
     }
-    if (D_800E9FF0[gDuel_bWinnerSide].unk0 == -0x28) {
+    if (D_800E9FF0[gDuel_bWinnerSide].unk0 == DUEL_RANK_ADJUST_DECK_OUT_WIN) {
         p[0x35] = 0x41;
     }
 
