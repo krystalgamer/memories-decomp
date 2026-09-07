@@ -54,6 +54,7 @@ source grouping.
 | `src/game/main_run_frontend_menus.c` | `gcc_2_8_1_g8` | Six contiguous frontend mode runners: main menu (`0x8002D588`), name entry (`0x8002D62C`), password (`0x8002D684`), Options (`0x8002D6C8`), game over (`0x8002D730`), and the empty `Main_RunHirata` stub (`0x8002D7C4`) |
 | `src/game/script_flag_commands.c` | `gcc_2_8_1_g8_split` | Combined library-used/story-flag command (`0x8002E918`) that updates a card flag or conditionally jumps the script cursor, followed by `Script_OpViewportTween` (`0x8002E9A0`) reading target X, target Y, and duration |
 | `src/game/script_stream_commands.c` | `gcc_2_8_1_g8` | `Script_OpSound` (`0x8002EC74`), a contiguous one-byte sound-control dispatcher (`0x8002EDB0`), and a 16-bit base-relative script-cursor jump (`0x8002EE20`) |
+| `src/game/script_readers.c` | `gcc_2_8_1_g8` | Contiguous script operand readers for one byte (`0x80030050`) and one little-endian 16-bit value (`0x8003006C`), advancing `gScript_pStream` by one or two bytes respectively |
 | `src/game/ai_fusion.c` | `gcc_2_8_1_g0_split` | `AiScript_FindEquipTarget` (`0x8007249C`) through `Ai_CompleteFusion` (`0x800727C0`) |
 | `src/game/ai_script_vm.c` | `gcc_2_8_1_g0_split` | `AiScript_Init` (`0x800705D8`), `AiScript_Run` (`0x80070650`) |
 | `src/game/ai_card_ranges.c` | `gcc_2_8_1_g0_split` | Four contiguous AI card-selection helpers: winning-card (`0x80070738`) and general card (`0x800707C4`) range decoders with their compiler-owned jump tables, followed by card-ID (`0x80070870`) and card-type (`0x800708C4`) set predicates |
