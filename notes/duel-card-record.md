@@ -45,6 +45,20 @@ stride: `Duel_SetupCardRecord` scales an index by 28,
 five-record slices within 15 records per side, and `func_80027DF8` selects
 the two 15-record side blocks.
 
+Matching `Duel_CheckRitual` scans the five records at indices `5-9` for a
+zero `D_8009B1D5`, or `20-24` for any nonzero value. These are expressed as
+`DUEL_FIELD_ROW_SIZE` and `DUEL_CARD_SIDE_RECORD_COUNT + DUEL_FIELD_ROW_SIZE`,
+with `DUEL_CARD_FLAG_OCCUPIED` selecting eligible records. Its local `Card`
+view remains unchanged; it has not adopted the shared `DuelCardRecord` type.
+
+The ritual table has a separate five-halfword recipe layout: one ritual ID,
+`DUEL_RITUAL_TRIBUTE_COUNT` (`3`) tribute IDs, and one result ID, giving
+`DUEL_RITUAL_RECIPE_HALFWORD_COUNT` (`5`). The search stops at a zero ritual
+ID rather than a fixed recipe count. Each matched candidate is cleared from
+the temporary list before the next tribute search, so repeated tribute IDs
+must come from distinct field records. The optional output contains the three
+matched records' first words; the return value is the recipe's result ID.
+
 Corroboration agrees without defining the shared type:
 
 - GMS declares a guessed `int[]`, but consistently indexes records as seven

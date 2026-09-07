@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "card_constants.h"
+#include "duel_card_layout.h"
+#include "duel_grid.h"
 
 typedef struct {
     u32 w0;
@@ -10,7 +13,7 @@ typedef struct {
 } Card;
 
 typedef struct {
-    u32 w[3];
+    u32 w[DUEL_RITUAL_TRIBUTE_COUNT];
     s32 unkC;
 } RitualOut;
 
@@ -20,8 +23,8 @@ extern Card D_801A7AD8[];
 
 u16 Duel_CheckRitual(RitualOut *out, s32 ritualId)
 {
-    Card *found[3];
-    Card *cands[5];
+    Card *found[DUEL_RITUAL_TRIBUTE_COUNT];
+    Card *cands[DUEL_FIELD_ROW_SIZE];
     Card *card;
     Card **first;
     Card **dst;
@@ -40,19 +43,19 @@ u16 Duel_CheckRitual(RitualOut *out, s32 ritualId)
         if (p[0] == ritualId) {
             break;
         }
-        p += 5;
+        p += DUEL_RITUAL_RECIPE_HALFWORD_COUNT;
     }
 
-    i = 5;
+    i = DUEL_FIELD_ROW_SIZE;
     if (D_8009B1D5 != 0) {
-        i = 20;
+        i = DUEL_CARD_SIDE_RECORD_COUNT + DUEL_FIELD_ROW_SIZE;
     }
     c = &D_801A7AD8[i];
     i = 0;
     w = cands;
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
         *w = 0;
-        if (c->flags & 0x8000) {
+        if (c->flags & DUEL_CARD_FLAG_OCCUPIED) {
             *w = c;
         }
         w++;
@@ -64,8 +67,8 @@ u16 Duel_CheckRitual(RitualOut *out, s32 ritualId)
     first = cands;
     dst = found;
     q = p;
-    for (j = 0; j < 3; j++) {
-        for (i = 0; i < 5; i++) {
+    for (j = 0; j < DUEL_RITUAL_TRIBUTE_COUNT; j++) {
+        for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
             card = first[i];
             if (card != 0 && card->id == q[0]) {
                 goto matched;
@@ -79,10 +82,10 @@ matched:
     }
 
     if (out != 0) {
-        for (i = 0; i < 3; i++) {
+        for (i = 0; i < DUEL_RITUAL_TRIBUTE_COUNT; i++) {
             out->w[i] = found[i]->w0;
         }
         out->unkC = 0;
     }
-    return p[3];
+    return p[DUEL_RITUAL_TRIBUTE_COUNT];
 }
