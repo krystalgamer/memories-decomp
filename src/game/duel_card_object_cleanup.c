@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card_layout.h"
 
 typedef struct {
     void *value;
@@ -10,7 +11,7 @@ extern void func_8004036C(void *);
 
 void func_80024914(Object *object)
 {
-    object->flags &= 0x7FFF;
+    object->flags &= ~DUEL_CARD_FLAG_OCCUPIED;
     if (object->value != 0) {
         func_8004036C(object->value);
         object->value = 0;
