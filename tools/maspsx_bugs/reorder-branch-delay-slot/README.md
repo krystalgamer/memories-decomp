@@ -18,7 +18,7 @@ free match rather than a diagnostic.
 
 | file | what it is |
 | --- | --- |
-| `func_80012DB4.c` | my attempt — the C I believe is correct |
+| `func_80012DB4.c` | my attempt — the C I believe is correct, self-contained (no project headers) |
 | `func_80012DB4.s` | the original game assembly, spimdisasm output via splat |
 | `build.sh` | compile → maspsx → assemble, with every flag |
 
