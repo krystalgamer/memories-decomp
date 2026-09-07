@@ -10,7 +10,9 @@ after any naming change. Source tags: `idb2018` = idb_raymond_2018 import, `ramM
 datacrystal RAM map, `dotr` = DotR-style naming, `psyq` = original SDK symbol
 (libsyms signature match), `fleet` = behavior-derived by this project. Evidence: NAMING.md.
 
-91 named variables (77 game-meaningful, 0 sdk, 14 mechanical).
+The roster is divided into game-meaningful and mechanical sections. Derive
+current totals from the rows rather than maintaining a duplicate snapshot
+here.
 
 ## Game-meaningful names
 
@@ -24,14 +26,17 @@ Names that say what something IS in the game.
 | 0x80090E58 | `gTextBox_awSpriteSlotRange` | idb2018 |
 | 0x800916E0 | `gAiScript_apfnCommand` | idb2018 |
 | 0x800917F0 | `gDuel_aOpponentData` | idb2018 |
+| 0x8009B0AC | `gGraphics_bActiveBuffer` | live + matching C |
 | 0x8009B141 | `gFade_bOverlayOn` | idb2018 |
 | 0x8009B146 | `gGraphics_sViewportX` | live + matching C |
 | 0x8009B148 | `gGraphics_sViewportY` | live + matching C |
 | 0x8009B164 | `gDuel_bQuitDialogState` | matching C + live |
+| 0x8009B165 | `gDuel_bWinnerSide` | matching C + live |
 | 0x8009B1D5 | `gDuel_bPlayingSide` | idb2018 |
 | 0x8009B246 | `gDuel_wViewerCardID` | live + resident writers |
 | 0x8009B258 | `gCardGrid_bCursorColumn` | live |
 | 0x8009B259 | `gCardGrid_bCursorRow` | live |
+| 0x8009B27A | `gCampaignSceneIndex` | matching C |
 | 0x8009B27C | `gScript_wCommand` | idb2018 |
 | 0x8009B290 | `gScript_pStream` | idb2018 |
 | 0x8009B2A4 | `gScript_wState` | idb2018 |
@@ -53,9 +58,13 @@ Names that say what something IS in the game.
 | 0x8009B396 | `gInput_wPad2Repeat` | matching C |
 | 0x8009B398 | `gInput_wPad1Pressed` | matching C |
 | 0x8009B39A | `gInput_wPad2Pressed` | matching C |
+| 0x8009B39C | `gInput_bRepeatDelay` | matching C |
+| 0x8009B3A2 | `gInput_bRepeatInterval` | matching C |
 | 0x8009B3A4 | `gInput_wPad1Held` | matching C |
 | 0x8009B3A6 | `gInput_wPad2Held` | matching C |
 | 0x8009B408 | `gSD_bOutputType` | live |
+| 0x8009B450 | `gMemCard_nIOResult` | matching C |
+| 0x8009B45C | `g_SDValue` | dotr |
 | 0x800E9EA8 | `gFile_anLba` | idb2018 |
 | 0x800E9EC8 | `gFade_State` | idb2018 |
 | 0x800EA002 | `gDuel_wPlayerLifePointDisplay` | ramMap |
@@ -64,6 +73,7 @@ Names that say what something IS in the game.
 | 0x800EA024 | `gDuel_wOpponentLifePoint` | idb2018 |
 | 0x800EA118 | `gDuel_wFusionResultCardID` | ramMap |
 | 0x800EB0F8 | `gTextBox_aRecords` | idb2018 |
+| 0x800F2AE0 | `gMemCard_aIOEventHandles` | matching C |
 | 0x800F5B98 | `gAiScript_aMemory` | idb2018 |
 | 0x800F5BE8 | `gAiScript_State` | idb2018 |
 | 0x800F5BEC | `gAiScript_wWord1` | idb2018 |
@@ -98,8 +108,10 @@ Names that say what something IS in the game.
 | 0x801C0000 | `gText_aBankOffsets` | idb2018 |
 | 0x801D0200 | `gDuel_awPlayerDeck` | idb2018 |
 | 0x801D0250 | `gLibrary_abCardChest` | idb2018 |
+| 0x801D060C | `gSaveData_aPlayerNameSjis` | matching C + live |
 | 0x801D06F4 | `gFreeDuel_dwUnlockedDuelists` | ramMap |
 | 0x801D07BC | `gDuel_awRecentCardDrops` | ramMap |
+| 0x801D07DC | `gCampaignSavedSceneIndex` | matching C |
 | 0x801D07E0 | `gLibrary_dwStarchips` | idb2018 |
 | 0x801D4244 | `gDuel_adwCardStats` | idb2018 |
 | 0x801D4D8E | `gCard_asNameSortKey` | idb2018 |
