@@ -1585,7 +1585,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B278,D_8009B278,D_8009B278,0x8002F968,func_8002F968,matching_c,game,C,src/game/script_control_commands.c,read_write,16,D_8009B278 = p[0] | (p[1] << 8); | D_8009B278--; | (+1 more)
 0x8009B27A,gCampaignSceneIndex,gCampaignSceneIndex,0x8002CE64,Main_RunCampaign,matching_c,game,C,src/game/main_run_campaign.c,read,8,func_8002FD10(gCampaignSceneIndex);
 0x8009B27A,gCampaignSceneIndex,gCampaignSceneIndex,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel_and_library.c,write,8,gCampaignSceneIndex[0] = table[D_8009B362[0] * 2];
-0x8009B27A,gCampaignSceneIndex,gCampaignSceneIndex,0x8002D458,func_8002D458,matching_c,game,C,src/game/func_8002D458.c,write,8,gCampaignSceneIndex = 0x30; | gCampaignSceneIndex = D_801D07DC[0];
+0x8009B27A,gCampaignSceneIndex,gCampaignSceneIndex,0x8002D458,func_8002D458,matching_c,game,C,src/game/func_8002D458.c,write,8,gCampaignSceneIndex = 0x30; | gCampaignSceneIndex = gCampaignSavedSceneIndex[0];
 0x8009B27A,gCampaignSceneIndex,D_8009B27A,0x8002EE94,func_8002EE94,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01f694.s,write,8,"sb $v1, %gp_rel(D_8009B27A)($gp)"
 0x8009B27A,gCampaignSceneIndex,gCampaignSceneIndex,0x80030998,func_80030998,matching_c,game,C,src/game/func_80030998.c,write,8,".reloc .-4, R_MIPS_HI16, gCampaignSceneIndex after .word 0x3C010000 | .reloc .-4, R_MIPS_LO16, gCampaignSceneIndex after .word 0xA0230000"
 0x8009B27A,gCampaignSceneIndex,gCampaignSceneIndex,0x8003D0F4,SaveData_ApplyRuntimeState,matching_c,game,C,src/game/save_data_apply_runtime_state.c,write,,gCampaignSceneIndex = state->campaign_scene_index;
@@ -3256,7 +3256,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D0250,gLibrary_abCardChest,gLibrary_abCardChest,0x8002BF3C,Library_MarkOwnedCards,matching_c,game,C,src/game/library_mark_owned_cards.c,address,8,u8 *p = gLibrary_abCardChest;
 0x801D0534,D_801D0534,D_801D0534,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_run_credits.c,read,32,".reloc .-4, R_MIPS_HI16, D_801D0534 after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, D_801D0534 after .word 0x8C430000"
 0x801D07BC,gDuel_awRecentCardDrops,gDuel_awRecentCardDrops,0x800323F8,func_800323F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022bf8.s,address,,"addiu $a2, $v0, %lo(gDuel_awRecentCardDrops) | lui $v0, %hi(gDuel_awRecentCardDrops)"
-0x801D07DC,D_801D07DC,D_801D07DC,0x8002D458,func_8002D458,matching_c,game,C,src/game/func_8002D458.c,read_write,,D_801D07DC[0] = 0x30; | gCampaignSceneIndex = D_801D07DC[0];
+0x801D07DC,gCampaignSavedSceneIndex,gCampaignSavedSceneIndex,0x8002D458,func_8002D458,matching_c,game,C,src/game/func_8002D458.c,read_write,16,gCampaignSavedSceneIndex[0] = 0x30; | gCampaignSceneIndex = gCampaignSavedSceneIndex[0];
 0x801D1200,D_801D1200,D_801D1200,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,address,,"addiu $a0, $a0, %lo(D_801D1200) | lui $a0, %hi(D_801D1200)"
 0x801D1200,D_801D1200,D_801D1200,0x8003F8D4,func_8003F8D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0300d4.s,address,,"addiu $a0, $a0, %lo(D_801D1200) | lui $a0, %hi(D_801D1200)"
 0x801D1200,D_801D1200,D_801D1200,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/two_player_save_setup.c,address,8,left = D_801D1200; | right = D_801D1200 + 4096;

@@ -3,7 +3,7 @@
 extern u8 D_8009B268;
 extern u8 D_8009B26C;
 extern u8 D_8009B26D;
-extern s16 D_801D07DC[];
+extern s16 gCampaignSavedSceneIndex[];
 extern u8 gCampaignSceneIndex __attribute__((section(".data")));
 extern u8 D_8009B3D4 __attribute__((section(".data")));
 extern u8 D_8009B0D1 __attribute__((section(".data")));
@@ -22,7 +22,7 @@ void func_8002D458(s32 mode)
     case 0:
         func_8003BBF8();
         func_8016AA6C();
-        D_801D07DC[0] = 0x30;
+        gCampaignSavedSceneIndex[0] = 0x30;
         gCampaignSceneIndex = 0x30;
         D_8009B3D4 = 1;
         D_8009B0D1 = 0;
@@ -38,7 +38,7 @@ void func_8002D458(s32 mode)
         D_8009B26C = 4;
         break;
     case 5:
-        gCampaignSceneIndex = D_801D07DC[0];
+        gCampaignSceneIndex = gCampaignSavedSceneIndex[0];
         D_8009B26C = 2;
         break;
     case 6:
