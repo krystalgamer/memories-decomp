@@ -4257,3 +4257,46 @@ Sources, source hashes, profile selections, compiler/MASPSX assembly, relocation
 records, resolved binaries/diffs and canonical logs are retained under
 `tmp/copilot-fixer/attempts/func-80039794-cycle1/`; the original note is preserved
 there as `baseline-note.md`.
+## `func_8005B36C`: parameter-copy order is set by pseudo-register numbering
+
+The stored candidate sat at two differing positions for two campaigns. Both
+were the function's entry parameter copies, in the wrong order:
+
+```
+build    move t3,a1 / move t0,a0
+target   move t0,a0 / move t3,a1
+```
+
+Everything else, all 89 remaining instructions, matched exactly.
+
+**The cause is not scheduling.** `-fno-schedule-insns` leaves the order
+unchanged, which is the control that matters here: it rules out `sched1`
+without needing to reason about the block's critical path. It is also not the
+profile. The order is identical under `gcc_2_8_1_g0`, `g8`, `g8_split`,
+`g8_split_comm`, `g8_no_split`, `cc_g8_as_g0`, `cc_g0_as_g8`,
+`g8_split_no_strength_reduce`, `g0_keep_large_ori` and
+`cc_g8_as_g4_split`, and every GCC 2.7.2 and `-O1` profile is far worse.
+
+**The cause is that the source copied the parameter into a local.** The
+candidate opened with `s = src;` and then used `s` throughout. Copy
+propagation removes the copy, but the pseudo that survives into reload is the
+one created for `s`, which has a *higher* number than the pseudo for the
+`ot` parameter. Reload emits the entry copies in pseudo-number order, so the
+`a1` copy was emitted first. Deleting the local and incrementing the parameter
+directly - `src++` rather than `s++` - leaves the low-numbered `src` pseudo
+alive, and the entry copies come out in parameter order. That single change
+took the function from two differing positions to **91 of 91 instructions and
+zero differences**, integrated on `gcc_2_8_1_g8`.
+
+**The lever generalises to a diagnostic.** When the only residual is the order
+of the entry `move` instructions that copy argument registers, and the order is
+insensitive to both scheduling flags and profile, look for a parameter that the
+source copies into a local before use. The parameter whose copy is emitted too
+early is the one that is *not* shadowed by a local. Removing the shadow is
+free: it does not change the instruction count, only the emission order.
+
+The converse is a real risk. Applying the same removal to the second and third
+locals of this function - `from` in the copy loop, `index` for the OT
+subscript - costs 47 and 7 positions respectively, because those locals do
+carry a distinct live range. Only the local that merely shadows a parameter for
+its whole lifetime is safe to remove.
