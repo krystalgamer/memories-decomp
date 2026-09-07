@@ -281,7 +281,7 @@ address,size,name,status,module,notes
 0x8002C604,0x88,func_8002C604,matching_c,game,Exact linked bytes on gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference; the pointer-scalar declaration of D_80010000 and the read order around the flag store are load-bearing.
 0x8002C68C,0x3C,func_8002C68C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002C6C8,0x120,func_8002C6C8,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
-0x8002C7E8,0x150,Duel_CheckRitual,unmatched_asm,game,
+0x8002C7E8,0x150,Duel_CheckRitual,matching_c,game,"Exact post-terminal match; resolves a ritual summon from the 10-byte recipe table and consumes the three materials from the active player's zone. The candidate cursor is pinned to $v1, which is the only thing the documented source sweep could not reach."
 0x8002C938,0x7C,func_8002C938,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002C9B4,0x19C,func_8002C9B4,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002CB50,0x30,func_8002CB50,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
