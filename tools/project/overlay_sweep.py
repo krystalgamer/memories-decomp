@@ -89,7 +89,17 @@ def _cell(job):
         with redirect_stdout(io.StringIO()):
             cand, _, masks = candidate_words(root, str(path), profile, address, name, size)
     except Exception as exc:
-        return (label, profile, None, None, None, f"{type(exc).__name__}: {exc}"[:110])
+        # Seven fields, like every other return: a build failure is a row in the
+        # table, not an absence of one, and both consumers index the seventh.
+        return (
+            label,
+            profile,
+            None,
+            None,
+            None,
+            f"{type(exc).__name__}: {exc}"[:110],
+            None,
+        )
 
     def masked(ws):
         return [w & masks[i] if i < len(masks) else w for i, w in enumerate(ws)]
