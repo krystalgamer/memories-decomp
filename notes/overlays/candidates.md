@@ -45,7 +45,27 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 382 instructions against 382, opcode distance 14.
+`gcc_2_8_1_g0_split`, 383 instructions against 382, opcode distance 11.
+
+Two findings, read off the narrow load and store widths rather than off the
+positions, and they compose: 14 alone becomes 12 and 13, and 11 together.
+
+The cursor's x position is stored straight into `D_8016D434` in both arms of
+the eleventh-column test rather than computed into a local and stored once.
+The target has two `sh` to that address and this build had one, which is
+what a local produces. Worth two of the distance.
+
+The y position is stored before `func_800429D8` rather than after it. The
+target reloads both `D_8016D434` and `D_8016D436` with `lh` when it computes
+the two tween deltas; this build reloaded only the first, because the second
+store sat after the call and GCC could still see the stored value in a
+register. Moving the store above the call makes the call clobber it and
+forces the reload. Worth one more.
+
+Both are the same observation from two directions: the target keeps these
+two globals in memory rather than in registers across this block, and the
+source shapes that produce that are a direct store and a store placed before
+the call.
 
 The instruction count is now exact. The change that got there is a single
 subtraction written the other way round: the target computes the tween
@@ -273,14 +293,13 @@ void func_8016913C(void)
         }
         D_8016D402 = cell & 0xF;
     }
-    x = (s8)D_8016D401 * 20 + 22;
+    D_8016D434 = (s8)D_8016D401 * 20 + 22;
     if ((s8)D_8016D401 >= 11) {
-        x = (s8)D_8016D401 * 20 + 42;
+        D_8016D434 = (s8)D_8016D401 * 20 + 42;
     }
-    D_8016D434 = x;
     y = (s8)D_8016D402 * 18 + 24;
-    func_800429D8(w);
     D_8016D436 = y;
+    func_800429D8(w);
     w->f60 = 8;
     w->f36 = ((D_8016D434 - w->f30) << 8) / 8;
     w->f38 = ((D_8016D436 - w->f32) << 8) / 8;
