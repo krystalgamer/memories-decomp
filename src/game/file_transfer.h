@@ -23,7 +23,7 @@ typedef struct {
 FileTransferDescriptor *File_RequestAsyncTransfer(
     s32, u8 *, s32, s32, void *, s32, s32
 );
-FileTransferDescriptor *func_80014EEC(
+FileTransferDescriptor *File_TryRequestAsyncTransfer(
     s32, u8 *, s32, s32, void *, s32, s32
 );
 

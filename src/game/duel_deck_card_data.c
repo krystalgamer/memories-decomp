@@ -55,7 +55,7 @@ void Duel_RequestCombinedDeckData(void)
     *(u16 *)output = 0xFFFF;
     table = D_8015C424;
     count = *(u16 *)(table + 0x1BD0C);
-    result = func_80014EEC(
+    result = File_TryRequestAsyncTransfer(
         0, (u8 *)0, count - 1, previous - count + 1,
         Duel_StepCardDataTransfer, 0, 0
     );

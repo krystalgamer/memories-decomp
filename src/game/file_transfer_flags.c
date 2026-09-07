@@ -47,7 +47,7 @@ out:
     return result;
 }
 
-FileTransferDescriptor *func_80014EEC(
+FileTransferDescriptor *File_TryRequestAsyncTransfer(
     s32 arg0,
     u8 *arg1,
     s32 arg2,

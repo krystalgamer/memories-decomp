@@ -100,7 +100,7 @@ void func_8002DF2C(volatile u8 *owner, s32 value)
     default:
         return;
     }
-    object = func_80014EEC(
+    object = File_TryRequestAsyncTransfer(
         0, 0, base + index * stride + 0x21D5, stride,
         func_8002DDFC, 0, 0
     );
