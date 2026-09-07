@@ -22,6 +22,24 @@ Confidence levels:
 - **Tentative**: the patch effect is plausible, but its target or broader
   behavior still needs corroboration.
 
+## Reference corpus and coverage
+
+The `tutorials.zip` attachment retrieved from issue #368 is `304700` bytes
+with SHA-256
+`3e127e0b26c954c337c1e8bf67f95a218d66fedbcef0f8f7d5326107e899c059`.
+It contains 53 uniquely named artifacts under one `tutorials/` directory:
+37 text files, 12 Word documents, and one each of an Excel workbook, JPEG
+image, WindHex table, and nested ZIP archive.
+
+Every artifact filename is cited by this note or the companion gameplay
+ledger: 36 appear here and 19 appear there. The two intentional overlaps are
+`Introduction to Mod - ENG, 1.2.docx`, which supplies both image constraints
+and weighted-table guidance, and
+`Offset de Traps e Magicas - Por Wladmir Ghost.txt`, which covers both
+attack-trigger thresholds and damage/recovery tables. Thus the filename-level
+coverage is `36 + 19 - 2 = 53`. Coverage means that each supplied artifact has
+been triaged; it does not promote tentative claims to confirmed behavior.
+
 ## Introduction document variants
 
 The bundle contains the same introductory tool overview in three languages,
