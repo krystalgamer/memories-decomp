@@ -45,19 +45,25 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 382 of 382 instructions, 311 differing positions, opcode
-distance 26.
+`gcc_2_8_1_g0_split`, 377 instructions against 382, opcode distance 21.
 
-The digit-walk loop is written with an explicit goto rather than as a do/while.
-GCC 2.8.1 with -msplit-addresses hoists the high half of any global address read
-inside a loop it recognises into a callee-saved register, and the target does not
-do that. The goto form is not seen as a loop by the front end, so the hoist does
-not happen: it takes the length from 378 to the target's 382 and the missing lui
-count from five to three.
+The widget struct's tail fields sit at +0x5E and +0x60, so the padding
+between +0x3E and them is 32 bytes, not 56. The earlier candidate put them
+at +0x76 and +0x78, twenty-four bytes too far, and the field at +0x60 is
+read unsigned. Neither the opcode distance nor the position count could see
+that -- a `sh` is a `sh` at any offset, and those positions already differed
+on their base register -- but the register-blind instruction multiset does,
+and it falls by fourteen.
 
-The three that remain are the select branch's reads of D_8016D401, D_8016D402 and
-D_8016AB38, which the target loads separately on that path while the compiler
-hoists them above the branch so one materialisation serves both.
+Three more source shapes were worth measuring. The frame counter's test
+drops the `(s16)` cast, which is worth two of the distance. The cursor's
+forward wrap compares `== 15` rather than `>= 15`, worth one. And the cell
+lookup takes the table entry whole rather than masking it with `0xF`, worth
+two more; the mask was never in the target.
+
+Note that the differing-position count moves the wrong way across these,
+311 to 352, because removing instructions displaces everything after them.
+The distance and the register-blind measure both improve.
 
 ```c
 #include "../../src/types.h"
@@ -71,10 +77,10 @@ typedef struct {
     s16 f38;
     u8 pad3A[2];
     u16 f3C;
-    u8 pad3E[56];
+    u8 pad3E[32];
     u8 f5E;
     u8 pad5F;
-    s16 f60;
+    u16 f60;
 } W;
 
 extern u16 D_8016D4D4;
@@ -132,7 +138,7 @@ void func_8016913C(void)
         func_80042A78(w);
         n = w->f60 - 1;
         w->f60 = n;
-        if ((s16)n != 0) {
+        if (n != 0) {
             return;
         }
         w->f3C = w->f5E + 16;
@@ -143,7 +149,7 @@ void func_8016913C(void)
     if ((D_8009B3A4[0] & 0xF000) != 0) {
         if ((D_8009B3A4[0] & 0x2000) != 0) {
             D_8016D401 = D_8016D401 + 1;
-            if (D_8016D401 >= 15) {
+            if (D_8016D401 == 15) {
                 D_8016D401 = 0;
             }
         } else if ((D_8009B3A4[0] & 0x8000) != 0) {
@@ -226,7 +232,7 @@ select:
     second = kind;
     row = (s8)D_8016D402;
     col = (s8)D_8016D401;
-    n = ((u8 *)D_8016AB38)[row * 15 + col] & 0xF;
+    n = D_8016AB38[row][col];
     gx = kind;
     if (n == 4) {
         if (col != 11) {
