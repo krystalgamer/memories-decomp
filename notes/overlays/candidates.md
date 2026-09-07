@@ -770,6 +770,46 @@ ret_m1:
 `gcc_2_8_1_g0_split`, 365 of 365 instructions, 94 differing positions,
 opcode distance 0.
 
+The ninety-four differing positions are not evenly spread and they are not
+noise. Measured as a leading run of agreeing mnemonics the candidate reaches
+236 of 365 before the first disagreement, the longest common subsequence of
+mnemonics is 358 of 365, and the differing words fall into exactly four
+clusters: 197 to 203, 223 to 228, 236 to 271 and 279 to 326. Naming them turns
+one large number into four bounded problems.
+
+The first cluster is one register. The target holds the flags word read from
+`D_8016D424` in `a0` and this build holds it in `a2`, and every other
+difference in that range follows from it. The block is otherwise identical
+instruction for instruction, including the `andi` of `0x4000` for the later
+test being hoisted into the branch delay slot, which both sides do.
+
+The second cluster is `v0` and `v1` exchanged between the two loads that feed
+the `sltu`. It is tempting to read the target as comparing the two values the
+other way round and to fix the source accordingly. That is wrong: writing
+`D_801D0000[504] < D_801A8000[D_8016D49C * 2]` takes the cluster from six
+positions to nine and the total from 94 to 96, so the existing spelling is
+confirmed and the exchange is allocation rather than order.
+
+The third and fourth clusters are one disagreement in two directions, and it
+is the reason the opcode distance reads zero. At word 236 the target
+re-materialises the high half of the flags address into a fresh `v1`, while
+this build reuses the copy already sitting in `s1` and is one instruction
+short there. At word 279 the reverse happens: the target reuses the `a2` it
+already has and this build emits a new `lui` and is one instruction long. The
+two cancel exactly, so the opcode multiset is perfect while the register
+assignment is wrong in two places. Anyone reading the distance alone would
+conclude the instruction mix is solved and only ordering remains; what is
+actually happening is two errors of opposite sign.
+
+The fourth cluster is the count-and-step division chain, and its register map
+is uniformly displaced rather than scrambled: the target keeps `count` in `a0`
+and `step` in the callee-saved `s0` and takes each `mfhi` into `a3`, while this
+build keeps `count` in `a1`, `step` in `a0` and takes each `mfhi` into `t0`.
+The target reaching for an argument register where this build reaches for `t0`
+says the target has fewer values live across that block, which is the shape of
+hypothesis worth testing next, rather than another sweep of spellings.
+
+
 Two of those nine came from state 4, which is now correct apart from a
 single position. Both are about *pseudo identity* rather than about what the
 code says, and neither is visible in the source's meaning:
