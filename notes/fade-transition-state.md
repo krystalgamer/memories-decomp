@@ -172,8 +172,9 @@ therefore supplies zero color, not a general "fully faded" or "finished"
 sentinel. Completion is based on the current level reaching its target,
 which need not be `0xFF`.
 
-The resident updater at `0x80015310` confirms that this separate control byte
-is not a simple record of fade-in versus fade-out. When an active update
+The matching [`func_80015310`](../src/game/func_80015310.c) confirms that this
+separate control byte is not a simple record of fade-in versus fade-out.
+When an active update
 enters with `level == target_level == 0xFF`, `0x80015384..0x800153C8` clears
 the active flag and calls `func_80015CFC` to write `D_8009B141 = 1`; the
 renderer still submits nothing because the level is `0xFF`. Conversely, an
@@ -182,8 +183,8 @@ the control byte zero. Other zero-target flags can retain it or write
 `0x80` (`0x800153D0..0x80015404`), and the tinted completion path can re-arm
 the active flag (`0x80015414..0x80015478`). The entry check at
 `0x80015340..0x80015358` also preserves a control byte whose high bit is set
-instead of forcing it to `1`. These are target-assembly facts, not claims
-that the still-unmatched updater has become matching C.
+instead of forcing it to `1`. These previously recorded instruction-level
+conclusions are now also expressed by matching C.
 
 When the draw gate passes, the low two flag bits choose these submissions.
 The coordinates below belong to the scratchpad descriptor:
@@ -231,11 +232,10 @@ It also preserves the only same-address raw linker alias:
 extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 ```
 
-Every matching pure-C user reported for `D_800E9EC8` now includes the shared
-header. The current generated usage report lists:
+Matching pure-C users migrated to this shared header include:
 
-- `func_800151B0`, `func_800151D8`, `Fade_DrawOverlay`, `func_800156B8`,
-  `func_800156DC`;
+- `func_800151B0`, `func_800151D8`, `func_80015310`, `Fade_DrawOverlay`,
+  `func_800156B8`, `func_800156DC`;
 - `func_8001572C`, `func_80015780`, `func_800157DC`;
 - `func_8001581C`, `func_80015870`, `Fade_InitOut`;
 - `Fade_StartOut`, `func_80015944`, `func_80015998`;
@@ -243,17 +243,16 @@ header. The current generated usage report lists:
 - `func_80015BD8`, `func_80015BF0`;
 - `func_80015C0C`, `func_80015C48`, `func_80015C84`, `func_80015CC0`.
 
-The later exact pure-C match for `func_800151D8` moved its symmetric
-30-band update out of the exception list while preserving the typed
-`FadeTransitionState` accesses.
+The later exact pure-C matches for `func_800151D8` and `func_80015310`
+removed the band walker and transition updater from the assembly exception
+list. Both include `fade.h`; the updater retains the raw views described
+below for exact addressing.
 
 ## Exact-code exceptions
 
-Two assembly users remain untouched:
-
-- `func_80015310` advances and completes transitions;
-- `func_800218F0` reads `flags`, writes `level`, and calls the band fill during
-  its larger assembly-only flow.
+The remaining assembly exception documented here is `func_800218F0`, which
+reads `flags`, writes `level`, and calls the band fill during its larger
+assembly-only flow.
 
 There are no matching inline-assembly users of the base global in this phase.
 
@@ -264,6 +263,11 @@ competing declarations:
   `func_80015310`, while the tail uses typed `D_800E9EC8` fields. The two
   same-address symbol views preserve the target's fresh address
   materialization in the exact draw-screen-fade implementation.
+- `func_80015310` keeps its `u8 *` parameter and the offset-symbol array
+  `D_800E9ECC[]`; the latter preserves absolute `%hi/%lo` addressing for the
+  final level store instead of the small-data form. Its byte definitions
+  for `D_8009B142`, `D_8009B143`, and `D_8009B144` are assembler-addressing
+  controls, not additional fields of `FadeTransitionState`.
 - `func_800156B8` casts the typed base to a byte pointer and keeps
   `*(p + i + 0xA)`. The equivalent array-member expression changes the MIPS
   `addu` operand order and does not match.
@@ -272,7 +276,7 @@ competing declarations:
   proves one whole-word write at offset zero before byte field accesses.
 
 `D_800E9ECC` and `D_800E9ECE` are offset symbols at `+0x04` and `+0x06`, not
-same-address aliases. Assembly users of those symbols remain unchanged.
+same-address aliases. Remaining assembly users of those symbols are unchanged.
 `Fade_DrawOverlay` also retains its oversized raw `D_800E9ECE` declaration
 because the target independently materializes that address; folding it into
 the typed base would change exact code generation.

@@ -168,7 +168,7 @@ an extra height-8 box at descriptor position `(0,240)`, not a restored
 full-screen box. The SDK also applies its current position offsets, so
 whether that extra box is visible, and which screens use the combination,
 remain unverified. The [fade-state evidence](../fade-transition-state.md)
-separates matching-C mechanics, updater/SDK assembly, and the older menu
+separates matching game routines, SDK assembly, and the older menu
 observations; these are not new emulator measurements.
 
 > **Entered from:** shared menu initialization and departure paths. **Exits
