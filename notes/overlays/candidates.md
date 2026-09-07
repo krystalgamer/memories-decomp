@@ -751,8 +751,24 @@ s32 func_80180390(void)
 
 ## password `func_8016A37C` at 0x8016A37C
 
-`gcc_2_8_1_g0_split`, 365 of 365 instructions, 103 differing positions,
+`gcc_2_8_1_g0_split`, 365 of 365 instructions, 94 differing positions,
 opcode distance 0.
+
+Two of those nine came from state 4, which is now correct apart from a
+single position. Both are about *pseudo identity* rather than about what the
+code says, and neither is visible in the source's meaning:
+
+- The widget is read straight out of `D_8016D418` inside the `0x8000` arm
+  rather than through the `widget` local that the following statements use.
+  Worth six positions. Introducing a local there gives the value a longer
+  live range than the target's, which changes its class.
+- State 4 takes its *own* `flags` local instead of sharing the one that
+  states 1, 2 and 3 use. Worth three more. The sharing is what couples the
+  four live ranges into one pseudo and forces a common allocation.
+
+The direction matters and is not uniform: giving state 3 its own local is
+worth *minus* four, and giving every state its own is minus seven. Only
+state 4 wants to be separate. All eight combinations were measured.
 
 The instruction mix is exact, so only register choice and scheduling remain.
 
@@ -860,6 +876,7 @@ void func_8016A37C(void)
     u32 count;
     u32 step;
     u16 flags;
+    u16 flags4;
     u16 card;
     s32 msg;
 
@@ -1010,11 +1027,10 @@ void func_8016A37C(void)
         }
         return;
     case 4:
-        flags = D_8016D424;
-        if ((flags & 0x8000) == 0) {
-            widget = D_8016D418;
-            D_8016D424 = flags | 0x8000;
-            widget->f8 |= 4;
+        flags4 = D_8016D424;
+        if ((flags4 & 0x8000) == 0) {
+            D_8016D424 = flags4 | 0x8000;
+            D_8016D418->f8 |= 4;
         }
         widget = D_8016D418;
         widget->f33 = widget->f33 + 8;
