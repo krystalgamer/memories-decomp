@@ -42,9 +42,9 @@ void func_800250C8(void) {
     struct Obj *obj;
 
     s0 = D_8009B1D2;
-    s1 = s0 - 0x152;
+    s1 = s0 - DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID;
     if (func_80024E24() == 0) {
-        if (func_80025028(0x2B0) != 0) {
+        if (func_80025028(DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID) != 0) {
             s1 = s0 - 0x14D;
         }
         obj = func_8002C68C(5);
