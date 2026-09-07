@@ -1302,3 +1302,39 @@ Declaring the struct is cheap and reversible. Sizes come from the store widths
 already in the target -- `sh` for `s16`, `sw` for `s32` -- and the gaps are
 padding arrays. It is worth trying on any function whose residual is
 concentrated in a block of stores through a shared base.
+
+## Aligning instruction sequences, and when it stops working
+
+Comparing per-opcode *totals* turns one fault into several unrelated-looking
+ones. Aligning the two sequences of a chosen opcode class with `difflib`
+instead, and printing each entry with its immediate operand attached, collapses
+them back and usually names the statement.
+
+It has found four things that totals had hidden:
+
+- `func_8016913C`'s `sra`: the totals said two `lb` missing and one `sra`
+  extra, three separate problems, which had already survived sixteen
+  combinations of byte-global signedness without moving. The alignment showed a
+  single `replace  target[29:31]=[lb, lb]  cand[29:30]=[sra]` at the end of the
+  function, and the statement was a `<< 4` that wanted to be a `* 16`.
+- `func_8016913C`'s `subu`: the alignment placed two target `addu` against one
+  candidate `subu` and led straight to a hoisted loop invariant.
+- `func_80180390`'s missing `slti`: one deletion in the comparison sequence,
+  in the entry-visibility test.
+- `func_80180390`'s missing `lhu`: four reads of two pad words where the build
+  had three, which is what a missing `volatile` looks like.
+
+**It only works when the operands survive into the candidate.** The immediate
+is the discriminator, and in an unlinked candidate every relocated field is
+zero. On `func_80180390` the useful entries were struct member offsets, which
+are structural and print as 3, 4, 5, so the two sides lined up. On
+`func_8016913C` every narrow access is to a relocated scalar global, so the
+candidate side is a row of `('lb', 0)` and carries no information at all; the
+alignment there is noise and the four leads above came from the *class*
+sequence, not the operands.
+
+So: attach operands when the values are structural -- struct offsets, shift
+counts, comparison immediates, stack slots -- and expect nothing from them when
+the class is dominated by `%lo` relocations. In the second case fall back to
+aligning the bare class sequence, which still localises, or read the target's
+disassembly directly.
