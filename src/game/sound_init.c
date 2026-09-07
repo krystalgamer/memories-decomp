@@ -52,7 +52,7 @@ void SD_Init(void)
 {
     func_80046294();
     func_80049010();
-    SpuSetReverbModeType(0);
+    SpuSetReverbModeType(SPU_REV_MODE_OFF);
 }
 
 void func_80049308(void)

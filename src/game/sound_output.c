@@ -36,7 +36,7 @@ void func_80046F58(void)
     func_8004763C();
     SD_Init();
     func_80049640();
-    SpuSetIRQ(0);
+    SpuSetIRQ(SPU_OFF);
     SpuQuit();
 }
 

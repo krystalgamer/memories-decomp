@@ -5,8 +5,8 @@
 s16 func_800498BC(s16 arg0)
 {
     if (arg0 == 0)
-        return SpuIsTransferCompleted(0);
-    return SpuIsTransferCompleted(1);
+        return SpuIsTransferCompleted(SPU_TRANSFER_PEEK);
+    return SpuIsTransferCompleted(SPU_TRANSFER_WAIT);
 }
 
 void func_800498F8(void)

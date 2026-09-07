@@ -32,10 +32,10 @@ void func_80048F14(void)
     u16 *r4;
     u16 *r5;
 
-    SpuReserveReverbWorkArea(1);
-    SpuSetReverb(1);
-    packet.first = 7;
-    packet.second = 2;
+    SpuReserveReverbWorkArea(SPU_ON);
+    SpuSetReverb(SPU_ON);
+    packet.first = SPU_REV_MODE | SPU_REV_DEPTHL | SPU_REV_DEPTHR;
+    packet.second = SPU_REV_MODE_STUDIO_A;
     packet.third = 0x7FFF;
     packet.fourth = 0x7FFF;
     SpuSetReverbModeParam((SpuReverbAttr *)&packet);

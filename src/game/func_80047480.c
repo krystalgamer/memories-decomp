@@ -24,7 +24,7 @@ void func_80047480(void) {
         *(s16 *)&(g_SDValue + (i + i))[0x42C] = 0;
     }
 
-    SpuSetTransferMode(0);
+    SpuSetTransferMode(SPU_TRANSFER_BY_DMA);
 
     p = g_SDValue;
     *(s16 *)(p + 0x394) = 0x3FFF;

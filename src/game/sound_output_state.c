@@ -16,7 +16,7 @@ int func_80045054(void)
 {
     int select = SpuReadDecodedData(
         (SpuDecodedData *)((u8 *)g_SDValue + 0x53C),
-        5
+        SPU_CDONLY
     );
     register u8 *choice_state asm("$3") = (u8 *)g_SDValue;
     register short *values asm("$4");
@@ -25,7 +25,7 @@ int func_80045054(void)
     register u8 *state asm("$5");
 
     *(int *)(choice_state + 0x538) = select;
-    if (select == 0)
+    if (select == SPU_DECODED_FIRSTHALF)
         values = *(short **)(choice_state + 0x153C);
     else
         values = *(short **)(choice_state + 0x1540);
