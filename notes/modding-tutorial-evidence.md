@@ -904,10 +904,11 @@ That function consumes the record in this order:
 | `FF` | End of the containing text string | |
 
 After storing those fields, the handler selects duel mode. `Main_RunDuel`
-later indexes the two continuation values with `D_8009B362 * 2`. The
-tutorial identifies index `0` as the win path and index `1` as the loss path;
-the code independently confirms that they are separate post-duel
-continuations.
+later indexes the two continuation values with `D_8009B362 * 2`.
+`FreeDuel_Init` independently uses the same outcome byte to select the
+per-duelist result counter: value `0` leaves the pointer on the wins halfword,
+while value `1` advances it to losses. Index `0` is therefore the win path and
+index `1` is the loss path independently of the tutorial's labels.
 
 The explicit `0x7230` value is later passed to `func_8003FF08`, the resident
 sound-command wrapper. It must be edited as one little-endian halfword, not
@@ -982,9 +983,10 @@ duel record itself; Simon Muran's record begins at `0x1A1FA6`.
 - **Confirmed** that 37 of the 38 character-tutorial records occur verbatim
   in the untouched SLUS, and that Bandit Keith's retail continuation pair is
   `7C 7D`, not `7D 7C`.
-- **High** that `0x74` and `0x75` are respectively the win and loss
-  continuations; the selection mechanism is exact, while the outcome labels
-  come from the tutorial's observed behavior.
+- **Confirmed** that `0x74` and `0x75` are respectively the win and loss
+  continuations: `Main_RunDuel` indexes them with `D_8009B362`, while
+  `FreeDuel_Init` independently maps values `0` and `1` to the wins and losses
+  counters.
 - **Tentative** for music names that have not been corroborated by an audio
   trace.
 
