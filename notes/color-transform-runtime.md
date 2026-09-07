@@ -19,6 +19,14 @@ code-generation-sensitive local declarations unchanged.
 
 ## Fixed-point HSL representation
 
+`src/game/color_constants.h` names the 12-bit fractional shift as
+`COLOR_FIXED_SHIFT`, one fixed-point unit as `COLOR_FIXED_ONE` (`0x1000`),
+and the midpoint/rounding bias as `COLOR_FIXED_HALF` (`0x800`). Hue is
+measured in fixed-point RGB-edge units: `COLOR_HUE_SECTOR_COUNT` is six,
+so `COLOR_HUE_FULL_TURN` is `0x6000`, not the `0x1000` trigonometric turn.
+The conversion helpers, tint wrappers, and VRAM fast-path scale test share
+these constants without changing their local types or arithmetic order.
+
 `func_8005A98C` first finds the maximum and minimum input channels. With
 `limit` equal to the maximum channel value, it produces:
 

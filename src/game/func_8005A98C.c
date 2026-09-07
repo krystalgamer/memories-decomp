@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "color_constants.h"
 
 /* RGB to HSL-style triple: the second output is lightness from the channel
  * extrema and the third is saturation. Hue wraps at 0x6000. */
@@ -48,7 +49,7 @@ HsvT *func_8005A98C(HsvT *out, s8 r, u8 g, s8 b, u8 lim) {
     mx = c[hi];
     mn = c[lo];
     sum = mx + mn;
-    sh = sum << 12;
+    sh = sum << COLOR_FIXED_SHIFT;
     d2 = (lim & 0xFF) * 2;
     q = sh / d2;
 
@@ -59,19 +60,19 @@ HsvT *func_8005A98C(HsvT *out, s8 r, u8 g, s8 b, u8 lim) {
     t.s = q;
 
     if (df != 0) {
-        if ((u32)(q & 0xFFFF) < 0x801) {
-            t.v = (df << 12) / sum;
+        if ((u32)(q & 0xFFFF) < COLOR_FIXED_HALF + 1) {
+            t.v = (df << COLOR_FIXED_SHIFT) / sum;
         } else {
-            t.v = (df << 12) / (d2 - sum);
+            t.v = (df << COLOR_FIXED_SHIFT) / (d2 - sum);
         }
         j1 = (hi + 1) % 3;
         j2 = (hi + 2) % 3;
-        n = (c[j1] - c[j2]) << 12;
-        u = (hi << 13) + n / df;
+        n = (c[j1] - c[j2]) << COLOR_FIXED_SHIFT;
+        u = (hi << (COLOR_FIXED_SHIFT + 1)) + n / df;
         n = u;
         t.h = n;
         if (n < 0) {
-            t.h = n + 0x6000;
+            t.h = n + COLOR_HUE_FULL_TURN;
         }
     }
 

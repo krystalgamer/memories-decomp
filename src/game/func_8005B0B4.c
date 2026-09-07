@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "color_constants.h"
 
 typedef struct {
     s32 h;
@@ -33,15 +34,15 @@ Color *func_8005B0B4(Color *out, u8 r, u8 g, u8 b, s32 flags, u16 scale, u8 lim)
     if ((u8)idx < 7) {
         k = idx;
         if (inv) {
-            k = (k + 3) % 6;
+            k = (k + COLOR_HUE_SECTOR_COUNT / 2) % COLOR_HUE_SECTOR_COUNT;
         }
-        hsv.h = k << 12;
+        hsv.h = k << COLOR_FIXED_SHIFT;
     }
 
     if (flat) {
         hsv.v = 0;
     } else {
-        hsv.v = hsv.v * scale / 4096;
+        hsv.v = hsv.v * scale / COLOR_FIXED_ONE;
     }
 
     func_8005ABA0(&c, hsv.h, hsv.s, hsv.v, lim);
