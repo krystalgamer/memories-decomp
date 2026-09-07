@@ -43,7 +43,11 @@ typedef struct {
 } SDValueLink;
 
 typedef struct {
-    u8 b[8];
+    u8 volume;
+    u8 timer;
+    u8 pad0002[2];
+    u16 pitch;
+    u16 field_0006;
 } SDNote;
 
 typedef struct {
@@ -62,16 +66,26 @@ typedef struct {
     s16 command_count;
     u8 pad004E[0x32];
     SDCommand commands[SD_COMMAND_QUEUE_COUNT];
-    u8 pad0380[0x44];
+    u8 pad0380[4];
+    u32 key_mask;
+    u8 pad0388[4];
+    s16 volume_left;
+    s16 volume_right;
+    u8 pad0390[0xA];
+    u16 pitch;
+    u8 pad039C[4];
+    u32 field_03A0;
+    u8 pad03A4[0x20];
     s32 field_03C4;
     s32 field_03C8;
     u16 field_03CC;
     u16 field_03CE;
     u8 pad03D0[0x34];
     u16 voice_ids[SD_VOICE_SLOT_COUNT];
-    u8 pad040C[4];
+    u8 field_040C[SD_VOICE_SLOT_COUNT];
     u8 voice_flags[SD_VOICE_SLOT_COUNT];
-    u8 pad0414[0x10];
+    u16 voice_volume_left[SD_VOICE_SLOT_COUNT];
+    u16 voice_volume_right[SD_VOICE_SLOT_COUNT];
     u8 voice_value[SD_VOICE_SLOT_COUNT];
     u8 voice_step[SD_VOICE_SLOT_COUNT];
     u16 voice_timer[SD_VOICE_SLOT_COUNT];
@@ -221,6 +235,9 @@ typedef struct {
 
 typedef char SDCommand_size_must_be_0x30[
     sizeof(SDCommand) == SD_COMMAND_RECORD_SIZE ? 1 : -1
+];
+typedef char SDNote_size_must_be_0x08[
+    sizeof(SDNote) == 0x08 ? 1 : -1
 ];
 typedef char SDValueLink_size_must_be_0x08[
     sizeof(SDValueLink) == 0x08 ? 1 : -1
