@@ -1105,7 +1105,34 @@ matches one block at 92–100 %, and the order is the opponent id
 | 11 | Mai Valentine | 24 | High Mage Anubisius | 37 | **DarkNite** |
 | 12 | Bandit Keith | 25 | Mountain Mage | 38 | **Nitemare** |
 
-Two things fall out of that table on their own. Blocks 8 and 35 —
+The ID/name list now also has direct executable-text corroboration. For a
+settled Free Duel cell `i`, matching
+[`FreeDuel_PlaceCursor`](../../src/overlays/free_duel/place_cursor.c)
+writes string ID `0x8328 + i` to `D_8009B32E`.
+[`func_800383DC`](../../src/game/func_800383DC.c) reads that ID as an
+unsigned halfword and resolves the global offset table at `0x801D5800`,
+using entry `string_id - 0x8000` and bank base `0x801D0000`.
+
+Decoding IDs `0x8329..0x834F` through the executable's glyph-to-Shift-JIS
+table at `0x801D9000` (also used by
+[`Text_SjisToGlyphCodes`](../../src/game/text_sjis_to_glyph_codes.c))
+agrees with all 39 names above after character-width normalization. The
+remaining prose-spacing difference is that the raw strings say `Villager1`,
+`Villager2` and `Villager3` without the spaces used in this description.
+Build Deck, Simon Muran and Teana provide known-label controls for the
+lookup and decoding. The two disputed boss entries are:
+
+| Opponent/grid ID | Global string ID | String address | Decoded label |
+|---:|---:|---:|---|
+| 37 | `0x834D` | `0x801D8D7A` | `DarkNite` |
+| 38 | `0x834E` | `0x801D8D83` | `Nitemare` |
+
+The normal duel launch stores the same grid index as `gDuel_bOpponentID`
+(§6.5), so this corroboration does not depend on interpreting a cheat
+label or a deck-similarity percentage. It is static text/lookup evidence,
+not a new emulator observation or a remeasurement of the drop weights.
+
+The block comparisons also establish two useful relationships. Blocks 8 and 35 —
 Heishin's first and second duels — share the same three drop pools and rank
 table but carry different deck weights. And **Duel Master K is block 39**:
 its three drop pools are byte-identical to Villager 3's (which is why the
@@ -1114,13 +1141,12 @@ its stored deck is a placeholder identical to Simon Muran's, because his
 duel setup copies the player's deck instead (§8). It also corrects the
 earlier version of this document, which named the blocks by the GameShark
 record order and was off by one from Teana onward — and it means the two
-**GameShark win/loss labels for Nitemare and DarkNite are probably swapped**.
-On the ID/name mapping above, DarkNite's ID 37 gives wins at `0x801D07B0`,
+**published GameShark win/loss labels for Nitemare and DarkNite are reversed
+relative to the in-game names**. DarkNite's ID 37 gives wins at `0x801D07B0`,
 and Nitemare's ID 38 gives wins at `0x801D07B4`; the archived labels assign
-those addresses the other way around. The remaining uncertainty is the
-boss **name-to-ID/label correspondence**, not an alternative record stride
-or an ID-to-record remapping: the normal Free Duel launch and record paths
-use the same grid index (§6.5).
+those addresses the other way around. This is a label error, not an
+alternative record stride or an ID-to-record remapping: the normal Free
+Duel launch and record paths use the same grid index (§6.5).
 
 ### 6.5 Records and unlocks
 
@@ -1951,12 +1977,6 @@ Not verified in code:
   independently corroborated here. The three victory adjustments are now
   code-backed, and the fusion/equip rows have their own controlled trace
   evidence (§6.1);
-* the whole duelist-id order rests on 92–100 % matches against one
-  independent list, and on every unlock opcode sitting in the right win
-  dialogue (§7.11);
-* the remaining boss name-to-ID/archived-label correspondence (§6.4), not
-  the record field order: the grid/ID mapping, four-byte stride and
-  wins-first/losses-second update are code-backed (§6.5);
 * the full gameplay effects and necessity of the two "enable" GameShark
   codes. Their image and branch sites are now located in the WA startup
   phase (§12.2), and both force an existing branch unconditionally; no
@@ -1968,8 +1988,9 @@ Not verified in code:
 Corrected from the earlier version of this document: the rank-table
 category labels (rows 4, 5, 8, 9); the seven-rank list (ten); the duelist
 names attached to drop blocks (off by one from Teana on, and the
-"Nitemare/DarkNite swap" verdict reversed — the blocks are right, the cheat
-labels are probably swapped); the "work buffer / LoadImage" reading of the
+"Nitemare/DarkNite swap" verdict reversed — the blocks agree with the
+resident name table, while the published cheat labels are reversed);
+the "work buffer / LoadImage" reading of the
 duel loader; the 7,056-byte duelist block (3 sectors); "no equip candidate on
 disc" (the scan's filter was narrower than the table); the initial menu's
 contents; and "unlocked by meeting" (it is by defeating).

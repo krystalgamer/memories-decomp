@@ -136,10 +136,18 @@ previously advised, would instead select Villager 3's loss and slot 7's win.
 The duelist records occupy `[0x801D0720, 0x801D07BC)` without gaps; slot 0
 at `0x801D071C` is the non-duelist Build Deck tile.
 
-This establishes addresses for numeric IDs, not every published name label.
-In particular, the DarkNite/Nitemare naming conflict remains qualified in
-the primary description. It is not evidence for changing the record stride
-or adding a hidden grid-to-opponent remapping.
+The resident name-table comparison in the
+[primary description](the-game.md#64-the-dropped-card) now resolves the
+two boss labels too: global string `0x834D` names ID 37 `DarkNite`, while
+`0x834E` names ID 38 `Nitemare`. Thus the corrected pairs are:
+
+| In-game label | Wins | Losses |
+|---|---|---|
+| DarkNite | `801D07B0` | `801D07B2` |
+| Nitemare | `801D07B4` | `801D07B6` |
+
+The published table above is retained as evidence of the reversed labels.
+No record-stride change or hidden grid-to-opponent remapping is needed.
 
 | code | what it does |
 |---|---|
