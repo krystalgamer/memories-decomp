@@ -715,3 +715,18 @@ entries that were not yet represented in this naming gate.
 | 0x800E9E60 | `gFile_PrimaryTransferDescriptor` | Active primary file-transfer descriptor operated on by the transfer service. |
 | 0x8017808C | `gDuel_awCombinedDeckCardIds` | Sorted 80-card working buffer containing both shuffled duel decks before deduplication. |
 | 0x80178130 | `gDuel_awUniqueDeckCardIds` | Sorted unique card IDs from both duel decks, terminated by `0xFFFF` and used as card-data transfer boundaries. |
+
+## Batch: save transfer and integrity names
+
+| address | name | description |
+|---|---|---|
+| 0x80010384 | `gMemCard_szSaveFileName` | Null-terminated `BASLUS-01411-YUGIOH` memory-card filename shared by load, write, two-save, and directory request paths. |
+| 0x8003CEB8 | `SaveData_CalcCrc16` | Computes CRC-16/XMODEM with polynomial `0x1021` and a zero initial state over a caller-supplied save-data region. |
+| 0x8003CF14 | `SaveData_WritePrimarySecondaryIntegrity` | Writes duplicated CRC-16 values and generated mask words for the primary and secondary protected save-data regions. |
+| 0x8003CFC8 | `SaveData_WriteTertiaryIntegrity` | Writes the duplicated CRC-16 value and generated mask words for the tertiary protected save-data region. |
+| 0x8003D03C | `SaveData_BuildPayload` | Builds the staged memory-card write payload from the `0x200`-byte header template and two normalized `0x680`-byte state copies. |
+| 0x8003D174 | `SaveData_ValidateIntegrity` | Validates all three protected save-data regions by comparing their stored mask words with the CRC-derived mask stream. |
+| 0x8003D2B8 | `SaveData_MatchesDuelistAndCurrentSequence` | Tests whether two saves share a duelist code and the candidate carries the current runtime save sequence. |
+| 0x8009B3B8 | `gSaveDataSequence` | Runtime save sequence restored from state offset `+0x404`, incremented in outgoing payloads, and used to select the current two-save record. |
+| 0x801D3200 | `gSaveData_aTransferBuffer` | Shared staging buffer for asynchronous save-data reads and duplicated-state writes. |
+| 0x801D4000 | `gSaveData_aHeaderTemplate` | Template copied into the first `0x200` bytes of each staged memory-card write payload. |
