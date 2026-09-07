@@ -3555,3 +3555,39 @@ and cannot reproduce the block. `struct { u8 b[20]; }` assigned whole does,
 one pair per word plus the tail.
 
 Derived independently on `func_8003B5C8` in #1723 and #1725.
+
+## Screen for split addressing before starting, alongside jump tables and the nops
+
+The queue screen in `notes/research/matching-evidence.md` lists three classes to
+skip before spending a rotation: a `jtbl_` reference, the MASPSX load-delay nop,
+and the MASPSX reorder-mode delay slot. There is a fourth, and it cost two
+rotations to find twice.
+
+**A target that needs the split-address form is currently unmatchable**, for the
+reason written up under "Split addressing and coalescing are one choice". Every
+`_split` profile emits the `HIGH` into a fresh temporary and never coalesces it
+with the destination, so wherever the target has `lui $sN, %hi(X)` followed by
+`addiu $sN, $sN, %lo(X)` with the same register, or reuses a held `%hi` as a
+load or store base, the build is one copy off and the anti-dependence that copy
+creates then permutes the surrounding schedule. On `func_8002FD10` that was 8
+positions, on `func_8003B5C8` one extra instruction it could not shed.
+
+The screen is cheap. Over a function's splat asm, flag it when either appears:
+
+- `%lo(SYM)(\$rN)` where `rN` is neither `$gp` nor `$at` -- a held `%hi` reused
+  as a base;
+- `addiu $rA, $rB, %lo(SYM)` with `rA != rB` and `rB` not `$gp`/`$at` -- an
+  uncoalesced `HIGH` that the target *did* coalesce elsewhere, or the split
+  address form generally.
+
+What does **not** disqualify a function is `lui $sN, %hi(X)` and
+`addiu $sN, $sN, %lo(X)` on the same register separated by other instructions.
+That is the coalesced form, it is what `_split` produces once the two halves
+belong to one pseudo, and `func_8002DC38` needed exactly it -- there the split
+profile was the difference between 79/45 and 78/7. So the flag is on the
+*register mismatch*, not on the separation.
+
+Running all four screens over the resident queue leaves 84 of 140 unmatched
+functions, and the four smallest survivors are `func_8004D75C`,
+`func_8004D58C`, `func_8004DC38` and `func_8004E7B0` -- all leaves, none with a
+prior external attempt.

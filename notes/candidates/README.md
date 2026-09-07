@@ -41,6 +41,7 @@ after adding or removing an entry.
 | [`func_80012DB4`](func_80012DB4.md) | `0X80012DB4` | `gcc_2_8_1_g8_split`, 42 of 42 instructions, opcode distance 0, 9 differing |
 | [`Duel_LoadPackageStage`](func_800171A8.md) | `0X800171A8` | `gcc_2_8_1_g8_split`, 242 instructions against a target of 237, opcode |
 | [`func_80025028`](func_80025028.md) | `0X80025028` | `gcc_2_8_1_g8_split`, 40 of 40 instructions, opcode distance 0, 2 differing |
+| [`func_8002DC38`](func_8002DC38.md) | `0X8002DC38` | `gcc_2_8_1_g8_split`, **78 of 79** instructions, opcode distance 1, 7 differing |
 | [`func_8002E5AC`](func_8002E5AC.md) | `0X8002E5AC` | `gcc_2_8_1_g8_split`, 68 instructions against a target of 67, opcode |
 | [`func_8002FD10`](func_8002FD10.md) | `0X8002FD10` | `gcc_2_8_1_g8_split`, 112 of 112 instructions, opcode distance 0, 8 differing |
 | [`func_8003B5C8`](func_8003B5C8.md) | `0X8003B5C8` | `gcc_2_8_1_g0_split`, 58 of 57 instructions, opcode distance 1, one extra |
@@ -55,7 +56,8 @@ after adding or removing an entry.
 | [`func_8004A6F8`](func_8004A6F8.md) | `0X8004A6F8` | `gcc_2_8_1_cc_g8_as_g0_split`, 27 of 27 instructions, opcode distance 0, 6 |
 | [`func_8004A764`](func_8004A764.md) | `0X8004A764` | `gcc_2_8_1_cc_g8_as_g0_split`, 23 of 23 instructions, opcode distance 0, 6 |
 | [`func_8005B36C`](func_8005B36C.md) | `0X8005B36C` | `gcc_2_8_1_g0`, 91 of 91 instructions, opcode distance 0, 17 differing |
+| [`func_8006C120`](func_8006C120.md) | `0X8006C120` | `gcc_2_8_1_g0`, 119 of 119 instructions, opcode distance 0, 8 differing |
 
-17 stored candidates.
+19 stored candidates.
 
 <!-- END GENERATED CANDIDATE INDEX -->
