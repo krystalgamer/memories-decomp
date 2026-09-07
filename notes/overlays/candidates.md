@@ -782,7 +782,7 @@ join:
 
 `gcc_2_8_1_g0_split`, 495 instructions against 495, opcode distance 0
 with every mnemonic count exact. The longest common subsequence of
-mnemonics is 480 of 495, the first 196 instructions agree, and 189
+mnemonics is 480 of 495, the first 196 instructions agree, and 188
 positions differ.
 
 The pad-hold accumulation now emits its store where the target emits it, which
@@ -1221,6 +1221,7 @@ s32 func_80180390(void)
     s32 base;
     s32 count;
     s32 lvl;
+    s32 vx3;
     s32 acc;
     s32 neg;
     s32 chr;
@@ -1402,9 +1403,9 @@ s32 func_80180390(void)
         if (moved != 0) {
             goto ret_m1;
         }
-        value = D_80184596;
+        vx3 = D_80184596;
         D_80184599 = 0;
-        if (value == 0) {
+        if (vx3 == 0) {
             return -1;
         }
         if (D_80184595 != 0) {
