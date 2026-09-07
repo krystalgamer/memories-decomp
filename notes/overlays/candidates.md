@@ -45,7 +45,72 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 382 instructions against 382, opcode distance 10.
+`gcc_2_8_1_g0_split`, 382 instructions against 382, opcode distance 12,
+and the first 91 instructions agree.
+
+The opcode distance rose from 10 to 12 while the candidate got substantially
+closer, which is the reason the header now also quotes a prefix. Opcode
+distance is an L1 distance between two opcode multisets, so it cannot see
+order, and it cancels: an error that adds an instruction and an error that
+drops one net to zero. Once register allocation is the dominant residual that
+cancellation is the normal case, and the metric then punishes a correction for
+exposing the error that had been hiding behind it. The length of the leading
+run of instructions whose mnemonics agree cannot cancel, because it stops at
+the first disagreement. Steering by it took the agreeing prefix from 15
+instructions to 91, and the differing-position count fell from 321 to 281 at
+the same time, so the two honest metrics agree with each other and only the
+multiset distance dissents.
+
+Three shape corrections came out of reading that prefix, and the last two only
+work together.
+
+The transition's remaining distance is written as a subtraction. The target
+computes `addiu v0,a0,-16` on the loaded `w->f3C` and then `subu` against
+`w->f5E`, which is `home = w->f3C - 16; delta = w->f5E - home;`. The previous
+source used `home = 16 - w->f3C; delta = w->f5E + home;`, which is the same
+value and costs an extra `li` of the constant 16 because 16 has to be
+materialised before it can be subtracted from. This function's own note used
+to record the addition form as the better one, and it was, at a distance of
+14; the levers expire when the base changes and this one had.
+
+The frame countdown in `w->f60` is signed. The target stores the decremented
+value and then tests it with `sll` by 16 followed by `bnez`, which is how GCC
+tests a 16-bit signed value against zero; an unsigned one gives `andi` with
+`0xffff`. Declaring the field `s16` and writing the plain
+`w->f60 = w->f60 - 1; if (w->f60 != 0)` produces the target's sequence,
+including the store landing before the branch rather than in its delay slot.
+Six spellings reach the same code, so the field's type is what matters here
+and not the shape of the statement.
+
+The two cursor directions are separate `if` statements, not an `else if`
+chain. The branch that skips the column wrap goes to `0x110`, which is the
+`0x8000` test for the other direction, so a frame that has already
+incremented the column still tests the decrement bit and re-reads the pad to
+do it. Writing it as two independent tests is worth nothing on its own. The
+upper wrap spelled `>= 15`, which the target's `slti` had already proved
+correct, is worth *minus* two on its own, because the extra `li` of the
+constant 15 that `== 15` needs was filling a load-delay slot that the target
+leaves as a `nop`. Together they are worth 33 instructions of agreeing prefix
+and they restore the exact instruction count. This is the clearest case yet
+for measuring levers as a product: both were separately recorded as inert or
+harmful, and both are correct.
+
+The remaining prefix stops at a branch delay slot. The target leaves the slot
+after `bnez v0,0x1b0` empty and puts the constant 11 in `v1` afterwards; this
+build hoists `li v0,11` into the slot. The target cannot do that because it
+schedules the pad load into `v0` first, so the constant has to go somewhere
+else, and `v1` holds the pad's base address and is live. Eleven orderings of
+the four statements in that arm all leave the prefix at 91, so the ordering is
+not the handle; the scheduling of the pad load is.
+
+One further target behaviour is decoded but not yet reproduced. The cell that
+the select path dispatches on is loaded unsigned and masked, `lbu` then
+`andi` with `0xf`, which is what GCC emits for `D_8016AB38[row][col] & 0xF`
+because a sign extension under a four-bit mask is dead. Spelling the mask
+costs two instructions here rather than the one it should, so the target is
+saving those two somewhere this build still spends them, and the mask is
+being held back until that is found.
+
 
 The instruction count is exact again and the last cursor-column scale is
 written as a multiplication rather than a shift.
@@ -184,7 +249,7 @@ typedef struct {
     u8 pad3E[32];
     u8 f5E;
     u8 pad5F;
-    u16 f60;
+    s16 f60;
 } W;
 
 extern u16 D_8016D4D4;
@@ -235,15 +300,14 @@ void func_8016913C(void)
 
     w = D_8016D404;
     if ((D_8016D4D4 & 0x4000) != 0) {
-        home = 16 - w->f3C;
-        delta = w->f5E + home;
+        home = w->f3C - 16;
+        delta = w->f5E - home;
         if (delta != 0) {
             w->f3C = (delta >= 0) ? (w->f3C + 2) : (w->f3C - 2);
         }
         func_80042A78(w);
-        n = w->f60 - 1;
-        w->f60 = n;
-        if ((u16)n != 0) {
+        w->f60 = w->f60 - 1;
+        if (w->f60 != 0) {
             return;
         }
         w->f3C = w->f5E + 16;
@@ -254,10 +318,11 @@ void func_8016913C(void)
     if ((D_8009B3A4[0] & 0xF000) != 0) {
         if ((D_8009B3A4[0] & 0x2000) != 0) {
             D_8016D401 = D_8016D401 + 1;
-            if (D_8016D401 == 15) {
+            if (D_8016D401 >= 15) {
                 D_8016D401 = 0;
             }
-        } else if ((D_8009B3A4[0] & 0x8000) != 0) {
+        }
+        if ((D_8009B3A4[0] & 0x8000) != 0) {
             D_8016D401 = D_8016D401 - 1;
             if (D_8016D401 < 0) {
                 D_8016D401 = 14;

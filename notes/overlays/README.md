@@ -1363,3 +1363,52 @@ Historic sweeps are mostly unaffected, because the labels used have been
 alphanumeric with hyphens and underscores, which the sanitiser preserved. The
 exposure was to labels containing operators, which is exactly what a comparison
 or arithmetic axis invites.
+
+## Steer by the agreeing prefix once register allocation is what is left
+
+Opcode distance is an L1 distance between two opcode multisets. That makes it
+blind to order, which is known, but it also makes it *cancel*, which is not
+obvious and is much more damaging. An error that adds an instruction and an
+error that drops one sum to nothing, so a candidate can carry two real faults
+and score zero for them.
+
+The consequence is that correcting one of a cancelling pair makes the number
+worse. On `func_8016913C` the transition's distance was written as
+`home = 16 - w->f3C`, and the target computes `w->f3C - 16`. Fixing it raised
+the reported distance from 10 to 12, because the extra `li` of the constant 16
+had been paying for an instruction the candidate was missing elsewhere. Every
+sign said the correction was a regression, and it was the single biggest step
+forward the function has had.
+
+The length of the leading run of instructions whose mnemonics agree cannot
+cancel, because it stops at the first disagreement. `overlay_sweep` now
+reports it as `pfx` and takes `sort="prefix"`. Compare mnemonics rather than
+encodings: the registers are exactly what is still wrong when the shape is
+right, so an encoding comparison stops at the first differing allocation and
+reports nothing.
+
+Use `sort="distance"` while the candidate is still gaining and losing whole
+instructions, and `sort="prefix"` once the instruction count is right and
+allocation dominates. On the run that introduced it the prefix went from 15 to
+91 while the distance went from 10 to 12, and the differing-position count
+independently fell from 321 to 281, so the two metrics that cannot cancel
+agreed with each other and only the multiset dissented.
+
+Two smaller consequences are worth keeping in mind. The prefix saturates on a
+delay slot or a register choice long before the function is finished, so it
+guides the front and says nothing about the tail; read the tail with the
+alignment or the audits. And it costs two disassemblies per cell, which is why
+it needed `disassemble` to stop writing one fixed file.
+
+## `disassemble` used one fixed file, so parallel callers read each other
+
+`overlay_diff.disassemble` wrote `target.bin` in the build directory and ran
+objdump over it. Every worker in a parallel sweep wrote that one path, so a
+worker could disassemble a neighbour's bytes and get a perfectly plausible
+listing for the wrong function. This is the same failure as the sweep label
+collision below, in a second place, and it was found the same way: a metric
+computed in parallel disagreed with the same metric computed serially.
+
+The file is now named for the process and a digest of the words, so concurrent
+callers are independent. `opcode_distance` never disassembles, so no distance
+ever measured is affected; only listings, and only when produced concurrently.

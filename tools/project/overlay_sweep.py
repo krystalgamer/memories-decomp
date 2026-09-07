@@ -41,6 +41,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from overlay_diff import (  # noqa: E402
     candidate_words,
+    disassemble,
     inventory_entry,
     load_module,
     opcode_distance,
@@ -95,22 +96,67 @@ def _cell(job):
 
     left, right = masked(words), masked(cand)
     if left == right:
-        return (label, profile, len(cand), 0, 0, "MATCH")
+        return (label, profile, len(cand), 0, 0, "MATCH", len(cand))
     positions = sum(
         1
         for i in range(max(len(left), len(right)))
         if i >= len(left) or i >= len(right) or left[i] != right[i]
     )
-    return (label, profile, len(cand), opcode_distance(words, cand), positions, "")
+    return (
+        label,
+        profile,
+        len(cand),
+        opcode_distance(words, cand),
+        positions,
+        "",
+        prefix(root, words, cand),
+    )
 
 
-def sweep(module, address, name, variants, profiles=("gcc_2_8_1_g0_split",), workers=None):
+def prefix(root: Path, words: list[int], cand: list[int]) -> int:
+    """Length of the leading run of instructions whose mnemonics agree.
+
+    Opcode distance is an L1 distance between two multisets, so it is blind to
+    order and, worse, it cancels: an error that adds an instruction and an
+    error that drops one sum to nothing. Once register allocation is the
+    dominant residual that cancellation is ordinary, and the metric then
+    punishes a correction for exposing the error that had been hiding behind
+    it. A leading run cannot cancel, because it stops at the first
+    disagreement, so it is the metric to steer by while the shape of the
+    function is still being settled.
+
+    Mnemonics rather than encodings, because the registers are exactly what is
+    still wrong when the shape is right, and comparing encodings would stop at
+    the first differing allocation and report nothing useful.
+    """
+    lhs = [line.split()[0] for line in disassemble(root, words)]
+    rhs = [line.split()[0] for line in disassemble(root, cand)]
+    i = 0
+    while i < min(len(lhs), len(rhs)) and lhs[i] == rhs[i]:
+        i += 1
+    return i
+
+
+def sweep(
+    module,
+    address,
+    name,
+    variants,
+    profiles=("gcc_2_8_1_g0_split",),
+    workers=None,
+    sort="distance",
+):
     """Compile every (variant, profile) cell.  Returns rows sorted best-first.
 
-    A row is (label, profile, instructions, distance, positions, note), where
-    note is "MATCH", a build error, or empty.  Rows that failed to build sort
-    last rather than being dropped, because a spelling the compiler rejects is
-    still an answer about that spelling.
+    A row is (label, profile, instructions, distance, positions, note, prefix),
+    where note is "MATCH", a build error, or empty.  Rows that failed to build
+    sort last rather than being dropped, because a spelling the compiler
+    rejects is still an answer about that spelling.
+
+    `sort` selects which metric leads.  "distance" is right while the candidate
+    is still gaining and losing whole instructions; "prefix" is right once
+    register allocation dominates, because opcode distance cancels there and
+    can rank a strict improvement below what it improved on.
     """
     root = require_workspace_root()
     SCRATCH.mkdir(parents=True, exist_ok=True)
@@ -125,24 +171,31 @@ def sweep(module, address, name, variants, profiles=("gcc_2_8_1_g0_split",), wor
     far = 1 << 30
     # positions of 0 is the best possible value, so it must not be treated as
     # missing; `or` would send an exact match to the bottom of the list.
-    rows.sort(
-        key=lambda r: (
+    if sort == "prefix":
+        key = lambda r: (r[3] is None, -(r[6] or 0), r[4] if r[4] is not None else far)
+    elif sort == "distance":
+        key = lambda r: (
             r[3] is None,
             r[3] if r[3] is not None else far,
             r[4] if r[4] is not None else far,
         )
-    )
+    else:
+        raise ValueError(f"unknown sort {sort!r}")
+    rows.sort(key=key)
     return rows
 
 
 def show(rows, limit=25):
-    print(f"{'dist':>4} {'pos':>4} {'n':>4}  {'label':38s} profile")
-    for label, profile, n, distance, positions, note in rows[:limit]:
+    print(f"{'dist':>4} {'pfx':>4} {'pos':>4} {'n':>4}  {'label':38s} profile")
+    for label, profile, n, distance, positions, note, pfx in rows[:limit]:
         if distance is None:
-            print(f"{'ERR':>4} {'':>4} {'':>4}  {label:38s} {profile}  {note}")
+            print(f"{'ERR':>4} {'':>4} {'':>4} {'':>4}  {label:38s} {profile}  {note}")
             continue
         mark = "  *** MATCH ***" if note == "MATCH" else ""
-        print(f"{distance:4d} {positions:4d} {n:4d}  {label:38s} {profile}{mark}")
+        print(
+            f"{distance:4d} {pfx:4d} {positions:4d} {n:4d}  "
+            f"{label:38s} {profile}{mark}"
+        )
     matches = [r for r in rows if r[5] == "MATCH"]
     print(f"({len(rows)} cells, {len(matches)} matching)")
 
@@ -156,6 +209,7 @@ def main() -> int:
     parser.add_argument("--profile", action="append", dest="profiles")
     parser.add_argument("--all-profiles", action="store_true")
     parser.add_argument("--limit", type=int, default=25)
+    parser.add_argument("--sort", choices=("distance", "prefix"), default="distance")
     args = parser.parse_args()
 
     root = require_workspace_root()
@@ -166,7 +220,10 @@ def main() -> int:
     else:
         profiles = args.profiles or ["gcc_2_8_1_g0_split"]
     variants = {Path(args.source).stem: Path(args.source).read_text()}
-    show(sweep(args.module, address, name, variants, profiles=profiles), limit=args.limit)
+    show(
+        sweep(args.module, address, name, variants, profiles=profiles, sort=args.sort),
+        limit=args.limit,
+    )
     return 0
 
 

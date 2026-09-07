@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
+import os
 import re
 import struct
 import subprocess
@@ -164,12 +166,24 @@ def run_objdump(root: Path, arguments: list[str]) -> str:
 
 
 def disassemble(root: Path, words: list[int]) -> list[str]:
-    path = resolve_within(root, f"{BUILD_DIRECTORY}/target.bin")
+    # objdump needs a file, and a fixed name is shared state.  Callers that
+    # disassemble a candidate per worker -- any parallel sweep -- would write
+    # this path concurrently and read back a neighbour's bytes, which yields a
+    # plausible listing for the wrong function rather than an error.  Naming the
+    # file for the process and the contents makes concurrent callers independent
+    # and lets a repeat of the same request reuse the same name harmlessly.
+    digest = hashlib.sha1(
+        b"".join(struct.pack("<I", word) for word in words)
+    ).hexdigest()[:12]
+    path = resolve_within(root, f"{BUILD_DIRECTORY}/target-{os.getpid()}-{digest}.bin")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(b"".join(struct.pack("<I", word) for word in words))
-    listing = run_objdump(
-        root, ["-D", "-z", "-b", "binary", "-m", "mips:3000", "-EL", str(path)]
-    )
+    try:
+        listing = run_objdump(
+            root, ["-D", "-z", "-b", "binary", "-m", "mips:3000", "-EL", str(path)]
+        )
+    finally:
+        path.unlink(missing_ok=True)
     return [
         match.group(2).replace("\t", " ").strip()
         for match in map(OBJDUMP_LINE.match, listing.splitlines())
