@@ -3391,3 +3391,38 @@ is already narrow, do not read it as the compiler being redundant. Read it as
 evidence that the source wrote a cast in an expression rather than declaring a
 narrow variable, and reach for it early -- the symptom shows up as register
 choice several instructions away, not as a missing mask.
+
+## An ignored non-void return still changes the caller's allocation
+
+A callee's return type is observable in the caller even when the value is
+thrown away. `func_8005B0B4` ends with `*out = c; return out;`, and with
+`func_8005A98C` declared `HsvT *` the closing three-byte struct copy comes out
+based on `$v0` where the target bases it on the parameter's own `$s6`.
+Declaring the same callee `void` -- the value is unused either way, and the
+emitted call is identical -- moves the copy back onto `$s6` and finishes the
+match. Nothing else in 107 instructions changes.
+
+The mechanism is worth knowing because the symptom appears nowhere near the
+call. GCC's pre-reload scheduler hoists the return-value copy `$v0 = out`
+above the block move, and a later pass then substitutes `$v0` for `out` as the
+copy's base register. Whether the scheduler does that depends on what else is
+competing for `$v0` at the tail, and an ignored non-void return is one of the
+things that competes. `-fno-schedule-insns` confirms the chain: with the
+pre-reload scheduler off, the base is the parameter's register under either
+declaration.
+
+So when a residual is a base or scratch register at the *tail* of a function
+and the instruction multiset is already exact, check the return types of
+everything the function calls before spending time on the tail itself. There
+is precedent for the void spelling in the tree: `src/game/func_8005B054.c`
+declares `func_8005ABA0` as returning `void` while `src/game/func_8005ABA0.c`
+defines it returning `Color *`, so a caller whose prototype disagrees with the
+definition is an existing shape here rather than a new liberty.
+
+Two negatives worth recording, because both look like the obvious fix and
+neither works. Pinning a variable to the wanted base register does not help:
+the substitution happens to the register inside the MEM after allocation, so
+`register Color *p __asm__("$22")` is simply overwritten. And capturing the
+returned pointer into a second variable before the copy does not help either,
+at any of five placements, because the two are provably equal and GCC folds
+the second away -- laundering it through `u32` does not stop the fold.
