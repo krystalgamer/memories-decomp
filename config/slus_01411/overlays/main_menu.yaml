@@ -77,7 +77,7 @@ segments:
       - [0x1EEC, c, overlays/main_menu/count_decimal_digits]
       - [0x1F20, c, overlays/main_menu/start_value_widget_tween]
       - [0x1F68, c, overlays/main_menu/func_80181F68]
-      - [0x21DC, asm, overlays/main_menu/text_21DC]
+      - [0x21DC, c, overlays/main_menu/func_801821DC]
       - [0x338C, c, overlays/main_menu/func_8018338C]
       - [0x3514, c, overlays/main_menu/func_80183514]
       - [0x36F4, c, overlays/main_menu/func_801836F4]

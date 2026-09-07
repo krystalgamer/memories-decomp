@@ -1,88 +1,3 @@
-## main_menu `func_801821DC` at 0x801821DC
-
-`gcc_2_8_1_g0_split`: complete 1132-instruction candidate, opcode distance 0,
-the entire mnemonic sequence exact, and 29 differing instruction words after
-resolving every relocation. This is not an exact match and remains assembly
-fallback. It replaces the opening fragment, which had 85 instructions when
-this investigation began and was independently extended upstream to 143.
-
-The upstream extension's findings are retained: the second copy pair runs in
-the opposite direction, its two count-array pointers are 80 bytes into the
-destinations (`base + 1744` and `base + 5840`), and the non-success polling path
-reuses the high-half address held in `s0` for its final flag clear. All three
-are represented in the complete candidate below.
-
-The largest-first investigation began at 2026-09-07 17:22 UTC and reached this
-state within its one-hour exploration budget. The reproducible source is below.
-Scratch experiments, source snapshots, profiles, hashes and measurements are
-recorded in `tmp/copilot-terra-overlay/attempts.jsonl`; the best snapshot is
-`full-v63-backup-bases-fresh.c`. The scratch `link_probe.py` also linked the
-function at 0x801821DC with its address-based external symbols and compared the
-complete text, not just relocation-masked words.
-
-The function handles both sides of the card-trade screen. It copies two
-1024-byte working records in either direction, stages selected card transfers
-with a per-card count ceiling of 250, handles the confirmation dialog, processes
-both controllers' selection and scrolling input, and updates the two lists and
-cursor widgets. The selected-card rows contain a count followed by up to ten
-card IDs. Neither the double dialog-destroy call at the end nor the different
-counter-update spellings between the two sides have been simplified.
-
-The remaining differences are entirely register allocation, in three groups:
-
-- Words 33, 34, 48 and 49: the saved addresses for the second restore copy are
-  in `a2`/`a3` instead of `a1`/`a2`.
-- Words 64 and 73: the initialization loop's `D_80185CC8` base is in `s3`
-  instead of `s2`.
-- Words 700-982: 23 words exchange the second player's card pointer and the
-  ready/input/selection bases between `s0` and `s1`. The first player's block
-  already has the correct assignment.
-
-Several source changes were necessary to reach the exact instruction sequence:
-
-- The old copy-loop inference was too restrictive. A 1024-byte aggregate
-  assignment emits the same four-word transfer loop; it is not necessary to
-  express every transfer as a C loop over 16-byte elements. Using aggregate
-  assignments for the backup copies removed six allocation differences.
-  Separate restore and backup pointer locals are still important.
-- The three modulo calculations belong inside their conditional arms. Computing
-  an intermediate and applying `% 3` or `% 6` afterward prevents the divide
-  constants from occupying the target delay slots.
-- Negative scrolling clamps use a correction to a local followed by one common
-  store, not a conditional expression. A separate `low` local removes sixteen
-  register differences. The second player's upper clamps initialize the bound
-  first and repeat the array expression in the comparison and assignment;
-  introducing a named sum there produces the wrong register pairing.
-- The initial widget frame is assigned to `value`, then `previousFlags`, then
-  `flags`. This preserves the target's register copy and stack spill at 0x18.
-- The confirmation result is separate from `dirty1`, and its early paths join
-  the return after the switch. Sharing the variable or using separate returns
-  changes constant propagation and tail placement.
-- The clear-flags loop needs its own pointer, `clearFlags`, rather than the
-  transfer loop's `to`. Reusing `to` occupies `a0` and prevents the common
-  dialog-address `lui` from filling the switch branch delay slot. Splitting it
-  removed the last instruction-count discrepancy.
-- The first player's dirty counter is bound to `$19`, following the repository's
-  existing named-register convention. This removes the `s3`/`s4` inversion
-  without inserting instructions. There is no inline instruction assembly.
-
-Closed or unfavorable axes on this full reconstruction: all configured
-GCC 2.8.1 profiles were measured before the final allocation refinements, and
-none improved on the split profile; declaration reordering and alternate
-initialization spellings are inert. Directly binding either card pointer,
-including block-scoped and late aliases, adds spills or changes control flow.
-Binding the restore-copy arguments removes moves that the target retains.
-Binding the initialization flag pointer changes the high-half load and operand
-order. Merging the two card locals fixes the second side but exchanges the
-first side's registers and loses a `nop`; it is not a solution. Opcode scores
-and unaligned position counts hid useful changes until streams were aligned
-before comparing registers, so use both aligned and fully relocated comparisons.
-
-The next investigation should target the three remaining live-range groups,
-not reconstruct the body or repeat those closed axes. No source or overlay
-manifest has been promoted from this candidate.
-
-```c
 #include "../../types.h"
 
 typedef struct { u32 words[256]; } Block1024;
@@ -141,14 +56,14 @@ extern void func_80035B7C(void *);
 extern void func_80040410(Widget *, s32);
 extern s32 func_801821DC(void);
 
-
 s32 func_801821DC(void)
 {
     s32 bounded;
     s32 low;
     s32 decision;
+    /* These bindings also preserve the initialization table's allocation. */
     register s32 dirty0 __asm__("$19");
-    s32 dirty1;
+    register s32 dirty1 __asm__("$18");
     s32 cursor0;
     s32 cursor1;
     s32 flags;
@@ -164,17 +79,16 @@ s32 func_801821DC(void)
     u8 *clearFlags;
     u8 *from;
     u8 *to;
-    u16 *selection;
     Block16 *base;
     Block16 *source;
     Block16 *save_source;
     Block16 *destination;
     Block16 *save_destination;
     Block16 *end;
-    Block16 *save_end;
-    Block16 *source2;
+    /* Preserve the second restore copy's addresses across the first walk. */
+    register Block16 *source2 __asm__("$6");
     Block16 *backup_source2;
-    Block16 *destination2;
+    register Block16 *destination2 __asm__("$5");
     Block16 *backup_destination2;
     MainMenuCard *card0;
     MainMenuCard *card1;
@@ -197,14 +111,22 @@ s32 func_801821DC(void)
             destination = D_801D1200;
             destination2 = destination + 256;
             source2 = destination + 360;
-            destination = destination;
             source = destination + 104;
             end = destination + 168;
-            *(Block1024 *)destination = *(Block1024 *)source;
+            do {
+                *destination = *source;
+                source++;
+                destination++;
+            } while (source != end);
+            /* Swap the working pointer roles for the second restore copy. */
             source = destination2;
             destination = source2;
             end = destination + 64;
-            *(Block1024 *)source = *(Block1024 *)destination;
+            do {
+                *source = *destination;
+                destination++;
+                source++;
+            } while (destination != end);
             i = 0;
             do {
                 D_80185C9C[i][0] = 0;
@@ -232,13 +154,11 @@ s32 func_801821DC(void)
         backup_destination2 = base + 360;
         save_destination = base + 104;
         save_source = base;
-        save_end = save_source + 64;
         counts[0] = (u8 *)(base + 109);
         counts[1] = (u8 *)(base + 365);
         *(Block1024 *)save_destination = *(Block1024 *)save_source;
         save_source = backup_destination2;
         save_destination = backup_source2;
-        save_end = save_destination + 64;
         *(Block1024 *)save_source = *(Block1024 *)save_destination;
         for (i = 0; i < 2; i++) {
             for (j = 0; j < D_80185C9C[i][0]; j++) {
@@ -523,8 +443,8 @@ player1:
             }
             if (card1->count != 0) {
                 func_80048658(7, 255, 0);
-                D_80185C9C[1][0]++;
-                D_80185C9C[1][D_80185C9C[1][0]] = card1->id;
+                /* Use the increment result rather than reloading the count. */
+                D_80185C9C[1][++D_80185C9C[1][0]] = card1->id;
                 card1->count--;
                 dirty1++;
                 goto check_scroll1;
@@ -626,4 +546,3 @@ update:
 out:
     return 0;
 }
-```
