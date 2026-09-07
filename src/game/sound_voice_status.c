@@ -8,7 +8,7 @@ void SD_KeyOffVoiceSlots(void)
     s32 total;
 
     do {
-        SpuSetKey(0, 0x00F00000);
+        SpuSetKey(0, SD_VOICE_SLOT_MASK_ALL);
         SpuGetAllKeysStatus((char *)g_SDValue->field_15D8);
         total = g_SDValue->field_15EF + g_SDValue->field_15ED +
                 g_SDValue->field_15EE + g_SDValue->field_15EF;
@@ -28,6 +28,6 @@ s32 func_80047F38(u8 value)
             result |= mask;
     }
     if (result != 0)
-        SpuSetKey(0, result << 20);
+        SpuSetKey(0, result << SD_VOICE_SLOT_KEY_SHIFT);
     return result;
 }

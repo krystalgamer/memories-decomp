@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound_voice_constants.h"
 
 typedef struct {
     u8 pad00[0x40];
@@ -61,15 +62,15 @@ void func_80045F3C(void)
 
     SpuGetAllKeysStatus(&SOUND->f15D8);
     p = SOUND;
-    mask = (p->f15EC == 3) << 20;
+    mask = (p->f15EC == 3) << SD_VOICE_SLOT_KEY_SHIFT;
     if (p->f15ED == 3) {
-        mask |= 0x200000;
+        mask |= SD_VOICE_SLOT_MASK_BASE << 1;
     }
     if (p->f15EE == 3) {
-        mask |= 0x400000;
+        mask |= SD_VOICE_SLOT_MASK_BASE << 2;
     }
     if (p->f15EF == 3) {
-        mask |= 0x800000;
+        mask |= SD_VOICE_SLOT_MASK_BASE << 3;
     }
     if (mask != 0) {
         SpuSetKey(0, mask);

@@ -191,7 +191,7 @@ void func_80047CC4(s32 value)
     s32 tries = 0;
     s32 slot = state->field_0435;
     s32 bit = 1 << (u8)slot;
-    s32 command = 1 << ((u8)slot + 20);
+    s32 command = 1 << ((u8)slot + SD_VOICE_SLOT_KEY_SHIFT);
 
     do {
         state = g_SDValue;

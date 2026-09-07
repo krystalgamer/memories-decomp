@@ -2,6 +2,7 @@
 #define YUGIOH_GAME_SOUND_H
 
 #include "../types.h"
+#include "sound_voice_constants.h"
 
 #define SD_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 #define SD_COMMAND_QUEUE_COUNT 16
@@ -18,11 +19,6 @@
 #define SD_CHANNEL_VOLUME_MAX 0x80
 #define SD_MIX_SAMPLE_COUNT 256
 #define SD_KEY_OFF_RETRY_LIMIT 256
-#define SD_VOICE_SLOT_COUNT 4
-#define SD_VOICE_SLOT_MASK_BASE 0x00100000
-#define SD_VOICE_SLOT_MASK_ALL \
-    ((SD_VOICE_SLOT_MASK_BASE << SD_VOICE_SLOT_COUNT) - \
-     SD_VOICE_SLOT_MASK_BASE)
 
 typedef struct {
     u8 command;
