@@ -1441,3 +1441,60 @@ source expression that caused it, not the position of the value's use. When
 those differ in the target, the source named the value.
 
 Verified by `func_8018001C` in the main menu module.
+
+## `srlv` from a compile-time 1: inline the shift into its use
+
+A register-form shift does **not** prove the shift count is a variable. It can
+come from a literal, and the difference is where the expression is written.
+
+`func_801681A0` halves two values and the target issues both as `srlv` against
+`a3`, the register already holding the constant `1` that every call in the
+function passes as its fourth argument. The obvious reading is that the source
+names a variable the compiler cannot fold, and that reading survived several
+passes on this function: a `volatile`-sourced local reaches `srlv` and costs
+five instructions, a global costs ten, and a fourth parameter costs a distance
+of 28. All of them were rejected as too expensive, and the row concluded that
+the halving "cannot be spelled as a shift by a compile-time 1 at all".
+
+It can. The whole difference is that
+
+```c
+w = w >> 1;
+w = x + w;
+*(s16 *)(line + 16) = w;
+*(s16 *)(line + 8) = w;
+```
+
+emits `srl` by an immediate, and
+
+```c
+*(s16 *)(line + 16) = x + (w >> 1);
+*(s16 *)(line + 8) = x + (w >> 1);
+```
+
+emits `srlv` by `a3`, for free and with no change of meaning.
+
+The mechanism is ordinary CSE. Assigning to a local puts the shift early, where
+it is the first thing computed after the previous call returns and no register
+yet holds `1`, so the only available form is the immediate. Written inside the
+stores, the shift is emitted with them, after the argument setup for the next
+call has already issued `li a3,1`. CSE then finds `1` in the value table with a
+register attached and substitutes the register, which is what the register form
+of the shift needs.
+
+Doing this at one of the two halvings took the opcode distance from 9 to 7;
+doing it at both took it to 5.
+
+Two corollaries worth carrying:
+
+- **Check the counter-evidence for the same effect before concluding a constant
+  is a variable.** The strongest argument for a variable here was
+  `addu v0,t0,a3`, an addition using the register rather than `addiu ...,1`.
+  That instruction appears in the *candidate* too, from a plain literal, for
+  the same reason: GCC reuses a register it has just loaded for the call. It
+  never showed anything.
+- The lever is the reverse of the usual advice. Naming a subexpression in a
+  local normally helps by pinning it; here it hurts, because pinning it early
+  is exactly what denies it the register form.
+
+Verified by `func_801681A0` in the password module.
