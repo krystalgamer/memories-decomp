@@ -30,7 +30,7 @@ For example:
 | Data Crystal coordinate | Local runtime address | `SLUS_014.11` file offset |
 |---:|---:|---:|
 | `0x12B50` | `0x80012B50` (`Main_Init`) | `0x3350` |
-| `0x12C44` | `0x80012C44` (`srand` call) | `0x3444` |
+| `0x12C44` | `0x80012C44` (boot-seed argument setup) | `0x3444` |
 | `0x8E590` | `0x8008E590` (Psy-Q `rand`) | `0x7ED90` |
 
 Do not apply these coordinates directly to a raw disc image, an archive, or
@@ -42,9 +42,12 @@ the executable file. Resolve the storage format first:
 - Runtime overlays: identify the loaded module because several modules reuse
   the same `0x801xxxxx` address.
 
-The ROM-map disassembly is still valuable as a historical annotation source.
-For example, its `0x12C44` entry correctly identifies the
-`srand(0x55555555)` call in `Main_Init`.
+The ROM-map coordinate `0x12C44` lands on the boot-seed argument setup in
+`Main_Init`, not the call instruction itself. Retail contains
+`lui $a0, 0x5555` at `0x80012C44`, `jal srand` at `0x80012C48`
+(SLUS offset `0x3448`), and `ori $a0, $a0, 0x5555` in its delay slot.
+The annotation identifies the seed-setting sequence, but a call-site trace
+must use `0x80012C48`.
 
 ## Enumerations from the Notes page
 

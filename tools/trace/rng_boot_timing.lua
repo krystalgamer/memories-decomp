@@ -3,14 +3,16 @@
 -- WHAT THIS ANSWERS
 --   notes/rng.md and notes/research/the-game.md retain a community timing
 --   claim that boot seeds the PRNG during the Konami logo and begins consuming
---   it during the intro. Static code proves srand(0x55555555), a later
---   srand(0x56), and the rand recurrence, but not which screen is visible at
---   each call.
+--   it during the intro. Static code proves an early srand(0x56), followed by
+--   srand(0x55555555), and the rand recurrence, but not which screen is
+--   visible at each call.
 --
 --   This trace records every rand and srand entry from the boot seed through
 --   the first three seconds of main mode 8. Each row includes the VSync frame,
 --   mode, call site, old seed, and the state/result implied by the confirmed
 --   runtime implementation. Human context supplies the visible-screen labels.
+--   The earlier 0x56 seed is outside this window. A post-boot 0x56 reseed is
+--   logged if it occurs, but is not required for capture to finish.
 --
 --   PCSX-Redux removes Lua breakpoints during a console reset. The script
 --   therefore listens for ExecutionFlow::Reset and reinstalls both execution
@@ -25,8 +27,8 @@
 --   4. Hard-reset the emulated console. The script should print both
 --      "reset observed" and "breakpoints reinstalled at BIOS shell".
 --      Do not skip the intro or press buttons.
---   5. Note what is visible when the script reports the boot seed, the 0x56
---      reseed, the first rand call, and entry into main mode 8.
+--   5. Note what is visible at the boot seed, first rand call, main mode 8
+--      entry, and any post-boot 0x56 reseed that is actually reported.
 --   6. After the trace prints, copy the whole document into
 --      tools/trace/result/rng_boot_timing.txt and fill in the context.
 --
@@ -185,7 +187,7 @@ local function onSrand()
 
     if argument == STARTUP_SEED and not sawStartupSeed then
         sawStartupSeed = true
-        print('rng_boot_timing: srand(0x56) observed; note the visible screen')
+        print('rng_boot_timing: post-boot srand(0x56) observed; note the visible screen')
     end
 end
 
@@ -227,7 +229,7 @@ local function finish(reason)
     print('')
     print('<confirm interpreter CPU and hard reset; state whether input or an')
     print(' intro skip was used; identify the visible screen at the boot seed,')
-    print(' srand(0x56), first rand call, mode 8 entry, and title appearance>')
+    print(' any later srand(0x56), first rand call, mode 8 entry, and title appearance>')
     print('')
     print('==== TRACE RESULT =====')
     print('')
@@ -285,7 +287,7 @@ local function poll()
         ))
     end
 
-    if sawStartupSeed and mode == MENU_MODE and menuFrame == nil then
+    if mode == MENU_MODE and menuFrame == nil then
         menuFrame = relativeFrame()
         emit(string.format(
             'milestone frame=%05d main_mode_8 seed=0x%08X',

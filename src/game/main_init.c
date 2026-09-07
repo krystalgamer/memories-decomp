@@ -5,6 +5,7 @@
 #include "../psyq/libetc.h"
 #include "../psyq/setjmp.h"
 #include "../psyq/rand.h"
+#include "rand_constants.h"
 
 extern volatile u32 D_8009B0CC;
 extern volatile u32 D_8009B0C8;
@@ -83,7 +84,7 @@ s32 Main_Init(void)
     SD_InitState(D_800E9EC0[0]);
     VSyncCallback(Main_VBlankCB);
     Sound_InitFrontend();
-    srand(0x55555555);
+    srand(RAND_BOOT_SEED);
     SetDispMask(1);
     Main_ResetFrontendRuntime();
     Main_ResetFrontendRuntime();

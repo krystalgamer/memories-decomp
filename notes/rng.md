@@ -56,11 +56,20 @@ the return mask discards most of the updated state.
 
 ## Seeding
 
-`Main_Init` calls `srand(0x55555555)` at `0x80012C44`. This confirms the
-community-reported boot seed. It is not safe to assume that value remains the
-active seed through all startup phases: `func_80013154` later calls
-`srand(0x56)` at `0x80013338`. Any frame or route model must account for all
-reseed calls as well as ordinary `rand` calls.
+`Main_Init` first calls `func_80013154` at `0x80012BE8`. That graphics/input
+initializer calls `srand(RAND_GRAPHICS_INIT_SEED)` with `0x56` at
+`0x80013338`. After it returns, `Main_Init` continues initialization, calls
+`Sound_InitFrontend`, and then calls `srand(RAND_BOOT_SEED)` with
+`0x55555555` at `0x80012C48`. The two constants are in
+`src/game/rand_constants.h`.
+
+The normal startup path therefore applies `0x56` before the community-reported
+boot seed, not after it. The instruction at `0x80012C44` loads the boot seed's
+upper half; the `jal srand` is at `0x80012C48`, with the lower half supplied
+in its delay slot at `0x80012C4C`. A higher callee address does not imply a
+later call. This is static call-order evidence, not a visible-screen trace.
+Frame and route models must still account for every reseed and ordinary
+`rand` call.
 
 ## Known game consumers
 
@@ -203,9 +212,20 @@ timing without relying on visual frames alone.
 `tools/trace/rng_boot_timing.lua` implements the boot-through-title slice of
 that trace. It arms on `srand(0x55555555)`, records each `rand`/`srand` caller,
 state transition, mode, and VSync frame through the first three seconds of
-mode 8, and prints the human-context scaffold. It requires PCSX-Redux's
-interpreter CPU because it uses execution breakpoints. No result has been
-submitted yet, so the community timing observations above remain unconfirmed.
+mode 8, and prints the human-context scaffold. The earlier `srand(0x56)` is
+outside this capture window. A later `0x56` reseed is recorded if it occurs,
+but is not required to start the mode-8 completion timer. The
+`startup_seed_seen` summary field refers only to such a post-arming reseed,
+so `false` does not mean that the earlier initializer failed to run.
+It requires PCSX-Redux's interpreter CPU because it uses execution breakpoints.
+No result has been submitted yet, so the community timing observations above
+remain unconfirmed.
+
+The standalone regression script
+`luajit tools/trace/tests/rng_boot_timing_test.lua` replays mocked PCSX
+callbacks with LuaJIT FFI memory. It covers normal completion without a later
+reseed, an optional reseed, the unarmed timeout, reset/reinstallation, and the
+event limit. These callback replays are not emulator gameplay observations.
 
 ## Research checklist
 
@@ -223,6 +243,6 @@ submitted yet, so the community timing observations above remain unconfirmed.
 
 - Community RNG manipulation write-up:
   <https://gist.github.com/anonymous/542a280f999d3f7bece2a0fe3569d474>
-- Retail executable assembly at `0x8008E590`, `0x8008E5C0`, `0x80012C44`, and
+- Retail executable assembly at `0x8008E590`, `0x8008E5C0`, `0x80012C48`, and
   `0x80013338`
 - `tmp/references/ram_map.txt` for the seed symbol evidence

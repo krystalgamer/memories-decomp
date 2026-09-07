@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/rand.h"
+#include "rand_constants.h"
 
 typedef struct {
     s16 v[10];
@@ -117,5 +118,5 @@ next:
     Input_InitPads();
     MemCardInit(1);
     File_SetPositionTable();
-    srand(0x56);
+    srand(RAND_GRAPHICS_INIT_SEED);
 }
