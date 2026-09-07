@@ -45,8 +45,58 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 382 instructions against 382, opcode distance 12,
+`gcc_2_8_1_g0_split`, 380 instructions against 382, opcode distance 6,
 and the first 91 instructions agree.
+
+Opcode distance halves from 12 to 6, and every step of it came from a product
+rather than from an axis measured on its own. Two of the three levers had
+already been measured as inert or harmful against the previous base.
+
+The store of the cursor row into `D_8016D426` belongs after the arms, not
+inside them. The three arms of the column dispatch each ended with
+`D_8016D426 = D_8016D402;`, and GCC cross-jumps those into a single tail, so
+the emitted code looked right. It is not the same code. The target reloads
+`D_8016D402` from memory in that tail and stores the reloaded value, which is
+what one assignment placed after the chain produces and what three assignments
+inside it do not. Worth two of the distance on its own.
+
+Hoisting the row pointer out of the cell-walk loop is then worth four more.
+The same change measured against the previous base was worth nothing: it
+removed four instructions the target keeps and left the distance at ten. With
+the `D_8016D426` store moved it removes exactly the right ones. This is the
+clearest expiry of a lever recorded on this function so far, and it is the
+reason the two must be measured as a product.
+
+The mask on the dispatched cell is now affordable. `D_8016AB38[row][col] & 0xF`
+gives the `lbu` and the `andi` of `0xf` that the target has, because a sign
+extension under a four-bit mask is dead; it cost two instructions against the
+old base and pays for itself here. It leaves the candidate two instructions
+short rather than two long, and the mnemonic subsequence rises from 322 to 325.
+
+Three axes were re-run against the new base and are closed. The dispatch
+structure around the pad tests, in three forms including the nested one and the
+inverted-test one, is byte-identical. The `>= 11` test spelled as `> 10` or
+with an `(s8)` cast is byte-identical, and so is nesting the `0x1000` test
+instead of chaining it, across eighteen cells of their product. The
+signedness of `D_8016D402` and `D_8016D426` is inert because the explicit
+`(s8)` casts already decide it. Of the twenty-nine profiles only
+`gcc_2_8_1_cc_g0_as_g8_split` ties the current one.
+
+Two structural facts about the remaining six are decoded. The target keeps the
+row offset and the array base in *separate* registers across the walk loop,
+`a1` holding `row * 15` and `a3` holding the address of `D_8016AB38`, and does
+two `addu` inside the loop. The pointer hoist folds them into one register and
+does one, which is the missing `addu`. Rewriting the array as a flat `s8 []`
+and hoisting `row * 15` into its own local separates them in the source but
+measures worse, at 12, because GCC then recomputes the multiply; spelling the
+multiply inline in both uses gives 10. So the separation is real and the
+spelling that produces it has not been found.
+
+The other is that the flag argument must go through the `n` local. Writing
+`flag = (D_8009B3A4[0] & 0x4000) != 0;` in one statement, or as a shift and
+mask, costs two. The two-step form is what the target's `andi` followed by
+`sltu` against zero wants.
+
 
 The opcode distance rose from 10 to 12 while the candidate got substantially
 closer, which is the reason the header now also quotes a prefix. Opcode
@@ -305,6 +355,7 @@ void func_8016913C(void)
     s32 gx;
     s32 gy;
     s32 d;
+    s8 *rp;
 
     w = D_8016D404;
     if ((D_8016D4D4 & 0x4000) != 0) {
@@ -342,20 +393,18 @@ void func_8016913C(void)
                 flag = (n != 0);
                 D_8016D401 = 11;
                 D_8016D402 = D_8016ABC0[(s8)D_8016D402][flag];
-                D_8016D426 = D_8016D402;
             } else if ((D_8009B3A4[0] & 0x1000) != 0) {
                 D_8016D402 = D_8016D402 - 1;
                 if ((s8)D_8016D402 < 0) {
                     D_8016D402 = 8;
                 }
-                D_8016D426 = D_8016D402;
             } else {
                 D_8016D402 = D_8016D402 + 1;
                 if ((s8)D_8016D402 >= 9) {
                     D_8016D402 = 0;
                 }
-                D_8016D426 = D_8016D402;
             }
+            D_8016D426 = D_8016D402;
         }
     } else if ((D_8009B398[0] & 0x800) != 0) {
         D_8016D401 = 14;
@@ -368,10 +417,11 @@ void func_8016913C(void)
     col = (s8)D_8016D401;
     cell = D_8016AB38[row][col];
     if (cell < 0) {
+        rp = D_8016AB38[row];
     again:
         col = col + cell;
         D_8016D401 = col;
-        cell = D_8016AB38[row][(s8)col];
+        cell = rp[(s8)col];
         if (cell < 0) {
             goto again;
         }
@@ -408,7 +458,7 @@ select:
     second = kind;
     row = (s8)D_8016D402;
     col = (s8)D_8016D401;
-    n = D_8016AB38[row][col];
+    n = D_8016AB38[row][col] & 0xF;
     gx = kind;
     if (n == 4) {
         if (col != 11) {
