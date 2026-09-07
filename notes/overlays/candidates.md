@@ -47,7 +47,18 @@ state is not stored here, in the order worth recovering:
 
 `gcc_2_8_1_g0_split`, 384 instructions against 382, opcode distance 2
 with the unconditional jump count exact, and the first 91 instructions
-agree.
+agree. The longest common subsequence of mnemonics is 341 of 382 and 309
+positions differ.
+
+The two surplus `lui` that this entry chased for several cycles are gone. The
+walk that follows a negative cell was written with a label and a `goto`, and a
+`goto` loop carries no `NOTE_INSN_LOOP_BEG`, so `loop.c` never scans it and the
+`%hi` of the store target is rebuilt on every iteration. Writing the same walk
+as a `while` gives the loop a begin note, the `%hi` becomes an ordinary
+invariant and is hoisted once, and both surplus `lui` disappear together
+because every global in this range shares the high half. The remaining fault is
+two register copies and one `nop` against one `addu`, which is a different and
+smaller problem than the one this row started with.
 
 The caret's frame counter is written after its x position, not before. The
 `kind == 1` block ends with a run of stores through the object returned by
@@ -550,7 +561,7 @@ Note that the differing-position count moves the wrong way across these,
 The distance and the register-blind measure both improve.
 
 ```c
-#include "../../src/types.h"
+#include "../../types.h"
 
 typedef struct {
     u8 pad0[48];
@@ -671,15 +682,11 @@ void func_8016913C(void)
     row = (s8)D_8016D402;
     col = (s8)D_8016D401;
     cell = D_8016AB38[row][col];
-    if (cell < 0) {
-        rp = D_8016AB38[row];
-    again:
+    rp = D_8016AB38[row];
+    while (cell < 0) {
         col = col + cell;
         cell = rp[(s8)col];
         D_8016D401 = col;
-        if (cell < 0) {
-            goto again;
-        }
     }
     D_8016D402 = D_8016D426;
     w->f5E = 0;
