@@ -2,14 +2,16 @@
 
 ## Ownership regions
 
-The exact assembly split currently contains 1,794 resident functions covering
+The exact assembly split currently contains 1,795 resident functions covering
 513,544 bytes.
 
 | Region | Address range | Functions | Function bytes | Classification |
 |---|---:|---:|---:|---|
 | Startup | `0x800129D8-0x80012B50` | 3 | 376 (`0x178`) | PsyQ/GCC CRT startup |
-| Game and engine | `0x80012B50-0x80073704` | 1,196 | 396,212 (`0x60BB4`) | Game-owned working region |
-| SDK and runtime | `0x80073704-0x800906D4` | 595 | 116,956 (`0x1C8DC`) | PsyQ/SN libraries and handwritten runtime |
+| Game and engine, first span | `0x80012B50-0x80058F10` | 917 | 287,680 (`0x463C0`) | Game-owned working region |
+| Embedded LIBGS getter | `0x80058F10-0x80058F20` | 1 | 16 (`0x10`) | PsyQ `GsGetWorkBase` |
+| Game and engine, second span | `0x80058F20-0x80073704` | 278 | 108,516 (`0x1A7E4`) | Game-owned working region |
+| SDK and runtime | `0x80073704-0x800906D4` | 596 | 116,956 (`0x1C8DC`) | PsyQ/SN libraries and handwritten runtime |
 
 The boundaries are stored in
 `config/slus_01411/function_regions.json`. `make classify-functions` applies
@@ -28,6 +30,12 @@ The startup range:
 - Calls `0x80012B50`, the first game/engine function.
 
 ### Game to SDK
+
+The canonical four-instruction `GsGetWorkBase` at `0x80058F10` is an embedded
+PsyQ exception inside the broader game-code address span. Game-owned code
+resumes at `0x80058F20`, so `function_regions.json` records the getter as its
+own region rather than assigning the complete `0x80012B50-0x80073704` range
+to the game.
 
 `0x800736C4` is a conventional game debug function that calls the
 `check_point` diagnostic. At `0x80073704`, the instruction style immediately
@@ -71,9 +79,9 @@ The game/engine ownership totals are stable:
 
 | Classification | Functions | Bytes |
 |---|---:|---:|
-| Compiler-generated game code | 1,133 | 349,976 (`0x55718`) |
+| Compiler-generated game code | 1,132 | 349,960 (`0x55708`) |
 | Intentional handwritten assembly | 63 | 46,236 (`0xB49C`) |
-| Total game/engine region | 1,196 | 396,212 (`0x60BB4`) |
+| Total game/engine region | 1,195 | 396,196 (`0x60BA4`) |
 
 The split of compiler-generated code between matching C and assembly fallback
 changes whenever a function is integrated, so it is not duplicated here.
