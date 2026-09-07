@@ -4441,3 +4441,46 @@ two independent walks had to become two, and an anonymous temporary had to be
 folded into the variable that already held the running value. The rule is the
 same in both directions and it is about counting registers, not about
 preferring more or fewer locals.
+## `func_8005106C`: three levers, and a new one for addition operand order
+
+Twenty-six differing positions to zero, on `gcc_2_8_1_g8_split`.
+
+**One variable per site, again.** The animation slot index and the value read
+from it are each read twice, once before the display test and once inside it.
+Retail allocates the index to `$a0` at the first site and `$v0` at the second,
+and the value to `$v0` then `$a3`. A single function-scope variable is one
+pseudo and one hard register, so it cannot do that; declaring a second pair
+inside the `if (show)` block takes 26 to **8**. Splitting only the index and
+leaving the value shared is 21, so both have to move.
+
+**A stored value that retail re-reads means the load is volatile.** The counter
+at `+0xE08` is written and then read back as an argument in the same block.
+GCC forwards the stored value and masks it (`andi v1,v1,0xffff`); retail issues
+a second `lhu`. Reading it through `*(volatile u16 *)` reproduces that and takes
+8 to **2**, fixing six positions - the extra `andi`, the reload, and the four
+instructions whose order changes around them.
+
+**Explicit shift instead of multiply flips the addition's operand order.** The
+last two were `addu v0,v0,s0` where retail has `addu v0,s0,v0` - the same
+commutative add with the base second instead of first. This is the same class
+as the operand-order work on `func_8001BAF0`, but the lever that worked there,
+casting the pointer to `s32`, is **neutral here**: eight spellings were measured
+including `(s32)m + 0xD08 + cur * 4`, `cur * 4 + (s32)m + 0xD08`,
+`(cur * 4 + 0xD08) + (s32)m`, an `((s32 *)((u8 *)m + 0xD08))[cur]` subscript and
+a `(s32 **)` pointer form, and all eight leave both positions.
+
+What works is writing the scale as a shift:
+
+```c
+value = *(s32 *)((s32)m + (cur << 2) + 0xD08);
+```
+
+`cur * 4` and `cur << 2` are the same value and the same `sll` instruction, but
+they reach the `plus` through different tree shapes, and only the shift form
+leaves the base as the first operand. **185 of 185, zero differences.**
+
+So the operand-order lever now has two independent forms, and they are not
+interchangeable: on `func_8001BAF0` the `s32` cast was necessary and sufficient,
+here it does nothing and the shift spelling is what matters. When an `addu` has
+its operands the wrong way round, try both, and try them per site - the
+direction is not uniform within a function.

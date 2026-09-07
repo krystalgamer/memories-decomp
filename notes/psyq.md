@@ -585,8 +585,11 @@ Matching game C now uses `libgpu.h` across image transfers, display
 environments, primitive records, and GPU synchronization. Representative
 migrations include `duel_setup_card_record.c`, `func_800289BC.c`,
 `file_cd_helpers.c`, `func_800582C0.c`, and
-`model_handler_registry.c`. Confirmed camera, lighting, object, packet, and
-sorting paths also use `libgs.h`, including `func_800134E0.c`,
+`model_handler_registry.c`. The main-menu value-bar renderer
+`starchip_bars.c` uses native `POLY_G4` and `POLY_GT4` stack records plus
+`setlen`, replacing duplicate local packet layouts. Confirmed camera,
+lighting, object, packet, and sorting paths also use `libgs.h`, including
+`func_800134E0.c`,
 `func_8005B260.c`,
 `func_800530C4.c`, `model_cleanup.c`, and `model_texture_upload.c`.
 No current game C includes `libhmd.h`. These imports justify their specific
