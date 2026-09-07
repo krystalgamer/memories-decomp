@@ -33,10 +33,14 @@ void Duel_RequestCombinedDeckData(void)
     u8 *table;
     s32 value;
 
-    Util_CopyWords(source, source - 0xA4, COMBINED_DECK_SIZE * sizeof(u16));
+    Util_CopyWords(
+        source,
+        source - DUEL_DECK_ID_BUFFER_SIZE,
+        COMBINED_DECK_SIZE * sizeof(u16)
+    );
     qsort(source, COMBINED_DECK_SIZE, sizeof(u16), (int (*)())Util_CompareS16);
 
-    output = source + 0xA4;
+    output = source + DUEL_DECK_ID_BUFFER_SIZE;
     previous = 0;
     for (i = 0; i < COMBINED_DECK_SIZE; i++) {
         value = *(u16 *)source;

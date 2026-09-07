@@ -7,6 +7,7 @@
 #define HAND_SIZE 5
 #define DECK_SIZE 40
 #define COMBINED_DECK_SIZE (DECK_SIZE * 2)
+#define DUEL_DECK_ID_BUFFER_SIZE 0xA4
 #define DUEL_CARD_DATA_BLOCK_SIZE 0x580
 #define DECK_CARD_COPY_LIMIT 3
 /* Retail starter generation ignores the final two weight entries. */
