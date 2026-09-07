@@ -64,7 +64,8 @@ void func_80024E58(void) {
     }
 
     if ((f & 0x20) == 0) {
-        if (((D_8009B0F4[0] & 0x2000030) | D_8009B134[0]) == 0) {
+        if (((D_8009B0F4[0] & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             D_8009B134[0]) == 0) {
             a = D_8009B214;
             b = D_8009B364[0];
             *(s16 *)(D_8009B17C + 0x1A) = -2;

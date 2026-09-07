@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/rand.h"
 #include "card_constants.h"
+#include "file_transfer.h"
 #include "model.h"
 
 extern s32 D_8009B0F4 __attribute__((section(".data")));
@@ -24,7 +25,8 @@ void func_80050584(s32 arg0) {
     p = b0 + arg0 * MODEL_SLOT_SIZE;
     if (p[0xE1F] == 0) {
         if (p[0xE14] == 0xFF) {
-            if (((D_8009B0F4 & 0x2000030) | D_8009B134) == 0) {
+            if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                 D_8009B134) == 0) {
                 do {
                     t = rand() >> 8;
                     v = t % CARD_COUNT;

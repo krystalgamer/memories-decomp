@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_transfer.h"
 
 extern u8 *D_8009B290;
 extern u16 D_8009B270;
@@ -45,7 +46,8 @@ void func_8002E470(void)
     }
     flags = D_8009B27C;
     if ((flags & 0x800) == 0) {
-        if (((D_8009B0F4 & 0x02000030) | D_8009B134) == 0) {
+        if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             D_8009B134) == 0) {
             D_8009B27C = flags | 0x800;
             func_8002E128(D_800EAE98, -1);
             func_800157DC();

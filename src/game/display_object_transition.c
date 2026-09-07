@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_layout.h"
+#include "file_transfer.h"
 #include "input.h"
 
 extern u8 D_801AF000[];
@@ -95,7 +96,9 @@ void func_800438B8(s32 count)
 
     for (;;) {
         func_80012D4C();
-        if (!found && (((D_8009B0F4 & 0x02000030) | D_8009B134) == 0))
+        if (!found &&
+            (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+              D_8009B134) == 0))
             found = 1;
         if ((gInput_wPad1Pressed &
              (PAD_BUTTON_START | PAD_BUTTON_CONFIRM_MASK)) && found)

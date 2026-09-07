@@ -8,7 +8,8 @@ extern void func_80012D4C(void);
 
 void func_800137E4(void) {
     for (;;) {
-        if (((D_8009B0F4 & 0x02000030) | D_8009B134) == 0) {
+        if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             D_8009B134) == 0) {
             break;
         }
         if ((D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING) == 0) {

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_transfer.h"
 
 extern u8 *D_8009B290;
 extern s32 D_8009B400[];
@@ -51,7 +52,8 @@ void Script_OpSound(void)
         if (f & 0x80) {
             return;
         }
-    } else if ((D_8009B0F4[0] & 0x2000030) | D_8009B134[0]) {
+    } else if ((D_8009B0F4[0] & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+               D_8009B134[0]) {
         return;
     }
     D_8009B27C = 0;

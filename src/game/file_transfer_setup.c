@@ -30,7 +30,8 @@ extern void func_80015010(void);
 
 struct FilePositionState *func_80013B04(s32 index, s32 offset)
 {
-    if (((D_8009B0F4 & 0x02000030) | D_8009B134) == 0) {
+    if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+         D_8009B134) == 0) {
         gFile_PrimaryTransferDescriptor.f24 = gFile_anLba[index] + offset;
         gFile_PrimaryTransferDescriptor.f46 = 0;
         D_8009B0F4 = 0x100010;
