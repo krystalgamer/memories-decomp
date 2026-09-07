@@ -586,3 +586,18 @@ on the suspects side until proven.)
 | 0x800F5C83 | `gAi_bBestTarget` | Best opposing target slot at `gAiScript_State + 0x9B`, paired with `gAi_bBestAttacker` and copied into script memory on request. |
 | 0x801AB000 | `gDuel_aActiveCards` | AI-facing `0x0C`-byte records for active duel-card slots. A zero card ID marks an empty slot; handlers inspect each record's flags and card type while searching and composing plays. |
 | 0x801D4244 | `gDuel_adwCardStats` | Packed per-card statistics indexed by card ID minus one, including base ATK/DEF units, guardian-star IDs, and card type. |
+
+## Batch: graphics and frontend runtime globals
+
+| address | name | description |
+|---|---|---|
+| 0x80090B50 | `gCredits_awSecretNumbers` | Five eight-digit secret numbers stored as pairs of four-digit halfwords. `Main_RunCredits` selects one with the save's game ID modulo five. |
+| 0x8009151C | `gMovie_aStreamRanges` | Thirteen `{sector_count, end_frame}` records selecting contiguous ranges in `MOVIE.STR`; only entry zero is populated in the retail executable. |
+| 0x8009B0AC | `gGraphics_bActiveBuffer` | Game-owned mirror of the active Psy-Q graphics double-buffer index. It alternates between zero and one as frames switch buffers. |
+| 0x8009B146 | `gGraphics_sViewportX` | Shared signed 2D viewport x origin, subtracted from non-screen-space display objects and moved by horizontal pane and script transitions. |
+| 0x8009B148 | `gGraphics_sViewportY` | Shared signed 2D viewport y origin, subtracted from non-screen-space display objects and adjusted by vertically scrolling screens. |
+| 0x800EF668 | `gInput_abRawPadBuffers` | Two adjacent 34-byte receive buffers passed to Psy-Q `InitPAD` and decoded into the game's held, pressed, and repeat masks. |
+| 0x8016D410 | `gPassword_abDigits` | Eight one-byte password digits used to refresh the display and assemble the entered eight-digit card password. |
+| 0x8016D420 | `gPassword_pDigitCursorWidget` | Password digit-highlight widget pointer used as the coordinate reference by cursor-decoration callbacks. This overlay address is reused by other modules. |
+| 0x8016D428 | `gPassword_nDigitIndex` | Selected password digit index from zero through seven, used to position the highlight and gate its end decorations. This overlay address is reused by other modules. |
+| 0x801D5708 | `gText_abColorSlots` | Sixteen text-colour selector slots used by encoded bytes `0x80`–`0x8F`; duel-result labels use slots zero and one. |
