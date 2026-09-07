@@ -1231,7 +1231,7 @@ Color *func_8005B0B4(Color *out, u8 r, u8 g, u8 b, s32 flags, u16 scale, u8 lim)
 
 ## `func_80025028` at 0x80025028
 
-`gcc_2_8_1_g8_split`, 40 of 40 instructions, opcode distance 0, 4 differing
+`gcc_2_8_1_g8_split`, 40 of 40 instructions, opcode distance 0, 2 differing
 positions.
 
 Searches one side's five-slot row for an occupied card whose `+0x0C` field
@@ -1240,31 +1240,37 @@ the owning object's `+0x6A` byte to `D_8009B1B8`, and returns the argument.
 Returns 0 when no slot matches. `D_8009B22A` is cleared before the loop, so a
 miss leaves it zero.
 
-Everything reuses existing declarations rather than new ones. All five globals
-are already declared in sibling sources, the record stride is
-`DUEL_CARD_RECORD_SIZE`, the row stride is `DUEL_FIELD_SIDE_GRID_SLOT_COUNT`,
-the trip count is `DUEL_FIELD_ROW_SIZE` and the tested bit is
-`DUEL_CARD_FLAG_OCCUPIED`, all of which match the emitted constants exactly.
-The record is a `u8 *` with hex offsets, the same view
+Nothing new is declared. All five globals already exist in sibling sources, the
+record stride is `DUEL_CARD_RECORD_SIZE`, the row stride is
+`DUEL_FIELD_SIDE_GRID_SLOT_COUNT`, the trip count is `DUEL_FIELD_ROW_SIZE` and
+the tested bit is `DUEL_CARD_FLAG_OCCUPIED`, each matching the emitted constant
+exactly. The record is a `u8 *` with hex offsets, the view
 `duel_card_turn_animations.c` takes of `D_801A7AD8`.
 
-The row index has to be written `D_800907D8[i + base]`. Written
-`[base + i]` the two `addu` come out with the operands the other way round,
-which is the grouping rule recorded in matching-evidence: the constant binds
-to whichever term is written first.
+The row index has to be written `D_800907D8[i + base]`; written `[base + i]`
+both `addu` come out with the operands reversed, which is the grouping rule
+recorded in matching-evidence.
 
-What remains is four positions, all in the hit block, and the multiset is
-already exact. The target emits `lw`, `sh`, `lbu`, `nop`, filling the record
-load's delay slot with the `D_8009B22A` store and leaving the byte load's
-delay empty; this build emits `sh`, `lw`, `nop`, `lbu`.
+**Two delay slots decide the rest, and `volatile` is what holds one open.**
+The hit block is five instructions -- `lw`, `sh`, `lbu`, `nop`, `sb` -- and the
+question is only what fills each load's delay. Reading the record pointer
+before storing `D_8009B22A` lets the `sh` fill the `lw` slot, which is the
+target's order, but GCC then fills the `lbu` slot with the following `sb` and
+the build is 39 instructions. Declaring `D_8009B1B8` `volatile` stops that
+store being moved into a delay slot, so the `nop` survives and the count is
+exact. `extern volatile` is already used this way in
+`dialog_read_choice_input.c` and `display_object_fade_callbacks.c`.
 
-Writing the pointer read before the store does produce the target's order
-exactly -- and then the build is 39 instructions, because the byte load's
-delay slot is filled by the following store instead of a `nop`. That shape was
-crossed against all 29 profiles without ever reaching 40. Also tried at 4 or
-worse: the pointer read inlined at its use, the byte read into a temporary
-before or after the store, the record pointer as an `s32`, and the store moved
-after the byte read.
+What remains is two positions, and they are the same swap seen from the other
+side: GCC fills the `lbu` delay with the return value's `addu $v0, $a0, $zero`
+and leaves `jr`'s slot a `nop`, where retail pads the `lbu` and puts the return
+value in `jr`'s slot. Something has to occupy the `lbu` slot so the return copy
+survives for the branch.
+
+Crossed without improving on 2: `volatile` on the record pointer, on the byte
+read and on the `D_8009B22A` store, the return value through a temporary
+assigned before or after the block, and all 29 profiles. Only the `D_8009B1B8`
+`volatile` moves anything.
 
 ```c
 #include "../../src/types.h"
@@ -1274,8 +1280,8 @@ after the byte read.
 extern u8 D_8009B1D5;
 extern u8 D_800907D8[];
 extern u8 D_801A7AD8[];
-extern s16 D_8009B22A;
-extern u8 D_8009B1B8;
+extern  s16 D_8009B22A;
+extern volatile u8 D_8009B1B8;
 
 s32 func_80025028(s32 arg0)
 {
@@ -1290,8 +1296,8 @@ s32 func_80025028(s32 arg0)
         e = D_801A7AD8 + D_800907D8[i + base] * DUEL_CARD_RECORD_SIZE;
         if (*(u16 *)(e + 0x16) & DUEL_CARD_FLAG_OCCUPIED) {
             if (*(s16 *)(e + 0xC) == arg0) {
-                D_8009B22A = arg0;
                 p = *(u8 **)e;
+                D_8009B22A = arg0;
                 D_8009B1B8 = p[0x6A];
                 return arg0;
             }
@@ -1300,3 +1306,4 @@ s32 func_80025028(s32 arg0)
     return 0;
 }
 ```
+
