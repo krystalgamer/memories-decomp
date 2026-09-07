@@ -278,10 +278,12 @@ stamp. The stamp lives at `tmp/incremental/split-cache.json`.
 The object driver memoizes resolved paths, file hashes, and parsed quoted
 includes only for the current invocation. Shared headers and compiler binaries
 are read once rather than once per unit or profile; later invocations re-read
-their contents, including when a file's timestamp has not changed. Only active
-compiler profiles are fingerprinted, so an unused profile does not require an
-uninstalled compiler. An already installed object is retained only when its
-contents match a valid cached object. Missing or
+their contents, including when a file's timestamp has not changed.
+Workspace-validated source and tool paths seed that same canonical-path cache,
+so security validation and dependency hashing do not resolve each path
+separately. Only active compiler profiles are fingerprinted, so an unused
+profile does not require an uninstalled compiler. An already installed object
+is retained only when its contents match a valid cached object. Missing or
 altered installed objects are restored or rebuilt. The driver reports
 `rebuilt`, `reused`, `retained`, and `materialized` counts, with
 `reused = retained + materialized`. Every incremental build still relinks and

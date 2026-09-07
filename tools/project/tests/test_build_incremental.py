@@ -210,6 +210,64 @@ class DependencyFingerprintTests(WorkspaceTests):
             self.assertEqual(file_cache.resolve(header), header)
         resolve.assert_called_once_with(alias)
 
+    def test_workspace_validation_seeds_the_canonical_path_cache(self) -> None:
+        header = self.write("src/header.h", "#define VALUE 1\n")
+        second = self.write("src/second.h", "#define SECOND 2\n")
+        file_cache = build_incremental._FileCache()
+        with patch.object(
+            Path,
+            "resolve",
+            autospec=True,
+            side_effect=Path.resolve,
+        ) as resolve:
+            self.assertEqual(
+                file_cache.workspace_path(
+                    self.root,
+                    "src/header.h",
+                    must_exist=True,
+                ),
+                header,
+            )
+            self.assertEqual(
+                file_cache.workspace_path(
+                    self.root,
+                    "src/second.h",
+                    must_exist=True,
+                ),
+                second,
+            )
+            self.assertEqual(file_cache.resolve(header), header)
+            file_cache.sha256(header)
+        resolve.assert_called_once_with(
+            self.root / "src",
+            strict=False,
+        )
+
+    def test_workspace_path_resolves_final_symlinks_and_rejects_escapes(self) -> None:
+        header = self.write("src/header.h", "#define VALUE 1\n")
+        alias = self.root / "src/alias.h"
+        alias.symlink_to(header)
+        file_cache = build_incremental._FileCache()
+        self.assertEqual(
+            file_cache.workspace_path(
+                self.root,
+                "src/alias.h",
+                must_exist=True,
+            ),
+            header,
+        )
+
+        outside = self.root.parent / "outside.h"
+        outside.write_text("outside\n", encoding="utf-8")
+        escaping = self.root / "src/escaping.h"
+        escaping.symlink_to(outside)
+        with self.assertRaises(WorkspaceError):
+            file_cache.workspace_path(
+                self.root,
+                "src/escaping.h",
+                must_exist=True,
+            )
+
     def test_include_cycles_keep_per_source_depth_first_order(self) -> None:
         self.write("src/first.c", '#include "a.h"\n#include "b.h"\n')
         self.write("src/second.c", '#include "b.h"\n#include "a.h"\n')

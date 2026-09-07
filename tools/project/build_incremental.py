@@ -88,6 +88,7 @@ class _FileCache:
 
     def __init__(self) -> None:
         self._resolved: dict[Path, Path] = {}
+        self._workspace_parents: dict[tuple[Path, Path], Path] = {}
         self._hashes: dict[Path, str] = {}
         self._includes: dict[Path, tuple[str, ...]] = {}
 
@@ -97,6 +98,48 @@ class _FileCache:
             self._resolved[path] = resolved
             self._resolved[resolved] = resolved
         return self._resolved[path]
+
+    def workspace_path(
+        self,
+        root: Path,
+        relative_path: str | Path,
+        *,
+        must_exist: bool = False,
+    ) -> Path:
+        relative = Path(relative_path)
+        if relative.is_absolute():
+            return resolve_within(
+                root,
+                relative,
+                must_exist=must_exist,
+            )
+
+        path = root / relative
+        if path not in self._resolved:
+            parent_key = (root, relative.parent)
+            if parent_key not in self._workspace_parents:
+                self._workspace_parents[parent_key] = resolve_within(
+                    root,
+                    relative.parent,
+                )
+            candidate = self._workspace_parents[parent_key] / relative.name
+            if candidate.is_symlink():
+                resolved = resolve_within(
+                    root,
+                    relative,
+                    must_exist=must_exist,
+                )
+            else:
+                if must_exist and not candidate.exists():
+                    raise WorkspaceError(f"path does not exist: {relative}")
+                resolved = candidate
+            self._resolved[path] = resolved
+            self._resolved[resolved] = resolved
+        return self._resolved[path]
+
+    def remember_resolved(self, path: Path) -> Path:
+        self._resolved[path] = path
+        return path
 
     def sha256(self, path: Path) -> str:
         resolved = self.resolve(path)
@@ -298,17 +341,21 @@ def dependency_context(
     file_cache: _FileCache | None = None,
 ) -> dict[str, Any]:
     file_cache = file_cache if file_cache is not None else _FileCache()
-    assembler = build_baseline.tool(root, "as")
-    objcopy = build_baseline.tool(root, "objcopy")
-    maspsx = resolve_within(
+    assembler = file_cache.remember_resolved(build_baseline.tool(root, "as"))
+    objcopy = file_cache.remember_resolved(build_baseline.tool(root, "objcopy"))
+    maspsx = file_cache.workspace_path(
         root,
         "tools/vendor/maspsx/maspsx.py",
         must_exist=True,
     )
-    include_directory = resolve_within(root, "tmp/splat/include", must_exist=True)
+    include_directory = file_cache.workspace_path(
+        root,
+        "tmp/splat/include",
+        must_exist=True,
+    )
     profile_context: dict[str, Any] = {}
     for name, profile in profiles.items():
-        compiler = resolve_within(
+        compiler = file_cache.workspace_path(
             root,
             str(profile["compiler"]),
             must_exist=True,
@@ -317,7 +364,11 @@ def dependency_context(
         filter_hash = None
         if isinstance(filter_value, str):
             filter_hash = file_cache.sha256(
-                resolve_within(root, filter_value, must_exist=True)
+                file_cache.workspace_path(
+                    root,
+                    filter_value,
+                    must_exist=True,
+                )
             )
         profile_context[name] = {
             "configuration": profile,
@@ -345,7 +396,11 @@ def component_signature(
     file_cache: _FileCache | None = None,
 ) -> str:
     file_cache = file_cache if file_cache is not None else _FileCache()
-    source = resolve_within(root, component.source, must_exist=True)
+    source = file_cache.workspace_path(
+        root,
+        component.source,
+        must_exist=True,
+    )
     if component.kind not in {"asm", "binary"}:
         # Hash and parse the source in one read, before the include traversal.
         file_cache.quoted_includes(source)
@@ -385,15 +440,31 @@ def component_signature(
     return digest_value(value)
 
 
-def object_path(root: Path, component: Component) -> Path:
+def object_path(
+    root: Path,
+    component: Component,
+    *,
+    file_cache: _FileCache | None = None,
+) -> Path:
     """Object location Splat's generated linker script names for a source."""
-    return resolve_within(root, build_baseline.splat_object(component.source))
+    relative = build_baseline.splat_object(component.source)
+    if file_cache is not None:
+        return file_cache.workspace_path(root, relative)
+    return resolve_within(root, relative)
 
 
-def cached_object_path(root: Path, component: Component) -> Path:
+def cached_object_path(
+    root: Path,
+    component: Component,
+    *,
+    file_cache: _FileCache | None = None,
+) -> Path:
     """Object location that survives clean splits."""
     trimmed = component.source[: component.source.rindex(".")]
-    return resolve_within(root, f"{CACHE_OBJECT_DIRECTORY}/{trimmed}.o")
+    relative = f"{CACHE_OBJECT_DIRECTORY}/{trimmed}.o"
+    if file_cache is not None:
+        return file_cache.workspace_path(root, relative)
+    return resolve_within(root, relative)
 
 
 def copy_object(source: Path, destination: Path) -> None:
@@ -623,22 +694,26 @@ def seed_existing(
     missing = [
         component.object_name
         for component in components
-        if not object_path(root, component).is_file()
+        if not object_path(
+            root,
+            component,
+            file_cache=file_cache,
+        ).is_file()
     ]
     if missing:
         raise IncrementalBuildError(
             f"cannot seed cache; {len(missing)} objects are missing"
         )
-    output = resolve_within(root, OUTPUT_EXE, must_exist=True)
-    target = resolve_within(root, TARGET_PATH, must_exist=True)
+    output = file_cache.workspace_path(root, OUTPUT_EXE, must_exist=True)
+    target = file_cache.workspace_path(root, TARGET_PATH, must_exist=True)
     if file_cache.sha256(output) != file_cache.sha256(target):
         raise IncrementalBuildError(
             "cannot seed cache from a nonmatching executable"
         )
     for component in components:
         copy_object(
-            object_path(root, component),
-            cached_object_path(root, component),
+            object_path(root, component, file_cache=file_cache),
+            cached_object_path(root, component, file_cache=file_cache),
         )
     write_cache(root, signatures)
     print(f"incremental cache seeded: {len(components)} objects")
@@ -686,8 +761,8 @@ def build_incrementally(
     checkpointed = 0
     pending: list[Component] = []
     for component in components:
-        output = object_path(root, component)
-        cached = cached_object_path(root, component)
+        output = object_path(root, component, file_cache=file_cache)
+        cached = cached_object_path(root, component, file_cache=file_cache)
         if (
             cached.is_file()
             and cached.stat().st_size > 0
@@ -707,7 +782,14 @@ def build_incrementally(
     def record_built(component: Component, output: Path) -> None:
         nonlocal rebuilt, checkpointed
 
-        copy_object(output, cached_object_path(root, component))
+        copy_object(
+            output,
+            cached_object_path(
+                root,
+                component,
+                file_cache=file_cache,
+            ),
+        )
         cache[component.object_name] = signatures[component.object_name]
         rebuilt += 1
         checkpointed = checkpoint_cache(
