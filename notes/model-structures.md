@@ -50,6 +50,11 @@ Verified shared fields and partial arrays are:
 | `0xDC0` | `field_DC0[8]` | byte writes in `func_80059590` and selection in `func_80059520` |
 | `0xDC8` | `field_DC8[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `func_800597C8` |
 | `0xDD0` | `field_DD0[4]` | four adjacent `u16` reads in `Model_CopySlotU16Values` |
+| `0xDF8` | `field_DF8` | optional first property in `func_80053248`; mirrored to `D_8009B488[index]` for all three slots |
+| `0xDFA` | `field_DFA` | optional second property in `func_80053248` for slots 0 and 1 |
+| `0xDFC` | `field_DFC` | optional third property in `func_80053248` for slots 0 and 1 |
+| `0xDFE` | `field_DFE` | optional fourth property in `func_80053248`, normalized to a boolean and mirrored to `D_8009B48E[index]` |
+| `0xDFF` | `field_DFF` | optional fifth property in `func_80053248`, normalized to a boolean and mirrored to `D_8009B490[index]` |
 | `0xE00` | model-data size, `u16` | `Model_HasInsufficientBufferSpace` subtracts this value from the remaining model-data bank capacity |
 | `0xE06` | `field_E06` | shifted read in `func_80058E94`; write/read in `func_800597C8` |
 | `0xE0D` | `field_E0D` | `func_80058E3C` reads it and `func_8005969C` writes it |
@@ -65,6 +70,21 @@ The one-element declarations at `field_000`, `field_1E0`, and `field_7C4`
 express verified element layout and stride only. Runtime counts establish
 that they are arrays, but the complete static bounds and intervening storage
 are not yet proven, so the header does not guess them.
+
+### Variadic slot-property update
+
+Matching `func_80053248` takes a slot index followed by optional signed
+properties. A negative value leaves its corresponding field unchanged. The
+first property writes `field_DF8` for any of the three slots and mirrors it to
+`D_8009B488[index]`. Slots 0 and 1 consume four more properties for
+`field_DFA`, `field_DFC`, `field_DFE`, and `field_DFF`; the final two are
+normalized to zero or one and mirrored to `D_8009B48E[index]` and
+`D_8009B490[index]`.
+
+Slot 2 consumes only the first property, then refreshes `D_8009AF88` from the
+`0xB2`-byte table selected by `D_800F5678[0]`. Every call finishes by setting
+`D_8009AF94` to `15`. These writes establish field widths, slot bounds, and
+mirror relationships, but not the user-facing meaning of the five properties.
 
 ## `D_800F56F0`: 32-byte reference-view record
 
@@ -99,7 +119,7 @@ starts at matrix offset `+0x14`, so `f4.t[0..2]` occupies object offsets
 a game-specific local record; its rotation angles and id are at `+0x44` and
 `+0x4C`, beyond the SDK matrix.
 
-The initial typed-migration snapshot had 24 pure-C users of `D_800F2C40`;
+The current typed-migration snapshot has 25 pure-C users of `D_800F2C40`;
 all include the shared header:
 `func_80057E20`, `func_80058DD8`, `func_80058E3C`, `func_80058E68`,
 `func_80058E94`, `func_80058EC0`, `func_80058F20`, `func_80058F74`,
@@ -107,7 +127,7 @@ all include the shared header:
 `Model_InitLightTriplet`, `func_80059284`, `func_800592AC`,
 `func_800593D0`, `func_800594C0`, `func_80059520`, `func_80059590`,
 `func_800595C8`, `func_8005969C`, `func_800597C8`, `func_80059AA8`,
-`func_80059DD8`, and `func_8005A468`.
+`func_80059DD8`, `func_8005A468`, and `func_80053248`.
 
 ## `D_800F5918`: 80 handler registry entries
 
