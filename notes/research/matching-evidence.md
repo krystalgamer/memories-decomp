@@ -3903,3 +3903,34 @@ send you looking in the wrong place. Resolve the relocations instead.
 the source** when sched2 is free to move it, and an independent store to a
 provably distinct symbol always is. **Write it where it makes the allocator
 behave, not where it lands.**
+
+## Correction: one scheduling flag is not a control when two passes agree
+
+The entry above on `func_80045208`/`func_80045334` records that
+`-fno-schedule-insns2` restores source order for the three request stores and
+is "a diagnostic that tells you what the scheduler did". Re-measuring on
+`func_80045334` shows that reading is unsafe.
+
+`-fno-schedule-insns2` alone leaves the order unchanged. `-fno-schedule-insns`
+alone leaves it unchanged. Only **both** off restores source order. The two
+passes independently arrive at the same arrangement, so switching off either
+one on its own produces no visible change and invites the conclusion that the
+pass is not responsible.
+
+This is the same instrument failure as masking relocated immediates, in a
+different dress: a control that cannot distinguish "this pass did not do it"
+from "the other pass would have done it anyway". **When two passes can both
+produce an effect, disabling one proves nothing; disable them together first
+to establish that the effect is scheduling at all, then re-enable one at a
+time.** The `func_8001944C` result in this file is the shape to copy - there
+`-fno-schedule-insns` moved the emission order and left the hard registers
+alone, which separated two questions precisely because the passes disagreed.
+
+The mechanism itself also sharpens. Measuring all six permutations against the
+emitted order gives: **the store of the load-fed value is removed from its
+position and appended after the others, and the remaining stores keep their
+source order.** Not merely "scheduled last". That matters because it makes the
+rule falsifiable against a target: if the target has the load-fed store
+anywhere other than last, no permutation, pin, aliasing shape, or profile will
+reach it, and the disagreement is in the value model rather than in the
+ordering. That is the state `func_80045334` is now in.
