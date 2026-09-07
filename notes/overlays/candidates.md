@@ -1719,6 +1719,32 @@ hoisted value where the target reloads a spill slot, and the counts do not
 line up. That is the first time either of those two has been moved at all, so
 the axis is not closed, but the price is now known.
 
+Two independent changes reach exactly the same barrier, which says the four
+remaining instructions are one obstacle rather than several.
+
+Hoisting the field-width shift into a local, already recorded, gives no surplus
+`lui`, one missing `sw` instead of two, two surplus `lw` and a second missing
+`move`. Hoisting the loop constants into locals in the *first* digit loop only,
+which is a different change in a different part of the function, gives the same
+five numbers. Two or more constants reach it; one is not enough. The two
+candidates are not byte-identical, so these are genuinely different codes that
+land on the same counts, and that is stronger evidence of a single obstacle
+than two routes producing the same code would be.
+
+Hoisting the constants in both loops rather than one degrades steadily with how
+many are hoisted, at six, seven, eight and nine for one through four, as the
+`li` count falls further below the target's with each one. That is the opposite
+of the pattern on `func_80180390`, where the count of sites to change had a flat
+optimum in the middle; here the optimum is at the edge, and the sweep was worth
+running for that reason alone.
+
+Two more axes are inert. The loop written as a `while` with the counter
+incremented at the end is byte-identical to the `for`. Qualifying the draw
+context `D_800E9D90` volatile is byte-identical, in all six of its cells
+against the loop form and the shift hoist. Writing the loop as a countdown from
+the digit count is catastrophic at twenty-two, because the induction variable
+then runs the wrong way and the walking offset has to be recomputed.
+
 Two axes measured alongside it are inert. Three spellings of the digit
 division, including taking the quotient into a temporary before computing the
 remainder and computing the remainder by subtraction rather than by the modulus
