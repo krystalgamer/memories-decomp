@@ -3591,3 +3591,26 @@ Running all four screens over the resident queue leaves 84 of 140 unmatched
 functions, and the four smallest survivors are `func_8004D75C`,
 `func_8004D58C`, `func_8004DC38` and `func_8004E7B0` -- all leaves, none with a
 prior external attempt.
+
+## A redundant-looking store at the end of a function can force a copy earlier
+
+On `func_8001944C` the last statement before the closing call is
+`*(u16 *)buf = 0`, where `buf` holds the same address the function has been
+using since its first call. It looks like it could be spelled through the
+array name instead, and it computes the same thing either way. It cannot.
+
+The function loads a block through `buf`, sets a bit on every halfword of it
+in a loop, clears some entries, and writes it back. The target walks that loop
+with its own pointer, copied from the callee-saved register that holds `buf`
+(`addu $a1, $s0, $zero`). That copy only exists because `buf` is still live
+after the loop. Spell the final clear through the array name, or through the
+second base local, and `buf` dies at the loop; GCC then walks the callee-saved
+register directly, the copy disappears, and the build is one instruction
+short. Everything else in the function is unchanged.
+
+Two things follow. When a build is exactly one instruction short and the
+missing one is a register-to-register copy at the top of a loop, look at what
+keeps the copied value alive *after* the loop rather than at the loop itself.
+And when transcribing, do not "simplify" a late store that repeats an address
+already in a local: which spelling is used is observable, and the version that
+looks redundant is the one that reproduces.
