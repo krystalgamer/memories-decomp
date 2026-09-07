@@ -28,14 +28,14 @@ void Sound_InitFrontend(void)
 
 void SD_SEPlayFull(u32 value)
 {
-    SD_SEPlay(value & 0xFFFF, 0xFF, 0);
+    SD_SEPlay(value & SD_COMMAND_VALUE_MASK, 0xFF, 0);
 }
 
 void SD_BGMPlay(u32 value)
 {
     u32 command = value | SD_BGM_COMMAND_BASE;
 
-    func_80047314(command & 0xFFFF);
+    func_80047314(command & SD_COMMAND_VALUE_MASK);
     gSD_dwCurrentBgmCommand = command;
 }
 
@@ -53,17 +53,17 @@ void SD_BGMFadeOutWithStep(s32 value)
 
 void func_8003FF88(u32 value)
 {
-    SD_SEPlay((value & 0xFFFF) | 0x8000, 0xFF, 0);
+    SD_SEPlay((value & SD_COMMAND_VALUE_MASK) | 0x8000, 0xFF, 0);
 }
 
 void func_8003FFB4(u32 value)
 {
-    func_80045334((value & 0xFFFF) | 0x8000);
+    func_80045334((value & SD_COMMAND_VALUE_MASK) | 0x8000);
 }
 
 void func_8003FFD8(u32 value)
 {
-    func_80047314((value & 0xFFFF) | 0xA000);
+    func_80047314((value & SD_COMMAND_VALUE_MASK) | 0xA000);
 }
 
 void SD_StopAll(void)
