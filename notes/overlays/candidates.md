@@ -45,8 +45,49 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 379 instructions against 382, opcode distance 5,
+`gcc_2_8_1_g0_split`, 380 instructions against 382, opcode distance 4,
 and the first 91 instructions agree.
+
+A fourth came from declaring `D_8016D400` volatile. It is the pad-owned bit
+field the select path sets with `|= 0x40` and `|= 0x80`, and without the
+qualifier GCC keeps the read-modify-write in a register across the two arms
+that touch it. The target reloads and restores it each time. Only that one of
+the four candidate globals wants the qualifier: `D_8016D402` costs
+twenty-five, `D_8016D401` costs thirty-one and drops the agreeing prefix from
+91 to 61, and `D_8016D426` costs one. All sixteen combinations were measured
+together rather than one at a time, which is how the single useful one was
+separated from the three harmful ones it would otherwise have been averaged
+with.
+
+The sixty-four cell product of walk form, dispatched-cell mask, dispatch shape
+and store placement was then re-run against the new base and is closed at four.
+Nothing in it beats the current cell, the shared `D_8016D426` store beats the
+per-arm form in every one of the thirty-two pairs, and folding the sign
+extension into the loop's addition is byte-identical to casting at the use.
+The twenty-nine profiles are closed too, with only
+`gcc_2_8_1_cc_g0_as_g8_split` tying.
+
+The remaining four are two missing `lb`, one missing `j`, one surplus `nop`,
+and an `addu` that should be a `move`, the last of which cancels inside its
+opcode class and so costs nothing. The block placement of the select dispatch
+is decoded and is the reason for the first two. The target reaches all three
+arms out of line: `beq` to the `n == 4` arm, `beq` to the `n == 6` arm, and an
+unconditional `j` to the default, with the two constants for the comparison
+materialised in between. This build's `else if` chain puts the `n == 4` arm
+inline and branches past it with `bne`.
+
+Writing that placement explicitly, with three labels and a `goto` for each arm,
+does fix both. It gives the target's fourteen `lb` and its nine `j` exactly,
+and it has the best mnemonic subsequence anything on this function has reached,
+332 against the current 322. It is nonetheless three worse, because it inverts
+two branch senses and adds two `lui`: the target has two `beq` and two `bne`
+where the explicit form has three and one, and the chain has one and three.
+The target sits exactly between the two, so one arm wants the branch-to-label
+form and one wants the inline test. Inverting the `col != 11` test inside the
+arm, which is the obvious candidate for the odd one out, does not do it: all
+six cells of layout against that test's sense leave the chain in front. The
+mixed placement that produces two of each is still to be found.
+
 
 A fifth came from the order of the two side effects inside the walk loop. The
 target computes the address of the next cell and loads it before it stores the
@@ -354,7 +395,7 @@ extern u8 D_8016D402;
 extern u8 D_8016D426;
 extern s8 D_8016D42C;
 extern u16 *D_8016D418;
-extern u8 D_8016D400;
+extern volatile u8 D_8016D400;
 extern s8 D_8016AB38[][15];
 extern u8 D_8016ABC0[][2];
 extern volatile u16 D_8009B3A4[];
