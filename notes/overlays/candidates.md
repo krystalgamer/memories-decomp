@@ -94,6 +94,41 @@ unchanged at four; nothing was repaired. Declaring the global `const`, which
 would let GCC rematerialise the load rather than keep the value, changes
 nothing either way.
 
+Both surplus `lui` are now located, and they are one fault in two places rather
+than two faults.
+
+The first is inside the cell-walk loop. The target holds the high half of
+`D_8016D401` in `a2` for the whole loop, materialised once before it and used
+both by the column read that precedes the loop and by the store of the new
+column inside it, so the store is a single `sb` at `-11263(a2)`. This build
+materialises a fresh high half inside the loop body, on every pass, for that
+one store.
+
+The second is the one already recorded: the high half of `D_8016D42C` in `s0`,
+materialised once and read through both before and after the call into
+`func_80168CDC`.
+
+The two are the same decision. In each place the target hoists a high-half
+pseudo into a register with a long life and this build re-emits it at the point
+of use. The register assignment behind it is visible in the prologue: both
+sides save nine callee-saved registers into a forty-eight byte frame, but the
+target puts the widget pointer in `s1` and leaves `s0` for shorter-lived
+values, using it first for the cell in the walk loop and then for the
+`D_8016D42C` base. This build pins the widget in `s0` for the whole function,
+so the two high halves never get a register at all.
+
+Nothing reaches it. Twenty-four cells were measured against this base. Six
+spellings of the walk that separate the row offset from the array base, which
+is the shape the target's two loop `addu` imply, leave the loop-local pointer
+in front at two with the nearest alternative at four. Ten cells of the product
+of four placements for the store of the column inside the loop, before the load
+instead of after, once after the loop instead of inside it, and both, against
+the store being qualified `volatile`, leave the current placement in front at
+two with everything else at three. Eight declaration orders of the seventeen
+locals, including reversing them, grouping the pointers first and last, and
+moving the widget pointer to the end, are byte-identical, which is the second
+function on which that lever has now been shown inert.
+
 That leaves two surplus `lui` and an `addu` that should be a `move`, and the
 latter shares an opcode class with what it is measured against, so it cancels
 and costs nothing. The instruction count is 384 against 382 and the
