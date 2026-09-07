@@ -700,3 +700,18 @@ entries that were not yet represented in this naming gate.
 | 0x80087810 | `SetColorMatrix` | Loads a matrix-shaped block into GTE colour-matrix control registers 16 through 20. |
 | 0x80087840 | `SetTransMatrix` | Loads a `MATRIX` translation vector into GTE control registers 5 through 7. |
 | 0x80087860 | `ReadGeomScreen` | Returns GTE control register 26, the projection-plane distance written by `SetGeomScreen`. |
+
+## Batch: transfer, model, and remaining GTE names
+
+| address | name | description |
+|---|---|---|
+| 0x80013B68 | `File_RequestSecondaryRangeTransfer` | Queues the secondary descriptor with an absolute start and end address plus two mode bytes, marking it pending for later activation. |
+| 0x80053248 | `Model_SetSlotProperties` | Variadic model-slot setter: slots 0 and 1 consume five signed properties while slot 2 consumes the first and refreshes `D_8009AF88`; negative values preserve existing fields, and every call sets `D_8009AF94` to 15. |
+| 0x80089460 | `ReadSZfifo4` | Stores the four GTE depth FIFO registers 16 through 19 through caller-provided pointers. |
+| 0x80089C00 | `SetDQA` | Writes the GTE depth-cue coefficient in control register 27. |
+| 0x80089C10 | `SetDQB` | Writes the GTE depth-cue offset in control register 28. |
+| 0x8008B2F0 | `TransposeMatrix` | Transposes the 3 x 3 signed-halfword rotation block of a `MATRIX`. |
+| 0x800E9E18 | `gFile_SecondaryTransferDescriptor` | Queued secondary file-transfer descriptor copied into the primary descriptor when activation begins. |
+| 0x800E9E60 | `gFile_PrimaryTransferDescriptor` | Active primary file-transfer descriptor operated on by the transfer service. |
+| 0x8017808C | `gDuel_awCombinedDeckCardIds` | Sorted 80-card working buffer containing both shuffled duel decks before deduplication. |
+| 0x80178130 | `gDuel_awUniqueDeckCardIds` | Sorted unique card IDs from both duel decks, terminated by `0xFFFF` and used as card-data transfer boundaries. |
