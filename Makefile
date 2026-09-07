@@ -214,4 +214,4 @@ audit: match verify-runtime-files
 	@$(PYTHON) tools/project/audit_repository.py
 
 clean: workspace
-	@$(PYTHON) tools/project/clean.py extract generated splat project-build overlays reports
+	@$(PYTHON) tools/project/clean.py extract generated splat project-build incremental overlays reports

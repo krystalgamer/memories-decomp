@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import re
+import shutil
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -14,7 +15,12 @@ import build_baseline
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
-CACHE_PATH = "tmp/project-build/incremental-cache.json"
+# `make split` removes all of tmp/splat before every build, so cached objects
+# and their signatures are kept outside it and copied back into the paths
+# Splat's generated linker script names.
+CACHE_DIRECTORY = "tmp/incremental"
+CACHE_OBJECT_DIRECTORY = f"{CACHE_DIRECTORY}/obj"
+CACHE_PATH = f"{CACHE_DIRECTORY}/cache.json"
 TARGET_PATH = "game/SLUS_014.11"
 OUTPUT_ELF = "tmp/project-build/SLUS_014.11.elf"
 OUTPUT_MAP = "tmp/project-build/SLUS_014.11.map"
@@ -72,7 +78,10 @@ def include_digest(root: Path, source: Path) -> str:
         if not resolved.is_file():
             raise IncrementalBuildError(f"missing source/include: {relative}")
         entries.append((str(relative), sha256(resolved)))
-        text = resolved.read_text(encoding="utf-8")
+        # Some vendored Psy-Q headers carry Shift-JIS comments, so decode
+        # permissively purely to find nested includes; the recorded hash above
+        # still covers the exact bytes.
+        text = resolved.read_text(encoding="utf-8", errors="replace")
         for include in INCLUDE_PATTERN.findall(text):
             visit(resolved.parent / include)
 
@@ -90,15 +99,19 @@ def tree_digest(directory: Path) -> str:
 
 
 def load_components(root: Path) -> list[Component]:
-    components = [
-        Component("asm", "tmp/splat/asm/header.s", "header.o"),
-        Component(
-            "asm",
-            "tmp/splat/asm/data/initial_data.data.s",
-            "initial_data.o",
-        ),
-    ]
-    seen = {"header.o", "initial_data.o"}
+    components = [Component("asm", "tmp/splat/asm/header.s", "header.o")]
+    seen = {"header.o"}
+    # The leading data blob is split wherever a matching C object owns pre-text
+    # read-only data, so track every piece of it in the same order as a clean
+    # baseline build.
+    for path in sorted((root / "tmp/splat/asm/data").glob("initial_data*.s")):
+        object_name = f"{path.stem}.o"
+        if object_name in seen:
+            raise IncrementalBuildError(f"duplicate object name: {object_name}")
+        seen.add(object_name)
+        components.append(
+            Component("asm", f"tmp/splat/asm/data/{path.name}", object_name)
+        )
     for index, segment in enumerate(build_baseline.load_text_segments(root)):
         if not isinstance(segment, dict):
             raise IncrementalBuildError(f"text segment {index} is not an object")
@@ -271,11 +284,26 @@ def component_signature(
     return digest_value(value)
 
 
-def object_path(root: Path, object_name: str) -> Path:
-    return resolve_within(
-        root,
-        f"{build_baseline.OBJECT_DIRECTORY}/{object_name}",
-    )
+def object_path(root: Path, component: Component) -> Path:
+    """Object location Splat's generated linker script names for a source."""
+    return resolve_within(root, build_baseline.splat_object(component.source))
+
+
+def cached_object_path(root: Path, component: Component) -> Path:
+    """Object location that survives the clean Splat performs on every build."""
+    trimmed = component.source[: component.source.rindex(".")]
+    return resolve_within(root, f"{CACHE_OBJECT_DIRECTORY}/{trimmed}.o")
+
+
+def copy_object(source: Path, destination: Path) -> None:
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary = destination.with_name(f"{destination.name}.incremental.tmp")
+    temporary.unlink(missing_ok=True)
+    try:
+        shutil.copyfile(source, temporary)
+        temporary.replace(destination)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def build_component(
@@ -285,9 +313,32 @@ def build_component(
     objcopy: Path,
     profiles: dict[str, dict[str, object]],
 ) -> Path:
-    final = object_path(root, component.object_name)
-    temporary_name = f"{component.object_name}.incremental.tmp"
-    temporary = object_path(root, temporary_name)
+    final = object_path(root, component)
+    final.parent.mkdir(parents=True, exist_ok=True)
+    if component.kind == "c":
+        # C objects are written straight to the path Splat's script names so a
+        # rebuilt object is byte-identical to a clean baseline build. Removing
+        # the previous object first keeps a failed compile from leaving stale
+        # bytes behind a cache entry that was never updated.
+        final.unlink(missing_ok=True)
+        built = build_baseline.compile_c(
+            root,
+            assembler,
+            {
+                "source": component.source,
+                "object": component.object_name,
+                "profile": component.profile,
+            },
+            profiles,
+            use_splat_object_paths=True,
+        )
+        if built != final or not final.is_file():
+            raise IncrementalBuildError(
+                f"builder returned an unexpected object for {component.object_name}"
+            )
+        return final
+
+    temporary = final.with_name(f"{final.name}.incremental.tmp")
     temporary.unlink(missing_ok=True)
     try:
         if component.kind == "asm":
@@ -297,24 +348,12 @@ def build_component(
                 component.source,
                 str(temporary.relative_to(root)),
             )
-        elif component.kind == "binary":
+        else:
             built = build_baseline.binary_object(
                 root,
                 objcopy,
                 component.source,
                 str(temporary.relative_to(root)),
-            )
-        else:
-            segment = {
-                "source": component.source,
-                "object": temporary_name,
-                "profile": component.profile,
-            }
-            built = build_baseline.compile_c(
-                root,
-                assembler,
-                segment,
-                profiles,
             )
         if built != temporary or not temporary.is_file():
             raise IncrementalBuildError(
@@ -332,9 +371,12 @@ def link(
 ) -> Path:
     linker = build_baseline.tool(root, "ld")
     objcopy = build_baseline.tool(root, "objcopy")
+    missing = [str(path.relative_to(root)) for path in objects if not path.is_file()]
+    if missing:
+        raise IncrementalBuildError(f"missing objects for link: {missing[0]}")
     linker_script = resolve_within(
         root,
-        "linker/slus_01411.ld",
+        "tmp/splat/slus_01411.ld",
         must_exist=True,
     )
     output_elf = resolve_within(root, OUTPUT_ELF)
@@ -355,11 +397,27 @@ def link(
                 *build_baseline.linker_compatibility_flags(),
                 "-T",
                 str(linker_script),
+                *[
+                    argument
+                    for relative in (
+                        "tmp/splat/undefined_funcs_auto.txt",
+                        "tmp/splat/undefined_syms_auto.txt",
+                        "config/slus_01411/c_symbols.ld",
+                        "config/slus_01411/link_symbols.ld",
+                    )
+                    for argument in (
+                        "-T",
+                        str(resolve_within(root, relative, must_exist=True)),
+                    )
+                ],
                 "-Map",
                 str(temporary_map),
                 "-o",
                 str(temporary_elf),
-                *[str(path) for path in objects],
+                # No object arguments. Splat's script names every input file
+                # itself, so the linker loads them from there; passing them
+                # again loads each one twice and every symbol becomes
+                # multiply defined.
             ],
         )
         build_baseline.run(
@@ -395,7 +453,7 @@ def seed_existing(
     missing = [
         component.object_name
         for component in components
-        if not object_path(root, component.object_name).is_file()
+        if not object_path(root, component).is_file()
     ]
     if missing:
         raise IncrementalBuildError(
@@ -406,6 +464,11 @@ def seed_existing(
     if sha256(output) != sha256(target):
         raise IncrementalBuildError(
             "cannot seed cache from a nonmatching executable"
+        )
+    for component in components:
+        copy_object(
+            object_path(root, component),
+            cached_object_path(root, component),
         )
     write_cache(root, signatures)
     print(f"incremental cache seeded: {len(components)} objects")
@@ -436,13 +499,15 @@ def build_incrementally(root: Path, *, seed: bool) -> Path | None:
     rebuilt = 0
     reused = 0
     for component in components:
-        output = object_path(root, component.object_name)
+        output = object_path(root, component)
+        cached = cached_object_path(root, component)
         if (
-            output.is_file()
-            and output.stat().st_size > 0
+            cached.is_file()
+            and cached.stat().st_size > 0
             and cache.get(component.object_name)
             == signatures[component.object_name]
         ):
+            copy_object(cached, output)
             reused += 1
         else:
             output = build_component(
@@ -452,6 +517,7 @@ def build_incrementally(root: Path, *, seed: bool) -> Path | None:
                 objcopy,
                 profiles,
             )
+            copy_object(output, cached)
             cache[component.object_name] = signatures[component.object_name]
             write_cache(root, cache)
             rebuilt += 1
