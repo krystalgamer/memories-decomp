@@ -804,9 +804,15 @@ the corresponding complete 32-bit word. A simultaneous input on either pad
 can therefore be discarded along with Square; this is broader than clearing
 only one button bit.
 
-The hook also clears the unnamed byte at `0x801B1AB4` when
-`gMain_bMenuID == 1` (Load). Its purpose is not established by the tutorial
-or current local symbols. The payload contains many additional routines and
+The hook also clears byte `0x801B1AB4` when `gMain_bMenuID == 1` (Load), but
+that address is not state storage. It is offset `0x1AB4` in the resident text
+bank at `0x801B0000`. Text-offset entry `0x12F` points to `0x1A98`, placing
+the target `0x1C` bytes into text ID `0x12F`. The retail byte is `0x02`, the
+second `t` in `as an entertaining pastime.`; the text stream uses `0x00`
+between words and `0xFF` as its terminator, so the write displays
+`as an enter aining pastime.` rather than ending the string. This Load-only
+path therefore corrupts one dialogue glyph and does not participate in the
+2P/Trade input lockout. The payload contains many additional routines and
 data beyond the input-filter path, so this analysis does not assign semantics
 to the rest of the blob.
 
@@ -821,5 +827,7 @@ to the rest of the blob.
   held button appear in the newly pressed mask on each affected update.
 - **Confirmed** that the non-menu path suppresses Square while both
   authoritative life-point values are nonzero.
-- **High** that the advertised 2P/Trade lockout is input-based rather than a
-  visual menu removal; the unrelated `0x801B1AB4` write remains unresolved.
+- **Confirmed** that the advertised 2P/Trade lockout is input-based rather
+  than a visual menu removal.
+- **Confirmed** that the separate `0x801B1AB4` write replaces one `t` in text
+  ID `0x12F` with a blank glyph.
