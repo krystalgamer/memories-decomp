@@ -717,9 +717,42 @@ join:
 ```
 ## main_menu `func_80180390` at 0x80180390
 
-`gcc_2_8_1_g0_split`, 499 instructions against 495, opcode distance 8.
-The longest common subsequence of mnemonics is 476 of 495 and the first
-181 instructions agree.
+`gcc_2_8_1_g0_split`, 497 instructions against 495, opcode distance 6.
+The longest common subsequence of mnemonics is 477 of 495 and the first
+192 instructions agree.
+
+The failure returns funnel through the single exit label, but only the first
+eleven of them. That takes the distance to six, brings the `li` count to exactly
+the target's, and moves the agreeing prefix from 181 to 192.
+
+The function returns -1 from twenty places and -2 from one. The target
+materialises the -1 once, in a shared exit block, and reaches the -2 return by
+jumping one instruction past that block with the constant in the jump's delay
+slot. This build materialised the constant at each return site, because the
+register was free there, and paid two surplus `li` for it.
+
+The number of sites to funnel matters and is not monotone, which is why a
+single "use a shared exit" experiment would have missed it. Funnelling all
+twenty is much worse, at thirteen, because GCC then merges too much and the `li`
+count overshoots by four while two surplus `j` and two surplus `nop` appear.
+Funnelling the first nine or ten leaves one surplus `li`. Eleven through fifteen
+are all at six and identical. Sixteen brings a second surplus `j` back. So the
+boundary sits between the tenth and eleventh site and again after the fifteenth,
+and the whole span between them is flat; the twenty-one cells of the sweep over
+how many to funnel were needed to see that.
+
+Two axes were re-measured against the new base and are closed. The
+thirty-two-cell product of `volatile` over the five remaining stores through
+the menu entry pointer, which was measured one site at a time last cycle and is
+measured as a product here, is byte-identical in every cell; adding the
+qualifier to any subset of the frame countdown as a decrement, the countdown as
+a negation, the clear of `+0x36`, and the set and the clear of bit `0x40` does
+nothing. Repeating the sixteen-cell subset of it against the funnelled base is
+byte-identical too, so the two levers do not interact.
+
+What remains is one surplus `andi`, one surplus `j`, one missing `lbu`, two
+surplus `lui` and one missing `beqz`.
+
 
 Two stores through the menu entry pointer want the `volatile` qualifier, and
 between them they take the distance from twelve to eight and bring the `nop`
@@ -990,7 +1023,7 @@ s32 func_80180390(void)
                 D_8018459B = 0;
             }
         }
-        return -1;
+        goto ret_m1;
     }
 
     if (D_8018459C != 0) {
@@ -1005,7 +1038,7 @@ s32 func_80180390(void)
                 D_8018459C = 0;
             }
         }
-        return -1;
+        goto ret_m1;
     }
 
     if (D_8018459D != 0) {
@@ -1020,16 +1053,16 @@ s32 func_80180390(void)
                 D_8018459D = 0;
             }
         }
-        return -1;
+        goto ret_m1;
     }
 
     if (D_8018459A != 0) {
         if (func_8003F70C() == 0) {
-            return -1;
+            goto ret_m1;
         }
         Input_ResetPads();
         D_8018459A = 0;
-        return -1;
+        goto ret_m1;
     }
 
     step = D_80184598;
@@ -1042,10 +1075,10 @@ s32 func_80180390(void)
             }
         }
         if (step >= 0) {
-            return -1;
+            goto ret_m1;
         }
         if ((u8)level != 0) {
-            return -1;
+            goto ret_m1;
         }
     fade_done:
         if (D_80184598 < 0) {
@@ -1058,7 +1091,7 @@ s32 func_80180390(void)
             *(s16 *)(D_80184560 + 0x36) = 0;
         }
         D_80184598 = 0;
-        return -1;
+        goto ret_m1;
     }
 
     entry = D_80184560;
@@ -1087,13 +1120,13 @@ s32 func_80180390(void)
             *(u16 *)(entry + 8) &= 0xFFBF;
             func_80180D2C(0);
             D_80184598 = 1;
-            return -1;
+            goto ret_m1;
         }
         entry = D_80184560;
         value = *(u16 *)(entry + 0x36) + D_8009B0D8;
         *(volatile s16 *)(entry + 0x36) = value;
         if ((s16)value < 0xBB8) {
-            return -1;
+            goto ret_m1;
         }
         return -2;
     }
@@ -1150,7 +1183,7 @@ s32 func_80180390(void)
             goto entry_loop;
         }
         if (moved != 0) {
-            return -1;
+            goto ret_m1;
         }
         value = D_80184596;
         D_80184599 = 0;
