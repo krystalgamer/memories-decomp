@@ -87,6 +87,13 @@ The generator feeds multiple systems. Confirmed matching-C examples include:
 Additional matching and unmatched callers use the same SDK routine for duel
 state, animation timing, and selection logic.
 
+`Duel_ShuffleBothDecks` calls `Duel_ShuffleDeck` for the player source and
+then the opponent source. Its two 40-card destination arrays are separated
+by `DECK_SIZE * sizeof(u16)` (`0x50` bytes), while the permutation-buffer
+offsets remain `-0x54` and `-0x2C` relative to the player destination.
+Naming the output span does not change the source pointers, call order, or
+the callee's random-number consumption.
+
 `Main_RunMenu` consumes exactly one value on every handler invocation. Its
 one-time screen initialization runs first, followed by the unconditional
 `rand()` call and then the overlay selection poll. The invocation that
