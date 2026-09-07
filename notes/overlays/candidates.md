@@ -937,9 +937,33 @@ The fourth cluster is the count-and-step division chain, and its register map
 is uniformly displaced rather than scrambled: the target keeps `count` in `a0`
 and `step` in the callee-saved `s0` and takes each `mfhi` into `a3`, while this
 build keeps `count` in `a1`, `step` in `a0` and takes each `mfhi` into `t0`.
-The target reaching for an argument register where this build reaches for `t0`
-says the target has fewer values live across that block, which is the shape of
-hypothesis worth testing next, rather than another sweep of spellings.
+
+The obvious reading of that, which was recorded here first, is that the target
+must have fewer values live across the block, because it can spare an argument
+register where this build has to reach past them. That reading is wrong and
+should not be inherited. Both sides hold exactly two long-lived `%hi` base
+pseudos through the whole case, and they hold the same two: the high half of
+`D_8016D424` and the high half of `D_8016D438`, which are separate pseudos
+under `-msplit-addresses` even though the two symbols share a high half. The
+target puts them in `a1` and `a2`, leaving `a3` free for the `mfhi`; this build
+puts them in `a2` and `a3`, so the `mfhi` has to go to `t0` and everything else
+shifts by one. The live count is identical. Only the order in which the
+allocator reached the two bases differs.
+
+`step` landing in the callee-saved `s0` is not evidence of a value living
+across a call either. Its last use, the subtraction from `D_801D0000[504]`,
+precedes the only call in the block, and moving that call earlier so that
+`step` genuinely is live across it costs one of the distance and does not move
+any of the four clusters.
+
+Nothing found so far moves them. The tail of the case in six statement orders,
+including three that put the call before the subtraction, leaves all four
+windows at exactly five, six, thirty-six and forty-seven. Merging `flags4` into
+`flags`, merging `msg` into `state`, and both together, leave them unchanged
+while making the total worse. `count` and `step` must be unsigned: spelling
+them `s32` costs thirty-eight, because the four divisions become signed and
+each grows the sign-correction sequence. The residual is an allocator ordering
+decision that none of the source axes tried so far can reach.
 
 
 Two of those nine came from state 4, which is now correct apart from a
