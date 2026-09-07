@@ -6,16 +6,17 @@ extern s32 func_80077150(void *a0, s32 a1);
 
 /* Validates the caller's state token against the pending transfer's
    discriminant, clamps the requested byte count to what remains in the
-   window, forwards it to SpuRead, and advances the consumed-byte
-   counter. Returns the state token once the window fills, -2 while more
-   remains, or -1 on a state mismatch or short transfer. */
+   window, submits it to the SPU transfer entrypoint, and advances the
+   consumed-byte counter. Returns the state token once the window fills,
+   SD_TRANSFER_INCOMPLETE while more remains, or SD_TRANSFER_ERROR on a
+   state mismatch or short transfer. */
 s32 func_800497E0(void *rec, s32 count, s32 state) {
     SDSecondaryState *v1 = D_8009B458;
     SDSecondaryTransfer *s1;
     s32 result;
 
     if (v1->transfer.field_0000 != (s16)state) {
-        return -1;
+        return SD_TRANSFER_ERROR;
     }
 
     s1 = &v1->transfer;
@@ -32,7 +33,7 @@ s32 func_800497E0(void *rec, s32 count, s32 state) {
 
     result = func_80077150(rec, count);
     if (result != count) {
-        return -1;
+        return SD_TRANSFER_ERROR;
     }
 
     {
@@ -43,5 +44,5 @@ s32 func_800497E0(void *rec, s32 count, s32 state) {
         }
     }
 
-    return -2;
+    return SD_TRANSFER_INCOMPLETE;
 }
