@@ -1999,15 +1999,15 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B39A,gInput_wPad2Pressed,gInput_wPad2Pressed,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,write,16,gInput_wPad2Pressed = newly_pressed >> 16;
 0x8009B39A,gInput_wPad2Pressed,gInput_wPad2Pressed,0x8003CDF8,Input_BackupPad1AndUsePad2,matching_c,game,C,src/game/input_state_backup.c,read,16,value = gInput_wPad2Pressed;
 0x8009B39A,gInput_wPad2Pressed,gInput_wPad2Pressed,0x800534B8,func_800534B8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_043cb8.s,read,16,"lhu $v0, %lo(gInput_wPad2Pressed)($v0) | lui $v0, %hi(gInput_wPad2Pressed)"
-0x8009B39C,D_8009B39C,D_8009B39C,0x8002CD8C,Main_ResetFrontendRuntime,matching_c,game,C,src/game/main_reset_frontend_runtime.c,write,8,D_8009B39C = 0x18;
-0x8009B39C,D_8009B39C,D_8009B39C,0x8003CBE8,Input_InitPads,matching_c,game,C,src/game/input_init_pads.c,write,8,D_8009B39C = 0x18;
+0x8009B39C,D_8009B39C,D_8009B39C,0x8002CD8C,Main_ResetFrontendRuntime,matching_c,game,C,src/game/main_reset_frontend_runtime.c,write,8,D_8009B39C = INPUT_REPEAT_INITIAL_DELAY;
+0x8009B39C,D_8009B39C,D_8009B39C,0x8003CBE8,Input_InitPads,matching_c,game,C,src/game/input_init_pads.c,write,8,D_8009B39C = INPUT_REPEAT_INITIAL_DELAY;
 0x8009B39C,D_8009B39C,D_8009B39C,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,read,8,if (value >= D_8009B39C) {
 0x8009B39E,gInput_wPad1RepeatBackup,gInput_wPad1RepeatBackup,0x8003CDF8,Input_BackupPad1AndUsePad2,matching_c,game,C,src/game/input_state_backup.c,write,16,gInput_wPad1RepeatBackup = value;
 0x8009B39E,gInput_wPad1RepeatBackup,gInput_wPad1RepeatBackup,0x8003CE48,Input_RestorePad1FromBackup,matching_c,game,C,src/game/input_state_backup.c,read,16,value = gInput_wPad1RepeatBackup;
 0x8009B3A0,gInput_wPad1PressedBackup,gInput_wPad1PressedBackup,0x8003CDF8,Input_BackupPad1AndUsePad2,matching_c,game,C,src/game/input_state_backup.c,write,16,gInput_wPad1PressedBackup = value;
 0x8009B3A0,gInput_wPad1PressedBackup,gInput_wPad1PressedBackup,0x8003CE48,Input_RestorePad1FromBackup,matching_c,game,C,src/game/input_state_backup.c,read,16,value = gInput_wPad1PressedBackup;
-0x8009B3A2,D_8009B3A2,D_8009B3A2,0x8002CD8C,Main_ResetFrontendRuntime,matching_c,game,C,src/game/main_reset_frontend_runtime.c,write,8,D_8009B3A2 = 0x14;
-0x8009B3A2,D_8009B3A2,D_8009B3A2,0x8003CBE8,Input_InitPads,matching_c,game,C,src/game/input_init_pads.c,write,8,D_8009B3A2 = 0x14;
+0x8009B3A2,D_8009B3A2,D_8009B3A2,0x8002CD8C,Main_ResetFrontendRuntime,matching_c,game,C,src/game/main_reset_frontend_runtime.c,write,8,D_8009B3A2 = INPUT_REPEAT_INTERVAL;
+0x8009B3A2,D_8009B3A2,D_8009B3A2,0x8003CBE8,Input_InitPads,matching_c,game,C,src/game/input_init_pads.c,write,8,D_8009B3A2 = INPUT_REPEAT_INTERVAL;
 0x8009B3A2,D_8009B3A2,D_8009B3A2,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,read,8,D_800EF6B0[i] = D_8009B3A2;
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x80013360,func_80013360,matching_c,game,C,src/game/func_80013360.c,read,16,if (gInput_wPad1Held & PAD_BUTTON_CROSS) { | if (gInput_wPad1Held & PAD_DIRECTION_DOWN) { | (+4 more)
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x8001BD88,func_8001BD88,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,read,16,"lhu $v0, %lo(gInput_wPad1Held)($v0) | lui $v0, %hi(gInput_wPad1Held)"

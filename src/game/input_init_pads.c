@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libapi.h"
+#include "input.h"
 
 extern u8 gInput_abRawPadBuffers[];
 extern void Input_ResetPads(void);
@@ -14,7 +15,7 @@ void Input_InitPads(void)
         0x22
     );
     StartPAD();
-    D_8009B39C = 0x18;
-    D_8009B3A2 = 0x14;
+    D_8009B39C = INPUT_REPEAT_INITIAL_DELAY;
+    D_8009B3A2 = INPUT_REPEAT_INTERVAL;
     Input_ResetPads();
 }
