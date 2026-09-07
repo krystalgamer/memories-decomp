@@ -867,7 +867,7 @@ address,size,name,status,module,notes
 0x8004CB0C,0x628,func_8004CB0C,unmatched_asm,game,
 0x8004D134,0x458,func_8004D134,unmatched_asm,game,
 0x8004D58C,0x1D0,func_8004D58C,unmatched_asm,game,
-0x8004D75C,0x1B8,func_8004D75C,unmatched_asm,game,
+0x8004D75C,0x1B8,func_8004D75C,unmatched_asm,game,"Sound command-list interpreter for one channel: walks each active slot's command stream from the 0xDD8 list, following negative words to the row given by bits 16..22 and accumulating the byte at +2 into that row's per-slot counter, then takes the maximum of each of the nine rows into the counter at the end of the row. Candidate at 110 of 110 instructions, opcode distance 2, in notes/candidates.md."
 0x8004D914,0x200,func_8004D914,matching_c,game,Matched from newer collaborator evidence with pre-guard loop-state initialization and volatile table-base reloads.
 0x8004DB14,0x124,func_8004DB14,matching_c,game,Exact post-terminal collaborator-derived pure-C match with named scaled offsets and table cursors.
 0x8004DC38,0x1EC,func_8004DC38,unmatched_asm,game,
