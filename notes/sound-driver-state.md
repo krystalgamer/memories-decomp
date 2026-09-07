@@ -48,7 +48,9 @@ script or campaign-map step to its negative per-frame delta.
 
 `SD_KeyOffVoiceSlots` calls Psy-Q `SpuSetKey` with key-off mode and the mask
 covering the four dedicated voice slots, then polls their four status bytes.
-It stops after they clear or after 24 iterations.
+It stops after they clear or after 24 iterations. `SD_StopAll` first sends the
+stop path through both sequence-control selectors, then calls this voice
+key-off helper; the debug sound screen uses it for Start-button cleanup.
 
 `Sound_InitFrontend` is the game-facing bridge into this lower-level state. It
 sets `gSD_bOutputType` to the unresolved sentinel `-1`, then passes

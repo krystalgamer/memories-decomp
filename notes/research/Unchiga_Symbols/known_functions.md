@@ -1053,7 +1053,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8003FF88 | `call_80048658_flagged` | fleet |
 | 0x8003FFB4 | `call_80045334_masked_flag` | fleet |
 | 0x8003FFD8 | `call_80047314_masked_flag` | fleet |
-| 0x8003FFFC | `call_800473f0_dual_then_80047ec4` | fleet |
+| 0x8003FFFC | `SD_StopAll` | matching C; fleet `call_800473f0_dual_then_80047ec4` |
 | 0x8004002C | `find_free_slot_0x10_0x60` | fleet |
 | 0x8004006C | `find_free_slot_0x0_0x60` | fleet |
 | 0x800400AC | `get_or_init_D_800EFE48_slot` | fleet |

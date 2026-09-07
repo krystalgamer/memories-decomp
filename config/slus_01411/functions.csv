@@ -615,7 +615,7 @@ address,size,name,status,module,notes
 0x8003FF88,0x2C,func_8003FF88,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003FFB4,0x24,func_8003FFB4,matching_c,game,16-bit mask and 0x8000 call wrapper matched exactly.
 0x8003FFD8,0x24,func_8003FFD8,matching_c,game,16-bit mask and 0xA000 call wrapper matched exactly.
-0x8003FFFC,0x30,func_8003FFFC,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8003FFFC,0x30,SD_StopAll,matching_c,game,"Stops both sequence-control paths and keys off the four dedicated SPU voice slots; used by the debug sound screen's Start-button cleanup; exact full-executable match."
 0x8004002C,0x40,func_8004002C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8004006C,0x40,func_8004006C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800400AC,0x160,func_800400AC,matching_c,game,Post-terminal signed-link-field and split-profile recovery; exact full-executable SHA-256 match.

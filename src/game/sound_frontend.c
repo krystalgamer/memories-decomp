@@ -66,7 +66,7 @@ void func_8003FFD8(u32 value)
     func_80047314((value & 0xFFFF) | 0xA000);
 }
 
-void func_8003FFFC(void)
+void SD_StopAll(void)
 {
     func_800473CC(0);
     func_800473CC(0x8000);
