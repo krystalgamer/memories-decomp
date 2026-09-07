@@ -4345,6 +4345,12 @@
       "source": "src/game/sound_secondary_playback.c"
     },
     {
+      "address": "0x8004A27C",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
+      "size": "0x7C",
+      "source": "src/game/func_8004A27C.c"
+    },
+    {
       "address": "0x8004A2F8",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC4",
