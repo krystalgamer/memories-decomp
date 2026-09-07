@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272 check-tools check-build-tools info extract map split build match overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272 check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -38,6 +38,7 @@ help:
 		'  split          Split the executable into temporary analysis output' \
 		'  build          Build the assembly/data PS-X executable baseline' \
 		'  match          Build and compare the complete target executable' \
+		'  match-incremental  Reuse validated split output and unchanged objects, then relink and match' \
 		'  overlays       Extract verified runtime overlay module images' \
 		'  verify-overlays  Verify extracted overlay images and metadata' \
 		'  check-metadata Verify tracked manifests and CSV tables only' \
@@ -147,7 +148,10 @@ build-overlays: overlays check-build-tools
 match-overlays: build-overlays
 	@$(PYTHON) tools/project/overlay_build.py verify
 
-build-incremental: split
+split-incremental: map check-build-tools
+	@$(PYTHON) tools/project/split_incremental.py
+
+build-incremental: split-incremental
 	@$(PYTHON) tools/project/build_incremental.py
 
 match-incremental: build-incremental

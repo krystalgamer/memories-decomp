@@ -66,8 +66,21 @@ MAKEFLAGS=-j"$(nproc)" make match
 ```
 
 `make match` succeeds only when the rebuilt executable is byte-identical to the
-retail target. The full repository audit additionally requires the DATA files
-and BIN/CUE listed in `config/slus_01411/files.sha256`:
+retail target. Between clean acceptance builds, seed the object cache immediately
+after an unchanged matching build, then use the incremental edit loop:
+
+```sh
+tools/environments/python/bin/python tools/project/build_incremental.py --seed-existing
+MAKEFLAGS=-j2 make match-incremental
+```
+
+Warm incremental builds reuse content-validated split output and unchanged
+objects, but still relink and compare the entire executable. The first split
+cache population regenerates once. Finish accepted changes with `make match`;
+see [incremental build details](notes/build.md#incremental-edit-builds).
+
+The full repository audit additionally requires the DATA files and BIN/CUE
+listed in `config/slus_01411/files.sha256`:
 
 ```sh
 MAKEFLAGS=-j"$(nproc)" make audit
@@ -89,8 +102,10 @@ replaces anything on disk, so a wrong dump fails immediately instead of
 surfacing later as a build mismatch. Files already present and correct are left
 alone, so the target is safe to re-run.
 
-The examples use all logical CPUs reported by `nproc`. Set a smaller `-j`
-value explicitly on memory-constrained systems.
+The `nproc` examples allow Make to schedule independent prerequisites on all
+logical CPUs. Compilation inside the Python build drivers remains sequential;
+`MAKEFLAGS` does not parallelize those object loops. Set a smaller `-j` value
+explicitly on memory-constrained systems.
 
 ## Decompilation workflow
 

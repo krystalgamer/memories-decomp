@@ -122,7 +122,7 @@ make verify-disc
 - `extract` writes the header, loaded payload, and parsed metadata to
   `tmp/extract/slus_01411/`.
 - `map` validates every top-level byte range and its SHA-256.
-- `split` deletes only the previous `tmp/splat/` output and regenerates
+- `split` deletes only the previous `tmp/generated/` and `tmp/splat/` output and regenerates
   disassembly, data assembly, binary regions, linker diagnostics, and automatic
   symbols there. Before Splat runs,
   `tools/project/generate_build_config.py` combines the static split template
@@ -235,6 +235,86 @@ Current matching totals are generated in the root `README.md`. Run
 `make progress` when intentionally refreshing that project-wide snapshot;
 routine decompilation changes do not need to update it.
 
+## Incremental edit builds
+
+The clean `split`, `build`, and `match` targets remain the acceptance path.
+For repeated edits, use the separate incremental targets:
+
+```sh
+make clean
+MAKEFLAGS=-j2 make match
+# Seed immediately, before changing any source or build input.
+tools/environments/python/bin/python tools/project/build_incremental.py --seed-existing
+
+# After each edit:
+MAKEFLAGS=-j2 make match-incremental
+
+# Final acceptance:
+MAKEFLAGS=-j2 make match
+```
+
+Seeding is optional; without it, the first incremental build compiles its
+objects. Seeding trusts the objects from the immediately preceding, unchanged
+matching build. Do not seed after making edits. The first incremental split
+also regenerates once to establish its own validated output snapshot.
+
+`split-incremental` fingerprints the retail target, split configuration,
+inventory and mappings, compiler profiles, symbols, relocations, generators,
+installed Splat/MIPS dependency contents, and relevant interpreter/disassembler
+settings. It repeats the matching-source ownership and grouping checks on
+cache hits. It uses the pinned Splat C parser to track the function and
+`INCLUDE_ASM`/`INCLUDE_RODATA` names that splitting actually observes; ordinary
+C-body and header edits do not require another split. Source-shape, metadata,
+tool, or target changes do.
+
+Generated assembly, data, assets, linker scripts, and headers must still match
+their recorded contents. Missing, modified, or extra generated files force
+regeneration. The scanner prunes `tmp/splat/build` and `tmp/splat/cache`, which
+are not split inputs. Optional generated outputs must remain in the tracked
+split tree; arbitrary Splat extensions and partial-linker layouts are not
+supported by this resident cache. Failed regeneration never publishes a valid
+stamp. The stamp lives at `tmp/incremental/split-cache.json`.
+
+The object driver memoizes file hashes and parsed quoted includes only for
+the current invocation. Shared headers and compiler binaries are read once
+rather than once per unit or profile; later invocations re-read their contents,
+including when a file's timestamp has not changed. An already installed object
+is retained only when its contents match a valid cached object. Missing or
+altered installed objects are restored or rebuilt. The driver reports
+`rebuilt`, `reused`, `retained`, and `materialized` counts, with
+`reused = retained + materialized`. Every incremental build still relinks and
+hashes the complete executable. Run builds sequentially; neither cache is a
+concurrent-writer protocol.
+
+### Measuring the incremental path
+
+After an unchanged clean matching build, run:
+
+```sh
+tools/environments/python/bin/python tools/project/check_incremental.py \
+  --baseline-ref <pre-change-commit>
+```
+
+The benchmark exports that revision's incremental driver beneath `tmp/`,
+without checking out or replacing tracked files. It compares three no-change
+runs of the old unconditional-split path with three warm incremental runs,
+using `MAKEFLAGS=-j2`. Without `--baseline-ref`, it compares the current driver
+with and without split reuse. Timings and command logs are written to
+`tmp/incremental-check/`; the matching-build workflow uploads the evidence.
+
+The same exercise requires warm builds to leave installed objects untouched,
+probes source/header edits with preserved timestamps, verifies symbol/config
+invalidation and generated-output/object recovery, and finishes with another
+clean exact match. Probe inputs must be unmodified in Git. Temporary edits are
+restored even when a command fails; a concurrent edit is preserved rather than
+overwritten, with the original retained beneath the report directory.
+
+Compilation and linking remain sequential. Remaining costs include repeated
+full-cache JSON checkpoints after rebuilt objects, prerequisite/tool checks,
+content validation of generated output and cached objects, and the mandatory
+full relink/hash. These are distinct from Make's prerequisite-level parallelism;
+raising `MAKEFLAGS` alone does not parallelize Python's compilation loops.
+
 ## Full repository audit
 
 ```sh
@@ -265,8 +345,10 @@ make clean
 Cleanup removes only these known generated paths when present:
 
 - `tmp/extract/`
+- `tmp/generated/`
 - `tmp/splat/`
 - `tmp/project-build/`
+- `tmp/incremental/`
 - `tmp/reports/`
 
 It does not remove downloaded tools, toolchains, user-supplied game files, or

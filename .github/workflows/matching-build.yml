@@ -39,6 +39,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
+          fetch-depth: 2
 
       - name: Install host build dependencies
         run: |
@@ -93,6 +94,11 @@ jobs:
           make compiler-281-prebuilt
           make check-build-tools
 
+      - name: Exercise incremental cache regressions
+        run: |
+          tools/environments/python/bin/python -m unittest discover \
+            -s tools/project/tests -p 'test_*incremental*.py' -v
+
       - name: Perform clean matching build
         run: |
           make clean
@@ -101,6 +107,26 @@ jobs:
             84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88 \
             tmp/project-build/SLUS_014.11 \
             | sha256sum --check --strict
+
+      - name: Measure and exercise real incremental builds
+        env:
+          BASELINE_REF: ${{ github.event.pull_request.base.sha }}
+        run: |
+          args=()
+          if [ -n "$BASELINE_REF" ]; then
+            args+=(--baseline-ref "$BASELINE_REF")
+          fi
+          tools/environments/python/bin/python tools/project/check_incremental.py "${args[@]}"
+
+      - name: Upload incremental timing and recovery evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: incremental-build-evidence
+          if-no-files-found: ignore
+          path: |
+            tmp/incremental-check/report.json
+            tmp/incremental-check/*.log
 
       - name: Report generated global usage drift
         continue-on-error: true

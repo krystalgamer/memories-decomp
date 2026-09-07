@@ -15,9 +15,9 @@ import build_baseline
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
-# `make split` removes all of tmp/splat before every build, so cached objects
-# and their signatures are kept outside it and copied back into the paths
-# Splat's generated linker script names.
+# Clean splits remove tmp/splat, so cached objects and their signatures are
+# kept outside it. Warm splits can retain the objects at the paths Splat's
+# generated linker script names.
 CACHE_DIRECTORY = "tmp/incremental"
 CACHE_OBJECT_DIRECTORY = f"{CACHE_DIRECTORY}/obj"
 CACHE_PATH = f"{CACHE_DIRECTORY}/cache.json"
@@ -60,7 +60,42 @@ def digest_value(value: Any) -> str:
     return hashlib.sha256(encoded).hexdigest()
 
 
-def include_digest(root: Path, source: Path) -> str:
+class _FileCache:
+    """Hashes and quoted includes for one build or seed invocation only."""
+
+    def __init__(self) -> None:
+        self._hashes: dict[Path, str] = {}
+        self._includes: dict[Path, tuple[str, ...]] = {}
+
+    def sha256(self, path: Path) -> str:
+        resolved = path.resolve()
+        if resolved not in self._hashes:
+            self._hashes[resolved] = sha256(resolved)
+        return self._hashes[resolved]
+
+    def quoted_includes(self, path: Path) -> tuple[str, ...]:
+        resolved = path.resolve()
+        if resolved not in self._includes:
+            contents = resolved.read_bytes()
+            if resolved not in self._hashes:
+                self._hashes[resolved] = hashlib.sha256(contents).hexdigest()
+            # Some vendored Psy-Q headers carry Shift-JIS comments. Preserve
+            # read_text's permissive decoding and universal-newline handling;
+            # the hash still covers the exact bytes.
+            text = contents.decode("utf-8", errors="replace")
+            text = text.replace("\r\n", "\n").replace("\r", "\n")
+            self._includes[resolved] = tuple(INCLUDE_PATTERN.findall(text))
+        return self._includes[resolved]
+
+
+def include_digest(
+    root: Path,
+    source: Path,
+    *,
+    file_cache: _FileCache | None = None,
+) -> str:
+    root = root.resolve()
+    file_cache = file_cache if file_cache is not None else _FileCache()
     visited: set[Path] = set()
     entries: list[tuple[str, str]] = []
 
@@ -77,21 +112,23 @@ def include_digest(root: Path, source: Path) -> str:
         visited.add(resolved)
         if not resolved.is_file():
             raise IncrementalBuildError(f"missing source/include: {relative}")
-        entries.append((str(relative), sha256(resolved)))
-        # Some vendored Psy-Q headers carry Shift-JIS comments, so decode
-        # permissively purely to find nested includes; the recorded hash above
-        # still covers the exact bytes.
-        text = resolved.read_text(encoding="utf-8", errors="replace")
-        for include in INCLUDE_PATTERN.findall(text):
+        includes = file_cache.quoted_includes(resolved)
+        entries.append((str(relative), file_cache.sha256(resolved)))
+        for include in includes:
             visit(resolved.parent / include)
 
     visit(source)
     return digest_value(entries)
 
 
-def tree_digest(directory: Path) -> str:
+def tree_digest(
+    directory: Path,
+    *,
+    file_cache: _FileCache | None = None,
+) -> str:
+    file_cache = file_cache if file_cache is not None else _FileCache()
     entries = [
-        (str(path.relative_to(directory)), sha256(path))
+        (str(path.relative_to(directory)), file_cache.sha256(path))
         for path in sorted(directory.rglob("*"))
         if path.is_file()
     ]
@@ -206,7 +243,10 @@ def write_cache(root: Path, signatures: dict[str, str]) -> None:
 def dependency_context(
     root: Path,
     profiles: dict[str, dict[str, object]],
+    *,
+    file_cache: _FileCache | None = None,
 ) -> dict[str, Any]:
+    file_cache = file_cache if file_cache is not None else _FileCache()
     assembler = build_baseline.tool(root, "as")
     objcopy = build_baseline.tool(root, "objcopy")
     maspsx = resolve_within(
@@ -225,21 +265,23 @@ def dependency_context(
         filter_value = profile.get("assembly_filter")
         filter_hash = None
         if isinstance(filter_value, str):
-            filter_hash = sha256(
+            filter_hash = file_cache.sha256(
                 resolve_within(root, filter_value, must_exist=True)
             )
         profile_context[name] = {
             "configuration": profile,
-            "compiler_sha256": sha256(compiler),
+            "compiler_sha256": file_cache.sha256(compiler),
             "assembly_filter_sha256": filter_hash,
         }
     return {
-        "build_baseline_sha256": sha256(Path(build_baseline.__file__)),
-        "build_incremental_sha256": sha256(Path(__file__)),
-        "assembler_sha256": sha256(assembler),
-        "objcopy_sha256": sha256(objcopy),
-        "maspsx_sha256": sha256(maspsx),
-        "splat_include_sha256": tree_digest(include_directory),
+        "build_baseline_sha256": file_cache.sha256(Path(build_baseline.__file__)),
+        "build_incremental_sha256": file_cache.sha256(Path(__file__)),
+        "assembler_sha256": file_cache.sha256(assembler),
+        "objcopy_sha256": file_cache.sha256(objcopy),
+        "maspsx_sha256": file_cache.sha256(maspsx),
+        "splat_include_sha256": tree_digest(
+            include_directory, file_cache=file_cache
+        ),
         "profiles": profile_context,
     }
 
@@ -248,12 +290,18 @@ def component_signature(
     root: Path,
     component: Component,
     context: dict[str, Any],
+    *,
+    file_cache: _FileCache | None = None,
 ) -> str:
+    file_cache = file_cache if file_cache is not None else _FileCache()
     source = resolve_within(root, component.source, must_exist=True)
+    if component.kind not in {"asm", "binary"}:
+        # Hash and parse the source in one read, before the include traversal.
+        file_cache.quoted_includes(source)
     value: dict[str, Any] = {
         "kind": component.kind,
         "source": component.source,
-        "source_sha256": sha256(source),
+        "source_sha256": file_cache.sha256(source),
         "object": component.object_name,
         "build_baseline_sha256": context["build_baseline_sha256"],
         "build_incremental_sha256": context["build_incremental_sha256"],
@@ -274,7 +322,9 @@ def component_signature(
             )
         value.update(
             {
-                "source_and_includes_sha256": include_digest(root, source),
+                "source_and_includes_sha256": include_digest(
+                    root, source, file_cache=file_cache
+                ),
                 "assembler_sha256": context["assembler_sha256"],
                 "maspsx_sha256": context["maspsx_sha256"],
                 "profile": component.profile,
@@ -290,7 +340,7 @@ def object_path(root: Path, component: Component) -> Path:
 
 
 def cached_object_path(root: Path, component: Component) -> Path:
-    """Object location that survives the clean Splat performs on every build."""
+    """Object location that survives clean splits."""
     trimmed = component.source[: component.source.rindex(".")]
     return resolve_within(root, f"{CACHE_OBJECT_DIRECTORY}/{trimmed}.o")
 
@@ -304,6 +354,25 @@ def copy_object(source: Path, destination: Path) -> None:
         temporary.replace(destination)
     finally:
         temporary.unlink(missing_ok=True)
+
+
+def same_contents(source: Path, destination: Path) -> bool:
+    if (
+        not destination.is_file()
+        or source.stat().st_size != destination.stat().st_size
+    ):
+        return False
+    with (
+        source.open("rb") as source_handle,
+        destination.open("rb") as destination_handle,
+    ):
+        while True:
+            source_block = source_handle.read(1024 * 1024)
+            destination_block = destination_handle.read(1024 * 1024)
+            if source_block != destination_block:
+                return False
+            if not source_block:
+                return True
 
 
 def build_component(
@@ -449,7 +518,10 @@ def seed_existing(
     root: Path,
     components: list[Component],
     signatures: dict[str, str],
+    *,
+    file_cache: _FileCache | None = None,
 ) -> None:
+    file_cache = file_cache if file_cache is not None else _FileCache()
     missing = [
         component.object_name
         for component in components
@@ -461,7 +533,7 @@ def seed_existing(
         )
     output = resolve_within(root, OUTPUT_EXE, must_exist=True)
     target = resolve_within(root, TARGET_PATH, must_exist=True)
-    if sha256(output) != sha256(target):
+    if file_cache.sha256(output) != file_cache.sha256(target):
         raise IncrementalBuildError(
             "cannot seed cache from a nonmatching executable"
         )
@@ -475,15 +547,18 @@ def seed_existing(
 
 
 def build_incrementally(root: Path, *, seed: bool) -> Path | None:
+    file_cache = _FileCache()
     profiles = build_baseline.load_compiler_profiles(root)
     components = load_components(root)
-    context = dependency_context(root, profiles)
+    context = dependency_context(root, profiles, file_cache=file_cache)
     signatures = {
-        component.object_name: component_signature(root, component, context)
+        component.object_name: component_signature(
+            root, component, context, file_cache=file_cache
+        )
         for component in components
     }
     if seed:
-        seed_existing(root, components, signatures)
+        seed_existing(root, components, signatures, file_cache=file_cache)
         return None
 
     cache = load_cache(root)
@@ -498,6 +573,8 @@ def build_incrementally(root: Path, *, seed: bool) -> Path | None:
     objects: list[Path] = []
     rebuilt = 0
     reused = 0
+    retained = 0
+    materialized = 0
     for component in components:
         output = object_path(root, component)
         cached = cached_object_path(root, component)
@@ -507,7 +584,11 @@ def build_incrementally(root: Path, *, seed: bool) -> Path | None:
             and cache.get(component.object_name)
             == signatures[component.object_name]
         ):
-            copy_object(cached, output)
+            if same_contents(cached, output):
+                retained += 1
+            else:
+                copy_object(cached, output)
+                materialized += 1
             reused += 1
         else:
             output = build_component(
@@ -527,6 +608,7 @@ def build_incrementally(root: Path, *, seed: bool) -> Path | None:
     write_cache(root, signatures)
     print(
         f"incremental build: rebuilt={rebuilt} reused={reused} "
+        f"retained={retained} materialized={materialized} "
         f"output={output.relative_to(root)}"
     )
     return output
