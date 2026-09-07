@@ -40,6 +40,26 @@ Their `_functions.csv` inventories track per-function status, while their
 separate `_matching_c.json` manifests map accepted source/profile pairs.
 `make match-overlays` remains the exact-byte gate.
 
+## Inventory status
+
+All fifteen inventoried functions in both variants are `matching_c`, so the
+overworld code is fully decompiled and both images rebuild byte-for-byte from
+this directory.
+
+One assembly subsegment remains in each layout, `text_11A8`, covering
+`0x801691A8-0x801697D0`. It is not code. The inventory runs continuously up to
+`0x801691A8` -- `CampaignMap_UpdateLocation` at `0x80168FCC` is `0x1DC` long and
+so ends exactly there -- and resumes at `0x801697D0`, so no function has ever
+been identified inside the span. It begins at `gCampaignMap_aLocationTable`,
+the location table, whose 66-byte stride is legible in any caller as
+`sll v0,a0,5; addu v0,v0,a0; sll v0,v0,1`, that is `a0 * 33 * 2`. The span is
+`0x628` bytes, which is not a whole number of entries, so the table is followed
+by further data that has not been classified.
+
+Reclassifying that span from `asm` to `data` is a layout question rather than a
+decompilation one, and it is the only thing standing between these modules and
+a layout with no assembly in it.
+
 Keep extracted payloads, unaccepted candidates, objects, and diffs under
 `tmp/`. Do not add either variant to the resident
 `config/slus_01411/matching_c.json`.

@@ -778,6 +778,24 @@ Before writing that an axis is closed, exhausted or inert, ask which cross
 product has not been run. "I measured six things and they were inert" is not
 a stopping condition.
 
+`CampaignMap_UpdateLocationTransition` makes the same point with numbers that
+are easy to check. Its camera block ends in five accumulator adds followed by
+five stores, so there are two obvious axes of 120 permutations each. Swept one
+at a time both looked finished: the add order alone left the best cell at seven
+differing positions, which is where it already was, and the store order alone
+was flat at seven across all 120. Either result on its own reads as a closed
+axis. The full 14,400-cell product dropped it to five, and the winning cell
+pairs an add order that had not appeared anywhere in the single-axis top ten
+with a store order that was tied with everything else.
+
+That is the mechanism behind the rule, not a coincidence. A one-at-a-time sweep
+holds the other axis at its current value, so it can only find a lever that
+improves things *given the rest of the current shape*. When the true
+configuration needs two simultaneous changes, the intermediate states are no
+better than where you started -- and frequently worse -- so every single-axis
+probe reports inert. The axes were never independent; measuring them
+independently is what hid the answer.
+
 But a cross product is still only as wide as the axes you thought of, and
 `func_80168AB4` is the cautionary example. Roughly 10,800 cells were measured
 against its one remaining rotation, across statement order, read-modify-write
@@ -1153,3 +1171,134 @@ Two needed refining rather than correcting:
 
 Neither of those is a wrong rule, but both said more than the evidence
 supported, which is the same failure mode as the two corrected above.
+
+## An argument register in the prologue tells you the call's arity
+
+A value that the target loads into `a0`-`a3` shortly before a `jal` is an
+argument to that call. That sounds obvious stated plainly, but it is easy to
+miss when the residual is small, because the diff presents it as a register
+allocation difference rather than as a missing argument.
+
+`CampaignMap_UpdateLocationTransition` spent a long time at five differing
+positions, all in the prologue, and every one of them looked like scheduling:
+
+```
+   19  lui  v0,0x8017              lui  s0,0x0
+   20  lui  s0,0x8017              lui  v0,0x0
+   21  lw   a1,-27128(v0)          lbu  a0,0(s0)
+   22  lbu  a0,-27124(s0)          lw   v1,0(v0)
+   ...
+   25  sw   a1,-27180(v0)          sw   v1,0(v0)
+```
+
+The candidate had the same instruction mix, the same count and an opcode
+distance of zero. The two `lui`s were merely in the other order, and the loaded
+word sat in `v1` instead of `a1`. Read as scheduling, that is a dead end: six
+prologue shapes had already measured inert, and no reordering of statements
+moves a value into `a1`.
+
+Read as arity it is immediate. Position 24 is a `jal`, so position 25 is its
+delay slot, and positions 21 and 22 load `a1` and `a0` -- the first two
+argument registers. The target's call takes two arguments. The candidate's
+took one, so its second load had nowhere to go but a temporary. Adding the
+argument matched the function outright.
+
+The store is the part worth understanding, because it explains why the
+difference showed up as a register name. In the target the same `a1` serves
+twice: once as the argument and once as the source of `D_801695D4 =
+gCampaignMap_MoveState`, which GCC then folds into the call's delay slot. That
+is only possible because argument setup has already put the value in a
+caller-saved register that is live across the delay slot but dead after the
+call. When the call takes one argument, the store's operand has no reason to be
+in `a1`, GCC allocates `v1`, and the two `lui`s swap because the load order
+follows. One missing argument, four consequences, none of which look like a
+missing argument.
+
+The tells, in order of how much they narrow the search:
+
+- A load into `a1`, `a2` or `a3` that is not followed by a `jal` in *your*
+  build, but is in the target, means the target's call has more arguments.
+- More generally, count the argument registers written between the previous
+  transfer and the `jal`. That count is a lower bound on the arity, and it is
+  a fact about the target, not a hypothesis about your source.
+- If a store's source register in the target is an argument register, the
+  stored value and an argument are the same value.
+
+The prototype has to move with the call. `func_801688BC(a, b)` against
+`extern void func_801688BC(s32);` is a hard error, so a sweep over call sites
+alone reports every cell as a build failure and looks like the axis is
+unavailable. Vary the declaration and the call together.
+
+The corroboration arrived after the fact and is worth recording as a process
+note. The callee at `0x801688BC` is `CampaignMap_StartCameraTween`, already
+matched and already in the tree as `src/overlays/overworld/camera_tween.c`,
+declared `void CampaignMap_StartCameraTween(s32 index, s32 steps)`. Its arity
+was sitting in a sibling file the entire time. The candidate had been carrying
+a placeholder `extern void func_801688BC(s32);` invented when the function was
+still unnamed, and nothing ever forced the two to agree because the candidate
+compiles standalone in `overlay_diff`. Before sweeping a call, check whether the
+callee is already matched in the same module and copy its real signature.
+
+## Prefer the callee's real symbol over a local `func_` placeholder
+
+Following on from the above: a candidate developed under `overlay_diff` never
+links against the module, so a wrong `extern` for a callee costs nothing until
+integration. Two failure modes come out of that, and both cost real time here.
+
+The first is arity, described above. The second is that placeholders hide
+symbols which no longer exist. When the last assembly segment referencing a
+symbol is converted to C, splat stops emitting that symbol into
+`undefined_syms_auto.txt`, because the list is generated from the remaining
+disassembly. Converting `text_AA8` dropped four data symbols and both callees
+from the auto list, and `make build-overlays` failed with six undefined
+references, none of which the per-function diff could have predicted.
+
+The fix was not a linker-symbols file. All six already had names:
+`gCampaignMap_aLocationTable`, `gCampaignMap_MoveState`, `gCampaignMap_Location`
+and `gCampaignMap_LocationPrev` in
+`notes/research/Unchiga_Symbols/modules/overworld.txt`, and the two callees in
+sibling sources. The candidate was referring to real things by names nobody
+used. Renaming to the established symbols resolved every reference and left the
+match intact, which is expected -- the linker binds the same addresses either
+way, so a pure rename cannot change codegen.
+
+Reserve a linker-symbols entry, as `password` has for `gSaveData_aPlayerNameSjis`,
+for a symbol that genuinely has no definition in reach. Check the module symbol
+file and the already-matched siblings first.
+
+## A struct pointer schedules differently from byte-offset casts
+
+Writing five fields of one object through `*(s16 *)((u8 *)base + n)` casts and
+writing them through a declared `struct` pointer are the same semantics and
+different RTL. On `CampaignMap_UpdateLocationTransition` the change was worth
+twenty of the twenty-seven remaining differing positions, more than any other
+single lever found for that function.
+
+The reason is what the two forms present to the scheduler. Each cast is an
+independent address computation over a `u8 *`, and GCC 2.8.1 keeps them
+independent: it has no basis for deciding that `base + 0` and `base + 36`
+address one object, so the arithmetic stays pinned near its use and the stores
+cannot be reordered freely against each other. With a struct pointer there is a
+single base register and the offsets are part of the store instructions, so all
+five stores become interchangeable and the scheduler orders them by the
+readiness of the *values*, which is what the target does.
+
+The practical consequence is that the lever is not just worth points, it is
+what makes the other axes reachable. Under casts, the store-order permutation
+barely moves the diff, because the addressing pins the stores anyway. Under a
+struct, the same permutation becomes live and is half of the cross product that
+took the function from seven positions to five. A lever that unlocks an axis is
+worth more than its own score.
+
+It does not follow that structs are always right, and the same function shows
+the boundary. Two isolated `s16` stores in the tail block, at `+48` and `+50`,
+match identically whether written as casts or as named fields. Nothing else is
+in flight there, so the scheduler has no freedom to exercise and the two forms
+cannot diverge. The rule is about scheduling latitude: prefer a struct where
+several accesses to one object are live at once, and expect no difference where
+a single access stands alone.
+
+Declaring the struct is cheap and reversible. Sizes come from the store widths
+already in the target -- `sh` for `s16`, `sw` for `s32` -- and the gaps are
+padding arrays. It is worth trying on any function whose residual is
+concentrated in a block of stores through a shared base.
