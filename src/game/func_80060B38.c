@@ -2,6 +2,8 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "card_constants.h"
+#include "text_constants.h"
 
 extern u8 D_80090DD8[];
 extern u8 D_801A8000[];
@@ -71,21 +73,28 @@ void func_80060B38(u8 *obj, GsOT *ot) {
         do {
             id = *entries & 0xFFF;
             if (id != 0) {
-                if (((gDuel_adwCardStats[id - 1] >> 26) & 0x1F) < 0x14) {
+                if (((gDuel_adwCardStats[id - 1] >> CARD_STAT_TYPE_SHIFT) &
+                     CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
                     sp->x = *(u16 *)(obj + 0x30) + 0x24;
                     *(u32 *)&sp->r = 0x808080;
                     if (*entries & 0x8000) {
                         *(u32 *)&sp->r = 0x404040;
                     }
-                    Text_EncodeDecimalDigits((gDuel_adwCardStats[id - 1] & 0x1FF) * 10, 4, atk);
-                    Text_EncodeDecimalDigits(((gDuel_adwCardStats[id - 1] >> 9) & 0x1FF) * 10, 4, def);
+                    Text_EncodeDecimalDigits(
+                        (gDuel_adwCardStats[id - 1] & CARD_STAT_VALUE_MASK) *
+                            CARD_STAT_SCALE,
+                        4, atk);
+                    Text_EncodeDecimalDigits(
+                        ((gDuel_adwCardStats[id - 1] >> CARD_STAT_DEFENSE_SHIFT) &
+                         CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE,
+                        4, def);
                     for (j = 3; j >= 0; j--) {
                         d = atk[j];
-                        if (d < 10) {
+                        if (d < TEXT_DECIMAL_RADIX) {
                             sp->u = d * 8 - 0x80;
                             GsSortFastSprite(sp, ot, pri);
                         }
-                        if (def[j] < 10) {
+                        if (def[j] < TEXT_DECIMAL_RADIX) {
                             sp->y += 8;
                             sp->u = def[j] * 8 - 0x80;
                             GsSortFastSprite(sp, ot, pri);
