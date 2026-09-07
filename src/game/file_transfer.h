@@ -26,5 +26,8 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
 FileTransferDescriptor *File_TryRequestAsyncTransfer(
     s32, u8 *, s32, s32, void *, s32, s32
 );
+FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
+    s32, u8 *, s32, s32, void *, s32, s32
+);
 
 #endif
