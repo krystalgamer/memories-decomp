@@ -3253,6 +3253,12 @@
       "source": "src/game/func_8003E46C.c"
     },
     {
+      "address": "0x8003E490",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x344",
+      "source": "src/game/mem_card_load_state.c"
+    },
+    {
       "address": "0x8003E7D4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
