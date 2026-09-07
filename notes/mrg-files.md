@@ -80,6 +80,21 @@ The complete loader trace, descriptor layout, sector map, phase table, archive
 attribution, and called-address checks are recorded in
 `notes/overlays/runtime-loader.md`.
 
+### Duel terrain packages
+
+Matching `func_8001798C` selects one of seven terrain packages with the source
+constants `DUEL_TERRAIN_PACKAGE_FIRST_SECTOR` (`0x16C6`) and
+`DUEL_TERRAIN_PACKAGE_SECTOR_COUNT` (`0xEB`). Because the count is also the
+per-terrain stride, the seven packages occupy WA sectors `0x16C6-0x1D33`, or
+byte range `0xB63000-0xE99800`, without gaps.
+
+Matching `func_80024E58` reloads a narrower terrain-effect range from
+`DUEL_TERRAIN_EFFECT_DATA_FIRST_SECTOR` (`0x1791`) plus the same `0xEB`
+terrain stride. The difference from the package base is `0xCB` sectors, so
+the `DUEL_TERRAIN_EFFECT_DATA_SECTOR_COUNT` (`0x10`) request covers
+package-relative bytes from `+0x65800` to exclusive end `+0x6D800`: the first
+`0x8000` bytes of the final 32-sector callback phase.
+
 ### End-of-duel results package
 
 Resident `func_80020F4C` requests 34 WA sectors beginning at sector `0x1DAB`,
