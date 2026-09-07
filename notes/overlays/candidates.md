@@ -787,396 +787,111 @@ join:
 ```
 ## main_menu `func_80180390` at 0x80180390
 
-`gcc_2_8_1_g0_split`, 495 instructions against 495, opcode distance 0
-with every mnemonic count exact. The longest common subsequence of
-mnemonics is 480 of 495, the first 196 instructions agree, and 188
-positions differ.
-
-The pad-hold accumulation now emits its store where the target emits it, which
-moves the agreeing prefix from 192 to 196 and the subsequence from 479 to 480
-with no metric going backwards. The differing positions are unchanged, so this
-is a structural gain rather than a numeric one, and it is recorded as such.
-
-The change is a dedicated local for the accumulator plus the global read first:
-`acc = D_8009B0D8 + *(u16 *)(entry + 0x36)`. Sixteen cells of the product of
-four accumulator forms, the shared `value` and dedicated locals typed `s32`,
-`s16` and `u16`, against both operand orders and both comparison senses, show
-that the width is irrelevant and the operand order is the whole effect: every
-dedicated local with the global first reaches 196, every one with the field
-first stays at 192, and the three widths are identical to one another. With the
-store in the right place the seven instructions from the field load to the
-comparison agree in shape with the target and differ only in which registers
-hold the entry pointer, the delta and the sum.
-
-Two further shapes in the same block were measured and neither helps, but both
-are worth recording because they look like they should.
-
-The two return values are still in the wrong delay slots: the target branches
-on the failing case with `-2` in the slot and falls through to `-1`, and this
-build does the reverse. Writing the comparison as `>= 0xBB8` returning `-2`
-first is byte-identical, because GCC canonicalises it back. Giving the `-2`
-return its own label and reaching it by `goto` does change the layout, and
-placing that label before `ret_m1` takes the prefix to 199, the furthest it has
-been; it costs four of the distance to do it, so the layout is source-reachable
-but not affordable. Five label arrangements were measured.
-
-Hoisting the menu-id read above the frame-counter decrement, which is the order
-the target's delay slots imply, gives 188 differing positions, one fewer than
-the current shape. It costs two of the distance, so it is a false positive of
-exactly the kind the metric ordering exists to catch: the position count
-improves because a different fault replaces the one it removes.
-
-
-Three more shared locals separated, taking the differing positions from 206 to
-189. The method is the same each time: cluster the differing positions, read
-the first cluster, find the local that two blocks share, and give the block its
-own.
-
-The level-up accumulation gets its own. `value = entry[0xE] + entry[0x60]`
-followed by three byte stores of the result held that value in `a1` where the
-target holds it in `v0`; a dedicated local is worth six positions. The
-comparison sense of the pad-hold test was measured against it at the same time,
-in twelve cells, and is inert in all of them.
-
-The character-range test gets its own, and so does the entry pointer beside it,
-but not the counter between them. Splitting the character code and the entry
-pointer is worth nine; splitting the counter as well takes two of those nine
-back. All eight subsets were measured, and the best is not the largest, which
-is the third time on this function that the subset has mattered more than the
-count.
-
-The negated frame counter wants a dedicated local of exactly the right width.
-`s32` is worth two more positions; `s16`, which is the natural width for a
-field that is stored back as a halfword, costs two of the distance instead,
-because GCC then sign-extends before negating rather than after. Negating in
-place without a local costs the same two. Six spellings were measured and only
-the `s32` local reaches it.
-
-The remaining 189 are one cluster covering the whole tail from instruction 186.
-It begins at the pad-hold accumulation, where the target keeps the entry
-pointer in `a1` and the pad delta in `a0` and stores the sum before the sign
-extension, while this build keeps them in `a0` and `v0` and stores after. A
-sixteen-cell product over a dedicated entry pointer, a dedicated accumulator,
-both comparison senses and the `volatile` qualifier on the store leaves the
-current shape in front, so the tail needs a different handle than the one that
-worked on the first three clusters.
-
-
-With the instruction mix exact, the residual is register assignment, and it
-responds to which local a value is given. Three changes take the differing
-positions from 232 to 206 without moving the distance.
-
-Reading the differing positions as clusters rather than as a total is what made
-this tractable. At 232 they fell into six groups, and the first three were four
-positions each at exactly twenty-two instruction intervals: the same fault in
-each of the three identical save-poll blocks. The target holds the poll result
-in `v1` and this build held it in `a0`, three times over. Giving those blocks
-their own local instead of sharing the general-purpose `value` moves all three
-at once, worth nine positions. A freshly declared local and reusing the
-otherwise-idle `level` are identical; reusing `step` changes nothing, and
-reusing `frame` or `delta` costs distance, because those are live across the
-blocks.
-
-The fade-out block is the same shape one register further along: the target
-holds the entry pointer in `v1` and the address base in `a1`, this build held
-them in `a1` and `a0`. A dedicated local for that block's copy of the entry
-pointer is worth ten more. Writing the read-modify-write of the flag word
-through an explicit temporary, or hoisting that read above the three byte
-stores, changes nothing; addressing every field off the global instead of
-through a local costs four of the distance.
-
-The third is one of eleven `entry = D_80184560` regions, the fourth, given its
-own local for seven more. The other ten were measured individually and in
-combination: two of them are worth something alone and nothing together with
-the fourth, four are inert, and two cost two of the distance. Eighteen cells of
-that product put the fourth region alone at the front, so the effect is not
-additive and giving every region its own local is not the answer.
-
-The general shape is worth stating because it is cheap to try and has now paid
-three times on this function: when the instruction mix is exact and the
-positions cluster, look for a local that several blocks share and give the
-block its own. It shifts one register assignment, and on a function this size a
-single shifted assignment is worth ten positions.
-
-
-The instruction mix is now exact. Every mnemonic appears the same number of
-times as in the target, the instruction count is 495 against 495, and the
-opcode distance is zero. What is left is register assignment and ordering.
-
-Two changes took it from six, and the second is the interesting one.
-
-The store of the new menu index has to be `volatile`. The target stores the
-computed byte to `gMain_bMenuID` and then *reloads* it with `lbu` to index the
-entry table, where this build kept the value in a register and masked it with
-`0xff`, because the truncation to `u8` is known to the compiler. Qualifying the
-store, and only the store, forces the reload: the surplus `andi` and the
-missing `lbu` are the same instruction seen from two sides, and both go to zero
-together. Qualifying the whole global instead is much worse, because it also
-forces every other read of it in the function. Six spellings were measured,
-including naming the value in a local before storing it, casting the assignment
-to `u8`, naming the entry pointer, and reading the global back through a
-volatile pointer at one or both uses; only the volatile store reaches it.
-
-The base and count selection is two separate `if` statements on the same
-condition, and the count comes first. The target evaluates `(u32)gMain_bMenuID
-< 5` once and branches on the result twice, with `move s1,zero` in the first
-delay slot and `li s0,6` in the second, so both assignments are made in slots
-and no unconditional jump is needed. A single `if` with two assignments in each
-arm cannot produce that: it gives one conditional branch and a `j` around the
-else arm, which is the surplus `j` and the missing `beqz`.
-
-Splitting into two `if` statements is worth two on its own. Splitting them and
-putting the count first is worth all six. The order matters because the
-assignment that lands in the first delay slot has to be the one whose register
-is free at that point; with the base first, GCC fills the slots the other way
-round and keeps a `bnez` where the target has a `beqz`. Writing the pair as two
-conditional expressions reaches the same two as the unordered split, and
-inverting the second test is worse.
-
-All twenty-nine profiles were re-run at the new base and none matches; only
-`gcc_2_8_1_cc_g0_as_g8_split` ties, as it has throughout.
-
-
-The failure returns funnel through the single exit label, but only the first
-eleven of them. That takes the distance to six, brings the `li` count to exactly
-the target's, and moves the agreeing prefix from 181 to 192.
-
-The function returns -1 from twenty places and -2 from one. The target
-materialises the -1 once, in a shared exit block, and reaches the -2 return by
-jumping one instruction past that block with the constant in the jump's delay
-slot. This build materialised the constant at each return site, because the
-register was free there, and paid two surplus `li` for it.
-
-The number of sites to funnel matters and is not monotone, which is why a
-single "use a shared exit" experiment would have missed it. Funnelling all
-twenty is much worse, at thirteen, because GCC then merges too much and the `li`
-count overshoots by four while two surplus `j` and two surplus `nop` appear.
-Funnelling the first nine or ten leaves one surplus `li`. Eleven through fifteen
-are all at six and identical. Sixteen brings a second surplus `j` back. So the
-boundary sits between the tenth and eleventh site and again after the fifteenth,
-and the whole span between them is flat; the twenty-one cells of the sweep over
-how many to funnel were needed to see that.
-
-Two axes were re-measured against the new base and are closed. The
-thirty-two-cell product of `volatile` over the five remaining stores through
-the menu entry pointer, which was measured one site at a time last cycle and is
-measured as a product here, is byte-identical in every cell; adding the
-qualifier to any subset of the frame countdown as a decrement, the countdown as
-a negation, the clear of `+0x36`, and the set and the clear of bit `0x40` does
-nothing. Repeating the sixteen-cell subset of it against the funnelled base is
-byte-identical too, so the two levers do not interact.
-
-What remains is one surplus `andi`, one surplus `j`, one missing `lbu`, two
-surplus `lui` and one missing `beqz`.
-
-
-Two stores through the menu entry pointer want the `volatile` qualifier, and
-between them they take the distance from twelve to eight and bring the `nop`
-count from three short to exact.
-
-The mechanism is the same in both places and it is worth stating generally,
-because it is the opposite of the delay-slot duplication this function already
-exploits. GCC fills a branch delay slot by speculating an instruction from the
-branch target when the target block begins with one that is safe to execute
-either way. A plain store to memory is not safe that way, so a block that
-begins with a store leaves the slot empty, which is what the target does. When
-this build sank the store further down and left an `andi` at the head of the
-block, the `andi` became the speculation candidate: it was copied into the slot
-and kept where it was, so the mask appeared twice where the target has it once.
-Qualifying the store stops it moving, the block starts with the store again,
-and the slot goes back to a `nop`.
-
-The store of the tween position to `+0x30` is the important one, worth four on
-its own: one surplus `andi`, one `bnez` and the three missing `nop`. The store
-of the accumulated value to `+0x36` in the pad-hold path is worth one more,
-and it also wants its comparison spelled as the low side, `< 0xBB8` returning
--1 with -2 falling through, rather than the high side; that pairing is what
-takes the `bnez` count to exact.
-
-The qualifier is specific to those two. It was measured against five other
-stores through the same pointer, the frame countdown at `+0x60` both as a
-decrement and as a negation, the clear of `+0x36`, and both the set and the
-clear of bit `0x40` at `+8`, and every one of the five is byte-identical. This
-is not a general instruction to qualify stores; it is two places where the
-scheduler moves a store the target does not move.
-
-What remains is one surplus `andi`, one surplus `j`, one missing `lbu`, two
-surplus `li` and two surplus `lui`. The two `li` are the return plumbing
-already recorded: the target funnels its returns through a shared exit block
-whose default is `li v0,-1` and jumps one instruction past it for the `-2`
-return, materialising each constant in a delay slot, where this build
-materialises them early because the register is free.
-
-
-The distance is unchanged at twelve and the candidate is very much closer, so
-the header now also quotes the prefix. Two changes did it, and neither works
-without the other: measured on their own they cost three and eleven of the
-distance respectively, and together they cost nothing while taking the agreeing
-prefix from one instruction to 181, the mnemonic subsequence from 445 to 474
-and the differing positions from 485 to 326.
-
-The first is that the flag clear belongs in both arms of the poll dispatch, not
-after them. Each of the three identical poll blocks ends
-
-    if (value == 1) {
-        Input_ResetPads();
-        func_80180D2C(1);
-    } else {
-        Input_ResetPads();
-    }
-    D_80184598.f9B = 0;
-
-and the target has that store twice per block, once in each arm's `j` delay
-slot on the way to the exit. Writing it once and letting GCC share it produces
-a third block holding the store, reached by a jump from the first arm and by
-fall-through from the second, which is the surplus `j`. Writing it in both arms
-gives the target's thirty-four `sb` exactly. It is worth three of the distance
-on the store count and costs six elsewhere, because with the object addressed
-as a struct GCC then shares an address computation the target re-materialises.
-
-The second is the flag object split into six separate byte globals. On its own
-that is much worse, at 23, because distinct symbols cannot share a `%hi` the
-way one symbol at several offsets can, so the high half is re-materialised at
-every access: eight surplus `lui` filling five load-delay slots the target
-leaves as `nop`. This was measured and recorded as a closed axis two cycles
-ago, with the struct confirmed.
-
-That conclusion was correct about the struct and wrong about the axis. The two
-faults are opposite in sign. Duplicating the store removes six `lui`; splitting
-the object adds eight. Applied together the surplus is two, the three missing
-`sb` and the two surplus `addiu` both disappear, and the front of the function
-lines up for 181 instructions. Neither is visible while the other is held
-fixed, which is exactly the failure mode of measuring one axis at a time.
-
-The profile sweep on the new base has a trap worth recording.
-`gcc_2_8_1_g0_no_sched2_split` reports distance 10, two better than the chosen
-profile, with a prefix of two and 475 differing positions. It disables the
-second scheduling pass, so nothing is scheduled; the target has filled delay
-slots throughout and cannot have been built that way. The lower distance is the
-multiset cancelling again, and it is not a candidate.
-
-The remaining twelve are two surplus `andi`, two surplus `li`, two surplus
-`lui`, one missing `lbu`, one surplus `j`, one missing `bnez` and three missing
-`nop`. The two `li` are decoded: the target funnels its returns through a
-shared exit block whose default is `li v0,-1`, and jumps one instruction past
-it for the `-2` return, so the constant is materialised once; this build
-materialises it at the return sites.
-
-
-The sixth `slti` is a comparison the target computes twice and this build
-computed once, and recovering it needs the copy to land in a local that has
-other definitions.
-
-The visibility test reads
-
-    if ((u32)gMain_bMenuID < 5) {
-        if (i >= 5) goto hide_entry;
-    } else {
-        if (i < 5) goto hide_entry;
-    }
-
-and both arms compare `i` against 5. GCC canonicalises `i >= 5` into the
-negation of `i < 5`, so the two arms hold the same expression and it is
-computed once and the result reused across the join. The target emits
-`slti v0,s2,5` in both arms, off the same register, so the value is not
-carried between them.
-
-Assigning `i` to a local in the second arm and comparing the local defeats the
-reuse, but only if that local is one the function already defines elsewhere.
-A freshly declared local for the purpose is worth nothing at all: it has a
-single definition and a single use, so it is coalesced away and the common
-subexpression comes straight back. `count`, which the menu-wrap block below
-assigns in both of its arms before any read, is not coalescable in the same
-way, and with it the second `slti` appears with no `move` introduced to pay
-for it. Worth one of the distance, and the assignment is provably dead
-because every later read of `count` is dominated by one of that block's two
-assignments.
-
-The general form is worth stating: a copy inserted to break a common
-subexpression has to be a copy the compiler cannot see through, and in this
-compiler that means a variable with other live definitions. This also suggests
-the original reused a small pool of scratch locals across unrelated purposes,
-which is ordinary for the period and is why the reuse is the natural spelling
-rather than a trick.
-
-The addressing form was re-examined at the same time and the struct is
-confirmed correct, which is worth recording because the disassembly argues the
-opposite at first reading. The target holds only the high half of the address,
-`lui s0,0x8018`, and folds the low half and the member offset into each
-displacement as `17819(s0)`, `17820(s0)` and `17821(s0)`. This build
-materialises the whole address once, `lui` then `addiu`, and uses `3(s0)` and
-`4(s0)`, which costs the two surplus `addiu` and looks like the wrong shape.
-Splitting the object into six separate globals, one per byte, does remove
-those two `addiu`, and it raises the common subsequence from 444 to 464
-because the front of the function then lines up. It is still much worse:
-distinct symbols cannot share a `%hi` the way one symbol at several offsets
-can, so GCC re-materialises the high half at every access and the distance
-goes from 13 to 24, eight surplus `lui` filling five load-delay slots the
-target leaves as `nop`. Declaring it as a `u8` or `s8` array indexed by
-constants is byte-identical to the struct. All twenty-nine profiles were
-re-run and only `gcc_2_8_1_cc_g0_as_g8_split` ties the current one; the
-non-split profiles cost twenty-three instructions, so `-msplit-addresses` is
-not the lever either.
-
-
-`D_8009B398` is volatile. The target reads the two pad words at 0x8009B394
-and 0x8009B398 more often than a non-volatile declaration allows: aligning
-the `lhu` sequences shows four reads of those two addresses in the last
-region where this build had three, and GCC had folded one away as a common
-subexpression. Marking the second one volatile restores the read and also
-removes a stall, so the missing `lhu` and the spare `nop` both go at once.
-
-Only that one word wants it. `D_8009B394`, `D_8009B0D8`, `D_8009B3EA` and
-`D_8009B3ED` are inert as volatile in all sixteen combinations, so this is a
-fact about the one address rather than a blanket rule for the pad block. The
-sibling `func_8016913C` already declares its three pad words volatile, which
-is where the shape came from.
-
-The cross-jump the previous entry decoded can be reproduced from the source,
-and reproducing it properly is worth more than the conditional expression
-that stood in for it.
-
-That conditional expression fixed the call count but introduced a second
-`sltiu` against 5. Listing every `slti` and `sltiu` on both sides shows the
-target testing the menu id once in that region and this candidate testing it
-twice, so the expression was buying the right call count at the cost of a
-comparison the target does not make.
-
-Routing the `SD_SEPlay(6, ...)` block's `return -1` through a shared label at
-the end of the function is what actually lets GCC merge the two call sites,
-because cross-jumping needs the two tails to reach the same place rather than
-merely to look alike. With the two sounds written as separate branches again
-and only that one `goto` added, the distance falls from 21 to 14 and the call
-count stays at 29.
-
-Which return goes through the label matters and is not symmetric: routing the
-ninth sound's return through it as well gives 17, and routing only the ninth
-gives 17 too. Only the sixth belongs there.
-
-The structural defect is fixed. This candidate used to emit thirty calls
-against the target's twenty-nine, which made every scheduling measurement on
-it meaningless. Counting the target's calls by callee shows only four to
-`SD_SEPlay` where the source had five, and reading the argument register at
-each of the four gives 7, 6, 8 and 7 -- there is no call with 9 at all.
-
-The target reaches the ninth sound by cross-jumping. At the menu-id test it
-issues `sltiu v0,v0,5` then `bnez` into the middle of the `SD_SEPlay(6, ...)`
-call site, with `li a0,9` in the branch delay slot, so one call site serves
-both. The two blocks have identical tails -- a call and `return -1` -- which
-is what makes them mergeable.
-
-Writing the two sounds as one call with the id chosen by a conditional
-expression reproduces the single call site and takes the distance from 21 to
-15, with the call count now exactly 29. Putting the `>= 5` case first in an
-`else` reaches 19, so the conditional-expression form is the better of the
-two restructurings and both beat the original.
-opcode distance 21.
-
-The six consecutive bytes from 0x80184598 to 0x8018459D are one struct, not
-six scalar globals. That is what lets the compiler hold the high half of the
-address in a callee-saved register across the poll calls and fold the low half
-plus the member offset into each access, which is the form the target uses and
-the one the row had recorded as unreachable.
+`gcc_2_8_1_g0_split`, 495 instructions against 495, opcode distance 0 with
+every mnemonic count exact. The longest common subsequence of mnemonics is
+494 of 495, the first 386 instructions agree, and 26 positions differ.
+
+Every remaining difference is a register name. The instruction sequence is one
+short of identical, no instruction is missing, extra or misplaced, and the 26
+disagreeing positions are five small clusters where a value the target keeps in
+`v0` this candidate keeps in `v1`, or the reverse. There is no longer any
+structural question outstanding: what remains is allocation order alone.
+
+The candidate reached this state through six independent levers, each of which
+was found by decoding a specific instruction the target emits and asking what
+source shape could produce it. They are recorded here with the mechanism rather
+than the outcome, because each one generalises.
+
+**A `volatile` store pins the scheduler and steals a delay slot.** The pad-hold
+accumulation wrote its result through `*(volatile s16 *)(entry + 0x36)`. A
+volatile memory reference is a scheduling barrier, so the `li v0,-2` belonging
+to the return below it could not be moved down into the branch delay slot where
+the target puts it; instead it drifted up into the load-delay slot after the
+field read, which the target leaves as a `nop`. Dropping the qualifier let both
+land where the target has them and moved the agreeing prefix from 190 to 204.
+The qualifier is genuinely required on the two writes to `entry + 0x30` and
+`gMain_bMenuID`, where removing it costs four and two instructions
+respectively, so this is not a blanket rule: volatile is a scheduling
+instruction as much as a semantic one, and each occurrence has to earn itself.
+
+**`if (cond) return A; return B;` flips a branch polarity for free.** The
+comparison against 3000 emitted `bnez` where the target emits `beqz`. Reaching
+the `-2` return through a label costs `{j +1, nop +1}` because a `goto` to a
+separate return block needs a real jump. Writing the test in its inverted form
+with both returns inline costs nothing: GCC lays the `-2` path on the branch and
+the `-1` path on the fall-through, and both jump straight to the shared
+epilogue with the return value in their own delay slots. The same lever appears
+twice more further down, and the choice is not uniform — the site after the
+entry loop wants `return -1` so its value fills the `bnez s4` delay slot, while
+the `vx3` test immediately after wants `goto ret_m1` so it branches to the
+shared `li v0,-1` block. Sweeping all eleven return sites one at a time is
+cheap and is the only reliable way to tell which is which.
+
+**`MEM_IN_STRUCT_P` lets a store sink past a global load.** The per-entry
+countdown at `entry + 0x60` had to move down into a branch delay slot, crossing
+a `lbu` of `gMain_bMenuID`. GCC 2.x will not reorder a store through a plain
+casted pointer against a global scalar, but it treats an aggregate member
+reference as unable to conflict with a non-struct scalar, so writing the store
+through a one-member struct type frees it. That single change moved the prefix
+from 214 to 232. This is the same mechanism recorded for `FreeDuel_Init`, and
+it is worth reaching for whenever a store and a nearby global access refuse to
+interleave.
+
+**One C variable is one pseudo, so variable identity is register allocation.**
+GCC 2.8.1 has no SSA; every reference to a C local belongs to a single allocno
+that receives a single hard register for the whole function. Three separate
+gains came from this. Splitting the pointer used inside the entry loop away
+from the pointer used before it raised the loop copy's frequency-weighted
+priority and moved it from `a1` into `a0`, which is what the rest of the block
+is allocated around. Giving the later clear-flags loop its own counter and its
+own walking pointer shortened the live ranges of `i` and `slot` enough to undo
+a three-way rotation in which `frame`, `slot` and `i` held `s2`, `s0` and `s1`
+instead of the target's `s0`, `s1` and `s2`. Giving the final accumulation
+region its own pointer rather than reusing a name already live in the fade
+block took the differing positions from 43 to 28. The reverse direction matters
+too: at the two sites that only set or clear a flag bit, the target holds the
+pointer in `v1`, a block-local temporary, which is what dereferencing `*slot`
+inline produces and what a named variable prevents.
+
+**Merging roles into one variable can be the point.** The opposite move was
+decisive around the animation block. The target's `v0` holds three unrelated
+values in succession — the field at `0x36`, the countdown at `0x60`, then the
+field at `0x38` — which is the signature of one C variable reused three times.
+While these were three separate expressions the third load had a free register
+and hoisted into a load-delay slot the target leaves empty; once they share
+`value` the third load cannot move above the second's use and the `nop` is
+restored. This took the prefix from 232 to 243 and, unusually, improved the
+distance, the position count and the subsequence at the same time.
+
+**A basic-block boundary decides what the scheduler may fill.** Signed division
+by a power of two expands to a rounding `bgez`, which splits the block. The
+target reloads the entry pointer between the `mult` and that branch, so in the
+source the reload must precede the divide, and the product must live in its own
+local so the divide's destination coalesces instead of paying a `move`. Written
+as `step = rsin(...) * delta; eloop = *slot; value = step / 0x1000;` the prefix
+goes from 244 to 283. The same reasoning applies one block later: splitting
+`gMain_bMenuID = value % count + base` into an assignment to `value` followed by
+the store keeps the following statement's address setup from being hoisted into
+the `mfhi` hazard slot, and took the subsequence from 492 to 494 and the
+differing positions from 188 to 70 in a single step.
+
+**Two further orderings were read directly off the target.** The paired
+conditionals that pick `base` and `count` must assign `base` first — the
+polarities were already right, only the order was wrong, and swapping it moved
+the prefix from 342 to 384. The clear-flags loop must be written as an explicit
+pointer walk with the counter initialised before the loop rather than as an
+indexed `for`, because `loop.c` appends the derived induction variable's
+initialiser at `NOTE_INSN_LOOP_BEG`, after the loop initialiser, and the target
+shows the counter being zeroed first; that took the prefix from 298 to 342.
+
+What is left is five clusters of `v0`/`v1` inversion, at the countdown and
+menu-id test, the delta and frame computation, the clear-flags counter, and the
+modulo and store. Declaration order, the eight statement orderings around the
+divide, all twenty-nine compiler profiles, and the guard shapes for the main
+entry test have all been swept against this source and are inert; the profile
+sweep confirms `gcc_2_8_1_g0_split` is uniquely best. The next thing to try is
+the identity of the temporaries in those five clusters, on the evidence that
+variable identity has produced every one of the last four gains.
 
 ```c
 #include "../../src/types.h"
@@ -1213,11 +928,16 @@ extern void func_8003F87C(void);
 extern void SD_SEPlay(s32, s32, s32);
 extern s32 rsin(s32);
 
+typedef struct { s16 h; } H16s;
+
 s32 func_80180390(void)
 {
     u8 *ent3;
     u8 *entry;
+    u8 *ent6;
     u8 **slot;
+    s32 j;
+    u8 **slot2;
     s32 step;
     s32 level;
     s32 value;
@@ -1235,6 +955,7 @@ s32 func_80180390(void)
     u8 *ent5;
     s32 poll;
     u8 *ent2;
+    u8 *eloop;
 
     if (D_8018459B != 0) {
         poll = SaveData_PollLoad();
@@ -1347,28 +1068,28 @@ s32 func_80180390(void)
             D_80184598 = 1;
             goto ret_m1;
         }
-        entry = D_80184560;
-        acc = D_8009B0D8 + *(u16 *)(entry + 0x36);
-        *(volatile s16 *)(entry + 0x36) = acc;
-        if ((s16)acc < 0xBB8) {
-            goto ret_m1;
+        ent6 = D_80184560;
+        acc = *(u16 *)(ent6 + 0x36) + D_8009B0D8;
+        *(s16 *)(ent6 + 0x36) = acc;
+        if ((s16)acc >= 0xBB8) {
+            return -2;
         }
-        return -2;
+        return -1;
     }
 
     if (D_80184599 != 0) {
         moved = 0;
-        slot = gMain_apMenuEntries;
         i = 0;
+        slot = gMain_apMenuEntries;
     entry_loop:
-        entry = *slot;
-        if (entry == 0) {
+        eloop = *slot;
+        if (eloop == 0) {
             goto next_entry;
         }
-        if (*(s16 *)(entry + 0x60) <= 0) {
+        if (*(s16 *)(eloop + 0x60) <= 0) {
             goto next_entry;
         }
-        *(s16 *)(entry + 0x60) = *(u16 *)(entry + 0x60) - 1;
+        ((H16s *)(eloop + 0x60))->h = *(u16 *)(eloop + 0x60) - 1;
         if ((u32)gMain_bMenuID < 5) {
             if (i >= 5) {
                 goto hide_entry;
@@ -1379,25 +1100,26 @@ s32 func_80180390(void)
                 goto hide_entry;
             }
         }
-        entry = *slot;
-        delta = *(s16 *)(entry + 0x38) - *(s16 *)(entry + 0x36);
-        frame = 0x10 - *(s16 *)(entry + 0x60);
-        value = *(u16 *)(entry + 0x38);
+        eloop = *slot;
+        value = *(s16 *)(eloop + 0x36);
+        delta = *(s16 *)(eloop + 0x38) - value;
+        value = *(s16 *)(eloop + 0x60);
+        frame = 0x10 - value;
+        value = *(u16 *)(eloop + 0x38);
         if (frame != 0x10) {
-            value = rsin(frame << 6) * delta / 0x1000;
-            entry = *slot;
-            value = *(u16 *)(entry + 0x36) + value;
+            step = rsin(frame << 6) * delta;
+            eloop = *slot;
+            value = step / 0x1000;
+            value = *(u16 *)(eloop + 0x36) + value;
         }
-        *(volatile s16 *)(entry + 0x30) = value;
+        *(volatile s16 *)(eloop + 0x30) = value;
         if ((frame & 1) != 0) {
             func_80180E6C(*slot);
         }
-        entry = *slot;
-        *(u16 *)(entry + 8) = *(u16 *)(entry + 8) | 0x40;
+        *(u16 *)(*slot + 8) = *(u16 *)(*slot + 8) | 0x40;
         goto tick_entry;
     hide_entry:
-        entry = *slot;
-        *(u16 *)(entry + 8) = *(u16 *)(entry + 8) & 0xFFBF;
+        *(u16 *)(*slot + 8) = *(u16 *)(*slot + 8) & 0xFFBF;
     tick_entry:
         moved++;
         func_80040410(*slot, (i << 1) | (gMain_bMenuID != i));
@@ -1408,20 +1130,23 @@ s32 func_80180390(void)
             goto entry_loop;
         }
         if (moved != 0) {
-            goto ret_m1;
+            return -1;
         }
         vx3 = D_80184596;
         D_80184599 = 0;
         if (vx3 == 0) {
-            return -1;
+            goto ret_m1;
         }
         if (D_80184595 != 0) {
             if ((u32)gMain_bMenuID < 5) {
-                for (i = 0; i < 0xB; i++) {
-                    entry = gMain_apMenuEntries[i];
-                    if (entry != 0) {
-                        *(u16 *)(entry + 8) &= 0xFFBF;
+                j = 0;
+                slot2 = gMain_apMenuEntries;
+                for (; j < 0xB; j++) {
+                    ent3 = *slot2;
+                    if (ent3 != 0) {
+                        *(u16 *)(ent3 + 8) &= 0xFFBF;
                     }
+                    slot2++;
                 }
                 D_80184598 = -1;
             } else {
@@ -1440,15 +1165,15 @@ s32 func_80180390(void)
     }
 
     if ((D_8009B394 & 0x5000) != 0) {
+        if ((u32)gMain_bMenuID >= 5) {
+            base = 5;
+        } else {
+            base = 0;
+        }
         if ((u32)gMain_bMenuID < 5) {
             count = 5;
         } else {
             count = 6;
-        }
-        if ((u32)gMain_bMenuID < 5) {
-            base = 0;
-        } else {
-            base = 5;
         }
         func_80040410(gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
         if ((D_8009B394 & 0x1000) != 0) {
@@ -1456,7 +1181,8 @@ s32 func_80180390(void)
         } else {
             value = gMain_bMenuID - base + count + 1;
         }
-        *(volatile u8 *)&gMain_bMenuID = value % count + base;
+        value = value % count + base;
+        *(volatile u8 *)&gMain_bMenuID = value;
         func_80040410(gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
         SD_SEPlay(6, 0xFF, 0);
         goto ret_m1;
