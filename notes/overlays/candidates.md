@@ -336,7 +336,28 @@ select:
 ```
 ## main_menu `func_80180390` at 0x80180390
 
-`gcc_2_8_1_g0_split`, 498 instructions against 495, opcode distance 15.
+`gcc_2_8_1_g0_split`, 493 instructions against 495, opcode distance 14.
+
+The cross-jump the previous entry decoded can be reproduced from the source,
+and reproducing it properly is worth more than the conditional expression
+that stood in for it.
+
+That conditional expression fixed the call count but introduced a second
+`sltiu` against 5. Listing every `slti` and `sltiu` on both sides shows the
+target testing the menu id once in that region and this candidate testing it
+twice, so the expression was buying the right call count at the cost of a
+comparison the target does not make.
+
+Routing the `SD_SEPlay(6, ...)` block's `return -1` through a shared label at
+the end of the function is what actually lets GCC merge the two call sites,
+because cross-jumping needs the two tails to reach the same place rather than
+merely to look alike. With the two sounds written as separate branches again
+and only that one `goto` added, the distance falls from 21 to 14 and the call
+count stays at 29.
+
+Which return goes through the label matters and is not symmetric: routing the
+ninth sound's return through it as well gives 17, and routing only the ninth
+gives 17 too. Only the sixth belongs there.
 
 The structural defect is fixed. This candidate used to emit thirty calls
 against the target's twenty-nine, which made every scheduling measurement on
@@ -632,17 +653,18 @@ s32 func_80180390(void)
         gMain_bMenuID = value % count + base;
         func_80040410(gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
         SD_SEPlay(6, 0xFF, 0);
-        return -1;
+        goto ret_m1;
     }
 
     if ((D_8009B398 & 0x8E0) == 0) {
         return -1;
     }
     if ((D_8009B398 & 0x20) != 0) {
-        SD_SEPlay((u32)gMain_bMenuID < 5 ? 9 : 8, 0xFF, 0);
         if ((u32)gMain_bMenuID < 5) {
+            SD_SEPlay(9, 0xFF, 0);
             return -1;
         }
+        SD_SEPlay(8, 0xFF, 0);
         D_80184595 = 1;
     } else {
         SD_SEPlay(7, 0xFF, 0);
@@ -668,6 +690,8 @@ s32 func_80180390(void)
         }
     }
     func_80180D2C(1);
+ret_m1:
+    return -1;
     return -1;
 }
 ```
