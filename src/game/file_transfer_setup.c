@@ -40,7 +40,12 @@ struct FilePositionState *func_80013B04(s32 index, s32 offset)
     return 0;
 }
 
-struct FileTransferState *func_80013B68(s32 a, s32 b, s32 c, s32 d)
+FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
+    s32 a,
+    s32 b,
+    s32 c,
+    s32 d
+)
 {
     struct FileTransferState *p;
 
@@ -58,5 +63,5 @@ struct FileTransferState *func_80013B68(s32 a, s32 b, s32 c, s32 d)
     p->f46 = 4;
     p->f2C = 0x80000;
     D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
-    return p;
+    return (FileTransferDescriptor *)p;
 }

@@ -860,7 +860,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80013898,func_80013898,matching_c,game,C,src/game/file_stream.c,write,32,D_8009B0F4 = 0;
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80013A94,func_80013A94,matching_c,game,C,src/game/file_stream.c,read_write,32,D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING; | if (D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80013B04,func_80013B04,matching_c,game,C,src/game/file_transfer_setup.c,read_write,32,D_8009B0F4 = 0x100010; | if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80013B68,func_80013B68,matching_c,game,C,src/game/file_transfer_setup.c,read_write,32,D_8009B0F4 &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING; | D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING; | (+2 more)
+0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80013B68,File_RequestSecondaryRangeTransfer,matching_c,game,C,src/game/file_transfer_setup.c,read_write,32,D_8009B0F4 &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING; | D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING; | (+2 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80013C28,func_80013C28,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_004428.s,read_write,32,"lw $v0, %gp_rel(D_8009B0F4)($gp) | sw $v0, %gp_rel(D_8009B0F4)($gp)"
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x800140A0,func_800140A0,matching_c,game,C,src/game/file_cd_transfer.c,read_write,32,D_8009B0F4 &= ~0x400;
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014134,func_80014134,matching_c,game,C,src/game/file_cd_transfer.c,read_write,32,D_8009B0F4 &= ~0x400;
@@ -2437,7 +2437,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9DC0,D_800E9DC0,D_800E9DC0,0x80030FD0,func_80030FD0,matching_c,game,C,src/game/func_80030FD0.c,read,,"longjmp(D_800E9DC0, 2);"
 0x800E9DF0,D_800E9DF0,D_800E9DF0,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,read_write,,*(s32 *)D_800E9DF0 = 0x8000000; | state = D_800E9DF0;
 0x800E9E18,gFile_SecondaryTransferDescriptor,gFile_SecondaryTransferDescriptor,0x80013A94,func_80013A94,matching_c,game,C,src/game/file_stream.c,address,,transfer = &gFile_SecondaryTransferDescriptor;
-0x800E9E18,gFile_SecondaryTransferDescriptor,gFile_SecondaryTransferDescriptor,0x80013B68,func_80013B68,matching_c,game,C,src/game/file_transfer_setup.c,address,,p = &gFile_SecondaryTransferDescriptor;
+0x800E9E18,gFile_SecondaryTransferDescriptor,gFile_SecondaryTransferDescriptor,0x80013B68,File_RequestSecondaryRangeTransfer,matching_c,game,C,src/game/file_transfer_setup.c,address,,p = &gFile_SecondaryTransferDescriptor;
 0x800E9E18,gFile_SecondaryTransferDescriptor,gFile_SecondaryTransferDescriptor,0x800143DC,File_ActivateTransfer,matching_c,game,C,src/game/file_cd_transfer.c,address,8,*(Block72 *)gFile_SecondaryTransferDescriptor;
 0x800E9E18,gFile_SecondaryTransferDescriptor,gFile_SecondaryTransferDescriptor,0x80014C40,func_80014C40,matching_c,game,C,src/game/file_transfer_control.c,address,8,"e = gFile_SecondaryTransferDescriptor; | gFile_SecondaryTransferDescriptor, v, q, m, t, f, 0, (s32)p"
 0x800E9E18,gFile_SecondaryTransferDescriptor,gFile_SecondaryTransferDescriptor,0x80015078,File_RequestSecondaryAsyncTransfer,matching_c,game,C,src/game/file_transfer_flags.c,address,8,state = (FileTransferDescriptor *)gFile_SecondaryTransferDescriptor;

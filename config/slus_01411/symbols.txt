@@ -70,6 +70,7 @@ Main_Init = 0x80012B50; // type:func
 Main_VBlankCB = 0x80012CD4; // type:func
 File_SetPositionTable = 0x800136E4; // type:func
 File_GetPosition = 0x800138F4; // type:func
+File_RequestSecondaryRangeTransfer = 0x80013B68; // type:func
 Duel_CheckEquip = 0x80019A08; // type:func
 Duel_CheckFusion = 0x80019A60; // type:func
 Duel_CalcGuardianStarBonus = 0x8001EE44; // type:func

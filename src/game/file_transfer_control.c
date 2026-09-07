@@ -162,7 +162,9 @@ s32 func_80014C40(u8 *p, u8 *q) {
             return 1;
         }
         n = *(s32 *)D_800E9EC0 + *(s32 *)(p + 4);
-        return func_80013B68(n, n + c, p[0x1F], p[0x1E]);
+        return (s32)File_RequestSecondaryRangeTransfer(
+            n, n + c, p[0x1F], p[0x1E]
+        );
     }
 
     a = a + b;
