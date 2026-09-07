@@ -1149,16 +1149,20 @@ The tutorial replaces two paired signed immediates in `func_80025D30`:
 | Shadow Spell | Effect-record modifier | `0x16688` | `18 FC` / `-1000` | `F1 D8` / `-9999` |
 
 The function selects the Spellbinding Circle branch when the current effect
-card ID is `0x15D` (decimal `349`). It subtracts `500` from the target
-`DuelCardRecord.stat_modifier` at offset `+0x12`, then stores the same
-`-500` value in the paired effect record. The alternate branch performs the
-same two writes with `-1000`, matching Shadow Spell's stronger two-level
-reduction documented by the card behavior research.
+card ID is `0x15D` (decimal `349`). For each occupied monster it allocates a
+type-`0xD` effect object, copies the target card display object's
+`x`/`y`/depth fields into it, and staggers the effect depth by field slot.
+The Spellbinding Circle branch sets effect state `2`, subtracts `500` from
+the target `DuelCardRecord.stat_modifier` at offset `+0x12`, and stores
+`-500` in the effect object's signed `field_12`. The alternate branch sets
+effect state `1` and performs the same paired writes with `-1000`, matching
+Shadow Spell's stronger two-level reduction documented by the card behavior
+research.
 
 The first value in each pair changes the duel state used by card-stat
-calculation. The second keeps the associated effect/display record aligned
-with that reduction. Editing only one offset can therefore make the applied
-modifier and its effect state disagree.
+calculation. The second is the type-`0xD` presentation object's signed
+reduction payload. Editing only one offset can therefore make the applied
+modifier and the presentation payload disagree.
 
 The tutorial values are signed 16-bit little-endian integers:
 
@@ -1174,9 +1178,9 @@ Both replacements fit in the signed halfword written by the retail code.
 - **Confirmed** that the retail pairs are `-500` and `-1000`.
 - **Confirmed** that the first write updates the active card's
   `stat_modifier`.
-- **High** that the second write is the visual/effect-state counterpart; its
-  record is populated from the card's display object immediately before the
-  paired modifier write, but its complete layout remains unnamed.
+- **Confirmed** that the second write is the signed reduction payload in a
+  newly allocated type-`0xD` effect object positioned from the target card,
+  while `field_1A` selects the spell-specific presentation state.
 
 ## Force Exodia wins to S-TEC
 
