@@ -34,6 +34,7 @@ Names that say what something IS in the game.
 | 0x800158B8 | `Fade_InitOut` | idb2018 |
 | 0x80015904 | `Fade_StartOut` | idb2018 |
 | 0x80015B00 | `Fade_WaitOut` | idb2018 |
+| 0x80016DDC | `Duel_UpdateLifePointDisplay` | matching C |
 | 0x80018080 | `Duel_ApplyCardObjectFlags` | matching C |
 | 0x80018CF8 | `Duel_HasAllExodiaPieces` | matching C |
 | 0x8001EE44 | `Duel_CalcGuardianStarBonus` | idb2018 |
@@ -70,6 +71,7 @@ Names that say what something IS in the game.
 | 0x8002D6C8 | `Main_RunOptionsMenu` | idb2018 |
 | 0x8002D730 | `Main_RunGameOver` | idb2018 |
 | 0x8002D7C4 | `Main_RunHirata` | idb2018 |
+| 0x8002D7CC | `Main_RunTrade` | local |
 | 0x8002DA1C | `Main_RunCredits` | idb2018 |
 | 0x8002DD74 | `Main_Loop` | idb2018 |
 | 0x8002E370 | `DuelEffect_MarkObjectIfActive` | matching C |
@@ -78,7 +80,9 @@ Names that say what something IS in the game.
 | 0x8002EA0C | `Script_UpdateViewportTween` | matching C |
 | 0x8002EC74 | `Script_OpSound` | matching C |
 | 0x8002FA54 | `Script_RunTick` | idb2018 |
+| 0x800320BC | `BuildDeck_AddCard` | matching C |
 | 0x80032B60 | `BuildDeck_CompareCard` | idb2018 |
+| 0x80035748 | `Util_FillMemory` | matching C |
 | 0x800358A0 | `Text_EncodeDecimalNoPadding` | matching C |
 | 0x80035AB8 | `TextBox_SetRect` | idb2018 |
 | 0x80035AF0 | `DuelEffect_InitEntry` | local |
@@ -114,12 +118,20 @@ Names that say what something IS in the game.
 | 0x8003F810 | `SaveData_PollLoad` | matching C |
 | 0x8003F87C | `SaveData_RequestWrite` | matching C |
 | 0x8003FEE0 | `SD_SEPlayFull` | live |
+| 0x80040390 | `DisplayObject_ResetPool` | matching C |
 | 0x80043230 | `Widget_SlideSine` | idb2018 |
+| 0x80043E68 | `MemCard_CloseIOEvents` | matching C |
 | 0x80046768 | `SD_InitState` | dotr |
 | 0x80046FA0 | `SD_SetOutputType` | live |
 | 0x80048658 | `SD_SEPlay` | live |
 | 0x800492D8 | `SD_Init` | dotr |
 | 0x80049694 | `SD_Term` | dotr |
+| 0x8004B734 | `SD_SequenceTimerCallback` | matching C |
+| 0x8004BB34 | `SD_ReadVariableLengthValue` | matching C |
+| 0x8004BBBC | `SD_FindMidiTrackChunk` | matching C |
+| 0x8004BC2C | `SD_ReadSequenceU32BE` | matching C |
+| 0x8004C8C8 | `SD_ProcessSequenceTracks` | matching C |
+| 0x8004CA60 | `SD_ResetSequenceTracks` | matching C |
 | 0x80056504 | `Model_LoadMonsterMerge` | idb2018 |
 | 0x80057F38 | `Model_UpdateViewMetrics` | matching C |
 | 0x80059134 | `Model_InitLightTriplet` | matching C |
@@ -969,7 +981,6 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8002C7E8 | `Duel_CheckRitual` | local |
 | 0x8002C9B4 | `collect_field_slot_ptrs` | fleet |
 | 0x8002CD48 | `call_ccca8_then_cce4_if_zero` | fleet |
-| 0x8002D7CC | `spawn_fade_teardown_dispatch` | fleet |
 | 0x8002DC38 | `mask_test_800eb26c_reinit_and_poll` | fleet |
 | 0x8002E470 | `stream_read_index_and_check_ready` | fleet |
 | 0x8002F9D4 | `read_stream_u16le_call_8002ee5c` | fleet |
@@ -1036,7 +1047,6 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8004002C | `find_free_slot_0x10_0x60` | fleet |
 | 0x8004006C | `find_free_slot_0x0_0x60` | fleet |
 | 0x800400AC | `get_or_init_D_800EFE48_slot` | fleet |
-| 0x80040390 | `init_slot_link_tables_and_flags` | fleet |
 | 0x800403F0 | `reset_rec_flags_trigger` | fleet |
 | 0x80040424 | `set_kind_and_clear_bit4` | fleet |
 | 0x8004044C | `set_pos_and_kind` | fleet |
