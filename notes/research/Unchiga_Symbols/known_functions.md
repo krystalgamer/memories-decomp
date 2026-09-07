@@ -1046,7 +1046,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8003EE90 | `arm_and_call_8003E854` | fleet |
 | 0x8003F70C | `call_8003F454_or_default` | fleet |
 | 0x8003FCD8 | `arm_and_call_8003F8D4_state29` | fleet |
-| 0x8003FE70 | `rng_seed` | fleet |
+| 0x8003FE70 | `SaveData_SetMaskSeed` | matching C; fleet `rng_seed` |
 | 0x8003FF08 | `call_masked_and_store_orred` | fleet |
 | 0x8003FF34 | `call_80047430_neg8_0` | fleet |
 | 0x8003FF58 | `call_set_1582_1584_negated` | fleet |

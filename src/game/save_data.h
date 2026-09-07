@@ -45,6 +45,7 @@ extern u8 gSaveData_aTransferBuffer[];
 extern u8 gSaveData_aHeaderTemplate[];
 
 u32 SaveData_NextMaskWord(void);
+void SaveData_SetMaskSeed(u32);
 u32 SaveData_CalcCrc16(u8 *, s32);
 void SaveData_WritePrimarySecondaryIntegrity(u8 *);
 void SaveData_WriteTertiaryIntegrity(u8 *);

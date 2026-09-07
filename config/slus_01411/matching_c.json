@@ -3208,7 +3208,7 @@
       "address": "0x8003FE70",
       "profile": "gcc_2_8_1_g8",
       "size": "0x10",
-      "source": "src/game/func_8003FE70.c"
+      "source": "src/game/save_data_set_mask_seed.c"
     },
     {
       "address": "0x8003FE80",
