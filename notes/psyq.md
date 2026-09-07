@@ -674,6 +674,15 @@ separate `EncSPU*` PCM-to-SPU-waveform encoders. The `StSetRing`,
 both `libcd.h` and `libds.h`; the `SpuSt*` family in `libspu.h` is a third,
 SPU-audio streaming interface.
 
+`DECDCTTAB` also establishes an exact prefix boundary inside the resident
+movie work area. The SDK type contains 34,816 `u16` entries, or `0x11000`
+bytes. Matching `func_8005B8A0` builds the VLC table at `D_8009B498` and then
+starts the CD stream ring exactly at `D_8009B498+0x11000`; matching
+`func_8005BFC8` passes that same base as the table argument to `DecDCTvlc2`.
+This proves the table prefix, not an SDK identity for the full allocation:
+later offsets hold the CD ring, alternating coded and decoded frame slots,
+and rectangle state, so the shared work-area pointer remains byte-oriented.
+
 The applied DCT identities delimit three contiguous Psy-Q 4.6 object
 signatures:
 
@@ -1022,6 +1031,7 @@ The existing C sources expose several useful starting points:
 | Local four-byte CD position buffers | `DslLOC` in `libds.h`; `CdlLOC` in `libcd.h` | Typed migration is established in `file_stream.c` and `func_8005BFC8.c`: `File_GetPosition` explicitly views `DslFILE.pos` as `CdlLOC`, while movie streaming keeps native `CdlLOC` storage; `func_8005C62C.c` retains an integer parameter and converts it to `DslLOC *` only at the `DsRead2` boundary. |
 | `DslFILE` in `src/psyq/libds.h` | Ds file-search result | Migration complete in `src/game/file_stream.c` and `File_Exists` in `src/game/file_cd_helpers.c`; the latter preserves its integer wrapper interface with explicit casts at the SDK boundary. |
 | Local movie-sector metadata | `StHEADER` in `libcd.h` / `libds.h` | Native migration is established in `func_8005BFC8.c`: `StGetNext` supplies the typed header, whose `loc`, `nSectors`, `frameCount`, `width`, and `height` fields drive stream bounds and frame geometry; `libpress.h` remains the separate owner of the `DecDCT*` codec interfaces. |
+| Game-owned movie work-area prefix | `DECDCTTAB` in `libpress.h` | ABI-compatible submission boundaries are established across `func_8005B8A0.c` and `func_8005BFC8.c`: the 34,816-entry `u16` table occupies exactly `0x11000` bytes at the work-area base, the CD ring begins immediately afterward, and `DecDCTvlc2` receives the same base as its table argument; retain the shared `u8 *` because the rest of the allocation contains unrelated streaming state. |
 | Local 40-byte memory-card directory buffers | `DIRENTRY` in `kernel.h`; `firstfile` / `nextfile` in `libapi.h` | Migration complete in `mem_card_requests.c`: its size guard ties the SDK record to `MEM_CARD_DIRECTORY_ENTRY_SIZE`, and `DIRENTRY *` stepping drives enumeration; `mem_card_directory.c` deliberately retains byte-oriented 40-byte views for its name and file-size consumers. |
 | `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Typed migration is established in `Duel_SetupCardRecord` and native local `RECT` values in `func_8005B64C.c`, `func_80057544.c`, and `func_800577B0.c`; preserve byte-offset selection and layout-compatible casts elsewhere when exact code generation requires them. |
 | Game-owned TIM metadata buffer | `GsIMAGE` in `libgs.h` | ABI-compatible migration is established in `model_texture_upload.c`: `GsGetTimInfo` fills the 28-byte local texture record, whose image and CLUT rectangles and pointers are then consumed by the upload path; retain `ModelTextureParams` because later mode-specific coordinate edits are game-owned. |
