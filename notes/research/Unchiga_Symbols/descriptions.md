@@ -69,7 +69,7 @@ on the suspects side until proven.)
 | 0x8002DD74 | `Main_Loop` | The game's infinite task-dispatch loop; never returns. Each pass runs the four update funcs, then dispatches the current mode through the `D_80090B64[]` function-pointer table indexed by the low 5 bits of the mode flag byte — that table is where every `*Loop` lives. |
 | 0x80032B60 | `BuildDeck_CompareCard` | Card comparator for sorting deck/trunk lists: compares a primary key first, then breaks ties through a secondary-key translation table (`gCard_asNameSortKey`, indexed by secondary−1) — alphabetical order. |
 | 0x80046768 | `SD_InitState` | Sound-state bootstrap: initializes the sound-state struct at `g_SDValue`, its work buffers, callbacks and defaults. The sound file names `sd_bgm.dat`, `sd_se.dat` and `master.xa` are its own strings, but the disc reads themselves happen in the request path, not in this body (memories-decomp analysis; formerly `SD_LoadData`). |
-| 0x80048658 | `SD_SEPlay` | Plays sound effect `id` at volume `vol` (0xFF = full). Live-proven: every menu blip is a call here; the chain bottoms out in PsyQ `_spu_note2pitch` / `SpuGetVoiceEnvelope`. Body itself not yet matched. |
+| 0x80048658 | `SD_SEPlay` | Plays sound effect `id` at volume `vol` (`SD_SE_VOLUME_MAX`, 0xFF, is full). Live-proven: every menu blip is a call here; the chain bottoms out in PsyQ `_spu_note2pitch` / `SpuGetVoiceEnvelope`. Body itself not yet matched. |
 | 0x800492D8 | `SD_Init` | Sound-system init: runs two internal setup calls, then disables SPU reverb via the BIOS (`SpuSetReverbModeType`). |
 | 0x80049694 | `SD_Term` | Sound-system shutdown: two internal cleanup calls, then the BIOS `SpuQuit()`. Mirror of `SD_Init`. |
 | 0x8005C4F0 | `File_Exists` | Thin wrapper around PsyQ `DsSearchFile` with the two args swapped, mapping the library result to a simple status (−1 = not found or error). |
@@ -168,7 +168,7 @@ on the suspects side until proven.)
 | 0x80073624 | `AiScript_Add` | Opcode: adds one `gAiScript_aMemory` entry to another and stores the sum in a third slot. |
 | 0x800736C4 | `AiScript_Print` | Opcode: debug print — emits two strings (the "check_point" machinery) via the console `printf` path. |
 | 0x80046FA0 | `SD_SetOutputType` | Sets the sound output mode (0=stereo, 1=mono): writes the driver state's mode byte, toggles its flag, and re-derives the CD-audio mix. Live-proven on the OPTION screen toggle. |
-| 0x8003FEE0 | `SD_SEPlayFull` | Convenience wrapper: plays sound effect `id` at full volume — always `SD_SEPlay(id, 0xFF)`. Live-proven with ids 8 (cancel) and 0x2F (option toggle). |
+| 0x8003FEE0 | `SD_SEPlayFull` | Convenience wrapper: plays sound effect `id` at full volume — always `SD_SEPlay(id, SD_SE_VOLUME_MAX)`. Live-proven with ids 8 (cancel) and 0x2F (option toggle). |
 | 0x80073758 | `PCread` | Chunked file-read wrapper over `_SN_read` — the LIBSN PC-host debugging filesystem (dev-kit leftover; inert on retail hardware). |
 | 0x800740F0 | `FlushCache` | BIOS syscall trampoline: flushes the instruction cache (standard PsyQ kernel call). |
 | 0x80074380 | `ChangeClearRCnt` | BIOS syscall trampoline: root-counter (timer) interrupt-clear mode control. |

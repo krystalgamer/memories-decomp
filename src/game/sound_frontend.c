@@ -28,7 +28,7 @@ void Sound_InitFrontend(void)
 
 void SD_SEPlayFull(u32 value)
 {
-    SD_SEPlay(value & SD_COMMAND_VALUE_MASK, 0xFF, 0);
+    SD_SEPlay(value & SD_COMMAND_VALUE_MASK, SD_SE_VOLUME_MAX, 0);
 }
 
 void SD_BGMPlay(u32 value)
@@ -53,7 +53,7 @@ void SD_BGMFadeOutWithStep(s32 value)
 
 void func_8003FF88(u32 value)
 {
-    SD_SEPlay((value & SD_COMMAND_VALUE_MASK) | 0x8000, 0xFF, 0);
+    SD_SEPlay((value & SD_COMMAND_VALUE_MASK) | 0x8000, SD_SE_VOLUME_MAX, 0);
 }
 
 void func_8003FFB4(u32 value)

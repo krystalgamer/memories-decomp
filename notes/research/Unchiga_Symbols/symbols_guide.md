@@ -101,7 +101,7 @@ Every screen change goes through one fade system. The fade-out blocks: the mode 
 | `SD_Term` | 0x80049694 | Sound-system shutdown. |
 | `SD_InitState` | 0x80046768 | Initializes the sound-driver state (`g_SDValue`), its buffers and callbacks; names `sd_bgm.dat` / `sd_se.dat` / `master.xa`, which the request path then reads. |
 | `SD_SEPlay` | 0x80048658 | Plays sound effect `id` at volume `vol`. Known ids: 6 cursor move, 7 confirm, 8 cancel, 0xB page advance, 0xC typing, 0x2F option toggle / grid move, 0x30 confirm a site. |
-| `SD_SEPlayFull` | 0x8003FEE0 | Convenience wrapper: plays an effect at full volume — always `SD_SEPlay(id, 0xFF)`. |
+| `SD_SEPlayFull` | 0x8003FEE0 | Convenience wrapper: plays an effect at full volume — always `SD_SEPlay(id, SD_SE_VOLUME_MAX)`. |
 | `gSD_MusicTrack` | 0x801EA800 | The current music track. (Below this, the SPU layer keeps original Sony PsyQ names.) |
 
 
