@@ -922,9 +922,9 @@ per-side record at `0x800E9FF0 + side * 0x20`: the counters are bytes at
 +1…+9 and +0x18, the LP the halfword at +0x14 — the player's `0x800EA004`
 cited everywhere — so "cards used" is the byte at `0x800EA008`, which is
 exactly the address a long-dismissed GameShark code labels "cards used by
-you"]. At the end [`Duel_CalcRankScore` (`0x80021598`)] the score starts at
-**50**, a signed byte at the record's +0 is added to it directly (this is
-where the way-the-duel-ended adjustment enters), and each counter is run
+you"]. At the end [`Duel_CalcRankScore` (`0x80021598`)] each side's calculated
+score starts at **50**. The signed byte at that side's record +0 is added
+directly as the way-the-duel-ended adjustment, and each counter is run
 through one row of a **ten-row table** [`Duel_CalcRankScoreChange`
 (`0x80021558`); the table is 200 bytes at `0x801798A8`, loaded from the
 per-duelist disc block and identical for all 39 duelists]: a row is five
@@ -944,9 +944,31 @@ counter supplies the value added to the score. The rows, measured:
 | 8 | +0x08 | 0: +4 · 1–4: 0 · 5–9: −4 · 10–14: −8 · 15+: −12 | **INITIATE FUSION** — successful fusions initiated from the hand |
 | 9 | +0x09 | same as row 8 | **EQUIP MAGIC** — valid equips used |
 
-The +0 byte is the **way the duel ended**: +2 for taking the LP to 0, −40
-for a deck-out, +40 for Exodia (that it is added is measured; the three
-values are the community's). The thresholds, values and the counter each row reads are measured. The
+The +0 byte records the **way the duel ended**, and the three documented
+adjustments are code-backed rather than only community values. The
+resolution paths write the following byte into the selected winner's
+`0x20`-byte record:
+
+| Resolution path | Stored byte | Signed score contribution | Code evidence |
+|---|---:|---:|---|
+| LP reaches zero | `0x02` | `+2` | `func_8001D670` tests both sides' LP at `0x8001D6C8..0x8001D6E4`, selects the winner, and stores `2` at record +0 at `0x8001D71C`. |
+| Draw exhaustion | `0xD8` | `-40` | Matching [`func_80018DB4`](../../src/game/duel_draw_resolution.c) tests the active side's signed draw counter at +0x18 against `40`, selects the other side, and writes `-0x28` to its record +0. |
+| Exodia resolution | `0x28` | `+40` | The state-`0xE` handler `func_80018FEC` selects the current side as winner and stores `0x28` at record +0 at `0x800193F0`. |
+
+The reader closes the arithmetic: `Duel_CalcRankScore` initializes both
+score words to `50` at `0x80021638..0x80021640`, then uses signed `lb` at
+`0x80021644` and adds the result at `0x80021650`. Its two-iteration loop
+advances by one `0x20`-byte side record each time. Thus the stored `0xD8`
+contributes **minus 40**, not unsigned 216, and these values are direct
+score adjustments rather than indices into another bonus table.
+
+The winner's end-reason byte also selects a result-message variant: the code at
+`0x800215F0..0x80021628` chooses selector `0x42` for `+40`, `0x41` for
+`-40`, and keeps default `0x40` otherwise. This is static evidence from the
+matching draw routine and the resident instructions, not a new emulator
+measurement or proof of every score-category label.
+
+The thresholds, values and the counter each row reads are measured. The
 category names are the game's own: the post-duel result screens [text ids
 `0x40`–`0x45`, laid out by the duel-end code] print them as TURNS, EFFECTIVE
 ATTACKS, DEFENSIVE WINS and DEFENSIVE LOSSES, AVERAGE ATK/DFD FACTOR and
@@ -1860,8 +1882,10 @@ Not verified in code:
   a different layout and are skipped (§7.11);
 * the per-screen button maps outside the duel and Build Deck;
 * whether a monster played this turn may attack this turn (stated from play);
-* the three victory-condition score adjustments (+2 / −40 / +40) and the
-  names of the ten score categories (matched to the community's table);
+* the remaining score-row-to-gameplay-event label assignments not
+  independently corroborated here. The three victory adjustments are now
+  code-backed, and the fusion/equip rows have their own controlled trace
+  evidence (§6.1);
 * the initial-deck generator's group tables (Data Crystal names them);
 * the whole duelist-id order rests on 92–100 % matches against one
   independent list, and on every unlock opcode sitting in the right win
