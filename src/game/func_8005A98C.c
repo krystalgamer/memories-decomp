@@ -1,8 +1,7 @@
 #include "../types.h"
 
-/* RGB to HSV-style triple: picks the extreme channels, scales the sum by
- * lim and derives the hue from the two remaining channels, with the
- * negative wrap at 0x6000. Returns the out pointer. */
+/* RGB to HSL-style triple: the second output is lightness from the channel
+ * extrema and the third is saturation. Hue wraps at 0x6000. */
 typedef struct {
     s32 h;
     s16 s;
