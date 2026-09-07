@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/card_constants.h"
 
 extern u8 *D_801845B8;
 extern u8 D_801845BC[];
@@ -20,10 +21,10 @@ void MainMenu_UpdateValueWidgetTween(u8 *obj)
     valueB = D_801845C0[7];
     if (obj[0x6C] == 2) {
         if (obj[0x6B] == 0) {
-            targetX = (valueA * 128) / 8000 + 176;
+            targetX = (valueA * 128) / DUEL_STARTING_LIFE_POINTS + 176;
             targetY = 111;
         } else {
-            targetX = (valueB * 128) / 8000 + 176;
+            targetX = (valueB * 128) / DUEL_STARTING_LIFE_POINTS + 176;
             targetY = 139;
         }
     }
