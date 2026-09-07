@@ -97,7 +97,12 @@ Names that say what something IS in the game.
 | 0x8003C628 | `Options_Init` | matching C |
 | 0x8003C8CC | `Options_Update` | matching C |
 | 0x8003CCD8 | `Input_UpdatePads` | matching C |
+| 0x8003CE74 | `SaveData_NextMaskWord` | matching C |
+| 0x8003D0F4 | `SaveData_ApplyRuntimeState` | matching C |
 | 0x8003D46C | `DuelEffect_CreateChannel` | matching C |
+| 0x8003F7D4 | `SaveData_RequestLoad` | matching C |
+| 0x8003F810 | `SaveData_PollLoad` | matching C |
+| 0x8003F87C | `SaveData_RequestWrite` | matching C |
 | 0x8003FEE0 | `SD_SEPlayFull` | live |
 | 0x80043230 | `Widget_SlideSine` | idb2018 |
 | 0x80046768 | `SD_InitState` | dotr |
@@ -106,7 +111,12 @@ Names that say what something IS in the game.
 | 0x800492D8 | `SD_Init` | dotr |
 | 0x80049694 | `SD_Term` | dotr |
 | 0x80056504 | `Model_LoadMonsterMerge` | idb2018 |
+| 0x80057F38 | `Model_UpdateViewMetrics` | matching C |
+| 0x80059134 | `Model_InitLightTriplet` | matching C |
 | 0x8005C4F0 | `File_Exists` | idb2018 |
+| 0x80060170 | `Model_RegisterHandlerKey` | matching C |
+| 0x800601D0 | `Model_FindHandlerKey` | matching C |
+| 0x8006041C | `Model_GetPrimitiveHandler` | matching C |
 | 0x8007058C | `AiScript_ReadByte` | idb2018 |
 | 0x800705AC | `AiScript_ReadShort` | idb2018 |
 | 0x800705D8 | `AiScript_Init` | idb2018 |
