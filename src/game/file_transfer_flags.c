@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_transfer.h"
 
 extern u32 D_8009B10C;
 extern volatile u32 D_8009B0F4;
@@ -46,17 +47,25 @@ out:
     return result;
 }
 
-u8 *func_80014EEC(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, void *arg4, s32 arg5,
-                  s32 arg6) {
+FileTransferDescriptor *func_80014EEC(
+    s32 arg0,
+    u8 *arg1,
+    s32 arg2,
+    s32 arg3,
+    void *arg4,
+    s32 arg5,
+    s32 arg6
+)
+{
     if (D_8009B10C == 0) {
         if (((D_8009B0F4 & 0x2000030) | D_8009B134) != 0) {
-            return (u8 *)0;
+            return (FileTransferDescriptor *)0;
         }
     } else {
         ((void (*)(void))D_8009B10C)();
     }
     File_InitTransferDescriptor(D_800E9E60, arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-    return D_800E9E60;
+    return (FileTransferDescriptor *)D_800E9E60;
 }
 
 void func_80014FA4(void)

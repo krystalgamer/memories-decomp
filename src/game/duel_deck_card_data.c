@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/qsort.h"
 #include "card_constants.h"
+#include "file_transfer.h"
 
 typedef struct {
     u16 id;
@@ -19,14 +20,13 @@ extern u32 D_8009B0F4;
 
 extern void Util_CopyWords(void *, void *, s32);
 extern s32 Util_CompareS16(s16 *, s16 *);
-extern s32 func_800245EC(s32, s32);
-extern u8 *func_80014EEC(s32, u8 *, s32, s32, void *, s32, s32);
+extern void func_800245EC(FileTransferDescriptor *, s32);
 
 void Duel_RequestCombinedDeckData(void)
 {
     u8 *source = D_8017808C;
     u8 *output;
-    u8 *result;
+    FileTransferDescriptor *result;
     s32 i;
     s32 previous;
     s32 count;
@@ -59,9 +59,9 @@ void Duel_RequestCombinedDeckData(void)
         0, (u8 *)0, count - 1, previous - count + 1,
         func_800245EC, 0, 0
     );
-    *(s32 *)(result + 0x38) = (s32)D_80178130;
-    *(s32 *)(result + 0x3C) = (s32)table;
-    D_8009B0F4 = *(s32 *)(result + 0x2C) | 0x10;
+    result->callback_data = D_80178130;
+    result->position = (u32)table;
+    D_8009B0F4 = result->status_flags | 0x10;
 }
 
 void Duel_PopulateCombinedDeckData(void)

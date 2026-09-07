@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "file_transfer.h"
 
 struct Obj {
     s16 x;
@@ -29,7 +30,6 @@ typedef struct {
 extern volatile u32 D_8009B0F4;
 extern s32 D_8009B118;
 
-extern u8 *func_80014EEC(s32, s32, s32, s32, void *, s32, s32);
 extern void func_8004036C(void *);
 extern void *func_8004002C(void);
 extern u8 *func_800400AC(void *, s32);
@@ -76,7 +76,7 @@ void func_8002DF2C(volatile u8 *owner, s32 value)
     s32 mode;
     s32 stride;
     s32 base;
-    u8 *object;
+    FileTransferDescriptor *object;
 
     if (owner) {
         *(s16 *)(owner + 0x3C) = value;
@@ -104,8 +104,8 @@ void func_8002DF2C(volatile u8 *owner, s32 value)
         0, 0, base + index * stride + 0x21D5, stride,
         func_8002DDFC, 0, 0
     );
-    *(s32 *)(object + 0x38) = stride - 1;
-    D_8009B0F4 = *(u32 *)(object + 0x2C) | 0x10;
+    object->callback_data = (void *)(stride - 1);
+    D_8009B0F4 = object->status_flags | 0x10;
 }
 
 void func_8002E00C(ScriptImageEntry *entries)
