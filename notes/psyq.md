@@ -564,12 +564,14 @@ environment or rectangle type.
 
 The resident block at `0x800F56F0` now has field-level evidence matching the
 32-byte `GsRVIEW2` record: viewpoint and reference-point triplets, roll, and a
-parent-coordinate pointer. Game code initializes it before `GsSetRefView2`
-and derives a distance plus two 4096-unit angles from the two points. Matching
-`func_800134E0` also uses an embedded `GsRVIEW2` at object offset `+0x10` and
-now calls the canonical one-argument `GsSetRefView2` interface byte-identically.
-Other matching sources still use local views until their shared-type
-migrations are proven exact.
+parent-coordinate pointer. Matching `func_800530C4` initializes all eight
+words and submits the block to `GsSetRefView2`; `Model_UpdateViewMetrics`
+copies the same eight-word boundary and derives a distance plus two 4096-unit
+angles from the two points; `model_cleanup.c` resubmits the same base through
+a layout-compatible cast. Matching `func_800134E0` separately uses an embedded
+native `GsRVIEW2` at object offset `+0x10` and calls the canonical one-argument
+interface byte-identically. Other matching sources still use local views until
+their shared-type migrations are proven exact.
 
 The imported `libgs.h` includes only `src/types.h` even though it refers to
 `MATRIX`, `VECTOR`, `SVECTOR`, `CVECTOR`, `RECT`, `DRAWENV`, `DISPENV`, and
@@ -1039,6 +1041,7 @@ The existing C sources expose several useful starting points:
 | Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `func_800582C0`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
 | Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_handler_registry.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `func_8005BE3C.c` uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
+| Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `func_800134E0.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `func_800530C4.c` and `model_cleanup.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Partial migration established: `func_800592AC.c` uses native `SVECTOR` and `MATRIX` storage, while projection paths use layout-compatible SDK casts for `RotAverage3`, `ScaleMatrix`, `GsSetLsMatrix`, and `SetRotMatrix`; retain local render records where full layout or exact code generation is not proven. |
 | Decoded-audio buffers inside `g_SDValue` | `SpuDecodedData` in `libspu.h` | ABI-compatible migration established in `sound_output_state.c`: `func_80045054` passes the `0x1000`-byte region at `g_SDValue+0x53C` to `SpuReadDecodedData`; retain the shared `SDValue` byte-array split because other matching users require narrower views. |
 | Game-owned voice attribute blocks | `SpuVoiceAttr` in `libspu.h` | ABI-compatible migration is established in `sound_voice_selection.c`, `sound_voice_setup.c`, `func_8004A27C.c`, and `sound_secondary_playback.c`: each passes a layout-compatible state block or temporary packet to `SpuSetVoiceAttr`; retain the local records because only their submitted fields and masks are proven. |
