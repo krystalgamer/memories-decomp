@@ -651,3 +651,18 @@ This batch adds nine rows and corrects the inherited `PadChkVsync` row at
 | 0x8009B408 | `gSD_bOutputType` | Stored sound output type: `-1` before initialization, `0` for stereo, and `1` for mono. |
 | 0x801D5332 | `gDuel_abCardLevelAttr` | Card-ID-indexed bytes containing attribute in the high nibble and level in the low nibble; entry zero is reserved. |
 | 0x801DC000 | `gLibrary_aCardArtRecord` | Staging buffer for the selected card's `102 x 96` art and 256-entry CLUT, baked `96 x 14` title, and `40 x 32` thumbnail with its 64-entry CLUT. |
+
+## Batch: core runtime and persisted campaign state
+
+| address | name | description |
+|---|---|---|
+| 0x8002CD8C | `Main_ResetFrontendRuntime` | Resets the shared frontend display, effect, menu-record, and transient state before menu initialization or a screen switch, then restores the input repeat timing defaults. |
+| 0x80058F10 | `GsGetWorkBase` | Embedded LIBGS getter that returns the current packet work-base pointer consumed by resident model renderers. |
+| 0x80073880 | `TestEvent` | Psy-Q event probe used by the memory-card helpers to test their complete, timeout, error, and new-card event handles. |
+| 0x800877B0 | `SetRotMatrix` | Loads a Psy-Q `MATRIX` rotation block into GTE control registers 0 through 4. |
+| 0x8008E590 | `rand` | Advances `gRand_dwSeed` with the resident `0x41C64E6D` / `0x3039` linear congruential recurrence and returns bits 16 through 30. |
+| 0x8008E5C0 | `srand` | Stores the supplied value as `gRand_dwSeed`, setting the seed used by the resident `rand`. |
+| 0x8009B27A | `gCampaignSceneIndex` | Current campaign event-script index selected from the overworld location and restored from save data after a successful load. |
+| 0x8009B45C | `g_SDValue` | Global pointer to the main sound-driver work area, including command queues, buffers, voices, sequence state, and output controls. |
+| 0x801D060C | `gSaveData_aPlayerNameSjis` | Twelve-byte persisted player-name field containing up to five two-byte Shift-JIS characters followed by a `u16` terminator. |
+| 0x801D07DC | `gCampaignSavedSceneIndex` | Persisted campaign event-script index copied into `gCampaignSceneIndex` when save runtime state is applied. |
