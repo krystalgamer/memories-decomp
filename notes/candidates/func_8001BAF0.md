@@ -102,6 +102,60 @@ block-scoped pinned copy costs 22.
 
 *Four are the two swapped slot bytes*, `$a0` for retail's `$a1`.
 
+### From 61 to 2
+
+Every one of the 61 was a register name at the right position, the *allocation*
+class. Each step measured on the one before it:
+
+- *Pin the two long-lived table pointers, one side of each swap*: the
+  `gDuel_aActiveCards` base to `$t0`, the `D_800EAE88` walk pointer to `$s6`.
+  61 to **50**.
+- *Pin the deck record pointer to `$16`*: 50 to **42**.
+- *Name the second `gDuel_aActiveCards` read.* The inner walk reads the global
+  again and retail keeps that materialisation in its own `$t1`; a block-scoped
+  `register u8 *act asm("$9")` gives 42 to **32**.
+- *Pin the hand slot value to `$5`*: 32 to **20**.
+- *Compute the offset before the base.* The `act` pin had put the `$t1`
+  materialisation five positions too early. Naming `v * 12` in an enclosing
+  scope, so the multiply is a finished statement before the pinned declaration
+  is reached, reorders them: 20 to **15**. This is the placement half of the
+  cost of pinning a destination - the pinned value is materialised as early as
+  its declaration allows.
+- *Pin the swapped record byte to `$5`*: 15 to **12**.
+- *Cast the pointer to `s32` before adding, and write the offset first*: 12 to
+  **10**, then to **7** applying the same to three more sites.
+- *Hoist the end-of-hand limit out of the loop*: 7 to **4**.
+- *Write the table subscript with the index first and the base last*: 4 to
+  **3**, and naming the `D_8009B1D5 * 5` product in its own statement, **2**.
+
+### The operand-order lever, and the earlier wrong conclusion
+
+An earlier pass here recorded that "flipping the addition the other way round in
+C does not move `addu` operand order, because GCC canonicalises `plus`". **That
+was measured but wrong in its generality.** Flipping `deck + sidx * 6` to
+`sidx * 6 + deck` is indeed neutral - both are *pointer* arithmetic and GCC
+canonicalises the `plus`. Casting the pointer to `s32` first, so that the
+addition is integer arithmetic, and then writing the offset on the left,
+`(DeckCardRecord *)(sidx * 6 + (s32)deck)`, **does** flip the emitted operand
+order. Six positions here came back that way.
+
+The lesson is narrower than the one first recorded: **canonicalisation applies
+to pointer addition, and casting to an integer type escapes it.** Applied one
+site at a time, each of four sites is worth one or two positions, and the
+direction is per-site - one of them wants the base first and the others want it
+last, so they cannot be changed as a group.
+
+### What is left
+
+Two positions, one store. `sel[v - 0xB] = -1;` computes its address into `$a1`,
+reusing the pinned hand value which is dead there, where retail uses `$v0`.
+Measured and rejected: five spellings of the store, including an integer-cast
+address, a named index, a named base pointer and a pinned address temporary; a
+`continue`-shaped loop; a pointer walk instead of a subscript (+128); and
+splitting the hand value into a separate variable for this loop (+8). All six
+pins are load-bearing, costing 24, 9, 18, 14, 4 and 34 positions when removed
+one at a time.
+
 ```c
 #include "../types.h"
 #include "card_constants.h"
@@ -161,12 +215,12 @@ void func_8001BAF0(void)
     register s32 v asm("$5");
     s32 id;
     s32 sidx;
-    s32 a;
+    register s32 a asm("$5");
     s32 b;
 
     for (i = 0; i < HAND_SIZE; i++) {
         p = D_8009B1C8;
-        sel[i] = p[0x1A + i];
+        sel[i] = *(u8 *)((0x1A + i) + (s32)p);
     }
     for (i = 0; i < HAND_SIZE; i++) {
         v = D_800EAE88[i];
@@ -180,6 +234,7 @@ void func_8001BAF0(void)
     base = gDuel_aActiveCards;
     deck = base - 0x31E0;
     hand = D_800EAE88;
+    end = D_800EAE88;
 next:
     v = *hand;
     if (v == 0) {
@@ -204,8 +259,8 @@ next:
                     card = act + o;
                 }
             }
-            rec = (DeckCardRecord *)(deck + sidx * 6);
-            other = (DeckCardRecord *)(deck + card[0xB] * 6);
+            rec = (DeckCardRecord *)(sidx * 6 + (s32)deck);
+            other = (DeckCardRecord *)(card[0xB] * 6 + (s32)deck);
             a = *(s8 *)&rec->slot;
             b = other->slot;
             rec->slot = b;
@@ -213,12 +268,17 @@ next:
             tmp = *rec;
             *rec = *other;
             *other = tmp;
-            id = tbl[j + D_8009B1D5 * 5];
+            {
+                s32 k;
+
+                k = D_8009B1D5 * 5;
+                id = *(u8 *)((j + k) + (s32)tbl);
+            }
             spawned = slot->base;
             Duel_SetupCardRecord(id, *(s8 *)&rec->slot);
-            slot->base = func_80018004(recs + id * DUEL_CARD_RECORD_SIZE, spawned->x, spawned->y);
+            slot->base = func_80018004((u8 *)(id * DUEL_CARD_RECORD_SIZE + (s32)recs), spawned->x, spawned->y);
             func_8004036C(spawned);
-            D_8009B1C8[0x1A + j] = rec->slot;
+            *(u8 *)((s32)D_8009B1C8 + (0x1A + j)) = rec->slot;
             *hand = j + 0xB;
             *q = -1;
         } else {
@@ -230,7 +290,6 @@ next:
         }
     }
     hand++;
-    end = D_800EAE88;
     if ((s32)hand < (s32)(end + HAND_SIZE)) {
         goto next;
     }
