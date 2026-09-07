@@ -1,15 +1,15 @@
 #include "../types.h"
 
-extern unsigned char D_8009B3C6;
-extern volatile unsigned short D_8009B3FA;
+extern u8 D_8009B3C6;
+extern volatile u16 gMemCard_wDialogFlags;
 
-void func_8003E46C(unsigned char value, unsigned short bits)
+void func_8003E46C(u8 value, u16 bits)
 {
-    unsigned short flags = D_8009B3FA;
+    u16 flags = gMemCard_wDialogFlags;
 
     bits |= 0x80;
     D_8009B3C6 = value;
     flags &= 0xFF87;
-    D_8009B3FA = flags;
-    D_8009B3FA = flags | bits;
+    gMemCard_wDialogFlags = flags;
+    gMemCard_wDialogFlags = flags | bits;
 }

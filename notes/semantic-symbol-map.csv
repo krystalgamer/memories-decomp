@@ -12,6 +12,7 @@ global,0x8009B2C8,gDebug_nSceneOrSoundID,confirmed,ram_map.txt,"Debug menu value
 global,0x8009B338,gDuel_wSelectedCardID,confirmed,"ram_map.txt; gms.c selectedCardId","Currently selected card ID."
 global,0x8009B361,gDuel_bOpponentID,confirmed,"ram_map.txt; gms.c opponentId","Current opponent/duelist ID."
 global,0x8009B364,gDuel_bTerrain,confirmed,"ram_map.txt; gms.c terrain","Current duel terrain type."
+global,0x8009B3FA,gMemCard_wDialogFlags,high,"memory-card request setup initializes bit 0x8000; mem_card_dialog_runtime.c drives start, open, I/O-pending, and closing phases; operation handlers set request-specific low bits; GenericMadScientist IDB","Memory-card dialog and operation state flags."
 global,0x800EA002,gDuel_wPlayerLifePointDisplay,confirmed,ram_map.txt,"Displayed player life points."
 global,0x800EA004,gDuel_wPlayerLifePoint,confirmed,ram_map.txt,"Authoritative player life points."
 global,0x800EA022,gDuel_wOpponentLifePointDisplay,confirmed,ram_map.txt,"Displayed opponent life points."

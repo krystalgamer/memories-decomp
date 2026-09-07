@@ -64,7 +64,7 @@ extern u8 D_8009B3DE;
 extern u8 D_8009B3EF;
 extern s32 D_8009B3F0;
 extern s32 D_8009B3F4;
-extern u16 D_8009B3FA;
+extern u16 gMemCard_wDialogFlags;
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 extern u8 *func_8004002C(void);
 extern u8 *func_800400AC(u8 *, s32);
@@ -111,10 +111,10 @@ void func_8003F454(void)
     s32 u;
     s32 c;
 
-    f = D_8009B3FA;
+    f = gMemCard_wDialogFlags;
     if ((f & MEM_CARD_DIALOG_FLAG_CLOSING) != 0) {
         if (D_8009B3D8 == (u8 *)0) {
-            D_8009B3FA = 0;
+            gMemCard_wDialogFlags = 0;
             return;
         }
         if (func_8003F2B0_int(
@@ -128,19 +128,19 @@ void func_8003F454(void)
     }
     if ((f & 0x4080) == 0x4080) {
         if ((f & 0x40) == 0) {
-            D_8009B3FA = f | 0x40;
+            gMemCard_wDialogFlags = f | 0x40;
             p = TextBox_Create(
                 D_8009B3EE, D_8009B3C6, 0x20, 0x50, 0x100, 0x30
             );
             DuelEffect_MarkObjectIfActive(p);
             p[0x59] = 0x10;
-            if ((D_8009B3FA & 0x20) != 0) {
+            if ((gMemCard_wDialogFlags & 0x20) != 0) {
                 do {
                     func_80039794();
                 } while (*(s32 *)(p + 0x30) == 0);
                 return;
             }
-            if ((D_8009B3FA & 0x10) != 0) {
+            if ((gMemCard_wDialogFlags & 0x10) != 0) {
                 *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) | 0x1008;
                 return;
             }
@@ -153,18 +153,18 @@ void func_8003F454(void)
             return;
         }
     b14:
-        t = D_8009B3FA;
+        t = gMemCard_wDialogFlags;
         u = t & 8;
-        D_8009B3FA = t & 0xFF7F;
+        gMemCard_wDialogFlags = t & 0xFF7F;
         if (u == 0) {
             return;
         }
-        D_8009B3FA = 0;
+        gMemCard_wDialogFlags = 0;
         goto b25;
     }
     if ((f & MEM_CARD_DIALOG_FLAG_OPENED) == 0) {
         if ((f & MEM_CARD_DIALOG_FLAG_STARTED) == 0) {
-            D_8009B3FA = f | MEM_CARD_DIALOG_FLAG_STARTED;
+            gMemCard_wDialogFlags = f | MEM_CARD_DIALOG_FLAG_STARTED;
             MemCardStart();
             D_8009B3EF = 2;
             func_8003F388();
@@ -174,7 +174,8 @@ void func_8003F454(void)
         if (func_8003F2B0_int(
                 (ObjectState *)D_8009B3D8, 0x20, 0x50, -1
             ) == 0) {
-            D_8009B3FA = D_8009B3FA | MEM_CARD_DIALOG_FLAG_OPENED;
+            gMemCard_wDialogFlags =
+                gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_OPENED;
         }
         return;
     }
@@ -186,14 +187,16 @@ void func_8003F454(void)
         if (c != 1) {
             return;
         }
-        D_8009B3FA = D_8009B3FA & ~MEM_CARD_DIALOG_FLAG_IO_PENDING;
+        gMemCard_wDialogFlags =
+            gMemCard_wDialogFlags & ~MEM_CARD_DIALOG_FLAG_IO_PENDING;
     }
     D_80090F9C[D_8009B3DE]();
-    if (D_8009B3FA != 0) {
+    if (gMemCard_wDialogFlags != 0) {
         return;
     }
 b25:
-    D_8009B3FA = D_8009B3FA | MEM_CARD_DIALOG_FLAG_CLOSING;
+    gMemCard_wDialogFlags =
+        gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_CLOSING;
     *(s16 *)(D_8009B3D8 + 0x60) = 0x400;
     MemCardStop();
 }

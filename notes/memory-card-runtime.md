@@ -145,7 +145,7 @@ The subsequent `func_8003F758` call receives pointer `0x801D3200` and length
 `0xD00`, exactly the contiguous pair of `0x680`-byte state copies. Its final
 argument is the request selector. `func_8003F758` stores it unchanged at
 `D_8009B3DE` through `func_8003F740` while setting the pending flag
-`D_8009B3FA` to `0x8000`.
+`gMemCard_wDialogFlags` to `0x8000`.
 
 The exact callers use four selector values:
 

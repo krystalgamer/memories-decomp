@@ -6,13 +6,13 @@
 extern u8 D_8009B3C1;
 extern u8 D_8009B3DE;
 extern u8 D_8009B3EF;
-extern u16 D_8009B3FA;
+extern u16 gMemCard_wDialogFlags;
 extern void func_8003F454(void);
 
 int func_8003F70C(void)
 {
     func_8003F454();
-    if (D_8009B3FA != 0) {
+    if (gMemCard_wDialogFlags != 0) {
         return 0;
     }
     return D_8009B3EF;
@@ -20,7 +20,7 @@ int func_8003F70C(void)
 
 void func_8003F740(s32 value)
 {
-    D_8009B3FA = 0x8000;
+    gMemCard_wDialogFlags = 0x8000;
     D_8009B3DE = value;
     D_8009B3C1 = 0;
 }
