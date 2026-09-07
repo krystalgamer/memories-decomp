@@ -3919,6 +3919,12 @@
       "source": "src/game/sound_output_transition.c"
     },
     {
+      "address": "0x80046768",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1F4",
+      "source": "src/game/sd_init_state.c"
+    },
+    {
       "address": "0x8004695C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x34",
