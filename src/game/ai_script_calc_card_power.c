@@ -18,7 +18,8 @@ void AiScript_CalcCardPower(void)
     mode = mem[AiScript_ReadByte()];
     dst = AiScript_ReadByte();
 
-    if (((gDuel_adwCardStats[card - 1] >> 26) & 0x1F) < 0x14) {
+    if (((gDuel_adwCardStats[card - 1] >> CARD_STAT_TYPE_SHIFT) &
+         CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
         switch (mode) {
         case 0:
             power = Duel_GetBaseCardStat(card, 0);
