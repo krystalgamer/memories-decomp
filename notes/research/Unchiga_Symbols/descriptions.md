@@ -217,12 +217,12 @@ on the suspects side until proven.)
 | address | name | description |
 |---|---|---|
 | 0x800E9EC8 | `gFade_State` | The screen-fade state block (0x28 bytes): u32 colour, u8 current level, u8 target level, u8 flags (0x80 fade in flight, 0x01 strip-wipe mode, 0x10/0x20 colour latch), u8 step per frame, s16 head, u8 strips[30]. |
-| 0x800151D8 | `Fade_StepBands` | Per-frame strip walker: from the head value, 15 strips each 8 apart, clamped to [current, target], mirrored into strips[i] and strips[29-i]; then moves the head by step * D_8009B0D8. |
+| 0x800151D8 | `Fade_StepBands` | Walks 15 mirrored pairs from a signed head using the configured step: increasing levels visit i=14..0 (middle to edges) and subtract step; decreasing levels visit i=0..14 (edges to middle) and add step. Clamps between current and target, then adds step * D_8009B0D8 to the stored head for increasing levels and subtracts it otherwise. Promotes current only when the last pair reaches target. See the local [band-ramp mechanics](../../fade-transition-state.md#band-ramp-mechanics). |
 | 0x80015310 | `Fade_Update` | Per-frame fade update: runs the strip walker (strip mode) or a flat level ramp, and when current reaches target clears the in-flight bit, latches the working RGB from the target RGB, and sets or clears the overlay-on flag. |
 | 0x800154E4 | `Fade_DrawOverlay` | Renders the current fade as 30 mirrored 320×8 bands or one full-screen flat/tinted box, and keeps the screen covered while the between-screen overlay latch is set. |
-| 0x800158B8 | `Fade_InitOut` | Arms a fade to black: head 255, target 0, in-flight flag set, all 30 strips filled with the current level, step 12. |
-| 0x80015904 | `Fade_StartOut` | `Fade_InitOut` plus step 8 and strip mode -- the menu-transition fade. |
-| 0x80015B00 | `Fade_WaitOut` | Starts the strip fade-out and then pumps the four per-frame update functions until the in-flight bit drops. Blocking; ~48 frames. |
+| 0x800158B8 | `Fade_InitOut` | Initializes head 255, target 0, in-flight flag, all 30 strips at the current level, and step 12. The final color helper installs white tint and flags 0xB0 when D_8009B145 is nonzero. |
+| 0x80015904 | `Fade_StartOut` | Calls `Fade_InitOut`, then requests step 8 and strip mode. Its final color-helper call overrides this with step 12 and non-strip flags 0xB0 when D_8009B145 is nonzero. |
+| 0x80015B00 | `Fade_WaitOut` | Calls `Fade_StartOut`, then pumps the four per-frame update functions until the in-flight bit drops. Blocking; the captured strip transitions took ~48 frames, not a fixed duration guaranteed by this wrapper. |
 | 0x8009B141 | `gFade_bOverlayOn` | Set when a fade starts or the screen is black, cleared when a fade-in completes; the overlay drawer keeps painting black while it is set even with no fade in flight. |
 
 ## Batch: text-box / dialog machine (2026-09-02, live-traced on name entry, Linux seat)

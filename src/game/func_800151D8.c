@@ -2,11 +2,11 @@
 
 #include "fade.h"
 
-/* Refills the fade band ramp symmetrically from both ends toward the middle.
-   Each pass walks the running level one step further from field_08, clamps it
-   between level and target_level, and writes it to band i and band 29 - i.
-   The direction of both the walk and the clamp order follows whether the
-   current level is below or above the target. */
+/* Refills 15 mirrored band pairs using the configured step. Increasing
+   transitions visit the middle pair first and subtract step from the signed
+   field_08 accumulator; decreasing transitions visit the outer pair first
+   and add step. Values are clamped between level and target_level. After
+   the pass, the head update uses the opposite sign, scaled by D_8009B0D8. */
 
 extern s32 D_8009B0D8;
 

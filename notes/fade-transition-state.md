@@ -19,8 +19,8 @@ The shared `FadeTransitionState` layout is:
 | `0x04` | `level` | 1 | byte loads/stores throughout the family; current fade brightness in `Fade_DrawOverlay` |
 | `0x05` | `target_level` | 1 | byte comparison and initialization in the transition setup paths |
 | `0x06` | `flags` | 1 | byte bit tests/writes for `0x01`, `0x02`, `0x04`, `0x10`, `0x20`, and `0x80` |
-| `0x07` | `step` | 1 | byte step values `8` and `0x0C`; target `func_800151D8` loads it with `lbu` |
-| `0x08` | `field_08` | 2 | exact halfword writes in `func_80015780` and `Fade_InitOut`; target `func_800151D8` uses both signed and unsigned halfword reads |
+| `0x07` | `step` | 1 | setup values `8` and `0x0C`; `func_800151D8` uses this byte for both band spacing and the scaled head advance |
+| `0x08` | `field_08` | 2 | band-ramp head: `func_800151D8` starts its walk from `(s16)field_08`, then advances the stored halfword; setup initializes it to `0` or `0xFF` |
 | `0x0A` | `band_levels[30]` | 30 | `func_800156B8` fills offsets `0x0A..0x27`; `Fade_DrawOverlay` renders exactly 30 bands |
 
 The end of `band_levels` gives a minimum record size of `0x28`.
@@ -37,6 +37,72 @@ Unchiga's same-address sketches independently use the same byte fields,
 halfword, and array span. The exact matched `Fade_DrawOverlay` implementation is
 the semantic basis for the tint, level, flags, and band names. No Psy-Q
 declarations were used.
+
+## Band-ramp mechanics
+
+The matching [`func_800151D8`](../src/game/func_800151D8.c) establishes
+**high-confidence static semantics** for `field_08` in band mode: it is a
+signed sweep head, not another byte brightness value. The shared declaration
+remains `u16` to preserve the existing exact C; the walker explicitly casts
+the starting value to `s16`, so values below zero and above `0xFF` can
+participate before clamping.
+
+Let `H` be that signed starting head, `L` the current `level`, and `T` the
+`target_level`. Each iteration writes the same clamped value to band `i` and
+band `29 - i`:
+
+| Condition | Pair traversal | Value before clamping | Stored head after all 15 pairs |
+|---|---|---|---|
+| `L < T` | `i = 14..0`, middle pair to outer pair | `H - (15 - i) * step` | old halfword plus `step * D_8009B0D8` |
+| `L >= T` | `i = 0..14`, outer pair to middle pair | `H + (i + 1) * step` | old halfword minus `step * D_8009B0D8` |
+
+Both paths clamp to the interval between `L` and `T`. The unscaled `step`
+sets the spacing between unclamped pair values; only the head advance is
+multiplied by `D_8009B0D8`. The head update therefore uses the opposite sign
+to the within-pass accumulator. A post-call sample of `field_08` already
+contains the next head, whereas the band array was generated from the old
+one.
+
+`level` is not advanced for every pair. It is assigned `T` only when the
+**last** clamped pair reaches `T`: the outer pair for increasing levels, or
+the middle pair for decreasing levels. With the unsigned, nonnegative
+`step`, that also means every other pair has reached the target. The walker
+does not clear the active flag; transition completion remains the separate
+responsibility of `func_80015310`.
+
+[`Fade_DrawOverlay`](../src/game/fade_draw_overlay.c) draws array index `i`
+at `y = i * 8` with height 8 and intensity `0xFF - band_levels[i]`.
+Thus indices 14/15 are the two center bands and 0/29 are the top/bottom
+bands. The **eight-pixel band height is not a fixed eight-unit ramp step**.
+The direction-dependent traversal also means a description of both paths
+as filling from the edges toward the middle is incomplete.
+
+## Setup overrides and evidence limits
+
+The matching setup chains explain why the configured step must be read
+rather than inferred from a caller's name:
+
+| Setup path | Initial head / target | Default setup |
+|---|---|---|
+| `func_80015780` in [`fade_in.c`](../src/game/fade_in.c) | `0` / `0xFF` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
+| `Fade_InitOut` in [`fade_out.c`](../src/game/fade_out.c) | `0xFF` / `0` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
+
+`func_800157DC` and `Fade_StartOut` call those initializers, then request
+step `8` and flag `0x01` (band mode). However, both call a color helper
+**after** that request. When `D_8009B145` is nonzero,
+[`func_8001572C`](../src/game/func_8001572C.c) replaces the flags with `0x90`,
+while [`func_80015870`](../src/game/fade_color.c) replaces them with `0xB0`.
+Both helpers write white tint, restore step `0x0C`, and clear band mode by
+replacing the entire flag byte. The wrappers therefore do not unconditionally
+start an eight-unit banded transition.
+
+These are code-derived conclusions, not a new emulator result or a semantic
+rename. The older [screen-fade observations, F87-F92](research/Unchiga_Symbols/findings.md#screen-fade-to-black-circle-out-of-free-duel-x-back-in----session-2026-09-02)
+describe particular menu runs; their eight-unit step and approximate
+48-frame duration are not universal API guarantees. Which screens select
+each setup path, and which values `D_8009B0D8` takes during them, still need
+caller-specific evidence and human context before assigning fixed timings
+or screen-specific meanings.
 
 ## Shared declarations and migrated users
 
