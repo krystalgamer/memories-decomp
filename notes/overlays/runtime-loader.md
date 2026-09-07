@@ -291,7 +291,7 @@ resident code calls.
 
 ### WA at `0x80168000`
 
-Several fixed packages end with phases directed to `0x80168000`:
+Verified WA phases directed to `0x80168000` include:
 
 | WA sectors | Size | Confirmed called code |
 |---|---:|---|
@@ -305,6 +305,37 @@ Several fixed packages end with phases directed to `0x80168000`:
 The chunks begin with module-like identifiers from `0x13` through `0x16`.
 Each checked resident call target contains valid MIPS code at the exact loaded
 offset.
+
+#### Startup phase and enable-code sites
+
+Matching [`func_80043960`](../../src/game/func_80043960.c) requests WA
+`[5776, 5830)`. Callback
+[`func_80043328`](../../src/game/func_80043328.c) assigns consecutive phase
+sizes `0x18000`, `0x1000`, `0x800`, and `0x1800`; the last phase goes to
+the pointer at `D_800101D8`. The original executable stores `0x80168000`
+there. Thus the final image is WA `[5827, 5830)`, file bytes
+`[0xB61800, 0xB63000)`, mapped to RAM `[0x80168000, 0x80169800)`.
+
+The image's leading word is `0x00000016` and its SHA-256 is
+`83d49e3fde2dca5e60961ac9bcf31fd1ce918c885f6b88fcab01496691581d3a`.
+It is a verified load phase, but not one of the five configured images in
+`config/slus_01411/overlays.json`.
+
+Both published "enable" GameShark guards match this phase:
+
+| Guarded RAM address | WA word offset | Original word | Branch target |
+|---|---:|---:|---:|
+| `0x80168188` | `0xB61988` | `0x1040023A` | `0x80168A74` |
+| `0x80168100` | `0xB61900` | `0x1062000A` | `0x8016812C` |
+
+Writing `0x1000` to either instruction's high halfword makes its existing
+branch unconditional without changing the destination. The second write is
+the `0xB61902` archive alteration discussed in the
+[patched-dump comparison](README.md#the-anti-piracy-patched-dump-does-not-affect-these-modules).
+The [GameShark evidence](../research/gameshark-codes.md#located-enable-code-guards)
+also records the nonmatching configured-image controls. These are static
+load/word identifications, not a claim that the patches were run or that
+their complete gameplay effects are known.
 
 ### WA data at `0x8017A1D8`
 

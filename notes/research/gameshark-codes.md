@@ -188,10 +188,12 @@ optional choice mask, whose low nibble is stored in
 numeric starchip cost. Any password-screen effect of the published code is
 therefore an indirect choice-enablement behavior, not a price change.
 
-The other patch codes target `0x8016xxxx`–`0x8018xxxx`, which is not in the
-main executable — that is **overlay** code, loaded at runtime from
-`WA_MRG.MRG`. The password-shop overlay has since been located on the disc
-(`docs/DISC.txt`, 2026-09-02), and three of those codes verify against it, all
+The overlay instruction patches need an identified runtime image, not just
+an address in `0x8016xxxx`–`0x8018xxxx`. Several verified WA images reuse
+`0x80168000`, while the main-menu image comes from **SU** at `0x80180000`;
+the range does not identify one archive or module. The
+[current module crosswalk](../overlays/module-crosswalk.md) records those
+distinctions. Three patch codes verify against the password-shop phase, all
 by hugopocked:
 
 **`D016A87C 1823` / `8016A87E 2400` — "buying cards does not subtract
@@ -218,8 +220,65 @@ confirmed that split: the four-byte write exposed ids 1–31, left ids 32–38
 unavailable, and did not affect the independently available Duel Master K
 entry at id 39.
 
-The two "enable" codes (`D0168188 023A`, `D0168100 000A`) match neither
-located overlay and remain unverified.
+### Located enable-code guards
+
+The two "enable" codes test `u16[0x80168188] == 0x023A` and
+`u16[0x80168100] == 0x000A`, respectively. **Both occur in the same retail
+WA startup phase**, not in the configured Free Duel or password images.
+The old "neither located overlay" assessment missed this separately
+documented load.
+
+Matching `func_80043960` requests WA sector `0x1690` for `0x36` sectors.
+Its callback, `func_80043328`, consumes `0x18000 + 0x1000 + 0x800` bytes
+before copying the final `0x1800` bytes to the address held at
+`D_800101D8`, whose resident value is `0x80168000`. The resulting phase is
+WA sectors `[5827, 5830)`, archive bytes `[0xB61800, 0xB63000)`, loaded at
+`0x80168000..0x80169800`. In its mode-zero path, the caller enters this
+image at `0x801680F4` and polls `0x80168160`.
+
+The static, little-endian guard comparison against the verified archive
+slices is:
+
+| Image or variant | `u16[0x80168188]` | `u16[0x80168100]` |
+|---|---:|---:|
+| Expected by the published guards | `0x023A` | `0x000A` |
+| WA startup phase `[5827, 5830)` | **`0x023A`** | **`0x000A`** |
+| Free Duel | `0x00CC` | `0x800A` |
+| Password and the name-entry variant | `0xE685` | `0x0010` |
+| Both overworld variants | `0x0048` | `0x0004` |
+| SU main menu | outside the image | outside the image |
+
+The configured images and hashes are pinned in
+[`overlays.json`](../../config/slus_01411/overlays.json). The additional
+startup phase is pinned in the
+[loader evidence](../overlays/runtime-loader.md#startup-phase-and-enable-code-sites);
+the name-entry phase at sectors `[7968, 7983)` is documented in its
+[shared-image note](../../src/overlays/name_entry/README.md).
+The comparison reads little-endian halfwords at `address - load_address`,
+not at a raw disc offset. As positive controls, the same mapping recovers
+Free Duel word `0x14400002` at `0x801683D4` and password word `0x00701823`
+at `0x8016A87C`, the known patch sites above.
+
+The full words establish the immediate effect of the published writes:
+
+| Published label | Guarded RAM word | Original instruction | Word after the high-halfword write |
+|---|---|---|---|
+| Enable, version 1 | `0x80168188`: `0x1040023A` | `beq $v0, $zero, 0x80168A74` | `0x1000023A`: unconditional branch to the same target |
+| Enable, version 2 | `0x80168100`: `0x1062000A` | `beq $v1, $v0, 0x8016812C` | `0x1000000A`: unconditional branch to the same target |
+
+Version 2 writes the high halfword at `0x80168102`, corresponding to WA
+offset `0xB61902`. It is the **same byte change** as the branch alteration
+documented in the repository's
+[anti-piracy-patched archive comparison](../overlays/README.md#the-anti-piracy-patched-dump-does-not-affect-these-modules).
+The labels "version 1" and "version 2" therefore do not require different
+retail images to find matching sites.
+
+Neither guard matches the four configured WA images or the name-entry
+variant, and the SU main-menu image does not cover these addresses. Those
+negative controls explain why checking only the configured module catalog
+left the codes unplaced. The startup image now supplies both sites, but
+their full gameplay purpose and the need for each published enable code
+remain unverified. No patched game or emulator trace was used here.
 
 ## From other sources
 

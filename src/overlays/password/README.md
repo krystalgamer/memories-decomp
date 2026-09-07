@@ -9,10 +9,10 @@ Verified boundaries:
 |---|---|
 | WA package | sectors `7983-8069` |
 | Executable phase | sectors `8054-8069`, `0x7800` bytes |
-| Runtime code range | `0x80168000-0x8016F800` |
+| Runtime image range | `0x80168000-0x8016F800` |
 
-The main-menu package contains a closely related `0x7800` phase at sectors
-`7968-7983`. The two chunks carry the same password-shop code but differ in
+The [name-entry package](../name_entry/README.md) contains a closely related
+`0x7800` phase at sectors `7968-7983`. The two chunks share code but differ in
 their final data sector, so they must not be treated as one interchangeable
 module image.
 

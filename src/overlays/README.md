@@ -42,7 +42,7 @@ Initialized module directories:
 - [`free_duel/`](free_duel/) records the verified WA package, executable
   phase, and runtime range for the Free Duel module.
 - [`password/`](password/) records the password-screen package and the
-  related, non-identical password-shop phase in the main-menu package.
+  related, non-identical phase in the name-entry package.
 - [`overworld/`](overworld/) records the pre- and post-coup WA variants that
   reuse the same runtime code range.
 - [`main_menu/`](main_menu/) records the verified SU phase and keeps the

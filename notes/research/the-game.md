@@ -99,10 +99,10 @@ knowing by name before reading any of them:
   records; per-side record `0x800E9FF0`, stride `0x20`];
 * the **AI interpreter** — a bytecode VM that runs each opponent's script
   [`aiMain` `0x80070650`, 67 handlers at `0x800916E0`, VM state `0x800F5BE8`];
-* the **disc loader** — everything that is not in the executable comes in as
-  sector ranges of `WA_MRG.MRG` through one request function
-  [`File_RequestAsyncTransfer`] with a per-screen callback that routes the
-  chunks (§12);
+* the **disc loader** — loads sector ranges from several runtime files,
+  including WA screen/duel packages and the SU main-menu image, with
+  per-screen callbacks that route the chunks
+  [`File_RequestAsyncTransfer`; §12];
 * the **screen-fade system** — shared transition state and box rendering,
   used by menu entry/exit paths rather than stored in a save
   [`Fade_DrawOverlay` `0x800154E4`, state `0x800E9EC8`; §1.1].
@@ -1660,12 +1660,13 @@ are zero in the file because the duel loader fills them from disc.
 ### 12.2 On the disc
 
 The game opens seven files by name at boot [table at `0x8009078C`,
-`File_SetPositionTable` (`0x800136E4`)]: `WA_MRG.MRG` (36 MB, everything that is
-data), `SU.MRG`, `MODEL.MRG` (3-D models), `MOVIE.STR`, `SD_SE.DAT`,
-`SD_BGM.DAT`, `MASTER.XA`. Everything else is a sector range inside one of
-them, requested through one function with a per-screen callback
-[`File_RequestAsyncTransfer(mode, table, sector, count, callback, …)`]; each
-menu has a fixed sector constant (`0x1690`, `0x1E88`, `0x1EDF`, `0x1F2F`,
+`File_SetPositionTable` (`0x800136E4`)]: `WA_MRG.MRG` (36 MiB, many screen and
+duel packages), `SU.MRG` (including the main-menu image), `MODEL.MRG` (3-D
+models), `MOVIE.STR`, `SD_SE.DAT`, `SD_BGM.DAT`, `MASTER.XA`. WA is not the
+owner of every runtime asset or overlay. Requests identify a file as well
+as a range, and a per-screen callback routes the phases
+[`File_RequestAsyncTransfer`]. The WA package loaders use fixed
+first-sector constants (`0x1690`, `0x1E88`, `0x1EDF`, `0x1F2F`,
 `0x1F85`,
 `0x1FA7`, `0x2115`, `0x2147`, `0x2157`, `0x2189`, one indexed at `0x1FD9`).
 
@@ -1702,17 +1703,59 @@ deck weights at +0, the POW / BCD / TEC drop pools at +0x5B4 / +0xB68 /
 +0x111C (1,460 bytes each), the rank table at +0x16D0 (200 bytes), 104
 unread bytes at +0x1798. All 156 weight tables sum to 2048.
 
-**Overlays.** `0x80146000` receives the duel's code overlay above; a second
-slot at `0x80168000` receives per-screen code from the menu blobs. Two are
-located: the **password shop's**, a 0x7800-byte chunk at `+0x20800` of the
-blob at sector `0x1EDF` (and again at `+0x23800` of the one at `0x1F2F`),
-where the three shop GameShark patches were verified; and the **Free Duel
-screen's**, the last 0x2800 bytes (`+0x29000`) of its 87-sector blob at
-`0x1E88` [loader `Main_InitFreeDuelMenu`, callback `func_8003B808`], 8 KB of code
-whose entry `0x80168FB4` is one of the executable's own call targets and
-where the Free Duel unlock patch was verified. The executable's other call
-targets in that range belong to whichever overlay is resident at the time,
-so they do not all resolve in one image.
+**Overlays.** `0x80146000` receives the duel image above. The named screen
+images are not limited to the two originally located in WA:
+[`config/slus_01411/overlays.json`](../../config/slus_01411/overlays.json)
+currently pins five separately verified images, including the main menu in
+**SU** at a different load address. All ranges below are end-exclusive;
+sectors are relative to the named archive, not absolute disc LBAs.
+
+| Configured image | Archive sectors | Image bytes | RAM image range |
+|---|---|---:|---|
+| Free Duel | WA `[7898, 7903)` | `0x2800` | `[0x80168000, 0x8016A800)` |
+| Password | WA `[8054, 8069)` | `0x7800` | `[0x80168000, 0x8016F800)` |
+| Overworld before the coup | WA `[8153, 8159)` | `0x3000` | `[0x80168000, 0x8016B000)` |
+| Overworld after the coup | WA `[8311, 8317)` | `0x3000` | `[0x80168000, 0x8016B000)` |
+| Main menu | SU `[98, 114)` | `0x8000` | `[0x80180000, 0x80188000)` |
+
+These are **image** extents, including headers and data, not counts of MIPS
+instructions. Free Duel, for example, has a four-byte header, text at image
+offsets `[0x4, 0x1030)` (`0x102C` bytes), and data through `0x2800` according
+to its [tracked layout](../../config/slus_01411/overlays/free_duel.yaml).
+This replaces the earlier unsupported "8 KB of code" figure.
+Its resident-callable entry remains `0x80168FB4`.
+
+The two overworld images are separate variants: matching `func_8003C0C0`
+selects WA package sector `8153` or `8311` by testing story flag `0x47`.
+The main-menu loader `func_8005B85C` instead requests SU sectors `[0, 115)`;
+its executable phase is the `[98, 114)` slice above. Sharing a callback
+system does not make those bytes WA-owned.
+
+**Name entry shares code, not an identical package.** Its WA package starts
+at `0x1EDF` (`7903`), with a `0x7800`-byte executable phase at sectors
+`[7968, 7983)` (package offset `0x20800`). That phase and the password
+phase share the executable prefix; their first byte difference is at image
+offset `0x7326`, inside the final sector. The complete phase images therefore
+have different hashes. Name entry and Password enter the shared code at
+different functions, and matching source stays in the password module scope
+rather than being duplicated as a sixth configured module. See the
+[name-entry comparison](../../src/overlays/name_entry/README.md).
+
+An address in `0x80168xxx` consequently needs the loaded-image identity
+before it can name a function. The five configured images are not an
+exhaustive list of runtime code. In particular, `func_80043960`'s WA
+startup request loads a `0x1800`-byte phase from sectors `[5827, 5830)` at
+`0x80168000`. **Both previously unplaced "enable" GameShark guards match
+this image**, at `0x80168188` and `0x80168100`; neither requires one of the
+five configured screen images or a different game revision to locate its
+guard. Their branch rewrites are recorded in
+[the code-site evidence](gameshark-codes.md#located-enable-code-guards).
+
+The duel bank above and a second, still-unidentified SU image at sectors
+`[1223, 1239)` are also outside the configured catalog. The
+[module crosswalk](../overlays/module-crosswalk.md) and
+[loader research](../overlays/runtime-loader.md) distinguish complete
+packages, their executable phases, and other load banks.
 
 **The scan the tables were found by** is reproducible: `tools_src/
 extract_mrg_tables.py` in `MaChInEgUn3/ygofm-decomp` reads all of the
@@ -1769,13 +1812,13 @@ Not verified in code:
   dialogue (§7.11);
 * the win/loss record order (the archives' claim; only the drop-block order
   is measured);
-* what the two "enable" GameShark codes target — their guards match neither
-  located overlay;
+* the full gameplay effects and necessity of the two "enable" GameShark
+  codes. Their image and branch sites are now located in the WA startup
+  phase (§12.2), and both force an existing branch unconditionally; no
+  patched-game observation establishes their complete user-visible effects;
 * the home terrains of the five shrines and the finale (only Sebek/Neku's
   Yami is sourced);
-* three chunks of the duel blob and the 104-byte tail of the duelist block;
-* the Free Duel overlay has since been located (§12.2), so only the two
-  "enable" codes remain unplaced.
+* three chunks of the duel blob and the 104-byte tail of the duelist block.
 
 Corrected from the earlier version of this document: the rank-table
 category labels (rows 4, 5, 8, 9); the seven-rank list (ten); the duelist
@@ -1791,7 +1834,7 @@ contents; and "unlocked by meeting" (it is by defeating).
 ## 14. Sources
 
 Measured here: everything in brackets, against `SLUS_014.11` NTSC-U and the
-retail disc's `WA_MRG.MRG`. Names of functions and modes: the GMS IDA
+retail disc's `WA_MRG.MRG` and `SU.MRG`. Names of functions and modes: the GMS IDA
 database of this binary. Rules and screen behaviour: the game, checked
 against the Yugipedia article on the game (rules, spoils, deck construction,
 initial deck, trading), the Neoseeker campaign guide (unlock conditions,
