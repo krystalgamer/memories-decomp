@@ -4110,3 +4110,84 @@ is required for a second reason worth recording: the target materialises
 `D_801D5608[0]` inline as `lui` plus `sw ...,%lo(sym)(reg)` and reaches `[1]`
 through the hoisted pointer at `+4`. A pointer variable makes both go through
 the pointer and loses the inline form.
+
+## Small-data addressing: one mechanism, five levers
+
+Requested on #2087 after the fifth separate note about the same thing. The
+existing entries stay where they are; this one states the mechanism once and
+says which lever answers which question, so a residual can be read straight
+into a spelling instead of into a rediscovery.
+
+**The mechanism.** A global reference passes two gates before it reaches the
+linker.
+
+1. *Is the symbol small data?* GCC answers this at compile time from the `-G`
+   value and the symbol's **declared size**. A symbol it believes is small is
+   emitted `%gp_rel(sym)($gp)`, one instruction, no address to allocate.
+2. *If not, who builds the address?* With `-msplit-addresses` GCC builds it
+   itself into an allocated register (`lui`/`addiu`, or `HIGH`/`LO_SUM` fused
+   into the memory operand). Without it, or when the reference is a plain
+   `(mem (symbol_ref))` that never becomes an address expression, the operand
+   reaches the assembler as a macro and the assembler builds it through `$at`.
+
+Every lever below moves one of those two gates. Read the target first: a
+`%gp_rel` says gate 1 pulled it in; a `lui $at` / `%lo(sym)($at)` pair says
+gate 1 pushed it out and gate 2 left it to the assembler; a `lui $rN` /
+`addiu $rN, $rN, %lo` pair in a real register says gate 2 built it.
+
+| Lever | Moves | Evidence |
+| --- | --- | --- |
+| the profile's compile-time `-G` | gate 1, for every symbol at once | #2077 |
+| a declared size on an array | gate 1, in | #2056 |
+| an incomplete array type | gate 1, out | #2078, #2083 |
+| scalar against subscript | gate 2 | `func_8002FD10`, #2087 |
+| compile-time `-G` against assemble-time `-G` | the two gates independently | #2087 |
+
+**1. The profile's `-G` is the blunt instrument, and it is per function, not
+per cohort.** `func_8003B054` (#2077) sits among `-G8` neighbours, but its
+2-byte `D_8009B0D8` is reached through a `%hi`/`%lo` pair; at `-G8` that
+collapses to a single gp-relative `lhu` and the function is short. Inheriting a
+neighbour's profile is the right first move and the wrong last one.
+
+**2. A declared size pulls an array in.** `func_800222F4` (#2056) needed
+`u8 D_8009B16C[4]`, not `u8 D_8009B16C[]`, to reach its gp-relative form. An
+unsized array has unknown size, so it can never be small data.
+
+**3. The incomplete array type pushes a symbol out, and
+`section(".data")` is not a substitute for it.** `Main_RunTrade` (#2078) has a
+4-byte slot that `-G8` makes eligible; `extern u8 D_800E9EF0[]` with casts at
+the use sites produces the split form, while adding `section(".data")` to the
+pointer declaration leaves the macro store exactly where it was. #2083 is the
+same finding from the other direction: an array declaration changed the
+addressing where the attribute had not.
+
+**4. Scalar against subscript decides whether an address exists at all**, and
+this is the lever that hides, because both forms are two instructions and the
+opcode multiset is unchanged — only register names move, which reads as an
+allocation residual and gets swept the wrong way. A direct store to a named
+scalar stays a `(mem (symbol_ref))` and reaches the assembler as a macro; a
+subscript is an address expression and cannot. On `func_8002FD10` the scalar
+spelling was worth 27 of 67 remaining positions. On `func_80023144` the same
+choice was worth two instructions and the `$at` form for five separate panel
+globals at once: declared `extern u8 X[]` they are not small data either, but
+cse then materialises **one** base register and shares it across every access,
+which is neither of the target's two forms.
+
+**5. The two `-G` values answer different questions, so a function can want
+both forms at once.** `gcc_2_8_1_cc_g8_as_g0_split` compiles `-G8
+-msplit-addresses` and assembles `-G0`. `Model_LoadMonsterMerge` (#2087) needs
+exactly that: its 4-byte `D_8009B0F4` keeps the assembler-macro store because
+at link time it is not in small data, while `D_800F2C40` and the two path
+symbols get explicit `lui`/`addiu` pairs. The controls matter for reading this
+one correctly — plain `-G0 -msplit-addresses` reaches the same instruction
+count but materialises the scalar into an allocated register instead of `$at`,
+and every non-split profile is eleven instructions longer.
+
+**Screening order that follows from this.** Take the profile from a matched
+neighbour, then look at each global's access form in the target and pick the
+declaration that produces it, one symbol at a time — the levers are per symbol
+and a single function routinely needs three different answers. If no single
+`-G` reproduces the mix, reach for a `cc_gN_as_gM` profile before rewriting any
+C. And do not spend a rotation on a target whose `%hi` is held in a callee-saved
+register and reused as a base: that is the separate, still-unmatchable class
+recorded under "Screen for split addressing before starting".
