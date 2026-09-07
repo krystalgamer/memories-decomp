@@ -879,7 +879,7 @@ address,size,name,status,module,notes
 0x80050584,0x24C,func_80050584,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x800507D0,0x754,func_800507D0,unmatched_asm,game,
 0x80050F24,0x148,func_80050F24,matching_c,game,"Model slot cue request: scales the field_7C4 duration by 2/3, clamps it to 60, and lets the 0xCF8 block override it"
-0x8005106C,0x2E4,func_8005106C,unmatched_asm,game,
+0x8005106C,0x2E4,func_8005106C,unmatched_asm,game,"Per-frame animation sound trigger for a model slot next to func_80050F24: bails unless the slot is active and animating, takes the animation length from the +0x7C4 table, computes this tick's advance and the phase (counter modulo length), optionally prints e%03ld(%ld)=%d, then walks the 64 sound entries at +0xBF8 and SD_SEPlays those of the current animation inside the tick window (func_80045334 first for looped ones at phase 0). Candidate at 185 of 185 instructions, opcode distance 2, 26 differing positions: retail reloads +0xE08 for the print after storing it where the candidate folds it, plus the scheduling around that; levers: goto entry walk, id read before the flag test, phase variable reused for the old counter, entry index read before the store. Stored in notes/candidates/func_8005106C.md."
 0x80051350,0x6F8,func_80051350,unmatched_asm,game,
 0x80051A48,0xAE0,func_80051A48,unmatched_asm,game,
 0x80052528,0x16C,func_80052528,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
