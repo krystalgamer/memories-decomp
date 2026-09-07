@@ -43,6 +43,10 @@ typedef struct {
 } SDValueLink;
 
 typedef struct {
+    u8 b[8];
+} SDNote;
+
+typedef struct {
     u16 field_0000;
     u8 pad0002[2];
     u16 field_0004;
@@ -78,9 +82,10 @@ typedef struct {
     u16 *field_043C;
     u16 field_0440;
     u16 field_0442;
-    u8 pad0444[4];
+    SDNote *field_0444;
     SDValueLink *field_0448;
-    u8 pad044C[0xC4];
+    u16 field_044C[2][32];
+    u8 pad04CC[0x44];
     s16 cd_volume;
     s16 field_0512;
     u8 channel_volume[2];
