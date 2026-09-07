@@ -813,13 +813,26 @@ join:
 
 `gcc_2_8_1_g0_split`, 495 instructions against 495, opcode distance 0 with
 every mnemonic count exact. The longest common subsequence of mnemonics is
-494 of 495, the first 386 instructions agree, and 26 positions differ.
+494 of 495, the first 386 instructions agree, and 25 positions differ.
 
 Every remaining difference is a register name. The instruction sequence is one
-short of identical, no instruction is missing, extra or misplaced, and the 26
+short of identical, no instruction is missing, extra or misplaced, and the 25
 disagreeing positions are five small clusters where a value the target keeps in
 `v0` this candidate keeps in `v1`, or the reverse. There is no longer any
 structural question outstanding: what remains is allocation order alone.
+
+One of those clusters was hidden rather than absent. A diff that normalises
+displacements to compare registers alone reports the two `lh` instructions that
+start the animation block as agreeing, because they differ only in their offsets:
+the target loads `0x38` and then `0x36`, and this candidate loaded them the other
+way round. Writing the difference as `value = *(s16 *)(eloop + 0x38); delta =
+value - *(s16 *)(eloop + 0x36);` puts the loads in the target's order and takes
+the differing positions from 28 to 25. The lesson is about the tool rather than
+the function: normalising a field to isolate one kind of difference also hides
+every difference in that field, so a register-level diff has to be read against
+an unnormalised one before concluding that a region is register-only. Embedded
+assignment and comma forms that ought to express the same evaluation order are
+canonicalised back to the original and do not reproduce it.
 
 The candidate reached this state through six independent levers, each of which
 was found by decoding a specific instruction the target emits and asking what
@@ -1125,8 +1138,8 @@ s32 func_80180390(void)
             }
         }
         eloop = *slot;
-        value = *(s16 *)(eloop + 0x36);
-        delta = *(s16 *)(eloop + 0x38) - value;
+        value = *(s16 *)(eloop + 0x38);
+        delta = value - *(s16 *)(eloop + 0x36);
         value = *(s16 *)(eloop + 0x60);
         frame = 0x10 - value;
         value = *(u16 *)(eloop + 0x38);
