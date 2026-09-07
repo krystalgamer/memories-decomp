@@ -1599,6 +1599,42 @@ comes from a walking offset that starts at -126 and gains 8 a pass, and the u
 coordinate is the value modulo ten times eight, less 128 for the left edge and
 120 for the right; one division supplies both the remainder and the next value.
 
+The four are now separated rather than described as one pressure difference,
+and one of them has a price attached.
+
+The missing `lui` is the third `%hi` base. Three distinct symbols are read in
+the opening block, the pair of display values at `D_801845C0`, the widget
+pointers at `D_801845B0` and the toggle bytes at `D_801845BC`, and under
+`-msplit-addresses` each gets its own high-half pseudo. The target materialises
+all three in the prologue, at instructions 1, 3 and 5. This build materialises
+two there and defers the third, because it has already spent a register
+spilling the second display value: the spill is visible as `sw v0,112(sp)` at
+candidate instruction 20, in the window where the target is still setting up
+addresses.
+
+Two of the missing `sw` are spills the target makes and this build does not.
+The target stores the field width to `sp+112`, reloads it, shifts it by three
+and stores the result to `sp+116`, then reloads that on every pass of the first
+digit loop, repeating the pattern at `sp+120` for the second. This build keeps
+the width in a callee-saved register and the shifted value in another, so it
+never spills either.
+
+Hoisting the shift into its own local before the loop, which is the shape the
+target's spill implies, does fix the `lui` and one of the `sw`. It is still one
+worse overall, because it buys them with two surplus `lw`: GCC reloads the
+hoisted value where the target reloads a spill slot, and the counts do not
+line up. That is the first time either of those two has been moved at all, so
+the axis is not closed, but the price is now known.
+
+Two axes measured alongside it are inert. Three spellings of the digit
+division, including taking the quotient into a temporary before computing the
+remainder and computing the remainder by subtraction rather than by the modulus
+operator, are byte-identical to each other and to the current form in all six
+cells of their product with the hoist; GCC canonicalises all three to the same
+single division. Hoisting the four per-loop constants, which the target does
+into `a3`, `s5`, `s4` and `s3`, remains much worse and is worse still in
+combination with the shift hoist, at eleven.
+
 The remaining four instructions are one missing `lui`, one missing `move` and
 two missing `sw`, and they are the register-pressure difference the row already
 records rather than a shape error. The target's frame is 176 bytes against this
