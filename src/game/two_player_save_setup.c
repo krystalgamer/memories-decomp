@@ -29,7 +29,7 @@ s32 func_8003FD14(void)
     result = func_8003FCD8();
     if (result == 1) {
         left = D_801D1200;
-        right = D_801D1200 + 4096;
+        right = D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE;
         i = 0;
         state = D_801D5608;
         D_8009B3EA = 10;
@@ -44,8 +44,16 @@ s32 func_8003FD14(void)
                 return 0;
             }
         }
-        Text_SjisToGlyphCodes(D_801B122B, D_801D160C, 6);
-        Text_SjisToGlyphCodes(D_801B1238, D_801D160C + 4096, 6);
+        Text_SjisToGlyphCodes(
+            D_801B122B,
+            D_801D160C,
+            SAVE_DATA_PLAYER_NAME_CHAR_COUNT
+        );
+        Text_SjisToGlyphCodes(
+            D_801B1238,
+            D_801D160C + TWO_PLAYER_SAVE_SLOT_STRIDE,
+            SAVE_DATA_PLAYER_NAME_CHAR_COUNT
+        );
     }
     return result;
 }
@@ -57,10 +65,15 @@ extern void *D_8009B3E0;
 void func_8003FE14(void)
 {
     u8 *p = D_801D1880;
-    u8 *q = p + 0x1000;
+    u8 *q = p + TWO_PLAYER_SAVE_SLOT_STRIDE;
 
     SaveData_WritePrimarySecondaryIntegrity(p);
     SaveData_WritePrimarySecondaryIntegrity(q);
     D_8009B3E0 = q;
-    func_8003F758(p, 0x400, gMemCard_szSaveFileName, 4);
+    func_8003F758(
+        p,
+        TWO_PLAYER_SAVE_TRANSFER_SIZE,
+        gMemCard_szSaveFileName,
+        4
+    );
 }
