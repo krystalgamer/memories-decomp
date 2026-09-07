@@ -51,6 +51,34 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
+The `D_8009B398[0] & 0x800` arm also belongs out of line, and moving it takes
+the longest common mnemonic subsequence from 351 to 362. The evidence is the
+same alignment argument as the select-screen block above: the target ends that
+arm with `j 0x169360` into word 137, so the arm is laid out after the common
+tail and jumps back to it, while the inline `else if` makes it fall through.
+Rewriting it as `goto alt800` with the arm placed immediately before the
+`select` label reproduces the layout, and eleven more instructions fall into
+the target's relative order.
+
+This candidate is stored at that state deliberately, and the choice is worth
+explaining because the two headline metrics disagree. Out of line the opcode
+distance is 4 against 3 and the count is 384 against 383, both one worse,
+because the arm no longer sits next to code that has already loaded
+`%hi(0x8017)` and has to load its own; inline, eleven instructions are in the
+wrong order but that single `lui` is absent. Opcode distance is an L1 multiset
+distance and cancels, so it under-reports a block in the wrong place, and this
+repository's own methodology note records that distance mis-ranked this
+particular function before. The subsequence cannot cancel, so it is the better
+key here, and the residual it leaves is one identified instruction rather than
+a layout question. Three spellings of the arm, covering the negated guard, the
+positive guard and the two assignments in the other order, all give the same
+362 and the same extra `lui`, so the cost is inherent to the placement rather
+than to how the arm is written.
+
+The residual is `{lui +1, beqz +1, move +2, bnez -1, addu -1}`. Removing that
+`lui` is the next step and would make the placement a clean gain on every
+metric at once.
+
 The select-screen early return belongs out of line at the end of the function,
 not inline where it is written. Aligning the two streams on mnemonic plus
 immediates shows a thirteen-instruction block that tests `D_8009B394[0] & 0x20`
@@ -717,12 +745,10 @@ void func_8016913C(void)
             }
             D_8016D426 = D_8016D402;
         }
-    } else if ((D_8009B398[0] & 0x800) != 0) {
-        D_8016D401 = 14;
-        D_8016D402 = 8;
     } else {
-        goto select;
+        goto alt800;
     }
+tail47:
     func_8003FEE0(47);
     row = (s8)D_8016D402;
     col = (s8)D_8016D401;
@@ -754,6 +780,13 @@ void func_8016913C(void)
     D_8016D4D4 |= 0x4000;
 
 
+alt800:
+    if ((D_8009B398[0] & 0x800) == 0) {
+        goto select;
+    }
+    D_8016D401 = 14;
+    D_8016D402 = 8;
+    goto tail47;
 select:
     if ((D_8009B394[0] & 0xC0) == 0) {
         goto sel_ret;
