@@ -45,7 +45,36 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 377 instructions against 382, opcode distance 21.
+`gcc_2_8_1_g0_split`, 380 instructions against 382, opcode distance 18.
+
+The two `NameEntry_AdjustLength` sites always play a sound; they do not test
+its result to decide whether to play one. The target reads
+`bnez v0` selecting `a0 = 12` over `a0 = 9` and then falls into a single
+`jal SD_SEPlayFull`, so the shape is
+`SD_SEPlayFull(NameEntry_AdjustLength(...) ? 12 : 9)` rather than
+`if (NameEntry_AdjustLength(...) == 0) SD_SEPlayFull(9)`. The stored candidate
+had dropped the `12` path at both sites, which cost three instructions and
+three of the distance. Correcting both is worth more than correcting either:
+21 to 20 and 19 alone, 18 together.
+
+This was found by `tools/project/overlay_arity_audit.py`, which reported that
+the candidate did not make the target's last two calls, to
+`NameEntry_AdjustLength` and `SD_SEPlayFull`. Reading the source against that
+report is what exposed the dropped `12` path, since the calls were present but
+conditional.
+
+The audit still reports the same two calls as missing after the fix, so the
+placement difference is a second and still-open fault rather than a symptom of
+the first. The target lays this block out at the very end, after the main body
+jumps over it to the epilogue at index 358; this candidate emits it inline at
+the `select:` gate. Moving it behind a forward `goto` at the end of the
+function was measured and is worse, 19 and 379 instructions, so the placement
+is not controlled by statement position here.
+
+Four spellings of the ternary at each site, sixteen cells, are all flat at 18,
+and so are all 29 profiles. `gcc_2_8_1_g0_no_sched2_split` is worth noting as
+the only near neighbour: distance 19 but 381 instructions and 334 differing
+positions against this profile's 380 and 354.
 
 The widget struct's tail fields sit at +0x5E and +0x60, so the padding
 between +0x3E and them is 32 bytes, not 56. The earlier candidate put them
@@ -222,9 +251,7 @@ void func_8016913C(void)
 select:
     if ((D_8009B394[0] & 0xC0) == 0) {
         if ((D_8009B394[0] & 0x20) != 0) {
-            if (NameEntry_AdjustLength(-1, 6) == 0) {
-                func_8003FEE0(9);
-            }
+            func_8003FEE0(NameEntry_AdjustLength(-1, 6) != 0 ? 12 : 9);
         }
         return;
     }
@@ -241,9 +268,7 @@ select:
         } else {
             d = -1;
         }
-        if (NameEntry_AdjustLength(d, 6) == 0) {
-            func_8003FEE0(9);
-        }
+        func_8003FEE0(NameEntry_AdjustLength(d, 6) != 0 ? 12 : 9);
         gy = 36;
     } else if (n == 6) {
         second = 2;
