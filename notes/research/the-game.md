@@ -1457,8 +1457,9 @@ The unlock is one flag per duelist, `0x6E0 + id`, in the save's flag array
 **overlay** loaded to `0x80168000` with the Free Duel blob (§12.2), first
 marks all 40 `gFreeDuel_abGridAvailable` entries available. Its explicit
 `for (id = 1; id < 39; id++)` loop then clears an entry when
-`Campaign_TestStoryFlag(0x6E0 + id)` is zero. The upper bound excludes entry
-39, so Duel Master K is never cleared.
+`Campaign_TestStoryFlag(0x6E0 + id)` is zero. The bounds exclude entry 0, the
+Build Deck tile, and entry 39, Duel Master K; both retain their initialized
+availability without a story unlock test.
 
 A controlled trace confirms both consequences of that loop. On a new save
 whose five unlock bytes were all zero, Duel Master K alone remained available.
