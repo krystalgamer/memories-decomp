@@ -179,6 +179,15 @@ followed by a 64-colour CLUT (`0x80` bytes). The executable phase has SHA-256
 `e5091e1a5df0287dbd3561915ca53c0f91d359d7eb0ec4156c5734361b55c1f2`,
 and the five phase sizes total the requested `0x2B800` bytes exactly.
 
+Exact matching `FreeDuel_Init` confirms the record split while uploading all
+40 portraits. For each `0x980`-byte record it sends the first `0x900` bytes
+through a `24 x 48` VRAM rectangle, which represents `48 x 48` 8-bit indices,
+then sends the `0x80` bytes at `+0x900` through a `64 x 1` CLUT rectangle.
+Successive records begin exactly `0x980` bytes apart. Records `0`-`24` fill a
+`5 x 5` image bank beginning at VRAM `(128, 256)`, records `25`-`39` continue
+at x `256`, and the 64-colour palettes occupy rows `496`-`511` before wrapping
+to the next 64-entry CLUT column.
+
 ### Name-entry screen package
 
 Matching `func_8003BBF8` requests 80 WA sectors beginning at sector `0x1EDF`,
