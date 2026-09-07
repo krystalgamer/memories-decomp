@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 typedef struct {
     u8 pad_00[0x28];
@@ -63,7 +64,8 @@ void func_80060E70(u16 *e, s32 idx, s32 flag)
             offset <<= 2;
             stats = gDuel_adwCardStats;
             style = base;
-            if (((*(s32 *)((u8 *)stats + offset) >> 26) & 0x1F) >= 0x14) {
+            if (((*(s32 *)((u8 *)stats + offset) >> CARD_STAT_TYPE_SHIFT) &
+                 CARD_STAT_TYPE_MASK) >= CARD_TYPE_MAGIC) {
                 style = base + 1;
             }
             D_801D5608[0] = id;
