@@ -126,6 +126,7 @@ Names that say what something IS in the game.
 | 0x8003F7D4 | `SaveData_RequestLoad` | matching C |
 | 0x8003F810 | `SaveData_PollLoad` | matching C |
 | 0x8003F87C | `SaveData_RequestWrite` | matching C |
+| 0x8003FE80 | `Sound_InitFrontend` | matching C |
 | 0x8003FEE0 | `SD_SEPlayFull` | live |
 | 0x80040390 | `DisplayObject_ResetPool` | matching C |
 | 0x80043230 | `Widget_SlideSine` | idb2018 |
