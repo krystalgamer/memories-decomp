@@ -24,8 +24,13 @@ Names that say what something IS in the game.
 | 0x800909D4 | `gDuel_aTerrainBoost` | idb2018 |
 | 0x80090C50 | `gScript_apfnCommand` | idb2018 |
 | 0x80090E58 | `gTextBox_awSpriteSlotRange` | idb2018 |
+| 0x8009151C | `gMovie_aStreamRanges` | matching C + disc |
 | 0x800916E0 | `gAiScript_apfnCommand` | idb2018 |
 | 0x800917F0 | `gDuel_aOpponentData` | idb2018 |
+| 0x8009AF24 | `gDuel_abTrapAttackThresholds` | matching C + retail data |
+| 0x8009AF29 | `gDuel_bWidespreadRuinAttackThreshold` | matching C + retail data |
+| 0x8009AF30 | `gDuel_abLifePointRecoveryUnits` | matching C + retail data |
+| 0x8009AF38 | `gDuel_abDirectDamageUnits` | matching C + retail data |
 | 0x8009B0AC | `gGraphics_bActiveBuffer` | live + matching C |
 | 0x8009B141 | `gFade_bOverlayOn` | idb2018 |
 | 0x8009B146 | `gGraphics_sViewportX` | live + matching C |
@@ -41,6 +46,7 @@ Names that say what something IS in the game.
 | 0x8009B290 | `gScript_pStream` | idb2018 |
 | 0x8009B2A4 | `gScript_wState` | idb2018 |
 | 0x8009B2C4 | `gDebug_nLastSoundID` | ramMap |
+| 0x8009B2C8 | `gDebug_nSceneOrSoundID` | ramMap |
 | 0x8009B327 | `gDialog_bInputState` | idb2018 |
 | 0x8009B336 | `gDialog_bChoiceEnabled` | idb2018 |
 | 0x8009B338 | `gDuel_wSelectedCardID` | idb2018 |
@@ -110,7 +116,7 @@ Names that say what something IS in the game.
 | 0x801A7B9C | `gDuel_PlayerMonster3` | idb2018 |
 | 0x801A7BB8 | `gDuel_PlayerMonster4` | idb2018 |
 | 0x801A7BD4 | `gDuel_PlayerMonster5` | idb2018 |
-| 0x801A7E20 | `gDuel_aPlayerHand` | ramMap |
+| 0x801A7E20 | `gDuel_aDeckCardRecords` | matching C + ramMap |
 | 0x801A8000 | `gAiScript_abHandScript` | idb2018 |
 | 0x801A8008 | `gLibrary_aPasswordCardData` | ramMap |
 | 0x801AB000 | `gDuel_aActiveCards` | idb2018 |
@@ -207,3 +213,5 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 | address | name |
 |---|---|
 | 0x8016D410 | `gPassword_abDigits` |
+| 0x8016D420 | `gPassword_pDigitCursorWidget` |
+| 0x8016D428 | `gPassword_nDigitIndex` |
