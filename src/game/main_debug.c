@@ -3,13 +3,13 @@
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 
-extern void func_8002CD8C(void);
+extern void Main_ResetFrontendRuntime(void);
 extern void func_80030198(void);
 extern void func_80031084(void);
 
 void func_8002CDE8(void)
 {
-    func_8002CD8C();
+    Main_ResetFrontendRuntime();
 }
 
 void Main_RunDebugMenu(void)

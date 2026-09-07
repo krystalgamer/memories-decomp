@@ -35,6 +35,7 @@ extern u8 D_8009B428;
 extern Rec64 D_800EB0F8[];
 
 void TextBox_Destroy(u8 *arg0);
+void Main_ResetFrontendRuntime(void);
 
 s32 func_80043BCC(void) {
     s32 r;
@@ -52,7 +53,7 @@ s32 func_80043BCC(void) {
             if ((f & 1) == 0) {
                 if ((f & 0x80) == 0) {
                     D_8009B428 = f | 0x80;
-                    func_8002CD8C();
+                    Main_ResetFrontendRuntime();
                     func_8003594C(0);
                     D_8009B142 = 0xFF;
                     D_8009B143 = 0xFF;
@@ -79,7 +80,7 @@ s32 func_80043BCC(void) {
             }
             if ((f & 0x80) == 0) {
                 D_8009B428 = f | 0x80;
-                func_8002CD8C();
+                Main_ResetFrontendRuntime();
                 func_8018001C(0, 0);
                 func_800157DC();
             }
@@ -91,7 +92,7 @@ s32 func_80043BCC(void) {
         func_8003FF34();
         Fade_WaitOut();
         func_80180DD0();
-        func_8002CD8C();
+        Main_ResetFrontendRuntime();
         if (r != -2) {
             return r;
         }

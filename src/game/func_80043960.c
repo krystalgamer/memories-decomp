@@ -24,7 +24,7 @@ extern int func_80168160(int);
 extern void func_8007AFA4(void);
 extern void func_8005B85C(void);
 extern void func_80015AD8(void);
-extern void func_8002CD8C(void);
+extern void Main_ResetFrontendRuntime(void);
 
 void func_80043960(int mode)
 {
@@ -74,5 +74,5 @@ void func_80043960(int mode)
     func_8005B85C();
     func_800438B8(0xB4);
     func_80015AD8();
-    func_8002CD8C();
+    Main_ResetFrontendRuntime();
 }

@@ -11,7 +11,8 @@ extern u8 gDuel_awPlayerDeck[];
 extern void func_800323F8(u32, void *, int, int);
 extern void func_80015A00(void), func_8003FF34(void), Fade_WaitOut(void);
 extern int func_80033BE8(void);
-extern void func_8002CD8C(void), func_800179F4(void), func_80024388(void);
+extern void Main_ResetFrontendRuntime(void), func_800179F4(void),
+    func_80024388(void);
 extern void func_80047AD0(int), func_800134B4(void), func_80012D84(int);
 extern void func_800137E4(void);
 
@@ -41,7 +42,7 @@ void Main_RunDuel(void)
         } else if (func_80033BE8() == 0) {
             func_8003FF34();
             Fade_WaitOut();
-            func_8002CD8C();
+            Main_ResetFrontendRuntime();
             D_8009B26E = 1;
         }
         break;

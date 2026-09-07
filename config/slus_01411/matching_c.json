@@ -1486,7 +1486,7 @@
       "address": "0x8002CD8C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",
-      "source": "src/game/func_8002CD8C.c"
+      "source": "src/game/main_reset_frontend_runtime.c"
     },
     {
       "address": "0x8002CDE8",
