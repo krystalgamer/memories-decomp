@@ -4,7 +4,7 @@ extern u8 D_8009B268;
 extern u8 D_8009B26C;
 extern u8 D_8009B26D;
 extern s16 D_801D07DC[];
-extern u8 D_8009B27A __attribute__((section(".data")));
+extern u8 gCampaignSceneIndex __attribute__((section(".data")));
 extern u8 D_8009B3D4 __attribute__((section(".data")));
 extern u8 D_8009B0D1 __attribute__((section(".data")));
 extern u8 gFreeDuel_bReturnFlags __attribute__((section(".data")));
@@ -23,7 +23,7 @@ void func_8002D458(s32 mode)
         func_8003BBF8();
         func_8016AA6C();
         D_801D07DC[0] = 0x30;
-        D_8009B27A = 0x30;
+        gCampaignSceneIndex = 0x30;
         D_8009B3D4 = 1;
         D_8009B0D1 = 0;
         D_8009B26C = 2;
@@ -38,7 +38,7 @@ void func_8002D458(s32 mode)
         D_8009B26C = 4;
         break;
     case 5:
-        D_8009B27A = D_801D07DC[0];
+        gCampaignSceneIndex = D_801D07DC[0];
         D_8009B26C = 2;
         break;
     case 6:

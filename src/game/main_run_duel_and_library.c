@@ -3,7 +3,7 @@
 extern u8 D_8009B26C, D_8009B26E;
 extern u8 D_8009B369[9], D_8009B2F8[9], D_8009B0A3[9];
 extern s8 gDuel_bOpponentID[9];
-extern u8 D_8009B368[9], D_8009B362[9], D_8009B27A[9];
+extern u8 D_8009B368[9], D_8009B362[9], gCampaignSceneIndex[9];
 extern u8 D_8009B370[9];
 extern u16 D_8009B16C[9];
 extern u32 D_80010000[];
@@ -71,7 +71,7 @@ void Main_RunDuel(void)
         __asm__ volatile("nop");
         D_8009B26C = next;
         if (D_8009B26C == state)
-            D_8009B27A[0] = table[D_8009B362[0] * 2];
+            gCampaignSceneIndex[0] = table[D_8009B362[0] * 2];
         break;
     }
     }

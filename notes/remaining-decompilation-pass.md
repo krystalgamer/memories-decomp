@@ -402,7 +402,7 @@ State after this one-function checkpoint:
 ### Continuous wave 10
 
 `Main_RunCampaign` (`0x8002CE64`) matched after correcting two absolute-address
-forms. `D_8009B27A` is declared as an absolute `.data` scalar so GCC loads it
+forms. `gCampaignSceneIndex` is declared as an absolute `.data` scalar so GCC loads it
 directly into `$a0`; the write-only `D_8009B254` clear uses the documented
 absolute C literal exception to preserve retail `$at` materialization. Linked
 text is byte-identical, and the complete executable remains the acceptance

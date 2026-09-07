@@ -5,8 +5,10 @@ typedef struct {
     u8 pad_000[SAVE_DATA_SEQUENCE_OFFSET];
     u32 save_sequence;
     u32 vblank_counter;
-    u8 pad_40C[0x5DC - SAVE_DATA_PLAYER_NAME_OFFSET];
-    u8 field_5DC;
+    u8 pad_40C[
+        SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET - SAVE_DATA_PLAYER_NAME_OFFSET
+    ];
+    u8 campaign_scene_index;
     u8 field_5DD;
     u8 output_type;
 } SaveDataRuntimeState;
@@ -18,7 +20,7 @@ extern s8 gSD_bOutputType[16];
 extern void SD_SetOutputType(s16);
 
 #define D_8009B0C4 (*(u32 *)0x8009B0C4)
-#define D_8009B27A (*(u8 *)0x8009B27A)
+#define gCampaignSceneIndex (*(u8 *)0x8009B27A)
 #define D_8009B408_write (*(u8 *)0x8009B408)
 
 void SaveData_ApplyRuntimeState(SaveDataRuntimeState *state) {
@@ -30,7 +32,7 @@ void SaveData_ApplyRuntimeState(SaveDataRuntimeState *state) {
      */
     D_8009B0C4 = state->vblank_counter;
     D_8009B3B8 = state->save_sequence;
-    D_8009B27A = state->field_5DC;
+    gCampaignSceneIndex = state->campaign_scene_index;
 
     if (gSD_bOutputType[0] < 0) {
         u8 output_type = state->output_type;

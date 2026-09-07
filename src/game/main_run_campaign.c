@@ -1,7 +1,7 @@
 #include "../types.h"
 
 extern u8 D_8009B26C;
-extern u8 D_8009B27A __attribute__((section(".data")));
+extern u8 gCampaignSceneIndex __attribute__((section(".data")));
 extern u8 D_800EAE98[];
 extern void func_8002FD10(s32);
 extern void func_8002FFD4(void *);
@@ -16,7 +16,7 @@ void Main_RunCampaign(void) {
 
     if ((flags & 0x40) == 0) {
         D_8009B26C = flags | 0x40;
-        func_8002FD10(D_8009B27A);
+        func_8002FD10(gCampaignSceneIndex);
         D_8009B254 = 0;
         return;
     }
