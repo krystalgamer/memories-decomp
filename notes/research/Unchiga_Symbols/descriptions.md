@@ -175,7 +175,7 @@ on the suspects side until proven.)
 | 0x80075B20 | `DeliverEvent` | BIOS syscall trampoline: fire a kernel event (used inside the SPU library's IRQ path). |
 | 0x80075BE0 | `SpuSetReverb` | PsyQ libspu: enables/disables SPU reverb processing. |
 | 0x80076D10 | `WaitEvent` | BIOS syscall trampoline: block until a kernel event fires. |
-| 0x8007E350 | `PadChkVsync` | PsyQ libpad: the per-vsync pad servicing hook. |
+| 0x8007E350 | `CdFlush` | No-argument LIBCD command-state flush. It clears the active command state without shutting down the drive, which later overlay code continues using. |
 | 0x8007E600 | `CdIntToPos_8007E600` | Second linked copy of PsyQ `CdIntToPos`: converts a sector number to a CD MSF position, returning its pointer argument (libsyms owns the bare name at 0x8007A710). |
 | 0x8007E710 | `CdPosToInt_8007E710` | Second linked copy of PsyQ `CdPosToInt`: MSF position back to a sector number. |
 | 0x8007E8D0 | `SetDumpFnt` | PsyQ debug-font library: selects the font stream used by `FntPrint` dumps. |
@@ -601,3 +601,20 @@ on the suspects side until proven.)
 | 0x8016D420 | `gPassword_pDigitCursorWidget` | Password digit-highlight widget pointer used as the coordinate reference by cursor-decoration callbacks. This overlay address is reused by other modules. |
 | 0x8016D428 | `gPassword_nDigitIndex` | Selected password digit index from zero through seven, used to position the highlight and gate its end decorations. This overlay address is reused by other modules. |
 | 0x801D5708 | `gText_abColorSlots` | Sixteen text-colour selector slots used by encoded bytes `0x80`–`0x8F`; duel-result labels use slots zero and one. |
+
+## Batch: file and CD SDK interfaces
+
+This batch adds nine rows and corrects the inherited `PadChkVsync` row at
+`0x8007E350` above, covering ten interfaces in total.
+
+| address | name | description |
+|---|---|---|
+| 0x80073920 | `nextfile` | Advances a caller-owned Psy-Q `DIRENTRY` during memory-card directory enumeration and returns that same pointer on success. |
+| 0x80073AC0 | `firstfile` | Starts directory enumeration for a formatted device path, fills the caller-owned Psy-Q `DIRENTRY`, and returns that record pointer on success. |
+| 0x8007A860 | `CdDataCallback` | First linked copy of the LIBCD DMA-channel-3 callback setter. It replaces the callback and returns the previous function pointer. |
+| 0x8007E3D0 | `CdGetSector` | Transfers a requested word count from the current CD sector to the caller's destination and maps low-level success to return value one. |
+| 0x8007E4F0 | `CdGetSector2` | Parallel sector-transfer wrapper using LIBCD's second transfer path with the same destination, count, and success contract as `CdGetSector`. |
+| 0x8007E7F0 | `CdControlB` | Blocking three-argument CD command wrapper. It submits the byte command, polls through the caller's result buffer, and succeeds only on completion code two. |
+| 0x8007E860 | `CdReadyCallback` | Replaces and returns the callback that receives `CdlDataReady` status and the unchanged result pointer. |
+| 0x8007E880 | `CdSyncCallback` | Replaces and returns the distinct callback used by the `CdlComplete` command-completion path. |
+| 0x8007E8A0 | `CdDataCallback_8007E8A0` | Second linked copy of `CdDataCallback`, byte-identical to the `0x8007A860` wrapper and selected by another CD teardown state. |
