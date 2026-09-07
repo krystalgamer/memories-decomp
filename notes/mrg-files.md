@@ -114,7 +114,12 @@ which is archive range `0xFD3800-0xFEC800`. Matching callback
 
 The tutorial places a 256-colour background palette at `0xFEB800` and a
 16-colour symbol palette at `0xFEBA00`, which map to the first full VRAM row
-and the first 16 entries of the second row. See
+and the first 16 entries of the second row. Their exact spans are
+`0x200 = 256 * 2` bytes and `0x20 = 16 * 2` bytes. Paired with the two image
+ranges, `0x10000` bytes at 8 bits per pixel and `0x8000` bytes at 4 bits per
+pixel each describe 65,536 indices. These sizes independently support the
+8-bit/4-bit format pairing, while the background and symbol labels remain
+tutorial-derived. See
 [`modding-tutorial-evidence.md`](modding-tutorial-evidence.md) for the
 resource hashes and the visual-label confidence boundary.
 
