@@ -20,7 +20,7 @@ void func_8004803C(u16 id, u8 voice, s32 pitch_add, u8 volume, s16 pan, u8 flags
                 g_SDValue->volume_right = g_SDValue->volume_right * (pan + 0x80) / 128;
             }
         }
-        g_SDValue->pitch = g_SDValue->field_0444[idx].pitch + pitch_add;
+        g_SDValue->note = g_SDValue->field_0444[idx].pitch + pitch_add;
         g_SDValue->key_mask = 1 << (voice + SD_VOICE_SLOT_KEY_SHIFT);
         g_SDValue->field_03A0 = g_SDValue->field_0444[idx].field_0006 << 4;
         SpuSetKey(SPU_OFF, g_SDValue->key_mask);

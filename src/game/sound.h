@@ -68,7 +68,7 @@ typedef struct {
     s16 volume_left;
     s16 volume_right;
     u8 pad0390[0xA];
-    u16 pitch;
+    u16 note; /* SpuVoiceAttr.note at key_mask + 0x16; not raw pitch. */
     u8 pad039C[4];
     u32 field_03A0;
     u8 pad03A4[0x20];
@@ -240,6 +240,12 @@ typedef char SDValueLink_size_must_be_0x08[
 ];
 typedef char SDValue_size_must_be_0x164C[
     sizeof(SDValue) == 0x164C ? 1 : -1
+];
+typedef char SDValue_key_mask_offset_must_be_0x384[
+    SD_STATE_OFFSET(SDValue, key_mask) == 0x384 ? 1 : -1
+];
+typedef char SDValue_note_offset_must_be_0x39A[
+    SD_STATE_OFFSET(SDValue, note) == 0x39A ? 1 : -1
 ];
 typedef char SDSecondaryObject_size_must_be_0x28[
     sizeof(SDSecondaryObject) == SD_SECONDARY_OBJECT_SIZE ? 1 : -1
