@@ -3850,3 +3850,56 @@ wrong answer.** `gcc_2_8_1_g0_no_sched2` emits them exactly as written, but the
 rest of a function of this size needs sched2: the same candidate goes from 2
 differing to 73. Read the `no_sched2` build as a diagnostic that tells you what
 the scheduler did, not as a profile to ship.
+
+## Two `%hi` materialisations: sched1 picks the order, local-alloc picks the registers
+
+`func_8001944C` sat at 15 differing positions for six canonical attempts, and
+the recorded reason - "the two address materialisations after the loop are
+emitted in the opposite order" - was only half of it. With relocations
+resolved rather than masked the residual was six positions, and they split
+into two independent questions about the same four instructions:
+
+```
+lui   $3, %hi(D_800E9D70)      target:  lui   $3, %hi(D_8015C424)
+addiu $4, $3, %lo(D_800E9D70)           addiu $5, $3, %lo(D_8015C424)
+lui   $6, %hi(D_8015C424)               lui   $6, %hi(D_800E9D70)
+addiu $5, $6, %lo(D_8015C424)           addiu $4, $6, %lo(D_800E9D70)
+```
+
+The two pointers, `$4` and `$5`, were already right. Only the pair of `%hi`
+temporaries was swapped, and each one is reused once more as the base of its
+object's zero-offset store, so a swap there costs four positions in the
+setup and two in the stores.
+
+**They are decided by different passes, and you have to move both.**
+`-fno-schedule-insns` flips which pair is emitted first and leaves the hard
+registers alone; nothing about the source order of the two objects' first
+references moves either. So the emission order is the first scheduling pass,
+and the `$3`/`$6` assignment is local-alloc ranking the two quantities.
+
+**What moved the registers was where the zero-offset store was written.**
+The target's `*(u16 *)D_8015C424 = 0` sits between the rectangle's width and
+height stores, and the earlier candidate wrote it there - the note even
+records that placement as "worth 7 positions on its own". Writing it instead
+*before* the whole rectangle block swapped the two `%hi` registers into the
+target's assignment, because it is the first reference to that symbol in the
+block that decides which quantity local-alloc ranks first. sched2 then sinks
+the store back between the width and the height, so the emitted code is
+unchanged. The store's final position told us nothing about where it belonged
+in the source.
+
+**What moved the order was a pin on a pointer that reuses a dead register.**
+With the registers correct, pinning `base`, the second pointer to the buffer,
+to `$5` - the register the bit-setting loop's walking pointer has just
+finished with - made the first scheduling pass emit that object's pair first.
+Function matched at 70 of 70 under `gcc_2_8_1_g8_split`.
+
+Three things worth carrying forward. **Masked comparison hides swapped
+relocation symbols**: `lui $3, %hi(A)` and `lui $3, %hi(B)` differ only in
+the relocated immediate, so any harness that masks those fields to avoid
+counting unresolved `%hi`/`%lo` will score this class of miss as a match and
+send you looking in the wrong place. Resolve the relocations instead.
+**A statement's position in the output is not evidence about its position in
+the source** when sched2 is free to move it, and an independent store to a
+provably distinct symbol always is. **Write it where it makes the allocator
+behave, not where it lands.**
