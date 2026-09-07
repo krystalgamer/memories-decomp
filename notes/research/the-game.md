@@ -1544,8 +1544,8 @@ loss you did not save after.
 The resident save builder stages a `0x200`-byte header followed by two
 identical `0x680`-byte state copies, for `0xF00` bytes through the end of the
 duplicate. `SaveData_RequestWrite` copies the live state to `0x801D3200`;
-`func_8003D03C` builds the header at `0x801D3000`, normalizes the primary
-copy, and duplicates it at `0x801D3880`. The final request passes
+`SaveData_BuildPayload` builds the header at `0x801D3000`, normalizes the
+primary copy, and duplicates it at `0x801D3880`. The final request passes
 `0x801D3200` and length `0xD00`, exactly the contiguous primary-plus-duplicate
 state pair. Its final mode value remains unnamed.
 

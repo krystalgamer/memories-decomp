@@ -63,7 +63,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010378,D_80010378,D_80010378,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02e41c.s,address,,"addiu $a0, $a0, %lo(D_80010378) | lui $a0, %hi(D_80010378)"
 0x80010384,D_80010384,D_80010384,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02e41c.s,address,,"addiu $a0, $a0, %lo(D_80010384) | addiu $a1, $a1, %lo(D_80010384) | (+4 more)"
 0x80010384,D_80010384,D_80010384,0x8003F7D4,SaveData_RequestLoad,matching_c,game,C,src/game/save_data_request_load.c,address,8,"func_8003F758(D_801D3200, SAVE_DATA_STATE_SIZE, D_80010384, 0);"
-0x80010384,D_80010384,D_80010384,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_request_write.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(D_801D3200,gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);func_8003D03C(D_8..."
+0x80010384,D_80010384,D_80010384,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_request_write.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(D_801D3200,gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);SaveData_BuildPay..."
 0x80010384,D_80010384,D_80010384,0x8003F8D4,func_8003F8D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0300d4.s,address,,"addiu $a2, $a2, %lo(D_80010384) | lui $a2, %hi(D_80010384)"
 0x80010384,D_80010384,D_80010384,0x8003FE14,func_8003FE14,matching_c,game,C,src/game/two_player_save_setup.c,address,8,"func_8003F758(p, 0x400, D_80010384, 4);"
 0x80010398,D_80010398,D_80010398,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02e41c.s,address,,"addiu $a0, $a0, %lo(D_80010398) | lui $a0, %hi(D_80010398)"
@@ -822,7 +822,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0C3,D_8009B0C3,D_8009B0C3,0x80012CD4,Main_VBlankCB,matching_c,game,C,src/game/main_frame.c,write,,D_8009B0C3 = 0; | D_8009B0C3 = 1;
 0x8009B0C4,D_8009B0C4,D_8009B0C4,0x80012B50,Main_Init,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0031d8.s,write,32,"sw $a1, %gp_rel(D_8009B0C4)($gp)"
 0x8009B0C4,D_8009B0C4,D_8009B0C4,0x80012CD4,Main_VBlankCB,matching_c,game,C,src/game/main_frame.c,read_write,,D_8009B0C4++;
-0x8009B0C4,D_8009B0C4,D_8009B0C4,0x8003D03C,func_8003D03C,matching_c,game,C,src/game/save_data_build_payload.c,read,,saved_value = D_8009B0C4[0];
+0x8009B0C4,D_8009B0C4,D_8009B0C4,0x8003D03C,SaveData_BuildPayload,matching_c,game,C,src/game/save_data_build_payload.c,read,,saved_value = D_8009B0C4[0];
 0x8009B0C4,D_8009B0C4,D_8009B0C4,0x8003D0F4,SaveData_ApplyRuntimeState,matching_c,game,C,src/game/save_data_apply_runtime_state.c,write,,D_8009B0C4 = state->vblank_counter;
 0x8009B0C8,D_8009B0C8,D_8009B0C8,0x80012B50,Main_Init,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0031d8.s,write,32,"sw $zero, %gp_rel(D_8009B0C8)($gp)"
 0x8009B0C8,D_8009B0C8,D_8009B0C8,0x80012CD4,Main_VBlankCB,matching_c,game,C,src/game/main_frame.c,read_write,,D_8009B0C8++;
@@ -2039,7 +2039,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3B0,D_8009B3B0,D_8009B3B0,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,read_write,32,D_8009B3B0 = 0; | D_8009B3B0 |= repeat; | (+1 more)
 0x8009B3B4,D_8009B3B4,D_8009B3B4,0x8003CB7C,Input_ResetPads,matching_c,game,C,src/game/input_reset_pads.c,write,32,D_8009B3B4 = 0;
 0x8009B3B4,D_8009B3B4,D_8009B3B4,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,read_write,32,D_8009B3B4 = 0; | D_8009B3B4 |= newly_pressed; | (+1 more)
-0x8009B3B8,D_8009B3B8,D_8009B3B8,0x8003D03C,func_8003D03C,matching_c,game,C,src/game/save_data_build_payload.c,read,32,value = D_8009B3B8 + 1;
+0x8009B3B8,D_8009B3B8,D_8009B3B8,0x8003D03C,SaveData_BuildPayload,matching_c,game,C,src/game/save_data_build_payload.c,read,32,value = D_8009B3B8 + 1;
 0x8009B3B8,D_8009B3B8,D_8009B3B8,0x8003D0F4,SaveData_ApplyRuntimeState,matching_c,game,C,src/game/save_data_apply_runtime_state.c,write,32,D_8009B3B8 = state->save_sequence;
 0x8009B3B8,D_8009B3B8,D_8009B3B8,0x8003D2B8,func_8003D2B8,matching_c,game,C,src/game/save_data_validation.c,read,32,D_8009B3B8 == *(s32 *)(right + SAVE_DATA_SEQUENCE_OFFSET);
 0x8009B3B8,D_8009B3B8,D_8009B3B8,0x8003E854,func_8003E854,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02f054.s,read_write,32,"lw $v0, %gp_rel(D_8009B3B8)($gp) | sw $v0, %gp_rel(D_8009B3B8)($gp)"
@@ -2146,7 +2146,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B404,D_8009B404,D_8009B404,0x800386B8,func_800386B8,matching_c,game,C,src/game/duel_effect_play_sound_command.c,read_write,32,D_8009B404[0] = D_8009B400[0]; | D_8009B404[0] = func_80036D3C(object) & 0xFFFF; | (+1 more)
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003C628,Options_Init,matching_c,game,C,src/game/options_init.c,read,8,s8 flag408 = gSD_bOutputType[0];
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003C7A0,Options_HandleInput,matching_c,game,C,src/game/options_update.c,write,8,gSD_bOutputType[0] = value;
-0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003D03C,func_8003D03C,matching_c,game,C,src/game/save_data_build_payload.c,read_write,8,data[SAVE_DATA_HEADER_SIZE + SAVE_DATA_OUTPUT_TYPE_OFFSET] = gSD_bOutputType; | gSD_bOutputType = 0; | (+1 more)
+0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003D03C,SaveData_BuildPayload,matching_c,game,C,src/game/save_data_build_payload.c,read_write,8,data[SAVE_DATA_HEADER_SIZE + SAVE_DATA_OUTPUT_TYPE_OFFSET] = gSD_bOutputType; | gSD_bOutputType = 0; | (+1 more)
 0x8009B408,gSD_bOutputType,D_8009B408_write|gSD_bOutputType,0x8003D0F4,SaveData_ApplyRuntimeState,matching_c,game,C,src/game/save_data_apply_runtime_state.c,read_write,8,D_8009B408_write = output_type; | if (gSD_bOutputType[0] < 0) {
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003FE80,func_8003FE80,matching_c,game,C,src/game/sound_frontend.c,write,8,gSD_bOutputType = -1;
 0x8009B410,D_8009B410,D_8009B410,0x8004020C,func_8004020C,matching_c,game,C,src/game/display_slot_lifecycle.c,read_write,16,D_8009B410++;
@@ -3252,7 +3252,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_run_credits.c,address,,".reloc .-4, R_MIPS_HI16, gDuel_awPlayerDeck after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, gDuel_awPlayerDeck after .word 0x24510000"
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8002EE5C,func_8002EE5C,matching_c,game,C,src/game/func_8002EE5C.c,address,16,unsigned short *entry = gDuel_awPlayerDeck;
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8003F810,SaveData_PollLoad,matching_c,game,C,src/game/save_data_poll_load.c,address,8,u8 *p = gDuel_awPlayerDeck;
-0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_request_write.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(D_801D3200,gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);func_8003D03C(D_8..."
+0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_request_write.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(D_801D3200,gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);SaveData_BuildPay..."
 0x801D0250,gLibrary_abCardChest,gLibrary_abCardChest,0x8002BF3C,Library_MarkOwnedCards,matching_c,game,C,src/game/library_mark_owned_cards.c,address,8,u8 *p = gLibrary_abCardChest;
 0x801D0534,D_801D0534,D_801D0534,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_run_credits.c,read,32,".reloc .-4, R_MIPS_HI16, D_801D0534 after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, D_801D0534 after .word 0x8C430000"
 0x801D07BC,gDuel_awRecentCardDrops,gDuel_awRecentCardDrops,0x800323F8,func_800323F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022bf8.s,address,,"addiu $a2, $v0, %lo(gDuel_awRecentCardDrops) | lui $v0, %hi(gDuel_awRecentCardDrops)"
@@ -3265,8 +3265,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D2200,D_801D2200,D_801D2200,0x8003F8D4,func_8003F8D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0300d4.s,address,,"addiu $a0, $a0, %lo(D_801D2200) | lui $a0, %hi(D_801D2200)"
 0x801D3200,D_801D3200,D_801D3200,0x8003F7D4,SaveData_RequestLoad,matching_c,game,C,src/game/save_data_request_load.c,address,8,"func_8003F758(D_801D3200, SAVE_DATA_STATE_SIZE, D_80010384, 0);"
 0x801D3200,D_801D3200,D_801D3200,0x8003F810,SaveData_PollLoad,matching_c,game,C,src/game/save_data_poll_load.c,address,8,"Util_CopyWords(p, D_801D3200, SAVE_DATA_STATE_SIZE);"
-0x801D3200,D_801D3200,D_801D3200,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_request_write.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(D_801D3200,gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);func_8003D03C(D_8..."
-0x801D4000,D_801D4000,D_801D4000,0x8003D03C,func_8003D03C,matching_c,game,C,src/game/save_data_build_payload.c,read,,"Util_CopyWords(data, D_801D4000, SAVE_DATA_HEADER_SIZE);"
+0x801D3200,D_801D3200,D_801D3200,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_request_write.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(D_801D3200,gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);SaveData_BuildPay..."
+0x801D4000,D_801D4000,D_801D4000,0x8003D03C,SaveData_BuildPayload,matching_c,game,C,src/game/save_data_build_payload.c,read,,"Util_CopyWords(data, D_801D4000, SAVE_DATA_HEADER_SIZE);"
 0x801D4000,D_801D4000,D_801D4000,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02e41c.s,address,,"addiu $a1, $a1, %lo(D_801D4000) | lui $a1, %hi(D_801D4000)"
 0x801D4200,D_801D4200,D_801D4200,0x800143DC,File_ActivateTransfer,matching_c,game,C,src/game/file_cd_transfer.c,write,8,*(Block32 *)D_801D4200 = *(Block32 *)(D_801D4200 + 32);
 0x801D4200,D_801D4200,D_801D4200,0x80014B30,func_80014B30,matching_c,game,C,src/game/file_transfer_control.c,address,,shared = &D_801D4200;

@@ -7,7 +7,7 @@ extern s8 gSD_bOutputType __attribute__((section(".data")));
 extern s32 D_8009B3B8;
 
 extern void Util_CopyWords(void *, void *, u32);
-void func_8003D03C(u8 *data)
+void SaveData_BuildPayload(u8 *data)
 {
     u8 *copy;
     register s32 output_type asm("$3");

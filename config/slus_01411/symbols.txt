@@ -75,6 +75,7 @@ Duel_SetupCardRecord = 0x800249E0; // type:func
 SaveData_CalcCrc16 = 0x8003CEB8; // type:func
 SaveData_WritePrimarySecondaryIntegrity = 0x8003CF14; // type:func
 SaveData_WriteTertiaryIntegrity = 0x8003CFC8; // type:func
+SaveData_BuildPayload = 0x8003D03C; // type:func
 SaveData_ValidateIntegrity = 0x8003D174; // type:func
 Duel_CheckEquip = 0x80019A08; // type:func
 Duel_CheckFusion = 0x80019A60; // type:func
