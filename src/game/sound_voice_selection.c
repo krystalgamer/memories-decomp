@@ -36,7 +36,7 @@ void func_80047864(s32 index)
         *(u32 *)(state + 0x3C4) = mask;
         half = state + (saved << 1);
         byte = state + saved;
-        *(s32 *)(state + 0x3C8) = 3;
+        *(s32 *)(state + 0x3C8) = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
         {
             register u32 first asm("$5") = *(u16 *)(half + 0x414);
             product = first * (u32)byte[0x424];

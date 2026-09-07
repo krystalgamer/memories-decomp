@@ -28,7 +28,7 @@ void func_8004A43C(u8 *p, s32 force) {
     x = (s16)v >> 7;
     y = v & 0x7F;
     b = D_8009B458;
-    *(s32 *)(b + 0x4C4) = 0x10;
+    *(s32 *)(b + 0x4C4) = SPU_VOICE_PITCH;
     *(s32 *)(b + 0x4C0) = D_80011434[p[0]];
     v = func_80049FB4(x, y, p[0x12], p[0x13]);
     *(s16 *)(D_8009B458 + 0x4D4) = v;

@@ -151,7 +151,7 @@ void func_80049CF8(void)
             u8 *entry = state + offset;
 
             if ((entry[0x183] >> 4) == 0 && entry[0x18D] != 0) {
-                register s32 mask asm("$2") = 3;
+                register s32 mask asm("$2") = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
 
                 packet.mask = mask;
                 packet.voice = *voice_bits;
@@ -200,7 +200,7 @@ void func_80049DD8(void)
             u8 *entry = state + offset;
 
             if ((entry[0x183] >> 4) == 0 && entry[0x18D] != 0) {
-                register s32 mask asm("$2") = 3;
+                register s32 mask asm("$2") = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
 
                 packet.mask = mask;
                 packet.voice = *voice_bits;

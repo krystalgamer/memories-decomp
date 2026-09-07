@@ -28,10 +28,11 @@ void func_8004A27C(s32 voice, s32 left, s32 right) {
     l = left * *(u16 *)(b + 0x514);
     master_right = *(u16 *)(b + 0x516);
     r = right * master_right;
-    *(s16 *)(b + 0x4CC) = 0;
-    *(s16 *)(b + 0x4CE) = 0;
+    *(s16 *)(b + 0x4CC) = SPU_VOICE_DIRECT;
+    *(s16 *)(b + 0x4CE) = SPU_VOICE_DIRECT;
     v = D_80011434[voice];
-    *(s32 *)(b + 0x4C4) = 0xF;
+    *(s32 *)(b + 0x4C4) =
+        SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_VOLMODEL | SPU_VOICE_VOLMODER;
     *(s32 *)(b + 0x4C0) = v;
     *(s16 *)(b + 0x4C8) = l >> 7;
     *(s16 *)(b + 0x4CA) = r >> 7;
