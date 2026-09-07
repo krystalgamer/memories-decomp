@@ -4624,7 +4624,7 @@
       "address": "0x80053248",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x190",
-      "source": "src/game/func_80053248.c"
+      "source": "src/game/model_set_slot_properties.c"
     },
     {
       "address": "0x800533D8",

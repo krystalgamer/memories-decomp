@@ -10,7 +10,7 @@ extern u8 D_8009AF94;
 extern u16 D_800F5678[];
 extern u8 D_80091008[];
 
-void func_80053248(s32 idx, ...)
+void Model_SetSlotProperties(s32 idx, ...)
 {
     va_list ap;
     s32 p1;

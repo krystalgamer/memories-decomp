@@ -737,3 +737,4 @@ DecDCTvlcBuild = 0x800905F0; // type:func
 Main_ResetFrontendRuntime = 0x8002CD8C; // type:func
 Duel_RequestCombinedDeckData = 0x80024734; // type:func
 Duel_PopulateCombinedDeckData = 0x80024824; // type:func
+Model_SetSlotProperties = 0x80053248; // type:func

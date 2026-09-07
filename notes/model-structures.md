@@ -50,11 +50,11 @@ Verified shared fields and partial arrays are:
 | `0xDC0` | `field_DC0[8]` | byte writes in `func_80059590` and selection in `func_80059520` |
 | `0xDC8` | `field_DC8[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `func_800597C8` |
 | `0xDD0` | `field_DD0[4]` | four adjacent `u16` reads in `Model_CopySlotU16Values` |
-| `0xDF8` | `field_DF8` | optional first property in `func_80053248`; mirrored to `D_8009B488[index]` for all three slots |
-| `0xDFA` | `field_DFA` | optional second property in `func_80053248` for slots 0 and 1 |
-| `0xDFC` | `field_DFC` | optional third property in `func_80053248` for slots 0 and 1 |
-| `0xDFE` | `field_DFE` | optional fourth property in `func_80053248`, normalized to a boolean and mirrored to `D_8009B48E[index]` |
-| `0xDFF` | `field_DFF` | optional fifth property in `func_80053248`, normalized to a boolean and mirrored to `D_8009B490[index]` |
+| `0xDF8` | `field_DF8` | first property in `Model_SetSlotProperties`; mirrored to `D_8009B488[index]` for all three slots when non-negative |
+| `0xDFA` | `field_DFA` | second property in `Model_SetSlotProperties` for slots 0 and 1; negative leaves unchanged |
+| `0xDFC` | `field_DFC` | third property in `Model_SetSlotProperties` for slots 0 and 1; negative leaves unchanged |
+| `0xDFE` | `field_DFE` | fourth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `D_8009B48E[index]` |
+| `0xDFF` | `field_DFF` | fifth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `D_8009B490[index]` |
 | `0xE00` | model-data size, `u16` | `Model_HasInsufficientBufferSpace` subtracts this value from the remaining model-data bank capacity |
 | `0xE06` | `field_E06` | shifted read in `func_80058E94`; write/read in `func_800597C8` |
 | `0xE0D` | `field_E0D` | `func_80058E3C` reads it and `func_8005969C` writes it |
@@ -73,8 +73,10 @@ are not yet proven, so the header does not guess them.
 
 ### Variadic slot-property update
 
-Matching `func_80053248` takes a slot index followed by optional signed
-properties. A negative value leaves its corresponding field unchanged. The
+Matching `Model_SetSlotProperties` (`func_80053248`, `0x80053248`) takes a
+slot index followed by signed 32-bit properties. A negative value leaves its
+corresponding field unchanged. The arguments themselves must still be supplied:
+five properties for slots 0 and 1, or one for slot 2. The
 first property writes `field_DF8` for any of the three slots and mirrors it to
 `D_8009B488[index]`. Slots 0 and 1 consume four more properties for
 `field_DFA`, `field_DFC`, `field_DFE`, and `field_DFF`; the final two are
@@ -84,7 +86,24 @@ normalized to zero or one and mirrored to `D_8009B48E[index]` and
 Slot 2 consumes only the first property, then refreshes `D_8009AF88` from the
 `0xB2`-byte table selected by `D_800F5678[0]`. Every call finishes by setting
 `D_8009AF94` to `15`. These writes establish field widths, slot bounds, and
-mirror relationships, but not the user-facing meaning of the five properties.
+mirror relationships, but not the user-facing meaning of the five properties
+or the purpose of the final value `15`. The array supports indices 0 through 2;
+the function does not validate its index, and its `idx >= 2` arm is not evidence
+for additional slots.
+
+Two retail callers corroborate the contract independently of the setter:
+
+- `func_8002D180` calls slots 0 and 1 at `0x8002D22C` and `0x8002D254`,
+  supplying three signed halfwords and two bytes from successive eight-byte
+  records, with the first halfword decremented. Its call at `0x8002D264`
+  supplies just slot 2 and `D_8009B364`.
+- `func_800534B8` calls slots 0 and 1 at `0x80054050` and `0x80054074`,
+  restoring the first and last two properties from their mirrors while passing
+  `-1` for the second and third. Its call at `0x80054080` supplies just slot 2
+  and the third halfword mirror, `D_8009B48C`.
+
+This supports the high-confidence name `Model_SetSlotProperties` without
+assigning speculative meanings to the individual offset-named fields.
 
 ## `D_800F56F0`: 32-byte reference-view record
 
@@ -127,7 +146,7 @@ all include the shared header:
 `Model_InitLightTriplet`, `func_80059284`, `func_800592AC`,
 `func_800593D0`, `func_800594C0`, `func_80059520`, `func_80059590`,
 `func_800595C8`, `func_8005969C`, `func_800597C8`, `func_80059AA8`,
-`func_80059DD8`, `func_8005A468`, and `func_80053248`.
+`func_80059DD8`, `func_8005A468`, and `Model_SetSlotProperties`.
 
 ## `D_800F5918`: 80 handler registry entries
 

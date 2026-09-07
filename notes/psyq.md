@@ -739,7 +739,7 @@ defines `NULL` as integer zero and `WEOF` as `0xFFFFFFFF`. `stdarg.h` uses a
 `void *` `va_list` and advances it through arguments rounded up to
 `sizeof(int)`, encoding the old compiler's stack and alignment assumptions.
 These are target/compiler support declarations, not portable host-build
-substitutes. Matching `func_80053248.c` includes `stdarg.h` directly and uses
+substitutes. Matching `model_set_slot_properties.c` includes `stdarg.h` directly and uses
 its `va_list`, `va_start`, and `va_arg` definitions to consume the model-slot
 initializer's signed 32-bit arguments. No current game C includes `stddef.h`
 directly, although `stdlib.h` includes it.
