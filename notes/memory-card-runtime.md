@@ -198,12 +198,13 @@ the region's mask words by repeatedly calling `SaveData_NextMaskWord`:
 | Tertiary | `+0x400..+0x603` (`0x204` bytes) | 8 words at `+0x608..+0x627` | `+0x604`, `+0x606` |
 
 `SaveData_SetMaskSeed` writes the same 32-bit value to both mask-state words.
-`SaveData_NextMaskWord` treats `D_8009AF64` as the low word and
-`D_8009AF68` as the high word of its private recurrence, updates both, and
-returns the new low word. The integrity paths seed each word with the 16-bit
-CRC repeated in both halves. Fleet's `rng_seed` label describes that recurrence
-mechanism only: these words are used exclusively by save-integrity generation
-and validation and are separate from the game's `gRand_dwSeed`.
+`SaveData_NextMaskWord` treats `gSaveData_dwMaskStateLow` as the low word and
+`gSaveData_dwMaskStateHigh` as the high word of its private recurrence,
+updates both, and returns the new low word. The integrity paths seed each word
+with the 16-bit CRC repeated in both halves. Fleet's `rng_seed` label describes
+that recurrence mechanism only: these words are used exclusively by
+save-integrity generation and validation and are separate from the game's
+`gRand_dwSeed`.
 `SaveData_WritePrimarySecondaryIntegrity` writes the primary and secondary
 records, while `SaveData_WriteTertiaryIntegrity` writes the tertiary record.
 `SaveData_ValidateIntegrity` recomputes all three CRC seeds and compares every

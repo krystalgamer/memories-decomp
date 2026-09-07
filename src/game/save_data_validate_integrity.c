@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "save_data.h"
 
-extern u32 D_8009AF64;
-extern u32 D_8009AF68;
+extern u32 gSaveData_dwMaskStateLow;
+extern u32 gSaveData_dwMaskStateHigh;
 
 s32 SaveData_ValidateIntegrity(u8 *data)
 {
@@ -13,8 +13,8 @@ s32 SaveData_ValidateIntegrity(u8 *data)
     seed = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH) & 0xFFFF;
     word = (s32 *)(data + SAVE_DATA_PRIMARY_MASK_LAST_OFFSET);
     i = SAVE_DATA_PRIMARY_MASK_WORD_COUNT;
-    D_8009AF68 = seed | (seed << 16);
-    D_8009AF64 = seed | (seed << 16);
+    gSaveData_dwMaskStateHigh = seed | (seed << 16);
+    gSaveData_dwMaskStateLow = seed | (seed << 16);
     do {
         if (*word != SaveData_NextMaskWord()) {
             return 0;
@@ -29,8 +29,8 @@ s32 SaveData_ValidateIntegrity(u8 *data)
     ) & 0xFFFF;
     word = (s32 *)(data + SAVE_DATA_SECONDARY_MASK_LAST_OFFSET);
     i = SAVE_DATA_SECONDARY_MASK_WORD_COUNT;
-    D_8009AF68 = seed | (seed << 16);
-    D_8009AF64 = seed | (seed << 16);
+    gSaveData_dwMaskStateHigh = seed | (seed << 16);
+    gSaveData_dwMaskStateLow = seed | (seed << 16);
     do {
         if (*word != SaveData_NextMaskWord()) {
             return 0;
@@ -45,8 +45,8 @@ s32 SaveData_ValidateIntegrity(u8 *data)
     ) & 0xFFFF;
     word = (s32 *)(data + SAVE_DATA_TERTIARY_MASK_LAST_OFFSET);
     i = SAVE_DATA_TERTIARY_MASK_WORD_COUNT;
-    D_8009AF68 = seed | (seed << 16);
-    D_8009AF64 = seed | (seed << 16);
+    gSaveData_dwMaskStateHigh = seed | (seed << 16);
+    gSaveData_dwMaskStateLow = seed | (seed << 16);
     do {
         if (*word != SaveData_NextMaskWord()) {
             return 0;

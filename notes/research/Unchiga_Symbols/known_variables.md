@@ -32,6 +32,8 @@ Names that say what something IS in the game.
 | 0x8009AF29 | `gDuel_bWidespreadRuinAttackThreshold` | matching C + retail data |
 | 0x8009AF30 | `gDuel_abLifePointRecoveryUnits` | matching C + retail data |
 | 0x8009AF38 | `gDuel_abDirectDamageUnits` | matching C + retail data |
+| 0x8009AF64 | `gSaveData_dwMaskStateLow` | matching C |
+| 0x8009AF68 | `gSaveData_dwMaskStateHigh` | matching C |
 | 0x8009B0AC | `gGraphics_bActiveBuffer` | live + matching C |
 | 0x8009B141 | `gFade_bOverlayOn` | idb2018 |
 | 0x8009B146 | `gGraphics_sViewportX` | live + matching C |

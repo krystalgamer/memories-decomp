@@ -780,3 +780,7 @@ CdControlB = 0x8007E7F0; // type:func
 CdReadyCallback = 0x8007E860; // type:func
 CdSyncCallback = 0x8007E880; // type:func
 CdDataCallback_8007E8A0 = 0x8007E8A0; // type:func
+
+// Semantic names
+gSaveData_dwMaskStateLow = 0x8009AF64;
+gSaveData_dwMaskStateHigh = 0x8009AF68;

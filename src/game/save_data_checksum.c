@@ -1,13 +1,13 @@
 #include "../types.h"
 #include "save_data.h"
 
-extern u32 D_8009AF64;
-extern u32 D_8009AF68;
+extern u32 gSaveData_dwMaskStateLow;
+extern u32 gSaveData_dwMaskStateHigh;
 
 /* Advances the two-word save-data mask state and returns the next word. */
 u32 SaveData_NextMaskWord(void)
 {
-    register u32 *state asm("$6") = &D_8009AF64;
+    register u32 *state asm("$6") = &gSaveData_dwMaskStateLow;
     register u32 low asm("$3");
     register u32 next asm("$2");
     u32 high;
@@ -57,8 +57,8 @@ void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
 
     *(s16 *)(data + SAVE_DATA_PRIMARY_CHECKSUM_OFFSET + sizeof(s16)) = value;
     *(s16 *)(data + SAVE_DATA_PRIMARY_CHECKSUM_OFFSET) = value;
-    D_8009AF68 = seed | (seed << 16);
-    D_8009AF64 = seed | (seed << 16);
+    gSaveData_dwMaskStateHigh = seed | (seed << 16);
+    gSaveData_dwMaskStateLow = seed | (seed << 16);
 
     do {
         i--;
@@ -76,8 +76,8 @@ void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
 
     *(s16 *)(data + SAVE_DATA_SECONDARY_CHECKSUM_OFFSET + sizeof(s16)) = value;
     *(s16 *)(data + SAVE_DATA_SECONDARY_CHECKSUM_OFFSET) = value;
-    D_8009AF68 = seed | (seed << 16);
-    D_8009AF64 = seed | (seed << 16);
+    gSaveData_dwMaskStateHigh = seed | (seed << 16);
+    gSaveData_dwMaskStateLow = seed | (seed << 16);
 
     do {
         i--;
