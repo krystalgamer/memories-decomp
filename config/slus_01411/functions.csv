@@ -160,7 +160,7 @@ address,size,name,status,module,notes
 0x80020F4C,0x534,func_80020F4C,unmatched_asm,game,
 0x80021480,0xD8,func_80021480,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80021558,0x40,Duel_CalcRankScoreChange,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80021598,0x278,Duel_CalcRankScore,unmatched_asm,game,
+0x80021598,0x278,Duel_CalcRankScore,matching_c,game,"Pointer bivs for the entry and stat table, p-indexed score, scores set to 50 before the loop"
 0x80021810,0x84,Duel_SelectCardDrop,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80021894,0x5C,Duel_AwardCard,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800218F0,0x7C8,func_800218F0,unmatched_asm,game,
