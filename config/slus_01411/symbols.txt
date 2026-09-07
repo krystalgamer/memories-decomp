@@ -334,6 +334,7 @@ File_TryRequestAsyncTransfer = 0x80014EEC; // type:func
 File_RequestSecondaryAsyncTransfer = 0x80015078; // type:func
 gFile_SecondaryTransferDescriptor = 0x800E9E18;
 gFile_PrimaryTransferDescriptor = 0x800E9E60;
+gDuel_awUniqueDeckCardIds = 0x80178130;
 
 // Semantic names
 File_InitTransferDescriptor = 0x80013998; // type:func

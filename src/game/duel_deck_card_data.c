@@ -12,7 +12,7 @@ typedef struct {
 } DeckCardRecord;
 
 extern u8 D_8017808C[];
-extern u8 D_80178130[];
+extern u16 gDuel_awUniqueDeckCardIds[];
 extern u8 D_8015C424[];
 extern u8 D_8018C2D8[];
 extern DeckCardRecord gDuel_aDeckCardRecords[];
@@ -59,7 +59,7 @@ void Duel_RequestCombinedDeckData(void)
         0, (u8 *)0, count - 1, previous - count + 1,
         Duel_StepCardDataTransfer, 0, 0
     );
-    result->callback_data = D_80178130;
+    result->callback_data = gDuel_awUniqueDeckCardIds;
     result->position = (u32)table;
     D_8009B0F4 = result->status_flags | 0x10;
 }
@@ -88,7 +88,7 @@ void Duel_PopulateCombinedDeckData(void)
         rec->b3 = i;
 
         src = D_8015C424;
-        p = (u16 *)D_80178130;
+        p = gDuel_awUniqueDeckCardIds;
     search:
         w = *p;
         p++;
