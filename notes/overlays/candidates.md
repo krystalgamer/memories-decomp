@@ -66,6 +66,34 @@ and three placements of that store agree: every cell that puts the `6` last
 measures two, and every cell that does not measures three, independently of the
 other two axes.
 
+Three more axes are closed at two, and one of the cells is a trap that the next
+attempt should be warned off rather than drawn to.
+
+Statement order in the caret block is entirely inert. Twenty-one cells of the
+product of three orders for the flag store, the slot address and the null test
+against seven orders for the five stores through the returned object, including
+reversing them, are byte-identical to one another. The scheduler reaches the
+same arrangement from all of them, so the `obj[0x6C] = 6` placement recorded
+above is not a statement-order effect in general; it is specific to that store
+sitting between a load and its use.
+
+The spellings of the eleventh-column arm are inert too. Naming the constant
+eleven in a local and using it for both the comparison and the assignment,
+folding the flag test into the table subscript, and hoisting the column
+assignment above the pad read all produce identical code.
+
+The trap is reading `D_8016D42C` once into a local instead of twice. It looks
+like the best cell on the board: the instruction count becomes exactly 382,
+matching the target for the first time, and the differing positions fall from
+310 to 297, which by the stated ordering would decide a tie on distance. It is
+a false positive. The target loads that byte twice, once before the call into
+`func_80168CDC` and once after it, and the single-read form reaches its numbers
+by not performing the second load at all. It trades the surplus `lui` for a
+missing `lb`, so the distance is unchanged at two and the mnemonic total is
+unchanged at four; nothing was repaired. Declaring the global `const`, which
+would let GCC rematerialise the load rather than keep the value, changes
+nothing either way.
+
 That leaves two surplus `lui` and an `addu` that should be a `move`, and the
 latter shares an opcode class with what it is measured against, so it cancels
 and costs nothing. The instruction count is 384 against 382 and the
