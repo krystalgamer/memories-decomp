@@ -261,8 +261,13 @@ screen; the mode's code reach is large only because it shares the menu
 framework.) [`Main_RunOptionsMenu` `0x8002D6C8`]
 
 > **Entered from:** initial menu. **Exits to:** initial menu. **Reads/writes:**
-> the sound setting (whether it is saved is not verified). **Uses:** the sound
-> driver.
+> the runtime sound setting. Save creation normalizes an unset negative value
+> to zero and stores the byte at save offset `+0x5DE`. A successful load
+> reapplies that byte through `SD_SetOutputType` only while
+> `gSD_bOutputType` remains negative. This proves persistence on that
+> unset-runtime path without claiming that a later load replaces an already
+> active setting. **Uses:** the sound driver and save-data
+> normalization/application paths.
 
 ### 2.3 Memory-card dialogues
 
