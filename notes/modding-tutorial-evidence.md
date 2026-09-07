@@ -390,10 +390,23 @@ The independently recovered loader layout places the main-menu executable at
 SU sectors `98-114`, beginning at `0x31000`, so the tutorial's offset lies in
 the asset area immediately before the code rather than inside the overlay.
 
+Matching `func_8005B85C` requests the first `0x73` sectors of `SU.MRG`
+(`0x39800` bytes) and installs `func_8005B64C` as the phase callback. Its five
+transfer lengths are `0x20000`, `0x10000`, `0x1000`, `0x8000`, and `0x800`.
+The `0x1000` phase therefore begins exactly at `+0x30000`, stages those bytes
+at `0x801DD000`, and ends at the `+0x31000` main-menu executable boundary.
+
+At the start of the following phase, the callback uploads that staging buffer
+through `LoadImage2`. The resident `RECT` at `0x8009B058` decodes as
+`{x = 0, y = 240, w = 256, h = 8}`, so the transfer consumes exactly
+`256 * 8 * 2 = 0x1000` bytes. Each `0x200`-byte step is therefore one full
+row of 256 BGR555 CLUT entries at VRAM rows `240-247`.
+
 In the retail archive, all six `0x200`-byte chunks from `0x30000` through
 `0x30BFF` contain nonzero 16-bit values consistent with PlayStation colour
 data. The following `0x400` bytes at `0x30C00-0x30FFF` are zero padding before
-the executable begins. The complete candidate region hashes to:
+the executable begins, so the upload consists of six populated palette rows
+followed by two zero rows. The complete region hashes to:
 
 ```text
 SHA-256: 5b59103a270882b261ff9c13ba68060a90b3b01f9b5475da50af11dc5908ba19
@@ -403,11 +416,11 @@ SHA-256: 5b59103a270882b261ff9c13ba68060a90b3b01f9b5475da50af11dc5908ba19
 
 - **Confirmed** that the tutorial's decimal offset is `SU.MRG+0x30000` and
   that this is sector 96, directly before the main-menu code at sector 98.
-- **High** that the nonzero `0xC00`-byte region is main-menu palette data,
-  based on the tutorial identification, archive placement, and 16-bit value
-  shape.
-- **Tentative** on individual palette boundaries and which menu elements use
-  each range; those still require GPU-upload or draw-call evidence.
+- **Confirmed** that the complete `0x1000`-byte phase is uploaded as eight
+  256-colour CLUT rows at VRAM `(0, 240)`, with six populated rows followed by
+  two zero rows.
+- **Tentative** which menu elements select each of the six populated rows;
+  that still requires draw-call or texture-page evidence.
 
 ## WA menu background and symbol palettes
 
