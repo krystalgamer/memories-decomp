@@ -30,6 +30,8 @@ Names that say what something IS in the game.
 | 0x800158B8 | `Fade_InitOut` | idb2018 |
 | 0x80015904 | `Fade_StartOut` | idb2018 |
 | 0x80015B00 | `Fade_WaitOut` | idb2018 |
+| 0x80018080 | `Duel_ApplyCardObjectFlags` | matching C |
+| 0x80018CF8 | `Duel_HasAllExodiaPieces` | matching C |
 | 0x8001EE44 | `Duel_CalcGuardianStarBonus` | idb2018 |
 | 0x8001EF1C | `Duel_CalcBattleAttack` | idb2018 |
 | 0x8001EF78 | `Duel_CalcBattleDefense` | idb2018 |
@@ -40,6 +42,7 @@ Names that say what something IS in the game.
 | 0x800243F4 | `Duel_ShuffleDeck` | idb2018 |
 | 0x800245A0 | `Duel_ShuffleBothDecks` | idb2018 |
 | 0x8002497C | `Duel_GetTerrainBoost` | idb2018 |
+| 0x8002892C | `DuelEffect_UpdateState` | matching C |
 | 0x8002BF3C | `Library_MarkOwnedCards` | idb2018 |
 | 0x8002CB80 | `Duel_CalcGuardianStarMatchup` | idb2018 |
 | 0x8002CBF4 | `Duel_GetBaseCardStat` | idb2018 |
@@ -60,6 +63,7 @@ Names that say what something IS in the game.
 | 0x8002D7C4 | `Main_RunHirata` | idb2018 |
 | 0x8002DA1C | `Main_RunCredits` | idb2018 |
 | 0x8002DD74 | `Main_Loop` | idb2018 |
+| 0x8002E370 | `DuelEffect_MarkObjectIfActive` | matching C |
 | 0x8002E730 | `Script_OpShowImage` | idb2018 |
 | 0x8002FA54 | `Script_RunTick` | idb2018 |
 | 0x80032B60 | `BuildDeck_CompareCard` | idb2018 |
@@ -68,16 +72,22 @@ Names that say what something IS in the game.
 | 0x80035B7C | `TextBox_Destroy` | idb2018 |
 | 0x80035BE4 | `TextBox_Create` | idb2018 |
 | 0x80035C38 | `TextBox_CreateFlagged` | idb2018 |
+| 0x80035CE4 | `DuelEffect_ResetOccupancy` | matching C |
+| 0x80035DB8 | `DuelEffect_ClearMatchingMarker` | matching C |
+| 0x80036DBC | `DuelEffect_UpdateObjectLayout` | matching C |
 | 0x80036F80 | `Dialog_HighlightChoice` | idb2018 |
 | 0x8003700C | `Dialog_ReadChoiceInput` | idb2018 |
 | 0x80037110 | `Widget_UpdatePulseColour` | idb2018 |
 | 0x800371A8 | `Dialog_UpdateChoice` | idb2018 |
 | 0x800374F4 | `Dialog_OpenChoice` | idb2018 |
+| 0x80038798 | `DuelEffect_PlaySoundCommand` | matching C |
 | 0x800393B0 | `TextBox_BuildStep` | idb2018 |
 | 0x80039934 | `TextBox_SetPos` | idb2018 |
+| 0x80039D64 | `DuelEffect_ProcessEntries` | matching C |
 | 0x8003B744 | `Text_LookupString` | idb2018 |
 | 0x8003B9BC | `Main_InitFreeDuelMenu` | live |
 | 0x8003BC40 | `Text_SjisToGlyphCodes` | idb2018 |
+| 0x8003D46C | `DuelEffect_CreateChannel` | matching C |
 | 0x8003FEE0 | `SD_SEPlayFull` | live |
 | 0x80043230 | `Widget_SlideSine` | idb2018 |
 | 0x80046768 | `SD_InitState` | dotr |
