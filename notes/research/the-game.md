@@ -1453,11 +1453,12 @@ before shuffling; the tutorial's editable-deck result is therefore confirmed
 His drop pools are a copy of Villager 3's (§6.4).
 
 The unlock is one flag per duelist, `0x6E0 + id`, in the save's flag array
-[bytes `0x801D06F4`–`0x801D06F8`]. The screen's own code, which lives in an
-**overlay** loaded to `0x80168000` with the Free Duel blob (§12.2), marks all
-40 grid entries available and then, for ids 1–38, clears the entry whose flag
-is not set [the loop at `0x801683C0`–`0x801683EC` calls
-`Campaign_TestStoryFlag(0x6E0 + id)`]; entry 39 is never cleared.
+[bytes `0x801D06F4`–`0x801D06F8`]. Exact matching `FreeDuel_Init`, in the
+**overlay** loaded to `0x80168000` with the Free Duel blob (§12.2), first
+marks all 40 `gFreeDuel_abGridAvailable` entries available. Its explicit
+`for (id = 1; id < 39; id++)` loop then clears an entry when
+`Campaign_TestStoryFlag(0x6E0 + id)` is zero. The upper bound excludes entry
+39, so Duel Master K is never cleared.
 
 A controlled trace confirms both consequences of that loop. On a new save
 whose five unlock bytes were all zero, Duel Master K alone remained available.
@@ -1479,8 +1480,10 @@ The resident byte `gFreeDuel_bReturnFlags` (`0x8009B365`) records why the
 screen is being revisited. The Free Duel overlay sets `0x40` before opening
 Build Deck and `0x80` before starting a duel. Both values remain set when the
 screen returns, preserving the selected cell and skipping first-entry setup;
-the duel bit additionally tells `FreeDuel_Init` to update the selected
-duelist's win/loss record.
+the duel bit additionally tells `FreeDuel_Init` to index
+`gFreeDuel_aDuelistRecords` with `row * 5 + column`. Outcome byte
+`D_8009B362 == 1` advances from the wins halfword to losses; the selected
+`u16` is incremented and clamped to 999.
 
 > **Entered from:** loaded menu. **Exits to:** duel; loaded menu. **Reads:**
 > unlock mask, records, deck (must be 40). **Writes:** through the post-duel
