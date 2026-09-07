@@ -392,3 +392,9 @@ proven from the game's own code or data, independently of what the external tool
 | # | address | what we proved | proposed name | status |
 |---|---|---|---|---|
 | F159 | player statistics record `0x800E9FF0`, bytes `+0x08` and `+0x09` | A controlled one-player duel against Simon Muran began with both bytes zero. The only player fusion combined Mechanical Spider (410) and Air Marmot of Nefariousness (202) into Giga-tech Wolf (412), whereupon `+0x08` changed `0 -> 1` while `+0x09` stayed zero. The only equip later applied Silver Bow and Arrow (312) to Skelengel (540), whereupon `+0x09` changed `0 -> 1`. No other player fusion or equip occurred, and the CPU used the separate second statistics record. This confirms rank row 8 / `+0x08` is INITIATE FUSION and row 9 / `+0x09` is EQUIP MAGIC. | (rank categories resolved) | CONFIRMED-TRACE |
+
+### Free Duel unlock-tail trace (2026-09-07)
+
+| # | address | what we proved | proposed name | status |
+|---|---|---|---|---|
+| F160 | `gFreeDuel_dwUnlockedDuelists` (`0x801D06F4`) through fifth byte `0x801D06F8`; overlay grid `0x80169030` | A new save began with all five unlock bytes zero and only Duel Master K available. Applying only `801D06F4 FFFF` and `801D06F6 FFFF` produced `FF FF FF FF 00`. After the Free Duel overlay settled, grid entries 1–31 were available, entries 32–38 were unavailable, and entry 39 remained available; every flag-derived value for ids 1–38 matched the corresponding grid byte, and cursor visits confirmed the final empty cells. The unlock flags therefore span five bytes, the published four-byte data cheat reaches only ids 1–31, and id 39 is the independently available Duel Master K slot. | (F64 extent and Duel Master K exception resolved) | CONFIRMED-TRACE |

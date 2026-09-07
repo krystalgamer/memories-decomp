@@ -1448,14 +1448,18 @@ The unlock is one flag per duelist, `0x6E0 + id`, in the save's flag array
 **overlay** loaded to `0x80168000` with the Free Duel blob (§12.2), marks all
 40 grid entries available and then, for ids 1–38, clears the entry whose flag
 is not set [the loop at `0x801683C0`–`0x801683EC` calls
-`Campaign_TestStoryFlag(0x6E0 + id)`]; entry 39 is never cleared — which fits
-Duel Master K being always
-there, if that entry is his (a reading). Two consequences: the flags for ids 32–38 sit in the fifth
-byte, `0x801D06F8`, so by this arithmetic the published "all opponents"
-cheat, which writes four bytes, covers ids 1–31 — the community reports it
-as unlocking everyone, and the two were not reconciled here (nothing was run);
-and the "all opponents" *patch* code turns the clearing branch at
-`0x801683D4` into a jump past it, which unlocks everyone.
+`Campaign_TestStoryFlag(0x6E0 + id)`]; entry 39 is never cleared.
+
+A controlled trace confirms both consequences of that loop. On a new save
+whose five unlock bytes were all zero, Duel Master K alone remained available.
+Writing only the published data cheat changed bytes `0x801D06F4`–`0x801D06F7`
+to `FF FF FF FF` while leaving `0x801D06F8` zero. The settled overlay grid
+then made ids 1–31 available, left ids 32–38 unavailable, and kept id 39
+available; every tested flag for ids 1–38 matched its grid cell. Thus entry 39
+is Duel Master K's independent always-available slot, and the four-byte data
+cheat does **not** unlock every opponent. The separate "all opponents"
+*instruction patch* turns the clearing branch at `0x801683D4` into a jump
+past it and really does leave every grid entry available.
 
 The list is presented in campaign order: Simon Muran first,
 Duel Master K last. Only two campaign duelists can be permanently missing

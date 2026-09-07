@@ -122,7 +122,7 @@ non-duelist Build Deck grid tile.
 
 | code | what it does |
 |---|---|
-| `801D06F4 FFFF` / `801D06F6 FFFF` | every duelist unlocked in Free Duel |
+| `801D06F4 FFFF` / `801D06F6 FFFF` | unlocks duelist IDs 1–31; IDs 32–38 remain locked, while Duel Master K (39) remains independently available |
 | `D00E9E28 C000` / `D009B390 0100` / `8009B36C 0000` | Free Duel against glitched duelists for guaranteed drops — Select to enable, Triangle to leave |
 
 ## During a duel
@@ -213,7 +213,10 @@ branch in the loop that clears a grid entry whose unlock flag is off; the
 patch makes it `j 0x801683E0`, skipping the clear, so every entry stays
 available. Related: the plain-data code `801D06F4 FFFF` / `801D06F6 FFFF`
 writes four bytes of the flag array, which hold the flags of duelists 1–31;
-duelists 32–38 sit in the next byte, `0x801D06F8`.
+duelists 32–38 sit in the next byte, `0x801D06F8`. A controlled runtime trace
+confirmed that split: the four-byte write exposed ids 1–31, left ids 32–38
+unavailable, and did not affect the independently available Duel Master K
+entry at id 39.
 
 The two "enable" codes (`D0168188 023A`, `D0168100 000A`) match neither
 located overlay and remain unverified.

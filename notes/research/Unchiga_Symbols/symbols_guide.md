@@ -218,7 +218,7 @@ The persistent block at `0x801D02xx–0x801D07xx` — what actually goes to the 
 | `gLibrary_abCardChest` | 0x801D0250 | Per-card ownership counts (Build Deck, Library, drops all touch it). |
 | `player name` | 0x801D060C | Up to 5 characters as two-byte Shift-JIS (fullwidth ‘B’ = 0x8261), zeroed on New Game; the name box on any screen is rebuilt from it through `Text_SjisToGlyphCodes`. |
 | `gCampaign_abStoryFlags` | 0x801D0618 | Story-progress bits (see the engine section). |
-| `gFreeDuel_dwUnlockedDuelists` | 0x801D06F4 | Which duelists are unlocked in Free Duel (0xFFFFFFFF = all). |
+| `gFreeDuel_dwUnlockedDuelists` | 0x801D06F4 | First four bytes of the MSB-first Free Duel unlock flags, covering duelist IDs 1–31. IDs 32–38 use the fifth byte at 0x801D06F8; Duel Master K (39) is independently always available. |
 | `gFreeDuel_aDuelistRecords` | 0x801D071C | Forty grid records of {u16 wins, u16 losses}; slot 0 is the Build Deck tile, duelist IDs 1–39 use the remaining slots, and normal updates cap each counter at 999. |
 | `gDuel_awRecentCardDrops` | 0x801D07BC | Sixteen recently acquired card IDs (drops and password buys both shift in); exact C compacts all 16 slots, and the list drives the trunk's New! tags and NEW sort. |
 | `gLibrary_dwStarchips` | 0x801D07E0 | Your starchip balance — spent on password exchanges (deduction byte-verified live). |
