@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/card_constants.h"
 
 typedef struct { u32 words[256]; } Block1024;
 
@@ -168,7 +169,7 @@ s32 func_801821DC(void)
                     *from = *from - 1;
                 }
                 to = counts[i ^ 1] + id;
-                if (*to < 250) {
+                if (*to < CARD_CHEST_QUANTITY_MAX) {
                     *to = *to + 1;
                 }
             }
