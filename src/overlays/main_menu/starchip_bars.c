@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/card_constants.h"
 
 typedef struct {
     u8 t0, t1, t2, len;
@@ -87,7 +88,7 @@ void func_80181728(void)
         w->f8 |= 0x40;
         w = D_801845B0[0];
         if (w->f24 == 0) {
-            w->f30 = first * 128 / 8000 + 176;
+            w->f30 = first * 128 / DUEL_STARTING_LIFE_POINTS + 176;
             D_801845B0[0]->f32 = 111;
         }
     } else {
@@ -101,7 +102,7 @@ void func_80181728(void)
         w->f8 |= 0x40;
         w = D_801845B0[1];
         if (w->f24 == 0) {
-            w->f30 = second * 128 / 8000 + 176;
+            w->f30 = second * 128 / DUEL_STARTING_LIFE_POINTS + 176;
             D_801845B0[1]->f32 = 139;
         }
     } else {
@@ -130,7 +131,7 @@ void func_80181728(void)
     bar.y1 = 107;
     bar.y2 = 115;
     bar.y3 = 115;
-    bar.x1 = first * 128 / 8000 + 176;
+    bar.x1 = first * 128 / DUEL_STARTING_LIFE_POINTS + 176;
     bar.x3 = bar.x1;
     func_80084320(&bar, D_800E9D90[2], 2048);
 
@@ -152,7 +153,7 @@ void func_80181728(void)
     bar.y1 = 135;
     bar.y2 = 143;
     bar.y3 = 143;
-    bar.x1 = second * 128 / 8000 + 176;
+    bar.x1 = second * 128 / DUEL_STARTING_LIFE_POINTS + 176;
     bar.x3 = bar.x1;
     func_80084320(&bar, D_800E9D90[2], 2048);
 
@@ -173,7 +174,7 @@ void func_80181728(void)
     digit.g3 = 255;
     digit.b3 = 255;
 
-    width = MainMenu_CountDecimalDigits(8000);
+    width = MainMenu_CountDecimalDigits(DUEL_STARTING_LIFE_POINTS);
     count = MainMenu_CountDecimalDigits(first);
     for (i = 0; i < count; i++) {
         digit.x0 = width * 8 + 126 - i * 8;
