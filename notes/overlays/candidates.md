@@ -75,9 +75,19 @@ positive guard and the two assignments in the other order, all give the same
 362 and the same extra `lui`, so the cost is inherent to the placement rather
 than to how the arm is written.
 
-The residual is `{lui +1, beqz +1, move +2, bnez -1, addu -1}`. Removing that
-`lui` is the next step and would make the placement a clean gain on every
-metric at once.
+The residual is `{lui +1, beqz +1, move +2, bnez -1, addu -1}`. That surplus
+`lui` is not a property of the arm, which is emitted identically to the target
+instruction for instruction, but of what precedes it. In the target the arm's
+first load reads `D_8009B398[0]` through a register that already holds the right
+high half, inherited from the block laid out immediately before it, which ends
+in a jump and leaves that value live; wherever this candidate puts the arm, no
+such value is live on entry and it loads its own. Four placements were measured,
+before `select`, before `arme`, before `sel_ret` and before `join`, and none
+both keeps the subsequence at 362 and drops the `lui`: the three alternatives
+fall back to 351 or 352, and one of them costs ten instructions. So the `lui`
+cannot be removed by moving the arm, and the remaining question is which block
+the target lays out immediately before it rather than where the arm itself
+goes.
 
 The select-screen early return belongs out of line at the end of the function,
 not inline where it is written. Aligning the two streams on mnemonic plus
