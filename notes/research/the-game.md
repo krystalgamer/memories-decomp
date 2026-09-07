@@ -1008,6 +1008,28 @@ bypass this particular increment; this does not establish their complete
 accounting, every other writer, or the effect of later card flips. It is
 static code evidence, not a new controlled trace.
 
+**When "pure magic" advances.** Resident `func_80019608` (still unmatched
+assembly) increments the current side's byte `+0x05` in its initialization
+branch, before the later effect requests. The `0x8000` bit of
+`D_8009B23A` guards that branch: after it is set, subsequent polling calls
+skip this increment. At `0x80019674..0x80019698`, the writer requires the
+card object's type byte `+0x68` to equal `0x14` (`CARD_TYPE_MAGIC`), rather
+than accepting every non-monster type.
+
+Matching [`func_80017F04`](../../src/game/duel_card_display_state.c) fills
+that object byte from the card's packed type field, using
+`CARD_STAT_TYPE_SHIFT` and `CARD_STAT_TYPE_MASK`. The matching
+[`Duel_CalcRankScore`](../../src/game/duel_calc_rank_score.c) reads statistic
+`+0x05` as unsigned, copies it to displayed-stat slot 13, and passes it to
+`DUEL_RANK_RULE_PURE_MAGIC` (row 4).
+
+This write precedes this handler's calls to
+[`func_80026BA4`](../../src/game/func_80026BA4.c) at `0x80019870` and
+`0x800199D8`, which request the effect phases. It therefore records a
+type-qualified entry into this use sequence, not evidence that the effect
+finished or changed a target. This corroborates the normal handler's
+accounting, not every route into it, other writers, or a new runtime trace.
+
 **What "cards used" counts.** Row 6 reads the side record's draw cursor at
 `+0x18`, not a counter that waits for a card to be played.
 Matching [`func_8001898C`](../../src/game/func_8001898C.c) selects the active
@@ -2044,9 +2066,10 @@ Not verified in code:
 * whether a monster played this turn may attack this turn (stated from play);
 * the remaining score-row-to-gameplay-event label assignments not
   independently corroborated here. The normal draw-entry link for "turns",
-  single-card commitment condition for "face-down plays", draw/refill link
-  for "cards used" and the three victory adjustments are code-backed; the
-  fusion/equip rows have their own controlled trace evidence (§6.1);
+  single-card commitment condition for "face-down plays", type-filtered
+  entry for "pure magic", draw/refill link for "cards used" and the three
+  victory adjustments are code-backed; the fusion/equip rows have their own
+  controlled trace evidence (§6.1);
 * the full gameplay effects and necessity of the two "enable" GameShark
   codes. Their image and branch sites are now located in the WA startup
   phase (§12.2), and both force an existing branch unconditionally; no
