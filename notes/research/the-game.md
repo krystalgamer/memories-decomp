@@ -631,6 +631,13 @@ and which cards share a behaviour is data:
 | 12 | all 24 rituals | validates the tributes and performs the summon (§5.7) |
 | 13 | Harpie's Feather Duster | destroys every magic/trap card the opponent has in play |
 
+Within group 9, matching `func_80025D30` identifies Spellbinding Circle with
+`DUEL_SPELLBINDING_CIRCLE_CARD_ID` (`349`) and subtracts one
+`DUEL_STAT_PENALTY_PER_LEVEL` (`500`) from each occupied target's
+`stat_modifier`; Shadow Spell uses two such levels (`1000`). The same signed
+reduction is stored in the type-`0xD` presentation object, so the card-record
+penalty and its displayed effect carry the same amount.
+
 Groups 6, 7, 8, 10, 11 and 13 share one animated zone-by-zone scan, which is
 why they play out visibly one slot at a time. A magic card that has nothing
 to act on is simply consumed.
