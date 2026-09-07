@@ -4570,3 +4570,193 @@ passed with every existing matching entry enabled and retail SHA-256
 The original candidate note, three exact source variants, resolved diffs and
 canonical acceptance are retained under
 `tmp/copilot-fixer/attempts/func-80018608-cycle1/`.
+
+## `func_8001825C`: selective absolute loads and separate replay inputs
+
+The stored source reproduced under `gcc_2_8_1_g8_split` at 234/235 instructions,
+opcode distance 1, and **100 fully resolved positional word differences**.
+The historical 27 below is not reproduced by that full metric: the missing
+instruction also shifts the suffix and changes branch/jump destinations.
+The precise retail locations are word 138 (`0x80018484`) for the empty BGM
+branch slot and words 189–190 (`0x80018550`–`0x80018554`) for the replay offset.
+The older snippets' address labels below are preserved as historical
+transcription, not as authoritative locations.
+
+Three bounded source variants resolve the remaining code:
+
+1. Declare `D_8009B0F4` and `D_8009B134` as `u32` scalars and `D_8009B36A`
+   as a `u16` scalar, each with `__attribute__((section(".data")))`, and replace
+   their `[0]` uses with scalar accesses. They remain extern declarations at
+   the same addresses, with the same widths and qualifiers; no storage is
+   defined or moved. GCC retains their absolute load macros while the rest
+   of the function still uses split addresses. This reproduces the guard's
+   non-interleaved loads and register assignment without a mask pin, and
+   restores the BGM argument-register high half and empty branch delay slot.
+   Result: 235/235 instructions, opcode distance 0, 15 differences, all in
+   replay addressing. The new discriminator came from the independently
+   resolved guard/BGM mechanism in `func_80018608`, not another profile sweep.
+2. Hold only the replay offset `0x48000` in its observed `$5`. Its `lui`/`ori`
+   pair and scheduling become exact, leaving 13 words: the counter/base
+   register inversion and the final computed-address destination.
+3. Hold the immutable replay table base in its observed `$3`; do not reuse
+   that local for the computed slot address. Leave that final address
+   allocator-managed. All 235 words now match with every relocation resolved.
+   Both pins describe short-lived replay inputs; the counter, loaded index,
+   final address, and all other locals remain unpinned. No compiler-owned
+   data sections are emitted.
+
+The source was recorded and promoted with the existing post-terminal tools.
+Canonical `MAKEFLAGS=-j2 make clean` followed by `MAKEFLAGS=-j2 make match`
+passed with every existing C entry enabled. The complete executable is
+byte-identical, SHA-256
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
+Full source variants,
+compiler/MASPSX output, object sections and relocations, linked disassembly,
+measurements and ownership checks are under
+`tmp/copilot-fixer/attempts/func-8001825c-cycle1/`.
+
+### Preserved original candidate investigation
+
+The following findings and negative results predate that resolution. In
+particular, the apparent profile conflict is historical, not an outstanding
+requirement to change compiler flags.
+
+`gcc_2_8_1_g8_split`, 234 of 235 instructions, opcode distance 1, 27 differing
+positions in three clusters. Written from scratch; there was no previous
+candidate.
+
+The duel refresh and replay tick. On its first call it re-lays the two sides'
+card rows (records 5 to 14 and 20 to 29): for every occupied record it saves the
+sprite y and the sticky flag bits, calls `func_80024D34` with the slot index and
+the object's byte at +2, puts both back, and re-applies the object flags. It
+then ticks the display, spawns a pending object for each side whose rank record
+has a non-zero byte at +0x19, and finally either re-shows the ten field zones of
+the current side (when the hand state byte is 0x28) or starts the BGM. Later
+calls fall into the second phase, which waits for the file transfer to go idle
+and the byte at `D_800E9ECE` to clear before arming a three-step replay counter,
+and then into the third, which walks that counter down through `D_8009B208`,
+pulls the recorded card out of the `D_8015C424` table, copies its three
+coordinates into a fresh object and plays the sound.
+
+**Levers, in the order they paid.**
+
+- *One induction pointer per record, not three.* Writing the body against `rec`
+  and letting each field be its own displacement gives three registers: the biv
+  plus a giv for +0x16 and a giv for +0x12. The target has one giv, based at
+  +0x12, with 0x4, 0x0 and -0xE hung off it. Assigning `p = rec + 0x12` inside
+  the loop body and spelling every field relative to `p` collapses them.
+
+- *`combine_givs` takes the LAST giv recorded as the base, and `record_giv`
+  prepends,* so the base is the last rec-relative access in the body. With the
+  flag write last the base is +0x16 and the displacements come out 0, -18, -4;
+  swapping the two stores so the +0x12 write is last moves the base to +0x12 and
+  the displacements to 4, -0xE, 0, which is the target. The two stores are to
+  the same base and the scheduler puts them back in the target's order either
+  way, so the swap costs nothing else. Worth 14 positions.
+
+- *Index both arrays of the pending-object loop rather than walking a pointer.*
+  `D_8009B1F0[i]` is already a giv; making the rank record `D_800E9FF0 + i*0x20`
+  a giv as well puts the two preheader initialisations in the target's order,
+  because givs are emitted in reverse of the order they were created. A `p +=
+  0x20` pointer instead is a biv, which emits first and swaps `$s0`/`$s1` for
+  the rest of the loop.
+
+- *A struct cast keeps a member displacement off the giv.* `D_800E9FF0 + i *
+  0x20 + 0x19` folds the 0x19 into the giv's base and loads at `0($s0)`; casting
+  to a struct whose member sits at 0x19 keeps the giv at `D_800E9FF0 + i*0x20`
+  and the displacement on the load, which is what the target does.
+
+- *Separate variables where the target uses separate registers.* The replay
+  block's table base, card pointer and object pointer have to be locals of their
+  own. Reusing the loops' `rec` for the table base makes it a global pseudo and
+  it lands in `$s3` instead of `$v1`; reusing the loop's object variable for the
+  card pointer swaps `$s0` and `$s1` across the whole block.
+
+- *`D_8009B208` is small data.* The target reaches it as
+  `addiu $v1, $gp, %gp_rel(D_8009B208)`, so it needs a declared size of eight
+  bytes or fewer; `[]` keeps it out of `.sdata` and turns the access into a
+  `%hi`/`%lo` pair.
+
+- *The `D_8015C424` table offset splits as `+ 0x48000` then `0x36B4`,* the same
+  shape `duel_trap_resolution.c` and `duel_setup_card_record.c` already use.
+  Writing the whole 0x4B6B4 in one expression folds it into the relocation and
+  drops the separate register add.
+
+**What is left** is 27 positions in three clusters, and all three are the same
+kind of disagreement: a large constant or a `%hi` is allocated a *lower*
+register in the target than in the build, and the schedule follows the
+allocation.
+
+```
+    0x800184B0   target                          build
+                 lui   $v0, 0x200                lui   $a0, 0x200
+                 ori   $v0, $v0, 0x30            ori   $a0, $a0, 0x30
+                 lui   $v1, %hi(D_8009B0F4)      lui   $v0, %hi(D_8009B0F4)
+                 lw    $v1, %lo(...)($v1)        lui   $v1, %hi(D_8009B134)
+                 lui   $a0, %hi(D_8009B134)      lw    $v0, %lo(...)($v0)
+                 lw    $a0, %lo(...)($a0)        lw    $v1, %lo(...)($v1)
+
+    0x8001848C   nop                             lui   $v0, %hi(D_8009B36A)
+                 lui   $a0, %hi(D_8009B36A)      lhu   $a0, %lo(...)($v0)
+                 lhu   $a0, %lo(...)($a0)
+
+    0x800184F4   lui   $a1, 0x0004               lui   $v0, %hi(D_8015C424)
+                 ori   $a1, $a1, 0x8000          addiu $a1, $v0, %lo(...)
+                 lui   $v1, %hi(D_8015C424)      lui   $a0, 0x4
+```
+
+**The profile evidence for this function is genuinely split, and that is the
+finding worth recording.** Two of these three clusters are the exact output of
+the *non-split* profile, and the rest of the function is the exact output of the
+split one. Reduced to two probes:
+
+```c
+extern u16 G[]; extern u32 A[], B[];
+void p2(void) { if (((A[0] & 0x2000030) | B[0]) != 0) return; f(G[0]); g(); }
+```
+
+  - `gcc_2_8_1_g8` (no `-mgas -msplit-addresses`) emits `lui $v0, 0x200`,
+    then `lui $v1`/`lw $v1`, then `lui $a0`/`lw $a0` -- the target's register
+    assignment and the target's non-interleaved load order, because without
+    split addresses the loads are single macro instructions and there are no
+    `%hi` pseudos competing for `$v0` and `$v1`.
+  - It also emits `lui $a0, %hi(G)` / `lhu $a0, %lo(G)($a0)`, one register,
+    because the assembler expands a load macro through its own destination.
+    That is the target's shape at 0x8001848C, and it is what leaves the branch
+    delay slot before it empty: `fill_eager_delay_slots` declines the first
+    instruction of the not-taken thread when it writes an argument register.
+  - `gcc_2_8_1_g8_split` emits `lui $a0, 0x200` and `lui $v0, %hi(G)` /
+    `lhu $a0, %lo(G)($v0)` for the same source, which is the build.
+
+```c
+extern u8 X[]; void q(void) { u8 *p = X; u8 *r = p + 0x12; ... }
+```
+
+  - `gcc_2_8_1_g8_split` emits `lui $2,%hi(X)` / `addiu $16,$2,%lo(X)` -- two
+    registers, which is what the target does at 0x8001828C, 0x80018374,
+    0x800183E0 and 0x80018464.
+  - `gcc_2_8_1_g8` emits `la $16,X`, one register, and the whole function is
+    then 60 aligned positions off instead of 27.
+
+So the address materialisations require `-msplit-addresses` and the two
+allocation clusters require its absence. Nothing in the profile table produces
+both. Either the retail unit was built with a combination that is not modelled
+yet, or the split build can be pushed to the target's allocation by some source
+shape I did not find.
+
+Crossed without moving the two allocation clusters: both operand orders of the
+`|` and of the `&`, the loaded words read into locals before the test, the guard
+as `break` versus `return` versus wrapping the body in `if (... == 0)`, the BGM
+value read into a `u16` or `u32` local, `*D_8009B36A`, a K&R declaration and a
+`u16` parameter for `SD_BGMPlay`, `D_8009B36A` declared `[2]` (small data, wrong
+addressing), pinning a `u16 *` local to `$4` (GCC folds it away), `do`/`while`/
+`for(;;)` for the replay counter loop, and the profiles `gcc_2_8_1_g8`,
+`gcc_2_8_1_g8_no_split`, `gcc_2_8_1_g8_split_comm`,
+`gcc_2_8_1_g8_split_no_strength_reduce`, `gcc_2_8_1_cc_g8_as_g0`,
+`gcc_2_8_1_cc_g0_as_g8`, `gcc_2_8_1_cc_g8_as_g0_split`,
+`gcc_2_8_1_cc_g0_as_g8_split`. Also crossed at the compiler, on the guard probe
+under split addresses: `-fno-schedule-insns`, `-fno-schedule-insns2`,
+`-fno-delayed-branch`, `-fno-expensive-optimizations`, `-fno-caller-saves`,
+`-fno-cse-follow-jumps`, `-fno-thread-jumps`, `-fno-peephole`, `-fno-force-mem`,
+`-fno-strength-reduce`, `-fno-function-cse`, `-fno-rerun-cse-after-loop`,
+`-fno-regmove`.
