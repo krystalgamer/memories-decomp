@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 #include "duel_card_layout.h"
 
 struct ActiveCardEntry {
@@ -20,10 +21,11 @@ extern s32 Ai_IsCardInSets(s32 sets, s32 slot);
  * two), a register holding the zone type, a register that when 1 hides
  * face-down cards in types 3..5, a register naming a set of slots to exclude,
  * and the register to write. It scans the zone's winning-card range and writes
- * the slot index of the weakest card, or 0 when nothing qualifies; 9999 is the
- * starting bar, so any real card beats it. Types 1, 4 and 5 pass over a card
- * already used this turn; type 4 wants attack position only and type 5 defence
- * position only. */
+ * the slot index of the weakest card, or 0 when nothing qualifies;
+ * CARD_STAT_MAX is the starting bar, so only a lower selected stat qualifies.
+ * A card exactly at the cap ties and is not selected. Types 1, 4 and 5 pass
+ * over a card already used this turn; type 4 wants attack position only and
+ * type 5 defence position only. */
 void AiScript_FindWeakest(void)
 {
     s32 mode;
@@ -44,7 +46,7 @@ void AiScript_FindWeakest(void)
     mode = table[AiScript_ReadByte()];
     best_slot = 0;
     type = table[AiScript_ReadByte()];
-    best_power = 9999;
+    best_power = CARD_STAT_MAX;
     hide_face_down = table[AiScript_ReadByte()];
     sets = table[AiScript_ReadByte()];
     result = AiScript_ReadByte();
