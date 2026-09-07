@@ -3,12 +3,11 @@
 #include "sound.h"
 
 typedef struct {
-    s32 image;
-    s32 type;
-    s16 x;
-    s16 y;
+    s32 voice;
+    s32 mask;
+    SpuVolume volume;
     u8 pad_0C[52];
-} Packet;
+} VoiceAttributePacket;
 
 extern s32 D_80011434[];
 extern int func_8004A0FC();
@@ -127,12 +126,12 @@ void func_80049CB0(void)
 
 void func_80049CF8(void)
 {
-    Packet packet;
+    VoiceAttributePacket packet;
     register u8 *initial asm("$2") = (u8 *)D_8009B458;
     register u8 *state asm("$3");
     register s32 i asm("$16");
     register s32 offset asm("$17");
-    register s32 *image asm("$18");
+    register s32 *voice_bits asm("$18");
 
     initial[0x500] = 1;
     state = (u8 *)D_8009B458;
@@ -143,7 +142,7 @@ void func_80049CF8(void)
         asm volatile(
             "lui $2,%%hi(D_80011434)\n\t"
             "addiu %0,$2,%%lo(D_80011434)"
-            : "=r"(image)
+            : "=r"(voice_bits)
             :
             : "$2"
         );
@@ -152,16 +151,16 @@ void func_80049CF8(void)
             u8 *entry = state + offset;
 
             if ((entry[0x183] >> 4) == 0 && entry[0x18D] != 0) {
-                register s32 type asm("$2") = 3;
+                register s32 mask asm("$2") = 3;
 
-                packet.type = type;
-                packet.image = *image;
-                packet.x = 0;
-                packet.y = 0;
+                packet.mask = mask;
+                packet.voice = *voice_bits;
+                packet.volume.left = 0;
+                packet.volume.right = 0;
                 SpuSetVoiceAttr((SpuVoiceAttr *)&packet);
             }
-            image++;
-            asm volatile("" : "+r"(image));
+            voice_bits++;
+            asm volatile("" : "+r"(voice_bits));
             state = (u8 *)D_8009B458;
             count = *(s16 *)(state + 0x510);
             asm volatile("" : "+r"(count));
@@ -176,12 +175,12 @@ void func_80049CF8(void)
 
 void func_80049DD8(void)
 {
-    Packet packet;
+    VoiceAttributePacket packet;
     register u8 *initial asm("$2") = (u8 *)D_8009B458;
     register u8 *state asm("$3");
     register s32 i asm("$16");
     register s32 offset asm("$17");
-    register s32 *image asm("$18");
+    register s32 *voice_bits asm("$18");
 
     initial[0x500] = 1;
     state = (u8 *)D_8009B458;
@@ -192,7 +191,7 @@ void func_80049DD8(void)
         asm volatile(
             "lui $2,%%hi(D_80011434)\n\t"
             "addiu %0,$2,%%lo(D_80011434)"
-            : "=r"(image)
+            : "=r"(voice_bits)
             :
             : "$2"
         );
@@ -201,16 +200,16 @@ void func_80049DD8(void)
             u8 *entry = state + offset;
 
             if ((entry[0x183] >> 4) == 0 && entry[0x18D] != 0) {
-                register s32 type asm("$2") = 3;
+                register s32 mask asm("$2") = 3;
 
-                packet.type = type;
-                packet.image = *image;
-                packet.x = *(u16 *)(entry + 0x194);
-                packet.y = *(u16 *)(entry + 0x196);
+                packet.mask = mask;
+                packet.voice = *voice_bits;
+                packet.volume.left = *(u16 *)(entry + 0x194);
+                packet.volume.right = *(u16 *)(entry + 0x196);
                 SpuSetVoiceAttr((SpuVoiceAttr *)&packet);
             }
-            image++;
-            asm volatile("" : "+r"(image));
+            voice_bits++;
+            asm volatile("" : "+r"(voice_bits));
             state = (u8 *)D_8009B458;
             count = *(s16 *)(state + 0x510);
             asm volatile("" : "+r"(count));
