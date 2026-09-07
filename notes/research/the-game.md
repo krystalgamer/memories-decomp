@@ -868,8 +868,8 @@ counter supplies the value added to the score. The rows, measured:
 | 5 | +0x06 | 0: +2 · 1–2: −8 · 3–4: −16 · 5–6: −24 · 7+: −32 | **traps** triggered |
 | 6 | +0x18 | 0–8: +15 · 9–12: +12 · 13–32: 0 · 33–36: −5 · 37+: −7 | **cards used** |
 | 7 | +0x14 (halfword) | 0–99: −7 · 100–999: −5 · 1000–6999: 0 · 7000–7999: +4 · 8000: +6 | **remaining LP** |
-| 8 | +0x08 | 0: +4 · 1–4: 0 · 5–9: −4 · 10–14: −8 · 15+: −12 | fusions initiated from the hand |
-| 9 | +0x09 | same as row 8 | equips used |
+| 8 | +0x08 | 0: +4 · 1–4: 0 · 5–9: −4 · 10–14: −8 · 15+: −12 | **INITIATE FUSION** — successful fusions initiated from the hand |
+| 9 | +0x09 | same as row 8 | **EQUIP MAGIC** — valid equips used |
 
 The +0 byte is the **way the duel ended**: +2 for taking the LP to 0, −40
 for a deck-out, +40 for Exodia (that it is added is measured; the three
@@ -883,9 +883,17 @@ TRIGGER TRAP under "Special arts", then CARDS USED and REMAINING LP. Which
 label goes with which row was matched through the community's published
 table, which uses the same names — and this corrects the earlier version of
 this document, which had rows 4, 5, 8 and 9 labelled as fusions, equips,
-magic and traps in the wrong order. Which of rows 8 and 9 is INITIATE FUSION
-and which EQUIP MAGIC is not settled (their values are identical, so the
-score does not care); the screens also show figures the score does not use,
+magic and traps in the wrong order.
+
+A controlled one-player trace settles the two otherwise identical final rows.
+It started before both actions, then performed exactly one successful hand
+fusion (Mechanical Spider plus Air Marmot of Nefariousness into Giga-tech
+Wolf) and later exactly one valid equip (Silver Bow and Arrow on Skelengel),
+with no other player fusion or equip. Player byte `+0x08` changed from `0` to
+`1` on the fusion while `+0x09` remained zero; `+0x09` changed from `0` to
+`1` only on the later equip. Row 8 is therefore INITIATE FUSION and row 9 is
+EQUIP MAGIC. Their score values are identical, so this distinction does not
+change the final score. The screens also show figures the score does not use,
 such as the average ATK factor.
 
 ### 6.2 The rank
