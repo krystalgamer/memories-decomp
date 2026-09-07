@@ -18,7 +18,7 @@ extern s16 D_8016D4D2;
 extern u8 D_800EB0F8[];
 extern u8 D_801B125A[];
 extern u8 gSaveData_aPlayerNameSjis[];
-extern void func_8003FF08(s32);
+extern void SD_BGMPlay(u32);
 extern void func_800403F0(void);
 extern void func_8003BC40(u8 *, u8 *, s32);
 extern void func_8003B6AC(s32, s32);
@@ -39,7 +39,7 @@ void NameEntry_Init(void)
     u8 *obj;
     u8 *sprite;
 
-    func_8003FF08(28688);
+    SD_BGMPlay(28688);
     func_800403F0();
     D_8016D400 = 0;
     D_8016D403 = 0;

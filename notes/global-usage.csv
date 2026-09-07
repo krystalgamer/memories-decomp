@@ -2139,11 +2139,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003F454,func_8003F454,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,16,f = gMemCard_wDialogFlags; | gMemCard_wDialogFlags & ~MEM_CARD_DIALOG_FLAG_IO_PENDING; | (+9 more)
 0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003F70C,func_8003F70C,matching_c,game,C,src/game/data_transfer_request.c,read,16,if (gMemCard_wDialogFlags != 0) {
 0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003F740,func_8003F740,matching_c,game,C,src/game/data_transfer_request.c,write,16,gMemCard_wDialogFlags = MEM_CARD_DIALOG_FLAG_ACTIVE;
-0x8009B400,D_8009B400,D_8009B400,0x8002EC74,Script_OpSound,matching_c,game,C,src/game/script_stream_commands.c,read,32,D_8009B404 = D_8009B400[0];
-0x8009B400,D_8009B400,D_8009B400,0x800386B8,func_800386B8,matching_c,game,C,src/game/duel_effect_play_sound_command.c,read,32,D_8009B404[0] = D_8009B400[0];
-0x8009B400,D_8009B400,D_8009B400,0x8003FF08,func_8003FF08,matching_c,game,C,src/game/sound_frontend.c,write,32,D_8009B400 = command;
-0x8009B404,D_8009B404,D_8009B404,0x8002EC74,Script_OpSound,matching_c,game,C,src/game/script_stream_commands.c,read_write,32,D_8009B404 = D_8009B400[0]; | D_8009B404 = q[0] | (q[1] << 8); | (+1 more)
-0x8009B404,D_8009B404,D_8009B404,0x800386B8,func_800386B8,matching_c,game,C,src/game/duel_effect_play_sound_command.c,read_write,32,D_8009B404[0] = D_8009B400[0]; | D_8009B404[0] = func_80036D3C(object) & 0xFFFF; | (+1 more)
+0x8009B400,gSD_dwCurrentBgmCommand,gSD_dwCurrentBgmCommand,0x8002EC74,Script_OpSound,matching_c,game,C,src/game/script_stream_commands.c,read,32,D_8009B404 = gSD_dwCurrentBgmCommand[0];
+0x8009B400,gSD_dwCurrentBgmCommand,gSD_dwCurrentBgmCommand,0x800386B8,func_800386B8,matching_c,game,C,src/game/duel_effect_play_sound_command.c,read,32,D_8009B404[0] = gSD_dwCurrentBgmCommand[0];
+0x8009B400,gSD_dwCurrentBgmCommand,gSD_dwCurrentBgmCommand,0x8003FF08,SD_BGMPlay,matching_c,game,C,src/game/sound_frontend.c,write,32,gSD_dwCurrentBgmCommand = command;
+0x8009B404,D_8009B404,D_8009B404,0x8002EC74,Script_OpSound,matching_c,game,C,src/game/script_stream_commands.c,read_write,32,D_8009B404 = gSD_dwCurrentBgmCommand[0]; | D_8009B404 = q[0] | (q[1] << 8); | (+1 more)
+0x8009B404,D_8009B404,D_8009B404,0x800386B8,func_800386B8,matching_c,game,C,src/game/duel_effect_play_sound_command.c,read_write,32,D_8009B404[0] = func_80036D3C(object) & 0xFFFF; | D_8009B404[0] = gSD_dwCurrentBgmCommand[0]; | (+1 more)
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003C628,Options_Init,matching_c,game,C,src/game/options_init.c,read,8,s8 flag408 = gSD_bOutputType[0];
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003C7A0,Options_HandleInput,matching_c,game,C,src/game/options_update.c,write,8,gSD_bOutputType[0] = value;
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003D03C,SaveData_BuildPayload,matching_c,game,C,src/game/save_data_build_payload.c,read_write,8,data[SAVE_DATA_HEADER_SIZE + SAVE_DATA_OUTPUT_TYPE_OFFSET] = gSD_bOutputType; | gSD_bOutputType = 0; | (+1 more)

@@ -1,9 +1,9 @@
 #include "../types.h"
 
-extern s32 D_8009B400[];
+extern u32 gSD_dwCurrentBgmCommand[];
 extern s32 D_8009B404[];
 extern s32 func_80036D3C(void *);
-extern void func_8003FF08(s32);
+extern void SD_BGMPlay(u32);
 extern void func_8003FF88(u16);
 extern void SD_SEPlayFull(u16);
 extern u16 D_8009B33C;
@@ -11,7 +11,7 @@ extern s32 D_8009B350;
 
 void func_80038690(void *object)
 {
-    func_8003FF08((u16)func_80036D3C(object));
+    SD_BGMPlay((u16)func_80036D3C(object));
 }
 
 void func_800386B8(u8 *object)
@@ -24,16 +24,16 @@ void func_800386B8(u8 *object)
     *slot = stream + 1;
     op = command;
     if (op & 0x3F) {
-        func_8003FF08(func_80036D3C(object) & 0xFFFF);
+        SD_BGMPlay(func_80036D3C(object) & 0xFFFF);
     } else {
         if (op & 1) {
-            func_8003FF08(D_8009B404[0]);
+            SD_BGMPlay(D_8009B404[0]);
         }
         if (op & 2) {
             D_8009B404[0] = func_80036D3C(object) & 0xFFFF;
         }
         if (op & 4) {
-            D_8009B404[0] = D_8009B400[0];
+            D_8009B404[0] = gSD_dwCurrentBgmCommand[0];
         }
     }
     if (op & 0x80) {

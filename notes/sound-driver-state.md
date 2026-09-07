@@ -52,6 +52,11 @@ It stops after they clear or after 24 iterations. `SD_StopAll` first sends the
 stop path through both sequence-control selectors, then calls this voice
 key-off helper; the debug sound screen uses it for Start-button cleanup.
 
+`SD_BGMPlay` forces its input into the `0x7000` BGM command class, dispatches
+it through the sequence path, and stores the encoded value in
+`gSD_dwCurrentBgmCommand`. Script and duel-effect handlers copy that value
+when their bytecode requests replay of the current music command.
+
 `Sound_InitFrontend` is the game-facing bridge into this lower-level state. It
 sets `gSD_bOutputType` to the unresolved sentinel `-1`, then passes
 `gFile_anLba[4]`, `[5]`, and `[6]` to `func_80046990`. The runtime file table

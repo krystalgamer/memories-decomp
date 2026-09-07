@@ -20,7 +20,7 @@ extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern void func_80042918(u8 *);
 extern void Password_SetDigitCursorTarget(u8 *);
 extern void func_80040468(u8 *, s32, s32, s32, s32, s32);
-extern void func_8003FF08(s32);
+extern void SD_BGMPlay(u32);
 extern void func_80015A00(void);
 extern void func_80169E20(void);
 extern void Password_UpdateDigitCursorDecoration(void);
@@ -85,6 +85,6 @@ void func_8016A080(void)
         i++;
         slot++;
     } while (i < 4);
-    func_8003FF08(29520);
+    SD_BGMPlay(29520);
     func_80015A00();
 }

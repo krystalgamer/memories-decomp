@@ -30,7 +30,7 @@ extern u8 *CampaignMap_CreateLocationLabel(s32);
 extern void CampaignMap_RebuildLocationObjects(s32);
 extern u8 *CampaignMap_CreateLocationMarker(s32);
 extern s32 Campaign_TestStoryFlag(s32);
-extern void func_8003FF08(s32);
+extern void SD_BGMPlay(u32);
 extern void func_80042C08(void);
 
 void CampaignMap_SetLocation(s32 index)
@@ -95,5 +95,5 @@ void CampaignMap_SetLocation(s32 index)
     if (Campaign_TestStoryFlag(71) != 0) {
         track = 0x70B0;
     }
-    func_8003FF08(track);
+    SD_BGMPlay(track);
 }

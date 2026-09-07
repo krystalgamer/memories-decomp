@@ -2,7 +2,7 @@
 #include "file_transfer.h"
 
 extern u8 *D_8009B290;
-extern s32 D_8009B400[];
+extern u32 gSD_dwCurrentBgmCommand[];
 extern s32 D_8009B404 __attribute__((section(".data")));
 extern s32 D_8009B0F4[];
 extern s32 D_8009B134[];
@@ -11,7 +11,7 @@ extern u8 D_801A8000[];
 
 extern s32 func_8002E3B4(void);
 extern void SD_SEPlayFull(s32);
-extern void func_8003FF08(s32);
+extern void SD_BGMPlay(u32);
 extern void SD_BGMFadeOut(void);
 extern void SD_BGMFadeOutWithStep(s32);
 
@@ -34,11 +34,11 @@ void Script_OpSound(void)
                 SD_SEPlayFull(q[0] | (q[1] << 8));
             } else {
                 D_8009B290 = q + 2;
-                func_8003FF08(q[0] | (q[1] << 8));
+                SD_BGMPlay(q[0] | (q[1] << 8));
             }
         } else {
             if (f & 1) {
-                func_8003FF08(D_8009B404);
+                SD_BGMPlay(D_8009B404);
             }
             if (f & 2) {
                 q = D_8009B290;
@@ -46,7 +46,7 @@ void Script_OpSound(void)
                 D_8009B404 = q[0] | (q[1] << 8);
             }
             if (f & 4) {
-                D_8009B404 = D_8009B400[0];
+                D_8009B404 = gSD_dwCurrentBgmCommand[0];
             }
         }
         if (f & 0x80) {

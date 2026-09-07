@@ -8,7 +8,7 @@
    8-arg func_800404CC setup and is stashed in D_8009B388;
    obj3 gets a 10-arg func_80040510 setup. Finally Options_UpdateLayout is called
    with the selection flag (set to 0 earlier), D_8009B380 is set to obj3,
-   and func_8003FF08(0x7350) runs last.
+   and SD_BGMPlay(0x7350) runs last.
 
    gSD_bOutputType needs an oversized array extern to force absolute (lui+lbu)
    addressing instead of gp-relative -- see project memory on far globals
@@ -44,7 +44,7 @@ extern void func_800404CC(struct Obj *obj, s32 a1, s32 a2, s32 a3,
 extern void func_80040510(struct Obj *obj, s32 a1, s32 a2, s32 a3, s32 a5,
                            s32 a6, s32 a7, s32 a8, s32 a9, s32 a10);
 extern void Options_UpdateLayout(s32 arg0);
-extern void func_8003FF08(s32 a0);
+extern void SD_BGMPlay(u32);
 
 void Options_Init(void) {
     register struct Obj *obj asm("s1");
@@ -81,5 +81,5 @@ void Options_Init(void) {
         D_8009B380 = obj;
         Options_UpdateLayout(flag);
     }
-    func_8003FF08(0x7350);
+    SD_BGMPlay(0x7350);
 }

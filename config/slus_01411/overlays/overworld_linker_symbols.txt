@@ -1,1 +1,2 @@
 SD_BGMFadeOutWithStep = 0x8003FF58;
+SD_BGMPlay = 0x8003FF08;

@@ -3,7 +3,7 @@
 
 extern s32 gFile_anLba[];
 extern s8 gSD_bOutputType;
-extern u32 D_8009B400;
+extern u32 gSD_dwCurrentBgmCommand;
 
 extern void func_80012D4C(void);
 extern void func_80045334(u32);
@@ -31,12 +31,12 @@ void SD_SEPlayFull(u32 value)
     SD_SEPlay(value & 0xFFFF, 0xFF, 0);
 }
 
-void func_8003FF08(u32 value)
+void SD_BGMPlay(u32 value)
 {
     u32 command = value | 0x7000;
 
     func_80047314(command & 0xFFFF);
-    D_8009B400 = command;
+    gSD_dwCurrentBgmCommand = command;
 }
 
 void SD_BGMFadeOut(void)

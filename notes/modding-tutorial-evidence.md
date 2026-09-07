@@ -932,8 +932,8 @@ per-duelist result counter: value `0` leaves the pointer on the wins halfword,
 while value `1` advances it to losses. Index `0` is therefore the win path and
 index `1` is the loss path independently of the tutorial's labels.
 
-The explicit `0x7230` value is later passed to `func_8003FF08`, the resident
-sound-command wrapper. It must be edited as one little-endian halfword, not
+The explicit `0x7230` value is later passed to `SD_BGMPlay`, the resident
+BGM-command wrapper. It must be edited as one little-endian halfword, not
 as two independent music bytes. The tutorial's labels for the `0x71D0`-
 `0x72C0` values are behavior reports; static code confirms the command values
 but not every audible track name.

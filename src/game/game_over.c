@@ -15,7 +15,7 @@ extern void func_80040510();
 extern void func_800428A8();
 extern void func_800428EC();
 extern void func_800429D8();
-extern void func_8003FF08();
+extern void SD_BGMPlay(u32);
 extern void func_800157DC();
 extern s32 Rand_GetInterval(s32);
 
@@ -33,7 +33,7 @@ void func_8003C950(void)
     *(u16 *)(object + 8) |= 40;
     func_800429D8(object);
     D_8009B378 = (s32)object;
-    func_8003FF08(0x7300);
+    SD_BGMPlay(0x7300);
     func_800157DC();
     D_800E9ECF[0] = 2;
 }

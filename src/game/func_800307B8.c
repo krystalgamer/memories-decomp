@@ -25,7 +25,7 @@ extern void func_8003FF88(s32);
 extern void func_8004763C(void);
 extern void func_80047AD0(s32);
 extern void SD_SEPlayFull(s32);
-extern void func_8003FF08(s32);
+extern void SD_BGMPlay(u32);
 
 void func_800307B8(void)
 {
@@ -79,7 +79,7 @@ void func_800307B8(void)
         return;
     case 1:
         D_8009B2DA = D_8009B2CA;
-        func_8003FF08(D_8009B2CA);
+        SD_BGMPlay(D_8009B2CA);
         return;
     case 2:
         *(&gDebug_nLastSoundID + 1) = D_8009B2CC;

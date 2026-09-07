@@ -21,6 +21,7 @@ u8 *func_800400AC(s32 arg0, s32 arg1);
 
 void func_80029574(s32 arg0);
 void func_80029590(void);
+void SD_BGMPlay(u32);
 void Library_MarkOwnedCards(void);
 void func_80035668(s32 arg0);
 void func_8004293C(u8 *arg0);
@@ -139,5 +140,5 @@ void func_8002BFCC(void) {
     *(u16 *)(*(u8 **)(m + 0x28) + 8) &=
         ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     func_8002A2F4(r);
-    func_8003FF08(0x72D0);
+    SD_BGMPlay(0x72D0);
 }
