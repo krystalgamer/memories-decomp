@@ -33,7 +33,7 @@ void SD_SEPlayFull(u32 value)
 
 void SD_BGMPlay(u32 value)
 {
-    u32 command = value | 0x7000;
+    u32 command = value | SD_BGM_COMMAND_BASE;
 
     func_80047314(command & 0xFFFF);
     gSD_dwCurrentBgmCommand = command;

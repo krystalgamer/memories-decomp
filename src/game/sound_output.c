@@ -152,8 +152,8 @@ void func_800472A8(s32 arg0)
     } else {
         register u32 masked asm("v0") = (u32)(v & 0xFFFF);
 
-        if (masked >= 0x7000) {
-            arg0 -= 0x7000;
+        if (masked >= SD_BGM_COMMAND_BASE) {
+            arg0 -= SD_BGM_COMMAND_BASE;
         }
         func_80049138((s16)arg0, 1);
     }
@@ -172,13 +172,13 @@ void func_8004733C(s32 arg0, s32 arg1)
         return;
     }
     if (arg0 & 0x8000) {
-        func_800473CC(0x7000);
+        func_800473CC(SD_BGM_COMMAND_BASE);
         func_80045208(v & 0xFFFF, (s16)arg1);
     } else {
         register u32 masked asm("v0") = (u32)(v & 0xFFFF);
 
-        if (masked >= 0x7000) {
-            arg0 -= 0x7000;
+        if (masked >= SD_BGM_COMMAND_BASE) {
+            arg0 -= SD_BGM_COMMAND_BASE;
         }
         func_80049230((s16)arg0, (s16)arg1);
     }

@@ -52,8 +52,8 @@ It stops after they clear or after 24 iterations. `SD_StopAll` first sends the
 stop path through both sequence-control selectors, then calls this voice
 key-off helper; the debug sound screen uses it for Start-button cleanup.
 
-`SD_BGMPlay` forces its input into the `0x7000` BGM command class, dispatches
-it through the sequence path, and stores the encoded value in
+`SD_BGMPlay` forces its input into the `SD_BGM_COMMAND_BASE` (`0x7000`) BGM
+command class, dispatches it through the sequence path, and stores the value in
 `gSD_dwCurrentBgmCommand`. Script and duel-effect handlers copy that value
 when their bytecode requests replay of the current music command.
 
