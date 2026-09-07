@@ -6,6 +6,7 @@ import argparse
 import csv
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -223,6 +224,54 @@ def verify_metadata(root: Path) -> None:
     """
     verify_manifest_format(root)
     verify_csv_format(root)
+    verify_sources_wired(root)
+
+
+C_SUBSEGMENT = re.compile(r"^\s*-\s*\[[^,\]]+,\s*c\s*,\s*(\S+?)\s*\]", re.MULTILINE)
+
+
+def verify_sources_wired(root: Path) -> None:
+    """Check every overlay C source is named by a `c` subsegment.
+
+    A source that no subsegment names is never compiled, and nothing else
+    notices. The module still hashes, because the original assembly is still
+    in the build, so `make match-overlays` and `verify-overlays` both stay
+    green while the file sits on disk doing nothing -- and a per-function
+    `overlay_diff` reports MATCH for the same reason, since it compiles the
+    candidate itself rather than reading the module.
+
+    So a green build is not evidence that a newly added source is being used.
+    The invariant that is evidence is this one: one `c` subsegment per source,
+    both ways. Two overlay modules share `src/overlays/overworld`, so the
+    subsegments are gathered across every module yaml before comparing.
+    """
+    overlays = resolve_within(root, "config/slus_01411/overlays", must_exist=True)
+    sources_root = resolve_within(root, "src/overlays", must_exist=True)
+
+    wired: dict[str, Path] = {}
+    for path in sorted(overlays.glob("*.yaml")):
+        for name in C_SUBSEGMENT.findall(path.read_text(encoding="utf-8")):
+            wired.setdefault(name, path)
+
+    present = {
+        f"overlays/{p.relative_to(sources_root).with_suffix('').as_posix()}": p
+        for p in sorted(sources_root.rglob("*.c"))
+    }
+
+    orphans = sorted(set(present) - set(wired))
+    if orphans:
+        listed = ", ".join(present[name].relative_to(root).as_posix() for name in orphans)
+        raise OverlayError(
+            f"overlay sources not wired into any split: {listed}; "
+            "add a c subsegment to the module yaml, or the file is never compiled"
+        )
+
+    missing = sorted(set(wired) - set(present))
+    if missing:
+        listed = ", ".join(f"{name} ({wired[name].name})" for name in missing)
+        raise OverlayError(f"c subsegments with no source file: {listed}")
+
+    print(f"overlay sources wired: OK ({len(present)} sources)")
 
 
 def tracked_csv_paths(root: Path) -> list[Path]:
