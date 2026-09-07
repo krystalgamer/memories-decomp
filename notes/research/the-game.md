@@ -98,7 +98,8 @@ knowing by name before reading any of them:
   battle resolver, the scoring counters [cards in play `0x801A7AD8`, 28-byte
   records; per-side record `0x800E9FF0`, stride `0x20`];
 * the **AI interpreter** — a bytecode VM that runs each opponent's script
-  [`aiMain` `0x80070650`, 67 handlers at `0x800916E0`, VM state `0x800F5BE8`];
+  [`AiScript_Run` `0x80070650`, 67 handlers at `0x800916E0`, VM state
+  `0x800F5BE8`];
 * the **disc loader** — loads sector ranges from several runtime files,
   including WA screen/duel packages and the SU main-menu image, with
   per-screen callbacks that route the chunks
@@ -898,9 +899,9 @@ or loss *means* is decided by the caller (§6, §7.12, §8).
 ### 5.11 The opponent
 
 The computer's turn is played by a **bytecode script** per opponent,
-interpreted by a small VM [`aiMain` `0x80070650`]: the loop fetches an opcode,
-dispatches through a **67-entry handler table** [`0x800916E0`], and stops
-when the handler it just ran was one of three terminal ones (end of hand
+interpreted by a small VM [`AiScript_Run` `0x80070650`]: the loop fetches an
+opcode, dispatches through a **67-entry handler table** [`0x800916E0`], and
+stops when the handler it just ran was one of three terminal ones (end of hand
 phase, end of field phase, field play); every sixteenth of a second it yields
 to the video sync. The instruction set is real: `aiInstJump`, `aiInstJumpGe`,
 `aiInstJumpEq`, `aiInstJumpNeq`, `aiInstJumpRand`, `aiInstCall`,
