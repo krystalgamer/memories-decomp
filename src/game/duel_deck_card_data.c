@@ -79,11 +79,11 @@ void Duel_PopulateCombinedDeckData(void)
 
     for (i = 0; i < COMBINED_DECK_SIZE; i++) {
         q = D_8015C424 + i * 2;
-        v = *(u16 *)(q + 0x1BBC4);
+        v = *(u16 *)(q + DUEL_COMBINED_DECK_CARD_IDS_OFFSET);
         rec->id = v;
         id = (s16)v;
         r = D_8015C424 + i;
-        rec->b4 = r[0x1BB70];
+        rec->b4 = r[DUEL_COMBINED_DECK_CARD_FLAGS_OFFSET];
         rec->b2 = i;
         rec->b3 = i;
 
