@@ -985,6 +985,12 @@ byte to `DUEL_RANK_RULE_CARDS_USED`. This pins the normal draw/refill
 accounting, not an unperformed runtime trace or a complete audit of every
 effect that could touch the record.
 
+`Duel_DrawLifePointsAndDeckCounts` also reads `+0x18`, through a signed-byte
+view, to display `DECK_SIZE - draw_cursor` for each side. The remaining-card
+readouts retain their two-digit format and existing side/colour order.
+The calculation is not clamped or redefined as cards played; its neighboring
+LP readouts still use the interpolated display value at `+0x12`.
+
 The matching score calculation uses `DUEL_RANK_RULE_*` names from
 `src/game/duel_rank.h` for these ten threshold-table rows. They are not the
 indices of the sixteen displayed statistics: the raw-stat copy order and

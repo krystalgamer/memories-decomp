@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 #include "duel_display.h"
 #include "duel_grid.h"
 
@@ -6,8 +7,9 @@
    D_8009B1D5 selects which side (0 or 1) currently renders in the "active"
    grey shade (0x808080) vs the dim shade (0x404040); the other side always
    gets the opposite shade. Each side draws two digit groups (4-digit then
-   2-digit) offset from the shared position struct at arg0->unk50, using
-   field12/field18 from the corresponding D_800E9FF0 entry as the value. */
+   2-digit) offset from the shared position struct at arg0->unk50. The values
+   are displayed LP from field12 and DECK_SIZE minus the signed draw cursor
+   in field18 of the corresponding D_800E9FF0 entry. */
 
 struct WidgetEntry {
     u8 pad0[0x12];
@@ -75,7 +77,7 @@ void Duel_DrawLifePointsAndDeckCounts(struct Widget *arg0) {
 
     scratch->unk4 = pos->unk30 + 0xE;
     scratch->unk6 = pos->unk32 - 5;
-    func_80016D2C(pos, scratch, 0x28 - D_800E9FF0[1].field18, 2);
+    func_80016D2C(pos, scratch, DECK_SIZE - D_800E9FF0[1].field18, 2);
 
     scratch->unk14 = DUEL_DISPLAY_COLOR_NORMAL;
     if (D_8009B1D5 != 0) {
@@ -88,5 +90,5 @@ void Duel_DrawLifePointsAndDeckCounts(struct Widget *arg0) {
 
     scratch->unk4 = pos->unk30 + 0xE;
     scratch->unk6 = pos->unk32 + 5;
-    func_80016D2C(pos, scratch, 0x28 - D_800E9FF0[0].field18, 2);
+    func_80016D2C(pos, scratch, DECK_SIZE - D_800E9FF0[0].field18, 2);
 }
