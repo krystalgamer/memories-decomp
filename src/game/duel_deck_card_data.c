@@ -20,7 +20,7 @@ extern u32 D_8009B0F4;
 
 extern void Util_CopyWords(void *, void *, s32);
 extern s32 Util_CompareS16(s16 *, s16 *);
-extern void func_800245EC(FileTransferDescriptor *, s32);
+extern void Duel_StepCardDataTransfer(FileTransferDescriptor *, s32);
 
 void Duel_RequestCombinedDeckData(void)
 {
@@ -57,7 +57,7 @@ void Duel_RequestCombinedDeckData(void)
     count = *(u16 *)(table + 0x1BD0C);
     result = func_80014EEC(
         0, (u8 *)0, count - 1, previous - count + 1,
-        func_800245EC, 0, 0
+        Duel_StepCardDataTransfer, 0, 0
     );
     result->callback_data = D_80178130;
     result->position = (u32)table;

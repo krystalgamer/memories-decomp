@@ -187,7 +187,7 @@ address,size,name,status,module,notes
 0x80024388,0x6C,func_80024388,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800243F4,0x1AC,Duel_ShuffleDeck,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x800245A0,0x4C,Duel_ShuffleBothDecks,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x800245EC,0x118,func_800245EC,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_cc_g0_as_g8_no_split.
+0x800245EC,0x118,Duel_StepCardDataTransfer,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_cc_g0_as_g8_no_split. Combined-deck request ownership and descriptor fields support the semantic name.
 0x80024704,0x30,Util_CompareS16,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80024734,0xF0,Duel_RequestCombinedDeckData,matching_c,game,Post-terminal pure-C match; GCC G8 split addressing with MASPSX G0 reproduces the retail deck-list setup exactly.
 0x80024824,0xF0,Duel_PopulateCombinedDeckData,matching_c,game,"Builds the 80-entry deck card record table and the matching image blocks: for each combined-deck slot it reads the card id from D_8015C424 + 0x1BBC4, stores it with the slot index twice and a byte from D_8015C424 + 0x1BB70 into gDuel_aDeckCardRecords, finds that id in the D_80178130 id table and copies the corresponding 0x580-byte block from D_8015C424 into D_8018C2D8."

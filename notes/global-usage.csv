@@ -888,7 +888,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,read,32,"lui $v1, %hi(D_8009B0F4) | lw $v1, %lo(D_8009B0F4)($v1)"
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80020BE4,func_80020BE4,matching_c,game,C,src/game/func_80020BE4.c,read_write,32,D_8009B0F4 = D_8009B0F4 & 0xFFDCFFFF; | D_8009B0F4 = v & m; | (+5 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80020F4C,func_80020F4C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01174c.s,read,32,"lui $v1, %hi(D_8009B0F4) | lw $v1, %lo(D_8009B0F4)($v1)"
-0x8009B0F4,D_8009B0F4,D_8009B0F4,0x800245EC,func_800245EC,matching_c,game,C,src/game/func_800245EC.c,read_write,32,D_8009B0F4 &= ~0x230000; | D_8009B0F4 &= ~0x30000; | (+1 more)
+0x8009B0F4,D_8009B0F4,D_8009B0F4,0x800245EC,Duel_StepCardDataTransfer,matching_c,game,C,src/game/duel_card_data_transfer.c,read_write,32,D_8009B0F4 &= ~0x230000; | D_8009B0F4 &= ~0x30000; | (+1 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80024734,Duel_RequestCombinedDeckData,matching_c,game,C,src/game/duel_deck_card_data.c,write,32,D_8009B0F4 = result->status_flags | 0x10;
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80024E58,func_80024E58,matching_c,game,C,src/game/func_80024E58.c,read,32,if (((D_8009B0F4[0] & 0x2000030) | D_8009B134[0]) == 0) {
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8002622C,func_8002622C,matching_c,game,C,src/game/func_8002622C.c,read,32,else if(!((D_8009B0F4[0]&0x2000030)|D_8009B134[0]))D_8009B220=0;}
