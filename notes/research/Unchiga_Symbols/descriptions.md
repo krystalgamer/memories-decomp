@@ -666,3 +666,22 @@ This batch adds nine rows and corrects the inherited `PadChkVsync` row at
 | 0x8009B45C | `g_SDValue` | Global pointer to the main sound-driver work area, including command queues, buffers, voices, sequence state, and output controls. |
 | 0x801D060C | `gSaveData_aPlayerNameSjis` | Twelve-byte persisted player-name field containing up to five two-byte Shift-JIS characters followed by a `u16` terminator. |
 | 0x801D07DC | `gCampaignSavedSceneIndex` | Persisted campaign event-script index copied into `gCampaignSceneIndex` when save runtime state is applied. |
+
+## Batch: remaining accepted semantic names
+
+The disputed `Main_RunDuel` and hedged `Model_LoadMonsterMerge` names remain
+excluded. These are the other confirmed or high-confidence semantic-map
+entries that were not yet represented in this naming gate.
+
+| address | name | description |
+|---|---|---|
+| 0x80014EEC | `File_TryRequestAsyncTransfer` | Returns null while the primary transfer state is busy; otherwise runs the pending handoff callback, initializes the primary descriptor, and returns it without forcing an occupied transfer. |
+| 0x80015078 | `File_RequestSecondaryAsyncTransfer` | Temporarily clears the secondary-pending flag, initializes the secondary transfer descriptor, then marks it ready for later promotion by `File_ActivateTransfer`. |
+| 0x800171A8 | `Duel_LoadPackageStage` | Routes the thirteen stages of a 235-sector duel-terrain package to their RAM destinations and VRAM uploads, including the equip, fusion, ritual, overlay, and AI-script blocks. |
+| 0x800245EC | `Duel_StepCardDataTransfer` | Initializes and advances the asynchronous card-data transfer across the sorted unique-card boundary list, moving one `0x580`-byte card-data block for each new ID. |
+| 0x80024734 | `Duel_RequestCombinedDeckData` | Sorts and deduplicates the two 40-card duel decks into a sentinel-terminated unique-ID list, then requests their card-data blocks through `Duel_StepCardDataTransfer`. |
+| 0x80024824 | `Duel_PopulateCombinedDeckData` | Builds all 80 combined-deck records and copies each card's selected `0x580`-byte data block into the duel runtime buffer. |
+| 0x8002C7E8 | `Duel_CheckRitual` | Checks the active ritual and field cards against the 24 five-halfword records in `gDuel_awRitualData` to determine whether the required three tributes are present. |
+| 0x8002D7CC | `Main_RunTrade` | Main-mode tick for Trade and the shared two-save memory-card flow used by 2P Duel, including its fade/setup and loaded-screen dispatch lifecycle. |
+| 0x8009B39C | `gInput_bRepeatDelay` | Held-input timer threshold before a button produces its first automatic repeat event. |
+| 0x8009B3A2 | `gInput_bRepeatInterval` | Held-input timer reload value that controls the interval between subsequent automatic repeat events. |
