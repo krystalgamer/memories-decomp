@@ -4,7 +4,7 @@
 extern u32 D_8009AF64;
 extern u32 D_8009AF68;
 
-s32 func_8003D174(u8 *data)
+s32 SaveData_ValidateIntegrity(u8 *data)
 {
     s32 seed;
     s32 i;

@@ -183,10 +183,11 @@ the region's mask words by repeatedly calling `SaveData_NextMaskWord`:
 | Secondary | `+0x380..+0x3EB` (`0x6C` bytes) | 4 words at `+0x3EC..+0x3FB` | `+0x3FC`, `+0x3FE` |
 | Tertiary | `+0x400..+0x603` (`0x204` bytes) | 8 words at `+0x608..+0x627` | `+0x604`, `+0x606` |
 
-`func_8003CF14` writes the primary and secondary records, while
-`func_8003CFC8` writes the tertiary record. Matching `func_8003D174`
-recomputes all three CRC seeds and compares every generated mask word in
-descending address order; it returns false on the first mismatch.
+`SaveData_WritePrimarySecondaryIntegrity` writes the primary and secondary
+records, while `SaveData_WriteTertiaryIntegrity` writes the tertiary record.
+`SaveData_ValidateIntegrity` recomputes all three CRC seeds and compares every
+generated mask word in descending address order; it returns false on the first
+mismatch.
 
 `SaveData_RequestLoad` reads one `0x680`-byte state into `0x801D3200`.
 `SaveData_PollLoad` waits for the request result and, only when the result is

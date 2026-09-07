@@ -7,9 +7,6 @@ extern s8 gSD_bOutputType __attribute__((section(".data")));
 extern s32 D_8009B3B8;
 
 extern void Util_CopyWords(void *, void *, u32);
-extern void func_8003CF14(void *);
-extern void func_8003CFC8(void *);
-
 void func_8003D03C(u8 *data)
 {
     u8 *copy;
@@ -36,8 +33,8 @@ void func_8003D03C(u8 *data)
     *(s32 *)(data + SAVE_DATA_DUPLICATE_STATE_OFFSET +
              SAVE_DATA_SEQUENCE_OFFSET) = value;
 
-    func_8003CF14(copy);
-    func_8003CFC8(copy);
+    SaveData_WritePrimarySecondaryIntegrity(copy);
+    SaveData_WriteTertiaryIntegrity(copy);
 
     {
         u32 i;

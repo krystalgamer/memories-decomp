@@ -3022,7 +3022,7 @@
       "address": "0x8003CFC8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/func_8003CFC8.c"
+      "source": "src/game/save_data_write_tertiary_integrity.c"
     },
     {
       "address": "0x8003D03C",
@@ -3040,7 +3040,7 @@
       "address": "0x8003D174",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x114",
-      "source": "src/game/func_8003D174.c"
+      "source": "src/game/save_data_validate_integrity.c"
     },
     {
       "address": "0x8003D288",

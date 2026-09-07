@@ -48,7 +48,7 @@ u32 SaveData_CalcCrc16(u8 *data, s32 len)
     return crc;
 }
 
-void func_8003CF14(u8 *data)
+void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
 {
     s32 value = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH);
     u32 seed = value & 0xFFFF;

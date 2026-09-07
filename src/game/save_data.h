@@ -37,5 +37,8 @@
 
 u32 SaveData_NextMaskWord(void);
 u32 SaveData_CalcCrc16(u8 *, s32);
+void SaveData_WritePrimarySecondaryIntegrity(u8 *);
+void SaveData_WriteTertiaryIntegrity(u8 *);
+s32 SaveData_ValidateIntegrity(u8 *);
 
 #endif
