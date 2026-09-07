@@ -262,20 +262,34 @@ explicitly marked **candidate** remain address-based in `functions.csv` and
 | `0x80086810` | `SetFogNearFar` | Applied Psy-Q 4.6 identity; matching campaign-map callers configure near and far depth-cue distances from the current camera projection. |
 | `0x80086DC8` | `InitGeom` | Applied Psy-Q 4.6 identity at offset `0x8` of `LIBGTE.LIB/MSC00.OBJ`; resident startup paths invoke it before further GTE setup. |
 | `0x80086E50` | `SquareRoot0` | Applied Psy-Q 4.6 identity; matching model, duel, and spatial-sound callers derive integer distances from sums of squared coordinates. |
+| `0x80086F60` | `MulMatrix0` | Applied Psy-Q 4.6 identity from the unique 272-byte `LIBGTE.LIB/MTX_000.OBJ` signature; the body is `MulMatrix` with the product written through the third argument rather than the first. |
 | `0x80087070` | `ApplyMatrixLV` | Applied Psy-Q 4.6 identity from the unique 352-byte `LIBGTE.LIB/MTX_004.OBJ` signature. |
 | `0x800871D0` | `PushMatrix` | Applied Psy-Q 4.6 identity; the matching model transform path saves the active GTE matrix state. |
 | `0x80087274` | `PopMatrix` | Applied Psy-Q 4.6 identity; restores the matrix state saved by `PushMatrix` after projection work. |
+| `0x80087320` | `ReadRotMatrix` | Applied Psy-Q 4.6 identity from the unique 80-byte `LIBGTE.LIB/MTX_009.OBJ` signature; reads GTE control registers `0`-`7` back into a caller `MATRIX`, the inverse of `SetRotMatrix` plus `SetTransMatrix`. |
 | `0x80087370` | `MulMatrix` | Applied Psy-Q 4.6 identity; the matching model path composes two rotation matrices before later transforms. |
+| `0x80087480` | `MulMatrix2` | Applied Psy-Q 4.6 identity from the unique 272-byte `LIBGTE.LIB/MTX_04.OBJ` signature; the same body as `MulMatrix` writing the product through the second argument. `GsMulCoord2` and two matching game functions call it. |
+| `0x80087590` | `ApplyMatrix` | Applied Psy-Q 4.6 identity from the unique 80-byte `LIBGTE.LIB/MTX_05.OBJ` signature; multiplies a `VECTOR` by the matrix and stores `MAC1`-`MAC3` as three longs. The LIBGS sprite expansion helper at `0x80083A80` calls it four times. |
+| `0x800875E0` | `ApplyMatrixSV` | Applied Psy-Q 4.6 identity from the unique 96-byte `LIBGTE.LIB/MTX_06.OBJ` signature; the halfword-storing variant of `ApplyMatrix` that writes `IR1`-`IR3` into an `SVECTOR`. |
+| `0x80087640` | `TransMatrix` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBGTE.LIB/MTX_07.OBJ` signature; copies three longs into the `MATRIX` translation vector at offset `0x14`. |
 | `0x80087670` | `ScaleMatrix` | Applied Psy-Q 4.6 identity; matching model paths scale a rotation matrix by a fixed-point vector. |
 | `0x800877B0` | `SetRotMatrix` | Applied Psy-Q 4.6 identity; `func_80041F90` reloads the GTE rotation matrix after negating its first and third columns. |
+| `0x800877E0` | `SetLightMatrix` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBGTE.LIB/MTX_10.OBJ` signature; loads GTE control registers `8`-`12` and `GsSetLightMatrix` calls it. |
+| `0x80087810` | `SetColorMatrix` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBGTE.LIB/MTX_11.OBJ` signature; loads GTE control registers `16`-`20` from the same five-word layout `SetLightMatrix` uses. |
+| `0x80087840` | `SetTransMatrix` | Applied Psy-Q 4.6 identity from the unique 32-byte `LIBGTE.LIB/MTX_12.OBJ` signature; loads GTE control registers `5`-`7` from the `MATRIX` translation vector, and `GsSetLsMatrix` calls it directly after `SetRotMatrix`. |
+| `0x80087860` | `ReadGeomScreen` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBGTE.LIB/REG09.OBJ` signature; returns GTE control register `26`, the value `SetGeomScreen` writes. |
 | `0x80087870` | `SetBackColor` | Applied Psy-Q 4.6 identity; the matching scene-lighting setup installs equal ambient red, green, and blue values. |
 | `0x80087890` | `SetFarColor` | Applied Psy-Q 4.6 identity; matching scene setup paths clear or configure the GTE far color before lighting and fog work. |
 | `0x800878B0` | `SetGeomOffset` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE screen-center coordinates. |
 | `0x800878D0` | `SetGeomScreen` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE projection-plane distance. |
 | `0x80087A50` | `RotAverage3` | Applied Psy-Q 4.6 identity; the matching duel projection path transforms three vertices and inspects the returned flag. |
 | `0x80087AB0` | `RotAverage4` | Applied Psy-Q 4.6 identity; the matching duel renderer transforms four vertices and returns depth and flag outputs. |
+| `0x80089460` | `ReadSZfifo4` | Applied Psy-Q 4.6 identity from the unique 32-byte `LIBGTE.LIB/REG05.OBJ` signature; stores GTE data registers `16`-`19` through four pointers and the `DivideFT4` body at `0x80089260` calls it. |
 | `0x800899A0` | `ratan2` | Applied Psy-Q 4.6 identity; matching view and duel callers derive 4096-unit angles from coordinate deltas. |
+| `0x80089C00` | `SetDQA` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBGTE.LIB/REG03_14.OBJ` signature; writes GTE control register `27` and `SetFogNearFar` calls it. |
+| `0x80089C10` | `SetDQB` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBGTE.LIB/REG03_15.OBJ` signature; writes GTE control register `28` and `SetFogNearFar` calls it in the instruction after `SetDQA`. |
 | `0x8008AD50` | `GsSetRefView2` | Applied Psy-Q 4.6 identity; matching model paths install the shared 32-byte reference-view record. |
+| `0x8008B2F0` | `TransposeMatrix` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBGTE.LIB/FGO_00.OBJ` signature; transposes the 3x3 halfword block and `GsSetRefView2` calls it. |
 | `0x8008B330` | `_card_info` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/C171.OBJ` signature; matching memory-card request paths issue this BIOS operation before polling their event handles. |
 | `0x8008B340` | `_card_load` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/C172.OBJ` signature; matching memory-card request paths issue it before polling load completion. |
 | `0x8008B350` | `_card_write` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/A78.OBJ` signature. |

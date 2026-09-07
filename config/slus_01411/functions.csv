@@ -1600,22 +1600,22 @@ address,size,name,status,module,notes
 0x80086DC8,0x80,InitGeom,sdk_asm,psyq/sdk,Identified at offset 0x8 of the unique Psy-Q 4.6 LIBGTE.LIB/MSC00.OBJ signature.
 0x80086E50,0x84,SquareRoot0,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/MSC01.OBJ signature and matching distance callers.
 0x80086EE0,0x80,func_80086EE0,sdk_asm,psyq/sdk,
-0x80086F60,0x10C,func_80086F60,sdk_asm,psyq/sdk,
+0x80086F60,0x10C,MulMatrix0,sdk_asm,psyq/sdk,Identified by the unique 272-byte Psy-Q 4.6 LIBGTE.LIB/MTX_000.OBJ signature; the body loads the rotation registers from the first argument and writes the composed matrix through the third.
 0x80087070,0x160,ApplyMatrixLV,sdk_asm,psyq/sdk,Identified by the unique 352-byte Psy-Q 4.6 LIBGTE.LIB/MTX_004.OBJ signature.
 0x800871D0,0xA4,PushMatrix,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGTE.LIB/MTX_006.OBJ signature.
 0x80087274,0xA4,PopMatrix,sdk_asm,psyq/sdk,Identified at offset 0xA4 of the unique Psy-Q 4.6 LIBGTE.LIB/MTX_006.OBJ signature.
-0x80087320,0x48,func_80087320,sdk_asm,psyq/sdk,
+0x80087320,0x48,ReadRotMatrix,sdk_asm,psyq/sdk,Identified by the unique 80-byte Psy-Q 4.6 LIBGTE.LIB/MTX_009.OBJ signature; copies GTE control registers 0-7 into the caller MATRIX.
 0x80087370,0x10C,MulMatrix,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/MTX_03.OBJ signature and matching model-composition caller.
-0x80087480,0x10C,func_80087480,sdk_asm,psyq/sdk,
-0x80087590,0x50,func_80087590,sdk_asm,psyq/sdk,
-0x800875E0,0x5C,func_800875E0,sdk_asm,psyq/sdk,
-0x80087640,0x24,func_80087640,sdk_asm,psyq/sdk,
+0x80087480,0x10C,MulMatrix2,sdk_asm,psyq/sdk,Identified by the unique 272-byte Psy-Q 4.6 LIBGTE.LIB/MTX_04.OBJ signature; same body as MulMatrix but writes the product through the second argument. Two matching game functions and GsMulCoord2 call it.
+0x80087590,0x50,ApplyMatrix,sdk_asm,psyq/sdk,Identified by the unique 80-byte Psy-Q 4.6 LIBGTE.LIB/MTX_05.OBJ signature; stores MAC1-MAC3 as three longs. The LIBGS sprite expansion helper at 0x80083A80 calls it four times.
+0x800875E0,0x5C,ApplyMatrixSV,sdk_asm,psyq/sdk,Identified by the unique 96-byte Psy-Q 4.6 LIBGTE.LIB/MTX_06.OBJ signature; the halfword-storing variant of ApplyMatrix that writes IR1-IR3.
+0x80087640,0x24,TransMatrix,sdk_asm,psyq/sdk,Identified by the unique 48-byte Psy-Q 4.6 LIBGTE.LIB/MTX_07.OBJ signature; copies three longs into the MATRIX translation vector at offset 0x14.
 0x80087670,0x138,ScaleMatrix,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/MTX_08.OBJ signature and matching model-transform callers.
 0x800877B0,0x30,SetRotMatrix,sdk_asm,psyq/sdk,Identified by the unique exact 48-byte Psy-Q 4.6 LIBGTE.LIB/MTX_09.OBJ signature and the matching projection caller.
-0x800877E0,0x30,func_800877E0,sdk_asm,psyq/sdk,
-0x80087810,0x30,func_80087810,sdk_asm,psyq/sdk,
-0x80087840,0x20,func_80087840,sdk_asm,psyq/sdk,
-0x80087860,0xC,func_80087860,sdk_asm,psyq/sdk,
+0x800877E0,0x30,SetLightMatrix,sdk_asm,psyq/sdk,Identified by the unique 48-byte Psy-Q 4.6 LIBGTE.LIB/MTX_10.OBJ signature; loads GTE control registers 8-12 and GsSetLightMatrix calls it.
+0x80087810,0x30,SetColorMatrix,sdk_asm,psyq/sdk,Identified by the unique 48-byte Psy-Q 4.6 LIBGTE.LIB/MTX_11.OBJ signature; loads GTE control registers 16-20 from the same five-word matrix layout SetLightMatrix uses.
+0x80087840,0x20,SetTransMatrix,sdk_asm,psyq/sdk,Identified by the unique 32-byte Psy-Q 4.6 LIBGTE.LIB/MTX_12.OBJ signature; loads GTE control registers 5-7 from the MATRIX translation vector and GsSetLsMatrix calls it after SetRotMatrix.
+0x80087860,0xC,ReadGeomScreen,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBGTE.LIB/REG09.OBJ signature; returns GTE control register 26.
 0x80087870,0x20,SetBackColor,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG10.OBJ signature and matching scene-lighting caller.
 0x80087890,0x20,SetFarColor,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG11.OBJ signature and matching scene-lighting callers.
 0x800878B0,0x18,SetGeomOffset,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG12.OBJ signature and matching projection callers.
@@ -1642,15 +1642,15 @@ address,size,name,status,module,notes
 0x80088E50,0x210,func_80088E50,sdk_asm,psyq/sdk,
 0x80089060,0x1FC,func_80089060,sdk_asm,psyq/sdk,
 0x80089260,0x200,func_80089260,sdk_asm,psyq/sdk,
-0x80089460,0x18,func_80089460,sdk_asm,psyq/sdk,
+0x80089460,0x18,ReadSZfifo4,sdk_asm,psyq/sdk,Identified by the unique 32-byte Psy-Q 4.6 LIBGTE.LIB/REG05.OBJ signature; stores GTE data registers 16-19 through four pointers and the DivideFT4 body at 0x80089260 calls it.
 0x80089480,0x8,func_80089480,sdk_asm,psyq/sdk,
 0x80089488,0x488,func_80089488,sdk_asm,psyq/sdk,
 0x80089910,0x8C,func_80089910,sdk_asm,psyq/sdk,
 0x800899A0,0x174,ratan2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/RATAN.OBJ signature and matching angle callers.
 0x80089B20,0xAC,func_80089B20,sdk_asm,psyq/sdk,
 0x80089BCC,0x30,func_80089BCC,sdk_asm,psyq/sdk,
-0x80089C00,0xC,func_80089C00,sdk_asm,psyq/sdk,
-0x80089C10,0xC,func_80089C10,sdk_asm,psyq/sdk,
+0x80089C00,0xC,SetDQA,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBGTE.LIB/REG03_14.OBJ signature; writes GTE control register 27 and SetFogNearFar calls it.
+0x80089C10,0xC,SetDQB,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBGTE.LIB/REG03_15.OBJ signature; writes GTE control register 28 and SetFogNearFar calls it in the instruction after SetDQA.
 0x80089C20,0x20,func_80089C20,sdk_asm,psyq/sdk,
 0x80089C40,0x28,func_80089C40,sdk_asm,psyq/sdk,
 0x80089C70,0x20,func_80089C70,sdk_asm,psyq/sdk,
@@ -1674,7 +1674,7 @@ address,size,name,status,module,notes
 0x8008B120,0xEC,func_8008B120,sdk_asm,psyq/sdk,
 0x8008B20C,0xC8,func_8008B20C,sdk_asm,psyq/sdk,
 0x8008B2D4,0x1C,func_8008B2D4,sdk_asm,psyq/sdk,
-0x8008B2F0,0x40,func_8008B2F0,sdk_asm,psyq/sdk,
+0x8008B2F0,0x40,TransposeMatrix,sdk_asm,psyq/sdk,Identified by the unique 64-byte Psy-Q 4.6 LIBGTE.LIB/FGO_00.OBJ signature; transposes the 3x3 halfword block and GsSetRefView2 calls it.
 0x8008B330,0xC,_card_info,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/C171.OBJ signature and matching memory-card request callers.
 0x8008B340,0xC,_card_load,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/C172.OBJ signature and matching memory-card request callers.
 0x8008B350,0xC,_card_write,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/A78.OBJ signature.
