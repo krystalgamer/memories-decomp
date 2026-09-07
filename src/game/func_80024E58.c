@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_card_layout.h"
+#include "file_transfer.h"
 
 extern s32 D_8009B0F4[2];
 extern s32 D_8009B134[2];
@@ -11,7 +12,6 @@ extern u16 D_8009B220;
 extern u8 D_8009B364[8];
 extern u8 D_801A7AD8[];
 
-u8 *File_RequestAsyncTransfer(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, void *arg4, s32 arg5, s32 arg6);
 s32 Duel_GetTerrainBoost(s32 arg0);
 s32 func_80024E24(void);
 u8 *func_8002C604(s32 arg0);

@@ -20,6 +20,9 @@ typedef struct {
     u8 done;
 } FileTransferDescriptor;
 
+FileTransferDescriptor *File_RequestAsyncTransfer(
+    s32, u8 *, s32, s32, void *, s32, s32
+);
 FileTransferDescriptor *func_80014EEC(
     s32, u8 *, s32, s32, void *, s32, s32
 );

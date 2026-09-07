@@ -1,13 +1,13 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "file_transfer.h"
 
 extern u8 D_8009B428;
 extern short D_8009B098[];
 extern u8 D_801AF000[];
 extern void func_800434F4(void);
 extern void func_80043328(void);
-extern void File_RequestAsyncTransfer(int, int, int, int, void *, int, int);
 extern void func_800137E4(void);
 extern void func_8007E910(int, int);
 extern void func_80047AD0(int);

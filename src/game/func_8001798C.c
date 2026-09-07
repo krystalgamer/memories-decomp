@@ -1,8 +1,8 @@
 #include "../types.h"
+#include "file_transfer.h"
 
 extern u8 gDuel_bTerrain[9];
 extern void Duel_LoadPackageStage(void);
-extern void File_RequestAsyncTransfer();
 extern void func_800137E4(void);
 
 void func_8001798C(void)

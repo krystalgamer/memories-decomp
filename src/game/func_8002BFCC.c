@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "display_object_layout.h"
+#include "file_transfer.h"
 
 extern s16 gGraphics_sViewportX __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY __attribute__((section(".data")));
@@ -12,7 +13,6 @@ extern u8 D_800EA1E8[];
 extern s32 gDuel_adwCardStats[];
 extern s32 D_801D5608[];
 
-u8 *File_RequestAsyncTransfer(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, void *arg4, s32 arg5, s32 arg6);
 s32 func_8002C518(s32 arg0);
 s32 Campaign_TestStoryFlag(s32 arg0);
 u8 *TextBox_Create(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);

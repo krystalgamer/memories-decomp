@@ -17,7 +17,7 @@ extern u8 *File_InitTransferDescriptor(
 );
 void func_80015010(void);
 
-u8 *File_RequestAsyncTransfer(
+FileTransferDescriptor *File_RequestAsyncTransfer(
     s32 arg0,
     u8 *arg1,
     s32 arg2,
@@ -27,12 +27,12 @@ u8 *File_RequestAsyncTransfer(
     s32 arg6
 )
 {
-    u8 *result;
+    FileTransferDescriptor *result;
 
     D_8009B0F4_signed |= 0x40;
     if (D_8009B10C_callback == 0) {
         if (((D_8009B0F4_signed & 0x2000030) | D_8009B134_signed) != 0) {
-            result = (u8 *)0;
+            result = (FileTransferDescriptor *)0;
             goto out;
         }
     } else {
@@ -41,9 +41,9 @@ u8 *File_RequestAsyncTransfer(
     File_InitTransferDescriptor(
         D_800E9E60, arg0, arg1, arg2, arg3, arg4, arg5, arg6
     );
-    result = D_800E9E60;
+    result = (FileTransferDescriptor *)D_800E9E60;
 out:
-    D_8009B0F4_signed = *(s32 *)(result + 0x2C) | 0x10;
+    D_8009B0F4_signed = result->status_flags | 0x10;
     return result;
 }
 
