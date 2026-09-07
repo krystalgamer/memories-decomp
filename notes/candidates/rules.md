@@ -19,7 +19,10 @@ Rules:
   before trusting a stored candidate. If it no longer reproduces, say so in the
   function's inventory row rather than silently editing it here.
 - Delete an entry once the function matches and its source is promoted into
-  `src/game/`.
+  `src/game/`. `make check-candidate-index` enforces this: an entry whose
+  function is already `matching_c` in the inventory fails the check. A stale
+  entry reads exactly like an open near miss, so it will be picked up and
+  worked on before anyone notices the function is done.
 - The inventory row and `notes/research/matching-evidence.md` remain the place
   for findings, negatives and levers. This file holds only code.
 

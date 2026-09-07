@@ -31,6 +31,7 @@ Modes:
 """
 
 import argparse
+import csv
 import re
 import sys
 from pathlib import Path
@@ -166,6 +167,27 @@ def split():
     return 0
 
 
+def matched_entries(entries):
+    """Entries whose function is already matching_c in the inventory.
+
+    The store's own rule is to delete an entry once its source is promoted, but
+    nothing enforced it, so a stale entry could be picked up and worked on. It
+    reads exactly like an open near miss.
+    """
+    inventory = ROOT / "config/slus_01411/functions.csv"
+    if not inventory.is_file():
+        return []
+    status = {}
+    with inventory.open(encoding="utf-8", newline="") as handle:
+        for row in csv.DictReader(handle):
+            status[row["address"].lower()] = row["status"]
+    return [
+        (path.name, addr)
+        for _, addr, path in entries
+        if status.get(addr) == "matching_c"
+    ]
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--split", action="store_true",
@@ -192,6 +214,13 @@ def main():
             seen[addr] = path.name
         if not RULES.is_file():
             raise SystemExit(f"{RULES.relative_to(ROOT)} not found")
+        stale = matched_entries(entries)
+        if stale:
+            listing = ", ".join(f"{n} ({a})" for n, a in stale)
+            raise SystemExit(
+                "candidate entries for functions that already match, remove "
+                f"them: {listing}"
+            )
         print(f"candidate store: OK ({len(entries)} entries)")
         return 0
 
