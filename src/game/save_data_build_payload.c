@@ -21,8 +21,9 @@ void func_8003D03C(u8 *data)
 
     saved_value = D_8009B0C4[0];
     output_type = gSD_bOutputType;
-    *(s32 *)(data + 0x600) = 0;
-    *(s32 *)(data + 0x608) = saved_value;
+    *(s32 *)(data + SAVE_DATA_HEADER_SIZE + SAVE_DATA_TERTIARY_OFFSET) = 0;
+    *(s32 *)(data + SAVE_DATA_HEADER_SIZE + SAVE_DATA_VBLANK_COUNTER_OFFSET) =
+        saved_value;
 
     if (output_type < 0) {
         gSD_bOutputType = 0;

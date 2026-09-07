@@ -4,7 +4,7 @@
 typedef struct {
     u8 pad_000[SAVE_DATA_SEQUENCE_OFFSET];
     u32 save_sequence;
-    u32 field_408;
+    u32 vblank_counter;
     u8 pad_40C[0x5DC - SAVE_DATA_PLAYER_NAME_OFFSET];
     u8 field_5DC;
     u8 field_5DD;
@@ -28,7 +28,7 @@ void SaveData_ApplyRuntimeState(SaveDataRuntimeState *state) {
      * These discarded addresses use the retail assembler-temporary form.
      * Symbolic stores allocate ordinary registers and change exact codegen.
      */
-    D_8009B0C4 = state->field_408;
+    D_8009B0C4 = state->vblank_counter;
     D_8009B3B8 = state->save_sequence;
     D_8009B27A = state->field_5DC;
 
