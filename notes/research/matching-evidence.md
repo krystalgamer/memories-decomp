@@ -3426,3 +3426,72 @@ the substitution happens to the register inside the MEM after allocation, so
 returned pointer into a second variable before the copy does not help either,
 at any of five placements, because the two are provably equal and GCC folds
 the second away -- laundering it through `u32` does not stop the fold.
+
+## Split addressing and coalescing are one choice, and a function can want both
+
+`-msplit-addresses` decides how a symbol's address reaches a register, and it
+decides it for the whole translation unit. Two shapes come out of it and they
+are not independent of the register allocator:
+
+- **Coalesced**: `lui $s0, %hi(X)` then `addiu $s0, $s0, %lo(X)`. The `HIGH`
+  temporary and the destination are the same register.
+- **Uncoalesced**: `lui $v0, %hi(X)` then `addiu $s0, $v0, %lo(X)`. Same two
+  instructions, one more register live.
+
+Under every `_split` profile GCC 2.8.1 emits the uncoalesced form; under the
+non-split profiles the address comes from the `la` macro, which is the
+coalesced shape by construction. That is easy to misread as a scheduling
+effect -- it is not. It holds under `gcc_2_8_1_g0_split_no_sched1` and
+`gcc_2_8_1_g0_no_sched2_split` as well, so turning either scheduler off does
+not recover it.
+
+The reason it matters beyond two register names is that the uncoalesced form
+leaves a value in a *call-clobbered* temporary, and the next address in the
+same block usually wants the same temporary. That is an anti-dependence, and it
+forces the scheduler to emit the two address pairs in a fixed order. On
+`func_8002FD10` this turned a two-register difference into an eight-position
+prologue permutation: `&D_800EAE98` had to be materialised before the callback
+address purely because both `HIGH`s landed in `$v0`. So when a residual is a
+permutation of a prologue window with an identical opcode multiset, look for an
+uncoalesced `HIGH` before enumerating statement orders -- the order is the
+symptom, the register is the cause.
+
+The same function shows why the profile cannot simply be flipped. It needs the
+non-split shape for `D_800EAE98`, whose address is only ever taken, and the
+split shape for `D_800E9D70`, whose `%hi` is kept in a saved register and
+reused as the base of `sh $v1, %lo(D_800E9D70)($s3)`. Compiled non-split that
+store becomes an ordinary `0($s0)` and the second `%lo` relocation disappears.
+No profile in `compiler_profiles.json` currently produces both, which is worth
+knowing before spending a rotation deciding between them.
+
+## The `.data` attribute and the array spelling are two different levers
+
+"Four spellings of one global, and the addressing each produces" covers the
+`-G8` threshold. `func_8002FD10` adds a second axis that the existing note does
+not separate, because two of its globals need opposite answers on it.
+
+`D_8009B2A4` (2 bytes) is gp-relative in the target and wants the plain
+`extern u16 D_8009B2A4;`. `gGraphics_sViewportX` and `gGraphics_sViewportY`
+are also 2 bytes and are **not** gp-relative, so they need
+`__attribute__((section(".data")))` -- that part is the known lever. What is
+new is that the attribute alone is not enough: the target stores to them with
+the assembler macro through `$at`,
+
+```
+lui $at, %hi(gGraphics_sViewportY)
+sh  $zero, %lo(gGraphics_sViewportY)($at)
+```
+
+and that shape only appears when the global is declared as a **scalar**.
+Declared `extern u16 gGraphics_sViewportY[];` and written `[0] = 0`, GCC
+materialises the address into a general register first and emits
+`lui $v0` / `sh $zero, 0($v0)` instead. Both are two instructions, so the size
+and the opcode multiset are unchanged and only the register names move -- which
+is exactly the kind of residual that gets attributed to allocation and swept in
+the wrong direction. On this function the scalar spelling was worth 27 of the
+67 positions that remained after the profile was settled.
+
+Read it as a rule: `section(".data")` chooses *whether* the access is
+gp-relative, and scalar-against-array chooses *whether the address is
+materialised at all*. A direct store to a named scalar can stay a `(mem
+(symbol_ref))` and reach the assembler as a macro; a subscript cannot.

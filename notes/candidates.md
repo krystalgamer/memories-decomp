@@ -1247,3 +1247,160 @@ void func_80012DB4(void)
     D_8009B0CC = D_8009B0CC + 1;
 }
 ```
+
+
+## `func_8002FD10` at 0x8002FD10
+
+`gcc_2_8_1_g8_split`, 112 of 112 instructions, opcode distance 0, 8 differing
+positions.
+
+The card-art loader. It stores its argument in `D_8009B2A4`, zeroes both
+viewport halves, requests the 0x1E57/0x31 async transfer with `func_8002FB78`
+as the completion callback, clears three 0x14-byte records at `D_800EAE98` and
+marks the fourth `-1`, waits on `IsIdleGPU(10)`, then walks 25 tiles uploading
+two VRAM rectangles each -- the first stepping across a 5-wide grid of 24x48
+cells from x=0x380, the second stepping down a 0x40-wide column from y=0xF0.
+
+All six canonical attempts were the automatic first pass; none of them was a
+reconstruction, and the best of them differed at +0x0. Everything below is new.
+
+**The whole body is exact.** The eight differing positions are all in the
+prologue, at +0x4 through +0x20, and they are one permutation of one window:
+
+```
+target   sh a0,gp / move a0,0 / move a1,a0 / lui v0,fn / addiu v0,fn / sw s0 / lui s0,D / addiu s0,s0,D
+build    lui v0,D / sw s0 / addiu s0,v0,D / sh a0,gp / move a0,0 / move a1,a0 / lui v0,fn / addiu v0,fn
+```
+
+Same instructions, same count, same multiset. Two facts decide it and they are
+worth separating, because chasing either one alone wastes a sweep:
+
+- **The register.** The target forms `&D_800EAE98` as `lui $s0` then
+  `addiu $s0, $s0` -- the `HIGH` temporary coalesced with the destination. Under
+  every `_split` profile this build emits `lui $v0` then `addiu $s0, $v0`. That
+  is not a scheduling artefact: it holds under `gcc_2_8_1_g0_split_no_sched1`
+  and `gcc_2_8_1_g0_no_sched2_split` too.
+- **The order.** Because the uncoalesced form leaves the `HIGH` in `$v0`, and
+  the callback address also wants `$v0`, there is an anti-dependence between the
+  two pairs, and the scheduler has to run the `D_800EAE98` pair first. Fix the
+  register and the order should follow; fix the order without the register and
+  it cannot.
+
+`_split` is not optional. Non-split profiles do coalesce the pair into one
+register, which is the shape wanted here, but they then emit only one
+`%lo(D_800E9D70)` -- the address computation -- and lose the target's
+`sh $v1, %lo(D_800E9D70)($s3)`, which needs the `HIGH` kept in a register and
+reused as a store base. So the function needs split addressing for one global
+and coalescing for another, and no profile currently gives both.
+
+Crossed without moving it, about thirty-five variants: five placements of the
+`slot = D_800EAE98` assignment, all twenty-four declaration orders of the four
+locals, `extern u8 D_800EAE98[]` with a cast against `extern Slot D_800EAE98[]`
+against a sized `[4]` against a `.data` section attribute, `register` pins on
+`slot`/`i`/`src` singly and together, the callback passed as `func_8002FB78`
+against `&func_8002FB78` against a named local, `volatile` on four subsets of
+the global stores, array subscripting instead of the walking pointer, and every
+profile.
+
+Three things that *were* load-bearing and should not be rewritten:
+
+- `D_80010000` and both `gGraphics_sViewport` halves need
+  `__attribute__((section(".data")))`. Declared plainly they go gp-relative
+  under `-G8`; the target addresses all three with `%hi`/`%lo`. The viewport
+  pair additionally has to be a **scalar**, not `extern u16 x[]`: the array
+  spelling makes GCC materialise the address into a register, and the target
+  uses the assembler macro form through `$at`.
+- The second rectangle needs a pointer local for its `y`/`w`/`h` initialisers
+  while `x` is written through the array. Writing all four through the array is
+  one instruction short; writing all four through the pointer is the same 112
+  but reorders the stores.
+- The tile loop increments `i` **in the middle of the body**, between the two
+  `LoadImage2` calls and the grid arithmetic, so the rectangle positions are
+  computed from the incremented value. Written as a `for` with the increment in
+  the header the count still comes out 112 but every instruction from the
+  multiply onwards shifts by one.
+
+```c
+#include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+
+typedef struct {
+    s32 unk00;
+    s16 unk04;
+    s16 unk06;
+    s32 unk08;
+    s32 unk0C;
+    s32 unk10;
+} Slot;
+
+extern u16 D_8009B2A4;
+extern void *D_8009B2A0;
+extern s16 gGraphics_sViewportX __attribute__((section(".data")));
+extern s16 gGraphics_sViewportY __attribute__((section(".data")));
+extern s32 D_80010000 __attribute__((section(".data")));
+extern RECT D_800E9D70[];
+extern Slot D_800EAE98[];
+
+extern void File_RequestAsyncTransfer(s32, s32, s32, s32, void *, s32, s32);
+extern void func_8002FB78(void);
+extern void func_80039E9C(void);
+extern void func_800137E4(void);
+extern void *func_8002E3FC(void);
+
+void func_8002FD10(s16 arg0)
+{
+    Slot *slot;
+    u32 *src;
+    RECT *second;
+    s32 i;
+
+    slot = D_800EAE98;
+    D_8009B2A4 = arg0;
+    gGraphics_sViewportY = 0;
+    gGraphics_sViewportX = 0;
+    D_8009B2A0 = 0;
+    File_RequestAsyncTransfer(0, 0, 0x1E57, 0x31, func_8002FB78, 0, 0);
+    func_80039E9C();
+
+    *(s16 *)&slot[3] = -1;
+    for (i = 0; i < 3; i++) {
+        slot->unk00 = 0;
+        slot->unk04 = 0;
+        slot++;
+    }
+    func_800137E4();
+
+    while (IsIdleGPU(10)) {
+        ;
+    }
+
+    src = (u32 *)D_80010000;
+    D_800E9D70[0].x = 0x380;
+    D_800E9D70[0].y = 0;
+    D_800E9D70[0].w = 0x18;
+    D_800E9D70[0].h = 0x30;
+    second = &D_800E9D70[1];
+    D_800E9D70[1].x = 0x380;
+    second->y = 0xF0;
+    second->w = 0x40;
+    second->h = 1;
+
+    i = 0;
+    do {
+        LoadImage2(&D_800E9D70[0], src);
+        LoadImage2(&D_800E9D70[1], src + 0x240);
+        i++;
+        D_800E9D70[1].y = D_800E9D70[1].y + 1;
+        D_800E9D70[0].x = (i % 5) * 24 + 0x380;
+        D_800E9D70[0].y = (i / 5) * 48;
+        if (D_800E9D70[1].y >= 0x100) {
+            D_800E9D70[1].x = D_800E9D70[1].x + 0x40;
+            D_800E9D70[1].y = 0xF0;
+        }
+        src += 0x260;
+    } while (i < 25);
+
+    D_8009B2A0 = func_8002E3FC();
+}
+```
