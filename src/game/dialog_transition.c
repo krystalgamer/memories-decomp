@@ -30,8 +30,8 @@ void func_8003D518(u8 *state)
     u8 *object;
     s32 flags;
 
-    if ((D_8009B3C1 & 128) == 0) {
-        D_8009B3C1 |= 128;
+    if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         object = func_800400AC(func_8004002C(), 6);
         *(s16 *)(object + 48) = 160;
         *(s16 *)(object + 50) = 120;
@@ -65,9 +65,9 @@ void func_8003D614(u8 *state)
     u8 *object;
     DuelEffectChannel *entry;
 
-    if (!(D_8009B3C1 & 0x80)) {
+    if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
         object = *(u8 **)state;
-        D_8009B3C1 |= 0x80;
+        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         func_80043178(object);
         *(u16 *)(object + 0x60) = 0x400;
     }
@@ -115,8 +115,9 @@ void func_8003D74C(u8 *o)
     s32 a;
     s32 g;
 
-    if ((D_8009B3C1 & 0x80) == 0) {
-        D_8009B3C1 = D_8009B3C1 | 0x80;
+    if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        D_8009B3C1 =
+            D_8009B3C1 | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         p = func_800400AC(func_8004002C(), 6);
         *(s16 *)(p + 0x30) = 0xA0;
         *(s16 *)(p + 0x32) = 0x78;

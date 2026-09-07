@@ -1,12 +1,8 @@
 #include "../types.h"
-
-typedef struct {
-    u8 data[0x64];
-} Rec64;
+#include "duel_effect.h"
 
 extern u8 D_8009AF76[];
 extern u8 D_8009B3C1;
-extern Rec64 D_800EB0F8[];
 
 extern void func_80039794(void);
 extern void TextBox_SetPos(u8 *, s32, s32);
@@ -29,8 +25,8 @@ void func_8003DA40(u8 *p)
     s32 h;
 
     f = D_8009B3C1;
-    if ((f & 0x80) == 0) {
-        D_8009B3C1 = f | 0x80;
+    if ((f & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        D_8009B3C1 = f | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         e = func_800400AC(func_8004002C(), 2);
         func_800404CC(e, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
         *(s16 *)(e + 8) = *(u16 *)(e + 8) | 0x28;
