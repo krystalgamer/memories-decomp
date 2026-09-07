@@ -5,8 +5,10 @@ typedef struct {
     u8 pad_000[SAVE_DATA_SEQUENCE_OFFSET];
     u32 save_sequence;
     u32 vblank_counter;
-    u8 pad_40C[
-        SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET - SAVE_DATA_PLAYER_NAME_OFFSET
+    u8 player_name_sjis[SAVE_DATA_PLAYER_NAME_SIZE];
+    u8 pad_418[
+        SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET -
+        (SAVE_DATA_PLAYER_NAME_OFFSET + SAVE_DATA_PLAYER_NAME_SIZE)
     ];
     u8 campaign_scene_index;
     u8 field_5DD;
@@ -24,7 +26,7 @@ extern void SD_SetOutputType(s16);
 #define D_8009B408_write (*(u8 *)0x8009B408)
 
 void SaveData_ApplyRuntimeState(SaveDataRuntimeState *state) {
-    Text_SjisToGlyphCodes(D_801B125A, (u8 *)state + SAVE_DATA_PLAYER_NAME_OFFSET, SAVE_DATA_PLAYER_NAME_LENGTH);
+    Text_SjisToGlyphCodes(D_801B125A, state->player_name_sjis, SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
 
     /*
      * These discarded addresses use the retail assembler-temporary form.

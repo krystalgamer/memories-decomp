@@ -196,6 +196,16 @@ def build_module(root: Path, module: dict[str, Any]) -> None:
         module_root.relative_to(root) / "undefined_syms_auto.txt",
         must_exist=True,
     )
+    linker_scripts = [linker_script, undefined_functions, undefined_symbols]
+    linker_symbols = module.get("linker_symbols")
+    if linker_symbols is not None:
+        if not isinstance(linker_symbols, str) or not linker_symbols:
+            raise OverlayBuildError(
+                "overlay field linker_symbols must be a non-empty string"
+            )
+        linker_scripts.append(
+            resolve_within(root, linker_symbols, must_exist=True)
+        )
     built_elf.parent.mkdir(parents=True, exist_ok=True)
     run(
         root,
@@ -203,12 +213,7 @@ def build_module(root: Path, module: dict[str, Any]) -> None:
             str(linker),
             "-EL",
             *linker_compatibility_flags(),
-            "-T",
-            str(linker_script),
-            "-T",
-            str(undefined_functions),
-            "-T",
-            str(undefined_symbols),
+            *(argument for script in linker_scripts for argument in ("-T", str(script))),
             "-o",
             str(built_elf),
         ],

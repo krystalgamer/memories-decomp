@@ -42,7 +42,7 @@ See findings F79-F86: `FreeDuel_Entry` 0x80168FB4, `FreeDuel_UpdateScreen`
 | 0x8016D401 / 0x8016D402 | `gNameEntry_bColumn` / `gNameEntry_bRow` | grid cursor cell |
 | 0x8016D404 | `gNameEntry_pCursorWidget` | -> 0x800F0548 |
 | 0x8016D408 | `gNameEntry_nNameBytes` | 2 per character |
-| 0x8016D418 | `gNameEntry_pName` | -> 0x801D060C, the save block's player name, u16 Shift-JIS per char |
+| 0x8016D418 | `gNameEntry_pName` | -> `gSaveData_aPlayerNameSjis`, the save block's u16 Shift-JIS player name |
 | 0x8016D426 | `gNameEntry_SavedRow` | row remembered while in the right-hand column |
 | 0x8016D42C | `gNameEntry_nNameLen` | characters typed, max 5 |
 | 0x8016D434 / 0x8016D436 | `gNameEntry_wCursorTargetX/Y` | x = col*20+22 (+20 for cols >= 11), y = row*18+24 |
@@ -51,7 +51,7 @@ See findings F79-F86: `FreeDuel_Entry` 0x80168FB4, `FreeDuel_UpdateScreen`
 | 0x8016ABC0 | `gNameEntry_abRowJump` | [row*2 + down]: rows 0-4 -> 6, rows 5-8 -> 4, for the arrow/END column |
 | 0x80169734 | `NameEntry_UpdateDialog` | builds text box 2 from the pending string id at 0x8016D4D2 (bit 0x8000 = scripted, 0x4000 = no choice), opens the choice, polls done + `gDialog_bChoice` |
 | 0x8016D4D2 | `gNameEntry_wPendingDialog` | u16: string id + flags of the dialog to show (245 = 'Your NAME is ...') |
-| 0x801D060C | `g_PlayerName` (save block) | EXE-side symbol candidate: 5 x u16 SJIS + terminator; zeroed on New Game |
+| 0x801D060C | `gSaveData_aPlayerNameSjis` | Save-block player name: 5 x u16 Shift-JIS characters plus terminator; zeroed on New Game |
 
 ## Password module (config/modules/password.txt, findings F25 and F158)
 

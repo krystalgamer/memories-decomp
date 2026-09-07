@@ -36,7 +36,7 @@ and duplicate-state staging layout is documented in
 | address | how it is formed |
 |---|---|
 | `0x801D0534` | `(D_8009B09C << 8) | checksum`, rewritten until non-zero |
-| `0x801D060C`–`0x801D0617` | the twelve bytes XORed together to make `checksum` |
+| `gSaveData_aPlayerNameSjis` (`0x801D060C`–`0x801D0617`) | the twelve bytes XORed together to make `checksum` |
 
 Two things line up with the documented map and are worth recording:
 
