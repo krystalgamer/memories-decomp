@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "input.h"
 
 extern u8 gInput_abRawPadBuffers[];
 extern u32 gInput_dwPendingHeld;
@@ -23,12 +24,15 @@ void Input_ReadRawPads(void)
 {
     u8 *p = gInput_abRawPadBuffers;
     if (p[0] == 0 && (p[1] & 0xF) != 0)
-        gInput_dwPendingHeld |= ((p[2] << 8) | p[3]) ^ 0xFFFF;
+        gInput_dwPendingHeld |= ((p[2] << 8) | p[3]) ^ INPUT_PAD_BUTTON_MASK;
     {
         u8 *q = gInput_abRawPadBuffers;
-        if (q[0x22] == 0 && (q[0x23] & 0xF) != 0)
+        if (q[INPUT_RAW_PAD_BUFFER_SIZE] == 0 &&
+            (q[INPUT_RAW_PAD_BUFFER_SIZE + 1] & 0xF) != 0)
             gInput_dwPendingHeld |=
-                ((((q[0x24] << 8) | q[0x25]) ^ 0xFFFF) << 16);
+                ((((q[INPUT_RAW_PAD_BUFFER_SIZE + 2] << 8) |
+                   q[INPUT_RAW_PAD_BUFFER_SIZE + 3]) ^ INPUT_PAD_BUTTON_MASK) <<
+                 INPUT_PAD_BUTTON_BITS);
     }
 }
 
@@ -50,10 +54,10 @@ void Input_UpdatePads(void)
     new_bits = newly_pressed;
     D_8009B390 = current;
 
-    for (i = 31; i >= 0; i--) {
+    for (i = INPUT_REPEAT_TIMER_COUNT - 1; i >= 0; i--) {
         repeat <<= 1;
-        if (held & 0x80000000) {
-            if (new_bits & 0x80000000) {
+        if (held & INPUT_PENDING_HIGH_BIT) {
+            if (new_bits & INPUT_PENDING_HIGH_BIT) {
                 repeat |= 1;
             }
             value = D_800EF6B0[i] + D_8009B0D8;
@@ -79,9 +83,9 @@ void Input_UpdatePads(void)
         D_8009B3B4 = 0;
     }
     gInput_wPad1Held = current;
-    gInput_wPad2Held = current >> 16;
+    gInput_wPad2Held = current >> INPUT_PAD_BUTTON_BITS;
     gInput_wPad1Pressed = newly_pressed;
-    gInput_wPad2Pressed = newly_pressed >> 16;
+    gInput_wPad2Pressed = newly_pressed >> INPUT_PAD_BUTTON_BITS;
     gInput_wPad1Repeat = repeat;
-    gInput_wPad2Repeat = repeat >> 16;
+    gInput_wPad2Repeat = repeat >> INPUT_PAD_BUTTON_BITS;
 }

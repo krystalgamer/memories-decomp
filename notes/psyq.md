@@ -921,9 +921,14 @@ port 1: gInput_abRawPadBuffers + 0x00, length 0x22
 port 2: gInput_abRawPadBuffers + 0x22, length 0x22
 ```
 
-It starts the service with `StartPAD` before resetting the game's published
-input state. Matching `Input_ReadRawPads`, called from `Main_VBlankCB`, reads
-the first four bytes of each record:
+`input.h` names the two-port count as `INPUT_PAD_COUNT` and each allocation
+as `INPUT_RAW_PAD_BUFFER_SIZE` (`0x22`). The initializer and decoder share
+that size; it is receive-buffer storage, not the number of button bits or
+a complete interpretation of the packet.
+
+`Input_InitPads` starts the service with `StartPAD` before resetting the
+game's published input state. Matching `Input_ReadRawPads`, called from
+`Main_VBlankCB`, reads the first four bytes of each record:
 
 | Buffer offset | Observed role |
 |---:|---|
@@ -938,6 +943,13 @@ the `_PAD(port, button)` convention in `libetc.h`, which shifts a 16-bit
 button mask by 16 bits for the second controller. `Input_UpdatePads` later
 consumes and clears the pending word, then publishes held, newly pressed, and
 timer-repeated halfwords for both ports.
+
+`INPUT_PAD_BUTTON_BITS` (`16`) defines the per-port width and
+`INPUT_PAD_BUTTON_MASK` (`0xFFFF`) its active-low inversion mask. The repeat
+and reset loops use `INPUT_REPEAT_TIMER_COUNT`, derived as two times sixteen,
+while `INPUT_PENDING_HIGH_BIT` is the unsigned top bit of the combined word.
+The decoder's byte order, pending-word accumulation, and low-half/high-half
+volatile publication order remain unchanged.
 
 Only these four packet bytes currently have matching-C consumers. The
 remaining `0x1E` bytes in each service-owned record should stay as an opaque

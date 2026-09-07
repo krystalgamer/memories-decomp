@@ -10,9 +10,9 @@ void Input_InitPads(void)
 {
     InitPAD(
         gInput_abRawPadBuffers,
-        0x22,
-        gInput_abRawPadBuffers + 0x22,
-        0x22
+        INPUT_RAW_PAD_BUFFER_SIZE,
+        gInput_abRawPadBuffers + INPUT_RAW_PAD_BUFFER_SIZE,
+        INPUT_RAW_PAD_BUFFER_SIZE
     );
     StartPAD();
     gInput_bRepeatDelay = INPUT_REPEAT_INITIAL_DELAY;
