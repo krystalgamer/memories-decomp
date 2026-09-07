@@ -3,12 +3,12 @@
 #include "../psyq/libgpu.h"
 #include "card_constants.h"
 #include "duel_card.h"
+#include "duel_deck_card.h"
 
 extern u8 D_8015C424[];
 extern u8 D_80177EA4[];
 extern u8 D_8018C2D8[];
 extern u8 D_8018C7D8[];
-extern u8 gDuel_aDeckCardRecords[];
 extern s32 gDuel_adwCardStats[];
 extern int Duel_GetTerrainBoost();
 
@@ -43,7 +43,7 @@ u8 *func_800249E0(s32 a, s32 b) {
 
     n = b * 6;
     tb = D_8015C424;
-    p->data = gDuel_aDeckCardRecords + n;
+    p->data = (u8 *)gDuel_aDeckCardRecords + n;
     p->table_index = idx;
 
     g = tb + n + 0x48000;
@@ -66,7 +66,8 @@ u8 *func_800249E0(s32 a, s32 b) {
 
     base = D_80177EA4;
     q = (RECT *)(base + idx * 0x10);
-    off = *((u8 *)p->data + 3) * DUEL_CARD_DATA_BLOCK_SIZE;
+    off = ((DuelDeckCardRecord *)p->data)->data_block_index *
+          DUEL_CARD_DATA_BLOCK_SIZE;
     q->w = 0x14;
     q->h = 0x20;
     q->x = (idx % DUEL_FIELD_ROW_SIZE) * 0x14 + 0x380;

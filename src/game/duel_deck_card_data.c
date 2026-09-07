@@ -1,21 +1,13 @@
 #include "../types.h"
 #include "../psyq/qsort.h"
 #include "card_constants.h"
+#include "duel_deck_card.h"
 #include "file_transfer.h"
-
-typedef struct {
-    u16 id;
-    u8 b2;
-    u8 b3;
-    u8 b4;
-    u8 b5;
-} DeckCardRecord;
 
 extern u16 gDuel_awCombinedDeckCardIds[];
 extern u16 gDuel_awUniqueDeckCardIds[];
 extern u8 D_8015C424[];
 extern u8 D_8018C2D8[];
-extern DeckCardRecord gDuel_aDeckCardRecords[];
 extern u32 D_8009B0F4;
 
 extern void Util_CopyWords(void *, void *, s32);
@@ -68,7 +60,7 @@ void Duel_RequestCombinedDeckData(void)
 void Duel_PopulateCombinedDeckData(void)
 {
     u8 *dst = D_8018C2D8;
-    DeckCardRecord *rec = gDuel_aDeckCardRecords;
+    DuelDeckCardRecord *rec = gDuel_aDeckCardRecords;
     u8 *q;
     u8 *src;
     u8 *r;
@@ -84,9 +76,9 @@ void Duel_PopulateCombinedDeckData(void)
         rec->id = v;
         id = (s16)v;
         r = D_8015C424 + i;
-        rec->b4 = r[DUEL_COMBINED_DECK_CARD_FLAGS_OFFSET];
-        rec->b2 = i;
-        rec->b3 = i;
+        rec->flags_04 = r[DUEL_COMBINED_DECK_CARD_FLAGS_OFFSET];
+        rec->index_02 = i;
+        rec->data_block_index = i;
 
         src = D_8015C424;
         p = gDuel_awUniqueDeckCardIds;

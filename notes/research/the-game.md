@@ -507,7 +507,9 @@ monster is 28 bytes after the first]. The five visible hand slots are signed
 indices at `+0x1A` in each side's 32-byte state record (player
 `0x800EA00A`, opponent `0x800EA02A`). They select an 80-entry array of
 6-byte per-deck-card records at `gDuel_aDeckCardRecords` (`0x801A7E20`):
-player entries 0–39, opponent entries 40–79, with the card ID at `+0x00`.
+player entries 0–39, opponent entries 40–79, with the signed card ID at
+`+0x00`, the record index at `+0x02`, the loaded data-block index at `+0x03`,
+and the card-table flags at `+0x04`.
 `Duel_HasAllExodiaPieces` follows exactly those five indices, while
 `func_80027DF8` walks from the side's draw cursor at state offset `+0x18`
 through the remaining records in its 40-card half.

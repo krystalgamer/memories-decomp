@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "duel_card.h"
+#include "duel_deck_card.h"
 
 typedef struct LocalObj {
     u8 pad0[0x68];
@@ -22,18 +23,12 @@ typedef struct LocalE9 {
     s8 pad19;
     s8 slots[6];
 } LocalE9;
-typedef struct LocalR6 {
-    s16 id;
-    u8 b2;
-    u8 pad3[3];
-} LocalR6;
 typedef struct LocalBlob {
     u8 pad0[0x4B9FC];
-    LocalR6 cards[1];
+    DuelDeckCardRecord cards[1];
 } LocalBlob;
 extern LocalE9 D_800E9FF0[];
 extern LocalBlob D_8015C424;
-extern LocalR6 gDuel_aDeckCardRecords[];
 extern s32 gDuel_adwCardStats[];
 extern int Duel_CalcCardStats();
 
@@ -144,7 +139,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
     }
 
     {
-        LocalR6 *rp;
+        DuelDeckCardRecord *rp;
 
         i = D_800E9FF0[who].count;
         rp = &gDuel_aDeckCardRecords[i + who * DECK_SIZE];
@@ -170,7 +165,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
                     CARD_STAT_GUARDIAN_STAR_MASK;
                 out->bA = (*p >> CARD_STAT_GUARDIAN_STAR_2_SHIFT) &
                     CARD_STAT_GUARDIAN_STAR_MASK;
-                out->bB = rp->b2;
+                out->bB = rp->index_02;
                 rp += 1;
                 out += 1;
             } while (i < DECK_SIZE);
