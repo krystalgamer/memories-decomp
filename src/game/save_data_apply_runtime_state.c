@@ -1,13 +1,14 @@
 #include "../types.h"
+#include "save_data.h"
 
 typedef struct {
-    u8 pad_000[0x404];
+    u8 pad_000[SAVE_DATA_SEQUENCE_OFFSET];
     u32 save_sequence;
     u32 field_408;
-    u8 pad_40C[0x5DC - 0x40C];
+    u8 pad_40C[0x5DC - SAVE_DATA_PLAYER_NAME_OFFSET];
     u8 field_5DC;
     u8 field_5DD;
-    u8 field_5DE;
+    u8 output_type;
 } SaveDataRuntimeState;
 
 extern u8 D_801B125A[16];
@@ -21,7 +22,7 @@ extern void SD_SetOutputType(s16);
 #define D_8009B408_write (*(u8 *)0x8009B408)
 
 void SaveData_ApplyRuntimeState(SaveDataRuntimeState *state) {
-    Text_SjisToGlyphCodes(D_801B125A, (u8 *)state + 0x40C, 6);
+    Text_SjisToGlyphCodes(D_801B125A, (u8 *)state + SAVE_DATA_PLAYER_NAME_OFFSET, SAVE_DATA_PLAYER_NAME_LENGTH);
 
     /*
      * These discarded addresses use the retail assembler-temporary form.
@@ -32,7 +33,7 @@ void SaveData_ApplyRuntimeState(SaveDataRuntimeState *state) {
     D_8009B27A = state->field_5DC;
 
     if (gSD_bOutputType[0] < 0) {
-        u8 output_type = state->field_5DE;
+        u8 output_type = state->output_type;
 
         D_8009B408_write = output_type;
         SD_SetOutputType((s8)output_type);

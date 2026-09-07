@@ -28,7 +28,7 @@ void func_8003D03C(u8 *data)
         gSD_bOutputType = 0;
     }
 
-    data[0x7DE] = gSD_bOutputType;
+    data[SAVE_DATA_HEADER_SIZE + SAVE_DATA_OUTPUT_TYPE_OFFSET] = gSD_bOutputType;
     copy = data + SAVE_DATA_HEADER_SIZE;
     value = D_8009B3B8 + 1;
     *(s32 *)(data + SAVE_DATA_HEADER_SIZE + SAVE_DATA_SEQUENCE_OFFSET) = value;
