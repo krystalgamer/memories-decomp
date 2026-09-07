@@ -1608,6 +1608,33 @@ are exactly the single-player path (§6); a loss records a loss and returns
 you here — nothing else is lost. This is where the game is actually played
 after the story: every guide's "farm X for Y" is a Free Duel loop.
 
+**Normal browsing controls.** Matching
+[`FreeDuel_UpdateScreen`](../../src/overlays/free_duel/update_screen.c)
+uses pad 1's published held mask at `0x8009B3A4` and pressed mask at
+`0x8009B398`. The button names follow
+[`input.h`](../../src/game/input.h):
+
+| Input | Mask tested | Browse action |
+|---|---|---|
+| Held D-pad | `held & 0xF000` | Requests a neighboring target cell; columns clamp to `0..4` and rows to `0..7`, without wrapping. |
+| Pressed Circle | `pressed & 0x20` | Returns to the main-menu handler, mode `8`. |
+| Pressed Cross or Square | `pressed & 0xC0` | Confirms an available entry: Build Deck at cell 0, or an opponent after the 40-slot deck has no empty entry. |
+
+The branches have precedence, not independent actions. Any direction in
+the held mask takes the navigation branch instead of checking cancel or
+confirm, even when the requested move is clamped at an edge. With no held
+direction, Circle is checked before Cross/Square, so cancel wins if both
+pressed masks are present in that invocation.
+
+This applies only to normal browsing. Flag `0x20` delegates to the shared
+dialog handler and returns before browse input, including when that call
+closes the dialog. Otherwise the routine services the cursor tween and
+scrollbar, then skips browse input if movement flag `0x40` remains set.
+The [tween](../../src/overlays/free_duel/cursor_tween.c) commits the target
+row/column before clearing that flag; confirmation uses the committed cell.
+These are code-derived controls, not a new runtime test of the delegated
+dialogs or their button handling.
+
 **Duel Master K** is the exception in every way: not in the campaign, always
 unlocked, and receives a **copy of your own deck**. The setup comparison at
 `0x80017D84` sends opponent IDs below 39 through
@@ -1656,7 +1683,7 @@ the duel bit additionally tells `FreeDuel_Init` to index
 `D_8009B362 == 1` advances from the wins halfword to losses; the selected
 `u16` is incremented and clamped to 999.
 
-> **Entered from:** loaded menu. **Exits to:** duel; loaded menu. **Reads:**
+> **Entered from:** loaded menu. **Exits to:** duel; Build Deck; main menu. **Reads:**
 > unlock mask, records, deck (must be 40). **Writes:** through the post-duel
 > path — starchips, trunk, records. **Uses:** duel engine, disc loader (the
 > opponent's block and portrait).
@@ -1917,7 +1944,8 @@ Not verified in code:
 * the control-code widths of the text engine were read from the handlers
   and hold for every dialogue text; the six post-duel result screens are
   a different layout and are skipped (§7.11);
-* the per-screen button maps outside the duel and Build Deck;
+* the remaining per-screen and delegated-dialog button maps beyond the
+  duel, Build Deck and normal Free Duel browsing documented in §8;
 * whether a monster played this turn may attack this turn (stated from play);
 * the remaining score-row-to-gameplay-event label assignments not
   independently corroborated here. The three victory adjustments are now
