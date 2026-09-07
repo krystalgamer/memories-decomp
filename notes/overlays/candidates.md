@@ -589,9 +589,47 @@ select:
 ```
 ## main_menu `func_80180390` at 0x80180390
 
-`gcc_2_8_1_g0_split`, 497 instructions against 495, opcode distance 12.
-The longest common subsequence of mnemonics is 474 of 495 and the first
+`gcc_2_8_1_g0_split`, 499 instructions against 495, opcode distance 8.
+The longest common subsequence of mnemonics is 476 of 495 and the first
 181 instructions agree.
+
+Two stores through the menu entry pointer want the `volatile` qualifier, and
+between them they take the distance from twelve to eight and bring the `nop`
+count from three short to exact.
+
+The mechanism is the same in both places and it is worth stating generally,
+because it is the opposite of the delay-slot duplication this function already
+exploits. GCC fills a branch delay slot by speculating an instruction from the
+branch target when the target block begins with one that is safe to execute
+either way. A plain store to memory is not safe that way, so a block that
+begins with a store leaves the slot empty, which is what the target does. When
+this build sank the store further down and left an `andi` at the head of the
+block, the `andi` became the speculation candidate: it was copied into the slot
+and kept where it was, so the mask appeared twice where the target has it once.
+Qualifying the store stops it moving, the block starts with the store again,
+and the slot goes back to a `nop`.
+
+The store of the tween position to `+0x30` is the important one, worth four on
+its own: one surplus `andi`, one `bnez` and the three missing `nop`. The store
+of the accumulated value to `+0x36` in the pad-hold path is worth one more,
+and it also wants its comparison spelled as the low side, `< 0xBB8` returning
+-1 with -2 falling through, rather than the high side; that pairing is what
+takes the `bnez` count to exact.
+
+The qualifier is specific to those two. It was measured against five other
+stores through the same pointer, the frame countdown at `+0x60` both as a
+decrement and as a negation, the clear of `+0x36`, and both the set and the
+clear of bit `0x40` at `+8`, and every one of the five is byte-identical. This
+is not a general instruction to qualify stores; it is two places where the
+scheduler moves a store the target does not move.
+
+What remains is one surplus `andi`, one surplus `j`, one missing `lbu`, two
+surplus `li` and two surplus `lui`. The two `li` are the return plumbing
+already recorded: the target funnels its returns through a shared exit block
+whose default is `li v0,-1` and jumps one instruction past it for the `-2`
+return, materialising each constant in a delay slot, where this build
+materialises them early because the register is free.
+
 
 The distance is unchanged at twelve and the candidate is very much closer, so
 the header now also quotes the prefix. Two changes did it, and neither works
@@ -925,11 +963,11 @@ s32 func_80180390(void)
         }
         entry = D_80184560;
         value = *(u16 *)(entry + 0x36) + D_8009B0D8;
-        *(s16 *)(entry + 0x36) = value;
-        if ((s16)value >= 0xBB8) {
-            return -2;
+        *(volatile s16 *)(entry + 0x36) = value;
+        if ((s16)value < 0xBB8) {
+            return -1;
         }
-        return -1;
+        return -2;
     }
 
     if (D_80184599 != 0) {
@@ -964,7 +1002,7 @@ s32 func_80180390(void)
             entry = *slot;
             value = *(u16 *)(entry + 0x36) + value;
         }
-        *(s16 *)(entry + 0x30) = value;
+        *(volatile s16 *)(entry + 0x30) = value;
         if ((frame & 1) != 0) {
             func_80180E6C(*slot);
         }
