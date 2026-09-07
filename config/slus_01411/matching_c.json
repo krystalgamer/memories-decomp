@@ -1543,6 +1543,12 @@
       "source": "src/game/main_run_duel_and_library.c"
     },
     {
+      "address": "0x8002D180",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x158",
+      "source": "src/game/Main_RunAnimatedBattle.c"
+    },
+    {
       "address": "0x8002D2D8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x98",

@@ -22,6 +22,13 @@ Rules:
   `src/game/`.
 - The inventory row and `notes/research/matching-evidence.md` remain the place
   for findings, negatives and levers. This file holds only code.
+- Check every `func_XXXXXXXX` a stored candidate names against `functions.csv`
+  before integrating. Semantic renaming moves on while candidates sit here, and
+  one naming a since-renamed callee still compiles and still diffs byte-exact
+  against the target — the symbol only has to exist at link time. It then fails
+  the whole build with `undefined reference`, well after the per-function check
+  has gone green. This has cost two integrations so far: `func_8003FF08` became
+  `SD_BGMPlay` and `func_8003FF34` became `SD_BGMFadeOut`.
 
 Opcode distance below is the encoding-based multiset distance described in
 `notes/research/matching-evidence.md`, not a positional diff. A large

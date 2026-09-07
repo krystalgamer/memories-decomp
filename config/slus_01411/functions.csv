@@ -296,7 +296,7 @@ address,size,name,status,module,notes
 0x8002CE64,0x84,Main_RunCampaign,matching_c,game,Post-terminal pure-C match; absolute scalar opponent-state load and one verified literal store preserve retail addressing.
 0x8002CEE8,0x1F8,Main_RunDuel,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002D0E0,0xA0,Main_RunLibraryMenu,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8002D180,0x158,Main_RunAnimatedBattle,unmatched_asm,game,
+0x8002D180,0x158,Main_RunAnimatedBattle,matching_c,game,"Exact 86/86 match. D_8009B26C is defined rather than declared so the assembler resolves it gp-relative and supplies the load-delay nop. The profile is split, which is what D_800EF658 needs to share one high register across its two uses; that in turn requires D_8009B364 to be a section("".data"") scalar rather than the incomplete array the non-split candidate used, so it keeps the target's macro addressing."
 0x8002D2D8,0x98,Main_RunCampaignMap,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002D370,0x88,Main_RunBuildDeckMenu,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002D3F8,0x60,Main_RunFreeDuelMenu,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
