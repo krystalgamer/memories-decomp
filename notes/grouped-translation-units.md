@@ -34,6 +34,7 @@ source grouping.
 | `src/game/main_frame.c` | `gcc_2_8_1_g8` | `Main_VBlankCB` (`0x80012CD4`), the contiguous four-stage frame update pump (`0x80012D4C`), and its count-controlled repeat wrapper (`0x80012D84`) |
 | `src/game/duel_card_checks.c` | `gcc_2_8_1_g0_split` | `Duel_CheckEquip` (`0x80019A08`), `Duel_CheckFusion` (`0x80019A60`) |
 | `src/game/duel_state_init.c` | `gcc_2_8_1_g8_split` | Duel-side and life-point initialization (`func_800175A0`, `0x800175A0`), followed by contiguous `Duel_ClearHandSlots` (`0x800176D0`) clearing five hand-state entries |
+| `src/game/duel_card_display_state.c` | `gcc_2_8_1_g8_split` | Display-marker resource selection (`0x80017DB4`), contiguous face/position/used-state visual updates (`0x80017E3C`), and duel-card display-object creation (`0x80017F04`) |
 | `src/game/duel_draw_resolution.c` | `gcc_2_8_1_g8_split` | Five-piece Exodia hand predicate (`0x80018CF8`) and the contiguous draw-animation state machine (`0x80018DB4`) that invokes it before resolving victory |
 | `src/game/duel_battle_stats.c` | `gcc_2_8_1_g8` | `Duel_CalcBattleAttack` (`0x8001EF1C`), `Duel_CalcBattleDefense` (`0x8001EF78`) |
 | `src/game/duel_trap_resolution.c` | `gcc_2_8_1_g8_split` | Contiguous attack-trap selector (`0x8001F0D0`) and its presentation state machine (`0x8001F364`), linked through the selected card-object index in `D_8009B1B8` |
