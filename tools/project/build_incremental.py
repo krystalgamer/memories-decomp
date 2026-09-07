@@ -64,17 +64,25 @@ class _FileCache:
     """Hashes and quoted includes for one build or seed invocation only."""
 
     def __init__(self) -> None:
+        self._resolved: dict[Path, Path] = {}
         self._hashes: dict[Path, str] = {}
         self._includes: dict[Path, tuple[str, ...]] = {}
 
+    def resolve(self, path: Path) -> Path:
+        if path not in self._resolved:
+            resolved = path.resolve()
+            self._resolved[path] = resolved
+            self._resolved[resolved] = resolved
+        return self._resolved[path]
+
     def sha256(self, path: Path) -> str:
-        resolved = path.resolve()
+        resolved = self.resolve(path)
         if resolved not in self._hashes:
             self._hashes[resolved] = sha256(resolved)
         return self._hashes[resolved]
 
     def quoted_includes(self, path: Path) -> tuple[str, ...]:
-        resolved = path.resolve()
+        resolved = self.resolve(path)
         if resolved not in self._includes:
             contents = resolved.read_bytes()
             if resolved not in self._hashes:
@@ -94,13 +102,13 @@ def include_digest(
     *,
     file_cache: _FileCache | None = None,
 ) -> str:
-    root = root.resolve()
     file_cache = file_cache if file_cache is not None else _FileCache()
+    root = file_cache.resolve(root)
     visited: set[Path] = set()
     entries: list[tuple[str, str]] = []
 
     def visit(path: Path) -> None:
-        resolved = path.resolve()
+        resolved = file_cache.resolve(path)
         try:
             relative = resolved.relative_to(root)
         except ValueError as error:
@@ -550,7 +558,12 @@ def build_incrementally(root: Path, *, seed: bool) -> Path | None:
     file_cache = _FileCache()
     profiles = build_baseline.load_compiler_profiles(root)
     components = load_components(root)
-    context = dependency_context(root, profiles, file_cache=file_cache)
+    active_profiles = {component.profile for component in components if component.kind == "c"}
+    context = dependency_context(
+        root,
+        {name: profile for name, profile in profiles.items() if name in active_profiles},
+        file_cache=file_cache,
+    )
     signatures = {
         component.object_name: component_signature(
             root, component, context, file_cache=file_cache

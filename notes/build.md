@@ -275,42 +275,25 @@ split tree; arbitrary Splat extensions and partial-linker layouts are not
 supported by this resident cache. Failed regeneration never publishes a valid
 stamp. The stamp lives at `tmp/incremental/split-cache.json`.
 
-The object driver memoizes file hashes and parsed quoted includes only for
-the current invocation. Shared headers and compiler binaries are read once
-rather than once per unit or profile; later invocations re-read their contents,
-including when a file's timestamp has not changed. An already installed object
-is retained only when its contents match a valid cached object. Missing or
+The object driver memoizes resolved paths, file hashes, and parsed quoted
+includes only for the current invocation. Shared headers and compiler binaries
+are read once rather than once per unit or profile; later invocations re-read
+their contents, including when a file's timestamp has not changed. Only active
+compiler profiles are fingerprinted, so an unused profile does not require an
+uninstalled compiler. An already installed object is retained only when its
+contents match a valid cached object. Missing or
 altered installed objects are restored or rebuilt. The driver reports
 `rebuilt`, `reused`, `retained`, and `materialized` counts, with
 `reused = retained + materialized`. Every incremental build still relinks and
 hashes the complete executable. Run builds sequentially; neither cache is a
 concurrent-writer protocol.
 
-### Measuring the incremental path
+The optimization targets this local worker loop, not repeated CI benchmarking.
+CI keeps its existing clean acceptance build, a small cache-regression suite,
+and a warm-loop smoke check. It does not upload build/performance artifacts.
 
-After an unchanged clean matching build, run:
-
-```sh
-tools/environments/python/bin/python tools/project/check_incremental.py \
-  --baseline-ref <pre-change-commit>
-```
-
-The benchmark exports that revision's incremental driver beneath `tmp/`,
-without checking out or replacing tracked files. It compares three no-change
-runs of the old unconditional-split path with three warm incremental runs,
-using `MAKEFLAGS=-j2`. Without `--baseline-ref`, it compares the current driver
-with and without split reuse. Timings and command logs are written to
-`tmp/incremental-check/`; the matching-build workflow uploads the evidence.
-
-The same exercise requires warm builds to leave installed objects untouched,
-probes source/header edits with preserved timestamps, verifies symbol/config
-invalidation and generated-output/object recovery, and finishes with another
-clean exact match. Probe inputs must be unmodified in Git. Temporary edits are
-restored even when a command fails; a concurrent edit is preserved rather than
-overwritten, with the original retained beneath the report directory.
-
-Compilation and linking remain sequential. Remaining costs include repeated
-full-cache JSON checkpoints after rebuilt objects, prerequisite/tool checks,
+Compilation and linking remain sequential. Remaining worker-loop costs include
+repeated full-cache JSON checkpoints after rebuilt objects, prerequisite/tool checks,
 content validation of generated output and cached objects, and the mandatory
 full relink/hash. These are distinct from Make's prerequisite-level parallelism;
 raising `MAKEFLAGS` alone does not parallelize Python's compilation loops.

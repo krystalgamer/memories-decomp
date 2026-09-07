@@ -198,6 +198,17 @@ class DependencyFingerprintTests(WorkspaceTests):
             sum(call.args == (header,) for call in hash_file.call_args_list), 1
         )
 
+    def test_repeated_canonical_paths_do_not_repeat_filesystem_resolution(self) -> None:
+        header = self.write("src/header.h", "#define VALUE 1\n")
+        alias = self.root / "src/alias.h"
+        alias.symlink_to(header)
+        file_cache = build_incremental._FileCache()
+        with patch.object(Path, "resolve", autospec=True, side_effect=Path.resolve) as resolve:
+            self.assertEqual(file_cache.resolve(alias), header)
+            self.assertEqual(file_cache.resolve(alias), header)
+            self.assertEqual(file_cache.resolve(header), header)
+        resolve.assert_called_once_with(alias)
+
     def test_include_cycles_keep_per_source_depth_first_order(self) -> None:
         self.write("src/first.c", '#include "a.h"\n#include "b.h"\n')
         self.write("src/second.c", '#include "b.h"\n#include "a.h"\n')
@@ -398,6 +409,26 @@ class IncrementalBuildTests(WorkspaceTests):
             "rebuilt=1 reused=0 retained=0 materialized=0", self.stdout.getvalue()
         )
 
+    def test_unused_profiles_do_not_require_uninstalled_compilers(self) -> None:
+        self.profiles["unused"] = {
+            **self.profiles["gcc281"], "compiler": "tools/uninstalled-gcc",
+        }
+        self.warm()
+        self.profiles["unused"]["compiler"] = "tools/another-uninstalled-gcc"
+        self.build()
+        self.compile.assert_not_called()
+        self.link.assert_called_once()
+        self.assertIn("rebuilt=0 reused=1", self.stdout.getvalue())
+
+    def test_unknown_active_profile_is_still_an_error(self) -> None:
+        del self.profiles["gcc281"]
+        with self.assertRaisesRegex(
+            build_incremental.IncrementalBuildError, "unknown compiler profile: gcc281"
+        ):
+            self.build()
+        self.compile.assert_not_called()
+        self.link.assert_not_called()
+
     def test_unchanged_installed_object_is_not_replaced_and_is_always_relinked(self) -> None:
         self.warm()
         output = self.installed()
@@ -484,6 +515,24 @@ class IncrementalBuildTests(WorkspaceTests):
         self.assertEqual(self.compile.call_count, 1)
         self.assertEqual(self.link.call_count, 2)
         self.assertIn("incremental cache seeded: 1 objects", self.stdout.getvalue())
+
+    def test_new_invocation_revalidates_retargeted_include_symlinks(self) -> None:
+        alias = self.root / "src/type-alias.h"
+        alias.symlink_to(self.header)
+        self.source.write_bytes(
+            self.source.read_bytes().replace(b"../types.h", b"../type-alias.h")
+        )
+        self.warm()
+        outside = self.root.parent / "outside.h"
+        outside.write_bytes(b"outside fixture")
+        alias.unlink()
+        alias.symlink_to(outside)
+        with self.assertRaisesRegex(
+            build_incremental.IncrementalBuildError, "include escapes repository"
+        ):
+            self.build()
+        self.compile.assert_not_called()
+        self.link.assert_not_called()
 
     def test_failed_first_compile_does_not_create_a_cache_entry(self) -> None:
         self.compile.side_effect = build_baseline.BuildError("fixture compile failed")

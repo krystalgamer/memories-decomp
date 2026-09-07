@@ -55,6 +55,15 @@ MAKEFLAGS=-j"$(nproc)" make match-incremental
 MAKEFLAGS=-j"$(nproc)" make match
 ```
 
+Use `make match-incremental` for intermediate C/header edits in the worker loop.
+Do not run `make split` or `make clean` between those iterations: warm builds
+validate and reuse the split output as well as unchanged objects. Seed only
+immediately after an unchanged clean match. Keep the final clean acceptance
+above; incremental success does not replace it.
+
+Keep performance probes local beneath `tmp/`; do not upload build or performance
+artifacts. Prioritize worker edit/build iterations over heavyweight CI benchmarks.
+
 Use `MAKEFLAGS=-j"$(nproc)"` so Make follows the host's available logical
 CPUs. Set a lower job count explicitly on memory-constrained systems.
 Matching, attempt-ledger updates, and integration remain sequential.
