@@ -49,6 +49,145 @@ state is not stored here, in the order worth recovering:
   residual attributed to four callee-saved hoists.
 - `func_801821DC`, no claimed state.
 
+## main_menu `func_801821DC` at 0x801821DC
+
+`gcc_2_8_1_g0_split`, 85 instructions against 1132, so this is an opening
+fragment rather than a near miss. It is stored anyway because the function had
+no candidate at all, and because the part that is written reproduces the
+target's shape closely enough to be worth building on rather than rediscovering.
+The mnemonic subsequence is 79 and the first four blocks are structurally right;
+everything after the per-entry init loop is still missing.
+
+What the opening decodes to, with the evidence:
+
+The first two instructions load `D_801845E0` before the stack adjust, and the
+prologue saves every callee-saved register into a 72-byte frame, so the source
+needs enough simultaneously live values to use `s0` through `s8`. This fragment
+uses far fewer and gets a 40-byte frame, which is the main reason the agreeing
+prefix is still zero: the prologue cannot match until the register pressure
+does.
+
+Two paired assignments are visible and are worth preserving. Words 4 and 6 are
+`move s3,zero` then `move s2,s3`, and words 8 and 10 are `li s8,1` then
+`move s6,s8`, which is one C variable initialised from another rather than two
+literals. Word 20 puts `D_801845E0->f69 - 4` in `s5` and word 21 stores the same
+value to `24(sp)`, so that value is both a register variable and a stack
+temporary.
+
+The two block copies at words 31 to 61 are pointer-comparison walks, not counted
+loops: the increment is `addiu v1,v1,16` and the exit test is `bne v1,a0`
+against an end pointer, with no induction variable. Writing them as
+`for (i = 0; i < 64; i++)` leaves a `slti` and a counter that the target does
+not have, and costs nine instructions. Written as `do { *dst = *src; src++;
+dst++; } while (src != end);` the loop body matches the target instruction for
+instruction, differing only in which temporaries the copy uses.
+
+All four pointers come from one base register: the target emits one
+`lui`/`addiu` pair for `D_801D1200 + 4608` and then four `addiu` offsets from
+it. Assigning the base to a local first and deriving the others from it, with
+the second copy's pointers assigned before the first copy runs, reproduces that
+and takes the subsequence from 75 to 79; indexing the array directly instead
+emits a fresh `%hi`/`%lo` pair per pointer.
+
+The remaining work is the body after word 79, which is the bulk of the
+function: a menu input and navigation state machine with 53 calls, 27 of them
+`SD_SEPlay`.
+
+```c
+#include "../../types.h"
+
+typedef struct {
+    u32 w0;
+    u32 w4;
+    u32 w8;
+    u32 wC;
+} E16;
+
+typedef struct {
+    u8 pad0[105];
+    u8 f69;
+} Host;
+
+extern Host *D_801845E0;
+extern u8 D_80185CD1;
+extern u8 D_80185CC8[];
+extern u16 D_80185C9C[];
+extern E16 D_801D1200[];
+
+extern s32 func_8003F70C(void);
+extern void func_8018338C(s32, s32);
+extern void func_801844D8(s32);
+extern void func_8003CB7C(void);
+
+s32 func_801821DC(void)
+{
+    s32 i;
+    s32 zero1;
+    s32 zero2;
+    s32 one1;
+    s32 one2;
+    s32 lim;
+    s32 base;
+    s32 r;
+    u8 *slot;
+    u16 *hslot;
+    E16 *src;
+    E16 *dst;
+    E16 *end;
+    E16 *src2;
+    E16 *dst2;
+
+    zero1 = 0;
+    zero2 = zero1;
+    one1 = 1;
+    one2 = one1;
+    base = 715;
+    lim = D_801845E0->f69 - 4;
+    if (D_80185CD1 != 0) {
+        r = func_8003F70C();
+        if (r == 0) {
+            goto out;
+        }
+        if (r != one2) {
+            goto other;
+        }
+        end = D_801D1200;
+        dst2 = end + 256;
+        src2 = end + 360;
+        dst = end;
+        src = end + 104;
+        do {
+            *dst = *src;
+            src++;
+            dst++;
+        } while (src != end + 168);
+        dst = dst2;
+        src = src2;
+        do {
+            *dst = *src;
+            src++;
+            dst++;
+        } while (src != end + 424);
+        i = 0;
+        slot = D_80185CC8;
+        hslot = D_80185C9C;
+        do {
+            *hslot = 0;
+            func_8018338C(i, 1);
+            func_801844D8(i);
+            slot[i] = 0;
+            i = i + 1;
+            hslot = (u16 *)((u8 *)hslot + 22);
+        } while (i < 2);
+        func_8003CB7C();
+    }
+other:
+    zero2 = zero1;
+out:
+    return lim + base + one1 + zero2;
+}
+```
+
 ## password `func_8016913C` at 0x8016913C
 
 Writing the `? 12 : 9` argument as an explicit assignment in each arm, at the
