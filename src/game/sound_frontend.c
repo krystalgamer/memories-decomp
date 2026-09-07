@@ -44,7 +44,7 @@ void SD_BGMFadeOut(void)
     func_80047430(-8, 0);
 }
 
-void func_8003FF58(s32 value)
+void SD_BGMFadeOutWithStep(s32 value)
 {
     if (value > 0)
         value = -value;

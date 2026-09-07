@@ -13,7 +13,7 @@ extern s32 func_8002E3B4(void);
 extern void SD_SEPlayFull(s32);
 extern void func_8003FF08(s32);
 extern void SD_BGMFadeOut(void);
-extern void func_8003FF58(s32);
+extern void SD_BGMFadeOutWithStep(s32);
 
 void Script_OpSound(void)
 {
@@ -73,7 +73,7 @@ void func_8002EDB0(void)
         if (argument == 0) {
             SD_BGMFadeOut();
         } else {
-            func_8003FF58(argument);
+            SD_BGMFadeOutWithStep(argument);
         }
         if (command & 0x80) {
             return;

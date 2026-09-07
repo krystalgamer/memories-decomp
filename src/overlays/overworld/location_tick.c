@@ -18,7 +18,7 @@ extern u8 *CampaignMap_CreateLocationMarker(s32);
 extern void func_8004036C(u8 *);
 extern void CampaignMap_ClearLocationObjects(void);
 extern void Fade_InitOut(void);
-extern void func_8003FF58(s32);
+extern void SD_BGMFadeOutWithStep(s32);
 extern void func_8001352C(void);
 extern s32 CampaignMap_PickExit(void);
 
@@ -56,7 +56,7 @@ void CampaignMap_UpdateLocation(void)
             D_800E9ECF = 2;
             CampaignMap_ClearLocationObjects();
             func_8004036C(D_801695C8);
-            func_8003FF58(4);
+            SD_BGMFadeOutWithStep(4);
         }
         D_800F2848 = D_800F2848 - 2;
         func_8001352C();

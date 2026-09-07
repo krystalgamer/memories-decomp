@@ -43,7 +43,8 @@ insufficient semantic evidence for stronger names.
 `SD_BGMFadeOut` writes `-8` and mode `0` through the sequence-control wrapper.
 Live traces place that call in the same frame as every frontend screen
 fade-out, establishing the standard BGM attenuation rate as eight units per
-frame.
+frame. `SD_BGMFadeOutWithStep` uses the same path after converting a positive
+script or campaign-map step to its negative per-frame delta.
 
 `Sound_InitFrontend` is the game-facing bridge into this lower-level state. It
 sets `gSD_bOutputType` to the unresolved sentinel `-1`, then passes

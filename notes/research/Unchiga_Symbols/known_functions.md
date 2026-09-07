@@ -1049,7 +1049,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8003FE70 | `SaveData_SetMaskSeed` | matching C; fleet `rng_seed` |
 | 0x8003FF08 | `call_masked_and_store_orred` | fleet |
 | 0x8003FF34 | `SD_BGMFadeOut` | matching C; fleet `call_80047430_neg8_0` |
-| 0x8003FF58 | `call_set_1582_1584_negated` | fleet |
+| 0x8003FF58 | `SD_BGMFadeOutWithStep` | matching C; fleet `call_set_1582_1584_negated` |
 | 0x8003FF88 | `call_80048658_flagged` | fleet |
 | 0x8003FFB4 | `call_80045334_masked_flag` | fleet |
 | 0x8003FFD8 | `call_80047314_masked_flag` | fleet |

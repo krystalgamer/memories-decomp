@@ -8,7 +8,7 @@ typedef struct {
 } DuelEffectCommand;
 
 extern void SD_BGMFadeOut(void);
-extern void func_8003FF58();
+extern void SD_BGMFadeOutWithStep();
 extern s32 D_8009B350;
 
 void func_80038800(DuelEffectCommand *command)
@@ -31,7 +31,7 @@ void func_80038800(DuelEffectCommand *command)
         SD_BGMFadeOut();
         goto shared_test;
     } else {
-        func_8003FF58();
+        SD_BGMFadeOutWithStep();
     }
 
 shared_test:

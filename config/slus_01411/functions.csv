@@ -611,7 +611,7 @@ address,size,name,status,module,notes
 0x8003FEE0,0x28,SD_SEPlayFull,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003FF08,0x2C,func_8003FF08,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003FF34,0x24,SD_BGMFadeOut,matching_c,game,"Applies the fixed -8-per-frame BGM fade used alongside screen fade-outs; live transition traces and DOTR SD_ vocabulary support the name; exact full-executable match."
-0x8003FF58,0x30,func_8003FF58,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8003FF58,0x30,SD_BGMFadeOutWithStep,matching_c,game,"Normalizes a caller-supplied positive fade step to a negative BGM delta and uses the same sequence-control path as SD_BGMFadeOut; script and overworld callers establish variable-rate fade-out use; exact full-executable match."
 0x8003FF88,0x2C,func_8003FF88,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003FFB4,0x24,func_8003FFB4,matching_c,game,16-bit mask and 0x8000 call wrapper matched exactly.
 0x8003FFD8,0x24,func_8003FFD8,matching_c,game,16-bit mask and 0xA000 call wrapper matched exactly.
