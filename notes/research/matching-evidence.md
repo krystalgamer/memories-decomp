@@ -3496,3 +3496,62 @@ Read it as a rule: `section(".data")` chooses *whether* the access is
 gp-relative, and scalar-against-array chooses *whether the address is
 materialised at all*. A direct store to a named scalar can stay a `(mem
 (symbol_ref))` and reach the assembler as a macro; a subscript cannot.
+
+## A global read once before a loop and addressed inside it costs a copy
+
+Under `-msplit-addresses`, this pattern emits one instruction more than the
+retail code does, and no source shape found so far removes it:
+
+```c
+extern u32 T[]; extern u16 OUT[];
+void p1(void) {
+    u32 first = T[0]; u32 *e; s32 i, n;
+    for (i = 0; i < 10; i++) {
+        e = T; n = 1;
+        if (first) { while (*e) { e++; n++; } }
+        OUT[i] = n;
+    }
+}
+```
+
+GCC emits `lui $2, %hi(T)` then `move $8, $2` then `lw $7, %lo(T)($8)`, and
+inside the loop `addiu $3, $8, %lo(T)`. Retail's equivalent has a single
+`lui` into the register that both the setup load and the in-loop address use.
+
+The RTL dumps name the cause exactly. The setup read produces
+`(set (reg 91) (high (symbol_ref)))` with a `REG_EQUIV` note. The loop pass
+then hoists the loop's own `high` as a *second* pseudo, `cse2` rewrites that
+to `(set (reg 96) (reg 91))`, and the allocator gives the two different hard
+registers even though `reg 91` carries `REG_DEAD` at the copy and its only
+remaining use is that copy. Neither coalescing nor the `REG_EQUIV`
+rematerialisation that would delete the copy fires.
+
+Crossed on `func_8003B5C8` without removing it: five placements of the setup
+read, the base hoisted into a local (which moves the cost rather than removing
+it -- the loop then emits `move` instead of the low-part add and the setup
+grows by one), the symbol declared as a scalar with its address taken, the
+read spelled `*(u32 *)T` and as `*e` after assigning `e`, fourteen
+permutations of the setup statements, three outer-loop forms, the store as a
+direct array index instead of through a pointer, and all eighteen viable
+profiles. Reading a *different* element (`T[1]`) does remove the copy, because
+the two addresses no longer CSE, but it costs a second `lui` and the count is
+unchanged.
+
+Two things follow. When a function reads a global once outside a loop and
+takes the same global's address inside it, expect to be exactly one
+instruction long, and check that before concluding the loop shape is wrong.
+And when the residual is that copy, the lever wanted is something that changes
+the allocator's coalescing, not the loop -- the loop shape around it can
+already be exact.
+
+## A block copy through `lwl`/`lwr` means the source is a byte array
+
+When a target moves a fixed-size block with a run of `lwl`/`lwr` and
+`swl`/`swr` pairs instead of aligned `lw`/`sw`, the copy is a struct
+assignment whose member is a `u8` array: GCC cannot assume word alignment for
+byte-typed storage, so it falls back to the unaligned pair form. Writing the
+same bytes as a `u32` array, or copying them in a loop, gives aligned moves
+and cannot reproduce the block. `struct { u8 b[20]; }` assigned whole does,
+one pair per word plus the tail.
+
+Derived independently on `func_8003B5C8` in #1723 and #1725.
