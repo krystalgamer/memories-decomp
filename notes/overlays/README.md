@@ -919,6 +919,56 @@ exact source rather than a tidied version, and re-verify it with
 `overlay_diff.py` before trusting it. The inventory row still holds the
 findings; the file holds only code.
 
+## Decode a divide's magic constant instead of guessing the divisor
+
+An unsigned divide by a constant compiles to a multiply-high and a shift, and
+the pair names the divisor exactly. The magic is `ceil(2^(32+s) / d)` truncated
+to 32 bits, so for the same magic each extra shift doubles the divisor:
+
+| magic | shift | divisor |
+|---|---|---|
+| `0xCCCCCCCD` | 3 | 10 |
+| `0xCCCCCCCD` | 4 | 20 |
+| `0xCCCCCCCD` | 5 | 40 |
+| `0x88888889` | 3 | 15 |
+| `0x88888889` | 4 | 30 |
+| `0x51EB851F` | 5 | 100 |
+| `0x10624DD3` | 6 | 1000 |
+
+`func_8016A37C`'s starchip drain was reconstructed as dividing by 10, 100,
+1000 and 10000 -- the obvious reading, since its four range tests are at those
+values. The constants say 10, 20, 30 and 40. That is a better design than the
+guess: the step grows with the magnitude of the count, so the counter drains in
+roughly constant time whatever it started at, which is what an animated counter
+wants.
+
+### Neither headline metric could see the error
+
+The **opcode distance** cannot: `lui`, `ori` and `srl` are the same classes at
+any immediate, so a wrong constant is invisible to it by construction.
+
+The **differing-position count** could not either, here. The block was
+displaced by one instruction -- the target hoists a `lui` into a branch delay
+slot twelve instructions earlier -- so every position in it differed whichever
+divisors were used, and the count sat at 103 before and after.
+
+What does see it is the instruction multiset with the **register fields masked
+out**, which went from 308 to 292: sixteen, being the four `ori` immediates and
+the four shift amounts.
+
+```python
+def strip_regs(w):
+    op = w >> 26
+    if op == 0:
+        return w & 0x000007FF          # SPECIAL: funct and shamt
+    return w if op in (2, 3) else (op << 26) | (w & 0xFFFF)
+```
+
+Worth running whenever a block is displaced and the position count has stopped
+responding: it answers "is the content right yet" separately from "is it in the
+right place", and those are different questions that the standard metrics
+conflate.
+
 ## A register-form shift means the count is not a constant
 
 MIPS has two encodings for each shift: `sll`/`srl`/`sra` take the count as a

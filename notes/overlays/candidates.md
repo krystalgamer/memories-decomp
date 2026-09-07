@@ -907,6 +907,16 @@ independent, and the pair that wins was not the best of either axis alone.
 The state-1 widget is read straight from the global for its two accesses
 rather than through a local, which is worth six positions.
 
+The starchip step divides by 10, 20, 30 and 40, not by 10, 100, 1000 and
+10000, so the step grows with the magnitude of the count and the counter
+drains in roughly constant time. The divisors are read off the magic
+constants: an unsigned divide compiles to a multiply-high and a shift, and
+0xCCCCCCCD shifted 3, 4 and 5 is division by 10, 20 and 40 while 0x88888889
+shifted 4 is division by 30. The differing-position count cannot see this
+error, because the whole block is displaced by one instruction and every
+position in it differs either way; the register-blind instruction multiset
+can, and it improves by sixteen.
+
 ```c
 #include "../../src/types.h"
 
@@ -1109,9 +1119,9 @@ void func_8016A37C(void)
         count = D_8016D438;
         step = 1;
         if (count >= 10) { step = count / 10; }
-        if (count >= 100) { step = count / 100; }
-        if (count >= 1000) { step = count / 1000; }
-        if (count >= 10000) { step = count / 10000; }
+        if (count >= 100) { step = count / 20; }
+        if (count >= 1000) { step = count / 30; }
+        if (count >= 10000) { step = count / 40; }
         if (step == 0) {
             step = 1;
         }
