@@ -4,7 +4,7 @@
 
 extern u8 gInput_abRawPadBuffers[];
 extern void Input_ResetPads(void);
-extern u8 D_8009B39C, D_8009B3A2;
+extern u8 gInput_bRepeatDelay, gInput_bRepeatInterval;
 
 void Input_InitPads(void)
 {
@@ -15,7 +15,7 @@ void Input_InitPads(void)
         0x22
     );
     StartPAD();
-    D_8009B39C = INPUT_REPEAT_INITIAL_DELAY;
-    D_8009B3A2 = INPUT_REPEAT_INTERVAL;
+    gInput_bRepeatDelay = INPUT_REPEAT_INITIAL_DELAY;
+    gInput_bRepeatInterval = INPUT_REPEAT_INTERVAL;
     Input_ResetPads();
 }

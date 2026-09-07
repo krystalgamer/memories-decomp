@@ -12,8 +12,8 @@ extern volatile u16 gInput_wPad1Repeat;
 extern volatile u16 gInput_wPad2Repeat;
 extern volatile u16 gInput_wPad1Pressed;
 extern volatile u16 gInput_wPad2Pressed;
-extern u8 D_8009B39C;
-extern u8 D_8009B3A2;
+extern u8 gInput_bRepeatDelay;
+extern u8 gInput_bRepeatInterval;
 extern volatile u16 gInput_wPad1Held;
 extern volatile u16 gInput_wPad2Held;
 extern u32 D_8009B3B0;
@@ -58,8 +58,8 @@ void Input_UpdatePads(void)
             }
             value = D_800EF6B0[i] + D_8009B0D8;
             D_800EF6B0[i] = value;
-            if (value >= D_8009B39C) {
-                D_800EF6B0[i] = D_8009B3A2;
+            if (value >= gInput_bRepeatDelay) {
+                D_800EF6B0[i] = gInput_bRepeatInterval;
                 repeat |= 1;
             }
         } else {
