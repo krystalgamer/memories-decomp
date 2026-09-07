@@ -5,8 +5,8 @@ extern u8 *D_8009B458;
 extern s32 D_80011434[];
 
 /* Second pass over the 0x28-byte records at D_8009B458: for each record
- * whose +0x18D counter is set and whose channel reports state 3, either
- * bumps the counter or, once it reaches 2, drains the channel through the
+ * whose +0x18D counter is set and whose channel reports SPU_ON_ENV_OFF, either
+ * bumps the counter or, once it reaches 2, requests key-off through the
  * SpuSetKey/SpuGetKeyStatus pair, clears the counter and ORs the channel mask
  * into one final SpuSetKey call. */
 void func_80049920(void) {
@@ -17,7 +17,7 @@ void func_80049920(void) {
     s32 *tbl;
     s32 *q;
     s32 v;
-    s32 two;
+    s32 key_off_env_on;
     u8 b;
     u8 *p;
     s32 z;
@@ -30,12 +30,12 @@ void func_80049920(void) {
     mask = i;
     z = 0;
     if (*(s16 *)(base + 0x510) > z) {
-        two = 2;
+        key_off_env_on = SPU_OFF_ENV_ON;
         off = 0;
         tbl = D_80011434;
         do {
             if (*(base + off + 0x18D) != 0) {
-                if (SpuGetKeyStatus(*tbl) == 3) {
+                if (SpuGetKeyStatus(*tbl) == SPU_ON_ENV_OFF) {
                     b1 = D_8009B458;
                     p = b1 + off;
                     b = p[0x18D];
@@ -43,9 +43,9 @@ void func_80049920(void) {
                         mask |= *tbl;
                         q = tbl;
                         do {
-                            SpuSetKey(0, *q);
+                            SpuSetKey(SPU_OFF, *q);
                             v = SpuGetKeyStatus(*q);
-                        } while (v != two && v != 0);
+                        } while (v != key_off_env_on && v != SPU_OFF);
                         b2 = D_8009B458;
                         *(b2 + off + 0x18D) = 0;
                     } else {
@@ -59,6 +59,6 @@ void func_80049920(void) {
         } while (++i < *(s16 *)(base + 0x510));
     }
     if (mask != 0) {
-        SpuSetKey(0, mask);
+        SpuSetKey(SPU_OFF, mask);
     }
 }

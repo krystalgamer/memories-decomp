@@ -59,9 +59,9 @@ void func_8004B374(s32 arg0, s32 arg1) {
 
     if (mask != 0) {
         do {
-            SpuSetKey(0, mask);
+            SpuSetKey(SPU_OFF, mask);
             v0 = SpuGetKeyStatus(mask);
-        } while (v0 != 2 && v0 != 0);
+        } while (v0 != SPU_OFF_ENV_ON && v0 != SPU_OFF);
     }
 
     {

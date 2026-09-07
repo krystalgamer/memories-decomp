@@ -74,7 +74,7 @@ void func_800478EC(void)
             }
             g_SDValue->voice_active_mask &= ~bit2;
             g_SDValue->voice_step[i] = 0;
-            SpuSetKey(0, mask);
+            SpuSetKey(SPU_OFF, mask);
             accum |= mask;
         }
     tail:
@@ -84,22 +84,22 @@ void func_800478EC(void)
             g_SDValue->voice_timer[i] = timer;
             if (timer == 0) {
                 v0 = SpuGetKeyStatus(mask);
-                if (v0 != 0) {
-                    SpuSetKey(0, mask);
+                if (v0 != SPU_OFF) {
+                    SpuSetKey(SPU_OFF, mask);
                     accum |= mask;
                 }
             }
         }
         v0 = SpuGetKeyStatus(mask);
-        if (v0 == 3 && !(accum & mask)) {
-            SpuSetKey(0, mask);
+        if (v0 == SPU_ON_ENV_OFF && !(accum & mask)) {
+            SpuSetKey(SPU_OFF, mask);
             accum |= mask;
         }
         bit2 <<= 1;
         mask <<= 1;
     }
     if (accum != 0)
-        SpuSetKey(0, accum);
+        SpuSetKey(SPU_OFF, accum);
 }
 
 void func_80047A68(void)
@@ -114,7 +114,7 @@ void func_80047A68(void)
             result |= mask;
         mask <<= 1;
     }
-    SpuSetKey(0, result);
+    SpuSetKey(SPU_OFF, result);
 }
 
 s32 func_80047AD0(s32 value)
@@ -154,7 +154,7 @@ void func_80047BB4(u16 *items, s32 count)
 {
     s32 i;
 
-    SpuSetKey(0, SD_VOICE_SLOT_MASK_ALL);
+    SpuSetKey(SPU_OFF, SD_VOICE_SLOT_MASK_ALL);
     func_8004763C();
     g_SDValue->flags_0040 |= 2;
     for (i = 0; i < count; i++) {
@@ -178,8 +178,8 @@ void func_80047C70(s32 value)
     s32 count;
 
     for (count = 0; count < SD_KEY_OFF_RETRY_LIMIT; count++) {
-        SpuSetKey(0, value);
-        if (SpuGetKeyStatus(value) == 0)
+        SpuSetKey(SPU_OFF, value);
+        if (SpuGetKeyStatus(value) == SPU_OFF)
             break;
     }
 }

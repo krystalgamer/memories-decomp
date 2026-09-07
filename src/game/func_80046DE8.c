@@ -47,7 +47,7 @@ void func_80046DE8(void)
     s->field_1578 = -1;
     s->field_157A = -1;
     s->field_1588 = 0;
-    SpuSetKey(0, 0xFFFFFF);
+    SpuSetKey(SPU_OFF, 0xFFFFFF);
     g_SDValue->voice_active_mask = 0;
     g_SDValue->field_0435 = 0;
     for (i = 0; i < 4; i++) {

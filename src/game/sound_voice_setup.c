@@ -123,7 +123,7 @@ void func_8004A518(void) {
             *(s16 *)(base + off + 0x1C) = k40;
             *(s16 *)(base + off + 0x1E) = 0;
             func_8004A764(i);
-            SpuSetKey(0, key);
+            SpuSetKey(SPU_OFF, key);
             tbl++;
             off += 0x28;
             base = D_8009B458;
@@ -154,5 +154,5 @@ void func_8004A518(void) {
         o18 += 0x18;
     } while (i < 16);
 
-    SpuSetKey(0, mask);
+    SpuSetKey(SPU_OFF, mask);
 }

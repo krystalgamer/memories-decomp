@@ -8,10 +8,10 @@ void func_8004A43C(u8 *arg0, s32 arg1);
 void func_8004A7C0(s32 arg0, s32 arg1);
 
 /* Per-entry sweep over the 0x28-byte records at D_8009B458 + 0x180: sends the
- * under-0x10 ones through func_8004A43C, resets a record whose lane at sp10
- * is idle, advances the +0xD counter in lane 3, drains lane 1/2 records through
- * the SpuSetKey/SpuGetKeyStatus pair, and ORs the touched masks into one final
- * SpuSetKey call. */
+ * under-0x10 ones through func_8004A43C, resets a record whose voice is SPU_OFF,
+ * advances the +0xD counter for SPU_ON_ENV_OFF, requests key-off for
+ * SPU_ON/SPU_OFF_ENV_ON through the SpuSetKey/SpuGetKeyStatus pair, and ORs the
+ * touched masks into one final SpuSetKey call. */
 
 void func_8004AAFC(void) {
     u8 sp10[0x18];
@@ -24,7 +24,7 @@ void func_8004AAFC(void) {
     s32 i;
     s32 m;
     s32 o;
-    s32 two;
+    s32 key_off_env_on;
     s32 a;
     s32 b;
     u32 c;
@@ -36,7 +36,7 @@ void func_8004AAFC(void) {
     m = i;
 
     if (*(s16 *)(p + 0x510) > 0) {
-        two = 2;
+        key_off_env_on = SPU_OFF_ENV_ON;
         t = D_80011434;
         q = sp10;
         o = 0x180;
@@ -45,7 +45,7 @@ void func_8004AAFC(void) {
             if (e[3] < 0x10) {
                 func_8004A43C(e, 0);
             }
-            if (*q == 0) {
+            if (*q == SPU_OFF) {
                 if (e[0xD] == 0) {
                     goto next;
                 }
@@ -61,7 +61,7 @@ void func_8004AAFC(void) {
 
             b = e[0xD];
             c = b & 0xFF;
-            if (c != 0 && *q == 3) {
+            if (c != 0 && *q == SPU_ON_ENV_OFF) {
                 if (c >= 2) {
                     m = m | *t;
                     func_8004A7C0(i, b);
@@ -71,15 +71,15 @@ void func_8004AAFC(void) {
             }
 
 next:
-            if (e[0xF] == 0 && (u32)(*q - 1) < 2) {
+            if (e[0xF] == 0 && (u32)(*q - SPU_ON) < 2) {
                 u = t;
                 while (1) {
-                    SpuSetKey(0, *u);
+                    SpuSetKey(SPU_OFF, *u);
                     v = SpuGetKeyStatus(*u);
-                    if (v == two) {
+                    if (v == key_off_env_on) {
                         break;
                     }
-                    if (v == 0) {
+                    if (v == SPU_OFF) {
                         break;
                     }
                 }
@@ -95,6 +95,6 @@ next:
     }
 
     if (m != 0) {
-        SpuSetKey(0, m);
+        SpuSetKey(SPU_OFF, m);
     }
 }

@@ -17,10 +17,10 @@ void func_8004A7C0(int index)
         return;
     item = (int *)((u8 *)D_80011434 + table_offset);
     do {
-        SpuSetKey(0, *item);
+        SpuSetKey(SPU_OFF, *item);
         result = SpuGetKeyStatus(*item);
-        if (result == 2)
+        if (result == SPU_OFF_ENV_ON)
             break;
-    } while (result != 0);
+    } while (result != SPU_OFF);
     entry->field_000F = 0;
 }
