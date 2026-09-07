@@ -875,34 +875,37 @@ s32 CampaignMap_UpdateLocationTransition(void)
 ```
 ## password `func_8016A37C` at 0x8016A37C
 
-`gcc_2_8_1_g0_split`, 368 instructions against 365, 167 differing positions,
-opcode distance 13.
+`gcc_2_8_1_g0_split`, 365 of 365 instructions, 103 differing positions,
+opcode distance 0.
 
-A reconstruction. The row's recorded 365 of 365 with five differing positions was
-never stored and is gone; this is the reproducible replacement.
+The instruction mix is exact, so only register choice and scheduling remain.
 
-Six things are settled and each was worth measuring.
+Six earlier findings still hold: the five-way dispatch is a `switch` whose
+range check must not be duplicated; the starchip counter is unsigned; state 1
+falls through into state 2 with an explicit `else` around its early exits; the
+cursor's decrement arm stores before testing; the two message-box calls are one
+call with the id chosen first; and `func_8002CCA8` takes the card id plus 1024.
 
-The five-way dispatch is a `switch` and its range check must not be duplicated:
-an explicit `if (state >= 5) return;` in front of it emits a second `slti` and
-branch the target does not have.
+Four more were needed to reach the exact mix.
 
-The starchip counter is unsigned; signed gives `mult` and `sra` where the target
-has `multu` and `srl`.
+`D_801D07E0` is not a scalar. The target forms a base at 0x801D0000 with
+`lui` plus `addiu` and reads `2016(v0)`, which is the aggregate addressing
+form; a scalar gives `lui %hi` plus `%lo(sym)(reg)` and no `addiu`. That one
+instruction was the whole difference between distance 1 and distance 0.
 
-State 1 falls through into state 2. Its `case` has no `break`, and the early
-exits inside it need an explicit `else` around the return; the fallthrough
-without the else is worse than either alternative.
+The starchip step chain is four independent `if` statements over a
+pre-initialised `step`, not an `if`/`else if` chain. The chain form makes the
+compiler test before dividing and jump to the join; the sequential form lets it
+divide, then test, then fall through, which is what the target does. Worth six
+of the opcode distance and four instructions.
 
-The cursor's decrement arm stores the new index before testing it, the same way
-the increment arm does, which puts the store in the branch delay slot. Testing
-first costs 127 differing positions and nothing on the distance.
+The `func_8002CCA8` result selects the 229 message when it is *non-zero*, and
+the cost comparison is `cost < pool` selecting 228, with 227 in the `else`.
+Both polarities were measured against both chain forms: they are not
+independent, and the pair that wins was not the best of either axis alone.
 
-The two message-box calls in state 2 are one call with the id chosen first, and
-the comparison selects 227 when the pool is not below the cost.
-
-`func_8002CCA8` takes an argument, the card id plus 1024, the same form the
-later `func_8002CCE4` call uses. Declaring it `void` loses that `addiu`.
+The state-1 widget is read straight from the global for its two accesses
+rather than through a local, which is worth six positions.
 
 ```c
 #include "../../src/types.h"
@@ -936,7 +939,7 @@ extern u8 D_8016D410[];
 extern u32 D_8016D438;
 extern u32 D_801A8000[];
 extern Pair D_801D5608;
-extern u32 D_801D07E0;
+extern u32 D_801D0000[];
 extern volatile u16 D_8009B394;
 extern volatile u16 D_8009B398;
 extern volatile u16 D_8009B3A4;
@@ -965,7 +968,6 @@ void func_8016A37C(void)
 {
     Cursor *cursor;
     Widget *widget;
-    u32 *stats;
     s32 index;
     s32 digit;
     s32 state;
@@ -1059,8 +1061,7 @@ void func_8016A37C(void)
             func_8016A02C(D_8016D49C);
             return;
         }
-        widget = D_8016D418;
-        widget->f33 = widget->f33 + 8;
+        D_8016D418->f33 = D_8016D418->f33 + 8;
         if (D_8016D418->f33 == 0) {
             D_8016D418->f8 &= 0xFFFB;
             SD_SEPlayFull(12);
@@ -1073,17 +1074,16 @@ void func_8016A37C(void)
         flags = D_8016D424;
         if ((flags & 0x8000) == 0) {
             D_8016D424 = flags | 0x8000;
-            stats = D_801A8000;
-            D_801D5608.lo = stats[D_8016D49C * 2];
+            D_801D5608.lo = D_801A8000[D_8016D49C * 2];
             D_801D5608.hi = D_8016D49C;
-            if (func_8002CCA8(D_8016D49C + 1024) == 0) {
+            if (func_8002CCA8(D_8016D49C + 1024) != 0) {
                 Password_CreateMessageBox(229, 128);
                 return;
             }
-            if (D_801D07E0 < stats[D_8016D49C * 2]) {
-                msg = 227;
-            } else {
+            if (D_801A8000[D_8016D49C * 2] < D_801D0000[504]) {
                 msg = 228;
+            } else {
+                msg = 227;
             }
             Password_CreateMessageBox(msg, 0);
             D_8016D424 |= 0x4000;
@@ -1107,23 +1107,17 @@ void func_8016A37C(void)
             D_8016D438 = D_801A8000[D_8016D49C * 2];
         }
         count = D_8016D438;
-        if (count < 10) {
-            step = 1;
-        } else if (count < 100) {
-            step = count / 10;
-        } else if (count < 1000) {
-            step = count / 100;
-        } else if (count < 10000) {
-            step = count / 1000;
-        } else {
-            step = count / 10000;
-        }
+        step = 1;
+        if (count >= 10) { step = count / 10; }
+        if (count >= 100) { step = count / 100; }
+        if (count >= 1000) { step = count / 1000; }
+        if (count >= 10000) { step = count / 10000; }
         if (step == 0) {
             step = 1;
         }
         count = count - step;
         D_8016D438 = count;
-        D_801D07E0 = D_801D07E0 - step;
+        D_801D0000[504] = D_801D0000[504] - step;
         if (count == 0) {
             D_8016D424 = 4;
             Password_RefreshStarchipDisplay();
