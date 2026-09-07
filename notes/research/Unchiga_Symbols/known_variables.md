@@ -59,9 +59,13 @@ Names that say what something IS in the game.
 | 0x8009B398 | `gInput_wPad1Pressed` | matching C |
 | 0x8009B39A | `gInput_wPad2Pressed` | matching C |
 | 0x8009B39C | `gInput_bRepeatDelay` | matching C |
+| 0x8009B39E | `gInput_wPad1RepeatBackup` | matching C |
+| 0x8009B3A0 | `gInput_wPad1PressedBackup` | matching C |
 | 0x8009B3A2 | `gInput_bRepeatInterval` | matching C |
 | 0x8009B3A4 | `gInput_wPad1Held` | matching C |
 | 0x8009B3A6 | `gInput_wPad2Held` | matching C |
+| 0x8009B3A8 | `gInput_dwPendingHeld` | matching C |
+| 0x8009B3AC | `gInput_wPad1HeldBackup` | matching C |
 | 0x8009B408 | `gSD_bOutputType` | live |
 | 0x8009B450 | `gMemCard_nIOResult` | matching C |
 | 0x8009B45C | `g_SDValue` | dotr |
@@ -73,6 +77,7 @@ Names that say what something IS in the game.
 | 0x800EA024 | `gDuel_wOpponentLifePoint` | idb2018 |
 | 0x800EA118 | `gDuel_wFusionResultCardID` | ramMap |
 | 0x800EB0F8 | `gTextBox_aRecords` | idb2018 |
+| 0x800EF668 | `gInput_abRawPadBuffers` | matching C |
 | 0x800F2AE0 | `gMemCard_aIOEventHandles` | matching C |
 | 0x800F5B98 | `gAiScript_aMemory` | idb2018 |
 | 0x800F5BE8 | `gAiScript_State` | idb2018 |
@@ -80,6 +85,9 @@ Names that say what something IS in the game.
 | 0x800F5BF0 | `gAiScript_wWord2` | idb2018 |
 | 0x800F5BFC | `gAiScript_bByte2` | idb2018 |
 | 0x800F5C00 | `gAiScript_awWordArray2` | idb2018 |
+| 0x800F5C80 | `gAi_wBestDifference` | matching C |
+| 0x800F5C82 | `gAi_bBestAttacker` | matching C |
+| 0x800F5C83 | `gAi_bBestTarget` | matching C |
 | 0x800FE6F8 | `gRand_dwSeed` | idb2018 |
 | 0x80177F94 | `gDuel_awPlayerDeckShuffle` | idb2018 |
 | 0x80177FBC | `gDuel_awOpponentDeckShuffle` | idb2018 |
@@ -95,6 +103,8 @@ Names that say what something IS in the game.
 | 0x80179A14 | `gDuel_wCardDropID` | ramMap |
 | 0x8017A1D8 | `gDuel_awEquipTable` | idb2018 |
 | 0x8017C2D8 | `gDuel_aFusionTable` | idb2018 |
+| 0x80184568 | `gMain_apMenuEntries` | matching C + live |
+| 0x80184594 | `gMain_bMenuID` | matching C + live |
 | 0x801A7B64 | `gDuel_aPlayerMonsters` | idb2018 |
 | 0x801A7B80 | `gDuel_PlayerMonster2` | idb2018 |
 | 0x801A7B9C | `gDuel_PlayerMonster3` | idb2018 |
