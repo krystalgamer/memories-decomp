@@ -1412,3 +1412,27 @@ computed in parallel disagreed with the same metric computed serially.
 The file is now named for the process and a digest of the words, so concurrent
 callers are independent. `opcode_distance` never disassembles, so no distance
 ever measured is affected; only listings, and only when produced concurrently.
+
+## Position counts inside fixed windows are only comparable at constant length
+
+Counting differing positions inside the windows a residual is known to occupy
+is a sharper instrument than a total, because it distinguishes a change that
+repaired one region from one that moved the damage elsewhere. It has one
+failure mode, and it is easy to walk into.
+
+The windows are index ranges into the candidate. If a change adds or removes an
+instruction *before* a window, everything after it shifts and the window no
+longer covers the code it was chosen for. The numbers still print, they are
+still plausible, and they are measuring something else.
+
+On `func_8016A37C` a `volatile` qualifier on `D_801D0000` appeared to be the
+first thing ever to move three of the four windows, from five, six and
+thirty-six to four, five and thirty. It adds one instruction in the case that
+precedes two of those windows, so the improvement is the shift and not a
+repair; the total differing positions rose from 94 to 146 at the same time,
+which is the tell.
+
+Compare windows only between cells with the same instruction count as the base,
+and read the total alongside them. Where a change does alter the length, the
+windows say nothing and the mnemonic counts or the agreeing prefix should be
+used instead.
