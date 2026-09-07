@@ -50,6 +50,10 @@ MODE_MAX_ATTEMPTS = {
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
 COMMENT_PATTERN = re.compile(r"/\*.*?\*/|//[^\n]*", re.DOTALL)
+LOAD_DELAY_NOP_PATTERN = re.compile(
+    r"\b(?:asm|__asm|__asm__)\s+(?:volatile|__volatile__)\s*"
+    r"\(\s*\"nop\"\s*\)"
+)
 REGISTER_PIN_PATTERN = re.compile(
     r"\bregister\b[^;]*?\b(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
 )
@@ -73,18 +77,29 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def uses_asm_extension(source: str, *, allow_register_pins: bool = False) -> bool:
+def uses_asm_extension(
+    source: str,
+    *,
+    allow_register_pins: bool = False,
+    allow_load_delay_nop: bool = False,
+) -> bool:
     """Report use of a GCC asm extension.
 
     By default any asm extension is rejected, keeping these ledgers pure C.
     When ``allow_register_pins`` is set, `register` variables pinned to a hard
     register are permitted per issue #5, which accepts that narrow form for
-    functions that are otherwise unmatchable. Statement-level inline assembly
-    is still rejected in both modes.
+    functions that are otherwise unmatchable. When ``allow_load_delay_nop``
+    is set, the bare ``__asm__ volatile("nop")`` statement is permitted as
+    well: GCC emits the load-delay filler for a gp-relative load feeding the
+    next instruction as a ``#nop`` comment, MASPSX drops it, and the retail
+    image has a real ``nop`` there. Four tracked sources already carry that
+    idiom. No other statement-level inline assembly is accepted.
     """
     text = COMMENT_PATTERN.sub("", source)
     if allow_register_pins:
         text = REGISTER_PIN_PATTERN.sub("register", text)
+    if allow_load_delay_nop:
+        text = LOAD_DELAY_NOP_PATTERN.sub("", text)
     return ASM_PATTERN.search(text) is not None
 
 
@@ -426,6 +441,15 @@ def parse_args() -> argparse.Namespace:
         help="validate the selected ledger without writing",
     )
     parser.add_argument(
+        "--allow-load-delay-nop",
+        action="store_true",
+        help=(
+            "accept the bare `__asm__ volatile(\"nop\")` load-delay filler that "
+            "MASPSX drops from GCC's `#nop` marker; other statement-level "
+            "inline assembly is still rejected"
+        ),
+    )
+    parser.add_argument(
         "--allow-register-pins",
         action="store_true",
         help=(
@@ -543,13 +567,16 @@ def main() -> int:
         )
         if (
             uses_asm_extension(
-                source_text, allow_register_pins=args.allow_register_pins
+                source_text,
+                allow_register_pins=args.allow_register_pins,
+                allow_load_delay_nop=args.allow_load_delay_nop,
             )
             or (
                 not args.allow_psyq_inline_macros
                 and uses_asm_extension(
                     preprocessed_text,
                     allow_register_pins=args.allow_register_pins,
+                    allow_load_delay_nop=args.allow_load_delay_nop,
                 )
             )
         ):

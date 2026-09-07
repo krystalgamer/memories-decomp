@@ -1663,6 +1663,12 @@
       "source": "src/game/main_run_frontend_menus.c"
     },
     {
+      "address": "0x8002D7CC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x250",
+      "source": "src/game/Main_RunTrade.c"
+    },
+    {
       "address": "0x8002DA1C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x21C",
