@@ -45,7 +45,25 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 383 instructions against 382, opcode distance 11.
+`gcc_2_8_1_g0_split`, 382 instructions against 382, opcode distance 10.
+
+The instruction count is exact again and the last cursor-column scale is
+written as a multiplication rather than a shift.
+
+`(D_8016D42C << 4) + 112` and `D_8016D42C * 16 + 112` are the same value and
+different code. The shift form makes GCC load the `s8` with `lbu` and then
+sign-extend and scale in one go, `sll` by 24 followed by `sra` by 20, which
+is three instructions. The multiplication form loads with `lb`, which is
+already sign-extended, and scales with a single `sll` by 4. The target has
+the `lb`, so the source multiplies. Worth one of the distance and one
+instruction, and assigning the global to a local first reaches the same
+place, which is the same effect by a different route.
+
+This was found by aligning the sequence of `lb`, `lbu` and `sra` on both
+sides with `difflib` rather than comparing their totals. The totals said two
+`lb` missing and one `sra` extra, which is three separate-looking problems;
+the alignment showed a single replacement at the end of the function and
+named the statement.
 
 Two findings, read off the narrow load and store widths rather than off the
 positions, and they compose: 14 alone becomes 12 and 13, and 11 together.
@@ -367,7 +385,7 @@ select:
         *(void **)(obj + 0x24) = func_80168AB4;
         *(s16 *)(obj + 0x46) = 204;
         obj[0x6C] = 6;
-        *(s16 *)(obj + 0x44) = (D_8016D42C << 4) + 112;
+        *(s16 *)(obj + 0x44) = D_8016D42C * 16 + 112;
     }
     return;
 }
