@@ -299,11 +299,16 @@ The optimization targets this local worker loop, not repeated CI benchmarking.
 CI keeps its existing clean acceptance build, a small cache-regression suite,
 and a warm-loop smoke check. It does not upload build/performance artifacts.
 
-Compilation and linking remain sequential. Remaining worker-loop costs include
+Invalidated components compile or assemble concurrently when `MAKEFLAGS`
+contains a numeric `-jN` or `--jobs=N`; direct driver invocations default to one
+worker and may pass `--jobs N` explicitly. Cache checkpoints are published as
+workers finish, while the linker still receives objects in executable order.
+A jobserver-only `-j` without a numeric count falls back to one worker rather
+than guessing or oversubscribing.
+
+Linking remains sequential. Remaining worker-loop costs include
 prerequisite/tool checks, content validation of generated output and cached
-objects, and the mandatory full relink/hash. These are distinct from Make's
-prerequisite-level parallelism; raising `MAKEFLAGS` alone does not parallelize
-Python's compilation loops.
+objects, and the mandatory full relink/hash.
 
 ## Full repository audit
 

@@ -2,8 +2,11 @@
 from __future__ import annotations
 
 import argparse
+from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import hashlib
 import json
+import os
 import re
 import shutil
 import sys
@@ -59,6 +62,25 @@ def digest_value(value: Any) -> str:
         separators=(",", ":"),
     ).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
+
+
+def make_job_count(makeflags: str | None = None) -> int:
+    flags = os.environ.get("MAKEFLAGS", "") if makeflags is None else makeflags
+    for pattern in (
+        r"(?:^|\s)-j\s*(\d+)(?=\s|$)",
+        r"(?:^|\s)--jobs(?:=|\s+)(\d+)(?=\s|$)",
+    ):
+        match = re.search(pattern, flags)
+        if match is not None:
+            return max(1, int(match.group(1)))
+    return 1
+
+
+def positive_job_count(value: str) -> int:
+    jobs = int(value)
+    if jobs < 1:
+        raise argparse.ArgumentTypeError("job count must be positive")
+    return jobs
 
 
 class _FileCache:
@@ -463,6 +485,53 @@ def build_component(
     return final
 
 
+def build_components(
+    root: Path,
+    components: list[Component],
+    assembler: Path,
+    objcopy: Path,
+    profiles: dict[str, dict[str, object]],
+    *,
+    jobs: int,
+    on_built: Callable[[Component, Path], None],
+) -> None:
+    if jobs < 1:
+        raise IncrementalBuildError("job count must be positive")
+    if jobs == 1 or len(components) < 2:
+        for component in components:
+            on_built(
+                component,
+                build_component(
+                    root,
+                    component,
+                    assembler,
+                    objcopy,
+                    profiles,
+                ),
+            )
+        return
+
+    executor = ThreadPoolExecutor(max_workers=min(jobs, len(components)))
+    futures = {}
+    completed = False
+    try:
+        for component in components:
+            future = executor.submit(
+                build_component,
+                root,
+                component,
+                assembler,
+                objcopy,
+                profiles,
+            )
+            futures[future] = component
+        for future in as_completed(futures):
+            on_built(futures[future], future.result())
+        completed = True
+    finally:
+        executor.shutdown(wait=True, cancel_futures=not completed)
+
+
 def link(
     root: Path,
     objects: list[Path],
@@ -575,7 +644,12 @@ def seed_existing(
     print(f"incremental cache seeded: {len(components)} objects")
 
 
-def build_incrementally(root: Path, *, seed: bool) -> Path | None:
+def build_incrementally(
+    root: Path,
+    *,
+    seed: bool,
+    jobs: int = 1,
+) -> Path | None:
     file_cache = _FileCache()
     profiles = build_baseline.load_compiler_profiles(root)
     components = load_components(root)
@@ -610,6 +684,7 @@ def build_incrementally(root: Path, *, seed: bool) -> Path | None:
     retained = 0
     materialized = 0
     checkpointed = 0
+    pending: list[Component] = []
     for component in components:
         output = object_path(root, component)
         cached = cached_object_path(root, component)
@@ -626,24 +701,31 @@ def build_incrementally(root: Path, *, seed: bool) -> Path | None:
                 materialized += 1
             reused += 1
         else:
-            output = build_component(
-                root,
-                component,
-                assembler,
-                objcopy,
-                profiles,
-            )
-            copy_object(output, cached)
-            cache[component.object_name] = signatures[component.object_name]
-            rebuilt += 1
-            checkpointed = checkpoint_cache(
-                root,
-                cache,
-                rebuilt=rebuilt,
-                checkpointed=checkpointed,
-            )
+            pending.append(component)
         objects.append(output)
 
+    def record_built(component: Component, output: Path) -> None:
+        nonlocal rebuilt, checkpointed
+
+        copy_object(output, cached_object_path(root, component))
+        cache[component.object_name] = signatures[component.object_name]
+        rebuilt += 1
+        checkpointed = checkpoint_cache(
+            root,
+            cache,
+            rebuilt=rebuilt,
+            checkpointed=checkpointed,
+        )
+
+    build_components(
+        root,
+        pending,
+        assembler,
+        objcopy,
+        profiles,
+        jobs=jobs,
+        on_built=record_built,
+    )
     checkpoint_cache(
         root,
         cache,
@@ -656,6 +738,7 @@ def build_incrementally(root: Path, *, seed: bool) -> Path | None:
     print(
         f"incremental build: rebuilt={rebuilt} reused={reused} "
         f"retained={retained} materialized={materialized} "
+        f"workers={min(jobs, len(pending)) if pending else 0} "
         f"output={output.relative_to(root)}"
     )
     return output
@@ -670,10 +753,16 @@ def main() -> int:
         action="store_true",
         help="trust an already matched clean build and record its object signatures",
     )
+    parser.add_argument(
+        "--jobs",
+        type=positive_job_count,
+        default=make_job_count(),
+        help="parallel component builds; defaults to a numeric MAKEFLAGS job count",
+    )
     args = parser.parse_args()
     try:
         root = require_workspace_root()
-        build_incrementally(root, seed=args.seed_existing)
+        build_incrementally(root, seed=args.seed_existing, jobs=args.jobs)
     except (
         IncrementalBuildError,
         build_baseline.BuildError,

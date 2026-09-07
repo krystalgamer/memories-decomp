@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import sys
 import tempfile
+import threading
 import unittest
 from unittest.mock import patch
 
@@ -366,6 +367,104 @@ class CacheCheckpointTests(WorkspaceTests):
 
         self.assertEqual(checkpointed, 34)
         self.assertEqual(write_cache.call_count, 4)
+
+
+class JobCountTests(unittest.TestCase):
+    def test_numeric_make_job_forms_are_supported(self) -> None:
+        for flags, expected in (
+            ("", 1),
+            ("w -j16 --jobserver-auth=3,4", 16),
+            ("--jobs=8 --jobserver-auth=fifo:/tmp/make", 8),
+            ("-j 4", 4),
+            ("--jobs 3", 3),
+            ("-j --jobserver-auth=3,4", 1),
+            ("-j0", 1),
+        ):
+            with self.subTest(flags=flags):
+                self.assertEqual(build_incremental.make_job_count(flags), expected)
+
+
+class ParallelComponentBuildTests(WorkspaceTests):
+    def test_parallel_workers_overlap_and_report_each_component(self) -> None:
+        components = [
+            build_incremental.Component(
+                "binary",
+                f"tmp/source-{index}.bin",
+                f"component-{index}.o",
+            )
+            for index in range(2)
+        ]
+        barrier = threading.Barrier(2)
+        thread_ids = set()
+        thread_ids_lock = threading.Lock()
+        completed = []
+
+        def fake_build(root, component, assembler, objcopy, profiles):
+            self.assertEqual(root, self.root)
+            self.assertEqual(assembler, self.assembler)
+            self.assertEqual(objcopy, self.assembler)
+            self.assertIs(profiles, self.profiles)
+            with thread_ids_lock:
+                thread_ids.add(threading.get_ident())
+            barrier.wait(timeout=2)
+            return self.root / component.object_name
+
+        with patch.object(
+            build_incremental,
+            "build_component",
+            side_effect=fake_build,
+        ):
+            build_incremental.build_components(
+                self.root,
+                components,
+                self.assembler,
+                self.assembler,
+                self.profiles,
+                jobs=2,
+                on_built=lambda component, output: completed.append(
+                    (component, output)
+                ),
+            )
+
+        self.assertEqual(len(thread_ids), 2)
+        self.assertCountEqual(
+            completed,
+            [
+                (component, self.root / component.object_name)
+                for component in components
+            ],
+        )
+
+    def test_single_worker_preserves_component_order(self) -> None:
+        components = [
+            build_incremental.Component(
+                "binary",
+                f"tmp/source-{index}.bin",
+                f"component-{index}.o",
+            )
+            for index in range(3)
+        ]
+        completed = []
+
+        def fake_build(root, component, assembler, objcopy, profiles):
+            return self.root / component.object_name
+
+        with patch.object(
+            build_incremental,
+            "build_component",
+            side_effect=fake_build,
+        ):
+            build_incremental.build_components(
+                self.root,
+                components,
+                self.assembler,
+                self.assembler,
+                self.profiles,
+                jobs=1,
+                on_built=lambda component, output: completed.append(component),
+            )
+
+        self.assertEqual(completed, components)
 
 
 class IncrementalBuildTests(WorkspaceTests):
