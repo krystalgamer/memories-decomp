@@ -63,7 +63,7 @@ segments:
     subsegments:
       - [0x4, rodata, overlays/main_menu/module_rodata]
       - [0x1C, c, overlays/main_menu/func_8018001C]
-      - [0x390, asm, overlays/main_menu/text_390]
+      - [0x390, c, overlays/main_menu/func_80180390]
       - [0xB4C, c, overlays/main_menu/func_80180B4C]
       - [0xD2C, c, overlays/main_menu/func_80180D2C]
       - [0xDD0, c, overlays/main_menu/func_80180DD0]

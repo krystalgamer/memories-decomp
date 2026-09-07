@@ -51,6 +51,7 @@
       "archive": "game/DATA/SU.MRG",
       "archive_sha256": "c34d1eef2445e15ed40d20ad325c9907c55123d03f35b8693e7031966ef52e51",
       "layout": "config/slus_01411/overlays/main_menu.yaml",
+      "linker_symbols": "config/slus_01411/overlays/main_menu_linker_symbols.txt",
       "load_address": "0x80180000",
       "name": "main_menu",
       "output": "tmp/overlays/main_menu/module.bin",
