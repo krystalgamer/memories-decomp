@@ -1473,3 +1473,33 @@ other arm and the split leaves an empty branch rather than a filled slot.
 The bound is the useful part: the split lever needs *both* arms to assign the
 same two variables, and the volatile-store lever needs the target to actually
 reload. Neither is a general-purpose spelling change.
+
+## Give a shared local to the block that needs it, once the mix is exact
+
+Once the opcode distance is zero the only thing left is which register holds
+what, and the cheapest handle on that is which *local* holds what. A local that
+several blocks reuse forces one allocation for all of them; splitting it gives
+each block its own and lets the allocator choose differently in each.
+
+On `func_80180390` this paid three times in one sitting, taking the differing
+positions from 232 to 206. The three identical save-poll blocks shared one
+`value` and all three held the poll result in the wrong register; one dedicated
+local fixed all three at once. The fade-out block and one of the eleven
+`entry = D_80184560` regions each wanted their own copy of the entry pointer.
+
+Two things about it are easy to get wrong.
+
+It is not additive. Of eleven `entry` regions, one is worth seven positions
+alone, two are worth something alone and nothing alongside it, four are inert,
+and two cost distance. Giving every region its own local is worse than giving
+one region its own local, so the subsets have to be measured rather than
+assumed.
+
+It needs a local that is genuinely shared. On `func_8016A37C`, which is also at
+distance zero, every candidate is already effectively per-case: `count` and
+`step` appear only in the third case, `msg` only in the second, `index`,
+`digit` and `card` only in the first, `widget` only in the fourth. Splitting
+any of them is byte-identical, and the three `flags` reads are the only real
+sharing there, of which one split is byte-identical and the other two cost
+seven positions. There is nothing to separate, which is why that function's
+residual has not moved for several cycles while this one's has.
