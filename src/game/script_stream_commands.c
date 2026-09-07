@@ -12,7 +12,7 @@ extern u8 D_801A8000[];
 extern s32 func_8002E3B4(void);
 extern void SD_SEPlayFull(s32);
 extern void func_8003FF08(s32);
-extern void func_8003FF34(void);
+extern void SD_BGMFadeOut(void);
 extern void func_8003FF58(s32);
 
 void Script_OpSound(void)
@@ -71,7 +71,7 @@ void func_8002EDB0(void)
         argument = raw & 0x7F;
         command = raw;
         if (argument == 0) {
-            func_8003FF34();
+            SD_BGMFadeOut();
         } else {
             func_8003FF58(argument);
         }

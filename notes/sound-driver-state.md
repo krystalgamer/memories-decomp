@@ -40,6 +40,11 @@ Konami type or field naming.
 The remaining named `field_XXXX` members have verified offsets and widths but
 insufficient semantic evidence for stronger names.
 
+`SD_BGMFadeOut` writes `-8` and mode `0` through the sequence-control wrapper.
+Live traces place that call in the same frame as every frontend screen
+fade-out, establishing the standard BGM attenuation rate as eight units per
+frame.
+
 `Sound_InitFrontend` is the game-facing bridge into this lower-level state. It
 sets `gSD_bOutputType` to the unresolved sentinel `-1`, then passes
 `gFile_anLba[4]`, `[5]`, and `[6]` to `func_80046990`. The runtime file table

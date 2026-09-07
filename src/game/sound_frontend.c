@@ -39,7 +39,7 @@ void func_8003FF08(u32 value)
     D_8009B400 = command;
 }
 
-void func_8003FF34(void)
+void SD_BGMFadeOut(void)
 {
     func_80047430(-8, 0);
 }

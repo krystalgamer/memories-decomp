@@ -7,7 +7,7 @@ typedef struct {
     s8 cursor_slot;
 } DuelEffectCommand;
 
-extern void func_8003FF34(void);
+extern void SD_BGMFadeOut(void);
 extern void func_8003FF58();
 extern s32 D_8009B350;
 
@@ -28,7 +28,7 @@ void func_80038800(DuelEffectCommand *command)
     *slot = cursor;
 
     if (opcode == 0) {
-        func_8003FF34();
+        SD_BGMFadeOut();
         goto shared_test;
     } else {
         func_8003FF58();

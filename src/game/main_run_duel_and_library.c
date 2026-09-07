@@ -9,7 +9,7 @@ extern u16 D_8009B16C[9];
 extern u32 D_80010000[];
 extern u8 gDuel_awPlayerDeck[];
 extern void func_800323F8(u32, void *, int, int);
-extern void func_80015A00(void), func_8003FF34(void), Fade_WaitOut(void);
+extern void func_80015A00(void), SD_BGMFadeOut(void), Fade_WaitOut(void);
 extern int func_80033BE8(void);
 extern void Main_ResetFrontendRuntime(void), func_800179F4(void),
     func_80024388(void);
@@ -40,7 +40,7 @@ void Main_RunDuel(void)
             func_800323F8(D_80010000[0], gDuel_awPlayerDeck, 0, 0x80);
             func_80015A00();
         } else if (func_80033BE8() == 0) {
-            func_8003FF34();
+            SD_BGMFadeOut();
             Fade_WaitOut();
             Main_ResetFrontendRuntime();
             D_8009B26E = 1;
@@ -62,7 +62,7 @@ void Main_RunDuel(void)
         u8 next;
 
         Fade_WaitOut();
-        func_8003FF34();
+        SD_BGMFadeOut();
         func_80047AD0(2);
         func_800134B4();
         D_8009B0A3[0] = 6;
@@ -81,4 +81,4 @@ void Main_RunDuel(void)
 extern unsigned char D_8009B0C0[];
 extern void func_8002BFCC(void),func_8002BAB4(void),func_8004763C(void);
 
-void Main_RunLibraryMenu(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8002BFCC();func_80015A00();}else{func_8002BAB4();if((D_8009B26C&0x40)==0){D_8009B0C0[0]=0;func_8003FF34();Fade_WaitOut();func_800134B4();func_8004763C();func_80047AD0(2);func_80012D84(4);func_800137E4();}}}
+void Main_RunLibraryMenu(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8002BFCC();func_80015A00();}else{func_8002BAB4();if((D_8009B26C&0x40)==0){D_8009B0C0[0]=0;SD_BGMFadeOut();Fade_WaitOut();func_800134B4();func_8004763C();func_80047AD0(2);func_80012D84(4);func_800137E4();}}}

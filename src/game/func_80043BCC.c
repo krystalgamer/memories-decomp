@@ -89,7 +89,7 @@ s32 func_80043BCC(void) {
                 break;
             }
         }
-        func_8003FF34();
+        SD_BGMFadeOut();
         Fade_WaitOut();
         func_80180DD0();
         Main_ResetFrontendRuntime();

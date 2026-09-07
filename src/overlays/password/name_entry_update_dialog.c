@@ -47,7 +47,7 @@ extern void func_80043230(Caret *, s32, s32, s32);
 extern void func_80035B7C(Box *);
 extern void func_80039934(Box *, s32, s32);
 extern void SD_SEPlayFull(s32);
-extern void func_8003FF34(void);
+extern void SD_BGMFadeOut(void);
 extern void func_80015B00(void);
 extern Caret *func_80042B40(s32);
 extern void func_8004036C(Caret *);
@@ -163,7 +163,7 @@ void NameEntry_UpdateDialog(void)
     flags = D_8016D400;
     if ((flags & 0x20) != 0) {
         SD_SEPlayFull(45);
-        func_8003FF34();
+        SD_BGMFadeOut();
         func_80015B00();
         D_8016D400 = D_8016D400 | 0x10;
         return;
