@@ -1171,3 +1171,71 @@ s32 func_80025028(s32 arg0)
 }
 ```
 
+## `func_8003B5C8` at 0x8003B5C8
+
+`gcc_2_8_1_g8_split`, 56 instructions against a target of 57, opcode
+distance 5.
+
+Resolves ten big-endian `u16` keys against a lookup table. Copies 20 bytes
+from `D_80010330` into a stack buffer, then for each of the ten 2-byte keys
+walks `D_801D9004` at a 4-byte stride, and on a match stores the 1-based
+entry index into the matching slot of `D_800EAFF8`. A key with no match
+leaves its slot untouched.
+
+The 20-byte copy is a struct assignment of a byte array, which is why it
+comes out as five `lwl`/`lwr` and `swl`/`swr` pairs rather than word moves:
+the source has byte alignment, so GCC cannot use aligned loads. Wrapping the
+bytes in a `struct { u8 b[20]; }` and assigning reproduces that block exactly.
+
+**The outer loop bound is a signed comparison.** The target ends the loop with
+`slt $a3, $t4` on two pointers, and a plain `p < buf.b + 20` gives `sltu`.
+Casting both sides to `s32` takes the distance from 7 to 5. Worth remembering
+that a pointer comparison is unsigned by default and the target here is not.
+
+`D_800EAFF8` is the only one of the three globals that already had a
+declaration.
+
+What remains is one instruction and four opcodes: two `addiu` and one `addu`
+missing against one `sltu` and one `beq` extra. Both leftovers sit in the
+inner scan's exit test, where the target tests the next entry after advancing
+and this build still carries a comparison of its own, so the loop rotation is
+not yet right.
+
+```c
+#include "../../src/types.h"
+
+typedef struct {
+    u8 b[20];
+} Key20;
+
+extern u16 D_800EAFF8[];
+extern u32 D_801D9004[];
+extern Key20 D_80010330;
+
+void func_8003B5C8(void)
+{
+    Key20 buf;
+    u8 *p;
+    u16 *out;
+    u8 *e;
+    s32 n;
+    s32 key;
+
+    buf = D_80010330;
+    out = D_800EAFF8;
+    for (p = buf.b; (s32)p < (s32)(buf.b + 20); p += 2) {
+        e = (u8 *)D_801D9004;
+        n = 1;
+        key = (p[0] << 8) | p[1];
+        while (*(s32 *)e != 0) {
+            if (*(u16 *)e == key) {
+                *out = n;
+                break;
+            }
+            e += 4;
+            n++;
+        }
+        out++;
+    }
+}
+```
