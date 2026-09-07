@@ -3614,3 +3614,96 @@ keeps the copied value alive *after* the loop rather than at the loop itself.
 And when transcribing, do not "simplify" a late store that repeats an address
 already in a local: which spelling is used is observable, and the version that
 looks redundant is the one that reproduces.
+
+## The store of a load-produced value is scheduled last in its block
+
+Found on `func_80045208` and its twin `func_80045334`, whose entries are in
+`notes/candidates/`. Both reconstruct to the exact instruction count with the
+exact register assignment and stop on the same two positions: the order of
+three word stores into a stack request block, and therefore which of them the
+delay-slot filler steals for the following call.
+
+The rule is reproducible in a probe of ten lines:
+
+```c
+void probe(s32 *table, s32 type) {
+    u8 req[0x30];
+    s32 first = table[0];
+    s32 *second = table + 2;
+    f();
+    req[0] = 0x24;
+    *(s32 *)(req + 4) = first;
+    *(s32 *)(req + 8) = type;
+    *(s32 *)(req + 0xC) = (s32)second;
+    g(req);
+}
+```
+
+GCC emits the three stores as `+8`, `+0xC`, `+4`, with the load-fed one last,
+for **every** permutation of the three source statements and for both
+definition orders. Source order does not reach it. Change `first` so it comes
+from an `addiu` rather than a `lw` - `first = (s32)(table + 1)` - and the order
+becomes `+4`, `+0xC`, `+8`, and `first`/`second` also swap their hard registers
+from `$s1`/`$s0` to `$s0`/`$s1` without any pin. So how a value is produced,
+not where it is written, decides both.
+
+Two practical consequences.
+
+**Do not spend permutations on store order when one of the stored values comes
+from a load.** Check the probe's shape first: if the odd store is the load-fed
+one and it is at the wrong end of the block, no ordering of the source
+statements will move it.
+
+**Disabling sched2 does restore source order for the stores, and is still the
+wrong answer.** `gcc_2_8_1_g0_no_sched2` emits the three stores exactly as
+written, but the rest of a function of this size needs sched2: the same
+candidate goes from 2 differing to 73. Read the `no_sched2` build as a
+diagnostic that tells you what the scheduler did, not as a profile to ship.
+
+## The store of a load-produced value is scheduled last in its block
+
+Found while taking `func_80045208` from opcode distance 3 to 0; the entry is in
+`notes/candidates/`. It and its twin `func_80045334` both reconstruct to the
+exact instruction count with the exact register assignment and stop on the same
+two positions: the order of three word stores into a stack request block, and
+therefore which of them the delay-slot filler steals for the following call.
+`func_80045334`'s entry already records that source statement order is not the
+input this order is computed from, over about 1800 variants. This is what it is
+computed from instead.
+
+A ten-line probe isolates it:
+
+```c
+void probe(s32 *table, s32 type) {
+    u8 req[0x30];
+    s32 first = table[0];
+    s32 *second = table + 2;
+    f();
+    req[0] = 0x24;
+    *(s32 *)(req + 4) = first;
+    *(s32 *)(req + 8) = type;
+    *(s32 *)(req + 0xC) = (s32)second;
+    g(req);
+}
+```
+
+GCC emits the three stores as `+8`, `+0xC`, `+4`, with the load-fed one last,
+for **every** permutation of the three source statements and for both
+definition orders. Change `first` so it comes from an `addiu` rather than a
+`lw` - `first = (s32)(table + 1)` - and the order becomes `+4`, `+0xC`, `+8`,
+and `first`/`second` also swap their hard registers from `$s1`/`$s0` to
+`$s0`/`$s1` with no pin. So how a value is produced, not where it is written,
+decides both the store order and that pair of registers.
+
+Two practical consequences.
+
+**Do not spend permutations on store order when one of the stored values comes
+from a load.** Check the probe's shape first: if the odd store is the load-fed
+one and it is at the wrong end of the block, no ordering of the source
+statements will move it, and neither will a pin.
+
+**Disabling sched2 does restore source order for the stores, and is still the
+wrong answer.** `gcc_2_8_1_g0_no_sched2` emits them exactly as written, but the
+rest of a function of this size needs sched2: the same candidate goes from 2
+differing to 73. Read the `no_sched2` build as a diagnostic that tells you what
+the scheduler did, not as a profile to ship.
