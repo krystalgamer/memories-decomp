@@ -613,8 +613,13 @@ magic/trap row beyond the five zones.
 
 Move the cursor over the hand; **up** on the d-pad raises a card and gives it
 a number (1, 2, 3…) — the order in which the raised cards will be combined.
-× confirms. With one card raised it is simply played; with several, the game
-**combines them in order** (§5.4). L2/R2 show the field before choosing.
+For an ordinary single-card play, leave the cards unnumbered and confirm the
+cursor card. A numbered combination needs at least two cards: the normal
+hand-input branch of `func_8001BD88` accepts Cross or Square (`pressed &
+0xC0`) but does not advance if the raised-card count is exactly `1`
+[`0x8001C824..0x8001C860`]. One numbered card must first be unmarked or joined
+by another. Multiple numbered cards are **combined in order** (§5.4).
+L2/R2 show the field before choosing.
 
 Then the placement choices, in order:
 
@@ -979,6 +984,29 @@ On this normal path, a side's turn is therefore counted at draw entry, not
 after its play is completed or once per frame. This is a per-side count,
 not a shared count of completed two-side rounds; the evidence does not
 establish every possible writer to the byte or add a runtime observation.
+
+**The normal single-card "face-down plays" increment.** In resident
+`func_8001BD88` (still unmatched assembly), the commit block at
+`0x8001D080..0x8001D0C0` increments the current side's statistics byte
+`+0x04` through `D_8009B1C8` only when the hand-selection record's `+0x15`
+is zero and the selected hand object's `+0x21` is nonzero.
+
+The selection byte is the raised-card count: matching
+[`func_8001B7AC`](../../src/game/func_8001B7AC.c) increments it when numbering
+a hand card and stores the resulting order in that hand slot's `+0x09`.
+The orientation test is also code-backed: at `0x8001CCAC..0x8001CCE8`, the
+same placement handler clears the card record's face-down flag `0x1000`,
+then sets it if the hand object's `+0x21` is nonzero. This is the
+hand-placement object view, not a universal meaning of object offset `+0x21`.
+
+Thus this writer counts the selected single-card play's face-down
+orientation at commitment, rather than tallying all face-down field cards.
+Matching [`Duel_CalcRankScore`](../../src/game/duel_calc_rank_score.c) reads
+the byte as unsigned, copies it to displayed-stat slot 9, and passes it to
+`DUEL_RANK_RULE_FACE_DOWN_PLAYS` (row 3). Numbered multi-card selections
+bypass this particular increment; this does not establish their complete
+accounting, every other writer, or the effect of later card flips. It is
+static code evidence, not a new controlled trace.
 
 **What "cards used" counts.** Row 6 reads the side record's draw cursor at
 `+0x18`, not a counter that waits for a card to be played.
@@ -2016,9 +2044,9 @@ Not verified in code:
 * whether a monster played this turn may attack this turn (stated from play);
 * the remaining score-row-to-gameplay-event label assignments not
   independently corroborated here. The normal draw-entry link for "turns",
-  draw/refill link for "cards used" and the three victory adjustments are
-  code-backed; the fusion/equip rows have their own controlled trace
-  evidence (§6.1);
+  single-card commitment condition for "face-down plays", draw/refill link
+  for "cards used" and the three victory adjustments are code-backed; the
+  fusion/equip rows have their own controlled trace evidence (§6.1);
 * the full gameplay effects and necessity of the two "enable" GameShark
   codes. Their image and branch sites are now located in the WA startup
   phase (§12.2), and both force an existing branch unconditionally; no
