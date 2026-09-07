@@ -45,7 +45,26 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 381 instructions against 382, opcode distance 15.
+`gcc_2_8_1_g0_split`, 382 instructions against 382, opcode distance 14.
+
+The instruction count is now exact. The change that got there is a single
+subtraction written the other way round: the target computes the tween
+distance with `addu`, so the constant 16 is subtracted from the widget's
+current position and the result added, rather than 16 being folded into a
+home value that is then subtracted. Writing
+
+    home = 16 - w->f3C;
+    delta = w->f5E + home;
+
+instead of `home = w->f3C - 16; delta = w->f5E - home;` supplies the `addu`,
+removes one `subu`, and takes the count from 381 to the target's 382 while
+the distance falls from 15 to 14. The flat form, `delta = w->f5E - w->f3C +
+16`, reaches the same count but measures 16, and negating the difference is
+byte-identical to the original, so the improvement is specifically about
+which operand carries the constant.
+The frame countdown is then cheapest read as an `s32` local with the test
+cast, `if ((u16)n != 0)`, which is worth one differing position over the
+`u16` local and identical on every other measure.
 
 Two content faults were read off the target's opcode classes rather than off
 its positions, and both are about where a value is written rather than what
@@ -178,15 +197,15 @@ void func_8016913C(void)
 
     w = D_8016D404;
     if ((D_8016D4D4 & 0x4000) != 0) {
-        home = w->f3C - 16;
-        delta = w->f5E - home;
+        home = 16 - w->f3C;
+        delta = w->f5E + home;
         if (delta != 0) {
             w->f3C = (delta >= 0) ? (w->f3C + 2) : (w->f3C - 2);
         }
         func_80042A78(w);
-        cnt = w->f60 - 1;
-        w->f60 = cnt;
-        if (cnt != 0) {
+        n = w->f60 - 1;
+        w->f60 = n;
+        if ((u16)n != 0) {
             return;
         }
         w->f3C = w->f5E + 16;
