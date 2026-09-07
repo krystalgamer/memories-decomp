@@ -75,6 +75,8 @@ Names that say what something IS in the game.
 | 0x8009B408 | `gSD_bOutputType` | live |
 | 0x8009B450 | `gMemCard_nIOResult` | matching C |
 | 0x8009B45C | `g_SDValue` | dotr |
+| 0x800E9E18 | `gFile_SecondaryTransferDescriptor` | matching C |
+| 0x800E9E60 | `gFile_PrimaryTransferDescriptor` | matching C |
 | 0x800E9EA8 | `gFile_anLba` | idb2018 |
 | 0x800E9EC8 | `gFade_State` | idb2018 |
 | 0x800EA002 | `gDuel_wPlayerLifePointDisplay` | ramMap |
@@ -99,6 +101,8 @@ Names that say what something IS in the game.
 | 0x80177FBC | `gDuel_awOpponentDeckShuffle` | idb2018 |
 | 0x80177FE8 | `gDuel_awPlayerShuffledDeck` | idb2018 |
 | 0x80178038 | `gDuel_awOpponentShuffledDeck` | idb2018 |
+| 0x8017808C | `gDuel_awCombinedDeckCardIds` | matching C |
+| 0x80178130 | `gDuel_awUniqueDeckCardIds` | matching C |
 | 0x801781D8 | `gDuel_awOpponentDeckPool` | idb2018 |
 | 0x8017878C | `gDuel_awSaPowCardDrops` | idb2018 |
 | 0x80178D40 | `gDuel_awBcdCardDrops` | idb2018 |
