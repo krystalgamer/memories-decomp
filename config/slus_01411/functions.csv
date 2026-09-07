@@ -111,7 +111,7 @@ address,size,name,status,module,notes
 0x80018080,0xD0,Duel_ApplyCardObjectFlags,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80018150,0x9C,func_80018150,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800181EC,0x70,func_800181EC,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8001825C,0x3AC,func_8001825C,unmatched_asm,game,
+0x8001825C,0x3AC,func_8001825C,unmatched_asm,game,"Stored candidate in notes/candidates/: gcc_2_8_1_g8_split, 234 of 235 instructions, opcode distance 1, 27 differing positions in three clusters. The entry records a profile conflict worth resolving: the address materialisations only come out under -msplit-addresses, while two register-allocation clusters are the exact output of the non-split profile."
 0x80018608,0x384,func_80018608,unmatched_asm,game,"Stored candidate in notes/candidates/: gcc_2_8_1_g8_split, 224 of 225 instructions, opcode distance 1, 11 differing positions in one window. Only the phase-4 transfer guard is left; the mask constant is allocated last instead of first, and the %hi(D_8009B36A) that follows lands in $v0 rather than $a0, which is what lets the delay-slot filler take it."
 0x8001898C,0x2A8,func_8001898C,matching_c,game,"Single-set base pointer for D_800EA030, s8 decrement local, signed -1 store, pointer-first hand addressing"
 0x80018C34,0xC4,func_80018C34,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
