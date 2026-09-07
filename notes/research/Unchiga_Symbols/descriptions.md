@@ -633,3 +633,18 @@ This batch adds nine rows and corrects the inherited `PadChkVsync` row at
 | 0x801D06F4 | `gFreeDuel_dwUnlockedDuelists` | First four bytes of the MSB-first Free Duel unlock flags, covering IDs 1–31. IDs 32–38 use the fifth byte at `0x801D06F8`; Duel Master K is independently available. |
 | 0x801D071C | `gFreeDuel_aDuelistRecords` | Forty `{u16 wins, u16 losses}` Free Duel grid records. Slot zero is Build Deck, and slots 1–39 belong to the duelists; normal updates cap each counter at 999. |
 | 0x801D4D8E | `gCard_asNameSortKey` | Signed 16-bit per-card secondary keys used to break ties in alphabetical Build Deck and trunk sorting. |
+
+## Batch: duel presentation and effect globals
+
+| address | name | description |
+|---|---|---|
+| 0x8009AF24 | `gDuel_abTrapAttackThresholds` | Six one-byte attack thresholds for House of Adhesive Tape through Widespread Ruin. The trap selector multiplies each value by 100 before comparing it with the attacker. |
+| 0x8009AF29 | `gDuel_bWidespreadRuinAttackThreshold` | Interior alias for the final trap-threshold byte. Its retail value is 255, and the trap selector scales it to 25,500. |
+| 0x8009AF30 | `gDuel_abLifePointRecoveryUnits` | Five recovery values `{2, 5, 10, 20, 50}`, multiplied by 100 when the corresponding LP-recovery card resolves. |
+| 0x8009AF38 | `gDuel_abDirectDamageUnits` | Five direct-damage values `{5, 10, 20, 50, 100}`, multiplied by 10 before the selected side's life points are reduced. |
+| 0x8009B246 | `gDuel_wViewerCardID` | Card ID currently shown by the duel card-detail viewer, published by field-card selection paths before the shared display opens. |
+| 0x8009B2C4 | `gDebug_nLastSoundID` | Last sound-effect ID selected by the resident debug menu. |
+| 0x8009B2C8 | `gDebug_nSceneOrSoundID` | Debug-menu value reused as a scene or sound ID by the selected diagnostic path. |
+| 0x8009B408 | `gSD_bOutputType` | Stored sound output type: `-1` before initialization, `0` for stereo, and `1` for mono. |
+| 0x801D5332 | `gDuel_abCardLevelAttr` | Card-ID-indexed bytes containing attribute in the high nibble and level in the low nibble; entry zero is reserved. |
+| 0x801DC000 | `gLibrary_aCardArtRecord` | Staging buffer for the selected card's `102 x 96` art and 256-entry CLUT, baked `96 x 14` title, and `40 x 32` thumbnail with its 64-entry CLUT. |
