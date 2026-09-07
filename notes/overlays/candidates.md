@@ -45,9 +45,50 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 384 instructions against 382, opcode distance 4
+`gcc_2_8_1_g0_split`, 385 instructions against 382, opcode distance 3
 with the unconditional jump count exact, and the first 91 instructions
 agree.
+
+The null test on the glyph node is written the other way round. The caret slot
+is filled with
+
+    if (node == 0) {
+        *slot = 0;
+    } else {
+        *slot = *(u16 *)node;
+    }
+
+and not with the non-zero test first. It is worth one of the distance and it
+takes both `beqz` and `bnez` to exactly the target's counts, which no other
+spelling of that statement reaches. Four were measured: the non-zero test
+first, a conditional expression, a plain store of zero followed by a guarded
+overwrite, and the same with an empty then-arm. The two that store zero first
+do remove one of the surplus `lui`, but they lose an unconditional jump, so
+they are worse overall; the conditional expression is identical to the
+non-zero test. Only the inverted test moves the branch counts.
+
+The walk form and the dispatched-cell mask were re-measured against the new
+base and both keep their existing settings, the loop-local pointer and the
+four-bit mask, with the nearest alternative two worse. The twenty-nine
+profiles are closed with only `gcc_2_8_1_cc_g0_as_g8_split` tying, and the
+sixteen-cell product of `volatile` over `D_8016D401`, `D_8016D402`,
+`D_8016D426` and `D_8016D42C` is closed at the new base as well; the qualifier
+on `D_8016D400` that this row already records remains the only one worth
+having.
+
+Three remain and one of them is free. The `addu` that should be a `move` shares
+an opcode class with what it is measured against, so it cancels and costs
+nothing. The other two are a single surplus `lui` counted twice over, and the
+mechanism is now exact rather than described. The target materialises the high
+half of `D_8016D42C` into the callee-saved `s0` at instruction 329, in the
+middle of the read-modify-write that sets bit `0x80`, and reads through it
+twice, once at 333 before the call into `func_80168CDC` and once at 353 after
+it. This build materialises a fresh base for each of the two reads, because
+without another live value competing for it the allocator prefers two `lui` to
+one callee-saved register and its save and restore. Both sides load
+`D_8016D42C` exactly twice, so the difference is not the number of reads but
+whether the address survives the call.
+
 
 The select dispatch is now reproduced instruction for instruction, and the
 whole residual is two surplus `lui`, one inverted branch and an `addu` that
@@ -627,10 +668,10 @@ join:
         u16 *slot;
         D_8016D400 |= 0x80;
         slot = &D_8016D418[D_8016D42C];
-        if (node != 0) {
-            *slot = *(u16 *)node;
-        } else {
+        if (node == 0) {
             *slot = 0;
+        } else {
+            *slot = *(u16 *)node;
         }
         obj = func_80168CDC(1, node);
         *(s16 *)(obj + 0x60) = 8;
