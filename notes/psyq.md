@@ -53,7 +53,7 @@ not be imported in bulk or used to override a conflicting local signature.
 ## Confirmed interface anchors
 
 The following resident addresses have especially strong API-level evidence.
-Most rows below are already applied project symbols. The six CD-library rows
+Most rows below are already applied project symbols. The seven CD-library rows
 explicitly marked **candidate** remain address-based in `functions.csv` and
 `symbols.txt` until they pass the normal semantic-name review.
 
@@ -170,7 +170,7 @@ explicitly marked **candidate** remain address-based in `functions.csv` and
 | `0x800785C0` | `StGetNext` | Applied Psy-Q 4.6 identity from the unique 192-byte `LIBCD.LIB/C_009.OBJ` signature. |
 | `0x80078680` | `StSetMask` | Applied Psy-Q 4.6 identity from the unique 32-byte `LIBCD.LIB/C_010.OBJ` signature. |
 | `0x800786A0` | `StCdInterrupt` | Applied Psy-Q 4.6 identity from the unique 2,800-byte `LIBCD.LIB/C_011.OBJ` signature. |
-| `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | Byte-identical wrappers that install a callback on DMA channel `3`. |
+| `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | **Candidate, not yet applied.** Byte-identical wrappers that install a callback on DMA channel `3`. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
 | `0x8007E350` | `CdFlush` | **Candidate, not yet applied.** No-argument wrapper around the CD library's internal state-reset routine. |
 | `0x8007E3D0` | `CdGetSector` | **Candidate, not yet applied.** Identified CD-sector transfer interface in the resident CD library. |
