@@ -1020,7 +1020,7 @@ The existing C sources expose several useful starting points:
 |---|---|---|
 | Local `InitPAD` / `StartPAD` declarations | `libapi.h` | Initial migration complete in `src/game/input_init_pads.c`; the real prototypes preserve the exact build. |
 | `DslFILE` in `src/psyq/libds.h` | Ds file-search result | Migration complete in `src/game/file_stream.c` and `File_Exists` in `src/game/file_cd_helpers.c`; the latter preserves its integer wrapper interface with explicit casts at the SDK boundary. |
-| `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Initial migration complete in `Duel_SetupCardRecord`; preserve byte-offset selection when extending it to other callers. |
+| `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Typed migration is established in `Duel_SetupCardRecord` and native local `RECT` values in `func_8005B64C.c`, `func_80057544.c`, and `func_800577B0.c`; preserve byte-offset selection and layout-compatible casts elsewhere when exact code generation requires them. |
 | Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `func_800582C0`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
 | Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_handler_registry.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `func_8005BE3C.c` uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
