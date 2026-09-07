@@ -1333,6 +1333,24 @@ ret_m1:
 
 ## password `func_8016A37C` at 0x8016A37C
 
+The second of the three `lui` points is fully explained, and it is a register
+conflict rather than a scheduling preference. At word 266 the target branches on
+`flags & 0x8000` and fills the delay slot with `lui a2`, speculative work for the
+branch target at word 279, which then reads through `a2`. This candidate cannot
+do that because `a2` is already occupied: its `flags` local is allocated to `a2`,
+where the target holds the same value in `v1` as a short-lived temporary. With
+`a2` live across the branch there is no register for the speculative high half,
+so the slot takes the `ori` from the fall-through path instead and the branch
+target pays for its own `lui` at word 279, which is the third point.
+
+So the second and third points are one fact seen twice: a single allocation
+choice for `flags` both denies the delay slot its speculative load and forces the
+rematerialisation nine instructions later. Sixteen subsets of replacing `flags`
+with direct global reads in case 2 are byte-identical, and the three flags-split
+variants recorded above do not move it either, so the remaining question is what
+makes GCC prefer a callee-clobbered argument register for a value the target
+keeps in `v1`.
+
 The residual is three instruction placements, not the four large clusters an
 unaligned position count suggests. Aligning the two streams on mnemonic plus
 immediates, so that register renaming does not block the alignment, splits the
