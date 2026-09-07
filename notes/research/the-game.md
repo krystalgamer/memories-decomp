@@ -620,7 +620,7 @@ and which cards share a behaviour is data:
 | 1 | Forest, Wasteland, Mountain, Sogen, Umi, Yami | sets the **terrain** for both sides and recomputes every monster's bonus (§5.6) |
 | 2 | Mooyan Curry, Red Medicine, Goblin's Secret Remedy, Soul of the Pure, Dian Keto the Cure Master | restores your LP by 200 / 500 / 1000 / 2000 / 5000 (per-card parameter) |
 | 3 | Sparks, Hinotama, Final Flame, Ookazi, Tremendous Fire | deals 50 / 100 / 200 / 500 / 1000 damage to the opponent's LP |
-| 4 | Dark Hole, Dragon Capture Jar | one handler that walks every monster on the field (as read); Dark Hole's own text says it "sucks up every card in play", Dragon Capture Jar (special-cased by id) takes the opponent's Dragons |
+| 4 | Dark Hole, Dragon Capture Jar | one handler that walks every monster on the field (as read); Dark Hole's own text says it "sucks up every card in play", while Dragon Capture Jar is selected by `DUEL_DRAGON_CAPTURE_JAR_CARD_ID` (`329`) and takes the opponent's Dragons |
 | 5 | Warrior Elimination, Eternal Rest, Stain Storm, Eradicating Aerosol, Breath of Light, Eternal Draught, Crush Card | destroys the opponent's monsters selected by a per-card parameter: Warriors, Zombies, Machines, Insects, Rocks, Fish respectively — and Crush Card takes every opposing monster with **ATK ≥ 1500** (its parameter is a threshold, not a type) |
 | 6 | Stop Defense | flips one opposing defending monster to attack position |
 | 7 | Raigeki | destroys every monster on the opponent's field |
