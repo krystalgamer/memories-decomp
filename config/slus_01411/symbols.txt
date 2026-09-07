@@ -1,4 +1,5 @@
-entrypoint = 0x800129D8; // type:func
+entrypoint = 0x800129D8; // type:func size:0xA0
+func_80012A78 = 0x80012A78; // type:func size:0x70
 func_8002DDFC = 0x8002DDFC; // type:func
 func_80031000 = 0x80031000; // type:func
 text_end = 0x800906D4; // ignore:True

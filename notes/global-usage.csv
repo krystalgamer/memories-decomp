@@ -257,7 +257,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF74,D_8009AF74,D_8009AF74,0x800400AC,func_800400AC,matching_c,game,C,src/game/display_slot_lifecycle.c,read,,slot->field_14 = D_8009AF74[slot->field_17];
 0x8009AF74,D_8009AF74,D_8009AF74,0x800428EC,func_800428EC,matching_c,game,C,src/game/display_object_helpers.c,read,,volatile u16 *table = D_8009AF74;
 0x8009AF76,D_8009AF76,D_8009AF76,0x800283F4,func_800283F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_018bf4.s,read,8,"lbu $v0, %lo(D_8009AF76)($v0) | lui $v0, %hi(D_8009AF76)"
-0x8009AF76,D_8009AF76,D_8009AF76,0x800339D0,func_800339D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0241d0.s,read,8,"lbu $v0, %lo(D_8009AF76)($v0) | lui $v0, %hi(D_8009AF76)"
+0x8009AF76,D_8009AF76,D_8009AF76,0x800339D0,func_800339D0,matching_c,game,C,src/game/func_800339D0.c,read,8,D_8009B140 = D_8009AF76 - 8;
 0x8009AF76,D_8009AF76,D_8009AF76,0x800388D8,func_800388D8,matching_c,game,C,src/game/func_800388D8.c,read,8,D_8009B140 = D_8009AF76 + 9;
 0x8009AF76,D_8009AF76,D_8009AF76,0x8003D46C,DuelEffect_CreateChannel,matching_c,game,C,src/game/duel_effect_create_channel.c,read,16,channel->field_59 = (u8)D_8009AF76 - 1;
 0x8009AF76,D_8009AF76,D_8009AF76,0x8003D518,func_8003D518,matching_c,game,C,src/game/dialog_transition.c,read,8,"func_800428EC(object, (s8)(D_8009AF76[0] - 3));"
@@ -787,20 +787,20 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B09C,D_8009B09C,D_8009B09C,0x80033BE8,func_80033BE8,matching_c,game,C,src/game/duel_transition_color.c,read,32,intensity = D_8009B09C[0] & 0x3F;
 0x8009B09C,D_8009B09C,D_8009B09C,0x80037110,Widget_UpdatePulseColour,matching_c,game,C,src/game/widget_update_pulse_colour.c,read,32,s32 t = D_8009B09C[0] & 0x7F;
 0x8009B0A0,D_8009B0A0,D_8009B0A0,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00365c.s,address,,"addiu $s3, $gp, %gp_rel(D_8009B0A0)"
-0x8009B0A0,D_8009B0A0,D_8009B0A0,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"sb $v0, %gp_rel(D_8009B0A0)($gp)"
-0x8009B0A1,D_8009B0A1,D_8009B0A1,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"sb $v1, %gp_rel(D_8009B0A1)($gp)"
-0x8009B0A2,D_8009B0A2,D_8009B0A2,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"sb $v0, %gp_rel(D_8009B0A2)($gp)"
-0x8009B0A3,D_8009B0A3,D_8009B0A3,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"sb $v1, %gp_rel(D_8009B0A3)($gp)"
+0x8009B0A0,D_8009B0A0,D_8009B0A0,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,,D_8009B0A0 = 2;
+0x8009B0A1,D_8009B0A1,D_8009B0A1,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,,D_8009B0A1 = count;
+0x8009B0A2,D_8009B0A2,D_8009B0A2,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,,D_8009B0A2 = 0xC;
+0x8009B0A3,D_8009B0A3,D_8009B0A3,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,8,D_8009B0A3 = count;
 0x8009B0A3,D_8009B0A3,D_8009B0A3,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel_and_library.c,write,8,D_8009B0A3[0] = 10; | D_8009B0A3[0] = 6;
 0x8009B0A3,D_8009B0A3,D_8009B0A3,0x8002D2D8,Main_RunCampaignMap,matching_c,game,C,src/game/main_run_selection_menus.c,write,8,void Main_RunCampaignMap(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;D_8009B0A3[0]=10;func_800...
 0x8009B0A4,D_8009B0A4,D_8009B0A4,0x8001306C,func_8001306C,matching_c,game,C,src/game/func_8001306C.c,read,32,D_8009B0B0 = D_8009B0A4; | if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4) {
 0x8009B0A8,D_8009B0A8,D_8009B0A8,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00365c.s,read,8,"lbu $v0, %gp_rel(D_8009B0A8)($gp)"
-0x8009B0A8,D_8009B0A8,D_8009B0A8,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"sb $zero, %gp_rel(D_8009B0A8)($gp)"
+0x8009B0A8,D_8009B0A8,D_8009B0A8,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,,D_8009B0A8 = 0;
 0x8009B0AC,gGraphics_bActiveBuffer,gGraphics_bActiveBuffer,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00365c.s,write,8,"sb $v0, %gp_rel(gGraphics_bActiveBuffer)($gp)"
 0x8009B0AC,gGraphics_bActiveBuffer,gGraphics_bActiveBuffer,0x8001944C,func_8001944C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0097ec.s,read,8,"lbu $v0, %lo(gGraphics_bActiveBuffer)($v0) | lui $v0, %hi(gGraphics_bActiveBuffer)"
 0x8009B0AC,gGraphics_bActiveBuffer,gGraphics_bActiveBuffer,0x8002E730,func_8002E730,matching_c,game,C,src/game/func_8002E730.c,read,32,if (gGraphics_bActiveBuffer == 0) {
 0x8009B0AD,D_8009B0AD,D_8009B0AD,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00365c.s,read,8,"lbu $a0, %gp_rel(D_8009B0AD)($gp)"
-0x8009B0AD,D_8009B0AD,D_8009B0AD,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"sb $v1, %gp_rel(D_8009B0AD)($gp)"
+0x8009B0AD,D_8009B0AD,D_8009B0AD,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,,D_8009B0AD = 1;
 0x8009B0B0,D_8009B0B0,D_8009B0B0,0x8001306C,func_8001306C,matching_c,game,C,src/game/func_8001306C.c,read_write,32,D_8009B0B0 = D_8009B0A4; | if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4) {
 0x8009B0B4,D_8009B0B4,D_8009B0B4,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,,D_8009B0B4 = p;
 0x8009B0B4,D_8009B0B4,D_8009B0B4,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00365c.s,read_write,32,"lw $a0, %gp_rel(D_8009B0B4)($gp) | lw $a1, %gp_rel(D_8009B0B4)($gp) | (+2 more)"
@@ -813,7 +813,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0C0,D_8009B0C0,D_8009B0C0,0x8002ACA4,func_8002ACA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01b4a4.s,write,8,"lui $at, %hi(D_8009B0C0) | sb $v0, %lo(D_8009B0C0)($at) | (+1 more)"
 0x8009B0C0,D_8009B0C0,D_8009B0C0,0x8002CD8C,Main_ResetFrontendRuntime,matching_c,game,C,src/game/main_reset_frontend_runtime.c,write,8,D_8009B0C0 = 0;
 0x8009B0C0,D_8009B0C0,D_8009B0C0,0x8002D0E0,Main_RunLibraryMenu,matching_c,game,C,src/game/main_run_duel_and_library.c,write,8,void Main_RunLibraryMenu(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8002BFCC();func_8001...
-0x8009B0C0,D_8009B0C0,D_8009B0C0,0x8002D180,Main_RunAnimatedBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01d980.s,write,8,"lui $at, %hi(D_8009B0C0) | sb $v0, %lo(D_8009B0C0)($at)"
+0x8009B0C0,D_8009B0C0,D_8009B0C0,0x8002D180,Main_RunAnimatedBattle,matching_c,game,C,src/game/Main_RunAnimatedBattle.c,write,8,D_8009B0C0 = 1;
 0x8009B0C0,D_8009B0C0,D_8009B0C0,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_run_credits.c,write,8,".reloc .-4, R_MIPS_HI16, D_8009B0C0 after .word 0x3C010000 | .reloc .-4, R_MIPS_LO16, D_8009B0C0 after .word 0xA0300000"
 0x8009B0C1,D_8009B0C1,D_8009B0C1,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,,D_8009B0C1 = 0;
 0x8009B0C1,D_8009B0C1,D_8009B0C1,0x80012DB4,func_80012DB4,matching_c,game,C,src/game/func_80012DB4.c,read_write,,D_8009B0C1 = 1; | D_8009B0C1 = D_8009B0C8; | (+2 more)
@@ -833,14 +833,14 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0CC,D_8009B0CC,D_8009B0CC,0x80020D4C,func_80020D4C,matching_c,game,C,src/game/func_80020D4C.c,read,,if (D_8009B0CC & 1) {
 0x8009B0CC,D_8009B0CC,D_8009B0CC,0x80037A58,func_80037A58,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,32,if (D_8009B0CC[0] & 1) {
 0x8009B0D0,D_8009B0D0,D_8009B0D0,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00365c.s,read,8,"lbu $v1, %gp_rel(D_8009B0D0)($gp)"
-0x8009B0D0,D_8009B0D0,D_8009B0D0,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"sb $v1, %gp_rel(D_8009B0D0)($gp)"
+0x8009B0D0,D_8009B0D0,D_8009B0D0,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,,D_8009B0D0 = 1;
 0x8009B0D1,D_8009B0D1,D_8009B0D1,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,,D_8009B0D1 = 0;
 0x8009B0D1,D_8009B0D1,D_8009B0D1,0x8002D458,func_8002D458,matching_c,game,C,src/game/func_8002D458.c,write,,D_8009B0D1 = 0;
 0x8009B0D4,D_8009B0D4,D_8009B0D4,0x8001306C,func_8001306C,matching_c,game,C,src/game/func_8001306C.c,read,32,D_8009B0BC = D_8009B0D4; | if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4) {
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,32,D_8009B0D8 = 1;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80012DB4,func_80012DB4,matching_c,game,C,src/game/func_80012DB4.c,read_write,32,D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8; | D_8009B0D8 = D_8009B0C1 + 1;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x800151D8,func_800151D8,matching_c,game,C,src/game/func_800151D8.c,read,32,state->field_08 = state->field_08 + step * D_8009B0D8; | state->field_08 = state->field_08 - step * D_8009B0D8;
-0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_005b10.s,read,32,"lui $v0, %hi(D_8009B0D8) | lw $v0, %lo(D_8009B0D8)($v0)"
+0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80015310,func_80015310,matching_c,game,C,src/game/func_80015310.c,read,32,delta = p[7] * D_8009B0D8;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80039AFC,func_80039AFC,matching_c,game,C,src/game/display_object_fade_callbacks.c,read,32,record[20] = record[20] - D_8009B0D8 * 2; | record[4] = record[4] + D_8009B0D8 * 16; | (+1 more)
 0x8009B0D8,D_8009B0D8,D_8009B0D8_volatile,0x80039BE0,func_80039BE0,matching_c,game,C,src/game/display_object_fade_callbacks.c,read,,v = p[4] - (D_8009B0D8_volatile << 4); | v = p[6] - (D_8009B0D8_volatile << 4);
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AAE4,func_8003AAE4,matching_c,game,C,src/game/func_8003AAE4.c,read,32,v = *(u16 *)(p + 0x40) + D_8009B0D8 * 8;
@@ -1024,20 +1024,20 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B134,D_8009B134,D_8009B134,0x800534B8,func_800534B8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_043cb8.s,read,32,"lui $a0, %hi(D_8009B134) | lw $a0, %lo(D_8009B134)($a0)"
 0x8009B138,D_8009B138,D_8009B138,0x80013C28,func_80013C28,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_004428.s,read_write,32,"lw $v0, %gp_rel(D_8009B138)($gp) | sw $v0, %gp_rel(D_8009B138)($gp)"
 0x8009B138,D_8009B138,D_8009B138,0x800140A0,func_800140A0,matching_c,game,C,src/game/file_cd_transfer.c,write,32,D_8009B138 = 0;
-0x8009B140,D_8009B140,D_8009B140,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_005b10.s,write,8,"sb $zero, %gp_rel(D_8009B140)($gp)"
+0x8009B140,D_8009B140,D_8009B140,0x80015310,func_80015310,matching_c,game,C,src/game/func_80015310.c,write,8,D_8009B140 = 0;
 0x8009B140,D_8009B140,D_8009B140,0x800154E4,Fade_DrawOverlay,matching_c,game,C,src/game/fade_draw_overlay.c,read,8,depth = D_8009B140;
 0x8009B140,D_8009B140,D_8009B140,0x800283F4,func_800283F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_018bf4.s,write,8,"lui $at, %hi(D_8009B140) | sb $v0, %lo(D_8009B140)($at)"
-0x8009B140,D_8009B140,D_8009B140,0x800339D0,func_800339D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0241d0.s,write,8,"lui $at, %hi(D_8009B140) | sb $v0, %lo(D_8009B140)($at)"
+0x8009B140,D_8009B140,D_8009B140,0x800339D0,func_800339D0,matching_c,game,C,src/game/func_800339D0.c,write,8,D_8009B140 = D_8009AF76 - 8;
 0x8009B140,D_8009B140,D_8009B140,0x800388D8,func_800388D8,matching_c,game,C,src/game/func_800388D8.c,write,8,D_8009B140 = 4; | D_8009B140 = D_8009AF76 + 9;
 0x8009B141,D_8009B141,D_8009B141,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00365c.s,read,8,"lbu $v0, %lo(D_8009B141)($v0) | lui $v0, %hi(D_8009B141)"
-0x8009B141,D_8009B141,D_8009B141,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_005b10.s,read_write,8,"lbu $v0, %gp_rel(D_8009B141)($gp) | sb $v0, %gp_rel(D_8009B141)($gp)"
+0x8009B141,D_8009B141,D_8009B141,0x80015310,func_80015310,matching_c,game,C,src/game/func_80015310.c,read_write,8,D_8009B141 = 0x80; | if ((D_8009B141 & 0x80) == 0) {
 0x8009B141,D_8009B141,D_8009B141,0x800154E4,Fade_DrawOverlay,matching_c,game,C,src/game/fade_draw_overlay.c,read,8,if ((flags & 0x80) || (D_8009B141 != 0 && rec[4] != 0xFF)) {
 0x8009B141,D_8009B141,D_8009B141,0x80015780,func_80015780,matching_c,game,C,src/game/fade_in.c,read_write,8,D_8009B141 &= 0x7F;
 0x8009B141,D_8009B141,D_8009B141,0x80015CFC,func_80015CFC,matching_c,game,C,src/game/fade_control.c,write,8,D_8009B141 = 1;
 0x8009B141,D_8009B141,D_8009B141,0x80015D0C,func_80015D0C,matching_c,game,C,src/game/fade_control.c,write,8,D_8009B141 = 0;
 0x8009B142,D_8009B142,D_8009B142,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00365c.s,read,8,"lbu $a3, %lo(D_8009B142)($a3) | lui $a3, %hi(D_8009B142)"
-0x8009B142,D_8009B142,D_8009B142,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"lui $at, %hi(D_8009B142) | sb $v1, %lo(D_8009B142)($at)"
-0x8009B142,D_8009B142,D_8009B142,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_005b10.s,write,8,"sb $a0, %gp_rel(D_8009B142)($gp) | sb $v0, %gp_rel(D_8009B142)($gp)"
+0x8009B142,D_8009B142,D_8009B142,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,8,D_8009B142 = 1;
+0x8009B142,D_8009B142,D_8009B142,0x80015310,func_80015310,matching_c,game,C,src/game/func_80015310.c,write,8,D_8009B142 = D_8009B14A; | D_8009B142 = p[2];
 0x8009B142,D_8009B142,D_8009B142,0x800156DC,func_800156DC,matching_c,game,C,src/game/func_800156DC.c,write,8,D_8009B142 = 0xFF;
 0x8009B142,D_8009B142,D_8009B142,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,write,8,D_8009B142 = 1;
 0x8009B142,D_8009B142,D_8009B142,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B142[0] = 1;
@@ -1045,8 +1045,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B142,D_8009B142,D_8009B142,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,8,"ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B142,D_8009B142,D_8009B142,0x8005BB7C,func_8005BB7C,matching_c,game,C,src/game/func_8005BB7C.c,read,8,"*q++ = D_8009B142; | ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B143,D_8009B143,D_8009B143,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00365c.s,read,8,"lbu $a2, %lo(D_8009B143)($a2) | lui $a2, %hi(D_8009B143)"
-0x8009B143,D_8009B143,D_8009B143,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"lui $at, %hi(D_8009B143) | sb $v1, %lo(D_8009B143)($at)"
-0x8009B143,D_8009B143,D_8009B143,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_005b10.s,write,8,"sb $v0, %gp_rel(D_8009B143)($gp) | sb $v1, %gp_rel(D_8009B143)($gp)"
+0x8009B143,D_8009B143,D_8009B143,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,8,D_8009B143 = 1;
+0x8009B143,D_8009B143,D_8009B143,0x80015310,func_80015310,matching_c,game,C,src/game/func_80015310.c,write,8,D_8009B143 = D_8009B14B; | D_8009B143 = p[1];
 0x8009B143,D_8009B143,D_8009B143,0x800156DC,func_800156DC,matching_c,game,C,src/game/func_800156DC.c,write,8,D_8009B143 = 0xFF;
 0x8009B143,D_8009B143,D_8009B143,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,write,8,D_8009B143 = 1;
 0x8009B143,D_8009B143,D_8009B143,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B143[0] = 1;
@@ -1054,8 +1054,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B143,D_8009B143,D_8009B143,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,8,"ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B143,D_8009B143,D_8009B143,0x8005BB7C,func_8005BB7C,matching_c,game,C,src/game/func_8005BB7C.c,read,8,"*q++ = D_8009B143; | ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B144,D_8009B144,D_8009B144,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00365c.s,read,8,"lbu $a1, %lo(D_8009B144)($a1) | lui $a1, %hi(D_8009B144)"
-0x8009B144,D_8009B144,D_8009B144,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"lui $at, %hi(D_8009B144) | sb $v1, %lo(D_8009B144)($at)"
-0x8009B144,D_8009B144,D_8009B144,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_005b10.s,write,8,"sb $v0, %gp_rel(D_8009B144)($gp)"
+0x8009B144,D_8009B144,D_8009B144,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,8,D_8009B144 = 1;
+0x8009B144,D_8009B144,D_8009B144,0x80015310,func_80015310,matching_c,game,C,src/game/func_80015310.c,write,8,D_8009B144 = D_8009B14C; | D_8009B144 = p[0];
 0x8009B144,D_8009B144,D_8009B144,0x800156DC,func_800156DC,matching_c,game,C,src/game/func_800156DC.c,write,8,D_8009B144 = 0xFF;
 0x8009B144,D_8009B144,D_8009B144,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,write,8,D_8009B144 = 1;
 0x8009B144,D_8009B144,D_8009B144,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B144[0] = 1;
@@ -1063,7 +1063,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B144,D_8009B144,D_8009B144,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,8,"ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B144,D_8009B144,D_8009B144,0x8005BB7C,func_8005BB7C,matching_c,game,C,src/game/func_8005BB7C.c,read,8,"*q++ = D_8009B144; | ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B145,D_8009B145,D_8009B145,0x800151B0,func_800151B0,matching_c,game,C,src/game/func_800151B0.c,write,8,D_8009B145 = 0;
-0x8009B145,D_8009B145,D_8009B145,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_005b10.s,write,8,"sb $zero, %gp_rel(D_8009B145)($gp)"
+0x8009B145,D_8009B145,D_8009B145,0x80015310,func_80015310,matching_c,game,C,src/game/func_80015310.c,write,8,D_8009B145 = 0;
 0x8009B145,D_8009B145,D_8009B145,0x800156DC,func_800156DC,matching_c,game,C,src/game/func_800156DC.c,write,8,D_8009B145 = 1;
 0x8009B145,D_8009B145,D_8009B145,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,read,8,if (D_8009B145 != 0) {
 0x8009B145,D_8009B145,D_8009B145,0x8001581C,func_8001581C,matching_c,game,C,src/game/fade_color.c,write,8,D_8009B145 = 1;
@@ -1084,8 +1084,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x800338E4,BuildDeck_UpdatePaneTransition,matching_c,game,C,src/game/build_deck_update_pane_transition.c,read_write,16,gGraphics_sViewportX += (u16)state->step; | gGraphics_sViewportX = position; | (+1 more)
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80035E20,func_80035E20,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_026620.s,read,16,"lh $v0, %lo(gGraphics_sViewportX)($v0) | lui $v0, %hi(gGraphics_sViewportX)"
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80037A58,func_80037A58,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,16,D_8009B348[0] = gGraphics_sViewportX[0]; | gGraphics_sViewportX[0] = D_8009B348[0] + ((rand() & 7) - 4); | (+1 more)
-0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80040588,func_80040588,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_030d88.s,read,16,"lhu $a0, %lo(gGraphics_sViewportX)($a0) | lui $a0, %hi(gGraphics_sViewportX)"
-0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x800408D0,func_800408D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0310d0.s,read,16,"lhu $a0, %lo(gGraphics_sViewportX)($a0) | lui $a0, %hi(gGraphics_sViewportX)"
+0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80040588,func_80040588,matching_c,game,C,src/game/func_80040588.c,read,16,p->pos.h.x = p->pos.h.x - gGraphics_sViewportX;
+0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x800408D0,func_800408D0,matching_c,game,C,src/game/func_800408D0.c,read,16,p->pos.h.x = p->pos.h.x - gGraphics_sViewportX;
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80040DD8,func_80040DD8,matching_c,game,C,src/game/display_object_list_renderers.c,read,16,dx = gGraphics_sViewportX;
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80041068,func_80041068,matching_c,game,C,src/game/display_object_list_renderers.c,read,16,dx = gGraphics_sViewportX;
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x8004158C,func_8004158C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_031d8c.s,read,16,"lh $v0, %lo(gGraphics_sViewportX)($v0) | lui $v0, %hi(gGraphics_sViewportX)"
@@ -1103,22 +1103,22 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x800323F8,func_800323F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022bf8.s,write,16,"lui $at, %hi(gGraphics_sViewportY) | sh $zero, %lo(gGraphics_sViewportY)($at)"
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80035E20,func_80035E20,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_026620.s,read,16,"lh $v1, %lo(gGraphics_sViewportY)($v1) | lui $v1, %hi(gGraphics_sViewportY)"
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80037A58,func_80037A58,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,16,D_8009B348[1] = gGraphics_sViewportY[0]; | gGraphics_sViewportY[0] = D_8009B348[1] + ((rand() & 3) - 2); | (+1 more)
-0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80040588,func_80040588,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_030d88.s,read,16,"lhu $a1, %lo(gGraphics_sViewportY)($a1) | lui $a1, %hi(gGraphics_sViewportY)"
-0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x800408D0,func_800408D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0310d0.s,read,16,"lhu $a1, %lo(gGraphics_sViewportY)($a1) | lui $a1, %hi(gGraphics_sViewportY)"
+0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80040588,func_80040588,matching_c,game,C,src/game/func_80040588.c,read,16,p->pos.h.y = p->pos.h.y - gGraphics_sViewportY;
+0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x800408D0,func_800408D0,matching_c,game,C,src/game/func_800408D0.c,read,16,p->pos.h.y = p->pos.h.y - gGraphics_sViewportY;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80040DD8,func_80040DD8,matching_c,game,C,src/game/display_object_list_renderers.c,read,16,dx = gGraphics_sViewportY;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80041068,func_80041068,matching_c,game,C,src/game/display_object_list_renderers.c,read,16,dx = gGraphics_sViewportY;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x8004158C,func_8004158C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_031d8c.s,read,16,"lh $v1, %lo(gGraphics_sViewportY)($v1) | lui $v1, %hi(gGraphics_sViewportY)"
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80061008,func_80061008,matching_c,game,C,src/game/func_80061008.c,write,16,gGraphics_sViewportY = 0;
-0x8009B14A,D_8009B14A,D_8009B14A,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"lui $at, %hi(D_8009B14A) | sb $v1, %lo(D_8009B14A)($at)"
-0x8009B14A,D_8009B14A,D_8009B14A,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_005b10.s,read,8,"lbu $a0, %gp_rel(D_8009B14A)($gp)"
+0x8009B14A,D_8009B14A,D_8009B14A,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,8,D_8009B14A = 1;
+0x8009B14A,D_8009B14A,D_8009B14A,0x80015310,func_80015310,matching_c,game,C,src/game/func_80015310.c,read,8,D_8009B142 = D_8009B14A;
 0x8009B14A,D_8009B14A,D_8009B14A,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,write,8,D_8009B14A = 1;
 0x8009B14A,D_8009B14A,D_8009B14A,0x80015870,func_80015870,matching_c,game,C,src/game/fade_color.c,write,8,D_8009B14A = 0xFF;
-0x8009B14B,D_8009B14B,D_8009B14B,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"lui $at, %hi(D_8009B14B) | sb $v1, %lo(D_8009B14B)($at)"
-0x8009B14B,D_8009B14B,D_8009B14B,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_005b10.s,read,8,"lbu $v1, %gp_rel(D_8009B14B)($gp)"
+0x8009B14B,D_8009B14B,D_8009B14B,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,8,D_8009B14B = 1;
+0x8009B14B,D_8009B14B,D_8009B14B,0x80015310,func_80015310,matching_c,game,C,src/game/func_80015310.c,read,8,D_8009B143 = D_8009B14B;
 0x8009B14B,D_8009B14B,D_8009B14B,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,write,8,D_8009B14B = 1;
 0x8009B14B,D_8009B14B,D_8009B14B,0x80015870,func_80015870,matching_c,game,C,src/game/fade_color.c,write,8,D_8009B14B = 0xFF;
-0x8009B14C,D_8009B14C,D_8009B14C,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,write,8,"lui $at, %hi(D_8009B14C) | sb $v1, %lo(D_8009B14C)($at)"
-0x8009B14C,D_8009B14C,D_8009B14C,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_005b10.s,read,8,"lbu $v0, %gp_rel(D_8009B14C)($gp)"
+0x8009B14C,D_8009B14C,D_8009B14C,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,8,D_8009B14C = 1;
+0x8009B14C,D_8009B14C,D_8009B14C,0x80015310,func_80015310,matching_c,game,C,src/game/func_80015310.c,read,8,D_8009B144 = D_8009B14C;
 0x8009B14C,D_8009B14C,D_8009B14C,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,write,8,D_8009B14C = 1;
 0x8009B14C,D_8009B14C,D_8009B14C,0x80015870,func_80015870,matching_c,game,C,src/game/fade_color.c,write,8,D_8009B14C = 0xFF;
 0x8009B150,D_8009B150,D_8009B150,0x80019608,func_80019608,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_009e08.s,read_write,16,"lh $a0, %gp_rel(D_8009B150)($gp) | sh $v0, %gp_rel(D_8009B150)($gp)"
@@ -1154,11 +1154,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B164,gDuel_bQuitDialogState,gDuel_bQuitDialogState,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,write,8,"sb $zero, %gp_rel(gDuel_bQuitDialogState)($gp)"
 0x8009B164,gDuel_bQuitDialogState,gDuel_bQuitDialogState,0x8001BD48,Duel_CheckQuitInput,matching_c,game,C,src/game/duel_check_quit_input.c,write,8,gDuel_bQuitDialogState = 1;
 0x8009B164,gDuel_bQuitDialogState,gDuel_bQuitDialogState,0x80024200,func_80024200,matching_c,game,C,src/game/duel_scene_update.c,read_write,8,gDuel_bQuitDialogState = 0; | gDuel_bQuitDialogState = value | 0x80; | (+1 more)
-0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x80018DB4,func_80018DB4,matching_c,game,C,src/game/duel_draw_resolution.c,read_write,8,*(s8 *)&D_800E9FF0[gDuel_bWinnerSide] = -0x28; | gDuel_bWinnerSide = D_8009B1D5 ^ 1;
+0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x80018DB4,func_80018DB4,matching_c,game,C,src/game/duel_draw_resolution.c,read_write,8,*(s8 *)&D_800E9FF0[gDuel_bWinnerSide] = | gDuel_bWinnerSide = D_8009B1D5 ^ 1;
 0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x80018FEC,func_80018FEC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0097ec.s,write,8,"sb $a0, %gp_rel(gDuel_bWinnerSide)($gp)"
 0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00de70.s,read_write,8,"lbu $v0, %gp_rel(gDuel_bWinnerSide)($gp) | sb $a0, %gp_rel(gDuel_bWinnerSide)($gp) | (+1 more)"
 0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x80020F4C,func_80020F4C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01174c.s,read,8,"lbu $v0, %gp_rel(gDuel_bWinnerSide)($gp) | lbu $v1, %gp_rel(gDuel_bWinnerSide)($gp)"
-0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x80021598,Duel_CalcRankScore,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_011d98.s,read,8,"lbu $v0, %gp_rel(gDuel_bWinnerSide)($gp)"
+0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x80021598,Duel_CalcRankScore,matching_c,game,C,src/game/duel_calc_rank_score.c,read,8,if (D_800E9FF0[gDuel_bWinnerSide].unk0 == DUEL_RANK_ADJUST_DECK_OUT_WIN) { | if (D_800E9FF0[gDuel_bWinnerSide].unk0 == DUEL_RANK_ADJUST_EXODIA_WIN) {
 0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,read,8,"lbu $v0, %gp_rel(gDuel_bWinnerSide)($gp) | lbu $v1, %gp_rel(gDuel_bWinnerSide)($gp)"
 0x8009B166,D_8009B166,D_8009B166,0x80022D94,func_80022D94,matching_c,game,C,src/game/func_80022D94.c,write,16,D_8009B166=value;D_8009B1C4=(oldX<<16)|0x8000;D_8009B15C=(oldZ<<16)|0x8000;
 0x8009B166,D_8009B166,D_8009B166,0x800235C0,func_800235C0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013dc0.s,read,16,"lh $a2, %gp_rel(D_8009B166)($gp)"
@@ -1336,7 +1336,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80026C0C,func_80026C0C,matching_c,game,C,src/game/func_80026C0C.c,read,8,base = D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT + arg0;
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80026C6C,Duel_CollectFieldCardsBelowType,matching_c,game,C,src/game/duel_field_equip_search.c,read,8,s32 d = D_8009B1D5;
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80026D18,Duel_CollectFieldCardsByType,matching_c,game,C,src/game/duel_field_equip_search.c,read,8,s32 d = D_8009B1D5;
-0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80027508,func_80027508,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_017a28.s,read,8,"lbu $a0, %gp_rel(D_8009B1D5)($gp)"
+0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80027508,func_80027508,matching_c,game,C,src/game/func_80027508.c,read,8,card = &D_801A7AD8[D_8009B1D5 * 15 + Rand_GetInterval(DUEL_FIELD_ROW_SIZE)];
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8002778C,func_8002778C,matching_c,game,C,src/game/duel_card_selection.c,read,8,D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7 | slot + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x800278A0,func_800278A0,matching_c,game,C,src/game/duel_card_selection.c,read,8,D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7 | i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x800279BC,func_800279BC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0181bc.s,read,8,"lbu $v0, %gp_rel(D_8009B1D5)($gp) | lbu $v1, %gp_rel(D_8009B1D5)($gp)"
@@ -1356,7 +1356,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1E2,D_8009B1E2,D_8009B1E2,0x8001BD88,func_8001BD88,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,read_write,8,"lbu $v0, %gp_rel(D_8009B1E2)($gp) | sb $v0, %gp_rel(D_8009B1E2)($gp)"
 0x8009B1E4,D_8009B1E4,D_8009B1E4,0x8001BD88,func_8001BD88,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,read_write,16,"lhu $v0, %gp_rel(D_8009B1E4)($gp) | sh $v0, %gp_rel(D_8009B1E4)($gp)"
 0x8009B1E8,D_8009B1E8,D_8009B1E8,0x80021480,func_80021480,matching_c,game,C,src/game/func_80021480.c,read,,else{Container*c=D_8009B1E8;for(i=0;i<DUEL_RESULT_DISPLAY_CHILD_COUNT;i++){child=c->children[i];if(!child)break;child... | if(mode==0){Container*c=D_8009B1E8;for(i=0;i<DUEL_RESULT_DISPLAY_CHILD_COUNT;i++){child=c->children[i];if(!child)brea... | (+2 more)
-0x8009B1E8,D_8009B1E8,D_8009B1E8,0x80021598,Duel_CalcRankScore,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_011d98.s,read,32,"lw $a0, %gp_rel(D_8009B1E8)($gp)"
+0x8009B1E8,D_8009B1E8,D_8009B1E8,0x80021598,Duel_CalcRankScore,matching_c,game,C,src/game/duel_calc_rank_score.c,read,8,p = D_8009B1E8;
 0x8009B1E8,D_8009B1E8,D_8009B1E8,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,read_write,32,"lw $a0, %gp_rel(D_8009B1E8)($gp) | lw $v0, %gp_rel(D_8009B1E8)($gp) | (+2 more)"
 0x8009B1EC,D_8009B1EC,D_8009B1EC,0x80018608,func_80018608,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,write,8,"sb $s0, %gp_rel(D_8009B1EC)($gp)"
 0x8009B1EC,D_8009B1EC,D_8009B1EC,0x8001898C,func_8001898C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,write,8,"sb $v0, %gp_rel(D_8009B1EC)($gp)"
@@ -1521,7 +1521,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B269,D_8009B269,D_8009B269,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,write,8,"lui $at, %hi(D_8009B269) | sb $v0, %lo(D_8009B269)($at)"
 0x8009B269,D_8009B269,D_8009B269,0x8002A788,func_8002A788,matching_c,game,C,src/game/func_8002A788.c,read,8,".reloc .-4, R_MIPS_HI16, D_8009B269 after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, D_8009B269 after .word 0x90420000"
 0x8009B269,D_8009B269,D_8009B269,0x8002CE08,Main_RunDebugMenu,matching_c,game,C,src/game/main_debug.c,write,8,D_8009B269 = 0;
-0x8009B269,D_8009B269,D_8009B269,0x8002D180,Main_RunAnimatedBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01d980.s,read,8,"lbu $v0, %gp_rel(D_8009B269)($gp)"
+0x8009B269,D_8009B269,D_8009B269,0x8002D180,Main_RunAnimatedBattle,matching_c,game,C,src/game/Main_RunAnimatedBattle.c,read,8,D_8009B26C = D_8009B269;
 0x8009B269,D_8009B269,D_8009B269,0x8002D370,Main_RunBuildDeckMenu,matching_c,game,C,src/game/main_run_selection_menus.c,read,8,void Main_RunBuildDeckMenu(void){unsigned char flags=D_8009B26C;if((flags&0x40)==0){D_8009B26C=flags|0x40;func_800323...
 0x8009B269,D_8009B269,D_8009B269,0x8002D588,Main_RunMenu,matching_c,game,C,src/game/main_run_frontend_menus.c,write,8,void Main_RunMenu(void){unsigned char f=D_8009B26C;int r;if((f&0x40)==0){D_8009B26C=f|0x40;func_8005B85C();func_80013...
 0x8009B269,D_8009B269,D_8009B269,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_frontend_menus.c,read,8,value = D_8009B269;
@@ -1541,7 +1541,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002CE64,Main_RunCampaign,matching_c,game,C,src/game/main_run_campaign.c,read_write,8,D_8009B26C = flags | 0x40; | if (D_8009B26C & 0x40) | (+1 more)
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel_and_library.c,read_write,8,D_8009B26C = next; | D_8009B26C = value | 0x40; | (+2 more)
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D0E0,Main_RunLibraryMenu,matching_c,game,C,src/game/main_run_duel_and_library.c,read_write,8,void Main_RunLibraryMenu(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8002BFCC();func_8001...
-0x8009B26C,D_8009B26C,D_8009B26C,0x8002D180,Main_RunAnimatedBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01d980.s,read_write,8,"lbu $v0, %gp_rel(D_8009B26C)($gp) | lbu $v1, %gp_rel(D_8009B26C)($gp) | (+1 more)"
+0x8009B26C,D_8009B26C,D_8009B26C,0x8002D180,Main_RunAnimatedBattle,matching_c,game,C,src/game/Main_RunAnimatedBattle.c,read_write,8,D_8009B26C = D_8009B269; | D_8009B26C = D_8009B26C | 0x20; | (+2 more)
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D2D8,Main_RunCampaignMap,matching_c,game,C,src/game/main_run_selection_menus.c,read_write,8,void Main_RunCampaignMap(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;D_8009B0A3[0]=10;func_800...
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D370,Main_RunBuildDeckMenu,matching_c,game,C,src/game/main_run_selection_menus.c,read_write,8,void Main_RunBuildDeckMenu(void){unsigned char flags=D_8009B26C;if((flags&0x40)==0){D_8009B26C=flags|0x40;func_800323...
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D3F8,Main_RunFreeDuelMenu,matching_c,game,C,src/game/main_run_selection_menus.c,read_write,8,D_8009B26C = flags | 0x40; | if ((D_8009B26C & 0x40) == 0) SD_BGMFadeOut(); | (+1 more)
@@ -1720,7 +1720,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B2F1,D_8009B2F1,D_8009B2F1,0x80031084,func_80031084,matching_c,game,C,src/game/func_80031084.c,read_write,8,D_8009B2EB = D_8009B2F1 + 1; | D_8009B2F1 = 0; | (+12 more)
 0x8009B2F8,D_8009B2F8,D_8009B2F8,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel_and_library.c,write,8,D_8009B2F8[0] = 0x80;
 0x8009B2F8,D_8009B2F8,D_8009B2F8,0x8002D370,Main_RunBuildDeckMenu,matching_c,game,C,src/game/main_run_selection_menus.c,read,8,void Main_RunBuildDeckMenu(void){unsigned char flags=D_8009B26C;if((flags&0x40)==0){D_8009B26C=flags|0x40;func_800323...
-0x8009B2F8,D_8009B2F8,D_8009B2F8,0x800339D0,func_800339D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0241d0.s,read,8,"lbu $v0, %gp_rel(D_8009B2F8)($gp) | lbu $v1, %gp_rel(D_8009B2F8)($gp)"
+0x8009B2F8,D_8009B2F8,D_8009B2F8,0x800339D0,func_800339D0,matching_c,game,C,src/game/func_800339D0.c,read,8,if (!(D_8009B2F8 & 0x80) && gDialog_bChoice != 0) { | mode = D_8009B2F8 & 0x80;
 0x8009B2F8,D_8009B2F8,D_8009B2F8,0x80033C90,func_80033C90,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B2F8 = 0;
 0x8009B2F8,D_8009B2F8,D_8009B2F8,0x80033CA8,func_80033CA8,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B2F8 = 0x80;
 0x8009B2FC,D_8009B2FC,D_8009B2FC,0x80031874,func_80031874,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022074.s,read,32,"lw $v0, %gp_rel(D_8009B2FC)($gp) | lw $v1, %gp_rel(D_8009B2FC)($gp)"
@@ -1763,7 +1763,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B318,D_8009B318,D_8009B318,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,read,8,g = D_8009B318;
 0x8009B320,D_8009B320,D_8009B320,0x80023144,func_80023144,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013944.s,write,8,"lui $at, %hi(D_8009B320) | sb $v0, %lo(D_8009B320)($at)"
 0x8009B320,D_8009B320,D_8009B320,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A2F4.c,write,,D_8009B320 = 4; | D_8009B320 = o[0x54];
-0x8009B320,D_8009B320,D_8009B320,0x80037DA4,func_80037DA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0285a4.s,read,8,"lbu $v0, %gp_rel(D_8009B320)($gp)"
+0x8009B320,D_8009B320,D_8009B320,0x80037DA4,func_80037DA4,matching_c,game,C,src/game/func_80037DA4.c,read,,object[0x54] = D_8009B320;
 0x8009B322,D_8009B322,D_8009B322,0x800379F8,func_800379F8,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,16,D_8009B322 = func_80036D3C(object); | D_8009B322--; | (+1 more)
 0x8009B322,D_8009B322,D_8009B322,0x80037A58,func_80037A58,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,16,D_8009B322 = func_80036D3C(object); | D_8009B322--; | (+1 more)
 0x8009B324,D_8009B324,D_8009B324,0x80035CE4,DuelEffect_ResetOccupancy,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,write,8,D_8009B324 = 0;
@@ -1778,7 +1778,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B328,D_8009B328,D_8009B328,0x800378D8,func_800378D8,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,8,if (D_8009B328[0x33] == 0) {
 0x8009B328,D_8009B328,D_8009B328,0x80037914,func_80037914,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,8,D_8009B328[0x32] = flags | 0x10; | D_8009B328[0x33] = 6; | (+1 more)
 0x8009B328,D_8009B328,D_8009B328,0x80037950,func_80037950,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,8,D_8009B328[0x32] = flags | 0x10; | D_8009B328[0x33] = 4; | (+1 more)
-0x8009B328,D_8009B328,D_8009B328,0x80038EB0,func_80038EB0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0296b0.s,write,32,"sw $s0, %gp_rel(D_8009B328)($gp)"
+0x8009B328,D_8009B328,D_8009B328,0x80038EB0,func_80038EB0,matching_c,game,C,src/game/func_80038EB0.c,write,8,D_8009B328 = e;
 0x8009B32C,D_8009B32C,D_8009B32C,0x800375A4,func_800375A4,matching_c,game,C,src/game/duel_effect_interaction_states.c,read_write,8,void func_800375A4(unsigned char*o){unsigned char f=o[0x51];if((f&0x80)==0){o[0x51]=f|0x80;D_8009B32C=10;*(void**)(o+...
 0x8009B32E,D_8009B32E,D_8009B32E,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,write,16,"lui $at, %hi(D_8009B32E) | sh $v0, %lo(D_8009B32E)($at)"
 0x8009B32E,D_8009B32E,D_8009B32E,0x800383DC,func_800383DC,matching_c,game,C,src/game/func_800383DC.c,read,16,s32 a2 = D_8009B32E;
@@ -1796,7 +1796,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A2F4.c,write,16,gDuel_wSelectedCardID = 0; | gDuel_wSelectedCardID = r;
 0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x8002ACA4,func_8002ACA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01b4a4.s,write,16,"lui $at, %hi(gDuel_wSelectedCardID) | sh $a0, %lo(gDuel_wSelectedCardID)($at)"
 0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x80031CD4,func_80031CD4,matching_c,game,C,src/game/card_list_text_boxes.c,write,16,gDuel_wSelectedCardID = list->entries[list->first + slot].id;
-0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x80037DA4,func_80037DA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0285a4.s,read,16,"lh $v0, %gp_rel(gDuel_wSelectedCardID)($gp) | lh $v1, %gp_rel(gDuel_wSelectedCardID)($gp)"
+0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x80037DA4,func_80037DA4,matching_c,game,C,src/game/func_80037DA4.c,read,16,id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> 18) & 0xF; | id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> 26) & 0x1F; | (+3 more)
 0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x80060E70,func_80060E70,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_051338.s,write,16,"lui $at, %hi(gDuel_wSelectedCardID) | sh $v1, %lo(gDuel_wSelectedCardID)($at)"
 0x8009B33A,D_8009B33A,D_8009B33A,0x80037D2C,func_80037D2C,matching_c,game,C,src/game/text_stream_commands.c,read_write,16,D_8009B33A = value; | combined = D_8009B33A;
 0x8009B33A,D_8009B33A,D_8009B33A,0x800393B0,func_800393B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,read_write,16,"lhu $a2, %gp_rel(D_8009B33A)($gp) | lhu $v0, %gp_rel(D_8009B33A)($gp) | (+1 more)"
@@ -1822,7 +1822,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x80024200,func_80024200,matching_c,game,C,src/game/duel_scene_update.c,read,8,if (gDialog_bChoice[0] != 0) {
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x800262D4,func_800262D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_016ad4.s,read,8,"lb $v1, %lo(gDialog_bChoice)($v1) | lui $v1, %hi(gDialog_bChoice)"
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x8002EE94,func_8002EE94,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01f694.s,read_write,8,"lb $v0, %lo(gDialog_bChoice)($v0) | lb $v1, %lo(gDialog_bChoice)($v1) | (+5 more)"
-0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x800339D0,func_800339D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0241d0.s,read,8,"lb $v0, %lo(gDialog_bChoice)($v0) | lui $v0, %hi(gDialog_bChoice)"
+0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x800339D0,func_800339D0,matching_c,game,C,src/game/func_800339D0.c,read,8,if (!(D_8009B2F8 & 0x80) && gDialog_bChoice != 0) {
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x80036DBC,DuelEffect_UpdateObjectLayout,matching_c,game,C,src/game/duel_effect_update_object_layout.c,read,8,v = *(u16 *)(p + 0x40) + a + gDialog_bChoice * 0x10; | v0 = *(u16 *)(p + 0x40) + c + gDialog_bChoice * 0xC; | (+1 more)
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x80036F80,Dialog_HighlightChoice,matching_c,game,C,src/game/dialog_highlight_choice.c,read,8,if (((gDialog_bChoiceEnabled >> gDialog_bChoice) & 1) == 0) value = 0xC0;
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x8003700C,Dialog_ReadChoiceInput,matching_c,game,C,src/game/dialog_read_choice_input.c,read_write,8,gDialog_bChoice = 0; | gDialog_bChoice = choice + 1; | (+3 more)
@@ -1847,7 +1847,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B350,D_8009B350,D_8009B350,0x80038D14,func_80038D14,matching_c,game,C,src/game/text_control_commands.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038E1C,func_80038E1C,matching_c,game,C,src/game/duel_effect_completion.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038E7C,func_80038E7C,matching_c,game,C,src/game/duel_effect_completion.c,write,32,D_8009B350 = 1;
-0x8009B350,D_8009B350,D_8009B350,0x80038EB0,func_80038EB0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0296b0.s,write,32,"sw $v0, %gp_rel(D_8009B350)($gp)"
+0x8009B350,D_8009B350,D_8009B350,0x80038EB0,func_80038EB0,matching_c,game,C,src/game/func_80038EB0.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x800393B0,func_800393B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,read_write,32,"lw $v0, %gp_rel(D_8009B350)($gp) | lw $v1, %gp_rel(D_8009B350)($gp) | (+1 more)"
 0x8009B355,D_8009B355,D_8009B355,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,read_write,8,"lbu $v0, %lo(D_8009B355)($v0) | lui $at, %hi(D_8009B355) | (+4 more)"
 0x8009B355,D_8009B355,D_8009B355,0x80023144,func_80023144,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013944.s,read_write,8,"lbu $v0, %lo(D_8009B355)($v0) | lui $at, %hi(D_8009B355) | (+3 more)"
@@ -1891,7 +1891,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B364,gDuel_bTerrain,D_8009B364|gDuel_bTerrain,0x8002497C,Duel_GetTerrainBoost,matching_c,game,C,src/game/duel_get_terrain_boost.c,read,8,if (gDuel_bTerrain[0] == 0 || card >= CARD_TYPE_MAGIC) { | u8 *terrain = D_8009B364;
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80024DC8,func_80024DC8,matching_c,game,C,src/game/func_80024DC8.c,write,8,gDuel_bTerrain = 0;
 0x8009B364,gDuel_bTerrain,D_8009B364,0x80024E58,func_80024E58,matching_c,game,C,src/game/func_80024E58.c,read_write,8,D_8009B364[0] * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT + | D_8009B364[0] = v; | (+2 more)
-0x8009B364,gDuel_bTerrain,D_8009B364,0x8002D180,Main_RunAnimatedBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01d980.s,read,8,"lbu $a1, %lo(D_8009B364)($a1) | lui $a1, %hi(D_8009B364)"
+0x8009B364,gDuel_bTerrain,D_8009B364,0x8002D180,Main_RunAnimatedBattle,matching_c,game,C,src/game/Main_RunAnimatedBattle.c,read,8,"Model_SetSlotProperties(2, D_8009B364);"
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80038530,Text_StartCampaignDuel,matching_c,game,C,src/game/text_start_campaign_duel.c,write,8,"extern signed char D_8009B360;extern u8 gDuel_bOpponentID,gDuel_bTerrain,D_8009B368,D_8009B369,D_8009B26C;extern unsi..."
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80071460,AiScript_LoadTerrain,matching_c,game,C,src/game/ai_script_load_duel_state.c,read,8,value = gDuel_bTerrain;
 0x8009B365,gFreeDuel_bReturnFlags,gFreeDuel_bReturnFlags,0x8002D458,func_8002D458,matching_c,game,C,src/game/func_8002D458.c,write,8,gFreeDuel_bReturnFlags = 0;
@@ -2154,8 +2154,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B412,D_8009B412,D_8009B412,0x800400AC,func_800400AC,matching_c,game,C,src/game/display_slot_lifecycle.c,read_write,16,D_8009B412++;
 0x8009B412,D_8009B412,D_8009B412,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_reset_pool.c,write,16,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
 0x8009B424,D_8009B424,D_8009B424,0x80029108,func_80029108,matching_c,game,C,src/game/func_80029108.c,write,32,D_8009B424 = 1;
-0x8009B424,D_8009B424,D_8009B424,0x80040588,func_80040588,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_030d88.s,read_write,32,"lw $v0, %gp_rel(D_8009B424)($gp) | sw $zero, %gp_rel(D_8009B424)($gp)"
-0x8009B424,D_8009B424,D_8009B424,0x800408D0,func_800408D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0310d0.s,write,32,"sw $zero, %gp_rel(D_8009B424)($gp)"
+0x8009B424,D_8009B424,D_8009B424,0x80040588,func_80040588,matching_c,game,C,src/game/func_80040588.c,read_write,32,D_8009B424 = 0; | if (D_8009B424 != 0) {
+0x8009B424,D_8009B424,D_8009B424,0x800408D0,func_800408D0,matching_c,game,C,src/game/func_800408D0.c,write,32,D_8009B424 = 0;
 0x8009B424,D_8009B424,D_8009B424,0x8004158C,func_8004158C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_031d8c.s,read_write,32,"lw $v0, %gp_rel(D_8009B424)($gp) | sw $zero, %gp_rel(D_8009B424)($gp)"
 0x8009B428,D_8009B428,D_8009B428,0x80043960,func_80043960,matching_c,game,C,src/game/func_80043960.c,write,8,D_8009B428 = 0;
 0x8009B428,D_8009B428,D_8009B428,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,read_write,8,D_8009B428 = 0; | D_8009B428 = 1; | (+2 more)
@@ -2245,7 +2245,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004A7C0,func_8004A7C0,matching_c,game,C,src/game/func_8004A7C0.c,read,,(SDSecondaryObject *)((u8 *)D_8009B458 + 0x180 + object_offset);
 0x8009B458,D_8009B458,D_8009B458,0x8004A854,func_8004A854,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,8,state = D_8009B458; | u8 *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004A8E4,func_8004A8E4,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,8,SDSecondaryState *state = (SDSecondaryState *)D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004A940,func_8004A940,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03b140.s,read,32,"lui $v1, %hi(D_8009B458) | lw $v1, %lo(D_8009B458)($v1)"
+0x8009B458,D_8009B458,D_8009B458,0x8004A940,func_8004A940,matching_c,game,C,src/game/func_8004A940.c,read,8,state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004AAFC,func_8004AAFC,matching_c,game,C,src/game/func_8004AAFC.c,read,8,p = D_8009B458; | r = D_8009B458 + e[3] * 0x18;
 0x8009B458,D_8009B458,D_8009B458,0x8004ACE4,func_8004ACE4,matching_c,game,C,src/game/func_8004ACE4.c,write,,D_8009B458->field_0844 = entry[0x13]; | D_8009B458->field_0845 = entry[0x13];
 0x8009B458,D_8009B458,D_8009B458,0x8004ADE8,func_8004ADE8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03b5e8.s,read,32,"lui $a0, %hi(D_8009B458) | lui $a1, %hi(D_8009B458) | (+6 more)"
@@ -2320,15 +2320,15 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x80047EC4,SD_KeyOffVoiceSlots,matching_c,game,C,src/game/sound_voice_status.c,read,,SpuGetAllKeysStatus((char *)g_SDValue->field_15D8); | g_SDValue->field_15EE + g_SDValue->field_15EF; | (+1 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80047F38,func_80047F38,matching_c,game,C,src/game/sound_voice_status.c,read,,SDValue *state = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x80047FAC,func_80047FAC,matching_c,game,C,src/game/func_80047FAC.c,read,,entry = (u16 *)((u8 *)g_SDValue + s0 * 2 + 0x404);
-0x8009B45C,g_SDValue,g_SDValue,0x8004803C,func_8004803C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03883c.s,read,32,"lui $a0, %hi(g_SDValue) | lui $a2, %hi(g_SDValue) | (+6 more)"
-0x8009B45C,g_SDValue,g_SDValue,0x800482B0,func_800482B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03883c.s,read,32,"lui $v0, %hi(g_SDValue) | lui $v1, %hi(g_SDValue) | (+2 more)"
-0x8009B45C,g_SDValue,g_SDValue,0x80048658,SD_SEPlay,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03883c.s,read,32,"lui $t0, %hi(g_SDValue) | lui $t2, %hi(g_SDValue) | (+2 more)"
-0x8009B45C,g_SDValue,g_SDValue,0x80048768,func_80048768,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03883c.s,read,32,"lui $a2, %hi(g_SDValue) | lui $v1, %hi(g_SDValue) | (+2 more)"
+0x8009B45C,g_SDValue,g_SDValue,0x8004803C,func_8004803C,matching_c,game,C,src/game/func_8004803C.c,read_write,,"SpuSetKey(0, g_SDValue->key_mask); | SpuSetKeyOnWithAttr((SpuVoiceAttr *)&g_SDValue->key_mask); | (+17 more)"
+0x8009B45C,g_SDValue,g_SDValue,0x800482B0,func_800482B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_038ab0.s,read,32,"lui $v0, %hi(g_SDValue) | lui $v1, %hi(g_SDValue) | (+2 more)"
+0x8009B45C,g_SDValue,g_SDValue,0x80048658,SD_SEPlay,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_038ab0.s,read,32,"lui $t0, %hi(g_SDValue) | lui $t2, %hi(g_SDValue) | (+2 more)"
+0x8009B45C,g_SDValue,g_SDValue,0x80048768,func_80048768,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_038ab0.s,read,32,"lui $a2, %hi(g_SDValue) | lui $v1, %hi(g_SDValue) | (+2 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x80048920,func_80048920,matching_c,game,C,src/game/func_80048920.c,read,,b = g_SDValue; | struct SoundState *a = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x80048A28,func_80048A28,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_039228.s,read,32,"lui $a1, %hi(g_SDValue) | lui $v1, %hi(g_SDValue) | (+2 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x80048C0C,func_80048C0C,matching_c,game,C,src/game/sound_voice_data.c,read,,SDValue *state = g_SDValue;
-0x8009B45C,g_SDValue,g_SDValue,0x80048D08,func_80048D08,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_039508.s,read,32,"lui $a1, %hi(g_SDValue) | lui $v0, %hi(g_SDValue) | (+4 more)"
-0x8009B45C,g_SDValue,g_SDValue,0x80048F14,func_80048F14,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_039508.s,read,32,"lui $v0, %hi(g_SDValue) | lui $v1, %hi(g_SDValue) | (+2 more)"
+0x8009B45C,g_SDValue,g_SDValue,0x80048D08,func_80048D08,matching_c,game,C,src/game/func_80048D08.c,read_write,,e = (SDNote *)(n * 8 + (u32)g_SDValue->field_0444); | g_SDValue->field_043C[key] = n; | (+4 more)
+0x8009B45C,g_SDValue,g_SDValue,0x80048F14,func_80048F14,matching_c,game,C,src/game/func_80048F14.c,read,,a = g_SDValue; | c = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x80049010,func_80049010,matching_c,game,C,src/game/func_80049010.c,read_write,,func_80049C40(g_SDValue->field_157E); | func_80049CB0(g_SDValue->field_157E); | (+10 more)
 0x8009B45C,g_SDValue,g_SDValue,0x800490F0,func_800490F0,matching_c,game,C,src/game/sound_sequence_state.c,write,,g_SDValue->field_1582 = value; | g_SDValue->field_1584 = flag;
 0x8009B45C,g_SDValue,g_SDValue,0x80049108,func_80049108,matching_c,game,C,src/game/sound_sequence_state.c,write,,g_SDValue->field_1582 = value; | g_SDValue->field_1584 = flag;
@@ -2399,7 +2399,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800A5768,D_800A5768,D_800A5768,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00365c.s,address,,"addiu $v0, $v0, %lo(D_800A5768) | lui $v0, %hi(D_800A5768)"
 0x800A5768,D_800A5768,D_800A5768,0x8005A8C4,Model_HasInsufficientBufferSpace,matching_c,game,C,src/game/model_has_insufficient_buffer_space.c,read,,used = D_800FE240 - (s32)D_800A5768;
 0x800E9D28,D_800E9D28,D_800E9D28,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00365c.s,address,,"addiu $a0, $a0, %lo(D_800E9D28) | lui $a0, %hi(D_800E9D28)"
-0x800E9D28,D_800E9D28,D_800E9D28,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,address,,"addiu $t2, $v1, %lo(D_800E9D28) | lui $v1, %hi(D_800E9D28)"
+0x800E9D28,D_800E9D28,D_800E9D28,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,,D_800E9D28 = D_800FE0A8;
 0x800E9D28,D_800E9D28,D_800E9D28,0x80013360,func_80013360,matching_c,game,C,src/game/func_80013360.c,read,,p = D_800E9D28;
 0x800E9D70,D_800E9D70,D_800E9D70,0x800171A8,Duel_LoadPackageStage,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0079a8.s,write,16,"addiu $a0, $v0, %lo(D_800E9D70) | lui $v0, %hi(D_800E9D70) | (+2 more)"
 0x800E9D70,D_800E9D70,D_800E9D70,0x8001944C,func_8001944C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0097ec.s,write,16,"addiu $a0, $a2, %lo(D_800E9D70) | addiu $a0, $v1, %lo(D_800E9D70) | (+4 more)"
@@ -2411,7 +2411,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9D90,D_800E9D90,D_800E9D90,0x80016D2C,func_80016D2C,matching_c,game,C,src/game/func_80016D2C.c,read,32,"for(i=count-1;i>=0;i--){b->value=temp[i]<<3;GsSortFastSprite((GsSPRITE*)b,(GsOT*)D_800E9D90[a->index],*(u16*)((char*)..."
 0x800E9D90,D_800E9D90,D_800E9D90,0x8002C604,func_8002C604,matching_c,game,C,src/game/func_8002C604.c,address,8,t = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x8002C6C8,func_8002C6C8,matching_c,game,C,src/game/func_8002C6C8.c,read,,rec->f8 = D_800E9D90.f8; | rec->fC = D_800E9D90.f4;
-0x800E9D90,D_800E9D90,D_800E9D90,0x80040588,func_80040588,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_030d88.s,address,,"addiu $s6, $v0, %lo(D_800E9D90) | lui $v0, %hi(D_800E9D90)"
+0x800E9D90,D_800E9D90,D_800E9D90,0x80040588,func_80040588,matching_c,game,C,src/game/func_80040588.c,address,32,tb = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x80040814,func_80040814,matching_c,game,C,src/game/func_80040814.c,address,32,s32 *t = (s32 *)D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x80040BF8,func_80040BF8,matching_c,game,C,src/game/display_object_updates.c,address,32,s32 *table = (s32 *)D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x80040D14,func_80040D14,matching_c,game,C,src/game/display_object_updates.c,address,32,s32 *table = (s32 *)D_800E9D90;
@@ -2458,7 +2458,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EC0,D_800E9EC0,D_800E9EC0,0x80014C40,func_80014C40,matching_c,game,C,src/game/file_transfer_control.c,address,8,n = *(s32 *)D_800E9EC0 + *(s32 *)(p + 4);
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x800151B0,func_800151B0,matching_c,game,C,src/game/func_800151B0.c,address,,FadeTransitionState *state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x800151D8,func_800151D8,matching_c,game,C,src/game/func_800151D8.c,address,,FadeTransitionState *state = &D_800E9EC8;
-0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_005b10.s,address,,"addiu $s0, $v0, %lo(D_800E9EC8) | addiu $s1, $v0, %lo(D_800E9EC8) | (+1 more)"
+0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015310,func_80015310,matching_c,game,C,src/game/func_80015310.c,read_write,,D_800E9EC8.flags = D_800E9EC8.flags | 0x80; | D_800E9EC8.flags = f & 0x79; | (+6 more)
 0x800E9EC8,D_800E9EC8,D_800E9EC8|D_800E9EC8_arr,0x800154E4,Fade_DrawOverlay,matching_c,game,C,src/game/fade_draw_overlay.c,read,,if (D_800E9EC8.flags & 0x10) { | rec = D_800E9EC8_arr; | (+1 more)
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x800156B8,func_800156B8,matching_c,game,C,src/game/func_800156B8.c,address,,u8 *p = (u8 *)&D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x800156DC,func_800156DC,matching_c,game,C,src/game/func_800156DC.c,address,,state = &D_800E9EC8;
@@ -2482,7 +2482,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015C84,func_80015C84,matching_c,game,C,src/game/fade_control.c,address,,state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x80015CC0,func_80015CC0,matching_c,game,C,src/game/fade_control.c,address,,state = &D_800E9EC8;
 0x800E9EC8,D_800E9EC8,D_800E9EC8,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,address,,"addiu $s0, $v0, %lo(D_800E9EC8) | lui $v0, %hi(D_800E9EC8)"
-0x800E9ECC,D_800E9ECC,D_800E9ECC,0x80015310,func_80015310,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_005b10.s,write,8,"lui $v0, %hi(D_800E9ECC) | sb $s0, %lo(D_800E9ECC)($v0)"
+0x800E9ECC,D_800E9ECC,D_800E9ECC,0x80015310,func_80015310,matching_c,game,C,src/game/func_80015310.c,write,,D_800E9ECC[0] = lvl;
 0x800E9ECC,D_800E9ECC,D_800E9ECC,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,write,8,"lui $v1, %hi(D_800E9ECC) | sb $v0, %lo(D_800E9ECC)($v1)"
 0x800E9ECE,D_800E9ECE,D_800E9ECE,0x800154E4,Fade_DrawOverlay,matching_c,game,C,src/game/fade_draw_overlay.c,read,8,if (!(D_800E9ECE[0] & 2)) { | if (D_800E9ECE[0] & 2) {
 0x800E9ECE,D_800E9ECE,D_800E9ECE,0x8001825C,func_8001825C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,read,8,"lbu $v0, %lo(D_800E9ECE)($v0) | lui $v0, %hi(D_800E9ECE)"
@@ -2538,13 +2538,13 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9FF0,D_800E9FF0,D_800E9FF0,0x8001825C,func_8001825C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,address,,"addiu $s0, $v0, %lo(D_800E9FF0) | addiu $v1, $v0, %lo(D_800E9FF0) | (+1 more)"
 0x800E9FF0,D_800E9FF0,D_800E9FF0,0x80018608,func_80018608,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,address,,"addiu $a0, $a0, %lo(D_800E9FF0) | addiu $v1, $v1, %lo(D_800E9FF0) | (+2 more)"
 0x800E9FF0,D_800E9FF0,D_800E9FF0,0x8001898C,func_8001898C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_008a5c.s,address,,"addiu $v0, $v0, %lo(D_800E9FF0) | lui $v0, %hi(D_800E9FF0)"
-0x800E9FF0,D_800E9FF0,D_800E9FF0,0x80018DB4,func_80018DB4,matching_c,game,C,src/game/duel_draw_resolution.c,address,,*(s8 *)&D_800E9FF0[gDuel_bWinnerSide] = -0x28;
+0x800E9FF0,D_800E9FF0,D_800E9FF0,0x80018DB4,func_80018DB4,matching_c,game,C,src/game/duel_draw_resolution.c,address,,*(s8 *)&D_800E9FF0[gDuel_bWinnerSide] =
 0x800E9FF0,D_800E9FF0,D_800E9FF0,0x80018FEC,func_80018FEC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0097ec.s,address,,"addiu $a1, $a1, %lo(D_800E9FF0) | lui $a1, %hi(D_800E9FF0)"
 0x800E9FF0,D_800E9FF0,D_800E9FF0,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00de70.s,address,,"addiu $a2, $v0, %lo(D_800E9FF0) | lui $v0, %hi(D_800E9FF0)"
 0x800E9FF0,D_800E9FF0,D_800E9FF0,0x8001F364,func_8001F364,matching_c,game,C,src/game/duel_trap_resolution.c,address,8,q = (u8 *)D_800E9FF0 + (D_8009B1D5 ^ 1) * 0x20;
 0x800E9FF0,D_800E9FF0,D_800E9FF0,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,address,,"addiu $a1, $v1, %lo(D_800E9FF0) | addiu $v0, $v0, %lo(D_800E9FF0) | (+3 more)"
 0x800E9FF0,D_800E9FF0,D_800E9FF0,0x800208D4,func_800208D4,matching_c,game,C,src/game/func_800208D4.c,address,8,if(!D_8009B162){D_8009B1D5^=1;D_8009B23A=2;D_8009B1C8=D_800E9FF0+D_8009B1D5*32;D_8009B22C=D_800907D8+D_8009B1D5*DUEL_...
-0x800E9FF0,D_800E9FF0,D_800E9FF0,0x80021598,Duel_CalcRankScore,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_011d98.s,address,,"addiu $s3, $v0, %lo(D_800E9FF0) | lui $v0, %hi(D_800E9FF0)"
+0x800E9FF0,D_800E9FF0,D_800E9FF0,0x80021598,Duel_CalcRankScore,matching_c,game,C,src/game/duel_calc_rank_score.c,read,,e = D_800E9FF0; | if (D_800E9FF0[gDuel_bWinnerSide].unk0 == DUEL_RANK_ADJUST_DECK_OUT_WIN) { | (+1 more)
 0x800E9FF0,D_800E9FF0,D_800E9FF0,0x80023144,func_80023144,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013944.s,address,,"addiu $v1, $v1, %lo(D_800E9FF0) | lui $v1, %hi(D_800E9FF0)"
 0x800E9FF0,D_800E9FF0,D_800E9FF0,0x8002525C,func_8002525C,matching_c,game,C,src/game/duel_life_point_effects.c,address,,p = &D_800E9FF0[D_8009B1D5 ^ 1]; | p = &D_800E9FF0[D_8009B1D5];
 0x800E9FF0,D_800E9FF0,D_800E9FF0,0x80025F3C,func_80025F3C,matching_c,game,C,src/game/func_80025F3C.c,write,,D_800E9FF0[D_8009B1D5 ^ 1].state = 4;
@@ -2582,7 +2582,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EA1E8,D_800EA1E8,D_800EA1E8,0x80029EC4,func_80029EC4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01a6c4.s,address,,"addiu $a0, $a0, %lo(D_800EA1E8) | addiu $t0, $v0, %lo(D_800EA1E8) | (+4 more)"
 0x800EA1E8,D_800EA1E8,D_800EA1E8,0x8002A3CC,func_8002A3CC,matching_c,game,C,src/game/func_8002A3CC.c,address,,MovingRecord *object = &D_800EA1E8;
 0x800EA1E8,D_800EA1E8,D_800EA1E8,0x8002A4A8,func_8002A4A8,matching_c,game,C,src/game/func_8002A4A8.c,address,,".reloc .-4, R_MIPS_HI16, D_800EA1E8 after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, D_800EA1E8 after .word 0x24480000"
-0x800EA1E8,D_800EA1E8,D_800EA1E8,0x8002BAB4,func_8002BAB4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01c2b4.s,read,8,"addiu $s1, $v0, %lo(D_800EA1E8) | lbu $v1, %lo(D_800EA1E8)($v0) | (+1 more)"
+0x800EA1E8,D_800EA1E8,D_800EA1E8,0x8002BAB4,func_8002BAB4,matching_c,game,C,src/game/func_8002BAB4.c,read,8,mode = D_800EA1E8[0]; | state = D_800EA1E8;
 0x800EA1E8,D_800EA1E8,D_800EA1E8,0x8002BFCC,func_8002BFCC,matching_c,game,C,src/game/func_8002BFCC.c,write,8,D_800EA1E8[0] = 0; | r = D_800EA1E8;
 0x800EAD88,D_800EAD88,D_800EAD88,0x8002C598,func_8002C598,matching_c,game,C,src/game/duel_effect_object_pool.c,address,,pool = &D_800EAD88;
 0x800EAD88,D_800EAD88,D_800EAD88,0x8002C5CC,func_8002C5CC,matching_c,game,C,src/game/duel_effect_object_pool.c,address,,PoolEntry *entry = (PoolEntry *)&D_800EAD88;
@@ -2593,8 +2593,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE88,D_800EAE88,D_800EAE88,0x80026DC8,func_80026DC8,matching_c,game,C,src/game/duel_field_equip_search.c,write,8,D_800EAE88[0] = | D_800EAE88[1] = | (+5 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x80027060,func_80027060,matching_c,game,C,src/game/func_80027060.c,write,8,D_800EAE88[0] = v % DUEL_FIELD_ROW_SIZE + 0xB; | D_800EAE88[1] = 0; | (+3 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x8002712C,func_8002712C,matching_c,game,C,src/game/func_8002712C.c,read_write,,if(count){int first=list[0]->value;int index;D_800EAE88.result=first%DUEL_FIELD_ROW_SIZE+11;D_800EAE88.field1=0;D_800... | index=func_80026C0C(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){D_800EAE88.random=rand()&1;D_800EAE88.value+=index%DUEL_...
-0x800EAE88,D_800EAE88,D_800EAE88,0x80027228,func_80027228,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_017a28.s,write,8,"addiu $s0, $a1, %lo(D_800EAE88) | addiu $s0, $s0, %lo(D_800EAE88) | (+4 more)"
-0x800EAE88,D_800EAE88,D_800EAE88,0x80027508,func_80027508,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_017a28.s,write,8,"addiu $s0, $a2, %lo(D_800EAE88) | lui $a2, %hi(D_800EAE88) | (+1 more)"
+0x800EAE88,D_800EAE88,D_800EAE88,0x80027228,func_80027228,matching_c,game,C,src/game/func_80027228.c,address,8,st = D_800EAE88;
+0x800EAE88,D_800EAE88,D_800EAE88,0x80027508,func_80027508,matching_c,game,C,src/game/func_80027508.c,write,8,D_800EAE88[0] = v % DUEL_FIELD_ROW_SIZE + 0xB; | D_800EAE88[1] = 0; | (+6 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x800279BC,func_800279BC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0181bc.s,address,,"addiu $a1, $a1, %lo(D_800EAE88) | addiu $a2, $a2, %lo(D_800EAE88) | (+4 more)"
 0x800EAE88,D_800EAE88,D_800EAE88,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,,"bzero((u8 *)&D_800EAE88, sizeof(D_800EAE88));"
 0x800EAE88,D_800EAE88,D_800EAE88,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_play_field_card.c,write,,D_800EAE88.field_09 = (s8)first; | D_800EAE88.field_0A = (s8)category; | (+3 more)
@@ -2632,7 +2632,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB010,D_800EB010,D_800EB010,0x8002E370,DuelEffect_MarkObjectIfActive,matching_c,game,C,src/game/duel_effect_mark_object_if_active.c,address,,p = &D_800EB010[count];
 0x800EB010,D_800EB010,D_800EB010,0x8002EB78,func_8002EB78,matching_c,game,C,src/game/func_8002EB78.c,address,8,"void func_8002EB78(void){unsigned char*o;int first,flags,bit;if(func_8002E3B4()==0){first=*D_8009B290++;flags=*D_8009..."
 0x800EB010,D_800EB010,D_800EB010,0x80031354,func_80031354,matching_c,game,C,src/game/func_80031354.c,address,8,"func_8003B378(D_800EB010, value);"
-0x800EB010,D_800EB010,D_800EB010,0x80038EB0,func_80038EB0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0296b0.s,address,,"addiu $s0, $v1, %lo(D_800EB010) | addiu $v1, $v1, %lo(D_800EB010) | (+1 more)"
+0x800EB010,D_800EB010,D_800EB010,0x80038EB0,func_80038EB0,matching_c,game,C,src/game/func_80038EB0.c,address,8,e = D_800EB010 + slot * 0x4C; | e = D_800EB010;
 0x800EB010,D_800EB010,D_800EB010,0x80039E9C,func_80039E9C,matching_c,game,C,src/game/menu_record_reset.c,address,,MenuRecord *record = &D_800EB010[i];
 0x800EB010,D_800EB010,D_800EB010,0x8003B50C,func_8003B50C,matching_c,game,C,src/game/func_8003B50C.c,address,8,u8 *r = (u8 *)D_800EB010;
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80019D18,func_80019D18,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00a518.s,address,,"addiu $a0, $a0, %lo(D_800EB0F8) | lui $a0, %hi(D_800EB0F8)"
@@ -2649,7 +2649,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8002EE94,func_8002EE94,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01f694.s,address,,"addiu $a0, $v0, %lo(D_800EB0F8) | lui $v0, %hi(D_800EB0F8)"
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80030998,func_80030998,matching_c,game,C,src/game/func_80030998.c,address,,".reloc .-4, R_MIPS_HI16, D_800EB0F8 after .word 0x3C030000 | .reloc .-4, R_MIPS_LO16, D_800EB0F8 after .word 0x24700000"
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80031084,func_80031084,matching_c,game,C,src/game/func_80031084.c,address,,b = (u8 *)D_800EB0F8;
-0x800EB0F8,D_800EB0F8,D_800EB0F8,0x800339D0,func_800339D0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0241d0.s,address,,"addiu $s0, $v0, %lo(D_800EB0F8) | lui $v0, %hi(D_800EB0F8)"
+0x800EB0F8,D_800EB0F8,D_800EB0F8,0x800339D0,func_800339D0,matching_c,game,C,src/game/func_800339D0.c,address,8,box = D_800EB0F8;
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80035A64,func_80035A64,matching_c,game,C,src/game/func_80035A64.c,read,,DuelEffectChannel *entry = D_800EB0F8;
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80035AB8,TextBox_SetRect,matching_c,game,C,src/game/text_box_set_rect.c,address,,DuelEffectChannel *entry = &D_800EB0F8[index];
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80035AF0,DuelEffect_InitEntry,matching_c,game,C,src/game/duel_effect_init_entry.c,address,,"DuelEffectChannel*DuelEffect_InitEntry(int index,int value,int flags){register int offset=index<<1;DuelEffectChannel*..."
@@ -2686,7 +2686,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB288,D_800EB288,D_800EB288,0x8003B6AC,func_8003B6AC,matching_c,game,C,src/game/func_8003B6AC.c,read,,DuelEffectEntry *base = D_800EB288;
 0x800EF658,D_800EF658,D_800EF658,0x80018FEC,func_80018FEC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0097ec.s,write,16,"lui $v1, %hi(D_800EF658) | sh $v0, %lo(D_800EF658)($v1)"
 0x800EF658,D_800EF658,D_800EF658,0x8001F55C,func_8001F55C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,write,16,"addiu $s0, $v1, %lo(D_800EF658) | lui $v1, %hi(D_800EF658) | (+1 more)"
-0x800EF658,D_800EF658,D_800EF658,0x8002D180,Main_RunAnimatedBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01d980.s,read,16,"addiu $s0, $v0, %lo(D_800EF658) | lh $a1, %lo(D_800EF658)($v0) | (+1 more)"
+0x800EF658,D_800EF658,D_800EF658,0x8002D180,Main_RunAnimatedBattle,matching_c,game,C,src/game/Main_RunAnimatedBattle.c,read,,p = D_800EF658;
 0x800EF668,gInput_abRawPadBuffers,gInput_abRawPadBuffers,0x8003CBE8,Input_InitPads,matching_c,game,C,src/game/input_init_pads.c,address,8,"gInput_abRawPadBuffers + 0x22, | gInput_abRawPadBuffers,"
 0x800EF668,gInput_abRawPadBuffers,gInput_abRawPadBuffers,0x8003CC38,Input_ReadRawPads,matching_c,game,C,src/game/input_update_pads.c,address,8,u8 *p = gInput_abRawPadBuffers; | u8 *q = gInput_abRawPadBuffers;
 0x800EF6B0,D_800EF6B0,D_800EF6B0,0x8003CB7C,Input_ResetPads,matching_c,game,C,src/game/input_reset_pads.c,address,8,base = D_800EF6B0;
@@ -2707,7 +2707,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_reset_pool.c,address,16,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040CAC,func_80040CAC,matching_c,game,C,src/game/display_object_updates.c,read,16,s32 i = D_800EFE38;
 0x800EFE38,D_800EFE38,D_800EFE38,0x80041340,func_80041340,matching_c,game,C,src/game/func_80041340.c,read,16,if (D_800EFE38[i] >= 0) {
-0x800EFE3A,D_800EFE3A,D_800EFE3A,0x80040588,func_80040588,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_030d88.s,read,16,"lh $s3, %lo(D_800EFE3A)($v0) | lui $v0, %hi(D_800EFE3A)"
+0x800EFE3A,D_800EFE3A,D_800EFE3A,0x80040588,func_80040588,matching_c,game,C,src/game/func_80040588.c,read,,i = D_800EFE3A[0];
 0x800EFE3C,D_800EFE3C,D_800EFE3C,0x80040814,func_80040814,matching_c,game,C,src/game/func_80040814.c,read,16,s32 i = D_800EFE3C[0];
 0x800EFE3E,D_800EFE3E,D_800EFE3E,0x80040BF8,func_80040BF8,matching_c,game,C,src/game/display_object_updates.c,read,16,s32 i = D_800EFE3E[0];
 0x800EFE40,D_800EFE40,D_800EFE40,0x80040DD8,func_80040DD8,matching_c,game,C,src/game/display_object_list_renderers.c,read,16,i = D_800EFE40[0];
@@ -2719,7 +2719,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE48,D_800EFE48,D_800EFE48,0x8004020C,func_8004020C,matching_c,game,C,src/game/display_slot_lifecycle.c,write,,D_800EFE48[first].field_02 = second; | D_800EFE48[second].field_00 = -1; | (+1 more)
 0x800EFE48,D_800EFE48,D_800EFE48,0x800402A0,func_800402A0,matching_c,game,C,src/game/func_800402A0.c,write,,D_800EFE48[v].unk0 = arg0->unkA[0];
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_reset_pool.c,address,16,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
-0x800EFE48,D_800EFE48,D_800EFE48,0x80040588,func_80040588,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_030d88.s,address,,"addiu $v0, $v0, %lo(D_800EFE48) | lui $v0, %hi(D_800EFE48)"
+0x800EFE48,D_800EFE48,D_800EFE48,0x80040588,func_80040588,matching_c,game,C,src/game/func_80040588.c,address,,e = (DisplayObject *)((u8 *)D_800EFE48 + i * DISPLAY_OBJECT_RECORD_SIZE);
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040814,func_80040814,matching_c,game,C,src/game/func_80040814.c,address,,Slot70 *base = D_800EFE48;
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040BF8,func_80040BF8,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *base = D_800EFE48;
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040CAC,func_80040CAC,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *object = &D_800EFE48[i];
@@ -2739,7 +2739,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2848,D_800F2848,D_800F2848,0x80022D94,func_80022D94,matching_c,game,C,src/game/func_80022D94.c,read,,int oldValue=D_800F2848.value;int dv=((value-oldValue)<<16)/frames; | s16 oldX=D_800F2848.x;int dx=((x-oldX)<<16)/frames; | (+2 more)
 0x800F2848,D_800F2848,D_800F2848,0x800235C0,func_800235C0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013dc0.s,address,,"addiu $s5, $v0, %lo(D_800F2848) | lui $v0, %hi(D_800F2848)"
 0x800F2848,D_800F2848,D_800F2848,0x8002ACA4,func_8002ACA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01b4a4.s,read_write,16,"addiu $s0, $s0, %lo(D_800F2848) | addiu $s5, $s7, %lo(D_800F2848) | (+5 more)"
-0x800F2848,D_800F2848,D_800F2848,0x8002BAB4,func_8002BAB4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01c2b4.s,address,,"addiu $s2, $v0, %lo(D_800F2848) | addiu $v1, $v1, %lo(D_800F2848) | (+2 more)"
+0x800F2848,D_800F2848,D_800F2848,0x8002BAB4,func_8002BAB4,matching_c,game,C,src/game/func_8002BAB4.c,address,8,model = D_800F2848; | p = D_800F2848;
 0x800F2848,D_800F2848,D_800F2848,0x8002C6C8,func_8002C6C8,matching_c,game,C,src/game/func_8002C6C8.c,read,,SetGeomScreen(D_800F2848.fE);
 0x800F284A,D_800F284A,D_800F284A,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,write,16,"lui $v1, %hi(D_800F284A) | sh $v0, %lo(D_800F284A)($v1)"
 0x800F284A,D_800F284A,D_800F284A,0x8001F364,func_8001F364,matching_c,game,C,src/game/duel_trap_resolution.c,read,16,"func_80022D94(0x10, 0x208, 0x200, D_800F284A[0], | func_80022D94(0x10, 0x258, 0x100, D_800F284A[0], 0);"
@@ -2976,8 +2976,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5C8B,D_800F5C8B,D_800F5C8B,0x80072DC0,AiScript_EvaluateFusion,matching_c,game,C,src/game/ai_script_evaluate_fusion.c,read,,if (D_800F5C8B[0] != 0) {
 0x800F5D44,D_800F5D44,D_800F5D44,0x8005C1F4,func_8005C1F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04c9f4.s,read_write,32,"lui $at, %hi(D_800F5D44) | lui $v0, %hi(D_800F5D44) | (+2 more)"
 0x800FE048,D_800FE048,D_800FE048,0x80012E5C,func_80012E5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00365c.s,address,,"addiu $v0, $v0, %lo(D_800FE048) | lui $v0, %hi(D_800FE048)"
-0x800FE048,D_800FE048,D_800FE048,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,address,,"addiu $v0, $v0, %lo(D_800FE048) | lui $v0, %hi(D_800FE048)"
-0x800FE0A8,D_800FE0A8,D_800FE0A8,0x80013154,func_80013154,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003954.s,address,,"addiu $t3, $v0, %lo(D_800FE0A8) | lui $v0, %hi(D_800FE0A8)"
+0x800FE048,D_800FE048,D_800FE048,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,write,,D_800FE048[0x16] = 1; | D_800FE048[0x18] = 1; | (+3 more)
+0x800FE0A8,D_800FE0A8,D_800FE0A8,0x80013154,func_80013154,matching_c,game,C,src/game/func_80013154.c,read,,D_800E9D28 = D_800FE0A8;
 0x800FE0CC,D_800FE0CC,D_800FE0CC,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,16,D_800FE0CC = 1;
 0x800FE0CC,D_800FE0CC,D_800FE0CC,0x8005BB7C,func_8005BB7C,matching_c,game,C,src/game/func_8005BB7C.c,write,16,D_800FE0CC = 1;
 0x800FE0D0,D_800FE0D0,D_800FE0D0,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,16,rect[2] = *(s32 *)&D_800FE0D0 * 0x1800 / 4096; | rect[2] = D_800FE0D0;
@@ -3101,8 +3101,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8017A1D8,gDuel_awEquipTable,gDuel_awEquipTable,0x80019A08,Duel_CheckEquip,matching_c,game,C,src/game/duel_card_checks.c,address,16,u16 *p = gDuel_awEquipTable;
 0x8017C2D8,gDuel_aFusionTable,gDuel_aFusionTable,0x800171A8,Duel_LoadPackageStage,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0079a8.s,address,,"addiu $v0, $v0, %lo(gDuel_aFusionTable) | lui $v0, %hi(gDuel_aFusionTable)"
 0x8017C2D8,gDuel_aFusionTable,gDuel_aFusionTable,0x80019A60,Duel_CheckFusion,matching_c,game,C,src/game/duel_card_checks.c,address,16,u8 *base = (u8 *)gDuel_aFusionTable;
-0x80181002,D_80181002,D_80181002,0x8002BAB4,func_8002BAB4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01c2b4.s,read,16,"lh $v0, %lo(D_80181002)($v0) | lh $v1, %lo(D_80181002)($v1) | (+2 more)"
-0x80181012,D_80181012,D_80181012,0x8002BAB4,func_8002BAB4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01c2b4.s,read,16,"lh $a1, %lo(D_80181012)($a1) | lui $a1, %hi(D_80181012)"
+0x80181002,D_80181002,D_80181002,0x8002BAB4,func_8002BAB4,matching_c,game,C,src/game/func_8002BAB4.c,read,,r = D_80181012 - D_80181002; | target = D_80181002;
+0x80181012,D_80181012,D_80181012,0x8002BAB4,func_8002BAB4,matching_c,game,C,src/game/func_8002BAB4.c,read,,if (D_80181012 < cur) { | if (cur < D_80181012) { | (+1 more)
 0x8018C2D8,D_8018C2D8,D_8018C2D8,0x80019D18,func_80019D18,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00a518.s,address,,"addiu $v0, $v0, %lo(D_8018C2D8) | lui $v0, %hi(D_8018C2D8)"
 0x8018C2D8,D_8018C2D8,D_8018C2D8,0x80024824,Duel_PopulateCombinedDeckData,matching_c,game,C,src/game/duel_deck_card_data.c,address,8,u8 *dst = D_8018C2D8;
 0x8018C2D8,D_8018C2D8,D_8018C2D8,0x800249E0,Duel_SetupCardRecord,matching_c,game,C,src/game/duel_setup_card_record.c,address,8,"LoadImage(q, (u32 *)(D_8018C2D8 + off));"
@@ -3153,7 +3153,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026C0C,func_80026C0C,matching_c,game,C,src/game/func_80026C0C.c,read,,p = (u8 *)D_801A7AD8 + off;
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026C6C,Duel_CollectFieldCardsBelowType,matching_c,game,C,src/game/duel_field_equip_search.c,address,,&D_801A7AD8[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026D18,Duel_CollectFieldCardsByType,matching_c,game,C,src/game/duel_field_equip_search.c,address,,&D_801A7AD8[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
-0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80027508,func_80027508,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_017a28.s,address,,"addiu $v0, $v0, %lo(D_801A7AD8) | lui $v0, %hi(D_801A7AD8)"
+0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80027508,func_80027508,matching_c,game,C,src/game/func_80027508.c,address,,card = &D_801A7AD8[D_8009B1D5 * 15 + Rand_GetInterval(DUEL_FIELD_ROW_SIZE)];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8002778C,func_8002778C,matching_c,game,C,src/game/duel_card_selection.c,address,,DuelCardRecord *entry = &D_801A7AD8[D_800907D8[position]];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800278A0,func_800278A0,matching_c,game,C,src/game/duel_card_selection.c,address,,entry = &D_801A7AD8[row];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800279BC,func_800279BC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0181bc.s,address,,"addiu $a0, $v0, %lo(D_801A7AD8) | lui $v0, %hi(D_801A7AD8)"
@@ -3227,14 +3227,14 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801AF800,D_801AF800,D_801AF800,0x8003A1EC,func_8003A1EC,matching_c,game,C,src/game/func_8003A1EC.c,address,8,tb = D_801AF800;
 0x801AF800,D_801AF800,D_801AF800,0x8003A560,func_8003A560,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02ad60.s,address,,"addiu $a0, $a0, %lo(D_801AF800) | addiu $a1, $a1, %lo(D_801AF800) | (+4 more)"
 0x801AF800,D_801AF800,D_801AF800,0x8005B64C,func_8005B64C,matching_c,game,C,src/game/func_8005B64C.c,address,8,object->field08 = (s32)D_801AF800; | object->field0C = (s32)D_801AF800;
-0x801B0000,D_801B0000,D_801B0000,0x80037DA4,func_80037DA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0285a4.s,address,,"addiu $a0, $a0, %lo(D_801B0000) | lui $a0, %hi(D_801B0000)"
+0x801B0000,D_801B0000,D_801B0000,0x80037DA4,func_80037DA4,matching_c,game,C,src/game/func_80037DA4.c,address,16,text = (u8 *)((u32)D_801B0000 & 0xFFFF0000) + D_801C0000[n];
 0x801B0000,D_801B0000,D_801B0000,0x800383DC,func_800383DC,matching_c,game,C,src/game/func_800383DC.c,address,16,v1 = ((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) + D_801C0000[a2];
 0x801B0000,D_801B0000,D_801B0000,0x800393B0,func_800393B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,address,,"addiu $a0, $a0, %lo(D_801B0000) | lui $a0, %hi(D_801B0000)"
 0x801B0000,D_801B0000,D_801B0000,0x8003B744,Text_LookupString,matching_c,game,C,src/game/text_lookup_string.c,address,16,return ((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) | D_801C0000[index];
 0x801B122B,D_801B122B,D_801B122B,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/two_player_save_setup.c,address,8,"D_801B122B,"
 0x801B1238,D_801B1238,D_801B1238,0x8003FD14,func_8003FD14,matching_c,game,C,src/game/two_player_save_setup.c,address,8,"D_801B1238,"
 0x801B125A,D_801B125A,D_801B125A,0x8003D0F4,SaveData_ApplyRuntimeState,matching_c,game,C,src/game/save_data_apply_runtime_state.c,read,,"Text_SjisToGlyphCodes(D_801B125A, state->player_name_sjis, SAVE_DATA_PLAYER_NAME_CHAR_COUNT);"
-0x801C0000,D_801C0000,D_801C0000,0x80037DA4,func_80037DA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0285a4.s,address,,"addiu $v1, $v1, %lo(D_801C0000) | lui $v1, %hi(D_801C0000)"
+0x801C0000,D_801C0000,D_801C0000,0x80037DA4,func_80037DA4,matching_c,game,C,src/game/func_80037DA4.c,read,16,text = (u8 *)((u32)D_801B0000 & 0xFFFF0000) + D_801C0000[n]; | text = (u8 *)((u32)D_801C0000 & 0xFFFF0000) + D_801C0000[id - 0xD000];
 0x801C0000,D_801C0000,D_801C0000,0x800383DC,func_800383DC,matching_c,game,C,src/game/func_800383DC.c,read,16,D_801C0000[a2 - 0xD000]; | v1 = ((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) + D_801C0000[a2]; | (+1 more)
 0x801C0000,D_801C0000,D_801C0000,0x800393B0,func_800393B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,address,,"addiu $v1, $v1, %lo(D_801C0000) | lui $v1, %hi(D_801C0000)"
 0x801C0000,D_801C0000,D_801C0000,0x8003B744,Text_LookupString,matching_c,game,C,src/game/text_lookup_string.c,read,16,D_801C0000[index - 0xD000]; | return ((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) | D_801C0000[index]; | (+1 more)
@@ -3283,7 +3283,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80024C1C,func_80024C1C,matching_c,game,C,src/game/duel_card_icon_setup.c,read,32,desc = gDuel_adwCardStats[cardId - 1];
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80026C6C,Duel_CollectFieldCardsBelowType,matching_c,game,C,src/game/duel_field_equip_search.c,address,32,s32 *t = gDuel_adwCardStats;
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80026D18,Duel_CollectFieldCardsByType,matching_c,game,C,src/game/duel_field_equip_search.c,address,32,s32 *t = gDuel_adwCardStats;
-0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80027508,func_80027508,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_017a28.s,address,,"addiu $s2, $v1, %lo(gDuel_adwCardStats) | lui $v1, %hi(gDuel_adwCardStats)"
+0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80027508,func_80027508,matching_c,game,C,src/game/func_80027508.c,read,32,if (((gDuel_adwCardStats[*(s16 *)&card->card_id - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGI... | if (((gDuel_adwCardStats[*(s16 *)&card->card_id - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) == CARD_TYPE_EQU...
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80027DF8,func_80027DF8,matching_c,game,C,src/game/func_80027DF8.c,address,32,tbl = gDuel_adwCardStats;
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x8002827C,func_8002827C,matching_c,game,C,src/game/func_8002827C.c,address,32,int func_8002827C(unsigned char*object){if(*(unsigned short*)(object+0x16)&DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2){int*ta...
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x800283F4,func_800283F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_018bf4.s,address,,"addiu $a1, $v0, %lo(gDuel_adwCardStats) | lui $v0, %hi(gDuel_adwCardStats)"
@@ -3294,7 +3294,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x800320BC,BuildDeck_AddCard,matching_c,game,C,src/game/build_deck_add_card.c,address,32,s32 *base = gDuel_adwCardStats;
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x800323F8,func_800323F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022bf8.s,address,,"addiu $s7, $v0, %lo(gDuel_adwCardStats) | lui $v0, %hi(gDuel_adwCardStats)"
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80032C48,func_80032C48,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_023448.s,address,,"addiu $a0, $v0, %lo(gDuel_adwCardStats) | addiu $a2, $v0, %lo(gDuel_adwCardStats) | (+2 more)"
-0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80037DA4,func_80037DA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0285a4.s,address,,"addiu $v0, $v0, %lo(gDuel_adwCardStats) | addiu $v1, $v1, %lo(gDuel_adwCardStats) | (+2 more)"
+0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80037DA4,func_80037DA4,matching_c,game,C,src/game/func_80037DA4.c,read,32,id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> 18) & 0xF; | id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> 26) & 0x1F; | (+1 more)
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x8004EB00,func_8004EB00,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03f300.s,address,,"addiu $v1, $v1, %lo(gDuel_adwCardStats) | lui $v1, %hi(gDuel_adwCardStats)"
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x800559D4,func_800559D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_043cb8.s,address,,"addiu $v1, $v1, %lo(gDuel_adwCardStats) | lui $v1, %hi(gDuel_adwCardStats)"
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80060B38,func_80060B38,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_051338.s,address,,"addiu $fp, $v1, %lo(gDuel_adwCardStats) | lui $v1, %hi(gDuel_adwCardStats)"
@@ -3305,7 +3305,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D4D8E,gCard_asNameSortKey,gCard_asNameSortKey,0x80032B60,BuildDeck_CompareCard,matching_c,game,C,src/game/build_deck_compare.c,read,16,gCard_asNameSortKey[arg0->index - 1] < | gCard_asNameSortKey[arg1->index - 1]
 0x801D4D8E,gCard_asNameSortKey,gCard_asNameSortKey,0x80032BD4,func_80032BD4,matching_c,game,C,src/game/build_deck_compare.c,read,16,gCard_asNameSortKey[arg0->index - 1] < | gCard_asNameSortKey[arg1->index - 1]
 0x801D5332,gDuel_abCardLevelAttr,gDuel_abCardLevelAttr,0x800291E0,func_800291E0,matching_c,game,C,src/game/func_800291E0.c,address,,".reloc .-4, R_MIPS_HI16, gDuel_abCardLevelAttr after .word 0x3C030000 | .reloc .-4, R_MIPS_LO16, gDuel_abCardLevelAttr after .word 0x24630000"
-0x801D5608,D_801D5608,D_801D5608,0x80021598,Duel_CalcRankScore,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_011d98.s,address,,"addiu $s4, $v1, %lo(D_801D5608) | lui $v1, %hi(D_801D5608)"
+0x801D5608,D_801D5608,D_801D5608,0x80021598,Duel_CalcRankScore,matching_c,game,C,src/game/duel_calc_rank_score.c,address,32,q = &D_801D5608[0][0];
 0x801D5608,D_801D5608,D_801D5608,0x80023144,func_80023144,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_013944.s,write,32,"addiu $a0, $a0, %lo(D_801D5608) | addiu $v1, $v1, %lo(D_801D5608) | (+3 more)"
 0x801D5608,D_801D5608,D_801D5608,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A2F4.c,address,32,s32 *q = D_801D5608;
 0x801D5608,D_801D5608,D_801D5608,0x8002BFCC,func_8002BFCC,matching_c,game,C,src/game/func_8002BFCC.c,read_write,32,D_801D5608[0] += 1; | D_801D5608[0] = 0;
@@ -3322,7 +3322,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D5708,gText_abColorSlots,gText_abColorSlots,0x80038498,func_80038498,matching_c,game,C,src/game/func_80038498.c,read,8,w = gText_abColorSlots[v & 0xF];
 0x801D5708,gText_abColorSlots,gText_abColorSlots,0x8003C4E0,func_8003C4E0,matching_c,game,C,src/game/func_8003C4E0.c,address,8,u8 *t = gText_abColorSlots;
 0x801D5708,gText_abColorSlots,gText_abColorSlots,0x800611D0,func_800611D0,matching_c,game,C,src/game/func_800611D0.c,address,8,"extern unsigned char gText_abColorSlots[];extern void*TextBox_Create(int,int,int,int,int,int),*func_8004002C(void),*f..."
-0x801D5800,D_801D5800,D_801D5800,0x80037DA4,func_80037DA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0285a4.s,address,,"addiu $v1, $v1, %lo(D_801D5800) | lui $v1, %hi(D_801D5800)"
+0x801D5800,D_801D5800,D_801D5800,0x80037DA4,func_80037DA4,matching_c,game,C,src/game/func_80037DA4.c,read,16,text = (u8 *)((u32)D_801D5800 & 0xFFFF0000) + D_801D5800[id - 0x8000];
 0x801D5800,D_801D5800,D_801D5800,0x800383DC,func_800383DC,matching_c,game,C,src/game/func_800383DC.c,read,16,D_801D5800[a2 - TEXT_GLOBAL_STRING_ID_BASE]; | v1 = ((u32)D_801D5800 & TEXT_BANK_ADDRESS_MASK) +
 0x801D5800,D_801D5800,D_801D5800,0x800393B0,func_800393B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_029bb0.s,address,,"addiu $v1, $v1, %lo(D_801D5800) | lui $v1, %hi(D_801D5800)"
 0x801D5800,D_801D5800,D_801D5800,0x8003B744,Text_LookupString,matching_c,game,C,src/game/text_lookup_string.c,read,16,D_801D5800[index - TEXT_GLOBAL_STRING_ID_BASE]; | return ((u32)D_801D5800 & TEXT_BANK_ADDRESS_MASK) |
