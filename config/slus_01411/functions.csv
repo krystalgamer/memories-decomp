@@ -395,7 +395,7 @@ address,size,name,status,module,notes
 0x80032B60,0x74,BuildDeck_CompareCard,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80032BD4,0x74,func_80032BD4,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80032C48,0x474,func_80032C48,unmatched_asm,game,
-0x800330BC,0x444,func_800330BC,unmatched_asm,game,
+0x800330BC,0x444,func_800330BC,matching_c,game,"Card-list cursor and page input handler; exact linked bytes with gcc_2_8_1_cc_g8_as_g0_split. Retry path is a backward goto, not a loop construct, so the constant 7 stays rematerialised at each use."
 0x80033500,0x3C,func_80033500,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003353C,0x1B4,func_8003353C,matching_c,game,Duel input handler; exact collaborator structure with volatile input reads and semantic sound symbol.
 0x800336F0,0x1F4,func_800336F0,matching_c,game,Exact pure C with independently verified volatile u16 reloads and one-argument func_80031E5C prototype.
