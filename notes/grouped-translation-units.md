@@ -58,6 +58,7 @@ source grouping.
 | `src/game/fade_in.c` | `gcc_2_8_1_g8` | Target-`0xFF` transition initializer (`0x80015780`, flag `0x80`, step `0x0C`) and the contiguous flag-`0x01` variant using step `8` (`0x800157DC`) |
 | `src/game/fade_color.c` | `gcc_2_8_1_g8_split` | Colour-selecting transition setup (`0x8001581C`, flags `0x30`) and the contiguous conditional white-state reset (`0x80015870`, flags `0xB0`, step `0x0C`) |
 | `src/game/fade_out.c` | `gcc_2_8_1_g8` | `Fade_InitOut` (`0x800158B8`, head `0xFF`, target `0`, flag `0x80`, step `0x0C`) and contiguous strip-mode `Fade_StartOut` (`0x80015904`, flag `0x01`, step `8`) |
+| `src/game/fade_transition_wait.c` | `gcc_2_8_1_g8_split` | Colour-selecting fade-out setup (`0x80015944`, flags `0x30`) and the contiguous blocking frame-pump loop that waits for flag `0x80` to clear (`0x80015998`) |
 | `src/game/movie_stream_requests.c` | `gcc_2_8_1_g0_split` | Indexed `MOVIE.STR` range setup (`0x8005C388`) and named-file stream setup (`0x8005C464`) |
 | `src/game/file_cd_helpers.c` | `gcc_2_8_1_g0` | `File_Exists` (`0x8005C4F0`) and two contiguous low-level CD state/wait helpers through `0x8005C568` |
 | `src/game/mdec_sync.c` | `gcc_2_8_1_g8` | MDEC completion-latch setter (`0x8005C5C4`) and contiguous bounded wait/reset helper (`0x8005C5D4`) |
