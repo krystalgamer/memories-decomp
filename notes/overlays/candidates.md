@@ -51,6 +51,27 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
+The select-screen early return belongs out of line at the end of the function,
+not inline where it is written. Aligning the two streams on mnemonic plus
+immediates shows a thirteen-instruction block that tests `D_8009B394[0] & 0x20`
+and calls `func_8003FEE0` sitting at words 233 to 247 in the candidate and at
+words 360 to 372 in the target: the same code in two different places, which is
+block placement rather than allocation. Writing it as `goto sel_ret` with the
+block itself after the last statement of the function moves it, and takes the
+longest common mnemonic subsequence from 341 to 351, the differing positions
+from 309 to 294 and the instruction count from 384 to 383 against a target of
+382. That is the first movement on this function in several runs, and it came
+from aligning the streams rather than from another spelling.
+
+The residual is now `{beqz +1, bnez -1, addu -1, move +2}`. The two surplus
+`move`s are the `? 12 : 9` argument staged through a callee-saved register
+instead of being written straight into `a0`: the target emits `li a0,9` and
+`li a0,12` into the argument register on the two arms of a branch, and this
+candidate computes the value into `s3` and copies it. Nine cells covering the
+product of ternary, if-else and a named intermediate at both call sites are
+byte-identical, so the spelling of the conditional is not the lever; GCC
+canonicalises all three forms before the choice is made.
+
 `D_8016D400`, `D_8016D401` and `D_8016D402` are three separate symbols, not one
 grouped object, and that is settled rather than assumed. The target addresses
 0x8016D401 and 0x8016D402 through `a0` with the displacements -11263 and -11262,
@@ -735,10 +756,7 @@ void func_8016913C(void)
 
 select:
     if ((D_8009B394[0] & 0xC0) == 0) {
-        if ((D_8009B394[0] & 0x20) != 0) {
-            func_8003FEE0(NameEntry_AdjustLength(-1, 6) != 0 ? 12 : 9);
-        }
-        return;
+        goto sel_ret;
     }
     kind = 0;
     second = kind;
@@ -805,6 +823,11 @@ join:
         *(s16 *)(obj + 0x46) = 204;
         *(s16 *)(obj + 0x44) = D_8016D42C * 16 + 112;
         obj[0x6C] = 6;
+    }
+    return;
+sel_ret:
+    if ((D_8009B394[0] & 0x20) != 0) {
+        func_8003FEE0(NameEntry_AdjustLength(-1, 6) != 0 ? 12 : 9);
     }
     return;
 }
