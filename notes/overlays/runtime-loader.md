@@ -221,11 +221,13 @@ of these values as generated merge boundaries.
 
 ## Seven 235-sector WA records
 
-`func_8001798C` and `func_800179F4` calculate:
+Matching `func_8001798C` now expresses the request with the shared source
+constants:
 
 ```text
-record sector = 5830 + selected_index * 235
-record count  = 235 sectors
+record sector = DUEL_TERRAIN_PACKAGE_FIRST_SECTOR (0x16C6)
+              + gDuel_bTerrain * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT (0xEB)
+record count  = DUEL_TERRAIN_PACKAGE_SECTOR_COUNT (0xEB)
 callback      = Duel_LoadPackageStage
 ```
 
@@ -235,8 +237,9 @@ The following independently indexed family begins at sector 7475:
 7475 - 5830 = 1645 = 7 * 235
 ```
 
-This proves seven physical records, although the semantic identity of indices
-zero through six is not yet known.
+This proves seven physical records. The accepted terrain domain identifies
+indices zero through six as Normal, Forest, Wasteland, Mountain, Meadow, Sea,
+and Dark; the disc-side comparison below independently confirms that mapping.
 
 The 13 callback phases are:
 
@@ -257,6 +260,19 @@ The 13 callback phases are:
 | 12 | `203-235` | 32 | `0x10000` | GPU/VRAM path |
 
 The counts sum to 235 exactly.
+
+`func_80024E58` uses the second named range when a terrain effect reloads its
+data:
+
+```text
+effect sector = DUEL_TERRAIN_EFFECT_DATA_FIRST_SECTOR (0x1791)
+              + gDuel_bTerrain * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT (0xEB)
+effect count  = DUEL_TERRAIN_EFFECT_DATA_SECTOR_COUNT (0x10)
+```
+
+`0x1791 - 0x16C6 = 0xCB`, so this request begins at relative sector 203,
+exactly where phase 12 starts. Its 16 sectors (`0x8000` bytes) are the first
+half of that final 32-sector (`0x10000`-byte) phase.
 
 ### WA at `0x80146000`
 
@@ -357,15 +373,13 @@ The disc was not modified or rebuilt.
 
 High-confidence results include the file indices, corrected LBA-table address,
 descriptor sizes, sector units, WA boundaries from sectors 5776 through 8661,
-the seven-record phase layout, archive-to-slot attribution, and code at exact
-resident call targets.
+the seven-record phase layout and terrain identity, the two Egypt overworld
+variants, archive-to-slot attribution, and code at exact resident call targets.
 
 The following remain provisional:
 
 - Whether the leading words are formally named module IDs.
 - The original source/header name for the WA destination table.
-- The semantic identities of the seven 235-sector records and two 158-sector
-  variants.
 - Original unrounded inner-file sizes.
 - Full MODEL and SU merged-file manifests.
 - Reads that might be issued by dynamically loaded code rather than resident
