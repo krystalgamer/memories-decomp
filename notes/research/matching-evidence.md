@@ -3934,3 +3934,179 @@ rule falsifiable against a target: if the target has the load-fed store
 anywhere other than last, no permutation, pin, aliasing shape, or profile will
 reach it, and the disagreement is in the value model rather than in the
 ordering. That is the state `func_80045334` is now in.
+
+## 2026-09-07: `func_80060E70` bounded candidate cycle
+
+Refreshed master to `25b2e728` and checked open PRs before selecting this stored
+candidate; only #2061 was open and did not own this function. At the end of
+cycle 1, work remained local on `copilot-fixer/func-80060e70-cycle1`; no
+publication or manifest changes had been made.
+
+The stored baseline reproduced 102/102 instructions, encoding-based opcode
+distance 0, and four differing words, both relocation-masked and fully resolved:
+`+0x68`, `+0x6C`, `+0x74`, `+0x78`. Its positional opcode count is 3, correcting
+the previous heading's 2. Resolving the object with tracked symbol addresses
+confirms that no additional relocation-only mismatch was hidden.
+
+All four variants used the same named
+`gcc_2_8_1_g8_split_no_strength_reduce` / MASPSX 2.81 profile:
+
+| Variant | Instructions | Opcode distance | Resolved differing positions |
+| --- | --- | --- | --- |
+| Baseline | 102/102 | 0 | 4 |
+| Output pointer pinned to `$30`, target-order setup | 102/102 | 0 | 13 |
+| Also pin inner stats pointer to `$8` | 99/102 | 3 | 89 |
+| Remove output-pointer pin; retain stats pin | 101/102 | 1 | 65 |
+| Also pin explicit byte offset to `$2` | 102/102 | 0 | 3 |
+
+Counts include missing trailing instructions. Each source, SHA-256, object,
+compiler/MASPSX assembly, relocation listing, resolved binary, full diff and
+measurement JSON is preserved under
+`tmp/copilot-fixer/attempts/func-80060e70-cycle1/`; `baseline-note.md` preserves
+the original entry. The scratch harness uses the existing `compile_c` pipeline
+and `overlay_diff` comparison primitives, then links only the candidate with
+retail-address symbol definitions to resolve its relocations. This comparison
+is diagnostic, not the canonical full-executable gate.
+
+**Pinning the long-lived output pointer is unsafe here.** The first variant
+gets the preheader right, but the loop hoist then assigns the stats base to
+the same `$fp`, overwriting the output base before `sw ...,4($fp)`. The second
+stops that hoist but loses `$fp`'s save/restore and folds the index subtraction
+into `lw ...,-4(...)`. Neither is a usable candidate.
+
+**Leave the long-lived output pointer to the allocator and constrain only the
+inner arithmetic.** The third variant restores the target's saved `$fp` and
+the entire preheader, but still folds the subtract into the load displacement.
+An explicit `$2` byte-offset lifetime restores the subtract/shift sequence and
+the zero-displacement load. The fourth variant is the newly stored best source.
+All twelve relocation entries now occur at the target positions and resolve
+without additional differences.
+
+Only three adjacent words remain, beginning in the `beqz` delay slot:
+
+```
+target   move v1,a1 / addiu v0,v1,-1 / sll v0,v0,2
+build    addiu v0,a1,-1 / sll v0,v0,2 / move v1,a1
+```
+
+The next discriminator is whether an explicit short-lived ID lifetime in the
+target's `$3` forces the copy before the offset computation, without changing
+allocation elsewhere. This was not tried: the cycle stopped at four material
+variants. Keep the promising resident candidate active for that bounded
+follow-up. At the end of cycle 1 it remained `unmatched_asm`; no canonical
+acceptance was claimed.
+
+### Cycle 2: exact source and canonical acceptance
+
+The improved stored source reproduced its three-word residual before further
+work. The first and only material variant replaced `s32 id` with
+`register s32 id asm("$3")`. This makes the ID copy precede the subtract/shift
+and occupy the retail `beqz` delay slot: **102/102 instructions, opcode distance
+0, and zero differences after all relocations are resolved** under the same
+`gcc_2_8_1_g8_split_no_strength_reduce` profile. No other source or flag changes
+were needed. The short-lived ID, stats pointer and byte-offset pins are ordinary
+register declarations; there is no statement-level inline assembly.
+
+Recorded the post-terminal resolution with `record_external_attempt.py`, then
+used `integrate_verified_match.py --evidence-source post-terminal
+--allow-register-pins` to integrate `src/game/func_80060E70.c`.
+The only integration adjustment is the relative include of `src/types.h`.
+`func_80039A14` and `TextBox_Create` were checked against the current inventory
+and need no callee renames. The promoted candidate entry was removed as required
+by the candidate-store check; its prior forms remain preserved in the cycle
+scratch directories.
+
+**The first canonical build exposed a local compiler failure.** The unmodified
+sequence `MAKEFLAGS=-j2 make clean` followed by `MAKEFLAGS=-j2 make match`
+initially exited 2 before linking. The native source-built GCC 2.8.1 crashed
+while compiling the already configured `src/game/mdec_sync.c` with its existing
+`gcc_2_8_1_g8` profile:
+
+```
+mips-sony-psx-gcc: Internal compiler error: program cc1 got fatal signal 11
+```
+
+The same source/profile reproduced the failure through `compile_c` in isolation.
+Both existing named no-strength-reduction alternatives also crashed before
+producing assembly. Neither `mdec_sync` manifest entry was removed, no source
+was switched to assembly fallback, and no flags, profiles or retail inputs
+were changed.
+
+The missing prebuilt compiler used by both CI workflows was installed with
+`MAKEFLAGS=-j2 make compiler-281-prebuilt`, using the already cached archive
+whose SHA-256 matches `tools/bootstrap/old_gcc_prebuilt.json`. The native
+compiler was preserved under ignored `tmp/` for rollback. The unchanged MDEC
+source then compiled with its original profile. This was a local tool
+distribution change, not a source or build-policy workaround.
+
+**The canonical clean gate then passed with the integrated candidate.**
+`MAKEFLAGS=-j2 make clean` followed by `MAKEFLAGS=-j2 make match` reproduced the
+complete untouched retail executable with SHA-256
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
+Every preexisting matching C entry remained enabled, including both functions
+in `mdec_sync.c`.
+
+Cycle 2 evidence is under
+`tmp/copilot-fixer/attempts/func-80060e70-cycle2/`: `baseline.json`,
+`v1-pinned-id.json`, the corresponding exact sources, objects, relocation
+listings and resolved diffs, `record-attempt.log`, `integrate.log`, `clean.log`,
+`canonical-match.log`, and `blocker-reproduction.log`. The successful recovery
+and acceptance are recorded in `install-ci-compiler.log`,
+`ci-compiler-mdec.log`, `ci-canonical-clean.log`, and `ci-canonical-match.log`.
+Further candidate variants are unnecessary.
+
+### Preserved upstream preheader investigation (#2078)
+
+The following findings were added to the older, unpinned stored candidate
+while its promotion was under review. They concern that source spelling, not
+the final pin-based match above; its deletion must not discard these negatives.
+
+Re-measured with relocations resolved: four differing positions, all in the
+loop preheader, and the whole body is exact. The preheader holds the same five
+instructions in both builds, in reversed group order:
+
+```
+built    addiu $s1,$s3,2   move $s5,$s2   move $s0,$s4   lui/addiu $s8
+target   lui/addiu $s8     move $s0,$s4   move $s5,$s2   addiu $s1,$s3,2
+```
+
+Two separate things are going on and they were previously conflated.
+
+**The order of the three initialisations is source order.** Writing them as
+`w = s; y = 0; q = e + 1;` reproduces the target's `move $s0` / `move $s5` /
+`addiu $s1` exactly. That alone takes the residual from four positions to a
+three-instruction shift.
+
+**The address hoist is placed by loop-invariant motion, which appends.** It
+inserts before `loop_start`, so it lands after anything the source already put
+in the preheader, and no source order can put it first. It is also invariant to
+both schedulers: `-fno-schedule-insns`, `-fno-schedule-insns2`, and both
+together leave the preheader untouched, so this is not a scheduling question
+for that candidate.
+
+**What separates the two groups is biv versus giv.** Compiling the same source
+with strength reduction enabled moves exactly one initialisation - `w`, which
+becomes the derived `$s4 + 10` - to *after* the hoist, and leaves `y` and `q`
+before it. So plain induction variables keep their source position in the
+preheader, and derived ones are initialised after the invariants in this
+experiment. The target has all three after the hoist, suggesting that all three
+may have been derived in the original translation unit. That is a hypothesis
+about the original source, not a conclusion proved by instruction order alone.
+
+Rewriting the loop index-based so all three become derived does reproduce the
+`[hoist][inits]` order - confirmed in the preheader of that build - but costs
+far more than it saves, because the same rewrite makes GCC fold the `+10` into
+the base (`addiu $s0,$s4,10` with `sh $v0,0($s0)`, against the target's
+`move $s0,$s4` with `sh $v0,10($s0)`) and re-derives the `e` accesses. Reported
+scores were 62 to 63 across the split profiles, against 4 for the
+pointer-increment spelling. Pinning the four derived variables to the target's
+registers made the score 101.
+
+Also crossed without improving on four: an explicit `s32 *t = D_801D5608` in
+place of the array spelling, with and without a pin to `$30`, and with
+`gDuel_adwCardStats` made `volatile` or pushed to `.data` to stop it being
+hoisted instead. Reported scores were between 53 and 67. The array spelling
+is required for a second reason worth recording: the target materialises
+`D_801D5608[0]` inline as `lui` plus `sw ...,%lo(sym)(reg)` and reaches `[1]`
+through the hoisted pointer at `+4`. A pointer variable makes both go through
+the pointer and loses the inline form.
