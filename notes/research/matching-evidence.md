@@ -4300,3 +4300,45 @@ locals of this function - `from` in the copy loop, `index` for the OT
 subscript - costs 47 and 7 positions respectively, because those locals do
 carry a distinct live range. Only the local that merely shadows a parameter for
 its whole lifetime is safe to remove.
+
+## `func_80045C98`: naming an anonymous temporary, and reusing one variable
+
+The stored candidate sat at seven differing positions, all of them register
+names on an otherwise exact instruction stream. It reached zero in two steps,
+and both are reusable.
+
+**Step one: give an anonymous temporary a name so it can be pinned.** Retail
+computes each `mult` product straight into `$v0` (`mult v1,v0` / `mflo v0` /
+`andi v0,v0,0xffff`); the candidate returned it through `$a2` and then moved it.
+The product lived inside a conditional expression,
+`x = m ? (u16)(m * (SD->field_1580 + 1)) >> 8 : 0`, so there was nothing to
+constrain. Rewriting the conditional as a statement `if`/`else` is **neutral by
+itself** - not one instruction changes - but it creates a scope in which the
+product can be declared. Naming it there and pinning it,
+`register u16 p1 asm("$2") = (u16)(m * (SD->field_1580 + 1));`, removed four
+positions. `$3` costs 8 more and `$6` 59 more, so the register is the content of
+the lever, not the naming.
+
+**Step two: one variable for both stages, not two.** The remaining three were a
+single value, `(u16)x`, held in `$v1` by the candidate and `$a0` by retail;
+`$v1` had just been freed by `m` and GCC reused it. Pinning `x` to `$4` costs 67
+because GCC 2.8.1 reserves a `register asm` variable for the whole function
+regardless of the scope it is declared in - closing its scope before the
+intervening call does not help, which is worth knowing. What works is removing
+the second variable: the two fade stages chain, the output of the first being
+the input of the second, so one `u16 v` carrying both, with `y = v` afterwards
+for the call, allocates the way retail does. **169 of 169, zero differences.**
+
+**The general shape.** Two variables joined only by `b = f(a)` are a *choice*,
+and the choice is visible in the allocation. When consecutive stages of a
+computation are spelt as separate locals and the residual is that one of them
+sits in a freshly-vacated register where retail takes a fresh one, try one
+variable for the chain. Reverting either step alone confirms both are
+load-bearing: without the pins the single-variable form is four off, and with
+the pins but ternaries instead of statement `if`s it is 59 off.
+
+**This function is also the worked example of triaging by residual type.** Its
+seven positions were all register names at identical positions - an *allocation*
+disagreement, which register constraints reach. That is why it was chosen ahead
+of `func_80023144`, `func_80012E5C` and `func_8002FD10`, whose residuals are
+instructions in different *positions*, which they do not.
