@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/rand.h"
+#include "input.h"
 
 typedef struct {
     u8 unk0[0x28];
@@ -59,9 +60,9 @@ void func_80031084(void) {
     for (; i < 0x16; i++) {
         FntPrint(D_8009AF54);
     }
-    if ((gInput_wPad1Repeat & 0xF000) != 0) {
-        if ((gInput_wPad1Repeat & 0xA000) != 0) {
-            if ((gInput_wPad1Repeat & 0x2000) != 0) {
+    if ((gInput_wPad1Repeat & PAD_DIRECTION_MASK) != 0) {
+        if ((gInput_wPad1Repeat & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+            if ((gInput_wPad1Repeat & PAD_DIRECTION_RIGHT) != 0) {
                 if (D_8009B2F1 + 0xA < 0x14) {
                     D_8009B2F1 = D_8009B2F1 + 0xA;
                 }
@@ -71,7 +72,7 @@ void func_80031084(void) {
                 }
             }
         }
-        if ((gInput_wPad1Repeat & 0x1000) != 0) {
+        if ((gInput_wPad1Repeat & PAD_DIRECTION_UP) != 0) {
             t = (u8)D_8009B2F1;
             if (D_8009B2F1 >= 0xA) {
                 d = t - 1;
@@ -87,7 +88,7 @@ void func_80031084(void) {
                 }
             }
         }
-        if ((gInput_wPad1Repeat & 0x4000) != 0) {
+        if ((gInput_wPad1Repeat & PAD_DIRECTION_DOWN) != 0) {
             t = (u8)D_8009B2F1;
             if (D_8009B2F1 >= 0xA) {
                 d = t + 1;
@@ -105,7 +106,7 @@ void func_80031084(void) {
         }
         func_800300C8();
     }
-    if ((gInput_wPad1Pressed & 0x20) != 0) {
+    if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
         k = 0x13;
         if (D_8009B2F1 != k) {
             D_8009B2F1 = k;
@@ -115,7 +116,7 @@ void func_80031084(void) {
         D_8009B2EB = 0x14;
         return;
     }
-    if ((gInput_wPad1Pressed & 0x100) != 0) {
+    if ((gInput_wPad1Pressed & PAD_BUTTON_SELECT) != 0) {
         one = 1;
         func_8003B6AC(one, one);
         D_8009B2F0 = D_8009B2F0 ^ one;
@@ -126,7 +127,7 @@ void func_80031084(void) {
         func_80039A14(b + 0x64);
         return;
     }
-    if ((gInput_wPad1Pressed & 0xC0) != 0) {
+    if ((gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) != 0) {
         D_8009B2EB = D_8009B2F1 + 1;
     }
 }

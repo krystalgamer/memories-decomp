@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_layout.h"
+#include "input.h"
 
 extern u8 D_8009B152;
 extern u8 *D_8009B188;
@@ -63,19 +64,20 @@ s32 func_80020988(void) {
         return 0;
     }
 
-    if ((gInput_wPad1Repeat & 0xA000) != 0) {
+    if ((gInput_wPad1Repeat & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
         *(s16 *)(q + 0x60) = 0x10;
-        if ((gInput_wPad1Repeat & 0x2000) != 0) {
+        if ((gInput_wPad1Repeat & PAD_DIRECTION_RIGHT) != 0) {
             *(s16 *)(q + 0x60) = -0x10;
         }
         D_8009B152 = D_8009B152 | 0x40;
         return 0;
     }
 
-    if ((gInput_wPad1Pressed & 0xE0) != 0) {
+    if ((gInput_wPad1Pressed &
+         (PAD_BUTTON_CONFIRM_MASK | PAD_BUTTON_CANCEL)) != 0) {
         func_8004036C((s32)D_8009B188);
         func_8004036C((s32)D_8009B18C);
-        if ((gInput_wPad1Pressed & 0x20) != 0) {
+        if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
             return -1;
         }
         if (q[0x21] == 0) {

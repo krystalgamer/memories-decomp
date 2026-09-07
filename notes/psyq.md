@@ -951,6 +951,13 @@ while `INPUT_PENDING_HIGH_BIT` is the unsigned top bit of the combined word.
 The decoder's byte order, pending-word accumulation, and low-half/high-half
 volatile publication order remain unchanged.
 
+The game-side consumers `func_80020988` and `func_80031084` use the named
+direction and button masks in `input.h` without merging their repeat and
+newly-pressed reads. The former accepts the confirm/cancel union but tests
+Cancel first when choosing its return value. The latter retains its separate
+direction updates and Cancel, Select, then Confirm precedence. Repeated
+volatile reads remain repeated; these names do not cache a controller sample.
+
 Only these four packet bytes currently have matching-C consumers. The
 remaining `0x1E` bytes in each service-owned record should stay as an opaque
 receive buffer until a resident caller establishes an extended controller
