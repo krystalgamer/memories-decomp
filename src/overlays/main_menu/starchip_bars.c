@@ -1,37 +1,7 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
 #include "../../game/card_constants.h"
-
-typedef struct {
-    u8 t0, t1, t2, len;
-    u8 r0, g0, b0, code;
-    s16 x0, y0;
-    u8 r1, g1, b1, p1;
-    s16 x1, y1;
-    u8 r2, g2, b2, p2;
-    s16 x2, y2;
-    u8 r3, g3, b3, p3;
-    s16 x3, y3;
-} POLY_G4;
-
-typedef struct {
-    u8 t0, t1, t2, len;
-    u8 r0, g0, b0, code;
-    s16 x0, y0;
-    u8 u0, v0;
-    u16 clut;
-    u8 r1, g1, b1, p1;
-    s16 x1, y1;
-    u8 u1, v1;
-    u16 tpage;
-    u8 r2, g2, b2, p2;
-    s16 x2, y2;
-    u8 u2, v2;
-    u16 pad2;
-    u8 r3, g3, b3, p3;
-    s16 x3, y3;
-    u8 u3, v3;
-    u16 pad3;
-} POLY_GT4;
 
 typedef struct {
     u8 pad0[8];
@@ -111,7 +81,7 @@ void func_80181728(void)
         D_801845B0[1]->f32 = D_801845B0[2]->f32;
     }
 
-    bar.len = 8;
+    setlen(&bar, 8);
     bar.code = 56;
     bar.r0 = 64;
     bar.g0 = 32;
@@ -157,7 +127,7 @@ void func_80181728(void)
     bar.x3 = bar.x1;
     func_80084320(&bar, D_800E9D90[2], 2048);
 
-    digit.len = 12;
+    setlen(&digit, 12);
     digit.code = 60;
     digit.tpage = 11;
     digit.clut = 16041;
