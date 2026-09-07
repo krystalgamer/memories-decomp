@@ -501,7 +501,7 @@ address,size,name,status,module,notes
 0x80038DB8,0x64,func_80038DB8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80038E1C,0x60,func_80038E1C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80038E7C,0x34,func_80038E7C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80038EB0,0x290,func_80038EB0,unmatched_asm,game,
+0x80038EB0,0x290,func_80038EB0,matching_c,game,"Struct-typed object, byte reads through temps copied after the pointer stores, base-first record lookup, if/else stores"
 0x80039140,0xA4,func_80039140,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800391E4,0x1CC,func_800391E4,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800393B0,0x3E4,func_800393B0,unmatched_asm,game,
