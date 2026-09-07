@@ -4489,6 +4489,12 @@
       "source": "src/game/sound_secondary_object_selection.c"
     },
     {
+      "address": "0x8004A940",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x1BC",
+      "source": "src/game/func_8004A940.c"
+    },
+    {
       "address": "0x8004AAFC",
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0x1E8",
