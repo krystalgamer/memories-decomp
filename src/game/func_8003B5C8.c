@@ -1,16 +1,18 @@
 #include "../types.h"
+#include "text_constants.h"
 
 typedef struct {
-    u8 b[20];
+    u8 b[2 * TEXT_DECIMAL_RADIX];
 } Blob;
 
 extern Blob D_80010330;
 extern u16 D_800EAFF8[];
 extern const u32 D_801D9004[];
 
-/* Copies a 20-byte table out of D_80010330 into a local buffer and walks it as
-   ten big-endian u16 keys. Each key is looked up in the 4-byte-stride table at
-   D_801D9004 (key in the low halfword, a zero word terminating) and the 1-based
+/* Copies the ten two-byte Shift-JIS digit keys from D_80010330 into a local
+   buffer and walks them as big-endian u16 keys. Each key is looked up in the
+   4-byte-stride table at D_801D9004 (key in the low halfword, a zero word
+   terminating) and the 1-based
    match index is written to D_800EAFF8. The lookup is skipped entirely when the
    table is empty.
 
@@ -32,7 +34,7 @@ void func_8003B5C8(void) {
     out = D_800EAFF8;
     i = 1;
     p = (s32)buf.b;
-    end = (s32)buf.b + 20;
+    end = (s32)buf.b + 2 * TEXT_DECIMAL_RADIX;
     buf = D_80010330;
 
     do {

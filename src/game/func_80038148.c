@@ -43,7 +43,7 @@ void func_80038148(u8 *p)
     bp = buf;
     k = c - 1;
     while (1) {
-        if (bp[k] < 10) {
+        if (bp[k] < TEXT_DECIMAL_RADIX) {
             break;
         }
         c = k;
@@ -60,7 +60,7 @@ write:
     i = (c & 0xF) - 1;
     do {
         w = h;
-        if (buf[i] < 10) {
+        if (buf[i] < TEXT_DECIMAL_RADIX) {
             w = *(u16 *)&D_800EAFF8[buf[i]];
         }
         if (w >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {

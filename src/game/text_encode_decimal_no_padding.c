@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_constants.h"
 
 extern void Text_EncodeDecimalDigits(s32, s32, u8 *);
 
@@ -20,7 +21,7 @@ scan:
     position = data + count;
     current = *position;
     count--;
-    if (current < 10) {
+    if (current < TEXT_DECIMAL_RADIX) {
         goto scan;
     }
     count++;

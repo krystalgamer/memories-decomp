@@ -386,6 +386,23 @@ of every resident glyph in that range.
 - **Confirmed** that the file omits the 14 resident symbols listed above.
 - **Confirmed** that `0xFE` is newline and `0xFF` terminates the string.
 
+### Decimal digit lookup
+
+The 20 bytes at `D_80010330` (SLUS offset `0xB30`) contain ten big-endian
+Shift-JIS keys, `0x824F` through `0x8258`, for the full-width digits `0`-`9`.
+Matching `func_8003B5C8` copies this table as a byte array and looks up each
+key in `D_801D9004` to populate the digit-glyph table at `D_800EAFF8`.
+The byte-array layout is retained because it controls the unaligned block
+copy; naming the extent does not change it into a halfword array.
+
+`TEXT_DECIMAL_RADIX` (`10`) names both the alphabet size and the division
+base in `Text_EncodeDecimalDigits`. `TEXT_DECIMAL_BLANK_DIGIT` (`0xA`)
+marks unused most-significant positions in the intermediate digit buffer.
+For positions above index zero, `Text_EncodeDecimalNoPadding` clears every
+value at or above the radix, not only bytes equal to that marker. The numeric
+formatter at `func_80038148` also checks the radix boundary before indexing
+the digit-glyph table.
+
 ## Main-menu palette region
 
 **Tutorial:** `Editar Menus.txt`
