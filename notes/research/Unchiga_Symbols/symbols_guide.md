@@ -173,6 +173,12 @@ the save block before the screen exits. The not-ready dialog's EXIT route can
 also commit an incomplete deck, and every duel entrance re-checks the
 committed deck.
 
+On its copy path, matching `func_800339D0` transfers `CARD_COUNT` (`722`)
+trunk bytes after the `DECK_SIZE` (`40`) halfword deck IDs, at byte offset
+`DECK_SIZE * sizeof(u16)` (`0x50`). It rebuilds all 40 deck slots from the
+working entries, writing zero for inactive entries. Its dialog's separate
+`0x28` coordinate is not a deck count.
+
 | symbol | address | description |
 |---|---|---|
 | `Main_RunBuildDeckMenu` | 0x8002D370 | The deck-building screen's mode tick. |

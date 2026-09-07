@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 extern u8 D_8009B2F8;
 /* Retail addresses these three with %hi/%lo under -G8, so they live outside
@@ -26,10 +27,11 @@ extern void func_80032370(void);
  * With bit 14 set the effect channel at D_800EB0F8 is polled: once its flags
  * read 0x2000 under the 0x2008 mask the box is destroyed and either bit 14
  * is cleared (narrow mode with a choice made) or the state word is reloaded
- * from +0x6340 and func_80015BD8(0xFF, 2) runs. Without bit 14 the 0x2D2
- * bytes at +0x5D98 are copied to +0x50 of the object at +0, the forty
- * halfwords there are rebuilt from the 0x10-byte entries at +0x2D54 whose
- * byte 9 is set, func_80032370 runs and the state word is cleared. */
+ * from +0x6340 and func_80015BD8(0xFF, 2) runs. Without bit 14 the CARD_COUNT
+ * trunk bytes at +0x5D98 are copied after the DECK_SIZE halfwords of the
+ * object at +0. Those halfwords are rebuilt from the 0x10-byte entries at
+ * +0x2D54 whose byte 9 is set, func_80032370 runs and the state word is
+ * cleared. */
 void func_800339D0(u8 *state)
 {
     u8 *box;
@@ -82,14 +84,14 @@ void func_800339D0(u8 *state)
            time; that is what ranks the counter and the pointers into
            retail's argument registers. */
         i = 0;
-        dst = *(u8 **)state + 0x50;
-        for (; i < 0x2D2; i++) {
+        dst = *(u8 **)state + DECK_SIZE * sizeof(u16);
+        for (; i < CARD_COUNT; i++) {
             *dst++ = *src++;
         }
         slot = *(u16 **)state;
         i = 0;
         entry = state + 0x2D54;
-        for (; i < 0x28; i++) {
+        for (; i < DECK_SIZE; i++) {
             *slot = 0;
             if (entry[9] != 0) {
                 *slot = *(u16 *)entry;
