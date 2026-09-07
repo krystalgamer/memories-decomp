@@ -6,6 +6,7 @@
 
 # Generated stored-candidate index; run `make candidate-index`
 /notes/candidates/README.md
+/notes/overlays/candidates/README.md
 
 # Locally installed or downloaded tool dependencies
 /tools/downloads/

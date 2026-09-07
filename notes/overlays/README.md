@@ -931,7 +931,7 @@ inventory row. That has happened at least six times, three of them on
 `func_80168CDC`, and it costs several minutes and can drift from the state the
 row describes.
 
-`notes/overlays/candidates.md` is the durable copy. Put a candidate there once
+`notes/overlays/candidates/` is the durable copy, one file per function. Put a candidate there once
 it is close enough that the next run would otherwise rebuild it, store the
 exact source rather than a tidied version, and re-verify it with
 `overlay_diff.py` before trusting it. The inventory row still holds the

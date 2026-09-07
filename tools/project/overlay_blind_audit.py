@@ -48,12 +48,15 @@ def strip_regs(word: int) -> int:
 
 
 def candidates(root: Path):
-    text = (root / "notes/overlays/candidates.md").read_text(encoding="utf-8")
-    for match in HEADING.finditer(text):
-        rest = text[match.end():]
-        start = rest.index("```c") + 5
-        end = rest.index("```", start)
-        yield match.group(1), match.group(2), int(match.group(3), 16), rest[start:end]
+    store = root / "notes/overlays/candidates"
+    for path in sorted(store.glob("func_*.md")):
+        text = path.read_text(encoding="utf-8")
+        for match in HEADING.finditer(text):
+            rest = text[match.end():]
+            start = rest.index("```c") + 5
+            end = rest.index("```", start)
+            yield (match.group(1), match.group(2),
+                   int(match.group(3), 16), rest[start:end])
 
 
 def main() -> int:
@@ -63,7 +66,15 @@ def main() -> int:
     for group, name, address, source in candidates(root):
         module = MODULES[group][0]
         path = scratch / f"{name}.c"
-        path.write_text(source, encoding="utf-8")
+        # The store keeps the include an integrated source uses, which resolves
+        # from src/overlays/<module>/. This scratch directory is somewhere else,
+        # so rewrite it on the way out rather than storing a path that would
+        # break the moment a candidate is promoted.
+        path.write_text(
+            source.replace('#include "../../types.h"',
+                           '#include "../../src/types.h"'),
+            encoding="utf-8",
+        )
         size = int(inventory_entry(root, module, address)["size"], 16)
         target = target_words(root, load_module(root, module), address, size)
         try:

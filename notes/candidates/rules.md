@@ -1,7 +1,7 @@
 # Resident near-miss candidates
 
 Candidate sources for unmatched resident functions live in `tmp/`, which is not
-tracked, so they are lost when a session ends. `notes/overlays/candidates.md`
+tracked, so they are lost when a session ends. `notes/overlays/candidates/`
 already solves this for the overlays and records that the same near miss had
 been rebuilt at least six times before it existed. The resident side had no
 equivalent, so the same loss was happening here: a candidate would reach a
