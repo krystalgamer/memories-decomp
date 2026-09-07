@@ -14,7 +14,7 @@ Konami type or field naming.
 
 | Offset | Field | Evidence |
 |---|---|---|
-| `0x0040` | `flags_0040` | Multiple control and cleanup routines set/test driver status bits. |
+| `0x0040` | `flags_0040` | `Sound_InitFrontend` sets startup bits `0x0A` and polls bit `0x08` until it clears; other control and cleanup routines use the remaining status bits. |
 | `0x0042` | `mix_scale` | CD mix calculation uses it as a 16-bit scale. |
 | `0x0048` | `output_type` | `SD_SetOutputType`; live stereo/mono traces establish values 0 and 1. |
 | `0x004A` | `flags_004A` | Initialization and command processing use independent bits. |
@@ -39,6 +39,16 @@ Konami type or field naming.
 
 The remaining named `field_XXXX` members have verified offsets and widths but
 insufficient semantic evidence for stronger names.
+
+`Sound_InitFrontend` is the game-facing bridge into this lower-level state. It
+sets `gSD_bOutputType` to the unresolved sentinel `-1`, then passes
+`gFile_anLba[4]`, `[5]`, and `[6]` to `func_80046990`. The runtime file table
+identifies those positions as `SD_SE.DAT`, `SD_BGM.DAT`, and `MASTER.XA`.
+`func_80046990` clears `field_003C`, clears bits `0x01`, `0x02`, or `0x40` in
+`flags_004A` when the corresponding file position is zero, and sets
+`flags_0040 |= 0x0A`. The frontend then calls `func_80012D4C` while
+`func_8004703C` continues to expose bit `0x08`, making that bit the
+game-facing startup-busy condition.
 
 Matching `func_80047788` and its adjacent callers establish the link-table
 lifecycle. `func_8004763C` resets `field_0442` to `0xFFFF` and initializes
