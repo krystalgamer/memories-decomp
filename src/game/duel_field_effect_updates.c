@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
@@ -105,7 +106,7 @@ void func_800257A0(void) {
         }
         D_8009B220 = f | 0x20;
         e = func_8002C68C(0x11);
-        if (D_8009B1D2 == 0x149) {
+        if (D_8009B1D2 == DUEL_DRAGON_CAPTURE_JAR_CARD_ID) {
             g = D_8009B220;
             *(s16 *)(e + 0x1A) = 1;
             D_8009B220 = g | 0x40;

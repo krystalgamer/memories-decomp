@@ -104,7 +104,7 @@ void func_8002525C(void) {
 
     unit = D_8009B1D2 - DUEL_DIRECT_DAMAGE_FIRST_CARD_ID;
     if (func_80024E24() == 0) {
-        if (func_80025028(0x2AF) != 0) {
+        if (func_80025028(DUEL_GOBLIN_FAN_CARD_ID) != 0) {
             unit = DUEL_LIFE_POINT_EFFECT_COUNT;
         }
         obj = func_8002C68C(6);
