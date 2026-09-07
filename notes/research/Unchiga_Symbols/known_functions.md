@@ -120,6 +120,7 @@ Names that say what something IS in the game.
 | 0x8003D03C | `SaveData_BuildPayload` | matching C |
 | 0x8003D0F4 | `SaveData_ApplyRuntimeState` | matching C |
 | 0x8003D174 | `SaveData_ValidateIntegrity` | matching C |
+| 0x8003D2B8 | `SaveData_MatchesDuelistAndCurrentSequence` | matching C |
 | 0x8003D46C | `DuelEffect_CreateChannel` | matching C |
 | 0x8003F7D4 | `SaveData_RequestLoad` | matching C |
 | 0x8003F810 | `SaveData_PollLoad` | matching C |
