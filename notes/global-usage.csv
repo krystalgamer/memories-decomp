@@ -80,7 +80,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800107F4,D_800107F4,D_800107F4,0x80046A08,func_80046A08,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_037208.s,address,,"addiu $a0, $a0, %lo(D_800107F4) | lui $a0, %hi(D_800107F4)"
 0x80010834,D_80010834,D_80010834,0x80049FB4,func_80049FB4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03a7b4.s,address,,"addiu $a1, $a1, %lo(D_80010834) | addiu $a3, $a3, %lo(D_80010834) | (+2 more)"
 0x80011434,D_80011434,D_80011434,0x80049920,func_80049920,matching_c,game,C,src/game/func_80049920.c,address,32,tbl = D_80011434;
-0x80011434,D_80011434,D_80011434,0x8004A27C,func_8004A27C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03a7b4.s,address,,"addiu $v0, $v0, %lo(D_80011434) | lui $v0, %hi(D_80011434)"
+0x80011434,D_80011434,D_80011434,0x8004A27C,func_8004A27C,matching_c,game,C,src/game/func_8004A27C.c,read,32,v = D_80011434[voice];
 0x80011434,D_80011434,D_80011434,0x8004A43C,func_8004A43C,matching_c,game,C,src/game/sound_voice_setup.c,read,32,*(s32 *)(b + 0x4C0) = D_80011434[p[0]];
 0x80011434,D_80011434,D_80011434,0x8004A518,func_8004A518,matching_c,game,C,src/game/sound_voice_setup.c,address,32,tbl = D_80011434;
 0x80011434,D_80011434,D_80011434,0x8004A6F8,func_8004A6F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03aef8.s,address,,"addiu $v0, $v0, %lo(D_80011434) | lui $v0, %hi(D_80011434)"
@@ -2236,7 +2236,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x80049F10,func_80049F10,matching_c,game,C,src/game/sound_secondary_playback.c,read,,SDSecondaryState *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x80049F50,func_80049F50,matching_c,game,C,src/game/sound_secondary_playback.c,read_write,,D_8009B458->field_07E2 = value; | if (D_8009B458->field_07E2 == 1) { | (+1 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004A0FC,func_8004A0FC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03a7b4.s,read,32,"lui $v0, %hi(D_8009B458) | lui $v1, %hi(D_8009B458) | (+2 more)"
-0x8009B458,D_8009B458,D_8009B458,0x8004A27C,func_8004A27C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03a7b4.s,read,32,"lui $v1, %hi(D_8009B458) | lw $v1, %lo(D_8009B458)($v1)"
+0x8009B458,D_8009B458,D_8009B458,0x8004A27C,func_8004A27C,matching_c,game,C,src/game/func_8004A27C.c,read,8,b = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004A2F8,func_8004A2F8,matching_c,game,C,src/game/sound_spatialization.c,read,8,"current = D_8009B458; | register u8 *state asm(""$6"") = D_8009B458; | (+1 more)"
 0x8009B458,D_8009B458,D_8009B458,0x8004A43C,func_8004A43C,matching_c,game,C,src/game/sound_voice_setup.c,read,8,*(s16 *)(D_8009B458 + 0x4D4) = v; | SpuSetVoiceAttr((SpuVoiceAttr *)(D_8009B458 + 0x4C0)); | (+2 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004A518,func_8004A518,matching_c,game,C,src/game/sound_voice_setup.c,read,8,base = D_8009B458; | r1 = D_8009B458 + o1; | (+1 more)
