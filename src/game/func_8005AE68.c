@@ -34,9 +34,14 @@ s32 func_8005AE68(u16 color, s32 flags, u16 scale)
     inverted = flags & COLOR_TINT_INVERT;
     sector = flags & COLOR_TINT_HUE_MASK;
     gray = ((u8)sector == COLOR_TINT_GRAYSCALE);
-    func_8005A98C(&hsv, color & 31, (color >> 5) & 31, (color >> 10) & 31, 31);
+    func_8005A98C(
+        &hsv,
+        color & COLOR_BGR555_CHANNEL_MASK,
+        (color >> COLOR_BGR555_GREEN_SHIFT) & COLOR_BGR555_CHANNEL_MASK,
+        (color >> COLOR_BGR555_BLUE_SHIFT) & COLOR_BGR555_CHANNEL_MASK,
+        COLOR_BGR555_CHANNEL_MASK);
 
-    lim = 31;
+    lim = COLOR_BGR555_CHANNEL_MASK;
     if ((u8)sector < COLOR_TINT_KEEP_HUE) {
         hue = sector;
         if (inverted) {
@@ -51,7 +56,7 @@ s32 func_8005AE68(u16 color, s32 flags, u16 scale)
         hsv.v = (hsv.v * scale) / COLOR_FIXED_ONE;
     }
 
-    func_8005ABA0(&out, hsv.h, hsv.s, hsv.v, 31);
+    func_8005ABA0(&out, hsv.h, hsv.s, hsv.v, COLOR_BGR555_CHANNEL_MASK);
 
     if (inverted) {
         out.r = lim - out.r;
@@ -63,6 +68,8 @@ s32 func_8005AE68(u16 color, s32 flags, u16 scale)
     out.g = out.g ? out.g : 1;
     out.b = out.b ? out.b : 1;
     packed = out;
-    return (packed.r & 31) | ((packed.g & 31) << 5) | ((packed.b & 31) << 10)
-         | (color & 0x8000);
+    return (packed.r & COLOR_BGR555_CHANNEL_MASK) |
+           ((packed.g & COLOR_BGR555_CHANNEL_MASK) << COLOR_BGR555_GREEN_SHIFT) |
+           ((packed.b & COLOR_BGR555_CHANNEL_MASK) << COLOR_BGR555_BLUE_SHIFT) |
+           (color & COLOR_BGR555_STP_MASK);
 }

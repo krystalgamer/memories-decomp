@@ -89,6 +89,13 @@ is copied unchanged from the input colour to the repacked result.
 HSL triple with channel maximum `31` and packs the resulting channels into
 BGR555 bits `0-14`.
 
+`color_constants.h` names the five-bit channel width and derives the channel
+mask (`31`), green shift (`5`), blue shift (`10`), and STP mask (`0x8000`).
+Red occupies bits `0-4`, green bits `5-9`, and blue bits `10-14`. The channel
+mask is also the maximum passed to HSL conversion. Both packing paths use
+these constants, but only `func_8005AE68` copies the input STP bit; the direct
+packer has no input colour from which to preserve it.
+
 ## VRAM application
 
 Matching `func_800582C0` applies the BGR555 transform to VRAM colour bands.
