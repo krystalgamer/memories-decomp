@@ -819,7 +819,7 @@ address,size,name,status,module,notes
 0x80049F10,0x40,func_80049F10,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049F50,0x64,func_80049F50,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049FB4,0x148,func_80049FB4,unmatched_asm,game,
-0x8004A0FC,0x180,func_8004A0FC,unmatched_asm,game,
+0x8004A0FC,0x180,func_8004A0FC,unmatched_asm,game,"Sound spatialisation for one secondary object: forms a 0..0x7F pan from the transfer byte plus two object bytes plus the record's, or 0x40 when field_0815 is set, clamps it, derives a level from the transfer and record scalars through two 1/16384 steps, splits it into left and right about the 0x40 centre, and writes both scaled by field_07E4/field_07E6 and the object's 7-bit trim into field_0014 and field_0016. Candidate at 96 of 96 instructions, opcode distance 0, in notes/candidates.md."
 0x8004A27C,0x7C,func_8004A27C,unmatched_asm,game,
 0x8004A2F8,0xC4,func_8004A2F8,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004A3BC,0x80,func_8004A3BC,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.

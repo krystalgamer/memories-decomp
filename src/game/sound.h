@@ -132,9 +132,19 @@ typedef struct {
 typedef struct {
     u8 pad0000[3];
     u8 field_0003;
-    u8 pad0004[0x0B];
+    u8 pad0004[4];
+    u8 field_0008;
+    u8 field_0009;
+    u8 field_000A;
+    u8 field_000B;
+    u8 field_000C;
+    u8 pad000D;
+    u8 field_000E;
     u8 field_000F;
-    u8 pad0010[0x0E];
+    u8 pad0010[4];
+    u16 field_0014;
+    u16 field_0016;
+    u8 pad0018[6];
     u16 field_001E;
     u8 pad0020[8];
 } SDSecondaryObject;
