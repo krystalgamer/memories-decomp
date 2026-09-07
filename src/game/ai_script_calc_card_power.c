@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 extern s32 gAiScript_aMemory[];
 extern s32 gDuel_adwCardStats[];
@@ -37,20 +38,20 @@ void AiScript_CalcCardPower(void)
         power = 0;
         if (mode == 0) {
             switch (card) {
-            case 0x157:
-                power = 0x32;
+            case DUEL_DIRECT_DAMAGE_FIRST_CARD_ID:
+                power = DUEL_SPARKS_DAMAGE;
                 break;
-            case 0x158:
-                power = 0x64;
+            case DUEL_DIRECT_DAMAGE_FIRST_CARD_ID + 1:
+                power = DUEL_HINOTAMA_DAMAGE;
                 break;
-            case 0x159:
-                power = 0xC8;
+            case DUEL_DIRECT_DAMAGE_FIRST_CARD_ID + 2:
+                power = DUEL_FINAL_FLAME_DAMAGE;
                 break;
-            case 0x15A:
-                power = 0x1F4;
+            case DUEL_DIRECT_DAMAGE_FIRST_CARD_ID + 3:
+                power = DUEL_OOKAZI_DAMAGE;
                 break;
-            case 0x15B:
-                power = 0x3E8;
+            case DUEL_DIRECT_DAMAGE_FIRST_CARD_ID + 4:
+                power = DUEL_TREMENDOUS_FIRE_DAMAGE;
                 break;
             }
         }

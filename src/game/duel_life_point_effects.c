@@ -102,7 +102,7 @@ void func_8002525C(void) {
     struct Obj *obj;
     struct DuelSideState *p;
 
-    unit = D_8009B1D2 - 0x157;
+    unit = D_8009B1D2 - DUEL_DIRECT_DAMAGE_FIRST_CARD_ID;
     if (func_80024E24() == 0) {
         if (func_80025028(0x2AF) != 0) {
             unit = DUEL_LIFE_POINT_EFFECT_COUNT;

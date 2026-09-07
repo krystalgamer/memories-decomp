@@ -1279,7 +1279,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1D0,D_8009B1D0,D_8009B1D0,0x800260D0,func_800260D0,matching_c,game,C,src/game/func_800260D0.c,read_write,16,D_8009B1D0 = 0; | D_8009B1D0 = 0x10; | (+2 more)
 0x8009B1D2,D_8009B1D2,D_8009B1D2,0x80024E58,func_80024E58,matching_c,game,C,src/game/func_80024E58.c,address,16,v = *(u8 *)&D_8009B1D2 - 0x49;
 0x8009B1D2,D_8009B1D2,D_8009B1D2,0x800250C8,func_800250C8,matching_c,game,C,src/game/duel_life_point_effects.c,read,16,s0 = D_8009B1D2;
-0x8009B1D2,D_8009B1D2,D_8009B1D2,0x8002525C,func_8002525C,matching_c,game,C,src/game/duel_life_point_effects.c,read,16,unit = D_8009B1D2 - 0x157;
+0x8009B1D2,D_8009B1D2,D_8009B1D2,0x8002525C,func_8002525C,matching_c,game,C,src/game/duel_life_point_effects.c,read,16,unit = D_8009B1D2 - DUEL_DIRECT_DAMAGE_FIRST_CARD_ID;
 0x8009B1D2,D_8009B1D2,D_8009B1D2,0x8002538C,func_8002538C,matching_c,game,C,src/game/func_8002538C.c,read,16,x = D_8009B1D2;
 0x8009B1D2,D_8009B1D2,D_8009B1D2,0x800257A0,func_800257A0,matching_c,game,C,src/game/duel_field_effect_updates.c,read,16,if (D_8009B1D2 == 0x149) {
 0x8009B1D2,D_8009B1D2,D_8009B1D2,0x80025D30,func_80025D30,matching_c,game,C,src/game/func_80025D30.c,read,16,if (D_8009B1D2 == 0x15D) {
