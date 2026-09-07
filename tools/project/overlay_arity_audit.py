@@ -20,12 +20,18 @@ one deliberately discards exactly the register fields this depends on.
 Reported per call site: the highest argument register written in the run of
 instructions before each `jal`, which is a lower bound on the arity.
 
+Call sites are matched by aligning the two arity sequences rather than by
+ordinal. Pairing by ordinal is wrong the moment one stream gains or loses a
+call, because every later site shifts and reports a difference that is not
+there; `func_8016913C` produced six such phantom findings before the alignment
+was added, and its real defect is that the candidate never makes the target's
+last two calls.
+
 Two caveats keep this honest.  The count is a lower bound, because an argument
 already in the right register needs no instruction at all, and `a0`-`a3` are
 caller-saved, so GCC may write one as a scratch register for reasons unrelated
 to any call.  A target that sets *more* argument registers than the candidate
-is therefore the actionable direction; the reverse is advisory.  When the two
-streams differ in length, calls are paired positionally and may not correspond.
+is therefore the actionable direction; the reverse is advisory.
 
 Validated against three sites whose answers are known independently:
 `CampaignMap_UpdateLocationTransition` calling `0x801688BC`, where the audit
@@ -38,6 +44,7 @@ from __future__ import annotations
 import contextlib
 import io
 import sys
+from difflib import SequenceMatcher
 from pathlib import Path
 
 sys.path.insert(0, "tools/project")
@@ -144,27 +151,54 @@ def main() -> int:
         left = call_arity(list(target))
         right = call_arity(list(cand))
         aligned = len(cand) == len(target)
-        note = "" if aligned else "  (lengths differ; pairing is positional and advisory)"
+        note = "" if aligned else "  (instruction counts differ)"
         print(f"{name:<40} calls target={len(left):<3} candidate={len(right)}{note}")
-        if len(left) != len(right):
-            print("    call counts differ; sites are not comparable at all")
-            findings += 1
-            continue
-        for (ti, ta, callee), (_, ca, _) in zip(left, right):
-            if ta == ca:
+        # Pairing call sites by ordinal is wrong the moment one stream gains or
+        # loses a call: every later site shifts and reports a bogus arity
+        # difference.  Align the arity sequences first and report the edits.
+        ops = SequenceMatcher(
+            None, [a for _, a, _ in left], [a for _, a, _ in right], autojunk=False
+        ).get_opcodes()
+        for tag, i1, i2, j1, j2 in ops:
+            if tag == "equal":
                 continue
             findings += 1
-            if ta > ca:
-                # The target has to set those registers for the call to work,
-                # so this direction is a real shortfall in the candidate.
-                mark = "MISSING ARGUMENT" if aligned else "missing argument?"
-                detail = f"callee takes at least {ta}, candidate passes {ca}"
+            sites = ", ".join(f"0x{left[k][2]:08X}" for k in range(i1, i2)) or "-"
+            if tag == "delete":
+                print(
+                    f"    candidate omits {i2 - i1} call(s) the target makes "
+                    f"at index {left[i1][0]}: {sites}"
+                )
+            elif tag == "insert":
+                print(
+                    f"    candidate makes {j2 - j1} call(s) the target does not, "
+                    f"around candidate index {right[j1][0]}"
+                )
             else:
-                # a0-a3 are caller-saved, so GCC may write one as a scratch
-                # register for reasons that have nothing to do with the call.
-                mark = "over-count"
-                detail = f"candidate sets {ca} against the target's {ta}; may be scratch use"
-            print(f"    index {ti:>4} calls 0x{callee:08X}  {mark}: {detail}")
+                for k in range(i1, i2):
+                    off = k - i1
+                    if j1 + off >= j2:
+                        break
+                    ta, ca = left[k][1], right[j1 + off][1]
+                    if ta == ca:
+                        continue
+                    if ta > ca:
+                        # The target has to set those registers for the call to
+                        # work, so this direction is a real shortfall.
+                        mark = "MISSING ARGUMENT"
+                        detail = f"callee takes at least {ta}, candidate passes {ca}"
+                    else:
+                        # a0-a3 are caller-saved, so GCC may write one as a
+                        # scratch register unrelated to the call.
+                        mark = "over-count"
+                        detail = (
+                            f"candidate sets {ca} against the target's {ta}; "
+                            "may be scratch use"
+                        )
+                    print(
+                        f"    index {left[k][0]:>4} calls 0x{left[k][2]:08X}"
+                        f"  {mark}: {detail}"
+                    )
     print(f"\n{findings} arity finding(s)")
     return 0
 
