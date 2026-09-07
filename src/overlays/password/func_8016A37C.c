@@ -1,8 +1,3 @@
-## password `func_8016A37C` at 0x8016A37C
-
-`gcc_2_8_1_g0_split`: 365/365 instructions, opcode distance 0, 18 fully resolved text-word differences; all five generated jump-table entries match. The state-2 update site, state-3 entry accesses, unsigned division cascade and all prior semantic/path repairs are verified. Findings and preserved historical investigations are in the inventory row.
-
-```c
 #include "../../types.h"
 
 typedef struct {
@@ -28,12 +23,13 @@ extern u16 D_8016D424;
 extern u32 D_800EB12C;
 extern u16 D_8016D4DC;
 extern Widget *D_8016D4D8;
-extern s32 D_8016D428;
-extern Cursor *D_8016D420;
-extern u8 D_8016D410[];
+extern s32 gPassword_nDigitIndex;
+extern Cursor *gPassword_pDigitCursorWidget;
+extern u8 gPassword_abDigits[];
 extern u32 D_8016D438;
 extern u32 D_801A8000[];
 extern Pair D_801D5608;
+extern u32 D_801D07E0;
 extern u32 D_801D0000[];
 extern volatile u16 D_8009B394;
 extern volatile u16 D_8009B398;
@@ -54,7 +50,7 @@ extern s32 Password_LookupCardID(void);
 extern void func_80029164(s32, s32);
 extern void func_8016A02C(s32);
 extern s32 Campaign_TestStoryFlag(s32);
-extern void Password_CreateMessageBox(s32, s32);
+extern u8 *Password_CreateMessageBox(s32, s32);
 extern void Library_UpdateCardUsedFlag(s32);
 extern void Duel_AwardCard(s32);
 extern void Password_RefreshStarchipDisplay(void);
@@ -64,17 +60,18 @@ void func_8016A37C(void)
     Cursor *cursor;
     Widget *widget;
     s32 index;
-    s32 digit;
     s32 state;
+    register u32 *pool __asm__("$2");
     u32 count;
+    s32 step;
+    u16 flags2;
+    u16 flags3;
     u16 flags;
     u16 flags4;
     u16 card;
-    u16 card3;
-    s32 msg;
 
     func_80039794();
-    if ((D_8016D420->f108 & 0x40) != 0) {
+    if ((gPassword_pDigitCursorWidget->f108 & 0x40) != 0) {
         return;
     }
     if ((D_800EB12C & 0x2008) != 0x2000) {
@@ -85,42 +82,42 @@ void func_8016A37C(void)
     case 0:
         if ((D_8009B3A4 & 0xA000) != 0) {
             if ((D_8009B3A4 & 0x2000) != 0) {
-                index = D_8016D428 + 1;
-                D_8016D428 = index;
+                index = gPassword_nDigitIndex + 1;
+                gPassword_nDigitIndex = index;
                 if (index >= 8) {
-                    D_8016D428 = 7;
+                    gPassword_nDigitIndex = 7;
                     return;
                 }
             } else {
-                index = D_8016D428 - 1;
-                D_8016D428 = index;
+                index = gPassword_nDigitIndex - 1;
+                gPassword_nDigitIndex = index;
                 if (index < 0) {
-                    D_8016D428 = 0;
+                    gPassword_nDigitIndex = 0;
                     return;
                 }
             }
             SD_SEPlayFull(47);
-            cursor = D_8016D420;
+            cursor = gPassword_pDigitCursorWidget;
             Password_SetDigitCursorTarget(cursor);
             cursor->f96 = 8;
             cursor->f108 |= 0x40;
             return;
         }
         if ((D_8009B394 & 0x5000) != 0) {
-            digit = D_8016D410[D_8016D428];
+            step = gPassword_abDigits[gPassword_nDigitIndex];
             if ((D_8009B394 & 0x1000) != 0) {
-                digit = digit + 1;
-                if (digit >= 10) {
-                    digit = 0;
+                step = step + 1;
+                if (step >= 10) {
+                    step = 0;
                 }
             } else {
-                digit = digit - 1;
-                if (digit < 0) {
-                    digit = 9;
+                step = step - 1;
+                if (step < 0) {
+                    step = 9;
                 }
             }
             SD_SEPlayFull(7);
-            D_8016D410[D_8016D428] = digit;
+            gPassword_abDigits[gPassword_nDigitIndex] = step;
             Password_RefreshDigitDisplay();
             return;
         }
@@ -167,29 +164,25 @@ void func_8016A37C(void)
         }
         /* fallthrough */
     case 2:
-        flags = D_8016D424;
-        if ((flags & 0x8000) == 0) {
-            D_8016D424 = flags | 0x8000;
+        flags2 = D_8016D424;
+        if ((flags2 & 0x8000) == 0) {
+            D_8016D424 = flags2 | 0x8000;
             D_801D5608.lo = D_801A8000[D_8016D4DC * 2];
             D_801D5608.hi = D_8016D4DC;
             if (Campaign_TestStoryFlag(D_8016D4DC + 1024) != 0) {
                 Password_CreateMessageBox(229, 128);
                 return;
             }
-            if (D_801D0000[504] < D_801A8000[D_8016D4DC * 2]) {
-                msg = 228;
+            if (D_801D07E0 < D_801A8000[D_8016D4DC * 2]) {
+                Password_CreateMessageBox(228, 0);
             } else {
-                msg = 227;
+                Password_CreateMessageBox(227, 0);
             }
-            Password_CreateMessageBox(msg, 0);
-            {
-                u16 *flags_base = (u16 *)0x80170000;
-                flags_base[-5614] |= 0x4000;
-            }
+            D_8016D424 |= 0x4000;
             return;
         }
-        if ((flags & 0x4000) != 0) {
-            D_8016D424 = flags & 0xBFFF;
+        if ((flags2 & 0x4000) != 0) {
+            D_8016D424 = flags2 & 0xBFFF;
             if (D_8009B34D == 0) {
                 Library_UpdateCardUsedFlag(D_8016D4DC + 1024);
                 Duel_AwardCard(D_8016D4DC);
@@ -200,23 +193,33 @@ void func_8016A37C(void)
         D_8016D424 = 4;
         return;
     case 3:
-        if ((D_8016D424 & 0x8000) == 0) {
-            D_8016D424 |= 0x8000;
-            card3 = D_8016D4DC;
-            D_8016D438 = D_801A8000[card3 * 2];
+        flags3 = D_8016D424;
+        if ((flags3 & 0x8000) == 0) {
+            D_8016D424 = flags3 | 0x8000;
+            card = D_8016D4DC;
+            D_8016D438 = D_801A8000[card * 2];
         }
         count = D_8016D438;
-        digit = 1;
-        if (count >= 10) { digit = count / 10; }
-        if (count >= 100) { digit = count / 20; }
-        if (count >= 1000) { digit = count / 30; }
-        if (count >= 10000) { digit = count / 40; }
-        if (digit == 0) {
-            digit = 1;
+        step = 1;
+        if (count >= 10) {
+            step = count / 10;
         }
-        count = count - digit;
+        if (count >= 100) {
+            step = count / 20;
+        }
+        if (count >= 1000) {
+            step = count / 30;
+        }
+        if (count >= 10000) {
+            step = count / 40;
+        }
+        if (step == 0) {
+            step = 1;
+        }
+        pool = D_801D0000;
+        count = count - step;
         D_8016D438 = count;
-        D_801D0000[504] = D_801D0000[504] - digit;
+        pool[504] = pool[504] - step;
         if (count == 0) {
             D_8016D424 = 4;
         }
@@ -237,4 +240,3 @@ void func_8016A37C(void)
         return;
     }
 }
-```
