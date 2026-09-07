@@ -1862,8 +1862,20 @@ void func_8016A37C(void)
 
 ## main_menu `func_80181728` at 0x80181728
 
-`gcc_2_8_1_g0_split`, 352 instructions against 356, opcode distance 4.
-The longest common subsequence of mnemonics is 273 of 356.
+`gcc_2_8_1_g0_split`, 353 instructions against 356, opcode distance 3.
+The longest common subsequence of mnemonics is 318 of 356 and 342 positions
+differ.
+
+The second digit loop must have its own walking offset rather than reuse the
+first loop's. That is worth one of the distance and forty-five of the common
+subsequence, and it removes the surplus move and the surplus lui outright, so
+the whole residual is now spill traffic: one store and two loads. Those are
+exactly the store and the two reloads the target spends on the 8000 digit
+count, which it keeps at 112(sp) and reloads once in each loop preheader, so
+the remaining work is to make the allocator spill that one value. Splitting the
+count, the loop index, or the digit count itself on top of the walking offset is
+neutral or worse, and splitting the digit count costs four or five of the
+distance.
 
 This function had no stored candidate. Its row recorded a best of 352 of 356
 from an attempt that was never kept, so every later cycle had to take the
@@ -2039,6 +2051,7 @@ void func_80181728(void)
     s32 count;
     s32 width;
     s32 walk;
+    s32 walk2;
 
     first = D_801845C0[1];
     second = D_801845C0[7];
@@ -2167,13 +2180,13 @@ void func_80181728(void)
     }
 
     count = MainMenu_CountDecimalDigits(second);
-    walk = -126;
+    walk2 = -126;
     for (i = 0; i < count; i++) {
-        digit.x0 = width * 8 - walk;
+        digit.x0 = width * 8 - walk2;
         digit.x2 = digit.x0;
         digit.x1 = digit.x0 + 8;
         digit.x3 = digit.x1;
-        walk = walk + 8;
+        walk2 = walk2 + 8;
         digit.y0 = 134;
         digit.y1 = 134;
         digit.y2 = 142;
