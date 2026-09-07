@@ -571,3 +571,18 @@ on the suspects side until proven.)
 | 0x801D0250 | `gLibrary_abCardChest` | One-byte quantity for each of the game's 722 trunk cards. |
 | 0x801D07BC | `gDuel_awRecentCardDrops` | Sixteen most recently acquired card IDs, updated by duel rewards and password purchases. |
 | 0x801D07E0 | `gLibrary_dwStarchips` | Current 32-bit starchip balance stored in the save state. |
+
+## Batch: AI runtime globals
+
+| address | name | description |
+|---|---|---|
+| 0x800909D4 | `gDuel_aTerrainBoost` | Six signed terrain-adjustment units per monster type, indexed by the current nonzero terrain minus one. `Duel_GetTerrainBoost` multiplies the selected unit by 10 before applying it to a card stat. |
+| 0x800916E0 | `gAiScript_apfnCommand` | AI bytecode handler table indexed by each opcode that `AiScript_Run` reads from the active script. |
+| 0x800917F0 | `gDuel_aOpponentData` | Nine signed configuration bytes per opponent. Byte zero supplies the AI hand-size parameter; `AiScript_LoadOpponentData` exposes the remaining fields to script memory, scaling the first exposed field by 100. |
+| 0x800F5B98 | `gAiScript_aMemory` | Twenty 32-bit AI bytecode registers used to pass operands, intermediate values, and handler results between script commands. |
+| 0x800F5BE8 | `gAiScript_State` | The `0xD4`-byte AI interpreter state: script cursors, eight-entry return stack, combo cards, card/type sets, and fusion-search scratch. |
+| 0x800F5C80 | `gAi_wBestDifference` | Sixteen-bit best matchup difference at `gAiScript_State + 0x98`, written by the best-attack search and exposed to scripts by `AiScript_LoadBestDifference`. |
+| 0x800F5C82 | `gAi_bBestAttacker` | Best attacker slot at `gAiScript_State + 0x9A`, paired with `gAi_wBestDifference` and copied into script memory on request. |
+| 0x800F5C83 | `gAi_bBestTarget` | Best opposing target slot at `gAiScript_State + 0x9B`, paired with `gAi_bBestAttacker` and copied into script memory on request. |
+| 0x801AB000 | `gDuel_aActiveCards` | AI-facing `0x0C`-byte records for active duel-card slots. A zero card ID marks an empty slot; handlers inspect each record's flags and card type while searching and composing plays. |
+| 0x801D4244 | `gDuel_adwCardStats` | Packed per-card statistics indexed by card ID minus one, including base ATK/DEF units, guardian-star IDs, and card type. |
