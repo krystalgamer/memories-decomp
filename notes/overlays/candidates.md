@@ -392,7 +392,20 @@ select:
 ```
 ## main_menu `func_80180390` at 0x80180390
 
-`gcc_2_8_1_g0_split`, 493 instructions against 495, opcode distance 14.
+`gcc_2_8_1_g0_split`, 496 instructions against 495, opcode distance 13.
+
+`D_8009B398` is volatile. The target reads the two pad words at 0x8009B394
+and 0x8009B398 more often than a non-volatile declaration allows: aligning
+the `lhu` sequences shows four reads of those two addresses in the last
+region where this build had three, and GCC had folded one away as a common
+subexpression. Marking the second one volatile restores the read and also
+removes a stall, so the missing `lhu` and the spare `nop` both go at once.
+
+Only that one word wants it. `D_8009B394`, `D_8009B0D8`, `D_8009B3EA` and
+`D_8009B3ED` are inert as volatile in all sixteen combinations, so this is a
+fact about the one address rather than a blanket rule for the pad block. The
+sibling `func_8016913C` already declares its three pad words volatile, which
+is where the shape came from.
 
 The cross-jump the previous entry decoded can be reproduced from the source,
 and reproducing it properly is worth more than the conditional expression
@@ -462,7 +475,7 @@ typedef struct {
 extern MenuFlags D_80184598;
 extern u16 D_8009B0D8;
 extern u16 D_8009B394;
-extern u16 D_8009B398;
+extern volatile u16 D_8009B398;
 extern u8 D_8009B3EA;
 extern u8 D_8009B3ED;
 
