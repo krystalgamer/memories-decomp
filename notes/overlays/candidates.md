@@ -466,8 +466,63 @@ select:
 ## main_menu `func_80180390` at 0x80180390
 
 `gcc_2_8_1_g0_split`, 497 instructions against 495, opcode distance 12.
-The longest common subsequence of mnemonics is 445 of 495 and the first
-instruction is the only agreeing prefix.
+The longest common subsequence of mnemonics is 474 of 495 and the first
+181 instructions agree.
+
+The distance is unchanged at twelve and the candidate is very much closer, so
+the header now also quotes the prefix. Two changes did it, and neither works
+without the other: measured on their own they cost three and eleven of the
+distance respectively, and together they cost nothing while taking the agreeing
+prefix from one instruction to 181, the mnemonic subsequence from 445 to 474
+and the differing positions from 485 to 326.
+
+The first is that the flag clear belongs in both arms of the poll dispatch, not
+after them. Each of the three identical poll blocks ends
+
+    if (value == 1) {
+        Input_ResetPads();
+        func_80180D2C(1);
+    } else {
+        Input_ResetPads();
+    }
+    D_80184598.f9B = 0;
+
+and the target has that store twice per block, once in each arm's `j` delay
+slot on the way to the exit. Writing it once and letting GCC share it produces
+a third block holding the store, reached by a jump from the first arm and by
+fall-through from the second, which is the surplus `j`. Writing it in both arms
+gives the target's thirty-four `sb` exactly. It is worth three of the distance
+on the store count and costs six elsewhere, because with the object addressed
+as a struct GCC then shares an address computation the target re-materialises.
+
+The second is the flag object split into six separate byte globals. On its own
+that is much worse, at 23, because distinct symbols cannot share a `%hi` the
+way one symbol at several offsets can, so the high half is re-materialised at
+every access: eight surplus `lui` filling five load-delay slots the target
+leaves as `nop`. This was measured and recorded as a closed axis two cycles
+ago, with the struct confirmed.
+
+That conclusion was correct about the struct and wrong about the axis. The two
+faults are opposite in sign. Duplicating the store removes six `lui`; splitting
+the object adds eight. Applied together the surplus is two, the three missing
+`sb` and the two surplus `addiu` both disappear, and the front of the function
+lines up for 181 instructions. Neither is visible while the other is held
+fixed, which is exactly the failure mode of measuring one axis at a time.
+
+The profile sweep on the new base has a trap worth recording.
+`gcc_2_8_1_g0_no_sched2_split` reports distance 10, two better than the chosen
+profile, with a prefix of two and 475 differing positions. It disables the
+second scheduling pass, so nothing is scheduled; the target has filled delay
+slots throughout and cannot have been built that way. The lower distance is the
+multiset cancelling again, and it is not a candidate.
+
+The remaining twelve are two surplus `andi`, two surplus `li`, two surplus
+`lui`, one missing `lbu`, one surplus `j`, one missing `bnez` and three missing
+`nop`. The two `li` are decoded: the target funnels its returns through a
+shared exit block whose default is `li v0,-1`, and jumps one instruction past
+it for the `-2` return, so the constant is materialised once; this build
+materialises it at the return sites.
+
 
 The sixth `slti` is a comparison the target computes twice and this build
 computed once, and recovering it needs the copy to land in a local that has
@@ -594,16 +649,12 @@ extern u8 D_80184595;
 extern u8 D_80184596;
 extern u8 D_80184597;
 
-typedef struct {
-    s8 f98;
-    u8 f99;
-    u8 f9A;
-    u8 f9B;
-    u8 f9C;
-    u8 f9D;
-} MenuFlags;
-
-extern MenuFlags D_80184598;
+extern s8 D_80184598;
+extern u8 D_80184599;
+extern u8 D_8018459A;
+extern u8 D_8018459B;
+extern u8 D_8018459C;
+extern u8 D_8018459D;
 extern u16 D_8009B0D8;
 extern u16 D_8009B394;
 extern volatile u16 D_8009B398;
@@ -637,58 +688,61 @@ s32 func_80180390(void)
     s32 base;
     s32 count;
 
-    if (D_80184598.f9B != 0) {
+    if (D_8018459B != 0) {
         value = SaveData_PollLoad();
         if (value != 0) {
             if (value == 1) {
                 Input_ResetPads();
                 func_80180D2C(1);
+                D_8018459B = 0;
             } else {
                 Input_ResetPads();
+                D_8018459B = 0;
             }
-            D_80184598.f9B = 0;
         }
         return -1;
     }
 
-    if (D_80184598.f9C != 0) {
+    if (D_8018459C != 0) {
         value = func_8003FCD8();
         if (value != 0) {
             if (value == 1) {
                 Input_ResetPads();
                 func_80180D2C(1);
+                D_8018459C = 0;
             } else {
                 Input_ResetPads();
+                D_8018459C = 0;
             }
-            D_80184598.f9C = 0;
         }
         return -1;
     }
 
-    if (D_80184598.f9D != 0) {
+    if (D_8018459D != 0) {
         value = func_8003FD14();
         if (value != 0) {
             if (value == 1) {
                 Input_ResetPads();
                 func_80180D2C(1);
+                D_8018459D = 0;
             } else {
                 Input_ResetPads();
+                D_8018459D = 0;
             }
-            D_80184598.f9D = 0;
         }
         return -1;
     }
 
-    if (D_80184598.f9A != 0) {
+    if (D_8018459A != 0) {
         if (func_8003F70C() == 0) {
             return -1;
         }
         Input_ResetPads();
-        D_80184598.f9A = 0;
+        D_8018459A = 0;
         return -1;
     }
 
-    step = D_80184598.f98;
+    step = D_80184598;
     if (step != 0) {
         level = D_80184597 + (step << 3);
         D_80184597 = level;
@@ -704,7 +758,7 @@ s32 func_80180390(void)
             return -1;
         }
     fade_done:
-        if (D_80184598.f98 < 0) {
+        if (D_80184598 < 0) {
             entry = D_80184560;
             entry[0xE] = 0x80;
             entry[0xD] = 0x80;
@@ -713,7 +767,7 @@ s32 func_80180390(void)
             D_80184560[0x6C] = 0x3C;
             *(s16 *)(D_80184560 + 0x36) = 0;
         }
-        D_80184598.f98 = 0;
+        D_80184598 = 0;
         return -1;
     }
 
@@ -742,7 +796,7 @@ s32 func_80180390(void)
             entry = D_80184560;
             *(u16 *)(entry + 8) &= 0xFFBF;
             func_80180D2C(0);
-            D_80184598.f98 = 1;
+            D_80184598 = 1;
             return -1;
         }
         entry = D_80184560;
@@ -754,7 +808,7 @@ s32 func_80180390(void)
         return -1;
     }
 
-    if (D_80184598.f99 != 0) {
+    if (D_80184599 != 0) {
         moved = 0;
         slot = gMain_apMenuEntries;
         i = 0;
@@ -809,7 +863,7 @@ s32 func_80180390(void)
             return -1;
         }
         value = D_80184596;
-        D_80184598.f99 = 0;
+        D_80184599 = 0;
         if (value == 0) {
             return -1;
         }
@@ -821,7 +875,7 @@ s32 func_80180390(void)
                         *(u16 *)(entry + 8) &= 0xFFBF;
                     }
                 }
-                D_80184598.f98 = -1;
+                D_80184598 = -1;
             } else {
                 func_80180D2C(0);
                 gMain_bMenuID = 1;
@@ -872,21 +926,21 @@ s32 func_80180390(void)
         switch (gMain_bMenuID) {
         case 1:
             SaveData_RequestLoad();
-            D_80184598.f9B = D_80184598.f9B + 1;
+            D_8018459B = D_8018459B + 1;
             return -1;
         case 3:
             D_8009B3ED = 0;
             D_8009B3EA = 0;
-            D_80184598.f9C = D_80184598.f9C + 1;
+            D_8018459C = D_8018459C + 1;
             return -1;
         case 2:
             D_8009B3ED = 0;
             D_8009B3EA = 0;
-            D_80184598.f9D = D_80184598.f9D + 1;
+            D_8018459D = D_8018459D + 1;
             return -1;
         case 0xA:
             func_8003F87C();
-            D_80184598.f9A = D_80184598.f9A + 1;
+            D_8018459A = D_8018459A + 1;
             return -1;
         }
     }
