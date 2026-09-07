@@ -144,6 +144,16 @@ close from the top/bottom edges and open from the middle. Matching
 step `8` and roughly 48-frame duration are not universal: the final color
 helpers can override a banded request with non-band flags and step `12`.
 
+There is also a bounded frame-advance factor. Matching `func_80012DB4`
+[`0x80012DB4`] samples the VBlank counter `D_8009B0C8`, takes its low byte,
+and publishes `D_8009B0D8 = 1` when that byte is zero or `2` otherwise.
+The band walker multiplies the head advance by this factor, not the unclamped
+level spacing between band pairs: with step `8`, the factor gives an advance of
+`8` or `16` per update. It is not an exact elapsed-time or unlimited
+catch-up count. The frame pump draws the fade **before** the sync helper
+publishes its next factor, so a post-sync sample is not automatically the
+factor used by the preceding fade update.
+
 **When the overlay is drawn.** `Fade_DrawOverlay` updates the state first,
 then draws if the active flag is set, or if the separate byte `D_8009B141`
 is nonzero and the current level is not `255`. A nonzero control byte alone

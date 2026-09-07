@@ -77,6 +77,50 @@ bands. The **eight-pixel band height is not a fixed eight-unit ramp step**.
 The direction-dependent traversal also means a description of both paths
 as filling from the edges toward the middle is incomplete.
 
+### Frame-advance factor
+
+The matching [`func_80012DB4`](../src/game/func_80012DB4.c) now establishes
+the producer of `D_8009B0D8`. The frame-sync helper optionally waits for the
+GPU with `DrawSync(0)` (unless `D_8009B098 & 0x8000` is set), then spins
+while the volatile counter `D_8009B0C8` is below the byte threshold
+`D_8009B0C0`. [`Main_VBlankCB`](../src/game/main_frame.c) increments that
+counter on each callback.
+
+After the wait, the helper assigns the counter to the **byte**
+`D_8009B0C1`, changes any nonzero byte to `1`, and publishes that byte plus
+one as the word `D_8009B0D8`. For the sampled counter value `n`, the
+publication is exactly:
+
+```text
+D_8009B0D8 = 1 + ((u8)n != 0)
+```
+
+Thus this writer produces only `1` or `2`: samples `0`, `1`, and `2`
+produce `1`, `2`, and `2`. The byte conversion matters; a sample of `256`
+has low byte zero and produces `1`, so this is not an unbounded elapsed
+VBlank count or a saturating conversion of the full counter. The helper
+then resets `D_8009B0C8` to `-1`, calls `VSync(0)`, and increments
+`D_8009B0CC`. Its separate `D_8009AFA4` override affects `D_8009AFA3`, not
+`D_8009B0D8`.
+
+[`Main_ResetFrontendRuntime`](../src/game/main_reset_frontend_runtime.c)
+clears the wait threshold `D_8009B0C0`, but that does not force the sampled
+counter to zero or guarantee a factor of `1`. Actual GPU/render work and
+VBlank timing still determine the sample.
+
+The standard [`func_80012D4C`](../src/game/main_frame.c) pump calls
+`func_8001306C` **before** `func_80012DB4`.
+[`func_8001306C`](../src/game/func_8001306C.c) starts with `Fade_DrawOverlay`,
+so the fade reads the factor already present at draw time, not the one
+published later by that pump's sync call. A trace captured after sync must
+not attribute that newly published factor to the preceding band update
+without also establishing the draw-time value.
+
+With this published factor, step `8` advances the head by `8` or `16`,
+while the unclamped band-pair spacing remains `8`. The producer and its
+output range are code-backed; the sequence of factors during a particular
+visible transition still needs runtime evidence.
+
 ## Setup overrides and evidence limits
 
 The matching setup chains explain why the configured step must be read
@@ -99,10 +143,11 @@ start an eight-unit banded transition.
 These are code-derived conclusions, not a new emulator result or a semantic
 rename. The older [screen-fade observations, F87-F92](research/Unchiga_Symbols/findings.md#screen-fade-to-black-circle-out-of-free-duel-x-back-in----session-2026-09-02)
 describe particular menu runs; their eight-unit step and approximate
-48-frame duration are not universal API guarantees. Which screens select
-each setup path, and which values `D_8009B0D8` takes during them, still need
-caller-specific evidence and human context before assigning fixed timings
-or screen-specific meanings.
+48-frame duration are not universal API guarantees. The frame-sync producer
+now bounds its published `D_8009B0D8` values to `1` or `2` as described
+above. Which screens select each setup path, and the sequence of factors
+during those transitions, still need caller-specific evidence and human
+context before assigning fixed timings or screen-specific meanings.
 
 ## Draw eligibility and box submission
 
