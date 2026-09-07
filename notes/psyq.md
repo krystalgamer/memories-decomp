@@ -739,8 +739,10 @@ defines `NULL` as integer zero and `WEOF` as `0xFFFFFFFF`. `stdarg.h` uses a
 `void *` `va_list` and advances it through arguments rounded up to
 `sizeof(int)`, encoding the old compiler's stack and alignment assumptions.
 These are target/compiler support declarations, not portable host-build
-substitutes. No current game C includes either header directly, although
-`stdlib.h` includes `stddef.h`.
+substitutes. Matching `func_80053248.c` includes `stdarg.h` directly and uses
+its `va_list`, `va_start`, and `va_arg` definitions to consume the model-slot
+initializer's signed 32-bit arguments. No current game C includes `stddef.h`
+directly, although `stdlib.h` includes it.
 
 `setjmp.h` defines `jmp_buf` as twelve 32-bit words for the saved PC, stack
 pointer, frame pointer, registers `s0`-`s7`, and global pointer. It is the
