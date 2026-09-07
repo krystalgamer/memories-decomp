@@ -4,6 +4,9 @@
 # Generated and temporary project state
 /tmp/
 
+# Generated stored-candidate index; run `make candidate-index`
+/notes/candidates/README.md
+
 # Locally installed or downloaded tool dependencies
 /tools/downloads/
 /tools/environments/
