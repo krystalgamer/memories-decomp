@@ -958,6 +958,12 @@ Cancel first when choosing its return value. The latter retains its separate
 direction updates and Cancel, Select, then Confirm precedence. Repeated
 volatile reads remain repeated; these names do not cache a controller sample.
 
+`func_80043BCC` has a separate waiting-state gate that tests newly pressed
+pad-1 input against `PAD_BUTTON_START | PAD_BUTTON_CONFIRM_MASK` (`0x8C0`).
+It accepts Start, Cross, or Square; Circle/Cancel is not part of this mask.
+The test remains in the state-bit-`0x40` branch that destroys the waiting
+text box, after the loop's existing RNG and frame-service calls.
+
 Only these four packet bytes currently have matching-C consumers. The
 remaining `0x1E` bytes in each service-owned record should stay as an opaque
 receive buffer until a resident caller establishes an extended controller
