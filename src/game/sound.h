@@ -282,4 +282,6 @@ extern SDValue *g_SDValue;
 extern SDSecondaryState *D_8009B458;
 #endif
 
+void Sound_InitFrontend(void);
+
 #endif

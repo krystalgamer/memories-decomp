@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 
 extern s32 gFile_anLba[];
 extern s8 gSD_bOutputType;
@@ -14,7 +15,7 @@ extern void func_80047430(s32, s32);
 extern void func_80047EC4(void);
 extern void SD_SEPlay(u32, s32, s32);
 
-void func_8003FE80(void)
+void Sound_InitFrontend(void)
 {
     register volatile s32 *lbas = gFile_anLba;
 

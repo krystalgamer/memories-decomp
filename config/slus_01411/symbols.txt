@@ -79,6 +79,7 @@ SaveData_BuildPayload = 0x8003D03C; // type:func
 SaveData_ValidateIntegrity = 0x8003D174; // type:func
 SaveData_MatchesDuelistAndCurrentSequence = 0x8003D2B8; // type:func
 DisplayObjectFade_MarkInitialized = 0x80039AAC; // type:func
+Sound_InitFrontend = 0x8003FE80; // type:func
 gSaveDataSequence = 0x8009B3B8;
 gMemCard_szSaveFileName = 0x80010384;
 gSaveData_aTransferBuffer = 0x801D3200;

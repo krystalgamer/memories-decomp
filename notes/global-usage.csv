@@ -2148,7 +2148,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003C7A0,Options_HandleInput,matching_c,game,C,src/game/options_update.c,write,8,gSD_bOutputType[0] = value;
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003D03C,SaveData_BuildPayload,matching_c,game,C,src/game/save_data_build_payload.c,read_write,8,data[SAVE_DATA_HEADER_SIZE + SAVE_DATA_OUTPUT_TYPE_OFFSET] = gSD_bOutputType; | gSD_bOutputType = 0; | (+1 more)
 0x8009B408,gSD_bOutputType,D_8009B408_write|gSD_bOutputType,0x8003D0F4,SaveData_ApplyRuntimeState,matching_c,game,C,src/game/save_data_apply_runtime_state.c,read_write,8,D_8009B408_write = output_type; | if (gSD_bOutputType[0] < 0) {
-0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003FE80,func_8003FE80,matching_c,game,C,src/game/sound_frontend.c,write,8,gSD_bOutputType = -1;
+0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003FE80,Sound_InitFrontend,matching_c,game,C,src/game/sound_frontend.c,write,8,gSD_bOutputType = -1;
 0x8009B410,D_8009B410,D_8009B410,0x8004020C,func_8004020C,matching_c,game,C,src/game/display_slot_lifecycle.c,read_write,16,D_8009B410++;
 0x8009B410,D_8009B410,D_8009B410,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_reset_pool.c,write,16,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
 0x8009B412,D_8009B412,D_8009B412,0x800400AC,func_800400AC,matching_c,game,C,src/game/display_slot_lifecycle.c,read_write,16,D_8009B412++;
@@ -2452,7 +2452,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EA8,gFile_anLba,gFile_anLba,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,address,32,"for (i = 0, position = gFile_anLba, name = gFile_apszName;;) {"
 0x800E9EA8,gFile_anLba,gFile_anLba,0x80013940,func_80013940,matching_c,game,C,src/game/file_stream.c,address,32,register volatile s32 *lbas = gFile_anLba;
 0x800E9EA8,gFile_anLba,gFile_anLba,0x80013B04,func_80013B04,matching_c,game,C,src/game/file_transfer_setup.c,read,32,gFile_PrimaryTransferDescriptor.f24 = gFile_anLba[index] + offset;
-0x800E9EA8,gFile_anLba,gFile_anLba,0x8003FE80,func_8003FE80,matching_c,game,C,src/game/sound_frontend.c,address,32,register volatile s32 *lbas = gFile_anLba;
+0x800E9EA8,gFile_anLba,gFile_anLba,0x8003FE80,Sound_InitFrontend,matching_c,game,C,src/game/sound_frontend.c,address,32,register volatile s32 *lbas = gFile_anLba;
 0x800E9EB4,D_800E9EB4,D_800E9EB4,0x8005C388,func_8005C388,matching_c,game,C,src/game/movie_stream_requests.c,read,,"CdIntToPos_8007E600(D_800E9EB4 + total, buffer, total);"
 0x800E9EC0,D_800E9EC0,D_800E9EC0,0x80012B50,Main_Init,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0031d8.s,read,8,"lbu $a0, %lo(D_800E9EC0)($v0) | lui $v0, %hi(D_800E9EC0)"
 0x800E9EC0,D_800E9EC0,D_800E9EC0,0x80014C40,func_80014C40,matching_c,game,C,src/game/file_transfer_control.c,address,8,n = *(s32 *)D_800E9EC0 + *(s32 *)(p + 4);
