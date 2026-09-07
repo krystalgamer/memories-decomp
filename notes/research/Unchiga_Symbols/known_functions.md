@@ -51,6 +51,7 @@ Names that say what something IS in the game.
 | 0x80024734 | `Duel_RequestCombinedDeckData` | matching C |
 | 0x80024824 | `Duel_PopulateCombinedDeckData` | matching C |
 | 0x8002497C | `Duel_GetTerrainBoost` | idb2018 |
+| 0x800249E0 | `Duel_SetupCardRecord` | matching C |
 | 0x8002892C | `DuelEffect_UpdateState` | matching C |
 | 0x8002BF3C | `Library_MarkOwnedCards` | idb2018 |
 | 0x8002CB80 | `Duel_CalcGuardianStarMatchup` | idb2018 |
@@ -133,6 +134,7 @@ Names that say what something IS in the game.
 | 0x8004BC2C | `SD_ReadSequenceU32BE` | matching C |
 | 0x8004C8C8 | `SD_ProcessSequenceTracks` | matching C |
 | 0x8004CA60 | `SD_ResetSequenceTracks` | matching C |
+| 0x80053248 | `Model_SetSlotProperties` | matching C |
 | 0x80056504 | `Model_LoadMonsterMerge` | idb2018 |
 | 0x80057F38 | `Model_UpdateViewMetrics` | matching C |
 | 0x80059134 | `Model_InitLightTriplet` | matching C |
@@ -961,7 +963,6 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80023FBC | `decode_status_flags_call_80023d08` | fleet |
 | 0x800240B0 | `Duel_UpdateCardPickCursor` | local |
 | 0x80024704 | `Util_CompareS16` | local |
-| 0x800249E0 | `card_record_fill` | fleet |
 | 0x80024C1C | `spawn_card_type_icon_obj` | fleet |
 | 0x80024D34 | `opponent_field_record_fill` | fleet |
 | 0x80024DC8 | `init_800eb26c_fields_from_args` | fleet |
