@@ -68,10 +68,13 @@ performs `DsSearchFile` and converts BCD MSF to a zero-based LBA with
 The BSS layout is:
 
 ```text
-0x800E9E18-0x800E9E5F  primary transfer descriptor, 0x48 bytes
-0x800E9E60-0x800E9EA7  secondary transfer descriptor, 0x48 bytes
+0x800E9E18-0x800E9E5F  queued secondary transfer descriptor, 0x48 bytes
+0x800E9E60-0x800E9EA7  active primary transfer descriptor, 0x48 bytes
 0x800E9EA8-0x800E9EC3  seven runtime LBA words
 ```
+
+`File_ActivateTransfer` copies the complete secondary descriptor into the
+primary descriptor before publishing the primary-active state.
 
 The corrected LBA-table address is `0x800E9EA8`; interpreting the signed
 `addiu` immediate as unsigned incorrectly produces `0x800F9EA8`.
