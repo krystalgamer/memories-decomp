@@ -4213,6 +4213,12 @@
       "source": "src/game/func_80048D08.c"
     },
     {
+      "address": "0x80048F14",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xFC",
+      "source": "src/game/func_80048F14.c"
+    },
+    {
       "address": "0x80049010",
       "profile": "gcc_2_8_1_cc_g0_as_g8_no_split",
       "size": "0xE0",
