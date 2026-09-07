@@ -187,7 +187,12 @@ how the remaining on-card bytes are populated.
 
 The `0x680`-byte state contains three independently protected regions.
 `SaveData_CalcCrc16` computes CRC-16/XMODEM with polynomial `0x1021` and a zero
-initial value. The writers duplicate each 16-bit CRC into two adjacent
+initial value. `save_data.h` names the polynomial as
+`SAVE_DATA_CRC16_POLYNOMIAL` and the width as `SAVE_DATA_CRC16_BITS`.
+The value mask (`0xFFFF`) and high-bit test (`0x8000`) are derived from that
+width as `SAVE_DATA_CRC16_MASK` and `SAVE_DATA_CRC16_HIGH_BIT`. The writers and
+validator also use the same width when repeating the CRC in each seed word.
+The writers duplicate each 16-bit CRC into two adjacent
 halfwords, copy that CRC into both halves of the two-word mask state, and fill
 the region's mask words by repeatedly calling `SaveData_NextMaskWord`:
 

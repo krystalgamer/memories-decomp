@@ -36,8 +36,8 @@ u32 SaveData_CalcCrc16(u8 *data, s32 len)
 
             crc ^= data[i] << 8;
             for (bit = 0; bit < 8; bit++) {
-                if (crc & 0x8000) {
-                    crc = (crc << 1) ^ 0x1021;
+                if (crc & SAVE_DATA_CRC16_HIGH_BIT) {
+                    crc = (crc << 1) ^ SAVE_DATA_CRC16_POLYNOMIAL;
                 } else {
                     crc = crc << 1;
                 }
@@ -51,14 +51,14 @@ u32 SaveData_CalcCrc16(u8 *data, s32 len)
 void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
 {
     s32 value = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH);
-    u32 seed = value & 0xFFFF;
+    u32 seed = value & SAVE_DATA_CRC16_MASK;
     s32 *output = (s32 *)(data + SAVE_DATA_PRIMARY_MASK_LAST_OFFSET);
     s32 i = SAVE_DATA_PRIMARY_MASK_WORD_COUNT;
 
     *(s16 *)(data + SAVE_DATA_PRIMARY_CHECKSUM_OFFSET + sizeof(s16)) = value;
     *(s16 *)(data + SAVE_DATA_PRIMARY_CHECKSUM_OFFSET) = value;
-    gSaveData_dwMaskStateHigh = seed | (seed << 16);
-    gSaveData_dwMaskStateLow = seed | (seed << 16);
+    gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
+    gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
 
     do {
         i--;
@@ -70,14 +70,14 @@ void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
         data + SAVE_DATA_SECONDARY_OFFSET,
         SAVE_DATA_SECONDARY_LENGTH
     );
-    seed = value & 0xFFFF;
+    seed = value & SAVE_DATA_CRC16_MASK;
     output = (s32 *)(data + SAVE_DATA_SECONDARY_MASK_LAST_OFFSET);
     i = SAVE_DATA_SECONDARY_MASK_WORD_COUNT;
 
     *(s16 *)(data + SAVE_DATA_SECONDARY_CHECKSUM_OFFSET + sizeof(s16)) = value;
     *(s16 *)(data + SAVE_DATA_SECONDARY_CHECKSUM_OFFSET) = value;
-    gSaveData_dwMaskStateHigh = seed | (seed << 16);
-    gSaveData_dwMaskStateLow = seed | (seed << 16);
+    gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
+    gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
 
     do {
         i--;

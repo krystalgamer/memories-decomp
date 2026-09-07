@@ -10,11 +10,12 @@ s32 SaveData_ValidateIntegrity(u8 *data)
     s32 i;
     s32 *word;
 
-    seed = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH) & 0xFFFF;
+    seed = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH) &
+           SAVE_DATA_CRC16_MASK;
     word = (s32 *)(data + SAVE_DATA_PRIMARY_MASK_LAST_OFFSET);
     i = SAVE_DATA_PRIMARY_MASK_WORD_COUNT;
-    gSaveData_dwMaskStateHigh = seed | (seed << 16);
-    gSaveData_dwMaskStateLow = seed | (seed << 16);
+    gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
+    gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
     do {
         if (*word != SaveData_NextMaskWord()) {
             return 0;
@@ -26,11 +27,11 @@ s32 SaveData_ValidateIntegrity(u8 *data)
     seed = SaveData_CalcCrc16(
         data + SAVE_DATA_SECONDARY_OFFSET,
         SAVE_DATA_SECONDARY_LENGTH
-    ) & 0xFFFF;
+    ) & SAVE_DATA_CRC16_MASK;
     word = (s32 *)(data + SAVE_DATA_SECONDARY_MASK_LAST_OFFSET);
     i = SAVE_DATA_SECONDARY_MASK_WORD_COUNT;
-    gSaveData_dwMaskStateHigh = seed | (seed << 16);
-    gSaveData_dwMaskStateLow = seed | (seed << 16);
+    gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
+    gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
     do {
         if (*word != SaveData_NextMaskWord()) {
             return 0;
@@ -42,11 +43,11 @@ s32 SaveData_ValidateIntegrity(u8 *data)
     seed = SaveData_CalcCrc16(
         data + SAVE_DATA_TERTIARY_OFFSET,
         SAVE_DATA_TERTIARY_LENGTH
-    ) & 0xFFFF;
+    ) & SAVE_DATA_CRC16_MASK;
     word = (s32 *)(data + SAVE_DATA_TERTIARY_MASK_LAST_OFFSET);
     i = SAVE_DATA_TERTIARY_MASK_WORD_COUNT;
-    gSaveData_dwMaskStateHigh = seed | (seed << 16);
-    gSaveData_dwMaskStateLow = seed | (seed << 16);
+    gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
+    gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
     do {
         if (*word != SaveData_NextMaskWord()) {
             return 0;
