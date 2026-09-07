@@ -720,19 +720,27 @@ s32 func_80180390(void)
 
 ## overworld `CampaignMap_UpdateLocationTransition` at 0x80168AA8
 
-`gcc_2_8_1_g0_split`, 217 of 217 instructions, 56 differing positions, opcode
+`gcc_2_8_1_g0_split`, 217 of 217 instructions, 37 differing positions, opcode
 distance 0. Matches in both overworld modules from one source.
 
 The instruction mix is exact, so only register choice and scheduling remain.
-What is left is three groups: five positions in the prologue, two around the
-2048 test, and the rest in the camera accumulator block, where the target
-batches six `%hi` loads and four accumulator loads before adding any of them
-while this build interleaves load, add and store per accumulator.
 
-Measured and inert against that block: writing the camera stores against the
-array symbol instead of a pointer copy, which is worse at distance 3;
-assigning the pointer copy immediately before the block, worse at distance 2;
-and a typed `s16 *` with indices instead of byte offsets, byte-identical.
+The location fields are written to the marker's +48 and +50, the standard
+object position pair, not to +96 and +50. The earlier candidate wrote +96,
+and neither headline metric could see it: the opcode distance cannot, since
+`sh` is `sh` at any offset, and the position count could not either, because
+that position already differed on its base register. The register-blind
+instruction multiset does, and it drops by two.
+
+The five camera accumulators are all advanced first and all stored after,
+rather than each store following its own add. That is worth nineteen
+positions and was found by running the full product of 120 add orders
+against 32 store-deferral masks: every one of the best cells defers all five
+stores, and no partial deferral comes close. Permuting the store order
+separately, another 480 cells, is worth one more position at most.
+
+Measured and inert: folding the D_801695D4 store into the argument of the
+func_801688BC call, and naming either value in a local first.
 
 ```c
 #include "../../src/types.h"
@@ -846,15 +854,15 @@ s32 CampaignMap_UpdateLocationTransition(void)
         }
     }
     D_801695E4 = D_801695E4 + D_801695F0;
-    *(s16 *)(camera + 2) = D_801695E4 >> 16;
     D_801695E8 = D_801695E8 + D_801695F4;
-    D_80169610 = D_80169610 + D_80169614;
-    *(s16 *)(camera + 4) = D_801695E8 >> 16;
-    *(s16 *)(camera + 0) = D_80169610 >> 16;
-    D_801695CC = D_801695CC + D_801695DC;
-    *(s32 *)(camera + 28) = D_801695CC >> 16;
     D_801695D0 = D_801695D0 + D_801695E0;
+    D_801695CC = D_801695CC + D_801695DC;
+    D_80169610 = D_80169610 + D_80169614;
+    *(s16 *)(camera + 2) = D_801695E4 >> 16;
+    *(s32 *)(camera + 28) = D_801695CC >> 16;
+    *(s16 *)(camera + 4) = D_801695E8 >> 16;
     *(s32 *)(camera + 36) = D_801695D0 >> 16;
+    *(s16 *)(camera + 0) = D_80169610 >> 16;
     D_801695D4 = D_801695D4 - 1;
     if (D_801695D4 == 0) {
         func_801681E8(D_8016960C);
@@ -865,7 +873,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
         }
         marker = D_801695C8;
         if (marker != 0) {
-            marker->f96 = D_801691A8[D_8016960C].f12;
+            *(s16 *)((u8 *)marker + 48) = D_801691A8[D_8016960C].f12;
             *(s16 *)((u8 *)marker + 50) = D_801691A8[D_8016960C].f14;
         }
     }
