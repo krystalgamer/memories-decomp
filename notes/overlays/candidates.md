@@ -895,40 +895,15 @@ s32 func_80180390(void)
 
 ## overworld `CampaignMap_UpdateLocationTransition` at 0x80168AA8
 
-`gcc_2_8_1_g0_split`, 209 instructions against 217, 182 differing positions,
-opcode distance 14. Matches in both overworld modules from one source.
+`gcc_2_8_1_g0_split`, 217 of 217 instructions, 82 differing positions, opcode
+distance 0. Matches in both overworld modules from one source.
 
-This is a fresh reconstruction from the disassembly and the inventory row. The
-row describes a candidate at 217 of 217 with seventy positions, but that one was
-never stored and is gone, so this is the first reproducible state.
-
-Residual is extra `andi` x1 and `j` x1 against missing `lui` x3, `bne` x1,
-`addu` x2, `nop` x1, `sltiu` x1, `lhu` x2 and `sll` x2.
-
-The three missing `lui` are now located precisely, and they are not a
-register-allocation wall. Indices 0 to 53 already match, so both builds reach
-the `D_801695EC |= 0x40` block with the same registers live and with the
-global's `%hi` already in `s1`. The target does not use it: it forms a fresh
-`lui` inside that block and addresses the byte off it, then forms another for
-the re-read in the next block. This build reuses `s1` for the read-modify-write
-and only forms one `lui`, for the re-read. So the difference is which accesses
-are allowed to share one `%hi`, and since the prefix is identical it is a
-property of how the accesses are spelled in that block rather than of pressure
-earlier in the function. Under `-msplit-addresses` the `high` is its own insn
-and CSE will share it across an extended basic block, so the question to answer
-next is what puts the target's two accesses in separate extended blocks.
-
-Three differences are already located by reading the columns. The target
-re-reads the state byte at index 64 before the 0x40 test where this build reuses
-the value it already holds. It loads the map object inside the 0x40 block, at 69,
-where this build hoists the load above the test. And it reloads the object's
-+0x48 halfword at 87 to form +0x4A, where this build reuses the register it just
-stored.
-
-The five camera accumulators are confirmed against the disassembly: +0x5E4 by
-+0x5F0 into camera+2, +0x5E8 by +0x5F4 into camera+4, +0x610 by +0x614 into
-camera+0, +0x5CC by +0x5DC into camera+0x1C, and +0x5D0 by +0x5E0 into
-camera+0x24, the last two as 32-bit stores.
+The instruction mix is now exact, so no change of source shape can improve it;
+what is left is register choice and scheduling. The largest single group is the
+map object, which the target keeps in `s0` and reuses for the marker, while
+this build puts it in `a0` and gives the marker `s0`. Declaration order is
+inert across all eight rotations, and merging the two into one pointer local
+is worth two positions and no more.
 
 ```c
 #include "../../src/types.h"
@@ -948,8 +923,9 @@ typedef struct {
 
 typedef struct {
     u8 pad0[12];
-    u16 f12;
-    u16 f14;
+    s16 f12;
+    s16 f14;
+    u8 pad16[50];
 } Location;
 
 extern u8 D_801695EC;
@@ -986,8 +962,8 @@ s32 CampaignMap_UpdateLocationTransition(void)
     Location *entry;
     Location *table;
     u8 *camera;
-    u8 flags;
-    u8 raise;
+    u16 flags;
+    u16 raise;
     s32 step;
     s32 timer;
     s32 quotient;
@@ -1013,7 +989,8 @@ s32 CampaignMap_UpdateLocationTransition(void)
                 D_801695EC = flags | 0x60;
                 obj->f8 = raise;
             }
-        } else if (D_80169618 < 10) {
+        }
+        if (D_80169618 < 10 && D_8016960C >= 10) {
             D_801695EC |= 0x40;
         }
     }
@@ -1033,14 +1010,12 @@ s32 CampaignMap_UpdateLocationTransition(void)
     }
     marker = D_801695C8;
     if (marker != 0) {
-        timer = marker->f96;
-        if ((s16)timer < 2048) {
+        if (marker->f96 < 2048) {
             quotient = 2048 / D_80169608;
             table = D_801691A8;
             entry = table + D_8016960C;
-            timer = (u16)marker->f96 + quotient;
-            marker->f96 = timer;
-            func_8004318C(marker, entry->f12, entry->f14, (s16)timer);
+            marker->f96 += quotient;
+            func_8004318C(marker, entry->f12, entry->f14, marker->f96);
         }
     }
     D_801695E4 = D_801695E4 + D_801695F0;
@@ -1073,7 +1048,6 @@ s32 CampaignMap_UpdateLocationTransition(void)
     return D_801695D4;
 }
 ```
-
 ## password `func_8016A37C` at 0x8016A37C
 
 `gcc_2_8_1_g0_split`, 368 instructions against 365, 167 differing positions,
