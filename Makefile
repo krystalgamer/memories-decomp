@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272 check-tools check-build-tools info extract map split build match overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272 check-tools check-build-tools info extract map split build match overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -41,6 +41,8 @@ help:
 		'  overlays       Extract verified runtime overlay module images' \
 		'  verify-overlays  Verify extracted overlay images and metadata' \
 		'  check-metadata Verify tracked manifests and CSV tables only' \
+		'  candidate-index  Regenerate the stored-candidate index' \
+		'  check-candidate-index  Verify the stored-candidate index is current' \
 		'  build-overlays Build verified runtime overlay module images' \
 		'  match-overlays Build and compare all configured overlay modules' \
 		'  inventory      Update the tracked resident-function inventory' \
@@ -137,6 +139,7 @@ verify-overlays: workspace
 
 check-metadata:
 	@$(PYTHON) tools/project/overlay_extract.py verify-metadata
+	@$(PYTHON) tools/project/candidate_files.py --check
 
 build-overlays: overlays check-build-tools
 	@$(PYTHON) tools/project/overlay_build.py build
@@ -158,6 +161,12 @@ classify-functions: inventory
 
 candidates: workspace
 	@$(PYTHON) tools/project/select_candidates.py $(CANDIDATE_ARGS)
+
+candidate-index: workspace
+	@$(PYTHON) tools/project/candidate_files.py
+
+check-candidate-index: workspace
+	@$(PYTHON) tools/project/candidate_files.py --check
 
 review-deferred: workspace
 	@$(PYTHON) tools/project/review_deferred.py $(REVIEW_DEFERRED_ARGS)

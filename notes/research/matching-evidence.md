@@ -3276,7 +3276,7 @@ offsets instead does not: the base stays in `$v1` and the argument is derived
 as `addiu $a0, $v1, 0x4C0`, which is retail's shape. All three functions then
 reach their exact instruction count with opcode distance 0, at 6, 8 and 9
 differing positions, and what is left in each is prologue scheduling. The
-stored candidates are in `notes/candidates.md`.
+stored candidates are in `notes/candidates/`.
 
 ### Emission order is not source order for a run of stores to one struct
 
