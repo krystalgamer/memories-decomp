@@ -845,6 +845,45 @@ exact source rather than a tidied version, and re-verify it with
 `overlay_diff.py` before trusting it. The inventory row still holds the
 findings; the file holds only code.
 
+## A register-form shift means the count is not a constant
+
+MIPS has two encodings for each shift: `sll`/`srl`/`sra` take the count as a
+5-bit immediate, and `sllv`/`srlv`/`srav` take it from a register. When the
+target uses the register form and the candidate uses the immediate form, the
+temptation is to look for a register that happens to hold the right value and
+assume some pass substituted it. It does not work that way, and the difference
+is worth reading precisely because it says something definite about the source.
+
+GCC picks the encoding at RTL generation, from whether the count operand is a
+`CONST_INT` or a `REG`. Nothing later converts one into the other: CSE
+propagates registers *into* constants, not the reverse, so a count the compiler
+can see is a constant will always take the immediate form.
+
+So a register-form shift is a statement that the count is not a compile-time
+constant in the source. A four-line probe settles where one can come from:
+
+```c
+u32 g1(void *p, void *o, u16 pri, u32 w, int x) { f(p,o,pri,1); return x + (w >> 1); }
+u32 g2(void *p, void *o, u16 pri, u32 w, int x) { int n = 1; f(p,o,pri,n); return x + (w >> n); }
+u32 g3(void *p, void *o, u16 pri, u32 w, int x, int n) { f(p,o,pri,n); return x + (w >> n); }
+u32 g4(void *p, void *o, u16 pri, u32 w, int x) { u32 r = x + (w >> 1); f(p,o,pri,1); return r; }
+```
+
+Only `g3` -- where the count is a **parameter** -- emits `srl $16,$16,$18`. The
+literal, the local assigned 1, and the halving hoisted above the call all emit
+`srl $16,$16,1`. Naming a local does not help however many times it is used:
+on `func_801681A0` a local used ten times, as the fourth argument of all eight
+calls and as both shift counts, is still folded.
+
+There is one apparent counter-example, and it is instructive rather than
+contradictory. `func_80168CDC` needed `sllv`/`srav` and got them without any
+variable, by declaring the shifted value `s16`: the widening at the use is
+emitted as a shift *pair*, and it is the pair, not a source-level shift, that
+CSE then satisfied from the argument register. So before concluding that a
+register-form shift demands a parameter, check whether the shift is really a
+widening in disguise -- a `sllv` by 16 immediately followed by a `srav` by the
+same register is a sign extension, not a division.
+
 ## Answer a shape question with a probe instead of a reconstruction
 
 Most of the cost of a near-miss function is rebuilding its candidate from the

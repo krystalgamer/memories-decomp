@@ -359,14 +359,25 @@ select:
 ```
 ## password `func_801681A0` at 0x801681A0
 
-`gcc_2_8_1_g0_split`, 150 instructions against 147, 109 differing positions, opcode
-distance 9.
+`gcc_2_8_1_g0_split`, 150 instructions against 147, 109 differing positions,
+opcode distance 9.
 
-Remaining mix difference is two `srl` where the target has `srlv`, plus one
-`lhu` and the `lw`/`sw` pair around the spilled `x + 3` corner. The target shifts by the register holding the fourth argument's 1. Naming a
-local for that 1 is inert and has been removed from this candidate, since the
-compiler folds it either way and its presence suggested a lever that is not
-there.
+The class-level difference is exactly two `srl` where the target has `srlv`,
+plus three extra `lw` and one extra `sw` against one missing `lhu`.
+
+The loads and stores are one extra live value: this build spills three values
+where the target spills two, keeping `x + 3` in `s7` where the target spills it
+and reloads it twice as a halfword, which is where the `lhu` goes.
+
+The shifts are the blocker, and the axis is closed with evidence rather than
+by inspection. The target halves by `a3`, the register holding the fourth
+argument's 1. A register-form shift needs a non-constant count in the RTL, and
+no local reaches that: a local assigned 1 and used ten times, as the fourth
+argument of all eight calls and as both shift counts, is still folded to the
+immediate. See the "A register-form shift means the count is not a constant"
+section in `README.md` for the isolating probe. The parameter route is closed
+by the call convention -- this function is installed as a hook at `obj+0x4C`,
+and the other matched hook at that slot takes two arguments.
 
 ```c
 #include "../../src/types.h"
