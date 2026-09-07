@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/libmcrd.h"
 #include "duel_effect.h"
+#include "mem_card.h"
 
 typedef struct {
     u8 pad0000[0x30];
@@ -161,9 +162,9 @@ void func_8003F454(void)
         D_8009B3FA = 0;
         goto b25;
     }
-    if ((f & 0x4000) == 0) {
-        if ((f & 0x2000) == 0) {
-            D_8009B3FA = f | 0x2000;
+    if ((f & MEM_CARD_DIALOG_FLAG_OPENED) == 0) {
+        if ((f & MEM_CARD_DIALOG_FLAG_STARTED) == 0) {
+            D_8009B3FA = f | MEM_CARD_DIALOG_FLAG_STARTED;
             MemCardStart();
             D_8009B3EF = 2;
             func_8003F388();
@@ -173,7 +174,7 @@ void func_8003F454(void)
         if (func_8003F2B0_int(
                 (ObjectState *)D_8009B3D8, 0x20, 0x50, -1
             ) == 0) {
-            D_8009B3FA = D_8009B3FA | 0x4000;
+            D_8009B3FA = D_8009B3FA | MEM_CARD_DIALOG_FLAG_OPENED;
         }
         return;
     }
