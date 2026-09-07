@@ -48,6 +48,8 @@ Names that say what something IS in the game.
 | 0x8002CBF4 | `Duel_GetBaseCardStat` | idb2018 |
 | 0x8002CCA8 | `Campaign_TestStoryFlag` | idb2018 |
 | 0x8002CCE4 | `Library_UpdateCardUsedFlag` | idb2018 |
+| 0x8002CD8C | `Main_ResetFrontendRuntime` | matching C |
+| 0x8002CE08 | `Main_RunDebugMenu` | matching C |
 | 0x8002CE64 | `Main_RunCampaign` | idb2018 |
 | 0x8002CEE8 | `Main_RunDuel` | idb2018 |
 | 0x8002D0E0 | `Main_RunLibraryMenu` | idb2018 |
@@ -65,8 +67,12 @@ Names that say what something IS in the game.
 | 0x8002DD74 | `Main_Loop` | idb2018 |
 | 0x8002E370 | `DuelEffect_MarkObjectIfActive` | matching C |
 | 0x8002E730 | `Script_OpShowImage` | idb2018 |
+| 0x8002E9A0 | `Script_OpViewportTween` | matching C |
+| 0x8002EA0C | `Script_UpdateViewportTween` | matching C |
+| 0x8002EC74 | `Script_OpSound` | matching C |
 | 0x8002FA54 | `Script_RunTick` | idb2018 |
 | 0x80032B60 | `BuildDeck_CompareCard` | idb2018 |
+| 0x800358A0 | `Text_EncodeDecimalNoPadding` | matching C |
 | 0x80035AB8 | `TextBox_SetRect` | idb2018 |
 | 0x80035AF0 | `DuelEffect_InitEntry` | local |
 | 0x80035B7C | `TextBox_Destroy` | idb2018 |
@@ -87,6 +93,10 @@ Names that say what something IS in the game.
 | 0x8003B744 | `Text_LookupString` | idb2018 |
 | 0x8003B9BC | `Main_InitFreeDuelMenu` | live |
 | 0x8003BC40 | `Text_SjisToGlyphCodes` | idb2018 |
+| 0x8003C568 | `Options_UpdateLayout` | matching C |
+| 0x8003C628 | `Options_Init` | matching C |
+| 0x8003C8CC | `Options_Update` | matching C |
+| 0x8003CCD8 | `Input_UpdatePads` | matching C |
 | 0x8003D46C | `DuelEffect_CreateChannel` | matching C |
 | 0x8003FEE0 | `SD_SEPlayFull` | live |
 | 0x80043230 | `Widget_SlideSine` | idb2018 |
@@ -941,7 +951,6 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x8002C7E8 | `Duel_CheckRitual` | local |
 | 0x8002C9B4 | `collect_field_slot_ptrs` | fleet |
 | 0x8002CD48 | `call_ccca8_then_cce4_if_zero` | fleet |
-| 0x8002CE08 | `mask_test_call_800eb26c_two_calls` | fleet |
 | 0x8002D7CC | `spawn_fade_teardown_dispatch` | fleet |
 | 0x8002DC38 | `mask_test_800eb26c_reinit_and_poll` | fleet |
 | 0x8002E470 | `stream_read_index_and_check_ready` | fleet |
