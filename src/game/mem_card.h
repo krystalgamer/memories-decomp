@@ -1,6 +1,8 @@
 #ifndef MEMORIES_DECOMP_MEM_CARD_H
 #define MEMORIES_DECOMP_MEM_CARD_H
 
+#include "../types.h"
+
 #define MEM_CARD_DIRECTORY_ENTRY_SIZE 40
 #define MEM_CARD_BLOCK_SIZE 8192
 #define MEM_CARD_BLOCK_COUNT 15
@@ -13,5 +15,7 @@
 #define MEM_CARD_DIALOG_FLAG_STARTED 0x2000
 #define MEM_CARD_DIALOG_FLAG_OPENED 0x4000
 #define MEM_CARD_DIALOG_FLAG_ACTIVE 0x8000
+
+extern u8 gMemCard_szSaveFileName[];
 
 #endif

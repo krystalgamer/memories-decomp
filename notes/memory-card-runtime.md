@@ -129,8 +129,8 @@ final count through the caller's output pointer.
 
 `SAVE_DATA_STATE_SIZE` fixes the live persistent state at `0x680` bytes,
 beginning at `gDuel_awPlayerDeck` (`0x801D0200`). `SaveData_RequestWrite`
-copies that state to `0x801D3200`, then calls `SaveData_BuildPayload` with
-staging base `0x801D3000`.
+copies that state to `gSaveData_aTransferBuffer` (`0x801D3200`), then calls
+`SaveData_BuildPayload` with the header staging base at `0x801D3000`.
 
 The builder lays out:
 

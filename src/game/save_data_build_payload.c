@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "save_data.h"
 
-extern u8 D_801D4000[];
 extern s32 D_8009B0C4[];
 extern s8 gSD_bOutputType __attribute__((section(".data")));
 extern s32 gSaveDataSequence;
@@ -14,7 +13,7 @@ void SaveData_BuildPayload(u8 *data)
     s32 value;
     register s32 saved_value asm("$2");
 
-    Util_CopyWords(data, D_801D4000, SAVE_DATA_HEADER_SIZE);
+    Util_CopyWords(data, gSaveData_aHeaderTemplate, SAVE_DATA_HEADER_SIZE);
 
     saved_value = D_8009B0C4[0];
     output_type = gSD_bOutputType;

@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "mem_card.h"
 #include "save_data.h"
 
 extern u8 D_8009B3ED;
@@ -50,7 +51,6 @@ s32 func_8003FD14(void)
 }
 
 extern u8 D_801D1880[];
-extern u8 D_80010384[];
 extern void func_8003F758(void *, int, void *, int);
 extern void *D_8009B3E0;
 
@@ -62,5 +62,5 @@ void func_8003FE14(void)
     SaveData_WritePrimarySecondaryIntegrity(p);
     SaveData_WritePrimarySecondaryIntegrity(q);
     D_8009B3E0 = q;
-    func_8003F758(p, 0x400, D_80010384, 4);
+    func_8003F758(p, 0x400, gMemCard_szSaveFileName, 4);
 }
