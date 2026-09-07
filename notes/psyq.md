@@ -53,8 +53,9 @@ not be imported in bulk or used to override a conflicting local signature.
 ## Confirmed interface anchors
 
 The following resident addresses have especially strong API-level evidence.
-Project symbols remain address-based until each identity passes the normal
-symbol review.
+Most rows below are already applied project symbols. The six CD-library rows
+explicitly marked **candidate** remain address-based in `functions.csv` and
+`symbols.txt` until they pass the normal semantic-name review.
 
 | Address | Candidate SDK identity | Local evidence |
 |---|---|---|
@@ -171,9 +172,9 @@ symbol review.
 | `0x800786A0` | `StCdInterrupt` | Applied Psy-Q 4.6 identity from the unique 2,800-byte `LIBCD.LIB/C_011.OBJ` signature. |
 | `0x8007A860`, `0x8007E8A0` | `CdDataCallback` copies | Byte-identical wrappers that install a callback on DMA channel `3`. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
-| `0x8007E350` | `CdFlush` | No-argument wrapper around the CD library's internal state-reset routine. |
-| `0x8007E3D0` | `CdGetSector` | Identified CD-sector transfer interface in the resident CD library. |
-| `0x8007E4F0` | `CdGetSector2` | Parallel two-argument sector-transfer wrapper using the library's second transfer path. |
+| `0x8007E350` | `CdFlush` | **Candidate, not yet applied.** No-argument wrapper around the CD library's internal state-reset routine. |
+| `0x8007E3D0` | `CdGetSector` | **Candidate, not yet applied.** Identified CD-sector transfer interface in the resident CD library. |
+| `0x8007E4F0` | `CdGetSector2` | **Candidate, not yet applied.** Parallel two-argument sector-transfer wrapper using the library's second transfer path. |
 | `0x8007A710` | `CdIntToPos` | Applied Psy-Q 4.6 LIBCD identity; canonical copy of the sector-to-packed-BCD position conversion. |
 | `0x8007CDE0` | `DsRead` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,296-byte `LIBDS.LIB/DSREAD.OBJ` signature. |
 | `0x8007D190` | `DsReadSync` | Applied Psy-Q 4.6 identity at offset `0x3B0` of the same unique `LIBDS.LIB/DSREAD.OBJ` signature. |
@@ -189,9 +190,9 @@ symbol review.
 | `0x8007DE38` | `DsReadySystemMode` | Applied Psy-Q 4.6 identity at offset `0xE8` of the same unique `LIBDS.LIB/DSREADY.OBJ` signature; the matching file-transfer path selects mode `1`. |
 | `0x8007E390` | `DsFlush` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBDS.LIB/D2_005.OBJ` signature. |
 | `0x8007E790` | `DsLastPos` | Applied Psy-Q 4.6 identity from the unique 96-byte `LIBDS.LIB/D3_008.OBJ` signature. |
-| `0x8007E7F0` | `CdControlB` | Submits the three-argument CD command and blocks until the internal completion code is `2`. |
-| `0x8007E860` | `CdReadyCallback` | Replaces and returns the callback invoked with a ready-event status and result pointer. |
-| `0x8007E880` | `CdSyncCallback` | Replaces and returns the callback invoked from the command-completion path. |
+| `0x8007E7F0` | `CdControlB` | **Candidate, not yet applied.** Submits the three-argument CD command and blocks until the internal completion code is `2`. |
+| `0x8007E860` | `CdReadyCallback` | **Candidate, not yet applied.** Replaces and returns the callback invoked with a ready-event status and result pointer. |
+| `0x8007E880` | `CdSyncCallback` | **Candidate, not yet applied.** Replaces and returns the callback invoked from the command-completion path. |
 | `0x8007E8D0` | `SetDumpFnt` | Applied at offset zero of the unique Psy-Q 4.6 `LIBGPU.LIB/FONT.OBJ` signature; matching setup paths select the debug-font stream returned by `FntOpen`. |
 | `0x8007E9B0` | `FntOpen` | Applied at offset `0xE0` of the unique `FONT.OBJ` signature; matching callers open a 320x240 on-screen debug text window. |
 | `0x8007EC68` | `FntFlush` | Applied at offset `0x398` of the unique `FONT.OBJ` signature. |
