@@ -412,6 +412,14 @@ followed by two zero rows. The complete region hashes to:
 SHA-256: 5b59103a270882b261ff9c13ba68060a90b3b01f9b5475da50af11dc5908ba19
 ```
 
+The matching main-menu overlay identifies one direct consumer.
+`func_8018001C` installs `func_80180B4C` in callback slot `D_800E9DB0`. That
+function assigns CLUT value `0x3D00` to textured quads that tile the complete
+`320 x 240` screen before a full-screen Gouraud shade. Psy-Q's
+`getClut(x, y)` packing decodes `0x3D00` as `(0, 244)`, so VRAM row `244`—the
+fifth populated row, stored at `SU.MRG+0x30800`—is the full-screen menu
+background palette.
+
 **Confidence:**
 
 - **Confirmed** that the tutorial's decimal offset is `SU.MRG+0x30000` and
@@ -419,8 +427,10 @@ SHA-256: 5b59103a270882b261ff9c13ba68060a90b3b01f9b5475da50af11dc5908ba19
 - **Confirmed** that the complete `0x1000`-byte phase is uploaded as eight
   256-colour CLUT rows at VRAM `(0, 240)`, with six populated rows followed by
   two zero rows.
-- **Tentative** which menu elements select each of the six populated rows;
-  that still requires draw-call or texture-page evidence.
+- **Confirmed** that `func_80180B4C` selects row `244`
+  (`SU.MRG+0x30800`) for the full-screen menu background layer.
+- **Tentative** which elements select populated rows `240`-`243` and `245`;
+  those still require additional draw-call or texture-page evidence.
 
 ## WA menu background and symbol palettes
 
