@@ -1436,3 +1436,40 @@ Compare windows only between cells with the same instruction count as the base,
 and read the total alongside them. Where a change does alter the length, the
 windows say nothing and the mnemonic counts or the agreeing prefix should be
 used instead.
+
+## Two levers from the first distance-zero result, and where they do not reach
+
+Taking `func_80180390` from six to zero used two shapes that had not been tried
+before on any overlay function. Both are worth reaching for early, and both
+were then tested on the two other near-misses and do not transfer, which bounds
+them usefully.
+
+**Qualify the store, not the object, to force a reload.** Where the target
+stores a narrow global and then loads it back, GCC will normally keep the value
+in a register and mask it, because it knows the truncation. Writing
+`*(volatile u8 *)&g = v;` forces the store to memory and the reload; writing
+`extern volatile u8 g;` also forces every other read in the function and is
+much worse. The two faults this repairs, a surplus `andi` and a missing `lbu`,
+are one instruction seen from opposite sides, so they move together and neither
+can be fixed alone.
+
+**Split a two-assignment `if` into two `if`s on the same condition, and get the
+order right.** Where both arms assign two variables, GCC emits one conditional
+branch and an unconditional jump around the else arm. The target instead
+evaluates the condition once and branches on it twice, putting one assignment
+in each delay slot and needing no jump. Splitting is worth something on its
+own; splitting in the right order is worth several times more, because the
+assignment that lands in the first delay slot has to be the one whose register
+is free there. On `func_80180390` the unordered split was worth two of six and
+the correct order was worth all six.
+
+Neither reaches the other two near-misses. On `func_8016A37C`, qualifying the
+stores to `D_8016D438` or `D_8016D49C` is byte-identical and qualifying the
+stores to `D_8016D424` costs five, all of them `nop`. On `func_8016913C`, four
+splittings of the one two-assignment arm it has are worth nothing or cost two,
+because the arm's `gx` assignment is not paired with a matching one in the
+other arm and the split leaves an empty branch rather than a filled slot.
+
+The bound is the useful part: the split lever needs *both* arms to assign the
+same two variables, and the volatile-store lever needs the target to actually
+reload. Neither is a general-purpose spelling change.
