@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "graphics_constants.h"
 
 extern u8 D_8009B428;
 extern short D_8009B098[];
@@ -40,7 +41,10 @@ void func_80043960(int mode)
         int display;
         func_800137E4();
         func_8007E910(0x2C0, 0);
-        display = FntOpen(0x10, 0x10, 0x140, 0xF0, 0, 1000);
+        display = FntOpen(
+            0x10, 0x10, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
+            0, 1000
+        );
         SetDumpFnt(display);
         D_8009B098[0] = 0;
         func_80047AD0(2);
@@ -56,7 +60,10 @@ void func_80043960(int mode)
     func_8004365C(0, object);
     func_800438B8(4);
     func_8007E910(0x2C0, 0);
-    SetDumpFnt(FntOpen(0x10, 0x10, 0x140, 0xF0, 0, 1000));
+    SetDumpFnt(FntOpen(
+        0x10, 0x10, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
+        0, 1000
+    ));
     D_8009B098[0] = 0;
     CdFlush();
     first = object;
