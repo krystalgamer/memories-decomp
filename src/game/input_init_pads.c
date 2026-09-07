@@ -15,7 +15,7 @@ void Input_InitPads(void)
         INPUT_RAW_PAD_BUFFER_SIZE
     );
     StartPAD();
-    gInput_bRepeatDelay = INPUT_REPEAT_INITIAL_DELAY;
-    gInput_bRepeatInterval = INPUT_REPEAT_INTERVAL;
+    gInput_bRepeatDelay = INPUT_REPEAT_THRESHOLD;
+    gInput_bRepeatInterval = INPUT_REPEAT_RELOAD_VALUE;
     Input_ResetPads();
 }

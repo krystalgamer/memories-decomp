@@ -15,7 +15,7 @@ void Main_ResetFrontendRuntime(void)
     func_80035A64();
     func_80039E9C();
     func_800134B4();
-    gInput_bRepeatDelay = INPUT_REPEAT_INITIAL_DELAY;
+    gInput_bRepeatDelay = INPUT_REPEAT_THRESHOLD;
     D_8009B254 = 0;
-    gInput_bRepeatInterval = INPUT_REPEAT_INTERVAL;
+    gInput_bRepeatInterval = INPUT_REPEAT_RELOAD_VALUE;
 }

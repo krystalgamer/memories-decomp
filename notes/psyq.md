@@ -951,6 +951,21 @@ while `INPUT_PENDING_HIGH_BIT` is the unsigned top bit of the combined word.
 The decoder's byte order, pending-word accumulation, and low-half/high-half
 volatile publication order remain unchanged.
 
+The two default repeat settings are counter states, not two independent
+durations. `Input_InitPads` and `Main_ResetFrontendRuntime` set
+`gInput_bRepeatDelay` to `INPUT_REPEAT_THRESHOLD` (`24`) and
+`gInput_bRepeatInterval` to `INPUT_REPEAT_RELOAD_VALUE` (`20`); the existing
+global names are retained. `Input_UpdatePads` increments a held button's
+byte counter, emits a repeat when it reaches or exceeds the threshold, and
+reloads it to 20 rather than zero. A new press also emits immediately.
+
+For one continuously held button starting from a zero counter and a unit
+increment on every update, the per-button generator emits on updates
+`1, 24, 28, 32, 36, ...`. The subsequent spacing is four updates, not twenty.
+This calculation precedes the saved-event merge and does not establish a
+frame or millisecond interval: `D_8009B0D8` supplies the increment, and byte
+truncation occurs before the threshold comparison.
+
 The game-side consumers `func_80020988` and `func_80031084` use the named
 direction and button masks in `input.h` without merging their repeat and
 newly-pressed reads. The former accepts the confirm/cancel union but tests
