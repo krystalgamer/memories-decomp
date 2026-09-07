@@ -167,11 +167,18 @@ No record-stride change or hidden grid-to-opponent remapping is needed.
 | `801A7D16 0000` / `801A7D18 0000` | opponent's first monster — ATK / DEF to zero |
 | `801A7AE6 270F` / `801A7AE8 270F` | first card in your hand — ATK / DEF to 9999 |
 
-Those are one slot of a repeating record. **Cards in play are a single array at
-`0x801A7AD8`, 28 (`0x1C`) bytes each, ATK at `+0xE` and DEF at `+0x10`.** Ten
-slots per side: yours are records 0–9, the opponent's are records 20–29. So the
-second monster is 28 bytes after the first, and the whole set of per-slot codes
-follows from that one fact.
+Those are slots in a repeating record array. **The field and hands share
+30 records at `0x801A7AD8`, 28 (`0x1C`) bytes each, with ATK at `+0xE` and
+DEF at `+0x10`.** The player's ten field slots are records `5-14`, not
+`0-9`; the opponent's are `20-29`. The hands use `0-4` and `15-19`.
+The retail field map and matching hand reconstruction establish the
+[full layout](the-game.md#51-setup).
+
+The published codes above already agree with that layout: the first player
+monster's ATK address is `base + 5 * 0x1C + 0xE = 0x801A7B72`, the first
+opponent monster uses record 20, and the first player hand card uses record
+0 (`0x801A7AE6`). Adjacent records remain 28 bytes apart. The code table is
+unchanged; the earlier derived player-field range was wrong.
 
 There are also 25 "slot machine" codes that cycle a card's ATK/DEF through
 1000-step values. They are 32–145 lines each and all target these same

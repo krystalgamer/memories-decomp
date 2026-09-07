@@ -577,9 +577,22 @@ full, in the order things happen.
 
 The field is two rows of five per side: a **monster row** (up to five
 monsters) and a **magic/trap row** (up to five magic, trap, ritual or equip
-cards) [cards in play are one array of 28-byte records at `0x801A7AD8`:
-player records 0–9, opponent 20–29, ATK at +0xE, DEF at +0x10, so the second
-monster is 28 bytes after the first]. The five visible hand slots are signed
+cards). Together with the hands, these use one array of **30 records** at
+`0x801A7AD8`, each 28 bytes (`0x1C`), with ATK at `+0xE` and DEF at `+0x10`:
+
+| Side (one-player role) | Hand records | Monster records | Magic/trap records |
+|---|---|---|---|
+| 0 (player) | 0-4 | 5-9 | 10-14 |
+| 1 (opponent) | 15-19 | 20-24 | 25-29 |
+
+The retail field map at `D_800907D8` contains two 20-byte views of the
+field-record indices. In either view, the first five entries are the
+**other side's magic/trap row**, not the viewing side's own field.
+Matching [`func_8001898C`](../../src/game/func_8001898C.c) independently
+places the five hand records at `side * DUEL_CARD_SIDE_RECORD_COUNT`,
+where the per-side record count is 15.
+
+The five visible hand slots are signed
 indices at `+0x1A` in each side's 32-byte state record (player
 `0x800EA00A`, opponent `0x800EA02A`). They select an 80-entry array of
 6-byte per-deck-card records at `gDuel_aDeckCardRecords` (`0x801A7E20`):
@@ -793,6 +806,16 @@ fires per attack, and once fired it is gone. If several set traps qualify, the
 game chooses the available trap with the lowest threshold that still covers
 the attack. Widespread Ruin is therefore selected only when no narrower set
 trap can destroy that attacker.
+
+The normal battle lookup also has a **Fake Trap fallback**, beyond the
+card-text trigger summary above. Matching
+[`func_8001F0D0`](../../src/game/duel_trap_resolution.c) searches the same
+opposing magic/trap row for occupied card ID `690` if no threshold-qualified
+ID `681`-`686` was selected. It publishes that card through the same selected
+ID and record-index fields. This path consumes and credits the selected
+Fake Trap through the sequence in §6.1; its selection is not limited to an
+explicit trap-removal effect. The final attack outcome is a separate
+question from this selection and accounting evidence.
 
 **Rituals** (24 cards) are played to the magic/trap row and **activated**: if
 the three specific monsters the ritual names are face-up on your field, they
@@ -1029,6 +1052,30 @@ This write precedes this handler's calls to
 type-qualified entry into this use sequence, not evidence that the effect
 finished or changed a target. This corroborates the normal handler's
 accounting, not every route into it, other writers, or a new runtime trace.
+
+**When an attack trap is credited.** Matching
+[`func_8001F0D0`](../../src/game/duel_trap_resolution.c) selects the trap ID
+in `D_8009B22A` and its record index in `D_8009B1B8`, but does not increment
+the statistic. Matching `func_8001F364` in the same source runs the
+presentation sequence. Mode 1 calls
+[`func_80024954`](../../src/game/duel_card_object_cleanup.c) to clear the
+selected card's flags and remove its object. Only when the later mode-3 countdown
+finishes does it increment statistic `+0x06` in
+`0x800E9FF0 + (D_8009B1D5 ^ 1) * 0x20` and return zero. The grid mapping
+in §5.1 identifies this as the selected trap's side, opposite the acting side.
+
+The normal battle caller, `func_8001F55C` (still unmatched assembly), calls
+that sequencer while `D_8009B174 & 0x20` is set and clears the bit when the
+sequencer returns zero [`0x8001FA10..0x8001FA34`]. Completion is therefore
+consumed by the caller; the helper does not itself reset its mode.
+Matching [`Duel_CalcRankScore`](../../src/game/duel_calc_rank_score.c) reads
+the statistic as unsigned, copies it to displayed-stat slot 14, and passes
+it to `DUEL_RANK_RULE_TRAPS_TRIGGERED` (row 5).
+
+This normal path credits a completed trap sequence, including the Fake Trap
+fallback, after the trap card has already been removed. A lookup result or
+an early disappearance alone does not establish that the score byte changed.
+This is not an audit of every other trap/effect route or a new runtime trace.
 
 **What "cards used" counts.** Row 6 reads the side record's draw cursor at
 `+0x18`, not a counter that waits for a card to be played.
@@ -1890,7 +1937,7 @@ The constants an agent will see as bare immediates, and what each one is:
 | **10** | the zones per side; rows in the rank table; the guardian stars; the traps; the ranks |
 | **20** | the monster types (0–19); also **0x20**, the per-side duel record stride |
 | **24** | rituals; **34** equips; **33** pure magic; **10** traps; **621** monsters |
-| **28** / **0x1C** | the cards-in-play record stride; slots 0–9 player, 20–29 opponent |
+| **28** / **0x1C** | the duel-card record stride; each side has five hand and ten field records (§5.1) |
 | **500** | the guardian-star bonus, the terrain bonus, one equip level |
 | **2048** / **0x7FF** | the drop roll: `(rand & 0x7FF) + 1`; every weight table sums to 2048 |
 | **1460** / **0x5B4** | one weight table: 722 × u16 + 16 bytes of padding; the three drop pools are 0x5B4 apart |
@@ -2067,9 +2114,9 @@ Not verified in code:
 * the remaining score-row-to-gameplay-event label assignments not
   independently corroborated here. The normal draw-entry link for "turns",
   single-card commitment condition for "face-down plays", type-filtered
-  entry for "pure magic", draw/refill link for "cards used" and the three
-  victory adjustments are code-backed; the fusion/equip rows have their own
-  controlled trace evidence (§6.1);
+  entry for "pure magic", attack-trap completion credit, draw/refill link for
+  "cards used" and the three victory adjustments are code-backed; the
+  fusion/equip rows have their own controlled trace evidence (§6.1);
 * the full gameplay effects and necessity of the two "enable" GameShark
   codes. Their image and branch sites are now located in the WA startup
   phase (§12.2), and both force an existing branch unconditionally; no

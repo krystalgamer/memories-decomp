@@ -681,10 +681,14 @@ The resident hooks all land inside the second payload:
 | `0xFAB8` | `0x8001F2B8` | 4 | `0x801CF038` | Load the selected duel-card record's object pointer |
 | `0xFB30` | `0x8001F330` | 8 | `0x801CEFE4` | Compare an occupied field card against retail card ID `690` (`Fake Trap`) |
 
-The untouched routine clears six temporary entries, scans the active side's
-five field slots for occupied cards with IDs `681`-`686`, chooses among those
-traps using the current card's calculated attack and the resident threshold
-table, then falls back to a separate search for ID `690`. The hook locations
+The untouched routine clears six temporary entries, scans the first five
+slots of the current side's field view for occupied cards with IDs
+`681`-`686`, chooses among those traps using the current card's calculated
+attack and the resident threshold table, then falls back to a separate
+search for ID `690`. The retail
+`D_800907D8` mapping makes those five slots the **opposing magic/trap row**,
+not the acting side's own cards (see the
+[field layout](research/the-game.md#51-setup)). The hook locations
 therefore establish that the injected code replaces and extends trap
 selection rather than merely changing card data.
 
