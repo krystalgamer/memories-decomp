@@ -535,7 +535,7 @@ address,size,name,status,module,notes
 0x8003B054,0x324,func_8003B054,unmatched_asm,game,
 0x8003B378,0x194,func_8003B378,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003B50C,0xBC,func_8003B50C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8003B5C8,0xE4,func_8003B5C8,unmatched_asm,game,"Copies a 20-byte table from D_80010330 into a local buffer, walks it as ten big-endian u16 keys, searches the 4-byte-stride table at D_801D9004 (key in the low halfword, zero word terminating) and writes the 1-based match index to D_800EAFF8; the search is skipped when the table's first word is zero, read once before the loop. Near miss stored in notes/candidates.md: gcc_2_8_1_g0_split, 58 of 57 instructions, opcode distance 1. Every register matches and the only real difference is one extra instruction, a lui/move pair where the target has a single lui: the loop pass hoists a second (high sym) out of the loop, cse2 turns it into a copy of the setup's pseudo, and the allocator does not coalesce them. Reproduces in a six-line function (stored with the entry), so aim the next attempt at that coalescing, not at the loop. Shape levers: the outer loop compares s32 values not pointers (this GCC emits sltu for pointer compares and does not eliminate the biv here); the inner search must be a goto loop or the loop pass rotates it and needs an addiu -4 undo; e and n are initialised before the guard, not inside it; the store goes through its own pointer captured inside the guard, which is what produces the target's addu $a2,$t1,$zero; the 20-byte copy must be a struct assignment of a u8 array, which is why the target moves it with lwl/lwr and swl/swr pairs rather than aligned word moves (independently derived in #1725)."
+0x8003B5C8,0xE4,func_8003B5C8,matching_c,game,"Exact 57/57 match. D_801D9004 is declared const so the guard read is loop-invariant (RTX_UNCHANGING_P bypasses the true_dependence check against the body's pointer store); it hoists into the preheader and shares the loop's %hi, which removes the uncoalesced lui/move pair that blocked the earlier candidate."
 0x8003B6AC,0x68,func_8003B6AC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003B714,0x20,DuelEffect_InitEntryDefaultFlags,matching_c,game,Calls DuelEffect_InitEntry with zero caller-supplied flags; exact linked bytes and relocations.
 0x8003B734,0x10,Input_IsPad1ConfirmPressed,matching_c,game,Returns the newly pressed X/Square mask; both callers use it as a confirm predicate.
@@ -610,12 +610,12 @@ address,size,name,status,module,notes
 0x8003FE80,0x60,Sound_InitFrontend,matching_c,game,"Initializes the game-facing sound runtime from file-position entries 4-6, marks the output type unresolved, and services frames until the sound busy flag clears; exact full-executable match."
 0x8003FEE0,0x28,SD_SEPlayFull,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003FF08,0x2C,SD_BGMPlay,matching_c,game,"Forces the 0x7000 BGM command class, dispatches the command, and stores it for script and effect replay; exact full-executable match."
-0x8003FF34,0x24,SD_BGMFadeOut,matching_c,game,"Applies the fixed -8-per-frame BGM fade used alongside screen fade-outs; live transition traces and DOTR SD_ vocabulary support the name; exact full-executable match."
-0x8003FF58,0x30,SD_BGMFadeOutWithStep,matching_c,game,"Normalizes a caller-supplied positive fade step to a negative BGM delta and uses the same sequence-control path as SD_BGMFadeOut; script and overworld callers establish variable-rate fade-out use; exact full-executable match."
+0x8003FF34,0x24,SD_BGMFadeOut,matching_c,game,Applies the fixed -8-per-frame BGM fade used alongside screen fade-outs; live transition traces and DOTR SD_ vocabulary support the name; exact full-executable match.
+0x8003FF58,0x30,SD_BGMFadeOutWithStep,matching_c,game,Normalizes a caller-supplied positive fade step to a negative BGM delta and uses the same sequence-control path as SD_BGMFadeOut; script and overworld callers establish variable-rate fade-out use; exact full-executable match.
 0x8003FF88,0x2C,func_8003FF88,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003FFB4,0x24,func_8003FFB4,matching_c,game,16-bit mask and 0x8000 call wrapper matched exactly.
 0x8003FFD8,0x24,func_8003FFD8,matching_c,game,16-bit mask and 0xA000 call wrapper matched exactly.
-0x8003FFFC,0x30,SD_StopAll,matching_c,game,"Stops both sequence-control paths and keys off the four dedicated SPU voice slots; used by the debug sound screen's Start-button cleanup; exact full-executable match."
+0x8003FFFC,0x30,SD_StopAll,matching_c,game,Stops both sequence-control paths and keys off the four dedicated SPU voice slots; used by the debug sound screen's Start-button cleanup; exact full-executable match.
 0x8004002C,0x40,func_8004002C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8004006C,0x40,func_8004006C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800400AC,0x160,func_800400AC,matching_c,game,Post-terminal signed-link-field and split-profile recovery; exact full-executable SHA-256 match.
@@ -768,7 +768,7 @@ address,size,name,status,module,notes
 0x80047C70,0x54,func_80047C70,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047CC4,0xEC,func_80047CC4,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047DB0,0x114,func_80047DB0,unmatched_asm,game,
-0x80047EC4,0x74,SD_KeyOffVoiceSlots,matching_c,game,"Keys off the four dedicated SPU voice slots and polls their status for at most 24 iterations; exact full-executable match with gcc_2_8_1_g0."
+0x80047EC4,0x74,SD_KeyOffVoiceSlots,matching_c,game,Keys off the four dedicated SPU voice slots and polls their status for at most 24 iterations; exact full-executable match with gcc_2_8_1_g0.
 0x80047F38,0x74,func_80047F38,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047FAC,0x90,func_80047FAC,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_cc_g0_as_g8_no_split.
 0x8004803C,0x274,func_8004803C,unmatched_asm,game,

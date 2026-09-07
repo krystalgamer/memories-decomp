@@ -3544,6 +3544,61 @@ And when the residual is that copy, the lever wanted is something that changes
 the allocator's coalescing, not the loop -- the loop shape around it can
 already be exact.
 
+### Resolved: `const` makes the guard read loop-invariant and the copy vanishes
+
+The framing above is what blocks: it treats the setup read as fixed and hunts
+for a way to coalesce. The lever is on the other side. Write the read *inside*
+the loop and let the loop pass hoist it, and there is only ever one `high`
+pseudo, so no copy is created to coalesce.
+
+That hoist normally does not happen. `invariant_p` in `loop.c` rejects a `MEM`
+whenever `true_dependence` cannot separate it from anything the body stores,
+and the body here stores through a pointer, which nothing disambiguates
+against a `symbol_ref`. But `invariant_p` checks `RTX_UNCHANGING_P` *before*
+it reaches that scan, and returns 1 outright:
+
+```c
+case MEM:
+  if (MEM_VOLATILE_P (x)) return 0;
+  if (RTX_UNCHANGING_P (x)) return 1;      /* taken -- no dependence scan */
+  if (unknown_address_altered) return 0;
+  for (i = loop_store_mems_idx - 1; i >= 0; i--)
+    if (true_dependence (loop_store_mems[i], VOIDmode, x, rtx_varies_p))
+      return 0;
+```
+
+Declaring the table `const` sets `RTX_UNCHANGING_P` on loads from it, so the
+guard read hoists into the preheader regardless of the stores. The preheader
+then holds the hoisted `high` and the guard load together, the in-loop address
+uses that same pseudo, and the setup read that produced the second pseudo no
+longer exists:
+
+```c
+extern u16 OUT[];
+extern const u32 T[];                 /* const is the lever */
+...
+do {
+    e = T; n = 1;
+    if (T[0] != 0) { ... }            /* read inside the loop, hoisted */
+    ...
+} while (p < end);
+```
+
+`func_8003B5C8` matches exactly this way, 57 of 57 instructions on
+`gcc_2_8_1_g0_split` and `gcc_2_8_1_g8_split`. Everything listed as crossed
+above stays crossed; none of it moved the count, because all of it kept the
+read in the setup.
+
+The negative that pins the mechanism: the same shape with the read inside the
+loop but the table left non-`const` builds 57 instructions too, and is still
+wrong -- the load stays in the body as `lw $a0, %lo(T)($t2)` and the preheader
+holds only the `lui`. The instruction count coincides; the placement does not.
+
+Generalise it as: when a loop-invariant load will not hoist and the body
+stores through a pointer, the question is not the loop shape but whether the
+loaded object can be declared `const`.
+
+
 ## A block copy through `lwl`/`lwr` means the source is a byte array
 
 When a target moves a fixed-size block with a run of `lwl`/`lwr` and
