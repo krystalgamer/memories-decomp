@@ -965,6 +965,21 @@ counter supplies the value added to the score. The rows, measured:
 | 8 | +0x08 | 0: +4 · 1–4: 0 · 5–9: −4 · 10–14: −8 · 15+: −12 | **INITIATE FUSION** — successful fusions initiated from the hand |
 | 9 | +0x09 | same as row 8 | **EQUIP MAGIC** — valid equips used |
 
+**When "turns" advances.** Row 0 reads the unsigned byte at the side record's
+`+0x01`. Matching [`func_8001898C`](../../src/game/func_8001898C.c) binds the
+record to the current side, `D_8009B1D5`, and increments that byte in its
+draw-entry initialization branch, guarded by `D_8009B23A & 0x8000`.
+The increment precedes the used-card flag reset and hand reconstruction,
+including the refill request. Later calls while that flag remains set only
+poll for the message state to finish; they do not increment the counter.
+
+[`Duel_CalcRankScore`](../../src/game/duel_calc_rank_score.c) copies this byte
+to displayed-stat slot 15 and passes it to `DUEL_RANK_RULE_TURNS` (row 0).
+On this normal path, a side's turn is therefore counted at draw entry, not
+after its play is completed or once per frame. This is a per-side count,
+not a shared count of completed two-side rounds; the evidence does not
+establish every possible writer to the byte or add a runtime observation.
+
 **What "cards used" counts.** Row 6 reads the side record's draw cursor at
 `+0x18`, not a counter that waits for a card to be played.
 Matching [`func_8001898C`](../../src/game/func_8001898C.c) selects the active
@@ -2000,9 +2015,10 @@ Not verified in code:
   duel, Build Deck and normal Free Duel browsing documented in §8;
 * whether a monster played this turn may attack this turn (stated from play);
 * the remaining score-row-to-gameplay-event label assignments not
-  independently corroborated here. The normal draw/refill link for "cards
-  used" and the three victory adjustments are code-backed; the fusion/equip
-  rows have their own controlled trace evidence (§6.1);
+  independently corroborated here. The normal draw-entry link for "turns",
+  draw/refill link for "cards used" and the three victory adjustments are
+  code-backed; the fusion/equip rows have their own controlled trace
+  evidence (§6.1);
 * the full gameplay effects and necessity of the two "enable" GameShark
   codes. Their image and branch sites are now located in the WA startup
   phase (§12.2), and both force an existing branch unconditionally; no
