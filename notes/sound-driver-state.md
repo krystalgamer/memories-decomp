@@ -57,6 +57,13 @@ command class, dispatches it through the sequence path, and stores the value in
 `gSD_dwCurrentBgmCommand`. Script and duel-effect handlers copy that value
 when their bytecode requests replay of the current music command.
 
+`SD_SEPlayFull` masks its input to `SD_COMMAND_VALUE_MASK` and calls
+`SD_SEPlay` with `SD_SE_VOLUME_MAX` (`0xFF`) and mode zero. The adjacent
+flagged-effect wrapper at `0x8003FF88` sets command bit `0x8000` before using
+the same full-volume arguments. This effect-call maximum is distinct from
+`SD_CHANNEL_VOLUME_MAX` (`0x80`), which initializes and bounds the two
+`channel_volume` bytes used by the internal mix path.
+
 `Sound_InitFrontend` is the game-facing bridge into this lower-level state. It
 sets `gSD_bOutputType` to the unresolved sentinel `-1`, then passes
 `gFile_anLba[4]`, `[5]`, and `[6]` to `func_80046990`. The runtime file table
