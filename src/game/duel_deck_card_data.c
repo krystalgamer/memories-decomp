@@ -22,7 +22,7 @@ extern s32 Util_CompareS16(s16 *, s16 *);
 extern s32 func_800245EC(s32, s32);
 extern u8 *func_80014EEC(s32, u8 *, s32, s32, void *, s32, s32);
 
-void func_80024734(void)
+void Duel_RequestCombinedDeckData(void)
 {
     u8 *source = D_8017808C;
     u8 *output;
@@ -60,7 +60,7 @@ void func_80024734(void)
     D_8009B0F4 = *(s32 *)(result + 0x2C) | 0x10;
 }
 
-void func_80024824(void)
+void Duel_PopulateCombinedDeckData(void)
 {
     u8 *dst = D_8018C2D8;
     DeckCardRecord *rec = gDuel_aDeckCardRecords;

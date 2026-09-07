@@ -75,7 +75,7 @@ source grouping.
 | `src/game/text_box_runtime.c` | `gcc_2_8_1_g8` | `TextBox_SetPos` (`0x80039934`) followed by two contiguous blocking text-box build-to-completion helpers at `0x80039A14` and `0x80039A60` |
 | `src/game/duel_field_effect_transition.c` | `gcc_2_8_1_g8_split` | Card-object transition callback (`0x80025B28`) and the contiguous prompt/controller that installs it (`0x80025BEC`) |
 | `src/game/duel_card_icon_setup.c` | `gcc_2_8_1_g8_split` | Card-type icon object creation (`0x80024C1C`) and the contiguous duel-card slot setup helper (`0x80024D34`) |
-| `src/game/duel_deck_card_data.c` | `gcc_2_8_1_cc_g8_as_g0_split` | Combined-deck sort/deduplication and asynchronous card-data request setup (`0x80024734`), followed by contiguous deck-card record and asset-block population (`0x80024824`) |
+| `src/game/duel_deck_card_data.c` | `gcc_2_8_1_cc_g8_as_g0_split` | `Duel_RequestCombinedDeckData` (`0x80024734`) sort/deduplication and asynchronous request setup, followed by contiguous `Duel_PopulateCombinedDeckData` (`0x80024824`) record and asset-block population |
 | `src/game/duel_life_point_effects.c` | `gcc_2_8_1_g8_split` | Contiguous table-driven LP recovery (`0x800250C8`) and direct-damage (`0x8002525C`) effect handlers |
 | `src/game/duel_field_effect_updates.c` | `gcc_2_8_1_g8_split` | Contiguous duel-field marker (`0x800255FC`) and field-card effect completion (`0x800257A0`) state handlers sharing `D_8009B220` flags |
 | `src/game/duel_field_equip_search.c` | `gcc_2_8_1_g8_split` | Two contiguous field-card filters (`0x80026C6C`, `0x80026D18`) and their following equip-pair search (`0x80026DC8`) |

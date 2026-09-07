@@ -1887,7 +1887,8 @@ id     = *(u16 *)(base + i * 2 + 0x3BC4);
 rec[4] = base[i + 0x3B70];
 ```
 
-On `func_80024824` that removed three instructions and three diffs, taking the
+On `Duel_PopulateCombinedDeckData` (`0x80024824`) that removed three
+instructions and three diffs, taking the
 candidate from two over the target to one short.
 
 **When to apply it.** This is the opposite of what several other functions
