@@ -780,9 +780,48 @@ join:
 ```
 ## main_menu `func_80180390` at 0x80180390
 
-`gcc_2_8_1_g0_split`, 497 instructions against 495, opcode distance 6.
-The longest common subsequence of mnemonics is 477 of 495 and the first
-192 instructions agree.
+`gcc_2_8_1_g0_split`, 495 instructions against 495, opcode distance 0
+with every mnemonic count exact. The longest common subsequence of
+mnemonics is 479 of 495, the first 192 instructions agree, and 232
+positions differ.
+
+The instruction mix is now exact. Every mnemonic appears the same number of
+times as in the target, the instruction count is 495 against 495, and the
+opcode distance is zero. What is left is register assignment and ordering.
+
+Two changes took it from six, and the second is the interesting one.
+
+The store of the new menu index has to be `volatile`. The target stores the
+computed byte to `gMain_bMenuID` and then *reloads* it with `lbu` to index the
+entry table, where this build kept the value in a register and masked it with
+`0xff`, because the truncation to `u8` is known to the compiler. Qualifying the
+store, and only the store, forces the reload: the surplus `andi` and the
+missing `lbu` are the same instruction seen from two sides, and both go to zero
+together. Qualifying the whole global instead is much worse, because it also
+forces every other read of it in the function. Six spellings were measured,
+including naming the value in a local before storing it, casting the assignment
+to `u8`, naming the entry pointer, and reading the global back through a
+volatile pointer at one or both uses; only the volatile store reaches it.
+
+The base and count selection is two separate `if` statements on the same
+condition, and the count comes first. The target evaluates `(u32)gMain_bMenuID
+< 5` once and branches on the result twice, with `move s1,zero` in the first
+delay slot and `li s0,6` in the second, so both assignments are made in slots
+and no unconditional jump is needed. A single `if` with two assignments in each
+arm cannot produce that: it gives one conditional branch and a `j` around the
+else arm, which is the surplus `j` and the missing `beqz`.
+
+Splitting into two `if` statements is worth two on its own. Splitting them and
+putting the count first is worth all six. The order matters because the
+assignment that lands in the first delay slot has to be the one whose register
+is free at that point; with the base first, GCC fills the slots the other way
+round and keeps a `bnez` where the target has a `beqz`. Writing the pair as two
+conditional expressions reaches the same two as the unordered split, and
+inverting the second test is worse.
+
+All twenty-nine profiles were re-run at the new base and none matches; only
+`gcc_2_8_1_cc_g0_as_g8_split` ties, as it has throughout.
+
 
 The failure returns funnel through the single exit label, but only the first
 eleven of them. That takes the distance to six, brings the `li` count to exactly
@@ -1279,11 +1318,14 @@ s32 func_80180390(void)
 
     if ((D_8009B394 & 0x5000) != 0) {
         if ((u32)gMain_bMenuID < 5) {
-            base = 0;
             count = 5;
         } else {
-            base = 5;
             count = 6;
+        }
+        if ((u32)gMain_bMenuID < 5) {
+            base = 0;
+        } else {
+            base = 5;
         }
         func_80040410(gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
         if ((D_8009B394 & 0x1000) != 0) {
@@ -1291,7 +1333,7 @@ s32 func_80180390(void)
         } else {
             value = gMain_bMenuID - base + count + 1;
         }
-        gMain_bMenuID = value % count + base;
+        *(volatile u8 *)&gMain_bMenuID = value % count + base;
         func_80040410(gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
         SD_SEPlay(6, 0xFF, 0);
         goto ret_m1;
