@@ -782,8 +782,43 @@ join:
 
 `gcc_2_8_1_g0_split`, 495 instructions against 495, opcode distance 0
 with every mnemonic count exact. The longest common subsequence of
-mnemonics is 479 of 495, the first 192 instructions agree, and 189
+mnemonics is 480 of 495, the first 196 instructions agree, and 189
 positions differ.
+
+The pad-hold accumulation now emits its store where the target emits it, which
+moves the agreeing prefix from 192 to 196 and the subsequence from 479 to 480
+with no metric going backwards. The differing positions are unchanged, so this
+is a structural gain rather than a numeric one, and it is recorded as such.
+
+The change is a dedicated local for the accumulator plus the global read first:
+`acc = D_8009B0D8 + *(u16 *)(entry + 0x36)`. Sixteen cells of the product of
+four accumulator forms, the shared `value` and dedicated locals typed `s32`,
+`s16` and `u16`, against both operand orders and both comparison senses, show
+that the width is irrelevant and the operand order is the whole effect: every
+dedicated local with the global first reaches 196, every one with the field
+first stays at 192, and the three widths are identical to one another. With the
+store in the right place the seven instructions from the field load to the
+comparison agree in shape with the target and differ only in which registers
+hold the entry pointer, the delta and the sum.
+
+Two further shapes in the same block were measured and neither helps, but both
+are worth recording because they look like they should.
+
+The two return values are still in the wrong delay slots: the target branches
+on the failing case with `-2` in the slot and falls through to `-1`, and this
+build does the reverse. Writing the comparison as `>= 0xBB8` returning `-2`
+first is byte-identical, because GCC canonicalises it back. Giving the `-2`
+return its own label and reaching it by `goto` does change the layout, and
+placing that label before `ret_m1` takes the prefix to 199, the furthest it has
+been; it costs four of the distance to do it, so the layout is source-reachable
+but not affordable. Five label arrangements were measured.
+
+Hoisting the menu-id read above the frame-counter decrement, which is the order
+the target's delay slots imply, gives 188 differing positions, one fewer than
+the current shape. It costs two of the distance, so it is a false positive of
+exactly the kind the metric ordering exists to catch: the position count
+improves because a different fault replaces the one it removes.
+
 
 Three more shared locals separated, taking the differing positions from 206 to
 189. The method is the same each time: cluster the differing positions, read
@@ -1186,6 +1221,7 @@ s32 func_80180390(void)
     s32 base;
     s32 count;
     s32 lvl;
+    s32 acc;
     s32 neg;
     s32 chr;
     u8 *ent5;
@@ -1304,9 +1340,9 @@ s32 func_80180390(void)
             goto ret_m1;
         }
         entry = D_80184560;
-        value = *(u16 *)(entry + 0x36) + D_8009B0D8;
-        *(volatile s16 *)(entry + 0x36) = value;
-        if ((s16)value < 0xBB8) {
+        acc = D_8009B0D8 + *(u16 *)(entry + 0x36);
+        *(volatile s16 *)(entry + 0x36) = acc;
+        if ((s16)acc < 0xBB8) {
             goto ret_m1;
         }
         return -2;
