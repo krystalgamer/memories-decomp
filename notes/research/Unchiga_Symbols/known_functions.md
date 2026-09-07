@@ -25,6 +25,10 @@ Names that say what something IS in the game.
 | 0x80012CD4 | `Main_VBlankCB` | idb2018 |
 | 0x800136E4 | `File_SetPositionTable` | idb2018 |
 | 0x800138F4 | `File_GetPosition` | idb2018 |
+| 0x80013998 | `File_InitTransferDescriptor` | matching C |
+| 0x80014E1C | `File_RequestAsyncTransfer` | matching C |
+| 0x80014EEC | `File_TryRequestAsyncTransfer` | matching C |
+| 0x80015078 | `File_RequestSecondaryAsyncTransfer` | matching C |
 | 0x800151D8 | `Fade_StepBands` | idb2018 |
 | 0x80015310 | `Fade_Update` | idb2018 |
 | 0x800158B8 | `Fade_InitOut` | idb2018 |
@@ -41,6 +45,9 @@ Names that say what something IS in the game.
 | 0x800218F0 | `Duel_MaybeEndOfDuel` | idb2018 |
 | 0x800243F4 | `Duel_ShuffleDeck` | idb2018 |
 | 0x800245A0 | `Duel_ShuffleBothDecks` | idb2018 |
+| 0x800245EC | `Duel_StepCardDataTransfer` | matching C |
+| 0x80024734 | `Duel_RequestCombinedDeckData` | matching C |
+| 0x80024824 | `Duel_PopulateCombinedDeckData` | matching C |
 | 0x8002497C | `Duel_GetTerrainBoost` | idb2018 |
 | 0x8002892C | `DuelEffect_UpdateState` | matching C |
 | 0x8002BF3C | `Library_MarkOwnedCards` | idb2018 |
@@ -86,7 +93,10 @@ Names that say what something IS in the game.
 | 0x80037110 | `Widget_UpdatePulseColour` | idb2018 |
 | 0x800371A8 | `Dialog_UpdateChoice` | idb2018 |
 | 0x800374F4 | `Dialog_OpenChoice` | idb2018 |
+| 0x80038530 | `Text_StartCampaignDuel` | matching C |
 | 0x80038798 | `DuelEffect_PlaySoundCommand` | matching C |
+| 0x80038BA8 | `Text_SetCursorOffset` | matching C |
+| 0x80038BF0 | `Text_HandleChoiceCommand` | matching C |
 | 0x800393B0 | `TextBox_BuildStep` | idb2018 |
 | 0x80039934 | `TextBox_SetPos` | idb2018 |
 | 0x80039D64 | `DuelEffect_ProcessEntries` | matching C |
@@ -902,7 +912,6 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80012D84 | `call_80012d4c_n_times` | fleet |
 | 0x80012E5C | `gpu_disp_buff_swap_and_ot_sort_dispatch` | fleet |
 | 0x800143DC | `File_ActivateTransfer` | fleet |
-| 0x80014EEC | `reinit_d800e9e60_obj` | fleet |
 | 0x800154E4 | `Fade_DrawOverlay` | fleet |
 | 0x800157DC | `call_80015780_flags_and_8001572c` | fleet |
 | 0x80015870 | `reset_9ec8_state_if_flag145` | fleet |
@@ -938,7 +947,6 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x800235C0 | `update_active_move_record` | fleet |
 | 0x80023FBC | `decode_status_flags_call_80023d08` | fleet |
 | 0x800240B0 | `Duel_UpdateCardPickCursor` | local |
-| 0x800245EC | `duel_seq_step` | fleet |
 | 0x80024704 | `Util_CompareS16` | local |
 | 0x800249E0 | `card_record_fill` | fleet |
 | 0x80024C1C | `spawn_card_type_icon_obj` | fleet |
