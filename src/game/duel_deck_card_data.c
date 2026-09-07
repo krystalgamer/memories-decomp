@@ -11,7 +11,7 @@ typedef struct {
     u8 b5;
 } DeckCardRecord;
 
-extern u8 D_8017808C[];
+extern u16 gDuel_awCombinedDeckCardIds[];
 extern u16 gDuel_awUniqueDeckCardIds[];
 extern u8 D_8015C424[];
 extern u8 D_8018C2D8[];
@@ -24,7 +24,7 @@ extern void Duel_StepCardDataTransfer(FileTransferDescriptor *, s32);
 
 void Duel_RequestCombinedDeckData(void)
 {
-    u8 *source = D_8017808C;
+    u8 *source = (u8 *)gDuel_awCombinedDeckCardIds;
     u8 *output;
     FileTransferDescriptor *result;
     s32 i;
@@ -35,12 +35,12 @@ void Duel_RequestCombinedDeckData(void)
 
     Util_CopyWords(
         source,
-        source - DUEL_DECK_ID_BUFFER_SIZE,
+        source - DUEL_DECK_ID_BUFFER_STRIDE,
         COMBINED_DECK_SIZE * sizeof(u16)
     );
     qsort(source, COMBINED_DECK_SIZE, sizeof(u16), (int (*)())Util_CompareS16);
 
-    output = source + DUEL_DECK_ID_BUFFER_SIZE;
+    output = source + DUEL_DECK_ID_BUFFER_STRIDE;
     previous = 0;
     for (i = 0; i < COMBINED_DECK_SIZE; i++) {
         value = *(u16 *)source;

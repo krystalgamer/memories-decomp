@@ -3086,7 +3086,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80169C08,NameEntry_PollCompletion,NameEntry_PollCompletion,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_frontend_menus.c,read,32,if (NameEntry_PollCompletion()) {
 0x80177EA4,D_80177EA4,D_80177EA4,0x800249E0,func_800249E0,matching_c,game,C,src/game/func_800249E0.c,address,8,base = D_80177EA4;
 0x80177FE8,gDuel_awPlayerShuffledDeck,gDuel_awPlayerShuffledDeck,0x800245A0,Duel_ShuffleBothDecks,matching_c,game,C,src/game/duel_shuffle_both_decks.c,address,8,char *base = gDuel_awPlayerShuffledDeck;
-0x8017808C,D_8017808C,D_8017808C,0x80024734,Duel_RequestCombinedDeckData,matching_c,game,C,src/game/duel_deck_card_data.c,read,,u8 *source = D_8017808C;
+0x8017808C,gDuel_awCombinedDeckCardIds,gDuel_awCombinedDeckCardIds,0x80024734,Duel_RequestCombinedDeckData,matching_c,game,C,src/game/duel_deck_card_data.c,address,16,u8 *source = (u8 *)gDuel_awCombinedDeckCardIds;
 0x80178130,gDuel_awUniqueDeckCardIds,gDuel_awUniqueDeckCardIds,0x80024734,Duel_RequestCombinedDeckData,matching_c,game,C,src/game/duel_deck_card_data.c,address,16,result->callback_data = gDuel_awUniqueDeckCardIds;
 0x80178130,gDuel_awUniqueDeckCardIds,gDuel_awUniqueDeckCardIds,0x80024824,Duel_PopulateCombinedDeckData,matching_c,game,C,src/game/duel_deck_card_data.c,address,16,p = gDuel_awUniqueDeckCardIds;
 0x801781D8,gDuel_awOpponentDeckPool,gDuel_awOpponentDeckPool,0x800179F4,func_800179F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0081f4.s,address,,"addiu $v0, $v0, %lo(gDuel_awOpponentDeckPool) | lui $v0, %hi(gDuel_awOpponentDeckPool)"

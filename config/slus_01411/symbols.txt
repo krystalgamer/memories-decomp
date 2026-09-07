@@ -41,6 +41,7 @@ gDuel_awPlayerDeckShuffle = 0x80177F94;
 gDuel_awOpponentDeckShuffle = 0x80177FBC;
 gDuel_awPlayerShuffledDeck = 0x80177FE8;
 gDuel_awOpponentShuffledDeck = 0x80178038;
+gDuel_awCombinedDeckCardIds = 0x8017808C;
 gDuel_awOpponentDeckPool = 0x801781D8;
 gDuel_awSaPowCardDrops = 0x8017878C;
 gDuel_awBcdCardDrops = 0x80178D40;
