@@ -71,7 +71,7 @@ segments:
       - [0xF50, c, overlays/main_menu/func_80180F50]
       - [0xFD8, c, overlays/main_menu/start_value_setup]
       - [0x12B4, c, overlays/main_menu/func_801812B4]
-      - [0x1728, asm, overlays/main_menu/text_1728]
+      - [0x1728, c, overlays/main_menu/starchip_bars]
       - [0x1CB8, c, overlays/main_menu/update_value_widget_tween]
       - [0x1E30, c, overlays/main_menu/finish_value_setup]
       - [0x1EEC, c, overlays/main_menu/count_decimal_digits]

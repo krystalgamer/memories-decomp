@@ -49,6 +49,12 @@
       "source": "src/overlays/main_menu/func_801812B4.c"
     },
     {
+      "address": "0x80181728",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x590",
+      "source": "src/overlays/main_menu/starchip_bars.c"
+    },
+    {
       "address": "0x80181CB8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x178",

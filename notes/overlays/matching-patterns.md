@@ -1591,3 +1591,99 @@ on the pointer before reordering statements, because no amount of reordering
 can grant the compiler permission it does not have.
 
 Verified by `FreeDuel_Init` in the free_duel module.
+
+## Name a literal to buy a spill, and assign it inside the loop
+
+`func_80181728` draws two starchip bars and their digit counters. Its
+reconstruction sat at opcode distance three or four for many cycles, and the
+whole residual was spill traffic: the target stores the 8000 digit count at
+`112(sp)` and its shifted copy at `116(sp)` and `120(sp)`, and this build kept
+those values in registers instead. Every attempt to add register pressure the
+usual ways — splitting shared locals, hoisting pointers into locals, giving
+each loop its own index or count — was either canonicalised away or paid for
+itself somewhere else.
+
+What worked was the opposite of the usual advice. The four `y` and `v`
+constants of each digit quad had been written as literals:
+
+```c
+digit.y0 = 106;
+digit.v0 = 112;
+```
+
+Writing them as named locals instead
+
+```c
+c106 = 106;
+c114 = 114;
+c112 = 112;
+c120 = 120;
+digit.y0 = c106;
+digit.v0 = c112;
+```
+
+took the function from distance five to two in one step, because it added the
+two missing spills at once.
+
+The reason is that a literal is rematerialised wherever it is needed and costs
+no register, while a named local is a value with a live range that must be
+allocated. Four of them across a loop body is exactly enough to exhaust the
+callee-saved registers, and once they are exhausted the allocator spills the
+loop-invariant shift — which is what the target does.
+
+**Where the assignment goes is equally load-bearing.** Placed before the loop
+they are ordinary statements and are emitted before the loop's zero-trip guard.
+The target emits all four *after* the guard, which is the loop preheader, so
+they have to be loop invariants that `loop.c` hoists — that is, assignments
+*inside* the loop body:
+
+```c
+for (i = 0; i < count; i++) {
+    digit.x0 = ...;
+    c106 = 106;
+    c114 = 114;
+    c112 = 112;
+    c120 = 120;
+    digit.y0 = c106;
+    ...
+}
+```
+
+That single move, from before the loop to inside it, was the last fourteen
+differing positions and the match. Each loop needs its own set, in the order
+the target materialises them.
+
+Two corollaries:
+
+- **If the residual is missing spills, look for a literal to promote.** Adding
+  pressure by splitting or hoisting existing variables usually fails, because
+  the allocator has the same amount of work either way. Promoting a literal
+  adds a live range that did not exist at all.
+- **A named local assigned inside a loop is not the same as one assigned before
+  it.** Before the loop it is a statement; inside it is an invariant, and
+  `loop.c` puts invariants after the zero-trip guard. This is the same
+  insertion-point rule that decides where hoisted addresses and derived
+  induction variables land.
+
+## Write a quad per vertex, not per component
+
+The same function stores eight coordinates per digit. Written by component,
+all four `x` and then all four `y`, it left forty differing positions. Written
+per vertex
+
+```c
+digit.x0 = ...;  digit.y0 = c106;
+digit.x1 = digit.x0 + 8;  digit.y1 = c106;
+digit.x2 = digit.x0;      digit.y2 = c114;
+digit.x3 = digit.x1;      digit.y3 = c114;
+```
+
+it left fourteen, at identical opcode distance and instruction count.
+
+The tell is readable straight off the target without any reconstruction: the
+store offsets come out interleaved, `24, 48, 26, 36, 38, 50, 60, 62` for a
+structure whose fields are at `x0 24, y0 26, x1 36, y1 38, x2 48, y2 50,
+x3 60, y3 62`. A component-ordered source cannot produce that interleaving,
+because the scheduler will not move a store across three others for nothing.
+
+Verified by `func_80181728` in the main_menu module.
