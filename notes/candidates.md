@@ -1228,3 +1228,75 @@ Color *func_8005B0B4(Color *out, u8 r, u8 g, u8 b, s32 flags, u16 scale, u8 lim)
     return out;
 }
 ```
+
+## `func_80025028` at 0x80025028
+
+`gcc_2_8_1_g8_split`, 40 of 40 instructions, opcode distance 0, 4 differing
+positions.
+
+Searches one side's five-slot row for an occupied card whose `+0x0C` field
+equals the argument, and on a hit records the argument in `D_8009B22A`, copies
+the owning object's `+0x6A` byte to `D_8009B1B8`, and returns the argument.
+Returns 0 when no slot matches. `D_8009B22A` is cleared before the loop, so a
+miss leaves it zero.
+
+Everything reuses existing declarations rather than new ones. All five globals
+are already declared in sibling sources, the record stride is
+`DUEL_CARD_RECORD_SIZE`, the row stride is `DUEL_FIELD_SIDE_GRID_SLOT_COUNT`,
+the trip count is `DUEL_FIELD_ROW_SIZE` and the tested bit is
+`DUEL_CARD_FLAG_OCCUPIED`, all of which match the emitted constants exactly.
+The record is a `u8 *` with hex offsets, the same view
+`duel_card_turn_animations.c` takes of `D_801A7AD8`.
+
+The row index has to be written `D_800907D8[i + base]`. Written
+`[base + i]` the two `addu` come out with the operands the other way round,
+which is the grouping rule recorded in matching-evidence: the constant binds
+to whichever term is written first.
+
+What remains is four positions, all in the hit block, and the multiset is
+already exact. The target emits `lw`, `sh`, `lbu`, `nop`, filling the record
+load's delay slot with the `D_8009B22A` store and leaving the byte load's
+delay empty; this build emits `sh`, `lw`, `nop`, `lbu`.
+
+Writing the pointer read before the store does produce the target's order
+exactly -- and then the build is 39 instructions, because the byte load's
+delay slot is filled by the following store instead of a `nop`. That shape was
+crossed against all 29 profiles without ever reaching 40. Also tried at 4 or
+worse: the pointer read inlined at its use, the byte read into a temporary
+before or after the store, the record pointer as an `s32`, and the store moved
+after the byte read.
+
+```c
+#include "../../src/types.h"
+#include "../../src/game/duel_card_layout.h"
+#include "../../src/game/duel_grid.h"
+
+extern u8 D_8009B1D5;
+extern u8 D_800907D8[];
+extern u8 D_801A7AD8[];
+extern s16 D_8009B22A;
+extern u8 D_8009B1B8;
+
+s32 func_80025028(s32 arg0)
+{
+    s32 i;
+    s32 base;
+    u8 *e;
+    u8 *p;
+
+    base = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+    D_8009B22A = 0;
+    for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
+        e = D_801A7AD8 + D_800907D8[i + base] * DUEL_CARD_RECORD_SIZE;
+        if (*(u16 *)(e + 0x16) & DUEL_CARD_FLAG_OCCUPIED) {
+            if (*(s16 *)(e + 0xC) == arg0) {
+                D_8009B22A = arg0;
+                p = *(u8 **)e;
+                D_8009B1B8 = p[0x6A];
+                return arg0;
+            }
+        }
+    }
+    return 0;
+}
+```
