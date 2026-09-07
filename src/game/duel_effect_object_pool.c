@@ -1,6 +1,11 @@
 #include "../types.h"
 
 typedef struct {
+    u8 pad0[0x24F];
+    u8 field24F;
+} Object;
+
+typedef struct {
     s16 field_00;
     u8 pad_02[2];
     u8 field_04;
@@ -19,6 +24,18 @@ typedef struct {
 
 extern u8 D_8009B260;
 extern Pool D_800EAD88;
+extern Object D_801D0000;
+
+int func_8002C570(int offset)
+{
+    Object *object;
+
+    object = (Object *)((u32)&D_801D0000 + offset);
+    if (object->field24F) {
+        return 1;
+    }
+    return -1;
+}
 
 void func_8002C598(void)
 {

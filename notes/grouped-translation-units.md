@@ -64,6 +64,7 @@ source grouping.
 | `src/game/build_deck_compare.c` | `gcc_2_8_1_g0_split` | `BuildDeck_CompareCard` (`0x80032B60`) and its reverse-primary comparator at `0x80032BD4` |
 | `src/game/text_box_lifecycle.c` | `gcc_2_8_1_g0` | `TextBox_Destroy` (`0x80035B7C`), `TextBox_Create` (`0x80035BE4`), and contiguous flagged creator `TextBox_CreateFlagged` (`0x80035C38`) |
 | `src/game/duel_effect_entry_occupancy.c` | `gcc_2_8_1_g8_split` | Five entry-allocation and marker helpers from `0x80035CA8` through `DuelEffect_ResetEntryMarkers` (`0x80035DF4`) |
+| `src/game/duel_effect_object_pool.c` | `gcc_2_8_1_g8_split` | External duel-object readiness check (`0x8002C570`) followed by the contiguous eight-entry effect-pool reset and free-entry search helpers through `0x8002C5CC` |
 | `src/game/duel_effect_entry_control.c` | `gcc_2_8_1_g8_split` | `DuelEffect_HasActiveEntry` (`0x8003735C`), the following entry marker writer (`0x800373C8`), and contiguous entry-wait reset callback (`0x8003741C`) |
 | `src/game/dialog_choice_state.c` | `gcc_2_8_1_g0` | Choice-object state initializer (`0x800374A8`) and contiguous `Dialog_OpenChoice` cursor creator (`0x800374F4`) |
 | `src/game/duel_effect_interaction_states.c` | `gcc_2_8_1_g8` | Five contiguous choice, effect-script operand/trigger setup, wait, and display-state callbacks from `0x800375A4` through `0x800377C8` |
