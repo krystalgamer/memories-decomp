@@ -332,6 +332,8 @@ Duel_HasAllExodiaPieces = 0x80018CF8; // type:func
 File_RequestAsyncTransfer = 0x80014E1C; // type:func
 File_TryRequestAsyncTransfer = 0x80014EEC; // type:func
 File_RequestSecondaryAsyncTransfer = 0x80015078; // type:func
+gFile_SecondaryTransferDescriptor = 0x800E9E18;
+gFile_PrimaryTransferDescriptor = 0x800E9E60;
 
 // Semantic names
 File_InitTransferDescriptor = 0x80013998; // type:func

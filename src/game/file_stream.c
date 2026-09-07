@@ -41,7 +41,7 @@ extern u16 D_8009B124;
 extern s32 D_8009B12C;
 extern s32 D_8009B130;
 extern s32 D_8009B134;
-extern FileTransfer D_800E9E18;
+extern FileTransfer gFile_SecondaryTransferDescriptor;
 extern s32 gFile_anLba[];
 
 extern s32 func_8007AFA4(void);
@@ -150,7 +150,7 @@ FileTransfer *func_80013A94(s32 file_index, s32 sector_offset)
     if (D_8009B0F4 & 0x20)
         return 0;
 
-    transfer = &D_800E9E18;
+    transfer = &gFile_SecondaryTransferDescriptor;
     func_80013940(transfer, file_index & 0xF, sector_offset, 0);
     transfer->state = 0;
     transfer->flags = 0x00100000;

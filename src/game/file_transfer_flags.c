@@ -5,8 +5,8 @@ extern u32 D_8009B10C;
 extern volatile u32 D_8009B0F4;
 extern volatile u16 D_8009B112;
 extern u32 D_8009B134;
-extern u8 D_800E9E18[];
-extern u8 D_800E9E60[];
+extern u8 gFile_SecondaryTransferDescriptor[];
+extern u8 gFile_PrimaryTransferDescriptor[];
 
 extern volatile s32 D_8009B0F4_signed asm("D_8009B0F4");
 extern void (*D_8009B10C_callback)(void) asm("D_8009B10C");
@@ -39,9 +39,10 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
         D_8009B10C_callback();
     }
     File_InitTransferDescriptor(
-        D_800E9E60, arg0, arg1, arg2, arg3, arg4, arg5, arg6
+        gFile_PrimaryTransferDescriptor,
+        arg0, arg1, arg2, arg3, arg4, arg5, arg6
     );
-    result = (FileTransferDescriptor *)D_800E9E60;
+    result = (FileTransferDescriptor *)gFile_PrimaryTransferDescriptor;
 out:
     D_8009B0F4_signed = result->status_flags | 0x10;
     return result;
@@ -64,8 +65,11 @@ FileTransferDescriptor *File_TryRequestAsyncTransfer(
     } else {
         ((void (*)(void))D_8009B10C)();
     }
-    File_InitTransferDescriptor(D_800E9E60, arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-    return (FileTransferDescriptor *)D_800E9E60;
+    File_InitTransferDescriptor(
+        gFile_PrimaryTransferDescriptor,
+        arg0, arg1, arg2, arg3, arg4, arg5, arg6
+    );
+    return (FileTransferDescriptor *)gFile_PrimaryTransferDescriptor;
 }
 
 void func_80014FA4(void)
@@ -111,7 +115,7 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
         func_80015010();
     }
 
-    state = (FileTransferDescriptor *)D_800E9E18;
+    state = (FileTransferDescriptor *)gFile_SecondaryTransferDescriptor;
     File_InitTransferDescriptor(
         (u8 *)state, arg0, arg1, arg2, arg3, arg4, arg5, arg6
     );

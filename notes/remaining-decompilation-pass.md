@@ -363,8 +363,9 @@ State after this one-function checkpoint:
 previous local candidate declared it as `u8` and differed only at those two
 accesses. The corrected source matches 220/220 bytes with exact relocations.
 
-The function copies the queued `FileTransfer` at `D_800E9E18` to the active
-descriptor at `D_800E9E60`, rotates an eight-word shared buffer half, and
+The function copies the queued `FileTransfer` at
+`gFile_SecondaryTransferDescriptor` to the active descriptor at
+`gFile_PrimaryTransferDescriptor`, rotates an eight-word shared buffer half, and
 propagates the active-state flags.
 
 State after this one-function checkpoint:

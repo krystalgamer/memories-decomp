@@ -6,8 +6,8 @@ extern volatile u16 D_8009B112;
 extern volatile s32 D_8009B0E8;
 extern volatile s32 D_8009B0F4;
 extern s32 D_8009B134;
-extern u8 D_800E9E18[];
-extern u8 D_800E9E60[];
+extern u8 gFile_SecondaryTransferDescriptor[];
+extern u8 gFile_PrimaryTransferDescriptor[];
 extern u8 D_800E9EC0[];
 
 extern void File_ActivateTransfer(void);
@@ -33,8 +33,8 @@ void func_80014A5C(s32 arg0)
     if (D_8009B0F4 & 0x10) {
         if (D_8009B134 != 0 && !(D_8009B134 & 0x40)) {
             D_8009B134 |= 0x40;
-            D_800E9E60[0x46] = 5;
-            D_800E9E60[0x47] = 0;
+            gFile_PrimaryTransferDescriptor[0x46] = 5;
+            gFile_PrimaryTransferDescriptor[0x47] = 0;
         }
         func_8001455C();
     } else {
@@ -189,8 +189,10 @@ s32 func_80014C40(u8 *p, u8 *q) {
             }
         }
 
-        File_InitTransferDescriptor(D_800E9E18, v, q, m, t, f, 0, (s32)p);
-        e = D_800E9E18;
+        File_InitTransferDescriptor(
+            gFile_SecondaryTransferDescriptor, v, q, m, t, f, 0, (s32)p
+        );
+        e = gFile_SecondaryTransferDescriptor;
         D_8009B0F4 = D_8009B0F4 | 0x20;
     }
 

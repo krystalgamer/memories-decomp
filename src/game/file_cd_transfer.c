@@ -18,8 +18,8 @@ extern s32 D_8009B130;
 extern s32 D_8009B138;
 extern u8 D_800E9EA7[9];
 extern s32 D_800E9E90[3];
-extern u8 D_800E9E60[];
-extern u8 D_800E9E18[];
+extern u8 gFile_PrimaryTransferDescriptor[];
+extern u8 gFile_SecondaryTransferDescriptor[];
 extern u8 D_801D4200[];
 extern u16 D_8009B112;
 
@@ -116,9 +116,11 @@ void func_80014390(u8 event, s32 arg1)
 }
 
 void File_ActivateTransfer(void) {
-    *(Block72 *)D_800E9E60 = *(Block72 *)D_800E9E18;
+    *(Block72 *)gFile_PrimaryTransferDescriptor =
+        *(Block72 *)gFile_SecondaryTransferDescriptor;
     *(Block32 *)D_801D4200 = *(Block32 *)(D_801D4200 + 32);
-    if (D_800E9E60[70] == 4)
+    if (gFile_PrimaryTransferDescriptor[70] == 4)
         D_8009B112 |= 1;
-    D_8009B0F4 = *(s32 *)(D_800E9E60 + 44) | 16;
+    D_8009B0F4 =
+        *(s32 *)(gFile_PrimaryTransferDescriptor + 44) | 16;
 }

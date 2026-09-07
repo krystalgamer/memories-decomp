@@ -22,18 +22,18 @@ struct FileTransferState {
 
 extern volatile u32 D_8009B0F4;
 extern volatile u32 D_8009B134;
-extern struct FilePositionState D_800E9E60;
-extern struct FileTransferState D_800E9E18;
+extern struct FilePositionState gFile_PrimaryTransferDescriptor;
+extern struct FileTransferState gFile_SecondaryTransferDescriptor;
 extern s32 gFile_anLba[];
 extern void func_80015010(void);
 
 struct FilePositionState *func_80013B04(s32 index, s32 offset)
 {
     if (((D_8009B0F4 & 0x02000030) | D_8009B134) == 0) {
-        D_800E9E60.f24 = gFile_anLba[index] + offset;
-        D_800E9E60.f46 = 0;
+        gFile_PrimaryTransferDescriptor.f24 = gFile_anLba[index] + offset;
+        gFile_PrimaryTransferDescriptor.f46 = 0;
         D_8009B0F4 = 0x100010;
-        return &D_800E9E60;
+        return &gFile_PrimaryTransferDescriptor;
     }
     return 0;
 }
@@ -43,7 +43,7 @@ struct FileTransferState *func_80013B68(s32 a, s32 b, s32 c, s32 d)
     struct FileTransferState *p;
 
     D_8009B0F4 &= ~0x20;
-    p = &D_800E9E18;
+    p = &gFile_SecondaryTransferDescriptor;
     if (D_8009B0F4 & 0x10) {
         if (D_8009B0F4 & 0x80000) {
             func_80015010();
