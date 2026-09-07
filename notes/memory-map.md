@@ -123,3 +123,27 @@ resident executable functions. They are shared across MRG files and game
 states; they must not be attributed wholesale to WA. See
 `notes/overlays/runtime-loader.md` for the loader trace and recovered sector
 layouts.
+
+### Duel card storage inside the SU bank
+
+Matching duel C establishes three contiguous runtime ranges near the end of
+the SU slot:
+
+| Address range | Size | Exact organization |
+|---|---:|---|
+| `0x8018C2D8-0x801A7AD8` | `0x1B800` | 80 per-deck-slot card-data blocks of `0x580` bytes |
+| `0x801A7AD8-0x801A7E20` | `0x348` | 30 field/card records of `0x1C` bytes |
+| `0x801A7E20-0x801A8000` | `0x1E0` | 80 `DuelDeckCardRecord` entries of 6 bytes, player then opponent |
+
+`Duel_PopulateCombinedDeckData` fills the first range in combined-deck order,
+copying one selected `DUEL_CARD_DATA_BLOCK_SIZE` (`0x580`) block for each of
+the 80 slots and assigning that slot's `data_block_index`. The block itself
+has an exact GPU-transfer split in `Duel_SetupCardRecord`: a `20 x 32`-word
+image occupies the first `0x500` bytes, and a `64 x 1`-word palette occupies
+the final `0x80` bytes.
+
+The same setup function stores a pointer to the selected 6-byte deck record in
+the field record's `data` word, then multiplies its `data_block_index` by
+`0x580` to select the image and palette block. This establishes a three-level
+field-record to deck-record to card-data relationship without assigning one
+structure type to the whole SU allocation.
