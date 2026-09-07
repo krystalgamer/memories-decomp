@@ -619,6 +619,12 @@
       "source": "src/game/duel_card_object_helpers.c"
     },
     {
+      "address": "0x80018608",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x384",
+      "source": "src/game/func_80018608.c"
+    },
+    {
       "address": "0x8001898C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2A8",
