@@ -782,8 +782,45 @@ join:
 
 `gcc_2_8_1_g0_split`, 495 instructions against 495, opcode distance 0
 with every mnemonic count exact. The longest common subsequence of
-mnemonics is 479 of 495, the first 192 instructions agree, and 232
+mnemonics is 479 of 495, the first 192 instructions agree, and 206
 positions differ.
+
+With the instruction mix exact, the residual is register assignment, and it
+responds to which local a value is given. Three changes take the differing
+positions from 232 to 206 without moving the distance.
+
+Reading the differing positions as clusters rather than as a total is what made
+this tractable. At 232 they fell into six groups, and the first three were four
+positions each at exactly twenty-two instruction intervals: the same fault in
+each of the three identical save-poll blocks. The target holds the poll result
+in `v1` and this build held it in `a0`, three times over. Giving those blocks
+their own local instead of sharing the general-purpose `value` moves all three
+at once, worth nine positions. A freshly declared local and reusing the
+otherwise-idle `level` are identical; reusing `step` changes nothing, and
+reusing `frame` or `delta` costs distance, because those are live across the
+blocks.
+
+The fade-out block is the same shape one register further along: the target
+holds the entry pointer in `v1` and the address base in `a1`, this build held
+them in `a1` and `a0`. A dedicated local for that block's copy of the entry
+pointer is worth ten more. Writing the read-modify-write of the flag word
+through an explicit temporary, or hoisting that read above the three byte
+stores, changes nothing; addressing every field off the global instead of
+through a local costs four of the distance.
+
+The third is one of eleven `entry = D_80184560` regions, the fourth, given its
+own local for seven more. The other ten were measured individually and in
+combination: two of them are worth something alone and nothing together with
+the fourth, four are inert, and two cost two of the distance. Eighteen cells of
+that product put the fourth region alone at the front, so the effect is not
+additive and giving every region its own local is not the answer.
+
+The general shape is worth stating because it is cheap to try and has now paid
+three times on this function: when the instruction mix is exact and the
+positions cluster, look for a local that several blocks share and give the
+block its own. It shifts one register assignment, and on a function this size a
+single shifted assignment is worth ten positions.
+
 
 The instruction mix is now exact. Every mnemonic appears the same number of
 times as in the target, the instruction count is 495 against 495, and the
@@ -1101,6 +1138,7 @@ extern s32 rsin(s32);
 
 s32 func_80180390(void)
 {
+    u8 *ent3;
     u8 *entry;
     u8 **slot;
     s32 step;
@@ -1112,11 +1150,13 @@ s32 func_80180390(void)
     s32 i;
     s32 base;
     s32 count;
+    s32 poll;
+    u8 *ent2;
 
     if (D_8018459B != 0) {
-        value = SaveData_PollLoad();
-        if (value != 0) {
-            if (value == 1) {
+        poll = SaveData_PollLoad();
+        if (poll != 0) {
+            if (poll == 1) {
                 Input_ResetPads();
                 func_80180D2C(1);
                 D_8018459B = 0;
@@ -1129,9 +1169,9 @@ s32 func_80180390(void)
     }
 
     if (D_8018459C != 0) {
-        value = func_8003FCD8();
-        if (value != 0) {
-            if (value == 1) {
+        poll = func_8003FCD8();
+        if (poll != 0) {
+            if (poll == 1) {
                 Input_ResetPads();
                 func_80180D2C(1);
                 D_8018459C = 0;
@@ -1144,9 +1184,9 @@ s32 func_80180390(void)
     }
 
     if (D_8018459D != 0) {
-        value = func_8003FD14();
-        if (value != 0) {
-            if (value == 1) {
+        poll = func_8003FD14();
+        if (poll != 0) {
+            if (poll == 1) {
                 Input_ResetPads();
                 func_80180D2C(1);
                 D_8018459D = 0;
@@ -1184,11 +1224,11 @@ s32 func_80180390(void)
         }
     fade_done:
         if (D_80184598 < 0) {
-            entry = D_80184560;
-            entry[0xE] = 0x80;
-            entry[0xD] = 0x80;
-            entry[0xC] = 0x80;
-            *(u16 *)(entry + 8) |= 0x40;
+            ent2 = D_80184560;
+            ent2[0xE] = 0x80;
+            ent2[0xD] = 0x80;
+            ent2[0xC] = 0x80;
+            *(u16 *)(ent2 + 8) |= 0x40;
             D_80184560[0x6C] = 0x3C;
             *(s16 *)(D_80184560 + 0x36) = 0;
         }
@@ -1218,8 +1258,8 @@ s32 func_80180390(void)
         }
         if ((D_8009B398 & 0x800) != 0) {
             SD_SEPlay(7, 0xFF, 0);
-            entry = D_80184560;
-            *(u16 *)(entry + 8) &= 0xFFBF;
+            ent3 = D_80184560;
+            *(u16 *)(ent3 + 8) &= 0xFFBF;
             func_80180D2C(0);
             D_80184598 = 1;
             goto ret_m1;
