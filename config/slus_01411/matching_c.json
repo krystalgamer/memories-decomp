@@ -1375,6 +1375,12 @@
       "source": "src/game/library_state_handlers.c"
     },
     {
+      "address": "0x8002BAB4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x258",
+      "source": "src/game/func_8002BAB4.c"
+    },
+    {
       "address": "0x8002BD0C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x230",
