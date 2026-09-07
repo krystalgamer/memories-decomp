@@ -1,15 +1,17 @@
-# Live-trace findings — names pending operator approval
+# Research findings — live, matching, and static evidence
 
 > **External-reference provenance.** This file originated in
 > Unchiga/ygofm-decomp and retains its upstream evidence. Memories-decomp may
 > add local reconciliations and corrections; upstream-only paths, tools, and
 > rules are not this repository's policy. See [`README.md`](README.md).
 
-Every entry here was observed LIVE in the recomp (fn-entry trace + RAM
-snapshots + injected input), with the evidence stated. Nothing is applied to
-the build until its row says APPROVED and the name survives the byte-verify
-pipeline. Status: PENDING / APPLIED / REJECTED / HOLD. Operator policy 2026-08-31:
-apply solid names directly; operator corrects when needed.
+This ledger began with live recomp sessions using function-entry traces, RAM
+snapshots, and injected input. It now also records retail PCSX-Redux traces,
+matching-code analysis, and static disc/tool cross-checks; each section or row
+states its evidence method. `APPLIED` means the accepted name or fact has been
+integrated, while `PENDING`, `HOLD`, and `REJECTED` retain unresolved or
+superseded claims. Operator policy 2026-08-31: apply solid names directly;
+operator corrects when needed.
 
 ## Session 2026-08-31 — main menu, up/down only
 
