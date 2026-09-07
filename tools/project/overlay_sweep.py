@@ -27,6 +27,7 @@ the common "is this the wrong profile" check::
 from __future__ import annotations
 
 import argparse
+import hashlib
 import io
 import itertools
 import json
@@ -70,7 +71,16 @@ def _cell(job):
     label, text, profile, module, address, name = job
     root = require_workspace_root()
     words, size = target_for(root, module, address)
-    stem = "".join(c if c.isalnum() or c in "._-" else "_" for c in f"{label}__{profile}")
+    # The scratch file name is derived from the label, and every character the
+    # file system might object to becomes an underscore.  Two labels that differ
+    # only in punctuation therefore collapse to the same name -- "a==1|b<2" and
+    # "a>=1|b<2" both become "a__1_b_2" -- and the parallel workers then race on
+    # one file, so some cells measure a neighbour's source and the whole sweep is
+    # quietly wrong.  A digest of the untouched label keeps the readable stem and
+    # makes the collision impossible.
+    key = f"{label}__{profile}"
+    safe = "".join(c if c.isalnum() or c in "._-" else "_" for c in key)
+    stem = f"{safe[:80]}__{hashlib.sha1(key.encode()).hexdigest()[:8]}"
     path = SCRATCH / f"{stem}.c"
     path.write_text(text)
     try:

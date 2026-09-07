@@ -1338,3 +1338,28 @@ counts, comparison immediates, stack slots -- and expect nothing from them when
 the class is dominated by `%lo` relocations. In the second case fall back to
 aligning the bare class sequence, which still localises, or read the target's
 disassembly directly.
+
+## A sweep label is a file name, so punctuation can silently corrupt a result
+
+`overlay_sweep` writes each cell to `tmp/overlay-sweep/<label>__<profile>.c`, and
+until now every character the file system might object to became an underscore.
+Two labels that differ only in punctuation therefore collapsed to the same name.
+`a==1|b<2` and `a>=1|b<2` both became `a__1_b_2`, the parallel workers raced on
+one file, and cells measured whichever neighbour won.
+
+This is worse than a crash because it looks like data. An eighteen-cell product
+over two comparison spellings and an arm order came back with several groups of
+identical numbers and, decisively, an *identity cell that did not reproduce its
+own base*: the run said 12 where the unmodified source measures 10. That is the
+tell, and it is the reason to always include the unmodified source in a sweep
+under its own label. If the identity cell does not return the number you already
+know, stop and find out why before reading anything else in the table.
+
+The stem now carries a digest of the untouched label, so the name stays readable
+and the collision cannot happen. Re-running the same product with the fix gives
+a correct identity cell and three distinct results where there had been one.
+
+Historic sweeps are mostly unaffected, because the labels used have been
+alphanumeric with hyphens and underscores, which the sanitiser preserved. The
+exposure was to labels containing operators, which is exactly what a comparison
+or arithmetic axis invites.
