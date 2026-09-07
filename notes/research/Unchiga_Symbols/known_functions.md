@@ -114,7 +114,11 @@ Names that say what something IS in the game.
 | 0x8003C8CC | `Options_Update` | matching C |
 | 0x8003CCD8 | `Input_UpdatePads` | matching C |
 | 0x8003CE74 | `SaveData_NextMaskWord` | matching C |
+| 0x8003CEB8 | `SaveData_CalcCrc16` | matching C |
+| 0x8003CF14 | `SaveData_WritePrimarySecondaryIntegrity` | matching C |
+| 0x8003CFC8 | `SaveData_WriteTertiaryIntegrity` | matching C |
 | 0x8003D0F4 | `SaveData_ApplyRuntimeState` | matching C |
+| 0x8003D174 | `SaveData_ValidateIntegrity` | matching C |
 | 0x8003D46C | `DuelEffect_CreateChannel` | matching C |
 | 0x8003F7D4 | `SaveData_RequestLoad` | matching C |
 | 0x8003F810 | `SaveData_PollLoad` | matching C |
