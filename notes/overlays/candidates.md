@@ -336,7 +336,25 @@ select:
 ```
 ## main_menu `func_80180390` at 0x80180390
 
-`gcc_2_8_1_g0_split`, 498 instructions against 495, 476 differing positions,
+`gcc_2_8_1_g0_split`, 498 instructions against 495, opcode distance 15.
+
+The structural defect is fixed. This candidate used to emit thirty calls
+against the target's twenty-nine, which made every scheduling measurement on
+it meaningless. Counting the target's calls by callee shows only four to
+`SD_SEPlay` where the source had five, and reading the argument register at
+each of the four gives 7, 6, 8 and 7 -- there is no call with 9 at all.
+
+The target reaches the ninth sound by cross-jumping. At the menu-id test it
+issues `sltiu v0,v0,5` then `bnez` into the middle of the `SD_SEPlay(6, ...)`
+call site, with `li a0,9` in the branch delay slot, so one call site serves
+both. The two blocks have identical tails -- a call and `return -1` -- which
+is what makes them mergeable.
+
+Writing the two sounds as one call with the id chosen by a conditional
+expression reproduces the single call site and takes the distance from 21 to
+15, with the call count now exactly 29. Putting the `>= 5` case first in an
+`else` reaches 19, so the conditional-expression form is the better of the
+two restructurings and both beat the original.
 opcode distance 21.
 
 The six consecutive bytes from 0x80184598 to 0x8018459D are one struct, not
@@ -621,11 +639,10 @@ s32 func_80180390(void)
         return -1;
     }
     if ((D_8009B398 & 0x20) != 0) {
+        SD_SEPlay((u32)gMain_bMenuID < 5 ? 9 : 8, 0xFF, 0);
         if ((u32)gMain_bMenuID < 5) {
-            SD_SEPlay(9, 0xFF, 0);
             return -1;
         }
-        SD_SEPlay(8, 0xFF, 0);
         D_80184595 = 1;
     } else {
         SD_SEPlay(7, 0xFF, 0);
