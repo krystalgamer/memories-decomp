@@ -45,9 +45,41 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 385 instructions against 382, opcode distance 3
+`gcc_2_8_1_g0_split`, 384 instructions against 382, opcode distance 2
 with the unconditional jump count exact, and the first 91 instructions
 agree.
+
+The caret's frame counter is written after its x position, not before. The
+`kind == 1` block ends with a run of stores through the object returned by
+`func_80168CDC`, and moving `obj[0x6C] = 6` to the end of that run, after the
+store of the x position to `+0x44`, removes the last surplus `nop`.
+
+The reason is a load-delay stall and it is worth stating because the fix looks
+arbitrary. The x position is `D_8016D42C * 16 + 112`, so the block has to load
+that byte and then shift it, and on this core the value is not available in the
+instruction immediately after the load. With the `6` stored before the load
+there is nothing left to put between them and the slot becomes a `nop`; with
+the `6` stored after, the `li` and the `sb` that write it fill the gap, which
+is exactly what the target does at instructions 353 to 356. Thirty-six cells of
+the product of four spellings of the slot address, three of the x expression
+and three placements of that store agree: every cell that puts the `6` last
+measures two, and every cell that does not measures three, independently of the
+other two axes.
+
+That leaves two surplus `lui` and an `addu` that should be a `move`, and the
+latter shares an opcode class with what it is measured against, so it cancels
+and costs nothing. The instruction count is 384 against 382 and the
+unconditional jump count is exact.
+
+Four axes were re-measured against the new base and are closed. The sixteen-cell
+`volatile` product over `D_8016D401`, `D_8016D402`, `D_8016D426` and
+`D_8016D42C` leaves the base in front, with the nearest cell one worse and the
+rest between six and twenty-nine. The six spellings of the caret slot store are
+now decisively separated rather than nearly tied: the inverted null test is at
+two and every other spelling, including the two that store zero first and were
+within one before, is at five. The slot address spelling and the x expression
+spelling are both inert across all twelve of their combinations.
+
 
 The null test on the glyph node is written the other way round. The caret slot
 is filled with
@@ -677,8 +709,8 @@ join:
         *(s16 *)(obj + 0x60) = 8;
         *(void **)(obj + 0x24) = func_80168AB4;
         *(s16 *)(obj + 0x46) = 204;
-        obj[0x6C] = 6;
         *(s16 *)(obj + 0x44) = D_8016D42C * 16 + 112;
+        obj[0x6C] = 6;
     }
     return;
 }
