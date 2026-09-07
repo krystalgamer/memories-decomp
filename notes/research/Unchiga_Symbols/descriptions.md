@@ -618,3 +618,18 @@ This batch adds nine rows and corrects the inherited `PadChkVsync` row at
 | 0x8007E860 | `CdReadyCallback` | Replaces and returns the callback that receives `CdlDataReady` status and the unchanged result pointer. |
 | 0x8007E880 | `CdSyncCallback` | Replaces and returns the distinct callback used by the `CdlComplete` command-completion path. |
 | 0x8007E8A0 | `CdDataCallback_8007E8A0` | Second linked copy of `CdDataCallback`, byte-identical to the `0x8007A860` wrapper and selected by another CD teardown state. |
+
+## Batch: card tables and duel records
+
+| address | name | description |
+|---|---|---|
+| 0x801799D8 | `gDuel_awRitualData` | Twenty-four five-halfword ritual recipes containing the ritual card, three required tributes, and the resulting monster. |
+| 0x80179A04 | `gDuel_anRankScore` | Two completed end-of-duel rank scores, one for the player and one for the opponent. |
+| 0x80179A14 | `gDuel_wCardDropID` | Card ID selected by the weighted reward roll before the duel award path adds it to the trunk and recent-drop list. |
+| 0x8017A1D8 | `gDuel_awEquipTable` | Halfword equipment-compatibility groups containing an equip card ID, member count, and compatible monster IDs, terminated by a zero key. |
+| 0x8017C2D8 | `gDuel_aFusionTable` | Packed fusion lookup data: a 723-entry offset index followed by groups of two 10-bit partner/result pairs. |
+| 0x801A7E20 | `gDuel_aDeckCardRecords` | Two 40-entry sets of six-byte per-deck-card records, player then opponent. Each side's five hand slots store indices into its own set. |
+| 0x801A8008 | `gLibrary_aPasswordCardData` | Eight-byte password records indexed by card ID, containing the card's starchip price and eight-digit BCD password. |
+| 0x801D06F4 | `gFreeDuel_dwUnlockedDuelists` | First four bytes of the MSB-first Free Duel unlock flags, covering IDs 1–31. IDs 32–38 use the fifth byte at `0x801D06F8`; Duel Master K is independently available. |
+| 0x801D071C | `gFreeDuel_aDuelistRecords` | Forty `{u16 wins, u16 losses}` Free Duel grid records. Slot zero is Build Deck, and slots 1–39 belong to the duelists; normal updates cap each counter at 999. |
+| 0x801D4D8E | `gCard_asNameSortKey` | Signed 16-bit per-card secondary keys used to break ties in alphabetical Build Deck and trunk sorting. |
