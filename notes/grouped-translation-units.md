@@ -55,6 +55,7 @@ source grouping.
 | `src/game/file_cd_transfer.c` | `gcc_2_8_1_g8_split` | Eight asynchronous disc-transfer callbacks and helpers from `0x800140A0` through `File_ActivateTransfer` (`0x800143DC`) |
 | `src/game/file_transfer_control.c` | `gcc_2_8_1_g8_split` | Three contiguous transfer-service, object-state, and descriptor-dispatch helpers from `0x80014A5C` through `func_80014C40` |
 | `src/game/file_transfer_flags.c` | `gcc_2_8_1_g8` | Six contiguous active/secondary transfer-request and cancellation helpers from `0x80014E1C` through `0x80015078` |
+| `src/game/fade_in.c` | `gcc_2_8_1_g8` | Target-`0xFF` transition initializer (`0x80015780`, flag `0x80`, step `0x0C`) and the contiguous flag-`0x01` variant using step `8` (`0x800157DC`) |
 | `src/game/movie_stream_requests.c` | `gcc_2_8_1_g0_split` | Indexed `MOVIE.STR` range setup (`0x8005C388`) and named-file stream setup (`0x8005C464`) |
 | `src/game/file_cd_helpers.c` | `gcc_2_8_1_g0` | `File_Exists` (`0x8005C4F0`) and two contiguous low-level CD state/wait helpers through `0x8005C568` |
 | `src/game/mdec_sync.c` | `gcc_2_8_1_g8` | MDEC completion-latch setter (`0x8005C5C4`) and contiguous bounded wait/reset helper (`0x8005C5D4`) |
