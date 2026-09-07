@@ -794,15 +794,19 @@ s32 func_80180390(void)
 
 ## overworld `CampaignMap_UpdateLocationTransition` at 0x80168AA8
 
-`gcc_2_8_1_g0_split`, 217 of 217 instructions, 82 differing positions, opcode
+`gcc_2_8_1_g0_split`, 217 of 217 instructions, 56 differing positions, opcode
 distance 0. Matches in both overworld modules from one source.
 
-The instruction mix is now exact, so no change of source shape can improve it;
-what is left is register choice and scheduling. The largest single group is the
-map object, which the target keeps in `s0` and reuses for the marker, while
-this build puts it in `a0` and gives the marker `s0`. Declaration order is
-inert across all eight rotations, and merging the two into one pointer local
-is worth two positions and no more.
+The instruction mix is exact, so only register choice and scheduling remain.
+What is left is three groups: five positions in the prologue, two around the
+2048 test, and the rest in the camera accumulator block, where the target
+batches six `%hi` loads and four accumulator loads before adding any of them
+while this build interleaves load, add and store per accumulator.
+
+Measured and inert against that block: writing the camera stores against the
+array symbol instead of a pointer copy, which is worse at distance 3;
+assigning the pointer copy immediately before the block, worse at distance 2;
+and a typed `s16 *` with indices instead of byte offsets, byte-identical.
 
 ```c
 #include "../../src/types.h"
@@ -813,6 +817,8 @@ typedef struct {
     u8 pad10[62];
     u16 f72;
     u16 f74;
+    u8 pad76[20];
+    s16 f96;
 } MapObject;
 
 typedef struct {
@@ -828,7 +834,7 @@ typedef struct {
 } Location;
 
 extern u8 D_801695EC;
-extern Marker *D_801695C8;
+extern MapObject *D_801695C8;
 extern MapObject *D_801695D8;
 extern u8 D_8016960C;
 extern u8 D_80169618;
@@ -848,18 +854,16 @@ extern s32 D_801695DC;
 extern s32 D_801695D0;
 extern s32 D_801695E0;
 
-extern void func_80043178(Marker *);
+extern void func_80043178(MapObject *);
 extern void func_801688BC(s32);
-extern void func_8004318C(Marker *, s32, s32, s32);
+extern void func_8004318C(MapObject *, s32, s32, s32);
 extern void func_801681E8(s32);
 extern void func_8001352C(void);
 
 s32 CampaignMap_UpdateLocationTransition(void)
 {
     MapObject *obj;
-    Marker *marker;
-    Location *entry;
-    Location *table;
+    MapObject *marker;
     u8 *camera;
     u16 flags;
     u16 raise;
@@ -895,26 +899,24 @@ s32 CampaignMap_UpdateLocationTransition(void)
     }
     flags = D_801695EC;
     if ((flags & 0x40) != 0) {
-        obj = D_801695D8;
+        marker = D_801695D8;
         if ((flags & 0x20) == 0) {
-            obj->f72 = obj->f72 + 7;
+            marker->f72 = marker->f72 + 7;
         } else {
-            step = obj->f72 - 7;
-            obj->f72 = step;
+            step = marker->f72 - 7;
+            marker->f72 = step;
             if ((s16)step < 32) {
-                obj->f72 = 32;
+                marker->f72 = 32;
             }
         }
-        obj->f74 = obj->f72 + 160;
+        marker->f74 = marker->f72 + 160;
     }
     marker = D_801695C8;
     if (marker != 0) {
         if (marker->f96 < 2048) {
             quotient = 2048 / D_80169608;
-            table = D_801691A8;
-            entry = table + D_8016960C;
             marker->f96 += quotient;
-            func_8004318C(marker, entry->f12, entry->f14, marker->f96);
+            func_8004318C(marker, D_801691A8[D_8016960C].f12, D_801691A8[D_8016960C].f14, marker->f96);
         }
     }
     D_801695E4 = D_801695E4 + D_801695F0;
@@ -937,10 +939,8 @@ s32 CampaignMap_UpdateLocationTransition(void)
         }
         marker = D_801695C8;
         if (marker != 0) {
-            table = D_801691A8;
-            entry = table + D_8016960C;
-            marker->f96 = entry->f12;
-            *(s16 *)((u8 *)marker + 50) = entry->f14;
+            marker->f96 = D_801691A8[D_8016960C].f12;
+            *(s16 *)((u8 *)marker + 50) = D_801691A8[D_8016960C].f14;
         }
     }
     func_8001352C();
