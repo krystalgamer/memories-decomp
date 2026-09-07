@@ -54,6 +54,54 @@ every address computed in the body hoists more still. The `$s0`/`$s1` and
 the address computations inside and outside the inner loop, the card
 address inline and through a local, and outer-goto with inner-real.
 
+### From 61 to 15
+
+Every one of the 61 was a register name at the right position, the *allocation*
+class, so register constraints reach them. The steps, each measured on the one
+before it:
+
+- *Pin the two long-lived table pointers, one side of each swap.* The
+  `gDuel_aActiveCards` base belongs in `$t0` and the `D_800EAE88` walk pointer
+  in `$s6`; pinning both takes 61 to **50**. Pinning the other side of either
+  swap instead is worse, which is the same one-sided rule that carried
+  `func_80057AF4`.
+- *Pin the deck record pointer to `$16`*: 50 to **42**.
+- *Name the second `gDuel_aActiveCards` read.* The inner walk reads the global
+  again, and retail keeps that second materialisation in its own register
+  `$t1`. A block-scoped `register u8 *act asm("$9") = gDuel_aActiveCards;` with
+  `card = act + v * 12;` gives 42 to **32**.
+- *Pin the hand slot value to `$5`*: 32 to **20**.
+- *Compute the offset before the base, not after.* The `act` pin left five
+  positions where the candidate materialised `$t1` **before** the `v * 12`
+  chain and retail does it after. Naming the offset in an enclosing scope, so
+  the multiply is a complete statement before the pinned declaration is
+  reached, reorders them: 20 to **15**. This is the placement half of the
+  standing cost of pinning a destination - the pinned value is materialised as
+  early as its declaration allows, so the declaration has to be late.
+
+### What is left
+
+Fifteen positions in four groups.
+
+*Six are `addu` operand order*, `addu s0,s8,s0` where retail has
+`addu s0,s0,s8` and four more of the same shape. **Writing the addition the
+other way round in C does not move them**: flipping `deck + sidx * 6` to
+`sidx * 6 + deck`, and the three other pointer additions likewise, one at a
+time and all together, is neutral in every case, because GCC canonicalises the
+operands of `plus` before the register allocator ever sees them. Naming the
+scaled offsets in their own statement is also neutral here, unlike the `act`
+case where naming did reorder the materialisation.
+
+*Three are the `D_800EAE88` limit*: retail materialises the base into `$t2` and
+computes `$v0 = $t2 + 5`, the candidate accumulates both into `$v0`. Pinning
+`end` to `$10` costs 22, naming the limit in its own variable is neutral, and a
+block-scoped pinned copy costs 22.
+
+*Two are the `D_800907CC` table pointer*, `$a2` for retail's `$a0`; pinning
+`tbl` to `$4` costs one.
+
+*Four are the two swapped slot bytes*, `$a0` for retail's `$a1`.
+
 ```c
 #include "../types.h"
 #include "card_constants.h"
@@ -95,22 +143,22 @@ void func_8001BAF0(void)
 {
     s8 sel[HAND_SIZE];
     DeckCardRecord tmp;
-    u8 *hand;
+    register u8 *hand asm("$22");
     u8 *p;
     u8 *end;
     s8 *q;
     u8 *deck;
-    u8 *base;
+    register u8 *base asm("$8");
     u8 *tbl;
     u8 *recs;
-    DeckCardRecord *rec;
+    register DeckCardRecord *rec asm("$16");
     DeckCardRecord *other;
     Slot *slot;
     Spawned *spawned;
     u8 *card;
     s32 i;
     s32 j;
-    s32 v;
+    register s32 v asm("$5");
     s32 id;
     s32 sidx;
     s32 a;
@@ -146,7 +194,16 @@ next:
         q = &sel[j];
         sidx = *q;
         if (sidx >= 0) {
-            card = gDuel_aActiveCards + v * 12;
+            {
+                s32 o;
+
+                o = v * 12;
+                {
+                    register u8 *act asm("$9") = gDuel_aActiveCards;
+
+                    card = act + o;
+                }
+            }
             rec = (DeckCardRecord *)(deck + sidx * 6);
             other = (DeckCardRecord *)(deck + card[0xB] * 6);
             a = *(s8 *)&rec->slot;
