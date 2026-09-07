@@ -29,7 +29,7 @@ void Duel_RequestCombinedDeckData(void)
     FileTransferDescriptor *result;
     s32 i;
     s32 previous;
-    s32 count;
+    s32 first_id;
     u8 *table;
     s32 value;
 
@@ -52,11 +52,11 @@ void Duel_RequestCombinedDeckData(void)
         source += 2;
     }
 
-    *(u16 *)output = 0xFFFF;
+    *(u16 *)output = DUEL_CARD_ID_LIST_END;
     table = D_8015C424;
-    count = *(u16 *)(table + 0x1BD0C);
+    first_id = *(u16 *)(table + DUEL_UNIQUE_DECK_CARD_IDS_OFFSET);
     result = File_TryRequestAsyncTransfer(
-        0, (u8 *)0, count - 1, previous - count + 1,
+        0, (u8 *)0, first_id - 1, previous - first_id + 1,
         Duel_StepCardDataTransfer, 0, 0
     );
     result->callback_data = gDuel_awUniqueDeckCardIds;
