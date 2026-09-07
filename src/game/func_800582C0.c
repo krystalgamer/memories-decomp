@@ -31,7 +31,8 @@ void func_800582C0(s32 arg0, s32 arg1, s32 arg2) {
     if ((u32)arg0 < 2) {
         y = 0;
 
-        if (arg1 >= 7 && (arg1 & 8) == 0 && arg2 >= COLOR_FIXED_ONE) {
+        if (arg1 >= COLOR_TINT_KEEP_HUE &&
+            (arg1 & COLOR_TINT_INVERT) == 0 && arg2 >= COLOR_FIXED_ONE) {
             goto big;
         }
 

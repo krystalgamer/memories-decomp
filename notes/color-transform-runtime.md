@@ -75,10 +75,10 @@ to HSL:
 
 | Control | Effect |
 |---|---|
-| `flags & 7`, values `0-5` | Replace the hue with the corresponding primary/secondary sector. |
-| `flags & 7`, value `6` | Replace the hue and set saturation to zero, producing greyscale. |
-| `flags & 7`, value `7` | Retain the source hue. |
-| `flags & 8` | Rotate a forced hue by three sectors, then subtract every converted channel from the channel maximum. |
+| `flags & COLOR_TINT_HUE_MASK` (`7`), values `0-5` | Replace the hue with the corresponding primary/secondary sector. |
+| Hue selector `COLOR_TINT_GRAYSCALE` (`6`) | Replace the hue and set saturation to zero, producing greyscale. |
+| Hue selector `COLOR_TINT_KEEP_HUE` (`7`) | Retain the source hue. |
+| `flags & COLOR_TINT_INVERT` (`8`) | Rotate a forced hue by three sectors, then subtract every converted channel from the channel maximum. |
 | `scale` | Multiply saturation by `scale / 0x1000`; it does not scale brightness. |
 
 Both wrappers replace a zero output channel with one. The BGR555 wrapper has
@@ -99,10 +99,13 @@ For buffer selector `0` or `1`, it processes two `256 x 4` rectangles:
 3. Upload the results to the same x coordinate at y `240` and `244` through
    `LoadImage2`.
 
-When the full flags argument is at least `7`, bit `3` is clear, and the
-saturation scale is at least `0x1000`, the function skips per-colour
-conversion and moves the complete `256 x 8` source band from y `248` to y
-`240` with `MoveImage`.
+When the full flags argument is at least `COLOR_TINT_KEEP_HUE` (`7`),
+`COLOR_TINT_INVERT` (bit `3`) is clear, and the saturation scale is at least
+`COLOR_FIXED_ONE` (`0x1000`), the function skips per-colour conversion and
+moves the complete `256 x 8` source band from y `248` to y `240` with
+`MoveImage`. The first comparison deliberately remains against the full
+argument, not `flags & COLOR_TINT_HUE_MASK`; the two tests are not equivalent
+when higher flag bits are set.
 
 ## Evidence boundary
 

@@ -25,13 +25,13 @@ Color *func_8005B0B4(Color *out, u8 r, u8 g, u8 b, s32 flags, u16 scale, u8 lim)
     u8 tg;
     u8 tb;
 
-    inv = flags & 8;
-    idx = flags & 7;
-    flat = ((u8)idx == 6);
+    inv = flags & COLOR_TINT_INVERT;
+    idx = flags & COLOR_TINT_HUE_MASK;
+    flat = ((u8)idx == COLOR_TINT_GRAYSCALE);
 
     func_8005A98C(&hsv, r, g, b, lim);
 
-    if ((u8)idx < 7) {
+    if ((u8)idx < COLOR_TINT_KEEP_HUE) {
         k = idx;
         if (inv) {
             k = (k + COLOR_HUE_SECTOR_COUNT / 2) % COLOR_HUE_SECTOR_COUNT;

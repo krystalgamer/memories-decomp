@@ -31,13 +31,13 @@ s32 func_8005AE68(u16 color, s32 flags, u16 scale)
         return 0;
     }
 
-    inverted = flags & 8;
-    sector = flags & 7;
-    gray = ((u8)sector == 6);
+    inverted = flags & COLOR_TINT_INVERT;
+    sector = flags & COLOR_TINT_HUE_MASK;
+    gray = ((u8)sector == COLOR_TINT_GRAYSCALE);
     func_8005A98C(&hsv, color & 31, (color >> 5) & 31, (color >> 10) & 31, 31);
 
     lim = 31;
-    if ((u8)sector < 7) {
+    if ((u8)sector < COLOR_TINT_KEEP_HUE) {
         hue = sector;
         if (inverted) {
             hue = (hue + COLOR_HUE_SECTOR_COUNT / 2) % COLOR_HUE_SECTOR_COUNT;
