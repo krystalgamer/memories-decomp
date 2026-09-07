@@ -45,8 +45,41 @@ state is not stored here, in the order worth recovering:
 
 ## password `func_8016913C` at 0x8016913C
 
-`gcc_2_8_1_g0_split`, 380 instructions against 382, opcode distance 6,
+`gcc_2_8_1_g0_split`, 379 instructions against 382, opcode distance 5,
 and the first 91 instructions agree.
+
+A fifth came from the order of the two side effects inside the walk loop. The
+target computes the address of the next cell and loads it before it stores the
+new column back to `D_8016D401`; this build stored first and computed after.
+The two are independent, because the store is to a different object than the
+load, so the swap is free semantically and worth one of the distance. Writing
+the loop as
+
+        col = col + cell;
+        cell = rp[(s8)col];
+        D_8016D401 = col;
+
+is the shape. Folding the sign extension into the addition, as
+`col = (s8)(col + cell)`, reaches the same number by the same route, so the
+cast's position is not the point; the store's is.
+
+With that in place four more axes were re-run and are closed at five. The three
+hoist forms crossed with the mask still put the loop-local pointer first. The
+cursor-x computation in five forms, including naming the sign-extended column
+in a local, testing the eleventh column first, and adding twenty to the
+already-stored value, is byte-identical in three of them and worse in the rest.
+The select dispatch in five layouts, including reordering the two equality
+arms, nesting them and writing them as a `switch`, does not improve on the
+current chain; the `switch` is interesting only in that it has the best
+mnemonic subsequence of anything tried, 333, while being three worse on
+distance, which is a reminder that the subsequence is a diagnostic and not the
+target.
+
+The remaining five are two missing `lb`, one missing `addu`, one missing `j`
+and one surplus `nop`, with the two branch senses cancelling within their
+opcode classes. The two `lb` are the same class of problem as the `addu`: the
+target reloads a byte this build keeps in a register.
+
 
 Opcode distance halves from 12 to 6, and every step of it came from a product
 rather than from an axis measured on its own. Two of the three levers had
@@ -420,8 +453,8 @@ void func_8016913C(void)
         rp = D_8016AB38[row];
     again:
         col = col + cell;
-        D_8016D401 = col;
         cell = rp[(s8)col];
+        D_8016D401 = col;
         if (cell < 0) {
             goto again;
         }
