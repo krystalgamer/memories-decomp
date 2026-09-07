@@ -1120,13 +1120,18 @@ listening three times sends you to bed and skips the evening. Running away
 puts you on the city map: **Pharaoh's Palace**, **Card Shop**, **Duel
 Ground**, **Town Plaza**, **Shrine**.
 
-*Pharaoh's Palace.* Simon offers `<Duel>` / `<Pass>` (id 1) — the
-walkthroughs place this before the festival, the Neoseeker guide's unlock
-note after meeting Jono; both are reported. Passing gets
-`<Don't go>` / `<Go>` (to bed). Losing to him is **game over** like any
-other campaign loss [event 97 of the event script: dialogue 504 "Simon Muran
-(lose)", then the game-over opcode]; the guides that say otherwise are
-wrong.
+*Pharaoh's Palace.* Simon offers `<Duel>` / `<Pass>` (id 1) immediately after
+the opening `<Run away>` route returns you to the city map. A controlled new
+game went from the opening dialogue to the map, re-entered the palace, chose
+`<Duel>`, and entered duel mode with opponent id 1 while both Simon's evening
+flag `0x6E` and the festival challenge flag `0x6F` were still zero. This
+settles the guide disagreement: the optional duel is available before the
+festival, without first meeting Jono. The trace establishes the `<Run away>`
+branch only; repeatedly choosing `<Keep listening>` follows the separate
+skip-to-bed route described above. Passing gets `<Don't go>` / `<Go>` (to
+bed). Losing to him is **game over** like any other campaign loss [event 97
+of the event script: dialogue 504 "Simon Muran (lose)", then the game-over
+opcode]; the guides that say otherwise are wrong.
 
 *Card Shop.* The shop menu (save, build deck, title, leave).
 
@@ -1696,8 +1701,6 @@ Not verified in code:
   dialogue (§7.11);
 * the win/loss record order (the archives' claim; only the drop-block order
   is measured);
-* when Simon Muran's optional duel is offered relative to the festival (the
-  guides disagree);
 * what the two "enable" GameShark codes target — their guards match neither
   located overlay;
 * the home terrains of the five shrines and the finale (only Sebek/Neku's

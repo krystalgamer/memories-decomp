@@ -398,3 +398,9 @@ proven from the game's own code or data, independently of what the external tool
 | # | address | what we proved | proposed name | status |
 |---|---|---|---|---|
 | F160 | `gFreeDuel_dwUnlockedDuelists` (`0x801D06F4`) through fifth byte `0x801D06F8`; overlay grid `0x80169030` | A new save began with all five unlock bytes zero and only Duel Master K available. Applying only `801D06F4 FFFF` and `801D06F6 FFFF` produced `FF FF FF FF 00`. After the Free Duel overlay settled, grid entries 1–31 were available, entries 32–38 were unavailable, and entry 39 remained available; every flag-derived value for ids 1–38 matched the corresponding grid byte, and cursor visits confirmed the final empty cells. The unlock flags therefore span five bytes, the published four-byte data cheat reaches only ids 1–31, and id 39 is the independently available Duel Master K slot. | (F64 extent and Duel Master K exception resolved) | CONFIRMED-TRACE |
+
+### Simon optional-duel timing trace (2026-09-07)
+
+| # | address | what we proved | proposed name | status |
+|---|---|---|---|---|
+| F161 | main mode `0x8009B26C`, `gDuel_bOpponentID` (`0x8009B361`), story flags `0x6E` and `0x6F` | From a new game, the player chose the opening `<Run away>`, reached the campaign map, re-entered Pharaoh's Palace, received Simon's `<Duel>` / `<Pass>` prompt, and chose Duel. The trace recorded campaign dialogue mode `2`, map mode `5`, campaign dialogue mode `2`, then duel mode `3` with opponent id `1`; flags `0x6E` (Simon's evening lecture) and `0x6F` (Seto's festival challenge) remained zero throughout. Simon's optional duel is therefore offered immediately on returning after Run Away, before the festival and before either timing flag is set. This conclusion does not cover the repeated `<Keep listening>` branch. | (opening Simon timing resolved) | CONFIRMED-TRACE |
