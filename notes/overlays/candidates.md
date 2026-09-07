@@ -1863,7 +1863,7 @@ void func_8016A37C(void)
 ## main_menu `func_80181728` at 0x80181728
 
 `gcc_2_8_1_g0_split`, 353 instructions against 356, opcode distance 3.
-The longest common subsequence of mnemonics is 318 of 356 and 342 positions
+The longest common subsequence of mnemonics is 321 of 356 and 336 positions
 differ.
 
 The second digit loop must have its own walking offset rather than reuse the
@@ -1876,6 +1876,12 @@ the remaining work is to make the allocator spill that one value. Splitting the
 count, the loop index, or the digit count itself on top of the walking offset is
 neutral or worse, and splitting the digit count costs four or five of the
 distance.
+
+The width times eight that both loops need must also be a named local assigned
+once before each loop, in the same shape as the walking offset, rather than
+left as an expression inside them. That is worth six of the differing positions
+and three of the common subsequence at the same distance. A separate span per
+loop is worse, and so is a single span assigned once for both.
 
 This function had no stored candidate. Its row recorded a best of 352 of 356
 from an attempt that was never kept, so every later cycle had to take the
@@ -1987,7 +1993,7 @@ already repeated each pass and the qualifier does not reach the address
 computation.
 
 ```c
-#include "../../src/types.h"
+#include "../../types.h"
 
 typedef struct {
     u8 t0, t1, t2, len;
@@ -2050,6 +2056,7 @@ void func_80181728(void)
     s32 i;
     s32 count;
     s32 width;
+    s32 span1;
     s32 walk;
     s32 walk2;
 
@@ -2156,9 +2163,10 @@ void func_80181728(void)
 
     width = MainMenu_CountDecimalDigits(8000);
     count = MainMenu_CountDecimalDigits(first);
+    span1 = width * 8;
     walk = -126;
     for (i = 0; i < count; i++) {
-        digit.x0 = width * 8 - walk;
+        digit.x0 = span1 - walk;
         digit.x2 = digit.x0;
         digit.x1 = digit.x0 + 8;
         digit.x3 = digit.x1;
@@ -2180,9 +2188,10 @@ void func_80181728(void)
     }
 
     count = MainMenu_CountDecimalDigits(second);
+    span1 = width * 8;
     walk2 = -126;
     for (i = 0; i < count; i++) {
-        digit.x0 = width * 8 - walk2;
+        digit.x0 = span1 - walk2;
         digit.x2 = digit.x0;
         digit.x1 = digit.x0 + 8;
         digit.x3 = digit.x1;
