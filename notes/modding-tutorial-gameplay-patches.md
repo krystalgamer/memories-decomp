@@ -584,8 +584,11 @@ Tremendous Fire. Exact matching C in `func_8002525C` subtracts
 `DUEL_DIRECT_DAMAGE_FIRST_CARD_ID` from the current card ID, loads that entry
 from `gDuel_abDirectDamageUnits`, and multiplies it by
 `DUEL_DIRECT_DAMAGE_SCALE` (`10`) before reducing the selected LP halfword at
-`+0x14` and clamping a negative result to zero. When the alternate-state
-halfword at `0x8009B22A` is zero, the function selects
+`+0x14` and clamping a negative result to zero. During the presentation-setup
+phase, `func_80025028(DUEL_GOBLIN_FAN_CARD_ID)` detects Goblin Fan (`687`) and
+uses sentinel effect index `DUEL_LIFE_POINT_EFFECT_COUNT` (`5`) instead of a
+damage-table index. The later LP target is still selected separately: when the
+alternate-state halfword at `0x8009B22A` is zero, the function selects
 `D_800E9FF0[playing_side ^ 1]`, the opposing side. Its other application
 branch selects `D_800E9FF0[playing_side]`, the active side, establishing the
 reflected-damage routing without assigning a semantic name to that state
