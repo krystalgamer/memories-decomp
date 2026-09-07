@@ -51,6 +51,7 @@ after adding or removing an entry.
 | [`func_80047DB0`](func_80047DB0.md) | `0X80047DB0` | `gcc_2_8_1_g0`, 68 of 69 instructions, one `addu` short. |
 | [`SD_SEPlay`](func_80048658.md) | `0X80048658` | `gcc_2_8_1_g0`, 66 of 68 instructions, opcode distance 2. |
 | [`func_80048F14`](func_80048F14.md) | `0X80048F14` | `gcc_2_8_1_g0`, 63 of 63 instructions, opcode distance 0, 28 differing |
+| [`func_80049FB4`](func_80049FB4.md) | `0X80049FB4` | `gcc_2_8_1_g8_split`, 84 instructions against a target of 82, opcode |
 | [`func_8004A0FC`](func_8004A0FC.md) | `0X8004A0FC` | `gcc_2_8_1_g0`, 96 of 96 instructions, opcode distance 0, 39 differing |
 | [`func_8004A27C`](func_8004A27C.md) | `0X8004A27C` | `gcc_2_8_1_cc_g8_as_g0_split`, 31 of 31 instructions, opcode distance 0, 9 |
 | [`func_8004A6F8`](func_8004A6F8.md) | `0X8004A6F8` | `gcc_2_8_1_cc_g8_as_g0_split`, 27 of 27 instructions, opcode distance 0, 6 |
@@ -59,6 +60,6 @@ after adding or removing an entry.
 | [`func_8005B36C`](func_8005B36C.md) | `0X8005B36C` | `gcc_2_8_1_g0`, 91 of 91 instructions, opcode distance 0, 17 differing |
 | [`func_8006C120`](func_8006C120.md) | `0X8006C120` | `gcc_2_8_1_g0`, 119 of 119 instructions, opcode distance 0, 8 differing |
 
-20 stored candidates.
+21 stored candidates.
 
 <!-- END GENERATED CANDIDATE INDEX -->
