@@ -509,7 +509,7 @@ address,size,name,status,module,notes
 0x80039934,0xE0,TextBox_SetPos,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80039A14,0x4C,func_80039A14,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80039A60,0x4C,func_80039A60,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80039AAC,0x28,DisplayObjectFade_MarkInitialized,matching_c,game,"Sets DISPLAY_OBJECT_FADE_FLAG_INITIALIZED on the first call and reports whether the record was already initialized; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80039AAC,0x28,DisplayObjectFade_MarkInitialized,matching_c,game,Sets DISPLAY_OBJECT_FADE_FLAG_INITIALIZED on the first call and reports whether the record was already initialized; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80039AD4,0x28,func_80039AD4,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80039AFC,0xE4,func_80039AFC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80039BE0,0xB4,func_80039BE0,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
@@ -568,14 +568,14 @@ address,size,name,status,module,notes
 0x8003CDF8,0x50,Input_BackupPad1AndUsePad2,matching_c,game,Saves pad 1's held pressed and repeat masks before exposing pad 2 through the pad 1 input globals. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003CE48,0x2C,Input_RestorePad1FromBackup,matching_c,game,Restores pad 1's held pressed and repeat masks after a temporary pad 2 remap. 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003CE74,0x44,SaveData_NextMaskWord,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8003CEB8,0x5C,SaveData_CalcCrc16,matching_c,game,"CRC-16/XMODEM with polynomial 0x1021 and a zero initial value; used by all three protected save-data regions; exact linked bytes and relocations with gcc_2_8_1_g8."
-0x8003CF14,0xB4,SaveData_WritePrimarySecondaryIntegrity,matching_c,game,"Writes duplicated CRC-16 values and generated mask words for the primary and secondary protected save-data regions; exact linked bytes and relocations."
-0x8003CFC8,0x74,SaveData_WriteTertiaryIntegrity,matching_c,game,"Writes the duplicated CRC-16 value and generated mask words for the tertiary protected save-data region; exact linked bytes and relocations."
+0x8003CEB8,0x5C,SaveData_CalcCrc16,matching_c,game,CRC-16/XMODEM with polynomial 0x1021 and a zero initial value; used by all three protected save-data regions; exact linked bytes and relocations with gcc_2_8_1_g8.
+0x8003CF14,0xB4,SaveData_WritePrimarySecondaryIntegrity,matching_c,game,Writes duplicated CRC-16 values and generated mask words for the primary and secondary protected save-data regions; exact linked bytes and relocations.
+0x8003CFC8,0x74,SaveData_WriteTertiaryIntegrity,matching_c,game,Writes the duplicated CRC-16 value and generated mask words for the tertiary protected save-data region; exact linked bytes and relocations.
 0x8003D03C,0xB8,SaveData_BuildPayload,matching_c,game,"Builds the memory-card write payload by copying the header, recording runtime state, writing all integrity records, clearing the reserved range, and duplicating the 0x680-byte state block. Scalar .data typing and two accepted register pins reproduce retail access ordering."
 0x8003D0F4,0x80,SaveData_ApplyRuntimeState,matching_c,game,Post-terminal pure-C match from collaborator source; three verified absolute store literals preserve retail $at materialization.
-0x8003D174,0x114,SaveData_ValidateIntegrity,matching_c,game,"Recomputes the CRC-derived mask stream for all three protected save-data regions and rejects the first mismatching word; exact save-data mask validation with G8 split addressing."
+0x8003D174,0x114,SaveData_ValidateIntegrity,matching_c,game,Recomputes the CRC-derived mask stream for all three protected save-data regions and rejects the first mismatching word; exact save-data mask validation with G8 split addressing.
 0x8003D288,0x30,SaveData_HasSameDuelistCode,matching_c,game,Compares the duelist-code field at offset 0x334 in two loaded save records; exact linked bytes and relocations.
-0x8003D2B8,0x48,SaveData_MatchesDuelistAndCurrentSequence,matching_c,game,"Requires equal duelist codes and a candidate save sequence equal to gSaveDataSequence; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x8003D2B8,0x48,SaveData_MatchesDuelistAndCurrentSequence,matching_c,game,Requires equal duelist codes and a candidate save sequence equal to gSaveDataSequence; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003D300,0x2C,func_8003D300,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8003D32C,0x8,func_8003D32C,matching_c,game,Empty void function matched the return-and-nop sequence.
 0x8003D334,0x138,func_8003D334,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
@@ -606,7 +606,7 @@ address,size,name,status,module,notes
 0x8003FCD8,0x3C,func_8003FCD8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003FD14,0x100,func_8003FD14,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003FE14,0x5C,func_8003FE14,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x8003FE70,0x10,SaveData_SetMaskSeed,matching_c,game,"Seeds both words of the save-integrity mask stream with the supplied value; Fleet independently identifies the routine as rng_seed; exact full-executable match."
+0x8003FE70,0x10,SaveData_SetMaskSeed,matching_c,game,Seeds both words of the save-integrity mask stream with the supplied value; Fleet independently identifies the routine as rng_seed; exact full-executable match.
 0x8003FE80,0x60,Sound_InitFrontend,matching_c,game,"Initializes the game-facing sound runtime from file-position entries 4-6, marks the output type unresolved, and services frames until the sound busy flag clears; exact full-executable match."
 0x8003FEE0,0x28,SD_SEPlayFull,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003FF08,0x2C,func_8003FF08,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -826,8 +826,8 @@ address,size,name,status,module,notes
 0x8004A43C,0xDC,func_8004A43C,matching_c,game,Exact linked bytes on gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference; the base local for two stores with the symbol inline elsewhere is load-bearing.
 0x8004A518,0x1C0,func_8004A518,matching_c,game,"Exact linked bytes on gcc_2_8_1_cc_g8_as_g0_split from the ygofm reference (batch port, probe-verified)."
 0x8004A6D8,0x20,func_8004A6D8,matching_c,game,2 pre-policy variants: exact under -G0 and -G8; selected -G0 call wrapper
-0x8004A6F8,0x6C,func_8004A6F8,unmatched_asm,game,
-0x8004A764,0x5C,func_8004A764,unmatched_asm,game,
+0x8004A6F8,0x6C,func_8004A6F8,matching_c,game,"7 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_cc_g8_as_g0_split. Shares the const-extern addressing lever with sibling 0x8004A764; stores the attribute mask before the voice word, which is the reverse of that sibling."
+0x8004A764,0x5C,func_8004A764,matching_c,game,7 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_cc_g8_as_g0_split. A const-qualified extern for D_80011434 keeps the table out of the -G8 small-data model so its address is materialised before D_8009B458 loads.
 0x8004A7C0,0x94,func_8004A7C0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8004A854,0x90,func_8004A854,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004A8E4,0x5C,func_8004A8E4,matching_c,game,Post-terminal resolution; declarations recovered from the local cohort (SDSecondaryObject/SDSecondaryRecord in sound.h); exact linked bytes and relocations.
