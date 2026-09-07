@@ -20,6 +20,7 @@ Names that say what something IS in the game.
 
 | address | name | source |
 |---|---|---|
+| 0x80010384 | `gMemCard_szSaveFileName` | matching C |
 | 0x8009078C | `gFile_apszName` | idb2018 |
 | 0x800909D4 | `gDuel_aTerrainBoost` | idb2018 |
 | 0x80090C50 | `gScript_apfnCommand` | idb2018 |
@@ -135,6 +136,8 @@ Names that say what something IS in the game.
 | 0x801D07BC | `gDuel_awRecentCardDrops` | ramMap |
 | 0x801D07DC | `gCampaignSavedSceneIndex` | matching C |
 | 0x801D07E0 | `gLibrary_dwStarchips` | idb2018 |
+| 0x801D3200 | `gSaveData_aTransferBuffer` | matching C |
+| 0x801D4000 | `gSaveData_aHeaderTemplate` | matching C |
 | 0x801D4244 | `gDuel_adwCardStats` | idb2018 |
 | 0x801D4D8E | `gCard_asNameSortKey` | idb2018 |
 | 0x801D56A8 | `gDuel_CardDropID2` | ramMap |
