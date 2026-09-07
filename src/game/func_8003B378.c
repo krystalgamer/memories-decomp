@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/rand.h"
+#include "display_effect_constants.h"
 
 typedef float f32;
 typedef double f64;
@@ -31,7 +32,9 @@ void func_8003B378(u8 *p, s32 n) {
     if (*(u8 **)(p + 4) != 0) {
         if ((f & 1) != 0) {
             if (*(s16 *)(*(u8 **)(p + 4) + 0x5A) == 0) {
-                *(s16 *)(p + 0x3E) = (rand() & 0xFF) + 0x3C;
+                *(s16 *)(p + 0x3E) =
+                    (rand() & DISPLAY_EFFECT_DELAY_MASK) +
+                    DISPLAY_EFFECT_DELAY_BASE;
                 p[0x32] = p[0x32] & 0xFE;
                 func_80040410(*(u8 **)(p + 4), 0);
             }

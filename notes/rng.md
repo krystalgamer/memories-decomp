@@ -121,9 +121,14 @@ order; reproducing only the final offsets is not enough to preserve the
 subsequent stream position.
 
 `func_8003B378` and `func_80039F44` each initialize a delay with
-`(rand() & 0xFF) + 0x3C`. That produces every value from 60 through 315 with
-equal frequency. The destination is a signed 16-bit field, so no truncation or
-sign wrap occurs for this range.
+`(rand() & DISPLAY_EFFECT_DELAY_MASK) + DISPLAY_EFFECT_DELAY_BASE`.
+`display_effect_constants.h` names the mask as `0xFF` and the base as `60`
+(`0x3C`), producing every value from 60 through 315 with equal frequency.
+Both write the display-effect counter at offset `+0x3E`; the initializer
+sets it, and the updater's flag-bit-0 path renews it when the linked object's
+`+0x5A` halfword is zero. The signed 16-bit countdown view has no truncation
+or sign wrap for this range. These are counter values, not an independently established
+real-time duration, and each assignment still consumes exactly one RNG value.
 
 `func_8002712C` conditionally stores `rand() & 1` in the play-command record,
 producing an unbiased zero-or-one value. It consumes no RNG value when

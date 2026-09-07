@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/rand.h"
+#include "display_effect_constants.h"
 
 typedef struct {
     u8 pad_00[0x31];
@@ -32,7 +33,8 @@ void func_80039F44(DisplayEffectState *object)
     object->state = 0;
     object->field_31 = 0;
     object->field_36 = 0xB2;
-    object->field_3E = (rand() & 0xFF) + 0x3C;
+    object->field_3E =
+        (rand() & DISPLAY_EFFECT_DELAY_MASK) + DISPLAY_EFFECT_DELAY_BASE;
 }
 
 void func_80039F90(void **objects)
