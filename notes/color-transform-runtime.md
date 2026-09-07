@@ -114,6 +114,22 @@ moves the complete `256 x 8` source band from y `248` to y `240` with
 argument, not `flags & COLOR_TINT_HUE_MASK`; the two tests are not equivalent
 when higher flag bits are set.
 
+## Card-image readback
+
+Matching `func_8001944C` has a separate readback path: `StoreImage2` reads a
+rectangle into `D_8015C424`, a loop sets `COLOR_BGR555_STP_MASK` on every
+halfword, selected halfwords are cleared, and `LoadImage2` uploads the block.
+`duel_display.h` names its width as `DUEL_CARD_READBACK_WIDTH_WORDS` (`140`)
+and height as `DUEL_CARD_READBACK_HEIGHT` (`196`). Their product,
+`DUEL_CARD_READBACK_WORD_COUNT`, is `0x6B30` halfwords (`0xD660` bytes).
+Both transfer rectangles and the processing loop use this same extent.
+
+These are VRAM transfer dimensions, not the encoded card-art record's image
+dimensions. The buffer's separate `+0x8000` address bias is not the STP bit
+despite its equal value. The fixed VRAM coordinates, individually addressed
+clears, source statement order, and allocation-only register pins remain
+unchanged.
+
 ## Evidence boundary
 
 The formulas, flag meanings, channel packing, zero handling, rectangle

@@ -1,6 +1,8 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "color_constants.h"
+#include "duel_display.h"
 
 typedef struct {
     u8 pad0[0x30];
@@ -41,14 +43,14 @@ void func_8001944C(Obj *o)
     buf = D_8015C424;
     D_800E9D70.x = o->x + xoff;
     D_800E9D70.y = o->y;
-    D_800E9D70.w = 0x8C;
-    D_800E9D70.h = 0xC4;
+    D_800E9D70.w = DUEL_CARD_READBACK_WIDTH_WORDS;
+    D_800E9D70.h = DUEL_CARD_READBACK_HEIGHT;
     StoreImage2(&D_800E9D70, (u32 *)buf);
 
     p = (u16 *)buf;
-    n = 0x6B30;
+    n = DUEL_CARD_READBACK_WORD_COUNT;
     do {
-        *p = *p | 0x8000;
+        *p = *p | COLOR_BGR555_STP_MASK;
         p++;
         n--;
     } while (n != 0);
@@ -73,7 +75,7 @@ void func_8001944C(Obj *o)
     *(u16 *)D_8015C424 = 0;
     D_800E9D70.x = 0x140;
     D_800E9D70.y = 0x100;
-    D_800E9D70.w = 0x8C;
-    D_800E9D70.h = 0xC4;
+    D_800E9D70.w = DUEL_CARD_READBACK_WIDTH_WORDS;
+    D_800E9D70.h = DUEL_CARD_READBACK_HEIGHT;
     LoadImage2(&D_800E9D70, (u32 *)D_8015C424);
 }
