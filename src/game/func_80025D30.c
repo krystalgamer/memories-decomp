@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 #include "duel_card.h"
 #include "duel_grid.h"
 
@@ -29,10 +30,10 @@ extern void SD_SEPlayFull(s32 arg0);
  * the D_8009B20C[1] countdown. D_8009B1D0 is the slot index within the acting
  * side's second grid row (slots 5..9); each step spawns a type-0xD effect
  * object at the card's model position, staggers its depth by the slot, and
- * subtracts from the card's stat modifier - 500 when D_8009B1D2 is card 0x15D,
- * 1000 otherwise, with the object state and the drop amount matching. After
- * the fifth slot the sweep sets bit 0x40 of D_8009B220 and then waits there
- * until bit 0 of D_8009B260 clears. */
+ * subtracts one stat level for Spellbinding Circle and two otherwise, with
+ * the object state and the drop amount matching. After the fifth slot the
+ * sweep sets bit 0x40 of D_8009B220 and then waits there until bit 0 of
+ * D_8009B260 clears. */
 void func_80025D30(void) {
     DuelCardRecord *record;
     DuelEffectObject *object;
@@ -69,14 +70,16 @@ void func_80025D30(void) {
         object->y = *(u16 *)(card + 0x32);
         object->field_04 = *(u16 *)(card + 0x34);
         object->field_14 = object->field_14 + ((s16)D_8009B1D0 << 14);
-        if (D_8009B1D2 == 0x15D) {
+        if (D_8009B1D2 == DUEL_SPELLBINDING_CIRCLE_CARD_ID) {
             object->field_1A = 2;
-            record->stat_modifier = record->stat_modifier - 0x1F4;
-            object->field_12 = -0x1F4;
+            record->stat_modifier =
+                record->stat_modifier - DUEL_STAT_PENALTY_PER_LEVEL;
+            object->field_12 = -DUEL_STAT_PENALTY_PER_LEVEL;
         } else {
             object->field_1A = 1;
-            record->stat_modifier = record->stat_modifier - 0x3E8;
-            object->field_12 = -0x3E8;
+            record->stat_modifier =
+                record->stat_modifier - 2 * DUEL_STAT_PENALTY_PER_LEVEL;
+            object->field_12 = -2 * DUEL_STAT_PENALTY_PER_LEVEL;
         }
         SD_SEPlayFull(0x21);
     }

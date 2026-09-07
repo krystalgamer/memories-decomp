@@ -1282,7 +1282,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1D2,D_8009B1D2,D_8009B1D2,0x8002525C,func_8002525C,matching_c,game,C,src/game/duel_life_point_effects.c,read,16,unit = D_8009B1D2 - DUEL_DIRECT_DAMAGE_FIRST_CARD_ID;
 0x8009B1D2,D_8009B1D2,D_8009B1D2,0x8002538C,func_8002538C,matching_c,game,C,src/game/func_8002538C.c,read,16,x = D_8009B1D2;
 0x8009B1D2,D_8009B1D2,D_8009B1D2,0x800257A0,func_800257A0,matching_c,game,C,src/game/duel_field_effect_updates.c,read,16,if (D_8009B1D2 == 0x149) {
-0x8009B1D2,D_8009B1D2,D_8009B1D2,0x80025D30,func_80025D30,matching_c,game,C,src/game/func_80025D30.c,read,16,if (D_8009B1D2 == 0x15D) {
+0x8009B1D2,D_8009B1D2,D_8009B1D2,0x80025D30,func_80025D30,matching_c,game,C,src/game/func_80025D30.c,read,16,if (D_8009B1D2 == DUEL_SPELLBINDING_CIRCLE_CARD_ID) {
 0x8009B1D2,D_8009B1D2,D_8009B1D2,0x8002622C,func_8002622C,matching_c,game,C,src/game/func_8002622C.c,read,16,"void func_8002622C(void){if(!func_80024E24()){D_8009B1A0=Duel_CheckRitual(0,D_8009B1D2);if(D_8009B1A0){Obj*o=func_800..."
 0x8009B1D2,D_8009B1D2,D_8009B1D2,0x800262D4,func_800262D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_016ad4.s,read,16,"lh $a1, %gp_rel(D_8009B1D2)($gp) | lhu $v1, %gp_rel(D_8009B1D2)($gp)"
 0x8009B1D2,D_8009B1D2,D_8009B1D2,0x80026BA4,func_80026BA4,matching_c,game,C,src/game/func_80026BA4.c,write,16,D_8009B1D2 = value;
