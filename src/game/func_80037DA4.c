@@ -1,5 +1,6 @@
 
 #include "../types.h"
+#include "card_constants.h"
 
 extern u8 D_8009B320;
 extern s16 gDuel_wSelectedCardID;
@@ -46,19 +47,23 @@ void func_80037DA4(u8 *object)
         id = 0;
         switch (kind) {
         case 0:
-            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> 26) & 0x1F;
+            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                  CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
             break;
         case 1:
             stats = gDuel_adwCardStats[gDuel_wSelectedCardID - 1];
-            id = (stats >> 22) & 0xF;
-            type = (stats >> 26) & 0x1F;
+            id = (stats >> CARD_STAT_GUARDIAN_STAR_1_SHIFT) &
+                 CARD_STAT_GUARDIAN_STAR_MASK;
+            type = (stats >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
             id += 0x17;
-            if ((u32)(type - 0x14) < 4) {
+            if ((u32)(type - CARD_TYPE_MAGIC) < CARD_NON_MONSTER_TYPE_COUNT) {
                 object[0x62] = type;
             }
             break;
         case 2:
-            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> 18) & 0xF;
+            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                  CARD_STAT_GUARDIAN_STAR_2_SHIFT) &
+                 CARD_STAT_GUARDIAN_STAR_MASK;
             id += 0x17;
             if (id == 0x17) {
                 n = 1;
