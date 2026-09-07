@@ -182,12 +182,27 @@ observations; these are not new emulator measurements.
 ## 2. Boot, title and the two main menus
 
 **Boot.** The console shows the licence screens, the game plays an intro movie
-[`MOVIE.STR`; the random-number seed is set during the Konami logo and starts
-advancing during the intro — UNVERIFIED, Data Crystal], and the title screen
-appears. The file contains five 3460-sector copies of the same movie, but the
+[`MOVIE.STR`], and the title screen appears. The file contains five
+3460-sector copies of the same movie, but the
 only populated stream-range entry plays frames 1 through 303 from the first
-3080 sectors of copy 0; no range selects the later copies. Pressing Start on
-the title opens the **initial menu**:
+3080 sectors of copy 0; no range selects the later copies.
+
+**Startup seeding.** Matching [`Main_Init`](../../src/game/main_init.c)
+calls [`func_80013154`](../../src/game/func_80013154.c), whose
+graphics/input initialization ends with `srand(0x56)`. After that helper
+returns and `Sound_InitFrontend` runs, `Main_Init` calls
+`srand(0x55555555)`. The two seed values and this call order are code-backed.
+They do not identify which image was visible at either call.
+
+The community claim that seeding happens during the Konami logo and
+consumption begins during the intro remains **unverified screen timing**
+(Data Crystal). The pending `rng_boot_timing` trace begins at the later
+`0x55555555` seed, so the earlier `0x56` call is outside its capture window;
+its absence from that log would not show that the initializer failed to run.
+The [RNG evidence and trace scope](../rng.md) keep these static facts
+separate from the visible milestones that only a human run can establish.
+
+Pressing Start on the title opens the **initial menu**:
 
 * **New Game** — start from nothing: goes to name entry (§2.1), then into the
   campaign's opening scene with a freshly generated starter deck (§4.3).
