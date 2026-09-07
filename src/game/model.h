@@ -80,9 +80,13 @@ typedef struct {
     u8 field_DC0[8];
     u16 field_DC8[4];
     u16 field_DD0[4];
-    u8 pad_DD8[0x26];
+    u8 pad_DD8[0x20];
+    u16 field_DF8;
+    u16 field_DFA;
+    u16 field_DFC;
     u8 field_DFE;
-    u8 pad_DFF[7];
+    u8 field_DFF;
+    u8 pad_E00[6];
     u16 field_E06;
     u8 pad_E08[5];
     u8 field_E0D;
@@ -170,8 +174,20 @@ typedef char ModelSlot_field_DC8_offset_must_be_0xDC8[
 typedef char ModelSlot_field_DD0_offset_must_be_0xDD0[
     MODEL_OFFSET(ModelSlot, field_DD0) == 0xDD0 ? 1 : -1
 ];
+typedef char ModelSlot_field_DF8_offset_must_be_0xDF8[
+    MODEL_OFFSET(ModelSlot, field_DF8) == 0xDF8 ? 1 : -1
+];
+typedef char ModelSlot_field_DFA_offset_must_be_0xDFA[
+    MODEL_OFFSET(ModelSlot, field_DFA) == 0xDFA ? 1 : -1
+];
+typedef char ModelSlot_field_DFC_offset_must_be_0xDFC[
+    MODEL_OFFSET(ModelSlot, field_DFC) == 0xDFC ? 1 : -1
+];
 typedef char ModelSlot_field_DFE_offset_must_be_0xDFE[
     MODEL_OFFSET(ModelSlot, field_DFE) == 0xDFE ? 1 : -1
+];
+typedef char ModelSlot_field_DFF_offset_must_be_0xDFF[
+    MODEL_OFFSET(ModelSlot, field_DFF) == 0xDFF ? 1 : -1
 ];
 typedef char ModelSlot_field_E06_offset_must_be_0xE06[
     MODEL_OFFSET(ModelSlot, field_E06) == 0xE06 ? 1 : -1
