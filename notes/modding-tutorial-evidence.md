@@ -368,9 +368,12 @@ The file omits 14 valid resident glyphs:
 Missing rows therefore do not mean those byte values are unused. An editor
 using this file will not display those symbols by name even though retail
 strings can contain them. Likewise, `[ENTER]` describes text newline control
-`0xFE`, not a controller button. `0xFF` is the string terminator, and the
-other `0xF0`-`0xFD` values belong to the engine's control-command range
-rather than this glyph map.
+`0xFE`, not a controller button. `TEXT_STRING_TERMINATOR` (`0xFF`) ends the
+encoded string. The matching `Text_SjisToGlyphCodes` and numeric formatter
+`func_80038148` both append this byte and use `TEXT_SINGLE_BYTE_GLYPH_LIMIT`
+(`0xF0`) to select one-byte versus two-byte glyph encoding. Their extended
+glyph encoding is not represented by this single-byte map; high-byte
+prefixes must not all be treated as standalone control commands.
 
 The shorthand in `research/the-game.md` that the community table decodes
 `0x00`-`0x5B` identifies its target glyph-code range, not complete coverage

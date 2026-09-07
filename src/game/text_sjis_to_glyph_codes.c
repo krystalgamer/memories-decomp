@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_constants.h"
 
 extern u32 D_801D9000[];
 
@@ -26,7 +27,7 @@ large:
         goto next;
 body:
         if (*(u16 *)entry == value) {
-            if (index < 240) {
+            if (index < TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
                 *dst = index;
                 goto bump;
             }
@@ -44,5 +45,5 @@ bump:
 next:
         ;
     }
-    *dst = 255;
+    *dst = TEXT_STRING_TERMINATOR;
 }

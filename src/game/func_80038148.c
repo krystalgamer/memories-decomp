@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_constants.h"
 
 extern u16 D_800EAFF8[];
 
@@ -62,7 +63,7 @@ write:
         if (buf[i] < 10) {
             w = *(u16 *)&D_800EAFF8[buf[i]];
         }
-        if (w >= 0xF0) {
+        if (w >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
             *e = (w >> 8) - 0x10;
             e[1] = w;
             e += 2;
@@ -73,7 +74,7 @@ write:
         i--;
     } while (i >= 0);
 
-    *e = 0xFF;
+    *e = TEXT_STRING_TERMINATOR;
     p[0x58] = p[0x58] + 1;
     *(u8 **)(p - -(*(s8 *)(p + 0x58) * 4)) = p + 0x44;
 }
