@@ -3,6 +3,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "display_object_helpers.h"
 
 struct Obj {
     s16 x;
@@ -30,8 +31,6 @@ typedef struct {
 
 extern volatile u32 D_8009B0F4;
 extern s32 D_8009B118;
-
-extern void func_800428EC(void *, s32);
 
 void func_8002DDFC(struct Obj *obj, s32 mode)
 {

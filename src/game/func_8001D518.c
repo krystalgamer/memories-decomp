@@ -1,12 +1,12 @@
 #include "../types.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
+#include "display_object_helpers.h"
 
 typedef struct { char p[8]; u16 flags; char pA[0x60]; u8 index; } Object;
 typedef struct { char p[0xA]; u8 index; } Source;
 extern Object *D_8009B1F8;
 extern void func_80040468();
-extern void func_800428EC(Object *, int);
 extern void func_80015DB8(Object *);
 
 Object *func_8001D518(Source *source)

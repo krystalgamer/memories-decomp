@@ -2,6 +2,7 @@
 #include "display_object_api.h"
 #include "graphics_constants.h"
 #include "input.h"
+#include "display_object_helpers.h"
 
 extern u8 D_801AF000[];
 extern s32 D_8009B378;
@@ -9,12 +10,8 @@ extern u8 D_800E9ECE[];
 extern u8 D_800E9ECF[];
 /* The retail tail load uses an absolute, self-clobbering v1 address lifetime. */
 extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
-extern void func_80042A00(void *);
 extern void func_80040410(u8 *, s32);
 extern void func_80040510();
-extern void func_800428A8();
-extern void func_800428EC();
-extern void func_800429D8();
 extern void SD_BGMPlay(u32);
 extern void func_800157DC();
 extern s32 Rand_GetInterval(s32);

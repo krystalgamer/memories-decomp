@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern void func_800428EC(u8 *, s8);
+#include "display_object_helpers.h"
 
 void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
 {

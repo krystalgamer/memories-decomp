@@ -2,6 +2,7 @@
 #include "display_object_api.h"
 #include "input.h"
 #include "sound.h"
+#include "display_object_helpers.h"
 
 extern u8 gDialog_bInputState;
 extern u8 gDialog_bChoiceEnabled;
@@ -13,9 +14,6 @@ extern s32 Dialog_ReadChoiceInput(u8 *);
 extern void Widget_UpdatePulseColour(u8 *);
 extern void Dialog_HighlightChoice(u8 *);
 extern u8 *func_8004006C(void);
-extern void func_800427DC(u8 *, s32);
-extern void func_800428EC(u8 *, s32);
-extern void func_80042918(u8 *);
 
 void Dialog_UpdateChoice(u8 *p) {
     u8 *e;

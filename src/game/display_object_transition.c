@@ -3,6 +3,7 @@
 #include "display_object_layout.h"
 #include "file_transfer.h"
 #include "input.h"
+#include "display_object_helpers.h"
 
 extern u8 D_801AF000[];
 extern s32 D_8009B0F4;
@@ -10,19 +11,6 @@ extern s32 D_8009B134;
 extern u16 gInput_wPad1Pressed;
 
 extern void func_80012D4C(void);
-extern void func_800428A8(
-    void *,
-    s32,
-    s32,
-    s32,
-    s32,
-    s32,
-    s32,
-    s32,
-    s32
-);
-extern void func_800428EC(void *, s32);
-
 void func_8004365C(u8 *a, u8 *b)
 {
     u8 *x;

@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
+#include "display_object_helpers.h"
 
 void func_800427DC(u8 *object, int value)
 {
@@ -45,11 +46,6 @@ void func_80042824(u8 *object, int value)
     *(u16 *)(object + 8) = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 
-typedef struct {
-    u8 pad_00[0x54];
-    void *resource;
-} DisplayObjectResource;
-
 extern void func_80040468(
     DisplayObjectResource *,
     s32,
@@ -89,13 +85,6 @@ void func_800428A8(
     func_800404CC(object, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 
-typedef struct {
-    u8 pad_00[0x14];
-    s16 field_14;
-    s8 field_16;
-    u8 field_17;
-} DisplayObjectAnimationState;
-
 extern volatile u16 D_8009AF74[4] __attribute__((section(".sdata")));
 extern u16 D_8009AF76;
 extern u16 D_8009AF7A;
@@ -133,25 +122,6 @@ int func_80042960(char *object)
     return ((*(u16 *)(object + 8) & DISPLAY_OBJECT_RENDERABLE_MASK) ==
             DISPLAY_OBJECT_RENDERABLE_MASK);
 }
-
-typedef struct {
-    u8 pad_00[0x54];
-    u8 *base;
-} DisplayObjectStream;
-
-typedef struct {
-    u8 pad_00[0x30];
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 velocity_x;
-    s16 velocity_y;
-    s16 velocity_z;
-    u8 pad_3C[0x26];
-    u8 fraction_x;
-    u8 fraction_y;
-    u8 fraction_z;
-} DisplayObjectVelocity;
 
 u32 func_800429A8(const u8 *data)
 {

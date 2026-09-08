@@ -2,6 +2,7 @@
 #include "display_object_api.h"
 #include "card_constants.h"
 #include "display_object_layout.h"
+#include "display_object_helpers.h"
 
 typedef struct {
     char pad_00[8];
@@ -16,9 +17,6 @@ typedef struct {
 } CardObject;
 
 extern void *func_8004006C(void);
-extern void func_80042918(DisplayObject *);
-extern void func_800428EC(DisplayObject *, int);
-
 DisplayObject *func_80018150(int arg0, int arg1)
 {
     DisplayObject *object = func_800400AC((s32)func_8004006C(), 2);

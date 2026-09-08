@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "display_object_helpers.h"
 
 extern u8 D_801A8000[];
 extern s16 gGraphics_sViewportY;
@@ -8,7 +9,6 @@ extern s16 gGraphics_sViewportX;
 /* Keep symbolic usage evidence while preserving the literal-address codegen. */
 #define gGraphics_sViewportY (*(s16 *)0x8009B148)
 #define gGraphics_sViewportX (*(s16 *)0x8009B146)
-extern void func_80042918(u8 *);
 extern void func_80060B38(void);
 
 void func_80061008(s32 x0, s32 y0, s32 x1, s32 y1)

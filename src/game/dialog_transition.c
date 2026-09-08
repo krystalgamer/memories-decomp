@@ -2,6 +2,7 @@
 #include "display_object_api.h"
 
 #include "duel_effect.h"
+#include "display_object_helpers.h"
 
 extern u8 D_8009AF76[];
 extern u8 D_8009B3C1;
@@ -12,8 +13,6 @@ extern u16 D_8009AF76_raw asm("D_8009AF76")
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 
 extern void func_80043178(void *);
-extern void func_80042918();
-extern void func_800428EC();
 extern void func_80042C08();
 extern void func_80043230(void *, s32, s32, s32);
 extern void TextBox_SetPos(void *, s32, s32);

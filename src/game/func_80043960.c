@@ -5,6 +5,7 @@
 #include "../psyq/libcd.h"
 #include "file_transfer.h"
 #include "graphics_constants.h"
+#include "display_object_helpers.h"
 
 extern u8 D_8009B428;
 extern short D_8009B098[];
@@ -16,7 +17,6 @@ extern void func_8007E910(int, int);
 extern void func_80047AD0(int);
 extern void func_80012D84(int);
 extern void func_80015780(void);
-extern void func_800428A8(void *, int, int, int, int, int, int, int, int);
 extern void func_8004365C(void *, void *);
 extern void func_800438B8(int);
 extern void func_801680F4(void);

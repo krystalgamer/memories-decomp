@@ -4,6 +4,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "card_constants.h"
+#include "display_object_helpers.h"
 
 typedef struct {
     u8 pad_00[0x40];
@@ -13,9 +14,6 @@ typedef struct {
 extern s32 gDuel_adwCardStats[];
 
 extern void func_80040510();
-extern void func_800428EC(DuelCardStatObject *, s32);
-extern void func_80042918(DuelCardStatObject *);
-
 void func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {
     register s32 table_index __asm__("$16") = index;

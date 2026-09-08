@@ -2,6 +2,7 @@
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "file_constants.h"
+#include "display_object_helpers.h"
 
 typedef struct {
     u8 pad00[4];
@@ -34,10 +35,7 @@ extern void func_8002F4C0(u8 *, s32);
 extern void File_RequestAsyncTransfer(s32, s32, s32, s32, void *, s32, s32);
 extern void func_800137E4(void);
 extern void func_8002E00C(void *);
-extern void func_800428A8(Object *, s32, s32, s32, s32, s32, s32, s32, u8 *);
-extern void func_800428EC(Object *, s32);
 extern void func_80040510(Object *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
-extern void func_800427DC(Object *, s32);
 extern void func_800157DC(void);
 extern void func_80015998(void);
 extern u32 func_8004703C(void);

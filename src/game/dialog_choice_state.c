@@ -1,11 +1,9 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "display_object_helpers.h"
 
 extern void func_800373C8(u8 *, s32, s32);
 extern void *func_8004006C(void);
-extern void func_800428EC(void *, s32);
-extern void func_80042918(void *);
-
 void func_800374A8(u8 *object)
 {
     u8 flags = object[0x51];

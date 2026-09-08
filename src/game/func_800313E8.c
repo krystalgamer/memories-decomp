@@ -1,8 +1,7 @@
 #include "../types.h"
 #include "sound.h"
 #include "display_object_api.h"
-extern s32 func_800429D8();
-extern s32 func_80042A78();
+#include "display_object_helpers.h"
 extern s32 func_80042B98();
 
 void func_800313E8(u8 *p) {

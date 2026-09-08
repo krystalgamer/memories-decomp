@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "sound.h"
+#include "display_object_helpers.h"
 
 typedef struct {
     u16 x;
@@ -43,8 +44,6 @@ extern DuelFieldPosition D_80090800[2][20];
 
 extern void func_8002348C(void);
 extern void func_80022D94(s32, s32, s32, s32, s32);
-extern void func_800429D8(CursorObject *);
-
 void func_80023D08(GridCursor *o, s32 dir) {
     CursorObject *d;
     s32 pos;

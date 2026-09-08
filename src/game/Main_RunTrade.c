@@ -3,6 +3,7 @@
 #include "text_box_lifecycle.h"
 #include "../overlays/main_menu/entrypoints.h"
 #include "sound.h"
+#include "display_object_helpers.h"
 
 typedef struct {
     u8 pad00[0x59];
@@ -41,8 +42,6 @@ extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
 extern void func_80032328(void);
 extern void SD_BGMPlay(u32);
 extern void func_80039A14(void *);
-extern void func_80042918(Obj *);
-extern void func_800428EC(Obj *, s32);
 extern void func_80015A00(void);
 extern void func_80043178(Obj *);
 extern void func_80043230(Obj *, s32, s32, s32);

@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "display_object_helpers.h"
 
 /* Creates 3 objects via func_800400AC(func_8004002C(),
    kind) and configures each: obj1 gets an 8-arg func_800428A8 setup
@@ -34,9 +35,6 @@ extern s8 gOptions_bSelection;
 extern struct Obj *D_8009B388;
 extern u8 D_801AF000[];
 
-extern void func_800428A8(struct Obj *obj, s32 a1, s32 a2, s32 a3,
-                                   s32 a5, s32 a6, s32 a7, s32 a8, u8 *a9);
-extern void func_800428EC(struct Obj *obj, s32 a1);
 extern void func_8003C4E0(s32 a0);
 extern void func_80040510(struct Obj *obj, s32 a1, s32 a2, s32 a3, s32 a5,
                            s32 a6, s32 a7, s32 a8, s32 a9, s32 a10);
