@@ -3109,6 +3109,77 @@ units, so neither spelling is wrong in general. The saved-register set is what
 distinguishes them, and it is cheap to read: count `sw $sN` in the target
 prologue and compare.
 
+## Count one characteristic opcode before reading any diff
+
+When a candidate is short by a lot, the positional diff is worthless: every
+missing instruction shifts the rest, so the count measures the shift. A single
+opcode count often names the cause outright.
+
+`func_80045514`'s first draft was 386 instructions against 437 and reported 420
+differing lines, which says nothing actionable. The opcode histogram said
+
+    lui   target 52   draft 4
+
+which is not a statement-level problem at all: it says the two pointer globals
+were being addressed gp-relative under `-G8` where the target uses `%hi`/`%lo`.
+One declaration change - `__attribute__((section(".data")))` on both externs -
+closed 48 of the 51 missing instructions.
+
+The general form: **pick an opcode that is characteristic of one decision and
+compare its count.** `lui` for addressing mode, `jal` for whether calls got
+merged, `addiu` for split addresses, and an instruction that can only appear
+once per unmerged tail for cross-jumping. Each is a property of a declaration,
+a flag, or a block structure rather than of any line, which is exactly what a
+positional diff cannot show you.
+
+The same entry is also a warning about the differing count as a ranking. Twice
+on that one function it preferred the wrong reconstruction: it liked the
+non-split profile that got the jump-table dispatch wrong, and it liked the form
+that cross-jumped two calls the target keeps separate. Both times the multiset
+and the aligned streams were right. **Prefer a metric that can distinguish
+"missing" from "displaced" whenever the two candidates differ structurally.**
+
+### A jump table's index subtract is decided by the lowest case value
+
+If the smallest `case` is not zero, GCC subtracts it before indexing and sizes
+the table from the range. `func_80045514`'s cases start at 17, so the build
+emitted `addiu v1,v0,-17` and a 65-entry table where the target indexes the raw
+byte against 82 entries and has no subtract.
+
+Adding an explicit empty `case 0:` that breaks out of the switch moves `minval`
+to zero and reproduces both the missing subtract and the table size. So a table
+whose entry count exceeds the span of the interesting cases is evidence that the
+original had a low case, not evidence of a compiler quirk.
+
+### Tail label order in the source is block order in the output
+
+When `goto` decides the edges, the compiler emits the labelled blocks in source
+order. A function with several exits therefore has to have them transcribed in
+the order the target's blocks appear.
+
+`func_80045514` has three: clear neither, clear one byte, clear both. The target
+stacks them so the clear-both block falls into the single-byte block, with the
+other above them jumping forward to the epilogue. Writing that block last, after
+the `return`, cost an extra `j` and a pointer reload because it then had to jump
+backwards; writing it first, with an explicit `goto` from the end of the switch
+to the clear-both label, reproduced the layout.
+
+### Whether a pointer global is cached is decided per block, not per function
+
+Both spellings can be correct in the same function, and the `lui`/`lw` count for
+that symbol in a block is what decides it.
+
+In `func_80045514`, one block keeps `g_SDValue` in a single register across five
+field loads, which only happens if it is read into a local: as a global, each
+store through the other pointer invalidates it and forces a reload. In the same
+block `D_8009B460` is the opposite - the target loads it twice, once for the run
+of stores and once more for the last one - so caching it for the whole block is
+two instructions short, and caching it for the run while writing the final store
+through the global reproduces both loads.
+
+Count the loads of that symbol in the target's block and match the count; do not
+pick a house style and apply it throughout.
+
 ## Read the jump count to place a shared tail
 
 Two case arms ending in the same statements can be spelled with a shared label
