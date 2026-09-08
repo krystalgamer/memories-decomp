@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "script_command_busy.h"
 #include "fade.h"
 #include "file_transfer.h"
 
@@ -10,8 +11,6 @@ extern u8 D_800E9ECE[];
 extern u8 D_800EAE98[];
 extern s16 gGraphics_sViewportX __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY __attribute__((section(".data")));
-
-extern s32 func_8002E3B4(void);
 extern void func_8002E00C(void *);
 extern void func_8002DF2C(void *, s32);
 extern void func_8002E128(void *, s32);

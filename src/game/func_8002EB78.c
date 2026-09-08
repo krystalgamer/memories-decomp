@@ -1,11 +1,10 @@
 #include "../types.h"
+#include "script_command_busy.h"
 #include "menu_record.h"
 
 extern u8 *D_8009B290;
 extern u8 *D_8009B274;
 extern u16 D_8009B27C;
-
-extern s32 func_8002E3B4(void);
 extern void func_80039FD4(u8 *);
 extern s8 *func_80039E9C(void);
 extern void func_80039F44(u8 *);
