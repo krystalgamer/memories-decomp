@@ -2,8 +2,7 @@
 #include "input.h"
 
 extern u16 gInput_wPad2Held, gInput_wPad2Pressed, gInput_wPad2Repeat;
-extern u8 D_800EF6B0[];
-extern u32 D_8009B390, D_8009B3B0, D_8009B3B4, gInput_dwPendingHeld;
+
 void Input_ResetPads(void) {
     s32 i = INPUT_PAD_COUNT - 1;
     volatile u16 *c = &gInput_wPad2Held;
@@ -17,12 +16,12 @@ void Input_ResetPads(void) {
         a--; b--; c--; i--;
     } while (i >= 0);
     i = INPUT_REPEAT_TIMER_COUNT - 1;
-    base = D_800EF6B0;
+    base = gInput_abRepeatTimers;
     for (; i >= 0; i--) {
         *(u8 *)((u32)i + (u32)base) = 0;
     }
-    D_8009B390 = 0;
-    D_8009B3B0 = 0;
-    D_8009B3B4 = 0;
+    gInput_dwPreviousHeld = 0;
+    gInput_dwDeferredRepeat = 0;
+    gInput_dwDeferredPressed = 0;
     gInput_dwPendingHeld = 0;
 }

@@ -8,7 +8,6 @@ extern u16 D_8009B098;
 extern volatile u16 gInput_wPad1Held __attribute__((section(".data")));
 extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern void func_80012D4C(void);
-extern void Input_ResetPads(void);
 
 void func_80013360(void)
 {

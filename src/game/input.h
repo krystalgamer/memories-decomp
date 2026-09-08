@@ -1,6 +1,8 @@
 #ifndef MEMORIES_DECOMP_INPUT_H
 #define MEMORIES_DECOMP_INPUT_H
 
+#include "../types.h"
+
 #define INPUT_PAD_COUNT 2
 #define INPUT_RAW_PAD_BUFFER_SIZE 0x22
 #define INPUT_PAD_BUTTON_BITS 16
@@ -36,5 +38,21 @@
 
 #define INPUT_REPEAT_THRESHOLD 0x18
 #define INPUT_REPEAT_RELOAD_VALUE 0x14
+
+extern u8 gInput_abRawPadBuffers[INPUT_PAD_COUNT * INPUT_RAW_PAD_BUFFER_SIZE];
+extern u8 gInput_abRepeatTimers[INPUT_REPEAT_TIMER_COUNT];
+extern u8 gInput_bRepeatDelay;
+extern u8 gInput_bRepeatInterval;
+extern u32 gInput_dwPreviousHeld;
+extern u32 gInput_dwDeferredRepeat;
+extern u32 gInput_dwDeferredPressed;
+extern u32 gInput_dwPendingHeld;
+
+void Input_ResetPads(void);
+void Input_InitPads(void);
+void Input_ReadRawPads(void);
+void Input_UpdatePads(void);
+void Input_BackupPad1AndUsePad2(void);
+void Input_RestorePad1FromBackup(void);
 
 #endif

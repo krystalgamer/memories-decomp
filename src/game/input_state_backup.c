@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "input.h"
 
 extern volatile unsigned short gInput_wPad1Repeat;
 extern volatile unsigned short gInput_wPad2Repeat;

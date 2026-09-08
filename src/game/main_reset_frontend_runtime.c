@@ -1,8 +1,7 @@
 #include "../types.h"
 #include "input.h"
 
-extern u8 D_8009B0C0, gInput_bRepeatDelay, D_8009B254,
-    gInput_bRepeatInterval;
+extern u8 D_8009B0C0, D_8009B254;
 extern void func_800403F0(void);
 extern void func_80035A64(void);
 extern void func_80039E9C(void);

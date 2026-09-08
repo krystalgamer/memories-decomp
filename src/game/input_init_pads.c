@@ -2,10 +2,6 @@
 #include "../psyq/libapi.h"
 #include "input.h"
 
-extern u8 gInput_abRawPadBuffers[];
-extern void Input_ResetPads(void);
-extern u8 gInput_bRepeatDelay, gInput_bRepeatInterval;
-
 void Input_InitPads(void)
 {
     InitPAD(

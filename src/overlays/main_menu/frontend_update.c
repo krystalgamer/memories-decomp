@@ -25,7 +25,6 @@ extern u8 D_8009B3EA;
 extern u8 D_8009B3ED;
 
 extern void func_80040410(u8 *, s32);
-extern void Input_ResetPads(void);
 extern s32 SaveData_PollLoad(void);
 extern void SaveData_RequestLoad(void);
 extern s32 func_8003FCD8(void);

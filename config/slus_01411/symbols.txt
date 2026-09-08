@@ -828,3 +828,7 @@ Fade_InitInColor = 0x8001581C; // type:func
 Fade_InitOutColor = 0x80015944; // type:func
 Fade_Wait = 0x80015998; // type:func
 gFade_State = 0x800E9EC8;
+gInput_dwPreviousHeld = 0x8009B390;
+gInput_dwDeferredRepeat = 0x8009B3B0;
+gInput_dwDeferredPressed = 0x8009B3B4;
+gInput_abRepeatTimers = 0x800EF6B0;

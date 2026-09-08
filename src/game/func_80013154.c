@@ -7,6 +7,7 @@
 #include "rand_constants.h"
 #include "graphics_constants.h"
 #include "graphics_frame.h"
+#include "input.h"
 
 /* The init block is a run of byte stores to distinct globals; declared
    volatile so the emitted order is the source order (see Main_Init). The
@@ -28,7 +29,6 @@ extern volatile u8 D_8009B0A2;
 extern volatile u8 D_8009B0A3;
 extern DISPENV D_800FE0A8;
 
-extern void Input_InitPads(void);
 extern void File_SetPositionTable(void);
 
 /* Graphics and input start-up, called from Main_Init with the work area
