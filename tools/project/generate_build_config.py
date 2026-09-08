@@ -72,7 +72,11 @@ def load_profiles(root: Path) -> set[str]:
     return set(profiles)
 
 
-def load_matching_functions(root: Path) -> list[dict[str, Any]]:
+def load_matching_functions(
+    root: Path,
+    *,
+    resolved_sources: dict[str, Path] | None = None,
+) -> list[dict[str, Any]]:
     configuration = load_json(root, "config/slus_01411/matching_c.json")
     functions = configuration.get("functions")
     if not isinstance(functions, list):
@@ -83,7 +87,7 @@ def load_matching_functions(root: Path) -> list[dict[str, Any]]:
     parsed: list[dict[str, Any]] = []
     seen_addresses: set[int] = set()
     source_root = resolve_within(root, "src", must_exist=True)
-    resolved_sources: dict[str, Path] = {}
+    source_cache = {} if resolved_sources is None else dict(resolved_sources)
 
     for index, function in enumerate(functions):
         if not isinstance(function, dict):
@@ -109,10 +113,21 @@ def load_matching_functions(root: Path) -> list[dict[str, Any]]:
                 f"matching function {address:#010x} uses unknown profile {profile}"
             )
 
-        source = resolved_sources.get(source_value)
+        source = source_cache.get(source_value)
         if source is None:
             source = resolve_within(root, source_value, must_exist=True)
-            resolved_sources[source_value] = source
+            source_cache[source_value] = source
+        else:
+            try:
+                cached_name = source.relative_to(root).as_posix()
+            except ValueError as error:
+                raise GenerationError(
+                    f"{source_value}: cached source path leaves the workspace"
+                ) from error
+            if cached_name != source_value:
+                raise GenerationError(
+                    f"{source_value}: cached source path is {cached_name}"
+                )
         try:
             source_relative = source.relative_to(source_root)
         except ValueError as error:
@@ -165,7 +180,7 @@ def load_matching_functions(root: Path) -> list[dict[str, Any]]:
             raise GenerationError(
                 f"{source_value}: grouped functions use multiple profiles"
             )
-        source_text = resolved_sources[source_value].read_text(encoding="utf-8")
+        source_text = source_cache[source_value].read_text(encoding="utf-8")
         expected = members[0]["address"]
         for member in members:
             if member["address"] != expected:

@@ -207,8 +207,15 @@ def input_signature(root: Path) -> str:
             "incremental splitting cannot fingerprint arbitrary extension inputs; use make split"
         )
 
+    source_directory = options.src_path.resolve(strict=True)
+    relative_path(root, source_directory)
+    resolved_sources = source_file_paths(root, source_directory)
+
     # Also repeat the generator's ownership/group checks on cache hits.
-    functions = generate_build_config.load_matching_functions(root)
+    functions = generate_build_config.load_matching_functions(
+        root,
+        resolved_sources=resolved_sources,
+    )
     inputs = {
         name: sha256(resolve_within(root, name, must_exist=True))
         for name in INPUT_FILES
@@ -223,9 +230,6 @@ def input_signature(root: Path) -> str:
     source_paths = {str(function["source"]) for function in functions}
     # Include C files owning dotted data sections even if no function is mapped
     # to them yet. Extra source shapes are conservative; bodies are not hashed.
-    source_directory = options.src_path.resolve(strict=True)
-    relative_path(root, source_directory)
-    resolved_sources = source_file_paths(root, source_directory)
     source_paths.update(resolved_sources)
     shapes = {}
     for name in sorted(source_paths):
