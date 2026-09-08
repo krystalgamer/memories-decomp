@@ -51,7 +51,6 @@ extern void func_8003CB7C(void);
 extern void func_8003FE14(void);
 extern void func_800611D0(s32);
 extern void func_800610E0(s32);
-extern void func_801844D8(s32);
 extern void func_80048658(s32, s32, s32);
 extern void func_80035B7C(void *);
 extern void func_80040410(Widget *, s32);
@@ -130,7 +129,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             do {
                 D_80185C9C[i][0] = 0;
                 MainMenu_RefreshTradeInventory(i, 1);
-                func_801844D8(i);
+                MainMenu_RebuildTradeInventoryRows(i);
                 D_80185CC8[i] = 0;
                 i++;
             } while (i < 2);
@@ -530,10 +529,10 @@ update:
         func_80040410(D_801845E0, flags + 4);
     }
     if (dirty0 != 0) {
-        func_801844D8(0);
+        MainMenu_RebuildTradeInventoryRows(0);
     }
     if (dirty1 != 0) {
-        func_801844D8(1);
+        MainMenu_RebuildTradeInventoryRows(1);
     }
     if (D_80185CC8[0] != 0 && D_80185CC8[1] != 0) {
         D_80185CCE = 0;

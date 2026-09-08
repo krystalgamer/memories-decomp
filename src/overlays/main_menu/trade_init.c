@@ -29,7 +29,6 @@ extern u8 D_8009B0C0;
 extern void (*D_800E9DB4)(void);
 extern void func_800428EC(void *, s32);
 extern void func_80061008(s32, s32, s32, s32);
-extern void func_801844D8(s32);
 
 void MainMenu_InitTradeScreen(void)
 {
@@ -74,7 +73,7 @@ void MainMenu_InitTradeScreen(void)
         D_80185CCA[i] = 0;
         D_80185CCC[i] = 0;
         MainMenu_RefreshTradeInventory(i, 1);
-        func_801844D8(i);
+        MainMenu_RebuildTradeInventoryRows(i);
     }
 
     D_80185CCE = 0;

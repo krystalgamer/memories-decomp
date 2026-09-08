@@ -1,13 +1,14 @@
 #include "../../types.h"
 #include "../../game/gpu_packets.h"
+#include "trade_helpers.h"
 
 extern void *D_800E9D94;
 
-void func_80184454(int column)
+void MainMenu_DrawTradeColumnOverlay(s32 column)
 {
     POLY_F4 quad;
-    int left = column * 160;
-    int right = left + 0xA0;
+    s32 left = column * 160;
+    s32 right = left + 0xA0;
 
     setPolyF4(&quad);
     quad.r0 = 0x40;

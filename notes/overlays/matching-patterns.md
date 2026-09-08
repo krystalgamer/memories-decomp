@@ -7,6 +7,9 @@ backed by a function that now matches exactly.
 
 These are observations about particular source shapes and compiler profiles,
 not universal compiler rules or proof of the original author's declarations.
+The historical Trade identifiers `func_80184030` and `func_801844D8` now
+refer to `MainMenu_ApplyTradeOfferInventoryDelta` and
+`MainMenu_RebuildTradeInventoryRows`; their measured source constraints remain.
 Register bindings permitted by #5 can also reproduce a target without an
 inline assembly statement. The accepted source and a fully relocated image
 comparison decide whether a reconstruction matches.

@@ -112,10 +112,17 @@ to the working save slots and rebuilds the lists. These copies are success
 handling, not evidence of cancelled-trade rollback; the code does not by
 itself establish atomic persistence across two memory cards.
 
+After the updater finishes, the resident caller performs its fades and calls
+`MainMenu_ReleaseTradeDisplayHandles` (`0x80183FE4`). That helper releases
+and clears only `D_801845DC` and `D_801845E0`, then clears the Trade drawing
+callback. It does not itself clear inventory cursors, offers, counts or
+navigation, save data, fade or unload the module. Its release helper handles
+null handles.
+
 The shared declarations are in `entrypoints.h`. Module definitions belong to
 `config/slus_01411/overlays/main_menu_symbols.txt`; resident callers use
 conditional linker imports in `c_symbols.ld` only after the image is loaded.
-The semantic registry records both names as `overlay/main_menu/function`,
+The semantic registry records these entrypoint names as `overlay/main_menu/function`,
 without adding them to resident function inventory or primary symbols.
 
 ### Offer rendering and working inventory
@@ -126,6 +133,13 @@ highlights and draws the offered card IDs as three digits plus their type
 icons in two five-column offer grids. It does not mutate the offers or
 render the complete inventory list.
 
+For a ready side, the draw callback also invokes
+`MainMenu_DrawTradeColumnOverlay` (`0x80184454`). It submits a grey
+`POLY_F4` over the selected 160-pixel column and full 240-pixel height, using
+input RGB `0x40`, priority `0x1F` and packet-helper flags 2. This describes
+the packet/geometry, not a guaranteed final opaque-pixel or blend result;
+known callers pass columns 0/1 and the helper does not validate the index.
+
 `MainMenu_RefreshTradeInventory` (`0x8018338C`) conditionally rebuilds one
 side's 722 working records from its save chest, retaining zero-ID holes.
 After a rebuild it reapplies offer deductions to **both** sides, then
@@ -134,6 +148,13 @@ normalize that cross-side loop: refreshing one side can deduct the other
 side's outstanding offers again. This is a static observation, not a
 runtime reproduction or a proposed behavior change.
 
+The offer pass is `MainMenu_ApplyTradeOfferInventoryDelta` (`0x80184030`).
+It visits each offered ID and adjusts that card's working inventory quantity,
+converting the supplied signed amount to the existing unsigned modular API.
+The current refresh passes `-1`. It does not remove offers or edit the offer
+count; duplicate IDs would apply the amount repeatedly. All first-match,
+range-rejection and missing-ID behavior belongs to the count helper below.
+
 `MainMenu_AdjustTradeCardCount` (`0x801840F8`) finds an ID in one side's
 working inventory and adds an unsigned amount. It writes only when the
 modular sum is below `0xFB`, then returns after the first matching ID.
@@ -141,6 +162,23 @@ Observed callers add or subtract one: increments at 250 and decrements at
 zero are rejected, not saturated. It neither removes offers nor changes
 save bytes; the caller owns offer removal. The unsigned argument and
 existing missing-ID/no-slot-validation behavior remain unchanged.
+
+`MainMenu_RebuildTradeInventoryRows` (`0x801844D8`) refreshes seven visible
+rows, not just the selected card. The starting address is
+`inventoryBase + side * 2888 + currentTop * 4`, where `2888 = 722 * 4`.
+`D_80185C8C[side][0]` is the current scrolling top; `[1]` is its target.
+The cursor row is a separate offset.
+
+The wrapper derives flags from the display selector minus 4 and passes
+`flags & (1 << side)` without normalizing it: side 1 can pass 2. The resident
+row helper records seven IDs, chooses row text styles, marks zero-count rows,
+and updates formatting/selected-card scratch while synchronously rebuilding
+the text. It does not alter the input inventory records.
+
+[`card_list_rows.h`](../../game/card_list_rows.h) is shared by that resident
+definition and this caller. Its fourth word explicitly preserves the caller's
+existing full-flags setup but is ignored by the body; no additional flag
+meaning or argument use is invented.
 
 The internal declarations live in `trade_helpers.h`, separate from the
 resident-facing `entrypoints.h`.
@@ -369,7 +407,8 @@ way, in its own module file.
 layers with Psy-Q `POLY_F4`,
 `POLY_FT4`, and `POLY_G4` records. Their payload lengths are 5, 9, and 8
 words, excluding the tag; `setPolyF4`, `setPolyFT4`, and `setPolyG4` supply
-the corresponding packet headers. `func_80184454` uses the same native
+the corresponding packet headers. `MainMenu_DrawTradeColumnOverlay`
+(`0x80184454`) uses the same native
 `POLY_F4` record for its column-sized quad.
 
 The background's screen-coordinate limits use the documented default
