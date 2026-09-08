@@ -38,17 +38,18 @@ int SD_ReadVariableLengthValue(u8 *input)
     if (value == 0) {
         return 0;
     }
-    if (value == 255) {
+    if (value == SD_SEQUENCE_VLQ_INITIAL_STOP) {
         input[0x24] = 1;
         return 0;
     }
     result = value;
-    if (result & 0x80) {
-        result &= 0x7F;
+    if (result & SD_SEQUENCE_VLQ_CONTINUATION_BIT) {
+        result &= SD_SEQUENCE_VLQ_PAYLOAD_MASK;
         do {
             value = SD_ReadSequenceByte(input);
-            result = (result << 7) + (value & 0x7F);
-        } while (value & 0x80);
+            result = (result << SD_SEQUENCE_VLQ_PAYLOAD_BITS) +
+                     (value & SD_SEQUENCE_VLQ_PAYLOAD_MASK);
+        } while (value & SD_SEQUENCE_VLQ_CONTINUATION_BIT);
     }
     return result;
 }

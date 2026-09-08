@@ -295,6 +295,15 @@ and key-signature selectors are named without changing their byte consumption.
 Custom controller numbers and loop handling remain separate from these event
 classifications.
 
+`SD_ReadVariableLengthValue` uses the separate `SD_SEQUENCE_VLQ_*` constants
+for seven-bit payload groups and their continuation bit. Its
+`SD_SEQUENCE_VLQ_INITIAL_STOP` (`0xFF`) check applies only to the first byte:
+that path marks the reader exhausted and returns zero. An `0xFF` encountered
+inside the continuation loop contributes payload `0x7F` and continues
+reading. The initial zero fast path and the original shift/add order remain
+unchanged; these names do not turn the routine into a general validated VLQ
+decoder or conflate its stop marker with a meta-event byte.
+
 ### Confirmed secondary-state fields
 
 | Offset | Width | Field | Local matching-C evidence |
