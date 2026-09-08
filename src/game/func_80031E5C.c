@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "display_object_layout.h"
+#include "text_box_lifecycle.h"
 
 extern u32 D_801D5608[];
-extern u8 *TextBox_CreateFlagged(s32, s32, s32, s32, s32, s32, s32);
 extern void func_80039A14(void *);
 void func_80031E5C(u8 *arg0) {
     u8 *p;

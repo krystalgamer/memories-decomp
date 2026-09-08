@@ -1,11 +1,9 @@
 #include "../types.h"
 #include "ai.h"
+#include "ai_script_read_byte.h"
 
 extern u8 D_8009B1D5[];
 extern u8 gAiScript_State[];
-
-extern s32 AiScript_ReadByte(void);
-
 void AiScript_TestPinned(void)
 {
     s32 *memory = gAiScript_aMemory;

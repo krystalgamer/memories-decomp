@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "text_box_lifecycle.h"
 
 extern u8 gText_abColorSlots[], D_800EB15C[];
-extern void TextBox_Create(s32, s32, s32, s32, s32, s32);
 extern void func_80039A14(void *);
 void func_8003C4E0(s32 arg0) {
     u8 *t = gText_abColorSlots;

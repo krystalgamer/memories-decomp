@@ -2,11 +2,10 @@
 #include "ai.h"
 #include "card_constants.h"
 #include "duel_card.h"
+#include "ai_script_read_byte.h"
 
 extern u8 D_800EAE88[];
 extern u8 gAiScript_State[];
-
-extern s32 AiScript_ReadByte(void);
 extern s32 Ai_IsCardInSets(s32, s32);
 extern s32 Duel_CheckEquip(s32, s32);
 extern s32 Duel_CheckFusion(s32, s32);

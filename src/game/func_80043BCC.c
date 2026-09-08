@@ -2,6 +2,7 @@
 #include "../overlays/main_menu/entrypoints.h"
 #include "../psyq/rand.h"
 #include "input.h"
+#include "text_box_lifecycle.h"
 
 typedef struct {
     u8 unk0[0x28];
@@ -36,7 +37,6 @@ extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern u8 D_8009B428;
 extern Rec64 D_800EB0F8[];
 
-void TextBox_Destroy(u8 *arg0);
 void Main_ResetFrontendRuntime(void);
 
 s32 func_80043BCC(void) {

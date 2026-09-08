@@ -1,6 +1,7 @@
 
 #include "../types.h"
 #include "card_constants.h"
+#include "text_box_lifecycle.h"
 #include "../overlays/main_menu/entrypoints.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
@@ -15,8 +16,6 @@ extern u16 D_8009B236 __attribute__((section(".data")));
 extern u8 D_8009B368 __attribute__((section(".data")));
 extern u8 D_800EB0F8[];
 
-extern void *TextBox_CreateFlagged(s32, s32, s32, s32, s32, s32, s32);
-extern void *TextBox_Create(s32, s32, s32, s32, s32, s32);
 extern void func_80039A14(void *);
 extern void SD_BGMPlay(u32);
 extern void func_80015A00(void);

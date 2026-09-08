@@ -3,7 +3,6 @@
 
 extern s16 D_8009B47C;
 extern u8 D_8009B478;
-extern u8 D_800F2B20[];
 extern s16 D_800F2B4A[];
 extern u8 D_800F56F0[];
 extern s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
@@ -67,8 +66,8 @@ void func_80052528(void) {
 }
 
 void func_80052694(s32 arg0) {
-    u8 *e;
-    u8 *g;
+    ModelCameraMove *e;
+    ModelCameraMove *g;
     s32 n;
     s32 lo;
     s32 hi;
@@ -89,15 +88,15 @@ void func_80052694(s32 arg0) {
     }
 
     if (func_80051350(1, 0x96, 0) != 0) {
-        e = D_800F2B20;
-        if (*(u16 *)(e + 4) < 0x10) {
-            *(u16 *)(e + 4) = *(u16 *)(e + 4) + 1;
+        e = &D_800F2B20;
+        if (e->field_04 < 0x10) {
+            e->field_04 = e->field_04 + 1;
         }
-        e[1] = e[1] & 0xFE;
+        e->flags = e->flags & 0xFE;
     } else {
-        g = D_800F2B20;
-        if (*(u16 *)(g + 6) < *(u16 *)(g + 4)) {
-            *(u16 *)(g + 4) = *(u16 *)(g + 4) - 1;
+        g = &D_800F2B20;
+        if (g->field_06 < g->field_04) {
+            g->field_04 = g->field_04 - 1;
         }
     }
 

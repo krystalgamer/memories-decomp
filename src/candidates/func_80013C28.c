@@ -1,9 +1,15 @@
-#include "../../../../src/types.h"
-#include "../../../../src/psyq/libcd.h"
-#include "../../../../src/psyq/libds.h"
-#include "../../../../src/psyq/libgte.h"
-#include "../../../../src/psyq/libgpu.h"
-#include "../../../../src/psyq/libspu.h"
+/*
+ * DsStartReadySystem sector callback. Current best: 283 of 286 target
+ * instructions, opcode multiset distance 3. GCC coalesces one mode-1
+ * descriptor copy and two callback reloads; preserve the copy-loop and
+ * callback-block shapes while refining it.
+ */
+#include "../types.h"
+#include "../psyq/libcd.h"
+#include "../psyq/libds.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libspu.h"
 
 extern u8 *D_8009AF18;
 extern volatile u32 D_8009B0F4;

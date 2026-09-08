@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "ai_constants.h"
+#include "ai_script_read_byte.h"
 
 extern s32 gAiScript_aMemory[];
 extern u8 gAiScript_State[];
@@ -7,7 +8,6 @@ extern s16 D_800F5C88[];
 extern u8 D_800F5C8B[];
 
 extern s32 Duel_GetBaseCardStat(s32, s32);
-extern s32 AiScript_ReadByte(void);
 extern s32 Ai_GetHandSize(void);
 extern void Ai_CompleteFusion(s32);
 

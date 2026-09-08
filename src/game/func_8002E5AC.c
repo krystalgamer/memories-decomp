@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_box_lifecycle.h"
 
 extern u8 *D_8009B290;
 extern u16 D_8009B27C;
@@ -13,9 +14,7 @@ extern u8 D_800EB0F8[];
 
 extern s32 func_8002E3B4(void);
 extern void func_8003B6AC(s32, s32);
-extern u8 *TextBox_Create(s32, s32, s32, s32, s32, s32);
 extern void DuelEffect_MarkObjectIfActive(void *);
-extern void TextBox_Destroy(void *);
 
 void func_8002E5AC(void)
 {

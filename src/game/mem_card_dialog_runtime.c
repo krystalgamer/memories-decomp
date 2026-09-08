@@ -3,6 +3,7 @@
 #include "../psyq/libmcrd.h"
 #include "duel_effect.h"
 #include "mem_card.h"
+#include "text_box_lifecycle.h"
 
 typedef struct {
     u8 pad0000[0x30];
@@ -69,8 +70,6 @@ extern u16 gMemCard_wDialogFlags;
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 extern void func_80042918(u8 *);
 extern void func_800428EC(u8 *, s32);
-extern void TextBox_Destroy(u8 *);
-extern u8 *TextBox_Create(s32, s32, s32, s32, s32, s32);
 extern void func_8004036C(s32);
 extern void func_80039794(void);
 extern void func_80039A14(u8 *);

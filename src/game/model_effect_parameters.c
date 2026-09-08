@@ -1,6 +1,6 @@
 #include "../types.h"
+#include "model.h"
 
-extern u8 D_800F2B20[];
 extern s16 D_800F2B22;
 
 extern s32 func_8005F174(void);
@@ -14,10 +14,10 @@ void func_80059FAC(s32 first, s32 second)
         return;
     }
     {
-        u8 *parameters = D_800F2B20;
+        ModelCameraMove *move = &D_800F2B20;
 
-        *(u16 *)(parameters + 0x12) = first;
-        *(u16 *)(parameters + 0x1A) = second;
+        move->eye.pair_slot = first;
+        move->eye.slot = second;
     }
 }
 
@@ -29,10 +29,10 @@ void func_8005A010(s32 first, s32 second)
         return;
     }
     {
-        u8 *parameters = D_800F2B20;
+        ModelCameraMove *move = &D_800F2B20;
 
-        *(u16 *)(parameters + 0x22) = first;
-        *(u16 *)(parameters + 0x2A) = second;
+        move->target.pair_slot = first;
+        move->target.slot = second;
     }
 }
 
@@ -44,10 +44,10 @@ void func_8005A074(s32 value)
         return;
     }
     {
-        u8 *parameters = D_800F2B20;
+        ModelCameraMove *move = &D_800F2B20;
 
-        *(u16 *)(parameters + 0xA) = (value < 0 ? -value : value) * 2;
-        *(u16 *)(parameters + 8) = 0;
+        move->duration = (value < 0 ? -value : value) * 2;
+        move->elapsed = 0;
     }
 }
 
@@ -63,14 +63,14 @@ void func_8005A0DC(s32 value)
 void func_8005A130(s32 value)
 {
     s32 state = func_8005F174();
-    u8 *parameters;
+    ModelCameraMove *move;
 
     if (state == 1) {
         if (func_8005F18C() == state) {
             return;
         }
     }
-    parameters = D_800F2B20;
-    *(s16 *)(parameters + 6) = value;
-    *(s16 *)(parameters + 4) = value;
+    move = &D_800F2B20;
+    move->field_06 = value;
+    move->field_04 = value;
 }

@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "text_box_lifecycle.h"
 
 extern u8 D_800EF6EA;
 extern u16 D_8009AF76;
-extern DuelEffectChannel *TextBox_Create(s32, s32, s32, s32, s32, s32);
 extern void func_80039A14(DuelEffectChannel *);
 
 #define gDialog_bChoice (*(s8 *)0x8009B34D)

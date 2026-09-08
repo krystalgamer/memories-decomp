@@ -4,6 +4,7 @@
 #include "campaign_flags.h"
 #include "display_object_layout.h"
 #include "file_transfer.h"
+#include "text_box_lifecycle.h"
 
 extern s16 gGraphics_sViewportX __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY __attribute__((section(".data")));
@@ -17,8 +18,6 @@ extern s32 D_801D5608[];
 
 s32 func_8002C518(s32 arg0);
 s32 Campaign_TestStoryFlag(s32 arg0);
-u8 *TextBox_Create(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-
 void func_80029574(s32 arg0);
 void func_80029590(void);
 void SD_BGMPlay(u32);

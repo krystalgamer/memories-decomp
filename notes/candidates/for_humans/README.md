@@ -1,7 +1,7 @@
 # Human candidate bundles
 
-Each `func_XXXXXXXX/` directory is generated from one resident candidate note
-and contains:
+Each `func_XXXXXXXX/` directory is generated from one remaining resident
+candidate note and contains:
 
 - `candidate.c`: the note's single self-contained source block, with include
   paths adjusted so it can be compiled in place from the repository root;
@@ -40,3 +40,7 @@ Objects and intermediate assembly stay under `tmp/candidate-human-build/`.
 The bundles are measurements, not accepted implementations. Continue from the
 candidate note's evidence and use the repository's ordinary exact-match
 workflow before promoting any source.
+
+Once a candidate is build-integrated, its source and target move to
+`src/candidates/` and `src/candidates_target/`, its metadata moves to
+`config/slus_01411/candidates.json`, and this generated note bundle is removed.
