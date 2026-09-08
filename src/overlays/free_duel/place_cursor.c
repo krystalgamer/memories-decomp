@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/card_constants.h"
 
 typedef struct { u8 pad0[48]; s16 x; s16 y; } Widget;
 
@@ -33,7 +34,8 @@ void FreeDuel_PlaceCursor(Widget *w, s32 arm)
     if (arm == 0) {
         return;
     }
-    index = gFreeDuel_bTargetColumn + gFreeDuel_bCursorRow * 5;
+    index = gFreeDuel_bTargetColumn +
+            gFreeDuel_bCursorRow * FREE_DUEL_GRID_COLUMN_COUNT;
     if (gFreeDuel_abGridAvailable[index] == 0) {
         return;
     }

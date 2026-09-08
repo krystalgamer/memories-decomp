@@ -63,7 +63,8 @@ void FreeDuel_Init(u8 *src)
 
     if (gFreeDuel_bReturnFlags & 0x80) {
         rec = (u16 *)(gFreeDuel_aDuelistRecords +
-                      (gFreeDuel_bCursorRow * 5 + gFreeDuel_bCursorColumn) * 4);
+                      (gFreeDuel_bCursorRow * FREE_DUEL_GRID_COLUMN_COUNT +
+                       gFreeDuel_bCursorColumn) * 4);
         if (D_8009B362 == 1) {
             rec++;
         }
@@ -92,7 +93,7 @@ void FreeDuel_Init(u8 *src)
         slot--;
     } while (i >= 0);
     one = 1;
-    i = 39;
+    i = FREE_DUEL_GRID_ENTRY_COUNT - 1;
     cell = gFreeDuel_abGridAvailable + i;
     do {
         *cell = one;
@@ -117,7 +118,7 @@ void FreeDuel_Init(u8 *src)
         D_800E9D70.img.y = row * 48 + 256;
         D_800E9D70.img.w = 24;
         D_800E9D70.img.h = 48;
-        for (col = 0; col < 5; col++) {
+        for (col = 0; col < FREE_DUEL_GRID_COLUMN_COUNT; col++) {
             LoadImage2(&D_800E9D70.img, (u32 *)src);
             LoadImage2(&D_800E9D70.clut, (u32 *)(src + 2304));
             D_800E9D70.img.x += 24;
@@ -135,11 +136,11 @@ void FreeDuel_Init(u8 *src)
         D_800E9D70.img.y = row * 48 + 256;
         D_800E9D70.img.w = 24;
         D_800E9D70.img.h = 48;
-        for (col = 0; col < 5; col++) {
+        for (col = 0; col < FREE_DUEL_GRID_COLUMN_COUNT; col++) {
             LoadImage2(&D_800E9D70.img, (u32 *)src);
             LoadImage2(&D_800E9D70.clut, (u32 *)(src + 2304));
             count++;
-            if (count >= 40) {
+            if (count >= FREE_DUEL_GRID_ENTRY_COUNT) {
                 goto done;
             }
             D_800E9D70.img.x += 24;
@@ -155,8 +156,11 @@ done:
     for (i = 0; i < 25; i++) {
         if (gFreeDuel_abGridAvailable[i] != 0) {
             obj = func_800400AC(func_8004002C(), 1);
-            func_80040510(obj, (i % 5) * 56 + 20, (i / 5) * 52 + 40, 48, 48,
-                          (i % 5) * 48, (i / 5) * 48, 18,
+            func_80040510(obj,
+                          (i % FREE_DUEL_GRID_COLUMN_COUNT) * 56 + 20,
+                          (i / FREE_DUEL_GRID_COLUMN_COUNT) * 52 + 40, 48, 48,
+                          (i % FREE_DUEL_GRID_COLUMN_COUNT) * 48,
+                          (i / FREE_DUEL_GRID_COLUMN_COUNT) * 48, 18,
                           (i / 16) * 64 + 128, (i & 15) + 496);
             obj->flags |= 0x1000000;
             obj->attr &= ~8;
@@ -165,8 +169,11 @@ done:
     for (k = 25, i = 0; i < 15; i++, k++) {
         if (gFreeDuel_abGridAvailable[k] != 0) {
             obj = func_800400AC(func_8004002C(), 1);
-            func_80040510(obj, (i % 5) * 56 + 20, (k / 5) * 52 + 40, 48, 48,
-                          (i % 5) * 48, (i / 5) * 48, 20,
+            func_80040510(obj,
+                          (i % FREE_DUEL_GRID_COLUMN_COUNT) * 56 + 20,
+                          (k / FREE_DUEL_GRID_COLUMN_COUNT) * 52 + 40, 48, 48,
+                          (i % FREE_DUEL_GRID_COLUMN_COUNT) * 48,
+                          (i / FREE_DUEL_GRID_COLUMN_COUNT) * 48, 20,
                           (k / 16) * 64 + 128, (k & 15) + 496);
             obj->flags |= 0x1000000;
             obj->attr &= ~8;

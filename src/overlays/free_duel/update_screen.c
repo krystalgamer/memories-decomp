@@ -114,8 +114,8 @@ void FreeDuel_UpdateScreen(void)
 
     if ((gInput_wPad1Held & PAD_DIRECTION_MASK) != 0) {
         if ((gInput_wPad1Held & PAD_DIRECTION_RIGHT) != 0) {
-            if (++gFreeDuel_bTargetColumn >= 5) {
-                gFreeDuel_bTargetColumn = 4;
+            if (++gFreeDuel_bTargetColumn >= FREE_DUEL_GRID_COLUMN_COUNT) {
+                gFreeDuel_bTargetColumn = FREE_DUEL_GRID_COLUMN_COUNT - 1;
             }
         }
         if ((gInput_wPad1Held & PAD_DIRECTION_LEFT) != 0) {
@@ -124,8 +124,8 @@ void FreeDuel_UpdateScreen(void)
             }
         }
         if ((gInput_wPad1Held & PAD_DIRECTION_DOWN) != 0) {
-            if (++gFreeDuel_bTargetRow >= 8) {
-                gFreeDuel_bTargetRow = 7;
+            if (++gFreeDuel_bTargetRow >= FREE_DUEL_GRID_ROW_COUNT) {
+                gFreeDuel_bTargetRow = FREE_DUEL_GRID_ROW_COUNT - 1;
             }
         }
         if ((gInput_wPad1Held & PAD_DIRECTION_UP) != 0) {
@@ -142,7 +142,9 @@ void FreeDuel_UpdateScreen(void)
         if ((gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) == 0) {
             return;
         }
-        if (gFreeDuel_abGridAvailable[gFreeDuel_bCursorRow * 5 + gFreeDuel_bCursorColumn] == 0) {
+        if (gFreeDuel_abGridAvailable[
+                gFreeDuel_bCursorRow * FREE_DUEL_GRID_COLUMN_COUNT +
+                gFreeDuel_bCursorColumn] == 0) {
             return;
         }
         if ((gFreeDuel_bCursorColumn | gFreeDuel_bCursorRow) == 0) {
@@ -164,7 +166,11 @@ void FreeDuel_UpdateScreen(void)
         }
         SD_SEPlayFull(0x30);
         gFreeDuel_bReturnFlags = 0x80;
-        func_80024DC8(-1, gFreeDuel_bCursorRow * 5 + gFreeDuel_bCursorColumn, 0x6000, 0x6000);
+        func_80024DC8(
+            -1,
+            gFreeDuel_bCursorRow * FREE_DUEL_GRID_COLUMN_COUNT +
+                gFreeDuel_bCursorColumn,
+            0x6000, 0x6000);
         D_8009B368 = 6;
         D_8009B26C = 3;
     }
