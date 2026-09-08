@@ -31,6 +31,117 @@ module byte-for-byte. Keep candidate sources, objects, and diffs under `tmp/`
 until a function passes this overlay-specific exact-match process. Do not add
 this module to the resident `config/slus_01411/matching_c.json`.
 
+## Password-shop lifecycle
+
+`Main_RunPasswordMenu` waits for the package through its resident loader,
+calls `Password_InitShopScreen` (`0x8016A080`) once, then calls
+`Password_UpdateShopScreen` (`0x8016A37C`) each tick. Neither entry returns
+a completion code. Cancellation writes the saved previous mode to
+`D_8009B26C`; the updater does not itself request a disk save or explicitly
+tear down every object.
+
+The initializer clears eight decimal digit bytes, index and shop state,
+rebuilds the digit/starchip displays and creates message 226. It configures
+the cached preview record, a display object, one digit cursor and **four**
+kind-specific cursor decorations, not one decoration per digit.
+`func_80029574(0)` only clears the cached record's two display pointers; it
+does not load a background. The halfwords `320,256,512,240` feed texture
+configuration, not proven background dimensions, and the separate selectors
+`2,3` are not established pixel widths.
+
+The cursor's provisional `(256,120)` is replaced during initialization by
+its target `(163,99)` for index zero. `Password_UpdateDigitCursor`
+(`0x80169E20`) increments byte `+0x22` on every callback, including idle
+ones. Movement bit `0x40` additionally enables an eight-update signed-8.8
+tween from current `+0x30/+0x32` to target `+0x18/+0x1A`; completion snaps
+XY and clears bits `0xC0`, leaving the callback installed. No rotation axis
+or real-time duration is inferred from the phase byte.
+
+### Preview recreation and shared interfaces
+
+`Password_RecreateCardPreview` (`0x8016A02C`) releases both cached slot-0
+display pointers, recreates the composite preview from that slot's existing
+card/resource state, sets control-object Y to 30 and phase to `0x80`, sets
+flag `0x4`, and publishes `D_8016D4D8`.
+Its callers' `1` and selected-card arguments do **not** select the preview.
+The shared declaration explicitly retains an ignored `s32` parameter to
+preserve their emitted setup; the body still gets the card through cached
+slot 0. In particular, the initializer's literal `1` does not prove that the
+initial preview is card 1.
+
+[`shop.h`](shop.h) is included by definitions, installers and the resident
+caller. It provides the two entrypoints, the preview contract and a common
+one-argument byte-pointer type for the cursor and decoration callbacks.
+`PasswordCardPreviewView` describes only the control prefix: flags at `+8`,
+phase at `+0x21`, and the raw halfword Y at `+0x32`. It does not describe the
+whole composite allocation or assign a rotation axis. The phase offset is
+`0x21`, not `0x33`; the old `f33` field name used a decimal offset.
+Conditional resident imports live in `c_symbols.ld`; the function definitions
+remain in this overlay, not the resident inventory.
+
+### Shop state machine
+
+The updater services text **before** testing its gates. It then waits while
+the cursor is moving or `(D_800EB12C & 0x2008) != 0x2000`; the latter reads
+the slot-0 text flags for completion and pending acknowledgment. The low five
+bits of `D_8016D424` choose the following states. Its `0x8000` and `0x4000`
+subflags are state-local bookkeeping, not shared campaign-flag modifiers.
+
+| State | Work and transition |
+|---:|---|
+| 0 | Edit digits or leave the screen; successful nonzero lookup enters 1 |
+| 1 | Request cached slot-0 card resources, wait, recreate and reveal preview; phase wrap enters 2 in the same invocation |
+| 2 | Publish price/card formatting values, show used-password or price-dependent dialog, then award or enter 4 |
+| 3 | Incrementally subtract price from RAM starchips; zero remaining enters 4 |
+| 4 | Advance preview hide phase, recreate message 226 and return to 0 without clearing digits or index |
+
+State 0 gives held horizontal input priority, with Right winning over Left.
+Movement clamps at indices 0 and 7; an out-of-range request returns without
+sound or lower-priority input handling. Next comes repeat/new-press vertical
+input, with Up winning over Down and decimal digits wrapping 0-9. Newly
+pressed Circle then cancels, and newly pressed Cross finally attempts lookup.
+Square alone and Start are not confirmation here. These use three distinct
+volatile streams: held `D_8009B3A4`, repeat `D_8009B394`, and newly pressed
+`D_8009B398`.
+
+State 1 first requests the selected card into cached slot 0. It waits for
+`((D_8009B0F4 & 0x2000030) | D_8009B134) == 0` before recreating the
+preview. Later eligible updates add 8 to preview phase `+0x21`; wrapping
+from the initialized `0x80` to zero takes sixteen such updates. State 4
+similarly advances from zero until the phase is negative as `s8`. These are
+eligible-update counts, not wall-clock timings.
+
+### Award, dialogs and payment are separate
+
+State 2 tests shared flag `0x400 + card`. A previously used password displays
+message 229 and proceeds to hiding without an award. Otherwise the handler
+chooses message 228 when balance is below price, or 227 when sufficient.
+Both paths delegate the next decision to the dialog's signed choice value;
+the award branch does not repeat the affordability comparison. Exact captions
+and message-specific enabled choices remain unverified by the pending human
+trace, so this body alone does not establish how message 228 prevents choice
+zero.
+
+Choice zero sets the password-used flag and calls `Duel_AwardCard` **before**
+payment begins in state 3. The award helper caps ordinary chest quantity at
+250 and records the card in the recent-card list; this updater has no separate
+chest-cap refusal. Payment uses the first word of the card's eight-byte
+cost/password record and subtracts from both unsigned remaining cost and
+`gLibrary_dwStarchips` (`D_801D0000[504]`, address `0x801D07E0`).
+
+For current remaining cost `c`, the deduction starts at 1. Successive
+thresholds replace it with `c/10` at 10, `c/20` at 100, `c/30` at 1000,
+and `c/40` at 10000; the largest applicable threshold wins. Integer division
+is used and a zero step is replaced by 1. The starchip display is refreshed
+on every payment update, including the last. There is no confirmation/cancel
+poll or disk-save request in this state.
+
+The literal zero-price case would subtract 1 from unsigned zero remaining
+cost and from the balance. No reachable zero-price record was established
+here; that arithmetic is preserved, not silently repaired or claimed as a
+runtime reproduction. Allocation and cursor/preview dereferences likewise
+retain their existing unchecked behavior.
+
 ## Name-entry selection-frame packets
 
 `NameEntry_Init` installs

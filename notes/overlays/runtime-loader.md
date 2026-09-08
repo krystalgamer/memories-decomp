@@ -338,7 +338,7 @@ Verified WA phases directed to `0x80168000` include:
 | `5827-5830` | `0x1800` | `0x801680F4`, `0x80168160` |
 | `7898-7903` | `0x2800` | `0x8016824C` |
 | `7968-7983` | `0x7800` | `0x8016AA6C` |
-| `8054-8069` | `0x7800` | `0x8016A080`, `0x8016A37C` |
+| `8054-8069` | `0x7800` | `Password_InitShopScreen` (`0x8016A080`), `Password_UpdateShopScreen` (`0x8016A37C`) |
 | `8153-8159` | `0x3000` | `0x8016866C`, `0x80168FCC` |
 | `8311-8317` | `0x3000` | Same callback family, alternate variant |
 

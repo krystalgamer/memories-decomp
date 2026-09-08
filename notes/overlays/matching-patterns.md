@@ -20,6 +20,9 @@ The historical password identifiers `func_80168AB4`, `func_80168CDC` and
 `func_8016913C` below now name `NameEntry_UpdateGlyphTransfer`,
 `NameEntry_SpawnGlyphSprite` and `NameEntry_UpdateKeyboard` respectively.
 The old identifiers remain measurement cross-references, not extra functions.
+Likewise, the historical `func_8016A02C` examples refer to the current
+`Password_RecreateCardPreview`; its struct-based accesses and ignored caller
+argument are retained by the shared shop interface.
 
 To compare a candidate against the target cheaply enough to try several
 shapes, use `tools/project/overlay_diff.py`, documented in
