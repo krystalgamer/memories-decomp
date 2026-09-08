@@ -76,6 +76,13 @@ The BSS layout is:
 `File_ActivateTransfer` copies the complete secondary descriptor into the
 primary descriptor before publishing the primary-active state.
 
+Its raw `Block72` assignment retains `FILE_TRANSFER_DESCRIPTOR_WORD_COUNT`
+(`18`) signed 32-bit words, including the final substate byte. Size assertions
+tie that copy and the private initializer view to the shared `0x48`-byte
+descriptor without changing their types or copy operations. The separate
+eight-word/32-byte buffer record at `D_801D4200` is not a descriptor and keeps
+its existing independent copy.
+
 The corrected LBA-table address is `0x800E9EA8`; interpreting the signed
 `addiu` immediate as unsigned incorrectly produces `0x800F9EA8`.
 
@@ -104,6 +111,11 @@ Observed fields in each `0x48`-byte descriptor are:
 | `+0x44` | 16-bit | Alternating-buffer index |
 | `+0x46` | 8-bit | Transfer state |
 | `+0x47` | 8-bit | Transfer substate |
+
+The shared `FileTransferDescriptor` explicitly exposes `substate` at `+0x47`;
+it is not unused tail padding. The private initializer clears that byte, and
+the completion alias `D_800E9EA7[0]` addresses the same byte of the primary
+descriptor. The existing partial field names and local views remain intact.
 
 `func_80013940` interprets its third argument (`position`) and fourth argument
 (`size`) by sign. The matching body in `src/game/file_stream.c` applies:

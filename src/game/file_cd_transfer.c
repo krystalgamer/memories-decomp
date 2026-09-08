@@ -3,8 +3,12 @@
 #include "file_transfer.h"
 
 typedef struct {
-    s32 value[18];
+    s32 value[FILE_TRANSFER_DESCRIPTOR_WORD_COUNT];
 } Block72;
+
+typedef char Block72_size_must_match_transfer_descriptor[
+    sizeof(Block72) == sizeof(FileTransferDescriptor) ? 1 : -1
+];
 
 typedef struct {
     s32 value[8];

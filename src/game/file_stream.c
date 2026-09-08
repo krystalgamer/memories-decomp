@@ -28,6 +28,10 @@ typedef struct {
     u8 substate;
 } FileTransfer;
 
+typedef char FileTransfer_size_must_match_transfer_descriptor[
+    sizeof(FileTransfer) == sizeof(FileTransferDescriptor) ? 1 : -1
+];
+
 extern u8 D_8009B108;
 extern s32 D_8009B0E8;
 extern s32 D_8009B0F0;

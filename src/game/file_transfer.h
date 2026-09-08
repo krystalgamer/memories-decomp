@@ -6,6 +6,7 @@
 #define FILE_TRANSFER_STATE_PRIMARY_ACTIVE 0x10
 #define FILE_TRANSFER_STATE_SECONDARY_PENDING 0x20
 #define FILE_TRANSFER_REQUEST_BLOCKED_MASK 0x02000030
+#define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
 
 #define FILE_TRANSFER_DESCRIPTOR_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
@@ -27,6 +28,7 @@ typedef struct {
     u32 result;
     u8 pad_44[0x2];
     u8 done;
+    u8 substate;
 } FileTransferDescriptor;
 
 typedef char FileTransferDescriptor_size_must_be_0x48[
@@ -58,6 +60,10 @@ typedef char FileTransferDescriptor_callback_data_offset_must_be_0x38[
 ];
 typedef char FileTransferDescriptor_done_offset_must_be_0x46[
     FILE_TRANSFER_DESCRIPTOR_OFFSET(FileTransferDescriptor, done) == 0x46
+        ? 1 : -1
+];
+typedef char FileTransferDescriptor_substate_offset_must_be_0x47[
+    FILE_TRANSFER_DESCRIPTOR_OFFSET(FileTransferDescriptor, substate) == 0x47
         ? 1 : -1
 ];
 
