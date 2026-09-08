@@ -3248,6 +3248,36 @@ What was safe, all confirmed against the full-executable hash:
   leaving a stray `*(s16 *)(e + 0xC)` behind after `e` became a
   `DuelEffectResourceRecord *` silently scales that offset by `0x40`. It
   still compiles. Only the hash catches it.
+- **Typing a pointer can also delete instructions, not just move them.**
+  `func_8002FB78` reaches a `FileTransferDescriptor` entirely through offset
+  casts, and every offset lands on a member the type in `ygo_types.h`
+  already names. Converting it made the executable **eight bytes shorter**.
+  The file holds its shape with a read-modify-write on the global
+  `D_8009B0F4` around the stores through `p`; while `p` is a `u8 *` those
+  stores might alias the global, and once it is typed they provably cannot,
+  so the dance folds away. Left unconverted.
+
+### Screening rule for the three of these
+
+The same cause runs through all of them, and it is the one the aliasing
+section above states: a store through a cast byte pointer is not provably
+confined, so GCC will not schedule across it. Giving the pointer a type
+removes that barrier, and the generated code changes in whichever direction
+the barrier was holding it:
+
+| function | what changed |
+| --- | --- |
+| `Model_UpdateViewMetrics` | one register, `0x69` to `0x6A` |
+| `func_800289BC` | one store reordered |
+| `func_8002FB78` | two instructions deleted |
+
+So before converting offset casts to members, look for the two shapes that
+make the barrier load-bearing: a **whole-struct assignment** to or from the
+same object, and a **read-modify-write on a global** interleaved with the
+stores. Either one means the conversion costs a build to check rather than
+being free by inspection. Neither means it will fail -- `func_800289BC` has
+the first shape and matched once every access was converted -- only that it
+must be measured.
 
 - **`sizeof(T)` may replace a literal stride** once the cast is in place.
 - **But a proven-equal `sizeof` is not a licence to switch to typed indexing.**
