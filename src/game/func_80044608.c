@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libapi.h"
+#include "io_event_helpers.h"
 
 extern u8 D_8009B43D;
 extern volatile s32 gMemCard_nIOResult;
@@ -16,7 +17,6 @@ extern long D_800F2AF0[];
 extern u8 D_800F2888[];
 extern u8 D_8009AF7C[];
 
-extern void func_80043D48(long *a0);
 extern void func_80044470();
 extern s32 func_80044544();
 

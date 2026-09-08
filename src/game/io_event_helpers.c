@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libapi.h"
+#include "io_event_helpers.h"
 
 extern s32 gMemCard_nIOResult;
 
