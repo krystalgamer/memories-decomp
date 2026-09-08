@@ -433,6 +433,7 @@ class BssImageComponentTests(WorkspaceTests):
         self.write("tmp/splat/assets/bss_image_after.bin", b"after")
         with (
             patch.object(build_baseline, "load_text_segments", return_value=[]),
+            patch.object(build_baseline, "load_data_segments", return_value=[]),
             patch.object(build_baseline, "load_overlay_assets", return_value=[]),
         ):
             components = build_incremental.load_components(self.root)
