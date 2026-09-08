@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "view_state.h"
 #include "card_constants.h"
 #include "duel_deck_card.h"
@@ -20,7 +21,6 @@ extern u32 D_8009B0F4[];
 extern u32 D_8009B134 __attribute__((section(".data")));
 extern u16 D_8009B36A __attribute__((section(".data")));
 extern u8 D_800E9F10[];
-extern u8 D_800E9FF0[];
 extern u8 D_800EA030[];
 extern s32 gDuel_adwCardStats[];
 
@@ -109,7 +109,7 @@ void func_80018608(void)
             def += ((stat >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
                    CARD_STAT_SCALE;
         }
-        r1 = D_800E9FF0;
+        r1 = (u8 *)D_800E9FF0;
         *(s16 *)(r1 + 0xE) = atk / DECK_SIZE;
         *(s16 *)(r1 + 0x10) = def / DECK_SIZE;
         atk = 0;
@@ -121,7 +121,7 @@ void func_80018608(void)
             def += ((stat2 >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
                    CARD_STAT_SCALE;
         }
-        r2 = D_800E9FF0;
+        r2 = (u8 *)D_800E9FF0;
         *(s16 *)(r2 + 0x2E) = atk / DECK_SIZE;
         *(s16 *)(r2 + 0x30) = def / DECK_SIZE;
         D_8009B174 = 5;
@@ -167,7 +167,7 @@ void func_8001898C(void) {
         *(u16 *)(D_8009B21C + 0x40) = (D_8009B1D5 << 4) | 0x2E0;
         Duel_ClearHandSlots();
         side = D_8009B1D5;
-        D_8009B1C8 = D_800E9FF0 + side * 0x20;
+        D_8009B1C8 = (u8 *)D_800E9FF0 + side * sizeof(DuelSideState);
         D_8009B1B4 = D_800E9F10 + side * DUEL_SELECTION_SIDE_SIZE;
         base = D_800EA030;
         *(u8 **)(D_8009B1B4 + 8) = base;

@@ -1,14 +1,7 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_grid.h"
-
-typedef struct {
-    u8 unk0[0x14];
-    s16 unk14;
-    u8 unk16[3];
-    s8 unk19;
-    u8 unk1A[6];
-} Rec20;
 
 typedef struct {
     int field_00;
@@ -25,13 +18,12 @@ extern u16 D_8009B234;
 extern u16 D_8009B236;
 extern s8 D_8009B360[];
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
-extern Rec20 D_800E9FF0[];
 extern s8 D_800EA02F[];
 extern HandEntry D_800EA030[HAND_SIZE];
 
 void func_800175A0(void) {
     u16 sp[DUEL_SIDE_COUNT];
-    Rec20 *e;
+    DuelSideState *e;
     s32 k;
     s32 j;
     u32 m;
@@ -55,13 +47,13 @@ void func_800175A0(void) {
             r[0x1A] = -1;
         }
         q = (u8 *)e;
-        e->unk16[2] = 0;
+        e->field_18 = 0;
         t = sp[k];
-        *(s16 *)(e->unk0 + 0x12) = 0;
-        e->unk19 = 0;
-        e->unk14 = t;
-        *(u16 *)e->unk16 = t;
-        e->unk1A[5] = 0;
+        e->field_12 = 0;
+        e->field_19 = 0;
+        e->life_points.signed_value = t;
+        e->max_life_points = t;
+        e->field_1A[5] = 0;
         for (m = 0; m < 13; m++) {
             *q = 0;
             q++;
@@ -70,8 +62,8 @@ void func_800175A0(void) {
 
     if (D_8009B360[0] < 0) {
         if (gDuel_bOpponentID < 0) {
-            D_800E9FF0[1].unk1A[5] = *(u8 *)&D_8009B230;
-            D_800E9FF0[0].unk1A[5] = *(u8 *)&D_8009B230;
+            D_800E9FF0[1].field_1A[5] = *(u8 *)&D_8009B230;
+            D_800E9FF0[0].field_1A[5] = *(u8 *)&D_8009B230;
         } else {
             D_800EA02F[0] = -1;
         }

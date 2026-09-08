@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "duel_card.h"
 #include "sound.h"
 
@@ -12,12 +13,10 @@ typedef struct Object {
     u8 pad_28[0x44];
     u8 active;
 } Object;
-typedef struct { u8 pad[0x19]; u8 state; u8 tail[6]; } SideState;
 extern volatile u8 D_8009B1D5;
 extern Object *D_8009B1F0[2], *D_8009B17C;
 extern u16 D_8009B220;
 extern u8 D_800907D8[2][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
-extern SideState D_800E9FF0[2];
 extern int func_80024E24(void);
 extern Object *func_8002C604(int);
 extern void func_80025B28(Object *);
@@ -58,7 +57,7 @@ void func_80025F3C(void)
             }
         }
     } else if (func_80042B40(1) == 0 && D_8009B17C->count >= 2) {
-        D_800E9FF0[D_8009B1D5 ^ 1].state = 4;
+        D_800E9FF0[D_8009B1D5 ^ 1].field_19 = 4;
         D_8009B220 = 0;
     }
 }

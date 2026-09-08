@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "ai_constants.h"
 #include "card_constants.h"
 #include "duel_card.h"
@@ -21,17 +22,10 @@ typedef struct LocalEnt {
 typedef char LocalEnt_size_must_be_0x0C[
     sizeof(LocalEnt) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1
 ];
-typedef struct LocalE9 {
-    u8 pad0[0x18];
-    s8 count;
-    s8 pad19;
-    s8 slots[6];
-} LocalE9;
 typedef struct LocalBlob {
     u8 pad0[0x4B9FC];
     DuelDeckCardRecord cards[1];
 } LocalBlob;
-extern LocalE9 D_800E9FF0[];
 extern LocalBlob D_8015C424;
 extern s32 gDuel_adwCardStats[];
 extern int Duel_CalcCardStats();
@@ -117,7 +111,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
         do {
             s32 n;
 
-            n = D_800E9FF0[who].slots[i];
+            n = D_800E9FF0[who].field_1A[i];
             if (n >= 0) {
                 s32 *p;
                 s32 id;
@@ -145,7 +139,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
     {
         DuelDeckCardRecord *rp;
 
-        i = D_800E9FF0[who].count;
+        i = D_800E9FF0[who].field_18;
         rp = &gDuel_aDeckCardRecords[i + who * DECK_SIZE];
         if (i < DECK_SIZE) {
             s32 *tbl;

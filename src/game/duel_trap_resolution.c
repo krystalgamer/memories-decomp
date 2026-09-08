@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
@@ -135,7 +136,6 @@ extern u16 D_8009B162;
 extern u16 D_8009B210;
 extern u16 D_8009B1D0;
 extern s16 D_800F284A[];
-extern u8 D_800E9FF0[];
 
 void func_80022D94(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 u8 *func_8002C68C(s32 arg0);
@@ -225,7 +225,7 @@ m3:
     if ((s16)t > 0) {
         return 1;
     }
-    q = (u8 *)D_800E9FF0 + (D_8009B1D5 ^ 1) * 0x20;
+    q = (u8 *)D_800E9FF0 + (D_8009B1D5 ^ 1) * sizeof(DuelSideState);
     q[6] = q[6] + 1;
     return 0;
 }

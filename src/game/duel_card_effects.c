@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "card_constants.h"
 #include "sound.h"
 
@@ -9,20 +10,12 @@ struct Obj {
     s16 field1A;
 };
 
-struct DuelSideState {
-    u8 pad00[0x14];
-    u16 life_points;
-    s16 maximum_life_points;
-    u8 pad18[0x8];
-};
-
 extern s16 D_8009B1D2;
-extern struct DuelSideState *D_8009B1C8;
+extern DuelSideState *D_8009B1C8;
 extern u16 D_8009B220;
 extern u16 D_8009B210;
 extern s16 D_8009B22A;
 extern u8 D_8009B1D5;
-extern struct DuelSideState D_800E9FF0[];
 extern u8 gDuel_abLifePointRecoveryUnits[DUEL_LIFE_POINT_EFFECT_COUNT];
 extern u8 gDuel_abDirectDamageUnits[DUEL_LIFE_POINT_EFFECT_COUNT];
 
@@ -59,12 +52,12 @@ void func_800250C8(void) {
         D_8009B220 = flag | 0x60;
         if (D_8009B22A == 0) {
             u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
-            v1 = D_8009B1C8->life_points +
+            v1 = D_8009B1C8->life_points.unsigned_value +
                  (*p) * DUEL_LIFE_POINT_RECOVERY_SCALE;
-            D_8009B1C8->life_points = v1;
-            if (D_8009B1C8->maximum_life_points < (s16) v1) {
-                D_8009B1C8->life_points =
-                    (u16) D_8009B1C8->maximum_life_points;
+            D_8009B1C8->life_points.unsigned_value = v1;
+            if (D_8009B1C8->max_life_points < (s16) v1) {
+                D_8009B1C8->life_points.unsigned_value =
+                    (u16) D_8009B1C8->max_life_points;
             }
             goto block_14;
         }
@@ -82,11 +75,11 @@ block_9:
         }
     } else {
         u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
-        v1 = D_8009B1C8->life_points -
+        v1 = D_8009B1C8->life_points.unsigned_value -
              (*p) * DUEL_LIFE_POINT_RECOVERY_SCALE;
-        D_8009B1C8->life_points = v1;
+        D_8009B1C8->life_points.unsigned_value = v1;
         if ((s16) v1 < 0) {
-            D_8009B1C8->life_points = 0;
+            D_8009B1C8->life_points.unsigned_value = 0;
         }
 block_14:
         D_8009B220 = 0;
@@ -100,7 +93,7 @@ void func_8002525C(void) {
     s32 flags;
     u16 remaining;
     struct Obj *obj;
-    struct DuelSideState *p;
+    DuelSideState *p;
 
     unit = D_8009B1D2 - DUEL_DIRECT_DAMAGE_FIRST_CARD_ID;
     if (func_80024E24() == 0) {
@@ -135,12 +128,12 @@ void func_8002525C(void) {
     } else {
         p = &D_800E9FF0[D_8009B1D5];
 apply:
-        remaining = p->life_points -
+        remaining = p->life_points.unsigned_value -
                     gDuel_abDirectDamageUnits[unit] *
                         DUEL_DIRECT_DAMAGE_SCALE;
-        p->life_points = remaining;
+        p->life_points.unsigned_value = remaining;
         if ((s16) remaining < 0) {
-            p->life_points = 0;
+            p->life_points.unsigned_value = 0;
         }
         D_8009B220 = 0;
     }

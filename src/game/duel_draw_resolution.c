@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
 #include "duel_deck_card.h"
@@ -54,14 +55,6 @@ s32 Duel_HasAllExodiaPieces(void) {
 }
 
 typedef struct {
-    u8 unk0[0x14];
-    s16 unk14;
-    u8 unk16[3];
-    s8 unk19;
-    u8 unk1A[6];
-} Rec20;
-
-typedef struct {
     u8 *unk0;
     u8 unk4[0x9 - 0x4];
     u8 unk9;
@@ -75,7 +68,6 @@ extern u8 *D_8009B1C8;
 extern u8 gDuel_bWinnerSide;
 extern u8 D_8009B1D5;
 extern u8 D_800907CC[];
-extern Rec20 D_800E9FF0[];
 extern Rec0C D_800EA030[HAND_SIZE];
 extern u8 D_8015C424[];
 extern u8 D_801A7AD8[];

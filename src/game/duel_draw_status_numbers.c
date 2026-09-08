@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_display.h"
 #include "duel_grid.h"
@@ -10,15 +11,6 @@
    2-digit) offset from the shared position struct at arg0->unk50. The values
    are displayed LP from field12 and DECK_SIZE minus the signed draw cursor
    in field18 of the corresponding D_800E9FF0 entry. */
-
-struct WidgetEntry {
-    u8 pad0[0x12];
-    s16 field12;
-    s16 field14;
-    u8 pad1[0x18 - 0x16];
-    s8 field18;
-    u8 pad2[0x20 - 0x19];
-};
 
 struct Pos {
     u8 pad0[0x30];
@@ -43,7 +35,6 @@ struct DigitPacket {
     u32 unk14;
 };
 
-extern struct WidgetEntry D_800E9FF0[DUEL_SIDE_COUNT];
 extern u8 D_8009B1D5;
 void Duel_UpdateLifePointDisplay(struct WidgetEntry *);
 void func_80016D2C(void *, void *, s32, s32);
@@ -73,11 +64,11 @@ void Duel_DrawLifePointsAndDeckCounts(struct Widget *arg0) {
 
     scratch->unk4 = pos->unk30 - 3;
     scratch->unk6 = pos->unk32 - 0xD;
-    func_80016D2C(pos, scratch, D_800E9FF0[1].field12, 4);
+    func_80016D2C(pos, scratch, D_800E9FF0[1].field_12, 4);
 
     scratch->unk4 = pos->unk30 + 0xE;
     scratch->unk6 = pos->unk32 - 5;
-    func_80016D2C(pos, scratch, DECK_SIZE - D_800E9FF0[1].field18, 2);
+    func_80016D2C(pos, scratch, DECK_SIZE - D_800E9FF0[1].field_18, 2);
 
     scratch->unk14 = DUEL_DISPLAY_COLOR_NORMAL;
     if (D_8009B1D5 != 0) {
@@ -86,9 +77,9 @@ void Duel_DrawLifePointsAndDeckCounts(struct Widget *arg0) {
 
     scratch->unk4 = pos->unk30 - 3;
     scratch->unk6 = pos->unk32 + 0xD;
-    func_80016D2C(pos, scratch, D_800E9FF0[0].field12, 4);
+    func_80016D2C(pos, scratch, D_800E9FF0[0].field_12, 4);
 
     scratch->unk4 = pos->unk30 + 0xE;
     scratch->unk6 = pos->unk32 + 5;
-    func_80016D2C(pos, scratch, DECK_SIZE - D_800E9FF0[0].field18, 2);
+    func_80016D2C(pos, scratch, DECK_SIZE - D_800E9FF0[0].field_18, 2);
 }

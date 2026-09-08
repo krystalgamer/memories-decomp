@@ -1,14 +1,9 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "file_transfer.h"
 #include "sound.h"
-
-typedef struct {
-    u8 pad0000[0x19];
-    s8 pending;
-    u8 pad001A[6];
-} DuelSideRank;
 
 extern u16 D_8009B23A;
 extern u8 D_8009B1D5;
@@ -21,7 +16,6 @@ extern u32 D_8009B134 __attribute__((section(".data")));
 extern u16 D_8009B36A __attribute__((section(".data")));
 extern u8 D_800907D8[];
 extern u8 D_800E9ECE[];
-extern u8 D_800E9FF0[];
 extern u8 D_8015C424[];
 extern u8 D_801A7AD8[];
 extern u8 D_801A7B64[];
@@ -82,7 +76,7 @@ void func_8001825C(void)
         }
         func_8001352C();
         for (i = 0; i < DUEL_SIDE_COUNT; i++) {
-            if (((DuelSideRank *)D_800E9FF0)[i].pending != 0) {
+            if (D_800E9FF0[i].field_19 != 0) {
                 obj = func_8002C604(0x15);
                 *(u16 *)(obj + 0x1A) = i + 2;
                 obj[0x1C] |= 0x20;
@@ -100,7 +94,7 @@ void func_8001825C(void)
                 }
             }
         } else {
-            q = D_800E9FF0;
+            q = (u8 *)D_800E9FF0;
             if (*(s16 *)(q + 0x14) != 0 && *(s16 *)(q + 0x34) != 0) {
                 SD_BGMPlay(D_8009B36A);
             }

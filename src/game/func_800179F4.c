@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "duel_package.h"
@@ -9,7 +10,6 @@ extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern u8 D_8009B369 __attribute__((section(".data")));
 extern u8 D_800907D8[];
-extern u8 D_800E9FF0[];
 extern u8 D_800EA0E8[];
 extern s16 D_800F284A[];
 extern void (*D_800E9DBC[])(void);
@@ -104,7 +104,7 @@ void func_800179F4(void)
         func_800175A0();
         D_8009B16C |= 0x1000;
     }
-    D_8009B1C8 = &D_800E9FF0[D_8009B1D5 * 32];
+    D_8009B1C8 = (u8 *)D_800E9FF0 + D_8009B1D5 * sizeof(DuelSideState);
     func_800178BC();
     D_800F284A[0] = D_8009B1D5 * 2048 + 1024;
     func_8001352C();
