@@ -2,9 +2,9 @@
 #include "../psyq/rand.h"
 #include "ai.h"
 #include "ai_script_read_byte.h"
+#include "ai_script_read_short.h"
 
 extern AiScriptState gAiScript_State;
-extern s32 AiScript_ReadShort(void);
 void AiScript_JumpNotEqual(void)
 {
     s32 first = AiScript_ReadByte();

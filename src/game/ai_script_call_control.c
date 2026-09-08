@@ -3,8 +3,8 @@
 #include "../psyq/stdio.h"
 #include "ai.h"
 #include "ai_script_read_byte.h"
+#include "ai_script_read_short.h"
 
-extern int AiScript_ReadShort(void);
 extern AiScriptState gAiScript_State;
 extern char D_800118AC[];
 extern char D_800118E4[];
