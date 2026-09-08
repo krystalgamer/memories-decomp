@@ -204,6 +204,80 @@ groups. The observed `+0x72` test lies two bytes beyond the nominal `0x70`
 slot stride, so its ownership remains unresolved rather than being modeled as
 a normal `DisplaySlot` field.
 
+## The `+0x4` word is the primitive tag
+
+The 32-bit field at object offset `+0x4` is not a second flag word alongside
+`+0x8`. Both renderers copy it **verbatim** into the primitive they are
+building — `p->tag = e->unk4` in `func_80040588`, and the same assignment at
+the top of `func_800408D0`. Every bit the overlays set there is therefore a
+bit the packet carries.
+
+That single assignment is the evidence linking the two; the tests below are
+written against `p->tag`, but they read a word that came unchanged from the
+object.
+
+| Bit | Effect | Established by |
+|---|---|---|
+| `0x01000000` | Texture-page step of `2` per wrap | `func_800408D0` |
+| `0x02000000` | Texture-page step of `4`, taking precedence | `func_800408D0` |
+| `0x08000000` | When **clear**, selects the alternate size/offset path in `func_80040588`; also gates a projection path in `display_object_projection.c`, and is copied into the clip state as `c->flag` | both renderers |
+| `0x40000000` | Adds `SetSemiTrans(g, 1)` in the clip-test path | `func_80040588` |
+
+The step values are the texture-page advance applied when a strip's `u`
+coordinate wraps past `0x100`, so `0x01000000` and `0x02000000` are the colour
+depth: 1, 2 and 4 pages correspond to 4bpp, 8bpp and 16bpp. `func_800408D0`
+already describes them as "the depth bits of the tag"; what is new here is the
+connection to the overlay writes.
+
+Read against that table, the overlay writes become legible:
+
+- `FreeDuel_Init` and `MainMenu_InitFrontend` set `0x01000000` on grid and menu
+  entries — selecting the 8bpp page step.
+- `FreeDuel_Init` clears `0x08000000` on the cursor, opting it into the
+  size/offset path.
+- `FreeDuel_UpdateSparkle` sets `0x50000000` and
+  `MainMenu_SpawnFrontendEntryAfterimage` sets `0x51000000`, both of which
+  include `0x40000000` — so sparkles and afterimages are drawn
+  semi-transparent, which matches what those effects are.
+
+### What is not established
+
+`0x10000000` — present in both `0x50000000` and `0x51000000` — has **no
+consumer anywhere in the tree**. This is a checked negative rather than an
+assumption: no generated assembly file loads a `0x1000` upper-half mask for
+it, and the only literal `0x10000000` in `src/` is `SR_CU0` in
+`psyq/r3000.h`, an unrelated coprocessor-status bit. Because both composites
+contain it, neither can be written out of named parts, and no constants are
+minted here.
+
+There is a second, more fundamental reason not to mint them. **The top byte of
+a tag word is also where this codebase stores a primitive length.**
+`func_80040588` writes `g[3] = 9`, and the packet-building table above records
+per-function length bytes of `8` and `12` — all in byte index 3, the same byte
+these bits occupy. Whether `0x40000000` and its neighbours are pure flags, or
+share that byte with a length encoding, is not established by anything checked
+here. The tests listed above are real and observed; what the byte means *as a
+whole* is not settled, and a constant named `..._FLAG_...` would quietly
+assert that it is.
+
+`display_object_transition.c` also writes `(tag | 0x08000000) & 0x8FFFFFFF`,
+which clears `0x70000000` while setting `0x08000000`. The mask implies the
+`0x10000000`, `0x20000000` and `0x40000000` bits form a group, but that
+grouping is an inference from one mask rather than something a consumer
+confirms — and it is equally consistent with the mask clamping a length field.
+
+Settling flag-versus-length is blocked on `func_80042188`, which is where the
+primitive actually reaches the ordering table. Its inventory row in
+`functions.csv` records that its first argument cannot be resolved as pointer
+or value from the call sites alone, because scratchpad addresses happen to
+satisfy the `0x04000000` test it applies, and that the reading should come
+from a matched definition rather than a guess frozen into a header. The same
+caution applies here: its cases `0`, `1` and `2` pass that argument straight
+into `GsSortFastSprite` and two siblings, which are the SDK routines that
+manage a tag's length and next-pointer, so what survives of the game's own
+top-byte bits by that point is exactly the open question. Match
+`func_80042188` first; do not name these bits from the call sites.
+
 ## Two-phase display-object fades
 
 `src/game/display_object_fade.h` defines two bits in object byte `+0x13`:
