@@ -2,6 +2,7 @@
 #include "../psyq/libapi.h"
 
 #include "sound.h"
+#include "sound_event_runtime.h"
 
 extern void SD_ProcessSequenceTracks(void);
 extern void func_8004C84C(void);
