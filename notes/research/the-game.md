@@ -1466,7 +1466,7 @@ matches one block at 92–100 %, and the order is the opponent id
 
 The ID/name list now also has direct executable-text corroboration. For an
 available, settled Free Duel cell `i`, the armed update in matching
-[`FreeDuel_PlaceCursor`](../../src/overlays/free_duel/place_cursor.c)
+[`FreeDuel_PlaceCursor`](../../src/overlays/free_duel/cursor_layout.c)
 writes string ID `0x8328 + i` to `D_8009B32E`.
 [`func_800383DC`](../../src/game/func_800383DC.c) reads that ID as an
 unsigned halfword and resolves the global offset table at `0x801D5800`,
