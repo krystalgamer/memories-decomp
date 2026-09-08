@@ -460,6 +460,13 @@ alpha fade or a fixed lifetime for every starting color.
 included by definitions and callers. The release call explicitly passes the
 object instead of relying on an unwritten argument-register assumption.
 
+Producer and update callback share `frontend_entry_afterimages.c`, in that
+definition order. Their contiguous `0xE4 + 0x88` bytes cover
+`0x80180E6C-0x80180FD8` exactly, with callback object offset `0xE4`.
+Both retain `gcc_2_8_1_g0_split` and contribute no data or rodata. This
+coalesces one effect lifecycle without claiming the original author's
+translation-unit boundary or absorbing the following value setup.
+
 ## Value-editor rendering
 
 `MainMenu_DrawValueSetup` (`0x80181728`) is the callback installed by
