@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_effect_lifecycle.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
@@ -20,7 +21,6 @@ extern u8 D_801AF000[];
 extern u8 D_801AF800[];
 extern u8 *D_80010000 __attribute__((section(".data")));
 
-extern s32 func_80039F1C(u8 *);
 extern void func_8003A01C(u8 *, s32);
 extern s32 func_8003A1EC(u8 *, u8 **, s32);
 
@@ -31,7 +31,7 @@ void func_8003A560(u8 *a)
     FileTransferDescriptor *req;
     s32 i;
 
-    if (func_80039F1C(a) == 0) {
+    if (func_80039F1C((DisplayEffectState *)a) == 0) {
         slots = (VramSlot *)D_80010000;
         D_8009B326 = 0;
         /* The slot cursor has to be an explicit walking pointer decremented at

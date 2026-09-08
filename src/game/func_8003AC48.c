@@ -1,14 +1,12 @@
 #include "../types.h"
+#include "display_effect_lifecycle.h"
 #include "graphics_frame.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 
-extern s32 func_80039F1C(u8 *);
 extern void func_8003A440(u8 **, u32, s32);
 extern s32 func_8003A1EC(u8 *, u8 *, s32);
-extern void func_80039F90(void *);
-extern void func_80039FD4(u8 *);
 
 void func_8003AC48(u8 *p)
 {
@@ -22,7 +20,7 @@ void func_8003AC48(u8 *p)
     s32 m;
     s32 i;
 
-    if (func_80039F1C(p) == 0) {
+    if (func_80039F1C((DisplayEffectState *)p) == 0) {
         p[0x32] |= 0x10;
         h = *(u8 **)p;
         x = *(s8 *)(h + 0x16);
@@ -39,7 +37,7 @@ void func_8003AC48(u8 *p)
     u = (s16)t;
     if (u <= 0) {
         p[0x33] = 0;
-        func_80039F90(p + 0xC);
+        func_80039F90((void **)(p + 0xC));
         func_80039FD4(p);
     } else {
         m = u;

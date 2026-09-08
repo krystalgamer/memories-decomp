@@ -1,5 +1,6 @@
 #define D_8009B0D8_IS_HALFWORD
 #include "../types.h"
+#include "display_effect_lifecycle.h"
 #include "graphics_frame.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -7,9 +8,7 @@
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 
-extern s32 func_80039F1C(void);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
-extern void func_80039FD4(u8 *);
 
 void func_8003B054(u8 *p)
 {
@@ -20,7 +19,7 @@ void func_8003B054(u8 *p)
     s32 c;
     s32 q;
 
-    if (func_80039F1C() == 0) {
+    if (func_80039F1C((DisplayEffectState *)p) == 0) {
         if (*(s16 *)(p + 0x40) != 0) {
             o = *(u8 **)p;
             *(u16 *)(o + 0x60) = 0;

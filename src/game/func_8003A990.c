@@ -1,8 +1,8 @@
 #include "../types.h"
+#include "display_effect_lifecycle.h"
 #include "../psyq/libgte.h"
 #include "trig_constants.h"
 
-extern s32 func_80039F1C(u8 *);
 extern void func_8003A95C(u8 *, s32, s32);
 
 void func_8003A990(u8 *p)
@@ -13,7 +13,7 @@ void func_8003A990(u8 *p)
     s32 dx;
     s32 dy;
 
-    if (func_80039F1C(p) == 0) {
+    if (func_80039F1C((DisplayEffectState *)p) == 0) {
         *(s16 *)(p + 0x48) = TRIG_ANGLE_QUARTER_TURN;
         d = TRIG_ANGLE_QUARTER_TURN / *(s16 *)(p + 0x44);
         *(s16 *)(p + 0x4A) = d;
