@@ -50,6 +50,8 @@ CANDIDATES_DIR = "notes/candidates"
 TARGET = "game/SLUS_014.11"
 MASPSX = "tools/vendor/maspsx/maspsx.py"
 BINUTILS = "tools/toolchains/binutils-2.42/bin"
+# One directory per function: a shared work path lets two runs clobber
+# each other's object file, which fails as "symbol not found".
 WORK = "tmp/pin-audit"
 TEXT_VMA_TO_FILE = 0x8000F800
 
@@ -64,13 +66,28 @@ def variable_name(declarator: str) -> str:
     return re.findall(r"\w+", declarator)[-1]
 
 
-def unpin(source: str, declarator: str, register: str) -> str | None:
-    """Rewrite one pinned declaration as a plain one."""
-    for match in PIN.finditer(source):
-        if match.group(2) == declarator and match.group(3) == register:
-            replacement = f"{match.group(1)}{declarator}{match.group(4) or ''};"
-            return source.replace(match.group(0), replacement, 1)
-    return None
+def pin_sites(source: str) -> list[tuple[int, int, str, str]]:
+    """Every pinned declaration, identified by position rather than by name.
+
+    Two blocks can declare the same variable pinned to the same register, so
+    matching on the declarator alone collapses them into one and the audit
+    silently measures the first twice.
+    """
+    return [(m.start(), m.end(), m.group(2), m.group(3))
+            for m in PIN.finditer(source)]
+
+
+def drop_pins(source: str, indices) -> str:
+    """Rewrite the selected pinned declarations as plain ones."""
+    sites = pin_sites(source)
+    out = source
+    for index in sorted(indices, reverse=True):
+        start, end, declarator, _ = sites[index]
+        match = PIN.match(source, start)
+        indent = match.group(1)
+        init = match.group(4) or ""
+        out = out[:start] + f"{indent}{declarator}{init};" + out[end:]
+    return out
 
 
 def entry_source(root: Path, name: str) -> tuple[str, str]:
@@ -99,8 +116,9 @@ def inventory(root: Path) -> dict[str, tuple[int, int]]:
     return entries
 
 
-def build(root: Path, source: str, profile: dict, env: dict) -> Path:
-    work = resolve_within(root, WORK)
+def build(root: Path, source: str, profile: dict, env: dict,
+          symbol: str) -> Path:
+    work = resolve_within(root, f"{WORK}/{symbol}")
     work.mkdir(parents=True, exist_ok=True)
     candidate = work / "candidate.c"
     candidate.write_text(source)
@@ -262,7 +280,7 @@ def differing(build_words, retail, relocations, symbols, gp):
 
 
 def measure(root, source, profile, symbol, address, size, env, symbols):
-    obj = build(root, source, profile, env)
+    obj = build(root, source, profile, env, symbol)
     words, relocations = object_function(root, obj, symbol, env)
     retail = target_words(root, address, size)
     if len(words) != len(retail):
@@ -277,6 +295,16 @@ def main() -> int:
         description="audit a candidate's register pins, marginally and jointly",
     )
     parser.add_argument("name", help="function name such as func_80046294")
+    parser.add_argument(
+        "--exhaustive", action="store_true",
+        help="measure every subset of pins, not just single drops and the "
+             "jointly-inert arm; a greedy search can stop before the best "
+             "configuration",
+    )
+    parser.add_argument(
+        "--max-pins", type=int, default=8,
+        help="refuse --exhaustive above this many pins (default 8)",
+    )
     args = parser.parse_args()
 
     root = require_workspace_root()
@@ -301,43 +329,69 @@ def main() -> int:
         print("  instruction count differs from the target; audit aborted")
         return 1
 
-    pins = [(m.group(2), m.group(3)) for m in PIN.finditer(source)]
-    if not pins:
+    sites = pin_sites(source)
+    if not sites:
         print("  no register pins in the stored source")
         return 0
 
     inert = []
-    for declarator, register in pins:
-        variant = unpin(source, declarator, register)
-        if variant is None:
-            continue
+    for index, (_, _, declarator, register) in enumerate(sites):
         count, positions, _ = measure(
-            root, variant, profile, args.name, address, size, env, symbols)
+            root, drop_pins(source, [index]), profile, args.name, address,
+            size, env, symbols)
         same = positions == base_set
         note = ""
         if count == base_count and same:
-            inert.append((declarator, register))
+            inert.append(index)
             note = "  <- inert alone"
+        elif count is not None and count < base_count:
+            note = "  <- BETTER than the baseline"
         print(f"  drop {variable_name(declarator):<12s} {register:<5s} -> "
               f"{str(count):>4s}  "
               f"{'same set' if same else 'DIFFERENT set'}{note}")
 
-    if len(inert) < 2:
-        print("  fewer than two pins look inert; no joint arm to run")
+    label = lambda idx: variable_name(sites[idx][2])
+
+    if args.exhaustive:
+        if len(sites) > args.max_pins:
+            print(f"  --exhaustive needs at most {args.max_pins} pins; "
+                  f"this entry has {len(sites)}")
+            return 1
+        print(f"  enumerating all {2 ** len(sites)} subsets "
+              f"(a greedy single-drop search can stop short of the best one)")
+        best = (base_count, ())
+        for mask in range(1, 2 ** len(sites)):
+            chosen = [i for i in range(len(sites)) if mask >> i & 1]
+            count, positions, _ = measure(
+                root, drop_pins(source, chosen), profile, args.name, address,
+                size, env, symbols)
+            if count is not None and count < best[0]:
+                best = (count, tuple(chosen))
+        if best[1]:
+            names = ", ".join(label(i) for i in best[1])
+            print(f"  BEST subset: drop [{names}] -> {best[0]} "
+                  f"(baseline {base_count})")
+        else:
+            print(f"  no subset beats the baseline of {base_count}")
         return 0
 
-    variant = source
-    for declarator, register in inert:
-        variant = unpin(variant, declarator, register) or variant
+    if len(inert) < 2:
+        print("  fewer than two pins look inert; no joint arm to run")
+        print("  (pass --exhaustive to search every subset instead)")
+        return 0
+
     count, positions, _ = measure(
-        root, variant, profile, args.name, address, size, env, symbols)
-    names = ", ".join(variable_name(d) for d, _ in inert)
+        root, drop_pins(source, inert), profile, args.name, address, size,
+        env, symbols)
+    names = ", ".join(label(i) for i in inert)
     if count == base_count and positions == base_set:
         verdict = "jointly inert - these pins are decoration and can be removed"
     else:
         verdict = ("JOINTLY LOAD-BEARING - the marginal arms are misleading; "
                    "keep them")
     print(f"  JOINT drop [{names}] -> {count}  {verdict}")
+    print("  (pass --exhaustive to search every subset; dropping two pins can "
+          "beat dropping either one)")
     return 0
 
 

@@ -100,6 +100,54 @@ Corroboration agrees without defining the shared type:
 - The old reference assembly and C repeat these accesses, but were treated
   only as a cross-check against the target and exact local build.
 
+## Stat computation and comparison
+
+Matching [`Duel_CalcCardStats`](../src/game/duel_calc_card_stats.c) uses
+signed halfword views of `attack`, `defense`, `stat_modifier`, and
+`terrain_modifier`. It independently clamps
+`attack + stat_modifier + terrain_modifier` and
+`defense + stat_modifier + terrain_modifier` to `0..9999`, packing ATK in
+the low halfword and DEF in the high halfword. The modifiers are summed
+before that clamp, not applied through separate saturation steps.
+
+[`Duel_CalcGuardianStarBonus`](../src/game/duel_calc_guardian_star_bonus.c)
+chooses each record's first or second packed star using
+`DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2`. For valid star IDs, the cycle helper
+returns `+500`, `-500`, or zero relative to the left record. A null right
+record returns zero without a matchup.
+
+The [battle-stat helpers](../src/game/duel_battle_stats.c) add that signed
+result to the selected left pre-matchup stat, then apply only an upper
+limit of `9999`. Matching
+[`func_8001EFD4`](../src/game/func_8001EFD4.c) compares that adjusted left
+value against the right pre-matchup ATK or DEF; each position flag chooses
+which stat its side contributes. It does not also apply a guardian
+adjustment to the right value.
+
+| Left pre-matchup value | Right pre-matchup value | Left guardian adjustment | Returned difference |
+|---:|---:|---:|---:|
+| `9999` | `9900` | `+500` | `99` |
+| `9999` | `9999` | `-500` | `-500` |
+| `100` | `0` | `-500` | `-400` |
+
+These are source-derived arithmetic examples, not new gameplay traces.
+The intermediate left value can be negative; these helpers do not write
+that value back into either record.
+
+With no right object, `func_8001EFD4` returns the left pre-matchup ATK
+without consulting its position or guardian matchup. With two objects,
+unequal values return their signed difference. Equal values return zero
+if either card is in defence position, or `-1` if both are in attack
+position. This is a return convention, not a claim that edited values
+could never produce an arithmetic difference of `-1`.
+
+The retail battle sequencer `func_8001F55C` calls the comparison at
+`0x8001FBFC`. Its negative-result path tests for a result below `-1` at
+`0x8001FD2C` before reaching the LP update at `0x8001FD5C`; a returned
+`-1` is not processed there as one point of LP damage. This corroborates
+a concrete consumer of the convention without auditing every trap,
+presentation, or outcome branch.
+
 ## Typed migration snapshot
 
 The following pure-C report users include `duel_card.h` and use its typed
