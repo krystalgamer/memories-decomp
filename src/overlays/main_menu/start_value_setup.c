@@ -2,6 +2,7 @@
 #include "../../game/display_object_api.h"
 #include "entrypoints.h"
 #include "value_setup.h"
+#include "../../game/display_object_helpers.h"
 
 extern u8 D_801AF800[];
 extern u8 *D_801845A0;
@@ -11,8 +12,6 @@ extern u8 D_801845BC[];
 extern u8 D_801845C0[];
 extern u8 *D_801845D8;
 extern void (*D_800E9DB0)(void);
-extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
-extern void func_800428EC(void *, s32);
 
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
