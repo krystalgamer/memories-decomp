@@ -2,10 +2,10 @@
 #include "../psyq/libapi.h"
 
 #include "sound.h"
+#include "sound_spatialization.h"
 
 extern int func_8004A0FC();
 extern int func_8004A27C();
-extern int func_8004A2F8();
 extern int func_8004ACE4();
 extern u8 *D_8009B458_bytes asm("D_8009B458");
 extern void SD_ProcessSequenceTracks(void);

@@ -2,6 +2,7 @@
 
 #define SDSECONDARYSTATE_CUSTOM_EXTERN
 #include "sound.h"
+#include "sound_spatialization.h"
 
 extern u8 *D_8009B458;
 
@@ -44,7 +45,7 @@ void func_8004A2F8(void)
     }
 }
 
-int func_8004A3BC(u8 *entry, int value)
+s32 func_8004A3BC(u8 *entry, s32 value)
 {
     u8 check = value;
     int result;
