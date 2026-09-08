@@ -1,11 +1,7 @@
 #include "../types.h"
 #include "sound.h"
 #include "display_object_helpers.h"
-
-typedef struct {
-    u16 x;
-    u16 y;
-} DuelFieldPosition;
+#include "duel_grid.h"
 
 typedef struct {
     u8 pad00[4];
