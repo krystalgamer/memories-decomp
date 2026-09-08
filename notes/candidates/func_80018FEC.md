@@ -85,6 +85,29 @@ retail leaves a *second* slot empty nearby, the `j` at `+0x1DC`, and the branch
 immediately before this one has its own slot filled with `andi $v0,$a1,0x2000` -
 the very instruction that computes this branch's condition.
 
+### The `beqz` slot: what is now ruled out, with a validated instrument
+
+The obstacle is that `reorg` fills this slot in every configuration reachable
+from the source, and retail does not. The searches below all use the same
+detector - GCC's own assembly showing the `beq` followed directly by a label
+rather than by an instruction - and that detector is validated against a
+positive control: the second-predecessor diagnostic *does* register as empty, so
+a zero result means the slot is filled rather than that the check is broken.
+
+| ruled out | how |
+| --- | --- |
+| the CFG | retail's block has one predecessor; no branch or jump in its 280 instructions targets `+0x1B8` |
+| liveness | `$v0` is dead at the branch target, which begins `lw $v0, 628($gp)` |
+| `volatile` on the tested global | two spellings, both 114; the `lui` is the address computation, not the volatile access |
+| branch-prediction shape | routing the arm's two `return`s through a shared exit label, and an `if`/`else` form that removes one of them, all 114 |
+| the compiler configuration | **all thirty GCC 2.8.1 profiles fill the slot**, including both `no_sched1` and `no_sched2` variants and every `-G`/split combination |
+
+The profile sweep is the useful one because it is mechanical rather than
+imaginative: whatever leaves that slot empty in retail, it is not a flag this
+project has, and it is not any of the four source-shape families above. The
+second-predecessor diagnostic remains the only thing measured that produces
+retail's shape, and retail demonstrably does not use it.
+
 Three shapes that do **not** change it, all 280/280 and 114:
 
 | shape | result |
