@@ -4,7 +4,7 @@
       "address": "0x80168004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
-      "source": "src/overlays/overworld/teardown.c"
+      "source": "src/overlays/overworld/location_objects.c"
     },
     {
       "address": "0x80168050",
