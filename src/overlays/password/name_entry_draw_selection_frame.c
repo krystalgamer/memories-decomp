@@ -16,7 +16,7 @@ typedef struct {
 
 extern void func_8005B260(u32 *, GsOT *, s32, s32);
 
-void func_801681A0(Record *r, GsOT *ot)
+void NameEntry_DrawSelectionFrame(Record *r, GsOT *ot)
 {
     LINE_F3 *poly;
     LINE_G2 *line;

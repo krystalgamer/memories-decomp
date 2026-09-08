@@ -629,7 +629,7 @@ semi-transparency flag. It then links the packet through
 ordering-table member, and 24-bit link macros fit this resident path without a
 parallel local packet or ordering-table declaration.
 
-The name-entry frame callback `func_801681A0` in the password overlay now
+The password overlay's `NameEntry_DrawSelectionFrame` (`0x801681A0`) now
 uses `LINE_F3` and `LINE_G2` from that same header. Its former offsets match
 the SDK fields directly: `LINE_F3` has three halfword coordinate pairs at
 `+8`, `+12`, and `+16`, followed by the terminator at `+20`; `LINE_G2` has

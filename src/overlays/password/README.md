@@ -33,9 +33,16 @@ this module to the resident `config/slus_01411/matching_c.json`.
 
 ## Name-entry selection-frame packets
 
-`NameEntry_Init` installs `func_801681A0` as the frame's draw callback. The
-matching routine uses the actual Psy-Q line records rather than byte-offset
-views of its scratchpad packets:
+`NameEntry_Init` installs
+[`NameEntry_DrawSelectionFrame`](name_entry_draw_selection_frame.c)
+(`0x801681A0`) at callback offset `+0x4C` of the selection cursor stored in
+`D_8016D404`. The initializer sets its position to `(22, 24)` and its
+dimensions to `16 x 16`; keyboard movement later updates that cursor's
+position and width. This establishes a name-entry selection-frame role,
+not a general password-screen or input handler.
+
+The matching drawing routine uses the actual Psy-Q line records rather than
+byte-offset views of its scratchpad packets:
 
 | Scratchpad address | SDK record | Source payload words | Use |
 |---|---|---:|---|
