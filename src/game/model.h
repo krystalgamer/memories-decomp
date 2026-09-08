@@ -111,6 +111,39 @@ typedef struct {
     s32 key;
 } ModelHandlerRegistryEntry;
 
+/* The camera move record at D_800F2B20. One leg per point the move drives --
+ * the eye and the target -- and the two are laid out identically, which is
+ * what makes the two halves of func_80052D2C's setup literal copies of each
+ * other. `slot` is the model slot the end point is read from and `pair_slot`
+ * is the other slot of the pair; both are -1 when the point is not
+ * slot-driven. */
+typedef struct {
+    s16 start_x;
+    s16 start_y;
+    s16 start_z;
+    s16 pair_slot;
+    s16 end_x;
+    s16 end_y;
+    s16 end_z;
+    s16 slot;
+} ModelCameraLeg;
+
+/* `flags` bit 0 marks the eye as slot-driven and bit 1 the target;
+ * `duration` is twice the absolute duration the caller asked for, clamped to
+ * 0xFFFF. field_02, field_04 and field_06 are the easing counters
+ * func_80052694 walks. */
+typedef struct {
+    u8 mode;
+    u8 flags;
+    u16 field_02;
+    u16 field_04;
+    u16 field_06;
+    u16 elapsed;
+    u16 duration;
+    ModelCameraLeg eye;
+    ModelCameraLeg target;
+} ModelCameraMove;
+
 typedef char ModelSlotHeadEntry_size_must_be_0x8[
     sizeof(ModelSlotHeadEntry) == 0x8 ? 1 : -1
 ];
@@ -233,10 +266,39 @@ typedef char ModelHandlerRegistryEntry_key_offset_must_be_0x4[
     MODEL_OFFSET(ModelHandlerRegistryEntry, key) == 0x4 ? 1 : -1
 ];
 
+typedef char ModelCameraLeg_size_must_be_0x10[
+    sizeof(ModelCameraLeg) == 0x10 ? 1 : -1
+];
+typedef char ModelCameraLeg_pair_slot_offset_must_be_0x6[
+    MODEL_OFFSET(ModelCameraLeg, pair_slot) == 0x6 ? 1 : -1
+];
+typedef char ModelCameraLeg_end_x_offset_must_be_0x8[
+    MODEL_OFFSET(ModelCameraLeg, end_x) == 0x8 ? 1 : -1
+];
+typedef char ModelCameraLeg_slot_offset_must_be_0xE[
+    MODEL_OFFSET(ModelCameraLeg, slot) == 0xE ? 1 : -1
+];
+
+typedef char ModelCameraMove_size_must_be_0x2C[
+    sizeof(ModelCameraMove) == 0x2C ? 1 : -1
+];
+typedef char ModelCameraMove_duration_offset_must_be_0xA[
+    MODEL_OFFSET(ModelCameraMove, duration) == 0xA ? 1 : -1
+];
+typedef char ModelCameraMove_eye_offset_must_be_0xC[
+    MODEL_OFFSET(ModelCameraMove, eye) == 0xC ? 1 : -1
+];
+typedef char ModelCameraMove_target_offset_must_be_0x1C[
+    MODEL_OFFSET(ModelCameraMove, target) == 0x1C ? 1 : -1
+];
+
 #undef MODEL_OFFSET
 
 #ifndef MODEL_SLOT_CUSTOM_EXTERN
 extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
+#endif
+#ifndef MODEL_CAMERA_MOVE_CUSTOM_EXTERN
+extern ModelCameraMove D_800F2B20;
 #endif
 #ifndef MODEL_HANDLER_REGISTRY_CUSTOM_EXTERN
 extern ModelHandlerRegistryEntry
