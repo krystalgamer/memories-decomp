@@ -3,21 +3,13 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 
-typedef struct {
-    int first;
-    int second;
-    short third;
-    short fourth;
-    u8 padC[12];
-} Packet;
-
 extern void func_80049594(s32);
 extern void func_80049600(s32);
 extern void func_80049544(void);
 
 void func_80048F14(void)
 {
-    Packet packet;
+    SpuReverbAttr packet;
     /* Pinned: the first g_SDValue load's delay slot is what decides this
        function. Unpinned, GCC fills it with the 0xFF constant, which extends
        that value's live range across the three stores and pushes this pointer
@@ -34,11 +26,11 @@ void func_80048F14(void)
 
     SpuReserveReverbWorkArea(SPU_ON);
     SpuSetReverb(SPU_ON);
-    packet.first = SPU_REV_MODE | SPU_REV_DEPTHL | SPU_REV_DEPTHR;
-    packet.second = SPU_REV_MODE_STUDIO_A;
-    packet.third = 0x7FFF;
-    packet.fourth = 0x7FFF;
-    SpuSetReverbModeParam((SpuReverbAttr *)&packet);
+    packet.mask = SPU_REV_MODE | SPU_REV_DEPTHL | SPU_REV_DEPTHR;
+    packet.mode = SPU_REV_MODE_STUDIO_A;
+    packet.depth.left = 0x7FFF;
+    packet.depth.right = 0x7FFF;
+    SpuSetReverbModeParam(&packet);
     a = g_SDValue;
     a->field_1586 = 0;
     a->field_1588 = 0;
