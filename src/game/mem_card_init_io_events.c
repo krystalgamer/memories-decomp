@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libapi.h"
+#include "mem_card_io_result_callbacks.h"
 
 extern signed char D_8009B43E;
 extern u8 D_8009B44E;
@@ -8,10 +9,6 @@ extern volatile int gMemCard_nIOResult;
 extern long gMemCard_aIOEventHandles[];
 extern long D_800F2AF0[];
 extern void func_80043D48(long *);
-extern long MemCard_SetIOResultCompleteCB(void);
-extern long MemCard_SetIOResultTimeoutCB(void);
-extern long MemCard_SetIOResultErrorCB(void);
-extern long MemCard_SetIOResultNewCardCB(void);
 
 void MemCard_InitIOEvents(void)
 {

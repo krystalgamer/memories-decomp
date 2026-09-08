@@ -1,10 +1,6 @@
 #include "../../types.h"
+#include "../../ygo_types.h"
 #include "../../psyq/rand.h"
-
-typedef struct {
-    s16 id;
-    u16 count;
-} MainMenuSortEntry;
 
 extern s16 D_801D4D8E[];
 
@@ -58,7 +54,7 @@ s32 MainMenu_CompareCardsByName(s16 *a, s16 *b)
     return result;
 }
 
-s32 MainMenu_CompareCardsByCount(MainMenuSortEntry *a, MainMenuSortEntry *b)
+s32 MainMenu_CompareCardsByCount(CardCountEntry *a, CardCountEntry *b)
 {
     s32 result;
     s32 idA;
