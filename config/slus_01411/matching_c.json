@@ -2942,7 +2942,7 @@
     },
     {
       "address": "0x8003A560",
-      "profile": "gcc_2_8_1_cc_g8_as_g1_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C0",
       "source": "src/game/func_8003A560.c"
     },
