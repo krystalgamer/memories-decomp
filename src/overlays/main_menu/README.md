@@ -161,6 +161,22 @@ module's symbol file beside `gMain_bMenuID` and recorded in
 The password module sets the precedent: `gPassword_abDigits` is named the same
 way, in its own module file.
 
+## Native background packet layouts
+
+`func_80180B4C` builds its background layers with Psy-Q `POLY_F4`,
+`POLY_FT4`, and `POLY_G4` records. Their payload lengths are 5, 9, and 8
+words, excluding the tag; `setPolyF4`, `setPolyFT4`, and `setPolyG4` supply
+the corresponding packet headers. `func_80184454` uses the same native
+`POLY_F4` record for its column-sized quad.
+
+The background's screen-coordinate limits use the documented default
+`320 x 240` dimensions. Its `getClut(0, 244)` spelling identifies the same
+palette row previously packed as `0x3D00`; see the
+[tutorial-backed palette evidence](../../../notes/modding-tutorial-evidence.md).
+Texture UV limits and the other geometry values are not reinterpreted as
+screen constants. Submission order, colors, flags and local value lifetimes
+retain the matching behavior.
+
 ## The card type icon
 
 `func_80184344` draws the small 16 by 16 marker for a card. It reads the

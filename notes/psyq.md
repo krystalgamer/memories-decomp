@@ -606,7 +606,13 @@ migrations include `duel_setup_card_record.c`, `func_800289BC.c`,
 `file_cd_helpers.c`, `func_800582C0.c`, and
 `model_handler_registry.c`. The main-menu value-bar renderer
 `starchip_bars.c` uses native `POLY_G4` and `POLY_GT4` stack records plus
-`setlen`, replacing duplicate local packet layouts. `FreeDuel_Init` likewise
+`setlen`, replacing duplicate local packet layouts. The main-menu background
+builder `func_80180B4C` uses native `POLY_F4`, `POLY_FT4`, and `POLY_G4`
+records and their constructor macros; `func_80184454` uses `POLY_F4`.
+These replace the local flat/textured/Gouraud record copies without changing
+their submitted fields or packet order. The background's CLUT is expressed
+as `getClut(0, 244)`, matching the independently documented `0x3D00` packing.
+`FreeDuel_Init` likewise
 uses `RECT`, `IsIdleGPU`, and `LoadImage2` directly for its portrait and CLUT
 uploads instead of parallel local declarations. Confirmed camera, lighting,
 object, packet, and sorting paths also use `libgs.h`, including

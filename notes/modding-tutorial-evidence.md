@@ -437,8 +437,11 @@ SHA-256: 5b59103a270882b261ff9c13ba68060a90b3b01f9b5475da50af11dc5908ba19
 
 The matching main-menu overlay identifies one direct consumer.
 `func_8018001C` installs `func_80180B4C` in callback slot `D_800E9DB0`. That
-function assigns CLUT value `0x3D00` to textured quads that tile the complete
-`320 x 240` screen before a full-screen Gouraud shade. Psy-Q's
+function assigns CLUT value `0x3D00`, now written as `getClut(0, 244)`, to
+native `POLY_FT4` packets that tile the complete `320 x 240` screen before a
+full-screen `POLY_G4` shade. The screen-coordinate uses retain the existing
+`GRAPHICS_DEFAULT_WIDTH` and `GRAPHICS_DEFAULT_HEIGHT` meanings; texture UV
+limits remain separate. Psy-Q's
 `getClut(x, y)` packing decodes `0x3D00` as `(0, 244)`, so VRAM row `244`—the
 fifth populated row, stored at `SU.MRG+0x30800`—is the full-screen menu
 background palette.
