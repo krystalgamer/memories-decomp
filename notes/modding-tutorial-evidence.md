@@ -1148,12 +1148,14 @@ map to resident addresses `0x8009AF24`-`0x8009AF29`:
 | `0x8B728` | `0x8009AF28` | `30` | `3000` | Acid Trap Hole (`685`) |
 | `0x8B729` | `0x8009AF29` | `255` | `25500` | Widespread Ruin (`686`) |
 
-The trap-selection path in `func_8001F0D0` scans indices `5` through `0`.
-For each available trap it loads the corresponding byte from
-`gDuel_abTrapAttackThresholds`, multiplies it by 100 using shifts and
-additions, and compares that product with the attacking monster's calculated
-ATK. The comparison accepts equal values, matching the documented "ATK less
-than or equal to" effects.
+The matching trap-selection path in
+[`func_8001F0D0`](../src/game/duel_trap_resolution.c) sizes the table with
+`DUEL_ATTACK_TRAP_COUNT` and scans from
+`DUEL_ATTACK_TRAP_COUNT - 1` through zero. For each available trap it loads
+the corresponding byte from `gDuel_abTrapAttackThresholds`, multiplies it by
+`DUEL_ATTACK_TRAP_THRESHOLD_SCALE` (100), and compares that product with the
+attacking monster's calculated ATK. The comparison accepts equal values,
+matching the documented "ATK less than or equal to" effects.
 
 The descending scan does not give the broadest trap priority. Every available
 trap whose threshold still covers the attack replaces the current selection,
@@ -1168,9 +1170,10 @@ with a smaller threshold terminates the scan first. Keeping thresholds
 nondecreasing from card IDs `681` through `686` preserves the retail
 selection model.
 
-After selecting an index, the function adds `0x2A9` (decimal `681`) to
-produce the trap card ID. This independently fixes the table order to the
-first six trap cards. The retail value `255` gives Widespread Ruin an
+After selecting an index, the function adds
+`DUEL_ATTACK_TRAP_FIRST_CARD_ID` (681) to produce the trap card ID. Together
+with `DUEL_ATTACK_TRAP_COUNT` (6), this independently fixes the table order to
+the first six trap cards. The retail value `255` gives Widespread Ruin an
 effective `25500` threshold, which is why it behaves as the unrestricted
 attack-trigger trap under normal duel stats.
 
@@ -1183,10 +1186,12 @@ Values above `25500` cannot be represented by this one-byte table.
 
 - **Confirmed** that `0x8B724`-`0x8B729` are the six threshold bytes consumed
   by `func_8001F0D0`.
-- **Confirmed** that each value is multiplied by 100 and compared inclusively
-  with calculated ATK.
-- **Confirmed** that indices `0`-`5` map to card IDs `681`-`686` in the trap
-  order shown above.
+- **Confirmed** that each value is multiplied by
+  `DUEL_ATTACK_TRAP_THRESHOLD_SCALE` (100) and compared inclusively with
+  calculated ATK.
+- **Confirmed** that `DUEL_ATTACK_TRAP_FIRST_CARD_ID` and
+  `DUEL_ATTACK_TRAP_COUNT` map indices `0`-`5` to card IDs `681`-`686` in the
+  trap order shown above.
 - **Confirmed** that, with the retail table order, simultaneous qualifying
   traps are prioritized from the lowest sufficient threshold upward.
 
