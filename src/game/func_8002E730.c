@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "script_command_busy.h"
 #include "fade.h"
 #include "display_object_api.h"
 #include "../psyq/libgte.h"
@@ -34,7 +35,6 @@ extern s32 func_8004006C(void);
 extern void func_8002DF2C(void *, s32);
 extern void func_8002E00C(void *);
 extern void func_8002E128(void *, s32);
-extern s32 func_8002E3B4(void);
 extern struct Rec *func_80040510(
     s32, s32, s32, s32, s32, s32, s32, s32, s32, s32
 );

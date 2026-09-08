@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "script_command_busy.h"
 
 extern u16 D_8009B27C;
 

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "script_command_busy.h"
 #include "sound.h"
 #include "file_transfer.h"
 
@@ -8,8 +9,6 @@ extern s32 D_8009B404 __attribute__((section(".data")));
 extern s32 D_8009B134[];
 extern u16 D_8009B27C;
 extern u8 D_801A8000[];
-
-extern s32 func_8002E3B4(void);
 
 void Script_OpSound(void)
 {
