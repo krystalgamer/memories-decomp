@@ -46,14 +46,6 @@ typedef struct {
 } AiScriptState;
 
 typedef struct {
-    u8 pad00[20];
-    s16 life_points;
-    u8 pad16[3];
-    s8 pinned;
-    u8 pad1A[6];
-} AiDuelistState;
-
-typedef struct {
     u8 pad_00[9];
     s8 field_09;
     s8 field_0A;
@@ -117,9 +109,6 @@ typedef char AiScriptState_fusion_used_offset_must_be_0xAA[
     AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_used) ==
         AI_SCRIPT_FUSION_USED_BYTE_OFFSET ? 1 : -1
 ];
-typedef char AiDuelistState_size_must_be_0x20[
-    sizeof(AiDuelistState) == 0x20 ? 1 : -1
-];
 typedef char AiFieldCardState_size_must_be_0x0C[
     sizeof(AiFieldCardState) == 0x0C ? 1 : -1
 ];
@@ -129,6 +118,5 @@ typedef char AiFieldCardState_size_must_be_0x0C[
 extern s32 gAiScript_aMemory[AI_SCRIPT_MEMORY_COUNT];
 extern AiScriptHandler gAiScript_apfnCommand[];
 extern AiActiveCard gDuel_aActiveCards[];
-extern AiDuelistState D_800E9FF0[];
 
 #endif

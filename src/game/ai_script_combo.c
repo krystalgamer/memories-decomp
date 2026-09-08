@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "ai.h"
 #include "ai_script_read_byte.h"
 
@@ -10,7 +11,7 @@ void AiScript_TestPinned(void)
     s32 index = memory[AiScript_ReadByte()];
 
     memory[AiScript_ReadByte()] =
-        D_800E9FF0[(D_8009B1D5[0] ^ 1) ^ index].pinned != 0;
+        D_800E9FF0[(D_8009B1D5[0] ^ 1) ^ index].field_19 != 0;
 }
 
 void AiScript_StartCombo(void)

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "ai.h"
 #include "duel_card.h"
 #include "duel_selection_layout.h"
@@ -99,7 +100,7 @@ void func_80023144(FieldSource *source, s32 index)
         s32 *dst = D_801D5608;
 
         style += 4;
-        rank = D_800E9FF0[D_8009B1D5 ^ 1].pinned;
+        rank = D_800E9FF0[D_8009B1D5 ^ 1].field_19;
         dst[2] = rank;
         if (rank != 0) {
             if (rank < 0 || rank > 3) {
@@ -124,7 +125,7 @@ void func_80023144(FieldSource *source, s32 index)
             side = side ^ 1;
         }
         dst = D_801D5608;
-        rank = D_800E9FF0[side].pinned;
+        rank = D_800E9FF0[side].field_19;
         dst[2] = rank;
         if (rank != 0) {
             if (rank < 0 || rank > 3) {
