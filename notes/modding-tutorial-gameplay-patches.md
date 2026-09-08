@@ -606,14 +606,14 @@ initialized data:
 | Direct damage | `0x8B738-0x8B73C` | `0x8009AF38-0x8009AF3C` | `5, 10, 20, 50, 100` | `x10` |
 
 The two application handlers are contiguous in matching
-[`duel_life_point_effects.c`](../src/game/duel_life_point_effects.c), and
+[`duel_card_effects.c`](../src/game/duel_card_effects.c), and
 `DUEL_LIFE_POINT_EFFECT_COUNT` names their shared five-effect width. This
 relationship is therefore established by the accepted source layout as well
 as by the tutorials' parallel tables.
 
 The recovery table maps, in order, to Mooyan Curry, Red Medicine, Goblin's
 Secret Remedy, Soul of the Pure, and Dian Keto the Cure Master. Exact
-matching [`func_800250C8`](../src/game/duel_life_point_effects.c) subtracts
+matching [`func_800250C8`](../src/game/duel_card_effects.c) subtracts
 `DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID` (`338`) to obtain table indices
 `0`-`4`, indexes `gDuel_abLifePointRecoveryUnits`, and multiplies the selected
 byte by `DUEL_LIFE_POINT_RECOVERY_SCALE` (`100`). During presentation setup,
@@ -626,7 +626,7 @@ same amount and clamps it to zero.
 
 The damage table maps to Sparks, Hinotama, Final Flame, Ookazi, and
 Tremendous Fire. Exact matching
-[`func_8002525C`](../src/game/duel_life_point_effects.c) subtracts
+[`func_8002525C`](../src/game/duel_card_effects.c) subtracts
 `DUEL_DIRECT_DAMAGE_FIRST_CARD_ID` from the current card ID, loads that entry
 from `gDuel_abDirectDamageUnits`, and multiplies it by
 `DUEL_DIRECT_DAMAGE_SCALE` (`10`) before reducing the selected LP halfword at
