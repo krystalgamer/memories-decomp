@@ -1,5 +1,8 @@
 #include "../types.h"
 #include "script_command_busy.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "fade.h"
@@ -98,7 +101,7 @@ void func_8002F630(void) {
         q->field_28 = 0;
         q->field_40 = color;
         D_8009B280 = q;
-        q->flags |= 0x60000000;
+        q->flags |= (GsALON | GsATWO);
         Fade_StartIn();
         D_800E9ECF[0] = four;
         Fade_Wait();

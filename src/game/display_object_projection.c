@@ -139,7 +139,7 @@ s32 func_80041F90(struct ProjectionObj *obj, s32 arg1, s32 arg2, struct Projecti
     mtx->t[1] = 0;
     mtx->t[2] = 0x12C;
 
-    if (!(obj->field4 & 0x8000000)) {
+    if (!(obj->field4 & GsROTOFF)) {
         ((struct VecScale *)v308)->x = obj->field44;
         ((struct VecScale *)v308)->y = obj->field46;
         ((struct VecScale *)v308)->z = ONE;

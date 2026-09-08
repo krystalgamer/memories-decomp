@@ -6,6 +6,7 @@
 #include "../../game/graphics_frame.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/func_80039794.h"
 
@@ -198,7 +199,7 @@ done:
     gFreeDuel_pThumbWidget = (u8 *)obj;
     obj = FreeDuel_SpawnSparkle();
     gFreeDuel_pCursorWidget = (u8 *)obj;
-    obj->flags &= ~0x8000000;
+    obj->flags &= ~GsROTOFF;
     if (gFreeDuel_bReturnFlags == 0) {
         obj->attr &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         FreeDuel_PlaceCursor((u8 *)obj, 0);

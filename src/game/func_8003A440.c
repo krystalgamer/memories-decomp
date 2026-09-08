@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object_helpers.h"
 
 void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
@@ -13,8 +16,8 @@ void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
             c = (s8)arg2;
             e = arg0[i];
             if (e != 0) {
-                *(u32 *)(e + 4) = *(u32 *)(e + 4) & 0x8FFFFFFF;
-                *(u32 *)(e + 4) = *(u32 *)(e + 4) | 0x40000000;
+                *(u32 *)(e + 4) = *(u32 *)(e + 4) & ~(GsALON | GsATWO | GsAONE);
+                *(u32 *)(e + 4) = *(u32 *)(e + 4) | GsALON;
                 func_800428EC(e, c);
                 *(u32 *)(e + 0xC) = 0x808080;
                 *(u16 *)(e + 0x42) -= 1;
@@ -25,9 +28,9 @@ void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
             e = arg0[i];
             if (e != 0) {
                 w = (u32 *)(e + 4);
-                *w = (*(u32 *)(e + 4) & 0x8FFFFFFF) | arg1;
+                *w = (*(u32 *)(e + 4) & ~(GsALON | GsATWO | GsAONE)) | arg1;
                 func_800428EC(e, (s8)arg2);
-                if (arg1 == 0x60000000) {
+                if (arg1 == (GsALON | GsATWO)) {
                     *(u16 *)(e + 0x42) = 0xFD;
                 } else {
                     *(u16 *)(e + 0x42) += 1;

@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object_api.h"
 #include "input.h"
 #include "sound.h"
@@ -34,7 +37,7 @@ void Dialog_UpdateChoice(u8 *p) {
         *(s32 *)(e + 0x44) = 0xC000;
         *(s32 *)(e + 0x3C) = 0xC000;
         *(s32 *)(e + 0x24) = (s32)Widget_UpdatePulseColour;
-        *(s32 *)(e + 4) = *(s32 *)(e + 4) | 0x50000000;
+        *(s32 *)(e + 4) = *(s32 *)(e + 4) | (GsALON | GsAONE);
         Dialog_HighlightChoice(p);
     }
 

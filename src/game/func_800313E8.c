@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "sound.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
@@ -11,7 +14,7 @@ void func_800313E8(u8 *p) {
     if (func_80042B98(p) == 0) {
         *(s32 *)(p + 0x44) = 0;
         *(s16 *)(p + 0x60) = 0;
-        *(s32 *)(p + 4) = *(s32 *)(p + 4) & 0xF7FFFFFF;
+        *(s32 *)(p + 4) = *(s32 *)(p + 4) & ~GsROTOFF;
         p[0x6C] = p[0x6C] | 0x40;
         SD_SEPlayFull(0xA);
     }

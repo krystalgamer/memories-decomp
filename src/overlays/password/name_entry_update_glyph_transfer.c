@@ -1,4 +1,7 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 #include "../../game/display_object_api.h"
 #include "name_entry_keyboard.h"
 
@@ -41,7 +44,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
         *(u32 *)(o + 0x0C) = 0x606060;
         *(s16 *)(o + 0x60) = 6;
         *(void **)(o + 0x24) = func_80042BC0;
-        *(u32 *)(o + 4) |= 0x50000000;
+        *(u32 *)(o + 4) |= (GsALON | GsAONE);
         return;
     }
     w[0x6C] |= 0x40;

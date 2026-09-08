@@ -2,6 +2,7 @@
 #include "display_object_api.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "file_transfer.h"
 #include "display_object_helpers.h"
 
@@ -125,7 +126,7 @@ void func_8002E060(u8 *owner, s32 size, s32 mode)
     owner[0x10] = 1;
     if (mode == 2) {
         *(s16 *)(owner + 4) = 1;
-        *(u32 *)(object + 4) |= 0x50000000;
+        *(u32 *)(object + 4) |= (GsALON | GsAONE);
     } else {
         *(s16 *)(owner + 4) = 0;
         *(u32 *)(object + 4) |= 0x01000000;

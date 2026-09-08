@@ -1,4 +1,7 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 #include "name_entry_keyboard.h"
 #include "../../game/display_object_api.h"
 
@@ -35,7 +38,7 @@ void NameEntry_UpdateGlyphPulse(u8 *sprite)
             source->x_0C = 0x400;
         }
         obj->frame = 0;
-        obj->flags &= ~0x08000000;
+        obj->flags &= ~GsROTOFF;
     }
     value = obj->frame;
     if (value >= 12) {

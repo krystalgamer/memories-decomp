@@ -1,4 +1,7 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 #include "../../game/display_object_api.h"
 #include "name_entry_keyboard.h"
 #include "../../game/save_data.h"
@@ -155,7 +158,7 @@ void NameEntry_Init(void)
     func_80040510(obj, 107, 199, 32, 32, 144, 128, 23, 256, 240);
     *(s16 *)(obj + 0x4A) = 13;
     *(s16 *)(obj + 0x48) = 13;
-    *(s32 *)(obj + 4) = *(s32 *)(obj + 4) | 0x40000000;
+    *(s32 *)(obj + 4) = *(s32 *)(obj + 4) | GsALON;
     func_80042918(obj);
     func_800428EC(obj, 10);
     D_8016D43C = obj;

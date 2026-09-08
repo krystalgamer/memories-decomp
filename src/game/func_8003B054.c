@@ -1,6 +1,9 @@
 #define D_8009B0D8_IS_HALFWORD
 #include "../types.h"
 #include "graphics_frame.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 
@@ -38,11 +41,11 @@ void func_8003B054(u8 *p)
             *(u8 **)p = o;
             *(u16 *)(o + 0x60) = 0x14;
         }
-        *(u32 *)(o + 4) = (*(u32 *)(o + 4) | 0x50000000) & 0xF7FFFFFF;
+        *(u32 *)(o + 4) = (*(u32 *)(o + 4) | (GsALON | GsAONE)) & ~GsROTOFF;
         *(u16 *)(o + 0x4A) = 0;
         o2 = func_800400AC(func_8004002C(), 1);
         func_80040510(o2, *(s16 *)(o + 0x30), *(s16 *)(o + 0x32), 0x30, 0x30, o[0x5C], o[0x5D], 0xE, 0x200, 0xFD);
-        *(u32 *)(o2 + 4) = (*(u32 *)(o2 + 4) | 0x61000000) & 0xF7FFFFFF;
+        *(u32 *)(o2 + 4) = (*(u32 *)(o2 + 4) | 0x61000000) & ~GsROTOFF;
         *(u16 *)(o2 + 0x46) = *(u16 *)(o + 0x46);
         *(u16 *)(o2 + 0x4A) = 0;
         func_80042918(o2);
@@ -57,7 +60,7 @@ void func_8003B054(u8 *p)
         *(u16 *)(o + 0x60) -= D_8009B0D8;
     }
     if (*(s16 *)(o + 0x60) <= 0) {
-        *(u32 *)(o + 4) = (*(u32 *)(o + 4) & 0x8FFFFFFF) | 0x8000000;
+        *(u32 *)(o + 4) = (*(u32 *)(o + 4) & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;
         *(u32 *)(o + 0xC) = 0x808080;
         *(u16 *)(o + 0x46) = 0x1000;
         func_8004036C(o2);

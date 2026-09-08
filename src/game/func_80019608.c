@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "duel_card.h"
 #include "duel_side_state.h"
 #include "display_object_layout.h"
@@ -130,12 +133,12 @@ void func_80019608(void)
             D_8009B174 = state | 0x80;
             func_8001944C(p);
             D_800E9EF0[0] = func_80019564(p);
-            *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) | 0x50000000;
-            *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) & 0xF7FFFFFF;
+            *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) | (GsALON | GsAONE);
+            *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) & ~GsROTOFF;
             D_800E9EF0[1] = func_80019564(p);
             func_800428EC(D_800E9EF0[1], -1);
-            *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) | 0x60000000;
-            *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) & 0xF7FFFFFF;
+            *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) | (GsALON | GsATWO);
+            *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) & ~GsROTOFF;
             func_80029528(0);
             return;
         }

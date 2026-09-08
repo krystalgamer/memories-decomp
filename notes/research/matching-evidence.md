@@ -6428,3 +6428,39 @@ copies are a first-pass scheduling decision that source order cannot reach,
 because `rank_for_schedule` only falls back to original insn order when
 priority and dependence class tie. Same conclusion the `func_80045208` entry
 reaches about `-fno-schedule-insns2`.
+
+## When a local struct can be replaced by the Psy-Q type it copies
+
+Issue #16 asks for the SDK's runtime structures instead of redefined ones, and
+layout equality is not sufficient. The test is **whether anything writes two
+adjacent members as one word.**
+
+- `fade_draw_overlay.c`'s `FadeBox` is `GsBOXF` field for field, and retail
+  writes the `0x04` and `0x08` words whole -- x together with y, w together
+  with h. Those are two separate members each, so the struct can become
+  `GsBOXF` and the cast moves to the two whole-word stores.
+- `func_80040588.c`'s `SpritePrim` is `GsSPRITE` field for field, but its
+  position and size words each span two `GsSPRITE` halves. There is no store
+  to cast, so the local struct has to keep its union-shaped members and the
+  swap is a codegen change, not a rename.
+
+Same symptom, opposite conclusion: check where the whole-word store lands
+before assuming a layout-identical struct is convertible.
+
+## The display object's `+0x4` word is a libgs attribute, and libgs.h names the bits
+
+`GsALON` (`1<<30`), `GsAONE` (`1<<28`), `GsATWO` (`2<<28`), `GsROTOFF`
+(`1<<27`), `GsPERS` (`1<<26`), `GsDOFF` (`1<<31`). So the composites the tree
+spelled as literals are `0x50000000` = `GsALON | GsAONE` (additive),
+`0x60000000` = `GsALON | GsATWO` (subtractive), `& 0x8FFFFFFF` =
+`& ~(GsALON | GsATWO | GsAONE)` (semi-transparency off) and `& 0xF7FFFFFF` =
+`& ~GsROTOFF` (rotation on). Swapping the literal for the macro is
+codegen-neutral across all five overlays and the resident build.
+
+Two cautions. `libgs.h` does not parse on its own: it needs `libgte.h` and
+`libgpu.h` ahead of it, in that order, and a file that already included one of
+them further down will fail if the new `libgs.h` include goes above it. And
+not every 32-bit write to a `+4` field is an attribute: `0x1000000` (bit 24)
+and `0x2000000` (bit 25) have no name in `libgs.h`, and
+`file_set_position_table.c`'s `*(s32 *)D_800E9DF0 = 0x8000000` is not a
+display object at all.

@@ -1,5 +1,8 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "input.h"
 #include "duel_effect.h"
 #include "display_object_api.h"
@@ -60,7 +63,7 @@ void Main_RunTrade(void)
         obj = func_800400AC(func_8004002C(), 2);
         func_800404CC(obj, 0, 0, 0, 4, 0xB, 0xC, 0x208);
         obj->field08 = obj->field08 | 0x20;
-        obj->field04 = obj->field04 | 0x40000000;
+        obj->field04 = obj->field04 | GsALON;
         func_80042918(obj);
         func_800428EC(obj, 0xF);
         gTradeObj = obj;

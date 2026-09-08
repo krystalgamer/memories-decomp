@@ -1,5 +1,8 @@
 #include "../types.h"
 #include "graphics_frame.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 extern s32 func_80039F1C(u8 *);
 extern void func_8003A440(u8 **, u32, s32);
@@ -24,10 +27,10 @@ void func_8003AC48(u8 *p)
         h = *(u8 **)p;
         x = *(s8 *)(h + 0x16);
         y = h[0x67];
-        func_8003A440((u8 **)p, 0x50000000, x);
+        func_8003A440((u8 **)p, (GsALON | GsAONE), x);
         d = p + 0xC;
         func_8003A1EC(p, d, y);
-        func_8003A440((u8 **)d, 0x60000000, x - 1);
+        func_8003A440((u8 **)d, (GsALON | GsATWO), x - 1);
         *(s16 *)(p + 0x40) = 0x80;
     }
 

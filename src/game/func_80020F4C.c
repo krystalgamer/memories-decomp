@@ -1,5 +1,8 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "input.h"
 #include "rand_get_interval.h"
 #include "display_object_api.h"
@@ -205,7 +208,7 @@ void func_80020F4C(void)
                         obj->unk40 += 0x10;
                     }
                     obj->unk8 |= 0x28;
-                    obj->unk4 |= 0x50000000;
+                    obj->unk4 |= (GsALON | GsAONE);
                     obj->unk48 = spec->tag;
                     obj->unk4A = 0x18;
                     func_80042918(obj);
