@@ -407,8 +407,8 @@ address,size,name,status,module,notes
 0x80033CA8,0x1C,func_80033CA8,matching_c,game,First -O2 -G8 mixed GPREL/absolute-store candidate matched.
 0x80033CC4,0x34,func_80033CC4,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80033CF8,0xB8,func_80033CF8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80033DB0,0xA80,func_80033DB0,handwritten_asm,game,
-0x80034830,0xD68,func_80034830,handwritten_asm,game,
+0x80033DB0,0xA80,func_80033DB0,unmatched_asm,game,Reviewed #2390: conventional 0x50 stack frame and O32 saves; RTPS/NCDS/NCLIP plus exact Psy-Q gte_stflg and gte_stszotz instruction shapes. No independent handwritten evidence; not a C match. See notes/function-map.md.
+0x80034830,0xD68,func_80034830,unmatched_asm,game,Reviewed #2390: conventional 0x58 stack frame and O32 saves; RTPS/NCDS/NCLIP plus exact Psy-Q gte_stflg and gte_stszotz instruction shapes. No independent handwritten evidence; not a C match. See notes/function-map.md.
 0x80035598,0x30,func_80035598,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800355C8,0xA0,func_800355C8,matching_c,game,"Sorts pending eight-byte entries, rebuilds their inverse index links, and resets the append pointer."
 0x80035668,0x18,func_80035668,matching_c,game,First -O2 -G8 constant/global-store candidate matched.
@@ -1050,67 +1050,67 @@ address,size,name,status,module,notes
 0x80061008,0xD8,func_80061008,matching_c,game,Recovered two-record constructor loop with exact linked bytes; two nonvolatile literal clears preserve retail assembler-temporary materialization.
 0x800610E0,0xF0,func_800610E0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800611D0,0xF0,func_800611D0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
-0x800612C0,0x25C,func_800612C0,handwritten_asm,game,
-0x8006151C,0x2C4,func_8006151C,handwritten_asm,game,
-0x800617E0,0x2A4,func_800617E0,handwritten_asm,game,
-0x80061A84,0x358,func_80061A84,handwritten_asm,game,
-0x80061DDC,0x27C,func_80061DDC,handwritten_asm,game,
-0x80062058,0x2E4,func_80062058,handwritten_asm,game,
-0x8006233C,0x2C4,func_8006233C,handwritten_asm,game,
-0x80062600,0x378,func_80062600,handwritten_asm,game,
-0x80062978,0x248,func_80062978,handwritten_asm,game,
-0x80062BC0,0x2B0,func_80062BC0,handwritten_asm,game,
-0x80062E70,0x290,func_80062E70,handwritten_asm,game,
-0x80063100,0x344,func_80063100,handwritten_asm,game,
-0x80063444,0x268,func_80063444,handwritten_asm,game,
-0x800636AC,0x2D0,func_800636AC,handwritten_asm,game,
-0x8006397C,0x2B0,func_8006397C,handwritten_asm,game,
-0x80063C2C,0x364,func_80063C2C,handwritten_asm,game,
-0x80063F90,0x2B8,func_80063F90,handwritten_asm,game,
-0x80064248,0x320,func_80064248,handwritten_asm,game,
-0x80064568,0x300,func_80064568,handwritten_asm,game,
-0x80064868,0x3B4,func_80064868,handwritten_asm,game,
-0x80064C1C,0x2D8,func_80064C1C,handwritten_asm,game,
-0x80064EF4,0x340,func_80064EF4,handwritten_asm,game,
-0x80065234,0x320,func_80065234,handwritten_asm,game,
-0x80065554,0x3D4,func_80065554,handwritten_asm,game,
-0x80065928,0x2A4,func_80065928,handwritten_asm,game,
-0x80065BCC,0x30C,func_80065BCC,handwritten_asm,game,
-0x80065ED8,0x2EC,func_80065ED8,handwritten_asm,game,
-0x800661C4,0x3A0,func_800661C4,handwritten_asm,game,
-0x80066564,0x2C4,func_80066564,handwritten_asm,game,
-0x80066828,0x32C,func_80066828,handwritten_asm,game,
-0x80066B54,0x30C,func_80066B54,handwritten_asm,game,
-0x80066E60,0x3C0,func_80066E60,handwritten_asm,game,
-0x80067220,0x134,func_80067220,handwritten_asm,game,
-0x80067354,0x248,func_80067354,handwritten_asm,game,
-0x8006759C,0x2BC,func_8006759C,handwritten_asm,game,
-0x80067858,0x264,func_80067858,handwritten_asm,game,
-0x80067ABC,0x2D8,func_80067ABC,handwritten_asm,game,
-0x80067D94,0x23C,func_80067D94,handwritten_asm,game,
-0x80067FD0,0x28C,func_80067FD0,handwritten_asm,game,
-0x8006825C,0x258,func_8006825C,handwritten_asm,game,
-0x800684B4,0x2A8,func_800684B4,handwritten_asm,game,
-0x8006875C,0x2A4,func_8006875C,handwritten_asm,game,
-0x80068A00,0x318,func_80068A00,handwritten_asm,game,
-0x80068D18,0x2C0,func_80068D18,handwritten_asm,game,
-0x80068FD8,0x334,func_80068FD8,handwritten_asm,game,
-0x8006930C,0x298,func_8006930C,handwritten_asm,game,
-0x800695A4,0x2E8,func_800695A4,handwritten_asm,game,
-0x8006988C,0x2B4,func_8006988C,handwritten_asm,game,
-0x80069B40,0x304,func_80069B40,handwritten_asm,game,
-0x80069E44,0x150,func_80069E44,handwritten_asm,game,
-0x80069F94,0x154,func_80069F94,handwritten_asm,game,
-0x8006A0E8,0x180,func_8006A0E8,handwritten_asm,game,
-0x8006A268,0x188,func_8006A268,handwritten_asm,game,
-0x8006A3F0,0x150,func_8006A3F0,handwritten_asm,game,
-0x8006A540,0x154,func_8006A540,handwritten_asm,game,
-0x8006A694,0x180,func_8006A694,handwritten_asm,game,
-0x8006A814,0x188,func_8006A814,handwritten_asm,game,
-0x8006A99C,0x160,func_8006A99C,handwritten_asm,game,
-0x8006AAFC,0x18C,func_8006AAFC,handwritten_asm,game,
-0x8006AC88,0x160,func_8006AC88,handwritten_asm,game,
-0x8006ADE8,0x18C,func_8006ADE8,handwritten_asm,game,
+0x800612C0,0x25C,func_800612C0,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x800612D8..0x800612EC, restores 0x800614EC..0x80061500; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006151C,0x2C4,func_8006151C,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x80061534..0x80061548, restores 0x800617B0..0x800617C4; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x800617E0,0x2A4,func_800617E0,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x800617F8..0x8006180C, restores 0x80061A54..0x80061A68; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80061A84,0x358,func_80061A84,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x80061A9C..0x80061AB0, restores 0x80061DAC..0x80061DC0; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80061DDC,0x27C,func_80061DDC,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x80061DF4..0x80061E10, restores 0x80062020..0x8006203C; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80062058,0x2E4,func_80062058,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x80062070..0x8006208C, restores 0x80062304..0x80062320; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006233C,0x2C4,func_8006233C,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x80062354..0x80062370, restores 0x800625C8..0x800625E4; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80062600,0x378,func_80062600,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x80062618..0x80062634, restores 0x80062940..0x8006295C; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80062978,0x248,func_80062978,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x80062990..0x800629A4, restores 0x80062B90..0x80062BA4; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80062BC0,0x2B0,func_80062BC0,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x80062BD8..0x80062BEC, restores 0x80062E40..0x80062E54; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80062E70,0x290,func_80062E70,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x80062E88..0x80062E9C, restores 0x800630D0..0x800630E4; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80063100,0x344,func_80063100,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x80063118..0x8006312C, restores 0x80063414..0x80063428; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80063444,0x268,func_80063444,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x8006345C..0x80063478, restores 0x80063674..0x80063690; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x800636AC,0x2D0,func_800636AC,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x800636C4..0x800636E0, restores 0x80063944..0x80063960; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006397C,0x2B0,func_8006397C,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x80063994..0x800639B0, restores 0x80063BF4..0x80063C10; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80063C2C,0x364,func_80063C2C,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x80063C44..0x80063C60, restores 0x80063F58..0x80063F74; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80063F90,0x2B8,func_80063F90,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x80063FA8..0x80063FBC, restores 0x80064218..0x8006422C; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80064248,0x320,func_80064248,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x80064260..0x80064274, restores 0x80064538..0x8006454C; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80064568,0x300,func_80064568,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x80064580..0x80064594, restores 0x80064838..0x8006484C; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80064868,0x3B4,func_80064868,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x80064880..0x80064894, restores 0x80064BEC..0x80064C00; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80064C1C,0x2D8,func_80064C1C,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x80064C34..0x80064C50, restores 0x80064EBC..0x80064ED8; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80064EF4,0x340,func_80064EF4,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x80064F0C..0x80064F28, restores 0x800651FC..0x80065218; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80065234,0x320,func_80065234,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x8006524C..0x80065268, restores 0x8006551C..0x80065538; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80065554,0x3D4,func_80065554,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x8006556C..0x80065588, restores 0x800658F0..0x8006590C; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80065928,0x2A4,func_80065928,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x80065940..0x80065954, restores 0x80065B9C..0x80065BB0; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80065BCC,0x30C,func_80065BCC,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x80065BE4..0x80065BF8, restores 0x80065EA8..0x80065EBC; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80065ED8,0x2EC,func_80065ED8,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x80065EF0..0x80065F04, restores 0x80066194..0x800661A8; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x800661C4,0x3A0,func_800661C4,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s6/s7 preservation in caller-object word slots a0+0x20..0x34; saves 0x800661DC..0x800661F0, restores 0x80066534..0x80066548; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80066564,0x2C4,func_80066564,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x8006657C..0x80066598, restores 0x800667F0..0x8006680C; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80066828,0x32C,func_80066828,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x80066840..0x8006685C, restores 0x80066B1C..0x80066B38; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80066B54,0x30C,func_80066B54,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x80066B6C..0x80066B88, restores 0x80066E28..0x80066E44; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80066E60,0x3C0,func_80066E60,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5/s6/s7 preservation in caller-object word slots a0+0x20..0x3C; saves 0x80066E78..0x80066E94, restores 0x800671E8..0x80067204; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80067220,0x134,func_80067220,unmatched_asm,game,Reviewed #2390: unresolved leaf; no incoming callee-register save contract. Two buffered mtc2 software pipelines and IR0/SZ3 packing are not exact stock C-macro sequences; original source remains uncertain. Keep eligible as unmatched rather than claim proven handwriting. See notes/function-map.md.
+0x80067354,0x248,func_80067354,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3 preservation in caller-object word slots a0+0x28..0x34; saves 0x8006736C..0x80067378, restores 0x80067574..0x80067580; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006759C,0x2BC,func_8006759C,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3 preservation in caller-object word slots a0+0x28..0x34; saves 0x800675B4..0x800675C0, restores 0x80067830..0x8006783C; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80067858,0x264,func_80067858,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5 preservation in caller-object word slots a0+0x28..0x3C; saves 0x80067870..0x80067884, restores 0x80067A8C..0x80067AA0; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80067ABC,0x2D8,func_80067ABC,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5 preservation in caller-object word slots a0+0x28..0x3C; saves 0x80067AD4..0x80067AE8, restores 0x80067D64..0x80067D78; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80067D94,0x23C,func_80067D94,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3 preservation in caller-object word slots a0+0x28..0x34; saves 0x80067DAC..0x80067DB8, restores 0x80067FA8..0x80067FB4; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80067FD0,0x28C,func_80067FD0,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3 preservation in caller-object word slots a0+0x28..0x34; saves 0x80067FE8..0x80067FF4, restores 0x80068234..0x80068240; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006825C,0x258,func_8006825C,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5 preservation in caller-object word slots a0+0x28..0x3C; saves 0x80068274..0x80068288, restores 0x80068484..0x80068498; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x800684B4,0x2A8,func_800684B4,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5 preservation in caller-object word slots a0+0x28..0x3C; saves 0x800684CC..0x800684E0, restores 0x8006872C..0x80068740; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006875C,0x2A4,func_8006875C,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3 preservation in caller-object word slots a0+0x28..0x34; saves 0x80068774..0x80068780, restores 0x800689D8..0x800689E4; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80068A00,0x318,func_80068A00,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3 preservation in caller-object word slots a0+0x28..0x34; saves 0x80068A18..0x80068A24, restores 0x80068CF0..0x80068CFC; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80068D18,0x2C0,func_80068D18,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5 preservation in caller-object word slots a0+0x28..0x3C; saves 0x80068D30..0x80068D44, restores 0x80068FA8..0x80068FBC; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80068FD8,0x334,func_80068FD8,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5 preservation in caller-object word slots a0+0x28..0x3C; saves 0x80068FF0..0x80069004, restores 0x800692DC..0x800692F0; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006930C,0x298,func_8006930C,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3 preservation in caller-object word slots a0+0x28..0x34; saves 0x80069324..0x80069330, restores 0x8006957C..0x80069588; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x800695A4,0x2E8,func_800695A4,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3 preservation in caller-object word slots a0+0x28..0x34; saves 0x800695BC..0x800695C8, restores 0x80069864..0x80069870; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006988C,0x2B4,func_8006988C,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5 preservation in caller-object word slots a0+0x28..0x3C; saves 0x800698A4..0x800698B8, restores 0x80069B10..0x80069B24; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80069B40,0x304,func_80069B40,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2/s3/s4/s5 preservation in caller-object word slots a0+0x28..0x3C; saves 0x80069B58..0x80069B6C, restores 0x80069E14..0x80069E28; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80069E44,0x150,func_80069E44,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2 preservation in caller-object word slots a0+0x20..0x28; saves 0x80069E5C..0x80069E64, restores 0x80069F70..0x80069F78; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x80069F94,0x154,func_80069F94,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2 preservation in caller-object word slots a0+0x20..0x28; saves 0x80069FAC..0x80069FB4, restores 0x8006A0C4..0x8006A0CC; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006A0E8,0x180,func_8006A0E8,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2 preservation in caller-object word slots a0+0x20..0x28; saves 0x8006A100..0x8006A108, restores 0x8006A244..0x8006A24C; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006A268,0x188,func_8006A268,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2 preservation in caller-object word slots a0+0x20..0x28; saves 0x8006A280..0x8006A288, restores 0x8006A3CC..0x8006A3D4; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006A3F0,0x150,func_8006A3F0,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2 preservation in caller-object word slots a0+0x20..0x28; saves 0x8006A408..0x8006A410, restores 0x8006A51C..0x8006A524; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006A540,0x154,func_8006A540,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2 preservation in caller-object word slots a0+0x20..0x28; saves 0x8006A558..0x8006A560, restores 0x8006A670..0x8006A678; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006A694,0x180,func_8006A694,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2 preservation in caller-object word slots a0+0x20..0x28; saves 0x8006A6AC..0x8006A6B4, restores 0x8006A7F0..0x8006A7F8; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006A814,0x188,func_8006A814,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2 preservation in caller-object word slots a0+0x20..0x28; saves 0x8006A82C..0x8006A834, restores 0x8006A978..0x8006A980; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006A99C,0x160,func_8006A99C,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2 preservation in caller-object word slots a0+0x28..0x30; saves 0x8006A9B4..0x8006A9BC, restores 0x8006AAD8..0x8006AAE0; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006AAFC,0x18C,func_8006AAFC,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2 preservation in caller-object word slots a0+0x28..0x30; saves 0x8006AB14..0x8006AB1C, restores 0x8006AC64..0x8006AC6C; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006AC88,0x160,func_8006AC88,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2 preservation in caller-object word slots a0+0x28..0x30; saves 0x8006ACA0..0x8006ACA8, restores 0x8006ADC4..0x8006ADCC; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
+0x8006ADE8,0x18C,func_8006ADE8,handwritten_asm,game,"Reviewed #2390: hand-managed incoming s0/s1/s2 preservation in caller-object word slots a0+0x28..0x30; saves 0x8006AE00..0x8006AE08, restores 0x8006AF50..0x8006AF58; sp unchanged. GTE alone is not the basis. See notes/function-map.md."
 0x8006AF74,0xD30,func_8006AF74,unmatched_asm,game,
 0x8006BCA4,0x47C,func_8006BCA4,matching_c,game,Exact linked bytes with gcc_2_8_1_g8 from the ygofm reference; the sums-then-halvings order of the midpoint stores is load-bearing.
 0x8006C120,0x1DC,func_8006C120,matching_c,game,"Matching C. Recursive triangle subdivision. The prologue register assignment follows the GCC 2.8.1 allocno priority floor_log2(n_refs) * n_refs / live_length, so the number of times the depth parameter is referenced decides which hard registers it and the two corner pointers receive."

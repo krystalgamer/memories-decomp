@@ -18,6 +18,12 @@ At campaign launch, the resident inventory contained 1,794 functions:
 | Terminal compiler-generated game assembly | 347 |
 | Intentional handwritten game assembly | 63 |
 
+The historical handwritten row reflects automatic disassembler classifications,
+not 63 independent findings of original assembly source. See the
+[resident classification audit](function-map.md#source-classification) for the
+reviewed distinction; this baseline must not exclude GTE macro-compatible
+game code from investigation.
+
 The previous breadth-first campaign produced deferred histories for every remaining
 compiler-generated assembly function. Those histories are research indexes,
 not a declaration that the project is complete.
@@ -32,7 +38,8 @@ Continue the decompile, name, group, and progress loop until:
 - every function is grouped with its subsystem when address order, compiler
   profile, and declarations permit it;
 - any game assembly that remains is independently justified as intentional
-  handwritten or hardware-facing code and is semantically documented;
+  handwritten code and is semantically documented; hardware/GTE instructions
+  alone do not supply that justification;
 - the complete executable remains byte-identical after every accepted change.
 
 Terminal mismatch histories do not satisfy this completion target. They prevent

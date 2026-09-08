@@ -1,8 +1,8 @@
 name: Metadata
 
-# Deliberately unfiltered, and deliberately minimal. These checks read only
-# tracked text under config/, notes/ and src/, so they need no retail input, no
-# toolchain, no bootstrapped Python and no secrets -- which is what lets this
+# Deliberately unfiltered, and deliberately minimal. These checks use only
+# tracked text and standard-library temporary fixtures, so they need no retail
+# input, no toolchain, no bootstrapped Python and no secrets -- which lets this
 # job watch every path, including the notes/** the overlay build ignores.
 #
 # A check that no workflow runs is a checklist item with extra steps. The
@@ -46,3 +46,8 @@ jobs:
 
       - name: Verify every C source uses the shared basic types
         run: make basic-types
+
+      - name: Verify inventory classification regressions
+        run: |
+          PYTHONPYCACHEPREFIX="$PWD/tmp/pycache" python3 -m unittest discover \
+            -s tools/project/tests -p 'test_function_inventory.py' -v

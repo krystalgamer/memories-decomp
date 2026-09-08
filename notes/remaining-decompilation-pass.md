@@ -1,5 +1,12 @@
 # Remaining Decompilation Campaign
 
+The status tables below are historical snapshots. Their repeated
+"Intentional handwritten assembly: 63" row came from the old disassembler-hint
+classification, not independent source-origin evidence for every function.
+The [resident classification audit](function-map.md#source-classification)
+supersedes that interpretation without rewriting the recorded campaign counts
+or attempt histories.
+
 ## First evidence batch
 
 The campaign described in `notes/remaining-decompilation-plan.md` began with

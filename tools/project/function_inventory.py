@@ -45,17 +45,13 @@ class Function:
 def parse_generated_functions(
     path: Path, *, require_functions: bool = True
 ) -> list[Function]:
+    """Import boundaries, not source-origin guesses from disassembler comments."""
     functions: list[Function] = []
-    handwritten = False
-    pending: tuple[str, int, bool] | None = None
+    pending: tuple[str, int] | None = None
 
     with path.open("r", encoding="utf-8") as handle:
         for raw_line in handle:
             line = raw_line.strip()
-            if line == "/* Handwritten function */":
-                handwritten = True
-                continue
-
             function_match = FUNCTION_PATTERN.fullmatch(line)
             if function_match:
                 if pending is not None:
@@ -65,32 +61,23 @@ def parse_generated_functions(
                 pending = (
                     function_match.group("name"),
                     int(function_match.group("size"), 16),
-                    handwritten,
                 )
-                handwritten = False
                 continue
 
             if pending is not None:
                 instruction_match = INSTRUCTION_PATTERN.match(line)
                 if instruction_match:
-                    name, size, is_handwritten = pending
+                    name, size = pending
                     functions.append(
                         Function(
                             address=int(instruction_match.group("address"), 16),
                             size=size,
                             name=name,
-                            status=(
-                                "handwritten_asm"
-                                if is_handwritten
-                                else "unmatched_asm"
-                            ),
+                            status="unmatched_asm",
                         )
                     )
                     pending = None
                 continue
-
-            if line and not line.startswith("/*"):
-                handwritten = False
 
     if pending is not None:
         raise InventoryError(f"{path}: function {pending[0]} has no first instruction")
