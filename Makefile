@@ -198,6 +198,7 @@ check-progress: split
 	@$(PYTHON) tools/project/progress.py --check
 
 check-candidate-headlines:
+	@$(PYTHON) tools/project/check_candidate_headlines.py --self-test
 	@$(PYTHON) tools/project/check_candidate_headlines.py
 
 disc-files: workspace

@@ -15,6 +15,14 @@ This compares the differing-word count and the opcode distance as each artifact
 states them, and reports any entry where they disagree. It does not rebuild
 anything, so it is cheap enough to run on every change.
 
+It also reports an entry where one artifact states a figure and the other does
+not. That shape is the one this check originally missed: it compared a pair of
+numbers only when it could find both, so an entry that changed *which* metric it
+led with - `func_800528AC` moving from "16 non-relocation word mismatches" to
+"279 differing positions" - left nothing to compare and was recorded as agreeing.
+**Absence was read as agreement**, which is quietest exactly when an entry is
+being rewritten and most likely to drift.
+
     tools/environments/python/bin/python tools/project/check_candidate_headlines.py
 """
 
@@ -38,14 +46,86 @@ HEADLINE_LINES = 12
 
 DISTANCE = re.compile(
     r"(?:opcode\s+(?:multiset\s+)?distance|distance)\s*\**\s*(\d+)", re.I)
-DIFFERING = re.compile(r"\**(\d+)\**\s+differing\s+(?:positions|words)", re.I)
+# Deliberately not anchored to "positions" or "words". Rows in the wild also
+# write "172 differing of 384", and requiring the noun made this check miss a row
+# that agreed with its note perfectly well.
+DIFFERING = re.compile(
+    r"\**(\d+)\**\s+(?:of\s+\d+\s+\w+\s+)?differing|"
+    r"\**(\d+)\**\s+differing", re.I)
 
 
 def figures(text: str) -> tuple[str | None, str | None]:
     distance = DISTANCE.search(text)
     differing = DIFFERING.search(text)
-    return (distance.group(1) if distance else None,
-            differing.group(1) if differing else None)
+    value = next((g for g in differing.groups() if g), None) if differing else None
+    return (distance.group(1) if distance else None, value)
+
+
+def compare(headline: str, row: str) -> list[str] | None:
+    """Complaints about one entry, or None when neither artifact states figures.
+
+    A figure stated on one side and absent on the other is a complaint. Reading
+    that as agreement is what let `func_800528AC` change which metric it led with
+    while its row kept the old one.
+    """
+    note_distance, note_differing = figures(headline)
+    row_distance, row_differing = figures(row)
+    if not any((note_distance, note_differing, row_distance, row_differing)):
+        return None
+    if not row.strip():
+        return ["the note states figures and the functions.csv row has no "
+                "notes at all"]
+    disagree = []
+    for label, note_value, row_value in (
+            ("differing count", note_differing, row_differing),
+            ("opcode distance", note_distance, row_distance)):
+        if note_value is not None and row_value is None:
+            disagree.append(
+                f"the note states a {label} of {note_value} and the row "
+                f"states none")
+        elif row_value is not None and note_value is None:
+            disagree.append(
+                f"the row states a {label} of {row_value} and the note "
+                f"states none")
+        elif (note_value is not None and row_value is not None
+                and note_value != row_value):
+            disagree.append(
+                f"{label} {note_value} in the note, {row_value} in the row")
+    return disagree
+
+
+CONTROLS = (
+    # The shape this check used to miss: the metric was renamed, not changed.
+    ("279 differing positions", "opcode multiset distance 1 (one addu), 16 "
+     "non-relocation word mismatches", True),
+    # Rows and notes in the tree write the count several ways; none is a fault.
+    ("172 differing positions of 384", "172 differing of 384", False),
+    ("opcode multiset distance 2, 93 of 394 words differing",
+     "opcode multiset distance 2, 93 of 394 words differing", False),
+    # A real disagreement must still be caught.
+    ("5 differing positions", "18 differing positions", True),
+    # An entry with no figures on either side is out of scope, not a fault.
+    ("no figures here", "narrative only", None),
+)
+
+
+def self_test() -> int:
+    failures = 0
+    for headline, row, expected in CONTROLS:
+        got = compare(headline, row)
+        if expected is None:
+            ok = got is None
+        else:
+            ok = got is not None and bool(got) == expected
+        if not ok:
+            failures += 1
+            print(f"self-test: {headline!r} vs {row!r}: expected "
+                  f"{expected}, got {got}")
+    if failures:
+        print(f"self-test: {failures} of {len(CONTROLS)} controls failed")
+        return 1
+    print(f"self-test: OK ({len(CONTROLS)} controls)")
+    return 0
 
 
 def inventory(root: Path) -> dict[str, str]:
@@ -61,7 +141,14 @@ def main() -> int:
         description="check candidate headlines against their inventory rows")
     parser.add_argument("--quiet", action="store_true",
                         help="only report disagreements")
+    parser.add_argument("--self-test", action="store_true",
+                        help="check the comparison against known-good and "
+                             "known-bad pairs, including the shape this check "
+                             "originally missed")
     args = parser.parse_args()
+
+    if args.self_test:
+        return self_test()
 
     root = ROOT
     rows = inventory(root)
@@ -74,21 +161,10 @@ def main() -> int:
         if name not in rows:
             continue
         headline = "\n".join(note.read_text().splitlines()[:HEADLINE_LINES])
-        note_distance, note_differing = figures(headline)
-        row_distance, row_differing = figures(rows[name])
-        if note_differing is None and row_differing is None:
+        disagree = compare(headline, rows[name])
+        if disagree is None:
             continue
         checked += 1
-        disagree = []
-        if (note_distance is not None and row_distance is not None
-                and note_distance != row_distance):
-            disagree.append(
-                f"distance {note_distance} in the note, {row_distance} in the row")
-        if (note_differing is not None and row_differing is not None
-                and note_differing != row_differing):
-            disagree.append(
-                f"{note_differing} differing in the note, "
-                f"{row_differing} in the row")
         if disagree:
             problems.append((name, disagree))
 
