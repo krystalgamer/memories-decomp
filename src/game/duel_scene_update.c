@@ -2,6 +2,7 @@
 #include "input.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
+#include "func_80039794.h"
 
 typedef struct {
     u8 pad[0x30];
@@ -25,7 +26,6 @@ extern void func_800235C0(void);
 extern void func_8002C6C8(void);
 extern int func_80026B34(void);
 extern int DuelEffect_UpdateState(void);
-extern void func_80039794(void);
 
 void func_80024200(void)
 {

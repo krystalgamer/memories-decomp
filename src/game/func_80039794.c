@@ -4,22 +4,13 @@
 #include "duel_effect.h"
 #include "sound.h"
 #include "display_object_api.h"
+#include "func_80039794.h"
 
 /* The retail body walks two pointers over the same four records: the record
  * base it hands to the per-record calls, and a second cursor parked on the
  * record's 0x30 pair, so the choice object and its flags are reached at
  * displacements 0 and 4. Folding the cursor into the base costs a register and
  * four instructions, so the view stays. */
-typedef struct {
-    void *obj;
-    u16 flags;
-} ChoiceView;
-
-typedef struct {
-    u16 lo;
-    u16 hi;
-} TblEnt;
-
 extern TblEnt D_801D9000[];
 extern s16 D_8009B35A;
 extern u8 D_8009B356;

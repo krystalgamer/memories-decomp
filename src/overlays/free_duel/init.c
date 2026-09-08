@@ -6,6 +6,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../game/display_object_helpers.h"
+#include "../../game/func_80039794.h"
 
 typedef struct {
     RECT img;
@@ -39,7 +40,6 @@ extern u8 *gFreeDuel_pThumbWidget;
 extern u8 D_801AF000[];
 
 extern void func_80035C38(s32, s32, s32, s32, s32, s32, s32);
-extern void func_80039794(void);
 extern void func_80040510(Obj *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern Obj *FreeDuel_SpawnSparkle(void);
 extern void FreeDuel_PlaceCursor(u8 *, s32);

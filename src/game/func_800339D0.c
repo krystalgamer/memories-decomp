@@ -4,6 +4,7 @@
 #include "card_constants.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
+#include "func_80039794.h"
 
 extern u8 D_8009B2F8;
 /* Retail addresses these three with %hi/%lo under -G8, so they live outside
@@ -14,7 +15,6 @@ extern s8 gDialog_bChoice __attribute__((section(".data")));
 
 extern s32 func_80032B38(u8 *);
 extern s32 func_80033998(void);
-extern void func_80039794(void);
 extern void func_80032370(void);
 
 /* Handles leaving the deck editor. When the editor's own check passes, the
