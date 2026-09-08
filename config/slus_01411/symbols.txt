@@ -812,7 +812,6 @@ CdDataCallback_8007E8A0 = 0x8007E8A0; // type:func
 gSaveData_dwMaskStateLow = 0x8009AF64;
 gSaveData_dwMaskStateHigh = 0x8009AF68;
 
-// Semantic names
 GsSortPoly = 0x80084320; // type:func
 SD_EnqueueCommand = 0x80045BE8; // type:func
 SD_UpdateFades = 0x80045C98; // type:func
@@ -833,3 +832,4 @@ gInput_dwDeferredRepeat = 0x8009B3B0;
 gInput_dwDeferredPressed = 0x8009B3B4;
 gInput_abRepeatTimers = 0x800EF6B0;
 DuelEffect_MarkInitialized = 0x80024E24; // type:func
+gAiScript_szSourceLineFormat = 0x8009B084;
