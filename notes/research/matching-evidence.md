@@ -5083,3 +5083,53 @@ direction before concluding the allocator is out of reach. On this function the
 three forms, register pins on three locals, five statement placements, all
 twenty-four declaration orders and every profile were all measured first and
 all left it at 8.
+
+## The order of two independent loads is set by their uses, not their positions
+
+When a residual is the order in which two independent values are computed, the
+instinct is to permute the statements that compute them. That is almost always
+inert, and `func_80031874` (0x80031874) shows why, and what to move instead.
+
+Its entry had six statement permutations of three opening loads, a `volatile`
+load on either side, a struct view, a pin on the raw value and inlining each
+read - all measured, all inert - and concluded that "GCC places these three by
+its own scheduling and the source has no say in it". The conclusion was drawn
+from the wrong half of the problem.
+
+The scheduler ranks a value by the length of the dependence chain hanging off
+it, and that chain is made of the value's **uses**. Three of those uses were
+moved, and nothing else in the source changed:
+
+| move | residual |
+| --- | --- |
+| starting point | 43 |
+| the two texture stores below the `y` subtraction | 29 |
+| the two sprite halfword stores below the `idx` read | 26 |
+| the record-index read below the texture stores | **16** |
+
+Fifty-two positions of the original sixty-eight came from moving statements
+that *consume* values, and none from moving the statements that produce them.
+
+Three qualifications, each measured, because the lever is easy to over-apply:
+
+- **It is one-directional.** Every gain came from moving a use *later*.
+  Both attempts to move one earlier are worse - hoisting the subtraction that
+  consumes the viewport value costs nine instructions and 272 positions in one
+  placement and 17 in another. Delaying a consumer delays the value; demanding
+  it sooner forces the whole chain forward against whatever already holds those
+  slots.
+- **Placement is specific, not "later is better".** The index read pays below
+  the texture stores and is worthless below the sprite stores; the texture
+  stores pay below the `y` subtraction and cost 32 and 45 if pushed past the
+  next two computations.
+- **It does not reach a value whose chain is already the shortest.** The one
+  load this function still gets wrong is the one with a single in-block
+  consumer, where the fix would require *lengthening* its chain rather than
+  shortening a competitor's, and no source change does that without adding
+  instructions.
+
+The companion negative is worth stating with it: a *constant* is hoisted to the
+top of its block wherever the source writes it, so this lever never applies to
+one. That now holds on three functions - the scratchpad pointer here, the slide
+constant in `func_800283F4`, and the loop-invariant address in
+`func_80012E5C`.
