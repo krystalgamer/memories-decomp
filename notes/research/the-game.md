@@ -871,11 +871,34 @@ question from this selection and accounting evidence.
 
 **Rituals** (24 cards) use the same activation sequence, including the
 ordinary face-up hand route in §5.5; prior field placement is not mandatory.
-The entry route is separate from the ritual's tribute requirement: if
-the three specific monsters the ritual names are face-up on your field, they
-are removed and the ritual monster is summoned in their place; otherwise the
-card is consumed with no effect [`Duel_CheckRitual` (`0x8002C7E8`), table at
-`0x801799D8`: 24 records of {ritual, tribute, tribute, tribute, result}].
+On success, the three required monsters are sacrificed for the recipe's
+result monster; if the required materials are missing, the ritual card is
+consumed without a summon.
+
+The matching
+[`Duel_CheckRitual`](../../src/game/duel_check_ritual.c) checks the recipe
+against three **distinct occupied monster-row records** on the acting side.
+It tests `DUEL_CARD_FLAG_OCCUPIED` and the required card IDs, not the
+face-down or defence-position bits. Face-down matching tributes are therefore
+eligible in this predicate; the earlier face-up requirement was unsupported.
+Repeated tribute IDs still require separate field records.
+
+The checker returns the recipe's result ID when all three matches are found,
+or zero when the recipe/material search fails. It does not consume the field
+cards: it only removes matched pointers from a temporary candidate list and,
+when requested, exports the three records' object words. Matching
+[`func_8002622C`](../../src/game/func_8002622C.c) uses a query with no output
+buffer. The later execution routine `func_800262D4` (still unmatched assembly)
+requests the output at `0x800262F8`, then calls
+[`func_80024914`](../../src/game/duel_card_object_cleanup.c) for the three
+selected records at `0x800263BC`, `0x800263E0`, and `0x80026404`.
+Eligibility and later tribute removal are separate steps, not a destructive
+test. This is code-backed selection/removal evidence, not a new runtime trace
+or a complete audit of the remaining summon presentation.
+
+The table at `0x801799D8` contains 24 records of
+{ritual, tribute, tribute, tribute, result}; the routine scans to a zero
+ritual ID rather than enforcing a fixed recipe count.
 The full list is on the disc and is decoded by the extractor (§12.2); three
 examples:
 Black Luster Ritual = Beaver Warrior + Gaia the Fierce Knight + Kuriboh →
