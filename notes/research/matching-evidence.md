@@ -3136,6 +3136,22 @@ The reverse reading is just as useful: if a candidate is *long* by four per
 element against a target that stores fields directly, the source has a struct
 assignment the original did not.
 
+**Correction, made while the entry was being written: this is sufficiency, not
+necessity.** The probe shows a struct assignment *produces* the shape; it does
+not show the shape *implies* one. Spilling produces the same six instructions -
+a value computed into a frame slot and reloaded to store elsewhere is
+indistinguishable from a structure copy at this level. In `func_80051350` the
+destinations turn out to be indexed as `sp + i*4 + k` later on, so they are
+two-element arrays rather than structures, and the function commits ten
+callee-saved registers, which makes spilling the likelier cause.
+
+So the reliable reading is the weaker one: **the two values were materialised
+somewhere before reaching their destination.** Whether that is a structure
+assignment, a spill, or a temporary the source names explicitly has to be
+decided from the surrounding code. Counting the four extra instructions is
+still worth doing - it says a plain field-by-field transcription will be short -
+but it does not by itself name the construct.
+
 ## Count one characteristic opcode before reading any diff
 
 When a candidate is short by a lot, the positional diff is worthless: every

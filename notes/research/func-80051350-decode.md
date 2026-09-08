@@ -95,8 +95,23 @@ sw $6,20($sp)
 
 The struct form is **exactly four instructions longer** and produces the
 `sw`/`sw` then `lw`/`lw`/`sw`/`sw` sequence the target has at every pair. The
-scalar form produces no copy at all. So the local is an array of a two-word
-struct and each element is assigned as a unit.
+scalar form produces no copy at all.
+
+**That probe proves sufficiency, not necessity, and the conclusion drawn from
+it was too strong.** Reading further into the function shows the destinations
+are indexed later as `sp + fp*4 + 0x10`, `+0x18`, `+0x20` and so on, so they are
+eight two-element `s32` arrays selected by an entity index, not structures. And
+the function commits ten callee-saved registers and spills all three arguments,
+so it is under heavy register pressure - which produces the identical
+compute-into-a-slot-then-copy shape when GCC spills a value and reloads it to
+store.
+
+Both explanations emit `sw`/`sw`/`lw`/`lw`/`sw`/`sw`. The probe only shows that
+a struct assignment is *one* way to get it. The right statement is that the
+shape means **the two values were materialised somewhere before being stored to
+their destination**, and the source-level cause has to be decided from the
+surrounding code - here the later indexing argues for plain arrays plus
+spilling.
 
 **The field order is 3, 0, 1, 2, not 0, 1, 2, 3.** The first pair read is
 `0xDCE`/`0x1BEE`, then `0xDC8`, `0xDCA`, `0xDCC` - and `0xDCE` is the *last* of
