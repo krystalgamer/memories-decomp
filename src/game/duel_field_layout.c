@@ -1,3 +1,6 @@
+/* duel_grid.h leaves D_800907D8 unsized for its consumers; the definition
+   states the shape the tables actually have. */
+#define DUEL_FIELD_GRID_2D
 #include "../types.h"
 #include "duel_grid.h"
 
@@ -15,15 +18,15 @@ u8 D_800907D8[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] = {
 DuelFieldPosition
     D_80090800[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] = {
     {
-        {0xff74, 0x00a1}, {0xffba, 0x00a1}, {0x0000, 0x00a1}, {0x0046, 0x00a1}, {0x008c, 0x00a1},
-        {0xff74, 0x005f}, {0xffba, 0x005f}, {0x0000, 0x005f}, {0x0046, 0x005f}, {0x008c, 0x005f},
-        {0xff74, 0xffa1}, {0xffba, 0xffa1}, {0x0000, 0xffa1}, {0x0046, 0xffa1}, {0x008c, 0xffa1},
-        {0xff74, 0xff5f}, {0xffba, 0xff5f}, {0x0000, 0xff5f}, {0x0046, 0xff5f}, {0x008c, 0xff5f},
+        {-140,  161}, { -70,  161}, {   0,  161}, {  70,  161}, { 140,  161},
+        {-140,   95}, { -70,   95}, {   0,   95}, {  70,   95}, { 140,   95},
+        {-140,  -95}, { -70,  -95}, {   0,  -95}, {  70,  -95}, { 140,  -95},
+        {-140, -161}, { -70, -161}, {   0, -161}, {  70, -161}, { 140, -161},
     },
     {
-        {0x008c, 0xff5f}, {0x0046, 0xff5f}, {0x0000, 0xff5f}, {0xffba, 0xff5f}, {0xff74, 0xff5f},
-        {0x008c, 0xffa1}, {0x0046, 0xffa1}, {0x0000, 0xffa1}, {0xffba, 0xffa1}, {0xff74, 0xffa1},
-        {0x008c, 0x005f}, {0x0046, 0x005f}, {0x0000, 0x005f}, {0xffba, 0x005f}, {0xff74, 0x005f},
-        {0x008c, 0x00a1}, {0x0046, 0x00a1}, {0x0000, 0x00a1}, {0xffba, 0x00a1}, {0xff74, 0x00a1},
+        { 140, -161}, {  70, -161}, {   0, -161}, { -70, -161}, {-140, -161},
+        { 140,  -95}, {  70,  -95}, {   0,  -95}, { -70,  -95}, {-140,  -95},
+        { 140,   95}, {  70,   95}, {   0,   95}, { -70,   95}, {-140,   95},
+        { 140,  161}, {  70,  161}, {   0,  161}, { -70,  161}, {-140,  161},
     },
 };

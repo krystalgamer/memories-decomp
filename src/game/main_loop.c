@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "fade.h"
+#include "main_modes.h"
 
 extern u8 D_8009B26C;
-extern void (*D_80090B64[])(void);
 extern void func_8002CDE8(void), func_80012D4C(void);
 extern void Main_ResetFrontendRuntime(void);
 void Main_Loop(void) {
@@ -15,7 +15,7 @@ void Main_Loop(void) {
             D_8009B26C = v | 0x80;
             Main_ResetFrontendRuntime();
         } else {
-            D_80090B64[v & 0x1F]();
+            gMain_apfnModeRunner[v & 0x1F]();
             if ((D_8009B26C & 0x40) == 0) Fade_WaitOut();
         }
     }
