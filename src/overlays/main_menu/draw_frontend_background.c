@@ -1,11 +1,12 @@
 #include "../../types.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/graphics_constants.h"
+#include "frontend.h"
 
 extern u8 D_80184597;
 extern GsOT *D_800E9D90[];
 
-void func_80180B4C(void)
+void MainMenu_DrawFrontendBackground(void)
 {
     POLY_F4 flat;
     POLY_FT4 sprite;

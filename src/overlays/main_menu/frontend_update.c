@@ -22,7 +22,6 @@ extern volatile u16 D_8009B398;
 extern u8 D_8009B3EA;
 extern u8 D_8009B3ED;
 
-extern void func_80180E6C(u8 *);
 extern void func_80040410(u8 *, s32);
 extern void Input_ResetPads(void);
 extern s32 SaveData_PollLoad(void);
@@ -228,7 +227,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         }
         *(volatile s16 *)(eloop + 0x30) = value;
         if ((frame & 1) != 0) {
-            func_80180E6C(*slot);
+            MainMenu_SpawnFrontendEntryAfterimage(*slot);
         }
         *(u16 *)(*slot + 8) = *(u16 *)(*slot + 8) | 0x40;
         goto tick_entry;

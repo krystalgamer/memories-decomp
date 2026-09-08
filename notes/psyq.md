@@ -644,7 +644,8 @@ migrations include `duel_setup_card_record.c`, `func_800289BC.c`,
 `starchip_bars.c`) uses native `POLY_G4`/`POLY_GT4` stack records and
 their `setPolyG4`/`setPolyGT4` constructors. It renders the two-value editor,
 not an established starchip balance. The main-menu background
-builder `func_80180B4C` uses native `POLY_F4`, `POLY_FT4`, and `POLY_G4`
+builder `MainMenu_DrawFrontendBackground` (`0x80180B4C`) uses native
+`POLY_F4`, `POLY_FT4`, and `POLY_G4`
 records and their constructor macros; `func_80184454` uses `POLY_F4`.
 `MainMenu_DrawThreeDigitNumber` and `MainMenu_DrawCardTypeIcon` use
 `POLY_FT4` and `setPolyFT4` rather than parallel 40-byte sprite layouts.

@@ -1,8 +1,9 @@
 #include "../../types.h"
+#include "frontend.h"
 
-extern void func_8004036C(void);
+extern void func_8004036C(void *);
 
-void func_80180F50(u8 *object)
+void MainMenu_UpdateFrontendEntryAfterimage(u8 *object)
 {
     s32 r;
     s32 g;
@@ -25,6 +26,6 @@ void func_80180F50(u8 *object)
         }
         object[0xE] = b;
     } else {
-        func_8004036C();
+        func_8004036C(object);
     }
 }

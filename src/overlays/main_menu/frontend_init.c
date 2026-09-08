@@ -20,7 +20,6 @@ extern u8 D_8018459C;
 extern u8 D_8018459D;
 extern void (*D_800E9DB0)(void);
 
-extern void func_80180B4C(void);
 extern void func_80040410(u8 *, s32);
 extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
 extern void func_800428EC(void *, s32);
@@ -107,6 +106,6 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     D_8018459C = 0;
     D_8018459D = 0;
     MainMenu_StartFrontendEntryTransition(0);
-    D_800E9DB0 = func_80180B4C;
+    D_800E9DB0 = MainMenu_DrawFrontendBackground;
     func_80047314(0x7000);
 }

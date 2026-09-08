@@ -365,7 +365,8 @@ way, in its own module file.
 
 ## Native background packet layouts
 
-`func_80180B4C` builds its background layers with Psy-Q `POLY_F4`,
+`MainMenu_DrawFrontendBackground` (`0x80180B4C`) builds its background
+layers with Psy-Q `POLY_F4`,
 `POLY_FT4`, and `POLY_G4` records. Their payload lengths are 5, 9, and 8
 words, excluding the tag; `setPolyF4`, `setPolyFT4`, and `setPolyG4` supply
 the corresponding packet headers. `func_80184454` uses the same native
@@ -379,7 +380,15 @@ Texture UV limits and the other geometry values are not reinterpreted as
 screen constants. Submission order, colors, flags and local value lifetimes
 retain the matching behavior.
 
-The background tiles, three-digit renderer, card-type icon and starchip bars
+The optional grey quad uses `D_80184597` as all three input color bytes.
+It is submitted at priority 0, followed by five 64-pixel textured columns
+at priority 4095 and a black-top/white-bottom Gouraud quad at 4094.
+These are submission facts, not a claim about final opaque pixel order.
+Texture U is derived from each column's X modulo 256; this body does not
+advance UVs with time, so the older "scrolling background" interpretation
+is not established here.
+
+The background tiles, three-digit renderer, card-type icon and value-editor bars
 submit through the SDK's `GsSortPoly` at `0x80084320`, previously
 `func_80084320`. The complete Psy-Q 4.6 `2D_PRIM.OBJ` signature matches
 uniquely; see the [SDK evidence](../../../notes/psyq.md).
@@ -388,6 +397,29 @@ unsigned-halfword priority rather than maintaining local prototypes. This
 SDK entry remains assembly and is distinct from the game-owned packet helper
 `func_8005B260`. `main_menu_linker_symbols.txt` supplies its resident import;
 it is not an additional overlay function.
+
+## Frontend entry afterimages
+
+`MainMenu_UpdateFrontendMenu` calls
+`MainMenu_SpawnFrontendEntryAfterimage` (`0x80180E6C`) on odd elapsed
+transition updates for visible entries, after writing their current X.
+The helper allocates a list/type-2 object and configures it from the source's
+current signed XY and resource selector byte `+0x69`. It copies the source
+RGB bytes, not the complete object, and uses the signed-byte conversion of
+the negated timer low byte for its depth adjustment. Allocation failure
+skips the copy. It neither moves the source nor creates another menu entry.
+
+The installed `MainMenu_UpdateFrontendEntryAfterimage` (`0x80180F50`)
+subtracts 8 from each RGB byte with independent zero clamping. The release
+path runs only when a callback starts with all low 24 color bits already
+zero; reaching black during the current update does not release the object
+until the next callback. An initially black copy releases immediately.
+The fourth packed byte is ignored, and this does not establish a separate
+alpha fade or a fixed lifetime for every starting color.
+
+`frontend.h` declares both helpers and their one-argument update type,
+included by definitions and callers. The release call explicitly passes the
+object instead of relying on an unwritten argument-register assumption.
 
 ## Value-editor rendering
 
