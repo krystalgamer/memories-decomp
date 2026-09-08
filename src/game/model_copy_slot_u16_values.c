@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_copy_slot_u16_values.h"
 #include "model.h"
 
 void Model_CopySlotU16Values(s32 idx, u16 *out) {

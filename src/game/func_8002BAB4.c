@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_copy_slot_u16_values.h"
 #include "model_update_view_metrics.h"
 #include "view_state.h"
 #include "../psyq/rand.h"
@@ -18,7 +19,6 @@ extern void func_8002ACA4(u8 *);
 extern void func_8002BAAC(u8 *);
 extern s32 func_80058DD8(s32);
 extern s32 func_80058E68(s32);
-extern void Model_CopySlotU16Values(s32, u16 *);
 extern void func_80057AF4(s32, s32, s32);
 extern void func_8001352C(void);
 extern u8 *func_800591FC(void);
