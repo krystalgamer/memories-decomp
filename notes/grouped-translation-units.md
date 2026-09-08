@@ -86,6 +86,7 @@ source grouping.
 | `src/game/movie_stream_requests.c` | `gcc_2_8_1_g0_split` | Indexed `MOVIE.STR` range setup (`0x8005C388`) and named-file stream setup (`0x8005C464`) |
 | `src/game/file_cd_helpers.c` | `gcc_2_8_1_g0` | `File_Exists` (`0x8005C4F0`) and two contiguous low-level CD state/wait helpers through `0x8005C568` |
 | `src/game/mdec_sync.c` | `gcc_2_8_1_g8` | MDEC completion-latch setter (`0x8005C5C4`) and contiguous bounded wait/reset helper (`0x8005C5D4`) |
+| `src/game/main_services.c` | `gcc_2_8_1_g8_split` | The resident system layer: per-frame service pump (`0x8001306C`), boot-time graphics/input start-up (`0x80013154`), the pad-driven screen-offset adjustment loop (`0x80013360`), and the reset of the callback registry the pump walks (`0x800134B4`). The four are the whole `gcc_2_8_1_g8_split` run between `graphics_frame.c` and `func_800134E0`, and the pump and the reset share the `D_800E9DB0` slots and `D_8009B0B8` |
 | `src/game/build_deck_card_counts.c` | `gcc_2_8_1_g8` | Card-reference release (`0x80031F7C`) and full Build Deck count reconstruction (`0x8003201C`) |
 | `src/game/build_deck_compare.c` | `gcc_2_8_1_g0_split` | `BuildDeck_CompareCard` (`0x80032B60`) and its reverse-primary comparator at `0x80032BD4` |
 | `src/game/text_box_lifecycle.c` | `gcc_2_8_1_g0` | `TextBox_Destroy` (`0x80035B7C`), `TextBox_Create` (`0x80035BE4`), and contiguous flagged creator `TextBox_CreateFlagged` (`0x80035C38`) |
@@ -166,6 +167,7 @@ source grouping.
 | `src/game/sound_secondary_object_selection.c` | `gcc_2_8_1_g0` | Three contiguous secondary-object best-candidate, referenced-record update, free/reusable-slot, owner/variant, and oldest-entry selection helpers from `0x8004A854` through `0x8004A940`; the shared TU preserves `func_8004A8E4`'s unused second argument from every caller |
 | `src/game/sound_secondary_commands.c` | `gcc_2_8_1_g0` | Three secondary-record command setters from `0x8004B49C` through `0x8004B70C`, followed by contiguous `SD_SequenceTimerCallback` (`0x8004B734`) |
 | `src/game/color_transform.c` | `gcc_2_8_1_g8` | The fixed-point colour conversion pair and the packed-pixel tint that calls both: RGB to HSL (`0x8005A98C`), HSL to RGB (`0x8005ABA0`), and BGR555 hue/saturation transform (`0x8005AE68`) |
+| `src/game/gpu_packets.c` | `gcc_2_8_1_g8` | The three ordering-table packet writers that share the `D_800FE240` buffer cursor: draw-mode (`0x8005B260`), texture-window (`0x8005B36C`) and mask-write (`0x8005B4D8`) |
 
 The sound-code request group shares only the identical request layout and
 external declarations, not either algorithm's body. Its common

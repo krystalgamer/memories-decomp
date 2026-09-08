@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "script_command_busy.h"
 #include "duel_effect.h"
 #include "text_box_lifecycle.h"
 
@@ -11,8 +12,6 @@ extern u16 D_8009B27C;
    so no storage is allocated here. */
 u16 D_8009B28C;
 extern u16 D_8009B2A4;
-
-extern s32 func_8002E3B4(void);
 extern void func_8003B6AC(s32, s32);
 extern void DuelEffect_MarkObjectIfActive(void *);
 

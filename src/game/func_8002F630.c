@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "script_command_busy.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "fade.h"
@@ -29,8 +30,6 @@ extern Object *D_8009B280;
 extern Object *D_800EAE98[];
 extern u8 D_800E9ECF[];
 extern u8 D_801AF000[];
-
-extern s32 func_8002E3B4(void);
 extern void func_8002F4C0(u8 *, s32);
 extern void func_8002E00C(void *);
 extern void func_80040510(Object *, s32, s32, s32, s32, s32, s32, s32, s32, s32);

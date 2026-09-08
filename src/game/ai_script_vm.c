@@ -2,12 +2,11 @@
 #include "../psyq/libetc.h"
 #include "../psyq/memory.h"
 #include "ai.h"
+#include "ai_script_end.h"
 #include "ai_script_read_byte.h"
 
 extern AiFieldCardState D_800EAE88;
 extern AiScriptState gAiScript_State;
-extern void AiScript_EndHand(void);
-extern void AiScript_EndField(void);
 extern void AiScript_PlayFieldCard(void);
 
 void AiScript_Init(void *arg0)

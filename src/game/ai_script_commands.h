@@ -18,8 +18,6 @@ void AiScript_Return(void);
 void AiScript_SetRandom(void);
 void AiScript_Subtract(void);
 void AiScript_PlayFieldCard(void);
-void AiScript_EndHand(void);
-void AiScript_EndField(void);
 void AiScript_CalcCardPower(void);
 void AiScript_TestHighStat(void);
 void AiScript_LoadCardType(void);

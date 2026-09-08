@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8002C604.h"
 #include "duel_card.h"
 #include "duel_side_state.h"
 #include "duel_card_layout.h"
@@ -21,7 +22,6 @@ extern u8 D_801A7B64[];
 extern void func_80024D34(s32, s32);
 extern void Duel_ApplyCardObjectFlags(u8 *);
 extern void func_8001352C(void);
-extern u8 *func_8002C604(s32);
 extern u8 *func_8002C68C(s32);
 extern void func_80024954(u8 *);
 extern s16 func_800181EC(u8 *);

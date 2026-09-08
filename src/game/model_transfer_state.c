@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_copy_slot_u16_values.h"
 
 typedef struct {
     s16 id;
@@ -12,7 +13,6 @@ extern s8 D_8009B079;
 extern s8 D_8009B07A;
 extern s8 D_8009B07B;
 extern s8 D_8009B07C;
-extern void Model_CopySlotU16Values(int, void *);
 
 void func_8005FAE4(void)
 {
@@ -54,7 +54,7 @@ void func_8005FB30(u8 *data)
 
         if (item->state < 4) {
             if (item->state >= 2) {
-                Model_CopySlotU16Values(item->id, data + 0x10 + i * 8);
+                Model_CopySlotU16Values(item->id, (u16 *)(data + 0x10 + i * 8));
             }
         }
     }

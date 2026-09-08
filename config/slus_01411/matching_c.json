@@ -40,25 +40,25 @@
       "address": "0x8001306C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE8",
-      "source": "src/game/func_8001306C.c"
+      "source": "src/game/main_services.c"
     },
     {
       "address": "0x80013154",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x20C",
-      "source": "src/game/func_80013154.c"
+      "source": "src/game/main_services.c"
     },
     {
       "address": "0x80013360",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x154",
-      "source": "src/game/func_80013360.c"
+      "source": "src/game/main_services.c"
     },
     {
       "address": "0x800134B4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/func_800134B4.c"
+      "source": "src/game/main_services.c"
     },
     {
       "address": "0x800134E0",
@@ -5620,19 +5620,19 @@
       "address": "0x8005B260",
       "profile": "gcc_2_8_1_g8",
       "size": "0x10C",
-      "source": "src/game/func_8005B260.c"
+      "source": "src/game/gpu_packets.c"
     },
     {
       "address": "0x8005B36C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x16C",
-      "source": "src/game/func_8005B36C.c"
+      "source": "src/game/gpu_packets.c"
     },
     {
       "address": "0x8005B4D8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x124",
-      "source": "src/game/func_8005B4D8.c"
+      "source": "src/game/gpu_packets.c"
     },
     {
       "address": "0x8005B5FC",

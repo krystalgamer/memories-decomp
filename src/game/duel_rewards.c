@@ -28,13 +28,13 @@ void Duel_CalcRankScore(void) {
     e = D_800E9FF0;
     q = &D_801D5608[0][0];
     p[0x34] = 0x44;
-    p[0x35] = 0x40;
+    p[0x35] = DUEL_RESULT_TEXT_SELECTOR_DEFAULT;
     p[0x36] = 0x45;
     if (D_800E9FF0[gDuel_bWinnerSide].field_00 == DUEL_RANK_ADJUST_EXODIA_WIN) {
-        p[0x35] = 0x42;
+        p[0x35] = DUEL_RESULT_TEXT_SELECTOR_EXODIA;
     }
     if (D_800E9FF0[gDuel_bWinnerSide].field_00 == DUEL_RANK_ADJUST_DECK_OUT_WIN) {
-        p[0x35] = 0x41;
+        p[0x35] = DUEL_RESULT_TEXT_SELECTOR_DECK_OUT;
     }
 
     *(s32 *)(p + 0x30) = DUEL_RANK_SCORE_INITIAL;

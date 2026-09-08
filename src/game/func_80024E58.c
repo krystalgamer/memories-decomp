@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_side_state.h"
+#include "func_8002C604.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
@@ -14,7 +15,6 @@ extern u16 D_8009B220;
 extern u8 gDuel_bTerrain[8];
 
 s32 Duel_GetTerrainBoost(s32 arg0);
-u8 *func_8002C604(s32 arg0);
 
 /* MATCH (2026-09-05), from a park at 2 differences. The last two were the
  * `n = v & 0xFF` that gcc sank into the jal's delay slot where retail keeps

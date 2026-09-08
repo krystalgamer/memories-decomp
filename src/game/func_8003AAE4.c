@@ -1,6 +1,6 @@
 #include "../types.h"
+#include "graphics_frame.h"
 
-extern int D_8009B0D8;
 extern s32 func_80039F1C();
 extern s32 func_80039F90();
 extern s32 func_8003A1EC();

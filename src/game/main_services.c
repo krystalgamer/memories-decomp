@@ -1,14 +1,37 @@
+/* func_80013360 re-reads the pad word on each path and needs it out of
+   small data; see the arms in input.h. */
+#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libmcrd.h"
 #include "../psyq/rand.h"
-#include "rand_constants.h"
+#include "fade.h"
 #include "file_set_position_table.h"
 #include "graphics_constants.h"
 #include "graphics_frame.h"
 #include "input.h"
+#include "rand_constants.h"
+
+/* The resident system layer: the per-frame service pump, the boot-time
+   graphics and input start-up that installs it, the pad-driven screen-offset
+   adjustment loop, and the reset of the callback registry the pump walks.
+   The four are contiguous and are the only run in the region built with
+   gcc_2_8_1_g8_split - their neighbours on both sides use other profiles -
+   and the pump and the reset share the D_800E9DB0 slots and D_8009B0B8. */
+
+/* The four per-frame callback slots the service pump walks, and the single
+   extra callback beside them. */
+extern void (*D_800E9DB0[4])(void);
+extern void (*D_8009B0B8)(void);
+
+extern s32 runtime_gp;
+extern s32 D_8009B0A4;
+extern s32 D_8009B0B0;
+extern s32 D_8009B0BC;
+extern s32 D_8009B0D4;
+extern u16 D_8009B098;
 
 /* The init block is a run of byte stores to distinct globals; declared
    volatile so the emitted order is the source order (see Main_Init). The
@@ -28,7 +51,54 @@ extern volatile u8 D_8009B0A0;
 extern volatile u8 D_8009B0A1;
 extern volatile u8 D_8009B0A2;
 extern volatile u8 D_8009B0A3;
+extern volatile u16 gInput_wPad1Held __attribute__((section(".data")));
 extern DISPENV D_800FE0A8;
+
+extern void func_800136D4(void);
+extern void func_80012D4C(void);
+extern void func_80014A5C(s32 a0);
+extern void func_80041340(void);
+
+/* Per-frame dispatcher: runs the two fixed housekeeping calls, then each of
+   the 4 slots in D_800E9DB0 and the single D_8009B0B8 callback if set. If
+   neither of the two progress pairs (f1A8/f19C, f1B4/f1CC) has advanced and
+   the watchdog counter D_8009AF08 underflows, resets the counter to 0x3C
+   and re-syncs both progress pairs. Finishes with func_80014A5C/func_800136D4. */
+void func_8001306C(void) {
+    void (*fn)(void);
+    s32 i;
+    s32 cnt;
+
+    Fade_DrawOverlay();
+    func_80041340();
+
+    for (i = 0; i < 4; i++) {
+        fn = D_800E9DB0[i];
+        if (fn != 0) {
+            fn();
+        }
+    }
+
+    fn = D_8009B0B8;
+    if (fn != 0) {
+        fn();
+    }
+
+    if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4) {
+        goto reset;
+    }
+    cnt = runtime_gp - 1;
+    runtime_gp = cnt;
+    if (cnt < 0) {
+    reset:
+        runtime_gp = 0x3C;
+        D_8009B0B0 = D_8009B0A4;
+        D_8009B0BC = D_8009B0D4;
+    }
+
+    func_80014A5C(0);
+    func_800136D4();
+}
 
 /* Graphics and input start-up, called from Main_Init with the work area
  * in $a0. Resets the GPU, sets up a 320x240 display and the display
@@ -111,4 +181,57 @@ next:
     MemCardInit(1);
     File_SetPositionTable();
     srand(RAND_GRAPHICS_INIT_SEED);
+}
+
+void func_80013360(void)
+{
+    register s16 *p asm("$16");
+    s32 step;
+
+    p = (s16 *)&gGraphics_DispEnv;
+    p[0] = 0;
+    p[1] = 0;
+    D_8009B098 |= 0x2000;
+    goto poll;
+adjust:
+    if (gInput_wPad1Held & PAD_DIRECTION_MASK) {
+        step = 2;
+        if (gInput_wPad1Held & PAD_BUTTON_CROSS) {
+            step = 4;
+        }
+        if (gInput_wPad1Held & PAD_DIRECTION_RIGHT) {
+            p[0] += step;
+        }
+        if (gInput_wPad1Held & PAD_DIRECTION_LEFT) {
+            p[0] -= step;
+        }
+        if (gInput_wPad1Held & PAD_DIRECTION_UP) {
+            p[1] -= step;
+        }
+        if (gInput_wPad1Held & PAD_DIRECTION_DOWN) {
+            p[1] += step;
+        }
+    }
+    FntFlush(-1);
+poll:
+    func_80012D4C();
+    if ((gInput_wPad1Pressed & PAD_BUTTON_START) == 0) {
+        goto adjust;
+    }
+    D_8009B098 &= 0xDFFF;
+    Input_ResetPads();
+}
+
+/* Zeroes D_800E9DB0[0..3] and D_8009B0B8. */
+void func_800134B4(void) {
+    void (**v0)(void);
+    int v1;
+    v1 = 3;
+    v0 = &D_800E9DB0[v1];
+    do {
+        *v0 = 0;
+        v1 -= 1;
+        v0 -= 1;
+    } while (v1 >= 0);
+    D_8009B0B8 = 0;
 }

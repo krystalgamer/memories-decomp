@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_copy_slot_u16_values.h"
 #include "../psyq/memory.h"
 #include "model.h"
 
@@ -7,7 +8,6 @@ extern u8 D_8009B07B;
 extern u8 D_8009B07C;
 
 extern u8 *func_80059208(void);
-extern void Model_CopySlotU16Values(s32 value, u8 *data);
 extern void func_8005F91C(s32 flag, u8 *b, u8 *a, s32 arg);
 
 void func_8005D994(
@@ -39,7 +39,7 @@ void func_8005D994(
     }
 
     if (arg0 == 2) {
-        Model_CopySlotU16Values(2, (u8 *)a);
+        Model_CopySlotU16Values(2, (u16 *)a);
         a[3] = one;
     }
 

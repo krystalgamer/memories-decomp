@@ -1,6 +1,7 @@
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
 #include "duel_grid.h"
+#include "func_8002C604.h"
 #include "duel_action_lock.h"
 #include "duel_side_state.h"
 #include "duel_card.h"
@@ -19,7 +20,7 @@ typedef struct Object {
 extern volatile u8 D_8009B1D5;
 extern Object *D_8009B1F0[2], *D_8009B17C;
 extern u16 D_8009B220;
-extern Object *func_8002C604(int);
+extern u8 D_800907D8[2][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 extern void func_80025B28(Object *);
 extern void *func_80042B40(int);
 
@@ -30,7 +31,7 @@ void func_80025F3C(void)
     int slot;
     register int side __asm__("$3");
     if (DuelEffect_MarkInitialized() == 0) {
-        object = func_8002C604(0x15);
+        object = (Object *)func_8002C604(0x15);
         side = D_8009B1D5 ^ 1;
         D_8009B17C = object;
         D_8009B1F0[side] = object;

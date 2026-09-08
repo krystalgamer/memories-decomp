@@ -273,6 +273,14 @@ original bytes - a full `make match` that proves nothing. The resident
 `initialized_data` segment is therefore `type: code` with no text subsegments,
 exactly like the leading read-only `main` segment.
 
+**Assembly that still references the range keeps working.** `D_800907AC` is
+reached by two functions that are still extracted assembly; when
+`duel_field_layout.c` took ownership of it, those `%hi`/`%lo` references
+resolved to the C definition, with no entry added to
+`undefined_syms_auto.txt`. Splat only invents an absolute symbol for an
+address it cannot attribute to a segment, and a dotted subsegment is an
+attribution.
+
 The build reads the generated `tmp/generated/data_sources.json` the way it
 reads `text_sources.json`, so both `make match` and `make match-incremental`
 compile and place these units; editing one rebuilds one object. Before

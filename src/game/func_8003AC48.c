@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern s32 D_8009B0D8;
+#include "graphics_frame.h"
 
 extern s32 func_80039F1C(u8 *);
 extern void func_8003A440(u8 **, u32, s32);

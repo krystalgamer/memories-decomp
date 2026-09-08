@@ -1,15 +1,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "trig_constants.h"
-
-typedef struct {
-    u8 pad_00[0x30];
-    s16 out_x;
-    s16 out_y;
-    s16 unused;
-    s16 x;
-    s16 y;
-} DisplayObjectPosition;
+#include "display_object_interpolation.h"
 
 void func_8004318C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3)
 {

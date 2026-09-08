@@ -1,5 +1,6 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "func_8002C604.h"
 #include "input.h"
 #include "duel_card.h"
 #include "display_object_api.h"
@@ -26,7 +27,6 @@ extern u8 *func_800291E0(s32, s32, s32);
 extern void func_80012D84(s32);
 extern void func_8001944C(u8 *);
 extern u8 *func_80017F04(DuelCardRecord *, s32, s32);
-extern u8 *func_8002C604(s32);
 
 /* Debug display controller: START hands the pad to func_800220B8; on the
    first call it initialises the D_8009B23A mode flags and the cursor state.

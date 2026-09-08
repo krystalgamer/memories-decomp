@@ -1,11 +1,10 @@
 #include "../types.h"
+#include "graphics_frame.h"
 #include "display_object.h"
 #include "display_object_layout.h"
 
 typedef void (*ObjFn)(u8 *);
 
-extern s16 gGraphics_sViewportX;
-extern s16 gGraphics_sViewportY;
 extern u8 D_800E9D90[];
 extern s16 D_800EFE40[];
 extern s16 D_800EFE42[];

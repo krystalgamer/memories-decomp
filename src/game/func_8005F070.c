@@ -1,10 +1,10 @@
 #include "../types.h"
+#include "model_copy_slot_u16_values.h"
 
 extern u8 D_800F5768[];
 extern u8 *D_8009B074;
 extern u8 *func_800591FC(void);
 extern u8 *func_80059208(void);
-extern void Model_CopySlotU16Values();
 
 void func_8005F070(s32 enabled)
 {
@@ -30,7 +30,7 @@ void func_8005F070(s32 enabled)
                 s32 kind = *(s16 *)(entry + 6);
                 if (kind < 4) {
                     if (kind >= 2)
-                        Model_CopySlotU16Values(*(s16 *)entry, table + offset);
+                        Model_CopySlotU16Values(*(s16 *)entry, (u16 *)(table + offset));
                 }
             }
         }

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8002C604.h"
 
 extern u8 *D_80010000;
 extern u8 D_800E9D90[];

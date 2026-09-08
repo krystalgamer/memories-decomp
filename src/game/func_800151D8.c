@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "graphics_frame.h"
 
 #include "fade.h"
 
@@ -7,8 +8,6 @@
    field_08 accumulator; decreasing transitions visit the outer pair first
    and add step. Values are clamped between level and target_level. After
    the pass, the head update uses the opposite sign, scaled by D_8009B0D8. */
-
-extern s32 D_8009B0D8;
 
 void func_800151D8(void)
 {
