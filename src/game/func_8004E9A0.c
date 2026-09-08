@@ -3,19 +3,6 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
-typedef float f32;
-typedef double f64;
-typedef char M2C_UNK;
-typedef struct { s32 words[9]; } Mtx32;
-typedef u8 State;
-typedef u8 Record;
-typedef u8 Pair;
-typedef u8 Controller;
-typedef u8 Entry;
-typedef u8 Rec;
-typedef u8 Block;
-typedef struct { u32 words[2]; } Blk8;
-
 extern u8 D_80091508[];
 extern u8 *D_8009AF88;
 extern short D_8009B468;
