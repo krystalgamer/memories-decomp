@@ -2,13 +2,13 @@
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_grid.h"
+#include "func_80026C0C.h"
 #include "../psyq/rand.h"
 
 extern s32 func_80026DC8(void);
 extern s32 func_80027060(void);
 extern s32 func_8002712C(void);
 extern s32 func_80027228(void);
-extern s32 func_80026C0C(s32);
 extern s32 Rand_GetInterval(s32);
 
 extern u8 D_8009B1D5;
