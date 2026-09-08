@@ -5291,3 +5291,38 @@ you have not been able to write, because a declaration is the one thing an
 inner block adds. If the lever does not turn on a declaration - a constant's
 hoist, a foldable expression, a pinned variable's lifetime - scope will not
 reach it, and the two negatives above are what that looks like.
+## Check which section a relocation record belongs to
+
+A measurement harness that reads `objdump -r` must track the
+`RELOCATION RECORDS FOR [section]` header, because `objdump` prints one block
+per section and the offsets restart in each. Accepting any record that falls in
+the function's offset range mixes other sections' relocations into `.text`.
+
+This is not hypothetical and it is not rare. A jump-table function keeps its
+table in `.rodata` as `R_MIPS_32` entries pointing back into `.text`. Those
+offsets are small and dense, so they collide with `.text` offsets constantly,
+and each collision silently replaces the real relocation at that word.
+
+**The damage runs both ways, which is why it survives casual checking.** When
+the wrong relocation is applied to a build word that genuinely differs, the
+word can come out equal and the difference disappears. When it is applied to a
+word that genuinely matches, the word is reported as differing. Four entries
+were affected here:
+
+| entry | before | after | direction |
+| --- | --- | --- | --- |
+| `func_80046294` | 8 | 7 | a false difference |
+| `func_80015EF4` | 339 | 340 | a concealed real difference |
+| `func_80044838` | 285 | 288 | three concealed real differences |
+| `func_80029934` | 230 | 231 | the note was right, the tool was wrong |
+
+The last row is the useful one. That entry's note recorded 231 from an earlier
+hand count and the tool disagreed; the natural reading was that the note was
+stale. It was not.
+
+**The general practice:** when a tool and a durable note disagree, do not assume
+the note is stale. Reproduce the number a second way before overwriting it. And
+when a harness result changes after a tool fix, re-measure the *unaffected*
+entries too - here the three closest candidates were confirmed unchanged at 2,
+5 and 10, which is what makes the corrected numbers trustworthy rather than
+merely different.
