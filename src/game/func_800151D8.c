@@ -12,7 +12,7 @@ extern s32 D_8009B0D8;
 
 void func_800151D8(void)
 {
-    FadeTransitionState *state = &D_800E9EC8;
+    FadeTransitionState *state = &gFade_State;
     s32 step = state->step;
     s32 i;
     s32 level;

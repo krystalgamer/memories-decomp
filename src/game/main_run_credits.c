@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "fade.h"
 
 __asm__(
     ".set noreorder\n"
@@ -25,7 +26,7 @@ __asm__(
     ".word 0xA3820000\n"
     ".reloc .-4, R_MIPS_GPREL16, D_8009B26C\n"
     ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80015780\n"
+    ".reloc .-4, R_MIPS_26, Fade_InitIn\n"
     ".word 0x00000000\n"
     ".word 0x3C020000\n"
     ".reloc .-4, R_MIPS_HI16, gDuel_awPlayerDeck\n"

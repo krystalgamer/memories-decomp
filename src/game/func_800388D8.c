@@ -1,14 +1,9 @@
 #include "../types.h"
+#include "fade.h"
 
 extern u8 D_8009AF76;
 extern u8 D_8009B140;
 extern u8 D_800E9ECF[];
-
-extern void func_80015944(s32);
-extern void func_8001581C(s32);
-extern void func_80015C84(void);
-extern void func_80015C0C(void);
-extern void func_80015998(void);
 
 void func_800388D8(u8 *arg0)
 {
@@ -27,9 +22,9 @@ void func_800388D8(u8 *arg0)
     }
     if (opcode & 0x10) {
         if (opcode & 1) {
-            func_80015944(0xFFFFFF);
+            Fade_InitOutColor(0xFFFFFF);
         } else {
-            func_8001581C(0xFFFFFF);
+            Fade_InitInColor(0xFFFFFF);
         }
         D_800E9ECF[0] = 4;
     } else if (opcode & 1) {
@@ -38,6 +33,6 @@ void func_800388D8(u8 *arg0)
         func_80015C0C();
     }
     if (opcode & 0x80) {
-        func_80015998();
+        Fade_Wait();
     }
 }

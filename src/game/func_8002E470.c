@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "fade.h"
 #include "file_transfer.h"
 
 extern u8 *D_8009B290;
@@ -15,7 +16,6 @@ extern s32 func_8002E3B4(void);
 extern void func_8002E00C(void *);
 extern void func_8002DF2C(void *, s32);
 extern void func_8002E128(void *, s32);
-extern void func_800157DC(void);
 
 void func_8002E470(void)
 {
@@ -50,7 +50,7 @@ void func_8002E470(void)
              D_8009B134) == 0) {
             D_8009B27C = flags | 0x800;
             func_8002E128(D_800EAE98, -1);
-            func_800157DC();
+            Fade_StartIn();
         }
     } else {
         if ((D_800E9ECE[0] & 0x80) == 0) {

@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
+#include "fade.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
 
@@ -34,10 +35,7 @@ extern s32 func_8002E3B4(void);
 extern void func_8002F4C0(u8 *, s32);
 extern void func_8002E00C(void *);
 extern void func_80040510(Object *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
-extern void func_800157DC(void);
-extern void func_80015998(void);
 extern u32 func_8004703C(void);
-extern void Fade_WaitOut(void);
 
 /* Duel result screen setup. Reads the two-byte result code from the script
    stream, queues the result sector through File_RequestAsyncTransfer with
@@ -103,9 +101,9 @@ void func_8002F630(void) {
         q->field_40 = color;
         D_8009B280 = q;
         q->flags |= 0x60000000;
-        func_800157DC();
+        Fade_StartIn();
         D_800E9ECF[0] = four;
-        func_80015998();
+        Fade_Wait();
     } else {
         if (func_8004703C() & 0x80) {
             return;

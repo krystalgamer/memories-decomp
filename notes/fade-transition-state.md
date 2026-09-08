@@ -1,10 +1,10 @@
 # Fade Transition State
 
-This phase is limited to the `0x28`-byte transition/fade record rooted at
-`D_800E9EC8` and its same-address linker alias `D_800E9EC8_arr`. It does not
+This phase is limited to the `0x28`-byte transition/fade record
+`gFade_State` and its same-address linker alias `D_800E9EC8_arr`. It does not
 group neighboring globals or offset symbols into the shared declaration.
-`src/game/fade.h` records verified offsets and widths; names are conservative
-descriptions of behavior, not recovered original Konami identifiers.
+`src/ygo_types.h` records verified offsets and widths, while
+`src/game/fade.h` owns the fade API and globals.
 
 ## Layout and extent evidence
 
@@ -25,7 +25,7 @@ The shared `FadeTransitionState` layout is:
 
 The end of `band_levels` gives a minimum record size of `0x28`.
 `D_800E9EF0`, the next linker symbol, is exactly `0x28` bytes after
-`D_800E9EC8`, independently fixing the extent. C89 typedef assertions verify
+`gFade_State`, independently fixing the extent. C89 typedef assertions verify
 the total size and every modeled field offset.
 
 Target assembly across `func_800151B0`, `func_800151D8`,
@@ -128,10 +128,10 @@ rather than inferred from a caller's name:
 
 | Setup path | Initial head / target | Default setup |
 |---|---|---|
-| `func_80015780` in [`fade_in.c`](../src/game/fade_in.c) | `0` / `0xFF` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
+| `Fade_InitIn` in [`fade_in.c`](../src/game/fade_in.c) | `0` / `0xFF` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
 | `Fade_InitOut` in [`fade_out.c`](../src/game/fade_out.c) | `0xFF` / `0` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
 
-`func_800157DC` and `Fade_StartOut` call those initializers, then request
+`Fade_StartIn` and `Fade_StartOut` call those initializers, then request
 step `8` and flag `0x01` (band mode). However, both call a color helper
 **after** that request. When `D_8009B145` is nonzero,
 [`func_8001572C`](../src/game/func_8001572C.c) replaces the flags with `0x90`,
@@ -140,8 +140,8 @@ Both helpers write white tint, restore step `0x0C`, and clear band mode by
 replacing the entire flag byte. The wrappers therefore do not unconditionally
 start an eight-unit banded transition.
 
-These are code-derived conclusions, not a new emulator result or a semantic
-rename. The older [screen-fade observations, F87-F92](research/Unchiga_Symbols/findings.md#screen-fade-to-black-circle-out-of-free-duel-x-back-in----session-2026-09-02)
+These are code-derived conclusions, not a new emulator result. The older
+[screen-fade observations, F87-F92](research/Unchiga_Symbols/findings.md#screen-fade-to-black-circle-out-of-free-duel-x-back-in----session-2026-09-02)
 describe particular menu runs; their eight-unit step and approximate
 48-frame duration are not universal API guarantees. The frame-sync producer
 now bounds its published `D_8009B0D8` values to `1` or `2` as described
@@ -220,10 +220,10 @@ runtime questions; no trace result or behavior change is implied here.
 
 ## Shared declarations and migrated users
 
-`fade.h` declares the typed base:
+`fade.h` declares the typed base from `src/ygo_types.h`:
 
 ```c
-extern FadeTransitionState D_800E9EC8;
+extern FadeTransitionState gFade_State;
 ```
 
 It also preserves the only same-address raw linker alias:
@@ -236,12 +236,19 @@ Matching pure-C users migrated to this shared header include:
 
 - `func_800151B0`, `func_800151D8`, `func_80015310`, `Fade_DrawOverlay`,
   `func_800156B8`, `func_800156DC`;
-- `func_8001572C`, `func_80015780`, `func_800157DC`;
-- `func_8001581C`, `func_80015870`, `Fade_InitOut`;
-- `Fade_StartOut`, `func_80015944`, `func_80015998`;
+- `func_8001572C`, `Fade_InitIn`, `Fade_StartIn`;
+- `Fade_InitInColor`, `func_80015870`, `Fade_InitOut`;
+- `Fade_StartOut`, `Fade_InitOutColor`, `Fade_Wait`;
 - `func_80015A50`, `func_80015A94`, `func_80015B50`, `func_80015B94`;
 - `func_80015BD8`, `func_80015BF0`;
 - `func_80015C0C`, `func_80015C48`, `func_80015C84`, `func_80015CC0`.
+
+The colour initializers and their blocking wrappers now carry an explicit
+`s32 color` parameter, replacing the old reliance on an incoming `$a0`.
+`func_80015C84` deliberately keeps an unspecified parameter list: one exact
+caller passes the white-mode byte and another passes nothing, while the
+callee consumes neither form. A stricter invented parameter would make one
+of those known call sites false.
 
 The later exact pure-C matches for `func_800151D8` and `func_80015310`
 removed the band walker and transition updater from the assembly exception
@@ -260,7 +267,7 @@ Some migrated C deliberately retains raw expressions without retaining local
 competing declarations:
 
 - `Fade_DrawOverlay` keeps `D_800E9EC8_arr` as the pointer passed to
-  `func_80015310`, while the tail uses typed `D_800E9EC8` fields. The two
+  `func_80015310`, while the tail uses typed `gFade_State` fields. The two
   same-address symbol views preserve the target's fresh address
   materialization in the exact draw-screen-fade implementation.
 - `func_80015310` keeps its `u8 *` parameter and the offset-symbol array
@@ -271,7 +278,8 @@ competing declarations:
 - `func_800156B8` casts the typed base to a byte pointer and keeps
   `*(p + i + 0xA)`. The equivalent array-member expression changes the MIPS
   `addu` operand order and does not match.
-- `func_8001572C`, `func_8001581C`, `func_80015870`, and `func_80015944`
+- `func_8001572C`, `Fade_InitInColor`, `func_80015870`, and
+  `Fade_InitOutColor`
   retain explicit `s32` stores through the typed base because target assembly
   proves one whole-word write at offset zero before byte field accesses.
 

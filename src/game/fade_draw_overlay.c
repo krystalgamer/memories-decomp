@@ -8,7 +8,7 @@
 /* Full-screen fade / brightness overlay, drawn once per frame from
    func_8001306C's dispatcher.
 
-   The fade state lives in the D_800E9EC8 record: byte 4 is the current
+   The fade state lives in the gFade_State record: byte 4 is the current
    level, byte 6 is the flag byte, bytes 0/1/2 are per-channel tint, and
    bytes 0xA..0x27 are 30 per-band levels. func_80015310 updates the state
    before the draw gate: active flag 0x80, or a nonzero D_8009B141 with
@@ -34,7 +34,7 @@
    Shape notes for anyone re-deriving this: the descriptor's 0x04 and 0x08
    words are each written whole (x+y and w+h together), while y and h are
    updated as halves, so those two go through casts. The tail reads the
-   fade record through D_800E9EC8 and the tint block through the pointer
+   fade record through gFade_State and the tint block through the pointer
    set up for the func_80015310 call -- that is what makes gcc rematerialise
    the record address once for the tail instead of reusing $s2 throughout.
    Matches 0/117 with -G8 -msplit-addresses. */
@@ -63,8 +63,6 @@ extern u8 D_800E9ECE[16];
 extern s32 D_800E9D94[4];      /* [0] = ordering table the boxes sort into */
 extern u8 D_8009B140;
 extern u8 D_8009B141;
-
-extern void func_80015310(u8 *);
 
 void Fade_DrawOverlay(void) {
     FadeBox *p;
@@ -111,11 +109,11 @@ void Fade_DrawOverlay(void) {
             }
         }
 
-        shade = 0xFF - D_800E9EC8.level;
+        shade = 0xFF - gFade_State.level;
         p->b = (u8) shade;
         p->g = (u8) shade;
         p->r = (u8) shade;
-        if (D_800E9EC8.flags & 0x10) {
+        if (gFade_State.flags & 0x10) {
             p->tag = 0x50000000;
             tint = rec[0] - rec[4];
             if (tint < 0) tint = 0;

@@ -1,6 +1,7 @@
 
 #include "../types.h"
 #include "card_constants.h"
+#include "fade.h"
 #include "text_box_lifecycle.h"
 #include "../overlays/main_menu/entrypoints.h"
 
@@ -18,9 +19,7 @@ extern u8 D_800EB0F8[];
 
 extern void func_80039A14(void *);
 extern void SD_BGMPlay(u32);
-extern void func_80015A00(void);
 extern void SD_BGMFadeOut(void);
-extern void Fade_WaitOut(void);
 extern void func_80024DC8(s32, s32, s32, s32);
 
 void func_8002DC38(void)

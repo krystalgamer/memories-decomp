@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
+#include "fade.h"
 #include "file_transfer.h"
 #include "sound.h"
 
@@ -32,7 +33,6 @@ extern void func_8001352C(void);
 extern u8 *func_8002C604(s32);
 extern u8 *func_8002C68C(s32);
 extern void func_80024954(u8 *);
-extern void func_800157DC(void);
 extern void SD_BGMPlay(u32);
 extern s16 func_800181EC(u8 *);
 
@@ -105,7 +105,7 @@ void func_8001825C(void)
                 SD_BGMPlay(D_8009B36A);
             }
         }
-        func_800157DC();
+        Fade_StartIn();
         return;
     }
 

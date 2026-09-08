@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "fade.h"
 #include "input.h"
 #include "sound.h"
 
@@ -10,7 +11,6 @@ extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 /* Keep this byte outside small data so its store retains absolute addressing. */
 extern u8 gSD_bOutputType[9];
 
-extern void Fade_WaitOut(void);
 extern void SD_SetOutputType(s32);
 extern void Options_UpdateLayout(s32);
 

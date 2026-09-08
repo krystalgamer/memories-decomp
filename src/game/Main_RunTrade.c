@@ -2,6 +2,7 @@
 #include "display_object_api.h"
 #include "text_box_lifecycle.h"
 #include "../overlays/main_menu/entrypoints.h"
+#include "fade.h"
 #include "sound.h"
 #include "display_object_helpers.h"
 
@@ -42,13 +43,11 @@ extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
 extern void func_80032328(void);
 extern void SD_BGMPlay(u32);
 extern void func_80039A14(void *);
-extern void func_80015A00(void);
 extern void func_80043178(Obj *);
 extern void func_80043230(Obj *, s32, s32, s32);
 extern void TextBox_SetPos(void *, s32, s32);
 extern s32 DuelEffect_UpdateState(void);
 extern void SD_BGMFadeOut(void);
-extern void Fade_WaitOut(void);
 
 void Main_RunTrade(void)
 {

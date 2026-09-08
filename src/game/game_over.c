@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "fade.h"
 #include "graphics_constants.h"
 #include "input.h"
 #include "display_object_helpers.h"
@@ -13,7 +14,6 @@ extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern void func_80040410(u8 *, s32);
 extern void func_80040510();
 extern void SD_BGMPlay(u32);
-extern void func_800157DC();
 extern s32 Rand_GetInterval(s32);
 
 void func_8003C950(void)
@@ -34,7 +34,7 @@ void func_8003C950(void)
     func_800429D8(object);
     D_8009B378 = (s32)object;
     SD_BGMPlay(0x7300);
-    func_800157DC();
+    Fade_StartIn();
     D_800E9ECF[0] = 2;
 }
 

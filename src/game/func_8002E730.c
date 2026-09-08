@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "fade.h"
 #include "display_object_api.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -29,9 +30,7 @@ extern u16 D_8009B2A8;
 extern u16 D_8009B2AA;
 extern u16 D_8009B270;
 
-extern void func_80015C0C(void);
 extern s32 func_8004006C(void);
-extern void func_80015C84(u8);
 extern void func_8002DF2C(void *, s32);
 extern void func_8002E00C(void *);
 extern void func_8002E128(void *, s32);

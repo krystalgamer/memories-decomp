@@ -6,19 +6,17 @@ extern u8 D_8009B145;
 extern u8 D_8009B14A;
 extern u8 D_8009B14B;
 extern u8 D_8009B14C;
-extern void func_80015780(void);
-extern void func_8001572C(void);
 
-void func_8001581C(int color)
+void Fade_InitInColor(int color)
 {
     FadeTransitionState *state;
 
     if (color == 0xFFFFFF) {
         D_8009B145 = 1;
     }
-    *(s32 *)&D_800E9EC8 = color;
-    func_80015780();
-    state = &D_800E9EC8;
+    *(s32 *)&gFade_State = color;
+    Fade_InitIn();
+    state = &gFade_State;
     state->flags |= 0x30;
     func_8001572C();
 }
@@ -30,7 +28,7 @@ void func_80015870(void)
 
     if (D_8009B145 != 0) {
         color = 0xFFFFFF;
-        state = &D_800E9EC8;
+        state = &gFade_State;
         *(s32 *)state = color;
         state->flags = 0xB0;
         state->step = 0xC;

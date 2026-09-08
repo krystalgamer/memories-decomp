@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "fade.h"
 
 extern void (*D_800E9DB0[4])(void); /* per-frame callback slots */
 extern s32 runtime_gp;
@@ -10,7 +11,6 @@ extern s32 D_8009B0D4;
 
 extern void func_800136D4(void);
 extern void func_80014A5C(s32 a0);
-extern void Fade_DrawOverlay(void);
 extern void func_80041340(void);
 
 /* Per-frame dispatcher: runs the two fixed housekeeping calls, then each of

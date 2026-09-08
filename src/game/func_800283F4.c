@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "fade.h"
 
 #include "display_object_layout.h"
 #include "duel_effect.h"
@@ -26,7 +27,6 @@ extern u8 D_800EA0E8[];
 extern s32 gDuel_adwCardStats[];
 
 extern s32 func_800282E8(void);
-extern void func_80015BD8(s32, s32);
 extern void func_80029164(s32, s32);
 extern void func_80029528(s32);
 extern void func_80029574(s32);

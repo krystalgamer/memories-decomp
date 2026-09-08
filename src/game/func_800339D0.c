@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "fade.h"
 #include "card_constants.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
@@ -14,7 +15,6 @@ extern u8 D_800EB0F8[];
 extern s32 func_80032B38(u8 *);
 extern s32 func_80033998(void);
 extern void func_80039794(void);
-extern void func_80015BD8(s32, s32);
 extern void func_80032370(void);
 
 /* Handles leaving the deck editor. When the editor's own check passes, the

@@ -6,7 +6,7 @@ extern u8 D_8009B145;
 
 void func_800151B0(void)
 {
-    FadeTransitionState *state = &D_800E9EC8;
+    FadeTransitionState *state = &gFade_State;
 
     state->flags = 0;
     state->level = 0;

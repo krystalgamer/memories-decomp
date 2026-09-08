@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "fade.h"
 #include "text_box_lifecycle.h"
 #include "display_object_helpers.h"
 
@@ -20,7 +21,6 @@ extern u8 D_8009B2EB;
 extern void *D_8009B2EC;
 extern u8 D_8009B2F0;
 
-extern void func_80015A00(void);
 extern void func_800300C8(void);
 extern void func_8003B6AC(s32, s32);
 extern void func_80039A14(void *);

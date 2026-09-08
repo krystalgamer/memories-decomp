@@ -2,6 +2,7 @@
 #include "view_state.h"
 #include "card_constants.h"
 #include "duel_deck_card.h"
+#include "fade.h"
 #include "file_transfer.h"
 #include "duel_selection_layout.h"
 
@@ -29,7 +30,6 @@ extern void Duel_PopulateCombinedDeckData(void);
 extern void Duel_ClearHandSlots(void);
 extern void SD_BGMPlay(u32);
 extern void func_8001352C(void);
-extern void func_800157DC(void);
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 
@@ -63,7 +63,7 @@ void func_80018608(void)
         w[1] = 0x16C0;
         func_8001352C();
         D_8009B174 = 2;
-        func_800157DC();
+        Fade_StartIn();
         return;
     }
 

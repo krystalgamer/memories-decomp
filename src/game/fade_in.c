@@ -3,12 +3,10 @@
 #include "fade.h"
 
 extern u8 D_8009B141;
-extern void func_800156B8(u8);
-extern void func_8001572C(void);
 
-void func_80015780(void)
+void Fade_InitIn(void)
 {
-    FadeTransitionState *state = &D_800E9EC8;
+    FadeTransitionState *state = &gFade_State;
 
     state->target_level = 0xFF;
     state->flags = 0x80;
@@ -19,12 +17,12 @@ void func_80015780(void)
     func_8001572C();
 }
 
-void func_800157DC(void)
+void Fade_StartIn(void)
 {
     FadeTransitionState *state;
 
-    func_80015780();
-    state = &D_800E9EC8;
+    Fade_InitIn();
+    state = &gFade_State;
     state->step = 8;
     state->flags |= 1;
     func_8001572C();

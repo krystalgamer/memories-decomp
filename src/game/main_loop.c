@@ -1,9 +1,10 @@
 #include "../types.h"
+#include "fade.h"
 
 extern u8 D_8009B26C;
 extern void (*D_80090B64[])(void);
 extern void func_8002CDE8(void), func_80012D4C(void);
-extern void Main_ResetFrontendRuntime(void), Fade_WaitOut(void);
+extern void Main_ResetFrontendRuntime(void);
 void Main_Loop(void) {
     func_8002CDE8();
     for (;;) {

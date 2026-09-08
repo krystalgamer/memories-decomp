@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../overlays/main_menu/entrypoints.h"
 #include "../psyq/rand.h"
+#include "fade.h"
 #include "input.h"
 #include "text_box_lifecycle.h"
 
@@ -85,7 +86,7 @@ s32 func_80043BCC(void) {
                 D_8009B428 = f | 0x80;
                 Main_ResetFrontendRuntime();
                 MainMenu_InitFrontendMenu(0, 0);
-                func_800157DC();
+                Fade_StartIn();
             }
             r = MainMenu_UpdateFrontendMenu();
             if (r != -1) {

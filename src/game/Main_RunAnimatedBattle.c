@@ -1,6 +1,7 @@
 
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "fade.h"
 
 typedef struct {
     s16 f0;
@@ -24,7 +25,6 @@ extern void func_800530C4(void);
 extern void func_800533D8(void);
 extern void Model_SetSlotProperties(s32, ...);
 extern void func_80059C24(void);
-extern void func_800159D8(void);
 extern s32 func_80059C88(void);
 extern s32 func_800534B8(void);
 extern void SD_KeyOffVoiceSlots(void);

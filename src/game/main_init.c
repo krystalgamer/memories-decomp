@@ -5,6 +5,7 @@
 #include "../psyq/libetc.h"
 #include "../psyq/setjmp.h"
 #include "../psyq/rand.h"
+#include "fade.h"
 #include "file_transfer.h"
 #include "rand_constants.h"
 
@@ -26,10 +27,8 @@ extern u8 D_800E9EC0[];
 extern jmp_buf D_800E9DC0;
 
 extern void func_80012A78(void);
-extern void func_80015D0C(void);
 extern void func_80013154(void);
 extern void func_800403F0(void);
-extern void func_800151B0(void);
 extern void func_800134B4(void);
 extern void func_80035A58(void);
 extern void func_80035A64(void);

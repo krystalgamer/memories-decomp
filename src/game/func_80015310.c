@@ -2,7 +2,6 @@
 #include "../types.h"
 #include "fade.h"
 
-extern FadeTransitionState D_800E9EC8;
 /* Spelled as an array so it stays outside the -G small-data model and is
    reached through %hi/%lo, whose lui covers the store's load delay. */
 extern u8 D_800E9ECC[];
@@ -21,10 +20,6 @@ extern u8 D_8009B14B;
 extern u8 D_8009B14C;
 extern s32 D_8009B0D8;
 
-extern void func_80015CFC(void);
-extern void func_80015D0C(void);
-extern void func_800151D8(void);
-
 void func_80015310(u8 *p)
 {
     u8 f;
@@ -33,7 +28,7 @@ void func_80015310(u8 *p)
     s32 tgt;
     s32 delta;
 
-    if ((D_800E9EC8.flags & 0x80) == 0) {
+    if ((gFade_State.flags & 0x80) == 0) {
         return;
     }
     if ((D_8009B141 & 0x80) == 0) {
@@ -45,10 +40,10 @@ void func_80015310(u8 *p)
     if (lvl != tgt) {
         goto step;
     }
-    f = D_800E9EC8.flags;
-    D_800E9EC8.flags = f & 0x7F;
+    f = gFade_State.flags;
+    gFade_State.flags = f & 0x7F;
     if (lvl == 0xFF) {
-        D_800E9EC8.flags = f & 0x79;
+        gFade_State.flags = f & 0x79;
         func_80015CFC();
         D_8009B140 = 0;
         D_8009B145 = 0;
@@ -59,7 +54,7 @@ void func_80015310(u8 *p)
     if (lvl != 0) {
         return;
     }
-    f = D_800E9EC8.flags;
+    f = gFade_State.flags;
     if (f & 2) {
         if ((f & 4) == 0) {
             return;
@@ -71,22 +66,22 @@ void func_80015310(u8 *p)
     D_8009B144 = D_8009B14C;
     D_8009B143 = D_8009B14B;
     D_8009B142 = D_8009B14A;
-    g = D_800E9EC8.flags;
+    g = gFade_State.flags;
     if ((g & 0x10) == 0) {
         return;
     }
     if ((g & 0x20) == 0) {
         return;
     }
-    D_800E9EC8.flags = g & 0xDF;
+    gFade_State.flags = g & 0xDF;
     D_8009B144 = p[0];
     D_8009B143 = p[1];
     D_8009B142 = p[2];
     func_80015CFC();
-    D_800E9EC8.flags = D_800E9EC8.flags | 0x80;
+    gFade_State.flags = gFade_State.flags | 0x80;
     return;
 step:
-    if (D_800E9EC8.flags & 1) {
+    if (gFade_State.flags & 1) {
         func_800151D8();
         return;
     }

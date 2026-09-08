@@ -16,7 +16,7 @@ void func_8001572C(void)
     int value;
     if (D_8009B145 != 0) {
         value = 0xFFFFFF;
-        state = &D_800E9EC8;
+        state = &gFade_State;
         *(s32 *)state = value;
         state->flags = 0x90;
         state->step = 0xC;

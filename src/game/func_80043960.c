@@ -3,6 +3,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libcd.h"
+#include "fade.h"
 #include "file_transfer.h"
 #include "graphics_constants.h"
 #include "display_object_helpers.h"
@@ -15,14 +16,12 @@ extern void func_80043328(void);
 extern void func_8007E910(int, int);
 extern void func_80047AD0(int);
 extern void func_80012D84(int);
-extern void func_80015780(void);
 extern void func_8004365C(void *, void *);
 extern void func_800438B8(int);
 extern void func_801680F4(void);
 extern int func_80168160(int);
 extern void func_8007AFA4(void);
 extern void func_8005B85C(void);
-extern void func_80015AD8(void);
 extern void Main_ResetFrontendRuntime(void);
 
 void func_80043960(int mode)
@@ -50,7 +49,7 @@ void func_80043960(int mode)
         File_WaitForTransfers();
         return;
     }
-    func_80015780();
+    Fade_InitIn();
     object = func_800400AC(func_8004002C(), 2);
     func_800428A8(object, 0, 0, 0, 0, 0, 0x10, 0x100,
                   (int)D_801AF000);
