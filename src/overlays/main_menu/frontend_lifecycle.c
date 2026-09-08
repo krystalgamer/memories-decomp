@@ -1,9 +1,15 @@
 #include "../../types.h"
+#include "entrypoints.h"
 #include "frontend.h"
 
+extern void *D_80184558;
+extern void *D_8018455C;
+extern void *D_80184560;
 extern u8 *gMain_apMenuEntries[];
 extern u8 D_80184596;
 extern u8 D_80184599;
+extern s32 D_800E9DB0;
+extern void func_8004036C(void *);
 
 void MainMenu_StartFrontendEntryTransition(s32 mode)
 {
@@ -30,4 +36,23 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
     }
     D_80184596 = mode;
     D_80184599 = 1;
+}
+
+void MainMenu_DestroyFrontendMenu(void)
+{
+    s32 i;
+
+    func_8004036C(D_80184558);
+    D_80184558 = 0;
+    func_8004036C(D_8018455C);
+    D_8018455C = 0;
+    func_8004036C(D_80184560);
+    D_80184560 = 0;
+    for (i = 0; i < 0xB; i++) {
+        if (gMain_apMenuEntries[i] != 0) {
+            func_8004036C(gMain_apMenuEntries[i]);
+            gMain_apMenuEntries[i] = 0;
+        }
+    }
+    D_800E9DB0 = 0;
 }

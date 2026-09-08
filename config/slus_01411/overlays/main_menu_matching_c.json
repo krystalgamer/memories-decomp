@@ -22,13 +22,13 @@
       "address": "0x80180D2C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA4",
-      "source": "src/overlays/main_menu/start_frontend_entry_transition.c"
+      "source": "src/overlays/main_menu/frontend_lifecycle.c"
     },
     {
       "address": "0x80180DD0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x9C",
-      "source": "src/overlays/main_menu/frontend_destroy.c"
+      "source": "src/overlays/main_menu/frontend_lifecycle.c"
     },
     {
       "address": "0x80180E6C",

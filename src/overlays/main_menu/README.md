@@ -122,6 +122,12 @@ separate value/Trade setup. Clearing the callback has no ownership test, so
 valid frontend lifecycle remains a caller precondition. The resident-facing
 declarations in `entrypoints.h` are included by definitions and both callers.
 
+The contiguous `gcc_2_8_1_g0_split` transition initializer and teardown share
+[`frontend_lifecycle.c`](frontend_lifecycle.c) in executable order. Both own
+the `gMain_apMenuEntries` handle set; their shared manifest source and one C
+subsegment at module offset `0xD2C` cover the complete `0x140`-byte range
+through `0x80180E6C`. The following afterimage lifecycle remains separate.
+
 ## Trade-screen ownership
 
 The resident `Main_RunTrade` calls `MainMenu_InitTradeScreen` at
