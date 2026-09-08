@@ -2401,6 +2401,25 @@ The same reading applies in reverse: an unexpected `srl` where the target has
 `andi`/`sltu` is evidence of a folded single-bit test, not of a genuine shift
 in the original source.
 
+`func_80048768` is the stricter version of the same mechanism. There, binding
+the boolean still let combine prove the single-bit source, while spelling the
+value as `(x & 0x100) >> 8 << 6` preserved the three-instruction count but
+emitted `andi` / `sra` / `sll`. The exact source made zero a register operand
+and kept the masked value separate:
+
+```c
+register const u32 zero asm("$0");
+
+flag = id & 0x100;
+flag = zero < flag;
+off += flag << 6;
+```
+
+That produces retail's `andi` / `sltu $zero` / `sll` without a branch. The
+lesson is to check both count and opcode kind: a three-instruction spelling can
+still encode the wrong operation, and binding the mask is not sufficient when
+combine can still see the literal zero comparison.
+
 ## A canonicalising diff harness can invent differences as well as hide them
 
 While comparing `SD_SEPlay` (0x80048658) and `func_80047DB0`, both candidates
@@ -3332,6 +3351,16 @@ four over, because the two extra prologue stores cancel the two saved `lui`.
 Count parity with the wrong saved-register set is an artifact, so check the
 frame before reading anything into it — the companion to "Count the target's
 saved registers before blaming the allocator".
+
+`func_80048768` shows the same cause through two apparently unrelated
+symptoms. Its far-pan window test is loop-invariant, so a structured loop
+hoists the test and ends the original `arg1` live range before the body. With
+no value to preserve across `SpuGetVoiceEnvelope`, the prologue also loses the
+retail copy into `$s6`. A label and `goto` back edge keeps the test inside all
+four iterations, extends `arg1` across the call, and restores the saved copy.
+When an invariant moves and a parameter copy disappears together, treat them
+as one loop-optimiser decision before debugging register allocation
+independently.
 
 ## A pointer local reused across blocks is allocated by a different pass
 
