@@ -137,6 +137,8 @@ segments:
       - [0x80ee0, data, initialized_data_800906e0]
       - [0x80f04, .data, game/file_names]
       - [0x80fac, data, initialized_data_800907ac]
+      - [0x811d4, .data, game/duel_terrain_boost]
+      - [0x8124c, data, initialized_data_80090a4c]
       - [0x81ee0, .data, game/ai_script_commands]
       - [0x81ff0, .data, game/ai_opponent_data]
       - [0x82158, data, initialized_data_80091958]

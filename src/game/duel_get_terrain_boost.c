@@ -1,10 +1,10 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "duel_terrain_boost.h"
 
 extern u8 gDuel_bTerrain[];
 /* Same byte, distinct compiler identity: keep both address materializations. */
 extern u8 gDuel_bTerrainCodegenAlias[];
-extern s8 gDuel_aTerrainBoost[][6];
 
 s32 Duel_GetTerrainBoost(s32 cardType)
 {
