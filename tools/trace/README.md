@@ -18,7 +18,7 @@ waiting to be acted on.
 
 Before writing another script, inventory both directories. Any completed
 script/result pair takes priority over the number of unanswered scripts; the
-"fewer than ten" allowance applies only when no completed pair remains.
+"fewer than 30" allowance applies only when no completed pair remains.
 
 ## Running one
 
