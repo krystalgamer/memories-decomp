@@ -3,8 +3,7 @@
 #include "../../game/graphics_constants.h"
 
 extern u8 D_80184597;
-extern void *D_800E9D90[];
-extern void func_80084320(void *, void *, s32);
+extern GsOT *D_800E9D90[];
 
 void func_80180B4C(void)
 {
@@ -57,7 +56,7 @@ void func_80180B4C(void)
         sprite.v2 = 239;
         sprite.u3 = u + 63;
         sprite.v3 = 239;
-        func_80084320(&sprite, D_800E9D90[2], 4095);
+        GsSortPoly(&sprite, D_800E9D90[2], 4095);
     }
     setPolyG4(&shade);
     shade.r2 = 255;

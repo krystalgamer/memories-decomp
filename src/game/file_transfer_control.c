@@ -189,7 +189,7 @@ s32 func_80014C40(u8 *p, u8 *q) {
         f = func_80014B30_callback;
 
         if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) != 0) {
-            if ((D_8009B0F4 & 0x80000) != 0) {
+            if ((D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE) != 0) {
                 func_80015010();
             }
         }

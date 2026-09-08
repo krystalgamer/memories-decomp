@@ -2,7 +2,7 @@
 #include "save_data.h"
 
 typedef struct {
-    u8 pad_000[0x334];
+    u8 pad_000[SAVE_DATA_DUELIST_CODE_OFFSET];
     s32 duelist_code;
 } SaveRecord;
 

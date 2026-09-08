@@ -273,13 +273,23 @@ Texture UV limits and the other geometry values are not reinterpreted as
 screen constants. Submission order, colors, flags and local value lifetimes
 retain the matching behavior.
 
+The background tiles, three-digit renderer, card-type icon and starchip bars
+submit through the SDK's `GsSortPoly` at `0x80084320`, previously
+`func_80084320`. The complete Psy-Q 4.6 `2D_PRIM.OBJ` signature matches
+uniquely; see the [SDK evidence](../../../notes/psyq.md).
+These callers share the canonical `libgs.h` interface with `GsOT *` and an
+unsigned-halfword priority rather than maintaining local prototypes. This
+SDK entry remains assembly and is distinct from the game-owned packet helper
+`func_8005B260`. `main_menu_linker_symbols.txt` supplies its resident import;
+it is not an additional overlay function.
+
 ## The card type icon
 
 `func_80184344` draws the small 16 by 16 marker for a card. It reads the
 card's packed stat word from `D_801D4244` at `id - 1`, takes the type from
 bits 26-30, and builds a 40-byte textured quad — length 9, GPU code `0x2C`,
 grey `0x80`, texture page `0xB`, `u` `0`-`0x10` and `v` `0xC8`-`0xD8` — which
-it submits through `func_80084320`.
+it submits through `GsSortPoly`.
 
 Only the palette changes with the type, so all four kinds share one texture:
 

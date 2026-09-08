@@ -82,7 +82,7 @@ void func_80014FA4(void)
     if ((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134) {
         value = 0x80;
         if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
-            (D_8009B0F4 & 0x80000)) {
+            (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
             func_80015010();
         }
         D_8009B134 = value;
@@ -98,7 +98,7 @@ void func_80015010(void)
 void func_80015038(void)
 {
     if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
-        (D_8009B0F4 & 0x80000)) {
+        (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
         func_80015010();
     }
 }
@@ -117,7 +117,7 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
 
     D_8009B0F4 &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
     if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
-        (D_8009B0F4 & 0x80000)) {
+        (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
         func_80015010();
     }
 
