@@ -79,6 +79,8 @@ segments:
       - [0xC68, rodata, initial_data_1e]
       - [0xCD8, .rodata, game/mem_card_save_state]
       - [0xCEC, rodata, initial_data_1e2]
+      - [0x100C, .rodata, game/func_80046A08]
+      - [0x1034, rodata, initial_data_1e4]
       - [0x1F84, .rodata, game/func_80057544]
       - [0x1F9C, .rodata, game/func_800577B0]
       - [0x1FC8, rodata, initial_data_1f]

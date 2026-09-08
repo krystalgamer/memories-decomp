@@ -4105,6 +4105,12 @@
       "source": "src/game/sound_state_control.c"
     },
     {
+      "address": "0x80046A08",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3E0",
+      "source": "src/game/func_80046A08.c"
+    },
+    {
       "address": "0x80046DE8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x170",
