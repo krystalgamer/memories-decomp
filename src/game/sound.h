@@ -233,7 +233,9 @@ typedef struct {
     s16 field_07E6;
     u8 *field_07E8;
     s32 field_07EC;
-    u8 pad07F0[0x0A];
+    s32 field_07F0;
+    s32 field_07F4;
+    s16 field_07F8;
     u16 field_07FA;
     u16 timebase;
     u8 pad07FE[2];

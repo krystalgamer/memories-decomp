@@ -1,8 +1,7 @@
 #include "../types.h"
+#include "sound.h"
 #include "sound_sequence_reader.h"
 #include "sound_sequence_values.h"
-
-extern u8 *D_8009B458;
 
 /* MATCH (2026-09-05). Was an ASSEMBLY TRANSCRIPTION (Unchiga's port of
  * 2026-08-30, an inline asm block) counted as debt in docs/ASM_DEBT.md;
@@ -38,21 +37,21 @@ s32 func_8004BCE8(void) {
     s32 m;
     u32 k;
 
-    b = D_8009B458;
+    b = (u8 *)D_8009B458;
     p = b + 0x518;
     b[0x801] = 0;
     do {
-        *(s32 *)(D_8009B458 + 0x7F0) = 0;
-        *(s32 *)(D_8009B458 + 0x7F4) = 0;
+        D_8009B458->field_07F0 = 0;
+        D_8009B458->field_07F4 = 0;
         *(s32 *)(b + 0x518) = 8;
-        *(s16 *)(D_8009B458 + 0x7FC) = SD_ReadSequenceU16BE(p);
-        *(s16 *)(D_8009B458 + 0x7FA) = 1;
-        *(s16 *)(D_8009B458 + 0x7F8) = 0;
-        *(s32 *)(D_8009B458 + 0x7EC) = 0x10000;
+        D_8009B458->timebase = SD_ReadSequenceU16BE(p);
+        D_8009B458->field_07FA = 1;
+        D_8009B458->field_07F8 = 0;
+        D_8009B458->field_07EC = 0x10000;
         v = (u32)SD_ReadSequenceU32BE(p) >> 8;
         r = v;
         k = 60000000;
-        *(s32 *)(D_8009B458 + 0x808) = r;
+        D_8009B458->field_0808 = r;
     } while (0);
 
     v = k / r;
@@ -61,7 +60,7 @@ s32 func_8004BCE8(void) {
         v = 0xFF;
     }
 
-    m = *(u16 *)(D_8009B458 + 0x7FC);
+    m = D_8009B458->timebase;
     if (m == 0x1E) {
         goto sh2;
     }
@@ -85,11 +84,11 @@ store:
     *(s16 *)(p + 0x14) = v & 0xFF;
     SD_ReadSequenceByte(p);
 
-    if (*(u16 *)(D_8009B458 + 0x7FC) >= 0x60) {
-        *(s32 *)(D_8009B458 + 0x804) = *(u16 *)(D_8009B458 + 0x7FC);
+    if (D_8009B458->timebase >= 0x60) {
+        D_8009B458->field_0804 = D_8009B458->timebase;
     } else {
-        *(s32 *)(D_8009B458 + 0x804) = 0;
+        D_8009B458->field_0804 = 0;
     }
-    *(s32 *)(D_8009B458 + 0x804) = *(u16 *)(D_8009B458 + 0x7FC);
+    D_8009B458->field_0804 = D_8009B458->timebase;
     return 1;
 }
