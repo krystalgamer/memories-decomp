@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "campaign_flags.h"
 
 extern u32 D_8009B350;
 
@@ -16,9 +17,9 @@ void func_80038D2C(u8 *object)
 {
     s32 flag = func_80036D3C(object);
 
-    flag &= 0xFFFF;
-    if (flag & 0x4000) {
-        Library_UpdateCardUsedFlag(flag & 0xBFFF);
+    flag &= CAMPAIGN_FLAG_COMMAND_WORD_MASK;
+    if (flag & CAMPAIGN_FLAG_COMMAND_WRITE) {
+        Library_UpdateCardUsedFlag(flag & CAMPAIGN_FLAG_COMMAND_PAYLOAD_MASK);
         return;
     }
 

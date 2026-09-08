@@ -3,6 +3,7 @@
 
 extern u8 D_801D0000[];
 
+/* A normal query returns the bit mask, not a normalized Boolean. */
 s32 Campaign_TestStoryFlag(s32 arg0)
 {
     s32 i = (arg0 & CAMPAIGN_FLAG_ID_MASK) >> 3;
@@ -10,7 +11,7 @@ s32 Campaign_TestStoryFlag(s32 arg0)
     u8 *p = &D_801D0000[i];
     s32 v = p[0x618] & m;
 
-    if (arg0 & 0x8000) {
+    if (arg0 & CAMPAIGN_FLAG_CLEAR_MODIFIER) {
         return v == 0;
     }
     return v;

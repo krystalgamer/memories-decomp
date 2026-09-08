@@ -7,7 +7,7 @@ void Library_UpdateCardUsedFlag(s32 arg0)
 {
     register s32 t asm("v0") = arg0 & CAMPAIGN_FLAG_ID_MASK;
     register s32 i asm("a2") = t >> 3;
-    register s32 test asm("v0") = arg0 & 0x8000;
+    register s32 test asm("v0") = arg0 & CAMPAIGN_FLAG_CLEAR_MODIFIER;
     register u8 *p asm("v1");
     register u8 v asm("v0");
 
