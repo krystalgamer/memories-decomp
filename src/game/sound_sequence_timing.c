@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "sound.h"
+#include "sound_sequence_marker_scan.h"
 #include "sound_sequence_reader.h"
 #include "sound_sequence_values.h"
 
@@ -10,8 +11,6 @@ typedef struct {
     int fieldC;
     int field10;
 } SequenceEntry;
-
-extern int SD_FindMidiTrackChunk(int);
 
 int func_8004C560(SequenceEntry *entry)
 {

@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "sound.h"
+#include "sound_sequence_marker_scan.h"
 #include "sound_sequence_reader.h"
 
 #define SD_SEQUENCE_MARKER_SIZE 4
