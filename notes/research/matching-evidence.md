@@ -5624,3 +5624,50 @@ The sequence that got here is worth keeping because no single step found it:
 
 Each step was cheap. The first two were bookkeeping - removing pins that did
 nothing - and neither looked like progress toward a match at the time.
+
+## Compare `nop` counts first: a difference of one is a delay-slot decision
+
+Before any positional analysis, count the `nop`s on each side. Filling a delay
+slot *removes* a `nop`, so a difference of exactly one says a single delay-slot
+decision went the other way, and the whole positional residue downstream of it
+is displacement rather than disagreement.
+
+A scan of every candidate makes the diagnostic concrete:
+
+| delta | entries |
+| --- | --- |
+| `+1` (retail has one more) | `func_80023D08`, `func_80056828` |
+| `-1` (the build has one more) | `func_800279BC`, `func_80029EC4`, `func_800528AC` |
+| `0` | the six closest candidates, including `func_80018FEC` |
+
+`func_80018FEC` is the instructive row. It reads `0` and is *not* a
+counter-example: it has **two** opposite decisions, one each way, which cancel in
+the count. So a zero delta means "no net delay-slot difference", not "no
+delay-slot problem" - the count is a cheap pointer, not a proof.
+
+`func_80023D08` matched through this. Its `+1` said one slot, positional
+analysis put it at a load delay, and it turned out retail stores a field and
+reads it back where the build carried the value in a register and sign-extended.
+
+## Three changes that only pay together: `func_80023D08` 56 to 0
+
+None of these three was sufficient and none was obviously related to the others:
+
+1. **Assign `shift` after the call, not before.** The entry described what retail
+   does correctly and attached it to the wrong statement order. 56 to 44.
+2. **Put any store between a field write and reading that field back.** GCC
+   otherwise carries the value and sign-extends with `sll`/`sra`; retail reloads
+   with `lh`, which costs a load-delay `nop` - the missing one. 44 to 28.
+3. **Pin the quotient to `$2`.** Retail keeps the glide quotient in `$v0` and the
+   message constant in `$v1`; the build had the pair swapped. 28 to **0**.
+
+The third is worth dwelling on. It is a single-register pin that closed
+twenty-eight positions at once, because both remaining clusters were the *same*
+swap appearing in the vertical and horizontal arms. A residue that looks like
+several clusters can be one allocation decision seen more than once, and the
+count of clusters is not the count of causes.
+
+The order also mattered in a way worth recording: the pin was tried only after
+the other two, and against the base they produced. Tried first it would have had
+a different cost, which is the same base-dependence that `func_80023144` turned
+on.
