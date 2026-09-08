@@ -136,8 +136,7 @@ segments:
     subsegments:
       - [0x80ee0, data, initialized_data_800906e0]
       - [0x80f04, .data, game/file_names]
-      - [0x80fac, data, initialized_data_800907ac]
-      - [0x80fd8, .data, game/duel_field_layout]
+      - [0x80fac, .data, game/duel_field_layout]
       - [0x810a0, data, initialized_data_800908a0]
       - [0x811d4, .data, game/duel_terrain_boost]
       - [0x8124c, data, initialized_data_80090a4c]
