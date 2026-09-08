@@ -1,7 +1,19 @@
 ## `func_80018FEC` at 0x80018FEC
 
-`gcc_2_8_1_g8_split`, 280 instructions against a target of 280, opcode
-multiset distance 6, 114 differing words unshifted. Written from scratch: no
+`gcc_2_8_1_g8_split`, 280 instructions against a target of 280, **opcode
+multiset distance 0**, 114 differing words unshifted.
+
+*Corrected.* The headline previously read "distance 6", and the section below
+attributed that to "one `nop` plus the register renaming it drags along". The
+multiset is in fact **identical** - every instruction retail has, this build
+has, including the `nop`. It is at `+0x1BC` here and `+0x1B4` there, which is
+the same one-slot shift that produces all 114 positions.
+
+That correction changes what this candidate is. Distance 6 reads as six
+instructions of shape work plus a scheduling problem; distance 0 with a single
+displaced slot means **one `dbr` decision separates this from an exact match**,
+and the 114 positions are one fault reported 114 times rather than a large
+residual. It should be picked up on that basis. Written from scratch: no
 stored candidate, no rows in `external_attempts.csv`, empty inventory note.
 
 The duel-end sequencer, a five-state machine on the top bits of `D_8009B23A`.
@@ -34,6 +46,80 @@ taken, and nothing reachable from the source changes that prediction:
 `volatile` on `D_8009B260`, the `.data` attribute form, a plain scalar, an
 `else` around the 0x2000 arm and inverting the `& 1` test were all tried and
 none of them left the slot alone. Everything before that point is byte-exact.
+
+**Six more approaches to that slot, all byte-identical.** The entry already
+records `volatile`, the `.data` attribute, a plain scalar, an `else`, and
+inverting the `& 1` test. Added since:
+
+| approach | result |
+| --- | --- |
+| inner test inverted with the stores guarded and one `return` | byte-identical |
+| the byte read into a local before the test | byte-identical |
+| `goto` to a shared `return` inside the arm | byte-identical |
+| the read bound to a local pinned across nine registers | byte-identical, all nine |
+
+The pin sweep is the informative one. On `func_8005C1F4` a pin closed a branch
+delay slot that had been classified as beyond the source's reach, because it
+changed which register the constant at the branch target landed in and so
+changed whether `reorg` could steal it. That is the closest precedent to this
+residual and it does not transfer: nine registers for the stolen `lui`'s
+destination all leave the slot filled. So the steal here is not conditioned on
+the register, and the remaining lever has to be something that changes `dbr`'s
+prediction of the branch itself, or makes the fall-through's first instruction
+unmovable - a store, a call, or a clobber of something live on the taken path -
+none of which the existing statements can be rearranged into.
+
+**Why `volatile` was never going to work, and what that leaves.** The stolen
+instruction is the `lui` that materialises `&D_8009B260`, not the `lbu` that
+reads it. `volatile` constrains the *load*; the address computation in front of
+it stays an ordinary register write and remains a legal delay-slot fill. That
+explains the entry's earlier `volatile` result rather than leaving it as a bare
+negative, and it predicts the three further spellings tried since - a
+`volatile` cast on the access, a `volatile u8 *` local holding the address, and
+an explicit `!= 0` on the outer test - which are all byte-identical.
+
+Eight profiles were also crossed. Every `_split` variant, including
+`--use-comm-section` and `-fno-strength-reduce`, gives the same 114; the
+non-split profiles are four to fifteen instructions long and 234 or worse. So
+split addressing is required and the slot behaves identically across the
+cohort.
+
+**The requirement, stated precisely.** `dbr` will fill the slot from the
+fall-through unless the first instruction there cannot legally execute on the
+taken path. A `lui` into a dead register always can. Reaching this slot
+therefore needs the block to begin with a store, a call, or a write to a
+register that is live at the branch target - and the three statements in the
+arm cannot be rearranged into any of those without changing what the function
+does. That is a sharper statement than "no source change moves it", and it says
+the next attempt should look at what is live across the branch rather than at
+how the read is spelled.
+
+**CFG shape does not reach it either, which closes the last open direction.**
+The requirement stated above - that the fall-through block begin with a store,
+a call, or a write to a register live at the branch target - points at
+liveness rather than at spelling, so three restructurings were tried that
+change the control-flow graph rather than the statement:
+
+| restructuring | result |
+| --- | --- |
+| flattened to a combined `(flags & 0x6000) == 0x6000` test | 172, two instructions long |
+| inverted inner test with a `goto` past the arm | byte-identical |
+| the flag word re-read inside the arm instead of carried in `flags` | byte-identical |
+
+The negative is conclusive rather than merely another failure, because the
+block's first statement *is* the condition. `D_8009B260[0] & 1` has to be read
+before anything else in the arm can be decided, so no legal rearrangement puts
+a store or a call ahead of it, and the read's own address materialisation is
+the stealable `lui`. The three statements after the test are all stores, and
+every one of them is dominated by the test.
+
+**So the function is bounded at 114 positions, all of them one displaced
+delay slot.** It remains the closest large candidate in the store - the opcode
+multiset is identical and a single `dbr` decision separates it from an exact
+match - but nothing in the source reaches that decision. Anything that does
+will have to come from outside the C: a compiler cohort whose `dbr` predicts
+this branch differently, since every profile in the current set fills the slot
+identically.
 
 ### Levers that got it here
 
