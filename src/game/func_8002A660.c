@@ -1,7 +1,5 @@
 #include "../types.h"
-
-extern s16 gGraphics_sViewportX;
-extern s16 gGraphics_sViewportY;
+#include "graphics_frame.h"
 
 void func_8002A660(u8 *arg0)
 {
