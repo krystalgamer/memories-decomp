@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/display_object_api.h"
 #include "entrypoints.h"
 #include "value_setup.h"
 
@@ -10,8 +11,6 @@ extern u8 D_801845BC[];
 extern u8 D_801845C0[];
 extern u8 *D_801845D8;
 extern void (*D_800E9DB0)(void);
-extern void *func_8004002C(void);
-extern u8 *func_800400AC(void *, s32);
 extern void func_800404CC(void *, s32, s32, s32, s32, s32, s32, s32);
 extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
 extern void func_800428EC(void *, s32);

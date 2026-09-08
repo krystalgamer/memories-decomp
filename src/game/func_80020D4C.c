@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "../psyq/libgte.h"
 
 /* Per-frame update for an object that orbits a fixed base position
@@ -52,8 +53,6 @@ extern s32 D_8009B0CC_arr[16];
 extern u8 D_801AF000[16];
 
 void func_80042BC0(void *);
-s32 func_8004002C(void);
-struct Slot *func_800400AC(s32, s32);
 void func_800428A8(struct Slot *, s32, s32, s32, s32, s32, s32, s32, s32);
 void func_800428EC(struct Slot *, s8);
 void func_80020D4C(struct Obj *arg0) {

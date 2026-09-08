@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 
 /* Duel-result outro sequence, driven from the scene state word D_8009B23A.
 
@@ -76,8 +77,6 @@ extern s32 func_80042B40(s32);
 extern void func_80042918(struct Obj *);
 extern s32 Rand_GetInterval(s32);
 extern s32 rand(void);
-extern s32 func_8004002C(void);
-extern struct Obj *func_800400AC(s32, s32);
 extern void func_800428A8(struct Obj *, s32, s32, s32, s32, s32, s32, s32, s32);
 extern void func_80020BE4(void);
 extern void func_80020D4C(void *);

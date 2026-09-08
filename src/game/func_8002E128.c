@@ -1,10 +1,8 @@
 #include "../types.h"
+#include "display_object_api.h"
 
 extern u8 D_80090BA8[];
 extern u8 D_80090C00[];
-
-s32 func_8004002C(void);
-u8 *func_800400AC(s32 arg0, s32 arg1);
 
 /* MATCH. Real C -- this retires the ASSEMBLY-DEBT transcription (Unchiga's
  * port, a 24-instruction `__asm__` block with s0/s1 pins) that stood here.

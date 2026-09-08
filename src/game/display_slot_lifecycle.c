@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "display_object_layout.h"
 
 typedef struct {
@@ -74,7 +75,7 @@ s32 func_8004006C(void)
     return -1;
 }
 
-DisplaySlot *func_800400AC(s32 index, s32 key)
+void *func_800400AC(s32 index, s32 key)
 {
     DisplaySlot *slot;
     s16 other;

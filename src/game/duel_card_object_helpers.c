@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "card_constants.h"
 #include "display_object_layout.h"
 
@@ -15,14 +16,13 @@ typedef struct {
 } CardObject;
 
 extern void *func_8004006C(void);
-extern DisplayObject *func_800400AC(void *, int);
 extern void func_800404CC();
 extern void func_80042918(DisplayObject *);
 extern void func_800428EC(DisplayObject *, int);
 
 DisplayObject *func_80018150(int arg0, int arg1)
 {
-    DisplayObject *object = func_800400AC(func_8004006C(), 2);
+    DisplayObject *object = func_800400AC((s32)func_8004006C(), 2);
     func_800404CC(object, arg0, arg1, 0, 1, 0, 0x1F, 0x100);
     func_80042918(object);
     func_800428EC(object, -2);

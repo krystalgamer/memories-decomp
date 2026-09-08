@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 
 #include "duel_card.h"
 
@@ -29,8 +30,6 @@ extern DuelFieldPosition D_80090800[];
 extern u8 D_8009B1D5;
 
 extern void func_80023144(DuelFieldDisplaySource *, u8);
-extern s32 func_8004002C(void);
-extern DisplayObjectSlot *func_800400AC(s32, s32);
 extern void *func_80040468(DisplayObjectSlot *, s32, s32, s32, s32, s32);
 extern void func_80015D18(void *);
 

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "display_object_layout.h"
 #include "file_transfer.h"
 #include "input.h"
@@ -9,8 +10,6 @@ extern s32 D_8009B134;
 extern u16 gInput_wPad1Pressed;
 
 extern void func_80012D4C(void);
-extern void *func_8004002C(void);
-extern u8 *func_800400AC(void *, s32);
 extern void func_8004036C(void *);
 extern void func_800428A8(
     void *,

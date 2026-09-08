@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "input.h"
 
 extern u8 gDialog_bInputState;
@@ -11,7 +12,6 @@ extern s32 Dialog_ReadChoiceInput(u8 *);
 extern void Widget_UpdatePulseColour(u8 *);
 extern void Dialog_HighlightChoice(u8 *);
 extern u8 *func_8004006C(void);
-extern u8 *func_800400AC(u8 *, s32);
 extern void func_8004036C(s32);
 extern void func_800427DC(u8 *, s32);
 extern void func_800428EC(u8 *, s32);
@@ -26,7 +26,7 @@ void Dialog_UpdateChoice(u8 *p) {
 
     if ((p[0x51] & 0x80) == 0) {
         p[0x51] = p[0x51] | 0x80;
-        e = func_800400AC(func_8004006C(), 4);
+        e = func_800400AC((s32)func_8004006C(), 4);
         func_800427DC(e, 1);
         func_80042918(e);
         func_800428EC(e, (s8)(*(*(u8 **)(p + 0x28) + 0x16) + 1));

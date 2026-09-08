@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libcd.h"
@@ -15,8 +16,6 @@ extern void func_8007E910(int, int);
 extern void func_80047AD0(int);
 extern void func_80012D84(int);
 extern void func_80015780(void);
-extern void *func_8004002C(void);
-extern u8 *func_800400AC(void *, int);
 extern void func_800428A8(void *, int, int, int, int, int, int, int, int);
 extern void func_8004365C(void *, void *);
 extern void func_800438B8(int);

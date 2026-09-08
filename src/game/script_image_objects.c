@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
@@ -31,8 +32,6 @@ extern volatile u32 D_8009B0F4;
 extern s32 D_8009B118;
 
 extern void func_8004036C(void *);
-extern void *func_8004002C(void);
-extern u8 *func_800400AC(void *, s32);
 extern void func_800404CC(void *, s32, s32, s32, s32, s32, s32, s32);
 extern void func_800428EC(void *, s32);
 

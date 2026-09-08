@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/display_object_api.h"
 #include "name_entry_keyboard.h"
 
 typedef struct {
@@ -30,8 +31,6 @@ typedef struct {
 extern Panel D_800EB0F8[];
 extern Fixed *D_8016D404;
 extern u8 D_8016D408;
-extern void *func_8004002C(void);
-extern Obj *func_800400AC(void *, s32);
 extern void func_80040510(Obj *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
 void *NameEntry_SpawnGlyphSprite(s32 slot, NameEntryGlyphNodeView *w)

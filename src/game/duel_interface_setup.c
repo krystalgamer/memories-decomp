@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 
 extern u8 D_8009B2B2;
 extern u8 D_8009B2B4;
@@ -21,8 +22,6 @@ extern void func_80015A00(void);
 extern void func_800300C8(void);
 extern void func_8003B6AC(s32, s32);
 extern void func_80039A14(void *);
-extern void *func_8004002C(void);
-extern u8 *func_800400AC(void *, s32);
 extern void func_800427DC(void *, s32);
 extern u8 *TextBox_Create(s32, s32, s32, s32, s32, s32);
 

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -11,8 +12,6 @@ typedef struct {
 
 extern s32 gDuel_adwCardStats[];
 
-extern void *func_8004002C(void);
-extern DuelCardStatObject *func_800400AC(void *, s32);
 extern void func_80040510();
 extern void func_800428EC(DuelCardStatObject *, s32);
 extern void func_80042918(DuelCardStatObject *);

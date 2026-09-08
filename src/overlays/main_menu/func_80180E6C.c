@@ -1,9 +1,8 @@
 #include "../../types.h"
+#include "../../game/display_object_api.h"
 
 extern u8 D_801AF800[];
 extern void func_80180F50(void *);
-extern void *func_8004002C(void);
-extern u8 *func_800400AC(void *, s32);
 extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
 extern void func_80042918(void *);
 extern void func_800428EC(void *, s32);

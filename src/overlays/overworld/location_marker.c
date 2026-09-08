@@ -1,10 +1,9 @@
 #include "../../types.h"
+#include "../../game/display_object_api.h"
 
 extern u8 gCampaignMap_aLocationTable[];
 extern u8 gCampaignMap_Location;
 extern u8 D_801AF000[];
-extern void *func_8004002C(void);
-extern u8 *func_800400AC(void *, s32);
 extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
 extern void func_800428EC(void *, s32);
 

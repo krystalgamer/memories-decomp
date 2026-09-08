@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/display_object_api.h"
 #include "../../psyq/libgte.h"
 
 extern u8 gCampaignMap_Location;
@@ -21,8 +22,6 @@ extern u8 *func_80058F74(s32);
 extern void func_8005922C(u8 *, s32 *);
 extern void CampaignMap_ResetCamera(void);
 extern void func_80035668(s32);
-extern s32 func_8004002C(void);
-extern u8 *func_800400AC(s32, s32);
 extern void func_800428A8(u8 *, s32, s32, s32, s32, s32, s32, s32, u8 *);
 extern void func_800428EC(u8 *, s32);
 extern void CampaignMap_SetCameraFromLocation(s32);

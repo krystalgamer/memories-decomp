@@ -1,9 +1,8 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "display_object_layout.h"
 
 extern u8 D_800EA1E8[];
-extern s32 func_8004002C(void);
-extern u8 *func_800400AC();
 extern void func_800404CC();
 extern void func_8004293C();
 extern void func_800428EC();

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "graphics_constants.h"
 #include "input.h"
 
@@ -8,8 +9,6 @@ extern u8 D_800E9ECE[];
 extern u8 D_800E9ECF[];
 /* The retail tail load uses an absolute, self-clobbering v1 address lifetime. */
 extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
-extern s32 func_8004002C(void);
-extern u8 *func_800400AC();
 extern void func_80042A00(void *);
 extern void func_80040410(u8 *, s32);
 extern void func_80040510();

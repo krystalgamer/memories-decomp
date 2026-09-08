@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
 #include "display_object_layout.h"
@@ -17,8 +18,6 @@ extern s32 D_801D5608[];
 s32 func_8002C518(s32 arg0);
 s32 Campaign_TestStoryFlag(s32 arg0);
 u8 *TextBox_Create(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-s32 func_8004002C(void);
-u8 *func_800400AC(s32 arg0, s32 arg1);
 
 void func_80029574(s32 arg0);
 void func_80029590(void);

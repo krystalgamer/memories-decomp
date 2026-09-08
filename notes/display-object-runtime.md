@@ -44,6 +44,65 @@ was empty. `func_8004020C` removes a slot by reconnecting both neighboring
 links and clears its allocation flags. `func_800402A0` removes and reinserts
 an existing slot under another list key while preserving its flags.
 
+## Shared index and allocation API
+
+[`display_object_api.h`](../src/game/display_object_api.h) is the sole C
+declaration point for the general-use index scan and indexed allocator:
+
+```c
+s32 func_8004002C(void);
+void *func_800400AC(s32 index, s32 key);
+```
+
+The defining `display_slot_lifecycle.c` and every current C caller include
+this header. The migration removes 48 local getter declarations and 53 local
+allocator declarations, including old-style unspecified-argument spellings.
+Assembly-only word/relocation references in `func_800291E0.c` are not C
+declaration sites and remain unchanged.
+
+The getter returns an **integer slot index**, 16-95, or signed `-1` when
+none is available. It does not reserve or mark the slot; another scan before
+allocation can return the same index.
+
+The allocator returns null for a negative index without touching pool state.
+For a nonnegative index it increments `D_8009B412`, **including when the
+slot was already allocated**. An existing allocated slot is returned without
+reinitialization or relinking, and the supplied key does not move it to a
+different list. On first allocation it links the slot to the previous
+`D_800EFE38[key]` entry and updates that endpoint; `D_800F2878[key]` is also
+initialized when the list was empty.
+
+Only an explicit subset of record fields is initialized. This is not
+`malloc`, does not zero the complete record and does not promise a fresh or
+uniquely owned object. There is no upper-index or key validation: valid
+nonnegative inputs must address the 96-slot pool and appropriate list.
+The opaque `void *` result exposes an arena address without publishing the
+private `DisplaySlot` layout or conflating callers' different prefix views.
+Existing null checks and unchecked call sites are preserved.
+
+The alternate whole-pool scanner `func_8004006C` remains outside this
+header migration. Four callers still carry legacy pointer-shaped declarations
+for that separate function and explicitly convert its returned word to
+`s32` at the allocator boundary:
+
+| Caller | Source |
+|---|---|
+| `Dialog_OpenChoice` | `dialog_choice_state.c` |
+| `Dialog_UpdateChoice` | `dialog_update_choice.c` |
+| `func_80018150` | `duel_card_object_helpers.c` |
+| `func_8002E3FC` | `func_8002E3FC.c` |
+
+These are index conversions, not dereferences or pointer-success tests.
+Index zero is valid for that scanner and the `-1` sentinel must remain
+signed. Other existing scalar declarations of the alternate scanner are
+unchanged. The four boundaries are explicit pending a complete audit/migration
+of that separate API, not evidence that its true return is a pointer.
+
+`func_800404CC` is also deliberately outside this phase and absent from the
+new header. Its current narrow coordinate formals versus wide caller
+declarations require their own complete, byte-verified migration. No
+partially shared configurator contract is introduced here.
+
 ## Parent-linked duel rows
 
 Matching `func_80022F98` and `func_80022FF0` use a separate local parent view

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
@@ -39,7 +40,6 @@ extern s32 func_8002E3B4(void);
 extern struct Rec *func_80040510(
     s32, s32, s32, s32, s32, s32, s32, s32, s32, s32
 );
-extern struct Rec *func_800400AC(s32, s32);
 
 void func_8002E730(void) {
     struct Rec *rec;

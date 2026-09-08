@@ -1,10 +1,9 @@
 #include "../../types.h"
+#include "../../game/display_object_api.h"
 #include "name_entry_keyboard.h"
 
 extern s32 func_80042B98(void);
 extern void func_8004036C(void *);
-extern void *func_8004002C(void);
-extern u8 *func_800400AC(void *, s32);
 extern void func_80040510(void *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
 void NameEntry_UpdateGlyphShatter(u8 *object)

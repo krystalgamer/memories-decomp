@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/display_object_api.h"
 #include "name_entry_keyboard.h"
 #include "../../game/save_data.h"
 #include "name_entry_frame.h"
@@ -26,8 +27,6 @@ extern void func_8003BC40(u8 *, u8 *, s32);
 extern void func_8003B6AC(s32, s32);
 extern u8 *func_80035BE4(s32, s32, s32, s32, s32, s32);
 extern void func_80039A14(u8 *);
-extern s32 func_8004002C(void);
-extern u8 *func_800400AC(s32, s32);
 extern void func_80042918(u8 *);
 extern void func_800428EC(u8 *, s32);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);

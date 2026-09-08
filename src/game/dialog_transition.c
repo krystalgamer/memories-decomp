@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 
 #include "duel_effect.h"
 
@@ -12,8 +13,6 @@ extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 
 extern void func_80043178(void *);
 extern void func_8004036C(void *);
-extern s32 func_8004002C(void);
-extern u8 *func_800400AC();
 extern void func_80042918();
 extern void func_800428EC();
 extern void func_80042C08();

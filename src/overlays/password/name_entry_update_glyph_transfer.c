@@ -1,12 +1,11 @@
 #include "../../types.h"
+#include "../../game/display_object_api.h"
 #include "name_entry_keyboard.h"
 
 extern s8 D_8016D42C;
 extern void func_800429D8(u8 *);
 extern void func_8004036C(u8 *);
 extern void func_80042A78(u8 *);
-extern void *func_8004002C(void);
-extern u8 *func_800400AC(void *, s32);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern void func_80042BC0(void);
 extern u8 *TextBox_GetGlyphAt(s32, s32, s32);
