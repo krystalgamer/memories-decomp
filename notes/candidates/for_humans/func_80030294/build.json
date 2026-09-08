@@ -30,6 +30,7 @@
     "--expand-div",
     "-G4"
   ],
+  "data_limit": 4,
   "assembler": "tools/toolchains/binutils-2.42/bin/mipsel-none-elf-as",
   "assembler_flags": [
     "-EL",

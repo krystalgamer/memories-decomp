@@ -259,6 +259,7 @@ def build_metadata(
         "assembly_filter": profile.get("assembly_filter"),
         "aspsx_version": profile.get("aspsx_version"),
         "maspsx_flags": profile.get("maspsx_flags"),
+        "data_limit": profile.get("data_limit"),
         "assembler": "tools/toolchains/binutils-2.42/bin/mipsel-none-elf-as",
         "assembler_flags": [
             "-EL",
@@ -418,6 +419,12 @@ def check_bundles(
         target_path = candidate.directory / "target.S"
         target = target_path.read_text(encoding="utf-8")
         tracked_block = tracked_target_block(target, candidate)
+        if tracked_block.name != candidate.inventory_name:
+            raise BundleError(
+                f"{target_path.relative_to(ROOT)}: target name "
+                f"{tracked_block.name} differs from inventory name "
+                f"{candidate.inventory_name}"
+            )
         expected_metadata = build_metadata(
             candidate,
             profiles[candidate.profile_name],

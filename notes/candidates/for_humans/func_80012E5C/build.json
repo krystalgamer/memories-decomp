@@ -31,6 +31,7 @@
     "-G8",
     "--use-comm-section"
   ],
+  "data_limit": 8,
   "assembler": "tools/toolchains/binutils-2.42/bin/mipsel-none-elf-as",
   "assembler_flags": [
     "-EL",
