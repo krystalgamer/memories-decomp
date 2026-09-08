@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "duel_effect.h"
 #include "../overlays/main_menu/entrypoints.h"
@@ -10,7 +11,6 @@ extern u8 D_8009B142 __attribute__((section(".data")));
 extern u8 D_8009B143 __attribute__((section(".data")));
 extern u8 D_8009B144 __attribute__((section(".data")));
 extern u8 D_8009B318 __attribute__((section(".data")));
-extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern u8 D_8009B428;
 
 void Main_ResetFrontendRuntime(void);

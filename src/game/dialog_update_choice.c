@@ -8,7 +8,6 @@ extern u8 gDialog_bInputState;
 extern u8 gDialog_bChoiceEnabled;
 extern u8 D_8009B34C;
 extern s8 gDialog_bChoice;
-extern u16 gInput_wPad1Pressed;
 
 extern s32 Dialog_ReadChoiceInput(u8 *);
 extern void Widget_UpdatePulseColour(u8 *);

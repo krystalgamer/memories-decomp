@@ -1,7 +1,6 @@
+#define GINPUT_PAD1_PRESSED_IS_AGGREGATE
 #include "../types.h"
 #include "input.h"
-
-extern unsigned short gInput_wPad1Pressed[];
 
 unsigned int Input_IsPad1ConfirmPressed(void)
 {

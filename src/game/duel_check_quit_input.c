@@ -1,8 +1,8 @@
+#define GINPUT_PAD1_PRESSED_IS_AGGREGATE
 #include "../types.h"
 #include "input.h"
 
 extern signed char gDuel_bOpponentID[];
-extern unsigned short gInput_wPad1Pressed[];
 extern unsigned char gDuel_bQuitDialogState;
 
 int Duel_CheckQuitInput(void)

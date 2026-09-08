@@ -1,11 +1,12 @@
+#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "input.h"
 #include "duel_effect.h"
 #include "text_box_lifecycle.h"
 
 #include "mem_card.h"
 #include "save_data.h"
 #include "display_object_api.h"
-extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern u8 D_8009B3C0;
 extern u8 *D_8009B3D8;
 extern u8 D_8009B3EA;

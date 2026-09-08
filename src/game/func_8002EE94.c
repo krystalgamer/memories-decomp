@@ -1,4 +1,6 @@
+#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "input.h"
 
 #include "duel_effect.h"
 #include "text_box_lifecycle.h"
@@ -15,7 +17,6 @@ extern u8 D_8009B26D __attribute__((section(".data")));
 extern u8 D_8009B34C __attribute__((section(".data")));
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
-extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern s16 D_801D0000[];
 
 extern s32 func_8002E3B4(void);

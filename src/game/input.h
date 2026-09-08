@@ -48,6 +48,44 @@ extern u32 gInput_dwDeferredRepeat;
 extern u32 gInput_dwDeferredPressed;
 extern u32 gInput_dwPendingHeld;
 
+/* gInput_wPad1Pressed is declared seven different ways across the tree, and
+ * six of the seven are codegen inputs rather than style. A consumer states
+ * the spelling its own match needs before including this header; everything
+ * else takes the plain scalar.
+ *
+ * Two independent knobs, so arms rather than one chain: a file that wants the
+ * non-small form *and* the re-reads would silently lose the volatile if these
+ * shared a single ladder.
+ *
+ *   _IS_VOLATILE   -- the halfword is re-read on each path. Without it gcc
+ *                     commons several reads into one register.
+ *   _IN_DATA       -- takes the symbol out of small data at the compiler,
+ *                     with its true size: the bare form the assembler
+ *                     expands, rather than cc1psx's own %hi/%lo pair.
+ *   _IS_AGGREGATE  -- an unsized array is not small data either, but gives
+ *                     cc1psx's split pair instead of the bare symbol.
+ *   _SIZED         -- eight bytes it does not have, which is how a two-byte
+ *                     symbol is pushed out of small data while the one- and
+ *                     two-byte scalars beside it keep %gp_rel.
+ *
+ * Our matching tree carries the same symbol (0x8009B398) behind the same
+ * seven arms, chosen per function, which is where this list comes from. */
+#ifdef GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
+#elif defined(GINPUT_PAD1_PRESSED_IN_DATA)
+extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
+#elif defined(GINPUT_PAD1_PRESSED_SIZED_VOLATILE)
+extern volatile u16 gInput_wPad1Pressed[4];
+#elif defined(GINPUT_PAD1_PRESSED_SIZED5)
+extern u16 gInput_wPad1Pressed[5];
+#elif defined(GINPUT_PAD1_PRESSED_IS_AGGREGATE)
+extern u16 gInput_wPad1Pressed[];
+#elif defined(GINPUT_PAD1_PRESSED_IS_VOLATILE)
+extern volatile u16 gInput_wPad1Pressed;
+#else
+extern u16 gInput_wPad1Pressed;
+#endif
+
 void Input_ResetPads(void);
 void Input_InitPads(void);
 void Input_ReadRawPads(void);

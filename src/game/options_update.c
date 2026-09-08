@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "fade.h"
 #include "input.h"
@@ -7,7 +8,6 @@ extern u8 gOptions_bState;
 extern s8 gOptions_bOutputType;
 extern s8 gOptions_bSelection;
 /* Retail performs a fresh absolute load for each input-state test. */
-extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 /* Keep this byte outside small data so its store retains absolute addressing. */
 extern u8 gSD_bOutputType[9];
 
