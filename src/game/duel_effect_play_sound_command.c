@@ -1,11 +1,10 @@
 #include "../types.h"
+#include "sound.h"
 
 extern u32 gSD_dwCurrentBgmCommand[];
 extern s32 D_8009B404[];
 extern s32 func_80036D3C(void *);
-extern void SD_BGMPlay(u32);
 extern void func_8003FF88(u16);
-extern void SD_SEPlayFull(u16);
 extern u16 D_8009B33C;
 extern s32 D_8009B350;
 

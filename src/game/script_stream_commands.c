@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 #include "file_transfer.h"
 
 extern u8 *D_8009B290;
@@ -10,10 +11,6 @@ extern u16 D_8009B27C;
 extern u8 D_801A8000[];
 
 extern s32 func_8002E3B4(void);
-extern void SD_SEPlayFull(s32);
-extern void SD_BGMPlay(u32);
-extern void SD_BGMFadeOut(void);
-extern void SD_BGMFadeOutWithStep(s32);
 
 void Script_OpSound(void)
 {

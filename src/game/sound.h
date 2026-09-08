@@ -427,6 +427,15 @@ void SD_BGMFadeOutWithStep(s32);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);
 
-extern u32 gSD_dwCurrentBgmCommand;
+/* gSD_dwCurrentBgmCommand is deliberately not declared here.
+ *
+ * sound_frontend.c writes it as a scalar, which -G8 reaches gp-relative,
+ * while script_stream_commands.c and duel_effect_play_sound_command.c read it
+ * through `extern u32 gSD_dwCurrentBgmCommand[]` and `[0]`: an unsized array
+ * is not assumed small, so those reads are built from an absolute address.
+ * Giving all three the scalar form builds the executable eight bytes short, so
+ * the split is load-bearing. Declaring it here would force one spelling on
+ * every includer, which is what kept those two files out of this header.
+ */
 
 #endif

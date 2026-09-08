@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 
 typedef struct {
     u8 pad_00[0x51];
@@ -7,17 +8,15 @@ typedef struct {
     s8 cursor_slot;
 } DuelEffectCommand;
 
-extern void SD_BGMFadeOut(void);
-extern void SD_BGMFadeOutWithStep();
 extern s32 D_8009B350;
 
 void func_80038800(DuelEffectCommand *command)
 {
-    register u8 **slot asm("v0");
+    u8 **slot;
     u8 *cursor;
     u32 raw;
     u32 saved_raw;
-    register u32 opcode asm("a0");
+    u32 opcode;
     u32 high_bit;
 
     slot = (u8 **)((u8 *)command + command->cursor_slot * 4);
@@ -31,7 +30,7 @@ void func_80038800(DuelEffectCommand *command)
         SD_BGMFadeOut();
         goto shared_test;
     } else {
-        SD_BGMFadeOutWithStep();
+        SD_BGMFadeOutWithStep(opcode);
     }
 
 shared_test:
