@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "model_primitive_handler.h"
+
 extern void func_80033DB0(void);
 extern void func_80034830(void);
 extern void func_800612C0(void);

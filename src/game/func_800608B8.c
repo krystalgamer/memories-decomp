@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_800608B8.h"
 
 extern int func_80067220();
 extern int func_80067354();

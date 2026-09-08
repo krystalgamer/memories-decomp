@@ -1,8 +1,9 @@
 #include "../types.h"
+#include "func_8006086C.h"
+#include "model_handler_registry.h"
+#include "model_primitive_handler.h"
 
-typedef struct { int key; void **handler; } Object;
-extern void *Model_GetPrimitiveHandler(int); extern void Model_RegisterHandlerKey(int, int);
-void func_8006086C(Object *object)
+void func_8006086C(ModelHandlerObject *object)
 {
     *object->handler = Model_GetPrimitiveHandler(object->key);
     Model_RegisterHandlerKey(object->key, (int)*object->handler);
