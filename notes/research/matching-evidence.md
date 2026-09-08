@@ -3219,6 +3219,20 @@ What was safe, all confirmed against the full-executable hash:
   than `*(s16 *)(base + 0x0C)` and it does not force every other consumer
   of the header onto a union member.
 
+- **Replacing offset casts with named members is usually free, but not
+  always, and the exception is aliasing.** `Model_UpdateViewMetrics` reaches
+  a `GsRVIEW2` through `*(s32 *)(m + 0)` style casts on a `u8 *`. Retyping
+  the pointer and reading `m->vpx` instead changed one byte at `0x80057F6E`,
+  `0x69` to `0x6A`: one register number, with the executable size unchanged.
+  The parameter type is not the cause -- keeping `u8 *` and casting to a
+  local `GsRVIEW2 *` reproduces the same single-byte difference, so it is
+  the member reads themselves. The function assigns `D_800F56F0 = *m`, a
+  whole-struct store, and then reads the same fields; through a typed
+  pointer those reads may alias the store and through a byte pointer the
+  analysis differs, which moves register pressure. Where a function both
+  stores a whole struct and reads its fields, expect the conversion to cost
+  a build to check rather than being free by inspection.
+
 - **`sizeof(T)` may replace a literal stride** once the cast is in place.
 - **But a proven-equal `sizeof` is not a licence to switch to typed indexing.**
   `model.h` asserts `sizeof(ModelSlot) == MODEL_SLOT_SIZE`, so

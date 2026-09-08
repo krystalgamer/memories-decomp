@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_update_view_metrics.h"
 #include "view_state.h"
 #include "../psyq/rand.h"
 
@@ -21,7 +22,6 @@ extern void Model_CopySlotU16Values(s32, u16 *);
 extern void func_80057AF4(s32, s32, s32);
 extern void func_8001352C(void);
 extern u8 *func_800591FC(void);
-extern void Model_UpdateViewMetrics(s32);
 
 /* Library screen state dispatcher on the low nibble of D_800EA1E8's first
  * byte. States 0, 1 and 3 hand the record to func_8002BAA0, func_8002A788
