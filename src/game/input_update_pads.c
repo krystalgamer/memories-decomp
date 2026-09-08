@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_HELD_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #define D_8009B0D8_IN_DATA
 #include "../types.h"
@@ -10,7 +11,6 @@ extern u32 D_8009B0C8[];
 extern volatile u16 gInput_wPad1Repeat;
 extern volatile u16 gInput_wPad2Repeat;
 extern volatile u16 gInput_wPad2Pressed;
-extern volatile u16 gInput_wPad1Held;
 extern volatile u16 gInput_wPad2Held;
 
 void Input_ReadRawPads(void)

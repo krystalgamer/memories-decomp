@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_HELD_IS_VOLATILE
 #include "../types.h"
 #include "input.h"
 
@@ -5,7 +6,6 @@
    gInput_wPad1Held[2]; only index 0 is read here (declared scalar -- an array
    extern forces absolute lui/addiu addressing here instead of the target's
    gp-relative access). */
-extern volatile u16 gInput_wPad1Held;
 
 struct Obj {
     u8 pad[25];

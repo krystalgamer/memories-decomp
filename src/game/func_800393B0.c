@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_HELD_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA
 #include "../types.h"
 #include "input.h"
@@ -29,7 +30,6 @@ volatile u16 D_8009B33A;
 extern volatile s32 D_8009B350;
 extern u16 D_8009B35A;
 extern u16 D_8009B27C __attribute__((section(".data")));
-extern u16 gInput_wPad1Held __attribute__((section(".data")));
 
 extern void func_80039E9C(void);
 extern void func_800391E4(u8 *);

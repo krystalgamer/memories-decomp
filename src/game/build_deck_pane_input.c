@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_HELD_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../types.h"
 #include "card_list_sort.h"
@@ -9,7 +10,6 @@ extern u8 D_8009B24B;
 extern u16 gDuel_wViewerCardID;
 extern u8 D_8009B254;
 extern u16 gInput_wPad1Repeat;
-extern volatile u16 gInput_wPad1Held;
 
 extern s32 func_800330BC(u8 *);
 extern s32 func_80033500(u8 *);

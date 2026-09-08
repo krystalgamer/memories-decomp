@@ -10,6 +10,7 @@
 #include "fade.h"
 #include "graphics_constants.h"
 #include "graphics_frame.h"
+#define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
 #include "input.h"
 #include "rand_constants.h"
 
@@ -50,7 +51,6 @@ extern volatile u8 D_8009B0A0;
 extern volatile u8 D_8009B0A1;
 extern volatile u8 D_8009B0A2;
 extern volatile u8 D_8009B0A3;
-extern volatile u16 gInput_wPad1Held __attribute__((section(".data")));
 extern DISPENV D_800FE0A8;
 
 extern void File_SetPositionTable(void);

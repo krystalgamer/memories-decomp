@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_HELD_IS_VOLATILE
 #include "../types.h"
 #include "card_list_sort.h"
 #include "input.h"
@@ -20,7 +21,6 @@
 */
 
 extern u8 D_80090DD8[];
-extern volatile u16 gInput_wPad1Held;
 extern volatile u16 gInput_wPad1Repeat;
 
 extern void func_80031E04(u8 *, s32);

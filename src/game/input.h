@@ -86,6 +86,22 @@ extern volatile u16 gInput_wPad1Pressed;
 extern u16 gInput_wPad1Pressed;
 #endif
 
+/* gInput_wPad1Held is declared four different ways, and three of them are
+ * codegen inputs. Same arms as gInput_wPad1Pressed above, same reasons; our
+ * matching tree carries this symbol (0x8009B3A4) behind an equivalent set,
+ * with a note on each recording which function needed it. */
+#ifdef GINPUT_PAD1_HELD_IN_DATA_VOLATILE
+extern volatile u16 gInput_wPad1Held __attribute__((section(".data")));
+#elif defined(GINPUT_PAD1_HELD_IN_DATA)
+extern u16 gInput_wPad1Held __attribute__((section(".data")));
+#elif defined(GINPUT_PAD1_HELD_IS_AGGREGATE)
+extern u16 gInput_wPad1Held[];
+#elif defined(GINPUT_PAD1_HELD_IS_VOLATILE)
+extern volatile u16 gInput_wPad1Held;
+#else
+extern u16 gInput_wPad1Held;
+#endif
+
 void Input_ResetPads(void);
 void Input_InitPads(void);
 void Input_ReadRawPads(void);
