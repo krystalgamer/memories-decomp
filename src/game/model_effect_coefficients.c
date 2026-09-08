@@ -1,16 +1,10 @@
 #include "../types.h"
-
-typedef struct {
-    s32 first;
-    s32 second;
-} ModelEffectCoefficient;
+#include "model_effect_coefficients.h"
 
 typedef struct {
     u8 pad_00[6];
     s16 field_06;
 } ModelEffectAdjustment;
-
-extern ModelEffectCoefficient D_80091570[];
 
 extern void func_80059000(s32, ModelEffectAdjustment *);
 

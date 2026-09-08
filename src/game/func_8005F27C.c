@@ -1,6 +1,6 @@
 #include "../types.h"
+#include "model.h"
 
-extern u8 D_80091570[];
 extern u8 D_8009B07B;
 extern u8 D_8009B07C;
 
@@ -17,7 +17,7 @@ void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
     s32 u;
     u8 sp18[8];
 
-    r = D_80091570 + arg1 * 8;
+    r = (u8 *)D_80091570 + arg1 * 8;
 
     if (D_8009B07B == 1) {
         if (D_8009B07C == 1) {
