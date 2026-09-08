@@ -6337,3 +6337,62 @@ implements the ten-entry tint queue, three-channel interpolation, temporary
 part-position override, draw, restoration, and clock update established by
 the unpinned reconstruction. The exact source applies register constraints
 only after that lifecycle and the complete instruction shape were understood.
+
+## Levers kept from three candidates migrated into the build
+
+`func_80048658`, `func_800482B0` and `func_8005E808` moved from
+`notes/candidates/` into `src/candidates/` (#2493). Their per-function state
+now lives in the source comment and the inventory row; these are the parts
+that transfer to other functions.
+
+**Write a shared call tail out at each site instead of reaching it by
+`goto`.** Both early paths of `func_800482B0` end in the same seven-argument
+call. A single labelled block reached by `goto` puts that block at the *end*
+of the function; writing the call out in each loop body lets cross-jumping
+merge the common suffix and lands the merged block where retail has it. Worth
+48 positions on its own, 114 down to 66, and it is what puts the two spill
+slots at retail's 0x22 and 0x28. The same shape pays in `func_8005E808`,
+where retail has two copies of the compare-and-store tail and a single copy
+after the `switch` is 14 positions worse.
+
+**A stack-passed argument stays in its home slot, and where you copy it out
+matters.** GCC leaves a stack argument whose nominal and passed modes agree in
+memory: every use re-reads it, and byte and word loads each cost a delay-slot
+`nop` too. `md = mode;` gives it a pseudo. Putting that assignment *before*
+the guard rather than after it moves the load into the entry block where the
+scheduler covers its delay. A `u8` parameter needs no such copy - the
+narrowing conversion already forces a pseudo.
+
+**Switch case bodies are emitted in source order, so write them in retail's
+layout order.** `func_8005E808`'s blocks run 0x80/0x81, then 1, then 4.
+Writing them in numeric order costs 93 positions on its own, 223 down to 130,
+because every block lands at the wrong address and the dispatch tree inverts
+with it. Read the target's block order off the labels before writing the
+switch.
+
+**A cast that looks free can cost a register.** Retail's `func_800482B0`
+recomputes `(u16)id` inside its second loop. Writing the cast makes it
+loop-invariant, GCC hoists it into the preheader, and that tenth long-lived
+value against nine callee-saved registers evicts `mode` and takes the whole
+function from distance 4 back to 18. Dropping the cast is one instruction
+short locally and 14 opcodes better overall. Weigh a hoist against the
+register file, not against the instruction it saves.
+
+**Signedness of the compared value picks `sltu` over `slt`, and can carry a
+`multu` with it.** `func_8005E808`'s radius has to be `u32`: an `s32` gives
+`slt` and, in case 4, also drops the unsigned `multu` that the `/ 4096000`
+needs.
+
+**Two counters holding the same value are still two variables.** Both scan
+loops in `func_800482B0` step an `s32` envelope index and a `u8` slot index;
+retail masks the second at every use, so folding them into one variable
+cannot reproduce it.
+
+**`-fno-schedule-insns` is a diagnostic, never a profile to ship.** For
+`func_80048658` it produces retail's entry-copy order and then re-allocates
+the whole body: 66 instructions against 68 and 51 differing positions. Use it
+to identify which pass owns a difference - here, that the two exchanged entry
+copies are a first-pass scheduling decision that source order cannot reach,
+because `rank_for_schedule` only falls back to original insn order when
+priority and dependence class tie. Same conclusion the `func_80045208` entry
+reaches about `-fno-schedule-insns2`.
