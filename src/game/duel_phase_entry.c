@@ -33,7 +33,6 @@ extern void func_8001352C(void);
 #include "sound.h"
 
 extern u8 *D_8009B21C;
-extern u8 *D_8009B1C8;
 extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
 
 extern void Duel_ApplyCardObjectFlags(u8 *);
@@ -165,20 +164,20 @@ void func_8001898C(void) {
         *(u16 *)(D_8009B21C + 0x40) = (D_8009B1D5 << 4) | 0x2E0;
         Duel_ClearHandSlots();
         side = D_8009B1D5;
-        D_8009B1C8 = (u8 *)D_800E9FF0 + side * sizeof(DuelSideState);
+        D_8009B1C8 = (DuelSideState *)((u8 *)D_800E9FF0 + side * sizeof(DuelSideState));
         D_8009B1B4 = D_800E9F10 + side * DUEL_SELECTION_SIDE_SIZE;
         base = D_800EA030;
         *(DuelHandSlot **)(D_8009B1B4 + 8) = base;
-        if (*(s8 *)(D_8009B1C8 + 0x19) != 0) {
-            c = D_8009B1C8[0x19] - 1;
-            D_8009B1C8[0x19] = c;
+        if (*(s8 *)((u8 *)D_8009B1C8 + 0x19) != 0) {
+            c = ((u8 *)D_8009B1C8)[0x19] - 1;
+            ((u8 *)D_8009B1C8)[0x19] = c;
             if (c <= 0) {
-                D_8009B1C8[0x19] = 0;
+                ((u8 *)D_8009B1C8)[0x19] = 0;
                 *(u16 *)(D_8009B1F0[D_8009B1D5] + 0x1A) = 0xFFFD - D_8009B1D5;
                 D_8009B1F0[D_8009B1D5] = 0;
             }
         }
-        D_8009B1C8[1]++;
+        ((u8 *)D_8009B1C8)[1]++;
         rec = (u8 *)D_801A7AD8;
         for (i = 0; i < DUEL_CARD_RECORD_COUNT; i++, rec += DUEL_CARD_RECORD_SIZE) {
             flags = *(u16 *)(rec + 0x16);
@@ -190,8 +189,8 @@ void func_8001898C(void) {
             }
         }
         for (i = 0; i < HAND_SIZE; i++) {
-            hand[i] = (D_8009B1C8 + i)[0x1A];
-            *(s8 *)(D_8009B1C8 + i + 0x1A) = -1;
+            hand[i] = ((u8 *)D_8009B1C8 + i)[0x1A];
+            *(s8 *)((u8 *)D_8009B1C8 + i + 0x1A) = -1;
         }
         n = 0;
         i = n;
@@ -205,7 +204,7 @@ void func_8001898C(void) {
             *(u16 *)(rec + 0x16) = 0;
             *(u8 **)rec = 0;
             if (*(s8 *)p >= 0) {
-                (D_8009B1C8 + n)[0x1A] = *p;
+                ((u8 *)D_8009B1C8 + n)[0x1A] = *p;
                 Duel_SetupCardRecord(idx, *(s8 *)p);
                 idx++;
                 n++;

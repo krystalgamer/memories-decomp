@@ -1,4 +1,6 @@
+#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "input.h"
 #include "rand_get_interval.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
@@ -94,7 +96,6 @@ extern struct Obj *D_8009B21C;
 extern u8 D_8009B362 __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern s32 D_8009B134 __attribute__((section(".data")));
-extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern u8 D_800E9ECE[];
 extern u8 D_801AF000[];
 extern u16 gDuel_awRitualData[];

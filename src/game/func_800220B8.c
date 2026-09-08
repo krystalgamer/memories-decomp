@@ -1,10 +1,10 @@
+#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "view_state.h"
 #include "input.h"
 
 extern s32 D_8009B30C __attribute__((section(".data")));
 extern volatile u16 gInput_wPad1Repeat __attribute__((section(".data")));
-extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern volatile u16 gInput_wPad1Held __attribute__((section(".data")));
 
 void func_800220B8(void) {

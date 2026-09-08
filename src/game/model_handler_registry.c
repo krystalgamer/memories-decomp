@@ -6,7 +6,7 @@
 
 typedef u8 *(*ModelHandler)(u8 **);
 
-extern s32 func_80089E20[];
+extern s32 GsU_00000000[];
 extern s32 (*func_800603DC())();
 
 /* Finds `key` in the table; if absent and there is a free slot, claims it
@@ -35,7 +35,7 @@ void Model_RegisterHandlerKey(s32 key, s32 val) {
 s32 Model_FindHandlerKey(s32 val) {
     ModelHandlerRegistryEntry *e = D_800F5918;
     s32 i;
-    if (val == (s32) func_80089E20) {
+    if (val == (s32) GsU_00000000) {
         return -1;
     }
     for (i = 0; i < MODEL_HANDLER_REGISTRY_COUNT; i++, e++) {
@@ -125,5 +125,5 @@ void func_80060220(s32 arg0, u8 *arg1, u8 *arg2) {
     func_800603DC(*(s32 *)arg1)(arg2);
     DrawSync(0);
     *(ModelHandler *)(*(s32 *)(arg1 + 4)) =
-        (ModelHandler)func_80089E20;
+        (ModelHandler)GsU_00000000;
 }

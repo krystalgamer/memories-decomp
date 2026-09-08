@@ -1,9 +1,9 @@
+#define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../types.h"
 #include "input.h"
 
 extern volatile unsigned short gInput_wPad1Repeat;
 extern volatile unsigned short gInput_wPad2Repeat;
-extern volatile unsigned short gInput_wPad1Pressed;
 extern volatile unsigned short gInput_wPad2Pressed;
 extern volatile unsigned short gInput_wPad1RepeatBackup;
 extern volatile unsigned short gInput_wPad1PressedBackup;

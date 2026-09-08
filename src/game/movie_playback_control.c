@@ -1,9 +1,9 @@
+#define GINPUT_PAD1_PRESSED_IS_AGGREGATE
 #include "../types.h"
 #include "file_transfer.h"
 #include "input.h"
 #include "mdec_sync.h"
 
-extern u16 gInput_wPad1Pressed[];
 extern u8 D_8009B144[];
 extern u8 D_8009B143[];
 extern u8 D_8009B142[];

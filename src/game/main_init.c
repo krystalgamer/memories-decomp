@@ -26,7 +26,7 @@ extern u8 D_8009B4A8[];
 extern u8 D_800E9EC0[];
 extern jmp_buf D_800E9DC0;
 
-extern void func_80012A78(void);
+extern void __main(void);
 extern void func_80013154(void);
 extern void func_800403F0(void);
 extern void func_800134B4(void);
@@ -49,7 +49,7 @@ s32 Main_Init(void)
     s32 t;
     register void *p __asm__("$4");
 
-    func_80012A78();
+    __main();
     EnterCriticalSection();
     ResetCallback();
     GsInitVcount();

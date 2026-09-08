@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -6,7 +7,6 @@
 
 extern u16 D_8009B098;
 extern volatile u16 gInput_wPad1Held __attribute__((section(".data")));
-extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern void func_80012D4C(void);
 
 void func_80013360(void)

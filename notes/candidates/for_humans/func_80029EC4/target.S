@@ -264,26 +264,26 @@ glabel func_80029EC4
     /* 1AA64 8002A264 23104800 */  subu       $v0, $v0, $t0
     /* 1AA68 8002A268 040003A6 */  sh         $v1, (0x1F800004 & 0xFFFF)($s0)
     /* 1AA6C 8002A26C 0A0002A6 */  sh         $v0, (0x1F80000A & 0xFFFF)($s0)
-    /* 1AA70 8002A270 4C10020C */  jal        func_80084130
+    /* 1AA70 8002A270 4C10020C */  jal        GsSortGLine
     /* 1AA74 8002A274 060002A6 */   sh        $v0, (0x1F800006 & 0xFFFF)($s0)
     /* 1AA78 8002A278 21200002 */  addu       $a0, $s0, $zero
     /* 1AA7C 8002A27C 01000624 */  addiu      $a2, $zero, 0x1
     /* 1AA80 8002A280 1000A58F */  lw         $a1, 0x10($sp)
     /* 1AA84 8002A284 40010224 */  addiu      $v0, $zero, 0x140
-    /* 1AA88 8002A288 4C10020C */  jal        func_80084130
+    /* 1AA88 8002A288 4C10020C */  jal        GsSortGLine
     /* 1AA8C 8002A28C 080002A6 */   sh        $v0, (0x1F800008 & 0xFFFF)($s0)
     /* 1AA90 8002A290 21200002 */  addu       $a0, $s0, $zero
     /* 1AA94 8002A294 1000A58F */  lw         $a1, 0x10($sp)
     /* 1AA98 8002A298 04000296 */  lhu        $v0, (0x1F800004 & 0xFFFF)($s0)
     /* 1AA9C 8002A29C 01000624 */  addiu      $a2, $zero, 0x1
     /* 1AAA0 8002A2A0 0A0000A6 */  sh         $zero, (0x1F80000A & 0xFFFF)($s0)
-    /* 1AAA4 8002A2A4 4C10020C */  jal        func_80084130
+    /* 1AAA4 8002A2A4 4C10020C */  jal        GsSortGLine
     /* 1AAA8 8002A2A8 080002A6 */   sh        $v0, (0x1F800008 & 0xFFFF)($s0)
     /* 1AAAC 8002A2AC 21200002 */  addu       $a0, $s0, $zero
     /* 1AAB0 8002A2B0 01000624 */  addiu      $a2, $zero, 0x1
     /* 1AAB4 8002A2B4 1000A58F */  lw         $a1, 0x10($sp)
     /* 1AAB8 8002A2B8 F0000224 */  addiu      $v0, $zero, 0xF0
-    /* 1AABC 8002A2BC 4C10020C */  jal        func_80084130
+    /* 1AABC 8002A2BC 4C10020C */  jal        GsSortGLine
     /* 1AAC0 8002A2C0 0A0082A4 */   sh        $v0, (0x1F80000A & 0xFFFF)($a0)
   .L8002A2C4:
     /* 1AAC4 8002A2C4 4C00BF8F */  lw         $ra, 0x4C($sp)

@@ -28,7 +28,6 @@ extern u16 D_8009B220;
 extern u16 D_8009B16C;
 extern u8 D_8009B174;
 extern u8 D_8009B1D5;
-extern u8 *D_8009B1C8;
 extern u8 *D_8009B22C;
 extern u8 *D_8009B214;
 extern u8 *D_8009B21C;
@@ -104,7 +103,7 @@ void func_800179F4(void)
         func_800175A0();
         D_8009B16C |= 0x1000;
     }
-    D_8009B1C8 = (u8 *)D_800E9FF0 + D_8009B1D5 * sizeof(DuelSideState);
+    D_8009B1C8 = (DuelSideState *)((u8 *)D_800E9FF0 + D_8009B1D5 * sizeof(DuelSideState));
     func_800178BC();
     D_800F284A[0] = D_8009B1D5 * 2048 + 1024;
     func_8001352C();

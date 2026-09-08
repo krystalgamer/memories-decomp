@@ -20,7 +20,6 @@ extern Packed8 D_8009B478_p asm("D_8009B478");
 extern Packed8 D_8009B480;
 extern Object D_800F56A0;
 extern void func_800857C0(int), func_80058434(int, int, int, int, int);
-extern void func_80088E50(void *, void *);
 extern void func_8004E7B0(int), func_80052D2C(int, int, int, int);
 extern void func_8005FAE4(void);
 extern int func_8005F174(void), func_8005F18C(void);
@@ -53,7 +52,7 @@ void func_800530C4(void)
         o->v1c = 0;
         o->v18 = 0;
         o->v4c = 0;
-        func_80088E50(&o->r44, &o->pad04[0]);
+        RotMatrix_gte((SVECTOR *)&o->r44, (MATRIX *)&o->pad04[0]);
         o->zero = 0;
     }
     D_800F5710 = D_800F56F0;

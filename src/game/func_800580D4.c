@@ -19,9 +19,7 @@ typedef struct {
 extern u16 D_8009B47A;
 extern u16 D_8009B47C;
 
-extern void func_8008A4A0(u8 *, MATRIX *);
-extern void func_80088E50(SVECTOR *, MATRIX *);
-extern MATRIX *func_800889C0(SVECTOR *, MATRIX *);
+extern void GsGetLwUnit(u8 *, MATRIX *);
 extern void *memset(void *, s32, s32);
 
 void func_800580D4(s32 index, s32 arg1, u8 *arg2, u8 *arg3)
@@ -44,7 +42,7 @@ void func_800580D4(s32 index, s32 arg1, u8 *arg2, u8 *arg3)
         arg1 = p[0xE18];
     }
 
-    func_8008A4A0(*(u8 **)(p + 0xD14) + arg1 * 0x50, &ls);
+    GsGetLwUnit(*(u8 **)(p + 0xD14) + arg1 * 0x50, &ls);
     GsSetLsMatrix(&ls);
 
     RotTransSV((SVECTOR *)arg2, &ang, (long *)scratch);
@@ -52,7 +50,7 @@ void func_800580D4(s32 index, s32 arg1, u8 *arg2, u8 *arg3)
     locals.zero.vz = 0;
     locals.zero.vy = 0;
     locals.zero.vx = 0;
-    func_80088E50(&locals.zero, &locals.co.coord);
+    RotMatrix_gte(&locals.zero, &locals.co.coord);
 
     locals.co.flg = 1;
     locals.co.coord.t[0] = ang.vx;
@@ -72,9 +70,9 @@ void func_800580D4(s32 index, s32 arg1, u8 *arg2, u8 *arg3)
     *(s16 *)(arg3 + 0x46) = turn - *(u16 *)((*(u8 * volatile *)((u8 *)D_800F2C40 + 0xD18)) + 0x46);
     z = turn - *(u16 *)((*(u8 * volatile *)((u8 *)D_800F2C40 + 0xD18)) + 0x48);
     *(s16 *)(arg3 + 0x48) = z;
-    func_800889C0((SVECTOR *)(arg3 + 0x44), (MATRIX *)(arg3 + 4));
+    RotMatrixZXY((SVECTOR *)(arg3 + 0x44), (MATRIX *)(arg3 + 4));
 
-    func_80088E50(&sv88, &work);
+    RotMatrix_gte(&sv88, &work);
     MulMatrix((MATRIX *)(arg3 + 4), (MATRIX *)(stack_pointer + 0x98));
 
     *(s32 *)(arg3 + 0x20) = 0;

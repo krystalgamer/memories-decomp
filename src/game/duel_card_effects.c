@@ -6,7 +6,6 @@
 #include "sound.h"
 
 extern s16 D_8009B1D2;
-extern DuelSideState *D_8009B1C8;
 extern u16 D_8009B220;
 extern u16 D_8009B210;
 extern s16 D_8009B22A;

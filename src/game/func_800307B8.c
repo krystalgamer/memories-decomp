@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_PRESSED_SIZED_VOLATILE
 #include "../types.h"
 #include "input.h"
 #include "sound.h"
@@ -13,7 +14,6 @@ extern u8 D_8009B2C1;
 extern u8 D_8009B2DC;
 extern u8 D_8009B2E9;
 extern u8 D_80090CB4[];
-extern volatile u16 gInput_wPad1Pressed[4];
 
 extern void func_80030090(void);
 extern void func_800300AC(void);

@@ -52,6 +52,62 @@ for the patched LIBDS version reported as 4.6.1; other libraries must not be
 identified from 4.7 patterns. Never import catalogues as authoritative labels
 or override conflicting local evidence.
 
+## Psy-Q signature sweep
+
+Tier 1 evidence used to be gathered one function at a time. It is now produced
+in bulk by [`tools/project/psyq_signatures.py`](../tools/project/psyq_signatures.py),
+which matches lab313ru's Psy-Q 4.6 `psx_psyq_signatures` catalogue against the
+payload. The catalogue is a third-party download rather than a vendored file,
+so the tool takes a path to it and fetches nothing:
+
+    tools/environments/python/bin/python tools/project/psyq_signatures.py \
+        --signatures <checkout>/460 --report
+
+Five rules decide whether a label becomes a proposal:
+
+1. The full masked pattern matches at a four-byte boundary.
+2. The object matches the payload exactly once.
+3. The label is not an IDA placeholder (`text_1F0`, `loc_24`). Roughly half of
+   all labels in the catalogue are placeholders and carry no information.
+4. The address is a function start in `config/slus_01411/functions.csv`. A
+   label inside a function is a branch target, not a symbol.
+5. No other library object proposes a *different* name for the same address.
+
+The reason to trust the result is rule-free: of the labels that land on a
+function the inventory had already named by hand, **342 agree and none
+disagree**. The tool is checked against work done independently, and that
+number is the regression signal -- if it falls, the matcher broke rather than
+the catalogue being wrong.
+
+Eight addresses are claimed under more than one name and are deliberately left
+as `func_XXXXXXXX`. They are small routines duplicated verbatim across
+libraries, so bytes alone cannot separate them and a call-graph tiebreak is
+needed:
+
+| Address | Competing names |
+|---|---|
+| `0x80073758` | `PCread`, `PCwrite` |
+| `0x80077150` | `SpuRead`, `SpuWrite` |
+| `0x8007A840` | `CdReadCallback`, `CdReadMode`, `CdReadyCallback`, `CdSetDebug`, `CdSyncCallback`, `DsSetDebug` |
+| `0x8007CDC0` | `CdMix`, `DsMix` |
+| `0x8007E7F0` | `DsControl`, `DsControlB` (inventory keeps `CdControlB`) |
+| `0x80085320` | `GsGetActiveBuff` (applied), `SsUtGetReverbType` |
+| `0x80085D80` | `GsDrawOt`, `GsDrawOtIO` |
+| `0x8008AD50` | `GsSetRefView2` (applied), `GsSetRefViewUnit` |
+
+Two further identifications are confirmed but deliberately not applied. Both
+are blocked by the same thing: the only consumer calls the function with an
+arity the Psy-Q header contradicts, so adopting the name would put a source
+file's own prototype in conflict with `libgte.h`, and deciding which of the two
+is right is prototype work rather than a rename.
+
+| Address | Identity | Blocker |
+|---|---|---|
+| `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | `display_object_projection.c` includes `libgte.h` and calls it with **four** arguments where the header declares three, and the fourth argument is present in the retail call. |
+| `0x800879A0` | `NormalClip`, unique `LIBGTE.LIB/SMP_05.OBJ` match | The stored candidate `notes/candidates/func_80015EF4.md` includes `libgte.h` and calls it with **one** pointer where the header declares three `long`s. |
+
+Both keep their `func_XXXXXXXX` names until that is settled.
+
 ## CRT startup routines
 
 The PS-X EXE header and [memory map](memory-map.md) place the entry point at
@@ -62,16 +118,23 @@ The PS-X EXE header and [memory map](memory-map.md) place the entry point at
 | Address | Inventory symbol | Size | Locally observed behavior |
 |---|---|---:|---|
 | `0x800129D8` | `entrypoint` | `0xA0` | Clears `[bss_start, bss_end)` as words, derives the stack from the word at `D_8009AF10`, records two startup memory values at `D_800906E4` and `D_800906E8`, initializes `$gp` and `$fp`, calls `Main_Init`, and executes a `break` instruction if that call returns. |
-| `0x80012A78` | `func_80012A78` | `0x70` | Returns immediately when the guard word at `0x800906E0` is already nonzero. Otherwise it sets the guard to one and contains a forward callback-table walk beginning at `D_80010000`; the linked callback count is zero in this executable. |
-| `0x80012AE8` | `func_80012AE8` | `0x68` | Returns when the same guard word is zero and otherwise contains the paired callback-table walk beginning at `D_80010000`; its linked callback count is also zero. |
+| `0x80012A78` | `__main` | `0x70` | Returns immediately when the guard word at `0x800906E0` is already nonzero. Otherwise it sets the guard to one and contains a forward callback-table walk beginning at `D_80010000`; the linked callback count is zero in this executable. |
+| `0x80012AE8` | `__do_global_dtors` | `0x68` | Returns when the same guard word is zero and otherwise contains the paired callback-table walk beginning at `D_80010000`; its linked callback count is also zero. |
 
 The comparison
-[symbol catalogue](research/Unchiga_Symbols/known_functions.md) proposes
-`__SN_ENTRY_POINT`, `__main`, and `__do_global_dtors` for these addresses.
-Those labels fit the observed startup shapes, but no verified Psy-Q 4.6 object
-signature is recorded for this region and the linked callback counts are zero.
-Keep the current inventory names until stronger local or library evidence
-supports promotion.
+[symbol catalogue](research/Unchiga_Symbols/known_functions.md) proposed
+`__SN_ENTRY_POINT`, `__main`, and `__do_global_dtors` for these addresses, and
+that was tier 5 evidence -- a catalogue with nothing local behind it -- so the
+inventory kept its own names.
+
+The [signature sweep](#psy-q-signature-sweep) supplies the tier 1 evidence the
+promotion was waiting for: `NOHEAP.OBJ` matches this region exactly once, and
+its labels put `__main` at `0x80012A78` and `__do_global_dtors` at
+`0x80012AE8`. Both names are now applied.
+
+The same object labels `0x800129D8` as `__SN_ENTRY_POINT`. That address keeps
+the project's own `entrypoint`, which is a naming choice rather than a
+disagreement about identity; the corroboration is recorded here instead.
 
 ## Confirmed interface anchors
 
@@ -168,14 +231,14 @@ Every row below is now an applied project symbol.
 | `0x80076D10` | `WaitEvent` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A10.OBJ` signature. |
 | `0x80076D20` | `SpuReadDecodedData` | Applied from the unique 112-byte Psy-Q 4.6 `LIBSPU.LIB/S_RDD.OBJ` signature. |
 | `0x80076D90` | `SpuSetIRQ` | Applied from the unique 320-byte Psy-Q 4.6 `LIBSPU.LIB/S_SI.OBJ` signature; matching sound initialization disables the SPU IRQ before shutdown. |
-| `0x80076ED0` | `SpuSetKey` | Applied Psy-Q 4.6 identity; matching sound-driver paths switch selected voice masks off during cleanup and slot reuse, including the four-state mask assembled by `func_80045F3C`. |
+| `0x80076ED0` | `SpuSetKey` | Applied Psy-Q 4.6 identity; matching sound-driver paths switch selected voice masks off during cleanup and slot reuse, including the four-state mask assembled by `SD_UpdateRuntime`. |
 | `0x80077090` | `SpuGetKeyStatus` | Applied from the unique 144-byte Psy-Q 4.6 `LIBSPU.LIB/S_GKS.OBJ` signature; matching sound-driver paths poll individual voice masks during cleanup and reuse. |
 | `0x80077120` | `SpuSetKeyOnWithAttr` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_SKOWA.OBJ` signature. |
 | `0x800771B0` | `SpuSetTransferStartAddr` | Applied from the unique 96-byte Psy-Q 4.6 `LIBSPU.LIB/S_STSA.OBJ` signature; matching transfer paths select the SPU RAM destination. |
 | `0x80077210` | `SpuSetTransferMode` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_STM.OBJ` signature; matching initialization selects DMA mode zero. |
 | `0x80077240` | `SpuIsTransferCompleted` | Applied from the unique 176-byte Psy-Q 4.6 `LIBSPU.LIB/S_ITC.OBJ` signature; matching reset code selects blocking or nonblocking status. `func_8001455C` also uses the canonical `libspu.h` declaration to poll mode zero before clearing its pending-transfer flag. |
 | `0x800772F0` | `SpuRGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset zero of the unique 352-byte `LIBSPU.LIB/SR_GAKS.OBJ` signature. |
-| `0x800773C4` | `SpuGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset `0xD4` of the same object; matching `func_80045F3C` uses the canonical `libspu.h` declaration to collect all voice key states into its status block before update work. |
+| `0x800773C4` | `SpuGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset `0xD4` of the same object; matching `SD_UpdateRuntime` uses the canonical `libspu.h` declaration to collect all voice key states into its status block before update work. |
 | `0x80077450` | `SpuSetVoiceAttr` | Applied from the unique 1,536-byte Psy-Q 4.6 `LIBSPU.LIB/S_SVA.OBJ` signature; matching sound paths submit raw layout-compatible voice attribute blocks. |
 | `0x80077A50` | `_spu_note2pitch` | Applied at offset zero of the unique 512-byte Psy-Q 4.6 `LIBSPU.LIB/S_N2P.OBJ` signature. |
 | `0x80077B20` | `_spu_pitch2note` | Applied at offset `0xD0` of the same unique `LIBSPU.LIB/S_N2P.OBJ` signature. |
@@ -1306,6 +1369,7 @@ The existing C sources expose several useful starting points:
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `func_8005BE3C` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c) uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
 | Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `func_800134E0.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_setup.c` and `model_cleanup.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Partial migration established: `func_800592AC.c` uses native `SVECTOR` and `MATRIX` storage, while projection paths use layout-compatible SDK casts for `RotAverage3`, `ScaleMatrix`, `GsSetLsMatrix`, and `SetRotMatrix`; retain local render records where full layout or exact code generation is not proven. |
+| Local GTE and GPU function declarations | `libgte.h`, `libgpu.h` | Naming the library functions removed the reason these files had private declarations. `func_80043960.c` (`FntLoad`), `func_800580D4.c` and `func_800592AC.c` (`RotMatrix_gte`, `RotMatrixZXY`), `func_8005922C.c` (`RotMatrixYXZ_gte`), `model_scene_setup.c` (`RotMatrix_gte`), `model_slot_properties.c` (`RotTrans`) and `display_object_projection.c` (`RotMatrixZYX_gte`) now take the prototype from the header and cast at the call where the game's own pointer types differ, and the stored candidate `notes/candidates/func_80015EF4.md` drops its own `RotColorDpq` and `RotMatrixZYX_gte` declarations the same way. Adopting the real return types changed nothing: the build stays byte-identical. |
 | Decoded-audio buffers inside `g_SDValue` | `SpuDecodedData` in `libspu.h` | ABI-compatible migration established in `sound_output_state.c`: `func_80045054` passes the `0x1000`-byte region at `g_SDValue+0x53C` to `SpuReadDecodedData`; retain the shared `SDValue` byte-array split because other matching users require narrower views. |
 | Game-owned voice attribute blocks | `SpuVoiceAttr` in `libspu.h` | ABI-compatible migration is established in `sound_voice_selection.c`, `sound_voice_setup.c`, `func_8004A27C.c`, and `sound_secondary_playback.c`: each passes a layout-compatible state block or temporary packet to `SpuSetVoiceAttr`; retain the local records because only their submitted fields and masks are proven. |
 | Game-owned common output attribute block | `SpuCommonAttr` in `libspu.h` | ABI-compatible migration is established in `sound_output_transition.c`: `func_8004671C` fills its 40-byte local record and passes it to `SpuSetCommonAttr`; retain the local `Entry` layout because only the submitted fields and exact compiler shape are proven. `field14` aligns with `cd.reverb`, but mask `707` omits `SPU_COMMON_CDREV`, so that identity is positional only. |

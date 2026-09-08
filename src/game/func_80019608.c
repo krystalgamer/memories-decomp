@@ -1,12 +1,12 @@
 #include "../types.h"
 #include "duel_card.h"
+#include "duel_side_state.h"
 #include "display_object_layout.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
 
 extern u8 *D_800E9EF0[];
-extern u8 *D_8009B1C8;
 extern u16 D_8009B23A;
 extern u8 D_8009B174;
 /* Defined rather than declared: the assembler only resolves a small global
@@ -58,7 +58,7 @@ void func_80019608(void)
         D_8009B150 = *(u16 *)(slot + 0xC);
         func_80029164(0, arg);
         if (p[0x68] == 0x14) {
-            D_8009B1C8[5] = D_8009B1C8[5] + 1;
+            ((u8 *)D_8009B1C8)[5] = ((u8 *)D_8009B1C8)[5] + 1;
         }
         func_80024914(slot);
         D_8009B174 = 1;

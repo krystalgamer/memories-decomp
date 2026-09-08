@@ -3,10 +3,10 @@
 #include "model.h"
 
 extern u8 D_800F5918[];
-u8 *func_80089E20(u8 **arg0);
+u8 *GsU_00000000(u8 **arg0);
 
 /* Maps an id to its handler in the second dispatch family: looks the id up
- * in the handler registry at D_800F5918 (func_80089E20 is the sentinel that
+ * in the handler registry at D_800F5918 (GsU_00000000 is the sentinel that
  * skips the search), then dispatches on the high halfword's group and the
  * low halfword's kind. Returns arg0 unchanged when nothing matches. */
 
@@ -32,7 +32,7 @@ s32 func_8005FC1C(s32 arg0) {
     p = D_800F5918;
     n = 0;
 
-    if (arg0 == (s32)func_80089E20) {
+    if (arg0 == (s32)GsU_00000000) {
         v = -1;
     } else {
         do {
@@ -128,7 +128,7 @@ s32 func_8005FE44(s32 arg0) {
     p = D_800F5918;
     n = 0;
 
-    if (arg0 == (s32)func_80089E20) {
+    if (arg0 == (s32)GsU_00000000) {
         v = -1;
     } else {
         do {

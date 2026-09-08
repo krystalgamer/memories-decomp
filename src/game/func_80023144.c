@@ -33,7 +33,6 @@ typedef struct {
 } TextBox;
 
 extern u8 D_8009B1D5;
-extern s8 *D_8009B1C8;
 extern u8 D_8009B320 __attribute__((section(".data")));
 extern u8 D_8009B344 __attribute__((section(".data")));
 extern u8 D_8009B34E __attribute__((section(".data")));
@@ -85,7 +84,7 @@ void func_80023144(FieldSource *source, s32 index)
                 D_8009B34E = 3;
             }
             value = index >= DUEL_CARD_SIDE_RECORD_COUNT;
-            if (value == D_8009B1D5 && D_8009B1C8[0x1F] == 0) {
+            if (value == D_8009B1D5 && ((s8 *)D_8009B1C8)[0x1F] == 0) {
                 D_8009B34E = two;
             }
         } else {

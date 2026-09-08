@@ -8,7 +8,7 @@ extern s32 D_8009B09C;
 
 extern s32 func_80029EB0(u8 *, s32);
 extern void GsSortFastSprite(u8 *, s32, s32);
-extern void func_80084130(u8 *, s32, s32);
+extern void GsSortGLine(u8 *, s32, s32);
 
 /* Draws the scrolling card-list grid straight into the scratchpad primitive at
    0x1F800320. The first visible row comes from the viewport scroll divided by
@@ -19,7 +19,7 @@ extern void func_80084130(u8 *, s32, s32);
    bit 0, and the run stops as soon as a line falls off the bottom of the
    screen. The tail then builds the cursor box at 0x1F800000, colouring it from
    the low seven bits of D_8009B09C through a four-way ramp, and draws its four
-   edges with func_80084130. */
+   edges with GsSortGLine. */
 void func_80029EC4(void)
 {
     u8 *p;
@@ -142,12 +142,12 @@ done:
     *(u16 *)(q + 4) = *(u16 *)(D_800EA1E8 + 8) - gGraphics_sViewportX;
     *(u16 *)(q + 6) = *(u16 *)(D_800EA1E8 + 0xA) - gGraphics_sViewportY;
     *(u16 *)(q + 0xA) = *(u16 *)(D_800EA1E8 + 0xA) - gGraphics_sViewportY;
-    func_80084130(q, ot, 1);
+    GsSortGLine(q, ot, 1);
     *(u16 *)(q + 8) = 0x140;
-    func_80084130(q, ot, 1);
+    GsSortGLine(q, ot, 1);
     *(u16 *)(q + 0xA) = 0;
     *(u16 *)(q + 8) = *(u16 *)(q + 4);
-    func_80084130(q, ot, 1);
+    GsSortGLine(q, ot, 1);
     *(u16 *)(q + 0xA) = 0xF0;
-    func_80084130(q, ot, 1);
+    GsSortGLine(q, ot, 1);
 }

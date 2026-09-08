@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../types.h"
 #include "input.h"
 
@@ -7,7 +8,6 @@ extern u32 D_8009B0C8[];
 /* Preserve the low-half/high-half publication order at the function tail. */
 extern volatile u16 gInput_wPad1Repeat;
 extern volatile u16 gInput_wPad2Repeat;
-extern volatile u16 gInput_wPad1Pressed;
 extern volatile u16 gInput_wPad2Pressed;
 extern volatile u16 gInput_wPad1Held;
 extern volatile u16 gInput_wPad2Held;

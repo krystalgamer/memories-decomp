@@ -1,4 +1,6 @@
+#define GINPUT_PAD1_PRESSED_IN_DATA
 #include "../types.h"
+#include "input.h"
 #include "duel_effect.h"
 #include "sound.h"
 #include "display_object_api.h"
@@ -22,7 +24,6 @@ extern TblEnt D_801D9000[];
 extern s16 D_8009B35A;
 extern u8 D_8009B356;
 extern u8 D_8009B0C1 __attribute__((section(".data")));
-extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
 
 extern void func_800393B0(void *);
 extern void *Dialog_OpenChoice(void *);

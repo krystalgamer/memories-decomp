@@ -39,7 +39,7 @@ typedef struct {
     u32 slots[1];
 } AnimContext;
 
-extern void func_80089060(s16 *, void *);
+extern void RotMatrixYXZ_gte(s16 *, void *);
 extern void ScaleMatrix(void *, s32 *);
 
 s32 func_8005D378(AnimContext *ctx)
@@ -158,7 +158,7 @@ s32 func_8005D378(AnimContext *ctx)
     node->rz = ((s16)c * t + (s16)rz * rest2) / dur;
 
     out = &node->rx;
-    func_80089060(out, node->matrix);
+    RotMatrixYXZ_gte(out, node->matrix);
 
     scale[0] = (((AnimSample *)slot[1])->sx * t + ((AnimSample *)slot[2])->sx * rest2) / dur;
     scale[1] = (((AnimSample *)slot[1])->sy * t + ((AnimSample *)slot[2])->sy * rest2) / dur;

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "ai.h"
 #include "duel_card.h"
 #include "ai_constants.h"
@@ -21,7 +22,6 @@ typedef struct {
     s16 y;
 } Spawned;
 
-extern u8 *D_8009B1C8;
 extern u8 D_8009B1D5;
 extern u8 D_800EAE88[];
 extern u8 D_800907CC[];
@@ -55,7 +55,7 @@ void func_8001BAF0(void)
     s32 b;
 
     for (i = 0; i < HAND_SIZE; i++) {
-        p = D_8009B1C8;
+        p = (u8 *)D_8009B1C8;
         sel[i] = *(u8 *)((0x1A + i) + (s32)p);
     }
     for (i = 0; i < HAND_SIZE; i++) {

@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_PRESSED_IN_DATA
 #include "../types.h"
 #include "rand_get_interval.h"
 #include "display_object_api.h"
@@ -12,7 +13,6 @@ extern s32 D_8009B378;
 extern u8 D_800E9ECE[];
 extern u8 D_800E9ECF[];
 /* The retail tail load uses an absolute, self-clobbering v1 address lifetime. */
-extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern void func_80040410(u8 *, s32);
 extern void func_80040510();
 

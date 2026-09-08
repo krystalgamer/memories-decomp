@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 
@@ -10,11 +11,6 @@ typedef struct {
     u8 pad_00[4];
     u8 field_04;
 } DuelCardDisplayData;
-
-typedef struct {
-    u8 pad_00[0x1F];
-    s8 field_1F;
-} DuelCardDisplayState;
 
 typedef struct {
     u8 pad_00[0x08];
@@ -30,7 +26,6 @@ typedef struct {
     u8 card_index;
 } DuelCardDisplayObject;
 
-extern DuelCardDisplayState *D_8009B1C8;
 extern s32 gDuel_adwCardStats[];
 
 void func_80016778();
