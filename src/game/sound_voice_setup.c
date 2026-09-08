@@ -18,7 +18,7 @@ void func_8004A43C(u8 *p, s32 force) {
     s32 y;
     u8 *b;
 
-    e = D_8009B458 + p[3] * 24;
+    e = D_8009B458 + p[3] * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
     if (e[7] == *(s16 *)(p + 0x1A) && force == 0) {
         return;
     }
@@ -102,8 +102,8 @@ void func_8004A518(void) {
         r1[0x28] = cff;
         r1[0x29] = 0;
         r1[0x2B] = 0;
-        o1 += 0x2C;
-    } while (i < 16);
+        o1 += SD_SEQUENCE_TRACK_RECORD_SIZE;
+    } while (i < SD_SEQUENCE_TRACK_COUNT);
 
     do {
     base = D_8009B458;
@@ -125,7 +125,7 @@ void func_8004A518(void) {
             func_8004A764(i);
             SpuSetKey(SPU_OFF, key);
             tbl++;
-            off += 0x28;
+            off += SD_SECONDARY_OBJECT_SIZE;
             base = D_8009B458;
             i++;
             mask |= key;
@@ -151,8 +151,8 @@ void func_8004A518(void) {
         r3[0x10] = 0;
         *(s16 *)(r3 + 0x14) = 0;
         r3[6] = 0;
-        o18 += 0x18;
-    } while (i < 16);
+        o18 += SD_SEQUENCE_CHANNEL_RECORD_SIZE;
+    } while (i < SD_SEQUENCE_CHANNEL_COUNT);
 
     SpuSetKey(SPU_OFF, mask);
 }

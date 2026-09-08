@@ -88,11 +88,11 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
         i = 0;
         if (c->object_count > 0) {
             id2 = arg0 & 0xFF;
-            off = id2 * 0x18;
+            off = id2 * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
             m = 0x180;
             k = i;
             do {
-                /* The 0x18-byte record and 0x28-byte object views overlap. */
+                /* Keep the explicit byte views and address-calculation order. */
                 q = (u8 *)c + k;
                 if (id2 == q[0x183]) {
                     if (q[0x18D] != 0) {
@@ -102,8 +102,8 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
                                       *(u16 *)(p + 0x196));
                     }
                 }
-                m += 0x28;
-                k += 0x28;
+                m += SD_SECONDARY_OBJECT_SIZE;
+                k += SD_SECONDARY_OBJECT_SIZE;
                 c = D_8009B458;
                 i++;
             } while (i < c->object_count);
