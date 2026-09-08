@@ -4117,3 +4117,37 @@ What works is giving the holder a live range long enough that it is not a
 single-use pseudo at combine time. Assigning it at the top of the function was
 enough there. This is worth trying whenever a candidate is exactly one
 instruction short at a negative-displacement global access.
+
+## A "scheduling" window around a load is often allocation
+
+When a candidate differs only in the order of a few instructions and one of
+them is a load, the instinct is to permute source statements. That is usually
+wrong. GCC fills the load delay slot with whatever is ready, and what is ready
+depends on which register the load targets, so the visible symptom is ordering
+while the cause is allocation.
+
+Measured on `func_800179F4`. Retail's tail is
+
+    lui   $v0, %hi(func_800164FC)
+    lw    $v1, %gp_rel(D_8009B21C)
+    addiu $v0, $v0, %lo(func_800164FC)
+    sw    $v1, 0x50($s2)
+
+and the candidate had the `lw` first with the *next* symbol's `%hi` in the
+delay slot instead. Six statement orders were crossed, including hoisting the
+callback into a local and reading the global into a local, and every one
+measured the same five differing words or worse. The actual difference was that
+retail holds the loaded pointer in `$v1` and the build used `$v0`; pinning it
+to `$v1` closed the whole window at once.
+
+So the check is: in a differing window that contains a load, compare the load's
+*destination register* before permuting anything. If it differs, treat it as an
+allocation problem. The same reading applies to any window whose contents are
+identical but reordered around a multi-cycle instruction.
+
+The second half of the same function is the companion case. A `%hi`/`%lo` pair
+that retail completes in place (`lui $a0, %hi(S)` / `addiu $a0, $a0, %lo(S)`)
+against a build that routes it through a scratch register is also allocation,
+and neither a `section(".data")` spelling nor expressing the symbol as a
+neighbour plus an offset reaches it. An intermediate local pinned to the target
+register does.
