@@ -1,18 +1,14 @@
 #include "../../types.h"
+#include "../../ygo_types.h"
 #include "../../game/card_constants.h"
 #include "trade_helpers.h"
 
-typedef struct {
-    s16 id;
-    u16 count;
-} MainMenuCardCount;
-
-extern MainMenuCardCount D_801845FC[];
+extern CardCountEntry D_801845FC[];
 
 void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
 {
-    MainMenuCardCount *p;
-    MainMenuCardCount *entry;
+    CardCountEntry *p;
+    CardCountEntry *entry;
     u32 total;
     s32 offset;
     s32 i;
@@ -21,7 +17,7 @@ void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
     offset = slot * 2888;
     p = D_801845FC;
     while (i < CARD_COUNT) {
-        entry = (MainMenuCardCount *)(offset + (s32)p);
+        entry = (CardCountEntry *)(offset + (s32)p);
         if (entry->id == id) {
             total = entry->count + amount;
             if (total < 0xFB) {

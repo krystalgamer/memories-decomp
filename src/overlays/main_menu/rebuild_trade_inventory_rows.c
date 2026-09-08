@@ -1,13 +1,9 @@
 #include "../../types.h"
+#include "../../ygo_types.h"
 #include "../../game/card_list_rows.h"
 #include "trade_helpers.h"
 
-typedef struct {
-    s16 id;
-    u16 count;
-} MainMenuCardCount;
-
-extern MainMenuCardCount D_801845FC[];
+extern CardCountEntry D_801845FC[];
 extern u16 D_80185C8C[][2];
 extern u8 *D_801845E0;
 

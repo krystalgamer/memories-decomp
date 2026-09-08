@@ -1,12 +1,8 @@
 #include "../../types.h"
+#include "../../ygo_types.h"
 #include "../../psyq/qsort.h"
 #include "../../game/card_constants.h"
 #include "trade_helpers.h"
-
-typedef struct {
-    s16 id;
-    u16 count;
-} MainMenuCard;
 
 typedef struct {
     int (*entries[6])();
@@ -19,7 +15,7 @@ typedef struct {
 
 extern s32 D_80180000[];
 extern u8 D_801D1200[];
-extern MainMenuCard D_801845FC[][CARD_COUNT];
+extern CardCountEntry D_801845FC[][CARD_COUNT];
 extern u8 D_80185CCC[];
 extern MainMenuState D_801A8000[];
 

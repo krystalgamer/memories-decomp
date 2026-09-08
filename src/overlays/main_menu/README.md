@@ -180,6 +180,12 @@ input RGB `0x40`, priority `0x1F` and packet-helper flags 2. This describes
 the packet/geometry, not a guaranteed final opaque-pixel or blend result;
 known callers pass columns 0/1 and the helper does not validate the index.
 
+The Trade working inventories use the shared four-byte
+[`CardCountEntry`](../../ygo_types.h) record: signed 16-bit card ID followed
+by unsigned 16-bit quantity. Five C files previously redefined that exact
+layout independently; the 722-entry arrays, four-byte `qsort` stride, count
+adjustment, row rebuild, and comparator accesses establish one cross-TU type.
+
 `MainMenu_RefreshTradeInventory` (`0x8018338C`) conditionally rebuilds one
 side's 722 working records from its save chest, retaining zero-ID holes.
 After a rebuild it reapplies offer deductions to **both** sides, then

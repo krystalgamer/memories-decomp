@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../ygo_types.h"
 #include "../../game/card_constants.h"
 #include "entrypoints.h"
 #include "trade_helpers.h"
@@ -16,16 +17,11 @@ typedef struct {
     u8 frame;
 } Widget;
 
-typedef struct {
-    s16 id;
-    u16 count;
-} MainMenuCard;
-
 extern Widget *D_801845E0;
 extern Widget *D_801845EC;
 extern Widget *D_801845F4;
-extern MainMenuCard D_801845FC[];
-extern MainMenuCard D_80185144[];
+extern CardCountEntry D_801845FC[];
+extern CardCountEntry D_80185144[];
 extern u16 D_80185C8C[2][2];
 extern u16 D_80185C9C[2][11];
 extern u8 D_80185CC8[2];
@@ -88,8 +84,8 @@ s32 MainMenu_UpdateTradeScreen(void)
     Block16 *backup_source2;
     register Block16 *destination2 __asm__("$5");
     Block16 *backup_destination2;
-    MainMenuCard *card0;
-    MainMenuCard *card1;
+    CardCountEntry *card0;
+    CardCountEntry *card1;
 
     dirty0 = 0;
     dirty1 = dirty0;
