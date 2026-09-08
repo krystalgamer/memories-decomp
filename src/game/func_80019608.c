@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_layout.h"
 
 extern u8 D_801A7AD8[];
 extern u8 *D_800E9EF0[];
@@ -71,13 +72,15 @@ void func_80019608(void)
             }
             f2 = *(u16 *)(p + 8);
             D_8009B174 = state | 0x80;
-            *(u16 *)(p + 8) = f2 | 4;
+            *(u16 *)(p + 8) = f2 | DISPLAY_OBJECT_FLAG_CLIP_TEST;
             p = func_800291E0(0, -1, -1);
             *(u16 *)(p + 0x30) = 0x5A;
             *(u16 *)(p + 0x32) = 0x16;
             p[0x21] = 0xC0;
             func_800428EC(p, -0xA);
-            *(u16 *)(p + 8) = (*(u16 *)(p + 8) | 4) & 0xFFBF;
+            *(u16 *)(p + 8) =
+                (*(u16 *)(p + 8) | DISPLAY_OBJECT_FLAG_CLIP_TEST) &
+                ~DISPLAY_OBJECT_FLAG_RENDERABLE;
             D_800E9EF0[1] = p;
             return;
         }
@@ -91,7 +94,8 @@ void func_80019608(void)
             func_8004036C(p);
             q1 = D_800E9EF0[1];
             D_800E9EF0[0] = 0;
-            *(u16 *)(q1 + 8) = *(u16 *)(q1 + 8) | 0x40;
+            *(u16 *)(q1 + 8) =
+                *(u16 *)(q1 + 8) | DISPLAY_OBJECT_FLAG_RENDERABLE;
             return;
         }
         p = D_800E9EF0[1];
@@ -105,7 +109,7 @@ void func_80019608(void)
             p[0x21] = 0;
             f3 = *(u16 *)(p + 8);
             st = D_8009B174 | 0x20;
-            *(u16 *)(p + 8) = f3 & 0xFFFB;
+            *(u16 *)(p + 8) = f3 & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
             D_8009B174 = st;
             return;
         }
