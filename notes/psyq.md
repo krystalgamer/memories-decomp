@@ -232,7 +232,7 @@ Every row below is now an applied project symbol.
 | `0x800827C0` | `GetClut` | Applied from the unique 32-byte Psy-Q 4.6 `LIBGPU.LIB/P01.OBJ` signature. |
 | `0x800827E0` | `AddPrim` | Applied from the unique 64-byte Psy-Q 4.6 `LIBGPU.LIB/P06.OBJ` signature. |
 | `0x80082820` | `TermPrim` | Applied from the unique 32-byte Psy-Q 4.6 `LIBGPU.LIB/P09.OBJ` signature. |
-| `0x80082840` | `SetSemiTrans` | Applied from the unique 40-byte Psy-Q 4.6 `LIBGPU.LIB/P10.OBJ` signature. |
+| `0x80082840` | `SetSemiTrans` | Applied from the unique 40-byte Psy-Q 4.6 `LIBGPU.LIB/P10.OBJ` signature; matching display-object renderers `func_80040588` and `func_800408D0` use the canonical `libgpu.h` declaration for their clipped scratchpad quads. |
 | `0x80082870` | `SetShadeTex` | Applied from the unique 40-byte Psy-Q 4.6 `LIBGPU.LIB/P11.OBJ` signature. |
 | `0x800828A0` | `SetPolyF3` | Applied from the unique 20-byte Psy-Q 4.6 `LIBGPU.LIB/P12.OBJ` signature. |
 | `0x800828C0` | `SetPolyFT3` | Applied from the unique 20-byte Psy-Q 4.6 `LIBGPU.LIB/P13.OBJ` signature. |
