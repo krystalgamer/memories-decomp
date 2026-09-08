@@ -150,6 +150,47 @@ Two neighbouring literals are deliberately **left as numbers**:
   a **different field at `+4`**, not the flag word, and none of the display
   object flag constants apply to them.
 
+## The opponent grid scrolls vertically
+
+The forty grid entries are laid out in one coordinate space taller than the
+screen, and the module scrolls a viewport over it rather than paging.
+
+`FreeDuel_Init` places every entry at `X = (index % FREE_DUEL_GRID_COLUMN_COUNT)
+* 56 + 20` and `Y = (index / FREE_DUEL_GRID_COLUMN_COUNT) * 52 + 40`, so rows
+0 through 7 occupy `Y` 40 to 404 — well past the 240-line display. The entries
+are created with `DISPLAY_OBJECT_FLAG_SCREEN_SPACE` cleared, so they are world
+space and move with the viewport.
+
+`FreeDuel_UpdateScrollbar` drives that viewport from the cursor. It keeps the
+cursor's offset within the visible window between `0x28` and `0x90`, pushing
+`gGraphics_sViewportY` up or down whenever the cursor leaves that band, and it
+positions the scrollbar thumb with
+
+```c
+gFreeDuel_pThumbWidget->y = (cursor->y - 0x28) * 72 / 364 + 7;
+```
+
+The `364` in that expression is exactly `7 * 52` — the row pitch times
+`FREE_DUEL_GRID_ROW_COUNT - 1` — which is the full scroll travel of an
+eight-row grid whose first row sits at `Y = 40`. `gGraphics_sViewportY` is
+zeroed by `FreeDuel_Init`, so the screen opens at the top of the grid.
+
+The scroll numbers are **not** named. `0x28`, `0x90`, `72` and `7` are
+widget-layout values whose relationship is established only by this one
+expression, and `364`, while derivable as `7 * 52`, is written as a literal
+rather than as that product. Recording the geometry is useful; asserting a
+formula the code does not spell out would not be.
+
+### The placement split at 25 is a texture band, not a visible page
+
+The two placement loops split at index 25, which looks like a visible-page
+count and is not. Together they place all forty objects: the second loop takes
+its `Y` from the **absolute** index `k`, continuing into rows 5 to 7 of the
+same unbroken space. What changes at 25 is the texture-page selector — `18`
+for the first band, `20` for the second — with the texture V coordinate
+restarting. That is the same VRAM band boundary as the upload loops above,
+for the same reason.
+
 ## Input publication and button meanings
 
 Normal browsing uses `gInput_wPad1Held` for directional movement and
