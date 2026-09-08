@@ -8,7 +8,6 @@ typedef struct {
     u16 flags;
 } Object;
 
-
 void func_80024914(Object *object)
 {
     object->flags &= ~DUEL_CARD_FLAG_OCCUPIED;

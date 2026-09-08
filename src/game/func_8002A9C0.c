@@ -4,7 +4,6 @@
 #include "../psyq/libgte.h"
 #include "gpu_packets.h"
 
-
 void func_8002A9C0(u8 *p, s32 arg1)
 {
     s32 sp28;

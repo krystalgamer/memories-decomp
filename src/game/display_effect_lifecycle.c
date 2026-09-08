@@ -14,7 +14,6 @@ typedef struct {
     u16 field_3E;
 } DisplayEffectState;
 
-
 s32 func_80039F1C(DisplayEffectState *object)
 {
     u8 state = object->state;

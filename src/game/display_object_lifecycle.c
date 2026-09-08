@@ -13,7 +13,6 @@ typedef struct {
     u8 flags;
 } DisplayObjectLifecycle;
 
-
 s32 func_80042B98(DisplayObjectLifecycle *object)
 {
     if ((object->flags & DISPLAY_OBJECT_FLAG_ALLOCATED) == 0) {
