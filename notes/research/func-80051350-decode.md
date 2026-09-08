@@ -1,15 +1,23 @@
-## `func_80051350` at 0x80051350
+# Decode of `func_80051350`
 
 No candidate source yet. This records the structural decode so the first
 reconstruction is written from a map rather than from 446 instructions of
 assembly. Nothing here is measured against a build.
 
-Takes three arguments and spills all of them immediately to `0x90`, `0x94` and
-`0x98(sp)`, then reloads them repeatedly - `0x94(sp)` alone is re-read at least
-six times. That spill-and-reload pattern is the shape to reproduce, not an
-artefact: the frame is `-0x90` and the function saves `$s0`-`$s7`, `$fp` and
-`$ra`, so ten callee-saved registers are already committed and the arguments
-lose theirs.
+Takes three arguments and spills all of them immediately to the incoming
+argument slots, then reloads them repeatedly; the second argument alone is
+re-read at least six times. That spill-and-reload pattern is the shape to
+reproduce, not an artefact. The frame is 0x90 bytes and the function saves ten
+callee-saved registers, s0 through s7 plus fp and ra, so the arguments lose
+theirs.
+
+This file lives under `notes/research/` rather than `notes/candidates/`
+deliberately. `notes/candidates/rules.md` requires an entry there to "record the
+profile and the measured result in the heading" and to store the exact source
+that produces it, and `check-metadata` enforces that by refusing any candidate
+note without a recognised compiler profile. A decode with no build has neither,
+so it is research, not a candidate. It moves to `notes/candidates/` when there
+is a source and a measured figure to put in the heading.
 
 ## What it calls and touches
 
