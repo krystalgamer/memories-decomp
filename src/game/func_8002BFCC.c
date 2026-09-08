@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "campaign_flags.h"
 #include "display_object_layout.h"
 #include "file_transfer.h"
 
@@ -122,7 +123,7 @@ void func_8002BFCC(void) {
     D_801D5608[0] = 0;
     n = CARD_ID_FIRST;
     do {
-        if (Campaign_TestStoryFlag(n + 0x120) != 0) {
+        if (Campaign_TestStoryFlag(n + CAMPAIGN_FLAG_LIBRARY_CARD_BASE) != 0) {
             D_801D5608[0] += 1;
             *(u8 *)(r + n * 4 + 0x56) = 0x80;
             if (func_8002C518(n) < 0) {
