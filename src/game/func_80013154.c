@@ -5,6 +5,7 @@
 #include "../psyq/libmcrd.h"
 #include "../psyq/rand.h"
 #include "rand_constants.h"
+#include "file_set_position_table.h"
 #include "graphics_constants.h"
 #include "graphics_frame.h"
 #include "input.h"
@@ -28,8 +29,6 @@ extern volatile u8 D_8009B0A1;
 extern volatile u8 D_8009B0A2;
 extern volatile u8 D_8009B0A3;
 extern DISPENV D_800FE0A8;
-
-extern void File_SetPositionTable(void);
 
 /* Graphics and input start-up, called from Main_Init with the work area
  * in $a0. Resets the GPU, sets up a 320x240 display and the display
