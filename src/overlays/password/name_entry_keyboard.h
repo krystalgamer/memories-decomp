@@ -13,6 +13,7 @@ typedef struct {
 
 typedef void (*NameEntryGlyphUpdate)(u8 *sprite);
 
+void NameEntry_BuildKeyboardTextBox(s32 textOffset);
 void NameEntry_UpdateKeyboard(void);
 void *NameEntry_SpawnGlyphSprite(s32 textBoxSlot, NameEntryGlyphNodeView *glyphNode);
 void NameEntry_UpdateGlyphPulse(u8 *sprite);

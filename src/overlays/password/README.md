@@ -183,6 +183,22 @@ than pretending that the callback takes no arguments.
 
 ## Keyboard input and glyph effects
 
+`NameEntry_BuildKeyboardTextBox` (`0x80168138`) prepares text slot 1 for
+the keyboard. It configures that slot's entry partition, creates the box at
+`(22,24,320,240)`, sets its glyph-cell dimensions to `20 x 18`, then calls
+the existing synchronous builder until `TEXT_BOX_FLAG_DONE` is set.
+Its argument is an integer text selector: the text ID is `0xF0 + textOffset`,
+not a pointer into RAM. `NameEntry_Init` passes 2, selecting text 242.
+The header shared by both sides now declares the actual `void` return;
+other selectors' captions and reachability remain unassigned.
+
+The nearby factory at `0x801680B4` remains `func_801680B4`. Its X/Y
+parameters are established by the configurator's stores at `+0x30/+0x32`,
+and it allocates a list/type-2 object with fixed selectors `0,0,0` and values
+`0x17,0x101`, then sets flag `0x8`. No current C caller or fixed graphic
+identity was established. That absence is not evidence of global dead code,
+and the numeric configuration alone is not a reason to invent a screen role.
+
 The matching functions distinguish keyboard input from the outer dialog and
 from the selection-frame drawing callback:
 

@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "name_entry_keyboard.h"
 #include "../../game/save_data.h"
 #include "name_entry_frame.h"
 
@@ -25,7 +26,6 @@ extern void func_8003BC40(u8 *, u8 *, s32);
 extern void func_8003B6AC(s32, s32);
 extern u8 *func_80035BE4(s32, s32, s32, s32, s32, s32);
 extern void func_80039A14(u8 *);
-extern s32 func_80168138(s32);
 extern s32 func_8004002C(void);
 extern u8 *func_800400AC(s32, s32);
 extern void func_80042918(u8 *);
@@ -58,7 +58,7 @@ void NameEntry_Init(void)
     sprite[91] = 18;
     func_80039A14(sprite);
     D_8016D4D0 = 2;
-    func_80168138(2);
+    NameEntry_BuildKeyboardTextBox(2);
     D_8016D426 = 0;
     D_8016D402 = 0;
     D_8016D401 = 0;
