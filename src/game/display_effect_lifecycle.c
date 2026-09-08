@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004036C.h"
 #include "../psyq/rand.h"
 #include "display_effect_constants.h"
 
@@ -13,7 +14,6 @@ typedef struct {
     u16 field_3E;
 } DisplayEffectState;
 
-extern void func_8004036C(void *);
 
 s32 func_80039F1C(DisplayEffectState *object)
 {

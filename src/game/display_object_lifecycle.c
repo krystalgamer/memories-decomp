@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004036C.h"
 #include "display_object_layout.h"
 
 typedef struct {
@@ -12,7 +13,6 @@ typedef struct {
     u8 flags;
 } DisplayObjectLifecycle;
 
-extern void func_8004036C(void *);
 
 s32 func_80042B98(DisplayObjectLifecycle *object)
 {

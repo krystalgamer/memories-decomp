@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004036C.h"
 
 typedef struct {
     u8 pad_00[0x64];
@@ -23,7 +24,6 @@ extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
 
 extern void func_800393B0(void *);
 extern void *Dialog_OpenChoice(void *);
-extern void func_8004036C(void *);
 extern void SD_SEPlayFull(s32);
 extern void func_8003B50C(s32);
 extern void DuelEffect_ProcessEntries(void *);

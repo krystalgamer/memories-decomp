@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004036C.h"
 #include "display_object_api.h"
 #include "../psyq/libmcrd.h"
 #include "duel_effect.h"
@@ -71,7 +72,6 @@ extern void func_80042918(u8 *);
 extern void func_800428EC(u8 *, s32);
 extern void TextBox_Destroy(u8 *);
 extern u8 *TextBox_Create(s32, s32, s32, s32, s32, s32);
-extern void func_8004036C(s32);
 extern void func_80039794(void);
 extern void func_80039A14(u8 *);
 extern s32 func_8003F2B0_int(ObjectState *, s32, s32, s32)

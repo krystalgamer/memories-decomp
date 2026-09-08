@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004036C.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "file_constants.h"
@@ -42,7 +43,6 @@ extern void func_800157DC(void);
 extern void func_80015998(void);
 extern u32 func_8004703C(void);
 extern void Fade_WaitOut(void);
-extern void func_8004036C(Object *);
 
 /* Duel result screen setup. Reads the two-byte result code from the script
    stream, queues the result sector through File_RequestAsyncTransfer with

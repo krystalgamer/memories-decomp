@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004036C.h"
 #include "duel_card_layout.h"
 
 typedef struct {
@@ -7,7 +8,6 @@ typedef struct {
     u16 flags;
 } Object;
 
-extern void func_8004036C(void *);
 
 void func_80024914(Object *object)
 {

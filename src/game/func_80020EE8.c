@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004036C.h"
 #include "display_object_layout.h"
 
 typedef struct {
@@ -9,7 +10,6 @@ typedef struct {
 } Object;
 
 extern int func_80042B98(Object *);
-extern void func_8004036C(Object *);
 
 void func_80020EE8(Object *object)
 {

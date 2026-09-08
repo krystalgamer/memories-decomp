@@ -1,9 +1,9 @@
 #include "../types.h"
+#include "func_8004036C.h"
 #include "display_object_projection.h"
 #include "../psyq/libgte.h"
 #include "gpu_packets.h"
 
-extern void func_8004036C(void *);
 
 void func_8002A9C0(u8 *p, s32 arg1)
 {

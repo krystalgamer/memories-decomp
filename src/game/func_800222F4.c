@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004036C.h"
 #include "input.h"
 #include "duel_card.h"
 
@@ -19,7 +20,6 @@ extern DuelCardRecord D_801A7B80[];
 
 extern void func_800220B8(void);
 extern void func_80029528(s32);
-extern void func_8004036C(u8 *);
 extern void func_80029164(s32, s32);
 extern void func_800137E4(void);
 extern u8 *func_800291E0(s32, s32, s32);

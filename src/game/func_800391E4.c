@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004036C.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 
@@ -18,7 +19,6 @@ typedef struct { u32 words[2]; } Blk8;
 extern s32 func_80035E20();
 extern s32 func_80039140();
 extern s32 func_8004006C();
-extern s32 func_8004036C();
 extern s32 func_800427DC();
 extern s32 func_800428EC();
 extern s32 func_80042918();

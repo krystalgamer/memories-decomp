@@ -1,9 +1,9 @@
 #include "../types.h"
+#include "func_8004036C.h"
 #include "duel_selection_layout.h"
 
 extern u8 D_800E9F10[];
 extern u8 D_8009B1D5;
-extern void func_8004036C();
 
 void func_80022EEC(u8 *arg0)
 {
