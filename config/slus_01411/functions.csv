@@ -592,7 +592,7 @@ address,size,name,status,module,notes
 0x8003E854,0x63C,func_8003E854,unmatched_asm,game,
 0x8003EE90,0x38,func_8003EE90,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003EEC8,0x8,func_8003EEC8,matching_c,game,Empty void function matched the return-and-nop sequence.
-0x8003EED0,0x3E0,func_8003EED0,unmatched_asm,game,
+0x8003EED0,0x3E0,func_8003EED0,matching_c,game,"Memory-card save dialog state machine, the write-side twin of func_8003E490; exact linked bytes with gcc_2_8_1_g8_split including its jump table at 0x800104D8. D_801D5648 declared as an unsized array to keep it out of small data, the inner switch written in retail's block order, and both MemCardWriteFile calls spelled out per branch."
 0x8003F2B0,0xD8,func_8003F2B0,matching_c,game,Collaborator countdown structure independently verified; one allocation-only a3 pin and exact linked bytes/relocations under split-address G8.
 0x8003F388,0xCC,func_8003F388,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003F454,0x2B8,func_8003F454,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."

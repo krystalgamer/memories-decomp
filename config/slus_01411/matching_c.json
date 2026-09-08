@@ -3295,6 +3295,12 @@
       "source": "src/game/duel_effect_late_state.c"
     },
     {
+      "address": "0x8003EED0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3E0",
+      "source": "src/game/mem_card_save_state.c"
+    },
+    {
       "address": "0x8003F2B0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD8",
