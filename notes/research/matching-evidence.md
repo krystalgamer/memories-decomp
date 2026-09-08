@@ -5507,4 +5507,7 @@ one of these two ways.
    uninformative: record that the pins are jointly load-bearing so the next
    reader does not delete them one at a time on the strength of a single drop.
 
-`tmp/harness/pinaudit.py` runs both arms over an entry's stored source.
+`tools/project/candidate_pin_audit.py` runs both arms over an entry's
+stored source, reporting the differing count and whether the differing
+*set* is unchanged for each pin, then the joint arm over every pin that
+looked inert alone.
