@@ -148,6 +148,44 @@ The retail battle sequencer `func_8001F55C` calls the comparison at
 a concrete consumer of the convention without auditing every trap,
 presentation, or outcome branch.
 
+## Card-information text payload
+
+Matching
+[`func_8002348C`](../src/game/duel_field_display_objects.c) maps the
+source's row/column through the active side's `D_800907D8` field view and
+passes the resulting card-record index to
+[`func_80023144`](../src/game/func_80023144.c). This is a field-card text
+request path, not by itself evidence for every button or visibility mode.
+
+The constructor clears `D_8009B34E` and `D_8009B355` on entry. For an
+occupied record it captures the card ID in `gDuel_wSelectedCardID`. Only
+the occupied-monster branch (packed type below `20`) writes
+`D_801D5608[0]` and `[1]`: they receive the ATK and DEF returned by
+`Duel_CalcCardStats`. No opponent-dependent guardian adjustment is added
+to these two assignments.
+
+The base text ID is `0x50`, or `0x51` for an occupied non-monster.
+Opaque source-mode conditions add `2` or `4` before the value is passed
+as `TextBox_Create`'s `string_id` argument. These are text-request
+variants; their full scripts and user-visible meanings are not decoded
+by this constructor alone.
+
+When source byte `+0x17` is `3` and `D_8009B34E` is nonzero, a separate
+call to [`func_80023090`](../src/game/duel_field_guardian_compare.c)
+supplies `D_8009B320`. That helper maps its guardian comparison to `4`
+for neutral, `1` for negative, or `6` for positive. The selector is
+separate from the two pre-matchup stat words, not an extra term in them.
+
+The non-monster and unoccupied-record branches contain no clearing of
+those stat words. Later selector changes can also leave `D_8009B34E` zero
+after the data was prepared; `TextBox_Create` is still called after the
+conditional setup. Matching
+[`FreeDuel_PlaceCursor`](../src/overlays/free_duel/place_cursor.c) reuses
+the same two words for its selected duelist's win/loss values. Interpret
+`D_801D5608` with its current caller and text-request state, not as
+dedicated persistent ATK/DEF storage. No conclusion about hidden-card
+visibility or a complete scratch-buffer layout follows from these writes.
+
 ## Typed migration snapshot
 
 The following pure-C report users include `duel_card.h` and use its typed

@@ -955,6 +955,17 @@ For the ordinary battle outcomes, use those compared values:
 * a **face-down** defender is flipped by the attack and resolved as above;
   its identity and stars are revealed.
 
+The field-card text path prepares a separate **pre-matchup stat payload**.
+Matching [`func_80023144`](../../src/game/func_80023144.c) writes ATK and
+DEF from `Duel_CalcCardStats` into the first two words at `D_801D5608` only
+for an occupied monster record. An opponent-dependent guardian adjustment
+is not added to those assignments; one request variant obtains a separate
+comparison indicator. The constructor does not refresh those words in its
+non-monster or unoccupied-record branches, and Free Duel also writes them.
+Their contents alone therefore prove neither the current visible card nor
+what a hidden-card template displays. See the
+[guarded payload contract](../duel-card-record.md#card-information-text-payload).
+
 Pressing □ instead of × on the attack plays the battle as a **3-D
 animation** [`Main_RunAnimatedBattle` `0x8002D180`] — cosmetic; the result is
 the same. A monster that has attacked cannot change position again that turn.
