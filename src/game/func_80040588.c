@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "display_object_layout.h"
+#include "display_object_projection.h"
 
 typedef void (*ObjFn)(void *);
 
@@ -64,7 +65,6 @@ extern s32 D_800E9D90[];
 extern s16 D_800EFE3A[];
 extern DisplayObject D_800EFE48[];
 
-s32 func_80041F90(DisplayObject *arg0, s32 arg1, s32 arg2, u8 *arg3);
 void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
 /* Walks the display-object list rooted at D_800EFE3A: calls each object's
@@ -123,8 +123,9 @@ void func_80040588(void) {
 
                 if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     D_8009B424 = 0;
-                    if (func_80041F90(e, (s16)p->pos.h.x + e->unk18,
-                                      (s16)p->pos.h.y + e->unk1A, h + 0x20) <= 0) {
+                    if (func_80041F90((struct ProjectionObj *)e, (s16)p->pos.h.x + e->unk18,
+                                      (s16)p->pos.h.y + e->unk1A,
+                                      (struct ProjectionOut *)(h + 0x20)) <= 0) {
                         break;
                     }
                     if (D_8009B424 != 0) {

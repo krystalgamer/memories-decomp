@@ -3,12 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
-
-struct Out {
-    s16 f0;
-    s16 f2;
-    s32 f4;
-};
+#include "display_object_projection.h"
 
 struct Mat {
     s16 m[3][3];
@@ -44,7 +39,7 @@ struct Vec318 {
     s16 f4;
 };
 
-struct Obj {
+struct ProjectionObj {
     char pad0[0x4];
     u32 field4;
     char pad8[0x10 - 0x8];
@@ -60,7 +55,7 @@ struct Obj {
     u8 field65;
 };
 
-typedef void (*ObjCallback)(struct Obj *, s32);
+typedef void (*ObjCallback)(struct ProjectionObj *, s32);
 
 extern void func_80088C50(struct Vec308 *a0, struct Mat *a1);
 extern s32 func_80089CF0(
@@ -70,7 +65,7 @@ extern s32 func_80089CF0(
     struct Vec318 *a3
 );
 
-s32 func_80041E7C(u32 arg0, s32 arg1, s32 arg2, struct Out *arg3)
+s32 func_80041E7C(u32 arg0, s32 arg1, s32 arg2, struct ProjectionOut *arg3)
 {
     struct Vec308 *v308;
     struct Mat *mtx;
@@ -124,7 +119,7 @@ s32 func_80041E7C(u32 arg0, s32 arg1, s32 arg2, struct Out *arg3)
     return otz;
 }
 
-s32 func_80041F90(struct Obj *obj, s32 arg1, s32 arg2, struct Out *out) {
+s32 func_80041F90(struct ProjectionObj *obj, s32 arg1, s32 arg2, struct ProjectionOut *out) {
     struct Mat *mtx = (struct Mat *)0x1F8002D0;
     struct Vec308 *v308 = (struct Vec308 *)0x1F800308;
     s32 otz;

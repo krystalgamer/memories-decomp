@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_projection.h"
 #include "display_object_layout.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
@@ -7,7 +8,6 @@ extern u8 D_801A7AD8[];
 
 s32 Duel_CalcCardStats(u8 *arg0);
 void Text_EncodeDecimalDigits(s32 arg0, s32 arg1, u8 *arg2);
-s32 func_80041F90(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void func_80042188(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
 /* Draws one card's frame on the duel field: position, the hand/field
@@ -47,8 +47,10 @@ void func_80016784(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 arg0[0x69] = 0;
                 if (*(u16 *)(arg0 + 8) & DISPLAY_OBJECT_FLAG_CLIP_TEST) {
                     fl = *(u16 *)(arg0 + 0x14) | 0xF0000;
-                    if (func_80041F90(arg0, (s16)*(u16 *)(o + 8) + 0x1A,
-                                      (s16)*(u16 *)(o + 0xA) + 0x1E, 0x1F8003E0) < 0) {
+                    if (func_80041F90((struct ProjectionObj *)arg0,
+                                      (s16)*(u16 *)(o + 8) + 0x1A,
+                                      (s16)*(u16 *)(o + 0xA) + 0x1E,
+                                      (struct ProjectionOut *)0x1F8003E0) < 0) {
                         return;
                     }
                     g1 = *(s32 *)(arg0 + 0xC);
