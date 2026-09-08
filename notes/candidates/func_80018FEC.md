@@ -16,6 +16,50 @@ and the 114 positions are one fault reported 114 times rather than a large
 residual. It should be picked up on that basis. Written from scratch: no
 stored candidate, no rows in `external_attempts.csv`, empty inventory note.
 
+### The one decision, located exactly
+
+The entry above says one `dbr` decision separates this from a match. The
+instruction and the slot are these:
+
+```
+        build                                retail
++0x1B0  beqz  $v0, +0x1E0                    beqz  $v0, +0x1E4
++0x1B4  lui   $v0, %hi(D_8009B260)   <-slot  nop                        <-slot empty
++0x1B8  lbu   $v0, %lo(D_8009B260)           lui   $v0, %hi(D_8009B260)
++0x1BC  nop                          <-load  lbu   $v0, %lo(D_8009B260)
++0x1C0  andi  $v0, $v0, 1                    nop                        <-load delay
+```
+
+The branch is `if (flags & 0x2000)` failing. **Retail leaves its delay slot
+empty and the build fills it with the first instruction of the fall-through**,
+which shifts everything after by one slot and is why 114 of 280 positions differ
+from a single cause.
+
+**What makes this odd, and where the next attempt should go.** Retail's
+fall-through begins with that same `lui`, and `$v0` is dead at the branch target
+- the target block's first instruction is `lw $v0, 628($gp)`, which writes it -
+so the fill looks legal in both. `reorg` will only *move* an instruction out of
+a thread into a slot when the branch owns that thread exclusively
+(`own_thread_p`); a block with a second predecessor can only be *copied* from,
+and only from the taken side. So the most likely difference is not liveness but
+the CFG: in retail that block appears to have another predecessor, and in this
+candidate it does not.
+
+That is a testable prediction rather than a description, and it says what to
+try: a source shape that gives the `D_8009B260` test block a second entry.
+
+Three shapes that do **not** change it, all 280/280 and 114:
+
+| shape | result |
+| --- | --- |
+| the two tests merged into one `&&` condition | 114 |
+| the byte read hoisted into a block-scoped local | 114 |
+| the guard inverted into a `goto` with a label after the arm | 114 |
+
+Seven profiles were swept: four tie at 114, and the three non-split ones are far
+worse at 234, 234 and 327 with four to twenty-four extra instructions. So the
+profile is settled and the residue is not a code-generation choice.
+
 The duel-end sequencer, a five-state machine on the top bits of `D_8009B23A`.
 
 * **first entry (0x8000 clear)** parks both side objects at x -0x40 and 0x180
