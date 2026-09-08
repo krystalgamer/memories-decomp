@@ -40,9 +40,6 @@ The bootstrap installs:
 - A pinned `mips-sony-psx` GCC 2.8.1 probe compiler built from the public
   decompals/old-gcc recipe. This is the default selected by `make tools`.
 
-Pinned Git tools may carry repository-owned downstream patches. The bootstrap
-verifies both each patch hash and the complete resulting checkout diff.
-
 Downloaded archives, installed packages, source checkouts, and toolchains remain
 under `tools/`. Temporary build directories remain under `tmp/`.
 

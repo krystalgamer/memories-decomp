@@ -52,14 +52,6 @@
       "commit": "746b895f02929ecd148af7b1f4ff05b69f973878",
       "destination": "tools/vendor/maspsx",
       "license": "MIT",
-      "patches": [
-        {
-          "path": "tools/bootstrap/patches/maspsx-extern-sdata.patch",
-          "sha256": "f6f0bddaf82f7db26aa3eb861654e68d610f1e505a41df3313166735eb0d8fcf",
-          "arguments": ["-u", "-p1"]
-        }
-      ],
-      "patched_diff_sha256": "a320eb61df1b82bfdfc585f6b5c806481eecce4c7abe2b00d6a4fcb0d9f768c7",
       "required_paths": ["maspsx.py", "LICENSE"]
     },
     {

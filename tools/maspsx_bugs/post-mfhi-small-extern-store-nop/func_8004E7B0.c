@@ -1,5 +1,14 @@
-#include "../types.h"
-#include "model.h"
+typedef signed char s8;
+typedef unsigned char u8;
+typedef signed short s16;
+typedef unsigned short u16;
+typedef signed int s32;
+typedef unsigned int u32;
+typedef signed long long s64;
+typedef unsigned long long u64;
+
+#define MODEL_ANGLE_FULL_TURN 0x1000
+#define MODEL_ANGLE_QUARTER_TURN (MODEL_ANGLE_FULL_TURN / 4)
 
 extern u8 D_8009B478;
 extern s16 D_8009B47A;
