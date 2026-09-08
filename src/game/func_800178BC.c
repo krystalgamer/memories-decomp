@@ -10,8 +10,6 @@ extern s16 D_8009B200;
 extern s16 D_8009B202;
 extern u8 D_800FE148[];
 extern void func_80017130(void);
-extern void func_8001352C(void);
-
 void func_800178BC(void)
 {
     ProjectedPair p;

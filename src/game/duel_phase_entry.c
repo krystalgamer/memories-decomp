@@ -26,7 +26,6 @@ extern s32 gDuel_adwCardStats[];
 
 extern void Duel_RequestCombinedDeckData(void);
 extern void Duel_PopulateCombinedDeckData(void);
-extern void func_8001352C(void);
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "sound.h"

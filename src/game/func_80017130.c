@@ -2,8 +2,6 @@
 #include "view_state.h"
 
 extern void func_800857C0(int);
-extern void func_8001352C(void);
-
 void func_80017130(void)
 {
     ViewState *s = &D_800F2848;

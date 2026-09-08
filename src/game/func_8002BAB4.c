@@ -20,7 +20,6 @@ extern void func_8002BAAC(u8 *);
 extern s32 func_80058DD8(s32);
 extern s32 func_80058E68(s32);
 extern void func_80057AF4(s32, s32, s32);
-extern void func_8001352C(void);
 extern u8 *func_800591FC(void);
 
 /* Library screen state dispatcher on the low nibble of D_800EA1E8's first

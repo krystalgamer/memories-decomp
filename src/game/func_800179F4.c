@@ -9,6 +9,7 @@
 #include "duel_package.h"
 #include "file_transfer.h"
 #include "display_object_helpers.h"
+#include "view_state.h"
 
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
@@ -43,7 +44,6 @@ extern void func_8001778C(void);
 extern void func_80017708(void);
 extern void func_800175A0(void);
 extern void func_800178BC(void);
-extern void func_8001352C(void);
 extern void func_8002C598(void);
 extern void func_80029574(s32);
 extern void func_80035668(s32);

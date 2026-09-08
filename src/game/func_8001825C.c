@@ -8,6 +8,7 @@
 #include "fade.h"
 #include "file_transfer.h"
 #include "sound.h"
+#include "view_state.h"
 
 extern u16 D_8009B23A;
 extern u8 D_8009B1D5;
@@ -21,7 +22,6 @@ extern u8 D_801A7B64[];
 
 extern void func_80024D34(s32, s32);
 extern void Duel_ApplyCardObjectFlags(u8 *);
-extern void func_8001352C(void);
 extern void func_80024954(u8 *);
 extern s16 func_800181EC(u8 *);
 

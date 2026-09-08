@@ -76,4 +76,6 @@ typedef char ViewState_field_2C_offset_must_be_0x2C[
 
 extern ViewState D_800F2848;
 
+void func_8001352C(void);
+
 #endif
