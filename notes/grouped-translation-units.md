@@ -166,6 +166,7 @@ source grouping.
 | `src/game/sound_secondary_object_selection.c` | `gcc_2_8_1_g0` | Three contiguous secondary-object best-candidate, referenced-record update, free/reusable-slot, owner/variant, and oldest-entry selection helpers from `0x8004A854` through `0x8004A940`; the shared TU preserves `func_8004A8E4`'s unused second argument from every caller |
 | `src/game/sound_secondary_commands.c` | `gcc_2_8_1_g0` | Three secondary-record command setters from `0x8004B49C` through `0x8004B70C`, followed by contiguous `SD_SequenceTimerCallback` (`0x8004B734`) |
 | `src/game/color_transform.c` | `gcc_2_8_1_g8` | The fixed-point colour conversion pair and the packed-pixel tint that calls both: RGB to HSL (`0x8005A98C`), HSL to RGB (`0x8005ABA0`), and BGR555 hue/saturation transform (`0x8005AE68`) |
+| `src/game/gpu_packets.c` | `gcc_2_8_1_g8` | The three ordering-table packet writers that share the `D_800FE240` buffer cursor: draw-mode (`0x8005B260`), texture-window (`0x8005B36C`) and mask-write (`0x8005B4D8`) |
 
 The sound-code request group shares only the identical request layout and
 external declarations, not either algorithm's body. Its common
