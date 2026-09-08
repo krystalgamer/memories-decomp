@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds check-candidate-headlines review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds check-candidate-headlines review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -47,6 +47,8 @@ help:
 		'  candidate-bundles  Regenerate human-facing resident candidate bundles' \
 		'  check-candidate-bundles  Verify human-facing candidate bundles' \
 		'  check-candidate-bundle-builds  Compile every human candidate bundle' \
+		'  candidate-builds  Run the normal build and validate tracked source candidates' \
+		'  check-candidate-builds  Verify tracked source-candidate metadata' \
 		'  build-overlays Build verified runtime overlay module images' \
 		'  match-overlays Build and compare all configured overlay modules' \
 		'  inventory      Update the tracked resident-function inventory' \
@@ -127,6 +129,7 @@ split: map check-build-tools
 build: split
 	@$(PYTHON) tools/project/clean.py project-build
 	@$(PYTHON) tools/project/build_baseline.py
+	@$(PYTHON) tools/project/candidate_builds.py
 
 match: build
 	@$(PYTHON) tools/project/match.py
@@ -141,6 +144,7 @@ check-metadata:
 	@$(PYTHON) tools/project/overlay_extract.py verify-metadata
 	@$(PYTHON) tools/project/candidate_files.py --check
 	@$(PYTHON) tools/project/candidate_human_bundles.py --check
+	@$(PYTHON) tools/project/candidate_builds.py --check
 
 build-overlays: overlays check-build-tools
 	@$(PYTHON) tools/project/overlay_build.py build
@@ -153,6 +157,7 @@ split-incremental: map check-build-tools
 
 build-incremental: split-incremental
 	@$(PYTHON) tools/project/build_incremental.py
+	@$(PYTHON) tools/project/candidate_builds.py
 
 match-incremental: build-incremental
 	@$(PYTHON) tools/project/match.py
@@ -180,6 +185,11 @@ check-candidate-bundles:
 
 check-candidate-bundle-builds: check-build-tools
 	@$(PYTHON) tools/project/candidate_human_bundles.py --compile-check
+
+candidate-builds: build
+
+check-candidate-builds:
+	@$(PYTHON) tools/project/candidate_builds.py --check
 
 review-deferred: workspace
 	@$(PYTHON) tools/project/review_deferred.py $(REVIEW_DEFERRED_ARGS)
@@ -231,4 +241,4 @@ audit: match verify-runtime-files
 	@$(PYTHON) tools/project/audit_repository.py
 
 clean: workspace
-	@$(PYTHON) tools/project/clean.py extract generated splat project-build incremental overlays reports
+	@$(PYTHON) tools/project/clean.py extract generated splat project-build candidate-build incremental overlays reports

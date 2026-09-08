@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "candidates": [
+    {
+      "address": "0x80013C28",
+      "profile": "gcc_2_8_1_g8_split",
+      "source": "src/candidates/func_80013C28.c",
+      "target": "src/candidates_target/func_80013C28.S",
+      "candidate_build_sha256": "af5c1dd30ead5be0b1be847255b67f61b101744ce3611aa19814e65f3318ef76",
+      "target_bytes_sha256": "b1be595887a725648050fc70a7a9198433bdf5a6f6608e8b302acd8e5acad754"
+    }
+  ]
+}

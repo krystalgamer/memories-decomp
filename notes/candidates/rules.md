@@ -47,7 +47,7 @@ there the entries appear only as their filenames, which are addresses. Run
 
 ## Human-facing bundles
 
-Every stored resident candidate has a generated directory under
+Every remaining note-based resident candidate has a generated directory under
 [`for_humans/`](for_humans/README.md). It carries the exact self-contained C
 block, the target spimdisasm assembly, and the complete named compiler-profile
 options. Run `make candidate-bundles` after changing a candidate and commit the
@@ -55,3 +55,10 @@ corresponding bundle changes. In particular, any PR that edits a candidate's
 self-contained C fence must regenerate its bundle in the same change; otherwise
 the hard `make check-metadata` gate reports stale source and build metadata.
 That check also rejects missing or extra bundles.
+
+Candidates migrated into the build live under `src/candidates/`, with their
+retail assembly under `src/candidates_target/` and build metadata in
+`config/slus_01411/candidates.json`. A migrated candidate no longer retains a
+note or `for_humans` bundle. Normal full and incremental builds compile these
+sources, compare path-independent hashes of their text and relocations, and
+reject undefined symbols that are absent from the linked target.
