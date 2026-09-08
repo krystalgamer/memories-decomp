@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -45,21 +46,13 @@ void func_80015D18(ProjectionObject *object)
 typedef struct {
     u8 pad_00[0x28];
     s32 position;
-    u8 pad_2C[0x44];
-} ProjectionEntry;
-
-typedef struct {
-    u8 pad_00[0x28];
-    s32 position;
     u8 pad_2C[0x3E];
     u8 slot;
 } SlotProjectionObject;
 
-extern ProjectionEntry D_800EFE48[];
-
 void func_80015DB8(SlotProjectionObject *object)
 {
-    ProjectionEntry *entry;
+    DisplayObject *entry;
 
     entry = D_800EFE48 + object->slot;
     object->position = entry->position;
