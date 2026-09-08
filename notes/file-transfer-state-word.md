@@ -2,7 +2,7 @@
 
 `D_8009B0F4` is the resident loader's request-and-state word. It is the most
 widely shared global in the tree: 51 translation units declare and use it,
-against 37 for the next-busiest address. One more, `frontend_mode_states.c`,
+against 37 for the next-busiest address. One more, `frontend_scene_states.c`,
 reaches it from inline assembly without declaring it.
 
 Before this pass every one of those 51 units declared the word for itself, and
@@ -92,7 +92,7 @@ and the full executable still matched:
 
 ## What is left
 
-`frontend_mode_states.c` reaches the word from an inline assembly block that
+`frontend_scene_states.c` reaches the word from an inline assembly block that
 spells `%hi`/`%lo` itself. That is not a C declaration site and is unchanged.
 
 Naming the word, and naming its bits beyond the four already named, is not

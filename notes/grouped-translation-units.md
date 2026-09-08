@@ -121,7 +121,7 @@ source grouping.
 | `src/game/duel_card_state_helpers.c` | `gcc_2_8_1_g8` | Duel-card state export (`0x80028220`) and encoded slot normalization (`0x80028260`) |
 | `src/game/main_debug.c` | `gcc_2_8_1_g8` | Debug-mode setup wrapper (`0x8002CDE8`), `Main_RunDebugMenu` (`0x8002CE08`) |
 | `src/game/script_control_commands.c` | `gcc_2_8_1_g8` | Two script mode setters at `0x8002F930` and `0x8002F94C`, followed by the contiguous script-delay updater at `0x8002F968` |
-| `src/game/frontend_mode_states.c` | `gcc_2_8_1_g8` | Six contiguous debug/frontend, duel-effect mode, memory-card transition, duel setup, and effect-start handlers from `0x80030D5C` through `0x80030F80` |
+| `src/game/frontend_scene_states.c` | `gcc_2_8_1_g8` | Eight contiguous scene states, each a step of the same `D_8009B2EB` state machine: the two list-selection states (`0x80030C10`, `0x80030CB0`) and the six debug/frontend, duel-effect mode, memory-card transition, duel setup and effect-start handlers from `0x80030D5C` through `0x80030F80`. They are the whole `gcc_2_8_1_g8` run between `func_80030998` and `func_80030FA0` |
 | `src/game/display_object_fade_callbacks.c` | `gcc_2_8_1_g0` | Three contiguous display-object fade callbacks from `0x80039AFC` through `0x80039C94`, sharing initialization flags and frame-step state |
 | `src/game/options_update.c` | `gcc_2_8_1_g8` | Contiguous options input handler (`0x8003C7A0`) and per-frame state dispatcher (`0x8003C8CC`) |
 | `src/game/game_over.c` | `gcc_2_8_1_g8_split` | Contiguous Game Over setup (`0x8003C950`) and per-frame update (`0x8003CA5C`) |

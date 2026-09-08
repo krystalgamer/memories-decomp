@@ -1,15 +1,29 @@
 #include "../types.h"
 #include "file_transfer.h"
 
-extern u8 D_8009B2EB;
-extern u16 gDebug_nSceneOrSoundID;
+/* The frontend's scene states, in address order. Every one of them is a step
+   of the same state machine: the flags byte D_8009B2EB carries bit 0x80 for
+   "already entered", so the first call does the setup and each later call
+   polls for completion and clears the byte on the way out. The eight are
+   contiguous and are the whole gcc_2_8_1_g8 run between func_80030998 and
+   func_80030FA0. */
+
+extern u8 D_80090D0C[];
+extern u8 D_80090D28[];
 extern u8 D_80090D44[];
 extern u8 D_8009B254[];
-extern u8 D_8009B3ED[];
-extern u8 D_8009B3EA[];
+extern u8 D_8009B268[];
 extern u8 D_8009B26C[];
-extern u16 D_8009B36A[];
+extern u8 D_8009B26D[];
+extern u8 D_8009B2E8;
+extern u8 D_8009B2EB;
+extern u8 D_8009B363[];
 extern u8 D_8009B368[];
+extern u16 D_8009B36A[];
+extern u8 D_8009B3EA[];
+extern u8 D_8009B3ED[];
+extern u16 gDebug_nSceneOrSoundID;
+
 extern void func_80030250(void *, int, int, int, int, int, int);
 extern int func_80030294(void);
 extern int DuelEffect_UpdateState(void);
@@ -18,6 +32,50 @@ extern int func_8003FCD8(void);
 extern void func_8005B85C(void);
 extern void func_80024DC8(int, int, int, int);
 extern void func_80033C90(void);
+
+void func_80030C10(void)
+{
+    u8 flags = D_8009B2EB;
+    int result;
+
+    if ((flags & 0x80) == 0) {
+        D_8009B2EB = flags | 0x80;
+        gDebug_nSceneOrSoundID = D_8009B2E8;
+        func_80030250(D_80090D0C, 0x14, 0, 0, 0xC, 2, 1);
+    }
+    result = func_80030294();
+    if (result != 0) {
+        if (result < 0) {
+            D_8009B2EB = 0;
+        } else {
+            D_8009B363[0] = 0;
+            D_8009B26C[0] = 5;
+            D_8009B2E8 = *(u8 *)&gDebug_nSceneOrSoundID;
+        }
+    }
+}
+
+void func_80030CB0(void)
+{
+    u8 flags = D_8009B2EB;
+    int result;
+
+    if ((flags & 0x80) == 0) {
+        D_8009B2EB = flags | 0x80;
+        gDebug_nSceneOrSoundID = D_8009B26D[0];
+        func_80030250(D_80090D28, 0x15, 0, 0, 0x12, 2, 1);
+    }
+    result = func_80030294();
+    if (result != 0) {
+        if (result < 0) {
+            D_8009B2EB = 0;
+        } else {
+            D_8009B268[0] = 1;
+            D_8009B26C[0] = 8;
+            D_8009B26D[0] = *(u8 *)&gDebug_nSceneOrSoundID;
+        }
+    }
+}
 
 void func_80030D5C(void)
 {
