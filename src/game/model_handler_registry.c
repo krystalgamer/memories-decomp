@@ -1,10 +1,9 @@
 #include "../types.h"
+#include "../ygo_types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "model.h"
 #include "model_handler_registry.h"
-
-typedef u8 *(*ModelHandler)(u8 **);
 
 extern s32 GsU_00000000[];
 extern s32 (*func_800603DC())();

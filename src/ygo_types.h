@@ -12,6 +12,8 @@ typedef char CardCountEntry_size_must_be_4[
     sizeof(CardCountEntry) == 4 ? 1 : -1
 ];
 
+typedef u8 *(*ModelHandler)(u8 **);
+
 typedef struct {
     s32 key;
     void **handler;
