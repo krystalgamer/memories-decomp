@@ -707,7 +707,7 @@ uploads instead of parallel local declarations. Confirmed camera, lighting,
 object, packet, and sorting paths also use `libgs.h`, including
 `func_800134E0.c`,
 `func_8005B260.c`,
-`func_800530C4.c`, `model_cleanup.c`, and `model_texture_upload.c`.
+`model_scene_setup.c`, `model_cleanup.c`, and `model_texture_upload.c`.
 No current game C includes `libhmd.h`. These imports justify their specific
 API and field uses; a local render or model record still requires field-level
 and resident-call evidence before migration to an SDK type.
@@ -919,7 +919,7 @@ defines `NULL` as integer zero and `WEOF` as `0xFFFFFFFF`. `stdarg.h` uses a
 `void *` `va_list` and advances it through arguments rounded up to
 `sizeof(int)`, encoding the old compiler's stack and alignment assumptions.
 These are target/compiler support declarations, not portable host-build
-substitutes. Matching `model_set_slot_properties.c` includes `stdarg.h` directly and uses
+substitutes. Matching `model_scene_setup.c` includes `stdarg.h` directly and uses
 its `va_list`, `va_start`, and `va_arg` definitions to consume the model-slot
 initializer's signed 32-bit arguments. No current game C includes `stddef.h`
 directly, although `stdlib.h` includes it.
@@ -1287,7 +1287,7 @@ The existing C sources expose several useful starting points:
 | Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `func_800582C0`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
 | Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_handler_registry.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `func_8005BE3C` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c) uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
-| Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `func_800134E0.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `func_800530C4.c` and `model_cleanup.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
+| Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `func_800134E0.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_setup.c` and `model_cleanup.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Partial migration established: `func_800592AC.c` uses native `SVECTOR` and `MATRIX` storage, while projection paths use layout-compatible SDK casts for `RotAverage3`, `ScaleMatrix`, `GsSetLsMatrix`, and `SetRotMatrix`; retain local render records where full layout or exact code generation is not proven. |
 | Decoded-audio buffers inside `g_SDValue` | `SpuDecodedData` in `libspu.h` | ABI-compatible migration established in `sound_output_state.c`: `func_80045054` passes the `0x1000`-byte region at `g_SDValue+0x53C` to `SpuReadDecodedData`; retain the shared `SDValue` byte-array split because other matching users require narrower views. |
 | Game-owned voice attribute blocks | `SpuVoiceAttr` in `libspu.h` | ABI-compatible migration is established in `sound_voice_selection.c`, `sound_voice_setup.c`, `func_8004A27C.c`, and `sound_secondary_playback.c`: each passes a layout-compatible state block or temporary packet to `SpuSetVoiceAttr`; retain the local records because only their submitted fields and masks are proven. |
