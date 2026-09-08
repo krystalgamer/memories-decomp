@@ -28,6 +28,7 @@ typedef struct {
 
 #include "mem_card.h"
 #include "save_data.h"
+#include "display_object_api.h"
 extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern u8 D_8009B3C0;
 extern u8 *D_8009B3D8;
@@ -39,7 +40,6 @@ extern u8 D_801D1200[];
 extern u8 D_801D2200[];
 
 s32 SaveData_HasSameDuelistCode(u8 *arg0, u8 *arg1);
-void func_8004036C(s32 arg0);
 
 /* MATCH 2026-09-06, first-day function from the m2c draft (257 instructions,
  * the memory-card save state machine: format, load, verify, retry). Jump

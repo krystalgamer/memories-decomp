@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "entrypoints.h"
+#include "../../game/display_object_api.h"
 
 extern u8 D_801845C0[];
 extern u8 D_801845BE;
@@ -8,7 +9,6 @@ extern void *D_801845A0;
 extern void *D_801845A4;
 extern void *D_801845B0[];
 extern s32 D_800E9DB0;
-extern void func_8004036C(void *);
 
 void MainMenu_FinishValueSetup(void)
 {

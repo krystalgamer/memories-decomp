@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "name_entry_keyboard.h"
+#include "../../game/display_object_api.h"
 
 typedef struct Obj {
     u8 unk0[0x4];
@@ -18,7 +19,6 @@ typedef struct Obj {
 } Obj;
 
 extern s32 func_80042B98(void);
-extern void func_8004036C(Obj *);
 
 void NameEntry_UpdateGlyphPulse(u8 *sprite)
 {

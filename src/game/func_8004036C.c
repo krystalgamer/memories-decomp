@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 
 extern void func_8004020C(void *);
 

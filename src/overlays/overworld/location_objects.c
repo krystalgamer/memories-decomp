@@ -5,7 +5,6 @@ extern u8 gCampaignMap_aLocationTable[];
 extern u8 D_801AF000[];
 extern u8 *D_801695F8[];
 extern s32 Campaign_TestStoryFlag(s32);
-extern void func_8004036C(void *);
 extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
 extern void func_800428EC(void *, s32);
 

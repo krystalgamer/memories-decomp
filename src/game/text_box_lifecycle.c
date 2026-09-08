@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "text_box_lifecycle.h"
+#include "display_object_api.h"
 
 extern void func_80035CA8(s32);
 extern void DuelEffect_ClearMatchingMarker(s32);
-extern void func_8004036C(void *);
 extern void TextBox_SetRect(s32, s32, s32, s32, s32);
 extern u8 *DuelEffect_InitEntry(s32, s32, s32);
 

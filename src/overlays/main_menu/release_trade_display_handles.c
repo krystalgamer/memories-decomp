@@ -1,10 +1,10 @@
 #include "../../types.h"
 #include "entrypoints.h"
+#include "../../game/display_object_api.h"
 
 extern void *D_801845DC;
 extern void *D_801845E0;
 extern s32 D_800E9DB4;
-extern void func_8004036C(void *);
 
 void MainMenu_ReleaseTradeDisplayHandles(void)
 {

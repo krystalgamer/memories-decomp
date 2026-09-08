@@ -10,8 +10,6 @@ extern u8 *D_8009B1CC;
 extern volatile u16 gInput_wPad1Repeat __attribute__((section(".data")));
 extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 
-void func_8004036C(s32 arg0);
-
 s32 func_80020988(void) {
     u8 *q;
     s32 one;
