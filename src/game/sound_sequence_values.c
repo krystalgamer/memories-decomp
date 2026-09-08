@@ -2,7 +2,7 @@
 #include "sound_sequence_reader.h"
 #include "sound_sequence_values.h"
 
-s32 SD_ReadSequenceU32BE(void *input)
+s32 SD_ReadSequenceU32BE(SDSequenceTrack *input)
 {
     s32 first = SD_ReadSequenceByte(input);
     s32 second = SD_ReadSequenceByte(input);
@@ -13,7 +13,7 @@ s32 SD_ReadSequenceU32BE(void *input)
            ((second & 0xFF) << 16) + (first << 24);
 }
 
-s32 SD_ReadSequenceU16BE(void *input)
+s32 SD_ReadSequenceU16BE(SDSequenceTrack *input)
 {
     s32 high = SD_ReadSequenceByte(input);
     s32 low = SD_ReadSequenceByte(input);

@@ -4,66 +4,55 @@
 #include "sound_sequence_reader.h"
 #include "sound_sequence_values.h"
 
-typedef struct {
-    int field0;
-    int field4;
-    int field8;
-    int fieldC;
-    int field10;
-} SequenceEntry;
-
-int func_8004C560(SequenceEntry *entry)
+int func_8004C560(SDSequenceTrack *entry)
 {
-    entry->field0 = SD_FindMidiTrackChunk(entry->field0);
-    if (entry->field0 == -1)
+    entry->pos = SD_FindMidiTrackChunk(entry->pos);
+    if (entry->pos == -1)
         return 1;
-    entry->field8 = SD_ReadSequenceU32BE(entry);
-    entry->field10 = entry->field0;
-    entry->fieldC = entry->field0 + entry->field8;
+    entry->chunk_length = SD_ReadSequenceU32BE(entry);
+    entry->chunk_start = entry->pos;
+    entry->chunk_end = entry->pos + entry->chunk_length;
     return 0;
 }
 
-void func_8004C5C8(u8 *entry)
+/* Rescales the track's delta count from the sequence's own timebase to the
+   runtime tick, carrying the remainder in field_0018. */
+void func_8004C5C8(SDSequenceTrack *entry)
 {
     switch (D_8009B458->timebase) {
     case 0x30:
-        *(s32 *)(entry + 0x1C) = *(s32 *)(entry + 0x1C) * 10;
-        *(s32 *)(entry + 0x1C) =
-            *(s32 *)(entry + 0x1C) + *(u16 *)(entry + 0x18);
-        *(s16 *)(entry + 0x18) = *(u16 *)(entry + 0x1C) & 3;
-        *(s32 *)(entry + 0x1C) = *(u32 *)(entry + 0x1C) >> 2;
+        entry->delta_remaining = entry->delta_remaining * 10;
+        entry->delta_remaining = entry->delta_remaining + entry->field_0018;
+        entry->field_0018 = entry->delta_remaining & 3;
+        entry->delta_remaining = entry->delta_remaining >> 2;
         return;
     case 0x60:
-        *(s32 *)(entry + 0x1C) = *(s32 *)(entry + 0x1C) * 5;
-        *(s32 *)(entry + 0x1C) =
-            *(s32 *)(entry + 0x1C) + *(u16 *)(entry + 0x18);
-        *(s16 *)(entry + 0x18) = *(u16 *)(entry + 0x1C) & 3;
-        *(s32 *)(entry + 0x1C) = *(u32 *)(entry + 0x1C) >> 2;
+        entry->delta_remaining = entry->delta_remaining * 5;
+        entry->delta_remaining = entry->delta_remaining + entry->field_0018;
+        entry->field_0018 = entry->delta_remaining & 3;
+        entry->delta_remaining = entry->delta_remaining >> 2;
         return;
     case 0xC0:
     case 0xF0:
-        *(s32 *)(entry + 0x1C) =
-            *(s32 *)(entry + 0x1C) + *(u16 *)(entry + 0x18);
-        *(s16 *)(entry + 0x18) = *(u16 *)(entry + 0x1C) & 1;
-        *(s32 *)(entry + 0x1C) = *(u32 *)(entry + 0x1C) >> 1;
+        entry->delta_remaining = entry->delta_remaining + entry->field_0018;
+        entry->field_0018 = entry->delta_remaining & 1;
+        entry->delta_remaining = entry->delta_remaining >> 1;
         return;
     case 0x120:
     case 0x168:
-        *(u32 *)(entry + 0x1C) = *(u32 *)(entry + 0x1C) / 3;
+        entry->delta_remaining = entry->delta_remaining / 3;
         return;
     case 0x180:
     case 0x1E0:
-        *(s32 *)(entry + 0x1C) =
-            *(s32 *)(entry + 0x1C) + *(u16 *)(entry + 0x18);
-        *(s16 *)(entry + 0x18) = *(u16 *)(entry + 0x1C) & 3;
-        *(s32 *)(entry + 0x1C) = *(u32 *)(entry + 0x1C) >> 2;
+        entry->delta_remaining = entry->delta_remaining + entry->field_0018;
+        entry->field_0018 = entry->delta_remaining & 3;
+        entry->delta_remaining = entry->delta_remaining >> 2;
         return;
     case 0x300:
     case 0x3C0:
-        *(s32 *)(entry + 0x1C) =
-            *(s32 *)(entry + 0x1C) + *(u16 *)(entry + 0x18);
-        *(s16 *)(entry + 0x18) = *(u16 *)(entry + 0x1C) & 7;
-        *(s32 *)(entry + 0x1C) = *(u32 *)(entry + 0x1C) >> 3;
+        entry->delta_remaining = entry->delta_remaining + entry->field_0018;
+        entry->field_0018 = entry->delta_remaining & 7;
+        entry->delta_remaining = entry->delta_remaining >> 3;
         return;
     default:
         return;
@@ -74,41 +63,42 @@ extern void func_8004BCE8(void);
 
 int func_8004C77C(void)
 {
-    register u8 *initial asm("$2") = (u8 *)D_8009B458;
+    register SDSecondaryState *initial asm("$2") = D_8009B458;
     register int i asm("$17");
     register int offset asm("$18");
 
-    *(int *)(initial + 0x804) = 0;
-    initial[0x800] = 0;
+    initial->field_0804 = 0;
+    initial->field_0800 = 0;
     func_8004BCE8();
     {
-        register u8 *state asm("$4") = (u8 *)D_8009B458;
-        if (*(u16 *)(state + 0x7FA) != 0) {
+        register SDSecondaryState *state asm("$4") = D_8009B458;
+        if (state->track_count != 0) {
             int count;
 
             i = 0;
-            offset = 0x518;
+            offset = SD_SEQUENCE_TRACK_ARRAY_OFFSET;
             do {
-                register u8 *entry asm("$16") = state + offset;
-                int value = *(int *)entry;
+                register SDSequenceTrack *entry asm("$16") =
+                    (SDSequenceTrack *)((u8 *)state + offset);
+                int value = entry->pos;
 
-                *(int *)(entry + 4) = value;
+                entry->pos_saved = value;
                 value = SD_ReadVariableLengthValue(entry);
-                entry[0x24] = 0;
-                entry[0x27] = 0;
-                entry[0x29] = 0;
-                entry[0x28] = 0;
+                entry->ended = 0;
+                entry->field_0027 = 0;
+                entry->running_status = 0;
+                entry->running_status_held = 0;
                 {
-                    register u8 *flags_state asm("$3") =
-                        (u8 *)D_8009B458;
-                    *(int *)(entry + 0x1C) = value;
-                    *(short *)(entry + 0x18) = 0;
-                    if (*(int *)(flags_state + 0x804) != 0) {
+                    register SDSecondaryState *flags_state asm("$3") =
+                        D_8009B458;
+                    entry->delta_remaining = value;
+                    entry->field_0018 = 0;
+                    if (flags_state->field_0804 != 0) {
                         func_8004C5C8(entry);
                     }
                 }
-                state = (u8 *)D_8009B458;
-                count = *(u16 *)(state + 0x7FA);
+                state = D_8009B458;
+                count = state->track_count;
                 asm volatile("" : "+r"(count));
                 i++;
                 offset += SD_SEQUENCE_TRACK_RECORD_SIZE;
