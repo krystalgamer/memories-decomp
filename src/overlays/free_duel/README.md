@@ -105,10 +105,25 @@ that split: the image at the record base, the CLUT at `+0x900`.
 The neighbouring literals in that loop are deliberately **left as numbers**.
 The `5`-iteration outer loops and the `25`/`15` split are VRAM band
 dimensions, not the logical grid: the first rectangle band holds 25 portraits
-and the second holds the remaining 15. `5` there coincides in value with
-`FREE_DUEL_GRID_COLUMN_COUNT` but does not mean it, and `8` never appears,
-so substituting the grid constants would assert a relationship the code does
-not establish.
+and the second holds the remaining 15.
+
+The positive evidence is the rectangle setup itself. `img.x` is pinned to
+`128` for the first band and `256` for the second, `img.y` is
+`row * 48 + 256`, and each cell is `24` wide by `48` tall. Those are VRAM
+texture-page coordinates and a half-width 4bpp storage layout, so the `5`
+counts rows within a texture page rather than grid columns.
+
+The grid's row count is **not** absent from the loop, and an argument from its
+absence would be wrong: the second band stops on
+`count >= FREE_DUEL_GRID_ENTRY_COUNT`, which is defined as
+`FREE_DUEL_GRID_COLUMN_COUNT * FREE_DUEL_GRID_ROW_COUNT`. The row count is
+therefore present transitively and is exactly what terminates the upload,
+which also explains the split arithmetically: `25 + 15 = 40 = 5 x 8`, the two
+bands together uploading precisely one grid's worth.
+
+So the split is band capacity while the total it sums to is the grid. Both are
+real facts about different things, which is why the grid constants do not
+belong on the band bounds.
 
 ## Display-object flag bits
 
