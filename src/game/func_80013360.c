@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 #include "input.h"
 
 extern u16 D_8009B098;
@@ -7,7 +9,6 @@ extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern s16 D_800E9D28[];
 
 extern void func_80012D4C(void);
-extern void FntFlush(s32);
 extern void Input_ResetPads(void);
 
 void func_80013360(void)

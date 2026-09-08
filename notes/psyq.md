@@ -193,7 +193,7 @@ Every row below is now an applied project symbol.
 | `0x8007E880` | `CdSyncCallback` | Applied confirmed identity for the setter that replaces and returns the callback invoked from the command-completion path. |
 | `0x8007E8D0` | `SetDumpFnt` | Applied at offset zero of the unique Psy-Q 4.6 `LIBGPU.LIB/FONT.OBJ` signature; matching setup paths select the debug-font stream returned by `FntOpen`. |
 | `0x8007E9B0` | `FntOpen` | Applied at offset `0xE0` of the unique `FONT.OBJ` signature; matching callers open a 320x240 on-screen debug text window. |
-| `0x8007EC68` | `FntFlush` | Applied at offset `0x398` of the unique `FONT.OBJ` signature. |
+| `0x8007EC68` | `FntFlush` | Applied at offset `0x398` of the unique `FONT.OBJ` signature; matching `func_80013360` uses the canonical `libgpu.h` declaration to flush debug-font stream `-1` while adjusting its coordinate pair. |
 | `0x8007EF84` | `FntPrint` | Applied at offset `0x6B4` of the unique `FONT.OBJ` signature; the matching duel debug helper prints its effect values and divider strings. |
 | `0x8007F350` | `ResetGraph` | Applied at offset zero of the unique 12,032-byte Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature. |
 | `0x8007F4C4` | `SetGraphDebug` | Applied at offset `0x174` of the same unique `SYS.OBJ` signature. |
