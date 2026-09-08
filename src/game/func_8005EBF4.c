@@ -1,16 +1,6 @@
 #include "../types.h"
 #include "../psyq/memory.h"
-
-typedef struct {
-    u8 bytes[0x28];
-} Key;
-
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-    u16 w;
-} Coeff;
+#include "func_8005EBF4.h"
 
 extern u8 D_800F5768[];
 extern Key D_800F5788[];
