@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 #include "ai_constants.h"
 #include "duel_grid.h"
 
@@ -14,7 +15,6 @@ extern s32 gAiScript_aMemory[];
 extern u8 gAiScript_State[];
 extern struct ActiveCardEntry gDuel_aActiveCards[];
 
-extern s32 AiScript_ReadByte(void);
 extern s32 Ai_GetHandSize(void);
 extern s32 Ai_IsCardInSets(s32, s32);
 extern void Ai_CompleteFusion(s32);

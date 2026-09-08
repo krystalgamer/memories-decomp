@@ -1,11 +1,10 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 #include "ai.h"
 #include "duel_card_layout.h"
 
 extern u8 D_800EAE90;
 extern u8 D_800F5C7F;
-
-extern s32 AiScript_ReadByte(void);
 
 void func_80073448(void)
 {

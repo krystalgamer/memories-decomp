@@ -1,10 +1,10 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 #include "../psyq/rand.h"
 #include "ai.h"
 
 extern AiScriptState gAiScript_State;
 
-extern s32 AiScript_ReadByte(void);
 extern s32 AiScript_ReadShort(void);
 void AiScript_JumpNotEqual(void)
 {

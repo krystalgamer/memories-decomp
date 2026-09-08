@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 #include "ai.h"
 
-extern s32 AiScript_ReadByte(void);
 void AiScript_LoadLifePoint(void) {
     s32 *p = gAiScript_aMemory;
     s32 i = p[AiScript_ReadByte()];

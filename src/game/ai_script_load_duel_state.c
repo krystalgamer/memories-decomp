@@ -1,9 +1,9 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 
 extern int gAiScript_aMemory[];
 extern signed char gDuel_bOpponentID;
 extern unsigned char gDuel_bTerrain;
-extern int AiScript_ReadByte(void);
 
 void AiScript_LoadOpponentID(void)
 {

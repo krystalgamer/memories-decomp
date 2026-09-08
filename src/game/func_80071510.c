@@ -1,8 +1,8 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 
 extern int gAiScript_aMemory[];
 extern unsigned char D_800EAE90;
-extern int AiScript_ReadByte(void);
 
 void func_80071510(void)
 {

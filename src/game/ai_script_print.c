@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 #include "../psyq/stdio.h"
 
-extern int AiScript_ReadByte(void);
 extern const char D_80011908[];
 extern const char D_80011918[];
 

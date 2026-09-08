@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 #include "../psyq/libetc.h"
 #include "../psyq/memory.h"
 #include "ai.h"
@@ -6,7 +7,6 @@
 extern AiFieldCardState D_800EAE88;
 extern AiScriptState gAiScript_State;
 
-extern s32 AiScript_ReadByte(void);
 extern void AiScript_EndHand(void);
 extern void AiScript_EndField(void);
 extern void AiScript_PlayFieldCard(void);

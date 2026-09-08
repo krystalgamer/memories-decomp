@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 #include "duel_card_layout.h"
 
 struct ActiveCardEntry {
@@ -10,7 +11,6 @@ struct ActiveCardEntry {
 
 extern s32 gAiScript_aMemory[];
 extern struct ActiveCardEntry gDuel_aActiveCards[];
-extern s32 AiScript_ReadByte(void);
 extern void Ai_GetCardRange(s32 type, s32 *start, s32 *end);
 
 void AiScript_CountCards(void)

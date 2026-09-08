@@ -1,8 +1,8 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 #include "ai.h"
 #include "duel_card_layout.h"
 
-extern s32 AiScript_ReadByte(void);
 extern void Ai_GetCardRange(s32, s32 *, s32 *);
 extern s32 Ai_IsCardInSets(s32, s32);
 

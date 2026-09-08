@@ -1,10 +1,10 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 #include "ai.h"
 
 extern AiFieldCardState D_800EAE88;
 extern u8 D_800EAE92;
 extern s32 gAiScript_aMemory[AI_SCRIPT_MEMORY_COUNT];
-extern s32 AiScript_ReadByte(void);
 
 void AiScript_PlayFieldCard(void)
 {

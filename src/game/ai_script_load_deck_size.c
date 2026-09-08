@@ -1,8 +1,8 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 #include "ai.h"
 #include "card_constants.h"
 
-extern s32 AiScript_ReadByte(void);
 void AiScript_LoadDeckSize(void) {
     s32 k = AiScript_ReadByte();
     s32 count = 0;
