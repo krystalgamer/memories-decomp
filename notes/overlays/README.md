@@ -16,6 +16,9 @@ its resident load banks.
   explanation half of them should be retested rather than trusted.
 - [`module-crosswalk.md`](module-crosswalk.md) correlates verified archive
   slices and load ranges with the external per-screen symbol files.
+- [`constant-audit.md`](constant-audit.md) records which overlay magic numbers
+  adopted existing named constants, and which same-valued literals were
+  deliberately left as numbers because the constant names a different concept.
 - `tools/project/overlay_diff.py` compares one candidate against the retail
   module bytes without building the module; see below.
 - [`../mrg-files.md`](../mrg-files.md) documents the MRG container evidence and

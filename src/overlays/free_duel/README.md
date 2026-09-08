@@ -105,10 +105,25 @@ that split: the image at the record base, the CLUT at `+0x900`.
 The neighbouring literals in that loop are deliberately **left as numbers**.
 The `5`-iteration outer loops and the `25`/`15` split are VRAM band
 dimensions, not the logical grid: the first rectangle band holds 25 portraits
-and the second holds the remaining 15. `5` there coincides in value with
-`FREE_DUEL_GRID_COLUMN_COUNT` but does not mean it, and `8` never appears,
-so substituting the grid constants would assert a relationship the code does
-not establish.
+and the second holds the remaining 15.
+
+The positive evidence is the rectangle setup itself. `img.x` is pinned to
+`128` for the first band and `256` for the second, `img.y` is
+`row * 48 + 256`, and each cell is `24` wide by `48` tall. Those are VRAM
+texture-page coordinates and a half-width 4bpp storage layout, so the `5`
+counts rows within a texture page rather than grid columns.
+
+The grid's row count is **not** absent from the loop, and an argument from its
+absence would be wrong: the second band stops on
+`count >= FREE_DUEL_GRID_ENTRY_COUNT`, which is defined as
+`FREE_DUEL_GRID_COLUMN_COUNT * FREE_DUEL_GRID_ROW_COUNT`. The row count is
+therefore present transitively and is exactly what terminates the upload,
+which also explains the split arithmetically: `25 + 15 = 40 = 5 x 8`, the two
+bands together uploading precisely one grid's worth.
+
+So the split is band capacity while the total it sums to is the grid. Both are
+real facts about different things, which is why the grid constants do not
+belong on the band bounds.
 
 ## Display-object flag bits
 
@@ -134,6 +149,47 @@ Two neighbouring literals are deliberately **left as numbers**:
 - The 32-bit `obj->flags` writes (`0x1000000`, `0x8000000`, `0x50000000`) are
   a **different field at `+4`**, not the flag word, and none of the display
   object flag constants apply to them.
+
+## The opponent grid scrolls vertically
+
+The forty grid entries are laid out in one coordinate space taller than the
+screen, and the module scrolls a viewport over it rather than paging.
+
+`FreeDuel_Init` places every entry at `X = (index % FREE_DUEL_GRID_COLUMN_COUNT)
+* 56 + 20` and `Y = (index / FREE_DUEL_GRID_COLUMN_COUNT) * 52 + 40`, so rows
+0 through 7 occupy `Y` 40 to 404 — well past the 240-line display. The entries
+are created with `DISPLAY_OBJECT_FLAG_SCREEN_SPACE` cleared, so they are world
+space and move with the viewport.
+
+`FreeDuel_UpdateScrollbar` drives that viewport from the cursor. It keeps the
+cursor's offset within the visible window between `0x28` and `0x90`, pushing
+`gGraphics_sViewportY` up or down whenever the cursor leaves that band, and it
+positions the scrollbar thumb with
+
+```c
+gFreeDuel_pThumbWidget->y = (cursor->y - 0x28) * 72 / 364 + 7;
+```
+
+The `364` in that expression is exactly `7 * 52` — the row pitch times
+`FREE_DUEL_GRID_ROW_COUNT - 1` — which is the full scroll travel of an
+eight-row grid whose first row sits at `Y = 40`. `gGraphics_sViewportY` is
+zeroed by `FreeDuel_Init`, so the screen opens at the top of the grid.
+
+The scroll numbers are **not** named. `0x28`, `0x90`, `72` and `7` are
+widget-layout values whose relationship is established only by this one
+expression, and `364`, while derivable as `7 * 52`, is written as a literal
+rather than as that product. Recording the geometry is useful; asserting a
+formula the code does not spell out would not be.
+
+### The placement split at 25 is a texture band, not a visible page
+
+The two placement loops split at index 25, which looks like a visible-page
+count and is not. Together they place all forty objects: the second loop takes
+its `Y` from the **absolute** index `k`, continuing into rows 5 to 7 of the
+same unbroken space. What changes at 25 is the texture-page selector — `18`
+for the first band, `20` for the second — with the texture V coordinate
+restarting. That is the same VRAM band boundary as the upload loops above,
+for the same reason.
 
 ## Input publication and button meanings
 
