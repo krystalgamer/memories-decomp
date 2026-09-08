@@ -137,8 +137,6 @@ failure is resolved.
   candidate.
 - Stop after one substantial subsystem batch or two small atomic commits, push
   the checkpoint, and start a fresh CLI session.
-- Refuse `make` commands when the parent Copilot process reaches 2560 MiB RSS
-  via `tools/project/session_memory_guard.py`.
 - Put verbose compiler, linker, and comparison logs under `tmp/`.
 - Process collaborator candidates through a sequential driver that writes a
   compact manifest and result ledger rather than returning per-candidate

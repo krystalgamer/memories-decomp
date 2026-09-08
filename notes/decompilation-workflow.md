@@ -39,12 +39,6 @@ session-memory growth:
   push window, push pending commits immediately, then resume from the tracked
   notes instead of continuing a long conversation.
 
-Every `make` target that enters through `workspace` runs
-`tools/project/session_memory_guard.py`. When the parent Copilot CLI reaches
-2560 MiB RSS, project commands stop before launching another build. This is a
-last-resort guard, not a reason to keep a session alive until the threshold.
-CI and ordinary user shells have no Copilot parent and are unaffected.
-
 Do not raise the Node heap to 8 GiB on the current host. It has approximately
 8 GiB of physical memory and no swap, so doing so would trade a controlled V8
 failure for whole-host memory exhaustion.

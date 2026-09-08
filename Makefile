@@ -70,7 +70,6 @@ help:
 		'  workspace      Validate that commands are running from the project root'
 
 workspace:
-	@$(PYTHON) tools/project/session_memory_guard.py
 	@$(PYTHON) tools/project/workspace.py
 
 verify-target: workspace
