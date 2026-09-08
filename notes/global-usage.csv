@@ -2321,7 +2321,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x8004803C,func_8004803C,matching_c,game,C,src/game/func_8004803C.c,read_write,,"SpuSetKey(SPU_OFF, g_SDValue->key_mask); | SpuSetKeyOnWithAttr((SpuVoiceAttr *)&g_SDValue->key_mask); | (+17 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x800482B0,func_800482B0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_038ab0.s,read,32,"lui $v0, %hi(g_SDValue) | lui $v1, %hi(g_SDValue) | (+2 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x80048658,SD_SEPlay,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_038ab0.s,read,32,"lui $t0, %hi(g_SDValue) | lui $t2, %hi(g_SDValue) | (+2 more)"
-0x8009B45C,g_SDValue,g_SDValue,0x80048768,func_80048768,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_038ab0.s,read,32,"lui $a2, %hi(g_SDValue) | lui $v1, %hi(g_SDValue) | (+2 more)"
+0x8009B45C,g_SDValue,g_SDValue,0x80048768,func_80048768,matching_c,game,C,src/game/func_80048768.c,read,8,*(u16 *)(g_SDValue + (s32)base + 0x414) = prod; | *(u16 *)(g_SDValue + (s32)base + 0x41C) = prod; | (+4 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80048920,func_80048920,matching_c,game,C,src/game/func_80048920.c,read,,b = g_SDValue; | struct SoundState *a = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x80048A28,func_80048A28,matching_c,game,C,src/game/func_80048A28.c,read_write,,b = g_SDValue; | g_SDValue->cd_volume = a1v & 0xFF; | (+3 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80048C0C,func_80048C0C,matching_c,game,C,src/game/sound_voice_data.c,read,,SDValue *state = g_SDValue;
@@ -3083,7 +3083,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80178130,gDuel_awUniqueDeckCardIds,gDuel_awUniqueDeckCardIds,0x80024824,Duel_PopulateCombinedDeckData,matching_c,game,C,src/game/duel_deck_card_data.c,address,16,p = gDuel_awUniqueDeckCardIds;
 0x801781D8,gDuel_awOpponentDeckPool,gDuel_awOpponentDeckPool,0x800179F4,func_800179F4,matching_c,game,C,src/game/func_800179F4.c,address,8,(s32)gDuel_awOpponentDeckPool
 0x801781D8,gDuel_awOpponentDeckPool,gDuel_awOpponentDeckPool,0x800243F4,Duel_ShuffleDeck,matching_c,game,C,src/game/func_800243F4.c,address,8,t = gDuel_awOpponentDeckPool;
-0x8017878C,gDuel_awSaPowCardDrops,gDuel_awSaPowCardDrops,0x80021810,Duel_SelectCardDrop,matching_c,game,C,src/game/duel_rewards.c,address,,DuelDropTable *table = &gDuel_awSaPowCardDrops[opponent];
+0x8017878C,gDuel_awSaPowCardDrops,gDuel_awSaPowCardDrops,0x80021810,Duel_SelectCardDrop,matching_c,game,C,src/game/duel_rewards.c,address,,DuelDropTable *table = &gDuel_awSaPowCardDrops[pool_index];
 0x801798A8,gDuel_awRankScoreChange,gDuel_awRankScoreChange,0x80021558,Duel_CalcRankScoreChange,matching_c,game,C,src/game/duel_calc_rank_score_change.c,address,,Threshold *p = &gDuel_awRankScoreChange[arg0][0];
 0x801799D8,gDuel_awRitualData,gDuel_awRitualData,0x800171A8,Duel_LoadPackageStage,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0079a8.s,address,,"addiu $v0, $v0, %lo(gDuel_awRitualData) | lui $v0, %hi(gDuel_awRitualData)"
 0x801799D8,gDuel_awRitualData,gDuel_awRitualData,0x80020F4C,func_80020F4C,matching_c,game,C,src/game/func_80020F4C.c,address,16,slots = (Entry *)gDuel_awRitualData;
