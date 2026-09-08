@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "save_data.h"
+#include "text_sjis_to_glyph_codes.h"
 
 typedef struct {
     u8 pad_000[SAVE_DATA_SEQUENCE_OFFSET];
@@ -16,7 +17,6 @@ typedef struct {
 } SaveDataRuntimeState;
 
 extern u8 D_801B125A[16];
-extern void Text_SjisToGlyphCodes(void *, void *, s32);
 extern u32 gSaveDataSequence;
 extern s8 gSD_bOutputType[16];
 extern void SD_SetOutputType(s16);
