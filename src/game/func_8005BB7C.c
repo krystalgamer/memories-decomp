@@ -33,7 +33,7 @@ s32 func_8005BB7C(s32 arg0) {
     }
     if (D_8009B060 != 0) {
         i = 0;
-        m = func_80085320();
+        m = GsGetActiveBuff();
         q = buf;
         for (; i < 0x3C0; i += 3) {
             *q++ = D_8009B144;
@@ -62,7 +62,7 @@ s32 func_8005BB7C(s32 arg0) {
         DrawSync(0);
         VSync(0);
         i = 0;
-        func_80085500();
+        GsSwapDispBuff();
         rect[1] = (m ^ 1) << 8;
         rect[2] = 0x1E0;
         rect[0] = 0;
@@ -75,8 +75,8 @@ s32 func_8005BB7C(s32 arg0) {
         DrawSync(0);
         VSync(0);
         D_800FE0CC = 1;
-        func_80085500();
-        func_800856A0(0, 0, 0x140, 0);
+        GsSwapDispBuff();
+        GsDefDispBuff(0, 0, 0x140, 0);
         GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 0);
         rect[0] = 0;
         rect[1] = 0;

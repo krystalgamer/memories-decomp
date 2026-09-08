@@ -1561,33 +1561,33 @@ address,size,name,status,module,notes
 0x80084F60,0x68,GsInitGraph2,sdk_asm,psyq/sdk,Identified at offset 0x190 of the unique Psy-Q 4.6 LIBGS.LIB/GS_001.OBJ signature.
 0x80084FC8,0x220,func_80084FC8,sdk_asm,psyq/sdk,
 0x800851E8,0x138,GsSortClear,sdk_asm,psyq/sdk,Identified at offset 0x418 of the unique Psy-Q 4.6 LIBGS.LIB/GS_001.OBJ signature.
-0x80085320,0x10,func_80085320,sdk_asm,psyq/sdk,
-0x80085330,0x108,func_80085330,sdk_asm,psyq/sdk,
-0x80085440,0x78,func_80085440,sdk_asm,psyq/sdk,
-0x800854C0,0x38,func_800854C0,sdk_asm,psyq/sdk,
-0x80085500,0xA4,func_80085500,sdk_asm,psyq/sdk,
-0x800855B0,0x14,func_800855B0,sdk_asm,psyq/sdk,
+0x80085320,0x10,GsGetActiveBuff,sdk_asm,psyq/sdk,"Applied Psy-Q 4.6 identity. The 16-byte GS_0021.OBJ signature also matches LIBSND.LIB/UT_REV_2.OBJ (SsUtGetReverbType); the body reads the halfword at 0x800FE0CC, which GsSwapDispBuff writes and GsSetDrawBuffOffset reads, so it belongs to the LIBGS display-buffer block and not to LIBSND. Matching movie paths use the result as the active display buffer index and write 0x800FE0CC directly before calling GsSwapDispBuff."
+0x80085330,0x108,GsSetDrawBuffOffset,sdk_asm,psyq/sdk,Identified by the unique 272-byte Psy-Q 4.6 LIBGS.LIB/GS_0022.OBJ signature; calls PutDrawEnv and mirrors the offset into the GTE with SetGeomOffset.
+0x80085440,0x78,GsSetDrawBuffClip,sdk_asm,psyq/sdk,Identified by the unique 128-byte Psy-Q 4.6 LIBGS.LIB/GS_003.OBJ signature; installs the clip rectangle through PutDrawEnv.
+0x800854C0,0x38,GsInitVcount,sdk_asm,psyq/sdk,Identified by the unique 64-byte Psy-Q 4.6 LIBGS.LIB/GS_007.OBJ signature; programs root counter 1 with SetRCnt and StartRCnt. Main_Init calls it during graphics start-up.
+0x80085500,0xA4,GsSwapDispBuff,sdk_asm,psyq/sdk,"Identified by the unique 176-byte Psy-Q 4.6 LIBGS.LIB/GS_010.OBJ signature; toggles the active buffer flag at 0x800FE0CC and reinstalls both environments through GsSetDrawBuffOffset, GsSetDrawBuffClip, PutDispEnv and SetDispMask. The matching movie players call it once per frame."
+0x800855B0,0x14,GsSetOrign,sdk_asm,psyq/sdk,Identified by the unique 32-byte Psy-Q 4.6 LIBGS.LIB/GS_013.OBJ signature; stores its two arguments as the halfword pair at 0x800FE040 that GsSetDrawBuffOffset reads back.
 0x800855D0,0x2C,GsSetLsMatrix,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/MATRIX4.OBJ signature and matching projection callers.
-0x80085600,0x94,func_80085600,sdk_asm,psyq/sdk,
-0x800856A0,0x98,func_800856A0,sdk_asm,psyq/sdk,
-0x80085740,0x74,func_80085740,sdk_asm,psyq/sdk,
+0x80085600,0x94,GsSetLightMatrix,sdk_asm,psyq/sdk,Identified by the unique 160-byte Psy-Q 4.6 LIBGS.LIB/MATRIX5.OBJ signature; brackets MulMatrix with PushMatrix and PopMatrix before SetLightMatrix.
+0x800856A0,0x98,GsDefDispBuff,sdk_asm,psyq/sdk,Identified by the unique 160-byte Psy-Q 4.6 LIBGS.LIB/GS_103.OBJ signature; seeds both display buffers and calls GsSetDrawBuffOffset and GsSetDrawBuffClip. Matching graphics and movie start-up paths pass screen rectangles to it.
+0x80085740,0x74,GsInit3D,sdk_asm,psyq/sdk,Identified by the unique 128-byte Psy-Q 4.6 LIBGS.LIB/GS_104.OBJ signature; calls GsSetDrawBuffOffset. func_80013154 calls it with no arguments during start-up.
 0x800857C0,0x20,func_800857C0,sdk_asm,psyq/sdk,
 0x800857E0,0x4B8,GsSetFlatLight,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/GS_107.OBJ signature and matching three-light setup.
 0x80085C98,0x64,func_80085C98,sdk_asm,psyq/sdk,
 0x80085CFC,0x4C,func_80085CFC,sdk_asm,psyq/sdk,
-0x80085D50,0x28,func_80085D50,sdk_asm,psyq/sdk,
+0x80085D50,0x28,GsSetAmbient,sdk_asm,psyq/sdk,Identified by the unique 48-byte Psy-Q 4.6 LIBGS.LIB/GS_110.OBJ signature; scales its three colour arguments by 1/16 and forwards them to SetBackColor.
 0x80085D80,0x24,func_80085D80,sdk_asm,psyq/sdk,
-0x80085DB0,0x58,func_80085DB0,sdk_asm,psyq/sdk,
-0x80085E10,0xB4,func_80085E10,sdk_asm,psyq/sdk,
-0x80085ED0,0xB4,func_80085ED0,sdk_asm,psyq/sdk,
-0x80085F90,0x120,func_80085F90,sdk_asm,psyq/sdk,
-0x800860B0,0x4C,func_800860B0,sdk_asm,psyq/sdk,
+0x80085DB0,0x58,GsClearOt,sdk_asm,psyq/sdk,"Identified by the unique 96-byte Psy-Q 4.6 LIBGS.LIB/GS_113.OBJ signature; writes the offset and point halfwords into the GsOT, derives its tag pointer from org plus 4 << length, and calls ClearOTagR. func_80013154 already declares the matching (u16, u16, void *) prototype."
+0x80085E10,0xB4,GsSortOt,sdk_asm,psyq/sdk,Identified by the unique 192-byte Psy-Q 4.6 LIBGS.LIB/GS_114.OBJ signature; walks the source ordering table on the 0x00FFFFFF address mask and links it into the destination GsOT.
+0x80085ED0,0xB4,gte_rotate_z_matrix,sdk_asm,psyq/sdk,"Identified by the unique 192-byte Psy-Q 4.6 LIBGS.LIB/GS_119.OBJ signature; builds a Z rotation from rsin and rcos and folds it in with MulMatrix. Internal LIBGS helper, lower case in the library."
+0x80085F90,0x120,gte_scale_matrix,sdk_asm,psyq/sdk,"Identified by the unique 288-byte Psy-Q 4.6 LIBGS.LIB/GS_120.OBJ signature. Internal LIBGS helper, lower case in the library."
+0x800860B0,0x4C,gte_init,sdk_asm,psyq/sdk,"Identified by the unique 80-byte Psy-Q 4.6 LIBGS.LIB/GS_121.OBJ signature; calls InitGeom, SetFarColor(0, 0, 0) and SetGeomOffset(0, 0) and clears the two halfwords at 0x800FE0BC. Internal LIBGS helper, lower case in the library."
 0x80086100,0xE4,GsGetTimInfo,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/GS_122.OBJ signature and matching texture parser.
-0x800861F0,0xC8,func_800861F0,sdk_asm,psyq/sdk,
+0x800861F0,0xC8,Gssub_make_matrix,sdk_asm,psyq/sdk,Identified by the unique 208-byte Psy-Q 4.6 LIBGS.LIB/GS_123.OBJ signature. Internal LIBGS helper.
 0x800862C0,0xC,func_800862C0,sdk_asm,psyq/sdk,
-0x800862D0,0x2C8,func_800862D0,sdk_asm,psyq/sdk,
-0x800865A0,0x80,func_800865A0,sdk_asm,psyq/sdk,
-0x80086620,0x80,func_80086620,sdk_asm,psyq/sdk,
+0x800862D0,0x2C8,GsGetLs,sdk_asm,psyq/sdk,Identified by the unique 720-byte Psy-Q 4.6 LIBGS.LIB/GS_134.OBJ signature; walks a coordinate hierarchy through GsMulCoord2 and GsMulCoord3 to build the local-screen matrix.
+0x800865A0,0x80,GsMulCoord2,sdk_asm,psyq/sdk,"Identified by the unique 128-byte Psy-Q 4.6 LIBGS.LIB/MATRIX8.OBJ signature; combines two coordinate frames with MulMatrix2 and ApplyMatrixLV, then adds the translation components."
+0x80086620,0x80,GsMulCoord3,sdk_asm,psyq/sdk,Identified by the unique 128-byte Psy-Q 4.6 LIBGS.LIB/MATRIX9.OBJ signature; the GsMulCoord2 body using MulMatrix and ApplyMatrixLV.
 0x800866A0,0x3C,rsin,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/GEO_00.OBJ signature and matching fixed-point callers.
 0x800866DC,0x90,func_800866DC,sdk_asm,psyq/sdk,
 0x80086770,0xA0,rcos,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/GEO_01.OBJ signature and matching fixed-point callers.

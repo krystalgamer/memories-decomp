@@ -31,10 +31,6 @@ extern volatile u8 D_8009B0A3;
 extern ScreenBlock D_800E9D28;
 extern ScreenBlock D_800FE0A8;
 
-extern void func_800856A0(u16, u16, u16, u16);
-extern void func_80085DB0(u16, u16, void *);
-extern void func_80085740(void);
-extern void func_800855B0(s32, s32);
 extern void Input_InitPads(void);
 extern void MemCardInit(s32);
 extern void File_SetPositionTable(void);
@@ -64,7 +60,7 @@ void func_80013154(u8 *base)
 
     ResetGraph(0);
     GsInitGraph(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 0);
-    func_800856A0(0, 0, 0x140, 0);
+    GsDefDispBuff(0, 0, 0x140, 0);
     six = 6;
     buf = base;
     D_8009B0AD = 1;
@@ -102,7 +98,7 @@ next:
     *(s32 *)(buf + 0x514C) = six;
     *(u8 **)(buf + 0x5150) = buf + 0x4110;
     do {
-        func_80085DB0(0, k, buf + off);
+        GsClearOt(0, k, buf + off);
         off -= 0x14;
         k--;
     } while (k >= 0);
@@ -113,8 +109,8 @@ next:
     }
     D_800E9D28 = D_800FE0A8;
     InitGeom();
-    func_80085740();
-    func_800855B0(0, 0);
+    GsInit3D();
+    GsSetOrign(0, 0);
     SetGeomScreen(0x12C);
     Input_InitPads();
     MemCardInit(1);

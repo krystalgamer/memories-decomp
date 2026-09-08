@@ -252,9 +252,28 @@ Every row below is now an applied project symbol.
 | `0x80084DD0` | `GsInitGraph` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,360-byte `LIBGS.LIB/GS_001.OBJ` signature. |
 | `0x80084F60` | `GsInitGraph2` | Applied Psy-Q 4.6 identity at offset `0x190` of the same `LIBGS.LIB/GS_001.OBJ` object. |
 | `0x800851E8` | `GsSortClear` | Applied Psy-Q 4.6 identity at offset `0x418` of the same `LIBGS.LIB/GS_001.OBJ` object. |
+| `0x80085320` | `GsGetActiveBuff` | Applied Psy-Q 4.6 identity. The 16-byte `LIBGS.LIB/GS_0021.OBJ` signature is shared with `LIBSND.LIB/UT_REV_2.OBJ` (`SsUtGetReverbType`); the body returns the halfword at `0x800FE0CC`, which `GsSwapDispBuff` writes and `GsSetDrawBuffOffset` reads, placing it in the LIBGS display-buffer block. Matching movie paths use the result as the active buffer index, and `func_8005B8A0` and `func_8005BB7C` write `D_800FE0CC` directly before calling `GsSwapDispBuff`. |
+| `0x80085330` | `GsSetDrawBuffOffset` | Applied from the unique 272-byte `LIBGS.LIB/GS_0022.OBJ` signature; calls `PutDrawEnv` and mirrors the offset into the GTE with `SetGeomOffset`. |
+| `0x80085440` | `GsSetDrawBuffClip` | Applied from the unique 128-byte `LIBGS.LIB/GS_003.OBJ` signature; installs the clip rectangle through `PutDrawEnv`. |
+| `0x800854C0` | `GsInitVcount` | Applied from the unique 64-byte `LIBGS.LIB/GS_007.OBJ` signature; programs root counter 1 with `SetRCnt` and `StartRCnt`. `Main_Init` calls it during graphics start-up. |
+| `0x80085500` | `GsSwapDispBuff` | Applied from the unique 176-byte `LIBGS.LIB/GS_010.OBJ` signature; toggles the active-buffer flag at `0x800FE0CC` and reinstalls both environments through `GsSetDrawBuffOffset`, `GsSetDrawBuffClip`, `PutDispEnv` and `SetDispMask`. The matching movie players call it once per frame. |
+| `0x800855B0` | `GsSetOrign` | Applied from the unique 32-byte `LIBGS.LIB/GS_013.OBJ` signature; stores its two arguments as the halfword pair at `0x800FE040` that `GsSetDrawBuffOffset` reads back. |
 | `0x800855D0` | `GsSetLsMatrix` | Applied Psy-Q 4.6 identity; matching projection paths install their local-screen matrix before GTE projection work. |
+| `0x80085600` | `GsSetLightMatrix` | Applied from the unique 160-byte `LIBGS.LIB/MATRIX5.OBJ` signature; brackets `MulMatrix` with `PushMatrix` and `PopMatrix` before `SetLightMatrix`. |
+| `0x800856A0` | `GsDefDispBuff` | Applied from the unique 160-byte `LIBGS.LIB/GS_103.OBJ` signature; seeds both display buffers and calls `GsSetDrawBuffOffset` and `GsSetDrawBuffClip`. Matching graphics and movie start-up paths pass screen rectangles to it. |
+| `0x80085740` | `GsInit3D` | Applied from the unique 128-byte `LIBGS.LIB/GS_104.OBJ` signature; calls `GsSetDrawBuffOffset`. `func_80013154` calls it with no arguments during start-up. |
 | `0x800857E0` | `GsSetFlatLight` | Applied Psy-Q 4.6 identity; the matching scene setup installs three directional light records. |
+| `0x80085D50` | `GsSetAmbient` | Applied from the unique 48-byte `LIBGS.LIB/GS_110.OBJ` signature; scales its three colour arguments by 1/16 and forwards them to `SetBackColor`. |
+| `0x80085DB0` | `GsClearOt` | Applied from the unique 96-byte `LIBGS.LIB/GS_113.OBJ` signature; writes the offset and point halfwords into the `GsOT`, derives its tag pointer from `org` plus `4 << length`, and calls `ClearOTagR`. `func_80013154` already declares the matching `(u16, u16, void *)` prototype. |
+| `0x80085E10` | `GsSortOt` | Applied from the unique 192-byte `LIBGS.LIB/GS_114.OBJ` signature; walks the source ordering table on the `0x00FFFFFF` address mask and links it into the destination `GsOT`. |
+| `0x80085ED0` | `gte_rotate_z_matrix` | Applied from the unique 192-byte `LIBGS.LIB/GS_119.OBJ` signature; builds a Z rotation from `rsin` and `rcos` and folds it in with `MulMatrix`. Internal LIBGS helper, lower case in the library. |
+| `0x80085F90` | `gte_scale_matrix` | Applied from the unique 288-byte `LIBGS.LIB/GS_120.OBJ` signature. Internal LIBGS helper, lower case in the library. |
+| `0x800860B0` | `gte_init` | Applied from the unique 80-byte `LIBGS.LIB/GS_121.OBJ` signature; calls `InitGeom`, `SetFarColor(0, 0, 0)` and `SetGeomOffset(0, 0)` and clears the two halfwords at `0x800FE0BC`. Internal LIBGS helper, lower case in the library. |
 | `0x80086100` | `GsGetTimInfo` | Applied Psy-Q 4.6 identity; `model_texture_upload.c` parses a TIM image header before uploading its pixel and CLUT rectangles. |
+| `0x800861F0` | `Gssub_make_matrix` | Applied from the unique 208-byte `LIBGS.LIB/GS_123.OBJ` signature. Internal LIBGS helper. |
+| `0x800862D0` | `GsGetLs` | Applied from the unique 720-byte `LIBGS.LIB/GS_134.OBJ` signature; walks a coordinate hierarchy through `GsMulCoord2` and `GsMulCoord3` to build the local-screen matrix. |
+| `0x800865A0` | `GsMulCoord2` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX8.OBJ` signature; combines two coordinate frames with `MulMatrix2` and `ApplyMatrixLV`, then adds the translation components. |
+| `0x80086620` | `GsMulCoord3` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX9.OBJ` signature; the `GsMulCoord2` body using `MulMatrix` and `ApplyMatrixLV`. |
 | `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion. |
 | `0x80086770` | `rcos` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point cosine output alongside `rsin`. |
 | `0x80086810` | `SetFogNearFar` | Applied Psy-Q 4.6 identity; matching campaign-map callers configure near and far depth-cue distances from the current camera projection. |

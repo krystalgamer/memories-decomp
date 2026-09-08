@@ -25,7 +25,7 @@ extern u8 D_800E9EC0[];
 extern jmp_buf D_800E9DC0;
 
 extern void func_80012A78(void);
-extern void func_800854C0(void);
+extern void GsInitVcount(void);
 extern void func_80015D0C(void);
 extern void func_80013154(void);
 extern void func_800403F0(void);
@@ -54,7 +54,7 @@ s32 Main_Init(void)
     func_80012A78();
     EnterCriticalSection();
     ResetCallback();
-    func_800854C0();
+    GsInitVcount();
     ExitCriticalSection();
     StopCallback();
     SetMem(2);
