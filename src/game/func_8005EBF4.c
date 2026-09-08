@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/memory.h"
 
 typedef struct {
     u8 bytes[0x28];
@@ -15,7 +16,6 @@ extern u8 D_800F5768[];
 extern Key D_800F5788[];
 extern u8 D_8009B078;
 
-extern void *memset(void *, s32, s32);
 extern void func_8005FBC4(s32, s32, s32, s32, Coeff *, s32);
 
 /* Evaluates one channel of the keyframe ring that func_8005F91C fills and

@@ -372,7 +372,7 @@ Every row below is now an applied project symbol.
 | `0x8008E320` | `bcopy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/BCOPY.OBJ` signature. |
 | `0x8008E360` | `bzero` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBC2.LIB/BZERO.OBJ` signature; `AiScript_Init` clears its three resident state blocks through this entry point. |
 | `0x8008E390` | `memcpy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/MEMCPY.OBJ` signature. |
-| `0x8008E3D0` | `memset` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBC2.LIB/MEMSET.OBJ` signature; matching model paths clear eight-byte vector records before filling their components. |
+| `0x8008E3D0` | `memset` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBC2.LIB/MEMSET.OBJ` signature; matching model paths clear eight-byte vector records, and `func_8005EBF4` clears its four-pointer keyframe control-point array through the canonical `memory.h` declaration. |
 | `0x8008E400` | `qsort` | Applied Psy-Q 4.6 identity from the unique 400-byte `LIBC.LIB`/`LIBC2.LIB` `QSORT.OBJ` signature; matching callers sort resident and overlay record arrays. |
 | `0x8008E590` | `rand` | Confirmed Psy-Q C runtime implementation: advances `gRand_dwSeed` with the standard `0x41C64E6D`/`0x3039` recurrence and returns bits 16–30, matching `RAND_MAX` 32767 in `rand.h`. |
 | `0x8008E5C0` | `srand` | Confirmed Psy-Q C runtime seed entry point; directly stores its argument in `gRand_dwSeed`. |
