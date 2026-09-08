@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_list_sort.h"
 #include "input.h"
 #include "sound.h"
 
@@ -23,7 +24,6 @@ extern volatile u16 gInput_wPad1Held;
 extern volatile u16 gInput_wPad1Repeat;
 
 extern void func_80031E04(u8 *, s32);
-extern void func_80032C48(u8 *);
 
 s32 func_800330BC(u8 *p)
 {

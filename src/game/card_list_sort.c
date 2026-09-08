@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_list_sort.h"
 #include "rand_get_interval.h"
 #include "card_constants.h"
 

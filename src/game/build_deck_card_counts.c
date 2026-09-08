@@ -1,7 +1,6 @@
 #include "../types.h"
+#include "card_list_sort.h"
 #include "card_constants.h"
-
-extern void func_80032C48(void *records);
 
 void func_80031F7C(u8 *state, s32 id)
 {
