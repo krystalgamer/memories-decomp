@@ -24,10 +24,32 @@ typedef void (*DisplayObjectCallback)(u8 *);
  * Splitting field_20 to expose +0x22 would turn that sw into an sh and the
  * build stops being byte-identical, so both facts are recorded here and
  * neither is forced into the layout. */
+/* `attribute` is a GsSPRITE / GsBOXF attribute word, not a game flag word and
+ * not a GPU packet tag. Both renderers copy it verbatim into the descriptor
+ * they hand to GsSortSprite and friends, so every bit the game sets there is
+ * read by libgs, and the names are libgs.h's:
+ *
+ *   0x01000000 / 0x02000000  colour mode; the texture-page step of 1, 2 or 4
+ *                            a strip wrap applies is 4bpp, 8bpp and 16bpp
+ *   0x04000000  GsPERS       perspective
+ *   0x08000000  GsROTOFF     rotation off -- which is why the renderers only
+ *                            compute `rotate` when it is clear
+ *   0x10000000  GsAONE   \
+ *   0x20000000  GsATWO    >  the two-bit semi-transparency rate at bit 28
+ *   0x30000000  GsATHREE /
+ *   0x40000000  GsALON       semi-transparency on
+ *   0x80000000  GsDOFF       display off
+ *
+ * That is what the recurring composites mean: 0x50000000 is GsALON | GsAONE,
+ * additive blending, which is what sparkles and afterimages want; 0x60000000
+ * is GsALON | GsATWO, subtractive, which is what a fade-to-black overlay
+ * wants. The `& 0x8FFFFFFF` masks clear the rate and GsALON together and keep
+ * GsDOFF -- "turn semi-transparency off" -- and `& 0xF7FFFFFF` clears
+ * GsROTOFF, "turn rotation on". */
 typedef struct DisplayObject {
     s16 previous;                  /* 0x00 */
     s16 next;                      /* 0x02 */
-    u32 field_04;                  /* 0x04 */
+    u32 attribute;                 /* 0x04 */
     u16 flags;                     /* 0x08 */
     u8 field_0A;                   /* 0x0A */
     u8 field_0B;                   /* 0x0B */

@@ -1,6 +1,9 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 #include "display_object_layout.h"
 #include "display_object_projection.h"
 
@@ -45,6 +48,10 @@ typedef union {
     } h;
 } Pos;
 
+/* Field for field a GsSPRITE (libgs.h): attribute, x/y, w/h, tpage, u/v,
+   cx/cy, r/g/b, mx/my, scalex/scaley, rotate. It stays a local type because
+   the position and size pairs are written as whole words here and GsSPRITE
+   spells them as separate halves. */
 typedef struct {
     u32 tag;
     Pos pos;
@@ -134,11 +141,11 @@ void func_80040588(void) {
                     g[3] = 9;
                     *(s32 *)(g + 4) = p->unk14;
                     g[7] = 0x2C;
-                    if ((p->tag & 0x40000000) != 0) {
+                    if ((p->tag & GsALON) != 0) {
                         SetSemiTrans(g, 1);
                     }
                     mode = e->unk14 | 0xF0000;
-                } else if ((p->tag & 0x8000000) == 0) {
+                } else if ((p->tag & GsROTOFF) == 0) {
                     p->unk20 = e->unk22 * 5760;
                     p->unk1C = e->unk44;
                     p->size.word = e->unk48;

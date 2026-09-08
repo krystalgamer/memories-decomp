@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
@@ -64,7 +67,8 @@ void *func_800400AC(s32 index, s32 key)
 
         slot->previous = -1;
         D_800EFE38[key] = index;
-        slot->field_04 = 0x08000000;
+        /* A fresh object starts with rotation off. */
+        slot->attribute = GsROTOFF;
         slot->flags = DISPLAY_OBJECT_RENDERABLE_MASK;
         slot->tex_index = 2;
         slot->field_54 = tail_data_start;

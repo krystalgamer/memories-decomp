@@ -41,7 +41,9 @@
 
 /* GsBOXF-compatible descriptor at 0x1F8003C0, not a GPU packet. */
 typedef struct {
-    u32 tag;   /* 0x00  SDK attribute: 0x60000000 default, 0x50000000 tinted */
+    u32 tag;   /* 0x00  GsBOXF attribute: GsALON | GsATWO by default
+                 (subtractive, so the box darkens), GsALON | GsAONE when
+                 tinted (additive). */
     u32 xy;    /* 0x04  x = low half, y = high half (stepped per band) */
     u32 wh;    /* 0x08  w = low half (320), h = high half (240, or 8) */
     u8  r;     /* 0x0C */
@@ -80,7 +82,7 @@ void Fade_DrawOverlay(void) {
     flags = rec[6];
     if ((flags & 0x80) || (D_8009B141 != 0 && rec[4] != 0xFF)) {
         p = FADEBOX;
-        p->tag = 0x60000000;
+        p->tag = GsALON | GsATWO;
         p->wh = (FADE_SCREEN_HEIGHT << 16) | FADE_SCREEN_WIDTH;
         p->xy = 0;
         ot = D_800E9D94[0];
@@ -114,7 +116,7 @@ void Fade_DrawOverlay(void) {
         p->g = (u8) shade;
         p->r = (u8) shade;
         if (gFade_State.flags & 0x10) {
-            p->tag = 0x50000000;
+            p->tag = GsALON | GsAONE;
             tint = rec[0] - rec[4];
             if (tint < 0) tint = 0;
             p->r = (u8) tint;

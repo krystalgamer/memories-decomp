@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object_projection.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -104,9 +107,9 @@ void func_800408D0(DisplayObject *e, s32 tex, u16 mode16) {
 
     tag = e->unk4;
     p->tag = tag;
-    if (tag & 0x2000000) {
+    if (tag & 0x2000000) {  /* 16bpp */
         step = 4;
-    } else if (tag & 0x1000000) {
+    } else if (tag & 0x1000000) {  /* 8bpp */
         step = 2;
     }
     p->unkC = e->unk66;
@@ -121,7 +124,7 @@ void func_800408D0(DisplayObject *e, s32 tex, u16 mode16) {
     }
     p->h = e->unk3E;
     remaining = e->unk3C;
-    c->flag = p->tag & 0x8000000;
+    c->flag = p->tag & GsROTOFF;
     mode = mode16 | 0x10000;
 
     if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
@@ -134,12 +137,12 @@ void func_800408D0(DisplayObject *e, s32 tex, u16 mode16) {
         g[3] = 9;
         *(s32 *)(g + 4) = p->unk14;
         g[7] = 0x2C;
-        if ((p->tag & 0x40000000) != 0) {
+        if ((p->tag & GsALON) != 0) {
             SetSemiTrans(g, 1);
         }
-        c->flag = 0x8000000;
+        c->flag = GsROTOFF;
         mode = mode16 | 0xF0000;
-    } else if ((p->tag & 0x8000000) == 0) {
+    } else if ((p->tag & GsROTOFF) == 0) {
         p->unk20 = e->unk22 * 5760;
         p->unk1C = e->unk44;
         mode = mode16 | 0x30000;
