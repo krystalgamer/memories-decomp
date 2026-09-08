@@ -3,13 +3,13 @@
 #include "card_constants.h"
 #include "duel_deck_card.h"
 #include "file_transfer.h"
+#include "util_memory.h"
 
 extern u16 gDuel_awCombinedDeckCardIds[];
 extern u16 gDuel_awUniqueDeckCardIds[];
 extern u8 D_8015C424[];
 extern u8 D_8018C2D8[];
 
-extern void Util_CopyWords(void *, void *, s32);
 extern s32 Util_CompareS16(s16 *, s16 *);
 extern void Duel_StepCardDataTransfer(FileTransferDescriptor *, s32);
 

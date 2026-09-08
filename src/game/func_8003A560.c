@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "util_memory.h"
 
 typedef struct {
     u8 image[0x18000];
@@ -23,7 +24,6 @@ extern s32 D_8009B134 __attribute__((section(".data")));
 extern s32 func_80039F1C(u8 *);
 extern void func_8003A01C(u8 *, s32);
 extern s32 func_8003A1EC(u8 *, u8 **, s32);
-extern void Util_CopyWords(void *, void *, s32);
 
 void func_8003A560(u8 *a)
 {

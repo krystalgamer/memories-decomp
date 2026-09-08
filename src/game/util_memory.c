@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "util_memory.h"
 
 void Util_CopyWords(u8 *destination, u8 *source, u32 length) {
     s32 index = (length >> 2) - 1;
