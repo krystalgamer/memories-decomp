@@ -58,5 +58,14 @@ and semi-transparency handling.
 
 The caller uses that helper's `u32 *`, `GsOT *`, `s32`, `s32` interface.
 Its signed priority load and explicit `u16` conversion at submission retain
-the target's access and mask placement. Packed color-word writes, vertex
-store order and the local game-owned `Record` view remain unchanged.
+the target's access and mask placement. Packed color-word writes and vertex
+store order remain unchanged.
+
+[`name_entry_frame.h`](name_entry_frame.h) declares the callback once and
+is included by both its definition and `NameEntry_Init`. The shared
+`NameEntrySelectionFrameView` names only the proven drawing prefix:
+signed priority at `+0x14`, signed x/y at `+0x30/+0x32`, and unsigned
+width/height at `+0x3C/+0x3E`. Padding and field widths are unchanged; this
+does not claim that the cursor allocation ends at `+0x40`. The installer
+retains its existing object writes and callback-slot assignment rather
+than pretending that the callback takes no arguments.

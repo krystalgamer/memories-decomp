@@ -1,21 +1,8 @@
 #include "../../types.h"
-#include "../../psyq/libgte.h"
-#include "../../psyq/libgpu.h"
-#include "../../psyq/libgs.h"
+#include "name_entry_frame.h"
 #include "../../game/gpu_packets.h"
 
-typedef struct {
-    u8 pad0[20];
-    s16 f14;
-    u8 pad16[26];
-    s16 f30;
-    s16 f32;
-    u8 pad34[8];
-    u16 f3C;
-    u16 f3E;
-} Record;
-
-void NameEntry_DrawSelectionFrame(Record *r, GsOT *ot)
+void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
 {
     LINE_F3 *poly;
     LINE_G2 *line;
@@ -35,11 +22,11 @@ void NameEntry_DrawSelectionFrame(Record *r, GsOT *ot)
     *(u32 *)&line->r0 = 0x0000FF00;
     *(u32 *)&line->r1 = 0;
     /* Keep the signed load; narrow only at the packet-submit boundary. */
-    pri = r->f14;
-    x = r->f30;
-    y = r->f32;
-    w = r->f3C;
-    h = r->f3E;
+    pri = r->priority;
+    x = r->x;
+    y = r->y;
+    w = r->width;
+    h = r->height;
     setLineF3(poly);
     setLineG2(line);
     xm1 = x - 1;

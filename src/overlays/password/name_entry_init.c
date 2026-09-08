@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/save_data.h"
+#include "name_entry_frame.h"
 
 extern u8 D_8016D400;
 extern u8 D_8016D401;
@@ -32,7 +33,6 @@ extern void func_800428EC(u8 *, s32);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern void func_8004293C(u8 *);
 extern void func_80015A00(void);
-extern void NameEntry_DrawSelectionFrame(void);
 
 void NameEntry_Init(void)
 {

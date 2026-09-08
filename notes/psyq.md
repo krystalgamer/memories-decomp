@@ -660,6 +660,14 @@ interface and explicitly narrows its signed priority to `u16` at each
 submission; this preserves the original load and conversion placement while
 matching the helper's `s32` index parameter.
 
+The callback itself is now declared once in the module-local
+`name_entry_frame.h` as taking a `NameEntrySelectionFrameView *` and
+`GsOT *`. Its definition and installer both include that declaration.
+The frame view preserves the existing game-owned rectangle-prefix offsets
+and signedness; it is not an SDK object or a claim about the complete
+allocation. This replaces the installer's old zero-argument placeholder
+without changing how the function pointer is installed.
+
 The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
 same `RECT *` / `u32 *` argument shape. Both current matching `LoadImage`
 callers, `duel_setup_card_record.c` and `func_800289BC.c`, use that interface.
