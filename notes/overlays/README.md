@@ -27,6 +27,12 @@ its resident load banks.
 Generated resident slot images remain under `tmp/splat/assets/overlays/`; they
 are build artifacts rather than tracked overlay sources.
 
+The overworld's two later matching functions are an alternate-state copy,
+not the active location entrypoints. Their raw calls include current function
+interiors and location-table data; semantic names do not authorize rebinding
+those destinations. See the
+[alternate-family boundary](../../src/overlays/overworld/README.md#active-and-alternate-location-families).
+
 Historical password experiments below retain their original identifiers:
 `func_80168CDC` is now `NameEntry_SpawnGlyphSprite`, `func_80168AB4` is
 `NameEntry_UpdateGlyphTransfer`, and `func_8016913C` is

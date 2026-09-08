@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "alternate_location.h"
 
 typedef struct {
     u16 f0;
@@ -26,7 +27,7 @@ extern s32 D_8016A2B8;
 extern s32 func_8004EB9C(s32);
 extern void func_80065B24(s32);
 
-s32 func_801697D0(void)
+s32 CampaignMap_PickAlternateExit(void)
 {
     s32 i;
     s32 r;

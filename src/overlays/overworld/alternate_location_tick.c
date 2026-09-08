@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "alternate_location.h"
 
 typedef struct { u8 pad0[8]; u16 unk8; u8 pad10[38]; u16 unk30; u16 unk32; } Obj;
 typedef struct { u8 pad0[12]; u16 a; u16 b; u8 pad16[50]; } Slot;
@@ -29,9 +30,8 @@ extern void func_80021EA4(void);
 extern void func_80168040(void);
 extern void func_80065BFC(s32);
 extern void func_800158C8(void);
-extern s32 func_801697D0(void);
 
-void func_80169A9C(void)
+void CampaignMap_UpdateAlternateLocation(void)
 {
     s32 r;
 
@@ -84,7 +84,7 @@ void func_80169A9C(void)
         D_800C4DCC = D_800C4DC9;
     }
     D_8016A2C8 = D_8016A2BC;
-    r = func_801697D0();
+    r = CampaignMap_PickAlternateExit();
     if (r >= 0) {
         if (r & 0x8000) {
             D_8016A2BD = 1;

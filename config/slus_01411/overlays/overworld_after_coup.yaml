@@ -28,6 +28,7 @@ options:
 
   symbol_addrs_path:
     - notes/research/Unchiga_Symbols/modules/overworld.txt
+    - config/slus_01411/overlays/overworld_symbols.txt
 
   find_file_boundaries: false
   check_consecutive_segment_types: false
@@ -74,8 +75,8 @@ segments:
       - [0xE0C, c, overlays/overworld/pick_exit]
       - [0xFCC, c, overlays/overworld/location_tick]
       - [0x11A8, asm, overlays/overworld_after_coup/text_11A8]
-      - [0x17D0, c, overlays/overworld/func_801697D0]
-      - [0x1A9C, c, overlays/overworld/func_80169A9C]
+      - [0x17D0, c, overlays/overworld/alternate_pick_exit]
+      - [0x1A9C, c, overlays/overworld/alternate_location_tick]
       - [0x1E54, data, overlays/overworld_after_coup/data]
 
   - [0x3000]
