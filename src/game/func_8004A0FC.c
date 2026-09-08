@@ -1,0 +1,65 @@
+#include "../types.h"
+
+extern u8 *D_8009B458;
+
+void func_8004A0FC(u8 *arg0, u8 *arg1)
+{
+    register u8 *object asm("$7");
+    s32 pan;
+    u8 *state1;
+    u8 *state2;
+    u8 *state3;
+    s32 level;
+    s32 product;
+    s32 left;
+    register s32 right asm("$4");
+    s32 center;
+
+    object = arg0;
+    state1 = D_8009B458;
+    if (state1[0x815] != 0) {
+        pan = 0x40;
+    } else {
+        pan = state1[0x4BF] + object[0xA] + object[0xB] + arg1[1] - 0xC0;
+    }
+    if (pan < 0) {
+        pan = 0;
+    }
+    if (pan >= 0x80) {
+        pan = 0x7F;
+    }
+    object[0xC] = pan;
+
+    state2 = D_8009B458;
+    level = state2[0x4BC] * *(u16 *)(state2 + 0x512);
+    level = level * arg1[5];
+    level = level * arg1[3];
+    level = level >> 14;
+    level = level * object[8];
+    product = level * object[9];
+    level = product >> 14;
+
+    left = level;
+    if (pan >= 0x40) {
+        right = level;
+        center = 0x40;
+        if (pan == center) {
+            right = (pan * (left << 1)) >> 7;
+            left = right;
+        } else {
+            left = ((center - (pan & 0x3F)) * (right << 1)) >> 7;
+        }
+    } else {
+        right = (pan * (left << 1)) >> 7;
+    }
+
+    state3 = D_8009B458;
+    pan = left * *(s16 *)(state3 + 0x7E4);
+    right = right * *(s16 *)(state3 + 0x7E6);
+    left = pan >> 7;
+    level = left * (*(volatile u8 *)(object + 0xE) & 0x7F);
+    right = right >> 7;
+    pan = right * (*(volatile u8 *)(object + 0xE) & 0x7F);
+    *(u16 *)(object + 0x14) = level >> 7;
+    *(u16 *)(object + 0x16) = pan >> 7;
+}
