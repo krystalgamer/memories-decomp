@@ -80,3 +80,27 @@ purpose or expected output name, rename the script too so
 - Overlay addresses are only valid while that overlay is resident, and several
   modules share `0x80168000`. Dump a signature so the result can be checked
   against the module it claims to describe.
+
+## Testing one
+
+A trace runs once, in someone else's session, and a script that crashes or
+prints nothing wastes that session. `tools/trace/tests/<name>_test.lua` replays
+the script's callbacks against a mock `PCSX` table and a real LuaJIT FFI
+buffer, so the breakpoint body, the guards and the finish conditions can be
+exercised without the emulator:
+
+```
+luajit tools/trace/tests/<name>_test.lua
+```
+
+Nothing runs these automatically; run them before asking for a trace. Copy the
+`capture()` scaffold from an existing test — it stubs `getMemPtr`,
+`getRegisters`, `addBreakpoint` and `createEventListener`, captures `print`,
+and hands back helpers that drive one scenario.
+
+Worth covering, because these are the failures that cost a session rather than
+a rerun: every pointer the script might be handed that it must refuse (zero,
+unaligned, outside RAM), the bounded-output path, and the case where nothing
+happens at all — silence has to name the likely setup mistake. Where a script
+assumes something about timing, pin the boundary in a test so the assumption is
+visible in the result rather than implied.
