@@ -1,5 +1,6 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "data_transfer_request.h"
 #include "input.h"
 #include "script_command_busy.h"
 
@@ -22,7 +23,6 @@ extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
 extern s16 D_801D0000[];
 extern s32 func_8002EE5C(void);
-extern s32 func_8003F70C(void);
 extern s32 Dialog_ReadChoiceInput(DuelEffectChannel *);
 extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *);
 extern void DuelEffect_MarkObjectIfActive(void *);

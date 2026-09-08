@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "data_transfer_request.h"
 #include "card_constants.h"
 #include "mem_card.h"
 #include "save_data.h"
@@ -59,7 +60,6 @@ s32 func_8003FD14(void)
 }
 
 extern u8 D_801D1880[];
-extern void func_8003F758(void *, int, void *, int);
 extern void *D_8009B3E0;
 
 void func_8003FE14(void)
