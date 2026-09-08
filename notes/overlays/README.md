@@ -34,6 +34,22 @@ are build artifacts rather than tracked overlay sources.
 | Resident load-slot snapshots | `tmp/splat/assets/overlays/` | No |
 | Extracted archive payloads and probes | `tmp/` | No |
 
+## Semantic names stay module-scoped
+
+Record an accepted overlay function name in
+`notes/semantic-symbol-map.csv` with kind `overlay/<module>/function`.
+The resident naming tool validates the record against that module's
+inventory but does not apply it to the resident namespace. Update the
+module's C definition and callers, function inventory, matching manifest
+and symbol definitions together, retaining the original address, size and
+compiler profile. Require the complete overlay match after the change.
+
+The qualified kind distinguishes different functions at the same reused
+virtual address. Do not register an overlay function as an unqualified
+resident `function` merely because its name is known. See
+[`../semantic-naming-pass.md`](../semantic-naming-pass.md#module-scoped-function-records)
+for validation and duplicate rules.
+
 ## Getting the archives
 
 Both archives the modules come from are tracked disc files, so a retail dump is

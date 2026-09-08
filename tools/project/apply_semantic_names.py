@@ -34,6 +34,9 @@ SYMBOL_LINE = re.compile(
     r"^(?P<name>[A-Za-z_][A-Za-z0-9_]*)"
     r"\s*=\s*(?P<address>0x[0-9A-Fa-f]+);(?P<suffix>.*)$"
 )
+OVERLAY_FUNCTION_KIND = re.compile(
+    r"^overlay/(?P<module>[a-z][a-z0-9_]*)/function$"
+)
 
 
 class SemanticNameError(RuntimeError):
@@ -63,6 +66,11 @@ def parse_address(value: str) -> int:
         raise SemanticNameError(f"invalid address: {value}") from error
 
 
+def overlay_module(kind: str) -> str | None:
+    match = OVERLAY_FUNCTION_KIND.fullmatch(kind)
+    return match.group("module") if match is not None else None
+
+
 def load_map(path: Path) -> list[Mapping]:
     with path.open("r", encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
@@ -73,10 +81,11 @@ def load_map(path: Path) -> list[Mapping]:
         rows = list(reader)
     result: list[Mapping] = []
     seen_addresses: set[tuple[str, int]] = set()
-    seen_names: set[str] = set()
+    seen_names: set[tuple[str, str]] = set()
     for row in rows:
         kind = row["kind"]
-        if kind not in {"function", "global"}:
+        module = overlay_module(kind)
+        if kind not in {"function", "global"} and module is None:
             raise SemanticNameError(f"unsupported mapping kind: {kind}")
         address = parse_address(row["address"])
         name = row["name"]
@@ -87,10 +96,11 @@ def load_map(path: Path) -> list[Mapping]:
             raise SemanticNameError(
                 f"duplicate {kind} mapping at {address:#010x}"
             )
-        if name in seen_names:
+        name_key = (f"overlay/{module}" if module is not None else "resident", name)
+        if name_key in seen_names:
             raise SemanticNameError(f"duplicate semantic name: {name}")
         seen_addresses.add(key)
-        seen_names.add(name)
+        seen_names.add(name_key)
         result.append(
             Mapping(
                 kind=kind,
@@ -183,6 +193,8 @@ def update_symbols(text: str, mappings: list[Mapping]) -> str:
     lines, by_address, by_name = symbol_state(text)
     additions: list[str] = []
     for mapping in mappings:
+        if overlay_module(mapping.kind) is not None:
+            continue
         existing_address = by_name.get(mapping.name)
         if existing_address is not None and existing_address != mapping.address:
             raise SemanticNameError(
@@ -234,6 +246,44 @@ def write_json(path: Path, value: dict[str, Any]) -> None:
     temporary.replace(path)
 
 
+def validate_overlay_function(
+    root: Path,
+    mapping: Mapping,
+    module: str,
+    inventories: dict[str, dict[int, dict[str, str]]],
+) -> None:
+    if mapping.confidence not in {"confirmed", "high"}:
+        raise SemanticNameError(
+            f"{mapping.kind}: semantic names require confirmed or high confidence"
+        )
+    if module not in inventories:
+        path = resolve_within(
+            root, f"config/slus_01411/overlays/{module}_functions.csv",
+            must_exist=False,
+        )
+        if not path.is_file():
+            raise SemanticNameError(f"unknown overlay namespace: {module}")
+        rows = load_functions(path)
+        inventory = {parse_address(row["address"]): row for row in rows}
+        if len(inventory) != len(rows):
+            raise SemanticNameError(f"{module}: duplicate overlay function address")
+        inventories[module] = inventory
+    row = inventories[module].get(mapping.address)
+    if row is None:
+        raise SemanticNameError(
+            f"{module}:{mapping.address:#010x}: absent from overlay inventory"
+        )
+    if row["module"] != f"overlay/{module}":
+        raise SemanticNameError(
+            f"{module}:{mapping.address:#010x}: inventory namespace disagrees"
+        )
+    if row["name"] != mapping.name:
+        raise SemanticNameError(
+            f"{module}:{mapping.address:#010x}: apply {mapping.name} through "
+            f"the module-specific workflow; inventory still names {row['name']}"
+        )
+
+
 def plan(
     root: Path,
     mappings: list[Mapping],
@@ -268,8 +318,13 @@ def plan(
             )
     replacements: dict[str, str] = {}
     moves: list[Move] = []
+    overlay_inventories: dict[str, dict[int, dict[str, str]]] = {}
 
     for mapping in mappings:
+        module = overlay_module(mapping.kind)
+        if module is not None:
+            validate_overlay_function(root, mapping, module, overlay_inventories)
+            continue
         if mapping.kind == "function":
             row = inventory.get(mapping.address)
             if row is None:
@@ -373,7 +428,7 @@ def apply(root: Path, mappings: list[Mapping], *, check: bool) -> int:
         or current_symbols != updated_symbols
         or bool(moves)
     )
-    if check:
+    if check or not pending:
         if pending:
             print(
                 f"semantic names require changes: "
