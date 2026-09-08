@@ -10,10 +10,34 @@ has, including the `nop`. It is at `+0x1BC` here and `+0x1B4` there, which is
 the same one-slot shift that produces all 114 positions.
 
 That correction changes what this candidate is. Distance 6 reads as six
-instructions of shape work plus a scheduling problem; distance 0 with a single
-displaced slot means **one `dbr` decision separates this from an exact match**,
-and the 114 positions are one fault reported 114 times rather than a large
-residual. It should be picked up on that basis. Written from scratch: no
+instructions of shape work plus a scheduling problem; distance 0 means the whole
+residue is placement.
+
+**It is two `dbr` decisions, not one, and they run in opposite directions.** The
+earlier reading of "one displaced slot" was close but wrong in a way that
+matters, because it made the `nop` look extra when it is only *moved*:
+
+| position | build | retail |
+| --- | --- | --- |
+| `+0x1B4`, the `beqz` slot | **filled** with `lui $v0,%hi(D_8009B260)` | **empty** |
+| `+0x304`, the `j` slot | **empty** | **filled** with `sw $v0,20($s0)` |
+
+That is why the multiset is identical and the instruction counts agree: each
+build spends a `nop` the other does not, in a different place. It is also why
+the diff re-aligns - the runs are `+0x1B0`-`+0x2FC` differing and then matching
+again from `+0x300`, rather than a shift running to the end of the function.
+
+**One of the two is already source-controllable.** Retail stores `D_8009B17C`
+*before* finishing the `+0x14` read-modify-write and puts the `+0x14` store in
+the `j` delay slot. Writing the source in that order fills the slot exactly as
+retail does. It measures 279 of 280 rather than an improvement, and that is the
+point: with the `beqz` slot still filled upstream, filling this one too removes
+the compensating `nop` and the function comes out an instruction short. The two
+decisions are independent and both are needed.
+
+So the search is narrower than it was. The `j` slot is solved; the `beqz` slot
+is the one obstacle, and the CFG and liveness explanations for it are both ruled
+out below. Written from scratch: no
 stored candidate, no rows in `external_attempts.csv`, empty inventory note.
 
 ### The one decision, located exactly
