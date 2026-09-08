@@ -3145,46 +3145,6 @@ register, as the target does, left the histogram distance unchanged at 2. The
 hoist is still unexplained, and it is the remaining difference on this
 function along with the choice of register holding the state pointer.
 
-## Cross-jumping compares hard registers, so allocation is a structural lever
-
-The rule above reads block placement from the source. `Duel_LoadPackageStage`
-shows the other half: **whether two identical-looking tails merge at all is
-decided after register allocation, on the hard registers.** Cross-jumping runs
-late and compares instructions exactly, so two tails that differ only in which
-register holds a pointer cannot merge.
-
-There, three switch arms end in the same three instructions. The build gives
-all three the same register and GCC folds them onto one label; retail holds the
-pointer in `$v1` in one arm and `$v0` in the other two, so only two of them
-merge. The instruction *order* already matched. The whole two-instruction
-deficit came from one register choice.
-
-This matters because it inverts the usual reading. A register difference is
-normally a symptom to be fixed last, after the shape is right. When it gates a
-merge it is the shape: it changes how many blocks exist. Before treating a
-count deficit as missing code, check whether the target simply failed to merge
-something the build merged, and read the registers at the merge point.
-
-The practical test is cheap. Count one instruction that can only appear once
-per unmerged tail - there, the `addiu` adding the buffer stride - in the target
-and in the build. Two against one localises the whole difference immediately,
-where a positional diff reports two hundred shifted lines.
-
-### Variable reuse steers registers only for expensive constants
-
-A related lever, with a sharp boundary. Writing two values through **one
-reassigned C variable** tends to give them one hard register, and that is
-usable to free a register elsewhere: in the same function, making the
-`0xFFDDFFFF` mask and a later `0x10000` the same variable moved `0x10000` into
-`$a0`, exactly where the target has it, when nothing else had shifted it.
-
-The same trick applied to `2` and `0x10` in the same function is completely
-inert. Those are cheap immediates, so GCC propagates them back into their
-stores and the shared variable never exists as a value. **Variable reuse
-controls register sharing only for constants expensive enough to survive as a
-value** - in practice the two-instruction `lui`/`ori` pairs. Do not spend
-probes trying to steer single-instruction immediates this way.
-
 ## Correction: li cannot be normalised to a single opcode
 
 The alias-normalisation rule recorded above is right in shape and wrong in one

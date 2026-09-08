@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "../../game/text_constants.h"
 
 extern u8 gPassword_abDigits[];
 extern u16 D_800EAFF8[];
@@ -20,13 +19,7 @@ void Password_RefreshDigitDisplay(void)
     out = D_801B1245;
     for (i = 0; i < 8; i++) {
         glyph = D_800EAFF8[gPassword_abDigits[i]];
-        if (glyph >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
-            /* The bare -0x10 is deliberate. It applies the same top-nibble
-               marker that TEXT_SINGLE_BYTE_GLYPH_LIMIT tests for, but writing
-               | TEXT_SINGLE_BYTE_GLYPH_LIMIT here is not equivalent: the two
-               agree only after truncation to u8 and differ as int
-               expressions, which GCC 2.8.1 can turn into different
-               instructions. Do not "finish" this substitution. */
+        if (glyph >= 0xF0) {
             out[0] = (glyph >> 8) | -0x10;
             out[1] = glyph;
             out += 2;
@@ -35,7 +28,7 @@ void Password_RefreshDigitDisplay(void)
             out += 1;
         }
     }
-    *out = TEXT_STRING_TERMINATOR;
+    *out = 0xFF;
     func_8003B6AC(2, 1);
     func_80035BE4(2, 0xFD, 0xA8, 0x68, 0xA0, 0x10);
     D_800EB0F8[0x122] = 0x10;

@@ -240,40 +240,6 @@ declares `func_8004036C` through its own private object view rather than the
 rather than concatenating text. That reconciliation is a separate question
 from this grouping.
 
-## Glyph-encoding constants and the three meanings of `0xF0`
-
-The password overlay's two text scanners now use the shared names from
-`src/game/text_constants.h` instead of raw bytes:
-
-| Site | Was | Now |
-|---|---|---|
-| `Password_RefreshDigitDisplay` glyph test | `glyph >= 0xF0` | `TEXT_SINGLE_BYTE_GLYPH_LIMIT` |
-| `Password_RefreshDigitDisplay` string end | `*out = 0xFF` | `TEXT_STRING_TERMINATOR` |
-| `NameEntry_UpdateDialog` scan skip | `*p >= 0xF0` | `TEXT_SINGLE_BYTE_GLYPH_LIMIT` |
-| `NameEntry_UpdateDialog` saved end byte | `term = 0xFF` | `TEXT_STRING_TERMINATOR` |
-| `NameEntry_UpdateDialog` end test | `c != 0xFF` | `TEXT_STRING_TERMINATOR` |
-
-Both sites implement the same two-byte glyph rule the resident builder
-`func_80038148` already spells out with these names: a code at or above the
-limit occupies two bytes, so the digit display emits a high and low byte for
-it and the dialog scanner steps an extra byte past it.
-
-`0xF0` is **not** a single concept in this module, and the remaining
-occurrences are deliberately left as numbers:
-
-- `NameEntry_UpdateGlyphFragment` tests `*(s16 *)(object + 0x32) >= 0xF0`.
-  That field is the fragment's Y position, so this is the 240-pixel screen
-  bottom — an offscreen test, not a glyph limit.
-- `NameEntry_Init` calls
-  `func_80035BE4(1, textOffset + 0xF0, 0x16, 0x18, 0x140, 0xF0)`, where the
-  same literal appears twice with two further meanings: `textOffset + 0xF0`
-  is a text-ID base, while the trailing `0x140, 0xF0` are the 320x240 box
-  extents.
-
-Three unrelated meanings share the value `0xF0` in these files. Only the
-glyph-encoding uses are named here, because only those are the concept that
-`TEXT_SINGLE_BYTE_GLYPH_LIMIT` describes.
-
 ## Keyboard input and glyph effects
 
 `NameEntry_BuildKeyboardTextBox` (`0x80168138`) prepares text slot 1 for

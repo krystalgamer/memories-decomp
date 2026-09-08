@@ -1,6 +1,5 @@
 #include "../../types.h"
 #include "../../game/display_object_api.h"
-#include "../../game/display_object_layout.h"
 #include "../../game/card_constants.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
@@ -166,7 +165,7 @@ done:
                           (i / FREE_DUEL_GRID_COLUMN_COUNT) * 48, 18,
                           (i / 16) * 64 + 128, (i & 15) + 496);
             obj->flags |= 0x1000000;
-            obj->attr &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+            obj->attr &= ~8;
         }
     }
     for (k = 25, i = 0; i < 15; i++, k++) {
@@ -179,14 +178,14 @@ done:
                           (i / FREE_DUEL_GRID_COLUMN_COUNT) * 48, 20,
                           (k / 16) * 64 + 128, (k & 15) + 496);
             obj->flags |= 0x1000000;
-            obj->attr &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+            obj->attr &= ~8;
         }
     }
     obj = func_800400AC(func_8004002C(), 2);
     func_800428A8(obj, 0, 0, 0, 0, 0, 16, 0, D_801AF000);
     func_800428EC(obj, 10);
     obj->flags |= 0x1000000;
-    obj->attr |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    obj->attr |= 8;
     obj = func_800400AC(func_8004002C(), 2);
     func_800428A8(obj, 0, 0, 0, 0, 1, 16, 0, D_801AF000);
     func_800428EC(obj, -10);
@@ -202,7 +201,7 @@ done:
     gFreeDuel_pCursorWidget = (u8 *)obj;
     obj->flags &= ~0x8000000;
     if (gFreeDuel_bReturnFlags == 0) {
-        obj->attr &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+        obj->attr &= ~0x40;
         FreeDuel_PlaceCursor((u8 *)obj, 0);
     } else {
         FreeDuel_PlaceCursor((u8 *)obj, 1);

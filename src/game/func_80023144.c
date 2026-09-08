@@ -77,14 +77,14 @@ void func_80023144(FieldSource *source, s32 index)
         } else {
             style = 0x51;
         }
-        if (index % DUEL_CARD_SIDE_RECORD_COUNT >= DUEL_FIELD_ROW_SIZE) {
+        if (index % 15 >= 5) {
             register s32 two asm("$4") = 2;
 
             D_8009B34E = two;
             if (record->flags & 0x1000) {
                 D_8009B34E = 3;
             }
-            value = index >= DUEL_CARD_SIDE_RECORD_COUNT;
+            value = index >= 15;
             if (value == D_8009B1D5 && D_8009B1C8[0x1F] == 0) {
                 D_8009B34E = two;
             }

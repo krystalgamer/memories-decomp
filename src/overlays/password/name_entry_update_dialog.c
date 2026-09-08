@@ -1,6 +1,5 @@
 #include "../../types.h"
 #include "../../game/input.h"
-#include "../../game/text_constants.h"
 #include "../../game/display_object_api.h"
 #include "name_entry_keyboard.h"
 
@@ -198,13 +197,13 @@ void NameEntry_UpdateDialog(void)
         NameEntry_UpdateKeyboard();
         return;
     }
-    term = TEXT_STRING_TERMINATOR;
+    term = 0xFF;
     p = D_801B125A;
     c = *p;
     next = 0;
     goto ztest;
 scan:
-    if (*p >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
+    if (*p >= 0xF0) {
         p++;
     }
     next = p + 1;
@@ -218,7 +217,7 @@ ztest:
     if (c == 0) {
         goto zloop;
     }
-    if (c != TEXT_STRING_TERMINATOR) {
+    if (c != 0xFF) {
         goto scan;
     }
     fg = D_8016D400;

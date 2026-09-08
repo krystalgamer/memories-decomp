@@ -1,6 +1,5 @@
 #include "../../types.h"
 #include "../../game/card_constants.h"
-#include "../../game/display_object_layout.h"
 #include "../../game/input.h"
 #include "../../psyq/rand.h"
 
@@ -104,8 +103,7 @@ void FreeDuel_UpdateScreen(void)
         if ((*(u16 *)(panel + 0x34) & 8) == 0) {
             gFreeDuel_bScreenFlags &= 0xDF;
             TextBox_Destroy(panel);
-            *(u16 *)(gFreeDuel_pCursorWidget + 8) |=
-                DISPLAY_OBJECT_FLAG_RENDERABLE;
+            *(u16 *)(gFreeDuel_pCursorWidget + 8) |= 0x40;
             FreeDuel_PlaceCursor(gFreeDuel_pCursorWidget, 1);
         }
         return;
