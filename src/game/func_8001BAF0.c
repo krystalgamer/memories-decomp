@@ -2,6 +2,7 @@
 #include "ai.h"
 #include "ai_constants.h"
 #include "card_constants.h"
+#include "duel_hand.h"
 #include "duel_card_layout.h"
 #include "display_object_api.h"
 
@@ -19,18 +20,11 @@ typedef struct {
     s16 y;
 } Spawned;
 
-typedef struct {
-    Spawned *base;
-    Spawned *child;
-    u8 p8[4];
-} Slot;
-
 extern u8 *D_8009B1C8;
 extern u8 D_8009B1D5;
 extern u8 D_800EAE88[];
 extern u8 D_800907CC[];
 extern u8 D_801A7AD8[];
-extern Slot D_800EA030[HAND_SIZE];
 
 extern void Duel_SetupCardRecord(s32, s32);
 extern Spawned *func_80018004(u8 *, s32, s32);
@@ -49,7 +43,7 @@ void func_8001BAF0(void)
     u8 *recs;
     register DeckCardRecord *rec asm("$16");
     DeckCardRecord *other;
-    Slot *slot;
+    DuelHandSlot *slot;
     Spawned *spawned;
     u8 *card;
     s32 i;
@@ -117,9 +111,9 @@ next:
                 k = D_8009B1D5 * HAND_SIZE;
                 id = *(u8 *)((j + k) + (s32)tbl);
             }
-            spawned = slot->base;
+            spawned = (Spawned *)slot->object;
             Duel_SetupCardRecord(id, *(s8 *)&rec->slot);
-            slot->base = func_80018004((u8 *)(id * DUEL_CARD_RECORD_SIZE + (s32)recs), spawned->x, spawned->y);
+            slot->object = (u8 *)func_80018004((u8 *)(id * DUEL_CARD_RECORD_SIZE + (s32)recs), spawned->x, spawned->y);
             func_8004036C(spawned);
             *(u8 *)((s32)D_8009B1C8 + (0x1A + j)) = rec->slot;
             *hand = j + 0xB;

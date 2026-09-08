@@ -1,22 +1,15 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "duel_hand.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "duel_selection_layout.h"
-
-typedef struct {
-    u8 *unk0;
-    u8 unk4[5];
-    u8 unk9;
-    u8 unkA[2];
-} Rec0C;
 
 extern u8 D_800907D8[];
 extern u16 D_8009B162;
 extern u8 *D_8009B1B4;
 extern u8 D_8009B1D5;
 extern u8 D_800E9F48[];
-extern Rec0C D_800EA030[HAND_SIZE];
 extern u8 D_8015C424[];
 extern u8 D_801A7AD8[];
 extern s32 gDuel_adwCardStats[];
@@ -40,7 +33,7 @@ void func_8001B938(u8 *p) {
 
     if (p[0x15] == 0) {
         b = D_8015C424;
-        r = D_800EA030[*(s8 *)(p + 0xE)].unk0;
+        r = D_800EA030[*(s8 *)(p + 0xE)].object;
         g = b + r[0x6A] * DUEL_CARD_RECORD_SIZE + 0x48000;
         i = (gDuel_adwCardStats[*(s16 *)*(s32 *)(g + 0x36B8) - 1] >>
              CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;

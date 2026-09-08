@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_hand.h"
 #include "duel_side_state.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
@@ -43,7 +44,6 @@ extern void func_80017708(void);
 extern void func_800175A0(void);
 extern void func_800178BC(void);
 extern void func_8001352C(void);
-extern void Duel_ClearHandSlots(void);
 extern void func_8002C598(void);
 extern void func_80029574(s32);
 extern void func_80035668(s32);

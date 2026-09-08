@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
+#include "duel_hand.h"
 #include "duel_card_layout.h"
 #include "duel_deck_card.h"
 #include "duel_rank.h"
@@ -54,13 +55,6 @@ s32 Duel_HasAllExodiaPieces(void) {
     return 1;
 }
 
-typedef struct {
-    u8 *unk0;
-    u8 unk4[0x9 - 0x4];
-    u8 unk9;
-    u8 unkA[2];
-} Rec0C;
-
 extern u16 D_8009B23A;
 extern u8 D_8009B1ED;
 extern u8 D_8009B1EC;
@@ -68,7 +62,6 @@ extern u8 *D_8009B1C8;
 extern u8 gDuel_bWinnerSide;
 extern u8 D_8009B1D5;
 extern u8 D_800907CC[];
-extern Rec0C D_800EA030[HAND_SIZE];
 extern u8 D_8015C424[];
 extern u8 D_801A7AD8[];
 
@@ -130,7 +123,7 @@ void func_80018DB4(void) {
         p[0x6C] = 1;
         *(s16 *)(p + 0x60) = 0xC;
         *(s32 *)(p + 0x24) = (s32)func_80018C34;
-        D_800EA030[i].unk0 = p;
+        D_800EA030[i].object = p;
         base = D_8015C424;
         g = base + p[0x6A] * DUEL_CARD_RECORD_SIZE + 0x48000;
         y = *(s8 *)(*(s32 *)(g + 0x36B8) + 2);

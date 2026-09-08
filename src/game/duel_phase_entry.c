@@ -2,6 +2,7 @@
 #include "duel_side_state.h"
 #include "view_state.h"
 #include "card_constants.h"
+#include "duel_hand.h"
 #include "duel_deck_card.h"
 #include "fade.h"
 #include "file_transfer.h"
@@ -9,7 +10,7 @@
 
 typedef struct {
     u8 pad0000[8];
-    u8 *hand;
+    DuelHandSlot *hand;
 } DuelSelectionSide;
 
 extern u16 D_8009B23A;
@@ -21,12 +22,10 @@ extern u8 *D_8009B1B4;
 extern u32 D_8009B134 __attribute__((section(".data")));
 extern u16 D_8009B36A __attribute__((section(".data")));
 extern u8 D_800E9F10[];
-extern u8 D_800EA030[];
 extern s32 gDuel_adwCardStats[];
 
 extern void Duel_RequestCombinedDeckData(void);
 extern void Duel_PopulateCombinedDeckData(void);
-extern void Duel_ClearHandSlots(void);
 extern void func_8001352C(void);
 #include "duel_card_layout.h"
 #include "duel_grid.h"
@@ -150,8 +149,8 @@ void func_8001898C(void) {
     u8 *rec;
     u8 *fl;
     u8 *placed;
-    u8 *base;
-    u8 *slot;
+    DuelHandSlot *base;
+    DuelHandSlot *slot;
     u8 *p;
     s32 side;
     s32 i;
@@ -169,7 +168,7 @@ void func_8001898C(void) {
         D_8009B1C8 = (u8 *)D_800E9FF0 + side * sizeof(DuelSideState);
         D_8009B1B4 = D_800E9F10 + side * DUEL_SELECTION_SIDE_SIZE;
         base = D_800EA030;
-        *(u8 **)(D_8009B1B4 + 8) = base;
+        *(DuelHandSlot **)(D_8009B1B4 + 8) = base;
         if (*(s8 *)(D_8009B1C8 + 0x19) != 0) {
             c = D_8009B1C8[0x19] - 1;
             D_8009B1C8[0x19] = c;
@@ -210,8 +209,8 @@ void func_8001898C(void) {
                 Duel_SetupCardRecord(idx, *(s8 *)p);
                 idx++;
                 n++;
-                *(u8 **)slot = func_80018004(placed, y, 0x292);
-                slot += 0xC;
+                slot->object = func_80018004(placed, y, 0x292);
+                slot++;
                 y += 0x3C;
                 placed += DUEL_CARD_RECORD_SIZE;
             }

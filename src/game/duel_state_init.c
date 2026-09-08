@@ -1,15 +1,8 @@
 #include "../types.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
+#include "duel_hand.h"
 #include "duel_grid.h"
-
-typedef struct {
-    int field_00;
-    int field_04;
-    u8 pad_08;
-    u8 field_09;
-    u8 pad_0A[2];
-} HandEntry;
 
 extern u8 *D_8009B1C8;
 extern u8 D_8009B1D5;
@@ -19,7 +12,6 @@ extern u16 D_8009B236;
 extern s8 D_8009B360[];
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern s8 D_800EA02F[];
-extern HandEntry D_800EA030[HAND_SIZE];
 
 void func_800175A0(void) {
     u16 sp[DUEL_SIDE_COUNT];
@@ -85,8 +77,8 @@ void Duel_ClearHandSlots(void)
         *(int *)(field_09 - 5) = 0;
         *(int *)entry = 0;
         *field_09 = 0;
-        field_09 += sizeof(HandEntry);
+        field_09 += sizeof(DuelHandSlot);
         i++;
-        entry += sizeof(HandEntry);
+        entry += sizeof(DuelHandSlot);
     } while (i < HAND_SIZE);
 }
