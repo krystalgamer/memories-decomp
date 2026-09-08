@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004A0FC.h"
 #include "sound_sequence_constants.h"
 
 extern u8 *D_8009B458;
