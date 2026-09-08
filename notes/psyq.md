@@ -150,7 +150,7 @@ Every row below is now an applied project symbol.
 | `0x80077120` | `SpuSetKeyOnWithAttr` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_SKOWA.OBJ` signature. |
 | `0x800771B0` | `SpuSetTransferStartAddr` | Applied from the unique 96-byte Psy-Q 4.6 `LIBSPU.LIB/S_STSA.OBJ` signature; matching transfer paths select the SPU RAM destination. |
 | `0x80077210` | `SpuSetTransferMode` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_STM.OBJ` signature; matching initialization selects DMA mode zero. |
-| `0x80077240` | `SpuIsTransferCompleted` | Applied from the unique 176-byte Psy-Q 4.6 `LIBSPU.LIB/S_ITC.OBJ` signature; matching reset code selects blocking or nonblocking status. |
+| `0x80077240` | `SpuIsTransferCompleted` | Applied from the unique 176-byte Psy-Q 4.6 `LIBSPU.LIB/S_ITC.OBJ` signature; matching reset code selects blocking or nonblocking status. `func_8001455C` also uses the canonical `libspu.h` declaration to poll mode zero before clearing its pending-transfer flag. |
 | `0x800772F0` | `SpuRGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset zero of the unique 352-byte `LIBSPU.LIB/SR_GAKS.OBJ` signature. |
 | `0x800773C4` | `SpuGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset `0xD4` of the same object; matching `func_80045F3C` uses the canonical `libspu.h` declaration to collect all voice key states into its status block before update work. |
 | `0x80077450` | `SpuSetVoiceAttr` | Applied from the unique 1,536-byte Psy-Q 4.6 `LIBSPU.LIB/S_SVA.OBJ` signature; matching sound paths submit raw layout-compatible voice attribute blocks. |
@@ -184,12 +184,12 @@ Every row below is now an applied project symbol.
 | `0x800781F0` | `CdPosToInt` | Applied Psy-Q 4.6 LIBCD identity; canonical copy of the packed-BCD position-to-sector conversion. |
 | `0x8007E710` | `CdPosToInt_8007E710` | Applied address-qualified identity for the second byte-identical resident copy used by matching game C. |
 | `0x8007DD50` | `DsStartReadySystem` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,440-byte `LIBDS.LIB/DSREADY.OBJ` signature; the matching file-transfer path installs its ready callback with an unlimited count. |
-| `0x8007DDD4` | `DsEndReadySystem` | Applied Psy-Q 4.6 identity at offset `0x84` of the same unique `LIBDS.LIB/DSREADY.OBJ` signature. |
+| `0x8007DDD4` | `DsEndReadySystem` | Applied Psy-Q 4.6 identity at offset `0x84` of the same unique `LIBDS.LIB/DSREADY.OBJ` signature; matching `func_8001455C` uses the canonical `libds.h` declaration in two ready-system teardown states. |
 | `0x8007DE38` | `DsReadySystemMode` | Applied Psy-Q 4.6 identity at offset `0xE8` of the same unique `LIBDS.LIB/DSREADY.OBJ` signature; the matching file-transfer path selects mode `1`. |
 | `0x8007E390` | `DsFlush` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBDS.LIB/D2_005.OBJ` signature. |
 | `0x8007E790` | `DsLastPos` | Applied Psy-Q 4.6 identity from the unique 96-byte `LIBDS.LIB/D3_008.OBJ` signature. |
 | `0x8007E7F0` | `CdControlB` | Applied confirmed identity for the three-argument CD command that blocks until the internal completion code is `2`. |
-| `0x8007E860` | `CdReadyCallback` | Applied confirmed identity for the setter that replaces and returns the callback invoked with a ready-event status and result pointer. |
+| `0x8007E860` | `CdReadyCallback` | Applied confirmed identity for the setter that replaces and returns the callback invoked with a ready-event status and result pointer; matching `func_8001455C` clears it through the canonical `libcd.h` declaration after ending the DS ready system. |
 | `0x8007E880` | `CdSyncCallback` | Applied confirmed identity for the setter that replaces and returns the callback invoked from the command-completion path. |
 | `0x8007E8D0` | `SetDumpFnt` | Applied at offset zero of the unique Psy-Q 4.6 `LIBGPU.LIB/FONT.OBJ` signature; matching setup paths select the debug-font stream returned by `FntOpen`. |
 | `0x8007E9B0` | `FntOpen` | Applied at offset `0xE0` of the unique `FONT.OBJ` signature; matching callers open a 320x240 on-screen debug text window. |

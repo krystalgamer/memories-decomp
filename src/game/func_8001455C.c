@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "../psyq/libcd.h"
+#include "../psyq/libds.h"
+#include "../psyq/libspu.h"
 
 extern u8 gFile_PrimaryTransferDescriptor[];
 extern volatile s32 D_8009B0F4;
@@ -21,9 +24,6 @@ extern void func_800140A0(void);
 extern s32 func_8007B1F4(s32, void *, void *, s32);
 extern s32 func_8007B468(s32, void *, s32, void *, s32);
 extern void CdIntToPos_8007E600(s32, void *);
-extern void DsEndReadySystem(void);
-extern void CdReadyCallback(void *);
-extern s32 SpuIsTransferCompleted(s32);
 extern void func_800144B8(void);
 
 void func_8001455C(void)
