@@ -110,7 +110,7 @@ VBlank timing still determine the sample.
 
 The standard [`func_80012D4C`](../src/game/main_frame.c) pump calls
 `func_8001306C` **before** `Graphics_SyncFrame`.
-[`func_8001306C`](../src/game/func_8001306C.c) starts with `Fade_DrawOverlay`,
+[`func_8001306C`](../src/game/main_services.c) starts with `Fade_DrawOverlay`,
 so the fade reads the factor already present at draw time, not the one
 published later by that pump's sync call. A trace captured after sync must
 not attribute that newly published factor to the preceding band update
