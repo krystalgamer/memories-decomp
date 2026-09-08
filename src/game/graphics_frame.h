@@ -33,6 +33,35 @@ extern s32 D_8009B0D8;
 
 extern DISPENV gGraphics_DispEnv;
 
+/* The tint colour, three consecutive bytes with the components in address
+ * order blue, green, red.  func_8005B8A0 and func_8005BB7C pass them straight
+ * to ClearImage(RECT *, u8 r, u8 g, u8 b) as r = D_8009B144, g = D_8009B143,
+ * b = D_8009B142, which is what fixes the roles; graphics_frame.c copies the
+ * same three into the display list at 0x19/0x1A/0x1B.
+ *
+ * func_80015310.c is not converted, and its functions.csv row says why: the
+ * three are DEFINED rather than declared there so the assembler resolves them
+ * gp-relative and supplies the three load-delay nops in the tint copy.  That
+ * file still builds byte-identical with the declaration below visible ahead
+ * of its definition, which is the only claim made here about the two.
+ *
+ *   _IN_DATA      -- out of small data at the compiler
+ *   _IS_AGGREGATE -- unsized array, read as [0]
+ */
+#ifdef D_8009B142_IN_DATA
+extern u8 D_8009B142 __attribute__((section(".data")));
+extern u8 D_8009B143 __attribute__((section(".data")));
+extern u8 D_8009B144 __attribute__((section(".data")));
+#elif defined(D_8009B142_IS_AGGREGATE)
+extern u8 D_8009B142[];
+extern u8 D_8009B143[];
+extern u8 D_8009B144[];
+#else
+extern u8 D_8009B142;
+extern u8 D_8009B143;
+extern u8 D_8009B144;
+#endif
+
 /* Viewport scroll offset in pixels, signed: func_8002A660 subtracts it from a
    sprite position and func_80040588 subtracts it from a primitive's, and both
    results have to be able to go negative.

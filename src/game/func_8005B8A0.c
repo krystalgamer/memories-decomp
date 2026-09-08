@@ -1,4 +1,6 @@
 #include "../types.h"
+#define D_8009B142_IN_DATA
+#include "graphics_frame.h"
 #include "../psyq/libcd.h"
 #include "graphics_constants.h"
 
@@ -13,9 +15,6 @@ extern u8 D_8009B067;
 extern u32 D_8009B068;
 extern u32 D_8009B06C;
 extern u32 D_8009B070;
-extern u8 D_8009B142 __attribute__((section(".data")));
-extern u8 D_8009B143 __attribute__((section(".data")));
-extern u8 D_8009B144 __attribute__((section(".data")));
 extern u8 *D_8009B498;
 extern u8 D_8009B49C;
 extern s16 D_800FE0CC __attribute__((section(".data")));

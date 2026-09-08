@@ -1,10 +1,8 @@
 #include "../types.h"
+#include "graphics_frame.h"
 
 #include "fade.h"
 
-extern u8 D_8009B142;
-extern u8 D_8009B143;
-extern u8 D_8009B144;
 extern u8 D_8009B145;
 
 void func_800156DC(void)
