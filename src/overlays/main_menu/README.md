@@ -243,7 +243,11 @@ The two twelve-byte state records hold target/display halfwords at offsets
 Modes 0/1 address its two positions; mode 2 is a side's value-bar position.
 Setup initializes the choice to `(*toggle == 0)`, and finish writes
 `(choice != 1)`: choice 0 writes 1, choice 1 writes 0. The visible option
-caption and wider gameplay meaning remain unproved.
+caption remains unproved. The
+[resident handoff](../../../notes/duel-card-record.md#per-side-view-mode-handoff)
+conditionally copies the byte into per-side view state with known
+card-object/text consumers; it is not itself a literal image-resource index
+or a complete description of hidden-card visibility.
 
 Busy status comes from each widget's active position callback and from any
 display/target mismatch. Value rolling uses the exact absolute difference,

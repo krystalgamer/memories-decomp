@@ -2120,7 +2120,13 @@ shared option to the low byte of `D_8009B230`. Accept then requests the
 duel path; cancel restores the previous main mode. These working-RAM writes
 do not by themselves establish a saved preference or memory-card write.
 The host's initialization branch also resets both LP values to 8000.
-The shared option's wider gameplay meaning remains unassigned.
+The shared option's caption and complete visibility behavior remain unproved, but
+its resident handoff is established. When both `D_8009B360[0]` and
+`gDuel_bOpponentID` are negative, duel initialization copies that low byte
+to byte `+0x1F` of both `0x20`-byte side records. Known card-object and
+card-text consumers read the active side's copy. This mode byte is not
+itself an image-resource index; see the
+[conditional view-mode handoff](../duel-card-record.md#per-side-view-mode-handoff).
 See the [full editor contract](../../src/overlays/main_menu/README.md#value-setup-input-and-write-back).
 
 [`func_8002DC38` hosts the starting-LP screen; `Main_RunTrade` `0x8002D7CC`

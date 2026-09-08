@@ -186,6 +186,54 @@ the same two words for its selected duelist's win/loss values. Interpret
 dedicated persistent ATK/DEF storage. No conclusion about hidden-card
 visibility or a complete scratch-buffer layout follows from these writes.
 
+## Per-side view-mode handoff
+
+The value editor's shared option has a confirmed resident consumer, even
+though its visible caption remains unassigned. Matching
+[`func_800175A0`](../src/game/duel_state_init.c) first clears byte `+0x1F`
+of both `D_800E9FF0` side records. These are `0x20`-byte records, not the
+`0x1C`-byte card records described above:
+
+| Side | Record base | View-state byte |
+|---:|---|---|
+| `0` | `0x800E9FF0` | `0x800EA00F` |
+| `1` | `0x800EA010` | `0x800EA02F` |
+
+Only the branch with both `D_8009B360[0] < 0` and
+`gDuel_bOpponentID < 0` copies the low byte of `D_8009B230` into both
+positions. For a nonnegative opponent ID, the initializer instead sets
+the side-1 byte to `0xFF` (signed `-1`) while side 0 stays zero.
+The remaining negative-opponent/nonnegative-`D_8009B360` case leaves both
+cleared. Do not collapse these branches into a universal two-player copy.
+
+The initializer points `D_8009B1C8` at the active side record; the matching
+[turn-switch helper](../src/game/func_800208D4.c) refreshes that pointer
+when changing sides. Matching
+[`func_80018004`](../src/game/func_80018004.c) reads its `+0x1F` byte
+through a signed view, after calling the base card-object constructor:
+
+| Active-side value | Post-construction operation |
+|---|---|
+| `0` | Skips this mode-dependent remap. |
+| Positive | Sets the card-record display-marker flag (`0x2000`) and writes the associated data byte `+4`, plus one, to the returned display object's byte `+0x67`. |
+| Negative | Takes the same flag-setting path, then overrides display-object byte `+0x67` with `0xFF`. |
+
+Thus the option value `1` is not a request for resource index `1`; the
+positive-mode resource value depends on the associated data. Skipping the
+mode-dependent branch is not itself an assignment of resource index zero.
+The per-side mode, card-record flag, and display-object resource byte are
+distinct storage and must not be conflated with the
+[Millennium Eye tutorial's resource-index edits](modding-tutorial-evidence.md#millennium-eye-opponent-card-display).
+
+The same active-side byte also gates a text-selector override in
+[`func_80023144`](../src/game/func_80023144.c). For an occupied field
+record on the acting side, zero forces `D_8009B34E = 2`, including after
+the face-down path selected `3`. A nonzero byte leaves that override
+disabled; this does not decode what either text variant displays.
+These consumers read copied side state, not `D_8009B230` directly.
+No complete visibility policy, option caption, or additional buffer layout
+is inferred here, and no new runtime trace is claimed.
+
 ## Typed migration snapshot
 
 The following pure-C report users include `duel_card.h` and use its typed
