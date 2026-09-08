@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
@@ -34,7 +35,6 @@ extern s32 D_80010014 __attribute__((section(".data")));
 extern s32 D_80010018 __attribute__((section(".data")));
 extern u8 D_801A8000[];
 extern u8 D_801DD000[];
-extern u8 D_800F2C40[];
 extern void func_8005B620(u8 *dst, u8 *src, s32 count);
 
 void func_800577B0(Object *object, s32 mode) {
@@ -138,7 +138,7 @@ void func_800577B0(Object *object, s32 mode) {
         break;
 
     case 10:
-        dst = D_800F2C40;
+        dst = (u8 *)D_800F2C40;
         src = D_801DD000;
         func_8005B620(dst + 0xBF8, src, 0x40);
         *(Block28 *)(dst + 0xCF8) = *(Block28 *)(src + 0x100);

@@ -3210,6 +3210,15 @@ What was safe, all confirmed against the full-executable hash:
   the arithmetic keeps the scale at one byte, which is exactly the double-scaling
   trap the previous section describes, avoided rather than risked.
 - **`sizeof(T)` may replace a literal stride** once the cast is in place.
+- **But a proven-equal `sizeof` is not a licence to switch to typed indexing.**
+  `model.h` asserts `sizeof(ModelSlot) == MODEL_SLOT_SIZE`, so
+  `&D_800F2C40[index]` and `(u8 *)D_800F2C40 + index * MODEL_SLOT_SIZE`
+  provably compute the same address. They still compile differently:
+  replacing the second with the first in
+  `Model_HasInsufficientBufferSpace` changed one byte at `0x8005A8C8` with
+  the executable size unchanged. The rule is about the *form of the
+  expression*, not about whether the arithmetic is right, and a static
+  assertion proving the stride cannot rescue it.
 - **Spelling a type through its alias is free.** `unsigned char` to `u8`,
   `short` to `s16`, `int` to `s32` are typedef identities in `src/types.h`, so
   reformatting a minified translation unit into the project's aliases cannot

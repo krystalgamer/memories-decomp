@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern u8 D_800F2C40[];
+#include "model.h"
 
 void func_8004D58C(s32 arg0, u8 *arg1)
 {
@@ -35,7 +34,7 @@ void func_8004D58C(s32 arg0, u8 *arg1)
     ff = 0xFFFF;
     n = 0;
     m = 0;
-    t = D_800F2C40 + arg0 * 0xE20;
+    t = (u8 *)D_800F2C40 + arg0 * MODEL_SLOT_SIZE;
     c = t;
     *(s16 *)(t + 0xE06) = 0;
     *(s16 *)(t + 0xE08) = 0;
