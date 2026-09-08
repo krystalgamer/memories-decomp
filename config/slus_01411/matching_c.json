@@ -94,7 +94,7 @@
       "address": "0x800137E4",
       "profile": "gcc_2_8_1_g0",
       "size": "0xB4",
-      "source": "src/game/func_800137E4.c"
+      "source": "src/game/file_wait_for_transfers.c"
     },
     {
       "address": "0x80013898",

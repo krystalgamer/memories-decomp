@@ -4,6 +4,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libcd.h"
 #include "file_transfer.h"
+
 #include "graphics_constants.h"
 
 extern u8 D_8009B428;
@@ -11,7 +12,6 @@ extern short D_8009B098[];
 extern u8 D_801AF000[];
 extern void func_800434F4(void);
 extern void func_80043328(void);
-extern void func_800137E4(void);
 extern void func_8007E910(int, int);
 extern void func_80047AD0(int);
 extern void func_80012D84(int);
@@ -33,12 +33,12 @@ void func_80043960(int mode)
     D_8009B428 = 0;
     if (mode == 0) {
         File_RequestAsyncTransfer(0, 0, 0x1F85, 0x22, func_800434F4, 0, 0);
-        func_800137E4();
+        File_WaitForTransfers();
     }
     File_RequestAsyncTransfer(0, 0, 0x1690, 0x36, func_80043328, 0, 0);
     if (mode != 0) {
         int display;
-        func_800137E4();
+        File_WaitForTransfers();
         func_8007E910(0x2C0, 0);
         display = FntOpen(
             0x10, 0x10, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
@@ -48,7 +48,7 @@ void func_80043960(int mode)
         D_8009B098[0] = 0;
         func_80047AD0(2);
         func_80012D84(4);
-        func_800137E4();
+        File_WaitForTransfers();
         return;
     }
     func_80015780();

@@ -192,7 +192,7 @@ optional direct destination.
 `func_8001455C` services the CD transfer. `func_80013C28` consumes one sector
 at a time through the `CdGetSector`-like function at `0x8007E3D0`, advances
 the destination by `0x800`, and invokes the phase callback when the phase byte
-count reaches zero. `func_800137E4` is the synchronous wait used by many
+count reaches zero. `File_WaitForTransfers` is the synchronous wait used by many
 callers.
 
 ## Shared high-memory table

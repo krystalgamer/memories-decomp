@@ -4,6 +4,7 @@
 #include "campaign_flags.h"
 #include "display_object_layout.h"
 #include "file_transfer.h"
+
 #include "text_box_lifecycle.h"
 
 extern s16 gGraphics_sViewportX __attribute__((section(".data")));
@@ -61,7 +62,7 @@ void func_8002BFCC(void) {
         q--;
     } while (n >= 0);
     File_RequestAsyncTransfer(0, (u8 *)0, 0x1DCD, 0x8A, func_8002BD0C, 0, 0);
-    func_800137E4();
+    File_WaitForTransfers();
     Library_MarkOwnedCards();
     D_800E9DBC[0] = func_80029EC4;
     func_80029590();

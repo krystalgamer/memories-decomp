@@ -2,6 +2,7 @@
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "file_constants.h"
+#include "file_transfer.h"
 
 typedef struct {
     u8 pad00[4];
@@ -31,8 +32,6 @@ extern u8 D_801AF000[];
 
 extern s32 func_8002E3B4(void);
 extern void func_8002F4C0(u8 *, s32);
-extern void File_RequestAsyncTransfer(s32, s32, s32, s32, void *, s32, s32);
-extern void func_800137E4(void);
 extern void func_8002E00C(void *);
 extern void func_800428A8(Object *, s32, s32, s32, s32, s32, s32, s32, u8 *);
 extern void func_800428EC(Object *, s32);
@@ -70,7 +69,7 @@ void func_8002F630(void) {
             FILE_WA_MENU_ASSETS_SECTOR_COUNT,
             func_8002F4C0, 0, 0
         );
-        func_800137E4();
+        File_WaitForTransfers();
     }
     flags = D_8009B27C;
     if ((flags & 0x4000) == 0) {

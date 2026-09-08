@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_transfer.h"
 
 extern u8 D_8009B2EB;
 extern u8 D_8009B3ED[];
@@ -7,8 +8,6 @@ extern u8 D_8009B26C[];
 
 extern s32 func_8003FD14(void);
 extern void func_8005B85C(void);
-extern void func_800137E4(void);
-
 void func_80031000(void)
 {
     u8 flags = D_8009B2EB;
@@ -23,7 +22,7 @@ void func_80031000(void)
     if (result != 0) {
         if (result == 1) {
             func_8005B85C();
-            func_800137E4();
+            File_WaitForTransfers();
             D_8009B26C[0] = 0x10;
         }
         D_8009B2EB = 0;

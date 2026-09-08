@@ -87,5 +87,6 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
 FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     s32, s32, s32, s32
 );
+void File_WaitForTransfers(void);
 
 #endif

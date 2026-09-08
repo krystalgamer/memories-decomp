@@ -2,5 +2,5 @@
 #include "file_constants.h"
 #include "file_transfer.h"
 
-extern void func_8003BD14(void);extern void func_800137E4(void);
-void func_8003BEB8(void){File_RequestAsyncTransfer(0,0,FILE_WA_PASSWORD_START_SECTOR,FILE_WA_PASSWORD_SECTOR_COUNT,func_8003BD14,0,0);func_800137E4();}
+extern void func_8003BD14(void);
+void func_8003BEB8(void){File_RequestAsyncTransfer(0,0,FILE_WA_PASSWORD_START_SECTOR,FILE_WA_PASSWORD_SECTOR_COUNT,func_8003BD14,0,0);File_WaitForTransfers();}
