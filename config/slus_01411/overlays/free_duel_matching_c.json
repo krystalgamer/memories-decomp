@@ -40,19 +40,19 @@
       "address": "0x80168A9C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1E0",
-      "source": "src/overlays/free_duel/update_screen.c"
+      "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x80168C7C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x338",
-      "source": "src/overlays/free_duel/update_screen.c"
+      "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x80168FB4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7C",
-      "source": "src/overlays/free_duel/entry.c"
+      "source": "src/overlays/free_duel/screen_runtime.c"
     }
   ],
   "schema": 1

@@ -1505,7 +1505,7 @@ Duel launch and record paths use the same grid index (§6.5).
 `i = row * 5 + column`, wins are at `0x801D071C + 4*i`, losses two bytes
 later. Slot 0 is the Build Deck tile; duelist cells 1–39 start at
 `0x801D0720`. Matching
-[`FreeDuel_UpdateScreen`](../../src/overlays/free_duel/update_screen.c)
+[`FreeDuel_UpdateScreen`](../../src/overlays/free_duel/screen_runtime.c)
 passes the selected index unchanged to
 [`func_80024DC8`](../../src/game/func_80024DC8.c), which stores it in
 `gDuel_bOpponentID`. This normal launch path does not remap the grid index.
@@ -1993,7 +1993,7 @@ you here — nothing else is lost. This is where the game is actually played
 after the story: every guide's "farm X for Y" is a Free Duel loop.
 
 **Normal browsing controls.** Matching
-[`FreeDuel_UpdateScreen`](../../src/overlays/free_duel/update_screen.c)
+[`FreeDuel_UpdateScreen`](../../src/overlays/free_duel/screen_runtime.c)
 uses pad 1's published held mask at `0x8009B3A4` and pressed mask at
 `0x8009B398`. The button names follow
 [`input.h`](../../src/game/input.h):
@@ -2014,7 +2014,7 @@ This applies only to normal browsing. Flag `0x20` delegates to the shared
 dialog handler and returns before browse input, including when that call
 closes the dialog. Otherwise the routine services the cursor tween and
 scrollbar, then skips browse input if movement flag `0x40` remains set.
-[FreeDuel_UpdateCursorTween](../../src/overlays/free_duel/update_screen.c)
+[FreeDuel_UpdateCursorTween](../../src/overlays/free_duel/screen_runtime.c)
 commits the target row/column before clearing that flag; confirmation uses
 the committed cell.
 These are code-derived controls, not a new runtime test of the delegated

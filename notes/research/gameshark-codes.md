@@ -115,7 +115,7 @@ that counter from 9999 through the normal updater reduces it to 999.
 **The earlier two-row correction was itself wrong.** Matching
 [`FreeDuel_Init`](../../src/overlays/free_duel/init.c) uses
 `0x801D071C + 4 * (row * 5 + column)`, adding two bytes for a loss.
-[`FreeDuel_UpdateScreen`](../../src/overlays/free_duel/update_screen.c) passes
+[`FreeDuel_UpdateScreen`](../../src/overlays/free_duel/screen_runtime.c) passes
 that same grid index to the duel initializer, which stores it unchanged as
 the opponent ID. Using the early ID/name mapping in the
 [primary game description](the-game.md#64-the-dropped-card), the corrected

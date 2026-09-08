@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "../../game/card_constants.h"
 #include "../../game/input.h"
+#include "../../psyq/rand.h"
 
 extern u8 gFreeDuel_bScreenFlags;
 extern u8 *gFreeDuel_pCursorWidget;
@@ -17,8 +18,10 @@ extern u8 D_8009B368;
 extern s8 gFreeDuel_bTargetColumn;
 extern s8 gFreeDuel_bTargetRow;
 extern u16 D_801D0200[];
+extern s32 D_8009B0CC;
 extern u8 **FreeDuel_GetSparkleSlot(void);
 extern u8 *FreeDuel_SpawnSparkle(void);
+extern void FreeDuel_UpdateSparkle(void);
 extern void func_800429D8(void *);
 extern void func_80042A78(void *);
 extern void func_800428EC(void *, s32);
@@ -174,4 +177,21 @@ void FreeDuel_UpdateScreen(void)
         D_8009B368 = 6;
         D_8009B26C = 3;
     }
+}
+
+void FreeDuel_Entry(void)
+{
+    s32 phase;
+
+    rand();
+    FreeDuel_UpdateScreen();
+    phase = D_8009B0CC & 0x7F;
+    if (phase < 0x10) {
+        if (phase >= 8) {
+            phase = 0xF - phase;
+        }
+        *(s16 *)(gFreeDuel_pCursorWidget + 0x46) = phase * 48 + 0x1000;
+        *(s16 *)(gFreeDuel_pCursorWidget + 0x44) = phase * 48 + 0x1000;
+    }
+    FreeDuel_UpdateSparkle();
 }

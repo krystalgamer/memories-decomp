@@ -53,18 +53,26 @@ confidence in
 The module imports these resident byte addresses through
 [`free_duel_linker_symbols.txt`](../../../config/slus_01411/overlays/free_duel_linker_symbols.txt).
 
-## Screen-update translation unit
+## Screen-runtime translation unit
 
-`update_screen.c` keeps the cursor tween next to the screen update that calls
-it. They share the committed/target coordinate pairs, cursor widget and
-screen-state flags.
+`screen_runtime.c` keeps the overlay entry tick next to the screen update it
+calls and the cursor tween that update drives. They share the
+committed/target coordinate pairs, the cursor widget `gFreeDuel_pCursorWidget`
+and the screen-state flags.
 
-The definitions remain in executable order: `FreeDuel_UpdateCursorTween`
-occupies `0x80168A9C..0x80168C7C`, followed by `FreeDuel_UpdateScreen` through
-`0x80168FB4`. Both use `gcc_2_8_1_g0_split`. Their individual manifest entries
-cover the complete `0x518`-byte text section, with no data or rodata
-contribution. One C subsegment selects the group at module offset `0xA9C`.
-Preserve that order and complete extent when editing the group.
+`FreeDuel_Entry` is the per-frame tick: it advances the shared RNG, calls
+`FreeDuel_UpdateScreen`, drives the cursor widget's own scale pulse through a
+triangle wave over `D_8009B0CC & 0x7F`, then calls `FreeDuel_UpdateSparkle`.
+That last callee stays in `sparkle_runtime.c`; this unit does not absorb it.
+
+The definitions remain in executable order, which here is not call order:
+`FreeDuel_UpdateCursorTween` occupies `0x80168A9C..0x80168C7C`,
+`FreeDuel_UpdateScreen` runs through `0x80168FB4`, and `FreeDuel_Entry` closes
+the unit at `0x80169030`. All three use `gcc_2_8_1_g0_split`, and their shared
+manifest source and one C subsegment at module offset `0xA9C` cover the
+complete contiguous `0x594`-byte text range, with no data or rodata
+contribution. Data still begins at module `+0x1030`. Preserve that order and
+complete extent when editing the group.
 
 ## Sparkle-runtime translation unit
 
