@@ -175,6 +175,53 @@ non-zero**, which is exactly why `break 7` and `break 6` are present. A
 reconstruction that guards the divisor itself, or that uses a helper, will not
 emit them.
 
+## The stack layout, and the guard that gates the push
+
+The eight destinations are eight `s32 x[2]` arrays, indexed later by the record
+selector in `$fp`. Their final contents, with the clamp order corrected for the
+copy-down:
+
+| slot | holds |
+| --- | --- |
+| `0x10` | clamp of field `0xDCE` |
+| `0x18` | clamp of field `0xDC8` |
+| `0x20` | clamp of field `0xDCA` |
+| `0x28` | clamp of field `0xDCC` |
+| `0x30` | delta from the reference x, offset by the `rcos` term |
+| `0x38` | delta from the reference y |
+| `0x40` | delta from the reference z, offset by the `rsin` term |
+| `0x48` | the `SquareRoot0` distance |
+
+Reading the indexed section with those names, the per-record body is
+
+```c
+limit = a3[i];
+if (limit < a1[i]) limit = a1[i];
+if (limit < a0[i]) limit = a0[i];          /* max of three extents */
+
+dy = d1[i];
+if (dy < 0) dy = -dy;
+if (a2[i] < dy) goto next;                 /* outside the height band */
+
+dist = d[i];
+if (dist < 0) goto next;
+if (dist >= limit) goto next;              /* no overlap */
+```
+
+so the push only happens when the horizontal distance is inside the largest of
+three extents **and** the vertical delta is within a fourth. That is why there
+are four clamped extents rather than one: three feed a maximum and the fourth is
+a separate height test.
+
+Two further gates follow before the division - one on a value the loop clears at
+entry and one on the first argument - so the first argument is a mode flag
+rather than data.
+
+**Still undecoded:** everything from `0x80051868`, roughly the last third. It
+multiplies pairs drawn from `D_800F56F0` at `+0x8`, `+0xC` and `+0x14`, squares
+two differences, and ends in `Model_UpdateViewMetrics`. The draft cannot be
+written until that is read, and this entry should not pretend otherwise.
+
 ## Order of work for the first draft
 
 1. The eight clamps, which are a third of the body and entirely mechanical.
