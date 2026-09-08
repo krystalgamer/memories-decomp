@@ -25,8 +25,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
     case 0:
         d->counter = 0x300;
         d->field_32 = 0x100;
-        d->field_04 = 0x40;
-        d->field_06 = 0x10;
+        d->w = 0x40;
+        d->h = 0x10;
         D_8009B0F4 &= 0xFFDDFFFF;
         D_8009B0F4 |= 0x10000;
         d->done = 2;
@@ -77,7 +77,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         LoadImage2(&D_800E9D70, (u32 *)D_8009B118);
         d->counter = 0x200;
         d->field_32 = 0x100;
-        d->field_04 = 0x40;
+        d->w = 0x40;
         mask = 0xFFDDFFFF;
         flags = D_8009B0F4 & mask;
         goto image_stage;
@@ -102,8 +102,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         break;
     case 10:
         d->counter = 0x340;
-        d->field_04 = 0x40;
-        d->field_06 = 0x10;
+        d->w = 0x40;
+        d->h = 0x10;
         flags = D_8009B0F4 & 0xFFDDFFFF;
         D_8009B0F4 = flags;
         flags = D_8009B0F4;
@@ -123,7 +123,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
     case 12:
         d->counter = 0x280;
         d->field_32 = 0x100;
-        d->field_04 = 0x40;
+        d->w = 0x40;
         mask = 0xFFDDFFFF;
         flags = D_8009B0F4 & mask;
     image_stage:
@@ -136,7 +136,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
             d->mode = mask;
             D_8009B0F4 |= mask;
             d->done = 2;
-            d->field_06 = 0x10;
+            d->h = 0x10;
             image_ptr = D_8009B118;
             d->value_08 = (u32)image_ptr;
             d->value_0C = (u32)(image_ptr + 0x800);

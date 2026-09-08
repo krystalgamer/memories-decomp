@@ -12,9 +12,10 @@
 #define FILE_TRANSFER_DESCRIPTOR_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
 typedef struct {
-    u8 pad_00[0x4];
-    u16 field_04;
-    u16 field_06;
+    s16 x;
+    s16 y;
+    s16 w;
+    s16 h;
     u32 value_08;
     u32 value_0C;
     u8 pad_10[0xC];
@@ -35,12 +36,12 @@ typedef struct {
 typedef char FileTransferDescriptor_size_must_be_0x48[
     sizeof(FileTransferDescriptor) == 0x48 ? 1 : -1
 ];
-typedef char FileTransferDescriptor_field_04_offset_must_be_0x04[
-    FILE_TRANSFER_DESCRIPTOR_OFFSET(FileTransferDescriptor, field_04) == 0x04
+typedef char FileTransferDescriptor_w_offset_must_be_0x04[
+    FILE_TRANSFER_DESCRIPTOR_OFFSET(FileTransferDescriptor, w) == 0x04
         ? 1 : -1
 ];
-typedef char FileTransferDescriptor_field_06_offset_must_be_0x06[
-    FILE_TRANSFER_DESCRIPTOR_OFFSET(FileTransferDescriptor, field_06) == 0x06
+typedef char FileTransferDescriptor_h_offset_must_be_0x06[
+    FILE_TRANSFER_DESCRIPTOR_OFFSET(FileTransferDescriptor, h) == 0x06
         ? 1 : -1
 ];
 typedef char FileTransferDescriptor_value_08_offset_must_be_0x08[
