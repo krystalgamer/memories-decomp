@@ -35,18 +35,31 @@ empty and the build fills it with the first instruction of the fall-through**,
 which shifts everything after by one slot and is why 114 of 280 positions differ
 from a single cause.
 
-**What makes this odd, and where the next attempt should go.** Retail's
-fall-through begins with that same `lui`, and `$v0` is dead at the branch target
-- the target block's first instruction is `lw $v0, 628($gp)`, which writes it -
-so the fill looks legal in both. `reorg` will only *move* an instruction out of
-a thread into a slot when the branch owns that thread exclusively
-(`own_thread_p`); a block with a second predecessor can only be *copied* from,
-and only from the taken side. So the most likely difference is not liveness but
-the CFG: in retail that block appears to have another predecessor, and in this
-candidate it does not.
+**What makes this odd.** Retail's fall-through begins with that same `lui`, and
+`$v0` is dead at the branch target - the target block's first instruction is
+`lw $v0, 628($gp)`, which writes it - so the fill looks legal in both.
 
-That is a testable prediction rather than a description, and it says what to
-try: a source shape that gives the `D_8009B260` test block a second entry.
+**A prediction, tested and wrong.** This entry previously argued that `reorg`
+only *moves* an instruction out of a thread when the branch owns that thread
+exclusively (`own_thread_p`), and predicted that retail's block therefore has a
+second predecessor while this candidate's does not.
+
+The mechanism is real. A diagnostic that gives the block a second entry - a
+`goto` into it from an earlier test, semantics changed - makes GCC leave the
+slot empty exactly as retail does: its assembly shows `beq $2,$0,$L8` followed
+directly by the label, with no filled slot.
+
+**But it is not what retail does.** Scanning every branch and jump in retail's
+280 instructions for one targeting `+0x1B8` finds none, so that block has a
+single predecessor there too. Retail leaves the slot empty with a safe, movable
+candidate sitting in it and no CFG reason to refuse it.
+
+Ruling the CFG out is worth more than the guess was. It removes the whole family
+of source shapes that add an edge, and points at the instruction or the pass
+state rather than the block's shape. Two observations for whoever picks this up:
+retail leaves a *second* slot empty nearby, the `j` at `+0x1DC`, and the branch
+immediately before this one has its own slot filled with `andi $v0,$a1,0x2000` -
+the very instruction that computes this branch's condition.
 
 Three shapes that do **not** change it, all 280/280 and 114:
 
