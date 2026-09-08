@@ -246,7 +246,11 @@ exactly like the leading read-only `main` segment.
 
 The build reads the generated `tmp/generated/data_sources.json` the way it
 reads `text_sources.json`, so both `make match` and `make match-incremental`
-compile and place these units; editing one rebuilds one object.
+compile and place these units; editing one rebuilds one object. Before
+building any of them it checks that the generated linker script actually names
+each object, because that is the one layout mistake the byte-exact comparison
+cannot catch: an object nobody places is not loaded, the blob keeps supplying
+the original bytes, and the build still matches.
 
 ## Exact baseline build
 

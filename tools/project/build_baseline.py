@@ -395,6 +395,23 @@ def build_text_objects(root: Path, assembler: Path) -> list[Path]:
     return objects
 
 
+def require_linker_placement(root: Path, source_path: str) -> None:
+    """Fail when the generated script never names an object it must place.
+
+    A data object the script does not name is simply not loaded, so the
+    extracted blob keeps supplying the original bytes and the build still
+    matches - the one layout mistake the byte-exact comparison cannot see.
+    """
+    script = resolve_within(root, "tmp/splat/slus_01411.ld", must_exist=True)
+    placed = script.read_text(encoding="utf-8")
+    expected = splat_object(source_path)
+    if f"{expected}(" not in placed:
+        raise BuildError(
+            f"{source_path}: the generated linker script never places "
+            f"{expected}; declare its section in config/slus_01411/split.yaml"
+        )
+
+
 def build_data_objects(root: Path, assembler: Path) -> list[Path]:
     """Build every object that supplies part of the initialized data."""
     objects: list[Path] = []
@@ -416,6 +433,7 @@ def build_data_objects(root: Path, assembler: Path) -> list[Path]:
         ):
             raise BuildError(f"invalid data segment {index}")
         seen_objects.add(object_name)
+        require_linker_placement(root, source)
         if kind == "asm":
             objects.append(assemble(root, assembler, source, splat_object(source)))
         else:

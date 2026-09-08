@@ -264,6 +264,7 @@ def load_components(root: Path) -> list[Component]:
             or (kind == "asm" and profile is not None)
         ):
             raise IncrementalBuildError(f"invalid data segment {index}")
+        build_baseline.require_linker_placement(root, source)
         trailing_components.append(
             Component(kind, source, object_name, profile)
         )
