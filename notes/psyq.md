@@ -282,6 +282,7 @@ Every row below is now an applied project symbol.
 | `0x80086810` | `SetFogNearFar` | Applied Psy-Q 4.6 identity; matching campaign-map callers configure near and far depth-cue distances from the current camera projection. |
 | `0x80086DC8` | `InitGeom` | Applied Psy-Q 4.6 identity at offset `0x8` of `LIBGTE.LIB/MSC00.OBJ`; resident startup paths invoke it before further GTE setup. |
 | `0x80086E50` | `SquareRoot0` | Applied Psy-Q 4.6 identity; matching model, duel, and spatial-sound callers derive integer distances from sums of squared coordinates. |
+| `0x80086EE0` | `gteMIMefunc` | Applied from the unique 128-byte Psy-Q 4.6 `LIBGTE.LIB/MSC05.OBJ` signature; the complete pattern has no wildcards and exactly covers the inventory function extent. |
 | `0x80086F60` | `MulMatrix0` | Applied Psy-Q 4.6 identity from the unique 272-byte `LIBGTE.LIB/MTX_000.OBJ` signature; the body is `MulMatrix` with the product written through the third argument rather than the first. |
 | `0x80087070` | `ApplyMatrixLV` | Applied Psy-Q 4.6 identity from the unique 352-byte `LIBGTE.LIB/MTX_004.OBJ` signature. |
 | `0x800871D0` | `PushMatrix` | Applied Psy-Q 4.6 identity; the matching model transform path saves the active GTE matrix state. |
@@ -457,6 +458,17 @@ executable, at file offset `0x77FB0` (resident `0x800877B0`), with the
 matrix offsets `0x00` through `0x10` into GTE control registers 0 through 4.
 The caller uses the existing `void SetRotMatrix(MATRIX *)` declaration from
 `libgte.h`; its local matrix has the same 3x3 signed-halfword rotation layout.
+
+`gteMIMefunc` is backed by the complete `MSC05.OBJ` pattern in the same
+[pinned Psy-Q 4.6 LIBGTE catalogue](https://github.com/lab313ru/psx_psyq_signatures/blob/e9e46e7e133ef275a79bfce650924f98edb086bc/460/LIBGTE.LIB.json).
+All 128 signature bytes are fixed, and the pattern occurs exactly once in the
+retail executable at file offset `0x776E0` (resident `0x80086EE0`). It exactly
+covers the inventory's `0x80`-byte function extent, with `gteMIMefunc` at
+object offset zero. The catalogue's generic `loc_C` label at `+0xC` remains an
+object-local branch label rather than a promoted symbol. The canonical
+`libgte.h` declaration is
+`void gteMIMefunc(SVECTOR *, SVECTOR *, long, long)`, and the independent
+Unchiga catalogue places the same SDK name at this address.
 
 Duplicate library copies require address-qualified symbols rather than aliases.
 For example, CD conversion helpers appear more than once in the executable,

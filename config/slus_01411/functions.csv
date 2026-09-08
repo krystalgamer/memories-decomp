@@ -1599,7 +1599,7 @@ address,size,name,status,module,notes
 0x80086CF0,0xD0,func_80086CF0,sdk_asm,psyq/sdk,
 0x80086DC8,0x80,InitGeom,sdk_asm,psyq/sdk,Identified at offset 0x8 of the unique Psy-Q 4.6 LIBGTE.LIB/MSC00.OBJ signature.
 0x80086E50,0x84,SquareRoot0,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/MSC01.OBJ signature and matching distance callers.
-0x80086EE0,0x80,func_80086EE0,sdk_asm,psyq/sdk,
+0x80086EE0,0x80,gteMIMefunc,sdk_asm,psyq/sdk,"Identified by the unique 128-byte Psy-Q 4.6 LIBGTE.LIB/MSC05.OBJ signature at pinned catalogue revision e9e46e7e133ef275a79bfce650924f98edb086bc. The pattern has no wildcards, matches exactly once at SLUS file offset 0x776E0 (resident 0x80086EE0), and exactly covers the 0x80-byte inventory extent. gteMIMefunc is the label at object offset zero and has the canonical libgte.h declaration void gteMIMefunc(SVECTOR *, SVECTOR *, long, long). The generic loc_C label at +0xC remains object-local. Independent Unchiga evidence agrees. Keep SDK assembly ownership."
 0x80086F60,0x10C,MulMatrix0,sdk_asm,psyq/sdk,Identified by the unique 272-byte Psy-Q 4.6 LIBGTE.LIB/MTX_000.OBJ signature; the body loads the rotation registers from the first argument and writes the composed matrix through the third.
 0x80087070,0x160,ApplyMatrixLV,sdk_asm,psyq/sdk,Identified by the unique 352-byte Psy-Q 4.6 LIBGTE.LIB/MTX_004.OBJ signature.
 0x800871D0,0xA4,PushMatrix,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGTE.LIB/MTX_006.OBJ signature.
