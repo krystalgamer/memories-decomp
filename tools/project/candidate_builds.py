@@ -16,7 +16,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from build_baseline import BuildError, compile_c, tool
-from workspace import WorkspaceError, local_environment, require_workspace_root
+from workspace import local_environment
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -440,9 +440,8 @@ def main() -> int:
     parser.add_argument("--print-hashes", action="store_true")
     args = parser.parse_args()
     try:
-        root = require_workspace_root()
-        if root != ROOT:
-            raise CandidateBuildError(f"unexpected repository root: {root}")
+        if Path.cwd().resolve() != ROOT:
+            raise CandidateBuildError("run this command from the repository root")
         candidates, profiles = load_candidates()
         if args.check:
             print(f"candidate sources: OK ({len(candidates)})")
@@ -451,7 +450,6 @@ def main() -> int:
     except (
         CandidateBuildError,
         BuildError,
-        WorkspaceError,
         OSError,
         UnicodeError,
         ValueError,
