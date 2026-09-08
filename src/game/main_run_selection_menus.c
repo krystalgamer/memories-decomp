@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "save_data.h"
+#include "main_frame.h"
 #include "fade.h"
 #include "sound.h"
 
@@ -13,7 +14,6 @@ extern void func_8003C0C0(void);
 extern void func_8016866C(int);
 extern void CampaignMap_UpdateLocation(void);
 extern void func_800134B4(void);
-extern void func_80012D4C(void);
 extern void func_800323F8(unsigned int, void *, int, int);
 extern void Main_InitFreeDuelMenu(void);
 extern void func_80168FB4(void);

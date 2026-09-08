@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "save_data.h"
+#include "main_frame.h"
 #include "fade.h"
 #include "file_transfer.h"
 #include "sound.h"
@@ -15,7 +16,7 @@ extern void func_800323F8(u32, void *, int, int);
 extern int func_80033BE8(void);
 extern void Main_ResetFrontendRuntime(void), func_800179F4(void),
     func_80024388(void);
-extern void func_80047AD0(int), func_800134B4(void), func_80012D84(int);
+extern void func_80047AD0(int), func_800134B4(void);
 
 void Main_RunDuel(void)
 {

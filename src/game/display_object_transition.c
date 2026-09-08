@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "main_frame.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "file_transfer.h"
@@ -8,7 +9,6 @@
 extern u8 D_801AF000[];
 extern s32 D_8009B134;
 
-extern void func_80012D4C(void);
 void func_8004365C(u8 *a, u8 *b)
 {
     u8 *x;

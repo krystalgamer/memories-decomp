@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "graphics_frame.h"
+#include "main_frame.h"
 #include "input.h"
 
 extern volatile s32 D_8009B09C;
@@ -34,7 +35,7 @@ void func_80012D4C(void)
     Input_UpdatePads();
 }
 
-void func_80012D84(int count)
+void func_80012D84(s32 count)
 {
     do {
         func_80012D4C();

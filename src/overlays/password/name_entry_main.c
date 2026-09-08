@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/main_frame.h"
 #include "../../game/save_data.h"
 #include "../../psyq/rand.h"
 #include "../../psyq/stdio.h"
@@ -8,7 +9,6 @@ extern u8 D_801D0200[];
 extern s32 D_8009B09C;
 extern void func_80035748(void *, s32, s32);
 extern void NameEntry_Init(void);
-extern void func_80012D4C(void);
 extern s32 NameEntry_PollCompletion(void);
 extern void NameEntry_BuildStarterDeck(void);
 

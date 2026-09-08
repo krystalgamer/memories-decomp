@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "main_frame.h"
 #include "file_constants.h"
 #include "sound.h"
 
@@ -6,7 +7,6 @@ extern s32 gFile_anLba[];
 extern s8 gSD_bOutputType;
 extern u32 gSD_dwCurrentBgmCommand;
 
-extern void func_80012D4C(void);
 extern void func_80045334(u32);
 extern void func_80046990(s32, s32, s32);
 extern u32 func_8004703C(void);

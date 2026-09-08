@@ -11,6 +11,7 @@
 #include "file_set_position_table.h"
 #include "graphics_constants.h"
 #include "graphics_frame.h"
+#include "main_frame.h"
 #define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
 #include "input.h"
 #include "rand_constants.h"
@@ -55,7 +56,6 @@ extern volatile u8 D_8009B0A3;
 extern DISPENV D_800FE0A8;
 
 extern void func_800136D4(void);
-extern void func_80012D4C(void);
 extern void func_80014A5C(s32 a0);
 extern void func_80041340(void);
 

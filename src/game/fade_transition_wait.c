@@ -1,9 +1,9 @@
 #include "../types.h"
+#include "main_frame.h"
 
 #include "fade.h"
 
 extern u8 D_8009B145;
-extern void func_80012D4C(void);
 
 void Fade_InitOutColor(int color)
 {

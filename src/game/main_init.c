@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "sound.h"
 #include "graphics_frame.h"
+#include "main_frame.h"
 #include "../psyq/libapi.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -36,7 +37,6 @@ extern void func_80035A58(void);
 extern void func_80035A64(void);
 extern void func_8003B5C8(void);
 extern void SD_InitState(s32);
-extern void Main_VBlankCB(void);
 extern void Main_ResetFrontendRuntime(void);
 extern void func_80043960(s32);
 extern void func_8005B85C(void);
