@@ -5431,3 +5431,41 @@ still shows up.
 
 This is the same family as the `.word`-versus-`c2` artifact: **the
 disassembler's naming choices leak into any measurement built on its output.**
+
+## Argument setup is emitted at the call, and that is not addressable from C
+
+GCC materialises a call's arguments immediately before the call. Nothing in C
+moves that: there is no position between argument evaluation and the call, and
+binding the value to a local - pinned or not - is constant-propagated away.
+
+This has now blocked two functions in different disguises, which is what makes
+it worth stating as a wall rather than as two separate failures.
+
+- **`func_800283F4`, two delay-slot words.** `li $a0,3` and a constant
+  assignment compete for a branch slot and a call slot. Retail needs the
+  argument at the *front* of the block and the constant at the back; GCC sinks
+  argument setup to the call and hoists the constant to the block top, so retail
+  needs the reverse of both placements. Every position C offers for a side
+  effect relative to a call was measured - before, after, inside the argument
+  expression, and in the function designator - and the hoist defeats all four.
+- **`func_80012E5C`, a loop rotation.** Two independent chains tie on scheduling
+  priority, so `INSN_LUID` breaks it. The losing chain is the call's argument
+  setup, which has the highest LUID in the block *because* it is emitted at the
+  call. Retail leads the loop body with it, which means its RTL had it earlier
+  than a call site can place it.
+
+The tell is the same in both: a value that is only an argument, needed earlier
+than the call, with the source offering no way to say so. Four explicit-argument
+forms were measured on the second function - including locals pinned to `$a0`
+and `$a1` assigned at the top of the loop body - and GCC constant-propagates
+them and re-materialises at the call, which is the same result the first
+function records for its channel index.
+
+Making the local `volatile` does defeat the propagation, and costs more than it
+buys in both cases, because the volatile write is then materialised as its own
+instruction in the wrong place.
+
+**What this is not.** It is not a scheduling-pass setting.
+`-fno-schedule-insns` was measured against both functions and a third with the
+same signature, and is worse on all three. The position is decided when the RTL
+is generated, not when it is scheduled.

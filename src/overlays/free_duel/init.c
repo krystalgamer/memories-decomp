@@ -100,8 +100,9 @@ void FreeDuel_Init(u8 *src)
         i--;
         cell--;
     } while (i >= 0);
-    for (i = 1; i < 39; i++) {
-        if (Campaign_TestStoryFlag(0x6E0 + i) == 0) {
+    for (i = FREE_DUEL_STORY_OPPONENT_FIRST_INDEX;
+         i < FREE_DUEL_STORY_OPPONENT_INDEX_END; i++) {
+        if (Campaign_TestStoryFlag(FREE_DUEL_UNLOCK_FLAG_BASE + i) == 0) {
             gFreeDuel_abGridAvailable[i] = 0;
         }
     }
