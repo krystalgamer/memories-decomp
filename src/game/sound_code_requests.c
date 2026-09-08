@@ -2,23 +2,8 @@
 
 #include "sound.h"
 
-struct Request {
-    u8 tag;
-    u8 pad01;
-    s16 f02;
-    s32 f04;
-    s32 f08;
-    s32 f0C;
-    u8 pad10[SD_COMMAND_RECORD_SIZE - 0x10];
-};
-
-typedef char Request_size_must_be_0x30[
-    sizeof(struct Request) == SD_COMMAND_RECORD_SIZE ? 1 : -1
-];
-
 extern void func_800464F0(void);
 extern void func_80044DA0(void);
-extern s32 func_80045BE8(struct Request *);
 
 s32 func_80045208(u16 arg0, s32 unused)
 {
@@ -26,7 +11,7 @@ s32 func_80045208(u16 arg0, s32 unused)
     u16 code = arg0;
     register u8 **table asm("$2");
     s32 kind;
-    struct Request req;
+    SDCommand req;
 
     if (a->flags_004A & 0x80) {
         if ((a->flags_004A & 0x40) || code <= 0x9FFF) {
@@ -56,12 +41,12 @@ s32 func_80045208(u16 arg0, s32 unused)
                     first = table ? (s32)*table : (s32)*table;
 
                     func_800464F0();
-                    req.tag = 0x24;
-                    req.f02 = code;
-                    req.f04 = first;
-                    req.f0C = (s32)second;
-                    req.f08 = kind;
-                    func_80045BE8(&req);
+                    req.command = 0x24;
+                    req.field_0002 = code;
+                    req.field_0004 = first;
+                    req.field_000C = (s32)second;
+                    req.field_0008 = kind;
+                    SD_EnqueueCommand(&req);
                     func_80044DA0();
                 }
                 g_SDValue->flags_0040 = (g_SDValue->flags_0040 | 1) & 0xFFFB;
@@ -74,7 +59,7 @@ s32 func_80045208(u16 arg0, s32 unused)
 
 void func_80045334(s32 arg0)
 {
-    struct Request req;
+    SDCommand req;
     SDValue *a;
     SDValue *b;
     SDValue *c;
@@ -124,12 +109,12 @@ void func_80045334(s32 arg0)
         first = table ? (s32)*table : (s32)*table;
 
         func_800464F0();
-        req.tag = 0x21;
-        req.f02 = code;
-        req.f04 = first;
-        req.f0C = (s32)second;
-        req.f08 = kind;
-        func_80045BE8(&req);
+        req.command = 0x21;
+        req.field_0002 = code;
+        req.field_0004 = first;
+        req.field_000C = (s32)second;
+        req.field_0008 = kind;
+        SD_EnqueueCommand(&req);
     }
     c = g_SDValue;
     c->flags_0040 = (c->flags_0040 | 1) & 0xFFFB;

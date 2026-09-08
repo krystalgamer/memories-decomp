@@ -2,20 +2,6 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 
-typedef struct {
-    u8 type;
-    u8 pad01;
-    s16 value;
-    s32 pad04;
-    s32 data;
-    u8 pad0C[SD_COMMAND_RECORD_SIZE - 0x0C];
-} SDSequenceCommand;
-
-typedef char SDSequenceCommand_size_must_be_0x30[
-    sizeof(SDSequenceCommand) == SD_COMMAND_RECORD_SIZE ? 1 : -1
-];
-
-extern void func_80045BE8(SDSequenceCommand *);
 extern void func_80046294(void);
 extern void func_800471D0(s32, s32, s32, s32, s32, s32);
 extern void func_80049010(void);
@@ -35,7 +21,7 @@ void func_80049200(s32 value)
 
 void func_80049230(s32 value, s32 data)
 {
-    SDSequenceCommand command;
+    SDCommand command;
     s16 small = value;
 
     if (small < 0) {
@@ -44,10 +30,10 @@ void func_80049230(s32 value, s32 data)
     }
     if (*g_SDValue->music_track != (small >> 4))
         func_80049138(small, 1);
-    command.type = 0x48;
-    command.value = value;
-    command.data = (s16)data;
-    func_80045BE8(&command);
+    command.command = 0x48;
+    command.field_0002 = value;
+    command.field_0008 = (s16)data;
+    SD_EnqueueCommand(&command);
     g_SDValue->field_1582 = data;
     g_SDValue->field_1584 = 255;
 }

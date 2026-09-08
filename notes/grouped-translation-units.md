@@ -158,6 +158,7 @@ source grouping.
 | `src/game/sound_mix.c` | `gcc_2_8_1_g0` | Three CD volume and mix helpers from `0x80044E90` through the current-volume query (`0x80044FE4`), including CD mix packet setup at `0x80044F58` |
 | `src/game/sound_output_state.c` | `gcc_2_8_1_g0` | Four output-state selection and command-queue helpers from `0x8004503C` through `0x800451E0` |
 | `src/game/sound_code_requests.c` | `gcc_2_8_1_g0` | Contiguous tagged sound-code request builders `func_80045208` and `func_80045334`, retaining their distinct signatures, tags, returns, callback sequence, inner scopes, and register pins |
+| `src/game/sound_runtime.c` | `gcc_2_8_1_g0` | Contiguous command enqueue (`SD_EnqueueCommand`), three-ramp fade update (`SD_UpdateFades`), and per-frame key-status/queue processing (`SD_UpdateRuntime`) from `0x80045BE8` through `0x80046294`, all using the shared `SDValue` layout |
 | `src/game/sound_state_control.c` | `gcc_2_8_1_g8` | Secondary-state activation (`0x8004695C`) and main sound-state flag setup (`0x80046990`) |
 | `src/game/sound_voice_data.c` | `gcc_2_8_1_g0` | Voice-step assignment (`0x80048C0C`) and a 512-word transfer helper (`0x80048C70`) |
 | `src/game/sound_secondary_reset.c` | `gcc_2_8_1_g0` | Low-level state query (`0x800498BC`) and secondary-state reset (`0x800498F8`) |
@@ -168,7 +169,7 @@ source grouping.
 
 The sound-code request group shares only the identical request layout and
 external declarations, not either algorithm's body. Its common
-`func_80045BE8` declaration returns `s32`, matching the implemented queue
+`SD_EnqueueCommand` declaration returns `s32`, matching the implemented queue
 submission contract; both builders discard that result. Their conditional
 loads, local scopes, and store order remain separate for exact code generation.
 

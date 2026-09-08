@@ -7,8 +7,6 @@ extern void func_80045114(void);
 extern void func_80045208(s32, s32);
 extern void func_8004503C(s32, s32, s32);
 extern void func_80045334(s32);
-extern void func_80045BE8(SDCommand *);
-extern void func_80045F3C(void);
 extern void func_80046A08(void);
 extern void func_800472A8(s32);
 extern void func_8004763C(void);
@@ -74,7 +72,7 @@ void func_80047050(void)
 {
     if (D_8009B458->field_0509)
         func_800495A4();
-    func_80045F3C();
+    SD_UpdateRuntime();
     if (g_SDValue->flags_0040 & 8)
         func_80046A08();
 }
@@ -92,7 +90,7 @@ void func_800470B0(s32 first, s32 second, s32 third, s32 fourth)
     command.field_0028 = third;
     command.field_001C = 0;
     command.field_0024 = 0;
-    func_80045BE8(&command);
+    SD_EnqueueCommand(&command);
 }
 
 void func_80047140(s32 first, s32 second, s32 third, s32 fourth)
@@ -108,7 +106,7 @@ void func_80047140(s32 first, s32 second, s32 third, s32 fourth)
     command.field_0028 = 0;
     command.field_001C = first;
     command.field_0024 = third;
-    func_80045BE8(&command);
+    SD_EnqueueCommand(&command);
 }
 
 void func_800471D0(
@@ -131,7 +129,7 @@ void func_800471D0(
     command.field_0028 = a4;
     command.field_001C = a0;
     command.field_0024 = a3;
-    func_80045BE8(&command);
+    SD_EnqueueCommand(&command);
 }
 
 void func_80047278(u32 value)

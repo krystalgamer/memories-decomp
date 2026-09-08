@@ -3,25 +3,11 @@
 
 extern SDValue *g_SDValue __attribute__((section(".data")));
 
-struct Request {
-    u8 tag;
-    u8 pad01[3];
-    s32 f04;
-    s32 f08;
-    s32 f0C;
-    u8 pad10[SD_COMMAND_RECORD_SIZE - 0x10];
-};
-
-typedef char Request_size_must_be_0x30[
-    sizeof(struct Request) == SD_COMMAND_RECORD_SIZE ? 1 : -1
-];
-
 extern void func_800471D0(s32, s32, s32, s32, s32, s32);
-extern s32 func_80045BE8(struct Request *);
 
 void func_80047788(s32 arg0)
 {
-    struct Request req;
+    SDCommand req;
     SDValue *a;
     SDValue *b;
     SDValue *c;
@@ -38,10 +24,10 @@ void func_80047788(s32 arg0)
     func_800471D0(a->field_0438, 0x801E6800,
                   step + *(u16 *)entry, entry->field_0004, 0x800, 0x10);
     b = g_SDValue;
-    req.tag = 0x51;
-    req.f04 = b->field_0438;
-    req.f0C = 0x801E6800;
-    func_80045BE8(&req);
+    req.command = 0x51;
+    req.field_0004 = b->field_0438;
+    req.field_000C = 0x801E6800;
+    SD_EnqueueCommand(&req);
     c = g_SDValue;
     off += (s32)c->field_0448;
     entry = (SDValueLink *)off;

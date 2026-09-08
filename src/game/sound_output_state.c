@@ -4,7 +4,6 @@
 #include "sound.h"
 
 extern s32 func_80045208(u16, s32);
-extern void func_80045BE8(u8 *);
 
 void func_8004503C(short value, unsigned char flag, int unused)
 {
@@ -79,9 +78,9 @@ void func_80045114(void)
     }
     func_8004503C(-0x20, 0, 1);
     {
-        u8 local[SD_COMMAND_RECORD_SIZE];
-        local[0] = 0x11;
-        func_80045BE8(local);
+        SDCommand local;
+        local.command = 0x11;
+        SD_EnqueueCommand(&local);
     }
 }
 

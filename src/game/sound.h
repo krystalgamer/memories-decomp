@@ -26,7 +26,11 @@
 
 typedef struct {
     u8 command;
-    u8 pad01[0x0F];
+    u8 field_0001;
+    s16 field_0002;
+    s32 field_0004;
+    s32 field_0008;
+    s32 field_000C;
     s32 field_0010;
     s32 field_0014;
     s32 field_0018;
@@ -36,6 +40,10 @@ typedef struct {
     s32 field_0028;
     s32 field_002C;
 } SDCommand;
+
+typedef struct {
+    u32 words[8];
+} SDCommandTail;
 
 typedef struct {
     u8 pad00[4];
@@ -58,13 +66,22 @@ typedef struct {
     u32 field_003C;
     u16 flags_0040;
     u16 mix_scale;
-    u8 pad0044[4];
+    u16 field_0044;
+    u8 pad0046[2];
     u8 output_type;
     u8 field_0049;
     u8 flags_004A;
     u8 pad004B;
     s16 command_count;
-    u8 pad004E[0x32];
+    u16 field_004E;
+    u32 field_0050;
+    u32 field_0054;
+    u32 field_0058;
+    u32 field_005C[8];
+    u8 field_007C;
+    u8 field_007D;
+    u8 field_007E;
+    u8 pad007F;
     SDCommand commands[SD_COMMAND_QUEUE_COUNT];
     u8 pad0380[4];
     u32 key_mask;
@@ -117,18 +134,22 @@ typedef struct {
     s16 field_157A;
     u8 pad157C[2];
     s16 field_157E;
-    u8 pad1580[2];
+    s16 field_1580;
     s16 field_1582;
     u8 field_1584;
     u8 pad1585;
     s16 field_1586;
     s16 field_1588;
-    u8 pad158A[0x4E];
-    u8 field_15D8[0x15];
+    u8 field_158A;
+    u8 pad158B[0x4D];
+    u8 field_15D8[0x14];
+    u8 field_15EC;
     u8 field_15ED;
     u8 field_15EE;
     u8 field_15EF;
-    u8 pad15F0[0x28];
+    u8 pad15F0[4];
+    s16 field_15F4;
+    u8 pad15F6[0x22];
     u8 busy;
     u8 pad1619[0x32];
     u8 field_164B;
@@ -236,6 +257,18 @@ typedef struct {
 typedef char SDCommand_size_must_be_0x30[
     sizeof(SDCommand) == SD_COMMAND_RECORD_SIZE ? 1 : -1
 ];
+typedef char SDCommandTail_size_must_be_0x20[
+    sizeof(SDCommandTail) == 0x20 ? 1 : -1
+];
+typedef char SDCommand_field_0002_offset_must_be_0x02[
+    SD_STATE_OFFSET(SDCommand, field_0002) == 0x02 ? 1 : -1
+];
+typedef char SDCommand_field_0004_offset_must_be_0x04[
+    SD_STATE_OFFSET(SDCommand, field_0004) == 0x04 ? 1 : -1
+];
+typedef char SDCommand_field_0010_offset_must_be_0x10[
+    SD_STATE_OFFSET(SDCommand, field_0010) == 0x10 ? 1 : -1
+];
 typedef char SDNote_size_must_be_0x08[
     sizeof(SDNote) == SD_NOTE_RECORD_SIZE ? 1 : -1
 ];
@@ -272,6 +305,27 @@ typedef char SDValue_key_mask_offset_must_be_0x384[
 ];
 typedef char SDValue_note_offset_must_be_0x39A[
     SD_STATE_OFFSET(SDValue, note) == 0x39A ? 1 : -1
+];
+typedef char SDValue_field_0044_offset_must_be_0x44[
+    SD_STATE_OFFSET(SDValue, field_0044) == 0x44 ? 1 : -1
+];
+typedef char SDValue_field_004E_offset_must_be_0x4E[
+    SD_STATE_OFFSET(SDValue, field_004E) == 0x4E ? 1 : -1
+];
+typedef char SDValue_field_007C_offset_must_be_0x7C[
+    SD_STATE_OFFSET(SDValue, field_007C) == 0x7C ? 1 : -1
+];
+typedef char SDValue_field_1580_offset_must_be_0x1580[
+    SD_STATE_OFFSET(SDValue, field_1580) == 0x1580 ? 1 : -1
+];
+typedef char SDValue_field_158A_offset_must_be_0x158A[
+    SD_STATE_OFFSET(SDValue, field_158A) == 0x158A ? 1 : -1
+];
+typedef char SDValue_field_15EC_offset_must_be_0x15EC[
+    SD_STATE_OFFSET(SDValue, field_15EC) == 0x15EC ? 1 : -1
+];
+typedef char SDValue_field_15F4_offset_must_be_0x15F4[
+    SD_STATE_OFFSET(SDValue, field_15F4) == 0x15F4 ? 1 : -1
 ];
 typedef char SDSecondaryObject_size_must_be_0x28[
     sizeof(SDSecondaryObject) == SD_SECONDARY_OBJECT_SIZE ? 1 : -1
@@ -363,6 +417,9 @@ extern SDSecondaryState *D_8009B458;
 #endif
 
 void Sound_InitFrontend(void);
+s32 SD_EnqueueCommand(SDCommand *);
+void SD_UpdateFades(void);
+void SD_UpdateRuntime(void);
 void SD_BGMPlay(u32);
 void SD_BGMFadeOut(void);
 void SD_BGMFadeOutWithStep(s32);

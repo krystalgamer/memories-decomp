@@ -814,3 +814,6 @@ gSaveData_dwMaskStateHigh = 0x8009AF68;
 
 // Semantic names
 GsSortPoly = 0x80084320; // type:func
+SD_EnqueueCommand = 0x80045BE8; // type:func
+SD_UpdateFades = 0x80045C98; // type:func
+SD_UpdateRuntime = 0x80045F3C; // type:func
