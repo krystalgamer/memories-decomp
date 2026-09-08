@@ -359,9 +359,13 @@ the index conversion. The source names the two block starts and common
 `DUEL_EFFECT_CARD_BLOCK_SIZE`, with Dark Magic Ritual's ID and final index
 kept explicit. These remain fixed card-ID ranges, not a runtime card-type
 test; IDs outside them still leave the effect state untouched.
-`func_80026B34` then reads the table byte, doubles it,
-adds the active-side selector, and calls the corresponding handler in the
-30-entry table at `0x80090A5C`.
+`func_80026B34` runs only while `DUEL_CARD_EFFECT_FLAG_ACTIVE` (`0x8000`)
+is set. It reads the table byte and multiplies it by
+`DUEL_CARD_EFFECT_HANDLERS_PER_GROUP` (`2`); the
+`DUEL_CARD_EFFECT_FLAG_SECOND_HANDLER` (`0x4000`) selector adds one to choose
+the second callback in that pair. The resulting index selects a handler in
+the 30-entry table at `0x80090A5C`. These are flags of the shared card-effect
+state word, not the similarly numbered event-script or card-record flags.
 
 Retail values `0`-`13` select the effect families already established in the
 duel documentation: no play-time action, terrain, LP recovery, direct damage,

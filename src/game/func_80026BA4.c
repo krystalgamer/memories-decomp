@@ -18,7 +18,8 @@ void func_80026BA4(int value, int flag)
         }
         D_8009B1A8 = index;
         D_8009B1D2 = value;
-        D_8009B220 = 0x8000;
-        if (flag) D_8009B220 = 0xC000;
+        D_8009B220 = DUEL_CARD_EFFECT_FLAG_ACTIVE;
+        if (flag)
+            D_8009B220 = DUEL_CARD_EFFECT_FLAG_ACTIVE | DUEL_CARD_EFFECT_FLAG_SECOND_HANDLER;
     }
 }

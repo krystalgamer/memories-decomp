@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/stdio.h"
 
+#include "card_constants.h"
 #include "duel_card.h"
 
 typedef struct {
@@ -50,12 +51,12 @@ int func_80026B34(void)
 {
     u16 flags = D_8009B220;
 
-    if (flags & 0x8000) {
+    if (flags & DUEL_CARD_EFFECT_FLAG_ACTIVE) {
         u8 *indices = D_80090AD4;
         void (**callbacks)(void);
-        int index = indices[D_8009B1A8] * 2;
+        int index = indices[D_8009B1A8] * DUEL_CARD_EFFECT_HANDLERS_PER_GROUP;
 
-        if (flags & 0x4000)
+        if (flags & DUEL_CARD_EFFECT_FLAG_SECOND_HANDLER)
             index++;
         callbacks = D_80090A5C;
         callbacks[index]();
