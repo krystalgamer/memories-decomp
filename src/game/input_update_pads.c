@@ -1,4 +1,5 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
+#define GINPUT_PAD1_REPEAT_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #define D_8009B0D8_IN_DATA
 #include "../types.h"
@@ -8,7 +9,6 @@
 /* Retail rematerializes this address inside the repeat loop. */
 extern u32 D_8009B0C8[];
 /* Preserve the low-half/high-half publication order at the function tail. */
-extern volatile u16 gInput_wPad1Repeat;
 extern volatile u16 gInput_wPad2Repeat;
 extern volatile u16 gInput_wPad2Pressed;
 extern volatile u16 gInput_wPad2Held;

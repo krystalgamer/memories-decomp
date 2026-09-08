@@ -9,7 +9,6 @@
 extern u8 D_8009B24B;
 extern u16 gDuel_wViewerCardID;
 extern u8 D_8009B254;
-extern u16 gInput_wPad1Repeat;
 
 extern s32 func_800330BC(u8 *);
 extern s32 func_80033500(u8 *);

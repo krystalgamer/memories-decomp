@@ -1,4 +1,5 @@
 #define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
+#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "func_8002C604.h"
@@ -6,8 +7,6 @@
 #include "duel_card.h"
 #include "display_object_api.h"
 #include "file_transfer.h"
-
-extern volatile u16 gInput_wPad1Repeat __attribute__((section(".data")));
 
 extern u16 D_8009B23A;
 extern u8 D_8009B16C[4];

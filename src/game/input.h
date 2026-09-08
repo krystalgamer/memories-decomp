@@ -102,6 +102,18 @@ extern volatile u16 gInput_wPad1Held;
 extern u16 gInput_wPad1Held;
 #endif
 
+/* gInput_wPad1Repeat is declared three ways; two are codegen inputs. Same
+ * arms as the two symbols above, same reasons. It has no aggregate consumer,
+ * so there is no aggregate arm -- a spelling nothing in the tree uses would
+ * be a guess, not a lever. */
+#ifdef GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
+extern volatile u16 gInput_wPad1Repeat __attribute__((section(".data")));
+#elif defined(GINPUT_PAD1_REPEAT_IS_VOLATILE)
+extern volatile u16 gInput_wPad1Repeat;
+#else
+extern u16 gInput_wPad1Repeat;
+#endif
+
 void Input_ResetPads(void);
 void Input_InitPads(void);
 void Input_ReadRawPads(void);

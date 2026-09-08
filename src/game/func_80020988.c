@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "display_object_api.h"
@@ -8,7 +9,6 @@ extern u8 D_8009B152;
 extern u8 *D_8009B188;
 extern u8 *D_8009B18C;
 extern u8 *D_8009B1CC;
-extern volatile u16 gInput_wPad1Repeat __attribute__((section(".data")));
 
 s32 func_80020988(void) {
     u8 *q;

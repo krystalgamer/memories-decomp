@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "duel_effect.h"
@@ -12,7 +13,6 @@ extern u8 D_8009AF54[];
 extern u8 D_8009B2EB;
 extern u8 D_8009B2F0;
 extern s8 D_8009B2F1;
-extern volatile u16 gInput_wPad1Repeat __attribute__((section(".data")));
 
 void func_80031084(void) {
     DuelEffectChannel *boxes;

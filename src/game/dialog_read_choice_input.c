@@ -1,8 +1,8 @@
+#define GINPUT_PAD1_REPEAT_IS_VOLATILE
 #include "../types.h"
 #include "input.h"
 #include "sound.h"
 
-extern volatile u16 gInput_wPad1Repeat;
 extern u8 gDialog_bChoice;
 extern s8 gDialog_bChoiceCount;
 extern void Dialog_HighlightChoice(u8 *);
