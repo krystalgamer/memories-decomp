@@ -128,7 +128,7 @@ are changed by naming the offsets.
 (`size`) by sign. The matching body in `src/game/file_stream.c` applies:
 
 ```c
-file_index = file_flags & 0xF;
+file_index = file_flags & FILE_TRANSFER_FILE_INDEX_MASK;
 descriptor->total_bytes = size;
 if (size < 0)
     descriptor->total_bytes = -(size << 11);
@@ -141,6 +141,11 @@ if (position < 0) {
     descriptor->absolute_lba = gFile_anLba[file_index] + position;
 }
 ```
+
+`FILE_TRANSFER_FILE_INDEX_MASK` (`0xF`) extracts the selector from the low
+nibble; it is not a bounds check against `FILE_POSITION_TABLE_CAPACITY` (`7`).
+The existing masking points remain in place, selectors `7..15` are not
+clamped, and the separate direct-index request path is unchanged.
 
 Thus a nonnegative position is a file-relative sector offset; a negative
 position supplies the negated absolute LBA and bypasses the file LBA table.
