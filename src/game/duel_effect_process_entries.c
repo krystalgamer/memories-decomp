@@ -1,35 +1,19 @@
 #include "../types.h"
+#include "duel_effect.h"
 
-typedef struct {
-    s32 field_00;
-    s32 field_04;
-    s32 field_08;
-    s32 field_0C;
-    u8 field_10;
-    u8 flags_11;
-    u8 field_12;
-    u8 field_13;
-    u8 field_14;
-    u8 field_15;
-    u8 field_16[2];
-    u8 field_18;
-    u8 field_19[3];
-} DuelEffectCopyEntry;
+typedef void (*DuelEffectEntryHandler)(DuelEffectEntry *, DuelEffectChannel *);
 
-typedef void (*DuelEffectEntryHandler)(DuelEffectCopyEntry *, u8 *);
-
-extern DuelEffectCopyEntry D_800EB288[];
 extern DuelEffectEntryHandler D_80090F58[];
 extern s32 D_8009B330;
 
-void DuelEffect_ProcessEntries(u8 *arg0)
+void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
 {
-    DuelEffectCopyEntry *p;
-    DuelEffectCopyEntry *q;
-    DuelEffectCopyEntry *s;
-    DuelEffectCopyEntry *e;
+    DuelEffectEntry *p;
+    DuelEffectEntry *q;
+    DuelEffectEntry *s;
+    DuelEffectEntry *e;
 
-    p = *(DuelEffectCopyEntry **)(arg0 + 0x24);
+    p = arg0->entry_head_24;
     D_8009B330 = 0;
 
     while (p->flags_11 & 0x80) {
@@ -40,8 +24,8 @@ void DuelEffect_ProcessEntries(u8 *arg0)
     }
 
     if (D_8009B330 != 0) {
-        q = &D_800EB288[*(u16 *)(arg0 + 0x5C)];
-        e = *(DuelEffectCopyEntry **)(arg0 + 0x20);
+        q = &D_800EB288[arg0->range_start_5C];
+        e = arg0->entry_end_20;
         s = q;
         while (s != e) {
             if (s->flags_11 & 0x80) {
@@ -50,7 +34,7 @@ void DuelEffect_ProcessEntries(u8 *arg0)
             }
             s++;
         }
-        *(DuelEffectCopyEntry **)(arg0 + 0x20) = q;
+        arg0->entry_end_20 = q;
         q->flags_11 = 0;
     }
 }

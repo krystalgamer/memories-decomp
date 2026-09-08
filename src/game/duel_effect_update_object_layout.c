@@ -1,15 +1,9 @@
 #include "../types.h"
-
-typedef struct {
-    u8 pad_00[0x18];
-    u8 field_18;
-    u8 pad_19[3];
-} EffectEntry;
+#include "duel_effect.h"
 
 extern u16 D_80090E58[];
 extern u8 D_8009B34C;
 extern s8 gDialog_bChoice;
-extern EffectEntry D_800EB288[];
 
 void DuelEffect_UpdateObjectLayout(u8 *p) {
     u8 *q;

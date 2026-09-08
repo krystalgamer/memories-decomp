@@ -14,8 +14,40 @@
 #define TEXT_BOX_FLAG_DONE 0x2000
 #define DUEL_EFFECT_STATE_FLAG_INITIALIZED 0x80
 
+/* One text/effect entry, 0x1C bytes, the element type of D_800EB288. The
+   leading words are unnamed but must stay four-byte aligned: retail copies a
+   whole entry with aligned lw/sw pairs during the compaction in
+   DuelEffect_ProcessEntries, and a byte-aligned struct turns that into
+   lwl/lwr. The 0x0C pair is the entry's local pixel position, read by the
+   password overlay's TextBox_GetGlyphAt when it searches for the glyph node
+   under a coordinate. */
 typedef struct {
-    u8 pad_00[0x28];
+    s32 field_00;
+    s32 field_04;
+    s32 field_08;
+    s16 x_0C;
+    s16 y_0E;
+    u8 field_10;
+    u8 flags_11;
+    u8 field_12;
+    u8 field_13;
+    u8 pad_14;
+    u8 field_15;
+    u8 pad_16[2];
+    u8 field_18;
+    u8 pad_19[3];
+} DuelEffectEntry;
+
+/* One text-box record, 0x64 bytes, the element type of D_800EB0F8. 0x00 is the
+   decoded string the record is playing back (func_800393B0 stores it there),
+   and 0x20/0x24 bracket the record's slice of D_800EB288: func_800393B0 seeds
+   both with &D_800EB288[range_start_5C], DuelEffect_ProcessEntries walks from
+   0x24 and moves 0x20 as it compacts. */
+typedef struct {
+    u8 *text_00;
+    u8 pad_04[0x1C];
+    DuelEffectEntry *entry_end_20;
+    DuelEffectEntry *entry_head_24;
     s32 field_28;
     s32 field_2C;
     void *field_30;
@@ -43,20 +75,14 @@ typedef struct {
     u8 pad_62[2];
 } DuelEffectChannel;
 
-typedef struct {
-    u8 pad_00[0x11];
-    u8 flags_11;
-    u8 field_12;
-    u8 field_13;
-    u8 pad_14;
-    u8 field_15;
-    u8 pad_16[2];
-    u8 field_18;
-    u8 pad_19[3];
-} DuelEffectEntry;
-
 typedef char DuelEffectChannel_size_must_be_0x64[
     sizeof(DuelEffectChannel) == 0x64 ? 1 : -1
+];
+typedef char DuelEffectChannel_entry_end_20_offset_must_be_0x20[
+    DUEL_EFFECT_OFFSET(DuelEffectChannel, entry_end_20) == 0x20 ? 1 : -1
+];
+typedef char DuelEffectChannel_entry_head_24_offset_must_be_0x24[
+    DUEL_EFFECT_OFFSET(DuelEffectChannel, entry_head_24) == 0x24 ? 1 : -1
 ];
 typedef char DuelEffectChannel_field_28_offset_must_be_0x28[
     DUEL_EFFECT_OFFSET(DuelEffectChannel, field_28) == 0x28 ? 1 : -1
@@ -88,6 +114,15 @@ typedef char DuelEffectChannel_field_61_offset_must_be_0x61[
 
 typedef char DuelEffectEntry_size_must_be_0x1C[
     sizeof(DuelEffectEntry) == 0x1C ? 1 : -1
+];
+typedef char DuelEffectEntry_must_be_four_byte_aligned[
+    sizeof(struct { u8 lead; DuelEffectEntry entry; }) == 0x20 ? 1 : -1
+];
+typedef char DuelEffectEntry_x_0C_offset_must_be_0x0C[
+    DUEL_EFFECT_OFFSET(DuelEffectEntry, x_0C) == 0x0C ? 1 : -1
+];
+typedef char DuelEffectEntry_field_10_offset_must_be_0x10[
+    DUEL_EFFECT_OFFSET(DuelEffectEntry, field_10) == 0x10 ? 1 : -1
 ];
 typedef char DuelEffectEntry_flags_11_offset_must_be_0x11[
     DUEL_EFFECT_OFFSET(DuelEffectEntry, flags_11) == 0x11 ? 1 : -1

@@ -34,7 +34,7 @@ extern void func_80039E9C(void);
 extern void func_800391E4(u8 *);
 extern void func_80035CA8(s32);
 extern void DuelEffect_ClearMatchingMarker(s32);
-extern void func_800373C8(u8 *, s32, s32);
+extern void func_800373C8(DuelEffectChannel *, s32, s32);
 extern s32 func_80037C74(u8 *);
 extern void func_80036C14(u8 *, s32);
 
@@ -110,7 +110,7 @@ void func_800393B0(u8 *object)
     }
     if ((*(u16 *)(object + 0x34) & 0x1C00) == 0) {
         if ((gInput_wPad1Held & 0x80) || (gInput_wPad1Pressed & 0xC0)) {
-            func_800373C8(object, 0, 0);
+            func_800373C8((DuelEffectChannel *)object, 0, 0);
             object[0x52] = 1;
             *(u16 *)(object + 0x34) = *(u16 *)(object + 0x34) | 0x400;
         }

@@ -1,8 +1,9 @@
 #include "../types.h"
+#include "duel_effect.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 
-extern void func_800373C8(u8 *, s32, s32);
+extern void func_800373C8(DuelEffectChannel *, s32, s32);
 extern void *func_8004006C(void);
 void func_800374A8(u8 *object)
 {
@@ -10,7 +11,7 @@ void func_800374A8(u8 *object)
 
     if ((flags & 0x80) == 0) {
         object[0x51] = flags | 0x80;
-        func_800373C8(object, 3, 0);
+        func_800373C8((DuelEffectChannel *)object, 3, 0);
         object[0x51] = 0x82;
     }
 }
