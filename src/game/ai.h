@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "ai_constants.h"
+#include "duel_grid.h"
 
 #define AI_SCRIPT_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
@@ -57,6 +58,12 @@ typedef struct {
 
 typedef char AiActiveCard_size_must_be_0x0C[
     sizeof(AiActiveCard) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1
+];
+typedef char AiActiveCard_row_slot_count_must_be_the_field_row_size[
+    AI_ACTIVE_CARD_ROW_SLOT_COUNT == DUEL_FIELD_ROW_SIZE ? 1 : -1
+];
+typedef char AiActiveCard_opponent_hand_must_start_at_slot_66[
+    AI_SLOT_OPPONENT_HAND_FIRST == 66 ? 1 : -1
 ];
 typedef char AiActiveCard_side_stride_must_be_55_records[
     AI_ACTIVE_CARD_SIDE_BYTE_STRIDE == 55 * sizeof(AiActiveCard) ? 1 : -1

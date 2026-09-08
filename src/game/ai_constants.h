@@ -4,6 +4,31 @@
 #define AI_ACTIVE_CARD_RECORD_SIZE 0x0C
 #define AI_ACTIVE_CARD_SIDE_BYTE_STRIDE 0x294
 
+/* Slot map of gDuel_aActiveCards, taken from Ai_GetCardRange, which is the
+   game's own authoritative table of the six ranges. Slot 0 is the zero entry
+   the field searches start from, so an index of 0 doubles as "nothing found";
+   the player's slots run from 1 and the opponent's sit one side stride
+   further on. Each field row is AI_ACTIVE_CARD_ROW_SLOT_COUNT slots wide and
+   the ranges are inclusive, so the last slot of a row is
+   AI_SLOT_ROW_LAST(first). AI_ACTIVE_CARD_ROW_SLOT_COUNT is DUEL_FIELD_ROW_SIZE;
+   ai.h asserts that, this header stays free of type includes. */
+#define AI_ACTIVE_CARD_ROW_SLOT_COUNT 5
+#define AI_ACTIVE_CARD_SIDE_SLOT_STRIDE \
+    (AI_ACTIVE_CARD_SIDE_BYTE_STRIDE / AI_ACTIVE_CARD_RECORD_SIZE)
+#define AI_SLOT_NONE 0
+#define AI_SLOT_OWN_MONSTER_FIRST 1
+#define AI_SLOT_OWN_SPELL_FIRST \
+    (AI_SLOT_OWN_MONSTER_FIRST + AI_ACTIVE_CARD_ROW_SLOT_COUNT)
+#define AI_SLOT_OWN_HAND_FIRST \
+    (AI_SLOT_OWN_SPELL_FIRST + AI_ACTIVE_CARD_ROW_SLOT_COUNT)
+#define AI_SLOT_OPPONENT_MONSTER_FIRST \
+    (AI_SLOT_OWN_MONSTER_FIRST + AI_ACTIVE_CARD_SIDE_SLOT_STRIDE)
+#define AI_SLOT_OPPONENT_SPELL_FIRST \
+    (AI_SLOT_OWN_SPELL_FIRST + AI_ACTIVE_CARD_SIDE_SLOT_STRIDE)
+#define AI_SLOT_OPPONENT_HAND_FIRST \
+    (AI_SLOT_OWN_HAND_FIRST + AI_ACTIVE_CARD_SIDE_SLOT_STRIDE)
+#define AI_SLOT_ROW_LAST(first) ((first) + AI_ACTIVE_CARD_ROW_SLOT_COUNT - 1)
+
 #define AI_SCRIPT_CARD_SET_COUNT 32
 #define AI_SCRIPT_COMBO_CARD_COUNT 6
 #define AI_SCRIPT_PERCENT_SCALE 100
