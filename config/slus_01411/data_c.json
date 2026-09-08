@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "comment": "Initialized data owned by C translation units. Each region replaces that span of a generated data subsegment with the .data of one source. The sources hold no functions, so they are not text subsegments and the text output section does not claim their .data.",
+  "regions": [
+    {
+      "segment": "initialized_data",
+      "vram": "0x80090FB0",
+      "size": "0x3C",
+      "source": "src/game/display_object_render_table.c",
+      "profile": "gcc_2_8_1_g0"
+    }
+  ]
+}

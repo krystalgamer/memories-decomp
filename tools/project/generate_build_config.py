@@ -296,6 +296,103 @@ def write_yaml(path: Path, value: dict[str, Any]) -> None:
         raise
 
 
+def load_data_regions(root: Path, profiles: set[str]) -> list[dict[str, Any]]:
+    """Initialized-data regions owned by a C source.
+
+    These sources define data and nothing else, so they are deliberately not
+    text subsegments: the text output section lists every object it owns in
+    its own ".data" slot, and ld places an input section in the first output
+    section that claims it, which would capture the data before the segment
+    that holds it ever sees it.
+    """
+    path = resolve_within(root, "config/slus_01411/data_c.json")
+    if not path.is_file():
+        return []
+    configuration = load_json(root, "config/slus_01411/data_c.json")
+    if configuration.get("schema") != 1:
+        raise GenerationError(f"{path}: unsupported data-source schema")
+    entries = configuration.get("regions")
+    if not isinstance(entries, list):
+        raise GenerationError(f"{path}: regions must be a list")
+    regions: list[dict[str, Any]] = []
+    for index, entry in enumerate(entries):
+        if not isinstance(entry, dict):
+            raise GenerationError(f"data region {index} must be an object")
+        vram = parse_integer(entry.get("vram"), "data region vram")
+        size = parse_integer(entry.get("size"), "data region size")
+        segment = entry.get("segment")
+        source = entry.get("source")
+        profile = entry.get("profile")
+        if size <= 0 or not isinstance(segment, str):
+            raise GenerationError(f"invalid data region {index}")
+        if not isinstance(source, str) or not source.startswith("src/"):
+            raise GenerationError(f"invalid data region source {index}")
+        if profile not in profiles:
+            raise GenerationError(f"invalid data region profile {index}")
+        resolve_within(root, source, must_exist=True)
+        regions.append(
+            {
+                "segment": segment,
+                "start": file_offset(vram),
+                "end": file_offset(vram) + size,
+                "vram": vram,
+                "source": source,
+                "profile": profile,
+            }
+        )
+    regions.sort(key=lambda region: region["start"])
+    return regions
+
+
+def apply_data_regions(
+    segment: dict[str, Any],
+    regions: list[dict[str, Any]],
+    sources: list[dict[str, Any]],
+) -> None:
+    """Split one generated data subsegment around its C-owned spans."""
+    entries = segment.get("subsegments")
+    if not isinstance(entries, list) or len(entries) != 1:
+        raise GenerationError(
+            f"segment {segment.get('name')!r} must declare exactly one"
+            " data subsegment before data regions are applied"
+        )
+    base = list(entries[0])
+    if len(base) != 3 or base[1] != "data":
+        raise GenerationError(
+            f"segment {segment.get('name')!r} subsegment must be a data entry"
+        )
+    start = parse_integer(base[0], "data subsegment start")
+    name = str(base[2])
+    # Splat emits only the first subsegment of a "data" segment into the
+    # linker script; "code" makes it emit every one, in order.
+    segment["type"] = "code"
+    subsegments: list[list[Any]] = []
+    cursor = start
+    for region in regions:
+        if region["start"] < cursor:
+            raise GenerationError(
+                f"data region {region['vram']:#010x} overlaps or precedes"
+                f" the {name} cursor"
+            )
+        if region["start"] > cursor:
+            suffix = "" if cursor == start else f"_{cursor:06x}"
+            subsegments.append([cursor, "data", f"{name}{suffix}"])
+        stem = region["source"][len("src/") : -len(".c")]
+        subsegments.append([region["start"], ".data", stem])
+        sources.append(
+            {
+                "kind": "c",
+                "source": region["source"],
+                "object": f"data_{region['vram']:08x}.o",
+                "profile": region["profile"],
+                "members": [],
+            }
+        )
+        cursor = region["end"]
+    subsegments.append([cursor, "data", f"{name}_{cursor:06x}"])
+    segment["subsegments"] = subsegments
+
+
 def generate(root: Path) -> tuple[Path, Path]:
     template_path = resolve_within(
         root, "config/slus_01411/split.yaml", must_exist=True
@@ -397,6 +494,13 @@ def generate(root: Path) -> tuple[Path, Path]:
     leading_count = len(leading)
     main_segments[0]["subsegments"] = subsegments[:leading_count]
     text_segment["subsegments"] = subsegments[leading_count:]
+
+    data_regions = load_data_regions(root, load_profiles(root))
+    by_segment: dict[str, list[dict[str, Any]]] = {}
+    for region in data_regions:
+        by_segment.setdefault(region["segment"], []).append(region)
+    for segment_name, owned in by_segment.items():
+        apply_data_regions(one_segment(segment_name), owned, text_sources)
 
     generated_directory = resolve_within(root, "tmp/generated")
     split_path = generated_directory / "slus_01411.split.yaml"

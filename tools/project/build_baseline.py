@@ -445,12 +445,21 @@ def build(root: Path) -> Path:
             )
         ],
         *build_text_objects(root, assembler),
-        assemble(
-            root,
-            assembler,
-            "tmp/splat/asm/data/initialized_data.data.s",
-            splat_object("tmp/splat/asm/data/initialized_data.data.s"),
-        ),
+        *[
+            assemble(
+                root,
+                assembler,
+                f"tmp/splat/asm/data/{path.name}",
+                splat_object(f"tmp/splat/asm/data/{path.name}"),
+            )
+            # The initialized data blob is split wherever a C object owns a
+            # span of it, so assemble every remaining piece. "." sorts before
+            # "_", so the leading piece stays first and the continuations
+            # follow in address order.
+            for path in sorted(
+                (root / "tmp/splat/asm/data").glob("initialized_data*.s")
+            )
+        ],
         binary_object(
             root,
             objcopy,
