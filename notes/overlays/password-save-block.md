@@ -62,6 +62,17 @@ describes the same way. So the two sections agree on the address while
 disagreeing on whether it is a counter or a bitfield; the flag reading is the
 one supported by evidence recorded in this repository.
 
+## Shared flag-bank encoding
+
+The resident flag accessors mask an encoded ID with `CAMPAIGN_FLAG_ID_MASK`
+(`0x7FF`), select its byte using `CAMPAIGN_FLAG_BYTE_SHIFT` (`3`), and select
+the bit with `CAMPAIGN_FLAG_BYTE_HIGH_BIT` (`0x80`) shifted right by the low
+three ID bits. The bank therefore contains 2048 MSB-first flags in 256 bytes.
+Its `CAMPAIGN_FLAG_BANK_OFFSET` (`0x618`) is relative to `D_801D0000`, placing
+it at `0x801D0618`; relative to the persisted state at `0x801D0200`, the same
+bank starts at `+0x418`. The existing two-stage address calculation and
+set/clear polarity are preserved.
+
 ## The duelist-code address is used as a structure base twice
 
 Two separate fields in the map are expressed as offsets from `0x801D0534`,

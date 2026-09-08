@@ -2,6 +2,10 @@
 #define MEMORIES_DECOMP_CAMPAIGN_FLAGS_H
 
 #define CAMPAIGN_FLAG_ID_MASK 0x7FF
+#define CAMPAIGN_FLAG_BANK_OFFSET 0x618
+#define CAMPAIGN_FLAG_BYTE_SHIFT 3
+#define CAMPAIGN_FLAG_BIT_INDEX_MASK 7
+#define CAMPAIGN_FLAG_BYTE_HIGH_BIT 0x80
 
 /* Tests require a clear bit; updates clear it when this modifier is set. */
 #define CAMPAIGN_FLAG_CLEAR_MODIFIER 0x8000
