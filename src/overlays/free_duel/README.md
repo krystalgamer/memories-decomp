@@ -110,6 +110,31 @@ and the second holds the remaining 15. `5` there coincides in value with
 so substituting the grid constants would assert a relationship the code does
 not establish.
 
+## Display-object flag bits
+
+The renderable and screen-space bits in the `u16` flag word at object offset
+`+8` now use the shared names from `src/game/display_object_layout.h`:
+
+| Site | Was | Now |
+|---|---|---|
+| `FreeDuel_Init` grid tiles | `obj->attr &= ~8` | `~DISPLAY_OBJECT_FLAG_SCREEN_SPACE` |
+| `FreeDuel_Init` scroll banners | `obj->attr \|= 8` | `DISPLAY_OBJECT_FLAG_SCREEN_SPACE` |
+| `FreeDuel_Init` hidden cursor | `obj->attr &= ~0x40` | `~DISPLAY_OBJECT_FLAG_RENDERABLE` |
+| `FreeDuel_UpdateScreen` cursor reveal | `\|= 0x40` | `DISPLAY_OBJECT_FLAG_RENDERABLE` |
+
+`attr` in this module's local `Obj` view sits at `+8` — after a four-byte pad
+and the separate 32-bit word at `+4` — so it is the same field the resident
+renderers test through `*(u16 *)(e + 8)`.
+
+Two neighbouring literals are deliberately **left as numbers**:
+
+- `obj->attr |= 0x28` combines `0x8` with a `0x20` bit that
+  `display_object_layout.h` does not define. Naming only half of a composite
+  would imply the rest is understood, so the whole value stays raw.
+- The 32-bit `obj->flags` writes (`0x1000000`, `0x8000000`, `0x50000000`) are
+  a **different field at `+4`**, not the flag word, and none of the display
+  object flag constants apply to them.
+
 ## Input publication and button meanings
 
 Normal browsing uses `gInput_wPad1Held` for directional movement and

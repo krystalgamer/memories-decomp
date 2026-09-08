@@ -64,6 +64,34 @@ The module has its own tracked overlay layout and matching-C manifest under
 executable; main-menu entries must not be added to the resident
 `config/slus_01411/matching_c.json`.
 
+## Display-object visibility bits in the frontend
+
+`MainMenu_InitFrontend` and `MainMenu_UpdateFrontend` toggle menu entries
+between hidden and visible through the `u16` flag word at object offset `+8`,
+now written with the shared names from `src/game/display_object_layout.h`:
+
+| Site | Was | Now |
+|---|---|---|
+| Entry creation | `(\| 8) & ~0x40` | `DISPLAY_OBJECT_FLAG_SCREEN_SPACE`, `~DISPLAY_OBJECT_FLAG_RENDERABLE` |
+| Selected-entry reveal | `\|= 0x40` | `DISPLAY_OBJECT_FLAG_RENDERABLE` |
+| Visibility test | `& 0x40) != 0` | `DISPLAY_OBJECT_FLAG_RENDERABLE` |
+| Entry hide | `&= 0xFFBF` | `&= ~DISPLAY_OBJECT_FLAG_RENDERABLE` |
+
+`0xFFBF` is the 16-bit complement of `0x40`, so the hide sites are the exact
+inverse of the reveal sites; writing both against one name makes that pairing
+visible instead of leaving a bare mask that has to be decoded by hand.
+
+Entries are therefore created screen-space and **not** renderable, and the
+frontend reveals them by setting the renderable bit. The resident renderers
+require `DISPLAY_OBJECT_RENDERABLE_MASK` (`0xC0`, renderable plus allocated)
+to be fully set before drawing, so setting `0x40` alone is a reveal only for
+objects the allocator has already marked.
+
+The nearby `|= 0x28` writes are **left as numbers**: they combine `0x8` with a
+`0x20` bit that `display_object_layout.h` does not define, and naming half a
+composite would imply the remainder is understood. The 32-bit writes at `+4`
+are a different field and are untouched.
+
 ## Frontend lifecycle
 
 `MainMenu_InitFrontendMenu` (`0x8018001C`) retains its unused first
