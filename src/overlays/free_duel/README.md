@@ -66,6 +66,18 @@ cover the complete `0x518`-byte text section, with no data or rodata
 contribution. One C subsegment selects the group at module offset `0xA9C`.
 Preserve that order and complete extent when editing the group.
 
+## Sparkle-runtime translation unit
+
+`sparkle_runtime.c` keeps the sparkle-pool allocator next to the updater that
+releases each completed object and clears its pool slot. Both functions
+reverse-scan the same 16-entry `gFreeDuel_apSparklePool`.
+
+The definitions remain in executable order: `FreeDuel_GetSparkleSlot`
+occupies `0x8016899C..0x801689D4`, followed by `FreeDuel_UpdateSparkle`
+through `0x80168A9C`. Both use `gcc_2_8_1_g0_split`, and their shared
+manifest source and one C subsegment at module offset `0x99C` cover the
+complete contiguous `0x100`-byte text range.
+
 ## Input publication and button meanings
 
 Normal browsing uses `gInput_wPad1Held` for directional movement and

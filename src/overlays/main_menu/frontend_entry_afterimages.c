@@ -6,6 +6,7 @@ extern u8 D_801AF800[];
 extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
 extern void func_80042918(void *);
 extern void func_800428EC(void *, s32);
+extern void func_8004036C(void *);
 
 void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
 {
@@ -24,5 +25,32 @@ void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
         object[0xC] = source[0xC];
         object[0xD] = source[0xD];
         object[0xE] = source[0xE];
+    }
+}
+
+void MainMenu_UpdateFrontendEntryAfterimage(u8 *object)
+{
+    s32 r;
+    s32 g;
+    s32 b;
+
+    if ((*(s32 *)(object + 0xC) & 0xFFFFFF) != 0) {
+        r = object[0xC] - 8;
+        if (r < 0) {
+            r = 0;
+        }
+        object[0xC] = r;
+        g = object[0xD] - 8;
+        if (g < 0) {
+            g = 0;
+        }
+        object[0xD] = g;
+        b = object[0xE] - 8;
+        if (b < 0) {
+            b = 0;
+        }
+        object[0xE] = b;
+    } else {
+        func_8004036C(object);
     }
 }
