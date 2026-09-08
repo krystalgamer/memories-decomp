@@ -2,15 +2,8 @@
 
 #include "duel_card.h"
 
-typedef struct {
-    u32 value;
-    u8 pad4[0x12];
-    u16 flags;
-    u8 pad18[4];
-} Entry;
-
 extern u8 D_8009B1D5;
-extern Entry D_801A7B64[];
+extern DuelCardRecord D_801A7B64[];
 
 void func_8002C938(u32 *output, int alternate)
 {
@@ -37,9 +30,9 @@ void func_8002C938(u32 *output, int alternate)
 
 void func_8002C9B4(u32 *output, int selector)
 {
-    register Entry *entry __asm__("$16");
+    register DuelCardRecord *entry __asm__("$16");
     register int base __asm__("$17");
-    Entry *other;
+    DuelCardRecord *other;
     int index;
 
     if (selector < 0) {
@@ -54,9 +47,9 @@ void func_8002C9B4(u32 *output, int selector)
             index++, entry++, other++
         ) {
             if (entry->flags & DUEL_CARD_FLAG_OCCUPIED)
-                *output++ = entry->value;
+                *output++ = (u32)entry->object;
             if (other->flags & DUEL_CARD_FLAG_OCCUPIED)
-                *output++ = other->value;
+                *output++ = (u32)other->object;
         }
         *output = 0;
         return;
@@ -77,14 +70,14 @@ void func_8002C9B4(u32 *output, int selector)
     if (selector >= 21) {
         for (index = 0; index < DUEL_FIELD_ROW_SIZE; index++, entry++) {
             if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
-                (u16)Duel_CalcCardStats((DuelCardRecord *)entry) >= selector)
-                *output++ = entry->value;
+                (u16)Duel_CalcCardStats(entry) >= selector)
+                *output++ = (u32)entry->object;
         }
     } else {
         for (index = 0; index < DUEL_FIELD_ROW_SIZE; index++, entry++) {
             if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
-                (selector < 0 || *(u8 *)(entry->value + 0x68) == selector))
-                *output++ = entry->value;
+                (selector < 0 || *((u8 *)entry->object + 0x68) == selector))
+                *output++ = (u32)entry->object;
         }
     }
     *output = 0;
