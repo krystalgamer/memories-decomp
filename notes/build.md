@@ -213,10 +213,14 @@ things make one of these:
    generated blob:
 
    ```yaml
-   - [0x80ee0, data, initialized_data]
+   - [0x80ee0, data, initialized_data_800906e0]
    - [0x80f04, .data, game/file_names]
-   - [0x80fac, data, initialized_data_1]
+   - [0x80fac, data, initialized_data_800907ac]
    ```
+
+   A blob chunk is named for the address it starts at, so taking ownership of
+   one range never renames another and two people can split different parts of
+   the segment without colliding.
 
 2. **Name the profile in `config/slus_01411/data_c.json`.** Data units are not
    in `matching_c.json`, which describes functions; the build gets its compiler

@@ -41,7 +41,7 @@ REQUIRED_OUTPUTS = (
     "tmp/splat/undefined_funcs_auto.txt",
     "tmp/splat/undefined_syms_auto.txt",
     "tmp/splat/asm/header.s",
-    "tmp/splat/asm/data/initialized_data.data.s",
+    "tmp/splat/asm/data/initialized_data_800906e0.data.s",
     "tmp/splat/assets/bss_image.bin",
     "tmp/splat/assets/reserved_zero.bin",
     "tmp/splat/assets/tail_data.bin",
