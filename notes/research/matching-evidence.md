@@ -4940,3 +4940,46 @@ the product and table base and pinning them to retail's registers measures 16
 against 13, either pin alone 14, a pinned constant 19. Pins making things worse
 is the signature of a genuine scheduling tie, and says to stop looking at
 allocation.
+
+## When a pinned value costs an instruction, pin what consumes it
+
+`func_8005C1F4` (0x8005C1F4) finished on a rule that inverts the usual pin
+advice. Its last residual was four positions naming one value, `slot + 1`,
+which retail keeps in `$a1` and the build put in `$a0`. Pinning that value
+directly was measured across fifteen registers and **every one produced a
+97th instruction**: a pinned local only takes its register for free when
+something can write it there directly, and a value computed by `addiu` from a
+pseudo needs a `move` to reach a reserved register.
+
+The value that *consumes* it has no such problem. Pinning the modulo's
+**result**, whose store can take its operand straight out of the reserved
+register, took the residual from 7 to 4 and also placed the masked temporary
+correctly without naming it at all. Finishing the job then needed the operator
+written out as its own statements, because GCC's `% 4` expansion exposes only
+one of its three values to naming; written out, all three are nameable and
+three pins place them.
+
+Two negative results from the same function are worth as much:
+
+- *Availability is not the lever.* It was tempting to conclude that `slot + 1`
+  shared `$a0` with a later load only because their live ranges did not
+  overlap, and that forcing an overlap would separate them. Retail refutes it -
+  `$a0` is free across that block in retail too, and retail still chooses
+  `$a1`. Manufacturing the overlap costs an instruction and 44 positions.
+- *A lower count can be a worse diff.* Spelling the modulo as an explicit
+  division remainder measures 6 differing against the accepted form's 7, and is
+  wrong: it recomputes the addend where retail copies it, so its opcode
+  multiset carries an extra `addiu` and is short a `move`. Every earlier trap in
+  this campaign was a count that stayed still while the difference set moved;
+  this is a count that improves while the difference becomes worse in kind.
+  Only the opcode multiset distinguishes them, and it does so in one command.
+
+The structural half of this match came from the matched sibling `func_8005BE3C`
+rather than from the diff: it declares a fresh pointer local per group of
+accesses, all assigned the same `D_8009B498 + 0x40000`. That is what makes CSE
+collapse the repeated global read into a register copy while still rebuilding
+the address arithmetic, which nine earlier spellings had failed to reach by
+trying to *suppress* CSE rather than to give it a second expression to
+collapse. Writing the copy destination off the global with its own `+ 0x40000`,
+instead of off the already-biased source pointer, was worth 54 positions on its
+own.
