@@ -20,6 +20,15 @@
    The header exists rather than an extern per file because GsRVIEW2 needs
    three Psy-Q headers behind it, and two of the ten users otherwise pull all
    three in just to name an opaque base pointer. */
+/* The pose snapshot func_8005F070 refreshes each frame: element 0 is the
+   viewpoint, element 1 the reference point, both taken as the low halfword
+   of the corresponding GsRVIEW2 long, and element 2 is the distance, yaw
+   and pitch triple at D_8009B478. The three-element shape is confirmed by
+   func_8005EBF4, which indexes it with an eight-byte stride, and by the
+   gaps the writer leaves at +6, +14 and +22, which are exactly SVECTOR's
+   pad member. */
+extern SVECTOR D_800F5768[3];
+
 extern GsRVIEW2 D_800F56F0;
 extern GsRVIEW2 D_800F5710;
 

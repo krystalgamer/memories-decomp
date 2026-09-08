@@ -1,8 +1,8 @@
 #include "../types.h"
+#include "camera_view.h"
 #include "../psyq/memory.h"
 #include "func_8005EBF4.h"
 
-extern u8 D_800F5768[];
 extern Key D_800F5788[];
 extern u8 D_8009B078;
 
@@ -32,7 +32,7 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
     s32 j;
 
     memset(pts, 0, 16);
-    pts[0] = (s16 *)(D_800F5768 + k * 8);
+    pts[0] = (s16 *)((u8 *)D_800F5768 + k * 8);
     for (i = 1; i < 3; i++) {
         u8 *e;
 
