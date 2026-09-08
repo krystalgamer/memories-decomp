@@ -42,6 +42,20 @@ Their `_functions.csv` inventories track per-function status, while their
 separate `_matching_c.json` manifests map accepted source/profile pairs.
 `make match-overlays` remains the exact-byte gate.
 
+## Camera-state translation unit
+
+`camera_state.c` keeps the location-camera loader next to the per-frame view
+publisher and the default-camera reset. All three operate on `D_800F2848`,
+and the first and last both rebuild its derived matrix through
+`func_8001352C`.
+
+The definitions remain in executable order:
+`CampaignMap_SetCameraFromLocation` occupies
+`0x801681E8..0x80168258`, followed by `CampaignMap_UpdateView` and
+`CampaignMap_ResetCamera` through `0x80168388`. All three use
+`gcc_2_8_1_g0_split`. One C subsegment at module offset `0x1E8` covers the
+complete contiguous `0x1A0`-byte text range in both verified variants.
+
 ## Active and alternate location families
 
 The resident `Main_RunCampaignMap` uses the active thirteen-function family:
