@@ -5032,3 +5032,54 @@ trying to *suppress* CSE rather than to give it a second expression to
 collapse. Writing the copy destination off the global with its own `+ 0x40000`,
 instead of off the already-biased source pointer, was worth 54 positions on its
 own.
+
+## The allocno reference count is a lever you can spend one reference at a time
+
+The section above establishes that GCC 2.8.1 ranks allocnos by
+`floor_log2(n_refs) * n_refs / live_length`, and that the useful handle is
+often the number of times a variable is *mentioned*. `func_8002FD10`
+(0x8002FD10) is a clean second worked example, and it is worth recording
+because the winning change looks like a stylistic preference rather than a
+lever.
+
+The function sat at 112/112 with opcode distance 0 and eight differing
+positions, all in the prologue and all one permutation of one window. Retail
+forms `&D_800EAE98` as `lui $s0` / `addiu $s0,$s0` - the `HIGH` temporary
+coalesced into the destination - and emits it *after* the callback address.
+The build emitted `lui $v0` / `addiu $s0,$v0` *before* it. Two facts, and the
+register one causes the order one: with the high half stranded in `$v0` there
+is an anti-dependence against the callback address, which also wants `$v0`, so
+the scheduler has to run the pair first.
+
+What closed it was writing the record-clearing loop as
+
+```c
+for (i = 0; i < 3; i++) {
+    slot[i].unk00 = 0;
+    slot[i].unk04 = 0;
+}
+```
+
+instead of the walking-pointer form with `slot++`. Both spellings produce 112
+instructions and the same multiset. The difference is that `slot++` is another
+reference to `slot`, and removing it re-ranks the allocnos so the `HIGH`
+pseudo no longer takes `$v0` first.
+
+Two things make this worth generalising:
+
+- **The change is invisible at the instruction level.** Neither spelling adds
+  or removes an instruction, so nothing about the diff suggests the loop body
+  is where to look. Only the reference count does.
+- **Neighbouring spellings do nothing.** Writing the fourth record's marker
+  through the array instead of the pointer, which also removes one reference,
+  measures the same 8; so does adding a reference by spelling the increment
+  `slot = slot + 1`. It is not "fewer references is better" - it is one
+  specific count, and the cliff has to be crossed in the right place.
+
+So when a residual is entirely register names and the multiset is identical,
+enumerate the spellings that change a local's reference count by one in each
+direction before concluding the allocator is out of reach. On this function the
+`%hi`-coalescing lever from `func_800179F4`, a `section(".data")` attribute in
+three forms, register pins on three locals, five statement placements, all
+twenty-four declaration orders and every profile were all measured first and
+all left it at 8.
