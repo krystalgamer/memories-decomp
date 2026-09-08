@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "ai_constants.h"
 
 extern s32 gAiScript_aMemory[];
 extern u8 gAiScript_State[];
@@ -32,8 +33,8 @@ void AiScript_EvaluateFusion(void)
     r[0x9C] = n;
     r[0x9D] = b;
     *(s16 *)(r + 0xA0) = 0;
-    r[0xA2] = 0;
-    r[0xA3] = 0;
+    r[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] = 0;
+    r[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] = 0;
     r[0x9E] = c;
 
     for (i = 0; i < r[0x9C]; i++) {

@@ -21,7 +21,7 @@ void AiScript_StartCombo(void)
     s32 i;
 
     for (i = 0; i < AI_SCRIPT_COMBO_CARD_COUNT - 1; i++) {
-        s32 value = gAiScript_State[0x38 + i];
+        s32 value = gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET + i];
 
         if ((u32)(value - 1) < 10) {
             gAiScript_aMemory[dest] = value;

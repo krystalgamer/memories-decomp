@@ -116,22 +116,28 @@ void Ai_CompleteFusion(s32 arg0)
                     if (result == 0)
                         result = Duel_CheckEquip(arg0, card_id);
                     if (result != 0) {
-                        cursor[cursor[0xA2] + 0xA4] = index;
+                        cursor[cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] +
+                               AI_SCRIPT_FUSION_PATH_BYTE_OFFSET] = index;
                         if (
                             Duel_GetBaseCardStat(result, 0) >
                                 *(u16 *)(cursor + 0xA0) ||
                             (
                                 Duel_GetBaseCardStat(result, 0) ==
                                     *(u16 *)(cursor + 0xA0) &&
-                                cursor[0xA2] < cursor[0xA3]
+                                cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] <
+                                    cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET]
                             )
                         ) {
                             *(u16 *)(cursor + 0xA0) =
                                 Duel_GetBaseCardStat(result, 0);
-                            cursor[0xA3] = cursor[0xA2];
-                            for (j = 0; j <= (s32)cursor[0xA3]; j++)
-                                cursor[j + 0x38] = cursor[j + 0xA4];
-                            cursor[j + 0x38] = 0;
+                            cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
+                                cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
+                            for (j = 0;
+                                 j <= (s32)cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET];
+                                 j++)
+                                cursor[j + AI_SCRIPT_COMBO_BYTE_OFFSET] =
+                                    cursor[j + AI_SCRIPT_FUSION_PATH_BYTE_OFFSET];
+                            cursor[j + AI_SCRIPT_COMBO_BYTE_OFFSET] = 0;
                         }
                         if (
                             Duel_GetBaseCardStat(result, 1) >
@@ -139,22 +145,28 @@ void Ai_CompleteFusion(s32 arg0)
                             (
                                 Duel_GetBaseCardStat(result, 1) ==
                                     *(u16 *)(cursor + 0xA0) &&
-                                cursor[0xA2] < cursor[0xA3]
+                                cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] <
+                                    cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET]
                             )
                         ) {
                             *(u16 *)(cursor + 0xA0) =
                                 Duel_GetBaseCardStat(result, 1);
-                            cursor[0xA3] = cursor[0xA2];
-                            for (j = 0; j <= (s32)cursor[0xA3]; j++)
-                                cursor[j + 0x38] = cursor[j + 0xA4];
-                            cursor[j + 0x38] = 0;
+                            cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
+                                cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
+                            for (j = 0;
+                                 j <= (s32)cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET];
+                                 j++)
+                                cursor[j + AI_SCRIPT_COMBO_BYTE_OFFSET] =
+                                    cursor[j + AI_SCRIPT_FUSION_PATH_BYTE_OFFSET];
+                            cursor[j + AI_SCRIPT_COMBO_BYTE_OFFSET] = 0;
                         }
-                        if (cursor[0xA2] < cursor[0x9D] - 1) {
+                        if (cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] <
+                            cursor[0x9D] - 1) {
                             cursor[i + 0xAA] = 1;
-                            cursor[0xA2]++;
+                            cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET]++;
                             Ai_CompleteFusion(result);
                             cursor[i + 0xAA] = 0;
-                            cursor[0xA2]--;
+                            cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET]--;
                         }
                     }
                 }

@@ -2,21 +2,7 @@
 #define YUGIOH_GAME_AI_H
 
 #include "../types.h"
-
-#define AI_SCRIPT_CARD_SET_COUNT 32
-#define AI_SCRIPT_COMBO_CARD_COUNT 6
-#define AI_SCRIPT_PERCENT_SCALE 100
-#define AI_SCRIPT_MEMORY_COUNT 20
-#define AI_SCRIPT_RETURN_STACK_COUNT 8
-#define AI_SCRIPT_TYPE_SET_COUNT 25
-#define AI_SCRIPT_CARD_SET_EMPTY 0
-#define AI_SCRIPT_TYPE_SET_EMPTY 0
-#define AI_SCRIPT_TYPE_SET_ENCODING_BIAS 1
-#define AI_SCRIPT_CARD_SET_BYTE_OFFSET 0x3E
-#define AI_SCRIPT_CARD_SET_ENTRY_SIZE 2
-#define AI_SCRIPT_CARD_SET_HALFWORD_OFFSET \
-    (AI_SCRIPT_CARD_SET_BYTE_OFFSET / AI_SCRIPT_CARD_SET_ENTRY_SIZE)
-#define AI_SCRIPT_TYPE_SET_BYTE_OFFSET 0x7E
+#include "ai_constants.h"
 
 #define AI_SCRIPT_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
@@ -87,6 +73,22 @@ typedef char AiScriptState_card_set_entry_size_must_be_2[
 typedef char AiScriptState_type_set_offset_must_be_0x7E[
     AI_SCRIPT_STATE_OFFSET(AiScriptState, type_set) ==
         AI_SCRIPT_TYPE_SET_BYTE_OFFSET ? 1 : -1
+];
+typedef char AiScriptState_combo_offset_must_be_0x38[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, combo_cards) ==
+        AI_SCRIPT_COMBO_BYTE_OFFSET ? 1 : -1
+];
+typedef char AiScriptState_fusion_depth_offset_must_be_0xA2[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_depth) ==
+        AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET ? 1 : -1
+];
+typedef char AiScriptState_fusion_best_depth_offset_must_be_0xA3[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_best_depth) ==
+        AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET ? 1 : -1
+];
+typedef char AiScriptState_fusion_path_offset_must_be_0xA4[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_path) ==
+        AI_SCRIPT_FUSION_PATH_BYTE_OFFSET ? 1 : -1
 ];
 typedef char AiDuelistState_size_must_be_0x20[
     sizeof(AiDuelistState) == 0x20 ? 1 : -1

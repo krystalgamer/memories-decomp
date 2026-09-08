@@ -4,6 +4,10 @@
 functions. The field names are mechanical project names, not recovered
 original symbols.
 
+Scalar AI constants live in the type-free `src/game/ai_constants.h`, re-exported
+by `ai.h`. Legacy local state/card views can use those constants without
+changing their external declarations.
+
 ## `AiActiveCard`
 
 Size: `0x0C`
@@ -42,6 +46,15 @@ array. This is intentional where GCC must retain a base-symbol relocation plus
 an instruction offset instead of folding the field offset into the symbol.
 The shared structure remains the authoritative layout while the local extern
 controls code generation.
+
+The selected combo buffer at `AI_SCRIPT_COMBO_BYTE_OFFSET` (`0x38`) is not
+the in-progress path at `AI_SCRIPT_FUSION_PATH_BYTE_OFFSET` (`0xA4`).
+Current depth (`0xA2`) and best depth (`0xA3`) likewise have distinct byte
+offsets tied to the existing structure. The fusion copier retains its
+inclusive best-depth bound and following zero terminator; combo readers keep
+their existing bounds and filtering. Naming the offsets does not replace
+raw views, clamp malformed depths, or turn the five-entry combo-start scan
+into a six-entry scan.
 
 The raw set helpers now name their offset units explicitly.
 `AI_SCRIPT_CARD_SET_BYTE_OFFSET` is `0x3E`, while
