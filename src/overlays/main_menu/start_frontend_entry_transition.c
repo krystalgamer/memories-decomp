@@ -1,10 +1,11 @@
 #include "../../types.h"
+#include "frontend.h"
 
 extern u8 *gMain_apMenuEntries[];
 extern u8 D_80184596;
 extern u8 D_80184599;
 
-void func_80180D2C(s32 mode)
+void MainMenu_StartFrontendEntryTransition(s32 mode)
 {
     s32 i;
     s32 offset;

@@ -84,7 +84,7 @@ s32 func_80043BCC(void) {
             if ((f & 0x80) == 0) {
                 D_8009B428 = f | 0x80;
                 Main_ResetFrontendRuntime();
-                func_8018001C(0, 0);
+                MainMenu_InitFrontendMenu(0, 0);
                 func_800157DC();
             }
             r = MainMenu_UpdateFrontendMenu();
@@ -94,7 +94,7 @@ s32 func_80043BCC(void) {
         }
         SD_BGMFadeOut();
         Fade_WaitOut();
-        func_80180DD0();
+        MainMenu_DestroyFrontendMenu();
         Main_ResetFrontendRuntime();
         if (r != -2) {
             return r;

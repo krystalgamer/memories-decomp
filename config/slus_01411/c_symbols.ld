@@ -452,11 +452,14 @@ NameEntry_PollCompletion = 0x80169C08;
 /* Conditional runtime imports; the definitions live in the password image. */
 PROVIDE(Password_InitShopScreen = 0x8016A080);
 PROVIDE(Password_UpdateShopScreen = 0x8016A37C);
-func_8018001C = 0x8018001C;
 func_80180390 = 0x80180390;
-func_80180DD0 = 0x80180DD0;
 /* Conditional runtime imports; the function definitions live in main_menu. */
+PROVIDE(MainMenu_InitFrontendMenu = 0x8018001C);
 PROVIDE(MainMenu_UpdateFrontendMenu = 0x80180390);
+PROVIDE(MainMenu_DestroyFrontendMenu = 0x80180DD0);
+PROVIDE(MainMenu_StartValueSetup = 0x80180FD8);
+PROVIDE(MainMenu_UpdateValueSetup = 0x801812B4);
+PROVIDE(MainMenu_FinishValueSetup = 0x80181E30);
 PROVIDE(MainMenu_InitTradeScreen = 0x80181F68);
 PROVIDE(MainMenu_UpdateTradeScreen = 0x801821DC);
 D_8009B0CC_arr = 0x8009B0CC;

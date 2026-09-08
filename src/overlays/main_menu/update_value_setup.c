@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/card_constants.h"
+#include "entrypoints.h"
 
 extern u8 *D_801845B0[];
 extern u8 D_801845BC[];
@@ -9,7 +10,7 @@ extern volatile u16 D_8009B398[];
 extern void func_80048658(s32, s32, s32);
 extern void MainMenu_StartValueWidgetTween(s32, s32);
 
-s32 func_801812B4(void)
+s32 MainMenu_UpdateValueSetup(void)
 {
     s32 busyA;
     s32 busyB;

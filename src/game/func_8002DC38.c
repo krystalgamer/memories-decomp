@@ -1,6 +1,7 @@
 
 #include "../types.h"
 #include "card_constants.h"
+#include "../overlays/main_menu/entrypoints.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
@@ -14,16 +15,13 @@ extern u16 D_8009B236 __attribute__((section(".data")));
 extern u8 D_8009B368 __attribute__((section(".data")));
 extern u8 D_800EB0F8[];
 
-extern void func_80180FD8(u16 *, u16 *, u16 *);
 extern void *TextBox_CreateFlagged(s32, s32, s32, s32, s32, s32, s32);
 extern void *TextBox_Create(s32, s32, s32, s32, s32, s32);
 extern void func_80039A14(void *);
 extern void SD_BGMPlay(u32);
 extern void func_80015A00(void);
-extern s32 func_801812B4(void);
 extern void SD_BGMFadeOut(void);
 extern void Fade_WaitOut(void);
-extern void func_80181E30(void);
 extern void func_80024DC8(s32, s32, s32, s32);
 
 void func_8002DC38(void)
@@ -34,7 +32,7 @@ void func_8002DC38(void)
         D_8009B26C = D_8009B26C | 0x40;
         D_8009B236 = DUEL_STARTING_LIFE_POINTS;
         D_8009B234 = DUEL_STARTING_LIFE_POINTS;
-        func_80180FD8(&D_8009B234, &D_8009B236, &D_8009B230);
+        MainMenu_StartValueSetup(&D_8009B234, &D_8009B236, (u8 *)&D_8009B230);
         TextBox_CreateFlagged(0, 0x25, 0x34, 0xB4, 0xD8, 0x20, 0x20);
         func_80039A14(D_800EB0F8);
         TextBox_Create(1, 0x26, 0xE, 0x66, 0x100, 0x30);
@@ -43,11 +41,11 @@ void func_8002DC38(void)
         func_80015A00();
     }
 
-    result = func_801812B4();
+    result = MainMenu_UpdateValueSetup();
     if (result != 0) {
         SD_BGMFadeOut();
         Fade_WaitOut();
-        func_80181E30();
+        MainMenu_FinishValueSetup();
         if (result == 1) {
             func_80024DC8(-1, -1, 0, 0);
             D_8009B368 = 8;

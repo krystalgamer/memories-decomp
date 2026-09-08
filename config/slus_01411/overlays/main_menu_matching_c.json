@@ -4,7 +4,7 @@
       "address": "0x8018001C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x374",
-      "source": "src/overlays/main_menu/func_8018001C.c"
+      "source": "src/overlays/main_menu/frontend_init.c"
     },
     {
       "address": "0x80180390",
@@ -22,13 +22,13 @@
       "address": "0x80180D2C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA4",
-      "source": "src/overlays/main_menu/func_80180D2C.c"
+      "source": "src/overlays/main_menu/start_frontend_entry_transition.c"
     },
     {
       "address": "0x80180DD0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x9C",
-      "source": "src/overlays/main_menu/func_80180DD0.c"
+      "source": "src/overlays/main_menu/frontend_destroy.c"
     },
     {
       "address": "0x80180E6C",
@@ -52,7 +52,7 @@
       "address": "0x801812B4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x474",
-      "source": "src/overlays/main_menu/func_801812B4.c"
+      "source": "src/overlays/main_menu/update_value_setup.c"
     },
     {
       "address": "0x80181728",

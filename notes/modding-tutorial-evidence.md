@@ -118,13 +118,21 @@ path. The negative-opponent-ID path is the 2P Duel setup: menu result `2`
 dispatches to
 [`func_8002DC38`](../src/game/func_8002DC38.c), which initializes
 `D_8009B234` and `D_8009B236` with `DUEL_STARTING_LIFE_POINTS` and passes
-both addresses to the main-menu value editor at `0x80180FD8`. Its matching
+both addresses to `MainMenu_StartValueSetup` at `0x80180FD8`. Its matching
 input handler
-[`func_801812B4`](../src/overlays/main_menu/func_801812B4.c) uses
+[`MainMenu_UpdateValueSetup`](../src/overlays/main_menu/update_value_setup.c) uses
 `DUEL_LIFE_POINT_SELECTION_STEP` to let pad 1 and pad 2 adjust their
 respective values to `1` or a multiple of 500 from 500 through 8000.
 `func_800175A0` then initializes each duel side from those two selected
 values.
+
+The editor also carries one shared binary option, whose visible meaning is
+not established here. Its setup/finish API reads and writes only the low byte
+of the caller's wider option field. Acceptance and cancellation both invoke
+`MainMenu_FinishValueSetup`, which writes the target values and normalized
+option back; cancellation is not a rollback. See the
+[complete value-editor contract](../src/overlays/main_menu/README.md#value-setup-input-and-write-back)
+for per-controller busy/input priority and shared-choice sequencing.
 
 The shared source constant does not make the tutorial patch global: each use
 compiles to a separate immediate, and SLUS offset `0x7DD0` changes only the
@@ -447,7 +455,7 @@ SHA-256: 5b59103a270882b261ff9c13ba68060a90b3b01f9b5475da50af11dc5908ba19
 ```
 
 The matching main-menu overlay identifies one direct consumer.
-`func_8018001C` installs `func_80180B4C` in callback slot `D_800E9DB0`. That
+`MainMenu_InitFrontendMenu` (`0x8018001C`) installs `func_80180B4C` in callback slot `D_800E9DB0`. That
 function assigns CLUT value `0x3D00`, now written as `getClut(0, 244)`, to
 native `POLY_FT4` packets that tile the complete `320 x 240` screen before a
 full-screen `POLY_G4` shade. The screen-coordinate uses retain the existing
@@ -469,8 +477,8 @@ calls provide a complete static inventory:
 
 | VRAM row | SU offset | Matching main-menu consumer |
 |---:|---:|---|
-| `240` | `+0x30000` | The eleven `gMain_apMenuEntries` objects created by `func_8018001C`, plus transition copies created by `func_80180E6C` |
-| `241` | `+0x30200` | The three persistent singleton objects `D_80184558`, `D_8018455C`, and `D_80184560` created by `func_8018001C` |
+| `240` | `+0x30000` | The eleven `gMain_apMenuEntries` objects created by `MainMenu_InitFrontendMenu`, plus transition copies created by `func_80180E6C` |
+| `241` | `+0x30200` | The three persistent singleton objects `D_80184558`, `D_8018455C`, and `D_80184560` created by `MainMenu_InitFrontendMenu` |
 | `242` | `+0x30400` | No direct consumer in the matching main-menu overlay |
 | `243` | `+0x30600` | No direct consumer in the matching main-menu overlay |
 | `244` | `+0x30800` | The full-screen tiled background drawn by `func_80180B4C` |

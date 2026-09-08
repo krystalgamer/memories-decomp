@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "entrypoints.h"
 
 extern void *D_80184558;
 extern void *D_8018455C;
@@ -7,7 +8,7 @@ extern void *gMain_apMenuEntries[];
 extern s32 D_800E9DB0;
 extern void func_8004036C(void *);
 
-void func_80180DD0(void)
+void MainMenu_DestroyFrontendMenu(void)
 {
     s32 i;
 

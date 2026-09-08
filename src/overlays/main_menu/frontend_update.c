@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "../../psyq/libgte.h"
 #include "entrypoints.h"
+#include "frontend.h"
 
 extern u8 *D_80184560;
 extern u8 *gMain_apMenuEntries[];
@@ -21,7 +22,6 @@ extern volatile u16 D_8009B398;
 extern u8 D_8009B3EA;
 extern u8 D_8009B3ED;
 
-extern void func_80180D2C(s32);
 extern void func_80180E6C(u8 *);
 extern void func_80040410(u8 *, s32);
 extern void Input_ResetPads(void);
@@ -72,7 +72,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         if (poll != 0) {
             if (poll == 1) {
                 Input_ResetPads();
-                func_80180D2C(1);
+                MainMenu_StartFrontendEntryTransition(1);
                 D_8018459B = 0;
             } else {
                 Input_ResetPads();
@@ -87,7 +87,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         if (poll != 0) {
             if (poll == 1) {
                 Input_ResetPads();
-                func_80180D2C(1);
+                MainMenu_StartFrontendEntryTransition(1);
                 D_8018459C = 0;
             } else {
                 Input_ResetPads();
@@ -102,7 +102,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         if (poll != 0) {
             if (poll == 1) {
                 Input_ResetPads();
-                func_80180D2C(1);
+                MainMenu_StartFrontendEntryTransition(1);
                 D_8018459D = 0;
             } else {
                 Input_ResetPads();
@@ -174,7 +174,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             SD_SEPlay(7, 0xFF, 0);
             ent3 = D_80184560;
             *(u16 *)(ent3 + 8) &= 0xFFBF;
-            func_80180D2C(0);
+            MainMenu_StartFrontendEntryTransition(0);
             D_80184598 = 1;
             goto ret_m1;
         }
@@ -269,7 +269,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 }
                 D_80184598 = -1;
             } else {
-                func_80180D2C(0);
+                MainMenu_StartFrontendEntryTransition(0);
                 gMain_bMenuID = 1;
             }
             D_80184595 = 0;
@@ -278,7 +278,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         if (gMain_bMenuID != 1) {
             return gMain_bMenuID;
         }
-        func_80180D2C(0);
+        MainMenu_StartFrontendEntryTransition(0);
         gMain_bMenuID = 5;
         return -1;
     }
@@ -339,7 +339,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             return -1;
         }
     }
-    func_80180D2C(1);
+    MainMenu_StartFrontendEntryTransition(1);
 ret_m1:
     return -1;
     return -1;

@@ -43,8 +43,9 @@ The module has a Splat layout and rebuilds byte-for-byte under
 trailing data range and is zero in the image, consistent with a variable
 rather than initialised content.
 
-`Main_RunMenu` enters the image at `func_8018001C`, `MainMenu_UpdateFrontendMenu` and
-`func_80180DD0`. All three now build from matching C. These frontend entries
+`Main_RunMenu` enters the image at `MainMenu_InitFrontendMenu`,
+`MainMenu_UpdateFrontendMenu` and `MainMenu_DestroyFrontendMenu`.
+All three now build from matching C. These frontend entries
 are distinct from the Trade-screen entries below.
 
 The loaded bytes contain resident call targets throughout `0x80180xxx` and
@@ -62,6 +63,36 @@ The module has its own tracked overlay layout and matching-C manifest under
 `config/slus_01411/overlays/`. It rebuilds independently from the resident
 executable; main-menu entries must not be added to the resident
 `config/slus_01411/matching_c.json`.
+
+## Frontend lifecycle
+
+`MainMenu_InitFrontendMenu` (`0x8018001C`) retains its unused first
+argument and initializes the selected byte from `menu % 11`. It allocates
+three singleton objects and all eleven menu entries, seeds an entrance
+transition and installs the background callback. It is not the archive
+loader or input pump. Final state is not simply all zero: the transition
+starter sets active byte `D_80184599` to 1, and nonzero selection sets
+`D_80184597` to `0x80`. Individual allocation checks do not make the final
+third-singleton access in that nonzero-selection path null-safe. The
+singleton artwork and the meaning of the retained sound argument `0x7000`
+remain unassigned.
+
+`MainMenu_StartFrontendEntryTransition` (`0x80180D2C`) is the internal
+endpoint initializer, not the interpolator. It skips null entries, but
+always publishes the low mode byte and transition-active flag. It resets
+current X to the selected starting endpoint and writes a sixteen-update
+countdown, without modifying Y, visibility or selectors. Known callers use
+0/1; the full-width branch and byte-narrowed mode store are not normalized
+for arbitrary other integers. `frontend.h` shares this internal declaration;
+no resident import is added for it.
+
+`MainMenu_DestroyFrontendMenu` (`0x80180DD0`) releases and clears the
+three singleton handles and eleven entry handles, then clears callback slot
+0. The release helper handles null singleton pointers. It does not fade,
+unload the archive, reset the selected/scalar menu state or release the
+separate value/Trade setup. Clearing the callback has no ownership test, so
+valid frontend lifecycle remains a caller precondition. The resident-facing
+declarations in `entrypoints.h` are included by definitions and both callers.
 
 ## Trade-screen ownership
 
@@ -186,6 +217,61 @@ are `countKeyA` and `countKeyB`, distinguishing effective comparison keys
 from the stored unsigned count. This is a source-organization choice, not
 proof of the original author's translation-unit boundaries.
 
+## Value-setup input and write-back
+
+`MainMenu_UpdateValueSetup` (`0x801812B4`) updates the two-value/shared-option
+editor, not merely the LP fields. `MainMenu_StartValueSetup`,
+`MainMenu_UpdateValueSetup` and `MainMenu_FinishValueSetup` share declarations
+with the resident `func_8002DC38` caller.
+
+| Result | Meaning | Resident behavior |
+|---:|---|---|
+| 0 | Keep editing | Poll again |
+| -1 | Cancel | Fade, call `MainMenu_FinishValueSetup`, restore the previous mode |
+| 1 | Accept | Fade, call `MainMenu_FinishValueSetup`, enter the duel path |
+
+**Cancellation is not a rollback.** The finish helper writes the target
+values and normalized binary option back on either nonzero result, before
+the caller distinguishes cancel from accept. The option occupies only the
+low byte of the caller's wider `D_8009B230` view. Its address is explicitly
+viewed as `u8 *` at the shared setup boundary, preserving the wider resident
+declaration and emitted address setup.
+
+The two twelve-byte state records hold target/display halfwords at offsets
+`0/2` and `0x0C/0x0E`, with output pointers at `+4/+0x10`.
+`D_801845BC[0/1]` are side modes, and `[2]` is **one shared choice**.
+Modes 0/1 address its two positions; mode 2 is a side's value-bar position.
+Setup initializes the choice to `(*toggle == 0)`, and finish writes
+`(choice != 1)`: choice 0 writes 1, choice 1 writes 0. The visible option
+caption and wider gameplay meaning remain unproved.
+
+Busy status comes from each widget's active position callback and from any
+display/target mismatch. Value rolling uses the exact absolute difference,
+except display below 2 forces step 99 and differences at least 101 otherwise
+cap the step at 100. An update that reaches equality still counts as busy
+for that invocation. This is not a generic monotonic interpolation guarantee
+for arbitrary caller-provided values.
+
+Only when both sides are idle are newly pressed Circle/Start examined:
+Circle on either pad wins over Start on either pad. These return checks
+precede per-side edits and do not require leaving the shared-option mode.
+Cross/Square are not confirmations here.
+
+Idle sides then process repeat/new-press input in side-0, side-1 order.
+Horizontal Left/Right has priority over mode-change directions, with Left
+winning if both are present. In modes below 2 it changes the shared choice;
+the other side's mode is propagated only if that mode is also below 2, without
+separately checking its busy flag. Both eligible sides can edit in one call,
+so side 1's later shared-choice write can win. Down enters value mode.
+
+In value mode, Left subtracts 500 when the result stays positive, otherwise
+selects 1. Right selects 500 below 2, otherwise adds 500 capped at 8000.
+Up returns to the current shared-option position. Starting from the observed
+8000 defaults, values are 1 or multiples of 500 through 8000; arbitrary
+initial values are not rounded or validated. Target edits happen after
+rolling/busy checks and start rolling on a later invocation. Position tweens
+and numeric rolling remain separate, and no real-time duration is inferred.
+
 ## What the menu shows
 
 `MainMenu_UpdateFrontendMenu` at `0x80180390` services both entry groups,
@@ -196,7 +282,7 @@ mode IDs themselves. `-1` keeps polling. In the separate `func_80043BCC`
 caller, `-2` tears down and restarts the outer frontend loop; no particular
 attract movie or timeout duration is established by that return code.
 
-Exact matching `func_8018001C` establishes the eleven-entry table, its `5+6`
+Exact matching `MainMenu_InitFrontendMenu` establishes the eleven-entry table, its `5+6`
 position split, and the modulo-11 initial cursor. The
 `main_menu_entry_slots` trace and player report supply the human-readable
 entry labels and confirm the visible motion. The frontend presents **two**
@@ -240,7 +326,7 @@ same alternation.
 | `+0x0C` | `0x808080` | colour, mid grey |
 
 Both modes animate x at `+0x30`; `+0x36` and `+0x38` are not separate
-axes. `func_80180D2C` selects entrance for zero and exit for nonzero by
+axes. `MainMenu_StartFrontendEntryTransition` selects entrance for zero and exit for nonzero by
 swapping the parked and centered endpoints. The sample's `D_80184596 = 0`
 and `+0x38 = 160` therefore identify the entrance setup, not a
 horizontal-versus-vertical switch.
@@ -255,7 +341,7 @@ which occupy `0x80184568`-`0x80184593`. The two use the same numbering:
 | 0-4 | 0-4 | New Game, Load, 2P Duel, Trade, Option |
 | 5-10 | 5-10 | Campaign, Free Duel, Build Deck, Library, Password, Save |
 
-Matching `func_8018001C` reduces its incoming menu value modulo 11 and uses
+Matching `MainMenu_InitFrontendMenu` reduces its incoming menu value modulo 11 and uses
 `gMain_bMenuID != i` while configuring each corresponding entry. The cursor
 range and label mapping were also established independently by reading the
 byte live while moving the highlight: see `F1` and `F18` in

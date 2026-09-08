@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "entrypoints.h"
 
 extern u8 D_801845C0[];
 extern u8 D_801845BE;

@@ -41,6 +41,13 @@ The shop experiments retain `func_8016A080`, `func_8016A37C`,
 The [current lifecycle](../../src/overlays/password/README.md#password-shop-lifecycle)
 separates cached preview selection, dialog decisions, award and payment.
 
+Historical main-menu experiments retain `func_8018001C` and
+`func_801812B4` for the current `MainMenu_InitFrontendMenu` and
+`MainMenu_UpdateValueSetup`. The current
+[value-editor contract](../../src/overlays/main_menu/README.md#value-setup-input-and-write-back)
+records shared-option sequencing and cancellation write-back rather than
+reinterpreting old compiler measurements as behavior guarantees.
+
 | Content | Repository location | Tracked |
 |---|---|---|
 | Resident executable C | `src/game/` | Yes |
