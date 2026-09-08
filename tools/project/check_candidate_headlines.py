@@ -23,14 +23,14 @@ from __future__ import annotations
 import argparse
 import csv
 import re
-import sys
 from pathlib import Path
 
-from workspace import (
-    WorkspaceError,
-    require_workspace_root,
-    resolve_within,
-)
+# Resolved from this file rather than through `require_workspace_root`, whose
+# markers include the retail image. This check reads only tracked text, so
+# demanding an ignored binary would keep it out of the metadata workflow -- the
+# one place it can watch `notes/**`. `candidate_files.py` resolves its root the
+# same way for the same reason.
+ROOT = Path(__file__).resolve().parents[2]
 
 FUNCTIONS_CSV = "config/slus_01411/functions.csv"
 CANDIDATES_DIR = "notes/candidates"
@@ -50,7 +50,7 @@ def figures(text: str) -> tuple[str | None, str | None]:
 
 def inventory(root: Path) -> dict[str, str]:
     notes = {}
-    with resolve_within(root, FUNCTIONS_CSV).open() as handle:
+    with (root / FUNCTIONS_CSV).open() as handle:
         for row in csv.DictReader(handle):
             notes[row["name"]] = row["notes"]
     return notes
@@ -63,9 +63,9 @@ def main() -> int:
                         help="only report disagreements")
     args = parser.parse_args()
 
-    root = require_workspace_root()
+    root = ROOT
     rows = inventory(root)
-    candidates = sorted(resolve_within(root, CANDIDATES_DIR).glob("func_*.md"))
+    candidates = sorted((root / CANDIDATES_DIR).glob("func_*.md"))
 
     checked = 0
     problems = []
@@ -105,8 +105,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    try:
-        raise SystemExit(main())
-    except WorkspaceError as error:
-        print(f"error: {error}", file=sys.stderr)
-        raise SystemExit(1)
+    raise SystemExit(main())
