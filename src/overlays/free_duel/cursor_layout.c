@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/card_constants.h"
+#include "../../game/graphics_frame.h"
 #include "../../game/text_box_lifecycle.h"
 
 typedef struct {
@@ -17,7 +18,6 @@ extern s16 D_8009B32E;
 extern u8 gFreeDuel_abGridAvailable[];
 extern u8 D_800EB0F8[];
 extern s16 D_801D0000[];
-extern s16 gGraphics_sViewportY;
 
 typedef struct {
     u32 lo;

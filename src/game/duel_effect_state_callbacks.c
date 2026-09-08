@@ -1,16 +1,19 @@
 #include "../types.h"
 #include "../psyq/rand.h"
 #include "file_transfer.h"
+#include "graphics_frame.h"
 
 extern u32 D_8009B0CC[];
 extern u32 D_8009B134[];
-extern u16 gGraphics_sViewportX[];
-extern u16 gGraphics_sViewportY[];
 extern s16 D_8009B322;
 extern u8 *D_8009B328;
 extern u16 D_8009B348[2];
 extern int func_80036D3C(u8 *);
 extern int func_80049120(void *);
+
+extern u16 gGraphics_uViewportX[] asm("gGraphics_sViewportX");
+extern u16 gGraphics_uViewportY[] asm("gGraphics_sViewportY");
+
 void func_800378D8(u8 *object)
 {
     u8 flags = object[0x51];
@@ -81,17 +84,17 @@ void func_80037A58(u8 *object)
     if ((flags & 0x80) == 0) {
         object[0x51] = flags | 0x80;
         D_8009B322 = func_80036D3C(object);
-        D_8009B348[0] = gGraphics_sViewportX[0];
-        D_8009B348[1] = gGraphics_sViewportY[0];
+        D_8009B348[0] = gGraphics_uViewportX[0];
+        D_8009B348[1] = gGraphics_uViewportY[0];
     }
     if (D_8009B0CC[0] & 1) {
-        gGraphics_sViewportX[0] = D_8009B348[0] + ((rand() & 7) - 4);
-        gGraphics_sViewportY[0] = D_8009B348[1] + ((rand() & 3) - 2);
+        gGraphics_uViewportX[0] = D_8009B348[0] + ((rand() & 7) - 4);
+        gGraphics_uViewportY[0] = D_8009B348[1] + ((rand() & 3) - 2);
     }
     D_8009B322--;
     if (D_8009B322 == 0) {
-        gGraphics_sViewportX[0] = D_8009B348[0];
-        gGraphics_sViewportY[0] = D_8009B348[1];
+        gGraphics_uViewportX[0] = D_8009B348[0];
+        gGraphics_uViewportY[0] = D_8009B348[1];
         object[0x51] = 0;
     }
 }

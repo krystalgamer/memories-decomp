@@ -1,7 +1,6 @@
 #include "../types.h"
+#include "graphics_frame.h"
 
-extern u16 gGraphics_sViewportX[4];
-extern u16 gGraphics_sViewportY[4];
 extern s16 D_8009B27C;
 extern s32 D_8009B284;
 extern s32 D_8009B288;
@@ -12,6 +11,9 @@ extern s16 D_8009B2A8;
 extern s16 D_8009B2AA;
 
 s32 func_8002E3B4(void);
+
+extern u16 gGraphics_uViewportX[4] asm("gGraphics_sViewportX");
+extern u16 gGraphics_uViewportY[4] asm("gGraphics_sViewportY");
 
 /* Two-axis smooth scroll stepper: on the first frame derives the per-frame
  * 16.16 deltas from the distance to the target over the remaining frame
@@ -28,10 +30,10 @@ void Script_UpdateViewportTween(void) {
     s32 d;
 
     if (func_8002E3B4() == 0) {
-        sx = *(s16 *)&gGraphics_sViewportX[0];
+        sx = *(s16 *)&gGraphics_uViewportX[0];
         n = *(s16 *)&D_8009B29C;
         D_8009B294 = ((*(s16 *)&D_8009B2A8 - sx) << 16) / n;
-        sy = *(s16 *)&gGraphics_sViewportY[0];
+        sy = *(s16 *)&gGraphics_uViewportY[0];
         D_8009B298 = ((*(s16 *)&D_8009B2AA - sy) << 16) / n;
         D_8009B284 = (sx << 16) | 0x8000;
         D_8009B288 = (sy << 16) | 0x8000;
@@ -43,16 +45,16 @@ void Script_UpdateViewportTween(void) {
     d = D_8009B298;
     a = a + b;
     D_8009B284 = a;
-    gGraphics_sViewportX[0] = a >> 16;
+    gGraphics_uViewportX[0] = a >> 16;
     c = c + d;
     D_8009B288 = c;
-    gGraphics_sViewportY[0] = c >> 16;
+    gGraphics_uViewportY[0] = c >> 16;
 
     v = D_8009B29C - 1;
     D_8009B29C = v;
     if ((s16)v <= 0) {
         D_8009B27C = 0;
-        gGraphics_sViewportX[0] = D_8009B2A8;
-        gGraphics_sViewportY[0] = D_8009B2AA;
+        gGraphics_uViewportX[0] = D_8009B2A8;
+        gGraphics_uViewportY[0] = D_8009B2AA;
     }
 }

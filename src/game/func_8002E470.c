@@ -2,6 +2,7 @@
 #include "script_command_busy.h"
 #include "fade.h"
 #include "file_transfer.h"
+#include "graphics_frame.h"
 
 extern u8 *D_8009B290;
 extern u16 D_8009B270;
@@ -9,8 +10,12 @@ extern u16 D_8009B27C;
 extern s32 D_8009B134 __attribute__((section(".data")));
 extern u8 D_800E9ECE[];
 extern u8 D_800EAE98[];
-extern s16 gGraphics_sViewportX __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY __attribute__((section(".data")));
+extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
+    __attribute__((section(".data")));
+extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
+    __attribute__((section(".data")));
+#define gGraphics_sViewportX gGraphics_sViewportX_data
+#define gGraphics_sViewportY gGraphics_sViewportY_data
 extern void func_8002E00C(void *);
 extern void func_8002DF2C(void *, s32);
 extern void func_8002E128(void *, s32);

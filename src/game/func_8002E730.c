@@ -5,6 +5,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "graphics_frame.h"
 
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
@@ -18,8 +19,12 @@ extern s32 gGraphics_bActiveBuffer __attribute__((section(".data")));
 #define gGraphics_bActiveBuffer (*(u8 *)&gGraphics_bActiveBuffer)
 extern s32 D_8009B134 __attribute__((section(".data")));
 extern u8 D_8009B145 __attribute__((section(".data")));
-extern s16 gGraphics_sViewportX __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY __attribute__((section(".data")));
+extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
+    __attribute__((section(".data")));
+extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
+    __attribute__((section(".data")));
+#define gGraphics_sViewportX gGraphics_sViewportX_data
+#define gGraphics_sViewportY gGraphics_sViewportY_data
 extern u8 D_800E9D70[100];
 #define D_800E9D70 (*(RECT *)D_800E9D70)
 extern u8 D_800E9ECE[100];

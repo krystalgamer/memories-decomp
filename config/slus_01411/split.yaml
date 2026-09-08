@@ -150,13 +150,29 @@ segments:
       - [0x8B884, .sdata, game/ai_script_source_line_format]
       - [0x8B88C, pad]
 
-  - name: bss_image
+  - name: bss_image_before_viewport
     type: bin
     start: 0x8b890
     vram: 0x8009B090
-    align: 4
+    align: 2
     subsegments:
-      - [0x8b890, bin, bss_image]
+      - [0x8b890, bin, bss_image_before_viewport]
+
+  - name: bss_image_viewport
+    type: code
+    start: 0x8b946
+    vram: 0x8009B146
+    align: 2
+    subsegments:
+      - [0x8b946, .sbss, game/graphics_frame]
+
+  - name: bss_image_after_viewport
+    type: bin
+    start: 0x8b94a
+    vram: 0x8009B14A
+    align: 2
+    subsegments:
+      - [0x8b94a, bin, bss_image_after_viewport]
 
   - name: reserved_zero
     type: bin

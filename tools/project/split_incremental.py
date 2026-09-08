@@ -42,7 +42,6 @@ REQUIRED_OUTPUTS = (
     "tmp/splat/undefined_syms_auto.txt",
     "tmp/splat/asm/header.s",
     "tmp/splat/asm/data/initialized_data_800906e0.data.s",
-    "tmp/splat/assets/bss_image.bin",
     "tmp/splat/assets/reserved_zero.bin",
     "tmp/splat/assets/tail_data.bin",
 )
@@ -273,7 +272,14 @@ def output_snapshot(root: Path) -> dict[str, str]:
                     outputs[name] = sha256(path)
                 else:
                     return {}
-    if not all(name in outputs for name in REQUIRED_OUTPUTS):
+    if (
+        not all(name in outputs for name in REQUIRED_OUTPUTS)
+        or not any(
+            name.startswith("tmp/splat/assets/bss_image")
+            and name.endswith(".bin")
+            for name in outputs
+        )
+    ):
         return {}
     return outputs
 
@@ -305,6 +311,11 @@ def load_state(root: Path) -> tuple[dict[str, Any] | None, str]:
                    and isinstance(value, str) and len(value) == 64
                    for name, value in outputs.items())
         or not all(name in outputs for name in REQUIRED_OUTPUTS)
+        or not any(
+            name.startswith("tmp/splat/assets/bss_image")
+            and name.endswith(".bin")
+            for name in outputs
+        )
     ):
         return None, "invalid split cache"
     return state, ""

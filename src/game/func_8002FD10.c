@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "file_transfer.h"
+#include "graphics_frame.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
@@ -14,8 +15,12 @@ typedef struct {
 
 extern u16 D_8009B2A4;
 extern void *D_8009B2A0;
-extern s16 gGraphics_sViewportX __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY __attribute__((section(".data")));
+extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
+    __attribute__((section(".data")));
+extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
+    __attribute__((section(".data")));
+#define gGraphics_sViewportX gGraphics_sViewportX_data
+#define gGraphics_sViewportY gGraphics_sViewportY_data
 extern s32 D_80010000 __attribute__((section(".data")));
 extern RECT D_800E9D70[];
 extern Slot D_800EAE98[];

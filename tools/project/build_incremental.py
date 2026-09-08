@@ -269,7 +269,10 @@ def load_components(root: Path) -> list[Component]:
             Component(kind, source, object_name, profile)
         )
     trailing_components += [
-        Component("binary", "tmp/splat/assets/bss_image.bin", "bss_image.o"),
+        *[
+            Component("binary", asset, f"{Path(asset).stem}.o")
+            for asset in build_baseline.load_bss_image_assets(root)
+        ],
         Component(
             "binary",
             "tmp/splat/assets/reserved_zero.bin",

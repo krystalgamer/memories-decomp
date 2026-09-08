@@ -427,6 +427,28 @@ class CacheCheckpointTests(WorkspaceTests):
         self.assertEqual(write_cache.call_count, 4)
 
 
+class BssImageComponentTests(WorkspaceTests):
+    def test_fragmented_bss_image_assets_are_all_components(self) -> None:
+        self.write("tmp/splat/assets/bss_image_before.bin", b"before")
+        self.write("tmp/splat/assets/bss_image_after.bin", b"after")
+        with (
+            patch.object(build_baseline, "load_text_segments", return_value=[]),
+            patch.object(build_baseline, "load_overlay_assets", return_value=[]),
+        ):
+            components = build_incremental.load_components(self.root)
+        self.assertEqual(
+            [
+                (component.source, component.object_name)
+                for component in components
+                if component.source.startswith("tmp/splat/assets/bss_image")
+            ],
+            [
+                ("tmp/splat/assets/bss_image_after.bin", "bss_image_after.o"),
+                ("tmp/splat/assets/bss_image_before.bin", "bss_image_before.o"),
+            ],
+        )
+
+
 class JobCountTests(unittest.TestCase):
     def test_numeric_make_job_forms_are_supported(self) -> None:
         for flags, expected in (

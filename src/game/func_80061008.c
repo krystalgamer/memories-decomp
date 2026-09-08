@@ -2,12 +2,13 @@
 #include "graphics_frame.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
+#include "graphics_frame.h"
 
 extern u8 D_801A8000[];
 
 /* Keep symbolic usage evidence while preserving the literal-address codegen. */
-#define gGraphics_sViewportY (*(s16 *)0x8009B148)
-#define gGraphics_sViewportX (*(s16 *)0x8009B146)
+#define gGraphics_sViewportY_abs (*(s16 *)0x8009B148)
+#define gGraphics_sViewportX_abs (*(s16 *)0x8009B146)
 extern void func_80060B38(void);
 
 void func_80061008(s32 x0, s32 y0, s32 x1, s32 y1)
@@ -35,6 +36,6 @@ void func_80061008(s32 x0, s32 y0, s32 x1, s32 y1)
         record += 0x18;
     } while (i < 2);
 
-    gGraphics_sViewportY = 0;
-    gGraphics_sViewportX = 0;
+    gGraphics_sViewportY_abs = 0;
+    gGraphics_sViewportX_abs = 0;
 }

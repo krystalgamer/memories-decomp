@@ -13,6 +13,7 @@ typedef struct {
     u8 arrived;
 } ScrollState;
 
+extern u16 gGraphics_uViewportX asm("gGraphics_sViewportX");
 extern s32 func_80032B38(void);
 
 void BuildDeck_UpdatePaneTransition(ScrollState *state)
@@ -22,21 +23,21 @@ void BuildDeck_UpdatePaneTransition(ScrollState *state)
     if (func_80032B38() == 0) {
         /* Keep the sound ID live for the signed-divide branch delay slot. */
         register s32 sound asm("$4") = 30;
-        s32 diff = state->target - gGraphics_sViewportX;
+        s32 diff = state->target - (s16)gGraphics_uViewportX;
 
         state->step = diff / 16;
         state->ticks = 16;
         SD_SEPlayFull(sound);
     }
 
-    gGraphics_sViewportX += (u16)state->step;
+    gGraphics_uViewportX += (u16)state->step;
     ticks = state->ticks - 1;
     state->ticks = ticks;
     if (ticks == 0) {
         u16 position = (u16)state->target;
 
         state->arrived = 0;
-        gGraphics_sViewportX = position;
+        gGraphics_uViewportX = position;
         if ((s32)position << 16) {
             state->arrived = 1;
         }

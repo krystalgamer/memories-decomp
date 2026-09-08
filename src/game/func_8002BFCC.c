@@ -4,10 +4,15 @@
 #include "campaign_flags.h"
 #include "display_object_layout.h"
 #include "file_transfer.h"
+#include "graphics_frame.h"
 #include "text_box_lifecycle.h"
 
-extern s16 gGraphics_sViewportX __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY __attribute__((section(".data")));
+extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
+    __attribute__((section(".data")));
+extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
+    __attribute__((section(".data")));
+#define gGraphics_sViewportX gGraphics_sViewportX_data
+#define gGraphics_sViewportY gGraphics_sViewportY_data
 extern u8 gCardGrid_bCursorColumn;
 extern u8 gCardGrid_bCursorRow;
 extern void (*D_800E9DBC[])(void);

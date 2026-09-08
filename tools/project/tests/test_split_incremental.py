@@ -123,6 +123,8 @@ class IncrementalSplitTests(unittest.TestCase):
         split_incremental.clean.remove_target(root, "splat")
         for name in split_incremental.REQUIRED_OUTPUTS:
             self.write(name, "generated " + name + "\n")
+        self.write("tmp/splat/assets/bss_image_before.bin", b"before")
+        self.write("tmp/splat/assets/bss_image_after.bin", b"after")
         self.write("tmp/splat/asm/generated/example.s", "nop\n")
         self.write("tmp/splat/include/macro.inc", ".macro example\n.endm\n")
 
@@ -336,7 +338,7 @@ class IncrementalSplitTests(unittest.TestCase):
         self.assertFalse(self.prepare())
         (self.root / "tmp/splat/slus_01411.ld").unlink()
         self.assertFalse(self.prepare())
-        (self.root / "tmp/splat/assets/bss_image.bin").unlink()
+        (self.root / "tmp/splat/assets/bss_image_before.bin").unlink()
         self.assertFalse(self.prepare())
         self.assertEqual(self.generated.call_count, 4)
 

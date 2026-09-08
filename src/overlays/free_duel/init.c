@@ -3,6 +3,7 @@
 #include "../../game/display_object_layout.h"
 #include "../../game/card_constants.h"
 #include "../../game/campaign_flags.h"
+#include "../../game/graphics_frame.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../game/display_object_helpers.h"
@@ -30,8 +31,6 @@ extern s8 gFreeDuel_bTargetColumn;
 extern s8 gFreeDuel_bTargetRow;
 extern u8 D_8009B362;
 extern u8 gFreeDuel_aDuelistRecords[];
-extern s16 gGraphics_sViewportX;
-extern s16 gGraphics_sViewportY;
 extern u8 gFreeDuel_bScreenFlags;
 extern void *gFreeDuel_apSparklePool[];
 extern u8 gFreeDuel_abGridAvailable[];
