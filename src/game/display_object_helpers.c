@@ -85,7 +85,6 @@ void func_800428A8(
     func_800404CC(object, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 
-extern volatile u16 D_8009AF74[4] __attribute__((section(".sdata")));
 extern u16 D_8009AF76;
 extern u16 D_8009AF7A;
 

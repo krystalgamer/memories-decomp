@@ -34,6 +34,11 @@ typedef struct {
     u8 fraction_z;
 } DisplayObjectVelocity;
 
+/* Lives in .sdata. Declared volatile because display_object_helpers.c
+   reads it through a volatile pointer; the qualifier is load-bearing
+   there, not decorative. */
+extern volatile u16 D_8009AF74[4] __attribute__((section(".sdata")));
+
 void func_800427DC(u8 *object, int value);
 void func_80042824(u8 *object, int value);
 void func_80042874( DisplayObjectResource *object, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *resource );

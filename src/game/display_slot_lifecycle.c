@@ -2,8 +2,8 @@
 #include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
+#include "display_object_helpers.h"
 
-extern u16 D_8009AF74[4];
 extern u16 D_8009B410;
 extern u16 D_8009B412;
 extern s16 D_800EFE38[];
