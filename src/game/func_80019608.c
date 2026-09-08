@@ -14,7 +14,6 @@ extern u8 D_8009B174;
    store below the retail load-delay nop. c_symbols.ld overrides the common
    symbol, so no storage is allocated here. */
 u16 D_8009B150;
-extern u32 D_8009B134 __attribute__((section(".data")));
 
 extern void func_80029164(s32, s32);
 extern void func_80024914(u8 *);
@@ -67,7 +66,8 @@ void func_80019608(void)
     switch (state & 0xF) {
     case 1:
         if ((state & 0x80) == 0) {
-            if (((D_8009B0F4_abs & 0x2000030) | D_8009B134) != 0) {
+            if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                 D_8009B134_abs) != 0) {
                 return;
             }
             f2 = *(u16 *)(p + 8);

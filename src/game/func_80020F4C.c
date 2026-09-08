@@ -95,7 +95,6 @@ extern struct Obj *D_8009B21C;
 
 extern u8 D_8009B362 __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
-extern s32 D_8009B134 __attribute__((section(".data")));
 extern u8 D_800E9ECE[];
 extern u8 D_801AF000[];
 extern u16 gDuel_awRitualData[];
@@ -165,7 +164,8 @@ void func_80020F4C(void)
     switch (state) {
     case 1:
         if ((flags & 0x80) == 0) {
-            if ((D_8009B0F4_abs & 0x2000030) | D_8009B134) {
+            if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                D_8009B134_abs) {
                 return;
             }
             D_8009B174 = flags | 0x80;
@@ -178,7 +178,8 @@ void func_80020F4C(void)
                                       (s32)((u8 *)slots - 0x1800));
             func_800472A8(D_8009B1E0);
         } else {
-            if ((D_8009B0F4_abs & 0x2000030) | D_8009B134) {
+            if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                D_8009B134_abs) {
                 return;
             }
             D_8009B174 = 2;
@@ -217,7 +218,8 @@ void func_80020F4C(void)
                 }
             }
         } else {
-            if ((D_8009B0F4_abs & 0x2000030) | D_8009B134) {
+            if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                D_8009B134_abs) {
                 return;
             }
             if (func_80042B40(1) == 0) {

@@ -21,7 +21,6 @@ typedef struct {
     u32 field_44;
 } Object;
 
-extern s32 D_8009B134 __attribute__((section(".data")));
 extern u8 *D_8009B290;
 extern u16 D_8009B29C;
 extern u16 D_8009B27C;
@@ -65,7 +64,8 @@ void func_8002F630(void) {
     }
     flags = D_8009B27C;
     if ((flags & 0x4000) == 0) {
-        if (((D_8009B0F4_abs & 0x2000030) | D_8009B134) != 0) {
+        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             D_8009B134_abs) != 0) {
             return;
         }
         D_8009B27C = flags | 0x4000;

@@ -7,7 +7,6 @@
 #include "duel_package.h"
 #include "file_transfer.h"
 
-extern s32 D_8009B134[2];
 extern u8 *D_8009B17C;
 extern s16 D_8009B1D2;
 extern u8 *D_8009B214;
@@ -24,7 +23,7 @@ s32 Duel_GetTerrainBoost(s32 arg0);
  * before the call. Written as the read-back and the decrement in two
  * statements it is 4, as `v & 0xFF` with the decrement before the call 3.
  * Flags: default compiler, as -G4 (gDuel_bTerrain sized out of small data, the
- * D_8009B0F4_abs / D_8009B134 sized arms).
+ * D_8009B0F4_abs / D_8009B134_abs sized arms).
  */
 
 void func_80024E58(void) {
@@ -69,7 +68,7 @@ void func_80024E58(void) {
 
     if ((f & 0x20) == 0) {
         if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             D_8009B134[0]) == 0) {
+             D_8009B134_abs) == 0) {
             a = D_8009B214;
             b = gDuel_bTerrain[0];
             *(s16 *)(D_8009B17C + 0x1A) = -2;

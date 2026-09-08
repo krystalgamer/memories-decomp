@@ -63,4 +63,20 @@ void File_WaitForTransfers(void);
 extern volatile u32 D_8009B0F4;
 extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
 
+/* The loader's secondary-request word at 0x8009B134, the other half of the
+ * `(D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134` predicate
+ * that eighteen units use to ask whether a transfer is still in flight.
+ * `func_80014FA4` and `func_800144B8` raise it to 0x80, the frame pump
+ * `func_80014A5C` latches 0x40 into it once and otherwise clears it, and
+ * `File_InitTransferState` zeroes it with the rest of the loader block.
+ *
+ * It takes the same two addressing views as D_8009B0F4, for the same reason,
+ * but it is deliberately *not* volatile. That is a measured difference
+ * between the two neighbouring words, not an oversight: declaring it
+ * volatile makes `func_80014A5C` re-load it for the 0x40 test and again for
+ * the `|=`, where retail keeps one load live in `$3` across all three uses.
+ */
+extern u32 D_8009B134;
+extern u32 D_8009B134_abs __attribute__((section(".data")));
+
 #endif

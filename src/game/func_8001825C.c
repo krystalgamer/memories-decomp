@@ -14,7 +14,6 @@ extern u8 D_8009B1D5;
 extern s8 D_8009B1B9;
 extern s8 D_8009B208[8];
 extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
-extern u32 D_8009B134 __attribute__((section(".data")));
 extern u16 D_8009B36A __attribute__((section(".data")));
 extern u8 D_800E9ECE[];
 extern u8 D_8015C424[];
@@ -101,7 +100,7 @@ void func_8001825C(void)
 
     if ((D_8009B23A & 0x4000) == 0) {
         if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             D_8009B134) != 0) {
+             D_8009B134_abs) != 0) {
             return;
         }
         if ((D_800E9ECE[0] & 0x80) != 0) {

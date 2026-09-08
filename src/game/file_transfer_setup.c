@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "file_transfer.h"
 
-extern volatile u32 D_8009B134;
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 extern s32 gFile_anLba[];

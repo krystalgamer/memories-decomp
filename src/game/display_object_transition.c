@@ -6,7 +6,6 @@
 #include "display_object_helpers.h"
 
 extern u8 D_801AF000[];
-extern s32 D_8009B134;
 
 extern void func_80012D4C(void);
 void func_8004365C(u8 *a, u8 *b)

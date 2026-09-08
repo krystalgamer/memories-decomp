@@ -17,7 +17,6 @@ struct Rec {
 
 extern s32 gGraphics_bActiveBuffer __attribute__((section(".data")));
 #define gGraphics_bActiveBuffer (*(u8 *)&gGraphics_bActiveBuffer)
-extern s32 D_8009B134 __attribute__((section(".data")));
 extern u8 D_8009B145 __attribute__((section(".data")));
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
@@ -67,7 +66,7 @@ void func_8002E730(void) {
 
     mask |= 0x30;
     masked = D_8009B0F4_abs & mask;
-    if ((masked | D_8009B134) != 0) {
+    if ((masked | D_8009B134_abs) != 0) {
         return;
     }
     if (D_800E9ECE & 0x80) {

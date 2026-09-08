@@ -20,7 +20,6 @@ extern u8 D_8009B174;
 extern u8 D_8009B1D5;
 extern u8 D_8009B1EC;
 extern u8 *D_8009B1B4;
-extern u32 D_8009B134 __attribute__((section(".data")));
 extern u16 D_8009B36A __attribute__((section(".data")));
 extern u8 D_800E9F10[];
 extern s32 gDuel_adwCardStats[];
@@ -91,7 +90,7 @@ void func_80018608(void)
         register u32 mask asm("$2") = FILE_TRANSFER_REQUEST_BLOCKED_MASK;
 
         if (((D_8009B0F4_abs & mask) |
-             D_8009B134) != 0) {
+             D_8009B134_abs) != 0) {
             break;
         }
         SD_BGMPlay(D_8009B36A);

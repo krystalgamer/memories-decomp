@@ -32,7 +32,6 @@ extern u32 D_801D0000[];
 extern volatile u16 D_8009B394;
 extern volatile u16 D_8009B398;
 extern volatile u16 D_8009B3A4;
-extern u32 D_8009B134;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 extern s8 D_8009B34D;
@@ -138,7 +137,8 @@ void Password_UpdateShopScreen(void)
             return;
         }
         if ((flags & 0x4000) == 0) {
-            if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134) != 0) {
+            if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                 D_8009B134) != 0) {
                 return;
             }
             D_8016D424 = flags | 0x4000;

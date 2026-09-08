@@ -5,7 +5,6 @@
 extern volatile u16 D_8009B124;
 extern volatile u16 D_8009B112;
 extern volatile s32 D_8009B0E8;
-extern s32 D_8009B134;
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 extern u8 D_800E9EC0[];

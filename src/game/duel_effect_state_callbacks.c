@@ -4,7 +4,6 @@
 #include "graphics_frame.h"
 
 extern u32 D_8009B0CC[];
-extern u32 D_8009B134[];
 extern s16 D_8009B322;
 extern u8 *D_8009B328;
 extern u16 D_8009B348[2];
@@ -51,7 +50,7 @@ void func_80037950(u8 *object)
 void func_8003798C(u8 *object)
 {
     if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-         D_8009B134[0]) == 0) {
+         D_8009B134_abs) == 0) {
         object[0x51] = 0;
     }
 }

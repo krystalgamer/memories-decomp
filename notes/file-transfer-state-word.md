@@ -1,4 +1,6 @@
-# The loader state word at 0x8009B0F4
+# The loader state words at 0x8009B0F4 and 0x8009B134
+
+## 0x8009B0F4
 
 `D_8009B0F4` is the resident loader's request-and-state word. It is the most
 widely shared global in the tree: 51 translation units declare and use it,
@@ -31,7 +33,7 @@ attribute, and about whether the word is a scalar or an array of two, three or
 an unspecified number of elements. `c_symbols.ld` also carried a third name,
 `Base2_8009B0F4`, for the same address.
 
-## What the word actually is
+### What the word actually is
 
 A single 32-bit value, read and written whole and only ever through bit masks.
 No use anywhere indexes past element zero, so none of the array spellings
@@ -46,7 +48,7 @@ constants in `file_transfer.h` are already its bits:
 declaration builds a 0x1D0668-byte executable; dropping it from the absolute
 declaration builds a 0x1D071C-byte one. Retail is 0x1D0800.
 
-## Why two names survive
+### Why two names survive
 
 The retail image reaches 0x8009B0F4 through two different addressing forms.
 Among the functions still held as assembly, `text_004428.s` uses
@@ -72,7 +74,7 @@ unit assembled at `-G0` needs it.
 This is the same shape as `fade.h`, which already publishes
 `D_800E9EC8` and `D_800E9EC8_arr` for one address.
 
-## Checked negatives
+### Checked negatives
 
 Four of the old spellings looked load-bearing and are not. Each was removed
 and the full executable still matched:
@@ -90,7 +92,7 @@ and the full executable still matched:
   bit 31) do not need a signed declaration; an `(s32)` cast at the two use
   sites reproduces both sign-bit branches unchanged.
 
-## What is left
+### What is left
 
 `frontend_scene_states.c` reaches the word from an inline assembly block that
 spells `%hi`/`%lo` itself. That is not a C declaration site and is unchanged.
@@ -101,3 +103,51 @@ attempted here. `0x100`, `0x400`, `0x800`, `0x1000`, `0x10000`, `0x20000`,
 bit 31 all have live consumers, and several are only ever cleared as part of
 a composite mask (`0xFFDCFFFF`, `0xFFDDFFFF`, `0x230000`), so a single
 consumer does not establish what an individual bit means.
+
+## 0x8009B134
+
+The other half of the same predicate. Eighteen units ask whether a transfer
+is still in flight by evaluating
+`(D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134`, and six of
+them spelled the mask as a bare `0x2000030` or `0x02000030` rather than using
+the constant that was already in `file_transfer.h`.
+
+22 units declared this word too, in eleven spellings:
+
+| Spelling | Units |
+|---|---:|
+| `extern s32 D_8009B134 __attribute__((section(".data")));` | 6 |
+| `extern u32 D_8009B134 __attribute__((section(".data")));` | 4 |
+| `extern u32 D_8009B134;` | 3 |
+| `extern s32 D_8009B134;` | 3 |
+| `extern volatile u32 D_8009B134;` | 1 |
+| `extern volatile int D_8009B134;` (co-declared) | 1 |
+| `extern u32 D_8009B134[];` | 1 |
+| `extern s32 D_8009B134[];` | 1 |
+| `extern s32 D_8009B134[2];` | 1 |
+| `extern int D_8009B134[3];` | 1 |
+| `extern s32 D_8009B134_signed asm("D_8009B134");` | 1 |
+
+It behaves as a small state word rather than a bitfield: `func_80014FA4` and
+`func_800144B8` raise it to `0x80`, the frame pump `func_80014A5C` latches
+`0x40` into it exactly once (setting the primary descriptor's `done` to 5 and
+its `substate` to 0) and clears the word outright when the primary transfer
+is not active, and `File_InitTransferState` zeroes it along with the rest of
+the loader block. As with 0x8009B0F4, nothing indexes it.
+
+`u32`, two addressing views, same split rule. 8 units take the gp-relative
+view and 14 take the absolute one.
+
+### It is not volatile, and that is measured
+
+This is the one place the two neighbouring words differ. `D_8009B0F4` needs
+`volatile` and `D_8009B134` must not have it. Declaring 0x8009B134 volatile
+compiles and links but overshoots `.text` by 16 bytes, because `func_80014A5C`
+then re-loads the word for the `& 0x40` test and again for the `|= 0x40`,
+where retail issues one `lw $3` and keeps it live across the zero test, the
+bit test and the or. Two globals sixteen words apart in the same subsystem,
+with opposite answers; neither was assumed.
+
+`D_8009B134_signed asm("D_8009B134")` in `file_transfer_flags.c` is a fifth
+checked negative: its only use is inside the blocked predicate, and the plain
+name reproduces it.

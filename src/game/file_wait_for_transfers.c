@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "file_transfer.h"
 
-extern u32 D_8009B134;
 extern void func_80015038(void);
 extern void func_80012D4C(void);
 
