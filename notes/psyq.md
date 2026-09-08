@@ -145,14 +145,14 @@ Every row below is now an applied project symbol.
 | `0x80076D10` | `WaitEvent` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A10.OBJ` signature. |
 | `0x80076D20` | `SpuReadDecodedData` | Applied from the unique 112-byte Psy-Q 4.6 `LIBSPU.LIB/S_RDD.OBJ` signature. |
 | `0x80076D90` | `SpuSetIRQ` | Applied from the unique 320-byte Psy-Q 4.6 `LIBSPU.LIB/S_SI.OBJ` signature; matching sound initialization disables the SPU IRQ before shutdown. |
-| `0x80076ED0` | `SpuSetKey` | Applied Psy-Q 4.6 identity; matching sound-driver paths switch selected voice masks off during cleanup and slot reuse. |
+| `0x80076ED0` | `SpuSetKey` | Applied Psy-Q 4.6 identity; matching sound-driver paths switch selected voice masks off during cleanup and slot reuse, including the four-state mask assembled by `func_80045F3C`. |
 | `0x80077090` | `SpuGetKeyStatus` | Applied from the unique 144-byte Psy-Q 4.6 `LIBSPU.LIB/S_GKS.OBJ` signature; matching sound-driver paths poll individual voice masks during cleanup and reuse. |
 | `0x80077120` | `SpuSetKeyOnWithAttr` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_SKOWA.OBJ` signature. |
 | `0x800771B0` | `SpuSetTransferStartAddr` | Applied from the unique 96-byte Psy-Q 4.6 `LIBSPU.LIB/S_STSA.OBJ` signature; matching transfer paths select the SPU RAM destination. |
 | `0x80077210` | `SpuSetTransferMode` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_STM.OBJ` signature; matching initialization selects DMA mode zero. |
 | `0x80077240` | `SpuIsTransferCompleted` | Applied from the unique 176-byte Psy-Q 4.6 `LIBSPU.LIB/S_ITC.OBJ` signature; matching reset code selects blocking or nonblocking status. |
 | `0x800772F0` | `SpuRGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset zero of the unique 352-byte `LIBSPU.LIB/SR_GAKS.OBJ` signature. |
-| `0x800773C4` | `SpuGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset `0xD4` of the same object; matching sound-driver callers collect all voice key states before update or cleanup work. |
+| `0x800773C4` | `SpuGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset `0xD4` of the same object; matching `func_80045F3C` uses the canonical `libspu.h` declaration to collect all voice key states into its status block before update work. |
 | `0x80077450` | `SpuSetVoiceAttr` | Applied from the unique 1,536-byte Psy-Q 4.6 `LIBSPU.LIB/S_SVA.OBJ` signature; matching sound paths submit raw layout-compatible voice attribute blocks. |
 | `0x80077A50` | `_spu_note2pitch` | Applied at offset zero of the unique 512-byte Psy-Q 4.6 `LIBSPU.LIB/S_N2P.OBJ` signature. |
 | `0x80077B20` | `_spu_pitch2note` | Applied at offset `0xD0` of the same unique `LIBSPU.LIB/S_N2P.OBJ` signature. |
@@ -274,7 +274,7 @@ Every row below is now an applied project symbol.
 | `0x800862D0` | `GsGetLs` | Applied from the unique 720-byte `LIBGS.LIB/GS_134.OBJ` signature; walks a coordinate hierarchy through `GsMulCoord2` and `GsMulCoord3` to build the local-screen matrix. |
 | `0x800865A0` | `GsMulCoord2` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX8.OBJ` signature; combines two coordinate frames with `MulMatrix2` and `ApplyMatrixLV`, then adds the translation components. |
 | `0x80086620` | `GsMulCoord3` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX9.OBJ` signature; the `GsMulCoord2` body using `MulMatrix` and `ApplyMatrixLV`. |
-| `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion. |
+| `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion, including main-menu entry easing in `func_80180390`. |
 | `0x80086770` | `rcos` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point cosine output alongside `rsin`. |
 | `0x80086810` | `SetFogNearFar` | Applied Psy-Q 4.6 identity; matching campaign-map callers configure near and far depth-cue distances from the current camera projection. |
 | `0x80086DC8` | `InitGeom` | Applied Psy-Q 4.6 identity at offset `0x8` of `LIBGTE.LIB/MSC00.OBJ`; resident startup paths invoke it before further GTE setup. |

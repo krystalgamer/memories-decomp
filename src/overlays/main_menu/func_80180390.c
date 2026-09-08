@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
 
 extern u8 *D_80184560;
 extern u8 *gMain_apMenuEntries[];
@@ -30,7 +31,6 @@ extern s32 func_8003FD14(void);
 extern s32 func_8003F70C(void);
 extern void func_8003F87C(void);
 extern void SD_SEPlay(s32, s32, s32);
-extern s32 rsin(s32);
 
 typedef struct { s16 h; } H16s;
 

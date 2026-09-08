@@ -283,6 +283,15 @@ The legacy raw views can share this geometry without changing their state
 declarations. Channel and track constants must not stand in for the twenty
 `0x28`-byte objects or a 24-voice SPU status buffer.
 
+`SDSecondaryObject.channel_index` is the byte at object `+0x03`. Selection
+uses it to index the leading channel records, and the per-object guards
+compare it with `SD_SEQUENCE_CHANNEL_COUNT`. `SD_SECONDARY_RECORD_NONE`
+(`0x63`), already used by the allocator, is the shared no-record marker used
+by object initialization and retirement. This marker is unrelated to the
+similarly numbered controller ID. The byte at `SDSecondaryRecord +0x03`
+remains a separate, unchanged channel-record field; no raw object view or
+out-of-range behavior is rewritten.
+
 The same header names the event codes consumed by `func_8004C420`,
 `func_8004C114`, and `func_8004BE88`. A status-present bit, a message-type mask,
 and a channel mask have separate roles even when their values match an event
@@ -325,7 +334,7 @@ controller IDs or object-state markers that happen to use the same numbers.
 | Offset | Width | Field | Local matching-C evidence |
 |---|---:|---|---|
 | `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `func_8004B49C`, `func_8004B6E8`, and `func_8004B70C` index the same records and establish byte fields at `+0x00`, `+0x01`, `+0x03`, `+0x05`-`+0x07`, and `+0x10`-`+0x13`. |
-| `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `func_8004B49C`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are bytes at `+0x03` and `+0x0F`, and a `u16` at `+0x1E`. |
+| `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `func_8004B49C`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are `channel_index` at `+0x03`, a byte at `+0x0F`, and a `u16` at `+0x1E`. |
 | `0x04A4` | `0x1C` | `transfer` | `func_80049434`, `func_800496C4`, `func_8004975C`, `func_800497E0`, and `func_800498F8`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |
 | `0x0503` | `u8` | `event_guard` | `func_8004B854` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |

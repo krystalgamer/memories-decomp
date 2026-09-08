@@ -3,9 +3,6 @@
 #define SDSECONDARYSTATE_CUSTOM_EXTERN
 #include "sound.h"
 
-/* Value of an object's +0x183 byte when it owns no record. */
-#define SD_SECONDARY_RECORD_NONE 0x63
-
 extern u8 *D_8009B458;
 
 extern s32 func_8004A8E4(s32 index, s32 value);

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
 #include "sound_voice_constants.h"
 
 typedef struct {
@@ -43,8 +44,6 @@ typedef struct { u32 w[8]; } Blk32;
 extern SoundState *g_SDValue __attribute__((section(".data")));
 #define SOUND (g_SDValue)
 
-extern void SpuGetAllKeysStatus(void *);
-extern void SpuSetKey(s32, s32);
 extern s16 func_80049F50(void);
 extern void func_80049C40(s16);
 extern void func_80045C98(void);
@@ -60,7 +59,7 @@ void func_80045F3C(void)
     register SoundState *q asm("$4");
     register SoundState *r asm("$2");
 
-    SpuGetAllKeysStatus(&SOUND->f15D8);
+    SpuGetAllKeysStatus((char *)&SOUND->f15D8);
     p = SOUND;
     mask = (p->f15EC == 3) << SD_VOICE_SLOT_KEY_SHIFT;
     if (p->f15ED == 3) {
