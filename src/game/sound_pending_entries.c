@@ -25,7 +25,7 @@ void func_8004763C(void) {
     SDValue *a1 = g_SDValue;
     s32 i = a1->field_0004;
 
-    a1->field_0442 = 0xFFFF;
+    a1->field_0442 = SD_VALUE_LINK_INDEX_NONE;
     if (i < a1->field_0000) {
         do {
             a1->field_043C[i] = 0xFFFF;

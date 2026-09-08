@@ -75,14 +75,19 @@ identifies those positions as `SD_SE.DAT`, `SD_BGM.DAT`, and `MASTER.XA`.
 game-facing startup-busy condition.
 
 Matching `func_80047788` and its adjacent callers establish the link-table
-lifecycle. `func_8004763C` resets `field_0442` to `0xFFFF` and initializes
+lifecycle. `func_8004763C` resets `field_0442` to `SD_VALUE_LINK_INDEX_NONE`
+(`0xFFFF`) and initializes
 `field_0438` to the first link's second word plus `0x1010`.
 `func_80047AD0` ignores a requested index when that entry's second word is
 zero or when the same index is already selected; accepted indices are stored
 in `field_0442` before dispatch.
 
-`func_80047788` masks the requested index to 16 bits and uses it to select one
-8-byte `SDValueLink`. It multiplies the state halfword at offset `+0x02` by
+`func_80047788` applies `SD_VALUE_LINK_INDEX_MASK` (`0xFFFF`) and
+`SD_VALUE_LINK_RECORD_SIZE` (`0x08`) to select one `SDValueLink`.
+The mask does not add an index-validity check, and the cache sentinel remains
+distinct from the pending-entry table's other `0xFFFF` markers. The stride is
+an integer byte count, not the unrelated eight-byte pending-entry geometry.
+The function multiplies the state halfword at offset `+0x02` by
 eight, rounds that byte count up to `0x800`-byte units, adds one, and adds the
 result to the entry's leading halfword. The adjusted value, current
 `field_0438`, fixed buffer `0x801E6800`, and entry's second word feed the
