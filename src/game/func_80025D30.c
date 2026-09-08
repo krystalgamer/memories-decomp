@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "duel_action_lock.h"
 #include "duel_card.h"
 #include "duel_grid.h"
 #include "sound.h"
@@ -23,7 +24,6 @@ extern u16 D_8009B220;
 extern u8 D_8009B260[8] __attribute__((section(".data")));
 extern u8 D_800907D8[];
 
-extern s32 func_80024E24(void);
 extern DuelEffectObject *func_8002C604(s32 arg0);
 
 /* One step of a field-wide stat-penalty sweep, driven once per 16 frames by
@@ -41,7 +41,7 @@ void func_80025D30(void) {
     s32 timer;
     s32 base_slot;
 
-    if (func_80024E24() == 0) {
+    if (DuelEffect_MarkInitialized() == 0) {
         D_8009B20C[1] = 0;
         D_8009B1D0 = 0;
     }

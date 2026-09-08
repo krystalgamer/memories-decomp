@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
+#include "duel_action_lock.h"
 #include "sound.h"
 
 struct Obj {
@@ -19,7 +20,6 @@ extern u8 D_8009B1D5;
 extern u8 gDuel_abLifePointRecoveryUnits[DUEL_LIFE_POINT_EFFECT_COUNT];
 extern u8 gDuel_abDirectDamageUnits[DUEL_LIFE_POINT_EFFECT_COUNT];
 
-s32 func_80024E24(void);
 s32 func_8001F364(s32);
 s32 func_80025028(s32);
 void *func_8002C68C(s32);
@@ -36,7 +36,7 @@ void func_800250C8(void) {
 
     s0 = D_8009B1D2;
     s1 = s0 - DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID;
-    if (func_80024E24() == 0) {
+    if (DuelEffect_MarkInitialized() == 0) {
         if (func_80025028(DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID) != 0) {
             s1 = s0 - 0x14D;
         }
@@ -96,7 +96,7 @@ void func_8002525C(void) {
     DuelSideState *p;
 
     unit = D_8009B1D2 - DUEL_DIRECT_DAMAGE_FIRST_CARD_ID;
-    if (func_80024E24() == 0) {
+    if (DuelEffect_MarkInitialized() == 0) {
         if (func_80025028(DUEL_GOBLIN_FAN_CARD_ID) != 0) {
             unit = DUEL_LIFE_POINT_EFFECT_COUNT;
         }
@@ -154,7 +154,6 @@ extern u8 D_800907D8[];
 extern u8 D_801A7AD8_bytes[] asm("D_801A7AD8");
 
 extern s16 func_800181EC(u8 *arg0);
-extern s32 func_80024E24(void);
 extern void func_80024954(u8 *arg0);
 
 void func_8002538C(void) {
@@ -170,7 +169,7 @@ void func_8002538C(void) {
     s32 x;
     s32 ix;
 
-    if (func_80024E24() == 0) {
+    if (DuelEffect_MarkInitialized() == 0) {
         p = func_8002C68C(0xF);
         *(s16 *)(p + 0) = 0;
         *(s16 *)(p + 2) = 0;
@@ -258,7 +257,6 @@ extern DuelFieldPosition D_80090800[];
 extern u8 D_801A7B64[];
 
 extern void func_80019BA0(u8 *arg0, u8 arg1, s16 arg2, s16 arg3);
-extern s32 func_80024E24(void);
 extern u8 *func_8002C604(s32 arg0);
 
 void DuelEffect_UpdateFieldMarker(void) {
@@ -272,7 +270,7 @@ void DuelEffect_UpdateFieldMarker(void) {
     s32 n;
     s32 w;
 
-    if (func_80024E24() == 0) {
+    if (DuelEffect_MarkInitialized() == 0) {
         D_8009B20C[1] = -1;
     }
 
@@ -333,7 +331,7 @@ void func_800257A0(void) {
     s32 f;
     s32 g;
 
-    if (func_80024E24() == 0) {
+    if (DuelEffect_MarkInitialized() == 0) {
         func_8003FF88(0x8020);
         return;
     }

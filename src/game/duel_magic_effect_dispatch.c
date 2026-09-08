@@ -2,6 +2,7 @@
 #include "../psyq/stdio.h"
 
 #include "card_constants.h"
+#include "duel_action_lock.h"
 #include "duel_card.h"
 
 typedef struct {
@@ -19,7 +20,6 @@ extern s16 D_8009B1A8;
 extern u8 D_80090AD4[];
 extern void (*D_80090A5C[])(void);
 
-extern int func_80024E24(void);
 extern NewObject *func_8002C68C(int);
 extern void func_80024954(DuelCardRecord *);
 
@@ -27,7 +27,7 @@ void func_80026A3C(void)
 {
     int i;
 
-    if (!func_80024E24()) {
+    if (!DuelEffect_MarkInitialized()) {
         NewObject *object = func_8002C68C(0x17);
         int side = D_8009B1D5 ^ 1;
 

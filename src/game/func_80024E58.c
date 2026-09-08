@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_action_lock.h"
 #include "duel_card_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"
@@ -13,7 +14,6 @@ extern u8 gDuel_bTerrain[8];
 extern u8 D_801A7AD8[];
 
 s32 Duel_GetTerrainBoost(s32 arg0);
-s32 func_80024E24(void);
 u8 *func_8002C604(s32 arg0);
 
 /* MATCH (2026-09-05), from a park at 2 differences. The last two were the
@@ -39,7 +39,7 @@ void func_80024E58(void) {
     s32 b;
     u8 *a;
 
-    if (func_80024E24() == 0) {
+    if (DuelEffect_MarkInitialized() == 0) {
         r = D_8009B1C8;
         r[0xA] = r[0xA] + 1;
         v = *(u8 *)&D_8009B1D2 - 0x49;

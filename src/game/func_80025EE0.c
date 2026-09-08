@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_action_lock.h"
 #include "sound.h"
 
 typedef struct {
@@ -9,14 +10,13 @@ typedef struct {
 } Object;
 
 extern u16 D_8009B220;
-extern int func_80024E24(void);
 extern Object *func_8002C68C(int);
 
 void func_80025EE0(void)
 {
     Object *object;
 
-    if (func_80024E24() == 0) {
+    if (DuelEffect_MarkInitialized() == 0) {
         object = func_8002C68C(0x12);
         object->x = 0xA0;
         object->y = 0x78;

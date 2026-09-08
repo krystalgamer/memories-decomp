@@ -72,6 +72,7 @@ function,0x800243F4,Duel_ShuffleDeck,high,"gms.c shuffleDeck; local deck buffers
 function,0x800245A0,Duel_ShuffleBothDecks,high,"gms.c shuffleBothDecks; local callers","Shuffles the player and opponent decks."
 function,0x80024704,Util_CompareS16,high,"gms.c compHalfwords; local body","Signed 16-bit comparator used by sorting code."
 function,0x8002497C,Duel_GetTerrainBoost,high,"gms.c getTerrainBoost; local terrain table","Returns the active terrain's card-stat boost."
+function,0x80024E24,DuelEffect_MarkInitialized,high,"matching body test-and-sets bit 0x80 of the shared duel-effect state; ten effect handlers initialize only when the return is zero; same contract as DisplayObjectFade_MarkInitialized","Marks the current duel effect initialized and reports whether that marker was already set."
 function,0x8002BF3C,Library_MarkOwnedCards,high,"gms.c setLibraryUsed; player deck and chest scans","Marks cards present in the deck or chest in the library bitset."
 function,0x8002C7E8,Duel_CheckRitual,high,"gms.c checkRitual; ritual-data callers","Checks whether the current cards satisfy a ritual."
 function,0x8002CB80,Duel_CalcGuardianStarMatchup,high,"gms.c gsBonus; local body","Returns the guardian-star matchup modifier."

@@ -832,3 +832,4 @@ gInput_dwPreviousHeld = 0x8009B390;
 gInput_dwDeferredRepeat = 0x8009B3B0;
 gInput_dwDeferredPressed = 0x8009B3B4;
 gInput_abRepeatTimers = 0x800EF6B0;
+DuelEffect_MarkInitialized = 0x80024E24; // type:func

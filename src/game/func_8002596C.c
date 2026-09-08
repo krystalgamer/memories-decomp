@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_action_lock.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "sound.h"
@@ -13,7 +14,6 @@ extern DuelFieldPosition D_80090800[];
 extern u8 D_801A7AD8[];
 
 extern s32 func_800181EC(u8 *);
-extern s32 func_80024E24(void);
 extern void func_80024954(u8 *);
 extern u8 *func_8002C604(s32);
 
@@ -28,7 +28,7 @@ void func_8002596C(void) {
     s32 w;
     s32 n;
 
-    if (func_80024E24() == 0) {
+    if (DuelEffect_MarkInitialized() == 0) {
         D_8009B20C[1] = 0;
         q = func_8002C604(0x10);
         t = (u8 *)D_80090800;

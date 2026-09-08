@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_action_lock.h"
 #include "duel_card.h"
 #include "sound.h"
 
@@ -25,7 +26,6 @@ extern Obj *D_8009B17C;
 extern u16 D_8009B220;
 extern u8 D_8009B260 __attribute__((section(".data")));
 
-extern s32 func_80024E24(void);
 extern Obj *func_8002C604(s32);
 extern void Duel_ApplyCardObjectFlags(Obj *);
 extern s32 func_80042B40(s32);
@@ -62,7 +62,7 @@ void func_80025BEC(void)
     u16 flags;
     s32 i;
 
-    if (func_80024E24() == 0) {
+    if (DuelEffect_MarkInitialized() == 0) {
         object = func_8002C604(0x13);
         object->x = 0xA0;
         D_8009B17C = object;

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_action_lock.h"
 #include "duel_card.h"
 #include "duel_grid.h"
 #include "sound.h"
@@ -20,7 +21,6 @@ extern u16 D_8009B220;
 extern u8 D_800907D8[];
 extern DuelFieldPosition D_80090800[];
 
-extern s32 func_80024E24(void);
 extern DuelEffectObject *func_8002C604(s32 arg0);
 
 /* One step of a field-wide effect sweep, driven once per 16 frames by the
@@ -44,7 +44,7 @@ void func_800260D0(void) {
     s32 step;
     register u8 *grid __asm__("$4");
 
-    if (func_80024E24() == 0) {
+    if (DuelEffect_MarkInitialized() == 0) {
         D_8009B20C[1] = -1;
         D_8009B1D0 = 0;
     }
