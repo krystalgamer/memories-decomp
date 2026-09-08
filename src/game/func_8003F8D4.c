@@ -26,6 +26,7 @@ typedef struct {
 } Rec64;
 
 #include "mem_card.h"
+#include "save_data.h"
 extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern u8 D_8009B3C0;
 extern u8 *D_8009B3D8;
@@ -104,7 +105,12 @@ s32 func_8003F8D4(void) {
             D_8009B3D8 = (u8 *)0;
             if ((D_8009B3EA & 0x80) == 0) {
                 D_8009B3EA = 3;
-                func_8003F758(D_801D1200, 0x680, gMemCard_szSaveFileName, 1);
+                func_8003F758(
+                    D_801D1200,
+                    SAVE_DATA_STATE_SIZE,
+                    gMemCard_szSaveFileName,
+                    1
+                );
                 return 0;
             }
             return 2;
@@ -122,7 +128,12 @@ s32 func_8003F8D4(void) {
                     return 0;
                 }
                 D_8009B3EA |= 0x40;
-                func_8003F758(D_801D2200, 0x680, gMemCard_szSaveFileName, 1);
+                func_8003F758(
+                    D_801D2200,
+                    SAVE_DATA_STATE_SIZE,
+                    gMemCard_szSaveFileName,
+                    1
+                );
                 v = 0;
                 D_8009B3F9 = 0x10;
                 goto done;
