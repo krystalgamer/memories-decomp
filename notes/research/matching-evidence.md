@@ -4027,3 +4027,42 @@ constant first and closed the function exactly.
 So for a countdown over big elements: try the explicit cursor first, and if
 only the delay slot is left, permute the order of the loop-tail updates before
 looking for anything deeper.
+
+## Allocno priority explains "opcode distance 0, all register names"
+
+A candidate that reproduces the exact instruction multiset and every opcode,
+offset, constant and branch, and still differs in dozens of positions purely by
+register name, is almost always a single allocno priority inversion rather than
+dozens of independent choices. GCC 2.8.1 ranks allocnos by
+
+    floor_log2(n_refs) * n_refs / live_length
+
+and assigns hard registers in that order, so one pair swapping at the top
+cascades through everything allocated after it.
+
+The diagnosis is cheap. Count references and live range for the two pseudos
+that swapped and compute both priorities; if they are close, that is the cause.
+On `func_80057AF4` the word count scored 4 * 16 / 38 = 1.68 against the slot
+pointer's 5 * 44 / 153 = 1.44, so the count took `$s1`; retail wanted the
+pointer there.
+
+Note the `floor_log2` cliff. Between 15 and 16 references the multiplier jumps
+from 3 to 4, so a single reference either way can move a pseudo past several
+others. That is why small source rewrites sometimes flip a whole allocation and
+sometimes do nothing at all.
+
+The fix is a `register` pin on the *cause*, not on each symptom. Pinning the
+count on `func_80057AF4` took it from 62 differing words to 19, and the map
+entry and the sign-adjust temporary then followed back to `$v1` and `$v0` for
+an exact match. Confirm each pin is load-bearing by releasing it individually;
+there it cost 53, 3 and 16 words. Watch for pins that fight: on `func_8001BAF0`
+three pins moved 61 to 45 but a fourth, on the pseudo whose register looked
+equally wrong, built one instruction long, which means that register was a
+consequence of the rest and not a cause.
+
+One caution specific to pinned values. A pinned variable that dies mid-block
+lets GCC reuse its hard register for an unrelated temporary in place, where the
+unpinned build would have taken a fresh call-clobbered register. On
+`func_80057AF4` the pinned count was clobbered by its own `count << 2`; reusing
+an existing dead temporary for that product both restored retail's form and
+removed a fourth pin.

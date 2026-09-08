@@ -1,10 +1,7 @@
 ## `func_8001BAF0` at 0x8001BAF0
 
-`gcc_2_8_1_g8_split`, 150 of 150 instructions, opcode distance 0, 61 differing
-positions, all of them register names: the hand pointer and the selection
-slot pointer are `$s5`/`$s6` the other way round, the deck record pointer and
-the card id `$s0`/`$s1` the other way round, the table pointer `$a2` for
-`$a0`, and the temporaries that follow from those.
+`gcc_2_8_1_g8_split`, 150 of 150 instructions, opcode distance 0, 45 differing
+positions with three allocation pins, 61 without them.
 
 The hand reorder after a card selection, next to the matched
 `func_8001B938`. It copies the five hand slot indices from the record at
@@ -43,16 +40,35 @@ exact multiset.
   `Duel_SetupCardRecord` the id plus the record's slot byte* (retail sets
   `$a1` from the record right before the call).
 
-**Where the residual is.** With goto loops every reference weighs 1 and
-the hand pointer (six references) outranks the selection slot pointer
-(three), so global allocation hands them `$s5`/`$s6` the wrong way round.
-Making the inner walk a real loop applies the loop-depth weighting and
-gives retail's pair, but then loop.c hoists the card address out of the
-body, which retail does not do; the natural nested-`for` spelling with
-every address computed in the body hoists more still. The `$s0`/`$s1` and
-`$a0`/`$a2` pairs move with the same choice. Crossed: declaration orders,
-the address computations inside and outside the inner loop, the card
-address inline and through a local, and outer-goto with inner-real.
+**Where the residual is.** Three of the four swapped pairs are an allocno
+priority inversion and pins settle them. With goto loops every reference weighs
+1, so the hand pointer (six references) outranks the selection slot pointer
+(three) and global allocation hands them `$s5`/`$s6` the wrong way round.
+Pinning `hand` to `$s6`, `q` to `$s5` and `rec` to `$s0` takes the entry from 61
+to 45; `tbl` on `$a0` is inert on top of those three, and pinning `sidx` to
+`$v1` is actively wrong (118 words and one instruction long, so `sidx` reaching
+`$v1` has to be a consequence of the rest rather than a cause).
+
+Making the inner walk a real loop applies the loop-depth weighting and gives
+retail's pair without pins, but then loop.c hoists the card address out of the
+body, which retail does not do; the natural nested-`for` spelling with every
+address computed in the body hoists more still. Crossed: declaration orders,
+the address computations inside and outside the inner loop, the card address
+inline and through a local, and outer-goto with inner-real.
+
+**What the remaining 45 are.** They are no longer one shape:
+
+- The two struct-copy temporaries are `$t0`/`$t1` against retail's `$t2`/`$t3`,
+  a uniform shift of two registers across all eighteen `lwl`/`lwr`/`lh`/`swl`/
+  `swr`/`sh` words of the 6-byte record swap. Retail therefore allocates two
+  more pseudos ahead of them. These are compiler temporaries of the struct
+  assignment and cannot be pinned directly.
+- `sidx` sits in `$a2` for retail's `$v1`, and the card address in `$v1` for
+  retail's `$v0`.
+- Four commutative `addu` operands are the other way round (`addu $v0, $v0,
+  $a0` for retail's `addu $v0, $a0, $v0`, and the same at the `rec` and index
+  computations), which is an operand-order difference rather than a register
+  choice and will not move with allocation.
 
 ```c
 #include "../types.h"
@@ -95,15 +111,15 @@ void func_8001BAF0(void)
 {
     s8 sel[HAND_SIZE];
     DeckCardRecord tmp;
-    u8 *hand;
+    register u8 *hand __asm__("$22");
     u8 *p;
     u8 *end;
-    s8 *q;
+    register s8 *q __asm__("$21");
     u8 *deck;
     u8 *base;
     u8 *tbl;
     u8 *recs;
-    DeckCardRecord *rec;
+    register DeckCardRecord *rec __asm__("$16");
     DeckCardRecord *other;
     Slot *slot;
     Spawned *spawned;
