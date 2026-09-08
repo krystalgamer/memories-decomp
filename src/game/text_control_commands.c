@@ -5,7 +5,6 @@ extern u32 D_8009B350;
 
 extern s32 func_80036D3C(u8 *);
 extern s32 Campaign_TestStoryFlag(s32);
-extern void Library_UpdateCardUsedFlag(s32);
 
 void func_80038D14(u8 *value)
 {

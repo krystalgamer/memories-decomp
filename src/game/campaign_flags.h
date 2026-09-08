@@ -1,6 +1,8 @@
 #ifndef MEMORIES_DECOMP_CAMPAIGN_FLAGS_H
 #define MEMORIES_DECOMP_CAMPAIGN_FLAGS_H
 
+#include "../types.h"
+
 #define CAMPAIGN_FLAG_ID_MASK 0x7FF
 #define CAMPAIGN_FLAG_BANK_OFFSET 0x618
 #define CAMPAIGN_FLAG_BYTE_SHIFT 3
@@ -14,5 +16,8 @@
 #define CAMPAIGN_FLAG_COMMAND_WORD_MASK 0xFFFF
 #define CAMPAIGN_FLAG_COMMAND_PAYLOAD_MASK \
     (CAMPAIGN_FLAG_COMMAND_WORD_MASK ^ CAMPAIGN_FLAG_COMMAND_WRITE)
+
+/* Shared packed flag-update interface; the established public name is retained. */
+void Library_UpdateCardUsedFlag(s32 flag);
 
 #endif

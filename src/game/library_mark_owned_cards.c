@@ -4,7 +4,6 @@
 
 extern u8 gLibrary_abCardChest[];
 extern u16 gDuel_awPlayerDeck[];
-extern void Library_UpdateCardUsedFlag();
 
 void Library_MarkOwnedCards(void)
 {

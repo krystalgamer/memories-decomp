@@ -1,11 +1,11 @@
 #include "../types.h"
+#include "campaign_flags.h"
 
 extern u8 D_8009B34E;
 extern u8 D_8009B355;
 extern s32 D_8009B350;
 
 extern s32 func_80036D3C(u8 *);
-extern void Library_UpdateCardUsedFlag(s32);
 extern void func_8004036C(void *);
 
 void func_800389C4(u8 *value)

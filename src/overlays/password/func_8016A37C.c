@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/campaign_flags.h"
 
 typedef struct {
     u8 pad0[8];
@@ -51,7 +52,6 @@ extern void func_80029164(s32, s32);
 extern void func_8016A02C(s32);
 extern s32 Campaign_TestStoryFlag(s32);
 extern u8 *Password_CreateMessageBox(s32, s32);
-extern void Library_UpdateCardUsedFlag(s32);
 extern void Duel_AwardCard(s32);
 extern void Password_RefreshStarchipDisplay(void);
 

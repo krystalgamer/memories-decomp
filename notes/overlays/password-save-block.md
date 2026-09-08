@@ -73,6 +73,17 @@ it at `0x801D0618`; relative to the persisted state at `0x801D0200`, the same
 bank starts at `+0x418`. The existing two-stage address calculation and
 set/clear polarity are preserved.
 
+The update request is an encoded integer, not a pointer to flag storage.
+`campaign_flags.h` declares `Library_UpdateCardUsedFlag(s32)` once and is
+included by its definition and all current callers. The older pointer-shaped
+call in `func_80019CC8` retains its byte-address arithmetic but explicitly
+converts the resulting value at this integer interface. Other callers keep
+their existing IDs and modifier masks.
+
+The established function name is retained; it does not restrict the helper
+to library flags. Password-use, event-script and text-control callers all
+use the same bank and request encoding.
+
 ## Request modifiers and return values
 
 The matching
