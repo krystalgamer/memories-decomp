@@ -4,9 +4,20 @@
 typedef struct {
     s32 count;
     u8 pad0004[4];
-    u16 keys[204];
-    SDNote data[204];
+    u16 keys[SD_PENDING_INPUT_ENTRY_CAPACITY];
+    SDNote data[SD_PENDING_INPUT_ENTRY_CAPACITY];
 } SDSeqBlock;
+
+typedef char SDSeqBlock_size_must_match_input_block[
+    sizeof(SDSeqBlock) == SD_PENDING_INPUT_BLOCK_SIZE ? 1 : -1
+];
+typedef char SDSeqBlock_keys_must_match_input_offset[
+    (u32)&(((SDSeqBlock *)0)->keys) == SD_PENDING_INPUT_IDS_BYTE_OFFSET ? 1 : -1
+];
+typedef char SDSeqBlock_data_must_match_input_offset[
+    (u32)&(((SDSeqBlock *)0)->data) ==
+        SD_PENDING_INPUT_PAYLOAD_BYTE_OFFSET ? 1 : -1
+];
 
 extern void func_80048C70(u32 *dst, u32 *src);
 extern void func_8004763C(void);
@@ -30,8 +41,8 @@ void func_80048D08(s32 side, u32 *src)
     rev = 1 - side;
     addr_side = 0xD810 + (side % 2) * 0x19000;
     addr_other = 0xD810 + (rev % 2) * 0x19000;
-    blk = (SDSeqBlock *)(0x801E7800 + (side << 11));
-    other = (SDSeqBlock *)(0x801E7800 + (rev << 11));
+    blk = (SDSeqBlock *)(0x801E7800 + (side << SD_PENDING_INPUT_BLOCK_SHIFT));
+    other = (SDSeqBlock *)(0x801E7800 + (rev << SD_PENDING_INPUT_BLOCK_SHIFT));
     func_80048C70((u32 *)blk, src);
     func_8004763C();
 
