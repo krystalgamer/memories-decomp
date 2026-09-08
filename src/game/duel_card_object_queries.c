@@ -11,7 +11,6 @@ typedef struct {
 
 extern u8 D_8009B1D5;
 extern Entry D_801A7B64[];
-extern u16 Duel_CalcCardStats(Entry *);
 
 void func_8002C938(u32 *output, int alternate)
 {
@@ -78,7 +77,7 @@ void func_8002C9B4(u32 *output, int selector)
     if (selector >= 21) {
         for (index = 0; index < DUEL_FIELD_ROW_SIZE; index++, entry++) {
             if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
-                (u16)Duel_CalcCardStats(entry) >= selector)
+                (u16)Duel_CalcCardStats((DuelCardRecord *)entry) >= selector)
                 *output++ = entry->value;
         }
     } else {

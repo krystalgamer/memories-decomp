@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "duel_card.h"
 #include "card_constants.h"
 
-extern int Duel_CalcCardStats(void *);
 extern int Duel_CalcGuardianStarBonus(void *, int);
 
 int Duel_CalcBattleAttack(void *arg0, int arg1)

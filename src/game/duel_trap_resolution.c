@@ -14,8 +14,6 @@ extern u16 D_8009B22A;
 extern u8 D_8015C424[];
 extern u8 D_801A7AD8_raw[] asm("D_801A7AD8");
 
-s32 Duel_CalcCardStats(u8 *arg0);
-
 s32 func_8001F0D0(u8 *p) {
     s32 i;
     s32 off1;
@@ -77,9 +75,7 @@ s32 func_8001F0D0(u8 *p) {
     }
     if (n != 0) {
         do {
-            th = Duel_CalcCardStats(
-                D_801A7AD8_raw + p[0x6A] * DUEL_CARD_RECORD_SIZE
-            ) & 0xFFFF;
+            th = Duel_CalcCardStats(&D_801A7AD8[p[0x6A]]) & 0xFFFF;
         } while (0);
         sel = -1;
         off3 = 0x18000;

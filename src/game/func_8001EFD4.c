@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "duel_card.h"
 
-extern s32 Duel_CalcCardStats();
 extern s32 Duel_CalcBattleDefense();
 extern s32 Duel_CalcBattleAttack();
 

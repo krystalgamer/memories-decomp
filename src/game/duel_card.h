@@ -56,4 +56,9 @@ typedef char DuelCardRecord_table_index_offset_must_be_0x18[
 
 extern DuelCardRecord D_801A7AD8[];
 
+/* Effective attack and defense packed into one word: defense in the high
+ * half, attack in the low half. Never narrow the return type -- callers
+ * select a half with `>> 16` or a 16-bit mask. */
+s32 Duel_CalcCardStats(DuelCardRecord *card);
+
 #endif
