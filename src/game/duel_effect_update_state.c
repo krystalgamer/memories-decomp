@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "duel_effect_tables.h"
 
 extern u8 D_8009B254, D_8009B24A, D_8009B248;
-extern void (*D_80090B3C[])(void);
 s32 DuelEffect_UpdateState(void) {
     u8 v = D_8009B254;
     if (v == 0) return 0;
@@ -15,6 +15,6 @@ s32 DuelEffect_UpdateState(void) {
         D_8009B254 = 0;
         return 0;
     }
-    D_80090B3C[D_8009B24A]();
+    gDuelEffect_apfnStateHandler[D_8009B24A]();
     return 1;
 }

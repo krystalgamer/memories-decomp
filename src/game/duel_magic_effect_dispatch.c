@@ -6,6 +6,7 @@
 #include "duel_action_lock.h"
 #include "duel_effect_request.h"
 #include "duel_card.h"
+#include "duel_effect_tables.h"
 
 extern u8 D_8009B1D5;
 extern u16 D_8009B220;
@@ -13,8 +14,6 @@ extern DuelFieldPosition
     D_80090800[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 extern char D_8009AF40[];
 extern s16 D_8009B1A8;
-extern u8 D_80090AD4[];
-extern void (*D_80090A5C[])(void);
 
 extern void func_80024954(DuelCardRecord *);
 
@@ -47,13 +46,13 @@ int func_80026B34(void)
     u16 flags = D_8009B220;
 
     if (flags & DUEL_CARD_EFFECT_FLAG_ACTIVE) {
-        u8 *indices = D_80090AD4;
-        void (**callbacks)(void);
+        u8 *indices = gDuelEffect_abGroupByEffectId;
+        DuelEffectHandler *callbacks;
         int index = indices[D_8009B1A8] * DUEL_CARD_EFFECT_HANDLERS_PER_GROUP;
 
         if (flags & DUEL_CARD_EFFECT_FLAG_SECOND_HANDLER)
             index++;
-        callbacks = D_80090A5C;
+        callbacks = gDuelEffect_apfnGroupHandler;
         callbacks[index]();
     }
     return D_8009B220;

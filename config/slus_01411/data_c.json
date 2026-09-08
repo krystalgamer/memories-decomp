@@ -20,6 +20,14 @@
     {
       "source": "src/game/duel_terrain_boost.c",
       "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/duel_effect_tables.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/credits_secret_numbers.c",
+      "profile": "gcc_2_8_1_g0"
     }
   ]
 }
