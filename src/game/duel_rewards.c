@@ -10,9 +10,9 @@ typedef struct {
 extern DuelDropTable gDuel_awSaPowCardDrops[];
 extern u8 gDuel_awPlayerDeck[];
 
-s32 Duel_SelectCardDrop(s32 opponent)
+s32 Duel_SelectCardDrop(s32 pool_index)
 {
-    DuelDropTable *table = &gDuel_awSaPowCardDrops[opponent];
+    DuelDropTable *table = &gDuel_awSaPowCardDrops[pool_index];
     s32 threshold = (rand() & (DUEL_DROP_WEIGHT_TOTAL - 1)) + 1;
     s32 sum = 0;
     s32 i;

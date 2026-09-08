@@ -124,6 +124,26 @@ retries without advancing the accepted-card count. A completed null-source
 invocation therefore consumes one RNG value per generation attempt, followed
 by the 320 swap-stage calls; the total is not fixed across different outcomes.
 
+### Reward-card stream consumption
+
+Each completed call to matching
+[`Duel_SelectCardDrop`](../src/game/duel_rewards.c) consumes exactly one
+`rand()` value, whether it returns a card ID or zero. Its argument is a
+rank-pool selector (`0` S/A POW, `1` B/C/D,
+`2` S/A TEC), not an opponent ID; the rows are `0x5B4` bytes apart.
+
+The threshold is `(rand() & 0x7FF) + 1`. The helper scans up to 722 weights
+in increasing card-ID order until the cumulative sum reaches that threshold,
+then returns `index + 1`. The scan consumes no RNG values and has no
+copy-limit rejection. If no prefix reaches the threshold, it returns zero
+without retrying or renormalizing the row.
+
+For an edited row with total weight `T < 2048`, thresholds `T + 1..2048`
+therefore return zero. A total above 2048 does not widen the threshold range:
+later weights can become partly or entirely unreachable. Retail rows total
+2048, so this gap does not occur with the stock data. This describes the
+selector, not how callers handle a zero result or measured drop frequencies.
+
 ### Main-menu stream consumption
 
 `Main_RunMenu` consumes exactly one value on every handler invocation. Its
@@ -204,9 +224,10 @@ advances the stream before the generated signed-division guard traps. For a
 valid count `N`, the same `32768 = qN + r` modulo bias applies: entries
 `0` through `r - 1` have one more source value than the remaining entries.
 
-The drop selector is also uniform: masking with
+The drop threshold has equally sized preimages: masking with
 `DUEL_DROP_WEIGHT_TOTAL - 1` produces 0-2047 exactly 16 times each before the
-code adds one. By contrast, `AiScript_JumpRandom` uses `% 100`, so probability
+code adds one. The weighted card outcomes are not themselves uniform.
+By contrast, `AiScript_JumpRandom` uses `% 100`, so probability
 thresholds from 1 through 99 are slightly more likely than their nominal
 percentage because the extra source values are concentrated at results 0-67.
 Seed tools and traces should preserve these integer transforms instead of

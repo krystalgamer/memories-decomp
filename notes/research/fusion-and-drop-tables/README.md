@@ -58,9 +58,20 @@ id minus one. The rank table is not decoded here; see §6.2.
 
 `Duel_SelectCardDrop` (`0x80021810`) rolls `(rand & 0x7FF) + 1`, i.e. 1-2048,
 then walks the pool accumulating weights until the running sum reaches the roll.
-A card's weight therefore *is* its chance out of 2048, which is what
-`chance_percent` reports. All 160 weight tables sum to exactly 2048;
-`extract_tables.py` asserts it rather than assuming it.
+It consumes one RNG value, not one per examined weight, and returns zero
+without retrying if the threshold is never reached. Its argument selects
+rank pool `0`, `1`, or `2` in the already-loaded duelist block; it is not
+the duelist ID.
+
+Under a uniform-threshold model, a card's weight is its nominal selection
+share out of 2048. `chance_percent` reports
+`round(weight * 100.0 / 2048, 4)`, not an empirical frequency for a specific
+seed/timing route or a proof of independent draws. For deck-pool rows this
+is a per-threshold share, not the probability that a card appears in the
+finished deck after copy-limit rejection and shuffling. All 160 weight
+tables sum to exactly 2048; `extract_tables.py` asserts it rather than
+assuming it. See the [RNG contract](../../rng.md#reward-card-stream-consumption)
+for the selector's behavior with edited totals.
 
 ## Reading the fusion table
 

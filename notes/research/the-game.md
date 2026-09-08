@@ -1355,15 +1355,36 @@ Password shop (§4.5). The post-duel award path clamps the saved total to
 
 ### 6.4 The dropped card
 
-One card is drawn from the beaten duelist's **pool for that rank group**
-[`Duel_SelectCardDrop` (`0x80021810`): roll `(rand & 0x7FF) + 1`, i.e.
-1–2048, then
-walk the pool's 722 u16 weights accumulating until the sum reaches the roll;
-the index reached is the card]. Every pool's weights **sum to exactly 2048**,
-so a card's weight is its chance out of 2048 — the "a 20" and "a 32" the
-speedrunners talk about. The three pools per duelist are the per-duelist disc
-block's tables at +0x5B4 (POW), +0xB68 (BCD) and +0x111C (TEC) [runtime
-copies `0x8017878C`, `0x80178D40`, `0x801792F4`], and the fourth table in
+One card is drawn from the beaten duelist's **pool for that rank group**.
+Matching [`Duel_SelectCardDrop`](../../src/game/duel_rewards.c)
+(`0x80021810`) takes a **rank-pool index, not a duelist ID**. The opponent's
+tables are already loaded; the argument selects one of their three drop rows:
+
+| `pool_index` | Rank group | Runtime row |
+|---:|---|---|
+| `0` | S/A POW | `0x8017878C` |
+| `1` | B/C/D, either axis | `0x80178D40` |
+| `2` | S/A TEC | `0x801792F4` |
+
+Each row is `0x5B4` bytes: 722 `u16` weights and 16 padding bytes. The
+normal reward caller at `0x80021C44..0x80021C60` constructs `0`, `1`, or `2`
+from its rank fields before calling the selector. The old C parameter name
+`opponent` incorrectly suggested that this call selected a duelist.
+
+The helper consumes exactly **one `rand()` value**, forming threshold
+`(rand() & 0x7FF) + 1` in `1..2048`. It walks the weights in card-ID order
+and returns the first index plus one whose cumulative sum reaches the
+threshold. Scanning makes no extra RNG calls, and an unreached threshold
+returns `0`, without normalization or a retry.
+
+Every retail pool's weights **sum to exactly 2048**. Under a uniform-threshold
+model, a card's weight is its selection share out of 2048 -- the "a 20" and
+"a 32" the speedrunners talk about. This is not a claim of independent calls
+or measured frequencies for a particular seed or timed route; see the
+[RNG contract](../rng.md#reward-card-stream-consumption).
+
+The three pools per duelist are the per-duelist disc block's tables at
++0x5B4 (POW), +0xB68 (BCD) and +0x111C (TEC), and the fourth table in
 that block at +0 is the opponent's **deck weights** — the deck the AI plays is
 itself drawn from a weighted pool, not fixed (§5.11). That row still contains
 722 weights, but `Duel_ShuffleDeck` walks only zero-based indices 0–719 and
