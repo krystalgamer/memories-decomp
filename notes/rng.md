@@ -96,7 +96,7 @@ the callee's random-number consumption.
 
 ### Duel-start shuffle stream consumption
 
-Matching [`Duel_ShuffleDeck`](../src/game/func_800243F4.c) first prepares 40
+Matching [`Duel_ShuffleDeck`](../src/game/duel_shuffle_deck.c) first prepares 40
 card IDs and initializes its permutation bytes to `0..39`. A non-null source
 is copied without RNG calls. After preparation, the function performs
 `DUEL_DECK_SHUFFLE_SWAP_COUNT = DECK_SIZE * 4` (`160`) iterations. Each

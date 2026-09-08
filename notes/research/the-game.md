@@ -591,7 +591,7 @@ full, in the order things happen.
   `gDuel_awPlayerDeckShuffle` (`0x80177F94`), then the opponent source to
   `gDuel_awOpponentShuffledDeck` (`0x80178038`) with
   `gDuel_awOpponentDeckShuffle` (`0x80177FBC`).
-  Within each matching [`Duel_ShuffleDeck`](../../src/game/func_800243F4.c)
+  Within each matching [`Duel_ShuffleDeck`](../../src/game/duel_shuffle_deck.c)
   call, 160 full-range pair swaps follow deck preparation, rather than a
   shrinking-range Fisher-Yates pass.
   Each swap consumes two `rand() % 40` results and moves the card ID and its
@@ -974,7 +974,7 @@ Each monster attacks at most once per turn.
 ### 5.9 The 3-D battle and the "Poly Mode"
 
 The duel's 3-D presentation runs through matching
-[`Main_RunAnimatedBattle`](../../src/game/Main_RunAnimatedBattle.c)
+[`Main_RunAnimatedBattle`](../../src/game/main_run_animated_battle.c)
 (`0x8002D180`). This is a stateful mode tick, not a read-only display of
 two combatants. Every call sets the GTE projection center to `(160, 120)`
 and projection-plane distance to `300`, before testing the initialization

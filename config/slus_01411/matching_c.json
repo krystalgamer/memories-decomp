@@ -1042,7 +1042,7 @@
       "address": "0x800243F4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1AC",
-      "source": "src/game/func_800243F4.c"
+      "source": "src/game/duel_shuffle_deck.c"
     },
     {
       "address": "0x800245A0",
@@ -1612,7 +1612,7 @@
       "address": "0x8002CBF4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
-      "source": "src/game/func_8002CBF4.c"
+      "source": "src/game/duel_get_base_card_stat.c"
     },
     {
       "address": "0x8002CCA8",
@@ -1672,7 +1672,7 @@
       "address": "0x8002D180",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x158",
-      "source": "src/game/Main_RunAnimatedBattle.c"
+      "source": "src/game/main_run_animated_battle.c"
     },
     {
       "address": "0x8002D2D8",
@@ -1738,7 +1738,7 @@
       "address": "0x8002D7CC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x250",
-      "source": "src/game/Main_RunTrade.c"
+      "source": "src/game/main_run_trade.c"
     },
     {
       "address": "0x8002DA1C",
@@ -6274,7 +6274,7 @@
       "address": "0x80071B64",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x14C",
-      "source": "src/game/func_80071B64.c"
+      "source": "src/game/ai_script_find_killer.c"
     },
     {
       "address": "0x80071CB0",
@@ -6376,7 +6376,7 @@
       "address": "0x8007308C",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x194",
-      "source": "src/game/func_8007308C.c"
+      "source": "src/game/ai_script_find_best_attack.c"
     },
     {
       "address": "0x80073220",
@@ -6460,7 +6460,7 @@
       "address": "0x800734DC",
       "profile": "gcc_2_8_1_cc_g0_as_g8_split",
       "size": "0xC4",
-      "source": "src/game/AiScript_LoadOpponentData.c"
+      "source": "src/game/ai_script_load_opponent_data.c"
     },
     {
       "address": "0x800735A0",

@@ -9,7 +9,7 @@
 extern u8 D_8009AF76[];
 extern u8 D_8009B3C1;
 extern u8 D_8009B3C7;
-extern s8 D_8009B34D __attribute__((section(".data")));
+extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u16 D_8009AF76_raw asm("D_8009AF76")
     __attribute__((section(".data")));
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
@@ -147,9 +147,9 @@ void func_8003D74C(u8 *o)
         func_80039794();
         if ((*(u16 *)(r + 0x34) & 0x2000) != 0) {
             D_8009B3C1 = D_8009B3C1 | 0x20;
-            if (D_8009B34D == 0) {
+            if (gDialog_bChoice == 0) {
                 DuelEffect_CreateChannel(0x80D4, 0);
-                D_8009B34D = 0;
+                gDialog_bChoice = 0;
             }
         }
         return;

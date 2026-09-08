@@ -12,7 +12,7 @@
 extern u8 *D_8009B290;
 extern u16 D_8009B27C;
 extern u16 D_8009B2A4[2];
-extern u8 D_8009B27A;
+extern u8 gCampaignSceneIndex;
 extern u8 D_8009B268 __attribute__((section(".data")));
 extern u8 D_8009B269 __attribute__((section(".data")));
 extern u8 D_8009B26C __attribute__((section(".data")));
@@ -205,7 +205,7 @@ void func_8002EE94(void)
         SD_SEPlayFull(7);
         func_80033C90();
         D_8009B269 = 2;
-        D_8009B27A = (u8)D_8009B2A4[1];
+        gCampaignSceneIndex = (u8)D_8009B2A4[1];
         break;
     case 2:
         SD_SEPlayFull(7);
