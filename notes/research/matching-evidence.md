@@ -4799,3 +4799,34 @@ differences.**
 The comma operator's order in a `for` increment is not something the language
 forces on the code generator, but GCC preserves it, and it is worth trying when
 a loop-end residual is two instructions trading places.
+
+## Allocno priority: reference count, not live range, picks the register
+
+A candidate that reproduces the exact instruction multiset and every opcode,
+offset, constant and branch, and still differs in a set of positions that are
+all register names, is usually one allocation inversion rather than many
+independent choices. GCC 2.8.1 ranks allocnos by
+
+    floor_log2(n_refs) * n_refs / live_length
+
+and assigns hard registers in that order, so one pair swapping at the top
+cascades through everything allocated after it.
+
+The diagnosis is cheap: count references and live range for the two pseudos
+that swapped and compute both priorities. If they are close, that is the cause,
+and the fix belongs on whichever one is mis-ranked rather than on each symptom.
+
+Note the `floor_log2` cliff. Between 15 and 16 references the multiplier jumps
+from 3 to 4, so a single reference either way can move a pseudo past several
+others. That is why some small source rewrites flip a whole allocation and
+others do nothing at all, and why the useful lever is often the *number of
+times a variable is mentioned* rather than anything about its type or scope.
+
+`func_8006C120` (0x8006C120) is the worked example. It sat at 119/119
+instructions and opcode distance 0 with eight differing prologue positions;
+what decides them is how many times the recursion depth is read, and spelling
+the depth test to match retail's count reproduces the prologue exactly.
+
+This is the counterpart to the existing advice to count the target's saved
+registers before blaming the allocator. That tells you *whether* allocation is
+involved; this tells you which pseudo to move and in which direction.
