@@ -2,6 +2,7 @@
 #include "../../game/display_object_api.h"
 #include "entrypoints.h"
 #include "trade_helpers.h"
+#include "../../game/display_object_helpers.h"
 
 typedef struct {
     u8 *object;
@@ -27,7 +28,6 @@ extern u8 D_80185CD0;
 extern u8 D_80185CD1;
 extern u8 D_8009B0C0;
 extern void (*D_800E9DB4)(void);
-extern void func_800428EC(void *, s32);
 extern void func_80061008(s32, s32, s32, s32);
 
 void MainMenu_InitTradeScreen(void)

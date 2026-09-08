@@ -2,11 +2,9 @@
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_layout.h"
 #include "frontend.h"
+#include "../../game/display_object_helpers.h"
 
 extern u8 D_801AF800[];
-extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
-extern void func_80042918(void *);
-extern void func_800428EC(void *, s32);
 
 void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
 {

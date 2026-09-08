@@ -1,9 +1,8 @@
 #include "../../types.h"
 #include "../../game/display_object_api.h"
+#include "../../game/display_object_helpers.h"
 
 extern u8 D_801AF000[];
-extern void func_800428A8(void *, int, int, int, int, int, int, int, int);
-extern void func_800428EC(void *, int);
 
 u8 *FreeDuel_SpawnSparkle(void)
 {
