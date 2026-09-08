@@ -300,15 +300,49 @@ The `(tag | 0x08000000) & 0x8FFFFFFF` mask in `display_object_transition.c`
 was read as possibly clamping a length field. It sets `GsROTOFF` and clears
 the rate together with `GsALON`: turn rotation off and semi-transparency off.
 
-One thing genuinely remains open, and it is narrower than it looked.
+### `func_80042188`'s first argument is both
+
 `func_80042188`'s inventory row records that its first argument cannot be
 resolved as pointer or value from the call sites, because a scratchpad address
-satisfies the `0x04000000` test it applies. Cases `0`, `1` and `2` settle it
-for those paths — they pass the argument straight into routines that take a
-`GsSPRITE *` — but the later cases test that bit against the same register, so
-whether some caller passes an attribute *value* there is still unresolved.
-That is a question about `func_80042188`'s signature, not about what the
-attribute bits mean.
+happens to satisfy the `0x04000000` test the function applies to it. The
+answer is that it is **both, selected by the dispatch case** in the high half
+of the fourth argument.
+
+| Caller | Dispatch case | First argument |
+|---|---:|---|
+| `func_80040588` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
+| `func_800408D0` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
+| `func_80016784` | — | `0x1F800320` / `0x1F800000`, records in the same scratchpad |
+| `display_object_list_renderers.c`, list key `4` | `4` | `v = *(s32 *)(e + 4)`, **the attribute word** |
+| `display_object_list_renderers.c`, list key `5` | `5` | the same |
+
+Cases `0`, `1` and `2` pass it straight into `GsSortFastSprite`,
+`GsSortFlipSprite` and `GsSortSprite`, which take a `GsSPRITE *`. Cases `4`
+and `5` are only ever reached from the two list renderers, which read the
+object's attribute word into `v` and set `0x04000000` — `GsPERS` — on it when
+the clip test passes:
+
+```c
+v = *(s32 *)(e + 4);
+...
+if ((*(u16 *)(e + 8) & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
+    if (func_80041E7C(...) <= 0) goto next;
+    v = v | 0x4000000;
+}
+func_80042188(v, g, ..., *(u16 *)(e + 0x14) | bit, h);
+```
+
+So the `0x04000000` test is a `GsPERS` test. On the value paths the bit is set
+exactly when the clip test passed; on the pointer paths it is always set,
+because every scratchpad address in the `0x1F8003xx` range carries bit 26, and
+those callers have already run their own projection. Both readings take the
+perspective arm under the same circumstances. Whether that overlap is
+deliberate is not something the code states.
+
+The consequence for typing: the parameter cannot be declared `GsSPRITE *`. It
+is a word that means a `GsSPRITE *` in cases `0`-`2` and an attribute in cases
+`4`-`5`, which is why the inventory row's caution was right and why the
+reading should still come from a matched definition rather than a header.
 
 ## Two-phase display-object fades
 
