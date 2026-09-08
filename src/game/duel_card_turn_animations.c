@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "display_object_layout.h"
 #include "duel_card_layout.h"
+#include "duel_card.h"
 
 extern u8 D_8009B1D5;
-extern u8 D_801A7AD8[];
 
 s32 func_80042B98(u8 *arg0);
 void func_80017E3C(u8 *arg0);
@@ -18,15 +18,15 @@ void Duel_ApplyCardObjectFlags(u8 *arg0);
  * out as goto targets in retail's own address order and the shared reset
  * block is reached by goto from all three. */
 void func_80022674(u8 *p) {
-    u8 *e;
+    DuelCardRecord *e;
     s32 m;
     s32 v;
     s16 c;
     s32 f;
 
-    e = D_801A7AD8 + p[0x6A] * DUEL_CARD_RECORD_SIZE;
+    e = &D_801A7AD8[p[0x6A]];
     if (func_80042B98(p) == 0) {
-        m = *(u16 *)(e + 0x16);
+        m = e->flags;
         v = 0;
         if ((m & DUEL_CARD_FLAG_FACE_DOWN) == 0) {
             v = 1;
@@ -57,11 +57,11 @@ m0:
     if ((f & 0x40) == 0) {
         p[0x6C] = f | 0x40;
         *(u16 *)(p + 0x60) = 8;
-        *(u16 *)(e + 0x16) = *(u16 *)(e + 0x16) | 0x400;
+        e->flags = e->flags | 0x400;
         *(s32 *)(p + 0x20) = 0x8000;
         *(u16 *)(p + 8) =
             *(u16 *)(p + 8) | DISPLAY_OBJECT_FLAG_CLIP_TEST;
-        if ((*(u16 *)(e + 0x16) & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
+        if ((e->flags & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
             p[0x22] = 0xC0;
         }
     }
@@ -99,7 +99,7 @@ m1:
         return;
     }
     p[0x6C] = p[0x6C] | 0x20;
-    *(u16 *)(e + 0x16) = *(u16 *)(e + 0x16) | 0x400;
+    e->flags = e->flags | 0x400;
     *(s32 *)(p + 0x20) = 0x4000;
     *(s16 *)(p + 0x2A) = 0x4080;
     *(u16 *)(p + 0x60) = 4;
@@ -139,7 +139,7 @@ m2:
         return;
     }
     p[0x6C] = p[0x6C] | 0x20;
-    *(u16 *)(e + 0x16) = *(u16 *)(e + 0x16) | 0x400;
+    e->flags = e->flags | 0x400;
     *(s16 *)(p + 0x2A) = -0x3F80;
     *(s32 *)(p + 0x20) = 0xC000C0;
     *(u16 *)(p + 0x60) = 4;
@@ -166,7 +166,7 @@ alt2:
  * The arms are laid out as goto targets in retail's own address order and
  * the shared reset block is reached by goto from both. */
 void func_800229F4(u8 *p) {
-    u8 *e;
+    DuelCardRecord *e;
     s32 m;
     s32 v;
     u32 s1;
@@ -175,9 +175,9 @@ void func_800229F4(u8 *p) {
     s16 c;
     s32 f;
 
-    e = D_801A7AD8 + p[0x6A] * DUEL_CARD_RECORD_SIZE;
+    e = &D_801A7AD8[p[0x6A]];
     if (func_80042B98(p) == 0) {
-        m = *(u16 *)(e + 0x16);
+        m = e->flags;
         v = 0;
         if ((m & DUEL_CARD_FLAG_FACE_DOWN) == 0) {
             v = 1;
@@ -214,12 +214,12 @@ m0:
     if (c > 0) {
         return;
     }
-    *(u16 *)(e + 0x16) = *(u16 *)(e + 0x16) & 0xFBFF;
+    e->flags = e->flags & 0xFBFF;
     p[0x22] = 0x80;
     p[0x20] = 0;
     p[0x21] = 0;
     *(s32 *)(p + 0x20) = 0x800000;
-    if ((*(u16 *)(e + 0x16) & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
+    if ((e->flags & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
         p[0x21] = 0xC0;
     }
 reset:
@@ -251,7 +251,7 @@ m1:
     }
     p[0x6C] = p[0x6C] | 0x20;
     d = D_8009B1D5;
-    *(u16 *)(e + 0x16) = *(u16 *)(e + 0x16) & 0xFBFF;
+    e->flags = e->flags & 0xFBFF;
     if (d != 0) {
         *(s32 *)(p + 0x20) = 0xC00000;
         *(s16 *)(p + 0x2A) = -0x3F80;
@@ -297,7 +297,7 @@ m2:
     }
     p[0x6C] = p[0x6C] | 0x20;
     d = D_8009B1D5;
-    *(u16 *)(e + 0x16) = *(u16 *)(e + 0x16) & 0xFBFF;
+    e->flags = e->flags & 0xFBFF;
     if (d != 0) {
         *(s32 *)(p + 0x20) = 0xC0C000;
         *(s16 *)(p + 0x2A) = -0x3F80;

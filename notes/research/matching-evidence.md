@@ -3152,6 +3152,35 @@ decided from the surrounding code. Counting the four extra instructions is
 still worth doing - it says a plain field-by-field transcription will be short -
 but it does not by itself name the construct.
 
+## Byte arithmetic and typed indexing are not interchangeable
+
+`base + i * RECORD_SIZE` on a `u8 *` and `&typed_array[i]` compute the same
+address, and they do not reliably compile to the same instructions. Converting
+raw `u8 *` record access to a typed pointer therefore has to be verified per
+file, not assumed to be a pure readability change.
+
+Measured while typing `D_801A7AD8`, a `0x1C`-byte duel card record reached
+through raw casts in eleven files. One file converted cleanly and matched. Five
+others, converted identically, did not:
+
+- `func_8001825C.c` also passed `D_801A7AD8 + card[0x6A] * DUEL_CARD_RECORD_SIZE`
+  to a callee. Once the array is typed, that expression scales **twice** - the
+  multiply is still written and the pointer arithmetic scales again - which both
+  changes the address and grows the text. Rewriting it as `&D_801A7AD8[i]` fixed
+  the size and still produced different bytes, so the index form and the
+  explicit multiply are not equivalent here either.
+- `func_8001898C.c` failed the same way at a different address.
+
+The trap is that the first symptom was a **link error about overlapping
+sections**, not a hash mismatch: the text grew enough to collide with the next
+section. A refactor that changes address arithmetic can fail before it ever
+reaches the comparison that was supposed to catch it.
+
+The rule: when retyping a raw record pointer, find **every** use of the base
+symbol in the file, not only the accesses being converted. Any remaining
+`base + i * SIZE` is now double-scaled, and any remaining assignment of the base
+to a `u8 *` needs a cast. Convert one file, build, and only then continue.
+
 ## Count one characteristic opcode before reading any diff
 
 When a candidate is short by a lot, the positional diff is worthless: every
