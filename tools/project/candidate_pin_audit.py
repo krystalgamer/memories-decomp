@@ -200,21 +200,33 @@ def address_of(symbol: str, symbols: dict[str, int]) -> int | None:
     return int(match.group(1), 16) if match else None
 
 
-def relocate(word, kind, symbol, symbols, gp):
-    """Apply one relocation, or return None when it cannot be resolved."""
+def relocate(word, kind, symbol, symbols, gp, lo_addend=0):
+    """Apply one relocation, or return None when it cannot be resolved.
+
+    MIPS uses REL relocations, so the addend lives in the instruction's own
+    immediate field. Replacing the whole immediate with the symbol value
+    discards it and silently mis-resolves every reference to `sym + k`, which
+    then reads as a difference. A paired `%hi`/`%lo` splits the addend between
+    the two instructions, so the high half needs its partner's low half.
+    """
     value = address_of(symbol, symbols)
     if value is None:
         return None
+    imm = word & 0xFFFF
+    if imm & 0x8000:
+        imm -= 0x10000
     if kind == "R_MIPS_HI16":
-        return (word & 0xFFFF0000) | (((value + 0x8000) >> 16) & 0xFFFF)
+        full = value + (imm << 16) + lo_addend
+        return (word & 0xFFFF0000) | (((full + 0x8000) >> 16) & 0xFFFF)
     if kind == "R_MIPS_LO16":
-        return (word & 0xFFFF0000) | (value & 0xFFFF)
+        return (word & 0xFFFF0000) | ((value + imm) & 0xFFFF)
     if kind == "R_MIPS_GPREL16":
         if gp is None:
             return None
-        return (word & 0xFFFF0000) | ((value - gp) & 0xFFFF)
+        return (word & 0xFFFF0000) | ((value + imm - gp) & 0xFFFF)
     if kind == "R_MIPS_26":
-        return (word & 0xFC000000) | ((value >> 2) & 0x03FFFFFF)
+        target = value + ((word & 0x03FFFFFF) << 2)
+        return (word & 0xFC000000) | ((target >> 2) & 0x03FFFFFF)
     return None
 
 
@@ -288,7 +300,18 @@ def differing(build_words, retail, relocations, symbols, gp):
         if relocation is None:
             same = left == right
         else:
-            fixed = relocate(left, relocation[0], relocation[1], symbols, gp)
+            lo_addend = 0
+            if relocation[0] == "R_MIPS_HI16":
+                for later in range(index + 1, len(build_words)):
+                    pair = relocations.get(later)
+                    if (pair and pair[0] == "R_MIPS_LO16"
+                            and pair[1] == relocation[1]):
+                        lo_addend = build_words[later] & 0xFFFF
+                        if lo_addend & 0x8000:
+                            lo_addend -= 0x10000
+                        break
+            fixed = relocate(left, relocation[0], relocation[1], symbols, gp,
+                             lo_addend)
             if fixed is not None:
                 same = fixed == right
             elif relocation[0] == "R_MIPS_26":
