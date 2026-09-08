@@ -3233,6 +3233,22 @@ What was safe, all confirmed against the full-executable hash:
   stores a whole struct and reads its fields, expect the conversion to cost
   a build to check rather than being free by inspection.
 
+- **When converting a record to a typed pointer, convert every access to it
+  at once.** `func_800289BC` reaches a `0x40`-byte record through `u8 *e`
+  and already casts four sub-rectangles to `RECT` before calling
+  `LoadImage`. Rewriting only those four rectangles as `rect->w` while the
+  neighbouring fields stayed as `*(u16 *)(e + 0x28)` moved a store: one byte
+  at `0x80028A30`, the immediate `0x28` replaced by `0x33`, so the scheduler
+  had reordered a store against a load it could no longer prove was on the
+  same base. Converting *all* of the accesses, so every one goes through a
+  single typed pointer, matched exactly. Half-converting a record is worse
+  than not converting it, because two pointers into one object give the
+  compiler less information than one, not more.
+- **Watch the stride when the base becomes typed.** In the same file,
+  leaving a stray `*(s16 *)(e + 0xC)` behind after `e` became a
+  `DuelEffectResourceRecord *` silently scales that offset by `0x40`. It
+  still compiles. Only the hash catches it.
+
 - **`sizeof(T)` may replace a literal stride** once the cast is in place.
 - **But a proven-equal `sizeof` is not a licence to switch to typed indexing.**
   `model.h` asserts `sizeof(ModelSlot) == MODEL_SLOT_SIZE`, so

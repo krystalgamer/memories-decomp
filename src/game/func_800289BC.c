@@ -2,13 +2,14 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "duel_effect_resource_record.h"
 
 extern s32 D_8009B118;
 extern u8 D_800EA0E8[];
 
 void func_800289BC(u8 *p, s32 mode)
 {
-    u8 *e;
+    DuelEffectResourceRecord *e;
     RECT *rect;
     s32 b;
     s32 x;
@@ -22,39 +23,39 @@ void func_800289BC(u8 *p, s32 mode)
         return;
     }
 
-    e = D_800EA0E8 + (*(s32 *)(p + 0x38) << 6);
+    e = (DuelEffectResourceRecord *)(D_800EA0E8 + (*(s32 *)(p + 0x38) << 6));
 
-    rect = (RECT *)(e + 8);
+    rect = &e->rects[0];
     b = D_8009B118;
-    *(s16 *)(e + 0xC) = 0x33;
-    *(s16 *)(e + 0xE) = 0x60;
-    *(u16 *)(e + 8) = *(u16 *)(e + 0x28);
-    *(u16 *)(e + 0xA) = *(u16 *)(e + 0x2A);
+    e->rects[0].w = 0x33;
+    e->rects[0].h = 0x60;
+    e->rects[0].x = e->src_x;
+    e->rects[0].y = e->src_y;
     LoadImage(rect, (u32 *)b);
 
-    rect = (RECT *)(e + 0x10);
-    x = *(u16 *)(e + 0x2C);
+    rect = &e->rects[1];
+    x = e->field_2C;
     b = D_8009B118 + 0x2640;
-    *(s16 *)(e + 0x14) = 0x100;
-    *(s16 *)(e + 0x16) = 1;
-    *(u16 *)(e + 0x10) = x;
-    *(u16 *)(e + 0x12) = *(u16 *)(e + 0x2E);
+    e->rects[1].w = 0x100;
+    e->rects[1].h = 1;
+    e->rects[1].x = x;
+    e->rects[1].y = e->field_2E;
     LoadImage(rect, (u32 *)b);
 
-    rect = (RECT *)(e + 0x18);
-    x = *(u16 *)(e + 0x28);
+    rect = &e->rects[2];
+    x = e->src_x;
     b = D_8009B118 + 0x2840;
-    *(s16 *)(e + 0x1C) = 0x18;
-    *(s16 *)(e + 0x1E) = 0xE;
-    *(u16 *)(e + 0x18) = x;
-    *(u16 *)(e + 0x1A) = *(u16 *)(e + 0x2A) + 0x60;
+    e->rects[2].w = 0x18;
+    e->rects[2].h = 0xE;
+    e->rects[2].x = x;
+    e->rects[2].y = e->src_y + 0x60;
     LoadImage(rect, (u32 *)b);
 
-    rect = (RECT *)(e + 0x20);
+    rect = &e->rects[3];
     b = D_8009B118 + 0x2AE0;
-    *(s16 *)(e + 0x24) = 8;
-    *(s16 *)(e + 0x26) = 0x58;
-    *(u16 *)(e + 0x20) = *(u16 *)(e + 0x28) + 0x38;
-    *(u16 *)(e + 0x22) = *(u16 *)(e + 0x2A);
+    e->rects[3].w = 8;
+    e->rects[3].h = 0x58;
+    e->rects[3].x = e->src_x + 0x38;
+    e->rects[3].y = e->src_y;
     LoadImage(rect, (u32 *)b);
 }
