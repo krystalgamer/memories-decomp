@@ -162,7 +162,6 @@ extern u8 D_801A7AD8_bytes[] asm("D_801A7AD8");
 
 extern s16 func_800181EC(u8 *arg0);
 extern s32 func_80024E24(void);
-extern s32 Duel_CalcCardStats(u8 *arg0);
 extern void func_80024954(u8 *arg0);
 
 void func_8002538C(void) {

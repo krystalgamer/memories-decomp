@@ -1,12 +1,10 @@
 #include "../types.h"
+#include "duel_card.h"
 #include "display_object_projection.h"
 #include "display_object_layout.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
 
-extern u8 D_801A7AD8[];
-
-s32 Duel_CalcCardStats(u8 *arg0);
 void Text_EncodeDecimalDigits(s32 arg0, s32 arg1, u8 *arg2);
 void func_80042188(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
@@ -37,7 +35,7 @@ void func_80016784(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 k = (u8 *)0x1F800320;
                 y = (u8 *)0x1F800344;
                 z = (u8 *)0x1F800000;
-                e = D_801A7AD8 + arg0[0x6A] * DUEL_CARD_RECORD_SIZE;
+                e = (u8 *)&D_801A7AD8[arg0[0x6A]];
                 *(s16 *)(o + 8) = arg2;
                 *(s16 *)(o + 0xA) = arg3;
                 fl = *(u16 *)(arg0 + 0x14) | 0x10000;
@@ -109,7 +107,7 @@ void func_80016784(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
                         k[0xF] = 0x58;
                         *(u16 *)(k + 0xA) = 8;
                         *(u16 *)(k + 4) = *(u16 *)(o + 8) + 0xE;
-                        d = Duel_CalcCardStats(e);
+                        d = Duel_CalcCardStats((DuelCardRecord *)e);
                         Text_EncodeDecimalDigits((s16)d, 4, sp18);
                         Text_EncodeDecimalDigits(d >> 0x10, 4, sp20);
                         i = 3;

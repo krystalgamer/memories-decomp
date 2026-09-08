@@ -41,7 +41,6 @@ extern s32 gDuel_adwCardStats[];
 extern u8 D_800E9F48[];
 extern s32 D_801D5608[];
 
-extern s32 Duel_CalcCardStats(DuelCardRecord *);
 extern s32 func_80023090(FieldSource *, u8 *);
 extern void func_80039A14(TextBox *);
 
