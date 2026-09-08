@@ -889,11 +889,11 @@ None of them mattered to its match, but the last row is worth keeping:
 | `gcc_2_8_1_g0` | further |
 | `gcc_2_8_1_g0_no_split` | further |
 | `gcc_2_8_1_g0_no_sched2` | further |
-| `gcc_2_7_2_g0` | furthest, `0xC4` instead of `0xC8` |
+| retired legacy compiler, `g0` | furthest, `0xC4` instead of `0xC8` |
 
-The 2.7.2 result is positive evidence that these modules belong to the GCC
+That last result is positive evidence that these modules belong to the GCC
 2.8.1 cohort, reached through the recorded escalation path rather than by
-assumption.
+assumption. The legacy compiler has since been retired from the repository.
 
 ## A register pair can constrain a hidden address temporary
 

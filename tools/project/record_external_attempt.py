@@ -40,6 +40,11 @@ MODES = {
 }
 RESULTS = {"matched", "nonmatch", "deferred"}
 TERMINAL_RESULTS = {"matched", "deferred"}
+# Profiles that existed when a historical row was recorded and have since been
+# removed from compiler_profiles.json. Validation accepts them so terminal
+# provenance stays byte-for-byte intact; recording a new row still requires a
+# profile the manifest currently defines, so these cannot be selected again.
+RETIRED_PROFILES = frozenset({"gcc_2_7_2_g0", "gcc_2_7_2_g8"})
 MAX_ATTEMPTS = 6
 MODE_MAX_ATTEMPTS = {
     "reference_match": MAX_ATTEMPTS,
@@ -252,7 +257,10 @@ def validate_rows(
             raise ExternalAttemptError(
                 f"{address:#010x}: external attempts are game-only"
             )
-        if row["profile"] not in profiles:
+        if (
+            row["profile"] not in profiles
+            and row["profile"] not in RETIRED_PROFILES
+        ):
             raise ExternalAttemptError(
                 f"{address:#010x}: unknown compiler profile {row['profile']}"
             )

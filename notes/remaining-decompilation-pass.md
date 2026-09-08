@@ -17,7 +17,7 @@ function.
 
 | Address | Result |
 |---|---|
-| `0x8005C4F0` | The original pure-C campaign stopped two register-allocation words away under GCC 2.8.1, while GCC 2.7.2 changed a branch displacement. A later register-local reconstruction produced the current exact `File_Exists` C under `gcc_2_8_1_g0`. |
+| `0x8005C4F0` | The original pure-C campaign stopped two register-allocation words away under GCC 2.8.1, while the retired legacy compiler changed a branch displacement. A later register-local reconstruction produced the current exact `File_Exists` C under `gcc_2_8_1_g0`. |
 | `0x8003CE74` | The original pure-C campaign stopped one commutative operand-order word from retail. Explicit register roles later preserved that ordering, and the current `SaveData_NextMaskWord` C matches under `gcc_2_8_1_g8`. |
 
 ### Preserved partial histories
@@ -87,7 +87,7 @@ untried compiler profiles:
 | GCC 2.8.1 split | 71 | 19 | 52 |
 | GCC 2.8.1 no-split | 57 | 0 | 57 |
 | GCC 2.8.1 default | 14 | 0 | 14 |
-| GCC 2.7.2 fallback | 58 | 0 | 58 |
+| Retired legacy compiler | 58 | 0 | 58 |
 | GCC 2.8.1 no second scheduler pass | 49 | 0 | 49 |
 | GCC 2.8.1 O1 final variant | 47 | 1 | 46 |
 
@@ -111,7 +111,7 @@ profiles:
 
 | Pass | Tested | Exact |
 |---|---:|---:|
-| GCC 2.7.2 fallback | 72 | 0 |
+| Retired legacy compiler | 72 | 0 |
 | GCC 2.8.1 no second scheduler pass | 71 | 0 |
 | GCC 2.8.1 O1 terminal variant | 66 | 0 |
 
@@ -125,7 +125,7 @@ out-of-range small-data relocations were repaired by forcing G0:
 | Default | 10 | 0 |
 | Split | 10 | 0 |
 | No-split | 10 | 0 |
-| GCC 2.7.2 | 10 | 0 |
+| Retired legacy compiler | 10 | 0 |
 | No second scheduler pass | 5 | 0 |
 
 All ten GPREL-repair histories ended the recorded campaign as deferred. The source repair was
@@ -135,7 +135,7 @@ not reproduce retail code.
 `func_80058938` was manually reconstructed from GMS after m2c failed on two
 unaligned 32-bit copies. Pure-C `memcpy`, packed-pointer assignment, and
 packed-parameter forms all trigger a GCC `cc1` signal-11 internal compiler
-error under both 2.8.1 and 2.7.2. Its six-attempt history is terminal with the
+error under 2.8.1 and under the retired legacy compiler. Its six-attempt history is terminal with the
 record layout and compiler blocker documented; further source investigation
 remains open.
 

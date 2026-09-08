@@ -8,9 +8,8 @@ behavior class**. The available binary does not distinguish 2.81 from 2.86 and
 does not independently identify the complete SDK package.
 
 The user independently evaluated the SDK with multiple tools and selected
-**Psy-Q 4.6**. Its Win32 toolset contains GCC 2.8.1, while its DOS toolset
-contains GCC 2.7.2. GCC 2.8.1 is the primary compiler and GCC 2.7.2 must remain
-available as the fallback. The unusual `LIBDS.LIB` was an online patch
+**Psy-Q 4.6**. Its Win32 toolset contains GCC 2.8.1, which is the project's
+only compiler. The unusual `LIBDS.LIB` was an online patch
 distributed before Psy-Q 4.7, explaining the apparent 4.7 association without
 changing the SDK version.
 
@@ -132,38 +131,17 @@ and aggregate or floating-point interfaces for the ABI options. Output-only
 defaults should be explored only when section or symbol evidence calls for
 them.
 
-## GCC 2.7.2 fallback
+## Retired legacy fallback
 
-The Psy-Q 4.6 DOS-era fallback is represented by a separately pinned public
-GCC 2.7.2 MIPS build:
+The project previously kept a separately pinned public MIPS build of the
+Psy-Q 4.6 DOS-era compiler alongside GCC 2.8.1. It was retired: it never
+produced a committed match, every accepted `matching_c` entry names a
+`gcc_2_8_1_*` profile, and its recorded campaign passes returned zero exact
+results. Its installer, profiles, host patch, and assembly filter are gone.
 
-| Property | Value |
-|---|---|
-| Upstream source | `https://ftp.gnu.org/old-gnu/gcc/gcc-2.7.2.tar.gz` |
-| Source SHA-256 | `7cd8bce5c3aeec59a72ecc2d3d5123864a817b14cdbd0680b1a969c3bccc5da5` |
-| Target | `mips-linux-gnu` |
-| GCC version | `2.7.2` |
-| Local prefix | `tools/toolchains/gcc-2.7.2-mips/` |
-| Compiler executable | `tools/toolchains/gcc-2.7.2-mips/bin/mips-linux-gnu-gcc` |
-
-This public recipe is not a genuine `mips-sony-psx` DOS compiler. It requires:
-
-- Explicit little-endian, R3000, MIPS-I, soft-float, no-ABI-call flags.
-- Removal of inherited Unix/BSD target macros and explicit PSX macros.
-- A tracked modern-glibc host patch for the removed `sys_nerr` symbol.
-- A narrow assembly filter that moves GCC 2.7.2 stack restoration into the
-  return delay slot before maspsx.
-
-The fallback profile reproduces `AiScript_Print` (`0x800736C4`) and the
-complete executable when selected temporarily using:
-
-```text
-maspsx --aspsx-version=2.72 --expand-div -G<0-or-8>
-```
-
-GCC 2.8.1 remains the default for every committed C function and uses MASPSX
-2.81. Use GCC 2.7.2 with MASPSX 2.72 only after recorded 2.8.1 attempts fail
-or DOS-cohort evidence exists.
+GCC 2.8.1 with MASPSX 2.81 is the only compiler pipeline. A future candidate
+that genuinely needs a different cohort must reintroduce it deliberately with
+evidence, not resurrect the retired profiles.
 
 ## Address conversion
 
@@ -279,8 +257,8 @@ The decision is supported by 623 independent full-executable matches totaling
 | `gcc_2_8_1_g0` | 195 |
 | `gcc_2_8_1_g0_split` | 38 |
 
-GCC 2.7.2 remains installed solely as the required Psy-Q 4.6 DOS-cohort
-fallback. No committed matching function currently requires it.
+No committed matching function has ever required a compiler other than
+GCC 2.8.1.
 
 The profile manifest also exposes measured GCC 2.8.1 experiments for reviewed
 partial functions whose target code provides specific evidence:
@@ -312,13 +290,12 @@ Probe cases:
 7. Synthetic `.rdata`, `.text`, `.data`, `.sdata`, `.sbss`, and `.bss`
    objects linked around `_gp = 0x8009AF08`.
 
-Test the Psy-Q 4.6 Win32 GCC 2.8.1 path first across `-O1`/`-O2`,
-`-G0`/`-G4`/`-G8`/`-G16`, and ASPSX 2.81/2.86 behavior. If six recorded
-attempts do not match or the code shape indicates the DOS cohort, retry with
-GCC 2.7.2. Preserve compiler-generated assembly before maspsx so compiler and
+Test the Psy-Q 4.6 Win32 GCC 2.8.1 path across `-O1`/`-O2`,
+`-G0`/`-G4`/`-G8`/`-G16`, and ASPSX 2.81/2.86 behavior.
+Preserve compiler-generated assembly before maspsx so compiler and
 assembler differences remain separable. Record complete hashes for every
 supplied compiler, assembler, linker, and library artifact. Treat the patched
 `LIBDS.LIB` as supporting library evidence rather than a 4.7 package marker.
 
-Exact assembly remains the fallback, and GCC 2.7.2 remains the secondary
-compiler for documented dead ends or DOS-cohort evidence.
+Exact assembly remains the fallback for a documented dead end. There is no
+secondary compiler.

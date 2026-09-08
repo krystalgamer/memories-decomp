@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272 check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index check-candidate-headlines review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index check-candidate-headlines review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -89,7 +89,7 @@ toolchain: verify-target
 toolchain-system: verify-target
 	@$(BOOTSTRAP_PYTHON) tools/bootstrap/binutils_system.py
 
-compiler: compiler-281 compiler-272
+compiler: compiler-281
 
 compiler-281: verify-target
 	@$(BOOTSTRAP_PYTHON) tools/bootstrap/old_gcc.py
@@ -97,14 +97,10 @@ compiler-281: verify-target
 compiler-281-prebuilt: verify-target
 	@$(BOOTSTRAP_PYTHON) tools/bootstrap/old_gcc_prebuilt.py
 
-compiler-272: verify-target
-	@$(BOOTSTRAP_PYTHON) tools/bootstrap/old_gcc_272.py
-
 check-tools: workspace
 	@$(PYTHON) tools/bootstrap/bootstrap.py --check
 	@$(PYTHON) tools/bootstrap/binutils.py --check
 	@$(PYTHON) tools/bootstrap/old_gcc.py --check
-	@$(PYTHON) tools/bootstrap/old_gcc_272.py --check
 
 check-build-tools: workspace
 	@$(PYTHON) tools/bootstrap/bootstrap.py --check

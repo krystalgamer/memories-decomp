@@ -115,10 +115,8 @@ Matching, attempt-ledger updates, and integration remain sequential.
   passes full-executable matching. Only game-owned functions are decompilation
   candidates; Psy-Q CRT/SDK functions never belong in the attempt ledgers.
 - Use named profiles from `compiler_profiles.json`; do not hide one-off flags
-  in ad hoc commands. Try GCC 2.8.1 profiles first. Use GCC 2.7.2 only after
-  recorded evidence indicates that cohort or the useful 2.8.1 profiles have
-  been explored.
-  Pair GCC 2.8.1 with MASPSX 2.81 and GCC 2.7.2 with MASPSX 2.72.
+  in ad hoc commands. GCC 2.8.1 paired with MASPSX 2.81 is the only supported
+  pipeline, so vary named profiles rather than compilers.
 - Record every materially distinct source/compiler experiment and its precise
   mismatch reason. The original six-row canonical ledgers are historical
   campaign evidence, not a limit on further investigation; keep additional

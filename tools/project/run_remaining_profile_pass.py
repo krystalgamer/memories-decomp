@@ -112,8 +112,6 @@ def profile_group(history: list[dict[str, str]]) -> str | None:
 
 
 def selected_profile(group: str, variant: str) -> str:
-    if variant == "gcc272":
-        return f"gcc_2_7_2_{group}"
     if variant == "no-sched2":
         return f"gcc_2_8_1_{group}_no_sched2"
     if variant == "o1":
@@ -316,7 +314,6 @@ def parse_args() -> argparse.Namespace:
             "default",
             "split",
             "no-split",
-            "gcc272",
             "no-sched2",
             "o1",
         ),
