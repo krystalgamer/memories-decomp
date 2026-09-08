@@ -124,8 +124,10 @@ void File_ActivateTransfer(void) {
     *(Block72 *)gFile_PrimaryTransferDescriptor =
         *(Block72 *)gFile_SecondaryTransferDescriptor;
     *(Block32 *)D_801D4200 = *(Block32 *)(D_801D4200 + 32);
-    if (gFile_PrimaryTransferDescriptor[70] == 4)
+    if (gFile_PrimaryTransferDescriptor[FILE_TRANSFER_DESCRIPTOR_STATE_BYTE_OFFSET] == 4)
         D_8009B112 |= 1;
-    D_8009B0F4 = *(s32 *)(gFile_PrimaryTransferDescriptor + 44) |
-                 FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
+    D_8009B0F4 =
+        *(s32 *)(gFile_PrimaryTransferDescriptor +
+                 FILE_TRANSFER_DESCRIPTOR_STATUS_FLAGS_BYTE_OFFSET) |
+        FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }

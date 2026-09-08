@@ -2,6 +2,7 @@
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
 #include "../psyq/libspu.h"
+#include "file_constants.h"
 
 extern u8 gFile_PrimaryTransferDescriptor[];
 extern volatile s32 D_8009B0F4;
@@ -128,8 +129,8 @@ call_back:
         }
         return;
     }
-    if (p[0x46] == 5) {
-        switch (p[0x47]) {
+    if (p[FILE_TRANSFER_DESCRIPTOR_STATE_BYTE_OFFSET] == 5) {
+        switch (p[FILE_TRANSFER_DESCRIPTOR_SUBSTATE_BYTE_OFFSET]) {
         case 0:
             DsEndReadySystem();
             CdReadyCallback(0);

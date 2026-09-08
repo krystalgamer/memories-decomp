@@ -117,6 +117,13 @@ it is not unused tail padding. The private initializer clears that byte, and
 the completion alias `D_800E9EA7[0]` addresses the same byte of the primary
 descriptor. The existing partial field names and local views remain intact.
 
+Type-free constants in `file_constants.h` name the status-flags, state, and
+substate byte offsets (`+0x2C`, `+0x46`, and `+0x47`), with assertions against
+the shared descriptor. Its legacy `done` member is the transfer-state byte,
+not a Boolean completion flag. Raw users keep their signed flags-word read,
+byte accesses, and local padding views; no state values or branch behavior
+are changed by naming the offsets.
+
 `func_80013940` interprets its third argument (`position`) and fourth argument
 (`size`) by sign. The matching body in `src/game/file_stream.c` applies:
 

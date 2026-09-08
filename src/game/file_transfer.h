@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_FILE_TRANSFER_H
 
 #include "../types.h"
+#include "file_constants.h"
 
 #define FILE_TRANSFER_STATE_PRIMARY_ACTIVE 0x10
 #define FILE_TRANSFER_STATE_SECONDARY_PENDING 0x20
@@ -46,6 +47,10 @@ typedef char FileTransferDescriptor_value_08_offset_must_be_0x08[
     FILE_TRANSFER_DESCRIPTOR_OFFSET(FileTransferDescriptor, value_08) == 0x08
         ? 1 : -1
 ];
+typedef char FileTransferDescriptor_status_flags_offset_must_be_0x2C[
+    FILE_TRANSFER_DESCRIPTOR_OFFSET(FileTransferDescriptor, status_flags) ==
+        FILE_TRANSFER_DESCRIPTOR_STATUS_FLAGS_BYTE_OFFSET ? 1 : -1
+];
 typedef char FileTransferDescriptor_counter_offset_must_be_0x30[
     FILE_TRANSFER_DESCRIPTOR_OFFSET(FileTransferDescriptor, counter) == 0x30
         ? 1 : -1
@@ -59,12 +64,12 @@ typedef char FileTransferDescriptor_callback_data_offset_must_be_0x38[
         ? 1 : -1
 ];
 typedef char FileTransferDescriptor_done_offset_must_be_0x46[
-    FILE_TRANSFER_DESCRIPTOR_OFFSET(FileTransferDescriptor, done) == 0x46
-        ? 1 : -1
+    FILE_TRANSFER_DESCRIPTOR_OFFSET(FileTransferDescriptor, done) ==
+        FILE_TRANSFER_DESCRIPTOR_STATE_BYTE_OFFSET ? 1 : -1
 ];
 typedef char FileTransferDescriptor_substate_offset_must_be_0x47[
-    FILE_TRANSFER_DESCRIPTOR_OFFSET(FileTransferDescriptor, substate) == 0x47
-        ? 1 : -1
+    FILE_TRANSFER_DESCRIPTOR_OFFSET(FileTransferDescriptor, substate) ==
+        FILE_TRANSFER_DESCRIPTOR_SUBSTATE_BYTE_OFFSET ? 1 : -1
 ];
 
 #undef FILE_TRANSFER_DESCRIPTOR_OFFSET

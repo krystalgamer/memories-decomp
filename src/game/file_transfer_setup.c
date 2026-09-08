@@ -4,20 +4,20 @@
 struct FilePositionState {
     char pad24[0x24];
     s32 f24;
-    char pad46[0x46 - 0x28];
+    char pad46[FILE_TRANSFER_DESCRIPTOR_STATE_BYTE_OFFSET - 0x28];
     u8 f46;
 };
 
 struct FileTransferState {
     char pad00[0x24];
     s32 f24;
-    char pad28[0x2C - 0x28];
+    char pad28[FILE_TRANSFER_DESCRIPTOR_STATUS_FLAGS_BYTE_OFFSET - 0x28];
     s32 f2C;
     char pad30[0x34 - 0x30];
     s32 f34;
     u8 f38;
     u8 f39;
-    char pad3A[0x46 - 0x3A];
+    char pad3A[FILE_TRANSFER_DESCRIPTOR_STATE_BYTE_OFFSET - 0x3A];
     u8 f46;
 };
 
