@@ -120,7 +120,7 @@ void func_80049434(void)
     third = D_8009B458;
     third->transfer.field_0019 = 127;
     fourth = D_8009B458;
-    third->transfer.field_0000 = -1;
+    third->transfer.field_0000 = SD_TRANSFER_STATE_INACTIVE;
     fourth->transfer.field_001A = 127;
     fifth = D_8009B458;
     fifth->transfer.field_001B = 64;

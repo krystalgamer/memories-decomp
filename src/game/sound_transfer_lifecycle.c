@@ -36,8 +36,9 @@ int func_800496C4(u8 *input, short expected, int value)
     u8 *entry;
 
     *(int *)(initial + 0x818) = zero;
-    if (expected == -1 && *(short *)(initial + 0x4A4) != expected)
-        return -1;
+    if (expected == SD_TRANSFER_STATE_INACTIVE &&
+        *(short *)(initial + 0x4A4) != expected)
+        return SD_TRANSFER_ERROR;
     state = (u8 *)D_8009B458;
     *(short *)(state + 0x4A4) = zero;
     entry = state + 0x4A4;
@@ -58,13 +59,13 @@ int func_8004975C(int value, short expected)
     short current = state->transfer.field_0000;
 
     if (current != expected)
-        return -1;
+        return SD_TRANSFER_ERROR;
     saved = value;
     {
         SDSecondaryTransfer *entry = &state->transfer;
         SpuSetTransferStartAddr((u32)entry->field_0014);
         if (func_80077150(saved, entry->field_0010) != entry->field_0010)
-            return -1;
+            return SD_TRANSFER_ERROR;
         entry->field_000C = saved;
     }
     return current;

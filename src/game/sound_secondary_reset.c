@@ -13,6 +13,6 @@ void func_800498F8(void)
 {
     s16 *value = &D_8009B458->transfer.field_0000;
 
-    if (*value != -1)
-        *value = -1;
+    if (*value != SD_TRANSFER_STATE_INACTIVE)
+        *value = SD_TRANSFER_STATE_INACTIVE;
 }
