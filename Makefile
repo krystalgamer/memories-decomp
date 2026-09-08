@@ -182,7 +182,7 @@ siblings: verify-inputs
 external-attempts: workspace
 	@$(PYTHON) tools/project/record_external_attempt.py --check
 
-basic-types: workspace
+basic-types:
 	@$(PYTHON) tools/project/centralize_basic_types.py --check
 
 global-usage: split

@@ -10,6 +10,15 @@ from pathlib import Path
 
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
+# `--check` reads only tracked sources under src/, so it resolves the root from
+# this file. `require_workspace_root` insists on the ignored retail image, which
+# would keep the check out of the metadata workflow -- the one job that runs
+# without a toolchain or retail input. `--apply` rewrites files in place and
+# keeps the guard, because there the cost of running from the wrong directory is
+# real. `candidate_files.py` and `check_candidate_headlines.py` resolve their
+# roots the same way for the same reason.
+ROOT = Path(__file__).resolve().parents[2]
+
 
 HEADER_PATH = "src/types.h"
 SOURCE_ROOT = "src"
@@ -146,7 +155,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     try:
-        root = require_workspace_root()
+        root = ROOT if args.check else require_workspace_root()
         updates = planned_updates(root)
         if args.check:
             if updates:
