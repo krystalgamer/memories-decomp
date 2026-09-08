@@ -52,6 +52,12 @@ a completion code. Cancellation writes the saved previous mode to
 `D_8009B26C`; the updater does not itself request a disk save or explicitly
 tear down every object.
 
+The contiguous `gcc_2_8_1_g0_split` preview recreation and shop initializer
+share [`shop_setup.c`](shop_setup.c) in executable order. The initializer
+calls the preceding preview helper, while the updater retains its own reuse
+of that helper. Their shared manifest source and one C subsegment at module
+offset `0x202C` cover the complete `0x2D8`-byte range through `0x8016A304`.
+
 The initializer clears eight decimal digit bytes, index and shop state,
 rebuilds the digit/starchip displays and creates message 226. It configures
 the cached preview record, a display object, one digit cursor and **four**
