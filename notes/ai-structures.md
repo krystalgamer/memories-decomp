@@ -1,6 +1,6 @@
 # AI Subsystem Structures
 
-`src/game/ai.h` contains three layouts corroborated across multiple matching
+`src/game/ai.h` contains shared layouts corroborated across multiple matching
 functions. The field names are mechanical project names, not recovered
 original symbols.
 
@@ -42,6 +42,19 @@ array. This is intentional where GCC must retain a base-symbol relocation plus
 an instruction offset instead of folding the field offset into the symbol.
 The shared structure remains the authoritative layout while the local extern
 controls code generation.
+
+The raw set helpers now name their offset units explicitly.
+`AI_SCRIPT_CARD_SET_BYTE_OFFSET` is `0x3E`, while
+`AI_SCRIPT_CARD_SET_HALFWORD_OFFSET` is `0x1F` because each card-set entry is
+two bytes. The latter is a base offset, not the coincidentally equal
+`AI_SCRIPT_CARD_SET_COUNT - 1`. Type-set offsets remain byte-based at `0x7E`.
+Compile-time assertions tie these constants to the shared structure without
+replacing the raw views or the reverse-order clear loops.
+
+Type-set entries still store the requested type plus one, and membership
+tests still subtract one. This encoding keeps zero available as the empty
+entry marker; the existing narrowing, duplicate handling, and invalid-input
+behavior are unchanged.
 
 ## `AiDuelistState`
 

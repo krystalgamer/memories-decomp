@@ -9,6 +9,13 @@
 #define AI_SCRIPT_MEMORY_COUNT 20
 #define AI_SCRIPT_RETURN_STACK_COUNT 8
 #define AI_SCRIPT_TYPE_SET_COUNT 25
+#define AI_SCRIPT_CARD_SET_BYTE_OFFSET 0x3E
+#define AI_SCRIPT_CARD_SET_ENTRY_SIZE 2
+#define AI_SCRIPT_CARD_SET_HALFWORD_OFFSET \
+    (AI_SCRIPT_CARD_SET_BYTE_OFFSET / AI_SCRIPT_CARD_SET_ENTRY_SIZE)
+#define AI_SCRIPT_TYPE_SET_BYTE_OFFSET 0x7E
+
+#define AI_SCRIPT_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
 typedef void (*AiScriptHandler)(void);
 
@@ -66,12 +73,26 @@ typedef char AiActiveCard_size_must_be_0x0C[
 typedef char AiScriptState_size_must_be_0xD4[
     sizeof(AiScriptState) == 0xD4 ? 1 : -1
 ];
+typedef char AiScriptState_card_set_offset_must_be_0x3E[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, card_set) ==
+        AI_SCRIPT_CARD_SET_BYTE_OFFSET ? 1 : -1
+];
+typedef char AiScriptState_card_set_entry_size_must_be_2[
+    sizeof(((AiScriptState *)0)->card_set[0]) ==
+        AI_SCRIPT_CARD_SET_ENTRY_SIZE ? 1 : -1
+];
+typedef char AiScriptState_type_set_offset_must_be_0x7E[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, type_set) ==
+        AI_SCRIPT_TYPE_SET_BYTE_OFFSET ? 1 : -1
+];
 typedef char AiDuelistState_size_must_be_0x20[
     sizeof(AiDuelistState) == 0x20 ? 1 : -1
 ];
 typedef char AiFieldCardState_size_must_be_0x0C[
     sizeof(AiFieldCardState) == 0x0C ? 1 : -1
 ];
+
+#undef AI_SCRIPT_STATE_OFFSET
 
 extern s32 gAiScript_aMemory[AI_SCRIPT_MEMORY_COUNT];
 extern AiScriptHandler gAiScript_apfnCommand[];
