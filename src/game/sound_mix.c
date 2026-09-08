@@ -1,7 +1,6 @@
 #include "../types.h"
+#include "func_80044DC0.h"
 #include "sound.h"
-
-extern void func_80044DC0(s32);
 extern void func_8007CDC0(u8 *);
 
 void func_80044E90(s32 value)

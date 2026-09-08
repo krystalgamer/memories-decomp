@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80044DC0.h"
 #include "sound.h"
 
 /* Sibling of init_local_flags_and_notify (func_80044F58): builds the same

@@ -1,10 +1,9 @@
 #include "../types.h"
+#include "func_80044DC0.h"
 #include "sound.h"
 #include "../psyq/libspu.h"
 #include "sound_pending_constants.h"
 #include "sound_voice_constants.h"
-
-extern void func_80044DC0(u8);
 extern void func_80047864(s32);
 
 void func_80048920(s32 arg0, s32 arg1)

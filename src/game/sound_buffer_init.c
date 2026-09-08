@@ -1,8 +1,7 @@
 #include "../types.h"
+#include "func_80044DC0.h"
 #include "sound.h"
 #include "sound_buffer_init.h"
-
-extern void func_80044DC0(s32);
 
 void func_80044D48(void)
 {
