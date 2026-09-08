@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004DC38.h"
 #include "model.h"
 
 extern ModelSlot D_800F2C40[];
@@ -7,7 +8,6 @@ extern s32 D_8009AF9C;
 
 extern s32 Model_HasInsufficientBufferSpace(s32, s32);
 extern s32 func_80059AA8(s32, s32);
-extern void func_8004DC38(ModelSlot *, s32, s32, s32);
 extern void func_800540B4(s32);
 extern s32 func_80058E1C(void);
 
@@ -108,7 +108,7 @@ void func_800528AC(void)
                 *((u8 *)slot->field_1E0[j] + 0xC) = v;
                 t = v;
             }
-            func_8004DC38(slot, j, t, aa);
+            func_8004DC38((u8 *)slot, j, t, aa);
         }
         if (v != 0) {
             slot->field_BF5 = v;
@@ -138,7 +138,7 @@ void func_800528AC(void)
                 *((u8 *)slot->field_1E0[k] + 0xC) = keep;
                 t = keep;
             }
-            func_8004DC38(slot, k, t, sv);
+            func_8004DC38((u8 *)slot, k, t, sv);
         }
         if (keep != 0) {
             slot->field_BF5 = keep;
