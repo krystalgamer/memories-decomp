@@ -9,8 +9,12 @@ struct Request {
     s32 f04;
     s32 f08;
     s32 f0C;
-    u8 pad10[0x30 - 0x10];
+    u8 pad10[SD_COMMAND_RECORD_SIZE - 0x10];
 };
+
+typedef char Request_size_must_be_0x30[
+    sizeof(struct Request) == SD_COMMAND_RECORD_SIZE ? 1 : -1
+];
 
 extern void func_800464F0(void);
 extern void func_80044DA0(void);

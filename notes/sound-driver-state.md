@@ -201,6 +201,14 @@ The header contains compile-time size assertions for:
 - `SDValueLink`: `0x08`;
 - `SDValue`: `0x164C`.
 
+The queue submitter reuses `SD_COMMAND_QUEUE_COUNT` for its upper-bound test.
+It retains the signed count, leading command-byte store, whole-record copy,
+and repeated base/count reads; no lower-bound check or clamping is added.
+The local sound-code, refill, forwarded, and sequence request views reuse
+`SD_COMMAND_RECORD_SIZE` for their existing `0x30`-byte extents and have size
+assertions. This shares only their storage extent, not their command-specific
+payload meanings, and does not initialize previously untouched bytes.
+
 Some translation units may continue using raw pointer views when required to
 preserve GCC relocation shape. The shared header remains the layout reference,
 while exact executable matching decides whether a typed field access is safe
