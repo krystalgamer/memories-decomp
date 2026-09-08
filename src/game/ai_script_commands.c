@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "ai_script_commands.h"
+#include "ai_script_end.h"
 
 /* Initialized data at 0x800916E0: the opcode dispatch table AiScript_Run
    indexes. Opcode 0 is unused and its slot is null. */
