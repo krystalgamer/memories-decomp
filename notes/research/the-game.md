@@ -2276,10 +2276,15 @@ unchanged:
 | `+0x36000` | 0x10000 | VRAM (x = 512) | pictures |
 | `+0x46000` | 0x16000 | `0x80146000` | the 90 KB **code overlay** |
 | `+0x5C000` | 0x1800 | `0x801A8000` | the AI script area (reading) |
-| `+0x5D800` | 0x1800 | `0x801A9800` | not read |
+| `+0x5D800` | 0x1800 | `0x801A9800` | second AI script buffer |
 | `+0x5F000` | 0x4000 | VRAM (832, 0) | pictures |
 | `+0x63000` | 0x2800 | `0x80100000` | not read |
 | `+0x65800` | 0x10000 | VRAM (640, 256) | the field picture — the only chunk that differs between the seven terrains |
+
+The second script block is live, not padding or an unread copy:
+`func_8001D670` passes `0x801A9800` directly to `AiScript_Init` at
+`0x8001D7D8`. That establishes the buffer's consumer, but not the meaning of
+each byte within it.
 
 Twelve of the thirteen chunks are byte-identical across the seven terrain
 copies; the tables decode with every id in range (fusion 25,131 rows, equip
