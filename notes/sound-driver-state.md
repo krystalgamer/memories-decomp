@@ -125,6 +125,8 @@ other matching functions use narrower buffer views; the cast documents an
 additional ABI-compatible interpretation rather than changing their source
 shape.
 
+### Reverb work-area queries
+
 Matching `func_8004ACE4` handles two sound-sequence control entries:
 
 | Entry byte `+0x11` | Reverb operation |
@@ -132,11 +134,29 @@ Matching `func_8004ACE4` handles two sound-sequence control entries:
 | `0x0F` | Disables active reverb, adjusts work-area reservation, submits `SPU_REV_MODE` with the requested mode byte at `+0x13`, re-reserves when required, enables reverb, and caches the byte at secondary-state offset `0x844`. |
 | `0x10` | Submits `SPU_REV_DEPTHL \| SPU_REV_DEPTHR` with the byte at `+0x13` shifted left by eight for both channels, enables reverb, and caches the byte at offset `0x845`. |
 
-The mode path queries `SpuIsReverbWorkAreaReserved` with `-1` before release
-and `-2` before reservation. Those query values are preserved as observed;
-the imported header does not assign them public symbolic names. Separate
-initialization paths call `SpuSetReverbModeType(0)` while resetting sound
-state.
+The mode path uses the imported `SPU_CHECK` (`-1`) before release and
+`SPU_DIAG` (`-2`) before reservation. The retail SDK implementation at
+`0x800767E0` establishes the distinction:
+
+- Exactly `-1` returns the stored reservation flag at `D_80092B20`.
+- Every other argument loads `D_80092B24`, calls `_SpuIsInAllocateArea_`,
+  and returns whether that probe returned zero.
+
+Thus the game's `SPU_DIAG` call is an allocation-area diagnostic, not another
+read of the reservation flag. The implementation does not uniquely recognize
+`-2`; the SDK name labels the game's existing operand without narrowing the
+observed contract. The query itself does not set or clear the reservation
+flag.
+
+`SpuReserveReverbWorkArea` at `0x80076790` corroborates this: a nonzero
+reservation request uses the same probe before setting `D_80092B20` to one;
+an off request or unsuccessful probe clears it. The 64-byte query body and
+the relevant reserve/probe instruction bodies were compared directly with
+the retail executable. No SDK implementation or global names are changed,
+and no unit interpretation is assigned to `D_80092B24`.
+
+Separate initialization paths call `SpuSetReverbModeType(SPU_REV_MODE_OFF)`
+while resetting sound state.
 
 SPU shutdown is now explicit at both game-owned boundaries. `SD_Term` performs
 its secondary-state cleanup and then calls `SpuQuit`. The output teardown path
@@ -379,8 +399,9 @@ the value before the existing loop-mode exclusions are tested.
 `func_8004ACE4` retains its raw byte view: selector
 `SD_SEQUENCE_PARAMETER_REVERB_MODE` (`0x0F`) applies the staged value as the
 reverb mode, and `SD_SEQUENCE_PARAMETER_REVERB_DEPTH` (`0x10`) applies its
-existing left/right depth conversion. Unhandled selectors and the negative
-work-area query arguments are not reinterpreted.
+existing left/right depth conversion. Unhandled selectors remain unchanged;
+the work-area queries retain the check-versus-diagnostic contract described
+above.
 
 ### Confirmed secondary-state fields
 

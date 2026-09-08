@@ -136,7 +136,7 @@ Every row below is now an applied project symbol.
 | `0x80075DE0` | `SpuSetReverbModeParam` | Applied from the unique 1,248-byte Psy-Q 4.6 `LIBSPU.LIB/S_SRMP.OBJ` signature; matching sound commands submit the 20-byte reverb parameter prefix. |
 | `0x800762C0` | `_spu_setReverbAttr` | Applied from the unique 1,232-byte Psy-Q 4.6 `LIBSPU.LIB/S_SRA.OBJ` signature. |
 | `0x80076790` | `SpuReserveReverbWorkArea` | Applied from the unique 80-byte Psy-Q 4.6 `LIBSPU.LIB/S_RRWA.OBJ` signature; matching sound setup reserves or releases the work area. |
-| `0x800767E0` | `SpuIsReverbWorkAreaReserved` | Applied from the unique 64-byte Psy-Q 4.6 `LIBSPU.LIB/S_IRWAR.OBJ` signature; matching sound setup checks the reservation state. |
+| `0x800767E0` | `SpuIsReverbWorkAreaReserved` | Applied from the unique 64-byte Psy-Q 4.6 `LIBSPU.LIB/S_IRWAR.OBJ` signature. Retail `SPU_CHECK` returns the stored reservation flag; other arguments, including the game's `SPU_DIAG`, negate the allocation-area probe. See [the exact query contract](sound-driver-state.md#reverb-work-area-queries). |
 | `0x80076820` | `SpuSetReverbVoice` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_SRV.OBJ` signature. |
 | `0x80076850` | `_SpuSetAnyVoice` | Applied from the unique 704-byte Psy-Q 4.6 `LIBSPU.LIB/S_SAV.OBJ` signature. |
 | `0x80076B10` | `SpuGetReverbVoice` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_GRV.OBJ` signature. |

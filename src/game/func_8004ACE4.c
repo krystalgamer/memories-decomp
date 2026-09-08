@@ -17,12 +17,12 @@ void func_8004ACE4(u8 *entry, int unused)
     case SD_SEQUENCE_PARAMETER_REVERB_MODE:
         if (SpuGetReverb() == SPU_ON)
             SpuSetReverb(SPU_OFF);
-        if (SpuIsReverbWorkAreaReserved(-1) != 0)
+        if (SpuIsReverbWorkAreaReserved(SPU_CHECK) != 0)
             SpuReserveReverbWorkArea(SPU_OFF);
         packet.first = SPU_REV_MODE;
         packet.second = entry[0x13];
         SpuSetReverbModeParam((SpuReverbAttr *)&packet);
-        if (SpuIsReverbWorkAreaReserved(-2) != 0)
+        if (SpuIsReverbWorkAreaReserved(SPU_DIAG) != 0)
             SpuReserveReverbWorkArea(SPU_ON);
         SpuSetReverb(SPU_ON);
         D_8009B458->field_0844 = entry[0x13];
