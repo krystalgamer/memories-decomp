@@ -14,7 +14,7 @@ void func_8004ACE4(u8 *entry, int unused)
 {
     Packet packet;
     switch (entry[0x11]) {
-    case 0x0F:
+    case SD_SEQUENCE_PARAMETER_REVERB_MODE:
         if (SpuGetReverb() == SPU_ON)
             SpuSetReverb(SPU_OFF);
         if (SpuIsReverbWorkAreaReserved(-1) != 0)
@@ -27,7 +27,7 @@ void func_8004ACE4(u8 *entry, int unused)
         SpuSetReverb(SPU_ON);
         D_8009B458->field_0844 = entry[0x13];
         break;
-    case 0x10:
+    case SD_SEQUENCE_PARAMETER_REVERB_DEPTH:
         packet.first = SPU_REV_DEPTHL | SPU_REV_DEPTHR;
         packet.third = entry[0x13] << 8;
         packet.fourth = entry[0x13] << 8;

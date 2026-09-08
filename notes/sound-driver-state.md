@@ -364,11 +364,22 @@ The channel-state handler excludes the two loop modes from its ordinary
 data-entry dispatch. These mode values must not be confused with unrelated
 controller IDs or object-state markers that happen to use the same numbers.
 
+The controller staging bytes in `SDSecondaryRecord` are `parameter_selector`
+at `+0x11`, `control_mode` at `+0x12`, and `control_value` at `+0x13`.
+Controller `SD_SEQUENCE_CONTROL_PARAMETER_SELECTOR` (`0x62`) stores the
+selector, `SD_SEQUENCE_CONTROL_MODE` stores the mode, and data entry stores
+the value before the existing loop-mode exclusions are tested.
+`func_8004ACE4` retains its raw byte view: selector
+`SD_SEQUENCE_PARAMETER_REVERB_MODE` (`0x0F`) applies the staged value as the
+reverb mode, and `SD_SEQUENCE_PARAMETER_REVERB_DEPTH` (`0x10`) applies its
+existing left/right depth conversion. Unhandled selectors and the negative
+work-area query arguments are not reinterpreted.
+
 ### Confirmed secondary-state fields
 
 | Offset | Width | Field | Local matching-C evidence |
 |---|---:|---|---|
-| `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `func_8004B49C`, `func_8004B6E8`, and `func_8004B70C` establish `program`, `pan`, `volume`, `expression`, and `pitch_bend_msb`; bytes at `+0x06` and `+0x10`-`+0x13` retain offset-based names. |
+| `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `func_8004B49C`, `func_8004B6E8`, and `func_8004B70C` establish `program`, `pan`, `volume`, `expression`, `pitch_bend_msb`, and staged controller selector/mode/value bytes; `+0x06` and `+0x10` retain offset-based names. |
 | `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `func_8004B49C`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are `channel_index` at `+0x03`, a byte at `+0x0F`, and a `u16` at `+0x1E`. |
 | `0x04A4` | `0x1C` | `transfer` | `func_80049434`, `func_800496C4`, `func_8004975C`, `func_800497E0`, and `func_800498F8`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |
