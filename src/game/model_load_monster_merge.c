@@ -2,7 +2,6 @@
 #include "model.h"
 #include "file_transfer.h"
 
-extern volatile s32 D_8009B0F4;
 extern u8 D_800114F8[];
 extern u8 gFile_szModelMrgPath[];
 extern u8 D_80091008[];

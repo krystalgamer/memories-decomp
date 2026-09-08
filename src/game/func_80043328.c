@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "file_transfer.h"
 
 typedef struct LocalObj {
     s16 x;
@@ -18,7 +19,6 @@ typedef struct LocalObj {
     u8 f46;
 } LocalObj;
 extern u8 D_800101D8[];
-extern volatile u32 D_8009B0F4;
 extern s32 D_8009B118;
 
 void func_80043328(LocalObj *obj, s32 mode) {

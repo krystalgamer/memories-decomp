@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "../../game/campaign_flags.h"
 #include "../../game/display_object_layout.h"
+#include "../../game/file_transfer.h"
 #include "shop.h"
 #include "../../game/sound.h"
 
@@ -30,7 +31,6 @@ extern u32 D_801D0000[];
 extern volatile u16 D_8009B394;
 extern volatile u16 D_8009B398;
 extern volatile u16 D_8009B3A4;
-extern u32 D_8009B0F4;
 extern u32 D_8009B134;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
@@ -140,7 +140,7 @@ void Password_UpdateShopScreen(void)
             return;
         }
         if ((flags & 0x4000) == 0) {
-            if (((D_8009B0F4 & 0x2000030) | D_8009B134) != 0) {
+            if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134) != 0) {
                 return;
             }
             D_8016D424 = flags | 0x4000;

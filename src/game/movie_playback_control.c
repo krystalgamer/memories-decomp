@@ -6,11 +6,6 @@ extern u16 gInput_wPad1Pressed[];
 extern u8 D_8009B144[];
 extern u8 D_8009B143[];
 extern u8 D_8009B142[];
-extern u32 D_8009B0F4 __attribute__((section(".data")));
-/* Preserve the array-form load without changing the scalar update above. */
-extern u32 D_8009B0F4_array[] asm("D_8009B0F4");
-/* A separate linker name prevents GCC from retaining this address. */
-extern u32 Base2_8009B0F4[];
 extern u8 D_8009B318;
 
 extern void func_80044F58(s32);
@@ -23,7 +18,7 @@ void func_8003594C(s32 arg0)
     File_WaitForTransfers();
     func_80044F58(0xFF);
     D_8009B318 = 0x80;
-    D_8009B0F4 |= 0x2000000;
+    D_8009B0F4_abs |= 0x2000000;
     func_8005C388(arg0, 1, -1, 1, 0);
 }
 
@@ -41,7 +36,7 @@ void func_800359B0(void)
             func_8005C5C4();
         }
     } else {
-        Base2_8009B0F4[0] = D_8009B0F4_array[0] & 0xFDFFFFFF;
+        D_8009B0F4_abs = D_8009B0F4_abs & 0xFDFFFFFF;
         D_8009B318 &= 0x7F;
     }
 }

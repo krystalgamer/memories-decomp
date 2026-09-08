@@ -3,7 +3,6 @@
 #include "file_transfer.h"
 
 extern u8 D_800EA0E8[];
-extern volatile u32 D_8009B0F4;
 extern void func_800289BC(void);
 FileTransferDescriptor *func_80029164(s32 slot, s32 value)
 {

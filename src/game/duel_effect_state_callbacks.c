@@ -3,7 +3,6 @@
 #include "file_transfer.h"
 
 extern u32 D_8009B0CC[];
-extern u32 D_8009B0F4[];
 extern u32 D_8009B134[];
 extern u16 gGraphics_sViewportX[];
 extern u16 gGraphics_sViewportY[];
@@ -48,7 +47,7 @@ void func_80037950(u8 *object)
 
 void func_8003798C(u8 *object)
 {
-    if (((D_8009B0F4[0] & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+    if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
          D_8009B134[0]) == 0) {
         object[0x51] = 0;
     }

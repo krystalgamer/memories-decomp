@@ -5,6 +5,7 @@
 #include "text_box_lifecycle.h"
 #include "sound.h"
 #include "display_object_helpers.h"
+#include "file_transfer.h"
 
 extern u8 *D_8009B240;
 extern u8 D_8009B248;
@@ -15,7 +16,6 @@ extern u8 D_8009B254;
 extern u16 gDuel_wViewerCardID;
 extern u8 D_8009AF76 __attribute__((section(".data")));
 extern u8 D_8009B0C0 __attribute__((section(".data")));
-extern u32 D_8009B0F4 __attribute__((section(".data")));
 extern u32 D_8009B134 __attribute__((section(".data")));
 extern u8 D_8009B140 __attribute__((section(".data")));
 extern u8 D_8009B26C __attribute__((section(".data")));
@@ -176,7 +176,7 @@ void func_800283F4(void)
                 }
             }
         }
-        if (((D_8009B0F4 & 0x02000030) | D_8009B134) != 0) {
+        if (((D_8009B0F4_abs & 0x02000030) | D_8009B134) != 0) {
             return;
         }
         bg = D_8009B240;

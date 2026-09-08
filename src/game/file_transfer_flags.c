@@ -2,13 +2,11 @@
 #include "file_transfer.h"
 
 extern u32 D_8009B10C;
-extern volatile u32 D_8009B0F4;
 extern volatile u16 D_8009B112;
 extern u32 D_8009B134;
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 
-extern volatile s32 D_8009B0F4_signed asm("D_8009B0F4");
 extern void (*D_8009B10C_callback)(void) asm("D_8009B10C");
 extern s32 D_8009B134_signed asm("D_8009B134");
 
@@ -26,9 +24,9 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
 {
     FileTransferDescriptor *result;
 
-    D_8009B0F4_signed |= 0x40;
+    D_8009B0F4 |= 0x40;
     if (D_8009B10C_callback == 0) {
-        if (((D_8009B0F4_signed & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+        if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134_signed) != 0) {
             result = (FileTransferDescriptor *)0;
             goto out;
@@ -42,7 +40,7 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
     );
     result = &gFile_PrimaryTransferDescriptor;
 out:
-    D_8009B0F4_signed =
+    D_8009B0F4 =
         result->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
     return result;
 }

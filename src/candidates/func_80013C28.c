@@ -10,9 +10,9 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libspu.h"
+#include "../game/file_transfer.h"
 
 extern u8 *D_8009AF18;
-extern volatile u32 D_8009B0F4;
 extern u32 *D_8009B0F8;
 extern u8 D_8009B114;
 extern s32 D_8009B138;

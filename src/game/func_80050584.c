@@ -4,7 +4,6 @@
 #include "file_transfer.h"
 #include "model.h"
 
-extern s32 D_8009B0F4 __attribute__((section(".data")));
 extern s32 D_8009B134 __attribute__((section(".data")));
 
 void func_8005922C(u8 *arg0, s32 arg1);
@@ -25,7 +24,7 @@ void func_80050584(s32 arg0) {
     p = b0 + arg0 * MODEL_SLOT_SIZE;
     if (p[0xE1F] == 0) {
         if (p[0xE14] == 0xFF) {
-            if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+            if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
                  D_8009B134) == 0) {
                 do {
                     t = rand() >> 8;

@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "file_transfer.h"
 
 typedef struct {
     s16 x;
@@ -27,7 +28,6 @@ typedef struct {
     u32 w[7];
 } Block28;
 
-extern volatile u32 D_8009B0F4 __attribute__((section(".data")));
 extern s32 D_8009B118 __attribute__((section(".data")));
 extern s32 D_80010000 __attribute__((section(".data")));
 extern s32 D_80010014 __attribute__((section(".data")));
@@ -46,7 +46,7 @@ void func_800577B0(Object *object, s32 mode) {
     switch (mode) {
     case 0:
         object->field1C = 0x30000;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         object->field0C = D_80010000;
         object->field08 = D_80010000;
         object->field46 = 1;
@@ -57,8 +57,8 @@ void func_800577B0(Object *object, s32 mode) {
         object->w = 0x40;
         object->field30.h.lo = 0;
         object->h = 0x10;
-        D_8009B0F4 &= 0xFFDDFFFF;
-        D_8009B0F4 |= 0x10000;
+        D_8009B0F4_abs &= 0xFFDDFFFF;
+        D_8009B0F4_abs |= 0x10000;
         object->field46 = 2;
         object->field1C = 0x30000;
         object->field08 = D_8009B118;
@@ -69,7 +69,7 @@ void func_800577B0(Object *object, s32 mode) {
         object->field0C = (s32)D_801DD000;
         object->field08 = (s32)D_801DD000;
         object->field1C = 0x1000;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         object->field46 = 1;
         break;
 
@@ -80,7 +80,7 @@ void func_800577B0(Object *object, s32 mode) {
         rect0.h = 8;
         LoadImage2(&rect0, (u32 *)D_801DD000);
         object->field1C = 0x5000;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         object->field0C = D_80010014;
         object->field08 = D_80010014;
         object->field46 = 1;
@@ -88,7 +88,7 @@ void func_800577B0(Object *object, s32 mode) {
 
     case 4:
         object->field1C = 0x5000;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         object->field0C = D_80010018;
         object->field08 = D_80010018;
         object->field46 = 1;
@@ -104,8 +104,8 @@ void func_800577B0(Object *object, s32 mode) {
         object->w = 0x40;
         object->field30.h.hi = 0x100;
         object->h = 0x10;
-        D_8009B0F4 &= 0xFFDDFFFF;
-        D_8009B0F4 |= 0x10000;
+        D_8009B0F4_abs &= 0xFFDDFFFF;
+        D_8009B0F4_abs |= 0x10000;
         object->field46 = 2;
         object->field1C = 0x4000;
         object->field08 = D_8009B118;
@@ -116,7 +116,7 @@ void func_800577B0(Object *object, s32 mode) {
         object->field0C = (s32)D_801A8000;
         object->field08 = (s32)D_801A8000;
         object->field1C = 0x800;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         object->field46 = 1;
         break;
 
@@ -133,7 +133,7 @@ void func_800577B0(Object *object, s32 mode) {
         object->field0C = (s32)D_801DD000;
         object->field08 = (s32)D_801DD000;
         object->field1C = 0x800;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         object->field46 = 1;
         break;
 

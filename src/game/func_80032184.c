@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "file_transfer.h"
 
-extern volatile s32 D_8009B0F4;
 extern s32 D_8009B118;
 extern s16 D_800E9D70[];
 

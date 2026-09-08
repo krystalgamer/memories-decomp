@@ -29,7 +29,6 @@ typedef struct {
     u8 pad_06[14];
 } ScriptImageEntry;
 
-extern volatile u32 D_8009B0F4;
 extern s32 D_8009B118;
 
 void func_8002DDFC(struct Obj *obj, s32 mode)

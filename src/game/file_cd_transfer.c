@@ -17,7 +17,6 @@ typedef struct {
 extern char D_8009B104[1];
 extern char D_8009B11C[1];
 extern volatile u16 D_8009B100;
-extern volatile s32 D_8009B0F4;
 extern u8 D_8009B114;
 extern s32 D_8009B130;
 extern s32 D_8009B138;

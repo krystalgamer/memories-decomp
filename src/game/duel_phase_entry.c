@@ -16,7 +16,6 @@ extern u8 D_8009B174;
 extern u8 D_8009B1D5;
 extern u8 D_8009B1EC;
 extern u8 *D_8009B1B4;
-extern u32 D_8009B0F4[];
 extern u32 D_8009B134 __attribute__((section(".data")));
 extern u16 D_8009B36A __attribute__((section(".data")));
 extern u8 D_800E9F10[];
@@ -94,7 +93,7 @@ void func_80018608(void)
     case 4: {
         register u32 mask asm("$2") = FILE_TRANSFER_REQUEST_BLOCKED_MASK;
 
-        if (((D_8009B0F4[0] & mask) |
+        if (((D_8009B0F4_abs & mask) |
              D_8009B134) != 0) {
             break;
         }

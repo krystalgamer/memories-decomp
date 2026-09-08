@@ -7,7 +7,6 @@
 extern u8 D_8009B108;
 extern s32 D_8009B0E8;
 extern s32 D_8009B0F0;
-extern u32 D_8009B0F4;
 extern s32 D_8009B0FC;
 extern void (*D_8009B10C)(void);
 extern u8 D_8009B110;

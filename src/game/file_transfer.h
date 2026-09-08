@@ -35,4 +35,32 @@ FileTransferDescriptor *File_InitTransferDescriptor(
 void File_ActivateTransfer(void);
 void File_WaitForTransfers(void);
 
+/* The resident loader's request-and-state word at 0x8009B0F4.
+ *
+ * Every File_* entry point and every CD/DS sector callback tests or updates
+ * it, and the FILE_TRANSFER_STATE_*, FILE_TRANSFER_FLAG_SECTOR_RANGE and
+ * FILE_TRANSFER_REQUEST_BLOCKED_MASK bits declared above are its bits. It is
+ * only ever read and written whole, and only ever through bit masks. Nothing
+ * indexes it, so the `D_8009B0F4[0]` spellings this header replaces were an
+ * addressing device rather than evidence of an array.
+ *
+ * `volatile` is load-bearing on both names, measured rather than assumed:
+ * dropping it from the plain name builds a 0x1D0668-byte executable and
+ * dropping it from `D_8009B0F4_abs` builds a 0x1D071C-byte one, against the
+ * retail 0x1D0800.
+ *
+ * Two names, one word. The retail image reaches this address both ways. The
+ * loader unit still held as assembly in `text_004428.s` uses
+ * `%gp_rel(D_8009B0F4)($gp)` seven times, while six other generated assembly
+ * files use `lui %hi` / `%lo` fifty-nine times. One declaration cannot
+ * produce both inside a -G8 translation unit, because the form follows from
+ * whether the symbol is small-data eligible. The plain name is, so the
+ * assembler resolves it gp-relative; `D_8009B0F4_abs` carries
+ * `section(".data")` so it is not, and `c_symbols.ld` ties that name to the
+ * same address. Which of the two a unit needs is a property of its compiler
+ * profile, not of the word.
+ */
+extern volatile u32 D_8009B0F4;
+extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
+
 #endif

@@ -3,9 +3,9 @@
 #include "../psyq/libds.h"
 #include "../psyq/libspu.h"
 #include "file_constants.h"
+#include "file_transfer.h"
 
 extern u8 gFile_PrimaryTransferDescriptor[];
-extern volatile s32 D_8009B0F4;
 extern volatile u16 D_8009B112;
 extern volatile u16 D_8009B100;
 extern u16 D_8009B0EC;
@@ -154,7 +154,7 @@ call_back:
     }
     CdIntToPos_8007E600(*(s32 *)(p + 0x24), D_8009B104);
     if (D_8009B0F4 & 0x100000) {
-        if (D_8009B0F4 < 0) {
+        if ((s32)D_8009B0F4 < 0) {
             goto call_144B8;
         }
         if (func_8007B468(0xA0, D_8009B104, 0x15, func_80014134, -1) <= 0) {
@@ -178,7 +178,7 @@ call_back:
         }
         D_8009B0F4 = D_8009B0F4 & 0xFFBFFFFF;
     }
-    if (D_8009B0F4 >= 0) {
+    if ((s32)D_8009B0F4 >= 0) {
         if (func_8007B468(0xA0, D_8009B104, 6, func_800140A0, -1) == 0) {
             return;
         }

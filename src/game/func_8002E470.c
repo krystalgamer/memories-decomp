@@ -4,7 +4,6 @@
 extern u8 *D_8009B290;
 extern u16 D_8009B270;
 extern u16 D_8009B27C;
-extern u32 D_8009B0F4 __attribute__((section(".data")));
 extern s32 D_8009B134 __attribute__((section(".data")));
 extern u8 D_800E9ECE[];
 extern u8 D_800EAE98[];
@@ -46,7 +45,7 @@ void func_8002E470(void)
     }
     flags = D_8009B27C;
     if ((flags & 0x800) == 0) {
-        if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134) == 0) {
             D_8009B27C = flags | 0x800;
             func_8002E128(D_800EAE98, -1);

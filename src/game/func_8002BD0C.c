@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "file_transfer.h"
 
 typedef struct {
     s16 x;
@@ -23,7 +24,6 @@ typedef struct {
     u8 field46;
 } Object;
 
-extern volatile u32 D_8009B0F4 __attribute__((section(".data")));
 extern s32 D_8009B118 __attribute__((section(".data")));
 extern u8 D_800E9D70[100];
 extern void func_80048D08(s32 mode, s32 buffer);
@@ -37,8 +37,8 @@ void func_8002BD0C(Object *object, s32 mode) {
         object->field30.h.hi = 0x100;
         object->w = 0x40;
         object->h = 0x10;
-        D_8009B0F4 &= 0xFFDDFFFF;
-        D_8009B0F4 |= 0x10000;
+        D_8009B0F4_abs &= 0xFFDDFFFF;
+        D_8009B0F4_abs |= 0x10000;
         object->field46 = 2;
         object->field1C = 0x20000;
         object->field08 = D_8009B118;
@@ -47,7 +47,7 @@ void func_8002BD0C(Object *object, s32 mode) {
 
     case 1:
         object->field1C = 0x2000;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         object->field0C = D_8009B118;
         object->field08 = D_8009B118;
         object->field46 = 1;
@@ -63,8 +63,8 @@ void func_8002BD0C(Object *object, s32 mode) {
         object->field30.h.hi = 0x100;
         object->w = 0x40;
         object->h = 0x10;
-        D_8009B0F4 &= 0xFFDDFFFF;
-        D_8009B0F4 |= 0x10000;
+        D_8009B0F4_abs &= 0xFFDDFFFF;
+        D_8009B0F4_abs |= 0x10000;
         object->field46 = 2;
         object->field1C = 0x18000;
         object->field08 = D_8009B118;
@@ -87,7 +87,7 @@ void func_8002BD0C(Object *object, s32 mode) {
     case 3:
     case 5:
         object->field1C = 0x800;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         object->field0C = D_8009B118;
         object->field08 = D_8009B118;
         object->field46 = 1;

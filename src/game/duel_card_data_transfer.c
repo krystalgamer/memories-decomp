@@ -5,7 +5,6 @@
 /* Walks the sorted card-ID boundary list while advancing through the loaded
    card-data blocks. Mode 0 initializes the current range; mode 1 advances to
    the next unique card. */
-extern volatile u32 D_8009B0F4;
 
 void Duel_StepCardDataTransfer(FileTransferDescriptor *o, int mode) {
     s16 *p = o->callback_data;

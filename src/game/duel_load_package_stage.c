@@ -4,7 +4,6 @@
 
 #include "file_transfer.h"
 
-extern volatile u32 D_8009B0F4 __attribute__((section(".data")));
 extern u8 *D_8009B118 __attribute__((section(".data")));
 extern u8 *D_80010000 __attribute__((section(".data")));
 extern u8 *D_800101DC __attribute__((section(".data")));
@@ -27,8 +26,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->field_32 = 0x100;
         d->w = 0x40;
         d->h = 0x10;
-        D_8009B0F4 &= 0xFFDDFFFF;
-        D_8009B0F4 |= 0x10000;
+        D_8009B0F4_abs &= 0xFFDDFFFF;
+        D_8009B0F4_abs |= 0x10000;
         d->done = 2;
         d->mode = 0x20000;
         d->value_08 = (u32)D_8009B118;
@@ -36,7 +35,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         break;
     case 1:
         d->mode = 0x2000;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         d->value_08 = d->value_0C = (u32)D_8009B118;
         d->done = 1;
         break;
@@ -48,24 +47,24 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         LoadImage2(&D_800E9D70, (u32 *)D_8009B118);
         d->value_08 = d->value_0C = (u32)gDuel_awEquipTable;
         d->mode = 0x2800;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
     case 3:
         d->value_08 = d->value_0C = (u32)gDuel_aFusionTable;
         d->mode = 0x10000;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
     case 4:
         d->value_08 = d->value_0C = (u32)gDuel_awRitualData;
         d->mode = 0x800;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
     case 5:
         d->mode = 0x1000;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         d->value_08 = d->value_0C = (u32)D_8009B118;
         d->done = 1;
         break;
@@ -79,36 +78,36 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->field_32 = 0x100;
         d->w = 0x40;
         mask = 0xFFDDFFFF;
-        flags = D_8009B0F4 & mask;
+        flags = D_8009B0F4_abs & mask;
         goto image_stage;
     case 7:
         mask = 0xFFDCFFFF;
         d->mode = 0x16000;
-        D_8009B0F4 &= mask;
+        D_8009B0F4_abs &= mask;
         d->value_08 = d->value_0C = (u32)D_800101DC;
         d->done = 1;
         break;
     case 8:
         d->value_08 = d->value_0C = (u32)D_801A8000;
         d->mode = 0x1800;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
     case 9:
         d->value_08 = d->value_0C = (u32)D_801A9800;
         d->mode = 0x1800;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
     case 10:
         d->counter = 0x340;
         d->w = 0x40;
         d->h = 0x10;
-        flags = D_8009B0F4 & 0xFFDDFFFF;
-        D_8009B0F4 = flags;
-        flags = D_8009B0F4;
+        flags = D_8009B0F4_abs & 0xFFDDFFFF;
+        D_8009B0F4_abs = flags;
+        flags = D_8009B0F4_abs;
         d->field_32 = 0;
-        D_8009B0F4 = flags | 0x10000;
+        D_8009B0F4_abs = flags | 0x10000;
         d->done = 2;
         d->mode = 0x4000;
         d->value_08 = (u32)D_8009B118;
@@ -116,7 +115,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         break;
     case 11:
         d->mode = 0x2800;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
         d->value_08 = d->value_0C = (u32)D_80010000;
         d->done = 1;
         break;
@@ -125,16 +124,16 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->field_32 = 0x100;
         d->w = 0x40;
         mask = 0xFFDDFFFF;
-        flags = D_8009B0F4 & mask;
+        flags = D_8009B0F4_abs & mask;
     image_stage:
         {
             /* Keep this tail distinct from the $v0 tails in cases 0 and 10. */
             register u8 *image_ptr asm("$3");
 
-            D_8009B0F4 = flags;
+            D_8009B0F4_abs = flags;
             mask = 0x10000;
             d->mode = mask;
-            D_8009B0F4 |= mask;
+            D_8009B0F4_abs |= mask;
             d->done = 2;
             d->h = 0x10;
             image_ptr = D_8009B118;

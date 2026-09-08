@@ -6,7 +6,6 @@
 #include "display_object_helpers.h"
 
 extern u8 D_801AF000[];
-extern s32 D_8009B0F4;
 extern s32 D_8009B134;
 extern u16 gInput_wPad1Pressed;
 

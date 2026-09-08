@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "file_constants.h"
+#include "file_transfer.h"
 
-extern s32 D_8009B0F4[];
 extern u16 D_8009B112[];
 extern u8 D_8009B335;
 extern s16 D_8009B33C;
@@ -22,7 +22,7 @@ void func_80037B40(u8 *p)
     if (p[0x52] != 0) {
         switch (D_8009B335) {
         case 0:
-            if ((D_8009B0F4[0] & FILE_TRANSFER_FLAG_SECTOR_RANGE) == 0) {
+            if ((D_8009B0F4_abs & FILE_TRANSFER_FLAG_SECTOR_RANGE) == 0) {
                 return;
             }
             p[0x52] = 0xFF;
