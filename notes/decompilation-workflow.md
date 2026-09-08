@@ -211,6 +211,12 @@ The recorder prefixes the durable summary with the new discriminator. Omitting
 it is rejected, so later sessions cannot see a post-terminal success without
 the evidence that justified reopening the hypothesis.
 
+Use `--allow-register-pins` for measured hard-register declarations.
+`--allow-symbol-aliases` permits a second C declaration only when its assembler
+name exactly matches a symbol in the tracked linker tables; arbitrary
+expressions such as `Symbol+0` and unknown names remain rejected. The
+allowances are independent and neither permits statement-level inline assembly.
+
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:
 

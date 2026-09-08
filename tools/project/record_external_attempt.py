@@ -58,6 +58,23 @@ COMMENT_PATTERN = re.compile(r"/\*.*?\*/|//[^\n]*", re.DOTALL)
 REGISTER_PIN_PATTERN = re.compile(
     r"\bregister\b[^;]*?\b(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
 )
+REGISTER_AGGREGATE_PIN_PATTERN = re.compile(
+    r"\bregister\s+(?:struct|union)\s*"
+    r"\{(?:[^{}]|\{[^{}]*\})*\}\s*[A-Za-z_][A-Za-z0-9_]*\s*"
+    r"(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
+)
+SYMBOL_ALIAS_PATTERN = re.compile(
+    r"\bextern\b[^;]*?\b(?:asm|__asm|__asm__)"
+    r"\s*\(\s*\"(?P<symbol>[^\"]*)\"\s*\)\s*;"
+)
+SYMBOL_DEFINITION_PATTERN = re.compile(
+    r"^\s*([A-Za-z_.$][A-Za-z0-9_.$]*)\s*=", re.MULTILINE
+)
+TRACKED_SYMBOL_PATHS = (
+    "config/slus_01411/symbols.txt",
+    "config/slus_01411/c_symbols.ld",
+    "config/slus_01411/link_symbols.ld",
+)
 
 
 def parse_address(value: str) -> int:
@@ -78,18 +95,41 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def uses_asm_extension(source: str, *, allow_register_pins: bool = False) -> bool:
+def load_tracked_symbol_names(root: Path) -> set[str]:
+    names: set[str] = set()
+    for relative in TRACKED_SYMBOL_PATHS:
+        path = resolve_within(root, relative, must_exist=True)
+        names.update(SYMBOL_DEFINITION_PATTERN.findall(path.read_text()))
+    return names
+
+
+def uses_asm_extension(
+    source: str,
+    *,
+    allow_register_pins: bool = False,
+    allow_symbol_aliases: bool = False,
+    tracked_symbol_names: set[str] | None = None,
+) -> bool:
     """Report use of a GCC asm extension.
 
     By default any asm extension is rejected, keeping these ledgers pure C.
-    When ``allow_register_pins`` is set, `register` variables pinned to a hard
-    register are permitted per issue #5, which accepts that narrow form for
-    functions that are otherwise unmatchable. Statement-level inline assembly
-    is still rejected in both modes.
+    Register pins and extern symbol aliases can be permitted independently.
+    Statement-level inline assembly is always rejected.
     """
     text = COMMENT_PATTERN.sub("", source)
     if allow_register_pins:
+        text = REGISTER_AGGREGATE_PIN_PATTERN.sub("register", text)
         text = REGISTER_PIN_PATTERN.sub("register", text)
+    if allow_symbol_aliases:
+        allowed = tracked_symbol_names or set()
+        text = SYMBOL_ALIAS_PATTERN.sub(
+            lambda match: (
+                "extern;"
+                if match.group("symbol") in allowed
+                else match.group(0)
+            ),
+            text,
+        )
     return ASM_PATTERN.search(text) is not None
 
 
@@ -442,6 +482,14 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--allow-symbol-aliases",
+        action="store_true",
+        help=(
+            "accept extern C aliases of symbols in the tracked linker tables; "
+            "statement-level inline assembly is still rejected"
+        ),
+    )
+    parser.add_argument(
         "--allow-psyq-inline-macros",
         action="store_true",
         help=(
@@ -549,21 +597,31 @@ def main() -> int:
         preprocessed_text = preprocess_candidate(
             root, candidate, profiles[args.profile]
         )
+        tracked_symbol_names = (
+            load_tracked_symbol_names(root)
+            if args.allow_symbol_aliases
+            else set()
+        )
         if (
             uses_asm_extension(
-                source_text, allow_register_pins=args.allow_register_pins
+                source_text,
+                allow_register_pins=args.allow_register_pins,
+                allow_symbol_aliases=args.allow_symbol_aliases,
+                tracked_symbol_names=tracked_symbol_names,
             )
             or (
                 not args.allow_psyq_inline_macros
                 and uses_asm_extension(
                     preprocessed_text,
                     allow_register_pins=args.allow_register_pins,
+                    allow_symbol_aliases=args.allow_symbol_aliases,
+                    tracked_symbol_names=tracked_symbol_names,
                 )
             )
         ):
             raise ExternalAttemptError(
                 f"{address:#010x}: candidate still uses a GCC asm extension "
-                "(pass --allow-register-pins to accept register pinning)"
+                "(symbol aliases must name a tracked linker symbol exactly)"
             )
         name = function["name"]
         if name not in source_text:
