@@ -104,6 +104,23 @@ class DataSourceTests(unittest.TestCase):
             self.collect(text_sources)
         self.assertIn("cannot own", str(error.exception))
 
+    def test_a_text_unit_owning_small_data_needs_no_component(self) -> None:
+        """No text segment claims .sdata, so that unit keeps its own."""
+        self.segments[0]["subsegments"][1][1] = ".sdata"
+        self.write_units([])
+        text_sources = [{"kind": "c", "source": "src/game/file_names.c"}]
+        self.assertEqual(
+            [entry["object"] for entry in self.collect(text_sources)],
+            ["initialized_data.o", "initialized_data_1.o"],
+        )
+
+    def test_a_data_only_unit_owning_small_data_is_built(self) -> None:
+        self.segments[0]["subsegments"][1][1] = ".sdata"
+        self.assertEqual(
+            [entry["object"] for entry in self.collect()],
+            ["initialized_data.o", "c_game_file_names.o", "initialized_data_1.o"],
+        )
+
     def test_unknown_profile_is_rejected(self) -> None:
         self.write_units([{"source": "src/game/file_names.c", "profile": "g9"}])
         with self.assertRaises(GenerationError) as error:

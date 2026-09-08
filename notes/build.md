@@ -205,8 +205,9 @@ the module's text, with all five overlay modules still byte-exact.
 
 `src/game/file_names.c` is the worked example for the resident image: the
 loader's seven disc paths and the null-terminated `gFile_apszName` table, 0xA8
-bytes at 0x80090704, come from that file instead of the extracted blob. Four
-things make one of these:
+bytes at 0x80090704, come from that file instead of the extracted blob.
+`ai_script_commands.c` and `ai_opponent_data.c` are the other two, an opcode
+table of relocations and a typed record array. Five things make one of these:
 
 1. **Split the blob in `config/slus_01411/split.yaml`.** The owning file gets a
    dotted subsegment at its address and the remainder keeps going to a
@@ -222,19 +223,26 @@ things make one of these:
    one range never renames another and two people can split different parts of
    the segment without colliding.
 
-2. **Name the profile in `config/slus_01411/data_c.json`.** Data units are not
+2. **Only a unit with no text of its own can own `.data`.** A text segment's
+   linker script lists `.rodata`, `.data` and `.bss` for every one of its
+   objects, so those sections are claimed there first and a matched function's
+   file cannot also supply them from another segment; `make split` says so
+   rather than letting the bytes land in the wrong place. It lists no
+   small-data section, which is why `.sdata` and `.sbss` can go back into the
+   matched text unit that owns them, the way `ai_script_call_control.c` does.
+3. **Name the profile in `config/slus_01411/data_c.json`.** Data units are not
    in `matching_c.json`, which describes functions; the build gets its compiler
    profile from this manifest, and `make split` rejects a file that owns a
    dotted section without one, or a manifest entry the template never maps.
    `gcc_2_8_1_g0` is the profile to use while the unit's own small-data
    placement has not been worked out: at `-G0` every definition lands in
    `.data`.
-3. **Declare the symbols `extern` in a header** (`src/game/file_names.h`) and
+4. **Declare the symbols `extern` in a header** (`src/game/file_names.h`) and
    delete every other declaration of them, including any entry in
    `config/slus_01411/c_symbols.ld`. A file-scope definition and a linker alias
    for the same address are not interchangeable, and while both exist the alias
    silently wins.
-4. **Give a definition a name of its own.** The image has more than one copy of
+5. **Give a definition a name of its own.** The image has more than one copy of
    several strings - the `\DATA\SU.MRG;1` the loader opens is not the
    `M:/mrgSU/SU.mrg` development path already named `gFile_szSuMrgPath` in the
    read-only region - and the link fails loudly on the duplicate, which is the

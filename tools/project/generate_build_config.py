@@ -29,7 +29,13 @@ GENERATED_SEGMENTS = ("main", "text")
 # Subsegment types Splat disassembles into an assembly blob, and the types
 # that hand a section to the object built from a C translation unit.
 BLOB_SECTION_TYPES = {"data", "rodata", "sdata", "sbss", "bss"}
-OWNED_SECTION_TYPES = {".data", ".rodata", ".sdata", ".sbss", ".bss"}
+# A text segment's linker script lists .rodata, .data and .bss for every one
+# of its objects, so those sections are claimed there and can only be owned by
+# a translation unit with no text of its own. It lists no small-data section,
+# which is why a matched text unit can own its .sdata and .sbss in place.
+TEXT_CLAIMED_SECTION_TYPES = {".data", ".rodata", ".bss"}
+SMALL_SECTION_TYPES = {".sdata", ".sbss"}
+OWNED_SECTION_TYPES = TEXT_CLAIMED_SECTION_TYPES | SMALL_SECTION_TYPES
 
 
 def parse_integer(value: Any, description: str) -> int:
@@ -367,10 +373,15 @@ def collect_data_sources(
             elif kind in OWNED_SECTION_TYPES:
                 source = f"src/{subsegment}.c"
                 if source in text_c_sources:
-                    raise GenerationError(
-                        f"{source}: a text translation unit cannot own"
-                        f" {kind} in segment {name}"
-                    )
+                    if kind in TEXT_CLAIMED_SECTION_TYPES:
+                        raise GenerationError(
+                            f"{source}: a text translation unit cannot own"
+                            f" {kind} in segment {name}, because its text"
+                            f" segment claims that section first"
+                        )
+                    # The text pipeline already compiles and places this
+                    # object; it needs no data component of its own.
+                    continue
                 profile = data_profiles.get(source)
                 if profile is None:
                     raise GenerationError(
