@@ -474,7 +474,7 @@ on the suspects side until proven.)
 
 | address | name | description |
 |---|---|---|
-| 0x80169734 | `NameEntry_UpdateDialog` | Drives the name-entry dialog state machine: creates and slides pending boxes, handles confirmation choices, rebuilds the typed-name box after END, and starts the screen exit after acceptance. |
+| 0x80169734 | `NameEntry_UpdateDialog` | Drives the name-entry dialog state machine: creates and slides pending boxes, handles confirmation choices, rebuilds the typed-name box after an inserted glyph's transfer arrives, processes the separate finish request, and starts the screen exit after acceptance. |
 
 ## Batch: main-menu value setup
 
@@ -685,7 +685,7 @@ This batch adds nine rows and corrects the inherited `PadChkVsync` row at
 | 0x8008E5C0 | `srand` | Stores the supplied value as `gRand_dwSeed`, setting the seed used by the resident `rand`. |
 | 0x8009B27A | `gCampaignSceneIndex` | Current campaign event-script index selected from the overworld location and restored from save data after a successful load. |
 | 0x8009B45C | `g_SDValue` | Global pointer to the main sound-driver work area, including command queues, buffers, voices, sequence state, and output controls. |
-| 0x801D060C | `gSaveData_aPlayerNameSjis` | Twelve-byte persisted player-name field containing up to five two-byte Shift-JIS characters followed by a `u16` terminator. |
+| 0x801D060C | `gSaveData_aPlayerNameSjis` | Twelve-byte persisted field containing six u16 SJIS code words. Matching keyboard code writes caret slots 0-5 without appending a source terminator; a five-character-plus-terminator invariant is not established by this path. The display stream is separately encoded and terminated. |
 | 0x801D07DC | `gCampaignSavedSceneIndex` | Persisted campaign event-script index copied into `gCampaignSceneIndex` when save runtime state is applied. |
 
 ## Batch: remaining accepted semantic names

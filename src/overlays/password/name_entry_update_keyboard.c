@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "name_entry_keyboard.h"
 
 typedef struct {
     u8 pad0[48];
@@ -36,11 +37,8 @@ extern void func_800429D8(W *);
 extern void SD_SEPlayFull(s32);
 extern s32 NameEntry_AdjustLength(s32, s32);
 extern u8 *TextBox_GetGlyphAt(s32, s32, s32);
-extern u8 *func_80168CDC(s32, u8 *);
-extern void func_80168708(void);
-extern void func_80168AB4(void);
 
-void func_8016913C(void)
+void NameEntry_UpdateKeyboard(void)
 {
     W *w;
     s32 work;
@@ -208,18 +206,18 @@ arme:
 join:
     ;
     node = TextBox_GetGlyphAt(kind, gx, gy);
-    obj = func_80168CDC(kind, node);
+    obj = NameEntry_SpawnGlyphSprite(kind, (NameEntryGlyphNodeView *)node);
     obj[0x6C] = 1;
-    *(void **)(obj + 0x24) = func_80168708;
+    *(NameEntryGlyphUpdate *)(obj + 0x24) = NameEntry_UpdateGlyphPulse;
     if (node == 0) {
         *(u16 *)(obj + 8) &= 0xFFBF;
     }
     if (work != 0) {
         *(s16 *)(obj + 0x48) = 20;
         node = TextBox_GetGlyphAt(kind, gx + 20, gy);
-        obj = func_80168CDC(kind, node);
+        obj = NameEntry_SpawnGlyphSprite(kind, (NameEntryGlyphNodeView *)node);
         obj[0x6C] = 1;
-        *(void **)(obj + 0x24) = func_80168708;
+        *(NameEntryGlyphUpdate *)(obj + 0x24) = NameEntry_UpdateGlyphPulse;
         *(s16 *)(obj + 0x48) = 0;
     }
     if (kind == 1) {
@@ -230,9 +228,9 @@ join:
         if (node != 0) {
             *slot = *(u16 *)node;
         }
-        obj = func_80168CDC(1, node);
+        obj = NameEntry_SpawnGlyphSprite(1, (NameEntryGlyphNodeView *)node);
         *(s16 *)(obj + 0x60) = 8;
-        *(void **)(obj + 0x24) = func_80168AB4;
+        *(NameEntryGlyphUpdate *)(obj + 0x24) = NameEntry_UpdateGlyphTransfer;
         *(s16 *)(obj + 0x46) = 204;
         *(s16 *)(obj + 0x44) = D_8016D42C * 16 + 112;
         obj[0x6C] = 6;

@@ -1225,7 +1225,7 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 | 0x80168CDC | `NameEntry_SpawnGlyphSprite` |
 | 0x801689B4 | `NameEntry_UpdateCaretTween` |
 | 0x8016909C | `NameEntry_AdjustLength` |
-| 0x8016913C | `NameEntry_UpdateScreen` |
+| 0x8016913C | `NameEntry_UpdateKeyboard` (historical reference: `NameEntry_UpdateScreen`) |
 | 0x80169734 | `NameEntry_UpdateDialog` |
 | 0x80169C08 | `NameEntry_PollCompletion` |
 | 0x8016A930 | `NameEntry_BuildStarterDeck` |

@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "name_entry_keyboard.h"
 
 typedef struct {
     u8 pad0[8];
@@ -54,7 +55,6 @@ extern void func_8004036C(Caret *);
 extern void func_8003BC40(u8 *, u8 *, s32);
 extern void func_80039A60(u8 *);
 extern s32 NameEntry_AdjustLength(s32, s32);
-extern void func_8016913C(void);
 
 void NameEntry_UpdateDialog(void)
 {
@@ -195,7 +195,7 @@ void NameEntry_UpdateDialog(void)
         return;
     }
     if ((D_8016D400 & 0x40) == 0) {
-        func_8016913C();
+        NameEntry_UpdateKeyboard();
         return;
     }
     term = 0xFF;

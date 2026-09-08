@@ -1,11 +1,5 @@
 #include "../../types.h"
-
-typedef struct {
-    u16 code;
-    u8 pad2[10];
-    s16 x;
-    s16 y;
-} Widget;
+#include "name_entry_keyboard.h"
 
 typedef struct {
     u8 pad0[60];
@@ -40,7 +34,7 @@ extern void *func_8004002C(void);
 extern Obj *func_800400AC(void *, s32);
 extern void func_80040510(Obj *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
-Obj *func_80168CDC(s32 slot, Widget *w)
+void *NameEntry_SpawnGlyphSprite(s32 slot, NameEntryGlyphNodeView *w)
 {
     /* The nudge is s16 rather than s32 on purpose.  Its only values are 0 and
        plus or minus two, so an (s16) cast written on an s32 would be proved
@@ -59,6 +53,7 @@ Obj *func_80168CDC(s32 slot, Widget *w)
     shift = 0;
     u = 0;
     v = 0;
+    /* Preserve the pre-null-test read; this is not a null-safe C contract. */
     code = w->code;
     obj = func_800400AC(func_8004002C(), 1);
     if (w != 0) {

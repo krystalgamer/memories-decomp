@@ -1,13 +1,13 @@
 #include "../../types.h"
+#include "name_entry_keyboard.h"
 
 extern s32 func_80042B98(void);
 extern void func_8004036C(void *);
 extern void *func_8004002C(void);
 extern u8 *func_800400AC(void *, s32);
 extern void func_80040510(void *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
-extern void func_80168808(void *);
 
-void func_801688AC(u8 *object)
+void NameEntry_UpdateGlyphShatter(u8 *object)
 {
     u8 *piece;
     s32 dx;
@@ -28,7 +28,8 @@ void func_801688AC(u8 *object)
                                   *(u16 *)(object + 0x40),
                                   *(u16 *)(object + 0x42));
                     piece[0x6C] = 3;
-                    *(void **)(piece + 0x24) = func_80168808;
+                    *(NameEntryGlyphUpdate *)(piece + 0x24) =
+                        NameEntry_UpdateGlyphFragment;
                 }
             }
         }

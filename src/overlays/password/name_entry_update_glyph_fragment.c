@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "name_entry_keyboard.h"
 
 extern void func_800429D8(void);
 extern s32 func_800358FC(s32);
@@ -7,7 +8,7 @@ extern s32 func_80042AD8(s32, s32, s32);
 extern void func_80042A78(void *);
 extern void func_8004036C(void *);
 
-void func_80168808(u8 *object)
+void NameEntry_UpdateGlyphFragment(u8 *object)
 {
     u8 flags;
 

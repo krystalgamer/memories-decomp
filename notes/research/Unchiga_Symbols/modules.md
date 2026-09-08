@@ -32,29 +32,35 @@ See findings F79-F86: `FreeDuel_Entry` 0x80168FB4, `FreeDuel_UpdateScreen`
 
 ## Name entry module (config/modules/name_entry.txt, findings F100-F101)
 
+The imported module file and F100/F101 retain their historical labels.
+Current matching source lives in the `password` scope. Complete-body analysis
+now distinguishes keyboard input from outer-dialog handling, and supersedes
+the old byte-count, name-length and END-bit interpretations below; see the
+[current contracts](../../../src/overlays/password/README.md#keyboard-input-and-glyph-effects).
+
 | address | name | what |
 |---|---|---|
-| 0x80168FB4 | `name_entry_module_entry`? | not traced yet -- the EXE's `Main_RunNameEntry` (0x8002D62C) calls the module by fixed address; confirm the entry |
-| 0x8016913C | `NameEntry_UpdateScreen` | cursor tween (counter at widget+0x60, 8 frames), then DPAD from `gInput_wPad1Held`: RIGHT/LEFT wrap over 15 columns, UP/DOWN wrap over 9 rows, right-hand column uses the row-jump table |
-| 0x801689B4 | `NameEntry_UpdateCaretTween` | moves the name-length caret to its stored target over the requested frame count, then snaps and clears the callback |
-| 0x8016909C | `NameEntry_AdjustLength(delta, ?)` | len += delta with a 5-char cap; moves the caret widget (x = len*16 + 107); SE 0x0C |
+| 0x80168FB4 | historical `name_entry_module_entry` guess | This address is inside `NameEntry_SpawnGlyphSprite`, not an independently established entry function; resident entry points are documented in the name-entry README. |
+| 0x8016913C | `NameEntry_UpdateKeyboard` (reference: `NameEntry_UpdateScreen`) | selection-frame tween, navigation, caret controls, insertion and completion request; the outer dialog owns acceptance and text rebuilding |
+| 0x801689B4 | `NameEntry_UpdateCaretTween` | moves the insertion caret to its stored target over the requested update count, then snaps and clears the callback |
+| 0x8016909C | `NameEntry_AdjustLength(delta, bound)` | bounds/moves the caret word index (observed 0-5 with bound 6), updating x = index*16 + 107; does not erase words or maintain a terminator |
 | 0x8016868C | `TextBox_GetGlyphAt(slot, x, y)` | finds the glyph entry of text record `slot` at pixel (x, y); +0 of the entry is the Shift-JIS code |
-| 0x80168CDC | `NameEntry_SpawnGlyphSprite` | spawns the animated copy of the picked letter (find_free_slot_0x10_0x60 + get_or_init slot) |
+| 0x80168CDC | `NameEntry_SpawnGlyphSprite` | allocates a 16x16 glyph copy and stores its source-node pointer; callers choose the effect; the node-code read precedes the null test |
 | 0x801698C0.. | `name_entry_prompt_slide` | slides the 'Input your NAME!' box (text slot 2) between y 248 and 176 with `Widget_SlideSine`, then `TextBox_Destroy` |
-| 0x8016D400 | `gNameEntry_bFlags` | 0x20 prompt up, 0x02 prompt sliding, 0x80 END pressed, 0x10 leaving (after Fade_WaitOut) |
+| 0x8016D400 | reference `gNameEntry_bFlags` | 0x80 pending character transfer/text refresh, 0x40 finish request, 0x20 final-confirmation path, 0x10 completion; these are separate from per-object state bits |
 | 0x8016D401 / 0x8016D402 | `gNameEntry_bColumn` / `gNameEntry_bRow` | grid cursor cell |
 | 0x8016D404 | `gNameEntry_pCursorWidget` | -> 0x800F0548 |
-| 0x8016D408 | `gNameEntry_nNameBytes` | 2 per character |
+| 0x8016D408 | `D_8016D408` (reference: `gNameEntry_nNameBytes`) | u8 tag copied to each nonnull-node glyph sprite and incremented, including effects; not an encoded byte count |
 | 0x8016D418 | `gNameEntry_pName` | -> `gSaveData_aPlayerNameSjis`, the save block's u16 Shift-JIS player name |
 | 0x8016D426 | `gNameEntry_SavedRow` | row remembered while in the right-hand column |
-| 0x8016D42C | `gNameEntry_nNameLen` | characters typed, max 5 |
+| 0x8016D42C | `D_8016D42C` (reference: `gNameEntry_nNameLen`) | caret/insertion word index, observed 0-5; not a count of encoded bytes or necessarily the current string length |
 | 0x8016D434 / 0x8016D436 | `gNameEntry_wCursorTargetX/Y` | x = col*20+22 (+20 for cols >= 11), y = row*18+24 |
 | 0x8016D43C | `gNameEntry_pCaretWidget` | the underline under the name |
 | 0x8016AB38 | `gNameEntry_abCellTable` | 9 rows x 15: 0 = letter, 4 = arrow cell (row 4), 0x46 = END (row 6, big cursor), negative = skip that many cells leftwards |
 | 0x8016ABC0 | `gNameEntry_abRowJump` | [row*2 + down]: rows 0-4 -> 6, rows 5-8 -> 4, for the arrow/END column |
 | 0x80169734 | `NameEntry_UpdateDialog` | builds text box 2 from the pending string id at 0x8016D4D2 (bit 0x8000 = scripted, 0x4000 = no choice), opens the choice, polls done + `gDialog_bChoice` |
 | 0x8016D4D2 | `gNameEntry_wPendingDialog` | u16: string id + flags of the dialog to show (245 = 'Your NAME is ...') |
-| 0x801D060C | `gSaveData_aPlayerNameSjis` | Save-block player name: 5 x u16 Shift-JIS characters plus terminator; zeroed on New Game |
+| 0x801D060C | `gSaveData_aPlayerNameSjis` | Twelve-byte save field, six u16 SJIS words; zeroed on New Game. The keyboard can write slot 5 without appending a source terminator, so these bodies do not establish a five-character maximum. |
 
 ## Password module (config/modules/password.txt, findings F25 and F158)
 

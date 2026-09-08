@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "name_entry_keyboard.h"
 
 extern s8 D_8016D42C;
 extern void func_800429D8(u8 *);
@@ -9,10 +10,8 @@ extern u8 *func_800400AC(void *, s32);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern void func_80042BC0(void);
 extern u8 *TextBox_GetGlyphAt(s32, s32, s32);
-extern u8 *func_80168CDC(s32, u8 *);
-extern void func_801688AC(void);
 
-void func_80168AB4(u8 *w)
+void NameEntry_UpdateGlyphTransfer(u8 *w)
 {
     u8 *o;
     u8 *node;
@@ -60,7 +59,7 @@ void func_80168AB4(u8 *w)
     if (node == 0) {
         return;
     }
-    o = func_80168CDC(3, node);
-    *(void **)(o + 0x24) = func_801688AC;
+    o = NameEntry_SpawnGlyphSprite(3, (NameEntryGlyphNodeView *)node);
+    *(NameEntryGlyphUpdate *)(o + 0x24) = NameEntry_UpdateGlyphShatter;
     o[0x6C] = 5;
 }

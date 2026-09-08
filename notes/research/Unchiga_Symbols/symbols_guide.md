@@ -228,7 +228,7 @@ The persistent block at `0x801D02xx–0x801D07xx` — what actually goes to the 
 |---|---|---|
 | `gDuel_awPlayerDeck` | 0x801D0200 | Your deck in the save block — synchronized compacted and SORTED by card id once a staged edit returns to 40 cards, or on the not-ready dialog's EXIT route with trailing zeros when short. |
 | `gLibrary_abCardChest` | 0x801D0250 | Per-card ownership counts (Build Deck, Library, drops all touch it). |
-| `gSaveData_aPlayerNameSjis` | 0x801D060C | Up to 5 characters as two-byte Shift-JIS (fullwidth ‘B’ = 0x8261), zeroed on New Game; the name box on any screen is rebuilt from it through `Text_SjisToGlyphCodes`. |
+| `gSaveData_aPlayerNameSjis` | 0x801D060C | Six u16 SJIS words in twelve bytes, zeroed on New Game; name boxes are rebuilt through `Text_SjisToGlyphCodes`. Matching keyboard code can write slot 5 and does not establish the older five-character-plus-terminator claim or an observed UI maximum. |
 | `gCampaign_abStoryFlags` | 0x801D0618 | Story-progress bits (see the engine section). |
 | `gFreeDuel_dwUnlockedDuelists` | 0x801D06F4 | First four bytes of the MSB-first Free Duel unlock flags, covering duelist IDs 1–31. IDs 32–38 use the fifth byte at 0x801D06F8; Duel Master K (39) is independently always available. |
 | `gFreeDuel_aDuelistRecords` | 0x801D071C | Forty grid records of {u16 wins, u16 losses}; slot 0 is the Build Deck tile, duelist IDs 1–39 use the remaining slots, and normal updates cap each counter at 999. |

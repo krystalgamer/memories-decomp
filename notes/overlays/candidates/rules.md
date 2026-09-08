@@ -4,7 +4,8 @@ Candidate sources for unmatched overlay functions live in `tmp/`, which is not
 tracked, so they are lost when a session ends. Every run that wants to continue
 a near miss has had to rebuild its candidate from the prose in the function's
 inventory row first. That has happened at least six times, three of them on
-`func_80168CDC` alone, and each rebuild costs several minutes and can drift
+`func_80168CDC` (now `NameEntry_SpawnGlyphSprite`) alone, and each rebuild
+costs several minutes and can drift
 from the state the row describes.
 
 This file is the durable copy. A candidate belongs here once it is close enough

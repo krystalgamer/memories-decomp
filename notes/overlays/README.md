@@ -27,6 +27,13 @@ its resident load banks.
 Generated resident slot images remain under `tmp/splat/assets/overlays/`; they
 are build artifacts rather than tracked overlay sources.
 
+Historical password experiments below retain their original identifiers:
+`func_80168CDC` is now `NameEntry_SpawnGlyphSprite`, `func_80168AB4` is
+`NameEntry_UpdateGlyphTransfer`, and `func_8016913C` is
+`NameEntry_UpdateKeyboard`. Their current contracts and the distinction
+between glyph nodes, caret indices and encoded text are documented in the
+[password README](../../src/overlays/password/README.md#keyboard-input-and-glyph-effects).
+
 | Content | Repository location | Tracked |
 |---|---|---|
 | Resident executable C | `src/game/` | Yes |
@@ -404,7 +411,7 @@ is needed:
     start: 0x4
     vram: 0x80168004
     subsegments:
-      - [0x4, .rodata, overlays/password/func_80168CDC]
+      - [0x4, .rodata, overlays/password/name_entry_spawn_glyph_sprite]
       - [0x7C, .rodata, overlays/password/func_8016A37C]
       - [0x90, .rodata, overlays/password/name_entry_main]
       - [0xB4, c, overlays/password/func_801680B4]

@@ -278,6 +278,19 @@ GameShark DB was used as a cross-check and caught making an off-by-one itself.
 | F101 | name entry: how a letter becomes a character | On X: `0x8016868C(1, x, y)` finds the glyph entry of the letter-grid text record whose position equals the cursor's, and its +0 halfword IS the Shift-JIS code; `0x80169690` stores it at name[len] in the save block; `Text_SjisToGlyphCodes(0x801B125A, name, 6)` rebuilds string 254 and the name text box is destroyed and recreated to retype it; SE 0x0C. No character table in the module at all -- the on-screen grid string is the source of truth. | (module) | CONFIRMED |
 | F102 | `0x8009B3A4` / `0x8009B398` (pad words) | CORRECTED by matching `Input_UpdatePads`: `gInput_wPad1Held` is pad 1's held mask, with DPAD in the high nibble (0x1000 UP, 0x2000 RIGHT, 0x4000 DOWN, 0x8000 LEFT). `gInput_wPad1Pressed` is pad 1's newly-pressed mask, including 0x20 cancel/Circle and 0x40/0x80 confirm/X. Their adjacent pad 2 halfwords are named in the same family. | `gInput_wPad1Held`, `gInput_wPad1Pressed` | APPLIED |
 
+**Matching-source reconciliation of F100/F101:** the observations above remain
+historical evidence, but several semantic labels are superseded.
+`D_8016D408` supplies a per-sprite-copy tag, not a byte length;
+`D_8016D42C` is a caret/word index with observed bounds 0-5, not necessarily
+the current name length. Global bit `0x80` marks pending character transfer
+and text refresh; `0x40` requests completion. `0x80169690` is inside
+`NameEntry_UpdateKeyboard`, not a separate setter function, and
+`NameEntry_UpdateDialog` rebuilds the displayed name after transfer arrival.
+The six-word source path does not establish a five-character-plus-terminator
+invariant. The verified executable phase for these functions starts at
+`0x80168000`. See the
+[current keyboard and glyph contracts](../../../src/overlays/password/README.md#keyboard-input-and-glyph-effects).
+
 ### Name confirmation dialog + the YES/NO choice machine (session 2026-09-02, Linux seat)
 
 | # | address | what we proved | proposed name | status |

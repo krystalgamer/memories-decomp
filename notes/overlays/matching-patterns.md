@@ -16,6 +16,11 @@ All game-owned functions in the five configured overlays had matching C by
 per-module inventories and matching manifests before treating an old
 candidate as unfinished work.
 
+The historical password identifiers `func_80168AB4`, `func_80168CDC` and
+`func_8016913C` below now name `NameEntry_UpdateGlyphTransfer`,
+`NameEntry_SpawnGlyphSprite` and `NameEntry_UpdateKeyboard` respectively.
+The old identifiers remain measurement cross-references, not extra functions.
+
 To compare a candidate against the target cheaply enough to try several
 shapes, use `tools/project/overlay_diff.py`, documented in
 [`README.md`](README.md). Instruction count alone is a weak signal — several
@@ -885,7 +890,7 @@ differences; another introduced a redundant loop-entry copy between the
 initial and loop-hoisted `HIGH` pseudos for the column global.
 
 The matching source in
-[`func_8016913C.c`](../../src/overlays/password/func_8016913C.c) groups the
+[`name_entry_update_keyboard.c`](../../src/overlays/password/name_entry_update_keyboard.c) groups the
 initial column and row stride in a named register union at `$4`. Its `u64`
 member gives GCC a DI register pair, while the two `s32` fields are the
 values actually assigned and read. On `gcc_2_8_1_g0_split`, both address
