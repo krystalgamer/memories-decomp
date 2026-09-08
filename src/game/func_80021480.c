@@ -1,11 +1,12 @@
 #include "../types.h"
 #include "display_object_layout.h"
 #include "text_box_lifecycle.h"
+#include "text_box_runtime.h"
 
 #define DUEL_RESULT_DISPLAY_CHILD_COUNT 10
 
 typedef struct{char p[8];u16 flags;}Child;typedef struct{Child*first;Child*children[DUEL_RESULT_DISPLAY_CHILD_COUNT];char p2C[8];u8 field34;}Container;
-extern Container*D_8009B1E8;extern void func_80040410(Child*,int);extern void func_80039A14(void*);
+extern Container*D_8009B1E8;extern void func_80040410(Child*,int);
 void func_80021480(int mode)
 {
  int i;Child*child;void*object;func_80040410(D_8009B1E8->first,mode);

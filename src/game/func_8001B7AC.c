@@ -3,10 +3,11 @@
 #include "card_constants.h"
 #include "duel_hand.h"
 #include "sound.h"
+#include "display_object_helpers.h"
 
 typedef struct Object{char p0[4];struct Object*child;char p8[6];s8 index;char pF[6];u8 count;}Object;
 typedef struct Spawned{char p0[8];u16 flags;char pA[6];void*callback;char p14[0x1C];s16 x,y;char p34[0x36];u8 mode;}Spawned;
-extern void func_80040510(),func_80042918(Spawned*),func_800428EC(Spawned*,int);
+extern void func_80040510();
 void func_8001B7AC(Object*arg)
 {
  register Object*object=arg;register DuelHandSlot*slot=&D_800EA030[object->index];register Spawned*child;
