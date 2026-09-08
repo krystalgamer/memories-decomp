@@ -53,6 +53,15 @@ confidence in
 The module imports these resident byte addresses through
 [`free_duel_linker_symbols.txt`](../../../config/slus_01411/overlays/free_duel_linker_symbols.txt).
 
+## Cursor layout translation unit
+
+`cursor_layout.c` keeps `FreeDuel_UpdateScrollbar` and
+`FreeDuel_PlaceCursor` together in executable order. The contiguous
+`gcc_2_8_1_g0_split` helpers share the cursor widget's verified `x`/`y`
+prefix and are consumed by initialization and the screen-runtime cursor path.
+Their shared manifest source and one C subsegment at module offset `0x4`
+cover the complete `0x1B0`-byte range through `0x801681B4`.
+
 ## Screen-runtime translation unit
 
 `screen_runtime.c` keeps the overlay entry tick next to the screen update it

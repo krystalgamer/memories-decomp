@@ -1,8 +1,14 @@
 #include "../../types.h"
 #include "../../game/card_constants.h"
 
-typedef struct { u8 pad0[48]; s16 x; s16 y; } Widget;
+typedef struct {
+    u8 unk_00[0x30];
+    s16 x;
+    s16 y;
+} FreeDuelWidget;
 
+extern FreeDuelWidget *gFreeDuel_pCursorWidget;
+extern FreeDuelWidget *gFreeDuel_pThumbWidget;
 extern s8 gFreeDuel_bCursorColumn;
 extern s8 gFreeDuel_bCursorRow;
 extern s8 gFreeDuel_bTargetColumn;
@@ -10,13 +16,33 @@ extern s16 D_8009B32E;
 extern u8 gFreeDuel_abGridAvailable[];
 extern u8 D_800EB0F8[];
 extern s16 D_801D0000[];
-typedef struct { u32 lo; u32 hi; } Pair;
+extern s16 gGraphics_sViewportY;
+
+typedef struct {
+    u32 lo;
+    u32 hi;
+} Pair;
+
 extern Pair D_801D5608;
 extern void TextBox_Destroy(u8 *);
 extern void func_80035BE4(s32, s32, s32, s32, s32, s32);
 extern void func_80039A60(u8 *);
 
-void FreeDuel_PlaceCursor(Widget *w, s32 arm)
+void FreeDuel_UpdateScrollbar(void)
+{
+    FreeDuelWidget *cursor = gFreeDuel_pCursorWidget;
+    s32 relative = cursor->y - gGraphics_sViewportY;
+
+    if (relative < 0x28) {
+        gGraphics_sViewportY = cursor->y - 0x28;
+    }
+    if (relative >= 0x91) {
+        gGraphics_sViewportY = cursor->y - 0x90;
+    }
+    gFreeDuel_pThumbWidget->y = (cursor->y - 0x28) * 72 / 364 + 7;
+}
+
+void FreeDuel_PlaceCursor(FreeDuelWidget *w, s32 arm)
 {
     s32 col;
     s32 index;
