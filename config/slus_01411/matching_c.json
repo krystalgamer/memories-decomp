@@ -1270,19 +1270,19 @@
       "address": "0x8002712C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xFC",
-      "source": "src/game/func_8002712C.c"
+      "source": "src/game/ai_turn_action.c"
     },
     {
       "address": "0x80027228",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2E0",
-      "source": "src/game/func_80027228.c"
+      "source": "src/game/ai_turn_action.c"
     },
     {
       "address": "0x80027508",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x284",
-      "source": "src/game/func_80027508.c"
+      "source": "src/game/ai_turn_action.c"
     },
     {
       "address": "0x8002778C",
