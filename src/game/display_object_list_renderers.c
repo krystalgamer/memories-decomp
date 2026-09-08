@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object.h"
 #include "display_object_layout.h"
 
 typedef void (*ObjFn)(u8 *);
@@ -8,7 +9,6 @@ extern s16 gGraphics_sViewportY;
 extern u8 D_800E9D90[];
 extern s16 D_800EFE40[];
 extern s16 D_800EFE42[];
-extern u8 D_800EFE48[];
 
 s32 func_80041E7C(s32 arg0, s32 arg1, s32 arg2, u8 *arg3);
 void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);

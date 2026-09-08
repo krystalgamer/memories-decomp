@@ -1,11 +1,10 @@
 #include "../types.h"
+#include "display_object.h"
 #include "display_object_layout.h"
-
-extern u8 D_800EFE48[];
 
 void *func_80042B40(int value)
 {
-    u8 *object = D_800EFE48;
+    u8 *object = (u8 *)D_800EFE48;
     int count = DISPLAY_OBJECT_POOL_CAPACITY;
     u8 *field = object + 108;
     do {

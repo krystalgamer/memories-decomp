@@ -1,22 +1,10 @@
 #include "../types.h"
+#include "display_object.h"
 #include "display_object_layout.h"
-
-typedef void (*DisplayObjectCallback)(u8 *);
-
-typedef struct DisplayObject {
-    s16 previous;
-    s16 next;
-    u8 pad_04[4];
-    u16 flags;
-    u16 pad_0A[13];
-    DisplayObjectCallback update;
-    u8 pad_28[DISPLAY_OBJECT_RECORD_SIZE - 0x28];
-} DisplayObject;
 
 extern s16 D_800EFE38;
 extern s16 D_800EFE3E[];
 extern s16 D_800EFE44[];
-extern DisplayObject D_800EFE48[];
 extern s32 D_800E9D90[];
 extern void func_800408D0(u8 *, s32, s32);
 
