@@ -3,6 +3,7 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../game/card_constants.h"
+#include "../../game/display_object_layout.h"
 #include "value_setup.h"
 
 typedef struct {
@@ -55,28 +56,28 @@ void MainMenu_DrawValueSetup(void)
 
     w = D_801845B0[0];
     if (w->updateCallbackAddress != 0 || D_801845BC[0] == 2) {
-        w->flags |= 0x40;
+        w->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         w = D_801845B0[0];
         if (w->updateCallbackAddress == 0) {
             w->x = first * 128 / DUEL_STARTING_LIFE_POINTS + 176;
             D_801845B0[0]->y = 111;
         }
     } else {
-        w->flags &= 0xFFBF;
+        w->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         D_801845B0[0]->x = D_801845B0[2]->x;
         D_801845B0[0]->y = D_801845B0[2]->y;
     }
 
     w = D_801845B0[1];
     if (w->updateCallbackAddress != 0 || D_801845BC[1] == 2) {
-        w->flags |= 0x40;
+        w->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         w = D_801845B0[1];
         if (w->updateCallbackAddress == 0) {
             w->x = second * 128 / DUEL_STARTING_LIFE_POINTS + 176;
             D_801845B0[1]->y = 139;
         }
     } else {
-        w->flags &= 0xFFBF;
+        w->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         D_801845B0[1]->x = D_801845B0[2]->x;
         D_801845B0[1]->y = D_801845B0[2]->y;
     }
