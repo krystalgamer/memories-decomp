@@ -52,7 +52,7 @@ FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     D_8009B0F4 &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
     p = &gFile_SecondaryTransferDescriptor;
     if (D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) {
-        if (D_8009B0F4 & 0x80000) {
+        if (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE) {
             func_80015010();
         }
     }
@@ -61,7 +61,7 @@ FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     p->f38 = (u8)c;
     p->f39 = (u8)d;
     p->f46 = 4;
-    p->f2C = 0x80000;
+    p->f2C = FILE_TRANSFER_FLAG_SECTOR_RANGE;
     D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return (FileTransferDescriptor *)p;
 }

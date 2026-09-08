@@ -124,6 +124,14 @@ not a Boolean completion flag. Raw users keep their signed flags-word read,
 byte accesses, and local padding views; no state values or branch behavior
 are changed by naming the offsets.
 
+`File_RequestSecondaryRangeTransfer` installs
+`FILE_TRANSFER_FLAG_SECTOR_RANGE` (`0x80000`) after filling the start/end
+sector and filter-byte fields. The service selects its dedicated range path
+using that bit; the existing active-transfer helpers test it before calling
+`func_80015010`. The flag is separate from descriptor state `4` and from the
+command bits in `D_8009B112`. Its name does not combine the original volatile
+reads or change the range, filter, state, or callback operations.
+
 `func_80013940` interprets its third argument (`position`) and fourth argument
 (`size`) by sign. The matching body in `src/game/file_stream.c` applies:
 

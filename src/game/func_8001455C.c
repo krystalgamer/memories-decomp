@@ -48,7 +48,7 @@ void func_8001455C(void)
     if (D_8009B0F4 & 0x400) {
         return;
     }
-    if (D_8009B0F4 & 0x80000) {
+    if (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE) {
         if (!(D_8009B112 & 0x8000)) {
             D_8009B112 = D_8009B112 | 0x8000;
             if ((D_8009B112 & 3) == 0) {
