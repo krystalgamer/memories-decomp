@@ -1,10 +1,10 @@
 #include "../types.h"
+#include "scene_script.h"
 #include "fade.h"
 #include "sound.h"
 
 extern u8 D_8009B26C;
 extern u8 gCampaignSceneIndex __attribute__((section(".data")));
-extern u8 D_800EAE98[];
 extern void func_8002FD10(s32);
 extern void func_8002FFD4(void *);
 extern void func_8002FA54(void);
@@ -21,7 +21,7 @@ void Main_RunCampaign(void) {
         return;
     }
 
-    func_8002FFD4(D_800EAE98);
+    func_8002FFD4((u8 *)D_800EAE98);
     func_8002FA54();
     if (D_8009B26C & 0x40)
         return;

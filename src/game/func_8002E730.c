@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "scene_script.h"
 #include "script_command_busy.h"
 #include "fade.h"
 #include "display_object_api.h"
@@ -29,7 +30,6 @@ extern u8 D_800E9D70[100];
 #define D_800E9D70 (*(RECT *)D_800E9D70)
 extern u8 D_800E9ECE[100];
 #define D_800E9ECE (D_800E9ECE[0])
-extern u8 D_800EAE98[100];
 extern u16 D_8009B27C;
 extern struct Rec *D_8009B280;
 extern u16 D_8009B2A8;
@@ -82,19 +82,19 @@ void func_8002E730(void) {
             VRAM_COPY_HEIGHT, 0, 0, 0x17, 0, 0xF4);
         D_8009B280 = rec;
         rec->unk4 |= 0x2000000;
-        func_8002E00C(D_800EAE98);
+        func_8002E00C((u8 *)D_800EAE98);
         gGraphics_sViewportX = D_8009B2A8;
         gGraphics_sViewportY = D_8009B2AA;
         if (D_8009B145 == 0) {
             func_80015C84(D_8009B145);
         }
-        func_8002DF2C(D_800EAE98, D_8009B270 & 0xFFF);
+        func_8002DF2C((u8 *)D_800EAE98, D_8009B270 & 0xFFF);
         return;
     }
     if (!(flags & 0x2000)) {
         D_8009B27C = flags | 0x2000;
         func_8004036C(D_8009B280);
-        func_8002E128(D_800EAE98, -1);
+        func_8002E128((u8 *)D_800EAE98, -1);
         if (D_8009B145 == 0 && !(D_8009B270 & 0x4000)) {
             func_80015C0C();
         }

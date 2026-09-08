@@ -1,8 +1,7 @@
 #include "../types.h"
+#include "scene_script.h"
 #include "../psyq/libgte.h"
 #include "trig_constants.h"
-
-extern u8 *D_800EAE98[];
 
 void func_8002FED8(u8 *state, u8 *color)
 {
@@ -26,14 +25,14 @@ void func_8002FED8(u8 *state, u8 *color)
     color[14] = component;
     color[13] = component;
     color[12] = component;
-    object = D_800EAE98[0];
+    object = ((u8 **)D_800EAE98)[0];
     if (object != (u8 *)0) {
         component = (intensity + 24) / 2 - 128;
         object[14] = component;
         object[13] = component;
         object[12] = component;
     }
-    object = D_800EAE98[5];
+    object = ((u8 **)D_800EAE98)[5];
     if (object != (u8 *)0) {
         component = (intensity + 24) / 2 - 128;
         object[14] = component;
