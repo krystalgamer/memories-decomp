@@ -5,6 +5,7 @@
 #include "duel_action_lock.h"
 #include "duel_side_state.h"
 #include "duel_card.h"
+#include "display_object_api.h"
 #include "sound.h"
 
 typedef struct Object {
@@ -22,7 +23,6 @@ extern Object *D_8009B1F0[2], *D_8009B17C;
 extern u16 D_8009B220;
 extern u8 D_800907D8[2][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 extern void func_80025B28(Object *);
-extern void *func_80042B40(int);
 
 void func_80025F3C(void)
 {

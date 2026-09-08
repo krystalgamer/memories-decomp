@@ -4,6 +4,7 @@
 #include "func_8002C604.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
+#include "display_object_api.h"
 #include "sound.h"
 
 typedef struct Obj {
@@ -28,7 +29,6 @@ extern Obj *D_8009B17C;
 extern u16 D_8009B220;
 extern u8 D_8009B260 __attribute__((section(".data")));
 extern void Duel_ApplyCardObjectFlags(Obj *);
-extern s32 func_80042B40(s32);
 
 #define DUEL_FIELD_EFFECT_TIMER_STEP 8
 #define DUEL_FIELD_EFFECT_MARK_THRESHOLD 40
