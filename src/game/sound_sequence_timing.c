@@ -4,7 +4,7 @@
 #include "sound_sequence_reader.h"
 #include "sound_sequence_values.h"
 
-int func_8004C560(SDSequenceTrack *entry)
+int SD_OpenSequenceTrack(SDSequenceTrack *entry)
 {
     entry->pos = SD_FindMidiTrackChunk(entry->pos);
     if (entry->pos == -1)
@@ -17,7 +17,7 @@ int func_8004C560(SDSequenceTrack *entry)
 
 /* Rescales the track's delta count from the sequence's own timebase to the
    runtime tick, carrying the remainder in field_0018. */
-void func_8004C5C8(SDSequenceTrack *entry)
+void SD_ScaleSequenceDelta(SDSequenceTrack *entry)
 {
     switch (D_8009B458->timebase) {
     case 0x30:
@@ -59,9 +59,9 @@ void func_8004C5C8(SDSequenceTrack *entry)
     }
 }
 
-extern void func_8004BCE8(void);
+extern void SD_ReadSequenceHeader(void);
 
-int func_8004C77C(void)
+int SD_StartSequenceTracks(void)
 {
     register SDSecondaryState *initial asm("$2") = D_8009B458;
     register int i asm("$17");
@@ -69,7 +69,7 @@ int func_8004C77C(void)
 
     initial->field_0804 = 0;
     initial->field_0800 = 0;
-    func_8004BCE8();
+    SD_ReadSequenceHeader();
     {
         register SDSecondaryState *state asm("$4") = D_8009B458;
         if (state->track_count != 0) {
@@ -94,7 +94,7 @@ int func_8004C77C(void)
                     entry->delta_remaining = value;
                     entry->field_0018 = 0;
                     if (flags_state->field_0804 != 0) {
-                        func_8004C5C8(entry);
+                        SD_ScaleSequenceDelta(entry);
                     }
                 }
                 state = D_8009B458;

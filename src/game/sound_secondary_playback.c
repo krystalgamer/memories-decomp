@@ -15,10 +15,10 @@ extern int func_8004A0FC();
 extern int func_8004A27C();
 extern void func_8004A518(void);
 extern int func_8004ACE4();
-extern void func_8004C77C(SDSecondaryState *);
+extern void SD_StartSequenceTracks(SDSecondaryState *);
 /* Preserve the no-argument call form used by the playback-start variant. */
-extern void func_8004C77C_no_arg(void) asm("func_8004C77C");
-extern s32 func_8004CABC(void);
+extern void SD_StartSequenceTracks_no_arg(void) asm("SD_StartSequenceTracks");
+extern s32 SD_GetSequenceStatus(void);
 extern void SD_ResetSequenceTracks(void);
 
 int func_80049A64(void *input, short value)
@@ -55,7 +55,7 @@ void func_80049AF4(s32 arg0)
 
     D_8009B458->field_07EC = 0x10000;
     D_8009B458->field_07DC = D_8009B458->field_07E8;
-    func_8004C77C(D_8009B458);
+    SD_StartSequenceTracks(D_8009B458);
 
     if ((arg0 & 0xFF) == 0) {
         D_8009B458->field_07E2 = 4;
@@ -80,7 +80,7 @@ void func_80049BAC(s32 value)
         SDSecondaryState *second;
         state->field_07EC = 0x10000;
         state->field_07DC = state->field_07E8;
-        func_8004C77C_no_arg();
+        SD_StartSequenceTracks_no_arg();
         first = D_8009B458;
         first->flag_0502 = 1;
         second = D_8009B458;
@@ -248,7 +248,7 @@ s32 func_80049F50(void)
     s32 value;
 
     if (D_8009B458->field_07E2 == 1) {
-        value = (s16)func_8004CABC();
+        value = (s16)SD_GetSequenceStatus();
         if (value == 3)
             D_8009B458->field_07E2 = value;
     }

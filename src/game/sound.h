@@ -210,9 +210,9 @@ typedef struct {
 /* One MIDI track reader inside SDSecondaryState, at +0x518. `pos` is a byte
    offset into the sequence data at SDSecondaryState::field_07DC, which is how
    SD_ReadSequenceByte reads through it; the chunk triple is filled in by
-   func_8004C560 from the MTrk header. Every `_saved` field is the copy taken
+   SD_OpenSequenceTrack from the MTrk header. Every `_saved` field is the copy taken
    by controller 0x63/0x14 (loop start) and put back by 0x63/0x1E (loop end)
-   in func_8004C114. */
+   in SD_DispatchSequenceChannelEvent. */
 typedef struct {
     s32 pos;
     s32 pos_saved;

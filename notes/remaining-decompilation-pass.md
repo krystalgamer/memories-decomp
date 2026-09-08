@@ -484,7 +484,7 @@ State after this one-function checkpoint:
 
 ### Continuous wave 14
 
-`func_8004CABC` matched after expressing its object scan as a direct `for`
+`SD_GetSequenceStatus` matched after expressing its object scan as a direct `for`
 loop over the loaded halfword count. That form preserves the retail zero-count
 exit, counter increment, object-pointer stride, loop branch, and return paths
 without asm or register bindings. The function matches 80/80 bytes with exact

@@ -3,14 +3,14 @@
 #include "sound.h"
 #include "sound_sequence_reader.h"
 
-extern int func_8004C420(SDSequenceTrack *);
-extern void func_8004C5C8(SDSequenceTrack *);
+extern int SD_ReadSequenceEvent(SDSequenceTrack *);
+extern void SD_ScaleSequenceDelta(SDSequenceTrack *);
 
 /* Advances every MIDI track by one runtime tick. Each track carries a
    fixed-point tempo accumulator: tempo_step is added to
    tempo_accumulator, and a carry out of the low byte is one sequencer
    tick, at which point the track's delta countdown runs down and the next
-   event is dispatched through func_8004C420. */
+   event is dispatched through SD_ReadSequenceEvent. */
 int SD_ProcessSequenceTracks(void) {
     /* Retail keeps only the track-array base live here and reaches the four
        neighbouring state words off it, so those four stay as displacements
@@ -43,14 +43,14 @@ loop:
                     goto accumulate;
                 }
 retry:
-                func_8004C420(entry);
+                SD_ReadSequenceEvent(entry);
                 if (entry->ended == 0) {
                     int value = SD_ReadVariableLengthValue(entry);
                     entry->delta_remaining = value;
                     if (value == 0)
                         goto retry;
                     if (D_8009B458->field_0804 != 0)
-                        func_8004C5C8(entry);
+                        SD_ScaleSequenceDelta(entry);
                     if (entry->delta_remaining == 0)
                         goto retry;
                 }
@@ -92,7 +92,7 @@ void SD_ResetSequenceTracks(void) {
 }
 
 /* 3 once every track has run off the end of its chunk, 1 otherwise. */
-s32 func_8004CABC(void)
+s32 SD_GetSequenceStatus(void)
 {
     SDSecondaryState *object = D_8009B458;
     s32 index;

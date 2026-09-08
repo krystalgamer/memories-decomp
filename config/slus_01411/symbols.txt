@@ -919,3 +919,16 @@ GsMapCoordUnit = 0x8008A420; // type:func
 GsGetLwUnit = 0x8008A4A0; // type:func
 GsGetLsUnit = 0x8008A760; // type:func
 GsGetLwsUnit = 0x8008AA30; // type:func
+
+// Semantic names
+SD_ReadSequenceHeader = 0x8004BCE8; // type:func
+SD_AdvanceSequencePosition = 0x8004BE6C; // type:func
+SD_IgnoreSequenceEvent = 0x8004BE80; // type:func
+SD_HandleSequenceMetaEvent = 0x8004BE88; // type:func
+SD_SkipSequenceSysEx = 0x8004C0AC; // type:func
+SD_DispatchSequenceChannelEvent = 0x8004C114; // type:func
+SD_ReadSequenceEvent = 0x8004C420; // type:func
+SD_OpenSequenceTrack = 0x8004C560; // type:func
+SD_ScaleSequenceDelta = 0x8004C5C8; // type:func
+SD_StartSequenceTracks = 0x8004C77C; // type:func
+SD_GetSequenceStatus = 0x8004CABC; // type:func

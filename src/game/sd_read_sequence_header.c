@@ -29,7 +29,7 @@
  * worthless or worse while an earlier fault was still open.
  */
 
-s32 func_8004BCE8(void) {
+s32 SD_ReadSequenceHeader(void) {
     u8 *b;
     SDSequenceTrack *p;
     u32 r;

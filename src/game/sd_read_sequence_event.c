@@ -2,14 +2,14 @@
 #include "sound.h"
 #include "sound_sequence_reader.h"
 
-extern void func_8004C114(SDSequenceTrack *arg0, s32 status, s32 byte2,
+extern void SD_DispatchSequenceChannelEvent(SDSequenceTrack *arg0, s32 status, s32 byte2,
                           s32 byte3);
-extern void func_8004C0AC(SDSequenceTrack *arg0, s32 cmd);
-extern void func_8004BE88(SDSequenceTrack *arg0, s32 byte);
-extern void func_8004BE80(s32 cmd_masked, s32 cmd_raw);
+extern void SD_SkipSequenceSysEx(SDSequenceTrack *arg0, s32 cmd);
+extern void SD_HandleSequenceMetaEvent(SDSequenceTrack *arg0, s32 byte);
+extern void SD_IgnoreSequenceEvent(s32 cmd_masked, s32 cmd_raw);
 extern s32 D_80011484[];
 
-s32 func_8004C420(SDSequenceTrack *arg0)
+s32 SD_ReadSequenceEvent(SDSequenceTrack *arg0)
 {
     register s32 cmd asm("a1");
     u32 status;
@@ -45,7 +45,7 @@ s32 func_8004C420(SDSequenceTrack *arg0)
             if (tableVal == 2) {
                 byte3 = SD_ReadSequenceByte(arg0);
             }
-            func_8004C114(arg0, status & 0xFF, byte2 & 0xFF, byte3 & 0xFF);
+            SD_DispatchSequenceChannelEvent(arg0, status & 0xFF, byte2 & 0xFF, byte3 & 0xFF);
             return 0;
         }
 
@@ -56,15 +56,15 @@ s32 func_8004C420(SDSequenceTrack *arg0)
         if (masked != SD_SEQUENCE_META_EVENT) {
             goto case_default;
         }
-        func_8004BE88(arg0, SD_ReadSequenceByte(arg0) & 0xFF);
+        SD_HandleSequenceMetaEvent(arg0, SD_ReadSequenceByte(arg0) & 0xFF);
         return 0;
     }
 
 case_f0:
-    func_8004C0AC(arg0, cmd);
+    SD_SkipSequenceSysEx(arg0, cmd);
     return 0;
 
 case_default:
-    func_8004BE80(masked, cmd);
+    SD_IgnoreSequenceEvent(masked, cmd);
     return 0;
 }

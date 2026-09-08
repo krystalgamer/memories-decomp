@@ -368,7 +368,7 @@ establish a stable role. Unmodeled and overlapping regions remain padding or
 explicit typed/raw views rather than speculative fields.
 
 The leading channel records and the later track records are distinct layouts.
-`func_8004C114` selects a channel with the MIDI status byte's low nibble and
+`SD_DispatchSequenceChannelEvent` selects a channel with the MIDI status byte's low nibble and
 indexes the leading records with a `0x18`-byte stride; `func_8004A518`
 initializes all sixteen. `SD_SEQUENCE_CHANNEL_COUNT` and
 `SD_SEQUENCE_CHANNEL_RECORD_SIZE` describe this `0x180`-byte prefix.
@@ -424,8 +424,8 @@ selectable endpoint. These constants do not replace the pitch-bend center,
 the primary voice's signed-pan domain, or the gain/velocity normalization
 fields that happen to contain similar values.
 
-The same header names the event codes consumed by `func_8004C420`,
-`func_8004C114`, and `func_8004BE88`. A status-present bit, a message-type mask,
+The same header names the event codes consumed by `SD_ReadSequenceEvent`,
+`SD_DispatchSequenceChannelEvent`, and `SD_HandleSequenceMetaEvent`. A status-present bit, a message-type mask,
 and a channel mask have separate roles even when their values match an event
 code. The parser retains its running-status and argument-count-table behavior;
 the channel dispatcher handles note off/on, control change, program change,
@@ -499,9 +499,9 @@ above.
 | `0x07E0`-`0x07E6` | four `s16` | `field_07E0`-`field_07E6` | Playback setup/reset and parameter functions consistently use halfword accesses. |
 | `0x07E8` | pointer | `field_07E8` | `func_80049A64` stores the sequence/stream input pointer. |
 | `0x07EC` | `s32` | `field_07EC` | Playback initializes the bound to `0x10000`; `SD_ReadSequenceByte` and `SD_FindMidiTrackChunk` compare reader offsets against it. |
-| `0x07FA` | `u16` | `field_07FA` | `func_8004BE88` and `func_8004C77C` bound `0x2C`-byte work-record loops. |
-| `0x07FC` | `u16` | `timebase` | `func_8004BE88` and `func_8004C5C8` select timing conversions from it. |
-| `0x0800` | `u8` | `field_0800` | Cleared by `func_8004C77C`. |
+| `0x07FA` | `u16` | `track_count` | `SD_HandleSequenceMetaEvent` and `SD_StartSequenceTracks` bound `0x2C`-byte work-record loops. |
+| `0x07FC` | `u16` | `timebase` | `SD_HandleSequenceMetaEvent` and `SD_ScaleSequenceDelta` select timing conversions from it. |
+| `0x0800` | `u8` | `field_0800` | Cleared by `SD_StartSequenceTracks`. |
 | `0x0804`, `0x0808`, `0x080C`, `0x0810` | `s32` | offset-based fields | Timing/playback routines establish word accesses; their broader roles remain uncertain. |
 | `0x0814`, `0x0815` | `u8` | offset-based fields | Initialization and update/output controls set/test these bytes. |
 | `0x0818` | `u32` | `bytes_consumed` | `func_800496C4` clears it and `func_800497E0` advances it across a transfer window. |
@@ -573,7 +573,7 @@ batch retained the exact full executable hash.
 Six matching-C functions containing GCC inline assembly remain unchanged and
 keep their local raw declarations: `func_80049CF8`, `func_80049DD8`,
 `func_8004A2F8`, `func_8004A854`, `SD_SequenceTimerCallback`, and
-`func_8004C77C`.
+`SD_StartSequenceTracks`.
 
 Three migrated functions retain explicit raw indexing where the shared type
 cannot replace the exact source shape:
@@ -587,7 +587,7 @@ cannot replace the exact source shape:
 - `func_8004B49C` retains explicit byte-pointer arithmetic for the channel
   records and secondary objects, while stable fields use the shared types.
 
-`func_8004BE88` likewise keeps a byte pointer for the still-unmodeled
+`SD_HandleSequenceMetaEvent` likewise keeps a byte pointer for the still-unmodeled
 `0x2C`-stride work-record region, but uses `SDSecondaryState` members for its
 verified scalar fields. These raw expressions are layout/code-generation
 views, not competing global declarations.

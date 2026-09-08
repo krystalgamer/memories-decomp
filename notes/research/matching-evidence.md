@@ -2359,7 +2359,7 @@ object model through two related parent/child constructors.
 | `func_80049010` | Shared sequence-state cleanup |
 | `func_800497E0` | Transfer ID validation, clamped read length, and accumulated byte count |
 | `func_80049CF8` | `0x28`-byte object loop and split table-base relocation |
-| `func_8004C77C` | `0x2C`-byte record initialization and variable-length decoding |
+| `SD_StartSequenceTracks` | `0x2C`-byte record initialization and variable-length decoding |
 | `func_80058A7C` | Mixed signed comparisons and unsigned halfword bit extraction |
 | `func_80059000` | `0xE20` record stride and unaligned eight-byte copy |
 | `func_80059CE4` | G8-gated teardown while preserving an absolute state pointer |

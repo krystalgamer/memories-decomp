@@ -10,16 +10,16 @@ extern void func_8004B49C(s32, s32, s32);
 extern void func_8004B6E8(s32, s32);
 extern void func_8004B70C(s32, s32, s32);
 
-void func_8004BE6C(int *value, int amount)
+void SD_AdvanceSequencePosition(int *value, int amount)
 {
     *value += amount;
 }
 
-void func_8004BE80(void)
+void SD_IgnoreSequenceEvent(void)
 {
 }
 
-void func_8004BE88(SDSequenceTrack *p, s32 arg1)
+void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 arg1)
 {
     SDSecondaryState *e;
     SDSecondaryState *f;
@@ -99,12 +99,12 @@ void func_8004BE88(SDSequenceTrack *p, s32 arg1)
 
     case 0 ... 0xF:
     default:
-        func_8004BE6C(&p->pos, SD_ReadVariableLengthValue(p));
+        SD_AdvanceSequencePosition(&p->pos, SD_ReadVariableLengthValue(p));
         break;
     }
 }
 
-void func_8004C0AC(SDSequenceTrack *input)
+void SD_SkipSequenceSysEx(SDSequenceTrack *input)
 {
     unsigned int i = 0;
     unsigned int count = SD_ReadVariableLengthValue(input);
@@ -125,7 +125,7 @@ void func_8004C0AC(SDSequenceTrack *input)
    the channel is in mode 0x14 sets the loop count on every track (or on
    this track alone, without forwarding) before the controller is passed
    on. */
-void func_8004C114(SDSequenceTrack *p, s32 status, u8 d1, u8 d2) {
+void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d2) {
     SDSequenceTrack *t;
     u8 ch;
     s32 i;
