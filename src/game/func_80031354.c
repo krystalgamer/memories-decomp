@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "menu_record.h"
 #include "display_object_layout.h"
 
 typedef struct {
@@ -10,7 +11,6 @@ extern u8 D_8009B2EB;
 extern u16 D_8009B2DE;
 extern LocalRecord *D_800EB184[4];
 extern LocalRecord *D_8009B2E4;
-extern u8 D_800EB010[16];
 
 extern void func_8002FD10(s32);
 extern void func_8003134C(void);

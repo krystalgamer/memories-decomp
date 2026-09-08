@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "menu_record.h"
 
 typedef struct {
     u8 *streams[20];
@@ -10,7 +11,6 @@ typedef struct {
 
 extern s32 D_8009B350;
 extern u8 *D_8009B328;
-extern u8 D_800EB010[];
 
 extern void func_80039FD4(u8 *);
 extern void func_80039F44(u8 *);
@@ -35,7 +35,7 @@ void func_80038EB0(EffectObject *o) {
     id = a;
     flags = b;
 
-    e = D_800EB010;
+    e = (u8 *)D_800EB010;
     if (id >= 0x41) {
         e += 0x98;
     } else if (*(s8 *)(e + 0x30) != id) {
@@ -98,7 +98,7 @@ void func_80038EB0(EffectObject *o) {
     if (id >= 0x41) {
         slot = 2;
     }
-    e = D_800EB010 + slot * 0x4C;
+    e = (u8 *)D_800EB010 + slot * sizeof(MenuRecord);
     func_80039F44(e);
     e[0x30] = id;
     e[0x3C] = slot;

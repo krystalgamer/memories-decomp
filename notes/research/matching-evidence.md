@@ -3181,6 +3181,51 @@ symbol in the file, not only the accesses being converted. Any remaining
 `base + i * SIZE` is now double-scaled, and any remaining assignment of the base
 to a `u8 *` needs a cast. Convert one file, build, and only then continue.
 
+### The safe subset: change the declaration, keep the arithmetic
+
+The warning above is about changing how an address is *computed*. Changing only
+how a symbol is *declared* is a different, much safer operation, and it is
+enough to satisfy "define the type in one place".
+
+Measured while unifying `D_800EB010`, three `0x4C`-byte records reached from six
+files that declared the symbol six different ways: `u8 D_800EB010[16]` (a wrong
+bound for a 228-byte object), `u8 D_800EB010[]`, `unsigned char D_800EB010[]`,
+a file-local `struct Entry D_800EB010[3]`, a second file-local `struct Obj`
+describing the *same* record through a different offset, and a file-local
+`MenuRecord D_800EB010[]`. All six were replaced by one shared
+`extern MenuRecord D_800EB010[];` and the executable still matched.
+
+What was safe, all confirmed against the full-executable hash:
+
+- **A complete array bound and an incomplete one are interchangeable.** `[3]`,
+  `[16]` and `[]` all produce the same `lui`/`%lo` addressing. This does *not*
+  contradict the scalar-versus-array finding recorded elsewhere: that one is
+  about `extern u32 g;` versus `extern u32 g[];`, where the scalar form becomes
+  a single gp-relative load under `-G8`. Array-to-array is free; array-to-scalar
+  is not.
+- **Changing the element type is free as long as every use is re-anchored.**
+  Files that walked the table as bytes kept doing so; `e = D_800EB010;` simply
+  became `e = (u8 *)D_800EB010;`, and `D_800EB010 + slot * 0x4C` became
+  `(u8 *)D_800EB010 + slot * sizeof(MenuRecord)`. Casting back to `u8 *` before
+  the arithmetic keeps the scale at one byte, which is exactly the double-scaling
+  trap the previous section describes, avoided rather than risked.
+- **`sizeof(T)` may replace a literal stride** once the cast is in place.
+- **Spelling a type through its alias is free.** `unsigned char` to `u8`,
+  `short` to `s16`, `int` to `s32` are typedef identities in `src/types.h`, so
+  reformatting a minified translation unit into the project's aliases cannot
+  move a byte.
+- **Correcting a wrong return type in a redundant prototype was free here.**
+  `func_8002EB78` declared `void func_80039E9C(void)` while the definition
+  returns `s8 *`. The call discards the result, and `$v0` was already live as
+  scratch across it, so the corrected declaration produced identical text. This
+  one is genuinely luck-dependent: a discarded return value in a different
+  register-pressure context can change allocation, so it still needs a build.
+
+The distinction worth carrying: retyping the *pointer you do arithmetic on* is
+risky and must be verified per file; retyping the *declaration* while casting at
+each existing use is close to free, and it retires the duplicate definitions
+without touching a single address computation.
+
 ## Count one characteristic opcode before reading any diff
 
 When a candidate is short by a lot, the positional diff is worthless: every

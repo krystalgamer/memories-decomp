@@ -1,17 +1,5 @@
 #include "../types.h"
-
-typedef struct {
-    s32 grid[4][3];
-    s8 field_30;
-    u8 pad_31;
-    u8 field_32;
-    u8 pad_33[7];
-    u8 field_3A;
-    u8 field_3B;
-    u8 pad_3C[0x10];
-} MenuRecord;
-
-extern MenuRecord D_800EB010[];
+#include "menu_record.h"
 extern s8 D_8015C410[5];
 
 s8 *func_80039E9C(void)
@@ -21,7 +9,7 @@ s8 *func_80039E9C(void)
     s32 empty;
     s8 *entry;
 
-    for (i = 2; i >= 0; i--) {
+    for (i = MENU_RECORD_COUNT - 1; i >= 0; i--) {
         MenuRecord *record = &D_800EB010[i];
 
         record->field_30 = -1;
