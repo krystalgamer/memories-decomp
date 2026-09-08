@@ -15,12 +15,19 @@ Size: `0x0C`
 | Offset | Field | Evidence |
 |---|---|---|
 | `0x00` | `card_id` | Fusion, equip, deck-size, face-state, and set-query handlers treat zero as an empty slot and nonzero values as card IDs. |
-| `0x06` | `flags` | Equip selection, face-state classification, and move-card handlers test/set `0x1000` and `0x4000`. |
+| `0x06` | `flags` | Matchup, equip, face-state, and move-card handlers use defense-position `0x0800`, face-down `0x1000`, and used-this-turn `0x4000` masks. |
 | `0x08` | `card_type` | Monster/type searches compare the signed byte against card-type values. |
 
 The structure replaces private 12-byte definitions in the merged fusion,
 set-query, card-info, and state-operation units and in existing card-state
 handlers.
+
+`AiScript_FindKiller` and `AiScript_FindBestAttack` retain raw halfword flag
+reads at `+0x06` while reusing the shared `DUEL_CARD_FLAG_*` masks. The latter's
+attacker filter excludes used-this-turn entries; its target filters separately
+exclude used and defense-position entries, and hide face-down targets for any
+nonzero scripted visibility value. That condition differs from the strongest/weakest
+searches' `hide_face_down == 1`; the predicates are not consolidated.
 
 The paired-field search uses `DUEL_SIDE_COUNT` rows of
 `DUEL_FIELD_ROW_SIZE` taken marks, matching the two five-card ranges

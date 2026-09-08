@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "duel_card_layout.h"
 #include "duel_grid.h"
 
 typedef struct {
@@ -50,7 +51,7 @@ void AiScript_FindKiller(void) {
         if (*(s16 *)c == 0) {
             continue;
         }
-        if ((*(u16 *)(c + 6) & 0x4000) != 0) {
+        if ((*(u16 *)(c + 6) & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
             continue;
         }
         if (m == 0) {

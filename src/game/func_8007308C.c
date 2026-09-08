@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card_layout.h"
 #include "duel_grid.h"
 
 typedef struct {
@@ -55,7 +56,7 @@ void AiScript_FindBestAttack(void) {
         if (*(s16 *)r == 0) {
             continue;
         }
-        if ((*(u16 *)(r + 6) & 0x4000) != 0) {
+        if ((*(u16 *)(r + 6) & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
             continue;
         }
 
@@ -64,14 +65,14 @@ void AiScript_FindBestAttack(void) {
                 continue;
             }
             f = *(u16 *)(e + 6);
-            if ((f & 0x4000) != 0) {
+            if ((f & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
                 continue;
             }
-            if ((f & 0x800) != 0) {
+            if ((f & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
                 continue;
             }
             if (want != 0) {
-                if ((f & 0x1000) != 0) {
+                if ((f & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
                     continue;
                 }
             }
