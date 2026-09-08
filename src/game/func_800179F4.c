@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_draw_status_numbers.h"
 #include "save_data.h"
 #include "duel_grid.h"
 #include "duel_hand.h"
@@ -47,7 +48,6 @@ extern void func_8002C598(void);
 extern void func_80029574(s32);
 extern void func_80035668(s32);
 extern void func_8001755C(void);
-extern void Duel_DrawLifePointsAndDeckCounts(void);
 extern void func_800164FC(void);
 extern void Duel_ShuffleBothDecks(u8 *, u8 *);
 

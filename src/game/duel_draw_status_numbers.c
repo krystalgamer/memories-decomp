@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "../ygo_types.h"
+#include "duel_draw_status_numbers.h"
 #include "duel_update_life_point_display.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
@@ -13,73 +15,50 @@
    are displayed LP from field12 and DECK_SIZE minus the signed draw cursor
    in field18 of the corresponding D_800E9FF0 entry. */
 
-struct Pos {
-    u8 pad0[0x30];
-    u16 unk30;
-    u16 unk32;
-};
-
-struct Widget {
-    u8 pad0[0x50];
-    struct Pos *unk50;
-};
-
-/* GPU packet scratch buffer used to feed func_80016D2C. */
-struct DigitPacket {
-    u32 unk0;
-    u16 unk4;
-    u16 unk6;
-    u32 unk8;
-    u16 unkC;
-    u16 unkE;
-    u32 unk10;
-    u32 unk14;
-};
-
 extern u8 D_8009B1D5;
 void func_80016D2C(void *, void *, s32, s32);
 
-#define SCRATCH ((struct DigitPacket *) 0x1F800320)
+#define SCRATCH ((DuelStatusDigitPacket *)0x1F800320)
 
-void Duel_DrawLifePointsAndDeckCounts(struct Widget *arg0) {
-    struct Pos *pos;
-    struct DigitPacket *scratch;
+void Duel_DrawLifePointsAndDeckCounts(DuelStatusWidget *arg0) {
+    DuelStatusPosition *pos;
+    DuelStatusDigitPacket *scratch;
     register u32 tmp10 asm("v1");
 
     Duel_UpdateLifePointDisplay(&D_800E9FF0[0]);
     Duel_UpdateLifePointDisplay(&D_800E9FF0[1]);
-    pos = arg0->unk50;
+    pos = arg0->field_50;
 
     scratch = SCRATCH;
     tmp10 = 0xF10100;
-    scratch->unk10 = tmp10;
-    scratch->unk0 = 0x09000000;
-    scratch->unkC = 0x1E;
-    scratch->unkE = 0x5800;
-    scratch->unk8 = 0x80008;
-    scratch->unk14 = DUEL_DISPLAY_COLOR_NORMAL;
+    scratch->field_10 = tmp10;
+    scratch->field_00 = 0x09000000;
+    scratch->field_0C = 0x1E;
+    scratch->field_0E = 0x5800;
+    scratch->field_08 = 0x80008;
+    scratch->field_14 = DUEL_DISPLAY_COLOR_NORMAL;
     if (D_8009B1D5 == 0) {
-        scratch->unk14 = DUEL_DISPLAY_COLOR_DIMMED;
+        scratch->field_14 = DUEL_DISPLAY_COLOR_DIMMED;
     }
 
-    scratch->unk4 = pos->unk30 - 3;
-    scratch->unk6 = pos->unk32 - 0xD;
+    scratch->field_04 = pos->field_30 - 3;
+    scratch->field_06 = pos->field_32 - 0xD;
     func_80016D2C(pos, scratch, D_800E9FF0[1].displayed_life_points, 4);
 
-    scratch->unk4 = pos->unk30 + 0xE;
-    scratch->unk6 = pos->unk32 - 5;
+    scratch->field_04 = pos->field_30 + 0xE;
+    scratch->field_06 = pos->field_32 - 5;
     func_80016D2C(pos, scratch, DECK_SIZE - D_800E9FF0[1].field_18, 2);
 
-    scratch->unk14 = DUEL_DISPLAY_COLOR_NORMAL;
+    scratch->field_14 = DUEL_DISPLAY_COLOR_NORMAL;
     if (D_8009B1D5 != 0) {
-        scratch->unk14 = DUEL_DISPLAY_COLOR_DIMMED;
+        scratch->field_14 = DUEL_DISPLAY_COLOR_DIMMED;
     }
 
-    scratch->unk4 = pos->unk30 - 3;
-    scratch->unk6 = pos->unk32 + 0xD;
+    scratch->field_04 = pos->field_30 - 3;
+    scratch->field_06 = pos->field_32 + 0xD;
     func_80016D2C(pos, scratch, D_800E9FF0[0].displayed_life_points, 4);
 
-    scratch->unk4 = pos->unk30 + 0xE;
-    scratch->unk6 = pos->unk32 + 5;
+    scratch->field_04 = pos->field_30 + 0xE;
+    scratch->field_06 = pos->field_32 + 5;
     func_80016D2C(pos, scratch, DECK_SIZE - D_800E9FF0[0].field_18, 2);
 }
