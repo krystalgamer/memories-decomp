@@ -34,6 +34,13 @@ Historical password experiments below retain their original identifiers:
 between glyph nodes, caret indices and encoded text are documented in the
 [password README](../../src/overlays/password/README.md#keyboard-input-and-glyph-effects).
 
+The shop experiments retain `func_8016A080`, `func_8016A37C`,
+`func_80169E20` and `func_8016A02C` as historical identifiers for
+`Password_InitShopScreen`, `Password_UpdateShopScreen`,
+`Password_UpdateDigitCursor` and `Password_RecreateCardPreview`.
+The [current lifecycle](../../src/overlays/password/README.md#password-shop-lifecycle)
+separates cached preview selection, dialog decisions, award and payment.
+
 | Content | Repository location | Tracked |
 |---|---|---|
 | Resident executable C | `src/game/` | Yes |
@@ -412,7 +419,7 @@ is needed:
     vram: 0x80168004
     subsegments:
       - [0x4, .rodata, overlays/password/name_entry_spawn_glyph_sprite]
-      - [0x7C, .rodata, overlays/password/func_8016A37C]
+      - [0x7C, .rodata, overlays/password/shop_update]
       - [0x90, .rodata, overlays/password/name_entry_main]
       - [0xB4, c, overlays/password/func_801680B4]
       ...

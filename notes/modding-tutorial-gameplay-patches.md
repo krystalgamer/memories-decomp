@@ -327,6 +327,15 @@ card's cost, displays the affordability result, and on confirmation calls
 The patch therefore removes only the one-purchase-per-password gate. It does
 not make purchases free or deliver cards through a separate path.
 
+The complete matching `Password_UpdateShopScreen` now makes the sequence
+explicit: state 2 selects the price-dependent message and delegates choice
+handling to the dialog program; choice zero sets the used flag and awards
+the card, then state 3 incrementally debits RAM starchips. There is no second
+affordability comparison at the award branch, and this pass does not establish
+the exact enabled choices in message `0xE4`. The tutorial edit leaves that
+ordinary message/award/debit sequence intact; see the
+[shop contract](../src/overlays/password/README.md#award-dialogs-and-payment-are-separate).
+
 The same instruction is independently recorded in
 [`research/gameshark-codes.md`](research/gameshark-codes.md) because an
 equivalent conditional GameShark patch targets runtime address

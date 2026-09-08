@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "shop.h"
 
 typedef struct {
     u8 unk0[0x8];
@@ -13,8 +14,10 @@ typedef struct {
 extern s32 gPassword_nDigitIndex;
 extern PasswordNode *gPassword_pDigitCursorWidget;
 
-void Password_UpdateDigitCursorDecoration(PasswordNode *obj)
+void Password_UpdateDigitCursorDecoration(u8 *object)
 {
+    PasswordNode *obj = (PasswordNode *)object;
+
     switch (obj->kind) {
     case 0:
         obj->flags |= 0x40;

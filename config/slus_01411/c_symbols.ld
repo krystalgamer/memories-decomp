@@ -449,8 +449,9 @@ func_8016866C = 0x8016866C;
 func_80168FB4 = 0x80168FB4;
 CampaignMap_UpdateLocation = 0x80168FCC;
 NameEntry_PollCompletion = 0x80169C08;
-func_8016A080 = 0x8016A080;
-func_8016A37C = 0x8016A37C;
+/* Conditional runtime imports; the definitions live in the password image. */
+PROVIDE(Password_InitShopScreen = 0x8016A080);
+PROVIDE(Password_UpdateShopScreen = 0x8016A37C);
 func_8018001C = 0x8018001C;
 func_80180390 = 0x80180390;
 func_80180DD0 = 0x80180DD0;

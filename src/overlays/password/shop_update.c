@@ -1,18 +1,12 @@
 #include "../../types.h"
 #include "../../game/campaign_flags.h"
-
-typedef struct {
-    u8 pad0[8];
-    u16 f8;
-    u8 pad10[23];
-    u8 f33;
-} Widget;
+#include "shop.h"
 
 typedef struct {
     u8 pad0[96];
-    s16 f96;
+    s16 timer;
     u8 pad98[10];
-    u8 f108;
+    u8 updateFlags;
 } Cursor;
 
 typedef struct {
@@ -23,7 +17,6 @@ typedef struct {
 extern u16 D_8016D424;
 extern u32 D_800EB12C;
 extern u16 D_8016D4DC;
-extern Widget *D_8016D4D8;
 extern s32 gPassword_nDigitIndex;
 extern Cursor *gPassword_pDigitCursorWidget;
 extern u8 gPassword_abDigits[];
@@ -49,16 +42,15 @@ extern void SD_BGMFadeOut(void);
 extern void Fade_WaitOut(void);
 extern s32 Password_LookupCardID(void);
 extern void func_80029164(s32, s32);
-extern void func_8016A02C(s32);
 extern s32 Campaign_TestStoryFlag(s32);
 extern u8 *Password_CreateMessageBox(s32, s32);
 extern void Duel_AwardCard(s32);
 extern void Password_RefreshStarchipDisplay(void);
 
-void func_8016A37C(void)
+void Password_UpdateShopScreen(void)
 {
     Cursor *cursor;
-    Widget *widget;
+    PasswordCardPreviewView *widget;
     s32 index;
     s32 state;
     register u32 *pool __asm__("$2");
@@ -71,7 +63,7 @@ void func_8016A37C(void)
     u16 card;
 
     func_80039794();
-    if ((gPassword_pDigitCursorWidget->f108 & 0x40) != 0) {
+    if ((gPassword_pDigitCursorWidget->updateFlags & 0x40) != 0) {
         return;
     }
     if ((D_800EB12C & 0x2008) != 0x2000) {
@@ -99,8 +91,8 @@ void func_8016A37C(void)
             SD_SEPlayFull(47);
             cursor = gPassword_pDigitCursorWidget;
             Password_SetDigitCursorTarget(cursor);
-            cursor->f96 = 8;
-            cursor->f108 |= 0x40;
+            cursor->timer = 8;
+            cursor->updateFlags |= 0x40;
             return;
         }
         if ((D_8009B394 & 0x5000) != 0) {
@@ -151,12 +143,12 @@ void func_8016A37C(void)
                 return;
             }
             D_8016D424 = flags | 0x4000;
-            func_8016A02C(D_8016D4DC);
+            Password_RecreateCardPreview(D_8016D4DC);
             return;
         }
-        D_8016D4D8->f33 = D_8016D4D8->f33 + 8;
-        if (D_8016D4D8->f33 == 0) {
-            D_8016D4D8->f8 &= 0xFFFB;
+        D_8016D4D8->phase = D_8016D4D8->phase + 8;
+        if (D_8016D4D8->phase == 0) {
+            D_8016D4D8->flags &= 0xFFFB;
             SD_SEPlayFull(12);
             D_8016D424 = 2;
         } else {
@@ -229,11 +221,11 @@ void func_8016A37C(void)
         flags4 = D_8016D424;
         if ((flags4 & 0x8000) == 0) {
             D_8016D424 = flags4 | 0x8000;
-            D_8016D4D8->f8 |= 4;
+            D_8016D4D8->flags |= 4;
         }
         widget = D_8016D4D8;
-        widget->f33 = widget->f33 + 8;
-        if ((s8)D_8016D4D8->f33 < 0) {
+        widget->phase = widget->phase + 8;
+        if ((s8)D_8016D4D8->phase < 0) {
             Password_CreateMessageBox(226, 0);
             D_8016D424 = 0;
         }

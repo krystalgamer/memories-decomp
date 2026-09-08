@@ -38,7 +38,7 @@ The resident callers enter the same image at different points, all inside
 | Screen | Resident mode | Overlay entry points |
 |---|---|---|
 | Name entry | `Main_RunNameEntry` | `NameEntry_Init`, `NameEntry_PollCompletion` |
-| Password | `Main_RunPasswordMenu` | `func_8016A080`, `func_8016A37C` |
+| Password | `Main_RunPasswordMenu` | `Password_InitShopScreen`, `Password_UpdateShopScreen` |
 
 Treat name entry as an entry point into the shared front-end screen image
 rather than as an independent code module. Matching source for that image

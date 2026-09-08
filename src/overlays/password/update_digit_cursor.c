@@ -1,10 +1,11 @@
 #include "../../types.h"
+#include "shop.h"
 
 extern s32 func_80042B98(void);
 extern void func_800429D8(u8 *);
 extern void func_80042A78(u8 *);
 
-void func_80169E20(u8 *object)
+void Password_UpdateDigitCursor(u8 *object)
 {
     s16 remaining;
 
