@@ -8,7 +8,7 @@ void func_8004C84C(void) {
 
     for (i = 0; i < D_8009B458->object_count; i++) {
         SDSecondaryObject *item = &D_8009B458->objects[i];
-        if (item->field_001E != 0 && item->field_0003 < SD_SEQUENCE_CHANNEL_COUNT) {
+        if (item->field_001E != 0 && item->channel_index < SD_SEQUENCE_CHANNEL_COUNT) {
             item->field_001E -= 1;
         } else {
             item->field_001E = 0;

@@ -115,7 +115,7 @@ void func_8004A518(void) {
         off = 0x180;
     top2:
             key = *tbl;
-            (base + off)[3] = 0x63;
+            (base + off)[3] = SD_SECONDARY_RECORD_NONE;
             (base + off)[0] = i;
             (base + off)[0xD] = 0;
             (base + off)[0xF] = 0;

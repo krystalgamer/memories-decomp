@@ -13,7 +13,7 @@ void func_8004A7C0(int index)
         (SDSecondaryObject *)((u8 *)D_8009B458 + 0x180 + object_offset);
     int *item;
     int result;
-    if (entry->field_0003 >= SD_SEQUENCE_CHANNEL_COUNT)
+    if (entry->channel_index >= SD_SEQUENCE_CHANNEL_COUNT)
         return;
     item = (int *)((u8 *)D_80011434 + table_offset);
     do {

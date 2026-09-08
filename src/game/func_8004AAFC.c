@@ -57,7 +57,7 @@ void func_8004AAFC(void) {
                 }
                 e[0xD] = 0;
                 *(s16 *)(e + 0x1E) = 0;
-                e[3] = 0x63;
+                e[3] = SD_SECONDARY_RECORD_NONE;
             }
 
             b = e[0xD];

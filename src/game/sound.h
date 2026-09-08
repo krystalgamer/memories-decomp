@@ -149,7 +149,7 @@ typedef struct {
 
 typedef struct {
     u8 pad0000[3];
-    u8 field_0003;
+    u8 channel_index;
     u8 pad0004[4];
     u8 field_0008;
     u8 field_0009;
@@ -249,6 +249,9 @@ typedef char SDValue_note_offset_must_be_0x39A[
 ];
 typedef char SDSecondaryObject_size_must_be_0x28[
     sizeof(SDSecondaryObject) == SD_SECONDARY_OBJECT_SIZE ? 1 : -1
+];
+typedef char SDSecondaryObject_channel_index_offset_must_be_0x03[
+    SD_STATE_OFFSET(SDSecondaryObject, channel_index) == 0x03 ? 1 : -1
 ];
 typedef char SDSecondaryRecord_size_must_be_0x18[
     sizeof(SDSecondaryRecord) == SD_SEQUENCE_CHANNEL_RECORD_SIZE ? 1 : -1
