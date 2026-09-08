@@ -904,7 +904,7 @@
       "address": "0x80021598",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x278",
-      "source": "src/game/duel_calc_rank_score.c"
+      "source": "src/game/duel_rewards.c"
     },
     {
       "address": "0x80021810",
