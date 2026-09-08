@@ -5827,3 +5827,46 @@ Until then, treat a target containing any of the eight words above as blocked
 at the toolchain, not at the source. That is a different conclusion from the
 usual "the residual is N instructions": there is no candidate to refine,
 because the command cannot be spelled at all.
+## objdump hides identical runs, and a text column can drift off its bytes
+
+Three earlier entries here record measurement bugs in the comparison itself -
+section-scoped relocations, mnemonic versus encoding histograms, and discarded
+REL addends. This one is different in kind and easier to miss, because it does
+not touch any figure. It corrupts only the *reading*.
+
+The diff harness renders both byte streams through `objdump -D` and prints the
+disassembly beside each word. GNU objdump, by default, collapses runs of
+identical bytes and prints `...` in their place. For `func_800528AC` that
+removed **twelve** words from the listing while leaving all 288 in the byte
+stream, so from the first collapsed run onward every line paired a word with the
+text of an instruction twelve slots later.
+
+Nothing in the output looks wrong. The addresses are still consecutive, the
+mnemonics are still plausible MIPS, and the scores are entirely unaffected -
+positions and multisets are computed from the words, never from the text. Only a
+reader is misled, and only about *where* things are.
+
+The damage was real. The entry for `func_800528AC` gained a description of the
+loop bottom at `+0x3FC` that is actually at `+0x42C`, a claim that the function
+has "two epilogues, one per return path" when it has one, and three `continue`
+branches said to jump into the middle of the epilogue - which should have been
+the tell, since that would be nonsense.
+
+**Two lessons, and the second is the durable one.**
+
+`-z` (`--disassemble-zeroes`) turns the collapsing off, and the harness now
+passes it. But the fix that matters is the assertion beside it: the renderer
+compares its line count against the word count and refuses to return a listing
+that cannot be aligned. A silent shortfall becomes a hard error at the point of
+production rather than a wrong sentence in a note weeks later.
+
+The general form is worth stating, because it applies to every tool that pairs
+two representations of the same data: **when one stream is derived from another
+for human consumption, assert that they are the same length.** A derived view
+that quietly drops elements is indistinguishable from a correct one right up
+until a conclusion is drawn from it.
+
+The cheap cross-check, when no assertion is available, is to resolve a branch
+target by hand. `bnez v0,0x800528ec` must land on an instruction that plausibly
+begins a loop body; when three separate branches appear to jump into the middle
+of a register-restore sequence, the listing is wrong rather than the code.
