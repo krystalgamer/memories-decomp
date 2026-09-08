@@ -1,6 +1,27 @@
-#include "../../../../src/types.h"
-#include "../../../../src/psyq/libspu.h"
-#include "../../../../src/game/sound.h"
+/*
+ * The sound-effect voice allocator. Current best: 232 of 234 instructions,
+ * opcode distance 4, 78 differing positions.
+ *
+ * Drops a request whose id has no entry in the index table at field_043C,
+ * hands ids with bit 0x8000 to func_800451E0, and otherwise picks a voice
+ * three ways in turn: the low nibble of mode asks func_80047F38 for a keyed
+ * group and takes its lowest set slot; the high nibble asks for the n-th
+ * voice already playing this id, walking SpuGetVoiceEnvelope over the four
+ * slots; failing both, the rotating cursor at field_0435 is walked twice,
+ * first accepting only a silent voice, then any voice whose recorded value
+ * at field_040C is no higher than this request's.
+ *
+ * Residual: one andi, two addu and a surplus nop, all from the loop-2 id
+ * comparison. Retail recomputes (u16)id inside the loop; writing that cast
+ * makes it loop-invariant, GCC hoists it into the preheader, and that tenth
+ * long-lived value against nine callee-saved registers costs `mode` its
+ * register and takes the whole function back to distance 18. The stored
+ * source therefore compares against the s32 parameter, which is equivalent
+ * for ids below 0x10000 -- guaranteed by the 0x8000 guard above.
+ */
+#include "../types.h"
+#include "../psyq/libspu.h"
+#include "../game/sound.h"
 
 extern s16 func_800451E0(u16, s32);
 extern s32 func_80047F38(u8);

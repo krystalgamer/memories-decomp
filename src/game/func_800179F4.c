@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "save_data.h"
 #include "duel_hand.h"
 #include "duel_side_state.h"
 #include "display_object_api.h"
@@ -15,7 +16,6 @@ extern u8 D_800EA0E8[];
 extern s16 D_800F284A[];
 extern void (*D_800E9DBC[])(void);
 extern u8 gDuel_awOpponentDeckPool[];
-extern u8 gDuel_awPlayerDeck[];
 extern u8 D_801D1200[];
 
 extern s8 D_8009B238;
@@ -160,7 +160,7 @@ void func_800179F4(void)
                 D_8009B1DC = q;
                 goto shuffle;
             }
-            p = gDuel_awPlayerDeck;
+            p = (u8 *)gDuel_awPlayerDeck;
             D_8009B1D8 = p;
             if (gDuel_bOpponentID < 39) {
                 q = 0;

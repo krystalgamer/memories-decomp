@@ -1,4 +1,25 @@
-#include "../../../../src/types.h"
+/*
+ * SD_SEPlay. Current best: 68 of 68 instructions, opcode distance 0, with
+ * only the two entry copies exchanged -- retail writes $t1 before $a0, this
+ * writes $a0 first.
+ *
+ * The exchange is a first-pass scheduling decision, not something source
+ * order can reach. Under -fno-schedule-insns the unscheduled stream follows
+ * source order exactly, so writing `idc = id;` before `stop_arg = arg0;`
+ * does build retail's arrangement -- and the first scheduling pass then puts
+ * both spellings back to $a0 first. rank_for_schedule only falls back to
+ * original insn order when priority and dependence class tie, and they do
+ * not: $a0 is an argument hard register with a use in the fall-through
+ * block. The delay-slot filler is downstream and takes whichever copy ends
+ * up last, which is why the two positions always exchange together.
+ *
+ * A zero-byte compiler barrier between the copies reproduces all 272 bytes
+ * and all eight relocations, proving the body and the profile, but
+ * integration rejects statement-level inline assembly. Do not ship
+ * -fno-schedule-insns either: it produces the order and then re-allocates
+ * the whole body, 66 instructions against 68 and 51 differing positions.
+ */
+#include "../types.h"
 
 struct SoundState {
     u8 pad0[0x43C];

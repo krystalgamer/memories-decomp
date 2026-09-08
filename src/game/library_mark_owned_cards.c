@@ -1,9 +1,9 @@
 #include "../types.h"
+#include "save_data.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
 
 extern u8 gLibrary_abCardChest[];
-extern u16 gDuel_awPlayerDeck[];
 
 void Library_MarkOwnedCards(void)
 {

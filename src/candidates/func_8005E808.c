@@ -1,4 +1,25 @@
-#include "../../../../src/types.h"
+/*
+ * Recomputes a model's audible radius. Current best: 253 instructions
+ * against 251, opcode distance 6, 97 differing positions.
+ *
+ * The magnitude of the s16 at +0x20 sets the base radius at +0x22, capped at
+ * 0x4000; when that field is negative the two 8-byte descriptors after the
+ * header are each scored and the largest kept. Type 0x80/0x81 asks
+ * func_80058DD8 whether the slot named by the low seven bits is live, pulls
+ * its position with Model_CopySlotU16Values and measures the distance to the
+ * matching entry in D_800F5768. Type 1 has func_8005EBF4 fill a ten-point
+ * path and sums its nine segments. Type 4 scales a fixed 6284 per unit. All
+ * three divide by 1000 against the same 0x10624DD3 magic.
+ *
+ * Structure is exact and the case bodies must stay in retail's layout order
+ * (0x80/0x81, then 1, then 4) rather than numeric order. Residual: case 4
+ * addresses D_800F5768 + 0x10 twice and retail materialises the base once,
+ * where this build emits the assembler macro form twice -- a u8 * local does
+ * not survive, GCC constant-propagates it back into both references. Plus a
+ * mult duplicated into a branch delay slot, and p and q swapped between $s4
+ * and $s5.
+ */
+#include "../types.h"
 
 extern u8 *D_8009B074;
 extern u8 D_800F5768[];

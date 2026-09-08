@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "save_data.h"
 #include "duel_side_state.h"
 #include "../psyq/rand.h"
 #include "card_constants.h"
@@ -85,7 +86,6 @@ typedef struct {
 } DuelDropTable;
 
 extern DuelDropTable gDuel_awSaPowCardDrops[];
-extern u8 gDuel_awPlayerDeck[];
 
 s32 Duel_SelectCardDrop(s32 pool_index)
 {
@@ -105,7 +105,7 @@ s32 Duel_SelectCardDrop(s32 pool_index)
 void Duel_AwardCard(s32 card_id)
 {
     s32 i;
-    u8 *base = gDuel_awPlayerDeck;
+    u8 *base = (u8 *)gDuel_awPlayerDeck;
     u8 *quantity = base + (card_id + 0x4F);
     u16 *destination = (u16 *)(base + 0x5BC);
     u16 *entry;
