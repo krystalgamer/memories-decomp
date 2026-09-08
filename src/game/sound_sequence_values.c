@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern s32 SD_ReadSequenceByte(u8 *);
+#include "sound_sequence_reader.h"
 
 s32 SD_ReadSequenceU32BE(u8 *input)
 {

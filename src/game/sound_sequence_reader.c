@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "sound.h"
+#include "sound_sequence_reader.h"
 
 /* Compares arg2 bytes; returns the difference at the first mismatch. */
 s32 SD_CompareBytes(u8 *arg0, u8 *arg1, s32 arg2) {
@@ -15,7 +16,7 @@ s32 SD_CompareBytes(u8 *arg0, u8 *arg1, s32 arg2) {
     return *arg0 - *arg1;
 }
 
-int SD_ReadSequenceByte(u8 *reader)
+s32 SD_ReadSequenceByte(void *reader)
 {
     SDSecondaryState *state = D_8009B458;
     int offset = *(int *)reader;
@@ -24,13 +25,13 @@ int SD_ReadSequenceByte(u8 *reader)
     offset++;
     *(int *)reader = offset;
     if ((u32)state->field_07EC < (u32)offset) {
-        reader[0x24] = 1;
+        ((u8 *)reader)[0x24] = 1;
         return -1;
     }
     return value;
 }
 
-int SD_ReadVariableLengthValue(u8 *input)
+s32 SD_ReadVariableLengthValue(void *input)
 {
     int value = SD_ReadSequenceByte(input);
     int result;
@@ -39,7 +40,7 @@ int SD_ReadVariableLengthValue(u8 *input)
         return 0;
     }
     if (value == SD_SEQUENCE_VLQ_INITIAL_STOP) {
-        input[0x24] = 1;
+        ((u8 *)input)[0x24] = 1;
         return 0;
     }
     result = value;

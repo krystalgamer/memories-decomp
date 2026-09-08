@@ -2,6 +2,7 @@
 
 #define SDSECONDARYSTATE_CUSTOM_EXTERN
 #include "sound.h"
+#include "sound_sequence_reader.h"
 
 typedef struct {
     s32 value;
@@ -23,7 +24,6 @@ typedef struct {
 
 extern SequenceState *D_8009B458;
 extern int func_8004C420(void *);
-extern int SD_ReadVariableLengthValue(void *);
 extern void func_8004C5C8(void *);
 
 int SD_ProcessSequenceTracks(void) {

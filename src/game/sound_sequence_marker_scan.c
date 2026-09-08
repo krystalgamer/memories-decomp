@@ -1,10 +1,10 @@
 #include "../types.h"
 #include "sound.h"
+#include "sound_sequence_reader.h"
 
 #define SD_SEQUENCE_MARKER_SIZE 4
 
 extern u8 D_8009AF80[];
-extern s32 SD_CompareBytes(u8 *arg0, u8 *arg1, s32 count);
 
 s32 SD_FindMidiTrackChunk(s32 offset)
 {

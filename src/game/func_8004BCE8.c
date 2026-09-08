@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound_sequence_reader.h"
 
 extern u8 *D_8009B458;
 

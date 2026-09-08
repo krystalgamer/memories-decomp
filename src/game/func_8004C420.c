@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "sound_sequence_constants.h"
+#include "sound_sequence_reader.h"
 
-extern s32 SD_ReadSequenceByte(void *arg0);
 extern void func_8004C114(void *arg0, s32 status, s32 byte2, s32 byte3);
 extern void func_8004C0AC(void *arg0, s32 cmd);
 extern void func_8004BE88(void *arg0, s32 byte);
