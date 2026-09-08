@@ -37,7 +37,6 @@ extern volatile u16 D_8009B398[];
 extern void func_80042A78(W *);
 extern void func_800429D8(W *);
 extern s32 NameEntry_AdjustLength(s32, s32);
-extern u8 *TextBox_GetGlyphAt(s32, s32, s32);
 
 void NameEntry_UpdateKeyboard(void)
 {
@@ -53,7 +52,7 @@ void NameEntry_UpdateKeyboard(void)
     register s32 walkCol __asm__("$3");
     s32 col;
     s32 row;
-    u8 *node;
+    DuelEffectEntry *node;
     u8 *obj;
     s32 kind;
     s32 gx;
@@ -207,7 +206,7 @@ arme:
 join:
     ;
     node = TextBox_GetGlyphAt(kind, gx, gy);
-    obj = NameEntry_SpawnGlyphSprite(kind, (NameEntryGlyphNodeView *)node);
+    obj = NameEntry_SpawnGlyphSprite(kind, node);
     obj[0x6C] = 1;
     *(NameEntryGlyphUpdate *)(obj + 0x24) = NameEntry_UpdateGlyphPulse;
     if (node == 0) {
@@ -216,7 +215,7 @@ join:
     if (work != 0) {
         *(s16 *)(obj + 0x48) = 20;
         node = TextBox_GetGlyphAt(kind, gx + 20, gy);
-        obj = NameEntry_SpawnGlyphSprite(kind, (NameEntryGlyphNodeView *)node);
+        obj = NameEntry_SpawnGlyphSprite(kind, node);
         obj[0x6C] = 1;
         *(NameEntryGlyphUpdate *)(obj + 0x24) = NameEntry_UpdateGlyphPulse;
         *(s16 *)(obj + 0x48) = 0;
@@ -227,9 +226,9 @@ join:
         slot = (u16 *)(D_8016D42C * 2 + (s32)D_8016D418);
         *slot = 0;
         if (node != 0) {
-            *slot = *(u16 *)node;
+            *slot = node->code_00;
         }
-        obj = NameEntry_SpawnGlyphSprite(1, (NameEntryGlyphNodeView *)node);
+        obj = NameEntry_SpawnGlyphSprite(1, node);
         *(s16 *)(obj + 0x60) = 8;
         *(NameEntryGlyphUpdate *)(obj + 0x24) = NameEntry_UpdateGlyphTransfer;
         *(s16 *)(obj + 0x46) = 204;

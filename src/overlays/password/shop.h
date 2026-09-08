@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_PASSWORD_SHOP_H
 
 #include "../../types.h"
+#include "../../game/duel_effect.h"
 
 /* Known prefix of the preview's control object, not its full allocation. */
 typedef struct {
@@ -17,6 +18,9 @@ typedef void (*PasswordCursorUpdate)(u8 *object);
 
 extern PasswordCardPreviewView *D_8016D4D8;
 
+/* Builds text-box record 0 and returns it; both call sites ignore the
+   record. */
+DuelEffectChannel *Password_CreateMessageBox(s32 messageId, s32 flags);
 void Password_InitShopScreen(void);
 void Password_UpdateShopScreen(void);
 void Password_UpdateDigitCursor(u8 *object);

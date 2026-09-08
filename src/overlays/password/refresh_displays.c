@@ -1,11 +1,11 @@
 #include "../../types.h"
+#include "../../game/duel_effect.h"
 #include "../../game/text_constants.h"
 #include "../../game/text_box_runtime.h"
 
 extern u8 gPassword_abDigits[];
 extern u16 D_800EAFF8[];
 extern u8 D_801B1245[];
-extern u8 D_800EB0F8[];
 extern s32 D_801D07E0;
 extern s32 D_801D5608;
 extern void func_8003B6AC(s32, s32);
@@ -13,6 +13,7 @@ extern void func_80035BE4(s32, s32, s32, s32, s32, s32);
 
 void Password_RefreshDigitDisplay(void)
 {
+    DuelEffectChannel *boxes;
     u8 *out;
     s32 i;
     s32 glyph;
@@ -38,17 +39,21 @@ void Password_RefreshDigitDisplay(void)
     *out = TEXT_STRING_TERMINATOR;
     func_8003B6AC(2, 1);
     func_80035BE4(2, 0xFD, 0xA8, 0x68, 0xA0, 0x10);
-    D_800EB0F8[0x122] = 0x10;
-    D_800EB0F8[0x123] = 0x10;
-    func_80039A14(&D_800EB0F8[0xC8]);
+    boxes = D_800EB0F8;
+    boxes[2].field_5A = 0x10;
+    boxes[2].field_5B = 0x10;
+    func_80039A14((u8 *)&boxes[2]);
 }
 
 void Password_RefreshStarchipDisplay(void)
 {
+    DuelEffectChannel *boxes;
+
     D_801D5608 = D_801D07E0;
     func_8003B6AC(3, 1);
     func_80035BE4(3, 0xE1, 0x98, 0x28, 0xA0, 0x20);
-    D_800EB0F8[0x186] = 0x10;
-    D_800EB0F8[0x187] = 0x10;
-    func_80039A14(&D_800EB0F8[0x12C]);
+    boxes = D_800EB0F8;
+    boxes[3].field_5A = 0x10;
+    boxes[3].field_5B = 0x10;
+    func_80039A14((u8 *)&boxes[3]);
 }

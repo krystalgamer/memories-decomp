@@ -14,7 +14,6 @@ extern u8 *D_8016D440[];
 extern u8 D_800EA0E8[];
 extern void Password_RefreshDigitDisplay(void);
 extern void Password_RefreshStarchipDisplay(void);
-extern void Password_CreateMessageBox(s32, s32);
 extern void func_80029528(s32);
 extern void func_80029574(s32);
 extern PasswordCardPreviewView *func_800291E0(s32, s32, s32);

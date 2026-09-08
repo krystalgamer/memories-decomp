@@ -2,20 +2,17 @@
 #define MEMORIES_DECOMP_NAME_ENTRY_KEYBOARD_H
 
 #include "../../types.h"
-
-/* Known prefix only; text-glyph nodes have a 0x1C stride. */
-typedef struct {
-    u16 code;
-    u8 pad02[0xA];
-    s16 x;
-    s16 y;
-} NameEntryGlyphNodeView;
+#include "../../game/duel_effect.h"
 
 typedef void (*NameEntryGlyphUpdate)(u8 *sprite);
 
 void NameEntry_BuildKeyboardTextBox(s32 textOffset);
 void NameEntry_UpdateKeyboard(void);
-void *NameEntry_SpawnGlyphSprite(s32 textBoxSlot, NameEntryGlyphNodeView *glyphNode);
+/* The glyph nodes this screen walks are D_800EB288 entries: the record's
+   0x24 pointer is where TextBox_GetGlyphAt starts, and it returns the entry
+   whose x_0C/y_0E pair matches. */
+DuelEffectEntry *TextBox_GetGlyphAt(s32 textBoxSlot, s32 x, s32 y);
+void *NameEntry_SpawnGlyphSprite(s32 textBoxSlot, DuelEffectEntry *glyphNode);
 void NameEntry_UpdateGlyphPulse(u8 *sprite);
 void NameEntry_UpdateGlyphFragment(u8 *sprite);
 void NameEntry_UpdateGlyphShatter(u8 *sprite);

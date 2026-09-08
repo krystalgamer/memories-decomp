@@ -42,7 +42,6 @@ extern void Password_RefreshDigitDisplay(void);
 extern void Fade_WaitOut(void);
 extern s32 Password_LookupCardID(void);
 extern void func_80029164(s32, s32);
-extern u8 *Password_CreateMessageBox(s32, s32);
 extern void Duel_AwardCard(s32);
 extern void Password_RefreshStarchipDisplay(void);
 

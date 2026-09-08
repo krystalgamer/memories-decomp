@@ -18,11 +18,13 @@
    leading words are unnamed but must stay four-byte aligned: retail copies a
    whole entry with aligned lw/sw pairs during the compaction in
    DuelEffect_ProcessEntries, and a byte-aligned struct turns that into
-   lwl/lwr. The 0x0C pair is the entry's local pixel position, read by the
-   password overlay's TextBox_GetGlyphAt when it searches for the glyph node
-   under a coordinate. */
+   lwl/lwr. The password overlay reads two of the fields: code_00 is the
+   entry's Shift-JIS glyph code, and the 0x0C pair is its local pixel
+   position, which TextBox_GetGlyphAt searches to find the node under a
+   coordinate. */
 typedef struct {
-    s32 field_00;
+    u16 code_00;
+    u16 pad_02;
     s32 field_04;
     s32 field_08;
     s16 x_0C;
@@ -117,6 +119,9 @@ typedef char DuelEffectEntry_size_must_be_0x1C[
 ];
 typedef char DuelEffectEntry_must_be_four_byte_aligned[
     sizeof(struct { u8 lead; DuelEffectEntry entry; }) == 0x20 ? 1 : -1
+];
+typedef char DuelEffectEntry_code_00_offset_must_be_0[
+    DUEL_EFFECT_OFFSET(DuelEffectEntry, code_00) == 0 ? 1 : -1
 ];
 typedef char DuelEffectEntry_x_0C_offset_must_be_0x0C[
     DUEL_EFFECT_OFFSET(DuelEffectEntry, x_0C) == 0x0C ? 1 : -1
