@@ -1,5 +1,6 @@
 #include "../types.h"
 
+#include "display_object_layout.h"
 #include "duel_effect.h"
 
 extern u8 *D_8009B240;
@@ -85,7 +86,7 @@ void func_800283F4(void)
         *(s16 *)(obj + 0x30) = -0x8C;
         obj[0x21] = 0x80;
         *(u16 *)(obj + 0x32) += adj;
-        *(u16 *)(obj + 8) |= 4;
+        *(u16 *)(obj + 8) |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
         func_80043178(obj);
         *(s16 *)(obj + 0x60) = slide;
         func_80042918(obj);
@@ -94,7 +95,7 @@ void func_800283F4(void)
         obj = func_800400AC(func_8004002C(), 2);
         func_800404CC(obj, 0x148, D_8009B24B + 0xE, 0, 2, 0, 0xD, 0x107);
         *(s16 *)(obj + 0x60) = slide;
-        *(u16 *)(obj + 8) |= 8;
+        *(u16 *)(obj + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(obj);
         func_800428EC(obj, 0x14);
         func_80043178(obj);
