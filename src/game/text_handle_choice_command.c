@@ -1,14 +1,12 @@
 #include "../types.h"
 
-typedef void (*ObjFn)(u8 *);
-
 extern s32 D_8009B350;
 extern s8 gDialog_bChoice;
 extern s8 gDialog_bChoiceCount;
 extern u8 D_8009B34C;
 extern u8 gDialog_bChoiceEnabled;
 extern u8 gDialog_bInputState;
-extern ObjFn D_8009B340;
+extern void (*D_8009B340)(u8 *);
 
 extern void Text_SetCursorOffset(u8 *);
 extern void func_80037CE0(u8 *);
