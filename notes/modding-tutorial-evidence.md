@@ -455,7 +455,9 @@ SHA-256: 5b59103a270882b261ff9c13ba68060a90b3b01f9b5475da50af11dc5908ba19
 ```
 
 The matching main-menu overlay identifies one direct consumer.
-`MainMenu_InitFrontendMenu` (`0x8018001C`) installs `func_80180B4C` in callback slot `D_800E9DB0`. That
+`MainMenu_InitFrontendMenu` (`0x8018001C`) installs
+`MainMenu_DrawFrontendBackground` (`0x80180B4C`) in callback slot
+`D_800E9DB0`. That
 function assigns CLUT value `0x3D00`, now written as `getClut(0, 244)`, to
 native `POLY_FT4` packets that tile the complete `320 x 240` screen before a
 full-screen `POLY_G4` shade. The screen-coordinate uses retain the existing
@@ -477,11 +479,11 @@ calls provide a complete static inventory:
 
 | VRAM row | SU offset | Matching main-menu consumer |
 |---:|---:|---|
-| `240` | `+0x30000` | The eleven `gMain_apMenuEntries` objects created by `MainMenu_InitFrontendMenu`, plus transition copies created by `func_80180E6C` |
+| `240` | `+0x30000` | The eleven `gMain_apMenuEntries` objects created by `MainMenu_InitFrontendMenu`, plus copies created by `MainMenu_SpawnFrontendEntryAfterimage` |
 | `241` | `+0x30200` | The three persistent singleton objects `D_80184558`, `D_8018455C`, and `D_80184560` created by `MainMenu_InitFrontendMenu` |
 | `242` | `+0x30400` | No direct consumer in the matching main-menu overlay |
 | `243` | `+0x30600` | No direct consumer in the matching main-menu overlay |
-| `244` | `+0x30800` | The full-screen tiled background drawn by `func_80180B4C` |
+| `244` | `+0x30800` | The full-screen tiled background drawn by `MainMenu_DrawFrontendBackground` |
 | `245` | `+0x30A00` | The dedicated `D_801845A4` sprite created by `MainMenu_StartValueSetup` |
 
 Rows `242` and `243` may be retained for another data-driven or resident use;
@@ -508,7 +510,7 @@ projection values remain separate.
 - **Confirmed** that object texture IDs select rows `240`, `241`, and `245`
   for the consumer groups listed above, using the same CLUT packing formula as
   Psy-Q `getClut`.
-- **Confirmed** that `func_80180B4C` selects row `244`
+- **Confirmed** that `MainMenu_DrawFrontendBackground` selects row `244`
   (`SU.MRG+0x30800`) for the full-screen menu background layer.
 - **Confirmed** that matching main-menu code has no direct initializer for
   rows `242` or `243`; their wider runtime ownership remains unassigned.

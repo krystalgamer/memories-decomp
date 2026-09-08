@@ -1,13 +1,13 @@
 #include "../../types.h"
 #include "../../game/display_object_api.h"
+#include "frontend.h"
 
 extern u8 D_801AF800[];
-extern void func_80180F50(void *);
 extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
 extern void func_80042918(void *);
 extern void func_800428EC(void *, s32);
 
-void func_80180E6C(u8 *source)
+void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
 {
     u8 *object;
 
@@ -19,7 +19,8 @@ void func_80180E6C(u8 *source)
         *(u16 *)(object + 8) |= 0x48;
         func_80042918(object);
         func_800428EC(object, (s8)(-source[0x60]));
-        *(void **)(object + 0x24) = func_80180F50;
+        *(MainMenuEntryEffectUpdate *)(object + 0x24) =
+            MainMenu_UpdateFrontendEntryAfterimage;
         object[0xC] = source[0xC];
         object[0xD] = source[0xD];
         object[0xE] = source[0xE];

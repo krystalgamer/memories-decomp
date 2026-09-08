@@ -1,8 +1,11 @@
 // Project-owned semantic names; these are not imported reference labels.
 MainMenu_InitFrontendMenu = 0x8018001C; // type:func
 MainMenu_UpdateFrontendMenu = 0x80180390; // type:func
+MainMenu_DrawFrontendBackground = 0x80180B4C; // type:func
 MainMenu_StartFrontendEntryTransition = 0x80180D2C; // type:func
 MainMenu_DestroyFrontendMenu = 0x80180DD0; // type:func
+MainMenu_SpawnFrontendEntryAfterimage = 0x80180E6C; // type:func
+MainMenu_UpdateFrontendEntryAfterimage = 0x80180F50; // type:func
 MainMenu_UpdateValueSetup = 0x801812B4; // type:func
 MainMenu_DrawValueSetup = 0x80181728; // type:func
 MainMenu_InitTradeScreen = 0x80181F68; // type:func
