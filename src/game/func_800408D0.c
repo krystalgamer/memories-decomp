@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_projection.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "display_object_layout.h"
@@ -76,7 +77,6 @@ extern s16 gGraphics_sViewportX __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY __attribute__((section(".data")));
 extern s32 D_8009B424;
 
-s32 func_80041F90(DisplayObject *arg0, s32 arg1, s32 arg2, u8 *arg3);
 void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
 /* Submits one display object as a sprite in vertical strips of up to 64
@@ -126,7 +126,9 @@ void func_800408D0(DisplayObject *e, s32 tex, u16 mode16) {
 
     if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
         D_8009B424 = 0;
-        if (func_80041F90(e, (s16)p->pos.h.x + e->unk18, (s16)p->pos.h.y + e->unk1A, c->out) <= 0) {
+        if (func_80041F90((struct ProjectionObj *)e, (s16)p->pos.h.x + e->unk18,
+                          (s16)p->pos.h.y + e->unk1A,
+                          (struct ProjectionOut *)c->out) <= 0) {
             return;
         }
         g[3] = 9;

@@ -1,9 +1,9 @@
 #include "../types.h"
+#include "display_object_projection.h"
 #include "../psyq/libgte.h"
 #include "gpu_packets.h"
 
 extern void func_8004036C(void *);
-extern void func_80041F90(u8 *, s32, s32, u8 *);
 
 void func_8002A9C0(u8 *p, s32 arg1)
 {
@@ -32,9 +32,10 @@ void func_8002A9C0(u8 *p, s32 arg1)
 
     r = (u8 *)0x1F800398;
     p[0xE] = p[0x60];
-    func_80041F90(p, *(s16 *)(p + 0x30) + *(s16 *)(p + 0x18),
+    func_80041F90((struct ProjectionObj *)p,
+                  *(s16 *)(p + 0x30) + *(s16 *)(p + 0x18),
                   *(s16 *)(p + 0x32) + *(s16 *)(p + 0x1A),
-                  (u8 *)0x1F800398);
+                  (struct ProjectionOut *)0x1F800398);
 
     q = (u8 *)0x1F8002A0;
     b0 = (u8 *)0x1F800300;

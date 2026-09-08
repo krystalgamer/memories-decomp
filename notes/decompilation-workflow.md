@@ -371,6 +371,25 @@ be corroborated before being treated as final.
 - Do not download or commit proprietary PsyQ binaries. Any user-supplied
   candidate remains ignored under `tools/toolchains/`.
 
+### Measuring a candidate whose instruction count differs
+
+Positional differing-line counts answer "which offsets disagree", which stops
+being the useful question as soon as the two sides have different instruction
+counts. One inserted or missing instruction shifts everything after it, so the
+count then measures the shift rather than the difference, and a side-by-side
+window read across the shift is not comparing the instructions it appears to.
+
+`tools/project/align_functions.py <rom_offset> <size> <candidate.o>` aligns the
+two instruction streams instead and reports what is inserted or missing. It
+strips immediates so alignment keys on opcode and registers only, since a
+differing constant should not stop two instructions from pairing. Use it
+whenever the counts differ; return to positional tools once they agree, because
+alignment deliberately ignores the immediates that a positional diff exists to
+catch.
+
+The two instruments answer different questions and neither substitutes for the
+other: alignment finds *structure*, position finds *allocation and constants*.
+
 ## Commit discipline
 
 - Copilot authors and commits its own changes under the `Copilot` name with a

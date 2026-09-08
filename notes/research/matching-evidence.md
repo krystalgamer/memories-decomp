@@ -5220,3 +5220,74 @@ unmet. Here the precondition was **lexical scope**, which is not something the
 earlier statement of that rule anticipated - it had only ever been about other
 transformations clearing the way. Scope belongs on the list of things to vary
 before concluding that a technique does not transfer.
+
+## Qualify a technique against a matched source before transferring it
+
+When a matched source contains a construct nobody can explain, the cheap move
+is not to reason about it and not to transfer it hopefully. It is to **delete it
+from the matching source and rebuild**.
+
+A matched function is a byte-exact baseline, so removing one construct isolates
+that construct's contribution with no confounds: any change in the residual is
+caused by the deletion and nothing else. The answer comes back as a price in
+positions.
+
+`func_80045334`'s note flagged its identical-arm conditional load as *possibly
+decorative*. Deleting it costs **exactly three positions, and they are the same
+three store-order slots** that the entry being transferred to was stuck on.
+That converted "possibly decorative" into "worth exactly three positions, on
+this exact residue" before any effort went into the transfer - and it is what
+justified spending the effort, because the price and the residue shape both
+matched the target.
+
+Three things make this worth doing routinely:
+
+- **It is one rebuild.** Cheaper than any transfer attempt.
+- **It reports the positions, not just a number.** That tells you whether the
+  entry you want to transfer to has the same residue shape. If the construct
+  buys positions of a kind your target does not have, the transfer is already
+  answered.
+- **A null result is just as useful.** If deleting it changes nothing, the
+  construct is genuinely decorative and can be removed from the matched source
+  as well as ignored in the transfer.
+
+The precondition is that something already matches. That is now common in this
+project rather than rare, so any unexplained construct in `src/game/` is an
+experiment waiting to be run. Note that a matched source is *tracked*, so the
+ablation copy belongs under `tmp/` with its include paths adjusted.
+
+## What the "scope" axis actually is, and what it is not
+
+Inner-block scoping has now decided the outcome on several functions, and it is
+tempting to read that as a single dominant lever. The measurements do not
+support one lever; they support one *mechanism* with several unrelated
+consequences.
+
+An inner block is the only way C89 offers to introduce a **new declaration
+part-way through a statement stream**. Everything scope has bought follows from
+that, and what it buys depends entirely on what a new declaration changes:
+
+| function | what the inner block provided | worth |
+| --- | --- | --- |
+| `func_80045C98` | somewhere to name an anonymous `mult` product so it could be pinned | 4 positions |
+| `func_80057AF4` | a separately declared `entry` per `switch` case, so one value could occupy two hard registers | 18 to 6 |
+| `func_80045208` | a scope in which an identical-arm conditional stops being folded | 2 to 0 |
+
+And two measured places where it does nothing:
+
+| function | why not |
+| --- | --- |
+| `func_800283F4` | the competing instruction is a plain constant assignment, and the hoist of a constant to its block top is indifferent to the block it is written in - three shapes, all byte-identical |
+| `func_80023144` | the value is an address constant, so `fold` collapses the conditional whatever scope it sits in - three spellings, all inert |
+
+There is also a direct negative already recorded on `func_80045C98`: **GCC 2.8.1
+reserves a `register asm` variable for the whole function regardless of the
+scope it is declared in**, and closing its scope early does not shorten it. So
+scope is emphatically *not* a lifetime or allocation control.
+
+The useful statement is therefore narrower than "scope is the dominant axis",
+and more actionable: when a lever is inert, ask whether it needs a declaration
+you have not been able to write, because a declaration is the one thing an
+inner block adds. If the lever does not turn on a declaration - a constant's
+hoist, a foldable expression, a pinned variable's lifetime - scope will not
+reach it, and the two negatives above are what that looks like.
