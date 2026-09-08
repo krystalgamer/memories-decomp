@@ -172,13 +172,13 @@
       "address": "0x80184344",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x110",
-      "source": "src/overlays/main_menu/draw_card_type_icon.c"
+      "source": "src/overlays/main_menu/trade_draw_helpers.c"
     },
     {
       "address": "0x80184454",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x84",
-      "source": "src/overlays/main_menu/draw_trade_column_overlay.c"
+      "source": "src/overlays/main_menu/trade_draw_helpers.c"
     },
     {
       "address": "0x801844D8",

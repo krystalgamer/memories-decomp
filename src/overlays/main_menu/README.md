@@ -155,6 +155,12 @@ without adding them to resident function inventory or primary symbols.
 
 ### Offer rendering and working inventory
 
+The contiguous `gcc_2_8_1_g0_split` leaf helpers
+`MainMenu_DrawCardTypeIcon` and `MainMenu_DrawTradeColumnOverlay` share
+[`trade_draw_helpers.c`](trade_draw_helpers.c) in executable order. Both are
+consumed by the installed Trade drawing callback and submit primitives to
+`D_800E9D94`.
+
 `MainMenu_DrawTradeOffersAndHighlights` (`0x80183B2C`) is the installed
 Trade drawing callback. It animates or dims the two inventory-cursor
 highlights and draws the offered card IDs as three digits plus their type
