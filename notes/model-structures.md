@@ -93,10 +93,10 @@ for additional slots.
 
 Two retail callers corroborate the contract independently of the setter:
 
-- `func_8002D180` calls slots 0 and 1 at `0x8002D22C` and `0x8002D254`,
+- `Main_RunAnimatedBattle` calls slots 0 and 1 at `0x8002D22C` and `0x8002D254`,
   supplying three signed halfwords and two bytes from successive eight-byte
   records, with the first halfword decremented. Its call at `0x8002D264`
-  supplies just slot 2 and `D_8009B364`.
+  supplies just slot 2 and `gDuel_bTerrain` (`0x8009B364`).
 - `func_800534B8` calls slots 0 and 1 at `0x80054050` and `0x80054074`,
   restoring the first and last two properties from their mirrors while passing
   `-1` for the second and third. Its call at `0x80054080` supplies just slot 2
@@ -104,6 +104,13 @@ Two retail callers corroborate the contract independently of the setter:
 
 This supports the high-confidence name `Model_SetSlotProperties` without
 assigning speculative meanings to the individual offset-named fields.
+
+The animated-battle calls belong to the ordinary initialization branch,
+not every mode tick: `D_8009B26C & 0x40` gates initialization, and a first
+halfword of `0x309` in `D_800EF658` selects another path instead of the
+three property calls. The setter's writes, terrain input, and the wrapper's
+mode/audio changes rule out a read-only two-combatant contract; see
+[the game description](research/the-game.md#59-the-3-d-battle-and-the-poly-mode).
 
 ## `D_800F56F0`: 32-byte reference-view record
 

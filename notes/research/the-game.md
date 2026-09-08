@@ -944,10 +944,37 @@ Each monster attacks at most once per turn.
 
 ### 5.9 The 3-D battle and the "Poly Mode"
 
-The animation mode loads the two monsters' models, plays the attack, and
-returns to the duel [`0x8002D180`; a separate 3-D player is used for the
-Library viewer and for the finale's Poly Mode duels]. It reads nothing but
-the two combatants and writes nothing.
+The duel's 3-D presentation runs through matching
+[`Main_RunAnimatedBattle`](../../src/game/Main_RunAnimatedBattle.c)
+(`0x8002D180`). This is a stateful mode tick, not a read-only display of
+two combatants. Every call sets the GTE projection center to `(160, 120)`
+and projection-plane distance to `300`, before testing the initialization
+bit `D_8009B26C & 0x40`.
+
+When that bit is clear, the handler sets it, writes `D_8009B0C0 = 1`, and
+calls the view/model setup helpers. The ordinary branch passes two
+successive eight-byte records at `D_800EF658` to
+[`Model_SetSlotProperties`](../../src/game/model_set_slot_properties.c)
+for slots 0 and 1, then passes **the current terrain** (`gDuel_bTerrain`)
+to slot 2. A first record halfword of `0x309` instead selects the separate
+`func_80059C24` initialization path and sets mode bit `0x20`; it does not
+make those three slot-property calls. Both initialization paths then call
+`func_800159D8`. The wrapper alone does not establish the selector's
+higher-level meaning.
+
+Initialization and polling occupy separate branches. On later calls,
+mode bit `0x20` selects `func_80059C88`; otherwise the handler polls
+`func_800534B8`. A nonzero result calls `SD_KeyOffVoiceSlots` and
+`SD_BGMFadeOut`, then replaces the **whole mode byte** `D_8009B26C` with
+`D_8009B269`, rather than hard-coding a return to duel mode. The subsequent
+`func_80059CE4` call runs on this polling branch even when completion has
+just been consumed.
+
+Thus the earlier "reads only the combatants, writes nothing" description
+was incorrect: terrain, mode control, model state, GTE state, and sound
+are involved. The wrapper does not directly write LP or rank counters;
+this is not a proof about every callee's effects or a complete account of
+the Library viewer and finale's Poly Mode presentation paths.
 
 ### 5.10 Winning and losing
 
