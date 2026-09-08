@@ -1,11 +1,11 @@
 #include "../types.h"
+#include "text_encode_decimal_digits.h"
 #include "duel_card.h"
 #include "display_object_projection.h"
 #include "display_object_layout.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
 
-void Text_EncodeDecimalDigits(s32 arg0, s32 arg1, u8 *arg2);
 void func_80042188(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
 /* Draws one card's frame on the duel field: position, the hand/field

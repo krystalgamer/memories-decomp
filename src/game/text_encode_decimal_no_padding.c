@@ -1,7 +1,6 @@
 #include "../types.h"
+#include "text_encode_decimal_digits.h"
 #include "text_constants.h"
-
-extern void Text_EncodeDecimalDigits(s32, s32, u8 *);
 
 void Text_EncodeDecimalNoPadding(s32 value, s32 count_arg, u8 *data_arg) {
     s32 count;

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_encode_decimal_digits.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -8,8 +9,6 @@
 extern u8 D_80090DD8[];
 extern u8 D_801A8000[];
 extern s32 gDuel_adwCardStats[];
-
-extern void Text_EncodeDecimalDigits(s32, s32, u8 *);
 
 /* Draws a deck box's six type-count digits and its seven card stat rows
    as 16x16 and 8x8 sprites into the ordering table. The glyph table
