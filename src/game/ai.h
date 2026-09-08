@@ -57,7 +57,10 @@ typedef struct {
 } AiFieldCardState;
 
 typedef char AiActiveCard_size_must_be_0x0C[
-    sizeof(AiActiveCard) == 0x0C ? 1 : -1
+    sizeof(AiActiveCard) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1
+];
+typedef char AiActiveCard_side_stride_must_be_55_records[
+    AI_ACTIVE_CARD_SIDE_BYTE_STRIDE == 55 * sizeof(AiActiveCard) ? 1 : -1
 ];
 typedef char AiScriptState_size_must_be_0xD4[
     sizeof(AiScriptState) == 0xD4 ? 1 : -1

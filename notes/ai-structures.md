@@ -10,7 +10,7 @@ changing their external declarations.
 
 ## `AiActiveCard`
 
-Size: `0x0C`
+Size: `0x0C` (`AI_ACTIVE_CARD_RECORD_SIZE`)
 
 | Offset | Field | Evidence |
 |---|---|---|
@@ -21,6 +21,15 @@ Size: `0x0C`
 The structure replaces private 12-byte definitions in the merged fusion,
 set-query, card-info, and state-operation units and in existing card-state
 handlers.
+
+`func_80028220` spaces its selected-side and opposite-side snapshot destinations
+by `AI_ACTIVE_CARD_SIDE_BYTE_STRIDE` (`0x294`), or 55 records. This is storage
+spacing, not a fixed exporter count: `func_80027DF8` emits two field rows,
+compacts nonnegative hand-slot entries, appends the remaining deck entries, and writes a
+zero card-ID terminator. Its private `LocalEnt` view and the shared
+`AiActiveCard` view both have record-size assertions. Raw address calculations
+use integer-valued byte constants rather than `sizeof`-derived strides, keeping
+their arithmetic types unchanged; no loop bound or clearing behavior changes.
 
 `AiScript_FindKiller` and `AiScript_FindBestAttack` retain raw halfword flag
 reads at `+0x06` while reusing the shared `DUEL_CARD_FLAG_*` masks. The latter's

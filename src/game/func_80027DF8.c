@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "ai_constants.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_deck_card.h"
@@ -17,6 +18,9 @@ typedef struct LocalEnt {
     s8 bA;
     u8 bB;
 } LocalEnt;
+typedef char LocalEnt_size_must_be_0x0C[
+    sizeof(LocalEnt) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1
+];
 typedef struct LocalE9 {
     u8 pad0[0x18];
     s8 count;

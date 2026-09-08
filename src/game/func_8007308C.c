@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "ai_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 
@@ -47,7 +48,7 @@ void AiScript_FindBestAttack(void) {
     out = AiScript_ReadByte();
     i = 1;
     t = (u8 *)gDuel_aActiveCards;
-    r = t + 0xC;
+    r = t + AI_ACTIVE_CARD_RECORD_SIZE;
     a = (u8 *)gAiScript_State;
     *(s16 *)(a + 0x98) = 0;
     s = a;
@@ -60,7 +61,9 @@ void AiScript_FindBestAttack(void) {
             continue;
         }
 
-        for (j = 0x38, e = t + 0x2A0; j < 0x3D; j++, e += 0xC) {
+        for (j = 0x38,
+             e = t + (AI_ACTIVE_CARD_RECORD_SIZE + AI_ACTIVE_CARD_SIDE_BYTE_STRIDE);
+             j < 0x3D; j++, e += AI_ACTIVE_CARD_RECORD_SIZE) {
             if (*(s16 *)e == 0) {
                 continue;
             }
