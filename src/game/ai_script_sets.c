@@ -13,7 +13,7 @@ void AiScript_ClearCards(void)
 
     entries += AI_SCRIPT_CARD_SET_HALFWORD_OFFSET;
     do {
-        entries[AI_SCRIPT_CARD_SET_COUNT - 1] = 0;
+        entries[AI_SCRIPT_CARD_SET_COUNT - 1] = AI_SCRIPT_CARD_SET_EMPTY;
         i--;
         entries--;
     } while (i >= 0);
@@ -23,7 +23,7 @@ void AiScript_AddType(void)
 {
     s32 *memory = gAiScript_aMemory;
     s32 index = AiScript_ReadByte();
-    s32 type = memory[index] + 1;
+    s32 type = memory[index] + AI_SCRIPT_TYPE_SET_ENCODING_BIAS;
     s32 i;
 
     for (i = 0; i < AI_SCRIPT_TYPE_SET_COUNT; i++) {
@@ -32,7 +32,7 @@ void AiScript_AddType(void)
         if (entry[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] == type) {
             break;
         }
-        if (entry[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] == 0) {
+        if (entry[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] == AI_SCRIPT_TYPE_SET_EMPTY) {
             entry[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] = type;
             break;
         }
@@ -46,7 +46,7 @@ void AiScript_ClearTypes(void)
 
     entries += i;
     do {
-        entries[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] = 0;
+        entries[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] = AI_SCRIPT_TYPE_SET_EMPTY;
         i--;
         entries--;
     } while (i >= 0);

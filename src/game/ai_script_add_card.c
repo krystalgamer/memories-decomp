@@ -15,7 +15,7 @@ void AiScript_AddCard(void) {
         u16 c = *(u16 *)(q + i * AI_SCRIPT_CARD_SET_ENTRY_SIZE +
                         AI_SCRIPT_CARD_SET_BYTE_OFFSET);
         if (c == v) return;
-        if (c == 0) {
+        if (c == AI_SCRIPT_CARD_SET_EMPTY) {
             *(u16 *)(q + i * AI_SCRIPT_CARD_SET_ENTRY_SIZE +
                      AI_SCRIPT_CARD_SET_BYTE_OFFSET) = v;
             return;

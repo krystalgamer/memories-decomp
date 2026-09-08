@@ -51,10 +51,17 @@ two bytes. The latter is a base offset, not the coincidentally equal
 Compile-time assertions tie these constants to the shared structure without
 replacing the raw views or the reverse-order clear loops.
 
-Type-set entries still store the requested type plus one, and membership
-tests still subtract one. This encoding keeps zero available as the empty
-entry marker; the existing narrowing, duplicate handling, and invalid-input
-behavior are unchanged.
+Type-set entries store the requested type plus
+`AI_SCRIPT_TYPE_SET_ENCODING_BIAS` (`1`), and membership tests subtract that
+bias. `AI_SCRIPT_TYPE_SET_EMPTY` (`0`) and `AI_SCRIPT_CARD_SET_EMPTY` (`0`)
+name the separate byte/halfword empty markers; narrowing, duplicate handling,
+and invalid-input behavior are unchanged.
+
+Membership does not explicitly skip empty entries. A queried card ID of zero
+can match an empty card-set entry, and a signed active-card type of `-1` can
+match a zero type-set entry after the bias is subtracted. The names preserve
+these cases rather than adding validity checks or treating either routine as
+a general validated set implementation.
 
 ## `AiDuelistState`
 

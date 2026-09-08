@@ -101,7 +101,8 @@ s32 Ai_IsTypeInSet(s32 arg0)
     i = 0;
     set = gAiScript_State;
     for (; i < AI_SCRIPT_TYPE_SET_COUNT; i++) {
-        if (value == set[i + AI_SCRIPT_TYPE_SET_BYTE_OFFSET] - 1)
+        if (value == set[i + AI_SCRIPT_TYPE_SET_BYTE_OFFSET] -
+                     AI_SCRIPT_TYPE_SET_ENCODING_BIAS)
             return 1;
     }
     return 0;
