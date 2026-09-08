@@ -1,17 +1,12 @@
 #include "../types.h"
-
-extern u8 *D_8009B304;
-extern u32 D_8009B308;
-extern u32 D_8009B30C;
-extern u8 *D_8009B310;
-extern u32 D_8009B314;
+#include "sorted_entry.h"
 
 extern s32 func_80035598(u32 *left, u32 *right);
 
 /* The original qsort call is unprototyped; a prototype changes argument setup. */
 void func_800355C8(void)
 {
-    u8 *base = D_8009B304;
+    u8 *base = (u8 *)D_8009B304;
     u8 *entry = base;
     u32 count = D_8009B314;
     u32 sorted_count;

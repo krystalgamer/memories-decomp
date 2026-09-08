@@ -3,12 +3,8 @@
 #include "duel_card_layout.h"
 #include "duel_display.h"
 #include "duel_grid.h"
+#include "sorted_entry.h"
 
-extern s32 D_8009B304;
-extern s32 D_8009B308;
-extern s32 D_8009B30C;
-extern s32 D_8009B310;
-extern s32 D_8009B314;
 extern u8 D_801A7B64[];
 
 void SetGeomScreen();
@@ -36,7 +32,7 @@ void func_800164FC(void) {
 
         if ((D_8009B30C & 2) != 0) {
             D_8009B314 = D_8009B314 + 1;
-            if ((u32)D_8009B314 >= (u32)D_8009B308) {
+            if (D_8009B314 >= D_8009B308) {
                 D_8009B30C = D_8009B30C & ~3;
             }
             D_8009B310 = D_8009B304;
