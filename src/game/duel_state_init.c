@@ -4,7 +4,6 @@
 #include "duel_hand.h"
 #include "duel_grid.h"
 
-extern u8 *D_8009B1C8;
 extern u8 D_8009B1D5;
 extern u16 D_8009B230;
 extern u16 D_8009B234;
@@ -45,7 +44,7 @@ void func_800175A0(void) {
         e->field_19 = 0;
         e->life_points.signed_value = t;
         e->max_life_points = t;
-        e->field_1A[5] = 0;
+        e->field_1F = 0;
         for (m = 0; m < 13; m++) {
             *q = 0;
             q++;
@@ -54,8 +53,8 @@ void func_800175A0(void) {
 
     if (D_8009B360[0] < 0) {
         if (gDuel_bOpponentID < 0) {
-            D_800E9FF0[1].field_1A[5] = *(u8 *)&D_8009B230;
-            D_800E9FF0[0].field_1A[5] = *(u8 *)&D_8009B230;
+            D_800E9FF0[1].field_1F = *(u8 *)&D_8009B230;
+            D_800E9FF0[0].field_1F = *(u8 *)&D_8009B230;
         } else {
             D_800EA02F[0] = -1;
         }
@@ -64,7 +63,7 @@ void func_800175A0(void) {
             D_800EA02F[0] = -1;
         }
     }
-    D_8009B1C8 = (u8 *)&D_800E9FF0[D_8009B1D5];
+    D_8009B1C8 = &D_800E9FF0[D_8009B1D5];
 }
 
 void Duel_ClearHandSlots(void)

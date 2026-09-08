@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "duel_grid.h"
+#include "card_constants.h"
 
 /* The two 0x20-byte per-side duel records at D_800E9FF0, one per duellist.
  * D_8009B1D5 selects the side, and code that switches turns writes
@@ -49,13 +50,28 @@ typedef struct {
      * DECK_SIZE - field_18 as the remaining count. */
     s8 field_18;
     s8 field_19;
-    s8 field_1A[6];
+    /* duel_draw_resolution.c's own view of this record calls +0x1A
+     * hand[HAND_SIZE] and Duel_HasAllExodiaPieces copies five entries out of
+     * it, so the six bytes are five hand slots and one separate byte. */
+    s8 hand[HAND_SIZE];
+    s8 field_1F;
 } DuelSideState;
+
+#define DUEL_SIDE_STATE_OFFSET(member) ((u32)&(((DuelSideState *)0)->member))
 
 typedef char DuelSideState_size_must_be_0x20[
     sizeof(DuelSideState) == 0x20 ? 1 : -1
 ];
+typedef char DuelSideState_hand_must_be_at_0x1A[
+    DUEL_SIDE_STATE_OFFSET(hand) == 0x1A ? 1 : -1
+];
+typedef char DuelSideState_field_1F_must_be_at_0x1F[
+    DUEL_SIDE_STATE_OFFSET(field_1F) == 0x1F ? 1 : -1
+];
 
 extern DuelSideState D_800E9FF0[DUEL_SIDE_COUNT];
+/* Always &D_800E9FF0[D_8009B1D5]: four translation units assign it exactly
+ * that on a turn change. */
+extern DuelSideState *D_8009B1C8;
 
 #endif

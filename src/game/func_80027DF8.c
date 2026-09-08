@@ -110,7 +110,7 @@ void func_80027DF8(LocalEnt *out, s32 who) {
         do {
             s32 n;
 
-            n = D_800E9FF0[who].field_1A[i];
+            n = D_800E9FF0[who].hand[i];
             if (n >= 0) {
                 s32 *p;
                 s32 id;

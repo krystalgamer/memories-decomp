@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
@@ -7,7 +8,6 @@
 
 extern s32 D_8009B134[2];
 extern u8 *D_8009B17C;
-extern u8 *D_8009B1C8;
 extern s16 D_8009B1D2;
 extern u8 *D_8009B214;
 extern u16 D_8009B220;
@@ -40,7 +40,7 @@ void func_80024E58(void) {
     u8 *a;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        r = D_8009B1C8;
+        r = (u8 *)D_8009B1C8;
         r[0xA] = r[0xA] + 1;
         v = *(u8 *)&D_8009B1D2 - 0x49;
         gDuel_bTerrain[0] = v;

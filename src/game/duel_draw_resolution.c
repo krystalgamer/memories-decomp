@@ -9,11 +9,6 @@
 #include "sound.h"
 
 typedef struct {
-    u8 pad[0x1A];
-    s8 hand[HAND_SIZE];
-} DuelHandState;
-
-typedef struct {
     s16 id;
     u8 type;
     u8 pad3[3];
@@ -24,7 +19,7 @@ typedef struct {
     ExodiaCardRecord cards[1];
 } ExodiaCardDatabase;
 
-extern DuelHandState *D_8009B1C8_hand asm("D_8009B1C8");
+extern DuelSideState *D_8009B1C8_hand asm("D_8009B1C8");
 extern ExodiaCardDatabase D_8015C424_cards asm("D_8015C424");
 
 s32 Duel_HasAllExodiaPieces(void) {
@@ -59,7 +54,6 @@ s32 Duel_HasAllExodiaPieces(void) {
 extern u16 D_8009B23A;
 extern u8 D_8009B1ED;
 extern u8 D_8009B1EC;
-extern u8 *D_8009B1C8;
 extern u8 gDuel_bWinnerSide;
 extern u8 D_8009B1D5;
 extern u8 D_800907CC[];
@@ -98,7 +92,7 @@ void func_80018DB4(void) {
         }
         D_8009B1ED = 8;
         b = D_8009B1EC - 1;
-        c = D_8009B1C8;
+        c = (u8 *)D_8009B1C8;
         D_8009B1EC = b;
         if (*(s8 *)(c + 0x18) >= DECK_SIZE) {
             gDuel_bWinnerSide = D_8009B1D5 ^ 1;
@@ -114,7 +108,7 @@ void func_80018DB4(void) {
         } else {
             k = a;
         }
-        Duel_SetupCardRecord(k, *(s8 *)(D_8009B1C8 + 0x18));
+        Duel_SetupCardRecord(k, *(s8 *)((u8 *)D_8009B1C8 + 0x18));
         p = func_80018004(
             (u8 *)D_801A7AD8 + k * DUEL_CARD_RECORD_SIZE,
             i * 60 + 0x14E,
@@ -127,9 +121,9 @@ void func_80018DB4(void) {
         base = D_8015C424;
         g = base + p[0x6A] * DUEL_CARD_RECORD_SIZE + 0x48000;
         y = *(s8 *)(*(s32 *)(g + 0x36B8) + 2);
-        *(s8 *)(D_8009B1C8 + i + 0x1A) = y;
-        n = *(u8 *)(D_8009B1C8 + 0x18);
-        *(u8 *)(D_8009B1C8 + 0x18) = n + 1;
+        *(s8 *)((u8 *)D_8009B1C8 + i + 0x1A) = y;
+        n = *(u8 *)((u8 *)D_8009B1C8 + 0x18);
+        *(u8 *)((u8 *)D_8009B1C8 + 0x18) = n + 1;
         if (*(s8 *)&D_8009B1EC == 0) {
             D_8009B23A = D_8009B23A | 0x4000;
         }
