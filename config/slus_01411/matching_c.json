@@ -2167,6 +2167,12 @@
       "source": "src/game/build_deck_compare.c"
     },
     {
+      "address": "0x80032C48",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x474",
+      "source": "src/game/card_list_sort.c"
+    },
+    {
       "address": "0x800330BC",
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0x444",
