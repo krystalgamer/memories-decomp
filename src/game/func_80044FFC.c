@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 
 struct S80044FFC {
     u8 tag;
@@ -6,8 +7,12 @@ struct S80044FFC {
     s16 f12;
     u8 pad[0x18 - 0x14];
     s32 f18;
-    u8 pad2[0x30 - 0xC];
+    u8 pad2[SD_COMMAND_RECORD_SIZE - 0xC];
 };
+
+typedef char S80044FFC_size_must_be_0x30[
+    sizeof(struct S80044FFC) == SD_COMMAND_RECORD_SIZE ? 1 : -1
+];
 
 extern s32 func_80045BE8(struct S80044FFC *a0);
 

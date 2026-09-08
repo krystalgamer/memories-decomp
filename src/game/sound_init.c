@@ -8,8 +8,12 @@ typedef struct {
     s16 value;
     s32 pad04;
     s32 data;
-    u8 pad0C[0x24];
+    u8 pad0C[SD_COMMAND_RECORD_SIZE - 0x0C];
 } SDSequenceCommand;
+
+typedef char SDSequenceCommand_size_must_be_0x30[
+    sizeof(SDSequenceCommand) == SD_COMMAND_RECORD_SIZE ? 1 : -1
+];
 
 extern void func_80045BE8(SDSequenceCommand *);
 extern void func_80046294(void);

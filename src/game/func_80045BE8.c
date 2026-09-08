@@ -11,7 +11,7 @@ s32 func_80045BE8(SDCommand *src) {
 
     b1 = g_SDValue;
     n1 = b1->command_count;
-    if (n1 >= 0x10) {
+    if (n1 >= SD_COMMAND_QUEUE_COUNT) {
         goto full;
     }
     {
