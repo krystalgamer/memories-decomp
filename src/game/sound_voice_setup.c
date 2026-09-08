@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
+#include "sound_sequence_constants.h"
 
 extern s32 D_80011434[];
 extern u8 *D_8009B458;

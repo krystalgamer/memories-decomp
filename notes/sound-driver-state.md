@@ -277,10 +277,11 @@ initializes all sixteen. `SD_SEQUENCE_CHANNEL_COUNT` and
 `SD_SEQUENCE_CHANNEL_RECORD_SIZE` describe this `0x180`-byte prefix.
 The separate `SD_SEQUENCE_TRACK_COUNT` and `SD_SEQUENCE_TRACK_RECORD_SIZE`
 describe the sixteen `0x2C`-byte track records starting at `+0x518`.
-Both pairs live in the constant-only `sound_sequence_constants.h`, allowing
-the legacy raw views to share them without changing their state declarations.
-Neither pair describes the twenty `0x28`-byte objects or a 24-voice SPU status
-buffer.
+Both pairs live alongside the separate `SD_SECONDARY_OBJECT_COUNT` and
+`SD_SECONDARY_OBJECT_SIZE` in the constant-only `sound_sequence_constants.h`.
+The legacy raw views can share this geometry without changing their state
+declarations. Channel and track constants must not stand in for the twenty
+`0x28`-byte objects or a 24-voice SPU status buffer.
 
 ### Confirmed secondary-state fields
 
