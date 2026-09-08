@@ -2,10 +2,6 @@
 #include "ai.h"
 #include "ai_script_read_byte.h"
 
-struct OppData {
-    s8 b[9];
-};
-extern struct OppData gDuel_aOpponentData[];
 void AiScript_LoadOpponentData(void)
 {
     s32 index;

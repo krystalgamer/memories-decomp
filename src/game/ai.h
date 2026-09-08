@@ -122,4 +122,19 @@ extern s32 gAiScript_aMemory[AI_SCRIPT_MEMORY_COUNT];
 extern AiScriptHandler gAiScript_apfnCommand[];
 extern AiActiveCard gDuel_aActiveCards[];
 
+/* One record per opponent, indexed by gDuel_bOpponentID. There are 40 of
+ * them, 9 bytes each, filling the 360-byte block at gDuel_aOpponentData.
+ *
+ * Byte 0 is only ever read as the hand size, and AiScript_LoadOpponentData
+ * reads the rest with a field number evaluated from the script. It stays one
+ * array rather than `hand_size` plus a `stats[8]`: with the split, the `+ 1`
+ * folds into the struct offset and both readers build four bytes short, so
+ * the original really does index a single nine-byte record.
+ */
+typedef struct {
+    s8 b[9];
+} DuelOpponentData;
+
+extern DuelOpponentData gDuel_aOpponentData[];
+
 #endif
