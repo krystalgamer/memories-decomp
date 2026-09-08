@@ -1,4 +1,4 @@
-#include "../../../../src/types.h"
+#include "../types.h"
 
 extern void func_80085500(void);
 extern void func_800359B0(void);
@@ -83,8 +83,8 @@ void func_80012E5C(void)
         *slot = ptr;
         slot--;
         *ptr = *(u8 *)(i + src);
+        func_80085DB0(0, 0, ptr);
         off -= 0x14;
         i--;
-        func_80085DB0(0, 0, ptr);
     } while (i >= 0);
 }
