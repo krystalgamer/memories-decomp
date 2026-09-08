@@ -49,6 +49,13 @@
 #define SAVE_DATA_RESERVED_TAIL_PAYLOAD_OFFSET \
     (SAVE_DATA_HEADER_SIZE + SAVE_DATA_RESERVED_TAIL_OFFSET)
 
+/* The head of the 0x680-byte persistent state block: SaveData_RequestWrite
+ * copies SAVE_DATA_STATE_SIZE bytes starting here. Halfwords, as the name
+ * says and as duel_deck_lookup.c, func_8002EE5C.c and
+ * library_mark_owned_cards.c read it -- the files that walk it as bytes are
+ * copying or scanning the block, not indexing the deck. */
+extern u16 gDuel_awPlayerDeck[];
+
 extern u8 gSaveData_aTransferBuffer[];
 extern u8 gSaveData_aHeaderTemplate[];
 

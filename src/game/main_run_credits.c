@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "save_data.h"
 #include "fade.h"
 
 __asm__(

@@ -1,7 +1,6 @@
 #include "../types.h"
+#include "save_data.h"
 #include "card_constants.h"
-
-extern unsigned short gDuel_awPlayerDeck[];
 
 int func_8002EE5C(void)
 {
