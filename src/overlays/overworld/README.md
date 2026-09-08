@@ -64,6 +64,18 @@ direct `jal` nor a stored `0x80168388` pointer. Its input and camera writes are
 therefore a static function contract; computed or external entry remains an
 open question.
 
+## Camera-transition translation unit
+
+`camera_transition.c` keeps `CampaignMap_StartCameraTween` next to
+`CampaignMap_UpdateLocationTransition`, which calls it before advancing the
+shared fixed-point camera channels each frame. Both also use the same 66-byte
+location records.
+
+The definitions remain in executable order from `0x801688BC` through
+`0x80168E0C`. Both use `gcc_2_8_1_g0_split`; one C subsegment at module offset
+`0x8BC` covers the complete contiguous `0x550`-byte text range in both
+verified map variants.
+
 ## Location-object translation unit
 
 `location_objects.c` keeps the four-slot cleanup helper next to the rebuild
