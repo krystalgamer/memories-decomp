@@ -102,9 +102,12 @@ the `field_0444` note records, their raw copies, and the source payload stride.
 The shared `SDNote` and private `SoundPendingEntry` views both guard that
 extent without merging their fields. `SD_PENDING_ENTRY_NONE` (`0xFFFF`) keeps
 the lookup-clear and skipped-ID marker distinct from the link-cache sentinel.
-The source ID list still begins at `+8` and advances two bytes per ID; those
-are not note-record strides. Register pins, pointer/count reloads, and the
-halfword rate adjustment remain unchanged.
+The input ID list begins at `SD_PENDING_INPUT_IDS_BYTE_OFFSET` (`0x08`) and
+advances `SD_PENDING_INPUT_ID_ENTRY_SIZE` (`2`) bytes per halfword ID. Note
+payloads begin at `SD_PENDING_INPUT_PAYLOAD_BYTE_OFFSET` (`0x1A0`); neither
+offset is a note-record stride or an inferred capacity. Both cursors retain
+their original advancement even for skipped IDs. Register pins,
+pointer/count reloads, and the halfword rate adjustment remain unchanged.
 
 `SD_ArmBusyCallback` now expresses the registration path in pure C: it sets
 `busy` and installs `SD_ClearBusyFlag` in the main callback slot. This replaces

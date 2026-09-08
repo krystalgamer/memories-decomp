@@ -10,6 +10,9 @@ typedef struct {
 typedef char SoundPendingEntry_size_must_match_note_record[
     sizeof(SoundPendingEntry) == SD_NOTE_RECORD_SIZE ? 1 : -1
 ];
+typedef char SoundPendingInput_id_size_must_be_halfword[
+    SD_PENDING_INPUT_ID_ENTRY_SIZE == sizeof(u16) ? 1 : -1
+];
 
 typedef struct {
     u8 pad0000[0x43C];
@@ -59,7 +62,7 @@ void func_800476B4(void *arg0, u32 arg1)
         id_cursor = base;
 
         do {
-            u16 id = *(u16 *)(id_cursor + 8);
+            u16 id = *(u16 *)(id_cursor + SD_PENDING_INPUT_IDS_BYTE_OFFSET);
 
             if (id != sentinel) {
                 register SoundPendingState *state asm("$5") =
@@ -76,7 +79,9 @@ void func_800476B4(void *arg0, u32 arg1)
                     register SoundPendingEntry *updated asm("$3");
                     register SoundPendingState *state2 asm("$4") = state;
 
-                    __builtin_memcpy(dst, payload + 0x1A0, SD_NOTE_RECORD_SIZE);
+                    __builtin_memcpy(dst,
+                                     payload + SD_PENDING_INPUT_PAYLOAD_BYTE_OFFSET,
+                                     SD_NOTE_RECORD_SIZE);
                     updated = (SoundPendingEntry *)
                         (state2->field_0440 * SD_NOTE_RECORD_SIZE +
                          (s32)state2->field_0444);
@@ -86,7 +91,7 @@ void func_800476B4(void *arg0, u32 arg1)
             }
 
             payload += SD_NOTE_RECORD_SIZE;
-            id_cursor += 2;
+            id_cursor += SD_PENDING_INPUT_ID_ENTRY_SIZE;
             i++;
         } while (i < *(s32 *)base);
     }
