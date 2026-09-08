@@ -4066,3 +4066,54 @@ unpinned build would have taken a fresh call-clobbered register. On
 `func_80057AF4` the pinned count was clobbered by its own `count << 2`; reusing
 an existing dead temporary for that product both restored retail's form and
 removed a fourth pin.
+
+## Read the `lui` spacing to choose a global's declaration
+
+Under `-msplit-addresses` the same two instructions come out of two different
+mechanisms, and retail tells you which one it used by where it puts the `lui`.
+
+The assembler macro form (`lw $3, sym` expanding to `lui $3, %hi(sym)` /
+`lw $3, %lo(sym)($3)`) is emitted as one unit, so its `lui` is always
+**immediately** before its use and always in the same register. Split
+addressing makes the `%hi` a separate pseudo, so the scheduler can move it,
+allocate it to a different register, and hoist it out of a loop.
+
+So: if the `lui` and its use are adjacent in retail, the symbol wants the macro
+form; if anything sits between them, or they use different registers, it wants
+split addressing. Under `-G8` that maps onto the declaration directly --
+`__attribute__((section(".data")))` on a scalar gives the macro form, an
+incomplete or oversized array gives split addressing, and a small plain scalar
+gives `%gp_rel` instead of either.
+
+Worth checking per symbol, not per function. In `func_800179F4` the same body
+wants the macro form for `gDuel_bTerrain`, `gDuel_bOpponentID` and `D_8009B369`
+and split addressing for `D_800E9FF0`, `D_800EA0E8`, `D_800F284A` and
+`gDuel_awPlayerDeck`, and getting `gDuel_bTerrain` wrong alone was worth five
+words: its `%hi` became a separate pseudo and the scheduler emitted it ahead of
+the callback address instead of after.
+
+## Combine folds `&sym + k` unless the address has more than one use
+
+An access like `(&sym)[-1]` normally compiles to two instructions, not three,
+because combine folds the displacement into the relocation and emits
+`lui %hi(sym-1)` / `lb %lo(sym-1)(reg)`. When retail instead shows
+
+    lui   $v0, %hi(sym)
+    addiu $v0, $v0, %lo(sym)
+    lb    $v0, -0x1($v0)
+
+the address was in a register that combine could not fold into, and the reason
+is combine's single-use requirement: it only substitutes the address-forming
+insn into the load when that insn's result has exactly one use.
+
+Spellings that do **not** defeat the fold, all measured on `func_800179F4`: a
+local pointer assigned in the same block, a cast through `u8 *`, explicit
+pointer decrement, and a `register` pin on the holder -- the fold happens
+before allocation, so pinning the register cannot prevent it. A `volatile`
+pointee does block it, but then the load comes back as `lbu` plus a `sll` for
+the sign test, one instruction long.
+
+What works is giving the holder a live range long enough that it is not a
+single-use pseudo at combine time. Assigning it at the top of the function was
+enough there. This is worth trying whenever a candidate is exactly one
+instruction short at a negative-displacement global access.
