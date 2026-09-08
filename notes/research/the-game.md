@@ -1823,8 +1823,9 @@ This applies only to normal browsing. Flag `0x20` delegates to the shared
 dialog handler and returns before browse input, including when that call
 closes the dialog. Otherwise the routine services the cursor tween and
 scrollbar, then skips browse input if movement flag `0x40` remains set.
-The [tween](../../src/overlays/free_duel/cursor_tween.c) commits the target
-row/column before clearing that flag; confirmation uses the committed cell.
+[FreeDuel_UpdateCursorTween](../../src/overlays/free_duel/update_screen.c)
+commits the target row/column before clearing that flag; confirmation uses
+the committed cell.
 These are code-derived controls, not a new runtime test of the delegated
 dialogs or their button handling.
 

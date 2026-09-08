@@ -53,5 +53,18 @@ confidence in
 The module imports these resident byte addresses through
 [`free_duel_linker_symbols.txt`](../../../config/slus_01411/overlays/free_duel_linker_symbols.txt).
 
+## Screen-update translation unit
+
+`update_screen.c` keeps the cursor tween next to the screen update that calls
+it. They share the committed/target coordinate pairs, cursor widget and
+screen-state flags.
+
+The definitions remain in executable order: `FreeDuel_UpdateCursorTween`
+occupies `0x80168A9C..0x80168C7C`, followed by `FreeDuel_UpdateScreen` through
+`0x80168FB4`. Both use `gcc_2_8_1_g0_split`. Their individual manifest entries
+cover the complete `0x518`-byte text section, with no data or rodata
+contribution. One C subsegment selects the group at module offset `0xA9C`.
+Preserve that order and complete extent when editing the group.
+
 Keep unaccepted candidate sources, objects, and diffs under `tmp/`. Do not add
 this module to the resident `config/slus_01411/matching_c.json`.
