@@ -644,6 +644,11 @@ migrations include `duel_setup_card_record.c`, `func_800289BC.c`,
 `setlen`, replacing duplicate local packet layouts. The main-menu background
 builder `func_80180B4C` uses native `POLY_F4`, `POLY_FT4`, and `POLY_G4`
 records and their constructor macros; `func_80184454` uses `POLY_F4`.
+`MainMenu_DrawThreeDigitNumber` and `MainMenu_DrawCardTypeIcon` use
+`POLY_FT4` and `setPolyFT4` rather than parallel 40-byte sprite layouts.
+Their packet fields, store order, CLUT arithmetic and submission priorities
+remain unchanged, and `trade_helpers.h` supplies the caller/definition
+contracts.
 These replace the local flat/textured/Gouraud record copies without changing
 their submitted fields or packet order. The background's CLUT is expressed
 as `getClut(0, 244)`, matching the independently documented `0x3D00` packing.

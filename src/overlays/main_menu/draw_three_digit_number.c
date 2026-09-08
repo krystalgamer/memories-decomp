@@ -2,41 +2,13 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
-
-typedef struct {
-    u8 pad[3];
-    u8 len;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 code;
-    s16 x0;
-    s16 y0;
-    u8 u0;
-    u8 v0;
-    u16 clut;
-    s16 x1;
-    s16 y1;
-    u8 u1;
-    u8 v1;
-    u16 tpage;
-    s16 x2;
-    s16 y2;
-    u8 u2;
-    u8 v2;
-    u16 pad2;
-    s16 x3;
-    s16 y3;
-    u8 u3;
-    u8 v3;
-    u16 pad3;
-} MainMenuSprite;
+#include "trade_helpers.h"
 
 extern GsOT *D_800E9D90[];
 
-void func_80183E8C(s32 x, s32 y, s32 value)
+void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
 {
-    MainMenuSprite sprite;
+    POLY_FT4 sprite;
     s32 i;
     s32 quotient;
     s32 digit;
@@ -50,13 +22,12 @@ void func_80183E8C(s32 x, s32 y, s32 value)
     i = 0;
     top = y + 4;
     bottom = y + 12;
-    sprite.len = 9;
-    sprite.code = 0x2C;
+    setPolyFT4(&sprite);
     sprite.tpage = 11;
     sprite.clut = 0x3EA9;
-    sprite.r = 255;
-    sprite.g = 255;
-    sprite.b = 255;
+    sprite.r0 = 255;
+    sprite.g0 = 255;
+    sprite.b0 = 255;
     for (; i < 3; i++) {
         base = x + 24 - i * 8;
         left = base - 12;

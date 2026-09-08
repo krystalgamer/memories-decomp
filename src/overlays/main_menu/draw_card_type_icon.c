@@ -3,50 +3,22 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../game/card_constants.h"
-
-typedef struct {
-    u8 pad[3];
-    u8 len;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 code;
-    s16 x0;
-    s16 y0;
-    u8 u0;
-    u8 v0;
-    u16 clut;
-    s16 x1;
-    s16 y1;
-    u8 u1;
-    u8 v1;
-    u16 tpage;
-    s16 x2;
-    s16 y2;
-    u8 u2;
-    u8 v2;
-    u16 pad2;
-    s16 x3;
-    s16 y3;
-    u8 u3;
-    u8 v3;
-    u16 pad3;
-} MainMenuSprite;
+#include "trade_helpers.h"
 
 extern s32 D_801D4244[];
 extern GsOT *D_800E9D94;
 
-void func_80184344(s32 x, s32 y, s32 index)
+void MainMenu_DrawCardTypeIcon(s32 x, s32 y, s32 cardID)
 {
-    MainMenuSprite sprite;
+    POLY_FT4 sprite;
     u32 palette;
-    s32 attribute;
+    s32 cardType;
 
-    attribute = (D_801D4244[index - 1] >> CARD_STAT_TYPE_SHIFT) &
+    cardType = (D_801D4244[cardID - 1] >> CARD_STAT_TYPE_SHIFT) &
                 CARD_STAT_TYPE_MASK;
-    if (attribute != CARD_TYPE_MAGIC && attribute != CARD_TYPE_EQUIP) {
-        if (attribute != CARD_TYPE_TRAP) {
-            if (attribute == CARD_TYPE_RITUAL) {
+    if (cardType != CARD_TYPE_MAGIC && cardType != CARD_TYPE_EQUIP) {
+        if (cardType != CARD_TYPE_TRAP) {
+            if (cardType == CARD_TYPE_RITUAL) {
                 palette = 0x290;
             } else {
                 palette = 0x260;
@@ -57,11 +29,10 @@ void func_80184344(s32 x, s32 y, s32 index)
     } else {
         palette = 0x270;
     }
-    sprite.len = 9;
-    sprite.code = 0x2C;
-    sprite.r = 0x80;
-    sprite.g = 0x80;
-    sprite.b = 0x80;
+    setPolyFT4(&sprite);
+    sprite.r0 = 0x80;
+    sprite.g0 = 0x80;
+    sprite.b0 = 0x80;
     sprite.tpage = 0xB;
     sprite.clut = (palette >> 4) | 0x3F00;
     sprite.x0 = x;

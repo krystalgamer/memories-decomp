@@ -136,7 +136,7 @@
       "address": "0x80183E8C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x158",
-      "source": "src/overlays/main_menu/func_80183E8C.c"
+      "source": "src/overlays/main_menu/draw_three_digit_number.c"
     },
     {
       "address": "0x80183FE4",
@@ -172,7 +172,7 @@
       "address": "0x80184344",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x110",
-      "source": "src/overlays/main_menu/func_80184344.c"
+      "source": "src/overlays/main_menu/draw_card_type_icon.c"
     },
     {
       "address": "0x80184454",

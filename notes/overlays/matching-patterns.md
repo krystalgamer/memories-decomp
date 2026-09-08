@@ -24,6 +24,11 @@ Likewise, the historical `func_8016A02C` examples refer to the current
 `Password_RecreateCardPreview`; its struct-based accesses and ignored caller
 argument are retained by the shared shop interface.
 
+The main-menu renderer experiments retain `func_80183E8C` and
+`func_80184344` as historical identifiers for `MainMenu_DrawThreeDigitNumber`
+and `MainMenu_DrawCardTypeIcon`. The accepted sources now use native
+`POLY_FT4`; the measured edge-store and branch-order constraints remain.
+
 To compare a candidate against the target cheaply enough to try several
 shapes, use `tools/project/overlay_diff.py`, documented in
 [`README.md`](README.md). Instruction count alone is a weak signal — several

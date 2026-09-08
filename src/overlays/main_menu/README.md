@@ -299,9 +299,24 @@ SDK entry remains assembly and is distinct from the game-owned packet helper
 `func_8005B260`. `main_menu_linker_symbols.txt` supplies its resident import;
 it is not an additional overlay function.
 
-## The card type icon
+## Card-number and type rendering
 
-`func_80184344` draws the small 16 by 16 marker for a card. It reads the
+`MainMenu_DrawThreeDigitNumber` (`0x80183E8C`) draws exactly three
+`8 x 8` digit quads. For nonnegative input it shows the lowest three decimal
+digits, including leading zeros; current Trade callers pass card IDs. The
+least significant digit is submitted first, on the right, then the other
+two proceed leftward in eight-pixel steps. The full horizontal span is
+`x-4..x+20`, at `y+4..y+12`. It does not clamp values, draw a minus sign,
+or validate arbitrary negative input. Signed division/remainder and byte
+UV narrowing retain the original behavior.
+
+Both renderers use native Psy-Q `POLY_FT4` records and `setPolyFT4`, whose
+nine-word payload excludes the tag and whose GPU code is `0x2C`.
+`trade_helpers.h` is shared by their definitions and the offer renderer;
+there are no independent local declarations to drift.
+
+`MainMenu_DrawCardTypeIcon` (`0x80184344`) draws the small 16 by 16 marker
+for a card. It reads the
 card's packed stat word from `D_801D4244` at `id - 1`, takes the type from
 bits 26-30, and builds a 40-byte textured quad — length 9, GPU code `0x2C`,
 grey `0x80`, texture page `0xB`, `u` `0`-`0x10` and `v` `0xC8`-`0xD8` — which
@@ -320,4 +335,6 @@ The type ids are the ones documented in
 [`../../../notes/research/the-game.md`](../../../notes/research/the-game.md):
 twenty monster types followed by Magic, Trap, Ritual and Equip. Magic and
 Equip sharing a colour is consistent with the game, where equips are drawn as
-green magic cards.
+green magic cards. The implementation also falls back to column `0x260` for
+other numeric type values; it does not validate card IDs or invent a separate
+graphic for each monster subtype. Only the palette changes, not the texture.
