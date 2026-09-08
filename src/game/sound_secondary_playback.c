@@ -10,7 +10,6 @@ typedef struct {
     u8 pad_0C[52];
 } VoiceAttributePacket;
 
-extern s32 D_80011434[];
 extern int func_8004A0FC();
 extern int func_8004A27C();
 extern void func_8004A518(void);

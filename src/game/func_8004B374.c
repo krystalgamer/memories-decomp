@@ -1,9 +1,7 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sound_sequence_constants.h"
-
-extern s32 D_80011434[];
-extern u8 *D_8009B458;
+#include "sound.h"
 
 /* MATCH 2026-09-05, pure C at default -O2 -G8 with the assembler at -G0
  * (PER_FUNC_AS_FLAGS): D_8009B458 bare through its own register, D_80011434
@@ -36,7 +34,7 @@ void func_8004B374(s32 arg0, s32 arg1) {
     s32 a1;
 
     a1 = arg1;
-    base = D_8009B458;
+    base = (u8 *)D_8009B458;
     i = 0;
     mask = 0;
     if (*(s16 *)(base + 0x510) > 0) {
@@ -52,7 +50,7 @@ void func_8004B374(s32 arg0, s32 arg1) {
             tbl++;
             do {
                 off += 0x28;
-                base = D_8009B458;
+                base = (u8 *)D_8009B458;
                 i++;
                 if (i < *(s16 *)(base + 0x510)) goto top;
             } while (0);
@@ -66,7 +64,7 @@ void func_8004B374(s32 arg0, s32 arg1) {
     }
 
     {
-        u8 *q = D_8009B458 + ((u8)arg0) * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
+        u8 *q = (u8 *)D_8009B458 + ((u8)arg0) * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
         q[4] = 0;
     }
 }

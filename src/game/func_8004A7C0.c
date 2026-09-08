@@ -2,8 +2,6 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 
-extern int D_80011434[];
-
 void func_8004A7C0(int index)
 {
     int table_offset = index << 2;

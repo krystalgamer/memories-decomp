@@ -1,8 +1,6 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
-
-extern s32 D_80011434[];
-extern u8 *D_8009B458;
+#include "sound.h"
 
 /* Scales one secondary object's stereo level by the two channel masters at
  * +0x514/+0x516 and submits it as a volume-only SpuSetVoiceAttr request
@@ -24,7 +22,7 @@ void func_8004A27C(s32 voice, s32 left, s32 right) {
     s32 r;
     s32 v;
 
-    b = D_8009B458;
+    b = (u8 *)D_8009B458;
     l = left * *(u16 *)(b + 0x514);
     master_right = *(u16 *)(b + 0x516);
     r = right * master_right;

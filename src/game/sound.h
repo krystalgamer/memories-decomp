@@ -494,6 +494,24 @@ extern SDValue *g_SDValue;
 extern SDSecondaryState *D_8009B458;
 #endif
 
+/* One SPU voice bit per entry.  The object at D_80011434 is twenty words
+ * holding 1 << n for n = 0 .. 19, read out of the retail image.  The uses
+ * agree that these are voice masks: func_8004A27C submits D_80011434[voice]
+ * as the `voice` field of the SpuVoiceAttr it hands to SpuSetVoiceAttr, and
+ * func_8004A7C0 passes an entry straight to SpuSetKey and SpuGetKeyStatus,
+ * both of which take a voice mask.
+ *
+ * D_80011434_IS_CONST is a codegen input, measured rather than assumed:
+ * with sound_voice_envelope.c on the plain declaration that unit compiles to
+ * 204 bytes of text instead of 200 and the executable stops linking, because
+ * .initialized_data then overlaps .text.  Nothing else needs the qualifier.
+ */
+#ifdef D_80011434_IS_CONST
+extern const s32 D_80011434[20];
+#else
+extern s32 D_80011434[20];
+#endif
+
 void Sound_InitFrontend(void);
 s32 SD_EnqueueCommand(SDCommand *);
 void SD_UpdateFades(void);
