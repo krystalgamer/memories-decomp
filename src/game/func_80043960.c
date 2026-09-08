@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "../psyq/libcd.h"
 #include "file_transfer.h"
 #include "graphics_constants.h"
 
@@ -19,7 +20,6 @@ extern u8 *func_800400AC(void *, int);
 extern void func_800428A8(void *, int, int, int, int, int, int, int, int);
 extern void func_8004365C(void *, void *);
 extern void func_800438B8(int);
-extern void CdFlush(void);
 extern void func_801680F4(void);
 extern int func_80168160(int);
 extern void func_8007AFA4(void);

@@ -1026,11 +1026,11 @@ calling the lower-level hook with both arguments zero. This
 reset-without-reinitialization contract matches `CdFlush`, whose purpose is to
 discard the current command state while leaving the CD library available for
 later operations. The wrapper itself adds no arguments or result
-transformation. Matching-C caller `func_80043960` declares the wrapper as
-`void CdFlush(void)` and invokes it immediately before transferring
-control to an overlay and polling that module. The overlay continues using
-the drive afterward, independently confirming a flush rather than full
-CD-library teardown.
+transformation. Matching-C caller `func_80043960` uses the tracked `libcd.h`
+declaration and invokes `CdFlush` immediately before transferring control to
+an overlay and polling that module. The overlay continues using the drive
+afterward, independently confirming a flush rather than full CD-library
+teardown.
 
 `CdGetSector` (`0x8007E3D0`) and `CdGetSector2` (`0x8007E4F0`) preserve the
 same destination-pointer and word-count arguments, call distinct low-level
