@@ -2,10 +2,10 @@
 
 extern u8 *gFreeDuel_pCursorWidget;
 extern u8 gFreeDuel_bScreenFlags;
-extern s8 D_8009B366;
-extern s8 D_8009B367;
-extern s8 D_8009B36C;
-extern s8 D_8009B36D;
+extern s8 gFreeDuel_bCursorColumn;
+extern s8 gFreeDuel_bCursorRow;
+extern s8 gFreeDuel_bTargetColumn;
+extern s8 gFreeDuel_bTargetRow;
 
 extern void FreeDuel_PlaceCursor(void *, s32);
 extern u8 **FreeDuel_GetSparkleSlot(void);
@@ -28,19 +28,19 @@ void FreeDuel_UpdateCursorTween(void)
     s16 left;
 
     if ((gFreeDuel_bScreenFlags & 0x40) == 0) {
-        if (D_8009B366 == D_8009B36C && D_8009B367 == D_8009B36D) {
+        if (gFreeDuel_bCursorColumn == gFreeDuel_bTargetColumn && gFreeDuel_bCursorRow == gFreeDuel_bTargetRow) {
             return;
         }
         gFreeDuel_bScreenFlags |= 0x40;
         *(u16 *)(widget + 0x60) = 8;
         func_800429D8(widget);
 
-        d = D_8009B36C;
+        d = gFreeDuel_bTargetColumn;
         tx = d * 56 + 20;
         d = *(s16 *)(widget + 0x30);
         d = tx - d;
         sx = (d << 8) / 8;
-        d = D_8009B36D;
+        d = gFreeDuel_bTargetRow;
         ty = d * 52 + 40;
         *(s16 *)(widget + 0x36) = sx;
         d = *(s16 *)(widget + 0x32);
@@ -52,8 +52,8 @@ void FreeDuel_UpdateCursorTween(void)
     left = *(u16 *)(widget + 0x60) - 1;
     *(u16 *)(widget + 0x60) = left;
     if (left == 0) {
-        D_8009B366 = D_8009B36C;
-        D_8009B367 = D_8009B36D;
+        gFreeDuel_bCursorColumn = gFreeDuel_bTargetColumn;
+        gFreeDuel_bCursorRow = gFreeDuel_bTargetRow;
         FreeDuel_PlaceCursor(widget, 1);
         gFreeDuel_bScreenFlags &= ~0x40;
         SD_SEPlayFull(47);

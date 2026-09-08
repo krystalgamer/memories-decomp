@@ -10,11 +10,11 @@ extern volatile u16 D_8009B3A4;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 extern u8 gFreeDuel_bReturnFlags;
-extern s8 D_8009B366;
-extern s8 D_8009B367;
+extern s8 gFreeDuel_bCursorColumn;
+extern s8 gFreeDuel_bCursorRow;
 extern u8 D_8009B368;
-extern s8 D_8009B36C;
-extern s8 D_8009B36D;
+extern s8 gFreeDuel_bTargetColumn;
+extern s8 gFreeDuel_bTargetRow;
 extern u16 D_801D0200[];
 extern void func_80024DC8(s32, s32, s32, s32);
 extern void func_80033C90(void);
@@ -52,23 +52,23 @@ void FreeDuel_UpdateScreen(void)
 
     if ((D_8009B3A4 & 0xF000) != 0) {
         if ((D_8009B3A4 & 0x2000) != 0) {
-            if (++D_8009B36C >= 5) {
-                D_8009B36C = 4;
+            if (++gFreeDuel_bTargetColumn >= 5) {
+                gFreeDuel_bTargetColumn = 4;
             }
         }
         if ((D_8009B3A4 & 0x8000) != 0) {
-            if (--D_8009B36C < 0) {
-                D_8009B36C = 0;
+            if (--gFreeDuel_bTargetColumn < 0) {
+                gFreeDuel_bTargetColumn = 0;
             }
         }
         if ((D_8009B3A4 & 0x4000) != 0) {
-            if (++D_8009B36D >= 8) {
-                D_8009B36D = 7;
+            if (++gFreeDuel_bTargetRow >= 8) {
+                gFreeDuel_bTargetRow = 7;
             }
         }
         if ((D_8009B3A4 & 0x1000) != 0) {
-            if (--D_8009B36D <= 0) {
-                D_8009B36D = 0;
+            if (--gFreeDuel_bTargetRow <= 0) {
+                gFreeDuel_bTargetRow = 0;
             }
         }
     } else {
@@ -80,10 +80,10 @@ void FreeDuel_UpdateScreen(void)
         if ((D_8009B398 & 0xC0) == 0) {
             return;
         }
-        if (gFreeDuel_abGridAvailable[D_8009B367 * 5 + D_8009B366] == 0) {
+        if (gFreeDuel_abGridAvailable[gFreeDuel_bCursorRow * 5 + gFreeDuel_bCursorColumn] == 0) {
             return;
         }
-        if ((D_8009B366 | D_8009B367) == 0) {
+        if ((gFreeDuel_bCursorColumn | gFreeDuel_bCursorRow) == 0) {
             func_80033C90();
             D_8009B269 = 6;
             gFreeDuel_bReturnFlags = 0x40;
@@ -102,7 +102,7 @@ void FreeDuel_UpdateScreen(void)
         }
         SD_SEPlayFull(0x30);
         gFreeDuel_bReturnFlags = 0x80;
-        func_80024DC8(-1, D_8009B367 * 5 + D_8009B366, 0x6000, 0x6000);
+        func_80024DC8(-1, gFreeDuel_bCursorRow * 5 + gFreeDuel_bCursorColumn, 0x6000, 0x6000);
         D_8009B368 = 6;
         D_8009B26C = 3;
     }

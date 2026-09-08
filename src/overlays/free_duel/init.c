@@ -18,10 +18,10 @@ typedef struct {
 } Obj;
 
 extern u8 gFreeDuel_bReturnFlags;
-extern s8 D_8009B366;
-extern s8 D_8009B367;
-extern s8 D_8009B36C;
-extern s8 D_8009B36D;
+extern s8 gFreeDuel_bCursorColumn;
+extern s8 gFreeDuel_bCursorRow;
+extern s8 gFreeDuel_bTargetColumn;
+extern s8 gFreeDuel_bTargetRow;
 extern u8 D_8009B362;
 extern u8 gFreeDuel_aDuelistRecords[];
 extern s16 gGraphics_sViewportX;
@@ -62,7 +62,7 @@ void FreeDuel_Init(u8 *src)
 
     if (gFreeDuel_bReturnFlags & 0x80) {
         rec = (u16 *)(gFreeDuel_aDuelistRecords +
-                      (D_8009B367 * 5 + D_8009B366) * 4);
+                      (gFreeDuel_bCursorRow * 5 + gFreeDuel_bCursorColumn) * 4);
         if (D_8009B362 == 1) {
             rec++;
         }
@@ -75,10 +75,10 @@ void FreeDuel_Init(u8 *src)
     gGraphics_sViewportX = 0;
     gFreeDuel_bScreenFlags = 0;
     if (gFreeDuel_bReturnFlags == 0) {
-        D_8009B36D = 0;
-        D_8009B36C = 0;
-        D_8009B367 = 0;
-        D_8009B366 = 0;
+        gFreeDuel_bTargetRow = 0;
+        gFreeDuel_bTargetColumn = 0;
+        gFreeDuel_bCursorRow = 0;
+        gFreeDuel_bCursorColumn = 0;
         func_80035C38(1, 13, 48, 108, 224, 16, 4136);
         func_80039794();
         gFreeDuel_bScreenFlags |= 0x20;

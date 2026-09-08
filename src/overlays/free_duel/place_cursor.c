@@ -2,9 +2,9 @@
 
 typedef struct { u8 pad0[48]; s16 x; s16 y; } Widget;
 
-extern s8 D_8009B366;
-extern s8 D_8009B367;
-extern s8 D_8009B36C;
+extern s8 gFreeDuel_bCursorColumn;
+extern s8 gFreeDuel_bCursorRow;
+extern s8 gFreeDuel_bTargetColumn;
 extern s16 D_8009B32E;
 extern u8 gFreeDuel_abGridAvailable[];
 extern u8 D_800EB0F8[];
@@ -25,15 +25,15 @@ void FreeDuel_PlaceCursor(Widget *w, s32 arm)
     s16 *base;
     s16 *slot;
 
-    col = D_8009B366;
+    col = gFreeDuel_bCursorColumn;
     panel = D_800EB0F8;
     w->x = col * 56 + 20;
-    w->y = D_8009B367 * 52 + 40;
+    w->y = gFreeDuel_bCursorRow * 52 + 40;
     TextBox_Destroy(panel);
     if (arm == 0) {
         return;
     }
-    index = D_8009B36C + D_8009B367 * 5;
+    index = gFreeDuel_bTargetColumn + gFreeDuel_bCursorRow * 5;
     if (gFreeDuel_abGridAvailable[index] == 0) {
         return;
     }
