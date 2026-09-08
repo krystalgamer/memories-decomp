@@ -31,6 +31,18 @@ module byte-for-byte. Keep candidate sources, objects, and diffs under `tmp/`
 until a function passes this overlay-specific exact-match process. Do not add
 this module to the resident `config/slus_01411/matching_c.json`.
 
+## Display-refresh translation unit
+
+`refresh_displays.c` keeps the eight-digit password renderer next to the
+starchip-balance renderer. Both rebuild fixed text slots through
+`func_8003B6AC`, `func_80035BE4`, and `func_80039A14`.
+
+The definitions remain in executable order: `Password_RefreshDigitDisplay`
+occupies `0x80169C30..0x80169D10`, followed by
+`Password_RefreshStarchipDisplay` through `0x80169D84`. Both use
+`gcc_2_8_1_g0_split`, and one C subsegment at module offset `0x1C30` covers
+the complete contiguous `0x154`-byte text range.
+
 ## Password-shop lifecycle
 
 `Main_RunPasswordMenu` waits for the package through its resident loader,
