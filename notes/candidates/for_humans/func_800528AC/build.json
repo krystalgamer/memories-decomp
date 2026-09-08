@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "function": {
+    "address": "0x800528AC",
+    "size": "0x480",
+    "candidate_name": "func_800528AC",
+    "inventory_name": "func_800528AC",
+    "target_name": "func_800528AC"
+  },
+  "candidate_note": "notes/candidates/func_800528AC.md",
+  "profile": "gcc_2_8_1_g8_split",
+  "compiler": "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc",
+  "compiler_flags": [
+    "-O2",
+    "-G8",
+    "-mel",
+    "-mips1",
+    "-mcpu=R3000",
+    "-msoft-float",
+    "-fno-builtin",
+    "-mgas",
+    "-msplit-addresses",
+    "-Dpsx",
+    "-D__psx__",
+    "-D__psx"
+  ],
+  "assembly_filter": null,
+  "aspsx_version": "2.81",
+  "maspsx_flags": [
+    "--expand-div",
+    "-G8"
+  ],
+  "assembler": "tools/toolchains/binutils-2.42/bin/mipsel-none-elf-as",
+  "assembler_flags": [
+    "-EL",
+    "-mips1",
+    "-G8"
+  ],
+  "candidate_sha256": "6c8d8bb5874c3c5fcb1e456d29ff9532cd52d014f977914c6ef078c91b17e05d",
+  "target_instruction_count": 288,
+  "target_bytes_sha256": "db9e4fe41ca52d07bec4c3bf9f62794a9d79a2f9e8ff45cbc6fa6b390472e387"
+}

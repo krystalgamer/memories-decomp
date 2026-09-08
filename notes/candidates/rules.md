@@ -44,3 +44,12 @@ function's address. `README.md` is a generated index of them and is not
 tracked, so it is not visible when browsing this repository on the web: from
 there the entries appear only as their filenames, which are addresses. Run
 `make candidate-index` in a clone to produce the browsable table.
+
+## Human-facing bundles
+
+Every stored resident candidate has a generated directory under
+[`for_humans/`](for_humans/README.md). It carries the exact self-contained C
+block, the target spimdisasm assembly, and the complete named compiler-profile
+options. Run `make candidate-bundles` after changing a candidate and commit the
+corresponding bundle changes. `make check-metadata` rejects missing, extra, or
+stale bundles.
