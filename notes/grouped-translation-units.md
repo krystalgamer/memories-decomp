@@ -147,7 +147,7 @@ source grouping.
 | `src/game/sound_frontend.c` | `gcc_2_8_1_g8` | Nine game-facing sound initialization and command helpers from `Sound_InitFrontend` (`0x8003FE80`) through `SD_StopAll` (`0x8003FFFC`), including `SD_SEPlayFull` |
 | `src/game/sound_init.c` | `gcc_2_8_1_g0` | Thirteen music/sequence and secondary sound-state initialization helpers from `0x80049200` through `0x800495EC`, including `SD_Init` |
 | `src/game/sound_voice_selection.c` | `gcc_2_8_1_g0` | Nine voice update, lifetime, selection, normalization, release, and slot-removal helpers from `0x80047864` through `0x80047CC4` |
-| `src/game/sound_voice_status.c` | `gcc_2_8_1_g0` | `SD_KeyOffVoiceSlots` (`0x80047EC4`) and the adjacent voice-group mask selection helper (`0x80047F38`) |
+| `src/game/sound_voice_status.c` | `gcc_2_8_1_g0` | Three contiguous voice key-off/status helpers: ID or bank-slot release (`0x80047DB0`), bulk dedicated-slot shutdown (`SD_KeyOffVoiceSlots`, `0x80047EC4`), and voice-group mask selection (`0x80047F38`) |
 | `src/game/sound_sequence_state.c` | `gcc_2_8_1_g0` | Two sequence-state setters (`0x800490F0`, `0x80049108`) and the active-state test at `0x80049120` |
 | `src/game/sound_sequence_reader.c` | `gcc_2_8_1_g0` | Byte comparison primitive (`0x8004BAA0`), bounded `SD_ReadSequenceByte` (`0x8004BAE4`), and the contiguous MIDI-style variable-length decoder (`0x8004BB34`) |
 | `src/game/sound_sequence_values.c` | `gcc_2_8_1_g0` | Fixed-width `SD_ReadSequenceU32BE` (`0x8004BC2C`) and `SD_ReadSequenceU16BE` (`0x8004BCA8`) readers built from the sequence-byte helper |
