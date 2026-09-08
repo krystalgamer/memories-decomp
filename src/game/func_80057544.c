@@ -1,22 +1,7 @@
 #include "../types.h"
+#include "ygo_types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-    s32 field08;
-    s32 field0C;
-    u8 pad10[0xC];
-    s32 field1C;
-    u8 pad20[0x10];
-    s16 field30;
-    s16 field32;
-    u8 pad34[0x12];
-    u8 field46;
-} Object;
 
 extern volatile u32 D_8009B0F4 __attribute__((section(".data")));
 extern s32 D_8009B118 __attribute__((section(".data")));
