@@ -2,6 +2,7 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 #include "sound_event_runtime.h"
+#include "sound_transfer_lifecycle.h"
 
 extern void func_80049434(void);
 extern void func_8004A6D8(void);
@@ -27,7 +28,7 @@ void SD_Term(void)
     SpuQuit();
 }
 
-int func_800496C4(u8 *input, short expected, int value)
+s32 func_800496C4(u8 *input, s16 expected, s32 value)
 {
     volatile int pad[2];
     register int zero asm("$8") = 0;
@@ -52,7 +53,7 @@ int func_800496C4(u8 *input, short expected, int value)
     return 0;
 }
 
-int func_8004975C(int value, short expected)
+s32 func_8004975C(s32 value, s16 expected)
 {
     register int saved;
     SDSecondaryState *state = D_8009B458;

@@ -2,12 +2,12 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 #include "sound_event_runtime.h"
+#include "sound_transfer_lifecycle.h"
 
 extern void func_80046294(void);
 extern void func_800471D0(s32, s32, s32, s32, s32, s32);
 extern void func_80049010(void);
 extern void func_80049138(s16, s32);
-extern s32 func_800496C4(void *, s32, s32);
 extern void func_8004A6D8(void);
 extern void func_8004B854(void);
 extern void func_80074E60(void);
