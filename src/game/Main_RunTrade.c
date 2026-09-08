@@ -8,11 +8,6 @@
 #include "display_object_helpers.h"
 
 typedef struct {
-    u8 pad00[0x59];
-    u8 field59;
-} Box;
-
-typedef struct {
     u8 pad00[4];
     u32 field04;
     u16 field08;
@@ -49,7 +44,7 @@ extern s32 DuelEffect_UpdateState(void);
 
 void Main_RunTrade(void)
 {
-    Box *box;
+    DuelEffectChannel *box;
     Obj *obj;
     s32 y;
 
@@ -60,7 +55,7 @@ void Main_RunTrade(void)
         MainMenu_InitTradeScreen();
         D_8009B26E = 1;
         box = TextBox_CreateFlagged(0, 0xB, 0x18, 0x20, 0x110, 0xA0, 0x20);
-        box->field59 = 0x10;
+        box->field_59 = 0x10;
         func_80039A14(box);
         obj = func_800400AC(func_8004002C(), 2);
         func_800404CC(obj, 0, 0, 0, 4, 0xB, 0xC, 0x208);
@@ -72,7 +67,7 @@ void Main_RunTrade(void)
         func_80015A00();
     }
 
-    box = (Box *)D_800EB0F8;
+    box = D_800EB0F8;
     obj = gTradeObj;
     switch (D_8009B26E) {
     case 1:

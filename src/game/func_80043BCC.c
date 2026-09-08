@@ -41,7 +41,7 @@ s32 func_80043BCC(void) {
                 if (f & 0x40) {
                     if (gInput_wPad1Pressed &
                         (PAD_BUTTON_START | PAD_BUTTON_CONFIRM_MASK)) {
-                        TextBox_Destroy((u8 *)D_800EB0F8);
+                        TextBox_Destroy(D_800EB0F8);
                         D_8009B428 = 1;
                     }
                     continue;

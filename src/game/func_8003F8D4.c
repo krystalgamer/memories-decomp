@@ -25,10 +25,10 @@ s32 SaveData_HasSameDuelistCode(u8 *arg0, u8 *arg1);
  * store that precedes the sprite call (-6 -> -1); ONE name for the sprite
  * pointer in cases 0 and 0xA, which is what puts it in $s0 (its live range
  * crosses the wait loop's calls in 0xA); the record passed to TextBox_Destroy
- * as its ADDRESS, index-first through the (s32) cast sum (m2c had read it as
- * a load); case 3's `v = 0` before the D_8009B3F9 store reaching a SHARED
- * `return v` through a goto, so the zero stays a variable; and the +0x34 flag
- * read through a block-local base `q = D_800EB0F8` so the 0x34 is a load
+ * as its ADDRESS, index-first (`&D_800EB0F8[i]`; m2c had read it as a load);
+ * case 3's `v = 0` before the D_8009B3F9 store reaching a SHARED
+ * `return v` through a goto, so the zero stays a variable; and the flags read
+ * through a block-local base `q = D_800EB0F8` so the 0x34 is a load
  * displacement rather than folded into %lo.
  */
 
@@ -37,10 +37,10 @@ s32 func_8003F2B0(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 func_8003F70C(void);
 
 s32 func_8003F8D4(void) {
-    u8 *o;
+    DuelEffectChannel *o;
     s32 v;
     s32 m;
-    u8 *q;
+    DuelEffectChannel *q;
     s32 a;
     s32 b;
 
@@ -53,7 +53,7 @@ s32 func_8003F8D4(void) {
             a = D_8009B3EE;
             *(s16 *)(D_8009B3D8 + 0x60) = -0x400;
             o = TextBox_Create(a, 0xC2, 0x20, 0x50, 0x100, 0x30);
-            o[0x59] = 0x10;
+            o->field_59 = 0x10;
             func_80039A14(o);
         }
         if (func_8003F2B0(D_8009B3D8, 0x20, 0x50, D_8009B3EE) == 0) {
@@ -73,7 +73,7 @@ s32 func_8003F8D4(void) {
         return 0;
     case 2:
         if (func_8003F2B0(D_8009B3D8, 0x20, 0x100, D_8009B3EE) == 0) {
-            TextBox_Destroy((u8 *)(D_8009B3EE * 100 + (s32)D_800EB0F8));
+            TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
             func_8004036C((s32)D_8009B3D8);
             D_8009B3D8 = (u8 *)0;
             if ((D_8009B3EA & 0x80) == 0) {
@@ -123,10 +123,10 @@ s32 func_8003F8D4(void) {
             b = D_8009B3C0;
             *(s16 *)(D_8009B3D8 + 0x60) = -0x400;
             o = TextBox_CreateFlagged(a, b, 0x20, 0x50, 0x100, 0x30, 0x1008);
-            o[0x59] = 0x10;
+            o->field_59 = 0x10;
             do {
                 func_80039794();
-            } while ((*(u16 *)(o + 0x34) & 0x2000) == 0);
+            } while ((o->flags_34 & TEXT_BOX_FLAG_DONE) == 0);
         }
         if (D_8009B3EA & 0x40) {
             if (func_8003F2B0(D_8009B3D8, 0x20, 0x50, D_8009B3EE) == 0) {
@@ -135,8 +135,8 @@ s32 func_8003F8D4(void) {
             return 0;
         }
         func_80039794();
-        q = (u8 *)D_800EB0F8;
-        if ((*(u16 *)(q + D_8009B3EE * 100 + 0x34) & 8) == 0) {
+        q = D_800EB0F8;
+        if ((q[D_8009B3EE].flags_34 & 8) == 0) {
             D_8009B3EA = 0xB;
         }
         return 0;
@@ -146,7 +146,7 @@ s32 func_8003F8D4(void) {
             *(s16 *)(D_8009B3D8 + 0x60) = 0x400;
         }
         if (func_8003F2B0(D_8009B3D8, 0x20, 0x100, D_8009B3EE) == 0) {
-            TextBox_Destroy((u8 *)(D_8009B3EE * 100 + (s32)D_800EB0F8));
+            TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
             func_8004036C((s32)D_8009B3D8);
             D_8009B3D8 = (u8 *)0;
             return 2;

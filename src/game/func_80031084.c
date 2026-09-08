@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 #include "../psyq/rand.h"
+#include "duel_effect.h"
 #include "input.h"
 #include "text_box_lifecycle.h"
 
@@ -14,7 +15,7 @@ extern volatile u16 gInput_wPad1Repeat __attribute__((section(".data")));
 extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 
 void func_80031084(void) {
-    u8 *b;
+    DuelEffectChannel *boxes;
     s32 i;
     s8 d;
     s32 one;
@@ -97,10 +98,13 @@ void func_80031084(void) {
         func_8003B6AC(one, one);
         D_8009B2F0 = D_8009B2F0 ^ one;
         TextBox_Create(1, D_8009B2F0 + 0xF, 0x10, 0x10, 0x120, 0xA0);
-        b = (u8 *)D_800EB0F8;
-        b[0xBE] = 0x10;
-        b[0xBF] = 0x10;
-        func_80039A14(b + 0x64);
+        /* The array base has to stay in a local: writing `&D_800EB0F8[1]`
+         * directly folds the record offset into the address computation and
+         * drops the `addiu` retail keeps for the call argument. */
+        boxes = D_800EB0F8;
+        boxes[1].field_5A = 0x10;
+        boxes[1].field_5B = 0x10;
+        func_80039A14(&boxes[1]);
         return;
     }
     if ((gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) != 0) {

@@ -3,10 +3,15 @@
 #include "sound.h"
 #include "display_object_api.h"
 
+/* The retail body walks two pointers over the same four records: the record
+ * base it hands to the per-record calls, and a second cursor parked on the
+ * record's 0x30 pair, so the choice object and its flags are reached at
+ * displacements 0 and 4. Folding the cursor into the base costs a register and
+ * four instructions, so the view stays. */
 typedef struct {
     void *obj;
     u16 flags;
-} Ent;
+} ChoiceView;
 
 typedef struct {
     u16 lo;
@@ -27,7 +32,7 @@ extern void DuelEffect_ProcessEntries(void *);
 void func_80039794(void)
 {
     DuelEffectChannel *p;
-    Ent *q;
+    ChoiceView *q;
     s32 reset_value;
     TblEnt *table;
     s32 n;
@@ -41,7 +46,7 @@ void func_80039794(void)
     n = 4;
     reset_value = -1;
     table = D_801D9000;
-    q = (Ent *)((u8 *)p + 0x30);
+    q = (ChoiceView *)&p->field_30;
     do {
         if (q->flags & 0x8000) {
             D_8009B35A = 0;
@@ -92,7 +97,7 @@ reset:
             func_8003B50C(arg);
             DuelEffect_ProcessEntries(p);
         }
-        q = (Ent *)((u8 *)q + 0x64);
+        q = (ChoiceView *)((u8 *)q + sizeof(DuelEffectChannel));
         n--;
         p++;
     } while (n != 0);
