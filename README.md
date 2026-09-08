@@ -71,7 +71,7 @@ after an unchanged matching build, then use the incremental edit loop:
 
 ```sh
 tools/environments/python/bin/python tools/project/build_incremental.py --seed-existing
-MAKEFLAGS=-j2 make match-incremental
+MAKEFLAGS=-j"$(nproc)" make match-incremental
 ```
 
 Warm incremental builds reuse content-validated split output and unchanged
@@ -103,8 +103,9 @@ surfacing later as a build mismatch. Files already present and correct are left
 alone, so the target is safe to re-run.
 
 The `nproc` examples allow Make to schedule independent prerequisites on all
-logical CPUs. Compilation inside the Python build drivers remains sequential;
-`MAKEFLAGS` does not parallelize those object loops. Set a smaller `-j` value
+logical CPUs. The incremental Python driver also uses a numeric `MAKEFLAGS`
+job count to build invalidated components concurrently. Clean baseline object
+construction and linking remain sequential. Set a smaller `-j` value
 explicitly on memory-constrained systems.
 
 ## Decompilation workflow

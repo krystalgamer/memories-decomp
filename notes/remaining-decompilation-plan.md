@@ -64,7 +64,9 @@ evidence must resolve.
 - Treat GenericMadScientist's IDA decompilation (`gms.c`), Unchiga's decomp,
   and Unchiga's recomp as evidence, not ground truth. Do not copy their guessed
   types.
-- Run matching work sequentially; `make` may use two jobs.
+- Run one matching build at a time; use `MAKEFLAGS=-j"$(nproc)"` so Make and
+  incremental component builds follow host capacity. Set a lower count on
+  memory-constrained systems.
 - Keep all work inside this repository and all generated candidates/logs under
   `tmp/`.
 - Keep commits atomic and push accumulated commits only when about 15 minutes
