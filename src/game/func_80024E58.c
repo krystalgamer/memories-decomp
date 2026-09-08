@@ -10,7 +10,7 @@ extern u8 *D_8009B1C8;
 extern s16 D_8009B1D2;
 extern u8 *D_8009B214;
 extern u16 D_8009B220;
-extern u8 D_8009B364[8];
+extern u8 gDuel_bTerrain[8];
 extern u8 D_801A7AD8[];
 
 s32 Duel_GetTerrainBoost(s32 arg0);
@@ -21,10 +21,10 @@ u8 *func_8002C604(s32 arg0);
  * `n = v & 0xFF` that gcc sank into the jal's delay slot where retail keeps
  * the andi before the call and puts `n - 1` in the slot. The mask is not a
  * mask: it is the READ-BACK of the byte global just stored, and the
- * decrement belongs to the same expression -- `n = D_8009B364[0] - 1;`
+ * decrement belongs to the same expression -- `n = gDuel_bTerrain[0] - 1;`
  * before the call. Written as the read-back and the decrement in two
  * statements it is 4, as `v & 0xFF` with the decrement before the call 3.
- * Flags: default compiler, as -G4 (D_8009B364 sized out of small data, the
+ * Flags: default compiler, as -G4 (gDuel_bTerrain sized out of small data, the
  * D_8009B0F4 / D_8009B134 sized arms).
  */
 
@@ -44,8 +44,8 @@ void func_80024E58(void) {
         r = D_8009B1C8;
         r[0xA] = r[0xA] + 1;
         v = *(u8 *)&D_8009B1D2 - 0x49;
-        D_8009B364[0] = v;
-        n = D_8009B364[0] - 1;
+        gDuel_bTerrain[0] = v;
+        n = gDuel_bTerrain[0] - 1;
         e = func_8002C604(0xA);
         D_8009B17C = e;
         *(s16 *)(e + 0x1A) = n;
@@ -60,7 +60,7 @@ void func_80024E58(void) {
             D_8009B220 = f | 0x40;
             File_RequestAsyncTransfer(
                 0, (u8 *)0,
-                D_8009B364[0] * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT +
+                gDuel_bTerrain[0] * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT +
                     DUEL_TERRAIN_EFFECT_DATA_FIRST_SECTOR,
                 DUEL_TERRAIN_EFFECT_DATA_SECTOR_COUNT,
                 (u8 *)0, 0, 0x1000280);
@@ -72,7 +72,7 @@ void func_80024E58(void) {
         if (((D_8009B0F4[0] & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134[0]) == 0) {
             a = D_8009B214;
-            b = D_8009B364[0];
+            b = gDuel_bTerrain[0];
             *(s16 *)(D_8009B17C + 0x1A) = -2;
             func_80040410(a, b);
             D_8009B220 = D_8009B220 | 0x20;

@@ -28,10 +28,8 @@ gDuel_wSelectedCardID = 0x8009B338;
 gDuel_bQuitDialogState = 0x8009B164;
 gDuel_bWinnerSide = 0x8009B165;
 gDuel_bOpponentID = 0x8009B361;
-gDuel_bTerrain = 0x8009B364;
+gDuel_bTerrain = 0x8009B364; // rom:0x8BB64
 gFreeDuel_bReturnFlags = 0x8009B365;
-// Codegen alias: Duel_GetTerrainBoost materializes this address twice.
-D_8009B364 = 0x8009B364; // rom:0x8BB64
 gDuel_wPlayerLifePointDisplay = 0x800EA002;
 gDuel_wPlayerLifePoint = 0x800EA004;
 gDuel_wOpponentLifePointDisplay = 0x800EA022;

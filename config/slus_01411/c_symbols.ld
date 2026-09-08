@@ -246,6 +246,8 @@ D_8009B357 = 0x8009B357;
 D_8009B360 = 0x8009B360;
 D_8009B362 = 0x8009B362;
 D_8009B363 = 0x8009B363;
+/* Distinct compiler identity for the same terrain byte in Duel_GetTerrainBoost. */
+gDuel_bTerrainCodegenAlias = 0x8009B364;
 D_8009B368 = 0x8009B368;
 D_8009B369 = 0x8009B369;
 D_8009B36A = 0x8009B36A;

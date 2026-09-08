@@ -11,7 +11,7 @@ global,0x8009B2C4,gDebug_nLastSoundID,confirmed,ram_map.txt,"Debug menu's last p
 global,0x8009B2C8,gDebug_nSceneOrSoundID,confirmed,ram_map.txt,"Debug menu value used as a scene or sound ID."
 global,0x8009B338,gDuel_wSelectedCardID,confirmed,"ram_map.txt; gms.c selectedCardId","Currently selected card ID."
 global,0x8009B361,gDuel_bOpponentID,confirmed,"ram_map.txt; gms.c opponentId","Current opponent/duelist ID."
-global,0x8009B364,gDuel_bTerrain,confirmed,"ram_map.txt; gms.c terrain","Current duel terrain type."
+global,0x8009B364,gDuel_bTerrain,confirmed,"ram_map.txt; gms.c terrain; terrain-boost indexing and terrain-package selection","Current duel terrain type. gDuel_bTerrainCodegenAlias in c_symbols.ld is the same byte under a distinct compiler identity needed by Duel_GetTerrainBoost, not a second game variable."
 global,0x8009B3B8,gSaveDataSequence,confirmed,"SaveData_BuildPayload stores current + 1 at SAVE_DATA_SEQUENCE_OFFSET; SaveData_ApplyRuntimeState restores the field; SaveData_MatchesDuelistAndCurrentSequence compares it","Runtime sequence number used to order and validate save records."
 global,0x80010384,gMemCard_szSaveFileName,confirmed,"resident BASLUS-01411-YUGIOH string; shared by load, write, two-save, and directory request paths","Memory-card filename used for the North American save."
 global,0x801D3200,gSaveData_aTransferBuffer,confirmed,"SaveData_RequestLoad destination; SaveData_PollLoad source; SaveData_RequestWrite staging and transfer source","Shared buffer for asynchronous save-data reads and writes."
