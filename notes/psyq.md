@@ -47,8 +47,10 @@ The executable contains these library anchors:
 
 They establish member provenance and minimum dates, not a complete SDK release
 number. The project independently identifies the toolchain as Psy-Q 4.6.
-External Psy-Q 4.7 signature catalogues are useful research evidence, but must
-not be imported in bulk or used to override a conflicting local signature.
+Use Psy-Q 4.6 signature catalogues. The sole permitted 4.7 cross-reference is
+for the patched LIBDS version reported as 4.6.1; other libraries must not be
+identified from 4.7 patterns. Never import catalogues as authoritative labels
+or override conflicting local evidence.
 
 ## Confirmed interface anchors
 
@@ -248,6 +250,7 @@ Every row below is now an applied project symbol.
 | `0x80082A80` | `OpenTIM` | Applied Psy-Q 4.6 identity at offset zero of the unique 400-byte `LIBGPU.LIB/T00.OBJ` signature. |
 | `0x80082A90` | `ReadTIM` | Applied Psy-Q 4.6 identity at offset `0x10` of the same unique `LIBGPU.LIB/T00.OBJ` signature. |
 | `0x80084240` | `GsSortBoxFill` | Applied Psy-Q 4.6 identity; the matching fade renderer submits strip or full-screen box fills to its ordering table. |
+| `0x80084320` | `GsSortPoly` | Applied from the unique complete 464-byte Psy-Q 4.6 `LIBGS.LIB/2D_PRIM.OBJ` signature. Main-menu background, decimal-digit, card-type-icon and starchip-bar callers use the canonical `libgs.h` declaration and `GsOT *` view. |
 | `0x800849F0` | `GsSortFastSprite` | Applied Psy-Q 4.6 identity; matching UI paths submit sprite records to an ordering table at the requested priority. |
 | `0x80084DD0` | `GsInitGraph` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,360-byte `LIBGS.LIB/GS_001.OBJ` signature. |
 | `0x80084F60` | `GsInitGraph2` | Applied Psy-Q 4.6 identity at offset `0x190` of the same `LIBGS.LIB/GS_001.OBJ` object. |
@@ -274,7 +277,7 @@ Every row below is now an applied project symbol.
 | `0x800862D0` | `GsGetLs` | Applied from the unique 720-byte `LIBGS.LIB/GS_134.OBJ` signature; walks a coordinate hierarchy through `GsMulCoord2` and `GsMulCoord3` to build the local-screen matrix. |
 | `0x800865A0` | `GsMulCoord2` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX8.OBJ` signature; combines two coordinate frames with `MulMatrix2` and `ApplyMatrixLV`, then adds the translation components. |
 | `0x80086620` | `GsMulCoord3` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX9.OBJ` signature; the `GsMulCoord2` body using `MulMatrix` and `ApplyMatrixLV`. |
-| `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion, including main-menu entry easing in `func_80180390`. |
+| `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion, including main-menu entry easing in `MainMenu_UpdateFrontendMenu`. |
 | `0x80086770` | `rcos` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point cosine output alongside `rsin`. |
 | `0x80086810` | `SetFogNearFar` | Applied Psy-Q 4.6 identity; matching campaign-map callers configure near and far depth-cue distances from the current camera projection. |
 | `0x80086DC8` | `InitGeom` | Applied Psy-Q 4.6 identity at offset `0x8` of `LIBGTE.LIB/MSC00.OBJ`; resident startup paths invoke it before further GTE setup. |
@@ -416,6 +419,26 @@ Every row below is now an applied project symbol.
 Matching campaign-map setup and per-frame view sources now include
 `libgte.h` for `SetFarColor`, `SetFogNearFar`, `SetGeomOffset`, and
 `SetGeomScreen`; no overlay-local declarations of those interfaces remain.
+
+`GsSortPoly` is backed by the complete `2D_PRIM.OBJ` pattern in the
+[pinned Psy-Q 4.6 LIBGS catalogue](https://github.com/lab313ru/psx_psyq_signatures/blob/e9e46e7e133ef275a79bfce650924f98edb086bc/460/LIBGS.LIB.json).
+It matches exactly once across all loaded executable bytes, at `0x80084320`.
+The 464-byte pattern includes alignment bytes; the inventory function extent
+remains `0x1C4`, and ownership remains SDK assembly. Its real declaration is
+`void GsSortPoly(void *pp, GsOT *ot, unsigned short pri)`. The four matching
+main-menu callers no longer carry divergent local prototypes, and all their
+priority arguments are constants representable by that unsigned halfword.
+This identifies an existing SDK entry, not a new game-owned packet helper.
+The main-menu linker-symbol file imports the resident address; the actual
+definition remains in the resident SDK assembly.
+
+The same catalogue's 32-byte `GS_106.OBJ` projection-wrapper pattern is
+**not unique**: it matches nine locations, including unrelated `CdFlush`
+and `MemCardEnd` wrappers. `func_800857C0` is the one that forwards its
+argument to `SetGeomScreen`, consistent with the camera callers and the
+external `GsSetProjection` label, but the generic pattern alone does not
+justify that name. It remains address-named pending separate review of the
+callee-based identification; no other wrapper is relabeled from this pattern.
 
 The root-counter identities are supported by the resident implementations, not
 only by their order in an external symbol list. `SetRCnt`, `GetRCnt`, and

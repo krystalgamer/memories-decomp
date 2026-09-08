@@ -1,4 +1,7 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 
 typedef struct {
     u8 pad[3];
@@ -29,8 +32,7 @@ typedef struct {
     u16 pad3;
 } MainMenuSprite;
 
-extern void *D_800E9D90[];
-extern void func_80084320(void *, void *, s32);
+extern GsOT *D_800E9D90[];
 
 void func_80183E8C(s32 x, s32 y, s32 value)
 {
@@ -78,7 +80,7 @@ void func_80183E8C(s32 x, s32 y, s32 value)
         sprite.u1 = u - 120;
         sprite.u2 = u - 128;
         sprite.u3 = u - 120;
-        func_80084320(&sprite, D_800E9D90[1], 32);
+        GsSortPoly(&sprite, D_800E9D90[1], 32);
         value = quotient;
     }
 }

@@ -2,4 +2,5 @@ Input_ResetPads = 0x8003CB7C;
 SaveData_RequestLoad = 0x8003F7D4;
 SaveData_PollLoad = 0x8003F810;
 SD_SEPlay = 0x80048658;
+GsSortPoly = 0x80084320;
 rsin = 0x800866A0;

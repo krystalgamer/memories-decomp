@@ -1,4 +1,7 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 #include "../../game/card_constants.h"
 
 typedef struct {
@@ -31,8 +34,7 @@ typedef struct {
 } MainMenuSprite;
 
 extern s32 D_801D4244[];
-extern void *D_800E9D94;
-extern void func_80084320(void *, void *, s32);
+extern GsOT *D_800E9D94;
 
 void func_80184344(s32 x, s32 y, s32 index)
 {
@@ -78,5 +80,5 @@ void func_80184344(s32 x, s32 y, s32 index)
     sprite.v2 = 0xD8;
     sprite.u3 = 0x10;
     sprite.v3 = 0xD8;
-    func_80084320(&sprite, D_800E9D94, 0x20);
+    GsSortPoly(&sprite, D_800E9D94, 0x20);
 }
