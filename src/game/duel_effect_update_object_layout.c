@@ -1,11 +1,12 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "duel_effect_update_object_layout.h"
 
 extern u16 D_80090E58[];
 extern u8 D_8009B34C;
 extern s8 gDialog_bChoice;
 
-void DuelEffect_UpdateObjectLayout(u8 *p) {
+void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     u8 *q;
     s32 n;
     s32 m;
@@ -23,22 +24,22 @@ void DuelEffect_UpdateObjectLayout(u8 *p) {
     s32 x;
     s32 y;
 
-    q = *(u8 **)(p + 0x30);
-    n = *(u16 *)(p + 0x3C);
+    q = (u8 *)p->field_30;
+    n = *(u16 *)&p->field_3C;
     *(s16 *)(q + 0x48) = n;
     *(s16 *)(q + 0x38) = n;
     *(s16 *)(q + 0x28) = n;
-    m = *(u16 *)(p + 0x3C) + *(u16 *)(p + 0x3E);
+    m = *(u16 *)&p->field_3C + *(u16 *)&p->field_3E;
     *(s16 *)(q + 0x50) = m;
     *(s16 *)(q + 0x40) = m;
     *(s16 *)(q + 0x30) = m;
 
-    k = D_800EB288[D_80090E58[p[0x57]]].field_18 % 10;
+    k = D_800EB288[D_80090E58[p->index_57]].field_18 % 10;
 
     if (k == 1) {
         t = D_8009B34C & 0x30;
         a = t / 16 * 0x10;
-        v = *(u16 *)(p + 0x40) + a + gDialog_bChoice * 0x10;
+        v = *(u16 *)&p->field_40 + a + gDialog_bChoice * 0x10;
         *(s16 *)(q + 0x2A) = v;
 
         do {
@@ -57,13 +58,13 @@ void DuelEffect_UpdateObjectLayout(u8 *p) {
     if (k == 2) {
         t2 = D_8009B34C & 0x30;
         b = t2 / 16 * 0xC;
-        v2 = *(u16 *)(p + 0x40) + b + gDialog_bChoice * 0xC;
+        v2 = *(u16 *)&p->field_40 + b + gDialog_bChoice * 0xC;
         x = v2 - 2;
         y = v2 + 6;
     } else if (k == 0) {
         t0 = D_8009B34C & 0x30;
         c = t0 / 16 * 0xC;
-        v0 = *(u16 *)(p + 0x40) + c + gDialog_bChoice * 0xC;
+        v0 = *(u16 *)&p->field_40 + c + gDialog_bChoice * 0xC;
         x = v0 + 2;
         y = v0 + 0xA;
     } else {
