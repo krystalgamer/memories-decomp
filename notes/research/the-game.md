@@ -919,13 +919,31 @@ makes Magician of Black Chaos (722).
 
 An attack-position monster attacks one target on the opponent's field, or —
 **if the opponent has no monsters at all — attacks directly**, and the
-attacker's full ATK is taken from the opponent's LP. Before comparing stats
-the game applies, in this order, the terrain bonus (already in the displayed
-stats), any equip (already in the stats), and the **guardian-star bonus**:
-if the attacker's star is strong against the defender's, the attacker gets
-**+500 ATK and DEF for this battle**; if the defender's star is strong
-against the attacker's, the defender gets it [`0x8002CB80`; the label under
-the card reads yellow for advantage, red for disadvantage]. Then:
+attacker's full ATK is taken from the opponent's LP.
+
+Matching [`Duel_CalcCardStats`](../../src/game/duel_calc_card_stats.c)
+first adds the record's stat and terrain modifiers to its stored ATK and
+DEF, clamping each combined value to `0..9999`. The guardian-star relation
+then supplies a **signed relative adjustment**: `+500` for the left card's
+advantage, `-500` for its disadvantage, or zero. The selected star comes
+from each card's guardian-choice flag, not both stars at once. The label
+under the card reads yellow for advantage and red for disadvantage.
+
+The actual comparison is asymmetric. Matching
+[`func_8001EFD4`](../../src/game/func_8001EFD4.c) selects ATK or DEF from
+each card according to its position, adds the guardian adjustment only to
+the **left comparison value**, caps that result at `9999`, and subtracts
+the right card's unadjusted pre-matchup value. There is no second lower
+clamp after the guardian adjustment. Thus the familiar "+500 to the
+advantaged side" description is a relative-margin shorthand, not a rule
+to independently boost and clamp both sides.
+
+For example, two pre-matchup values of `9999` with the left card at a
+guardian disadvantage produce margin `-500`, not a tie from separately
+capping a boosted right value. These are internal comparison values, not
+writes of negative stats to card records. See the
+[exact calculation and return conventions](../duel-card-record.md#stat-computation-and-comparison).
+For the ordinary battle outcomes, use those compared values:
 
 * **against an attack-position monster** — the higher ATK wins; the loser is
   destroyed and the *difference* is taken from its owner's LP; equal ATK
