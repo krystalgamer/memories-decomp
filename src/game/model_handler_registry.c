@@ -3,18 +3,6 @@
 #include "../psyq/libgpu.h"
 #include "model.h"
 
-typedef float f32;
-typedef double f64;
-typedef char M2C_UNK;
-typedef struct { s32 words[9]; } Mtx32;
-typedef u8 State;
-typedef u8 Record;
-typedef u8 Pair;
-typedef u8 Controller;
-typedef u8 Entry;
-typedef u8 Rec;
-typedef u8 Block;
-typedef struct { u32 words[2]; } Blk8;
 typedef u8 *(*ModelHandler)(u8 **);
 
 extern s32 func_80089E20[];
