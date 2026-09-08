@@ -5590,19 +5590,19 @@
       "address": "0x8005A98C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x214",
-      "source": "src/game/func_8005A98C.c"
+      "source": "src/game/color_transform.c"
     },
     {
       "address": "0x8005ABA0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x2C8",
-      "source": "src/game/func_8005ABA0.c"
+      "source": "src/game/color_transform.c"
     },
     {
       "address": "0x8005AE68",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1EC",
-      "source": "src/game/func_8005AE68.c"
+      "source": "src/game/color_transform.c"
     },
     {
       "address": "0x8005B054",

@@ -3,7 +3,10 @@
 ## Scope
 
 Five matching helpers at `0x8005A98C-0x8005B260` form one fixed-point colour
-conversion and tint family:
+conversion and tint family. The first three build as one translation unit,
+`src/game/color_transform.c`; `func_8005B054` and `func_8005B0B4` stay
+separate because `func_8005B054` sits between them on a different compiler
+profile.
 
 | Function | Input | Output | Established role |
 |---|---|---|---|

@@ -165,6 +165,7 @@ source grouping.
 | `src/game/sound_voice_setup.c` | `gcc_2_8_1_cc_g8_as_g0_split` | Per-record voice-parameter refresh (`0x8004A43C`) and the contiguous driver voice/key initialization routine (`0x8004A518`) |
 | `src/game/sound_secondary_object_selection.c` | `gcc_2_8_1_g0` | Secondary-object best-candidate selection (`0x8004A854`) and referenced-record counter update (`0x8004A8E4`) |
 | `src/game/sound_secondary_commands.c` | `gcc_2_8_1_g0` | Three secondary-record command setters from `0x8004B49C` through `0x8004B70C`, followed by contiguous `SD_SequenceTimerCallback` (`0x8004B734`) |
+| `src/game/color_transform.c` | `gcc_2_8_1_g8` | The fixed-point colour conversion pair and the packed-pixel tint that calls both: RGB to HSL (`0x8005A98C`), HSL to RGB (`0x8005ABA0`), and BGR555 hue/saturation transform (`0x8005AE68`) |
 
 The sound-code request group shares only the identical request layout and
 external declarations, not either algorithm's body. Its common

@@ -40,11 +40,16 @@ typedef struct {
 /* func_8005A98C and func_8005ABA0 are deliberately absent.
  *
  * Both return their `out` argument, but no caller uses the result and
- * func_8005B0B4 declares them as returning void. That is not cosmetic: giving
- * that file the real return types leaves the call sites semantically identical
- * yet shifts eight words of register allocation in its tail, because the
- * discarded return value keeps v0 live across the calls. The declarations
- * therefore stay with each caller until that divergence is understood.
+ * func_8005B054 and func_8005B0B4 declare them as returning void. That is not
+ * cosmetic: giving func_8005B0B4 the real return types leaves the call sites
+ * semantically identical yet shifts eight words of register allocation in its
+ * tail, because the discarded return value keeps v0 live across the calls. The
+ * declarations therefore stay with those two callers until that divergence is
+ * understood.
+ *
+ * func_8005AE68 no longer needs one: it builds in color_transform.c behind
+ * both definitions, and the real signatures - including u8 rather than the s8
+ * channels it used to declare - reproduce its bytes exactly.
  */
 
 /* Tint a packed BGR555 pixel, preserving its STP bit. Returns 0 unchanged. */
