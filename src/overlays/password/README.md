@@ -61,6 +61,11 @@ does not load a background. The halfwords `320,256,512,240` feed texture
 configuration, not proven background dimensions, and the separate selectors
 `2,3` are not established pixel widths.
 
+The contiguous `gcc_2_8_1_g0_split` cursor update, decoration, and target
+helpers share [`digit_cursor.c`](digit_cursor.c) in executable order. They
+jointly use the selected digit index and the published cursor widget, matching
+their initialization and update call sites.
+
 The cursor's provisional `(256,120)` is replaced during initialization by
 its target `(163,99)` for index zero. `Password_UpdateDigitCursor`
 (`0x80169E20`) increments byte `+0x22` on every callback, including idle
