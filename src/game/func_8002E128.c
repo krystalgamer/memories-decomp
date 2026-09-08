@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "display_object_layout.h"
 
 extern u8 D_80090BA8[];
 extern u8 D_80090C00[];
@@ -53,7 +54,7 @@ void func_8002E128(u8 *p, s32 arg1) {
         func_80040510(o, 0, 0, 0x200, 0x100, 0, 0, 0x10, 0, 0xF0);
         n = ((n >> 4) & 0xF) * 10 + (n & 0xF);
         *(s32 *)(o + 4) |= 0x1000000;
-        *(u16 *)(o + 8) &= 0xFFF7;
+        *(u16 *)(o + 8) &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         p[0x10] = 1;
         *(s32 *)p = (s32)o;
         t = &D_80090C00[n * 6];
@@ -69,7 +70,8 @@ void func_8002E128(u8 *p, s32 arg1) {
             *(s16 *)(*(s32 *)(p + 0x28) + 0x32) = t[4];
             *(s16 *)(p + 0x2C) = t[5];
             if (t[0] & 0x80) {
-                *(u16 *)(*(s32 *)(p + 0x28) + 8) |= 8;
+                *(u16 *)(*(s32 *)(p + 0x28) + 8) |=
+                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             }
         }
     } else {
