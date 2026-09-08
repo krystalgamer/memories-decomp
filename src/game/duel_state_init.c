@@ -49,7 +49,7 @@ void func_800175A0(void) {
         q = (u8 *)e;
         e->field_18 = 0;
         t = sp[k];
-        e->field_12 = 0;
+        e->displayed_life_points = 0;
         e->field_19 = 0;
         e->life_points.signed_value = t;
         e->max_life_points = t;

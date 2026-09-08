@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_update_life_point_display.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_display.h"
@@ -36,7 +37,6 @@ struct DigitPacket {
 };
 
 extern u8 D_8009B1D5;
-void Duel_UpdateLifePointDisplay(struct WidgetEntry *);
 void func_80016D2C(void *, void *, s32, s32);
 
 #define SCRATCH ((struct DigitPacket *) 0x1F800320)
@@ -64,7 +64,7 @@ void Duel_DrawLifePointsAndDeckCounts(struct Widget *arg0) {
 
     scratch->unk4 = pos->unk30 - 3;
     scratch->unk6 = pos->unk32 - 0xD;
-    func_80016D2C(pos, scratch, D_800E9FF0[1].field_12, 4);
+    func_80016D2C(pos, scratch, D_800E9FF0[1].displayed_life_points, 4);
 
     scratch->unk4 = pos->unk30 + 0xE;
     scratch->unk6 = pos->unk32 - 5;
@@ -77,7 +77,7 @@ void Duel_DrawLifePointsAndDeckCounts(struct Widget *arg0) {
 
     scratch->unk4 = pos->unk30 - 3;
     scratch->unk6 = pos->unk32 + 0xD;
-    func_80016D2C(pos, scratch, D_800E9FF0[0].field_12, 4);
+    func_80016D2C(pos, scratch, D_800E9FF0[0].displayed_life_points, 4);
 
     scratch->unk4 = pos->unk30 + 0xE;
     scratch->unk6 = pos->unk32 + 5;

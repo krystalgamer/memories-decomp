@@ -1,8 +1,15 @@
 #include "../types.h"
+#include "duel_side_state.h"
+#include "duel_update_life_point_display.h"
 
-void Duel_UpdateLifePointDisplay(u8 *object)
+/* Steps the drawn life-point counter one frame towards the real total. The
+ * step grows with the distance left, which is what makes the readout race
+ * for a large swing and crawl for a small one.
+ */
+void Duel_UpdateLifePointDisplay(DuelSideState *side)
 {
-    s32 difference = *(s16 *)(object + 18) - *(s16 *)(object + 20);
+    s32 difference =
+        side->displayed_life_points - side->life_points.signed_value;
     /* This order and the builtin preserve the target a1/a2 register roles. */
     s32 step;
     s32 magnitude;
@@ -32,5 +39,6 @@ void Duel_UpdateLifePointDisplay(u8 *object)
             difference = 0;
         }
     }
-    *(s16 *)(object + 18) = *(u16 *)(object + 20) + difference;
+    side->displayed_life_points =
+        side->life_points.unsigned_value + difference;
 }

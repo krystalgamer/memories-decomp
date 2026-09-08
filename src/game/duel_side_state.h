@@ -38,7 +38,11 @@ typedef struct {
     u8 field_0D;
     s16 field_0E;
     s16 field_10;
-    s16 field_12;
+    /* The life-point value actually drawn. Duel_UpdateLifePointDisplay steps
+     * it towards life_points a little each frame, and
+     * Duel_DrawLifePointsAndDeckCounts draws this field, not life_points, as
+     * four digits. */
+    s16 displayed_life_points;
     union DuelSideLifePoints life_points;
     s16 max_life_points;
     /* Cards taken from the deck: the status readout draws
