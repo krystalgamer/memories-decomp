@@ -4138,19 +4138,19 @@
       "address": "0x80045208",
       "profile": "gcc_2_8_1_g0",
       "size": "0x12C",
-      "source": "src/game/sound_code_requests.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x80045334",
       "profile": "gcc_2_8_1_g0",
       "size": "0x118",
-      "source": "src/game/sound_code_requests.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x8004544C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x10",
-      "source": "src/game/sd_clear_busy_flag.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x8004545C",
