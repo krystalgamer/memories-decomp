@@ -26,12 +26,12 @@ extern s32 D_8001001C;
 extern s32 D_80010020;
 extern s32 D_80010024;
 extern s32 D_80010028;
-extern void func_80089E20(void);
+extern void GsU_00000000(void);
 
-extern void func_8008A280(u8 *);
+extern void GsMapUnit(u8 *);
 extern void func_8004D58C(s32, u8 *);
-extern s32 func_80089F80(s32 *, Event *, void *, void *);
-extern Rec *func_8008A420(u8 *, s32 *);
+extern s32 GsScanUnit(s32 *, Event *, void *, void *);
+extern Rec *GsMapCoordUnit(u8 *, s32 *);
 extern s32 func_8004D134(s32, Event *, void *, s32 *, s32 *);
 extern void func_8006086C(Event *);
 extern void func_80060AEC(Event *);
@@ -136,7 +136,7 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
         base[0xE14] = 0xFF;
         return;
     }
-    func_8008A280(arg1);
+    GsMapUnit(arg1);
     cursor += 0xC;
     func_8004D58C(index, arg1);
     base[0xE1A] = *cursor;
@@ -152,9 +152,9 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
             cursor += 4;
             *(s32 **)(slot + 4) = cmd;
             if (cmd != 0) {
-                func_80089F80(cmd, 0, 0, 0);
+                GsScanUnit(cmd, 0, 0, 0);
             evloop:
-                if (func_80089F80(0, &ev, table, (void *)0x1F800000) == 0) {
+                if (GsScanUnit(0, &ev, table, (void *)0x1F800000) == 0) {
                     goto evdone;
                 }
                 {
@@ -176,7 +176,7 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
                     }
                 masktest:
                     if (ev.word & 0x800000) {
-                        *(Rec **)(base + 0xD14) = func_8008A420(arg1, ev.ptr);
+                        *(Rec **)(base + 0xD14) = GsMapCoordUnit(arg1, ev.ptr);
                         ev.word &= 0xFF7FFFFF;
                     }
                 dispatch:
@@ -196,7 +196,7 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
                         func_8005C6A0(&ev, base);
                         break;
                     default:
-                        *ev.ptr = (s32)func_80089E20;
+                        *ev.ptr = (s32)GsU_00000000;
                         break;
                     }
                     }

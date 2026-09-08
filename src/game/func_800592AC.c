@@ -16,8 +16,6 @@ typedef struct {
     s32 f4C;
 } Obj;
 
-extern MATRIX *func_800889C0(SVECTOR *r, MATRIX *m);
-extern void func_80088E50(SVECTOR *r, MATRIX *m);
 extern u16 D_8009B47A;
 extern u16 D_8009B47C;
 
@@ -46,8 +44,8 @@ void func_800592AC(s32 arg0, s32 arg1, Obj *arg2) {
     arg2->f48 =
         (s16)(MODEL_ANGLE_FULL_TURN - slot->field_D18->field_48);
 
-    func_800889C0((SVECTOR *)&arg2->f44, &arg2->f4);
-    func_80088E50(&packed, &sp20);
+    RotMatrixZXY((SVECTOR *)&arg2->f44, &arg2->f4);
+    RotMatrix_gte(&packed, &sp20);
     MulMatrix(&arg2->f4, &sp20);
 
     arg2->f4.t[2] = 0;

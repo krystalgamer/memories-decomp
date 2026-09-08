@@ -18,7 +18,7 @@ extern int func_8006930C();
 extern int func_800695A4();
 extern int func_8006988C();
 extern int func_80069B40();
-extern int func_80089E20();
+extern int GsU_00000000();
 
 s32 func_800608B8(s32 arg0) {
     u32 t;
@@ -81,5 +81,5 @@ s32 func_800608B8(s32 arg0) {
         }
         break;
     }
-    return (s32)func_80089E20;
+    return (s32)GsU_00000000;
 }

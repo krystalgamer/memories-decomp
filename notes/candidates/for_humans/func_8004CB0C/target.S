@@ -138,7 +138,7 @@ glabel func_8004CB0C
     /* 3D4D4 8004CCD4 140E22A2 */   sb        $v0, 0xE14($s1)
   .L8004CCD8:
     /* 3D4D8 8004CCD8 5400A48F */  lw         $a0, 0x54($sp)
-    /* 3D4DC 8004CCDC A028020C */  jal        func_8008A280
+    /* 3D4DC 8004CCDC A028020C */  jal        GsMapUnit
     /* 3D4E0 8004CCE0 0C00B526 */   addiu     $s5, $s5, 0xC
     /* 3D4E4 8004CCE4 5400A58F */  lw         $a1, 0x54($sp)
     /* 3D4E8 8004CCE8 6335010C */  jal        func_8004D58C
@@ -166,14 +166,14 @@ glabel func_8004CB0C
     /* 3D538 8004CD38 040084AE */   sw        $a0, 0x4($s4)
     /* 3D53C 8004CD3C 21280000 */  addu       $a1, $zero, $zero
     /* 3D540 8004CD40 2130A000 */  addu       $a2, $a1, $zero
-    /* 3D544 8004CD44 E027020C */  jal        func_80089F80
+    /* 3D544 8004CD44 E027020C */  jal        GsScanUnit
     /* 3D548 8004CD48 2138A000 */   addu      $a3, $a1, $zero
   .L8004CD4C:
     /* 3D54C 8004CD4C 21200000 */  addu       $a0, $zero, $zero
   .L8004CD50:
     /* 3D550 8004CD50 1800A527 */  addiu      $a1, $sp, 0x18
     /* 3D554 8004CD54 2130C003 */  addu       $a2, $fp, $zero
-    /* 3D558 8004CD58 E027020C */  jal        func_80089F80
+    /* 3D558 8004CD58 E027020C */  jal        GsScanUnit
     /* 3D55C 8004CD5C 801F073C */   lui       $a3, (0x1F800000 >> 16)
     /* 3D560 8004CD60 4C004010 */  beqz       $v0, .L8004CE94
     /* 3D564 8004CD64 801F133C */   lui       $s3, (0x1F800000 >> 16)
@@ -196,7 +196,7 @@ glabel func_8004CB0C
     /* 3D5A4 8004CDA4 01000224 */   addiu     $v0, $zero, 0x1
     /* 3D5A8 8004CDA8 1C00A58F */  lw         $a1, 0x1C($sp)
     /* 3D5AC 8004CDAC 5400A48F */  lw         $a0, 0x54($sp)
-    /* 3D5B0 8004CDB0 0829020C */  jal        func_8008A420
+    /* 3D5B0 8004CDB0 0829020C */  jal        GsMapCoordUnit
     /* 3D5B4 8004CDB4 00000000 */   nop
     /* 3D5B8 8004CDB8 7FFF033C */  lui        $v1, (0xFF7FFFFF >> 16)
     /* 3D5BC 8004CDBC 140D22AE */  sw         $v0, 0xD14($s1)
@@ -256,8 +256,8 @@ glabel func_8004CB0C
     /* 3D67C 8004CE7C 21200000 */   addu      $a0, $zero, $zero
   .L8004CE80:
     /* 3D680 8004CE80 1C00A28F */  lw         $v0, 0x1C($sp)
-    /* 3D684 8004CE84 0980093C */  lui        $t1, %hi(func_80089E20)
-    /* 3D688 8004CE88 209E2925 */  addiu      $t1, $t1, %lo(func_80089E20)
+    /* 3D684 8004CE84 0980093C */  lui        $t1, %hi(GsU_00000000)
+    /* 3D688 8004CE88 209E2925 */  addiu      $t1, $t1, %lo(GsU_00000000)
     /* 3D68C 8004CE8C 53330108 */  j          .L8004CD4C
     /* 3D690 8004CE90 000049AC */   sw        $t1, 0x0($v0)
   .L8004CE94:

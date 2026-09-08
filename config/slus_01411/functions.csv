@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x800129D8,0xA0,entrypoint,sdk_asm,psyq/crt,
-0x80012A78,0x70,func_80012A78,sdk_asm,psyq/crt,
-0x80012AE8,0x68,func_80012AE8,sdk_asm,psyq/crt,
+0x80012A78,0x70,__main,sdk_asm,psyq/crt,
+0x80012AE8,0x68,__do_global_dtors,sdk_asm,psyq/crt,
 0x80012B50,0x184,Main_Init,matching_c,game,Exact post-terminal match; the boot path from the kernel callback reset to the frontend restart point. The D_8009B4A8 address is held in a local pinned to $a0 so it is materialised ahead of the volatile store block.
 0x80012CD4,0x78,Main_VBlankCB,matching_c,game,"Exact post-terminal match from interrupt-shared volatility evidence: counters are volatile, reentrancy bytes are not."
 0x80012D4C,0x38,func_80012D4C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -1198,11 +1198,11 @@ address,size,name,status,module,notes
 0x80073624,0x68,AiScript_Add,matching_c,game,Three-index addition helper using GCC 2.8.1 PSX -O2 -G0 and maspsx 2.81
 0x8007368C,0x38,func_8007368C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800736C4,0x40,AiScript_Print,matching_c,game,First matching C using GCC 2.8.1 PSX -O2 -G8 and maspsx 2.81
-0x80073704,0x20,func_80073704,sdk_asm,psyq/sdk,
-0x80073724,0x10,func_80073724,sdk_asm,psyq/sdk,
-0x80073734,0x24,func_80073734,sdk_asm,psyq/sdk,
+0x80073704,0x20,PCopen,sdk_asm,psyq/sdk,
+0x80073724,0x10,PCclose,sdk_asm,psyq/sdk,
+0x80073734,0x24,PClseek,sdk_asm,psyq/sdk,
 0x80073758,0xC0,func_80073758,sdk_asm,psyq/sdk,
-0x80073818,0x18,func_80073818,sdk_asm,psyq/sdk,
+0x80073818,0x18,_SN_read,sdk_asm,psyq/sdk,
 0x80073830,0xC,InitHeap,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/C57.OBJ signature.
 0x80073840,0xC,_bu_init,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/C112.OBJ signature and matching backup-unit initialization callers.
 0x80073850,0xC,SetMem,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/C159.OBJ signature and the startup call SetMem(2).
@@ -1273,7 +1273,7 @@ address,size,name,status,module,notes
 0x80074AF8,0x6C,func_80074AF8,sdk_asm,psyq/sdk,
 0x80074B64,0x2C,func_80074B64,sdk_asm,psyq/sdk,
 0x80074B90,0x24,func_80074B90,sdk_asm,psyq/sdk,
-0x80074BC0,0x4C,func_80074BC0,sdk_asm,psyq/sdk,
+0x80074BC0,0x4C,startIntrDMA,sdk_asm,psyq/sdk,
 0x80074C0C,0x180,func_80074C0C,sdk_asm,psyq/sdk,
 0x80074D8C,0xAC,func_80074D8C,sdk_asm,psyq/sdk,
 0x80074E38,0x24,func_80074E38,sdk_asm,psyq/sdk,
@@ -1332,27 +1332,27 @@ address,size,name,status,module,notes
 0x800781F0,0x80,CdPosToInt,sdk_asm,psyq/sdk,Exact Psy-Q 4.6 LIBCD.LIB/SYS.OBJ signature match; canonical linked copy.
 0x80078270,0x60,StClearRing,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_002.OBJ signature and matching movie-stream setup caller.
 0x800782D0,0x80,StUnSetRing,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_003.OBJ signature and matching movie-stream teardown caller.
-0x80078350,0x8C,func_80078350,sdk_asm,psyq/sdk,
+0x80078350,0x8C,data_ready_callback,sdk_asm,psyq/sdk,
 0x800783DC,0x58,StGetBackloc,sdk_asm,psyq/sdk,Identified at offset 0x8C of the unique Psy-Q 4.6 LIBCD.LIB/C_004.OBJ signature.
 0x80078440,0x84,StSetStream,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_005.OBJ signature and matching movie-stream setup caller.
 0x800784D0,0xAC,StFreeRing,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_007.OBJ signature.
-0x80078580,0x34,func_80078580,sdk_asm,psyq/sdk,
+0x80078580,0x34,init_ring_status,sdk_asm,psyq/sdk,
 0x800785C0,0xB8,StGetNext,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_009.OBJ signature.
 0x80078680,0x1C,StSetMask,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_010.OBJ signature.
 0x800786A0,0x91C,StCdInterrupt,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_011.OBJ signature.
 0x80078FBC,0x2C,func_80078FBC,sdk_asm,psyq/sdk,
 0x80078FE8,0x1A8,func_80078FE8,sdk_asm,psyq/sdk,
 0x80079190,0x564,func_80079190,sdk_asm,psyq/sdk,
-0x800796F4,0x280,func_800796F4,sdk_asm,psyq/sdk,
-0x80079974,0x2C8,func_80079974,sdk_asm,psyq/sdk,
-0x80079C3C,0x40C,func_80079C3C,sdk_asm,psyq/sdk,
-0x8007A048,0x88,func_8007A048,sdk_asm,psyq/sdk,
-0x8007A0D0,0xD4,func_8007A0D0,sdk_asm,psyq/sdk,
-0x8007A1A4,0xF0,func_8007A1A4,sdk_asm,psyq/sdk,
-0x8007A294,0x4C,func_8007A294,sdk_asm,psyq/sdk,
-0x8007A2E0,0x1E0,func_8007A2E0,sdk_asm,psyq/sdk,
-0x8007A4C0,0x168,func_8007A4C0,sdk_asm,psyq/sdk,
-0x8007A628,0xC,func_8007A628,sdk_asm,psyq/sdk,
+0x800796F4,0x280,CD_sync,sdk_asm,psyq/sdk,
+0x80079974,0x2C8,CD_ready,sdk_asm,psyq/sdk,
+0x80079C3C,0x40C,CD_cw,sdk_asm,psyq/sdk,
+0x8007A048,0x88,CD_vol,sdk_asm,psyq/sdk,
+0x8007A0D0,0xD4,CD_flush,sdk_asm,psyq/sdk,
+0x8007A1A4,0xF0,CD_initvol,sdk_asm,psyq/sdk,
+0x8007A294,0x4C,CD_initintr,sdk_asm,psyq/sdk,
+0x8007A2E0,0x1E0,CD_init,sdk_asm,psyq/sdk,
+0x8007A4C0,0x168,CD_datasync,sdk_asm,psyq/sdk,
+0x8007A628,0xC,CD_set_test_parmnum,sdk_asm,psyq/sdk,
 0x8007A634,0xD8,func_8007A634,sdk_asm,psyq/sdk,
 0x8007A710,0x104,CdIntToPos,sdk_asm,psyq/sdk,Exact Psy-Q 4.6 LIBCD.LIB/S_002.OBJ signature match; canonical linked copy.
 0x8007A820,0x20,func_8007A820,sdk_asm,psyq/sdk,
@@ -1433,17 +1433,17 @@ address,size,name,status,module,notes
 0x8007E128,0xB8,func_8007E128,sdk_asm,psyq/sdk,
 0x8007E1E0,0x78,func_8007E1E0,sdk_asm,psyq/sdk,
 0x8007E258,0x30,func_8007E258,sdk_asm,psyq/sdk,
-0x8007E288,0x10,func_8007E288,sdk_asm,psyq/sdk,
-0x8007E298,0x50,func_8007E298,sdk_asm,psyq/sdk,
+0x8007E288,0x10,ER_active,sdk_asm,psyq/sdk,
+0x8007E298,0x50,ER_clear,sdk_asm,psyq/sdk,
 0x8007E2F0,0x24,func_8007E2F0,sdk_asm,psyq/sdk,
 0x8007E320,0x24,func_8007E320,sdk_asm,psyq/sdk,
 0x8007E350,0x20,CdFlush,sdk_asm,psyq/sdk,
 0x8007E370,0x20,func_8007E370,sdk_asm,psyq/sdk,
 0x8007E390,0x38,DsFlush,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBDS.LIB/D2_005.OBJ signature.
 0x8007E3D0,0x20,CdGetSector,sdk_asm,psyq/sdk,
-0x8007E3F0,0x100,func_8007E3F0,sdk_asm,psyq/sdk,
+0x8007E3F0,0x100,CD_getsector,sdk_asm,psyq/sdk,
 0x8007E4F0,0x20,CdGetSector2,sdk_asm,psyq/sdk,
-0x8007E510,0xEC,func_8007E510,sdk_asm,psyq/sdk,
+0x8007E510,0xEC,CD_getsector2,sdk_asm,psyq/sdk,
 0x8007E600,0x104,CdIntToPos_8007E600,sdk_asm,psyq/sdk,Second byte-identical match of the Psy-Q 4.6 LIBCD.LIB/S_002.OBJ CdIntToPos signature; address-qualified because both copies are resident.
 0x8007E710,0x80,CdPosToInt_8007E710,sdk_asm,psyq/sdk,Second byte-identical match of the Psy-Q 4.6 LIBCD.LIB/SYS.OBJ CdPosToInt signature; address-qualified because both copies are resident.
 0x8007E790,0x54,DsLastPos,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBDS.LIB/D3_008.OBJ signature.
@@ -1452,7 +1452,7 @@ address,size,name,status,module,notes
 0x8007E880,0x14,CdSyncCallback,sdk_asm,psyq/sdk,
 0x8007E8A0,0x24,CdDataCallback_8007E8A0,sdk_asm,psyq/sdk,
 0x8007E8D0,0x40,SetDumpFnt,sdk_asm,psyq/sdk,
-0x8007E910,0xA0,func_8007E910,sdk_asm,psyq/sdk,
+0x8007E910,0xA0,FntLoad,sdk_asm,psyq/sdk,
 0x8007E9B0,0x2B8,FntOpen,sdk_asm,psyq/sdk,
 0x8007EC68,0x31C,FntFlush,sdk_asm,psyq/sdk,
 0x8007EF84,0x3C0,FntPrint,sdk_asm,psyq/sdk,
@@ -1513,15 +1513,15 @@ address,size,name,status,module,notes
 0x80082200,0x28,_GPU_ResetCallback,sdk_asm,psyq/sdk,Identified at offset 0x2EB0 of the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature.
 0x80082228,0x24,func_80082228,sdk_asm,psyq/sdk,
 0x80082250,0x24,GPU_cw,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/C73.OBJ signature.
-0x80082274,0x10,func_80082274,sdk_asm,psyq/sdk,
+0x80082274,0x10,GetVideoMode,sdk_asm,psyq/sdk,
 0x80082290,0x94,BreakDraw,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGPU.LIB/BREAK.OBJ signature.
 0x80082324,0x60,IsIdleGPU,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/BREAK.OBJ signature and matching GPU synchronization loops.
 0x80082384,0x120,ContinueDraw,sdk_asm,psyq/sdk,Identified at offset 0xF4 of the unique Psy-Q 4.6 LIBGPU.LIB/BREAK.OBJ signature.
-0x800824B0,0xE8,func_800824B0,sdk_asm,psyq/sdk,
-0x800825A0,0x64,func_800825A0,sdk_asm,psyq/sdk,
-0x80082610,0x64,func_80082610,sdk_asm,psyq/sdk,
-0x80082680,0xB4,func_80082680,sdk_asm,psyq/sdk,
-0x80082740,0x3C,func_80082740,sdk_asm,psyq/sdk,
+0x800824B0,0xE8,LoadTPage,sdk_asm,psyq/sdk,
+0x800825A0,0x64,LoadClut,sdk_asm,psyq/sdk,
+0x80082610,0x64,LoadClut2,sdk_asm,psyq/sdk,
+0x80082680,0xB4,SetDefDrawEnv,sdk_asm,psyq/sdk,
+0x80082740,0x3C,SetDefDispEnv,sdk_asm,psyq/sdk,
 0x80082780,0x3C,GetTPage,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P00.OBJ signature.
 0x800827C0,0x18,GetClut,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P01.OBJ signature.
 0x800827E0,0x3C,AddPrim,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P06.OBJ signature.
@@ -1542,20 +1542,20 @@ address,size,name,status,module,notes
 0x80082A80,0x10,OpenTIM,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGPU.LIB/T00.OBJ signature.
 0x80082A90,0x64,ReadTIM,sdk_asm,psyq/sdk,Identified at offset 0x10 of the unique Psy-Q 4.6 LIBGPU.LIB/T00.OBJ signature.
 0x80082AF4,0x118,func_80082AF4,sdk_asm,psyq/sdk,
-0x80082C10,0xAC,func_80082C10,sdk_asm,psyq/sdk,
-0x80082CC0,0x52C,func_80082CC0,sdk_asm,psyq/sdk,
-0x800831F0,0x848,func_800831F0,sdk_asm,psyq/sdk,
-0x80083A40,0x40,func_80083A40,sdk_asm,psyq/sdk,
-0x80083A80,0x2C4,func_80083A80,sdk_asm,psyq/sdk,
-0x80083D44,0x268,func_80083D44,sdk_asm,psyq/sdk,
-0x80083FB0,0xD8,func_80083FB0,sdk_asm,psyq/sdk,
-0x80084090,0x98,func_80084090,sdk_asm,psyq/sdk,
-0x80084130,0x108,func_80084130,sdk_asm,psyq/sdk,
+0x80082C10,0xAC,Krom2RawAdd2,sdk_asm,psyq/sdk,
+0x80082CC0,0x52C,kanjitrans,sdk_asm,psyq/sdk,
+0x800831F0,0x848,GsSortBg,sdk_asm,psyq/sdk,
+0x80083A40,0x40,_mk_spr_packet,sdk_asm,psyq/sdk,
+0x80083A80,0x2C4,_mk_xpndsp,sdk_asm,psyq/sdk,
+0x80083D44,0x268,_mk_normsp,sdk_asm,psyq/sdk,
+0x80083FB0,0xD8,GsSortLine,sdk_asm,psyq/sdk,
+0x80084090,0x98,_make_packet,sdk_asm,psyq/sdk,
+0x80084130,0x108,GsSortGLine,sdk_asm,psyq/sdk,
 0x80084240,0xD8,GsSortBoxFill,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/2D_BOX0.OBJ signature and matching fade-overlay caller.
 0x80084320,0x1C4,GsSortPoly,sdk_asm,psyq/sdk,"Unique complete Psy-Q 4.6 LIBGS.LIB/2D_PRIM.OBJ signature at pinned catalogue revision e9e46e7e133ef275a79bfce650924f98edb086bc; canonical libgs.h interface and four matching main-menu callers. The 464-byte object signature has exactly one match across all loaded SLUS bytes at 0x80084320. It includes alignment bytes; the inventory function extent remains 0x1C4. The SDK declaration is void GsSortPoly(void *pp, GsOT *ot, unsigned short pri), not the local s32-priority prototypes. Main-menu background tiles, decimal digits, card-type icons and starchip bars call this packet sorter with representable constant priorities. Keep SDK assembly ownership; no game C implementation or attempt-ledger entry is introduced."
-0x800844F0,0x4F8,func_800844F0,sdk_asm,psyq/sdk,
+0x800844F0,0x4F8,GsSortSprite,sdk_asm,psyq/sdk,
 0x800849F0,0x17C,GsSortFastSprite,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/2D_SP1.OBJ signature and matching sprite-render callers.
-0x80084B70,0x258,func_80084B70,sdk_asm,psyq/sdk,
+0x80084B70,0x258,GsSortFlipSprite,sdk_asm,psyq/sdk,
 0x80084DD0,0x74,GsInitGraph,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGS.LIB/GS_001.OBJ signature.
 0x80084E44,0x11C,func_80084E44,sdk_asm,psyq/sdk,
 0x80084F60,0x68,GsInitGraph2,sdk_asm,psyq/sdk,Identified at offset 0x190 of the unique Psy-Q 4.6 LIBGS.LIB/GS_001.OBJ signature.
@@ -1589,14 +1589,14 @@ address,size,name,status,module,notes
 0x800865A0,0x80,GsMulCoord2,sdk_asm,psyq/sdk,"Identified by the unique 128-byte Psy-Q 4.6 LIBGS.LIB/MATRIX8.OBJ signature; combines two coordinate frames with MulMatrix2 and ApplyMatrixLV, then adds the translation components."
 0x80086620,0x80,GsMulCoord3,sdk_asm,psyq/sdk,Identified by the unique 128-byte Psy-Q 4.6 LIBGS.LIB/MATRIX9.OBJ signature; the GsMulCoord2 body using MulMatrix and ApplyMatrixLV.
 0x800866A0,0x3C,rsin,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/GEO_00.OBJ signature and matching fixed-point callers.
-0x800866DC,0x90,func_800866DC,sdk_asm,psyq/sdk,
+0x800866DC,0x90,sin_1,sdk_asm,psyq/sdk,
 0x80086770,0xA0,rcos,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/GEO_01.OBJ signature and matching fixed-point callers.
 0x80086810,0x104,SetFogNearFar,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/FOG_02.OBJ signature and matching campaign-map fog callers.
-0x80086920,0xC4,func_80086920,sdk_asm,psyq/sdk,
-0x800869F0,0x11C,func_800869F0,sdk_asm,psyq/sdk,
-0x80086B10,0xA0,func_80086B10,sdk_asm,psyq/sdk,
-0x80086BB0,0x138,func_80086BB0,sdk_asm,psyq/sdk,
-0x80086CF0,0xD0,func_80086CF0,sdk_asm,psyq/sdk,
+0x80086920,0xC4,ccos,sdk_asm,psyq/sdk,
+0x800869F0,0x11C,csincos,sdk_asm,psyq/sdk,
+0x80086B10,0xA0,csin_1,sdk_asm,psyq/sdk,
+0x80086BB0,0x138,csin,sdk_asm,psyq/sdk,
+0x80086CF0,0xD0,catan,sdk_asm,psyq/sdk,
 0x80086DC8,0x80,InitGeom,sdk_asm,psyq/sdk,Identified at offset 0x8 of the unique Psy-Q 4.6 LIBGTE.LIB/MSC00.OBJ signature.
 0x80086E50,0x84,SquareRoot0,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/MSC01.OBJ signature and matching distance callers.
 0x80086EE0,0x80,gteMIMefunc,sdk_asm,psyq/sdk,"Identified by the unique 128-byte Psy-Q 4.6 LIBGTE.LIB/MSC05.OBJ signature at pinned catalogue revision e9e46e7e133ef275a79bfce650924f98edb086bc. The pattern has no wildcards, matches exactly once at SLUS file offset 0x776E0 (resident 0x80086EE0), and exactly covers the 0x80-byte inventory extent. gteMIMefunc is the label at object offset zero and has the canonical libgte.h declaration void gteMIMefunc(SVECTOR *, SVECTOR *, long, long). The generic loc_C label at +0xC remains object-local. Independent Unchiga evidence agrees. Keep SDK assembly ownership."
@@ -1620,56 +1620,56 @@ address,size,name,status,module,notes
 0x80087890,0x20,SetFarColor,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG11.OBJ signature and matching scene-lighting callers.
 0x800878B0,0x18,SetGeomOffset,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG12.OBJ signature and matching projection callers.
 0x800878D0,0xC,SetGeomScreen,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/REG13.OBJ signature and matching projection callers.
-0x800878E0,0x2C,func_800878E0,sdk_asm,psyq/sdk,
-0x80087910,0x54,func_80087910,sdk_asm,psyq/sdk,
-0x80087970,0x28,func_80087970,sdk_asm,psyq/sdk,
+0x800878E0,0x2C,RotTransPers,sdk_asm,psyq/sdk,
+0x80087910,0x54,RotTransPers3,sdk_asm,psyq/sdk,
+0x80087970,0x28,RotTrans,sdk_asm,psyq/sdk,
 0x800879A0,0x24,func_800879A0,sdk_asm,psyq/sdk,
-0x800879D0,0x78,func_800879D0,sdk_asm,psyq/sdk,
+0x800879D0,0x78,RotTransPers4,sdk_asm,psyq/sdk,
 0x80087A50,0x58,RotAverage3,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/CMB_01.OBJ signature and matching projection caller.
 0x80087AB0,0x7C,RotAverage4,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/CMB_02.OBJ signature and matching projection caller.
-0x80087B30,0x88,func_80087B30,sdk_asm,psyq/sdk,
-0x80087BC0,0xB0,func_80087BC0,sdk_asm,psyq/sdk,
-0x80087C70,0x4C,func_80087C70,sdk_asm,psyq/sdk,
-0x80087CC0,0x64,func_80087CC0,sdk_asm,psyq/sdk,
-0x80087D30,0x28C,func_80087D30,sdk_asm,psyq/sdk,
-0x80087FC0,0x28C,func_80087FC0,sdk_asm,psyq/sdk,
-0x80088250,0x28C,func_80088250,sdk_asm,psyq/sdk,
-0x800884E0,0x198,func_800884E0,sdk_asm,psyq/sdk,
-0x80088680,0x198,func_80088680,sdk_asm,psyq/sdk,
-0x80088820,0x198,func_80088820,sdk_asm,psyq/sdk,
-0x800889C0,0x288,func_800889C0,sdk_asm,psyq/sdk,
-0x80088C50,0x1FC,func_80088C50,sdk_asm,psyq/sdk,
-0x80088E50,0x210,func_80088E50,sdk_asm,psyq/sdk,
-0x80089060,0x1FC,func_80089060,sdk_asm,psyq/sdk,
-0x80089260,0x200,func_80089260,sdk_asm,psyq/sdk,
+0x80087B30,0x88,RotAverageNclip3,sdk_asm,psyq/sdk,
+0x80087BC0,0xB0,RotAverageNclip4,sdk_asm,psyq/sdk,
+0x80087C70,0x4C,RotColorDpq,sdk_asm,psyq/sdk,
+0x80087CC0,0x64,RotTransPersN,sdk_asm,psyq/sdk,
+0x80087D30,0x28C,RotMatrix,sdk_asm,psyq/sdk,
+0x80087FC0,0x28C,RotMatrixYXZ,sdk_asm,psyq/sdk,
+0x80088250,0x28C,RotMatrixZYX,sdk_asm,psyq/sdk,
+0x800884E0,0x198,RotMatrixX,sdk_asm,psyq/sdk,
+0x80088680,0x198,RotMatrixY,sdk_asm,psyq/sdk,
+0x80088820,0x198,RotMatrixZ,sdk_asm,psyq/sdk,
+0x800889C0,0x288,RotMatrixZXY,sdk_asm,psyq/sdk,
+0x80088C50,0x1FC,RotMatrixZYX_gte,sdk_asm,psyq/sdk,
+0x80088E50,0x210,RotMatrix_gte,sdk_asm,psyq/sdk,
+0x80089060,0x1FC,RotMatrixYXZ_gte,sdk_asm,psyq/sdk,
+0x80089260,0x200,DivideFT4,sdk_asm,psyq/sdk,
 0x80089460,0x18,ReadSZfifo4,sdk_asm,psyq/sdk,Identified by the unique 32-byte Psy-Q 4.6 LIBGTE.LIB/REG05.OBJ signature; stores GTE data registers 16-19 through four pointers and the DivideFT4 body at 0x80089260 calls it.
-0x80089480,0x8,func_80089480,sdk_asm,psyq/sdk,
-0x80089488,0x488,func_80089488,sdk_asm,psyq/sdk,
+0x80089480,0x8,RCpolyFT4,sdk_asm,psyq/sdk,
+0x80089488,0x488,RCpolyFT4A,sdk_asm,psyq/sdk,
 0x80089910,0x8C,func_80089910,sdk_asm,psyq/sdk,
 0x800899A0,0x174,ratan2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/RATAN.OBJ signature and matching angle callers.
-0x80089B20,0xAC,func_80089B20,sdk_asm,psyq/sdk,
+0x80089B20,0xAC,_patch_gte,sdk_asm,psyq/sdk,
 0x80089BCC,0x30,func_80089BCC,sdk_asm,psyq/sdk,
 0x80089C00,0xC,SetDQA,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBGTE.LIB/REG03_14.OBJ signature; writes GTE control register 27 and SetFogNearFar calls it.
 0x80089C10,0xC,SetDQB,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBGTE.LIB/REG03_15.OBJ signature; writes GTE control register 28 and SetFogNearFar calls it in the instruction after SetDQA.
 0x80089C20,0x20,NormalColorCol,sdk_asm,psyq/sdk,"Identified by the unique 32-byte Psy-Q 4.6 LIBGTE.LIB/SMP_7.OBJ signature at pinned catalogue revision e9e46e7e133ef275a79bfce650924f98edb086bc. The pattern has no wildcards, matches exactly once at SLUS file offset 0x7A420 (resident 0x80089C20), exactly covers the inventory extent, and labels NormalColorCol at offset zero. The canonical libgte.h declaration and independent Unchiga catalogue agree. Keep SDK assembly ownership."
-0x80089C40,0x28,func_80089C40,sdk_asm,psyq/sdk,
+0x80089C40,0x28,Square0,sdk_asm,psyq/sdk,
 0x80089C70,0x20,AverageZ3,sdk_asm,psyq/sdk,"Identified by the unique 32-byte Psy-Q 4.6 LIBGTE.LIB/SMP_00_7.OBJ signature at pinned catalogue revision e9e46e7e133ef275a79bfce650924f98edb086bc. The pattern has no wildcards, matches exactly once at SLUS file offset 0x7A470 (resident 0x80089C70), exactly covers the inventory extent, and labels AverageZ3 at offset zero. The canonical libgte.h declaration and independent Unchiga catalogue agree. Keep SDK assembly ownership."
-0x80089C90,0x24,func_80089C90,sdk_asm,psyq/sdk,
+0x80089C90,0x24,AverageZ4,sdk_asm,psyq/sdk,
 0x80089CC0,0x30,RotTransSV,sdk_asm,psyq/sdk,"Identified by the unique 48-byte Psy-Q 4.6 LIBGTE.LIB/SMP_01_1.OBJ signature at pinned catalogue revision e9e46e7e133ef275a79bfce650924f98edb086bc. The pattern has no wildcards, matches exactly once at SLUS file offset 0x7A4C0 (resident 0x80089CC0), exactly covers the inventory extent, and labels RotTransSV at offset zero. The canonical libgte.h declaration, matching func_800580D4 caller, and independent Unchiga catalogue agree. Keep SDK assembly ownership."
 0x80089CF0,0x34,func_80089CF0,sdk_asm,psyq/sdk,
-0x80089D30,0xA8,func_80089D30,sdk_asm,psyq/sdk,
-0x80089DD8,0x3C,func_80089DD8,sdk_asm,psyq/sdk,
-0x80089E20,0x1C,func_80089E20,sdk_asm,psyq/sdk,
-0x80089E40,0x84,func_80089E40,sdk_asm,psyq/sdk,
-0x80089ED0,0xA8,func_80089ED0,sdk_asm,psyq/sdk,
-0x80089F80,0x1B8,func_80089F80,sdk_asm,psyq/sdk,
-0x8008A138,0x10,func_8008A138,sdk_asm,psyq/sdk,
-0x8008A150,0x12C,func_8008A150,sdk_asm,psyq/sdk,
-0x8008A280,0x194,func_8008A280,sdk_asm,psyq/sdk,
-0x8008A420,0x80,func_8008A420,sdk_asm,psyq/sdk,
-0x8008A4A0,0x2B8,func_8008A4A0,sdk_asm,psyq/sdk,
-0x8008A760,0x2C8,func_8008A760,sdk_asm,psyq/sdk,
-0x8008AA30,0x314,func_8008AA30,sdk_asm,psyq/sdk,
+0x80089D30,0xA8,GsScanAnim,sdk_asm,psyq/sdk,
+0x80089DD8,0x3C,GsLinkAnim,sdk_asm,psyq/sdk,
+0x80089E20,0x1C,GsU_00000000,sdk_asm,psyq/sdk,
+0x80089E40,0x84,GsU_02000000,sdk_asm,psyq/sdk,
+0x80089ED0,0xA8,GsU_02000001,sdk_asm,psyq/sdk,
+0x80089F80,0x1B8,GsScanUnit,sdk_asm,psyq/sdk,
+0x8008A138,0x10,GsGetHeadpUnit,sdk_asm,psyq/sdk,
+0x8008A150,0x12C,GsSortUnit,sdk_asm,psyq/sdk,
+0x8008A280,0x194,GsMapUnit,sdk_asm,psyq/sdk,
+0x8008A420,0x80,GsMapCoordUnit,sdk_asm,psyq/sdk,
+0x8008A4A0,0x2B8,GsGetLwUnit,sdk_asm,psyq/sdk,
+0x8008A760,0x2C8,GsGetLsUnit,sdk_asm,psyq/sdk,
+0x8008AA30,0x314,GsGetLwsUnit,sdk_asm,psyq/sdk,
 0x8008AD50,0x3D0,GsSetRefView2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/GS_131.OBJ signature and matching camera-state callers.
 0x8008B120,0xEC,func_8008B120,sdk_asm,psyq/sdk,
 0x8008B20C,0xC8,func_8008B20C,sdk_asm,psyq/sdk,

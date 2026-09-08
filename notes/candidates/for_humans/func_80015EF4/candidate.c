@@ -16,9 +16,7 @@ typedef struct {
 extern u8 D_800FE148[];
 extern void *D_800E9D90[];
 
-extern s32 func_80088C50(void *, MATRIX *);
 extern void func_80089CC0(SVECTOR *, SVECTOR *, MATRIX *);
-extern void func_80087C70(SVECTOR *, SVECTOR *, GsOT *, void *, void *, s32 *);
 extern s32 func_800879A0(void *);
 extern void func_80084320(void *, void *, s32);
 
@@ -70,7 +68,7 @@ void func_80015EF4(Holder *holder, u8 *prim, u8 *sprite, GsOT *ot)
     sprite[6] = t;
     sprite[5] = t;
     sprite[4] = t;
-    if (func_80088C50(rot, lm) != 0) {
+    if (RotMatrixZYX_gte(rot, lm) != 0) {
         scale->vx = *(s16 *)(m + 0x44);
         scale->vy = 0x1000;
         scale->vz = *(s16 *)(m + 0x46);
@@ -97,13 +95,13 @@ void func_80015EF4(Holder *holder, u8 *prim, u8 *sprite, GsOT *ot)
     GsSetLightMatrix(lm);
     GsSetLsMatrix((MATRIX *)D_800FE148);
 
-    func_80087C70(&rot[0], up, ot,
+    RotColorDpq(&rot[0], up, ot,
                   prim + 8, prim + 4, &depth[0]);
-    func_80087C70(&rot[1], up, ot,
+    RotColorDpq(&rot[1], up, ot,
                   prim + 0x14, prim + 0x10, &depth[1]);
-    func_80087C70(&rot[2], up, ot,
+    RotColorDpq(&rot[2], up, ot,
                   prim + 0x20, prim + 0x1C, &depth[2]);
-    func_80087C70(&rot[3], up, ot,
+    RotColorDpq(&rot[3], up, ot,
                   prim + 0x2C, prim + 0x28, &depth[3]);
 
     if ((depth[0] | depth[1] | depth[2]

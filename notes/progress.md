@@ -89,7 +89,7 @@ A missing inventory function can also be a split-boundary problem. The
 startup routine at `0x80012A78` can otherwise appear only as an `alabel`
 inside an oversized `entrypoint`, even though matching `Main_Init` calls
 it and the inventory separately records its `0x70` bytes. The explicit
-`entrypoint` (`0xA0`) and `func_80012A78` (`0x70`) declarations in
+`entrypoint` (`0xA0`) and `__main` (`0x70`) declarations in
 `symbols.txt` preserve both established function boundaries. Inspect such
 missing entries before regenerating the inventory; merging them into a
 neighbor would hide the reporting problem rather than resolve it.

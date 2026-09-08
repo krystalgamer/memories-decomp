@@ -1,12 +1,12 @@
 #include "../types.h"
 #include "model.h"
 
-void func_80089060(u8 *arg0, u8 *arg1);
+void RotMatrixYXZ_gte(u8 *arg0, u8 *arg1);
 
 /* Advances one animation track: interpolates the translation (+0x18) and
  * the three rotation angles (+0x44) between the track's two keyframes over
  * its duration, wrapping angles across the full-turn boundary on 16-tick
- * tracks, rebuilds the matrix through func_80089060, and mirrors the six
+ * tracks, rebuilds the matrix through RotMatrixYXZ_gte, and mirrors the six
  * results into the track's optional output record. Returns 1 when the
  * track has no duration. */
 u8 *func_8005CEF0(u8 **arg0) {
@@ -113,7 +113,7 @@ u8 *func_8005CEF0(u8 **arg0) {
     *(s16 *)(dst + 0x44) = ((s16)a0 * t + (s16)b0 * (dur - t)) / dur;
     *(s16 *)(dst + 0x46) = ((s16)a1 * t + (s16)b1 * (dur - t)) / dur;
     *(s16 *)(dst + 0x48) = ((s16)a2 * t + (s16)b2 * (dur - t)) / dur;
-    func_80089060(dst + 0x44, dst + 4);
+    RotMatrixYXZ_gte(dst + 0x44, dst + 4);
     *(s32 *)dst = 0;
     out = *(u8 **)(s1 + 0xC);
     if (out != 0) {

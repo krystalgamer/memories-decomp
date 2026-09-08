@@ -57,7 +57,6 @@ struct ProjectionObj {
 
 typedef void (*ObjCallback)(struct ProjectionObj *, s32);
 
-extern void func_80088C50(struct Vec308 *a0, struct Mat *a1);
 extern s32 func_80089CF0(
     struct Vec308 *a0,
     struct Vec310 *a1,
@@ -85,7 +84,7 @@ s32 func_80041E7C(u32 arg0, s32 arg1, s32 arg2, struct ProjectionOut *arg3)
     v308->f2 = (s16)((arg0 >> 4) & 0xFF0);
     v308->f4 = (s16)((arg0 >> 0xC) & 0xFF0);
 
-    func_80088C50(v308, mtx);
+    RotMatrixZYX_gte((SVECTOR *)v308, (MATRIX *)mtx);
 
     mtx->t[0] = 0;
     mtx->t[1] = 0;
@@ -134,7 +133,7 @@ s32 func_80041F90(struct ProjectionObj *obj, s32 arg1, s32 arg2, struct Projecti
     v308->f0 = (s16)(obj->field20 * 0x10);
     v308->f2 = (s16)(obj->field21 * 0x10);
     v308->f4 = (s16)(obj->field22 * 0x10);
-    func_80088C50(v308, mtx);
+    RotMatrixZYX_gte((SVECTOR *)v308, (MATRIX *)mtx);
 
     mtx->t[0] = 0;
     mtx->t[1] = 0;

@@ -13,7 +13,6 @@ extern short D_8009B098[];
 extern u8 D_801AF000[];
 extern void func_800434F4(void);
 extern void func_80043328(void);
-extern void func_8007E910(int, int);
 extern void func_80047AD0(int);
 extern void func_80012D84(int);
 extern void func_8004365C(void *, void *);
@@ -37,7 +36,7 @@ void func_80043960(int mode)
     if (mode != 0) {
         int display;
         File_WaitForTransfers();
-        func_8007E910(0x2C0, 0);
+        FntLoad(0x2C0, 0);
         display = FntOpen(
             0x10, 0x10, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
             0, 1000
@@ -56,7 +55,7 @@ void func_80043960(int mode)
     *(u16 *)(object + 8) |= 0x28;
     func_8004365C(0, object);
     func_800438B8(4);
-    func_8007E910(0x2C0, 0);
+    FntLoad(0x2C0, 0);
     SetDumpFnt(FntOpen(
         0x10, 0x10, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
         0, 1000
