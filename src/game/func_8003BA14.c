@@ -4,7 +4,6 @@
 #include "file_transfer.h"
 
 extern s32 D_8009B118;
-extern u8 *D_800101D8;
 
 void func_8003BA14(u8 *p, s32 mode)
 {

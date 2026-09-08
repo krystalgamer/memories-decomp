@@ -4,7 +4,6 @@
 #include "file_transfer.h"
 
 extern s32 D_8009B118;
-extern s32 D_800101D8;
 extern u8 D_801A8000[];
 
 void func_8003BD14(FileTransferDescriptor *object, s32 mode) {
@@ -46,8 +45,8 @@ void func_8003BD14(FileTransferDescriptor *object, s32 mode) {
     case 3:
         object->mode = 0x7800;
         D_8009B0F4 &= 0xFFDCFFFF;
-        object->value_0C = D_800101D8;
-        object->value_08 = D_800101D8;
+        object->value_0C = (u32)D_800101D8;
+        object->value_08 = (u32)D_800101D8;
         object->done = 1;
         break;
     }

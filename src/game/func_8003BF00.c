@@ -1,11 +1,11 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#define D_800101D8_IN_DATA
 #include "file_transfer.h"
 
 extern s32 D_8009B118 __attribute__((section(".data")));
 extern s32 D_80010000 __attribute__((section(".data")));
-extern s32 D_800101D8 __attribute__((section(".data")));
 extern u8 D_801AF000[];
 
 void func_8003BF00(FileTransferDescriptor *object, s32 mode) {
@@ -13,8 +13,8 @@ void func_8003BF00(FileTransferDescriptor *object, s32 mode) {
     case 0:
         object->mode = 0x3000;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->value_0C = D_800101D8;
-        object->value_08 = D_800101D8;
+        object->value_0C = (u32)D_800101D8;
+        object->value_08 = (u32)D_800101D8;
         object->done = 1;
         break;
 

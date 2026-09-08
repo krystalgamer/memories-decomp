@@ -60,6 +60,28 @@ void File_WaitForTransfers(void);
  * same address. Which of the two a unit needs is a property of its compiler
  * profile, not of the word.
  */
+/* The word at 0x800101D8, which holds the address 0x80168000.
+ *
+ * It reaches the same two descriptor fields that take a buffer address in the
+ * case immediately above it -- func_8003BD14's case 2 writes
+ * `value_08 = (s32)D_801A8000`, and its case 3 writes this word into the same
+ * two fields -- so the word is a stored address and is declared as one.  Every read is a single load of that word; the array and
+ * scalar spellings this replaces reached it as `*(s32 *)(D_800101D8)` and as
+ * a plain read, which are the same load.
+ *
+ * D_800101D8_IN_DATA is a codegen input, measured on each unit separately:
+ * put either func_8003BF00.c or func_8003B808.c on the plain declaration and
+ * the link fails on that object alone with `relocation truncated to fit:
+ * R_MIPS_GPREL16 against D_800101D8`, because the unit reaches the symbol
+ * gp-relatively and 0x800101D8 is out of range of $gp.  The attribute takes it
+ * out of small data for those two; the other three do not need it.
+ */
+#ifdef D_800101D8_IN_DATA
+extern u8 *D_800101D8 __attribute__((section(".data")));
+#else
+extern u8 *D_800101D8;
+#endif
+
 extern volatile u32 D_8009B0F4;
 extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
 
