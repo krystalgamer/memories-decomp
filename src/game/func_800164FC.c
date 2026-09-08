@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "view_state.h"
 #include "duel_card_layout.h"
 #include "duel_display.h"
 #include "duel_grid.h"
@@ -8,7 +9,6 @@ extern s32 D_8009B308;
 extern s32 D_8009B30C;
 extern s32 D_8009B310;
 extern s32 D_8009B314;
-extern u8 D_800F2848[];
 extern u8 D_801A7B64[];
 
 void SetGeomScreen();
@@ -26,7 +26,7 @@ void func_800164FC(void) {
     u8 *q;
     u8 *t;
 
-    q = D_800F2848;
+    q = (u8 *)&D_800F2848;
     SetGeomScreen(*(s16 *)(q + 0xE));
     SetGeomOffset(0xA0, 0x6C);
     SetFarColor(0, 0, 0);

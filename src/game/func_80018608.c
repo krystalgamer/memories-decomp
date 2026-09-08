@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "view_state.h"
 #include "card_constants.h"
 #include "duel_deck_card.h"
 #include "file_transfer.h"
@@ -18,7 +19,6 @@ extern u8 *D_8009B1B4;
 extern u32 D_8009B0F4[];
 extern u32 D_8009B134 __attribute__((section(".data")));
 extern u16 D_8009B36A __attribute__((section(".data")));
-extern u16 D_800F2848[];
 extern u8 D_800E9F10[];
 extern u8 D_800E9FF0[];
 extern u8 D_800EA030[];
@@ -43,11 +43,11 @@ void func_80018608(void)
     s32 stat;
     s32 stat2;
 
-    w = D_800F2848;
+    w = (u16 *)&D_800F2848;
     if ((D_8009B23A & 0x8000) == 0) {
         D_8009B23A |= 0x8000;
         Duel_RequestCombinedDeckData();
-        D_800F2848[0] = 0x4B0;
+        D_800F2848.field_00 = 0x4B0;
         w[2] = 0x358;
         w[1] = 0x16C0;
         func_8001352C();
@@ -58,11 +58,11 @@ void func_80018608(void)
 
     switch (D_8009B174 & 0x1F) {
     case 2:
-        D_800F2848[0] -= 2;
+        D_800F2848.field_00 -= 2;
         w[2] -= 2;
         w[1] -= 0x10;
         if ((s16)w[1] <= 0x400) {
-            D_800F2848[0] = 0x258;
+            D_800F2848.field_00 = 0x258;
             w[2] = 0x100;
             w[1] = 0x400;
             D_8009B174 = 3;

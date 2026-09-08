@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "view_state.h"
 #include "../psyq/rand.h"
 
 typedef struct {
@@ -6,7 +7,6 @@ typedef struct {
 } ViewQuad;
 
 extern u8 D_800EA1E8[];
-extern u8 D_800F2848[];
 /* Overlay-resident halfwords, addressed %hi/%lo in retail under -G8. */
 extern s16 D_80181002 __attribute__((section(".data")));
 extern s16 D_80181012 __attribute__((section(".data")));
@@ -71,7 +71,7 @@ void func_8002BAB4(void)
         break;
     case 2:
         func_8002ACA4(state);
-        model = D_800F2848;
+        model = (u8 *)&D_800F2848;
         r = func_80058DD8(0);
         if (r == one) {
             if (func_80058E68(0) != r) {
@@ -122,7 +122,7 @@ void func_8002BAB4(void)
         }
         /* A fresh pointer: this block is a join, so the address is
            materialised again rather than taken from the model pointer. */
-        p = D_800F2848;
+        p = (u8 *)&D_800F2848;
         *(u16 *)(p + 2) += 0xC;
         func_8001352C();
         dst = func_800591FC();
