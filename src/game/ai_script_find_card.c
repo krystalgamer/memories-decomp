@@ -1,16 +1,9 @@
 #include "../types.h"
 #include "duel_card_layout.h"
 #include "ai_script_read_byte.h"
-
-struct ActiveCardEntry {
-    s16 card_id;
-    u8 pad_02[4];
-    u16 flags;
-    u8 pad_08[4];
-};
+#include "ai.h"
 
 extern s32 gAiScript_aMemory[];
-extern struct ActiveCardEntry gDuel_aActiveCards[];
 extern void Ai_GetCardRange(s32 type, s32 *start, s32 *end);
 
 void AiScript_CountCards(void)
@@ -32,7 +25,7 @@ void AiScript_CountCards(void)
     Ai_GetCardRange(type, &start, &end);
 
     for (i = start; i <= end; i++) {
-        struct ActiveCardEntry *entry = &gDuel_aActiveCards[i];
+        AiActiveCard *entry = &gDuel_aActiveCards[i];
         if (entry->card_id != 0) {
             if (type == 1 || type == 3 || type == 6 || type == 8) {
                 if (!(entry->flags & DUEL_CARD_FLAG_USED_THIS_TURN)) {

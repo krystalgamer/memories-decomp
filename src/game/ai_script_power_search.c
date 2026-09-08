@@ -2,17 +2,9 @@
 #include "card_constants.h"
 #include "duel_card_layout.h"
 #include "ai_script_read_byte.h"
-
-struct ActiveCardEntry {
-    s16 card_id;
-    s16 attack;
-    s16 defense;
-    u16 flags;
-    u8 pad_08[4];
-};
+#include "ai.h"
 
 extern s32 gAiScript_aMemory[];
-extern struct ActiveCardEntry gDuel_aActiveCards[];
 extern void Ai_GetWinningCardRange(s32 type, s32 *start, s32 *end);
 extern s32 Ai_IsCardInSets(s32 sets, s32 slot);
 

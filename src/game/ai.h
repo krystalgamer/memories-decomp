@@ -10,7 +10,8 @@ typedef void (*AiScriptHandler)(void);
 
 typedef struct {
     s16 card_id;
-    u8 pad02[4];
+    s16 attack;
+    s16 defense;
     u16 flags;
     s8 card_type;
     u8 pad09[3];

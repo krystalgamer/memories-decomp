@@ -2,18 +2,10 @@
 #include "ai_constants.h"
 #include "duel_grid.h"
 #include "ai_script_read_byte.h"
-
-struct ActiveCardEntry {
-    s16 card_id;
-    s16 attack;
-    s16 defense;
-    u16 flags;
-    u8 pad_08[4];
-};
+#include "ai.h"
 
 extern s32 gAiScript_aMemory[];
 extern u8 gAiScript_State[];
-extern struct ActiveCardEntry gDuel_aActiveCards[];
 extern s32 Ai_GetHandSize(void);
 extern s32 Ai_IsCardInSets(s32, s32);
 extern void Ai_CompleteFusion(s32);
