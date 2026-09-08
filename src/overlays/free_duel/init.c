@@ -64,7 +64,7 @@ void FreeDuel_Init(u8 *src)
     if (gFreeDuel_bReturnFlags & 0x80) {
         rec = (u16 *)(gFreeDuel_aDuelistRecords +
                       (gFreeDuel_bCursorRow * FREE_DUEL_GRID_COLUMN_COUNT +
-                       gFreeDuel_bCursorColumn) * 4);
+                       gFreeDuel_bCursorColumn) * FREE_DUEL_GRID_RECORD_SIZE);
         if (D_8009B362 == 1) {
             rec++;
         }
