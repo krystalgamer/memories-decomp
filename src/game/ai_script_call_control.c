@@ -5,13 +5,12 @@
 #include "ai_script_call_control.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_read_short.h"
+#include "ai_script_source_line_format.h"
 
 extern AiScriptState gAiScript_State;
 extern char D_800118AC[];
 extern char D_800118E4[];
 extern char D_800118CC[];
-
-char gAiScript_szSourceLineFormat[] = "%s:%d\n";
 
 void AiScript_Call(void) {
     s32 val = AiScript_ReadShort();
