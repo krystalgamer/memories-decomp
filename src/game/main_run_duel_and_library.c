@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "fade.h"
 #include "file_transfer.h"
+#include "sound.h"
 
 extern u8 D_8009B26C, D_8009B26E;
 extern u8 D_8009B369[9], D_8009B2F8[9], D_8009B0A3[9];
@@ -11,7 +12,6 @@ extern u16 D_8009B16C[9];
 extern u32 D_80010000[];
 extern u8 gDuel_awPlayerDeck[];
 extern void func_800323F8(u32, void *, int, int);
-extern void SD_BGMFadeOut(void);
 extern int func_80033BE8(void);
 extern void Main_ResetFrontendRuntime(void), func_800179F4(void),
     func_80024388(void);

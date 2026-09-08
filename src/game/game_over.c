@@ -4,6 +4,7 @@
 #include "graphics_constants.h"
 #include "input.h"
 #include "display_object_helpers.h"
+#include "sound.h"
 
 extern u8 D_801AF000[];
 extern s32 D_8009B378;
@@ -13,7 +14,6 @@ extern u8 D_800E9ECF[];
 extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern void func_80040410(u8 *, s32);
 extern void func_80040510();
-extern void SD_BGMPlay(u32);
 extern s32 Rand_GetInterval(s32);
 
 void func_8003C950(void)

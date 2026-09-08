@@ -39,7 +39,6 @@ extern s8 D_8009B34D;
 extern void func_80039794(void);
 extern void Password_SetDigitCursorTarget(Cursor *);
 extern void Password_RefreshDigitDisplay(void);
-extern void SD_BGMFadeOut(void);
 extern void Fade_WaitOut(void);
 extern s32 Password_LookupCardID(void);
 extern void func_80029164(s32, s32);

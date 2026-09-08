@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/display_object_api.h"
+#include "../../game/sound.h"
 
 extern u8 gCampaignMap_Location;
 extern u8 gCampaignMap_LocationPrev;
@@ -18,7 +19,6 @@ extern u8 *CampaignMap_CreateLocationLabel(s32);
 extern u8 *CampaignMap_CreateLocationMarker(s32);
 extern void CampaignMap_ClearLocationObjects(void);
 extern void Fade_InitOut(void);
-extern void SD_BGMFadeOutWithStep(s32);
 extern void func_8001352C(void);
 extern s32 CampaignMap_PickExit(void);
 

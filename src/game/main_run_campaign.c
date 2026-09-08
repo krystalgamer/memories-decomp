@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "fade.h"
+#include "sound.h"
 
 extern u8 D_8009B26C;
 extern u8 gCampaignSceneIndex __attribute__((section(".data")));
@@ -7,7 +8,6 @@ extern u8 D_800EAE98[];
 extern void func_8002FD10(s32);
 extern void func_8002FFD4(void *);
 extern void func_8002FA54(void);
-extern void SD_BGMFadeOut(void);
 
 #define D_8009B254 (*(u8 *)0x8009B254)
 

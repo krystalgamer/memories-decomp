@@ -2,6 +2,7 @@
 #include "../../game/campaign_flags.h"
 #include "../../game/display_object_api.h"
 #include "../../psyq/libgte.h"
+#include "../../game/sound.h"
 
 extern u8 gCampaignMap_Location;
 extern u8 gCampaignMap_LocationPrev;
@@ -29,7 +30,6 @@ extern void CampaignMap_SetCameraFromLocation(s32);
 extern u8 *CampaignMap_CreateLocationLabel(s32);
 extern void CampaignMap_RebuildLocationObjects(s32);
 extern u8 *CampaignMap_CreateLocationMarker(s32);
-extern void SD_BGMPlay(u32);
 extern void func_80042C08(void);
 
 void CampaignMap_SetLocation(s32 index)

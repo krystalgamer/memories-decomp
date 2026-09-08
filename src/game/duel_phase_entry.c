@@ -28,10 +28,10 @@ extern s32 gDuel_adwCardStats[];
 extern void Duel_RequestCombinedDeckData(void);
 extern void Duel_PopulateCombinedDeckData(void);
 extern void Duel_ClearHandSlots(void);
-extern void SD_BGMPlay(u32);
 extern void func_8001352C(void);
 #include "duel_card_layout.h"
 #include "duel_grid.h"
+#include "sound.h"
 
 extern u8 *D_8009B21C;
 extern u8 *D_8009B1C8;

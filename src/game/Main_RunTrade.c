@@ -41,13 +41,11 @@ extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
 
 extern void func_80032328(void);
-extern void SD_BGMPlay(u32);
 extern void func_80039A14(void *);
 extern void func_80043178(Obj *);
 extern void func_80043230(Obj *, s32, s32, s32);
 extern void TextBox_SetPos(void *, s32, s32);
 extern s32 DuelEffect_UpdateState(void);
-extern void SD_BGMFadeOut(void);
 
 void Main_RunTrade(void)
 {

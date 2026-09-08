@@ -4,6 +4,7 @@
 #include "../../game/save_data.h"
 #include "name_entry_frame.h"
 #include "../../game/gpu_packets.h"
+#include "../../game/sound.h"
 
 extern u8 D_8016D400;
 extern u8 D_8016D401;
@@ -22,7 +23,6 @@ extern s16 D_8016D4D2;
 extern u8 D_800EB0F8[];
 extern u8 D_801B125A[];
 extern u8 gSaveData_aPlayerNameSjis[];
-extern void SD_BGMPlay(u32);
 extern void func_800403F0(void);
 extern void func_8003BC40(u8 *, u8 *, s32);
 extern void func_8003B6AC(s32, s32);

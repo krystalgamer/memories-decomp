@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "fade.h"
+#include "sound.h"
 
 extern unsigned char D_8009B26C;
 extern unsigned char D_8009B269;
@@ -14,7 +15,6 @@ extern void CampaignMap_UpdateLocation(void);
 extern void func_800134B4(void);
 extern void func_80012D4C(void);
 extern void func_800323F8(unsigned int, void *, int, int);
-extern void SD_BGMFadeOut(void);
 extern void Main_InitFreeDuelMenu(void);
 extern void func_80168FB4(void);
 extern int func_80033BE8(void);

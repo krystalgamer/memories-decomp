@@ -4,6 +4,7 @@
 #include "fade.h"
 #include "text_box_lifecycle.h"
 #include "../overlays/main_menu/entrypoints.h"
+#include "sound.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
@@ -18,8 +19,6 @@ extern u8 D_8009B368 __attribute__((section(".data")));
 extern u8 D_800EB0F8[];
 
 extern void func_80039A14(void *);
-extern void SD_BGMPlay(u32);
-extern void SD_BGMFadeOut(void);
 extern void func_80024DC8(s32, s32, s32, s32);
 
 void func_8002DC38(void)

@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "fade.h"
+#include "sound.h"
 
 typedef struct {
     s16 f0;
@@ -28,7 +29,6 @@ extern void func_80059C24(void);
 extern s32 func_80059C88(void);
 extern s32 func_800534B8(void);
 extern void SD_KeyOffVoiceSlots(void);
-extern void SD_BGMFadeOut(void);
 extern void func_80059CE4(void);
 
 void Main_RunAnimatedBattle(void)
