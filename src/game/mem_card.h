@@ -16,6 +16,20 @@
 #define MEM_CARD_DIALOG_FLAG_OPENED 0x4000
 #define MEM_CARD_DIALOG_FLAG_ACTIVE 0x8000
 
+/* The result of the card's asynchronous IO, set from the callbacks
+ * mem_card_io_result_callbacks.h declares and polled by the request state
+ * machines. func_800440B4 resets it to -1 before starting a request.
+ *
+ * Three of the five consumers declare it volatile, and they are the ones
+ * that read it several times in a row while waiting -- without the
+ * qualifier gcc commons those reads into one register and the poll cannot
+ * observe the callback. The other two write it once or read it once. */
+#ifdef GMEMCARD_NIORESULT_IS_VOLATILE
+extern volatile s32 gMemCard_nIOResult;
+#else
+extern s32 gMemCard_nIOResult;
+#endif
+
 extern u8 gMemCard_szSaveFileName[];
 
 #endif

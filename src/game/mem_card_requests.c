@@ -1,3 +1,4 @@
+#define GMEMCARD_NIORESULT_IS_VOLATILE
 #include "../types.h"
 #include "../psyq/libapi.h"
 #include "../psyq/stdio.h"
@@ -18,7 +19,6 @@ extern s32 D_8009B430;
 extern s16 D_8009B434;
 extern u8 D_8009B437;
 extern s16 D_8009B44C;
-extern volatile s32 gMemCard_nIOResult;
 
 int func_8004413C(int value)
 {

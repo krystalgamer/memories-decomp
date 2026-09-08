@@ -1,8 +1,7 @@
 #include "../types.h"
+#include "mem_card.h"
 #include "../psyq/libapi.h"
 #include "io_event_helpers.h"
-
-extern s32 gMemCard_nIOResult;
 
 void func_80043D48(long *items)
 {

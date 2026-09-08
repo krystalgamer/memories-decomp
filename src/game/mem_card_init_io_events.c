@@ -1,4 +1,6 @@
+#define GMEMCARD_NIORESULT_IS_VOLATILE
 #include "../types.h"
+#include "mem_card.h"
 #include "../psyq/libapi.h"
 #include "io_event_helpers.h"
 #include "mem_card_io_result_callbacks.h"
@@ -6,7 +8,6 @@
 extern signed char D_8009B43E;
 extern u8 D_8009B44E;
 extern int D_8009B444;
-extern volatile int gMemCard_nIOResult;
 extern long gMemCard_aIOEventHandles[];
 extern long D_800F2AF0[];
 
