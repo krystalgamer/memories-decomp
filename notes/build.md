@@ -248,6 +248,23 @@ table of relocations and a typed record array. Five things make one of these:
    read-only region - and the link fails loudly on the duplicate, which is the
    good case.
 
+6. **Carving `.sdata` out of the middle of a mapped blob moves the symbol.**
+   Splitting an extracted range into blob, `.sdata` subsegment, blob and
+   defining the symbol in its owning text unit builds and links, but the
+   image does not match: the symbol lands after the other small-data
+   contributions rather than at its own address. Taking one symbol in
+   isolation is not enough, because the `.sdata` output section is filled in
+   linker-script order and every contribution before it decides where it
+   starts. This is what the issue means by figuring out the order first.
+
+   The mismatch names the culprit precisely, which makes this cheap to
+   diagnose. `D_8009AF74` sits at `_gp + 0x6C`, and the failure was a byte in
+   *text* at VRAM `0x800401a4` reading `0x74` where `0x6c` was expected - the
+   gp-relative displacement of the instruction that loads it, moved by exactly
+   the eight bytes the definition added. When a data change breaks a byte
+   inside code, read the differing value as a `%gp_rel` displacement and
+   subtract `_gp` (`0x8009AF08`) to find which symbol shifted and by how much.
+
 **The segment holding the data has to be a `code` segment.** Only a group
 segment adds each of its subsegments to the linker script; a segment declared
 `type: data` emits one line for itself, so the C object is built, is never
