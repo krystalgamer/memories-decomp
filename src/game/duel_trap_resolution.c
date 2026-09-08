@@ -14,7 +14,6 @@ u8 gDuel_abTrapAttackThresholds[DUEL_ATTACK_TRAP_COUNT] = {
     5, 10, 15, 20, 30, 255,
 };
 extern u8 D_8009B1B8;
-extern u8 D_8009B1D5;
 extern u16 D_8009B22A;
 extern u8 D_8015C424[];
 extern u8 D_801A7AD8_raw[] asm("D_801A7AD8");

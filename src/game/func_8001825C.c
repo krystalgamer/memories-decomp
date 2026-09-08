@@ -11,7 +11,6 @@
 #include "view_state.h"
 
 extern u16 D_8009B23A;
-extern u8 D_8009B1D5;
 extern s8 D_8009B1B9;
 extern s8 D_8009B208[8];
 extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];

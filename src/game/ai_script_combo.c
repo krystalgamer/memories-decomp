@@ -1,9 +1,9 @@
+#define D_8009B1D5_IS_AGGREGATE
 #include "../types.h"
 #include "duel_side_state.h"
 #include "ai.h"
 #include "ai_script_read_byte.h"
 
-extern u8 D_8009B1D5[];
 extern u8 gAiScript_State[];
 void AiScript_TestPinned(void)
 {

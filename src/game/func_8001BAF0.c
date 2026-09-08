@@ -23,7 +23,6 @@ typedef struct {
     s16 y;
 } Spawned;
 
-extern u8 D_8009B1D5;
 extern u8 D_800EAE88[];
 extern u8 D_800907CC[];
 

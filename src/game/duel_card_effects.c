@@ -10,7 +10,6 @@ extern s16 D_8009B1D2;
 extern u16 D_8009B220;
 extern u16 D_8009B210;
 extern s16 D_8009B22A;
-extern u8 D_8009B1D5;
 /* Small data at 0x8009AF30, owned here: the recovery amounts func_800250C8
    scales by 100 and the direct-damage amounts func_8002525C scales by 10,
    one entry per card in each family. */
@@ -149,7 +148,6 @@ extern s16 D_8009B1AC;
 extern s16 D_8009B1AE;
 extern u8 D_80090A4C[];
 extern u16 D_8009B220;
-extern u8 D_8009B1D5;
 extern u8 D_801A7AD8_bytes[] asm("D_801A7AD8");
 
 extern s16 func_800181EC(u8 *arg0);
@@ -248,7 +246,6 @@ hit:
 extern volatile u16 D_8009B112 __attribute__((section(".data")));
 extern u8 *D_8009B17C;
 extern s16 D_8009B1D2;
-extern u8 D_8009B1D5;
 extern s16 D_8009B20C[4];
 extern u16 D_8009B220;
 extern DuelFieldPosition D_80090800[];

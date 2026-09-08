@@ -1,5 +1,6 @@
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
+#include "duel_side_state.h"
 #include "duel_grid.h"
 #include "func_8002C604.h"
 #include "duel_action_lock.h"
@@ -23,7 +24,6 @@ typedef struct Obj {
     u8 active;
 } Obj;
 
-extern u8 D_8009B1D5;
 extern Obj *D_8009B17C;
 extern u16 D_8009B220;
 extern u8 D_8009B260 __attribute__((section(".data")));

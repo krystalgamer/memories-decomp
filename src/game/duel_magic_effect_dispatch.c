@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "duel_grid.h"
 #include "../psyq/stdio.h"
 
@@ -8,7 +9,6 @@
 #include "duel_card.h"
 #include "duel_effect_tables.h"
 
-extern u8 D_8009B1D5;
 extern u16 D_8009B220;
 extern DuelFieldPosition
     D_80090800[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];

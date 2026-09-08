@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "display_object.h"
 #include "screen_projection.h"
 #include "../psyq/libgte.h"
@@ -73,7 +74,6 @@ typedef struct {
     s8 f18;
 } TrackedObject;
 
-extern u8 D_8009B1D5;
 /* Declared as an array so it stays out of small data: the target reads it with
    a %hi/%lo pair while D_8009B1D5, a byte, is %gp_rel in the same body. */
 extern void *D_800E9D98[];

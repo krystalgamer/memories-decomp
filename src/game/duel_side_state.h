@@ -69,6 +69,16 @@ typedef char DuelSideState_field_1F_must_be_at_0x1F[
     DUEL_SIDE_STATE_OFFSET(field_1F) == 0x1F ? 1 : -1
 ];
 
+/* The side selector: 0 or 1, and the index behind both cursors this header
+ * and duel_grid.h describe. Thirty-nine private declarations before this. */
+#ifdef D_8009B1D5_IS_AGGREGATE
+extern u8 D_8009B1D5[];
+#elif defined(D_8009B1D5_IS_VOLATILE)
+extern volatile u8 D_8009B1D5;
+#else
+extern u8 D_8009B1D5;
+#endif
+
 extern DuelSideState D_800E9FF0[DUEL_SIDE_COUNT];
 /* Always &D_800E9FF0[D_8009B1D5]: four translation units assign it exactly
  * that on a turn change. */

@@ -4,7 +4,6 @@
 #include "duel_hand.h"
 #include "duel_grid.h"
 
-extern u8 D_8009B1D5;
 extern u16 D_8009B230;
 extern u16 D_8009B234;
 extern u16 D_8009B236;

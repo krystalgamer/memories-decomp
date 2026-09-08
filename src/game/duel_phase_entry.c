@@ -17,7 +17,6 @@ typedef struct {
 extern u16 D_8009B23A;
 extern u16 D_8009B162;
 extern u8 D_8009B174;
-extern u8 D_8009B1D5;
 extern u8 D_8009B1EC;
 extern u8 *D_8009B1B4;
 extern u16 D_8009B36A __attribute__((section(".data")));

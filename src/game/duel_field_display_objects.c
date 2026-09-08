@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "duel_grid.h"
 #include "display_object_api.h"
 
@@ -27,7 +28,6 @@ typedef struct {
 } DuelFieldDisplaySource;
 
 extern DuelFieldPosition D_80090800[];
-extern u8 D_8009B1D5;
 
 extern void func_80023144(DuelFieldDisplaySource *, u8);
 extern void *func_80040468(DisplayObjectSlot *, s32, s32, s32, s32, s32);

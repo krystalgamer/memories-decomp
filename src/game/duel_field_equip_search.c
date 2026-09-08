@@ -1,9 +1,9 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "func_80026C0C.h"
 
-extern u8 D_8009B1D5;
 extern s32 gDuel_adwCardStats[];
 extern u8 D_800EAE88[];
 

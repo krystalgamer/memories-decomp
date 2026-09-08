@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "campaign_flags.h"
 
-extern u8 D_8009B1D5;
 extern s8 D_8009B360[9];
 extern s8 gDuel_bOpponentID[9];
 

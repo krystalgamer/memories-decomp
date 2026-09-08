@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "duel_card.h"
 #include "card_constants.h"
 #include "duel_hand.h"
@@ -8,7 +9,6 @@
 
 extern u16 D_8009B162;
 extern u8 *D_8009B1B4;
-extern u8 D_8009B1D5;
 extern u8 D_800E9F48[];
 extern u8 D_8015C424[];
 extern s32 gDuel_adwCardStats[];

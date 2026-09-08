@@ -1,10 +1,9 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "display_object_layout.h"
 #include "duel_card_layout.h"
 #include "duel_card.h"
 #include "duel_card_turn_animations.h"
-
-extern u8 D_8009B1D5;
 
 s32 func_80042B98(u8 *arg0);
 void func_80017E3C(u8 *arg0);

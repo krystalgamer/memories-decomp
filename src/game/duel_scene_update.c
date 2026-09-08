@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "input.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
@@ -20,7 +21,6 @@ extern volatile u8 D_8009B260 __attribute__((section(".data")));
 extern s8 gDialog_bChoice[9];
 extern Window D_800EB224;
 extern s8 gDuel_bOpponentID[9];
-extern u8 D_8009B1D5;
 extern void (*D_80090998[])(void);
 extern void func_800235C0(void);
 extern void func_8002C6C8(void);

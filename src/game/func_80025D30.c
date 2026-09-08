@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "func_8002C604.h"
 #include "card_constants.h"
 #include "duel_action_lock.h"
@@ -19,7 +20,6 @@ typedef struct {
 
 extern u16 D_8009B1D0;
 extern s16 D_8009B1D2;
-extern u8 D_8009B1D5;
 extern s16 D_8009B20C[2];
 extern u16 D_8009B220;
 extern u8 D_8009B260[8] __attribute__((section(".data")));

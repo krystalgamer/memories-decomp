@@ -32,7 +32,6 @@ typedef struct {
     u8 field_59;
 } TextBox;
 
-extern u8 D_8009B1D5;
 extern u8 D_8009B320 __attribute__((section(".data")));
 extern u8 D_8009B344 __attribute__((section(".data")));
 extern u8 D_8009B34E __attribute__((section(".data")));

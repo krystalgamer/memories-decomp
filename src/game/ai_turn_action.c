@@ -3,6 +3,7 @@
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_grid.h"
+#include "duel_side_state.h"
 #include "func_80026C0C.h"
 #include "rand_get_interval.h"
 
@@ -34,7 +35,6 @@ typedef struct {
     s8 value;
 } AiCardEntry;
 
-extern u8 D_8009B1D5;
 extern s32 gDuel_adwCardStats[];
 
 extern s32 Duel_CollectFieldCardsByType(DuelCardRecord **, s32, s32);

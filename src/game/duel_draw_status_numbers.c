@@ -15,7 +15,6 @@
    are displayed LP from field12 and DECK_SIZE minus the signed draw cursor
    in field18 of the corresponding D_800E9FF0 entry. */
 
-extern u8 D_8009B1D5;
 void func_80016D2C(void *, void *, s32, s32);
 
 #define SCRATCH ((DuelStatusDigitPacket *)0x1F800320)

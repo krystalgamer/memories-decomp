@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 
 #include "duel_card.h"
 
@@ -9,7 +10,6 @@ typedef struct {
     u8 pad18[4];
 } Entry;
 
-extern u8 D_8009B1D5;
 extern Entry D_801A7B64[];
 
 void func_8002C938(u32 *output, int alternate)

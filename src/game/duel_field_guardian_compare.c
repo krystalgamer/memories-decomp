@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "duel_grid.h"
 #include "duel_card.h"
 
@@ -7,8 +8,6 @@ typedef struct {
     s8 col;
     s8 row;
 } Cursor;
-
-extern u8 D_8009B1D5;
 
 s32 func_80023090(Cursor *cursor_a, Cursor *cursor_b)
 {

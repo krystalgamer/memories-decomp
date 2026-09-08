@@ -1,3 +1,4 @@
+#define D_8009B1D5_IS_VOLATILE
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
 #include "duel_grid.h"
@@ -17,7 +18,6 @@ typedef struct Object {
     u8 pad_28[0x44];
     u8 active;
 } Object;
-extern volatile u8 D_8009B1D5;
 extern Object *D_8009B1F0[2], *D_8009B17C;
 extern u16 D_8009B220;
 extern u8 D_800907D8[2][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
