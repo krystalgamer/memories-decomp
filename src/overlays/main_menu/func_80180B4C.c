@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/gpu_packets.h"
 
 typedef struct {
     u8 pad[3];
@@ -77,7 +78,6 @@ typedef struct {
 
 extern u8 D_80184597;
 extern void *D_800E9D90[];
-extern void func_8005B260(void *, void *, s32, s32);
 extern void func_80084320(void *, void *, s32);
 
 void func_80180B4C(void)
@@ -105,7 +105,7 @@ void func_80180B4C(void)
         flat.y2 = 240;
         flat.x3 = 320;
         flat.y3 = 240;
-        func_8005B260(&flat, D_800E9D90[2], 0, 2);
+        func_8005B260((u32 *)&flat, (GsOT *)D_800E9D90[2], 0, 2);
     }
     sprite.len = 9;
     sprite.code = 0x2C;
@@ -157,5 +157,5 @@ void func_80180B4C(void)
     shade.y2 = 240;
     shade.x3 = 320;
     shade.y3 = 240;
-    func_8005B260(&shade, D_800E9D90[2], 4094, 2);
+    func_8005B260((u32 *)&shade, (GsOT *)D_800E9D90[2], 4094, 2);
 }

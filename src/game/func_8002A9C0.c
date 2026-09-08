@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "gpu_packets.h"
 
 extern void func_8004036C(void *);
 extern void func_80041F90(u8 *, s32, s32, u8 *);
-extern void func_8005B260(u8 *, s32, u16, s32);
 
 void func_8002A9C0(u8 *p, s32 arg1)
 {
@@ -77,10 +77,10 @@ void func_8002A9C0(u8 *p, s32 arg1)
         (long *)&sp28, (long *)&sp2C
     );
 
-    func_8005B260((u8 *)0x1F8002A0, arg1, *(u16 *)(p + 0x14), 1);
+    func_8005B260((u32 *)0x1F8002A0, (GsOT *)arg1, *(u16 *)(p + 0x14), 1);
     q[3] = 3;
     q[7] = 0x40;
     k = *(u16 *)(p + 0x14);
     *(s32 *)(q + 0xC) = *(s32 *)(q + 0x14);
-    func_8005B260((u8 *)0x1F8002A0, arg1, k, 1);
+    func_8005B260((u32 *)0x1F8002A0, (GsOT *)arg1, (u16)k, 1);
 }

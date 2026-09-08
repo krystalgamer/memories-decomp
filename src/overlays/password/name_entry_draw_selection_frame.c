@@ -2,6 +2,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
+#include "../../game/gpu_packets.h"
 
 typedef struct {
     u8 pad0[20];
@@ -13,8 +14,6 @@ typedef struct {
     u16 f3C;
     u16 f3E;
 } Record;
-
-extern void func_8005B260(u32 *, GsOT *, s32, s32);
 
 void NameEntry_DrawSelectionFrame(Record *r, GsOT *ot)
 {

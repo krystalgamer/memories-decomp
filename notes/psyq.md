@@ -629,6 +629,14 @@ semi-transparency flag. It then links the packet through
 ordering-table member, and 24-bit link macros fit this resident path without a
 parallel local packet or ordering-table declaration.
 
+`src/game/gpu_packets.h` declares this game-owned submission boundary once as
+`func_8005B260(u32 *, GsOT *, s32, s32)`. The definition and all current
+resident/overlay callers include it. Callers that previously declared a
+`u16` index retain the corresponding explicit conversion where required;
+integer-valued packet/table addresses are cast at the call boundary without
+changing their existing address arithmetic. Local primitive builders and
+their packed-store shapes are not redefined by this interface cleanup.
+
 The password overlay's `NameEntry_DrawSelectionFrame` (`0x801681A0`) now
 uses `LINE_F3` and `LINE_G2` from that same header. Its former offsets match
 the SDK fields directly: `LINE_F3` has three halfword coordinate pairs at

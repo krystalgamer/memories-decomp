@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/gpu_packets.h"
 
 typedef struct {
     u8 pad[3];
@@ -18,7 +19,6 @@ typedef struct {
 } MainMenuQuad;
 
 extern void *D_800E9D94;
-extern void func_8005B260(void *, void *, int, int);
 
 void func_80184454(int column)
 {
@@ -39,5 +39,5 @@ void func_80184454(int column)
     quad.y2 = 0xF0;
     quad.x3 = right;
     quad.y3 = 0xF0;
-    func_8005B260(&quad, D_800E9D94, 0x1F, 2);
+    func_8005B260((u32 *)&quad, (GsOT *)D_800E9D94, 0x1F, 2);
 }
