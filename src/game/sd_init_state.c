@@ -1,6 +1,7 @@
 #include "../types.h"
 
 #include "sound.h"
+#include "sound_buffer_init.h"
 #include "sound_output_transition.h"
 
 typedef struct {
@@ -20,7 +21,6 @@ extern u8 D_8001079C[];
 
 extern void func_800478EC(void);
 extern void func_800494F4(s32 *);
-extern void func_80044D48(void);
 extern void func_80048F14(void);
 extern void SD_SetOutputType(s32);
 
