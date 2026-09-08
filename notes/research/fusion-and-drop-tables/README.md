@@ -126,9 +126,22 @@ The sector arithmetic also lands independently on the offsets the recomp's
 
 ## Caveat on the names
 
-Duelist names are the block order settled in §6.4 by matching pools against the
-community's recorded drop lists, at 92-100 % per duelist. The two most likely
-to be wrong are DarkNite (37) and Nitemare (38): the block order here is
-measured, but the GameShark record order the archives publish is the reverse,
-so one of the two labels is probably wrong upstream. Nothing in the data
-distinguishes them.
+The initial block/name assignment used the community's recorded drop lists,
+with 92-100 % overlap per duelist. Weight comparisons alone do not encode
+the characters' names. The
+[primary game description](../the-game.md#64-the-dropped-card) now also
+corroborates the identities through matching Free Duel code and retail text:
+the armed update for an available, settled grid index `i` selects global
+string ID `0x8328 + i`.
+
+| `duelist_id` | Global string ID | Retail string address | Label |
+|---:|---|---|---|
+| `37` | `0x834D` | `0x801D8D7A` | `DarkNite` |
+| `38` | `0x834E` | `0x801D8D83` | `Nitemare` |
+
+Both `drops.csv` and `drops_summary.csv` already use these labels. The
+reversed labels in the archived GameShark win/loss table are not an
+alternative duelist-block order. This independent source/text evidence
+retires the earlier uncertainty about the pair; it does not remeasure
+drop weights or claim a new runtime trace. The archived cheat labels and
+the generated CSV data remain unchanged.

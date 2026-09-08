@@ -1425,8 +1425,8 @@ matches one block at 92–100 %, and the order is the opponent id
 | 11 | Mai Valentine | 24 | High Mage Anubisius | 37 | **DarkNite** |
 | 12 | Bandit Keith | 25 | Mountain Mage | 38 | **Nitemare** |
 
-The ID/name list now also has direct executable-text corroboration. For a
-settled Free Duel cell `i`, matching
+The ID/name list now also has direct executable-text corroboration. For an
+available, settled Free Duel cell `i`, the armed update in matching
 [`FreeDuel_PlaceCursor`](../../src/overlays/free_duel/place_cursor.c)
 writes string ID `0x8328 + i` to `D_8009B32E`.
 [`func_800383DC`](../../src/game/func_800383DC.c) reads that ID as an
@@ -1436,9 +1436,10 @@ using entry `string_id - 0x8000` and bank base `0x801D0000`.
 Decoding IDs `0x8329..0x834F` through the executable's glyph-to-Shift-JIS
 table at `0x801D9000` (also used by
 [`Text_SjisToGlyphCodes`](../../src/game/text_sjis_to_glyph_codes.c))
-agrees with all 39 names above after character-width normalization. The
-remaining prose-spacing difference is that the raw strings say `Villager1`,
-`Villager2` and `Villager3` without the spaces used in this description.
+agrees with all 39 names above after character-width normalization. Each
+glyph-table entry is four bytes; its low halfword supplies the Shift-JIS
+value. The remaining prose-spacing difference is that the raw strings say
+`Villager1`, `Villager2` and `Villager3` without the spaces used in this description.
 Build Deck, Simon Muran and Teana provide known-label controls for the
 lookup and decoding. The two disputed boss entries are:
 
