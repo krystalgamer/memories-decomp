@@ -45,9 +45,9 @@ separate `_matching_c.json` manifests map accepted source/profile pairs.
 ## Camera-state translation unit
 
 `camera_state.c` keeps the location-camera loader next to the per-frame view
-publisher, the default-camera reset, and the free-look D-pad controller. All
-four operate on `D_800F2848`; the loader, reset, and D-pad controller rebuild
-its derived matrix through `func_8001352C`.
+publisher, the default-camera reset, and a free-look-shaped D-pad routine. All
+four operate on `D_800F2848`; the loader, reset, and D-pad routine rebuild its
+derived matrix through `func_8001352C`.
 
 The definitions remain in executable order:
 `CampaignMap_SetCameraFromLocation` occupies
@@ -56,6 +56,13 @@ The definitions remain in executable order:
 `0x80168588`. All four use `gcc_2_8_1_g0_split`. One C subsegment at module
 offset `0x1E8` covers the complete contiguous `0x3A0`-byte text range in both
 verified variants.
+
+`CampaignMap_MoveCameraDpad` has no established live dispatch. The active
+`CampaignMap_UpdateLocation` path does not call it, and an aligned-word scan of
+the resident executable plus all five verified module images found neither a
+direct `jal` nor a stored `0x80168388` pointer. Its input and camera writes are
+therefore a static function contract; computed or external entry remains an
+open question.
 
 ## Location-object translation unit
 

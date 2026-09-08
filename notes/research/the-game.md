@@ -1607,6 +1607,25 @@ menu — the way to reach Free Duel, Library and Password from inside the
 story), and `Leave Shop` (back to the story). This is the *only* place the
 campaign lets you save, which is why the guides say "save at every shop".
 
+Both verified map overlays also contain `CampaignMap_MoveCameraDpad`
+[`0x80168388`], a free-look-shaped routine over the same five camera channels
+loaded from each location record. Its static input contract is exact:
+
+| Held input | Without L2/R2 | With L2 or R2 |
+|---|---|---|
+| Left / Right | camera `+0x02`, `-2 / +2` | camera `+0x1C`, `-2 / +2` |
+| Up / Down | camera `+0x04`, `+2 / -2` | camera `+0x24`, `+2 / -2` |
+| L1 / R1 | camera `+0x00`, `+4 / -4` | no channel write |
+
+Holding Cross accelerates the two-unit changes to 32 and the four-unit change
+to 20. Whenever any D-pad or L1/R1 bit passes the outer gate, the routine
+rebuilds the derived camera matrix, even if the selected combination writes no
+channel. This is a **static routine contract, not a confirmed map feature**:
+the matching active tick (`CampaignMap_UpdateLocation`) does not call it, and
+neither the resident executable nor any of the five verified overlay images
+contains a direct call or stored pointer to `0x80168388`. Computed or external
+entry remains unproved.
+
 ### 7.1 The duelists, in order
 
 Thirty-nine opponents exist [the opponent id byte `0x8009B361`, 1–38 in the
