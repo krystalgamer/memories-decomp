@@ -1790,6 +1790,55 @@ extra diff for one extra instruction, moving the candidate from two short to
 one short. That is the right trade: a candidate short of the target can never
 match, so count is the binding constraint and the diff total is advisory.
 
+## The additive CSE lever, and the exact form it has to take
+
+Almost every lever in this note is subtractive: pin a register, disable a
+pass, reorder to prevent a hoist, add a `volatile`. `func_8005C1F4` finished
+on an additive one - **write a redundant expression so that the compiler's own
+CSE produces retail's shape** - and it is worth stating as a rule because nine
+spellings that tried to *suppress* CSE had failed on the same residual first.
+
+It needs stating precisely, because the obvious phrasing collides with the
+rule above and the obvious phrasing is wrong. "Give the same value a second
+local" does **not** work. The measurements, on the matched function with only
+this one spelling varied:
+
+| spelling of the second pointer | instructions | differing |
+| --- | --- | --- |
+| `out = src;` - alias the existing local | 94 | 78 |
+| `base = D_8009B498; ... out = base + 0x40000;` - hoist the global read, repeat only the arithmetic | 94 | 78 |
+| `out = D_8009B498; out = out + 0x40000;` - repeat the read, split the statement | 97 | 28 |
+| **`out = D_8009B498 + 0x40000;` - repeat the whole expression** | **96** | **0** |
+
+So the section above is right that an alias for an identical value gives the
+compiler nothing, and hoisting the global into a local is the same thing in
+another costume: both lose two instructions and 78 positions. What works is
+repeating the **entire expression, global read included**, exactly as written
+the first time. Splitting that expression across two statements is a third
+behaviour again.
+
+The mechanism is why the distinction is so sharp. Repeating the expression
+re-enters both the load and the address arithmetic into CSE's table. CSE then
+collapses the redundant *load* into a register copy - which is where retail's
+`move` comes from - while the arithmetic that depends on it is rebuilt from
+that copy rather than shared with the first pointer. An alias never creates
+the second load, so there is nothing for CSE to collapse and nothing to force
+the rebuild; the compiler simply keeps one register, which is the outcome the
+rule above describes.
+
+**The test to apply.** When a residual looks like "retail recomputes or copies
+something my build shares", do not reach for a way to stop the sharing. Write
+the source expression a second time, verbatim, and let CSE collapse it. And
+when checking whether it worked, vary only that spelling - the three near
+misses above differ from the match by a hoisted local or a statement break,
+and each produces a different function.
+
+A matched sibling is where this shape came from rather than the diff.
+`func_8005BE3C` assigns four separate locals the identical
+`D_8009B498 + 0x40000`, which is not something anyone would write by hand and
+is unreachable from "how do I stop GCC doing this". **A matched neighbour is a
+source of shapes, and shapes are what a diff cannot show.**
+
 ## Value-level levers cannot move address CSE
 
 Where retail re-materialises an address that GCC keeps live in a register,
