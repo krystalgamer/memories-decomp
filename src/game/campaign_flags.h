@@ -20,6 +20,10 @@
 #define CAMPAIGN_FLAG_COMMAND_PAYLOAD_MASK \
     (CAMPAIGN_FLAG_COMMAND_WORD_MASK ^ CAMPAIGN_FLAG_COMMAND_WRITE)
 
+/* A normal query returns the bit mask, not a normalized Boolean; with
+   CAMPAIGN_FLAG_CLEAR_MODIFIER set it returns 1 when the bit is clear. */
+s32 Campaign_TestStoryFlag(s32 flag);
+
 /* Shared packed flag-update interface; the established public name is retained. */
 void Library_UpdateCardUsedFlag(s32 flag);
 

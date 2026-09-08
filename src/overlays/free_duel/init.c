@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/campaign_flags.h"
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_layout.h"
 #include "../../game/card_constants.h"
@@ -38,7 +39,6 @@ extern u8 D_801AF000[];
 
 extern void func_80035C38(s32, s32, s32, s32, s32, s32, s32);
 extern void func_80039794(void);
-extern s32 Campaign_TestStoryFlag(s32);
 extern void func_80040510(Obj *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern void func_800428A8(Obj *, int, int, int, int, int, int, int, u8 *);
 extern void func_800428EC(Obj *, int);
