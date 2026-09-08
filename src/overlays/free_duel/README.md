@@ -66,5 +66,18 @@ cover the complete `0x518`-byte text section, with no data or rodata
 contribution. One C subsegment selects the group at module offset `0xA9C`.
 Preserve that order and complete extent when editing the group.
 
+## Input publication and button meanings
+
+Normal browsing uses `gInput_wPad1Held` for directional movement and
+`gInput_wPad1Pressed` for Cancel and Confirm. The named masks come from
+[`input.h`](../../game/input.h); the code-derived controls and their
+precedence are recorded in
+[`the-game.md`](../../../notes/research/the-game.md#8-free-duel).
+
+Held directions take precedence over button actions, and Cancel is tested
+before Confirm. The accesses remain separate volatile reads, not a
+timer-repeat sample or a cached once-per-call value. The names preserve the
+existing access pattern, dialog handling and cursor-movement gates.
+
 Keep unaccepted candidate sources, objects, and diffs under `tmp/`. Do not add
 this module to the resident `config/slus_01411/matching_c.json`.

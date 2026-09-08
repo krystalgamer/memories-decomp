@@ -2,3 +2,5 @@ gFreeDuel_bCursorColumn = 0x8009B366;
 gFreeDuel_bCursorRow = 0x8009B367;
 gFreeDuel_bTargetColumn = 0x8009B36C;
 gFreeDuel_bTargetRow = 0x8009B36D;
+gInput_wPad1Pressed = 0x8009B398;
+gInput_wPad1Held = 0x8009B3A4;

@@ -1,12 +1,13 @@
 #include "../../types.h"
 #include "../../game/card_constants.h"
+#include "../../game/input.h"
 
 extern u8 gFreeDuel_bScreenFlags;
 extern u8 *gFreeDuel_pCursorWidget;
 extern u8 gFreeDuel_abGridAvailable[];
 extern u8 D_800EB15C[];
-extern volatile u16 D_8009B398;
-extern volatile u16 D_8009B3A4;
+extern volatile u16 gInput_wPad1Pressed;
+extern volatile u16 gInput_wPad1Held;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 extern u8 gFreeDuel_bReturnFlags;
@@ -111,34 +112,34 @@ void FreeDuel_UpdateScreen(void)
         return;
     }
 
-    if ((D_8009B3A4 & 0xF000) != 0) {
-        if ((D_8009B3A4 & 0x2000) != 0) {
+    if ((gInput_wPad1Held & PAD_DIRECTION_MASK) != 0) {
+        if ((gInput_wPad1Held & PAD_DIRECTION_RIGHT) != 0) {
             if (++gFreeDuel_bTargetColumn >= 5) {
                 gFreeDuel_bTargetColumn = 4;
             }
         }
-        if ((D_8009B3A4 & 0x8000) != 0) {
+        if ((gInput_wPad1Held & PAD_DIRECTION_LEFT) != 0) {
             if (--gFreeDuel_bTargetColumn < 0) {
                 gFreeDuel_bTargetColumn = 0;
             }
         }
-        if ((D_8009B3A4 & 0x4000) != 0) {
+        if ((gInput_wPad1Held & PAD_DIRECTION_DOWN) != 0) {
             if (++gFreeDuel_bTargetRow >= 8) {
                 gFreeDuel_bTargetRow = 7;
             }
         }
-        if ((D_8009B3A4 & 0x1000) != 0) {
+        if ((gInput_wPad1Held & PAD_DIRECTION_UP) != 0) {
             if (--gFreeDuel_bTargetRow <= 0) {
                 gFreeDuel_bTargetRow = 0;
             }
         }
     } else {
-        if ((D_8009B398 & 0x20) != 0) {
+        if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
             SD_SEPlayFull(8);
             D_8009B26C = 8;
             return;
         }
-        if ((D_8009B398 & 0xC0) == 0) {
+        if ((gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) == 0) {
             return;
         }
         if (gFreeDuel_abGridAvailable[gFreeDuel_bCursorRow * 5 + gFreeDuel_bCursorColumn] == 0) {
