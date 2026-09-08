@@ -161,7 +161,8 @@ void Password_UpdateShopScreen(void)
             D_8016D424 = flags2 | 0x8000;
             D_801D5608.lo = D_801A8000[D_8016D4DC * 2];
             D_801D5608.hi = D_8016D4DC;
-            if (Campaign_TestStoryFlag(D_8016D4DC + 1024) != 0) {
+            if (Campaign_TestStoryFlag(
+                    D_8016D4DC + CAMPAIGN_FLAG_PASSWORD_USED_BASE) != 0) {
                 Password_CreateMessageBox(229, 128);
                 return;
             }
@@ -176,7 +177,8 @@ void Password_UpdateShopScreen(void)
         if ((flags2 & 0x4000) != 0) {
             D_8016D424 = flags2 & 0xBFFF;
             if (D_8009B34D == 0) {
-                Library_UpdateCardUsedFlag(D_8016D4DC + 1024);
+                Library_UpdateCardUsedFlag(
+                    D_8016D4DC + CAMPAIGN_FLAG_PASSWORD_USED_BASE);
                 Duel_AwardCard(D_8016D4DC);
                 D_8016D424 = 3;
                 return;

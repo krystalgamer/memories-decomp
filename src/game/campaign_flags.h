@@ -10,6 +10,7 @@
 #define CAMPAIGN_FLAG_BYTE_HIGH_BIT 0x80
 #define CAMPAIGN_FLAG_DUELIST_DEFEATED_BASE 0x1F
 #define CAMPAIGN_FLAG_LIBRARY_CARD_BASE 0x120
+#define CAMPAIGN_FLAG_PASSWORD_USED_BASE 0x400
 
 /* Tests require a clear bit; updates clear it when this modifier is set. */
 #define CAMPAIGN_FLAG_CLEAR_MODIFIER 0x8000
