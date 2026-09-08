@@ -2777,7 +2777,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2B4A,D_800F2B4A,D_800F2B4A,0x80052694,func_80052694,matching_c,game,C,src/game/model_view_adjustments.c,read,,n = D_800F2B4A[0];
 0x800F2B50,D_800F2B50,D_800F2B50,0x800528AC,func_800528AC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0430ac.s,address,,"addiu $t1, $t1, %lo(D_800F2B50 + 0x1) | addiu $v0, $v0, %lo(D_800F2B50) | (+2 more)"
 0x800F2B50,D_800F2B50,D_800F2B50,0x800533D8,func_800533D8,matching_c,game,C,src/game/func_800533D8.c,read_write,,"typedef struct{u16 flags;u8 pad[22];}Record;extern Record D_800F2B50[10];extern u8 D_8009AF9B,D_8009AF94;extern s8 D_..."
-0x800F2B50,D_800F2B50,D_800F2B50,0x80058938,func_80058938,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_049138.s,address,,"addiu $t4, $v0, %lo(D_800F2B50) | lui $v0, %hi(D_800F2B50)"
+0x800F2B50,D_800F2B50,D_800F2B50,0x80058938,func_80058938,matching_c,game,C,src/game/func_80058938.c,address,,base = (u8 *)D_800F2B50; | r = D_800F2B50;
 0x800F2C40,D_800F2C40,D_800F2C40,0x8004CB0C,func_8004CB0C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03d30c.s,address,,"addiu $v1, $v1, %lo(D_800F2C40) | lui $v1, %hi(D_800F2C40)"
 0x800F2C40,D_800F2C40,D_800F2C40,0x8004D58C,func_8004D58C,matching_c,game,C,src/game/func_8004D58C.c,address,8,t = D_800F2C40 + arg0 * 0xE20;
 0x800F2C40,D_800F2C40,D_800F2C40,0x8004D75C,func_8004D75C,matching_c,game,C,src/game/func_8004D75C.c,address,,ch = &D_800F2C40[index];
@@ -2805,7 +2805,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2C40,D_800F2C40,D_800F2C40,0x80057AF4,func_80057AF4,matching_c,game,C,src/game/func_80057AF4.c,address,,"register u8 *tbl asm(""$3"") = (u8 *)D_800F2C40;"
 0x800F2C40,D_800F2C40,D_800F2C40,0x80057E20,func_80057E20,matching_c,game,C,src/game/func_80057E20.c,address,,ModelSlot *rec = &D_800F2C40[idx];
 0x800F2C40,D_800F2C40,D_800F2C40,0x800580D4,func_800580D4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0488d4.s,address,,"addiu $s2, $v1, %lo(D_800F2C40) | lui $v1, %hi(D_800F2C40)"
-0x800F2C40,D_800F2C40,D_800F2C40,0x80058938,func_80058938,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_049138.s,address,,"addiu $v1, $v1, %lo(D_800F2C40) | lui $v1, %hi(D_800F2C40)"
+0x800F2C40,D_800F2C40,D_800F2C40,0x80058938,func_80058938,matching_c,game,C,src/game/func_80058938.c,address,,slot = &D_800F2C40[a0];
 0x800F2C40,D_800F2C40,D_800F2C40,0x80058DD8,func_80058DD8,matching_c,game,C,src/game/func_80058DD8.c,address,,ModelSlot *entry = &D_800F2C40[index];
 0x800F2C40,D_800F2C40,D_800F2C40,0x80058E3C,func_80058E3C,matching_c,game,C,src/game/model_slot_queries.c,read,,return D_800F2C40[index].field_E0D;
 0x800F2C40,D_800F2C40,D_800F2C40,0x80058E68,func_80058E68,matching_c,game,C,src/game/model_slot_queries.c,read,,return D_800F2C40[index].field_BF5;
