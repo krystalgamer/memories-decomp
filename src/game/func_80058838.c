@@ -1,9 +1,11 @@
 #include "../types.h"
+#include "model.h"
 
-typedef struct { u8 b0, b1, b2, b3; } Word4;
-extern void func_80058938(s32, s32, Word4, Word4, s32, s32);
+extern void func_80058938(s32, s32, ModelTintColor, ModelTintColor, s32,
+                          s32);
 
-void func_80058838(s32 a0, s32 a1, Word4 a2, Word4 a3, s32 a4, ...)
+void func_80058838(s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3,
+                   s32 a4, ...)
 {
     u8 bits[8];
     u8 *arguments;
