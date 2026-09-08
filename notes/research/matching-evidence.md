@@ -4830,3 +4830,83 @@ the depth test to match retail's count reproduces the prologue exactly.
 This is the counterpart to the existing advice to count the target's saved
 registers before blaming the allocator. That tells you *whether* allocation is
 involved; this tells you which pseudo to move and in which direction.
+
+## Read the lui spacing to tell which addressing form retail used
+
+The section above records what the two `-G8` declaration forms produce. The
+converse is also readable: retail's instruction *spacing* says which one the
+original used, so the declaration can be chosen up front instead of by sweep.
+
+The assembler expands a plain symbol reference as one unit, so its `lui` is
+always immediately before the access and always in the same register. Split
+addressing makes the `%hi` a compiler-allocated pseudo, which the scheduler can
+move and the allocator can put anywhere. So:
+
+- `lui` adjacent to its use, same register: assembler macro form, which under
+  `-G8` means a scalar carrying `section(".data")`.
+- anything between them, or different registers: split addressing, which means
+  an incomplete or oversized array.
+
+It is a per-symbol reading, and one function can want both. `func_800179F4`
+(0x800179F4) wants the macro form for `gDuel_bTerrain`, `gDuel_bOpponentID` and
+`D_8009B369`, and split addressing for `D_800E9FF0`, `D_800EA0E8`,
+`D_800F284A` and `gDuel_awPlayerDeck`. Getting `gDuel_bTerrain` wrong alone was
+worth five words: as an array its `%hi` became a separate pseudo and the
+scheduler emitted it ahead of the callback address instead of after it.
+
+## Combine folds `&sym + k` unless the address has more than one use
+
+An access like `(&sym)[-1]` normally compiles to two instructions, because
+combine folds the displacement into the relocation and emits `lui %hi(sym-1)` /
+`lb %lo(sym-1)(reg)`. When retail instead shows
+
+    lui   $v0, %hi(sym)
+    addiu $v0, $v0, %lo(sym)
+    lb    $v0, -0x1($v0)
+
+the address was in a register combine could not fold into, and the reason is
+combine's single-use requirement: it only substitutes the address-forming insn
+into the load when that insn's result has exactly one use.
+
+Spellings that do **not** defeat the fold, all measured on `func_800179F4`: a
+local pointer assigned in the same block, a cast through `u8 *`, an explicit
+pointer decrement, and a `register` pin on the holder -- the fold happens
+before allocation, so pinning cannot prevent it. A `volatile` pointee does
+block it, but then the load comes back as `lbu` plus a `sll` for the sign test,
+one instruction long.
+
+What works is giving the holder a live range long enough that it is not a
+single-use pseudo at combine time; assigning it at the top of the function was
+enough there. Worth trying whenever a candidate is exactly one instruction
+short at a negative-displacement global access.
+
+## A "scheduling" window around a load is often allocation
+
+When a candidate differs only in the order of a few instructions and one of
+them is a load, the instinct is to permute source statements. That is often
+wrong: GCC fills the load delay slot with whatever is ready, and readiness
+depends on which register the load targets, so the symptom is ordering while
+the cause is allocation.
+
+On `func_800179F4` retail's tail is
+
+    lui   $v0, %hi(func_800164FC)
+    lw    $v1, %gp_rel(D_8009B21C)
+    addiu $v0, $v0, %lo(func_800164FC)
+    sw    $v1, 0x50($s2)
+
+and the candidate had the `lw` first with the next symbol's `%hi` in the delay
+slot. Six statement orders were crossed, including hoisting the callback into a
+local and reading the global into a local, and every one measured the same five
+differing words. The actual difference was that retail holds the loaded pointer
+in `$v1` where the build used `$v0`; pinning it closed the window at once.
+
+So in a differing window that contains a load, compare the load's destination
+register before permuting anything.
+
+The inverse reading is also useful. On `func_8002E128` (0x8002E128), whose
+residual looks like the same class, every pin is *worse* than no pin: naming
+the product and table base and pinning them to retail's registers measures 16
+against 13, either pin alone 14, a pinned constant 19. Pins making things worse
+is the signature of a genuine scheduling tie, and says to stop looking at
+allocation.
