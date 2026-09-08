@@ -295,6 +295,11 @@ altered installed objects are restored or rebuilt. The driver reports
 hashes the complete executable. Run builds sequentially; neither cache is a
 concurrent-writer protocol.
 
+Warm object validation reuses the cached object's file size and stats the
+installed object once before comparing bytes. A fully unchanged build leaves
+the cache JSON untouched; stale object keys are pruned only after a successful
+relink, while rebuilt signatures remain checkpointed before linking.
+
 The first rebuilt object is checkpointed immediately. Further signature
 updates are written every 16 rebuilt objects, with any remainder flushed before
 the full relink. This avoids rewriting the complete JSON cache after every

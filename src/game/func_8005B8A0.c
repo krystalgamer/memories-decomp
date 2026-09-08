@@ -42,7 +42,9 @@ s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     D_8009B498 = D_80010000;
     D_8009B061 = a5;
     if (D_8009B060 != 0) {
-        m = func_80085320(D_80010000, a5);
+        /* Retail sets $a0 and $a1 here even though GsGetActiveBuff takes
+           no arguments; the two values are kept so the call setup matches. */
+        m = GsGetActiveBuff(D_80010000, a5);
         rect[0] = m * 0x140;
         rect[1] = 0;
         rect[2] = D_800FE0D0;
@@ -50,7 +52,7 @@ s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
         ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);
         DrawSync(0);
         VSync(0);
-        func_80085500();
+        GsSwapDispBuff();
         rect[0] = (m ^ 1) * 0x140;
         rect[2] = D_800FE0D0;
         rect[1] = 0;
@@ -64,8 +66,8 @@ s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
         DrawSync(0);
         VSync(0);
         D_800FE0CC = 1;
-        func_80085500();
-        func_800856A0(0, 0, 0, 0x100);
+        GsSwapDispBuff();
+        GsDefDispBuff(0, 0, 0, 0x100);
         GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 1);
     }
     if (src != (u8 *)0) {
