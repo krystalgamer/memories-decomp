@@ -6,10 +6,7 @@
 #include "../psyq/rand.h"
 #include "rand_constants.h"
 #include "graphics_constants.h"
-
-typedef struct {
-    s16 v[10];
-} ScreenBlock;
+#include "graphics_frame.h"
 
 /* The init block is a run of byte stores to distinct globals; declared
    volatile so the emitted order is the source order (see Main_Init). The
@@ -29,8 +26,7 @@ extern volatile u8 D_8009B0A0;
 extern volatile u8 D_8009B0A1;
 extern volatile u8 D_8009B0A2;
 extern volatile u8 D_8009B0A3;
-extern ScreenBlock D_800E9D28;
-extern ScreenBlock D_800FE0A8;
+extern DISPENV D_800FE0A8;
 
 extern void Input_InitPads(void);
 extern void File_SetPositionTable(void);
@@ -42,9 +38,9 @@ extern void File_SetPositionTable(void);
  * 0x5160-byte frame buffers; each gets its four ordering tables at
  * +0x5110 (lengths 2, 6, 0xC and 6 with their table bases at +0, +0x10,
  * +0x110 and +0x4110) cleared from the last to the first. The screen
- * block at D_800FE0A8 is copied to D_800E9D28, the GTE and the 3D wrappers
- * are initialised with a 300 projection, then the pads, the memory card,
- * the file position table and the random seed. */
+ * block at D_800FE0A8 is copied to gGraphics_DispEnv, the GTE and the 3D
+ * wrappers are initialised with a 300 projection, then the pads, the memory
+ * card, the file position table and the random seed. */
 void func_80013154(u8 *base)
 {
     u8 *buf;
@@ -107,7 +103,7 @@ next:
     if ((s32)buf < (s32)(base + 0xA2C0)) {
         goto next;
     }
-    D_800E9D28 = D_800FE0A8;
+    gGraphics_DispEnv = D_800FE0A8;
     InitGeom();
     GsInit3D();
     GsSetOrign(0, 0);

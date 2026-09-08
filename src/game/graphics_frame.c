@@ -1,4 +1,20 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libetc.h"
+#include "graphics_frame.h"
+
+extern volatile u8 D_8009B0C0;
+extern volatile s32 D_8009B0C8;
+/* Defined rather than declared: the assembler only resolves a small global
+   gp-relative when the translation unit defines it, and that is what supplies
+   the load-delay nop before the store below. c_symbols.ld overrides this
+   common symbol, so no storage is allocated here. */
+u8 D_8009B0C1;
+extern s32 D_8009B0D8;
+extern unsigned char D_8009AFA3 __attribute__((section(".data")));
+extern unsigned char D_8009AFA4 __attribute__((section(".data")));
+extern s32 D_8009B0CC;
 
 extern void func_80085500(void);
 extern void func_800359B0(void);
@@ -7,8 +23,6 @@ extern void func_80085D80(void *);
 extern s32 func_80085320(void);
 extern void func_800862C0(void *);
 extern void func_80085DB0(s32, s32, u32 *);
-extern void ResetGraph(s32);
-extern void PutDispEnv(void *);
 
 /* gp-relative in the target, so this unit defines them */
 u8 D_8009B0A8;
@@ -23,7 +37,6 @@ extern u8 D_800FE048[];
 extern u8 D_8009B142 __attribute__((section(".data")));
 extern u8 D_8009B143 __attribute__((section(".data")));
 extern u8 D_8009B144 __attribute__((section(".data")));
-extern u8 D_800E9D28[];
 extern u8 D_8009B318 __attribute__((section(".data")));
 extern u8 D_8009B141 __attribute__((section(".data")));
 extern u8 D_8009AFA2 __attribute__((section(".data")));
@@ -31,7 +44,33 @@ extern u8 D_800A5768[];
 extern u8 D_8009B4A8[];
 extern u32 *D_800E9D90[4];
 
-void func_80012E5C(void)
+/* Waits for the current GPU/VBlank boundary and publishes the bounded number
+   of frame advances consumed by the next game update. */
+void Graphics_SyncFrame(void)
+{
+    if ((D_8009B098 & 0x8000) == 0) {
+        DrawSync(0);
+    }
+    while (D_8009B0C8 < D_8009B0C0) {
+    }
+
+    D_8009B0C1 = D_8009B0C8;
+    if (D_8009B0C1 & 0xFF) {
+        D_8009B0C1 = 1;
+    }
+    D_8009B0D8 = D_8009B0C1 + 1;
+
+    D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8;
+
+    D_8009AFA4 = 0;
+    D_8009B0C8 = -1;
+
+    VSync(0);
+
+    D_8009B0CC++;
+}
+
+void Graphics_BeginFrame(void)
 {
     s32 i;
     s32 off;
@@ -50,7 +89,7 @@ void func_80012E5C(void)
         D_800FE048[0x1B] = D_8009B142;
         func_80085500();
         if ((D_8009B098 & 0x2000) != 0) {
-            PutDispEnv(D_800E9D28);
+            PutDispEnv(&gGraphics_DispEnv);
         }
     }
     ResetGraph(1);

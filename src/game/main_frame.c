@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "graphics_frame.h"
 
 extern volatile s32 D_8009B09C;
 extern volatile s32 D_8009B0C4;
@@ -8,8 +9,6 @@ extern u8 D_8009AF0C;
 extern void Input_ReadRawPads(void);
 extern void func_80047050(void);
 extern void func_8001306C(void);
-extern void func_80012DB4(void);
-extern void func_80012E5C(void);
 extern void Input_UpdatePads(void);
 
 void Main_VBlankCB(void)
@@ -31,8 +30,8 @@ void Main_VBlankCB(void)
 void func_80012D4C(void)
 {
     func_8001306C();
-    func_80012DB4();
-    func_80012E5C();
+    Graphics_SyncFrame();
+    Graphics_BeginFrame();
     Input_UpdatePads();
 }
 

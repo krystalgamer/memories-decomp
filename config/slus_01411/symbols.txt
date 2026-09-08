@@ -817,3 +817,6 @@ GsSortPoly = 0x80084320; // type:func
 SD_EnqueueCommand = 0x80045BE8; // type:func
 SD_UpdateFades = 0x80045C98; // type:func
 SD_UpdateRuntime = 0x80045F3C; // type:func
+Graphics_SyncFrame = 0x80012DB4; // type:func
+Graphics_BeginFrame = 0x80012E5C; // type:func
+gGraphics_DispEnv = 0x800E9D28;

@@ -79,7 +79,7 @@ as filling from the edges toward the middle is incomplete.
 
 ### Frame-advance factor
 
-The matching [`func_80012DB4`](../src/game/func_80012DB4.c) now establishes
+The matching [`Graphics_SyncFrame`](../src/game/graphics_frame.c) now establishes
 the producer of `D_8009B0D8`. The frame-sync helper optionally waits for the
 GPU with `DrawSync(0)` (unless `D_8009B098 & 0x8000` is set), then spins
 while the volatile counter `D_8009B0C8` is below the byte threshold
@@ -109,7 +109,7 @@ counter to zero or guarantee a factor of `1`. Actual GPU/render work and
 VBlank timing still determine the sample.
 
 The standard [`func_80012D4C`](../src/game/main_frame.c) pump calls
-`func_8001306C` **before** `func_80012DB4`.
+`func_8001306C` **before** `Graphics_SyncFrame`.
 [`func_8001306C`](../src/game/func_8001306C.c) starts with `Fade_DrawOverlay`,
 so the fade reads the factor already present at draw time, not the one
 published later by that pump's sync call. A trace captured after sync must

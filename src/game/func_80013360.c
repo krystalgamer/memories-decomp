@@ -1,13 +1,12 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "graphics_frame.h"
 #include "input.h"
 
 extern u16 D_8009B098;
 extern volatile u16 gInput_wPad1Held __attribute__((section(".data")));
 extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
-extern s16 D_800E9D28[];
-
 extern void func_80012D4C(void);
 extern void Input_ResetPads(void);
 
@@ -16,7 +15,7 @@ void func_80013360(void)
     register s16 *p asm("$16");
     s32 step;
 
-    p = D_800E9D28;
+    p = (s16 *)&gGraphics_DispEnv;
     p[0] = 0;
     p[1] = 0;
     D_8009B098 |= 0x2000;
