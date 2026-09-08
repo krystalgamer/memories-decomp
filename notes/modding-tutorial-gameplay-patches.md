@@ -355,7 +355,11 @@ their zero-based table indices are:
 | `721` | `100` |
 
 Exact matching C in `func_80026BA4` enforces those three ranges and performs
-the index conversion. `func_80026B34` then reads the table byte, doubles it,
+the index conversion. The source names the two block starts and common
+`DUEL_EFFECT_CARD_BLOCK_SIZE`, with Dark Magic Ritual's ID and final index
+kept explicit. These remain fixed card-ID ranges, not a runtime card-type
+test; IDs outside them still leave the effect state untouched.
+`func_80026B34` then reads the table byte, doubles it,
 adds the active-side selector, and calls the corresponding handler in the
 30-entry table at `0x80090A5C`.
 

@@ -1,16 +1,20 @@
 #include "../types.h"
+#include "card_constants.h"
 
 extern u16 D_8009B1A8, D_8009B1D2, D_8009B220;
 
 void func_80026BA4(int value, int flag)
 {
     int index;
-    if (((unsigned)(value - 0x12D) < 50) ||
-        ((unsigned)(value - 0x28B) < 50) || value == 0x2D1) {
-        if (value < 0x28B) index = value - 0x12D;
+    if (((unsigned)(value - DUEL_EFFECT_FIRST_BLOCK_CARD_ID) < DUEL_EFFECT_CARD_BLOCK_SIZE) ||
+        ((unsigned)(value - DUEL_EFFECT_SECOND_BLOCK_CARD_ID) < DUEL_EFFECT_CARD_BLOCK_SIZE) ||
+        value == DUEL_DARK_MAGIC_RITUAL_CARD_ID) {
+        if (value < DUEL_EFFECT_SECOND_BLOCK_CARD_ID)
+            index = value - DUEL_EFFECT_FIRST_BLOCK_CARD_ID;
         else {
-            index = value - 0x259;
-            if (value == 0x2D1) index = 100;
+            index = value - (DUEL_EFFECT_SECOND_BLOCK_CARD_ID - DUEL_EFFECT_CARD_BLOCK_SIZE);
+            if (value == DUEL_DARK_MAGIC_RITUAL_CARD_ID)
+                index = DUEL_DARK_MAGIC_RITUAL_EFFECT_INDEX;
         }
         D_8009B1A8 = index;
         D_8009B1D2 = value;
