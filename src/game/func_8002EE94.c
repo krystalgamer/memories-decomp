@@ -1,6 +1,7 @@
 #include "../types.h"
 
 #include "duel_effect.h"
+#include "sound.h"
 
 extern u8 *D_8009B290;
 extern u16 D_8009B27C;
@@ -23,7 +24,6 @@ extern s32 Dialog_ReadChoiceInput(DuelEffectChannel *);
 extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *);
 extern void DuelEffect_MarkObjectIfActive(void *);
 extern void SaveData_RequestWrite(void);
-extern void SD_SEPlayFull(s32);
 extern void func_80033C90(void);
 extern void func_80039794(void);
 extern void func_8003B6AC(s32, s32);

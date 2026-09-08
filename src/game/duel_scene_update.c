@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 
 typedef struct {
     u8 pad[0x30];
@@ -22,7 +23,6 @@ extern void func_800235C0(void);
 extern void func_8002C6C8(void);
 extern int func_80026B34(void);
 extern int DuelEffect_UpdateState(void);
-extern void SD_SEPlayFull(int);
 extern Window *TextBox_CreateFlagged(int, int, int, int, int, int, int);
 extern void func_80039794(void);
 extern void TextBox_Destroy(Window *);

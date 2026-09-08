@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "sound.h"
 
 struct Obj {
     s16 field0;
@@ -29,8 +30,6 @@ s32 func_80024E24(void);
 s32 func_8001F364(s32);
 s32 func_80025028(s32);
 struct Obj *func_8002C68C(s32);
-void SD_SEPlayFull(u32);
-
 /* Runs the table-driven LP change phases. Recovery values are scaled by 100,
    added to the selected side's life points, and capped at its maximum; the
    alternate path subtracts the same values and floors the result at zero. */

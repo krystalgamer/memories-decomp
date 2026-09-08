@@ -3,6 +3,7 @@
 #include "duel_card_layout.h"
 #include "duel_deck_card.h"
 #include "duel_rank.h"
+#include "sound.h"
 
 typedef struct {
     u8 pad[0x1A];
@@ -82,8 +83,6 @@ extern u8 D_801A7AD8[];
 void func_80018C34(u8 *arg0);
 s32 func_80042B40(s32 arg0);
 u8 *func_80018004();
-void SD_SEPlayFull(s32 sound_id);
-
 void func_80018DB4(void) {
     u8 *p;
     u8 *c;

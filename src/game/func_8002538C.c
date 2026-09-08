@@ -2,6 +2,7 @@
 #include "card_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
+#include "sound.h"
 
 extern s16 D_8009B1D2;
 extern s16 D_8009B1AC;
@@ -15,7 +16,6 @@ extern u8 D_801A7AD8[];
 extern s16 func_800181EC(u8 *arg0);
 extern s32 func_80024E24(void);
 extern u8 *func_8002C68C(s32 arg0);
-extern void SD_SEPlayFull(s32 sound_id);
 extern s32 Duel_CalcCardStats(u8 *arg0);
 extern void func_80024954(u8 *arg0);
 

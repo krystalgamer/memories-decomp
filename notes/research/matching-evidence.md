@@ -3152,6 +3152,35 @@ decided from the surrounding code. Counting the four extra instructions is
 still worth doing - it says a plain field-by-field transcription will be short -
 but it does not by itself name the construct.
 
+## An incomplete array declaration costs one instruction against a scalar
+
+`extern u32 g;` and `extern u32 g[];` are both legal ways to reach the same
+small global, and they do not generate the same code:
+
+```
+extern u32 g;      lw   $2,g                     one instruction, gp-relative
+extern u32 g[];    lui  $2,%hi(g)
+                   lw   $2,%lo(g)($2)            two
+```
+
+Under `-G8` the compiler can place a scalar of known size in small data and
+address it off `$gp`. An array of unspecified size has no known size, so it
+cannot go there and is addressed with `%hi`/`%lo` instead.
+
+This matters when consolidating declarations into a header, which is where it
+was found. Two files declared `extern u32 gSD_dwCurrentBgmCommand[];` and read
+it as `[0]`, while the header and the file that writes it both used a plain
+scalar. The scalar is the more honest declaration - no index other than zero is
+ever used - and switching the two readers to it **shortened the executable by
+eight bytes and broke the match**, one instruction per file.
+
+So the array spelling is load-bearing there, and the two declarations are not
+interchangeable even though they denote the same address and the same value.
+The general rule: **when a header and a C file disagree about whether a small
+global is a scalar or an array, that is a codegen difference, not a style
+difference.** Check which spelling the target's addressing implies before
+unifying them, and expect to keep the uglier one.
+
 ## Count one characteristic opcode before reading any diff
 
 When a candidate is short by a lot, the positional diff is worthless: every

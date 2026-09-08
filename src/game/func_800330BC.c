@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "input.h"
+#include "sound.h"
 
 /* Card-list cursor and page input handler.
 
@@ -21,7 +22,6 @@ extern u8 D_80090DD8[];
 extern volatile u16 gInput_wPad1Held;
 extern volatile u16 gInput_wPad1Repeat;
 
-extern void SD_SEPlayFull(s32);
 extern void func_80031E04(u8 *, s32);
 extern void func_80032C48(u8 *);
 

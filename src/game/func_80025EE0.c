@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 
 typedef struct {
     u16 x;
@@ -10,8 +11,6 @@ typedef struct {
 extern u16 D_8009B220;
 extern int func_80024E24(void);
 extern Object *func_8002C68C(int);
-extern void SD_SEPlayFull(int);
-
 void func_80025EE0(void)
 {
     Object *object;

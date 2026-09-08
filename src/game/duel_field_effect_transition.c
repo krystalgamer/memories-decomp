@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_card.h"
+#include "sound.h"
 
 typedef struct Obj {
     s16 x;
@@ -26,7 +27,6 @@ extern u8 D_8009B260 __attribute__((section(".data")));
 
 extern s32 func_80024E24(void);
 extern Obj *func_8002C604(s32);
-extern void SD_SEPlayFull(s32);
 extern void Duel_ApplyCardObjectFlags(Obj *);
 extern s32 func_80042B40(s32);
 
