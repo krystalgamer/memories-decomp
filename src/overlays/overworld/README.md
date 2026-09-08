@@ -56,6 +56,19 @@ The definitions remain in executable order:
 `gcc_2_8_1_g0_split`. One C subsegment at module offset `0x1E8` covers the
 complete contiguous `0x1A0`-byte text range in both verified variants.
 
+## Location-object translation unit
+
+`location_objects.c` keeps the four-slot cleanup helper next to the rebuild
+routine that invokes it before creating the selected location's enabled
+objects. Both operate on `D_801695F8`.
+
+The definitions remain in executable order:
+`CampaignMap_ClearLocationObjects` occupies
+`0x80168004..0x80168050`, followed by
+`CampaignMap_RebuildLocationObjects` through `0x8016818C`. Both use
+`gcc_2_8_1_g0_split`. One C subsegment at module offset `0x4` covers the
+complete contiguous `0x188`-byte text range in both verified variants.
+
 ## Active and alternate location families
 
 The resident `Main_RunCampaignMap` uses the active thirteen-function family:

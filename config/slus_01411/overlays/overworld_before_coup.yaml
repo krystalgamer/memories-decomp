@@ -61,8 +61,7 @@ segments:
     vram: 0x80168004
     align: 4
     subsegments:
-      - [0x4, c, overlays/overworld/teardown]
-      - [0x50, c, overlays/overworld/location_objects]
+      - [0x4, c, overlays/overworld/location_objects]
       - [0x18C, c, overlays/overworld/location_label]
       - [0x1E8, c, overlays/overworld/camera_state]
       - [0x388, c, overlays/overworld/camera_dpad]
