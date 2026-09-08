@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8002C604.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
 #include "duel_grid.h"
@@ -19,8 +20,6 @@ extern u8 D_8009B1D5;
 extern s16 D_8009B20C[2];
 extern u16 D_8009B220;
 extern DuelFieldPosition D_80090800[];
-
-extern DuelEffectObject *func_8002C604(s32 arg0);
 
 /* One step of a field-wide effect sweep, driven once per 16 frames by the
  * D_8009B1D0 countdown. The first entry resets the step index in
@@ -63,7 +62,7 @@ void func_800260D0(void) {
                     DUEL_FIELD_SIDE_ZONE_COUNT;
         card = grid[(s16)next + base_slot];
         record = &D_801A7AD8[card];
-        object = func_8002C604(8);
+        object = (DuelEffectObject *)func_8002C604(8);
         positions = (u8 *)D_80090800;
         step = D_8009B20C[1];
         object->field_1A = 3;

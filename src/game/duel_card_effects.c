@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8002C604.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_action_lock.h"
@@ -247,7 +248,6 @@ extern DuelFieldPosition D_80090800[];
 extern u8 D_801A7B64[];
 
 extern void func_80019BA0(u8 *arg0, u8 arg1, s16 arg2, s16 arg3);
-extern u8 *func_8002C604(s32 arg0);
 
 void DuelEffect_UpdateFieldMarker(void) {
     DuelCardRecord *r;
