@@ -5074,19 +5074,19 @@
       "address": "0x800530C4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x184",
-      "source": "src/game/func_800530C4.c"
+      "source": "src/game/model_scene_setup.c"
     },
     {
       "address": "0x80053248",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x190",
-      "source": "src/game/model_set_slot_properties.c"
+      "source": "src/game/model_scene_setup.c"
     },
     {
       "address": "0x800533D8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE0",
-      "source": "src/game/func_800533D8.c"
+      "source": "src/game/model_scene_setup.c"
     },
     {
       "address": "0x800556E8",
