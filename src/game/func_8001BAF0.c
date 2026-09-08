@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "ai.h"
 #include "ai_constants.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
@@ -30,7 +31,6 @@ extern u8 D_800EAE88[];
 extern u8 D_800907CC[];
 extern u8 D_801A7AD8[];
 extern Slot D_800EA030[HAND_SIZE];
-extern u8 gDuel_aActiveCards[];
 
 extern void Duel_SetupCardRecord(s32, s32);
 extern Spawned *func_80018004(u8 *, s32, s32);
@@ -74,7 +74,7 @@ void func_8001BAF0(void)
             *(s8 *)p = -1;
         }
     }
-    base = gDuel_aActiveCards;
+    base = (u8 *)gDuel_aActiveCards;
     deck = base - 0x31E0;
     hand = D_800EAE88;
     end = D_800EAE88;
@@ -97,7 +97,7 @@ next:
 
                 o = v * AI_ACTIVE_CARD_RECORD_SIZE;
                 {
-                    register u8 *act asm("$9") = gDuel_aActiveCards;
+                    register u8 *act asm("$9") = (u8 *)gDuel_aActiveCards;
 
                     card = act + o;
                 }

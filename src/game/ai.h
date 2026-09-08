@@ -14,7 +14,10 @@ typedef struct {
     s16 defense;
     u16 flags;
     s8 card_type;
-    u8 pad09[3];
+    /* AiScript_FindKiller and func_8007308C both read +0x09 and pass it
+     * to Duel_CalcGuardianStarMatchup; both match byte for byte. */
+    s8 guardian_star;
+    u8 pad0A[2];
 } AiActiveCard;
 
 typedef struct {
