@@ -10,7 +10,7 @@
       "address": "0x80180390",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7BC",
-      "source": "src/overlays/main_menu/func_80180390.c"
+      "source": "src/overlays/main_menu/frontend_update.c"
     },
     {
       "address": "0x80180B4C",

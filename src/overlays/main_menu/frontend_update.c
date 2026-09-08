@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../psyq/libgte.h"
+#include "entrypoints.h"
 
 extern u8 *D_80184560;
 extern u8 *gMain_apMenuEntries[];
@@ -34,7 +35,7 @@ extern void SD_SEPlay(s32, s32, s32);
 
 typedef struct { s16 h; } H16s;
 
-s32 func_80180390(void)
+s32 MainMenu_UpdateFrontendMenu(void)
 {
     u8 *ent3;
     u8 *entry;

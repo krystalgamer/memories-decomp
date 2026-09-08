@@ -10,8 +10,8 @@ Verified boundaries:
 | Archive | `game/DATA/SU.MRG` (1,239 sectors) |
 | SU load request | sectors `0-115` |
 | SU executable phase | sectors `98-114`, `0x8000` bytes |
-| Runtime code range | `0x80180000-0x80188000` |
-| Module identifier | `0x0000000F` |
+| Runtime image range | `0x80180000-0x80188000` |
+| Leading word | `0x0000000F`; semantic role unconfirmed |
 | Phase SHA-256 | `34e9421eb10dc3ff97f8810e4f595045d4847b2b54760e9895eb83266008bc97` |
 
 The request is recovered from the resident loader trace. `Main_RunMenu`
@@ -28,12 +28,12 @@ the sector count.
 
 ## Image shape
 
-The phase does not begin with code. Its first word is the module identifier,
+The phase does not begin with code. Its first word is the leading value above,
 followed by a six-entry pointer table, with the first instruction at `+0x1C`:
 
 | Offset | Contents |
 |---:|---|
-| `+0x00` | Module identifier `0x0000000F` |
+| `+0x00` | Leading word `0x0000000F` |
 | `+0x04` | `0x8018416C`, `0x80183514`, `0x801836F4`, `0x80183884`, `0x80183A14`, `0x80184254` |
 | `+0x1C` | First function |
 | `+0x4558` | Module data, after the final `jr $ra` and its delay slot |
@@ -43,13 +43,13 @@ The module has a Splat layout and rebuilds byte-for-byte under
 trailing data range and is zero in the image, consistent with a variable
 rather than initialised content.
 
-`Main_RunMenu` enters the image at `func_8018001C`, `func_80180390` and
+`Main_RunMenu` enters the image at `func_8018001C`, `MainMenu_UpdateFrontendMenu` and
 `func_80180DD0`. All three now build from matching C. These frontend entries
 are distinct from the Trade-screen entries below.
 
 The loaded bytes contain resident call targets throughout `0x80180xxx` and
 the module-scoped `gMain_bMenuID` at `0x80184594`. A second SU phase at sectors
-`1223-1239` loads the same runtime range with the different leading identifier
+`1223-1239` loads the same runtime range with the different leading word
 `0x00000010` and SHA-256
 `f125a2a6a8b57d222df544a7a02bf8c639c1fdde5cf978f80a56ea3fba2b836a`. It lies
 outside the `0-115` request above, so its module identity is unresolved and it
@@ -89,6 +89,14 @@ without adding them to resident function inventory or primary symbols.
 
 ## What the menu shows
 
+`MainMenu_UpdateFrontendMenu` at `0x80180390` services both entry groups,
+the title prompt, entry/exit animation and asynchronous load/save dialogs.
+It is not merely the selection handler. `Main_RunMenu` translates completed
+nonnegative menu IDs into resident modes; the returned values are not those
+mode IDs themselves. `-1` keeps polling. In the separate `func_80043BCC`
+caller, `-2` tears down and restarts the outer frontend loop; no particular
+attract movie or timeout duration is established by that return code.
+
 Exact matching `func_8018001C` establishes the eleven-entry table, its `5+6`
 position split, and the modulo-11 initial cursor. The
 `main_menu_entry_slots` trace and player report supply the human-readable
@@ -124,14 +132,19 @@ same alternation.
 
 | offset | value | meaning |
 |---|---|---|
-| `+0x30`, `+0x32` | parked x, y | position, copied from `+0x36` by `func_80180D2C` |
-| `+0x36`, `+0x38` | `-160`/`480`, `160` | the moving axis and the pinned one |
-| `+0x60` | `0x10` | the value `func_80180D2C` writes |
+| `+0x30` | current x | initialized from `+0x36`, then interpolated toward `+0x38` |
+| `+0x32` | entry y | separately initialized for the entry group |
+| `+0x36` | start x | parked `-160`/`480` on entrance; centered `160` on exit |
+| `+0x38` | end x | centered `160` on entrance; parked `-160`/`480` on exit |
+| `+0x60` | `0x10` | sixteen-update animation countdown |
 | `+0x08` | `0x0088` | flags |
 | `+0x0C` | `0x808080` | colour, mid grey |
 
-`D_80184596` read `0` in the sample and `+0x38` held the pinned `0xA0`, so
-argument `0` selects **horizontal** movement.
+Both modes animate x at `+0x30`; `+0x36` and `+0x38` are not separate
+axes. `func_80180D2C` selects entrance for zero and exit for nonzero by
+swapping the parked and centered endpoints. The sample's `D_80184596 = 0`
+and `+0x38 = 160` therefore identify the entrance setup, not a
+horizontal-versus-vertical switch.
 
 ## The cursor indexes the slot table
 

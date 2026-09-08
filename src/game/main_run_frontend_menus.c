@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../overlays/main_menu/entrypoints.h"
 #include "../psyq/rand.h"
 #include "../psyq/setjmp.h"
 
@@ -16,7 +17,6 @@ extern void SD_BGMFadeOut(void);
 extern void Fade_WaitOut(void);
 extern void func_80180DD0(void);
 extern void func_8002D458(int);
-extern int func_80180390(void);
 extern void func_8003BBF8(void);
 extern void NameEntry_Init(void);
 extern int NameEntry_PollCompletion(void);
@@ -30,7 +30,7 @@ extern void func_8003C498(void);
 extern void func_8003C950(void);
 extern int func_8003CA5C(void);
 
-void Main_RunMenu(void){unsigned char f=D_8009B26C;int r;if((f&0x40)==0){D_8009B26C=f|0x40;func_8005B85C();func_800137E4();func_80039E9C();func_8018001C(D_8009B268,D_8009B26D);func_80015A00();}rand();r=func_80180390();if(r>=0){SD_BGMFadeOut();Fade_WaitOut();func_80180DD0();func_8002D458(r);D_8009B269=8;}}
+void Main_RunMenu(void){unsigned char f=D_8009B26C;int r;if((f&0x40)==0){D_8009B26C=f|0x40;func_8005B85C();func_800137E4();func_80039E9C();func_8018001C(D_8009B268,D_8009B26D);func_80015A00();}rand();r=MainMenu_UpdateFrontendMenu();if(r>=0){SD_BGMFadeOut();Fade_WaitOut();func_80180DD0();func_8002D458(r);D_8009B269=8;}}
 
 void Main_RunNameEntry(void)
 {

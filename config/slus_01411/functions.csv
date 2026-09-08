@@ -301,7 +301,7 @@ address,size,name,status,module,notes
 0x8002D370,0x88,Main_RunBuildDeckMenu,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002D3F8,0x60,Main_RunFreeDuelMenu,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002D458,0x130,func_8002D458,matching_c,game,"Exact match with gcc_2_8_1_g8_split; owns jtbl_80010224, declared as a .rodata subsegment in split.yaml."
-0x8002D588,0xA4,Main_RunMenu,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8002D588,0xA4,Main_RunMenu,matching_c,game,"1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8. The overlay tick at 0x80180390 is now MainMenu_UpdateFrontendMenu. Its completed nonnegative results are menu IDs translated by func_8002D458, not the resident mode IDs themselves."
 0x8002D62C,0x58,Main_RunNameEntry,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002D684,0x44,Main_RunPasswordMenu,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002D6C8,0x68,Main_RunOptionsMenu,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -682,7 +682,7 @@ address,size,name,status,module,notes
 0x8004365C,0x25C,func_8004365C,matching_c,game,Pure-C inline refinement matched the full executable.
 0x800438B8,0xA8,func_800438B8,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80043960,0x26C,func_80043960,matching_c,game,Pure-C inline refinement matched the full executable.
-0x80043BCC,0x17C,func_80043BCC,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
+0x80043BCC,0x17C,func_80043BCC,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified). The overlay tick at 0x80180390 is now MainMenu_UpdateFrontendMenu. This caller repeats while it returns -1 and tears down/restarts the outer frontend loop on -2; that does not establish a specific movie."
 0x80043D48,0x58,func_80043D48,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80043DA0,0x90,func_80043DA0,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80043E30,0x38,func_80043E30,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.

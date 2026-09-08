@@ -455,6 +455,7 @@ func_8018001C = 0x8018001C;
 func_80180390 = 0x80180390;
 func_80180DD0 = 0x80180DD0;
 /* Conditional runtime imports; the function definitions live in main_menu. */
+PROVIDE(MainMenu_UpdateFrontendMenu = 0x80180390);
 PROVIDE(MainMenu_InitTradeScreen = 0x80181F68);
 PROVIDE(MainMenu_UpdateTradeScreen = 0x801821DC);
 D_8009B0CC_arr = 0x8009B0CC;

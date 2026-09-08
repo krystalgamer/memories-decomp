@@ -4,6 +4,7 @@
 #include "../../types.h"
 
 /* Resident callers must load the main-menu image before using these entries. */
+s32 MainMenu_UpdateFrontendMenu(void);
 void MainMenu_InitTradeScreen(void);
 s32 MainMenu_UpdateTradeScreen(void);
 
