@@ -5,6 +5,7 @@
 #include "mem_card.h"
 #include "text_box_lifecycle.h"
 #include "display_object_helpers.h"
+#include "text_box_runtime.h"
 
 typedef struct {
     u8 pad0000[0x30];
@@ -19,7 +20,6 @@ typedef struct {
 extern s32 func_80042B98(ObjectState *, s32, s32, s32);
 extern void func_80043178(ObjectState *);
 extern void func_80043230(ObjectState *, s32, s32);
-extern void TextBox_SetPos(u8 *, s32, s32);
 
 u8 func_8003F2B0(ObjectState *object, s32 arg1, s32 arg2, s32 index)
 {
@@ -70,7 +70,6 @@ extern s32 D_8009B3F4;
 extern u16 gMemCard_wDialogFlags;
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 extern void func_80039794(void);
-extern void func_80039A14(u8 *);
 extern s32 func_8003F2B0_int(ObjectState *, s32, s32, s32)
     asm("func_8003F2B0");
 

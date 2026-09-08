@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "ai.h"
+#include "duel_card.h"
 #include "ai_constants.h"
 #include "card_constants.h"
 #include "duel_hand.h"
@@ -24,7 +25,6 @@ extern u8 *D_8009B1C8;
 extern u8 D_8009B1D5;
 extern u8 D_800EAE88[];
 extern u8 D_800907CC[];
-extern u8 D_801A7AD8[];
 
 extern void Duel_SetupCardRecord(s32, s32);
 extern Spawned *func_80018004(u8 *, s32, s32);
@@ -80,7 +80,7 @@ next:
     if (v >= 0x10) {
         j = 0;
         tbl = D_800907CC;
-        recs = D_801A7AD8;
+        recs = (u8 *)D_801A7AD8;
         slot = D_800EA030;
     inner:
         q = &sel[j];

@@ -3209,6 +3209,16 @@ What was safe, all confirmed against the full-executable hash:
   `(u8 *)D_800EB010 + slot * sizeof(MenuRecord)`. Casting back to `u8 *` before
   the arithmetic keeps the scale at one byte, which is exactly the double-scaling
   trap the previous section describes, avoided rather than risked.
+- **A member-anchored cast keeps a divergent signedness without a union.**
+  When one file reads a field at a different width or signedness from the
+  rest, `*(s16 *)&record->card_id` reproduces the original `lh` while
+  `record->card_id` on a `u16` member emits `lhu`. Measured on
+  `Duel_CheckRitual`: the plain member read changed one byte at
+  `0x8002C8AF` from `0x84` to `0x94`, which is exactly the `lh`/`lhu`
+  opcode pair. The cast form still names the field, so it is far weaker
+  than `*(s16 *)(base + 0x0C)` and it does not force every other consumer
+  of the header onto a union member.
+
 - **`sizeof(T)` may replace a literal stride** once the cast is in place.
 - **But a proven-equal `sizeof` is not a licence to switch to typed indexing.**
   `model.h` asserts `sizeof(ModelSlot) == MODEL_SLOT_SIZE`, so

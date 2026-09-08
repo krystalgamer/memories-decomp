@@ -1,20 +1,9 @@
 #include "../types.h"
+#include "sound.h"
 #include "../psyq/libspu.h"
 #include "sound_pending_constants.h"
 #include "sound_voice_constants.h"
 
-struct SoundState {
-    u8 pad0[0x404];
-    u16 ids[SD_VOICE_SLOT_COUNT];
-    u8 pad1[0x424 - 0x40C];
-    u8 arr424[SD_VOICE_SLOT_COUNT];
-    u8 pad2[0x43C - 0x428];
-    u16 *p43C;
-    u8 pad3[SD_VOICE_LOOKUP_BYTE_OFFSET - 0x440];
-    u16 tbl44C[SD_VOICE_LOOKUP_ENTRY_COUNT];
-};
-
-extern struct SoundState *g_SDValue;
 extern void func_80044DC0(u8);
 extern void func_80047864(s32);
 
@@ -34,7 +23,7 @@ void func_80048920(s32 arg0, s32 arg1)
         return;
     }
     if ((arg0 & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
-        struct SoundState *a = g_SDValue;
+        SDValue *a = g_SDValue;
         u16 v;
 
         lo = (arg0 & SD_VOICE_LOOKUP_INDEX_MASK) << 1;
@@ -45,7 +34,7 @@ void func_80048920(s32 arg0, s32 arg1)
         if (v == ff) {
             return;
         }
-        id = a->p43C[v];
+        id = a->field_043C[v];
         if (id == ff) {
             return;
         }
@@ -54,12 +43,12 @@ void func_80048920(s32 arg0, s32 arg1)
     idm = id & 0xFFFF;
     do {
         s16 local;
-        struct SoundState *b;
+        SDValue *b;
 
         SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, &local);
         b = g_SDValue;
-        if (b->ids[i] == idm && local != 0) {
-            b->arr424[i] = a1v;
+        if (b->voice_ids[i] == idm && local != 0) {
+            b->voice_value[i] = a1v;
             func_80047864(i);
         }
     } while (++i < SD_VOICE_SLOT_COUNT);

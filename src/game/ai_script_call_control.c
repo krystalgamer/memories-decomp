@@ -2,14 +2,16 @@
 #include "../psyq/rand.h"
 #include "../psyq/stdio.h"
 #include "ai.h"
+#include "ai_script_call_control.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_read_short.h"
 
 extern AiScriptState gAiScript_State;
 extern char D_800118AC[];
 extern char D_800118E4[];
-extern char D_8009B084[];
 extern char D_800118CC[];
+
+char gAiScript_szSourceLineFormat[] = "%s:%d\n";
 
 void AiScript_Call(void) {
     s32 val = AiScript_ReadShort();
@@ -21,7 +23,7 @@ void AiScript_Call(void) {
             gAiScript_State.return_depth + 1;
     } else {
         printf(D_800118AC);
-        printf(D_8009B084, D_800118CC, 0x17B);
+        printf(gAiScript_szSourceLineFormat, D_800118CC, 0x17B);
         for (;;)
             ;
     }
@@ -42,7 +44,7 @@ void AiScript_Return(void) {
         return;
     }
     printf(D_800118E4);
-    printf(D_8009B084, D_800118CC, 0x193);
+    printf(gAiScript_szSourceLineFormat, D_800118CC, 0x193);
     for (;;)
         ;
 }

@@ -2,6 +2,7 @@
 #include "card_constants.h"
 #include "card_list_rows.h"
 #include "text_box_lifecycle.h"
+#include "text_box_runtime.h"
 
 typedef struct {
     u8 pad_00[0x28];
@@ -27,7 +28,6 @@ extern Slot D_801A8000[];
 extern s32 D_801D5608[];
 extern s32 gDuel_adwCardStats[];
 extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
-extern void func_80039A14(void *);
 
 void func_80060E70(u16 *e, s32 idx, s32 flag, s32 ignored)
 {

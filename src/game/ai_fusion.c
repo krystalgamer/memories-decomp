@@ -107,8 +107,8 @@ void Ai_CompleteFusion(s32 arg0)
     cursor = state;
     do {
         if (cursor[i + AI_SCRIPT_FUSION_USED_BYTE_OFFSET] == 0) {
-            card_id = gDuel_aActiveCards[i + 0xB].card_id;
-            index = i + 0xB;
+            card_id = gDuel_aActiveCards[i + AI_SLOT_OWN_HAND_FIRST].card_id;
+            index = i + AI_SLOT_OWN_HAND_FIRST;
             if (card_id != 0) {
                 if (Ai_IsCardInSets(cursor[AI_SCRIPT_FUSION_SET_BYTE_OFFSET], index) == 0) {
                     result = Duel_CheckFusion(arg0, card_id);

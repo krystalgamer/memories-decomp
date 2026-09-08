@@ -1,118 +1,110 @@
 #include "../types.h"
 
-#define SDSECONDARYSTATE_CUSTOM_EXTERN
 #include "sound.h"
 #include "sound_sequence_reader.h"
 
-typedef struct {
-    s32 value;
-    u8 pad_04[0x20];
-    u8 flag;
-    u8 pad_25[7];
-} SequenceTrack;
+extern int func_8004C420(SDSequenceTrack *);
+extern void func_8004C5C8(SDSequenceTrack *);
 
-typedef char SequenceTrack_size_must_be_0x2C[
-    sizeof(SequenceTrack) == SD_SEQUENCE_TRACK_RECORD_SIZE ? 1 : -1
-];
-
-typedef struct {
-    u8 pad_000[0x518];
-    SequenceTrack tracks[SD_SEQUENCE_TRACK_COUNT];
-    u8 pad_7D8[0x22];
-    u16 track_count;
-} SequenceState;
-
-extern SequenceState *D_8009B458;
-extern int func_8004C420(void *);
-extern void func_8004C5C8(void *);
-
+/* Advances every MIDI track by one runtime tick. Each track carries a
+   fixed-point tempo accumulator: tempo_step is added to
+   tempo_accumulator, and a carry out of the low byte is one sequencer
+   tick, at which point the track's delta countdown runs down and the next
+   event is dispatched through func_8004C420. */
 int SD_ProcessSequenceTracks(void) {
-    u8 *initial = (u8 *)D_8009B458;
-    u8 *state = initial + 0x518;
+    /* Retail keeps only the track-array base live here and reaches the four
+       neighbouring state words off it, so those four stay as displacements
+       from the array: addressing them through D_8009B458 costs a second
+       live register and does not match. STATE_WORD spells them as their
+       real SDSecondaryState offsets. Every track field below is typed. */
+#define STATE_WORD(type, off)     (*(type *)(base + (off) - SD_SEQUENCE_TRACK_ARRAY_OFFSET))
+    u8 *base = (u8 *)D_8009B458->tracks;
     int i;
-    u8 *entry;
+    SDSequenceTrack *entry;
 
-    if (*(short *)(state + 0x2CA) != 1)
+    if (STATE_WORD(s16, 0x7E2) != 1) /* field_07E2 */
         return 0;
-    if (*(u16 *)(state + 0x2E2) == 0)
+    if (STATE_WORD(u16, 0x7FA) == 0) /* track_count */
         return 0;
     i = 0;
-    entry = state;
+    entry = (SDSequenceTrack *)base;
 loop:
-    if (entry[0x24] == 0) {
-        int sum = *(u16 *)(entry + 0x14) +
-                  *(u16 *)(entry + 0x16);
-        *(short *)(entry + 0x14) = sum;
+    if (entry->ended == 0) {
+        int sum = entry->tempo_accumulator + entry->tempo_step;
+        entry->tempo_accumulator = sum;
         if ((u16)sum >= 0x100) {
-            *(short *)(entry + 0x14) = (u8)sum;
-            if (i == *(u16 *)(state + 0x2E0))
-                (*(int *)(state + 0x2D8))++;
+            entry->tempo_accumulator = (u8)sum;
+            if (i == STATE_WORD(u16, 0x7F8)) /* field_07F8 */
+                STATE_WORD(s32, 0x7F0)++;   /* field_07F0 */
             {
-                int count = *(int *)(entry + 0x1C);
-                if (count != 0 &&
-                    *(int *)((u8 *)D_8009B458 + 0x80C) == 0) {
-                    *(int *)(entry + 0x1C) = count - 1;
+                u32 count = entry->delta_remaining;
+                if (count != 0 && D_8009B458->field_080C == 0) {
+                    entry->delta_remaining = count - 1;
                     goto accumulate;
                 }
 retry:
                 func_8004C420(entry);
-                if (entry[0x24] == 0) {
+                if (entry->ended == 0) {
                     int value = SD_ReadVariableLengthValue(entry);
-                    *(int *)(entry + 0x1C) = value;
+                    entry->delta_remaining = value;
                     if (value == 0)
                         goto retry;
-                    if (*(int *)((u8 *)D_8009B458 + 0x804) != 0)
+                    if (D_8009B458->field_0804 != 0)
                         func_8004C5C8(entry);
-                    if (*(int *)(entry + 0x1C) == 0)
+                    if (entry->delta_remaining == 0)
                         goto retry;
                 }
-                if (*(int *)(entry + 0x1C) != 0)
-                    (*(int *)(entry + 0x1C))--;
+                if (entry->delta_remaining != 0)
+                    entry->delta_remaining--;
             }
 accumulate:
             {
-                u8 *root = (u8 *)D_8009B458;
-                int total = *(int *)(root + 0x7DC) + *(int *)entry;
-                int threshold = *(int *)(root + 0x80C);
-                *(int *)(root + 0x810) = total;
+                SDSecondaryState *root = D_8009B458;
+                int total = (int)root->field_07DC + entry->pos;
+                int threshold = root->field_080C;
+
+                root->field_0810 = total;
                 if (threshold != 0 && (unsigned int)total >=
                                       (unsigned int)threshold)
-                    *(int *)(root + 0x80C) = 0;
+                    root->field_080C = 0;
             }
         }
     }
     {
-        int count = *(u16 *)(state + 0x2E2);
+        int count = STATE_WORD(u16, 0x7FA); /* track_count */
         i++;
         if (i < count) {
-            entry += SD_SEQUENCE_TRACK_RECORD_SIZE;
+            entry++;
             goto loop;
         }
     }
     return 0;
+#undef STATE_WORD
 }
 
 void SD_ResetSequenceTracks(void) {
     s32 i;
 
     for (i = 0; i < D_8009B458->track_count; i++) {
-        D_8009B458->tracks[i].flag = 1;
-        D_8009B458->tracks[i].value = 0;
+        D_8009B458->tracks[i].ended = 1;
+        D_8009B458->tracks[i].pos = 0;
     }
 }
 
+/* 3 once every track has run off the end of its chunk, 1 otherwise. */
 s32 func_8004CABC(void)
 {
-    u8 *object = (u8 *)D_8009B458;
+    SDSecondaryState *object = D_8009B458;
     s32 index;
-    u16 count = *(u16 *)(object + 0x7FA);
+    u16 count = object->track_count;
 
     for (
         index = 0;
         index < count;
-        index++, object += SD_SEQUENCE_TRACK_RECORD_SIZE
+        index++, object = (SDSecondaryState *)((u8 *)object +
+                                               SD_SEQUENCE_TRACK_RECORD_SIZE)
     ) {
-        if (object[0x53C] != 1) {
+        if (object->tracks[0].ended != 1) {
             return 1;
         }
     }

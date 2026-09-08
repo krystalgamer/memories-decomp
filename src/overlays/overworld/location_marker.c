@@ -1,11 +1,10 @@
 #include "../../types.h"
 #include "../../game/display_object_api.h"
+#include "../../game/display_object_helpers.h"
 
 extern u8 gCampaignMap_aLocationTable[];
 extern u8 gCampaignMap_Location;
 extern u8 D_801AF000[];
-extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
-extern void func_800428EC(void *, s32);
 
 u8 *CampaignMap_CreateLocationMarker(s32 index)
 {

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card.h"
 #include "card_constants.h"
 #include "duel_hand.h"
 #include "duel_card_layout.h"
@@ -11,7 +12,6 @@ extern u8 *D_8009B1B4;
 extern u8 D_8009B1D5;
 extern u8 D_800E9F48[];
 extern u8 D_8015C424[];
-extern u8 D_801A7AD8[];
 extern s32 gDuel_adwCardStats[];
 
 void func_8001B938(u8 *p) {
@@ -51,7 +51,7 @@ void func_8001B938(u8 *p) {
         *(s8 *)(D_8009B1B4 + 0x10) * DUEL_FIELD_ROW_SIZE +
         D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ];
-    e = D_801A7AD8 + c * DUEL_CARD_RECORD_SIZE;
+    e = (u8 *)D_801A7AD8 + c * DUEL_CARD_RECORD_SIZE;
 
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++, e += DUEL_CARD_RECORD_SIZE) {
         if ((*(u16 *)(e + 0x16) & DUEL_CARD_FLAG_OCCUPIED) == 0) {

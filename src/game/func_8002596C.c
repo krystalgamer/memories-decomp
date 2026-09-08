@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_action_lock.h"
+#include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "sound.h"
@@ -11,7 +12,6 @@ extern u16 D_8009B220;
 extern u8 D_8009B260[8];
 extern u8 D_800907D8[];
 extern DuelFieldPosition D_80090800[];
-extern u8 D_801A7AD8[];
 
 extern s32 func_800181EC(u8 *);
 extern void func_80024954(u8 *);
@@ -56,7 +56,7 @@ void func_8002596C(void) {
         SD_SEPlayFull(0x15);
         n = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
             DUEL_FIELD_ROW_SIZE;
-        r = D_801A7AD8 +
+        r = (u8 *)D_801A7AD8 +
             D_800907D8[D_8009B20C[1] + n] * DUEL_CARD_RECORD_SIZE;
         v = *(u16 *)(r + 0x16) & 0x8000;
         D_8009B20C[1] = *(u16 *)&D_8009B20C[1] + 1;

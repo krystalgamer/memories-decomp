@@ -1,4 +1,6 @@
+#define G_SDVALUE_AGGREGATE
 #include "../types.h"
+#include "sound.h"
 
 typedef struct {
     u8 pad0[0x4C];
@@ -14,8 +16,7 @@ typedef struct {
     u32 words[12];
 } SoundEntry;
 
-extern SoundState *g_SDValue[];
-#define SOUND_STATE (g_SDValue[0])
+#define SOUND_STATE ((SoundState *)g_SDValue[0])
 
 void func_800464F0(void)
 {

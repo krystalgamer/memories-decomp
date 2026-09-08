@@ -1,11 +1,7 @@
 #include "../types.h"
 #include "ai.h"
+#include "ai_opponent_data.h"
 #include "ai_script_read_byte.h"
-
-struct OppData {
-    s8 b[9];
-};
-extern struct OppData gDuel_aOpponentData[];
 void AiScript_LoadOpponentData(void)
 {
     s32 index;
@@ -17,8 +13,8 @@ void AiScript_LoadOpponentData(void)
     field = mem[AiScript_ReadByte()];
     dst = AiScript_ReadByte();
     if (field == 0) {
-        mem[dst] = gDuel_aOpponentData[index].b[1] * 100;
+        mem[dst] = gDuel_aOpponentData[index].values[1] * 100;
     } else {
-        mem[dst] = gDuel_aOpponentData[index].b[field + 1];
+        mem[dst] = gDuel_aOpponentData[index].values[field + 1];
     }
 }

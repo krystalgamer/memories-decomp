@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "display_object_layout.h"
 #include "text_box_lifecycle.h"
+#include "text_box_runtime.h"
 
 extern u32 D_801D5608[];
-extern void func_80039A14(void *);
 void func_80031E5C(u8 *arg0) {
     u8 *p;
     D_801D5608[0] = *(u32 *)(arg0 + 0x5A9C);

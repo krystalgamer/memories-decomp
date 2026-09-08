@@ -34,7 +34,7 @@ typedef struct DisplayObject {
     u32 field_0C;                  /* 0x0C */
     u32 field_10;                  /* 0x10 */
     u16 field_14;                  /* 0x14 */
-    u8 field_16;                   /* 0x16 */
+    s8 field_16;                   /* 0x16 */
     u8 tex_index;                  /* 0x17 */
     u16 field_18;                  /* 0x18 */
     u16 field_1A;                  /* 0x1A */

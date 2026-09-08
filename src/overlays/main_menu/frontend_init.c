@@ -3,6 +3,7 @@
 #include "../../game/display_object_layout.h"
 #include "entrypoints.h"
 #include "frontend.h"
+#include "../../game/display_object_helpers.h"
 
 extern u8 D_801AF800[];
 extern u8 *D_80184558;
@@ -22,9 +23,6 @@ extern u8 D_8018459D;
 extern void (*D_800E9DB0)(void);
 
 extern void func_80040410(u8 *, s32);
-extern void func_800428A8(void *, s32, s32, s32, s32, s32, s32, s32, void *);
-extern void func_800428EC(void *, s32);
-extern void func_80042918(void *);
 extern void func_80047314(s32);
 
 void MainMenu_InitFrontendMenu(s32 unused, s32 menu)

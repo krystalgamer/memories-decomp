@@ -67,22 +67,22 @@ s32 SD_CompareBytes(u8 *arg0, u8 *arg1, s32 arg2) {
     return *arg0 - *arg1;
 }
 
-s32 SD_ReadSequenceByte(void *reader)
+s32 SD_ReadSequenceByte(SDSequenceTrack *reader)
 {
     SDSecondaryState *state = D_8009B458;
-    int offset = *(int *)reader;
+    int offset = reader->pos;
     int value = state->field_07DC[offset];
 
     offset++;
-    *(int *)reader = offset;
+    reader->pos = offset;
     if ((u32)state->field_07EC < (u32)offset) {
-        ((u8 *)reader)[0x24] = 1;
+        reader->ended = 1;
         return -1;
     }
     return value;
 }
 
-s32 SD_ReadVariableLengthValue(void *input)
+s32 SD_ReadVariableLengthValue(SDSequenceTrack *input)
 {
     int value = SD_ReadSequenceByte(input);
     int result;
@@ -91,7 +91,7 @@ s32 SD_ReadVariableLengthValue(void *input)
         return 0;
     }
     if (value == SD_SEQUENCE_VLQ_INITIAL_STOP) {
-        ((u8 *)input)[0x24] = 1;
+        input->ended = 1;
         return 0;
     }
     result = value;

@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libpress.h"
 #include "../psyq/libcd.h"
+#include "mdec_sync.h"
 
 extern u8 D_8009B060;
 extern u8 D_8009B062;
@@ -23,7 +24,6 @@ extern s32 D_800F5D44 __attribute__((section(".data")));
 
 extern void func_80044F58(s32 arg0);
 extern s32 func_8005BFC8(s32 arg0);
-extern s32 func_8005C5D4(void);
 extern void func_8005C62C(CdlLOC *loc);
 
 /* Decodes and presents one movie frame. D_8009B063 marks the stream as

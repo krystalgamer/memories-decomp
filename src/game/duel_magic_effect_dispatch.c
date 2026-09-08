@@ -3,12 +3,8 @@
 
 #include "card_constants.h"
 #include "duel_action_lock.h"
+#include "duel_effect_request.h"
 #include "duel_card.h"
-
-typedef struct {
-    char pad_00[4];
-    u16 y;
-} NewObject;
 
 extern u8 D_8009B1D5;
 extern u16 D_8009B220;
@@ -20,7 +16,6 @@ extern s16 D_8009B1A8;
 extern u8 D_80090AD4[];
 extern void (*D_80090A5C[])(void);
 
-extern NewObject *func_8002C68C(int);
 extern void func_80024954(DuelCardRecord *);
 
 void func_80026A3C(void)
@@ -28,11 +23,11 @@ void func_80026A3C(void)
     int i;
 
     if (!DuelEffect_MarkInitialized()) {
-        NewObject *object = func_8002C68C(0x17);
+        DuelEffectRequest *object = func_8002C68C(0x17);
         int side = D_8009B1D5 ^ 1;
 
-        object->y = D_80090800[side][0].y;
-        printf(D_8009AF40, (short)object->y);
+        object->field_04 = D_80090800[side][0].y;
+        printf(D_8009AF40, (short)object->field_04);
     } else {
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
             int position =

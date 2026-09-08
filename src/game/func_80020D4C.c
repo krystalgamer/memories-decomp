@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object_api.h"
 #include "../psyq/libgte.h"
+#include "display_object_helpers.h"
 
 /* Per-frame update for an object that orbits a fixed base position
    (unk2C/unk2E) at a constant angular step of 0x30/frame, with radius
@@ -53,8 +54,6 @@ extern s32 D_8009B0CC_arr[16];
 extern u8 D_801AF000[16];
 
 void func_80042BC0(void *);
-void func_800428A8(struct Slot *, s32, s32, s32, s32, s32, s32, s32, s32);
-void func_800428EC(struct Slot *, s8);
 void func_80020D4C(struct Obj *arg0) {
     s16 timer;
     u16 angle;

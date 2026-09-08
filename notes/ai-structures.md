@@ -38,6 +38,35 @@ exclude used and defense-position entries, and hide face-down targets for any
 nonzero scripted visibility value. That condition differs from the strongest/weakest
 searches' `hide_face_down == 1`; the predicates are not consolidated.
 
+### Slot map
+
+`Ai_GetCardRange` is the game's own table of the six slot ranges, and it is
+the source for the `AI_SLOT_*` constants in `ai_constants.h`. Ranges are
+inclusive and the hand's upper bound is the current hand size:
+
+| Range kind | Slots | Constant |
+|---|---|---|
+| `0`, `1` | `1..5` | `AI_SLOT_OWN_MONSTER_FIRST` |
+| `2`, `3` | `6..10` | `AI_SLOT_OWN_SPELL_FIRST` |
+| `4` | `11..` | `AI_SLOT_OWN_HAND_FIRST` |
+| `5`, `6` | `56..60` | `AI_SLOT_OPPONENT_MONSTER_FIRST` |
+| `7`, `8` | `61..65` | `AI_SLOT_OPPONENT_SPELL_FIRST` |
+| `9` | `66..70` | `AI_SLOT_OPPONENT_HAND_FIRST` |
+
+Slot `0` is the zero entry the field searches start from, so an index of `0`
+doubles as "nothing found" (`AI_SLOT_NONE`). Each opponent range sits
+`AI_ACTIVE_CARD_SIDE_SLOT_STRIDE` (55 records, the
+`AI_ACTIVE_CARD_SIDE_BYTE_STRIDE` of `0x294` divided by the record size) past
+its player counterpart, so all six bases derive from
+`AI_SLOT_OWN_MONSTER_FIRST` and the row width. `AiScript_LoadDeckSize` scans
+`AI_SLOT_OWN_HAND_FIRST` up to `AI_SLOT_OPPONENT_MONSTER_FIRST`, that is the
+player's hand and deck together, and subtracts `HAND_SIZE`.
+
+`Ai_GetWinningCardRange` uses the same slot bases but **a different kind
+encoding** (`0,1` own monsters, `2` own hand, `3,4,5` opponent monsters, `6`
+opponent hand). The kind codes themselves are deliberately left as literals
+for that reason.
+
 The paired-field search uses `DUEL_SIDE_COUNT` rows of
 `DUEL_FIELD_ROW_SIZE` taken marks, matching the two five-card ranges
 `1..5` and `56..60`. Primary-field scans reuse that row size; one-based

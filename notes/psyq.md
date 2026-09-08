@@ -866,9 +866,26 @@ includes `libcd.h` for `StSetRing`, `StClearRing`, `StSetStream`, and
 `PCinit`, `PCopen`, `PCcreat`, `PClseek`, `PCread`, `PCwrite`, and `PCclose`
 communicate with the Psy-Q host file server, while `pollhost` and `PSYQpause`
 emit debugger break instructions `1024` and `1031`. These declarations are
-not interchangeable with `libcd`, `libds`, or memory-card calls. No current
-game C includes `libsn.h`, so its presence in the imported SDK set does not
-establish a resident dependency on the development host.
+not interchangeable with `libcd`, `libds`, or memory-card calls.
+
+The resident block immediately before `InitHeap` has direct Psy-Q 4.6
+`LIBSN.LIB` signature evidence, even though its current inventory symbols
+remain address-based:
+
+| Address | Current symbol | Signature evidence | Local corroboration |
+|---|---|---|---|
+| `0x80073704` | `func_80073704` | The exact-size 32-byte `OPEN.OBJ` / `PCopen` signature matches once. | [`func_80059908`](../src/game/func_80059908.c) and [`func_8005988C`](../src/game/file_query_wrappers.c) pass a path followed by zero flags and permissions, then test the returned handle. |
+| `0x80073724` | `func_80073724` | The exact-size 16-byte `CLOSE.OBJ` / `PCclose` signature matches once. | Both matching file helpers pass the handle after their final seek or read. |
+| `0x80073734` | `func_80073734` | The exact-size 36-byte `LSEEK.OBJ` / `PClseek` signature matches once. | Callers use `(handle, 0, 2)` to obtain the file length and `(handle, offset, 0)` to select an absolute read position. |
+| `0x80073758` | `func_80073758` | The 192-byte `READ.OBJ` / `PCread` and `WRITE.OBJ` / `PCwrite` catalogue signatures are byte-identical, so the signature alone cannot choose a name. | The body calls the unique `_SN_read` wrapper below, and `func_80059908` treats its return as the number of bytes placed in successive destination chunks. This favors `PCread`, but the current symbol is retained until the identity is applied in metadata. |
+| `0x80073818` | `func_80073818` | The exact-size 24-byte `SNREAD.OBJ` / `_SN_read` signature matches once. | `func_80073758` calls it from its chunk-processing loop. |
+
+Current game C still carries address-based declarations instead of including
+[`libsn.h`](../src/psyq/libsn.h), but the signatures and caller contracts do
+establish a resident development-host dependency. They do not make this a
+retail disc or memory-card path: these wrappers are Psy-Q host/debug support,
+and a retail console without that environment cannot supply the PC file
+service.
 
 `fs.h` describes the implementation-facing filesystem switch rather than an
 application file API. Its `device_table`, `device_buf`, and `iob` records carry

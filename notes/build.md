@@ -155,13 +155,17 @@ spellings of the same section, and they mean opposite things:
 
 | spelling | meaning | what Splat emits |
 |---|---|---|
-| `.rodata`, `.data`, `.bss` — **with a dot**, plus a source file name | this section is produced by **our** C file | `build/.../<name>.o(.rodata);` |
-| `rodata`, `data`, `bss` — **no dot** | extract this range from the original image as a blob | `<name>.rodata.o(.rodata);` |
+| `.rodata`, `.data`, `.sdata`, `.bss` — **with a dot**, plus a source file name | this section is produced by **our** C file | `build/.../<name>.o(<section>);` |
+| `rodata`, `data`, `sdata`, `bss` — **no dot** | extract this range from the original image as a blob | `<name>.<section>.o(<section>);` |
 
 So converting data is the same move as converting code: a definition leaves
 the extracted blob, moves into the C file that owns it, and a dotted
 subsegment names that file at the address the definition has to keep. The blob
 shrinks; the boundary moves.
+
+The resident `initialized_data` segment is a code group even though it has no
+text. That lets its extracted `.data` and C-owned `.sdata` contributions share
+one fixed-address range without flattening both into the same linker section.
 
 `section_order` is the other half, and it is easy to misread as a constraint.
 **It is a description of the image's layout**, applied within each segment. If
@@ -197,6 +201,69 @@ equivalent, so there the hash is the only check.
 moved out of an extracted blob into the C file that uses it, placed ahead of
 the module's text, with all five overlay modules still byte-exact.
 
+### Owning resident initialized data
+
+`src/game/file_names.c` is the worked example for the resident image: the
+loader's seven disc paths and the null-terminated `gFile_apszName` table, 0xA8
+bytes at 0x80090704, come from that file instead of the extracted blob.
+`ai_script_commands.c` and `ai_opponent_data.c` are the other two, an opcode
+table of relocations and a typed record array. Five things make one of these:
+
+1. **Split the blob in `config/slus_01411/split.yaml`.** The owning file gets a
+   dotted subsegment at its address and the remainder keeps going to a
+   generated blob:
+
+   ```yaml
+   - [0x80ee0, data, initialized_data_800906e0]
+   - [0x80f04, .data, game/file_names]
+   - [0x80fac, data, initialized_data_800907ac]
+   ```
+
+   A blob chunk is named for the address it starts at, so taking ownership of
+   one range never renames another and two people can split different parts of
+   the segment without colliding.
+
+2. **Only a unit with no text of its own can own `.data`.** A text segment's
+   linker script lists `.rodata`, `.data` and `.bss` for every one of its
+   objects, so those sections are claimed there first and a matched function's
+   file cannot also supply them from another segment; `make split` says so
+   rather than letting the bytes land in the wrong place. It lists no
+   small-data section, which is why `.sdata` and `.sbss` can go back into the
+   matched text unit that owns them, the way `ai_script_call_control.c` does.
+3. **Name the profile in `config/slus_01411/data_c.json`.** Data units are not
+   in `matching_c.json`, which describes functions; the build gets its compiler
+   profile from this manifest, and `make split` rejects a file that owns a
+   dotted section without one, or a manifest entry the template never maps.
+   `gcc_2_8_1_g0` is the profile to use while the unit's own small-data
+   placement has not been worked out: at `-G0` every definition lands in
+   `.data`.
+4. **Declare the symbols `extern` in a header** (`src/game/file_names.h`) and
+   delete every other declaration of them, including any entry in
+   `config/slus_01411/c_symbols.ld`. A file-scope definition and a linker alias
+   for the same address are not interchangeable, and while both exist the alias
+   silently wins.
+5. **Give a definition a name of its own.** The image has more than one copy of
+   several strings - the `\DATA\SU.MRG;1` the loader opens is not the
+   `M:/mrgSU/SU.mrg` development path already named `gFile_szSuMrgPath` in the
+   read-only region - and the link fails loudly on the duplicate, which is the
+   good case.
+
+**The segment holding the data has to be a `code` segment.** Only a group
+segment adds each of its subsegments to the linker script; a segment declared
+`type: data` emits one line for itself, so the C object is built, is never
+named by the script, and is silently dropped while the blob still supplies the
+original bytes - a full `make match` that proves nothing. The resident
+`initialized_data` segment is therefore `type: code` with no text subsegments,
+exactly like the leading read-only `main` segment.
+
+The build reads the generated `tmp/generated/data_sources.json` the way it
+reads `text_sources.json`, so both `make match` and `make match-incremental`
+compile and place these units; editing one rebuilds one object. Before
+building any of them it checks that the generated linker script actually names
+each object, because that is the one layout mistake the byte-exact comparison
+cannot catch: an object nobody places is not loaded, the blob keeps supplying
+the original bytes, and the build still matches.
+
 ## Exact baseline build
 
 ```sh
@@ -210,9 +277,10 @@ The build performs these steps:
 2. Assemble unmatched resident MIPS text and exact data using the local GNU
    assembler.
 3. Compile ordered matching-C segments using
-   `config/slus_01411/matching_c.json` and the named profiles in
-   `config/slus_01411/compiler_profiles.json`, then normalize their assembly
-   through maspsx.
+   `config/slus_01411/matching_c.json`, and the C translation units that own
+   initialized data using `config/slus_01411/data_c.json`, with the named
+   profiles in `config/slus_01411/compiler_profiles.json`, then normalize their
+   assembly through maspsx.
 4. Convert each classified binary region into a MIPS object.
 5. Link all text objects in manifest order with the original VRAM and file load
    addresses.

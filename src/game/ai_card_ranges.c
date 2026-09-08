@@ -12,22 +12,22 @@ void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
     switch (kind) {
     case 0:
     case 1:
-        *low = 1;
-        value = 5;
+        *low = AI_SLOT_OWN_MONSTER_FIRST;
+        value = AI_SLOT_ROW_LAST(AI_SLOT_OWN_MONSTER_FIRST);
         break;
     case 2:
-        *low = 0xB;
-        value = Ai_GetHandSize() + 0xA;
+        *low = AI_SLOT_OWN_HAND_FIRST;
+        value = Ai_GetHandSize() + AI_SLOT_OWN_HAND_FIRST - 1;
         break;
     case 3:
     case 4:
     case 5:
-        *low = 0x38;
-        value = 0x3C;
+        *low = AI_SLOT_OPPONENT_MONSTER_FIRST;
+        value = AI_SLOT_ROW_LAST(AI_SLOT_OPPONENT_MONSTER_FIRST);
         break;
     case 6:
-        *low = 0x42;
-        value = 0x46;
+        *low = AI_SLOT_OPPONENT_HAND_FIRST;
+        value = AI_SLOT_ROW_LAST(AI_SLOT_OPPONENT_HAND_FIRST);
         break;
     default:
         return;
@@ -43,31 +43,31 @@ void Ai_GetCardRange(s32 kind, s32 *low, s32 *high)
     switch (kind) {
     case 0:
     case 1:
-        *low = 1;
-        value = 5;
+        *low = AI_SLOT_OWN_MONSTER_FIRST;
+        value = AI_SLOT_ROW_LAST(AI_SLOT_OWN_MONSTER_FIRST);
         break;
     case 2:
     case 3:
-        *low = 6;
-        value = 0xA;
+        *low = AI_SLOT_OWN_SPELL_FIRST;
+        value = AI_SLOT_ROW_LAST(AI_SLOT_OWN_SPELL_FIRST);
         break;
     case 4:
-        *low = 0xB;
-        value = Ai_GetHandSize() + 0xA;
+        *low = AI_SLOT_OWN_HAND_FIRST;
+        value = Ai_GetHandSize() + AI_SLOT_OWN_HAND_FIRST - 1;
         break;
     case 5:
     case 6:
-        *low = 0x38;
-        value = 0x3C;
+        *low = AI_SLOT_OPPONENT_MONSTER_FIRST;
+        value = AI_SLOT_ROW_LAST(AI_SLOT_OPPONENT_MONSTER_FIRST);
         break;
     case 7:
     case 8:
-        *low = 0x3D;
-        value = 0x41;
+        *low = AI_SLOT_OPPONENT_SPELL_FIRST;
+        value = AI_SLOT_ROW_LAST(AI_SLOT_OPPONENT_SPELL_FIRST);
         break;
     case 9:
-        *low = 0x42;
-        value = 0x46;
+        *low = AI_SLOT_OPPONENT_HAND_FIRST;
+        value = AI_SLOT_ROW_LAST(AI_SLOT_OPPONENT_HAND_FIRST);
         break;
     default:
         return;

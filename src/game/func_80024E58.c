@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_action_lock.h"
+#include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"
@@ -11,7 +12,6 @@ extern s16 D_8009B1D2;
 extern u8 *D_8009B214;
 extern u16 D_8009B220;
 extern u8 gDuel_bTerrain[8];
-extern u8 D_801A7AD8[];
 
 s32 Duel_GetTerrainBoost(s32 arg0);
 u8 *func_8002C604(s32 arg0);
@@ -83,7 +83,7 @@ void func_80024E58(void) {
         return;
     }
 
-    q = D_801A7AD8;
+    q = (u8 *)D_801A7AD8;
     i = 0;
     p = q + 0x14;
     do {

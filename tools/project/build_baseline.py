@@ -277,15 +277,22 @@ def compile_c(
 
 
 def load_text_segments(root: Path) -> list[dict[str, object]]:
-    manifest = resolve_within(
-        root,
-        "tmp/generated/text_sources.json",
-        must_exist=True,
-    )
+    return load_source_manifest(root, "tmp/generated/text_sources.json", "text")
+
+
+def load_data_segments(root: Path) -> list[dict[str, object]]:
+    """Blobs and C translation units that own the initialized data."""
+    return load_source_manifest(root, "tmp/generated/data_sources.json", "data")
+
+
+def load_source_manifest(
+    root: Path, relative_path: str, description: str
+) -> list[dict[str, object]]:
+    manifest = resolve_within(root, relative_path, must_exist=True)
     with manifest.open("r", encoding="utf-8") as handle:
         configuration = json.load(handle)
     if configuration.get("schema") != 1:
-        raise BuildError(f"{manifest}: unsupported text-source schema")
+        raise BuildError(f"{manifest}: unsupported {description}-source schema")
     segments = configuration.get("segments")
     if not isinstance(segments, list) or not segments:
         raise BuildError(f"{manifest}: segments must be a non-empty list")
@@ -388,6 +395,60 @@ def build_text_objects(root: Path, assembler: Path) -> list[Path]:
     return objects
 
 
+def require_linker_placement(root: Path, source_path: str) -> None:
+    """Fail when the generated script never names an object it must place.
+
+    A data object the script does not name is simply not loaded, so the
+    extracted blob keeps supplying the original bytes and the build still
+    matches - the one layout mistake the byte-exact comparison cannot see.
+    """
+    script = resolve_within(root, "tmp/splat/slus_01411.ld", must_exist=True)
+    placed = script.read_text(encoding="utf-8")
+    expected = splat_object(source_path)
+    if f"{expected}(" not in placed:
+        raise BuildError(
+            f"{source_path}: the generated linker script never places "
+            f"{expected}; declare its section in config/slus_01411/split.yaml"
+        )
+
+
+def build_data_objects(root: Path, assembler: Path) -> list[Path]:
+    """Build every object that supplies part of the initialized data."""
+    objects: list[Path] = []
+    seen_objects: set[str] = set()
+    profiles = load_compiler_profiles(root)
+    for index, segment in enumerate(load_data_segments(root)):
+        if not isinstance(segment, dict):
+            raise BuildError(f"data segment {index} must be an object")
+        kind = segment.get("kind")
+        source = segment.get("source")
+        object_name = segment.get("object")
+        if (
+            kind not in ("asm", "c")
+            or not isinstance(source, str)
+            or not isinstance(object_name, str)
+            or not object_name.endswith(".o")
+            or "/" in object_name
+            or object_name in seen_objects
+        ):
+            raise BuildError(f"invalid data segment {index}")
+        seen_objects.add(object_name)
+        require_linker_placement(root, source)
+        if kind == "asm":
+            objects.append(assemble(root, assembler, source, splat_object(source)))
+        else:
+            objects.append(
+                compile_c(
+                    root,
+                    assembler,
+                    segment,
+                    profiles,
+                    use_splat_object_paths=True,
+                )
+            )
+    return objects
+
+
 def binary_object(
     root: Path,
     objcopy: Path,
@@ -445,12 +506,9 @@ def build(root: Path) -> Path:
             )
         ],
         *build_text_objects(root, assembler),
-        assemble(
-            root,
-            assembler,
-            "tmp/splat/asm/data/initialized_data.data.s",
-            splat_object("tmp/splat/asm/data/initialized_data.data.s"),
-        ),
+        # The initialized data is split wherever a C translation unit owns
+        # part of it, so build every piece the template declares.
+        *build_data_objects(root, assembler),
         binary_object(
             root,
             objcopy,

@@ -5,11 +5,6 @@
 #include "display_object_helpers.h"
 
 typedef struct {
-    char pad_00[8];
-    u16 flags;
-} DisplayObject;
-
-typedef struct {
     char pad_00[0x22];
     u8 flag;
     char pad_23[0x45];

@@ -9,6 +9,7 @@
 #define MODEL_SLOT_SIZE 0xE20
 #define MODEL_SLOT_DATA_ENTRY_SIZE 80
 #define MODEL_HANDLER_REGISTRY_COUNT 80
+#define MODEL_TINT_REQUEST_COUNT 10
 #define MODEL_DATA_MIN_FREE_BYTES 0x401
 #define MODEL_LIGHT_BASE_INTENSITY 128
 #define MODEL_LIGHT_DIM_INTENSITY (MODEL_LIGHT_BASE_INTENSITY / 2)
@@ -143,6 +144,39 @@ typedef struct {
     ModelCameraLeg eye;
     ModelCameraLeg target;
 } ModelCameraMove;
+
+/* One end of a tint ramp. func_80058938 takes a whole one by value and stores
+ * it as a single word, so all four bytes are live even though only b0..b2 are
+ * the colour: func_800528AC interpolates those three and copies b3 of the
+ * start colour straight through as the part id it draws with. The end
+ * colour's b3 at +0x17 is written and never read, which is why it is a member
+ * here and not padding -- func_800528AC used to call it pad_17. */
+typedef struct {
+    u8 b0;
+    u8 b1;
+    u8 b2;
+    u8 b3;
+} ModelTintColor;
+
+/* One of the MODEL_TINT_REQUEST_COUNT tint requests at D_800F2B50.
+ * func_80058938 fills a free entry in; func_800528AC walks the table once a
+ * frame, lerps `start` towards `end` by elapsed/duration, drops the result
+ * into the model slot's field_DC0, redraws through it and then restores
+ * everything it touched.
+ *
+ * bit 0 of `flags` marks the entry live, bit 1 selects the model slot and
+ * bits 3..7 carry the part id override. field_0A is the slot's field_E06 as
+ * it stood when the request was made; func_800528AC pushes it back through
+ * the part records for the duration of the redraw. */
+typedef struct {
+    u16 flags;             /* 0x00 */
+    u8 pad_02[8];          /* 0x02 */
+    u16 field_0A;          /* 0x0A */
+    u16 elapsed;           /* 0x0C */
+    u16 duration;          /* 0x0E */
+    ModelTintColor start;  /* 0x10 */
+    ModelTintColor end;    /* 0x14 */
+} ModelTintRequest;
 
 typedef char ModelSlotHeadEntry_size_must_be_0x8[
     sizeof(ModelSlotHeadEntry) == 0x8 ? 1 : -1
@@ -292,6 +326,22 @@ typedef char ModelCameraMove_target_offset_must_be_0x1C[
     MODEL_OFFSET(ModelCameraMove, target) == 0x1C ? 1 : -1
 ];
 
+typedef char ModelTintColor_size_must_be_0x4[
+    sizeof(ModelTintColor) == 0x4 ? 1 : -1
+];
+typedef char ModelTintRequest_size_must_be_0x18[
+    sizeof(ModelTintRequest) == 0x18 ? 1 : -1
+];
+typedef char ModelTintRequest_elapsed_offset_must_be_0xC[
+    MODEL_OFFSET(ModelTintRequest, elapsed) == 0xC ? 1 : -1
+];
+typedef char ModelTintRequest_start_offset_must_be_0x10[
+    MODEL_OFFSET(ModelTintRequest, start) == 0x10 ? 1 : -1
+];
+typedef char ModelTintRequest_end_offset_must_be_0x14[
+    MODEL_OFFSET(ModelTintRequest, end) == 0x14 ? 1 : -1
+];
+
 #undef MODEL_OFFSET
 
 #ifndef MODEL_SLOT_CUSTOM_EXTERN
@@ -299,6 +349,9 @@ extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
 #endif
 #ifndef MODEL_CAMERA_MOVE_CUSTOM_EXTERN
 extern ModelCameraMove D_800F2B20;
+#endif
+#ifndef MODEL_TINT_REQUEST_CUSTOM_EXTERN
+extern ModelTintRequest D_800F2B50[MODEL_TINT_REQUEST_COUNT];
 #endif
 #ifndef MODEL_HANDLER_REGISTRY_CUSTOM_EXTERN
 extern ModelHandlerRegistryEntry

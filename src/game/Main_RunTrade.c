@@ -6,6 +6,7 @@
 #include "fade.h"
 #include "sound.h"
 #include "display_object_helpers.h"
+#include "text_box_runtime.h"
 
 typedef struct {
     u8 pad00[4];
@@ -36,10 +37,8 @@ extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
 
 extern void func_80032328(void);
-extern void func_80039A14(void *);
 extern void func_80043178(Obj *);
 extern void func_80043230(Obj *, s32, s32, s32);
-extern void TextBox_SetPos(void *, s32, s32);
 extern s32 DuelEffect_UpdateState(void);
 
 void Main_RunTrade(void)

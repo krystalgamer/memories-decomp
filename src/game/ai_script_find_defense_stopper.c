@@ -37,35 +37,35 @@ void AiScript_FindDefenseStopper(void)
 
     i = 0;
     do {
-        best = 0;
-        cards = &gDuel_aActiveCards[1];
+        best = AI_SLOT_NONE;
+        cards = &gDuel_aActiveCards[AI_SLOT_OWN_MONSTER_FIRST];
         for (j = 0; j < DUEL_FIELD_ROW_SIZE; j++) {
             if (taken[0][j] == 0) {
                 if (cards[j].attack > gDuel_aActiveCards[best].attack) {
-                    best = j + 1;
+                    best = j + AI_SLOT_OWN_MONSTER_FIRST;
                 }
             }
         }
-        if (best != 0) {
-            taken[0][best - 1] = 1;
+        if (best != AI_SLOT_NONE) {
+            taken[0][best - AI_SLOT_OWN_MONSTER_FIRST] = 1;
         }
 
-        other = 0;
-        others = &gDuel_aActiveCards[56];
+        other = AI_SLOT_NONE;
+        others = &gDuel_aActiveCards[AI_SLOT_OPPONENT_MONSTER_FIRST];
         for (j = 0; j < DUEL_FIELD_ROW_SIZE; j++) {
             if (taken[1][j] == 0) {
                 if (hide_face_down == 0 ||
                     !(others[j].flags & DUEL_CARD_FLAG_FACE_DOWN)) {
                     if (others[j].attack > gDuel_aActiveCards[other].attack) {
-                        other = j + 56;
+                        other = j + AI_SLOT_OPPONENT_MONSTER_FIRST;
                     }
                 }
             }
         }
-        if (other == 0) {
+        if (other == AI_SLOT_NONE) {
             break;
         }
-        taken[1][other - 56] = 1;
+        taken[1][other - AI_SLOT_OPPONENT_MONSTER_FIRST] = 1;
         if (gDuel_aActiveCards[best].attack <= gDuel_aActiveCards[other].attack) {
             answer = 0;
             break;

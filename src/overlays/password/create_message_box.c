@@ -1,9 +1,9 @@
 #include "../../types.h"
+#include "../../game/text_box_runtime.h"
 
 extern u8 D_800EB0F8[];
 extern void func_80035B7C(void *);
 extern u8 *func_80035BE4(int, int, int, int, int, int);
-extern void func_80039A14(void *);
 
 u8 *Password_CreateMessageBox(int message_id, int flags)
 {

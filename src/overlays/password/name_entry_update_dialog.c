@@ -5,6 +5,8 @@
 #include "../../game/display_object_layout.h"
 #include "name_entry_keyboard.h"
 #include "../../game/sound.h"
+#include "../../game/display_object_helpers.h"
+#include "../../game/text_box_runtime.h"
 
 typedef struct {
     u8 pad0[8];
@@ -40,11 +42,8 @@ extern u8 D_8016D41C;
 
 extern void func_8003B6AC(s32, s32);
 extern Box *func_80035BE4(s32, s32, s32, s32, s32, s32);
-extern void func_80039A14(Box *);
 extern s32 func_800374F4(Box *);
 extern void func_80039794(void);
-extern void func_80042918(Caret *);
-extern void func_800428EC(Caret *, s32);
 extern void func_80043178(Caret *);
 extern void func_80043230(Caret *, s32, s32, s32);
 extern void func_80035B7C(Box *);

@@ -4,6 +4,7 @@
 #include "duel_card.h"
 #include "duel_selection_layout.h"
 #include "text_box_lifecycle.h"
+#include "text_box_runtime.h"
 
 typedef struct {
     u8 pad_00[0x16];
@@ -43,7 +44,6 @@ extern u8 D_800E9F48[];
 extern s32 D_801D5608[];
 
 extern s32 func_80023090(FieldSource *, u8 *);
-extern void func_80039A14(TextBox *);
 
 void func_80023144(FieldSource *source, s32 index)
 {

@@ -2,6 +2,7 @@
 #define YUGIOH_GAME_SOUND_H
 
 #include "../types.h"
+#include "../psyq/libspu.h"
 #include "sound_pending_constants.h"
 #include "sound_sequence_constants.h"
 #include "sound_voice_constants.h"
@@ -206,12 +207,40 @@ typedef struct {
     u8 field_001B;
 } SDSecondaryTransfer;
 
+/* One MIDI track reader inside SDSecondaryState, at +0x518. `pos` is a byte
+   offset into the sequence data at SDSecondaryState::field_07DC, which is how
+   SD_ReadSequenceByte reads through it; the chunk triple is filled in by
+   func_8004C560 from the MTrk header. Every `_saved` field is the copy taken
+   by controller 0x63/0x14 (loop start) and put back by 0x63/0x1E (loop end)
+   in func_8004C114. */
 typedef struct {
-    u8 pad0000[SD_SEQUENCE_CHANNEL_COUNT * SD_SEQUENCE_CHANNEL_RECORD_SIZE];
+    s32 pos;
+    s32 pos_saved;
+    s32 chunk_length;
+    s32 chunk_end;
+    s32 chunk_start;
+    u16 tempo_accumulator;
+    u16 tempo_step;
+    u16 field_0018;
+    u16 field_0018_saved;
+    u32 delta_remaining;
+    u32 delta_remaining_saved;
+    u8 ended;
+    u8 ended_saved;
+    u8 loop_count;
+    u8 field_0027;
+    u8 running_status_held;
+    u8 running_status;
+    u8 running_status_saved;
+    u8 pad002B;
+} SDSequenceTrack;
+
+typedef struct {
+    SDSecondaryRecord channels[SD_SEQUENCE_CHANNEL_COUNT];
     SDSecondaryObject objects[SD_SECONDARY_OBJECT_COUNT];
     u8 pad04A0[4];
     SDSecondaryTransfer transfer;
-    u8 pad04C0[0x40];
+    SpuVoiceAttr voice_attr;
     u8 flag_0500;
     u8 flag_0501;
     u8 flag_0502;
@@ -225,7 +254,8 @@ typedef struct {
     s16 field_0512;
     s16 field_0514;
     s16 field_0516;
-    u8 pad0518[0x2C4];
+    SDSequenceTrack tracks[SD_SEQUENCE_TRACK_COUNT];
+    u8 pad07D8[4];
     u8 *field_07DC;
     s16 field_07E0;
     s16 field_07E2;
@@ -233,8 +263,10 @@ typedef struct {
     s16 field_07E6;
     u8 *field_07E8;
     s32 field_07EC;
-    u8 pad07F0[0x0A];
-    u16 field_07FA;
+    s32 field_07F0;
+    s32 field_07F4;
+    u16 field_07F8;
+    u16 track_count;
     u16 timebase;
     u8 pad07FE[2];
     u8 field_0800;
@@ -360,11 +392,29 @@ typedef char SDSecondaryRecord_control_mode_offset_must_be_0x12[
 typedef char SDSecondaryRecord_control_value_offset_must_be_0x13[
     SD_STATE_OFFSET(SDSecondaryRecord, control_value) == 0x13 ? 1 : -1
 ];
+typedef char SDSequenceTrack_size_must_be_0x2C[
+    sizeof(SDSequenceTrack) == SD_SEQUENCE_TRACK_RECORD_SIZE ? 1 : -1
+];
+typedef char SDSequenceTrack_tempo_accumulator_offset_must_be_0x14[
+    SD_STATE_OFFSET(SDSequenceTrack, tempo_accumulator) == 0x14 ? 1 : -1
+];
+typedef char SDSequenceTrack_delta_remaining_offset_must_be_0x1C[
+    SD_STATE_OFFSET(SDSequenceTrack, delta_remaining) == 0x1C ? 1 : -1
+];
+typedef char SDSequenceTrack_ended_offset_must_be_0x24[
+    SD_STATE_OFFSET(SDSequenceTrack, ended) == 0x24 ? 1 : -1
+];
+typedef char SDSequenceTrack_running_status_offset_must_be_0x29[
+    SD_STATE_OFFSET(SDSequenceTrack, running_status) == 0x29 ? 1 : -1
+];
 typedef char SDSecondaryTransfer_size_must_be_0x1C[
     sizeof(SDSecondaryTransfer) == 0x1C ? 1 : -1
 ];
 typedef char SDSecondaryState_size_must_be_0x848[
     sizeof(SDSecondaryState) == 0x848 ? 1 : -1
+];
+typedef char SDSecondaryState_channels_offset_must_be_0x00[
+    SD_STATE_OFFSET(SDSecondaryState, channels) == 0x00 ? 1 : -1
 ];
 typedef char SDSecondaryState_objects_offset_must_be_0x180[
     SD_STATE_OFFSET(SDSecondaryState, objects) == 0x180 ? 1 : -1
@@ -381,6 +431,12 @@ typedef char SDSecondaryState_event_guard_offset_must_be_0x503[
 typedef char SDSecondaryState_event_handle_offset_must_be_0x504[
     SD_STATE_OFFSET(SDSecondaryState, event_handle) == 0x504 ? 1 : -1
 ];
+typedef char SDSecondaryState_voice_attr_offset_must_be_0x4C0[
+    SD_STATE_OFFSET(SDSecondaryState, voice_attr) == 0x4C0 ? 1 : -1
+];
+typedef char SpuVoiceAttr_size_must_be_0x40[
+    sizeof(SpuVoiceAttr) == 0x40 ? 1 : -1
+];
 typedef char SDSecondaryState_object_count_offset_must_be_0x510[
     SD_STATE_OFFSET(SDSecondaryState, object_count) == 0x510 ? 1 : -1
 ];
@@ -390,8 +446,12 @@ typedef char SDSecondaryState_field_07DC_offset_must_be_0x7DC[
 typedef char SDSecondaryState_field_07E0_offset_must_be_0x7E0[
     SD_STATE_OFFSET(SDSecondaryState, field_07E0) == 0x7E0 ? 1 : -1
 ];
-typedef char SDSecondaryState_field_07FA_offset_must_be_0x7FA[
-    SD_STATE_OFFSET(SDSecondaryState, field_07FA) == 0x7FA ? 1 : -1
+typedef char SDSecondaryState_tracks_offset_must_be_0x518[
+    SD_STATE_OFFSET(SDSecondaryState, tracks) ==
+        SD_SEQUENCE_TRACK_ARRAY_OFFSET ? 1 : -1
+];
+typedef char SDSecondaryState_track_count_offset_must_be_0x7FA[
+    SD_STATE_OFFSET(SDSecondaryState, track_count) == 0x7FA ? 1 : -1
 ];
 typedef char SDSecondaryState_timebase_offset_must_be_0x7FC[
     SD_STATE_OFFSET(SDSecondaryState, timebase) == 0x7FC ? 1 : -1
@@ -409,7 +469,25 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 #undef SD_STATE_OFFSET
 
 #ifndef SDVALUE_CUSTOM_EXTERN
+/* Two translation units need a different spelling of this one declaration,
+ * and both are codegen inputs rather than style:
+ *
+ *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
+ *   cc1psx emits the lui %hi / lw %lo pair instead of one gp-relative load.
+ *   func_800464F0 needs the two-instruction form.
+ *
+ *   G_SDVALUE_VOLATILE -- func_80049138 reads the pointer three times and
+ *   retail reloads it each time; without the qualifier gcc commons the
+ *   first read and the reloads disappear.
+ *
+ * Everything else takes the plain declaration. */
+#ifdef G_SDVALUE_AGGREGATE
+extern SDValue *g_SDValue[];
+#elif defined(G_SDVALUE_VOLATILE)
+extern SDValue *volatile g_SDValue;
+#else
 extern SDValue *g_SDValue;
+#endif
 #endif
 
 #ifndef SDSECONDARYSTATE_CUSTOM_EXTERN

@@ -2,14 +2,8 @@
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_action_lock.h"
+#include "duel_effect_request.h"
 #include "sound.h"
-
-struct Obj {
-    s16 field0;
-    s16 field2;
-    u8 pad[0x1A - 4];
-    s16 field1A;
-};
 
 extern s16 D_8009B1D2;
 extern DuelSideState *D_8009B1C8;
@@ -22,7 +16,6 @@ extern u8 gDuel_abDirectDamageUnits[DUEL_LIFE_POINT_EFFECT_COUNT];
 
 s32 func_8001F364(s32);
 s32 func_80025028(s32);
-void *func_8002C68C(s32);
 
 /* Runs the table-driven LP change phases. Recovery values are scaled by 100,
    added to the selected side's life points, and capped at its maximum; the
@@ -32,7 +25,7 @@ void func_800250C8(void) {
     s32 s1;
     s32 flag;
     u16 v1;
-    struct Obj *obj;
+    DuelEffectRequest *obj;
 
     s0 = D_8009B1D2;
     s1 = s0 - DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID;
@@ -41,9 +34,9 @@ void func_800250C8(void) {
             s1 = s0 - 0x14D;
         }
         obj = func_8002C68C(5);
-        obj->field0 = 0xA0;
-        obj->field2 = 0x78;
-        obj->field1A = s1;
+        obj->field_00 = 0xA0;
+        obj->field_02 = 0x78;
+        obj->field_1A = s1;
         SD_SEPlayFull(0x14);
         return;
     }
@@ -69,9 +62,9 @@ block_9:
         if (func_8001F364(flag) == 0) {
             D_8009B220 &= 0xFFDF;
             obj = func_8002C68C(9);
-            obj->field0 = 0xA0;
-            obj->field2 = 0x78;
-            obj->field1A = s1;
+            obj->field_00 = 0xA0;
+            obj->field_02 = 0x78;
+            obj->field_1A = s1;
         }
     } else {
         u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
@@ -92,7 +85,7 @@ void func_8002525C(void) {
     s32 unit;
     s32 flags;
     u16 remaining;
-    struct Obj *obj;
+    DuelEffectRequest *obj;
     DuelSideState *p;
 
     unit = D_8009B1D2 - DUEL_DIRECT_DAMAGE_FIRST_CARD_ID;
@@ -101,9 +94,9 @@ void func_8002525C(void) {
             unit = DUEL_LIFE_POINT_EFFECT_COUNT;
         }
         obj = func_8002C68C(6);
-        obj->field0 = 0xA0;
-        obj->field2 = 0x78;
-        obj->field1A = unit;
+        obj->field_00 = 0xA0;
+        obj->field_02 = 0x78;
+        obj->field_1A = unit;
         SD_SEPlayFull(0x1C);
         return;
     }
@@ -120,9 +113,9 @@ void func_8002525C(void) {
         if (func_8001F364(flags) == 0) {
             D_8009B220 &= 0xFFDF;
             obj = func_8002C68C(7);
-            obj->field0 = 0xA0;
-            obj->field2 = 0x78;
-            obj->field1A = unit;
+            obj->field_00 = 0xA0;
+            obj->field_02 = 0x78;
+            obj->field_1A = unit;
             SD_SEPlayFull(0x1C);
         }
     } else {
@@ -157,7 +150,7 @@ extern s16 func_800181EC(u8 *arg0);
 extern void func_80024954(u8 *arg0);
 
 void func_8002538C(void) {
-    u8 *p;
+    DuelEffectRequest *p;
     u8 *e;
     u8 *tb;
     u8 *cb;
@@ -171,9 +164,9 @@ void func_8002538C(void) {
 
     if (DuelEffect_MarkInitialized() == 0) {
         p = func_8002C68C(0xF);
-        *(s16 *)(p + 0) = 0;
-        *(s16 *)(p + 2) = 0;
-        *(s16 *)(p + 4) = 0;
+        p->field_00 = 0;
+        p->field_02 = 0;
+        p->field_04 = 0;
         SD_SEPlayFull(0x22);
         i = 0;
         cb = D_80090A4C;
@@ -184,7 +177,7 @@ void func_8002538C(void) {
             }
             i += 2;
         }
-        *(s16 *)(p + 0x1A) = i / 2;
+        p->field_1A = i / 2;
         m = D_80090A4C[i + 1];
         n = m;
         D_8009B1AC = m;
@@ -232,10 +225,10 @@ hit:
         D_8009B1AE + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ] * DUEL_CARD_RECORD_SIZE;
     p = func_8002C68C(0xB);
-    *(u16 *)(p + 0) = *(u16 *)(*(s32 *)e + 0x30);
-    *(u16 *)(p + 2) = *(u16 *)(*(s32 *)e + 0x32);
-    *(u16 *)(p + 4) = *(u16 *)(*(s32 *)e + 0x34);
-    *(s16 *)(p + 0x1A) = func_800181EC(*(u8 **)e);
+    p->field_00 = *(u16 *)(*(s32 *)e + 0x30);
+    p->field_02 = *(u16 *)(*(s32 *)e + 0x32);
+    p->field_04 = *(u16 *)(*(s32 *)e + 0x34);
+    p->field_1A = func_800181EC(*(u8 **)e);
     func_80024954(e);
     SD_SEPlayFull(0x1F);
 }
@@ -324,7 +317,7 @@ void DuelEffect_UpdateFieldMarker(void) {
 }
 
 void func_800257A0(void) {
-    u8 *e;
+    DuelEffectRequest *e;
     u8 *p;
     u8 *q;
     s32 i;
@@ -346,12 +339,12 @@ void func_800257A0(void) {
         e = func_8002C68C(0x11);
         if (D_8009B1D2 == DUEL_DRAGON_CAPTURE_JAR_CARD_ID) {
             g = D_8009B220;
-            *(s16 *)(e + 0x1A) = 1;
+            e->field_1A = 1;
             D_8009B220 = g | 0x40;
         }
-        *(s16 *)(e + 0) = 0;
-        *(s16 *)(e + 2) = 0;
-        *(s16 *)(e + 4) = 0;
+        e->field_00 = 0;
+        e->field_02 = 0;
+        e->field_04 = 0;
         return;
     }
 

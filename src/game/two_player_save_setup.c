@@ -2,6 +2,7 @@
 #include "card_constants.h"
 #include "mem_card.h"
 #include "save_data.h"
+#include "text_sjis_to_glyph_codes.h"
 
 extern u8 D_8009B3ED;
 extern u8 D_8009B3C0;
@@ -12,7 +13,6 @@ extern u8 D_801D160C[];
 extern u8 D_801B122B[];
 extern u8 D_801B1238[];
 extern s32 func_8003FCD8(void);
-extern void Text_SjisToGlyphCodes();
 
 s32 func_8003FD14(void)
 {

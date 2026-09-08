@@ -3,16 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "duel_card.h"
-
-typedef struct {
-    u16 x;
-    s16 y;
-} ProjectedPair;
-
-typedef struct {
-    s16 x;
-    s16 y;
-} ScreenPair;
+#include "screen_projection.h"
 
 extern s16 D_800F2856[];
 extern u8 D_800FE148[];

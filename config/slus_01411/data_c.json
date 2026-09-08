@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "units": [
+    {
+      "source": "src/game/file_names.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/ai_script_commands.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/ai_opponent_data.c",
+      "profile": "gcc_2_8_1_g0"
+    }
+  ]
+}

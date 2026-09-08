@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libpress.h"
+#include "mdec_sync.h"
 
 extern u8 D_8009B062;
 extern u8 D_8009B064;
