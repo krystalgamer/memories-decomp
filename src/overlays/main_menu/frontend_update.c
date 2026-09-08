@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/input.h"
 #include "../../psyq/libgte.h"
 #include "entrypoints.h"
 #include "frontend.h"
@@ -169,7 +170,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 *(s16 *)(ent5 + 0x60) = -neg;
             }
         }
-        if ((D_8009B398 & 0x800) != 0) {
+        if ((D_8009B398 & PAD_BUTTON_START) != 0) {
             SD_SEPlay(7, 0xFF, 0);
             ent3 = D_80184560;
             *(u16 *)(ent3 + 8) &= 0xFFBF;
@@ -282,7 +283,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         return -1;
     }
 
-    if ((D_8009B394 & 0x5000) != 0) {
+    if ((D_8009B394 & PAD_DIRECTION_VERTICAL_MASK) != 0) {
         if ((u32)gMain_bMenuID >= 5) {
             base = 5;
         } else {
@@ -295,7 +296,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         }
         func_80040410(gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
         /* Keep the store in each arm: the join controls high-half reuse. */
-        if ((D_8009B394 & 0x1000) != 0) {
+        if ((D_8009B394 & PAD_DIRECTION_UP) != 0) {
             *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count - 1) % count + base;
         } else {
             *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count + 1) % count + base;
@@ -305,10 +306,10 @@ s32 MainMenu_UpdateFrontendMenu(void)
         goto ret_m1;
     }
 
-    if ((D_8009B398 & 0x8E0) == 0) {
+    if ((D_8009B398 & (PAD_BUTTON_START | PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
         return -1;
     }
-    if ((D_8009B398 & 0x20) != 0) {
+    if ((D_8009B398 & PAD_BUTTON_CANCEL) != 0) {
         if ((u32)gMain_bMenuID < 5) {
             SD_SEPlay(9, 0xFF, 0);
             return -1;

@@ -1107,6 +1107,13 @@ Cancel first when choosing its return value. The latter retains its separate
 direction updates and Cancel, Select, then Confirm precedence. Repeated
 volatile reads remain repeated; these names do not cache a controller sample.
 
+The active main-menu frontend/value editor and name-entry keyboard/dialog
+also use these existing direction, Start, Cancel and Confirm masks. Their
+held, repeat and newly pressed reads remain separate, including the combined
+Start/Cancel/Confirm gate. Only literals directly masking the documented
+input words are replaced; equal-valued object/state flags and the alternate
+overworld family's unestablished input addresses are not reinterpreted.
+
 `func_80043BCC` has a separate waiting-state gate that tests newly pressed
 pad-1 input against `PAD_BUTTON_START | PAD_BUTTON_CONFIRM_MASK` (`0x8C0`).
 It accepts Start, Cross, or Square; Circle/Cancel is not part of this mask.

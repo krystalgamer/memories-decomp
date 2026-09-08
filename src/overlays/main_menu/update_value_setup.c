@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/input.h"
 #include "../../game/card_constants.h"
 #include "entrypoints.h"
 
@@ -57,11 +58,11 @@ s32 MainMenu_UpdateValueSetup(void)
     }
 
     if (busyA == 0 && busyB == 0) {
-        if ((D_8009B398[0] & 0x20) || (D_8009B398[1] & 0x20)) {
+        if ((D_8009B398[0] & PAD_BUTTON_CANCEL) || (D_8009B398[1] & PAD_BUTTON_CANCEL)) {
             func_80048658(8, 0xFF, 0);
             return -1;
         }
-        if ((D_8009B398[0] & 0x800) || (D_8009B398[1] & 0x800)) {
+        if ((D_8009B398[0] & PAD_BUTTON_START) || (D_8009B398[1] & PAD_BUTTON_START)) {
             func_80048658(7, 0xFF, 0);
             return 1;
         }
@@ -69,9 +70,9 @@ s32 MainMenu_UpdateValueSetup(void)
 
     if (busyA == 0) {
         if (D_801845BC[0] < 2) {
-            if (D_8009B394[0] & 0xA000) {
+            if (D_8009B394[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 func_80048658(6, 0xFF, 0);
-                if (D_8009B394[0] & 0x8000) {
+                if (D_8009B394[0] & PAD_DIRECTION_LEFT) {
                     D_801845BC[2] = 0;
                 } else {
                     D_801845BC[2] = 1;
@@ -80,14 +81,14 @@ s32 MainMenu_UpdateValueSetup(void)
                 if (D_801845BC[1] < 2) {
                     D_801845BC[1] = D_801845BC[2];
                 }
-            } else if (D_8009B394[0] & 0x4000) {
+            } else if (D_8009B394[0] & PAD_DIRECTION_DOWN) {
                 MainMenu_StartValueWidgetTween(0, 2);
             }
         } else {
-            if (D_8009B394[0] & 0xA000) {
+            if (D_8009B394[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 value = D_801845C0[0];
                 func_80048658(6, 0xFF, 0);
-                if (D_8009B394[0] & 0x8000) {
+                if (D_8009B394[0] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
                                 ? (value - DUEL_LIFE_POINT_SELECTION_STEP)
                                 : 1;
@@ -101,7 +102,7 @@ s32 MainMenu_UpdateValueSetup(void)
                       : DUEL_STARTING_LIFE_POINTS;
                 }
                 D_801845C0[0] = value;
-            } else if (D_8009B394[0] & 0x1000) {
+            } else if (D_8009B394[0] & PAD_DIRECTION_UP) {
                 MainMenu_StartValueWidgetTween(0, D_801845BC[2]);
             }
         }
@@ -109,9 +110,9 @@ s32 MainMenu_UpdateValueSetup(void)
 
     if (busyB == 0) {
         if (D_801845BC[1] < 2) {
-            if (D_8009B394[1] & 0xA000) {
+            if (D_8009B394[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 func_80048658(6, 0xFF, 0);
-                if (D_8009B394[1] & 0x8000) {
+                if (D_8009B394[1] & PAD_DIRECTION_LEFT) {
                     D_801845BC[2] = 0;
                 } else {
                     D_801845BC[2] = 1;
@@ -120,14 +121,14 @@ s32 MainMenu_UpdateValueSetup(void)
                 if (D_801845BC[0] < 2) {
                     D_801845BC[0] = D_801845BC[2];
                 }
-            } else if (D_8009B394[1] & 0x4000) {
+            } else if (D_8009B394[1] & PAD_DIRECTION_DOWN) {
                 MainMenu_StartValueWidgetTween(1, 2);
             }
         } else {
-            if (D_8009B394[1] & 0xA000) {
+            if (D_8009B394[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 value = D_801845C0[6];
                 func_80048658(6, 0xFF, 0);
-                if (D_8009B394[1] & 0x8000) {
+                if (D_8009B394[1] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
                                 ? (value - DUEL_LIFE_POINT_SELECTION_STEP)
                                 : 1;
@@ -141,7 +142,7 @@ s32 MainMenu_UpdateValueSetup(void)
                       : DUEL_STARTING_LIFE_POINTS;
                 }
                 D_801845C0[6] = value;
-            } else if (D_8009B394[1] & 0x1000) {
+            } else if (D_8009B394[1] & PAD_DIRECTION_UP) {
                 MainMenu_StartValueWidgetTween(1, D_801845BC[2]);
             }
         }

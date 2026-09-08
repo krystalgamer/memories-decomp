@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/input.h"
 #include "../../game/display_object_api.h"
 #include "name_entry_keyboard.h"
 
@@ -135,7 +136,7 @@ void NameEntry_UpdateDialog(void)
             return;
         }
         if ((D_8016D4D2 & 0x8000) == 0) {
-            if ((D_8009B398 & 0xE0) == 0) {
+            if ((D_8009B398 & (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
                 SD_SEPlayFull(11);
                 return;
             }
