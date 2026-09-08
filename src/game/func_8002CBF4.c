@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8002CBF4.h"
 #include "card_constants.h"
 
 extern s32 gDuel_adwCardStats[];
