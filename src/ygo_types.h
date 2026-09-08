@@ -130,4 +130,42 @@ typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
     (u32)&((FadeTransitionState *)0)->band_levels == 0x0A ? 1 : -1
 ];
 
+typedef struct {
+    u8 pad_00[0x30];
+    u16 field_30;
+    u16 field_32;
+} DuelStatusPosition;
+
+typedef struct {
+    u8 pad_00[0x50];
+    DuelStatusPosition *field_50;
+} DuelStatusWidget;
+
+typedef struct {
+    u32 field_00;
+    u16 field_04;
+    u16 field_06;
+    u32 field_08;
+    u16 field_0C;
+    u16 field_0E;
+    u32 field_10;
+    u32 field_14;
+} DuelStatusDigitPacket;
+
+typedef char DuelStatusPosition_size_must_be_0x34[
+    sizeof(DuelStatusPosition) == 0x34 ? 1 : -1
+];
+typedef char DuelStatusPosition_field_30_offset_must_be_0x30[
+    (u32)&((DuelStatusPosition *)0)->field_30 == 0x30 ? 1 : -1
+];
+typedef char DuelStatusWidget_field_50_offset_must_be_0x50[
+    (u32)&((DuelStatusWidget *)0)->field_50 == 0x50 ? 1 : -1
+];
+typedef char DuelStatusDigitPacket_size_must_be_0x18[
+    sizeof(DuelStatusDigitPacket) == 0x18 ? 1 : -1
+];
+typedef char DuelStatusDigitPacket_field_14_offset_must_be_0x14[
+    (u32)&((DuelStatusDigitPacket *)0)->field_14 == 0x14 ? 1 : -1
+];
+
 #endif
