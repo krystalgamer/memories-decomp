@@ -2,17 +2,7 @@
 #include "../psyq/rand.h"
 #include "display_effect_constants.h"
 #include "display_object_api.h"
-
-typedef struct {
-    u8 pad_00[0x31];
-    u8 field_31;
-    u8 field_32;
-    u8 state;
-    u16 field_34;
-    u16 field_36;
-    u8 pad_38[0x06];
-    u16 field_3E;
-} DisplayEffectState;
+#include "display_effect_lifecycle.h"
 
 s32 func_80039F1C(DisplayEffectState *object)
 {
