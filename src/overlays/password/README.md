@@ -181,6 +181,31 @@ does not claim that the cursor allocation ends at `+0x40`. The installer
 retains its existing object writes and callback-slot assignment rather
 than pretending that the callback takes no arguments.
 
+## Name-entry glyph-fragment translation unit
+
+`name_entry_glyph_fragments.c` keeps the glyph shatter effect next to the
+per-piece fragment updater it installs. `NameEntry_UpdateGlyphShatter`
+allocates a 4x4 grid of quarter-size pieces from the shared display-object
+pool, configures each from the source glyph's position, palette pair and
+clut/tpage words, marks them mode `3`, and writes
+`NameEntry_UpdateGlyphFragment` into each piece's update slot at `+0x24`.
+The callback relationship is established by that store, not inferred from
+adjacency.
+
+The definitions remain in executable order, which is again not call order:
+`NameEntry_UpdateGlyphFragment` occupies `0x80168808..0x801688AC` and
+`NameEntry_UpdateGlyphShatter` runs through `0x801689B4`. Both use
+`gcc_2_8_1_g0_split`, and their shared manifest source and one C subsegment
+at module offset `0x808` cover the complete contiguous `0x1AC`-byte text
+range, ending exactly where `NameEntry_UpdateCaretTween` begins.
+
+This unit covers the shatter lifecycle only. The preceding glyph pulse at
+`0x80168708` is deliberately left out: it is cohesive with these two, but it
+declares `func_8004036C` through its own private object view rather than the
+`void *` these files use, so absorbing it would require changing that view
+rather than concatenating text. That reconciliation is a separate question
+from this grouping.
+
 ## Keyboard input and glyph effects
 
 `NameEntry_BuildKeyboardTextBox` (`0x80168138`) prepares text slot 1 for
