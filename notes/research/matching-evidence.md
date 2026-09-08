@@ -4760,3 +4760,42 @@ under split addresses: `-fno-schedule-insns`, `-fno-schedule-insns2`,
 `-fno-cse-follow-jumps`, `-fno-thread-jumps`, `-fno-peephole`, `-fno-force-mem`,
 `-fno-strength-reduce`, `-fno-function-cse`, `-fno-rerun-cse-after-loop`,
 `-fno-regmove`.
+## `func_8003A560`: a pin that had to be added, then removed
+
+Sixteen differing positions to zero, all of them in the loop that walks the
+five-entry resident page table. The chain is worth recording because two of its
+steps contradict each other and both are correct.
+
+**An unchanged count after a pin does not mean the pin did nothing.** Pinning
+the page pointer `slot` to `$s2` left the count at 16, and a first pass here
+recorded it as neutral and moved on. It is not neutral: with the pin the
+`0x18400` block offset lands in `$s1` exactly as retail has it and the whole
+`$s1`/`$s2` exchange disappears, replaced by `tbl` moving one register. The diff
+has to be read, not just its length. Pinning `tbl` as well then gave 15.
+
+**In-place accumulation and a temporary are both needed, in the same function.**
+Retail computes the `0x18000` image offset into `$s0` and adds in place, so the
+image pointer wants a pin; it loads the backing-store base into a temporary and
+adds into `$s2`, so the base wants a *different* pin to stop GCC accumulating
+into the destination. Those are opposite shapes twenty instructions apart, which
+is why neither can be applied as a rule - each has to be read off the target per
+value. Together they were worth five positions.
+
+**Then the `tbl` pin had to come out.** After the explicit pointer walk, the two
+new pins and the reordered preheader, an unpin sweep showed `tbl` had inverted:
+keeping it cost two positions, removing it gave **3**. This is the second
+function in a row where a pin that was worth having when added became the thing
+blocking the end of the campaign, and only a re-sweep after the structural work
+found it. **Re-run the unpin sweep after every structural change, not once at
+the end.**
+
+**The last three positions were the order of two `for` increment expressions.**
+Retail hoists the `lui` half of the `-0x18C10` page stride into the preheader
+and completes it in the loop, spending the counter decrement afterwards; the
+candidate did the counter first. Writing `for (; i >= 0; slot -= 0x18C10, i--)`
+rather than `i--, slot -= 0x18C10` reproduces it exactly. **240 of 240, zero
+differences.**
+
+The comma operator's order in a `for` increment is not something the language
+forces on the code generator, but GCC preserves it, and it is worth trying when
+a loop-end residual is two instructions trading places.

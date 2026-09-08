@@ -2923,6 +2923,12 @@
       "source": "src/game/func_8003A440.c"
     },
     {
+      "address": "0x8003A560",
+      "profile": "gcc_2_8_1_cc_g8_as_g1_split",
+      "size": "0x3C0",
+      "source": "src/game/func_8003A560.c"
+    },
+    {
       "address": "0x8003A920",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
