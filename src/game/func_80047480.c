@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
+#include "sound_pending_constants.h"
 #include "sound_voice_constants.h"
 
 extern u8 *g_SDValue;
@@ -55,7 +56,7 @@ void func_80047480(void) {
     if (*(u16 *)p != 0) {
         r = p;
         do {
-            *(u16 *)(*(u8 **)(r + 0x43C) + i * 2) = 0xFFFF;
+            *(u16 *)(*(u8 **)(r + 0x43C) + i * 2) = SD_PENDING_ENTRY_NONE;
             i++;
         } while (i < *(u16 *)r);
     }
@@ -66,7 +67,7 @@ void func_80047480(void) {
         j = 0;
         k = i << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         for (; j < SD_VOICE_LOOKUP_BANK_ENTRY_COUNT; j++) {
-            *(u16 *)(q + k + SD_VOICE_LOOKUP_BYTE_OFFSET) = 0xFFFF;
+            *(u16 *)(q + k + SD_VOICE_LOOKUP_BYTE_OFFSET) = SD_PENDING_ENTRY_NONE;
             k += 2;
         }
     }

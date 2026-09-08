@@ -103,6 +103,9 @@ the `field_0444` note records, their raw copies, and the source payload stride.
 The shared `SDNote` and private `SoundPendingEntry` views both guard that
 extent without merging their fields. `SD_PENDING_ENTRY_NONE` (`0xFFFF`) keeps
 the lookup-clear and skipped-ID marker distinct from the link-cache sentinel.
+These note/pending constants live in the type-free
+`sound_pending_constants.h`, re-exported by `sound.h`, so raw state views can
+share the same definitions without importing incompatible declarations.
 The input ID list begins at `SD_PENDING_INPUT_IDS_BYTE_OFFSET` (`0x08`) and
 advances `SD_PENDING_INPUT_ID_ENTRY_SIZE` (`2`) bytes per halfword ID. Note
 payloads begin at `SD_PENDING_INPUT_PAYLOAD_BYTE_OFFSET` (`0x1A0`); neither
@@ -130,6 +133,14 @@ stride (`64`) agree with a bank's compiled size. The shared two-dimensional
 view and private flattened views use the same derived total of 64 entries.
 This does not change code tags, sentinels, the four dedicated voice slots, or
 the pending-input block's capacity and count-driven population loops.
+
+The missing-entry marker is shared by the pending-input and indirect-lookup
+paths: `func_80048D08` retains each input key in the selected lookup bank even
+when that key is `SD_PENDING_ENTRY_NONE`. Mapping initialization, table reset,
+and decoder missing-result tests therefore reuse that marker. This does not
+merge the lookup stages or change which routines perform the second mapping.
+The independent link-cache sentinel, low-16-bit masks, and SPU attribute-mask
+values remain separate.
 
 The indirect path is selected by `SD_VOICE_LOOKUP_CODE_MASK` (`0xF000`)
 and `SD_VOICE_LOOKUP_CODE_TAG` (`0x4000`). Compile-time relations keep the

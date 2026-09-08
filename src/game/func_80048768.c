@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
+#include "sound_pending_constants.h"
 #include "sound_voice_constants.h"
 
 extern u8 *g_SDValue;
@@ -43,7 +44,7 @@ void func_80048768(s32 arg0, s32 arg1)
         off += flag << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         base = g_SDValue;
         pt = *(u16 *)(base + off + SD_VOICE_LOOKUP_BYTE_OFFSET);
-        invalid_key = 0xFFFF;
+        invalid_key = SD_PENDING_ENTRY_NONE;
         if (pt == invalid_key) {
             return;
         }

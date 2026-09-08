@@ -30,7 +30,7 @@ void func_80047DB0(s32 arg)
         bank *= SD_VOICE_LOOKUP_BANK_BYTE_STRIDE;
         offset += bank;
         key = *(u16 *)(table + offset);
-        if (key == 0xFFFF)
+        if (key == SD_PENDING_ENTRY_NONE)
             return;
     }
     mask = 1;

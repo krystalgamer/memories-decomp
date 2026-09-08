@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
+#include "sound_pending_constants.h"
 #include "sound_voice_constants.h"
 
 struct SoundState {
@@ -40,7 +41,7 @@ void func_80048920(s32 arg0, s32 arg1)
         hi = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
         hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         v = *(u16 *)((u8 *)a + (lo + hi) + SD_VOICE_LOOKUP_BYTE_OFFSET);
-        ff = 0xFFFF;
+        ff = SD_PENDING_ENTRY_NONE;
         if (v == ff) {
             return;
         }

@@ -57,7 +57,7 @@ void func_80048D08(s32 side, u32 *src)
         }
         for (j = 0; j < cur->count; j++) {
             u16 key = cur->keys[j];
-            if (key != 0xFFFF) {
+            if (key != SD_PENDING_ENTRY_NONE) {
                 u16 n = g_SDValue->field_0440;
                 u16 v;
 
