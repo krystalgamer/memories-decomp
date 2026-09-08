@@ -138,7 +138,8 @@ segments:
       - [0x80f04, .data, game/file_names]
       - [0x80fac, data, initialized_data_800907ac]
       - [0x81ee0, .data, game/ai_script_commands]
-      - [0x81ff0, data, initialized_data_800917f0]
+      - [0x81ff0, .data, game/ai_opponent_data]
+      - [0x82158, data, initialized_data_80091958]
       - [0x8B884, .sdata, game/ai_script_call_control]
       - [0x8B88C, pad]
 
