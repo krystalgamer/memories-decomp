@@ -168,8 +168,9 @@ resource-level offsets, hashes, and visual-label confidence.
 
 ### Campaign scene package
 
-Resident `func_8002FD10` requests 49 WA sectors beginning at sector `0x1E57`,
-which is archive range `0xF2B800-0xF44000`. Matching callback
+Matching [`func_8002FD10`](../src/game/func_8002FD10.c) requests the same
+49 WA sectors beginning at `0x1E57` for every argument, which is archive
+range `0xF2B800-0xF44000`. Matching callback
 `func_8002FB78` accounts for all four transfer phases:
 
 | WA range | Size | Callback behavior |
@@ -183,6 +184,14 @@ Each portrait record contains a `48 x 48` 8-bit image (`0x900` bytes)
 followed by a 64-colour CLUT (`0x80` bytes). Text control `F6` selects these
 portraits through values `0x41`-`0x59`. The four phase sizes total the
 requested `0x18800` bytes exactly, and none supplies an executable module.
+
+The argument initializes the event-script state at `D_8009B2A4`, not the
+archive location. Matching [`Main_RunCampaign`](../src/game/main_run_campaign.c)
+passes `gCampaignSceneIndex`. When neither dialog-active nor started state
+intervenes, [`func_8002FA54`](../src/game/func_8002FA54.c) uses a nonzero
+value directly to index the script's `u16` offset table. A zero state does
+not start an event, but does not prevent the loader from requesting the
+shared resource package.
 
 ### Free Duel screen package
 

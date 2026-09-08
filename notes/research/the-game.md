@@ -1674,8 +1674,14 @@ continues in Free Duel with every campaign duelist available.
 > data-driven at two levels:
 >
 > * an **event script** — 4 KB loaded to `0x801A8000` as the third chunk of
->   the 49-sector blob at `WA_MRG.MRG` sector `0x1E57` [`func_8002FD10(scene)`
->   loads it, callback `func_8002FB78`]. It begins with a `u16 offset[199]`
+>   the 49-sector blob at `WA_MRG.MRG` sector `0x1E57` [matching
+>   [`func_8002FD10`](../../src/game/func_8002FD10.c) requests the fixed package;
+>   callback `func_8002FB78` routes the script phase]. Its argument initializes
+>   `D_8009B2A4`, not a per-scene archive-page address. Matching
+>   [`Main_RunCampaign`](../../src/game/main_run_campaign.c) supplies
+>   `gCampaignSceneIndex`; on normal entry, the event driver uses a nonzero
+>   unstarted value to select the corresponding script entry.
+>   The script begins with a `u16 offset[199]`
 >   table, one entry per event, and each event is a byte stream run by
 >   `func_8002FA54` through a 23-opcode table [`0x80090C50`, opcode = byte &
 >   0x1F]. The opcodes that matter for the flow: 1 = show location picture,

@@ -25,13 +25,13 @@ extern void func_80039E9C(void);
 extern void func_800137E4(void);
 extern void *func_8002E3FC(void);
 
-/* Loads the card-art page. Stores the requested page in D_8009B2A4, zeroes
- * both viewport halves, starts the 0x1E57/0x31 asynchronous transfer with
- * func_8002FB78 as its completion callback, clears the first three
- * D_800EAE98 records and marks the fourth -1, waits for the GPU to go idle,
- * then walks 25 tiles uploading two VRAM rectangles each: the first steps
- * across a five-wide grid of 24x48 cells from x=0x380, the second steps down
- * a 0x40-wide column from y=0xF0.
+/* Loads the fixed scene presentation/event package. The argument initializes
+ * D_8009B2A4 for the event driver; it does not select a different disc page.
+ * The 0x1E57/0x31 request uses func_8002FB78 to route image, palette, event
+ * script, and image/CLUT data. After resetting viewport and slot state, this
+ * function polls IsIdleGPU(10) until it returns zero, then uploads 25 pairs
+ * from the arena held in D_80010000: 24-word by 48-row image rectangles on a
+ * five-wide grid from x=0x380, followed by 64x1 CLUT rectangles from y=0xF0.
  *
  * The clearing loop subscripts the record array rather than walking a
  * pointer. Both spellings give 112 instructions, but the walking pointer adds
