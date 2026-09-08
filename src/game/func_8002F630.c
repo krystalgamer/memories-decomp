@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "file_constants.h"
 
 typedef struct {
     u8 pad00[4];
@@ -62,7 +63,12 @@ void func_8002F630(void) {
         p = D_8009B290;
         D_8009B290 = p + 2;
         D_8009B29C = p[0] | (p[1] << 8);
-        File_RequestAsyncTransfer(0, 0, 0x1FA7, 0x32, func_8002F4C0, 0, 0);
+        File_RequestAsyncTransfer(
+            0, 0,
+            FILE_WA_MENU_ASSETS_START_SECTOR,
+            FILE_WA_MENU_ASSETS_SECTOR_COUNT,
+            func_8002F4C0, 0, 0
+        );
         func_800137E4();
     }
     flags = D_8009B27C;

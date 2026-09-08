@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "file_constants.h"
 
 /* Duel-result outro sequence, driven from the scene state word D_8009B23A.
 
@@ -129,7 +130,12 @@ void func_80020F4C(void)
             D_8009B362 = 1;
         }
         D_8009B238 = id;
-        File_RequestAsyncTransfer(0, 0, 0x1DAB, 0x22, func_80020BE4, 0, 0);
+        File_RequestAsyncTransfer(
+            0, 0,
+            FILE_WA_DUEL_RESULTS_START_SECTOR,
+            FILE_WA_DUEL_RESULTS_SECTOR_COUNT,
+            func_80020BE4, 0, 0
+        );
         mode = 0x72E0;
         if (gDuel_bWinnerSide != 0) {
             if (gDuel_bOpponentID >= 0) {

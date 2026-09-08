@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_constants.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
@@ -53,7 +54,12 @@ void func_8002FD10(s16 arg0)
     gGraphics_sViewportY = 0;
     gGraphics_sViewportX = 0;
     D_8009B2A0 = 0;
-    File_RequestAsyncTransfer(0, 0, 0x1E57, 0x31, func_8002FB78, 0, 0);
+    File_RequestAsyncTransfer(
+        0, 0,
+        FILE_WA_CAMPAIGN_SCENE_START_SECTOR,
+        FILE_WA_CAMPAIGN_SCENE_SECTOR_COUNT,
+        func_8002FB78, 0, 0
+    );
     func_80039E9C();
 
     *(s16 *)&slot[3] = -1;
