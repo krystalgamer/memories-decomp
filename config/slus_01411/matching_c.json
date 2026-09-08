@@ -4102,13 +4102,13 @@
       "address": "0x80045208",
       "profile": "gcc_2_8_1_g0",
       "size": "0x12C",
-      "source": "src/game/func_80045208.c"
+      "source": "src/game/sound_code_requests.c"
     },
     {
       "address": "0x80045334",
       "profile": "gcc_2_8_1_g0",
       "size": "0x118",
-      "source": "src/game/func_80045334.c"
+      "source": "src/game/sound_code_requests.c"
     },
     {
       "address": "0x8004544C",

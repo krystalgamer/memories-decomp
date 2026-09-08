@@ -2278,8 +2278,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x8004503C,func_8004503C,matching_c,game,C,src/game/sound_output_state.c,write,,g_SDValue->field_0049 = flag; | g_SDValue->field_0512 = value;
 0x8009B45C,g_SDValue,g_SDValue,0x80045054,func_80045054,matching_c,game,C,src/game/sound_output_state.c,read,,"(SpuDecodedData *)((u8 *)g_SDValue + 0x53C), | loaded = (u8 *)g_SDValue; | (+2 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x80045114,func_80045114,matching_c,game,C,src/game/sound_output_state.c,read,,SDValue *state = g_SDValue;
-0x8009B45C,g_SDValue,g_SDValue,0x80045208,func_80045208,matching_c,game,C,src/game/func_80045208.c,read_write,,SDValue *a = g_SDValue; | g_SDValue->flags_0040 = (g_SDValue->flags_0040 | 1) & 0xFFFB; | (+1 more)
-0x8009B45C,g_SDValue,g_SDValue,0x80045334,func_80045334,matching_c,game,C,src/game/func_80045334.c,read,,a = g_SDValue; | b = g_SDValue; | (+1 more)
+0x8009B45C,g_SDValue,g_SDValue,0x80045208,func_80045208,matching_c,game,C,src/game/sound_code_requests.c,read_write,,SDValue *a = g_SDValue; | g_SDValue->flags_0040 = (g_SDValue->flags_0040 | 1) & 0xFFFB; | (+1 more)
+0x8009B45C,g_SDValue,g_SDValue,0x80045334,func_80045334,matching_c,game,C,src/game/sound_code_requests.c,read,,a = g_SDValue; | b = g_SDValue; | (+1 more)
 0x8009B45C,g_SDValue,g_SDValue,0x8004544C,SD_ClearBusyFlag,matching_c,game,C,src/game/sd_clear_busy_flag.c,write,,g_SDValue->busy = 0;
 0x8009B45C,g_SDValue,g_SDValue,0x8004545C,SD_ArmBusyCallback,matching_c,game,C,src/game/sd_arm_busy_callback.c,write,,g_SDValue->busy = 1;
 0x8009B45C,g_SDValue,g_SDValue,0x80045484,func_80045484,matching_c,game,C,src/game/func_80045484.c,read,,for (i = 1; i < g_SDValue->command_count; i++) { | s32 c = g_SDValue->commands[i].command;
