@@ -22,12 +22,12 @@ void func_80047DB0(s32 arg)
     }
     if ((value & 0xF000) == 0x4000) {
         u8 *table = (u8 *)g_SDValue->field_044C[0];
-        s32 offset = (value & 0x1F) * 2;
+        s32 offset = (value & SD_VOICE_LOOKUP_INDEX_MASK) * 2;
         register s32 bank asm("$2") = 0;
 
-        if (value & 0x100)
+        if (value & SD_VOICE_LOOKUP_BANK_FLAG)
             bank = 1;
-        bank *= 64;
+        bank *= SD_VOICE_LOOKUP_BANK_BYTE_STRIDE;
         offset += bank;
         key = *(u16 *)(table + offset);
         if (key == 0xFFFF)

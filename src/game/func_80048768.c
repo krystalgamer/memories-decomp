@@ -37,10 +37,10 @@ void func_80048768(s32 arg0, s32 arg1)
     }
     i = 0;
     if ((arg0 & 0xF000) == 0x4000) {
-        off = (arg0 & 0x1F) * 2;
-        flag = arg0 & 0x100;
+        off = (arg0 & SD_VOICE_LOOKUP_INDEX_MASK) * 2;
+        flag = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
         flag = zero < flag;
-        off += flag << 6;
+        off += flag << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         base = g_SDValue;
         pt = *(u16 *)(base + off + 0x44C);
         invalid_key = 0xFFFF;

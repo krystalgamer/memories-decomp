@@ -28,6 +28,7 @@ Konami type or field naming.
 | `0x0438` | `field_0438` | Cursor initialized from the first link entry and advanced by each selected entry's second word. |
 | `0x0442` | `field_0442` | Selected link-table index; reset to `0xFFFF` and used to suppress duplicate requests. |
 | `0x0448` | `field_0448` | Pointer to the 8-byte `SDValueLink` table used by pending sound-data requests. |
+| `0x044C` | `field_044C[2][32]` | Two halfword lookup banks, reset by `func_80047480`, populated by `func_80048D08`, and selected by the indirect voice-code decoders. |
 | `0x0510` | `cd_volume` | Sound output changes recalculate and store this signed 16-bit value. |
 | `0x0514` | `channel_volume[2]` | Two byte channel-volume scalars. |
 | `0x0533` | `mix_multiplier` | Multiplies the shared CD mix scale. |
@@ -120,6 +121,15 @@ to the raw reader's offsets. `SD_PENDING_INPUT_BLOCK_SHIFT`
 word assignments, covering the same block. These names describe storage, not
 new bounds: count-driven processing and the separate voice-lookup table's
 dimensions remain unchanged.
+
+That voice-lookup table has `SD_VOICE_LOOKUP_BANK_COUNT` (`2`) banks of
+`SD_VOICE_LOOKUP_BANK_ENTRY_COUNT` (`32`) halfwords. The index mask derives
+from the bank extent, while flag `0x100` selects the second bank through each
+routine's original Boolean calculation. The byte shift (`6`) and derived
+stride (`64`) agree with a bank's compiled size. The shared two-dimensional
+view and private flattened views use the same derived total of 64 entries.
+This does not change code tags, sentinels, the four dedicated voice slots, or
+the pending-input block's capacity and count-driven population loops.
 
 `SD_ArmBusyCallback` now expresses the registration path in pure C: it sets
 `busy` and installs `SD_ClearBusyFlag` in the main callback slot. This replaces

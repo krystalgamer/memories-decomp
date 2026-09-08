@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
+#include "sound_voice_constants.h"
 
 extern u8 *g_SDValue;
 
@@ -61,10 +62,10 @@ void func_80047480(void) {
 
     i = 0;
     q = g_SDValue;
-    for (; i < 2; i++) {
+    for (; i < SD_VOICE_LOOKUP_BANK_COUNT; i++) {
         j = 0;
-        k = i << 6;
-        for (; j < 0x20; j++) {
+        k = i << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
+        for (; j < SD_VOICE_LOOKUP_BANK_ENTRY_COUNT; j++) {
             *(u16 *)(q + k + 0x44C) = 0xFFFF;
             k += 2;
         }

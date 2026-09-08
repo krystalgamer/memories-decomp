@@ -10,7 +10,7 @@ struct SoundState {
     u8 pad2[0x43C - 0x428];
     u16 *p43C;
     u8 pad3[0x44C - 0x440];
-    u16 tbl44C[64];
+    u16 tbl44C[SD_VOICE_LOOKUP_ENTRY_COUNT];
 };
 
 extern struct SoundState *g_SDValue;
@@ -36,9 +36,9 @@ void func_80048920(s32 arg0, s32 arg1)
         struct SoundState *a = g_SDValue;
         u16 v;
 
-        lo = (arg0 & 0x1F) << 1;
-        hi = arg0 & 0x100;
-        hi = (hi != 0) << 6;
+        lo = (arg0 & SD_VOICE_LOOKUP_INDEX_MASK) << 1;
+        hi = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
+        hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         v = *(u16 *)((u8 *)a + (lo + hi) + 0x44C);
         ff = 0xFFFF;
         if (v == ff) {

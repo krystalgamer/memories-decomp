@@ -108,7 +108,7 @@ typedef struct {
     u16 field_0442;
     SDNote *field_0444;
     SDValueLink *field_0448;
-    u16 field_044C[2][32];
+    u16 field_044C[SD_VOICE_LOOKUP_BANK_COUNT][SD_VOICE_LOOKUP_BANK_ENTRY_COUNT];
     u8 pad04CC[0x44];
     s16 cd_volume;
     s16 field_0512;
@@ -254,6 +254,10 @@ typedef char SDValueLink_size_must_be_0x08[
 ];
 typedef char SDValue_size_must_be_0x164C[
     sizeof(SDValue) == 0x164C ? 1 : -1
+];
+typedef char SDValue_lookup_bank_size_must_match_stride[
+    sizeof(((SDValue *)0)->field_044C[0]) ==
+        SD_VOICE_LOOKUP_BANK_BYTE_STRIDE ? 1 : -1
 ];
 typedef char SDValue_key_mask_offset_must_be_0x384[
     SD_STATE_OFFSET(SDValue, key_mask) == 0x384 ? 1 : -1
