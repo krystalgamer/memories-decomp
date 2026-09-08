@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 #include "campaign_flags.h"
 
 extern u8 D_8009B34E;
@@ -40,18 +41,19 @@ void func_80038A44(u8 *object)
 void func_80038AB0(u8 *object)
 {
     register u32 value asm("$3");
-    register s32 card_id asm("$16");
+    register s32 duelist_id asm("$16");
     u8 **stream;
     u8 *cursor;
 
     stream = &((u8 **)object)[*(s8 *)(object + 0x58)];
     cursor = *stream;
     value = *cursor++;
-    card_id = value;
+    duelist_id = value;
     *stream = cursor;
-    if (card_id > 0) {
-        Library_UpdateCardUsedFlag(card_id + 0x1F);
-        Library_UpdateCardUsedFlag(card_id + 0x6E0);
+    if (duelist_id > 0) {
+        Library_UpdateCardUsedFlag(
+            duelist_id + CAMPAIGN_FLAG_DUELIST_DEFEATED_BASE);
+        Library_UpdateCardUsedFlag(duelist_id + FREE_DUEL_UNLOCK_FLAG_BASE);
     }
 }
 
