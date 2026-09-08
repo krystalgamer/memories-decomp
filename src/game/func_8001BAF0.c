@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_deck_card.h"
 #include "duel_side_state.h"
 #include "ai.h"
 #include "duel_card.h"
@@ -26,7 +27,6 @@ extern u8 D_8009B1D5;
 extern u8 D_800EAE88[];
 extern u8 D_800907CC[];
 
-extern void Duel_SetupCardRecord(s32, s32);
 extern Spawned *func_80018004(u8 *, s32, s32);
 
 void func_8001BAF0(void)

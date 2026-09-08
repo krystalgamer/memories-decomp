@@ -13,7 +13,6 @@ extern u32 func_8004703C(void);
 extern void func_80047314(u32);
 extern void func_800473CC(u32);
 extern void func_80047430(s32, s32);
-extern void SD_KeyOffVoiceSlots(void);
 extern void SD_SEPlay(u32, s32, s32);
 
 void Sound_InitFrontend(void)

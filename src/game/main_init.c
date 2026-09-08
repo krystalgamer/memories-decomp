@@ -1,5 +1,6 @@
 #define D_8009B0D8_IS_VOLATILE
 #include "../types.h"
+#include "sound.h"
 #include "graphics_frame.h"
 #include "../psyq/libapi.h"
 #include "../psyq/libgte.h"
@@ -36,7 +37,6 @@ extern void func_80035A64(void);
 extern void func_8003B5C8(void);
 extern void SD_InitState(s32);
 extern void Main_VBlankCB(void);
-extern void Sound_InitFrontend(void);
 extern void Main_ResetFrontendRuntime(void);
 extern void func_80043960(s32);
 extern void func_8005B85C(void);

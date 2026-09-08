@@ -36,7 +36,6 @@ extern u8 *D_8009B21C;
 extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
 
 extern void Duel_ApplyCardObjectFlags(u8 *);
-extern u8 *Duel_SetupCardRecord(s32, s32);
 extern u8 *func_80018004(u8 *, s32, s32);
 
 void func_80018608(void)

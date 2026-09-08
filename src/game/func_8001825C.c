@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_effect_request.h"
 #include "func_8002C604.h"
 #include "duel_card.h"
 #include "duel_side_state.h"
@@ -22,7 +23,6 @@ extern u8 D_801A7B64[];
 extern void func_80024D34(s32, s32);
 extern void Duel_ApplyCardObjectFlags(u8 *);
 extern void func_8001352C(void);
-extern u8 *func_8002C68C(s32);
 extern void func_80024954(u8 *);
 extern s16 func_800181EC(u8 *);
 
@@ -133,7 +133,7 @@ void func_8001825C(void)
                         replay_offset + 0x36B4);
     }
     func_8001352C();
-    obj = func_8002C68C(0xB);
+    obj = (u8 *)func_8002C68C(0xB);
     *(u16 *)obj = *(u16 *)(card + 0x30);
     *(u16 *)(obj + 2) = *(u16 *)(card + 0x32);
     *(u16 *)(obj + 4) = *(u16 *)(card + 0x34);
