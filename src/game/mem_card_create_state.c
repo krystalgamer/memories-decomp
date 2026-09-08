@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "mem_card_directory.h"
 #include "../psyq/libmcrd.h"
 
 #include "mem_card.h"
@@ -58,8 +59,6 @@ extern s32 D_801D5608[];
 extern s32 D_801D5648[];
 
 extern void func_8003E46C(s32, s32);
-extern s32 func_80044544(u8 *, s32);
-extern s32 func_80044598(u8 *, u8 *, s32);
 extern s32 SaveData_MatchesDuelistAndCurrentSequence(u32, u8 *);
 
 void func_8003E854(void)

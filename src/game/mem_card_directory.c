@@ -2,6 +2,7 @@
 #include "../psyq/strings.h"
 
 #include "mem_card.h"
+#include "mem_card_directory.h"
 
 s32 func_80044544(u8 *entry, s32 count)
 {
@@ -19,12 +20,12 @@ s32 func_80044544(u8 *entry, s32 count)
     return MEM_CARD_BLOCK_COUNT - total;
 }
 
-s32 func_80044598(s32 value, u8 *entry, s32 count)
+s32 func_80044598(u8 *name, u8 *entry, s32 count)
 {
     s32 i;
 
     for (i = 0; i < count; i++, entry += MEM_CARD_DIRECTORY_ENTRY_SIZE) {
-        if (strcmp(entry, value) == 0) {
+        if (strcmp(entry, name) == 0) {
             return i;
         }
     }
