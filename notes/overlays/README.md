@@ -355,8 +355,11 @@ functions that own them:
 **The constraint is not specific to password.** `main_menu` has the same
 structure: `0x4`–`0x1C` is six words — `8018416c 80183514 801836f4 80183884
 80183a14 80184254` — all main_menu code addresses, so a table of function
-pointers, and two of them are the comparators `func_80183514` and
-`func_801836F4`. Any module whose C files emit read-only data will hit this,
+pointers, including `MainMenu_CompareCardsByMaxStat` (`func_80183514`) and
+`MainMenu_CompareCardsByAttack` (`func_801836F4`). The complete relations
+and the Count entry's unestablished selection path are documented in the
+[main-menu README](../../src/overlays/main_menu/README.md#card-comparator-relations-and-selection).
+Any module whose C files emit read-only data will hit this,
 and three modules only avoid it because they have none.
 
 ### The placement is a yaml change, not a build-system change
@@ -1118,7 +1121,8 @@ to the values afterwards. Register allocation depends on how long a value stays
 live and on what competes with it, so a probe that ends in a placeholder call
 is asking a different question from the real function.
 
-`func_80183514` showed this sharply. Its open question was which source form
+`MainMenu_CompareCardsByMaxStat` (`func_80183514`) showed this sharply.
+Its open question was which source form
 keeps three values in three registers. Ending the probe with `return sink(hi,
 lo)` made **six** different spellings collapse to the same shape, and that shape
 was not the target's. Replacing the call with the four-comparison chain the real

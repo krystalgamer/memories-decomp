@@ -333,7 +333,7 @@ Two independent instances, in different modules and different optimisations:
 | function | what merged | the obstruction |
 |---|---|---|
 | `func_80168AB4` (password) | two loads of one field, folded by CSE | a store between them the compiler cannot disambiguate |
-| `func_80183514` (main menu) | two copies of one value, coalesced by the register allocator | an `if` between them, so the copies are not live over the same range |
+| `MainMenu_CompareCardsByMaxStat` (`func_80183514`) | two copies of one value, coalesced by the register allocator | an `if` between them, so the copies are not live over the same range |
 
 In both, the short build is the *natural* way to write the code, and the
 matching build looks slightly laboured:
@@ -404,11 +404,13 @@ tell that a value shifted with `srl` rather than `sra` was held in an
 **Where the arms are laid out says which form to write.** The two comparators
 in the same module make the contrast cleanly:
 
-- `func_80184254` sends every arm straight to the shared exit, with the value
-  in the branch's delay slot and one arm falling through at the end. That is
+- `MainMenu_CompareCardsByCount` (`func_80184254`) sends every arm straight
+  to the shared exit, with the value in the branch's delay slot and one arm
+  falling through at the end. That is
   the plain `if / else if / else` chain, and it matches unchanged.
-- `func_8018416C` instead lays two arms out as separate blocks *after* the
-  tests. That needs every test negated, so each arm becomes an `else`. Written
+- `MainMenu_CompareCardsByName` (`func_8018416C`) instead lays two arms out as
+  separate blocks *after* the tests. That needs every test negated, so each
+  arm becomes an `else`. Written
   plainly it comes out three instructions short, because GCC cross-jumps the
   duplicated arm into an earlier one.
 
@@ -416,9 +418,11 @@ So read the block layout before choosing: arms that are delay-slot values on
 branches to a common exit mean the plain chain; arms that are blocks of their
 own at the bottom mean the negated one.
 
-`func_801836F4` is a third instance and confirms the count exactly: written as
+`MainMenu_CompareCardsByAttack` (`func_801836F4`) is a third instance and
+confirms the count exactly: written as
 a flat six-way `else if` chain it builds three instructions short, and the
-negated nesting that `func_80183A14` uses matches. It also gives the shortfall
+negated nesting that `MainMenu_CompareCardsByType` (`func_80183A14`) uses
+matches. It also gives the shortfall
 a second, easier-to-spot symptom. The three instructions are not lost where
 the chain is; they are lost at the **epilogue**:
 
@@ -448,20 +452,21 @@ sentinel, the order of those assignments decides the register pair, with no
 change to the instruction count. It is worth knowing the direction, because
 otherwise it is a coin flip you resolve by rebuilding.
 
-`func_801836F4` and `func_80183884` are the same comparator body with the two
+`MainMenu_CompareCardsByAttack` and `MainMenu_CompareCardsByDefense` are
+the same comparator body with the two
 outer comparison levels swapped, so between them they answer it:
 
 | function | compares first | `else` arm assigns first |
 |---|---|---|
-| `func_801836F4` | ATK | DEF |
-| `func_80183884` | DEF | ATK |
+| `MainMenu_CompareCardsByAttack` (`func_801836F4`) | ATK | DEF |
+| `MainMenu_CompareCardsByDefense` (`func_80183884`) | DEF | ATK |
 
 **The sentinel written first is the key compared *second*.** The `if` arm is
 the other way round in both: there the keys are assigned in the order their
 fields sit in the packed word, and only the sentinel arm flips.
 
-Getting it backwards in `func_801836F4` cost eight differing positions, all of
-them a two-register permutation (`a3`/`t0` on one side, `v1`/`a0` on the
+Getting it backwards in `MainMenu_CompareCardsByAttack` cost eight differing
+positions, all of them a two-register permutation (`a3`/`t0` on one side, `v1`/`a0` on the
 other) with the length already correct. That signature — a clean register
 transposition with nothing else wrong — is the cue to look at assignment order
 in a shared arm rather than at allocation.

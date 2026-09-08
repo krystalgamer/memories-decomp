@@ -3,12 +3,12 @@
 
 typedef struct {
     s16 id;
-    u16 rank;
+    u16 count;
 } MainMenuSortEntry;
 
 extern s16 D_801D4D8E[];
 
-s32 func_80184254(MainMenuSortEntry *a, MainMenuSortEntry *b)
+s32 MainMenu_CompareCardsByCount(MainMenuSortEntry *a, MainMenuSortEntry *b)
 {
     s32 result;
     s32 idA;
@@ -29,14 +29,14 @@ s32 func_80184254(MainMenuSortEntry *a, MainMenuSortEntry *b)
     } else {
         if (idA != 0) {
             keyA = D_801D4D8E[idA - 1];
-            rankA = a->rank;
+            rankA = a->count;
         } else {
             keyA = 0x7FFFFFFF;
             rankA = 0x80000001;
         }
         if (idB != 0) {
             keyB = D_801D4D8E[idB - 1];
-            rankB = b->rank;
+            rankB = b->count;
         } else {
             keyB = 0x7FFFFFFF;
             rankB = 0x80000001;
