@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_card.h"
+#include "func_80026C0C.h"
 
 extern u8 D_8009B1D5;
 

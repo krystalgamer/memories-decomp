@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "view_state.h"
 #include "../psyq/libgte.h"
 
 /* Clears D_8009B260's bit 0x1, then walks all 8 D_800EAD88[] records. For
@@ -32,14 +33,8 @@ struct D800E9D90Type {
     s32 f8;
 };
 
-struct D800F2848Type {
-    char pad[0xE];
-    s16 fE;
-};
-
 extern struct Rec D_800EAD88[8];
 extern struct D800E9D90Type D_800E9D90;
-extern struct D800F2848Type D_800F2848;
 extern u8 D_8009B260;
 extern u8 D_8009B261;
 extern struct Rec *D_8009B264;
@@ -73,7 +68,7 @@ s32 func_8002C6C8(void) {
             rec->f8 = D_800E9D90.f8;
             func_801462B0(rec->f18, savedF1A, rec->f14, rec);
             SetGeomOffset(0, 0);
-            SetGeomScreen(D_800F2848.fE);
+            SetGeomScreen(D_800F2848.projection);
             if (D_8009B261 == 1) {
                 rec->f1C = 0;
             }

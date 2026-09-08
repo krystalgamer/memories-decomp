@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "duel_card.h"
+#include "func_80026C0C.h"
 
 extern s32 Duel_CollectFieldCardsByType(u8 **, s32, s32);
-extern s32 func_80026C0C(s32);
 extern u8 D_800EAE88[];
 
 s32 func_80027060(void) {

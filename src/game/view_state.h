@@ -20,7 +20,13 @@
    no evidence here to settle that.
 
    0x10..0x1B is padding only in the sense that no matching function touches
-   it. There is no size assert: D_800F2848 is a single object with no stride
+   it FIELD BY FIELD. func_8002BAB4 copies it as two sixteen-byte blocks,
+   `*(ViewQuad *)(model + 0x10)` and `*(ViewQuad *)(model + 0x20)`, so
+   0x10..0x2F is really two quads and field_1C is the last word of the first
+   rather than a loner. The offsets below are unchanged by that reading --
+   it is a regrouping, not a correction -- so it is recorded here rather
+   than acted on: restructuring would be a claim about meaning that the
+   copy alone does not settle. There is no size assert: D_800F2848 is a single object with no stride
    evidence, so where the record ends is not something this code can show. */
 typedef struct {
     s16 field_00;
