@@ -44,19 +44,19 @@ void func_8004C114(SDSequenceTrack *p, s32 status, u8 d1, u8 d2) {
     s32 i;
     u8 v;
 
-    ch = status & 0xF;
-    switch (status & 0xF0) {
-    case 0x80:
+    ch = status & SD_SEQUENCE_CHANNEL_MASK;
+    switch (status & SD_SEQUENCE_STATUS_MASK) {
+    case SD_SEQUENCE_NOTE_OFF:
         func_8004B374(ch, d1, d2);
         break;
-    case 0x90:
+    case SD_SEQUENCE_NOTE_ON:
         if (d2 != 0) {
             func_8004ADE8(ch, d1, d2);
         } else {
             func_8004B374(ch, d1, 0);
         }
         break;
-    case 0xB0:
+    case SD_SEQUENCE_CONTROL_CHANGE:
         if (d1 == 0x63) {
             if (d2 == 0x14) {
                 u8 *seq;
@@ -136,10 +136,10 @@ void func_8004C114(SDSequenceTrack *p, s32 status, u8 d1, u8 d2) {
         }
         func_8004B49C(ch, d1, d2);
         break;
-    case 0xC0:
+    case SD_SEQUENCE_PROGRAM_CHANGE:
         func_8004B6E8(ch, d1);
         break;
-    case 0xE0:
+    case SD_SEQUENCE_PITCH_BEND:
         func_8004B70C(ch, d1, d2);
         break;
     }

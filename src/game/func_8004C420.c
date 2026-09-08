@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound_sequence_constants.h"
 
 extern s32 SD_ReadSequenceByte(void *arg0);
 extern void func_8004C114(void *arg0, s32 status, s32 byte2, s32 byte3);
@@ -26,19 +27,20 @@ s32 func_8004C420(MidiChan *arg0)
     {
         register s32 a0copy asm("a0") = cmd;
 
-        if (!(cmd & 0x80)) {
+        if (!(cmd & SD_SEQUENCE_STATUS_BIT)) {
             status = arg0->f29;
             arg0->f28 = 1;
         } else {
             status = cmd;
-            if ((a0copy & 0xFF) != 0xFF) {
+            if ((a0copy & 0xFF) != SD_SEQUENCE_META_EVENT) {
                 arg0->f29 = cmd;
             }
             arg0->f28 = 0;
         }
 
         table = D_80011484;
-        tableVal = table[(status >> 4) & 0xF];
+        tableVal = table[(status >> SD_SEQUENCE_STATUS_SHIFT) &
+                         SD_SEQUENCE_STATUS_INDEX_MASK];
         if (tableVal != 0) {
             register s32 byte2 asm("s2") = a0copy;
 
@@ -53,10 +55,10 @@ s32 func_8004C420(MidiChan *arg0)
         }
 
         masked = a0copy & 0xFF;
-        if (masked == 0xF0) {
+        if (masked == SD_SEQUENCE_SYSEX_EVENT) {
             goto case_f0;
         }
-        if (masked != 0xFF) {
+        if (masked != SD_SEQUENCE_META_EVENT) {
             goto case_default;
         }
         func_8004BE88(arg0, SD_ReadSequenceByte(arg0) & 0xFF);

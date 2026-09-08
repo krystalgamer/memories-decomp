@@ -29,11 +29,11 @@ void func_8004BE88(u8 *p, s32 arg1)
     mode = arg1 & 0xFF;
 
     switch (mode) {
-    case 0x2F:
+    case SD_SEQUENCE_META_END_OF_TRACK:
         p[0x24] = 1;
         goto one;
 
-    case 0x51:
+    case SD_SEQUENCE_META_TEMPO:
         z = 0;
         v = SD_ReadSequenceByte(p) << 16;
         v = v | (SD_ReadSequenceByte(p) << 8);
@@ -68,18 +68,18 @@ void func_8004BE88(u8 *p, s32 arg1)
         }
         break;
 
-    case 0x54:
+    case SD_SEQUENCE_META_SMPTE_OFFSET:
         SD_ReadSequenceByte(p);
         SD_ReadSequenceByte(p);
         SD_ReadSequenceByte(p);
         goto three;
 
-    case 0x58:
+    case SD_SEQUENCE_META_TIME_SIGNATURE:
         SD_ReadSequenceByte(p);
         SD_ReadSequenceU32BE(p);
         break;
 
-    case 0x59:
+    case SD_SEQUENCE_META_KEY_SIGNATURE:
     three:
         SD_ReadSequenceByte(p);
         SD_ReadSequenceByte(p);
@@ -101,7 +101,7 @@ void func_8004C0AC(void *input)
 
     do {
         i++;
-        if ((u8)SD_ReadSequenceByte(input) == 247)
+        if ((u8)SD_ReadSequenceByte(input) == SD_SEQUENCE_SYSEX_END)
             break;
     } while (i < count);
 }

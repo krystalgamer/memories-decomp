@@ -283,6 +283,18 @@ The legacy raw views can share this geometry without changing their state
 declarations. Channel and track constants must not stand in for the twenty
 `0x28`-byte objects or a 24-voice SPU status buffer.
 
+The same header names the event codes consumed by `func_8004C420`,
+`func_8004C114`, and `func_8004BE88`. A status-present bit, a message-type mask,
+and a channel mask have separate roles even when their values match an event
+code. The parser retains its running-status and argument-count-table behavior;
+the channel dispatcher handles note off/on, control change, program change,
+and pitch bend, including the existing zero-velocity note-on path to note off.
+The stream's `0xFF` marker routes meta events, while `0xF0` and `0xF7` delimit
+the existing SysEx handling. End-of-track, tempo, SMPTE-offset, time-signature,
+and key-signature selectors are named without changing their byte consumption.
+Custom controller numbers and loop handling remain separate from these event
+classifications.
+
 ### Confirmed secondary-state fields
 
 | Offset | Width | Field | Local matching-C evidence |
