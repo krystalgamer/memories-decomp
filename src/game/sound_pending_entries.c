@@ -7,6 +7,10 @@ typedef struct {
     u16 field_0006;
 } SoundPendingEntry;
 
+typedef char SoundPendingEntry_size_must_match_note_record[
+    sizeof(SoundPendingEntry) == SD_NOTE_RECORD_SIZE ? 1 : -1
+];
+
 typedef struct {
     u8 pad0000[0x43C];
     u16 *field_043C;
@@ -28,7 +32,7 @@ void func_8004763C(void) {
     a1->field_0442 = SD_VALUE_LINK_INDEX_NONE;
     if (i < a1->field_0000) {
         do {
-            a1->field_043C[i] = 0xFFFF;
+            a1->field_043C[i] = SD_PENDING_ENTRY_NONE;
             i++;
         } while (i < a1->field_0000);
     }
@@ -49,7 +53,7 @@ void func_800476B4(void *arg0, u32 arg1)
         u32 rate;
         register s32 sentinel asm("$11");
 
-        sentinel = 0xFFFF;
+        sentinel = SD_PENDING_ENTRY_NONE;
         rate = arg1 >> 4;
         payload = base;
         id_cursor = base;
@@ -67,20 +71,21 @@ void func_800476B4(void *arg0, u32 arg1)
                     u16 slot = state->field_0440;
                     SoundPendingEntry *entries = state->field_0444;
                     register SoundPendingEntry *dst asm("$2") =
-                        (SoundPendingEntry *)(slot * 8 + (s32)entries);
+                        (SoundPendingEntry *)(slot * SD_NOTE_RECORD_SIZE +
+                                              (s32)entries);
                     register SoundPendingEntry *updated asm("$3");
                     register SoundPendingState *state2 asm("$4") = state;
 
-                    __builtin_memcpy(dst, payload + 0x1A0, 8);
+                    __builtin_memcpy(dst, payload + 0x1A0, SD_NOTE_RECORD_SIZE);
                     updated = (SoundPendingEntry *)
-                        (state2->field_0440 * 8 +
+                        (state2->field_0440 * SD_NOTE_RECORD_SIZE +
                          (s32)state2->field_0444);
                     updated->field_0006 += rate;
                     state2->field_0440++;
                 }
             }
 
-            payload += 8;
+            payload += SD_NOTE_RECORD_SIZE;
             id_cursor += 2;
             i++;
         } while (i < *(s32 *)base);

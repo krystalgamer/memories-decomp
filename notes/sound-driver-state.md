@@ -97,6 +97,15 @@ request carrying the same cursor and fixed buffer. Finally it advances
 field is an entry span/cursor increment, but not whether its original source
 name described bytes, sectors, or another sound-container unit.
 
+The separate pending-entry loader uses `SD_NOTE_RECORD_SIZE` (`0x08`) for
+the `field_0444` note records, their raw copies, and the source payload stride.
+The shared `SDNote` and private `SoundPendingEntry` views both guard that
+extent without merging their fields. `SD_PENDING_ENTRY_NONE` (`0xFFFF`) keeps
+the lookup-clear and skipped-ID marker distinct from the link-cache sentinel.
+The source ID list still begins at `+8` and advances two bytes per ID; those
+are not note-record strides. Register pins, pointer/count reloads, and the
+halfword rate adjustment remain unchanged.
+
 `SD_ArmBusyCallback` now expresses the registration path in pure C: it sets
 `busy` and installs `SD_ClearBusyFlag` in the main callback slot. This replaces
 the former register-pinned source while preserving exact code generation.

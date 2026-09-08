@@ -8,6 +8,8 @@
 #define SD_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 #define SD_COMMAND_QUEUE_COUNT 16
 #define SD_COMMAND_RECORD_SIZE 0x30
+#define SD_NOTE_RECORD_SIZE 0x08
+#define SD_PENDING_ENTRY_NONE 0xFFFF
 #define SD_VALUE_LINK_RECORD_SIZE 0x08
 #define SD_VALUE_LINK_INDEX_MASK 0xFFFF
 #define SD_VALUE_LINK_INDEX_NONE 0xFFFF
@@ -236,7 +238,7 @@ typedef char SDCommand_size_must_be_0x30[
     sizeof(SDCommand) == SD_COMMAND_RECORD_SIZE ? 1 : -1
 ];
 typedef char SDNote_size_must_be_0x08[
-    sizeof(SDNote) == 0x08 ? 1 : -1
+    sizeof(SDNote) == SD_NOTE_RECORD_SIZE ? 1 : -1
 ];
 typedef char SDValueLink_size_must_be_0x08[
     sizeof(SDValueLink) == SD_VALUE_LINK_RECORD_SIZE ? 1 : -1
