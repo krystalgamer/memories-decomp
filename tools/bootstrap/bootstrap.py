@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -213,6 +214,40 @@ def git_output(root: Path, destination: Path, *arguments: str) -> str:
     )
 
 
+def git_tool_patches(
+    root: Path, tool: dict[str, Any]
+) -> list[tuple[Path, list[str]]]:
+    patches = tool.get("patches", [])
+    if not isinstance(patches, list):
+        raise BootstrapError(f"{tool['name']}: patches must be a list")
+
+    result = []
+    for patch in patches:
+        if not isinstance(patch, dict):
+            raise BootstrapError(f"{tool['name']}: invalid patch configuration")
+        path_value = patch.get("path")
+        expected_sha256 = patch.get("sha256")
+        arguments = patch.get("arguments")
+        if (
+            not isinstance(path_value, str)
+            or not isinstance(expected_sha256, str)
+            or not isinstance(arguments, list)
+            or not all(isinstance(argument, str) for argument in arguments)
+        ):
+            raise BootstrapError(f"{tool['name']}: invalid patch configuration")
+
+        path = resolve_within(root, path_value, must_exist=True)
+        actual_sha256 = hashlib.sha256(path.read_bytes()).hexdigest()
+        if actual_sha256 != expected_sha256:
+            raise BootstrapError(
+                f"{tool['name']}: patch hash is {actual_sha256}, "
+                f"expected {expected_sha256}: {path_value}"
+            )
+        result.append((path, arguments))
+
+    return result
+
+
 def check_git_tool(root: Path, tool: dict[str, Any]) -> None:
     destination = resolve_within(root, str(tool["destination"]), must_exist=True)
     if not (destination / ".git").is_dir():
@@ -230,8 +265,26 @@ def check_git_tool(root: Path, tool: dict[str, Any]) -> None:
             f"{tool['name']}: origin is {actual_url}, expected {tool['url']}"
         )
 
+    patches = git_tool_patches(root, tool)
     status = git_output(root, destination, "status", "--porcelain")
-    if status:
+    if patches:
+        if any(line.startswith("??") for line in status.splitlines()):
+            raise BootstrapError(
+                f"{tool['name']}: checkout has unexpected untracked files"
+            )
+        expected_diff_sha256 = tool.get("patched_diff_sha256")
+        if not isinstance(expected_diff_sha256, str):
+            raise BootstrapError(
+                f"{tool['name']}: patched_diff_sha256 is required"
+            )
+        diff = git_output(root, destination, "diff", "--binary", "HEAD", "--")
+        actual_diff_sha256 = hashlib.sha256(diff.encode()).hexdigest()
+        if actual_diff_sha256 != expected_diff_sha256:
+            raise BootstrapError(
+                f"{tool['name']}: patched checkout diff is "
+                f"{actual_diff_sha256}, expected {expected_diff_sha256}"
+            )
+    elif status:
         raise BootstrapError(f"{tool['name']}: checkout has local changes")
 
     for relative_path in tool["required_paths"]:
@@ -282,6 +335,18 @@ def install_git_tool(root: Path, tool: dict[str, Any]) -> None:
         root,
         ["git", "-C", str(staging), "checkout", "--quiet", "--detach", "FETCH_HEAD"],
     )
+    for patch, arguments in git_tool_patches(root, tool):
+        run(
+            root,
+            [
+                "patch",
+                "-d",
+                str(staging),
+                *arguments,
+                "-i",
+                str(patch),
+            ],
+        )
     destination.parent.mkdir(parents=True, exist_ok=True)
     staging.replace(destination)
     check_git_tool(root, tool)
