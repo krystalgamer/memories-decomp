@@ -592,7 +592,8 @@ its size. What it needs first is a profile, since none in
 
 ## A reload only means volatile when no store separates it
 
-Matching `func_80183B2C` turned on recognising that its two object pointers are
+Matching `MainMenu_DrawTradeOffersAndHighlights` (`0x80183B2C`) turned on
+recognising that its two object pointers are
 a `volatile` aggregate local, which is what makes the compiler re-read them
 once per occurrence in the source instead of eliminating the repeat. That is a
 powerful lever — it was worth 54 instructions on its own — and it is also easy
@@ -632,9 +633,10 @@ tools/environments/python/bin/python tools/project/overlay_scan_reloads.py \
 ```
 
 With no arguments it scans every function still marked `unmatched_asm` in all
-five modules. In the original scan, `func_80183B2C`, the volatile-local
-control, reported 3 and `MainMenu_UpdateFrontendMenu` reported 1. Those are
-historical measurements, not a claim that either function remains unmatched.
+five modules. In the original scan, `MainMenu_DrawTradeOffersAndHighlights`,
+the volatile-local control, reported 3 and `MainMenu_UpdateFrontendMenu`
+reported 1. Those are historical measurements, not a claim that either
+function remains unmatched.
 
 ### The second tell: a reload of the address a store just wrote
 
@@ -695,7 +697,8 @@ followed by a call, and a call invalidates memory.
 
 **Current state of both tells across all remaining unmatched entries: nothing
 is flagged.** The second tell has no hits at all once delay slots are attributed
-correctly. The first remains specific to `func_80183B2C`, which is still caught
+correctly. The first remains specific to `MainMenu_DrawTradeOffersAndHighlights`,
+which is still caught
 when queried directly.
 
 That is worth saying plainly rather than quietly deleting a row: the scan
@@ -1175,7 +1178,8 @@ costs are large enough to be unambiguous:
 
 Two were not, and both were mine:
 
-- The high end of the `func_80183B2C` range test can be written unsigned rather
+- The high end of the `MainMenu_DrawTradeOffersAndHighlights` range test can
+  be written unsigned rather
   than as a signed-negative test, byte-identically. The rule had claimed any
   two-sided comparison changes the shape.
 - The subtraction in `FreeDuel_UpdateCursorTween` does not need its
@@ -1191,7 +1195,8 @@ A second pass covered six of the older rules, the ones written before this
 window. Four hold with wide margins, and one of them reproduces its recorded
 number exactly: declaring `func_801812B4`'s narrow local `s32` costs six
 instructions, which is what the rule says. The operand-order pair on
-`func_801840F8` each cost one position, so they are real but slight.
+`MainMenu_AdjustTradeCardCount` (`0x801840F8`) each cost one position, so they
+are real but slight.
 
 Two needed refining rather than correcting:
 

@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "entrypoints.h"
+#include "trade_helpers.h"
 
 typedef struct {
     u8 *object;
@@ -25,13 +26,11 @@ extern u8 D_80185CD0;
 extern u8 D_80185CD1;
 extern u8 D_8009B0C0;
 extern void (*D_800E9DB4)(void);
-extern void func_80183B2C(void);
 extern void *func_8004002C(void);
 extern u8 *func_800400AC(void *, s32);
 extern void func_800404CC(void *, s32, s32, s32, s32, s32, s32, s32);
 extern void func_800428EC(void *, s32);
 extern void func_80061008(s32, s32, s32, s32);
-extern void func_8018338C(s32, s32);
 extern void func_801844D8(s32);
 
 void MainMenu_InitTradeScreen(void)
@@ -76,7 +75,7 @@ void MainMenu_InitTradeScreen(void)
         D_80185CC8[i] = 0;
         D_80185CCA[i] = 0;
         D_80185CCC[i] = 0;
-        func_8018338C(i, 1);
+        MainMenu_RefreshTradeInventory(i, 1);
         func_801844D8(i);
     }
 
@@ -84,6 +83,6 @@ void MainMenu_InitTradeScreen(void)
     D_80185CCF = 0;
     D_80185CD0 = 0;
     D_80185CD1 = 0;
-    D_800E9DB4 = func_80183B2C;
+    D_800E9DB4 = MainMenu_DrawTradeOffersAndHighlights;
     D_8009B0C0 = 1;
 }

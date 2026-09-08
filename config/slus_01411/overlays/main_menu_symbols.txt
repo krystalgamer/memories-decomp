@@ -2,3 +2,6 @@
 MainMenu_UpdateFrontendMenu = 0x80180390; // type:func
 MainMenu_InitTradeScreen = 0x80181F68; // type:func
 MainMenu_UpdateTradeScreen = 0x801821DC; // type:func
+MainMenu_RefreshTradeInventory = 0x8018338C; // type:func
+MainMenu_DrawTradeOffersAndHighlights = 0x80183B2C; // type:func
+MainMenu_AdjustTradeCardCount = 0x801840F8; // type:func

@@ -87,6 +87,33 @@ conditional linker imports in `c_symbols.ld` only after the image is loaded.
 The semantic registry records both names as `overlay/main_menu/function`,
 without adding them to resident function inventory or primary symbols.
 
+### Offer rendering and working inventory
+
+`MainMenu_DrawTradeOffersAndHighlights` (`0x80183B2C`) is the installed
+Trade drawing callback. It animates or dims the two inventory-cursor
+highlights and draws the offered card IDs as three digits plus their type
+icons in two five-column offer grids. It does not mutate the offers or
+render the complete inventory list.
+
+`MainMenu_RefreshTradeInventory` (`0x8018338C`) conditionally rebuilds one
+side's 722 working records from its save chest, retaining zero-ID holes.
+After a rebuild it reapplies offer deductions to **both** sides, then
+optionally sorts the selected row and publishes its view mode. Do not
+normalize that cross-side loop: refreshing one side can deduct the other
+side's outstanding offers again. This is a static observation, not a
+runtime reproduction or a proposed behavior change.
+
+`MainMenu_AdjustTradeCardCount` (`0x801840F8`) finds an ID in one side's
+working inventory and adds an unsigned amount. It writes only when the
+modular sum is below `0xFB`, then returns after the first matching ID.
+Observed callers add or subtract one: increments at 250 and decrements at
+zero are rejected, not saturated. It neither removes offers nor changes
+save bytes; the caller owns offer removal. The unsigned argument and
+existing missing-ID/no-slot-validation behavior remain unchanged.
+
+The internal declarations live in `trade_helpers.h`, separate from the
+resident-facing `entrypoints.h`.
+
 ## What the menu shows
 
 `MainMenu_UpdateFrontendMenu` at `0x80180390` services both entry groups,
