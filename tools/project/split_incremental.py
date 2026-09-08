@@ -36,6 +36,7 @@ EXCLUDED_OUTPUTS = ("tmp/splat/build", "tmp/splat/cache")
 REQUIRED_OUTPUTS = (
     GENERATED_CONFIG,
     "tmp/generated/text_sources.json",
+    "tmp/generated/data_sources.json",
     "tmp/splat/slus_01411.ld",
     "tmp/splat/undefined_funcs_auto.txt",
     "tmp/splat/undefined_syms_auto.txt",
@@ -49,6 +50,7 @@ INPUT_FILES = (
     CONFIG_PATH,
     "config/slus_01411/functions.csv",
     "config/slus_01411/matching_c.json",
+    "config/slus_01411/data_c.json",
     "config/slus_01411/compiler_profiles.json",
     "config/slus_01411/image_map.json",
     "tools/project/generate_build_config.py",

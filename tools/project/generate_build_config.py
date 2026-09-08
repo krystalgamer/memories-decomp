@@ -23,6 +23,14 @@ LOAD_ADDRESS = 0x80010000
 OVERLAY_REGION_KIND = "overlay_load_slot"
 OVERLAY_REGION_PREFIX = "overlay_"
 
+# Segments whose subsegments this script writes itself; every other segment
+# declares its own in the template.
+GENERATED_SEGMENTS = ("main", "text")
+# Subsegment types Splat disassembles into an assembly blob, and the types
+# that hand a section to the object built from a C translation unit.
+BLOB_SECTION_TYPES = {"data", "rodata", "sdata", "sbss", "bss"}
+OWNED_SECTION_TYPES = {".data", ".rodata", ".sdata", ".sbss", ".bss"}
+
 
 def parse_integer(value: Any, description: str) -> int:
     if isinstance(value, int) and not isinstance(value, bool):
@@ -296,7 +304,102 @@ def write_yaml(path: Path, value: dict[str, Any]) -> None:
         raise
 
 
-def generate(root: Path) -> tuple[Path, Path]:
+
+def load_data_profiles(root: Path, profiles: set[str]) -> dict[str, str]:
+    """Compiler profile for every C translation unit that owns data."""
+    configuration = load_json(root, "config/slus_01411/data_c.json")
+    units = configuration.get("units")
+    if not isinstance(units, list):
+        raise GenerationError("data C units must be a list")
+    result: dict[str, str] = {}
+    for index, unit in enumerate(units):
+        if not isinstance(unit, dict):
+            raise GenerationError(f"data C unit {index} must be an object")
+        source = unit.get("source")
+        profile = unit.get("profile")
+        if not isinstance(source, str) or not isinstance(profile, str):
+            raise GenerationError(f"data C unit {index} has invalid source/profile")
+        if source in result:
+            raise GenerationError(f"duplicate data C unit {source}")
+        if profile not in profiles:
+            raise GenerationError(f"data C unit {source} uses unknown profile {profile}")
+        resolved = resolve_within(root, source, must_exist=True)
+        if resolved.suffix != ".c" or not resolved.is_file():
+            raise GenerationError(f"{source}: data C unit must be a C file")
+        result[source] = profile
+    return result
+
+
+def collect_data_sources(
+    root: Path,
+    segments: list[Any],
+    data_profiles: dict[str, str],
+    text_sources: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Assembly blobs and C units the template declares outside the text."""
+    text_c_sources = {
+        segment["source"] for segment in text_sources if segment["kind"] == "c"
+    }
+    sources: list[dict[str, Any]] = []
+    used_profiles: set[str] = set()
+    seen_objects: set[str] = set()
+    for segment in segments:
+        if not isinstance(segment, dict):
+            continue
+        name = segment.get("name")
+        if name in GENERATED_SEGMENTS:
+            continue
+        for entry in segment.get("subsegments") or []:
+            if not isinstance(entry, list) or len(entry) < 3:
+                continue
+            kind = entry[1]
+            subsegment = entry[2]
+            if not isinstance(kind, str) or not isinstance(subsegment, str):
+                continue
+            if kind in BLOB_SECTION_TYPES:
+                source = f"tmp/splat/asm/data/{subsegment}.{kind}.s"
+                object_name = f"{subsegment.rpartition('/')[2]}.o"
+                entry_value: dict[str, Any] = {
+                    "kind": "asm",
+                    "source": source,
+                    "object": object_name,
+                }
+            elif kind in OWNED_SECTION_TYPES:
+                source = f"src/{subsegment}.c"
+                if source in text_c_sources:
+                    raise GenerationError(
+                        f"{source}: a text translation unit cannot own"
+                        f" {kind} in segment {name}"
+                    )
+                profile = data_profiles.get(source)
+                if profile is None:
+                    raise GenerationError(
+                        f"{source}: owns {kind} but has no data_c.json profile"
+                    )
+                resolve_within(root, source, must_exist=True)
+                used_profiles.add(source)
+                object_name = f"c_{subsegment.replace('/', '_')}.o"
+                entry_value = {
+                    "kind": "c",
+                    "source": source,
+                    "object": object_name,
+                    "profile": profile,
+                }
+            else:
+                continue
+            if object_name in seen_objects:
+                raise GenerationError(f"duplicate data object name {object_name}")
+            seen_objects.add(object_name)
+            sources.append(entry_value)
+    unused = sorted(set(data_profiles) - used_profiles)
+    if unused:
+        raise GenerationError(
+            "data_c.json declares unmapped units: " + ", ".join(unused)
+        )
+    return sources
+
+
+def generate(root: Path) -> tuple[Path, Path, Path]:
     template_path = resolve_within(
         root, "config/slus_01411/split.yaml", must_exist=True
     )
@@ -398,19 +501,25 @@ def generate(root: Path) -> tuple[Path, Path]:
     main_segments[0]["subsegments"] = subsegments[:leading_count]
     text_segment["subsegments"] = subsegments[leading_count:]
 
+    data_sources = collect_data_sources(
+        root, segments, load_data_profiles(root, load_profiles(root)), text_sources
+    )
+
     generated_directory = resolve_within(root, "tmp/generated")
     split_path = generated_directory / "slus_01411.split.yaml"
     text_path = generated_directory / "text_sources.json"
+    data_path = generated_directory / "data_sources.json"
     write_yaml(split_path, split_config)
     write_json(text_path, {"schema": 1, "segments": text_sources})
+    write_json(data_path, {"schema": 1, "segments": data_sources})
 
-    return split_path, text_path
+    return split_path, text_path, data_path
 
 
 def main() -> int:
     try:
         root = require_workspace_root()
-        split_path, text_path = generate(root)
+        split_path, text_path, data_path = generate(root)
     except (
         GenerationError,
         WorkspaceError,
@@ -427,6 +536,7 @@ def main() -> int:
         return 1
     print(f"generated: {split_path.relative_to(root)}")
     print(f"generated: {text_path.relative_to(root)}")
+    print(f"generated: {data_path.relative_to(root)}")
     return 0
 
 

@@ -201,6 +201,53 @@ equivalent, so there the hash is the only check.
 moved out of an extracted blob into the C file that uses it, placed ahead of
 the module's text, with all five overlay modules still byte-exact.
 
+### Owning resident initialized data
+
+`src/game/file_names.c` is the worked example for the resident image: the
+loader's seven disc paths and the null-terminated `gFile_apszName` table, 0xA8
+bytes at 0x80090704, come from that file instead of the extracted blob. Four
+things make one of these:
+
+1. **Split the blob in `config/slus_01411/split.yaml`.** The owning file gets a
+   dotted subsegment at its address and the remainder keeps going to a
+   generated blob:
+
+   ```yaml
+   - [0x80ee0, data, initialized_data]
+   - [0x80f04, .data, game/file_names]
+   - [0x80fac, data, initialized_data_1]
+   ```
+
+2. **Name the profile in `config/slus_01411/data_c.json`.** Data units are not
+   in `matching_c.json`, which describes functions; the build gets its compiler
+   profile from this manifest, and `make split` rejects a file that owns a
+   dotted section without one, or a manifest entry the template never maps.
+   `gcc_2_8_1_g0` is the profile to use while the unit's own small-data
+   placement has not been worked out: at `-G0` every definition lands in
+   `.data`.
+3. **Declare the symbols `extern` in a header** (`src/game/file_names.h`) and
+   delete every other declaration of them, including any entry in
+   `config/slus_01411/c_symbols.ld`. A file-scope definition and a linker alias
+   for the same address are not interchangeable, and while both exist the alias
+   silently wins.
+4. **Give a definition a name of its own.** The image has more than one copy of
+   several strings - the `\DATA\SU.MRG;1` the loader opens is not the
+   `M:/mrgSU/SU.mrg` development path already named `gFile_szSuMrgPath` in the
+   read-only region - and the link fails loudly on the duplicate, which is the
+   good case.
+
+**The segment holding the data has to be a `code` segment.** Only a group
+segment adds each of its subsegments to the linker script; a segment declared
+`type: data` emits one line for itself, so the C object is built, is never
+named by the script, and is silently dropped while the blob still supplies the
+original bytes - a full `make match` that proves nothing. The resident
+`initialized_data` segment is therefore `type: code` with no text subsegments,
+exactly like the leading read-only `main` segment.
+
+The build reads the generated `tmp/generated/data_sources.json` the way it
+reads `text_sources.json`, so both `make match` and `make match-incremental`
+compile and place these units; editing one rebuilds one object.
+
 ## Exact baseline build
 
 ```sh
@@ -214,9 +261,10 @@ The build performs these steps:
 2. Assemble unmatched resident MIPS text and exact data using the local GNU
    assembler.
 3. Compile ordered matching-C segments using
-   `config/slus_01411/matching_c.json` and the named profiles in
-   `config/slus_01411/compiler_profiles.json`, then normalize their assembly
-   through maspsx.
+   `config/slus_01411/matching_c.json`, and the C translation units that own
+   initialized data using `config/slus_01411/data_c.json`, with the named
+   profiles in `config/slus_01411/compiler_profiles.json`, then normalize their
+   assembly through maspsx.
 4. Convert each classified binary region into a MIPS object.
 5. Link all text objects in manifest order with the original VRAM and file load
    addresses.

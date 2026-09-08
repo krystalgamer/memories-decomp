@@ -115,16 +115,28 @@ segments:
       - [0x31d8, asm, entry]
       - [0x80ed4, pad]
 
-  # The initialized-data region is a code group so its .data and .sdata
-  # contributions can be mapped to C independently. Later fixed-address
-  # binary regions remain separate segments so nothing is reordered.
+  # Every region below is a segment for the same reason: one output section
+  # each, at its own address, so nothing is reordered across them.
+
+  # The initialized-data region is the exception: it is a code group so its
+  # .data and .sdata contributions can be mapped to C independently, declared
+  # the way the leading read-only region is, one entry per owning object. A
+  # translation unit that defines some of it is a template edit and nothing
+  # else, and everything still without an owner stays a generated blob, named
+  # for the address it starts at so that taking ownership of one range never
+  # renames another. Only a group segment adds each of its subsegments to the
+  # linker script; as a plain data segment the blob keeps supplying every byte
+  # and an owning object is built, never named by the script, and silently
+  # dropped.
   - name: initialized_data
     type: code
     start: 0x80ee0
     vram: 0x800906E0
     align: 4
     subsegments:
-      - [0x80ee0, data, initialized_data]
+      - [0x80ee0, data, initialized_data_800906e0]
+      - [0x80f04, .data, game/file_names]
+      - [0x80fac, data, initialized_data_800907ac]
       - [0x8B884, .sdata, game/ai_script_call_control]
       - [0x8B88C, pad]
 

@@ -244,12 +244,30 @@ def load_components(root: Path) -> list[Component]:
             raise IncrementalBuildError(f"invalid text segment {index}")
         seen.add(object_name)
         components.append(Component(kind, source, object_name, profile))
-    trailing_components = [
-        Component(
-            "asm",
-            "tmp/splat/asm/data/initialized_data.data.s",
-            "initialized_data.o",
-        ),
+    trailing_components = []
+    # The initialized data is split wherever a C translation unit owns part of
+    # it, so track every piece in the same order as a clean baseline build.
+    for index, segment in enumerate(build_baseline.load_data_segments(root)):
+        if not isinstance(segment, dict):
+            raise IncrementalBuildError(f"data segment {index} is not an object")
+        kind = segment.get("kind")
+        source = segment.get("source")
+        object_name = segment.get("object")
+        profile = segment.get("profile")
+        if (
+            kind not in {"asm", "c"}
+            or not isinstance(source, str)
+            or not isinstance(object_name, str)
+            or not object_name.endswith(".o")
+            or "/" in object_name
+            or (kind == "c" and not isinstance(profile, str))
+            or (kind == "asm" and profile is not None)
+        ):
+            raise IncrementalBuildError(f"invalid data segment {index}")
+        trailing_components.append(
+            Component(kind, source, object_name, profile)
+        )
+    trailing_components += [
         Component("binary", "tmp/splat/assets/bss_image.bin", "bss_image.o"),
         Component(
             "binary",

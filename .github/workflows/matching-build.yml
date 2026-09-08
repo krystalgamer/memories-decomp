@@ -93,10 +93,10 @@ jobs:
           make compiler-281-prebuilt
           make check-build-tools
 
-      - name: Exercise incremental cache regressions
+      - name: Exercise build tooling regressions
         run: |
           tools/environments/python/bin/python -m unittest discover \
-            -s tools/project/tests -p 'test_*incremental*.py' -v
+            -s tools/project/tests -p 'test_*.py' -v
 
       - name: Perform clean matching build
         run: |
