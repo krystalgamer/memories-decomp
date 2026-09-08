@@ -304,6 +304,22 @@ reading. The initial zero fast path and the original shift/add order remain
 unchanged; these names do not turn the routine into a general validated VLQ
 decoder or conflate its stop marker with a meta-event byte.
 
+The driver-specific loop protocol uses `SD_SEQUENCE_CONTROL_MODE` (`0x63`)
+with `SD_SEQUENCE_LOOP_START` (`0x14`) to save positions/registers and
+`SD_SEQUENCE_LOOP_END` (`0x1E`) to restore them while a loop count remains.
+The table-backed start path copies the incoming start byte into each track's
+counter; the single-track path instead initializes `SD_SEQUENCE_LOOP_UNCOUNTED`
+(`0x7F`). Positive counts below that threshold are decremented before the
+restore, while counts at or above it are left unchanged. Zero bypasses the
+restore.
+
+`SD_SEQUENCE_CONTROL_DATA_ENTRY` (`6`) supplies a loop count while the channel
+is in loop-start mode. The single-track case still exits before forwarding
+that controller; the table-backed case keeps the existing forwarding path.
+The channel-state handler excludes the two loop modes from its ordinary
+data-entry dispatch. These mode values must not be confused with unrelated
+controller IDs or object-state markers that happen to use the same numbers.
+
 ### Confirmed secondary-state fields
 
 | Offset | Width | Field | Local matching-C evidence |

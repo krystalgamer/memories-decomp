@@ -137,12 +137,13 @@ history, not only deferred histories. This keeps automated first-pass batches
 from repeating work that already has measurements. Use `--include-partial`
 only when intentionally reviewing a historical canonical ledger.
 
-The complete first pass now covers all 1,196 game functions. At this snapshot,
-all unmatched functions have deferred canonical histories, so both the default
-`make candidates` output and the `--include-partial` result are empty. Future
-matching work should start from those measured mismatches and preserve each
-new candidate under `tmp/`. PsyQ CRT/SDK functions are not decompilation
-candidates and must never be added to `attempts.csv`.
+The complete first pass now covers all 1,195 resident game functions. Every
+remaining compiler-generated game function has a canonical attempt history,
+so the default `make candidates` output has no candidate rows.
+`--include-partial` intentionally reopens those measured histories and is not
+expected to be empty. Future matching work should start from those mismatches
+and preserve each new candidate under `tmp/`. PsyQ CRT/SDK functions are not
+decompilation candidates and must never be added to `attempts.csv`.
 
 Review deferred histories before continuing deeper investigation:
 

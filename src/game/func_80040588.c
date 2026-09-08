@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 #include "display_object_layout.h"
 
 typedef void (*ObjFn)(void *);
@@ -64,7 +66,6 @@ extern DisplayObject D_800EFE48[];
 
 s32 func_80041F90(DisplayObject *arg0, s32 arg1, s32 arg2, u8 *arg3);
 void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
-extern void SetSemiTrans(void *, int);
 
 /* Walks the display-object list rooted at D_800EFE3A: calls each object's
    callback, and for every renderable object fills the sprite primitive in

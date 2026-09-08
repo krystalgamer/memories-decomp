@@ -57,8 +57,8 @@ void func_8004C114(SDSequenceTrack *p, s32 status, u8 d1, u8 d2) {
         }
         break;
     case SD_SEQUENCE_CONTROL_CHANGE:
-        if (d1 == 0x63) {
-            if (d2 == 0x14) {
+        if (d1 == SD_SEQUENCE_CONTROL_MODE) {
+            if (d2 == SD_SEQUENCE_LOOP_START) {
                 u8 *seq;
 
                 seq = (u8 *)D_8009B458;
@@ -79,15 +79,15 @@ void func_8004C114(SDSequenceTrack *p, s32 status, u8 d1, u8 d2) {
                     }
                     SEQ_U32(0x7F4) = SEQ_U32(0x7F0);
                 } else {
-                    p->loop_count = 0x7F;
+                    p->loop_count = SD_SEQUENCE_LOOP_UNCOUNTED;
                     p->pos_saved = p->pos;
                 }
-            } else if (d2 == 0x1E) {
+            } else if (d2 == SD_SEQUENCE_LOOP_END) {
                 v = p->loop_count;
                 if (v != 0) {
                     u8 *seq;
 
-                    if (v < 0x7F) {
+                    if (v < SD_SEQUENCE_LOOP_UNCOUNTED) {
                         p->loop_count = v - 1;
                     }
                     seq = (u8 *)D_8009B458;
@@ -112,12 +112,12 @@ void func_8004C114(SDSequenceTrack *p, s32 status, u8 d1, u8 d2) {
                 }
             }
         }
-        if (d1 == 6) {
+        if (d1 == SD_SEQUENCE_CONTROL_DATA_ENTRY) {
             u8 *seq;
 
             seq = (u8 *)D_8009B458;
             n = ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
-            if (*(seq + n + 0x12) == 0x14) {
+            if (*(seq + n + 0x12) == SD_SEQUENCE_LOOP_START) {
                 if (*(u16 *)(seq + 0x7F8) != 0) {
                     if (((SDSecondaryState *)seq)->field_07FA != 0) {
                         i = 0;
