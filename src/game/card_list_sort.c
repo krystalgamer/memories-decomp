@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "rand_get_interval.h"
 #include "card_constants.h"
 
 /* Card-list sort. Builds a 32-bit sort key into each sixteen-byte row of the
@@ -38,7 +39,6 @@ extern u8 *D_8009B2FC;
 extern s32 BuildDeck_CompareCard();
 extern s32 func_80032BD4();
 extern void func_80031E04(u8 *, s32);
-extern s32 Rand_GetInterval(s32);
 
 void func_80032C48(u8 *p)
 {

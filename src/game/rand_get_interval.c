@@ -1,4 +1,5 @@
 #include "../types.h"
 #include "../psyq/rand.h"
+#include "rand_get_interval.h"
 
-int Rand_GetInterval(int divisor) { return rand() % divisor; }
+s32 Rand_GetInterval(s32 divisor) { return rand() % divisor; }

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "rand_get_interval.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
@@ -74,7 +75,6 @@ typedef struct {
 extern void func_800472A8(s32);
 extern u32 func_8004703C(void);
 extern s32 func_80042B40(s32);
-extern s32 Rand_GetInterval(s32);
 extern s32 rand(void);
 extern void func_80020BE4(void);
 extern void func_80020D4C(void *);

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "rand_get_interval.h"
 #include "display_object_api.h"
 #include "fade.h"
 #include "graphics_constants.h"
@@ -14,7 +15,6 @@ extern u8 D_800E9ECF[];
 extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
 extern void func_80040410(u8 *, s32);
 extern void func_80040510();
-extern s32 Rand_GetInterval(s32);
 
 void func_8003C950(void)
 {

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "rand_get_interval.h"
 #include "menu_record.h"
 #include "display_object_layout.h"
 
@@ -14,7 +15,6 @@ extern LocalRecord *D_8009B2E4;
 
 extern void func_8002FD10(s32);
 extern void func_8003134C(void);
-extern s32 Rand_GetInterval(s32);
 extern void func_8003B378(void *, s32);
 
 void func_80031354(void)

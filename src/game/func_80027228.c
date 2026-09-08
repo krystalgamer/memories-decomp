@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "rand_get_interval.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_grid.h"
@@ -8,7 +9,6 @@
 extern s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **, s32, s32);
 extern s32 Duel_CollectFieldCardsByType(DuelCardRecord **, s32, s32);
 extern s32 Duel_CheckFusion(s32, s32);
-extern s32 Rand_GetInterval(s32);
 
 extern u8 D_800EAE88[];
 

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "rand_get_interval.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_grid.h"
@@ -9,7 +10,6 @@ extern s32 func_80026DC8(void);
 extern s32 func_80027060(void);
 extern s32 func_8002712C(void);
 extern s32 func_80027228(void);
-extern s32 Rand_GetInterval(s32);
 
 extern u8 D_8009B1D5;
 extern u8 D_800EAE88[];
