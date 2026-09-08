@@ -20,7 +20,6 @@ extern u16 D_8009B47A;
 extern u16 D_8009B47C;
 
 extern void func_8008A4A0(u8 *, MATRIX *);
-extern void func_80089CC0(u8 *, SVECTOR *, u8 *);
 extern void func_80088E50(SVECTOR *, MATRIX *);
 extern MATRIX *func_800889C0(SVECTOR *, MATRIX *);
 extern void *memset(void *, s32, s32);
@@ -48,7 +47,7 @@ void func_800580D4(s32 index, s32 arg1, u8 *arg2, u8 *arg3)
     func_8008A4A0(*(u8 **)(p + 0xD14) + arg1 * 0x50, &ls);
     GsSetLsMatrix(&ls);
 
-    func_80089CC0(arg2, &ang, scratch);
+    RotTransSV((SVECTOR *)arg2, &ang, (long *)scratch);
 
     locals.zero.vz = 0;
     locals.zero.vy = 0;

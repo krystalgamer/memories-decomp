@@ -1651,11 +1651,11 @@ address,size,name,status,module,notes
 0x80089BCC,0x30,func_80089BCC,sdk_asm,psyq/sdk,
 0x80089C00,0xC,SetDQA,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBGTE.LIB/REG03_14.OBJ signature; writes GTE control register 27 and SetFogNearFar calls it.
 0x80089C10,0xC,SetDQB,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBGTE.LIB/REG03_15.OBJ signature; writes GTE control register 28 and SetFogNearFar calls it in the instruction after SetDQA.
-0x80089C20,0x20,func_80089C20,sdk_asm,psyq/sdk,
+0x80089C20,0x20,NormalColorCol,sdk_asm,psyq/sdk,"Identified by the unique 32-byte Psy-Q 4.6 LIBGTE.LIB/SMP_7.OBJ signature at pinned catalogue revision e9e46e7e133ef275a79bfce650924f98edb086bc. The pattern has no wildcards, matches exactly once at SLUS file offset 0x7A420 (resident 0x80089C20), exactly covers the inventory extent, and labels NormalColorCol at offset zero. The canonical libgte.h declaration and independent Unchiga catalogue agree. Keep SDK assembly ownership."
 0x80089C40,0x28,func_80089C40,sdk_asm,psyq/sdk,
-0x80089C70,0x20,func_80089C70,sdk_asm,psyq/sdk,
+0x80089C70,0x20,AverageZ3,sdk_asm,psyq/sdk,"Identified by the unique 32-byte Psy-Q 4.6 LIBGTE.LIB/SMP_00_7.OBJ signature at pinned catalogue revision e9e46e7e133ef275a79bfce650924f98edb086bc. The pattern has no wildcards, matches exactly once at SLUS file offset 0x7A470 (resident 0x80089C70), exactly covers the inventory extent, and labels AverageZ3 at offset zero. The canonical libgte.h declaration and independent Unchiga catalogue agree. Keep SDK assembly ownership."
 0x80089C90,0x24,func_80089C90,sdk_asm,psyq/sdk,
-0x80089CC0,0x30,func_80089CC0,sdk_asm,psyq/sdk,
+0x80089CC0,0x30,RotTransSV,sdk_asm,psyq/sdk,"Identified by the unique 48-byte Psy-Q 4.6 LIBGTE.LIB/SMP_01_1.OBJ signature at pinned catalogue revision e9e46e7e133ef275a79bfce650924f98edb086bc. The pattern has no wildcards, matches exactly once at SLUS file offset 0x7A4C0 (resident 0x80089CC0), exactly covers the inventory extent, and labels RotTransSV at offset zero. The canonical libgte.h declaration, matching func_800580D4 caller, and independent Unchiga catalogue agree. Keep SDK assembly ownership."
 0x80089CF0,0x34,func_80089CF0,sdk_asm,psyq/sdk,
 0x80089D30,0xA8,func_80089D30,sdk_asm,psyq/sdk,
 0x80089DD8,0x3C,func_80089DD8,sdk_asm,psyq/sdk,

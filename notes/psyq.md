@@ -309,6 +309,9 @@ Every row below is now an applied project symbol.
 | `0x800899A0` | `ratan2` | Applied Psy-Q 4.6 identity; matching view and duel callers derive 4096-unit angles from coordinate deltas. |
 | `0x80089C00` | `SetDQA` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBGTE.LIB/REG03_14.OBJ` signature; writes GTE control register `27` and `SetFogNearFar` calls it. |
 | `0x80089C10` | `SetDQB` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBGTE.LIB/REG03_15.OBJ` signature; writes GTE control register `28` and `SetFogNearFar` calls it in the instruction after `SetDQA`. |
+| `0x80089C20` | `NormalColorCol` | Applied from the unique 32-byte Psy-Q 4.6 `LIBGTE.LIB/SMP_7.OBJ` signature; the zero-wildcard pattern exactly covers the inventory function extent. |
+| `0x80089C70` | `AverageZ3` | Applied from the unique 32-byte Psy-Q 4.6 `LIBGTE.LIB/SMP_00_7.OBJ` signature; the zero-wildcard pattern exactly covers the inventory function extent. |
+| `0x80089CC0` | `RotTransSV` | Applied from the unique 48-byte Psy-Q 4.6 `LIBGTE.LIB/SMP_01_1.OBJ` signature; the zero-wildcard pattern exactly covers the inventory function extent, and matching `func_800580D4` uses the canonical `libgte.h` declaration. |
 | `0x8008AD50` | `GsSetRefView2` | Applied Psy-Q 4.6 identity; matching model paths install the shared 32-byte reference-view record. |
 | `0x8008B2F0` | `TransposeMatrix` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBGTE.LIB/FGO_00.OBJ` signature; transposes the 3x3 halfword block and `GsSetRefView2` calls it. |
 | `0x8008B330` | `_card_info` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/C171.OBJ` signature; matching memory-card request paths issue this BIOS operation before polling their event handles. |
@@ -469,6 +472,24 @@ object-local branch label rather than a promoted symbol. The canonical
 `libgte.h` declaration is
 `void gteMIMefunc(SVECTOR *, SVECTOR *, long, long)`, and the independent
 Unchiga catalogue places the same SDK name at this address.
+
+Three compact public GTE wrappers are backed by complete patterns in the same
+pinned catalogue:
+
+| Object | SLUS offset | Resident address | Identity | Pattern |
+|---|---:|---:|---|---:|
+| `SMP_7.OBJ` | `0x7A420` | `0x80089C20` | `NormalColorCol` | 32 fixed bytes |
+| `SMP_00_7.OBJ` | `0x7A470` | `0x80089C70` | `AverageZ3` | 32 fixed bytes |
+| `SMP_01_1.OBJ` | `0x7A4C0` | `0x80089CC0` | `RotTransSV` | 48 fixed bytes |
+
+Each zero-wildcard pattern occurs exactly once, its offset-zero label supplies
+the identity, and its length exactly equals the inventory function extent.
+The canonical declarations are already present in `libgte.h`, and the
+independent Unchiga catalogue agrees at all three addresses. These remain
+resident SDK assembly entries rather than game-owned C.
+Matching `func_800580D4` supplies its byte-oriented input and scratch output
+through layout-only casts at the `RotTransSV` boundary instead of maintaining
+an address-based local prototype.
 
 Duplicate library copies require address-qualified symbols rather than aliases.
 For example, CD conversion helpers appear more than once in the executable,
