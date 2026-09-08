@@ -2,6 +2,7 @@
 #define YUGIOH_GAME_SOUND_H
 
 #include "../types.h"
+#include "../psyq/libspu.h"
 #include "sound_pending_constants.h"
 #include "sound_sequence_constants.h"
 #include "sound_voice_constants.h"
@@ -211,7 +212,7 @@ typedef struct {
     SDSecondaryObject objects[SD_SECONDARY_OBJECT_COUNT];
     u8 pad04A0[4];
     SDSecondaryTransfer transfer;
-    u8 pad04C0[0x40];
+    SpuVoiceAttr voice_attr;
     u8 flag_0500;
     u8 flag_0501;
     u8 flag_0502;
@@ -380,6 +381,12 @@ typedef char SDSecondaryState_event_guard_offset_must_be_0x503[
 ];
 typedef char SDSecondaryState_event_handle_offset_must_be_0x504[
     SD_STATE_OFFSET(SDSecondaryState, event_handle) == 0x504 ? 1 : -1
+];
+typedef char SDSecondaryState_voice_attr_offset_must_be_0x4C0[
+    SD_STATE_OFFSET(SDSecondaryState, voice_attr) == 0x4C0 ? 1 : -1
+];
+typedef char SpuVoiceAttr_size_must_be_0x40[
+    sizeof(SpuVoiceAttr) == 0x40 ? 1 : -1
 ];
 typedef char SDSecondaryState_object_count_offset_must_be_0x510[
     SD_STATE_OFFSET(SDSecondaryState, object_count) == 0x510 ? 1 : -1

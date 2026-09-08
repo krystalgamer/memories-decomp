@@ -1,25 +1,24 @@
 #include "../types.h"
+#include "sound.h"
 #include "../psyq/libspu.h"
 #include "sound_sequence_constants.h"
 
 extern s32 D_80011434[];
-extern u8 *D_8009B458;
 
 s32 func_8004A3BC(u8 *arg0, s32 arg1);
 s32 func_80049FB4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 /* Re-derives a voice's raw pitch when its channel's pitch-bend MSB changes
  * (or when forced). Caches the bend value in the object, adds func_8004A3BC's
- * adjustment to the note in 7.7 units, fills the request block at
- * D_8009B458 + 0x4C0 and submits it through SpuSetVoiceAttr. */
+ * adjustment to the note in 7.7 units, fills the voice_attr request block
+ * in the secondary state and submits it through SpuSetVoiceAttr. */
 void func_8004A43C(u8 *p, s32 force) {
     u8 *e;
     s32 v;
     s32 x;
     s32 y;
-    u8 *b;
 
-    e = D_8009B458 + p[3] * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
+    e = (u8 *)D_8009B458 + p[3] * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
     if (e[7] == *(s16 *)(p + 0x1A) && force == 0) {
         return;
     }
@@ -28,12 +27,11 @@ void func_8004A43C(u8 *p, s32 force) {
     v = v + (p[6] << 7);
     x = (s16)v >> 7;
     y = v & 0x7F;
-    b = D_8009B458;
-    *(s32 *)(b + 0x4C4) = SPU_VOICE_PITCH;
-    *(s32 *)(b + 0x4C0) = D_80011434[p[0]];
+    D_8009B458->voice_attr.mask = SPU_VOICE_PITCH;
+    D_8009B458->voice_attr.voice = D_80011434[p[0]];
     v = func_80049FB4(x, y, p[0x12], p[0x13]);
-    *(s16 *)(D_8009B458 + 0x4D4) = v;
-    SpuSetVoiceAttr((SpuVoiceAttr *)(D_8009B458 + 0x4C0));
+    D_8009B458->voice_attr.pitch = v;
+    SpuSetVoiceAttr(&D_8009B458->voice_attr);
 }
 
 /* MATCH 2026-09-05, pure C at default -O2 -G8 with the assembler at -G0
@@ -83,10 +81,10 @@ void func_8004A518(void) {
     one = 1;
     cff = 0xFF;
     o1 = 0x518;
-    base = D_8009B458;
+    base = (u8 *)D_8009B458;
     *(s16 *)(base + 0x512) = 0x7F;
     do {
-        r1 = D_8009B458 + o1;
+        r1 = (u8 *)D_8009B458 + o1;
         i++;
         *(s32 *)(r1 + 0) = 0;
         *(s32 *)(r1 + 4) = 0;
@@ -107,7 +105,7 @@ void func_8004A518(void) {
     } while (i < SD_SEQUENCE_TRACK_COUNT);
 
     do {
-    base = D_8009B458;
+    base = (u8 *)D_8009B458;
     if (*(s16 *)(base + 0x510) > 0) {
         i = 0;
         k40 = 0x40;
@@ -127,7 +125,7 @@ void func_8004A518(void) {
             SpuSetKey(SPU_OFF, key);
             tbl++;
             off += SD_SECONDARY_OBJECT_SIZE;
-            base = D_8009B458;
+            base = (u8 *)D_8009B458;
             i++;
             mask |= key;
         if (i < *(s16 *)(base + 0x510)) goto top2;
@@ -140,7 +138,7 @@ void func_8004A518(void) {
     w7f = 0x7F;
     o18 = i;
     do {
-        r3 = D_8009B458 + o18;
+        r3 = (u8 *)D_8009B458 + o18;
         i++;
         r3[1] = b40;
         r3[3] = b7f;
