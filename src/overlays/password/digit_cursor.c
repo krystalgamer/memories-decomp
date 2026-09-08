@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/display_object_layout.h"
 #include "shop.h"
 
 typedef struct {
@@ -48,9 +49,9 @@ void Password_UpdateDigitCursorDecoration(u8 *object)
 
     switch (obj->kind) {
     case 0:
-        obj->flags |= 0x40;
+        obj->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         if (gPassword_nDigitIndex >= 7) {
-            obj->flags &= ~0x40;
+            obj->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
         obj->x = 0x129;
         obj->y = 0x68;
@@ -60,9 +61,9 @@ void Password_UpdateDigitCursorDecoration(u8 *object)
         obj->y = 0x78;
         break;
     case 2:
-        obj->flags |= 0x40;
+        obj->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         if (gPassword_nDigitIndex <= 0) {
-            obj->flags &= ~0x40;
+            obj->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
         obj->x = 0xA9;
         obj->y = 0x68;
