@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
+#include "sound_spatialization.h"
 
 typedef struct {
     s32 voice;
@@ -12,7 +13,6 @@ typedef struct {
 extern s32 D_80011434[];
 extern int func_8004A0FC();
 extern int func_8004A27C();
-extern void func_8004A2F8(void);
 extern void func_8004A518(void);
 extern int func_8004ACE4();
 extern void func_8004C77C(SDSecondaryState *);

@@ -1,11 +1,11 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sound_sequence_constants.h"
+#include "sound_spatialization.h"
 
 extern s32 D_80011434[];
 extern u8 *D_8009B458;
 
-s32 func_8004A3BC(u8 *arg0, s32 arg1);
 s32 func_80049FB4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 /* Re-derives a voice's raw pitch when its channel's pitch-bend MSB changes
