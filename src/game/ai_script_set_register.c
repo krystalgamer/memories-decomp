@@ -1,8 +1,8 @@
 #include "../types.h"
+#include "ai.h"
 #include "ai_script_read_byte.h"
 
 /* Same 4-byte-stride table as idx_table_copy_lowbyte.c. */
-extern s32 gAiScript_aMemory[];
 
 /* Copies one table entry to another: two indices read from the stream. */
 void AiScript_SetRegister(void) {

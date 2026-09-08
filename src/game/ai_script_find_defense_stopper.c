@@ -3,8 +3,6 @@
 #include "duel_grid.h"
 #include "ai_script_read_byte.h"
 #include "ai.h"
-
-extern s32 gAiScript_aMemory[];
 /* AI script opcode taking two operand bytes: a register that when non-zero
  * makes a face-down opponent card invisible to the scan, and the register to
  * write. It pairs the two fields off strongest against strongest - each round

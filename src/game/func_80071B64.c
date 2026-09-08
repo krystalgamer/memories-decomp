@@ -1,19 +1,9 @@
 #include "../types.h"
+#include "ai.h"
 #include "ai_constants.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
-
-typedef struct {
-    s16 unk0;
-    u8 unk2[4];
-    u16 unk6;
-    s8 unk8;
-    u8 unk9[3];
-} Rec12;
-
-extern s32 gAiScript_aMemory[];
-extern Rec12 gDuel_aActiveCards[];
 
 s32 AiScript_ReadByte(void);
 
@@ -44,7 +34,7 @@ void AiScript_FindKiller(void) {
     k = 0;
     w = AiScript_ReadByte();
     i = 1;
-    base = gDuel_aActiveCards;
+    base = (u8 *)gDuel_aActiveCards;
     c = base + AI_ACTIVE_CARD_RECORD_SIZE;
     ref = base + a * AI_ACTIVE_CARD_RECORD_SIZE;
 

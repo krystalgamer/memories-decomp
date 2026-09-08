@@ -2,8 +2,6 @@
 #include "ai.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_read_short.h"
-
-extern s32 gAiScript_aMemory[];
 extern AiScriptState gAiScript_State;
 
 void AiScript_JumpGreaterEqual(void)

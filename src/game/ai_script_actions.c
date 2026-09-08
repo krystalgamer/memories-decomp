@@ -1,8 +1,6 @@
 #include "../types.h"
 #include "ai.h"
 #include "ai_script_read_byte.h"
-
-extern s32 gAiScript_aMemory[];
 extern u8 D_800EAE88[];
 extern u8 D_800EAE8E[];
 void AiScript_PlayFaceUp(void)

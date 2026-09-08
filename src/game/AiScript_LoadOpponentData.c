@@ -1,11 +1,10 @@
 #include "../types.h"
+#include "ai.h"
 #include "ai_script_read_byte.h"
 
 struct OppData {
     s8 b[9];
 };
-
-extern s32 gAiScript_aMemory[];
 extern struct OppData gDuel_aOpponentData[];
 void AiScript_LoadOpponentData(void)
 {

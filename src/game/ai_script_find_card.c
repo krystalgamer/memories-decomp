@@ -2,8 +2,6 @@
 #include "duel_card_layout.h"
 #include "ai_script_read_byte.h"
 #include "ai.h"
-
-extern s32 gAiScript_aMemory[];
 extern void Ai_GetCardRange(s32 type, s32 *start, s32 *end);
 
 void AiScript_CountCards(void)

@@ -3,8 +3,6 @@
 #include "ai_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
-
-extern s32 gAiScript_aMemory[];
 extern AiScriptState gAiScript_State[];
 extern u16 gAi_wBestDifference[];
 

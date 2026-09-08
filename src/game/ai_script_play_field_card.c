@@ -4,7 +4,6 @@
 
 extern AiFieldCardState D_800EAE88;
 extern u8 D_800EAE92;
-extern s32 gAiScript_aMemory[AI_SCRIPT_MEMORY_COUNT];
 void AiScript_PlayFieldCard(void)
 {
     s32 first = gAiScript_aMemory[AiScript_ReadByte()];

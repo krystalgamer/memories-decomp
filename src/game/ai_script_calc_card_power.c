@@ -1,8 +1,7 @@
 #include "../types.h"
+#include "ai.h"
 #include "card_constants.h"
 #include "ai_script_read_byte.h"
-
-extern s32 gAiScript_aMemory[];
 extern s32 gDuel_adwCardStats[];
 extern s32 Duel_GetBaseCardStat(s32 card, s32 stat);
 
