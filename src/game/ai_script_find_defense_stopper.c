@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_card_layout.h"
+#include "duel_grid.h"
 
 struct ActiveCardEntry {
     s16 card_id;
@@ -27,7 +28,7 @@ void AiScript_FindDefenseStopper(void)
     s32 hide_face_down;
     s32 result;
     s32 answer;
-    s32 taken[2][5];
+    s32 taken[DUEL_SIDE_COUNT][DUEL_FIELD_ROW_SIZE];
     s32 best;
     s32 other;
     s32 i;
@@ -39,8 +40,8 @@ void AiScript_FindDefenseStopper(void)
     result = AiScript_ReadByte();
     answer = 1;
 
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 5; j++) {
+    for (i = 0; i < DUEL_SIDE_COUNT; i++) {
+        for (j = 0; j < DUEL_FIELD_ROW_SIZE; j++) {
             taken[i][j] = 0;
         }
     }
@@ -49,7 +50,7 @@ void AiScript_FindDefenseStopper(void)
     do {
         best = 0;
         cards = &gDuel_aActiveCards[1];
-        for (j = 0; j < 5; j++) {
+        for (j = 0; j < DUEL_FIELD_ROW_SIZE; j++) {
             if (taken[0][j] == 0) {
                 if (cards[j].power > gDuel_aActiveCards[best].power) {
                     best = j + 1;
@@ -62,7 +63,7 @@ void AiScript_FindDefenseStopper(void)
 
         other = 0;
         others = &gDuel_aActiveCards[56];
-        for (j = 0; j < 5; j++) {
+        for (j = 0; j < DUEL_FIELD_ROW_SIZE; j++) {
             if (taken[1][j] == 0) {
                 if (hide_face_down == 0 ||
                     !(others[j].flags & DUEL_CARD_FLAG_FACE_DOWN)) {
@@ -81,7 +82,7 @@ void AiScript_FindDefenseStopper(void)
             break;
         }
         i++;
-    } while (i < 5);
+    } while (i < DUEL_FIELD_ROW_SIZE);
 
     if (i == 0) {
         answer = 0;

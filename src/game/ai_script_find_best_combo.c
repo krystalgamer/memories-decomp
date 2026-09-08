@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "ai_constants.h"
+#include "duel_grid.h"
 
 struct ActiveCardEntry {
     s16 card_id;
@@ -59,7 +60,7 @@ void AiScript_FindBestCombo(void)
         gAiScript_State[i + AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
     }
 
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
         card = gDuel_aActiveCards[i + 1].card_id;
         slot = i + 1;
         if (card == 0) {
@@ -142,7 +143,7 @@ void AiScript_FindBestCombo(void)
     }
 
     if (gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET] != 0) {
-        if (gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET] >= 6) {
+        if (gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET] >= DUEL_FIELD_ROW_SIZE + 1) {
             gAiScript_aMemory[dest] = 0;
         } else if (gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET + 1] != 0) {
             gAiScript_aMemory[dest] = 1;

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_grid.h"
 
 typedef struct {
     u8 unk0[4];
@@ -50,7 +51,7 @@ void AiScript_FindBestAttack(void) {
     *(s16 *)(a + 0x98) = 0;
     s = a;
 
-    while (i < 6) {
+    while (i < DUEL_FIELD_ROW_SIZE + 1) {
         if (*(s16 *)r == 0) {
             continue;
         }

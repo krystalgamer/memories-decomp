@@ -22,6 +22,14 @@ The structure replaces private 12-byte definitions in the merged fusion,
 set-query, card-info, and state-operation units and in existing card-state
 handlers.
 
+The paired-field search uses `DUEL_SIDE_COUNT` rows of
+`DUEL_FIELD_ROW_SIZE` taken marks, matching the two five-card ranges
+`1..5` and `56..60`. Primary-field scans reuse that row size; one-based
+exclusive cutoffs retain `DUEL_FIELD_ROW_SIZE + 1` (`6`). This slot cutoff
+is distinct from the six-byte `AI_SCRIPT_COMBO_CARD_COUNT` storage.
+Zero-entry sentinel behavior, strict comparisons, slot bases, hand ranges,
+and the existing cursor/loop-control forms remain unchanged.
+
 ## `AiScriptState`
 
 Size: `0xD4`, matching the initialization clear in `AiScript_Init`.
