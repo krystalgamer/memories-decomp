@@ -4760,3 +4760,45 @@ under split addresses: `-fno-schedule-insns`, `-fno-schedule-insns2`,
 `-fno-cse-follow-jumps`, `-fno-thread-jumps`, `-fno-peephole`, `-fno-force-mem`,
 `-fno-strength-reduce`, `-fno-function-cse`, `-fno-rerun-cse-after-loop`,
 `-fno-regmove`.
+
+## Walking pointer versus `&array[i]` in a countdown loop
+
+When a loop walks an array of large elements and the element pointer is live
+across a call, `&array[i]` and an explicit cursor decremented in the loop body
+compile differently, and the difference is worth two instructions plus a whole
+callee-saved register.
+
+Measured on `func_8003A560` (0x8003A560), a five-iteration countdown over
+0x18C10-byte VRAM slots. With `slot = &slots[i];` at the top of the body GCC
+2.8.1 strength-reduces the address into a general induction variable, but
+allocates the *updated* value to a call-clobbered register and the value used
+in the body to a callee-saved one, so the loop head carries a per-iteration
+`move`. It then has one fewer callee-saved register to spend, does not hoist
+the second loop-invariant constant, and rematerialises it inside the body.
+Result: 127 differing lines and one instruction short.
+
+Writing the same loop as
+
+```c
+slot = &slots[4];
+for (i = 4; i >= 0; i--) {
+    ...
+    slot--;
+}
+```
+
+drops it to three differing lines at the exact instruction count: the cursor
+becomes the induction variable in place, the fifth callee-saved register frees
+up, and the remaining invariant is hoisted.
+
+The last three lines were a delay-slot tie-break, and came from the same
+choice. GCC fills a branch delay slot with the first instruction of the target
+thread, so the order of the two loop-tail updates decides what lands there.
+With `i--` written before the cursor update -- including in a `for` comma
+expression `i--, slot--` -- the counter decrement is first and takes the slot;
+retail wanted the `lui` of the pointer stride. Moving `slot--` to the end of
+the body, or writing the comma the other way round, closed the function.
+
+So for a countdown over big elements: try the explicit cursor first, and if
+only the delay slot is left, permute the loop-tail updates before looking for
+anything deeper.
