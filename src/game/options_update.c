@@ -11,7 +11,6 @@ extern s8 gOptions_bSelection;
 /* Keep this byte outside small data so its store retains absolute addressing. */
 extern u8 gSD_bOutputType[9];
 
-extern void SD_SetOutputType(s32);
 extern void Options_UpdateLayout(s32);
 
 void Options_HandleInput(void)

@@ -22,7 +22,6 @@ extern u8 D_8001079C[];
 extern void func_800478EC(void);
 extern void func_800494F4(s32 *);
 extern void func_80048F14(void);
-extern void SD_SetOutputType(s32);
 
 /* Brings the sound subsystem's resident state up from cold. The state block
  * starts at the end of the loaded image and runs to 0x801EA7FF; it is zeroed a
