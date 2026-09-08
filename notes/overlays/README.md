@@ -1304,7 +1304,7 @@ unavailable. Vary the declaration and the call together.
 
 The corroboration arrived after the fact and is worth recording as a process
 note. The callee at `0x801688BC` is `CampaignMap_StartCameraTween`, already
-matched and already in the tree as `src/overlays/overworld/camera_tween.c`,
+matched and already in the tree as `src/overlays/overworld/camera_transition.c`,
 declared `void CampaignMap_StartCameraTween(s32 index, s32 steps)`. Its arity
 was sitting in a sibling file the entire time. The candidate had been carrying
 a placeholder `extern void func_801688BC(s32);` invented when the function was
