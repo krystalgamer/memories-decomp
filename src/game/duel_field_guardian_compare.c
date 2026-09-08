@@ -9,7 +9,6 @@ typedef struct {
 
 extern volatile u8 D_800907D8[];
 extern u8 D_8009B1D5;
-extern s32 Duel_CalcGuardianStarBonus(DuelCardRecord *, DuelCardRecord *);
 
 s32 func_80023090(Cursor *cursor_a, Cursor *cursor_b)
 {

@@ -1,9 +1,6 @@
 #include "../types.h"
 #include "duel_card.h"
 
-extern s32 Duel_CalcBattleDefense();
-extern s32 Duel_CalcBattleAttack();
-
 s32 func_8001EFD4(u8 *left, u8 *right)
 {
     DuelCardRecord *a = &D_801A7AD8[left[106]];

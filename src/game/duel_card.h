@@ -11,7 +11,7 @@ typedef struct {
     void *object;
     void *data;
     u8 pad_08[4];
-    u16 card_id;
+    s16 card_id;
     s16 attack;
     s16 defense;
     s16 stat_modifier;
@@ -60,5 +60,14 @@ extern DuelCardRecord D_801A7AD8[];
  * half, attack in the low half. Never narrow the return type -- callers
  * select a half with `>> 16` or a 16-bit mask. */
 s32 Duel_CalcCardStats(DuelCardRecord *card);
+
+/* Guardian star matchup between two cards; 0 when `right` is null. */
+s32 Duel_CalcGuardianStarBonus(DuelCardRecord *left, DuelCardRecord *right);
+
+/* Battle stats for `card` against `opponent`, clamped to CARD_STAT_MAX:
+ * the attack half of Duel_CalcCardStats plus the guardian star bonus, and
+ * the defense half plus the same bonus. */
+s32 Duel_CalcBattleAttack(DuelCardRecord *card, DuelCardRecord *opponent);
+s32 Duel_CalcBattleDefense(DuelCardRecord *card, DuelCardRecord *opponent);
 
 #endif

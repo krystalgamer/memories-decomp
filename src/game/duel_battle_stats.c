@@ -2,12 +2,10 @@
 #include "duel_card.h"
 #include "card_constants.h"
 
-extern int Duel_CalcGuardianStarBonus(void *, int);
-
-int Duel_CalcBattleAttack(void *arg0, int arg1)
+s32 Duel_CalcBattleAttack(DuelCardRecord *card, DuelCardRecord *opponent)
 {
-    int value = (unsigned short)Duel_CalcCardStats(arg0)
-        + Duel_CalcGuardianStarBonus(arg0, arg1);
+    s32 value = (u16)Duel_CalcCardStats(card)
+        + Duel_CalcGuardianStarBonus(card, opponent);
 
     if (value > CARD_STAT_MAX) {
         value = CARD_STAT_MAX;
@@ -15,10 +13,10 @@ int Duel_CalcBattleAttack(void *arg0, int arg1)
     return value;
 }
 
-int Duel_CalcBattleDefense(void *arg0, int arg1)
+s32 Duel_CalcBattleDefense(DuelCardRecord *card, DuelCardRecord *opponent)
 {
-    int value = (Duel_CalcCardStats(arg0) >> 16)
-        + Duel_CalcGuardianStarBonus(arg0, arg1);
+    s32 value = (Duel_CalcCardStats(card) >> 16)
+        + Duel_CalcGuardianStarBonus(card, opponent);
 
     if (value > CARD_STAT_MAX) {
         value = CARD_STAT_MAX;
