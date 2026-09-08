@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 
 typedef struct {
     s16 unk0;
@@ -35,7 +36,7 @@ void AiScript_FindKiller(void) {
     s32 t;
 
     a = gAiScript_aMemory[AiScript_ReadByte()];
-    best = 0x270F;
+    best = CARD_STAT_MAX;
     m = gAiScript_aMemory[AiScript_ReadByte()];
     k = 0;
     w = AiScript_ReadByte();
