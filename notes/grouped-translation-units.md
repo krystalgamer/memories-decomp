@@ -160,7 +160,7 @@ source grouping.
 | `src/game/sound_output_state.c` | `gcc_2_8_1_g0` | Seven contiguous output-state and tagged command-request helpers from `0x8004503C` through `SD_ClearBusyFlag` at `0x8004544C`, retaining the request builders' distinct signatures, tags, callback sequence, inner scopes, and register pins |
 | `src/game/sound_runtime.c` | `gcc_2_8_1_g0` | Contiguous command enqueue (`SD_EnqueueCommand`), three-ramp fade update (`SD_UpdateFades`), and per-frame key-status/queue processing (`SD_UpdateRuntime`) from `0x80045BE8` through `0x80046294`, all using the shared `SDValue` layout |
 | `src/game/sound_state_control.c` | `gcc_2_8_1_g8` | Secondary-state activation (`0x8004695C`) and main sound-state flag setup (`0x80046990`) |
-| `src/game/sound_voice_data.c` | `gcc_2_8_1_g0` | Voice-step assignment (`0x80048C0C`) and a 512-word transfer helper (`0x80048C70`) |
+| `src/game/sound_voice_data.c` | `gcc_2_8_1_g0` | Four contiguous voice value/pan update, step assignment, pending-input block copy, and lookup rebuild helpers from `0x80048A28` through `0x80048D08`, using the canonical `SDValue` and `SDNote` layouts |
 | `src/game/sound_secondary_reset.c` | `gcc_2_8_1_g0` | Low-level state query (`0x800498BC`) and secondary-state reset (`0x800498F8`) |
 | `src/game/sound_secondary_playback.c` | `gcc_2_8_1_g0` | Ten secondary sequence attachment, playback lifecycle, object-upload, parameter, and status helpers from `0x80049A64` through `0x80049F50` |
 | `src/game/sound_voice_setup.c` | `gcc_2_8_1_cc_g8_as_g0_split` | Per-record voice-parameter refresh (`0x8004A43C`) and the contiguous driver voice/key initialization routine (`0x8004A518`) |
