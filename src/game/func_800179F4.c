@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "display_object_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"
 
@@ -129,7 +130,7 @@ void func_800179F4(void)
     obj = func_800400AC(func_8004002C(), 2);
     func_800404CC(obj, 12, 24, 4, 2, gDuel_bTerrain, 11, 732);
     func_80042918(obj);
-    *(u16 *)(obj + 8) |= 8;
+    *(u16 *)(obj + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     side = (u32)gDuel_bOpponentID >> 31;
     D_8009B214 = obj;
     obj = func_800400AC(func_8004002C(), 2);
@@ -137,7 +138,7 @@ void func_800179F4(void)
         obj, 280, 32, 4, side, 0, 11, 748
     );
     func_80042918(obj);
-    *(u16 *)(obj + 8) |= 8;
+    *(u16 *)(obj + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     if (D_8009B1D5 != 0) {
         *(u16 *)(obj + 64) += 16;
     }
