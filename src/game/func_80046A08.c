@@ -1,9 +1,9 @@
 #include "../types.h"
+#include "sound.h"
 
 extern u8 D_800107A8[];
 extern u8 D_800107DC[];
 extern u8 D_800107F4[];
-extern u8 *g_SDValue;
 extern u8 D_801E27F8 __attribute__((section(".data")));
 extern u8 D_801E8FF8 __attribute__((section(".data")));
 
@@ -43,58 +43,58 @@ void func_80046A08(void) {
     s32 a3;
     u8 c;
 
-    switch (*(s32 *)(g_SDValue + 0x3C)) {
+    switch (*(s32 *)(((u8 *)g_SDValue) + 0x3C)) {
     case 0:
-        if (g_SDValue[0x4A] & 1) {
+        if (((u8 *)g_SDValue)[0x4A] & 1) {
             a0 = (u8 *)0x801E6800;
             a1 = 0;
             a2 = 0x800;
             a3 = 0x10;
             goto call;
         }
-        *(s32 *)(g_SDValue + 0x3C) += 6;
+        *(s32 *)(((u8 *)g_SDValue) + 0x3C) += 6;
         return;
     case 1:
         if ((func_8004703C() & 7) == 0) {
-            *(SeHdr *)g_SDValue = *(SeHdr *)0x801E6800;
-            *(s32 *)(g_SDValue + 0x3C) += 1;
+            *(SeHdr *)((u8 *)g_SDValue) = *(SeHdr *)0x801E6800;
+            *(s32 *)(((u8 *)g_SDValue) + 0x3C) += 1;
             return;
         }
         return;
     case 2:
-        printf(D_800107A8, *(u16 *)(g_SDValue + 2));
+        printf(D_800107A8, *(u16 *)(((u8 *)g_SDValue) + 2));
         a0 = (u8 *)0x801E2800;
         a1 = 1;
-        a2 = *(u16 *)(g_SDValue + 2);
+        a2 = *(u16 *)(((u8 *)g_SDValue) + 2);
         a3 = 0x10;
         a2 = a2 * 8;
         goto call;
     case 3:
         if ((func_8004703C() & 7) == 0) {
             func_80047480();
-            *(s32 *)(g_SDValue + 0x3C) += 1;
+            *(s32 *)(((u8 *)g_SDValue) + 0x3C) += 1;
             return;
         }
         break;
     case 4:
         func_80047788(0);
-        *(s32 *)(g_SDValue + 0x3C) += 1;
+        *(s32 *)(((u8 *)g_SDValue) + 0x3C) += 1;
         return;
     case 5:
         if (func_8004703C() & 7) {
             return;
         }
-        *(s32 *)(g_SDValue + 0x3C) += 1;
+        *(s32 *)(((u8 *)g_SDValue) + 0x3C) += 1;
         return;
     case 6:
-        if (g_SDValue[0x4A] & 2) {
+        if (((u8 *)g_SDValue)[0x4A] & 2) {
             a0 = (u8 *)0x801E2000;
             a1 = 0;
             a2 = 0x800;
             a3 = 0x20;
             goto call;
         }
-        *(s32 *)(g_SDValue + 0x3C) += 2;
+        *(s32 *)(((u8 *)g_SDValue) + 0x3C) += 2;
         return;
     case 7:
         if ((func_8004703C() & 7) == 0) {
@@ -102,17 +102,17 @@ void func_80046A08(void) {
             if (D_801E27F8 == 0x56) {
                 c = b[0x7F9];
                 if (c == 0x6F && 0x6C == b[0x7FA] && 0x49 == b[0x7FB] && 0x6E == b[0x7FC] && 0x66 == b[0x7FD] && b[0x7FE] == c) {
-                    g_SDValue[0x164A] = b[0x7FF];
-                    *(s16 *)(g_SDValue + 0x44) = g_SDValue[0x164A];
-                    printf(D_800107DC, g_SDValue[0x164A]);
+                    ((u8 *)g_SDValue)[0x164A] = b[0x7FF];
+                    *(s16 *)(((u8 *)g_SDValue) + 0x44) = ((u8 *)g_SDValue)[0x164A];
+                    printf(D_800107DC, ((u8 *)g_SDValue)[0x164A]);
                 }
             }
-            *(s32 *)(g_SDValue + 0x3C) += 1;
+            *(s32 *)(((u8 *)g_SDValue) + 0x3C) += 1;
             return;
         }
         break;
     case 8:
-        if ((g_SDValue[0x4A] & 0x80) == 0) {
+        if ((((u8 *)g_SDValue)[0x4A] & 0x80) == 0) {
             goto no8;
         }
         a0 = (u8 *)0x801E8800;
@@ -121,10 +121,10 @@ void func_80046A08(void) {
         a3 = 0x40;
     call:
         func_800470B0(a0, a1, a2, a3);
-        *(s32 *)(g_SDValue + 0x3C) += 1;
+        *(s32 *)(((u8 *)g_SDValue) + 0x3C) += 1;
         return;
     no8:
-        *(s32 *)(g_SDValue + 0x3C) = 0x3E7;
+        *(s32 *)(((u8 *)g_SDValue) + 0x3C) = 0x3E7;
         return;
     case 9:
         if ((func_8004703C() & 7) == 0) {
@@ -132,21 +132,21 @@ void func_80046A08(void) {
             if (D_801E8FF8 == 0x56) {
                 c = b[0x7F9];
                 if (c == 0x6F && 0x6C == b[0x7FA] && 0x49 == b[0x7FB] && 0x6E == b[0x7FC] && 0x66 == b[0x7FD] && b[0x7FE] == c) {
-                    g_SDValue[0x1649] = b[0x7FF];
-                    *(s16 *)(g_SDValue + 0x42) = g_SDValue[0x1649];
-                    printf(D_800107F4, g_SDValue[0x1649]);
+                    ((u8 *)g_SDValue)[0x1649] = b[0x7FF];
+                    *(s16 *)(((u8 *)g_SDValue) + 0x42) = ((u8 *)g_SDValue)[0x1649];
+                    printf(D_800107F4, ((u8 *)g_SDValue)[0x1649]);
                 }
             }
-            *(u8 **)(g_SDValue + 0x518) = (u8 *)0x801E8800;
-            *(u8 **)(g_SDValue + 0x51C) = (u8 *)0x801E9000;
-            *(u8 **)(g_SDValue + 0x520) = (u8 *)0x801EA000;
-            *(s32 *)(g_SDValue + 0x3C) += 1;
+            *(u8 **)(((u8 *)g_SDValue) + 0x518) = (u8 *)0x801E8800;
+            *(u8 **)(((u8 *)g_SDValue) + 0x51C) = (u8 *)0x801E9000;
+            *(u8 **)(((u8 *)g_SDValue) + 0x520) = (u8 *)0x801EA000;
+            *(s32 *)(((u8 *)g_SDValue) + 0x3C) += 1;
             return;
         }
         break;
     default:
         if ((func_8004703C() & 7) == 0) {
-            *(u16 *)(g_SDValue + 0x40) &= 0xFFF7;
+            *(u16 *)(((u8 *)g_SDValue) + 0x40) &= 0xFFF7;
         }
         break;
     }

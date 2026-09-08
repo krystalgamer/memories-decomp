@@ -409,7 +409,25 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 #undef SD_STATE_OFFSET
 
 #ifndef SDVALUE_CUSTOM_EXTERN
+/* Two translation units need a different spelling of this one declaration,
+ * and both are codegen inputs rather than style:
+ *
+ *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
+ *   cc1psx emits the lui %hi / lw %lo pair instead of one gp-relative load.
+ *   func_800464F0 needs the two-instruction form.
+ *
+ *   G_SDVALUE_VOLATILE -- func_80049138 reads the pointer three times and
+ *   retail reloads it each time; without the qualifier gcc commons the
+ *   first read and the reloads disappear.
+ *
+ * Everything else takes the plain declaration. */
+#ifdef G_SDVALUE_AGGREGATE
+extern SDValue *g_SDValue[];
+#elif defined(G_SDVALUE_VOLATILE)
+extern SDValue *volatile g_SDValue;
+#else
 extern SDValue *g_SDValue;
+#endif
 #endif
 
 #ifndef SDSECONDARYSTATE_CUSTOM_EXTERN

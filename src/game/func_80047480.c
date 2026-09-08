@@ -1,9 +1,8 @@
 #include "../types.h"
+#include "sound.h"
 #include "../psyq/libspu.h"
 #include "sound_pending_constants.h"
 #include "sound_voice_constants.h"
-
-extern u8 *g_SDValue;
 
 void func_80047480(void) {
     u8 *p;
@@ -13,22 +12,22 @@ void func_80047480(void) {
     s32 j;
     s32 k;
 
-    g_SDValue[0x434] = 0;
-    g_SDValue[0x435] = 0;
+    ((u8 *)g_SDValue)[0x434] = 0;
+    ((u8 *)g_SDValue)[0x435] = 0;
 
     for (i = 0; i < 4; i++) {
-        (g_SDValue + i)[0x40C] = 0;
-        (g_SDValue + i)[0x410] = 0;
-        *(s16 *)&(g_SDValue + (i + i))[0x404] = 0;
-        *(s16 *)&(g_SDValue + (i + i))[0x414] = 0;
-        *(s16 *)&(g_SDValue + (i + i))[0x41C] = 0;
-        (g_SDValue + i)[0x428] = 0;
-        *(s16 *)&(g_SDValue + (i + i))[0x42C] = 0;
+        (((u8 *)g_SDValue) + i)[0x40C] = 0;
+        (((u8 *)g_SDValue) + i)[0x410] = 0;
+        *(s16 *)&(((u8 *)g_SDValue) + (i + i))[0x404] = 0;
+        *(s16 *)&(((u8 *)g_SDValue) + (i + i))[0x414] = 0;
+        *(s16 *)&(((u8 *)g_SDValue) + (i + i))[0x41C] = 0;
+        (((u8 *)g_SDValue) + i)[0x428] = 0;
+        *(s16 *)&(((u8 *)g_SDValue) + (i + i))[0x42C] = 0;
     }
 
     SpuSetTransferMode(SPU_TRANSFER_BY_DMA);
 
-    p = g_SDValue;
+    p = ((u8 *)g_SDValue);
     *(s16 *)(p + 0x394) = 0x3FFF;
     *(s16 *)(p + 0x396) = 0x3FFF;
     *(s16 *)(p + 0x398) = 0x1000;
@@ -62,7 +61,7 @@ void func_80047480(void) {
     }
 
     i = 0;
-    q = g_SDValue;
+    q = ((u8 *)g_SDValue);
     for (; i < SD_VOICE_LOOKUP_BANK_COUNT; i++) {
         j = 0;
         k = i << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;

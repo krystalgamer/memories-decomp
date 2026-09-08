@@ -1,9 +1,9 @@
 #include "../types.h"
+#include "sound.h"
 #include "../psyq/libspu.h"
 #include "sound_pending_constants.h"
 #include "sound_voice_constants.h"
 
-extern u8 *g_SDValue;
 extern void func_80044E90(s32);
 extern void func_80047864(s32);
 
@@ -42,7 +42,7 @@ void func_80048768(s32 arg0, s32 arg1)
         flag = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
         flag = zero < flag;
         off += flag << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
-        base = g_SDValue;
+        base = ((u8 *)g_SDValue);
         pt = *(u16 *)(base + off + SD_VOICE_LOOKUP_BYTE_OFFSET);
         invalid_key = SD_PENDING_ENTRY_NONE;
         if (pt == invalid_key) {
@@ -64,17 +64,17 @@ loop:
     {
         SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, env);
         base = (u8 *)(i * 2);
-        v = *(u16 *)(g_SDValue + (s32)base + 0x404);
+        v = *(u16 *)(((u8 *)g_SDValue) + (s32)base + 0x404);
         if (v == (u16)key) {
             if (env[0] != 0) {
                 if (pan != 0) {
                     if (near) {
-                        prod = *(u8 *)(*(u8 **)(g_SDValue + 0x444) + v * 8) * lo;
-                        *(u16 *)(g_SDValue + (s32)base + 0x414) = prod;
+                        prod = *(u8 *)(*(u8 **)(((u8 *)g_SDValue) + 0x444) + v * 8) * lo;
+                        *(u16 *)(((u8 *)g_SDValue) + (s32)base + 0x414) = prod;
                     }
                     if ((u16)(pan2 + 0x80) < 0x80) {
-                        prod = *(u8 *)(*(u8 **)(g_SDValue + 0x444) + v * 8) * hi;
-                        *(u16 *)(g_SDValue + (s32)base + 0x41C) = prod;
+                        prod = *(u8 *)(*(u8 **)(((u8 *)g_SDValue) + 0x444) + v * 8) * hi;
+                        *(u16 *)(((u8 *)g_SDValue) + (s32)base + 0x41C) = prod;
                     }
                 }
                 func_80047864(i);
