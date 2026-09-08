@@ -1,5 +1,5 @@
-#include "../../../../src/types.h"
-#include "../../../../src/game/model.h"
+#include "../types.h"
+#include "model.h"
 
 typedef struct {
     u16 flags;
@@ -32,6 +32,21 @@ extern void func_8004DC38(ModelSlot *, s32, s32, s32);
 extern void func_800540B4(s32);
 extern s32 func_80058E1C(void);
 
+/* Preserve zero-valued inputs without introducing materialized constants. */
+register const u32 hard_zero asm("$0");
+/* Keep the body lookup distinct from the earlier slot-active lookup. */
+extern ModelSlot D_800F2C40_alias[] asm("D_800F2C40");
+
+/* A partial-width value boundary keeps the loop GIV's table-base move alive. */
+static __inline__ Record *make_table_base(void)
+{
+    register union { u64 d; struct { u32 lo; u32 hi; } w; } wide asm("$2");
+    register volatile u32 addr asm("$2");
+    addr = (u32)D_800F2B50;
+    wide.w.lo = addr;
+    return (Record *)(u32)wide.d;
+}
+
 /* Per-frame tint pass over the ten requests at D_800F2B50. A live request
  * interpolates its start colour (+0x10..0x12) towards its end colour
  * (+0x14..0x16) by elapsed/duration, drops the result into the model slot's
@@ -45,7 +60,7 @@ void func_800528AC(void)
     s32 i;
     s32 j;
     s32 k;
-    u32 v;
+    register u32 v asm("$18");
     s32 keep;
     s32 old;
     u8 side;
@@ -54,15 +69,13 @@ void func_800528AC(void)
     u16 lo;
     u16 hi;
     u16 a;
-    s32 aa;
+    register s32 aa asm("$19");
     s32 sv;
     ModelSlot *slot;
     Record *e;
     Record *table;
-    u8 *base1;
 
-    table = D_800F2B50;
-    base1 = (u8 *)table + 1;
+    table = make_table_base();
     for (i = 0, off = 0; i < 10; off += 0x18, i++) {
         e = &table[i];
         if ((*(u8 *)e & 1) == 0) {
@@ -80,15 +93,33 @@ void func_800528AC(void)
         hi = e->field_0E;
         side = (v >> 1) & 1;
         v = (v >> 3) & 0x1F;
-        slot = &D_800F2C40[side];
-        sav06 = slot->field_E06;
-        keep = slot->field_BF5;
-        old = func_80059AA8(side, 0);
+        {
+            register s32 zero_arg asm("$5") = hard_zero;
+            {
+                register u32 model_base asm("$9") = (u32)D_800F2C40_alias;
+                slot = (ModelSlot *)((u32)side * sizeof(ModelSlot) + model_base);
+            }
+            sav06 = slot->field_E06;
+            keep = slot->field_BF5;
+            old = func_80059AA8(side, zero_arg);
+        }
         save = *(Quad *)slot->field_DC0;
         col.b[3] = e->field_13;
-        col.b[0] = e->field_10 * (hi - lo) / hi + e->field_14 * lo / hi;
-        col.b[1] = e->field_11 * (hi - lo) / hi + e->field_15 * lo / hi;
-        col.b[2] = e->field_12 * (hi - lo) / hi + e->field_16 * lo / hi;
+        col.b[0] = ({ register s32 p asm("$3"); p = e->field_10 * (hi - lo); p / hi; })
+                 + ({ register s32 p asm("$3"); p = e->field_14 * lo; p / hi; });
+        col.b[1] = ({ register s32 p asm("$3"); p = e->field_11 * (hi - lo); p / hi; })
+                 + ({ register s32 p asm("$3"); p = e->field_15 * lo; p / hi; });
+        {
+            register s32 p asm("$3");
+            register s32 out asm("$4");
+            register s32 q asm("$16");
+            p = e->field_12 * (hi - lo);
+            out = p / hi;
+            p = e->field_16 * lo;
+            q = p / hi;
+            out += q;
+            col.b[2] = out;
+        }
         *(Quad *)slot->field_DC0 = col;
 
         aa = a;
@@ -104,9 +135,20 @@ void func_800528AC(void)
             slot->field_BF5 = v;
         }
 
-        D_8009AF9C = (s32)(base1 + off);
-        D_8009AF9B = (e->flags >> 2) & 1;
-        func_800540B4(side);
+        {
+            register s32 render_side asm("$4");
+            render_side = side;
+            {
+                register s32 global_ptr asm("$3");
+                register u32 global_flag asm("$2");
+                register s32 global_base asm("$9") = (s32)((u8 *)D_800F2B50 + 1);
+                global_ptr = off + global_base;
+                global_flag = (e->flags >> 2) & 1;
+                D_8009AF9C = global_ptr;
+                D_8009AF9B = global_flag;
+                func_800540B4(render_side);
+            }
+        }
         D_8009AF9C = 0;
         D_8009AF9B = 0;
 

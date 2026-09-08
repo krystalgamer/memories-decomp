@@ -13,7 +13,9 @@ extern u8 D_800EA0E8[];
 extern void Password_RefreshDigitDisplay(void);
 extern void Password_RefreshStarchipDisplay(void);
 extern void Password_CreateMessageBox(s32, s32);
+extern void func_80029528(s32);
 extern void func_80029574(s32);
+extern PasswordCardPreviewView *func_800291E0(s32, s32, s32);
 extern void func_800428EC(u8 *, s32);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern void func_80042918(u8 *);
@@ -21,6 +23,18 @@ extern void Password_SetDigitCursorTarget(u8 *);
 extern void func_80040468(u8 *, s32, s32, s32, s32, s32);
 extern void SD_BGMPlay(u32);
 extern void func_80015A00(void);
+
+void Password_RecreateCardPreview(s32 ignored)
+{
+    PasswordCardPreviewView *obj;
+
+    func_80029528(0);
+    obj = func_800291E0(0, -1, -1);
+    obj->y = 0x1E;
+    obj->phase = 0x80;
+    obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
+    D_8016D4D8 = obj;
+}
 
 void Password_InitShopScreen(void)
 {

@@ -6122,6 +6122,7 @@ reuse the parameter identity for the later `lhu`, so that load stays based on
 `$s0`. This is a narrow, compiler-specific boundary: use it only after source
 shape has made the body exact, record it with `--allow-register-pins`, and
 verify the complete linked bytes and relocations.
+
 ## Combine deletes a copy whose source is a single-use pseudo dying at it
 
 `func_800528AC` was one `addu` short for several sessions. The missing
@@ -6190,3 +6191,56 @@ allocation and global allocation; comparing the **contents** of the relevant ins
 across those dumps names the responsible pass directly. Comparing only whether an
 insn number still exists is not the same question and gave the wrong answer here
 first time round.
+
+### Why the unpinned distance-zero source stops at allocation
+
+The `base1` source has retail's complete 288-instruction sequence, but 63 words
+still differ as a rotation of four callee-saved registers. Five saved registers
+already have identical occurrence counts. Retail keeps the flags word in
+`$s2`, `field_0A` in `$s3`, the slot pointer in `$s4`, and the element pointer
+in `$s5`; GCC assigns those values to `$s5`, `$s2`, `$s3`, and `$s4`.
+
+The `.lreg` and `.greg` dumps bound the remaining choice. Global allocation
+orders these pseudos by `floor_log2(refs) * refs / live_length`:
+
+| pseudo | refs / live length | priority | build register |
+| --- | --- | --- | --- |
+| slot pointer | 42 / 98 | 2.14 | `$s3` |
+| element pointer | 45 / 147 | 1.53 | `$s4` |
+| flags word | 21 / 74 | 1.14 | `$s5` |
+
+Retail's order requires the flags word to outrank the slot pointer. That means
+shortening the flags live range below 39, but its read must precede the `side`
+calculation and its write follows the first inner loop. The other route is
+lengthening the slot pointer beyond 185, which would require reusing it for an
+earlier slot lookup that retail demonstrably materialises a second time.
+Making the flags value block-local also fails in the opposite direction: it no
+longer crosses a call and falls into caller-saved `$v1`. The ordinary-C source
+is therefore structurally complete but bounded at global allocation.
+
+## A pin-dependent exact match for `func_800528AC`
+
+The integrated source uses a different boundary for the table-base copy. It
+writes the 32-bit address into the low member of a pinned 64-bit union and
+reads that member back as the table pointer. The partial-width boundary stops
+`combine` from forwarding the address expression through the GIV assignment,
+so retail's `addu $s5,$v0,$zero` remains.
+
+That source is intentionally pin-dependent: extensive measured hard-register
+bindings preserve the flags, pointer, scratch, hard-zero, and statement-
+expression roles needed for the retail allocation and schedule. It also gives
+tracked symbol `D_800F2C40` a second C declaration:
+
+```c
+extern ModelSlot D_800F2C40_alias[] asm("D_800F2C40");
+```
+
+The second declaration prevents CSE between two lookup materialisations. Its
+assembler name is the real tracked symbol, not an expression or fabricated
+linker name. `--allow-symbol-aliases` accepts only that narrower form.
+
+The pins are not a substitute for the recovered behavior. The function still
+implements the ten-entry tint queue, three-channel interpolation, temporary
+part-position override, draw, restoration, and clock update established by
+the unpinned reconstruction. The exact source applies register constraints
+only after that lifecycle and the complete instruction shape were understood.
