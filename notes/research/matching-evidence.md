@@ -3109,6 +3109,33 @@ units, so neither spelling is wrong in general. The saved-register set is what
 distinguishes them, and it is cheap to read: count `sw $sN` in the target
 prologue and compare.
 
+## A temp-then-copy pair is a whole-struct assignment
+
+Two stores into adjacent stack slots, immediately followed by two loads from
+those slots and two stores eight bytes lower, is not clumsy scheduling. It is
+GCC's shape for assigning a small structure as a unit:
+
+```
+struct assignment          scalar stores
+sw $4,48($sp)              sw $2,16($sp)
+sw $2,52($sp)              sw $4,16($sp)
+lw $5,48($sp)              sw $2,20($sp)
+lw $6,52($sp)              sw $4,20($sp)
+sw $5,16($sp)
+sw $6,20($sp)
+```
+
+Measured on a pair of ten-line probes differing only in that one respect, the
+struct form is **exactly four instructions longer** and the scalar form emits no
+copy. So a target carrying those four extra instructions per element is telling
+you the original wrote `a[i] = value;` with a structure-typed value, and a
+reconstruction that assigns the fields individually will be four instructions
+short per element with no diff that says why.
+
+The reverse reading is just as useful: if a candidate is *long* by four per
+element against a target that stores fields directly, the source has a struct
+assignment the original did not.
+
 ## Count one characteristic opcode before reading any diff
 
 When a candidate is short by a lot, the positional diff is worthless: every
