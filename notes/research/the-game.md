@@ -978,11 +978,26 @@ or loss *means* is decided by the caller (§6, §7.12, §8).
 ### 5.11 The opponent
 
 The computer's turn is played by a **bytecode script** per opponent,
-interpreted by a small VM [`AiScript_Run` `0x80070650`]: the loop fetches an
-opcode, dispatches through a **67-entry handler table** [`0x800916E0`], and
-stops when the handler it just ran was one of three terminal ones (end of hand
-phase, end of field phase, field play); every sixteenth of a second it yields
-to the video sync. The instruction set is real: `aiInstJump`, `aiInstJumpGe`,
+interpreted by a small VM
+[`AiScript_Run`](../../src/game/ai_script_vm.c) (`0x80070650`): the loop
+fetches an opcode, dispatches through a **67-entry handler table**
+[`0x800916E0`], and returns when the handler is one of three terminal ones
+(end of hand phase, end of field phase, field play). After any other
+completed handler it queries `VSync(1)`: a value below `0xF0` (240) continues
+the loop; a value at or above that threshold returns zero to the caller.
+The terminal tests come first, so the timing threshold does not override a
+completed terminal command.
+
+This is a **post-instruction timing query**, not a wait for the next VBlank
+or an established "every sixteenth of a second" schedule. The retail
+mode-1 query reads a counter delta from the SDK's shared saved baseline;
+`AiScript_Run` does not reset that baseline on entry. At least one valid
+instruction executes before the first timing query, and the query does not
+preempt an in-progress handler. The return codes and SDK branch evidence
+are detailed in [the AI notes](../ai-structures.md#interpreter-dispatch-and-yielding);
+per-pass instruction counts and visible decision times remain unmeasured.
+
+The instruction set is real: `aiInstJump`, `aiInstJumpGe`,
 `aiInstJumpEq`, `aiInstJumpNeq`, `aiInstJumpRand`, `aiInstCall`,
 `aiInstRetn`, `aiInstRand`, `aiInstSub`, `aiInstStrongest`,
 `aiInstBestCombo`, `aiInstFindFirst`… [VM state `0x800F5BE8`; the script

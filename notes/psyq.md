@@ -898,8 +898,10 @@ reset/restart controls, NTSC/PAL selection, and the `getScratchAddr` macro for
 word-indexed access to the `0x1F800000` scratchpad. Its `PadInit`/`PadStop`
 pair is not interchangeable with the buffer-oriented `PadInitDirect` and
 `PadStopCom` interface in `libpad.h`. Matching `ai_script_vm.c` includes
-`libetc.h` for `VSync(1)` while bounding one AI interpreter pass, and
-`func_8004E9A0.c` uses `VSync(-1)` to choose time-varying image-copy frames.
+`libetc.h` for the post-dispatch `VSync(1)` query in
+[the AI interpreter](ai-structures.md#interpreter-dispatch-and-yielding),
+not a wait-for-VBlank call. `func_8004E9A0.c` uses `VSync(-1)` to choose
+time-varying image-copy frames.
 No current game C uses the header's simple-pad interfaces.
 
 `libsio.h` and `libcomb.h` expose parallel serial interfaces. The SIO header

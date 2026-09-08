@@ -120,6 +120,43 @@ match a zero type-set entry after the bias is subtracted. The names preserve
 these cases rather than adding validity checks or treating either routine as
 a general validated set implementation.
 
+### Interpreter dispatch and yielding
+
+Matching [`AiScript_Run`](../src/game/ai_script_vm.c) (`0x80070650`) copies
+`script_cursor` to `previous_cursor` before reading each opcode. It calls
+`gAiScript_apfnCommand[opcode]`, then reloads that table entry to classify
+the completed command. The interpreter does not use a handler return value.
+
+| Handler identity after dispatch | Interpreter return |
+|---|---:|
+| `AiScript_EndHand` | `1` |
+| `AiScript_EndField` | `3` |
+| `AiScript_PlayFieldCard` | `2` |
+
+Those three tests precede the timing query. After any other completed
+handler, `VSync(1) < 0xF0` continues the loop; a result at or above `0xF0`
+(240) returns `0`. The retail instructions at `0x800706B8..0x800706EC`
+corroborate the terminal precedence, mode-1 call, threshold, and zero return.
+There is no entry-time check: at least one valid instruction executes before
+the first timing query. The query neither preempts a handler nor imposes a
+fixed instruction quota.
+
+The retail SDK `VSync` (`0x80074170`) explains why this is a query rather
+than a wait-for-VBlank call. Its mode-1 branch at `0x800741E4` goes to the
+return at `0x800742D0`, bypassing both calls to the wait helper
+`func_800742E8` and the saved-baseline update at `0x800742B4`. The returned
+value is `(stable_counter - D_80091998) & 0xFFFF`; the executable stores
+`0x1F801110` in the counter pointer `D_80091994`. The sampling loop requires
+two consecutive counter reads to agree.
+
+The waiting path later refreshes `D_80091998`; repeated mode-1 queries do
+not. `AiScript_Run` does not initialize that shared baseline, so the
+threshold is not a fresh elapsed-time allowance measured from each
+interpreter entry. These source and retail-instruction observations do not
+establish a fixed 1/16-second scheduling cadence, a strict handler runtime
+limit, or the number of commands executed per pass. No new human trace or
+decision-time measurement is implied.
+
 ## `AiDuelistState`
 
 Size: `0x20`
