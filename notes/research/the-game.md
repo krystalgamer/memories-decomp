@@ -707,7 +707,8 @@ not allowed — the zone choice only offers legal rows.
 Magic cards are played into the magic/trap row (face-up or face-down) and
 **activated** later from there by selecting them, on your turn. The game does
 not read the card's text; it reads its **number**: a placement state machine
-[`func_80019608`] hands the id to a guard [`func_80026BA4`] that accepts
+[`func_80019608`](../../src/game/func_80019608.c) hands the id to a guard
+[`func_80026BA4`] that accepts
 301–350, 651–700 and 721, converts it to an index, and a per-tick dispatcher
 [`func_80026B34`] looks that index up in a 104-byte table [`0x80090AD4`] to
 get an **effect group**, 0–13, and calls the group's handler pair from a
@@ -1037,8 +1038,9 @@ bypass this particular increment; this does not establish their complete
 accounting, every other writer, or the effect of later card flips. It is
 static code evidence, not a new controlled trace.
 
-**When "pure magic" advances.** Resident `func_80019608` (still unmatched
-assembly) increments the current side's byte `+0x05` in its initialization
+**When "pure magic" advances.** Matching
+[`func_80019608`](../../src/game/func_80019608.c) increments the current
+side's byte `+0x05` in its initialization
 branch, before the later effect requests. The `0x8000` bit of
 `D_8009B23A` guards that branch: after it is set, subsequent polling calls
 skip this increment. At `0x80019674..0x80019698`, the writer requires the
