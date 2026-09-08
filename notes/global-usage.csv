@@ -877,9 +877,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014C40,func_80014C40,matching_c,game,C,src/game/file_transfer_control.c,read_write,32,D_8009B0F4 & ~FILE_TRANSFER_STATE_SECONDARY_PENDING; | D_8009B0F4 = | (+4 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4_signed,0x80014E1C,File_RequestAsyncTransfer,matching_c,game,C,src/game/file_transfer_flags.c,read_write,,D_8009B0F4_signed = | D_8009B0F4_signed |= 0x40; | (+1 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014EEC,File_TryRequestAsyncTransfer,matching_c,game,C,src/game/file_transfer_flags.c,read,32,if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014FA4,func_80014FA4,matching_c,game,C,src/game/file_transfer_flags.c,read,32,(D_8009B0F4 & 0x80000)) { | if ((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134) { | (+1 more)
-0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80015038,func_80015038,matching_c,game,C,src/game/file_transfer_flags.c,read,32,(D_8009B0F4 & 0x80000)) { | if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
-0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80015078,File_RequestSecondaryAsyncTransfer,matching_c,game,C,src/game/file_transfer_flags.c,read_write,32,(D_8009B0F4 & 0x80000)) { | D_8009B0F4 &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING; | (+2 more)
+0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014FA4,func_80014FA4,matching_c,game,C,src/game/file_transfer_flags.c,read,32,(D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE)) { | if ((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134) { | (+1 more)
+0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80015038,func_80015038,matching_c,game,C,src/game/file_transfer_flags.c,read,32,(D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE)) { | if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
+0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80015078,File_RequestSecondaryAsyncTransfer,matching_c,game,C,src/game/file_transfer_flags.c,read_write,32,(D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE)) { | D_8009B0F4 &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING; | (+2 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x800171A8,Duel_LoadPackageStage,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0079a8.s,read_write,32,"lui $at, %hi(D_8009B0F4) | lui $v0, %hi(D_8009B0F4) | (+2 more)"
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8001825C,func_8001825C,matching_c,game,C,src/game/func_8001825C.c,read,32,if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80018608,func_80018608,matching_c,game,C,src/game/func_80018608.c,read,32,if (((D_8009B0F4[0] & mask) |
@@ -909,7 +909,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003594C,func_8003594C,matching_c,game,C,src/game/movie_playback_control.c,read_write,32,D_8009B0F4 |= 0x2000000;
 0x8009B0F4,D_8009B0F4,Base2_8009B0F4|D_8009B0F4_array,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,read_write,32,Base2_8009B0F4[0] = D_8009B0F4_array[0] & 0xFDFFFFFF;
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003798C,func_8003798C,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,32,if (((D_8009B0F4[0] & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80037B40,func_80037B40,matching_c,game,C,src/game/func_80037B40.c,read,32,if ((D_8009B0F4[0] & 0x80000) == 0) {
+0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80037B40,func_80037B40,matching_c,game,C,src/game/func_80037B40.c,read,32,if ((D_8009B0F4[0] & FILE_TRANSFER_FLAG_SECTOR_RANGE) == 0) {
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003A01C,func_8003A01C,matching_c,game,C,src/game/func_8003A01C.c,read_write,32,D_8009B0F4 = v_0; | D_8009B0F4 = v_1; | (+6 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003A560,func_8003A560,matching_c,game,C,src/game/func_8003A560.c,read_write,32,D_8009B0F4 = req->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE; | if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134) !=
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003B808,func_8003B808,matching_c,game,C,src/game/func_8003B808.c,read_write,32,D_8009B0F4 &= 0xFFDCFFFF; | D_8009B0F4 &= 0xFFDDFFFF; | (+1 more)
@@ -2278,7 +2278,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x8004503C,func_8004503C,matching_c,game,C,src/game/sound_output_state.c,write,,g_SDValue->field_0049 = flag; | g_SDValue->field_0512 = value;
 0x8009B45C,g_SDValue,g_SDValue,0x80045054,func_80045054,matching_c,game,C,src/game/sound_output_state.c,read,,"(SpuDecodedData *)((u8 *)g_SDValue + 0x53C), | loaded = (u8 *)g_SDValue; | (+2 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x80045114,func_80045114,matching_c,game,C,src/game/sound_output_state.c,read,,SDValue *state = g_SDValue;
-0x8009B45C,g_SDValue,g_SDValue,0x80045208,func_80045208,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_035a08.s,read,32,"lui $a0, %hi(g_SDValue) | lui $a1, %hi(g_SDValue) | (+4 more)"
+0x8009B45C,g_SDValue,g_SDValue,0x80045208,func_80045208,matching_c,game,C,src/game/func_80045208.c,read_write,,SDValue *a = g_SDValue; | g_SDValue->flags_0040 = (g_SDValue->flags_0040 | 1) & 0xFFFB; | (+1 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80045334,func_80045334,matching_c,game,C,src/game/func_80045334.c,read,,a = g_SDValue; | b = g_SDValue; | (+1 more)
 0x8009B45C,g_SDValue,g_SDValue,0x8004544C,SD_ClearBusyFlag,matching_c,game,C,src/game/sd_clear_busy_flag.c,write,,g_SDValue->busy = 0;
 0x8009B45C,g_SDValue,g_SDValue,0x8004545C,SD_ArmBusyCallback,matching_c,game,C,src/game/sd_arm_busy_callback.c,write,,g_SDValue->busy = 1;
