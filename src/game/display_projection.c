@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object.h"
+#include "screen_projection.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -63,11 +64,6 @@ void func_80015DB8(SlotProjectionObject *object)
    setup: same 0x1F8003E0 scratchpad pair, same rtps, same write-back through
    swc2 $14. Here the source coordinates come from the object's own target
    record and the projected pair is biased into the object's screen fields. */
-typedef struct {
-    u16 x;
-    s16 y;
-} ProjectedPair;
-
 typedef struct {
     void *record;
     u8 pad_04[4];

@@ -1,15 +1,9 @@
 #include "../types.h"
 #include "view_state.h"
+#include "screen_projection.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-
-/* SXY2 as written back by swc2 $14: screen x in the low half, screen y in the
-   high half. */
-typedef struct {
-    u16 x;
-    s16 y;
-} Projected;
 
 extern u16 D_8009AF20;
 extern s16 D_8009B200;
@@ -20,7 +14,7 @@ extern void func_8001352C(void);
 
 void func_800178BC(void)
 {
-    Projected p;
+    ProjectedPair p;
     s32 y;
 
     func_80017130();
