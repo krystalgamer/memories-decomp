@@ -81,6 +81,7 @@ source grouping.
 | `src/game/fade_transition_wait.c` | `gcc_2_8_1_g8_split` | Colour-selecting fade-out setup (`0x80015944`, flags `0x30`) and the contiguous blocking frame-pump loop that waits for flag `0x80` to clear (`0x80015998`) |
 | `src/game/fade_control.c` | `gcc_2_8_1_g8` | Eighteen contiguous blocking/nonblocking fade wrappers, direct level/target setters, flag-`0x02`/`0x06` variants, and overlay-latch toggles from `0x800159D8` through `0x80015D0C`, including `Fade_WaitOut` |
 | `src/game/display_projection.c` | `gcc_2_8_1_g8_split` | Scratchpad RTPS screen projection with coordinate bias (`0x80015D18`), the contiguous display-slot position wrapper (`0x80015DB8`), and tracked-record projection with side-dependent Y bias (`0x80015DFC`) |
+| `src/game/movie_frame_pipeline.c` | `gcc_2_8_1_g8` | Contiguous movie-frame presentation (`0x8005BE3C`), CD-ring/VLC fetch (`0x8005BFC8`), and MDEC strip-output callback (`0x8005C1F4`) sharing the frame work area and stream state |
 | `src/game/movie_stream_requests.c` | `gcc_2_8_1_g0_split` | Indexed `MOVIE.STR` range setup (`0x8005C388`) and named-file stream setup (`0x8005C464`) |
 | `src/game/file_cd_helpers.c` | `gcc_2_8_1_g0` | `File_Exists` (`0x8005C4F0`) and two contiguous low-level CD state/wait helpers through `0x8005C568` |
 | `src/game/mdec_sync.c` | `gcc_2_8_1_g8` | MDEC completion-latch setter (`0x8005C5C4`) and contiguous bounded wait/reset helper (`0x8005C5D4`) |
