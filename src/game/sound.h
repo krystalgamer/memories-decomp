@@ -370,6 +370,16 @@ void SD_BGMFadeOutWithStep(s32);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);
 
+/* Declared as a scalar here so -G8 can reach it gp-relative.
+ *
+ * script_stream_commands.c and duel_effect_play_sound_command.c declare this
+ * as `extern u32 gSD_dwCurrentBgmCommand[]` and read `[0]`, and are excluded
+ * from this header for that reason: an unsized array is not assumed small, so
+ * those two reads are built from an absolute address instead of $gp.
+ * Rewriting them to the scalar form above builds an executable eight bytes
+ * short, so the split is load-bearing and the declarations cannot be unified
+ * without losing the match.
+ */
 extern u32 gSD_dwCurrentBgmCommand;
 
 #endif
