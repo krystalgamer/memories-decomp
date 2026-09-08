@@ -1,28 +1,21 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned short u16;
-typedef signed int s32;
-typedef unsigned int u32;
-typedef signed long long s64;
-typedef unsigned long long u64;
+#include "../types.h"
 
 #define MODEL_ANGLE_FULL_TURN 0x1000
 #define MODEL_ANGLE_QUARTER_TURN (MODEL_ANGLE_FULL_TURN / 4)
 
-extern u8 D_8009B478;
-extern s16 D_8009B47A;
-extern s16 D_8009B47C;
-extern u8 D_8009B480;
-extern s16 D_8009B482;
-extern s16 D_8009B484;
-extern u8 *D_8009AF88;
-extern s16 D_8009AF8E;
-extern s16 D_8009AF90;
-
 typedef struct {
     u8 b[8];
 } ModelViewSnapshot;
+
+ModelViewSnapshot D_8009B478;
+s16 D_8009B47A;
+s16 D_8009B47C;
+ModelViewSnapshot D_8009B480;
+s16 D_8009B482;
+s16 D_8009B484;
+u8 *D_8009AF88;
+s16 D_8009AF8E;
+s16 D_8009AF90;
 
 void func_8004E7B0(s32 force)
 {
@@ -102,5 +95,5 @@ clamp_pos:
 store:
         D_8009AF90 = r;
     }
-    *(ModelViewSnapshot *)&D_8009B480 = *(ModelViewSnapshot *)&D_8009B478;
+    D_8009B480 = D_8009B478;
 }
