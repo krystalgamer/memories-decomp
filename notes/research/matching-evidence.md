@@ -5469,3 +5469,42 @@ instruction in the wrong place.
 `-fno-schedule-insns` was measured against both functions and a third with the
 same signature, and is worse on all three. The position is decided when the RTL
 is generated, not when it is scheduled.
+
+## Marginal independence is not joint independence: always run the joint arm
+
+Dropping each pin in turn and finding them all inert does **not** show they are
+jointly inert. Two entries audited the same way come out opposite:
+
+| entry | pins inert *alone* | dropped **together** |
+| --- | --- | --- |
+| `func_80012E5C` | `i`, `off`, `slot` - all 5, identical set | still 5, identical set - genuine decoration, removed |
+| `func_80046294` | `i`, `j`, `k`, `dst1`, `dst2` - all 7, identical set | **13** - all five are real |
+| `func_80023144` | `rank` in both blocks - both 5, identical set | still 5 - decoration, removed |
+
+The `func_80046294` row is the one that matters. Five pins each measure the
+baseline with the *identical differing set* when dropped alone, which is exactly
+what decoration looks like under a single-drop test, and together they are worth
+six positions. The reason is mechanical rather than mysterious: each pin holds a
+register that GCC would otherwise take for a value whose pin remains, so no
+single removal changes anything and the interaction only appears once several
+are gone.
+
+**This generalises past pins.** It is the same defect as the sweeps that have
+misled this campaign, stated more precisely. "Breadth is not control" says a
+family of experiments can vary many things and still hold the deciding axis
+fixed. This says the opposite failure: a family can vary the right axis, one
+value at a time, and still miss an effect that only exists jointly. A
+thirteen-register sweep moving one variable at a time, seven placements holding
+two statements fixed, and five profiles holding the split axis fixed all fail
+one of these two ways.
+
+**The practice**, once a set of candidates each measure inert alone:
+
+1. Drop them **together** and measure. This is one extra build.
+2. Compare the differing **set**, not its size - two candidates agreeing on a
+   count can be structurally far apart.
+3. If the joint arm moves, the marginal results were not wrong, they were
+   uninformative: record that the pins are jointly load-bearing so the next
+   reader does not delete them one at a time on the strength of a single drop.
+
+`tmp/harness/pinaudit.py` runs both arms over an entry's stored source.
