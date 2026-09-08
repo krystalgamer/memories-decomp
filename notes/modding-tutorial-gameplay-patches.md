@@ -430,18 +430,22 @@ The tutorial changes one immediate byte at each of two SLUS offsets:
 | `0x952C` | `0x80018D2C` | `11 00 07 24` | `addiu $a3, $zero, 0x11` | First required Exodia card ID |
 | `0x959C` | `0x80018D9C` | `16 00 E2 28` | `slti $v0, $a3, 0x16` | Exclusive end of the required-ID range |
 
-Both instructions are in the exact matching C for
-`Duel_HasAllExodiaPieces`. The function copies five hand-slot indices, then
-searches those slots for each card ID from `0x11` through `0x15`. A matched
-slot is replaced with `-1`, so
-one card cannot satisfy more than one required ID. In simplified form, the
-function returns one only after finding all five pieces:
+Both instructions are in exact matching
+[`Duel_HasAllExodiaPieces`](../src/game/duel_draw_resolution.c). The source
+copies `HAND_SIZE` hand-slot indices, then searches those slots for each card
+ID from `EXODIA_FIRST_CARD_ID` through `EXODIA_CARD_ID_END - 1`. Those
+constants expand to `0x11`, five pieces, and exclusive end `0x16`. A matched
+slot is replaced with `-1`, so one card cannot satisfy more than one required
+ID. In simplified form, the function returns one only after finding all five
+pieces:
 
 ```c
-for (a3 = 0x11; a3 < 0x16; a3++) {
-    for (i = 0; i < 5; i++) {
+for (card_id = EXODIA_FIRST_CARD_ID;
+     card_id < EXODIA_CARD_ID_END;
+     card_id++) {
+    for (i = 0; i < HAND_SIZE; i++) {
         if (buf[i] >= 0 &&
-            D_8015C424.cards[buf[i]].id == a3) {
+            D_8015C424.cards[buf[i]].id == card_id) {
             buf[i] = -1;
             goto found;
         }
@@ -471,8 +475,9 @@ retail card data, where zero denotes an empty card and valid IDs are
 
 - **Confirmed** that `0x952C` and `0x959C` are the two Exodia card-range
   immediates in `Duel_HasAllExodiaPieces`.
-- **Confirmed** that the retail function requires all five distinct IDs from
-  `0x11` through `0x15`.
+- **Confirmed** that `EXODIA_FIRST_CARD_ID`, `EXODIA_PIECE_COUNT`, and
+  `EXODIA_CARD_ID_END` require all five distinct IDs from `0x11` through
+  `0x15`.
 - **Confirmed** that the two-byte patch makes the check return zero for normal
   retail card data.
 - **Confirmed** that caller state `0xE` is the Exodia summon/win presentation:
