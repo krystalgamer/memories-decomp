@@ -667,8 +667,11 @@ their `setPolyG4`/`setPolyGT4` constructors. It renders the two-value editor,
 not an established starchip balance. The main-menu background
 builder `MainMenu_DrawFrontendBackground` (`0x80180B4C`) uses native
 `POLY_F4`, `POLY_FT4`, and `POLY_G4`
-records and their constructor macros; `MainMenu_DrawTradeColumnOverlay`
-(`0x80184454`) uses `POLY_F4`.
+records. Their `setPolyF4`, `setPolyFT4`, and `setPolyG4` constructor macros
+write primitive tag lengths `5`, `9`, and `8` with command bytes `0x28`,
+`0x2C`, and `0x38`, respectively, before the callers fill packet fields.
+`MainMenu_DrawTradeColumnOverlay` (`0x80184454`) likewise uses `POLY_F4`
+with `setPolyF4`.
 `MainMenu_DrawThreeDigitNumber` and `MainMenu_DrawCardTypeIcon` use
 `POLY_FT4` and `setPolyFT4` rather than parallel 40-byte sprite layouts.
 Their packet fields, store order, CLUT arithmetic and submission priorities
