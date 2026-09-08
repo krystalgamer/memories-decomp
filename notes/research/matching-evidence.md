@@ -2401,6 +2401,25 @@ The same reading applies in reverse: an unexpected `srl` where the target has
 `andi`/`sltu` is evidence of a folded single-bit test, not of a genuine shift
 in the original source.
 
+`func_80048768` is the stricter version of the same mechanism. There, binding
+the boolean still let combine prove the single-bit source, while spelling the
+value as `(x & 0x100) >> 8 << 6` preserved the three-instruction count but
+emitted `andi` / `sra` / `sll`. The exact source made zero a register operand
+and kept the masked value separate:
+
+```c
+register const u32 zero asm("$0");
+
+flag = id & 0x100;
+flag = zero < flag;
+off += flag << 6;
+```
+
+That produces retail's `andi` / `sltu $zero` / `sll` without a branch. The
+lesson is to check both count and opcode kind: a three-instruction spelling can
+still encode the wrong operation, and binding the mask is not sufficient when
+combine can still see the literal zero comparison.
+
 ## A canonicalising diff harness can invent differences as well as hide them
 
 While comparing `SD_SEPlay` (0x80048658) and `func_80047DB0`, both candidates
@@ -3332,6 +3351,16 @@ four over, because the two extra prologue stores cancel the two saved `lui`.
 Count parity with the wrong saved-register set is an artifact, so check the
 frame before reading anything into it — the companion to "Count the target's
 saved registers before blaming the allocator".
+
+`func_80048768` shows the same cause through two apparently unrelated
+symptoms. Its far-pan window test is loop-invariant, so a structured loop
+hoists the test and ends the original `arg1` live range before the body. With
+no value to preserve across `SpuGetVoiceEnvelope`, the prologue also loses the
+retail copy into `$s6`. A label and `goto` back edge keeps the test inside all
+four iterations, extends `arg1` across the call, and restores the saved copy.
+When an invariant moves and a parameter copy disappears together, treat them
+as one loop-optimiser decision before debugging register allocation
+independently.
 
 ## A pointer local reused across blocks is allocated by a different pass
 
@@ -5350,3 +5379,93 @@ when a harness result changes after a tool fix, re-measure the *unaffected*
 entries too - here the three closest candidates were confirmed unchanged at 2,
 5 and 10, which is what makes the corrected numbers trustworthy rather than
 merely different.
+
+## Key an opcode histogram on encodings, never on printed mnemonics
+
+`move rd, rs` is a pseudo-instruction for `addu rd, rs, $zero`, and `li rt, n`
+for `addiu rt, $zero, n`. They are not similar instructions - they are **the
+same encoding**, and a disassembler prints the pseudo whenever the relevant
+operand is `$zero` and the real mnemonic otherwise. A histogram built from
+printed names therefore counts one instruction under two labels depending on its
+operands.
+
+The failure mode is specific and nasty. When a single instruction differs -
+retail's `move $a0,$zero` against a build's `addu $v0,$s1,$s3` - the `addu`
+count moves by one **and** the `move` count moves by one, in opposite
+directions, so a mnemonic-keyed distance reports 2 where the true distance is 0.
+
+Three entries were checked against both keys and all three disagreed, in both
+directions:
+
+| entry | encoding | mnemonic |
+| --- | --- | --- |
+| `func_80012E5C` | 0 | 2 |
+| `func_80029EC4` | 5 | 7 |
+| `func_80056828` | 24 | 22 |
+
+**In all three the durable note was right and the tool was wrong.** That is the
+same result as the relocation bug's fourth row, and it is now a pattern rather
+than an anecdote: when a tool contradicts a recorded figure, the tool is a
+live suspect. Reproduce the number a second way before overwriting the note.
+
+I did not follow that here, and the cost is worth recording. `func_80012E5C`'s
+entry said distance 0; a mnemonic-keyed survey said 2; I overwrote the entry,
+wrote a confident mechanism for the "missing" instruction, and shipped it. The
+mechanism was right - a rotation duplicates the loop's leading instruction into
+the branch delay slot - but the conclusion drawn from it was exactly backwards.
+Because `move` and `addu` are one encoding, that duplication changes *no*
+encoding count, which is why the true distance is 0.
+
+**Why this one is expensive rather than cosmetic.** Distance 0 is not a neutral
+number. It asserts that every instruction retail has, the build has, and that
+only ordering remains - which rules out a whole class of causes and points the
+next attempt at scheduling and placement. Reporting 2 instead sends someone
+looking for an instruction that does not need to exist.
+
+The fix is to derive the key from the word: opcode field, plus the function
+field for SPECIAL, the sub-op for REGIMM, and the cofun for coprocessor
+instructions. Relocations only patch immediate fields, so an unlinked build word
+still carries the right opcode. Keep an all-zero word distinct as `nop` rather
+than merging it into `sll`, so a nop standing where retail has a real shift
+still shows up.
+
+This is the same family as the `.word`-versus-`c2` artifact: **the
+disassembler's naming choices leak into any measurement built on its output.**
+
+## Argument setup is emitted at the call, and that is not addressable from C
+
+GCC materialises a call's arguments immediately before the call. Nothing in C
+moves that: there is no position between argument evaluation and the call, and
+binding the value to a local - pinned or not - is constant-propagated away.
+
+This has now blocked two functions in different disguises, which is what makes
+it worth stating as a wall rather than as two separate failures.
+
+- **`func_800283F4`, two delay-slot words.** `li $a0,3` and a constant
+  assignment compete for a branch slot and a call slot. Retail needs the
+  argument at the *front* of the block and the constant at the back; GCC sinks
+  argument setup to the call and hoists the constant to the block top, so retail
+  needs the reverse of both placements. Every position C offers for a side
+  effect relative to a call was measured - before, after, inside the argument
+  expression, and in the function designator - and the hoist defeats all four.
+- **`func_80012E5C`, a loop rotation.** Two independent chains tie on scheduling
+  priority, so `INSN_LUID` breaks it. The losing chain is the call's argument
+  setup, which has the highest LUID in the block *because* it is emitted at the
+  call. Retail leads the loop body with it, which means its RTL had it earlier
+  than a call site can place it.
+
+The tell is the same in both: a value that is only an argument, needed earlier
+than the call, with the source offering no way to say so. Four explicit-argument
+forms were measured on the second function - including locals pinned to `$a0`
+and `$a1` assigned at the top of the loop body - and GCC constant-propagates
+them and re-materialises at the call, which is the same result the first
+function records for its channel index.
+
+Making the local `volatile` does defeat the propagation, and costs more than it
+buys in both cases, because the volatile write is then materialised as its own
+instruction in the wrong place.
+
+**What this is not.** It is not a scheduling-pass setting.
+`-fno-schedule-insns` was measured against both functions and a third with the
+same signature, and is worse on all three. The position is decided when the RTL
+is generated, not when it is scheduled.

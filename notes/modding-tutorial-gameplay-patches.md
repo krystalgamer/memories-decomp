@@ -430,18 +430,22 @@ The tutorial changes one immediate byte at each of two SLUS offsets:
 | `0x952C` | `0x80018D2C` | `11 00 07 24` | `addiu $a3, $zero, 0x11` | First required Exodia card ID |
 | `0x959C` | `0x80018D9C` | `16 00 E2 28` | `slti $v0, $a3, 0x16` | Exclusive end of the required-ID range |
 
-Both instructions are in the exact matching C for
-`Duel_HasAllExodiaPieces`. The function copies five hand-slot indices, then
-searches those slots for each card ID from `0x11` through `0x15`. A matched
-slot is replaced with `-1`, so
-one card cannot satisfy more than one required ID. In simplified form, the
-function returns one only after finding all five pieces:
+Both instructions are in exact matching
+[`Duel_HasAllExodiaPieces`](../src/game/duel_draw_resolution.c). The source
+copies `HAND_SIZE` hand-slot indices, then searches those slots for each card
+ID from `EXODIA_FIRST_CARD_ID` through `EXODIA_CARD_ID_END - 1`. Those
+constants expand to `0x11`, five pieces, and exclusive end `0x16`. A matched
+slot is replaced with `-1`, so one card cannot satisfy more than one required
+ID. In simplified form, the function returns one only after finding all five
+pieces:
 
 ```c
-for (a3 = 0x11; a3 < 0x16; a3++) {
-    for (i = 0; i < 5; i++) {
+for (card_id = EXODIA_FIRST_CARD_ID;
+     card_id < EXODIA_CARD_ID_END;
+     card_id++) {
+    for (i = 0; i < HAND_SIZE; i++) {
         if (buf[i] >= 0 &&
-            D_8015C424.cards[buf[i]].id == a3) {
+            D_8015C424.cards[buf[i]].id == card_id) {
             buf[i] = -1;
             goto found;
         }
@@ -471,8 +475,9 @@ retail card data, where zero denotes an empty card and valid IDs are
 
 - **Confirmed** that `0x952C` and `0x959C` are the two Exodia card-range
   immediates in `Duel_HasAllExodiaPieces`.
-- **Confirmed** that the retail function requires all five distinct IDs from
-  `0x11` through `0x15`.
+- **Confirmed** that `EXODIA_FIRST_CARD_ID`, `EXODIA_PIECE_COUNT`, and
+  `EXODIA_CARD_ID_END` require all five distinct IDs from `0x11` through
+  `0x15`.
 - **Confirmed** that the two-byte patch makes the check return zero for normal
   retail card data.
 - **Confirmed** that caller state `0xE` is the Exodia summon/win presentation:
@@ -588,9 +593,15 @@ initialized data:
 | LP recovery | `0x8B730-0x8B734` | `0x8009AF30-0x8009AF34` | `2, 5, 10, 20, 50` | `x100` |
 | Direct damage | `0x8B738-0x8B73C` | `0x8009AF38-0x8009AF3C` | `5, 10, 20, 50, 100` | `x10` |
 
+The two application handlers are contiguous in matching
+[`duel_life_point_effects.c`](../src/game/duel_life_point_effects.c), and
+`DUEL_LIFE_POINT_EFFECT_COUNT` names their shared five-effect width. This
+relationship is therefore established by the accepted source layout as well
+as by the tutorials' parallel tables.
+
 The recovery table maps, in order, to Mooyan Curry, Red Medicine, Goblin's
 Secret Remedy, Soul of the Pure, and Dian Keto the Cure Master. Exact
-matching C in `func_800250C8` subtracts
+matching [`func_800250C8`](../src/game/duel_life_point_effects.c) subtracts
 `DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID` (`338`) to obtain table indices
 `0`-`4`, indexes `gDuel_abLifePointRecoveryUnits`, and multiplies the selected
 byte by `DUEL_LIFE_POINT_RECOVERY_SCALE` (`100`). During presentation setup,
@@ -602,7 +613,8 @@ caps it at the maximum at `+0x16`, while the alternate branch subtracts the
 same amount and clamps it to zero.
 
 The damage table maps to Sparks, Hinotama, Final Flame, Ookazi, and
-Tremendous Fire. Exact matching C in `func_8002525C` subtracts
+Tremendous Fire. Exact matching
+[`func_8002525C`](../src/game/duel_life_point_effects.c) subtracts
 `DUEL_DIRECT_DAMAGE_FIRST_CARD_ID` from the current card ID, loads that entry
 from `gDuel_abDirectDamageUnits`, and multiplies it by
 `DUEL_DIRECT_DAMAGE_SCALE` (`10`) before reducing the selected LP halfword at

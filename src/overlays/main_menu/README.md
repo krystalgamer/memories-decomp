@@ -170,6 +170,22 @@ no selecting caller was established. That is a reachability caveat, not a
 claim that the function is globally unused or that a sixth UI mode exists.
 No direct resident callers or new resident linker imports are indicated.
 
+The family is grouped along its two contiguous same-profile source ranges:
+
+| Source | Functions in definition order | Complete text range | Object offsets |
+|---|---|---|---|
+| [`card_stat_comparators.c`](card_stat_comparators.c) | MaxStat, Attack, Defense, Type | `0x80183514-0x80183B2C` (`0x618` bytes) | `0`, `0x1E0`, `0x370`, `0x500` |
+| [`card_name_count_comparators.c`](card_name_count_comparators.c) | Name, Count | `0x8018416C-0x80184344` (`0x1D8` bytes) | `0`, `0xE8` |
+
+Both units retain `gcc_2_8_1_g0_no_sched2_split`, the original definition
+order and all six individual sizes. Neither contributes data or rodata.
+The intervening Trade helpers remain separate; these six functions are not
+one contiguous object. Grouping reuses the common declarations without
+changing keys, sentinels, RNG effects or table order. Count's signed locals
+are `countKeyA` and `countKeyB`, distinguishing effective comparison keys
+from the stored unsigned count. This is a source-organization choice, not
+proof of the original author's translation-unit boundaries.
+
 ## What the menu shows
 
 `MainMenu_UpdateFrontendMenu` at `0x80180390` services both entry groups,

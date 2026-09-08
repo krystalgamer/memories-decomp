@@ -242,15 +242,15 @@ For repeated edits, use the separate incremental targets:
 
 ```sh
 make clean
-MAKEFLAGS=-j2 make match
+MAKEFLAGS=-j"$(nproc)" make match
 # Seed immediately, before changing any source or build input.
 tools/environments/python/bin/python tools/project/build_incremental.py --seed-existing
 
 # After each edit:
-MAKEFLAGS=-j2 make match-incremental
+MAKEFLAGS=-j"$(nproc)" make match-incremental
 
 # Final acceptance:
-MAKEFLAGS=-j2 make match
+MAKEFLAGS=-j"$(nproc)" make match
 ```
 
 Seeding is optional; without it, the first incremental build compiles its
