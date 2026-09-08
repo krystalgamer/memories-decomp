@@ -31,7 +31,7 @@ in `tools/gen_symbols.py`, resolve per address as
 record of the 2026-08-31 import (173 entries); `tools/gen_vars_peer.py`
 replays it whenever the peer header is regenerated. Unit **file** names are a
 separate namespace. In Memories-decomp, the local file-rename pass has landed:
-[`src/game/duel_calc_rank_score.c`](../../../src/game/duel_calc_rank_score.c)
+[`src/game/duel_rewards.c`](../../../src/game/duel_rewards.c)
 defines `Duel_CalcRankScore`; the upstream address-named path and pending
 "stage B" note are historical.
 
