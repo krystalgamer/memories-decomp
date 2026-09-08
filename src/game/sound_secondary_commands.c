@@ -128,7 +128,7 @@ void func_8004B70C(unsigned char index, int unused, int value)
 
     entries += index;
 
-    entries->pitch_bend_msb = value & 0x7F;
+    entries->pitch_bend_msb = value & SD_SEQUENCE_PITCH_BEND_MSB_MASK;
 }
 
 long SD_SequenceTimerCallback(void)

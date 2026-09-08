@@ -309,6 +309,15 @@ remains unused. These names do not add full fourteen-bit bend handling or
 change the raw gain/pitch readers. In particular, the cached `+0x07` value is
 pitch bend, not a bank byte.
 
+The stored bend MSB uses `SD_SEQUENCE_PITCH_BEND_MSB_MASK` (`0x7F`), separate
+from pan and other seven-bit fields. `func_8004A3BC` narrows its input to a
+byte and returns zero at `SD_SEQUENCE_PITCH_BEND_CENTER` (`64`). Below center
+it uses the object's `+0x11` coefficient and the distance from `64`; above
+center it uses `+0x10` and subtracts
+`SD_SEQUENCE_PITCH_BEND_POSITIVE_BIAS` (`63`). Both coefficients are doubled,
+and the result is narrowed to a signed halfword. The positive-side bias is
+not changed to `64` to make the two branches look symmetric.
+
 The matched gain routine uses the separate `SD_SECONDARY_PAN_*` constants
 for its pan domain. It sums four byte contributions, subtracts three center
 values, and clamps to `0` through `127`; the existing override flag instead
