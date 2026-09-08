@@ -380,6 +380,23 @@ for that address. Neither the wrapper's old `SpuRead` comment nor an imported
 name list resolves the direction; keep the address-based declaration until
 the SDK identity is independently established.
 
+### Sequence-input header tags
+
+`func_80049A64` reads the input's first word and accepts these exact values
+before recording a pending sequence input:
+
+| Constant | Word value | Bytes on the little-endian target |
+|---|---|---|
+| `SD_SEQUENCE_TAG_SEQ` | `0x53455170` | `70 51 45 53` (`pQES`) |
+| `SD_SEQUENCE_TAG_MIDI` | `0x6468544D` | `4D 54 68 64` (`MThd`) |
+| `SD_SEQUENCE_TAG_KDT` | `0x2054444B` | `4B 44 54 20` (`KDT` followed by a space) |
+| `SD_SEQUENCE_TAG_KDT1` | `0x3154444B` | `4B 44 54 31` (`KDT1`) |
+
+These constants preserve the original word comparisons rather than relying
+on multicharacter-literal byte order. The tag check is not full format
+validation; its existing state guard, comparison order, and failure path
+remain unchanged.
+
 ### Migration status and exact-code exceptions
 
 Every matching-C user outside the GCC inline-assembly exceptions below now
