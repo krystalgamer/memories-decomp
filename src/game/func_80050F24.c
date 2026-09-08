@@ -1,9 +1,9 @@
 #include "../types.h"
+#include "model_transfer_flags.h"
 #include "model.h"
 
 extern void func_80057AF4(s32, s32, s32);
 extern void func_80059F18(s32, s32, s32, s32);
-extern void func_8005F180(s32);
 
 void func_80050F24(s32 arg0)
 {

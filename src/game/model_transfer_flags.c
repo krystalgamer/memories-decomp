@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_transfer_flags.h"
 
 extern u8 D_8009B07B;
 extern u8 D_8009B07C;
