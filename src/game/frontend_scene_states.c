@@ -29,7 +29,6 @@ extern int func_80030294(void);
 extern int DuelEffect_UpdateState(void);
 extern void func_8003594C(int);
 extern int func_8003FCD8(void);
-extern void func_8005B85C(void);
 extern void func_80024DC8(int, int, int, int);
 extern void func_80033C90(void);
 
@@ -157,7 +156,7 @@ void func_80030EC8(void)
     result = func_8003FCD8();
     if (result != 0) {
         if (result == 1) {
-            func_8005B85C();
+            File_RequestMainMenuPackage();
             File_WaitForTransfers();
             D_8009B26C[0] = 14;
         }

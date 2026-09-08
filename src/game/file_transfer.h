@@ -34,6 +34,7 @@ FileTransferDescriptor *File_InitTransferDescriptor(
 );
 void File_ActivateTransfer(void);
 void File_WaitForTransfers(void);
+void File_RequestMainMenuPackage(void);
 
 /* The resident loader's request-and-state word at 0x8009B0F4.
  *

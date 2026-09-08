@@ -2322,7 +2322,7 @@ Its resident-callable entry remains `0x80168FB4`.
 
 The two overworld images are separate variants: matching `func_8003C0C0`
 selects WA package sector `8153` or `8311` by testing story flag `0x47`.
-The main-menu loader `func_8005B85C` instead requests SU sectors `[0, 115)`;
+The main-menu loader `File_RequestMainMenuPackage` instead requests SU sectors `[0, 115)`;
 its executable phase is the `[98, 114)` slice above. Sharing a callback
 system does not make those bytes WA-owned.
 

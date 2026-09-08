@@ -15,7 +15,7 @@ Verified boundaries:
 | Phase SHA-256 | `34e9421eb10dc3ff97f8810e4f595045d4847b2b54760e9895eb83266008bc97` |
 
 The request is recovered from the resident loader trace. `Main_RunMenu`
-(`0x8002D588`) calls `func_8005B85C`, whose request is:
+(`0x8002D588`) calls `File_RequestMainMenuPackage`, whose request is:
 
 ```c
 func_80014E1C(1, gFile_szSuMrgPath, 0, 0x73, func_8005B64C, 0, 0);

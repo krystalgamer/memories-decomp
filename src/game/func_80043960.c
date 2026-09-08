@@ -20,7 +20,6 @@ extern void func_800438B8(int);
 extern void func_801680F4(void);
 extern int func_80168160(int);
 extern void func_8007AFA4(void);
-extern void func_8005B85C(void);
 extern void Main_ResetFrontendRuntime(void);
 
 void func_80043960(int mode)
@@ -74,7 +73,7 @@ void func_80043960(int mode)
     func_8004365C(first, object);
     func_80047AD0(2);
     func_80012D84(4);
-    func_8005B85C();
+    File_RequestMainMenuPackage();
     func_800438B8(0xB4);
     func_80015AD8();
     Main_ResetFrontendRuntime();

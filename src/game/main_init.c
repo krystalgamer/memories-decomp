@@ -39,7 +39,6 @@ extern void func_8003B5C8(void);
 extern void SD_InitState(s32);
 extern void Main_ResetFrontendRuntime(void);
 extern void func_80043960(s32);
-extern void func_8005B85C(void);
 extern s32 func_80043BCC(void);
 extern void func_8002D458(s32);
 extern void Main_Loop(void);
@@ -91,7 +90,7 @@ s32 Main_Init(void)
     r = setjmp(D_800E9DC0);
     Main_ResetFrontendRuntime();
     if (r != 0) {
-        func_8005B85C();
+        File_RequestMainMenuPackage();
         File_WaitForTransfers();
     }
     func_8002D458(func_80043BCC());

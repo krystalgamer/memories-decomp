@@ -586,7 +586,7 @@ File_RequestAsyncTransfer(
 | Egypt overworld | `func_8003C0C0` | `0x1FD9`, `0x9E`; `+0x9E` on story flag `0x47` | `8153-8311`, `8311-8469` |
 
 The package at `7903` is therefore the **name entry** screen, not the main
-menu. The main menu is not a WA package at all: `func_8005B85C` requests
+menu. The main menu is not a WA package at all: `File_RequestMainMenuPackage` requests
 `File_RequestAsyncTransfer(1, gFile_szSuMrgPath, 0, 0x73, func_8005B64C, 0,
 0)`, where `gFile_szSuMrgPath` at `0x800117C8` is the path literal
 `M:/mrgSU/SU.mrg`, and its executable phase is SU sectors `98-114` loaded at

@@ -432,7 +432,7 @@ The independently recovered loader layout places the main-menu executable at
 SU sectors `98-114`, beginning at `0x31000`, so the tutorial's offset lies in
 the asset area immediately before the code rather than inside the overlay.
 
-Matching `func_8005B85C` requests the first `0x73` sectors of `SU.MRG`
+Matching `File_RequestMainMenuPackage` requests the first `0x73` sectors of `SU.MRG`
 (`0x39800` bytes) and installs `func_8005B64C` as the phase callback. Its five
 transfer lengths are `0x20000`, `0x10000`, `0x1000`, `0x8000`, and `0x800`.
 The `0x1000` phase therefore begins exactly at `+0x30000`, stages those bytes
