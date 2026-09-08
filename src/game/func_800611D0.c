@@ -1,4 +1,5 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "text_box_lifecycle.h"
 
-extern unsigned char gText_abColorSlots[];extern void*TextBox_Create(int,int,int,int,int,int);extern void func_80039A14(void*),func_80042918(void*),func_800428EC(void*,int);void func_800611D0(int offset){unsigned char*base=gText_abColorSlots,*parent,*obj;base[0]=base[1]=base[2]=4;base[offset]=0;parent=TextBox_Create(3,0x20,0x58,0x40,0xA0,0x80);parent[0x59]=0x15;func_80039A14(parent);obj=func_800400AC(func_8004002C(),2);func_800404CC(obj,*(short*)(parent+0x3C)+8,*(short*)(parent+0x40),0,4,0xD,0xC,0x208);*(unsigned short*)(obj+8)|=0x28;func_80042918(obj);func_800428EC(obj,0x14);*(void**)(parent+0x2C)=obj;}
+extern unsigned char gText_abColorSlots[];extern void func_80039A14(void*),func_80042918(void*),func_800428EC(void*,int);void func_800611D0(int offset){unsigned char*base=gText_abColorSlots,*parent,*obj;base[0]=base[1]=base[2]=4;base[offset]=0;parent=TextBox_Create(3,0x20,0x58,0x40,0xA0,0x80);parent[0x59]=0x15;func_80039A14(parent);obj=func_800400AC(func_8004002C(),2);func_800404CC(obj,*(short*)(parent+0x3C)+8,*(short*)(parent+0x40),0,4,0xD,0xC,0x208);*(unsigned short*)(obj+8)|=0x28;func_80042918(obj);func_800428EC(obj,0x14);*(void**)(parent+0x2C)=obj;}

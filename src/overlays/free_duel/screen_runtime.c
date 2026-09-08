@@ -2,6 +2,7 @@
 #include "../../game/card_constants.h"
 #include "../../game/display_object_layout.h"
 #include "../../game/input.h"
+#include "../../game/text_box_lifecycle.h"
 #include "../../psyq/rand.h"
 
 extern u8 gFreeDuel_bScreenFlags;
@@ -29,7 +30,6 @@ extern void func_800428EC(void *, s32);
 extern void func_80041D60(void *);
 extern void func_80024DC8(s32, s32, s32, s32);
 extern void func_80033C90(void);
-extern void TextBox_Destroy(u8 *);
 extern void func_80035C38(s32, s32, s32, s32, s32, s32, s32);
 extern void func_80039794(void);
 extern void SD_SEPlayFull(s32);

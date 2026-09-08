@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "text_box_lifecycle.h"
 
 extern u8 D_8009B2F8;
 /* Retail addresses these three with %hi/%lo under -G8, so they live outside
@@ -12,10 +13,8 @@ extern u8 D_800EB0F8[];
 extern s32 func_80032B38(u8 *);
 extern void SD_SEPlayFull(s32);
 extern s32 func_80033998(void);
-extern u8 *TextBox_CreateFlagged(s32, s32, s32, s32, s32, s32, s32);
 extern void func_80039794(void);
 extern void func_80015BD8(s32, s32);
-extern void TextBox_Destroy(void *);
 extern void func_80032370(void);
 
 /* Handles leaving the deck editor. When the editor's own check passes, the
@@ -50,7 +49,9 @@ void func_800339D0(u8 *state)
             mode = D_8009B2F8 & 0x80;
             *(u16 *)(state + 0x633E) |= 0x4000;
             if (mode) {
-                TextBox_CreateFlagged(0, 8, 0x28, 0x78, 0xF0, 0x10, 0x1028)[0x59] = 0xA;
+                ((u8 *)TextBox_CreateFlagged(
+                    0, 8, 0x28, 0x78, 0xF0, 0x10, 0x1028
+                ))[0x59] = 0xA;
             } else {
                 box = TextBox_CreateFlagged(0, 9, 0x30, 0x60, 0xE0, 0x30, 0x20);
                 box[0x59] = 0xA;

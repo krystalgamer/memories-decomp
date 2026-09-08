@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/card_constants.h"
+#include "../../game/text_box_lifecycle.h"
 
 typedef struct {
     u8 unk_00[0x30];
@@ -24,7 +25,6 @@ typedef struct {
 } Pair;
 
 extern Pair D_801D5608;
-extern void TextBox_Destroy(u8 *);
 extern void func_80035BE4(s32, s32, s32, s32, s32, s32);
 extern void func_80039A60(u8 *);
 

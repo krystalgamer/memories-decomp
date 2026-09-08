@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_box_lifecycle.h"
 
 typedef struct {
     u8 unk0[0x28];
@@ -37,9 +38,6 @@ extern Rec64 D_800EB0F8[];
 extern u8 D_801D1200[];
 extern u8 D_801D2200[];
 
-void TextBox_Destroy(u8 *arg0);
-u8 *TextBox_Create(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-u8 *TextBox_CreateFlagged(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 s32 SaveData_HasSameDuelistCode(u8 *arg0, u8 *arg1);
 void func_8004036C(s32 arg0);
 

@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/rand.h"
 #include "input.h"
+#include "text_box_lifecycle.h"
 
 typedef struct {
     u8 unk0[0x28];

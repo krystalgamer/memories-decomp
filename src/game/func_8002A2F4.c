@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_box_lifecycle.h"
 
 extern s16 gDuel_wSelectedCardID;
 extern u8 D_8009B320;
@@ -7,7 +8,6 @@ extern s32 D_801D5608[];
 
 s32 func_8002A6B8(u8 *arg0);
 s32 func_80029EB0(u8 *arg0, s32 arg1);
-u8 *TextBox_Create(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
 void func_80039A60(u8 *arg0);
 
 void func_8002A2F4(u8 *p)

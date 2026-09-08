@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "text_box_lifecycle.h"
 #include "../overlays/main_menu/entrypoints.h"
 
 typedef struct {
@@ -38,7 +39,6 @@ extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
 
 extern void func_80032328(void);
 extern void SD_BGMPlay(u32);
-extern Box *TextBox_CreateFlagged(s32, s32, s32, s32, s32, s32, s32);
 extern void func_80039A14(void *);
 extern void func_80042918(Obj *);
 extern void func_800428EC(Obj *, s32);
@@ -47,7 +47,6 @@ extern void SD_SEPlayFull(s32);
 extern void func_80043178(Obj *);
 extern void func_80043230(Obj *, s32, s32, s32);
 extern void TextBox_SetPos(void *, s32, s32);
-extern void TextBox_Destroy(void *);
 extern void func_8004036C(Obj *);
 extern s32 DuelEffect_UpdateState(void);
 extern void SD_BGMFadeOut(void);
