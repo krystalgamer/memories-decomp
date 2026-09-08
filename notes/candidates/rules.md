@@ -51,5 +51,7 @@ Every stored resident candidate has a generated directory under
 [`for_humans/`](for_humans/README.md). It carries the exact self-contained C
 block, the target spimdisasm assembly, and the complete named compiler-profile
 options. Run `make candidate-bundles` after changing a candidate and commit the
-corresponding bundle changes. `make check-metadata` rejects missing, extra, or
-stale bundles.
+corresponding bundle changes. In particular, any PR that edits a candidate's
+self-contained C fence must regenerate its bundle in the same change; otherwise
+the hard `make check-metadata` gate reports stale source and build metadata.
+That check also rejects missing or extra bundles.

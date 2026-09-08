@@ -290,12 +290,14 @@ void func_80045514(void)
         break;
     }
 
+    goto clear_7d_7c;
+
+clear_7d:
+    g_SDValue->b7D = 0;
+    return;
+
 clear_7d_7c:
     g_SDValue->b7D = 0;
 clear_7c:
     g_SDValue->b7C = 0;
-    return;
-
-clear_7d:
-    g_SDValue->b7D = 0;
 }
