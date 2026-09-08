@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/display_object_api.h"
+#include "../../game/display_object_layout.h"
 #include "shop.h"
 
 extern u8 gPassword_abDigits[];
@@ -52,7 +53,7 @@ void Password_InitShopScreen(void)
     o = func_800400AC(func_8004002C(), 2);
     func_800404CC(o, 152, 40, 0, 2, 3, 31, 257);
     func_800428EC(o, -8);
-    *(u16 *)(o + 8) |= 8;
+    *(u16 *)(o + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     Password_RecreateCardPreview(1);
     o = func_800400AC(func_8004002C(), 1);
     func_80040510(o, 256, 120, 32, 32, 16, 128, 30, 256, 240);
