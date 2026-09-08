@@ -14,7 +14,6 @@ extern s8 D_8009B208[8];
 extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
 extern u32 D_8009B134 __attribute__((section(".data")));
 extern u16 D_8009B36A __attribute__((section(".data")));
-extern u8 D_800907D8[];
 extern u8 D_800E9ECE[];
 extern u8 D_8015C424[];
 extern u8 D_801A7B64[];

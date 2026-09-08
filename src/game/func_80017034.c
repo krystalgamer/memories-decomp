@@ -1,12 +1,12 @@
 #define GINPUT_PAD1_PRESSED_SIZED5
 #include "../types.h"
+#include "duel_grid.h"
 #include "duel_card.h"
 #include "input.h"
 
 typedef struct { char p[0xC]; s16 result; char pE[8]; u16 flags; } Object;
 typedef struct { char p[0xF]; s8 x, y; } Position;
 extern Position *D_8009B1B4;
-extern u8 D_800907D8[];
 
 int func_80017034(Object *argument)
 {

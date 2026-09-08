@@ -6,7 +6,6 @@
 #include "duel_grid.h"
 #include "sound.h"
 
-extern u8 D_800907D8[];
 extern u8 gDuel_abTrapAttackThresholds[DUEL_ATTACK_TRAP_COUNT];
 extern u8 D_8009B1B8;
 extern u8 D_8009B1D5;

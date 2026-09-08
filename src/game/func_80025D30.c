@@ -22,7 +22,6 @@ extern u8 D_8009B1D5;
 extern s16 D_8009B20C[2];
 extern u16 D_8009B220;
 extern u8 D_8009B260[8] __attribute__((section(".data")));
-extern u8 D_800907D8[];
 
 extern DuelEffectObject *func_8002C604(s32 arg0);
 

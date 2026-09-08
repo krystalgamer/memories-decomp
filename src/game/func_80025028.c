@@ -1,8 +1,8 @@
 #include "../types.h"
+#include "duel_grid.h"
 #include "duel_card.h"
 
 extern u8 D_8009B1D5;
-extern u8 D_800907D8[];
 extern s16 D_8009B22A;
 
 /* Defined rather than declared: the assembler only resolves a small global

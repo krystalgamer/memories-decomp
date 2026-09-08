@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_grid.h"
 #include "duel_card.h"
 #include "input.h"
 
@@ -48,7 +49,6 @@ extern u8 D_8009B1D5;
 extern u16 D_8009B162;
 
 /* Absolute in the target, so array-typed to keep them out of small data. */
-extern u8 D_800907D8[];
 extern u16 gInput_wPad1Held[];
 
 /* Both callees are reached without a prototype in the original, so their
