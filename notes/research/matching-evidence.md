@@ -5765,3 +5765,65 @@ Two consequences worth carrying forward:
   on a live range that coalescing had already dissolved, so it does nothing;
   together they create the overlap that makes both binding. Before concluding a
   pin is inert, check that the register actually appears in the output.
+
+## No GTE command instruction can currently be emitted from C
+
+The three functions #2390 reopened into the candidate queue — `func_80033DB0`,
+`func_80034830` and `func_80067220` — all need GTE *command* words. None of
+them is buildable as C today, and the reason is a pipeline gap rather than
+anything about their source shape. Measured end to end so the next attempt
+does not rediscover it one build at a time.
+
+`src/psyq/inline_c.h` is an authentic header written for DMPSX, so its command
+macros do not contain COP2 encodings. `gte_rtps()` expands to `.word
+0x0000007f` and `gte_nccs()` to `.word 0x0000107f`; those are SN assembler
+markers. A probe carried them through the real `gcc_2_8_1_g0` pipeline:
+
+| Stage | Result |
+|---|---|
+| GCC 2.8.1 `-S` | `nop;nop;.word 0x0000007f` |
+| MASPSX 2.81 | unchanged |
+| GNU as 2.42 | `0000007f  .word 0x7f` in the object |
+
+Retail has `4a180001`. Nothing between the header and the object rewrites the
+marker, so the wrong word is assembled silently — there is no error to read.
+MASPSX has no option for it either; its whole flag set was checked.
+
+**The transfers are fine and only the commands are affected.** `lwc2`, `swc2`,
+`mtc2`, `mfc2`, `cfc2` and `ctc2` are real mnemonics, which is why
+`gte_stopz` works in `display_object_projection.c` — the only GTE use in
+accepted C, and a transfer. Reading that file as proof that "GTE works from C"
+is the trap here.
+
+**GNU as does not know the command mnemonics.** `rtps`, `rtpt`, `ncds`,
+`nccs`, `ncct`, `nclip`, `avsz3` and `avsz4` are all `unrecognized opcode`
+under `-march=r3000`.
+
+**It does accept `cop2` with an immediate, and that is how the assembly
+fallback works.** Splat ships `tmp/splat/include/gte_macros.inc`, whose
+`cop2op` macro composes the encoding from its field arguments. Assembling all
+eight families that occur in this executable reproduces the retail words
+exactly:
+
+| Command | Encoding |
+|---|---|
+| `rtps` | `4a180001` |
+| `rtpt` | `4a280030` |
+| `ncds` | `4ae80413` |
+| `nccs` | `4b08041b` |
+| `ncct` | `4b18043f` |
+| `nclip` | `4b400006` |
+| `avsz3` | `4b58002d` |
+| `avsz4` | `4b68002e` |
+
+So the gap is narrow: the encodings are reachable from GNU as, and only the
+DMPSX marker words are untranslated. Closing it means rewriting the known
+markers on the way to the assembler — the optional per-profile
+`assembly_filter` hook already exists for exactly this kind of bridging, and
+is currently unused by every profile. Do not "fix" it by editing the imported
+SDK header, which is correct for the assembler it was written for.
+
+Until then, treat a target containing any of the eight words above as blocked
+at the toolchain, not at the source. That is a different conclusion from the
+usual "the residual is N instructions": there is no candidate to refine,
+because the command cannot be spelled at all.
