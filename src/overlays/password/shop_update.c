@@ -4,6 +4,7 @@
 #include "../../game/file_transfer.h"
 #include "shop.h"
 #include "../../game/sound.h"
+#include "../../game/func_80039794.h"
 
 typedef struct {
     u8 pad0[96];
@@ -36,7 +37,6 @@ extern u8 D_8009B269;
 extern u8 D_8009B26C;
 extern s8 D_8009B34D;
 
-extern void func_80039794(void);
 extern void Password_SetDigitCursorTarget(Cursor *);
 extern void Password_RefreshDigitDisplay(void);
 extern void Fade_WaitOut(void);

@@ -6,6 +6,7 @@
 #include "text_box_lifecycle.h"
 #include "display_object_helpers.h"
 #include "text_box_runtime.h"
+#include "func_80039794.h"
 
 typedef struct {
     u8 pad0000[0x30];
@@ -69,7 +70,6 @@ extern s32 D_8009B3F0;
 extern s32 D_8009B3F4;
 extern u16 gMemCard_wDialogFlags;
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
-extern void func_80039794(void);
 extern s32 func_8003F2B0_int(ObjectState *, s32, s32, s32)
     asm("func_8003F2B0");
 
