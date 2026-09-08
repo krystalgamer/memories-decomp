@@ -1227,11 +1227,23 @@ families also retain marker encodings. Register-transfer helpers such as
 `gte_stopz` instead contain ordinary COP2 assembly directly.
 
 Do not assume those command markers are already drop-in native PSX words.
-A matching C conversion must establish the appropriate header/command
-expansion and preserve the exact native encoding and scheduling. The
-classification correction neither changes these imported headers nor adds
-a marker translation, proves an original source language, or promotes a
-function to matching C.
+The [end-to-end probe](research/matching-evidence.md#no-gte-command-instruction-can-currently-be-emitted-from-c)
+shows the current GCC/MASPSX/GNU-as pipeline preserves the marker unchanged,
+silently producing the wrong object word. GNU as can encode the native
+operation through `cop2` immediates, as the generated assembly fallback does,
+but no tracked C-path translation currently connects those forms.
+
+Until that bridge exists, a C candidate requiring one of the audited command
+words is blocked at the toolchain before source-shape refinement can be
+meaningful. COP2 transfers such as `lwc2`, `swc2`, `mtc2`, `mfc2`, `cfc2`,
+and `ctc2` remain directly expressible; the limitation is the command-marker
+family. The optional compiler-profile `assembly_filter` is a possible
+version-neutral bridge, not an implemented or accepted solution.
+
+A matching C conversion must preserve the exact native encoding and
+scheduling. The classification correction neither changes these imported
+headers nor adds a marker translation, proves an original source language,
+or promotes a function to matching C.
 
 ## Initial migration candidates
 

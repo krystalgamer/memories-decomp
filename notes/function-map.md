@@ -163,5 +163,13 @@ target was the verified North American executable with SHA-256
 Psy-Q's C inline interfaces cover the GTE operation families, but imported
 command macros contain DMPSX marker words rather than the native words above;
 see the [header caveat](psyq.md#gte-heuristics-and-command-header-caveat).
+The [measured build pipeline](research/matching-evidence.md#no-gte-command-instruction-can-currently-be-emitted-from-c)
+currently passes those markers unchanged through GCC, MASPSX, and GNU as.
+All three reopened functions require at least one affected GTE command, so
+they are presently **toolchain-blocked** as C candidates even though their
+classification remains `unmatched_asm`. That capability statement is
+separate from source origin: it neither proves the functions handwritten nor
+reverses the decision to remove an unsupported exemption.
+
 No complete C replacement, game-code edit, function-boundary change, compiler
-profile change, or SDK reclassification is claimed here.
+profile change, SDK reclassification, or marker translation is claimed here.
