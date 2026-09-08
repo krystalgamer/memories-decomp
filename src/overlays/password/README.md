@@ -1,6 +1,6 @@
 # Password Overlay
 
-This directory is reserved for matching source from the password-screen
+This directory contains matching source from the password-screen
 runtime module.
 
 Verified boundaries:
@@ -30,3 +30,26 @@ Its accepted build layout is
 module byte-for-byte. Keep candidate sources, objects, and diffs under `tmp/`
 until a function passes this overlay-specific exact-match process. Do not add
 this module to the resident `config/slus_01411/matching_c.json`.
+
+## Name-entry selection-frame packets
+
+`NameEntry_Init` installs `func_801681A0` as the frame's draw callback. The
+matching routine uses the actual Psy-Q line records rather than byte-offset
+views of its scratchpad packets:
+
+| Scratchpad address | SDK record | Source payload words | Use |
+|---|---|---:|---|
+| `0x1F800000` | `LINE_F3` | 5 | Four three-vertex corner brackets |
+| `0x1F800040` | `LINE_G2` | 4 | Four callouts to `x=0/320` or `y=0/192` |
+
+The lengths exclude each packet's tag word; the records occupy 24 and 20
+bytes respectively. `setLineF3` also supplies the `0x55555555` polyline
+terminator. The corner color and first callout color are green; the second
+callout color is black. These are input packet colors, not a claim about
+opaque final pixels: `func_8005B260` copies the packet and applies draw-mode
+and semi-transparency handling.
+
+The caller uses that helper's `u32 *`, `GsOT *`, `s32`, `s32` interface.
+Its signed priority load and explicit `u16` conversion at submission retain
+the target's access and mask placement. Packed color-word writes, vertex
+store order and the local game-owned `Record` view remain unchanged.

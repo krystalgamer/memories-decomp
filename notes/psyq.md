@@ -629,6 +629,23 @@ semi-transparency flag. It then links the packet through
 ordering-table member, and 24-bit link macros fit this resident path without a
 parallel local packet or ordering-table declaration.
 
+The name-entry frame callback `func_801681A0` in the password overlay now
+uses `LINE_F3` and `LINE_G2` from that same header. Its former offsets match
+the SDK fields directly: `LINE_F3` has three halfword coordinate pairs at
+`+8`, `+12`, and `+16`, followed by the terminator at `+20`; `LINE_G2` has
+coordinate pairs at `+8` and `+16`, with its second color at `+12`.
+`setLineF3` and `setLineG2` reproduce the five-/four-word payload lengths and
+`0x48`/`0x50` command bytes without a duplicated local layout.
+
+The routine retains packed 32-bit color writes rather than substituting
+three byte stores. Its four corner packets use green, while the callout
+packets supply green and black endpoint colors. The packets pass through
+`func_8005B260` with flags `1`, so the helper's draw-mode insertion and
+semi-transparency handling still apply. The caller uses the real `GsOT *`
+interface and explicitly narrows its signed priority to `u16` at each
+submission; this preserves the original load and conversion placement while
+matching the helper's `s32` index parameter.
+
 The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
 same `RECT *` / `u32 *` argument shape. Both current matching `LoadImage`
 callers, `duel_setup_card_record.c` and `func_800289BC.c`, use that interface.

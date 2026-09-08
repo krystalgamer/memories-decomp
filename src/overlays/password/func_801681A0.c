@@ -1,4 +1,7 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 
 typedef struct {
     u8 pad0[20];
@@ -11,12 +14,12 @@ typedef struct {
     u16 f3E;
 } Record;
 
-extern void func_8005B260(void *, void *, u16, s32);
+extern void func_8005B260(u32 *, GsOT *, s32, s32);
 
-void func_801681A0(Record *r, void *ot)
+void func_801681A0(Record *r, GsOT *ot)
 {
-    u8 *poly;
-    u8 *line;
+    LINE_F3 *poly;
+    LINE_G2 *line;
     s32 pri;
     s32 x;
     s32 y;
@@ -26,57 +29,56 @@ void func_801681A0(Record *r, void *ot)
     s32 xp3;
     s32 right;
 
-    poly = (u8 *)0x1F800000;
-    line = (u8 *)0x1F800040;
-    *(u32 *)(poly + 4) = 0x0000FF00;
-    *(u32 *)(line + 4) = 0x0000FF00;
-    *(u32 *)(line + 12) = 0;
+    poly = (LINE_F3 *)0x1F800000;
+    line = (LINE_G2 *)0x1F800040;
+    /* Keep packed color writes; the constructors fill command bytes afterward. */
+    *(u32 *)&poly->r0 = 0x0000FF00;
+    *(u32 *)&line->r0 = 0x0000FF00;
+    *(u32 *)&line->r1 = 0;
+    /* Keep the signed load; narrow only at the packet-submit boundary. */
     pri = r->f14;
     x = r->f30;
     y = r->f32;
     w = r->f3C;
     h = r->f3E;
-    poly[3] = 5;
-    poly[7] = 0x48;
-    *(u32 *)(poly + 20) = 0x55555555;
-    line[3] = 4;
-    line[7] = 0x50;
+    setLineF3(poly);
+    setLineG2(line);
     xm1 = x - 1;
     xp3 = x + 3;
-    *(s16 *)(poly + 12) = xm1;
-    *(s16 *)(poly + 8) = xm1;
-    *(s16 *)(poly + 16) = xp3;
-    *(s16 *)(poly + 18) = y - 1;
-    *(s16 *)(poly + 14) = y - 1;
-    *(s16 *)(poly + 10) = y + 3;
-    func_8005B260(poly, ot, pri, 1);
+    poly->x1 = xm1;
+    poly->x0 = xm1;
+    poly->x2 = xp3;
+    poly->y2 = y - 1;
+    poly->y1 = y - 1;
+    poly->y0 = y + 3;
+    func_8005B260((u32 *)poly, ot, (u16)pri, 1);
     right = x + w;
-    *(s16 *)(poly + 12) = right + 1;
-    *(s16 *)(poly + 8) = right + 1;
-    *(s16 *)(poly + 16) = right - 3;
-    func_8005B260(poly, ot, pri, 1);
-    *(s16 *)(poly + 18) = y + h + 1;
-    *(s16 *)(poly + 14) = y + h + 1;
-    *(s16 *)(poly + 10) = y + h - 3;
-    func_8005B260(poly, ot, pri, 1);
-    *(s16 *)(poly + 12) = xm1;
-    *(s16 *)(poly + 8) = xm1;
-    *(s16 *)(poly + 16) = xp3;
-    func_8005B260(poly, ot, pri, 1);
-    *(s16 *)(line + 16) = x + (w >> 1);
-    *(s16 *)(line + 8) = x + (w >> 1);
-    *(s16 *)(line + 10) = y + 2;
-    *(s16 *)(line + 18) = 0;
-    func_8005B260(line, ot, pri, 1);
-    *(s16 *)(line + 10) = y + h - 2;
-    *(s16 *)(line + 18) = 192;
-    func_8005B260(line, ot, pri, 1);
-    *(s16 *)(line + 18) = y + (h >> 1);
-    *(s16 *)(line + 10) = y + (h >> 1);
-    *(s16 *)(line + 8) = x + 2;
-    *(s16 *)(line + 16) = 0;
-    func_8005B260(line, ot, pri, 1);
-    *(s16 *)(line + 8) = right - 2;
-    *(s16 *)(line + 16) = 320;
-    func_8005B260(line, ot, pri, 1);
+    poly->x1 = right + 1;
+    poly->x0 = right + 1;
+    poly->x2 = right - 3;
+    func_8005B260((u32 *)poly, ot, (u16)pri, 1);
+    poly->y2 = y + h + 1;
+    poly->y1 = y + h + 1;
+    poly->y0 = y + h - 3;
+    func_8005B260((u32 *)poly, ot, (u16)pri, 1);
+    poly->x1 = xm1;
+    poly->x0 = xm1;
+    poly->x2 = xp3;
+    func_8005B260((u32 *)poly, ot, (u16)pri, 1);
+    line->x1 = x + (w >> 1);
+    line->x0 = x + (w >> 1);
+    line->y0 = y + 2;
+    line->y1 = 0;
+    func_8005B260((u32 *)line, ot, (u16)pri, 1);
+    line->y0 = y + h - 2;
+    line->y1 = 192;
+    func_8005B260((u32 *)line, ot, (u16)pri, 1);
+    line->y1 = y + (h >> 1);
+    line->y0 = y + (h >> 1);
+    line->x0 = x + 2;
+    line->x1 = 0;
+    func_8005B260((u32 *)line, ot, (u16)pri, 1);
+    line->x0 = right - 2;
+    line->x1 = 320;
+    func_8005B260((u32 *)line, ot, (u16)pri, 1);
 }
