@@ -76,6 +76,13 @@ The BSS layout is:
 `File_ActivateTransfer` copies the complete secondary descriptor into the
 primary descriptor before publishing the primary-active state.
 
+Its raw `Block72` assignment retains `FILE_TRANSFER_DESCRIPTOR_WORD_COUNT`
+(`18`) signed 32-bit words, including the final substate byte. Size assertions
+tie that copy and the private initializer view to the shared `0x48`-byte
+descriptor without changing their types or copy operations. The separate
+eight-word/32-byte buffer record at `D_801D4200` is not a descriptor and keeps
+its existing independent copy.
+
 The corrected LBA-table address is `0x800E9EA8`; interpreting the signed
 `addiu` immediate as unsigned incorrectly produces `0x800F9EA8`.
 
@@ -105,11 +112,23 @@ Observed fields in each `0x48`-byte descriptor are:
 | `+0x46` | 8-bit | Transfer state |
 | `+0x47` | 8-bit | Transfer substate |
 
+The shared `FileTransferDescriptor` explicitly exposes `substate` at `+0x47`;
+it is not unused tail padding. The private initializer clears that byte, and
+the completion alias `D_800E9EA7[0]` addresses the same byte of the primary
+descriptor. The existing partial field names and local views remain intact.
+
+Type-free constants in `file_constants.h` name the status-flags, state, and
+substate byte offsets (`+0x2C`, `+0x46`, and `+0x47`), with assertions against
+the shared descriptor. Its legacy `done` member is the transfer-state byte,
+not a Boolean completion flag. Raw users keep their signed flags-word read,
+byte accesses, and local padding views; no state values or branch behavior
+are changed by naming the offsets.
+
 `func_80013940` interprets its third argument (`position`) and fourth argument
 (`size`) by sign. The matching body in `src/game/file_stream.c` applies:
 
 ```c
-file_index = file_flags & 0xF;
+file_index = file_flags & FILE_TRANSFER_FILE_INDEX_MASK;
 descriptor->total_bytes = size;
 if (size < 0)
     descriptor->total_bytes = -(size << 11);
@@ -122,6 +141,11 @@ if (position < 0) {
     descriptor->absolute_lba = gFile_anLba[file_index] + position;
 }
 ```
+
+`FILE_TRANSFER_FILE_INDEX_MASK` (`0xF`) extracts the selector from the low
+nibble; it is not a bounds check against `FILE_POSITION_TABLE_CAPACITY` (`7`).
+The existing masking points remain in place, selectors `7..15` are not
+clamped, and the separate direct-index request path is unchanged.
 
 Thus a nonnegative position is a file-relative sector offset; a negative
 position supplies the negated absolute LBA and bypasses the file LBA table.
@@ -138,6 +162,14 @@ slot). Its public size convention is therefore the reverse:
 | `3` | `-3` | `0x1800` (three sectors) |
 | `-513` | `513` | `513` (bytes, with no sector rounding) |
 | `0` | `0` | `0` |
+
+The initializer's default image rectangle is
+`FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH` (`0x40`) 16-bit VRAM words wide by
+`FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT` (`0x10`) rows. Its payload is exactly
+one `FILE_SECTOR_SIZE`: `64 * 16 * 2 = 2048` bytes, enforced by a compile-time
+size relation. These are VRAM transfer units, not a claim about texture texel
+width at every bit depth. The existing image-path conditions, packed
+coordinates, and callback-specific rectangle overrides remain unchanged.
 
 `File_RequestAsyncTransfer` is the common game-facing asynchronous loader
 using the active descriptor. It forwards its third and fourth arguments as

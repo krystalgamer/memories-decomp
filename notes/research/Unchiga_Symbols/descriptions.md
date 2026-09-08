@@ -44,6 +44,16 @@ matched bodies — tracked in suspects.md, not here, until 100%.)
 | 0x8002CCE4 | `Library_UpdateCardUsedFlag` | Flips a card's seen-flag byte in the `gLibrary_abCardChest` table (the inverse partner of `Library_MarkOwnedCards`), with the same notify path. |
 | 0x8002D0E0 | `Main_RunLibraryMenu` | Mode tick for the card Library screen, per the loop-family pattern (`Main_Loop` dispatches one `*Loop` per mode). Not yet live-confirmed the way `Main_RunOptionsMenu` was. |
 
+**Local reconciliation (2026-09-08):** the `0x8002CCE4` row above is retained
+as upstream evidence, but its byte-toggle/notify description does not match
+the current [matching source](../../../src/game/library_update_card_used_flag.c).
+The helper sets or clears one bit in the shared save flag bank at
+`0x801D0618`; modifier `0x8000` selects clear, and there is no notification
+call. The tester at `0x8002CCA8` normally returns the selected mask or zero,
+while a clear-request test returns normalized `0` or `1`. See the
+[shared flag contract](../../overlays/password-save-block.md#request-modifiers-and-return-values);
+these helpers are not limited to Library flags or to story-only storage.
+
 ## Batch 3 (functions — the mode-loop family)
 
 | address | name | description |
@@ -58,6 +68,17 @@ matched bodies — tracked in suspects.md, not here, until 100%.)
 | 0x8002D730 | `Main_RunGameOver` | Mode tick for the game-over screen; registers its handler and polls, same family shape. |
 | 0x8002D7C4 | `Main_RunHirata` | An empty function in the retail build — the compiled-out developer mode slot, named for the Konami programmer whose source path (`src\hirata\`) survives in the binary's debug strings. |
 | 0x8002DA1C | `Main_RunCredits` | Mode tick for the credits roll (loop-family pattern; body not yet studied in detail). |
+
+**Local reconciliation (2026-09-08):** the `0x8002D180` row is retained as
+upstream evidence, not a recovered fusion-recipe field identity. The retail
+Exodia sequencer `func_80018FEC` stores `0x309` in `D_800EF658` at
+`0x800193D8`, then requests main mode `1` with return mode `3`. Matching
+`Main_RunAnimatedBattle` recognizes that selector and chooses its special
+initialization/polling path; it also sets the GTE projection on every call,
+not only initialization. See the
+[caller-side evidence](../the-game.md#510-winning-and-losing).
+This establishes an Exodia-presentation use, not a fusion-recipe index,
+exclusive use of the selector, or a decoded model/asset representation.
 
 ## Batch 4 (functions)
 

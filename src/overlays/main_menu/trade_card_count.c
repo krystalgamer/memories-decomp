@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/card_constants.h"
+#include "trade_helpers.h"
 
 typedef struct {
     s16 id;
@@ -8,7 +9,7 @@ typedef struct {
 
 extern MainMenuCardCount D_801845FC[];
 
-void func_801840F8(s32 slot, s32 id, u32 amount)
+void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
 {
     MainMenuCardCount *p;
     MainMenuCardCount *entry;

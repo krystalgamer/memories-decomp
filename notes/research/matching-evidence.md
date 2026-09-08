@@ -1673,6 +1673,36 @@ the call**, which drives register allocation and frame layout. Within a basic
 block the scheduler owns the ordering and source position carries no
 information.
 
+### Corroboration on `func_80023144`: intra-block moves are *exactly* inert
+
+The paragraph above rests on a count ("eight diffs worse"). `func_80023144`
+supplies the stronger form of the same claim, measured at the residual, which
+is worth having because a count alone cannot distinguish "no effect" from
+"two effects that cancel".
+
+That function's five remaining positions are two independent clusters, both of
+them one global's address: a `sched2` swap of `%lo` against an unrelated
+increment, and a three-slot rotation where retail leaves a branch delay slot
+empty. Six source placements were tried across the two blocks - reading a
+value before the update, sinking the update below its neighbour, spelling
+`x += 4` as `x = x + 4`, and materialising the address before the guard,
+after the guard's operand read, and comma-sequenced with it.
+
+All six produce the *same differing set*, position for position. Not the same
+count with a shuffled residual: identical. The only placements that changed
+anything were the two that moved the statement **across a basic-block
+boundary** - past the join of an `if` (+8) and out of the block entirely (+6) -
+and both were worse.
+
+So the rule is sharper than "intra-block source order is a weak lever". Within
+a block it is not a lever at all, and in particular it cannot be combined with
+another lever in the hope of partial credit, because it contributes nothing to
+combine. The actionable test is CFG-shaped: **before trying a reordering, ask
+whether it crosses a basic-block boundary. If it does not, it cannot change
+the output and does not need to be compiled.** For address materialisation
+specifically, the address is emitted at block entry no matter where in the
+block it is written.
+
 ## Do not name an array base to reproduce a materialised base register
 
 When retail keeps an array base in a register and the candidate reaches the
@@ -1759,6 +1789,55 @@ gives it none.
 extra diff for one extra instruction, moving the candidate from two short to
 one short. That is the right trade: a candidate short of the target can never
 match, so count is the binding constraint and the diff total is advisory.
+
+## The additive CSE lever, and the exact form it has to take
+
+Almost every lever in this note is subtractive: pin a register, disable a
+pass, reorder to prevent a hoist, add a `volatile`. `func_8005C1F4` finished
+on an additive one - **write a redundant expression so that the compiler's own
+CSE produces retail's shape** - and it is worth stating as a rule because nine
+spellings that tried to *suppress* CSE had failed on the same residual first.
+
+It needs stating precisely, because the obvious phrasing collides with the
+rule above and the obvious phrasing is wrong. "Give the same value a second
+local" does **not** work. The measurements, on the matched function with only
+this one spelling varied:
+
+| spelling of the second pointer | instructions | differing |
+| --- | --- | --- |
+| `out = src;` - alias the existing local | 94 | 78 |
+| `base = D_8009B498; ... out = base + 0x40000;` - hoist the global read, repeat only the arithmetic | 94 | 78 |
+| `out = D_8009B498; out = out + 0x40000;` - repeat the read, split the statement | 97 | 28 |
+| **`out = D_8009B498 + 0x40000;` - repeat the whole expression** | **96** | **0** |
+
+So the section above is right that an alias for an identical value gives the
+compiler nothing, and hoisting the global into a local is the same thing in
+another costume: both lose two instructions and 78 positions. What works is
+repeating the **entire expression, global read included**, exactly as written
+the first time. Splitting that expression across two statements is a third
+behaviour again.
+
+The mechanism is why the distinction is so sharp. Repeating the expression
+re-enters both the load and the address arithmetic into CSE's table. CSE then
+collapses the redundant *load* into a register copy - which is where retail's
+`move` comes from - while the arithmetic that depends on it is rebuilt from
+that copy rather than shared with the first pointer. An alias never creates
+the second load, so there is nothing for CSE to collapse and nothing to force
+the rebuild; the compiler simply keeps one register, which is the outcome the
+rule above describes.
+
+**The test to apply.** When a residual looks like "retail recomputes or copies
+something my build shares", do not reach for a way to stop the sharing. Write
+the source expression a second time, verbatim, and let CSE collapse it. And
+when checking whether it worked, vary only that spelling - the three near
+misses above differ from the match by a hoisted local or a statement break,
+and each produces a different function.
+
+A matched sibling is where this shape came from rather than the diff.
+`func_8005BE3C` assigns four separate locals the identical
+`D_8009B498 + 0x40000`, which is not something anyone would write by hand and
+is unreachable from "how do I stop GCC doing this". **A matched neighbour is a
+source of shapes, and shapes are what a diff cannot show.**
 
 ## Value-level levers cannot move address CSE
 
@@ -4910,3 +4989,169 @@ the product and table base and pinning them to retail's registers measures 16
 against 13, either pin alone 14, a pinned constant 19. Pins making things worse
 is the signature of a genuine scheduling tie, and says to stop looking at
 allocation.
+
+## When a pinned value costs an instruction, pin what consumes it
+
+`func_8005C1F4` (0x8005C1F4) finished on a rule that inverts the usual pin
+advice. Its last residual was four positions naming one value, `slot + 1`,
+which retail keeps in `$a1` and the build put in `$a0`. Pinning that value
+directly was measured across fifteen registers and **every one produced a
+97th instruction**: a pinned local only takes its register for free when
+something can write it there directly, and a value computed by `addiu` from a
+pseudo needs a `move` to reach a reserved register.
+
+The value that *consumes* it has no such problem. Pinning the modulo's
+**result**, whose store can take its operand straight out of the reserved
+register, took the residual from 7 to 4 and also placed the masked temporary
+correctly without naming it at all. Finishing the job then needed the operator
+written out as its own statements, because GCC's `% 4` expansion exposes only
+one of its three values to naming; written out, all three are nameable and
+three pins place them.
+
+Two negative results from the same function are worth as much:
+
+- *Availability is not the lever.* It was tempting to conclude that `slot + 1`
+  shared `$a0` with a later load only because their live ranges did not
+  overlap, and that forcing an overlap would separate them. Retail refutes it -
+  `$a0` is free across that block in retail too, and retail still chooses
+  `$a1`. Manufacturing the overlap costs an instruction and 44 positions.
+- *A lower count can be a worse diff.* Spelling the modulo as an explicit
+  division remainder measures 6 differing against the accepted form's 7, and is
+  wrong: it recomputes the addend where retail copies it, so its opcode
+  multiset carries an extra `addiu` and is short a `move`. Every earlier trap in
+  this campaign was a count that stayed still while the difference set moved;
+  this is a count that improves while the difference becomes worse in kind.
+  Only the opcode multiset distinguishes them, and it does so in one command.
+
+The structural half of this match came from the matched sibling `func_8005BE3C`
+rather than from the diff: it declares a fresh pointer local per group of
+accesses, all assigned the same `D_8009B498 + 0x40000`. That is what makes CSE
+collapse the repeated global read into a register copy while still rebuilding
+the address arithmetic, which nine earlier spellings had failed to reach by
+trying to *suppress* CSE rather than to give it a second expression to
+collapse. Writing the copy destination off the global with its own `+ 0x40000`,
+instead of off the already-biased source pointer, was worth 54 positions on its
+own.
+
+## The allocno reference count is a lever you can spend one reference at a time
+
+The section above establishes that GCC 2.8.1 ranks allocnos by
+`floor_log2(n_refs) * n_refs / live_length`, and that the useful handle is
+often the number of times a variable is *mentioned*. `func_8002FD10`
+(0x8002FD10) is a clean second worked example, and it is worth recording
+because the winning change looks like a stylistic preference rather than a
+lever.
+
+The function sat at 112/112 with opcode distance 0 and eight differing
+positions, all in the prologue and all one permutation of one window. Retail
+forms `&D_800EAE98` as `lui $s0` / `addiu $s0,$s0` - the `HIGH` temporary
+coalesced into the destination - and emits it *after* the callback address.
+The build emitted `lui $v0` / `addiu $s0,$v0` *before* it. Two facts, and the
+register one causes the order one: with the high half stranded in `$v0` there
+is an anti-dependence against the callback address, which also wants `$v0`, so
+the scheduler has to run the pair first.
+
+What closed it was writing the record-clearing loop as
+
+```c
+for (i = 0; i < 3; i++) {
+    slot[i].unk00 = 0;
+    slot[i].unk04 = 0;
+}
+```
+
+instead of the walking-pointer form with `slot++`. Both spellings produce 112
+instructions and the same multiset. The difference is that `slot++` is another
+reference to `slot`, and removing it re-ranks the allocnos so the `HIGH`
+pseudo no longer takes `$v0` first.
+
+Two things make this worth generalising:
+
+- **The change is invisible at the instruction level.** Neither spelling adds
+  or removes an instruction, so nothing about the diff suggests the loop body
+  is where to look. Only the reference count does.
+- **Neighbouring spellings do nothing.** Writing the fourth record's marker
+  through the array instead of the pointer, which also removes one reference,
+  measures the same 8; so does adding a reference by spelling the increment
+  `slot = slot + 1`. It is not "fewer references is better" - it is one
+  specific count, and the cliff has to be crossed in the right place.
+
+So when a residual is entirely register names and the multiset is identical,
+enumerate the spellings that change a local's reference count by one in each
+direction before concluding the allocator is out of reach. On this function the
+`%hi`-coalescing lever from `func_800179F4`, a `section(".data")` attribute in
+three forms, register pins on three locals, five statement placements, all
+twenty-four declaration orders and every profile were all measured first and
+all left it at 8.
+
+## The order of two independent loads is set by their uses, not their positions
+
+When a residual is the order in which two independent values are computed, the
+instinct is to permute the statements that compute them. That is almost always
+inert, and `func_80031874` (0x80031874) shows why, and what to move instead.
+
+Its entry had six statement permutations of three opening loads, a `volatile`
+load on either side, a struct view, a pin on the raw value and inlining each
+read - all measured, all inert - and concluded that "GCC places these three by
+its own scheduling and the source has no say in it". The conclusion was drawn
+from the wrong half of the problem.
+
+The scheduler ranks a value by the length of the dependence chain hanging off
+it, and that chain is made of the value's **uses**. Three of those uses were
+moved, and nothing else in the source changed:
+
+| move | residual |
+| --- | --- |
+| starting point | 43 |
+| the two texture stores below the `y` subtraction | 29 |
+| the two sprite halfword stores below the `idx` read | 26 |
+| the record-index read below the texture stores | **16** |
+
+Fifty-two positions of the original sixty-eight came from moving statements
+that *consume* values, and none from moving the statements that produce them.
+
+Three qualifications, each measured, because the lever is easy to over-apply:
+
+- **It is one-directional.** Every gain came from moving a use *later*.
+  Both attempts to move one earlier are worse - hoisting the subtraction that
+  consumes the viewport value costs nine instructions and 272 positions in one
+  placement and 17 in another. Delaying a consumer delays the value; demanding
+  it sooner forces the whole chain forward against whatever already holds those
+  slots.
+- **Placement is specific, not "later is better".** The index read pays below
+  the texture stores and is worthless below the sprite stores; the texture
+  stores pay below the `y` subtraction and cost 32 and 45 if pushed past the
+  next two computations.
+- **It does not reach a value whose chain is already the shortest.** The one
+  load this function still gets wrong is the one with a single in-block
+  consumer, where the fix would require *lengthening* its chain rather than
+  shortening a competitor's, and no source change does that without adding
+  instructions.
+
+The companion negative is worth stating with it: a *constant* is hoisted to the
+top of its block wherever the source writes it, so this lever never applies to
+one. That now holds on three functions - the scratchpad pointer here, the slide
+constant in `func_800283F4`, and the loop-invariant address in
+`func_80012E5C`.
+
+## A callee's base pointer can reveal a false whole-function lifetime
+
+`func_80056828` (341 instructions) had a hand-transcribed candidate that saved
+`s0` through `s7`, while retail saves only `s0` through `s6`. The excess came
+from case 8: the fourth argument to `func_8004DC38` had been reconstructed with
+the player index as its first argument, which kept the player live across the
+largest loop. Retail passes the per-player record pointer. Correcting that call
+removed the extra saved register and reproduced the target's 56-byte frame.
+
+The same case exposed three semantic details that instruction count alone had
+hidden. The callback loaded from `D_80010000[3]` or `[4]` starts four bytes into
+the loaded object, the timestamp is reduced modulo 1000, and the current player
+is written to the GP-relative byte `D_8009AFA0`. Pinning the record, callback
+argument, loop cursor and halfword argument to `s2`, `s1`, `s3` and `s5`
+respectively then reproduced retail's register roles throughout the case.
+
+The durable candidate now compiles to 341/341 instructions with
+`gcc_2_8_1_g8_no_split`, at opcode distance 24 and 291 differing linked words.
+It replaces the 75-instruction automated sketch. The remaining work is centered
+on the state dispatch, case 0's eager default pointer, case 3's loop shape, and
+common-tail scheduling rather than missing behavior.

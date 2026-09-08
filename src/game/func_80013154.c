@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "../psyq/libmcrd.h"
 #include "../psyq/rand.h"
 #include "rand_constants.h"
 #include "graphics_constants.h"
@@ -32,7 +33,6 @@ extern ScreenBlock D_800E9D28;
 extern ScreenBlock D_800FE0A8;
 
 extern void Input_InitPads(void);
-extern void MemCardInit(s32);
 extern void File_SetPositionTable(void);
 
 /* Graphics and input start-up, called from Main_Init with the work area

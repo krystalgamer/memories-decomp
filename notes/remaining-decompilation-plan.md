@@ -41,7 +41,7 @@ evidence must resolve.
 
 ## Non-negotiable rules
 
-- Never decompile the 598 Psy-Q CRT/SDK functions.
+- Never decompile Psy-Q CRT/SDK functions.
 - Try GCC 2.8.1 with MASPSX 2.81 first.
 - Use GCC 2.7.2 with MASPSX 2.72 only when code evidence supports the DOS
   cohort or the useful 2.8.1 profiles have been explored.

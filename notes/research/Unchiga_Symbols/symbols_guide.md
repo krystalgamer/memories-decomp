@@ -338,6 +338,11 @@ Mode slot 6. An 8×5 opponent grid (Build Deck tile at top-left); the cursor roa
 |---|---|---|
 | `Main_RunAnimatedBattle` | 0x8002D180 | The 3D battle-animation mode tick (dispatches on the fusion recipe id). |
 
+**Local reconciliation (2026-09-08):** the upstream "fusion recipe id"
+gloss is not an established field identity. The retail Exodia handover
+prepares selector `0x309` before requesting this mode; see the
+[source/retail reconciliation](../the-game.md#510-winning-and-losing).
+The original row is preserved rather than silently rewritten.
 
 ## End of duel — rank & rewards
 

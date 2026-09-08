@@ -12,8 +12,13 @@ void AiScript_AddCard(void) {
     v = p[AiScript_ReadByte()];
     q = gAiScript_State;
     for (i = 0; i < AI_SCRIPT_CARD_SET_COUNT; i++) {
-        u16 c = *(u16 *)(q + i * 2 + 0x3E);
+        u16 c = *(u16 *)(q + i * AI_SCRIPT_CARD_SET_ENTRY_SIZE +
+                        AI_SCRIPT_CARD_SET_BYTE_OFFSET);
         if (c == v) return;
-        if (c == 0) { *(u16 *)(q + i * 2 + 0x3E) = v; return; }
+        if (c == AI_SCRIPT_CARD_SET_EMPTY) {
+            *(u16 *)(q + i * AI_SCRIPT_CARD_SET_ENTRY_SIZE +
+                     AI_SCRIPT_CARD_SET_BYTE_OFFSET) = v;
+            return;
+        }
     }
 }

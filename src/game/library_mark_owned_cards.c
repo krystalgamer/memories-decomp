@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "campaign_flags.h"
 
 extern u8 gLibrary_abCardChest[];
 extern u16 gDuel_awPlayerDeck[];
-extern void Library_UpdateCardUsedFlag();
 
 void Library_MarkOwnedCards(void)
 {
@@ -12,7 +12,7 @@ void Library_MarkOwnedCards(void)
     u16 *q;
     do {
         if (*p != 0)
-            Library_UpdateCardUsedFlag(i + 0x121);
+            Library_UpdateCardUsedFlag(i + (CAMPAIGN_FLAG_LIBRARY_CARD_BASE + CARD_ID_FIRST));
         i++;
         p++;
     } while (i < CARD_COUNT);
@@ -20,7 +20,7 @@ void Library_MarkOwnedCards(void)
     i = 0;
     do {
         if (*q != 0)
-            Library_UpdateCardUsedFlag(*q + 0x120);
+            Library_UpdateCardUsedFlag(*q + CAMPAIGN_FLAG_LIBRARY_CARD_BASE);
         i++;
         q++;
     } while (i < DECK_SIZE);

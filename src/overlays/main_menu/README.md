@@ -1,6 +1,6 @@
 # Main Menu Overlay
 
-This directory is reserved for matching source from the main-menu runtime
+This directory contains matching source from the main-menu runtime
 module.
 
 Verified boundaries:
@@ -10,8 +10,8 @@ Verified boundaries:
 | Archive | `game/DATA/SU.MRG` (1,239 sectors) |
 | SU load request | sectors `0-115` |
 | SU executable phase | sectors `98-114`, `0x8000` bytes |
-| Runtime code range | `0x80180000-0x80188000` |
-| Module identifier | `0x0000000F` |
+| Runtime image range | `0x80180000-0x80188000` |
+| Leading word | `0x0000000F`; semantic role unconfirmed |
 | Phase SHA-256 | `34e9421eb10dc3ff97f8810e4f595045d4847b2b54760e9895eb83266008bc97` |
 
 The request is recovered from the resident loader trace. `Main_RunMenu`
@@ -28,12 +28,12 @@ the sector count.
 
 ## Image shape
 
-The phase does not begin with code. Its first word is the module identifier,
+The phase does not begin with code. Its first word is the leading value above,
 followed by a six-entry pointer table, with the first instruction at `+0x1C`:
 
 | Offset | Contents |
 |---:|---|
-| `+0x00` | Module identifier `0x0000000F` |
+| `+0x00` | Leading word `0x0000000F` |
 | `+0x04` | `0x8018416C`, `0x80183514`, `0x801836F4`, `0x80183884`, `0x80183A14`, `0x80184254` |
 | `+0x1C` | First function |
 | `+0x4558` | Module data, after the final `jr $ra` and its delay slot |
@@ -43,13 +43,13 @@ The module has a Splat layout and rebuilds byte-for-byte under
 trailing data range and is zero in the image, consistent with a variable
 rather than initialised content.
 
-`Main_RunMenu` enters the image at `func_8018001C`, `func_80180390` and
-`func_80180DD0`. The initializer and teardown now build from matching C;
-`func_80180390`, the selection/update path, remains mapped assembly.
+`Main_RunMenu` enters the image at `func_8018001C`, `MainMenu_UpdateFrontendMenu` and
+`func_80180DD0`. All three now build from matching C. These frontend entries
+are distinct from the Trade-screen entries below.
 
 The loaded bytes contain resident call targets throughout `0x80180xxx` and
 the module-scoped `gMain_bMenuID` at `0x80184594`. A second SU phase at sectors
-`1223-1239` loads the same runtime range with the different leading identifier
+`1223-1239` loads the same runtime range with the different leading word
 `0x00000010` and SHA-256
 `f125a2a6a8b57d222df544a7a02bf8c639c1fdde5cf978f80a56ea3fba2b836a`. It lies
 outside the `0-115` request above, so its module identity is unresolved and it
@@ -63,13 +63,72 @@ The module has its own tracked overlay layout and matching-C manifest under
 executable; main-menu entries must not be added to the resident
 `config/slus_01411/matching_c.json`.
 
+## Trade-screen ownership
+
+The resident `Main_RunTrade` calls `MainMenu_InitTradeScreen` at
+`0x80181F68` once, then polls `MainMenu_UpdateTradeScreen` at `0x801821DC`
+after its introduction has finished and the effect state is idle.
+
+The initializer creates the two inventory views and cursors, clears both
+players' offers, navigation, sort and readiness state, populates the lists
+and installs their drawing callback. It does not itself load the saves or
+the archive. The updater handles both controllers, ten offered card IDs per
+player, readiness, joint confirmation, staged exchange and memory-card
+completion. It exchanges chest quantities, not forty-card decks.
+
+On successful transfer completion, the updater copies the staged data back
+to the working save slots and rebuilds the lists. These copies are success
+handling, not evidence of cancelled-trade rollback; the code does not by
+itself establish atomic persistence across two memory cards.
+
+The shared declarations are in `entrypoints.h`. Module definitions belong to
+`config/slus_01411/overlays/main_menu_symbols.txt`; resident callers use
+conditional linker imports in `c_symbols.ld` only after the image is loaded.
+The semantic registry records both names as `overlay/main_menu/function`,
+without adding them to resident function inventory or primary symbols.
+
+### Offer rendering and working inventory
+
+`MainMenu_DrawTradeOffersAndHighlights` (`0x80183B2C`) is the installed
+Trade drawing callback. It animates or dims the two inventory-cursor
+highlights and draws the offered card IDs as three digits plus their type
+icons in two five-column offer grids. It does not mutate the offers or
+render the complete inventory list.
+
+`MainMenu_RefreshTradeInventory` (`0x8018338C`) conditionally rebuilds one
+side's 722 working records from its save chest, retaining zero-ID holes.
+After a rebuild it reapplies offer deductions to **both** sides, then
+optionally sorts the selected row and publishes its view mode. Do not
+normalize that cross-side loop: refreshing one side can deduct the other
+side's outstanding offers again. This is a static observation, not a
+runtime reproduction or a proposed behavior change.
+
+`MainMenu_AdjustTradeCardCount` (`0x801840F8`) finds an ID in one side's
+working inventory and adds an unsigned amount. It writes only when the
+modular sum is below `0xFB`, then returns after the first matching ID.
+Observed callers add or subtract one: increments at 250 and decrements at
+zero are rejected, not saturated. It neither removes offers nor changes
+save bytes; the caller owns offer removal. The unsigned argument and
+existing missing-ID/no-slot-validation behavior remain unchanged.
+
+The internal declarations live in `trade_helpers.h`, separate from the
+resident-facing `entrypoints.h`.
+
 ## What the menu shows
+
+`MainMenu_UpdateFrontendMenu` at `0x80180390` services both entry groups,
+the title prompt, entry/exit animation and asynchronous load/save dialogs.
+It is not merely the selection handler. `Main_RunMenu` translates completed
+nonnegative menu IDs into resident modes; the returned values are not those
+mode IDs themselves. `-1` keeps polling. In the separate `func_80043BCC`
+caller, `-2` tears down and restarts the outer frontend loop; no particular
+attract movie or timeout duration is established by that return code.
 
 Exact matching `func_8018001C` establishes the eleven-entry table, its `5+6`
 position split, and the modulo-11 initial cursor. The
 `main_menu_entry_slots` trace and player report supply the human-readable
-entry labels and confirm the visible motion. The module drives **two** menus,
-not one, and `gMain_apMenuEntries` holds the entries of both:
+entry labels and confirm the visible motion. The frontend presents **two**
+menu groups, and `gMain_apMenuEntries` holds the entries of both:
 
 | slots | menu | entries |
 |---|---|---|
@@ -100,14 +159,19 @@ same alternation.
 
 | offset | value | meaning |
 |---|---|---|
-| `+0x30`, `+0x32` | parked x, y | position, copied from `+0x36` by `func_80180D2C` |
-| `+0x36`, `+0x38` | `-160`/`480`, `160` | the moving axis and the pinned one |
-| `+0x60` | `0x10` | the value `func_80180D2C` writes |
+| `+0x30` | current x | initialized from `+0x36`, then interpolated toward `+0x38` |
+| `+0x32` | entry y | separately initialized for the entry group |
+| `+0x36` | start x | parked `-160`/`480` on entrance; centered `160` on exit |
+| `+0x38` | end x | centered `160` on entrance; parked `-160`/`480` on exit |
+| `+0x60` | `0x10` | sixteen-update animation countdown |
 | `+0x08` | `0x0088` | flags |
 | `+0x0C` | `0x808080` | colour, mid grey |
 
-`D_80184596` read `0` in the sample and `+0x38` held the pinned `0xA0`, so
-argument `0` selects **horizontal** movement.
+Both modes animate x at `+0x30`; `+0x36` and `+0x38` are not separate
+axes. `func_80180D2C` selects entrance for zero and exit for nonzero by
+swapping the parked and centered endpoints. The sample's `D_80184596 = 0`
+and `+0x38 = 160` therefore identify the entrance setup, not a
+horizontal-versus-vertical switch.
 
 ## The cursor indexes the slot table
 
@@ -136,6 +200,22 @@ module's symbol file beside `gMain_bMenuID` and recorded in
 [`../../../notes/semantic-symbol-map.csv`](../../../notes/semantic-symbol-map.csv).
 The password module sets the precedent: `gPassword_abDigits` is named the same
 way, in its own module file.
+
+## Native background packet layouts
+
+`func_80180B4C` builds its background layers with Psy-Q `POLY_F4`,
+`POLY_FT4`, and `POLY_G4` records. Their payload lengths are 5, 9, and 8
+words, excluding the tag; `setPolyF4`, `setPolyFT4`, and `setPolyG4` supply
+the corresponding packet headers. `func_80184454` uses the same native
+`POLY_F4` record for its column-sized quad.
+
+The background's screen-coordinate limits use the documented default
+`320 x 240` dimensions. Its `getClut(0, 244)` spelling identifies the same
+palette row previously packed as `0x3D00`; see the
+[tutorial-backed palette evidence](../../../notes/modding-tutorial-evidence.md).
+Texture UV limits and the other geometry values are not reinterpreted as
+screen constants. Submission order, colors, flags and local value lifetimes
+retain the matching behavior.
 
 ## The card type icon
 

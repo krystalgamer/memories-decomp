@@ -58,6 +58,8 @@ zero `D_8009B1D5`, or `20-24` for any nonzero value. These are expressed as
 `DUEL_FIELD_ROW_SIZE` and `DUEL_CARD_SIDE_RECORD_COUNT + DUEL_FIELD_ROW_SIZE`,
 with `DUEL_CARD_FLAG_OCCUPIED` selecting eligible records. Its local `Card`
 view remains unchanged; it has not adopted the shared `DuelCardRecord` type.
+There is no face-down or defence-position test in that eligibility filter:
+matching occupied cards in either orientation remain candidates.
 
 The ritual table has a separate five-halfword recipe layout: one ritual ID,
 `DUEL_RITUAL_TRIBUTE_COUNT` (`3`) tribute IDs, and one result ID, giving
@@ -66,6 +68,10 @@ ID rather than a fixed recipe count. Each matched candidate is cleared from
 the temporary list before the next tribute search, so repeated tribute IDs
 must come from distinct field records. The optional output contains the three
 matched records' first words; the return value is the recipe's result ID.
+The clearing is confined to the temporary candidate list, not the actual
+field records. The normal ritual execution routine removes the exported
+cards later; see the selection/removal distinction in
+[`the-game.md` §5.7](research/the-game.md#57-traps-and-rituals).
 
 The draw-phase entry `func_8001898C` scans `DUEL_CARD_RECORD_COUNT` (`30`)
 records at `DUEL_CARD_RECORD_SIZE` (`0x1C`) strides to reset per-turn flags.

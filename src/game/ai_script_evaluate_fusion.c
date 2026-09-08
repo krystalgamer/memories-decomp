@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "ai_constants.h"
 
 extern s32 gAiScript_aMemory[];
 extern u8 gAiScript_State[];
@@ -29,15 +30,15 @@ void AiScript_EvaluateFusion(void)
     n = Ai_GetHandSize();
 
     r = (u8 *)gAiScript_State;
-    r[0x9C] = n;
-    r[0x9D] = b;
-    *(s16 *)(r + 0xA0) = 0;
-    r[0xA2] = 0;
-    r[0xA3] = 0;
-    r[0x9E] = c;
+    r[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET] = n;
+    r[AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET] = b;
+    *(s16 *)(r + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) = 0;
+    r[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] = 0;
+    r[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] = 0;
+    r[AI_SCRIPT_FUSION_SET_BYTE_OFFSET] = c;
 
-    for (i = 0; i < r[0x9C]; i++) {
-        r[i + 0xAA] = 0;
+    for (i = 0; i < r[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET]; i++) {
+        r[i + AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
     }
 
     x = Duel_GetBaseCardStat(a, 0);

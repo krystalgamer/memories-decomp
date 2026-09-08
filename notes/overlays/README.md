@@ -34,6 +34,22 @@ are build artifacts rather than tracked overlay sources.
 | Resident load-slot snapshots | `tmp/splat/assets/overlays/` | No |
 | Extracted archive payloads and probes | `tmp/` | No |
 
+## Semantic names stay module-scoped
+
+Record an accepted overlay function name in
+`notes/semantic-symbol-map.csv` with kind `overlay/<module>/function`.
+The resident naming tool validates the record against that module's
+inventory but does not apply it to the resident namespace. Update the
+module's C definition and callers, function inventory, matching manifest
+and symbol definitions together, retaining the original address, size and
+compiler profile. Require the complete overlay match after the change.
+
+The qualified kind distinguishes different functions at the same reused
+virtual address. Do not register an overlay function as an unqualified
+resident `function` merely because its name is known. See
+[`../semantic-naming-pass.md`](../semantic-naming-pass.md#module-scoped-function-records)
+for validation and duplicate rules.
+
 ## Getting the archives
 
 Both archives the modules come from are tracked disc files, so a retail dump is
@@ -526,11 +542,12 @@ the frame-bound block copy. Every unmatched function in all five modules was
 scanned for jump table references; `func_8016A37C` is the only hit, and the
 whole overlay set contains exactly one `jtbl` symbol.
 
-Every unmatched function in all five modules was scanned for the block-copy
-pattern. `func_80168CDC` is the only one affected. One other function block copies,
-`func_801821DC` in `main_menu`, but its copies run **between two regions of
-`D_801D1200`** rather than into the frame — a scroll within a resident buffer,
-which is ordinary code and carries no data-placement constraint.
+A historical scan of the then-unmatched functions found the local-initializer
+pattern in `func_80168CDC`. `MainMenu_UpdateTradeScreen` (`0x801821DC`) also
+copies blocks, but **between regions of `D_801D1200`** backing its working
+and staged saves, rather than into a local array in the stack frame.
+Those Trade staging/completion copies are not scrolling and do not create
+a C-owned initializer-data placement requirement.
 
 That difference is the check worth applying: look at where the destination
 lives. A destination built from `$sp` is an initialised local and means data
@@ -575,7 +592,8 @@ its size. What it needs first is a profile, since none in
 
 ## A reload only means volatile when no store separates it
 
-Matching `func_80183B2C` turned on recognising that its two object pointers are
+Matching `MainMenu_DrawTradeOffersAndHighlights` (`0x80183B2C`) turned on
+recognising that its two object pointers are
 a `volatile` aggregate local, which is what makes the compiler re-read them
 once per occurrence in the source instead of eliminating the repeat. That is a
 powerful lever — it was worth 54 instructions on its own — and it is also easy
@@ -585,7 +603,8 @@ that has nothing to do with `volatile`.
 The distinction is whether a **store** sits between the two loads. A store
 through any pointer may alias the memory the load reads, so the compiler must
 re-read afterwards; that says nothing about how the source was written.
-`func_80180390` looks like the strongest candidate in the whole overlay set by
+`MainMenu_UpdateFrontendMenu` (`0x80180390`) looked like the strongest
+candidate in that overlay scan by
 the naive test, with three identical loads of one global in a single call-free
 block:
 
@@ -614,8 +633,10 @@ tools/environments/python/bin/python tools/project/overlay_scan_reloads.py \
 ```
 
 With no arguments it scans every function still marked `unmatched_asm` in all
-five modules. Both controls behave: `func_80183B2C`, the one function known to
-use a volatile local, reports 3, while `func_80180390` reports 1.
+five modules. In the original scan, `MainMenu_DrawTradeOffersAndHighlights`,
+the volatile-local control, reported 3 and `MainMenu_UpdateFrontendMenu`
+reported 1. Those are historical measurements, not a claim that either
+function remains unmatched.
 
 ### The second tell: a reload of the address a store just wrote
 
@@ -676,7 +697,8 @@ followed by a call, and a call invalidates memory.
 
 **Current state of both tells across all remaining unmatched entries: nothing
 is flagged.** The second tell has no hits at all once delay slots are attributed
-correctly. The first remains specific to `func_80183B2C`, which is still caught
+correctly. The first remains specific to `MainMenu_DrawTradeOffersAndHighlights`,
+which is still caught
 when queried directly.
 
 That is worth saying plainly rather than quietly deleting a row: the scan
@@ -1156,7 +1178,8 @@ costs are large enough to be unambiguous:
 
 Two were not, and both were mine:
 
-- The high end of the `func_80183B2C` range test can be written unsigned rather
+- The high end of the `MainMenu_DrawTradeOffersAndHighlights` range test can
+  be written unsigned rather
   than as a signed-negative test, byte-identically. The rule had claimed any
   two-sided comparison changes the shape.
 - The subtraction in `FreeDuel_UpdateCursorTween` does not need its
@@ -1172,7 +1195,8 @@ A second pass covered six of the older rules, the ones written before this
 window. Four hold with wide margins, and one of them reproduces its recorded
 number exactly: declaring `func_801812B4`'s narrow local `s32` costs six
 instructions, which is what the rule says. The operand-order pair on
-`func_801840F8` each cost one position, so they are real but slight.
+`MainMenu_AdjustTradeCardCount` (`0x801840F8`) each cost one position, so they
+are real but slight.
 
 Two needed refining rather than correcting:
 

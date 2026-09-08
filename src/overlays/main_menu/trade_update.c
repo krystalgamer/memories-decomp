@@ -1,5 +1,7 @@
 #include "../../types.h"
 #include "../../game/card_constants.h"
+#include "entrypoints.h"
+#include "trade_helpers.h"
 
 typedef struct { u32 words[256]; } Block1024;
 
@@ -49,15 +51,11 @@ extern void func_8003CB7C(void);
 extern void func_8003FE14(void);
 extern void func_800611D0(s32);
 extern void func_800610E0(s32);
-extern void func_8018338C(s32, s32);
 extern void func_801844D8(s32);
-extern void func_801840F8(s32, s32, u32);
 extern void func_80048658(s32, s32, s32);
 extern void func_80035B7C(void *);
 extern void func_80040410(Widget *, s32);
-extern s32 func_801821DC(void);
-
-s32 func_801821DC(void)
+s32 MainMenu_UpdateTradeScreen(void)
 {
     s32 bounded;
     s32 low;
@@ -131,7 +129,7 @@ s32 func_801821DC(void)
             i = 0;
             do {
                 D_80185C9C[i][0] = 0;
-                func_8018338C(i, 1);
+                MainMenu_RefreshTradeInventory(i, 1);
                 func_801844D8(i);
                 D_80185CC8[i] = 0;
                 i++;
@@ -268,7 +266,7 @@ s32 func_801821DC(void)
         } else {
             D_80185CCC[0] = (D_80185CCC[0] + 7) % 6;
         }
-        func_8018338C(0, 0);
+        MainMenu_RefreshTradeInventory(0, 0);
     dirty0:
         dirty0++;
         goto check_scroll0;
@@ -283,7 +281,7 @@ s32 func_801821DC(void)
     }
     if ((D_8009B398[0] & 0x20) != 0) {
         if (D_80185C9C[0][0] != 0) {
-            func_801840F8(0, D_80185C9C[0][D_80185C9C[0][0]], 1);
+            MainMenu_AdjustTradeCardCount(0, D_80185C9C[0][D_80185C9C[0][0]], 1);
             func_80048658(8, 255, 0);
             D_80185C9C[0][0]--;
             dirty0 = 1;
@@ -409,7 +407,7 @@ player1:
         } else {
             D_80185CCC[1] = (D_80185CCC[1] + 7) % 6;
         }
-        func_8018338C(1, 0);
+        MainMenu_RefreshTradeInventory(1, 0);
     dirty1:
         dirty1++;
         goto check_scroll1;
@@ -424,7 +422,7 @@ player1:
     }
     if ((D_8009B398[1] & 0x20) != 0) {
         if (D_80185C9C[1][0] != 0) {
-            func_801840F8(1, D_80185C9C[1][D_80185C9C[1][0]], 1);
+            MainMenu_AdjustTradeCardCount(1, D_80185C9C[1][D_80185C9C[1][0]], 1);
             func_80048658(8, 255, 0);
             D_80185C9C[1][0]--;
             dirty1++;

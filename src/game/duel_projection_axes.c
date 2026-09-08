@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
-
-extern void func_8005B260(int, int, int, int);
+#include "gpu_packets.h"
 
 void func_80029684(
     int arg0,
@@ -42,7 +41,7 @@ void func_80029684(
             (long *)(control + 1)
         );
     }
-    func_8005B260(arg0, arg1, 1, 1);
+    func_8005B260((u32 *)arg0, (GsOT *)arg1, 1, 1);
 }
 
 void func_800297DC(
@@ -84,5 +83,5 @@ void func_800297DC(
             (long *)(control + 1)
         );
     }
-    func_8005B260(arg0, arg1, 1, 1);
+    func_8005B260((u32 *)arg0, (GsOT *)arg1, 1, 1);
 }

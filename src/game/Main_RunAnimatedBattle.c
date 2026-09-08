@@ -16,7 +16,7 @@ typedef struct {
    this common symbol, so no storage is allocated here. */
 u8 D_8009B26C;
 extern u8 D_8009B0C0 __attribute__((section(".data")));
-extern u8 D_8009B364 __attribute__((section(".data")));
+extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern u8 D_8009B269;
 extern Anim D_800EF658[];
 
@@ -53,7 +53,7 @@ void Main_RunAnimatedBattle(void)
             Model_SetSlotProperties(0, p->f0 - 1, p->f2, p->f4, p->b7, p->b6);
             p++;
             Model_SetSlotProperties(1, p->f0 - 1, p->f2, p->f4, p->b7, p->b6);
-            Model_SetSlotProperties(2, D_8009B364);
+            Model_SetSlotProperties(2, gDuel_bTerrain);
         }
         func_800159D8();
     } else {

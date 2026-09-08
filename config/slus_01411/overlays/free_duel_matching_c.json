@@ -40,7 +40,7 @@
       "address": "0x80168A9C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1E0",
-      "source": "src/overlays/free_duel/cursor_tween.c"
+      "source": "src/overlays/free_duel/update_screen.c"
     },
     {
       "address": "0x80168C7C",

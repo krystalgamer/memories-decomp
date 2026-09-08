@@ -75,11 +75,14 @@ in-game name `Kuwagata α` rather than the database's ASCII `Kuwagata a`.
 The catalogue metadata above is independent of whether the in-game Library
 currently reveals a card. Matching `func_8002BFCC`, the Library initializer,
 first calls `Library_MarkOwnedCards`. That helper sets the persistent
-`0x120 + card_id` seen flag for every nonzero trunk quantity and every
-nonzero card ID in the 40-card deck.
+`CAMPAIGN_FLAG_LIBRARY_CARD_BASE + card_id` seen flag (`0x120 + card_id`) for
+every nonzero trunk quantity and every nonzero card ID in the 40-card deck.
+Its zero-based trunk index adds `CARD_ID_FIRST` before the flag base; deck
+entries already contain one-based card IDs. The ordinary card IDs therefore
+occupy flags `0x121` through `0x3F2`.
 
 The initializer then walks card IDs `1` through `722` and tests each same
-`0x120 + card_id` flag through `Campaign_TestStoryFlag`. A set flag increments
+Library flag through `Campaign_TestStoryFlag`. A set flag increments
 the visible-card count and sets byte `0x80` in that card's display record.
 When `func_8002C518(card_id)` returns a negative value, the initializer also
 sets that record's low bit; the matching body establishes the bit but not a
@@ -88,15 +91,17 @@ safe semantic name for it.
 Each display record also receives a selector derived from the packed card
 type:
 
-| Card type | Display selector |
-|---|---:|
-| Monster types `0`-`19` | `0x160` |
-| Magic or Equip | `0x170` |
-| Trap | `0x180` |
-| Ritual | `0x190` |
+| Card type | Named display selector | Value |
+|---|---|---:|
+| Monster types `0`-`19` | `LIBRARY_CARD_SELECTOR_DEFAULT` | `0x160` |
+| Magic or Equip | `LIBRARY_CARD_SELECTOR_MAGIC_EQUIP` | `0x170` |
+| Trap | `LIBRARY_CARD_SELECTOR_TRAP` | `0x180` |
+| Ritual | `LIBRARY_CARD_SELECTOR_RITUAL` | `0x190` |
 
 These are Library presentation groups, not replacements for the card-type
-values in `gDuel_adwCardStats`. Seen state likewise does not share the
+values in `gDuel_adwCardStats`. The switch also retains the default selector
+for unrecognized type codes; it does not add type validation. Seen state
+likewise does not share the
 one-byte trunk quantity: entering the Library can set a card's separate seen
 flag from current ownership, and the visibility pass reads that flag array.
 

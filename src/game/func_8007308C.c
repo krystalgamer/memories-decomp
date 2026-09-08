@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "ai_constants.h"
+#include "duel_card_layout.h"
+#include "duel_grid.h"
 
 typedef struct {
     u8 unk0[4];
@@ -10,8 +13,12 @@ typedef struct {
      * when depth is already zero. */
     u8 depth;   /* +0x14 */
     u8 unk15[3];
-    u8 *stack[8];  /* +0x18 */
+    u8 *stack[AI_SCRIPT_RETURN_STACK_COUNT];  /* +0x18 */
 } ByteReader;
+
+typedef char ByteReader_prefix_size_must_be_0x38[
+    sizeof(ByteReader) == AI_SCRIPT_COMBO_BYTE_OFFSET ? 1 : -1
+];
 
 typedef struct {
     s16 unk0;
@@ -45,32 +52,34 @@ void AiScript_FindBestAttack(void) {
     out = AiScript_ReadByte();
     i = 1;
     t = (u8 *)gDuel_aActiveCards;
-    r = t + 0xC;
+    r = t + AI_ACTIVE_CARD_RECORD_SIZE;
     a = (u8 *)gAiScript_State;
     *(s16 *)(a + 0x98) = 0;
     s = a;
 
-    while (i < 6) {
+    while (i < DUEL_FIELD_ROW_SIZE + 1) {
         if (*(s16 *)r == 0) {
             continue;
         }
-        if ((*(u16 *)(r + 6) & 0x4000) != 0) {
+        if ((*(u16 *)(r + 6) & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
             continue;
         }
 
-        for (j = 0x38, e = t + 0x2A0; j < 0x3D; j++, e += 0xC) {
+        for (j = 0x38,
+             e = t + (AI_ACTIVE_CARD_RECORD_SIZE + AI_ACTIVE_CARD_SIDE_BYTE_STRIDE);
+             j < 0x3D; j++, e += AI_ACTIVE_CARD_RECORD_SIZE) {
             if (*(s16 *)e == 0) {
                 continue;
             }
             f = *(u16 *)(e + 6);
-            if ((f & 0x4000) != 0) {
+            if ((f & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
                 continue;
             }
-            if ((f & 0x800) != 0) {
+            if ((f & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
                 continue;
             }
             if (want != 0) {
-                if ((f & 0x1000) != 0) {
+                if ((f & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
                     continue;
                 }
             }

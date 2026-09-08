@@ -87,6 +87,25 @@ Millennium Items are held — is not a variable but **flags in that array**,
 set and tested by the campaign's event script and by the dialogue texts
 themselves (§7.10, §7.11).
 
+**Encoded flag requests.** The matching flag helpers use that same shared
+bank, not separate story and Library storage. The low eleven request bits
+select the flag; byte `id >> 3` uses mask `0x80 >> (id & 7)`.
+[`Campaign_TestStoryFlag`](../../src/game/campaign_test_story_flag.c) does
+not write: an ordinary query returns zero or the selected mask, not always
+`1`. Adding modifier `0x8000` instead tests for a clear bit and returns
+normalized `0` or `1`.
+[`Library_UpdateCardUsedFlag`](../../src/game/library_update_card_used_flag.c)
+sets the bit by default and clears it with that modifier.
+
+The script and text handlers use `0x4000` to select a write rather than a
+test, stripping that command bit while preserving `0x8000`. Thus encoded
+writes `0x4000 | id` and `0xC000 | id` set and clear respectively.
+Matching [`func_8002CD48`](../../src/game/func_8002CD48.c) applies a change
+only when the requested predicate was false and returns the **prior** test
+result. Its zero return after applying a change is not an error code.
+These are encoding and operation contracts, not new meanings assigned to
+undocumented flag IDs.
+
 **What is shared.** Five systems are used by more than one mode and are worth
 knowing by name before reading any of them:
 
@@ -538,7 +557,7 @@ editor still permits at most three copies of that card in the active deck.
 Costs run from 10 starchips (the cheapest cards) to 999,999 for the lottery cards;
 a starchip is earned only by winning duels (§6.3), 1–5 per win, so a 999,999
 card is not a realistic purchase — the cost exists to say "obtain this some
-other way". The password-use counter in the save [`0x801D0534 + 0x164`] is
+other way". The password-use bitfield in the save [`0x801D0534 + 0x164`] is
 what the "unlimited passwords" cheat zeroes. [`Main_RunPasswordMenu`
 `0x8002D684`; the executable's own part of the flow is `0x80038BF0`, where
 `$a2` carries the star cost.]
@@ -572,6 +591,14 @@ full, in the order things happen.
   `gDuel_awPlayerDeckShuffle` (`0x80177F94`), then the opponent source to
   `gDuel_awOpponentShuffledDeck` (`0x80178038`) with
   `gDuel_awOpponentDeckShuffle` (`0x80177FBC`).
+  Within each matching [`Duel_ShuffleDeck`](../../src/game/func_800243F4.c)
+  call, 160 full-range pair swaps follow deck preparation, rather than a
+  shrinking-range Fisher-Yates pass.
+  Each swap consumes two `rand() % 40` results and moves the card ID and its
+  permutation byte together, even when both indices coincide. The swap
+  stage therefore consumes 320 RNG values per deck; a null source first
+  generates cards from the opponent pool with additional, retry-dependent
+  calls. See [the RNG contract](../rng.md#duel-start-shuffle-stream-consumption).
 * The **player always moves first** against the computer.
 * The terrain starts as **normal** unless the opponent is fought on a home
   terrain: Sebek and Neku are fought on Yami (sourced); the five shrine
@@ -640,14 +667,16 @@ hand-input branch of `func_8001BD88` accepts Cross or Square (`pressed &
 by another. Multiple numbered cards are **combined in order** (§5.4).
 L2/R2 show the field before choosing.
 
-Then the placement choices, in order:
+The remaining choices are card-dependent, not one universal zone-first
+sequence. Ordinary face-up Magic and Ritual use can bypass zone selection
+(§5.5). Where applicable, the controls include:
 
 * which **zone** — an empty zone of the right row, or **on top of a card
   already on your field** (which is another way to combine: the played card
   is fused with, equipped to, or replaces the one it lands on);
 * **face-up or face-down**;
-* **attack or defence** position (L1/R1 toggle; attack is upright, defence is
-  sideways);
+* for a monster, **attack or defence** position (L1/R1 toggle; attack is
+  upright, defence is sideways);
 * for a monster, **which of its two guardian stars** to use for as long as it
   stays on the field.
 
@@ -704,9 +733,33 @@ not allowed — the zone choice only offers legal rows.
 
 ### 5.5 Magic cards
 
-Magic cards are played into the magic/trap row (face-up or face-down) and
-**activated** later from there by selecting them, on your turn. The game does
-not read the card's text; it reads its **number**: a placement state machine
+Magic cards need not first wait on the field for a second selection. In the
+normal unnumbered hand path, confirming a face-up Magic card enters its
+**use sequence directly**. Setting it face down follows the field-placement
+route instead; that route is not a prerequisite for every magic use.
+
+The hand handler `func_8001BD88` is still unmatched assembly. Its branch at
+`0x8001CD38..0x8001CDA8` requires a packed card type of at least `20`,
+excludes types `21` (Trap) and `23` (Equip), and requires the hand object's
+orientation byte `+0x21` to be zero (face-up). Among the defined retail types,
+this admits Magic (`20`) and Ritual (`22`). It stores the selected object in
+`D_800E9EF0`, removes its hand index, and selects hand substate
+`D_8009B174 = 5`, bypassing the field-selection branch.
+
+The retail jump-table entry at `0x80010158` sends that substate to
+`0x8001D1C4`. After its `D_8009B162` gate clears, the code at
+`0x8001D214..0x8001D218` selects **duel state 6**.
+Matching [`func_80024200`](../../src/game/duel_scene_update.c) dispatches
+through `D_80090998[D_8009B23A & 0xF]`; the retail entry at `0x800909B0`
+maps state 6 to [`func_80019608`](../../src/game/func_80019608.c).
+That handler begins with the selected object and issues the later effect
+requests documented in §6.1. "Direct" describes this control-flow route, not
+zero-frame execution or guaranteed effect success: timing, transfer, and
+effect gates still apply. This is static evidence for the normal single-card
+branch, not a new runtime trace or an audit of every combination/AI path.
+
+The game does not read the card's text; it reads its **number**. The card-use
+presentation sequence
 [`func_80019608`](../../src/game/func_80019608.c) hands the id to a guard
 [`func_80026BA4`] that accepts
 301–350, 651–700 and 721, converts it to an index, and a per-tick dispatcher
@@ -824,11 +877,36 @@ Fake Trap through the sequence in §6.1; its selection is not limited to an
 explicit trap-removal effect. The final attack outcome is a separate
 question from this selection and accounting evidence.
 
-**Rituals** (24 cards) are played to the magic/trap row and **activated**: if
-the three specific monsters the ritual names are face-up on your field, they
-are removed and the ritual monster is summoned in their place; otherwise the
-card is consumed with no effect [`Duel_CheckRitual` (`0x8002C7E8`), table at
-`0x801799D8`: 24 records of {ritual, tribute, tribute, tribute, result}].
+**Rituals** (24 cards) use the same activation sequence, including the
+ordinary face-up hand route in §5.5; prior field placement is not mandatory.
+On success, the three required monsters are sacrificed for the recipe's
+result monster; if the required materials are missing, the ritual card is
+consumed without a summon.
+
+The matching
+[`Duel_CheckRitual`](../../src/game/duel_check_ritual.c) checks the recipe
+against three **distinct occupied monster-row records** on the acting side.
+It tests `DUEL_CARD_FLAG_OCCUPIED` and the required card IDs, not the
+face-down or defence-position bits. Face-down matching tributes are therefore
+eligible in this predicate; the earlier face-up requirement was unsupported.
+Repeated tribute IDs still require separate field records.
+
+The checker returns the recipe's result ID when all three matches are found,
+or zero when the recipe/material search fails. It does not consume the field
+cards: it only removes matched pointers from a temporary candidate list and,
+when requested, exports the three records' object words. Matching
+[`func_8002622C`](../../src/game/func_8002622C.c) uses a query with no output
+buffer. The later execution routine `func_800262D4` (still unmatched assembly)
+requests the output at `0x800262F8`, then calls
+[`func_80024914`](../../src/game/duel_card_object_cleanup.c) for the three
+selected records at `0x800263BC`, `0x800263E0`, and `0x80026404`.
+Eligibility and later tribute removal are separate steps, not a destructive
+test. This is code-backed selection/removal evidence, not a new runtime trace
+or a complete audit of the remaining summon presentation.
+
+The table at `0x801799D8` contains 24 records of
+{ritual, tribute, tribute, tribute, result}; the routine scans to a zero
+ritual ID rather than enforcing a fixed recipe count.
 The full list is on the disc and is decoded by the extractor (§12.2); three
 examples:
 Black Luster Ritual = Beaver Warrior + Gaia the Fierce Knight + Kuriboh →
@@ -866,27 +944,87 @@ Each monster attacks at most once per turn.
 
 ### 5.9 The 3-D battle and the "Poly Mode"
 
-The animation mode loads the two monsters' models, plays the attack, and
-returns to the duel [`0x8002D180`; a separate 3-D player is used for the
-Library viewer and for the finale's Poly Mode duels]. It reads nothing but
-the two combatants and writes nothing.
+The duel's 3-D presentation runs through matching
+[`Main_RunAnimatedBattle`](../../src/game/Main_RunAnimatedBattle.c)
+(`0x8002D180`). This is a stateful mode tick, not a read-only display of
+two combatants. Every call sets the GTE projection center to `(160, 120)`
+and projection-plane distance to `300`, before testing the initialization
+bit `D_8009B26C & 0x40`.
+
+When that bit is clear, the handler sets it, writes `D_8009B0C0 = 1`, and
+calls the view/model setup helpers. The ordinary branch passes two
+successive eight-byte records at `D_800EF658` to
+[`Model_SetSlotProperties`](../../src/game/model_set_slot_properties.c)
+for slots 0 and 1, then passes **the current terrain** (`gDuel_bTerrain`)
+to slot 2. A first record halfword of `0x309` instead selects the separate
+`func_80059C24` initialization path and sets mode bit `0x20`; it does not
+make those three slot-property calls. Both initialization paths then call
+`func_800159D8`. The wrapper alone does not identify the selector, but the
+caller-side handover in section 5.10 establishes a use of `0x309` for
+**Exodia presentation**. No fusion-recipe index interpretation is established.
+
+Initialization and polling occupy separate branches. On later calls,
+mode bit `0x20` selects `func_80059C88`; otherwise the handler polls
+`func_800534B8`. A nonzero result calls `SD_KeyOffVoiceSlots` and
+`SD_BGMFadeOut`, then replaces the **whole mode byte** `D_8009B26C` with
+`D_8009B269`, rather than hard-coding a return to duel mode. The subsequent
+`func_80059CE4` call runs on this polling branch even when completion has
+just been consumed.
+
+Thus the earlier "reads only the combatants, writes nothing" description
+was incorrect: terrain, mode control, model state, GTE state, and sound
+are involved. The wrapper does not directly write LP or rank counters;
+this is not a proof about every callee's effects or a complete account of
+the Library viewer and finale's Poly Mode presentation paths.
 
 ### 5.10 Winning and losing
 
-A duel ends the moment one of these holds, checked after every action:
+The three normal win/loss conditions are:
 
 * a side's **LP reaches 0** — the message is `TOTAL ANNIHILATION`;
 * a side **cannot draw** at the start of its turn — the other side wins by
   `VICTORY BY ATTRITION` (the deck-out; this is the route to the TEC ranks,
   §6.2);
-* a side holds **all five Exodia pieces in its hand** — instant win,
+* a side holds **all five Exodia pieces in its hand** — an automatic win,
   `SUMMON Exodia` [the check exists in the executable; the community's
   "disable Exodia" patch flips two bytes at file offsets `0x952C`/`0x959C`].
 
-The successful hand check changes the duel-scene state to `0xE`. Dispatch
-slot `0xE` runs `func_80018FEC`, which stages the five piece objects, records
-the current side as `gDuel_bWinnerSide`, and writes the `+40` Exodia end
-reason before the result path.
+The normal draw-resolution path has a source-backed Exodia check.
+Matching
+[`Duel_HasAllExodiaPieces`](../../src/game/duel_draw_resolution.c)
+requires card IDs `0x11..0x15` in the current hand. On its post-draw branch,
+`func_80018DB4` runs that check after `func_80042B40(1)` returns zero; a
+successful check sets `D_8009B23A = 0xE`. This is a gated transition, not
+evidence that every action tests all win conditions or that presentation
+finishes in the same frame.
+
+The [duel dispatcher](../../src/game/duel_scene_update.c) and
+[main loop](../../src/game/main_loop.c) use different tables. Their retail
+words connect the Exodia sequence to the animated-battle request:
+
+| Dispatch selection | Table word address | Target |
+|---|---|---|
+| Duel state `0xE` | `0x800909D0` | `func_80018FEC` (`0x80018FEC`) |
+| Main mode `1` | `0x80090B68` | `Main_RunAnimatedBattle` (`0x8002D180`) |
+| Main mode `3` | `0x80090B70` | `Main_RunDuel` (`0x8002CEE8`) |
+
+The still-unmatched `func_80018FEC` stages the five piece objects. Its later
+handover stores `0x309` in the first halfword of `D_800EF658` at
+`0x800193D8`, records the acting side as `gDuel_bWinnerSide` at
+`0x800193EC`, writes the `+40` Exodia end adjustment at `0x800193F0`,
+and clears the opposing LP halfword at `0x80019408`. It then stores
+`D_8009B269 = 3` at `0x80019430` and `D_8009B26C = 1` at `0x80019438`.
+The winner, end-adjustment, and LP writes therefore precede the animated-mode
+request.
+
+This caller requests the special `0x309` path described in section 5.9 and
+supplies duel mode `3` as its return target. On completion, the wrapper's
+generic copy from `D_8009B269` restores that target; the main loop's normal
+initialization and fade gates still apply. The selector is decimal `777`,
+outside the ordinary card-ID range `1..722`, but this does not decode its
+model/asset representation or establish that Exodia is its only possible
+user. The handover and table evidence comes from retail bytes, not the
+sequencer's nonmatching stored C candidate or a new runtime trace.
 
 In **2P Duel only**, Select on the active player's turn offers
 `QUIT DUEL? NO YES`, with No selected by default. The input check
@@ -900,11 +1038,26 @@ or loss *means* is decided by the caller (§6, §7.12, §8).
 ### 5.11 The opponent
 
 The computer's turn is played by a **bytecode script** per opponent,
-interpreted by a small VM [`AiScript_Run` `0x80070650`]: the loop fetches an
-opcode, dispatches through a **67-entry handler table** [`0x800916E0`], and
-stops when the handler it just ran was one of three terminal ones (end of hand
-phase, end of field phase, field play); every sixteenth of a second it yields
-to the video sync. The instruction set is real: `aiInstJump`, `aiInstJumpGe`,
+interpreted by a small VM
+[`AiScript_Run`](../../src/game/ai_script_vm.c) (`0x80070650`): the loop
+fetches an opcode, dispatches through a **67-entry handler table**
+[`0x800916E0`], and returns when the handler is one of three terminal ones
+(end of hand phase, end of field phase, field play). After any other
+completed handler it queries `VSync(1)`: a value below `0xF0` (240) continues
+the loop; a value at or above that threshold returns zero to the caller.
+The terminal tests come first, so the timing threshold does not override a
+completed terminal command.
+
+This is a **post-instruction timing query**, not a wait for the next VBlank
+or an established "every sixteenth of a second" schedule. The retail
+mode-1 query reads a counter delta from the SDK's shared saved baseline;
+`AiScript_Run` does not reset that baseline on entry. At least one valid
+instruction executes before the first timing query, and the query does not
+preempt an in-progress handler. The return codes and SDK branch evidence
+are detailed in [the AI notes](../ai-structures.md#interpreter-dispatch-and-yielding);
+per-pass instruction counts and visible decision times remain unmeasured.
+
+The instruction set is real: `aiInstJump`, `aiInstJumpGe`,
 `aiInstJumpEq`, `aiInstJumpNeq`, `aiInstJumpRand`, `aiInstCall`,
 `aiInstRetn`, `aiInstRand`, `aiInstSub`, `aiInstStrongest`,
 `aiInstBestCombo`, `aiInstFindFirst`… [VM state `0x800F5BE8`; the script
@@ -1627,8 +1780,14 @@ continues in Free Duel with every campaign duelist available.
 > data-driven at two levels:
 >
 > * an **event script** — 4 KB loaded to `0x801A8000` as the third chunk of
->   the 49-sector blob at `WA_MRG.MRG` sector `0x1E57` [`func_8002FD10(scene)`
->   loads it, callback `func_8002FB78`]. It begins with a `u16 offset[199]`
+>   the 49-sector blob at `WA_MRG.MRG` sector `0x1E57` [matching
+>   [`func_8002FD10`](../../src/game/func_8002FD10.c) requests the fixed package;
+>   callback `func_8002FB78` routes the script phase]. Its argument initializes
+>   `D_8009B2A4`, not a per-scene archive-page address. Matching
+>   [`Main_RunCampaign`](../../src/game/main_run_campaign.c) supplies
+>   `gCampaignSceneIndex`; on normal entry, the event driver uses a nonzero
+>   unstarted value to select the corresponding script entry.
+>   The script begins with a `u16 offset[199]`
 >   table, one entry per event, and each event is a byte stream run by
 >   `func_8002FA54` through a 23-opcode table [`0x80090C50`, opcode = byte &
 >   0x1F]. The opcodes that matter for the flow: 1 = show location picture,
@@ -1648,8 +1807,10 @@ continues in Free Duel with every campaign duelist available.
 >   dispatched through a 16-entry table [`0x80090F18`, `func_800393B0`]:
 >   `F8 op` selects a 27-entry sub-table [`0x80090EAC`] whose op `0x19` is
 >   `func_80038AB0`, **unlock duelist** (sets `0x1F + id` and `0x6E0 + id`);
->   `F9 u16` is the **flag** code [`func_80038D2C`: bit 14 set/clear, else
->   "if flag, jump"]; `FA` wait, `FB` menu, `FC` insert a word, `FD` jump,
+>   `F9 u16` is the **flag** code [`func_80038D2C`]: bit 14 selects a write;
+>   otherwise a successful set/clear test jumps to the following target.
+>   Bit 15 selects a clear write or an inverted test (§1).
+>   `FA` wait, `FB` menu, `FC` insert a word, `FD` jump,
 >   `FE` newline, `FF` end. So every SET of a story flag is inside a line of
 >   dialogue, and every duelist's unlock is inside their "you won" line.
 >
@@ -1802,8 +1963,9 @@ This applies only to normal browsing. Flag `0x20` delegates to the shared
 dialog handler and returns before browse input, including when that call
 closes the dialog. Otherwise the routine services the cursor tween and
 scrollbar, then skips browse input if movement flag `0x40` remains set.
-The [tween](../../src/overlays/free_duel/cursor_tween.c) commits the target
-row/column before clearing that flag; confirmation uses the committed cell.
+[FreeDuel_UpdateCursorTween](../../src/overlays/free_duel/update_screen.c)
+commits the target row/column before clearing that flag; confirmation uses
+the committed cell.
 These are code-derived controls, not a new runtime test of the delegated
 dialogs or their button handling.
 
@@ -1820,6 +1982,8 @@ immediate, not a standalone deck-mode flag. Exact matching C for
 before shuffling; the tutorial's editable-deck result is therefore confirmed
 [[verified tutorial mapping](../modding-tutorial-gameplay-patches.md#editable-duel-master-k-deck)].
 His drop pools are a copy of Villager 3's (§6.4).
+The shared source gives the same card multiset, not a promise of identical
+draw order: the two shuffle calls consume separate consecutive RNG segments.
 
 The unlock is one flag per duelist, `0x6E0 + id`, in the save's flag array
 [bytes `0x801D06F4`–`0x801D06F8`]. Exact matching `FreeDuel_Init`, in the

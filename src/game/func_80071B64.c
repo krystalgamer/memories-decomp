@@ -1,5 +1,8 @@
 #include "../types.h"
+#include "ai_constants.h"
 #include "card_constants.h"
+#include "duel_card_layout.h"
+#include "duel_grid.h"
 
 typedef struct {
     s16 unk0;
@@ -42,14 +45,14 @@ void AiScript_FindKiller(void) {
     w = AiScript_ReadByte();
     i = 1;
     base = gDuel_aActiveCards;
-    c = base + 0xC;
-    ref = base + a * 12;
+    c = base + AI_ACTIVE_CARD_RECORD_SIZE;
+    ref = base + a * AI_ACTIVE_CARD_RECORD_SIZE;
 
-    for (; i < 6; i++, c += 0xC) {
+    for (; i < DUEL_FIELD_ROW_SIZE + 1; i++, c += AI_ACTIVE_CARD_RECORD_SIZE) {
         if (*(s16 *)c == 0) {
             continue;
         }
-        if ((*(u16 *)(c + 6) & 0x4000) != 0) {
+        if ((*(u16 *)(c + 6) & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
             continue;
         }
         if (m == 0) {

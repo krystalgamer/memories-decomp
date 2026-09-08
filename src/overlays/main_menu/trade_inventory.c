@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "../../psyq/qsort.h"
 #include "../../game/card_constants.h"
+#include "trade_helpers.h"
 
 typedef struct {
     s16 id;
@@ -21,9 +22,8 @@ extern u8 D_801D1200[];
 extern MainMenuCard D_801845FC[][CARD_COUNT];
 extern u8 D_80185CCC[];
 extern MainMenuState D_801A8000[];
-extern void func_80184030(s32, s32);
 
-void func_8018338C(s32 slot, s32 force)
+void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
 {
     MainMenuComparators comparators;
     u8 *row;

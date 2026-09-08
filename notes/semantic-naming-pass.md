@@ -40,6 +40,43 @@ confidence non-game function mappings remain rejected.
 These are semantic project names, not claims that the original Forbidden
 Memories symbols have been recovered.
 
+## Code-generation aliases are not additional semantic objects
+
+`gDuel_bTerrain` is the canonical name for the byte at `0x8009B364`.
+`Duel_GetTerrainBoost` also needs a separate compiler identity for that
+address to preserve its two address materializations. The descriptive
+`gDuel_bTerrainCodegenAlias` is therefore defined in `c_symbols.ld`, not as
+a second primary entry at the same address in `symbols.txt` or the semantic
+registry. Both identifiers resolve to the same byte; they do not describe
+different terrain values.
+
+Keeping the alias explicitly named also prevents the ordinary
+`D_<address>` replacement pass from silently merging the two compiler
+identities. Other terrain users keep the canonical name and their existing
+declaration shapes, including the eight-byte view used to preserve the
+assembler's small-data choice in `func_80024E58`.
+
+## Module-scoped function records
+
+The six-column registry keeps the existing `function` and `global` kinds
+for resident naming. An overlay function instead uses the qualified kind
+`overlay/<module>/function`, for example
+`overlay/free_duel/function` for `FreeDuel_UpdateCursorTween` at
+`0x80168A9C`. This preserves the legacy schema while distinguishing symbols
+whose virtual addresses are reused by different overlays.
+
+The resident naming tool validates these records against the corresponding
+`config/slus_01411/overlays/<module>_functions.csv`: the address, accepted
+name and namespace must agree, and confidence must be `confirmed` or
+`high`. It does not turn them into resident token replacements, source moves
+or `symbols.txt` entries. Apply the actual overlay source, caller, manifest
+and module-symbol changes through the module-specific workflow first.
+
+An address or name may be reused in different overlay namespaces, but a
+duplicate within one namespace remains an error. Unknown scopes, absent
+addresses and not-yet-applied names are rejected rather than silently
+ignored. A scoped-only no-op does not rewrite unrelated resident files.
+
 ## Evidence coverage
 
 All nonambiguous descriptive function labels in `tmp/references/gms.c` were

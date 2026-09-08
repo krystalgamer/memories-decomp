@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "gpu_packets.h"
 
 extern u32 *D_800FE240 __attribute__((section(".data")));
 

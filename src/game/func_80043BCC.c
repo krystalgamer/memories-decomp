@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../overlays/main_menu/entrypoints.h"
 #include "../psyq/rand.h"
 #include "input.h"
 
@@ -86,7 +87,7 @@ s32 func_80043BCC(void) {
                 func_8018001C(0, 0);
                 func_800157DC();
             }
-            r = func_80180390();
+            r = MainMenu_UpdateFrontendMenu();
             if (r != -1) {
                 break;
             }

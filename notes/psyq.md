@@ -136,7 +136,7 @@ Every row below is now an applied project symbol.
 | `0x80075DE0` | `SpuSetReverbModeParam` | Applied from the unique 1,248-byte Psy-Q 4.6 `LIBSPU.LIB/S_SRMP.OBJ` signature; matching sound commands submit the 20-byte reverb parameter prefix. |
 | `0x800762C0` | `_spu_setReverbAttr` | Applied from the unique 1,232-byte Psy-Q 4.6 `LIBSPU.LIB/S_SRA.OBJ` signature. |
 | `0x80076790` | `SpuReserveReverbWorkArea` | Applied from the unique 80-byte Psy-Q 4.6 `LIBSPU.LIB/S_RRWA.OBJ` signature; matching sound setup reserves or releases the work area. |
-| `0x800767E0` | `SpuIsReverbWorkAreaReserved` | Applied from the unique 64-byte Psy-Q 4.6 `LIBSPU.LIB/S_IRWAR.OBJ` signature; matching sound setup checks the reservation state. |
+| `0x800767E0` | `SpuIsReverbWorkAreaReserved` | Applied from the unique 64-byte Psy-Q 4.6 `LIBSPU.LIB/S_IRWAR.OBJ` signature. Retail `SPU_CHECK` returns the stored reservation flag; other arguments, including the game's `SPU_DIAG`, negate the allocation-area probe. See [the exact query contract](sound-driver-state.md#reverb-work-area-queries). |
 | `0x80076820` | `SpuSetReverbVoice` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_SRV.OBJ` signature. |
 | `0x80076850` | `_SpuSetAnyVoice` | Applied from the unique 704-byte Psy-Q 4.6 `LIBSPU.LIB/S_SAV.OBJ` signature. |
 | `0x80076B10` | `SpuGetReverbVoice` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_GRV.OBJ` signature. |
@@ -150,7 +150,7 @@ Every row below is now an applied project symbol.
 | `0x80077120` | `SpuSetKeyOnWithAttr` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_SKOWA.OBJ` signature. |
 | `0x800771B0` | `SpuSetTransferStartAddr` | Applied from the unique 96-byte Psy-Q 4.6 `LIBSPU.LIB/S_STSA.OBJ` signature; matching transfer paths select the SPU RAM destination. |
 | `0x80077210` | `SpuSetTransferMode` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_STM.OBJ` signature; matching initialization selects DMA mode zero. |
-| `0x80077240` | `SpuIsTransferCompleted` | Applied from the unique 176-byte Psy-Q 4.6 `LIBSPU.LIB/S_ITC.OBJ` signature; matching reset code selects blocking or nonblocking status. |
+| `0x80077240` | `SpuIsTransferCompleted` | Applied from the unique 176-byte Psy-Q 4.6 `LIBSPU.LIB/S_ITC.OBJ` signature; matching reset code selects blocking or nonblocking status. `func_8001455C` also uses the canonical `libspu.h` declaration to poll mode zero before clearing its pending-transfer flag. |
 | `0x800772F0` | `SpuRGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset zero of the unique 352-byte `LIBSPU.LIB/SR_GAKS.OBJ` signature. |
 | `0x800773C4` | `SpuGetAllKeysStatus` | Applied Psy-Q 4.6 identity at offset `0xD4` of the same object; matching `func_80045F3C` uses the canonical `libspu.h` declaration to collect all voice key states into its status block before update work. |
 | `0x80077450` | `SpuSetVoiceAttr` | Applied from the unique 1,536-byte Psy-Q 4.6 `LIBSPU.LIB/S_SVA.OBJ` signature; matching sound paths submit raw layout-compatible voice attribute blocks. |
@@ -184,12 +184,12 @@ Every row below is now an applied project symbol.
 | `0x800781F0` | `CdPosToInt` | Applied Psy-Q 4.6 LIBCD identity; canonical copy of the packed-BCD position-to-sector conversion. |
 | `0x8007E710` | `CdPosToInt_8007E710` | Applied address-qualified identity for the second byte-identical resident copy used by matching game C. |
 | `0x8007DD50` | `DsStartReadySystem` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,440-byte `LIBDS.LIB/DSREADY.OBJ` signature; the matching file-transfer path installs its ready callback with an unlimited count. |
-| `0x8007DDD4` | `DsEndReadySystem` | Applied Psy-Q 4.6 identity at offset `0x84` of the same unique `LIBDS.LIB/DSREADY.OBJ` signature. |
+| `0x8007DDD4` | `DsEndReadySystem` | Applied Psy-Q 4.6 identity at offset `0x84` of the same unique `LIBDS.LIB/DSREADY.OBJ` signature; matching `func_8001455C` uses the canonical `libds.h` declaration in two ready-system teardown states. |
 | `0x8007DE38` | `DsReadySystemMode` | Applied Psy-Q 4.6 identity at offset `0xE8` of the same unique `LIBDS.LIB/DSREADY.OBJ` signature; the matching file-transfer path selects mode `1`. |
 | `0x8007E390` | `DsFlush` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBDS.LIB/D2_005.OBJ` signature. |
 | `0x8007E790` | `DsLastPos` | Applied Psy-Q 4.6 identity from the unique 96-byte `LIBDS.LIB/D3_008.OBJ` signature. |
 | `0x8007E7F0` | `CdControlB` | Applied confirmed identity for the three-argument CD command that blocks until the internal completion code is `2`. |
-| `0x8007E860` | `CdReadyCallback` | Applied confirmed identity for the setter that replaces and returns the callback invoked with a ready-event status and result pointer. |
+| `0x8007E860` | `CdReadyCallback` | Applied confirmed identity for the setter that replaces and returns the callback invoked with a ready-event status and result pointer; matching `func_8001455C` clears it through the canonical `libcd.h` declaration after ending the DS ready system. |
 | `0x8007E880` | `CdSyncCallback` | Applied confirmed identity for the setter that replaces and returns the callback invoked from the command-completion path. |
 | `0x8007E8D0` | `SetDumpFnt` | Applied at offset zero of the unique Psy-Q 4.6 `LIBGPU.LIB/FONT.OBJ` signature; matching setup paths select the debug-font stream returned by `FntOpen`. |
 | `0x8007E9B0` | `FntOpen` | Applied at offset `0xE0` of the unique `FONT.OBJ` signature; matching callers open a 320x240 on-screen debug text window. |
@@ -255,7 +255,7 @@ Every row below is now an applied project symbol.
 | `0x80085320` | `GsGetActiveBuff` | Applied Psy-Q 4.6 identity. The 16-byte `LIBGS.LIB/GS_0021.OBJ` signature is shared with `LIBSND.LIB/UT_REV_2.OBJ` (`SsUtGetReverbType`); the body returns the halfword at `0x800FE0CC`, which `GsSwapDispBuff` writes and `GsSetDrawBuffOffset` reads, placing it in the LIBGS display-buffer block. Matching movie paths use the result as the active buffer index, and `func_8005B8A0` and `func_8005BB7C` write `D_800FE0CC` directly before calling `GsSwapDispBuff`. |
 | `0x80085330` | `GsSetDrawBuffOffset` | Applied from the unique 272-byte `LIBGS.LIB/GS_0022.OBJ` signature; calls `PutDrawEnv` and mirrors the offset into the GTE with `SetGeomOffset`. |
 | `0x80085440` | `GsSetDrawBuffClip` | Applied from the unique 128-byte `LIBGS.LIB/GS_003.OBJ` signature; installs the clip rectangle through `PutDrawEnv`. |
-| `0x800854C0` | `GsInitVcount` | Applied from the unique 64-byte `LIBGS.LIB/GS_007.OBJ` signature; programs root counter 1 with `SetRCnt` and `StartRCnt`. `Main_Init` calls it during graphics start-up. |
+| `0x800854C0` | `GsInitVcount` | Applied from the unique 64-byte `LIBGS.LIB/GS_007.OBJ` signature; programs root counter 1 with `SetRCnt` and `StartRCnt`. `Main_Init` calls it through the canonical `libgs.h` declaration during graphics start-up. |
 | `0x80085500` | `GsSwapDispBuff` | Applied from the unique 176-byte `LIBGS.LIB/GS_010.OBJ` signature; toggles the active-buffer flag at `0x800FE0CC` and reinstalls both environments through `GsSetDrawBuffOffset`, `GsSetDrawBuffClip`, `PutDispEnv` and `SetDispMask`. The matching movie players call it once per frame. |
 | `0x800855B0` | `GsSetOrign` | Applied from the unique 32-byte `LIBGS.LIB/GS_013.OBJ` signature; stores its two arguments as the halfword pair at `0x800FE040` that `GsSetDrawBuffOffset` reads back. |
 | `0x800855D0` | `GsSetLsMatrix` | Applied Psy-Q 4.6 identity; matching projection paths install their local-screen matrix before GTE projection work. |
@@ -326,7 +326,7 @@ Every row below is now an applied project symbol.
 | `0x8008B680` | `_patch_card2` | Applied at offset `0x170` of the same unique `LIBCARD.LIB/PATCH.OBJ` signature. |
 | `0x8008B6F0` | `_copy_memcard_patch` | Applied at offset `0x1E0` of the same unique `LIBCARD.LIB/PATCH.OBJ` signature. |
 | `0x8008B730` | `_ExitCard` | Applied at offset zero of the unique 128-byte Psy-Q 4.6 `LIBCARD.LIB/END.OBJ` signature. |
-| `0x8008B7B0` | `MemCardInit` | Applied at offset zero of the unique 80-byte Psy-Q 4.6 `LIBMCRD.LIB/INIT.OBJ` signature. |
+| `0x8008B7B0` | `MemCardInit` | Applied at offset zero of the unique 80-byte Psy-Q 4.6 `LIBMCRD.LIB/INIT.OBJ` signature; matching graphics/input start-up calls it through the canonical `libmcrd.h` declaration after initializing the pads. |
 | `0x8008B7E0` | `MemCardEnd` | Applied at offset `0x30` of the same unique `LIBMCRD.LIB/INIT.OBJ` signature. |
 | `0x8008B800` | `PushCallbackFunc` | Applied at offset zero of the unique 6,352-byte Psy-Q 4.6 `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
 | `0x8008B828` | `PullCallbackFunc` | Applied at offset `0x28` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
@@ -606,7 +606,13 @@ migrations include `duel_setup_card_record.c`, `func_800289BC.c`,
 `file_cd_helpers.c`, `func_800582C0.c`, and
 `model_handler_registry.c`. The main-menu value-bar renderer
 `starchip_bars.c` uses native `POLY_G4` and `POLY_GT4` stack records plus
-`setlen`, replacing duplicate local packet layouts. `FreeDuel_Init` likewise
+`setlen`, replacing duplicate local packet layouts. The main-menu background
+builder `func_80180B4C` uses native `POLY_F4`, `POLY_FT4`, and `POLY_G4`
+records and their constructor macros; `func_80184454` uses `POLY_F4`.
+These replace the local flat/textured/Gouraud record copies without changing
+their submitted fields or packet order. The background's CLUT is expressed
+as `getClut(0, 244)`, matching the independently documented `0x3D00` packing.
+`FreeDuel_Init` likewise
 uses `RECT`, `IsIdleGPU`, and `LoadImage2` directly for its portrait and CLUT
 uploads instead of parallel local declarations. Confirmed camera, lighting,
 object, packet, and sorting paths also use `libgs.h`, including
@@ -628,6 +634,39 @@ semi-transparency flag. It then links the packet through
 `GsOT`, `setlen`, and `addPrim` confirms that the SDK tag bitfields,
 ordering-table member, and 24-bit link macros fit this resident path without a
 parallel local packet or ordering-table declaration.
+
+`src/game/gpu_packets.h` declares this game-owned submission boundary once as
+`func_8005B260(u32 *, GsOT *, s32, s32)`. The definition and all current
+resident/overlay callers include it. Callers that previously declared a
+`u16` index retain the corresponding explicit conversion where required;
+integer-valued packet/table addresses are cast at the call boundary without
+changing their existing address arithmetic. Local primitive builders and
+their packed-store shapes are not redefined by this interface cleanup.
+
+The password overlay's `NameEntry_DrawSelectionFrame` (`0x801681A0`) now
+uses `LINE_F3` and `LINE_G2` from that same header. Its former offsets match
+the SDK fields directly: `LINE_F3` has three halfword coordinate pairs at
+`+8`, `+12`, and `+16`, followed by the terminator at `+20`; `LINE_G2` has
+coordinate pairs at `+8` and `+16`, with its second color at `+12`.
+`setLineF3` and `setLineG2` reproduce the five-/four-word payload lengths and
+`0x48`/`0x50` command bytes without a duplicated local layout.
+
+The routine retains packed 32-bit color writes rather than substituting
+three byte stores. Its four corner packets use green, while the callout
+packets supply green and black endpoint colors. The packets pass through
+`func_8005B260` with flags `1`, so the helper's draw-mode insertion and
+semi-transparency handling still apply. The caller uses the real `GsOT *`
+interface and explicitly narrows its signed priority to `u16` at each
+submission; this preserves the original load and conversion placement while
+matching the helper's `s32` index parameter.
+
+The callback itself is now declared once in the module-local
+`name_entry_frame.h` as taking a `NameEntrySelectionFrameView *` and
+`GsOT *`. Its definition and installer both include that declaration.
+The frame view preserves the existing game-owned rectangle-prefix offsets
+and signedness; it is not an SDK object or a claim about the complete
+allocation. This replaces the installer's old zero-argument placeholder
+without changing how the function pointer is installed.
 
 The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
 same `RECT *` / `u32 *` argument shape. Both current matching `LoadImage`
@@ -867,8 +906,10 @@ reset/restart controls, NTSC/PAL selection, and the `getScratchAddr` macro for
 word-indexed access to the `0x1F800000` scratchpad. Its `PadInit`/`PadStop`
 pair is not interchangeable with the buffer-oriented `PadInitDirect` and
 `PadStopCom` interface in `libpad.h`. Matching `ai_script_vm.c` includes
-`libetc.h` for `VSync(1)` while bounding one AI interpreter pass, and
-`func_8004E9A0.c` uses `VSync(-1)` to choose time-varying image-copy frames.
+`libetc.h` for the post-dispatch `VSync(1)` query in
+[the AI interpreter](ai-structures.md#interpreter-dispatch-and-yielding),
+not a wait-for-VBlank call. `func_8004E9A0.c` uses `VSync(-1)` to choose
+time-varying image-copy frames.
 No current game C uses the header's simple-pad interfaces.
 
 `libsio.h` and `libcomb.h` expose parallel serial interfaces. The SIO header

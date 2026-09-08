@@ -529,7 +529,8 @@ while (i < count) {
 ```
 
 Here `p` varies, so `p + offset` is not invariant and survives into the body.
-Measured on `func_801840F8` in the main menu module. Initialising the counter
+Measured on `MainMenu_AdjustTradeCardCount` (`0x801840F8`) in the main menu
+module. Initialising the counter
 **before** `offset` and `p` also matters: with the counter left to a `for`
 initialiser it is emitted after them and the two loop registers come out
 swapped.
@@ -562,7 +563,7 @@ This is the same evidence as the locals rule — a register holding a value the
 source named — read through the operand fields rather than through an extra
 copy.
 
-Both measured on `func_801840F8` in the main menu module.
+Both measured on `MainMenu_AdjustTradeCardCount` in the main menu module.
 
 ## Store order decides which value reuses a base register
 
@@ -672,7 +673,8 @@ made to move after it by reordering statements, because no source position
 maps there. When a setup value sits in the wrong place relative to the
 hoisted addresses, the fix is to stop naming it, not to move it.
 
-Measured on `func_801840F8` in `main_menu`, where `table[slot][i]` reproduces
+Measured on `MainMenu_AdjustTradeCardCount` in `main_menu`, where
+`table[slot][i]` reproduces
 the instruction count exactly, including the `361 << 3` expansion of the
 `2888`-byte row stride, and on `CampaignMap_RebuildLocationObjects` in the
 overworld overlays, where the body-computed offset produces a full match.
@@ -1128,7 +1130,7 @@ positions:
 /* generated: GCC forms slot*3, *4 - slot, doubled; reuses the row offset for
    both the element and the count; hoists the base itself */
 while (i < D_80185C9C[slot][0]) {
-    func_801840F8(slot, D_80185C9C[slot][i + 1], amount);
+    MainMenu_AdjustTradeCardCount(slot, D_80185C9C[slot][i + 1], (u32)amount);
     i++;
 }
 
@@ -1162,14 +1164,16 @@ Both of these levers had been measured separately and neither worked; together
 they matched on the first build.
 
 Verified by `func_80184030` in the main menu module, using the declaration
-proved by `func_80183B2C` in the same module.
+proved by `MainMenu_DrawTradeOffersAndHighlights` (`0x80183B2C`) in the same
+module.
 
 ### Declare the row shape, not just the row
 
 The rule above is about *whether* to hand-write the address. There is a second
 question once you decide to index: **what shape you declare the element as.**
 
-`func_80181F68` walks three per-slot tables. Indexing them as flat arrays and
+`MainMenu_InitTradeScreen` (`0x80181F68`) walks three per-slot tables.
+Indexing them as flat arrays and
 letting GCC strength-reduce had been measured and rejected, because it produced
 the right hoisting split but built fifteen instructions over — GCC made one
 induction variable per *field* touched:
@@ -1194,12 +1198,13 @@ a giv stops being an invariant address and so stops competing for the
 four-invariant hoisting budget. Getting the element shape right is therefore
 what decides which *other* symbols end up hoisted.
 
-Verified by `func_80181F68` in the main menu module.
+Verified by `MainMenu_InitTradeScreen` in the main menu module.
 
 ### Declaring the shape usually subsumes the address tricks
 
 When the row shape is right, levers that had to be discovered separately stop
-being levers and fall out of the declaration. `func_8018338C` carried three
+being levers and fall out of the declaration. `MainMenu_RefreshTradeInventory`
+(`0x8018338C`) carried three
 recorded findings — build the count base in two statements or GCC folds the
 `+80` into the symbol's `%lo`; index the comparator table from the base symbol
 rather than naming the one four bytes in; and a register-numbering shift
@@ -1224,7 +1229,7 @@ The two that remained were both already-recorded rules rather than anything new
 — the row address and the count base are separate locals because the target
 keeps both in registers, and the sort mode is read once into a local.
 
-Verified by `func_8018338C` in the main menu module.
+Verified by `MainMenu_RefreshTradeInventory` in the main menu module.
 
 ## Per-occurrence reloads mean the local is volatile
 
@@ -1235,7 +1240,8 @@ one chained assignment become three `lw` from the same offset into three
 different registers, with no store in between that could have invalidated a
 cached copy.
 
-`func_80183B2C` in the main menu module keeps two object pointers this way:
+`MainMenu_DrawTradeOffersAndHighlights` in the main menu module keeps two
+object pointers this way:
 
 ```
 lw   a1,16(sp)
@@ -1251,11 +1257,13 @@ Nothing between the three loads can alias, so ordinary common subexpression
 elimination would have collapsed them. That qualification is the whole rule:
 **a reload only means volatile when no store separates it.** A store through any
 pointer may alias what the load reads, so a reload after one is forced rather
-than chosen and says nothing about the source. `func_80180390` has three
+than chosen and says nothing about the source. `MainMenu_UpdateFrontendMenu`
+(`0x80180390`) has three
 identical loads of a global in one call-free block and needs no qualifier at
 all, because each one follows a store. Use
 `tools/project/overlay_scan_reloads.py` to apply the test rather than reading it
-off by eye; scanned across all five modules, `func_80183B2C` is the only
+off by eye; scanned across all five modules,
+`MainMenu_DrawTradeOffersAndHighlights` is the only
 function that shows the signature.
 
 Declaring the pair as
@@ -1276,7 +1284,8 @@ every block that touches the volatile object keeps its load-use hazards as
 `nop`s while the rest of the function is scheduled normally. A function whose
 first half is full of unfilled load delay slots and whose loops are tightly
 scheduled is not evidence of a lower optimisation level. It is evidence of a
-volatile object in the first half. Measure before concluding: `func_80183B2C`
+volatile object in the first half. Measure before concluding:
+`MainMenu_DrawTradeOffersAndHighlights`
 looked like `-O1` on both counts at once — no elimination and no scheduling —
 and building it at `-O1` did get closer, 201 of 216 against 162, which made the
 wrong explanation look right. The volatile qualifier at the ordinary `-O2`
@@ -1301,7 +1310,8 @@ or otherwise un-eliminable object is read.
 
 A range test that emits `lbu` with `sltiu` and then `lb` with `bgez` is reading
 the same byte twice with two different signednesses, not once with one
-comparison. In `func_80183B2C` the colour channel leaves the range `0x41` to
+comparison. In `MainMenu_DrawTradeOffersAndHighlights` the colour channel
+leaves the range `0x41` to
 `0x7F`, written as
 
 ```c
@@ -1334,7 +1344,8 @@ written inline in both argument lists, but not the same registers: the named
 locals create their pseudos earlier and win the allocation priority contest
 against the loop's own induction and address values.
 
-In `func_80183B2C` the loop bodies were 216 of 216 with 52 differing positions,
+In `MainMenu_DrawTradeOffersAndHighlights` the loop bodies were 216 of 216
+with 52 differing positions,
 every one of them the same instruction with a different register. The target
 puts `s0` on the x coordinate and `s2` on the element address; named locals put
 `s3` on x and `s0` on the element address. Writing
@@ -1352,7 +1363,7 @@ Declaration order was measured on the same function and has no effect at all —
 three permutations of `i`, `x` and `y` all gave the identical 52 positions. The
 lever is whether the value is a named local, not where it is declared.
 
-Verified by `func_80183B2C` in the main menu module.
+Verified by `MainMenu_DrawTradeOffersAndHighlights` in the main menu module.
 
 ## A subtraction's destination follows the variable, not the statement
 

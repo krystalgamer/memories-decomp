@@ -18,8 +18,8 @@ void AiScript_PushComboCard(void)
         output--;
     } while (i >= 0);
 
-    for (i = 0; i <= gAiScript_State[0xA3]; i++) {
-        s32 value = gAiScript_State[i + 0x38];
+    for (i = 0; i <= gAiScript_State[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET]; i++) {
+        s32 value = gAiScript_State[i + AI_SCRIPT_COMBO_BYTE_OFFSET];
 
         if (value >= 11) {
             D_800EAE88[count] = value;

@@ -125,6 +125,8 @@ other matching functions use narrower buffer views; the cast documents an
 additional ABI-compatible interpretation rather than changing their source
 shape.
 
+### Reverb work-area queries
+
 Matching `func_8004ACE4` handles two sound-sequence control entries:
 
 | Entry byte `+0x11` | Reverb operation |
@@ -132,11 +134,29 @@ Matching `func_8004ACE4` handles two sound-sequence control entries:
 | `0x0F` | Disables active reverb, adjusts work-area reservation, submits `SPU_REV_MODE` with the requested mode byte at `+0x13`, re-reserves when required, enables reverb, and caches the byte at secondary-state offset `0x844`. |
 | `0x10` | Submits `SPU_REV_DEPTHL \| SPU_REV_DEPTHR` with the byte at `+0x13` shifted left by eight for both channels, enables reverb, and caches the byte at offset `0x845`. |
 
-The mode path queries `SpuIsReverbWorkAreaReserved` with `-1` before release
-and `-2` before reservation. Those query values are preserved as observed;
-the imported header does not assign them public symbolic names. Separate
-initialization paths call `SpuSetReverbModeType(0)` while resetting sound
-state.
+The mode path uses the imported `SPU_CHECK` (`-1`) before release and
+`SPU_DIAG` (`-2`) before reservation. The retail SDK implementation at
+`0x800767E0` establishes the distinction:
+
+- Exactly `-1` returns the stored reservation flag at `D_80092B20`.
+- Every other argument loads `D_80092B24`, calls `_SpuIsInAllocateArea_`,
+  and returns whether that probe returned zero.
+
+Thus the game's `SPU_DIAG` call is an allocation-area diagnostic, not another
+read of the reservation flag. The implementation does not uniquely recognize
+`-2`; the SDK name labels the game's existing operand without narrowing the
+observed contract. The query itself does not set or clear the reservation
+flag.
+
+`SpuReserveReverbWorkArea` at `0x80076790` corroborates this: a nonzero
+reservation request uses the same probe before setting `D_80092B20` to one;
+an off request or unsuccessful probe clears it. The 64-byte query body and
+the relevant reserve/probe instruction bodies were compared directly with
+the retail executable. No SDK implementation or global names are changed,
+and no unit interpretation is assigned to `D_80092B24`.
+
+Separate initialization paths call `SpuSetReverbModeType(SPU_REV_MODE_OFF)`
+while resetting sound state.
 
 SPU shutdown is now explicit at both game-owned boundaries. `SD_Term` performs
 its secondary-state cleanup and then calls `SpuQuit`. The output teardown path
@@ -309,6 +329,15 @@ remains unused. These names do not add full fourteen-bit bend handling or
 change the raw gain/pitch readers. In particular, the cached `+0x07` value is
 pitch bend, not a bank byte.
 
+The stored bend MSB uses `SD_SEQUENCE_PITCH_BEND_MSB_MASK` (`0x7F`), separate
+from pan and other seven-bit fields. `func_8004A3BC` narrows its input to a
+byte and returns zero at `SD_SEQUENCE_PITCH_BEND_CENTER` (`64`). Below center
+it uses the object's `+0x11` coefficient and the distance from `64`; above
+center it uses `+0x10` and subtracts
+`SD_SEQUENCE_PITCH_BEND_POSITIVE_BIAS` (`63`). Both coefficients are doubled,
+and the result is narrowed to a signed halfword. The positive-side bias is
+not changed to `64` to make the two branches look symmetric.
+
 The matched gain routine uses the separate `SD_SECONDARY_PAN_*` constants
 for its pan domain. It sums four byte contributions, subtracts three center
 values, and clamps to `0` through `127`; the existing override flag instead
@@ -329,6 +358,13 @@ the existing SysEx handling. End-of-track, tempo, SMPTE-offset, time-signature,
 and key-signature selectors are named without changing their byte consumption.
 Custom controller numbers and loop handling remain separate from these event
 classifications.
+
+The adjacent meta/SysEx handlers and channel dispatcher share
+`src/game/sound_sequence_events.c`, covering `0x8004BE6C` through
+`0x8004C420` in their original definition order under `gcc_2_8_1_g0`.
+The following running-status parser remains separate because its
+`gcc_2_8_1_g8_split` profile differs. Grouping does not change the event bodies,
+their local track view, or their external declarations.
 
 `SD_ReadVariableLengthValue` uses the separate `SD_SEQUENCE_VLQ_*` constants
 for seven-bit payload groups and their continuation bit. Its
@@ -355,11 +391,23 @@ The channel-state handler excludes the two loop modes from its ordinary
 data-entry dispatch. These mode values must not be confused with unrelated
 controller IDs or object-state markers that happen to use the same numbers.
 
+The controller staging bytes in `SDSecondaryRecord` are `parameter_selector`
+at `+0x11`, `control_mode` at `+0x12`, and `control_value` at `+0x13`.
+Controller `SD_SEQUENCE_CONTROL_PARAMETER_SELECTOR` (`0x62`) stores the
+selector, `SD_SEQUENCE_CONTROL_MODE` stores the mode, and data entry stores
+the value before the existing loop-mode exclusions are tested.
+`func_8004ACE4` retains its raw byte view: selector
+`SD_SEQUENCE_PARAMETER_REVERB_MODE` (`0x0F`) applies the staged value as the
+reverb mode, and `SD_SEQUENCE_PARAMETER_REVERB_DEPTH` (`0x10`) applies its
+existing left/right depth conversion. Unhandled selectors remain unchanged;
+the work-area queries retain the check-versus-diagnostic contract described
+above.
+
 ### Confirmed secondary-state fields
 
 | Offset | Width | Field | Local matching-C evidence |
 |---|---:|---|---|
-| `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `func_8004B49C`, `func_8004B6E8`, and `func_8004B70C` establish `program`, `pan`, `volume`, `expression`, and `pitch_bend_msb`; bytes at `+0x06` and `+0x10`-`+0x13` retain offset-based names. |
+| `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `func_8004B49C`, `func_8004B6E8`, and `func_8004B70C` establish `program`, `pan`, `volume`, `expression`, `pitch_bend_msb`, and staged controller selector/mode/value bytes; `+0x06` and `+0x10` retain offset-based names. |
 | `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `func_8004B49C`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are `channel_index` at `+0x03`, a byte at `+0x0F`, and a `u16` at `+0x1E`. |
 | `0x04A4` | `0x1C` | `transfer` | `func_80049434`, `func_800496C4`, `func_8004975C`, `func_800497E0`, and `func_800498F8`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |

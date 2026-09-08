@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "campaign_flags.h"
 #include "display_object_layout.h"
 #include "file_transfer.h"
 
@@ -105,16 +106,16 @@ void func_8002BFCC(void) {
         switch (v) {
         case CARD_TYPE_MAGIC:
         case CARD_TYPE_EQUIP:
-            *(s16 *)(rb + n * 4 + 0x54) = 0x170;
+            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_MAGIC_EQUIP;
             break;
         case CARD_TYPE_TRAP:
-            *(s16 *)(rb + n * 4 + 0x54) = 0x180;
+            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_TRAP;
             break;
         case CARD_TYPE_RITUAL:
-            *(s16 *)(rb + n * 4 + 0x54) = 0x190;
+            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_RITUAL;
             break;
         default:
-            *(s16 *)(rb + n * 4 + 0x54) = 0x160;
+            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_DEFAULT;
             break;
         }
         n++;
@@ -122,7 +123,7 @@ void func_8002BFCC(void) {
     D_801D5608[0] = 0;
     n = CARD_ID_FIRST;
     do {
-        if (Campaign_TestStoryFlag(n + 0x120) != 0) {
+        if (Campaign_TestStoryFlag(n + CAMPAIGN_FLAG_LIBRARY_CARD_BASE) != 0) {
             D_801D5608[0] += 1;
             *(u8 *)(r + n * 4 + 0x56) = 0x80;
             if (func_8002C518(n) < 0) {

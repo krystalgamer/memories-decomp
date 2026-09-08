@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "trade_helpers.h"
 
 extern u8 *D_801845EC[];
 extern u16 D_80185C9C[][11];
@@ -9,7 +10,7 @@ extern void func_80183E8C(s32 x, s32 y, s32 value);
 extern void func_80184344(s32 x, s32 y, s32 index);
 extern void func_80184454(int column);
 
-void func_80183B2C(void)
+void MainMenu_DrawTradeOffersAndHighlights(void)
 {
     u8 *volatile obj[2];
     s32 i;

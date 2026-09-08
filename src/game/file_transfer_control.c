@@ -35,8 +35,8 @@ void func_80014A5C(s32 arg0)
     if (D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) {
         if (D_8009B134 != 0 && !(D_8009B134 & 0x40)) {
             D_8009B134 |= 0x40;
-            gFile_PrimaryTransferDescriptor[0x46] = 5;
-            gFile_PrimaryTransferDescriptor[0x47] = 0;
+            gFile_PrimaryTransferDescriptor[FILE_TRANSFER_DESCRIPTOR_STATE_BYTE_OFFSET] = 5;
+            gFile_PrimaryTransferDescriptor[FILE_TRANSFER_DESCRIPTOR_SUBSTATE_BYTE_OFFSET] = 0;
         }
         func_8001455C();
     } else {

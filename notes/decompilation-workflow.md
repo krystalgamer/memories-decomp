@@ -194,7 +194,8 @@ general compiler laws. Before reconsidering a deferred function:
 
 Two overlay matches demonstrate why this discipline matters:
 `func_80184030` required two individually unsuccessful changes together, while
-`func_8018338C` recovered most apparent address and scheduling tricks by fixing
+`MainMenu_RefreshTradeInventory` (`0x8018338C`) recovered most apparent address
+and scheduling tricks by fixing
 its declarations. The resident matching-evidence note likewise records
 post-terminal matches unlocked by corrected profiles and source structure.
 

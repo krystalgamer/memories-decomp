@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "ai_constants.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
 
@@ -94,7 +95,7 @@ next:
             {
                 s32 o;
 
-                o = v * 12;
+                o = v * AI_ACTIVE_CARD_RECORD_SIZE;
                 {
                     register u8 *act asm("$9") = gDuel_aActiveCards;
 

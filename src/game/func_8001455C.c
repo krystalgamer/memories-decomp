@@ -1,4 +1,8 @@
 #include "../types.h"
+#include "../psyq/libcd.h"
+#include "../psyq/libds.h"
+#include "../psyq/libspu.h"
+#include "file_constants.h"
 
 extern u8 gFile_PrimaryTransferDescriptor[];
 extern volatile s32 D_8009B0F4;
@@ -21,9 +25,6 @@ extern void func_800140A0(void);
 extern s32 func_8007B1F4(s32, void *, void *, s32);
 extern s32 func_8007B468(s32, void *, s32, void *, s32);
 extern void CdIntToPos_8007E600(s32, void *);
-extern void DsEndReadySystem(void);
-extern void CdReadyCallback(void *);
-extern s32 SpuIsTransferCompleted(s32);
 extern void func_800144B8(void);
 
 void func_8001455C(void)
@@ -128,8 +129,8 @@ call_back:
         }
         return;
     }
-    if (p[0x46] == 5) {
-        switch (p[0x47]) {
+    if (p[FILE_TRANSFER_DESCRIPTOR_STATE_BYTE_OFFSET] == 5) {
+        switch (p[FILE_TRANSFER_DESCRIPTOR_SUBSTATE_BYTE_OFFSET]) {
         case 0:
             DsEndReadySystem();
             CdReadyCallback(0);

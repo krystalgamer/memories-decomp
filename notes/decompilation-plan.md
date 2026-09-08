@@ -83,7 +83,7 @@ with full-file comparison as the merge gate.
 - The primary acceptance target is a byte-identical rebuilt PS-X EXE.
 - Incremental unmatched assembly is allowed until functions are converted to
   matching C.
-- Do not decompile the 598 PsyQ CRT/SDK functions. Keep them as exact assembly
+- Do not decompile Psy-Q CRT/SDK functions. Keep them as exact assembly
   and exclude their addresses from the attempt ledger.
 - Treat every file under `game/` as an immutable, user-supplied input.
 - Keep game binaries local and untracked; commit only hashes, metadata, and

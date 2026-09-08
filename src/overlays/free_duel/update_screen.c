@@ -1,21 +1,28 @@
 #include "../../types.h"
 #include "../../game/card_constants.h"
+#include "../../game/input.h"
 
 extern u8 gFreeDuel_bScreenFlags;
 extern u8 *gFreeDuel_pCursorWidget;
 extern u8 gFreeDuel_abGridAvailable[];
 extern u8 D_800EB15C[];
-extern volatile u16 D_8009B398;
-extern volatile u16 D_8009B3A4;
+extern volatile u16 gInput_wPad1Pressed;
+extern volatile u16 gInput_wPad1Held;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 extern u8 gFreeDuel_bReturnFlags;
-extern s8 D_8009B366;
-extern s8 D_8009B367;
+extern s8 gFreeDuel_bCursorColumn;
+extern s8 gFreeDuel_bCursorRow;
 extern u8 D_8009B368;
-extern s8 D_8009B36C;
-extern s8 D_8009B36D;
+extern s8 gFreeDuel_bTargetColumn;
+extern s8 gFreeDuel_bTargetRow;
 extern u16 D_801D0200[];
+extern u8 **FreeDuel_GetSparkleSlot(void);
+extern u8 *FreeDuel_SpawnSparkle(void);
+extern void func_800429D8(void *);
+extern void func_80042A78(void *);
+extern void func_800428EC(void *, s32);
+extern void func_80041D60(void *);
 extern void func_80024DC8(s32, s32, s32, s32);
 extern void func_80033C90(void);
 extern void TextBox_Destroy(u8 *);
@@ -23,8 +30,63 @@ extern void func_80035C38(s32, s32, s32, s32, s32, s32, s32);
 extern void func_80039794(void);
 extern void SD_SEPlayFull(s32);
 extern void FreeDuel_PlaceCursor(void *, s32);
-extern void FreeDuel_UpdateCursorTween(void);
 extern void FreeDuel_UpdateScrollbar(void);
+
+void FreeDuel_UpdateCursorTween(void)
+{
+    u8 *widget = gFreeDuel_pCursorWidget;
+    u8 **slot;
+    u8 *sparkle;
+    s32 tx;
+    s32 ty;
+    s32 sx;
+    s32 d;
+    s16 left;
+
+    if ((gFreeDuel_bScreenFlags & 0x40) == 0) {
+        if (gFreeDuel_bCursorColumn == gFreeDuel_bTargetColumn && gFreeDuel_bCursorRow == gFreeDuel_bTargetRow) {
+            return;
+        }
+        gFreeDuel_bScreenFlags |= 0x40;
+        *(u16 *)(widget + 0x60) = 8;
+        func_800429D8(widget);
+
+        d = gFreeDuel_bTargetColumn;
+        tx = d * 56 + 20;
+        d = *(s16 *)(widget + 0x30);
+        d = tx - d;
+        sx = (d << 8) / 8;
+        d = gFreeDuel_bTargetRow;
+        ty = d * 52 + 40;
+        *(s16 *)(widget + 0x36) = sx;
+        d = *(s16 *)(widget + 0x32);
+        d = ty - d;
+        *(s16 *)(widget + 0x38) = (d << 8) / 8;
+    }
+
+    func_80042A78(widget);
+    left = *(u16 *)(widget + 0x60) - 1;
+    *(u16 *)(widget + 0x60) = left;
+    if (left == 0) {
+        gFreeDuel_bCursorColumn = gFreeDuel_bTargetColumn;
+        gFreeDuel_bCursorRow = gFreeDuel_bTargetRow;
+        FreeDuel_PlaceCursor(widget, 1);
+        gFreeDuel_bScreenFlags &= ~0x40;
+        SD_SEPlayFull(47);
+    } else {
+        slot = FreeDuel_GetSparkleSlot();
+        sparkle = FreeDuel_SpawnSparkle();
+        if (sparkle != 0 && slot != 0) {
+            *(u32 *)(sparkle + 0x30) = *(u32 *)(widget + 0x30);
+            func_800428EC(sparkle, (s8)(widget[0x16] - 1));
+            func_80041D60(sparkle);
+            *(u32 *)(sparkle + 0x4C) = *(u32 *)(widget + 0x4C);
+            sparkle[0x6C] = 1;
+            *(u16 *)(sparkle + 8) |= 1;
+            *slot = sparkle;
+        }
+    }
+}
 
 void FreeDuel_UpdateScreen(void)
 {
@@ -50,40 +112,40 @@ void FreeDuel_UpdateScreen(void)
         return;
     }
 
-    if ((D_8009B3A4 & 0xF000) != 0) {
-        if ((D_8009B3A4 & 0x2000) != 0) {
-            if (++D_8009B36C >= 5) {
-                D_8009B36C = 4;
+    if ((gInput_wPad1Held & PAD_DIRECTION_MASK) != 0) {
+        if ((gInput_wPad1Held & PAD_DIRECTION_RIGHT) != 0) {
+            if (++gFreeDuel_bTargetColumn >= 5) {
+                gFreeDuel_bTargetColumn = 4;
             }
         }
-        if ((D_8009B3A4 & 0x8000) != 0) {
-            if (--D_8009B36C < 0) {
-                D_8009B36C = 0;
+        if ((gInput_wPad1Held & PAD_DIRECTION_LEFT) != 0) {
+            if (--gFreeDuel_bTargetColumn < 0) {
+                gFreeDuel_bTargetColumn = 0;
             }
         }
-        if ((D_8009B3A4 & 0x4000) != 0) {
-            if (++D_8009B36D >= 8) {
-                D_8009B36D = 7;
+        if ((gInput_wPad1Held & PAD_DIRECTION_DOWN) != 0) {
+            if (++gFreeDuel_bTargetRow >= 8) {
+                gFreeDuel_bTargetRow = 7;
             }
         }
-        if ((D_8009B3A4 & 0x1000) != 0) {
-            if (--D_8009B36D <= 0) {
-                D_8009B36D = 0;
+        if ((gInput_wPad1Held & PAD_DIRECTION_UP) != 0) {
+            if (--gFreeDuel_bTargetRow <= 0) {
+                gFreeDuel_bTargetRow = 0;
             }
         }
     } else {
-        if ((D_8009B398 & 0x20) != 0) {
+        if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
             SD_SEPlayFull(8);
             D_8009B26C = 8;
             return;
         }
-        if ((D_8009B398 & 0xC0) == 0) {
+        if ((gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) == 0) {
             return;
         }
-        if (gFreeDuel_abGridAvailable[D_8009B367 * 5 + D_8009B366] == 0) {
+        if (gFreeDuel_abGridAvailable[gFreeDuel_bCursorRow * 5 + gFreeDuel_bCursorColumn] == 0) {
             return;
         }
-        if ((D_8009B366 | D_8009B367) == 0) {
+        if ((gFreeDuel_bCursorColumn | gFreeDuel_bCursorRow) == 0) {
             func_80033C90();
             D_8009B269 = 6;
             gFreeDuel_bReturnFlags = 0x40;
@@ -102,7 +164,7 @@ void FreeDuel_UpdateScreen(void)
         }
         SD_SEPlayFull(0x30);
         gFreeDuel_bReturnFlags = 0x80;
-        func_80024DC8(-1, D_8009B367 * 5 + D_8009B366, 0x6000, 0x6000);
+        func_80024DC8(-1, gFreeDuel_bCursorRow * 5 + gFreeDuel_bCursorColumn, 0x6000, 0x6000);
         D_8009B368 = 6;
         D_8009B26C = 3;
     }

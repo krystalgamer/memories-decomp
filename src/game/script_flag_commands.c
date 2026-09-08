@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "campaign_flags.h"
 
 extern u8 *D_8009B290;
 extern u16 D_8009B27C;
@@ -6,7 +7,6 @@ extern u16 D_8009B29C;
 extern u16 D_8009B2A8;
 extern u16 D_8009B2AA;
 extern u8 D_801A8000[];
-extern void Library_UpdateCardUsedFlag(int);
 extern int Campaign_TestStoryFlag(int);
 
 void func_8002E918(void)
@@ -21,8 +21,8 @@ void func_8002E918(void)
     high = cursor[1];
     command = cursor[0];
     command |= high << 8;
-    if (command & 0x4000) {
-        Library_UpdateCardUsedFlag(command & 0xBFFF);
+    if (command & CAMPAIGN_FLAG_COMMAND_WRITE) {
+        Library_UpdateCardUsedFlag(command & CAMPAIGN_FLAG_COMMAND_PAYLOAD_MASK);
     } else {
         int low;
 
