@@ -1,5 +1,10 @@
 # Copilot CLI OOM Diagnosis - 2026-09-01
 
+This record preserves the investigation and the responses used at the time.
+The owner subsequently reported the underlying problem fixed in #2407.
+Follow the [current workflow](decompilation-workflow.md), rather than applying
+the historical session restrictions below to present project commands.
+
 ## Outcome
 
 The crash recorded in
@@ -124,7 +129,7 @@ failure is resolved.
 6. No swap and only about 8 GiB of host RAM, leaving little safety margin once
    native RSS grew beyond the V8 heap.
 
-## Operational response
+## Historical operational response
 
 - Use one process and one tool call at a time for normal work.
 - Do not apply the former four-process ceiling as a repository-wide build
@@ -137,8 +142,6 @@ failure is resolved.
   candidate.
 - Stop after one substantial subsystem batch or two small atomic commits, push
   the checkpoint, and start a fresh CLI session.
-- Refuse `make` commands when the parent Copilot process reaches 2560 MiB RSS
-  via `tools/project/session_memory_guard.py`.
 - Put verbose compiler, linker, and comparison logs under `tmp/`.
 - Process collaborator candidates through a sequential driver that writes a
   compact manifest and result ledger rather than returning per-candidate

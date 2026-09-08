@@ -16,38 +16,16 @@ order-dependent.
 Any script that adds safe parallel execution should derive its default worker
 count from the host and expose an explicit lower worker count.
 
-The Copilot CLI itself has exhausted its JavaScript heap during long,
-tool-heavy sessions even when no compiler workers were active. To limit
-session-memory growth:
+Keep large reference reads focused rather than loading `gms.c`, `dotr.c`, or
+another export in full. Bound command output with filters or line limits;
+write verbose compiler and comparison logs beneath `tmp/` and inspect their
+relevant portions. Record experiments immediately in the durable ledgers and
+commit recoverable batches rather than using conversation history as project
+state.
 
-- Do not launch background agents for routine matching or source analysis.
-- Use one tool call at a time by default. Do not batch large file reads.
-- Search first, then read only narrow ranges. Never load `gms.c`, `dotr.c`, or
-  another large reference/export in full.
-- Bound command output with focused filters or line limits. Write unavoidable
-  verbose logs beneath `tmp/` and inspect only their summary or relevant tail.
-- Run candidate verification sequentially and emit one compact result record
-  per candidate instead of returning compiler or disassembly dumps.
-- Work in small recoverable batches, update durable ledgers immediately, and
-  commit each completed batch before loading more reference context. Push
-  accumulated commits about every 15 minutes.
-- Start a fresh CLI session from the durable notes after a bounded batch if
-  memory usage is rising. Do not rely on a single indefinitely resumed
-  session as the project state store.
-- End the active CLI session after at most one substantial subsystem batch or
-  two small atomic commits. If memory forces a handoff before the next normal
-  push window, push pending commits immediately, then resume from the tracked
-  notes instead of continuing a long conversation.
-
-Every `make` target that enters through `workspace` runs
-`tools/project/session_memory_guard.py`. When the parent Copilot CLI reaches
-2560 MiB RSS, project commands stop before launching another build. This is a
-last-resort guard, not a reason to keep a session alive until the threshold.
-CI and ordinary user shells have no Copilot parent and are unaffected.
-
-Do not raise the Node heap to 8 GiB on the current host. It has approximately
-8 GiB of physical memory and no swap, so doing so would trade a controlled V8
-failure for whole-host memory exhaustion.
+Targets entering through `workspace` validate repository-root execution and
+repository-local paths. Command admission does not depend on the invoking
+CLI process or its session lifetime.
 
 ## Match invariant
 
@@ -124,7 +102,7 @@ The inventory records address, size, current name, status, module ownership,
 and durable notes. Its address and size fields must continue to agree with the
 generated split.
 
-Select untouched candidates with the guarded project command:
+Select untouched candidates with the project command:
 
 ```sh
 make candidates
