@@ -36,11 +36,11 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
     sel = arg1 & 0xFF;
 
     switch (sel) {
-    case 6:
+    case SD_SEQUENCE_CONTROL_DATA_ENTRY:
         v = e->field_0012;
         e->field_0013 = arg2;
-        if (v != 0x14) {
-            if (v != 0x1E) {
+        if (v != SD_SEQUENCE_LOOP_START) {
+            if (v != SD_SEQUENCE_LOOP_END) {
                 func_8004ACE4(e, id);
             }
         }
@@ -75,7 +75,7 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
     case 0x62:
         e->field_0011 = arg2;
         break;
-    case 0x63:
+    case SD_SEQUENCE_CONTROL_MODE:
         e->field_0012 = arg2;
         break;
 
