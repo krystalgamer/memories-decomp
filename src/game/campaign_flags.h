@@ -21,6 +21,7 @@
     (CAMPAIGN_FLAG_COMMAND_WORD_MASK ^ CAMPAIGN_FLAG_COMMAND_WRITE)
 
 /* Shared packed flag-update interface; the established public name is retained. */
+s32 Campaign_TestStoryFlag(s32 flag);
 void Library_UpdateCardUsedFlag(s32 flag);
 
 #endif

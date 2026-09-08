@@ -17,7 +17,6 @@ extern s32 gDuel_adwCardStats[];
 extern s32 D_801D5608[];
 
 s32 func_8002C518(s32 arg0);
-s32 Campaign_TestStoryFlag(s32 arg0);
 void func_80029574(s32 arg0);
 void func_80029590(void);
 void SD_BGMPlay(u32);
