@@ -1,6 +1,7 @@
 #include "../types.h"
 
 #include "sound.h"
+#include "sound_output_transition.h"
 
 typedef struct {
     u8 b[11];
@@ -17,11 +18,8 @@ extern u8 D_80010784[];
 extern u8 D_80010790[];
 extern u8 D_8001079C[];
 
-extern void func_8004666C(void);
-extern void func_800466C8(void);
 extern void func_800478EC(void);
 extern void func_800494F4(s32 *);
-extern void func_8004671C(void);
 extern void func_80044D48(void);
 extern void func_80048F14(void);
 extern void SD_SetOutputType(s32);

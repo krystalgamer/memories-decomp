@@ -2,6 +2,7 @@
 #include "../psyq/libspu.h"
 
 #include "sound.h"
+#include "sound_output_transition.h"
 
 typedef struct {
     int field0;

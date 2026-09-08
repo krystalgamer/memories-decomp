@@ -1,0 +1,8 @@
+#ifndef MEMORIES_DECOMP_SOUND_OUTPUT_TRANSITION_H
+#define MEMORIES_DECOMP_SOUND_OUTPUT_TRANSITION_H
+
+void func_8004666C(void);
+void func_800466C8(void);
+void func_8004671C(void);
+
+#endif
