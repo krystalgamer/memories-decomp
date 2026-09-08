@@ -146,7 +146,7 @@ source grouping.
 | `src/game/model_primitive_handler.c` | `gcc_2_8_1_g0_split` | Primitive-family selector (`0x800603DC`) and `Model_GetPrimitiveHandler` (`0x8006041C`) |
 | `src/game/ai_script_comparison_jumps.c` | `gcc_2_8_1_g0_split` | `AiScript_JumpGreaterEqual` (`0x800709C0`), `AiScript_JumpGreater` (`0x80070A40`) |
 | `src/game/ai_script_call_control.c` | `gcc_2_8_1_g8_split` | Three call-stack and control helpers from `AiScript_Call` (`0x80070D00`) through `AiScript_SetRandom` (`0x80070E20`) |
-| `src/game/sound_output.c` | `gcc_2_8_1_g8` | Seventeen sound output initialization, control, command dispatch, default-argument, and sequence-state helpers from `0x80046F58` through `0x80047458`, including `SD_SetOutputType` |
+| `src/game/sound_output.c` | `gcc_2_8_1_g8` | Eighteen contiguous sound output reset, initialization, control, command dispatch, default-argument, and sequence-state helpers from `0x80046DE8` through `0x80047458`, including `SD_SetOutputType` |
 | `src/game/sound_frontend.c` | `gcc_2_8_1_g8` | Nine game-facing sound initialization and command helpers from `Sound_InitFrontend` (`0x8003FE80`) through `SD_StopAll` (`0x8003FFFC`), including `SD_SEPlayFull` |
 | `src/game/sound_init.c` | `gcc_2_8_1_g0` | Thirteen music/sequence and secondary sound-state initialization helpers from `0x80049200` through `0x800495EC`, including `SD_Init` |
 | `src/game/sound_voice_selection.c` | `gcc_2_8_1_g0` | Twelve contiguous voice update, lifetime, selection, normalization, release, slot-removal, key-off, status, and group-mask helpers from `0x80047864` through `0x80047F38`, including `SD_KeyOffVoiceSlots` |
