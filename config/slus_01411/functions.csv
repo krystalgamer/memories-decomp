@@ -1113,7 +1113,7 @@ address,size,name,status,module,notes
 0x8006ADE8,0x18C,func_8006ADE8,handwritten_asm,game,
 0x8006AF74,0xD30,func_8006AF74,unmatched_asm,game,
 0x8006BCA4,0x47C,func_8006BCA4,matching_c,game,Exact linked bytes with gcc_2_8_1_g8 from the ygofm reference; the sums-then-halvings order of the midpoint stores is load-bearing.
-0x8006C120,0x1DC,func_8006C120,unmatched_asm,game,"Recursive triangle subdivision: copies its three corner triplets and the three edge midpoints into six stack slots, then either recurses four times on the sub-triangles or, at depth 1, writes the four triangles as twelve triplets and returns the advanced output pointer. Candidate at 119 of 119 instructions, opcode distance 0, in notes/candidates.md."
+0x8006C120,0x1DC,func_8006C120,matching_c,game,"Matching C. Recursive triangle subdivision. The prologue register assignment follows the GCC 2.8.1 allocno priority floor_log2(n_refs) * n_refs / live_length, so the number of times the depth parameter is referenced decides which hard registers it and the two corner pointers receive."
 0x8006C2FC,0x10,func_8006C2FC,matching_c,game,1 pre-policy variants: Three byte stores through the output pointer matched including the return delay slot.
 0x8006C30C,0x24,func_8006C30C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8006C330,0x4C,func_8006C330,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
