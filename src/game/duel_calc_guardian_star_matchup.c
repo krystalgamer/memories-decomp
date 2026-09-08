@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_calc_guardian_star_matchup.h"
 
 #define DUEL_GUARDIAN_STAR_BONUS 500
 #define DUEL_GUARDIAN_STAR_FIRST_CYCLE_START 1

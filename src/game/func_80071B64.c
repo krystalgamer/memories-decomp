@@ -2,6 +2,7 @@
 #include "ai.h"
 #include "ai_constants.h"
 #include "card_constants.h"
+#include "duel_calc_guardian_star_matchup.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 
