@@ -2,18 +2,12 @@
 #define DISPLAY_OBJECT_HELPERS_H
 
 #include "../types.h"
+#include "display_object.h"
 
 typedef struct {
     u8 pad_00[0x54];
     void *resource;
 } DisplayObjectResource;
-
-typedef struct {
-    u8 pad_00[0x14];
-    s16 field_14;
-    s8 field_16;
-    u8 field_17;
-} DisplayObjectAnimationState;
 
 typedef struct {
     u8 pad_00[0x54];
@@ -44,8 +38,8 @@ void func_80042824(u8 *object, int value);
 void func_80042874( DisplayObjectResource *object, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *resource );
 void func_800428A8( void *object, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8 );
 s32 func_800428EC(u8 *object, s8 value);
-void func_80042918(DisplayObjectAnimationState *object);
-void func_8004293C(DisplayObjectAnimationState *object);
+void func_80042918(DisplayObject *object);
+void func_8004293C(DisplayObject *object);
 int func_80042960(char *object);
 u32 func_800429A8(const u8 *data);
 u8 *func_800429BC(DisplayObjectStream *object, const u8 *data);

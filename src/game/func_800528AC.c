@@ -1,27 +1,6 @@
 #include "../types.h"
 #include "model.h"
 
-typedef struct {
-    u16 flags;
-    u8 pad_02[8];
-    u16 field_0A;
-    u16 field_0C;
-    u16 field_0E;
-    u8 field_10;
-    u8 field_11;
-    u8 field_12;
-    u8 field_13;
-    u8 field_14;
-    u8 field_15;
-    u8 field_16;
-    u8 pad_17;
-} Record;
-
-typedef struct {
-    u8 b[4];
-} Quad;
-
-extern Record D_800F2B50[10];
 extern ModelSlot D_800F2C40[];
 extern u8 D_8009AF9B;
 extern s32 D_8009AF9C;
@@ -38,13 +17,13 @@ register const u32 hard_zero asm("$0");
 extern ModelSlot D_800F2C40_alias[] asm("D_800F2C40");
 
 /* A partial-width value boundary keeps the loop GIV's table-base move alive. */
-static __inline__ Record *make_table_base(void)
+static __inline__ ModelTintRequest *make_table_base(void)
 {
     register union { u64 d; struct { u32 lo; u32 hi; } w; } wide asm("$2");
     register volatile u32 addr asm("$2");
     addr = (u32)D_800F2B50;
     wide.w.lo = addr;
-    return (Record *)(u32)wide.d;
+    return (ModelTintRequest *)(u32)wide.d;
 }
 
 /* Per-frame tint pass over the ten requests at D_800F2B50. A live request
@@ -55,8 +34,8 @@ static __inline__ Record *make_table_base(void)
  * and the slot's field_BF5 and advances the request's clock. */
 void func_800528AC(void)
 {
-    Quad save;
-    Quad col;
+    ModelTintColor save;
+    ModelTintColor col;
     s32 i;
     s32 j;
     s32 k;
@@ -72,8 +51,8 @@ void func_800528AC(void)
     register s32 aa asm("$19");
     s32 sv;
     ModelSlot *slot;
-    Record *e;
-    Record *table;
+    ModelTintRequest *e;
+    ModelTintRequest *table;
 
     table = make_table_base();
     for (i = 0, off = 0; i < 10; off += 0x18, i++) {
@@ -84,13 +63,13 @@ void func_800528AC(void)
         if (D_800F2C40[(e->flags >> 1) & 1].field_E1F == 0) {
             continue;
         }
-        if (Model_HasInsufficientBufferSpace((e->flags >> 1) & 1, e->field_13)) {
+        if (Model_HasInsufficientBufferSpace((e->flags >> 1) & 1, e->start.b3)) {
             goto tail;
         }
         v = e->flags;
         a = e->field_0A;
-        lo = e->field_0C;
-        hi = e->field_0E;
+        lo = e->elapsed;
+        hi = e->duration;
         side = (v >> 1) & 1;
         v = (v >> 3) & 0x1F;
         {
@@ -103,24 +82,24 @@ void func_800528AC(void)
             keep = slot->field_BF5;
             old = func_80059AA8(side, zero_arg);
         }
-        save = *(Quad *)slot->field_DC0;
-        col.b[3] = e->field_13;
-        col.b[0] = ({ register s32 p asm("$3"); p = e->field_10 * (hi - lo); p / hi; })
-                 + ({ register s32 p asm("$3"); p = e->field_14 * lo; p / hi; });
-        col.b[1] = ({ register s32 p asm("$3"); p = e->field_11 * (hi - lo); p / hi; })
-                 + ({ register s32 p asm("$3"); p = e->field_15 * lo; p / hi; });
+        save = *(ModelTintColor *)slot->field_DC0;
+        col.b3 = e->start.b3;
+        col.b0 = ({ register s32 p asm("$3"); p = e->start.b0 * (hi - lo); p / hi; })
+                 + ({ register s32 p asm("$3"); p = e->end.b0 * lo; p / hi; });
+        col.b1 = ({ register s32 p asm("$3"); p = e->start.b1 * (hi - lo); p / hi; })
+                 + ({ register s32 p asm("$3"); p = e->end.b1 * lo; p / hi; });
         {
             register s32 p asm("$3");
             register s32 out asm("$4");
             register s32 q asm("$16");
-            p = e->field_12 * (hi - lo);
+            p = e->start.b2 * (hi - lo);
             out = p / hi;
-            p = e->field_16 * lo;
+            p = e->end.b2 * lo;
             q = p / hi;
             out += q;
-            col.b[2] = out;
+            col.b2 = out;
         }
-        *(Quad *)slot->field_DC0 = col;
+        *(ModelTintColor *)slot->field_DC0 = col;
 
         aa = a;
         for (j = 0; j < slot->field_E1B; j++) {
@@ -166,10 +145,10 @@ void func_800528AC(void)
         }
 
         func_80059AA8(side, old);
-        *(Quad *)slot->field_DC0 = save;
+        *(ModelTintColor *)slot->field_DC0 = save;
 tail:
-        e->field_0C += func_80058E1C();
-        if (e->field_0C >= e->field_0E) {
+        e->elapsed += func_80058E1C();
+        if (e->elapsed >= e->duration) {
             e->flags &= 0xFFFE;
         }
     }

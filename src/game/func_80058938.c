@@ -1,24 +1,12 @@
 #include "../types.h"
 #include "model.h"
 
-typedef struct { u8 b0, b1, b2, b3; } Word4;
-typedef struct {
-    u16 flags;
-    u8 pad[8];
-    s16 field_0A;
-    s16 field_0C;
-    s16 field_0E;
-    Word4 field_10;
-    Word4 field_14;
-} Record;
-
-extern Record D_800F2B50[10];
-
-void func_80058938(s32 a0, s32 a1, Word4 a2, Word4 a3, s32 a4, s32 bits)
+void func_80058938(s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3,
+                   s32 a4, s32 bits)
 {
     ModelSlot *slot;
-    register Record *r asm("$8");
-    register Record *end asm("$3");
+    register ModelTintRequest *r asm("$8");
+    register ModelTintRequest *end asm("$3");
     u8 *base;
     register s32 off asm("$9");
     register s32 fill asm("$13");
@@ -50,11 +38,11 @@ void func_80058938(s32 a0, s32 a1, Word4 a2, Word4 a3, s32 a4, s32 bits)
             f |= (slot->field_BF5 & 0x1F) << 3;
             r->flags = f;
             r->field_0A = slot->field_E06;
-            r->field_0C = 0;
+            r->elapsed = 0;
             f = fifth * 2;
-            r->field_0E = f;
-            r->field_10 = a2;
-            r->field_14 = a3;
+            r->duration = f;
+            r->start = a2;
+            r->end = a3;
             for (; mode < 8; mode++) {
                 base[mode + sel + 1] = source ? *(u8 *)(source + mode) : fill;
             }

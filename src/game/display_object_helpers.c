@@ -100,15 +100,15 @@ s32 func_800428EC(u8 *object, s8 value)
     return result;
 }
 
-void func_80042918(DisplayObjectAnimationState *object)
+void func_80042918(DisplayObject *object)
 {
-    object->field_17 = 1;
+    object->tex_index = 1;
     object->field_14 = D_8009AF76 - object->field_16;
 }
 
-void func_8004293C(DisplayObjectAnimationState *object)
+void func_8004293C(DisplayObject *object)
 {
-    object->field_17 = 3;
+    object->tex_index = 3;
     object->field_14 = D_8009AF7A - object->field_16;
 }
 

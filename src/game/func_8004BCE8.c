@@ -31,21 +31,21 @@
 
 s32 func_8004BCE8(void) {
     u8 *b;
-    u8 *p;
+    SDSequenceTrack *p;
     u32 r;
     u32 v;
     s32 m;
     u32 k;
 
     b = (u8 *)D_8009B458;
-    p = b + 0x518;
+    p = (SDSequenceTrack *)(b + SD_SEQUENCE_TRACK_ARRAY_OFFSET);
     b[0x801] = 0;
     do {
         D_8009B458->field_07F0 = 0;
         D_8009B458->field_07F4 = 0;
-        *(s32 *)(b + 0x518) = 8;
+        ((SDSequenceTrack *)(b + SD_SEQUENCE_TRACK_ARRAY_OFFSET))->pos = 8;
         D_8009B458->timebase = SD_ReadSequenceU16BE(p);
-        D_8009B458->field_07FA = 1;
+        D_8009B458->track_count = 1;
         D_8009B458->field_07F8 = 0;
         D_8009B458->field_07EC = 0x10000;
         v = (u32)SD_ReadSequenceU32BE(p) >> 8;
@@ -80,8 +80,8 @@ sh2:
     v >>= 2;
 mask:
 store:
-    *(s16 *)(p + 0x16) = v & 0xFF;
-    *(s16 *)(p + 0x14) = v & 0xFF;
+    p->tempo_step = v & 0xFF;
+    p->tempo_accumulator = v & 0xFF;
     SD_ReadSequenceByte(p);
 
     if (D_8009B458->timebase >= 0x60) {

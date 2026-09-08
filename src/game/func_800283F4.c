@@ -5,6 +5,7 @@
 #include "duel_effect.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
+#include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
 
@@ -32,10 +33,6 @@ extern void func_80029528(s32);
 extern void func_80029574(s32);
 extern u8 *func_800291E0(s32, s32, s32);
 extern void func_80039A14(DuelEffectChannel *);
-extern void *func_8004002C(void);
-extern u8 *func_800400AC(void *, s32);
-extern void func_8004036C(void *);
-extern void func_800404CC(u8 *, s32, s32, s32, s32, s32, s32, s32);
 extern void func_80043178(u8 *);
 extern void func_80043230(u8 *, s32, s32, s32);
 extern void TextBox_SetPos(DuelEffectChannel *, s32, s32);

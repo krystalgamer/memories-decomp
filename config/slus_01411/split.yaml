@@ -115,15 +115,18 @@ segments:
       - [0x31d8, asm, entry]
       - [0x80ed4, pad]
 
-  # Every region below is a segment for the same reason: one output section
-  # each, at its own address, so nothing is reordered across them.
+  # The initialized-data region is a code group so its .data and .sdata
+  # contributions can be mapped to C independently. Later fixed-address
+  # binary regions remain separate segments so nothing is reordered.
   - name: initialized_data
-    type: data
+    type: code
     start: 0x80ee0
     vram: 0x800906E0
     align: 4
     subsegments:
       - [0x80ee0, data, initialized_data]
+      - [0x8B884, .sdata, game/ai_script_call_control]
+      - [0x8B88C, pad]
 
   - name: bss_image
     type: bin

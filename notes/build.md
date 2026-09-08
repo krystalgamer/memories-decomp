@@ -155,13 +155,17 @@ spellings of the same section, and they mean opposite things:
 
 | spelling | meaning | what Splat emits |
 |---|---|---|
-| `.rodata`, `.data`, `.bss` — **with a dot**, plus a source file name | this section is produced by **our** C file | `build/.../<name>.o(.rodata);` |
-| `rodata`, `data`, `bss` — **no dot** | extract this range from the original image as a blob | `<name>.rodata.o(.rodata);` |
+| `.rodata`, `.data`, `.sdata`, `.bss` — **with a dot**, plus a source file name | this section is produced by **our** C file | `build/.../<name>.o(<section>);` |
+| `rodata`, `data`, `sdata`, `bss` — **no dot** | extract this range from the original image as a blob | `<name>.<section>.o(<section>);` |
 
 So converting data is the same move as converting code: a definition leaves
 the extracted blob, moves into the C file that owns it, and a dotted
 subsegment names that file at the address the definition has to keep. The blob
 shrinks; the boundary moves.
+
+The resident `initialized_data` segment is a code group even though it has no
+text. That lets its extracted `.data` and C-owned `.sdata` contributions share
+one fixed-address range without flattening both into the same linker section.
 
 `section_order` is the other half, and it is easy to misread as a constraint.
 **It is a description of the image's layout**, applied within each segment. If
