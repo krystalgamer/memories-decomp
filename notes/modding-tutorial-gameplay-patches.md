@@ -518,12 +518,14 @@ jal   Duel_ShuffleBothDecks
 Opponent IDs below `39` call the shuffle helper with `(player_deck, NULL)`.
 Duel Master K is opponent `39`, so the retail comparison fails and the
 fallthrough changes the call to `(player_deck, player_deck)`. The matching C
-for `Duel_ShuffleBothDecks` passes those two arguments independently to the
-player and CPU `Duel_ShuffleDeck` calls. Exact matching C for
-`Duel_ShuffleDeck` now confirms that a null source generates 40 cards from
-`gDuel_awOpponentDeckPool`, while a non-null source copies its 40 card IDs
-before shuffling. Duel Master K therefore receives a copy of the player's
-deck in retail.
+for
+[`Duel_ShuffleBothDecks`](../src/game/duel_shuffle_both_decks.c) passes those
+two arguments independently to the player and CPU
+[`Duel_ShuffleDeck`](../src/game/func_800243F4.c) calls. Exact matching
+`Duel_ShuffleDeck` confirms that a null source generates `DECK_SIZE` cards
+from `gDuel_awOpponentDeckPool`, while a non-null source copies its
+`DECK_SIZE` card IDs before shuffling. Duel Master K therefore receives a
+copy of the player's deck in retail.
 
 After the patch, every nonnegative signed-byte opponent ID is below `0x127`.
 Duel Master K therefore follows the ordinary `(player_deck, NULL)` path
@@ -539,8 +541,9 @@ intends.
 - **Confirmed** that opponent `39` changes from
   `(player_deck, player_deck)` to the ordinary `(player_deck, NULL)` shuffle
   path.
-- **Confirmed** that the null second source generates the configured opponent
-  deck, while the player-deck pointer copies that deck for Duel Master K.
+- **Confirmed** that the null second source generates the configured
+  `DECK_SIZE` opponent deck, while the player-deck pointer copies
+  `DECK_SIZE` IDs for Duel Master K.
 
 ## Allow opponent cards 721 and 722
 
