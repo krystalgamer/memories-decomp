@@ -136,6 +136,45 @@ check, so GCC emitted a full checked `div` against `$s5`. That is an ordinary
 `/` in the source on a value the compiler cannot prove non-zero - it is not an
 SDK helper and should not be written as one.
 
+## What the function is for
+
+The three layers together read as a **separation step**: two records are pushed
+apart when they are closer than their combined half-extents.
+
+1. Eight clamps produce, for each of the two records, four half-extent values -
+   each a halfword field divided by two and clamped upward against argument two.
+   So argument two is a minimum extent.
+2. Three delta pairs subtract each record's position fields from a reference
+   point taken from `D_800F56F0`, with the first and third components offset by
+   the `rcos` and `rsin` of `D_8009B47A + 0x800` scaled by argument two. That is
+   a heading-relative offset applied to the reference point.
+3. Two `SquareRoot0` calls turn the x and z components of those deltas into a
+   distance per record.
+
+Then, per record selected by the index in `$fp`:
+
+```
+v0 = (limit - dist) << 12
+a1 = v0 / limit                 (checked div - hence break 7 and break 6)
+s7 = (delta_x * a1) / 4096      negated when a guard value is positive
+s6 = (delta_z * a1) / 4096      likewise
+```
+
+`(limit - dist) / limit` in 12-bit fixed point is the fraction of the overlap,
+and multiplying the delta by it and shifting back by 12 gives the push-out
+vector. The `bgez` / `addiu 0xFFF` / `sra 12` triple around each multiply is the
+signed divide by 4096 that the fixed-point convention needs, so those must be
+written as `/ 4096` on a signed value rather than `>> 12`.
+
+The guarded `negu` after each is a sign flip chosen by a separate stored value,
+which is what makes the push symmetric: one record moves one way and the other
+the opposite way.
+
+**The division is by the distance limit, which the compiler cannot prove
+non-zero**, which is exactly why `break 7` and `break 6` are present. A
+reconstruction that guards the divisor itself, or that uses a helper, will not
+emit them.
+
 ## Order of work for the first draft
 
 1. The eight clamps, which are a third of the body and entirely mechanical.
