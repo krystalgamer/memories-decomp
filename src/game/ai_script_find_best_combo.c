@@ -49,14 +49,14 @@ void AiScript_FindBestCombo(void)
     dest = AiScript_ReadByte();
     n = Ai_GetHandSize();
 
-    gAiScript_State[0x9C] = n;
-    *(s16 *)(gAiScript_State + 0xA0) = 0;
+    gAiScript_State[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET] = n;
+    *(s16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) = 0;
     gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] = 0;
-    gAiScript_State[0x9D] = depth;
-    gAiScript_State[0x9E] = sets;
+    gAiScript_State[AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET] = depth;
+    gAiScript_State[AI_SCRIPT_FUSION_SET_BYTE_OFFSET] = sets;
 
-    for (i = 0; i < gAiScript_State[0x9C]; i++) {
-        gAiScript_State[i + 0xAA] = 0;
+    for (i = 0; i < gAiScript_State[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET]; i++) {
+        gAiScript_State[i + AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
     }
 
     for (i = 0; i < 5; i++) {
@@ -70,33 +70,37 @@ void AiScript_FindBestCombo(void)
         }
         gAiScript_State[gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] +
                         AI_SCRIPT_FUSION_PATH_BYTE_OFFSET] = slot;
-        if (gDuel_aActiveCards[i + 1].attack > *(u16 *)(gAiScript_State + 0xA0)) {
-            *(u16 *)(gAiScript_State + 0xA0) = gDuel_aActiveCards[i + 1].attack;
+        if (gDuel_aActiveCards[i + 1].attack >
+            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET)) {
+            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) =
+                gDuel_aActiveCards[i + 1].attack;
             gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET] = slot;
             gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET + 1] = 0;
             gAiScript_State[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
                 gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
         }
-        if (gDuel_aActiveCards[i + 1].defense > *(u16 *)(gAiScript_State + 0xA0)) {
-            *(u16 *)(gAiScript_State + 0xA0) = gDuel_aActiveCards[i + 1].defense;
+        if (gDuel_aActiveCards[i + 1].defense >
+            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET)) {
+            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) =
+                gDuel_aActiveCards[i + 1].defense;
             gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET] = slot;
             gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET + 1] = 0;
             gAiScript_State[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
                 gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
         }
-        if (gAiScript_State[0x9D] >= 2) {
+        if (gAiScript_State[AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET] >= 2) {
             e = &gAiScript_State[i];
-            e[0xAA] = 1;
+            e[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 1;
             gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] =
                 gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] + 1;
             Ai_CompleteFusion(card);
-            e[0xAA] = 0;
+            e[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
             gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] =
                 gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] - 1;
         }
     }
 
-    for (i = 0; i < gAiScript_State[0x9C]; i++) {
+    for (i = 0; i < gAiScript_State[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET]; i++) {
         card = gDuel_aActiveCards[i + 0xB].card_id;
         slot = i + 0xB;
         if (card == 0) {
@@ -107,27 +111,31 @@ void AiScript_FindBestCombo(void)
         }
         gAiScript_State[gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] +
                         AI_SCRIPT_FUSION_PATH_BYTE_OFFSET] = slot;
-        if (gDuel_aActiveCards[i + 0xB].attack > *(u16 *)(gAiScript_State + 0xA0)) {
-            *(u16 *)(gAiScript_State + 0xA0) = gDuel_aActiveCards[i + 0xB].attack;
+        if (gDuel_aActiveCards[i + 0xB].attack >
+            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET)) {
+            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) =
+                gDuel_aActiveCards[i + 0xB].attack;
             gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET] = slot;
             gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET + 1] = 0;
             gAiScript_State[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
                 gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
         }
-        if (gDuel_aActiveCards[i + 0xB].defense > *(u16 *)(gAiScript_State + 0xA0)) {
-            *(u16 *)(gAiScript_State + 0xA0) = gDuel_aActiveCards[i + 0xB].defense;
+        if (gDuel_aActiveCards[i + 0xB].defense >
+            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET)) {
+            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) =
+                gDuel_aActiveCards[i + 0xB].defense;
             gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET] = slot;
             gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET + 1] = 0;
             gAiScript_State[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
                 gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
         }
-        if (gAiScript_State[0x9D] >= 3) {
+        if (gAiScript_State[AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET] >= 3) {
             e = &gAiScript_State[i];
-            e[0xAA] = 1;
+            e[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 1;
             gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] =
                 gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] + 1;
             Ai_CompleteFusion(card);
-            e[0xAA] = 0;
+            e[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
             gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] =
                 gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] - 1;
         }

@@ -39,7 +39,14 @@ Established regions:
 | `0x38` | `combo_cards[6]` | Read by combo-start selection before the card set begins. |
 | `0x3E` | `card_set[32]` | Add/clear/card-membership handlers use 32 16-bit entries. |
 | `0x7E` | `type_set[25]` | Add/clear/type-membership handlers use 25 byte entries. |
-| `0x9C`-`0xD3` | fusion search state | `Ai_CompleteFusion` tracks count, depth, best score/path, and visited entries. |
+| `0x9C` | `fusion_count` | Hand-entry count returned by `Ai_GetHandSize`; bounds the existing clear and scan loops. |
+| `0x9D` | `fusion_limit` | Operand-derived depth limit used by the fusion search. |
+| `0x9E` | `fusion_set` | Set selector passed to `Ai_IsCardInSets` to exclude candidates. |
+| `0xA0` | `fusion_best_stat` | Halfword score compared against both attack and defense. |
+| `0xA2` | `fusion_depth` | Current index into the in-progress fusion path. |
+| `0xA3` | `fusion_best_depth` | Inclusive bound for copying and reading the selected combo. |
+| `0xA4` | `fusion_path[6]` | In-progress path, separate from the selected combo. |
+| `0xAA` | `fusion_used[0x2A]` | Temporary marks accessed with the existing loop index, not the stored active-card slot ID. |
 
 Some translation units still declare `gAiScript_State` as a byte or halfword
 array. This is intentional where GCC must retain a base-symbol relocation plus
@@ -55,6 +62,14 @@ inclusive best-depth bound and following zero terminator; combo readers keep
 their existing bounds and filtering. Naming the offsets does not replace
 raw views, clamp malformed depths, or turn the five-entry combo-start scan
 into a six-entry scan.
+
+The remaining fusion count, limit, set-selector, best-stat, and used-entry
+offsets also have shared byte-offset constants and layout assertions.
+Clearing and scanning remain bounded by the stored hand count, not the size
+of `fusion_used`. Used-entry marks keep each loop's original index, including
+the field-start branch before its recursive hand scan. The signed halfword
+initialization views, unsigned score views, and separate `D_800F5C88` accesses
+in `AiScript_EvaluateFusion` remain unchanged.
 
 The raw set helpers now name their offset units explicitly.
 `AI_SCRIPT_CARD_SET_BYTE_OFFSET` is `0x3E`, while

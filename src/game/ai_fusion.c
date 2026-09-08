@@ -103,15 +103,15 @@ void Ai_CompleteFusion(s32 arg0)
 
     state = gAiScript_State;
     i = 0;
-    if (state[0x9C] == 0)
+    if (state[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET] == 0)
         return;
     cursor = state;
     do {
-        if (cursor[i + 0xAA] == 0) {
+        if (cursor[i + AI_SCRIPT_FUSION_USED_BYTE_OFFSET] == 0) {
             card_id = gDuel_aActiveCards[i + 0xB].card_id;
             index = i + 0xB;
             if (card_id != 0) {
-                if (Ai_IsCardInSets(cursor[0x9E], index) == 0) {
+                if (Ai_IsCardInSets(cursor[AI_SCRIPT_FUSION_SET_BYTE_OFFSET], index) == 0) {
                     result = Duel_CheckFusion(arg0, card_id);
                     if (result == 0)
                         result = Duel_CheckEquip(arg0, card_id);
@@ -120,15 +120,15 @@ void Ai_CompleteFusion(s32 arg0)
                                AI_SCRIPT_FUSION_PATH_BYTE_OFFSET] = index;
                         if (
                             Duel_GetBaseCardStat(result, 0) >
-                                *(u16 *)(cursor + 0xA0) ||
+                                *(u16 *)(cursor + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) ||
                             (
                                 Duel_GetBaseCardStat(result, 0) ==
-                                    *(u16 *)(cursor + 0xA0) &&
+                                    *(u16 *)(cursor + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) &&
                                 cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] <
                                     cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET]
                             )
                         ) {
-                            *(u16 *)(cursor + 0xA0) =
+                            *(u16 *)(cursor + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) =
                                 Duel_GetBaseCardStat(result, 0);
                             cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
                                 cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
@@ -141,15 +141,15 @@ void Ai_CompleteFusion(s32 arg0)
                         }
                         if (
                             Duel_GetBaseCardStat(result, 1) >
-                                *(u16 *)(cursor + 0xA0) ||
+                                *(u16 *)(cursor + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) ||
                             (
                                 Duel_GetBaseCardStat(result, 1) ==
-                                    *(u16 *)(cursor + 0xA0) &&
+                                    *(u16 *)(cursor + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) &&
                                 cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] <
                                     cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET]
                             )
                         ) {
-                            *(u16 *)(cursor + 0xA0) =
+                            *(u16 *)(cursor + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) =
                                 Duel_GetBaseCardStat(result, 1);
                             cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
                                 cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
@@ -161,11 +161,11 @@ void Ai_CompleteFusion(s32 arg0)
                             cursor[j + AI_SCRIPT_COMBO_BYTE_OFFSET] = 0;
                         }
                         if (cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] <
-                            cursor[0x9D] - 1) {
-                            cursor[i + 0xAA] = 1;
+                            cursor[AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET] - 1) {
+                            cursor[i + AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 1;
                             cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET]++;
                             Ai_CompleteFusion(result);
-                            cursor[i + 0xAA] = 0;
+                            cursor[i + AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
                             cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET]--;
                         }
                     }
@@ -173,5 +173,5 @@ void Ai_CompleteFusion(s32 arg0)
             }
         }
         i++;
-    } while (i < cursor[0x9C]);
+    } while (i < cursor[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET]);
 }

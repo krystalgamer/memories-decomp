@@ -78,6 +78,22 @@ typedef char AiScriptState_combo_offset_must_be_0x38[
     AI_SCRIPT_STATE_OFFSET(AiScriptState, combo_cards) ==
         AI_SCRIPT_COMBO_BYTE_OFFSET ? 1 : -1
 ];
+typedef char AiScriptState_fusion_count_offset_must_be_0x9C[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_count) ==
+        AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET ? 1 : -1
+];
+typedef char AiScriptState_fusion_limit_offset_must_be_0x9D[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_limit) ==
+        AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET ? 1 : -1
+];
+typedef char AiScriptState_fusion_set_offset_must_be_0x9E[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_set) ==
+        AI_SCRIPT_FUSION_SET_BYTE_OFFSET ? 1 : -1
+];
+typedef char AiScriptState_fusion_best_stat_offset_must_be_0xA0[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_best_stat) ==
+        AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET ? 1 : -1
+];
 typedef char AiScriptState_fusion_depth_offset_must_be_0xA2[
     AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_depth) ==
         AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET ? 1 : -1
@@ -89,6 +105,10 @@ typedef char AiScriptState_fusion_best_depth_offset_must_be_0xA3[
 typedef char AiScriptState_fusion_path_offset_must_be_0xA4[
     AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_path) ==
         AI_SCRIPT_FUSION_PATH_BYTE_OFFSET ? 1 : -1
+];
+typedef char AiScriptState_fusion_used_offset_must_be_0xAA[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_used) ==
+        AI_SCRIPT_FUSION_USED_BYTE_OFFSET ? 1 : -1
 ];
 typedef char AiDuelistState_size_must_be_0x20[
     sizeof(AiDuelistState) == 0x20 ? 1 : -1
