@@ -5569,6 +5569,22 @@ even there the greedy path stops short.
 So for a small pin set, enumerate the subsets. Eight pins is 256 builds, a few
 minutes, and it is the difference between 7 and 5 on this entry.
 
+**The sweep has now been run across the close entries, and it terminates.** Two
+found gains and three did not, which is the useful shape - a search that always
+finds something is usually measuring noise:
+
+| entry | pins | result |
+| --- | --- | --- |
+| `func_80023144` | 3 | 5 to **3** (one pin was costing two positions) |
+| `func_80046294` | 8 | 7 to **5** (a non-monotone pair) |
+| `func_800283F4` | 1 | no subset beats 2 |
+| `func_80031874` | 4 | no subset beats 10 across all 16 |
+| `func_80018FEC` | 1 | no subset beats 114 |
+| `func_80012E5C` | 1 | no subset beats 5 |
+
+So pin configuration is exhausted as a lever on every close candidate, and what
+remains on each is the mechanism its entry already names.
+
 `tools/project/candidate_pin_audit.py` runs both arms over an entry's
 stored source, reporting the differing count and whether the differing
 *set* is unchanged for each pin, then the joint arm over every pin that

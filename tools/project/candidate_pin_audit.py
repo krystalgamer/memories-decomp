@@ -63,6 +63,14 @@ PIN = re.compile(
 
 
 def variable_name(declarator: str) -> str:
+    """The declared name, which is not always the last identifier.
+
+    `void (*fn)(void)` ends in `void`; the name sits inside the parentheses
+    that bind the pointer.
+    """
+    pointer = re.search(r"\(\s*\*+\s*(\w+)\s*\)", declarator)
+    if pointer:
+        return pointer.group(1)
     return re.findall(r"\w+", declarator)[-1]
 
 
@@ -100,7 +108,10 @@ def entry_source(root: Path, name: str) -> tuple[str, str]:
     if not profile or not blocks:
         raise WorkspaceError(f"{name}: note has no source block or profile")
     source = max(blocks, key=len)
+    # Entry sources are written as they would sit in src/game/, so their
+    # includes are relative to that directory. Rebase them on src/ instead.
     source = source.replace('#include "../types.h"', '#include "types.h"')
+    source = source.replace('#include "../psyq/', '#include "psyq/')
     source = re.sub(r'#include "([a-z_0-9]+\.h)"',
                     r'#include "game/\1"', source)
     source = source.replace('#include "game/types.h"', '#include "types.h"')
@@ -116,6 +127,21 @@ def inventory(root: Path) -> dict[str, tuple[int, int]]:
     return entries
 
 
+def _run_compiler(root, profile, candidate, raw, env):
+    result = subprocess.run(
+        [str(resolve_within(root, profile["compiler"])), "-S",
+         "-I", str(resolve_within(root, "src")),
+         *profile["compiler_flags"], "-o", str(raw), str(candidate)],
+        cwd=root, env=env, capture_output=True, text=True,
+    )
+    if result.returncode != 0:
+        detail = (result.stderr or result.stdout).strip().splitlines()
+        raise WorkspaceError(
+            "the entry's stored source does not compile:\n  "
+            + "\n  ".join(detail[:6])
+        )
+
+
 def build(root: Path, source: str, profile: dict, env: dict,
           symbol: str) -> Path:
     work = resolve_within(root, f"{WORK}/{symbol}")
@@ -125,12 +151,7 @@ def build(root: Path, source: str, profile: dict, env: dict,
     raw = work / "candidate.s"
     translated = work / "candidate.maspsx.s"
     obj = work / "candidate.o"
-    subprocess.run(
-        [str(resolve_within(root, profile["compiler"])), "-S",
-         "-I", str(resolve_within(root, "src")),
-         *profile["compiler_flags"], "-o", str(raw), str(candidate)],
-        cwd=root, env=env, check=True, capture_output=True,
-    )
+    _run_compiler(root, profile, candidate, raw, env)
     with raw.open("rb") as fin, translated.open("wb") as fout:
         subprocess.run(
             [sys.executable, str(resolve_within(root, MASPSX)),
