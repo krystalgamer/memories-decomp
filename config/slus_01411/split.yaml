@@ -140,7 +140,7 @@ segments:
       - [0x81ee0, .data, game/ai_script_commands]
       - [0x81ff0, .data, game/ai_opponent_data]
       - [0x82158, data, initialized_data_80091958]
-      - [0x8B884, .sdata, game/ai_script_call_control]
+      - [0x8B884, .sdata, game/ai_script_source_line_format]
       - [0x8B88C, pad]
 
   - name: bss_image
