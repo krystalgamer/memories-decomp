@@ -70,7 +70,7 @@ typedef struct {
     u8 field_BF5;
     u8 pad_BF6[0x102];
     ModelSlotCF8Block field_CF8;
-    u8 *field_D14;
+    u8 *entries;
     ModelSlotRotationEntry *field_D18;
     u8 pad_D1C[0x54];
     ModelSlotLightEntry field_D70[3];
@@ -97,7 +97,7 @@ typedef struct {
     u8 field_E14;
     u8 field_E15;
     u8 field_E16;
-    u8 field_E17;
+    u8 entry_count;
     u8 field_E18;
     u8 field_E19;
     u8 field_E1A;
@@ -183,8 +183,8 @@ typedef char ModelSlot_field_BF5_offset_must_be_0xBF5[
 typedef char ModelSlot_field_CF8_offset_must_be_0xCF8[
     MODEL_OFFSET(ModelSlot, field_CF8) == 0xCF8 ? 1 : -1
 ];
-typedef char ModelSlot_field_D14_offset_must_be_0xD14[
-    MODEL_OFFSET(ModelSlot, field_D14) == 0xD14 ? 1 : -1
+typedef char ModelSlot_entries_offset_must_be_0xD14[
+    MODEL_OFFSET(ModelSlot, entries) == 0xD14 ? 1 : -1
 ];
 typedef char ModelSlot_field_D18_offset_must_be_0xD18[
     MODEL_OFFSET(ModelSlot, field_D18) == 0xD18 ? 1 : -1
@@ -240,8 +240,8 @@ typedef char ModelSlot_field_E14_offset_must_be_0xE14[
 typedef char ModelSlot_field_E16_offset_must_be_0xE16[
     MODEL_OFFSET(ModelSlot, field_E16) == 0xE16 ? 1 : -1
 ];
-typedef char ModelSlot_field_E17_offset_must_be_0xE17[
-    MODEL_OFFSET(ModelSlot, field_E17) == 0xE17 ? 1 : -1
+typedef char ModelSlot_entry_count_offset_must_be_0xE17[
+    MODEL_OFFSET(ModelSlot, entry_count) == 0xE17 ? 1 : -1
 ];
 typedef char ModelSlot_field_E18_offset_must_be_0xE18[
     MODEL_OFFSET(ModelSlot, field_E18) == 0xE18 ? 1 : -1

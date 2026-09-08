@@ -6,16 +6,16 @@ void *func_80058F20(s32 index, s32 slot)
 {
     ModelSlot *entry = &D_800F2C40[index];
 
-    if (slot > entry->field_E17) {
+    if (slot > entry->entry_count) {
         slot = entry->field_E18;
     }
-    return entry->field_D14 + slot * MODEL_SLOT_DATA_ENTRY_SIZE;
+    return entry->entries + slot * MODEL_SLOT_DATA_ENTRY_SIZE;
 }
 
 u32 func_80058F74(s32 index)
 {
     ModelSlot *entry = &D_800F2C40[index];
 
-    return (u32)entry->field_D14 +
+    return (u32)entry->entries +
            entry->field_E18 * MODEL_SLOT_DATA_ENTRY_SIZE;
 }
