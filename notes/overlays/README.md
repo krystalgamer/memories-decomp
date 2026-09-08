@@ -9,8 +9,8 @@ its resident load banks.
 - [`runtime-loader.md`](runtime-loader.md) records the asynchronous loader,
   archive attribution, load-bank layout, and recovered WA sector packages.
 - [`matching-patterns.md`](matching-patterns.md) records the source-shape
-  rules recovered while matching overlay functions, and the one residual
-  difference that no available compiler profile reproduces.
+  observations recovered while matching overlay functions, including the
+  resolution of previously recorded residuals.
 - [`recorded-blockers.md`](recorded-blockers.md) explains how to read the
   per-function notes that say why something will not match, and why the
   explanation half of them should be retested rather than trusted.
@@ -217,7 +217,7 @@ compiler profile**, since a function built with a non-default profile would
 otherwise be spot-checked with the wrong one. `--profile` overrides, and a
 candidate passed explicitly defaults to `gcc_2_8_1_g0_split`.
 
-Two details make the comparison trustworthy:
+Two details define what this comparison measures:
 
 - **Relocated fields are excluded, and only those.** An unlinked object leaves
   every relocated field zero where the module holds the resolved value, so the
@@ -232,18 +232,25 @@ Two details make the comparison trustworthy:
   the normal state of a function being worked on, and the diff is what shows
   why. The length difference is reported on its own line.
 
-This does not replace `make match-overlays`, which is still what proves a
-module reassembles and links. It is what makes it practical to measure several
-candidate shapes instead of guessing between them: a probe costs about a fifth
-of a second rather than minutes.
+A `MATCH` here is agreement after relocation masking, not a proof that the
+candidate uses the right globals, callees, or local jump destinations. Those
+identities must be checked after linking. The old password candidates also
+showed why opcode counts are not a semantic check: incorrect control-flow
+paths and a reversed affordability comparison survived apparently promising
+instruction-mix scores before the exact implementations in #2158 and #2180.
+
+This does not replace `make match-overlays`, which compares the complete
+linked image, including addresses and owned read-only data. Use the cheap
+probe to distinguish candidate shapes, then resolve every relocation and
+require the whole-module match before accepting a result or deriving a name
+from it.
 
 ## A local array initialiser is a layout change, not a conversion
 
-Most unmatched overlay functions can be converted one at a time: add a `c`
-subsegment, write the source, build. A function whose source declares a
-**non-static local array with an initialiser** cannot, because the initialiser
-is data that the C file has to emit, and that data already exists somewhere in
-the module as a tracked blob.
+When converting an unmatched function, replacing its text subsegment may be
+sufficient. A **non-static local array with an initialiser** also emits data,
+however, and that data already exists elsewhere in the module. Its original
+contribution must be replaced rather than emitted a second time.
 
 The tell is a straight-line block copy at the top of the function — sixteen
 byte chunks through `$t4`–`$t7` with a `bne` back-edge, plus a short tail —
@@ -259,12 +266,12 @@ That is GCC copying an initialised local aggregate into the frame. A
 `static const` array would be indexed in place instead, with no copy, so the
 copy is what distinguishes the two.
 
-`func_80168CDC` in the password module is the worked example. Its 0x78 bytes
-sit at module offset `0x4`, immediately after the header word, inside the
-`module_header` data subsegment that spans `0x0`–`0xB4` — and note that the
-function itself is at `0xCDC`, so the data is nowhere near its code. Converting
-it means carving `module_header` and letting the C file place the table at
-exactly `0x80168004` as well as matching the code.
+`func_80168CDC` in the password module is the completed example. Its
+`s32 tbl[30]` occupies `0x78` bytes at module offset `0x4`, immediately after the
+header word, while the function itself starts at `0xCDC`. That data used to
+be part of a `module_header` blob spanning `0x0`–`0xB4`. The current layout
+limits `module_header` to `0x0`–`0x4` and gives the matching C source its own
+`.rodata` contribution at `0x4`–`0x7C`.
 
 Two consequences worth stating plainly:
 
@@ -291,21 +298,22 @@ lw    $v0, 0x0($v1)
 jr    $v0
 ```
 
-Its five words sit at module offset `0x7C`–`0x90`, inside the same
-`module_header` blob — and **immediately after** `func_80168CDC`'s `0x78`-byte
-initialiser at `0x4`–`0x7C`. The two functions' emitted data is contiguous, so
-whoever carves `module_header` should do both at once rather than twice.
+Its five words sit at module offset `0x7C`–`0x90`, immediately after
+`func_80168CDC`'s initialiser. This was another contribution inside the old
+combined blob. The current layout assigns it to
+`overlays/password/func_8016A37C` as `.rodata`; #2158 replaced both that
+contribution and the function's complete `0x237C`–`0x2930` text region.
 
 ### What the "module header" actually is
 
-The blob called `module_header` is not a header. Reading the bytes out of
-`tmp/overlays/<module>/module.bin` shows every module has the same shape:
+The old combined blob included much more than the leading word. The current
+layout separates that word from pre-text read-only data:
 
 ```
-[ one word: function count ][ the module's .rodata ][ the module's .text ]
+[ one leading word ][ the module's .rodata ][ the module's .text ]
 ```
 
-| overlay | count word | pre-text `.rodata` | text starts |
+| overlay | leading word | pre-text `.rodata` | text starts |
 |---|---|---|---|
 | `free_duel` | `0x13` = 19 | none | `0x4` |
 | `overworld_before_coup` | `0x14` = 20 | none | `0x4` |
@@ -313,14 +321,20 @@ The blob called `module_header` is not a header. Reading the bytes out of
 | `main_menu` | `0x0F` = 15 | `0x4`–`0x1C` | `0x1C` |
 | `password` | `0x15` = 21 | `0x4`–`0xB4` | `0xB4` |
 
+The word's role is not established by these values alone. In particular,
+`main_menu`'s `0x0F` does not count its 31 game-owned inventory entries.
+Calling it a function count without identifying the counted set and a
+consumer was an unsupported interpretation, not a recovered field meaning.
+
 Password's region is three separate `.rodata` items, in the same order as the
 functions that own them:
 
-- `0x4`–`0x7C`, thirty-one words of Shift-JIS codes ending in `ffffffff` —
+- `0x4`–`0x7C`, thirty words of Shift-JIS codes ending in `ffffffff` —
   `func_80168CDC`'s initialiser, at module offset `0xCDC`
 - `0x7C`–`0x90`, five words `8016a3fc 8016a5c0 8016a68c 8016a794 8016a8a0`,
   every one an address inside `func_8016A37C` at `0x237C` — its jump table
-- `0x90`–`0xB4`, the ASCII string `SaveLoad Buf add = 0x%x size = 0x%x\n`
+- `0x90`–`0xB4`, the null-terminated ASCII string
+  `SaveLoadBuf add = 0x%x size = 0x%x\n`, owned by `NameEntry_Main`
 
 **The constraint is not specific to password.** `main_menu` has the same
 structure: `0x4`–`0x1C` is six words — `8018416c 80183514 801836f4 80183884
@@ -371,7 +385,8 @@ is needed:
     start: 0x4
     vram: 0x80168004
     subsegments:
-      - [0x4, rodata, overlays/password/module_rodata]
+      - [0x4, .rodata, overlays/password/func_80168CDC]
+      - [0x7C, .rodata, overlays/password/func_8016A37C]
       - [0x90, .rodata, overlays/password/name_entry_main]
       - [0xB4, c, overlays/password/func_801680B4]
       ...
@@ -1702,4 +1717,3 @@ in, not about the declaration. Before grouping, check whether the shared registe
 is written more than once in the region; if it is, the sharing is allocation and
 the symbols are separate. Grouping is worth trying when it buys aliasing, as
 `MEM_IN_STRUCT_P` does, but not on the strength of a shared base register alone.
-

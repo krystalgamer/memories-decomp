@@ -1,10 +1,14 @@
 # Reading a Recorded Blocker
 
-Every unmatched overlay function carries a note in its
-`config/slus_01411/overlays/<module>_functions.csv` row. Those notes are worth
-having — they save re-deriving what a function does — but the ones that
-describe *why* a function will not match have a poor record. On 2026-09-05,
-five were retested and all five were wrong.
+Overlay inventory rows retain the research that preceded their matches.
+Those notes are worth having — they save re-deriving what a function does —
+but the ones that described *why* a function would not match had a poor
+record. On 2026-09-05, five were retested and all five explanations were wrong.
+
+This is a guide to historical diagnoses, not a list of remaining work.
+By #2180, all game-owned functions in the five configured overlays had
+matching C. Read the current inventory status and accepted source before
+reconstructing any candidate from an older note.
 
 This is not an argument for ignoring them. It is an argument for reading them
 in two parts, because they are written in two parts and only one of them is
@@ -59,7 +63,8 @@ were unblocked by a profile that could have been added at any time.
 
 ## Before you trust one
 
-Re-measure it. A probe costs about a fifth of a second:
+If a candidate still needs investigation, re-measure it. A probe costs about
+a fifth of a second:
 
 ```sh
 tools/environments/python/bin/python tools/project/overlay_diff.py \
@@ -69,3 +74,9 @@ tools/environments/python/bin/python tools/project/overlay_diff.py \
 The notes were written when confirming them meant a full module rebuild, which
 is why explanation substituted for measurement. That is no longer the trade,
 and a recorded blocker is now cheaper to retest than to reason about.
+
+The probe masks relocation fields, so its score alone does not establish
+which globals or jump targets the candidate uses. Check those identities and
+the control-flow paths independently, then require the fully linked module
+match. A better instruction-mix score is not evidence for a semantic
+interpretation that disagrees with the target.

@@ -25,9 +25,14 @@ checks the registry across:
 - tracked resident C declarations, definitions, and call sites;
 - semantic source filenames for matching C functions.
 
-Overlay sources remain excluded because each module has an independent linker
-namespace, and the current overlay build configs do not publish resident
-semantic aliases.
+The automated pass still excludes `src/overlays/`, whose modules have
+independent linker namespaces. Several module configs now publish selected
+resident aliases through the `linker_symbols` paths in
+`config/slus_01411/overlays.json`; this is not a blanket import of the
+resident symbol map. Overlay naming changes must update the applicable
+module definitions or linker aliases and preserve the complete overlay
+match. Module-scoped overlay symbols must not become unconditional resident
+symbols.
 
 Confirmed Psy-Q CRT/SDK function names may also use the registry. Lower
 confidence non-game function mappings remain rejected.

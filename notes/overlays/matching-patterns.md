@@ -5,9 +5,16 @@ Source-shape rules recovered while matching overlay functions with
 target, followed by the source construct that reproduces it, and each is
 backed by a function that now matches exactly.
 
-These are about recovering what the original author wrote. They are not
-tricks for defeating the optimiser: where the difference cannot be expressed
-in ordinary C, the function stays as assembly.
+These are observations about particular source shapes and compiler profiles,
+not universal compiler rules or proof of the original author's declarations.
+Register bindings permitted by #5 can also reproduce a target without an
+inline assembly statement. The accepted source and a fully relocated image
+comparison decide whether a reconstruction matches.
+
+All game-owned functions in the five configured overlays had matching C by
+#2180. Historical residuals below are not a current work queue; consult the
+per-module inventories and matching manifests before treating an old
+candidate as unfinished work.
 
 To compare a candidate against the target cheaply enough to try several
 shapes, use `tools/project/overlay_diff.py`, documented in
@@ -245,8 +252,9 @@ short; `andi $rX, $rX, 0xffff` is an unsigned one. When the field is loaded
 with `lhu` but tested with `sll`, the field is `u16` and the variable holding
 it is `s16`.
 
-Observed in `FreeDuel_UpdateSparkle`, where this closed the semantic gap
-though that function does not yet match in full.
+Observed in the matching `FreeDuel_UpdateSparkle`. Its signed timer and the
+store-order correction described under the historical residual below are
+both present in the accepted source.
 
 ## A global reloaded for every test is volatile
 
@@ -768,19 +776,19 @@ The shared base matters on its own: naming it is what puts its `%hi` ahead of
 the location load, which is the emission-order rule again — the term the source
 named first is emitted first.
 
-## Known unresolved residual
+## Resolved cursor residual
 
-`FreeDuel_PlaceCursor` is the only overlay function left in this state, and it
-is close: a candidate already emits the same instructions in the same count as
-the target under `gcc_2_8_1_g0_split`, with **only the two leading `lui`
-instructions transposed**. Reading `gFreeDuel_bCursorColumn` and
-`gFreeDuel_bCursorRow` into locals before the coordinate stores is what fixed
-the load placement, since GCC will not hoist a global load across a store
-through a `u8` pointer. Declaration order does not affect what is left.
+`FreeDuel_PlaceCursor` now matches with `gcc_2_8_1_g0_split`; see
+[`place_cursor.c`](../../src/overlays/free_duel/place_cursor.c) and the
+[`free_duel` manifest](../../config/slus_01411/overlays/free_duel_matching_c.json).
+The accepted source uses `Widget` members, reads the column into a local,
+and reads the row directly for the y store. It does not retain the older
+candidate's pair of coordinate locals.
 
-That ambiguity about the scheduling flags is now closed. All four are much
-worse against a candidate that is otherwise five positions from the target, so
-this is a source question and not a profile one:
+The following measurements belong to that older candidate, which had five
+differing positions, including transposed leading `lui` instructions. Its
+load-order and profile conclusions must not be transferred to the accepted
+source as an open blocker:
 
 | Profile | Differing positions |
 |---|---:|
@@ -790,8 +798,8 @@ this is a source question and not a profile one:
 | `gcc_2_8_1_g0_no_sched2` | 66 |
 | `gcc_2_8_1_g0_no_sched1` | 72 |
 
-Three further `lui` transpositions of the same kind were reachable from the
-source, which is what leaves only the leading pair. Each was fixed by naming
+Three further `lui` transpositions of the same kind were reachable in that
+candidate, leaving only the leading pair. Each was fixed by naming
 the symbol in a local **before** the arithmetic that uses it, so the `%hi`
 is emitted ahead of it rather than after:
 
@@ -804,15 +812,16 @@ stored = index - 31960;
 *pFlag = stored;
 ```
 
-The remaining pair resists this, because the symbol that must come first,
-`gFreeDuel_bCursorColumn`, is already read into a local as the first statement
-of the function, while the one that must come second, `D_800EB0F8`, is held
-in a callee-saved register across two calls and so is set up early regardless.
+That candidate's remaining pair resisted this: the symbol that had to come
+first, `gFreeDuel_bCursorColumn`, was already read into a local as the first
+statement of the function, while the one that had to come second,
+`D_800EB0F8`, was held in a callee-saved register across two calls and was set
+up early regardless.
 
-**Naming a base merges `%hi` materialisations, so do not reach for it when the
-target keeps two.** The obvious next move on the remaining pair is to name the
+**Naming a base can merge `%hi` materialisations the target keeps separate.**
+One measured change on the old candidate was to name the
 coordinate base as well, `grid = &gFreeDuel_bCursorColumn` then `grid[0]` and
-`grid[1]`. That builds one instruction **short**, because it gives both
+`grid[1]`. That built one instruction **short**, because it gave both
 coordinate reads a single `%hi`. The target deliberately materialises `%hi`
 for that page twice: once transiently for `gFreeDuel_bCursorColumn`, and once
 into a callee-saved register for `gFreeDuel_bCursorRow`, which survives the
@@ -821,7 +830,7 @@ of neighbouring symbols through separate `lui`s are evidence that the source
 names the two globals separately, and the lever above must be withheld there.
 It is a lever for a genuinely shared base, not for two adjacent scalars.
 
-### What the previous occupant of this section taught
+### What the earlier sparkle residual taught
 
 `FreeDuel_UpdateSparkle` sat here with a transposition of two independent
 chains and was not unresolvable. The note recorded that swapping the two source
@@ -860,6 +869,29 @@ None of them mattered to its match, but the last row is worth keeping:
 The 2.7.2 result is positive evidence that these modules belong to the GCC
 2.8.1 cohort, reached through the recorded escalation path rather than by
 assumption.
+
+## A register pair can constrain a hidden address temporary
+
+The final `func_8016913C` residual was not an instruction-count problem to
+solve by inserting work. One scalar candidate had seven relocated register
+differences; another introduced a redundant loop-entry copy between the
+initial and loop-hoisted `HIGH` pseudos for the column global.
+
+The matching source in
+[`func_8016913C.c`](../../src/overlays/password/func_8016913C.c) groups the
+initial column and row stride in a named register union at `$4`. Its `u64`
+member gives GCC a DI register pair, while the two `s32` fields are the
+values actually assigned and read. On `gcc_2_8_1_g0_split`, both address
+temporaries then conflict with a0/a1 and allocate to a2, eliminating the
+copy. Assigning the column before the stride preserves the required setup
+order.
+
+Both fields are initialized before use, the `u64` member is never read, and
+no call occurs while the pair is live. The glyph-table binding uses a0 on a
+mutually exclusive path. This is a measured register-liveness constraint,
+not evidence that the original author used the same union declaration.
+#2180 integrated all 382 relocated instruction words and the complete
+password image without an output patch or an inline assembly statement.
 
 ## Statement splitting controls evaluation order
 
