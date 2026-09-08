@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 
 typedef struct {
     s32 first;
@@ -8,7 +9,6 @@ typedef struct {
 
 extern s32 gAiScript_aMemory[];
 extern AiScriptStatePrefix gAiScript_State;
-extern s32 AiScript_ReadByte(void);
 extern s32 AiScript_ReadShort(void);
 
 void AiScript_JumpEqual(void)

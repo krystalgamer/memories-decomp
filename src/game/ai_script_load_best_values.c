@@ -1,11 +1,10 @@
 #include "../types.h"
+#include "ai_script_read_byte.h"
 
 extern int gAiScript_aMemory[];
 extern unsigned short gAi_wBestDifference;
 extern unsigned char gAi_bBestAttacker;
 extern unsigned char gAi_bBestTarget;
-extern int AiScript_ReadByte(void);
-
 void AiScript_LoadBestDifference(void)
 {
     int index = AiScript_ReadByte();

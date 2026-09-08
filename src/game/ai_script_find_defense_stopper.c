@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
+#include "ai_script_read_byte.h"
 
 struct ActiveCardEntry {
     s16 card_id;
@@ -12,8 +13,6 @@ struct ActiveCardEntry {
 
 extern s32 gAiScript_aMemory[];
 extern struct ActiveCardEntry gDuel_aActiveCards[];
-extern s32 AiScript_ReadByte(void);
-
 /* AI script opcode taking two operand bytes: a register that when non-zero
  * makes a face-down opponent card invisible to the scan, and the register to
  * write. It pairs the two fields off strongest against strongest - each round

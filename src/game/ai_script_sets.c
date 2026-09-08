@@ -1,11 +1,9 @@
 #include "../types.h"
 #include "ai.h"
+#include "ai_script_read_byte.h"
 
 extern s32 gAiScript_aMemory[AI_SCRIPT_MEMORY_COUNT];
 extern u8 gAiScript_State[];
-
-extern s32 AiScript_ReadByte(void);
-
 void AiScript_ClearCards(void)
 {
     s32 i = AI_SCRIPT_CARD_SET_COUNT - 1;

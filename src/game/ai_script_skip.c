@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern void AiScript_ReadByte(void);
+#include "ai_script_read_byte.h"
 
 void AiScript_SkipHand(void)
 {
