@@ -835,6 +835,10 @@ directly, although `stdlib.h` includes it.
 `setjmp.h` defines `jmp_buf` as twelve 32-bit words for the saved PC, stack
 pointer, frame pointer, registers `s0`-`s7`, and global pointer. It is the
 single-task form and carries no signal mask or host-thread context.
+The imported `longjmp` prototype has no compiler attribute.
+Matching `func_80030FD0` therefore repeats the compatible declaration with
+GCC's `noreturn` attribute: its `0x30`-byte target ends at the
+`jal longjmp` / `li $a1, 2` pair and has no normal epilogue after the call.
 `assert.h` expands a failed assertion to a formatted `printf` followed by
 `exit(1)`; when `NDEBUG` is defined, both `assert` and the underlying
 `_assert` macro expand to nothing. Neither header includes the declarations
