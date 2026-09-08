@@ -64,21 +64,27 @@ INPUT_FILES = (
 )
 
 
-def relative_path(root: Path, path: Path) -> str:
+def resolved_relative_path(root: Path, path: Path) -> tuple[str, Path]:
     try:
-        return path.resolve(strict=True).relative_to(root).as_posix()
+        resolved = path.resolve(strict=True)
+        return resolved.relative_to(root).as_posix(), resolved
     except (ValueError, OSError) as error:
         raise IncrementalSplitError(f"split input is not inside the workspace: {path}") from error
 
 
-def tree_files(root: Path, directory: Path) -> list[Path]:
-    result = []
+def relative_path(root: Path, path: Path) -> str:
+    return resolved_relative_path(root, path)[0]
+
+
+def source_file_paths(root: Path, directory: Path) -> dict[str, Path]:
+    result: dict[str, Path] = {}
     for path in sorted(directory.rglob("*")):
         if "__pycache__" in path.parts or path.suffix in {".pyc", ".pyo"}:
             continue
         if path.is_file():
-            relative_path(root, path)
-            result.append(path)
+            name, resolved = resolved_relative_path(root, path)
+            if path.suffix == ".c":
+                result[name] = resolved
     return result
 
 
@@ -219,12 +225,14 @@ def input_signature(root: Path) -> str:
     # to them yet. Extra source shapes are conservative; bodies are not hashed.
     source_directory = options.src_path.resolve(strict=True)
     relative_path(root, source_directory)
-    source_paths.update(relative_path(root, path) for path in tree_files(root, source_directory)
-                        if path.suffix == ".c")
-    shapes = {
-        name: source_shape(resolve_within(root, name, must_exist=True))
-        for name in sorted(source_paths)
-    }
+    resolved_sources = source_file_paths(root, source_directory)
+    source_paths.update(resolved_sources)
+    shapes = {}
+    for name in sorted(source_paths):
+        source = resolved_sources.get(name)
+        if source is None:
+            source = resolve_within(root, name, must_exist=True)
+        shapes[name] = source_shape(source)
     return digest_value({"schema": 1, "inputs": inputs, "sources": shapes, "tools": splitter_tools()})
 
 

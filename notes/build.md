@@ -267,6 +267,11 @@ cache hits. It uses the pinned Splat C parser to track the function and
 C-body and header edits do not require another split. Source-shape, metadata,
 tool, or target changes do.
 
+Matching-source ownership validation resolves each shared source path once per
+invocation. The source-tree scan reuses those canonical paths when parsing
+Splat-visible function and include shapes, while still rejecting symlinks that
+leave the workspace.
+
 Generated assembly, data, assets, linker scripts, and headers must still match
 their recorded contents. Missing, modified, or extra generated files force
 regeneration. The scanner prunes `tmp/splat/build` and `tmp/splat/cache`, which

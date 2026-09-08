@@ -83,6 +83,7 @@ def load_matching_functions(root: Path) -> list[dict[str, Any]]:
     parsed: list[dict[str, Any]] = []
     seen_addresses: set[int] = set()
     source_root = resolve_within(root, "src", must_exist=True)
+    resolved_sources: dict[str, Path] = {}
 
     for index, function in enumerate(functions):
         if not isinstance(function, dict):
@@ -108,7 +109,10 @@ def load_matching_functions(root: Path) -> list[dict[str, Any]]:
                 f"matching function {address:#010x} uses unknown profile {profile}"
             )
 
-        source = resolve_within(root, source_value, must_exist=True)
+        source = resolved_sources.get(source_value)
+        if source is None:
+            source = resolve_within(root, source_value, must_exist=True)
+            resolved_sources[source_value] = source
         try:
             source_relative = source.relative_to(source_root)
         except ValueError as error:
@@ -161,9 +165,7 @@ def load_matching_functions(root: Path) -> list[dict[str, Any]]:
             raise GenerationError(
                 f"{source_value}: grouped functions use multiple profiles"
             )
-        source_text = resolve_within(
-            root, source_value, must_exist=True
-        ).read_text(encoding="utf-8")
+        source_text = resolved_sources[source_value].read_text(encoding="utf-8")
         expected = members[0]["address"]
         for member in members:
             if member["address"] != expected:

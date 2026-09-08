@@ -217,6 +217,84 @@ class IncrementalSplitTests(unittest.TestCase):
         with self.assertRaises(split_incremental.generate_build_config.GenerationError):
             self.prepare()
 
+    def test_matching_source_paths_are_cached_per_source(self) -> None:
+        self.write(
+            "src/game/example.c",
+            "void Example(void) { return; }\n"
+            "void ExampleTwo(void) { return; }\n",
+        )
+        self.write(
+            "config/slus_01411/functions.csv",
+            "address,size,name,status,module,notes\n"
+            "0x80010000,0x10,Example,matching_c,game,\n"
+            "0x80010010,0x10,ExampleTwo,matching_c,game,\n",
+        )
+        self.write_json(
+            "config/slus_01411/matching_c.json",
+            {
+                "schema": 1,
+                "functions": [
+                    {
+                        "address": "0x80010000",
+                        "size": "0x10",
+                        "source": "src/game/example.c",
+                        "profile": "test",
+                    },
+                    {
+                        "address": "0x80010010",
+                        "size": "0x10",
+                        "source": "src/game/example.c",
+                        "profile": "test",
+                    },
+                ],
+            },
+        )
+        original = split_incremental.generate_build_config.resolve_within
+        source_resolutions = 0
+
+        def tracked(root: Path, relative_path: str, *, must_exist: bool = False):
+            nonlocal source_resolutions
+            if relative_path == "src/game/example.c":
+                source_resolutions += 1
+            return original(root, relative_path, must_exist=must_exist)
+
+        with patch.object(
+            split_incremental.generate_build_config,
+            "resolve_within",
+            side_effect=tracked,
+        ):
+            functions = split_incremental.generate_build_config.load_matching_functions(
+                self.root
+            )
+        self.assertEqual(len(functions), 2)
+        self.assertEqual(source_resolutions, 1)
+
+    def test_source_tree_paths_are_reused_for_shape_scanning(self) -> None:
+        self.assertFalse(self.prepare())
+        original = split_incremental.resolve_within
+        source_resolutions = 0
+
+        def tracked(root: Path, relative_path: str, *, must_exist: bool = False):
+            nonlocal source_resolutions
+            if relative_path == "src/game/example.c":
+                source_resolutions += 1
+            return original(root, relative_path, must_exist=must_exist)
+
+        with patch.object(split_incremental, "resolve_within", side_effect=tracked):
+            self.assertTrue(self.prepare())
+        self.assertEqual(source_resolutions, 0)
+
+    def test_source_tree_symlinks_cannot_escape_workspace(self) -> None:
+        outside = self.root.parent / "outside.c"
+        outside.write_text("void Outside(void) {}\n", encoding="utf-8")
+        (self.root / "src/game/escape.c").symlink_to(outside)
+        with self.assertRaisesRegex(
+            split_incremental.IncrementalSplitError,
+            "not inside the workspace",
+        ):
+            self.prepare()
+        self.generated.assert_not_called()
+
     def test_generated_corruption_and_missing_files_force_regeneration(self) -> None:
         self.assertFalse(self.prepare())
         path = self.root / "tmp/splat/asm/generated/example.s"
