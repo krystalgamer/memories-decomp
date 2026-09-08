@@ -1,3 +1,4 @@
+#define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "input.h"
@@ -35,7 +36,6 @@ u8 D_8009B26E;
    here - it leaves GCC emitting the assembler macro form instead. */
 extern u8 D_800E9EF0[];
 #define gTradeObj (*(Obj **)D_800E9EF0)
-extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
 
 extern void func_80032328(void);
 extern void func_80043178(Obj *);

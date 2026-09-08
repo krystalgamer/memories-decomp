@@ -1,3 +1,4 @@
+#define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "input.h"
@@ -24,7 +25,6 @@ extern u8 D_8009B0C0 __attribute__((section(".data")));
 extern u8 D_8009B140 __attribute__((section(".data")));
 extern u8 D_8009B26C __attribute__((section(".data")));
 extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
-extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
 extern u8 D_800EA0E8[];
 extern s32 gDuel_adwCardStats[];
 

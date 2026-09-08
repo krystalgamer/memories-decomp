@@ -1,8 +1,6 @@
 #include "../types.h"
 #include "input.h"
 
-extern u16 gInput_wPad2Held, gInput_wPad2Pressed, gInput_wPad2Repeat;
-
 void Input_ResetPads(void) {
     s32 i = INPUT_PAD_COUNT - 1;
     volatile u16 *c = &gInput_wPad2Held;

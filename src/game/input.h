@@ -114,6 +114,34 @@ extern volatile u16 gInput_wPad1Repeat;
 extern u16 gInput_wPad1Repeat;
 #endif
 
+/* The pad-2 trio. Each of these sits two bytes above its pad-1 twin --
+ * Repeat at 0x8009B394/0x396, Pressed at 0x398/0x39A, Held at 0x3A4/0x3A6 --
+ * so every name in this family is one element of a two-element, pad-indexed
+ * pair. Input_ResetPads walks that pairing directly: it takes the address of
+ * each pad-2 name and steps DOWN with --, INPUT_PAD_COUNT times.
+ *
+ * Only the arms some consumer needs. gInput_wPad2Pressed is the only one of
+ * the three with a .data consumer, so it is the only one with that arm. */
+#ifdef GINPUT_PAD2_HELD_IS_VOLATILE
+extern volatile u16 gInput_wPad2Held;
+#else
+extern u16 gInput_wPad2Held;
+#endif
+
+#ifdef GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
+extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
+#elif defined(GINPUT_PAD2_PRESSED_IS_VOLATILE)
+extern volatile u16 gInput_wPad2Pressed;
+#else
+extern u16 gInput_wPad2Pressed;
+#endif
+
+#ifdef GINPUT_PAD2_REPEAT_IS_VOLATILE
+extern volatile u16 gInput_wPad2Repeat;
+#else
+extern u16 gInput_wPad2Repeat;
+#endif
+
 void Input_ResetPads(void);
 void Input_InitPads(void);
 void Input_ReadRawPads(void);
