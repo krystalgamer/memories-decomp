@@ -1,5 +1,6 @@
 
 #include "../types.h"
+#include "graphics_frame.h"
 #include "fade.h"
 
 /* Spelled as an array so it stays outside the -G small-data model and is
@@ -18,7 +19,6 @@ extern u8 D_8009B145;
 extern u8 D_8009B14A;
 extern u8 D_8009B14B;
 extern u8 D_8009B14C;
-extern s32 D_8009B0D8;
 
 void func_80015310(u8 *p)
 {

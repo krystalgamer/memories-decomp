@@ -1,8 +1,8 @@
+#define D_8009B0D8_IS_HALFWORD
 #include "../types.h"
+#include "graphics_frame.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
-
-extern u16 D_8009B0D8;
 
 extern s32 func_80039F1C(void);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);

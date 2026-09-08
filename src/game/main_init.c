@@ -1,4 +1,6 @@
+#define D_8009B0D8_IS_VOLATILE
 #include "../types.h"
+#include "graphics_frame.h"
 #include "../psyq/libapi.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -15,7 +17,6 @@ extern volatile u8 D_8009B0C0;
 extern volatile s32 D_8009B09C;
 extern volatile u8 D_8009B0C3;
 extern volatile u8 D_8009B0C1;
-extern volatile s32 D_8009B0D8;
 extern volatile s16 D_8009B098;
 extern volatile u8 D_8009B0D1;
 extern u8 D_8009B230 __attribute__((section(".data")));

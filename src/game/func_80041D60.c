@@ -1,4 +1,6 @@
+#define D_8009B0D8_IS_HALFWORD
 #include "../types.h"
+#include "graphics_frame.h"
 
 /* If arg0's 0x10 state bit isn't set yet: marks it set, resets f58/f5A,
    then walks a 3-level little-endian-u16 offset chain through arg0->f54's
@@ -30,7 +32,6 @@ struct Obj {
     u8 f69;
 };
 
-extern u16 D_8009B0D8;
 extern void func_80041C8C(struct Obj *a0, s32 a1, s32 a2, struct Obj *a3);
 
 void func_80041D60(struct Obj *arg0, s32 arg1, s32 arg2) {
