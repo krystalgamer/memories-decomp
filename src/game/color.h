@@ -37,4 +37,24 @@ typedef struct {
     u16 v;
 } HsvT;
 
+/* func_8005A98C and func_8005ABA0 are deliberately absent.
+ *
+ * Both return their `out` argument, but no caller uses the result and
+ * func_8005B0B4 declares them as returning void. That is not cosmetic: giving
+ * that file the real return types leaves the call sites semantically identical
+ * yet shifts eight words of register allocation in its tail, because the
+ * discarded return value keeps v0 live across the calls. The declarations
+ * therefore stay with each caller until that divergence is understood.
+ */
+
+/* Tint a packed BGR555 pixel, preserving its STP bit. Returns 0 unchanged. */
+s32 func_8005AE68(u16 color, s32 flags, u16 scale);
+
+/* Hue/lightness/saturation straight to a packed BGR555 pixel, no STP bit. */
+s32 func_8005B054(s32 value, u32 a, u32 b);
+
+/* Tint an unpacked colour triple; the triple form of func_8005AE68. */
+Color *func_8005B0B4(
+    Color *out, u8 r, u8 g, u8 b, s32 flags, u16 scale, u8 lim);
+
 #endif

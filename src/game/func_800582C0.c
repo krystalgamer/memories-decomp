@@ -2,12 +2,12 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "color_constants.h"
+#include "color.h"
 
 extern s16 D_8009B470;
 extern s16 D_8009B472;
 extern s16 D_8009B474;
 extern s16 D_8009B476;
-extern s32 func_8005AE68();
 
 void func_800582C0(s32 arg0, s32 arg1, s32 arg2) {
     u16 buf[0x400];
