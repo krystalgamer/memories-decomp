@@ -2,17 +2,9 @@
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "ai_script_read_byte.h"
-
-struct ActiveCardEntry {
-    s16 card_id;
-    s16 power;
-    u8 pad_04[2];
-    u16 flags;
-    u8 pad_08[4];
-};
+#include "ai.h"
 
 extern s32 gAiScript_aMemory[];
-extern struct ActiveCardEntry gDuel_aActiveCards[];
 /* AI script opcode taking two operand bytes: a register that when non-zero
  * makes a face-down opponent card invisible to the scan, and the register to
  * write. It pairs the two fields off strongest against strongest - each round
@@ -32,8 +24,8 @@ void AiScript_FindDefenseStopper(void)
     s32 other;
     s32 i;
     s32 j;
-    struct ActiveCardEntry *cards;
-    struct ActiveCardEntry *others;
+    AiActiveCard *cards;
+    AiActiveCard *others;
 
     hide_face_down = gAiScript_aMemory[AiScript_ReadByte()];
     result = AiScript_ReadByte();
@@ -51,7 +43,7 @@ void AiScript_FindDefenseStopper(void)
         cards = &gDuel_aActiveCards[1];
         for (j = 0; j < DUEL_FIELD_ROW_SIZE; j++) {
             if (taken[0][j] == 0) {
-                if (cards[j].power > gDuel_aActiveCards[best].power) {
+                if (cards[j].attack > gDuel_aActiveCards[best].attack) {
                     best = j + 1;
                 }
             }
@@ -66,7 +58,7 @@ void AiScript_FindDefenseStopper(void)
             if (taken[1][j] == 0) {
                 if (hide_face_down == 0 ||
                     !(others[j].flags & DUEL_CARD_FLAG_FACE_DOWN)) {
-                    if (others[j].power > gDuel_aActiveCards[other].power) {
+                    if (others[j].attack > gDuel_aActiveCards[other].attack) {
                         other = j + 56;
                     }
                 }
@@ -76,7 +68,7 @@ void AiScript_FindDefenseStopper(void)
             break;
         }
         taken[1][other - 56] = 1;
-        if (gDuel_aActiveCards[best].power <= gDuel_aActiveCards[other].power) {
+        if (gDuel_aActiveCards[best].attack <= gDuel_aActiveCards[other].attack) {
             answer = 0;
             break;
         }
