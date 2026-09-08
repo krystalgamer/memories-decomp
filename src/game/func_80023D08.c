@@ -18,10 +18,10 @@ typedef struct {
 
 typedef struct {
     u8 pad00[0x28];
-    u16 x;
-    u16 y;
-    u16 target_x;
-    u16 target_y;
+    s16 x;
+    s16 y;
+    s16 target_x;
+    s16 target_y;
     u8 pad30[6];
     u16 step_x;
     u8 pad38[2];
@@ -84,7 +84,7 @@ void func_80023D08(GridCursor *o, s32 dir) {
         d->steps = shift;
         d->target_x = d->x;
         d->target_y = D_80090800[D_8009B1D5][index].y;
-        q = (((s16)d->target_y - (s16)d->y) << 8) / shift;
+        q = ((d->target_y - d->y) << 8) / shift;
         D_8009B162 = 0x50;
         d->step_y = q;
         o->flags |= 0xC0;
@@ -104,7 +104,7 @@ void func_80023D08(GridCursor *o, s32 dir) {
         d->moving = 0;
         d->target_x = D_80090800[D_8009B1D5][index].x;
         D_8009B162 = 0x40;
-        q = (((s16)d->target_x - (s16)d->x) << shift) / shift;
+        q = ((d->target_x - d->x) << shift) / shift;
         d->target_y = d->y;
         d->step_x = q;
         o->flags |= 0x80;

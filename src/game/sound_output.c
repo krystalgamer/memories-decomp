@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
+#include "sound_transfer_lifecycle.h"
 
 extern void func_80044DC0(s32);
 extern s32 func_80049F50(void);
@@ -89,7 +90,6 @@ extern void func_80049230_s16(s32, s16) asm("func_80049230");
 extern void func_800495A4(void);
 extern void func_800495DC(void);
 extern void func_800495EC(void);
-extern void func_80049640(void);
 extern void SD_Init(void);
 extern SDValue * volatile D_8009B45C_volatile asm("g_SDValue");
 
