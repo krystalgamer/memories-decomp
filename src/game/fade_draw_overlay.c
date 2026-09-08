@@ -10,7 +10,7 @@
 
    The fade state lives in the gFade_State record: byte 4 is the current
    level, byte 6 is the flag byte, bytes 0/1/2 are per-channel tint, and
-   bytes 0xA..0x27 are 30 per-band levels. func_80015310 updates the state
+   bytes 0xA..0x27 are 30 per-band levels. Fade_Update updates the state
    before the draw gate: active flag 0x80, or a nonzero D_8009B141 with
    level != 0xFF. Level 0xFF is not a universal completion sentinel.
 
@@ -35,7 +35,7 @@
    words are each written whole (x+y and w+h together), while y and h are
    updated as halves, so those two go through casts. The tail reads the
    fade record through gFade_State and the tint block through the pointer
-   set up for the func_80015310 call -- that is what makes gcc rematerialise
+   set up for the Fade_Update call -- that is what makes gcc rematerialise
    the record address once for the tail instead of reusing $s2 throughout.
    Matches 0/117 with -G8 -msplit-addresses. */
 
@@ -78,7 +78,7 @@ void Fade_DrawOverlay(void) {
     u8 flags;
 
     rec = D_800E9EC8_arr;
-    func_80015310(rec);
+    Fade_Update(rec);
     flags = rec[6];
     if ((flags & 0x80) || (D_8009B141 != 0 && rec[4] != 0xFF)) {
         p = FADEBOX;

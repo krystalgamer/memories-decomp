@@ -20,7 +20,7 @@ extern u8 D_8009B14A;
 extern u8 D_8009B14B;
 extern u8 D_8009B14C;
 
-void func_80015310(u8 *p)
+void Fade_Update(u8 *p)
 {
     u8 f;
     u8 g;

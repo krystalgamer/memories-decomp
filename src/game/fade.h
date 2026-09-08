@@ -12,7 +12,7 @@ extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 
 void func_800151B0(void);
 void func_800151D8(void);
-void func_80015310(u8 *);
+void Fade_Update(u8 *);
 void Fade_DrawOverlay(void);
 void func_800156B8(s32);
 void func_800156DC(void);
