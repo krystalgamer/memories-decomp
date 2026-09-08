@@ -1169,7 +1169,8 @@ proved by `func_80183B2C` in the same module.
 The rule above is about *whether* to hand-write the address. There is a second
 question once you decide to index: **what shape you declare the element as.**
 
-`func_80181F68` walks three per-slot tables. Indexing them as flat arrays and
+`MainMenu_InitTradeScreen` (`0x80181F68`) walks three per-slot tables.
+Indexing them as flat arrays and
 letting GCC strength-reduce had been measured and rejected, because it produced
 the right hoisting split but built fifteen instructions over — GCC made one
 induction variable per *field* touched:
@@ -1194,7 +1195,7 @@ a giv stops being an invariant address and so stops competing for the
 four-invariant hoisting budget. Getting the element shape right is therefore
 what decides which *other* symbols end up hoisted.
 
-Verified by `func_80181F68` in the main menu module.
+Verified by `MainMenu_InitTradeScreen` in the main menu module.
 
 ### Declaring the shape usually subsumes the address tricks
 
@@ -1251,7 +1252,8 @@ Nothing between the three loads can alias, so ordinary common subexpression
 elimination would have collapsed them. That qualification is the whole rule:
 **a reload only means volatile when no store separates it.** A store through any
 pointer may alias what the load reads, so a reload after one is forced rather
-than chosen and says nothing about the source. `func_80180390` has three
+than chosen and says nothing about the source. `MainMenu_UpdateFrontendMenu`
+(`0x80180390`) has three
 identical loads of a global in one call-free block and needs no qualifier at
 all, because each one follows a store. Use
 `tools/project/overlay_scan_reloads.py` to apply the test rather than reading it

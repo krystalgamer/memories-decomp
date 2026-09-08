@@ -36,18 +36,23 @@ Rules:
   reconstruction to recover: `func_80169734`, which the row had at 309 of 309
   with two differing positions, `CampaignMap_UpdateLocationTransition` at 217
   of 217 with seventy, and `func_8016A37C` at 365 of 365 with five. The first
-  two were rebuilt and then matched; the third is still being recovered.
+  two were rebuilt and then matched; the third was subsequently matched in
+  #2158.
   `FreeDuel_Init` was recovered the same way and has now matched, so a lost
   reconstruction is worth rebuilding from the row's own prose every time.
 
-At the time of writing the rows below are the unmatched functions whose claimed
-state is not stored here, in the order worth recovering:
+The following were historical recovery targets before the configured-overlay
+campaign reached matching C. They are no longer an unmatched work queue:
 
-- `func_8016A37C`, claimed at 365 of 365 with five differing positions. The
-  closest unstored state in the project.
-- `func_80181728`, claimed within four instructions of the target, with the
-  residual attributed to four callee-saved hoists.
-- `func_801821DC`, no claimed state.
+- `func_8016A37C`: formerly claimed at 365 of 365 with five differing
+  positions; now matching C.
+- `func_80181728`: formerly claimed within four instructions, attributed
+  to four callee-saved hoists; now matching C.
+- `MainMenu_UpdateTradeScreen` (`0x801821DC`): formerly without a stored
+  claimed state; now matching C with a Trade-specific semantic name.
+
+Consult the current module inventories before attempting to recover any
+candidate from historical prose.
 
 Each stored candidate is one file in this directory, named for the
 function's address. `README.md` is a generated index of them and is

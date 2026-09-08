@@ -542,11 +542,12 @@ the frame-bound block copy. Every unmatched function in all five modules was
 scanned for jump table references; `func_8016A37C` is the only hit, and the
 whole overlay set contains exactly one `jtbl` symbol.
 
-Every unmatched function in all five modules was scanned for the block-copy
-pattern. `func_80168CDC` is the only one affected. One other function block copies,
-`func_801821DC` in `main_menu`, but its copies run **between two regions of
-`D_801D1200`** rather than into the frame — a scroll within a resident buffer,
-which is ordinary code and carries no data-placement constraint.
+A historical scan of the then-unmatched functions found the local-initializer
+pattern in `func_80168CDC`. `MainMenu_UpdateTradeScreen` (`0x801821DC`) also
+copies blocks, but **between regions of `D_801D1200`** backing its working
+and staged saves, rather than into a local array in the stack frame.
+Those Trade staging/completion copies are not scrolling and do not create
+a C-owned initializer-data placement requirement.
 
 That difference is the check worth applying: look at where the destination
 lives. A destination built from `$sp` is an initialised local and means data
@@ -601,7 +602,8 @@ that has nothing to do with `volatile`.
 The distinction is whether a **store** sits between the two loads. A store
 through any pointer may alias the memory the load reads, so the compiler must
 re-read afterwards; that says nothing about how the source was written.
-`func_80180390` looks like the strongest candidate in the whole overlay set by
+`MainMenu_UpdateFrontendMenu` (`0x80180390`) looked like the strongest
+candidate in that overlay scan by
 the naive test, with three identical loads of one global in a single call-free
 block:
 
@@ -630,8 +632,9 @@ tools/environments/python/bin/python tools/project/overlay_scan_reloads.py \
 ```
 
 With no arguments it scans every function still marked `unmatched_asm` in all
-five modules. Both controls behave: `func_80183B2C`, the one function known to
-use a volatile local, reports 3, while `func_80180390` reports 1.
+five modules. In the original scan, `func_80183B2C`, the volatile-local
+control, reported 3 and `MainMenu_UpdateFrontendMenu` reported 1. Those are
+historical measurements, not a claim that either function remains unmatched.
 
 ### The second tell: a reload of the address a store just wrote
 
