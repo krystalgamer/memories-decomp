@@ -1,5 +1,11 @@
 # Remaining Decompilation Campaign
 
+The dated results below retain the classifications used at their checkpoints.
+The former 63-function handwritten category was later identified as a
+disassembler GTE heuristic and [reclassified](function-map.md#gte-classification-correction-2026-09-08);
+historical counts and attempt outcomes below are not rewritten as current
+progress or source-provenance claims.
+
 ## First evidence batch
 
 The campaign described in `notes/remaining-decompilation-plan.md` began with

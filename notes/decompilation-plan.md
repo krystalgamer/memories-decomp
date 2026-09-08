@@ -521,6 +521,8 @@ Make function conversion repeatable and measurable:
   conversion.
 - Track statuses separately for matching C, justified SDK/handwritten assembly,
   unmatched assembly, data, and unidentified regions.
+  Disassembler GTE/handwritten heuristics are not original-source provenance;
+  unresolved game functions remain C candidates unless separately justified.
 
 Acceptance criteria:
 
@@ -549,7 +551,7 @@ Use an order that improves symbols and types while preserving matching:
 
 Completion target:
 
-- All game-owned compiler-generated functions are matching C.
+- All game-owned C candidates, including GTE/macro functions, are matching C.
 - Any remaining assembly is explicitly classified and justified as
   handwritten, SDK/library, or otherwise not reasonably represented as
   original game C.

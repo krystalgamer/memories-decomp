@@ -18,6 +18,11 @@ At campaign launch, the resident inventory contained 1,794 functions:
 | Terminal compiler-generated game assembly | 347 |
 | Intentional handwritten game assembly | 63 |
 
+That last category records the campaign's historical classification, not
+independent source provenance. The [GTE audit](function-map.md#gte-classification-correction-2026-09-08)
+subsequently returned those functions to the unmatched queue; the historical
+figures above are intentionally unchanged.
+
 The previous breadth-first campaign produced deferred histories for every remaining
 compiler-generated assembly function. Those histories are research indexes,
 not a declaration that the project is complete.
@@ -26,13 +31,15 @@ not a declaration that the project is complete.
 
 Continue the decompile, name, group, and progress loop until:
 
-- every game-owned compiler-generated function is exact matching pure C;
+- every game-owned C candidate, including GTE/macro code, is exact matching
+  pure C;
 - every matching source is free of inline assembly;
 - every game function has an evidence-backed semantic name and concise purpose;
 - every function is grouped with its subsystem when address order, compiler
   profile, and declarations permit it;
-- any game assembly that remains is independently justified as intentional
-  handwritten or hardware-facing code and is semantically documented;
+- any game assembly retained as handwritten has independent provenance
+  evidence and is semantically documented; hardware/GTE operations alone
+  are not an exemption;
 - the complete executable remains byte-identical after every accepted change.
 
 Terminal mismatch histories do not satisfy this completion target. They prevent

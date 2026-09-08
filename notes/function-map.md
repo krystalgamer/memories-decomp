@@ -75,19 +75,62 @@ library object or another high-confidence signature.
 
 ## Game-region status
 
-The game/engine ownership totals are stable:
+The game/engine ownership total is 1,195 functions and 396,196 (`0x60BA4`)
+function bytes. `matching_c` records an exact C result; `unmatched_asm`
+retains the assembly fallback while a C candidate is unresolved. Neither
+status, by itself, recovers the original source language.
 
-| Classification | Functions | Bytes |
-|---|---:|---:|
-| Compiler-generated game code | 1,132 | 349,960 (`0x55708`) |
-| Intentional handwritten assembly | 63 | 46,236 (`0xB49C`) |
-| Total game/engine region | 1,195 | 396,196 (`0x60BA4`) |
-
-The split of compiler-generated code between matching C and assembly fallback
-changes whenever a function is integrated, so it is not duplicated here.
+The split between matching C and unresolved assembly changes whenever a
+function is integrated, so it is not duplicated here.
 `config/slus_01411/functions.csv` is the source of truth; the generated
 progress table in the root [`README.md`](../README.md) is the current readable
 snapshot.
 
-The handwritten functions are tracked separately from compiler-generated game
-code and are not decompilation candidates.
+`handwritten_asm` is reserved for independently justified source-assembly
+provenance. GTE instructions, hardware-facing behavior, or a disassembler's
+heuristic comment alone do not justify excluding game-owned code from C
+decompilation. Existing explicit inventory classifications are preserved by
+inventory refresh; newly discovered assembly defaults to `unmatched_asm`,
+and SDK ownership remains a separate region-classification step.
+
+### GTE classification correction (2026-09-08)
+
+The former 63-function, 46,236-byte game `handwritten_asm` cohort was
+reclassified as `unmatched_asm` after a complete instruction audit for #2390.
+All 63 inventory notes were empty. The classification came from importing
+spimdisasm's `/* Handwritten function */` comment, which its
+`MipsSymbolFunction` emits for the instruction-level
+`isLikelyHandwritten` heuristic, not from recovered original assembly.
+
+The audit decoded all 11,559 words with the same Rabbitizer `R3000GTE`
+category selected by Splat's PSX backend. Every heuristic trigger was a
+COP2 register transfer: 82 `cfc2`, 111 `mfc2`, and 171 `mtc2`, or 364 total.
+There were no non-GTE triggers and no unimplemented words. The cohort also
+contains 529 `lwc2`, 344 `swc2`, and these 236 recognized GTE commands:
+
+| Operation | Retail command word | Occurrences |
+|---|---|---:|
+| `rtps` | `0x4A180001` | 42 |
+| `rtpt` | `0x4A280030` | 40 |
+| `ncds` | `0x4AE80413` | 21 |
+| `nccs` | `0x4B08041B` | 25 |
+| `ncct` | `0x4B18043F` | 16 |
+| `nclip` | `0x4B400006` | 32 |
+| `avsz3` | `0x4B58002D` | 30 |
+| `avsz4` | `0x4B68002E` | 30 |
+
+The [per-function audit](gte-classification-audit.csv) records every
+address, size, command/transfer family, and trigger count at this correction
+checkpoint. It is historical evidence, not a second current-status ledger.
+The target was the verified North American executable with SHA-256
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
+
+Psy-Q's C inline interfaces cover these GTE operation and transfer families.
+That establishes a C/macro avenue, not a verified rewrite of any of these
+whole functions. In particular, the imported command macros contain DMPSX
+marker words rather than the native words above; see the
+[header caveat](psyq.md#gte-heuristics-and-command-header-caveat).
+Exact instruction encodings, stalls, register allocation, and the complete
+executable still have to match before any candidate becomes `matching_c`.
+No game code, function boundaries, compiler profiles, or SDK ownership
+changed in this classification correction.
