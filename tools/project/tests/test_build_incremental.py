@@ -631,20 +631,48 @@ class IncrementalBuildTests(WorkspaceTests):
     def test_unchanged_installed_object_is_not_replaced_and_is_always_relinked(self) -> None:
         self.warm()
         output = self.installed()
+        cache_path = self.root / build_incremental.CACHE_PATH
         os.utime(output, ns=(123456789000, 123456789000))
+        os.utime(cache_path, ns=(123456789000, 123456789000))
         before = output.stat()
-        with patch.object(
-            build_incremental, "copy_object", wraps=build_incremental.copy_object
-        ) as copy:
+        cache_before = cache_path.stat()
+        with (
+            patch.object(
+                build_incremental,
+                "copy_object",
+                wraps=build_incremental.copy_object,
+            ) as copy,
+            patch.object(
+                build_incremental,
+                "write_cache",
+                wraps=build_incremental.write_cache,
+            ) as write_cache,
+        ):
             self.build()
         copy.assert_not_called()
+        write_cache.assert_not_called()
         self.compile.assert_not_called()
         self.link.assert_called_once()
         self.assertEqual(output.stat().st_ino, before.st_ino)
         self.assertEqual(output.stat().st_mtime_ns, before.st_mtime_ns)
+        self.assertEqual(cache_path.stat().st_ino, cache_before.st_ino)
+        self.assertEqual(cache_path.stat().st_mtime_ns, cache_before.st_mtime_ns)
         self.assertIn(
             "rebuilt=0 reused=1 retained=1 materialized=0", self.stdout.getvalue()
         )
+
+    def test_stale_cache_entries_are_pruned_after_successful_link(self) -> None:
+        self.warm()
+        signatures = build_incremental.load_cache(self.root)
+        signatures["stale.o"] = "stale-signature"
+        build_incremental.write_cache(self.root, signatures)
+        self.reset_observations()
+
+        self.build()
+
+        self.compile.assert_not_called()
+        self.link.assert_called_once()
+        self.assertNotIn("stale.o", build_incremental.load_cache(self.root))
 
     def test_changed_or_missing_installed_outputs_are_atomically_restored(self) -> None:
         self.warm()
@@ -851,7 +879,13 @@ class ObjectComparisonTests(WorkspaceTests):
         contents = b"a" * (1024 * 1024) + b"tail1"
         source = self.write("tmp/cached.o", contents)
         destination = self.write("tmp/installed.o", contents)
-        self.assertTrue(build_incremental.same_contents(source, destination))
+        self.assertTrue(
+            build_incremental.same_contents(
+                source,
+                destination,
+                source_size=len(contents),
+            )
+        )
         self.edit_preserving_metadata(destination, contents[:-1] + b"2")
         self.assertFalse(build_incremental.same_contents(source, destination))
         self.assertEqual(source.read_bytes(), contents)

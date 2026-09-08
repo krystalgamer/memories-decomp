@@ -9,6 +9,7 @@ import json
 import os
 import re
 import shutil
+import stat
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -478,10 +479,24 @@ def copy_object(source: Path, destination: Path) -> None:
         temporary.unlink(missing_ok=True)
 
 
-def same_contents(source: Path, destination: Path) -> bool:
+def same_contents(
+    source: Path,
+    destination: Path,
+    *,
+    source_size: int | None = None,
+) -> bool:
+    if source_size is None:
+        source_stat = source.stat()
+        if not stat.S_ISREG(source_stat.st_mode):
+            return False
+        source_size = source_stat.st_size
+    try:
+        destination_stat = destination.stat()
+    except (FileNotFoundError, NotADirectoryError):
+        return False
     if (
-        not destination.is_file()
-        or source.stat().st_size != destination.stat().st_size
+        not stat.S_ISREG(destination_stat.st_mode)
+        or source_size != destination_stat.st_size
     ):
         return False
     with (
@@ -744,13 +759,14 @@ def build_incrementally(
         seed_existing(root, components, signatures, file_cache=file_cache)
         return None
 
-    cache = load_cache(root)
+    loaded_cache = load_cache(root)
     active_names = set(signatures)
     cache = {
         name: signature
-        for name, signature in cache.items()
+        for name, signature in loaded_cache.items()
         if name in active_names
     }
+    cache_needs_pruning = cache != loaded_cache
     assembler = build_baseline.tool(root, "as")
     objcopy = build_baseline.tool(root, "objcopy")
     objects: list[Path] = []
@@ -763,13 +779,23 @@ def build_incrementally(
     for component in components:
         output = object_path(root, component, file_cache=file_cache)
         cached = cached_object_path(root, component, file_cache=file_cache)
+        try:
+            cached_stat = cached.stat()
+        except (FileNotFoundError, NotADirectoryError):
+            cached_size = None
+        else:
+            cached_size = (
+                cached_stat.st_size
+                if stat.S_ISREG(cached_stat.st_mode)
+                else None
+            )
         if (
-            cached.is_file()
-            and cached.stat().st_size > 0
+            cached_size is not None
+            and cached_size > 0
             and cache.get(component.object_name)
             == signatures[component.object_name]
         ):
-            if same_contents(cached, output):
+            if same_contents(cached, output, source_size=cached_size):
                 retained += 1
             else:
                 copy_object(cached, output)
@@ -816,7 +842,8 @@ def build_incrementally(
         force=True,
     )
     output = link(root, objects)
-    write_cache(root, signatures)
+    if rebuilt == 0 and cache_needs_pruning:
+        write_cache(root, cache)
     print(
         f"incremental build: rebuilt={rebuilt} reused={reused} "
         f"retained={retained} materialized={materialized} "
