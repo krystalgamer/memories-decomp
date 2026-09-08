@@ -5573,3 +5573,38 @@ minutes, and it is the difference between 7 and 5 on this entry.
 stored source, reporting the differing count and whether the differing
 *set* is unchanged for each pin, then the joint arm over every pin that
 looked inert alone.
+
+## Re-run the closed levers after the base moves: `func_80023144` reached zero
+
+`func_80023144` sat at five differing positions with three sections of closed
+directions. One of them read, of the block-2 address cluster:
+
+> Assigning the pointer after the `y` test **does** produce retail's empty slot,
+> but costs eight elsewhere and only recovers to 8 with `side` pinned to `$5`.
+
+That measurement was correct. It was taken against a base carrying two `rank`
+pins that later proved jointly inert, and a `dst` pin that later proved to be
+**costing two positions**. Removing those three moved the base from 5 to 3, and
+re-running the same one-line change on the new base gives **zero** - 210 of 210,
+opcode multiset identical, full-executable SHA-256 reproduced.
+
+So a lever recorded as "costs eight" was worth an exact match three pin-removals
+later, and nothing about the lever changed.
+
+**The practical rule is narrower than "levers are base-dependent", which this
+file already says.** It is: *when the base moves, the closed list is no longer
+closed*, and the cheapest thing to re-run is the direction that was recorded as
+**nearly working**. A direction rejected at +8 with a note explaining that it
+produced the right delay slot is not the same as one rejected at +200; the first
+says the mechanism is right and something else is in the way, and that something
+else is exactly what a base change removes.
+
+The sequence that got here is worth keeping because no single step found it:
+
+1. the joint arm showed two `rank` pins were decoration and removed them;
+2. re-measuring the remaining pins on that base showed a third was costing two
+   positions, taking 5 to 3;
+3. re-running a direction closed at +8 against the new base gave 0.
+
+Each step was cheap. The first two were bookkeeping - removing pins that did
+nothing - and neither looked like progress toward a match at the time.
