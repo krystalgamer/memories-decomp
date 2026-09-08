@@ -78,6 +78,30 @@ through `0x80168A9C`. Both use `gcc_2_8_1_g0_split`, and their shared
 manifest source and one C subsegment at module offset `0x99C` cover the
 complete contiguous `0x100`-byte text range.
 
+## Duelist portrait record sizes
+
+`FreeDuel_Init` walks the transferred portrait arena with two named strides
+rather than raw literals:
+
+| Constant | Value | Meaning |
+|---|---|---|
+| `FREE_DUEL_PORTRAIT_IMAGE_SIZE` | `2304` (`0x900`) | Offset from a record's start to its CLUT |
+| `FREE_DUEL_PORTRAIT_RECORD_SIZE` | `2432` (`0x980`) | Stride from one record to the next |
+
+Both values are backed by [`notes/mrg-files.md`](../../../notes/mrg-files.md),
+which records that this package supplies 40 portrait records of `0x980` bytes
+each, and that each record holds a `48 x 48` 8-bit image of `0x900` bytes
+followed by its palette. The `LoadImage2` pair in the upload loop uses exactly
+that split: the image at the record base, the CLUT at `+0x900`.
+
+The neighbouring literals in that loop are deliberately **left as numbers**.
+The `5`-iteration outer loops and the `25`/`15` split are VRAM band
+dimensions, not the logical grid: the first rectangle band holds 25 portraits
+and the second holds the remaining 15. `5` there coincides in value with
+`FREE_DUEL_GRID_COLUMN_COUNT` but does not mean it, and `8` never appears,
+so substituting the grid constants would assert a relationship the code does
+not establish.
+
 ## Input publication and button meanings
 
 Normal browsing uses `gInput_wPad1Held` for directional movement and

@@ -120,7 +120,8 @@ void FreeDuel_Init(u8 *src)
         D_800E9D70.img.h = 48;
         for (col = 0; col < FREE_DUEL_GRID_COLUMN_COUNT; col++) {
             LoadImage2(&D_800E9D70.img, (u32 *)src);
-            LoadImage2(&D_800E9D70.clut, (u32 *)(src + 2304));
+            LoadImage2(&D_800E9D70.clut,
+                       (u32 *)(src + FREE_DUEL_PORTRAIT_IMAGE_SIZE));
             D_800E9D70.img.x += 24;
             D_800E9D70.clut.y++;
             if ((s16)D_800E9D70.clut.y >= 512) {
@@ -128,7 +129,7 @@ void FreeDuel_Init(u8 *src)
                 D_800E9D70.clut.x += 64;
             }
             count++;
-            src += 2432;
+            src += FREE_DUEL_PORTRAIT_RECORD_SIZE;
         }
     }
     for (row = 0; row < 5; row++) {
@@ -138,14 +139,15 @@ void FreeDuel_Init(u8 *src)
         D_800E9D70.img.h = 48;
         for (col = 0; col < FREE_DUEL_GRID_COLUMN_COUNT; col++) {
             LoadImage2(&D_800E9D70.img, (u32 *)src);
-            LoadImage2(&D_800E9D70.clut, (u32 *)(src + 2304));
+            LoadImage2(&D_800E9D70.clut,
+                       (u32 *)(src + FREE_DUEL_PORTRAIT_IMAGE_SIZE));
             count++;
             if (count >= FREE_DUEL_GRID_ENTRY_COUNT) {
                 goto done;
             }
             D_800E9D70.img.x += 24;
             D_800E9D70.clut.y++;
-            src += 2432;
+            src += FREE_DUEL_PORTRAIT_RECORD_SIZE;
             if ((s16)D_800E9D70.clut.y >= 512) {
                 D_800E9D70.clut.y = 496;
                 D_800E9D70.clut.x += 64;
