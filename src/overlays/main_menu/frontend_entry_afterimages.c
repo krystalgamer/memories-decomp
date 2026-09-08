@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/display_object_api.h"
+#include "../../game/display_object_layout.h"
 #include "frontend.h"
 
 extern u8 D_801AF800[];
@@ -17,7 +18,8 @@ void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
         func_800428A8(object, *(s16 *)(source + 0x30), *(s16 *)(source + 0x32), 0,
                       0, source[0x69], 0x18, 0, D_801AF800);
         *(s32 *)(object + 4) |= 0x51000000;
-        *(u16 *)(object + 8) |= 0x48;
+        *(u16 *)(object + 8) |=
+            DISPLAY_OBJECT_FLAG_RENDERABLE | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(object);
         func_800428EC(object, (s8)(-source[0x60]));
         *(MainMenuEntryEffectUpdate *)(object + 0x24) =

@@ -101,9 +101,14 @@ genuine semantic work, in rough value order:
    is wanted, and where it should live. All three sites are display-layer
    colour writes, so a constant is defensible; the duel one is not the right
    one to reuse.
-2. The composite flag writes (`0x28`, `0x48`) remain raw. The `0x20` bit's
-   **provenance is now established, but its consumer is not**, and only the
-   latter would justify a name.
+2. The composite `0x28` writes remain raw. The `0x20` bit's **provenance and
+   consumer are now both established**, but the consumer is unmatched
+   assembly, so a name would rest on disassembly rather than build-verified C.
+
+   An earlier version of this entry also listed `0x48` as blocked. That was
+   wrong: `0x48` is `0x40 | 0x08`, both of which are named, and it contains no
+   `0x20` at all. Its single site is now written with those two constants.
+   Only `0x28` — which is `0x20 | 0x08` — depends on the open bit.
 
    `func_80040468` — the configurator reached through `func_800404CC` and
    `func_800428A8` — clears `0x20` from the flag word at `+8` and then sets it
@@ -150,8 +155,8 @@ genuine semantic work, in rough value order:
    standard the rest of this note applies. It is deliberately **not** minted
    here, for two reasons worth stating rather than glossing: the consumer is
    still unmatched assembly, so the reading rests on disassembly rather than
-   on compiled C; and naming the bit means touching every composite `0x28`
-   and `0x48` site across two overlay modules, which is a source change and
+   on compiled C; and naming the bit means touching the remaining composite
+   `0x28` sites across two overlay modules, which is a source change and
    belongs in its own reviewable PR rather than in a note.
 
    What the bit is **not**: it is not a visibility or draw-order control, and
