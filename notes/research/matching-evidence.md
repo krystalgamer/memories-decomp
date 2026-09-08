@@ -3109,11 +3109,11 @@ units, so neither spelling is wrong in general. The saved-register set is what
 distinguishes them, and it is cheap to read: count `sw $sN` in the target
 prologue and compare.
 
-## A temp-then-copy pair is a whole-struct assignment
+## A temp-then-copy pair means the value was materialised before its store
 
 Two stores into adjacent stack slots, immediately followed by two loads from
-those slots and two stores eight bytes lower, is not clumsy scheduling. It is
-GCC's shape for assigning a small structure as a unit:
+those slots and two stores eight bytes lower, is not clumsy scheduling. A
+whole-structure assignment is one thing that produces it:
 
 ```
 struct assignment          scalar stores
