@@ -112,6 +112,40 @@ three property calls. The setter's writes, terrain input, and the wrapper's
 mode/audio changes rule out a read-only two-combatant contract; see
 [the game description](research/the-game.md#59-the-3-d-battle-and-the-poly-mode).
 
+### Timed model-tint requests
+
+Matching `func_80058938` and `func_800528AC` establish a ten-entry request
+array at `D_800F2B50`, with `0x18` bytes per entry. The constructor scans from
+entry zero and fills the first record whose low active bit is clear; if all ten
+are active, it reaches the end without replacing one. It records one of model
+slots 0 or 1, two four-byte colour values, an initial elapsed value of zero,
+and a duration equal to twice its fifth argument. Optional variadic indices
+become an eight-byte part-selection bitset. These are storage and control
+relationships, not names for the remaining offset-based fields.
+
+The shared model tick `func_80059CE4` calls `func_800528AC` after the ordinary
+slot draw/update helpers. For each active request whose selected model slot is
+active, the processor:
+
+1. computes three colour bytes as linear integer interpolation from entry
+   bytes `+0x10..+0x12` toward `+0x14..+0x16`, using elapsed `+0x0C` over
+   duration `+0x0E`, while retaining byte `+0x13` as the fourth channel;
+2. saves the slot colour at `field_DC0`, `field_BF5`, `field_E06`, and the
+   affected per-part bytes, installs the request values, and redraws the slot;
+3. clears the two draw-context globals, restores every saved model value, and
+   restores the prior `func_80059AA8` state;
+4. advances elapsed by `func_80058E1C()` and clears the request's active bit
+   once elapsed is at least duration.
+
+An inactive selected model slot leaves the request and its elapsed value
+unchanged. `Model_HasInsufficientBufferSpace` takes a different path: it skips
+the temporary mutation and redraw but still advances elapsed and can expire the
+request. The processor restores model state after each successful redraw, so
+the matching code proves a temporary render override rather than a persistent
+slot-colour assignment. Although animated battle reaches this processor through
+`func_80059CE4`, the pipeline is shared; current matching callers do not justify
+calling the queue battle-exclusive.
+
 ## `D_800F56F0`: 32-byte reference-view record
 
 The eight-word block at `D_800F56F0` has the exact target layout of Psy-Q's

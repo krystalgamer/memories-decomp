@@ -1000,6 +1000,16 @@ mode bit `0x20` selects `func_80059C88`; otherwise the handler polls
 `func_80059CE4` call runs on this polling branch even when completion has
 just been consumed.
 
+That call enters the shared model pipeline, not a battle-only helper. Matching
+`func_800528AC` processes up to ten active timed tint requests: it interpolates
+three colour bytes, temporarily applies the result and requested part values to
+one of two model slots, redraws that slot, then restores the previous model
+state. Its request clock advances by the shared frame factor and clears the
+active bit at the recorded duration. An inactive model pauses the request
+without advancing it; insufficient model-buffer space skips the redraw but
+still advances the clock. This establishes the renderer contract, not which
+battle effects or other model-viewing modes enqueue each tint.
+
 Thus the earlier "reads only the combatants, writes nothing" description
 was incorrect: terrain, mode control, model state, GTE state, and sound
 are involved. The wrapper does not directly write LP or rank counters;
