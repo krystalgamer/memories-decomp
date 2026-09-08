@@ -5668,7 +5668,7 @@
       "address": "0x8005BB7C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x2C0",
-      "source": "src/game/func_8005BB7C.c"
+      "source": "src/game/movie_frame_pipeline.c"
     },
     {
       "address": "0x8005BE3C",
@@ -5692,7 +5692,7 @@
       "address": "0x8005C374",
       "profile": "gcc_2_8_1_g8",
       "size": "0x14",
-      "source": "src/game/func_8005C374.c"
+      "source": "src/game/movie_frame_pipeline.c"
     },
     {
       "address": "0x8005C388",
