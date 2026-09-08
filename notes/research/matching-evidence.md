@@ -1697,11 +1697,35 @@ and both were worse.
 So the rule is sharper than "intra-block source order is a weak lever". Within
 a block it is not a lever at all, and in particular it cannot be combined with
 another lever in the hope of partial credit, because it contributes nothing to
-combine. The actionable test is CFG-shaped: **before trying a reordering, ask
-whether it crosses a basic-block boundary. If it does not, it cannot change
-the output and does not need to be compiled.** For address materialisation
-specifically, the address is emitted at block entry no matter where in the
-block it is written.
+combine. For address materialisation specifically, the address is emitted at
+block entry no matter where in the block it is written.
+
+#### Correction from `func_80028B08`: the test is dependence, not position
+
+The paragraph above originally ended with a CFG-shaped rule - that a reordering
+which does not cross a basic-block boundary cannot change the output and need
+not be compiled. That is wrong as stated, and following it costs real
+positions.
+
+On `func_80028B08`, moving one store up by a single statement, so that an
+assignment to the object's `field_44` falls between the mask and the store of
+its `field_4` rather than after both, is worth 6 positions. It crosses no block
+boundary.
+
+The difference is what the scheduler is permitted to do, not where the
+statement sits. Everything measured on `func_80023144` was *independent*
+instructions - an address materialisation and an unrelated increment - which
+`sched2` may freely reorder, so source order carries no information and is
+exactly inert. Stores and loads that the compiler cannot prove disjoint are a
+different case: source order **is** dependence order there, and no later pass
+has licence to undo it.
+
+So the usable form is: **intra-block source order is inert for instructions the
+scheduler may reorder, and load-bearing for memory operations it may not.**
+Before skipping a reordering experiment, ask whether it changes the relative
+order of two memory operations that might alias. If it does, compile it; if it
+only permutes independent computation, the earlier result stands and it can be
+skipped.
 
 ## Do not name an array base to reproduce a materialised base register
 
