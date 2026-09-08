@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/campaign_flags.h"
+#include "../../game/display_object_layout.h"
 #include "shop.h"
 
 typedef struct {
@@ -148,7 +149,7 @@ void Password_UpdateShopScreen(void)
         }
         D_8016D4D8->phase = D_8016D4D8->phase + 8;
         if (D_8016D4D8->phase == 0) {
-            D_8016D4D8->flags &= 0xFFFB;
+            D_8016D4D8->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
             SD_SEPlayFull(12);
             D_8016D424 = 2;
         } else {
@@ -223,7 +224,7 @@ void Password_UpdateShopScreen(void)
         flags4 = D_8016D424;
         if ((flags4 & 0x8000) == 0) {
             D_8016D424 = flags4 | 0x8000;
-            D_8016D4D8->flags |= 4;
+            D_8016D4D8->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
         }
         widget = D_8016D4D8;
         widget->phase = widget->phase + 8;
