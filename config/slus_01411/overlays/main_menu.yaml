@@ -28,6 +28,7 @@ options:
 
   symbol_addrs_path:
     - notes/research/Unchiga_Symbols/modules/main_menu.txt
+    - config/slus_01411/overlays/main_menu_symbols.txt
 
   find_file_boundaries: false
   check_consecutive_segment_types: false
@@ -76,8 +77,8 @@ segments:
       - [0x1E30, c, overlays/main_menu/finish_value_setup]
       - [0x1EEC, c, overlays/main_menu/count_decimal_digits]
       - [0x1F20, c, overlays/main_menu/start_value_widget_tween]
-      - [0x1F68, c, overlays/main_menu/func_80181F68]
-      - [0x21DC, c, overlays/main_menu/func_801821DC]
+      - [0x1F68, c, overlays/main_menu/trade_init]
+      - [0x21DC, c, overlays/main_menu/trade_update]
       - [0x338C, c, overlays/main_menu/func_8018338C]
       - [0x3514, c, overlays/main_menu/func_80183514]
       - [0x36F4, c, overlays/main_menu/func_801836F4]

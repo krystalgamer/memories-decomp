@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "entrypoints.h"
 
 typedef struct {
     u8 *object;
@@ -33,7 +34,7 @@ extern void func_80061008(s32, s32, s32, s32);
 extern void func_8018338C(s32, s32);
 extern void func_801844D8(s32);
 
-void func_80181F68(void)
+void MainMenu_InitTradeScreen(void)
 {
     u8 *object;
     u8 *entry;

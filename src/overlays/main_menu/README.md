@@ -1,6 +1,6 @@
 # Main Menu Overlay
 
-This directory is reserved for matching source from the main-menu runtime
+This directory contains matching source from the main-menu runtime
 module.
 
 Verified boundaries:
@@ -44,8 +44,8 @@ trailing data range and is zero in the image, consistent with a variable
 rather than initialised content.
 
 `Main_RunMenu` enters the image at `func_8018001C`, `func_80180390` and
-`func_80180DD0`. The initializer and teardown now build from matching C;
-`func_80180390`, the selection/update path, remains mapped assembly.
+`func_80180DD0`. All three now build from matching C. These frontend entries
+are distinct from the Trade-screen entries below.
 
 The loaded bytes contain resident call targets throughout `0x80180xxx` and
 the module-scoped `gMain_bMenuID` at `0x80184594`. A second SU phase at sectors
@@ -63,13 +63,37 @@ The module has its own tracked overlay layout and matching-C manifest under
 executable; main-menu entries must not be added to the resident
 `config/slus_01411/matching_c.json`.
 
+## Trade-screen ownership
+
+The resident `Main_RunTrade` calls `MainMenu_InitTradeScreen` at
+`0x80181F68` once, then polls `MainMenu_UpdateTradeScreen` at `0x801821DC`
+after its introduction has finished and the effect state is idle.
+
+The initializer creates the two inventory views and cursors, clears both
+players' offers, navigation, sort and readiness state, populates the lists
+and installs their drawing callback. It does not itself load the saves or
+the archive. The updater handles both controllers, ten offered card IDs per
+player, readiness, joint confirmation, staged exchange and memory-card
+completion. It exchanges chest quantities, not forty-card decks.
+
+On successful transfer completion, the updater copies the staged data back
+to the working save slots and rebuilds the lists. These copies are success
+handling, not evidence of cancelled-trade rollback; the code does not by
+itself establish atomic persistence across two memory cards.
+
+The shared declarations are in `entrypoints.h`. Module definitions belong to
+`config/slus_01411/overlays/main_menu_symbols.txt`; resident callers use
+conditional linker imports in `c_symbols.ld` only after the image is loaded.
+The semantic registry records both names as `overlay/main_menu/function`,
+without adding them to resident function inventory or primary symbols.
+
 ## What the menu shows
 
 Exact matching `func_8018001C` establishes the eleven-entry table, its `5+6`
 position split, and the modulo-11 initial cursor. The
 `main_menu_entry_slots` trace and player report supply the human-readable
-entry labels and confirm the visible motion. The module drives **two** menus,
-not one, and `gMain_apMenuEntries` holds the entries of both:
+entry labels and confirm the visible motion. The frontend presents **two**
+menu groups, and `gMain_apMenuEntries` holds the entries of both:
 
 | slots | menu | entries |
 |---|---|---|

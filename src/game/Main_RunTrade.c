@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../overlays/main_menu/entrypoints.h"
 
 typedef struct {
     u8 pad00[0x59];
@@ -36,7 +37,6 @@ extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
 
 extern void func_80032328(void);
 extern void SD_BGMPlay(u32);
-extern void func_80181F68(void);
 extern Box *TextBox_CreateFlagged(s32, s32, s32, s32, s32, s32, s32);
 extern void func_80039A14(void *);
 extern void *func_8004002C(void);
@@ -52,7 +52,6 @@ extern void TextBox_SetPos(void *, s32, s32);
 extern void TextBox_Destroy(void *);
 extern void func_8004036C(Obj *);
 extern s32 DuelEffect_UpdateState(void);
-extern s32 func_801821DC(void);
 extern void SD_BGMFadeOut(void);
 extern void Fade_WaitOut(void);
 extern void func_80183FE4(void);
@@ -67,7 +66,7 @@ void Main_RunTrade(void)
         D_8009B26C = D_8009B26C | 0x40;
         func_80032328();
         SD_BGMPlay(0x72D0);
-        func_80181F68();
+        MainMenu_InitTradeScreen();
         D_8009B26E = 1;
         box = TextBox_CreateFlagged(0, 0xB, 0x18, 0x20, 0x110, 0xA0, 0x20);
         box->field59 = 0x10;
@@ -107,7 +106,7 @@ void Main_RunTrade(void)
         break;
     default:
         if (DuelEffect_UpdateState() == 0) {
-            if (func_801821DC() != 0) {
+            if (MainMenu_UpdateTradeScreen() != 0) {
                 SD_BGMFadeOut();
                 Fade_WaitOut();
                 func_80183FE4();

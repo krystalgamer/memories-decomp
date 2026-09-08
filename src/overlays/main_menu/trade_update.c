@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/card_constants.h"
+#include "entrypoints.h"
 
 typedef struct { u32 words[256]; } Block1024;
 
@@ -55,9 +56,7 @@ extern void func_801840F8(s32, s32, u32);
 extern void func_80048658(s32, s32, s32);
 extern void func_80035B7C(void *);
 extern void func_80040410(Widget *, s32);
-extern s32 func_801821DC(void);
-
-s32 func_801821DC(void)
+s32 MainMenu_UpdateTradeScreen(void)
 {
     s32 bounded;
     s32 low;
