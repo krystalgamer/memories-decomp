@@ -120,7 +120,7 @@ address,size,name,status,module,notes
 0x80018FEC,0x460,func_80018FEC,unmatched_asm,game,
 0x8001944C,0x118,func_8001944C,matching_c,game,"Card-image refresh: waits out the GPU, picks a VRAM x offset from gGraphics_bActiveBuffer, reads the 0x8C by 0xC4 window at the object's x/y into D_8015C424 with StoreImage2, sets the semi-transparency bit on all 0x6B30 halfwords, clears eleven specific halfwords, and writes the block back with LoadImage2. Matched with base pinned to $5 and the zero-offset clear of D_8015C424 written before the rectangle stores; sched2 sinks that store between the width and height stores, and writing it early is what makes the buffer's %hi allocate before the rectangle's."
 0x80019564,0xA4,func_80019564,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80019608,0x400,func_80019608,unmatched_asm,game,
+0x80019608,0x400,func_80019608,matching_c,game,"Five-state card-zoom sequencer: latches the selected slot's card id on entry, then opens the enlarged card window, fades it in, holds it, swaps in the readback copy and tears it down, driven by D_8009B174."
 0x80019A08,0x58,Duel_CheckEquip,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80019A60,0xCC,Duel_CheckFusion,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80019B2C,0x74,func_80019B2C,matching_c,game,Pure-C inline refinement matched the full executable.
