@@ -7,7 +7,7 @@ campaign. It is retained for historical context rather than updated as live
 progress; the generated progress section in the root
 [`README.md`](../README.md) is the authority for current totals.
 
-The resident inventory contains 1,794 functions:
+At campaign launch, the resident inventory contained 1,794 functions:
 
 | Category | Count |
 |---|---:|
