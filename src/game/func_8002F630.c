@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "display_object_layout.h"
 #include "file_constants.h"
 
 typedef struct {
@@ -78,7 +79,7 @@ void func_8002F630(void) {
         }
         D_8009B27C = flags | 0x4000;
         if (D_8009B2A0 != 0) {
-            D_8009B2A0->attr &= 0xFFBF;
+            D_8009B2A0->attr &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
         func_8002E00C(D_800EAE98);
         four = 4;
@@ -116,7 +117,7 @@ void func_8002F630(void) {
         }
         Fade_WaitOut();
         if (D_8009B2A0 != 0) {
-            D_8009B2A0->attr |= 0x40;
+            D_8009B2A0->attr |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
         func_8004036C(D_8009B280);
         func_8002E00C(D_800EAE98);
