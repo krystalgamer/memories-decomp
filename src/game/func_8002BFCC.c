@@ -106,16 +106,16 @@ void func_8002BFCC(void) {
         switch (v) {
         case CARD_TYPE_MAGIC:
         case CARD_TYPE_EQUIP:
-            *(s16 *)(rb + n * 4 + 0x54) = 0x170;
+            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_MAGIC_EQUIP;
             break;
         case CARD_TYPE_TRAP:
-            *(s16 *)(rb + n * 4 + 0x54) = 0x180;
+            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_TRAP;
             break;
         case CARD_TYPE_RITUAL:
-            *(s16 *)(rb + n * 4 + 0x54) = 0x190;
+            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_RITUAL;
             break;
         default:
-            *(s16 *)(rb + n * 4 + 0x54) = 0x160;
+            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_DEFAULT;
             break;
         }
         n++;

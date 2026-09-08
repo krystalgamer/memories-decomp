@@ -91,15 +91,17 @@ safe semantic name for it.
 Each display record also receives a selector derived from the packed card
 type:
 
-| Card type | Display selector |
-|---|---:|
-| Monster types `0`-`19` | `0x160` |
-| Magic or Equip | `0x170` |
-| Trap | `0x180` |
-| Ritual | `0x190` |
+| Card type | Named display selector | Value |
+|---|---|---:|
+| Monster types `0`-`19` | `LIBRARY_CARD_SELECTOR_DEFAULT` | `0x160` |
+| Magic or Equip | `LIBRARY_CARD_SELECTOR_MAGIC_EQUIP` | `0x170` |
+| Trap | `LIBRARY_CARD_SELECTOR_TRAP` | `0x180` |
+| Ritual | `LIBRARY_CARD_SELECTOR_RITUAL` | `0x190` |
 
 These are Library presentation groups, not replacements for the card-type
-values in `gDuel_adwCardStats`. Seen state likewise does not share the
+values in `gDuel_adwCardStats`. The switch also retains the default selector
+for unrecognized type codes; it does not add type validation. Seen state
+likewise does not share the
 one-byte trunk quantity: entering the Library can set a card's separate seen
 flag from current ownership, and the visibility pass reads that flag array.
 
