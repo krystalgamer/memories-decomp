@@ -1,8 +1,9 @@
 #include "../types.h"
+#include "../psyq/libspu.h"
+#include "sound_voice_constants.h"
 
 extern u8 *g_SDValue;
 extern void func_80044E90(s32);
-extern void SpuGetVoiceEnvelope(s32, void *);
 extern void func_80047864(s32);
 
 /* Prevent GCC from rewriting the masked-value boolean as a shift. */
@@ -60,7 +61,7 @@ void func_80048768(s32 arg0, s32 arg1)
     hi = pan + k;
 loop:
     {
-        SpuGetVoiceEnvelope(i + 0x14, env);
+        SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, env);
         base = (u8 *)(i * 2);
         v = *(u16 *)(g_SDValue + (s32)base + 0x404);
         if (v == (u16)key) {
@@ -80,7 +81,7 @@ loop:
         }
         i++;
     }
-    if (i < 4) {
+    if (i < SD_VOICE_SLOT_COUNT) {
         goto loop;
     }
 }

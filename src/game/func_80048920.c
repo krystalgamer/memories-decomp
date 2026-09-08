@@ -1,11 +1,12 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
+#include "sound_voice_constants.h"
 
 struct SoundState {
     u8 pad0[0x404];
-    u16 ids[4];
+    u16 ids[SD_VOICE_SLOT_COUNT];
     u8 pad1[0x424 - 0x40C];
-    u8 arr424[4];
+    u8 arr424[SD_VOICE_SLOT_COUNT];
     u8 pad2[0x43C - 0x428];
     u16 *p43C;
     u8 pad3[0x44C - 0x440];
@@ -54,11 +55,11 @@ void func_80048920(s32 arg0, s32 arg1)
         s16 local;
         struct SoundState *b;
 
-        SpuGetVoiceEnvelope(i + 0x14, &local);
+        SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, &local);
         b = g_SDValue;
         if (b->ids[i] == idm && local != 0) {
             b->arr424[i] = a1v;
             func_80047864(i);
         }
-    } while (++i < 4);
+    } while (++i < SD_VOICE_SLOT_COUNT);
 }

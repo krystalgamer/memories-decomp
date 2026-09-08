@@ -14,7 +14,7 @@ s16 func_80047FAC(s32 a0) {
         s16 local;
         u16 *entry;
 
-        SpuGetVoiceEnvelope(s0 + 0x14, &local);
+        SpuGetVoiceEnvelope(s0 + SD_VOICE_SLOT_FIRST_VOICE, &local);
 
         entry = (u16 *)((u8 *)g_SDValue + s0 * 2 + 0x404);
         if (*entry == s2) {

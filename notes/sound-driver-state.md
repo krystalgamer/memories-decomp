@@ -204,6 +204,12 @@ the code therefore treats the values as distinct lifecycle states rather
 than a Boolean active flag. Matching envelope queries call
 `SpuGetVoiceEnvelope` for voices `20` through `23` and use the returned
 halfword when deciding whether a tracked voice entry remains active.
+`SD_VOICE_SLOT_FIRST_VOICE` ties that hardware-voice base to the existing
+key-bit shift, and `SD_VOICE_SLOT_COUNT` bounds the four slot scans and their
+per-slot arrays. The raw views and register pins remain local; the four-halfword
+scratch buffer in `func_80048768` is still one envelope-call destination, not
+a per-slot array. All four query routines use the real Psy-Q `libspu.h`
+`void SpuGetVoiceEnvelope(int, short *)` declaration.
 
 The output-transition helper at `0x8004671C` also submits its 40-byte local
 record through `SpuSetCommonAttr`. As with the voice packets, the explicit

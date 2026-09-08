@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
+#include "sound_voice_constants.h"
 
 struct SoundNote {
     u8 volume;
@@ -8,11 +9,11 @@ struct SoundNote {
 
 struct SoundState {
     u8 pad0[0x404];
-    u16 ids[4];
+    u16 ids[SD_VOICE_SLOT_COUNT];
     u8 pad1[0x414 - 0x40C];
-    u16 vol_l[4];
-    u16 vol_r[4];
-    u8 arr424[4];
+    u16 vol_l[SD_VOICE_SLOT_COUNT];
+    u16 vol_r[SD_VOICE_SLOT_COUNT];
+    u8 arr424[SD_VOICE_SLOT_COUNT];
     u8 pad2[0x43C - 0x428];
     u16 *p43C;
     u8 pad3[0x444 - 0x440];
@@ -73,7 +74,7 @@ void func_80048A28(s32 arg0, s32 arg1, s32 arg2)
         struct SoundState *b;
         u16 vid;
 
-        SpuGetVoiceEnvelope(i + 0x14, &local);
+        SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, &local);
         b = g_SDValue;
         vid = b->ids[i];
         if (vid == (id & 0xFFFF) && local != 0) {
@@ -96,5 +97,5 @@ void func_80048A28(s32 arg0, s32 arg1, s32 arg2)
             }
             func_80047864(i);
         }
-    } while (++i < 4);
+    } while (++i < SD_VOICE_SLOT_COUNT);
 }
