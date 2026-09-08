@@ -1,7 +1,6 @@
 #include "../types.h"
+#include "camera_view.h"
 #include "../psyq/libgte.h"
-
-extern u8 D_800F56F0[];
 
 /* Distance-to-camera fade and pan for one sound source: the square root of
  * the distance from the listener record at D_800F56F0, minus 700, sets the
@@ -22,14 +21,14 @@ void func_8005A6A8(s32 arg0, s32 arg1, u8 *arg2, u8 *arg3) {
     s32 v;
     s32 w;
 
-    a = *(s32 *)D_800F56F0 - arg0;
-    b = *(s32 *)(D_800F56F0 + 8) - arg1;
+    a = D_800F56F0.vpx - arg0;
+    b = D_800F56F0.vpz - arg1;
     h = SquareRoot0(a * a + b * b);
-    q = *(s32 *)(D_800F56F0 + 8);
-    c = *(s32 *)(D_800F56F0 + 0xC) * q;
-    d = *(s32 *)(D_800F56F0 + 0x14) - q;
-    f = *(s32 *)D_800F56F0 - *(s32 *)(D_800F56F0 + 0xC);
-    g = c - *(s32 *)D_800F56F0 * *(s32 *)(D_800F56F0 + 0x14);
+    q = D_800F56F0.vpz;
+    c = D_800F56F0.vrx * q;
+    d = D_800F56F0.vrz - q;
+    f = D_800F56F0.vpx - D_800F56F0.vrx;
+    g = c - D_800F56F0.vpx * D_800F56F0.vrz;
     n = SquareRoot0(d * d + f * f);
     h = h - 0x2BC;
 

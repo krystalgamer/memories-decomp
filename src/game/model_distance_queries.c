@@ -12,6 +12,12 @@ typedef struct {
 } __attribute__((packed)) ModelVector;
 
 extern u8 D_800F3A10[];
+/* NOT converted to the GsRVIEW2 in camera_view.h, and deliberately so.
+   These six reads take the low halfword of vpx..vrz. Written as
+   `*(u16 *)&D_800F56F0.vpx` the two functions come out four bytes short
+   of retail, and through a `const u16 *` cursor they come out long --
+   the raw array is the only one of the three that reproduces the target.
+   The other nine users of the symbol do use the typed view. */
 extern u16 D_800F56F0[];
 
 s32 func_8005A1F4(s32 index)

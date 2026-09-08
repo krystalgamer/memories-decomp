@@ -1,10 +1,10 @@
 #include "../types.h"
+#include "camera_view.h"
 #include "model.h"
 
 extern s16 D_8009B47C;
 extern u8 D_8009B478;
 extern s16 D_800F2B4A[];
-extern u8 D_800F56F0[];
 extern s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
 extern s32 func_8005F1B8(s32 arg0, s32 arg1);
 extern void func_80058434(
@@ -25,7 +25,7 @@ void func_80052528(void) {
     s32 d;
 
     if (*(s16 *)&D_8009B47C >= 0x801) {
-        b = D_800F56F0;
+        b = (u8 *)&D_800F56F0;
         x = *(s32 *)(b + 0x10);
         f = 0;
         if (x >= -0xC7 && *(s32 *)(b + 4) < x) {

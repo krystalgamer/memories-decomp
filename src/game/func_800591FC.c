@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern unsigned char D_800F56F0;
+#include "camera_view.h"
 
 void *func_800591FC(void)
 {

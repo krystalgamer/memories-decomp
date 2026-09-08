@@ -1,10 +1,10 @@
 #include "../types.h"
+#include "camera_view.h"
 #include "../psyq/libgte.h"
 #include "../psyq/memory.h"
 #include "model.h"
 
 extern u8 D_800F3A10[];
-extern u8 D_800F56F0[];
 extern u8 D_8009AF98;
 
 extern s32 func_8005F174(void);
@@ -29,14 +29,14 @@ void func_80052D2C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 flags;
 
     memset(&b, 0, 8);
-    b.vx = *(u16 *)(D_800F56F0 + 0);
-    b.vy = *(u16 *)(D_800F56F0 + 4);
-    b.vz = *(u16 *)(D_800F56F0 + 8);
+    b.vx = *(u16 *)&D_800F56F0.vpx;
+    b.vy = *(u16 *)&D_800F56F0.vpy;
+    b.vz = *(u16 *)&D_800F56F0.vpz;
     a = b;
     memset(&t, 0, 8);
-    t.vx = *(u16 *)(D_800F56F0 + 0xC);
-    t.vy = *(u16 *)(D_800F56F0 + 0x10);
-    t.vz = *(u16 *)(D_800F56F0 + 0x14);
+    t.vx = *(u16 *)&D_800F56F0.vrx;
+    t.vy = *(u16 *)&D_800F56F0.vry;
+    t.vz = *(u16 *)&D_800F56F0.vrz;
     b = t;
     state = func_8005F174();
     if (state == 1) {
@@ -146,12 +146,12 @@ have_flags:
         if (flags & 1) {
             u8 *raw = (u8 *)p;
 
-            *(s32 *)(D_800F56F0 + 0) = *(s16 *)(raw + 0x14);
-            *(s32 *)(D_800F56F0 + 4) = *(s16 *)(raw + 0x16);
-            *(s32 *)(D_800F56F0 + 8) = *(s16 *)(raw + 0x18);
+            D_800F56F0.vpx = *(s16 *)(raw + 0x14);
+            D_800F56F0.vpy = *(s16 *)(raw + 0x16);
+            D_800F56F0.vpz = *(s16 *)(raw + 0x18);
         }
         if (p->flags & 2) {
-            s32 *q = (s32 *)D_800F56F0;
+            s32 *q = (s32 *)&D_800F56F0;
             u8 *raw = (u8 *)p;
 
             q[3] = *(s16 *)(raw + 0x24);

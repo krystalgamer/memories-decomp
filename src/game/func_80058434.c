@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "camera_view.h"
 #include "../psyq/libgte.h"
 #include "model.h"
 
@@ -11,7 +12,6 @@ typedef struct {
     s32 z;
 } Vec32;
 
-extern Vec32 D_800F56F0;
 extern Vec32 D_800F56FC;
 
 void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)

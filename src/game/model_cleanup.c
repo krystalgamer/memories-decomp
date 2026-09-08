@@ -1,11 +1,10 @@
 #include "../types.h"
+#include "camera_view.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "../psyq/libgs.h"
 
 #include "model.h"
 
-extern u8 D_800F56F0[];
 extern u8 D_8009AF94;
 
 extern void func_8004EB00(void);
@@ -25,7 +24,7 @@ extern void func_8005A53C();
 
 void func_80059CE4(void)
 {
-    u8 *state = D_800F56F0;
+    u8 *state = (u8 *)&D_800F56F0;
 
     GsSetRefView2((GsRVIEW2 *)state);
     if (D_8009AF94 == 15) {

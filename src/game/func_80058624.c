@@ -1,16 +1,7 @@
 #include "../types.h"
+#include "camera_view.h"
 #include "../psyq/libgte.h"
 
-typedef struct {
-    s32 x0;
-    s32 pad4;
-    s32 x8;
-    s32 xC;
-    s32 pad10;
-    s32 x14;
-} LocalVectorSet;
-
-extern LocalVectorSet D_800F56F0;
 extern void SD_SEPlay(u16, u8, s8);
 extern void func_80048A28(u16, u8, s8);
 
@@ -33,7 +24,7 @@ void func_80058624(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 v;
     s32 w;
 
-    dx = D_800F56F0.x0 - arg2;
+    dx = D_800F56F0.vpx - arg2;
     p = (u8 *)&D_800F56F0;
     dz = *(s32 *)(p + 8) - arg3;
     pp = (s8 *)&st[1];
@@ -44,7 +35,7 @@ void func_80058624(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     c = *(s32 *)(p + 0xC);
     d = *(s32 *)(p + 0x14);
     ez = d - b;
-    a = D_800F56F0.x0;
+    a = D_800F56F0.vpx;
     ex = a - c;
     n = c * b - a * d;
     dd = SquareRoot0(ez * ez + ex * ex);
