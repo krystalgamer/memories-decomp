@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/card_constants.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 
@@ -67,8 +68,8 @@ void FreeDuel_Init(u8 *src)
             rec++;
         }
         *rec = *rec + 1;
-        if ((s16)*rec >= 1000) {
-            *rec = 999;
+        if ((s16)*rec >= FREE_DUEL_RECORD_MAX + 1) {
+            *rec = FREE_DUEL_RECORD_MAX;
         }
     }
     gGraphics_sViewportY = 0;

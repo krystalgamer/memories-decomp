@@ -3,7 +3,7 @@
 
 extern s16 D_801D4D8E[];
 
-s32 func_8018416C(s16 *a, s16 *b)
+s32 MainMenu_CompareCardsByName(s16 *a, s16 *b)
 {
     s32 result;
     s32 idA;

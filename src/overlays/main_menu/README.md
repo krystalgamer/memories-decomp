@@ -114,6 +114,62 @@ existing missing-ID/no-slot-validation behavior remain unchanged.
 The internal declarations live in `trade_helpers.h`, separate from the
 resident-facing `entrypoints.h`.
 
+### Card comparator relations and selection
+
+The six pointers at module `+0x04` have the following order. Negative results
+place the first entry before the second; positive results place it after.
+These key sequences apply **only when the original signed card IDs differ**.
+The names describe the implemented relations, not displayed menu captions.
+
+| Table index | Address | Function | Keys, in comparison order |
+|---:|---|---|---|
+| 0 | `0x8018416C` | `MainMenu_CompareCardsByName` | signed name key ascending, signed ID ascending |
+| 1 | `0x80183514` | `MainMenu_CompareCardsByMaxStat` | max(base ATK, DEF) descending, min(base ATK, DEF) descending, name ascending |
+| 2 | `0x801836F4` | `MainMenu_CompareCardsByAttack` | base ATK descending, base DEF descending, name ascending |
+| 3 | `0x80183884` | `MainMenu_CompareCardsByDefense` | base DEF descending, base ATK descending, name ascending |
+| 4 | `0x80183A14` | `MainMenu_CompareCardsByType` | numeric packed type ascending, name ascending |
+| 5 | `0x80184254` | `MainMenu_CompareCardsByCount` | unsigned 16-bit count at entry `+2` descending, name ascending |
+
+All six first compare the signed IDs at entry `+0`. Equal IDs return
+`rand() & 1 ? 1 : -1`, including two zero IDs or an entry compared with
+itself. The Count comparator takes this branch **before reading counts**,
+even when equal-ID records have different counts. This is a stateful,
+non-strict relation, not stable sorting or evidence of uniform shuffling.
+The RNG calls and their effects must remain intact.
+
+The name key is the signed `s16` table `gCard_asNameSortKey`
+(`D_801D4D8E`), indexed by ID minus one, not a string comparison.
+`gDuel_adwCardStats` (`D_801D4244`) supplies packed **base** values:
+ATK is `(stats & 0x1FF) * 10`, DEF is `((stats >> 9) & 0x1FF) * 10`,
+and type is `(stats >> 26) & 0x1F`; see
+[`notes/card-catalog.md`](../../../notes/card-catalog.md).
+MaxStat compares the larger stat, then the smaller, not ATK first or their
+sum. The three stat comparators replace **both** stat keys for type 20 or
+higher with signed `0x80000001` (`-2147483647`), retaining the name key.
+Thus even zero-stat monsters precede non-monsters, which are ordered by
+name. The Type comparator instead preserves numeric subtype order,
+including Magic, Trap, Ritual and Equip at 20-23.
+
+For distinct IDs, zero-ID slots follow valid cards. Name substitutes
+`INT_MAX` for both keys; Type substitutes it for type and name. The stat
+comparators use the two negative stat sentinels and `INT_MAX` name.
+Count ignores a zero-ID slot's stored count, using the negative rank
+sentinel and `INT_MAX` name. Valid counts zero-extend from `u16` without a
+250 cap. A nonzero-ID record with count zero is **not** an empty slot:
+the first five comparators never read its count. Only Name has a final ID
+tie-break; the other five return zero for distinct IDs with equal effective
+keys. Known inputs are ID zero or 1-722; these functions do not validate
+arbitrary negative or out-of-range IDs.
+
+`MainMenu_RefreshTradeInventory` copies the six pointers and, for nonzero
+mode, passes `entries[mode - 1]` to `qsort` over 722 four-byte
+`{s16 id, u16 count}` records. The inspected Trade initializer and updater
+use modes 0-5: zero does not sort, and modes 1-5 select table indices 0-4.
+Count is stored at index 5 but would require mode 6 through this path;
+no selecting caller was established. That is a reachability caveat, not a
+claim that the function is globally unused or that a sixth UI mode exists.
+No direct resident callers or new resident linker imports are indicated.
+
 ## What the menu shows
 
 `MainMenu_UpdateFrontendMenu` at `0x80180390` services both entry groups,

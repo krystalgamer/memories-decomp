@@ -5,7 +5,7 @@
 extern s16 D_801D4D8E[];
 extern s32 D_801D4244[];
 
-s32 func_80183884(s16 *a, s16 *b)
+s32 MainMenu_CompareCardsByAttack(s16 *a, s16 *b)
 {
     s32 result;
     s32 idA;
@@ -37,13 +37,13 @@ s32 func_80183884(s16 *a, s16 *b)
                 defA = ((statsA >> CARD_STAT_DEFENSE_SHIFT) &
                         CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
             } else {
-                atkA = 0x80000001;
                 defA = 0x80000001;
+                atkA = 0x80000001;
             }
         } else {
             keyA = 0x7FFFFFFF;
-            atkA = 0x80000001;
             defA = 0x80000001;
+            atkA = 0x80000001;
         }
         if (idB != 0) {
             keyB = D_801D4D8E[idB - 1];
@@ -54,18 +54,18 @@ s32 func_80183884(s16 *a, s16 *b)
                 defB = ((statsB >> CARD_STAT_DEFENSE_SHIFT) &
                         CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
             } else {
-                atkB = 0x80000001;
                 defB = 0x80000001;
+                atkB = 0x80000001;
             }
         } else {
             keyB = 0x7FFFFFFF;
-            atkB = 0x80000001;
             defB = 0x80000001;
+            atkB = 0x80000001;
         }
-        if (defB <= defA) {
-            if (defA <= defB) {
-                if (atkB <= atkA) {
-                    if (atkA <= atkB) {
+        if (atkB <= atkA) {
+            if (atkA <= atkB) {
+                if (defB <= defA) {
+                    if (defA <= defB) {
                         if (keyA <= keyB) {
                             if (keyA < keyB) {
                                 result = -1;
