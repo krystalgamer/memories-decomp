@@ -1869,7 +1869,7 @@ continues in Free Duel with every campaign duelist available.
 >   unstarted value to select the corresponding script entry.
 >   The script begins with a `u16 offset[199]`
 >   table, one entry per event, and each event is a byte stream run by
->   `func_8002FA54` through a 23-opcode table [`0x80090C50`, opcode = byte &
+>   `Script_RunTick` through a 23-opcode table [`0x80090C50`, opcode = byte &
 >   0x1F]. The opcodes that matter for the flow: 1 = show location picture,
 >   2 = run dialogue N, 3 = flag (set/clear, or "if flag, jump")
 >   [`func_8002E918`], 8 = go to map location N, 12 = jump, 18 = game over,

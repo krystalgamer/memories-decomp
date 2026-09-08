@@ -188,7 +188,7 @@ requested `0x18800` bytes exactly, and none supplies an executable module.
 The argument initializes the event-script state at `D_8009B2A4`, not the
 archive location. Matching [`Main_RunCampaign`](../src/game/main_run_campaign.c)
 passes `gCampaignSceneIndex`. When neither dialog-active nor started state
-intervenes, [`func_8002FA54`](../src/game/func_8002FA54.c) uses a nonzero
+intervenes, [`Script_RunTick`](../src/game/script_run_tick.c) uses a nonzero
 value directly to index the script's `u16` offset table. A zero state does
 not start an event, but does not prevent the loader from requesting the
 shared resource package.

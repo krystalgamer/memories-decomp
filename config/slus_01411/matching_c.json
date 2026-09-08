@@ -1960,7 +1960,7 @@
       "address": "0x8002FA54",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x124",
-      "source": "src/game/func_8002FA54.c"
+      "source": "src/game/script_run_tick.c"
     },
     {
       "address": "0x8002FB78",

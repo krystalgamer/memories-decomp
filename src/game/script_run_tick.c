@@ -2,6 +2,7 @@
 #include "../psyq/rand.h"
 #include "duel_effect.h"
 #include "func_80039794.h"
+#include "script_run_tick.h"
 
 typedef void (*VoidFn)(void);
 
@@ -13,7 +14,7 @@ extern u16 D_8009B28C;
 extern u16 D_8009B27C;
 extern VoidFn D_80090C50[];
 
-void func_8002FA54(void)
+void Script_RunTick(void)
 {
     u16 f;
     s32 g;
