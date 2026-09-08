@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/text_constants.h"
+#include "../../game/text_box_runtime.h"
 
 extern u8 gPassword_abDigits[];
 extern u16 D_800EAFF8[];
@@ -9,7 +10,6 @@ extern s32 D_801D07E0;
 extern s32 D_801D5608;
 extern void func_8003B6AC(s32, s32);
 extern void func_80035BE4(s32, s32, s32, s32, s32, s32);
-extern void func_80039A14(void *);
 
 void Password_RefreshDigitDisplay(void)
 {

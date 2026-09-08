@@ -3,6 +3,7 @@
 #include "fade.h"
 #include "text_box_lifecycle.h"
 #include "display_object_helpers.h"
+#include "text_box_runtime.h"
 
 extern u8 D_8009B2B2;
 extern u8 D_8009B2B4;
@@ -23,7 +24,6 @@ extern u8 D_8009B2F0;
 
 extern void func_800300C8(void);
 extern void func_8003B6AC(s32, s32);
-extern void func_80039A14(void *);
 void func_80030198(void)
 {
     u8 *text_box;

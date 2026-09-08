@@ -8,6 +8,7 @@
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
+#include "text_box_runtime.h"
 
 extern u8 *D_8009B240;
 extern u8 D_8009B248;
@@ -32,10 +33,8 @@ extern void func_80029164(s32, s32);
 extern void func_80029528(s32);
 extern void func_80029574(s32);
 extern u8 *func_800291E0(s32, s32, s32);
-extern void func_80039A14(DuelEffectChannel *);
 extern void func_80043178(u8 *);
 extern void func_80043230(u8 *, s32, s32, s32);
-extern void TextBox_SetPos(DuelEffectChannel *, s32, s32);
 
 void func_800283F4(void)
 {

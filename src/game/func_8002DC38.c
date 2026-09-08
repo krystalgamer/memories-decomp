@@ -6,6 +6,7 @@
 #include "text_box_lifecycle.h"
 #include "../overlays/main_menu/entrypoints.h"
 #include "sound.h"
+#include "text_box_runtime.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
@@ -18,7 +19,6 @@ extern u16 D_8009B234 __attribute__((section(".data")));
 extern u16 D_8009B236 __attribute__((section(".data")));
 extern u8 D_8009B368 __attribute__((section(".data")));
 
-extern void func_80039A14(void *);
 extern void func_80024DC8(s32, s32, s32, s32);
 
 void func_8002DC38(void)

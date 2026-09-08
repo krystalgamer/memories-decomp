@@ -3,6 +3,7 @@
 #include "duel_effect.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
+#include "text_box_runtime.h"
 
 extern u8 *D_8009B290;
 extern u16 D_8009B27C;
@@ -30,7 +31,6 @@ extern void func_80039794(void);
 extern void func_8003B6AC(s32, s32);
 extern void func_80043178(u8 *);
 extern void func_80043230(u8 *, s32, s32, s32);
-extern void TextBox_SetPos(DuelEffectChannel *, s32, s32);
 
 void func_8002EE94(void)
 {

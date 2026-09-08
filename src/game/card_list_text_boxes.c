@@ -2,6 +2,7 @@
 #include "card_constants.h"
 #include "display_object_layout.h"
 #include "text_box_lifecycle.h"
+#include "text_box_runtime.h"
 
 /* Builds the text box for one card slot of a trade or deck screen. The entry
    is picked out of the list at the scroll offset plus the slot, and the list
@@ -41,7 +42,6 @@ typedef struct {
 } Box;
 
 extern s16 gDuel_wSelectedCardID;
-extern void func_80039A14(void *);
 
 void func_80031CD4(CardList *list, s32 slot)
 {

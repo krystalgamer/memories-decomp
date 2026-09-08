@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "text_box_runtime.h"
 
 extern void func_80039140(u8 *);
 extern void func_800393B0(void *);
