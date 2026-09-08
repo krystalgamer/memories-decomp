@@ -74,7 +74,6 @@ void func_8001BAF0(void)
             *(s8 *)p = -1;
         }
     }
-
     base = gDuel_aActiveCards;
     deck = base - 0x31E0;
     hand = D_800EAE88;
