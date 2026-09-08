@@ -5671,3 +5671,64 @@ The order also mattered in a way worth recording: the pin was tried only after
 the other two, and against the base they produced. Tried first it would have had
 a different cost, which is the same base-dependence that `func_80023144` turned
 on.
+
+## A register pin relocates a live range; it does not split one
+
+Register pins have been a workhorse here - per-arm pins took `func_80046294` from
+18 to 8, and a single pin on the quotient closed the last 28 positions of
+`func_80023D08`. That success encouraged a wrong model of what a pin *is*:
+"force this value into register X". It is not that, and the difference decides
+whether a pin can be used to request a redundant copy.
+
+A direct probe, compiled with `gcc_2_8_1_g8_split`:
+
+```c
+extern int *g;
+int sink(int *);
+
+int probe_two_pins(void)            /* source and destination both pinned */
+{
+    register int *dst asm("$21");
+    register int *src asm("$2");
+    src = g;
+    dst = src;
+    return sink(dst);
+}
+```
+
+GCC 2.8.1 emits **`lw $4,g`** and nothing else. Neither `$21` nor `$2` appears.
+Both pins were discarded - not resolved in favour of one of the two named
+registers, but ignored entirely, because the coalescer had already merged `src`,
+`dst` and the argument into a single live range before allocation considered the
+pins at all.
+
+Change one thing, so that the source is still needed *after* the destination is
+formed, and the same pins are honoured:
+
+```c
+    src = g;
+    dst = src + 1;
+    return sink(src) + sink(dst);   /* both live at once */
+```
+
+Now `$21` is allocated as asked and GCC emits three `move`s, including one it
+introduced on its own to carry `src` across the first call.
+
+**Pins do not create copies. Overlapping lifetimes create copies, and a pin then
+chooses which register holds one of them.** A pin applies to a live range that
+already exists; it cannot bring a second live range into being.
+
+Two consequences worth carrying forward:
+
+- **A redundant `move` cannot be requested by naming a value twice.** To
+  reproduce one, the two values must be genuinely live at the same time for a
+  reason the compiler can see. `func_800528AC` needs exactly this, and confirms
+  the probe: pinning the source, the destination, or both produces byte-identical
+  output, because GCC materialises the address straight into the pinned
+  destination and never touches the other register.
+- **An "inert" pin is often a pin that was never applied.** The joint-arm audit
+  recorded pins that cost nothing alone but six positions together, and read that
+  as an interaction between pins. The mechanism is simpler: alone, each pin lands
+  on a live range that coalescing had already dissolved, so it does nothing;
+  together they create the overlap that makes both binding. Before concluding a
+  pin is inert, check that the register actually appears in the output.
