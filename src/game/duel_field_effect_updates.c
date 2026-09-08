@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
@@ -19,7 +20,6 @@ extern void func_80019BA0(u8 *arg0, u8 arg1, s16 arg2, s16 arg3);
 extern s32 func_80024E24(void);
 extern u8 *func_8002C604(s32 arg0);
 extern u8 *func_8002C68C(s32 arg0);
-extern void SD_SEPlayFull(s32 arg0);
 
 void DuelEffect_UpdateFieldMarker(void) {
     DuelCardRecord *r;

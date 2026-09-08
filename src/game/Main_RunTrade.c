@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 #include "display_object_api.h"
 #include "text_box_lifecycle.h"
 #include "../overlays/main_menu/entrypoints.h"
@@ -43,7 +44,6 @@ extern void func_80039A14(void *);
 extern void func_80042918(Obj *);
 extern void func_800428EC(Obj *, s32);
 extern void func_80015A00(void);
-extern void SD_SEPlayFull(s32);
 extern void func_80043178(Obj *);
 extern void func_80043230(Obj *, s32, s32, s32);
 extern void TextBox_SetPos(void *, s32, s32);

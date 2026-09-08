@@ -1,6 +1,6 @@
 #include "../types.h"
+#include "sound.h"
 
-extern s32 SD_SEPlayFull();
 extern s32 func_8004036C();
 extern s32 func_800429D8();
 extern s32 func_80042A78();

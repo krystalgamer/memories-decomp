@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "file_transfer.h"
@@ -34,7 +35,6 @@ extern void func_80024954(u8 *);
 extern void func_800157DC(void);
 extern void SD_BGMPlay(u32);
 extern s16 func_800181EC(u8 *);
-extern void SD_SEPlayFull(s32);
 
 void func_8001825C(void)
 {

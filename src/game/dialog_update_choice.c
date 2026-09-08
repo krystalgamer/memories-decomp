@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 #include "display_object_api.h"
 #include "input.h"
 
@@ -16,7 +17,6 @@ extern void func_8004036C(s32);
 extern void func_800427DC(u8 *, s32);
 extern void func_800428EC(u8 *, s32);
 extern void func_80042918(u8 *);
-extern void SD_SEPlayFull(s32);
 
 void Dialog_UpdateChoice(u8 *p) {
     u8 *e;

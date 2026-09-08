@@ -1,10 +1,10 @@
 #include "../types.h"
+#include "sound.h"
 #include "input.h"
 
 extern volatile u16 gInput_wPad1Repeat;
 extern u8 gDialog_bChoice;
 extern s8 gDialog_bChoiceCount;
-extern void SD_SEPlayFull(s32);
 extern void Dialog_HighlightChoice(u8 *);
 
 /* Up, down or R1 on the repeat pad moves the dialog's choice cursor. R1

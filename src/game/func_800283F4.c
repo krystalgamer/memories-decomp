@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 
 #include "display_object_layout.h"
 #include "duel_effect.h"
@@ -39,7 +40,6 @@ extern void func_80042918(u8 *);
 extern void func_80043178(u8 *);
 extern void func_80043230(u8 *, s32, s32, s32);
 extern void TextBox_SetPos(DuelEffectChannel *, s32, s32);
-extern void SD_SEPlayFull(s32);
 
 void func_800283F4(void)
 {

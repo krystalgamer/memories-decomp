@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 #include "duel_card.h"
 
 typedef struct Object {
@@ -19,7 +20,7 @@ extern u8 D_800907D8[2][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 extern SideState D_800E9FF0[2];
 extern int func_80024E24(void);
 extern Object *func_8002C604(int);
-extern void SD_SEPlayFull(int), func_80025B28(Object *);
+extern func_80025B28(Object *);
 extern void *func_80042B40(int);
 
 void func_80025F3C(void)

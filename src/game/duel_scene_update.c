@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 #include "text_box_lifecycle.h"
 
 typedef struct {
@@ -23,7 +24,6 @@ extern void func_800235C0(void);
 extern void func_8002C6C8(void);
 extern int func_80026B34(void);
 extern int DuelEffect_UpdateState(void);
-extern void SD_SEPlayFull(int);
 extern void func_80039794(void);
 extern void Input_BackupPad1AndUsePad2(void);
 extern void Input_RestorePad1FromBackup(void);

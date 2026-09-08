@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 
 typedef struct {
     u8 gap0[48];
@@ -22,7 +23,6 @@ typedef struct {
     RenderRecord *render;
 } MovingRecord;
 extern MovingRecord D_800EA1E8;
-extern void SD_SEPlayFull();
 extern void func_8002A2F4();
 
 s32 func_8002A3CC(void)

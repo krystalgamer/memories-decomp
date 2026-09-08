@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 #include "card_constants.h"
 #include "text_box_lifecycle.h"
 
@@ -11,7 +12,6 @@ extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u8 D_800EB0F8[];
 
 extern s32 func_80032B38(u8 *);
-extern void SD_SEPlayFull(s32);
 extern s32 func_80033998(void);
 extern void func_80039794(void);
 extern void func_80015BD8(s32, s32);

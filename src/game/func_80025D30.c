@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_grid.h"
@@ -24,7 +25,6 @@ extern u8 D_800907D8[];
 
 extern s32 func_80024E24(void);
 extern DuelEffectObject *func_8002C604(s32 arg0);
-extern void SD_SEPlayFull(s32 arg0);
 
 /* One step of a field-wide stat-penalty sweep, driven once per 16 frames by
  * the D_8009B20C[1] countdown. D_8009B1D0 is the slot index within the acting

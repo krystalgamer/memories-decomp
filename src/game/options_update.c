@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 #include "input.h"
 
 extern u8 gOptions_bState;
@@ -11,7 +12,6 @@ extern u8 gSD_bOutputType[9];
 
 extern void Fade_WaitOut(void);
 extern void SD_SetOutputType(s32);
-extern void SD_SEPlayFull(s32);
 extern void Options_UpdateLayout(s32);
 
 void Options_HandleInput(void)

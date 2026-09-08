@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound.h"
 
 typedef struct {
     u8 pad_0000[0x5AA4];
@@ -13,7 +14,6 @@ typedef struct {
 
 extern u16 gGraphics_sViewportX;
 extern s32 func_80032B38(void);
-extern void SD_SEPlayFull(s32);
 
 void BuildDeck_UpdatePaneTransition(ScrollState *state)
 {
