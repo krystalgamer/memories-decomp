@@ -1393,6 +1393,39 @@ __asm__ volatile(".word 0x4A180001");
 
 `func_80015D18` is the current matching template for this pattern.
 
+### Diagnosing when this lever applies, and when its signature lies
+
+The route above is powerful and its surface signature is misleading, so it is
+worth saying what actually indicates it. `func_8004E7B0` was filed as a maspsx
+defect - a missing post-`mfhi` `nop` before a `-G8` store - and matched with no
+tooling change once its nine globals were defined rather than declared. That is
+the second function to reach this conclusion after `func_80025028`, and the
+report should never have been written, because both this section and
+`tools/maspsx_bugs/README.md` already recorded the finding and the fix.
+
+The tempting generalisation is that a candidate declaring small globals
+`extern`, especially one whose residual sits near a `%gp_rel` store or a `nop`,
+is a candidate for this lever. **That is not the test, and two measurements say
+so.**
+
+| candidate | surface signature | result of defining the globals with `--use-comm-section` |
+| --- | --- | --- |
+| `func_8002EE94` | four plain small externs, residual around a `%gp_rel` store | inert: 13 differing, 349 of 359 aligned, imbalance unchanged |
+| `func_80044838` | nine plain small externs, `%gp_rel` store / `j` / `nop` tails | inert: 283 differing, nine instructions short, on both profiles |
+
+Both have the signature and neither moves at all. The lever fixes *addressing* -
+whether the assembler can prove a store is one gp-relative instruction - so the
+test is whether the candidate's gp-relative accesses actually differ from the
+target's. If they already agree, the declaration is not the problem, whatever
+sits next to them. `func_8002EE94`'s obstacle is store forwarding and
+`func_80044838` is nine instructions short of a structural match; neither is an
+addressing fault.
+
+So: diagnose from the differing instructions, not from the declarations. A
+count of `extern` lines is not evidence, and a `nop` near a gp-relative store is
+where this lever *shows up* rather than where it is *indicated*.
+
+
 ## What a masked comparison cannot see
 
 `tools/project/overlay_diff.py` compares one compiled function against the
