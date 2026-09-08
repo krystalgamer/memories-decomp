@@ -2,6 +2,7 @@
 #include "../../game/input.h"
 #include "../../game/text_constants.h"
 #include "../../game/display_object_api.h"
+#include "../../game/display_object_layout.h"
 #include "name_entry_keyboard.h"
 
 typedef struct {
@@ -100,7 +101,7 @@ void NameEntry_UpdateDialog(void)
             func_800404CC(caret, 16, 248, 0, 0, 0, 23, 257);
             func_80042918(caret);
             func_800428EC(caret, 19);
-            caret->f8 |= 8;
+            caret->f8 |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             box->f44 = caret;
             func_80043178(caret);
             caret->f96 = -1024;

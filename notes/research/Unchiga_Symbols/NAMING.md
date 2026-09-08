@@ -30,9 +30,10 @@ in `tools/gen_symbols.py`, resolve per address as
 `reference/idb_raymond_2018/rename_plan.json` is the authoritative old→new
 record of the 2026-08-31 import (173 entries); `tools/gen_vars_peer.py`
 replays it whenever the peer header is regenerated. Unit **file** names are a
-separate namespace (yaml + `gen_build.py`): `src/func_80021598.c` still
-defines `Duel_CalcRankScore` — a file rename pass ("stage B") is pending and
-purely cosmetic.
+separate namespace. In Memories-decomp, the local file-rename pass has landed:
+[`src/game/duel_calc_rank_score.c`](../../../src/game/duel_calc_rank_score.c)
+defines `Duel_CalcRankScore`; the upstream address-named path and pending
+"stage B" note are historical.
 
 ## Evidence tiers, strongest first
 

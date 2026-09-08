@@ -101,18 +101,7 @@ genuine semantic work, in rough value order:
    is wanted, and where it should live. All three sites are display-layer
    colour writes, so a constant is defensible; the duel one is not the right
    one to reuse.
-2. **The visible-page question.** There is a *third* `25` in `FreeDuel_Init`,
-   and unlike the band capacity it is grid-shaped: the placement loop after
-   `done:` runs `for (i = 0; i < 25; i++)` and positions objects with
-   `i % FREE_DUEL_GRID_COLUMN_COUNT` and `i / FREE_DUEL_GRID_COLUMN_COUNT`.
-   So one module uses `25` as VRAM band capacity *and* as a visible extent,
-   while the backing grid holds 40 and `gGraphics_sViewportY` is zeroed just
-   above. That points at vertical scrolling with a five-row visible page, but
-   the scroll path has not been traced and no constant should be minted until
-   it is. This is a sharper illustration of this note's own thesis than any of
-   the cases above: the same literal, in one function, meaning two different
-   things.
-3. The composite flag writes (`0x28`, `0x48`) remain raw because the `0x20`
+2. The composite flag writes (`0x28`, `0x48`) remain raw because the `0x20`
    bit is unidentified — it has a single write at object offset `+8` and no
    confirmed reader there, so naming half the composite would imply the rest
    is understood.
@@ -131,3 +120,33 @@ genuine semantic work, in rough value order:
   (`0xA0 x 0x40`, `96 x 16`, `100 x 100`, `288 x 16`, and so on). Only one of
   the eight is `320 x 240`, so naming that one occurrence after the display
   mode would assert a dependency the builder does not have.
+- **The "third `25`" — traced, and it is *not* a visible-page extent.** An
+  earlier draft of this note recorded it as grid-shaped evidence of a
+  five-row visible page. That was wrong, and the correction matters because it
+  is the same reasoning-by-coincidence this note exists to prevent.
+
+  The two placement loops after `done:` together place **all forty** objects,
+  not twenty-five. The first runs `i = 0..24` at `Y = (i / COLUMN_COUNT) * 52
+  + 40`, and the second runs `k = 25..39` at `Y = (k / COLUMN_COUNT) * 52 +
+  40` — using the *absolute* index for Y, so it continues into rows 5, 6 and
+  7 of one unbroken coordinate space. What actually changes at `25` is the
+  texture-page selector, `18` in the first loop and `20` in the second, with
+  the texture V coordinate restarting at `i / COLUMN_COUNT`. That is the same
+  VRAM band boundary as the upload loops, for the same reason.
+
+  So the third `25` is not a second meaning after all — it is the first
+  meaning again.
+
+  Vertical scrolling is nevertheless real, on independent evidence:
+  `FreeDuel_UpdateScrollbar` drives `gGraphics_sViewportY` from the cursor,
+  holding it between `+0x28` and `+0x90` of the viewport, and positions the
+  thumb by `(cursor->y - 0x28) * 72 / 364 + 7`. That `364` is exactly
+  `7 * 52`, the pitch between rows times `FREE_DUEL_GRID_ROW_COUNT - 1`, which
+  is the full travel of an eight-row grid whose first row sits at `Y = 40`.
+  The grid objects are placed with the screen-space flag cleared, so they move
+  with that viewport.
+
+  No constant was minted from this. The scroll geometry is consistent and
+  well evidenced, but `0x28`, `0x90`, `72` and `7` are widget-layout numbers
+  whose relationship to each other is not established by anything except this
+  one expression.
