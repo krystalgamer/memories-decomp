@@ -87,6 +87,25 @@ Millennium Items are held — is not a variable but **flags in that array**,
 set and tested by the campaign's event script and by the dialogue texts
 themselves (§7.10, §7.11).
 
+**Encoded flag requests.** The matching flag helpers use that same shared
+bank, not separate story and Library storage. The low eleven request bits
+select the flag; byte `id >> 3` uses mask `0x80 >> (id & 7)`.
+[`Campaign_TestStoryFlag`](../../src/game/campaign_test_story_flag.c) does
+not write: an ordinary query returns zero or the selected mask, not always
+`1`. Adding modifier `0x8000` instead tests for a clear bit and returns
+normalized `0` or `1`.
+[`Library_UpdateCardUsedFlag`](../../src/game/library_update_card_used_flag.c)
+sets the bit by default and clears it with that modifier.
+
+The script and text handlers use `0x4000` to select a write rather than a
+test, stripping that command bit while preserving `0x8000`. Thus encoded
+writes `0x4000 | id` and `0xC000 | id` set and clear respectively.
+Matching [`func_8002CD48`](../../src/game/func_8002CD48.c) applies a change
+only when the requested predicate was false and returns the **prior** test
+result. Its zero return after applying a change is not an error code.
+These are encoding and operation contracts, not new meanings assigned to
+undocumented flag IDs.
+
 **What is shared.** Five systems are used by more than one mode and are worth
 knowing by name before reading any of them:
 
@@ -538,7 +557,7 @@ editor still permits at most three copies of that card in the active deck.
 Costs run from 10 starchips (the cheapest cards) to 999,999 for the lottery cards;
 a starchip is earned only by winning duels (§6.3), 1–5 per win, so a 999,999
 card is not a realistic purchase — the cost exists to say "obtain this some
-other way". The password-use counter in the save [`0x801D0534 + 0x164`] is
+other way". The password-use bitfield in the save [`0x801D0534 + 0x164`] is
 what the "unlimited passwords" cheat zeroes. [`Main_RunPasswordMenu`
 `0x8002D684`; the executable's own part of the flow is `0x80038BF0`, where
 `$a2` carries the star cost.]
@@ -1648,8 +1667,10 @@ continues in Free Duel with every campaign duelist available.
 >   dispatched through a 16-entry table [`0x80090F18`, `func_800393B0`]:
 >   `F8 op` selects a 27-entry sub-table [`0x80090EAC`] whose op `0x19` is
 >   `func_80038AB0`, **unlock duelist** (sets `0x1F + id` and `0x6E0 + id`);
->   `F9 u16` is the **flag** code [`func_80038D2C`: bit 14 set/clear, else
->   "if flag, jump"]; `FA` wait, `FB` menu, `FC` insert a word, `FD` jump,
+>   `F9 u16` is the **flag** code [`func_80038D2C`]: bit 14 selects a write;
+>   otherwise a successful set/clear test jumps to the following target.
+>   Bit 15 selects a clear write or an inverted test (§1).
+>   `FA` wait, `FB` menu, `FC` insert a word, `FD` jump,
 >   `FE` newline, `FF` end. So every SET of a story flag is inside a line of
 >   dialogue, and every duelist's unlock is inside their "you won" line.
 >

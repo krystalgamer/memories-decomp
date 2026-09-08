@@ -287,9 +287,9 @@ address,size,name,status,module,notes
 0x8002CB50,0x30,func_8002CB50,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8002CB80,0x74,Duel_CalcGuardianStarMatchup,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
 0x8002CBF4,0xB4,Duel_GetBaseCardStat,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
-0x8002CCA8,0x3C,Campaign_TestStoryFlag,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8002CCE4,0x64,Library_UpdateCardUsedFlag,matching_c,game,Sets or clears one card bit in the D_801D0000+0x618 used bitmap; bit 0x8000 of the argument selects clear. Ten register pins reproduce the ROM register allocation and delay-slot fill (issue #5).
-0x8002CD48,0x44,func_8002CD48,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x8002CCA8,0x3C,Campaign_TestStoryFlag,matching_c,game,Tests the shared save flag bank without writing; normal requests return the selected mask or zero; modifier 0x8000 returns one when clear and zero when set. Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x8002CCE4,0x64,Library_UpdateCardUsedFlag,matching_c,game,Sets or clears one bit in the shared D_801D0000+0x618 save flag bank; bit 0x8000 of the argument selects clear and its absence selects set. Ten register pins reproduce the ROM register allocation and delay-slot fill (issue #5).
+0x8002CD48,0x44,func_8002CD48,matching_c,game,Applies the requested set/clear state only when the prior test is zero and returns that prior test result. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002CD8C,0x5C,Main_ResetFrontendRuntime,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002CDE8,0x20,func_8002CDE8,matching_c,game,Direct call matched the exact R_MIPS_26 relocation.
 0x8002CE08,0x5C,Main_RunDebugMenu,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -497,7 +497,7 @@ address,size,name,status,module,notes
 0x80038BA8,0x48,Text_SetCursorOffset,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80038BF0,0x124,Text_HandleChoiceCommand,matching_c,game,Exact post-terminal collaborator-derived match preserving chained byte-fetch and global scratch lifetimes.
 0x80038D14,0x18,func_80038D14,matching_c,game,First -O2 -G8 byte/global-store candidate matched.
-0x80038D2C,0x8C,func_80038D2C,matching_c,game,Exact pure-C script flag command. Bit 14 marks a library card as used; otherwise the following halfword becomes the active script cursor offset when the requested campaign flag is set.
+0x80038D2C,0x8C,func_80038D2C,matching_c,game,Exact pure-C script flag command. Bit 14 selects a shared-bank write while preserving the bit-15 clear modifier; otherwise the following halfword replaces the active cursor's low offset when the requested set/clear predicate holds.
 0x80038DB8,0x64,func_80038DB8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80038E1C,0x60,func_80038E1C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80038E7C,0x34,func_80038E7C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.

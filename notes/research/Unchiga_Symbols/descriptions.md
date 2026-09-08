@@ -44,6 +44,16 @@ matched bodies — tracked in suspects.md, not here, until 100%.)
 | 0x8002CCE4 | `Library_UpdateCardUsedFlag` | Flips a card's seen-flag byte in the `gLibrary_abCardChest` table (the inverse partner of `Library_MarkOwnedCards`), with the same notify path. |
 | 0x8002D0E0 | `Main_RunLibraryMenu` | Mode tick for the card Library screen, per the loop-family pattern (`Main_Loop` dispatches one `*Loop` per mode). Not yet live-confirmed the way `Main_RunOptionsMenu` was. |
 
+**Local reconciliation (2026-09-08):** the `0x8002CCE4` row above is retained
+as upstream evidence, but its byte-toggle/notify description does not match
+the current [matching source](../../../src/game/library_update_card_used_flag.c).
+The helper sets or clears one bit in the shared save flag bank at
+`0x801D0618`; modifier `0x8000` selects clear, and there is no notification
+call. The tester at `0x8002CCA8` normally returns the selected mask or zero,
+while a clear-request test returns normalized `0` or `1`. See the
+[shared flag contract](../../overlays/password-save-block.md#request-modifiers-and-return-values);
+these helpers are not limited to Library flags or to story-only storage.
+
 ## Batch 3 (functions — the mode-loop family)
 
 | address | name | description |
