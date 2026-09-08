@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/display_object_api.h"
+#include "../../game/display_object_layout.h"
 #include "entrypoints.h"
 #include "frontend.h"
 
@@ -82,7 +83,9 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
             func_800428A8(entry, 0xA0, y, 0, 0, 0, 0x18, 0, D_801AF800);
             value = i * 2 | (gMain_bMenuID != i);
             *(u32 *)(entry + 4) |= 0x1000000;
-            *(u16 *)(entry + 8) = (*(u16 *)(entry + 8) | 8) & ~0x40;
+            *(u16 *)(entry + 8) =
+                (*(u16 *)(entry + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE) &
+                ~DISPLAY_OBJECT_FLAG_RENDERABLE;
             func_80040410(entry, value);
             func_80042918(entry);
             gMain_apMenuEntries[i] = entry;
@@ -97,7 +100,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     if (gMain_bMenuID != 0) {
         state = *(u16 *)(D_80184560 + 8);
         D_80184597 = 0x80;
-        *(u16 *)(D_80184560 + 8) = state & ~0x40;
+        *(u16 *)(D_80184560 + 8) = state & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
     }
     D_80184598 = 0;
     D_80184599 = 0;

@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/input.h"
+#include "../../game/display_object_layout.h"
 #include "../../psyq/libgte.h"
 #include "entrypoints.h"
 #include "frontend.h"
@@ -142,7 +143,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             ent2[0xE] = 0x80;
             ent2[0xD] = 0x80;
             ent2[0xC] = 0x80;
-            *(u16 *)(ent2 + 8) |= 0x40;
+            *(u16 *)(ent2 + 8) |= DISPLAY_OBJECT_FLAG_RENDERABLE;
             D_80184560[0x6C] = 0x3C;
             *(s16 *)(D_80184560 + 0x36) = 0;
         }
@@ -151,7 +152,8 @@ s32 MainMenu_UpdateFrontendMenu(void)
     }
 
     entry = D_80184560;
-    if (entry != 0 && (*(u16 *)(entry + 8) & 0x40) != 0) {
+    if (entry != 0 &&
+        (*(u16 *)(entry + 8) & DISPLAY_OBJECT_FLAG_RENDERABLE) != 0) {
         if (entry[0x6C] != 0) {
             entry[0x6C] = entry[0x6C] - 1;
         } else {
@@ -173,7 +175,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         if ((D_8009B398 & PAD_BUTTON_START) != 0) {
             SD_SEPlay(7, 0xFF, 0);
             ent3 = D_80184560;
-            *(u16 *)(ent3 + 8) &= 0xFFBF;
+            *(u16 *)(ent3 + 8) &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
             MainMenu_StartFrontendEntryTransition(0);
             D_80184598 = 1;
             goto ret_m1;
@@ -230,10 +232,12 @@ s32 MainMenu_UpdateFrontendMenu(void)
         if ((frame & 1) != 0) {
             MainMenu_SpawnFrontendEntryAfterimage(*slot);
         }
-        *(u16 *)(*slot + 8) = *(u16 *)(*slot + 8) | 0x40;
+        *(u16 *)(*slot + 8) =
+            *(u16 *)(*slot + 8) | DISPLAY_OBJECT_FLAG_RENDERABLE;
         goto tick_entry;
     hide_entry:
-        *(u16 *)(*slot + 8) = *(u16 *)(*slot + 8) & 0xFFBF;
+        *(u16 *)(*slot + 8) =
+            *(u16 *)(*slot + 8) & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
     tick_entry:
         moved++;
         func_80040410(*slot, (i << 1) | (gMain_bMenuID != i));
@@ -260,7 +264,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             clear_loop:
                 ent3 = *slot2;
                 if (ent3 != 0) {
-                    *(u16 *)(ent3 + 8) &= 0xFFBF;
+                    *(u16 *)(ent3 + 8) &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                 }
                 slot2++;
                 i++;
