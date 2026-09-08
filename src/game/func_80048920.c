@@ -9,7 +9,7 @@ struct SoundState {
     u8 arr424[SD_VOICE_SLOT_COUNT];
     u8 pad2[0x43C - 0x428];
     u16 *p43C;
-    u8 pad3[0x44C - 0x440];
+    u8 pad3[SD_VOICE_LOOKUP_BYTE_OFFSET - 0x440];
     u16 tbl44C[SD_VOICE_LOOKUP_ENTRY_COUNT];
 };
 
@@ -39,7 +39,7 @@ void func_80048920(s32 arg0, s32 arg1)
         lo = (arg0 & SD_VOICE_LOOKUP_INDEX_MASK) << 1;
         hi = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
         hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
-        v = *(u16 *)((u8 *)a + (lo + hi) + 0x44C);
+        v = *(u16 *)((u8 *)a + (lo + hi) + SD_VOICE_LOOKUP_BYTE_OFFSET);
         ff = 0xFFFF;
         if (v == ff) {
             return;

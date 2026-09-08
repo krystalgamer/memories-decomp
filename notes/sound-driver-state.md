@@ -131,6 +131,12 @@ view and private flattened views use the same derived total of 64 entries.
 This does not change code tags, sentinels, the four dedicated voice slots, or
 the pending-input block's capacity and count-driven population loops.
 
+`SD_VOICE_LOOKUP_BYTE_OFFSET` fixes the table base at `+0x44C`; its exclusive
+`SD_VOICE_LOOKUP_END_BYTE_OFFSET` derives from the two bank strides and is
+`+0x4CC`. Assertions tie both boundaries to the shared member, while raw
+accesses and local padding views reuse the integer byte offsets without
+changing address arithmetic, array extents, or the following fields.
+
 `SD_ArmBusyCallback` now expresses the registration path in pure C: it sets
 `busy` and installs `SD_ClearBusyFlag` in the main callback slot. This replaces
 the former register-pinned source while preserving exact code generation.

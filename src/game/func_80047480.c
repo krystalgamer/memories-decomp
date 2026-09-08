@@ -66,7 +66,7 @@ void func_80047480(void) {
         j = 0;
         k = i << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         for (; j < SD_VOICE_LOOKUP_BANK_ENTRY_COUNT; j++) {
-            *(u16 *)(q + k + 0x44C) = 0xFFFF;
+            *(u16 *)(q + k + SD_VOICE_LOOKUP_BYTE_OFFSET) = 0xFFFF;
             k += 2;
         }
     }

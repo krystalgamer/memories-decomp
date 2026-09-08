@@ -42,7 +42,7 @@ void func_80048768(s32 arg0, s32 arg1)
         flag = zero < flag;
         off += flag << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         base = g_SDValue;
-        pt = *(u16 *)(base + off + 0x44C);
+        pt = *(u16 *)(base + off + SD_VOICE_LOOKUP_BYTE_OFFSET);
         invalid_key = 0xFFFF;
         if (pt == invalid_key) {
             return;
