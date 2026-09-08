@@ -3,6 +3,7 @@
 #include "../psyq/libmcrd.h"
 #include "duel_effect.h"
 #include "mem_card.h"
+#include "func_8004036C.h"
 
 typedef struct {
     u8 pad0000[0x30];
@@ -71,7 +72,6 @@ extern void func_80042918(u8 *);
 extern void func_800428EC(u8 *, s32);
 extern void TextBox_Destroy(u8 *);
 extern u8 *TextBox_Create(s32, s32, s32, s32, s32, s32);
-extern void func_8004036C(s32);
 extern void func_80039794(void);
 extern void func_80039A14(u8 *);
 extern s32 func_8003F2B0_int(ObjectState *, s32, s32, s32)
@@ -119,7 +119,7 @@ void func_8003F454(void)
                 (ObjectState *)D_8009B3D8, 0x20, 0x100, D_8009B3EE
             ) == 0) {
             TextBox_Destroy(D_800EB0F8_raw + D_8009B3EE * 100);
-            func_8004036C((s32)D_8009B3D8);
+            func_8004036C(D_8009B3D8);
             D_8009B3D8 = (u8 *)0;
         }
         return;

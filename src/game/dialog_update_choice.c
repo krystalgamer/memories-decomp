@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object_api.h"
 #include "input.h"
+#include "func_8004036C.h"
 
 extern u8 gDialog_bInputState;
 extern u8 gDialog_bChoiceEnabled;
@@ -12,7 +13,6 @@ extern s32 Dialog_ReadChoiceInput(u8 *);
 extern void Widget_UpdatePulseColour(u8 *);
 extern void Dialog_HighlightChoice(u8 *);
 extern u8 *func_8004006C(void);
-extern void func_8004036C(s32);
 extern void func_800427DC(u8 *, s32);
 extern void func_800428EC(u8 *, s32);
 extern void func_80042918(u8 *);
@@ -78,7 +78,7 @@ void Dialog_UpdateChoice(u8 *p) {
     p[0x51] = 0;
     SD_SEPlayFull(7);
     if ((D_8009B34C & 0x40) == 0) {
-        func_8004036C(*(s32 *)(p + 0x30));
+        func_8004036C((void *)*(s32 *)(p + 0x30));
         *(s32 *)(p + 0x30) = 0;
         p[0x51] = 3;
     }

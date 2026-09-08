@@ -1,7 +1,8 @@
 #include "../types.h"
 #include "input.h"
+#include "func_8004036C.h"
 
-extern signed char D_8009B32C;extern unsigned short gInput_wPad1Held[],gInput_wPad1Pressed[];extern unsigned char*Dialog_OpenChoice(unsigned char*);extern void SD_SEPlayFull(int),func_8004036C(void*);
+extern signed char D_8009B32C;extern unsigned short gInput_wPad1Held[],gInput_wPad1Pressed[];extern unsigned char*Dialog_OpenChoice(unsigned char*);extern void SD_SEPlayFull(int);
 extern u16 D_8009B2AA[];
 /* Separate linker names keep GCC from retaining these addresses across calls. */
 extern u16 Base2_8009B2AA[];

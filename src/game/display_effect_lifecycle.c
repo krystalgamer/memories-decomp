@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/rand.h"
 #include "display_effect_constants.h"
+#include "func_8004036C.h"
 
 typedef struct {
     u8 pad_00[0x31];
@@ -12,9 +13,6 @@ typedef struct {
     u8 pad_38[0x06];
     u16 field_3E;
 } DisplayEffectState;
-
-extern void func_8004036C(void *);
-
 s32 func_80039F1C(DisplayEffectState *object)
 {
     u8 state = object->state;

@@ -2,8 +2,7 @@
 #include "display_object_projection.h"
 #include "../psyq/libgte.h"
 #include "gpu_packets.h"
-
-extern void func_8004036C(void *);
+#include "func_8004036C.h"
 
 void func_8002A9C0(u8 *p, s32 arg1)
 {

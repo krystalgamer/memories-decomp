@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004036C.h"
 
 extern void func_8004020C(void *);
 

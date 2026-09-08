@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004036C.h"
 
 #include "duel_effect.h"
 
@@ -30,7 +31,6 @@ extern u8 *func_800291E0(s32, s32, s32);
 extern void func_80039A14(DuelEffectChannel *);
 extern void *func_8004002C(void);
 extern u8 *func_800400AC(void *, s32);
-extern void func_8004036C(void *);
 extern void func_800404CC(u8 *, s32, s32, s32, s32, s32, s32, s32);
 extern void func_800428EC(u8 *, s32);
 extern void func_80042918(u8 *);

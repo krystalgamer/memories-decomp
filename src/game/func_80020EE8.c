@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_layout.h"
+#include "func_8004036C.h"
 
 typedef struct {
     u8 pad_00[8];
@@ -9,8 +10,6 @@ typedef struct {
 } Object;
 
 extern int func_80042B98(Object *);
-extern void func_8004036C(Object *);
-
 void func_80020EE8(Object *object)
 {
     if (func_80042B98(object) == 0) {

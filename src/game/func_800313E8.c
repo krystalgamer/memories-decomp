@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004036C.h"
 
 typedef float f32;
 typedef double f64;
@@ -14,7 +15,6 @@ typedef u8 Block;
 typedef struct { u32 words[2]; } Blk8;
 
 extern s32 SD_SEPlayFull();
-extern s32 func_8004036C();
 extern s32 func_800429D8();
 extern s32 func_80042A78();
 extern s32 func_80042B98();
@@ -51,7 +51,7 @@ void func_800313E8(u8 *p) {
         *(s16 *)(p + 0x46) = (s16)t * 512;
         *(s16 *)(p + 0x44) = (s16)t * 512;
         if (*(s16 *)(p + 0x60) == 0) {
-            func_8004036C((s32)p);
+            func_8004036C(p);
         }
     } else {
         func_80042A78(p);

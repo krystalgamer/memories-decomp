@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "func_8004036C.h"
 
 #include "duel_effect.h"
 
@@ -12,7 +13,6 @@ extern u16 D_8009AF76_raw asm("D_8009AF76")
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 
 extern void func_80043178(void *);
-extern void func_8004036C(void *);
 extern void func_80042918();
 extern void func_800428EC();
 extern void func_80042C08();

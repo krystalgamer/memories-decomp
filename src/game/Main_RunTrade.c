@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object_api.h"
 #include "../overlays/main_menu/entrypoints.h"
+#include "func_8004036C.h"
 
 typedef struct {
     u8 pad00[0x59];
@@ -48,7 +49,6 @@ extern void func_80043178(Obj *);
 extern void func_80043230(Obj *, s32, s32, s32);
 extern void TextBox_SetPos(void *, s32, s32);
 extern void TextBox_Destroy(void *);
-extern void func_8004036C(Obj *);
 extern s32 DuelEffect_UpdateState(void);
 extern void SD_BGMFadeOut(void);
 extern void Fade_WaitOut(void);

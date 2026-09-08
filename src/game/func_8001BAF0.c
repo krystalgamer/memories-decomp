@@ -2,6 +2,7 @@
 #include "ai_constants.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
+#include "func_8004036C.h"
 
 typedef struct {
     u8 f0;
@@ -33,8 +34,6 @@ extern u8 gDuel_aActiveCards[];
 
 extern void Duel_SetupCardRecord(s32, s32);
 extern Spawned *func_80018004(u8 *, s32, s32);
-extern void func_8004036C(Spawned *);
-
 void func_8001BAF0(void)
 {
     s8 sel[HAND_SIZE];

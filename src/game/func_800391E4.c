@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
+#include "func_8004036C.h"
 
 typedef float f32;
 typedef double f64;
@@ -18,7 +19,6 @@ typedef struct { u32 words[2]; } Blk8;
 extern s32 func_80035E20();
 extern s32 func_80039140();
 extern s32 func_8004006C();
-extern s32 func_8004036C();
 extern s32 func_800427DC();
 extern s32 func_800428EC();
 extern s32 func_80042918();
@@ -59,7 +59,7 @@ void func_800391E4(u8 *p) {
 
     if ((*(u16 *)(p + 0x34) & 0x20) != 0) {
         if (*(s32 *)(p + 0x2C) != 0) {
-            func_8004036C(*(s32 *)(p + 0x2C));
+            func_8004036C((void *)*(s32 *)(p + 0x2C));
         }
         e = func_800400AC(func_8004002C(), 4);
         func_800427DC(e, 1);

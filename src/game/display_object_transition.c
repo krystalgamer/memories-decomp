@@ -3,6 +3,7 @@
 #include "display_object_layout.h"
 #include "file_transfer.h"
 #include "input.h"
+#include "func_8004036C.h"
 
 extern u8 D_801AF000[];
 extern s32 D_8009B0F4;
@@ -10,7 +11,6 @@ extern s32 D_8009B134;
 extern u16 gInput_wPad1Pressed;
 
 extern void func_80012D4C(void);
-extern void func_8004036C(void *);
 extern void func_800428A8(
     void *,
     s32,
@@ -84,9 +84,9 @@ void func_8004365C(u8 *a, u8 *b)
 
     *(s32 *)(b + 0x44) = 0x10001000;
     *(s32 *)(b + 4) = (*(s32 *)(b + 4) | 0x8000000) & 0x8FFFFFFF;
-    func_8004036C((s32)a);
-    func_8004036C((s32)x);
-    func_8004036C((s32)y);
+    func_8004036C(a);
+    func_8004036C(x);
+    func_8004036C(y);
 }
 
 void func_800438B8(s32 count)

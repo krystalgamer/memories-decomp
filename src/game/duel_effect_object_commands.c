@@ -1,14 +1,13 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
+#include "func_8004036C.h"
 
 extern u8 D_8009B34E;
 extern u8 D_8009B355;
 extern s32 D_8009B350;
 
 extern s32 func_80036D3C(u8 *);
-extern void func_8004036C(void *);
-
 void func_800389C4(u8 *value)
 {
     *(u16 *)(value + 0x34) &= (u16)~8;

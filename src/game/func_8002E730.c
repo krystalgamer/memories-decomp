@@ -2,6 +2,7 @@
 #include "display_object_api.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "func_8004036C.h"
 
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
@@ -28,8 +29,6 @@ extern struct Rec *D_8009B280;
 extern u16 D_8009B2A8;
 extern u16 D_8009B2AA;
 extern u16 D_8009B270;
-
-extern void func_8004036C(void *);
 extern void func_80015C0C(void);
 extern s32 func_8004006C(void);
 extern void func_80015C84(u8);
