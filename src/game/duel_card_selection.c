@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_grid.h"
 #include "duel_card.h"
 
 typedef struct {
@@ -10,7 +11,6 @@ typedef struct {
     DuelSelectionObject *ptr;
 } DuelSelectionSource;
 
-extern u8 D_800907D8[];
 extern u8 D_8009B1D5;
 
 extern s32 func_8001EFD4(DuelSelectionObject *, DuelSelectionObject *);

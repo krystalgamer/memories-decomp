@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_grid.h"
 #include "display_object_api.h"
 
 #include "duel_card.h"
@@ -25,7 +26,6 @@ typedef struct {
     u8 table_index;
 } DuelFieldDisplaySource;
 
-extern u8 D_800907D8[];
 extern DuelFieldPosition D_80090800[];
 extern u8 D_8009B1D5;
 

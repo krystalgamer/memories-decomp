@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "save_data.h"
+#include "duel_grid.h"
 #include "duel_hand.h"
 #include "duel_side_state.h"
 #include "display_object_api.h"
@@ -11,7 +12,6 @@
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern u8 D_8009B369 __attribute__((section(".data")));
-extern u8 D_800907D8[];
 extern u8 D_800EA0E8[];
 extern s16 D_800F284A[];
 extern void (*D_800E9DBC[])(void);

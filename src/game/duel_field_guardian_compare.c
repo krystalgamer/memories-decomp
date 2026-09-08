@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_grid.h"
 #include "duel_card.h"
 
 typedef struct {
@@ -7,7 +8,6 @@ typedef struct {
     s8 row;
 } Cursor;
 
-extern volatile u8 D_800907D8[];
 extern u8 D_8009B1D5;
 
 s32 func_80023090(Cursor *cursor_a, Cursor *cursor_b)

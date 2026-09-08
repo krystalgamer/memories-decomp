@@ -142,7 +142,6 @@ extern s16 D_8009B1AE;
 extern u8 D_80090A4C[];
 extern u16 D_8009B220;
 extern u8 D_8009B1D5;
-extern u8 D_800907D8[];
 extern u8 D_801A7AD8_bytes[] asm("D_801A7AD8");
 
 extern s16 func_800181EC(u8 *arg0);
@@ -244,7 +243,6 @@ extern s16 D_8009B1D2;
 extern u8 D_8009B1D5;
 extern s16 D_8009B20C[4];
 extern u16 D_8009B220;
-extern u8 D_800907D8[];
 extern DuelFieldPosition D_80090800[];
 extern u8 D_801A7B64[];
 

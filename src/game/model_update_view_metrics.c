@@ -2,6 +2,7 @@
 #include "camera_view.h"
 #include "../psyq/libgte.h"
 #include "model.h"
+#include "model_update_view_metrics.h"
 
 extern u8 D_8009B478;
 extern u16 D_8009B47A;
