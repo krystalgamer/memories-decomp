@@ -908,7 +908,7 @@ address,size,name,status,module,notes
 0x80058434,0x1F0,func_80058434,matching_c,game,Collaborator refinement independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split. Distinct adjacent 12-byte vector symbols preserve retail address materialization.
 0x80058624,0x214,func_80058624,matching_c,game,Explicit signed absolute value produced the exact in-place negation and 532-byte function.
 0x80058838,0x100,func_80058838,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80058938,0x144,func_80058938,unmatched_asm,game,
+0x80058938,0x144,func_80058938,matching_c,game,Exact 81-instruction pure-C match under gcc_2_8_1_g8_split_no_strength_reduce; register pins reproduce the original allocator and scheduling.
 0x80058A7C,0xD0,func_80058A7C,matching_c,game,Pure-C inline refinement matched the full executable.
 0x80058B4C,0x274,func_80058B4C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80058DC0,0xC,func_80058DC0,matching_c,game,1 pre-policy variants: Straight unsigned-byte G8 getter matched linked bytes and GPREL16 relocation.
