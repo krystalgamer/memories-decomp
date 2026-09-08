@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/save_data.h"
 #include "../../psyq/rand.h"
 #include "../../psyq/stdio.h"
 
@@ -29,13 +30,14 @@ void NameEntry_Main(void)
     NameEntry_BuildStarterDeck();
     state = D_801D0200;
     checksum = 0;
-    entry = state + 0x40C;
-    for (i = 0xB; i >= 0; i--) {
+    entry = state + SAVE_DATA_PLAYER_NAME_OFFSET;
+    for (i = SAVE_DATA_PLAYER_NAME_SIZE - 1; i >= 0; i--) {
         checksum ^= *entry;
         entry++;
     }
     value = D_8009B09C << 8;
-    while ((*(s32 *)(state + 0x334) = value | checksum) == 0) {
+    while ((*(s32 *)(state + SAVE_DATA_DUELIST_CODE_OFFSET) =
+                value | checksum) == 0) {
         value = rand() << 8;
     }
 }
