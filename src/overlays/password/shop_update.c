@@ -2,6 +2,7 @@
 #include "../../game/campaign_flags.h"
 #include "../../game/display_object_layout.h"
 #include "shop.h"
+#include "../../game/sound.h"
 
 typedef struct {
     u8 pad0[96];
@@ -36,7 +37,6 @@ extern u8 D_8009B26C;
 extern s8 D_8009B34D;
 
 extern void func_80039794(void);
-extern void SD_SEPlayFull(s32);
 extern void Password_SetDigitCursorTarget(Cursor *);
 extern void Password_RefreshDigitDisplay(void);
 extern void SD_BGMFadeOut(void);

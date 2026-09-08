@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "input.h"
+#include "sound.h"
 
 extern u8 D_8009B24B;
 extern u16 gDuel_wViewerCardID;
@@ -16,7 +17,6 @@ extern void func_80032B38(u8 *);
 extern void func_80032C48(u8 *);
 extern s32 func_800330BC(u8 *);
 extern s32 func_80033500(u8 *);
-extern void SD_SEPlayFull(s32);
 
 void func_8003353C(u8 *p) {
     u8 *e;

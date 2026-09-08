@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "text_box_lifecycle.h"
+#include "sound.h"
 
 extern u8 D_8009B2F8;
 /* Retail addresses these three with %hi/%lo under -G8, so they live outside
@@ -11,7 +12,6 @@ extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u8 D_800EB0F8[];
 
 extern s32 func_80032B38(u8 *);
-extern void SD_SEPlayFull(s32);
 extern s32 func_80033998(void);
 extern void func_80039794(void);
 extern void func_80015BD8(s32, s32);

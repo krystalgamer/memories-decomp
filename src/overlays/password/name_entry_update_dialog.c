@@ -4,6 +4,7 @@
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_layout.h"
 #include "name_entry_keyboard.h"
+#include "../../game/sound.h"
 
 typedef struct {
     u8 pad0[8];
@@ -48,7 +49,6 @@ extern void func_80043178(Caret *);
 extern void func_80043230(Caret *, s32, s32, s32);
 extern void func_80035B7C(Box *);
 extern void func_80039934(Box *, s32, s32);
-extern void SD_SEPlayFull(s32);
 extern void SD_BGMFadeOut(void);
 extern void func_80015B00(void);
 extern Caret *func_80042B40(s32);

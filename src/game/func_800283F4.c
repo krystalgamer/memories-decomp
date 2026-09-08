@@ -3,6 +3,7 @@
 #include "display_object_layout.h"
 #include "duel_effect.h"
 #include "text_box_lifecycle.h"
+#include "sound.h"
 
 extern u8 *D_8009B240;
 extern u8 D_8009B248;
@@ -39,7 +40,6 @@ extern void func_80042918(u8 *);
 extern void func_80043178(u8 *);
 extern void func_80043230(u8 *, s32, s32, s32);
 extern void TextBox_SetPos(DuelEffectChannel *, s32, s32);
-extern void SD_SEPlayFull(s32);
 
 void func_800283F4(void)
 {

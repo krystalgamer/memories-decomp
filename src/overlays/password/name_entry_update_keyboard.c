@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "../../game/input.h"
 #include "name_entry_keyboard.h"
+#include "../../game/sound.h"
 
 typedef struct {
     u8 pad0[48];
@@ -35,7 +36,6 @@ extern volatile u16 D_8009B398[];
 
 extern void func_80042A78(W *);
 extern void func_800429D8(W *);
-extern void SD_SEPlayFull(s32);
 extern s32 NameEntry_AdjustLength(s32, s32);
 extern u8 *TextBox_GetGlyphAt(s32, s32, s32);
 

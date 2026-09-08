@@ -3,6 +3,7 @@
 #include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
+#include "sound.h"
 
 extern u8 D_800907D8[];
 extern u8 gDuel_abTrapAttackThresholds[DUEL_ATTACK_TRAP_COUNT];
@@ -139,7 +140,6 @@ extern u8 D_800E9FF0[];
 void func_80022D94(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 u8 *func_8002C68C(s32 arg0);
 void func_80024954(DuelCardRecord *arg0);
-void SD_SEPlayFull(s32 arg0);
 
 /* Four-state presentation sequencer on the D_8009B210 mode byte: mode 0
  * starts the first screen effect and arms the 0x14-frame counter; mode 1

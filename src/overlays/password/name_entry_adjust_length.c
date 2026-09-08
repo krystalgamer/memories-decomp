@@ -1,9 +1,9 @@
 #include "../../types.h"
+#include "../../game/sound.h"
 
 extern s8 D_8016D42C;
 extern u8 *D_8016D43C;
 extern void NameEntry_UpdateCaretTween(void);
-extern void SD_SEPlayFull(s32);
 
 s32 NameEntry_AdjustLength(s32 delta, s32 arg)
 {

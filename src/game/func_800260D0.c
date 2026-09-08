@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "duel_card.h"
 #include "duel_grid.h"
+#include "sound.h"
 
 typedef struct {
     u16 x;
@@ -21,7 +22,6 @@ extern DuelFieldPosition D_80090800[];
 
 extern s32 func_80024E24(void);
 extern DuelEffectObject *func_8002C604(s32 arg0);
-extern void SD_SEPlayFull(s32 arg0);
 
 /* One step of a field-wide effect sweep, driven once per 16 frames by the
  * D_8009B1D0 countdown. The first entry resets the step index in
