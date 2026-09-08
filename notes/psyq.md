@@ -52,6 +52,27 @@ for the patched LIBDS version reported as 4.6.1; other libraries must not be
 identified from 4.7 patterns. Never import catalogues as authoritative labels
 or override conflicting local evidence.
 
+## CRT startup routines
+
+The PS-X EXE header and [memory map](memory-map.md) place the entry point at
+`0x800129D8`. The authoritative
+[function inventory](../config/slus_01411/functions.csv) keeps the complete
+`0x178`-byte startup region as three Psy-Q/GCC CRT assembly functions:
+
+| Address | Inventory symbol | Size | Locally observed behavior |
+|---|---|---:|---|
+| `0x800129D8` | `entrypoint` | `0xA0` | Clears `[bss_start, bss_end)` as words, derives the stack from the word at `D_8009AF10`, records two startup memory values at `D_800906E4` and `D_800906E8`, initializes `$gp` and `$fp`, calls `Main_Init`, and executes a `break` instruction if that call returns. |
+| `0x80012A78` | `func_80012A78` | `0x70` | Returns immediately when the guard word at `0x800906E0` is already nonzero. Otherwise it sets the guard to one and contains a forward callback-table walk beginning at `D_80010000`; the linked callback count is zero in this executable. |
+| `0x80012AE8` | `func_80012AE8` | `0x68` | Returns when the same guard word is zero and otherwise contains the paired callback-table walk beginning at `D_80010000`; its linked callback count is also zero. |
+
+The comparison
+[symbol catalogue](research/Unchiga_Symbols/known_functions.md) proposes
+`__SN_ENTRY_POINT`, `__main`, and `__do_global_dtors` for these addresses.
+Those labels fit the observed startup shapes, but no verified Psy-Q 4.6 object
+signature is recorded for this region and the linked callback counts are zero.
+Keep the current inventory names until stronger local or library evidence
+supports promotion.
+
 ## Confirmed interface anchors
 
 The following resident addresses have especially strong API-level evidence.
