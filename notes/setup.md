@@ -87,8 +87,7 @@ Record its exact hash and provenance in `notes/toolchain.md` before using it.
 
 The current evidence requires testing late ASPSX behavior and likely CCPSX
 `-O2`/`-G8` output. The user independently verified Psy-Q 4.6. Its Win32 tools
-use GCC 2.8.1 and its DOS tools use GCC 2.7.2. Use 2.8.1 first and keep 2.7.2
-available as a fallback. The unusual `LIBDS.LIB` was an online patch
+use GCC 2.8.1, which is the project's only compiler. The unusual `LIBDS.LIB` was an online patch
 distributed before Psy-Q 4.7, so library-only identification may associate it
 with 4.7. Exact compiler and library binaries must still be recorded by hash.
 
@@ -96,6 +95,4 @@ The bootstrapped GCC 2.8.1 PSX compiler is a reproducible diagnostic stand-in,
 not Sony CCPSX. The build always supplies explicit PSX target flags as recorded
 in `notes/toolchain.md`. `make compiler-281` builds the probe from source;
 `make compiler-281-prebuilt` installs the pinned prebuilt release at the same
-prefix. A separately pinned GCC 2.7.2 MIPS compiler is kept available only as
-the DOS-era fallback. Matching assembly is processed with MASPSX 2.81 for GCC
-2.8.1 and MASPSX 2.72 for GCC 2.7.2.
+prefix. Matching assembly is processed with MASPSX 2.81.

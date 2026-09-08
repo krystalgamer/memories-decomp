@@ -1,11 +1,11 @@
 #include "../../types.h"
+#include "../../game/campaign_flags.h"
 
 extern u8 gCampaignMap_Location;
 extern u8 gCampaignMap_aLocationTable[];
 extern u16 gInput_wPad1Pressed;
 extern volatile u16 gInput_wPad1Held;
 extern s32 gCampaignMap_MoveState;
-extern s32 Campaign_TestStoryFlag(s32);
 extern void SD_SEPlayFull(s32);
 
 s32 CampaignMap_PickExit(void)
@@ -18,7 +18,7 @@ s32 CampaignMap_PickExit(void)
     record = gCampaignMap_aLocationTable + gCampaignMap_Location * 66;
     exits = record + 18;
     if (gCampaignMap_Location >= 10) {
-        if (Campaign_TestStoryFlag(71) != 0 &&
+        if (Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE) != 0 &&
             (gInput_wPad1Pressed & 0x20) != 0) {
             SD_SEPlayFull(48);
             gCampaignMap_MoveState = 24;

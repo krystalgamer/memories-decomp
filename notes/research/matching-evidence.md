@@ -2071,10 +2071,10 @@ the candidate at all.
 **A bucketed sweep can hide the profile the rules require.** Summarising a
 profile sweep by instruction count and printing only the best-scoring profile
 per bucket concealed that `gcc_2_8_1_o1_g8` reaches the exact count of 40; a
-2.7.2 profile occupied the same bucket with a better diff score. That led to
+now-retired legacy-compiler profile occupied the same bucket with a better diff score. That led to
 a cycle spent on a 2.8.1 line one instruction short, plus a wrong conclusion
-that the exact count was reachable only from the 2.7.2 cohort. Since the
-project rule is 2.8.1 first, a sweep summary should surface the best 2.8.1
+that the exact count was reachable only from the legacy cohort. Since the
+project builds only with 2.8.1, a sweep summary should surface the best 2.8.1
 profile per bucket, not only the global best.
 
 The general form: an aggregate that hides candidates is as dangerous as a
@@ -2616,7 +2616,7 @@ the histogram note above:
 2. Among profiles tied on length, rank by opcode histogram delta.
 3. Only then look at the positional diff, which describes ordering.
 
-`gcc_2_7_2_g0` produced 38 here against a target of 45, which is the usual
+The retired legacy compiler produced 38 here against a target of 45, which is the usual
 signal that the cohort is wrong rather than that the source is wrong.
 
 ## A constant assigned before a single exit costs two instructions
@@ -4440,7 +4440,7 @@ without needing to reason about the block's critical path. It is also not the
 profile. The order is identical under `gcc_2_8_1_g0`, `g8`, `g8_split`,
 `g8_split_comm`, `g8_no_split`, `cc_g8_as_g0`, `cc_g0_as_g8`,
 `g8_split_no_strength_reduce`, `g0_keep_large_ori` and
-`cc_g8_as_g4_split`, and every GCC 2.7.2 and `-O1` profile is far worse.
+`cc_g8_as_g4_split`, and every legacy-compiler and `-O1` profile is far worse.
 
 **The cause is that the source copied the parameter into a local.** The
 candidate opened with `s = src;` and then used `s` throughout. Copy

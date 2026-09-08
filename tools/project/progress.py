@@ -212,11 +212,11 @@ def render_readme_progress(progress: dict[str, Any]) -> str:
                 f"({format_percentage(matching_bytes, game_bytes)})** |"
             ),
             (
-                "| Remaining compiler-generated game assembly | "
+                "| Unmatched game assembly | "
                 f"{assembly_count:,} functions, {format_bytes(assembly_bytes)} |"
             ),
             (
-                "| Intentional handwritten game assembly | "
+                "| Evidence-backed handwritten game assembly | "
                 f"{handwritten_count:,} functions, "
                 f"{format_bytes(handwritten_bytes)} |"
             ),

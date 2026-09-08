@@ -128,9 +128,8 @@ with full-file comparison as the merge gate.
 - No original symbols, map files, source fragments, debug data, BIN/CUE image,
   or confirmed original compiler are currently available.
 - Psy-Q 4.6 is the selected SDK version based on the user's independent
-  multi-tool verification. Its Win32 tools use GCC 2.8.1, while the bundled DOS
-  tools use GCC 2.7.2. Always try 2.8.1 first and retain 2.7.2 as the fallback.
-  Pair them with MASPSX 2.81 and 2.72 respectively.
+  multi-tool verification. Its Win32 tools use GCC 2.8.1, the project's only
+  compiler, paired with MASPSX 2.81.
   The unusual `LIBDS.LIB` was an online patch distributed before Psy-Q 4.7,
   which explains why library-only identification can associate it with 4.7.
 
@@ -158,9 +157,8 @@ with full-file comparison as the merge gate.
 - The attempt ledgers under `config/slus_01411/` record bounded
   source/compiler experiments for game-owned functions. PsyQ functions remain
   outside that decompilation process.
-- Further conversion uses 2.8.1 first and falls back to GCC 2.7.2 only when
-  recorded evidence points to the DOS cohort; a function is deferred after six
-  unsuccessful variants.
+- Further conversion varies named GCC 2.8.1 profiles; a function is deferred
+  after six unsuccessful variants.
 
 ### Target executable
 
@@ -431,8 +429,7 @@ Treat toolchain identification as a measured investigation:
 - Document prologue/epilogue forms, delay-slot scheduling, register allocation,
   branch idioms, switch-table layout, small-data use, and emitted helper calls.
 - Build a small local compiler probe corpus with the Psy-Q 4.6 Win32 GCC 2.8.1
-  toolchain first. Keep the Psy-Q 4.6 DOS GCC 2.7.2 toolchain ready as the
-  fallback, together with reproducible open-source equivalents.
+  toolchain, together with reproducible open-source equivalents.
 - Compare generated instruction sequences and object/link behavior rather than
   relying on game release dates or SDK library RCS dates.
 - Identify likely PsyQ library functions separately from game-owned code and
@@ -521,6 +518,8 @@ Make function conversion repeatable and measurable:
   conversion.
 - Track statuses separately for matching C, justified SDK/handwritten assembly,
   unmatched assembly, data, and unidentified regions.
+  Disassembler GTE/handwritten heuristics are not original-source provenance;
+  unresolved game functions remain C candidates unless separately justified.
 
 Acceptance criteria:
 
@@ -549,7 +548,7 @@ Use an order that improves symbols and types while preserving matching:
 
 Completion target:
 
-- All game-owned compiler-generated functions are matching C.
+- All game-owned C candidates, including GTE/macro functions, are matching C.
 - Any remaining assembly is explicitly classified and justified as
   handwritten, SDK/library, or otherwise not reasonably represented as
   original game C.
@@ -617,7 +616,7 @@ Final acceptance criteria:
 
 | Risk | Handling |
 |---|---|
-| Psy-Q 4.6 contains Win32 GCC 2.8.1 and DOS GCC 2.7.2 cohorts, while the pre-4.7 `LIBDS.LIB` patch obscures library provenance | Keep both compilers available, try 2.8.1 first, switch to 2.7.2 only after recorded evidence, hash supplied artifacts, and retain exact assembly until each cohort is matched. |
+| Psy-Q 4.6 ships more than one compiler cohort, while the pre-4.7 `LIBDS.LIB` patch obscures library provenance | Use the Win32 GCC 2.8.1 cohort, hash supplied artifacts, and retain exact assembly until each cohort is matched. |
 | SDK library dates are mistaken for game compiler dates | Treat RCS strings only as library evidence and corroborate with generated code/object behavior. |
 | No map or symbols exist | Use conservative address-based names, cross-references, string anchors, signatures, and documented evidence-based renames. |
 | Section/BSS boundaries are not explicit in the PS-X header | Infer them from address references, initialization loops, alignment, linker experiments, and complete byte accounting. |

@@ -95,12 +95,12 @@ class DependencyFingerprintTests(WorkspaceTests):
         )
 
     def test_many_profiles_hash_each_resolved_compiler_and_filter_once(self) -> None:
-        second_compiler = self.write("tools/gcc272", b"second compiler")
+        second_compiler = self.write("tools/gcc-other", b"second compiler")
         (self.root / "tools/gcc-alias").symlink_to("gcc")
         profiles = {
             f"profile-{index}": {
                 **self.profiles["gcc281"],
-                "compiler": ("tools/gcc", "tools/gcc-alias", "tools/gcc272")[index % 3],
+                "compiler": ("tools/gcc", "tools/gcc-alias", "tools/gcc-other")[index % 3],
                 "compiler_flags": ["-O2", f"-DPROFILE={index}"],
             }
             for index in range(31)

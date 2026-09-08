@@ -254,6 +254,15 @@ function whose GCC asm extensions are being removed. A successful nonmatching
 reference candidate is promoted with
 `integrate_verified_match.py --evidence-source reference`.
 
+Both ledgers are append-only records of what was measured, so a row keeps the
+compiler and profile names that were live when it was written. When a profile
+is later removed from `compiler_profiles.json`, its name is added to
+`RETIRED_PROFILES` in `record_external_attempt.py` instead of being edited out
+of the recorded rows: validation continues to accept the history unchanged,
+while a new record still requires a profile the manifest currently defines.
+Rewriting a recorded compiler name would falsify the measurement, and deleting
+the row would erase a terminal result.
+
 A successful inline refinement atomically replaces its existing source and
 profile:
 
@@ -348,9 +357,8 @@ be corroborated before being treated as final.
 - Reuse curated width, stride, signedness, and code-shape evidence from
   `notes/research/matching-evidence.md`.
 - Require multiple independent matching samples before selecting a compiler.
-- Try GCC 2.8.1 first. Use GCC 2.7.2 only after the 2.8.1 attempts are recorded
-  and exhausted or when code evidence specifically indicates the DOS cohort.
-- Pair GCC 2.8.1 with MASPSX 2.81 and GCC 2.7.2 with MASPSX 2.72.
+- GCC 2.8.1 paired with MASPSX 2.81 is the only pipeline; vary named profiles
+  rather than compilers.
 - Explore as many materially distinct variants as a function needs. Depth on a
   hard function is worth more than breadth across easy ones.
 - The six canonical rows in `config/slus_01411/attempts.csv` are the closed

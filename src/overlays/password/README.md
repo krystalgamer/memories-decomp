@@ -154,10 +154,32 @@ here; that arithmetic is preserved, not silently repaired or claimed as a
 runtime reproduction. Allocation and cursor/preview dereferences likewise
 retain their existing unchecked behavior.
 
+## Name-entry setup translation unit
+
+`name_entry_setup.c` keeps `NameEntry_Init` next to the two routines it
+installs and drives: the keyboard text-box builder it calls during setup, and
+the selection-frame drawing callback it registers at `+0x4C`. Grouping them
+records the install relationship that `NameEntry_Init` establishes by its own
+stores, rather than an inference from adjacency.
+
+The definitions remain in executable order, which is not call order:
+`NameEntry_BuildKeyboardTextBox` occupies `0x80168138..0x801681A0`,
+`NameEntry_DrawSelectionFrame` runs through `0x801683EC`, and
+`NameEntry_Init` closes the unit at `0x8016868C`. All three use
+`gcc_2_8_1_g0_split`, and their shared manifest source and one C subsegment
+at module offset `0x138` cover the complete contiguous `0x554`-byte text
+range, ending exactly where `TextBox_GetGlyphAt` begins.
+
+This is a grouping of the name-entry setup path only. It makes no claim about
+the original author's translation-unit boundaries, and it is not the whole
+name-entry screen: the per-frame glyph pulse at `0x80168708` and the routines
+after it remain separate units. A later wider grouping would have to absorb
+this entire three-function object rather than one member of it.
+
 ## Name-entry selection-frame packets
 
 `NameEntry_Init` installs
-[`NameEntry_DrawSelectionFrame`](name_entry_draw_selection_frame.c)
+[`NameEntry_DrawSelectionFrame`](name_entry_setup.c)
 (`0x801681A0`) at callback offset `+0x4C` of the selection cursor stored in
 `D_8016D404`. The initializer sets its position to `(22, 24)` and its
 dimensions to `16 x 16`; keyboard movement later updates that cursor's
@@ -192,6 +214,31 @@ width/height at `+0x3C/+0x3E`. Padding and field widths are unchanged; this
 does not claim that the cursor allocation ends at `+0x40`. The installer
 retains its existing object writes and callback-slot assignment rather
 than pretending that the callback takes no arguments.
+
+## Name-entry glyph-fragment translation unit
+
+`name_entry_glyph_fragments.c` keeps the glyph shatter effect next to the
+per-piece fragment updater it installs. `NameEntry_UpdateGlyphShatter`
+allocates a 4x4 grid of quarter-size pieces from the shared display-object
+pool, configures each from the source glyph's position, palette pair and
+clut/tpage words, marks them mode `3`, and writes
+`NameEntry_UpdateGlyphFragment` into each piece's update slot at `+0x24`.
+The callback relationship is established by that store, not inferred from
+adjacency.
+
+The definitions remain in executable order, which is again not call order:
+`NameEntry_UpdateGlyphFragment` occupies `0x80168808..0x801688AC` and
+`NameEntry_UpdateGlyphShatter` runs through `0x801689B4`. Both use
+`gcc_2_8_1_g0_split`, and their shared manifest source and one C subsegment
+at module offset `0x808` cover the complete contiguous `0x1AC`-byte text
+range, ending exactly where `NameEntry_UpdateCaretTween` begins.
+
+This unit covers the shatter lifecycle only. The preceding glyph pulse at
+`0x80168708` is deliberately left out: it is cohesive with these two, but it
+declares `func_8004036C` through its own private object view rather than the
+`void *` these files use, so absorbing it would require changing that view
+rather than concatenating text. That reconciliation is a separate question
+from this grouping.
 
 ## Keyboard input and glyph effects
 

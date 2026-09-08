@@ -60,9 +60,7 @@ comparison found 95 differing C objects and 45 text-size changes. The selected
 `mips-linux-gnu` release asset reproduces the project's required GCC 2.8.1
 code generation under the explicit PSX flags.
 
-The GCC 2.7.2 fallback is a matching-research tool and is not required for the
-current clean build, so CI does not install or validate it. Binutils 2.42 is
-not built in CI either.
+Binutils 2.42 is not built in CI.
 
 Ubuntu 22.04 installs the pinned
 `binutils-mips-linux-gnu=2.38-1ubuntu1cross2` package. The project creates

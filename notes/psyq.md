@@ -748,9 +748,9 @@ and register-transfer macros, but the header does not include any of the
 standalone inline files. C that emits GTE instructions directly must include
 `libgte.h` for types and then select one low-level macro implementation:
 
-- `inline_c.h` lets GCC choose operand registers and supplies both the normal
-  command macros, which emit two leading `nop` instructions, and `_b` variants
-  that emit the command word without those stalls.
+- `inline_c.h` uses GCC extended-assembly operands, with explicit temporary
+  registers where a helper declares them. Its normal command macros include
+  two leading `nop` instructions; `_b` variants omit those stalls.
 - `inline_o.h` instead moves operands through fixed registers `$12`-`$15` and
   declares those registers plus memory as clobbered. Its command macros include
   the two leading `nop` instructions and it has no `_b` command family.
@@ -775,6 +775,9 @@ its target and emits command words with `.word`. `inline_a.h`, `gtereg.h`, and
 `gtenom.h` use the alternate `macro`/`endm`, `equs`, and `dw` syntax. The two
 families encode the same coprocessor commands and register roles in different
 source dialects; neither belongs in a C translation unit.
+
+The [GTE command-header caveat](#gte-heuristics-and-command-header-caveat)
+also applies to these imported macro families.
 
 `libsnd.h` and `libspu.h` expose different sound layers. `libsnd.h` is the
 high-level `Ss*` sequencer and VAB interface: it owns `VabHdr`, `ProgAtr`,
@@ -1203,6 +1206,32 @@ Before replacing a local definition:
 4. Use the declaration from the matching real Psy-Q header.
 5. Rebuild the complete executable. If the shared type changes code generation,
    retain the exact local view and document the exception.
+
+## GTE heuristics and command-header caveat
+
+A disassembler's "likely handwritten" label is not proof that a whole game
+function was authored in assembly. The
+[game-function audit](function-map.md#gte-classification-correction-2026-09-08)
+found only `cfc2`, `mfc2`, and `mtc2` as heuristic triggers in the 63 formerly
+heuristic-tagged game functions. These transfers have C inline-macro forms;
+their presence alone does not justify a handwritten exemption. The retained
+60 functions have separate whole-function register-preservation evidence;
+three functions without that evidence were reopened.
+
+The currently imported inline command headers identify themselves as DMPSX
+interfaces. For example, `inline_c.h`'s `gte_rtps` emits marker
+`.word 0x0000007f`, whereas the audited retail command is `0x4A180001`;
+`gte_nccs` uses `0x0000107f` rather than the retail `0x4B08041B`.
+The corresponding `inline_o.h`, `inline_s.h`, and `inline_a.h` command
+families also retain marker encodings. Register-transfer helpers such as
+`gte_stopz` instead contain ordinary COP2 assembly directly.
+
+Do not assume those command markers are already drop-in native PSX words.
+A matching C conversion must establish the appropriate header/command
+expansion and preserve the exact native encoding and scheduling. The
+classification correction neither changes these imported headers nor adds
+a marker translation, proves an original source language, or promotes a
+function to matching C.
 
 ## Initial migration candidates
 

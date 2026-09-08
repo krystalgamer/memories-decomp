@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/campaign_flags.h"
 #include "../../game/display_object_api.h"
 #include "../../psyq/libgte.h"
 
@@ -28,7 +29,6 @@ extern void CampaignMap_SetCameraFromLocation(s32);
 extern u8 *CampaignMap_CreateLocationLabel(s32);
 extern void CampaignMap_RebuildLocationObjects(s32);
 extern u8 *CampaignMap_CreateLocationMarker(s32);
-extern s32 Campaign_TestStoryFlag(s32);
 extern void SD_BGMPlay(u32);
 extern void func_80042C08(void);
 
@@ -91,7 +91,7 @@ void CampaignMap_SetLocation(s32 index)
         *(u16 *)(panel + 8) = flags & 0xFFBF;
     }
     track = 0x70A0;
-    if (Campaign_TestStoryFlag(71) != 0) {
+    if (Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE) != 0) {
         track = 0x70B0;
     }
     SD_BGMPlay(track);

@@ -45,8 +45,6 @@ def read_results(path: Path) -> list[dict[str, str]]:
 def compiler_for_profile(profile: str) -> str:
     if profile.startswith("gcc_2_8_1_"):
         return "gcc-2.8.1-psx"
-    if profile.startswith("gcc_2_7_2_"):
-        return "gcc-2.7.2-mips"
     raise ImportError(f"unsupported compiler profile: {profile}")
 
 
