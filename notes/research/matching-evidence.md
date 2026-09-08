@@ -3170,13 +3170,24 @@ per unmerged tail - there, the `addiu` adding the buffer stride - in the target
 and in the build. Two against one localises the whole difference immediately,
 where a positional diff reports two hundred shifted lines.
 
+The post-terminal resolution modeled that distinction directly. A block-local
+image-tail pointer bound to `$v1` kept that tail separate from the `$v0` tails
+for stages 0 and 10 and restored the missing `addiu` and `sw`. That one change
+also moved the volatile flag value into `$v1`, so the exact source keeps
+`flags` in `$v0`; spelling stage 10's first read-modify-write through that
+named value then restores its original allocation and store schedule. This is
+the useful order of work: identify the merge boundary and distinct lifetimes
+first, then constrain only the two measured roles.
+
 ### Variable reuse steers registers only for expensive constants
 
 A related lever, with a sharp boundary. Writing two values through **one
 reassigned C variable** tends to give them one hard register, and that is
 usable to free a register elsewhere: in the same function, making the
 `0xFFDDFFFF` mask and a later `0x10000` the same variable moved `0x10000` into
-`$a0`, exactly where the target has it, when nothing else had shifted it.
+`$a0`, exactly where the target has it. The exact source retains that shared
+value and also names case 7's mask before the mode store, which restores the
+target's independent constant-materialization order.
 
 The same trick applied to `2` and `0x10` in the same function is completely
 inert. Those are cheap immediates, so GCC propagates them back into their
