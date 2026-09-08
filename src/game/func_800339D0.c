@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_effect.h"
 #include "fade.h"
 #include "card_constants.h"
 #include "text_box_lifecycle.h"
@@ -10,7 +11,6 @@ extern u8 D_8009B2F8;
 extern u8 D_8009AF76 __attribute__((section(".data")));
 extern u8 D_8009B140 __attribute__((section(".data")));
 extern s8 gDialog_bChoice __attribute__((section(".data")));
-extern u8 D_800EB0F8[];
 
 extern s32 func_80032B38(u8 *);
 extern s32 func_80033998(void);
@@ -70,7 +70,7 @@ void func_800339D0(u8 *state)
         func_80039794();
         /* The same variable as the confirmation box, which keeps the
            channel in $s0 across the destroy call. */
-        box = D_800EB0F8;
+        box = (u8 *)D_800EB0F8;
         if ((*(u32 *)(box + 0x34) & 0x2008) == 0x2000) {
             TextBox_Destroy(box);
             if (!(D_8009B2F8 & 0x80) && gDialog_bChoice != 0) {

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_effect.h"
 #include "text_box_lifecycle.h"
 
 extern u8 *D_8009B290;
@@ -10,7 +11,6 @@ extern u16 D_8009B27C;
    so no storage is allocated here. */
 u16 D_8009B28C;
 extern u16 D_8009B2A4;
-extern u8 D_800EB0F8[];
 
 extern s32 func_8002E3B4(void);
 extern void func_8003B6AC(s32, s32);
@@ -43,7 +43,7 @@ void func_8002E5AC(void)
     } else {
         if ((D_8009B2A4 & 0x4000) == 0) {
             if ((D_8009B27C & 0x4000) == 0) {
-                TextBox_Destroy(D_800EB0F8);
+                TextBox_Destroy((u8 *)D_800EB0F8);
             }
             D_8009B28C = 0;
             D_8009B27C = 0;

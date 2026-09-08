@@ -1,10 +1,7 @@
 #include "../types.h"
+#include "duel_effect.h"
 #include "sound.h"
 #include "display_object_api.h"
-
-typedef struct {
-    u8 pad_00[0x64];
-} Slot;
 
 typedef struct {
     void *obj;
@@ -16,7 +13,6 @@ typedef struct {
     u16 hi;
 } TblEnt;
 
-extern Slot D_800EB0F8[];
 extern TblEnt D_801D9000[];
 extern s16 D_8009B35A;
 extern u8 D_8009B356;
@@ -30,7 +26,7 @@ extern void DuelEffect_ProcessEntries(void *);
 
 void func_80039794(void)
 {
-    Slot *p;
+    DuelEffectChannel *p;
     Ent *q;
     s32 reset_value;
     TblEnt *table;

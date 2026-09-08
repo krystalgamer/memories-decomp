@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_effect.h"
 #include "display_object_api.h"
 #include "text_box_lifecycle.h"
 #include "../overlays/main_menu/entrypoints.h"
@@ -30,7 +31,6 @@ u8 D_8009B269;
 u8 D_8009B26C;
 u8 D_8009B26E;
 
-extern u8 D_800EB0F8[];
 /* Spelt as an incomplete array so -G8 keeps the four-byte slot out of small
    data; the target addresses it with a %hi/%lo pair and keeps the high half
    in $s2 across the tail. The section(".data") spelling is not equivalent

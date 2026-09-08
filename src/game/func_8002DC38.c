@@ -1,5 +1,6 @@
 
 #include "../types.h"
+#include "duel_effect.h"
 #include "card_constants.h"
 #include "fade.h"
 #include "text_box_lifecycle.h"
@@ -15,7 +16,6 @@ extern u16 D_8009B230 __attribute__((section(".data")));
 extern u16 D_8009B234 __attribute__((section(".data")));
 extern u16 D_8009B236 __attribute__((section(".data")));
 extern u8 D_8009B368 __attribute__((section(".data")));
-extern u8 D_800EB0F8[];
 
 extern void func_80039A14(void *);
 extern void SD_BGMPlay(u32);
@@ -34,7 +34,7 @@ void func_8002DC38(void)
         TextBox_CreateFlagged(0, 0x25, 0x34, 0xB4, 0xD8, 0x20, 0x20);
         func_80039A14(D_800EB0F8);
         TextBox_Create(1, 0x26, 0xE, 0x66, 0x100, 0x30);
-        func_80039A14(&D_800EB0F8[0x64]);
+        func_80039A14(&D_800EB0F8[1]);
         SD_BGMPlay(0x72C0);
         func_80015A00();
     }

@@ -1,30 +1,6 @@
 #include "../types.h"
+#include "duel_effect.h"
 #include "text_box_lifecycle.h"
-
-typedef struct {
-    u8 unk0[0x28];
-    s32 unk28;
-    s32 unk2C;
-    s32 unk30;
-    s16 unk34;
-    s16 unk36;
-    s16 unk38;
-    s16 unk3A;
-    u8 unk3C[0x17];
-    u8 unk53;
-    u8 unk54;
-    u8 unk55[2];
-    u8 unk57;
-    u8 unk58;
-    u8 unk59;
-    u8 unk5A;
-    u8 unk5B;
-    s16 unk5C;
-    s16 unk5E;
-    u8 unk60;
-    u8 unk61;
-    u8 unk62[2];
-} Rec64;
 
 #include "mem_card.h"
 #include "save_data.h"
@@ -35,7 +11,6 @@ extern u8 *D_8009B3D8;
 extern u8 D_8009B3EA;
 extern u8 D_8009B3EE;
 extern u8 D_8009B3F9;
-extern Rec64 D_800EB0F8[];
 extern u8 D_801D1200[];
 extern u8 D_801D2200[];
 
