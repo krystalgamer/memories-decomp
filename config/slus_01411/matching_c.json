@@ -2260,13 +2260,13 @@
       "address": "0x8003353C",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x1B4",
-      "source": "src/game/func_8003353C.c"
+      "source": "src/game/build_deck_pane_input.c"
     },
     {
       "address": "0x800336F0",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x1F4",
-      "source": "src/game/func_800336F0.c"
+      "source": "src/game/build_deck_pane_input.c"
     },
     {
       "address": "0x800338E4",
