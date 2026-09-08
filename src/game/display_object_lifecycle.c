@@ -1,17 +1,7 @@
 #include "../types.h"
 #include "display_object_layout.h"
 #include "display_object_api.h"
-
-typedef struct {
-    u8 pad_00[0x0C];
-    u8 value_0C;
-    u8 value_0D;
-    u8 value_0E;
-    u8 pad_0F[0x51];
-    s16 step;
-    u8 pad_62[0x0A];
-    u8 flags;
-} DisplayObjectLifecycle;
+#include "display_object_lifecycle.h"
 
 s32 func_80042B98(DisplayObjectLifecycle *object)
 {
