@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80036D3C.h"
 #include "../psyq/rand.h"
 #include "file_transfer.h"
 
@@ -9,7 +10,6 @@ extern u16 gGraphics_sViewportY[];
 extern s16 D_8009B322;
 extern u8 *D_8009B328;
 extern u16 D_8009B348[2];
-extern int func_80036D3C(u8 *);
 extern int func_80049120(void *);
 void func_800378D8(u8 *object)
 {

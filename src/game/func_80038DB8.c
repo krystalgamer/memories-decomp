@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern s32 func_80036D3C(u8 *);
+#include "func_80036D3C.h"
 
 void func_80038DB8(u8 *arg0)
 {

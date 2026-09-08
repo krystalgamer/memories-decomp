@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80036D3C.h"
 
 int func_80036D3C(u8 *object)
 {
