@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272 check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272 check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index check-candidate-headlines review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -57,6 +57,7 @@ help:
 		'  check-global-usage  Verify tracked game-global usage reports' \
 		'  progress       Update README and generate current progress metrics' \
 		'  check-progress Verify that the README progress snapshot is current' \
+		'  check-candidate-headlines  Verify candidate notes and inventory rows state the same figures' \
 		'  disc-files     Extract the tracked DATA files from the disc image' \
 		'  disc-layout    Regenerate the tracked ISO9660 LBA manifest' \
 		'  verify-disc    Verify BIN/CUE layout and extracted file contents' \
@@ -195,6 +196,9 @@ progress: split
 
 check-progress: split
 	@$(PYTHON) tools/project/progress.py --check
+
+check-candidate-headlines: workspace
+	@$(PYTHON) tools/project/check_candidate_headlines.py
 
 disc-files: workspace
 	@$(PYTHON) tools/project/disc_image.py extract $(FILES)
