@@ -1657,7 +1657,8 @@ Verified by `FreeDuel_Init` in the free_duel module.
 
 ## Name a literal to buy a spill, and assign it inside the loop
 
-`func_80181728` draws two starchip bars and their digit counters. Its
+`MainMenu_DrawValueSetup` (historical `func_80181728`) draws the two
+value-editor bars and their decimal values, not a starchip balance. Its
 reconstruction sat at opcode distance three or four for many cycles, and the
 whole residual was spill traffic: the target stores the 8000 digit count at
 `112(sp)` and its shifted copy at `116(sp)` and `120(sp)`, and this build kept

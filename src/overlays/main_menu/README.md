@@ -385,6 +385,43 @@ SDK entry remains assembly and is distinct from the game-owned packet helper
 `func_8005B260`. `main_menu_linker_symbols.txt` supplies its resident import;
 it is not an additional overlay function.
 
+## Value-editor rendering
+
+`MainMenu_DrawValueSetup` (`0x80181728`) is the callback installed by
+`MainMenu_StartValueSetup` and removed by `MainMenu_FinishValueSetup`.
+The old filename `starchip_bars.c` did not establish a currency role: this
+renders the two-value/shared-option editor, with 2P life points as its known
+caller context.
+
+It reads the **displayed** `u16` values at `D_801845C0[1]` and `[7]`,
+not the targets at `[0]` and `[6]`. It places the shared marker at X 116
+for choice zero or 220 otherwise, with Y 74. A side widget remains visible
+while its update callback is active or its mode equals 2. During an active
+position tween the renderer leaves that widget's XY alone; an idle value-mode
+widget follows its displayed bar endpoint at Y 111/139. Otherwise it hides
+the side widget and copies the shared marker position.
+
+Regardless of side mode, it submits both `POLY_G4` bars, then both runs of
+`POLY_GT4` digits through `GsSortPoly` at ordering-table entry 2, priority
+2048. The bars run from X 176 to `176 + display * 128 / 8000`, at
+Y 107-115 and 135-143, without clamping. The first has a red input-color
+gradient and the second a blue one.
+
+Digit alignment uses `MainMenu_CountDecimalDigits(8000)` once, giving a
+four-digit alignment basis and a fixed right edge of X 166. The digit count
+is independently calculated from each displayed value: zero draws one digit,
+there is no leading-zero padding, and five-digit `u16` values are not
+truncated. Digits are emitted least significant/rightmost first, at
+Y 106-114 or 134-142. This differs from the fixed three-digit Trade renderer
+below.
+
+`value_setup.h` shares the draw and digit-count declarations with their
+definitions and installer. The local `ValueWidgetView` preserves only the
+accessed prefix; its callback word is tested, never called by this renderer.
+The source retains the named per-loop constants and pointer rereads that
+control old-GCC allocation. It does not modify the target/display values,
+shared choice, modes, input, save data or any currency balance.
+
 ## Card-number and type rendering
 
 `MainMenu_DrawThreeDigitNumber` (`0x80183E8C`) draws exactly three

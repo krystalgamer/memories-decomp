@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "value_setup.h"
 
 s32 MainMenu_CountDecimalDigits(s32 value)
 {

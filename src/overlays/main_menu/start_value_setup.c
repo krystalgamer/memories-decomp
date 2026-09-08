@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "entrypoints.h"
+#include "value_setup.h"
 
 extern u8 D_801AF800[];
 extern u8 *D_801845A0;
@@ -9,7 +10,6 @@ extern u8 D_801845BC[];
 extern u8 D_801845C0[];
 extern u8 *D_801845D8;
 extern void (*D_800E9DB0)(void);
-extern void func_80181728(void);
 extern void *func_8004002C(void);
 extern u8 *func_800400AC(void *, s32);
 extern void func_800404CC(void *, s32, s32, s32, s32, s32, s32, s32);
@@ -69,5 +69,5 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     *(u16 **)(state + 0x10) = second;
     *(u16 *)state = *(u16 *)(state + 2) = *first;
     *(u16 *)(state + 0xC) = *(u16 *)(state + 0xE) = *second;
-    D_800E9DB0 = func_80181728;
+    D_800E9DB0 = MainMenu_DrawValueSetup;
 }

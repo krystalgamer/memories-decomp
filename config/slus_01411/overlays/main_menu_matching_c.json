@@ -58,7 +58,7 @@
       "address": "0x80181728",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x590",
-      "source": "src/overlays/main_menu/starchip_bars.c"
+      "source": "src/overlays/main_menu/draw_value_setup.c"
     },
     {
       "address": "0x80181CB8",

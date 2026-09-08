@@ -640,8 +640,10 @@ environments, primitive records, and GPU synchronization. Representative
 migrations include `duel_setup_card_record.c`, `func_800289BC.c`,
 `file_cd_helpers.c`, `func_800582C0.c`, and
 `model_handler_registry.c`. The main-menu value-bar renderer
-`starchip_bars.c` uses native `POLY_G4` and `POLY_GT4` stack records plus
-`setlen`, replacing duplicate local packet layouts. The main-menu background
+`draw_value_setup.c` (`MainMenu_DrawValueSetup`, formerly
+`starchip_bars.c`) uses native `POLY_G4`/`POLY_GT4` stack records and
+their `setPolyG4`/`setPolyGT4` constructors. It renders the two-value editor,
+not an established starchip balance. The main-menu background
 builder `func_80180B4C` uses native `POLY_F4`, `POLY_FT4`, and `POLY_G4`
 records and their constructor macros; `func_80184454` uses `POLY_F4`.
 `MainMenu_DrawThreeDigitNumber` and `MainMenu_DrawCardTypeIcon` use

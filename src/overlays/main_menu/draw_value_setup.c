@@ -3,30 +3,29 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../game/card_constants.h"
+#include "value_setup.h"
 
 typedef struct {
     u8 pad0[8];
-    u16 f8;
+    u16 flags;
     u8 pad0A[36 - 10];
-    s32 f24;
+    s32 updateCallbackAddress;
     u8 pad28[48 - 40];
-    s16 f30;
-    s16 f32;
-} Widget;
+    s16 x;
+    s16 y;
+} ValueWidgetView;
 
-extern Widget *D_801845B0[];
+extern ValueWidgetView *D_801845B0[];
 extern u8 D_801845BC[];
 extern u16 D_801845C0[];
 extern GsOT *D_800E9D90[];
 
-extern s32 MainMenu_CountDecimalDigits(s32);
-
-void func_80181728(void)
+void MainMenu_DrawValueSetup(void)
 {
     POLY_GT4 digit;
     POLY_G4 bar;
-    Widget *w;
-    Widget *mk;
+    ValueWidgetView *w;
+    ValueWidgetView *mk;
     s32 first;
     s32 second;
     s32 x;
@@ -50,39 +49,38 @@ void func_80181728(void)
     } else {
         x = 220;
     }
-    mk->f30 = x;
-    D_801845B0[2]->f32 = 74;
+    mk->x = x;
+    D_801845B0[2]->y = 74;
 
     w = D_801845B0[0];
-    if (w->f24 != 0 || D_801845BC[0] == 2) {
-        w->f8 |= 0x40;
+    if (w->updateCallbackAddress != 0 || D_801845BC[0] == 2) {
+        w->flags |= 0x40;
         w = D_801845B0[0];
-        if (w->f24 == 0) {
-            w->f30 = first * 128 / DUEL_STARTING_LIFE_POINTS + 176;
-            D_801845B0[0]->f32 = 111;
+        if (w->updateCallbackAddress == 0) {
+            w->x = first * 128 / DUEL_STARTING_LIFE_POINTS + 176;
+            D_801845B0[0]->y = 111;
         }
     } else {
-        w->f8 &= 0xFFBF;
-        D_801845B0[0]->f30 = D_801845B0[2]->f30;
-        D_801845B0[0]->f32 = D_801845B0[2]->f32;
+        w->flags &= 0xFFBF;
+        D_801845B0[0]->x = D_801845B0[2]->x;
+        D_801845B0[0]->y = D_801845B0[2]->y;
     }
 
     w = D_801845B0[1];
-    if (w->f24 != 0 || D_801845BC[1] == 2) {
-        w->f8 |= 0x40;
+    if (w->updateCallbackAddress != 0 || D_801845BC[1] == 2) {
+        w->flags |= 0x40;
         w = D_801845B0[1];
-        if (w->f24 == 0) {
-            w->f30 = second * 128 / DUEL_STARTING_LIFE_POINTS + 176;
-            D_801845B0[1]->f32 = 139;
+        if (w->updateCallbackAddress == 0) {
+            w->x = second * 128 / DUEL_STARTING_LIFE_POINTS + 176;
+            D_801845B0[1]->y = 139;
         }
     } else {
-        w->f8 &= 0xFFBF;
-        D_801845B0[1]->f30 = D_801845B0[2]->f30;
-        D_801845B0[1]->f32 = D_801845B0[2]->f32;
+        w->flags &= 0xFFBF;
+        D_801845B0[1]->x = D_801845B0[2]->x;
+        D_801845B0[1]->y = D_801845B0[2]->y;
     }
 
-    setlen(&bar, 8);
-    bar.code = 56;
+    setPolyG4(&bar);
     bar.r0 = 64;
     bar.g0 = 32;
     bar.b0 = 32;
@@ -127,8 +125,7 @@ void func_80181728(void)
     bar.x3 = bar.x1;
     GsSortPoly(&bar, D_800E9D90[2], 2048);
 
-    setlen(&digit, 12);
-    digit.code = 60;
+    setPolyGT4(&digit);
     digit.tpage = 11;
     digit.clut = 16041;
     digit.r0 = 255;
