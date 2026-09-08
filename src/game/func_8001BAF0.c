@@ -74,6 +74,7 @@ void func_8001BAF0(void)
             *(s8 *)p = -1;
         }
     }
+
     base = gDuel_aActiveCards;
     deck = base - 0x31E0;
     hand = D_800EAE88;
@@ -114,7 +115,7 @@ next:
             {
                 s32 k;
 
-                k = D_8009B1D5 * 5;
+                k = D_8009B1D5 * HAND_SIZE;
                 id = *(u8 *)((j + k) + (s32)tbl);
             }
             spawned = slot->base;
@@ -137,4 +138,3 @@ next:
         goto next;
     }
 }
-

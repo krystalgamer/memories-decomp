@@ -36,7 +36,10 @@ s32 func_80027508(void) {
     if (func_80027228() == 0) {
         return 0;
     }
-    card = &D_801A7AD8[D_8009B1D5 * 15 + Rand_GetInterval(DUEL_FIELD_ROW_SIZE)];
+    card = &D_801A7AD8[
+        D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT +
+        Rand_GetInterval(DUEL_FIELD_ROW_SIZE)
+    ];
     if (((gDuel_adwCardStats[*(s16 *)&card->card_id - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
         s8 v;
 
