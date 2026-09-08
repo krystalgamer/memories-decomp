@@ -83,8 +83,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80011434,D_80011434,D_80011434,0x8004A27C,func_8004A27C,matching_c,game,C,src/game/func_8004A27C.c,read,32,v = D_80011434[voice];
 0x80011434,D_80011434,D_80011434,0x8004A43C,func_8004A43C,matching_c,game,C,src/game/sound_voice_setup.c,read,32,*(s32 *)(b + 0x4C0) = D_80011434[p[0]];
 0x80011434,D_80011434,D_80011434,0x8004A518,func_8004A518,matching_c,game,C,src/game/sound_voice_setup.c,address,32,tbl = D_80011434;
-0x80011434,D_80011434,D_80011434,0x8004A6F8,func_8004A6F8,matching_c,game,C,src/game/func_8004A6F8.c,read,32,ATTR(p).voice = D_80011434[index];
-0x80011434,D_80011434,D_80011434,0x8004A764,func_8004A764,matching_c,game,C,src/game/func_8004A764.c,read,32,ATTR(p).voice = D_80011434[index];
+0x80011434,D_80011434,D_80011434,0x8004A6F8,func_8004A6F8,matching_c,game,C,src/game/sound_voice_envelope.c,read,32,ATTR(p).voice = D_80011434[index];
+0x80011434,D_80011434,D_80011434,0x8004A764,func_8004A764,matching_c,game,C,src/game/sound_voice_envelope.c,read,32,ATTR(p).voice = D_80011434[index];
 0x80011434,D_80011434,D_80011434,0x8004A7C0,func_8004A7C0,matching_c,game,C,src/game/func_8004A7C0.c,address,32,item = (int *)((u8 *)D_80011434 + table_offset);
 0x80011434,D_80011434,D_80011434,0x8004AAFC,func_8004AAFC,matching_c,game,C,src/game/func_8004AAFC.c,address,32,t = D_80011434;
 0x80011434,D_80011434,D_80011434,0x8004ADE8,func_8004ADE8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03b5e8.s,address,,"addiu $t0, $t0, %lo(D_80011434) | lui $t0, %hi(D_80011434)"
@@ -2240,8 +2240,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004A2F8,func_8004A2F8,matching_c,game,C,src/game/sound_spatialization.c,read,8,"current = D_8009B458; | register u8 *state asm(""$6"") = D_8009B458; | (+1 more)"
 0x8009B458,D_8009B458,D_8009B458,0x8004A43C,func_8004A43C,matching_c,game,C,src/game/sound_voice_setup.c,read,8,*(s16 *)(D_8009B458 + 0x4D4) = v; | SpuSetVoiceAttr((SpuVoiceAttr *)(D_8009B458 + 0x4C0)); | (+2 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004A518,func_8004A518,matching_c,game,C,src/game/sound_voice_setup.c,read,8,base = D_8009B458; | r1 = D_8009B458 + o1; | (+1 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004A6F8,func_8004A6F8,matching_c,game,C,src/game/func_8004A6F8.c,read,,u8 *p = (u8 *)D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004A764,func_8004A764,matching_c,game,C,src/game/func_8004A764.c,read,,u8 *p = (u8 *)D_8009B458;
+0x8009B458,D_8009B458,D_8009B458,0x8004A6F8,func_8004A6F8,matching_c,game,C,src/game/sound_voice_envelope.c,read,,u8 *p = (u8 *)D_8009B458;
+0x8009B458,D_8009B458,D_8009B458,0x8004A764,func_8004A764,matching_c,game,C,src/game/sound_voice_envelope.c,read,,u8 *p = (u8 *)D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004A7C0,func_8004A7C0,matching_c,game,C,src/game/func_8004A7C0.c,read,,(SDSecondaryObject *)((u8 *)D_8009B458 + 0x180 + object_offset);
 0x8009B458,D_8009B458,D_8009B458,0x8004A854,func_8004A854,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,8,state = D_8009B458; | u8 *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004A8E4,func_8004A8E4,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,8,SDSecondaryState *state = (SDSecondaryState *)D_8009B458;
