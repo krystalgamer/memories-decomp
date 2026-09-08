@@ -5958,3 +5958,42 @@ The cheap cross-check, when no assertion is available, is to resolve a branch
 target by hand. `bnez v0,0x800528ec` must land on an instruction that plausibly
 begins a loop body; when three separate branches appear to jump into the middle
 of a register-restore sequence, the listing is wrong rather than the code.
+
+## An incoming-register view can break post-copy equivalence
+
+`func_8004D134` reached an exact body before its three entry instructions
+matched. A volatile signed-halfword read masked back to `0xFFFF` first kept
+case `0x20D` distinct from case `0x15` without changing the target `lhu`, and
+moving `n = count` before the mode guard put the count copy in the guard's
+delay slot. After that, every instruction following the prologue was exact.
+
+The remaining order was:
+
+```text
+target:    move t7,a0 ; sw s0,0(sp) ; move s0,a1
+candidate: sw s0,0(sp); move s0,a1  ; move t7,a0
+```
+
+Binding the saved selector to `$s0` recovered that order, but changed register
+pressure enough to park the long-lived first-field adjustment in `$s2`.
+Keeping that adjustment in the now-free `$a1`, staging its setup through
+`$v0`, and naming the adjusted halfword value restored the exact frame and
+body. One word remained because GCC still knew that `$a1` and `$s0` held the
+same pointer and folded the first selector read back to `$a1`.
+
+The exact source gives the incoming ABI register and its saved copy separate
+compiler identities:
+
+```c
+register u16 *selector asm("$16");
+register u16 *selector_source asm("$5");
+
+selector = selector_source;
+```
+
+`selector_source` is intentionally an incoming-register view rather than an
+ordinary initialized local. It emits the required `move s0,a1`, but GCC cannot
+reuse the parameter identity for the later `lhu`, so that load stays based on
+`$s0`. This is a narrow, compiler-specific boundary: use it only after source
+shape has made the body exact, record it with `--allow-register-pins`, and
+verify the complete linked bytes and relocations.
