@@ -10,8 +10,15 @@ extern u16 D_8009B220;
 extern u16 D_8009B210;
 extern s16 D_8009B22A;
 extern u8 D_8009B1D5;
-extern u8 gDuel_abLifePointRecoveryUnits[DUEL_LIFE_POINT_EFFECT_COUNT];
-extern u8 gDuel_abDirectDamageUnits[DUEL_LIFE_POINT_EFFECT_COUNT];
+/* Small data at 0x8009AF30, owned here: the recovery amounts func_800250C8
+   scales by 100 and the direct-damage amounts func_8002525C scales by 10,
+   one entry per card in each family. */
+u8 gDuel_abLifePointRecoveryUnits[DUEL_LIFE_POINT_EFFECT_COUNT] = {
+    2, 5, 10, 20, 50,
+};
+u8 gDuel_abDirectDamageUnits[DUEL_LIFE_POINT_EFFECT_COUNT] = {
+    5, 10, 20, 50, 100,
+};
 
 s32 func_8001F364(s32);
 s32 func_80025028(s32);
