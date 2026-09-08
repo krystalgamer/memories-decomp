@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8002CBF4.h"
 #include "ai.h"
 #include "card_constants.h"
 #include "duel_card.h"
@@ -10,7 +11,6 @@ extern s32 Ai_IsCardInSets(s32, s32);
 extern s32 Duel_CheckEquip(s32, s32);
 extern s32 Duel_CheckFusion(s32, s32);
 extern s32 Duel_CheckRitual(s32, s32);
-extern s32 Duel_GetBaseCardStat();
 
 void AiScript_FindEquipTarget(void)
 {
