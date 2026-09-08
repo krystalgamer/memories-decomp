@@ -22,7 +22,7 @@ void func_800178BC(void)
     SetGeomOffset(0xA0, 0x6C);
     D_800F2848.field_00 = 0x14E;
     D_800F2848.field_04 = 0x3FE;
-    D_800F2848.field_02 = D_8009AF20;
+    D_800F2848.angle = D_8009AF20;
     func_8001352C();
     GsSetLsMatrix((MATRIX *)D_800FE148);
     __asm__ volatile(

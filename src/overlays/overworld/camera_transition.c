@@ -1,15 +1,6 @@
 #include "../../types.h"
 #include "../../game/trig_constants.h"
-
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-    u8 pad6[22];
-    s32 f28;
-    u8 pad32[4];
-    s32 f36;
-} Camera;
+#include "../../game/view_state.h"
 
 typedef struct {
     u8 pad0[8];
@@ -39,7 +30,6 @@ extern u8 gCampaignMap_Location;
 extern u8 gCampaignMap_LocationPrev;
 extern s32 gCampaignMap_MoveState;
 extern s32 D_801695D4;
-extern u8 D_800F2848[];
 extern s32 D_801695CC;
 extern s32 D_801695D0;
 extern s32 D_801695DC;
@@ -58,8 +48,11 @@ extern void func_8001352C(void);
 
 void CampaignMap_StartCameraTween(s32 index, s32 steps)
 {
-    u8 *camera = D_800F2848;
-    s32 *cameraLong = (s32 *)D_800F2848;
+    ViewState *camera = &D_800F2848;
+    /* The same record through a word-sized base: retail reaches field_1C and
+       field_24 off their own register while the first one is still holding
+       the halfword fields. */
+    s32 *cameraLong = (s32 *)&D_800F2848;
     u8 *entry = gCampaignMap_aLocationTable + index * 66;
     s32 x;
     s32 y;
@@ -73,11 +66,11 @@ void CampaignMap_StartCameraTween(s32 index, s32 steps)
     s32 stepPitch;
     s32 stepDist;
 
-    x = *(s16 *)(camera + 0);
+    x = camera->field_00;
     stepX = ((*(s16 *)(entry + 6) - x) << 16) / steps;
-    y = *(s16 *)(camera + 4);
+    y = camera->field_04;
     stepY = ((*(s16 *)(entry + 2) - y) << 16) / steps;
-    angle = *(s16 *)(camera + 2);
+    angle = camera->angle;
     turn = (*(s16 *)(entry + 4) - angle) & TRIG_ANGLE_MASK;
     D_801695E4 = (angle << 16) | 0x8000;
     D_801695E8 = (y << 16) | 0x8000;
@@ -103,14 +96,14 @@ s32 CampaignMap_UpdateLocationTransition(void)
 {
     MapObject *obj;
     MapObject *marker;
-    Camera *cam;
+    ViewState *cam;
     u16 flags;
     u16 raise;
     s32 step;
     s32 timer;
     s32 quotient;
-    cam = (Camera *)D_800F2848;
-    cam = (Camera *)D_800F2848;
+    cam = &D_800F2848;
+    cam = &D_800F2848;
     flags = D_801695EC;
     if ((flags & 0x80) == 0) {
         marker = D_801695C8;
@@ -172,11 +165,11 @@ s32 CampaignMap_UpdateLocationTransition(void)
     D_80169610 = D_80169610 + D_80169614;
     D_801695CC = D_801695CC + D_801695DC;
     D_801695D0 = D_801695D0 + D_801695E0;
-    cam->y = D_801695E4 >> 16;
-    cam->z = D_801695E8 >> 16;
-    cam->x = D_80169610 >> 16;
-    cam->f28 = D_801695CC >> 16;
-    cam->f36 = D_801695D0 >> 16;
+    cam->angle = D_801695E4 >> 16;
+    cam->field_04 = D_801695E8 >> 16;
+    cam->field_00 = D_80169610 >> 16;
+    cam->field_1C = D_801695CC >> 16;
+    cam->field_24 = D_801695D0 >> 16;
     D_801695D4 = D_801695D4 - 1;
     if (D_801695D4 == 0) {
         CampaignMap_SetCameraFromLocation(gCampaignMap_Location);
