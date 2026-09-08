@@ -1,11 +1,5 @@
 #include "../types.h"
-#include "color_constants.h"
-
-typedef struct {
-    u8 r;
-    u8 g;
-    u8 b;
-} Color;
+#include "color.h"
 
 Color *func_8005ABA0(Color *out, s32 h, u16 s, u16 v, u8 lim)
 {

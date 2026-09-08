@@ -1,8 +1,7 @@
 #include "../types.h"
-#include "color_constants.h"
-
-typedef struct { u8 r, g, b; } Color;
+#include "color.h"
 extern void func_8005ABA0(Color *, s32, u32, u32, s32);
+
 s32 func_8005B054(s32 value, u32 a, u32 b)
 {
     Color color;

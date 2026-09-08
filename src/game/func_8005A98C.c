@@ -1,15 +1,7 @@
 #include "../types.h"
-#include "color_constants.h"
+#include "color.h"
 
-/* RGB to HSL-style triple: the second output is lightness from the channel
- * extrema and the third is saturation. Hue wraps at 0x6000. */
-typedef struct {
-    s32 h;
-    s16 s;
-    s16 v;
-} HsvT;
-
-HsvT *func_8005A98C(HsvT *out, s8 r, u8 g, s8 b, u8 lim) {
+HsvT *func_8005A98C(HsvT *out, u8 r, u8 g, u8 b, u8 lim) {
     u8 c[3];
     HsvT t;
     u8 x;

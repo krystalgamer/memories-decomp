@@ -1,15 +1,5 @@
 #include "../types.h"
-#include "color_constants.h"
-
-typedef struct {
-    s32 h;
-    u16 s;
-    u16 v;
-} HsvT;
-
-typedef struct {
-    u8 r, g, b;
-} Color;
+#include "color.h"
 
 extern void func_8005A98C(HsvT *, u8, u8, u8, u8);
 extern void func_8005ABA0(Color *, s32, u32, u32, s32);
@@ -21,9 +11,6 @@ Color *func_8005B0B4(Color *out, u8 r, u8 g, u8 b, s32 flags, u16 scale, u8 lim)
     s32 inv;
     s32 flat;
     u8 k;
-    u8 tr;
-    u8 tg;
-    u8 tb;
 
     inv = flags & COLOR_TINT_INVERT;
     idx = flags & COLOR_TINT_HUE_MASK;
@@ -53,21 +40,9 @@ Color *func_8005B0B4(Color *out, u8 r, u8 g, u8 b, s32 flags, u16 scale, u8 lim)
         c.b = lim - c.b;
     }
 
-    tr = c.r;
-    if (tr == 0) {
-        tr = 1;
-    }
-    c.r = tr;
-    tg = c.g;
-    if (tg == 0) {
-        tg = 1;
-    }
-    c.g = tg;
-    tb = c.b;
-    if (tb == 0) {
-        tb = 1;
-    }
-    c.b = tb;
+    c.r = c.r ? c.r : 1;
+    c.g = c.g ? c.g : 1;
+    c.b = c.b ? c.b : 1;
 
     *out = c;
     return out;

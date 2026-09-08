@@ -1,17 +1,5 @@
 #include "../types.h"
-#include "color_constants.h"
-
-typedef struct {
-    u8 r;
-    u8 g;
-    u8 b;
-} Color;
-
-typedef struct {
-    s32 h;
-    u16 s;
-    u16 v;
-} HsvT;
+#include "color.h"
 
 extern HsvT *func_8005A98C(HsvT *, s8, u8, s8, u8);
 extern Color *func_8005ABA0(Color *, s32, u16, u16, u8);
