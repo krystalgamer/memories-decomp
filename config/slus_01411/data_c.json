@@ -36,6 +36,10 @@
     {
       "source": "src/game/main_modes.c",
       "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/movie_stream_ranges.c",
+      "profile": "gcc_2_8_1_g0"
     }
   ]
 }

@@ -1,12 +1,7 @@
 #include "../types.h"
 #include "file_constants.h"
+#include "movie_stream_ranges.h"
 
-typedef struct MovieStreamRange {
-    u16 sector_count;
-    u16 end_frame;
-} MovieStreamRange;
-
-extern MovieStreamRange gMovie_aStreamRanges[13];
 extern s32 D_800E9EB4;
 extern u8 D_800F5750[];
 
