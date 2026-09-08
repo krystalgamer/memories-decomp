@@ -26,6 +26,9 @@ typedef struct {
     u8 pad10[4];
     u8 return_depth;
     u8 pad15[3];
+    /* func_80070DA8 pops `script_cursor = return_stack[--return_depth]` and
+     * prints "ERROR:Can't Return From Routine" when the depth is already
+     * zero. */
     u8 *return_stack[AI_SCRIPT_RETURN_STACK_COUNT];
     u8 combo_cards[AI_SCRIPT_COMBO_CARD_COUNT];
     u16 card_set[AI_SCRIPT_CARD_SET_COUNT];

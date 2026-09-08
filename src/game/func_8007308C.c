@@ -1,37 +1,12 @@
 #include "../types.h"
+#include "ai.h"
 #include "ai_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 
-typedef struct {
-    u8 unk0[4];
-    u8 *base;   /* +4 */
-    u8 *cursor; /* +8 */
-    u8 unkC[8];
-    /* Return-address stack for nested routines: func_80070DA8 pops
-     * cursor = stack[--depth] and prints "ERROR:Can't Return From Routine"
-     * when depth is already zero. */
-    u8 depth;   /* +0x14 */
-    u8 unk15[3];
-    u8 *stack[AI_SCRIPT_RETURN_STACK_COUNT];  /* +0x18 */
-} ByteReader;
-
-typedef char ByteReader_prefix_size_must_be_0x38[
-    sizeof(ByteReader) == AI_SCRIPT_COMBO_BYTE_OFFSET ? 1 : -1
-];
-
-typedef struct {
-    s16 unk0;
-    u8 unk2[4];
-    u16 unk6;
-    s8 unk8;
-    u8 unk9[3];
-} Rec12;
-
 extern s32 gAiScript_aMemory[];
-extern ByteReader gAiScript_State[];
+extern AiScriptState gAiScript_State[];
 extern u16 gAi_wBestDifference[];
-extern Rec12 gDuel_aActiveCards[];
 
 s32 AiScript_ReadByte(void);
 
