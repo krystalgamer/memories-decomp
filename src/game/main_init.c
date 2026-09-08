@@ -5,6 +5,7 @@
 #include "../psyq/libetc.h"
 #include "../psyq/setjmp.h"
 #include "../psyq/rand.h"
+#include "file_transfer.h"
 #include "rand_constants.h"
 
 extern volatile u32 D_8009B0CC;
@@ -39,7 +40,6 @@ extern void Sound_InitFrontend(void);
 extern void Main_ResetFrontendRuntime(void);
 extern void func_80043960(s32);
 extern void func_8005B85C(void);
-extern void func_800137E4(void);
 extern s32 func_80043BCC(void);
 extern void func_8002D458(s32);
 extern void Main_Loop(void);
@@ -92,7 +92,7 @@ s32 Main_Init(void)
     Main_ResetFrontendRuntime();
     if (r != 0) {
         func_8005B85C();
-        func_800137E4();
+        File_WaitForTransfers();
     }
     func_8002D458(func_80043BCC());
     D_8009B269 = 8;

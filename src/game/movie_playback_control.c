@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_transfer.h"
 #include "input.h"
 
 extern u16 gInput_wPad1Pressed[];
@@ -12,7 +13,6 @@ extern u32 D_8009B0F4_array[] asm("D_8009B0F4");
 extern u32 Base2_8009B0F4[];
 extern u8 D_8009B318;
 
-extern void func_800137E4(void);
 extern void func_80044F58(s32);
 extern void func_8005C388(s32, s32, s32, s32, s32);
 extern s32 func_8005C530(void);
@@ -20,7 +20,7 @@ extern void func_8005C5C4(void);
 
 void func_8003594C(s32 arg0)
 {
-    func_800137E4();
+    File_WaitForTransfers();
     func_80044F58(0xFF);
     D_8009B318 = 0x80;
     D_8009B0F4 |= 0x2000000;

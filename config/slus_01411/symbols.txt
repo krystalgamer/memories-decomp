@@ -820,3 +820,5 @@ SD_UpdateRuntime = 0x80045F3C; // type:func
 Graphics_SyncFrame = 0x80012DB4; // type:func
 Graphics_BeginFrame = 0x80012E5C; // type:func
 gGraphics_DispEnv = 0x800E9D28;
+File_WaitForTransfers = 0x800137E4; // type:func
+File_InitTransferState = 0x80013898; // type:func

@@ -8,7 +8,6 @@ extern u8 gFile_szModelMrgPath[];
 extern u8 D_80091008[];
 
 void SD_KeyOffVoiceSlots(void);
-void func_800137E4(void);
 void func_8004CB0C(s32 slot, s32 arg1, s32 arg2, s32 arg3);
 void func_800577B0(void);
 void func_80056D7C(void);
@@ -52,7 +51,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
     if (flags == 0) {
         SD_KeyOffVoiceSlots();
     }
-    func_800137E4();
+    File_WaitForTransfers();
     func_8004CB0C(slot, 0, 0, arg6);
     /* +0xE1D, which model.h still covers with pad_E1C. */
     D_800F2C40[slot].pad_E1C[1] = flags;

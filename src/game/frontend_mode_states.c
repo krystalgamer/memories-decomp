@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_transfer.h"
 
 extern u8 D_8009B2EB;
 extern u16 gDebug_nSceneOrSoundID;
@@ -15,7 +16,6 @@ extern int DuelEffect_UpdateState(void);
 extern void func_8003594C(int);
 extern int func_8003FCD8(void);
 extern void func_8005B85C(void);
-extern void func_800137E4(void);
 extern void func_80024DC8(int, int, int, int);
 extern void func_80033C90(void);
 
@@ -100,7 +100,7 @@ void func_80030EC8(void)
     if (result != 0) {
         if (result == 1) {
             func_8005B85C();
-            func_800137E4();
+            File_WaitForTransfers();
             D_8009B26C[0] = 14;
         }
         D_8009B2EB = 0;

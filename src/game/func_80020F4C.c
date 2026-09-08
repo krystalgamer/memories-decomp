@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "display_object_api.h"
-#include "file_constants.h"
 #include "display_object_helpers.h"
+#include "file_transfer.h"
 
 /* Duel-result outro sequence, driven from the scene state word D_8009B23A.
 
@@ -72,7 +72,6 @@ typedef struct {
 
 extern void SD_BGMFadeOut(void);
 extern void SD_BGMPlay(u32);
-extern void File_RequestAsyncTransfer(s32, s32, s32, s32, void *, s32, s32);
 extern void func_800472A8(s32);
 extern u32 func_8004703C(void);
 extern s32 func_80042B40(s32);

@@ -63,7 +63,7 @@ void func_80024E58(void) {
                 gDuel_bTerrain[0] * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT +
                     DUEL_TERRAIN_EFFECT_DATA_FIRST_SECTOR,
                 DUEL_TERRAIN_EFFECT_DATA_SECTOR_COUNT,
-                (u8 *)0, 0, 0x1000280);
+                (FileTransferCallback)0, 0, 0x1000280);
         }
         return;
     }

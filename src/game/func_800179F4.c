@@ -37,7 +37,6 @@ extern u8 *D_8009B1DC;
 extern void func_8004763C(void);
 extern void func_80047AD0(s32);
 extern void func_80012D84(s32);
-extern void func_800137E4(void);
 extern void Duel_LoadPackageStage(void);
 extern void func_8001778C(void);
 extern void func_80017708(void);
@@ -74,14 +73,14 @@ void func_800179F4(void)
     func_8004763C();
     func_80047AD0(1);
     func_80012D84(4);
-    func_800137E4();
+    File_WaitForTransfers();
     value = gDuel_bTerrain;
     File_RequestAsyncTransfer(
         0, 0,
         (((value * 15) * 4 - value) * 4 - value) +
             DUEL_TERRAIN_PACKAGE_FIRST_SECTOR,
         DUEL_TERRAIN_PACKAGE_SECTOR_COUNT, Duel_LoadPackageStage, 0, 0);
-    func_800137E4();
+    File_WaitForTransfers();
     D_8009B238 = -1;
     D_8009B23A = 11;
     gDuel_bQuitDialogState = 0;
@@ -124,7 +123,7 @@ void func_800179F4(void)
     *(s16 *)(pane + 110) = 254;
     func_80035668(0);
     func_8001755C();
-    func_800137E4();
+    File_WaitForTransfers();
     D_8009B22C = &D_800907D8[D_8009B1D5 * 20];
     obj = func_800400AC(func_8004002C(), 2);
     func_800404CC(obj, 12, 24, 4, 2, gDuel_bTerrain, 11, 732);

@@ -112,10 +112,12 @@ Observed fields in each `0x48`-byte descriptor are:
 | `+0x46` | 8-bit | Transfer state |
 | `+0x47` | 8-bit | Transfer substate |
 
-The shared `FileTransferDescriptor` explicitly exposes `substate` at `+0x47`;
-it is not unused tail padding. The private initializer clears that byte, and
-the completion alias `D_800E9EA7[0]` addresses the same byte of the primary
-descriptor. The existing partial field names and local views remain intact.
+The shared `FileTransferDescriptor` in `src/ygo_types.h` explicitly exposes
+the complete measured layout, including `substate` at `+0x47`; it is not
+unused tail padding. The private initializer clears that byte, and the
+completion alias `D_800E9EA7[0]` addresses the same byte of the primary
+descriptor. The stream initializer and range-request setup consume that same
+type rather than re-deriving local partial structures.
 
 Type-free constants in `file_constants.h` name the status-flags, state, and
 substate byte offsets (`+0x2C`, `+0x46`, and `+0x47`), with assertions against
@@ -192,8 +194,7 @@ optional direct destination.
 `func_8001455C` services the CD transfer. `func_80013C28` consumes one sector
 at a time through the `CdGetSector`-like function at `0x8007E3D0`, advances
 the destination by `0x800`, and invokes the phase callback when the phase byte
-count reaches zero. `func_800137E4` is the synchronous wait used by many
-callers.
+count reaches zero. `File_WaitForTransfers` is the synchronous wait used by many callers.
 
 ## Shared high-memory table
 

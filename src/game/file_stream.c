@@ -4,44 +4,12 @@
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
 
-typedef struct {
-    u8 pad00[4];
-    u16 width;
-    u16 height;
-    s32 field_08;
-    s32 field_0C;
-    volatile s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    u8 pad28[4];
-    u32 flags;
-    u16 x;
-    u16 y;
-    s32 field_34;
-    u8 pad38[8];
-    s32 field_40;
-    u16 field_44;
-    u8 state;
-    u8 substate;
-} FileTransfer;
-
-typedef char FileTransfer_size_must_match_transfer_descriptor[
-    sizeof(FileTransfer) == sizeof(FileTransferDescriptor) ? 1 : -1
-];
-typedef char FileTransfer_default_image_must_fill_sector[
-    FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH * FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT *
-        sizeof(u16) == FILE_SECTOR_SIZE ? 1 : -1
-];
-
 extern u8 D_8009B108;
 extern s32 D_8009B0E8;
 extern s32 D_8009B0F0;
 extern u32 D_8009B0F4;
 extern s32 D_8009B0FC;
-extern s32 D_8009B10C;
+extern void (*D_8009B10C)(void);
 extern u8 D_8009B110;
 extern u16 D_8009B112;
 extern s32 D_8009B118;
@@ -50,13 +18,13 @@ extern u16 D_8009B124;
 extern s32 D_8009B12C;
 extern s32 D_8009B130;
 extern s32 D_8009B134;
-extern FileTransfer gFile_SecondaryTransferDescriptor;
+extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 extern s32 gFile_anLba[];
 
 extern s32 func_8007AFA4(void);
 extern s32 CdPosToInt_8007E710(const CdlLOC *);
 
-void func_80013898(s32 value)
+void File_InitTransferState(s32 value)
 {
     D_8009B118 = value;
     D_8009B110 = 0;
@@ -86,75 +54,75 @@ void File_GetPosition(s32 *output, const char *path)
 }
 
 void func_80013940(
-    FileTransfer *transfer,
+    FileTransferDescriptor *transfer,
     s32 file_index,
     s32 sector_offset,
     s32 vertical
 )
 {
-    transfer->field_10 = vertical;
+    transfer->total_bytes = vertical;
     file_index &= FILE_TRANSFER_FILE_INDEX_MASK;
     if (vertical < 0)
-        transfer->field_10 = -(vertical << FILE_SECTOR_SHIFT);
+        transfer->total_bytes = -(vertical << FILE_SECTOR_SHIFT);
 
     if (sector_offset < 0) {
-        transfer->field_14 = 0;
-        transfer->field_24 = -sector_offset;
+        transfer->file_bytes = 0;
+        transfer->absolute_lba = -sector_offset;
     } else {
         register volatile s32 *lbas = gFile_anLba;
 
-        transfer->field_14 = sector_offset << FILE_SECTOR_SHIFT;
-        transfer->field_24 = lbas[file_index] + sector_offset;
+        transfer->file_bytes = sector_offset << FILE_SECTOR_SHIFT;
+        transfer->absolute_lba = lbas[file_index] + sector_offset;
     }
 }
 
-FileTransfer *File_InitTransferDescriptor(
-    FileTransfer *transfer,
+FileTransferDescriptor *File_InitTransferDescriptor(
+    FileTransferDescriptor *transfer,
     s32 flags,
-    s32 field_18,
+    u8 *source,
     s32 sector,
     s32 vertical,
-    s32 field_20,
+    FileTransferCallback callback,
     s32 field_40,
     s32 length
 )
 {
-    transfer->field_18 = field_18;
+    transfer->loader_argument = source;
     func_80013940(transfer, flags, sector, -vertical);
-    transfer->state = 1;
+    transfer->done = 1;
     transfer->substate = 0;
-    transfer->field_44 = 0;
-    transfer->field_1C = 0;
-    transfer->field_20 = field_20;
-    transfer->field_40 = field_40;
+    transfer->buffer_index = 0;
+    transfer->mode = 0;
+    transfer->phase_callback = callback;
+    transfer->result = field_40;
     if (length) {
         if (flags & 0x1000000) {
-            transfer->field_34 = length;
+            transfer->direct_destination = length;
         } else {
-            transfer->field_1C = transfer->field_10;
+            transfer->mode = transfer->total_bytes;
             if (length < 0) {
-                transfer->state = 1;
-                transfer->field_0C = length;
-                transfer->field_08 = length;
+                transfer->done = 1;
+                transfer->value_0C = length;
+                transfer->value_08 = length;
             } else {
                 flags |= 0x10000;
-                transfer->state = 2;
-                transfer->y = ((u32)length) >> 16;
-                transfer->x = length;
-                transfer->width = FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH;
-                transfer->height = FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT;
-                transfer->field_08 = D_8009B118;
-                transfer->field_0C = D_8009B118 + FILE_SECTOR_SIZE;
+                transfer->done = 2;
+                transfer->field_32 = ((u32)length) >> 16;
+                transfer->counter = length;
+                transfer->w = FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH;
+                transfer->h = FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT;
+                transfer->value_08 = D_8009B118;
+                transfer->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
             }
         }
     }
-    transfer->flags = flags;
+    transfer->status_flags = flags;
     return transfer;
 }
 
-FileTransfer *func_80013A94(s32 file_index, s32 sector_offset)
+FileTransferDescriptor *func_80013A94(s32 file_index, s32 sector_offset)
 {
-    FileTransfer *transfer;
+    FileTransferDescriptor *transfer;
 
     if (D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING)
         return 0;
@@ -162,8 +130,8 @@ FileTransfer *func_80013A94(s32 file_index, s32 sector_offset)
     transfer = &gFile_SecondaryTransferDescriptor;
     func_80013940(transfer, file_index & FILE_TRANSFER_FILE_INDEX_MASK,
                   sector_offset, 0);
-    transfer->state = 0;
-    transfer->flags = 0x00100000;
+    transfer->done = 0;
+    transfer->status_flags = 0x00100000;
     D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return transfer;
 }

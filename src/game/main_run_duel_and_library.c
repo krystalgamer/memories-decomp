@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_transfer.h"
 
 extern u8 D_8009B26C, D_8009B26E;
 extern u8 D_8009B369[9], D_8009B2F8[9], D_8009B0A3[9];
@@ -14,7 +15,6 @@ extern int func_80033BE8(void);
 extern void Main_ResetFrontendRuntime(void), func_800179F4(void),
     func_80024388(void);
 extern void func_80047AD0(int), func_800134B4(void), func_80012D84(int);
-extern void func_800137E4(void);
 
 void Main_RunDuel(void)
 {
@@ -67,7 +67,7 @@ void Main_RunDuel(void)
         func_800134B4();
         D_8009B0A3[0] = 6;
         func_80012D84(4);
-        func_800137E4();
+        File_WaitForTransfers();
         next = D_8009B368[0];
         __asm__ volatile("nop");
         D_8009B26C = next;
@@ -81,4 +81,4 @@ void Main_RunDuel(void)
 extern unsigned char D_8009B0C0[];
 extern void func_8002BFCC(void),func_8002BAB4(void),func_8004763C(void);
 
-void Main_RunLibraryMenu(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8002BFCC();func_80015A00();}else{func_8002BAB4();if((D_8009B26C&0x40)==0){D_8009B0C0[0]=0;SD_BGMFadeOut();Fade_WaitOut();func_800134B4();func_8004763C();func_80047AD0(2);func_80012D84(4);func_800137E4();}}}
+void Main_RunLibraryMenu(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8002BFCC();func_80015A00();}else{func_8002BAB4();if((D_8009B26C&0x40)==0){D_8009B0C0[0]=0;SD_BGMFadeOut();Fade_WaitOut();func_800134B4();func_8004763C();func_80047AD0(2);func_80012D84(4);File_WaitForTransfers();}}}

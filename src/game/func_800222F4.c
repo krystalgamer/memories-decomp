@@ -2,6 +2,7 @@
 #include "input.h"
 #include "duel_card.h"
 #include "display_object_api.h"
+#include "file_transfer.h"
 
 extern volatile u16 gInput_wPad1Held __attribute__((section(".data")));
 extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
@@ -21,7 +22,6 @@ extern DuelCardRecord D_801A7B80[];
 extern void func_800220B8(void);
 extern void func_80029528(s32);
 extern void func_80029164(s32, s32);
-extern void func_800137E4(void);
 extern u8 *func_800291E0(s32, s32, s32);
 extern void func_80012D84(s32);
 extern void func_8001944C(u8 *);
@@ -63,7 +63,7 @@ void func_800222F4(void) {
             break;
         case 1:
             func_80029164(0, 1);
-            func_800137E4();
+            File_WaitForTransfers();
             obj = func_800291E0(0, -1, -1);
             *(s16 *)(obj + 0x30) = 0x5A;
             *(s16 *)(obj + 0x32) = 0x16;

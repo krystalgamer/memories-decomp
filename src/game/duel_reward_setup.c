@@ -4,13 +4,12 @@
 
 extern s16 gDuel_awRecentCardDrops[];
 
-extern void func_800137E4(void);
 extern void func_80032184(void);
 
 void func_80032328(void)
 {
     File_RequestAsyncTransfer(0, 0, 0x2189, 0x4C, func_80032184, 0, 0);
-    func_800137E4();
+    File_WaitForTransfers();
 }
 
 void func_80032370(void)

@@ -1,17 +1,13 @@
 #include "../types.h"
-#include "file_constants.h"
+#include "file_transfer.h"
 
 extern u8 gLibrary_aCardArtRecord[];
-extern s32 D_8009B10C;
+extern void (*D_8009B10C)(void);
 extern u8 D_800E9DF0[];
 extern u8 D_8009B0E0;
 extern s32 gFile_anLba[];
 extern u8 *gFile_apszName[];
 extern u8 D_80010038[4];
-
-extern void func_80013898(s32);
-extern void func_800137E4(void);
-extern void File_GetPosition(s32 *, s32);
 
 void File_SetPositionTable(void)
 {
@@ -21,9 +17,9 @@ void File_SetPositionTable(void)
     s32 i;
     u8 *state;
 
-    func_80013898((s32)gLibrary_aCardArtRecord);
+    File_InitTransferState((s32)gLibrary_aCardArtRecord);
 
-    D_8009B10C = (s32)func_800137E4;
+    D_8009B10C = File_WaitForTransfers;
     state = D_800E9DF0;
     *(s16 *)(state + 4) = 0x120;
     *(s16 *)(state + 6) = 0xD0;
@@ -40,7 +36,7 @@ void File_SetPositionTable(void)
         if (current == (u8 *)0) {
             break;
         }
-        File_GetPosition(position, (s32)current);
+        File_GetPosition(position, (const char *)current);
         printf(D_80010038, current, *position);
         position++;
         name++;

@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "file_constants.h"
+#include "file_transfer.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
@@ -20,10 +20,8 @@ extern s32 D_80010000 __attribute__((section(".data")));
 extern RECT D_800E9D70[];
 extern Slot D_800EAE98[];
 
-extern void File_RequestAsyncTransfer(s32, s32, s32, s32, void *, s32, s32);
 extern void func_8002FB78(void);
 extern void func_80039E9C(void);
-extern void func_800137E4(void);
 extern void *func_8002E3FC(void);
 
 /* Loads the fixed scene presentation/event package. The argument initializes
@@ -67,7 +65,7 @@ void func_8002FD10(s16 arg0)
         slot[i].unk00 = 0;
         slot[i].unk04 = 0;
     }
-    func_800137E4();
+    File_WaitForTransfers();
 
     while (IsIdleGPU(10)) {
         ;

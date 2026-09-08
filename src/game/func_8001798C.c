@@ -4,7 +4,6 @@
 
 extern u8 gDuel_bTerrain[9];
 extern void Duel_LoadPackageStage(void);
-extern void func_800137E4(void);
 
 void func_8001798C(void)
 {
@@ -14,5 +13,5 @@ void func_8001798C(void)
     File_RequestAsyncTransfer(
         0, 0, index, DUEL_TERRAIN_PACKAGE_SECTOR_COUNT,
         Duel_LoadPackageStage, 0, 0);
-    func_800137E4();
+    File_WaitForTransfers();
 }
