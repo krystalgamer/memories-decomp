@@ -1,15 +1,8 @@
 #include "../types.h"
+#include "view_state.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-
-typedef struct {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    u8 pad_06[8];
-    s16 fE;
-} Obj;
 
 /* SXY2 as written back by swc2 $14: screen x in the low half, screen y in the
    high half. */
@@ -18,7 +11,6 @@ typedef struct {
     s16 y;
 } Projected;
 
-extern Obj D_800F2848;
 extern u16 D_8009AF20;
 extern s16 D_8009B200;
 extern s16 D_8009B202;
@@ -32,11 +24,11 @@ void func_800178BC(void)
     s32 y;
 
     func_80017130();
-    SetGeomScreen(D_800F2848.fE);
+    SetGeomScreen(D_800F2848.projection);
     SetGeomOffset(0xA0, 0x6C);
-    D_800F2848.f0 = 0x14E;
-    D_800F2848.f4 = 0x3FE;
-    D_800F2848.f2 = D_8009AF20;
+    D_800F2848.field_00 = 0x14E;
+    D_800F2848.field_04 = 0x3FE;
+    D_800F2848.field_02 = D_8009AF20;
     func_8001352C();
     GsSetLsMatrix((MATRIX *)D_800FE148);
     __asm__ volatile(
