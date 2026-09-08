@@ -6068,3 +6068,71 @@ reuse the parameter identity for the later `lhu`, so that load stays based on
 `$s0`. This is a narrow, compiler-specific boundary: use it only after source
 shape has made the body exact, record it with `--allow-register-pins`, and
 verify the complete linked bytes and relocations.
+## Combine deletes a copy whose source is a single-use pseudo dying at it
+
+`func_800528AC` was one `addu` short for several sessions. The missing
+instruction was retail's `move $s5,$v0`, the initialiser of the loop's general
+induction variable, and the search for it went through eight source spellings,
+thirty compiler profiles, `-fforce-addr`, declaration order and statement order
+without moving. All of that was aimed at the wrong pass.
+
+An RTL dump settles what is happening in one command. The loop optimiser **does**
+emit the copy:
+
+```
+Insn 32: giv reg 95 src reg 80 ... replaceable mult 24 add (reg/v:SI 96)
+(insn 525 (set (reg:SI 258) (reg/v:SI 96)))
+```
+
+By `.combine` it has become
+`(set (reg:SI 258) (lo_sum:SI (reg:SI 97) (symbol_ref "D_800F2B50")))`. The base
+pointer is defined once and dies at its only use, which is exactly the two-insn
+pattern the combiner collapses: it substitutes the definition into the use, and
+the copy is gone before allocation runs.
+
+**So the instruction was never missing from expansion. It was being folded away
+afterwards.** The lever is therefore not how the address is spelled but whether
+the pseudo holding it has a **second live use in the same basic block**.
+
+### What counts as a live use
+
+Three kinds do not, and each was measured:
+
+- **A use inside the loop** is satisfied by rematerialising the address, which is
+  two cheap instructions against holding a register across the calls, so the
+  original pseudo still has one use.
+- **A use after the loop** is rematerialised for the same reason.
+- **A dead use** is deleted by flow before the combiner runs. Adding
+  `sv = (s32)table;` to twelve variants changed the output of none of them.
+
+The un-reduced giv computation is a live-looking reference that also does not
+count: strength reduction rewrites the uses to the reduced register, the original
+becomes dead, and flow removes it. Counting *references* in a dump therefore
+misleads; only uses that survive to the combiner matter.
+
+### What worked, and why it was free
+
+Hoisting the loop-invariant part of an expression the function already computes:
+
+```c
+base1 = (u8 *)table + 1;
+    ...
+    D_8009AF9C = (s32)(base1 + off);
+```
+
+`base1`'s initialiser is a second live use of the base pseudo in the same block,
+so the definition can no longer be substituted away and the copy survives. It
+costs nothing, because GCC rematerialises the in-loop reference exactly as retail
+does - the hoisted expression pays for itself. The candidate went from 287 of 288
+instructions at opcode distance 1 to **288 of 288 at distance 0**, with retail's
+instruction sequence exactly.
+
+### The general rule
+
+When a build is short one register-to-register move, check whether the compiler
+emitted it and something later removed it, before concluding it was never
+generated. `-dL`, `-dc`, `-dl` and `-dg` dump the RTL after loop, combine, local
+allocation and global allocation; comparing the **contents** of the relevant insn
+across those dumps names the responsible pass directly. Comparing only whether an
+insn number still exists is not the same question and gave the wrong answer here
+first time round.
