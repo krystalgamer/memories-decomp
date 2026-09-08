@@ -5012,6 +5012,46 @@ single-use pseudo at combine time; assigning it at the top of the function was
 enough there. Worth trying whenever a candidate is exactly one instruction
 short at a negative-displacement global access.
 
+## Constant materialisations have no position, and that bounds two near misses
+
+The two closest unmatched functions in the tree bottom out on the same
+mechanism, which is worth naming as a class rather than rediscovering per
+function.
+
+`func_800283F4` sits at 2 differing words: `li a0,3` and `li s0,-1024` trade
+the branch delay slot for the call delay slot. `func_80012E5C` sits at 5, and
+its whole residue is that retail's loop body begins with `move a0,zero` /
+`move a1,a0` while the candidate's begins with the index computation. Both are
+*argument setup made of constants*, and in both cases every source-level
+placement has been measured and is byte-identical to the baseline.
+
+The mechanism is the one established on `func_80028B08`: **a value the compiler
+rematerialises has no position in the output to move.** GCC constant-propagates
+these values to their uses, so there is no assignment instruction anywhere for
+a source reordering to relocate, and `reorg` sees whatever order the
+propagation left. That explains three separate observations that were recorded
+as unrelated negatives:
+
+- binding the constant to a local, on either function, is constant-propagated
+  away and changes nothing;
+- pinning the local to the wanted register does not help either, because the
+  pin constrains allocation and the problem is emission;
+- every ordering of the surrounding statements is *exactly* inert, not merely
+  unhelpful, which is what the intra-block ordering rule predicts for
+  independent computation with no memory operation between the two.
+
+**The practical consequence is a stopping rule.** When the residual reduces to
+the relative order of two constant materialisations, and neither participates
+in a memory dependence, the position is not expressible in C. Record it and
+move on rather than enumerating placements: the search space looks large -
+before the store, after it, before the call, after the call, in the enclosing
+block - and is actually empty.
+
+Reaching such a residual would need a *dependence* introduced between the two
+constants, and C offers no way to make one constant depend on another that
+survives constant folding. That is a stronger claim than "we tried the
+orderings", and it is why both entries are now bounded rather than open.
+
 ## A "scheduling" window around a load is often allocation
 
 When a candidate differs only in the order of a few instructions and one of
