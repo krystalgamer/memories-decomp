@@ -5085,6 +5085,54 @@ constants, and C offers no way to make one constant depend on another that
 survives constant folding. That is a stronger claim than "we tried the
 orderings", and it is why both entries are now bounded rather than open.
 
+## Pin the neighbour, not the variable whose register you can see
+
+`func_8002EE94` was stuck two words from a match with retail carrying
+`lui $v0,%hi` in a branch delay slot and completing `addiu $s0,$v0,%lo` sixty
+instructions later, where the candidate used `$s0` for both. The candidate
+pinned `box` to `$16` because that is the register retail plainly holds it in,
+and the pin fixed thirty-odd other positions, so it looked settled.
+
+The pin was the obstacle. Told the destination is `$16`, GCC materialises the
+address straight into `$16`; retail's compiler had no such instruction and
+reused the register the branch condition had just freed. **Unpinning `box` and
+pinning its neighbour `obj` to `$17` instead** gives both: `box` still lands in
+`$16`, and the `%hi` goes to `$v0`. That was the whole remaining residual, and
+the function matches.
+
+The general form is worth stating because the wrong move is the intuitive one.
+A pin is evidence about *where a value ends up*, not about *how it gets there*,
+and pinning the variable you can see in the target forecloses the second. When
+a pinned variable's address or initial value materialises directly into its pin
+and retail routes it through a temporary, try removing that pin and constraining
+an adjacent variable so the allocator is pushed to the same assignment from the
+other side.
+
+Unpinning alone is not the answer either: with both unpinned the two swap, and
+`box` takes `$17` while `obj` takes `$16`, for 33 differing words. It is the
+*exchange* of which end is pinned that matters.
+
+Two further results from the same function, both about store forwarding:
+
+- The coordinate stores and their read-backs must be in **array-subscript
+  form** with an unrelated global's store moved **below** them. Either alone is
+  nearly worthless - the store move on its own costs 166 - and together they
+  remove the forwarding that replaces retail's `lh` with a `move`. Combinations
+  of two individually poor shapes are worth trying when each is cheap.
+- The remaining `or $s0,$t0,$a2` against `or $s0,$s0,$a2` needs the loaded byte
+  pinned to `$8`. A plain local does not stop GCC coalescing a load's
+  destination with the destination of the operation consuming it.
+
+### `try.py`'s `RELOC-ONLY` is not a byte-exact body
+
+On this function `try.py` reported `RELOC-ONLY`, which reads as "the body is
+exact and only relocations differ", and `make match` then failed at the first
+differing word. `try.py` masks relocated words entirely, so a *register*
+difference inside a `lui`/`addiu` pair is invisible to it - which its own
+docstring says, and which `lines.py` was written to fix. `lines.py` reported 2
+and was correct. Where a residual could be a register in a relocated
+instruction, the positional count is the authority.
+
 ## A "scheduling" window around a load is often allocation
 
 When a candidate differs only in the order of a few instructions and one of
