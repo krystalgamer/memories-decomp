@@ -4,6 +4,9 @@
 
 extern s16 D_800EFE3C[];
 extern s32 D_800E9D90[];
+/* One argument on purpose: func_80041D60 takes three, and reads the
+ * second and third on its cooldown path without assigning them. The
+ * retail image calls it this way; see that file. */
 extern void func_80041D60(u8 *);
 extern void func_8004158C(u8 *, s32, s32);
 

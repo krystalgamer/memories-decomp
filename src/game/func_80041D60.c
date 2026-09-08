@@ -12,6 +12,17 @@
    decrements it by D_8009B0D8 and fires func_80041C8C once it reaches
    zero or below.
 
+   arg1 and arg2 are read, not just written. The first-time path assigns
+   both before jumping to the call, but the cooldown path falls into the
+   same call with neither assigned, so on that path they are whatever the
+   caller left in $a1 and $a2. Both callers pass one argument, so on the
+   cooldown path func_80041C8C receives two values the caller never
+   supplied. That is what the retail image does. Declaring the real
+   three-argument prototype at either call site makes the call a
+   constraint violation, and passing arguments to satisfy it adds the
+   register setup and breaks the match, so both callers keep their
+   one-argument declarations on purpose.
+
    The three chain steps use separately-named pointer/offset locals
    (p1/off1, p2/off2, p3/off3) rather than one reused pair -- reusing a
    single pair compiles to the same logic but gcc allocates a spare
