@@ -659,14 +659,16 @@ hand-input branch of `func_8001BD88` accepts Cross or Square (`pressed &
 by another. Multiple numbered cards are **combined in order** (§5.4).
 L2/R2 show the field before choosing.
 
-Then the placement choices, in order:
+The remaining choices are card-dependent, not one universal zone-first
+sequence. Ordinary face-up Magic and Ritual use can bypass zone selection
+(§5.5). Where applicable, the controls include:
 
 * which **zone** — an empty zone of the right row, or **on top of a card
   already on your field** (which is another way to combine: the played card
   is fused with, equipped to, or replaces the one it lands on);
 * **face-up or face-down**;
-* **attack or defence** position (L1/R1 toggle; attack is upright, defence is
-  sideways);
+* for a monster, **attack or defence** position (L1/R1 toggle; attack is
+  upright, defence is sideways);
 * for a monster, **which of its two guardian stars** to use for as long as it
   stays on the field.
 
@@ -723,9 +725,33 @@ not allowed — the zone choice only offers legal rows.
 
 ### 5.5 Magic cards
 
-Magic cards are played into the magic/trap row (face-up or face-down) and
-**activated** later from there by selecting them, on your turn. The game does
-not read the card's text; it reads its **number**: a placement state machine
+Magic cards need not first wait on the field for a second selection. In the
+normal unnumbered hand path, confirming a face-up Magic card enters its
+**use sequence directly**. Setting it face down follows the field-placement
+route instead; that route is not a prerequisite for every magic use.
+
+The hand handler `func_8001BD88` is still unmatched assembly. Its branch at
+`0x8001CD38..0x8001CDA8` requires a packed card type of at least `20`,
+excludes types `21` (Trap) and `23` (Equip), and requires the hand object's
+orientation byte `+0x21` to be zero (face-up). Among the defined retail types,
+this admits Magic (`20`) and Ritual (`22`). It stores the selected object in
+`D_800E9EF0`, removes its hand index, and selects hand substate
+`D_8009B174 = 5`, bypassing the field-selection branch.
+
+The retail jump-table entry at `0x80010158` sends that substate to
+`0x8001D1C4`. After its `D_8009B162` gate clears, the code at
+`0x8001D214..0x8001D218` selects **duel state 6**.
+Matching [`func_80024200`](../../src/game/duel_scene_update.c) dispatches
+through `D_80090998[D_8009B23A & 0xF]`; the retail entry at `0x800909B0`
+maps state 6 to [`func_80019608`](../../src/game/func_80019608.c).
+That handler begins with the selected object and issues the later effect
+requests documented in §6.1. "Direct" describes this control-flow route, not
+zero-frame execution or guaranteed effect success: timing, transfer, and
+effect gates still apply. This is static evidence for the normal single-card
+branch, not a new runtime trace or an audit of every combination/AI path.
+
+The game does not read the card's text; it reads its **number**. The card-use
+presentation sequence
 [`func_80019608`](../../src/game/func_80019608.c) hands the id to a guard
 [`func_80026BA4`] that accepts
 301–350, 651–700 and 721, converts it to an index, and a per-tick dispatcher
@@ -843,7 +869,9 @@ Fake Trap through the sequence in §6.1; its selection is not limited to an
 explicit trap-removal effect. The final attack outcome is a separate
 question from this selection and accounting evidence.
 
-**Rituals** (24 cards) are played to the magic/trap row and **activated**: if
+**Rituals** (24 cards) use the same activation sequence, including the
+ordinary face-up hand route in §5.5; prior field placement is not mandatory.
+The entry route is separate from the ritual's tribute requirement: if
 the three specific monsters the ritual names are face-up on your field, they
 are removed and the ritual monster is summoned in their place; otherwise the
 card is consumed with no effect [`Duel_CheckRitual` (`0x8002C7E8`), table at
