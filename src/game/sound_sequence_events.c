@@ -2,6 +2,7 @@
 
 #include "sound.h"
 #include "sound_sequence_reader.h"
+#include "sound_sequence_values.h"
 
 typedef struct {
     u32 pos;
@@ -20,7 +21,6 @@ typedef struct {
     u8 pad2B;
 } SDSequenceTrack;
 
-extern int SD_ReadSequenceU32BE();
 extern void func_8004B374(s32, s32, s32);
 extern void func_8004ADE8(s32, s32, s32);
 extern void func_8004B49C(s32, s32, s32);
