@@ -101,10 +101,62 @@ genuine semantic work, in rough value order:
    is wanted, and where it should live. All three sites are display-layer
    colour writes, so a constant is defensible; the duel one is not the right
    one to reuse.
-2. The composite flag writes (`0x28`, `0x48`) remain raw because the `0x20`
-   bit is unidentified — it has a single write at object offset `+8` and no
-   confirmed reader there, so naming half the composite would imply the rest
-   is understood.
+2. The composite flag writes (`0x28`, `0x48`) remain raw. The `0x20` bit's
+   **provenance is now established, but its consumer is not**, and only the
+   latter would justify a name.
+
+   `func_80040468` — the configurator reached through `func_800404CC` and
+   `func_800428A8` — clears `0x20` from the flag word at `+8` and then sets it
+   again only when the texture argument has bit `0x8000`:
+
+   ```c
+   flags = *(u16 *)(object + 8) & 0xFFDF;
+   *(u16 *)(object + 8) = flags;
+   if (texture & 0x8000) {
+       *(u16 *)(object + 8) = flags | 0x20;
+   }
+   ```
+
+   So the bit is texture-derived. **Its consumer is now identified too**, in
+   generated assembly rather than in tracked C, which is why an earlier pass
+   over `src/` alone concluded there was no reader. No tracked renderer tests
+   it: `display_object_list_renderers.c` and `func_80040588.c` check only
+   `DISPLAY_OBJECT_RENDERABLE_MASK`, `DISPLAY_OBJECT_FLAG_SCREEN_SPACE` and
+   `DISPLAY_OBJECT_FLAG_CLIP_TEST`.
+
+   The single reader is `func_8004158C`, the unmatched `0x700`-byte sprite
+   builder called from `func_80040814.c`. At `0x800416F0` it loads the flag
+   word and branches on the bit. The packet's texture coordinates have just
+   been initialised from the object's `+0x40` and `+0x42` — the tpage and clut
+   halves the configurator wrote from the same `texture` argument. When the
+   bit is set, it adds a further cell offset taken from the byte at `+3` of
+   the record pointed to by object `+0x4C`:
+
+   - the low nibble, shifted left by 4, is added to the U coordinate;
+   - the high nibble is added to the V coordinate.
+
+   So the bit selects whether that extra per-cell `(U, V)` displacement is
+   applied on top of the base texture coordinates. It is one packed nibble
+   pair, not two independent fields.
+
+   Worth recording alongside that: the overlay `|= 0x28` writes are **not**
+   redundant with the configurator, they override it. In `FreeDuel_Init` the
+   preceding `func_800428A8(obj, 0, 0, 0, 0, 1, 16, 0, D_801AF000)` passes
+   texture `0`, so the configurator has just *cleared* `0x20`; the overlay
+   then forces it back on. Those callers are therefore opting into the cell
+   offset for objects whose texture argument did not request it.
+
+   A name is now supportable on producer-and-consumer evidence, which is the
+   standard the rest of this note applies. It is deliberately **not** minted
+   here, for two reasons worth stating rather than glossing: the consumer is
+   still unmatched assembly, so the reading rests on disassembly rather than
+   on compiled C; and naming the bit means touching every composite `0x28`
+   and `0x48` site across two overlay modules, which is a source change and
+   belongs in its own reviewable PR rather than in a note.
+
+   What the bit is **not**: it is not a visibility or draw-order control, and
+   it does not select a texture page. The page and clut come from `+0x40` and
+   `+0x42` regardless; this only shifts the coordinates within them.
 
 ### Closed since this note was written
 
