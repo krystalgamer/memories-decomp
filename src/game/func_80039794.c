@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "input.h"
 #include "duel_effect.h"
+#include "duel_effect_process_entries.h"
 #include "sound.h"
 #include "display_object_api.h"
 #include "func_80039794.h"
@@ -19,7 +20,6 @@ extern u8 D_8009B0C1 __attribute__((section(".data")));
 extern void func_800393B0(void *);
 extern void *Dialog_OpenChoice(void *);
 extern void func_8003B50C(s32);
-extern void DuelEffect_ProcessEntries(void *);
 
 void func_80039794(void)
 {

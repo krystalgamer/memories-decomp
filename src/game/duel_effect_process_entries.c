@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "duel_effect_process_entries.h"
 
 typedef void (*DuelEffectEntryHandler)(DuelEffectEntry *, DuelEffectChannel *);
 
