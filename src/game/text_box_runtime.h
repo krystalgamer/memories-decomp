@@ -3,6 +3,7 @@
 
 #include "../types.h"
 
+void TextBox_BuildStep(u8 *object);
 void TextBox_SetPos(u8 *record, s32 x, s32 y);
 
 /* Requests a build and pumps the text box until it reports done. The two

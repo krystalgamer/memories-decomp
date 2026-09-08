@@ -41,8 +41,8 @@ typedef struct {
 } DuelEffectEntry;
 
 /* One text-box record, 0x64 bytes, the element type of D_800EB0F8. 0x00 is the
-   decoded string the record is playing back (func_800393B0 stores it there),
-   and 0x20/0x24 bracket the record's slice of D_800EB288: func_800393B0 seeds
+   decoded string the record is playing back (TextBox_BuildStep stores it there),
+   and 0x20/0x24 bracket the record's slice of D_800EB288: TextBox_BuildStep seeds
    both with &D_800EB288[range_start_5C], DuelEffect_ProcessEntries walks from
    0x24 and moves 0x20 as it compacts. */
 typedef struct {

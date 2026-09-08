@@ -2884,7 +2884,7 @@
       "address": "0x800393B0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3E4",
-      "source": "src/game/func_800393B0.c"
+      "source": "src/game/text_box_build_step.c"
     },
     {
       "address": "0x80039794",

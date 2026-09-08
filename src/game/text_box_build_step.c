@@ -6,6 +6,7 @@
 #include "duel_effect.h"
 #include "text_constants.h"
 #include "display_object_api.h"
+#include "text_box_runtime.h"
 
 typedef void (*VoidFn)(void);
 typedef void (*ChannelFn)(u8 *);
@@ -39,7 +40,7 @@ extern void DuelEffect_ClearMatchingMarker(s32);
 extern void func_800373C8(DuelEffectChannel *, s32, s32);
 extern void func_80036C14(u8 *, s32);
 
-void func_800393B0(u8 *object)
+void TextBox_BuildStep(u8 *object)
 {
     u16 flags;
     s32 id;

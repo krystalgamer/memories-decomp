@@ -1884,7 +1884,7 @@ continues in Free Duel with every campaign duelist available.
 >   index `id − 0x100`, pointer = `0x801B0000` + offset, per
 >   `func_800383DC`]. Bytes below `0xF0` are characters (the community's
 >   `table.tbl` decodes `0x00`–`0x5B`); `0xF0`–`0xFF` are control codes
->   dispatched through a 16-entry table [`0x80090F18`, `func_800393B0`]:
+>   dispatched through a 16-entry table [`0x80090F18`, `TextBox_BuildStep`]:
 >   `F8 op` selects a 27-entry sub-table [`0x80090EAC`] whose op `0x19` is
 >   `func_80038AB0`, **unlock duelist** (sets `0x1F + id` and `0x6E0 + id`);
 >   `F9 u16` is the **flag** code [`func_80038D2C`]: bit 14 selects a write;

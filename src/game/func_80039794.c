@@ -6,6 +6,7 @@
 #include "sound.h"
 #include "display_object_api.h"
 #include "func_80039794.h"
+#include "text_box_runtime.h"
 
 /* The retail body walks two pointers over the same four records: the record
  * base it hands to the per-record calls, and a second cursor parked on the
@@ -17,7 +18,6 @@ extern s16 D_8009B35A;
 extern u8 D_8009B356;
 extern u8 D_8009B0C1 __attribute__((section(".data")));
 
-extern void func_800393B0(void *);
 extern void *Dialog_OpenChoice(void *);
 extern void func_8003B50C(s32);
 
@@ -46,7 +46,7 @@ void func_80039794(void)
                 D_8009B35A = reset_value;
                 cnt = -1;
                 for (;;) {
-                    func_800393B0(p);
+                    TextBox_BuildStep(p);
                     cnt++;
                     f = q->flags;
                     if (f & 0x2000) {
