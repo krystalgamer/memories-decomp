@@ -4,13 +4,13 @@
 #include "display_object_helpers.h"
 #include "text_box_runtime.h"
 #include "func_80039794.h"
+#include "func_80043178.h"
+#include "display_object_interpolation.h"
 
 extern u8 D_8009AF76[];
 extern u8 D_8009B3C1;
 
 extern u8 *DuelEffect_CreateChannel(s32, s32);
-extern void func_80043178(u8 *);
-extern void func_80043230(u8 *, s32, s32, s32);
 
 void func_8003DA40(u8 *p)
 {

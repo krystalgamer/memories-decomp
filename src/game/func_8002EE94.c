@@ -8,6 +8,8 @@
 #include "sound.h"
 #include "text_box_runtime.h"
 #include "func_80039794.h"
+#include "func_80043178.h"
+#include "display_object_interpolation.h"
 
 extern u8 *D_8009B290;
 extern u16 D_8009B27C;
@@ -29,8 +31,6 @@ extern void DuelEffect_MarkObjectIfActive(void *);
 extern void SaveData_RequestWrite(void);
 extern void func_80033C90(void);
 extern void func_8003B6AC(s32, s32);
-extern void func_80043178(u8 *);
-extern void func_80043230(u8 *, s32, s32, s32);
 
 void func_8002EE94(void)
 {

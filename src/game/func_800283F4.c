@@ -9,6 +9,8 @@
 #include "sound.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
+#include "func_80043178.h"
+#include "display_object_interpolation.h"
 #include "file_transfer.h"
 #include "text_box_runtime.h"
 
@@ -34,8 +36,6 @@ extern void func_80029164(s32, s32);
 extern void func_80029528(s32);
 extern void func_80029574(s32);
 extern u8 *func_800291E0(s32, s32, s32);
-extern void func_80043178(u8 *);
-extern void func_80043230(u8 *, s32, s32, s32);
 
 void func_800283F4(void)
 {
