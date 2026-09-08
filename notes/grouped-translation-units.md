@@ -12,6 +12,13 @@ conditions hold:
 4. The sum of the member sizes exactly covers the C subsegment.
 5. A clean full build remains byte-identical to `game/SLUS_014.11`.
 
+`make check-notes` verifies the index below against
+`config/slus_01411/matching_c.json`: every row's source has to exist and be a
+matching_c source, its profile has to be one the build actually uses for that
+source, and every address the row names has to belong to it. The table drifts
+silently otherwise, because nothing compiles a note. Two rows had already
+survived the translation units they described being merged away.
+
 `tools/project/generate_build_config.py` enforces the first four conditions and
 emits one `text_sources.json` object with a `members` list. The full executable
 match enforces the fifth.
@@ -100,8 +107,7 @@ source grouping.
 | `src/game/duel_field_effect_transition.c` | `gcc_2_8_1_g8_split` | Card-object transition callback (`0x80025B28`) and the contiguous prompt/controller that installs it (`0x80025BEC`) |
 | `src/game/duel_card_icon_setup.c` | `gcc_2_8_1_g8_split` | Card-type icon object creation (`0x80024C1C`) and the contiguous duel-card slot setup helper (`0x80024D34`) |
 | `src/game/duel_deck_card_data.c` | `gcc_2_8_1_cc_g8_as_g0_split` | `Duel_RequestCombinedDeckData` (`0x80024734`) sort/deduplication and asynchronous request setup, followed by contiguous `Duel_PopulateCombinedDeckData` (`0x80024824`) record and asset-block population |
-| `src/game/duel_life_point_effects.c` | `gcc_2_8_1_g8_split` | Contiguous table-driven LP recovery (`0x800250C8`) and direct-damage (`0x8002525C`) effect handlers |
-| `src/game/duel_field_effect_updates.c` | `gcc_2_8_1_g8_split` | Contiguous duel-field marker (`0x800255FC`) and field-card effect completion (`0x800257A0`) state handlers sharing `D_8009B220` flags |
+| `src/game/duel_card_effects.c` | `gcc_2_8_1_g8_split` | Five contiguous card-effect handlers from `0x800250C8` through `0x800257A0`: table-driven LP recovery (`0x800250C8`) and direct damage (`0x8002525C`), the effect dispatcher at `0x8002538C`, and the `DuelEffect_UpdateFieldMarker` (`0x800255FC`) and field-card effect completion (`0x800257A0`) state handlers sharing `D_8009B220` flags |
 | `src/game/duel_field_equip_search.c` | `gcc_2_8_1_g8_split` | Two contiguous field-card filters (`0x80026C6C`, `0x80026D18`) and their following equip-pair search (`0x80026DC8`) |
 | `src/game/util_memory.c` | `gcc_2_8_1_g8` | `Util_CopyWords` (`0x800356A0`) and contiguous repeated-byte fill counterpart `Util_FillMemory` (`0x80035748`) |
 | `src/game/display_object_brightness.c` | `gcc_2_8_1_g0_split` | Paired display-object RGB setters at `0x80030090` and `0x800300AC`, writing uniform brightness values `0x40` and `0x80` |
@@ -158,7 +164,7 @@ source grouping.
 | `src/game/sound_buffer_init.c` | `gcc_2_8_1_g0` | Sound work-buffer pointer setup (`0x80044D48`) and channel-volume defaults (`0x80044DA0`) |
 | `src/game/sound_mix.c` | `gcc_2_8_1_g0` | Three CD volume and mix helpers from `0x80044E90` through the current-volume query (`0x80044FE4`), including CD mix packet setup at `0x80044F58` |
 | `src/game/sound_output_state.c` | `gcc_2_8_1_g0` | Seven contiguous output-state and tagged command-request helpers from `0x8004503C` through `SD_ClearBusyFlag` at `0x8004544C`, retaining the request builders' distinct signatures, tags, callback sequence, inner scopes, and register pins |
-| `src/game/sound_runtime.c` | `gcc_2_8_1_g0` | Contiguous command enqueue (`SD_EnqueueCommand`), three-ramp fade update (`SD_UpdateFades`), and per-frame key-status/queue processing (`SD_UpdateRuntime`) from `0x80045BE8` through `0x80046294`, all using the shared `SDValue` layout |
+| `src/game/sound_runtime.c` | `gcc_2_8_1_g0` | Contiguous command enqueue (`SD_EnqueueCommand`), three-ramp fade update (`SD_UpdateFades`), and per-frame key-status/queue processing (`SD_UpdateRuntime`) from `0x80045BE8` through `0x80045F3C`, all using the shared `SDValue` layout |
 | `src/game/sound_state_control.c` | `gcc_2_8_1_g8` | Secondary-state activation (`0x8004695C`) and main sound-state flag setup (`0x80046990`) |
 | `src/game/sound_voice_data.c` | `gcc_2_8_1_g0` | Five contiguous voice value/pan update, step assignment, pending-input block copy, lookup rebuild, and reverb/music-state initialization helpers from `0x80048A28` through `0x80048F14`, using canonical `SDValue`, `SDNote`, and `SpuReverbAttr` layouts |
 | `src/game/sound_secondary_reset.c` | `gcc_2_8_1_g0` | Low-level state query (`0x800498BC`) and secondary-state reset (`0x800498F8`) |

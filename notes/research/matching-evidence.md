@@ -3956,10 +3956,11 @@ declaration.
 So when a residual is a base or scratch register at the *tail* of a function
 and the instruction multiset is already exact, check the return types of
 everything the function calls before spending time on the tail itself. There
-is precedent for the void spelling in the tree: `src/game/func_8005B054.c`
-declares `func_8005ABA0` as returning `void` while `src/game/func_8005ABA0.c`
-defines it returning `Color *`, so a caller whose prototype disagrees with the
-definition is an existing shape here rather than a new liberty.
+is precedent for the void spelling in the tree: `src/game/func_8005B054.c` and
+`src/game/func_8005B0B4.c` both declare `func_8005ABA0` as returning `void`
+while `src/game/color_transform.c` defines it returning `Color *`, so a caller
+whose prototype disagrees with the definition is an existing shape here rather
+than a new liberty.
 
 Two negatives worth recording, because both look like the obvious fix and
 neither works. Pinning a variable to the wanted base register does not help:
@@ -5016,7 +5017,8 @@ two scheduling positions. Widths, qualifiers, addresses and loaded values are
 unchanged; these are extern declarations and do not allocate or move data.
 
 The terminal result was recorded and promoted with the existing tools.
-Only the five include paths were normalized for `src/game/func_80018608.c`,
+Only the five include paths were normalized for `src/game/func_80018608.c`
+(since coalesced into `src/game/duel_phase_entry.c`),
 then the integrated source was remeasured. The clean full-executable gate
 passed with every existing matching entry enabled and retail SHA-256
 `84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.

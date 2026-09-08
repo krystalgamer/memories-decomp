@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds check-candidate-headlines review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds check-candidate-headlines check-notes review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -63,6 +63,7 @@ help:
 		'  progress       Update README and generate current progress metrics' \
 		'  check-progress Verify that the README progress snapshot is current' \
 		'  check-candidate-headlines  Verify candidate notes and inventory rows state the same figures' \
+		'  check-notes    Verify grouped translation-unit notes match the build config' \
 		'  disc-files     Extract the tracked DATA files from the disc image' \
 		'  disc-layout    Regenerate the tracked ISO9660 LBA manifest' \
 		'  verify-disc    Verify BIN/CUE layout and extracted file contents' \
@@ -214,6 +215,9 @@ progress: split
 
 check-progress: split
 	@$(PYTHON) tools/project/progress.py --check
+
+check-notes: workspace
+	@$(PYTHON) tools/project/check_notes.py
 
 check-candidate-headlines:
 	@$(PYTHON) tools/project/check_candidate_headlines.py --self-test
