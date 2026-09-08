@@ -443,6 +443,31 @@ function assigns CLUT value `0x3D00` to textured quads that tile the complete
 fifth populated row, stored at `SU.MRG+0x30800`—is the full-screen menu
 background palette.
 
+The object-based draw path identifies three more rows. `func_80040468` stores
+the texture argument's bits `4`-`9` as CLUT x and stores
+`240 + (texture & 0xF)` as CLUT y. `func_80040588` copies that coordinate pair
+into its sprite work record, and assembly for `func_80042188` packs it into
+the GPU primitive with the same `(y << 6) | ((x >> 4) & 0x3F)` formula as
+`getClut`.
+
+All 31 main-menu overlay functions are matching C, so their direct initializer
+calls provide a complete static inventory:
+
+| VRAM row | SU offset | Matching main-menu consumer |
+|---:|---:|---|
+| `240` | `+0x30000` | The eleven `gMain_apMenuEntries` objects created by `func_8018001C`, plus transition copies created by `func_80180E6C` |
+| `241` | `+0x30200` | The three persistent singleton objects `D_80184558`, `D_8018455C`, and `D_80184560` created by `func_8018001C` |
+| `242` | `+0x30400` | No direct consumer in the matching main-menu overlay |
+| `243` | `+0x30600` | No direct consumer in the matching main-menu overlay |
+| `244` | `+0x30800` | The full-screen tiled background drawn by `func_80180B4C` |
+| `245` | `+0x30A00` | The dedicated `D_801845A4` sprite created by `MainMenu_StartValueSetup` |
+
+Rows `242` and `243` may be retained for another data-driven or resident use;
+the absence of a direct overlay initializer is not proof that their colour
+data is globally unused. The code also does not establish visual names for
+the three row-`241` singleton objects, so those remain identified by ownership
+rather than appearance.
+
 The resident startup request in `func_80013154` and movie entry/exit requests
 in `func_8005B8A0` and `func_8005BB7C` use the same `320 x 240` dimensions
 with `GsInitGraph` or `GsInitGraph2`. `graphics_constants.h` names those
@@ -458,10 +483,13 @@ projection values remain separate.
 - **Confirmed** that the complete `0x1000`-byte phase is uploaded as eight
   256-colour CLUT rows at VRAM `(0, 240)`, with six populated rows followed by
   two zero rows.
+- **Confirmed** that object texture IDs select rows `240`, `241`, and `245`
+  for the consumer groups listed above, using the same CLUT packing formula as
+  Psy-Q `getClut`.
 - **Confirmed** that `func_80180B4C` selects row `244`
   (`SU.MRG+0x30800`) for the full-screen menu background layer.
-- **Tentative** which elements select populated rows `240`-`243` and `245`;
-  those still require additional draw-call or texture-page evidence.
+- **Confirmed** that matching main-menu code has no direct initializer for
+  rows `242` or `243`; their wider runtime ownership remains unassigned.
 
 ## WA menu background and symbol palettes
 
