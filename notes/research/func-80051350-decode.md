@@ -217,10 +217,68 @@ Two further gates follow before the division - one on a value the loop clears at
 entry and one on the first argument - so the first argument is a mode flag
 rather than data.
 
-**Still undecoded:** everything from `0x80051868`, roughly the last third. It
+## The whole thing is a two-iteration loop, and it recurses
+
+The body from `0x80051744` to `0x800519B0` is a loop: `$fp` starts at zero, the
+tail does `addiu $fp,$fp,1` and `slti $v0,$fp,0x2` and branches back. So every
+indexed array is walked for record 0 then record 1.
+
+The epilogue then does something the rest of the decode did not predict:
+
+```
+lw   $t2, 0x98(sp)          the third argument
+slti $v0, $t2, 0x3
+beqz $v0, .L80051A14
+lw   $a1, 0x94(sp)
+jal  func_80051350          <- itself
+addu $a2, $t2, $zero
+```
+
+**The function is recursive, and its third argument is a depth counter capped at
+three.** The counter is incremented once in the loop preheader, not per
+iteration, and the recursion is additionally gated on the first argument and on
+a separate hit counter kept at `0x58(sp)`. So the shape is
+
+```c
+s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
+{
+    s32 moved = 0;        /* $s1, and the return value */
+    s32 hits = 0;         /* 0x58(sp) */
+
+    depth = depth + 1;
+    for (i = 0; i < 2; i++) {
+        ...
+    }
+    if (mode != 0 && moved != 0) {
+        Model_UpdateViewMetrics(0);
+    }
+    if (hits != 0 && mode != 0 && depth < 3) {
+        func_80051350(mode, min_extent, depth);
+    }
+    return moved;
+}
+```
+
+That changes the reading of the first argument too: it gates both the
+`Model_UpdateViewMetrics` call and the recursion, so it is a "may act" flag
+rather than a selector.
+
+The push itself is applied at `0x80051974` as `D_800F56F0[0] += s7` and
+`rec->+0x8 += s6`, which is the resolve step; `$s1` is set from the limit when a
+record is skipped, so the return value reports the largest extent considered.
+
+**Still undecoded:** the vector block between `0x80051868` and `0x80051930`. It
 multiplies pairs drawn from `D_800F56F0` at `+0x8`, `+0xC` and `+0x14`, squares
-two differences, and ends in `Model_UpdateViewMetrics`. The draft cannot be
-written until that is read, and this entry should not pretend otherwise.
+two differences, feeds a third `SquareRoot0`, and divides by its result under
+the same checked-division traps. It also maintains `D_8009AF98` as a countdown
+from `0x1E` and `D_8009AF99` as a sign, which look like a shake or recoil timer
+rather than part of the separation.
+
+One packing detail to settle before writing that part: the record's word at
+`+0xDC0` is read whole and masked with `0xFFFFFF`, while the byte at `+0xDC3` is
+read separately with `lbu`. On little-endian that byte is the top of the same
+word, so the source has both a word and a byte view of it - writing `w >> 24`
+would produce a shift where the target has a load.
 
 ## Order of work for the first draft
 
