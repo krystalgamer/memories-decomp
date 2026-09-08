@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_copy_slot_u16_values.h"
 #include "model.h"
 
 typedef struct {
@@ -35,7 +36,6 @@ extern u8 D_8009B07C;
 
 extern unsigned short *func_800591FC(void);
 extern unsigned short *func_80059208(void);
-extern void Model_CopySlotU16Values(int, short *);
 extern void func_80058434(int, int, int, int, int);
 extern void func_80059000(s32 a0, Buf *a1);
 extern void func_8005D994(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
@@ -51,7 +51,7 @@ void func_8005F3B8(int mode, int y, int a, int b, Vec *offset)
         return;
     if (mode >= 0) {
         short v[4];
-        Model_CopySlotU16Values(mode, v);
+        Model_CopySlotU16Values(mode, (u16 *)v);
         ((int *)p)[3] = v[0];
         ((int *)p)[4] = v[1];
         ((int *)p)[5] = v[2];
