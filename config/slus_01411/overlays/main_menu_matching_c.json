@@ -58,13 +58,13 @@
       "address": "0x80181728",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x590",
-      "source": "src/overlays/main_menu/draw_value_setup.c"
+      "source": "src/overlays/main_menu/value_setup_visuals.c"
     },
     {
       "address": "0x80181CB8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x178",
-      "source": "src/overlays/main_menu/update_value_widget_tween.c"
+      "source": "src/overlays/main_menu/value_setup_visuals.c"
     },
     {
       "address": "0x80181E30",

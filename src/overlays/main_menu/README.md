@@ -467,6 +467,30 @@ Both retain `gcc_2_8_1_g0_split` and contribute no data or rodata. This
 coalesces one effect lifecycle without claiming the original author's
 translation-unit boundary or absorbing the following value setup.
 
+## Value-setup visuals translation unit
+
+`value_setup_visuals.c` keeps the value-editor renderer next to the widget
+position tween it drives. Both read the same displayed-value halfword table
+`D_801845C0` and the same per-side mode array `D_801845BC`, and both work in
+the value-lane geometry described below: the tween drives a side widget
+toward the bar endpoint at Y 111/139 that the renderer draws, and it writes
+the settled mode back into `D_801845BC` when the tween expires.
+
+The definitions remain in executable order: `MainMenu_DrawValueSetup`
+occupies `0x80181728..0x80181CB8` and `MainMenu_UpdateValueWidgetTween` runs
+through `0x80181E30`. Both use `gcc_2_8_1_g0_split`, and their shared
+manifest source and one C subsegment at module offset `0x1728` cover the
+complete contiguous `0x708`-byte text range, ending exactly where
+`MainMenu_FinishValueSetup` begins.
+
+This is the **visual** slice of the value editor only. It is not the whole
+editor: `MainMenu_StartValueSetup`, `MainMenu_FinishValueSetup` and the input
+and write-back routines remain separate units. The two files kept distinct
+views of neighbouring globals — the renderer's `ValueWidgetView *D_801845B0[]`
+and the tween's `u8 *D_801845B8` — and those are preserved as-is rather than
+reconciled into one array access, because no evidence establishes that
+`D_801845B8` is an element of `D_801845B0`.
+
 ## Value-editor rendering
 
 `MainMenu_DrawValueSetup` (`0x80181728`) is the callback installed by
