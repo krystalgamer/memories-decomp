@@ -151,7 +151,7 @@ source grouping.
 | `src/game/sound_init.c` | `gcc_2_8_1_g0` | Thirteen music/sequence and secondary sound-state initialization helpers from `0x80049200` through `0x800495EC`, including `SD_Init` |
 | `src/game/sound_voice_selection.c` | `gcc_2_8_1_g0` | Twelve contiguous voice update, lifetime, selection, normalization, release, slot-removal, key-off, status, and group-mask helpers from `0x80047864` through `0x80047F38`, including `SD_KeyOffVoiceSlots` |
 | `src/game/sound_sequence_state.c` | `gcc_2_8_1_g0` | Two sequence-state setters (`0x800490F0`, `0x80049108`) and the active-state test at `0x80049120` |
-| `src/game/sound_sequence_reader.c` | `gcc_2_8_1_g0` | Byte comparison primitive (`0x8004BAA0`), bounded `SD_ReadSequenceByte` (`0x8004BAE4`), and the contiguous MIDI-style variable-length decoder (`0x8004BB34`) |
+| `src/game/sound_sequence_runtime.c` | `gcc_2_8_1_g0` | Six contiguous sequence event-stop/update, byte comparison, bounded read, and MIDI-style variable-length decoding helpers from `0x8004B910` through `0x8004BB34`, ending before the different-profile marker scanner |
 | `src/game/sound_sequence_values.c` | `gcc_2_8_1_g0` | Fixed-width `SD_ReadSequenceU32BE` (`0x8004BC2C`) and `SD_ReadSequenceU16BE` (`0x8004BCA8`) readers built from the sequence-byte helper |
 | `src/game/sound_transfer_lifecycle.c` | `gcc_2_8_1_g0` | Four contiguous helpers from pre-termination cleanup (`0x80049640`) and `SD_Term` through the two transfer-setup functions ending at `0x8004975C` |
 | `src/game/sound_buffer_init.c` | `gcc_2_8_1_g0` | Sound work-buffer pointer setup (`0x80044D48`) and channel-volume defaults (`0x80044DA0`) |
