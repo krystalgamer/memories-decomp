@@ -4,7 +4,6 @@
 
 extern s8 D_8016D42C;
 extern void func_800429D8(u8 *);
-extern void func_8004036C(u8 *);
 extern void func_80042A78(u8 *);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern void func_80042BC0(void);

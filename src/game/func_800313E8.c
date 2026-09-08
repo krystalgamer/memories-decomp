@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "sound.h"
-
-extern s32 func_8004036C();
+#include "display_object_api.h"
 extern s32 func_800429D8();
 extern s32 func_80042A78();
 extern s32 func_80042B98();

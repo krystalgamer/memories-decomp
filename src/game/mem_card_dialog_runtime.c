@@ -70,7 +70,6 @@ extern u16 gMemCard_wDialogFlags;
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 extern void func_80042918(u8 *);
 extern void func_800428EC(u8 *, s32);
-extern void func_8004036C(s32);
 extern void func_80039794(void);
 extern void func_80039A14(u8 *);
 extern s32 func_8003F2B0_int(ObjectState *, s32, s32, s32)

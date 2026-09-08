@@ -1,13 +1,12 @@
 #include "../types.h"
 #include "duel_card_layout.h"
+#include "display_object_api.h"
 
 typedef struct {
     void *value;
     u8 pad4[0x12];
     u16 flags;
 } Object;
-
-extern void func_8004036C(void *);
 
 void func_80024914(Object *object)
 {

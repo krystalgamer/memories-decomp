@@ -47,7 +47,6 @@ extern void func_80015A00(void);
 extern void func_80043178(Obj *);
 extern void func_80043230(Obj *, s32, s32, s32);
 extern void TextBox_SetPos(void *, s32, s32);
-extern void func_8004036C(Obj *);
 extern s32 DuelEffect_UpdateState(void);
 extern void SD_BGMFadeOut(void);
 extern void Fade_WaitOut(void);

@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 #include "text_constants.h"
+#include "display_object_api.h"
 
 typedef void (*VoidFn)(void);
 typedef void (*ChannelFn)(u8 *);
@@ -30,7 +31,6 @@ extern u16 gInput_wPad1Held __attribute__((section(".data")));
 extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
 
 extern void func_80039E9C(void);
-extern void func_8004036C(void *);
 extern void func_800391E4(u8 *);
 extern void func_80035CA8(s32);
 extern void DuelEffect_ClearMatchingMarker(s32);

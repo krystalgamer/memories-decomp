@@ -5,7 +5,6 @@
 extern s32 func_80035E20();
 extern s32 func_80039140();
 extern s32 func_8004006C();
-extern s32 func_8004036C();
 extern s32 func_800427DC();
 extern s32 func_800428EC();
 extern s32 func_80042918();
