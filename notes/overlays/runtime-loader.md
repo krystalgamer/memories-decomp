@@ -163,6 +163,14 @@ slot). Its public size convention is therefore the reverse:
 | `-513` | `513` | `513` (bytes, with no sector rounding) |
 | `0` | `0` | `0` |
 
+The initializer's default image rectangle is
+`FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH` (`0x40`) 16-bit VRAM words wide by
+`FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT` (`0x10`) rows. Its payload is exactly
+one `FILE_SECTOR_SIZE`: `64 * 16 * 2 = 2048` bytes, enforced by a compile-time
+size relation. These are VRAM transfer units, not a claim about texture texel
+width at every bit depth. The existing image-path conditions, packed
+coordinates, and callback-specific rectangle overrides remain unchanged.
+
 `File_RequestAsyncTransfer` is the common game-facing asynchronous loader
 using the active descriptor. It forwards its third and fourth arguments as
 the initializer's position and size, respectively: nonnegative positions are

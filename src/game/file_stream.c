@@ -31,6 +31,10 @@ typedef struct {
 typedef char FileTransfer_size_must_match_transfer_descriptor[
     sizeof(FileTransfer) == sizeof(FileTransferDescriptor) ? 1 : -1
 ];
+typedef char FileTransfer_default_image_must_fill_sector[
+    FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH * FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT *
+        sizeof(u16) == FILE_SECTOR_SIZE ? 1 : -1
+];
 
 extern u8 D_8009B108;
 extern s32 D_8009B0E8;
@@ -137,8 +141,8 @@ FileTransfer *File_InitTransferDescriptor(
                 transfer->state = 2;
                 transfer->y = ((u32)length) >> 16;
                 transfer->x = length;
-                transfer->width = 0x40;
-                transfer->height = 0x10;
+                transfer->width = FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH;
+                transfer->height = FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT;
                 transfer->field_08 = D_8009B118;
                 transfer->field_0C = D_8009B118 + FILE_SECTOR_SIZE;
             }
