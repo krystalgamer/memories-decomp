@@ -37,7 +37,7 @@
     "-mips1",
     "-G8"
   ],
-  "candidate_sha256": "b0c627f0151721b3235a134ab646073713fa266d9b1b45a74841169a3e919b21",
+  "candidate_sha256": "3e86e5d79728b6128bca2887205ec0e8cd7759e6da8f258db70936223aea6039",
   "target_instruction_count": 446,
   "target_bytes_sha256": "9ac7225576d72290cc3f3612a72695629c1998db5db165ea7d4e85d57324d596"
 }

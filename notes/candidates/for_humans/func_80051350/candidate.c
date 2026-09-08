@@ -163,15 +163,40 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
 
             scale = ((limit - d) << 12) / limit;
             px = dx[i] * scale / 4096;
-            if (dx[i] > 0) {
+            if (dx[i] <= 0) {
                 px = -px;
             }
             pz = dz[i] * scale / 4096;
-            if (dz[i] > 0) {
+            if (dz[i] <= 0) {
                 pz = -pz;
             }
+            {
+                s32 ax = D_800F56F0[3];
+                s32 az = D_800F56F0[2];
+                s32 bx = D_800F56F0[5];
+                s32 cx = D_800F56F0[0];
+                s32 ux = bx - az;
+                s32 uz = cx - ax;
+                s32 cross = ax * az - cx * bx;
+                s32 len = SquareRoot0(ux * ux + uz * uz);
+                s32 sd = 0;
+
+                if (len != 0) {
+                    sd = ((cx + px) * ux + (az + pz) * uz + cross) / len;
+                }
+                if (D_8009AF98 == 0) {
+                    if (sd >= 0) {
+                        D_8009AF99 = 1;
+                    } else {
+                        D_8009AF99 = -1;
+                    }
+                    D_8009AF98 = 0x1E;
+                } else if (D_8009AF98 < 0xFF) {
+                    D_8009AF98 = D_8009AF98 - 1;
+                }
+            }
             D_800F56F0[0] = D_800F56F0[0] + px;
-            D_800F2C40[i].s_DD4 = D_800F2C40[i].s_DD4 + pz;
+            D_800F56F0[2] = D_800F56F0[2] + pz;
         }
     }
 
