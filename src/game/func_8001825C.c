@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card.h"
 #include "duel_side_state.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
@@ -17,7 +18,6 @@ extern u16 D_8009B36A __attribute__((section(".data")));
 extern u8 D_800907D8[];
 extern u8 D_800E9ECE[];
 extern u8 D_8015C424[];
-extern u8 D_801A7AD8[];
 extern u8 D_801A7B64[];
 
 extern void func_80024D34(s32, s32);
@@ -84,7 +84,7 @@ void func_8001825C(void)
         if (*(s8 *)D_8009B1C8 == 0x28) {
             D_8009B23A |= 0x2000;
             for (i = 0; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
-                rec = D_801A7AD8 +
+                rec = (u8 *)D_801A7AD8 +
                       D_800907D8[i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT] *
                           DUEL_CARD_RECORD_SIZE;
                 if (*(u16 *)(rec + 0x16) & DUEL_CARD_FLAG_OCCUPIED) {
@@ -140,6 +140,6 @@ void func_8001825C(void)
     *(u16 *)(obj + 2) = *(u16 *)(card + 0x32);
     *(u16 *)(obj + 4) = *(u16 *)(card + 0x34);
     *(u16 *)(obj + 0x1A) = func_800181EC(card);
-    func_80024954(D_801A7AD8 + card[0x6A] * DUEL_CARD_RECORD_SIZE);
+    func_80024954((u8 *)D_801A7AD8 + card[0x6A] * DUEL_CARD_RECORD_SIZE);
     SD_SEPlayFull(0x1F);
 }

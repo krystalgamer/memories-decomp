@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card.h"
 #include "duel_side_state.h"
 #include "view_state.h"
 #include "card_constants.h"
@@ -34,7 +35,6 @@ extern void func_8001352C(void);
 extern u8 *D_8009B21C;
 extern u8 *D_8009B1C8;
 extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
-extern u8 D_801A7AD8[];
 
 extern void Duel_ApplyCardObjectFlags(u8 *);
 extern u8 *Duel_SetupCardRecord(s32, s32);
@@ -179,7 +179,7 @@ void func_8001898C(void) {
             }
         }
         D_8009B1C8[1]++;
-        rec = D_801A7AD8;
+        rec = (u8 *)D_801A7AD8;
         for (i = 0; i < DUEL_CARD_RECORD_COUNT; i++, rec += DUEL_CARD_RECORD_SIZE) {
             flags = *(u16 *)(rec + 0x16);
             if (flags & DUEL_CARD_FLAG_OCCUPIED) {
@@ -198,7 +198,7 @@ void func_8001898C(void) {
         slot = base;
         y = 0xE;
         idx = D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT;
-        rec = D_801A7AD8 + idx * DUEL_CARD_RECORD_SIZE;
+        rec = (u8 *)D_801A7AD8 + idx * DUEL_CARD_RECORD_SIZE;
         placed = rec;
         for (; i < HAND_SIZE; i++, rec += DUEL_CARD_RECORD_SIZE) {
             p = &hand[i];

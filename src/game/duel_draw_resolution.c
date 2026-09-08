@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_hand.h"
@@ -63,7 +64,6 @@ extern u8 gDuel_bWinnerSide;
 extern u8 D_8009B1D5;
 extern u8 D_800907CC[];
 extern u8 D_8015C424[];
-extern u8 D_801A7AD8[];
 
 void func_80018C34(u8 *arg0);
 s32 func_80042B40(s32 arg0);
@@ -116,7 +116,7 @@ void func_80018DB4(void) {
         }
         Duel_SetupCardRecord(k, *(s8 *)(D_8009B1C8 + 0x18));
         p = func_80018004(
-            &D_801A7AD8[k * DUEL_CARD_RECORD_SIZE],
+            (u8 *)D_801A7AD8 + k * DUEL_CARD_RECORD_SIZE,
             i * 60 + 0x14E,
             0x92
         );

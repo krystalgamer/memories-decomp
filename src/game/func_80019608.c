@@ -1,10 +1,10 @@
 #include "../types.h"
+#include "duel_card.h"
 #include "display_object_layout.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
 
-extern u8 D_801A7AD8[];
 extern u8 *D_800E9EF0[];
 extern u8 *D_8009B1C8;
 extern u16 D_8009B23A;
@@ -53,7 +53,7 @@ void func_80019608(void)
     flags = D_8009B23A;
     if ((flags & 0x8000) == 0) {
         D_8009B23A = flags | 0xC000;
-        slot = &D_801A7AD8[p[0x6A] * 0x1C];
+        slot = (u8 *)D_801A7AD8 + p[0x6A] * DUEL_CARD_RECORD_SIZE;
         arg = *(s16 *)(slot + 0xC);
         D_8009B150 = *(u16 *)(slot + 0xC);
         func_80029164(0, arg);
