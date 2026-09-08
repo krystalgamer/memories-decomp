@@ -339,6 +339,13 @@ and key-signature selectors are named without changing their byte consumption.
 Custom controller numbers and loop handling remain separate from these event
 classifications.
 
+The adjacent meta/SysEx handlers and channel dispatcher share
+`src/game/sound_sequence_events.c`, covering `0x8004BE6C` through
+`0x8004C420` in their original definition order under `gcc_2_8_1_g0`.
+The following running-status parser remains separate because its
+`gcc_2_8_1_g8_split` profile differs. Grouping does not change the event bodies,
+their local track view, or their external declarations.
+
 `SD_ReadVariableLengthValue` uses the separate `SD_SEQUENCE_VLQ_*` constants
 for seven-bit payload groups and their continuation bit. Its
 `SD_SEQUENCE_VLQ_INITIAL_STOP` (`0xFF`) check applies only to the first byte:

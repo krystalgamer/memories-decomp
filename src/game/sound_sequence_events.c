@@ -1,4 +1,5 @@
 #include "../types.h"
+
 #include "sound.h"
 
 typedef struct {
@@ -18,6 +19,9 @@ typedef struct {
     u8 pad2B;
 } SDSequenceTrack;
 
+extern int SD_ReadSequenceByte();
+extern int SD_ReadVariableLengthValue();
+extern int SD_ReadSequenceU32BE();
 extern void func_8004B374(s32, s32, s32);
 extern void func_8004ADE8(s32, s32, s32);
 extern void func_8004B49C(s32, s32, s32);
@@ -26,6 +30,106 @@ extern void func_8004B70C(s32, s32, s32);
 
 #define SEQ_U32(off) (*(u32 *)((u8 *)D_8009B458 + (off)))
 #define SEQ_U16(off) (*(u16 *)((u8 *)D_8009B458 + (off)))
+
+void func_8004BE6C(int *value, int amount)
+{
+    *value += amount;
+}
+
+void func_8004BE80(void)
+{
+}
+
+void func_8004BE88(u8 *p, s32 arg1)
+{
+    u8 *e;
+    u8 *f;
+    u32 v;
+    u32 i;
+    s32 off;
+    s32 mode;
+    s32 t;
+    s32 z;
+
+    mode = arg1 & 0xFF;
+
+    switch (mode) {
+    case SD_SEQUENCE_META_END_OF_TRACK:
+        p[0x24] = 1;
+        goto one;
+
+    case SD_SEQUENCE_META_TEMPO:
+        z = 0;
+        v = SD_ReadSequenceByte(p) << 16;
+        v = v | (SD_ReadSequenceByte(p) << 8);
+        v = v | SD_ReadSequenceByte(p);
+        e = (u8 *)D_8009B458;
+        ((SDSecondaryState *)e)->field_0808 = v;
+        v = 0x3938700 / v;
+        v = v * 100 / 115;
+        if (v >= 0x100) {
+            v = 0xFF;
+        }
+        t = ((SDSecondaryState *)e)->timebase;
+        switch (t) {
+        case 0x3C:
+        case 0x18:
+            v = v >> 1;
+            break;
+        case 0x1E:
+            v = v >> 2;
+            break;
+        }
+        f = (u8 *)D_8009B458;
+        if (((SDSecondaryState *)f)->field_07FA != 0) {
+            off = z;
+            i = z;
+            do {
+                *(s16 *)(f + off + 0x52E) = v;
+                *(s16 *)(f + off + 0x52C) = v;
+                off += SD_SEQUENCE_TRACK_RECORD_SIZE;
+                i++;
+            } while (i < ((SDSecondaryState *)f)->field_07FA);
+        }
+        break;
+
+    case SD_SEQUENCE_META_SMPTE_OFFSET:
+        SD_ReadSequenceByte(p);
+        SD_ReadSequenceByte(p);
+        SD_ReadSequenceByte(p);
+        goto three;
+
+    case SD_SEQUENCE_META_TIME_SIGNATURE:
+        SD_ReadSequenceByte(p);
+        SD_ReadSequenceU32BE(p);
+        break;
+
+    case SD_SEQUENCE_META_KEY_SIGNATURE:
+    three:
+        SD_ReadSequenceByte(p);
+        SD_ReadSequenceByte(p);
+    one:
+        SD_ReadSequenceByte(p);
+        break;
+
+    case 0 ... 0xF:
+    default:
+        func_8004BE6C((s32 *)p, SD_ReadVariableLengthValue(p));
+        break;
+    }
+}
+
+void func_8004C0AC(void *input)
+{
+    unsigned int i = 0;
+    unsigned int count = SD_ReadVariableLengthValue(input);
+
+    do {
+        i++;
+        if ((u8)SD_ReadSequenceByte(input) == SD_SEQUENCE_SYSEX_END)
+            break;
+    } while (i < count);
+}
 
 /* Sequence channel event dispatcher: routes a note off (0x80), note on
    (0x90, a zero velocity is a note off), controller (0xB0), program (0xC0)

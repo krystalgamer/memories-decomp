@@ -2261,8 +2261,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004BAE4,SD_ReadSequenceByte,matching_c,game,C,src/game/sound_sequence_reader.c,read,,SDSecondaryState *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004BBBC,SD_FindMidiTrackChunk,matching_c,game,C,src/game/sound_sequence_marker_scan.c,read,,"D_8009B458->field_07DC + offset, | } while ((u32)D_8009B458->field_07EC >= (u32)offset);"
 0x8009B458,D_8009B458,D_8009B458,0x8004BCE8,func_8004BCE8,matching_c,game,C,src/game/func_8004BCE8.c,read,8,*(s16 *)(D_8009B458 + 0x7F8) = 0; | *(s16 *)(D_8009B458 + 0x7FA) = 1; | (+10 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004BE88,func_8004BE88,matching_c,game,C,src/game/sound_sequence_meta_events.c,read,,e = (u8 *)D_8009B458; | f = (u8 *)D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004C114,func_8004C114,matching_c,game,C,src/game/func_8004C114.c,read,,seq = (u8 *)D_8009B458;
+0x8009B458,D_8009B458,D_8009B458,0x8004BE88,func_8004BE88,matching_c,game,C,src/game/sound_sequence_events.c,read,,e = (u8 *)D_8009B458; | f = (u8 *)D_8009B458;
+0x8009B458,D_8009B458,D_8009B458,0x8004C114,func_8004C114,matching_c,game,C,src/game/sound_sequence_events.c,read,,seq = (u8 *)D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004C5C8,func_8004C5C8,matching_c,game,C,src/game/sound_sequence_timing.c,read,,switch (D_8009B458->timebase) {
 0x8009B458,D_8009B458,D_8009B458,0x8004C77C,func_8004C77C,matching_c,game,C,src/game/sound_sequence_timing.c,read,,"(u8 *)D_8009B458; | register u8 *initial asm(""$2"") = (u8 *)D_8009B458; | (+2 more)"
 0x8009B458,D_8009B458,D_8009B458,0x8004C84C,func_8004C84C,matching_c,game,C,src/game/func_8004C84C.c,read,,SDSecondaryObject *item = &D_8009B458->objects[i]; | for (i = 0; i < D_8009B458->object_count; i++) {
