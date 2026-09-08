@@ -78,6 +78,11 @@ an instruction offset instead of folding the field offset into the symbol.
 The shared structure remains the authoritative layout while the local extern
 controls code generation.
 
+The private `ByteReader` in `func_8007308C.c` remains a prefix view. Its pointer
+array shares `AI_SCRIPT_RETURN_STACK_COUNT` with `AiScript_Call`, and a size
+assertion keeps the prefix ending at `AI_SCRIPT_COMBO_BYTE_OFFSET`. Its
+unrelated `unkC[8]` remains byte padding, not eight return-address slots.
+
 The selected combo buffer at `AI_SCRIPT_COMBO_BYTE_OFFSET` (`0x38`) is not
 the in-progress path at `AI_SCRIPT_FUSION_PATH_BYTE_OFFSET` (`0xA4`).
 Current depth (`0xA2`) and best depth (`0xA3`) likewise have distinct byte

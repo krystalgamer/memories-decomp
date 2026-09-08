@@ -13,8 +13,12 @@ typedef struct {
      * when depth is already zero. */
     u8 depth;   /* +0x14 */
     u8 unk15[3];
-    u8 *stack[8];  /* +0x18 */
+    u8 *stack[AI_SCRIPT_RETURN_STACK_COUNT];  /* +0x18 */
 } ByteReader;
+
+typedef char ByteReader_prefix_size_must_be_0x38[
+    sizeof(ByteReader) == AI_SCRIPT_COMBO_BYTE_OFFSET ? 1 : -1
+];
 
 typedef struct {
     s16 unk0;
