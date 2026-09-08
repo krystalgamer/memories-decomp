@@ -32,7 +32,7 @@ void func_80048920(s32 arg0, s32 arg1)
         func_80044DC0((u8)a1v);
         return;
     }
-    if ((arg0 & 0xF000) == 0x4000) {
+    if ((arg0 & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
         struct SoundState *a = g_SDValue;
         u16 v;
 

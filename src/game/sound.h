@@ -259,6 +259,15 @@ typedef char SDValue_lookup_bank_size_must_match_stride[
     sizeof(((SDValue *)0)->field_044C[0]) ==
         SD_VOICE_LOOKUP_BANK_BYTE_STRIDE ? 1 : -1
 ];
+typedef char SDVoiceLookup_tag_must_fit_code_mask[
+    (SD_VOICE_LOOKUP_CODE_TAG & SD_VOICE_LOOKUP_CODE_MASK) ==
+        SD_VOICE_LOOKUP_CODE_TAG ? 1 : -1
+];
+typedef char SDVoiceLookup_selector_fields_must_not_overlap[
+    (SD_VOICE_LOOKUP_CODE_MASK &
+        (SD_VOICE_LOOKUP_INDEX_MASK | SD_VOICE_LOOKUP_BANK_FLAG)) == 0 &&
+    (SD_VOICE_LOOKUP_INDEX_MASK & SD_VOICE_LOOKUP_BANK_FLAG) == 0 ? 1 : -1
+];
 typedef char SDValue_lookup_offset_must_be_0x44C[
     SD_STATE_OFFSET(SDValue, field_044C) ==
         SD_VOICE_LOOKUP_BYTE_OFFSET ? 1 : -1

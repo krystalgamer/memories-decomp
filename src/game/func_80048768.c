@@ -36,7 +36,7 @@ void func_80048768(s32 arg0, s32 arg1)
         return;
     }
     i = 0;
-    if ((arg0 & 0xF000) == 0x4000) {
+    if ((arg0 & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
         off = (arg0 & SD_VOICE_LOOKUP_INDEX_MASK) * 2;
         flag = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
         flag = zero < flag;

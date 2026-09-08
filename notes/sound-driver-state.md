@@ -131,6 +131,13 @@ view and private flattened views use the same derived total of 64 entries.
 This does not change code tags, sentinels, the four dedicated voice slots, or
 the pending-input block's capacity and count-driven population loops.
 
+The indirect path is selected by `SD_VOICE_LOOKUP_CODE_MASK` (`0xF000`)
+and `SD_VOICE_LOOKUP_CODE_TAG` (`0x4000`). Compile-time relations keep the
+tag within its mask and the code, index, and bank selector fields disjoint.
+The existing earlier high-bit dispatch and each decoder's branch order are
+unchanged. This names the code class; it does not add index validation or
+reinterpret masks used by other sound-command families.
+
 `SD_VOICE_LOOKUP_BYTE_OFFSET` fixes the table base at `+0x44C`; its exclusive
 `SD_VOICE_LOOKUP_END_BYTE_OFFSET` derives from the two bank strides and is
 `+0x4CC`. Assertions tie both boundaries to the shared member, while raw

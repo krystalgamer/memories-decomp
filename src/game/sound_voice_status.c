@@ -20,7 +20,7 @@ void func_80047DB0(s32 arg)
         func_80045114();
         return;
     }
-    if ((value & 0xF000) == 0x4000) {
+    if ((value & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
         u8 *table = (u8 *)g_SDValue->field_044C[0];
         s32 offset = (value & SD_VOICE_LOOKUP_INDEX_MASK) * 2;
         register s32 bank asm("$2") = 0;
