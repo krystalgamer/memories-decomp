@@ -5507,6 +5507,28 @@ one of these two ways.
    uninformative: record that the pins are jointly load-bearing so the next
    reader does not delete them one at a time on the strength of a single drop.
 
+### Single drops are not enough either: the effect can be non-monotone
+
+The joint arm above answers "are these pins jointly inert". It does not answer
+"is there a better configuration", and on `func_80046294` there is one that no
+single-drop search reaches:
+
+| dropped | differing |
+| --- | --- |
+| nothing | 7 |
+| `q` | 10 |
+| `src_base2` | 20 |
+| **both** | **5** |
+
+Each pin is worse alone and the pair is better than either. A greedy search -
+drop the best single pin, recurse - rejects both at the first step and stops at
+the baseline. `func_80023144` shows the milder version of the same shape:
+dropping both its pins scores 11 while dropping only the second scores 13, so
+even there the greedy path stops short.
+
+So for a small pin set, enumerate the subsets. Eight pins is 256 builds, a few
+minutes, and it is the difference between 7 and 5 on this entry.
+
 `tools/project/candidate_pin_audit.py` runs both arms over an entry's
 stored source, reporting the differing count and whether the differing
 *set* is unchanged for each pin, then the joint arm over every pin that
