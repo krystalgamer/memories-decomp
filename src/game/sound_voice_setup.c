@@ -8,9 +8,9 @@ extern u8 *D_8009B458;
 s32 func_8004A3BC(u8 *arg0, s32 arg1);
 s32 func_80049FB4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
-/* Re-derives one record's voice parameters when its bank byte changed (or
- * when forced): stores the new bank in the record, converts the pitch through
- * func_8004A3BC into a 7.7 fixed value, fills the request block at
+/* Re-derives a voice's raw pitch when its channel's pitch-bend MSB changes
+ * (or when forced). Caches the bend value in the object, adds func_8004A3BC's
+ * adjustment to the note in 7.7 units, fills the request block at
  * D_8009B458 + 0x4C0 and submits it through SpuSetVoiceAttr. */
 void func_8004A43C(u8 *p, s32 force) {
     u8 *e;

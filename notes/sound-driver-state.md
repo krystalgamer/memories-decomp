@@ -288,9 +288,26 @@ uses it to index the leading channel records, and the per-object guards
 compare it with `SD_SEQUENCE_CHANNEL_COUNT`. `SD_SECONDARY_RECORD_NONE`
 (`0x63`), already used by the allocator, is the shared no-record marker used
 by object initialization and retirement. This marker is unrelated to the
-similarly numbered controller ID. The byte at `SDSecondaryRecord +0x03`
-remains a separate, unchanged channel-record field; no raw object view or
-out-of-range behavior is rewritten.
+similarly numbered controller ID. `SDSecondaryRecord.volume` at channel
+record `+0x03` is a separate field; no raw object view or out-of-range behavior
+is rewritten.
+
+The channel-message writers and matched gain/pitch readers establish these
+channel controls without changing their byte storage:
+
+| Offset | Member | Evidence |
+|---|---|---|
+| `+0x00` | `program` | Program-change dispatch calls `func_8004B6E8`, which stores its program byte here. |
+| `+0x01` | `pan` | Controller `0x0A` writes it; `func_8004A0FC` includes it in the pan sum. |
+| `+0x03` | `volume` | Controller `7` writes it; `func_8004A0FC` multiplies it into the level. |
+| `+0x05` | `expression` | Controller `0x0B` writes it; `func_8004A0FC` applies it as another level factor. |
+| `+0x07` | `pitch_bend_msb` | Pitch-bend dispatch passes the second data byte to `func_8004B70C`; `func_8004A43C` caches it and obtains the pitch adjustment through `func_8004A3BC`. |
+
+The pan writer still substitutes `1` for an incoming zero. Pitch bend still
+stores only the second data byte masked to seven bits; the first data byte
+remains unused. These names do not add full fourteen-bit bend handling or
+change the raw gain/pitch readers. In particular, the cached `+0x07` value is
+pitch bend, not a bank byte.
 
 The same header names the event codes consumed by `func_8004C420`,
 `func_8004C114`, and `func_8004BE88`. A status-present bit, a message-type mask,
@@ -333,7 +350,7 @@ controller IDs or object-state markers that happen to use the same numbers.
 
 | Offset | Width | Field | Local matching-C evidence |
 |---|---:|---|---|
-| `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `func_8004B49C`, `func_8004B6E8`, and `func_8004B70C` index the same records and establish byte fields at `+0x00`, `+0x01`, `+0x03`, `+0x05`-`+0x07`, and `+0x10`-`+0x13`. |
+| `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `func_8004B49C`, `func_8004B6E8`, and `func_8004B70C` establish `program`, `pan`, `volume`, `expression`, and `pitch_bend_msb`; bytes at `+0x06` and `+0x10`-`+0x13` retain offset-based names. |
 | `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `func_8004B49C`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are `channel_index` at `+0x03`, a byte at `+0x0F`, and a `u16` at `+0x1E`. |
 | `0x04A4` | `0x1C` | `transfer` | `func_80049434`, `func_800496C4`, `func_8004975C`, `func_800497E0`, and `func_800498F8`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |

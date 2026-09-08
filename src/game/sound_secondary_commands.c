@@ -46,19 +46,19 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
         }
         break;
     case 7:
-        e->field_0003 = arg2;
+        e->volume = arg2;
         ok = 1;
         break;
     case 0xA:
         if (arg2 != 0) {
-            e->field_0001 = arg2;
+            e->pan = arg2;
         } else {
-            e->field_0001 = 1;
+            e->pan = 1;
         }
         ok = 1;
         break;
     case 0xB:
-        e->field_0005 = arg2;
+        e->expression = arg2;
         ok = 1;
         break;
     case 0x1E:
@@ -118,7 +118,7 @@ void func_8004B6E8(unsigned char index, int value)
 
     entries += index;
 
-    entries->field_0000 = value;
+    entries->program = value;
 }
 
 void func_8004B70C(unsigned char index, int unused, int value)
@@ -128,7 +128,7 @@ void func_8004B70C(unsigned char index, int unused, int value)
 
     entries += index;
 
-    entries->field_0007 = value & 0x7F;
+    entries->pitch_bend_msb = value & 0x7F;
 }
 
 long SD_SequenceTimerCallback(void)

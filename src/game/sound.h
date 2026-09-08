@@ -131,14 +131,14 @@ typedef struct {
 } SDValue;
 
 typedef struct {
-    u8 field_0000;
-    u8 field_0001;
+    u8 program;
+    u8 pan;
     u8 pad0002;
-    u8 field_0003;
+    u8 volume;
     u8 pad0004;
-    u8 field_0005;
+    u8 expression;
     u8 field_0006;
-    u8 field_0007;
+    u8 pitch_bend_msb;
     u8 pad0008[8];
     u8 field_0010;
     u8 field_0011;
@@ -255,6 +255,21 @@ typedef char SDSecondaryObject_channel_index_offset_must_be_0x03[
 ];
 typedef char SDSecondaryRecord_size_must_be_0x18[
     sizeof(SDSecondaryRecord) == SD_SEQUENCE_CHANNEL_RECORD_SIZE ? 1 : -1
+];
+typedef char SDSecondaryRecord_program_offset_must_be_0x00[
+    SD_STATE_OFFSET(SDSecondaryRecord, program) == 0x00 ? 1 : -1
+];
+typedef char SDSecondaryRecord_pan_offset_must_be_0x01[
+    SD_STATE_OFFSET(SDSecondaryRecord, pan) == 0x01 ? 1 : -1
+];
+typedef char SDSecondaryRecord_volume_offset_must_be_0x03[
+    SD_STATE_OFFSET(SDSecondaryRecord, volume) == 0x03 ? 1 : -1
+];
+typedef char SDSecondaryRecord_expression_offset_must_be_0x05[
+    SD_STATE_OFFSET(SDSecondaryRecord, expression) == 0x05 ? 1 : -1
+];
+typedef char SDSecondaryRecord_pitch_bend_msb_offset_must_be_0x07[
+    SD_STATE_OFFSET(SDSecondaryRecord, pitch_bend_msb) == 0x07 ? 1 : -1
 ];
 typedef char SDSecondaryTransfer_size_must_be_0x1C[
     sizeof(SDSecondaryTransfer) == 0x1C ? 1 : -1
