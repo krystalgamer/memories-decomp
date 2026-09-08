@@ -120,7 +120,7 @@ address,size,name,status,module,notes
 0x80018FEC,0x460,func_80018FEC,unmatched_asm,game,
 0x8001944C,0x118,func_8001944C,matching_c,game,"Card-image refresh: waits out the GPU, picks a VRAM x offset from gGraphics_bActiveBuffer, reads the 0x8C by 0xC4 window at the object's x/y into D_8015C424 with StoreImage2, sets the semi-transparency bit on all 0x6B30 halfwords, clears eleven specific halfwords, and writes the block back with LoadImage2. Matched with base pinned to $5 and the zero-offset clear of D_8015C424 written before the rectangle stores; sched2 sinks that store between the width and height stores, and writing it early is what makes the buffer's %hi allocate before the rectangle's."
 0x80019564,0xA4,func_80019564,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80019608,0x400,func_80019608,unmatched_asm,game,
+0x80019608,0x400,func_80019608,matching_c,game,"Five-state card-zoom sequencer: latches the selected slot's card id on entry, then opens the enlarged card window, fades it in, holds it, swaps in the readback copy and tears it down, driven by D_8009B174."
 0x80019A08,0x58,Duel_CheckEquip,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80019A60,0xCC,Duel_CheckFusion,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80019B2C,0x74,func_80019B2C,matching_c,game,Pure-C inline refinement matched the full executable.
@@ -394,7 +394,7 @@ address,size,name,status,module,notes
 0x80032B38,0x28,func_80032B38,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80032B60,0x74,BuildDeck_CompareCard,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80032BD4,0x74,func_80032BD4,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80032C48,0x474,func_80032C48,unmatched_asm,game,
+0x80032C48,0x474,func_80032C48,matching_c,game,"Card-list sort key builder; exact linked bytes with gcc_2_8_1_g8_split including its nine-entry jump table at 0x80010294. The rows are walked with a pointer rather than indexed, the stat reads and key expressions are inline rather than through locals, and halved stats are spelled value * (CARD_STAT_SCALE / 2) so the shifts stay 17 and 3."
 0x800330BC,0x444,func_800330BC,matching_c,game,"Card-list cursor and page input handler; exact linked bytes with gcc_2_8_1_cc_g8_as_g0_split. Retry path is a backward goto, not a loop construct, so the constant 7 stays rematerialised at each use."
 0x80033500,0x3C,func_80033500,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003353C,0x1B4,func_8003353C,matching_c,game,Duel input handler; exact collaborator structure with volatile input reads and semantic sound symbol.
@@ -1113,7 +1113,7 @@ address,size,name,status,module,notes
 0x8006ADE8,0x18C,func_8006ADE8,handwritten_asm,game,
 0x8006AF74,0xD30,func_8006AF74,unmatched_asm,game,
 0x8006BCA4,0x47C,func_8006BCA4,matching_c,game,Exact linked bytes with gcc_2_8_1_g8 from the ygofm reference; the sums-then-halvings order of the midpoint stores is load-bearing.
-0x8006C120,0x1DC,func_8006C120,unmatched_asm,game,"Recursive triangle subdivision: copies its three corner triplets and the three edge midpoints into six stack slots, then either recurses four times on the sub-triangles or, at depth 1, writes the four triangles as twelve triplets and returns the advanced output pointer. Candidate at 119 of 119 instructions, opcode distance 0, in notes/candidates.md."
+0x8006C120,0x1DC,func_8006C120,matching_c,game,"Matching C. Recursive triangle subdivision. The prologue register assignment follows the GCC 2.8.1 allocno priority floor_log2(n_refs) * n_refs / live_length, so the number of times the depth parameter is referenced decides which hard registers it and the two corner pointers receive."
 0x8006C2FC,0x10,func_8006C2FC,matching_c,game,1 pre-policy variants: Three byte stores through the output pointer matched including the return delay slot.
 0x8006C30C,0x24,func_8006C30C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8006C330,0x4C,func_8006C330,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.

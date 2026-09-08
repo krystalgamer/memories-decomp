@@ -667,6 +667,12 @@
       "source": "src/game/func_80019564.c"
     },
     {
+      "address": "0x80019608",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x400",
+      "source": "src/game/func_80019608.c"
+    },
+    {
       "address": "0x80019A08",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x58",
@@ -2165,6 +2171,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x74",
       "source": "src/game/build_deck_compare.c"
+    },
+    {
+      "address": "0x80032C48",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x474",
+      "source": "src/game/card_list_sort.c"
     },
     {
       "address": "0x800330BC",
@@ -4660,13 +4672,13 @@
       "address": "0x8004A6F8",
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0x6C",
-      "source": "src/game/func_8004A6F8.c"
+      "source": "src/game/sound_voice_envelope.c"
     },
     {
       "address": "0x8004A764",
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0x5C",
-      "source": "src/game/func_8004A764.c"
+      "source": "src/game/sound_voice_envelope.c"
     },
     {
       "address": "0x8004A7C0",
@@ -5855,6 +5867,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x47C",
       "source": "src/game/func_8006BCA4.c"
+    },
+    {
+      "address": "0x8006C120",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x1DC",
+      "source": "src/game/func_8006C120.c"
     },
     {
       "address": "0x8006C2FC",
