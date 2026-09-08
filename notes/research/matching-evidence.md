@@ -5155,3 +5155,68 @@ The durable candidate now compiles to 341/341 instructions with
 It replaces the 75-instruction automated sketch. The remaining work is centered
 on the state dispatch, case 0's eager default pointer, case 3's loop shape, and
 common-tail scheduling rather than missing behavior.
+
+## An identical-arm conditional is a scheduling input, but only inside a block
+
+`func_80045208` sat at two differing positions for several campaigns. The
+residue was a straight swap of two stores into the request block:
+
+```
+target   sw $s0, 0x14($sp)   sw $s1, 0x1C($sp)   jal ... / sw $s2, 0x18($sp)
+build    sw $s2, 0x18($sp)   sw $s1, 0x1C($sp)   jal ... / sw $s0, 0x14($sp)
+```
+
+`$s0` is fed by a load, `$s2` by `li`. Everything before the block matched,
+including the producers, so only the emission order was wrong.
+
+**The load-fed store is emitted last, and source order cannot move it.** Prior
+notes inferred this from samples; all six permutations of the three stores were
+then measured, and the result takes only two values. Whichever of the two
+non-load-fed stores is written first keeps its place, and the load-fed store is
+last in every one of the six. So source order permutes the other two and
+nothing else - the rule is exhaustive here, not a tendency.
+
+**What defeats it is an identical-arm conditional on the loaded value:**
+
+```c
+first = table ? (s32)*table : (s32)*table;
+```
+
+Both arms perform the same load, so this is not a null guard and not a
+different value; it is the same value reached two ways.
+
+**But at function scope it is folded away and completely inert.** Four
+spellings - `table[0]`, `*table`, with and without the cast, and with the
+pointer retyped to match the sibling - all left the count at 2 with no change
+anywhere in the function. The lever only becomes live when the values it feeds
+are scoped to an inner block:
+
+```c
+{
+    register s32 first asm("$16");
+    register u8 *const second asm("$17") = (u8 *)table + 8;
+
+    first = table ? (s32)*table : (s32)*table;
+    ...
+}
+```
+
+With that scoping the conditional reorders the stores to retail's exactly, and
+the residue becomes a pure allocation shift - three values each one register
+off - which one pin corrects. 2 -> 0, seventy-five of seventy-five, opcode
+multiset identical.
+
+**How the transfer was found, and the general point.** The already-matching
+sibling `func_80045334` carried this spelling, and it was recorded as possibly
+decorative. Deleting it from the *matched* source costs exactly three positions,
+and they are the same store-order positions - which identified the technique as
+real before any attempt to transfer it. That check is cheap and worth making
+whenever a matched source contains something unexplained: delete it and
+remeasure.
+
+The general point is a sharper form of a rule already in this file. An inert
+result is not evidence that a lever is dead; it can mean a precondition is
+unmet. Here the precondition was **lexical scope**, which is not something the
+earlier statement of that rule anticipated - it had only ever been about other
+transformations clearing the way. Scope belongs on the list of things to vary
+before concluding that a technique does not transfer.
