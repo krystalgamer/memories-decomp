@@ -7,13 +7,11 @@
 typedef void (*ObjFn)(u8 *);
 
 extern u8 D_800E9D90[];
-extern s16 D_800EFE40[];
-extern s16 D_800EFE42[];
 
 s32 func_80041E7C(s32 arg0, s32 arg1, s32 arg2, u8 *arg3);
 void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
-/* Walks the display-object list from the head index at D_800EFE40, calls
+/* Walks the display-object list from the head index at D_800EFE38[4], calls
  * each object's callback, and for every visible object copies its vertices
  * into the scratchpad quad at 0x1F800344, offsets them by the viewport origin
  * unless bit 3 is set, runs the bit-2 clip test through
@@ -44,7 +42,7 @@ void func_80040DD8(void) {
 
     g = (u8 *)0x1F800344;
     h = (u8 *)0x1F800398;
-    i = D_800EFE40[0];
+    i = D_800EFE38[4];
 
     if (i >= 0) {
         eight = 8;
@@ -127,7 +125,7 @@ void func_80040DD8(void) {
 }
 
 /* The 12-wide, 0x3C-high sibling renderer for the list rooted at
- * D_800EFE42. */
+ * D_800EFE38[5]. */
 void func_80041068(void) {
     u8 *g;
     u8 *h;
@@ -152,7 +150,7 @@ void func_80041068(void) {
 
     g = (u8 *)0x1F800344;
     h = (u8 *)0x1F800398;
-    i = D_800EFE42[0];
+    i = D_800EFE38[5];
 
     if (i >= 0) {
         twelve = 0xC;

@@ -2,15 +2,12 @@
 #include "display_object.h"
 #include "display_object_layout.h"
 
-extern s16 D_800EFE38;
-extern s16 D_800EFE3E[];
-extern s16 D_800EFE44[];
 extern s32 D_800E9D90[];
 extern void func_800408D0(u8 *, s32, s32);
 
 void func_80040BF8(void)
 {
-    s32 i = D_800EFE3E[0];
+    s32 i = D_800EFE38[3];
 
     if (i >= 0) {
         DisplayObject *base = D_800EFE48;
@@ -38,7 +35,7 @@ void func_80040BF8(void)
 
 void func_80040CAC(void)
 {
-    s32 i = D_800EFE38;
+    s32 i = D_800EFE38[0];
 
     while (i >= 0) {
         DisplayObject *object = &D_800EFE48[i];
@@ -53,7 +50,7 @@ void func_80040CAC(void)
 
 void func_80040D14(void)
 {
-    s32 i = D_800EFE44[0];
+    s32 i = D_800EFE38[6];
 
     if (i >= 0) {
         DisplayObject *base = D_800EFE48;

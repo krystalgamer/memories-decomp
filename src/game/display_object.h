@@ -100,6 +100,16 @@ typedef char DisplayObject_field_65_must_be_at_0x65[
     DISPLAY_OBJECT_OFFSET(field_65) == 0x65 ? 1 : -1
 ];
 
+/* The DISPLAY_OBJECT_LIST_COUNT list heads, immediately below the pool.
+ *
+ * Each entry is the index of the first object on one list, or -1 for an empty
+ * list; an object's own `next` continues the chain.  DisplayObject_ResetPool
+ * writes -1 through all DISPLAY_OBJECT_LIST_COUNT of them with a single s16
+ * cursor started at this address, which is what says the seven halfwords are
+ * one array rather than seven objects that happen to be adjacent.
+ */
+extern s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT];
+
 extern DisplayObject D_800EFE48[DISPLAY_OBJECT_POOL_CAPACITY];
 /* &D_800EFE48[DISPLAY_OBJECT_RESERVED_CAPACITY]: the allocatable tail of the
  * same pool, which func_8004002C scans. */

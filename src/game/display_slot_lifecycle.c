@@ -9,7 +9,6 @@
 
 extern u16 D_8009B410;
 extern u16 D_8009B412;
-extern s16 D_800EFE38[];
 extern s16 D_800F2878[];
 extern u8 tail_data_start[];
 
