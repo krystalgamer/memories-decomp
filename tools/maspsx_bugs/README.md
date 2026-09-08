@@ -5,7 +5,7 @@ dirty one. Suspected divergences from ASPSX are reported here for verification
 rather than patched.
 
 Only file something here once everything else has been ruled out. **So far
-every suspected fault has turned out not to be one**, and both were measured
+every suspected fault has turned out not to be one**, and each was measured
 against ASPSX and found to agree:
 
 - The **small-extern load-delay `nop`** was faithful emulation. The fix was to
@@ -18,6 +18,20 @@ against ASPSX and found to agree:
   ternary instead of an `if`/`else` made GCC fill the slot, and dropping a
   `volatile` freed a call argument to sink into another. See the corrections in
   `notes/research/matching-evidence.md`.
+- The **post-`mfhi` small-extern store `nop`** was faithful, and was a *second
+  instance of the first entry above*. `func_8004E7B0` was filed here claiming
+  maspsx dropped a `nop` after `mfhi` before a `-G8` store to
+  `D_8009AF8E`. It matches with no tooling change once the nine globals the
+  unit owns are **defined** rather than declared `extern`, with
+  `--use-comm-section` so they become common symbols that `c_symbols.ld`
+  places. That is the fix already written down one bullet up, for the same
+  reason: an `extern` leaves the assembler unable to prove the store is a
+  single gp-relative instruction.
+
+  This one should not have been filed. The entry above named the fix, and the
+  standing instruction below says to exhaust the shape of the C first. The
+  report was written after the `extern` spelling had been tried and before the
+  defined spelling had, which is exactly the ordering this file warns against.
 
 The standing lesson is that a difference which looks like the assembler's is
 almost always the shape of the C. Exhaust that first.

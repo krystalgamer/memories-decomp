@@ -12,5 +12,6 @@ s32 MainMenu_UpdateValueSetup(void);
 void MainMenu_FinishValueSetup(void);
 void MainMenu_InitTradeScreen(void);
 s32 MainMenu_UpdateTradeScreen(void);
+void MainMenu_ReleaseTradeDisplayHandles(void);
 
 #endif

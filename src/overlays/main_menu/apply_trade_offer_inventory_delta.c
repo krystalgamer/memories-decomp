@@ -3,7 +3,7 @@
 
 extern u16 D_80185C9C[][11];
 
-void func_80184030(s32 slot, s32 amount)
+void MainMenu_ApplyTradeOfferInventoryDelta(s32 slot, s32 amount)
 {
     s32 i;
 

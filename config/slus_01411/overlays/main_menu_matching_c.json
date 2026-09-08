@@ -142,13 +142,13 @@
       "address": "0x80183FE4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
-      "source": "src/overlays/main_menu/func_80183FE4.c"
+      "source": "src/overlays/main_menu/release_trade_display_handles.c"
     },
     {
       "address": "0x80184030",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC8",
-      "source": "src/overlays/main_menu/func_80184030.c"
+      "source": "src/overlays/main_menu/apply_trade_offer_inventory_delta.c"
     },
     {
       "address": "0x801840F8",
@@ -178,13 +178,13 @@
       "address": "0x80184454",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x84",
-      "source": "src/overlays/main_menu/func_80184454.c"
+      "source": "src/overlays/main_menu/draw_trade_column_overlay.c"
     },
     {
       "address": "0x801844D8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
-      "source": "src/overlays/main_menu/func_801844D8.c"
+      "source": "src/overlays/main_menu/rebuild_trade_inventory_rows.c"
     }
   ],
   "schema": 1

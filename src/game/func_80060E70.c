@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "card_list_rows.h"
 
 typedef struct {
     u8 pad_00[0x28];
@@ -28,7 +29,7 @@ extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
 extern Box *TextBox_Create(s32, s32, s32, s32, s32, s32);
 extern void func_80039A14(void *);
 
-void func_80060E70(u16 *e, s32 idx, s32 flag)
+void func_80060E70(u16 *e, s32 idx, s32 flag, s32 ignored)
 {
     Slot *s;
     Box *box;

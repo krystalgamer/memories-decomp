@@ -48,7 +48,7 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
             D_801845FC[slot][i].count = counts[i];
         }
         for (i = 0; i < 2; i++) {
-            func_80184030(i, -1);
+            MainMenu_ApplyTradeOfferInventoryDelta(i, -1);
         }
     }
 

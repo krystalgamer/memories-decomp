@@ -52,7 +52,6 @@ extern void func_8004036C(Obj *);
 extern s32 DuelEffect_UpdateState(void);
 extern void SD_BGMFadeOut(void);
 extern void Fade_WaitOut(void);
-extern void func_80183FE4(void);
 
 void Main_RunTrade(void)
 {
@@ -107,7 +106,7 @@ void Main_RunTrade(void)
             if (MainMenu_UpdateTradeScreen() != 0) {
                 SD_BGMFadeOut();
                 Fade_WaitOut();
-                func_80183FE4();
+                MainMenu_ReleaseTradeDisplayHandles();
                 D_8009B26C = D_8009B269;
             }
         }

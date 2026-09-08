@@ -6,8 +6,6 @@ extern u16 D_80185C9C[][11];
 extern u8 D_80185CC8;
 extern u8 D_80185CC9;
 
-extern void func_80184454(int column);
-
 void MainMenu_DrawTradeOffersAndHighlights(void)
 {
     u8 *volatile obj[2];
@@ -17,7 +15,7 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
     obj[1] = D_801845EC[2];
 
     if (D_80185CC8 != 0) {
-        func_80184454(0);
+        MainMenu_DrawTradeColumnOverlay(0);
         obj[0][0xC] = obj[0][0xD] = obj[0][0xE] = 0x40;
         *(s16 *)(obj[0] + 0x60) = 2;
     } else {
@@ -30,7 +28,7 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
     }
 
     if (D_80185CC9 != 0) {
-        func_80184454(1);
+        MainMenu_DrawTradeColumnOverlay(1);
         obj[1][0xC] = obj[1][0xD] = obj[1][0xE] = 0x40;
         *(s16 *)(obj[1] + 0x60) = 2;
     } else {

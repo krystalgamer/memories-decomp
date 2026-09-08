@@ -462,6 +462,7 @@ PROVIDE(MainMenu_UpdateValueSetup = 0x801812B4);
 PROVIDE(MainMenu_FinishValueSetup = 0x80181E30);
 PROVIDE(MainMenu_InitTradeScreen = 0x80181F68);
 PROVIDE(MainMenu_UpdateTradeScreen = 0x801821DC);
+PROVIDE(MainMenu_ReleaseTradeDisplayHandles = 0x80183FE4);
 D_8009B0CC_arr = 0x8009B0CC;
 D_8009AF30 = 0x8009AF30;
 D_8009B210 = 0x8009B210;
