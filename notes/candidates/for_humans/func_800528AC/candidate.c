@@ -59,8 +59,10 @@ void func_800528AC(void)
     ModelSlot *slot;
     Record *e;
     Record *table;
+    u8 *base1;
 
     table = D_800F2B50;
+    base1 = (u8 *)table + 1;
     for (i = 0, off = 0; i < 10; off += 0x18, i++) {
         e = &table[i];
         if ((*(u8 *)e & 1) == 0) {
@@ -102,7 +104,7 @@ void func_800528AC(void)
             slot->field_BF5 = v;
         }
 
-        D_8009AF9C = (s32)((u8 *)D_800F2B50 + off + 1);
+        D_8009AF9C = (s32)(base1 + off);
         D_8009AF9B = (e->flags >> 2) & 1;
         func_800540B4(side);
         D_8009AF9C = 0;
