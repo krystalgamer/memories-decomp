@@ -19,6 +19,9 @@
 #define SD_CHANNEL_VOLUME_MAX 0x80
 #define SD_MIX_SAMPLE_COUNT 256
 #define SD_KEY_OFF_RETRY_LIMIT 256
+#define SD_TRANSFER_STATE_INACTIVE (-1)
+#define SD_TRANSFER_ERROR (-1)
+#define SD_TRANSFER_INCOMPLETE (-2)
 
 typedef struct {
     u8 command;

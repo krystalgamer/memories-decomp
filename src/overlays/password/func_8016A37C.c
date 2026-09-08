@@ -49,10 +49,10 @@ extern void Fade_WaitOut(void);
 extern s32 Password_LookupCardID(void);
 extern void func_80029164(s32, s32);
 extern void func_8016A02C(s32);
-extern s32 func_8002CCA8(s32);
+extern s32 Campaign_TestStoryFlag(s32);
 extern u8 *Password_CreateMessageBox(s32, s32);
-extern void func_8002CCE4(s32);
-extern void func_80021894(s32);
+extern void Library_UpdateCardUsedFlag(s32);
+extern void Duel_AwardCard(s32);
 extern void Password_RefreshStarchipDisplay(void);
 
 void func_8016A37C(void)
@@ -169,7 +169,7 @@ void func_8016A37C(void)
             D_8016D424 = flags2 | 0x8000;
             D_801D5608.lo = D_801A8000[D_8016D4DC * 2];
             D_801D5608.hi = D_8016D4DC;
-            if (func_8002CCA8(D_8016D4DC + 1024) != 0) {
+            if (Campaign_TestStoryFlag(D_8016D4DC + 1024) != 0) {
                 Password_CreateMessageBox(229, 128);
                 return;
             }
@@ -184,8 +184,8 @@ void func_8016A37C(void)
         if ((flags2 & 0x4000) != 0) {
             D_8016D424 = flags2 & 0xBFFF;
             if (D_8009B34D == 0) {
-                func_8002CCE4(D_8016D4DC + 1024);
-                func_80021894(D_8016D4DC);
+                Library_UpdateCardUsedFlag(D_8016D4DC + 1024);
+                Duel_AwardCard(D_8016D4DC);
                 D_8016D424 = 3;
                 return;
             }

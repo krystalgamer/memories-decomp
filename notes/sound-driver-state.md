@@ -309,6 +309,27 @@ The header uses GCC-2.8.1-compatible negative-array assertions for the
 `0x18`, `0x28`, and `0x1C` subview sizes, the complete `0x848` state size, and
 the major top-level offsets.
 
+### Transfer-window state and results
+
+The leading halfword of `transfer` uses `SD_TRANSFER_STATE_INACTIVE` (`-1`)
+as its inactive marker. `func_80049434` initializes it and `func_800498F8`
+restores that marker. This is a software state marker, not a claim that a
+hardware DMA transfer has completed.
+
+`func_800496C4` checks for that marker when its caller requests an inactive
+window, then prepares the window with state zero. `func_8004975C` and
+`func_800497E0` retain their caller-supplied state comparisons. An operation
+failure is `SD_TRANSFER_ERROR` (`-1`), while `func_800497E0` returns
+`SD_TRANSFER_INCOMPLETE` (`-2`) when its consumed-byte count has not reached
+the window length. A completed window returns the matched state token;
+the state marker and result codes are separate roles despite sharing `-1`.
+
+The transfer entrypoint remains `func_80077150`. The comparison material has
+a documented [SpuRead/SpuWrite naming conflict](research/Unchiga_Symbols/NAMING.md#conflicts-31-rows-where-two-names-claim-one-address)
+for that address. Neither the wrapper's old `SpuRead` comment nor an imported
+name list resolves the direction; keep the address-based declaration until
+the SDK identity is independently established.
+
 ### Migration status and exact-code exceptions
 
 Every matching-C user outside the GCC inline-assembly exceptions below now
