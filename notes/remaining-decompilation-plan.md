@@ -20,8 +20,9 @@ At campaign launch, the resident inventory contained 1,794 functions:
 
 That last category records the campaign's historical classification, not
 independent source provenance. The [GTE audit](function-map.md#gte-classification-correction-2026-09-08)
-subsequently returned those functions to the unmatched queue; the historical
-figures above are intentionally unchanged.
+subsequently reopened three functions and added positive whole-function
+evidence for the retained 60; the historical figures above are intentionally
+unchanged.
 
 The previous breadth-first campaign produced deferred histories for every remaining
 compiler-generated assembly function. Those histories are research indexes,

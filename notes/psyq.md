@@ -1213,8 +1213,10 @@ A disassembler's "likely handwritten" label is not proof that a whole game
 function was authored in assembly. The
 [game-function audit](function-map.md#gte-classification-correction-2026-09-08)
 found only `cfc2`, `mfc2`, and `mtc2` as heuristic triggers in the 63 formerly
-excluded game functions. These transfers have C inline-macro forms; their
-presence does not remove a function from the unmatched C-candidate queue.
+heuristic-tagged game functions. These transfers have C inline-macro forms;
+their presence alone does not justify a handwritten exemption. The retained
+60 functions have separate whole-function register-preservation evidence;
+three functions without that evidence were reopened.
 
 The currently imported inline command headers identify themselves as DMPSX
 interfaces. For example, `inline_c.h`'s `gte_rtps` emits marker
