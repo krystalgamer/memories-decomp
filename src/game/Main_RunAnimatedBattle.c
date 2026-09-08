@@ -1,5 +1,6 @@
 
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 typedef struct {
     s16 f0;
@@ -19,8 +20,6 @@ extern u8 D_8009B364 __attribute__((section(".data")));
 extern u8 D_8009B269;
 extern Anim D_800EF658[];
 
-extern void SetGeomOffset(s32, s32);
-extern void SetGeomScreen(s32);
 extern void func_800530C4(void);
 extern void func_800533D8(void);
 extern void Model_SetSlotProperties(s32, ...);

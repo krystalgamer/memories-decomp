@@ -297,8 +297,8 @@ Every row below is now an applied project symbol.
 | `0x80087860` | `ReadGeomScreen` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBGTE.LIB/REG09.OBJ` signature; returns GTE control register `26`, the value `SetGeomScreen` writes. |
 | `0x80087870` | `SetBackColor` | Applied Psy-Q 4.6 identity; the matching scene-lighting setup installs equal ambient red, green, and blue values. |
 | `0x80087890` | `SetFarColor` | Applied Psy-Q 4.6 identity; matching scene setup paths clear or configure the GTE far color before lighting and fog work. |
-| `0x800878B0` | `SetGeomOffset` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE screen-center coordinates. |
-| `0x800878D0` | `SetGeomScreen` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE projection-plane distance. |
+| `0x800878B0` | `SetGeomOffset` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE screen-center coordinates, including `(160, 120)` for `Main_RunAnimatedBattle`. |
+| `0x800878D0` | `SetGeomScreen` | Applied Psy-Q 4.6 identity; matching projection paths set the GTE projection-plane distance, including `300` for `Main_RunAnimatedBattle`. |
 | `0x80087A50` | `RotAverage3` | Applied Psy-Q 4.6 identity; the matching duel projection path transforms three vertices and inspects the returned flag. |
 | `0x80087AB0` | `RotAverage4` | Applied Psy-Q 4.6 identity; the matching duel renderer transforms four vertices and returns depth and flag outputs. |
 | `0x80089460` | `ReadSZfifo4` | Applied Psy-Q 4.6 identity from the unique 32-byte `LIBGTE.LIB/REG05.OBJ` signature; stores GTE data registers `16`-`19` through four pointers and the `DivideFT4` body at `0x80089260` calls it. |
