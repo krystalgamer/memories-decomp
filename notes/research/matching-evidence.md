@@ -4387,6 +4387,7 @@ allocation problem.**
 **150 of 150, zero differences**, on `gcc_2_8_1_g8_split`. All six pins are
 load-bearing, costing 24, 9, 18, 14, 4 and 34 positions when removed one at a
 time.
+
 ## `func_80057AF4`: the variable-count diagnostic, in both directions
 
 Sixty-two differing positions, every one a register name at the right position,
@@ -4484,3 +4485,88 @@ interchangeable: on `func_8001BAF0` the `s32` cast was necessary and sufficient,
 here it does nothing and the shift spelling is what matters. When an `addu` has
 its operands the wrong way round, try both, and try them per site - the
 direction is not uniform within a function.
+
+## 2026-09-07: `func_80018608` - absolute loads close the startup guard
+
+The stored duel-startup candidate now matches all 225 instructions under
+`gcc_2_8_1_g8_split`. Its baseline was 224/225 with opcode distance 1.
+The previous note's eleven positions described the local phase-4 guard window
+at `0x80018778` through `0x800187AC`, not the full positional comparison:
+resolving relocations and counting the shifted suffix gives 137 differing
+words. The missing instruction was the branch-delay `nop` at `0x8001879C`.
+
+### Preserved candidate structure and earlier results
+
+The first call requests combined deck data and initializes the three display
+halfwords. Phase 2 animates them down to their endpoints. Phase 3 opens the
+side's selection message and waits for its counter. Phase 4 waits for file
+transfer completion, starts BGM, populates the decks and computes the average
+attack/defence of both forty-card decks. Phase 5 initializes the hand and
+returns control to the outer state. This state/loop structure is unchanged.
+
+The earlier candidate established several useful source-shape constraints:
+
+- Keep `w = D_800F2848` before the outer flag test. This retains the high-half
+  and full address in their function-wide saved registers. Offset zero must
+  still use `D_800F2848[0]`, while the other offsets use `w`: that preserves
+  the direct low relocation and prevents the later halfword load from moving
+  before the offset-zero store.
+- Keep phase-2 halfword updates in place, followed by the signed comparison.
+  Computing replacement values in separate locals changed load/add ordering
+  in the recorded trials, regardless of source-statement order.
+- Share `atk`, `def`, `i` and `rec` between deck loops, but keep the two stat
+  temporaries and rank-record bases separate (`stat`/`stat2`, `r1`/`r2`).
+  Sharing those latter values changed the global pseudo allocation and
+  permuted the target's loop registers.
+- Use an explicit rank-record base so offsets `0xE`/`0x10` remain on the
+  stores. Conversely, the selection record needs the local member view at
+  offset 8: a raw byte expression folded that offset into the relocation,
+  while an extra pointer local changed allocation and load ordering.
+- The small scalars use GP-relative addressing, while the phase-4 guard and
+  BGM inputs need absolute accesses. The original array declarations provided
+  that distinction, but they are not the only valid representation: the
+  matching absolute scalar declarations below supersede that restriction.
+
+Earlier unsuccessful guard trials included both operand orders of `&` and
+`|`, loading the guards into locals, `break`/`return`/inverted-if shapes,
+signed/unsigned/sized-array declarations, and the named G8-split, comm,
+no-strength-reduction and compiler-G0/assembler-G8 profiles. None solved the
+mask allocation and exposed address scheduling together.
+
+The BGM-address result explained the empty delay slot. When the first
+not-taken instruction wrote a temporary register, it could fill the preceding
+branch slot. A literal argument writing `$a0` restored the empty slot in the
+historical diagnostic, but changed the value and was not a valid candidate.
+Other negatives included `u16`/`u32` value locals, dereference spelling, K&R
+and narrowed callee declarations, sized arrays that changed small-data
+selection, and a pointer local pinned to `$4` that folded away.
+
+### Three source variants that close the residual
+
+| Variant | Instructions | Opcode distance | Resolved differing words |
+| --- | --- | --- | --- |
+| Stored baseline | 224/225 | 1 | 137 |
+| Short-lived guard mask in `$2` | 224/225 | 1 | 131 |
+| Also make the BGM halfword an absolute scalar | 225/225 | 0 | 2 |
+| Also make the second guard word an absolute scalar | 225/225 | 0 | 0 |
+
+The single `register u32 mask asm("$2")` declaration corrects six register
+words. Its lifetime is confined to the phase-4 guard; no statement-level
+assembly is used.
+
+Declaring `D_8009B36A` as a scalar `u16` with `section(".data")` keeps its
+address inside the halfword-load macro and restores the target argument
+register. The compiler retains the empty branch slot without an explicit
+`nop`. Finally, the same absolute scalar treatment for the `u32`
+`D_8009B134` keeps its `lui`/`lw` together until assembly and closes the last
+two scheduling positions. Widths, qualifiers, addresses and loaded values are
+unchanged; these are extern declarations and do not allocate or move data.
+
+The terminal result was recorded and promoted with the existing tools.
+Only the five include paths were normalized for `src/game/func_80018608.c`,
+then the integrated source was remeasured. The clean full-executable gate
+passed with every existing matching entry enabled and retail SHA-256
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
+The original candidate note, three exact source variants, resolved diffs and
+canonical acceptance are retained under
+`tmp/copilot-fixer/attempts/func-80018608-cycle1/`.

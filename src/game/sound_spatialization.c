@@ -23,11 +23,12 @@ void func_8004A2F8(void)
         offset = i;
         do {
             u8 *entry = state + offset;
-            if (entry[0x183] < 16) {
+            if (entry[0x183] < SD_SEQUENCE_CHANNEL_COUNT) {
                 int value = entry[0x183];
                 u8 *current;
 
-                func_8004A0FC(state + object_offset, state + value * 24);
+                func_8004A0FC(state + object_offset,
+                              state + value * SD_SEQUENCE_CHANNEL_RECORD_SIZE);
                 current = D_8009B458;
                 func_8004A27C(i, *(u16 *)(current + offset + 0x194),
                               *(u16 *)(current + offset + 0x196));

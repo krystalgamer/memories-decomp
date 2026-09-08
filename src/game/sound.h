@@ -2,17 +2,14 @@
 #define YUGIOH_GAME_SOUND_H
 
 #include "../types.h"
+#include "sound_sequence_constants.h"
 #include "sound_voice_constants.h"
 
 #define SD_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 #define SD_COMMAND_QUEUE_COUNT 16
 #define SD_COMMAND_RECORD_SIZE 0x30
-#define SD_SECONDARY_OBJECT_COUNT 20
-#define SD_SECONDARY_OBJECT_SIZE 0x28
 #define SD_SECONDARY_LEVEL_MASK 0x7F
 #define SD_SECONDARY_LEVEL_MAX SD_SECONDARY_LEVEL_MASK
-#define SD_SEQUENCE_TRACK_COUNT 16
-#define SD_SEQUENCE_TRACK_RECORD_SIZE 0x2C
 #define SD_COMMAND_VALUE_MASK 0xFFFF
 #define SD_BGM_COMMAND_BASE 0x7000
 #define SD_SE_VOLUME_MAX 0xFF
@@ -185,7 +182,7 @@ typedef struct {
 } SDSecondaryTransfer;
 
 typedef struct {
-    u8 pad0000[0x180];
+    u8 pad0000[SD_SEQUENCE_CHANNEL_COUNT * SD_SEQUENCE_CHANNEL_RECORD_SIZE];
     SDSecondaryObject objects[SD_SECONDARY_OBJECT_COUNT];
     u8 pad04A0[4];
     SDSecondaryTransfer transfer;
@@ -254,7 +251,7 @@ typedef char SDSecondaryObject_size_must_be_0x28[
     sizeof(SDSecondaryObject) == SD_SECONDARY_OBJECT_SIZE ? 1 : -1
 ];
 typedef char SDSecondaryRecord_size_must_be_0x18[
-    sizeof(SDSecondaryRecord) == 0x18 ? 1 : -1
+    sizeof(SDSecondaryRecord) == SD_SEQUENCE_CHANNEL_RECORD_SIZE ? 1 : -1
 ];
 typedef char SDSecondaryTransfer_size_must_be_0x1C[
     sizeof(SDSecondaryTransfer) == 0x1C ? 1 : -1

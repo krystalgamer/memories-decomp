@@ -619,6 +619,12 @@
       "source": "src/game/duel_card_object_helpers.c"
     },
     {
+      "address": "0x80018608",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x384",
+      "source": "src/game/func_80018608.c"
+    },
+    {
       "address": "0x8001898C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2A8",
@@ -3295,6 +3301,12 @@
       "source": "src/game/duel_effect_late_state.c"
     },
     {
+      "address": "0x8003EED0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3E0",
+      "source": "src/game/mem_card_save_state.c"
+    },
+    {
       "address": "0x8003F2B0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD8",
@@ -4565,6 +4577,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x64",
       "source": "src/game/sound_secondary_playback.c"
+    },
+    {
+      "address": "0x80049FB4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x148",
+      "source": "src/game/func_80049FB4.c"
     },
     {
       "address": "0x8004A27C",

@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
+#include "sound_sequence_constants.h"
 
 extern u8 *D_8009B458;
 extern s32 D_80011434[];
@@ -42,14 +43,14 @@ void func_8004AAFC(void) {
         o = 0x180;
         do {
             e = p + o;
-            if (e[3] < 0x10) {
+            if (e[3] < SD_SEQUENCE_CHANNEL_COUNT) {
                 func_8004A43C(e, 0);
             }
             if (*q == SPU_OFF) {
                 if (e[0xD] == 0) {
                     goto next;
                 }
-                r = D_8009B458 + e[3] * 0x18;
+                r = D_8009B458 + e[3] * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
                 a = r[6];
                 if ((a & 0xF) != 0) {
                     r[6] = a - 1;

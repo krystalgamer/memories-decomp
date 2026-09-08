@@ -116,7 +116,7 @@ void func_8004C114(SDSequenceTrack *p, s32 status, u8 d1, u8 d2) {
             u8 *seq;
 
             seq = (u8 *)D_8009B458;
-            n = ch * 24;
+            n = ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
             if (*(seq + n + 0x12) == 0x14) {
                 if (*(u16 *)(seq + 0x7F8) != 0) {
                     if (((SDSecondaryState *)seq)->field_07FA != 0) {

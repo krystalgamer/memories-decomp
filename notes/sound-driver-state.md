@@ -270,11 +270,24 @@ Offset-based names are retained except where several matched functions
 establish a stable role. Unmodeled and overlapping regions remain padding or
 explicit typed/raw views rather than speculative fields.
 
+The leading channel records and the later track records are distinct layouts.
+`func_8004C114` selects a channel with the MIDI status byte's low nibble and
+indexes the leading records with a `0x18`-byte stride; `func_8004A518`
+initializes all sixteen. `SD_SEQUENCE_CHANNEL_COUNT` and
+`SD_SEQUENCE_CHANNEL_RECORD_SIZE` describe this `0x180`-byte prefix.
+The separate `SD_SEQUENCE_TRACK_COUNT` and `SD_SEQUENCE_TRACK_RECORD_SIZE`
+describe the sixteen `0x2C`-byte track records starting at `+0x518`.
+Both pairs live alongside the separate `SD_SECONDARY_OBJECT_COUNT` and
+`SD_SECONDARY_OBJECT_SIZE` in the constant-only `sound_sequence_constants.h`.
+The legacy raw views can share this geometry without changing their state
+declarations. Channel and track constants must not stand in for the twenty
+`0x28`-byte objects or a 24-voice SPU status buffer.
+
 ### Confirmed secondary-state fields
 
 | Offset | Width | Field | Local matching-C evidence |
 |---|---:|---|---|
-| `0x0000` | `0x18` stride | `SDSecondaryRecord` view | `func_8004B49C`, `func_8004B6E8`, and `func_8004B70C` index the same records and establish byte fields at `+0x00`, `+0x01`, `+0x03`, `+0x05`-`+0x07`, and `+0x10`-`+0x13`. |
+| `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `func_8004B49C`, `func_8004B6E8`, and `func_8004B70C` index the same records and establish byte fields at `+0x00`, `+0x01`, `+0x03`, `+0x05`-`+0x07`, and `+0x10`-`+0x13`. |
 | `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `func_8004B49C`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are bytes at `+0x03` and `+0x0F`, and a `u16` at `+0x1E`. |
 | `0x04A4` | `0x1C` | `transfer` | `func_80049434`, `func_800496C4`, `func_8004975C`, `func_800497E0`, and `func_800498F8`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |
@@ -350,9 +363,8 @@ cannot replace the exact source shape:
 - `func_8004A7C0` calculates the `0x28`-byte object address explicitly.
   Replacing it with `&D_8009B458->objects[index]` changes the linked
   executable at `0x8004A7C8`.
-- `func_8004B49C` retains byte-pointer iteration for the overlapping
-  `0x18`-byte record and `0x28`-byte object views, while stable fields use the
-  shared types.
+- `func_8004B49C` retains explicit byte-pointer arithmetic for the channel
+  records and secondary objects, while stable fields use the shared types.
 
 `func_8004BE88` likewise keeps a byte pointer for the still-unmodeled
 `0x2C`-stride work-record region, but uses `SDSecondaryState` members for its

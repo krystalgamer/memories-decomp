@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
+#include "sound_sequence_constants.h"
 
 extern s32 D_80011434[];
 extern u8 *D_8009B458;
@@ -65,7 +66,7 @@ void func_8004B374(s32 arg0, s32 arg1) {
     }
 
     {
-        u8 *q = D_8009B458 + ((u8)arg0) * 0x18;
+        u8 *q = D_8009B458 + ((u8)arg0) * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
         q[4] = 0;
     }
 }

@@ -1,15 +1,10 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
 
 typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} Rect;
-
-typedef struct {
-    Rect img;
-    Rect clut;
+    RECT img;
+    RECT clut;
 } RectPair;
 
 extern RectPair D_800E9D70;
@@ -41,8 +36,6 @@ extern u8 D_801AF000[];
 extern void func_80035C38(s32, s32, s32, s32, s32, s32, s32);
 extern void func_80039794(void);
 extern s32 Campaign_TestStoryFlag(s32);
-extern s32 IsIdleGPU(s32);
-extern void LoadImage2(Rect *, u8 *);
 extern void *func_8004002C(void);
 extern Obj *func_800400AC(void *, int);
 extern void func_80040510(Obj *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
@@ -65,7 +58,7 @@ void FreeDuel_Init(u8 *src)
     void **slot;
     u8 *cell;
     Obj *obj;
-    Rect *clut;
+    RECT *clut;
 
     if (gFreeDuel_bReturnFlags & 0x80) {
         rec = (u16 *)(gFreeDuel_aDuelistRecords +
@@ -124,8 +117,8 @@ void FreeDuel_Init(u8 *src)
         D_800E9D70.img.w = 24;
         D_800E9D70.img.h = 48;
         for (col = 0; col < 5; col++) {
-            LoadImage2(&D_800E9D70.img, src);
-            LoadImage2(&D_800E9D70.clut, src + 2304);
+            LoadImage2(&D_800E9D70.img, (u32 *)src);
+            LoadImage2(&D_800E9D70.clut, (u32 *)(src + 2304));
             D_800E9D70.img.x += 24;
             D_800E9D70.clut.y++;
             if ((s16)D_800E9D70.clut.y >= 512) {
@@ -142,8 +135,8 @@ void FreeDuel_Init(u8 *src)
         D_800E9D70.img.w = 24;
         D_800E9D70.img.h = 48;
         for (col = 0; col < 5; col++) {
-            LoadImage2(&D_800E9D70.img, src);
-            LoadImage2(&D_800E9D70.clut, src + 2304);
+            LoadImage2(&D_800E9D70.img, (u32 *)src);
+            LoadImage2(&D_800E9D70.clut, (u32 *)(src + 2304));
             count++;
             if (count >= 40) {
                 goto done;
