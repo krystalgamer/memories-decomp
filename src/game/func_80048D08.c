@@ -11,6 +11,10 @@ typedef struct {
 typedef char SDSeqBlock_size_must_match_input_block[
     sizeof(SDSeqBlock) == SD_PENDING_INPUT_BLOCK_SIZE ? 1 : -1
 ];
+typedef char SDSeqBlock_id_region_must_have_whole_entries[
+    (SD_PENDING_INPUT_PAYLOAD_BYTE_OFFSET - SD_PENDING_INPUT_IDS_BYTE_OFFSET) %
+        SD_PENDING_INPUT_ID_ENTRY_SIZE == 0 ? 1 : -1
+];
 typedef char SDSeqBlock_keys_must_match_input_offset[
     (u32)&(((SDSeqBlock *)0)->keys) == SD_PENDING_INPUT_IDS_BYTE_OFFSET ? 1 : -1
 ];

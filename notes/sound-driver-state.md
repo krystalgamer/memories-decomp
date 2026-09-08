@@ -109,10 +109,12 @@ offset is a note-record stride or an inferred capacity. Both cursors retain
 their original advancement even for skipped IDs. Register pins,
 pointer/count reloads, and the halfword rate adjustment remain unchanged.
 
-The complete private `SDSeqBlock` view in `func_80048D08` independently
-establishes `SD_PENDING_INPUT_ENTRY_CAPACITY` (`204`) IDs and note records.
-Its size is `SD_PENDING_INPUT_BLOCK_SIZE` (`0x800`), and assertions tie its
-ID/data members to the raw reader's offsets. `SD_PENDING_INPUT_BLOCK_SHIFT`
+The complete private `SDSeqBlock` view in `func_80048D08` has
+`SD_PENDING_INPUT_ENTRY_CAPACITY` IDs and note records. That capacity is
+derived from the ID region: `(0x1A0 - 0x08) / 2 = 204`, with an explicit
+assertion rejecting partial-ID remainders. Its size is
+`SD_PENDING_INPUT_BLOCK_SIZE` (`0x800`), and assertions tie its ID/data members
+to the raw reader's offsets. `SD_PENDING_INPUT_BLOCK_SHIFT`
 (`11`) preserves the two destination blocks' spacing. The copy helper keeps
 `SD_PENDING_INPUT_COPY_GROUP_COUNT` (`64`) iterations of its original eight
 word assignments, covering the same block. These names describe storage, not
