@@ -141,9 +141,9 @@ typedef struct {
     u8 pitch_bend_msb;
     u8 pad0008[8];
     u8 field_0010;
-    u8 field_0011;
-    u8 field_0012;
-    u8 field_0013;
+    u8 parameter_selector;
+    u8 control_mode;
+    u8 control_value;
     u8 pad0014[4];
 } SDSecondaryRecord;
 
@@ -270,6 +270,15 @@ typedef char SDSecondaryRecord_expression_offset_must_be_0x05[
 ];
 typedef char SDSecondaryRecord_pitch_bend_msb_offset_must_be_0x07[
     SD_STATE_OFFSET(SDSecondaryRecord, pitch_bend_msb) == 0x07 ? 1 : -1
+];
+typedef char SDSecondaryRecord_parameter_selector_offset_must_be_0x11[
+    SD_STATE_OFFSET(SDSecondaryRecord, parameter_selector) == 0x11 ? 1 : -1
+];
+typedef char SDSecondaryRecord_control_mode_offset_must_be_0x12[
+    SD_STATE_OFFSET(SDSecondaryRecord, control_mode) == 0x12 ? 1 : -1
+];
+typedef char SDSecondaryRecord_control_value_offset_must_be_0x13[
+    SD_STATE_OFFSET(SDSecondaryRecord, control_value) == 0x13 ? 1 : -1
 ];
 typedef char SDSecondaryTransfer_size_must_be_0x1C[
     sizeof(SDSecondaryTransfer) == 0x1C ? 1 : -1
