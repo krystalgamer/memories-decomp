@@ -1673,6 +1673,36 @@ the call**, which drives register allocation and frame layout. Within a basic
 block the scheduler owns the ordering and source position carries no
 information.
 
+### Corroboration on `func_80023144`: intra-block moves are *exactly* inert
+
+The paragraph above rests on a count ("eight diffs worse"). `func_80023144`
+supplies the stronger form of the same claim, measured at the residual, which
+is worth having because a count alone cannot distinguish "no effect" from
+"two effects that cancel".
+
+That function's five remaining positions are two independent clusters, both of
+them one global's address: a `sched2` swap of `%lo` against an unrelated
+increment, and a three-slot rotation where retail leaves a branch delay slot
+empty. Six source placements were tried across the two blocks - reading a
+value before the update, sinking the update below its neighbour, spelling
+`x += 4` as `x = x + 4`, and materialising the address before the guard,
+after the guard's operand read, and comma-sequenced with it.
+
+All six produce the *same differing set*, position for position. Not the same
+count with a shuffled residual: identical. The only placements that changed
+anything were the two that moved the statement **across a basic-block
+boundary** - past the join of an `if` (+8) and out of the block entirely (+6) -
+and both were worse.
+
+So the rule is sharper than "intra-block source order is a weak lever". Within
+a block it is not a lever at all, and in particular it cannot be combined with
+another lever in the hope of partial credit, because it contributes nothing to
+combine. The actionable test is CFG-shaped: **before trying a reordering, ask
+whether it crosses a basic-block boundary. If it does not, it cannot change
+the output and does not need to be compiled.** For address materialisation
+specifically, the address is emitted at block entry no matter where in the
+block it is written.
+
 ## Do not name an array base to reproduce a materialised base register
 
 When retail keeps an array base in a register and the candidate reaches the
