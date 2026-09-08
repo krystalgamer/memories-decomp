@@ -591,6 +591,14 @@ full, in the order things happen.
   `gDuel_awPlayerDeckShuffle` (`0x80177F94`), then the opponent source to
   `gDuel_awOpponentShuffledDeck` (`0x80178038`) with
   `gDuel_awOpponentDeckShuffle` (`0x80177FBC`).
+  Within each matching [`Duel_ShuffleDeck`](../../src/game/func_800243F4.c)
+  call, 160 full-range pair swaps follow deck preparation, rather than a
+  shrinking-range Fisher-Yates pass.
+  Each swap consumes two `rand() % 40` results and moves the card ID and its
+  permutation byte together, even when both indices coincide. The swap
+  stage therefore consumes 320 RNG values per deck; a null source first
+  generates cards from the opponent pool with additional, retry-dependent
+  calls. See [the RNG contract](../rng.md#duel-start-shuffle-stream-consumption).
 * The **player always moves first** against the computer.
 * The terrain starts as **normal** unless the opponent is fought on a home
   terrain: Sebek and Neku are fought on Yami (sourced); the five shrine
@@ -1899,6 +1907,8 @@ immediate, not a standalone deck-mode flag. Exact matching C for
 before shuffling; the tutorial's editable-deck result is therefore confirmed
 [[verified tutorial mapping](../modding-tutorial-gameplay-patches.md#editable-duel-master-k-deck)].
 His drop pools are a copy of Villager 3's (§6.4).
+The shared source gives the same card multiset, not a promise of identical
+draw order: the two shuffle calls consume separate consecutive RNG segments.
 
 The unlock is one flag per duelist, `0x6E0 + id`, in the save's flag array
 [bytes `0x801D06F4`–`0x801D06F8`]. Exact matching `FreeDuel_Init`, in the

@@ -94,6 +94,38 @@ offsets remain `-0x54` and `-0x2C` relative to the player destination.
 Naming the output span does not change the source pointers, call order, or
 the callee's random-number consumption.
 
+### Duel-start shuffle stream consumption
+
+Matching [`Duel_ShuffleDeck`](../src/game/func_800243F4.c) first prepares 40
+card IDs and initializes its permutation bytes to `0..39`. A non-null source
+is copied without RNG calls. After preparation, the function performs
+`DUEL_DECK_SHUFFLE_SWAP_COUNT = DECK_SIZE * 4` (`160`) iterations. Each
+iteration calls [`Rand_GetInterval`](../src/game/rand_get_interval.c) twice,
+in order, to obtain two indices in the full `0..39` range, then swaps both
+the card IDs and the corresponding permutation bytes. Equal indices do not
+skip either call.
+
+The swap stage therefore consumes exactly **320 `rand()` calls per deck**.
+This is repeated full-range pair swapping, not a shrinking-range
+Fisher-Yates pass. For the normal non-overlapping copied-source buffers,
+output position `j` holds the source card identified by permutation byte
+`out8[j]`; the byte records the original slot now occupying that position.
+Two non-null sources passed to `Duel_ShuffleBothDecks` consume 640 calls,
+player first and opponent second. Passing the same source twice, as for
+Duel Master K, preserves the card multiset but does not require equal output
+orders.
+
+The null-source path has additional, variable consumption. Each selection
+attempt takes one threshold `(rand() & 0x7FF) + 1`, scans at most the first
+720 weights, and accepts the selected card only below the three-copy limit.
+The scan itself makes no further RNG calls, unlike the starter-deck
+generator discussed below. A fourth-copy rejection or an unreached threshold
+retries without advancing the accepted-card count. A completed null-source
+invocation therefore consumes one RNG value per generation attempt, followed
+by the 320 swap-stage calls; the total is not fixed across different outcomes.
+
+### Main-menu stream consumption
+
 `Main_RunMenu` consumes exactly one value on every handler invocation. Its
 one-time screen initialization runs first, followed by the unconditional
 `rand()` call and then the overlay selection poll. The invocation that
@@ -101,6 +133,14 @@ receives a completed selection still consumes that value before it starts the
 fade and mode transition. This establishes a call-order invariant, not by
 itself a frame-rate invariant: a timing model must still show how often
 `Main_Loop` dispatches the menu handler.
+
+### Range transformations
+
+The distribution statements below count preimages in the 15-bit return
+domain. They describe probabilities only under a uniform model for one
+return, not independence between calls or empirical frequencies for a
+selected seed, reseed, or timed route. Nor do the shuffle mechanics above
+establish a uniformly sampled distribution over all deck permutations.
 
 Modulo expressions such as `rand() % divisor` are biased unless the divisor
 evenly divides 32768. Analyses that predict deck, AI, or drop outcomes must
@@ -115,10 +155,8 @@ The result is uniform only when `N` divides 32768. The handler does not
 validate or reorder the bounds, so AI scripts are responsible for supplying a
 nonempty range in ascending order.
 
-### Range transformations
-
-Because `rand` returns each value from 0 through 32767, power-of-two masks
-preserve an even distribution while other modulo operations generally do not:
+Across the 32768 possible return values, power-of-two masks have equally sized
+preimages while other modulo operations generally do not:
 
 | Expression | Output range | Distribution |
 |---|---:|---|
@@ -127,6 +165,7 @@ preserve an even distribution while other modulo operations generally do not:
 | `rand() & 3` | 0-3 | Each result has 8192 source values |
 | `rand() & 1` | 0-1 | Each result has 16384 source values |
 | `rand() % 100` | 0-99 | Results 0-67 occur 328 times; 68-99 occur 327 times |
+| `rand() % 40` | 0-39 | Results 0-7 have 820 source values; 8-39 have 819 |
 
 Adding a constant after a power-of-two mask only shifts that uniform range.
 For example, `func_80037A58` applies `(rand() & 7) - 4` and
