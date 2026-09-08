@@ -274,7 +274,7 @@ Every row below is now an applied project symbol.
 | `0x800862D0` | `GsGetLs` | Applied from the unique 720-byte `LIBGS.LIB/GS_134.OBJ` signature; walks a coordinate hierarchy through `GsMulCoord2` and `GsMulCoord3` to build the local-screen matrix. |
 | `0x800865A0` | `GsMulCoord2` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX8.OBJ` signature; combines two coordinate frames with `MulMatrix2` and `ApplyMatrixLV`, then adds the translation components. |
 | `0x80086620` | `GsMulCoord3` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX9.OBJ` signature; the `GsMulCoord2` body using `MulMatrix` and `ApplyMatrixLV`. |
-| `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion. |
+| `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion, including main-menu entry easing in `func_80180390`. |
 | `0x80086770` | `rcos` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point cosine output alongside `rsin`. |
 | `0x80086810` | `SetFogNearFar` | Applied Psy-Q 4.6 identity; matching campaign-map callers configure near and far depth-cue distances from the current camera projection. |
 | `0x80086DC8` | `InitGeom` | Applied Psy-Q 4.6 identity at offset `0x8` of `LIBGTE.LIB/MSC00.OBJ`; resident startup paths invoke it before further GTE setup. |
