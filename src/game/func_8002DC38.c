@@ -1,5 +1,6 @@
 
 #include "../types.h"
+#include "card_constants.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
@@ -31,8 +32,8 @@ void func_8002DC38(void)
 
     if ((D_8009B26C & 0x40) == 0) {
         D_8009B26C = D_8009B26C | 0x40;
-        D_8009B236 = 0x1F40;
-        D_8009B234 = 0x1F40;
+        D_8009B236 = DUEL_STARTING_LIFE_POINTS;
+        D_8009B234 = DUEL_STARTING_LIFE_POINTS;
         func_80180FD8(&D_8009B234, &D_8009B236, &D_8009B230);
         TextBox_CreateFlagged(0, 0x25, 0x34, 0xB4, 0xD8, 0x20, 0x20);
         func_80039A14(D_800EB0F8);
