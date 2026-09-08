@@ -69,6 +69,17 @@ these helpers are not limited to Library flags or to story-only storage.
 | 0x8002D7C4 | `Main_RunHirata` | An empty function in the retail build — the compiled-out developer mode slot, named for the Konami programmer whose source path (`src\hirata\`) survives in the binary's debug strings. |
 | 0x8002DA1C | `Main_RunCredits` | Mode tick for the credits roll (loop-family pattern; body not yet studied in detail). |
 
+**Local reconciliation (2026-09-08):** the `0x8002D180` row is retained as
+upstream evidence, not a recovered fusion-recipe field identity. The retail
+Exodia sequencer `func_80018FEC` stores `0x309` in `D_800EF658` at
+`0x800193D8`, then requests main mode `1` with return mode `3`. Matching
+`Main_RunAnimatedBattle` recognizes that selector and chooses its special
+initialization/polling path; it also sets the GTE projection on every call,
+not only initialization. See the
+[caller-side evidence](../the-game.md#510-winning-and-losing).
+This establishes an Exodia-presentation use, not a fusion-recipe index,
+exclusive use of the selector, or a decoded model/asset representation.
+
 ## Batch 4 (functions)
 
 (0x80056504 `Model_LoadMonsterMerge` skipped: hedged name, not 100% — stays

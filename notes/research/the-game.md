@@ -959,8 +959,9 @@ for slots 0 and 1, then passes **the current terrain** (`gDuel_bTerrain`)
 to slot 2. A first record halfword of `0x309` instead selects the separate
 `func_80059C24` initialization path and sets mode bit `0x20`; it does not
 make those three slot-property calls. Both initialization paths then call
-`func_800159D8`. The wrapper alone does not establish the selector's
-higher-level meaning.
+`func_800159D8`. The wrapper alone does not identify the selector, but the
+caller-side handover in section 5.10 establishes a use of `0x309` for
+**Exodia presentation**. No fusion-recipe index interpretation is established.
 
 Initialization and polling occupy separate branches. On later calls,
 mode bit `0x20` selects `func_80059C88`; otherwise the handler polls
@@ -978,20 +979,52 @@ the Library viewer and finale's Poly Mode presentation paths.
 
 ### 5.10 Winning and losing
 
-A duel ends the moment one of these holds, checked after every action:
+The three normal win/loss conditions are:
 
 * a side's **LP reaches 0** — the message is `TOTAL ANNIHILATION`;
 * a side **cannot draw** at the start of its turn — the other side wins by
   `VICTORY BY ATTRITION` (the deck-out; this is the route to the TEC ranks,
   §6.2);
-* a side holds **all five Exodia pieces in its hand** — instant win,
+* a side holds **all five Exodia pieces in its hand** — an automatic win,
   `SUMMON Exodia` [the check exists in the executable; the community's
   "disable Exodia" patch flips two bytes at file offsets `0x952C`/`0x959C`].
 
-The successful hand check changes the duel-scene state to `0xE`. Dispatch
-slot `0xE` runs `func_80018FEC`, which stages the five piece objects, records
-the current side as `gDuel_bWinnerSide`, and writes the `+40` Exodia end
-reason before the result path.
+The normal draw-resolution path has a source-backed Exodia check.
+Matching
+[`Duel_HasAllExodiaPieces`](../../src/game/duel_draw_resolution.c)
+requires card IDs `0x11..0x15` in the current hand. On its post-draw branch,
+`func_80018DB4` runs that check after `func_80042B40(1)` returns zero; a
+successful check sets `D_8009B23A = 0xE`. This is a gated transition, not
+evidence that every action tests all win conditions or that presentation
+finishes in the same frame.
+
+The [duel dispatcher](../../src/game/duel_scene_update.c) and
+[main loop](../../src/game/main_loop.c) use different tables. Their retail
+words connect the Exodia sequence to the animated-battle request:
+
+| Dispatch selection | Table word address | Target |
+|---|---|---|
+| Duel state `0xE` | `0x800909D0` | `func_80018FEC` (`0x80018FEC`) |
+| Main mode `1` | `0x80090B68` | `Main_RunAnimatedBattle` (`0x8002D180`) |
+| Main mode `3` | `0x80090B70` | `Main_RunDuel` (`0x8002CEE8`) |
+
+The still-unmatched `func_80018FEC` stages the five piece objects. Its later
+handover stores `0x309` in the first halfword of `D_800EF658` at
+`0x800193D8`, records the acting side as `gDuel_bWinnerSide` at
+`0x800193EC`, writes the `+40` Exodia end adjustment at `0x800193F0`,
+and clears the opposing LP halfword at `0x80019408`. It then stores
+`D_8009B269 = 3` at `0x80019430` and `D_8009B26C = 1` at `0x80019438`.
+The winner, end-adjustment, and LP writes therefore precede the animated-mode
+request.
+
+This caller requests the special `0x309` path described in section 5.9 and
+supplies duel mode `3` as its return target. On completion, the wrapper's
+generic copy from `D_8009B269` restores that target; the main loop's normal
+initialization and fade gates still apply. The selector is decimal `777`,
+outside the ordinary card-ID range `1..722`, but this does not decode its
+model/asset representation or establish that Exodia is its only possible
+user. The handover and table evidence comes from retail bytes, not the
+sequencer's nonmatching stored C candidate or a new runtime trace.
 
 In **2P Duel only**, Select on the active player's turn offers
 `QUIT DUEL? NO YES`, with No selected by default. The input check
