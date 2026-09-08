@@ -80,7 +80,8 @@ The offset maps to VRAM `0x800175D0`:
 0x80010000 + (0x7DD0 - 0x800) = 0x800175D0
 ```
 
-At that address, `func_800175A0` contains:
+At that address, matching
+[`func_800175A0`](../src/game/duel_state_init.c) contains:
 
 ```mips
 addiu $v0, $zero, 0x1F40
@@ -88,6 +89,8 @@ sh    $v0, 0x2($sp)
 sh    $v0, 0x0($sp)
 ```
 
+The matching source spells this immediate as
+`DUEL_STARTING_LIFE_POINTS`, whose verified value is 8000.
 The function uses these two stack halfwords while initializing the two
 `0x20`-byte duel-side records rooted at `D_800E9FF0`. For each side it:
 
@@ -112,12 +115,20 @@ value at `+0x14`, then clamps it to the `+0x16` value. The display counter at
 
 The constant is used only when `gDuel_bOpponentID >= 0`, the ordinary duel
 path. The negative-opponent-ID path is the 2P Duel setup: menu result `2`
-dispatches to `func_8002DC38`, which initializes `D_8009B234` and
-`D_8009B236` to 8000 and passes both addresses to the main-menu value editor
-at `0x80180FD8`. Its matching input handler at `0x801812B4` lets pad 1 and
-pad 2 adjust their respective values to `1` or a multiple of 500 from 500
-through 8000. `func_800175A0` then initializes each duel side from those two
-selected values, so changing `0x7DD0` does not affect 2P Duel.
+dispatches to
+[`func_8002DC38`](../src/game/func_8002DC38.c), which initializes
+`D_8009B234` and `D_8009B236` with `DUEL_STARTING_LIFE_POINTS` and passes
+both addresses to the main-menu value editor at `0x80180FD8`. Its matching
+input handler
+[`func_801812B4`](../src/overlays/main_menu/func_801812B4.c) uses
+`DUEL_LIFE_POINT_SELECTION_STEP` to let pad 1 and pad 2 adjust their
+respective values to `1` or a multiple of 500 from 500 through 8000.
+`func_800175A0` then initializes each duel side from those two selected
+values.
+
+The shared source constant does not make the tutorial patch global: each use
+compiles to a separate immediate, and SLUS offset `0x7DD0` changes only the
+ordinary-duel initialization site.
 
 **Confidence:**
 
