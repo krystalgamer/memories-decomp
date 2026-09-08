@@ -2095,11 +2095,34 @@ writes. On the active player's turn, Select opens
 `QUIT DUEL? NO YES`; choosing Yes fades directly back to the initial menu.
 The setup chooses starting LP separately for both sides. Each defaults to
 8000, and pad 1 or pad 2 adjusts its own value to `1` or a multiple of 500
-from 500 through 8000 [`func_8002DC38` initializes the two values and the
-main-menu handler at `0x801812B4` edits them]. Because 2P uses the negative
-opponent-ID path, `func_800175A0` copies those selections into both the
-authoritative and maximum LP fields; recovery is therefore capped at the
-chosen starting value.
+from 500 through 8000. Matching
+[`func_8002DC38`](../../src/game/func_8002DC38.c) initializes the values,
+and [`MainMenu_UpdateValueSetup`](../../src/overlays/main_menu/update_value_setup.c)
+(`0x801812B4`) edits them. Because 2P uses the negative opponent-ID path,
+`func_800175A0` copies those selections into both the authoritative and
+maximum LP fields; recovery is therefore capped at the chosen starting value.
+
+On this setup screen, **Circle on either pad cancels** and **Start on
+either pad accepts**; Circle is tested first and wins if both are present.
+Both exit checks precede the current poll's per-side edits; Cross/Square
+are not confirmations here. Exit input is considered only
+when both widgets are idle and their displayed numbers have caught up with
+their target values. A number that reaches its target during the current
+poll still marks that side busy for that poll. Per-side edits have their
+own idle gates, separate from this two-sided exit gate.
+
+**Cancel is not a rollback of working RAM.** On either cancel (`-1`) or
+accept (`1`), the resident caller fades and invokes
+[`MainMenu_FinishValueSetup`](../../src/overlays/main_menu/finish_value_setup.c)
+before distinguishing the result. That helper writes both target LP values
+through its retained pointers to `D_8009B234`/`D_8009B236`, and a normalized
+shared option to the low byte of `D_8009B230`. Accept then requests the
+duel path; cancel restores the previous main mode. These working-RAM writes
+do not by themselves establish a saved preference or memory-card write.
+The host's initialization branch also resets both LP values to 8000.
+The shared option's wider gameplay meaning remains unassigned.
+See the [full editor contract](../../src/overlays/main_menu/README.md#value-setup-input-and-write-back).
+
 [`func_8002DC38` hosts the starting-LP screen; `Main_RunTrade` `0x8002D7CC`
 hosts the two-save flow shared with Trade; scene texts `2PDUEL`,
 `PvP Duel Screen`.]
