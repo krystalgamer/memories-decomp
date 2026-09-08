@@ -255,7 +255,7 @@ Every row below is now an applied project symbol.
 | `0x80085320` | `GsGetActiveBuff` | Applied Psy-Q 4.6 identity. The 16-byte `LIBGS.LIB/GS_0021.OBJ` signature is shared with `LIBSND.LIB/UT_REV_2.OBJ` (`SsUtGetReverbType`); the body returns the halfword at `0x800FE0CC`, which `GsSwapDispBuff` writes and `GsSetDrawBuffOffset` reads, placing it in the LIBGS display-buffer block. Matching movie paths use the result as the active buffer index, and `func_8005B8A0` and `func_8005BB7C` write `D_800FE0CC` directly before calling `GsSwapDispBuff`. |
 | `0x80085330` | `GsSetDrawBuffOffset` | Applied from the unique 272-byte `LIBGS.LIB/GS_0022.OBJ` signature; calls `PutDrawEnv` and mirrors the offset into the GTE with `SetGeomOffset`. |
 | `0x80085440` | `GsSetDrawBuffClip` | Applied from the unique 128-byte `LIBGS.LIB/GS_003.OBJ` signature; installs the clip rectangle through `PutDrawEnv`. |
-| `0x800854C0` | `GsInitVcount` | Applied from the unique 64-byte `LIBGS.LIB/GS_007.OBJ` signature; programs root counter 1 with `SetRCnt` and `StartRCnt`. `Main_Init` calls it during graphics start-up. |
+| `0x800854C0` | `GsInitVcount` | Applied from the unique 64-byte `LIBGS.LIB/GS_007.OBJ` signature; programs root counter 1 with `SetRCnt` and `StartRCnt`. `Main_Init` calls it through the canonical `libgs.h` declaration during graphics start-up. |
 | `0x80085500` | `GsSwapDispBuff` | Applied from the unique 176-byte `LIBGS.LIB/GS_010.OBJ` signature; toggles the active-buffer flag at `0x800FE0CC` and reinstalls both environments through `GsSetDrawBuffOffset`, `GsSetDrawBuffClip`, `PutDispEnv` and `SetDispMask`. The matching movie players call it once per frame. |
 | `0x800855B0` | `GsSetOrign` | Applied from the unique 32-byte `LIBGS.LIB/GS_013.OBJ` signature; stores its two arguments as the halfword pair at `0x800FE040` that `GsSetDrawBuffOffset` reads back. |
 | `0x800855D0` | `GsSetLsMatrix` | Applied Psy-Q 4.6 identity; matching projection paths install their local-screen matrix before GTE projection work. |
@@ -326,7 +326,7 @@ Every row below is now an applied project symbol.
 | `0x8008B680` | `_patch_card2` | Applied at offset `0x170` of the same unique `LIBCARD.LIB/PATCH.OBJ` signature. |
 | `0x8008B6F0` | `_copy_memcard_patch` | Applied at offset `0x1E0` of the same unique `LIBCARD.LIB/PATCH.OBJ` signature. |
 | `0x8008B730` | `_ExitCard` | Applied at offset zero of the unique 128-byte Psy-Q 4.6 `LIBCARD.LIB/END.OBJ` signature. |
-| `0x8008B7B0` | `MemCardInit` | Applied at offset zero of the unique 80-byte Psy-Q 4.6 `LIBMCRD.LIB/INIT.OBJ` signature. |
+| `0x8008B7B0` | `MemCardInit` | Applied at offset zero of the unique 80-byte Psy-Q 4.6 `LIBMCRD.LIB/INIT.OBJ` signature; matching graphics/input start-up calls it through the canonical `libmcrd.h` declaration after initializing the pads. |
 | `0x8008B7E0` | `MemCardEnd` | Applied at offset `0x30` of the same unique `LIBMCRD.LIB/INIT.OBJ` signature. |
 | `0x8008B800` | `PushCallbackFunc` | Applied at offset zero of the unique 6,352-byte Psy-Q 4.6 `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
 | `0x8008B828` | `PullCallbackFunc` | Applied at offset `0x28` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |

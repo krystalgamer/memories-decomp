@@ -25,7 +25,6 @@ extern u8 D_800E9EC0[];
 extern jmp_buf D_800E9DC0;
 
 extern void func_80012A78(void);
-extern void GsInitVcount(void);
 extern void func_80015D0C(void);
 extern void func_80013154(void);
 extern void func_800403F0(void);
