@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound_sequence_constants.h"
 
 extern u8 *D_8009B458;
 
@@ -18,15 +19,16 @@ void func_8004A0FC(u8 *arg0, u8 *arg1)
     object = arg0;
     state1 = D_8009B458;
     if (state1[0x815] != 0) {
-        pan = 0x40;
+        pan = SD_SECONDARY_PAN_CENTER;
     } else {
-        pan = state1[0x4BF] + object[0xA] + object[0xB] + arg1[1] - 0xC0;
+        pan = state1[0x4BF] + object[0xA] + object[0xB] + arg1[1] -
+              SD_SECONDARY_PAN_SUM_BIAS;
     }
     if (pan < 0) {
         pan = 0;
     }
-    if (pan >= 0x80) {
-        pan = 0x7F;
+    if (pan >= SD_SECONDARY_PAN_LIMIT) {
+        pan = SD_SECONDARY_PAN_MAX;
     }
     object[0xC] = pan;
 
@@ -40,14 +42,14 @@ void func_8004A0FC(u8 *arg0, u8 *arg1)
     level = product >> 14;
 
     left = level;
-    if (pan >= 0x40) {
+    if (pan >= SD_SECONDARY_PAN_CENTER) {
         right = level;
-        center = 0x40;
+        center = SD_SECONDARY_PAN_CENTER;
         if (pan == center) {
             right = (pan * (left << 1)) >> 7;
             left = right;
         } else {
-            left = ((center - (pan & 0x3F)) * (right << 1)) >> 7;
+            left = ((center - (pan & SD_SECONDARY_PAN_HALF_MASK)) * (right << 1)) >> 7;
         }
     } else {
         right = (pan * (left << 1)) >> 7;

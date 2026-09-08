@@ -309,6 +309,15 @@ remains unused. These names do not add full fourteen-bit bend handling or
 change the raw gain/pitch readers. In particular, the cached `+0x07` value is
 pitch bend, not a bank byte.
 
+The matched gain routine uses the separate `SD_SECONDARY_PAN_*` constants
+for its pan domain. It sums four byte contributions, subtracts three center
+values, and clamps to `0` through `127`; the existing override flag instead
+chooses center `64`. The right-half calculation keeps its original mask and
+its distinct center branch. The exclusive upper bound is `128`, not a new
+selectable endpoint. These constants do not replace the pitch-bend center,
+the primary voice's signed-pan domain, or the gain/velocity normalization
+fields that happen to contain similar values.
+
 The same header names the event codes consumed by `func_8004C420`,
 `func_8004C114`, and `func_8004BE88`. A status-present bit, a message-type mask,
 and a channel mask have separate roles even when their values match an event
