@@ -242,7 +242,7 @@ address,size,name,status,module,notes
 0x800289AC,0x8,func_800289AC,matching_c,game,Empty function matched exactly.
 0x800289B4,0x8,func_800289B4,matching_c,game,Empty function matched exactly.
 0x800289BC,0x14C,func_800289BC,matching_c,game,Exact collaborator match: transfer-rectangle setup reproduces linked bytes and relocations under GCC G0 no-split.
-0x80028B08,0x600,func_80028B08,unmatched_asm,game,
+0x80028B08,0x600,func_80028B08,unmatched_asm,game,"First reconstruction, gcc_2_8_1_g8_split, 344 differing of 384 with five extra instructions; source stored in notes/candidates/func_80028B08.md. Two structural levers found: the three scratchpad addresses 0x1F800320, 0x1F800344 and 0x1F800398 must be local pointer variables, which is what gives the target its ninth callee-saved register and its prologue (worth 51 positions), and their assignments belong below the two early-exit guards rather than in the entry block (worth 20). Still structural, not an allocation problem; the parameter block's byte/word aliasing at +8 and +0xE and the two digit loops are unread."
 0x80029108,0x5C,func_80029108,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80029164,0x7C,func_80029164,matching_c,game,"Stores an effect value in the selected 64-byte record, creates its seven-frame resource object, records the slot, and publishes the object's status flags. Exact with the mixed compiler-G8/MASPSX-G0 split profile."
 0x800291E0,0x348,func_800291E0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
