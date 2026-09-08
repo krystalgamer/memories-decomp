@@ -67,7 +67,6 @@ extern s32 D_8009B3F0;
 extern s32 D_8009B3F4;
 extern u16 gMemCard_wDialogFlags;
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
-extern void func_800404CC(u8 *, s32, s32, s32, s32, s32, s32, s32);
 extern void func_80042918(u8 *);
 extern void func_800428EC(u8 *, s32);
 extern void TextBox_Destroy(u8 *);

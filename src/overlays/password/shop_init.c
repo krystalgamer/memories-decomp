@@ -13,7 +13,6 @@ extern void Password_RefreshDigitDisplay(void);
 extern void Password_RefreshStarchipDisplay(void);
 extern void Password_CreateMessageBox(s32, s32);
 extern void func_80029574(s32);
-extern void func_800404CC(u8 *, s32, s32, s32, s32, s32, s32, s32);
 extern void func_800428EC(u8 *, s32);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern void func_80042918(u8 *);

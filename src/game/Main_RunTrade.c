@@ -40,7 +40,6 @@ extern void func_80032328(void);
 extern void SD_BGMPlay(u32);
 extern Box *TextBox_CreateFlagged(s32, s32, s32, s32, s32, s32, s32);
 extern void func_80039A14(void *);
-extern void func_800404CC(Obj *, s32, s32, s32, s32, s32, s32, s32);
 extern void func_80042918(Obj *);
 extern void func_800428EC(Obj *, s32);
 extern void func_80015A00(void);

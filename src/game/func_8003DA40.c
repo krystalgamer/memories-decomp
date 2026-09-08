@@ -8,7 +8,6 @@ extern u8 D_8009B3C1;
 extern void func_80039794(void);
 extern void TextBox_SetPos(u8 *, s32, s32);
 extern u8 *DuelEffect_CreateChannel(s32, s32);
-extern void func_800404CC(u8 *, s32, s32, s32, s32, s32, s32, s32);
 extern void func_80042918(u8 *);
 extern void func_800428EC(u8 *, s32);
 extern void func_80043178(u8 *);

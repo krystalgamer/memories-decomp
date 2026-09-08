@@ -98,10 +98,35 @@ signed. Other existing scalar declarations of the alternate scanner are
 unchanged. The four boundaries are explicit pending a complete audit/migration
 of that separate API, not evidence that its true return is a pointer.
 
-`func_800404CC` is also deliberately outside this phase and absent from the
-new header. Its current narrow coordinate formals versus wide caller
-declarations require their own complete, byte-verified migration. No
-partially shared configurator contract is introduced here.
+## Shared coordinate configuration
+
+The separate configurator migration extends the same header with:
+
+```c
+void func_800404CC(
+    void *object, s32 x, s32 y, s32 field_67, s32 field_68,
+    s32 field_69, s32 color, s32 texture
+);
+```
+
+The defining `display_object_config.c` and all 21 C caller units use this
+contract, including the formerly implicit calls in `func_8002BFCC.c`.
+All 20 local configurator declarations are removed; this is not a
+callers-only or partially shared signature.
+
+Coordinates remain **full-word inputs**. The implementation stores their
+low halfwords at object `+0x30/+0x32`, then forwards the five configuration
+words unchanged to `func_80040468`. Its old `s16` formals did not establish
+that all callers had already narrowed their coordinates. Most declarations
+were wide, and halfword source loads participate in promoted integer sums.
+Keeping `s32` inputs preserves those expressions without adding caller-side
+sign-extension or truncation. This does not clamp or validate coordinates.
+
+The opaque object parameter is viewed through byte-pointer casts only at
+the two existing stores. No new walking temporary, aggregate layout,
+null check, allocation or rendering submission is introduced. The
+delegate's existing selector-byte, packed-configuration and flag writes
+are unchanged; parameter names do not establish new artwork identities.
 
 ## Parent-linked duel rows
 

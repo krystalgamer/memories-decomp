@@ -32,7 +32,6 @@ extern volatile u32 D_8009B0F4;
 extern s32 D_8009B118;
 
 extern void func_8004036C(void *);
-extern void func_800404CC(void *, s32, s32, s32, s32, s32, s32, s32);
 extern void func_800428EC(void *, s32);
 
 void func_8002DDFC(struct Obj *obj, s32 mode)

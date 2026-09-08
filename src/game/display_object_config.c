@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "display_object_layout.h"
 
 extern void DisplayObject_ResetPool(void);
@@ -65,11 +66,11 @@ void *func_80040468(u8 *object, int field_67, int field_68, int field_69,
     return object;
 }
 
-void func_800404CC(u8 *object, s16 x, s16 y, int field_67, int field_68,
-                   int field_69, int color, int texture)
+void func_800404CC(void *object, s32 x, s32 y, s32 field_67, s32 field_68,
+                   s32 field_69, s32 color, s32 texture)
 {
-    *(s16 *)(object + 0x30) = x;
-    *(s16 *)(object + 0x32) = y;
+    *(s16 *)((u8 *)object + 0x30) = x;
+    *(s16 *)((u8 *)object + 0x32) = y;
     func_80040468(object, field_67, field_68, field_69, color, texture);
 }
 

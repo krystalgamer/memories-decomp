@@ -16,7 +16,6 @@ typedef struct {
 } CardObject;
 
 extern void *func_8004006C(void);
-extern void func_800404CC();
 extern void func_80042918(DisplayObject *);
 extern void func_800428EC(DisplayObject *, int);
 

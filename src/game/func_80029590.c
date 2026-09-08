@@ -3,7 +3,6 @@
 #include "display_object_layout.h"
 
 extern u8 D_800EA1E8[];
-extern void func_800404CC();
 extern void func_8004293C();
 extern void func_800428EC();
 

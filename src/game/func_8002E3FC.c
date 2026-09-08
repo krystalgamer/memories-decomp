@@ -3,7 +3,6 @@
 #include "display_object_layout.h"
 
 extern void *func_8004006C(void);
-extern void func_800404CC(void *,int,int,int,int,int,int,int);
 extern void func_80042918(void *);
 void *func_8002E3FC(void) {
     unsigned char *object = func_800400AC((s32)func_8004006C(),2);

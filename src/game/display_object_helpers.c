@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_api.h"
 #include "display_object_layout.h"
 
 void func_800427DC(u8 *object, int value)
@@ -51,16 +52,6 @@ typedef struct {
 
 extern void func_80040468(
     DisplayObjectResource *,
-    s32,
-    s32,
-    s32,
-    s32,
-    s32
-);
-extern void func_800404CC(
-    void *,
-    s32,
-    s32,
     s32,
     s32,
     s32,

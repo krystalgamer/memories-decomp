@@ -1,8 +1,6 @@
 #include "../../types.h"
 #include "../../game/display_object_api.h"
 
-extern void func_800404CC(void *, s32, s32, s32, s32, s32, s32, s32);
-
 u8 *func_801680B4(s32 x, s32 y)
 {
     u8 *object;
