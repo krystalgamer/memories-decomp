@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/card_constants.h"
 
 extern u8 *D_801845B0[];
 extern u8 D_801845BC[];
@@ -86,11 +87,17 @@ s32 func_801812B4(void)
                 value = D_801845C0[0];
                 func_80048658(6, 0xFF, 0);
                 if (D_8009B394[0] & 0x8000) {
-                    value = (value - 0x1F4 > 0) ? (value - 0x1F4) : 1;
+                    value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
+                                ? (value - DUEL_LIFE_POINT_SELECTION_STEP)
+                                : 1;
                 } else if (value < 2) {
-                    value = 0x1F4;
+                    value = DUEL_LIFE_POINT_SELECTION_STEP;
                 } else {
-                    value = (value + 0x1F4 < 0x1F41) ? (value + 0x1F4) : 0x1F40;
+                    value = (
+                        value + DUEL_LIFE_POINT_SELECTION_STEP <
+                        DUEL_STARTING_LIFE_POINTS + 1
+                    ) ? (value + DUEL_LIFE_POINT_SELECTION_STEP)
+                      : DUEL_STARTING_LIFE_POINTS;
                 }
                 D_801845C0[0] = value;
             } else if (D_8009B394[0] & 0x1000) {
@@ -120,11 +127,17 @@ s32 func_801812B4(void)
                 value = D_801845C0[6];
                 func_80048658(6, 0xFF, 0);
                 if (D_8009B394[1] & 0x8000) {
-                    value = (value - 0x1F4 > 0) ? (value - 0x1F4) : 1;
+                    value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
+                                ? (value - DUEL_LIFE_POINT_SELECTION_STEP)
+                                : 1;
                 } else if (value < 2) {
-                    value = 0x1F4;
+                    value = DUEL_LIFE_POINT_SELECTION_STEP;
                 } else {
-                    value = (value + 0x1F4 < 0x1F41) ? (value + 0x1F4) : 0x1F40;
+                    value = (
+                        value + DUEL_LIFE_POINT_SELECTION_STEP <
+                        DUEL_STARTING_LIFE_POINTS + 1
+                    ) ? (value + DUEL_LIFE_POINT_SELECTION_STEP)
+                      : DUEL_STARTING_LIFE_POINTS;
                 }
                 D_801845C0[6] = value;
             } else if (D_8009B394[1] & 0x1000) {
