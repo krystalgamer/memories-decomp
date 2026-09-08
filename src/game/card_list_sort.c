@@ -24,7 +24,6 @@
      other loop the row pointer first, which is the order retail schedules the
      two induction variables in each. */
 
-
 typedef struct {
     u32 key;
     s16 index;
