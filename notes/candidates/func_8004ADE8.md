@@ -123,7 +123,7 @@ Two things, both allocation rather than structure.
 
 The two remaining `nop` are in the `&objects[idx]` computation that retail
 interleaves into the object field-copy block to fill load-delay slots. Applying
-the `&arr[...]` grouping to the `func_8004A0FC` arguments moves them but costs
+the `&arr[...]` grouping to the `SD_SpatializeSecondaryObject` arguments moves them but costs
 an instruction elsewhere (354 of 355, and 271 differing), so it is not the fix.
 
 ### Layout notes for whoever integrates this
@@ -151,8 +151,8 @@ extern u8 *D_8009B458_r asm("D_8009B458");
 
 extern s32 func_8004A854(s32);
 extern s32 func_8004A940(s32, s32);
-extern void func_8004A0FC(u8 *, u8 *);
-extern s32 func_8004A3BC(u8 *, s32);
+extern void SD_SpatializeSecondaryObject(u8 *, u8 *);
+extern s32 SD_CalcPitchBend(u8 *, s32);
 extern s32 func_80049FB4(s32, s32, s32, s32);
 
 void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
@@ -284,7 +284,7 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         obj[0xE] = velocity;
         *(u16 *)(obj + 0x1E) = 0xFFFF;
         obj[0xB] = tone[3];
-        func_8004A0FC(D_8009B458 + idx * SD_SECONDARY_OBJECT_SIZE + 0x180,
+        SD_SpatializeSecondaryObject(D_8009B458 + idx * SD_SECONDARY_OBJECT_SIZE + 0x180,
                       D_8009B458 + ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE);
         *(s16 *)(D_8009B458 + 0x4C8) =
             (*(u16 *)(obj + 0x14) * *(u16 *)(D_8009B458 + 0x514)) >> 7;
@@ -293,7 +293,7 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         obj[5] = level;
         *(s16 *)(obj + 0x1A) = -1;
         *(s16 *)(obj + 0x1C) = rec[7];
-        pitch = func_8004A3BC(obj, rec[7]) + obj[6] * 128;
+        pitch = SD_CalcPitchBend(obj, rec[7]) + obj[6] * 128;
         *(s16 *)(D_8009B458 + 0x4D4) =
             func_80049FB4((s16)pitch >> 7, pitch & 0x7F, tone[4], tone[5]);
         SpuSetKeyOnWithAttr((SpuVoiceAttr *)(D_8009B458 + 0x4C0));

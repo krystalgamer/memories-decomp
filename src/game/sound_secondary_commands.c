@@ -1,11 +1,11 @@
 #include "../types.h"
-#include "func_8004A0FC.h"
+#include "sound_spatialize_object.h"
 #include "../psyq/libapi.h"
 
 #include "sound.h"
 #include "sound_spatialization.h"
 
-extern int func_8004A27C();
+extern int SD_SetVoiceVolume();
 extern void func_8004ACE4(u8 *, int);
 extern u8 *D_8009B458_bytes asm("D_8009B458");
 extern void SD_ProcessSequenceTracks(void);
@@ -63,7 +63,7 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
         break;
     case 0x1E:
         b->field_0512 = arg2;
-        func_8004A2F8();
+        SD_UpdateSecondaryObjectVolumes();
         break;
     case 0x30:
         e->field_0006 =
@@ -96,10 +96,10 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
                 q = (u8 *)c + k;
                 if (id2 == q[0x183]) {
                     if (q[0x18D] != 0) {
-                        func_8004A0FC((u8 *)c + m, (u8 *)c + off);
+                        SD_SpatializeSecondaryObject((u8 *)c + m, (u8 *)c + off);
                         p = (u8 *)D_8009B458 + k;
-                        func_8004A27C(i, *(u16 *)(p + 0x194),
-                                      *(u16 *)(p + 0x196));
+                        SD_SetVoiceVolume(i, *(u16 *)(p + 0x194),
+                                          *(u16 *)(p + 0x196));
                     }
                 }
                 m += SD_SECONDARY_OBJECT_SIZE;

@@ -10,7 +10,7 @@ typedef struct {
     u8 pad_0C[52];
 } VoiceAttributePacket;
 
-extern int func_8004A27C();
+extern int SD_SetVoiceVolume();
 extern void func_8004A518(void);
 extern void SD_StartSequenceTracks(SDSecondaryState *);
 /* Preserve the no-argument call form used by the playback-start variant. */
@@ -227,7 +227,7 @@ void func_80049EC8(s32 arg0, s32 arg1)
     state->field_07E4 = arg0 & SD_SECONDARY_LEVEL_MASK;
     state->field_07E6 = arg1 & SD_SECONDARY_LEVEL_MASK;
     if (mode != 2)
-        func_8004A2F8();
+        SD_UpdateSecondaryObjectVolumes();
 }
 
 void func_80049F10(s16 first, s16 second)
@@ -237,7 +237,7 @@ void func_80049F10(s16 first, s16 second)
     state->field_0514 = first;
     state->field_0516 = second;
     if (state->field_07E2 != 2)
-        func_8004A2F8();
+        SD_UpdateSecondaryObjectVolumes();
 }
 
 s32 func_80049F50(void)
