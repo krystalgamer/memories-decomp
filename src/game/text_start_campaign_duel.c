@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_start_campaign_duel.h"
 #include "func_80036D3C.h"
 #include "duel_side_state.h"
 

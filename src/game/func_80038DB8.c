@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "func_80036D3C.h"
+#include "func_80038DB8.h"
 
 void func_80038DB8(u8 *arg0)
 {

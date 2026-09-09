@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../unmatched.h"
+#include "duel_effect_basic_commands.h"
 
 extern u8 D_8009B26C[];
 

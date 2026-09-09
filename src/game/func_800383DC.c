@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "text_constants.h"
+#include "func_800383DC.h"
 
 struct Obj {
     u8 pad[0x58];

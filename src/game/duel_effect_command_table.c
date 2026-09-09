@@ -6,6 +6,21 @@
 #include "duel_effect_script_dispatch.h"
 #include "duel_effect_stream_fields.h"
 #include "text_stream_commands.h"
+#include "duel_effect_basic_commands.h"
+#include "duel_effect_play_sound_command.h"
+#include "func_80037DA4.h"
+#include "func_80038148.h"
+#include "func_800382A8.h"
+#include "func_800383DC.h"
+#include "func_80038498.h"
+#include "func_800384E4.h"
+#include "func_800388D8.h"
+#include "func_80038B4C.h"
+#include "func_80038DB8.h"
+#include "func_80038EB0.h"
+#include "text_control_commands.h"
+#include "text_handle_choice_command.h"
+#include "text_start_campaign_duel.h"
 
 /* Initialized data at 0x80090EAC: the duel effect command table.
  *
@@ -22,26 +37,6 @@
  * yet. Each one that has gained a header comes through the include above
  * instead, and this block shrinks as the rest follow. */
 
-void DuelEffect_PlaySoundCommand(u8 *);
-void Text_HandleChoiceCommand(u8 *);
-void Text_StartCampaignDuel(u8 *);
-void func_80037DA4(u8 *);
-void func_80038148(u8 *);
-void func_800382A8(u8 *);
-void func_800383DC(u8 *);
-void func_80038498(u8 *);
-void func_800384E4(u8 *);
-void func_80038690(u8 *);
-void func_800386B8(u8 *);
-void func_80038888(u8 *);
-void func_80038890(u8 *);
-void func_80038898(u8 *);
-void func_800388D8(u8 *);
-void func_80038B4C(u8 *);
-void func_80038D14(u8 *);
-void func_80038D2C(u8 *);
-void func_80038DB8(u8 *);
-void func_80038EB0(u8 *);
 void func_80039AFC(u8 *);
 void func_80039BE0(u8 *);
 void func_80039C94(u8 *);
@@ -56,17 +51,17 @@ void (*D_80090EAC[])(u8 *) = {
     func_80038388,
     func_800383B0,
     (void (*)(u8 *))func_80038070,
-    func_800383DC,
+    (void (*)(u8 *))func_800383DC,
     func_80038498,
     func_80038094,
     func_800384E4,
     Text_StartCampaignDuel,
-    func_80038690,
+    (void (*)(u8 *))func_80038690,
     func_800386B8,
     DuelEffect_PlaySoundCommand,
     (void (*)(u8 *))func_80038800,
-    func_80038888,
-    func_80038890,
+    (void (*)(u8 *))func_80038888,
+    (void (*)(u8 *))func_80038890,
     func_80038898,
     func_800388D8,
     func_800389C4,
@@ -80,7 +75,7 @@ void (*D_80090EAC[])(u8 *) = {
     func_80037D2C,
     func_80037D2C,
     func_80037D2C,
-    func_80038EB0,
+    (void (*)(u8 *))func_80038EB0,
     func_80037D6C,
     func_80038B4C,
     func_80038D2C,

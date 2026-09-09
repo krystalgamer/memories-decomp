@@ -2,14 +2,7 @@
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
 #include "duel_effect.h"
-
-typedef struct {
-    u8 *streams[20];
-    u8 unk50;
-    u8 state;
-    u8 pad52[6];
-    s8 depth;
-} EffectObject;
+#include "func_80038EB0.h"
 
 /* Effect-script command handler: reads a command id and a flag byte from the
    object's current script stream, finds the display effect record for the id

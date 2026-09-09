@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "text_constants.h"
+#include "func_80038498.h"
 
 void func_80038498(u8 *arg0)
 {
