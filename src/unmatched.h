@@ -141,9 +141,22 @@ extern u8 D_801AF800[];
  *
  * It holds an address despite the s32 spelling: func_8003BF00.c passes it to
  * LoadImage2 as (u32 *) and also adds 0x800 to it. The s32 is left as-is
- * because every consumer already agrees on it; retyping it is a separate
- * question from centralizing it. */
+ * rather than retyped, which is a separate question from centralizing it.
+ *
+ * Six consumers do NOT take the plain arm, and both reasons are load bearing.
+ * Five carry section(".data"), which is the -G8 lever that keeps the address
+ * being rebuilt per access instead of resolved gp-relative, and
+ * duel_load_package_stage.c additionally spells it u8 * because it does
+ * pointer arithmetic on it. Those two arms are selected by
+ * D_8009B118_IN_DATA and D_8009B118_IS_POINTER_IN_DATA, the same shape
+ * input.h and sound.h use, rather than by re-declaring the symbol locally. */
+#ifdef D_8009B118_IS_POINTER_IN_DATA
+extern u8 *D_8009B118 __attribute__((section(".data")));
+#elif defined(D_8009B118_IN_DATA)
+extern s32 D_8009B118 __attribute__((section(".data")));
+#else
 extern s32 D_8009B118;
+#endif
 
 /* One consumer each, model_primitive_handler.c, which does not call either
  * one: its dispatcher returns them as function pointers for primitive codes

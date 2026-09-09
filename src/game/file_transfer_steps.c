@@ -1,8 +1,10 @@
+#define D_8009B118_IN_DATA
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "model.h"
+#include "../unmatched.h"
 
 /* Two transfer-phase callbacks of the func_8003B808 family, kept in one
    translation unit because they are the same routine over different assets:
@@ -22,7 +24,6 @@ typedef struct {
     u32 w[7];
 } Block28;
 
-extern s32 D_8009B118 __attribute__((section(".data")));
 extern s32 D_80010008 __attribute__((section(".data")));
 extern u8 D_801DD800[];
 extern u8 D_800F5694[];

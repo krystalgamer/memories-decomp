@@ -1,10 +1,10 @@
+#define D_8009B118_IN_DATA
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "../unmatched.h"
 
-extern s32 D_8009B118 __attribute__((section(".data")));
 extern s32 D_8001002C __attribute__((section(".data")));
 extern u8 D_8009B058[];
 

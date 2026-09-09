@@ -1,11 +1,12 @@
+#define D_8009B118_IN_DATA
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "sound_voice_data.h"
 #include "graphics_frame.h"
+#include "../unmatched.h"
 
-extern s32 D_8009B118 __attribute__((section(".data")));
 #define gStageRect (D_800E9D70[0])
 
 void func_8002BD0C(FileTransferDescriptor *object, s32 mode) {

@@ -1,11 +1,12 @@
+#define D_8009B118_IS_POINTER_IN_DATA
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
 #include "file_transfer.h"
 #include "graphics_frame.h"
+#include "../unmatched.h"
 
-extern u8 *D_8009B118 __attribute__((section(".data")));
 extern u8 *D_80010000 __attribute__((section(".data")));
 extern u8 *D_800101DC __attribute__((section(".data")));
 extern u8 D_801A8000[];
