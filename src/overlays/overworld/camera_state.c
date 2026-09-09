@@ -10,7 +10,6 @@ extern u32 D_8009B30C;
 extern u32 D_8009B310;
 extern u32 D_8009B314;
 extern volatile u16 gInput_wPad1Held;
-extern void func_800540B4(int);
 extern void func_800857C0(int);
 
 void CampaignMap_SetCameraFromLocation(s32 index)
