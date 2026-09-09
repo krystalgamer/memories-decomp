@@ -1,4 +1,5 @@
 #define D_8009B140_IN_DATA
+#define D_8009AF74_IN_DATA
 #define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define D_8009B0C0_IN_DATA
@@ -31,7 +32,6 @@ extern DisplayObject *D_8009B24C;
 extern DuelEffectChannel *D_8009B250;
 extern u8 D_8009B254;
 extern u16 gDuel_wViewerCardID;
-extern u8 D_8009AF76 __attribute__((section(".data")));
 extern u8 D_8009B26C __attribute__((section(".data")));
 extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
 
@@ -123,7 +123,7 @@ void func_800283F4(void)
             }
         }
         Fade_SetTargetLevel(0x40, 2);
-        D_8009B140 = D_8009AF76 - 0x13;
+        D_8009B140 = *(u8 *)&D_8009AF74[1] - 0x13;
         SD_SEPlayFull(0x34);
         D_8009B248 |= 0x40;
         return;
