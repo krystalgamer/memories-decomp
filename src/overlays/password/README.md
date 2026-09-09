@@ -278,6 +278,90 @@ which. `GlyphSprite` names it for the scale use and the tween callbacks keep
 reaching it by offset, because nothing yet distinguishes the two at the type
 level; a union here would assert a relationship that has not been shown.
 
+## Name-entry runtime translation unit
+
+`name_entry_runtime.c` is the name-entry screen's per-frame update path:
+the one entry point the rest of the game calls, the dialog state machine
+behind it, the keyboard handler that machine drives, and the caret helper
+both of them use. It covers `0x8016909C..0x80169C30` as one contiguous
+`gcc_2_8_1_g0_split` run, wired as one C subsegment at module offset
+`0x109C`. It owns no rodata.
+
+| Address | Function |
+|---|---|
+| `0x8016909C` | `NameEntry_AdjustLength` |
+| `0x8016913C` | `NameEntry_UpdateKeyboard` |
+| `0x80169734` | `NameEntry_UpdateDialog` |
+| `0x80169C08` | `NameEntry_PollCompletion` |
+
+The definitions stay in executable order, which is the reverse of the call
+order.
+
+### The grouping is a closed call chain, not adjacency
+
+Every module in this overlay is a single `gcc_2_8_1_g0_split` run end to end,
+so a profile change cannot mark this boundary and no such claim is made here.
+What marks it is that the run is closed under calls in one direction and has
+exactly one door:
+
+| Function | Callers | Where they are |
+|---|---|---|
+| `NameEntry_AdjustLength` | 3 | all inside this run |
+| `NameEntry_UpdateKeyboard` | 1 | `NameEntry_UpdateDialog`, inside |
+| `NameEntry_UpdateDialog` | 1 | `NameEntry_PollCompletion`, inside |
+| `NameEntry_PollCompletion` | 2 | both **outside** the run |
+
+`NameEntry_PollCompletion` is the whole of the run's public surface, and its
+own body is two statements: run the dialog for one frame, then report bit
+`0x10`. The three functions behind it have no caller anywhere else in the
+tree — `NameEntry_AdjustLength` in particular is reached only from the
+keyboard handler's caret controls and from the dialog's arrival handling,
+which is why the caret helper travels with them rather than with the sprite
+effects whose `+0x24` slot it writes.
+
+The two callers of `NameEntry_PollCompletion` are
+[`name_entry_main.c`](name_entry_main.c) in this overlay and the resident
+`main_run_frontend_menus.c`; both take it through
+[`name_entry_keyboard.h`](name_entry_keyboard.h) or their own extern, and
+neither reaches past it.
+
+### What one unit forced, and what it did not
+
+**The pad-spelling arms are now the unit's, not a file's.** The keyboard
+handler needs `GINPUT_PAD1_HELD_IS_VOLATILE`,
+`GINPUT_PAD1_REPEAT_IS_VOLATILE` and `GINPUT_PAD1_PRESSED_IS_VOLATILE`,
+because it re-reads the held halfword on five paths and gcc otherwise commons
+them into one register. `NameEntry_UpdateDialog` reads
+`gInput_wPad1Pressed` exactly once and previously took the plain scalar. One
+translation unit gets one arm, and the volatile arm is the one that had to
+win. It is free for the dialog: volatile forces re-reads, and a single read
+is a single read under either spelling. The module still matches
+byte-for-byte, which is the proof rather than the argument.
+
+**The two private object views stay two, and that is the finding.** Unlike
+the glyph-effect merge, where two views turned out to describe one object,
+these describe genuinely different ones: `SelectionFrame` is the keyboard
+cursor in `D_8016D404`, while `DialogCaret` is the panel the dialog reaches
+through the text box's `field_2C` and by tag from `func_80042B40(6)`. They
+are not collapsed.
+
+What the merge did force is a numbering collision. The two files spelled
+their offsets in different bases — the keyboard's `f30` and the dialog's
+`f48` are both offset `0x30`, and `f60` against `f96` are both `0x60`. Two
+such structs in one file could be misread as sharing a scheme, so both now
+name their fields by role with the hex offset in a comment.
+
+`SelectionFrame` agrees with `NameEntrySelectionFrameView` in
+[`name_entry_frame.h`](name_entry_frame.h) everywhere the two overlap —
+signed x/y at `+0x30/+0x32` and unsigned width at `+0x3C` — and extends it
+with the tween fields at `+0x36/+0x38`, the width bonus at `+0x5E` and the
+timer at `+0x60`. Folding the extension back into the shared header is a
+separate change: the frame's drawing callback lives in
+[`name_entry_setup.c`](name_entry_setup.c), so this merge does not force the
+question and does not answer it. `D_8016D404`'s own declared type stays the
+open item [`name_entry_state.h`](name_entry_state.h) already records, for the
+same reason — its other dereferencing reader is in the glyph-effect unit.
+
 ## Glyph-encoding constants and the three meanings of `0xF0`
 
 The password overlay's two text scanners now use the shared names from

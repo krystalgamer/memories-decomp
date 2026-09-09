@@ -903,7 +903,7 @@ differences; another introduced a redundant loop-entry copy between the
 initial and loop-hoisted `HIGH` pseudos for the column global.
 
 The matching source in
-[`name_entry_update_keyboard.c`](../../src/overlays/password/name_entry_update_keyboard.c) groups the
+[`name_entry_runtime.c`](../../src/overlays/password/name_entry_runtime.c) groups the
 initial column and row stride in a named register union at `$4`. Its `u64`
 member gives GCC a DI register pair, while the two `s32` fields are the
 values actually assigned and read. On `gcc_2_8_1_g0_split`, both address

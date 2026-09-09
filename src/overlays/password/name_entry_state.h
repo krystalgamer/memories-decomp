@@ -34,7 +34,7 @@
  * four above. They were never really in dispute: name_entry_setup.c is the
  * only source that spelled them differently, and it only ever writes them
  * (`= 0`, `= 244`, and one pointer assignment), so it never constrained the
- * type. D_8016D418's third spelling was name_entry_update_keyboard.c's
+ * type. D_8016D418's third spelling was name_entry_runtime.c's
  * `u16 *`, which it casts to s32 before doing any arithmetic, so that one
  * never used its pointee type either. A declarer that only stores, or only
  * takes an address, abstains rather than votes.
@@ -42,7 +42,7 @@
  * NOT HERE, ON PURPOSE
  *
  * D_8016D404 is the one real disagreement of the five. name_entry_setup.c
- * assigns it, but name_entry_update_keyboard.c and
+ * assigns it, but name_entry_runtime.c and
  * name_entry_spawn_glyph_sprite.c both dereference it through structs of
  * their own -- `W` and `Fixed` -- and two dereferencing readers with
  * different types is the canonical-versus-local problem the password digit
