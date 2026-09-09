@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "card_constants.h"
 #include "duel_card.h"
 #include "duel_card_object_cleanup.h"
 #include "duel_side_state.h"
@@ -57,7 +58,7 @@ void func_80019608(void)
         arg = *(s16 *)(slot + 0xC);
         D_8009B150 = *(u16 *)(slot + 0xC);
         func_80029164(0, arg);
-        if (p[0x68] == 0x14) {
+        if (p[0x68] == CARD_TYPE_MAGIC) {
             D_8009B1C8->field_05 = D_8009B1C8->field_05 + 1;
         }
         func_80024914(slot);
