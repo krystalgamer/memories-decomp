@@ -81,7 +81,7 @@ source grouping.
 | `src/game/file_stream.c` | `gcc_2_8_1_g8` | File-state initialization (`0x80013898`), `File_GetPosition`, and three transfer setup helpers through `0x80013A94` |
 | `src/game/file_transfer_setup.c` | `gcc_2_8_1_g8_split` | Two contiguous transfer-descriptor setup helpers at `0x80013B04` and `0x80013B68` |
 | `src/game/file_cd_transfer.c` | `gcc_2_8_1_g8_split` | Eight asynchronous disc-transfer callbacks and helpers from `0x800140A0` through `File_ActivateTransfer` (`0x800143DC`) |
-| `src/game/file_transfer_control.c` | `gcc_2_8_1_g8_split` | Three contiguous transfer-service, object-state, and descriptor-dispatch helpers from `0x80014A5C` through `func_80014C40` |
+| `src/game/file_transfer_control.c` | `gcc_2_8_1_g8_split` | The primary transfer's step function `func_8001455C` (`0x8001455C`) and the three contiguous transfer-service, object-state and descriptor-dispatch helpers that drive it, from `0x80014A5C` through `func_80014C40`. The whole `gcc_2_8_1_g8_split` run between `func_800144B8` and `file_transfer_flags.c`, both at `gcc_2_8_1_g8`. This unit owns `jtbl_80010044` through the `.rodata` line at ROM `0x844` in `split.yaml` |
 | `src/game/file_transfer_flags.c` | `gcc_2_8_1_g8` | Six contiguous active/secondary transfer-request and cancellation helpers from `0x80014E1C` through `0x80015078` |
 | `src/game/fade_in.c` | `gcc_2_8_1_g8` | Uniform `Fade_InitIn` (`0x80015780`, target `0xFF`, flag `0x80`, step `0x0C`) and contiguous banded `Fade_StartIn` (`0x800157DC`, flag `0x01`, step `8`) |
 | `src/game/fade_color.c` | `gcc_2_8_1_g8_split` | Colour-selecting `Fade_InitInColor` (`0x8001581C`, flags `0x30`) and the contiguous conditional white-state reset (`0x80015870`, flags `0xB0`, step `0x0C`) |
