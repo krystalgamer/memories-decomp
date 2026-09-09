@@ -1,12 +1,13 @@
+#define GINPUT_PAD1_HELD_IS_VOLATILE
 #include "../../types.h"
 #include "../../unmatched.h"
 #include "camera_state.h"
 #include "../../psyq/libgte.h"
 #include "../../game/view_state.h"
+#include "../../game/input.h"
 #include "../../game/sorted_entry.h"
 #include "campaign_map.h"
 
-extern volatile u16 gInput_wPad1Held;
 extern void func_800857C0(int);
 
 void CampaignMap_SetCameraFromLocation(s32 index)
