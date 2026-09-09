@@ -5,9 +5,10 @@
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "func_80058434.h"
 #include "../unmatched.h"
+#include "model_effect_coefficients.h"
+#include "model_view_adjustments.h"
 
 extern s16 D_800F2B4A[];
-extern s32 func_8005F1B8(s32 arg0, s32 arg1);
 void func_80052528(void) {
     u8 *b;
     s32 x;
