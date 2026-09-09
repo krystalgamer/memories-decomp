@@ -2,11 +2,10 @@
 #include "camera_view.h"
 #include "../psyq/memory.h"
 #include "func_8005EBF4.h"
+#include "func_8005FBC4.h"
 
 extern Key D_800F5788[];
 extern u8 D_8009B078;
-
-extern void func_8005FBC4(s32, s32, s32, s32, Coeff *, s32);
 
 /* Evaluates one channel of the keyframe ring that func_8005F91C fills and
    func_8005F070 seeds. `cur` points at a 0x28-byte key inside D_800F5788, so
