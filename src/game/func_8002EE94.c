@@ -1,4 +1,6 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+#define D_8009B268_IN_DATA
+#define D_8009B26D_IN_DATA
 #include "../types.h"
 #include "card_constants.h"
 #include "data_transfer_request.h"
@@ -16,12 +18,11 @@
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "script_state.h"
+#include "main_services.h"
 
 extern u8 gCampaignSceneIndex;
-extern u8 D_8009B268 __attribute__((section(".data")));
 extern u8 D_8009B269 __attribute__((section(".data")));
 extern u8 D_8009B26C __attribute__((section(".data")));
-extern u8 D_8009B26D __attribute__((section(".data")));
 extern u8 D_8009B34C __attribute__((section(".data")));
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
