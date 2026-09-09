@@ -76,7 +76,7 @@ s32 func_8003F8D4(void) {
     case 2:
         if (func_8003F2B0(D_8009B3D8, 0x20, 0x100, D_8009B3EE) == 0) {
             TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
-            func_8004036C((s32)D_8009B3D8);
+            func_8004036C(D_8009B3D8);
             D_8009B3D8 = (u8 *)0;
             if ((D_8009B3EA & 0x80) == 0) {
                 D_8009B3EA = 3;
@@ -149,7 +149,7 @@ s32 func_8003F8D4(void) {
         }
         if (func_8003F2B0(D_8009B3D8, 0x20, 0x100, D_8009B3EE) == 0) {
             TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
-            func_8004036C((s32)D_8009B3D8);
+            func_8004036C(D_8009B3D8);
             D_8009B3D8 = (u8 *)0;
             return 2;
         }
