@@ -10,6 +10,7 @@
 #include "display_object_helpers.h"
 #include "file_transfer.h"
 #include "func_800291E0.h"
+#include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
 
 extern u8 *D_800E9EF0[];
@@ -19,9 +20,7 @@ extern u8 *D_800E9EF0[];
    symbol, so no storage is allocated here. */
 u16 D_8009B150;
 
-extern void func_80029164(s32, s32);
 extern void func_80026BA4(s32, s32);
-extern u8 *func_800291E0(s32, s32, s32);
 extern void func_8001944C(u8 *);
 extern u8 *func_80019564(u8 *);
 void func_80019608(void)
