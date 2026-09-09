@@ -119,4 +119,18 @@ extern s8 D_8009B360;
  * outcome: it is a side selector, and it is read as one. */
 extern u8 gDuel_bWinnerSide;
 
+/* The halfword the duel hands to SD_BGMPlay: func_8001825C and func_80018608
+ * read it for that call, func_80024DC8 stores 0x7270, func_80030F40 stores
+ * 0x71D0 and Text_StartCampaignDuel stores func_80036D3C's result. lhu/sh
+ * everywhere, two bytes wide (gFreeDuel_bTargetColumn is at 0x8009B36C).
+ * Retail reaches it through %hi/%lo at all five sites and never through $gp,
+ * so duel_phase_entry.c, func_8001825C.c and frontend_scene_states.c define
+ * the .data arm below; func_80024DC8.c and text_start_campaign_duel.c
+ * compile with nothing in small data and take the plain arm. */
+#ifdef D_8009B36A_IN_DATA
+extern u16 D_8009B36A __attribute__((section(".data")));
+#else
+extern u16 D_8009B36A;
+#endif
+
 #endif
