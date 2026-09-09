@@ -1,0 +1,6 @@
+#ifndef MEMORIES_DECOMP_FUNC_80035A64_H
+#define MEMORIES_DECOMP_FUNC_80035A64_H
+
+void func_80035A64(void);
+
+#endif

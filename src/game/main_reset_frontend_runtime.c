@@ -1,11 +1,11 @@
 #include "../types.h"
+#include "func_80035A64.h"
 #include "input.h"
 #include "main_reset_frontend_runtime.h"
 #include "main_services.h"
 
 extern u8 D_8009B0C0, D_8009B254;
 extern void func_800403F0(void);
-extern void func_80035A64(void);
 extern void func_80039E9C(void);
 void Main_ResetFrontendRuntime(void)
 {

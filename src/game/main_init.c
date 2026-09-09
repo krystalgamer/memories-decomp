@@ -12,6 +12,7 @@
 #include "fade.h"
 #include "file_transfer.h"
 #include "func_8002D458.h"
+#include "func_80035A64.h"
 #include "func_80043960.h"
 #include "func_80043BCC.h"
 #include "main_loop.h"
@@ -39,7 +40,6 @@ extern jmp_buf D_800E9DC0;
 extern void __main(void);
 extern void func_80013154(void);
 extern void func_800403F0(void);
-extern void func_80035A64(void);
 extern void func_8003B5C8(void);
 
 s32 Main_Init(void)
