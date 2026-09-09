@@ -24,7 +24,6 @@ typedef struct {
 extern u16 D_8016D4D2;
 extern u8 D_8016D400;
 extern s8 D_8009B34D;
-extern u16 D_8009B398;
 extern u8 D_801B125A[];
 extern DuelEffectChannel D_800EB1C0;
 extern u8 *D_8016D418;
@@ -121,7 +120,7 @@ void NameEntry_UpdateDialog(void)
             return;
         }
         if ((D_8016D4D2 & 0x8000) == 0) {
-            if ((D_8009B398 & (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
+            if ((gInput_wPad1Pressed & (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
                 SD_SEPlayFull(11);
                 return;
             }

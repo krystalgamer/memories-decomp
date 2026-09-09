@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../../types.h"
 #include "../../game/input.h"
 #include "../../game/display_object_layout.h"
@@ -19,8 +20,6 @@ extern u8 D_8018459B;
 extern u8 D_8018459C;
 extern u8 D_8018459D;
 extern u16 D_8009B0D8;
-extern u16 D_8009B394;
-extern volatile u16 D_8009B398;
 extern u8 D_8009B3EA;
 extern u8 D_8009B3ED;
 
@@ -171,7 +170,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 *(s16 *)(ent5 + 0x60) = -neg;
             }
         }
-        if ((D_8009B398 & PAD_BUTTON_START) != 0) {
+        if ((gInput_wPad1Pressed & PAD_BUTTON_START) != 0) {
             SD_SEPlay(7, 0xFF, 0);
             ent3 = D_80184560;
             *(u16 *)(ent3 + 8) &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
@@ -286,7 +285,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         return -1;
     }
 
-    if ((D_8009B394 & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+    if ((gInput_wPad1Repeat & PAD_DIRECTION_VERTICAL_MASK) != 0) {
         if ((u32)gMain_bMenuID >= 5) {
             base = 5;
         } else {
@@ -299,7 +298,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         }
         func_80040410(gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
         /* Keep the store in each arm: the join controls high-half reuse. */
-        if ((D_8009B394 & PAD_DIRECTION_UP) != 0) {
+        if ((gInput_wPad1Repeat & PAD_DIRECTION_UP) != 0) {
             *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count - 1) % count + base;
         } else {
             *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count + 1) % count + base;
@@ -309,10 +308,10 @@ s32 MainMenu_UpdateFrontendMenu(void)
         goto ret_m1;
     }
 
-    if ((D_8009B398 & (PAD_BUTTON_START | PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
+    if ((gInput_wPad1Pressed & (PAD_BUTTON_START | PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
         return -1;
     }
-    if ((D_8009B398 & PAD_BUTTON_CANCEL) != 0) {
+    if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
         if ((u32)gMain_bMenuID < 5) {
             SD_SEPlay(9, 0xFF, 0);
             return -1;
