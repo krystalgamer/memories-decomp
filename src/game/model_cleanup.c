@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8005A53C.h"
 #include "camera_view.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -20,8 +21,6 @@ extern void func_8005DBA4(void);
 extern void func_80051A48(void);
 extern s32 func_8005FB08(void);
 extern s32 func_8005FC1C(s32);
-extern void func_8005A53C();
-
 void func_80059CE4(void)
 {
     u8 *state = (u8 *)&D_800F56F0;
