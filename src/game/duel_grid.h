@@ -18,6 +18,23 @@ typedef struct {
 #define DUEL_FIELD_SIDE_POSITION_BYTES \
     (DUEL_FIELD_SIDE_GRID_SLOT_COUNT * sizeof(DuelFieldPosition))
 
+/* The grid cursor's two coordinate bytes, at 0x0F and 0x10 of a record whose
+ * earlier fields are not established here.
+ *
+ * They are a column and a row rather than a pixel pair, because
+ * func_80023090 turns them into a grid index as
+ * `cursor->row * DUEL_FIELD_ROW_SIZE + cursor->col`. func_8001D5B4 spelled
+ * the same two bytes x and y, which is the same claim in weaker terms.
+ *
+ * This describes only those two bytes. duel_update_card_pick_cursor.c holds
+ * a longer view of the same record reaching 0x19, and the two do not overlap
+ * in what they name, so they stay separate. */
+typedef struct {
+    u8 pad_00[0xF];
+    s8 col;
+    s8 row;
+} DuelFieldCursor;
+
 /* The field grid: DUEL_SIDE_COUNT blocks of DUEL_FIELD_SIDE_GRID_SLOT_COUNT
  * bytes, each byte a D_801A7AD8 record index. The shape is not a guess --
  * func_800179F4.c and func_800208D4.c both build a per-side cursor as
