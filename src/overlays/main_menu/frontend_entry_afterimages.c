@@ -1,10 +1,9 @@
 #include "../../types.h"
+#include "../../unmatched.h"
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_layout.h"
 #include "frontend.h"
 #include "../../game/display_object_helpers.h"
-
-extern u8 D_801AF800[];
 
 void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
 {

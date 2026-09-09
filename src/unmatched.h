@@ -88,4 +88,9 @@ void func_800235C0(void);
  * takes its sizeof, so the bound was decorative. */
 extern u8 D_801AF000[];
 
+/* Six consumers use this second buffer base with the same unsized-byte-array
+ * spelling: three resident transfer paths and three main-menu display paths.
+ * Nothing takes its sizeof. */
+extern u8 D_801AF800[];
+
 #endif

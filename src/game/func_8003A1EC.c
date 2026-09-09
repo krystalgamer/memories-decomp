@@ -4,7 +4,6 @@
 #include "display_object_helpers.h"
 #include "../unmatched.h"
 
-extern u8 D_801AF800[];
 extern s32 func_8003A198(u8 *, s32, s32, s32);
 s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
     u8 *p;
