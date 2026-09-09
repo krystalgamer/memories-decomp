@@ -3267,10 +3267,26 @@ What was safe, all confirmed against the full-executable hash:
   not a gap in the type -- both functions are simply held in shape by the
   barrier.
 
-  Both are callbacks `File_TryRequestAsyncTransfer` is handed, so anyone
-  converting that family should expect the same and measure before writing
-  the diff. Nothing distinguishes them by inspection from the transfer
-  callbacks that do convert.
+  Both are callbacks `File_TryRequestAsyncTransfer` is handed. The whole
+  family was measured on 2026-09-09 -- seven functions with the signature
+  `(descriptor, mode)` -- and it splits five to two:
+
+  | function | typed as `FileTransferDescriptor *` |
+  | --- | --- |
+  | `func_800289BC` | matches (once every access is converted) |
+  | `func_80020BE4` | matches |
+  | `func_8002F4C0` | one byte: the `0x100` store to +0x32 is scheduled later |
+  | `func_800434F4` | one byte, same shape |
+  | `func_8002FB78` | eight bytes shorter |
+  | `func_8003A01C` | eight bytes shorter |
+  | `func_80032184` | thirty-six bytes shorter |
+
+  Nothing distinguishes the two that convert by inspection: they touch the
+  same members, call the same helpers and do the same `D_8009B0F4`
+  read-modify-write. `func_80020BE4` is the one with `do { } while (0);`
+  blocks already pinning two of its store runs, which is a plausible reason
+  and not a measured one. So convert one of these at a time and build; do not
+  convert the family in a batch on the strength of a sibling.
 
 ### Screening rule for the three of these
 
