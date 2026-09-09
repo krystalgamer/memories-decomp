@@ -4,6 +4,7 @@
 #include "scene_script.h"
 #include "script_command_busy.h"
 #include "fade.h"
+#include "display_object.h"
 #include "display_object_api.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -17,11 +18,6 @@
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
 
-struct Rec {
-    u8 pad0[4];
-    s32 unk4;
-};
-
 extern s32 gGraphics_bActiveBuffer __attribute__((section(".data")));
 #define gGraphics_bActiveBuffer (*(u8 *)&gGraphics_bActiveBuffer)
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
@@ -30,11 +26,11 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
     __attribute__((section(".data")));
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
-extern struct Rec *D_8009B280;
+extern DisplayObject *D_8009B280;
 extern u16 D_8009B270;
 
 void Script_OpShowImage(void) {
-    struct Rec *rec;
+    DisplayObject *rec;
     u16 flags;
     s32 ret;
     s32 masked;
@@ -70,7 +66,7 @@ void Script_OpShowImage(void) {
         func_80040510((DisplayObjectConfigView *)rec, 0, 0, VRAM_COPY_WIDTH,
             VRAM_COPY_HEIGHT, 0, 0, 0x17, 0, 0xF4);
         D_8009B280 = rec;
-        rec->unk4 |= 0x2000000;
+        rec->attribute |= 0x2000000;
         func_8002E00C((ScriptImageEntry *)D_800EAE98);
         gGraphics_sViewportX = D_8009B2A8;
         gGraphics_sViewportY = D_8009B2AA;

@@ -3,12 +3,6 @@
 #include "model_transfer_state.h"
 #include "model_transfer_flags.h"
 
-typedef struct {
-    s16 id;
-    u8 pad_02[4];
-    s16 state;
-} ModelTransferItem;
-
 void func_8005FAE4(void)
 {
     D_8009B074 = 0;
