@@ -1,3 +1,4 @@
+#define D_8009B260_IN_DATA
 #include "../types.h"
 #include "duel_side_state.h"
 #include "input.h"
@@ -5,6 +6,7 @@
 #include "sound.h"
 #include "func_80039794.h"
 #include "duel_scene_callbacks.h"
+#include "duel_effect_request.h"
 #include "../unmatched.h"
 
 typedef struct {
@@ -16,7 +18,6 @@ typedef struct {
 extern u8 gDuel_bQuitDialogState;
 extern u16 D_8009B16C;
 extern s8 D_8009B238;
-extern volatile u8 D_8009B260 __attribute__((section(".data")));
 extern s8 gDialog_bChoice[9];
 extern Window D_800EB224;
 extern s8 gDuel_bOpponentID[9];

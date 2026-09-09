@@ -1,3 +1,4 @@
+#define D_8009B260_IN_DATA
 #include "../types.h"
 #include "duel_side_state.h"
 #include "func_8002C604.h"
@@ -8,7 +9,7 @@
 #include "sound.h"
 #include "duel_effect.h"
 #include "../unmatched.h"
-extern u8 D_8009B260[8] __attribute__((section(".data")));
+#include "duel_effect_request.h"
 
 /* One step of a field-wide stat-penalty sweep, driven once per 16 frames by
  * the D_8009B20C[1] countdown. D_8009B1D0 is the slot index within the acting
@@ -31,7 +32,7 @@ void func_80025D30(void) {
     }
 
     if ((D_8009B220 & 0x40) != 0) {
-        if ((D_8009B260[0] & 1) == 0) {
+        if ((D_8009B260 & 1) == 0) {
             D_8009B220 = 0;
         }
         return;

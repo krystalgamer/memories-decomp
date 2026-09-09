@@ -1,3 +1,4 @@
+#define D_8009B260_IN_DATA
 #include "../types.h"
 #include "duel_card_object_helpers.h"
 #include "duel_side_state.h"
@@ -9,8 +10,6 @@
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "sound.h"
-
-extern u8 D_8009B260[8];
 
 void func_8002596C(void) {
     u8 *p;
@@ -42,7 +41,7 @@ void func_8002596C(void) {
         goto call;
     }
 
-    if ((D_8009B260[0] & 1) == 0) {
+    if ((D_8009B260 & 1) == 0) {
         D_8009B220 = 0;
         return;
     }

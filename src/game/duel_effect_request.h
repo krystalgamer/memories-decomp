@@ -74,6 +74,25 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
  * assembly. */
 extern u8 *D_8009B17C;
 
+/* The request pool's status byte. func_8002C68C raises bit 7 when it hands
+ * out a request and func_8002C598 clears the byte; func_8002C6C8 clears
+ * bit 0, raises it again while walking the records and returns it;
+ * func_80024200 drops bit 7 unless bit 0 is set; func_8002596C,
+ * func_80025D30 and func_80025BEC test bit 0. Read lbu everywhere and one
+ * byte wide (c_symbols.ld names D_8009B261 next). Retail reaches it through
+ * $gp in func_8002C6C8, func_8002C68C and func_8002C598, and through %hi/%lo
+ * in func_80024200, func_8002596C, func_80025D30, func_80025BEC and
+ * func_80018FEC (still assembly); duel_scene_update.c, func_8002596C.c and
+ * func_80025D30.c define the .data arm below for that, and
+ * duel_field_effect_transition.c still declares it privately.
+ * func_8002C68C.c keeps its own extern, because it cannot include this
+ * header (see the note under func_8002C68C). */
+#ifdef D_8009B260_IN_DATA
+extern u8 D_8009B260 __attribute__((section(".data")));
+#else
+extern u8 D_8009B260;
+#endif
+
 /* Allocates a request for the given effect id, marks D_8009B260 and returns
  * it, or 0 when the pool is full.
  *
