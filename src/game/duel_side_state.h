@@ -133,4 +133,15 @@ extern u16 D_8009B36A __attribute__((section(".data")));
 extern u16 D_8009B36A;
 #endif
 
+/* Points D_8009B1C8 and D_8009B22C at the side D_8009B1D5 selects, then
+ * clears the rest of the per-duel state -- roughly thirty scalars, several of
+ * them written more than once.
+ *
+ * Declared here because its first two statements are the assignment this
+ * header already describes: the note on D_8009B1C8 says four translation
+ * units assign it exactly `&D_800E9FF0[D_8009B1D5]` on a turn change, and
+ * this is one of them. func_800179F4.c is the only caller and had the only
+ * declaration. */
+void func_800175A0(void);
+
 #endif
