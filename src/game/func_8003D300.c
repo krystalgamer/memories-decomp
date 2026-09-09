@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_effect.h"
 
 typedef struct {
     unsigned char field0;
@@ -6,7 +7,6 @@ typedef struct {
 } LargeObject;
 
 extern LargeObject D_800EF6E0;
-extern unsigned char D_8009B3C1;
 extern unsigned char D_8009B3C7;
 extern unsigned char D_8009B3CF;
 extern unsigned char D_8009B3DD;
