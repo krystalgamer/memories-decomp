@@ -18,4 +18,24 @@ void NameEntry_UpdateGlyphFragment(u8 *sprite);
 void NameEntry_UpdateGlyphShatter(u8 *sprite);
 void NameEntry_UpdateGlyphTransfer(u8 *sprite);
 
+/* Screen entry and exit. NameEntry_Init builds the keyboard, the name field
+   and the caret; NameEntry_PollCompletion runs one frame and returns non-zero
+   once the name has been accepted; NameEntry_BuildStarterDeck fills the
+   player's deck once it has. */
+void NameEntry_Init(void);
+s32 NameEntry_PollCompletion(void);
+void NameEntry_BuildStarterDeck(void);
+
+/* One frame of the name field: reads the pad, moves the caret, and commits or
+   cancels. */
+void NameEntry_UpdateDialog(void);
+
+/* Moves the name's length by `delta` and re-aims the caret, returning the new
+   length. */
+s32 NameEntry_AdjustLength(s32 delta, s32 arg);
+
+/* The caret's slide callback, installed into a sprite's +0x24 slot by
+   NameEntry_AdjustLength. */
+void NameEntry_UpdateCaretTween(u8 *object);
+
 #endif

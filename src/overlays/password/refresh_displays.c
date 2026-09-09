@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "shop.h"
 #include "../../game/duel_effect.h"
 #include "../../game/text_constants.h"
 #include "../../game/text_box_runtime.h"

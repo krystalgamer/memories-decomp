@@ -28,4 +28,16 @@ void Password_UpdateDigitCursorDecoration(u8 *object);
 /* Retain caller setup; the selected card comes from cached slot 0. */
 void Password_RecreateCardPreview(s32 ignored);
 
+/* Rebuilds the eight-digit entry box and the starchip counter from the
+   current values. Both are called on entry and again after every change. */
+void Password_RefreshDigitDisplay(void);
+void Password_RefreshStarchipDisplay(void);
+
+/* Points the digit cursor at `object` and starts its slide towards it. */
+void Password_SetDigitCursorTarget(u8 *object);
+
+/* Resolves the eight entered digits to a card id, or 0 when they do not
+   match any password. */
+s32 Password_LookupCardID(void);
+
 #endif

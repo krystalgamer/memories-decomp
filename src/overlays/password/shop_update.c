@@ -36,13 +36,9 @@ extern u8 D_8009B269;
 extern u8 D_8009B26C;
 extern s8 D_8009B34D;
 
-extern void Password_SetDigitCursorTarget(Cursor *);
-extern void Password_RefreshDigitDisplay(void);
 extern void Fade_WaitOut(void);
-extern s32 Password_LookupCardID(void);
 extern void func_80029164(s32, s32);
 extern void Duel_AwardCard(s32);
-extern void Password_RefreshStarchipDisplay(void);
 
 void Password_UpdateShopScreen(void)
 {

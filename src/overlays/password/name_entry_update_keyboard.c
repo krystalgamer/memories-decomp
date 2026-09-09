@@ -36,7 +36,6 @@ extern volatile u16 D_8009B398[];
 
 extern void func_80042A78(W *);
 extern void func_800429D8(W *);
-extern s32 NameEntry_AdjustLength(s32, s32);
 
 void NameEntry_UpdateKeyboard(void)
 {

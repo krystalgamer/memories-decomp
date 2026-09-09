@@ -40,7 +40,6 @@ extern void func_80039934(DuelEffectChannel *, s32, s32);
 extern void func_80015B00(void);
 extern Caret *func_80042B40(s32);
 extern void func_8003BC40(u8 *, u8 *, s32);
-extern s32 NameEntry_AdjustLength(s32, s32);
 
 void NameEntry_UpdateDialog(void)
 {
