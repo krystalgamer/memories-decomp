@@ -19,7 +19,6 @@
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern u8 D_8009B369 __attribute__((section(".data")));
-extern s16 D_800F284A[];
 extern void (*D_800E9DBC[])(void);
 extern u8 gDuel_awOpponentDeckPool[];
 extern u8 D_801D1200[];
@@ -102,7 +101,7 @@ void func_800179F4(void)
     }
     D_8009B1C8 = (DuelSideState *)((u8 *)D_800E9FF0 + D_8009B1D5 * sizeof(DuelSideState));
     func_800178BC();
-    D_800F284A[0] = D_8009B1D5 * 2048 + 1024;
+    D_800F2848.angle = D_8009B1D5 * 2048 + 1024;
     func_8001352C();
     Duel_ClearHandSlots();
     pane = &D_800EA0E8[0];
