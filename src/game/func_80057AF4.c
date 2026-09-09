@@ -1,11 +1,10 @@
 #include "../types.h"
+#include "model_word_memory.h"
 #include "model.h"
 #include "model_slot_state_updates.h"
 #include "func_80057AF4.h"
 
 extern ModelSlot D_800F2C40[];
-
-extern void func_8005B620(u8 *, u8 *, s32);
 
 void func_80057AF4(s32 index, s32 anim, s32 flag) {
     register ModelSlot *m asm("$17");
@@ -63,7 +62,7 @@ void func_80057AF4(s32 index, s32 anim, s32 flag) {
                 if ((m->field_BEC[t] >> (i - (t << count))) & 1) {
                     count = 5;
                 }
-                func_8005B620(base + src[0] * 4, dst, count);
+                func_8005B620((s32 *)(base + src[0] * 4), (const s32 *)dst, count);
                 dst += count * 4;
             }
         }
@@ -116,7 +115,7 @@ void func_80057AF4(s32 index, s32 anim, s32 flag) {
                     count = 5;
                 }
                 *(u16 *)(*parts + 8) = ((u8 *)src - (u8 *)m->field_DD8) >> 2;
-                func_8005B620(dst, base + src[0] * 4, count);
+                func_8005B620((s32 *)dst, (const s32 *)(base + src[0] * 4), count);
                 dst += count * 4;
             }
         }

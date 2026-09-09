@@ -1,5 +1,6 @@
 #define D_8009B118_IN_DATA
 #include "../types.h"
+#include "model_word_memory.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
@@ -28,7 +29,6 @@ extern s32 D_80010000 __attribute__((section(".data")));
 extern s32 D_80010014 __attribute__((section(".data")));
 extern s32 D_80010018 __attribute__((section(".data")));
 extern u8 D_801A8000[];
-extern void func_8005B620(u8 *dst, u8 *src, s32 count);
 
 void func_80057544(FileTransferDescriptor *object, s32 mode) {
     RECT rect0;
@@ -204,7 +204,7 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
     case 10:
         dst = (u8 *)D_800F2C40;
         src = D_801DD000;
-        func_8005B620(dst + 0xBF8, src, 0x40);
+        func_8005B620((s32 *)(dst + 0xBF8), (const s32 *)src, 0x40);
         *(ModelSlotCF8BlockWords *)(dst + 0xCF8) =
             *(ModelSlotCF8BlockWords *)(src + 0x100);
         *(s32 *)(dst + 0xD08) = -1;
