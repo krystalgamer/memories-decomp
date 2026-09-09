@@ -7,6 +7,7 @@
 #include "func_80039794.h"
 #include "duel_scene_callbacks.h"
 #include "duel_effect_request.h"
+#include "func_8002C6C8.h"
 #include "../unmatched.h"
 
 typedef struct {
@@ -21,7 +22,6 @@ extern s8 D_8009B238;
 extern s8 gDialog_bChoice[9];
 extern Window D_800EB224;
 extern s8 gDuel_bOpponentID[9];
-extern void func_8002C6C8(void);
 extern int func_80026B34(void);
 void func_80024200(void)
 {
