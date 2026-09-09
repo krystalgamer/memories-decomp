@@ -13,7 +13,6 @@
 #include "duel_effect_create_channel.h"
 #include "dialog_transition.h"
 
-extern u8 D_8009B3C7;
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 
