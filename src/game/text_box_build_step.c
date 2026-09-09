@@ -31,7 +31,7 @@ extern u16 D_8009B27C __attribute__((section(".data")));
 
 extern void func_800391E4(u8 *);
 extern void func_800373C8(DuelEffectChannel *, s32, s32);
-void TextBox_BuildStep(u8 *object)
+void TextBox_BuildStep(DuelEffectChannel *object)
 {
     u16 flags;
     s32 id;
@@ -42,23 +42,23 @@ void TextBox_BuildStep(u8 *object)
     s32 op;
     void (**handlers)(u8 *);
 
-    flags = *(u16 *)(object + 0x34);
+    flags = object->flags_34;
     if ((flags & 0x4000) == 0) {
         flags |= 0x4000;
-        *(u16 *)(object + 0x34) = flags;
+        object->flags_34 = flags;
         if ((flags & 2) == 0) {
             func_80039E9C();
         }
-        if ((*(u16 *)(object + 0x34) & 0x100) != 0) {
-            object[0x5B] = 8;
-            object[0x5A] = 8;
+        if ((object->flags_34 & 0x100) != 0) {
+            object->field_5B = 8;
+            object->field_5A = 8;
         }
-        id = *(u16 *)(object + 0x36);
+        id = object->field_36;
         D_8009B357 = 0;
         D_8009B340 = 0;
-        object[0x52] = 1;
-        object[0x60] = 0;
-        object[0x58] = 0;
+        object->delay_52 = 1;
+        object->field_60 = 0;
+        object->stream_58 = 0;
         if (id > 0xCFFF) {
             text = (u8 *)(((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) +
                 D_801C0000[id - 0xD000]);
@@ -72,20 +72,20 @@ void TextBox_BuildStep(u8 *object)
             text = (u8 *)(((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) +
                 D_801C0000[id]);
         }
-        *(u8 **)object = text;
-        object[0x56] = 0;
-        object[0x51] = 0;
-        func_8004036C(*(void **)(object + 0x30));
-        func_8004036C(*(void **)(object + 0x2C));
-        *(s32 *)(object + 0x30) = 0;
-        *(s32 *)(object + 0x2C) = 0;
-        func_800391E4(object);
-        if ((*(u16 *)(object + 0x34) & 0x40) == 0) {
-            entry = &D_800EB288[*(u16 *)(object + 0x5C)];
-            *(DuelEffectEntry **)(object + 0x24) = entry;
-            *(DuelEffectEntry **)(object + 0x20) = entry;
-            func_80035CA8(object[0x57]);
-            DuelEffect_ClearMatchingMarker(object[0x57]);
+        object->text_00 = text;
+        object->field_56 = 0;
+        object->state_51 = 0;
+        func_8004036C(object->field_30);
+        func_8004036C((void *)object->field_2C);
+        object->field_30 = (void *)0;
+        object->field_2C = 0;
+        func_800391E4((u8 *)object);
+        if ((object->flags_34 & 0x40) == 0) {
+            entry = &D_800EB288[object->range_start_5C];
+            object->entry_head_24 = entry;
+            object->entry_end_20 = entry;
+            func_80035CA8(object->index_57);
+            DuelEffect_ClearMatchingMarker(object->index_57);
         }
         return;
     }
@@ -96,33 +96,33 @@ void TextBox_BuildStep(u8 *object)
             D_8009B357 = 0;
         }
     }
-    if (object[0x51] != 0) {
-        D_80090E64[object[0x51] & 0x1F](object);
-        *(u16 *)(object + 0x34) = *(u16 *)(object + 0x34) & 0xFBFF;
+    if (object->state_51 != 0) {
+        D_80090E64[object->state_51 & 0x1F]((u8 *)object);
+        object->flags_34 = object->flags_34 & 0xFBFF;
         return;
     }
-    if ((*(u16 *)(object + 0x34) & 0x1C00) == 0) {
+    if ((object->flags_34 & 0x1C00) == 0) {
         if ((gInput_wPad1Held & 0x80) || (gInput_wPad1Pressed & 0xC0)) {
-            func_800373C8((DuelEffectChannel *)object, 0, 0);
-            object[0x52] = 1;
-            *(u16 *)(object + 0x34) = *(u16 *)(object + 0x34) | 0x400;
+            func_800373C8(object, 0, 0);
+            object->delay_52 = 1;
+            object->flags_34 = object->flags_34 | 0x400;
         }
-        object[0x52] = object[0x52] - 1;
-        if (object[0x52] != 0) {
+        object->delay_52 = object->delay_52 - 1;
+        if (object->delay_52 != 0) {
             return;
         }
     }
     handlers = D_80090F18;
-    object[0x52] = object[0x53];
+    object->delay_52 = object->field_53;
 next_opcode:
-    slot = (u8 **)(object + *(s8 *)(object + 0x58) * 4);
+    slot = (u8 **)((u8 *)object + object->stream_58 * 4);
     script = *slot;
     D_8009B33A = script[0];
     op = (s16)D_8009B33A;
     *slot = script + 1;
     if (op >= 0xF0) {
         D_8009B350 = 0;
-        handlers[(s16)D_8009B33A - 0xF0](object);
+        handlers[(s16)D_8009B33A - 0xF0]((u8 *)object);
         if (D_8009B350 >= 0) {
             if (D_8009B350 == 1) {
                 return;
@@ -130,15 +130,15 @@ next_opcode:
             goto next_opcode;
         }
     }
-    if (func_80037C74(object) != 0) {
-        object[0x51] = 4;
+    if (func_80037C74((u8 *)object) != 0) {
+        object->state_51 = 4;
         return;
     }
     D_8009B35A = D_8009B33A;
-    func_80036C14(object, D_801D9000[(s16)D_8009B33A] & 0x8FF0FFFF);
-    object[0x60] = object[0x60] + 1;
-    if (object[0x61] != 0 && object[0x60] >= object[0x61]) {
-        *(u16 *)(object + 0x34) = *(u16 *)(object + 0x34) | 0x2000;
+    func_80036C14((u8 *)object, D_801D9000[(s16)D_8009B33A] & 0x8FF0FFFF);
+    object->field_60 = object->field_60 + 1;
+    if (object->field_61 != 0 && object->field_60 >= object->field_61) {
+        object->flags_34 = object->flags_34 | 0x2000;
     }
-    *(u16 *)(object + 0x38) = *(u16 *)(object + 0x38) + object[0x5A];
+    object->field_38 = object->field_38 + object->field_5A;
 }

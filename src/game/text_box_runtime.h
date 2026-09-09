@@ -3,7 +3,12 @@
 
 #include "../types.h"
 
-void TextBox_BuildStep(u8 *object);
+/* Declared through the tag rather than the typedef, and duel_effect.h is
+   deliberately not included: src/overlays/free_duel/cursor_layout.c reaches
+   this header and carries its own `extern u8 D_800EB0F8[]`, which the shared
+   declaration would collide with. That local one is a matching lever there. */
+struct DuelEffectChannel;
+void TextBox_BuildStep(struct DuelEffectChannel *object);
 void func_80039140(u8 *record);
 void TextBox_SetPos(u8 *record, s32 x, s32 y);
 

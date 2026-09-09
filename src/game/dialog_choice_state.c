@@ -6,12 +6,12 @@
 extern void func_800373C8(DuelEffectChannel *, s32, s32);
 void func_800374A8(u8 *object)
 {
-    u8 flags = object[0x51];
+    u8 flags = ((DuelEffectChannel *)object)->state_51;
 
     if ((flags & 0x80) == 0) {
-        object[0x51] = flags | 0x80;
+        ((DuelEffectChannel *)object)->state_51 = flags | 0x80;
         func_800373C8((DuelEffectChannel *)object, 3, 0);
-        object[0x51] = 0x82;
+        ((DuelEffectChannel *)object)->state_51 = 0x82;
     }
 }
 
