@@ -182,8 +182,8 @@ void Password_UpdateShopScreen(void)
     state = D_8016D424 & 0x1F;
     switch (state) {
     case 0:
-        if ((D_8009B3A4 & 0xA000) != 0) {
-            if ((D_8009B3A4 & 0x2000) != 0) {
+        if ((D_8009B3A4 & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+            if ((D_8009B3A4 & PAD_DIRECTION_RIGHT) != 0) {
                 index = gPassword_nDigitIndex + 1;
                 gPassword_nDigitIndex = index;
                 if (index >= 8) {
@@ -205,9 +205,9 @@ void Password_UpdateShopScreen(void)
             cursor->updateFlags |= 0x40;
             return;
         }
-        if ((gInput_wPad1Repeat & 0x5000) != 0) {
+        if ((gInput_wPad1Repeat & PAD_DIRECTION_VERTICAL_MASK) != 0) {
             step = gPassword_abDigits[gPassword_nDigitIndex];
-            if ((gInput_wPad1Repeat & 0x1000) != 0) {
+            if ((gInput_wPad1Repeat & PAD_DIRECTION_UP) != 0) {
                 step = step + 1;
                 if (step >= 10) {
                     step = 0;
@@ -223,14 +223,14 @@ void Password_UpdateShopScreen(void)
             Password_RefreshDigitDisplay();
             return;
         }
-        if ((gInput_wPad1Pressed & 0x20) != 0) {
+        if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
             SD_SEPlayFull(8);
             SD_BGMFadeOut();
             Fade_WaitOut();
             D_8009B26C = D_8009B269;
             return;
         }
-        if ((gInput_wPad1Pressed & 0x40) != 0) {
+        if ((gInput_wPad1Pressed & PAD_BUTTON_CROSS) != 0) {
             card = Password_LookupCardID();
             D_8016D4DC = card;
             if (card == 0) {
