@@ -6879,3 +6879,48 @@ produced very different population counts, and each jump came from fixing a
 bug in the previous parser rather than from new evidence, so no count has yet
 earned a place in this file. Treat a survey as a way to generate candidates,
 and verify by hand every symbol you are about to touch.
+
+## A signed read can be spelled three ways; only the unsigned one differs
+
+Twelve globals in the tree are declared with two spellings that differ only in
+signedness. `gCardGrid_bCursorColumn` and `gCardGrid_bCursorRow` are the first
+pair measured, and the answer is not the one the shape of the problem suggests.
+
+Two sources use them. `func_8002A788.c` declares them `s8` and reads them
+straight into an `s32`. `func_8002BFCC.c` declares them `u8` and writes
+`(s8)gCardGrid_bCursorColumn` at each use. Editing only `func_8002BFCC.c` and
+leaving the other alone -- it carries hand-written
+`.reloc .-4, R_MIPS_GPREL16` directives naming these symbols, so touching it
+would confound the result -- gives four cases:
+
+    extern u8  + (s8) cast     matches   (what master had)
+    extern s8  + (s8) cast     matches, object byte-identical
+    extern s8  + no cast       matches, object byte-identical
+    extern u8  + no cast       FAILS, executable 16 bytes short
+
+The fourth case is the control, and it matters: without it, three passes in a
+row would equally well be explained by the edit never reaching the build.
+
+So the declaration's signedness is not itself load-bearing here. What the code
+requires is that the read be *signed*, and three different spellings express
+that, all compiling to the same instructions:
+
+      lbu  v1,0(gp)
+      sll  a1,v1,0x18
+      sra  a0,a1,0x18
+
+GCC 2.8.1 loads unsigned and sign-extends by shifting even when told `s8`,
+because the shifted value is a shared subexpression -- the following
+`sra v0,a1,0x1f` reuses `a1` to get the sign. That is why removing the cast
+costs nothing, and why only the genuinely unsigned read generates different
+code.
+
+The useful consequence: a conflict of this shape is resolvable rather than
+load-bearing, and it resolves toward the spelling that states the requirement
+once. Both sources now say `s8` and neither casts.
+
+Do not generalize this to the other eleven without measuring them. The rule
+recorded above for return width was that the consumer decides, not the
+definition, and this pair has a consumer that was already casting. A pair
+whose declarers both read the symbol directly is a different shape and may
+well answer differently.

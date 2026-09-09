@@ -16,8 +16,8 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
     __attribute__((section(".data")));
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
-extern u8 gCardGrid_bCursorColumn;
-extern u8 gCardGrid_bCursorRow;
+extern s8 gCardGrid_bCursorColumn;
+extern s8 gCardGrid_bCursorRow;
 extern void (*D_800E9DBC[])(void);
 extern DuelEffectResourceRecord D_800EA0E8[];
 extern u8 D_800EA1E8[];
@@ -73,7 +73,7 @@ void func_8002BFCC(void) {
     func_80029590();
     r = D_800EA1E8;
     D_800EA1E8[0] = 0;
-    c = (s8)gCardGrid_bCursorColumn;
+    c = gCardGrid_bCursorColumn;
     d = c;
     if (c >= 0xA) {
         x = (c % 10) * 0xE + 0xAE;
@@ -82,7 +82,7 @@ void func_8002BFCC(void) {
     }
     *(s16 *)(r + 0x12) = x;
     *(s16 *)(r + 8) = x;
-    k = (s8)gCardGrid_bCursorRow;
+    k = gCardGrid_bCursorRow;
     y = (k / 10) * 0xB2 + (k % 10) * 0x10 + 0xE;
     *(s16 *)(r + 0x14) = y;
     *(s16 *)(r + 0xA) = y;
