@@ -38,6 +38,12 @@ void File_RequestMainMenuPackage(void);
 void File_RequestNameEntryPackage(void);
 void File_RequestPasswordPackage(void);
 void File_RequestEgyptOverworldPackage(void);
+/* Another wrapper of the same shape as the four above: it asks for sector
+   0x2157, 0x32 sectors, with func_8003C328 as the completion callback, then
+   waits. It keeps its address-based name because which package that sector
+   holds is not established here -- the four named ones use FILE_WA_*
+   constants, and this one still spells the sector as a literal. */
+void func_8003C498(void);
 
 /* Puts the loader's control halfword at 0x8009B112 into mode 2, clearing the
    other bits of its low field. Every caller reaches it through the same

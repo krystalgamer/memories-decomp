@@ -17,7 +17,6 @@ extern int NameEntry_PollCompletion(void);
 extern void func_8003C2B4(void);
 extern void Options_Init(void);
 extern int Options_Update(void);
-extern void func_8003C498(void);
 extern void func_8003C950(void);
 extern int func_8003CA5C(void);
 
