@@ -1,3 +1,5 @@
+#define D_8009B268_IN_DATA
+#define D_8009B26D_IN_DATA
 #include "../types.h"
 #include "duel_effect.h"
 #include "duel_effect_mode_7.h"
@@ -7,6 +9,7 @@
 #include "func_8003FCD8.h"
 #include "movie_playback_control.h"
 #include "../unmatched.h"
+#include "main_services.h"
 
 /* The frontend's scene states, in address order. Every one of them is a step
    of the same state machine: the flags byte D_8009B2EB carries bit 0x80 for
@@ -19,9 +22,7 @@ extern u8 D_80090D0C[];
 extern u8 D_80090D28[];
 extern u8 D_80090D44[];
 extern u8 D_8009B254[];
-extern u8 D_8009B268[];
 extern u8 D_8009B26C[];
-extern u8 D_8009B26D[];
 extern u8 D_8009B2E8;
 extern u8 D_8009B368[];
 extern u16 D_8009B36A[];
@@ -58,7 +59,7 @@ void func_80030CB0(void)
 
     if ((flags & 0x80) == 0) {
         D_8009B2EB = flags | 0x80;
-        gDebug_nSceneOrSoundID = D_8009B26D[0];
+        gDebug_nSceneOrSoundID = D_8009B26D;
         func_80030250(D_80090D28, 0x15, 0, 0, 0x12, 2, 1);
     }
     result = func_80030294();
@@ -66,9 +67,9 @@ void func_80030CB0(void)
         if (result < 0) {
             D_8009B2EB = 0;
         } else {
-            D_8009B268[0] = 1;
+            D_8009B268 = 1;
             D_8009B26C[0] = 8;
-            D_8009B26D[0] = *(u8 *)&gDebug_nSceneOrSoundID;
+            D_8009B26D = *(u8 *)&gDebug_nSceneOrSoundID;
         }
     }
 }
