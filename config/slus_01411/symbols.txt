@@ -138,6 +138,7 @@ Rand_GetInterval = 0x800358FC; // type:func
 rand = 0x8008E590; // type:func
 srand = 0x8008E5C0; // type:func
 Model_LoadMonsterMerge = 0x80056504; // type:func
+File_RequestMainMenuPackage = 0x8005B85C; // type:func
 File_Exists = 0x8005C4F0; // type:func
 
 // Semantic names
