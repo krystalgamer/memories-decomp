@@ -5152,7 +5152,7 @@
       "address": "0x800580D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1EC",
-      "source": "src/game/func_800580D4.c"
+      "source": "src/game/model_update_view_metrics.c"
     },
     {
       "address": "0x800582C0",
