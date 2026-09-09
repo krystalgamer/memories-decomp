@@ -8,7 +8,7 @@ extern u8 D_800F5750[];
 extern void CdIntToPos_8007E600(s32, void *, s32);
 extern s32 CdPosToInt_8007E710();
 extern s32 File_Exists();
-extern s32 func_8005B8A0();
+extern s32 func_8005B8A0(u8 *, s32, s32, s32, s32, s32);
 
 void func_8005C388(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4)
 {
