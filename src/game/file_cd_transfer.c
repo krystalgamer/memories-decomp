@@ -21,9 +21,7 @@ extern volatile u16 D_8009B100;
 extern u8 D_8009B114;
 extern s32 D_8009B130;
 extern s32 D_8009B138;
-extern u8 D_800E9EA7[9];
-extern s32 D_800E9E90[3];
-extern u8 gFile_PrimaryTransferDescriptor[];
+extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 extern u8 gFile_SecondaryTransferDescriptor[];
 extern u8 D_801D4200[];
 extern u16 D_8009B112;
@@ -63,7 +61,7 @@ void func_800141A8(u8 event)
         D_8009B130++;
         func_8007B1F4(9, 0, func_800141A8, -1);
     } else if (event == 2) {
-        D_800E9EA7[0] = 1;
+        gFile_PrimaryTransferDescriptor.substate = 1;
         D_8009B0F4 &= ~0x400;
     }
 }
@@ -112,7 +110,7 @@ void func_80014390(u8 event, s32 arg1)
     s32 *destination;
 
     if (event == 2) {
-        destination = D_800E9E90;
+        destination = (s32 *)&gFile_PrimaryTransferDescriptor.field_30;
         value = CdPosToInt_8007E710(arg1);
         if (value > 0)
             *destination = value;
@@ -121,13 +119,12 @@ void func_80014390(u8 event, s32 arg1)
 }
 
 void File_ActivateTransfer(void) {
-    *(Block72 *)gFile_PrimaryTransferDescriptor =
+    *(Block72 *)&gFile_PrimaryTransferDescriptor =
         *(Block72 *)gFile_SecondaryTransferDescriptor;
     *(Block32 *)D_801D4200 = *(Block32 *)(D_801D4200 + 32);
-    if (gFile_PrimaryTransferDescriptor[FILE_TRANSFER_DESCRIPTOR_STATE_BYTE_OFFSET] == 4)
+    if (gFile_PrimaryTransferDescriptor.done == 4)
         D_8009B112 |= 1;
     D_8009B0F4 =
-        *(s32 *)(gFile_PrimaryTransferDescriptor +
-                 FILE_TRANSFER_DESCRIPTOR_STATUS_FLAGS_BYTE_OFFSET) |
+        gFile_PrimaryTransferDescriptor.status_flags |
         FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
