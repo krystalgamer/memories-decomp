@@ -89,8 +89,6 @@ void AiScript_FindDefenseStopper(void)
     gAiScript_aMemory[result] = answer;
 }
 
-extern void Ai_GetCardRange(s32 type, s32 *start, s32 *end);
-
 void AiScript_CountCards(void)
 {
     register s32 type __asm__("s0");

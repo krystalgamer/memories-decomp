@@ -130,6 +130,8 @@ extern AiScriptHandler gAiScript_apfnCommand[];
 extern AiActiveCard gDuel_aActiveCards[];
 
 s32 Ai_IsCardInSets(s32 mode, s32 index);
+void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high);
+void Ai_GetCardRange(s32 kind, s32 *low, s32 *high);
 /* ai_card_ranges.c needs the historical widened return declaration; using
  * the definition's s8 type there adds four sign-extension instructions. */
 #ifdef AI_HAND_SIZE_RETURNS_S32
