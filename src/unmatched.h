@@ -363,4 +363,25 @@ extern u16 D_8009B1D0;   /* four declarers */
  * does, that is what would go in. */
 extern u8 D_8009B34C;
 
+/* A pair of halfwords in .sdata, one per duel side: func_80023D08.c reads
+ * D_8009AF20[D_8009B1D5], so index 1 is genuinely reached and the array is
+ * real rather than a size lever. c_symbols.ld names D_8009AF2A next, ten
+ * bytes on, so the pair sits well inside its own extent.
+ *
+ * No C source writes it -- the value is produced in generated assembly, and
+ * the two consumers only read it -- so it is homeless by the rule at the top
+ * of this file. They also share no subsystem header above types.h:
+ * func_80023D08.c is duel-selection code and func_800178BC.c is view
+ * projection, which reads element 0 alone and hands it to D_800F2848.angle.
+ *
+ * One spelling serves both. Retail addresses every access %gp_rel and both
+ * declarations stay in small data at four bytes, so the scalar form the
+ * projection side used carried no lever; it simply named element 0 without
+ * saying so.
+ *
+ * Spelled [2] rather than [DUEL_SIDE_COUNT] because this header includes only
+ * types.h by design, and duel_grid.h -- which defines that macro -- is a
+ * subsystem header no consumer of this file should be forced to take. */
+extern u16 D_8009AF20[2];
+
 #endif
