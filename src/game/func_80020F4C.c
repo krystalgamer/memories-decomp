@@ -10,6 +10,7 @@
 #include "file_transfer.h"
 #include "sound.h"
 #include "fade.h"
+#include "../unmatched.h"
 
 /* Duel-result outro sequence, driven from the scene state word D_8009B23A.
 
@@ -98,7 +99,6 @@ extern struct Obj *D_8009B21C;
 
 extern u8 D_8009B362 __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
-extern u8 D_801AF000[];
 extern u16 gDuel_awRitualData[];
 extern Spec D_80090928[][SPEC_COUNT];
 extern Spec D_80090960[][SPEC_COUNT];

@@ -4,6 +4,7 @@
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "sound.h"
+#include "../unmatched.h"
 
 /* Creates 3 objects via func_800400AC(func_8004002C(),
    kind) and configures each: obj1 gets an 8-arg func_800428A8 setup
@@ -36,7 +37,6 @@ extern s8 gOptions_bOutputType;
 extern struct Obj *D_8009B380;
 extern s8 gOptions_bSelection;
 extern struct Obj *D_8009B388;
-extern u8 D_801AF000[];
 
 extern void func_8003C4E0(s32 a0);
 void Options_Init(void) {

@@ -10,6 +10,7 @@
 #include "display_object_helpers.h"
 #include "file_transfer.h"
 #include "script_state.h"
+#include "../unmatched.h"
 
 typedef struct {
     u8 pad00[4];
@@ -30,7 +31,6 @@ extern u16 D_8009B29C;
 extern Object *D_8009B2A0;
 extern Object *D_8009B280;
 extern Object *D_800EAE98[];
-extern u8 D_801AF000[];
 extern void func_8002F4C0(u8 *, s32);
 extern void func_8002E00C(void *);
 extern u32 func_8004703C(void);
