@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_effect_noop_handlers.h"
 #include "duel_effect_tables.h"
 
 void DuelEffect_UpdateFieldMarker(void);
@@ -19,8 +20,6 @@ void func_800262D4(void);
 void func_80026A3C(void);
 void func_80028310(void);
 void func_800283F4(void);
-void func_800289AC(void);
-void func_800289B4(void);
 
 /* Initialized data at 0x80090A5C: two handlers per effect group, in group
    order. */

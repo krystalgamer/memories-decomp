@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_terrain_boost.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "card_constants.h"
@@ -10,7 +11,6 @@ extern u8 D_80177EA4[];
 extern u8 D_8018C2D8[];
 extern u8 D_8018C7D8[];
 extern s32 gDuel_adwCardStats[];
-extern int Duel_GetTerrainBoost();
 
 u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     DuelCardRecord *p;

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_transition_color.h"
 #include "save_data.h"
 #include "main_frame.h"
 #include "fade.h"
@@ -17,7 +18,6 @@ extern void func_800134B4(void);
 extern void func_800323F8(unsigned int, void *, int, int);
 extern void Main_InitFreeDuelMenu(void);
 extern void func_80168FB4(void);
-extern int func_80033BE8(void);
 
 void Main_RunCampaignMap(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;D_8009B0A3[0]=10;func_8003C0C0();func_8016866C(D_8009B363[0]);Fade_StartIn();}else{CampaignMap_UpdateLocation();if((D_8009B26C&0x40)==0){func_800134B4();D_8009B0A3[0]=6;func_80012D4C();}}}
 

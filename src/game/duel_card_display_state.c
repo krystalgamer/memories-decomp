@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80016778.h"
 #include "duel_side_state.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
@@ -28,7 +29,6 @@ typedef struct {
 
 extern s32 gDuel_adwCardStats[];
 
-void func_80016778();
 void func_80016D04();
 void func_80042918(u8 *arg0);
 

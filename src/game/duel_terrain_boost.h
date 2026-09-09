@@ -14,4 +14,9 @@
    src/game/duel_terrain_boost.c owns the table at 0x800909D4. */
 extern s8 gDuel_aTerrainBoost[CARD_TYPE_MAGIC][DUEL_TERRAIN_COUNT];
 
+/* Returns the attack/defence adjustment the active terrain gives a card of
+   `cardType`, already multiplied by CARD_STAT_SCALE, or 0 when there is no
+   terrain or the card is not a monster. */
+s32 Duel_GetTerrainBoost(s32 cardType);
+
 #endif

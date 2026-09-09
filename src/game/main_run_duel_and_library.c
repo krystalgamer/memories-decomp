@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_transition_color.h"
 #include "save_data.h"
 #include "main_frame.h"
 #include "fade.h"
@@ -13,7 +14,6 @@ extern u8 D_8009B370[9];
 extern u16 D_8009B16C[9];
 extern u32 D_80010000[];
 extern void func_800323F8(u32, void *, int, int);
-extern int func_80033BE8(void);
 extern void Main_ResetFrontendRuntime(void), func_800179F4(void),
     func_80024388(void);
 extern void func_80047AD0(int), func_800134B4(void);
