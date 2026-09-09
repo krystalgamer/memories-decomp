@@ -82,7 +82,7 @@ guessing.
 
 ### Variadic slot-property update
 
-Matching `Model_SetSlotProperties` (`func_80053248`, `0x80053248`) takes a
+Matching `Model_SetSlotProperties` (`0x80053248`) takes a
 slot index followed by signed 32-bit properties. A negative value leaves its
 corresponding field unchanged. The arguments themselves must still be supplied:
 five properties for slots 0 and 1, or one for slot 2. The
