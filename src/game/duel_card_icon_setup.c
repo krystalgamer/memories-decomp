@@ -4,6 +4,7 @@
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_deck_card.h"
+#include "duel_grid.h"
 
 struct Obj {
     char pad4[0x4];
@@ -26,18 +27,13 @@ struct Obj {
     u8 f6A;
 };
 
-struct Coords {
-    s16 x;
-    s16 y;
-};
-
 struct Blob {
     char pad_0000[0x36B4];
     DuelCardRecord record;
 };
 
 extern u8 D_8015C424[];
-extern struct Coords D_800908A0[];
+extern DuelFieldPosition D_800908A0[];
 
 /* Allocates a display object, positions it, wires up its per-frame callback,
    and selects a small icon variant for non-monster card types. */
