@@ -24,6 +24,14 @@ typedef struct {
 } SDInitBlk10;
 
 typedef struct {
+    u8 bytes[20];
+} TextDecimalDigitKeyBlock;
+
+typedef char TextDecimalDigitKeyBlock_size_must_be_20[
+    sizeof(TextDecimalDigitKeyBlock) == 20 ? 1 : -1
+];
+
+typedef struct {
     s32 key;
     void **handler;
 } ModelHandlerObject;

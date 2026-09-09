@@ -1,12 +1,9 @@
 #include "../types.h"
+#include "../ygo_types.h"
 #include "func_8003B5C8.h"
 #include "text_constants.h"
 
-typedef struct {
-    u8 b[2 * TEXT_DECIMAL_RADIX];
-} Blob;
-
-extern Blob D_80010330;
+extern TextDecimalDigitKeyBlock D_80010330;
 extern u16 D_800EAFF8[];
 extern const u32 D_801D9004[];
 
@@ -22,7 +19,7 @@ extern const u32 D_801D9004[];
    the body, which is what leaves one shared %hi in the preheader feeding both
    the guard load and the per-iteration table address. */
 void func_8003B5C8(void) {
-    Blob buf;
+    TextDecimalDigitKeyBlock buf;
     u16 *out;
     u16 *q;
     const u32 *e;
@@ -34,14 +31,14 @@ void func_8003B5C8(void) {
 
     out = D_800EAFF8;
     i = 1;
-    p = (s32)buf.b;
-    end = (s32)buf.b + 2 * TEXT_DECIMAL_RADIX;
+    p = (s32)buf.bytes;
+    end = (s32)buf.bytes + 2 * TEXT_DECIMAL_RADIX;
     buf = D_80010330;
 
     do {
         e = D_801D9004;
         n = 1;
-        key = (*(u8 *)p << 8) | buf.b[i];
+        key = (*(u8 *)p << 8) | buf.bytes[i];
         if (D_801D9004[0] != 0) {
             q = out;
         search:
