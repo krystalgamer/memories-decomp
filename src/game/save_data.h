@@ -1,6 +1,8 @@
 #ifndef MEMORIES_DECOMP_SAVE_DATA_H
 #define MEMORIES_DECOMP_SAVE_DATA_H
 
+#include "../types.h"
+
 #define SAVE_DATA_HEADER_SIZE 0x200
 #define SAVE_DATA_STATE_SIZE 0x680
 #define SAVE_DATA_REPLICATED_STATE_SIZE (SAVE_DATA_STATE_SIZE * 2)
@@ -49,6 +51,28 @@
 #define SAVE_DATA_RESERVED_TAIL_PAYLOAD_OFFSET \
     (SAVE_DATA_HEADER_SIZE + SAVE_DATA_RESERVED_TAIL_OFFSET)
 
+/* Shared prefix of the persistent state block. Validation owns the duelist
+ * code, while runtime restore owns the sequence, frame counter, player name,
+ * campaign scene and sound-output fields. */
+typedef struct {
+    u8 pad_000[SAVE_DATA_DUELIST_CODE_OFFSET];
+    s32 duelist_code;
+    u8 pad_338[
+        SAVE_DATA_SEQUENCE_OFFSET -
+        (SAVE_DATA_DUELIST_CODE_OFFSET + sizeof(s32))
+    ];
+    u32 save_sequence;
+    u32 vblank_counter;
+    u8 player_name_sjis[SAVE_DATA_PLAYER_NAME_SIZE];
+    u8 pad_418[
+        SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET -
+        (SAVE_DATA_PLAYER_NAME_OFFSET + SAVE_DATA_PLAYER_NAME_SIZE)
+    ];
+    u8 campaign_scene_index;
+    u8 field_5DD;
+    u8 output_type;
+} SaveDataState;
+
 /* The head of the 0x680-byte persistent state block: SaveData_RequestWrite
  * copies SAVE_DATA_STATE_SIZE bytes starting here. Halfwords, as the name
  * says and as duel_deck_lookup.c, func_8002EE94.c and
@@ -58,6 +82,7 @@ extern u16 gDuel_awPlayerDeck[];
 
 extern u8 gSaveData_aTransferBuffer[];
 extern u8 gSaveData_aHeaderTemplate[];
+extern s32 gSaveDataSequence;
 #ifndef SAVE_DATA_DECLARE_MASK_STATE_LOCALLY
 extern u32 gSaveData_dwMaskStateLow;
 extern u32 gSaveData_dwMaskStateHigh;
@@ -70,5 +95,14 @@ void SaveData_WritePrimarySecondaryIntegrity(u8 *);
 void SaveData_WriteTertiaryIntegrity(u8 *);
 void SaveData_BuildPayload(u8 *);
 s32 SaveData_ValidateIntegrity(u8 *);
+void SaveData_ApplyRuntimeState(SaveDataState *state);
+s32 SaveData_HasSameDuelistCode(
+    SaveDataState *left,
+    SaveDataState *right
+);
+s32 SaveData_MatchesDuelistAndCurrentSequence(
+    SaveDataState *left,
+    SaveDataState *right
+);
 
 #endif

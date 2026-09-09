@@ -3,29 +3,14 @@
 #include "sound.h"
 #include "text_sjis_to_glyph_codes.h"
 
-typedef struct {
-    u8 pad_000[SAVE_DATA_SEQUENCE_OFFSET];
-    u32 save_sequence;
-    u32 vblank_counter;
-    u8 player_name_sjis[SAVE_DATA_PLAYER_NAME_SIZE];
-    u8 pad_418[
-        SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET -
-        (SAVE_DATA_PLAYER_NAME_OFFSET + SAVE_DATA_PLAYER_NAME_SIZE)
-    ];
-    u8 campaign_scene_index;
-    u8 field_5DD;
-    u8 output_type;
-} SaveDataRuntimeState;
-
 extern u8 D_801B125A[16];
-extern s32 gSaveDataSequence;
 extern s8 gSD_bOutputType[16];
 
 #define D_8009B0C4 (*(u32 *)0x8009B0C4)
 #define gCampaignSceneIndex (*(u8 *)0x8009B27A)
 #define D_8009B408_write (*(u8 *)0x8009B408)
 
-void SaveData_ApplyRuntimeState(SaveDataRuntimeState *state) {
+void SaveData_ApplyRuntimeState(SaveDataState *state) {
     Text_SjisToGlyphCodes(D_801B125A, state->player_name_sjis, SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
 
     /*

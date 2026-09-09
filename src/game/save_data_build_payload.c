@@ -4,7 +4,6 @@
 
 extern s32 D_8009B0C4[];
 extern s8 gSD_bOutputType __attribute__((section(".data")));
-extern s32 gSaveDataSequence;
 
 void SaveData_BuildPayload(u8 *data)
 {
