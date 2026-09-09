@@ -1,14 +1,11 @@
 #include "../types.h"
 #include "display_object.h"
 #include "display_object_layout.h"
+#include "func_80041D60.h"
 #include "../unmatched.h"
 
 extern s16 D_800EFE3C;
 extern s32 D_800E9D90[];
-/* One argument on purpose: func_80041D60 takes three, and reads the
- * second and third on its cooldown path without assigning them. The
- * retail image calls it this way; see that file. */
-extern void func_80041D60(u8 *);
 
 void func_80040814(void) {
     s32 i = D_800EFE3C;
