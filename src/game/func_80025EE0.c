@@ -2,6 +2,7 @@
 #include "duel_action_lock.h"
 #include "duel_effect_request.h"
 #include "sound.h"
+#include "func_80025EE0.h"
 
 void func_80025EE0(void)
 {

@@ -8,6 +8,7 @@
 #include "duel_card_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"
+#include "func_80024E58.h"
 
 extern u8 *D_8009B214;
 /* One byte at 0x8009B364; the 8 is a threshold, not a length. This TU's

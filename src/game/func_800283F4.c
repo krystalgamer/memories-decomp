@@ -25,6 +25,7 @@
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
 #include "card_constants.h"
+#include "func_800283F4.h"
 
 extern DisplayObject *D_8009B240;
 extern u8 D_8009B248;

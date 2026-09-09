@@ -15,6 +15,7 @@
 #include "duel_effect.h"
 #include "display_object_api.h"
 #include "sound.h"
+#include "duel_field_effect_steps.h"
 
 typedef struct Object {
     u16 x, y;

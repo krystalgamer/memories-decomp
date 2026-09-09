@@ -9,6 +9,7 @@
 #include "duel_effect_request.h"
 #include "func_8002C6C8.h"
 #include "../unmatched.h"
+#include "duel_magic_effect_dispatch.h"
 
 typedef struct {
     u8 pad[0x30];
@@ -22,7 +23,6 @@ extern s8 D_8009B238;
 extern s8 gDialog_bChoice[9];
 extern Window D_800EB224;
 extern s8 gDuel_bOpponentID[9];
-extern int func_80026B34(void);
 void func_80024200(void)
 {
     u8 value;

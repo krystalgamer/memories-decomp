@@ -10,6 +10,7 @@
 #include "duel_effect.h"
 #include "../unmatched.h"
 #include "duel_effect_request.h"
+#include "func_80025D30.h"
 
 /* One step of a field-wide stat-penalty sweep, driven once per 16 frames by
  * the D_8009B20C[1] countdown. D_8009B1D0 is the slot index within the acting

@@ -10,6 +10,7 @@
 #include "display_object_api.h"
 #include "sound.h"
 #include "duel_apply_card_object_flags.h"
+#include "duel_field_effect_transition.h"
 
 typedef struct Obj {
     s16 x;
