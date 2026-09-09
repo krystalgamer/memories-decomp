@@ -6755,11 +6755,18 @@ that call sequence rather than a one-off.
     func_80049CB0          def 0 (sound_secondary_playback.c)  <-  decl 1 in sound_output.c
     func_8004B374          def 2 (func_8004B374.c)  <-  decl 3 in sound_sequence_events.c
 
-Only two of the thirty-nine have been measured, both in the "more" direction.
-The rest are unverified in either direction: an entry here means the
-declaration and the definition disagree, not that the disagreement has been
-shown to be load-bearing. Treat the list as the set that needs measuring
-before it is touched, not as a set of known-good exceptions.
+Four of the thirty-nine have been measured, all in the "more" direction and
+all in the two sound files above: func_80049C40, func_80049CB0 and
+func_800498F8 at two separate call sites. The remaining thirty-five are
+unverified in either direction. An entry here means the declaration and the
+definition disagree, not that the disagreement has been shown to be
+load-bearing, and not that it is safe to correct either. Treat the list as the
+set that needs measuring before it is touched.
+
+The measured four are also the reason to be careful about how a sweep checks
+itself: those four failed as a size shrink, a section overlap from text
+growing, and an in-place instruction substitution at unchanged size. Only the
+first two show up in a size comparison.
 
 The practical rule, repeated from the `func_80049C40` entry because this is
 where someone will look for it: when unifying a prototype, check whether the
