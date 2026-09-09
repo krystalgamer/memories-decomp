@@ -28,14 +28,22 @@ Verified channel fields used by matching C include:
 | `0x34` | `flags_34` | `0x10`, `0x2000`, and `0x8000` tests; reset by `func_80035A64` |
 | `0x36`-`0x3A` | `field_36`, `field_38`, `field_3A` | halfword initialization in `DuelEffect_InitEntry` |
 | `0x3C`-`0x42` | `field_3C`-`field_42` | four halfword writes in `TextBox_SetRect` |
+| `0x51` | `state_51` | low five bits dispatch `D_80090E64` in `TextBox_BuildStep`; every callback in `duel_effect_state_callbacks.c` and `dialog_choice_state.c` latches `0x80` and writes a new state |
+| `0x52` | `delay_52` | reloaded from `field_53` in `TextBox_BuildStep` and from `0xFF` in `func_80037B40`, decremented once per tick, gating the rest of the tick while nonzero |
 | `0x53`-`0x5B` | byte fields and `index_57` | initialization sequence in `DuelEffect_InitEntry` |
+| `0x56` | `field_56` | cleared by `TextBox_BuildStep`; keeps the offset for a name, as the other files reaching `0x56` do so on other records |
+| `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, `duel_effect_object_commands.c` and `duel_effect_stream_fields.c` |
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `D_80090E58` bounds |
 | `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
 
-Seven pure-C users now include the shared header and use
+Eight pure-C users now include the shared header and use
 `DuelEffectChannel`: `func_80028310`, `func_80035A64`, `TextBox_SetRect`,
-`DuelEffect_InitEntry`, `DuelEffect_CreateChannel`, `func_8003D614`, and
-`func_8003F388`.
+`DuelEffect_InitEntry`, `DuelEffect_CreateChannel`, `func_8003D614`,
+`func_8003F388`, and `TextBox_BuildStep`.
+
+The callbacks in `duel_effect_state_callbacks.c` and `dialog_choice_state.c`
+reach the record through a cast rather than a typed parameter: they are
+entries of `D_80090E64`, which declares them `void (*)(u8 *)`.
 
 ## `D_800EB288`: 620 `0x1C`-byte entries
 
