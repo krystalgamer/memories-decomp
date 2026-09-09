@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "func_8003BA14.h"
 
 extern s32 D_8009B118;
 
