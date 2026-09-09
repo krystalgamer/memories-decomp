@@ -4,6 +4,8 @@
 #include "../types.h"
 #include "card_constants.h"
 
+struct DisplayObject;
+
 #define DUEL_HAND_SLOT_OFFSET(member) ((u32)&(((DuelHandSlot *)0)->member))
 
 /* One of the HAND_SIZE hand slots at D_800EA030.
@@ -36,6 +38,37 @@ typedef char DuelHandSlot_active_09_offset_must_be_0x09[
 #undef DUEL_HAND_SLOT_OFFSET
 
 extern DuelHandSlot D_800EA030[HAND_SIZE];
+
+/* State shared by the two adjacent hand-stack callbacks. func_8001B780
+ * positions `position_object` from the selected slot, and func_8001B7AC uses
+ * the same slot index while advancing the running child count. */
+typedef struct {
+    u8 pad_00[4];
+    struct DisplayObject *position_object;
+    u8 pad_08[6];
+    s8 slot_index;
+    u8 pad_0F[6];
+    u8 count;
+    u8 pad_16[2];
+} DuelHandStackState;
+
+#define DUEL_HAND_STACK_STATE_OFFSET(member) \
+    ((u32)&(((DuelHandStackState *)0)->member))
+
+typedef char DuelHandStackState_position_object_offset_must_be_0x4[
+    DUEL_HAND_STACK_STATE_OFFSET(position_object) == 0x4 ? 1 : -1
+];
+typedef char DuelHandStackState_slot_index_offset_must_be_0xE[
+    DUEL_HAND_STACK_STATE_OFFSET(slot_index) == 0xE ? 1 : -1
+];
+typedef char DuelHandStackState_count_offset_must_be_0x15[
+    DUEL_HAND_STACK_STATE_OFFSET(count) == 0x15 ? 1 : -1
+];
+typedef char DuelHandStackState_size_must_be_0x18[
+    sizeof(DuelHandStackState) == 0x18 ? 1 : -1
+];
+
+#undef DUEL_HAND_STACK_STATE_OFFSET
 
 void Duel_ClearHandSlots(void);
 
