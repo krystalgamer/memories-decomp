@@ -4,7 +4,6 @@
 #include "text_constants.h"
 
 extern TextDecimalDigitKeyBlock D_80010330;
-extern u16 D_800EAFF8[];
 extern const u32 D_801D9004[];
 
 /* Copies the ten two-byte Shift-JIS digit keys from D_80010330 into a local
