@@ -2,6 +2,7 @@
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
+#include "display_object_config.h"
 
 void func_800427DC(u8 *object, int value)
 {
@@ -45,15 +46,6 @@ void func_80042824(u8 *object, int value)
     object[0x72] = value;
     *(u16 *)(object + 8) = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
-
-extern void func_80040468(
-    DisplayObjectResource *,
-    s32,
-    s32,
-    s32,
-    s32,
-    s32
-);
 
 void func_80042874(
     DisplayObjectResource *object,
