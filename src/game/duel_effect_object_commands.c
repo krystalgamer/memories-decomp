@@ -4,6 +4,7 @@
 #include "campaign_flags.h"
 #include "display_object_api.h"
 #include "duel_effect.h"
+#include "duel_effect_object_commands.h"
 
 extern u8 D_8009B34E;
 extern u8 D_8009B355;

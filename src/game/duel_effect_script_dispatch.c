@@ -1,13 +1,7 @@
 #include "../types.h"
 #include "sound.h"
 #include "duel_effect.h"
-
-typedef struct {
-    u8 pad_00[0x51];
-    u8 command_state;
-    u8 pad_52[6];
-    s8 cursor_slot;
-} DuelEffectCommand;
+#include "duel_effect_script_dispatch.h"
 
 void func_80038800(DuelEffectCommand *command)
 {
