@@ -18,7 +18,7 @@ typedef struct {
 } SaveDataRuntimeState;
 
 extern u8 D_801B125A[16];
-extern u32 gSaveDataSequence;
+extern s32 gSaveDataSequence;
 extern s8 gSD_bOutputType[16];
 
 #define D_8009B0C4 (*(u32 *)0x8009B0C4)
