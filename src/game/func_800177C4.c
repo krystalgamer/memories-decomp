@@ -6,8 +6,8 @@
 #include "duel_card.h"
 #include "screen_projection.h"
 #include "view_state.h"
+#include "duel_screen_tables.h"
 
-extern u16 D_800908A0[];
 extern ScreenPair D_800EA070[];
 
 /* Projects the thirty coordinate pairs in D_800908A0 through the GTE, one per
