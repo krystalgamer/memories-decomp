@@ -9,6 +9,7 @@
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
+#include "func_800291E0.h"
 #include "../unmatched.h"
 
 extern u8 *D_800E9EF0[];
@@ -23,8 +24,6 @@ extern void func_80026BA4(s32, s32);
 extern u8 *func_800291E0(s32, s32, s32);
 extern void func_8001944C(u8 *);
 extern u8 *func_80019564(u8 *);
-extern void func_80029528(s32);
-
 void func_80019608(void)
 {
     u8 *p;

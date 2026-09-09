@@ -15,6 +15,7 @@
 #include "display_object_api.h"
 #include "display_object.h"
 #include "display_object_helpers.h"
+#include "func_800291E0.h"
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "file_transfer.h"
@@ -37,7 +38,6 @@ extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
 
 extern s32 func_800282E8(void);
 extern void func_80029164(s32, s32);
-extern void func_80029528(s32);
 extern void func_80029574(s32);
 extern u8 *func_800291E0(s32, s32, s32);
 

@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object_api.h"
 #include "duel_effect_resource_record.h"
+#include "func_800291E0.h"
 
 u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
 
@@ -250,7 +251,7 @@ __asm__(
     ".end func_800291E0\n"
 );
 
-void func_80029528(int index)
+void func_80029528(s32 index)
 {
     DuelEffectResourceRecord *entry = &D_800EA0E8[index];
 
