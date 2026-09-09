@@ -4,17 +4,16 @@
 #include "duel_card.h"
 #include "input.h"
 
-typedef struct { char p[0xF]; s8 x, y; } Position;
-extern Position *D_8009B1B4;
+extern DuelFieldCursor *D_8009B1B4;
 
 int func_80017034(DuelCardRecord *argument)
 {
     register DuelCardRecord *object asm("$6") = argument;
-    register Position *position asm("$4") = D_8009B1B4;
+    register DuelFieldCursor *position asm("$4") = D_8009B1B4;
     register u8 *table asm("$3") = D_800907D8;
     int valid = 1;
     unsigned int value =
-        table[position->y * DUEL_FIELD_ROW_SIZE + position->x];
+        table[position->row * DUEL_FIELD_ROW_SIZE + position->col];
     if (value >= DUEL_FIELD_SIDE_GRID_SLOT_COUNT) {
         int mask = object->flags & DUEL_CARD_FLAG_FACE_DOWN;
         valid = (unsigned int)mask < 1;
