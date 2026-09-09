@@ -42,7 +42,8 @@ extern s32 func_8005A3D0(u8 *, Rec *);
 void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
 {
     u8 *base;
-    register u8 *slot __asm__("$20");
+    u8 *slot;
+    u8 *search_slot;
     u8 *cursor;
     void *table;
     Event ev;
@@ -51,12 +52,18 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
     s32 i;
     u32 tag;
     s32 off;
-    s32 n;
+    s32 loaded_limit;
+    s32 limit;
+    s32 sentinel;
+    s32 next;
     s32 *cmd;
     Rec *rec;
+    Rec *scan;
     Rec *cur;
     Rec *q;
+    s32 handler;
 
+    handler = (s32)GsU_00000000;
     base = (u8 *)&D_800F2C40[index];
     slot = base;
     cursor = arg1;
@@ -158,12 +165,14 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
                     goto evdone;
                 }
                 {
+                    void *scratch;
+
+                    tag = (u32)ev.word >> 24;
+                    scratch = (void *)0x1F800000;
                     if (ev.word == 0) {
                         goto evloop;
                     }
                     {
-                    void *scratch = (void *)0x1F800000;
-                    tag = (u32)ev.word >> 24;
                     if (tag < 2) {
                         goto masktest;
                     }
@@ -196,8 +205,10 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
                         func_8005C6A0(&ev, base);
                         break;
                     default:
-                        *ev.ptr = (s32)GsU_00000000;
+                    {
+                        *ev.ptr = handler;
                         break;
+                    }
                     }
                     }
                     goto evloop;
@@ -224,11 +235,11 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
             slot += 8;
         } while (i < base[0xE1A] - 1);
     }
-    rec = *(Rec **)(base + 0xD14);
-    if (rec != 0) {
+    scan = *(Rec **)(base + 0xD14);
+    if (scan != 0) {
         i = 0;
-        while (rec->field_4C != 0) {
-            rec++;
+        while (scan->field_4C != 0) {
+            scan++;
             i++;
         }
         base[0xE18] = i;
@@ -241,31 +252,33 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
         cur = *(Rec **)(base + 0xD14) + base[0xE19];
         *(Rec **)(base + 0xD1C) = cur;
         for (;;) {
-            slot = base;
-            n = base[0xE1A];
-            if (n != 0) {
-                i = 0;
+            search_slot = base;
+            loaded_limit = base[0xE1A];
+            i = 0;
+            if (loaded_limit != 0) {
+                sentinel = -1;
+                limit = loaded_limit;
                 do {
-                    if (((Pair *)slot)->rec != 0 && ((Pair *)slot)->cmd != 0) {
-                        if (*((Pair *)slot)->cmd != -1 ||
-                            *(((Pair *)slot)->cmd + 2) != 0) {
-                            if (((Pair *)slot)->rec->field_4C == (s32)cur) {
+                    if (((Pair *)search_slot)->rec != 0 && ((Pair *)search_slot)->cmd != 0) {
+                        if (*((Pair *)search_slot)->cmd != sentinel ||
+                            *(((Pair *)search_slot)->cmd + 2) != 0) {
+                            if (((Pair *)search_slot)->rec->field_4C == (s32)cur) {
                                 break;
                             }
                         }
                     }
                     i++;
-                    slot += 8;
-                } while (i < n);
+                    search_slot += 8;
+                } while (i < limit);
                 if (i < base[0xE1A]) {
                     break;
                 }
             }
-            n = func_8005A3D0(base, cur);
-            if (!(n < base[0xE17])) {
+            next = func_8005A3D0(base, cur);
+            if (!(next < base[0xE17])) {
                 break;
             }
-            cur = *(Rec **)(base + 0xD14) + n;
+            cur = *(Rec **)(base + 0xD14) + next;
         }
         rec = (Rec *)cur->field_4C;
         if (rec != *(Rec **)(base + 0xD18)) {
