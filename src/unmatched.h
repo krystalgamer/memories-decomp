@@ -152,4 +152,20 @@ extern s32 D_8009B118;
 void func_80033DB0(void);
 void func_80034830(void);
 
+/* The model subsystem's cleanup and packet paths reach eight unmatched
+ * neighbours, every one of them void (void) with a single consumer, so there
+ * was no second spelling to reconcile for any of them.
+ *
+ * model_cleanup.c ran six of these in sequence while already including this
+ * header for func_800559D4 and func_800540B4, which is what made the six
+ * local declarations above it look accidental rather than considered. */
+void func_8004DE24(void);   /* model_cleanup.c */
+void func_8004EB00(void);   /* model_cleanup.c */
+void func_8004FE2C(void);   /* model_cleanup.c */
+void func_800507D0(void);   /* model_cleanup.c */
+void func_80051A48(void);   /* model_cleanup.c */
+void func_8005DBA4(void);   /* model_cleanup.c */
+void func_8005C7BC(void);   /* model_packet_handlers.c */
+void func_8005D378(void);   /* model_packet_handlers.c */
+
 #endif
