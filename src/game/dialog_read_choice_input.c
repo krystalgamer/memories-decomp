@@ -3,9 +3,9 @@
 #include "dialog_highlight_choice.h"
 #include "input.h"
 #include "sound.h"
+#include "dialog_choice.h"
 
 extern u8 gDialog_bChoice;
-extern s8 gDialog_bChoiceCount;
 
 /* Up, down or R1 on the repeat pad moves the dialog's choice cursor. R1
    wraps to the top; the directions clamp and report the press as handled

@@ -9,9 +9,9 @@
 #include "sound.h"
 #include "display_object_helpers.h"
 #include "../unmatched.h"
+#include "dialog_choice.h"
 
 extern u8 gDialog_bInputState;
-extern u8 gDialog_bChoiceEnabled;
 extern s8 gDialog_bChoice;
 
 extern s32 Dialog_ReadChoiceInput(u8 *);
