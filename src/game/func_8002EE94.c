@@ -19,6 +19,7 @@
 #include "display_object_interpolation.h"
 #include "script_state.h"
 #include "main_services.h"
+#include "dialog_read_choice_input.h"
 
 extern u8 gCampaignSceneIndex;
 extern u8 D_8009B269 __attribute__((section(".data")));
@@ -27,7 +28,6 @@ extern u8 D_8009B34C __attribute__((section(".data")));
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
 extern s16 D_801D0000[];
-extern s32 Dialog_ReadChoiceInput(DuelEffectChannel *);
 extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *);
 extern void DuelEffect_MarkObjectIfActive(void *);
 
@@ -200,7 +200,7 @@ void func_8002EE94(void)
         return;
     }
 
-    if (Dialog_ReadChoiceInput(box) != 0) {
+    if (Dialog_ReadChoiceInput((u8 *)box) != 0) {
         return;
     }
     if ((gInput_wPad1Pressed & 0xC0) == 0) {

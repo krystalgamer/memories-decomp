@@ -8,8 +8,7 @@
 #include "func_80039794.h"
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
-
-extern u8 *DuelEffect_CreateChannel(s32, s32);
+#include "duel_effect_create_channel.h"
 
 void func_8003DA40(u8 *p)
 {
@@ -31,7 +30,7 @@ void func_8003DA40(u8 *p)
         *(s32 *)p = (s32)e;
         func_80043178((DisplayObjectSnapshot *)e);
         e->field_60 = -0x400;
-        q = DuelEffect_CreateChannel(0xD0, 0);
+        q = (u8 *)DuelEffect_CreateChannel(0xD0, 0);
         *(s16 *)(q + 0x34) = *(u16 *)(q + 0x34) | 4;
         do {
             func_80039794();

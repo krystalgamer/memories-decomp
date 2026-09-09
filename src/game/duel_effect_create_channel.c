@@ -3,6 +3,7 @@
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "display_object_helpers.h"
+#include "duel_effect_create_channel.h"
 
 extern u8 D_800EF6EA;
 
