@@ -1,17 +1,19 @@
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "input.h"
 
 extern u8 D_8009B152;
-extern u8 *D_8009B188;
-extern u8 *D_8009B18C;
-extern u8 *D_8009B1CC;
+extern DisplayObject *D_8009B188;
+extern DisplayObject *D_8009B18C;
+extern DisplayObject *D_8009B1CC;
 
 s32 func_80020988(void) {
     u8 *q;
+    /* Direct flags members let GCC coalesce accesses and shorten retail code. */
     s32 one;
     s32 b;
     s32 c;
@@ -24,24 +26,32 @@ s32 func_80020988(void) {
         q = func_800400AC(func_8004002C(), 2);
         b = 0xB;
         c = 0x20C;
-        func_800404CC(q, *(s16 *)(D_8009B1CC + 0x30) - 8,
-                      *(s16 *)(D_8009B1CC + 0x32) + 0x1E, 3, one, 2, b, c);
+        func_800404CC(
+            q,
+            *(s16 *)&D_8009B1CC->field_30.h.field_30 - 8,
+            *(s16 *)&D_8009B1CC->field_30.h.field_32 + 0x1E,
+            3, one, 2, b, c
+        );
         func_80042918(q);
         func_800428EC(q, 0xA);
         *(u16 *)(q + 8) = *(u16 *)(q + 8) | 0x28;
-        D_8009B188 = q;
+        D_8009B188 = (DisplayObject *)q;
 
         q = func_800400AC(func_8004002C(), 2);
-        func_800404CC(q, *(s16 *)(D_8009B1CC + 0x30) + 0x3C,
-                      *(s16 *)(D_8009B1CC + 0x32) + 0x1E, 3, one, 0, b, c);
+        func_800404CC(
+            q,
+            *(s16 *)&D_8009B1CC->field_30.h.field_30 + 0x3C,
+            *(s16 *)&D_8009B1CC->field_30.h.field_32 + 0x1E,
+            3, one, 0, b, c
+        );
         func_80042918(q);
         func_800428EC(q, 0xA);
         *(u16 *)(q + 8) = *(u16 *)(q + 8) | 0x28;
-        D_8009B18C = q;
+        D_8009B18C = (DisplayObject *)q;
         return 0;
     }
 
-    q = D_8009B1CC;
+    q = (u8 *)D_8009B1CC;
 
     if ((D_8009B152 & 0x40) != 0) {
         *(u16 *)(q + 8) =
