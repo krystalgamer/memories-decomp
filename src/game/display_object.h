@@ -254,15 +254,22 @@ typedef struct DisplayObject {
     u8 field_65;                   /* 0x65 */
     u8 field_66;                   /* 0x66 */
     /* Named field_67 by DisplayObjectConfig in display_object_config.h, on
-       this same record, and read by func_800391E4.c. 0x68 stays padding:
-       that view names it too, but nothing reaching the canonical record
-       needs it yet. */
+       this same record, and read by func_800391E4.c. 0x68 is named just
+       below, now that func_80016784 reaches it through this record. */
     u8 field_67;                   /* 0x67 */
-    u8 pad_68[1];                  /* 0x68 */
+    /* The card type of the duel card this object draws. func_80016784
+       switches on it over card_constants.h's CARD_TYPE_EQUIP, CARD_TYPE_MAGIC,
+       CARD_TYPE_TRAP and CARD_TYPE_RITUAL, picking the frame each spell class
+       gets and falling through to the monster arm for everything else.
+       DuelCardDisplayObject in duel_card_display_state.h already names the
+       same byte field_68; that record's field_67 and field_69 are this
+       record's too, and 0x6A is the D_801A7AD8 index both agree on. It keeps
+       the offset for a name because only duel cards evidence it, and the pool
+       is shared across object kinds. */
+    u8 field_68;                   /* 0x68 */
     /* Named on this same record by DisplayObjectConfig in
        display_object_config.h. display_object_transition.c reads it and hands
-       it to func_800428A8. The bytes either side stay padding: nothing here
-       evidences them. */
+       it to func_800428A8. */
     u8 field_69;                   /* 0x69 */
     /* func_8001D518.c copies a byte into this offset when it builds the
        projection slot's object, taking it from 0x0A on the record it is given.

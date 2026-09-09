@@ -3,6 +3,7 @@
 #include "duel_card.h"
 #include "display_object_projection.h"
 #include "display_object_layout.h"
+#include "display_object.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
 #include "func_80016784.h"
@@ -12,11 +13,20 @@ void func_80042188(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 /* Draws one card's frame on the duel field: position, the hand/field
  * flags, the card-number digits (via Duel_CalcCardStats and
  * Text_EncodeDecimalDigits) and the face/back sprite, through
- * func_80042188 on the 0x1F8003xx scratchpad records. */
-void func_80016784(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
+ * func_80042188 on the 0x1F8003xx scratchpad records.
+ *
+ * The colour word at 0x0C is the one field read through a cast rather than
+ * as `object->field_0C`, and that is measured, not a leftover: a plain
+ * member read is a struct reference, the scratchpad stores around it are
+ * not, and GCC 2.8.1 will float such a load across them. All three reads of
+ * it sit between scratchpad stores, and the target keeps every one of them
+ * where the source puts it, so the cast stays and the name comes from the
+ * `&object->field_0C` it is taken through. Every other offset this function
+ * touches is an ordinary member read. */
+void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
     u8 sp18[8];
     u8 sp20[8];
-    u8 *e;
+    DuelCardRecord *card;
     s32 fl;
     s32 i;
     u8 *k;
@@ -36,36 +46,36 @@ void func_80016784(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 k = (u8 *)0x1F800320;
                 y = (u8 *)0x1F800344;
                 z = (u8 *)0x1F800000;
-                e = (u8 *)&D_801A7AD8[arg0[0x6A]];
+                card = &D_801A7AD8[object->field_6A];
                 *(s16 *)(o + 8) = arg2;
                 *(s16 *)(o + 0xA) = arg3;
-                fl = *(u16 *)(arg0 + 0x14) | 0x10000;
-                t = *(s32 *)(arg0 + 4);
+                fl = object->field_14 | 0x10000;
+                t = object->attribute;
                 *(s32 *)k = t;
                 *(s32 *)z = t;
-                arg0[0x69] = 0;
-                if (*(u16 *)(arg0 + 8) & DISPLAY_OBJECT_FLAG_CLIP_TEST) {
-                    fl = *(u16 *)(arg0 + 0x14) | 0xF0000;
-                    if (func_80041F90((struct ProjectionObj *)arg0,
+                object->field_69 = 0;
+                if (object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) {
+                    fl = object->field_14 | 0xF0000;
+                    if (func_80041F90((struct ProjectionObj *)object,
                                       (s16)*(u16 *)(o + 8) + 0x1A,
                                       (s16)*(u16 *)(o + 0xA) + 0x1E,
                                       (struct ProjectionOut *)0x1F8003E0) < 0) {
                         return;
                     }
-                    g1 = *(s32 *)(arg0 + 0xC);
+                    g1 = *(s32 *)&object->field_0C;
                     *(u8 *)(y + 3) = 9;
                     *(s32 *)(y + 4) = g1;
                     *(u8 *)(y + 7) = 0x2C;
-                    if ((*(s32 *)(arg0 + 0x20) & 0xFFFFFF) == 0) {
+                    if ((object->field_20.word & 0xFFFFFF) == 0) {
                         *(s32 *)k = *(s32 *)k | 0x80;
                         *(s32 *)z = *(s32 *)k;
                     }
                 }
                 *(u16 *)(k + 0xC) = 0x1E;
-                g2 = *(s32 *)(arg0 + 0xC);
+                g2 = *(s32 *)&object->field_0C;
                 *(s32 *)(k + 0x10) = 0xF10100;
                 *(s32 *)(k + 0x14) = g2;
-                n = arg0[0x67];
+                n = object->field_67;
                 if (n != 0) {
                     if (n < 0x29) {
                         *(s32 *)(k + 8) = 0x10000C;
@@ -78,12 +88,12 @@ void func_80016784(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
                         *(u16 *)(k + 4) = *(u16 *)(k + 4) + 0xC;
                         func_80042188(k, y, arg1, fl, o);
                     }
-                } else if (arg0[0x69] == 0) {
+                } else if (object->field_69 == 0) {
                     *(s32 *)(k + 8) = 0x100020;
                     *(u16 *)(k + 0xE) = 0x6000;
                     *(u16 *)(k + 4) = *(u16 *)(o + 8) + 0xA;
                     *(u16 *)(k + 6) = *(u16 *)(o + 0xA) + 0x28;
-                    switch (arg0[0x68]) {
+                    switch (object->field_68) {
                     case CARD_TYPE_EQUIP:
                         k[0xE] = 0x20;
                     case CARD_TYPE_MAGIC:
@@ -108,7 +118,7 @@ void func_80016784(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
                         k[0xF] = 0x58;
                         *(u16 *)(k + 0xA) = 8;
                         *(u16 *)(k + 4) = *(u16 *)(o + 8) + 0xE;
-                        d = Duel_CalcCardStats((DuelCardRecord *)e);
+                        d = Duel_CalcCardStats(card);
                         Text_EncodeDecimalDigits((s16)d, 4, sp18);
                         Text_EncodeDecimalDigits(d >> 0x10, 4, sp20);
                         i = 3;
@@ -125,10 +135,10 @@ void func_80016784(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
                         break;
                     }
                     *(u16 *)(z + 0xC) = 0xE;
-                    *(s32 *)(z + 0x14) = *(s32 *)(arg0 + 0xC);
+                    *(s32 *)(z + 0x14) = *(s32 *)&object->field_0C;
                     *(s16 *)(z + 4) = *(u16 *)(o + 8) + 6;
                     *(s16 *)(z + 6) = *(u16 *)(o + 0xA) + 6;
-                    i = (s8)e[0x18];
+                    i = (s8)card->table_index;
                     *(u16 *)(z + 0x10) = 0x380;
                     *(s16 *)(z + 0x12) = i + 0xE0;
                     *(u8 *)(z + 0xE) = (i % 5) * 0x28;
@@ -139,10 +149,10 @@ void func_80016784(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 *(s32 *)(k + 8) = 0x3C0034;
                 *(u16 *)(k + 0xE) = 0x8000;
                 *(s32 *)(k + 4) = *(s32 *)(o + 8);
-                if (arg0[0x67] != 0) {
+                if (object->field_67 != 0) {
                     *(u16 *)(k + 0xE) = 0xC000;
                 }
-                if (arg0[0x69] != 0) {
+                if (object->field_69 != 0) {
                     *(u16 *)(k + 0xE) = 0x8038;
                     *(s32 *)(k + 0x10) = 0xF10100;
                 }
