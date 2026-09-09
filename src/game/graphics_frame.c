@@ -15,7 +15,6 @@
 u8 D_8009B0C1;
 extern unsigned char D_8009AFA3 __attribute__((section(".data")));
 extern unsigned char D_8009AFA4 __attribute__((section(".data")));
-extern s32 D_8009B0CC;
 
 extern void func_80085500(void);
 extern void func_80085E10(void *, void *);
