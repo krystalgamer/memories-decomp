@@ -10,14 +10,6 @@
 #include "display_object_api.h"
 
 typedef struct {
-    u8 f0;
-    u8 f1;
-    u8 slot;
-    u8 f3;
-    s16 f4;
-} DeckCardRecord;
-
-typedef struct {
     u8 p0[0x30];
     s16 x;
     s16 y;
@@ -31,7 +23,7 @@ extern Spawned *func_80018004(u8 *, s32, s32);
 void func_8001BAF0(void)
 {
     s8 sel[HAND_SIZE];
-    DeckCardRecord tmp;
+    DuelDeckCardRecord tmp;
     register u8 *hand asm("$22");
     u8 *p;
     u8 *end;
@@ -40,8 +32,8 @@ void func_8001BAF0(void)
     register u8 *base asm("$8");
     u8 *tbl;
     u8 *recs;
-    register DeckCardRecord *rec asm("$16");
-    DeckCardRecord *other;
+    register DuelDeckCardRecord *rec asm("$16");
+    DuelDeckCardRecord *other;
     DuelHandSlot *slot;
     Spawned *spawned;
     u8 *card;
@@ -95,12 +87,12 @@ next:
                     card = act + o;
                 }
             }
-            rec = (DeckCardRecord *)(sidx * 6 + (s32)deck);
-            other = (DeckCardRecord *)(card[0xB] * 6 + (s32)deck);
-            a = *(s8 *)&rec->slot;
-            b = other->slot;
-            rec->slot = b;
-            other->slot = a;
+            rec = (DuelDeckCardRecord *)(sidx * 6 + (s32)deck);
+            other = (DuelDeckCardRecord *)(card[0xB] * 6 + (s32)deck);
+            a = *(s8 *)&rec->index_02;
+            b = other->index_02;
+            rec->index_02 = b;
+            other->index_02 = a;
             tmp = *rec;
             *rec = *other;
             *other = tmp;
@@ -111,10 +103,10 @@ next:
                 id = *(u8 *)((j + k) + (s32)tbl);
             }
             spawned = (Spawned *)slot->object;
-            Duel_SetupCardRecord(id, *(s8 *)&rec->slot);
+            Duel_SetupCardRecord(id, *(s8 *)&rec->index_02);
             slot->object = (u8 *)func_80018004((u8 *)(id * DUEL_CARD_RECORD_SIZE + (s32)recs), spawned->x, spawned->y);
             func_8004036C(spawned);
-            *(u8 *)((s32)D_8009B1C8 + (0x1A + j)) = rec->slot;
+            *(u8 *)((s32)D_8009B1C8 + (0x1A + j)) = rec->index_02;
             *hand = j + 0xB;
             *q = -1;
         } else {
