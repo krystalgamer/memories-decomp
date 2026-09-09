@@ -7,6 +7,7 @@
 #include "card_constants.h"
 #include "display_object_helpers.h"
 #include "duel_card.h"
+#include "duel_card_stat_display.h"
 
 void func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {

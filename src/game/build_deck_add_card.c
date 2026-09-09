@@ -3,6 +3,7 @@
 #include "card_constants.h"
 #include "build_deck_card_counts.h"
 #include "duel_card.h"
+#include "build_deck_add_card.h"
 
 void BuildDeck_AddCard(s32 arg0, s32 arg1)
 {
