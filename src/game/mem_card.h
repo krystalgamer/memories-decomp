@@ -74,4 +74,45 @@ void func_8003E46C(u8 value, u16 bits);
  */
 extern u16 gMemCard_wDialogFlags;
 
+/* The second block of IO event handles, sixteen bytes past
+ * gMemCard_aIOEventHandles at 0x800F2AE0, so four `long` handles apart. Both
+ * are handed to func_80043D48, and all three sources that name this one
+ * already include this header and already spell the element `long`. That
+ * spelling is preserved here for the same reason it is above: the event API
+ * hands these back as long and nothing has measured the difference. */
+extern long D_800F2AF0[];
+
+/* The request state machines' shared state. Every symbol below was declared
+ * identically by each of its users, all of which already include this header.
+ *
+ *   D_8009B3EF  The request's outcome, set to 1, 2 or 3 by the create, load
+ *               and save paths and read back by the dialog runtime.
+ *   D_8009B3DC  The block count a save needs; computed by
+ *               data_transfer_request.c and passed as MemCardCreateFile's
+ *               third argument.
+ *   D_8009B3DE  The dialog step index. mem_card_dialog_runtime.c calls
+ *               D_80090F9C[D_8009B3DE]() and data_transfer_request.c writes
+ *               it; the existing note beside that call records the five
+ *               entries.
+ *   D_8009B3EC  A retry counter: cleared, tested and incremented by the
+ *               create and save paths.
+ *   D_8009B3F0  Polled against 2, and passed as (long *)&D_8009B3F0 next to
+ *               (long *)&D_8009B3F4, so the two are consecutive words handed
+ *               to the same call.
+ *   D_800EFBC0  The directory buffer, cast to (struct DIRENTRY *) at each
+ *               use and passed with the file count beside it.
+ *
+ * D_801D5648 keeps its unsized spelling, and it is load-bearing: the note in
+ * mem_card_save_state.c records that as a plain s32 extern the -G8 build puts
+ * it in small data and the store collapses to one gp-relative word, where
+ * retail materialises the %hi half in its own register. Declaring it here
+ * changes where the spelling lives, not the spelling. */
+extern u8 D_8009B3EF;
+extern u8 D_8009B3DC;
+extern u8 D_8009B3DE;
+extern u8 D_8009B3EC;
+extern s32 D_8009B3F0;
+extern u8 D_800EFBC0[];
+extern s32 D_801D5648[];
+
 #endif
