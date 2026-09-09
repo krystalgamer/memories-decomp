@@ -5,8 +5,12 @@
 #include "func_80020F4C.h"
 
 /* The card-slot projection coordinates and the two duel-result sprite
-   tables, declared here so the source that defines them and the three that
-   read them cannot drift apart. */
+   tables, declared here so the source that defines them and the units that
+   read them cannot drift apart. D_800908A0 is read as u16 halfwords by
+   debug_effect_screen.c, func_800177C4.c and func_8001B0CC.c (the last
+   through inline assembly); duel_card_icon_setup.c keeps its own
+   DuelFieldPosition view of the same table, because func_80024D34 loads the
+   pair with lh. */
 extern u16 D_800908A0[];
 extern u8 D_80090918[];
 extern DuelResultSpriteSpec D_80090928[][DUEL_RESULT_SPRITE_COUNT];

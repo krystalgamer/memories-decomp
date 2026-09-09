@@ -10,7 +10,7 @@
    pairs form a five-column grid at x = -140, -70, 0, 70 and 140.
    debug_effect_screen.c also reads the pair at index 0xC/0xD on its own.
 
-   It stays u16 because both consumers declare it that way. The coordinates
+   It stays u16 because its u16 readers declare it that way. The coordinates
    are signed, so the values are written as hex rather than as decimals the
    declaration would misrepresent.
 
