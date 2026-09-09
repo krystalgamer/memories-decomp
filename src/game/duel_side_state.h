@@ -111,4 +111,12 @@ extern s8 D_8009B360 __attribute__((section(".data")));
 extern s8 D_8009B360;
 #endif
 
+/* Which side won, and therefore which of the two records above the result
+ * code applies to. duel_draw_resolution.c sets it as `D_8009B1D5 ^ 1`, the
+ * side that is not the one the selector documented above points at, and both
+ * it and duel_rewards.c immediately use it to index D_800E9FF0. That is what
+ * puts it in this header rather than beside the screen that displays the
+ * outcome: it is a side selector, and it is read as one. */
+extern u8 gDuel_bWinnerSide;
+
 #endif
