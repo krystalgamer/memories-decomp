@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80043178.h"
 #include "display_object_lifecycle.h"
 #include "display_object_api.h"
 #include "../psyq/libmcrd.h"
@@ -19,7 +20,6 @@ typedef struct {
     u8 field_006C;
 } ObjectState;
 
-extern void func_80043178(ObjectState *);
 extern void func_80043230(ObjectState *, s32, s32);
 
 u8 func_8003F2B0(ObjectState *object, s32 arg1, s32 arg2, s32 index)
@@ -28,7 +28,7 @@ u8 func_8003F2B0(ObjectState *object, s32 arg1, s32 arg2, s32 index)
     register s32 value asm("$7");
 
     if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
-        func_80043178(object);
+        func_80043178((DisplayObjectSnapshot *)object);
     }
 
     value = object->field_0060;

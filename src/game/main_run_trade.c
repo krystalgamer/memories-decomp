@@ -1,6 +1,8 @@
 #define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "func_80043178.h"
+#include "display_object_interpolation.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -41,8 +43,6 @@ extern u8 D_800E9EF0[];
 #define gTradeObj (*(Obj **)D_800E9EF0)
 
 extern void func_80032328(void);
-extern void func_80043178(Obj *);
-extern void func_80043230(Obj *, s32, s32, s32);
 extern s32 DuelEffect_UpdateState(void);
 
 void Main_RunTrade(void)
@@ -76,7 +76,7 @@ void Main_RunTrade(void)
     case 1:
         if (((gInput_wPad1Pressed | gInput_wPad2Pressed) & 0xE0) != 0) {
             SD_SEPlayFull(0x1E);
-            func_80043178(obj);
+            func_80043178((DisplayObjectSnapshot *)obj);
             obj->field60 = 0x400;
             D_8009B26E = 2;
         }
@@ -84,7 +84,7 @@ void Main_RunTrade(void)
     case 2:
         y = obj->field60 - 0x20;
         obj->field60 = y;
-        func_80043230(obj, 0, 0xF0, (s16)y);
+        func_80043230((DisplayObjectPosition *)obj, 0, 0xF0, (s16)y);
         TextBox_SetPos(box, obj->field30 + 0x18, obj->field32 + 0x20);
         if ((s16)obj->field60 <= 0) {
             D_8009B26E = 0;

@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "func_80043178.h"
+#include "display_object_interpolation.h"
 #include "display_object_api.h"
 #include "display_object_lifecycle.h"
 #include "display_object_layout.h"
@@ -22,17 +24,14 @@ typedef struct {
     u8 active;
 } DisplayObjectMotion;
 
-extern void func_80043178(DisplayObjectMotion *);
-extern void func_8004318C(DisplayObjectMotion *, s32, s32, s32);
-
 void func_8001EC70(DisplayObjectMotion *object)
 {
     if (!func_80042B98((DisplayObjectLifecycle *)object)) {
-        func_80043178(object);
+        func_80043178((DisplayObjectSnapshot *)object);
         object->speed = 0;
         object->field_2E = 0;
     }
-    func_8004318C(object, object->x, object->y, object->speed);
+    func_8004318C((u8 *)object, object->x, object->y, object->speed);
     object->speed += 0x800 / object->denominator;
     if (object->speed >= 0x800) {
         object->active = 0;
@@ -43,14 +42,14 @@ void func_8001EC70(DisplayObjectMotion *object)
 void func_8001ED20(DisplayObjectMotion *object)
 {
     if (!func_80042B98((DisplayObjectLifecycle *)object)) {
-        func_80043178(object);
+        func_80043178((DisplayObjectSnapshot *)object);
         object->speed = 0;
         object->field_2E = 0;
     }
     if (object->mode) {
         object->mode += 0x40 / object->denominator;
     }
-    func_8004318C(object, object->x, object->y, object->speed);
+    func_8004318C((u8 *)object, object->x, object->y, object->speed);
     object->speed += 0x800 / object->denominator;
     if (object->speed >= 0x800) {
         object->old_position = *(s32 *)((u8 *)object + 0x28);

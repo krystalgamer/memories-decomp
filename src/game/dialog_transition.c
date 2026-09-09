@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "func_80043178.h"
+#include "display_object_interpolation.h"
 #include "display_object_api.h"
 
 #include "duel_effect.h"
@@ -14,9 +16,7 @@ extern u16 D_8009AF76_raw asm("D_8009AF76")
     __attribute__((section(".data")));
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 
-extern void func_80043178(void *);
 extern void func_80042C08();
-extern void func_80043230(void *, s32, s32, s32);
 extern u8 *DuelEffect_CreateChannel(s32, s32);
 
 void func_8003D518(u8 *state)
@@ -62,7 +62,7 @@ void func_8003D614(u8 *state)
     if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
         object = *(u8 **)state;
         D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        func_80043178(object);
+        func_80043178((DisplayObjectSnapshot *)object);
         *(u16 *)(object + 0x60) = 0x400;
     }
     entry = &D_800EB0F8[state[0x1A]];
@@ -74,7 +74,7 @@ void func_8003D614(u8 *state)
             *(void **)state = 0;
         } else {
             func_80043230(
-                object,
+                (DisplayObjectPosition *)                object,
                 0x20,
                 -0x40,
                 *(s16 *)(object + 0x60)
@@ -127,7 +127,7 @@ void func_8003D74C(u8 *o)
         func_80042918(p);
         func_800428EC(p, (s8)(*(u8 *)&D_8009AF76_raw - 2));
         *(u8 **)o = p;
-        func_80043178(p);
+        func_80043178((DisplayObjectSnapshot *)p);
         a = D_8009B3C7;
         *(s16 *)(p + 0x60) = -0x400;
         r = DuelEffect_CreateChannel((a & 1) | 0xD0, 0);
@@ -164,7 +164,7 @@ void func_8003D74C(u8 *o)
             *(s16 *)(p + 0x60) = 0;
             *(s16 *)(p + 0x32) = 0x50;
         } else {
-            func_80043230(p, 0x20, 0x50, (s16)v);
+            func_80043230((DisplayObjectPosition *)p, 0x20, 0x50, (s16)v);
         }
         TextBox_SetPos(r, *(s16 *)(p + 0x30), *(s16 *)(p + 0x32));
     }
