@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_CARD_DISPLAY_STATE_H
 
 #include "../types.h"
+#include "duel_card.h"
 
 /* The fields these helpers touch on a duel card's display object. This is not
  * the whole display record: the callers hold wider views of the same memory
@@ -57,7 +58,7 @@ void func_80017E3C(DuelCardDisplayObject *object);
 #ifdef FUNC_80017F04_AMBIENT_POSITION_ARGS
 u8 *func_80017F04();
 #else
-u8 *func_80017F04(u8 *arg0, s32 arg1, s32 arg2);
+u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2);
 #endif
 
 #endif
