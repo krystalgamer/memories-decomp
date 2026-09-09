@@ -1,17 +1,17 @@
 #include "../types.h"
+#include "display_object_lifecycle.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "sound.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
-extern s32 func_80042B98();
 
 void func_800313E8(u8 *p) {
     s32 v;
     s32 t;
 
-    if (func_80042B98(p) == 0) {
+    if (func_80042B98((DisplayObjectLifecycle *)p) == 0) {
         *(s32 *)(p + 0x44) = 0;
         *(s16 *)(p + 0x60) = 0;
         *(s32 *)(p + 4) = *(s32 *)(p + 4) & ~GsROTOFF;
