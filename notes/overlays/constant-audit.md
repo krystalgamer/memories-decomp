@@ -172,11 +172,11 @@ genuine semantic work, in rough value order:
   the unrelated 32-bit word at `+4` and `attr` is the real flag word; naming by
   member name rather than offset would have been backwards.
 - **Screen-extent literals `0x140`/`0xF0`** — closed as *not* nameable. All
-  eight call sites of the text-box builder `func_80035BE4` take
-  `(slot, textId, x, y, w, h)`, and the trailing pair is a per-call box extent
-  (`0xA0 x 0x40`, `96 x 16`, `100 x 100`, `288 x 16`, and so on). Only one of
-  the eight is `320 x 240`, so naming that one occurrence after the display
-  mode would assert a dependency the builder does not have.
+  eight call sites of the text-box builder `TextBox_Create` (`0x80035BE4`)
+  take `(slot, textId, x, y, w, h)`, and the trailing pair is a per-call box
+  extent (`0xA0 x 0x40`, `96 x 16`, `100 x 100`, `288 x 16`, and so on).
+  Only one of the eight is `320 x 240`, so naming that one occurrence after
+  the display mode would assert a dependency the builder does not have.
 - **The "third `25`" — traced, and it is *not* a visible-page extent.** An
   earlier draft of this note recorded it as grid-shaped evidence of a
   five-row visible page. That was wrong, and the correction matters because it
