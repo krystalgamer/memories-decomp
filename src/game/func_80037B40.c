@@ -2,7 +2,6 @@
 #include "file_constants.h"
 #include "file_transfer.h"
 
-extern u16 D_8009B112[];
 extern u8 D_8009B335;
 extern s16 D_8009B33C;
 
@@ -28,13 +27,13 @@ void func_80037B40(u8 *p)
             p[0x52] = 0xFF;
             D_8009B335 = 1;
         case 1:
-            if ((D_8009B112[0] & 0x4000) == 0) {
+            if ((D_8009B112_abs & 0x4000) == 0) {
                 return;
             }
             p[0x52] = 0xFF;
             D_8009B335 = 2;
         case 2:
-            if ((D_8009B112[0] & 0x4000) == 0) {
+            if ((D_8009B112_abs & 0x4000) == 0) {
                 break;
             }
             if ((p[0x51] & 0x40) == 0) {
