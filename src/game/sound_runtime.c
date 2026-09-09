@@ -3,11 +3,11 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 #include "sound_voice_constants.h"
+#include "../unmatched.h"
 
 extern void func_80049F10(s16, s16);
 extern s16 func_80049F50(void);
 extern void func_80049C40(s16);
-extern void func_80045514(void);
 
 s32 SD_EnqueueCommand(SDCommand *src) {
     SDValue *b1;

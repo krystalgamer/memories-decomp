@@ -26,7 +26,17 @@
  *                   void (void) in model_slot_setup.c
  *   func_80013C28   void (u8, u8 *, u32 *) in file_cd_transfer.c,
  *                   void (s32) elsewhere
- *   func_80042188   first parameter spelled s32, u8 * and SpritePrim *
+ *   func_80042188   first parameter spelled s32, u8 * and SpritePrim *.
+ *                   Measured, and it is not a spelling difference: the high
+ *                   half of the fourth argument selects a six-entry jump
+ *                   table, and the arms disagree about what the first
+ *                   argument is. The sprite arms pass it straight to
+ *                   GsSortFastSprite/GsSortFlipSprite/GsSortSprite, where it
+ *                   is a GsSPRITE *; the four-vertex arm never dereferences
+ *                   it and only tests `and $s2, 0x4000000`, which is the
+ *                   `v | 0x4000000` display_object_list_renderers.c builds.
+ *                   One flat prototype would have to be wrong for one caller
+ *                   or the other, so it stays out until the arms are split.
  *   SD_SEPlay       (u32, s32, s32), (s32, s32, s32) and (u16, u8, s8)
  *
  * Where a consumer declares no parameters and calls with none, the argument
@@ -81,6 +91,20 @@ void func_800323F8(u32, void *, s32, s32);
 
 /* One consumer, duel_scene_update.c, which calls it without arguments. */
 void func_800235C0(void);
+
+/* The five below each have exactly one consumer today, so there is no second
+ * spelling to reconcile and nothing was measured away to move them. They are
+ * here because the issue asks for every unmatched prototype to live in one
+ * place, not only the ones that had already drifted: a declaration with one
+ * consumer is simply a duplicate that has not happened yet. Each names the
+ * file that used to declare it. */
+void func_80045514(void);           /* sound_runtime.c */
+void func_800559D4(s32);            /* model_cleanup.c */
+void func_8005E808(u8 *);           /* func_8005F91C.c, and the candidate
+                                       source src/candidates/func_8005E808.c
+                                       defines it with the same u8 * */
+void func_8004ADE8(s32, s32, s32);  /* sound_sequence_events.c */
+void func_8002ACA4(u8 *);           /* func_8002BAB4.c */
 
 /* A buffer base address rather than a byte array anyone indexes: every user
  * either passes it to func_800428A8 or stores it into an object field, and

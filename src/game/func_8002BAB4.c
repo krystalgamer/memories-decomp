@@ -4,6 +4,7 @@
 #include "view_state.h"
 #include "../psyq/rand.h"
 #include "model_slot_queries.h"
+#include "../unmatched.h"
 
 typedef struct {
     s32 v[4];
@@ -16,7 +17,6 @@ extern s16 D_80181012 __attribute__((section(".data")));
 
 extern void func_8002BAA0(u8 *);
 extern void func_8002A788(u8 *);
-extern void func_8002ACA4(u8 *);
 extern void func_8002BAAC(u8 *);
 extern s32 func_80058DD8(s32);
 extern void func_80057AF4(s32, s32, s32);

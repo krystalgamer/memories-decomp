@@ -4,6 +4,7 @@
 #include "display_object_api.h"
 
 #include "duel_card.h"
+#include "display_object_config.h"
 
 typedef struct DisplayObjectSlot {
     u8 pad_00[8];
@@ -30,7 +31,6 @@ typedef struct {
 extern DuelFieldPosition D_80090800[];
 
 extern void func_80023144(DuelFieldDisplaySource *, u8);
-extern void *func_80040468(DisplayObjectSlot *, s32, s32, s32, s32, s32);
 extern void func_80015D18(void *);
 
 void func_8002348C(DuelFieldDisplaySource *source)
