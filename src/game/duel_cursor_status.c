@@ -1,8 +1,8 @@
+#define FUNC_80023D08_AMBIENT_DIRECTION_ARG
 #include "../types.h"
 #include "duel_cursor_status.h"
-
-extern void func_80023D08(DuelCursorStatus *);
-extern void func_80023FBC(DuelCursorStatus *);
+#include "func_80023D08.h"
+#include "func_80023FBC.h"
 
 /* Neither caller consumes duel_cursor_status.h, and both reasons are
    deliberate.
@@ -17,29 +17,27 @@ extern void func_80023FBC(DuelCursorStatus *);
    already widened with no narrowing at the call site. Its own s32 return
    spelling preserves that.
 
-   The one-parameter declaration of func_80023D08 above is also deliberate,
-   and is the harder case of the two. The definition in func_80023D08.c takes
-   (GridCursor *o, s32 dir) and reads dir four times, branching on its sign
-   and on bits 0 and 1. func_80024088 sets only $a0: its own prologue is
-   subu/sw/sw/jal with the object copy in the delay slot, and $a1 is never
-   assigned, so dir arrives as whatever func_80024088's own caller happened to
-   leave there.
-
-   That is why this declaration cannot be widened to the true prototype. There
-   is no expression to write for the second argument, because the call site
-   does not compute one. Compare DisplayObject_ResetVelocity, where the same
-   shape IS fixable: its callee needs only $a0 and $a0 already holds the
-   object, so naming the argument costs nothing. The test is whether every
-   register the callee reads holds a value this file can name. */
+   func_80024088's one-argument call to func_80023D08 is the harder case of
+   the two, and it is now the FUNC_80023D08_AMBIENT_DIRECTION_ARG arm of
+   func_80023D08.h rather than a private declaration here. The definition
+   reads dir four times, branching on its sign and on bits 0 and 1, while
+   func_80024088's prologue is subu/sw/sw/jal with the object copy in the
+   delay slot and never assigns $a1: dir arrives as whatever func_80024088's
+   own caller left there. There is no expression this file could write for it,
+   because the call site does not compute one. Compare
+   DisplayObject_ResetVelocity, where the same shape IS fixable: its callee
+   needs only $a0 and $a0 already holds the object, so naming the argument
+   costs nothing. The test is whether every register the callee reads holds a
+   value this file can name. */
 
 s32 func_80024060(DuelCursorStatus *object)
 {
-    func_80023FBC(object);
+    func_80023FBC((GridCursor *)object);
     return object->status;
 }
 
 s32 func_80024088(DuelCursorStatus *object)
 {
-    func_80023D08(object);
+    func_80023D08((GridCursor *)object);
     return object->status;
 }
