@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* The fields these three touch on a duel card's display object. This is not
+/* The fields these helpers touch on a duel card's display object. This is not
  * the whole display record: the callers hold wider views of the same memory
  * under their own names. */
 typedef struct {
@@ -11,10 +11,10 @@ typedef struct {
     u8 field_04;
 } DuelCardDisplayData;
 
-/* Every field below is one func_80017F04, func_80017DB4 or func_80017E3C
-   writes or reads on the object func_800400AC hands back. The offsets are
-   unchanged; the fields added for func_80017F04 replace padding this struct
-   already carried, so no existing user's codegen can move.
+/* Every field below is one func_80017F04, func_80017DB4, func_80017E3C or
+   func_80018004 writes or reads on the object func_800400AC hands back. The
+   offsets are unchanged; the fields added for func_80017F04 replace padding
+   this struct already carried, so no existing user's codegen can move.
 
    Names are taken from records that already name the offset rather than
    invented here: attribute at 0x04 from the canonical DisplayObject in
@@ -51,9 +51,13 @@ typedef struct {
 void func_80017DB4(DuelCardDisplayObject *object);
 void func_80017E3C(DuelCardDisplayObject *object);
 
-/* func_80018004.c does not consume this header: it declares and calls
- * func_80017F04 with the record alone, and arg1/arg2 arrive as whatever
- * retail left in a1/a2. See the note beside the definition. */
+/* func_80018004 calls with the record alone so its incoming a1/a2 values pass
+ * through unchanged. The arm below preserves that old-style call while every
+ * ordinary caller gets the real three-argument prototype. */
+#ifdef FUNC_80017F04_AMBIENT_POSITION_ARGS
+u8 *func_80017F04();
+#else
 u8 *func_80017F04(u8 *arg0, s32 arg1, s32 arg2);
+#endif
 
 #endif

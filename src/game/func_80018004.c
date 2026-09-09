@@ -1,21 +1,22 @@
+#define FUNC_80017F04_AMBIENT_POSITION_ARGS
 #include "../types.h"
 #include "duel_side_state.h"
+#include "duel_card.h"
 #include "duel_card_layout.h"
+#include "duel_card_display_state.h"
 
-typedef struct Child { char p[4]; u8 field_04; } Child;
-typedef struct Object {
-    char p0[4]; Child *child; char p8[0xE]; u16 flags;
-    char p18[0x4F]; u8 field_67;
-} Object;
-extern Object *func_80017F04(Object *);
-
-Object *func_80018004(Object *object)
+DuelCardDisplayObject *func_80018004(DuelCardRecord *card)
 {
-    Object *result = func_80017F04(object);
+    DuelCardDisplayObject *result =
+        (DuelCardDisplayObject *)func_80017F04((u8 *)card);
+
     if (D_8009B1C8->field_1F != 0) {
-        object->flags |= DUEL_CARD_FLAG_DISPLAY_MARKER;
-        result->field_67 = object->child->field_04 + 1;
-        if (D_8009B1C8->field_1F < 0) result->field_67 = 0xFF;
+        card->flags |= DUEL_CARD_FLAG_DISPLAY_MARKER;
+        result->field_67 =
+            ((DuelCardDisplayData *)card->data)->field_04 + 1;
+        if (D_8009B1C8->field_1F < 0) {
+            result->field_67 = 0xFF;
+        }
     }
     return result;
 }
