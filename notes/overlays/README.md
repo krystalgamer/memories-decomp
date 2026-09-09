@@ -434,7 +434,7 @@ is needed:
     start: 0x4
     vram: 0x80168004
     subsegments:
-      - [0x4, .rodata, overlays/password/name_entry_spawn_glyph_sprite]
+      - [0x4, .rodata, overlays/password/name_entry_glyph_effects]
       - [0x7C, .rodata, overlays/password/shop_update]
       - [0x90, .rodata, overlays/password/name_entry_main]
       - [0xB4, c, overlays/password/func_801680B4]
