@@ -2,6 +2,7 @@
 #include "../ygo_types.h"
 #include "duel_draw_status_numbers.h"
 #include "duel_update_life_point_display.h"
+#include "func_80016D2C.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_display.h"
@@ -14,8 +15,6 @@
    2-digit) offset from the shared position struct at arg0->unk50. The values
    are displayed LP from field12 and DECK_SIZE minus the signed draw cursor
    in field18 of the corresponding D_800E9FF0 entry. */
-
-void func_80016D2C(void *, void *, s32, s32);
 
 #define SCRATCH ((DuelStatusDigitPacket *)0x1F800320)
 
@@ -42,11 +41,21 @@ void Duel_DrawLifePointsAndDeckCounts(DuelStatusWidget *arg0) {
 
     scratch->field_04 = pos->field_30 - 3;
     scratch->field_06 = pos->field_32 - 0xD;
-    func_80016D2C(pos, scratch, D_800E9FF0[1].displayed_life_points, 4);
+    func_80016D2C(
+        pos,
+        (GsSPRITE *)scratch,
+        D_800E9FF0[1].displayed_life_points,
+        4
+    );
 
     scratch->field_04 = pos->field_30 + 0xE;
     scratch->field_06 = pos->field_32 - 5;
-    func_80016D2C(pos, scratch, DECK_SIZE - D_800E9FF0[1].field_18, 2);
+    func_80016D2C(
+        pos,
+        (GsSPRITE *)scratch,
+        DECK_SIZE - D_800E9FF0[1].field_18,
+        2
+    );
 
     scratch->field_14 = DUEL_DISPLAY_COLOR_NORMAL;
     if (D_8009B1D5 != 0) {
@@ -55,9 +64,19 @@ void Duel_DrawLifePointsAndDeckCounts(DuelStatusWidget *arg0) {
 
     scratch->field_04 = pos->field_30 - 3;
     scratch->field_06 = pos->field_32 + 0xD;
-    func_80016D2C(pos, scratch, D_800E9FF0[0].displayed_life_points, 4);
+    func_80016D2C(
+        pos,
+        (GsSPRITE *)scratch,
+        D_800E9FF0[0].displayed_life_points,
+        4
+    );
 
     scratch->field_04 = pos->field_30 + 0xE;
     scratch->field_06 = pos->field_32 + 5;
-    func_80016D2C(pos, scratch, DECK_SIZE - D_800E9FF0[0].field_18, 2);
+    func_80016D2C(
+        pos,
+        (GsSPRITE *)scratch,
+        DECK_SIZE - D_800E9FF0[0].field_18,
+        2
+    );
 }
