@@ -6,6 +6,7 @@
 #include "../overlays/main_menu/entrypoints.h"
 #include "../psyq/rand.h"
 #include "fade.h"
+#include "func_80043BCC.h"
 #include "input.h"
 #include "main_reset_frontend_runtime.h"
 #include "text_box_lifecycle.h"
