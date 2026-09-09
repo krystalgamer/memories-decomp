@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_effect.h"
 #include "duel_effect_mode_7.h"
 #include "file_transfer.h"
 #include "func_8003FCD8.h"
@@ -28,7 +29,6 @@ extern u8 D_8009B3ED[];
 extern u16 gDebug_nSceneOrSoundID;
 
 extern void func_80030250(void *, int, int, int, int, int, int);
-extern int DuelEffect_UpdateState(void);
 extern void func_80024DC8(int, int, int, int);
 void func_80030C10(void)
 {

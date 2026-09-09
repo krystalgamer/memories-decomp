@@ -23,8 +23,6 @@ extern s8 gDuel_bOpponentID[9];
 extern void (*D_80090998[])(void);
 extern void func_8002C6C8(void);
 extern int func_80026B34(void);
-extern int DuelEffect_UpdateState(void);
-
 void func_80024200(void)
 {
     u8 value;

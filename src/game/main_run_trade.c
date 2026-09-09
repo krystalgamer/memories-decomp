@@ -43,8 +43,6 @@ extern u8 D_800E9EF0[];
 #define gTradeObj (*(Obj **)D_800E9EF0)
 
 extern void func_80032328(void);
-extern s32 DuelEffect_UpdateState(void);
-
 void Main_RunTrade(void)
 {
     DuelEffectChannel *box;

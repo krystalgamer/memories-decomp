@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_effect.h"
 #include "duel_effect_tables.h"
 
 extern u8 D_8009B254, D_8009B24A, D_8009B248;

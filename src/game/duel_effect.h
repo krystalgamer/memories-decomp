@@ -191,4 +191,6 @@ typedef char DuelEffectObject_size_must_be_0x1C[
     sizeof(DuelEffectObject) == 0x1C ? 1 : -1
 ];
 
+s32 DuelEffect_UpdateState(void);
+
 #endif

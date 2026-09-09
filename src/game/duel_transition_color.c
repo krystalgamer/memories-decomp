@@ -1,12 +1,11 @@
 #include "../types.h"
+#include "duel_effect.h"
 #include "duel_transition_color.h"
 #include "../psyq/rand.h"
 
 extern u32 D_8009B09C[];
 extern u8 *D_8009B2FC;
 extern void (*D_80090DF8[])(u8 *);
-
-extern s32 DuelEffect_UpdateState(void);
 
 s32 func_80033BE8(void)
 {
