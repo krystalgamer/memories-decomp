@@ -28,8 +28,6 @@ typedef struct {
     u8 table_index;
 } DuelFieldDisplaySource;
 
-extern DuelFieldPosition D_80090800[];
-
 extern void func_80023144(DuelFieldDisplaySource *, u8);
 extern void func_80015D18(void *);
 

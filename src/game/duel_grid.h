@@ -52,4 +52,14 @@ extern u8 D_800907D8[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 extern u8 D_800907D8[];
 #endif
 
+/* The screen position of every field slot, defined with initialisers in
+ * duel_field_layout.c as a two-dimensional table. Six sources declared it
+ * locally and only two of them had the shape right: the other four spelled
+ * it a flat DuelFieldPosition[] and then cast it to u8 * anyway, which is
+ * why the wrong shape never showed. Declared here in its real form, the
+ * cast still reaches the same address and the flat spelling is not needed.
+ * 160 bytes, far above the -G threshold, so completing the type is free. */
+extern DuelFieldPosition
+    D_80090800[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
+
 #endif

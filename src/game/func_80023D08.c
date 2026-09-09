@@ -36,7 +36,6 @@ typedef struct {
 
 extern u16 D_8009AF20[2];
 extern s16 D_800907AC[2][2][4];
-extern DuelFieldPosition D_80090800[2][20];
 
 extern void func_8002348C(void);
 extern void func_80022D94(s32, s32, s32, s32, s32);
