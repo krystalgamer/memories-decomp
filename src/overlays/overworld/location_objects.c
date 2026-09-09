@@ -5,7 +5,6 @@
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_helpers.h"
 
-extern u8 gCampaignMap_aLocationTable[];
 extern u8 *D_801695F8[];
 
 void CampaignMap_ClearLocationObjects(void)

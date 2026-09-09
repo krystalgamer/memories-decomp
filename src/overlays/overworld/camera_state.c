@@ -1,9 +1,9 @@
 #include "../../types.h"
+#include "../../unmatched.h"
 #include "camera_state.h"
 #include "../../psyq/libgte.h"
 #include "../../game/view_state.h"
 
-extern u8 gCampaignMap_aLocationTable[];
 extern u32 D_8009B304;
 extern u32 D_8009B308;
 extern u32 D_8009B30C;

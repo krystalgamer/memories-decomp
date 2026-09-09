@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../unmatched.h"
 #include "camera_transition.h"
 #include "camera_state.h"
 #include "../../game/trig_constants.h"
@@ -26,7 +27,6 @@ typedef struct {
     u8 pad16[50];
 } Location;
 
-extern u8 gCampaignMap_aLocationTable[];
 extern u8 D_801695EC;
 extern MapObject *D_801695C8;
 extern MapObject *D_801695D8;

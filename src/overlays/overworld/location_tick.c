@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../unmatched.h"
 #include "camera_transition.h"
 #include "pick_exit.h"
 #include "location_objects.h"
@@ -11,7 +12,6 @@
 
 extern u8 gCampaignMap_Location;
 extern u8 gCampaignMap_LocationPrev;
-extern u8 gCampaignMap_aLocationTable[];
 extern u8 D_801695EC;
 extern u8 D_8016960D;
 extern u8 *D_801695C8;
