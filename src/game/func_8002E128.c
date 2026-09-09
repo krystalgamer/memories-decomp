@@ -3,9 +3,7 @@
 #include "display_object_layout.h"
 #include "script_image_objects.h"
 #include "func_8002E128.h"
-
-extern u8 D_80090BA8[];
-extern u8 D_80090C00[];
+#include "scene_image_overlay_tables.h"
 
 /* MATCH. Real C -- this retires the ASSEMBLY-DEBT transcription (Unchiga's
  * port, a 24-instruction `__asm__` block with s0/s1 pins) that stood here.
