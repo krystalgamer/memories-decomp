@@ -4,6 +4,7 @@
 #include "card_constants.h"
 #include "duel_action_lock.h"
 #include "duel_effect_request.h"
+#include "duel_monster_removal_rules.h"
 #include "sound.h"
 
 extern s16 D_8009B1D2;
@@ -144,7 +145,6 @@ apply:
 extern s16 D_8009B1D2;
 extern s16 D_8009B1AC;
 extern s16 D_8009B1AE;
-extern u8 D_80090A4C[];
 extern u16 D_8009B220;
 extern u8 D_801A7AD8_bytes[] asm("D_801A7AD8");
 
@@ -171,16 +171,19 @@ void func_8002538C(void) {
         p->field_04 = 0;
         SD_SEPlayFull(0x22);
         i = 0;
-        cb = D_80090A4C;
+        cb = gDuel_abMonsterRemovalRules;
         x = D_8009B1D2;
         while (1) {
-            if (*(u8 *)(i + (s32)cb) + 0x258 == x) {
+            if (*(u8 *)(i + (s32)cb) +
+                    DUEL_MONSTER_REMOVAL_CARD_ID_BASE == x) {
                 break;
             }
-            i += 2;
+            i += DUEL_MONSTER_REMOVAL_RULE_SIZE;
         }
-        p->field_1A = i / 2;
-        m = D_80090A4C[i + 1];
+        p->field_1A = i / DUEL_MONSTER_REMOVAL_RULE_SIZE;
+        m = gDuel_abMonsterRemovalRules[
+            i + DUEL_MONSTER_REMOVAL_SELECTOR_OFFSET
+        ];
         n = m;
         D_8009B1AC = m;
         if (n >= 0x15) {
