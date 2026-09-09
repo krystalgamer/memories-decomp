@@ -6743,7 +6743,7 @@ Both directions occur, for different reasons.
 **A caller declares FEWER arguments than the definition takes** (25 pairs).
 The call site sets up only the arguments it names, and the callee reads the
 rest from whatever the registers happen to hold. `func_8004036C` in
-`free_duel/sparkle_runtime.c` is the documented example: declared `void
+`free_duel/screen_runtime.c` is the documented example: declared `void
 (void)`, defined `void (void *)`, called with nothing. These cannot be
 "corrected" by writing the missing argument, because there is no expression
 in the caller that produces it.
@@ -6763,7 +6763,7 @@ in the caller that produces it.
     func_8002FB78          def 2 (func_8002FB78.c)  <-  decl 0 in func_8002FD10.c
     func_80032184          def 2 (func_80032184.c)  <-  decl 0 in duel_reward_setup.c
     func_8003C328          def 2 (func_8003C328.c)  <-  decl 0 in func_8003C498.c
-    func_8004036C          def 1 (func_8004036C.c)  <-  decl 0 in sparkle_runtime.c
+    func_8004036C          def 1 (func_8004036C.c)  <-  decl 0 in screen_runtime.c
     func_80041D60          def 3 (func_80041D60.c)  <-  decl 1 in func_80040814.c
     func_80041D60          def 3 (func_80041D60.c)  <-  decl 1 in func_80029108.c
     func_80041D60          def 3 (func_80041D60.c)  <-  decl 1 in screen_runtime.c

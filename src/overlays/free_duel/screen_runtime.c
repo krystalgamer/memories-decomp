@@ -12,7 +12,53 @@
 #include "../../game/display_object_helpers.h"
 #include "../../game/func_80039794.h"
 #include "../../game/func_80041D60.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 #include "free_duel.h"
+
+/* The free-duel screen's per-frame runtime: the entry tick, the screen
+   update it calls, the cursor tween that update drives, and the sparkle pool
+   upkeep the tick finishes on.
+
+   The README used to say the sparkle pair "stays in sparkle_runtime.c; this
+   unit does not absorb it", without a reason. There is not one: both sparkle
+   functions have exactly one caller each, FreeDuel_UpdateScreen for the
+   allocator and FreeDuel_Entry for the updater, and both are here.
+
+   One unit settles FreeDuel_GetSparkleSlot's return type. It was declared
+   u8 ** by the caller and defined void **; the definition wins and the one
+   call site assigns through a void ** local.
+
+   func_8004036C keeps the local `void (void)` declaration the sparkle
+   updater carried, and the reason it carried it: the two calls pass no
+   argument at all, so taking display_object_api.h's typed
+   `void func_8004036C(void *)` would make the compiler set up an argument
+   retail does not. Nothing else in this unit's include set declares it, so
+   the local spelling is still the only one here. */
+
+typedef struct {
+    u8 unk0[0x4];
+    u32 flags;
+    u8 unk8[0x4];
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 unkF;
+    u8 unk10[0x50];
+    s16 timer;
+    u8 unk62[0xA];
+    u8 state;
+} FreeDuelSparkle;
+
+/* Not display_object_api.h's `void func_8004036C(void *object)`, on purpose.
+   The two calls below pass no argument at all, so $a0 holds whatever the
+   preceding code left there; there is no expression to write for it. Taking
+   the typed declaration would make the compiler set up an argument the retail
+   image does not, so this stays a local `void (void)` until the two calls are
+   understood well enough to name what they are really passing. */
+extern void func_8004036C(void);
+extern void func_8004036C(void);
 
 extern u8 *gFreeDuel_pCursorWidget;
 extern u8 D_8009B269;
@@ -20,19 +66,59 @@ extern u8 D_8009B26C;
 extern u8 gFreeDuel_bReturnFlags;
 extern u8 D_8009B368;
 extern u16 D_801D0200[];
-extern u8 **FreeDuel_GetSparkleSlot(void);
 extern u8 *FreeDuel_SpawnSparkle(void);
-extern void FreeDuel_UpdateSparkle(void);
 extern void func_80024DC8(s32, s32, s32, s32);
 extern void func_80033C90(void);
 extern void func_80035C38(s32, s32, s32, s32, s32, s32, s32);
 extern void FreeDuel_PlaceCursor(void *, s32);
 extern void FreeDuel_UpdateScrollbar(void);
 
+void **FreeDuel_GetSparkleSlot(void)
+{
+    s32 i;
+
+    for (i = 15; i >= 0; i--) {
+        if (gFreeDuel_apSparklePool[i] == 0) {
+            return &gFreeDuel_apSparklePool[i];
+        }
+    }
+    return 0;
+}
+
+void FreeDuel_UpdateSparkle(void)
+{
+    FreeDuelSparkle *obj;
+    s32 level;
+    s16 timer;
+    s32 i;
+
+    for (i = 15; i >= 0; i--) {
+        obj = (FreeDuelSparkle *)gFreeDuel_apSparklePool[i];
+        if (obj != 0 && (obj->state & 0xF) == 1) {
+            if (!(obj->state & 0x80)) {
+                obj->state |= 0x80;
+                obj->timer = 16;
+                *(u32 *)&obj->r = 0x404040;
+                obj->flags |= (GsALON | GsAONE);
+            }
+            level = obj->r - 4;
+            obj->b = level;
+            obj->g = level;
+            obj->r = level;
+            timer = obj->timer - 1;
+            obj->timer = timer;
+            if (timer == 0) {
+                func_8004036C();
+                gFreeDuel_apSparklePool[i] = 0;
+            }
+        }
+    }
+}
+
 void FreeDuel_UpdateCursorTween(void)
 {
     u8 *widget = gFreeDuel_pCursorWidget;
-    u8 **slot;
+    void **slot;
     u8 *sparkle;
     s32 tx;
     s32 ty;
