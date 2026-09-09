@@ -2771,8 +2771,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2B50,D_800F2B50,D_800F2B50,0x800533D8,func_800533D8,matching_c,game,C,src/game/model_scene_setup.c,read_write,,"extern u8 D_8009AF9B,D_8009AF94;extern s8 D_8009AF9A;extern s32 D_8009AF9C;extern void func_8005611C(int),func_80059A..."
 0x800F2B50,D_800F2B50,D_800F2B50,0x80058938,func_80058938,matching_c,game,C,src/game/func_80058938.c,read,,base = (u8 *)D_800F2B50; | r = D_800F2B50;
 0x800F2C40,D_800F2C40,D_800F2C40,0x8004CB0C,func_8004CB0C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03d30c.s,address,,"addiu $v1, $v1, %lo(D_800F2C40) | lui $v1, %hi(D_800F2C40)"
-0x800F2C40,D_800F2C40,D_800F2C40,0x8004D58C,func_8004D58C,matching_c,game,C,src/game/func_8004D58C.c,read,,t = (u8 *)D_800F2C40 + arg0 * MODEL_SLOT_SIZE;
-0x800F2C40,D_800F2C40,D_800F2C40,0x8004D75C,func_8004D75C,matching_c,game,C,src/game/func_8004D75C.c,address,,ch = &D_800F2C40[index];
+0x800F2C40,D_800F2C40,D_800F2C40,0x8004D58C,func_8004D58C,matching_c,game,C,src/game/model_slot_row_tables.c,address,,ch = &D_800F2C40[arg0];
+0x800F2C40,D_800F2C40,D_800F2C40,0x8004D75C,func_8004D75C,matching_c,game,C,src/game/model_slot_row_tables.c,address,,ch = &D_800F2C40[index];
 0x800F2C40,D_800F2C40,D_800F2C40,0x8004D914,func_8004D914,matching_c,game,C,src/game/func_8004D914.c,read,,b = (u8 *)D_800F2C40 + arg0 * MODEL_SLOT_SIZE;
 0x800F2C40,D_800F2C40,D_800F2C40,0x8004EB00,func_8004EB00,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03f300.s,address,,"addiu $a0, $v0, %lo(D_800F2C40) | addiu $a1, $v0, %lo(D_800F2C40) | (+8 more)"
 0x800F2C40,D_800F2C40,D_800F2C40,0x8004FE2C,func_8004FE2C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03f300.s,address,,"addiu $a0, $v0, %lo(D_800F2C40) | addiu $s0, $v0, %lo(D_800F2C40) | (+2 more)"
@@ -2942,7 +2942,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800715C4,AiScript_StartCombo,matching_c,game,C,src/game/ai_script_combo.c,read,,s32 value = gAiScript_State.combo_cards[i];
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800727C0,Ai_CompleteFusion,matching_c,game,C,src/game/ai_fusion.c,read_write,,gAiScript_State.combo_cards[j] = | gAiScript_State.combo_cards[j] = 0; | (+20 more)
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80072A48,AiScript_FindBestCombo,matching_c,game,C,src/game/ai_script_find_best_combo.c,read_write,,e = (u8 *)&gAiScript_State + i; | for (i = 0; i < gAiScript_State.fusion_count; i++) { | (+21 more)
-0x800F5BE8,gAiScript_State,gAiScript_State,0x80072DC0,AiScript_EvaluateFusion,matching_c,game,C,src/game/ai_script_evaluate_fusion.c,read_write,,for (i = 0; i < gAiScript_State.fusion_count; i++) { | gAiScript_State.fusion_best_depth = 0; | (+6 more)
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80072DC0,AiScript_EvaluateFusion,matching_c,game,C,src/game/ai_script_evaluate_fusion.c,read_write,,for (i = 0; i < gAiScript_State.fusion_count; i++) { | gAiScript_State.fusion_best_depth = 0; | (+9 more)
 0x800F5BE8,gAiScript_State,gAiScript_State,0x8007308C,AiScript_FindBestAttack,matching_c,game,C,src/game/ai_script_find_best_attack.c,read_write,,gAiScript_State.attack_best_slot = i; | gAiScript_State.attack_best_stat = 0; | (+3 more)
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80073220,AiScript_PushComboCard,matching_c,game,C,src/game/ai_script_push_combo_card.c,read,,for (i = 0; i <= gAiScript_State.fusion_best_depth; i++) { | s32 value = gAiScript_State.combo_cards[i];
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800732A0,AiScript_PushComboEmpty,matching_c,game,C,src/game/ai_script_push_combo_empty.c,read,,index <= gAiScript_State.fusion_best_depth; index++) { | s32 value = gAiScript_State.combo_cards[index];
@@ -2950,14 +2950,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80073380,AiScript_ClearCards,matching_c,game,C,src/game/ai_script_sets.c,address,,u16 *entries = (u16 *)&gAiScript_State;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800733A8,AiScript_AddType,matching_c,game,C,src/game/ai_script_sets.c,address,,u8 *entry = (u8 *)&gAiScript_State + i;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80073420,AiScript_ClearTypes,matching_c,game,C,src/game/ai_script_sets.c,address,,u8 *entries = (u8 *)&gAiScript_State;
-0x800F5C7F,D_800F5C7F,D_800F5C7F,0x80073464,func_80073464,matching_c,game,C,src/game/ai_script_state_ops.c,write,8,D_800F5C7F = 1;
-0x800F5C7F,D_800F5C7F,D_800F5C7F,0x80073474,func_80073474,matching_c,game,C,src/game/ai_script_state_ops.c,write,8,D_800F5C7F = 0;
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80073464,func_80073464,matching_c,game,C,src/game/ai_script_state_ops.c,write,,gAiScript_State.field_97 = 1;
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80073474,func_80073474,matching_c,game,C,src/game/ai_script_state_ops.c,write,,gAiScript_State.field_97 = 0;
 0x800F5C80,gAi_wBestDifference,gAi_wBestDifference,0x8007164C,AiScript_LoadBestDifference,matching_c,game,C,src/game/ai_script_load_best_values.c,read,16,value = gAi_wBestDifference;
 0x800F5C80,gAi_wBestDifference,gAi_wBestDifference,0x8007308C,AiScript_FindBestAttack,matching_c,game,C,src/game/ai_script_find_best_attack.c,read,16,if (gAi_wBestDifference[0] != 0) {
 0x800F5C82,gAi_bBestAttacker,gAi_bBestAttacker,0x80071688,AiScript_LoadBestAttacker,matching_c,game,C,src/game/ai_script_load_best_values.c,read,8,value = gAi_bBestAttacker;
 0x800F5C83,gAi_bBestTarget,gAi_bBestTarget,0x800716C4,AiScript_LoadBestTarget,matching_c,game,C,src/game/ai_script_load_best_values.c,read,8,value = gAi_bBestTarget;
-0x800F5C88,D_800F5C88,D_800F5C88,0x80072DC0,AiScript_EvaluateFusion,matching_c,game,C,src/game/ai_script_evaluate_fusion.c,write,,"D_800F5C88[0] = Duel_GetBaseCardStat(a, 0); | D_800F5C88[0] = Duel_GetBaseCardStat(a, 1);"
-0x800F5C8B,D_800F5C8B,D_800F5C8B,0x80072DC0,AiScript_EvaluateFusion,matching_c,game,C,src/game/ai_script_evaluate_fusion.c,read,,if (D_800F5C8B[0] != 0) {
 0x800F5D44,D_800F5D44,D_800F5D44,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,,D_800F5D44 = 0; | if (D_800F5D44 != 0) {
 0x800FE048,D_800FE048,D_800FE048,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,write,,D_800FE048[0x16] = D_8009B0AD; | D_800FE048[0x18] = D_8009B0D0; | (+3 more)
 0x800FE048,D_800FE048,D_800FE048,0x80013154,func_80013154,matching_c,game,C,src/game/main_services.c,write,,D_800FE048[0x16] = 1; | D_800FE048[0x18] = 1; | (+3 more)
