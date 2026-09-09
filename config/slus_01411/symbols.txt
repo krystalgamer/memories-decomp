@@ -240,6 +240,7 @@ gFile_apszName = 0x8009078C;
 gDuel_aTerrainBoost = 0x800909D4;
 gDuel_abMonsterRemovalRules = 0x80090A4C;
 gModel_aEffectEndpoints = 0x80091550;
+gDuelEffect_awEntryRangeBoundaries = 0x80090E58;
 gGraphics_bActiveBuffer = 0x8009B0AC;
 gCardGrid_bCursorColumn = 0x8009B258;
 gCardGrid_bCursorRow = 0x8009B259;
