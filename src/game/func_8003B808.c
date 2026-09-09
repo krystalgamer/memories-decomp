@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #define D_800101D8_IN_DATA
 #include "file_transfer.h"
+#include "func_8003B808.h"
 
 extern s32 D_8009B118 __attribute__((section(".data")));
 extern s32 D_80010000 __attribute__((section(".data")));
