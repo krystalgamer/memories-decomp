@@ -3,6 +3,7 @@
 #include "../../game/graphics_frame.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/text_box_runtime.h"
+#include "free_duel.h"
 
 typedef struct {
     u8 unk_00[0x30];
@@ -12,11 +13,7 @@ typedef struct {
 
 extern FreeDuelWidget *gFreeDuel_pCursorWidget;
 extern FreeDuelWidget *gFreeDuel_pThumbWidget;
-extern s8 gFreeDuel_bCursorColumn;
-extern s8 gFreeDuel_bCursorRow;
-extern s8 gFreeDuel_bTargetColumn;
 extern s16 D_8009B32E;
-extern u8 gFreeDuel_abGridAvailable[];
 extern u8 D_800EB0F8[];
 extern s16 D_801D0000[];
 

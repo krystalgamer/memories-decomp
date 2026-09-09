@@ -10,6 +10,7 @@
 #include "../../psyq/libgs.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/func_80039794.h"
+#include "free_duel.h"
 
 typedef struct {
     u8 pad0[4];
@@ -20,15 +21,8 @@ typedef struct {
 } Obj;
 
 extern u8 gFreeDuel_bReturnFlags;
-extern s8 gFreeDuel_bCursorColumn;
-extern s8 gFreeDuel_bCursorRow;
-extern s8 gFreeDuel_bTargetColumn;
-extern s8 gFreeDuel_bTargetRow;
 extern u8 D_8009B362;
 extern u8 gFreeDuel_aDuelistRecords[];
-extern u8 gFreeDuel_bScreenFlags;
-extern void *gFreeDuel_apSparklePool[];
-extern u8 gFreeDuel_abGridAvailable[];
 extern u8 *gFreeDuel_pCursorWidget;
 extern u8 *gFreeDuel_pThumbWidget;
 

@@ -2,6 +2,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
+#include "free_duel.h"
 
 typedef struct {
     u8 unk0[0x4];
@@ -17,7 +18,6 @@ typedef struct {
     u8 state;
 } FreeDuelSparkle;
 
-extern void *gFreeDuel_apSparklePool[];
 /* Not display_object_api.h's `void func_8004036C(void *object)`, on purpose.
    The two calls below pass no argument at all, so $a0 holds whatever the
    preceding code left there; there is no expression to write for it. Taking
