@@ -20,9 +20,6 @@ extern u8 D_8009B144 __attribute__((section(".data")));
 extern u8 D_8009B4A0;
 extern u8 D_8009B4A1;
 extern u8 D_8009B4A2;
-extern s16 D_800FE0CC __attribute__((section(".data")));
-extern u16 D_800FE0D0 __attribute__((section(".data")));
-extern s32 D_800FE0D4 __attribute__((section(".data")));
 /* Four bytes, so at -G8 a plain declaration would land in sdata and both
    accesses would come out gp-relative; retail reaches this one through
    lui %hi / %lo. */

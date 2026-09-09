@@ -44,6 +44,23 @@ extern u8 D_8009B067;
 extern u32 D_8009B068;
 extern u32 D_8009B06C;
 extern u32 D_8009B070;
+/* The decoded frame's rectangle and the resize latch, at 0x800FE0CC-0x800FE0D7.
+ *
+ * D_800FE0D0 and D_800FE0D4 are the width and height the pipeline hands to
+ * LoadImage2 as rect.w and rect.h; one path scales the width instead, reading
+ * it wide as `*(s32 *)&D_800FE0D0 * 0x1800 / 4096`, which is why the
+ * declaration stays u16 and the cast stays at that use. D_800FE0CC is set to
+ * 1 on the paths that change the rectangle.
+ *
+ * All three keep the .data section attribute both sources already wrote, and
+ * both write it: these sit at 0x800FE0xx, far from $gp, and the retail image
+ * reaches them with lui/%lo. Unlike the guarded symbols elsewhere in this
+ * tree there is no second group to serve -- no other source names them --
+ * so one spelling carries. */
+extern s16 D_800FE0CC __attribute__((section(".data")));
+extern u16 D_800FE0D0 __attribute__((section(".data")));
+extern s32 D_800FE0D4 __attribute__((section(".data")));
+
 extern u8 *D_8009B498;
 extern CdlLOC D_8009B49C;
 
