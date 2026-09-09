@@ -132,6 +132,15 @@ extern s8 D_8009B360;
  * outcome: it is a side selector, and it is read as one. */
 extern u8 gDuel_bWinnerSide;
 
+/* The outro's own copy of the winning side, and the only one of these that
+ * carries a "not set" state. func_800179F4 clears it to -1 when the duel
+ * starts, func_80020F4C writes the winner alongside D_8009B362 when the
+ * result sequence begins, and duel_scene_update.c reads it as an override:
+ * it takes D_8009B1D5 and replaces it with this value only when the test
+ * `D_8009B238 >= 0` passes. That signed test is why it is s8 and not u8 --
+ * the sentinel is the whole point of the field. */
+extern s8 D_8009B238;
+
 /* The halfword the duel hands to SD_BGMPlay: func_8001825C and func_80018608
  * read it for that call, func_80024DC8 stores 0x7270, func_80030F40 stores
  * 0x71D0 and Text_StartCampaignDuel stores func_80036D3C's result. lhu/sh

@@ -51,7 +51,6 @@ extern void func_8001EC70(void *);
 extern void func_80020EE8(void *);
 
 extern u16 D_8009B1E0;
-extern s8 D_8009B238;
 extern DisplayObject *D_8009B214;
 extern DisplayObject *D_8009B21C;
 
