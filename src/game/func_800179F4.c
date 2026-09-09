@@ -14,6 +14,7 @@
 #include "duel_effect_resource_record.h"
 #include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
+#include "duel_action_lock.h"
 #include "../unmatched.h"
 
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
@@ -27,7 +28,6 @@ extern s8 D_8009B238;
 extern u8 gDuel_bQuitDialogState;
 extern u8 D_8009B1D4;
 extern u16 D_8009B204;
-extern u16 D_8009B220;
 extern u16 D_8009B16C;
 extern u8 *D_8009B22C;
 extern u8 *D_8009B214;
