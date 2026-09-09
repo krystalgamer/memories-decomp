@@ -1,11 +1,10 @@
 #include "../types.h"
 #include "func_8004DC38.h"
 #include "model.h"
+#include "model_slot_state_updates.h"
 
 extern s32 func_80058E1C(void);
-extern void func_80059700(s32, s32);
 extern void func_8005106C(s32);
-extern void func_800597C8(s32, s32, s32);
 extern void func_80057AF4(s32, s32, s32);
 extern void func_8005F714(s32, s32, s32);
 

@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "func_8004DC38.h"
 #include "model.h"
+#include "model_slot_state_updates.h"
 
 extern void func_8005A468(s32, s32);
 

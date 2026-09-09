@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_slot_state_updates.h"
 
 typedef struct {
     u16 length;
@@ -36,7 +37,6 @@ typedef struct {
 extern AnimSlot D_800F2C40[];
 
 extern void func_8005B620(u8 *, u8 *, s32);
-extern void func_800597C8(s32, s32, s32);
 void func_80057AF4(s32, s32, s32);
 
 void func_80057AF4(s32 index, s32 anim, s32 flag) {
