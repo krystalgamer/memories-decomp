@@ -8,7 +8,6 @@
 extern u16 D_8009AF20;
 extern s16 D_8009B200;
 extern s16 D_8009B202;
-extern u8 D_800FE148[];
 extern void func_80017130(void);
 void func_800178BC(void)
 {
@@ -22,7 +21,7 @@ void func_800178BC(void)
     D_800F2848.field_04 = 0x3FE;
     D_800F2848.angle = D_8009AF20;
     func_8001352C();
-    GsSetLsMatrix((MATRIX *)D_800FE148);
+    GsSetLsMatrix(&D_800FE148);
     __asm__ volatile(
         "lui $2, 0x1F80\n"
         "ori $2, $2, 0x03E0\n"

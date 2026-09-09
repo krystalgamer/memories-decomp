@@ -7,7 +7,6 @@
 #include "screen_projection.h"
 
 extern s16 D_800F2856[];
-extern u8 D_800FE148[];
 extern u16 D_800908A0[];
 extern ScreenPair D_800EA070[];
 
@@ -31,7 +30,7 @@ void func_800177C4(void)
 
     SetGeomScreen(D_800F2856[0]);
     SetGeomOffset(0xA0, 0x6C);
-    GsSetLsMatrix((MATRIX *)D_800FE148);
+    GsSetLsMatrix(&D_800FE148);
     pad = (u8 *)0x1F8003E0;
     i = 0;
     pp = &p;

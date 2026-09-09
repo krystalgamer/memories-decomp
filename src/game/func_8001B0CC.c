@@ -2,9 +2,9 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "screen_projection.h"
 
 extern s16 D_800F2856;
-extern u8 D_800FE148[];
 extern u16 D_800908A0[];
 
 /* Projects the coordinate pair at D_800908A0[index * 2] through the GTE and
@@ -20,7 +20,7 @@ s16 func_8001B0CC(s32 index)
     SetGeomScreen(D_800F2856);
     coord = coord * 4;
     SetGeomOffset(0xA0, 0x6C);
-    GsSetLsMatrix((MATRIX *)D_800FE148);
+    GsSetLsMatrix(&D_800FE148);
     __asm__ volatile(
         "lui $3, 0x1F80\n"
         "ori $3, $3, 0x03E0\n"
