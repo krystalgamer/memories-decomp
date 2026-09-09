@@ -166,11 +166,26 @@ typedef struct DisplayObject {
        Halves: DuelEffect_UpdateObjectLayout writes 0x38 and 0x3A as an x/y
        pair. That function writes six such pairs at stride 8 -- 0x28, 0x30,
        0x38, 0x40, 0x48, 0x50 -- of which the record already had a halfword
-       view for four. It is one witness under one object kind, and it does
-       not generalise: the stride-0xC run above and the stride-8 colour run
-       at 0x2C both cross this range and disagree with it, which is the same
-       reason 0x44 and 0x4C keep their offsets for names. So the halves are
-       named for their offsets and nothing more. */
+       view for four.
+
+       That is one witness under one object kind, and this halfword has more
+       readings than almost any other on the record, so it does not
+       generalise. The stride-0xC run above and the stride-8 colour run at
+       0x2C both cross this range and disagree with it. So, separately, do
+       the three views that already name these halves outside this header:
+       DisplayObjectVelocity in display_object_helpers.c calls 0x36, 0x38 and
+       0x3A velocity_x, velocity_y and velocity_z and adds them to 0x30/0x32
+       every frame, while DisplayObjectSnapshot in func_80043178.h and
+       DisplayObjectPosition in display_object_interpolation.h read the same
+       0x36/0x38 pair as a saved position that eases into the live one.
+       display_object_helpers.h sets out at length why neither of those
+       generalises either.
+
+       Five readings, no winner, so the halves are named for their offsets
+       and nothing more -- the same grounds 0x44 and 0x4C keep theirs on. A
+       consumer that knows which motion path owns its object should take the
+       view that names what it means, as name_entry_glyph_effects.c does with
+       the velocity one. */
     union {
         u32 word;
         struct {
