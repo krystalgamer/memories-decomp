@@ -6,6 +6,7 @@
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "sound.h"
+#include "text_constants.h"
 #include "../unmatched.h"
 
 /* Creates 3 objects via func_800400AC(func_8004002C(),
@@ -27,7 +28,6 @@
 
 extern s8 gSD_bOutputType[16];
 
-extern void func_8003C4E0(s32 a0);
 void Options_Init(void) {
     register DisplayObject *obj asm("s1");
     s32 s0;
