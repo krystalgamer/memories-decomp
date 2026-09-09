@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "model_scene_setup.h"
 
 extern int D_80010000[3];
-extern void func_800530C4(void);
 extern void func_800533D8(void);
 extern void func_80056250(int, int, int, int);
 

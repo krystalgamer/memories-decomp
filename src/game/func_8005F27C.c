@@ -3,8 +3,7 @@
 #include "model.h"
 #include "model_slot_support.h"
 #include "model_transfer_flags.h"
-
-void func_8005F3B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+#include "model_effect_state.h"
 
 void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
 {
@@ -46,6 +45,6 @@ void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
     }
 
     func_8005F3B8(
-        arg0, v, *(s16 *)(r + 2), *(s16 *)(r + 4), arg2
+        arg0, v, *(s16 *)(r + 2), *(s16 *)(r + 4), (SVECTOR *)arg2
     );
 }

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_scene_setup.h"
 #include "model_transfer_flags.h"
 #include "model_update_view_metrics.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG

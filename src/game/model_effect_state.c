@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "model_effect_state.h"
 #include "camera_view.h"
 #include "model_update_view_metrics.h"
 #include "model_copy_slot_u16_values.h"
@@ -13,7 +14,6 @@
 #include "model_transfer_flags.h"
 
 extern void func_8005D994(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
-extern void func_8005F91C(s32, void *, void *, s32);
 void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
 {
     unsigned short *p = func_800591FC();
@@ -118,7 +118,7 @@ void func_8005F714(s32 a, s32 b, s32 c)
         D_8009B07A++;
         flag = flag > 0;
     }
-    func_8005F91C(flag, x, y, c);
+    func_8005F91C(flag, (u8 *)x, (u8 *)y, c);
 }
 
 void func_8005F7B0(s32 value, s32 arg)
@@ -140,7 +140,7 @@ void func_8005F7B0(s32 value, s32 arg)
         D_8009B07A = next + 1;
         flag = flag > 0;
     }
-    func_8005F91C(flag, &d, &d, arg);
+    func_8005F91C(flag, (u8 *)&d, (u8 *)&d, arg);
 }
 
 void func_8005F828(s32 count, void *p1, void *p2, s32 arg3)
@@ -165,7 +165,7 @@ void func_8005F828(s32 count, void *p1, void *p2, s32 arg3)
     }
 
     do {
-        func_8005F91C(flag, p1, p2, arg3);
+        func_8005F91C(flag, (u8 *)p1, (u8 *)p2, arg3);
 
         if (p1 != 0) {
             p1 = (u8 *)p1 + 8;
