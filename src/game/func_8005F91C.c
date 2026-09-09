@@ -6,9 +6,6 @@
 #include "../unmatched.h"
 
 extern s32 D_8009B074;
-extern u8 D_8009B078;
-extern u8 D_8009B079;
-extern s8 D_8009B07A;
 extern u8 D_800F5788[];
 
 void func_8005F91C(s32 arg0, u8 *arg1, u8 *arg2, s32 arg3) {

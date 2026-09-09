@@ -5,9 +5,9 @@
 #include "func_8005EBF4.h"
 #include "func_8005FBC4.h"
 #include "model_copy_slot_u16_values.h"
+#include "model_transfer_flags.h"
 
 extern Key D_800F5788[];
-extern u8 D_8009B078;
 
 extern u8 *D_8009B074;
 

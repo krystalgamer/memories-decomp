@@ -12,8 +12,6 @@
 #include "func_8005EBF4.h"
 #include "model_transfer_flags.h"
 
-extern s8 D_8009B07A;
-
 extern void func_8005D994(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern void func_8005F91C(s32, void *, void *, s32);
 void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
