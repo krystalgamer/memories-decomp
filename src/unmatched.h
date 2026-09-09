@@ -186,6 +186,25 @@ void func_80018FEC(void);
 void func_80056D7C(void);
 void func_80029EC4(void);
 
+/* One byte at 0x8009B363, written by four files that share nothing else.
+ *
+ * frontend_scene_states.c clears it, and duel_effect_basic_commands.c,
+ * func_8002EB48.c and main_run_selection_menus.c each store a value into it;
+ * the last also reads it back to pass to func_8016866C. Four subsystems with
+ * no header above them, which is what makes this genuinely homeless rather
+ * than merely undeclared.
+ *
+ * The array spelling is a lever, not a size. Every one of the four is
+ * compiled and assembled at -G8, where a byte-sized global would otherwise be
+ * reached %gp_rel, and an array is what escapes that -- the table in
+ * notes/build.md, second row. All four already write the same incomplete-array
+ * form, so this declaration reproduces it exactly and no arm is needed.
+ *
+ * It is only ever indexed at [0], in all four files, so nothing here claims
+ * the object is longer than one byte. c_symbols.ld agrees: gDuel_bTerrain
+ * begins at 0x8009B364, immediately after it. */
+extern u8 D_8009B363[];
+
 #endif
 
 /* One consumer each, model_primitive_handler.c, which does not call either

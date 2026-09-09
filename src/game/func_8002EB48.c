@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "script_state.h"
+#include "../unmatched.h"
 
 extern u8 D_8009B26C[];
-extern u8 D_8009B363[];
 
 void func_8002EB48(void)
 {
