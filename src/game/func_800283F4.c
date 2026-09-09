@@ -9,6 +9,7 @@
 
 #include "display_object_layout.h"
 #include "duel_effect.h"
+#include "duel_effect_tables.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
 #include "display_object_api.h"
@@ -24,6 +25,7 @@
 
 extern DisplayObject *D_8009B240;
 extern u8 D_8009B248;
+extern u8 D_8009B24A;
 extern u8 D_8009B24B;
 extern DisplayObject *D_8009B24C;
 extern DuelEffectChannel *D_8009B250;
@@ -237,4 +239,21 @@ press:
     Fade_SetTargetLevel(0xFF, 2);
     SD_SEPlayFull(0x34);
     D_8009B248 |= 0x50;
+}
+
+s32 DuelEffect_UpdateState(void) {
+    u8 v = D_8009B254;
+    if (v == 0) return 0;
+    if ((v & 0x80) == 0) {
+        D_8009B24A = v;
+        D_8009B254 = v | 0x80;
+        D_8009B248 = 0;
+        return 1;
+    }
+    if (v & 0x40) {
+        D_8009B254 = 0;
+        return 0;
+    }
+    gDuelEffect_apfnStateHandler[D_8009B24A]();
+    return 1;
 }
