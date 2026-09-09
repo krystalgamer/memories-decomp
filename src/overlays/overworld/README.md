@@ -89,12 +89,47 @@ The definitions remain in executable order:
 `gcc_2_8_1_g0_split`. One C subsegment at module offset `0x4` covers the
 complete contiguous `0x188`-byte text range in both verified variants.
 
+## Location-tick translation unit
+
+`location_tick.c` is the live map's per-frame logic: the exit picker and the
+tick that drives it, `0x80168E0C..0x801691A8` as one contiguous
+`gcc_2_8_1_g0_split` run wired as a single C subsegment at module offset
+`0xE0C` in both variants.
+
+| Address | Function | Was |
+|---|---|---|
+| `0x80168E0C` | `CampaignMap_PickExit` | `pick_exit.c` |
+| `0x80168FCC` | `CampaignMap_UpdateLocation` | `location_tick.c` |
+
+The grouping argument is caller count, not adjacency. `CampaignMap_PickExit`
+has exactly one caller in the module -- the tick immediately after it -- which
+makes it that tick's private helper. Every other helper the tick calls has at
+least two callers, because `CampaignMap_SetLocation` draws the location
+through the same routines:
+
+| Helper | Callers |
+|---|---|
+| `CampaignMap_PickExit` | `CampaignMap_UpdateLocation` |
+| `CampaignMap_RebuildLocationObjects` | the tick, `CampaignMap_SetLocation` |
+| `CampaignMap_CreateLocationLabel` | the tick, `CampaignMap_SetLocation` |
+| `CampaignMap_CreateLocationMarker` | the tick, `CampaignMap_SetLocation` |
+| `CampaignMap_SetCameraFromLocation` | `camera_transition.c`, `CampaignMap_SetLocation` |
+
+So the unit stops at both ends for a reason rather than by exhaustion:
+`camera_transition.c` ends exactly at `0x80168E0C` and its two functions are
+the camera's own, and the text after `0x801691A8` is location-table data.
+
+`pick_exit.h` is removed. Its whole content was the picker's prototype, and
+the picker is now defined ahead of its only call site in the same unit, so
+nothing declares it any more. The other five headers stay: each covers a
+family with callers outside its own file.
+
 ## Active and alternate location families
 
 The resident `Main_RunCampaignMap` uses the active thirteen-function family:
 it initializes `CampaignMap_SetLocation` and polls
 `CampaignMap_UpdateLocation` (`0x80168FCC`), which uses
-`CampaignMap_PickExit` (`0x80168E0C`).
+`CampaignMap_PickExit` (`0x80168E0C`); those two are one unit, above.
 
 Two later functions are a second, alternate-state copy **within each image**:
 
@@ -107,7 +142,12 @@ Two later functions are a second, alternate-state copy **within each image**:
 complete local selection/control behavior; they do not establish live
 callability, a debug mode or provenance from a particular older build.
 The functions keep their different profiles and are not grouped into a
-single same-profile translation unit.
+single same-profile translation unit. This is the one place in the module
+where the profiles differ, and it is decisive: a translation unit compiles
+under one profile, so `no_split` and `split` cannot be the same unit however
+well the pair reads as one. They have the same shape as the live pair above
+-- the picker has exactly one caller, the tick right after it -- and that is
+not enough.
 
 **Their raw calls must not be rebound to active helpers.** Several addresses
 currently enter function interiors, and one enters location-table data:
