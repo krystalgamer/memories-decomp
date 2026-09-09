@@ -3064,7 +3064,7 @@
       "address": "0x8003B50C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xBC",
-      "source": "src/game/func_8003B50C.c"
+      "source": "src/game/display_effect_process_menu_records.c"
     },
     {
       "address": "0x8003B5C8",
