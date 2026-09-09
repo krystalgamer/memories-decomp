@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "display_object_config.h"
 #include "rand_get_interval.h"
+#include "display_object.h"
 #include "display_object_api.h"
 #include "fade.h"
 #include "graphics_constants.h"
@@ -16,20 +17,20 @@ extern s32 D_8009B378;
 
 void func_8003C950(void)
 {
-    u8 *object;
+    DisplayObject *object;
     object = func_800400AC(func_8004002C(), 3);
     func_80040510(
         (DisplayObjectConfigView *)object, 0, 0, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
         0, 0, 16, 0, 240
     );
-    *(s32 *)(object + 4) |= 0x1000000;
+    object->attribute |= 0x1000000;
     object = func_800400AC(func_8004002C(), 2);
-    func_800428A8(object, 448, 192, 0, 0, 0, 18, 1, D_801AF000);
-    object[94] = 128;
-    func_800428EC(object, 4);
-    object[108] = 0;
-    *(u16 *)(object + 8) |= 40;
-    DisplayObject_ResetVelocity(object);
+    func_800428A8(object, 448, 192, 0, 0, 0, 18, 1, (s32)D_801AF000);
+    *(u8 *)&object->field_5E = 128;
+    func_800428EC((u8 *)object, 4);
+    object->field_6C = 0;
+    object->flags |= 40;
+    DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
     D_8009B378 = (s32)object;
     SD_BGMPlay(0x7300);
     Fade_StartIn();
