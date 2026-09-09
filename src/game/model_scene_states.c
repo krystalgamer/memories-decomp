@@ -2,7 +2,6 @@
 #include "model_scene_states.h"
 #include "model_slot_properties.h"
 
-extern s8 D_8009AF94;
 extern s8 D_8009AF9A;
 extern u16 D_8009AF96;
 extern void func_800530C4(void);
