@@ -5,6 +5,7 @@
 #include "../psyq/libgs.h"
 #include "input.h"
 #include "rand_get_interval.h"
+#include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
@@ -12,6 +13,7 @@
 #include "fade.h"
 #include "../unmatched.h"
 #include "duel_side_state.h"
+#include "func_80020F4C.h"
 
 /* Duel-result outro sequence, driven from the scene state word D_8009B23A.
 
@@ -39,71 +41,30 @@
      4  once the fade at gFade_State.flags has finished, hand the scene over to
         state 0xD.  */
 
-struct Obj {
-    u16 unk0;
-    u16 unk2;
-    u32 unk4;
-    u16 unk8;
-    u8 pad0[0x16 - 0xA];
-    u8 unk16;
-    u8 pad1[0x24 - 0x17];
-    void (*unk24)(void *);
-    s16 unk28;
-    u16 unk2A;
-    s16 unk2C;
-    s16 unk2E;
-    s16 unk30;
-    s16 unk32;
-    u8 pad2[0x40 - 0x34];
-    u16 unk40;
-    u8 pad3[0x48 - 0x42];
-    s16 unk48;
-    s16 unk4A;
-    u8 pad4[0x68 - 0x4C];
-    u8 unk68;
-    u8 unk69;
-    u8 pad5[0x6C - 0x6A];
-    u8 unk6C;
-};
-
-typedef struct {
-    struct Obj *obj;
-    u8 pad[0xC - 4];
-} Entry;
-
-typedef struct {
-    u8 x;
-    u8 y;
-    u8 kind;
-    u8 tag;
-} Spec;
-
-#define SPEC_COUNT 7
-
 extern void func_800472A8(s32);
 extern u32 func_8004703C(void);
 extern s32 rand(void);
 extern void func_80020BE4(void);
-extern void func_80020D4C(void *);
+extern void func_80020D4C(DisplayObject *);
 extern void func_8001EC70(void *);
 extern void func_80020EE8(void *);
 
 extern u16 D_8009B1E0;
 extern s8 D_8009B238;
-extern struct Obj *D_8009B214;
-extern struct Obj *D_8009B21C;
+extern DisplayObject *D_8009B214;
+extern DisplayObject *D_8009B21C;
 
 extern u8 D_8009B362 __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern u16 gDuel_awRitualData[];
-extern Spec D_80090928[][SPEC_COUNT];
-extern Spec D_80090960[][SPEC_COUNT];
+extern DuelResultSpriteSpec D_80090928[][DUEL_RESULT_SPRITE_COUNT];
+extern DuelResultSpriteSpec D_80090960[][DUEL_RESULT_SPRITE_COUNT];
 
 void func_80020F4C(void)
 {
-    Entry *slots;
-    struct Obj *obj;
-    Spec *spec;
+    DuelResultSpriteSlot *slots;
+    DisplayObject *obj;
+    DuelResultSpriteSpec *spec;
     s32 i;
     s32 flags;
     s32 state;
@@ -112,7 +73,7 @@ void func_80020F4C(void)
     s32 mode;
     s32 v;
 
-    slots = (Entry *)gDuel_awRitualData;
+    slots = (DuelResultSpriteSlot *)gDuel_awRitualData;
 
     v = D_8009B23A;
     if ((v & 0x8000) == 0) {
@@ -138,18 +99,23 @@ void func_80020F4C(void)
         }
         obj = D_8009B214;
         D_8009B1E0 = mode;
-        obj->unk28 = -116;
-        obj->unk2C = 0x30;
-        obj->unk6C = 1;
-        obj->unk24 = func_8001EC70;
-        obj->unk2A = obj->unk32;
+        /* The record spells 0x28 u16 and this is the one site that puts a
+           negative value there. Through the plain member GCC materialises
+           -116 as `ori 0xff8c` where retail has `addiu -116`; the store at
+           0x198 below is unaffected, so the divergence is the constant's
+           sign, not the member. */
+        *(s16 *)&obj->position.h.field_28 = -116;
+        obj->field_2C.h.field_2C = 0x30;
+        obj->field_6C = 1;
+        obj->update = (DisplayObjectCallback)func_8001EC70;
+        obj->position.h.field_2A = (s16)obj->field_30.h.field_32;
         obj = D_8009B21C;
-        obj->unk28 = 0x198;
-        obj->unk2C = 0x30;
-        obj->unk6C = 1;
-        obj->unk24 = func_8001EC70;
+        obj->position.h.field_28 = 0x198;
+        obj->field_2C.h.field_2C = 0x30;
+        obj->field_6C = 1;
+        obj->update = (DisplayObjectCallback)func_8001EC70;
         D_8009B174 = 1;
-        obj->unk2A = obj->unk32;
+        obj->position.h.field_2A = (s16)obj->field_30.h.field_32;
         return;
     }
 
@@ -187,32 +153,33 @@ void func_80020F4C(void)
     case 2:
         if ((flags & 0x80) == 0) {
             D_8009B174 = flags | 0x80;
-            for (i = 0; i < SPEC_COUNT; i++) {
+            for (i = 0; i < DUEL_RESULT_SPRITE_COUNT; i++) {
                 if (gDuel_bOpponentID >= 0) {
                     spec = &D_80090928[gDuel_bWinnerSide][i];
                 } else {
                     spec = &D_80090960[gDuel_bWinnerSide][i];
                 }
-                slots[i].obj = 0;
+                slots[i].object = 0;
                 if (spec->kind != 0) {
                     obj = func_800400AC(func_8004002C(), 2);
                     func_800428A8(obj, spec->x, spec->y, 0,
                                   gDuel_bWinnerSide, spec->kind, 0x11, 9,
                                   (s32)D_801AF000);
-                    if (obj->unk69 >= 0x1A) {
-                        obj->unk40 += 0x10;
+                    if (obj->field_69 >= 0x1A) {
+                        obj->field_40.h.field_40 =
+                            (u16)obj->field_40.h.field_40 + 0x10;
                     }
-                    obj->unk8 |= 0x28;
-                    obj->unk4 |= (GsALON | GsAONE);
-                    obj->unk48 = spec->tag;
-                    obj->unk4A = 0x18;
+                    obj->flags |= 0x28;
+                    obj->attribute |= (GsALON | GsAONE);
+                    obj->field_48.h.field_48 = spec->tag;
+                    obj->field_48.h.field_4A = 0x18;
                     func_80042918(obj);
-                    *(s32 *)&obj->unk2C = *(s32 *)&obj->unk30;
-                    obj->unk28 = (rand() & 0x3F) + 0x140;
-                    obj->unk2A = Rand_GetInterval(0x1000);
-                    obj->unk6C = 1;
-                    obj->unk24 = func_80020D4C;
-                    slots[i].obj = obj;
+                    obj->field_2C.word = obj->field_30.word;
+                    obj->position.h.field_28 = (rand() & 0x3F) + 0x140;
+                    obj->position.h.field_2A = Rand_GetInterval(0x1000);
+                    obj->field_6C = 1;
+                    obj->update = (DisplayObjectCallback)func_80020D4C;
+                    slots[i].object = obj;
                 }
             }
         } else {
@@ -241,11 +208,11 @@ void func_80020F4C(void)
                 }
             }
             D_8009B174 = D_8009B174 | 0x40;
-            for (i = 0; i < SPEC_COUNT; i++) {
-                obj = slots[i].obj;
+            for (i = 0; i < DUEL_RESULT_SPRITE_COUNT; i++) {
+                obj = slots[i].object;
                 if (obj != 0) {
-                    obj->unk6C = 1;
-                    obj->unk24 = func_80020EE8;
+                    obj->field_6C = 1;
+                    obj->update = (DisplayObjectCallback)func_80020EE8;
                 }
             }
         } else {
