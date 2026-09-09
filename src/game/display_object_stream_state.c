@@ -1,14 +1,5 @@
 #include "../types.h"
-
-typedef struct {
-    u8 pad_00[4];
-    u32 flags;
-    u8 pad_08[0x48];
-    u8 *current;
-    u8 *base;
-    s16 field_58;
-    s16 field_5A;
-} DisplayObjectStreamState;
+#include "display_object_stream_state.h"
 
 s32 func_8004141C(DisplayObjectStreamState *object)
 {

@@ -191,6 +191,35 @@ typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
     (u32)&((FadeTransitionState *)0)->band_levels == 0x0A ? 1 : -1
 ];
 
+/* Display-object script state shared by the five handlers at 0x8004141C.
+   The two pointers delimit the script buffer and the trailing halfwords are
+   handler status fields. */
+typedef struct {
+    u8 pad_00[4];
+    u32 flags;
+    u8 pad_08[0x48];
+    u8 *current;
+    u8 *base;
+    s16 field_58;
+    s16 field_5A;
+} DisplayObjectStreamState;
+
+typedef char DisplayObjectStreamState_size_must_be_0x5C[
+    sizeof(DisplayObjectStreamState) == 0x5C ? 1 : -1
+];
+typedef char DisplayObjectStreamState_current_offset_must_be_0x50[
+    (u32)&((DisplayObjectStreamState *)0)->current == 0x50 ? 1 : -1
+];
+typedef char DisplayObjectStreamState_base_offset_must_be_0x54[
+    (u32)&((DisplayObjectStreamState *)0)->base == 0x54 ? 1 : -1
+];
+typedef char DisplayObjectStreamState_field_58_offset_must_be_0x58[
+    (u32)&((DisplayObjectStreamState *)0)->field_58 == 0x58 ? 1 : -1
+];
+typedef char DisplayObjectStreamState_field_5A_offset_must_be_0x5A[
+    (u32)&((DisplayObjectStreamState *)0)->field_5A == 0x5A ? 1 : -1
+];
+
 typedef struct {
     u8 pad_00[0x14];
     u16 priority;
