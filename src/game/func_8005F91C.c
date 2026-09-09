@@ -4,6 +4,7 @@
 #include "model_transfer_flags.h"
 #include "func_8005EBF4.h"
 #include "../unmatched.h"
+#include "func_8005F91C.h"
 
 extern s32 D_8009B074;
 extern u8 D_800F5788[];

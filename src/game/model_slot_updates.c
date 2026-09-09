@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_slot_updates.h"
 
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

@@ -3,6 +3,7 @@
 #include "model_init_light_triplet.h"
 #include "model_slot_row_tables.h"
 #include "model_slot_support.h"
+#include "model_slot_updates.h"
 
 /* One model slot's setup: the reset that gives it its defaults (0x8005611C)
    and the per-frame duel-side layout pass that reads them (0x80056250). The
@@ -20,8 +21,6 @@ void func_8005B5FC(s32 *destination, s32 value, u32 count);
 void func_8004CB0C(void);
 void func_8004D914(s32 arg0);
 void func_800582C0(s32 arg0, s32 arg1, s32 arg2);
-void func_8005A468(s32 arg0, s32 arg1);
-void func_8005A4C4(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 void func_8005611C(s32 arg0)
 {
