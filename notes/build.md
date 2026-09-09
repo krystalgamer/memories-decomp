@@ -335,6 +335,43 @@ but emits four, so `- [0x8b72e, pad]` before the next entry makes up the
 difference. A missing pad shows up as a two-byte shift in every `%gp_rel`
 reference after it, and the build's size check catches the rest.
 
+### The declaration spelling is the consumer's lever
+
+Ownership decides where a definition lands. For the far more common case of a
+*consumer* that does not own a small symbol, the `extern` spelling is what
+picks the addressing form, so several translation units will declare one symbol
+incompatibly on purpose. Which lever a file needs follows from the `-G`
+settings of its profile in `compiler_profiles.json`, so the spelling is a
+property of the profile rather than of taste:
+
+| Profile shape | What a byte- or halfword-sized global gets | Lever needed |
+| --- | --- | --- |
+| compile `-G0`, assemble `-G0` | already `lui %hi` + `%lo` | none; a plain scalar is correct |
+| compile `-G8`, assemble `-G8` | `%gp_rel` | an array, or `section(".data")` |
+| compile `-G8`, assemble **`-G4`** | `%gp_rel` | an array with a size the assembler can see is **above 4** |
+
+The array length is a threshold, not a claim about storage. Two symbols carry
+the pattern today, and both would overrun their neighbours if read literally:
+
+- `gDuel_bTerrain` (0x8009B364) is one byte -- `gFreeDuel_bReturnFlags` sits at
+  0x8009B365 -- yet is declared `[8]` and `[]` as well as a plain and a
+  `section(".data")` scalar, across eight files spanning all three rows above.
+- `gSD_bOutputType` (0x8009B408) is read only at index 0 yet is declared `[16]`
+  and `[9]`. `options_init.c` states the reason inline: it "needs an oversized
+  array extern to force absolute (lui+lbu)".
+
+The last row is why the forms are not interchangeable, and it is worth
+measuring rather than assuming. Relaxing `func_80024E58.c`'s `[8]` to an
+incomplete `[]` costs four bytes of text, because that file assembles at `-G4`;
+the identical relaxation in `func_8001798C.c`, which assembles at `-G8`, is
+exact. `options_init.c` is the second file in the tree on the `-G4` assembler
+arm, and it carries a sized array for the same reason.
+
+So a run of incompatible declarations of one global is not automatically drift
+to be collapsed. Check the profiles first: if the spellings line up with the
+table, they are load bearing, and the useful work is recording which lever each
+file pulls rather than unifying them.
+
 ## Exact baseline build
 
 ```sh
