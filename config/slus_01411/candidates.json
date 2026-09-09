@@ -90,6 +90,14 @@
       "target_bytes_sha256": "bd333b0a4101956dd739ac479435ee87c5833303ee461545d9db1a6736b887c1"
     },
     {
+      "address": "0x80051350",
+      "profile": "gcc_2_8_1_g8_split",
+      "source": "src/candidates/func_80051350.c",
+      "target": "src/candidates_target/func_80051350.S",
+      "candidate_build_sha256": "493c02c0baf8a0757b1359db1a83489fd2167954bafaa427e741acb889fc242f",
+      "target_bytes_sha256": "9ac7225576d72290cc3f3612a72695629c1998db5db165ea7d4e85d57324d596"
+    },
+    {
       "address": "0x8005D378",
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_8005D378.c",

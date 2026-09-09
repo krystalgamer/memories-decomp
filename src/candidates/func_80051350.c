@@ -1,76 +1,17 @@
-## `func_80051350` at 0x80051350
-
-`gcc_2_8_1_g8_split`, 450 instructions against a target of 446, **four long**,
-**opcode multiset distance 18**, 350 differing positions. First reconstruction; there was no previous candidate
-and no rows in `external_attempts.csv`. Not a near miss - it is recorded because
-the deficit is already attributed, and because the decode behind it is in
-`notes/research/func-80051350-decode.md`.
-
-A separation step: two records are pushed apart when closer than their combined
-half-extents. It is recursive, with the third argument a depth counter capped at
-three. The full decode, including the semantic model and the stack layout, is in
-the research note; this entry records only the measured state.
-
-## The descent
-
-| state | count | multiset | differing |
-| --- | --- | --- | --- |
-| first draft | 322 (-124) | - | 440 |
-| vector block written | 414 (-32) | 50 | 424 |
-| negation guard corrected | 414 (-32) | 46 | 424 |
-| pairs as a struct with a shared temp | 450 (+4) | 34 | 389 |
-| clamp through a scalar temp | 450 (+4) | **18** | 350 |
-
-**The vector block was worth 92 instructions**, and the multiset located it
-exactly: four `break` against two meant one of the two checked divisions was
-missing, and six `mult` with seven `mflo` said which block. It is a 2D cross
-product over the reference vector divided by a segment length, feeding the
-`D_8009AF98` countdown and the `D_8009AF99` sign.
-
-**The push applies to the reference vector**, `D_800F56F0[0]` and `[2]`, not to
-the record's own field.
-
-**The negation guard is inverted from the obvious reading.** The target has
-`bgtz $v0, skip` before the `negu`, so it negates when the delta is *not*
-positive. `blez +2` against `bgtz -2` is a pair that can only come from a
-reversed test.
-
-**The eight destinations are a two-word struct, assigned from one shared
-temporary.** This is the step that closed the gap, and it took two attempts that
-each looked like a failure on their own:
-
-- A named scalar temporary per clamp converted eight stores into eight moves and
-  left the count unchanged: `move` improved by 8, `sw` worsened by 8, distance
-  stayed at 46. The target has **both**, so the temporary alone was not it.
-- Wrapping each pair in a `struct { s32 v[2]; }` and assigning a shared `Pair`
-  temporary to each destination took the count from 32 short to four long, the
-  distance from 46 to 34, and `lw` from -16 to +1.
-- Doing both - the scalar temporary for the clamp, feeding the struct temporary,
-  feeding the destination - took the distance to **18**.
-
-That sequence is worth keeping because the first step is the kind of result that
-gets discarded: unchanged count, one column better and another worse. It was
-telling us the target's shape had two layers, not that the idea was wrong.
-
-## What is left
-
-```
-nop     t 44  c 50   +6
-move    t 22  c 17   -5
-```
-
-with single-instruction differences in `addiu`, `li`, `lw`, `sw`, `bgez` and
-`j`. Six surplus `nop` and five missing `move` against a target of 446 is
-scheduling and allocation rather than structure; every opcode that represents
-work agrees.
-
-**The addressing check came back negative.** `lui` never appears in the
-differences, so declaring the two arrays plainly already produces the target's
-addressing.
-
-## Source
-
-```c
+/*
+ * Recursively separates two model records when their projected distance is
+ * below the largest paired half-extent. Current best under
+ * gcc_2_8_1_g8_split: 450 instructions against 446, opcode multiset distance
+ * 18, and 350 differing positions, with no hard register assignments.
+ *
+ * The full vector block, inverted negation guard, reference-vector push, and
+ * depth-three retry are present. A scalar clamp temporary feeding one shared
+ * two-word Pair temporary reproduces the target's layered assignments.
+ *
+ * Residual: six surplus nops, five missing moves, and isolated scheduling or
+ * allocation differences in addiu, li, lw, sw, bgez, and j. Addressing already
+ * matches. See notes/research/func-80051350-decode.md for the structural map.
+ */
 #include "../types.h"
 
 typedef union {
@@ -303,4 +244,3 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     }
     return moved;
 }
-```
