@@ -105,7 +105,10 @@ returned.
 `DuelEffect_MarkObjectIfActive` scans the separate three-entry table at
 `D_800EB010` from the last entry backward. It sets object flag `0x2` when any
 entry has a nonnegative signed marker, and leaves the object unchanged when
-all three markers are negative. `DuelEffect_InitEntryDefaultFlags` is the
+all three markers are negative. `DisplayEffect_ProcessMenuRecords` walks the
+same three records forward, applies their transition update when field
+`0x32` requests it, and dispatches `display_effect_step` through the mapped
+`D_80090F68` lifecycle table. `DuelEffect_InitEntryDefaultFlags` is the
 zero-flags wrapper around `DuelEffect_InitEntry`, making the default entry
 construction path explicit without broadening either shared structure.
 

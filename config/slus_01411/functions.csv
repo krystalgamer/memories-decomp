@@ -534,7 +534,7 @@ address,size,name,status,module,notes
 0x8003AD6C,0x2E8,func_8003AD6C,matching_c,game,Post-terminal clean collaborator structure; real s16 func_8003A920 prototype restores the target tail allocation; exact linked bytes and relocations with gcc_2_8_1_g0.
 0x8003B054,0x324,func_8003B054,matching_c,game,"Byte-exact via -G0, memory re-reads for the fade timer, and a reused local for the texture offset."
 0x8003B378,0x194,func_8003B378,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8003B50C,0xBC,func_8003B50C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x8003B50C,0xBC,DisplayEffect_ProcessMenuRecords,matching_c,game,Walks the three live menu records; applies their display transition update and dispatches the mapped display-effect step table; exact linked bytes and relocations.
 0x8003B5C8,0xE4,func_8003B5C8,matching_c,game,"Exact 57/57 match. D_801D9004 is declared const so the guard read is loop-invariant (RTX_UNCHANGING_P bypasses the true_dependence check against the body's pointer store); it hoists into the preheader and shares the loop's %hi, which removes the uncoalesced lui/move pair that blocked the earlier candidate."
 0x8003B6AC,0x68,func_8003B6AC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003B714,0x20,DuelEffect_InitEntryDefaultFlags,matching_c,game,Calls DuelEffect_InitEntry with zero caller-supplied flags; exact linked bytes and relocations.

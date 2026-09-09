@@ -1,6 +1,7 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA
 #include "../types.h"
 #include "input.h"
+#include "display_effect_process_menu_records.h"
 #include "duel_effect.h"
 #include "duel_effect_process_entries.h"
 #include "sound.h"
@@ -17,9 +18,8 @@ extern TblEnt D_801D9000[];
 extern s16 D_8009B35A;
 extern u8 D_8009B356;
 extern u8 D_8009B0C1 __attribute__((section(".data")));
-
 extern void *Dialog_OpenChoice(void *);
-extern void func_8003B50C(s32);
+extern void *Dialog_OpenChoice(void *);
 
 void func_80039794(void)
 {
@@ -86,7 +86,7 @@ reset:
                     arg = kind;
                 }
             }
-            func_8003B50C(arg);
+            DisplayEffect_ProcessMenuRecords(arg);
             DuelEffect_ProcessEntries(p);
         }
         q = (ChoiceView *)((u8 *)q + sizeof(DuelEffectChannel));

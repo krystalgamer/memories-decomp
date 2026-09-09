@@ -3,12 +3,12 @@
 
 /* Initialized data at 0x80090F68: the display effect step table.
  *
- * func_8003B50C walks the menu records and, for each live one, calls
- * `t[r[0x33] & 0x1F](r)`. The mask permits thirty-two entries and there are
- * thirteen, so an index above twelve would read past the end into the table
- * that follows. That is recorded rather than corrected: nothing here shows
- * the game produces such an index, and widening the array would change the
- * bytes.
+ * DisplayEffect_ProcessMenuRecords walks the menu records and, for each live
+ * one, dispatches `display_effect_step & 0x1F`. The mask permits thirty-two
+ * entries and there are thirteen, so an index above twelve would read past
+ * the end into the table that follows. That is recorded rather than
+ * corrected: nothing here shows the game produces such an index, and widening
+ * the array would change the bytes.
  *
  * The entries are the display effect lifecycle handlers, including two that
  * share func_80039FF8. */
