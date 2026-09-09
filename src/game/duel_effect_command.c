@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern void func_80036C14(void *, s32);
+#include "func_80036C14.h"
 
 void func_80038024(u8 *object, s32 value)
 {

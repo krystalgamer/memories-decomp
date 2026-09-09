@@ -7,6 +7,7 @@
 #include "text_constants.h"
 #include "display_object_api.h"
 #include "text_box_runtime.h"
+#include "func_80036C14.h"
 
 typedef void (*VoidFn)(void);
 typedef void (*ChannelFn)(u8 *);
@@ -38,8 +39,6 @@ extern void func_800391E4(u8 *);
 extern void func_80035CA8(s32);
 extern void DuelEffect_ClearMatchingMarker(s32);
 extern void func_800373C8(DuelEffectChannel *, s32, s32);
-extern void func_80036C14(u8 *, s32);
-
 void TextBox_BuildStep(u8 *object)
 {
     u16 flags;

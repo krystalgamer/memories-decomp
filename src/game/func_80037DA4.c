@@ -1,6 +1,7 @@
 
 #include "../types.h"
 #include "card_constants.h"
+#include "func_80036C14.h"
 
 extern u8 D_8009B320;
 extern s16 gDuel_wSelectedCardID;
@@ -8,8 +9,6 @@ extern s32 gDuel_adwCardStats[];
 extern u16 D_801B0000[];
 extern u16 D_801C0000[];
 extern u16 D_801D5800[];
-
-extern void func_80036C14(u8 *object, s32 id);
 
 void func_80037DA4(u8 *object)
 {
