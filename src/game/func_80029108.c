@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_config.h"
 
 typedef struct {
     u8 pad_00[0x69];
@@ -7,7 +8,6 @@ typedef struct {
 } Object;
 
 extern int D_8009B424;
-extern void func_80040410(Object *, int);
 /* One argument on purpose: func_80041D60 takes three, and reads the
  * second and third on its cooldown path without assigning them. The
  * retail image calls it this way; see that file. */

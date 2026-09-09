@@ -6494,3 +6494,33 @@ not every 32-bit write to a `+4` field is an attribute: `0x1000000` (bit 24)
 and `0x2000000` (bit 25) have no name in `libgs.h`, and
 `file_set_position_table.c`'s `*(s32 *)D_800E9DF0 = 0x8000000` is not a
 display object at all.
+
+## A narrower parameter type is not free at the call site, but a wider one is
+
+`func_80040410` was defined as `(DisplayObjectConfig *object, u8 value)` while
+its seven consumers each declared it themselves, five of them spelling the
+second parameter `s32` or `int`. Giving them all one prototype meant choosing
+a spelling, and the two directions are not symmetric.
+
+Narrowing to `u8`, which is what the definition said, costs an instruction at
+some call sites but not others. Measured one file at a time:
+
+- `func_80029108.c` passes a local whose value is either the constant 2 or an
+  `lbu` of a `u8` field. GCC 2.8.1 can see the range is already 0..255 and
+  emits nothing extra; the build stays byte-exact.
+- `func_8003B378.c` passes `n`, whose range the compiler cannot prove. The
+  build breaks at VRAM `0x8003B484`, where the expected `addu` (`0x21`)
+  becomes `andi $a1, $a1, 0xFF`. The truncation the prototype now demands is
+  emitted at the call, not inside the callee.
+
+Widening in the other direction is free. Changing the *definition* to
+`(DisplayObjectConfig *object, s32 value)` keeps the full executable
+byte-exact, because the body's only use of the parameter is
+`object->field_69 = value`, an `sb` that truncates regardless of the declared
+width.
+
+So when a definition's narrow parameter disagrees with its callers' wider
+declarations, widen the definition rather than narrowing the declarations. The
+generalisation to watch for: any prototype change that makes an argument
+narrower than `int` is a call-site codegen change wherever the compiler cannot
+prove the range, and it will be invisible in the files where it can.

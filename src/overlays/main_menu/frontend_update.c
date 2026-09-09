@@ -5,6 +5,7 @@
 #include "../../psyq/libgte.h"
 #include "entrypoints.h"
 #include "frontend.h"
+#include "../../game/display_object_config.h"
 
 extern u8 *D_80184560;
 extern u8 *gMain_apMenuEntries[];
@@ -23,7 +24,6 @@ extern u16 D_8009B0D8;
 extern u8 D_8009B3EA;
 extern u8 D_8009B3ED;
 
-extern void func_80040410(u8 *, s32);
 extern s32 SaveData_PollLoad(void);
 extern void SaveData_RequestLoad(void);
 extern s32 func_8003FCD8(void);

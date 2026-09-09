@@ -3,6 +3,28 @@
 
 #include "../types.h"
 
+/* The narrower view func_80040410 and func_80040424 use: the flags halfword
+ * at 0x08 and the three selector bytes at 0x67..0x69. It is the same record
+ * DisplayObjectConfigView below describes, seen through the only fields these
+ * two writers touch, and it is spelt separately for the same reason that one
+ * is: neither is the canonical DisplayObject in display_object.h. */
+typedef struct {
+    u8 pad_00[8];
+    u16 flags;
+    u8 pad_0A[0x5D];
+    u8 field_67;
+    u8 field_68;
+    u8 field_69;
+} DisplayObjectConfig;
+
+/* Clears bit 0x10 of the flags halfword and stores `value` into the 0x69
+ * selector byte. The parameter is s32 rather than the u8 the definition used
+ * to spell: the body stores it with an sb, which truncates anyway, so
+ * widening it costs nothing -- while a u8 parameter costs an andi at every
+ * call site whose argument range the compiler cannot prove. See
+ * notes/research/matching-evidence.md. */
+void func_80040410(DisplayObjectConfig *object, s32 value);
+
 /* Layout view used by func_80040510, which writes the position, extent and
  * blend fields of a display object in one call. It covers only the fields
  * func_80040510 itself touches.

@@ -4,21 +4,12 @@
 #include "display_object_config.h"
 #include "display_object_reset_pool.h"
 
-typedef struct {
-    u8 pad_00[8];
-    u16 flags;
-    u8 pad_0A[0x5D];
-    u8 field_67;
-    u8 field_68;
-    u8 field_69;
-} DisplayObjectConfig;
-
 void func_800403F0(void)
 {
     DisplayObject_ResetPool();
 }
 
-void func_80040410(DisplayObjectConfig *object, u8 value)
+void func_80040410(DisplayObjectConfig *object, s32 value)
 {
     object->field_69 = value;
     object->flags &= 0xFFEF;

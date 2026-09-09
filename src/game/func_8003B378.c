@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "../psyq/rand.h"
 #include "display_effect_constants.h"
+#include "display_object_config.h"
 
-extern s32 func_80040410();
 extern s32 func_80040424();
 void func_8003B378(u8 *p, s32 n) {
     s32 f;

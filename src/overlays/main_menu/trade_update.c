@@ -3,6 +3,7 @@
 #include "../../game/card_constants.h"
 #include "entrypoints.h"
 #include "trade_helpers.h"
+#include "../../game/display_object_config.h"
 
 typedef struct { u32 words[256]; } Block1024;
 
@@ -42,7 +43,6 @@ extern void func_800611D0(s32);
 extern void func_800610E0(s32);
 extern void func_80048658(s32, s32, s32);
 extern void func_80035B7C(void *);
-extern void func_80040410(MainMenuWidget *, s32);
 s32 MainMenu_UpdateTradeScreen(void)
 {
     s32 bounded;
