@@ -5,7 +5,6 @@
 #include "value_setup.h"
 
 extern u8 *D_801845B0[];
-extern u16 D_801845C0[];
 extern volatile u16 D_8009B394[];
 extern volatile u16 D_8009B398[];
 extern void func_80048658(s32, s32, s32);

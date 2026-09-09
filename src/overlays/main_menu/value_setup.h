@@ -21,17 +21,21 @@ s32 MainMenu_CountDecimalDigits(s32 value);
  * the kind of thing #2602 exists to sort out, and folding it into a
  * declaration move would be a change of meaning rather than of placement.
  *
+ *   D_801845C0  The two tweened value pairs: [0]/[1] is the first value and
+ *               its target, [6]/[7] the second. u16 elements, which is
+ *               measured rather than preferred -- see below.
+ *
  * NOT HERE, ON PURPOSE
  *
- * Four more symbols are shared by these same sources and are declared
+ * Three more symbols are shared by these same sources and are declared
  * inconsistently, so they stay local until the disagreement is settled:
  *
  *   D_801845B0  u8 *[], void *[] and ValueWidgetView *[]
- *   D_801845C0  u8 [] and u16 [] -- an element width, not just a sign
  *   D_801845A0  void * and u8 *
  *   D_801845A4  void * and u8 *
  */
 extern u8 D_801845BC[];
 extern u8 *D_801845D8;
+extern u16 D_801845C0[];
 
 #endif
