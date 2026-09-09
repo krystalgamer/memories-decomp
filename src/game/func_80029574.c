@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect_resource_record.h"
+#include "func_80029574.h"
 
 void func_80029574(int index)
 {

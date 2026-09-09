@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "save_data.h"
 #include "card_constants.h"
+#include "duel_deck_lookup.h"
 
 extern u8 D_801D0000[];
 
