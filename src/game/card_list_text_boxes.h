@@ -23,6 +23,12 @@ typedef struct {
     s16 first;
     u8 pad_2D3E[9];
     u8 kind;
+    /* The cursor row inside the visible page, which is why `first` above is
+       the scroll offset: the two are added to reach an entry. func_800330BC
+       clamps it to [0, 7] -- it resets to 7 on reaching 8 and to 0 on going
+       below zero -- and multiplies it by 22 for the row's pixel position,
+       and func_80031E04 builds the page eight rows at a time. */
+    s8 cursor;
 } CardList;
 
 void func_80031CD4(CardList *list, s32 slot);

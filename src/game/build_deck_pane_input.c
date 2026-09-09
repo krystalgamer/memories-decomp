@@ -1,6 +1,7 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../types.h"
+#include "func_80033500.h"
 #include "func_80032B38.h"
 #include "card_list_sort.h"
 #include "card_constants.h"
@@ -13,7 +14,6 @@ extern u16 gDuel_wViewerCardID;
 extern u8 D_8009B254;
 
 extern s32 func_800330BC(u8 *);
-extern s32 func_80033500(u8 *);
 extern void BuildDeck_AddCard(u8 *, s32);
 extern void func_80031574(s32, s32, s32, s32, s32);
 extern void func_80031E5C(u8 *);
@@ -31,7 +31,7 @@ void func_8003353C(u8 *p) {
     }
 
     if ((gInput_wPad1Pressed & PAD_BUTTON_TRIANGLE) != 0) {
-        r = func_80033500(e);
+        r = func_80033500((CardList *)e);
         if (r != 0) {
             D_8009B24B = 0x14;
             gDuel_wViewerCardID = r;
@@ -54,7 +54,7 @@ void func_8003353C(u8 *p) {
     }
 
     if ((gInput_wPad1Repeat & PAD_BUTTON_CONFIRM_MASK) != 0) {
-        r = func_80033500(e);
+        r = func_80033500((CardList *)e);
         if (r != 0) {
             SD_SEPlayFull(7);
             *(e + 0xD - -((*(s16 *)(e + 0x2D3C) +
@@ -84,7 +84,7 @@ void func_800336F0(u8 *p)
     }
 
     if ((gInput_wPad1Pressed & PAD_BUTTON_TRIANGLE) != 0) {
-        r = func_80033500(e);
+        r = func_80033500((CardList *)e);
         if (r != 0) {
             D_8009B24B = 0x14;
             gDuel_wViewerCardID = r;
@@ -110,7 +110,7 @@ void func_800336F0(u8 *p)
         return;
     }
 
-    r = func_80033500(e);
+    r = func_80033500((CardList *)e);
     c = 1;
     if ((u32)(r - EXODIA_FIRST_CARD_ID) < EXODIA_PIECE_COUNT) {
         c = (p + r)[0x5AC4] < c;
