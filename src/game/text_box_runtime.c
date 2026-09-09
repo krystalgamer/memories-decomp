@@ -38,7 +38,7 @@ void func_80039A14(u8 *object)
 {
     ((DuelEffectChannel *)object)->flags_34 |= TEXT_BOX_FLAG_BUILD_REQUESTED;
     do {
-        TextBox_BuildStep(object);
+        TextBox_BuildStep((DuelEffectChannel *)object);
     } while (!(((DuelEffectChannel *)object)->flags_34 &
                TEXT_BOX_FLAG_DONE));
 }
@@ -47,7 +47,7 @@ void func_80039A60(u8 *object)
 {
     ((DuelEffectChannel *)object)->flags_34 |= 0xA00;
     do {
-        TextBox_BuildStep(object);
+        TextBox_BuildStep((DuelEffectChannel *)object);
     } while (!(((DuelEffectChannel *)object)->flags_34 &
                TEXT_BOX_FLAG_DONE));
 }

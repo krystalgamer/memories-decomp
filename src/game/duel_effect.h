@@ -61,12 +61,30 @@ typedef struct {
     s16 field_3E;
     s16 field_40;
     s16 field_42;
-    u8 pad_44[0x0F];
+    u8 pad_44[0x0D];
+    /* The record's state byte. TextBox_BuildStep dispatches on its low five
+       bits through D_80090E64, and 0x80 is a latch every one of those
+       callbacks sets on entry: dialog_choice_state.c, dialog_update_choice.c
+       and duel_effect_state_callbacks.c all open with the same
+       `if ((state & 0x80) == 0) state |= 0x80;` and then write a new state
+       number into it. */
+    u8 state_51;
+    /* A per-tick countdown. TextBox_BuildStep reloads it from field_53,
+       decrements it once per call and returns while it is still nonzero;
+       func_80037B40.c does the same with 0xFF as its reload. */
+    u8 delay_52;
     u8 field_53;
     u8 field_54;
-    u8 pad_55[2];
+    u8 pad_55;
+    u8 field_56;
     u8 index_57;
-    u8 pad_58;
+    /* Which of the record's leading pointer words is the live byte stream,
+       as a word index rather than an offset: every reader scales it by four.
+       TextBox_BuildStep advances the selected pointer past each opcode it
+       consumes, and duel_effect_object_commands.c and
+       duel_effect_stream_fields.c reach the same slot the same way. Signed
+       because all three read it through an s8. */
+    s8 stream_58;
     u8 field_59;
     u8 field_5A;
     u8 field_5B;
@@ -97,6 +115,15 @@ typedef char DuelEffectChannel_flags_34_offset_must_be_0x34[
 ];
 typedef char DuelEffectChannel_field_3C_offset_must_be_0x3C[
     DUEL_EFFECT_OFFSET(DuelEffectChannel, field_3C) == 0x3C ? 1 : -1
+];
+typedef char DuelEffectChannel_state_51_offset_must_be_0x51[
+    DUEL_EFFECT_OFFSET(DuelEffectChannel, state_51) == 0x51 ? 1 : -1
+];
+typedef char DuelEffectChannel_field_56_offset_must_be_0x56[
+    DUEL_EFFECT_OFFSET(DuelEffectChannel, field_56) == 0x56 ? 1 : -1
+];
+typedef char DuelEffectChannel_stream_58_offset_must_be_0x58[
+    DUEL_EFFECT_OFFSET(DuelEffectChannel, stream_58) == 0x58 ? 1 : -1
 ];
 typedef char DuelEffectChannel_field_53_offset_must_be_0x53[
     DUEL_EFFECT_OFFSET(DuelEffectChannel, field_53) == 0x53 ? 1 : -1
