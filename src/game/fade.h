@@ -19,6 +19,29 @@ extern u8 D_8009B145 __attribute__((section(".data")));
 extern u8 D_8009B145;
 #endif
 
+/* The colour a fade is heading for. Fade_Update copies the three into the
+ * tint at D_8009B142/143/144 (graphics_frame.h) in address order, with no
+ * arithmetic on the way, so the roles follow the tint's: D_8009B14A is the
+ * blue target, D_8009B14B green, D_8009B14C red. Three writers and no
+ * single producer -- Fade_InitInColor and func_8001572C in the fade
+ * family, and the start-up block in main_services.c -- so the family
+ * header holds the declaration.
+ *
+ * main_services.c takes the arm below and it is a codegen input on that
+ * unit: retail stores the six D_8009B14x bytes there through `lui $at` /
+ * `sb %lo(...)`, i.e. outside small data, and in source order, which is
+ * what `.data` and `volatile` give. The three fade units store them
+ * gp-relative and take the plain arm. */
+#ifdef D_8009B14A_IN_DATA_VOLATILE
+extern volatile u8 D_8009B14A __attribute__((section(".data")));
+extern volatile u8 D_8009B14B __attribute__((section(".data")));
+extern volatile u8 D_8009B14C __attribute__((section(".data")));
+#else
+extern u8 D_8009B14A;
+extern u8 D_8009B14B;
+extern u8 D_8009B14C;
+#endif
+
 void func_800151B0(void);
 void Fade_StepBands(void);
 void Fade_Update(u8 *);

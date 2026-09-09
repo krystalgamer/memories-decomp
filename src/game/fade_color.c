@@ -2,10 +2,6 @@
 
 #include "fade.h"
 
-extern u8 D_8009B14A;
-extern u8 D_8009B14B;
-extern u8 D_8009B14C;
-
 void Fade_InitInColor(int color)
 {
     FadeTransitionState *state;

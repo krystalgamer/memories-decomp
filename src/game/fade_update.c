@@ -15,9 +15,6 @@ extern u8 D_8009B141;
 u8 D_8009B142;
 u8 D_8009B143;
 u8 D_8009B144;
-extern u8 D_8009B14A;
-extern u8 D_8009B14B;
-extern u8 D_8009B14C;
 
 void Fade_Update(u8 *p)
 {

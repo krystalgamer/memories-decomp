@@ -1,6 +1,9 @@
 /* func_80013360 re-reads the pad word on each path and needs it out of
    small data; see the arms in input.h. */
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+/* The fade target colour is part of the same init block; see the arm in
+   fade.h. */
+#define D_8009B14A_IN_DATA_VOLATILE
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -40,11 +43,8 @@ extern u16 D_8009B098;
 extern volatile u8 D_8009B0AD;
 extern volatile u8 D_8009B0D0;
 extern volatile u8 D_8009B0A8;
-extern volatile u8 D_8009B14C __attribute__((section(".data")));
 extern volatile u8 D_8009B144 __attribute__((section(".data")));
-extern volatile u8 D_8009B14B __attribute__((section(".data")));
 extern volatile u8 D_8009B143 __attribute__((section(".data")));
-extern volatile u8 D_8009B14A __attribute__((section(".data")));
 extern volatile u8 D_8009B142 __attribute__((section(".data")));
 extern volatile u8 D_800FE048[];
 extern volatile u8 D_8009B0A0;
