@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_80059208.h"
+#include "model_update_view_metrics.h"
 #include "model_copy_slot_u16_values.h"
 #include "../psyq/memory.h"
 #include "model.h"

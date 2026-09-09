@@ -30,6 +30,11 @@
 extern SVECTOR D_800F5768[3];
 
 extern GsRVIEW2 D_800F56F0;
+
+/* Returns &D_800F56F0. void * for the same reason as func_80059208: it is
+   what the definition returns, and its three callers each converted it to
+   something different on arrival. */
+void *func_800591FC(void);
 extern GsRVIEW2 D_800F5710;
 
 #endif
