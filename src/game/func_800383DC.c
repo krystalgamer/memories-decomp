@@ -5,9 +5,6 @@ struct Obj {
     u8 pad[0x58];
     u8 counter;
 };
-extern u16 D_801C0000[];
-extern u16 D_801D5800[];
-extern u16 D_801B0000[];
 extern u16 D_8009B32E;
 
 u32 *func_800383DC(struct Obj *a0) {

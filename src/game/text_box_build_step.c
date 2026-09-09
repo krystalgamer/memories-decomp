@@ -11,9 +11,6 @@
 #include "menu_record_reset.h"
 #include "text_stream_commands.h"
 
-extern u16 D_801B0000[];
-extern u16 D_801C0000[];
-extern u16 D_801D5800[];
 extern u32 D_801D9000[];
 
 extern void (*D_80090C50[])(void);

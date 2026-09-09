@@ -1,10 +1,6 @@
 #include "../types.h"
 #include "text_constants.h"
 
-extern u16 D_801C0000[];
-extern u16 D_801D5800[];
-extern u16 D_801B0000[];
-
 u32 Text_LookupString(s32 arg0, s32 arg1)
 {
     s32 index = arg1;
