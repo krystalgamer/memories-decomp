@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_layout.h"
+#include "options_update_layout.h"
 
 typedef struct { u16 h[3]; } Blk6;
 extern u8 D_8009AF5C[];
@@ -7,7 +8,7 @@ extern s8 gOptions_bOutputType;
 extern u8 *D_8009B380;
 extern u8 *D_8009B388;
 
-void Options_UpdateLayout(s32 arg0) {
+void Options_UpdateLayout(s32 selection) {
     u8 sp0[12];
     u8 *a;
     u8 *b;
@@ -24,8 +25,8 @@ void Options_UpdateLayout(s32 arg0) {
     *(s16 *)(a + 0x32) = 0x48;
     *(u16 *)(a + 0x30) = v;
     *(s16 *)(b + 0x30) = 0x20;
-    *(u16 *)(b + 0x32) = *(u16 *)(sp0 - -(arg0 * 2)) + 8;
-    if (arg0 == 0) {
+    *(u16 *)(b + 0x32) = *(u16 *)(sp0 - -(selection * 2)) + 8;
+    if (selection == 0) {
         *(u16 *)(a + 8) &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         *(u16 *)(b + 0x30) = *(u16 *)(a + 0x30) + 8;
         *(u16 *)(b + 0x32) = *(u16 *)(a + 0x32) + 8;

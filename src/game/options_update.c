@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "fade.h"
 #include "input.h"
+#include "options_update_layout.h"
 #include "sound.h"
 
 extern u8 gOptions_bState;
@@ -10,8 +11,6 @@ extern s8 gOptions_bSelection;
 /* Retail performs a fresh absolute load for each input-state test. */
 /* Keep this byte outside small data so its store retains absolute addressing. */
 extern u8 gSD_bOutputType[9];
-
-extern void Options_UpdateLayout(s32);
 
 void Options_HandleInput(void)
 {

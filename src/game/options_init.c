@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "options_update_layout.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "sound.h"
@@ -39,8 +40,6 @@ extern u8 D_801AF000[];
 extern void func_8003C4E0(s32 a0);
 extern void func_80040510(struct Obj *obj, s32 a1, s32 a2, s32 a3, s32 a5,
                            s32 a6, s32 a7, s32 a8, s32 a9, s32 a10);
-extern void Options_UpdateLayout(s32 arg0);
-
 void Options_Init(void) {
     register struct Obj *obj asm("s1");
     s32 s0;
