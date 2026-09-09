@@ -1,5 +1,7 @@
+#define D_8009B254_IN_DATA
 #include "../types.h"
 #include "scene_script.h"
+#include "duel_effect.h"
 #include "fade.h"
 #include "script_run_tick.h"
 #include "sound.h"
@@ -8,8 +10,6 @@ extern u8 D_8009B26C;
 extern u8 gCampaignSceneIndex __attribute__((section(".data")));
 extern void func_8002FD10(s32);
 extern void func_8002FFD4(void *);
-
-#define D_8009B254 (*(u8 *)0x8009B254)
 
 void Main_RunCampaign(void) {
     u8 flags = D_8009B26C;

@@ -6,8 +6,8 @@
 #include "main_reset_frontend_runtime.h"
 #include "main_services.h"
 #include "menu_record_reset.h"
+#include "duel_effect.h"
 
-extern u8 D_8009B254;
 void Main_ResetFrontendRuntime(void)
 {
     D_8009B0C0 = 0;
