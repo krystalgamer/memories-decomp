@@ -1,3 +1,4 @@
+#define D_8009B0C8_IN_DATA
 #define GINPUT_PAD1_HELD_IS_VOLATILE
 #define GINPUT_PAD1_REPEAT_IS_VOLATILE
 #define GINPUT_PAD2_HELD_IS_VOLATILE
@@ -9,8 +10,6 @@
 #include "graphics_frame.h"
 #include "input.h"
 
-/* Retail rematerializes this address inside the repeat loop. */
-extern u32 D_8009B0C8[];
 /* Preserve the low-half/high-half publication order at the function tail. */
 
 void Input_ReadRawPads(void)
@@ -66,7 +65,7 @@ void Input_UpdatePads(void)
         new_bits <<= 1;
     }
 
-    if (D_8009B0C8[0] != 0) {
+    if (D_8009B0C8 != 0) {
         gInput_dwDeferredRepeat |= repeat;
         gInput_dwDeferredPressed |= newly_pressed;
     } else {

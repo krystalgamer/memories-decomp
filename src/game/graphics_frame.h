@@ -61,6 +61,27 @@ extern volatile u8 D_8009B0C0;
 extern u8 D_8009B0C0;
 #endif
 
+/* The frame counter that comparison reads. Main_VBlankCB increments it
+ * (main_frame.c), Graphics_SyncFrame publishes it into D_8009B0C1 and
+ * then resets it to -1, Main_Init zeroes it, and Input_UpdatePads tests
+ * it non-zero before folding the deferred pad bits in. The compare in
+ * Graphics_SyncFrame is `slt` (func_80012DB4.s:15), so it is signed.
+ *
+ * Three units reach it gp-relative and take the volatile form below;
+ * Input_UpdatePads reads it through a %hi/%lo pair into the load's own
+ * register (func_8003CCD8.s:50-51), the bare form, and takes _IN_DATA --
+ * out of small data at the compiler with its true width. The unsized
+ * `u32 []` it used to declare reached the same form ("Retail
+ * rematerializes this address inside the repeat loop", its comment said),
+ * and the .data scalar builds byte-identical there. Both arms are
+ * justified by a control build recorded in the PR that added this
+ * block. */
+#ifdef D_8009B0C8_IN_DATA
+extern s32 D_8009B0C8 __attribute__((section(".data")));
+#else
+extern volatile s32 D_8009B0C8;
+#endif
+
 extern DISPENV gGraphics_DispEnv;
 
 /* Two scratch rectangles for the VRAM transfers. Every user fills x, y, w, h

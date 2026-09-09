@@ -6,7 +6,6 @@
 
 extern volatile s32 D_8009B09C;
 extern volatile s32 D_8009B0C4;
-extern volatile s32 D_8009B0C8;
 extern u8 D_8009B0C3;
 extern u8 D_8009AF0C;
 extern void func_8001306C(void);

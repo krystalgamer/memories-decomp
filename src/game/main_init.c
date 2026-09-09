@@ -24,7 +24,6 @@
 #include "movie_playback_control.h"
 
 extern volatile u32 D_8009B0CC;
-extern volatile u32 D_8009B0C8;
 extern volatile s32 D_8009B09C;
 extern volatile u8 D_8009B0C3;
 extern volatile u8 D_8009B0C1;

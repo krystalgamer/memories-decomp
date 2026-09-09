@@ -7,7 +7,6 @@
 #include "graphics_frame.h"
 #include "movie_playback_control.h"
 
-extern volatile s32 D_8009B0C8;
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
    the load-delay nop before the store below. c_symbols.ld overrides this
