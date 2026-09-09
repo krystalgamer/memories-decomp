@@ -1201,7 +1201,7 @@ address,size,name,status,module,notes
 0x80073704,0x20,PCopen,sdk_asm,psyq/sdk,
 0x80073724,0x10,PCclose,sdk_asm,psyq/sdk,
 0x80073734,0x24,PClseek,sdk_asm,psyq/sdk,
-0x80073758,0xC0,func_80073758,sdk_asm,psyq/sdk,
+0x80073758,0xC0,PCread,sdk_asm,psyq/sdk,"Identified as PCread despite byte-identical Psy-Q 4.6 READ.OBJ and WRITE.OBJ signatures: the resident body calls the unique _SN_read wrapper, and matching func_80059908 passes handle, destination and count before comparing the returned byte count; canonical libsn.h contract."
 0x80073818,0x18,_SN_read,sdk_asm,psyq/sdk,
 0x80073830,0xC,InitHeap,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/C57.OBJ signature.
 0x80073840,0xC,_bu_init,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/C112.OBJ signature and matching backup-unit initialization callers.

@@ -963,3 +963,6 @@ gInput_bRepeatDelay = 0x8009B39C;
 gInput_bRepeatInterval = 0x8009B3A2;
 gPassword_pDigitCursorWidget = 0x8016D420;
 gPassword_nDigitIndex = 0x8016D428;
+
+// Semantic names
+PCread = 0x80073758; // type:func

@@ -4,8 +4,6 @@
 
 #define FILE_READ_CHUNK_SIZE 0x1000
 
-extern s32 func_80073758();
-
 s32 func_80059908(s32 path, s32 destination, s32 offset, s32 length)
 {
     s32 handle;
@@ -28,7 +26,7 @@ s32 func_80059908(s32 path, s32 destination, s32 offset, s32 length)
             chunk = FILE_READ_CHUNK_SIZE;
             if (remaining <= FILE_READ_CHUNK_SIZE)
                 chunk = remaining;
-            if (func_80073758(handle, destination, chunk) != chunk) {
+            if (PCread(handle, (char *)destination, chunk) != chunk) {
                 total = 0;
                 break;
             }

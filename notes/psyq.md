@@ -79,14 +79,13 @@ disagree**. The tool is checked against work done independently, and that
 number is the regression signal -- if it falls, the matcher broke rather than
 the catalogue being wrong.
 
-Eight addresses are claimed under more than one name and are deliberately left
+Seven addresses are claimed under more than one name and are deliberately left
 as `func_XXXXXXXX`. They are small routines duplicated verbatim across
 libraries, so bytes alone cannot separate them and a call-graph tiebreak is
 needed:
 
 | Address | Competing names |
 |---|---|
-| `0x80073758` | `PCread`, `PCwrite` |
 | `0x80077150` | `SpuRead`, `SpuWrite` |
 | `0x8007A840` | `CdReadCallback`, `CdReadMode`, `CdReadyCallback`, `CdSetDebug`, `CdSyncCallback`, `DsSetDebug` |
 | `0x8007CDC0` | `CdMix`, `DsMix` |
@@ -144,6 +143,7 @@ Every row below is now an applied project symbol.
 | Address | SDK identity | Local evidence |
 |---|---|---|
 | `0x80058F10` | `GsGetWorkBase` | Confirmed from the canonical four-instruction getter, the real `libgs.h` `PACKET *` return type, and independent GMS and Unchiga identities. Unlike the three false-positive 16-byte FLIRT matches in the resident LIBDS range, this function returns the actual LIBGS packet work-base pointer consumed by model renderers. |
+| `0x80073758` | `PCread` | Applied despite byte-identical Psy-Q 4.6 `READ.OBJ` and `WRITE.OBJ` signatures: the resident body calls the unique `_SN_read` wrapper, and matching `func_80059908` passes a handle, destination buffer and count before comparing the returned byte count. The canonical `libsn.h` declaration has the same contract. |
 | `0x80073830` | `InitHeap` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C57.OBJ` signature. |
 | `0x80073840` | `_bu_init` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C112.OBJ` signature; matching memory-card setup invokes it after lower-level card initialization. |
 | `0x80073850` | `SetMem` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C159.OBJ` signature; resident startup calls `SetMem(2)`. |
@@ -939,20 +939,20 @@ emit debugger break instructions `1024` and `1031`. These declarations are
 not interchangeable with `libcd`, `libds`, or memory-card calls.
 
 The resident block immediately before `InitHeap` has direct Psy-Q 4.6
-`LIBSN.LIB` signature evidence, even though its current inventory symbols
-remain address-based:
+`LIBSN.LIB` signature evidence. `PCread` is now applied; the unresolved
+wrappers retain address-based inventory symbols:
 
 | Address | Current symbol | Signature evidence | Local corroboration |
 |---|---|---|---|
 | `0x80073704` | `func_80073704` | The exact-size 32-byte `OPEN.OBJ` / `PCopen` signature matches once. | [`func_80059908`](../src/game/func_80059908.c) and [`func_8005988C`](../src/game/file_query_wrappers.c) pass a path followed by zero flags and permissions, then test the returned handle. |
 | `0x80073724` | `func_80073724` | The exact-size 16-byte `CLOSE.OBJ` / `PCclose` signature matches once. | Both matching file helpers pass the handle after their final seek or read. |
 | `0x80073734` | `func_80073734` | The exact-size 36-byte `LSEEK.OBJ` / `PClseek` signature matches once. | Callers use `(handle, 0, 2)` to obtain the file length and `(handle, offset, 0)` to select an absolute read position. |
-| `0x80073758` | `func_80073758` | The 192-byte `READ.OBJ` / `PCread` and `WRITE.OBJ` / `PCwrite` catalogue signatures are byte-identical, so the signature alone cannot choose a name. | The body calls the unique `_SN_read` wrapper below, and `func_80059908` treats its return as the number of bytes placed in successive destination chunks. This favors `PCread`, but the current symbol is retained until the identity is applied in metadata. |
-| `0x80073818` | `func_80073818` | The exact-size 24-byte `SNREAD.OBJ` / `_SN_read` signature matches once. | `func_80073758` calls it from its chunk-processing loop. |
+| `0x80073758` | `PCread` | The 192-byte `READ.OBJ` / `PCread` and `WRITE.OBJ` / `PCwrite` catalogue signatures are byte-identical, so the signature alone cannot choose a name. | The body calls the unique `_SN_read` wrapper below, and `func_80059908` treats its return as the number of bytes placed in successive destination chunks; that call graph resolves the identity. |
+| `0x80073818` | `func_80073818` | The exact-size 24-byte `SNREAD.OBJ` / `_SN_read` signature matches once. | `PCread` calls it from its chunk-processing loop. |
 
-Current game C still carries address-based declarations instead of including
-[`libsn.h`](../src/psyq/libsn.h), but the signatures and caller contracts do
-establish a resident development-host dependency. They do not make this a
+Matching game C uses [`libsn.h`](../src/psyq/libsn.h) for the applied
+`PCopen`, `PCclose`, `PClseek`, and `PCread` interfaces. The signatures and
+caller contracts establish a resident development-host dependency, not a
 retail disc or memory-card path: these wrappers are Psy-Q host/debug support,
 and a retail console without that environment cannot supply the PC file
 service.
