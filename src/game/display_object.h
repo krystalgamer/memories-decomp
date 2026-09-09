@@ -220,7 +220,23 @@ typedef struct DisplayObject {
        in duel_card_display_state.h names the same word field_4C, as a void *,
        because on that view only the callback reading occurs. */
     s32 field_4C;                  /* 0x4C */
-    u8 pad_50[4];                  /* 0x50 */
+    /* The last unnamed word of the tail, and read as incompatibly as 0x4C
+       just above it, so the offset is again the name.
+
+       func_800179F4.c stores a pointer to another display object here and
+       Duel_DrawLifePointsAndDeckCounts loads it back. func_80042824 in
+       display_object_helpers.c writes the colour 0x00808080, as the fourth of
+       six words at stride 0xC -- 0x2C, 0x38, 0x44, 0x50, 0x5C, 0x68. That is
+       a different run from the stride-8 one described at 0x4C, and the two
+       agree only at 0x2C and 0x44, which is why neither run's reading can be
+       pushed onto the whole tail. func_80041534.c advances it by 4;
+       func_80041C8C.c adds the halfword at 0x58 to form a byte pointer, the
+       reading DisplayObjectStreamState spells as `current`; and
+       display_object_list_renderers.c copies it into a primitive word.
+
+       s32 serves all of them: a word load and store do not distinguish
+       signedness, and the pointer writers cast, as they already do at 0x4C. */
+    s32 field_50;                  /* 0x50 */
     void *field_54;                /* 0x54 */
     u8 pad_58[4];                  /* 0x58 */
     u16 field_5C;                  /* 0x5C */

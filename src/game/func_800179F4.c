@@ -50,7 +50,7 @@ extern void Duel_ShuffleBothDecks(u8 *, u8 *);
 
 void func_800179F4(void)
 {
-    u8 *obj;
+    DisplayObject *obj;
     u8 *p;
     u8 *q;
     s32 value;
@@ -124,25 +124,35 @@ void func_800179F4(void)
     obj = func_800400AC(func_8004002C(), 2);
     func_800404CC(obj, 12, 24, 4, 2, gDuel_bTerrain, 11, 732);
     func_80042918(obj);
-    *(u16 *)(obj + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    /* Both of this function's flag merges keep u8 * arithmetic instead of
+       obj->flags, and the spelling is load-bearing rather than untidy.
+
+       Writing obj->flags lets GCC 2.8.1 schedule the sh into the delay slot
+       of the following jal and drop the nops around it, which shortens the
+       executable by sixteen bytes. Taking the member's address instead,
+       *(u16 *)&obj->flags, fails identically, so the barrier is the pointer
+       arithmetic on u8 * and not the cast. Each site was measured on its own:
+       leaving only the second as member access still loses twelve bytes, and
+       the first accounts for the other four. */
+    *(u16 *)((u8 *)obj + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     side = (u32)gDuel_bOpponentID >> 31;
-    D_8009B214 = obj;
+    D_8009B214 = (u8 *)obj;
     obj = func_800400AC(func_8004002C(), 2);
     func_800404CC(
         obj, 280, 32, 4, side, 0, 11, 748
     );
     func_80042918(obj);
-    *(u16 *)(obj + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    *(u16 *)((u8 *)obj + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     if (D_8009B1D5 != 0) {
-        *(u16 *)(obj + 64) += 16;
+        *(u16 *)&obj->field_40.h.field_40 += 16;
     }
-    D_8009B21C = obj;
+    D_8009B21C = (u8 *)obj;
     obj = func_800400AC(func_8004002C(), 6);
     func_80042918(obj);
-    func_800428EC(obj, 1);
-    *(void **)(obj + 76) = Duel_DrawLifePointsAndDeckCounts;
+    func_800428EC((u8 *)obj, 1);
+    obj->field_4C = (s32)Duel_DrawLifePointsAndDeckCounts;
     prev = D_8009B21C;
-    *(u8 **)(obj + 80) = prev;
+    obj->field_50 = (s32)prev;
     D_800E9DBC[0] = func_800164FC;
     if (D_8009B369 != 1) {
         p = 0;
