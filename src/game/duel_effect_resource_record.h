@@ -29,4 +29,15 @@ typedef char DuelEffectResourceRecord_size_must_be_0x40[
     sizeof(DuelEffectResourceRecord) == 0x40 ? 1 : -1
 ];
 
+/* The array itself. Seven sources declared it identically and all seven
+ * already include this header, which exists to describe one of its entries,
+ * so this is where it belongs.
+ *
+ * src/overlays/password/shop_setup.c also names the symbol, spelled u8 [],
+ * and is deliberately left alone. It never indexes it -- the one use is
+ * `D_8016D430 = D_800EA0E8`, which takes the address only -- so its spelling
+ * is not a competing claim about the element type, and it does not include
+ * this header. */
+extern DuelEffectResourceRecord D_800EA0E8[];
+
 #endif

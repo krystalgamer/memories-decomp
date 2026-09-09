@@ -1,8 +1,6 @@
 #include "../types.h"
 #include "duel_effect_resource_record.h"
 
-extern DuelEffectResourceRecord D_800EA0E8[];
-
 void func_80029574(int index)
 {
     DuelEffectResourceRecord *entry = &D_800EA0E8[index];

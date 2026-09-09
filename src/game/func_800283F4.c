@@ -32,7 +32,6 @@ extern u16 gDuel_wViewerCardID;
 extern u8 D_8009AF76 __attribute__((section(".data")));
 extern u8 D_8009B26C __attribute__((section(".data")));
 extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
-extern DuelEffectResourceRecord D_800EA0E8[];
 
 extern s32 func_800282E8(void);
 extern void func_80029164(s32, s32);
