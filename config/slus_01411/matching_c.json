@@ -6280,7 +6280,7 @@
       "address": "0x80071CB0",
       "profile": "gcc_2_8_1_cc_g0_as_g8_split",
       "size": "0x208",
-      "source": "src/game/ai_script_find_defense_stopper.c"
+      "source": "src/game/ai_script_find_card.c"
     },
     {
       "address": "0x80071EB8",
