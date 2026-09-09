@@ -6,6 +6,7 @@
 #include "ai_script_read_byte.h"
 #include "ai_script_read_short.h"
 #include "ai_script_source_line_format.h"
+#include "ai_script_commands.h"
 
 extern AiScriptState gAiScript_State;
 extern char D_800118AC[];

@@ -2,6 +2,7 @@
 #include "ai.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_read_short.h"
+#include "ai_script_commands.h"
 
 void AiScript_Store(void)
 {

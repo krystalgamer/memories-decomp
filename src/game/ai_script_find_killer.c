@@ -4,6 +4,7 @@
 #include "card_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
+#include "ai_script_commands.h"
 
 s32 AiScript_ReadByte(void);
 

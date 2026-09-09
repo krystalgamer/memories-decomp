@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "ai.h"
 #include "ai_script_read_byte.h"
+#include "ai_script_commands.h"
 extern signed char gDuel_bOpponentID;
 extern unsigned char gDuel_bTerrain;
 void AiScript_LoadOpponentID(void)

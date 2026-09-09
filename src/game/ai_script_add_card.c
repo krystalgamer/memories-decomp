@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "ai.h"
 #include "ai_script_read_byte.h"
+#include "ai_script_commands.h"
 extern u8 gAiScript_State[];
 void AiScript_AddCard(void) {
     s32 *p = gAiScript_aMemory;

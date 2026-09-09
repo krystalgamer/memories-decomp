@@ -2,6 +2,7 @@
 #include "ai.h"
 #include "card_constants.h"
 #include "ai_script_read_byte.h"
+#include "ai_script_commands.h"
 
 void AiScript_LoadDeckSize(void) {
     s32 k = AiScript_ReadByte();

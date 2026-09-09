@@ -2,6 +2,7 @@
 #include "duel_side_state.h"
 #include "ai.h"
 #include "ai_script_read_byte.h"
+#include "ai_script_commands.h"
 
 void AiScript_LoadLifePoint(void) {
     s32 *p = gAiScript_aMemory;

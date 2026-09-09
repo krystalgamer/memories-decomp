@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "ai.h"
 #include "ai_script_read_byte.h"
+#include "ai_script_commands.h"
 extern unsigned short gAi_wBestDifference;
 extern unsigned char gAi_bBestAttacker;
 extern unsigned char gAi_bBestTarget;

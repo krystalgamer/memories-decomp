@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "ai.h"
+#include "ai_script_commands.h"
 #include "duel_card_layout.h"
 #include "ai_script_read_byte.h"
 

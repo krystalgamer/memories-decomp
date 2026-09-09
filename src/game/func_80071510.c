@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "ai.h"
 #include "ai_script_read_byte.h"
+#include "ai_script_commands.h"
 extern unsigned char D_800EAE90;
 void func_80071510(void)
 {

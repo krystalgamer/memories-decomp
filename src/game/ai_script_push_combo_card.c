@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "ai.h"
+#include "ai_script_commands.h"
 
 extern u8 gAiScript_State[];
 extern u8 D_800EAE88[];

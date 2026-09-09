@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "ai.h"
 #include "ai_script_read_byte.h"
+#include "ai_script_commands.h"
 extern u8 D_800EAE8F[];
 void func_8007368C(void)
 {
