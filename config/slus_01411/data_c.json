@@ -46,6 +46,10 @@
       "profile": "gcc_2_8_1_g0"
     },
     {
+      "source": "src/game/frontend_debug_tables.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
       "source": "src/game/duel_transition_step_table.c",
       "profile": "gcc_2_8_1_g0"
     },

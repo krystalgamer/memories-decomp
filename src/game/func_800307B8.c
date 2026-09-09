@@ -1,5 +1,6 @@
 #define GINPUT_PAD1_PRESSED_SIZED_VOLATILE
 #include "../types.h"
+#include "frontend_debug_tables.h"
 #include "display_object_brightness.h"
 #include "duel_interface_setup.h"
 #include "file_transfer.h"
@@ -18,7 +19,6 @@ extern u8 D_8009B2C2;
 extern u8 D_8009B2C1;
 extern u8 D_8009B2DC;
 extern u8 D_8009B2E9;
-extern u8 D_80090CB4[];
 
 void func_800307B8(void)
 {

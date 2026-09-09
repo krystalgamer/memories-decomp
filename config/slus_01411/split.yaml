@@ -143,7 +143,7 @@ segments:
       - [0x813a8, .data, game/scene_image_overlay_tables]
       - [0x81450, .data, game/script_command_table]
       - [0x814ac, .data, game/scene_script_record_callbacks]
-      - [0x814b4, data, initialized_data_80090cb4]
+      - [0x814b4, .data, game/frontend_debug_tables]
       - [0x8157c, .data, game/frontend_step_tables]
       - [0x815d8, .data, game/card_type_icon_table]
       - [0x815f8, .data, game/duel_transition_step_table]
