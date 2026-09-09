@@ -59,7 +59,7 @@ void func_80040588(void) {
                     break;
                 }
                 p->attribute = e->attribute;
-                idx = e->tex_index;
+                idx = e->ot_index;
                 p->rgb = e->field_0C;
                 p->xy.word = e->field_30.word;
                 p->extent.word = e->field_3C.word;

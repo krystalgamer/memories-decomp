@@ -8,7 +8,7 @@
 extern s32 D_800E9D90[];
 
 void func_80016D2C(
-    DuelStatusPosition *style,
+    DisplayObject *style,
     GsSPRITE *digit,
     int source,
     int count
@@ -22,7 +22,7 @@ void func_80016D2C(
         GsSortFastSprite(
             digit,
             (GsOT *)D_800E9D90[style->ot_index],
-            style->priority
+            style->field_14
         );
         digit->x += 8;
     }

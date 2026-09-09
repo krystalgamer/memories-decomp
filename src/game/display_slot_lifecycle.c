@@ -68,7 +68,7 @@ void *func_800400AC(s32 index, s32 key)
         /* A fresh object starts with rotation off. */
         slot->attribute = GsROTOFF;
         slot->flags = DISPLAY_OBJECT_RENDERABLE_MASK;
-        slot->tex_index = 2;
+        slot->ot_index = 2;
         slot->field_54 = tail_data_start;
         slot->field_6C = 0;
         slot->update = 0;
@@ -88,7 +88,7 @@ void *func_800400AC(s32 index, s32 key)
         slot->field_5E = 0;
         slot->field_65 = 0;
         slot->field_16 = 0;
-        slot->field_14 = D_8009AF74[slot->tex_index];
+        slot->field_14 = D_8009AF74[slot->ot_index];
     }
     return slot;
 }
