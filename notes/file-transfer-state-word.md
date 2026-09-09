@@ -72,7 +72,7 @@ compiler profile: every unit on the absolute view is a `-G8` profile, and no
 unit assembled at `-G0` needs it.
 
 This is the same shape as `fade.h`, which already publishes
-`D_800E9EC8` and `D_800E9EC8_arr` for one address.
+`gFade_State` and `D_800E9EC8_arr` for one address.
 
 ### Checked negatives
 
