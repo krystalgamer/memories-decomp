@@ -76,12 +76,18 @@ The BSS layout is:
 `File_ActivateTransfer` copies the complete secondary descriptor into the
 primary descriptor before publishing the primary-active state.
 
-Its raw `Block72` assignment retains `FILE_TRANSFER_DESCRIPTOR_WORD_COUNT`
-(`18`) signed 32-bit words, including the final substate byte. Size assertions
-tie that copy and the private initializer view to the shared `0x48`-byte
-descriptor without changing their types or copy operations. The separate
-eight-word/32-byte buffer record at `D_801D4200` is not a descriptor and keeps
-its existing independent copy.
+Its raw `FileTransferDescriptorWords` assignment retains
+`FILE_TRANSFER_DESCRIPTOR_WORD_COUNT` (`18`) signed 32-bit words, including the
+final substate byte. Size assertions tie that copy to the shared `0x48`-byte
+descriptor without changing its type or copy operation: the word element type
+is what sets the move width, so it is deliberately not interchangeable with
+`FileTransferDescriptor`, which has halfword members.
+
+The separate `0x20`-byte record at `D_801D4200` is not a descriptor. It is a
+two-slot request table, `FileRequestSlot`: `func_80014C40` stages a request
+into slot 1 and `func_800141A8` promotes slot 1 into slot 0, both with
+whole-record copies at that stride, and `func_80014B30` then programs the
+descriptor from slot 0.
 
 The corrected LBA-table address is `0x800E9EA8`; interpreting the signed
 `addiu` immediate as unsigned incorrectly produces `0x800F9EA8`.

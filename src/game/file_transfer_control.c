@@ -214,40 +214,21 @@ void func_80014A5C(s32 arg0)
     D_8009B0E8 = 0;
 }
 
-typedef struct {
-    u8 gap0[12];
-    s32 value_c;
-    s32 value_10;
-    s32 value_14;
-    s32 value_18;
-} Shared14B30;
-
-typedef struct {
-    u8 gap0[8];
-    s32 value_8;
-    s32 value_c;
-    u8 gap10[12];
-    s32 value_1c;
-    u8 gap20[16];
-    s32 value_30;
-    u8 gap34[12];
-    s32 value_40;
-    u8 gap44[2];
-    u8 mode_46;
-} Object14B30;
-
-extern Shared14B30 D_801D4200;
+/* func_80014B30 is a transfer-phase callback of the same family as
+   func_80057544 and func_80057728: func_80014C40 below installs it through
+   File_InitTransferDescriptor's FileTransferCallback parameter, so its first
+   argument is the descriptor that entry point fills in. It programs the same
+   fields the other two do -- the value_08/value_0C source window, mode, the
+   word at field_30 and done -- which is what its old private record named
+   value_8, value_c, value_1c, value_30 and mode_46. */
+extern FileRequestSlot D_801D4200;
 extern u8 D_801D4200_raw[] asm("D_801D4200");
 extern void (*D_8009B128)(void);
 extern void func_80014B30_callback(void) asm("func_80014B30");
 
-typedef struct {
-    s32 w[8];
-} Blk32;
-
-void func_80014B30(Object14B30 *object, s32 mode)
+void func_80014B30(FileTransferDescriptor *object, s32 mode)
 {
-    Shared14B30 *shared;
+    FileRequestSlot *shared;
     s32 value;
     s32 base;
     s32 position;
@@ -266,31 +247,31 @@ high:
         goto tail;
     return;
 full:
-    if (shared->value_14 == 0) {
-        object->value_40 = 2;
+    if (shared->field_14 == 0) {
+        object->result = 2;
         goto reduced;
     }
-    object->mode_46 = 3;
+    object->done = 3;
     base = D_8009B118;
-    object->value_8 = base;
-    object->value_c = base + FILE_SECTOR_SIZE;
-    object->value_30 = shared->value_c;
-    value = shared->value_14;
-    object->value_1c = value;
+    object->value_08 = base;
+    object->value_0C = base + FILE_SECTOR_SIZE;
+    object->field_30.word = shared->field_0C;
+    value = shared->field_14;
+    object->mode = value;
     goto fix;
 reduced:
-    if (shared->value_18 == 0)
+    if (shared->field_18 == 0)
         goto tail;
-    position = shared->value_10;
+    position = shared->field_10;
     D_8009B0F4 &= 0xFFDCFFFF;
-    object->value_c = position;
-    object->value_8 = position;
-    object->mode_46 = 1;
-    value = shared->value_18;
-    object->value_1c = value;
+    object->value_0C = position;
+    object->value_08 = position;
+    object->done = 1;
+    value = shared->field_18;
+    object->mode = value;
 fix:
     if (value < 0)
-        object->value_1c = -(value << FILE_SECTOR_SHIFT);
+        object->mode = -(value << FILE_SECTOR_SHIFT);
     return;
 tail:
     callback = D_8009B128;
@@ -349,7 +330,7 @@ s32 func_80014C40(u8 *p, u8 *q) {
         m = a;
         t = -m;
         r = D_801D4200_raw;
-        *(Blk32 *)(r + 0x20) = *(Blk32 *)p;
+        *(FileRequestSlot *)(r + 0x20) = *(FileRequestSlot *)p;
         m = *(s32 *)(p + 4);
         D_8009B0F4 =
             D_8009B0F4 & ~FILE_TRANSFER_STATE_SECONDARY_PENDING;

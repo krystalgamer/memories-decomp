@@ -20,10 +20,6 @@
    address order and must stay that way: it is what puts the six-case table
    ahead of the eleven-case one. */
 
-typedef struct {
-    u32 w[7];
-} Block28;
-
 extern s32 D_80010008 __attribute__((section(".data")));
 extern u8 D_801DD800[];
 extern u8 D_800F5694[];
@@ -209,7 +205,8 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
         dst = (u8 *)D_800F2C40;
         src = D_801DD000;
         func_8005B620(dst + 0xBF8, src, 0x40);
-        *(Block28 *)(dst + 0xCF8) = *(Block28 *)(src + 0x100);
+        *(ModelSlotCF8BlockWords *)(dst + 0xCF8) =
+            *(ModelSlotCF8BlockWords *)(src + 0x100);
         *(s32 *)(dst + 0xD08) = -1;
         *(s32 *)(dst + 0xD0C) = -1;
         *(s32 *)(dst + 0xD10) = -1;
