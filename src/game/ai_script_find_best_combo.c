@@ -4,7 +4,6 @@
 #include "ai_script_read_byte.h"
 #include "ai.h"
 #include "ai_script_commands.h"
-extern void Ai_CompleteFusion(s32);
 
 /* AI script opcode taking three operand bytes: a register holding the search
  * depth minus one, a register naming a set of slots to exclude, and the

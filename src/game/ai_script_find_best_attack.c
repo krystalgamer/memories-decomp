@@ -5,9 +5,8 @@
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "ai_script_commands.h"
+#include "ai_script_read_byte.h"
 extern u16 gAi_wBestDifference[];
-
-s32 AiScript_ReadByte(void);
 
 void AiScript_FindBestAttack(void) {
     u8 *t;
