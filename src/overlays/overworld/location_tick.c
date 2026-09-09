@@ -19,7 +19,6 @@ extern u8 D_800E9ECF;
 extern u8 D_8009B26C;
 extern u8 D_8009B27A;
 extern void Fade_InitOut(void);
-extern void func_8001352C(void);
 
 void CampaignMap_UpdateLocation(void)
 {
