@@ -11,6 +11,7 @@
 #include "sound.h"
 #include "fade.h"
 #include "../unmatched.h"
+#include "duel_side_state.h"
 
 /* Duel-result outro sequence, driven from the scene state word D_8009B23A.
 
@@ -89,7 +90,6 @@ extern void func_80020EE8(void *);
 
 extern u16 D_8009B1E0;
 extern s8 D_8009B238;
-extern u8 gDuel_bWinnerSide;
 extern struct Obj *D_8009B214;
 extern struct Obj *D_8009B21C;
 

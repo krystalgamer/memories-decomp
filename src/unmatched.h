@@ -350,4 +350,17 @@ extern u32 D_8009B3D0;   /* four declarers */
 extern s32 D_8009B3F4;   /* four declarers */
 extern u16 D_8009B1D0;   /* four declarers */
 
+/* The text engine's control byte, shared with the dialog and duel-effect
+ * screens. text_handle_choice_command.c sets it from a command nibble
+ * (`c & 0xF0`), text_stream_commands.c reads it whole, and the other two test
+ * it by mask -- 0x30 for the layout arm and 0x40 for the choice arm. No C
+ * source defines it and the four that use it share no subsystem header, so it
+ * is homeless by the rule at the top of this file.
+ *
+ * func_8002EE94.c also clears it, spelled with a .data section attribute
+ * because it addresses the byte outside small data. It does not include this
+ * header, so the two never meet and no guarded arm is needed here; if it ever
+ * does, that is what would go in. */
+extern u8 D_8009B34C;
+
 #endif
