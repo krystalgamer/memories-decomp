@@ -3,6 +3,7 @@
 #include "../psyq/libapi.h"
 
 #include "sound.h"
+#include "sound_event_runtime.h"
 #include "sound_spatialization.h"
 
 extern void func_8004ACE4(u8 *, int);

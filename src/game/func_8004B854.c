@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "../psyq/libapi.h"
+#include "func_8004B854.h"
 #include "sound.h"
-
-extern long SD_SequenceTimerCallback(void);
+#include "sound_event_runtime.h"
 
 void func_8004B854(void)
 {
