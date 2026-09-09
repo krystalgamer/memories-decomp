@@ -1,6 +1,7 @@
 #define D_8009B0D8_IS_VOLATILE
 #include "../types.h"
 #include "sound.h"
+#include "func_8003B5C8.h"
 #include "graphics_frame.h"
 #include "main_frame.h"
 #include "../psyq/libapi.h"
@@ -40,7 +41,6 @@ extern jmp_buf D_800E9DC0;
 extern void __main(void);
 extern void func_80013154(void);
 extern void func_800403F0(void);
-extern void func_8003B5C8(void);
 
 s32 Main_Init(void)
 {

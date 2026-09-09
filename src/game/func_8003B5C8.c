@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8003B5C8.h"
 #include "text_constants.h"
 
 typedef struct {

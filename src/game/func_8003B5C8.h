@@ -1,0 +1,6 @@
+#ifndef MEMORIES_DECOMP_FUNC_8003B5C8_H
+#define MEMORIES_DECOMP_FUNC_8003B5C8_H
+
+void func_8003B5C8(void);
+
+#endif
