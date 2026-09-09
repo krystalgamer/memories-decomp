@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80058E1C.h"
 
 extern volatile unsigned char D_8009AFA3;
 
