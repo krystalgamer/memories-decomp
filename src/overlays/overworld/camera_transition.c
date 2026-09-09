@@ -3,6 +3,8 @@
 #include "camera_state.h"
 #include "../../game/trig_constants.h"
 #include "../../game/view_state.h"
+#include "../../game/func_80043178.h"
+#include "../../game/display_object_interpolation.h"
 
 typedef struct {
     u8 pad0[8];
@@ -42,9 +44,6 @@ extern s32 D_801695F0;
 extern s32 D_801695F4;
 extern s32 D_80169610;
 extern s32 D_80169614;
-
-extern void func_80043178(MapObject *);
-extern void func_8004318C(MapObject *, s32, s32, s32);
 
 void CampaignMap_StartCameraTween(s32 index, s32 steps)
 {

@@ -18,6 +18,12 @@ typedef struct {
 } FreeDuelSparkle;
 
 extern void *gFreeDuel_apSparklePool[];
+/* Not display_object_api.h's `void func_8004036C(void *object)`, on purpose.
+   The two calls below pass no argument at all, so $a0 holds whatever the
+   preceding code left there; there is no expression to write for it. Taking
+   the typed declaration would make the compiler set up an argument the retail
+   image does not, so this stays a local `void (void)` until the two calls are
+   understood well enough to name what they are really passing. */
 extern void func_8004036C(void);
 
 void **FreeDuel_GetSparkleSlot(void)

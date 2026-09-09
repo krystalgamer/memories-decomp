@@ -7,6 +7,7 @@
 #include "../../game/display_object_helpers.h"
 #include "../../game/main_services.h"
 #include "../../game/display_object_config.h"
+#include "../../game/sound_output.h"
 
 extern u8 *D_80184558;
 extern u8 *D_8018455C;
@@ -22,8 +23,6 @@ extern u8 D_8018459A;
 extern u8 D_8018459B;
 extern u8 D_8018459C;
 extern u8 D_8018459D;
-
-extern void func_80047314(s32);
 
 void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
 {
