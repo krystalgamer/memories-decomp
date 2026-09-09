@@ -12,6 +12,11 @@ extern u8 *D_8009B17C;
 extern s16 D_8009B1D2;
 extern u8 *D_8009B214;
 extern u16 D_8009B220;
+/* One byte at 0x8009B364; the 8 is a threshold, not a length. This TU's
+ * profile compiles at -G8 but assembles at -G4, so the array needs a size
+ * the assembler can see to be above 4. Measured: an incomplete [] here
+ * costs 4 bytes of text, though it is exact in func_8001798C.c, which
+ * assembles at -G8. See duel_terrain_boost.h for all five spellings. */
 extern u8 gDuel_bTerrain[8];
 
 /* MATCH (2026-09-05), from a park at 2 differences. The last two were the
