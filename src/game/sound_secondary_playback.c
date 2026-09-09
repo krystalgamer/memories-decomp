@@ -12,7 +12,6 @@ typedef struct {
 
 extern int func_8004A27C();
 extern void func_8004A518(void);
-extern int func_8004ACE4();
 extern void SD_StartSequenceTracks(SDSecondaryState *);
 /* Preserve the no-argument call form used by the playback-start variant. */
 extern void SD_StartSequenceTracks_no_arg(void) asm("SD_StartSequenceTracks");
