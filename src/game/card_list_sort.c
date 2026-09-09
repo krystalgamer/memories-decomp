@@ -7,7 +7,7 @@
 
 /* Card-list sort. Builds a 32-bit sort key into each sixteen-byte row of the
    list at p and hands the block to qsort with one of two comparators, chosen
-   by the sort mode at p[0x2D45].
+   by the list's sort_mode.
 
    Levers that mattered here:
    - The rows are walked with a pointer, not indexed. Indexing p[i] lets
@@ -30,17 +30,17 @@
 
 extern u8 *D_8009B2FC;
 
-void func_80032C48(u8 *p)
+void func_80032C48(CardList *list)
 {
     CardListSortItem *row;
     s32 i;
     s32 n;
 
-    n = *(s16 *)(p + 0x2D42);
-    row = (CardListSortItem *)p;
-    switch (p[0x2D45]) {
+    n = list->sort_row_count;
+    row = (CardListSortItem *)list;
+    switch (list->sort_mode) {
     case 1:
-        if (p[0x2D47] != 0) {
+        if (list->kind != 0) {
             for (i = 0; i < n; i++, row++) {
                 row->key = 0xFFFF;
                 if (row->field_0D != 0) {
@@ -52,7 +52,7 @@ void func_80032C48(u8 *p)
                 row->key = row->card_id;
             }
         }
-        qsort(p, n, 0x10, func_80032BD4);
+        qsort(list, n, 0x10, func_80032BD4);
         break;
     case 2:
         for (i = 0; i < n; row++, i++) {
@@ -61,7 +61,7 @@ void func_80032C48(u8 *p)
                 row->key = 0;
             }
         }
-        qsort(p, n, 0x10, func_80032BD4);
+        qsort(list, n, 0x10, func_80032BD4);
         break;
     case 3:
         for (i = 0; i < n; row++, i++) {
@@ -90,7 +90,7 @@ void func_80032C48(u8 *p)
                 }
             }
         }
-        qsort(p, n, 0x10, BuildDeck_CompareCard);
+        qsort(list, n, 0x10, BuildDeck_CompareCard);
         break;
     case 4:
         for (i = 0; i < n; row++, i++) {
@@ -105,7 +105,7 @@ void func_80032C48(u8 *p)
                     1;
             }
         }
-        qsort(p, n, 0x10, BuildDeck_CompareCard);
+        qsort(list, n, 0x10, BuildDeck_CompareCard);
         break;
     case 5:
         for (i = 0; i < n; row++, i++) {
@@ -120,7 +120,7 @@ void func_80032C48(u8 *p)
                     1;
             }
         }
-        qsort(p, n, 0x10, BuildDeck_CompareCard);
+        qsort(list, n, 0x10, BuildDeck_CompareCard);
         break;
     case 6:
         for (i = 0; i < n; row++, i++) {
@@ -130,7 +130,7 @@ void func_80032C48(u8 *p)
                             CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
             }
         }
-        qsort(p, n, 0x10, func_80032BD4);
+        qsort(list, n, 0x10, func_80032BD4);
         break;
     case 8:
         for (i = 0; i < n; row++, i++) {
@@ -142,18 +142,18 @@ void func_80032C48(u8 *p)
                 }
             }
         }
-        qsort(p, n, 0x10, func_80032BD4);
+        qsort(list, n, 0x10, func_80032BD4);
         break;
     case 9:
-        n = *(s16 *)(p + 0x2D40);
+        n = list->row_count;
         for (i = 0; i < n; row++, i++) {
             row->key = -1;
             if (row->field_0D != 0) {
                 row->key = Rand_GetInterval(0x1000);
             }
         }
-        qsort(p, n, 0x10, func_80032BD4);
+        qsort(list, n, 0x10, func_80032BD4);
         break;
     }
-    func_80031E04(p, 8);
+    func_80031E04(list, 8);
 }
