@@ -4,6 +4,7 @@
 #include "func_80033500.h"
 #include "func_80032B38.h"
 #include "card_list_sort.h"
+#include "card_list_text_boxes.h"
 #include "card_constants.h"
 #include "input.h"
 #include "sound.h"
@@ -13,7 +14,7 @@ extern u8 D_8009B24B;
 extern u16 gDuel_wViewerCardID;
 extern u8 D_8009B254;
 
-extern s32 func_800330BC(u8 *);
+extern s32 func_800330BC(CardList *);
 extern void BuildDeck_AddCard(u8 *, s32);
 extern void func_80031574(s32, s32, s32, s32, s32);
 extern void func_80031E5C(u8 *);
@@ -26,7 +27,7 @@ void func_8003353C(u8 *p) {
 
     func_80032B38(p);
 
-    if (func_800330BC(e) != 0) {
+    if (func_800330BC((CardList *)e) != 0) {
         return;
     }
 
@@ -59,7 +60,7 @@ void func_8003353C(u8 *p) {
             SD_SEPlayFull(7);
             *(e + 0xD - -((*(s16 *)(e + 0x2D3C) +
                              *(s8 *)(e + 0x2D48)) * 0x10)) = 0;
-            func_80032C48(p + 0x2D50);
+            func_80032C48((CardList *)(p + 0x2D50));
             func_8003201C(p);
             func_80031EE4(p, r);
             func_80031E5C(p);
@@ -79,7 +80,7 @@ void func_800336F0(u8 *p)
 
     e = p + (p[0x6342] * 0x2D4C + 4);
     func_80032B38(p);
-    if (func_800330BC(e) != 0) {
+    if (func_800330BC((CardList *)e) != 0) {
         return;
     }
 

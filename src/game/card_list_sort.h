@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_CARD_LIST_SORT_H
 
 #include "../types.h"
+#include "card_list_text_boxes.h"
 
 /* One 16-byte row sorted in place. The comparators consume the key and card
  * id; func_80032C48 also uses field_0D to exclude unavailable rows. */
@@ -19,7 +20,9 @@ s32 BuildDeck_CompareCard(
 );
 s32 func_80032BD4(CardListSortItem *left, CardListSortItem *right);
 
-/* Re-sorts the card list that starts at the given record array. */
-void func_80032C48(u8 *p);
+/* Re-sorts the list's rows in place. The rows are the same sixteen bytes
+ * CardList spells as CardEntry; this file names them CardListSortItem
+ * because it reads the key word at +0 that the text-box side never touches. */
+void func_80032C48(CardList *list);
 
 #endif
