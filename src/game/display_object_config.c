@@ -2,8 +2,7 @@
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "display_object_config.h"
-
-extern void DisplayObject_ResetPool(void);
+#include "display_object_reset_pool.h"
 
 typedef struct {
     u8 pad_00[8];
