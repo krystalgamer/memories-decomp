@@ -14,13 +14,9 @@
 #include "../../game/func_8003B6AC.h"
 #include "name_entry_state.h"
 
-extern u8 D_8016D401;
 extern u8 D_8016D403;
-extern u8 *D_8016D418;
-extern u8 D_8016D42C;
 extern u8 *D_8016D404;
 extern u8 D_8016D4D0;
-extern s16 D_8016D4D2;
 extern u8 D_801B125A[];
 extern u8 gSaveData_aPlayerNameSjis[];
 extern void func_800403F0(void);

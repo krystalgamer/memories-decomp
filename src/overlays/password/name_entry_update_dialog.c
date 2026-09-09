@@ -24,11 +24,9 @@ typedef struct {
     u8 f108;
 } Caret;
 
-extern u16 D_8016D4D2;
 extern s8 D_8009B34D;
 extern u8 D_801B125A[];
 extern DuelEffectChannel D_800EB1C0;
-extern u8 *D_8016D418;
 extern u8 D_8016D41C;
 
 extern DuelEffectChannel *func_80035BE4(s32, s32, s32, s32, s32, s32);

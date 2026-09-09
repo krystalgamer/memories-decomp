@@ -24,17 +24,30 @@
  *               tween step (target - current) << 8 / 8 is built.
  *   D_8016D43C  The object the length adjuster works on.
  *
+ *   D_8016D401  The keyboard column, stepped and wrapped at 15.
+ *   D_8016D42C  The caret position: scaled by 2 to index the name buffer, by
+ *               16 for the glyph x, and shifted left 4 for the glyph lookup.
+ *   D_8016D4D2  The pending dialog id, masked with 0xFFF at its one reader.
+ *   D_8016D418  The name buffer, pointed at gSaveData_aPlayerNameSjis.
+ *
+ * Four of the five neighbours this header used to list as unsettled are the
+ * four above. They were never really in dispute: name_entry_setup.c is the
+ * only source that spelled them differently, and it only ever writes them
+ * (`= 0`, `= 244`, and one pointer assignment), so it never constrained the
+ * type. D_8016D418's third spelling was name_entry_update_keyboard.c's
+ * `u16 *`, which it casts to s32 before doing any arithmetic, so that one
+ * never used its pointee type either. A declarer that only stores, or only
+ * takes an address, abstains rather than votes.
+ *
  * NOT HERE, ON PURPOSE
  *
- * Five neighbours in the same address block are declared inconsistently and
- * are left local until the disagreement is resolved from evidence rather
- * than by picking one:
- *
- *   D_8016D401  s8 and u8        D_8016D42C  s8 and u8
- *   D_8016D404  u8 *, Fixed *, W *
- *   D_8016D418  u8 * and u16 *   D_8016D4D2  u16 and s16
- *
- * A shared wrong declaration spreads further than a local one, so these wait.
+ * D_8016D404 is the one real disagreement of the five. name_entry_setup.c
+ * assigns it, but name_entry_update_keyboard.c and
+ * name_entry_spawn_glyph_sprite.c both dereference it through structs of
+ * their own -- `W` and `Fixed` -- and two dereferencing readers with
+ * different types is the canonical-versus-local problem the password digit
+ * cursor had, not a spelling to pick. It wants the same union treatment in
+ * its own change.
  */
 extern u8 D_8016D400;
 extern u8 D_8016D402;
@@ -43,5 +56,9 @@ extern u8 D_8016D426;
 extern s16 D_8016D434;
 extern s16 D_8016D436;
 extern u8 *D_8016D43C;
+extern s8 D_8016D401;
+extern s8 D_8016D42C;
+extern u16 D_8016D4D2;
+extern u8 *D_8016D418;
 
 #endif
