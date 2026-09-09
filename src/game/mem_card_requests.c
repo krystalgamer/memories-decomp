@@ -15,7 +15,6 @@ extern u8 D_80010538[];
 extern u8 D_800F2B00[];
 extern s32 D_8009B430;
 extern s16 D_8009B434;
-extern u8 D_8009B437;
 extern s16 D_8009B44C;
 
 int func_8004413C(int value)

@@ -38,6 +38,17 @@ extern volatile s32 gMemCard_nIOResult;
 extern s32 gMemCard_nIOResult;
 #endif
 
+/* The memory-card channel a request was issued on. func_800440B4 stores its
+ * first parameter here before it resets gMemCard_nIOResult; every
+ * caller passes it the int it was itself handed, and func_8004413C passes
+ * that same int to _card_info(long chan). The readers hand it back to
+ * _card_info, _card_clear and _card_load, and to func_80044470's s32 first
+ * parameter. Retail stores it with sb and reads it with lbu at ten sites,
+ * all gp-relative into $a0, five of the reads in func_80044838, still
+ * assembly; so it is one unsigned byte, and the one char spelling was the
+ * writer's, where a store shows no sign. */
+extern u8 D_8009B437;
+
 extern u8 gMemCard_szSaveFileName[];
 
 /* The filename buffer every memory card request is issued against.
