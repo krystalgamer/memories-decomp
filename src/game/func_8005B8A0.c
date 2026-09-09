@@ -6,18 +6,6 @@
 #include "graphics_constants.h"
 
 extern u8 *D_80010000 __attribute__((section(".data")));
-extern u8 D_8009B060;
-extern u8 D_8009B061;
-extern u8 D_8009B063;
-extern u8 D_8009B064;
-extern u8 D_8009B065;
-extern u8 D_8009B066;
-extern u8 D_8009B067;
-extern u32 D_8009B068;
-extern u32 D_8009B06C;
-extern u32 D_8009B070;
-extern u8 *D_8009B498;
-extern CdlLOC D_8009B49C;
 extern s16 D_800FE0CC __attribute__((section(".data")));
 extern u16 D_800FE0D0 __attribute__((section(".data")));
 extern s32 D_800FE0D4 __attribute__((section(".data")));

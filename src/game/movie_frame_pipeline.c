@@ -14,22 +14,9 @@
    and are the whole gcc_2_8_1_g8 run between func_8005B85C and
    movie_stream_requests.c. */
 
-extern u8 D_8009B060;
-extern u8 D_8009B061;
-extern u8 D_8009B062;
-extern u8 D_8009B063;
-extern u8 D_8009B064;
-extern u8 D_8009B065;
-extern u8 D_8009B066;
-extern u8 D_8009B067;
-extern u32 D_8009B068;
-extern u32 D_8009B06C;
-extern u32 D_8009B070;
 extern u8 D_8009B142 __attribute__((section(".data")));
 extern u8 D_8009B143 __attribute__((section(".data")));
 extern u8 D_8009B144 __attribute__((section(".data")));
-extern u8 *D_8009B498;
-extern CdlLOC D_8009B49C;
 extern u8 D_8009B4A0;
 extern u8 D_8009B4A1;
 extern u8 D_8009B4A2;
