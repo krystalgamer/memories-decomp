@@ -2,6 +2,7 @@
 #include "display_object_layout.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
+#include "func_80031E5C.h"
 
 extern s32 D_801D5608[];
 void func_80031E5C(u8 *arg0) {
