@@ -2,5 +2,6 @@
 #define MEMORIES_DECOMP_DISPLAY_OBJECT_BRIGHTNESS_H
 
 void func_80030090(void);
+void func_800300AC(void);
 
 #endif

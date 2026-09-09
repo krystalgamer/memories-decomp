@@ -19,7 +19,6 @@ extern u8 D_8009B2DC;
 extern u8 D_8009B2E9;
 extern u8 D_80090CB4[];
 
-extern void func_800300AC(void);
 extern void func_8003FFB4(s32);
 extern void func_8003FF88(s32);
 extern void func_8004763C(void);
