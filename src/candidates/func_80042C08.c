@@ -1,6 +1,14 @@
-#include "../../../../src/types.h"
-#include "../../../../src/psyq/libgte.h"
-#include "../../../../src/psyq/libgpu.h"
+/*
+ * Current best under gcc_2_8_1_g8: 344/348 instructions and opcode distance
+ * 4. The first 87 instructions, 0x58 frame, seven spill slots and register
+ * roles match. Residual: one &poly[3] addiu, one &poly[5] saved-register copy
+ * and two nops. Five named quad pointers and two alternating load temporaries
+ * are required; pinning &poly[5] to $30 miscompiles by overwriting the
+ * scratch-pad base.
+ */
+#include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 
 typedef struct {
     u8 pad0[0x14];
