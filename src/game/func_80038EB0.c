@@ -1,5 +1,7 @@
 #include "../types.h"
+#include "display_effect_lifecycle.h"
 #include "menu_record.h"
+#include "duel_effect.h"
 
 typedef struct {
     u8 *streams[20];
@@ -9,11 +11,7 @@ typedef struct {
     s8 depth;
 } EffectObject;
 
-extern s32 D_8009B350;
 extern u8 *D_8009B328;
-
-extern void func_80039FD4(u8 *);
-extern void func_80039F44(u8 *);
 
 /* Effect-script command handler: reads a command id and a flag byte from the
    object's current script stream, finds the display effect record for the id
@@ -51,7 +49,7 @@ void func_80038EB0(EffectObject *o) {
         }
         D_8009B328 = e;
         if (flags & 2) {
-            func_80039FD4(e);
+            func_80039FD4((u8 *)e);
             return;
         }
         if (flags & 1) {
@@ -99,7 +97,7 @@ void func_80038EB0(EffectObject *o) {
         slot = 2;
     }
     e = (u8 *)D_800EB010 + slot * sizeof(MenuRecord);
-    func_80039F44(e);
+    func_80039F44((DisplayEffectState *)e);
     e[0x30] = id;
     e[0x3C] = slot;
     if (slot != 0) {

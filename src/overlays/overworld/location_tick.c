@@ -1,4 +1,10 @@
 #include "../../types.h"
+#include "camera_transition.h"
+#include "pick_exit.h"
+#include "location_objects.h"
+#include "location_label.h"
+#include "location_marker.h"
+#include "../../game/view_state.h"
 #include "../../game/display_object_api.h"
 #include "../../game/sound.h"
 
@@ -10,17 +16,9 @@ extern u8 D_8016960D;
 extern u8 *D_801695C8;
 extern u8 D_800E9ECE;
 extern u8 D_800E9ECF;
-extern u16 D_800F2848;
 extern u8 D_8009B26C;
 extern u8 D_8009B27A;
-extern s32 CampaignMap_UpdateLocationTransition(void);
-extern void CampaignMap_RebuildLocationObjects(s32);
-extern u8 *CampaignMap_CreateLocationLabel(s32);
-extern u8 *CampaignMap_CreateLocationMarker(s32);
-extern void CampaignMap_ClearLocationObjects(void);
 extern void Fade_InitOut(void);
-extern void func_8001352C(void);
-extern s32 CampaignMap_PickExit(void);
 
 void CampaignMap_UpdateLocation(void)
 {
@@ -58,7 +56,7 @@ void CampaignMap_UpdateLocation(void)
             func_8004036C(D_801695C8);
             SD_BGMFadeOutWithStep(4);
         }
-        D_800F2848 = D_800F2848 - 2;
+        D_800F2848.field_00 = D_800F2848.field_00 - 2;
         func_8001352C();
         if ((D_800E9ECE & 0x80) == 0) {
             D_8009B26C = 2;

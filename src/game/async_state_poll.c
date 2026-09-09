@@ -7,7 +7,6 @@ extern u8 D_8009B3EA[];
 extern u8 D_8009B26C[];
 
 extern s32 func_8003FD14(void);
-extern void func_8005B85C(void);
 
 void func_80031000(void)
 {
@@ -22,7 +21,7 @@ void func_80031000(void)
     result = func_8003FD14();
     if (result != 0) {
         if (result == 1) {
-            func_8005B85C();
+            File_RequestMainMenuPackage();
             File_WaitForTransfers();
             D_8009B26C[0] = 0x10;
         }

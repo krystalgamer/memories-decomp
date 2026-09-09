@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_PASSWORD_SHOP_H
 
 #include "../../types.h"
+#include "../../game/duel_effect.h"
 
 /* Known prefix of the preview's control object, not its full allocation. */
 typedef struct {
@@ -17,11 +18,26 @@ typedef void (*PasswordCursorUpdate)(u8 *object);
 
 extern PasswordCardPreviewView *D_8016D4D8;
 
+/* Builds text-box record 0 and returns it; both call sites ignore the
+   record. */
+DuelEffectChannel *Password_CreateMessageBox(s32 messageId, s32 flags);
 void Password_InitShopScreen(void);
 void Password_UpdateShopScreen(void);
 void Password_UpdateDigitCursor(u8 *object);
 void Password_UpdateDigitCursorDecoration(u8 *object);
 /* Retain caller setup; the selected card comes from cached slot 0. */
 void Password_RecreateCardPreview(s32 ignored);
+
+/* Rebuilds the eight-digit entry box and the starchip counter from the
+   current values. Both are called on entry and again after every change. */
+void Password_RefreshDigitDisplay(void);
+void Password_RefreshStarchipDisplay(void);
+
+/* Points the digit cursor at `object` and starts its slide towards it. */
+void Password_SetDigitCursorTarget(u8 *object);
+
+/* Resolves the eight entered digits to a card id, or 0 when they do not
+   match any password. */
+s32 Password_LookupCardID(void);
 
 #endif

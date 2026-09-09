@@ -12,6 +12,17 @@ typedef char CardCountEntry_size_must_be_4[
     sizeof(CardCountEntry) == 4 ? 1 : -1
 ];
 
+typedef u8 *(*ModelHandler)(u8 **);
+typedef void (*ScriptCommandHandler)(void);
+
+typedef struct {
+    u8 b[11];
+} SDInitBlk11;
+
+typedef struct {
+    u8 b[10];
+} SDInitBlk10;
+
 typedef struct {
     s32 key;
     void **handler;
@@ -37,8 +48,26 @@ struct FileTransferDescriptor {
     s32 absolute_lba;
     s32 phase_remaining;
     u32 status_flags;
-    u16 counter;
-    u16 field_32;
+    /* One word at 0x30 that the loader's phase callbacks write both ways,
+       so the record carries both readings rather than picking one.
+
+       As two halfwords it is a pair: duel_card_data_transfer.c counts
+       sectors in `counter` alone, the phase-2 paths write a VRAM position
+       pair, and file_stream.c splits a byte count across the two halves.
+       As one word it is a single packed constant, which is what the phase-3
+       paths of func_8002BD0C and func_800577B0 store in one instruction.
+
+       Neither view is a superset of the other and retail emits both, so
+       collapsing them to either alone changes codegen: spelling the phase-3
+       word as two halfword stores costs an instruction at each site and
+       overflows .text. */
+    union {
+        struct {
+            u16 counter;
+            u16 field_32;
+        } h;
+        u32 word;
+    } field_30;
     s32 direct_destination;
     void *callback_data;
     u32 position;
@@ -76,10 +105,10 @@ typedef char FileTransferDescriptor_status_flags_offset_must_be_0x2C[
     YGO_TYPE_OFFSET(FileTransferDescriptor, status_flags) == 0x2C ? 1 : -1
 ];
 typedef char FileTransferDescriptor_counter_offset_must_be_0x30[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, counter) == 0x30 ? 1 : -1
+    YGO_TYPE_OFFSET(FileTransferDescriptor, field_30.h.counter) == 0x30 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_field_32_offset_must_be_0x32[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, field_32) == 0x32 ? 1 : -1
+    YGO_TYPE_OFFSET(FileTransferDescriptor, field_30.h.field_32) == 0x32 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_callback_data_offset_must_be_0x38[
     YGO_TYPE_OFFSET(FileTransferDescriptor, callback_data) == 0x38 ? 1 : -1

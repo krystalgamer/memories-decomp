@@ -326,6 +326,27 @@ typedef char ModelCameraMove_target_offset_must_be_0x1C[
     MODEL_OFFSET(ModelCameraMove, target) == 0x1C ? 1 : -1
 ];
 
+/* One entry of the eight-byte table at D_80091570.  Every access in the tree
+ * is sixteen bits wide: func_8005F5C8 reads field_00, func_8005F27C reads the
+ * same halfword through a byte cursor stepping 8, and func_8005A618 reads
+ * `angle` and wraps it modulo a full turn.  The retail bytes agree -- the
+ * first entries are 02BC / FE00 / FF00 / 0000 and 02BC / 0200 / FF00 / 0000,
+ * where field_00 is a constant 700 and the second halfword steps in eighths
+ * of a turn.  Nothing reads the record as two 32-bit words.
+ *
+ * The table is fifteen records: it ends at 0x800915E8, where the next object
+ * begins and has none of this pattern.  The declaration is left unsized
+ * anyway, because func_8005A618 masks its index with 0x1F and so can reach
+ * past the fifteenth -- the mask is not an entry count, and a bound here
+ * would say otherwise.
+ */
+typedef struct {
+    s16 field_00;
+    s16 angle;
+    s16 field_04;
+    s16 field_06;
+} ModelEffectCoefficient;
+
 typedef char ModelTintColor_size_must_be_0x4[
     sizeof(ModelTintColor) == 0x4 ? 1 : -1
 ];
@@ -342,8 +363,21 @@ typedef char ModelTintRequest_end_offset_must_be_0x14[
     MODEL_OFFSET(ModelTintRequest, end) == 0x14 ? 1 : -1
 ];
 
+typedef char ModelEffectCoefficient_size_must_be_0x8[
+    sizeof(ModelEffectCoefficient) == 0x8 ? 1 : -1
+];
+typedef char ModelEffectCoefficient_angle_offset_must_be_0x2[
+    MODEL_OFFSET(ModelEffectCoefficient, angle) == 0x2 ? 1 : -1
+];
+typedef char ModelEffectCoefficient_field_04_offset_must_be_0x4[
+    MODEL_OFFSET(ModelEffectCoefficient, field_04) == 0x4 ? 1 : -1
+];
+
 #undef MODEL_OFFSET
 
+#ifndef MODEL_EFFECT_COEFFICIENT_CUSTOM_EXTERN
+extern ModelEffectCoefficient D_80091570[];
+#endif
 #ifndef MODEL_SLOT_CUSTOM_EXTERN
 extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
 #endif

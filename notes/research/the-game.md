@@ -160,7 +160,7 @@ levels, tint, flags, a configured step, a signed sweep head, and 30 band
 levels [`0x800E9EC8`]. The renderer uses thirty `320x8` boxes; paired bands
 `i` and `29-i` share a level. The historically captured black-menu fades
 close from the top/bottom edges and open from the middle. Matching
-`func_800151D8` establishes the two traversal directions, but the observed
+`Fade_StepBands` establishes the two traversal directions, but the observed
 step `8` and roughly 48-frame duration are not universal: the final color
 helpers can override a banded request with non-band flags and step `12`.
 
@@ -208,7 +208,7 @@ only populated stream-range entry plays frames 1 through 303 from the first
 3080 sectors of copy 0; no range selects the later copies.
 
 **Startup seeding.** Matching [`Main_Init`](../../src/game/main_init.c)
-calls [`func_80013154`](../../src/game/func_80013154.c), whose
+calls [`func_80013154`](../../src/game/main_services.c), whose
 graphics/input initialization ends with `srand(0x56)`. After that helper
 returns and `Sound_InitFrontend` runs, `Main_Init` calls
 `srand(0x55555555)`. The two seed values and this call order are code-backed.
@@ -591,7 +591,7 @@ full, in the order things happen.
   `gDuel_awPlayerDeckShuffle` (`0x80177F94`), then the opponent source to
   `gDuel_awOpponentShuffledDeck` (`0x80178038`) with
   `gDuel_awOpponentDeckShuffle` (`0x80177FBC`).
-  Within each matching [`Duel_ShuffleDeck`](../../src/game/func_800243F4.c)
+  Within each matching [`Duel_ShuffleDeck`](../../src/game/duel_shuffle_deck.c)
   call, 160 full-range pair swaps follow deck preparation, rather than a
   shrinking-range Fisher-Yates pass.
   Each swap consumes two `rand() % 40` results and moves the card ID and its
@@ -974,7 +974,7 @@ Each monster attacks at most once per turn.
 ### 5.9 The 3-D battle and the "Poly Mode"
 
 The duel's 3-D presentation runs through matching
-[`Main_RunAnimatedBattle`](../../src/game/Main_RunAnimatedBattle.c)
+[`Main_RunAnimatedBattle`](../../src/game/main_run_animated_battle.c)
 (`0x8002D180`). This is a stateful mode tick, not a read-only display of
 two combatants. Every call sets the GTE projection center to `(160, 120)`
 and projection-plane distance to `300`, before testing the initialization
@@ -1869,7 +1869,7 @@ continues in Free Duel with every campaign duelist available.
 >   unstarted value to select the corresponding script entry.
 >   The script begins with a `u16 offset[199]`
 >   table, one entry per event, and each event is a byte stream run by
->   `func_8002FA54` through a 23-opcode table [`0x80090C50`, opcode = byte &
+>   `Script_RunTick` through a 23-opcode table [`0x80090C50`, opcode = byte &
 >   0x1F]. The opcodes that matter for the flow: 1 = show location picture,
 >   2 = run dialogue N, 3 = flag (set/clear, or "if flag, jump")
 >   [`func_8002E918`], 8 = go to map location N, 12 = jump, 18 = game over,
@@ -1884,7 +1884,7 @@ continues in Free Duel with every campaign duelist available.
 >   index `id − 0x100`, pointer = `0x801B0000` + offset, per
 >   `func_800383DC`]. Bytes below `0xF0` are characters (the community's
 >   `table.tbl` decodes `0x00`–`0x5B`); `0xF0`–`0xFF` are control codes
->   dispatched through a 16-entry table [`0x80090F18`, `func_800393B0`]:
+>   dispatched through a 16-entry table [`0x80090F18`, `TextBox_BuildStep`]:
 >   `F8 op` selects a 27-entry sub-table [`0x80090EAC`] whose op `0x19` is
 >   `func_80038AB0`, **unlock duelist** (sets `0x1F + id` and `0x6E0 + id`);
 >   `F9 u16` is the **flag** code [`func_80038D2C`]: bit 14 selects a write;
@@ -1903,7 +1903,7 @@ continues in Free Duel with every campaign duelist available.
 >   selected, while value 1 advances to losses. This confirms index 0 as win
 >   and index 1 as loss.
 >
-> The loaders read the flags too — the Egypt map loader [`func_8003C0C0`]
+> The loaders read the flags too — the Egypt map loader [`File_RequestEgyptOverworldPackage`]
 > picks the blob at sector `0x1FD9` or, if flag `0x47` is set, the one at
 > `0x2077`. §7.11 lists every story flag with the dialogue that sets it;
 > `tools_src/campaign_script.py` (in `MaChInEgUn3/ygofm-decomp`) reproduces
@@ -2320,9 +2320,9 @@ to its [tracked layout](../../config/slus_01411/overlays/free_duel.yaml).
 This replaces the earlier unsupported "8 KB of code" figure.
 Its resident-callable entry remains `0x80168FB4`.
 
-The two overworld images are separate variants: matching `func_8003C0C0`
+The two overworld images are separate variants: matching `File_RequestEgyptOverworldPackage`
 selects WA package sector `8153` or `8311` by testing story flag `0x47`.
-The main-menu loader `func_8005B85C` instead requests SU sectors `[0, 115)`;
+The main-menu loader `File_RequestMainMenuPackage` instead requests SU sectors `[0, 115)`;
 its executable phase is the `[98, 114)` slice above. Sharing a callback
 system does not make those bytes WA-owned.
 

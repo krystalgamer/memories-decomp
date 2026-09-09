@@ -216,8 +216,11 @@ void SD_UpdateRuntime(void)
     }
     off = 0;
     do {
-        *(u8 *)((u8 *)p + off + 0x80) = e[0];
-        *(SDCommand *)((u8 *)g_SDValue + off + 0x80) =
+        /* Retail adds the record base to the running byte offset in that
+           order, so these keep the byte form; SD_COMMAND_QUEUE_BYTE_OFFSET is
+           asserted against SDValue.commands in sound.h. */
+        *(u8 *)((u8 *)p + off + SD_COMMAND_QUEUE_BYTE_OFFSET) = e[0];
+        *(SDCommand *)((u8 *)g_SDValue + off + SD_COMMAND_QUEUE_BYTE_OFFSET) =
             *(SDCommand *)e;
         off += 0x30;
         p = g_SDValue;

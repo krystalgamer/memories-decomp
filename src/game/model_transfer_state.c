@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model_copy_slot_u16_values.h"
+#include "model_transfer_flags.h"
 
 typedef struct {
     s16 id;
@@ -11,8 +12,6 @@ extern s32 D_8009B074;
 extern u8 D_8009B078;
 extern s8 D_8009B079;
 extern s8 D_8009B07A;
-extern s8 D_8009B07B;
-extern s8 D_8009B07C;
 
 void func_8005FAE4(void)
 {

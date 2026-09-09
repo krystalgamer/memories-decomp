@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80032B38.h"
 #include "duel_effect.h"
 #include "fade.h"
 #include "card_constants.h"
@@ -13,7 +14,6 @@ extern u8 D_8009AF76 __attribute__((section(".data")));
 extern u8 D_8009B140 __attribute__((section(".data")));
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 
-extern s32 func_80032B38(u8 *);
 extern s32 func_80033998(void);
 extern void func_80032370(void);
 

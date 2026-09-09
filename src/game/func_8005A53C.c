@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model_handler_registry.h"
+#include "func_8005A53C.h"
 
 void func_8005A53C(s32 (*fn)(s32), u8 *entry, s32 arg2, s32 count)
 {

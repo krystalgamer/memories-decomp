@@ -1,3 +1,4 @@
+#define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "input.h"
@@ -9,8 +10,12 @@
 #include "sound.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
+#include "func_80043178.h"
+#include "display_object_interpolation.h"
 #include "file_transfer.h"
 #include "text_box_runtime.h"
+#include "duel_card.h"
+#include "duel_effect_resource_record.h"
 
 extern u8 *D_8009B240;
 extern u8 D_8009B248;
@@ -21,21 +26,16 @@ extern u8 D_8009B254;
 extern u16 gDuel_wViewerCardID;
 extern u8 D_8009AF76 __attribute__((section(".data")));
 extern u8 D_8009B0C0 __attribute__((section(".data")));
-extern u32 D_8009B134 __attribute__((section(".data")));
 extern u8 D_8009B140 __attribute__((section(".data")));
 extern u8 D_8009B26C __attribute__((section(".data")));
 extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
-extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
-extern u8 D_800EA0E8[];
-extern s32 gDuel_adwCardStats[];
+extern DuelEffectResourceRecord D_800EA0E8[];
 
 extern s32 func_800282E8(void);
 extern void func_80029164(s32, s32);
 extern void func_80029528(s32);
 extern void func_80029574(s32);
 extern u8 *func_800291E0(s32, s32, s32);
-extern void func_80043178(u8 *);
-extern void func_80043230(u8 *, s32, s32, s32);
 
 void func_800283F4(void)
 {
@@ -45,7 +45,7 @@ void func_800283F4(void)
     register s32 channel __asm__("$4");
     u8 *obj;
     u8 *bg;
-    u8 *p;
+    DuelEffectResourceRecord *p;
     u8 *next_obj;
     s32 *stats;
     DuelEffectChannel *box;
@@ -70,11 +70,11 @@ void func_800283F4(void)
         flags = channel;
         D_8009B0C0 = flags - 2;
         func_80029574(flags);
-        p = D_800EA0E8;
-        *(s16 *)(p + 0xEA) = 0x100;
-        *(s16 *)(p + 0xE8) = 0;
-        *(s16 *)(p + 0xEC) = 0;
-        *(s16 *)(p + 0xEE) = 0xFF;
+        p = &D_800EA0E8[0];
+        p[3].src_y = 0x100;
+        p[3].src_x = 0;
+        p[3].field_2C = 0;
+        p[3].field_2E = 0xFF;
         func_80029164(3, (s16)gDuel_wViewerCardID);
         obj = func_800291E0(3, -1, -1);
         adj = D_8009B24B;
@@ -173,7 +173,8 @@ void func_800283F4(void)
                 }
             }
         }
-        if (((D_8009B0F4_abs & 0x02000030) | D_8009B134) != 0) {
+        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             D_8009B134_abs) != 0) {
             return;
         }
         bg = D_8009B240;

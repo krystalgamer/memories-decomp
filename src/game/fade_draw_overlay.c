@@ -10,7 +10,7 @@
 
    The fade state lives in the gFade_State record: byte 4 is the current
    level, byte 6 is the flag byte, bytes 0/1/2 are per-channel tint, and
-   bytes 0xA..0x27 are 30 per-band levels. func_80015310 updates the state
+   bytes 0xA..0x27 are 30 per-band levels. Fade_Update updates the state
    before the draw gate: active flag 0x80, or a nonzero D_8009B141 with
    level != 0xFF. Level 0xFF is not a universal completion sentinel.
 
@@ -35,13 +35,15 @@
    words are each written whole (x+y and w+h together), while y and h are
    updated as halves, so those two go through casts. The tail reads the
    fade record through gFade_State and the tint block through the pointer
-   set up for the func_80015310 call -- that is what makes gcc rematerialise
+   set up for the Fade_Update call -- that is what makes gcc rematerialise
    the record address once for the tail instead of reusing $s2 throughout.
    Matches 0/117 with -G8 -msplit-addresses. */
 
 /* GsBOXF-compatible descriptor at 0x1F8003C0, not a GPU packet. */
 typedef struct {
-    u32 tag;   /* 0x00  SDK attribute: 0x60000000 default, 0x50000000 tinted */
+    u32 tag;   /* 0x00  GsBOXF attribute: GsALON | GsATWO by default
+                 (subtractive, so the box darkens), GsALON | GsAONE when
+                 tinted (additive). */
     u32 xy;    /* 0x04  x = low half, y = high half (stepped per band) */
     u32 wh;    /* 0x08  w = low half (320), h = high half (240, or 8) */
     u8  r;     /* 0x0C */
@@ -59,7 +61,6 @@ typedef struct {
    scalars. The 0x800E9xxx globals are reached lui/%lo (absolute), so each
    is declared oversized -- a size over 8 bytes keeps it out of the -G8
    small-data section. */
-extern u8 D_800E9ECE[16];
 extern s32 D_800E9D94[4];      /* [0] = ordering table the boxes sort into */
 extern u8 D_8009B140;
 extern u8 D_8009B141;
@@ -76,11 +77,11 @@ void Fade_DrawOverlay(void) {
     u8 flags;
 
     rec = D_800E9EC8_arr;
-    func_80015310(rec);
+    Fade_Update(rec);
     flags = rec[6];
     if ((flags & 0x80) || (D_8009B141 != 0 && rec[4] != 0xFF)) {
         p = FADEBOX;
-        p->tag = 0x60000000;
+        p->tag = GsALON | GsATWO;
         p->wh = (FADE_SCREEN_HEIGHT << 16) | FADE_SCREEN_WIDTH;
         p->xy = 0;
         ot = D_800E9D94[0];
@@ -96,13 +97,13 @@ void Fade_DrawOverlay(void) {
                 GsSortBoxFill((GsBOXF *)p, (GsOT *)ot, 4);
                 FADEBOX_Y(p) = FADEBOX_Y(p) + FADE_BAND_HEIGHT;
             }
-            if (!(D_800E9ECE[0] & 2)) {
+            if (!(gFade_State.flags & 2)) {
                 return;
             }
         }
 
         depth = 4;
-        if (D_800E9ECE[0] & 2) {
+        if (gFade_State.flags & 2) {
             depth = D_8009B140;
             if (depth == 0) {
                 depth = 0x3F;
@@ -114,7 +115,7 @@ void Fade_DrawOverlay(void) {
         p->g = (u8) shade;
         p->r = (u8) shade;
         if (gFade_State.flags & 0x10) {
-            p->tag = 0x50000000;
+            p->tag = GsALON | GsAONE;
             tint = rec[0] - rec[4];
             if (tint < 0) tint = 0;
             p->r = (u8) tint;

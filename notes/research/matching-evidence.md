@@ -3248,6 +3248,36 @@ What was safe, all confirmed against the full-executable hash:
   leaving a stray `*(s16 *)(e + 0xC)` behind after `e` became a
   `DuelEffectResourceRecord *` silently scales that offset by `0x40`. It
   still compiles. Only the hash catches it.
+- **Typing a pointer can also delete instructions, not just move them.**
+  `func_8002FB78` reaches a `FileTransferDescriptor` entirely through offset
+  casts, and every offset lands on a member the type in `ygo_types.h`
+  already names. Converting it made the executable **eight bytes shorter**.
+  The file holds its shape with a read-modify-write on the global
+  `D_8009B0F4` around the stores through `p`; while `p` is a `u8 *` those
+  stores might alias the global, and once it is typed they provably cannot,
+  so the dance folds away. Left unconverted.
+
+### Screening rule for the three of these
+
+The same cause runs through all of them, and it is the one the aliasing
+section above states: a store through a cast byte pointer is not provably
+confined, so GCC will not schedule across it. Giving the pointer a type
+removes that barrier, and the generated code changes in whichever direction
+the barrier was holding it:
+
+| function | what changed |
+| --- | --- |
+| `Model_UpdateViewMetrics` | one register, `0x69` to `0x6A` |
+| `func_800289BC` | one store reordered |
+| `func_8002FB78` | two instructions deleted |
+
+So before converting offset casts to members, look for the two shapes that
+make the barrier load-bearing: a **whole-struct assignment** to or from the
+same object, and a **read-modify-write on a global** interleaved with the
+stores. Either one means the conversion costs a build to check rather than
+being free by inspection. Neither means it will fail -- `func_800289BC` has
+the first shape and matched once every access was converted -- only that it
+must be measured.
 
 - **`sizeof(T)` may replace a literal stride** once the cast is in place.
 - **But a proven-equal `sizeof` is not a licence to switch to typed indexing.**
@@ -3956,10 +3986,11 @@ declaration.
 So when a residual is a base or scratch register at the *tail* of a function
 and the instruction multiset is already exact, check the return types of
 everything the function calls before spending time on the tail itself. There
-is precedent for the void spelling in the tree: `src/game/func_8005B054.c`
-declares `func_8005ABA0` as returning `void` while `src/game/func_8005ABA0.c`
-defines it returning `Color *`, so a caller whose prototype disagrees with the
-definition is an existing shape here rather than a new liberty.
+is precedent for the void spelling in the tree: `src/game/func_8005B054.c` and
+`src/game/func_8005B0B4.c` both declare `func_8005ABA0` as returning `void`
+while `src/game/color_transform.c` defines it returning `Color *`, so a caller
+whose prototype disagrees with the definition is an existing shape here rather
+than a new liberty.
 
 Two negatives worth recording, because both look like the obvious fix and
 neither works. Pinning a variable to the wanted base register does not help:
@@ -5016,7 +5047,8 @@ two scheduling positions. Widths, qualifiers, addresses and loaded values are
 unchanged; these are extern declarations and do not allocate or move data.
 
 The terminal result was recorded and promoted with the existing tools.
-Only the five include paths were normalized for `src/game/func_80018608.c`,
+Only the five include paths were normalized for `src/game/func_80018608.c`
+(since coalesced into `src/game/duel_phase_entry.c`),
 then the integrated source was remeasured. The clean full-executable gate
 passed with every existing matching entry enabled and retail SHA-256
 `84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
@@ -6426,3 +6458,39 @@ copies are a first-pass scheduling decision that source order cannot reach,
 because `rank_for_schedule` only falls back to original insn order when
 priority and dependence class tie. Same conclusion the `func_80045208` entry
 reaches about `-fno-schedule-insns2`.
+
+## When a local struct can be replaced by the Psy-Q type it copies
+
+Issue #16 asks for the SDK's runtime structures instead of redefined ones, and
+layout equality is not sufficient. The test is **whether anything writes two
+adjacent members as one word.**
+
+- `fade_draw_overlay.c`'s `FadeBox` is `GsBOXF` field for field, and retail
+  writes the `0x04` and `0x08` words whole -- x together with y, w together
+  with h. Those are two separate members each, so the struct can become
+  `GsBOXF` and the cast moves to the two whole-word stores.
+- `func_80040588.c`'s `SpritePrim` is `GsSPRITE` field for field, but its
+  position and size words each span two `GsSPRITE` halves. There is no store
+  to cast, so the local struct has to keep its union-shaped members and the
+  swap is a codegen change, not a rename.
+
+Same symptom, opposite conclusion: check where the whole-word store lands
+before assuming a layout-identical struct is convertible.
+
+## The display object's `+0x4` word is a libgs attribute, and libgs.h names the bits
+
+`GsALON` (`1<<30`), `GsAONE` (`1<<28`), `GsATWO` (`2<<28`), `GsROTOFF`
+(`1<<27`), `GsPERS` (`1<<26`), `GsDOFF` (`1<<31`). So the composites the tree
+spelled as literals are `0x50000000` = `GsALON | GsAONE` (additive),
+`0x60000000` = `GsALON | GsATWO` (subtractive), `& 0x8FFFFFFF` =
+`& ~(GsALON | GsATWO | GsAONE)` (semi-transparency off) and `& 0xF7FFFFFF` =
+`& ~GsROTOFF` (rotation on). Swapping the literal for the macro is
+codegen-neutral across all five overlays and the resident build.
+
+Two cautions. `libgs.h` does not parse on its own: it needs `libgte.h` and
+`libgpu.h` ahead of it, in that order, and a file that already included one of
+them further down will fail if the new `libgs.h` include goes above it. And
+not every 32-bit write to a `+4` field is an attribute: `0x1000000` (bit 24)
+and `0x2000000` (bit 25) have no name in `libgs.h`, and
+`file_set_position_table.c`'s `*(s32 *)D_800E9DF0 = 0x8000000` is not a
+display object at all.

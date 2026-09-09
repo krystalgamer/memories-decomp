@@ -1,16 +1,17 @@
+#define GINPUT_PAD1_HELD_IS_VOLATILE
+#define GINPUT_PAD1_REPEAT_IS_VOLATILE
+#define GINPUT_PAD2_HELD_IS_VOLATILE
+#define GINPUT_PAD2_PRESSED_IS_VOLATILE
+#define GINPUT_PAD2_REPEAT_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
+#define D_8009B0D8_IN_DATA
 #include "../types.h"
+#include "graphics_frame.h"
 #include "input.h"
 
 /* Retail rematerializes this address inside the repeat loop. */
-extern u8 D_8009B0D8 __attribute__((section(".data")));
 extern u32 D_8009B0C8[];
 /* Preserve the low-half/high-half publication order at the function tail. */
-extern volatile u16 gInput_wPad1Repeat;
-extern volatile u16 gInput_wPad2Repeat;
-extern volatile u16 gInput_wPad2Pressed;
-extern volatile u16 gInput_wPad1Held;
-extern volatile u16 gInput_wPad2Held;
 
 void Input_ReadRawPads(void)
 {

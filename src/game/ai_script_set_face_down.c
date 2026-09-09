@@ -2,6 +2,7 @@
 #include "ai.h"
 #include "duel_card_layout.h"
 #include "ai_script_read_byte.h"
+#include "ai_script_commands.h"
 
 /* Looks up gDuel_aActiveCards[gAiScript_aMemory[idx1]] and classifies it: 0 if
    field0 is zero, 2 if the card is face-down, else 1. Stores the result at

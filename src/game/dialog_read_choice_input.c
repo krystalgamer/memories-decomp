@@ -1,11 +1,11 @@
+#define GINPUT_PAD1_REPEAT_IS_VOLATILE
 #include "../types.h"
+#include "dialog_highlight_choice.h"
 #include "input.h"
 #include "sound.h"
 
-extern volatile u16 gInput_wPad1Repeat;
 extern u8 gDialog_bChoice;
 extern s8 gDialog_bChoiceCount;
-extern void Dialog_HighlightChoice(u8 *);
 
 /* Up, down or R1 on the repeat pad moves the dialog's choice cursor. R1
    wraps to the top; the directions clamp and report the press as handled

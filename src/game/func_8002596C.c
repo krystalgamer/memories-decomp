@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "duel_side_state.h"
+#include "func_8002C604.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
@@ -6,7 +8,6 @@
 #include "sound.h"
 
 extern u8 *D_8009B17C;
-extern u8 D_8009B1D5;
 extern s16 D_8009B20C[2];
 extern u16 D_8009B220;
 extern u8 D_8009B260[8];
@@ -14,7 +15,6 @@ extern DuelFieldPosition D_80090800[];
 
 extern s32 func_800181EC(u8 *);
 extern void func_80024954(u8 *);
-extern u8 *func_8002C604(s32);
 
 void func_8002596C(void) {
     u8 *p;

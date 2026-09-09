@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "sound.h"
 #include "display_object_helpers.h"
 #include "duel_grid.h"
@@ -34,7 +35,6 @@ typedef struct {
 
 extern u16 D_8009B162;
 extern u16 D_8009AF20[2];
-extern u8 D_8009B1D5;
 extern s16 D_800907AC[2][2][4];
 extern DuelFieldPosition D_80090800[2][20];
 

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80036C14.h"
 
 extern s16 D_801DA000[];
 

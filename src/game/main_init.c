@@ -1,4 +1,8 @@
+#define D_8009B0D8_IS_VOLATILE
 #include "../types.h"
+#include "sound.h"
+#include "graphics_frame.h"
+#include "main_frame.h"
 #include "../psyq/libapi.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -7,7 +11,13 @@
 #include "../psyq/rand.h"
 #include "fade.h"
 #include "file_transfer.h"
+#include "func_8002D458.h"
+#include "func_80043960.h"
+#include "func_80043BCC.h"
+#include "main_loop.h"
+#include "main_reset_frontend_runtime.h"
 #include "rand_constants.h"
+#include "movie_playback_control.h"
 
 extern volatile u32 D_8009B0CC;
 extern volatile u32 D_8009B0C8;
@@ -15,7 +25,6 @@ extern volatile u8 D_8009B0C0;
 extern volatile s32 D_8009B09C;
 extern volatile u8 D_8009B0C3;
 extern volatile u8 D_8009B0C1;
-extern volatile s32 D_8009B0D8;
 extern volatile s16 D_8009B098;
 extern volatile u8 D_8009B0D1;
 extern u8 D_8009B230 __attribute__((section(".data")));
@@ -30,18 +39,8 @@ extern void __main(void);
 extern void func_80013154(void);
 extern void func_800403F0(void);
 extern void func_800134B4(void);
-extern void func_80035A58(void);
 extern void func_80035A64(void);
 extern void func_8003B5C8(void);
-extern void SD_InitState(s32);
-extern void Main_VBlankCB(void);
-extern void Sound_InitFrontend(void);
-extern void Main_ResetFrontendRuntime(void);
-extern void func_80043960(s32);
-extern void func_8005B85C(void);
-extern s32 func_80043BCC(void);
-extern void func_8002D458(s32);
-extern void Main_Loop(void);
 
 s32 Main_Init(void)
 {
@@ -90,7 +89,7 @@ s32 Main_Init(void)
     r = setjmp(D_800E9DC0);
     Main_ResetFrontendRuntime();
     if (r != 0) {
-        func_8005B85C();
+        File_RequestMainMenuPackage();
         File_WaitForTransfers();
     }
     func_8002D458(func_80043BCC());

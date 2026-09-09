@@ -1,20 +1,23 @@
 #include "../types.h"
+#include "duel_terrain_boost.h"
 #include "duel_side_state.h"
+#include "func_8002C604.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"
 
-extern s32 D_8009B134[2];
 extern u8 *D_8009B17C;
 extern s16 D_8009B1D2;
 extern u8 *D_8009B214;
 extern u16 D_8009B220;
+/* One byte at 0x8009B364; the 8 is a threshold, not a length. This TU's
+ * profile compiles at -G8 but assembles at -G4, so the array needs a size
+ * the assembler can see to be above 4. Measured: an incomplete [] here
+ * costs 4 bytes of text, though it is exact in func_8001798C.c, which
+ * assembles at -G8. See duel_terrain_boost.h for all five spellings. */
 extern u8 gDuel_bTerrain[8];
-
-s32 Duel_GetTerrainBoost(s32 arg0);
-u8 *func_8002C604(s32 arg0);
 
 /* MATCH (2026-09-05), from a park at 2 differences. The last two were the
  * `n = v & 0xFF` that gcc sank into the jal's delay slot where retail keeps
@@ -24,7 +27,7 @@ u8 *func_8002C604(s32 arg0);
  * before the call. Written as the read-back and the decrement in two
  * statements it is 4, as `v & 0xFF` with the decrement before the call 3.
  * Flags: default compiler, as -G4 (gDuel_bTerrain sized out of small data, the
- * D_8009B0F4_abs / D_8009B134 sized arms).
+ * D_8009B0F4_abs / D_8009B134_abs sized arms).
  */
 
 void func_80024E58(void) {
@@ -69,7 +72,7 @@ void func_80024E58(void) {
 
     if ((f & 0x20) == 0) {
         if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             D_8009B134[0]) == 0) {
+             D_8009B134_abs) == 0) {
             a = D_8009B214;
             b = gDuel_bTerrain[0];
             *(s16 *)(D_8009B17C + 0x1A) = -2;

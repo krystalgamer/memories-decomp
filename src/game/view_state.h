@@ -12,12 +12,26 @@
    ends; this is the union of what they touch.
 
    Every offset below is read off a function that matches byte for byte, so
-   the offset and the access width are measurements. `projection` is the one
-   field whose MEANING is established rather than guessed: func_800178BC
-   passes it straight to SetGeomScreen. The rest keep field_NN names because
-   nothing in the matched code says what they are -- func_80022D94 calls the
-   first three x, z and y while func_800178BC just numbers them, and there is
-   no evidence here to settle that.
+   the offset and the access width are measurements. Two fields have an
+   established MEANING rather than a guessed one. `projection` is passed
+   straight to SetGeomScreen by func_800178BC. `angle` is the overworld
+   camera's heading: CampaignMap_StartCameraTween takes the difference
+   between it and the destination, masks that with TRIG_ANGLE_MASK and wraps
+   it at TRIG_ANGLE_HALF_TURN against TRIG_ANGLE_FULL_TURN, which is modular
+   arithmetic in the game's 0x1000-unit turn space and is not something done
+   to a coordinate. func_80017130 corroborates it from the resident side and
+   independently: it initialises the field to 0x400, which is exactly
+   TRIG_ANGLE_QUARTER_TURN.
+
+   That settles a question this header used to leave open. func_80022D94
+   called the first three x, z and y and func_800178BC just numbered them;
+   both readings put a coordinate in the middle and the wrap rules both out.
+   func_80022D94's own local for it is still spelled `oldY`, which is a name
+   rather than evidence -- it interpolates the field linearly, which an angle
+   tolerates, so nothing there contradicts this.
+
+   The rest keep field_NN names because nothing in the matched code says what
+   they are.
 
    0x10..0x1B is padding only in the sense that no matching function touches
    it FIELD BY FIELD. func_8002BAB4 copies it as two sixteen-byte blocks,
@@ -30,7 +44,7 @@
    evidence, so where the record ends is not something this code can show. */
 typedef struct {
     s16 field_00;
-    s16 field_02;
+    s16 angle;
     s16 field_04;
     s16 field_06;
     s16 field_08;
@@ -46,6 +60,9 @@ typedef struct {
 } ViewState;
 
 #define VIEW_STATE_OFFSET(member) ((u32)&(((ViewState *)0)->member))
+typedef char ViewState_angle_offset_must_be_0x2[
+    VIEW_STATE_OFFSET(angle) == 0x2 ? 1 : -1
+];
 typedef char ViewState_projection_offset_must_be_0xE[
     VIEW_STATE_OFFSET(projection) == 0xE ? 1 : -1
 ];
@@ -58,5 +75,7 @@ typedef char ViewState_field_2C_offset_must_be_0x2C[
 #undef VIEW_STATE_OFFSET
 
 extern ViewState D_800F2848;
+
+void func_8001352C(void);
 
 #endif

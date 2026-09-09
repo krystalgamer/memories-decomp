@@ -1,17 +1,14 @@
 #include "../types.h"
+#include "text_stream_commands.h"
+#include "duel_effect.h"
 
-typedef void (*ObjFn)(u8 *);
-
-extern s32 D_8009B350;
 extern s8 gDialog_bChoice;
 extern s8 gDialog_bChoiceCount;
 extern u8 D_8009B34C;
 extern u8 gDialog_bChoiceEnabled;
 extern u8 gDialog_bInputState;
-extern ObjFn D_8009B340;
 
 extern void Text_SetCursorOffset(u8 *);
-extern void func_80037CE0(u8 *);
 extern void func_80035CA8(s32);
 extern void DuelEffect_ClearMatchingMarker(s32);
 

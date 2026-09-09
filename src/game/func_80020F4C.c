@@ -1,11 +1,15 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "input.h"
 #include "rand_get_interval.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
 #include "sound.h"
+#include "fade.h"
 
 /* Duel-result outro sequence, driven from the scene state word D_8009B23A.
 
@@ -30,7 +34,7 @@
      3  hold for 0x258 frames or until the player presses one of the 0xE0
         buttons, then retarget every spawned sprite at func_80020EE8 so it
         flies off, and wait for func_80042B40 again.
-     4  once the fade at D_800E9ECE has finished, hand the scene over to
+     4  once the fade at gFade_State.flags has finished, hand the scene over to
         state 0xD.  */
 
 struct Obj {
@@ -76,7 +80,6 @@ typedef struct {
 
 extern void func_800472A8(s32);
 extern u32 func_8004703C(void);
-extern s32 func_80042B40(s32);
 extern s32 rand(void);
 extern void func_80020BE4(void);
 extern void func_80020D4C(void *);
@@ -95,8 +98,6 @@ extern struct Obj *D_8009B21C;
 
 extern u8 D_8009B362 __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
-extern s32 D_8009B134 __attribute__((section(".data")));
-extern u8 D_800E9ECE[];
 extern u8 D_801AF000[];
 extern u16 gDuel_awRitualData[];
 extern Spec D_80090928[][SPEC_COUNT];
@@ -165,7 +166,8 @@ void func_80020F4C(void)
     switch (state) {
     case 1:
         if ((flags & 0x80) == 0) {
-            if ((D_8009B0F4_abs & 0x2000030) | D_8009B134) {
+            if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                D_8009B134_abs) {
                 return;
             }
             D_8009B174 = flags | 0x80;
@@ -178,7 +180,8 @@ void func_80020F4C(void)
                                       (s32)((u8 *)slots - 0x1800));
             func_800472A8(D_8009B1E0);
         } else {
-            if ((D_8009B0F4_abs & 0x2000030) | D_8009B134) {
+            if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                D_8009B134_abs) {
                 return;
             }
             D_8009B174 = 2;
@@ -204,7 +207,7 @@ void func_80020F4C(void)
                         obj->unk40 += 0x10;
                     }
                     obj->unk8 |= 0x28;
-                    obj->unk4 |= 0x50000000;
+                    obj->unk4 |= (GsALON | GsAONE);
                     obj->unk48 = spec->tag;
                     obj->unk4A = 0x18;
                     func_80042918(obj);
@@ -217,7 +220,8 @@ void func_80020F4C(void)
                 }
             }
         } else {
-            if ((D_8009B0F4_abs & 0x2000030) | D_8009B134) {
+            if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                D_8009B134_abs) {
                 return;
             }
             if (func_80042B40(1) == 0) {
@@ -258,7 +262,7 @@ void func_80020F4C(void)
         if ((flags & 0x80) == 0) {
             D_8009B174 = flags | 0x80;
         }
-        if ((D_800E9ECE[0] & 0x80) == 0) {
+        if ((gFade_State.flags & 0x80) == 0) {
             D_8009B23A = 0xD;
         }
         break;

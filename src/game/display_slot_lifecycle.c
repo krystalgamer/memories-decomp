@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
@@ -6,7 +9,6 @@
 
 extern u16 D_8009B410;
 extern u16 D_8009B412;
-extern s16 D_800EFE38[];
 extern s16 D_800F2878[];
 extern u8 tail_data_start[];
 
@@ -64,7 +66,8 @@ void *func_800400AC(s32 index, s32 key)
 
         slot->previous = -1;
         D_800EFE38[key] = index;
-        slot->field_04 = 0x08000000;
+        /* A fresh object starts with rotation off. */
+        slot->attribute = GsROTOFF;
         slot->flags = DISPLAY_OBJECT_RENDERABLE_MASK;
         slot->tex_index = 2;
         slot->field_54 = tail_data_start;
@@ -74,15 +77,15 @@ void *func_800400AC(s32 index, s32 key)
         slot->field_0A = index;
         slot->field_0B = 0;
         slot->field_0C = 0x00808080;
-        slot->field_20 = 0;
+        slot->field_20.word = 0;
         slot->field_10 = 0;
         slot->field_1C = 0;
         slot->field_1A = 0;
         slot->field_18 = 0;
         slot->field_66 = 0;
-        slot->field_48 = 0;
+        slot->field_48.word = 0;
         slot->field_44 = 0x10001000;
-        slot->field_40 = 0;
+        slot->field_40.word = 0;
         slot->field_5E = 0;
         slot->field_65 = 0;
         slot->field_16 = 0;

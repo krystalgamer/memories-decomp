@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "display_object_config.h"
+#include "options_update_layout.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "sound.h"
@@ -37,10 +39,6 @@ extern struct Obj *D_8009B388;
 extern u8 D_801AF000[];
 
 extern void func_8003C4E0(s32 a0);
-extern void func_80040510(struct Obj *obj, s32 a1, s32 a2, s32 a3, s32 a5,
-                           s32 a6, s32 a7, s32 a8, s32 a9, s32 a10);
-extern void Options_UpdateLayout(s32 arg0);
-
 void Options_Init(void) {
     register struct Obj *obj asm("s1");
     s32 s0;
@@ -69,7 +67,7 @@ void Options_Init(void) {
     obj->f8 |= 0x28;
 
     obj = func_800400AC(func_8004002C(), 1);
-    func_80040510(obj, 0x68, 0x48, 0x10, s2, 0x50, 0x80, s0, 0x210, 0xFC);
+    func_80040510((DisplayObjectConfigView *)obj, 0x68, 0x48, 0x10, s2, 0x50, 0x80, s0, 0x210, 0xFC);
 
     {
         s32 flag = gOptions_bSelection;

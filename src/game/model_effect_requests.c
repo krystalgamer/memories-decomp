@@ -1,7 +1,6 @@
 #include "../types.h"
-
-extern s32 func_8005F174(void);
-extern s32 func_8005F18C(void);
+#include "model_transfer_flags.h"
+#include "model_effect_requests.h"
 extern void func_80052D2C(s32, s32, s32, s32);
 
 void func_80059EBC(s32 value)

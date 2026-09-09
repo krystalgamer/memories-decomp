@@ -1,34 +1,18 @@
 #include "../../types.h"
+#include "name_entry_keyboard.h"
 
-typedef struct {
-    u8 unk0[0xC];
-    s16 x;
-    s16 y;
-    u8 unk10;
-    u8 flags;
-    u8 unk12[0xA];
-} PasswordNode;
-
-typedef struct {
-    u8 unk0[0x24];
-    PasswordNode *nodes;
-    u8 unk28[0x3C];
-} PasswordEntry;
-
-extern PasswordEntry D_800EB0F8[];
-
-PasswordNode *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
+DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
 {
-    PasswordEntry *base;
-    PasswordNode *node;
+    DuelEffectChannel *base;
+    DuelEffectEntry *node;
 
     base = D_800EB0F8;
-    node = base[index].nodes;
+    node = base[index].entry_head_24;
     for (;;) {
-        if (!(node->flags & 0x80)) {
-            return (PasswordNode *)0;
+        if (!(node->flags_11 & 0x80)) {
+            return (DuelEffectEntry *)0;
         }
-        if (node->x == x && node->y == y) {
+        if (node->x_0C == x && node->y_0E == y) {
             return node;
         }
         node++;

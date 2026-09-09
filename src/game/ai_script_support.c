@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "ai.h"
 #include "ai_script_read_short.h"
+#include "ai_script_commands.h"
 
 extern AiScriptState gAiScript_State;
 

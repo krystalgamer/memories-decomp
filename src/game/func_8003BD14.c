@@ -2,16 +2,16 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "func_8003BD14.h"
 
 extern s32 D_8009B118;
-extern s32 D_800101D8;
 extern u8 D_801A8000[];
 
 void func_8003BD14(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
     case 0:
-        object->counter = 0x300;
-        object->field_32 = 0x100;
+        object->field_30.h.counter = 0x300;
+        object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
         D_8009B0F4 &= 0xFFDDFFFF;
@@ -46,8 +46,8 @@ void func_8003BD14(FileTransferDescriptor *object, s32 mode) {
     case 3:
         object->mode = 0x7800;
         D_8009B0F4 &= 0xFFDCFFFF;
-        object->value_0C = D_800101D8;
-        object->value_08 = D_800101D8;
+        object->value_0C = (u32)D_800101D8;
+        object->value_08 = (u32)D_800101D8;
         object->done = 1;
         break;
     }

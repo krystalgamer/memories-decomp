@@ -1,6 +1,11 @@
 #include "../types.h"
 #include "duel_effect.h"
 
+#define DUEL_EFFECT_ENTRY_FROM_FIELD_13(field) \
+    ((DuelEffectEntry *)((field) - 0x13))
+#define DUEL_EFFECT_ENTRY_FROM_FIELD_15(field) \
+    ((DuelEffectEntry *)((field) - 0x15))
+
 /* Starting from the record's entry range, scans up to range_count_5C entries;
    returns 1 on the first entry with flags_11&0x80 set and field_13 nonzero, 0
    if that flag clears, the count runs out, or the range is empty. */
@@ -16,11 +21,11 @@ int DuelEffect_HasActiveEntry(DuelEffectChannel *a0) {
     }
     v1 = v1 + 19;
 loop:
-    v0 = v1[-2] & 0x80;
+    v0 = DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->flags_11 & 0x80;
     if (v0 == 0) {
         return v0;
     }
-    if (v1[0] != 0) {
+    if (DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->field_13 != 0) {
         return 1;
     }
     count = count - 1;
@@ -49,12 +54,12 @@ void func_800373C8(DuelEffectChannel *a0, u8 a1, u8 a2) {
     }
     v1 = v1 + 21;
 loop:
-    if ((v1[-4] & 0x80) == 0) {
+    if ((DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->flags_11 & 0x80) == 0) {
         return;
     }
     count = count - 1;
-    v1[-2] = a1;
-    v1[0] = a2;
+    DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->field_13 = a1;
+    DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->field_15 = a2;
     v1 = v1 + sizeof(DuelEffectEntry);
     if (count != 0) {
         goto loop;

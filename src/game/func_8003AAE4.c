@@ -1,8 +1,10 @@
 #include "../types.h"
+#include "display_effect_lifecycle.h"
+#include "graphics_frame.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
-extern int D_8009B0D8;
-extern s32 func_80039F1C();
-extern s32 func_80039F90();
 extern s32 func_8003A1EC();
 extern s32 func_8003A440();
 extern s32 func_8003A920();
@@ -17,7 +19,7 @@ void func_8003AAE4(u8 *p) {
     s32 m;
     s32 i;
 
-    if (func_80039F1C(p) == 0) {
+    if (func_80039F1C((DisplayEffectState *)p) == 0) {
         *(s16 *)(p + 0x34) = 0x68;
         p[0x32] |= 0x10;
         if (p[0x3C] != 0) {
@@ -27,10 +29,10 @@ void func_8003AAE4(u8 *p) {
         q = *(u8 **)p;
         a = *(s8 *)(q + 0x16);
         b = q[0x67];
-        func_8003A440((u8 **)p, 0x50000000, a);
+        func_8003A440((u8 **)p, (GsALON | GsAONE), a);
         e = p + 0xC;
         func_8003A1EC(p, e, b);
-        func_8003A440((u8 **)e, 0x60000000, a - 1);
+        func_8003A440((u8 **)e, (GsALON | GsATWO), a - 1);
         *(s16 *)(p + 0x40) = 0;
     }
 
@@ -40,7 +42,7 @@ void func_8003AAE4(u8 *p) {
     if (*(s16 *)(p + 0x40) >= 0x80) {
         p[0x33] = 0;
         func_8003A440((u8 **)p, 0, *(s8 *)(*(u8 **)p + 0x16));
-        func_80039F90(p + 0xC);
+        func_80039F90((void **)(p + 0xC));
         p[0x32] &= 0xEF;
     } else {
         m = *(s16 *)(p + 0x40);

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_transfer_flags.h"
 #include "model_update_view_metrics.h"
 #include "camera_view.h"
 #include "../psyq/libgte.h"
@@ -7,9 +8,6 @@
 
 extern u8 D_800F3A10[];
 extern u8 D_8009AF98;
-
-extern s32 func_8005F174(void);
-extern s32 func_8005F18C(void);
 
 /* Starts a camera move. The transition record at D_800F2B20 is filled with a
  * start point taken from the live camera at D_800F56F0 and an end point taken

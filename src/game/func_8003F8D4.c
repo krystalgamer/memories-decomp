@@ -1,5 +1,6 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "data_transfer_request.h"
 #include "input.h"
 #include "duel_effect.h"
 #include "text_box_lifecycle.h"
@@ -35,7 +36,6 @@ s32 SaveData_HasSameDuelistCode(u8 *arg0, u8 *arg1);
 
 void func_80039794(void);
 s32 func_8003F2B0(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
-s32 func_8003F70C(void);
 
 s32 func_8003F8D4(void) {
     DuelEffectChannel *o;

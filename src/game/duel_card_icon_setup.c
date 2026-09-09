@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80016778.h"
 #include "display_object_api.h"
 #include "card_constants.h"
 #include "duel_card.h"
@@ -35,8 +36,6 @@ struct Blob {
     DuelCardRecord record;
 };
 
-extern s32 gDuel_adwCardStats[];
-extern void func_80016778(void);
 extern u8 D_8015C424[];
 extern struct Coords D_800908A0[];
 
@@ -58,7 +57,7 @@ struct Obj *func_80024C1C(s32 cardId, s32 x, s32 y) {
     obj->f4 = obj->f4 | 0x1000000;
 
     desc = gDuel_adwCardStats[cardId - 1];
-    obj->f10 = func_80016778;
+    obj->f10 = (void (*)(void))func_80016778;
     obj->f5C = 0;
     obj->f5D = 0xC0;
 

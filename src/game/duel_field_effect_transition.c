@@ -1,8 +1,11 @@
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
+#include "duel_side_state.h"
 #include "duel_grid.h"
+#include "func_8002C604.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
+#include "display_object_api.h"
 #include "sound.h"
 
 typedef struct Obj {
@@ -22,14 +25,10 @@ typedef struct Obj {
     u8 active;
 } Obj;
 
-extern u8 D_8009B1D5;
 extern Obj *D_8009B17C;
 extern u16 D_8009B220;
 extern u8 D_8009B260 __attribute__((section(".data")));
-
-extern Obj *func_8002C604(s32);
 extern void Duel_ApplyCardObjectFlags(Obj *);
-extern s32 func_80042B40(s32);
 
 #define DUEL_FIELD_EFFECT_TIMER_STEP 8
 #define DUEL_FIELD_EFFECT_MARK_THRESHOLD 40
@@ -64,7 +63,7 @@ void func_80025BEC(void)
     s32 i;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        object = func_8002C604(0x13);
+        object = (Obj *)func_8002C604(0x13);
         object->x = 0xA0;
         D_8009B17C = object;
         object->y = 0x68;

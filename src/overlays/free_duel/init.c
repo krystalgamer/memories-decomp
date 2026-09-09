@@ -3,8 +3,10 @@
 #include "../../game/display_object_layout.h"
 #include "../../game/card_constants.h"
 #include "../../game/campaign_flags.h"
+#include "../../game/graphics_frame.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/func_80039794.h"
 
@@ -30,8 +32,6 @@ extern s8 gFreeDuel_bTargetColumn;
 extern s8 gFreeDuel_bTargetRow;
 extern u8 D_8009B362;
 extern u8 gFreeDuel_aDuelistRecords[];
-extern s16 gGraphics_sViewportX;
-extern s16 gGraphics_sViewportY;
 extern u8 gFreeDuel_bScreenFlags;
 extern void *gFreeDuel_apSparklePool[];
 extern u8 gFreeDuel_abGridAvailable[];
@@ -199,7 +199,7 @@ done:
     gFreeDuel_pThumbWidget = (u8 *)obj;
     obj = FreeDuel_SpawnSparkle();
     gFreeDuel_pCursorWidget = (u8 *)obj;
-    obj->flags &= ~0x8000000;
+    obj->flags &= ~GsROTOFF;
     if (gFreeDuel_bReturnFlags == 0) {
         obj->attr &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         FreeDuel_PlaceCursor((u8 *)obj, 0);

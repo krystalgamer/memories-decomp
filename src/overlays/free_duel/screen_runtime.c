@@ -1,3 +1,5 @@
+#define GINPUT_PAD1_PRESSED_IS_VOLATILE
+#define GINPUT_PAD1_HELD_IS_VOLATILE
 #include "../../types.h"
 #include "../../game/card_constants.h"
 #include "../../game/display_object_layout.h"
@@ -12,8 +14,6 @@ extern u8 gFreeDuel_bScreenFlags;
 extern u8 *gFreeDuel_pCursorWidget;
 extern u8 gFreeDuel_abGridAvailable[];
 extern u8 D_800EB15C[];
-extern volatile u16 gInput_wPad1Pressed;
-extern volatile u16 gInput_wPad1Held;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 extern u8 gFreeDuel_bReturnFlags;

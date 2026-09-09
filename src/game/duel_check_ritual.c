@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "duel_card.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
@@ -10,7 +11,6 @@ typedef struct {
 } RitualOut;
 
 extern u16 gDuel_awRitualData[];
-extern u8 D_8009B1D5;
 
 u16 Duel_CheckRitual(RitualOut *out, s32 ritualId)
 {

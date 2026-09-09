@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
+#include "display_object_config.h"
 
 extern void DisplayObject_ResetPool(void);
 
@@ -74,32 +75,8 @@ void func_800404CC(void *object, s32 x, s32 y, s32 field_67, s32 field_68,
     func_80040468(object, field_67, field_68, field_69, color, texture);
 }
 
-typedef struct {
-    u8 pad_00[0x08];
-    u16 flags;
-    u8 pad_0A[0x0E];
-    s16 half_height;
-    s16 half_width;
-    u8 pad_1C[0x14];
-    s16 x;
-    s16 y;
-    u8 pad_34[0x08];
-    s16 height;
-    s16 width;
-    s16 field_40;
-    s16 field_42;
-    u8 pad_44[0x04];
-    s16 half_height_2;
-    s16 half_width_2;
-    u8 pad_4C[0x10];
-    u8 field_5C;
-    u8 field_5D;
-    u8 pad_5E[0x08];
-    u8 field_66;
-} DisplayObject;
-
-DisplayObject *func_80040510(
-    DisplayObject *object,
+DisplayObjectConfigView *func_80040510(
+    DisplayObjectConfigView *object,
     s32 x,
     s32 y,
     s32 height,

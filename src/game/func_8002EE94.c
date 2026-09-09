@@ -1,17 +1,20 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "data_transfer_request.h"
 #include "input.h"
+#include "script_command_busy.h"
 
 #include "duel_effect.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
 #include "text_box_runtime.h"
 #include "func_80039794.h"
+#include "func_80043178.h"
+#include "display_object_interpolation.h"
+#include "script_state.h"
 
-extern u8 *D_8009B290;
-extern u16 D_8009B27C;
 extern u16 D_8009B2A4[2];
-extern u8 D_8009B27A;
+extern u8 gCampaignSceneIndex;
 extern u8 D_8009B268 __attribute__((section(".data")));
 extern u8 D_8009B269 __attribute__((section(".data")));
 extern u8 D_8009B26C __attribute__((section(".data")));
@@ -20,18 +23,13 @@ extern u8 D_8009B34C __attribute__((section(".data")));
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
 extern s16 D_801D0000[];
-
-extern s32 func_8002E3B4(void);
 extern s32 func_8002EE5C(void);
-extern s32 func_8003F70C(void);
 extern s32 Dialog_ReadChoiceInput(DuelEffectChannel *);
 extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *);
 extern void DuelEffect_MarkObjectIfActive(void *);
 extern void SaveData_RequestWrite(void);
 extern void func_80033C90(void);
 extern void func_8003B6AC(s32, s32);
-extern void func_80043178(u8 *);
-extern void func_80043230(u8 *, s32, s32, s32);
 
 void func_8002EE94(void)
 {
@@ -206,7 +204,7 @@ void func_8002EE94(void)
         SD_SEPlayFull(7);
         func_80033C90();
         D_8009B269 = 2;
-        D_8009B27A = (u8)D_8009B2A4[1];
+        gCampaignSceneIndex = (u8)D_8009B2A4[1];
         break;
     case 2:
         SD_SEPlayFull(7);

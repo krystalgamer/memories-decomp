@@ -2,9 +2,7 @@
 #include "ai.h"
 #include "duel_card_layout.h"
 #include "ai_script_read_byte.h"
-
-extern void Ai_GetCardRange(s32, s32 *, s32 *);
-extern s32 Ai_IsCardInSets(s32, s32);
+#include "ai_script_commands.h"
 
 void AiScript_MatchType(void)
 {

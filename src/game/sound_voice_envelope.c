@@ -1,12 +1,12 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
+#define D_80011434_IS_CONST
 #include "sound.h"
 
 /* The voice-attribute block lives in the 0x40-byte hole at +0x4C0, which is
    exactly sizeof(SpuVoiceAttr) and pins a_mode/adsr1/adsr2 to the offsets the
    target stores through. `const` on the table keeps it out of small data so
    its address is materialised rather than reached through $gp. */
-extern const s32 D_80011434[];
 
 #define ATTR(p) (*(SpuVoiceAttr *)((u8 *)(p) + 0x4C0))
 

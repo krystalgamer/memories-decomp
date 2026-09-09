@@ -18,11 +18,13 @@
    leading words are unnamed but must stay four-byte aligned: retail copies a
    whole entry with aligned lw/sw pairs during the compaction in
    DuelEffect_ProcessEntries, and a byte-aligned struct turns that into
-   lwl/lwr. The 0x0C pair is the entry's local pixel position, read by the
-   password overlay's TextBox_GetGlyphAt when it searches for the glyph node
-   under a coordinate. */
+   lwl/lwr. The password overlay reads two of the fields: code_00 is the
+   entry's Shift-JIS glyph code, and the 0x0C pair is its local pixel
+   position, which TextBox_GetGlyphAt searches to find the node under a
+   coordinate. */
 typedef struct {
-    s32 field_00;
+    u16 code_00;
+    u16 pad_02;
     s32 field_04;
     s32 field_08;
     s16 x_0C;
@@ -39,8 +41,8 @@ typedef struct {
 } DuelEffectEntry;
 
 /* One text-box record, 0x64 bytes, the element type of D_800EB0F8. 0x00 is the
-   decoded string the record is playing back (func_800393B0 stores it there),
-   and 0x20/0x24 bracket the record's slice of D_800EB288: func_800393B0 seeds
+   decoded string the record is playing back (TextBox_BuildStep stores it there),
+   and 0x20/0x24 bracket the record's slice of D_800EB288: TextBox_BuildStep seeds
    both with &D_800EB288[range_start_5C], DuelEffect_ProcessEntries walks from
    0x24 and moves 0x20 as it compacts. */
 typedef struct {
@@ -118,6 +120,9 @@ typedef char DuelEffectEntry_size_must_be_0x1C[
 typedef char DuelEffectEntry_must_be_four_byte_aligned[
     sizeof(struct { u8 lead; DuelEffectEntry entry; }) == 0x20 ? 1 : -1
 ];
+typedef char DuelEffectEntry_code_00_offset_must_be_0[
+    DUEL_EFFECT_OFFSET(DuelEffectEntry, code_00) == 0 ? 1 : -1
+];
 typedef char DuelEffectEntry_x_0C_offset_must_be_0x0C[
     DUEL_EFFECT_OFFSET(DuelEffectEntry, x_0C) == 0x0C ? 1 : -1
 ];
@@ -144,5 +149,46 @@ typedef char DuelEffectEntry_field_18_offset_must_be_0x18[
 
 extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
 extern DuelEffectEntry D_800EB288[DUEL_EFFECT_ENTRY_COUNT];
+
+/* The effect/text advance flag. TextBox_BuildStep is the only reader: it
+ * clears the flag to 0, calls the opcode handler, and then tests the result
+ * twice -- `>= 0` and then `== 1`. Everything else only ever writes it, and
+ * almost always writes 1.
+ *
+ * Signed, because that `>= 0` test is only meaningful on a signed value.
+ *
+ * volatile, because the two tests have no intervening call, so without it
+ * GCC folds them onto a single load: dropping the qualifier shrinks the
+ * executable by 12 bytes. It is a property of the object, so it belongs on
+ * the shared declaration rather than on the one file that happens to read it.
+ */
+extern volatile s32 D_8009B350;
+
+/* Per-scene state flags. Bit 0x80 is the run-once latch: every scene entry
+ * point in this subsystem opens with the same
+ * `if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0)` test and
+ * sets the bit inside, so the body runs on the first tick of a scene only.
+ * dialog_transition.c and func_8003DA40.c additionally raise 0x20 and 0x40,
+ * and the byte is cleared back to 0 when a scene is torn down. */
+extern u8 D_8009B3C1;
+
+/* A 0x1C-byte effect object, the record func_80025D30 and func_800260D0 both
+ * walk. Both files described the same layout: the first named the halfword
+ * at 0x12 and padded 0x06..0x11, the second padded straight across
+ * 0x06..0x13. This carries the union of what each knew. */
+typedef struct {
+    u16 x;             /* 0x00 */
+    u16 y;             /* 0x02 */
+    u16 field_04;      /* 0x04 */
+    u8 pad_06[0xC];    /* 0x06 */
+    s16 field_12;      /* 0x12 */
+    s32 field_14;      /* 0x14 */
+    u8 pad_18[2];      /* 0x18 */
+    s16 field_1A;      /* 0x1A */
+} DuelEffectObject;
+
+typedef char DuelEffectObject_size_must_be_0x1C[
+    sizeof(DuelEffectObject) == 0x1C ? 1 : -1
+];
 
 #endif

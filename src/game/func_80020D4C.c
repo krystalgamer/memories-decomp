@@ -1,6 +1,9 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "display_object_lifecycle.h"
 #include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object_helpers.h"
 
 /* Per-frame update for an object that orbits a fixed base position
@@ -53,7 +56,6 @@ extern s32 D_8009B0CC_arr[16];
 #define D_8009B0CC (D_8009B0CC_arr[0])
 extern u8 D_801AF000[16];
 
-void func_80042BC0(void *);
 void func_80020D4C(struct Obj *arg0) {
     s16 timer;
     u16 angle;
@@ -77,7 +79,7 @@ void func_80020D4C(struct Obj *arg0) {
                                    (s32) D_801AF000);
             slot->f40 = arg0->unk40 + 0x80;
             slot->f8 |= 0x28;
-            slot->f4 |= 0x50000000;
+            slot->f4 |= (GsALON | GsAONE);
             func_800428EC(slot, arg0->unk16 - 1);
             slot->f60 = 8;
             slot->f24 = func_80042BC0;

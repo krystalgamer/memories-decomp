@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound_output_state.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/stdio.h"
@@ -15,7 +16,6 @@ extern u8 D_80011508[];
 
 extern s32 func_80058E1C(void);
 extern void func_8005A6A8(s32, s32, u8 *, u8 *);
-extern void func_80045334(s32);
 extern void SD_SEPlay(s32, s32, s32);
 
 void func_8005106C(s32 index) {

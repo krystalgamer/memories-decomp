@@ -155,9 +155,12 @@ Two neighbouring literals are deliberately **left as numbers**:
 - `obj->attr |= 0x28` combines `0x8` with a `0x20` bit that
   `display_object_layout.h` does not define. Naming only half of a composite
   would imply the rest is understood, so the whole value stays raw.
-- The 32-bit `obj->flags` writes (`0x1000000`, `0x8000000`, `0x50000000`) are
-  a **different field at `+4`**, not the flag word, and none of the display
-  object flag constants apply to them.
+- The 32-bit `obj->flags` writes are a **different field at `+4`**, not the
+  flag word, so no display object flag constant applies to them. They are
+  libgs `GsSPRITE` attribute bits, and `libgs.h` names most of them:
+  `0x8000000` is `GsROTOFF` and `0x50000000` is `GsALON | GsAONE`, both now
+  spelled that way. `0x1000000` is bit 24, which `libgs.h` does not name, so
+  it stays raw.
 
 ## The opponent grid scrolls vertically
 

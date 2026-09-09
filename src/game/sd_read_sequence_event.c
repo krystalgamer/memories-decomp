@@ -1,12 +1,8 @@
 #include "../types.h"
+#include "sound_sequence_events.h"
 #include "sound.h"
 #include "sound_sequence_reader.h"
 
-extern void SD_DispatchSequenceChannelEvent(SDSequenceTrack *arg0, s32 status, s32 byte2,
-                          s32 byte3);
-extern void SD_SkipSequenceSysEx(SDSequenceTrack *arg0, s32 cmd);
-extern void SD_HandleSequenceMetaEvent(SDSequenceTrack *arg0, s32 byte);
-extern void SD_IgnoreSequenceEvent(s32 cmd_masked, s32 cmd_raw);
 extern s32 D_80011484[];
 
 s32 SD_ReadSequenceEvent(SDSequenceTrack *arg0)
@@ -61,10 +57,10 @@ s32 SD_ReadSequenceEvent(SDSequenceTrack *arg0)
     }
 
 case_f0:
-    SD_SkipSequenceSysEx(arg0, cmd);
+    SD_SkipSequenceSysEx(arg0);
     return 0;
 
 case_default:
-    SD_IgnoreSequenceEvent(masked, cmd);
+    SD_IgnoreSequenceEvent();
     return 0;
 }

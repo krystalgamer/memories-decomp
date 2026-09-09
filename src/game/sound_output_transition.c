@@ -35,20 +35,20 @@ void func_8004666C(void)
 
 void func_800466C8(void)
 {
-    register u8 *state asm("$3") = (u8 *)g_SDValue;
-    register u8 *flags asm("$4");
+    register SDValue *state asm("$3") = g_SDValue;
+    register SDValue *flags asm("$4");
 
-    if (*(u16 *)(state + 0x40) & 0x80) {
-        *(s16 *)(state + 0x1588) = 8;
-        state[0x1584] = 255;
+    if (state->flags_0040 & 0x80) {
+        state->field_1588 = 8;
+        state->field_1584 = 255;
         asm volatile("" : : : "memory");
-        state = (u8 *)g_SDValue;
+        state = g_SDValue;
     }
-    state[0x49] = 0;
+    state->field_0049 = 0;
     asm volatile("" : : : "memory");
-    flags = (u8 *)g_SDValue;
-    *(s16 *)(state + 0x512) = -64;
-    *(u16 *)(flags + 0x40) &= 0xFFFB;
+    flags = g_SDValue;
+    state->field_0512 = -64;
+    flags->flags_0040 &= 0xFFFB;
 }
 
 void func_8004671C(void)

@@ -1,9 +1,15 @@
 #include "../types.h"
+#include "display_object_config.h"
+#include "script_command_busy.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "fade.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
+#include "script_state.h"
 
 typedef struct {
     u8 pad00[4];
@@ -20,20 +26,13 @@ typedef struct {
     u32 field_44;
 } Object;
 
-extern s32 D_8009B134 __attribute__((section(".data")));
-extern u8 *D_8009B290;
 extern u16 D_8009B29C;
-extern u16 D_8009B27C;
 extern Object *D_8009B2A0;
 extern Object *D_8009B280;
 extern Object *D_800EAE98[];
-extern u8 D_800E9ECF[];
 extern u8 D_801AF000[];
-
-extern s32 func_8002E3B4(void);
 extern void func_8002F4C0(u8 *, s32);
 extern void func_8002E00C(void *);
-extern void func_80040510(Object *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern u32 func_8004703C(void);
 
 /* Duel result screen setup. Reads the two-byte result code from the script
@@ -66,7 +65,8 @@ void func_8002F630(void) {
     }
     flags = D_8009B27C;
     if ((flags & 0x4000) == 0) {
-        if (((D_8009B0F4_abs & 0x2000030) | D_8009B134) != 0) {
+        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             D_8009B134_abs) != 0) {
             return;
         }
         D_8009B27C = flags | 0x4000;
@@ -82,11 +82,11 @@ void func_8002F630(void) {
         o->flags |= 0x1000000;
         D_800EAE98[0] = o;
         o = func_800400AC(func_8004002C(), 1);
-        func_80040510(o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
+        func_80040510((DisplayObjectConfigView *)o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
         func_800428EC(o, -1);
         D_800EAE98[5] = o;
         o = func_800400AC(func_8004002C(), 1);
-        func_80040510(o, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
+        func_80040510((DisplayObjectConfigView *)o, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
         func_800428EC(o, -1);
         D_800EAE98[10] = o;
         q = func_800400AC(func_8004002C(), four);
@@ -99,9 +99,9 @@ void func_8002F630(void) {
         q->field_28 = 0;
         q->field_40 = color;
         D_8009B280 = q;
-        q->flags |= 0x60000000;
+        q->flags |= (GsALON | GsATWO);
         Fade_StartIn();
-        D_800E9ECF[0] = four;
+        gFade_State.step = four;
         Fade_Wait();
     } else {
         if (func_8004703C() & 0x80) {

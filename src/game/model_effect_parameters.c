@@ -1,10 +1,8 @@
 #include "../types.h"
+#include "model_transfer_flags.h"
 #include "model.h"
 
 extern s16 D_800F2B22;
-
-extern s32 func_8005F174(void);
-extern s32 func_8005F18C(void);
 
 void func_80059FAC(s32 first, s32 second)
 {

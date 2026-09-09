@@ -1,24 +1,20 @@
 #include "../types.h"
+#include "scene_script.h"
 #include "file_transfer.h"
+#include "graphics_frame.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
-typedef struct {
-    s32 unk00;
-    s16 unk04;
-    s16 unk06;
-    s32 unk08;
-    s32 unk0C;
-    s32 unk10;
-} Slot;
-
 extern u16 D_8009B2A4;
 extern void *D_8009B2A0;
-extern s16 gGraphics_sViewportX __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY __attribute__((section(".data")));
+extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
+    __attribute__((section(".data")));
+extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
+    __attribute__((section(".data")));
+#define gGraphics_sViewportX gGraphics_sViewportX_data
+#define gGraphics_sViewportY gGraphics_sViewportY_data
 extern s32 D_80010000 __attribute__((section(".data")));
 extern RECT D_800E9D70[];
-extern Slot D_800EAE98[];
 
 extern void func_8002FB78(void);
 extern void func_80039E9C(void);
@@ -42,7 +38,7 @@ extern void *func_8002E3FC(void);
  * retail's order. */
 void func_8002FD10(s16 arg0)
 {
-    Slot *slot;
+    SceneScriptSlot *slot;
     u32 *src;
     RECT *second;
     s32 i;

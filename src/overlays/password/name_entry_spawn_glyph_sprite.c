@@ -3,16 +3,6 @@
 #include "name_entry_keyboard.h"
 
 typedef struct {
-    u8 pad0[60];
-    s16 ox;
-    s16 unk3E;
-    s16 oy;
-    u8 pad42[18];
-    u8 pal;
-    u8 pad55[15];
-} Panel;
-
-typedef struct {
     u8 pad0[72];
     u32 f72;
     void *f76;
@@ -28,12 +18,11 @@ typedef struct {
     s16 y;
 } Fixed;
 
-extern Panel D_800EB0F8[];
 extern Fixed *D_8016D404;
 extern u8 D_8016D408;
 extern void func_80040510(Obj *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
-void *NameEntry_SpawnGlyphSprite(s32 slot, NameEntryGlyphNodeView *w)
+void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
 {
     /* The nudge is s16 rather than s32 on purpose.  Its only values are 0 and
        plus or minus two, so an (s16) cast written on an s32 would be proved
@@ -46,14 +35,14 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, NameEntryGlyphNodeView *w)
     u8 v;
     s32 code;
     Obj *obj;
-    Panel *p;
+    DuelEffectChannel *p;
     s32 i;
 
     shift = 0;
     u = 0;
     v = 0;
     /* Preserve the pre-null-test read; this is not a null-safe C contract. */
-    code = w->code;
+    code = w->code_00;
     obj = func_800400AC(func_8004002C(), 1);
     if (w != 0) {
         p = &D_800EB0F8[slot];
@@ -99,8 +88,8 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, NameEntryGlyphNodeView *w)
             v = 120;
         }
 draw:
-        func_80040510(obj, p->ox + w->x + shift, p->oy + w->y,
-                      16, 16, u, v, 10, 640, p->pal + 232);
+        func_80040510(obj, p->field_3C + w->x_0C + shift, p->field_40 + w->y_0E,
+                      16, 16, u, v, 10, 640, p->field_54 + 232);
         obj->f106 = D_8016D408;
         D_8016D408 = D_8016D408 + 1;
     } else {

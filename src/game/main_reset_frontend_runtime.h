@@ -1,0 +1,6 @@
+#ifndef MEMORIES_DECOMP_MAIN_RESET_FRONTEND_RUNTIME_H
+#define MEMORIES_DECOMP_MAIN_RESET_FRONTEND_RUNTIME_H
+
+void Main_ResetFrontendRuntime(void);
+
+#endif

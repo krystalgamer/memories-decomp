@@ -204,17 +204,38 @@ groups. The observed `+0x72` test lies two bytes beyond the nominal `0x70`
 slot stride, so its ownership remains unresolved rather than being modeled as
 a normal `DisplaySlot` field.
 
-## The `+0x4` word is the primitive tag
+## The `+0x4` word is a `GsSPRITE` attribute
 
 The 32-bit field at object offset `+0x4` is not a second flag word alongside
-`+0x8`. Both renderers copy it **verbatim** into the primitive they are
-building — `p->tag = e->unk4` in `func_80040588`, and the same assignment at
-the top of `func_800408D0`. Every bit the overlays set there is therefore a
-bit the packet carries.
+`+0x8`, and it is not a GPU packet tag either. It is a **libgs attribute
+word**, and the header now calls it `DisplayObject.attribute`.
 
-That single assignment is the evidence linking the two; the tests below are
-written against `p->tag`, but they read a word that came unchanged from the
-object.
+Both renderers copy it **verbatim** into the record they are building —
+`p->tag = e->unk4` in `func_80040588`, and the same assignment at the top of
+`func_800408D0`. That record is a `GsSPRITE`: its fields line up one for one
+with `libgs.h`'s, from `attribute` at `+0x0` through `x`/`y`, `w`/`h`,
+`tpage`, `u`/`v`, `cx`/`cy`, `r`/`g`/`b`, `mx`/`my`, `scalex`/`scaley` to
+`rotate` at `+0x20`, and both renderers hand it to `func_80042188`, whose
+first three dispatch cases pass it straight to `GsSortFastSprite`,
+`GsSortFlipSprite` and `GsSortSprite` — all of which take a `GsSPRITE *`.
+`fade_draw_overlay.c` had already reached the same conclusion for its own
+`GsBOXF`-shaped descriptor and called the word an "SDK attribute".
+
+So every bit the overlays set is read by libgs, and `libgs.h` already names
+them:
+
+| Bit | libgs.h | Meaning |
+|---|---|---|
+| `0x01000000` / `0x02000000` | — | colour mode; the page step of 1, 2, 4 is 4bpp, 8bpp, 16bpp |
+| `0x04000000` | `GsPERS` | perspective |
+| `0x08000000` | `GsROTOFF` | rotation off |
+| `0x10000000` | `GsAONE` | semi-transparency rate, bit 0 |
+| `0x20000000` | `GsATWO` | semi-transparency rate, bit 1 |
+| `0x40000000` | `GsALON` | semi-transparency on |
+| `0x80000000` | `GsDOFF` | display off |
+
+The tests below are written against `p->tag`, but they read a word that came
+unchanged from the object.
 
 | Bit | Effect | Established by |
 |---|---|---|
@@ -240,43 +261,88 @@ Read against that table, the overlay writes become legible:
   include `0x40000000` — so sparkles and afterimages are drawn
   semi-transparent, which matches what those effects are.
 
-### What is not established
+### The composites, and what the masks are doing
 
-`0x10000000` — present in both `0x50000000` and `0x51000000` — has **no
-consumer anywhere in the tree**. This is a checked negative rather than an
-assumption: no generated assembly file loads a `0x1000` upper-half mask for
-it, and the only literal `0x10000000` in `src/` is `SR_CU0` in
-`psyq/r3000.h`, an unrelated coprocessor-status bit. Because both composites
-contain it, neither can be written out of named parts, and no constants are
-minted here.
+Every recurring literal in the tree now reads as an attribute:
 
-There is a second, more fundamental reason not to mint them. **The top byte of
-a tag word is also where this codebase stores a primitive length.**
-`func_80040588` writes `g[3] = 9`, and the packet-building table above records
-per-function length bytes of `8` and `12` — all in byte index 3, the same byte
-these bits occupy. Whether `0x40000000` and its neighbours are pure flags, or
-share that byte with a length encoding, is not established by anything checked
-here. The tests listed above are real and observed; what the byte means *as a
-whole* is not settled, and a constant named `..._FLAG_...` would quietly
-assert that it is.
+| Literal | Reads as | Sites |
+|---|---|---|
+| `0x50000000` | `GsALON \| GsAONE`, additive blending | sparkles, afterimages, dialog choices, transitions |
+| `0x51000000` | the same, plus 8bpp | `MainMenu_SpawnFrontendEntryAfterimage` |
+| `0x60000000` | `GsALON \| GsATWO`, subtractive | the default fade overlay box |
+| `0x08000000` | `GsROTOFF` | what a freshly allocated object starts with |
+| `& 0x8FFFFFFF` | clear the rate and `GsALON`, keep `GsDOFF` | "semi-transparency off" |
+| `& 0xF7FFFFFF` | clear `GsROTOFF` | "rotation on" |
 
-`display_object_transition.c` also writes `(tag | 0x08000000) & 0x8FFFFFFF`,
-which clears `0x70000000` while setting `0x08000000`. The mask implies the
-`0x10000000`, `0x20000000` and `0x40000000` bits form a group, but that
-grouping is an inference from one mask rather than something a consumer
-confirms — and it is equally consistent with the mask clamping a length field.
+Additive for a sparkle and subtractive for a fade-to-black overlay are the
+right choices for those effects, which is the corroboration that this reading
+is not a coincidence of bit positions.
 
-Settling flag-versus-length is blocked on `func_80042188`, which is where the
-primitive actually reaches the ordering table. Its inventory row in
-`functions.csv` records that its first argument cannot be resolved as pointer
-or value from the call sites alone, because scratchpad addresses happen to
-satisfy the `0x04000000` test it applies, and that the reading should come
-from a matched definition rather than a guess frozen into a header. The same
-caution applies here: its cases `0`, `1` and `2` pass that argument straight
-into `GsSortFastSprite` and two siblings, which are the SDK routines that
-manage a tag's length and next-pointer, so what survives of the game's own
-top-byte bits by that point is exactly the open question. Match
-`func_80042188` first; do not name these bits from the call sites.
+### What this replaced
+
+This section previously recorded three open questions, all of which came from
+reading the word as a GPU packet tag rather than as a libgs attribute.
+
+`0x10000000` was recorded as having **no consumer anywhere in the tree**, and
+that negative is still correct as stated — nothing in `src/` reads it. It is
+`GsAONE`, the low bit of the two-bit semi-transparency rate, and its consumer
+is `GsSortSprite`, which is still assembly. A bit with no consumer *in the
+game* is exactly what a library-owned attribute field looks like.
+
+The flags-versus-length question dissolves rather than being answered. It
+assumed the word was a `P_TAG`, whose top byte is a primitive length. A
+`GsSPRITE` is a descriptor, not a packet: `GsSortSprite` builds the packet and
+owns its length, and `func_80040588`'s `g[3] = 9` writes the length of a
+*different*, separately built quad at `0x1F800344`, not of the sprite. No byte
+is shared, so no constant here has to hedge.
+
+The `(tag | 0x08000000) & 0x8FFFFFFF` mask in `display_object_transition.c`
+was read as possibly clamping a length field. It sets `GsROTOFF` and clears
+the rate together with `GsALON`: turn rotation off and semi-transparency off.
+
+### `func_80042188`'s first argument is both
+
+`func_80042188`'s inventory row records that its first argument cannot be
+resolved as pointer or value from the call sites, because a scratchpad address
+happens to satisfy the `0x04000000` test the function applies to it. The
+answer is that it is **both, selected by the dispatch case** in the high half
+of the fourth argument.
+
+| Caller | Dispatch case | First argument |
+|---|---:|---|
+| `func_80040588` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
+| `func_800408D0` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
+| `func_80016784` | — | `0x1F800320` / `0x1F800000`, records in the same scratchpad |
+| `display_object_list_renderers.c`, list key `4` | `4` | `v = *(s32 *)(e + 4)`, **the attribute word** |
+| `display_object_list_renderers.c`, list key `5` | `5` | the same |
+
+Cases `0`, `1` and `2` pass it straight into `GsSortFastSprite`,
+`GsSortFlipSprite` and `GsSortSprite`, which take a `GsSPRITE *`. Cases `4`
+and `5` are only ever reached from the two list renderers, which read the
+object's attribute word into `v` and set `0x04000000` — `GsPERS` — on it when
+the clip test passes:
+
+```c
+v = *(s32 *)(e + 4);
+...
+if ((*(u16 *)(e + 8) & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
+    if (func_80041E7C(...) <= 0) goto next;
+    v = v | 0x4000000;
+}
+func_80042188(v, g, ..., *(u16 *)(e + 0x14) | bit, h);
+```
+
+So the `0x04000000` test is a `GsPERS` test. On the value paths the bit is set
+exactly when the clip test passed; on the pointer paths it is always set,
+because every scratchpad address in the `0x1F8003xx` range carries bit 26, and
+those callers have already run their own projection. Both readings take the
+perspective arm under the same circumstances. Whether that overlap is
+deliberate is not something the code states.
+
+The consequence for typing: the parameter cannot be declared `GsSPRITE *`. It
+is a word that means a `GsSPRITE *` in cases `0`-`2` and an attribute in cases
+`4`-`5`, which is why the inventory row's caution was right and why the
+reading should still come from a matched definition rather than a header.
 
 ## Two-phase display-object fades
 

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "display_object_api.h"
 
@@ -9,11 +10,9 @@ typedef struct {
     u8 field_21;
 } Object;
 
-extern int func_80042B98(Object *);
-
 void func_80020EE8(Object *object)
 {
-    if (func_80042B98(object) == 0) {
+    if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
         object->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
     }
     object->field_21 -= 2;

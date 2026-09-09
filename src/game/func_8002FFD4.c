@@ -1,7 +1,6 @@
 #include "../types.h"
 
-typedef void (*Handler)(void *, s32);
-extern Handler D_80090CAC[];
+extern void (*D_80090CAC[])(void *, s32);
 void func_8002FFD4(u8 *arg0) {
     s32 i;
     u8 *p = arg0;

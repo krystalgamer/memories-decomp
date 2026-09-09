@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004A0FC.h"
 
 #define SDSECONDARYSTATE_CUSTOM_EXTERN
 #include "sound.h"
@@ -6,7 +7,6 @@
 
 extern u8 *D_8009B458;
 
-extern void func_8004A0FC(void *, void *);
 extern void func_8004A27C(int, int, int);
 
 void func_8004A2F8(void)

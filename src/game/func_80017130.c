@@ -2,8 +2,6 @@
 #include "view_state.h"
 
 extern void func_800857C0(int);
-extern void func_8001352C(void);
-
 void func_80017130(void)
 {
     ViewState *s = &D_800F2848;
@@ -14,7 +12,7 @@ void func_80017130(void)
     s32 *words = (s32 *)((u8 *)s + 0x10);
 
     s->field_00 = 0x258;
-    s->field_02 = 0x400;
+    s->angle = 0x400;
     s->field_04 = 0x100;
     s->field_0C = 0;
     s->field_28 = 0;

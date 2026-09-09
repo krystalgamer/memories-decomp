@@ -1,8 +1,6 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
-
-extern u8 *D_8009B458;
-extern s32 D_80011434[];
+#include "sound.h"
 
 /* Second pass over the 0x28-byte records at D_8009B458: for each record
  * whose +0x18D counter is set and whose channel reports SPU_ON_ENV_OFF, either
@@ -25,7 +23,7 @@ void func_80049920(void) {
     u8 *b2;
 
     mask = 0;
-    base = D_8009B458;
+    base = (u8 *)D_8009B458;
     i = 0;
     mask = i;
     z = 0;
@@ -36,7 +34,7 @@ void func_80049920(void) {
         do {
             if (*(base + off + 0x18D) != 0) {
                 if (SpuGetKeyStatus(*tbl) == SPU_ON_ENV_OFF) {
-                    b1 = D_8009B458;
+                    b1 = (u8 *)D_8009B458;
                     p = b1 + off;
                     b = p[0x18D];
                     if (b >= 2) {
@@ -46,7 +44,7 @@ void func_80049920(void) {
                             SpuSetKey(SPU_OFF, *q);
                             v = SpuGetKeyStatus(*q);
                         } while (v != key_off_env_on && v != SPU_OFF);
-                        b2 = D_8009B458;
+                        b2 = (u8 *)D_8009B458;
                         *(b2 + off + 0x18D) = 0;
                     } else {
                         p[0x18D] = b + 1;
@@ -54,7 +52,7 @@ void func_80049920(void) {
                 }
             }
             off += 0x28;
-            base = D_8009B458;
+            base = (u8 *)D_8009B458;
             tbl++;
         } while (++i < *(s16 *)(base + 0x510));
     }

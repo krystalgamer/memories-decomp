@@ -1,15 +1,15 @@
+#define GMEMCARD_NIORESULT_IS_VOLATILE
 #include "../types.h"
+#include "mem_card_directory.h"
+#include "mem_card.h"
 #include "../psyq/libapi.h"
 #include "io_event_helpers.h"
 
 extern u8 D_8009B43D;
-extern volatile s32 gMemCard_nIOResult;
 extern u8 D_8009B43C;
 extern u8 D_8009B44E;
 extern s8 D_8009B43E;
 extern u8 D_8009B437;
-extern void *D_8009B444;
-extern s32 D_8009B440;
 extern s32 D_8009B438;
 
 extern long gMemCard_aIOEventHandles[];
@@ -18,8 +18,6 @@ extern u8 D_800F2888[];
 extern u8 D_8009AF7C[];
 
 extern void func_80044470();
-extern s32 func_80044544();
-
 s32 func_80044608(void) {
     s32 v0;
     register s32 one asm("a0");

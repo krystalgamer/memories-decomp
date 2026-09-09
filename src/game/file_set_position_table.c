@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "file_names.h"
+#include "file_set_position_table.h"
 #include "file_transfer.h"
 
 extern u8 gLibrary_aCardArtRecord[];

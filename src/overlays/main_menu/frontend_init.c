@@ -4,6 +4,7 @@
 #include "entrypoints.h"
 #include "frontend.h"
 #include "../../game/display_object_helpers.h"
+#include "../../game/main_services.h"
 
 extern u8 D_801AF800[];
 extern u8 *D_80184558;
@@ -20,7 +21,6 @@ extern u8 D_8018459A;
 extern u8 D_8018459B;
 extern u8 D_8018459C;
 extern u8 D_8018459D;
-extern void (*D_800E9DB0)(void);
 
 extern void func_80040410(u8 *, s32);
 extern void func_80047314(s32);
@@ -107,6 +107,6 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     D_8018459C = 0;
     D_8018459D = 0;
     MainMenu_StartFrontendEntryTransition(0);
-    D_800E9DB0 = MainMenu_DrawFrontendBackground;
+    D_800E9DB0[0] = MainMenu_DrawFrontendBackground;
     func_80047314(0x7000);
 }

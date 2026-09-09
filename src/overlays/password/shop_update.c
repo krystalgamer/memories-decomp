@@ -1,4 +1,7 @@
+#define GINPUT_PAD1_REPEAT_IS_VOLATILE
+#define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../../types.h"
+#include "../../game/input.h"
 #include "../../game/campaign_flags.h"
 #include "../../game/display_object_layout.h"
 #include "../../game/file_transfer.h"
@@ -29,22 +32,14 @@ extern u32 D_801A8000[];
 extern Pair D_801D5608;
 extern u32 D_801D07E0;
 extern u32 D_801D0000[];
-extern volatile u16 D_8009B394;
-extern volatile u16 D_8009B398;
 extern volatile u16 D_8009B3A4;
-extern u32 D_8009B134;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 extern s8 D_8009B34D;
 
-extern void Password_SetDigitCursorTarget(Cursor *);
-extern void Password_RefreshDigitDisplay(void);
 extern void Fade_WaitOut(void);
-extern s32 Password_LookupCardID(void);
 extern void func_80029164(s32, s32);
-extern u8 *Password_CreateMessageBox(s32, s32);
 extern void Duel_AwardCard(s32);
-extern void Password_RefreshStarchipDisplay(void);
 
 void Password_UpdateShopScreen(void)
 {
@@ -94,9 +89,9 @@ void Password_UpdateShopScreen(void)
             cursor->updateFlags |= 0x40;
             return;
         }
-        if ((D_8009B394 & 0x5000) != 0) {
+        if ((gInput_wPad1Repeat & 0x5000) != 0) {
             step = gPassword_abDigits[gPassword_nDigitIndex];
-            if ((D_8009B394 & 0x1000) != 0) {
+            if ((gInput_wPad1Repeat & 0x1000) != 0) {
                 step = step + 1;
                 if (step >= 10) {
                     step = 0;
@@ -112,14 +107,14 @@ void Password_UpdateShopScreen(void)
             Password_RefreshDigitDisplay();
             return;
         }
-        if ((D_8009B398 & 0x20) != 0) {
+        if ((gInput_wPad1Pressed & 0x20) != 0) {
             SD_SEPlayFull(8);
             SD_BGMFadeOut();
             Fade_WaitOut();
             D_8009B26C = D_8009B269;
             return;
         }
-        if ((D_8009B398 & 0x40) != 0) {
+        if ((gInput_wPad1Pressed & 0x40) != 0) {
             card = Password_LookupCardID();
             D_8016D4DC = card;
             if (card == 0) {
@@ -138,7 +133,8 @@ void Password_UpdateShopScreen(void)
             return;
         }
         if ((flags & 0x4000) == 0) {
-            if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134) != 0) {
+            if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                 D_8009B134) != 0) {
                 return;
             }
             D_8016D424 = flags | 0x4000;

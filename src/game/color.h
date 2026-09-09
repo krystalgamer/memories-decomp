@@ -47,6 +47,14 @@ typedef struct {
  * declarations therefore stay with those two callers until that divergence is
  * understood.
  *
+ * Re-checked against #2495, and it still reproduces exactly: moving the two
+ * prototypes here diverges at file offset 0x4BA06, VRAM 0x8005B206, one byte
+ * inside func_8005B0B4's tail. Aliasing a second void-returning view here the
+ * way file_transfer.h carries D_8009B0F4_abs does not work either - GCC 2.8.1
+ * does not honour an `asm()` rename on a function declaration, and the build
+ * fails to link. So this stays where it is on purpose, not for want of a
+ * try.
+ *
  * func_8005AE68 no longer needs one: it builds in color_transform.c behind
  * both definitions, and the real signatures - including u8 rather than the s8
  * channels it used to declare - reproduce its bytes exactly.

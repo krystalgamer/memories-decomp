@@ -1,4 +1,6 @@
+#define D_8009B0D8_IS_HALFWORD
 #include "../types.h"
+#include "graphics_frame.h"
 
 /* If arg0's 0x10 state bit isn't set yet: marks it set, resets f58/f5A,
    then walks a 3-level little-endian-u16 offset chain through arg0->f54's
@@ -9,6 +11,17 @@
    neither of f8's low two bits are set and the f5A cooldown is nonzero,
    decrements it by D_8009B0D8 and fires func_80041C8C once it reaches
    zero or below.
+
+   arg1 and arg2 are read, not just written. The first-time path assigns
+   both before jumping to the call, but the cooldown path falls into the
+   same call with neither assigned, so on that path they are whatever the
+   caller left in $a1 and $a2. Both callers pass one argument, so on the
+   cooldown path func_80041C8C receives two values the caller never
+   supplied. That is what the retail image does. Declaring the real
+   three-argument prototype at either call site makes the call a
+   constraint violation, and passing arguments to satisfy it adds the
+   register setup and breaks the match, so both callers keep their
+   one-argument declarations on purpose.
 
    The three chain steps use separately-named pointer/offset locals
    (p1/off1, p2/off2, p3/off3) rather than one reused pair -- reusing a
@@ -30,7 +43,6 @@ struct Obj {
     u8 f69;
 };
 
-extern u16 D_8009B0D8;
 extern void func_80041C8C(struct Obj *a0, s32 a1, s32 a2, struct Obj *a3);
 
 void func_80041D60(struct Obj *arg0, s32 arg1, s32 arg2) {

@@ -56,6 +56,11 @@ typedef char DuelCardRecord_table_index_offset_must_be_0x18[
 
 extern DuelCardRecord D_801A7AD8[];
 
+/* Packed per-card attribute word, indexed by card id minus one. Callers
+ * unpack it with CARD_STAT_TYPE_SHIFT / CARD_STAT_TYPE_MASK for the card
+ * type and CARD_STAT_VALUE_MASK for the stat value. */
+extern s32 gDuel_adwCardStats[];
+
 /* Effective attack and defense packed into one word: defense in the high
  * half, attack in the low half. Never narrow the return type -- callers
  * select a half with `>> 16` or a 16-bit mask. */

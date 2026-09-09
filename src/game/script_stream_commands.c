@@ -1,15 +1,12 @@
 #include "../types.h"
+#include "script_command_busy.h"
 #include "sound.h"
 #include "file_transfer.h"
+#include "script_state.h"
 
-extern u8 *D_8009B290;
 extern u32 gSD_dwCurrentBgmCommand[];
 extern s32 D_8009B404 __attribute__((section(".data")));
-extern s32 D_8009B134[];
-extern u16 D_8009B27C;
 extern u8 D_801A8000[];
-
-extern s32 func_8002E3B4(void);
 
 void Script_OpSound(void)
 {
@@ -49,7 +46,7 @@ void Script_OpSound(void)
             return;
         }
     } else if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-               D_8009B134[0]) {
+               D_8009B134_abs) {
         return;
     }
     D_8009B27C = 0;

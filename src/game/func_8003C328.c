@@ -10,8 +10,8 @@ void func_8003C328(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
     case 0:
-        object->field_32 = 0x100;
-        object->counter = 0;
+        object->field_30.h.field_32 = 0x100;
+        object->field_30.h.counter = 0;
         object->w = 0x40;
         object->h = 0x10;
         D_8009B0F4 &= 0xFFDDFFFF;

@@ -1,8 +1,9 @@
 #include "../types.h"
 #include "ai.h"
 #include "ai_script_read_byte.h"
+#include "ai_script_commands.h"
 
-extern AiFieldCardState D_800EAE88;
+extern AiSelection D_800EAE88;
 extern u8 D_800EAE92;
 void AiScript_PlayFieldCard(void)
 {

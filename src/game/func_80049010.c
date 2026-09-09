@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80049010.h"
 #include "sound.h"
 
 /* Same *g_SDValue struct as set_8009b45c_1582_1584.c/clear_8009b45c_busy.c.

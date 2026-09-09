@@ -1,18 +1,20 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 #include "../../game/display_object_api.h"
+#include "../../game/display_object_lifecycle.h"
 #include "name_entry_keyboard.h"
 
 extern s8 D_8016D42C;
 extern void func_800429D8(u8 *);
 extern void func_80042A78(u8 *);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
-extern void func_80042BC0(void);
-extern u8 *TextBox_GetGlyphAt(s32, s32, s32);
 
 void NameEntry_UpdateGlyphTransfer(u8 *w)
 {
     u8 *o;
-    u8 *node;
+    DuelEffectEntry *node;
     s32 n;
 
     if ((w[0x6C] & 0x80) == 0) {
@@ -42,7 +44,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
         *(u32 *)(o + 0x0C) = 0x606060;
         *(s16 *)(o + 0x60) = 6;
         *(void **)(o + 0x24) = func_80042BC0;
-        *(u32 *)(o + 4) |= 0x50000000;
+        *(u32 *)(o + 4) |= (GsALON | GsAONE);
         return;
     }
     w[0x6C] |= 0x40;
@@ -57,7 +59,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
     if (node == 0) {
         return;
     }
-    o = NameEntry_SpawnGlyphSprite(3, (NameEntryGlyphNodeView *)node);
+    o = NameEntry_SpawnGlyphSprite(3, node);
     *(NameEntryGlyphUpdate *)(o + 0x24) = NameEntry_UpdateGlyphShatter;
     o[0x6C] = 5;
 }

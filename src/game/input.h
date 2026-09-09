@@ -86,6 +86,77 @@ extern volatile u16 gInput_wPad1Pressed;
 extern u16 gInput_wPad1Pressed;
 #endif
 
+/* gInput_wPad1Held is declared four different ways, and three of them are
+ * codegen inputs. Same arms as gInput_wPad1Pressed above, same reasons; our
+ * matching tree carries this symbol (0x8009B3A4) behind an equivalent set,
+ * with a note on each recording which function needed it. */
+#ifdef GINPUT_PAD1_HELD_IN_DATA_VOLATILE
+extern volatile u16 gInput_wPad1Held __attribute__((section(".data")));
+#elif defined(GINPUT_PAD1_HELD_IN_DATA)
+extern u16 gInput_wPad1Held __attribute__((section(".data")));
+#elif defined(GINPUT_PAD1_HELD_IS_AGGREGATE)
+extern u16 gInput_wPad1Held[];
+#elif defined(GINPUT_PAD1_HELD_IS_VOLATILE)
+extern volatile u16 gInput_wPad1Held;
+#else
+extern u16 gInput_wPad1Held;
+#endif
+
+/* gInput_wPad1Repeat is declared three ways; two are codegen inputs. Same
+ * arms as the two symbols above, same reasons. It has no aggregate consumer,
+ * so there is no aggregate arm -- a spelling nothing in the tree uses would
+ * be a guess, not a lever. */
+#ifdef GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
+extern volatile u16 gInput_wPad1Repeat __attribute__((section(".data")));
+#elif defined(GINPUT_PAD1_REPEAT_IS_VOLATILE)
+extern volatile u16 gInput_wPad1Repeat;
+#else
+extern u16 gInput_wPad1Repeat;
+#endif
+
+/* The pad-2 trio. Each of these sits two bytes above its pad-1 twin --
+ * Repeat at 0x8009B394/0x396, Pressed at 0x398/0x39A, Held at 0x3A4/0x3A6 --
+ * so every name in this family is one element of a two-element, pad-indexed
+ * pair. Input_ResetPads walks that pairing directly: it takes the address of
+ * each pad-2 name and steps DOWN with --, INPUT_PAD_COUNT times.
+ *
+ * Only the arms some consumer needs. gInput_wPad2Pressed is the only one of
+ * the three with a .data consumer, so it is the only one with that arm.
+ *
+ * Some consumers reach pad 2 as element 1 of the pad-1 name rather than by
+ * these names, and that cannot be converted. update_value_setup.c and
+ * trade_update.c declare `volatile u16 D_8009B394[]` and read both `[0]` and
+ * `[1]`; rewriting `[1]` to gInput_wPad2Repeat/gInput_wPad2Pressed is the
+ * obvious tidy-up and it does not build. Measured on update_value_setup.c: the
+ * main_menu module stops matching, and it still fails when only one of the two
+ * symbols is converted, so it is the pad-2 access itself and not an
+ * interaction between them.
+ *
+ * The reason is addressing, not naming. `X[1]` is one materialization of the
+ * pad-1 symbol plus a displacement; the pad-2 name is its own relocation.
+ * Retail chose per site, so both spellings are faithful and neither can be
+ * made to stand in for the other. Same shape as the overlaps recorded in
+ * notes/memory-map.md and the main_menu README. */
+#ifdef GINPUT_PAD2_HELD_IS_VOLATILE
+extern volatile u16 gInput_wPad2Held;
+#else
+extern u16 gInput_wPad2Held;
+#endif
+
+#ifdef GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
+extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
+#elif defined(GINPUT_PAD2_PRESSED_IS_VOLATILE)
+extern volatile u16 gInput_wPad2Pressed;
+#else
+extern u16 gInput_wPad2Pressed;
+#endif
+
+#ifdef GINPUT_PAD2_REPEAT_IS_VOLATILE
+extern volatile u16 gInput_wPad2Repeat;
+#else
+extern u16 gInput_wPad2Repeat;
+#endif
+
 void Input_ResetPads(void);
 void Input_InitPads(void);
 void Input_ReadRawPads(void);

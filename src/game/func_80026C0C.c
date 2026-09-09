@@ -1,8 +1,7 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "duel_card.h"
 #include "func_80026C0C.h"
-
-extern u8 D_8009B1D5;
 
 s32 func_80026C0C(s32 arg0)
 {

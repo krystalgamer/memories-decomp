@@ -130,31 +130,31 @@
       "address": "0x80183B2C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x360",
-      "source": "src/overlays/main_menu/trade_draw.c"
+      "source": "src/overlays/main_menu/trade_offers.c"
     },
     {
       "address": "0x80183E8C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x158",
-      "source": "src/overlays/main_menu/draw_three_digit_number.c"
+      "source": "src/overlays/main_menu/trade_offers.c"
     },
     {
       "address": "0x80183FE4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
-      "source": "src/overlays/main_menu/release_trade_display_handles.c"
+      "source": "src/overlays/main_menu/trade_offers.c"
     },
     {
       "address": "0x80184030",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC8",
-      "source": "src/overlays/main_menu/apply_trade_offer_inventory_delta.c"
+      "source": "src/overlays/main_menu/trade_offers.c"
     },
     {
       "address": "0x801840F8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x74",
-      "source": "src/overlays/main_menu/trade_card_count.c"
+      "source": "src/overlays/main_menu/trade_offers.c"
     },
     {
       "address": "0x8018416C",
@@ -172,19 +172,19 @@
       "address": "0x80184344",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x110",
-      "source": "src/overlays/main_menu/trade_draw_helpers.c"
+      "source": "src/overlays/main_menu/trade_screen_helpers.c"
     },
     {
       "address": "0x80184454",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x84",
-      "source": "src/overlays/main_menu/trade_draw_helpers.c"
+      "source": "src/overlays/main_menu/trade_screen_helpers.c"
     },
     {
       "address": "0x801844D8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
-      "source": "src/overlays/main_menu/rebuild_trade_inventory_rows.c"
+      "source": "src/overlays/main_menu/trade_screen_helpers.c"
     }
   ],
   "schema": 1

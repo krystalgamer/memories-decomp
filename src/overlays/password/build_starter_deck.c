@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "name_entry_keyboard.h"
 #include "../../psyq/rand.h"
 #include "../../game/card_constants.h"
 

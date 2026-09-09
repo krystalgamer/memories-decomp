@@ -188,7 +188,7 @@ requested `0x18800` bytes exactly, and none supplies an executable module.
 The argument initializes the event-script state at `D_8009B2A4`, not the
 archive location. Matching [`Main_RunCampaign`](../src/game/main_run_campaign.c)
 passes `gCampaignSceneIndex`. When neither dialog-active nor started state
-intervenes, [`func_8002FA54`](../src/game/func_8002FA54.c) uses a nonzero
+intervenes, [`Script_RunTick`](../src/game/script_run_tick.c) uses a nonzero
 value directly to index the script's `u16` offset table. A zero state does
 not start an event, but does not prevent the loader from requesting the
 shared resource package.
@@ -223,7 +223,7 @@ to the next 64-entry CLUT column.
 
 ### Name-entry screen package
 
-Matching `func_8003BBF8` requests 80 WA sectors beginning at sector `0x1EDF`,
+Matching `File_RequestNameEntryPackage` requests 80 WA sectors beginning at sector `0x1EDF`,
 which is archive range `0xF6F800-0xF97800`. Its matching callback
 `func_8003BA14` accounts for the complete package:
 
@@ -241,7 +241,7 @@ under [`src/overlays/name_entry/`](../src/overlays/name_entry/).
 
 ### Password screen package
 
-Matching `func_8003BEB8` requests 86 WA sectors beginning at sector `0x1F2F`,
+Matching `File_RequestPasswordPackage` requests 86 WA sectors beginning at sector `0x1F2F`,
 which is archive range `0xF97800-0xFC2800`. Its matching callback
 `func_8003BD14` accounts for the complete package:
 
@@ -271,7 +271,7 @@ The three resident copies have distinct addresses and consumers:
 
 | Address | Symbol | Text | Established use |
 |---:|---|---|---|
-| `0x800117C8` | `gFile_szSuMrgPath` | `M:/mrgSU/SU.mrg` | Matching `func_8005B85C` passes it to `File_RequestAsyncTransfer` with file selector `1`, sector `0`, and count `0x73`; this is the named SU request that supplies the main-menu package. |
+| `0x800117C8` | `gFile_szSuMrgPath` | `M:/mrgSU/SU.mrg` | Matching `File_RequestMainMenuPackage` passes it to `File_RequestAsyncTransfer` with file selector `1`, sector `0`, and count `0x73`; this is the named SU request that supplies the main-menu package. |
 | `0x80011580` | `gFile_szModelMrgPath` | `M:/mrgSU/model.mrg` | Referenced by `Model_LoadMonsterMerge` in the resident model-loader cohort. |
 | `0x800114F8` | `D_800114F8` | `M:/mrgSU/SU.mrg` | A second live copy referenced by `Model_LoadMonsterMerge` and `func_800507D0`; its exact role remains unnamed. |
 

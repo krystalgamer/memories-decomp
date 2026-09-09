@@ -1,11 +1,11 @@
 #include "../types.h"
 #include "save_data.h"
+#include "util_memory.h"
 
 extern s32 D_8009B0C4[];
 extern s8 gSD_bOutputType __attribute__((section(".data")));
 extern s32 gSaveDataSequence;
 
-extern void Util_CopyWords(void *, void *, u32);
 void SaveData_BuildPayload(u8 *data)
 {
     u8 *copy;

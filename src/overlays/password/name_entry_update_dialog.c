@@ -21,42 +21,27 @@ typedef struct {
     u8 f108;
 } Caret;
 
-typedef struct {
-    u8 pad0[44];
-    Caret *f44;
-    s32 f48;
-    u16 f52;
-    u16 f54;
-    u8 pad56[33];
-    u8 f89;
-} Box;
-
 extern u16 D_8016D4D2;
 extern u8 D_8016D400;
 extern s8 D_8009B34D;
-extern u16 D_8009B398;
 extern u8 D_801B125A[];
-extern u8 D_800EB0F8[];
-extern Box D_800EB1C0;
+extern DuelEffectChannel D_800EB1C0;
 extern u8 *D_8016D418;
 extern u8 D_8016D41C;
 
 extern void func_8003B6AC(s32, s32);
-extern Box *func_80035BE4(s32, s32, s32, s32, s32, s32);
-extern s32 func_800374F4(Box *);
+extern DuelEffectChannel *func_80035BE4(s32, s32, s32, s32, s32, s32);
+extern void *func_800374F4(DuelEffectChannel *);
 extern void func_80043178(Caret *);
 extern void func_80043230(Caret *, s32, s32, s32);
-extern void func_80035B7C(Box *);
-extern void func_80039934(Box *, s32, s32);
+extern void func_80035B7C(DuelEffectChannel *);
+extern void func_80039934(DuelEffectChannel *, s32, s32);
 extern void func_80015B00(void);
-extern Caret *func_80042B40(s32);
 extern void func_8003BC40(u8 *, u8 *, s32);
-extern void func_80039A60(u8 *);
-extern s32 NameEntry_AdjustLength(s32, s32);
 
 void NameEntry_UpdateDialog(void)
 {
-    Box *box;
+    DuelEffectChannel *box;
     Caret *caret;
     u8 flags;
     u8 fb;
@@ -69,7 +54,7 @@ void NameEntry_UpdateDialog(void)
     s16 pos;
     u8 *p;
     u8 *next;
-    u8 *panel;
+    DuelEffectChannel *panel;
     s32 c;
     s32 term;
 
@@ -80,33 +65,33 @@ void NameEntry_UpdateDialog(void)
             func_8003B6AC(2, 2);
             box = func_80035BE4(2, D_8016D4D2 & 0xFFF, 16, 248,
                                  288, 48);
-            box->f89 = 20;
+            box->field_59 = 20;
             id = D_8016D4D2;
             if ((id & 0x8000) == 0) {
                 if ((id & 0x4000) == 0) {
-                    func_80039A14(box);
+                    func_80039A14((u8 *)box);
                     D_8009B34D = 0;
                 }
-                box->f48 = func_800374F4(box);
+                box->field_30 = func_800374F4(box);
             } else {
-                box->f52 |= 8;
+                box->flags_34 |= 8;
                 do {
                     func_80039794();
-                } while (box->f48 == 0);
+                } while (box->field_30 == 0);
             }
             caret = func_800400AC(func_8004002C(), 2);
             func_800404CC(caret, 16, 248, 0, 0, 0, 23, 257);
             func_80042918(caret);
             func_800428EC(caret, 19);
             caret->f8 |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-            box->f44 = caret;
+            box->field_2C = caret;
             func_80043178(caret);
             caret->f96 = -1024;
             D_8016D400 |= 2;
             return;
         }
         box = &D_800EB1C0;
-        caret = box->f44;
+        caret = (Caret *)box->field_2C;
         if ((flags & 2) != 0) {
             pos = caret->f96;
             if (pos >= 0) {
@@ -135,13 +120,13 @@ void NameEntry_UpdateDialog(void)
             return;
         }
         if ((D_8016D4D2 & 0x8000) == 0) {
-            if ((D_8009B398 & (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
+            if ((gInput_wPad1Pressed & (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
                 SD_SEPlayFull(11);
                 return;
             }
         } else {
             func_80039794();
-            if ((*(u32 *)&box->f52 & 0x2008) != 0x2000) {
+            if ((*(u32 *)&box->flags_34 & 0x2008) != 0x2000) {
                 return;
             }
         }
@@ -167,7 +152,7 @@ void NameEntry_UpdateDialog(void)
         return;
     }
     if ((flags & 0x80) != 0) {
-        caret = func_80042B40(6);
+        caret = (Caret *)func_80042B40(6);
         if (caret == 0) {
             return;
         }
@@ -180,9 +165,9 @@ void NameEntry_UpdateDialog(void)
         func_8003BC40(D_801B125A, D_8016D418, 6);
         func_80035BE4(3, 254, 112, 204, 96, 16);
         panel = D_800EB0F8;
-        panel[390] = 16;
-        panel[391] = 16;
-        func_80039A60(panel + 300);
+        panel[3].field_5A = 16;
+        panel[3].field_5B = 16;
+        func_80039A60((u8 *)&panel[3]);
         NameEntry_AdjustLength(1, 6);
         return;
     }

@@ -1,7 +1,5 @@
 #include "../types.h"
-
-extern u32 gSaveData_dwMaskStateLow;
-extern u32 gSaveData_dwMaskStateHigh;
+#include "save_data.h"
 
 void SaveData_SetMaskSeed(u32 value)
 {

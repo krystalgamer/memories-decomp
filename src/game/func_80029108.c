@@ -8,6 +8,9 @@ typedef struct {
 
 extern int D_8009B424;
 extern void func_80040410(Object *, int);
+/* One argument on purpose: func_80041D60 takes three, and reads the
+ * second and third on its cooldown path without assigning them. The
+ * retail image calls it this way; see that file. */
 extern void func_80041D60(Object *);
 
 void func_80029108(Object *object, int arg1)

@@ -1,11 +1,10 @@
 #include "../types.h"
+#include "script_command_busy.h"
+#include "script_state.h"
 
 extern u8 D_8009B269[];
 extern u8 D_8009B26C[];
-extern u8 *D_8009B290;
 extern s16 D_8009B278;
-extern u16 D_8009B27C;
-extern int func_8002E3B4(void);
 
 void func_8002F930(void)
 {

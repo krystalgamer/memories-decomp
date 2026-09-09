@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "func_80043178.h"
+#include "display_object_lifecycle.h"
 #include "display_object_api.h"
 #include "../psyq/libmcrd.h"
 #include "duel_effect.h"
@@ -18,8 +20,6 @@ typedef struct {
     u8 field_006C;
 } ObjectState;
 
-extern s32 func_80042B98(ObjectState *, s32, s32, s32);
-extern void func_80043178(ObjectState *);
 extern void func_80043230(ObjectState *, s32, s32);
 
 u8 func_8003F2B0(ObjectState *object, s32 arg1, s32 arg2, s32 index)
@@ -27,8 +27,8 @@ u8 func_8003F2B0(ObjectState *object, s32 arg1, s32 arg2, s32 index)
     s32 saved_index = index;
     register s32 value asm("$7");
 
-    if (func_80042B98(object, arg1, arg2, index) == 0) {
-        func_80043178(object);
+    if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
+        func_80043178((DisplayObjectSnapshot *)object);
     }
 
     value = object->field_0060;
@@ -68,7 +68,6 @@ extern u8 D_8009B3DE;
 extern u8 D_8009B3EF;
 extern s32 D_8009B3F0;
 extern s32 D_8009B3F4;
-extern u16 gMemCard_wDialogFlags;
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 extern s32 func_8003F2B0_int(ObjectState *, s32, s32, s32)
     asm("func_8003F2B0");

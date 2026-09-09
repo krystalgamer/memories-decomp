@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "ai.h"
 #include "ai_opponent_data.h"
 
 extern s8 gDuel_bOpponentID;

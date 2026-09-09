@@ -32,13 +32,11 @@ typedef struct {
     u8 field_59;
 } TextBox;
 
-extern u8 D_8009B1D5;
 extern u8 D_8009B320 __attribute__((section(".data")));
 extern u8 D_8009B344 __attribute__((section(".data")));
 extern u8 D_8009B34E __attribute__((section(".data")));
 extern u8 D_8009B355 __attribute__((section(".data")));
 extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
-extern s32 gDuel_adwCardStats[];
 extern u8 D_800E9F48[];
 extern s32 D_801D5608[];
 

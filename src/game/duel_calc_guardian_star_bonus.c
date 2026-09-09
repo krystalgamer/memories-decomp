@@ -3,8 +3,6 @@
 #include "duel_calc_guardian_star_matchup.h"
 #include "duel_card.h"
 
-extern int gDuel_adwCardStats[];
-
 s32 Duel_CalcGuardianStarBonus(DuelCardRecord *left, DuelCardRecord *right)
 {
     int left_value, right_value;

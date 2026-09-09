@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -7,7 +8,6 @@
 
 extern s16 D_800F2856[];
 extern u8 D_800FE148[];
-extern u8 D_8009B1D5;
 extern u16 D_800908A0[];
 extern ScreenPair D_800EA070[];
 

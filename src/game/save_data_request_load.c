@@ -1,8 +1,7 @@
 #include "../types.h"
+#include "data_transfer_request.h"
 #include "mem_card.h"
 #include "save_data.h"
-
-extern void func_8003F758(u8 *, s32, u8 *, s32);
 
 void SaveData_RequestLoad(void)
 {

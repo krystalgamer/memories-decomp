@@ -1,9 +1,7 @@
 #include "../types.h"
+#include "func_80036D3C.h"
 #include "campaign_flags.h"
-
-extern u32 D_8009B350;
-
-extern s32 func_80036D3C(u8 *);
+#include "duel_effect.h"
 
 void func_80038D14(u8 *value)
 {

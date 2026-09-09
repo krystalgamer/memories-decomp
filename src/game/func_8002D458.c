@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "file_transfer.h"
+#include "func_8002D458.h"
 
 extern u8 D_8009B268;
 extern u8 D_8009B26C;
@@ -9,7 +11,6 @@ extern u8 D_8009B3D4 __attribute__((section(".data")));
 extern u8 D_8009B0D1 __attribute__((section(".data")));
 extern u8 gFreeDuel_bReturnFlags __attribute__((section(".data")));
 
-void func_8003BBF8(void);
 void func_8016AA6C(void);
 void func_80033C90(void);
 
@@ -20,7 +21,7 @@ void func_8002D458(s32 mode)
 
     switch (mode) {
     case 0:
-        func_8003BBF8();
+        File_RequestNameEntryPackage();
         func_8016AA6C();
         gCampaignSavedSceneIndex[0] = 0x30;
         gCampaignSceneIndex = 0x30;

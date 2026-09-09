@@ -1,11 +1,20 @@
 #include "../types.h"
+#include "movie_frame_pipeline.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libpress.h"
 #include "../psyq/libcd.h"
+#include "graphics_constants.h"
 #include "mdec_sync.h"
 
+/* The movie player, in image order: the stop path that tears the stream down
+   and repaints the screen, the three stages that decode and present one frame,
+   and the setter for the three bytes at D_8009B4A0. The five are contiguous
+   and are the whole gcc_2_8_1_g8 run between func_8005B85C and
+   movie_stream_requests.c. */
+
 extern u8 D_8009B060;
+extern u8 D_8009B061;
 extern u8 D_8009B062;
 extern u8 D_8009B063;
 extern u8 D_8009B064;
@@ -15,16 +24,100 @@ extern u8 D_8009B067;
 extern u32 D_8009B068;
 extern u32 D_8009B06C;
 extern u32 D_8009B070;
+extern u8 D_8009B142 __attribute__((section(".data")));
+extern u8 D_8009B143 __attribute__((section(".data")));
+extern u8 D_8009B144 __attribute__((section(".data")));
 extern u8 *D_8009B498;
 extern CdlLOC D_8009B49C;
+extern u8 D_8009B4A0;
+extern u8 D_8009B4A1;
+extern u8 D_8009B4A2;
+extern s16 D_800FE0CC __attribute__((section(".data")));
+extern u16 D_800FE0D0 __attribute__((section(".data")));
+extern s32 D_800FE0D4 __attribute__((section(".data")));
 /* Four bytes, so at -G8 a plain declaration would land in sdata and both
    accesses would come out gp-relative; retail reaches this one through
    lui %hi / %lo. */
 extern s32 D_800F5D44 __attribute__((section(".data")));
 
 extern void func_80044F58(s32 arg0);
-extern s32 func_8005BFC8(s32 arg0);
 extern void func_8005C62C(CdlLOC *loc);
+
+s32 func_8005BB7C(s32 arg0) {
+    u16 rect[4];
+    u8 buf[0x3C0];
+    s32 i;
+    s32 m;
+    u8 *q;
+
+    DrawSync(0);
+    func_80044F58(0);
+    /* volatile: retail sets a0 = 0 above this store and leaves the jal's
+       delay slot empty, which only a store that cannot enter a slot gives. */
+    *(volatile u8 *)&D_8009B063 = 1;
+    DecDCToutCallback(0);
+    StUnSetRing();
+    while (CdControlB(9, 0, 0) == 0) {
+    }
+    if (D_8009B061 != 0 || arg0 != 0) {
+        func_8005C568(0, 0x100);
+    }
+    if (D_8009B060 != 0) {
+        i = 0;
+        m = GsGetActiveBuff();
+        q = buf;
+        for (; i < 0x3C0; i += 3) {
+            *q++ = D_8009B144;
+            *q++ = D_8009B143;
+            *q++ = D_8009B142;
+        }
+        rect[0] = 0;
+        i = 0;
+        rect[1] = m << 8;
+        rect[2] = 0x1E0;
+        rect[3] = 1;
+        for (; i < D_800FE0D4; i++) {
+            LoadImage(rect, buf);
+            DrawSync(0);
+            rect[1]++;
+        }
+        rect[0] = 0x140;
+        rect[1] = 0;
+        rect[3] = 1;
+        rect[2] = D_800FE0D0;
+        for (i = 0; i < D_800FE0D4; i++) {
+            LoadImage(rect, buf);
+            DrawSync(0);
+            rect[1]++;
+        }
+        DrawSync(0);
+        VSync(0);
+        i = 0;
+        GsSwapDispBuff();
+        rect[1] = (m ^ 1) << 8;
+        rect[2] = 0x1E0;
+        rect[0] = 0;
+        rect[3] = 1;
+        for (; i < D_800FE0D4; i++) {
+            LoadImage(rect, buf);
+            DrawSync(0);
+            rect[1]++;
+        }
+        DrawSync(0);
+        VSync(0);
+        D_800FE0CC = 1;
+        GsSwapDispBuff();
+        GsDefDispBuff(0, 0, 0x140, 0);
+        GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 0);
+        rect[0] = 0;
+        rect[1] = 0;
+        rect[2] = *(s32 *)&D_800FE0D0 * 2;
+        rect[3] = *(u16 *)&D_800FE0D4;
+        ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);
+        D_8009B060 = 0;
+    }
+    return 0;
+}
 
 /* Decodes and presents one movie frame. D_8009B063 marks the stream as
  * finished and D_8009B064 as fading out, in which case the fade level in
@@ -277,4 +370,11 @@ void func_8005C1F4(void) {
     } else {
         D_8009B062 = 1;
     }
+}
+
+void func_8005C374(s32 first, s32 second, s32 third)
+{
+    D_8009B4A0 = first;
+    D_8009B4A1 = second;
+    D_8009B4A2 = third;
 }

@@ -4,10 +4,6 @@
 #include "model.h"
 #include "model_update_view_metrics.h"
 
-extern u8 D_8009B478;
-extern u16 D_8009B47A;
-extern u16 D_8009B47C;
-
 void Model_UpdateViewMetrics(u8 *m) {
     u8 *b;
 

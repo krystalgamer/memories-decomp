@@ -1,6 +1,9 @@
 #include "../types.h"
+#define SAVE_DATA_DECLARE_MASK_STATE_LOCALLY
 #include "save_data.h"
 
+/* Keeping these declarations at their original source position preserves the
+ * exact GCC 2.8.1 allocation in SaveData_NextMaskWord. */
 extern u32 gSaveData_dwMaskStateLow;
 extern u32 gSaveData_dwMaskStateHigh;
 

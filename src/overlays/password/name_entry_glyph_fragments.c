@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/display_object_api.h"
+#include "../../game/display_object_lifecycle.h"
 #include "name_entry_keyboard.h"
 
 extern void func_800429D8(void);
@@ -7,7 +8,6 @@ extern s32 func_800358FC(s32);
 extern s32 func_80042B08(s32, s32);
 extern s32 func_80042AD8(s32, s32, s32);
 extern void func_80042A78(void *);
-extern s32 func_80042B98(void);
 extern void func_80040510(void *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
 void NameEntry_UpdateGlyphFragment(u8 *object)
@@ -35,7 +35,7 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
     s32 dx;
     s32 dy;
 
-    if (func_80042B98() == 0) {
+    if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
         for (dy = 0; dy < 0x10; dy += 4) {
             for (dx = 0; dx < 0x10; dx += 4) {
                 piece = func_800400AC(func_8004002C(), 1);

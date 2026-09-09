@@ -5,27 +5,6 @@
 #include "file_transfer.h"
 
 typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-    s32 field08;
-    s32 field0C;
-    u8 pad10[0xC];
-    s32 field1C;
-    u8 pad20[0x10];
-    union {
-        struct {
-            s16 lo;
-            s16 hi;
-        } h;
-        s32 w;
-    } field30;
-    u8 pad34[0x12];
-    u8 field46;
-} Object;
-
-typedef struct {
     u32 w[7];
 } Block28;
 
@@ -37,7 +16,7 @@ extern u8 D_801A8000[];
 extern u8 D_801DD000[];
 extern void func_8005B620(u8 *dst, u8 *src, s32 count);
 
-void func_800577B0(Object *object, s32 mode) {
+void func_800577B0(FileTransferDescriptor *object, s32 mode) {
     RECT rect0;
     RECT rect1;
     u8 *dst;
@@ -45,32 +24,32 @@ void func_800577B0(Object *object, s32 mode) {
 
     switch (mode) {
     case 0:
-        object->field1C = 0x30000;
+        object->mode = 0x30000;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->field0C = D_80010000;
-        object->field08 = D_80010000;
-        object->field46 = 1;
+        object->value_0C = D_80010000;
+        object->value_08 = D_80010000;
+        object->done = 1;
         break;
 
     case 1:
-        object->field30.h.hi = 0x100;
+        object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
-        object->field30.h.lo = 0;
+        object->field_30.h.counter = 0;
         object->h = 0x10;
         D_8009B0F4_abs &= 0xFFDDFFFF;
         D_8009B0F4_abs |= 0x10000;
-        object->field46 = 2;
-        object->field1C = 0x30000;
-        object->field08 = D_8009B118;
-        object->field0C = D_8009B118 + 0x800;
+        object->done = 2;
+        object->mode = 0x30000;
+        object->value_08 = D_8009B118;
+        object->value_0C = D_8009B118 + 0x800;
         break;
 
     case 2:
-        object->field0C = (s32)D_801DD000;
-        object->field08 = (s32)D_801DD000;
-        object->field1C = 0x1000;
+        object->value_0C = (s32)D_801DD000;
+        object->value_08 = (s32)D_801DD000;
+        object->mode = 0x1000;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->field46 = 1;
+        object->done = 1;
         break;
 
     case 3:
@@ -79,19 +58,19 @@ void func_800577B0(Object *object, s32 mode) {
         rect0.x = 0;
         rect0.h = 8;
         LoadImage2(&rect0, (u32 *)D_801DD000);
-        object->field1C = 0x5000;
+        object->mode = 0x5000;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->field0C = D_80010014;
-        object->field08 = D_80010014;
-        object->field46 = 1;
+        object->value_0C = D_80010014;
+        object->value_08 = D_80010014;
+        object->done = 1;
         break;
 
     case 4:
-        object->field1C = 0x5000;
+        object->mode = 0x5000;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->field0C = D_80010018;
-        object->field08 = D_80010018;
-        object->field46 = 1;
+        object->value_0C = D_80010018;
+        object->value_08 = D_80010018;
+        object->done = 1;
         break;
 
     case 6:
@@ -100,41 +79,41 @@ void func_800577B0(Object *object, s32 mode) {
         rect1.w = 0x100;
         rect1.h = 2;
         LoadImage2(&rect1, (u32 *)D_801DD000);
-        object->field30.h.lo = 0x180;
+        object->field_30.h.counter = 0x180;
         object->w = 0x40;
-        object->field30.h.hi = 0x100;
+        object->field_30.h.field_32 = 0x100;
         object->h = 0x10;
         D_8009B0F4_abs &= 0xFFDDFFFF;
         D_8009B0F4_abs |= 0x10000;
-        object->field46 = 2;
-        object->field1C = 0x4000;
-        object->field08 = D_8009B118;
-        object->field0C = D_8009B118 + 0x800;
+        object->done = 2;
+        object->mode = 0x4000;
+        object->value_08 = D_8009B118;
+        object->value_0C = D_8009B118 + 0x800;
         break;
 
     case 7:
-        object->field0C = (s32)D_801A8000;
-        object->field08 = (s32)D_801A8000;
-        object->field1C = 0x800;
+        object->value_0C = (s32)D_801A8000;
+        object->value_08 = (s32)D_801A8000;
+        object->mode = 0x800;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->field46 = 1;
+        object->done = 1;
         break;
 
     case 8:
-        object->field46 = 3;
-        object->field30.w = 0xD810;
-        object->field1C = 0x19000;
-        object->field08 = D_8009B118;
-        object->field0C = D_8009B118 + 0x800;
+        object->done = 3;
+        object->field_30.word = 0xD810;
+        object->mode = 0x19000;
+        object->value_08 = D_8009B118;
+        object->value_0C = D_8009B118 + 0x800;
         break;
 
     case 5:
     case 9:
-        object->field0C = (s32)D_801DD000;
-        object->field08 = (s32)D_801DD000;
-        object->field1C = 0x800;
+        object->value_0C = (s32)D_801DD000;
+        object->value_08 = (s32)D_801DD000;
+        object->mode = 0x800;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->field46 = 1;
+        object->done = 1;
         break;
 
     case 10:

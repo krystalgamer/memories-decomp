@@ -1,9 +1,7 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sound_sequence_constants.h"
-
-extern u8 *D_8009B458;
-extern s32 D_80011434[];
+#include "sound.h"
 
 void func_8004A43C(u8 *arg0, s32 arg1);
 void func_8004A7C0(s32 arg0, s32 arg1);
@@ -32,7 +30,7 @@ void func_8004AAFC(void) {
     s32 v;
 
     SpuGetAllKeysStatus((char *)sp10);
-    p = D_8009B458;
+    p = (u8 *)D_8009B458;
     i = 0;
     m = i;
 
@@ -50,7 +48,7 @@ void func_8004AAFC(void) {
                 if (e[0xD] == 0) {
                     goto next;
                 }
-                r = D_8009B458 + e[3] * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
+                r = (u8 *)D_8009B458 + e[3] * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
                 a = r[6];
                 if ((a & 0xF) != 0) {
                     r[6] = a - 1;
@@ -89,7 +87,7 @@ next:
 
             t++;
             q++;
-            p = D_8009B458;
+            p = (u8 *)D_8009B458;
             o += 0x28;
             i++;
         } while (i < *(s16 *)(p + 0x510));

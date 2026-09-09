@@ -1,9 +1,10 @@
 #include "../types.h"
+#include "func_8002CBF4.h"
 #include "ai.h"
 #include "card_constants.h"
 #include "ai_script_read_byte.h"
-extern s32 gDuel_adwCardStats[];
-extern s32 Duel_GetBaseCardStat(s32 card, s32 stat);
+#include "ai_script_commands.h"
+#include "duel_card.h"
 
 void AiScript_CalcCardPower(void)
 {

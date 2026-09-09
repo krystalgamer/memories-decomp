@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_update_view_metrics.h"
 #include "../psyq/libgte.h"
 #include "../psyq/memory.h"
 #include "model.h"
@@ -15,9 +16,6 @@ typedef struct {
     char pad4A[0x4C - 0x4A];
     s32 f4C;
 } Obj;
-
-extern u16 D_8009B47A;
-extern u16 D_8009B47C;
 
 /* Builds arg2's rotation matrix from a camera-relative direction vector
    (derived from D_8009B47A/D_8009B47C) combined with the per-slot base

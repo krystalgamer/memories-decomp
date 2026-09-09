@@ -3,7 +3,6 @@
 
 extern u8 D_8009AF76;
 extern u8 D_8009B140;
-extern u8 D_800E9ECF[];
 
 void func_800388D8(u8 *arg0)
 {
@@ -26,7 +25,7 @@ void func_800388D8(u8 *arg0)
         } else {
             Fade_InitInColor(0xFFFFFF);
         }
-        D_800E9ECF[0] = 4;
+        gFade_State.step = 4;
     } else if (opcode & 1) {
         func_80015C84();
     } else {

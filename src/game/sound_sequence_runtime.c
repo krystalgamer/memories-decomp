@@ -50,7 +50,6 @@ void func_8004B9E0(void)
     D_8009B458->flag_0501 = 0;
 }
 
-#include "sound.h"
 #include "sound_sequence_reader.h"
 
 /* Compares arg2 bytes; returns the difference at the first mismatch. */

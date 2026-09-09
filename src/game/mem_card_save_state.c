@@ -3,6 +3,7 @@
 
 #include "mem_card.h"
 #include "save_data.h"
+#include "duel_effect.h"
 
 /* Memory-card save dialog state machine, the write-side twin of
    func_8003E490.
@@ -22,7 +23,6 @@
    - Both MemCardWriteFile calls are spelled out, one per branch, so only the
      trailing pair cross-jumps and the D_800EFE18 %lo stays duplicated. */
 
-extern u8 D_8009B3C1;
 extern u8 D_8009B3EB;
 extern u8 D_8009B3EC;
 extern u8 D_8009B3EF;
@@ -32,13 +32,11 @@ extern u16 D_8009B3C4;
 extern u32 D_8009B3D0;
 extern u32 D_8009B3E0;
 extern s32 D_8009B3F4;
-extern u16 gMemCard_wDialogFlags;
 extern u8 D_800EFBC0[];
 extern u8 D_800EFE18[];
 extern u8 gLibrary_aCardArtRecord[];
 extern s32 D_801D5648[];
 
-extern void func_8003E46C(u8, u16);
 extern s32 SaveData_HasSameDuelistCode(u8 *, u8 *);
 
 void func_8003EED0(void)

@@ -1,14 +1,11 @@
 #include "../types.h"
+#include "display_effect_lifecycle.h"
+#include "script_command_busy.h"
 #include "menu_record.h"
+#include "script_state.h"
 
-extern u8 *D_8009B290;
 extern u8 *D_8009B274;
-extern u16 D_8009B27C;
-
-extern s32 func_8002E3B4(void);
-extern void func_80039FD4(u8 *);
 extern s8 *func_80039E9C(void);
-extern void func_80039F44(u8 *);
 extern void func_8003B50C(s32);
 
 void func_8002EB78(void)
@@ -27,10 +24,10 @@ void func_8002EB78(void)
         D_8009B274 = o;
 
         if (*(s8 *)(o + 0x30) >= 0) {
-            func_80039FD4(o);
+            func_80039FD4((u8 *)o);
         }
         func_80039E9C();
-        func_80039F44(o);
+        func_80039F44((DisplayEffectState *)o);
 
         o[0x31] = flags & 15;
         o[0x30] = first;

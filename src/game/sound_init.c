@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "func_80049010.h"
+#include "func_8004A6D8.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
 #include "sound_event_runtime.h"
@@ -6,9 +8,7 @@
 
 extern void func_80046294(void);
 extern void func_800471D0(s32, s32, s32, s32, s32, s32);
-extern void func_80049010(void);
 extern void func_80049138(s16, s32);
-extern void func_8004A6D8(void);
 extern void func_8004B854(void);
 extern void func_80074E60(void);
 
@@ -83,6 +83,9 @@ void func_800493F8(void)
 
     func_80049010();
     entry = (u16 *)0x801EA800;
+    /* Deliberately not g_SDValue->music_track: the member store picks a
+       different register for the pointer and one byte of func_800493F8
+       changes. Measured. */
     *(u16 **)((u8 *)g_SDValue + 0x1564) = entry;
     entry[0] = 0xFFFF;
 }

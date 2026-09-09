@@ -1,6 +1,10 @@
 #include "../types.h"
 #include "model_copy_slot_u16_values.h"
 #include "model.h"
+#define FUNC_80058434_CALL_WITH_UNUSED_ARG
+#include "func_80058434.h"
+#include "model_effect_requests.h"
+#include "model_transfer_flags.h"
 
 typedef struct {
     short x;
@@ -8,13 +12,6 @@ typedef struct {
     short z;
     short w;
 } Vec;
-
-typedef struct StatRec {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    s16 f6;
-} StatRec;
 
 typedef struct Buf {
     char pad[6];
@@ -29,20 +26,14 @@ typedef struct {
 } Data;
 
 extern u8 D_80091550[];
-extern StatRec D_80091570[];
 extern s8 D_8009B07A;
-extern u8 D_8009B07B;
-extern u8 D_8009B07C;
 
 extern unsigned short *func_800591FC(void);
 extern unsigned short *func_80059208(void);
-extern void func_80058434(int, int, int, int, int);
 extern void func_80059000(s32 a0, Buf *a1);
 extern void func_8005D994(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern void func_8005F070(int);
 extern void func_8005F91C(s32, void *, void *, s32);
-extern void func_80059EBC(int);
-
 void func_8005F3B8(int mode, int y, int a, int b, Vec *offset)
 {
     unsigned short *p = func_800591FC();
@@ -95,19 +86,19 @@ void func_8005F588(int value)
 }
 
 /* If D_8009B07B==1 and D_8009B07C matches it, bail early. Otherwise reads
-   D_80091570[arg1].f0 as a base stat value; if arg0 (level?) < 2, scales
+   D_80091570[arg1].field_00 as a base stat value; if arg0 (level?) < 2, scales
    the stat by a growth ratio derived from func_80059000's output clamped
    to >=50 then offset by -300, divided by 750, and adds the delta. Passes
-   the (possibly adjusted) value plus f2/f4 on to setup_positional_sfx. */
+   the (possibly adjusted) value plus angle/field_04 on to setup_positional_sfx. */
 void func_8005F5C8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    StatRec *rec = &D_80091570[arg1];
+    ModelEffectCoefficient *rec = &D_80091570[arg1];
     s32 s0;
 
     if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
         return;
     }
 
-    s0 = rec->f0;
+    s0 = rec->field_00;
 
     if (arg0 < 2) {
         Buf buf;
@@ -126,7 +117,7 @@ void func_8005F5C8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         }
     }
 
-    func_8005D994(arg0, s0, rec->f2, rec->f4, arg2, arg3);
+    func_8005D994(arg0, s0, rec->angle, rec->field_04, arg2, arg3);
 }
 
 void func_8005F714(s32 a, s32 b, s32 c)

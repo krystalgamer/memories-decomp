@@ -1,8 +1,7 @@
 #include "../types.h"
+#include "data_transfer_request.h"
 #include "save_data.h"
-
-extern s32 func_8003F70C(void);
-extern void Util_CopyWords(void *, void *, s32);
+#include "util_memory.h"
 extern void SaveData_ApplyRuntimeState(void *);
 s32 SaveData_PollLoad(void) {
     s32 r = func_8003F70C();

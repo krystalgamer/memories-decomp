@@ -107,7 +107,7 @@ an instruction offset instead of folding the field offset into the symbol.
 The shared structure remains the authoritative layout while the local extern
 controls code generation.
 
-The private `ByteReader` in `func_8007308C.c` remains a prefix view. Its pointer
+The private `ByteReader` in `ai_script_find_best_attack.c` remains a prefix view. Its pointer
 array shares `AI_SCRIPT_RETURN_STACK_COUNT` with `AiScript_Call`, and a size
 assertion keeps the prefix ending at `AI_SCRIPT_COMBO_BYTE_OFFSET`. Its
 unrelated `unkC[8]` remains byte padding, not eight return-address slots.

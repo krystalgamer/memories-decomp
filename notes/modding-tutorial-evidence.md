@@ -432,7 +432,7 @@ The independently recovered loader layout places the main-menu executable at
 SU sectors `98-114`, beginning at `0x31000`, so the tutorial's offset lies in
 the asset area immediately before the code rather than inside the overlay.
 
-Matching `func_8005B85C` requests the first `0x73` sectors of `SU.MRG`
+Matching `File_RequestMainMenuPackage` requests the first `0x73` sectors of `SU.MRG`
 (`0x39800` bytes) and installs `func_8005B64C` as the phase callback. Its five
 transfer lengths are `0x20000`, `0x10000`, `0x1000`, `0x8000`, and `0x800`.
 The `0x1000` phase therefore begins exactly at `+0x30000`, stages those bytes
@@ -606,7 +606,7 @@ at `0xB60000`; that second block is uploaded to VRAM rectangle
 `(512, 248, 256, 8)`. The two listed boot palettes therefore map to VRAM
 coordinates `(544, 252)` and `(592, 252)`, respectively.
 
-Likewise, `func_8003BEB8` requests the 86-sector password package at sector
+Likewise, `File_RequestPasswordPackage` requests the 86-sector password package at sector
 `0x1F2F`, byte range `0xF97800-0xFC2800`. Its callback consumes a
 `0x20000`-byte image region followed by a `0x2000`-byte block uploaded to
 VRAM rectangle `(256, 240, 256, 16)`. The listed frame palette is one row into

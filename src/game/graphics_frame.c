@@ -2,7 +2,9 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libetc.h"
+#define D_8009B142_IN_DATA
 #include "graphics_frame.h"
+#include "movie_playback_control.h"
 
 extern volatile u8 D_8009B0C0;
 extern volatile s32 D_8009B0C8;
@@ -11,13 +13,11 @@ extern volatile s32 D_8009B0C8;
    the load-delay nop before the store below. c_symbols.ld overrides this
    common symbol, so no storage is allocated here. */
 u8 D_8009B0C1;
-extern s32 D_8009B0D8;
 extern unsigned char D_8009AFA3 __attribute__((section(".data")));
 extern unsigned char D_8009AFA4 __attribute__((section(".data")));
 extern s32 D_8009B0CC;
 
 extern void func_80085500(void);
-extern void func_800359B0(void);
 extern void func_80085E10(void *, void *);
 extern void func_80085D80(void *);
 extern s32 func_80085320(void);
@@ -32,11 +32,10 @@ u16 D_8009B098;
 u8 D_8009B0A0[4];
 u8 gGraphics_bActiveBuffer;
 u8 *D_8009B0B4;
+s16 gGraphics_sViewportX __attribute__((section(".sbss"))) = 0;
+s16 gGraphics_sViewportY __attribute__((section(".sbss"))) = 0;
 
 extern u8 D_800FE048[];
-extern u8 D_8009B142 __attribute__((section(".data")));
-extern u8 D_8009B143 __attribute__((section(".data")));
-extern u8 D_8009B144 __attribute__((section(".data")));
 extern u8 D_8009B318 __attribute__((section(".data")));
 extern u8 D_8009B141 __attribute__((section(".data")));
 extern u8 D_8009AFA2 __attribute__((section(".data")));

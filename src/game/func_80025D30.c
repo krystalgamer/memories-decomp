@@ -1,29 +1,18 @@
 #include "../types.h"
+#include "duel_side_state.h"
+#include "func_8002C604.h"
 #include "card_constants.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
 #include "duel_grid.h"
 #include "sound.h"
-
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 field_04;
-    u8 pad_06[0xC];
-    s16 field_12;
-    s32 field_14;
-    u8 pad_18[2];
-    s16 field_1A;
-} DuelEffectObject;
+#include "duel_effect.h"
 
 extern u16 D_8009B1D0;
 extern s16 D_8009B1D2;
-extern u8 D_8009B1D5;
 extern s16 D_8009B20C[2];
 extern u16 D_8009B220;
 extern u8 D_8009B260[8] __attribute__((section(".data")));
-
-extern DuelEffectObject *func_8002C604(s32 arg0);
 
 /* One step of a field-wide stat-penalty sweep, driven once per 16 frames by
  * the D_8009B20C[1] countdown. D_8009B1D0 is the slot index within the acting
@@ -64,7 +53,7 @@ void func_80025D30(void) {
     record = &D_801A7AD8[D_800907D8[(s16)D_8009B1D0 + base_slot]];
     if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
         card = (u8 *)record->object;
-        object = func_8002C604(0xD);
+        object = (DuelEffectObject *)func_8002C604(0xD);
         object->x = *(u16 *)(card + 0x30);
         object->y = *(u16 *)(card + 0x32);
         object->field_04 = *(u16 *)(card + 0x34);

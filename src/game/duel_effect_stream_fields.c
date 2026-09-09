@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern s32 func_80036D3C(void *);
+#include "func_80036D3C.h"
 
 void func_80038334(u8 *object)
 {

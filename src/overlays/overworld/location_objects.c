@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "location_objects.h"
 #include "../../game/campaign_flags.h"
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_helpers.h"

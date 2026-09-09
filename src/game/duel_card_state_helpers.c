@@ -1,9 +1,9 @@
 #include "../types.h"
+#include "duel_side_state.h"
 #include "ai_constants.h"
 #include "duel_card_layout.h"
 
 extern unsigned char D_801AB00C[];
-extern unsigned char D_8009B1D5;
 extern void func_80027DF8(void *, int);
 
 void func_80028220(void)

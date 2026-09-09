@@ -1,7 +1,6 @@
 #include "../types.h"
 
-typedef void (*Handler)(u8 *);
-extern Handler D_80090EAC[];
+extern void (*D_80090EAC[])(u8 *);
 
 void func_80038B4C(u8 *arg0)
 {

@@ -1,8 +1,9 @@
 #include "../types.h"
+#include "dialog_highlight_choice.h"
+#include "duel_effect_update_object_layout.h"
 
 extern u8 gDialog_bChoiceEnabled;
 extern s8 gDialog_bChoice;
-extern void DuelEffect_UpdateObjectLayout(void *);
 
 void Dialog_HighlightChoice(u8 *record)
 {
@@ -19,5 +20,5 @@ void Dialog_HighlightChoice(u8 *record)
     *(s32 *)(*(u8 **)(record + 0x30) + 0x34) = value;
     *(s32 *)(*(u8 **)(record + 0x30) + 0x4C) = value;
     *(s32 *)(*(u8 **)(record + 0x30) + 0x54) = value;
-    DuelEffect_UpdateObjectLayout(record);
+    DuelEffect_UpdateObjectLayout((DuelEffectChannel *)record);
 }

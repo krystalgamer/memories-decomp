@@ -353,6 +353,18 @@ def load_overlay_assets(root: Path) -> list[tuple[str, str]]:
     return assets
 
 
+def load_bss_image_assets(root: Path) -> list[str]:
+    directory = resolve_within(root, "tmp/splat/assets", must_exist=True)
+    assets = [
+        path.relative_to(root).as_posix()
+        for path in sorted(directory.glob("bss_image*.bin"))
+        if path.is_file()
+    ]
+    if not assets:
+        raise BuildError("no generated bss_image assets")
+    return assets
+
+
 def build_text_objects(root: Path, assembler: Path) -> list[Path]:
     objects: list[Path] = []
     seen_objects: set[str] = set()
@@ -509,12 +521,10 @@ def build(root: Path) -> Path:
         # The initialized data is split wherever a C translation unit owns
         # part of it, so build every piece the template declares.
         *build_data_objects(root, assembler),
-        binary_object(
-            root,
-            objcopy,
-            "tmp/splat/assets/bss_image.bin",
-            splat_object("tmp/splat/assets/bss_image.bin"),
-        ),
+        *[
+            binary_object(root, objcopy, asset, splat_object(asset))
+            for asset in load_bss_image_assets(root)
+        ],
         binary_object(
             root,
             objcopy,

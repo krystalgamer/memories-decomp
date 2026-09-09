@@ -1,8 +1,9 @@
 #include "../types.h"
+#include "func_8004DC38.h"
 #include "model.h"
+#include "model_slot_state_updates.h"
 
 extern void func_8005A468(s32, s32);
-extern s32 func_8004DC38(void *, s32, s32, s32);
 
 void func_80059700(s32 index, s32 sign)
 {
@@ -81,7 +82,7 @@ void func_800597C8(s32 idx, s32 flag, s32 val)
                 entry[0xC] = flag;
             }
 
-            func_8004DC38(rec, i, arg2, arg3);
+            func_8004DC38((u8 *)rec, i, arg2, arg3);
             count = rec->field_E1B;
             i++;
         } while (i < count);

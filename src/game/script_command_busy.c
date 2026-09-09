@@ -1,6 +1,6 @@
 #include "../types.h"
-
-extern u16 D_8009B27C;
+#include "script_command_busy.h"
+#include "script_state.h"
 
 s32 func_8002E3B4(void)
 {

@@ -1,12 +1,12 @@
 #define GINPUT_PAD1_PRESSED_IS_AGGREGATE
 #include "../types.h"
+#define D_8009B142_IS_AGGREGATE
+#include "graphics_frame.h"
 #include "file_transfer.h"
 #include "input.h"
 #include "mdec_sync.h"
+#include "movie_playback_control.h"
 
-extern u8 D_8009B144[];
-extern u8 D_8009B143[];
-extern u8 D_8009B142[];
 extern u8 D_8009B318;
 
 extern void func_80044F58(s32);

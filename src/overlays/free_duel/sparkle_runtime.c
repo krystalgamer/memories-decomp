@@ -1,4 +1,7 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 
 typedef struct {
     u8 unk0[0x4];
@@ -43,7 +46,7 @@ void FreeDuel_UpdateSparkle(void)
                 obj->state |= 0x80;
                 obj->timer = 16;
                 *(u32 *)&obj->r = 0x404040;
-                obj->flags |= 0x50000000;
+                obj->flags |= (GsALON | GsAONE);
             }
             level = obj->r - 4;
             obj->b = level;

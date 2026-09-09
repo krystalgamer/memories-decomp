@@ -6,9 +6,14 @@
 #include "duel_grid.h"
 #include "sound.h"
 
-extern u8 gDuel_abTrapAttackThresholds[DUEL_ATTACK_TRAP_COUNT];
+/* Small data at 0x8009AF24, owned here: the attack threshold of each trap
+   from House of Adhesive Tape through Widespread Ruin, which func_8001F0D0
+   scales by 100 before comparing. The last entry is the 255 that keeps
+   Widespread Ruin unconditional. */
+u8 gDuel_abTrapAttackThresholds[DUEL_ATTACK_TRAP_COUNT] = {
+    5, 10, 15, 20, 30, 255,
+};
 extern u8 D_8009B1B8;
-extern u8 D_8009B1D5;
 extern u16 D_8009B22A;
 extern u8 D_8015C424[];
 extern u8 D_801A7AD8_raw[] asm("D_801A7AD8");

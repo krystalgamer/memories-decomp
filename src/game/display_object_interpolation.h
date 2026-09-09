@@ -6,12 +6,18 @@
 /* Fields the interpolation helpers read and write while easing an object
  * between its current pair at 0x36/0x38 and a target, leaving the result in
  * the pair at 0x30/0x32. Other translation units describe the same memory
- * through their own wider views. */
+ * through their own wider views.
+ *
+ * The halfword at 0x34 is padding here in the same sense as everywhere else:
+ * these two functions do not touch it. That is not evidence that the memory
+ * is unused, and it must not be treated as free space. The canonical record
+ * in display_object.h spans it with pad_34[8], and func_80043178.h's view of
+ * the same object spans it with pad_34[2]. */
 typedef struct {
     u8 pad_00[0x30];
     s16 out_x;
     s16 out_y;
-    s16 unused;
+    u8 pad_34[0x02];
     s16 x;
     s16 y;
 } DisplayObjectPosition;

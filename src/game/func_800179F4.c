@@ -3,17 +3,20 @@
 #include "save_data.h"
 #include "duel_grid.h"
 #include "duel_hand.h"
+#include "main_frame.h"
 #include "duel_side_state.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"
 #include "display_object_helpers.h"
+#include "view_state.h"
+#include "duel_effect_resource_record.h"
 
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern u8 D_8009B369 __attribute__((section(".data")));
-extern u8 D_800EA0E8[];
+extern DuelEffectResourceRecord D_800EA0E8[];
 extern s16 D_800F284A[];
 extern void (*D_800E9DBC[])(void);
 extern u8 gDuel_awOpponentDeckPool[];
@@ -28,7 +31,6 @@ extern u16 D_8009B204;
 extern u16 D_8009B220;
 extern u16 D_8009B16C;
 extern u8 D_8009B174;
-extern u8 D_8009B1D5;
 extern u8 *D_8009B22C;
 extern u8 *D_8009B214;
 extern u8 *D_8009B21C;
@@ -37,13 +39,11 @@ extern u8 *D_8009B1DC;
 
 extern void func_8004763C(void);
 extern void func_80047AD0(s32);
-extern void func_80012D84(s32);
 extern void Duel_LoadPackageStage(void);
 extern void func_8001778C(void);
 extern void func_80017708(void);
 extern void func_800175A0(void);
 extern void func_800178BC(void);
-extern void func_8001352C(void);
 extern void func_8002C598(void);
 extern void func_80029574(s32);
 extern void func_80035668(s32);
@@ -58,7 +58,7 @@ void func_800179F4(void)
     u8 *q;
     s32 value;
     s32 side;
-    u8 *pane;
+    DuelEffectResourceRecord *pane;
     /* Two allocation pins. The map-entry pointer wants $v1 so the load of
        D_8009B21C fills its own delay slot with the callback address's addiu
        rather than the next %hi; the pool base wants $a0 so the %hi of
@@ -108,18 +108,18 @@ void func_800179F4(void)
     D_800F284A[0] = D_8009B1D5 * 2048 + 1024;
     func_8001352C();
     Duel_ClearHandSlots();
-    pane = D_800EA0E8;
+    pane = &D_800EA0E8[0];
     func_8002C598();
     func_80029574(0);
-    *(s16 *)(pane + 40) = 0;
-    *(s16 *)(pane + 42) = 256;
-    *(s16 *)(pane + 44) = 0;
-    *(s16 *)(pane + 46) = 255;
+    pane->src_x = 0;
+    pane->src_y = 256;
+    pane->field_2C = 0;
+    pane->field_2E = 255;
     func_80029574(1);
-    *(s16 *)(pane + 104) = 64;
-    *(s16 *)(pane + 106) = 256;
-    *(s16 *)(pane + 108) = 0;
-    *(s16 *)(pane + 110) = 254;
+    pane[1].src_x = 64;
+    pane[1].src_y = 256;
+    pane[1].field_2C = 0;
+    pane[1].field_2E = 254;
     func_80035668(0);
     func_8001755C();
     File_WaitForTransfers();

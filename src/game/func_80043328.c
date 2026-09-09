@@ -18,7 +18,6 @@ typedef struct LocalObj {
     u8 pad34[0x12];
     u8 f46;
 } LocalObj;
-extern u8 D_800101D8[];
 extern s32 D_8009B118;
 
 void func_80043328(LocalObj *obj, s32 mode) {
@@ -65,8 +64,8 @@ void func_80043328(LocalObj *obj, s32 mode) {
         LoadImage2((RECT *)obj, (u32 *)(D_8009B118 + 0x1000));
         obj->f1C = 0x1800;
         D_8009B0F4 &= 0xFFDCFFFF;
-        obj->fC = *(s32 *)(D_800101D8);
-        obj->f8 = *(s32 *)(D_800101D8);
+        obj->fC = (s32)D_800101D8;
+        obj->f8 = (s32)D_800101D8;
         obj->f46 = 1;
         break;
     }

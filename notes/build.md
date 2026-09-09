@@ -163,9 +163,10 @@ the extracted blob, moves into the C file that owns it, and a dotted
 subsegment names that file at the address the definition has to keep. The blob
 shrinks; the boundary moves.
 
-The resident `initialized_data` segment is a code group even though it has no
-text. That lets its extracted `.data` and C-owned `.sdata` contributions share
-one fixed-address range without flattening both into the same linker section.
+The resident initialized-data ranges are code groups even though they have no
+text. That lets their extracted `.data` and C-owned `.sdata` contributions
+share fixed-address ranges without flattening both into the same linker
+section.
 
 `section_order` is the other half, and it is easy to misread as a constraint.
 **It is a description of the image's layout**, applied within each segment. If
@@ -265,6 +266,14 @@ table of relocations and a typed record array. Five things make one of these:
    inside code, read the differing value as a `%gp_rel` displacement and
    subtract `_gp` (`0x8009AF08`) to find which symbol shifted and by how much.
 
+   The fix is to classify the whole GP-relative tail as `sdata` in image order,
+   not to isolate one symbol from a range still called `data`.
+   `save_data_mask_state.c` is the worked example at `0x8009AF64`: before the
+   tail was classified, its two words moved from `_gp + 0x5C` to `_gp + 0x174`;
+   after the extracted ranges from `_gp` onward became ordered `sdata`, splitting
+   the `0x8009AF40` blob around those words preserved both their addresses and
+   every existing text relocation.
+
 **The segment holding the data has to be a `code` segment.** Only a group
 segment adds each of its subsegments to the linker script; a segment declared
 `type: data` emits one line for itself, so the C object is built, is never
@@ -273,6 +282,14 @@ original bytes - a full `make match` that proves nothing. The resident
 `initialized_data` segment is therefore `type: code` with no text subsegments,
 exactly like the leading read-only `main` segment.
 
+**Assembly that still references the range keeps working.** `D_800907AC` is
+reached by two functions that are still extracted assembly; when
+`duel_field_layout.c` took ownership of it, those `%hi`/`%lo` references
+resolved to the C definition, with no entry added to
+`undefined_syms_auto.txt`. Splat only invents an absolute symbol for an
+address it cannot attribute to a segment, and a dotted subsegment is an
+attribution.
+
 The build reads the generated `tmp/generated/data_sources.json` the way it
 reads `text_sources.json`, so both `make match` and `make match-incremental`
 compile and place these units; editing one rebuilds one object. Before
@@ -280,6 +297,80 @@ building any of them it checks that the generated linker script actually names
 each object, because that is the one layout mistake the byte-exact comparison
 cannot catch: an object nobody places is not loaded, the blob keeps supplying
 the original bytes, and the build still matches.
+
+### The small-data region
+
+`.data` runs to 0x8009AF08 and `.sdata` from there to 0x8009B090, which is
+where `_gp` points; the template says so, with that tail declared as `sdata`
+blob chunks rather than `data` ones. The ordering is what makes ownership
+possible at all: Splat emits a segment's whole `.data` list before its
+`.sdata` list, so a unit owning small data in the middle of a `data` blob
+would land after every byte of it. Declared as small data, blobs and owning
+units interleave in address order.
+
+Small data goes back into the **matched translation unit that owns it**, not
+into a data-only unit: at `-G8` a definition of eight bytes or fewer lands in
+`.sdata` by itself, and a text segment claims no small-data section.
+`duel_trap_resolution.c` owns the six trap thresholds and `duel_card_effects.c`
+the two life-point tables this way.
+
+**The consumer's addressing form says whether it owns the symbol.** At `-G8`
+the assembler resolves a small global `%gp_rel` - one instruction - only in the
+translation unit that *defines* it; everywhere else it is `lui %hi` + `%lo`,
+two. So a file that reaches a small symbol through the two-instruction form did
+not define it in retail, and moving the definition there makes its text four
+bytes shorter. `duel_magic_effect_dispatch.c` reads the `"%d\n"` trace format
+at 0x8009AF40 that way, so that symbol belongs to some other unit and the blob
+keeps it; `duel_trap_resolution.c` and `duel_card_effects.c` reach theirs
+gp-relative, which is why the definitions land there and the build stays
+byte-exact. The failure is loud but indirect: the shortened function shifts
+every jump-table entry after it.
+
+**A `sdata` blob chunk stops at its last non-zero symbol.** Trailing zero
+bytes are padding to spimdisasm and it does not emit them, so a chunk is
+shorter than the range it covers and everything after it starts too early. The
+fix is a `pad` subsegment whose *address is where the emitted content actually
+ends*, not the nominal boundary: `initialized_data_8009af2a` covers six bytes
+but emits four, so `- [0x8b72e, pad]` before the next entry makes up the
+difference. A missing pad shows up as a two-byte shift in every `%gp_rel`
+reference after it, and the build's size check catches the rest.
+
+### The declaration spelling is the consumer's lever
+
+Ownership decides where a definition lands. For the far more common case of a
+*consumer* that does not own a small symbol, the `extern` spelling is what
+picks the addressing form, so several translation units will declare one symbol
+incompatibly on purpose. Which lever a file needs follows from the `-G`
+settings of its profile in `compiler_profiles.json`, so the spelling is a
+property of the profile rather than of taste:
+
+| Profile shape | What a byte- or halfword-sized global gets | Lever needed |
+| --- | --- | --- |
+| compile `-G0`, assemble `-G0` | already `lui %hi` + `%lo` | none; a plain scalar is correct |
+| compile `-G8`, assemble `-G8` | `%gp_rel` | an array, or `section(".data")` |
+| compile `-G8`, assemble **`-G4`** | `%gp_rel` | an array with a size the assembler can see is **above 4** |
+
+The array length is a threshold, not a claim about storage. Two symbols carry
+the pattern today, and both would overrun their neighbours if read literally:
+
+- `gDuel_bTerrain` (0x8009B364) is one byte -- `gFreeDuel_bReturnFlags` sits at
+  0x8009B365 -- yet is declared `[8]` and `[]` as well as a plain and a
+  `section(".data")` scalar, across eight files spanning all three rows above.
+- `gSD_bOutputType` (0x8009B408) is read only at index 0 yet is declared `[16]`
+  and `[9]`. `options_init.c` states the reason inline: it "needs an oversized
+  array extern to force absolute (lui+lbu)".
+
+The last row is why the forms are not interchangeable, and it is worth
+measuring rather than assuming. Relaxing `func_80024E58.c`'s `[8]` to an
+incomplete `[]` costs four bytes of text, because that file assembles at `-G4`;
+the identical relaxation in `func_8001798C.c`, which assembles at `-G8`, is
+exact. `options_init.c` is the second file in the tree on the `-G4` assembler
+arm, and it carries a sized array for the same reason.
+
+So a run of incompatible declarations of one global is not automatically drift
+to be collapsed. Check the profiles first: if the spellings line up with the
+table, they are load bearing, and the useful work is recording which lever each
+file pulls rather than unifying them.
 
 ## Exact baseline build
 

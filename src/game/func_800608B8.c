@@ -1,4 +1,8 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
 #include "func_800608B8.h"
 
 extern int func_80067220();
@@ -18,7 +22,6 @@ extern int func_8006930C();
 extern int func_800695A4();
 extern int func_8006988C();
 extern int func_80069B40();
-extern int GsU_00000000();
 
 s32 func_800608B8(s32 arg0) {
     u32 t;

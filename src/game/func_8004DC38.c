@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8004DC38.h"
 
 /* Seeks channel i of model slot p to position pos within sequence n. The
  * sequence's entry index comes from the 0x74-stride table at +0x2C8 and its

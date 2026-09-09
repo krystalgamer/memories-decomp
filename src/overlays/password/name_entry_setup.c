@@ -1,4 +1,7 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 #include "../../game/display_object_api.h"
 #include "name_entry_keyboard.h"
 #include "../../game/save_data.h"
@@ -22,25 +25,24 @@ extern s16 D_8016D436;
 extern u8 *D_8016D43C;
 extern u8 D_8016D4D0;
 extern s16 D_8016D4D2;
-extern u8 D_800EB0F8[];
 extern u8 D_801B125A[];
 extern u8 gSaveData_aPlayerNameSjis[];
 extern void func_800403F0(void);
 extern void func_8003BC40(u8 *, u8 *, s32);
 extern void func_8003B6AC(s32, s32);
-extern u8 *func_80035BE4(s32, s32, s32, s32, s32, s32);
+extern DuelEffectChannel *func_80035BE4(s32, s32, s32, s32, s32, s32);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern void func_80015A00(void);
 
 void NameEntry_BuildKeyboardTextBox(s32 textOffset)
 {
-    u8 *object;
+    DuelEffectChannel *object;
 
     func_8003B6AC(1, 1);
     object = func_80035BE4(1, textOffset + 0xF0, 0x16, 0x18, 0x140, 0xF0);
-    object[0x5A] = 0x14;
-    object[0x5B] = 0x12;
-    func_80039A14(object);
+    object->field_5A = 0x14;
+    object->field_5B = 0x12;
+    func_80039A14((u8 *)object);
 }
 
 void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
@@ -113,7 +115,8 @@ void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
 void NameEntry_Init(void)
 {
     u8 *obj;
-    u8 *sprite;
+    DuelEffectChannel *boxes;
+    DuelEffectChannel *sprite;
 
     SD_BGMPlay(28688);
     func_800403F0();
@@ -125,13 +128,14 @@ void NameEntry_Init(void)
                   SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
     func_8003B6AC(3, 1);
     func_80035BE4(3, 254, 112, 204, 96, 16);
-    D_800EB0F8[390] = 16;
-    D_800EB0F8[391] = 16;
-    func_80039A14(D_800EB0F8 + 300);
+    boxes = D_800EB0F8;
+    boxes[3].field_5A = 16;
+    boxes[3].field_5B = 16;
+    func_80039A14((u8 *)&boxes[3]);
     func_8003B6AC(0, 1);
     sprite = func_80035BE4(0, 243, 262, 60, 100, 100);
-    sprite[90] = 20;
-    sprite[91] = 18;
+    sprite->field_5A = 20;
+    sprite->field_5B = 18;
     func_80039A14(sprite);
     D_8016D4D0 = 2;
     NameEntry_BuildKeyboardTextBox(2);
@@ -154,7 +158,7 @@ void NameEntry_Init(void)
     func_80040510(obj, 107, 199, 32, 32, 144, 128, 23, 256, 240);
     *(s16 *)(obj + 0x4A) = 13;
     *(s16 *)(obj + 0x48) = 13;
-    *(s32 *)(obj + 4) = *(s32 *)(obj + 4) | 0x40000000;
+    *(s32 *)(obj + 4) = *(s32 *)(obj + 4) | GsALON;
     func_80042918(obj);
     func_800428EC(obj, 10);
     D_8016D43C = obj;

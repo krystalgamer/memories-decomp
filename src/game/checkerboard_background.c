@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "checkerboard_background.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -7,29 +8,6 @@
 #define CHECKERBOARD_CELL_HEIGHT 0x20
 #define CHECKERBOARD_SCREEN_WIDTH 0x140
 #define CHECKERBOARD_SCREEN_HEIGHT 0xF0
-
-typedef struct {
-    u8 pad_00[4];
-    s32 field_04;
-    u8 pad_08[4];
-    s32 field_0C;
-    u8 pad_10[4];
-    s16 field_14;
-} CheckerboardState;
-
-/* PS1 scratchpad SPRT-primitive builder, reused for every sprite drawn. */
-typedef struct {
-    u32 field_00;
-    u16 field_04;
-    u16 field_06;
-    u32 field_08;
-    u16 field_0C;
-    u8 field_0E;
-    u8 field_0F;
-    u16 field_10;
-    u16 field_12;
-    u32 field_14;
-} CheckerboardSprite;
 
 void func_8003D32C(void)
 {

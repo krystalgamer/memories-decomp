@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_transition_color.h"
 #include "../psyq/rand.h"
 
 extern u32 D_8009B09C[];

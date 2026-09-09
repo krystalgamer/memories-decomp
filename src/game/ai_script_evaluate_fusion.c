@@ -1,18 +1,14 @@
 #include "../types.h"
+#include "func_8002CBF4.h"
 #include "ai.h"
 #include "ai_constants.h"
 #include "ai_script_read_byte.h"
-extern u8 gAiScript_State[];
-extern s16 D_800F5C88[];
-extern u8 D_800F5C8B[];
-
-extern s32 Duel_GetBaseCardStat(s32, s32);
-extern s32 Ai_GetHandSize(void);
+#include "ai_script_commands.h"
+extern AiScriptState gAiScript_State;
 extern void Ai_CompleteFusion(s32);
 
 void AiScript_EvaluateFusion(void)
 {
-    u8 *r;
     s32 a;
     s32 b;
     s32 c;
@@ -28,30 +24,29 @@ void AiScript_EvaluateFusion(void)
     k = AiScript_ReadByte();
     n = Ai_GetHandSize();
 
-    r = (u8 *)gAiScript_State;
-    r[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET] = n;
-    r[AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET] = b;
-    *(s16 *)(r + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) = 0;
-    r[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] = 0;
-    r[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] = 0;
-    r[AI_SCRIPT_FUSION_SET_BYTE_OFFSET] = c;
+    gAiScript_State.fusion_count = n;
+    gAiScript_State.fusion_limit = b;
+    gAiScript_State.fusion_best_stat = 0;
+    gAiScript_State.fusion_depth = 0;
+    gAiScript_State.fusion_best_depth = 0;
+    gAiScript_State.fusion_set = c;
 
-    for (i = 0; i < r[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET]; i++) {
-        r[i + AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
+    for (i = 0; i < gAiScript_State.fusion_count; i++) {
+        gAiScript_State.fusion_used[i] = 0;
     }
 
     x = Duel_GetBaseCardStat(a, 0);
     y = Duel_GetBaseCardStat(a, 1);
 
     if (y < x) {
-        D_800F5C88[0] = Duel_GetBaseCardStat(a, 0);
+        gAiScript_State.fusion_best_stat = Duel_GetBaseCardStat(a, 0);
     } else {
-        D_800F5C88[0] = Duel_GetBaseCardStat(a, 1);
+        gAiScript_State.fusion_best_stat = Duel_GetBaseCardStat(a, 1);
     }
 
     Ai_CompleteFusion(a);
 
-    if (D_800F5C8B[0] != 0) {
+    if (gAiScript_State.fusion_best_depth != 0) {
         gAiScript_aMemory[k] = 0;
     } else {
         gAiScript_aMemory[k] = 1;

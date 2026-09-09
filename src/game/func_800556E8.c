@@ -1,13 +1,12 @@
 #include "../types.h"
+#include "func_8004DC38.h"
 #include "model.h"
+#include "model_slot_state_updates.h"
 
 extern s32 func_80058E1C(void);
-extern void func_80059700(s32, s32);
 extern void func_8005106C(s32);
-extern void func_800597C8(s32, s32, s32);
 extern void func_80057AF4(s32, s32, s32);
 extern void func_8005F714(s32, s32, s32);
-extern void func_8004DC38(ModelSlot *, s32, s32, s32);
 
 /* Per-frame animation tick for a model slot. When the slot is active and
    has an animation loaded it takes the current animation's length and this
@@ -104,7 +103,7 @@ void func_800556E8(s32 index) {
     if (m->field_E1B != 0) {
         i = 0;
         do {
-            func_8004DC38(m, i, m->field_BF5, frame);
+            func_8004DC38((u8 *)m, i, m->field_BF5, frame);
             i++;
         } while (i < m->field_E1B);
     }

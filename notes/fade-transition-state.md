@@ -19,8 +19,8 @@ The shared `FadeTransitionState` layout is:
 | `0x04` | `level` | 1 | byte loads/stores throughout the family; current fade brightness in `Fade_DrawOverlay` |
 | `0x05` | `target_level` | 1 | byte comparison and initialization in the transition setup paths |
 | `0x06` | `flags` | 1 | byte bit tests/writes for `0x01`, `0x02`, `0x04`, `0x10`, `0x20`, and `0x80` |
-| `0x07` | `step` | 1 | setup values `8` and `0x0C`; `func_800151D8` uses this byte for both band spacing and the scaled head advance |
-| `0x08` | `field_08` | 2 | band-ramp head: `func_800151D8` starts its walk from `(s16)field_08`, then advances the stored halfword; setup initializes it to `0` or `0xFF` |
+| `0x07` | `step` | 1 | setup values `8` and `0x0C`; `Fade_StepBands` uses this byte for both band spacing and the scaled head advance |
+| `0x08` | `field_08` | 2 | band-ramp head: `Fade_StepBands` starts its walk from `(s16)field_08`, then advances the stored halfword; setup initializes it to `0` or `0xFF` |
 | `0x0A` | `band_levels[30]` | 30 | `func_800156B8` fills offsets `0x0A..0x27`; the band loop in `Fade_DrawOverlay` renders those 30 entries |
 
 The end of `band_levels` gives a minimum record size of `0x28`.
@@ -28,8 +28,8 @@ The end of `band_levels` gives a minimum record size of `0x28`.
 `gFade_State`, independently fixing the extent. C89 typedef assertions verify
 the total size and every modeled field offset.
 
-Target assembly across `func_800151B0`, `func_800151D8`,
-`func_80015310`, `Fade_DrawOverlay`, `func_800156B8`, the setup functions, and
+Target assembly across `func_800151B0`, `Fade_StepBands`,
+`Fade_Update`, `Fade_DrawOverlay`, `func_800156B8`, the setup functions, and
 the flag-setting wrappers establishes the access widths and offsets. GMS
 corroborates the same byte labels, the halfword at `0x08`, and the 30-byte
 span, but its generated scalar and function types are treated as guesses.
@@ -40,7 +40,7 @@ declarations were used.
 
 ## Band-ramp mechanics
 
-The matching [`func_800151D8`](../src/game/func_800151D8.c) establishes
+The matching [`Fade_StepBands`](../src/game/fade_step_bands.c) establishes
 **high-confidence static semantics** for `field_08` in band mode: it is a
 signed sweep head, not another byte brightness value. The shared declaration
 remains `u16` to preserve the existing exact C; the walker explicitly casts
@@ -68,7 +68,7 @@ one.
 the middle pair for decreasing levels. With the unsigned, nonnegative
 `step`, that also means every other pair has reached the target. The walker
 does not clear the active flag; transition completion remains the separate
-responsibility of `func_80015310`.
+responsibility of `Fade_Update`.
 
 [`Fade_DrawOverlay`](../src/game/fade_draw_overlay.c) draws array index `i`
 at `y = i * 8` with height 8 and intensity `0xFF - band_levels[i]`.
@@ -110,7 +110,7 @@ VBlank timing still determine the sample.
 
 The standard [`func_80012D4C`](../src/game/main_frame.c) pump calls
 `func_8001306C` **before** `Graphics_SyncFrame`.
-[`func_8001306C`](../src/game/func_8001306C.c) starts with `Fade_DrawOverlay`,
+[`func_8001306C`](../src/game/main_services.c) starts with `Fade_DrawOverlay`,
 so the fade reads the factor already present at draw time, not the one
 published later by that pump's sync call. A trace captured after sync must
 not attribute that newly published factor to the preceding band update
@@ -151,7 +151,7 @@ context before assigning fixed timings or screen-specific meanings.
 
 ## Draw eligibility and box submission
 
-[`Fade_DrawOverlay`](../src/game/fade_draw_overlay.c) calls `func_80015310`
+[`Fade_DrawOverlay`](../src/game/fade_draw_overlay.c) calls `Fade_Update`
 **before** testing whether to draw. Its condition uses the updated state:
 
 ```c
@@ -172,7 +172,7 @@ therefore supplies zero color, not a general "fully faded" or "finished"
 sentinel. Completion is based on the current level reaching its target,
 which need not be `0xFF`.
 
-The matching [`func_80015310`](../src/game/func_80015310.c) confirms that this
+The matching [`Fade_Update`](../src/game/fade_update.c) confirms that this
 separate control byte is not a simple record of fade-in versus fade-out.
 When an active update
 enters with `level == target_level == 0xFF`, `0x80015384..0x800153C8` clears
@@ -234,7 +234,7 @@ extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 
 Matching pure-C users migrated to this shared header include:
 
-- `func_800151B0`, `func_800151D8`, `func_80015310`, `Fade_DrawOverlay`,
+- `func_800151B0`, `Fade_StepBands`, `Fade_Update`, `Fade_DrawOverlay`,
   `func_800156B8`, `func_800156DC`;
 - `func_8001572C`, `Fade_InitIn`, `Fade_StartIn`;
 - `Fade_InitInColor`, `func_80015870`, `Fade_InitOut`;
@@ -250,7 +250,7 @@ caller passes the white-mode byte and another passes nothing, while the
 callee consumes neither form. A stricter invented parameter would make one
 of those known call sites false.
 
-The later exact pure-C matches for `func_800151D8` and `func_80015310`
+The later exact pure-C matches for `Fade_StepBands` and `Fade_Update`
 removed the band walker and transition updater from the assembly exception
 list. Both include `fade.h`; the updater retains the raw views described
 below for exact addressing.
@@ -267,10 +267,10 @@ Some migrated C deliberately retains raw expressions without retaining local
 competing declarations:
 
 - `Fade_DrawOverlay` keeps `D_800E9EC8_arr` as the pointer passed to
-  `func_80015310`, while the tail uses typed `gFade_State` fields. The two
+  `Fade_Update`, while the tail uses typed `gFade_State` fields. The two
   same-address symbol views preserve the target's fresh address
   materialization in the exact draw-screen-fade implementation.
-- `func_80015310` keeps its `u8 *` parameter and the offset-symbol array
+- `Fade_Update` keeps its `u8 *` parameter and the offset-symbol array
   `D_800E9ECC[]`; the latter preserves absolute `%hi/%lo` addressing for the
   final level store instead of the small-data form. Its byte definitions
   for `D_8009B142`, `D_8009B143`, and `D_8009B144` are assembler-addressing

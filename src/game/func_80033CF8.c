@@ -1,21 +1,13 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
-
-struct Rec {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    s16 f6;
-};
-extern struct Rec *D_8009B310;
-extern u32 D_8009B314;
+#include "sorted_entry.h"
 
 void func_80033CF8(s32 dx, s32 dy, s32 dz) {
-    struct Rec *p;
+    SortedEntry *p;
     s32 q;
     s32 v;
 
-    D_8009B310->f2 = SquareRoot0(dx * dx + dz * dz);
+    D_8009B310->distance = SquareRoot0(dx * dx + dz * dz);
     q = ratan2(dx, dz) / 16;
     if (q >= 256) {
         q = 255;
@@ -23,9 +15,9 @@ void func_80033CF8(s32 dx, s32 dy, s32 dz) {
     v = q << 8;
 
     p = D_8009B310;
-    p->f0 = v | (dy >> 4);
-    p->f4 = D_8009B314;
-    p->f6 = 0;
+    p->packed = v | (dy >> 4);
+    p->append_index = D_8009B314;
+    p->sorted_position = 0;
 
     D_8009B310 = p + 1;
     D_8009B314 = D_8009B314 + 1;

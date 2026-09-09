@@ -62,6 +62,49 @@ The corresponding executable bytes are all zero. An additional zero region
 continues to `0x8013A000`, but startup does not include that gap in this clear
 loop, so it is classified separately.
 
+## Overlapping symbols: the ordering-table pointers
+
+`c_symbols.ld` gives three consecutive words their own names:
+
+```text
+D_800E9D90 = 0x800E9D90;
+D_800E9D94 = 0x800E9D94;
+D_800E9D98 = 0x800E9D98;
+```
+
+They are not three objects. `graphics_frame.c` declares the first as
+`u32 *D_800E9D90[4]`, and the overlays index it, so `D_800E9D90[1]` *is*
+`D_800E9D94` and `D_800E9D90[2]` *is* `D_800E9D98`. Both spellings are in the
+tree at once:
+
+| Reached as | Where | Declared |
+| --- | --- | --- |
+| `D_800E9D90[1]` | `draw_frontend_background.c` and two more | `GsOT *D_800E9D90[]` |
+| `D_800E9D94` | `trade_screen_helpers.c` | `GsOT *D_800E9D94` |
+| `D_800E9D90[2]` | `value_setup_visuals.c`, `trade_offers.c` | `GsOT *D_800E9D90[]` |
+| `D_800E9D98` | `display_projection.c` | `void *D_800E9D98[]` |
+
+The element names are not decompiler noise. Retail materializes them itself:
+`func_8004CB0C` loads the third word as `lui %hi(D_800E9D98)` /
+`lw %lo(D_800E9D98)`, not as a displacement off `D_800E9D90`. A file that
+reaches the word by its own name and a file that reaches it as an element of
+the array are both reproducing what retail did, which is why eleven files
+declare this storage six different ways and none of them is simply wrong.
+
+`fade_draw_overlay.c` is the case that shows the overlap can be wider than one
+word: it declares `s32 D_800E9D94[4]` and reads `[0]`, a view that nominally
+spans `D_800E9D98` and beyond.
+
+Two consequences for the data work:
+
+- Do not "unify" these declarations. The array view and the element names are
+  different addressing forms of one object, and the build depends on which one
+  each translation unit uses.
+- A symbol-size heuristic based on the gap to the next symbol will understate
+  this array badly: it reports four bytes because the next *name* is four bytes
+  away, while the object is at least sixteen. Any tool that infers sizes that
+  way needs to treat consecutive `D_` names as possible interior elements.
+
 ## Original linker subregions
 
 A descriptor at file offset `0x80EEC` contains:

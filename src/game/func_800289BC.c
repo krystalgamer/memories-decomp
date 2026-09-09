@@ -5,7 +5,7 @@
 #include "duel_effect_resource_record.h"
 
 extern s32 D_8009B118;
-extern u8 D_800EA0E8[];
+extern DuelEffectResourceRecord D_800EA0E8[];
 
 void func_800289BC(u8 *p, s32 mode)
 {
@@ -23,7 +23,7 @@ void func_800289BC(u8 *p, s32 mode)
         return;
     }
 
-    e = (DuelEffectResourceRecord *)(D_800EA0E8 + (*(s32 *)(p + 0x38) << 6));
+    e = &D_800EA0E8[*(s32 *)(p + 0x38)];
 
     rect = &e->rects[0];
     b = D_8009B118;

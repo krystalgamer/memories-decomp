@@ -3,9 +3,8 @@
 #include "duel_grid.h"
 #include "ai_script_read_byte.h"
 #include "ai.h"
-extern u8 gAiScript_State[];
-extern s32 Ai_GetHandSize(void);
-extern s32 Ai_IsCardInSets(s32, s32);
+#include "ai_script_commands.h"
+extern AiScriptState gAiScript_State;
 extern void Ai_CompleteFusion(s32);
 
 /* AI script opcode taking three operand bytes: a register holding the search
@@ -39,14 +38,14 @@ void AiScript_FindBestCombo(void)
     dest = AiScript_ReadByte();
     n = Ai_GetHandSize();
 
-    gAiScript_State[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET] = n;
-    *(s16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) = 0;
-    gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] = 0;
-    gAiScript_State[AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET] = depth;
-    gAiScript_State[AI_SCRIPT_FUSION_SET_BYTE_OFFSET] = sets;
+    gAiScript_State.fusion_count = n;
+    gAiScript_State.fusion_best_stat = 0;
+    gAiScript_State.fusion_depth = 0;
+    gAiScript_State.fusion_limit = depth;
+    gAiScript_State.fusion_set = sets;
 
-    for (i = 0; i < gAiScript_State[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET]; i++) {
-        gAiScript_State[i + AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
+    for (i = 0; i < gAiScript_State.fusion_count; i++) {
+        gAiScript_State.fusion_used[i] = 0;
     }
 
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
@@ -58,39 +57,42 @@ void AiScript_FindBestCombo(void)
         if (Ai_IsCardInSets(sets, slot) != 0) {
             continue;
         }
-        gAiScript_State[gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] +
-                        AI_SCRIPT_FUSION_PATH_BYTE_OFFSET] = slot;
+        gAiScript_State.fusion_path[gAiScript_State.fusion_depth] = slot;
         if (gDuel_aActiveCards[i + AI_SLOT_OWN_MONSTER_FIRST].attack >
-            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET)) {
-            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) =
+            gAiScript_State.fusion_best_stat) {
+            gAiScript_State.fusion_best_stat =
                 gDuel_aActiveCards[i + AI_SLOT_OWN_MONSTER_FIRST].attack;
-            gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET] = slot;
-            gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET + 1] = 0;
-            gAiScript_State[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
-                gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
+            gAiScript_State.combo_cards[0] = slot;
+            gAiScript_State.combo_cards[1] = 0;
+            gAiScript_State.fusion_best_depth =
+                gAiScript_State.fusion_depth;
         }
         if (gDuel_aActiveCards[i + AI_SLOT_OWN_MONSTER_FIRST].defense >
-            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET)) {
-            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) =
+            gAiScript_State.fusion_best_stat) {
+            gAiScript_State.fusion_best_stat =
                 gDuel_aActiveCards[i + AI_SLOT_OWN_MONSTER_FIRST].defense;
-            gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET] = slot;
-            gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET + 1] = 0;
-            gAiScript_State[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
-                gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
+            gAiScript_State.combo_cards[0] = slot;
+            gAiScript_State.combo_cards[1] = 0;
+            gAiScript_State.fusion_best_depth =
+                gAiScript_State.fusion_depth;
         }
-        if (gAiScript_State[AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET] >= 2) {
-            e = &gAiScript_State[i];
+        if (gAiScript_State.fusion_limit >= 2) {
+            /* e deliberately points at the state base plus i, not at
+             * &fusion_used[i]: keeping fusion_used's 0xAA in the access
+             * displacement lets the address arithmetic fill the branch delay
+             * slot. Spelling it &fusion_used[i] costs two instructions. */
+            e = (u8 *)&gAiScript_State + i;
             e[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 1;
-            gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] =
-                gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] + 1;
+            gAiScript_State.fusion_depth =
+                gAiScript_State.fusion_depth + 1;
             Ai_CompleteFusion(card);
             e[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
-            gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] =
-                gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] - 1;
+            gAiScript_State.fusion_depth =
+                gAiScript_State.fusion_depth - 1;
         }
     }
 
-    for (i = 0; i < gAiScript_State[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET]; i++) {
+    for (i = 0; i < gAiScript_State.fusion_count; i++) {
         card = gDuel_aActiveCards[i + AI_SLOT_OWN_HAND_FIRST].card_id;
         slot = i + AI_SLOT_OWN_HAND_FIRST;
         if (card == 0) {
@@ -99,42 +101,45 @@ void AiScript_FindBestCombo(void)
         if (Ai_IsCardInSets(sets, slot) != 0) {
             continue;
         }
-        gAiScript_State[gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] +
-                        AI_SCRIPT_FUSION_PATH_BYTE_OFFSET] = slot;
+        gAiScript_State.fusion_path[gAiScript_State.fusion_depth] = slot;
         if (gDuel_aActiveCards[i + AI_SLOT_OWN_HAND_FIRST].attack >
-            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET)) {
-            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) =
+            gAiScript_State.fusion_best_stat) {
+            gAiScript_State.fusion_best_stat =
                 gDuel_aActiveCards[i + AI_SLOT_OWN_HAND_FIRST].attack;
-            gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET] = slot;
-            gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET + 1] = 0;
-            gAiScript_State[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
-                gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
+            gAiScript_State.combo_cards[0] = slot;
+            gAiScript_State.combo_cards[1] = 0;
+            gAiScript_State.fusion_best_depth =
+                gAiScript_State.fusion_depth;
         }
         if (gDuel_aActiveCards[i + AI_SLOT_OWN_HAND_FIRST].defense >
-            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET)) {
-            *(u16 *)(gAiScript_State + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) =
+            gAiScript_State.fusion_best_stat) {
+            gAiScript_State.fusion_best_stat =
                 gDuel_aActiveCards[i + AI_SLOT_OWN_HAND_FIRST].defense;
-            gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET] = slot;
-            gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET + 1] = 0;
-            gAiScript_State[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
-                gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
+            gAiScript_State.combo_cards[0] = slot;
+            gAiScript_State.combo_cards[1] = 0;
+            gAiScript_State.fusion_best_depth =
+                gAiScript_State.fusion_depth;
         }
-        if (gAiScript_State[AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET] >= 3) {
-            e = &gAiScript_State[i];
+        if (gAiScript_State.fusion_limit >= 3) {
+            /* e deliberately points at the state base plus i, not at
+             * &fusion_used[i]: keeping fusion_used's 0xAA in the access
+             * displacement lets the address arithmetic fill the branch delay
+             * slot. Spelling it &fusion_used[i] costs two instructions. */
+            e = (u8 *)&gAiScript_State + i;
             e[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 1;
-            gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] =
-                gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] + 1;
+            gAiScript_State.fusion_depth =
+                gAiScript_State.fusion_depth + 1;
             Ai_CompleteFusion(card);
             e[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
-            gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] =
-                gAiScript_State[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] - 1;
+            gAiScript_State.fusion_depth =
+                gAiScript_State.fusion_depth - 1;
         }
     }
 
-    if (gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET] != 0) {
-        if (gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET] >= DUEL_FIELD_ROW_SIZE + 1) {
+    if (gAiScript_State.combo_cards[0] != 0) {
+        if (gAiScript_State.combo_cards[0] >= DUEL_FIELD_ROW_SIZE + 1) {
             gAiScript_aMemory[dest] = 0;
-        } else if (gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET + 1] != 0) {
+        } else if (gAiScript_State.combo_cards[1] != 0) {
             gAiScript_aMemory[dest] = 1;
         } else {
             gAiScript_aMemory[dest] = 2;

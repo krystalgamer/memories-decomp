@@ -3,14 +3,10 @@
 
 extern u32 D_8009B10C;
 extern volatile u16 D_8009B112;
-extern u32 D_8009B134;
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 
 extern void (*D_8009B10C_callback)(void) asm("D_8009B10C");
-extern s32 D_8009B134_signed asm("D_8009B134");
-
-void func_80015010(void);
 
 FileTransferDescriptor *File_RequestAsyncTransfer(
     s32 arg0,
@@ -27,7 +23,7 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
     D_8009B0F4 |= 0x40;
     if (D_8009B10C_callback == 0) {
         if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             D_8009B134_signed) != 0) {
+             D_8009B134) != 0) {
             result = (FileTransferDescriptor *)0;
             goto out;
         }

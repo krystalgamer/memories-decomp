@@ -1,6 +1,7 @@
 #include "../types.h"
 
 #include "model.h"
+#include "model_slot_queries.h"
 
 s32 func_80058E3C(s32 index)
 {

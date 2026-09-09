@@ -1,6 +1,8 @@
 #include "../types.h"
+#include "mem_card_directory.h"
 #include "../psyq/libmcrd.h"
 
+#define GMEMCARD_RESULT_USES_WIDE_ARGS
 #include "mem_card.h"
 #include "save_data.h"
 
@@ -47,7 +49,6 @@ extern u16 D_8009B3C4;
 extern u32 D_8009B3D0;
 extern s32 D_8009B3F0;
 extern s32 D_8009B3F4;
-extern u16 gMemCard_wDialogFlags;
 extern s32 gSaveDataSequence;
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u8 D_8009AF70[];
@@ -57,9 +58,6 @@ extern u8 gLibrary_aCardArtRecord[];
 extern s32 D_801D5608[];
 extern s32 D_801D5648[];
 
-extern void func_8003E46C(s32, s32);
-extern s32 func_80044544(u8 *, s32);
-extern s32 func_80044598(u8 *, u8 *, s32);
 extern s32 SaveData_MatchesDuelistAndCurrentSequence(u32, u8 *);
 
 void func_8003E854(void)

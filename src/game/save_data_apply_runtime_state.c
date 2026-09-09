@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "save_data.h"
+#include "sound.h"
 #include "text_sjis_to_glyph_codes.h"
 
 typedef struct {
@@ -19,7 +20,6 @@ typedef struct {
 extern u8 D_801B125A[16];
 extern u32 gSaveDataSequence;
 extern s8 gSD_bOutputType[16];
-extern void SD_SetOutputType(s16);
 
 #define D_8009B0C4 (*(u32 *)0x8009B0C4)
 #define gCampaignSceneIndex (*(u8 *)0x8009B27A)

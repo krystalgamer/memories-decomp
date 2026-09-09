@@ -1,11 +1,11 @@
 #include "../types.h"
+#include "func_8004A6D8.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
 #include "sound_event_runtime.h"
 #include "sound_transfer_lifecycle.h"
 
 extern void func_80049434(void);
-extern void func_8004A6D8(void);
 extern int func_80077150(int, int);
 
 void func_80049640(void)

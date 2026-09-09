@@ -1,19 +1,18 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#define D_8009B142_IN_DATA
+#include "graphics_frame.h"
 #include "duel_effect.h"
 #include "../overlays/main_menu/entrypoints.h"
 #include "../psyq/rand.h"
 #include "fade.h"
+#include "func_80043BCC.h"
 #include "input.h"
+#include "main_reset_frontend_runtime.h"
 #include "text_box_lifecycle.h"
 
-extern u8 D_8009B142 __attribute__((section(".data")));
-extern u8 D_8009B143 __attribute__((section(".data")));
-extern u8 D_8009B144 __attribute__((section(".data")));
 extern u8 D_8009B318 __attribute__((section(".data")));
 extern u8 D_8009B428;
-
-void Main_ResetFrontendRuntime(void);
 
 s32 func_80043BCC(void) {
     s32 r;

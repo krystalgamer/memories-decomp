@@ -1,4 +1,7 @@
 #include "../../types.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_layout.h"
 #include "shop.h"
@@ -12,14 +15,10 @@ extern u8 *D_8016D430;
 extern u8 *gPassword_pDigitCursorWidget;
 extern u8 *D_8016D440[];
 extern u8 D_800EA0E8[];
-extern void Password_RefreshDigitDisplay(void);
-extern void Password_RefreshStarchipDisplay(void);
-extern void Password_CreateMessageBox(s32, s32);
 extern void func_80029528(s32);
 extern void func_80029574(s32);
 extern PasswordCardPreviewView *func_800291E0(s32, s32, s32);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
-extern void Password_SetDigitCursorTarget(u8 *);
 extern void func_80040468(u8 *, s32, s32, s32, s32, s32);
 extern void func_80015A00(void);
 
@@ -70,10 +69,10 @@ void Password_InitShopScreen(void)
     Password_RecreateCardPreview(1);
     o = func_800400AC(func_8004002C(), 1);
     func_80040510(o, 256, 120, 32, 32, 16, 128, 30, 256, 240);
-    *(u32 *)(o + 4) &= ~0x08000000;
+    *(u32 *)(o + 4) &= ~GsROTOFF;
     *(s16 *)(o + 72) = 13;
     *(s16 *)(o + 74) = 13;
-    *(u32 *)(o + 4) |= 0x50000000;
+    *(u32 *)(o + 4) |= (GsALON | GsAONE);
     func_80042918(o);
     func_800428EC(o, 10);
     *(PasswordCursorUpdate *)(o + 36) = Password_UpdateDigitCursor;
@@ -86,7 +85,7 @@ void Password_InitShopScreen(void)
     do {
         o = func_800400AC(func_8004002C(), 2);
         func_80040468(o, 3, 1, i, 11, 524);
-        *(u32 *)(o + 4) |= 0x40000000;
+        *(u32 *)(o + 4) |= GsALON;
         func_80042918(o);
         func_800428EC(o, 8);
         *(PasswordCursorUpdate *)(o + 36) = hook;

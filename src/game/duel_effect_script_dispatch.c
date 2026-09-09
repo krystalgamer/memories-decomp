@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "sound.h"
+#include "duel_effect.h"
 
 typedef struct {
     u8 pad_00[0x51];
@@ -7,8 +8,6 @@ typedef struct {
     u8 pad_52[6];
     s8 cursor_slot;
 } DuelEffectCommand;
-
-extern s32 D_8009B350;
 
 void func_80038800(DuelEffectCommand *command)
 {

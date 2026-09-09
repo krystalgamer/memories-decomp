@@ -58,6 +58,10 @@ extern u16 gDuel_awPlayerDeck[];
 
 extern u8 gSaveData_aTransferBuffer[];
 extern u8 gSaveData_aHeaderTemplate[];
+#ifndef SAVE_DATA_DECLARE_MASK_STATE_LOCALLY
+extern u32 gSaveData_dwMaskStateLow;
+extern u32 gSaveData_dwMaskStateHigh;
+#endif
 
 u32 SaveData_NextMaskWord(void);
 void SaveData_SetMaskSeed(u32);

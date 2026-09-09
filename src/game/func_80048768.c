@@ -42,13 +42,13 @@ void func_80048768(s32 arg0, s32 arg1)
         flag = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
         flag = zero < flag;
         off += flag << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
-        base = ((u8 *)g_SDValue);
+        base = (u8 *)g_SDValue;
         pt = *(u16 *)(base + off + SD_VOICE_LOOKUP_BYTE_OFFSET);
         invalid_key = SD_PENDING_ENTRY_NONE;
         if (pt == invalid_key) {
             return;
         }
-        key = *(u16 *)(*(u8 **)(base + 0x43C) + pt * 2);
+        key = ((SDValue *)base)->field_043C[pt];
         if (key == invalid_key) {
             return;
         }
@@ -63,18 +63,17 @@ void func_80048768(s32 arg0, s32 arg1)
 loop:
     {
         SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, env);
-        base = (u8 *)(i * 2);
-        v = *(u16 *)(((u8 *)g_SDValue) + (s32)base + 0x404);
+        v = g_SDValue->voice_ids[i];
         if (v == (u16)key) {
             if (env[0] != 0) {
                 if (pan != 0) {
                     if (near) {
-                        prod = *(u8 *)(*(u8 **)(((u8 *)g_SDValue) + 0x444) + v * 8) * lo;
-                        *(u16 *)(((u8 *)g_SDValue) + (s32)base + 0x414) = prod;
+                        prod = g_SDValue->field_0444[v].volume * lo;
+                        g_SDValue->voice_volume_left[i] = prod;
                     }
                     if ((u16)(pan2 + 0x80) < 0x80) {
-                        prod = *(u8 *)(*(u8 **)(((u8 *)g_SDValue) + 0x444) + v * 8) * hi;
-                        *(u16 *)(((u8 *)g_SDValue) + (s32)base + 0x41C) = prod;
+                        prod = g_SDValue->field_0444[v].volume * hi;
+                        g_SDValue->voice_volume_right[i] = prod;
                     }
                 }
                 func_80047864(i);

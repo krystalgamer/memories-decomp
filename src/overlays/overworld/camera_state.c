@@ -1,40 +1,40 @@
 #include "../../types.h"
+#include "camera_state.h"
 #include "../../psyq/libgte.h"
+#include "../../game/view_state.h"
 
 extern u8 gCampaignMap_aLocationTable[];
-extern u8 D_800F2848[];
 extern u32 D_8009B304;
 extern u32 D_8009B308;
 extern u32 D_8009B30C;
 extern u32 D_8009B310;
 extern u32 D_8009B314;
 extern volatile u16 gInput_wPad1Held;
-extern void func_8001352C(void);
 extern void func_800540B4(int);
 extern void func_800857C0(int);
 
 void CampaignMap_SetCameraFromLocation(s32 index)
 {
     u8 *entry = gCampaignMap_aLocationTable + index * 66;
-    u8 *camera = D_800F2848;
+    ViewState *camera = &D_800F2848;
 
-    *(u16 *)(camera + 4) = *(u16 *)(entry + 2);
-    *(u16 *)(camera + 2) = *(u16 *)(entry + 4);
-    *(u16 *)(camera + 0) = *(u16 *)(entry + 6);
-    *(s32 *)(camera + 0x1C) = *(s16 *)(entry + 8);
-    *(s32 *)(camera + 0x24) = *(s16 *)(entry + 0xA);
+    camera->field_04 = *(u16 *)(entry + 2);
+    camera->angle = *(u16 *)(entry + 4);
+    camera->field_00 = *(u16 *)(entry + 6);
+    camera->field_1C = *(s16 *)(entry + 8);
+    camera->field_24 = *(s16 *)(entry + 0xA);
     func_8001352C();
 }
 
 void CampaignMap_UpdateView(void)
 {
-    u8 *camera = D_800F2848;
+    ViewState *camera = &D_800F2848;
     u32 flags;
 
-    SetGeomScreen(*(s16 *)(camera + 0xE));
+    SetGeomScreen(camera->projection);
     SetGeomOffset(0xA0, 0x78);
     SetFarColor(0, 0, 0);
-    SetFogNearFar(0x7D0, 0x960, *(s16 *)(camera + 0xE));
+    SetFogNearFar(0x7D0, 0x960, camera->projection);
 
     flags = D_8009B30C;
     if (flags & 2) {
@@ -49,29 +49,32 @@ void CampaignMap_UpdateView(void)
 
 void CampaignMap_ResetCamera(void)
 {
-    u8 *camera = D_800F2848;
-    u8 *matrix = D_800F2848 + 0x10;
+    ViewState *camera = &D_800F2848;
+    /* A second base register, +0x10 into the same record, which is what
+       retail uses to reach field_1C, field_20 and field_24 while the first
+       one is still holding the halfword fields. */
+    u8 *matrix = (u8 *)&D_800F2848 + 0x10;
 
-    *(s16 *)(camera + 0x00) = 0x6A4;
-    *(s16 *)(camera + 0x02) = 0x640;
-    *(s16 *)(camera + 0x04) = 0x180;
-    *(s16 *)(camera + 0x0C) = 0;
-    *(s32 *)(camera + 0x28) = 0;
-    *(s32 *)(camera + 0x2C) = 0;
-    *(s16 *)(camera + 0x0E) = 0x12C;
+    camera->field_00 = 0x6A4;
+    camera->angle = 0x640;
+    camera->field_04 = 0x180;
+    camera->field_0C = 0;
+    camera->field_28 = 0;
+    camera->field_2C = 0;
+    camera->projection = 0x12C;
     func_800857C0(0x12C);
     *(s32 *)(matrix + 0x0C) = 0;
-    *(s16 *)(camera + 0x06) = 0;
+    camera->field_06 = 0;
     *(s32 *)(matrix + 0x10) = 0;
-    *(s16 *)(camera + 0x08) = 0;
+    camera->field_08 = 0;
     *(s32 *)(matrix + 0x14) = 0;
-    *(s16 *)(camera + 0x0A) = 0;
+    camera->field_0A = 0;
     func_8001352C();
 }
 
 void CampaignMap_MoveCameraDpad(void)
 {
-    u8 *camera = D_800F2848;
+    ViewState *camera = &D_800F2848;
     s32 step;
 
     if ((gInput_wPad1Held & 0xF00C) != 0) {
@@ -85,7 +88,7 @@ void CampaignMap_MoveCameraDpad(void)
                 if ((gInput_wPad1Held & 0x8000) != 0) {
                     step = -step;
                 }
-                *(s32 *)(camera + 0x1C) = *(s32 *)(camera + 0x1C) + step;
+                camera->field_1C = camera->field_1C + step;
             }
             if ((gInput_wPad1Held & 0x5000) != 0) {
                 if ((gInput_wPad1Held & 0x40) != 0) {
@@ -96,7 +99,7 @@ void CampaignMap_MoveCameraDpad(void)
                 if ((gInput_wPad1Held & 0x4000) != 0) {
                     step = -step;
                 }
-                *(s32 *)(camera + 0x24) = *(s32 *)(camera + 0x24) + step;
+                camera->field_24 = camera->field_24 + step;
             }
         } else {
             if ((gInput_wPad1Held & 0xA000) != 0) {
@@ -108,7 +111,7 @@ void CampaignMap_MoveCameraDpad(void)
                 if ((gInput_wPad1Held & 0x8000) != 0) {
                     step = -step;
                 }
-                *(u16 *)(camera + 2) = *(u16 *)(camera + 2) + step;
+                camera->angle = camera->angle + step;
             }
             if ((gInput_wPad1Held & 0x5000) != 0) {
                 if ((gInput_wPad1Held & 0x40) != 0) {
@@ -119,7 +122,7 @@ void CampaignMap_MoveCameraDpad(void)
                 if ((gInput_wPad1Held & 0x4000) != 0) {
                     step = -step;
                 }
-                *(u16 *)(camera + 4) = *(u16 *)(camera + 4) + step;
+                camera->field_04 = camera->field_04 + step;
             }
             if ((gInput_wPad1Held & 0xC) != 0) {
                 if ((gInput_wPad1Held & 0x40) != 0) {
@@ -130,7 +133,7 @@ void CampaignMap_MoveCameraDpad(void)
                 if ((gInput_wPad1Held & 0x8) != 0) {
                     step = -step;
                 }
-                *(u16 *)(camera + 0) = *(u16 *)(camera + 0) + step;
+                camera->field_00 = camera->field_00 + step;
             }
         }
         func_8001352C();

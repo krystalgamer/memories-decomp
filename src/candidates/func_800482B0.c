@@ -22,8 +22,8 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "../game/sound.h"
+#include "../game/sound_output_state.h"
 
-extern s16 func_800451E0(u16, s32);
 extern s32 func_80047F38(u8);
 extern void func_8004803C(u16, u8, s32, u8, s16, u8, u8);
 

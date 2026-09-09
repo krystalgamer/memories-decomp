@@ -1,7 +1,9 @@
 #include "../types.h"
+#include "display_effect_lifecycle.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "util_memory.h"
 
 typedef struct {
     u8 image[0x18000];
@@ -18,12 +20,9 @@ extern s8 D_8015C410[];
 extern u8 D_801AF000[];
 extern u8 D_801AF800[];
 extern u8 *D_80010000 __attribute__((section(".data")));
-extern s32 D_8009B134 __attribute__((section(".data")));
 
-extern s32 func_80039F1C(u8 *);
 extern void func_8003A01C(u8 *, s32);
 extern s32 func_8003A1EC(u8 *, u8 **, s32);
-extern void Util_CopyWords(void *, void *, s32);
 
 void func_8003A560(u8 *a)
 {
@@ -32,7 +31,7 @@ void func_8003A560(u8 *a)
     FileTransferDescriptor *req;
     s32 i;
 
-    if (func_80039F1C(a) == 0) {
+    if (func_80039F1C((DisplayEffectState *)a) == 0) {
         slots = (VramSlot *)D_80010000;
         D_8009B326 = 0;
         /* The slot cursor has to be an explicit walking pointer decremented at
@@ -68,8 +67,8 @@ void func_8003A560(u8 *a)
             }
             slot--;
         }
-        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134) !=
-            0) {
+        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             D_8009B134_abs) != 0) {
             a[0x33] &= 0x7F;
             return;
         }
@@ -83,8 +82,8 @@ void func_8003A560(u8 *a)
         }
         D_8009B0F4_abs = req->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
     } else if ((a[0x33] & 0x40) == 0) {
-        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134) !=
-            0) {
+        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             D_8009B134_abs) != 0) {
             return;
         }
         a[0x33] |= 0x40;

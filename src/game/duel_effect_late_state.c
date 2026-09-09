@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "duel_effect.h"
 
-extern u8 D_8009B3C1;
 extern u8 D_8009B3EB;
 
 extern void func_8003E854(void);

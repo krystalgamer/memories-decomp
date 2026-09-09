@@ -1,10 +1,13 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
+#include "text_box_runtime.h"
 
 extern s32 func_80035E20();
-extern s32 func_80039140();
 extern s32 func_8004006C();
 void func_800391E4(u8 *p) {
     u8 *e;
@@ -47,7 +50,7 @@ void func_800391E4(u8 *p) {
         e = func_800400AC(func_8004002C(), 4);
         func_800427DC(e, 1);
         *(s32 *)(p + 0x2C) = (s32)e;
-        *(s32 *)(e + 4) = *(s32 *)(e + 4) | 0x60000000;
+        *(s32 *)(e + 4) = *(s32 *)(e + 4) | (GsALON | GsATWO);
         func_80042918(e);
         func_800428EC(e, (s8)(p[0x59] - 1));
         *(s32 *)(e + 0x54) = 0xA0A0A0;

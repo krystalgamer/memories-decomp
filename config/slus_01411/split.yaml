@@ -68,7 +68,7 @@ segments:
       # matching C function that owns some declares it here, the way the ff8
       # and silent-hill configurations do, and gaps are pad.
       - [0x800, rodata, initial_data]
-      - [0x844, .rodata, game/func_8001455C]
+      - [0x844, .rodata, game/file_transfer_control]
       - [0x860, rodata, initial_data_0a]
       - [0x8C0, .rodata, game/duel_load_package_stage]
       - [0x8F4, rodata, initial_data_0b]
@@ -118,16 +118,13 @@ segments:
   # Every region below is a segment for the same reason: one output section
   # each, at its own address, so nothing is reordered across them.
 
-  # The initialized-data region is the exception: it is a code group so its
-  # .data and .sdata contributions can be mapped to C independently, declared
-  # the way the leading read-only region is, one entry per owning object. A
-  # translation unit that defines some of it is a template edit and nothing
-  # else, and everything still without an owner stays a generated blob, named
-  # for the address it starts at so that taking ownership of one range never
-  # renames another. Only a group segment adds each of its subsegments to the
-  # linker script; as a plain data segment the blob keeps supplying every byte
-  # and an owning object is built, never named by the script, and silently
-  # dropped.
+  # Initialized-data ranges are code groups so their .data and .sdata
+  # contributions can be mapped to C independently, declared the way the
+  # leading read-only region is, one entry per owning object. Once .sdata
+  # begins, every following extracted range must also be classified as sdata
+  # so section_order preserves the GP-relative sequence. Everything still
+  # without an owner stays a generated blob, named for the address it starts
+  # at so taking ownership of one range never renames another.
   - name: initialized_data
     type: code
     start: 0x80ee0
@@ -136,22 +133,56 @@ segments:
     subsegments:
       - [0x80ee0, data, initialized_data_800906e0]
       - [0x80f04, .data, game/file_names]
-      - [0x80fac, data, initialized_data_800907ac]
+      - [0x80fac, .data, game/duel_field_layout]
+      - [0x810a0, data, initialized_data_800908a0]
       - [0x811d4, .data, game/duel_terrain_boost]
       - [0x8124c, data, initialized_data_80090a4c]
+      - [0x8125c, .data, game/duel_effect_tables]
+      - [0x81350, .data, game/credits_secret_numbers]
+      - [0x81364, .data, game/main_modes]
+      - [0x813a8, data, initialized_data_80090ba8]
+      - [0x81d1c, .data, game/movie_stream_ranges]
+      - [0x81d50, data, initialized_data_80091550]
       - [0x81ee0, .data, game/ai_script_commands]
       - [0x81ff0, .data, game/ai_opponent_data]
       - [0x82158, data, initialized_data_80091958]
+      - [0x8b708, sdata, initialized_data_8009af08]
+      - [0x8b724, .sdata, game/duel_trap_resolution]
+      - [0x8b72a, sdata, initialized_data_8009af2a]
+      - [0x8b72e, pad]
+      - [0x8b730, .sdata, game/duel_card_effects]
+      - [0x8b73d, pad]
+      - [0x8b740, .sdata, game/duel_magic_effect_format]
+      - [0x8b744, sdata, initialized_data_8009af44]
+      - [0x8B764, .sdata, game/save_data_mask_state]
+      - [0x8B76C, sdata, initialized_data_8009af6c]
+      - [0x8b880, pad]
       - [0x8B884, .sdata, game/ai_script_source_line_format]
       - [0x8B88C, pad]
 
-  - name: bss_image
+  - name: bss_image_before_viewport
     type: bin
     start: 0x8b890
     vram: 0x8009B090
-    align: 4
+    align: 2
     subsegments:
-      - [0x8b890, bin, bss_image]
+      - [0x8b890, bin, bss_image_before_viewport]
+
+  - name: bss_image_viewport
+    type: code
+    start: 0x8b946
+    vram: 0x8009B146
+    align: 2
+    subsegments:
+      - [0x8b946, .sbss, game/graphics_frame]
+
+  - name: bss_image_after_viewport
+    type: bin
+    start: 0x8b94a
+    vram: 0x8009B14A
+    align: 2
+    subsegments:
+      - [0x8b94a, bin, bss_image_after_viewport]
 
   - name: reserved_zero
     type: bin

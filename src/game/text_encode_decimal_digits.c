@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_encode_decimal_digits.h"
 #include "text_constants.h"
 
 extern s32 D_80090E0C[];

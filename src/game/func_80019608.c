@@ -1,4 +1,7 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "duel_card.h"
 #include "duel_side_state.h"
 #include "display_object_layout.h"
@@ -14,7 +17,6 @@ extern u8 D_8009B174;
    store below the retail load-delay nop. c_symbols.ld overrides the common
    symbol, so no storage is allocated here. */
 u16 D_8009B150;
-extern u32 D_8009B134 __attribute__((section(".data")));
 
 extern void func_80029164(s32, s32);
 extern void func_80024914(u8 *);
@@ -67,7 +69,8 @@ void func_80019608(void)
     switch (state & 0xF) {
     case 1:
         if ((state & 0x80) == 0) {
-            if (((D_8009B0F4_abs & 0x2000030) | D_8009B134) != 0) {
+            if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                 D_8009B134_abs) != 0) {
                 return;
             }
             f2 = *(u16 *)(p + 8);
@@ -130,12 +133,12 @@ void func_80019608(void)
             D_8009B174 = state | 0x80;
             func_8001944C(p);
             D_800E9EF0[0] = func_80019564(p);
-            *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) | 0x50000000;
-            *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) & 0xF7FFFFFF;
+            *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) | (GsALON | GsAONE);
+            *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) & ~GsROTOFF;
             D_800E9EF0[1] = func_80019564(p);
             func_800428EC(D_800E9EF0[1], -1);
-            *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) | 0x60000000;
-            *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) & 0xF7FFFFFF;
+            *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) | (GsALON | GsATWO);
+            *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) & ~GsROTOFF;
             func_80029528(0);
             return;
         }

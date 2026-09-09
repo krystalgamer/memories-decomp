@@ -12,6 +12,13 @@ conditions hold:
 4. The sum of the member sizes exactly covers the C subsegment.
 5. A clean full build remains byte-identical to `game/SLUS_014.11`.
 
+`make check-notes` verifies the index below against
+`config/slus_01411/matching_c.json`: every row's source has to exist and be a
+matching_c source, its profile has to be one the build actually uses for that
+source, and every address the row names has to belong to it. The table drifts
+silently otherwise, because nothing compiles a note. Two rows had already
+survived the translation units they described being merged away.
+
 `tools/project/generate_build_config.py` enforces the first four conditions and
 emits one `text_sources.json` object with a `members` list. The full executable
 match enforces the fifth.
@@ -66,7 +73,7 @@ source grouping.
 | `src/game/ai_script_combo.c` | `gcc_2_8_1_g0_split` | `AiScript_TestPinned` (`0x8007154C`), `AiScript_StartCombo` (`0x800715C4`) |
 | `src/game/ai_script_load_best_values.c` | `gcc_2_8_1_g0` | Three contiguous result loaders for best difference (`0x8007164C`), attacker (`0x80071688`), and target (`0x800716C4`), each copying search state into `gAiScript_aMemory` |
 | `src/game/ai_script_power_search.c` | `gcc_2_8_1_cc_g0_as_g8_split` | `AiScript_FindStrongest` (`0x80071700`) and `AiScript_FindWeakest` (`0x80071924`), sharing the same active-card view and operand contract while retaining their separate ranking loops, initial bounds, and tie behavior |
-| `src/game/ai_script_find_card.c` | `gcc_2_8_1_cc_g0_as_g8_split` | Three contiguous zone-search opcodes: `AiScript_CountCards` (`0x80071EB8`), state-based `AiScript_FindFirstCard` (`0x80071FC8`), and card-ID-based `AiScript_FindCard` (`0x8007214C`) |
+| `src/game/ai_script_find_card.c` | `gcc_2_8_1_cc_g0_as_g8_split` | Four contiguous AI script opcodes: the strongest-against-strongest field pairing `AiScript_FindDefenseStopper` (`0x80071CB0`), `AiScript_CountCards` (`0x80071EB8`), state-based `AiScript_FindFirstCard` (`0x80071FC8`), and card-ID-based `AiScript_FindCard` (`0x8007214C`). The whole `gcc_2_8_1_cc_g0_as_g8_split` run above `func_80071B64`, which compiles at a different profile; all four read operands with `AiScript_ReadByte`, scan `gDuel_aActiveCards` and answer into `gAiScript_aMemory` |
 | `src/game/ai_script_actions.c` | `gcc_2_8_1_g0_split` | `AiScript_PlayFaceUp` (`0x80072F8C`), `AiScript_SetPosition` (`0x80073050`) |
 | `src/game/ai_script_state_ops.c` | `gcc_2_8_1_g0_split` | Four state-flag handlers at `0x80073448`-`0x80073474`, then `AiScript_MoveCard` (`0x80073480`) |
 | `src/game/ai_script_support.c` | `gcc_2_8_1_g0` | Combined card/type set query (`Ai_IsCardInSets`, `0x80070920`) and direct jump handler (`AiScript_Jump`, `0x80070988`) |
@@ -74,7 +81,7 @@ source grouping.
 | `src/game/file_stream.c` | `gcc_2_8_1_g8` | File-state initialization (`0x80013898`), `File_GetPosition`, and three transfer setup helpers through `0x80013A94` |
 | `src/game/file_transfer_setup.c` | `gcc_2_8_1_g8_split` | Two contiguous transfer-descriptor setup helpers at `0x80013B04` and `0x80013B68` |
 | `src/game/file_cd_transfer.c` | `gcc_2_8_1_g8_split` | Eight asynchronous disc-transfer callbacks and helpers from `0x800140A0` through `File_ActivateTransfer` (`0x800143DC`) |
-| `src/game/file_transfer_control.c` | `gcc_2_8_1_g8_split` | Three contiguous transfer-service, object-state, and descriptor-dispatch helpers from `0x80014A5C` through `func_80014C40` |
+| `src/game/file_transfer_control.c` | `gcc_2_8_1_g8_split` | The primary transfer's step function `func_8001455C` (`0x8001455C`) and the three contiguous transfer-service, object-state and descriptor-dispatch helpers that drive it, from `0x80014A5C` through `func_80014C40`. The whole `gcc_2_8_1_g8_split` run between `func_800144B8` and `file_transfer_flags.c`, both at `gcc_2_8_1_g8`. This unit owns `jtbl_80010044` through the `.rodata` line at ROM `0x844` in `split.yaml` |
 | `src/game/file_transfer_flags.c` | `gcc_2_8_1_g8` | Six contiguous active/secondary transfer-request and cancellation helpers from `0x80014E1C` through `0x80015078` |
 | `src/game/fade_in.c` | `gcc_2_8_1_g8` | Uniform `Fade_InitIn` (`0x80015780`, target `0xFF`, flag `0x80`, step `0x0C`) and contiguous banded `Fade_StartIn` (`0x800157DC`, flag `0x01`, step `8`) |
 | `src/game/fade_color.c` | `gcc_2_8_1_g8_split` | Colour-selecting `Fade_InitInColor` (`0x8001581C`, flags `0x30`) and the contiguous conditional white-state reset (`0x80015870`, flags `0xB0`, step `0x0C`) |
@@ -82,10 +89,13 @@ source grouping.
 | `src/game/fade_transition_wait.c` | `gcc_2_8_1_g8_split` | Colour-selecting `Fade_InitOutColor` (`0x80015944`, flags `0x30`) and contiguous `Fade_Wait`, the blocking frame-pump loop that waits for flag `0x80` to clear (`0x80015998`) |
 | `src/game/fade_control.c` | `gcc_2_8_1_g8` | Eighteen contiguous blocking/nonblocking fade wrappers, direct level/target setters, flag-`0x02`/`0x06` variants, and overlay-latch toggles from `0x800159D8` through `0x80015D0C`, including `Fade_WaitOut` |
 | `src/game/display_projection.c` | `gcc_2_8_1_g8_split` | Scratchpad RTPS screen projection with coordinate bias (`0x80015D18`), the contiguous display-slot position wrapper (`0x80015DB8`), and tracked-record projection with side-dependent Y bias (`0x80015DFC`) |
-| `src/game/movie_frame_pipeline.c` | `gcc_2_8_1_g8` | Contiguous movie-frame presentation (`0x8005BE3C`), CD-ring/VLC fetch (`0x8005BFC8`), and MDEC strip-output callback (`0x8005C1F4`) sharing the frame work area and stream state |
+| `src/game/movie_frame_pipeline.c` | `gcc_2_8_1_g8` | The movie player in image order: the stop path that tears the stream down and repaints the screen (`0x8005BB7C`), frame presentation (`0x8005BE3C`), CD-ring/VLC fetch (`0x8005BFC8`), the MDEC strip-output callback (`0x8005C1F4`), and the setter for the three bytes at `D_8009B4A0` (`0x8005C374`). The five share the frame work area and stream state and are the whole `gcc_2_8_1_g8` run in that region |
 | `src/game/movie_stream_requests.c` | `gcc_2_8_1_g0_split` | Indexed `MOVIE.STR` range setup (`0x8005C388`) and named-file stream setup (`0x8005C464`) |
 | `src/game/file_cd_helpers.c` | `gcc_2_8_1_g0` | `File_Exists` (`0x8005C4F0`) and two contiguous low-level CD state/wait helpers through `0x8005C568` |
 | `src/game/mdec_sync.c` | `gcc_2_8_1_g8` | MDEC completion-latch setter (`0x8005C5C4`) and contiguous bounded wait/reset helper (`0x8005C5D4`) |
+| `src/game/main_services.c` | `gcc_2_8_1_g8_split` | The resident system layer: per-frame service pump (`0x8001306C`), boot-time graphics/input start-up (`0x80013154`), the pad-driven screen-offset adjustment loop (`0x80013360`), and the reset of the callback registry the pump walks (`0x800134B4`). The four are the whole `gcc_2_8_1_g8_split` run between `graphics_frame.c` and `func_800134E0`, and the pump and the reset share the `D_800E9DB0` slots and `D_8009B0B8` |
+| `src/game/debug_effect_screen.c` | `gcc_2_8_1_g8_split` | The developer effect-preview screen, in call order: the pad-driven camera and viewport nudge (`0x800220B8`), the controller that builds one of four preview pages and spawns an effect on CROSS (`0x800222F4`), and the HUD line that prints the tuned pair (`0x80022618`). Each calls the one before it, and the three are the whole `gcc_2_8_1_g8_split` run in that region |
+| `src/game/ai_turn_action.c` | `gcc_2_8_1_g8_split` | The AI's turn-action searches in call order: the spell search (`0x8002712C`), the fusion search (`0x80027228`), and the pick that runs both (`0x80027508`). All three write the pending selection at `D_800EAE88`, which the merged unit declares once as a record plus an aliased byte view, so each function keeps the spelling its own match needs |
 | `src/game/build_deck_card_counts.c` | `gcc_2_8_1_g8` | Card-reference release (`0x80031F7C`) and full Build Deck count reconstruction (`0x8003201C`) |
 | `src/game/build_deck_compare.c` | `gcc_2_8_1_g0_split` | `BuildDeck_CompareCard` (`0x80032B60`) and its reverse-primary comparator at `0x80032BD4` |
 | `src/game/text_box_lifecycle.c` | `gcc_2_8_1_g0` | `TextBox_Destroy` (`0x80035B7C`), `TextBox_Create` (`0x80035BE4`), and contiguous flagged creator `TextBox_CreateFlagged` (`0x80035C38`) |
@@ -99,8 +109,7 @@ source grouping.
 | `src/game/duel_field_effect_transition.c` | `gcc_2_8_1_g8_split` | Card-object transition callback (`0x80025B28`) and the contiguous prompt/controller that installs it (`0x80025BEC`) |
 | `src/game/duel_card_icon_setup.c` | `gcc_2_8_1_g8_split` | Card-type icon object creation (`0x80024C1C`) and the contiguous duel-card slot setup helper (`0x80024D34`) |
 | `src/game/duel_deck_card_data.c` | `gcc_2_8_1_cc_g8_as_g0_split` | `Duel_RequestCombinedDeckData` (`0x80024734`) sort/deduplication and asynchronous request setup, followed by contiguous `Duel_PopulateCombinedDeckData` (`0x80024824`) record and asset-block population |
-| `src/game/duel_life_point_effects.c` | `gcc_2_8_1_g8_split` | Contiguous table-driven LP recovery (`0x800250C8`) and direct-damage (`0x8002525C`) effect handlers |
-| `src/game/duel_field_effect_updates.c` | `gcc_2_8_1_g8_split` | Contiguous duel-field marker (`0x800255FC`) and field-card effect completion (`0x800257A0`) state handlers sharing `D_8009B220` flags |
+| `src/game/duel_card_effects.c` | `gcc_2_8_1_g8_split` | Five contiguous card-effect handlers from `0x800250C8` through `0x800257A0`: table-driven LP recovery (`0x800250C8`) and direct damage (`0x8002525C`), the effect dispatcher at `0x8002538C`, and the `DuelEffect_UpdateFieldMarker` (`0x800255FC`) and field-card effect completion (`0x800257A0`) state handlers sharing `D_8009B220` flags |
 | `src/game/duel_field_equip_search.c` | `gcc_2_8_1_g8_split` | Two contiguous field-card filters (`0x80026C6C`, `0x80026D18`) and their following equip-pair search (`0x80026DC8`) |
 | `src/game/util_memory.c` | `gcc_2_8_1_g8` | `Util_CopyWords` (`0x800356A0`) and contiguous repeated-byte fill counterpart `Util_FillMemory` (`0x80035748`) |
 | `src/game/display_object_brightness.c` | `gcc_2_8_1_g0_split` | Paired display-object RGB setters at `0x80030090` and `0x800300AC`, writing uniform brightness values `0x40` and `0x80` |
@@ -121,7 +130,7 @@ source grouping.
 | `src/game/duel_card_state_helpers.c` | `gcc_2_8_1_g8` | Duel-card state export (`0x80028220`) and encoded slot normalization (`0x80028260`) |
 | `src/game/main_debug.c` | `gcc_2_8_1_g8` | Debug-mode setup wrapper (`0x8002CDE8`), `Main_RunDebugMenu` (`0x8002CE08`) |
 | `src/game/script_control_commands.c` | `gcc_2_8_1_g8` | Two script mode setters at `0x8002F930` and `0x8002F94C`, followed by the contiguous script-delay updater at `0x8002F968` |
-| `src/game/frontend_mode_states.c` | `gcc_2_8_1_g8` | Six contiguous debug/frontend, duel-effect mode, memory-card transition, duel setup, and effect-start handlers from `0x80030D5C` through `0x80030F80` |
+| `src/game/frontend_scene_states.c` | `gcc_2_8_1_g8` | Eight contiguous scene states, each a step of the same `D_8009B2EB` state machine: the two list-selection states (`0x80030C10`, `0x80030CB0`) and the six debug/frontend, duel-effect mode, memory-card transition, duel setup and effect-start handlers from `0x80030D5C` through `0x80030F80`. They are the whole `gcc_2_8_1_g8` run between `func_80030998` and `func_80030FA0` |
 | `src/game/display_object_fade_callbacks.c` | `gcc_2_8_1_g0` | Three contiguous display-object fade callbacks from `0x80039AFC` through `0x80039C94`, sharing initialization flags and frame-step state |
 | `src/game/options_update.c` | `gcc_2_8_1_g8` | Contiguous options input handler (`0x8003C7A0`) and per-frame state dispatcher (`0x8003C8CC`) |
 | `src/game/game_over.c` | `gcc_2_8_1_g8_split` | Contiguous Game Over setup (`0x8003C950`) and per-frame update (`0x8003CA5C`) |
@@ -149,6 +158,9 @@ source grouping.
 | `src/game/sound_output.c` | `gcc_2_8_1_g8` | Eighteen contiguous sound output reset, initialization, control, command dispatch, default-argument, and sequence-state helpers from `0x80046DE8` through `0x80047458`, including `SD_SetOutputType` |
 | `src/game/sound_frontend.c` | `gcc_2_8_1_g8` | Nine game-facing sound initialization and command helpers from `Sound_InitFrontend` (`0x8003FE80`) through `SD_StopAll` (`0x8003FFFC`), including `SD_SEPlayFull` |
 | `src/game/sound_init.c` | `gcc_2_8_1_g0` | Thirteen music/sequence and secondary sound-state initialization helpers from `0x80049200` through `0x800495EC`, including `SD_Init` |
+| `src/game/sound_effect_voices.c` | `gcc_2_8_1_cc_g0_as_g8_no_split` | The sound-effect voice slots: the per-id active-voice count (`0x80047FAC`) and the voice start that plays one (`0x8004803C`). The two are contiguous -- 0x80047FAC is 0x90 bytes and ends exactly at 0x8004803C -- and are the whole `gcc_2_8_1_cc_g0_as_g8_no_split` run between `sound_voice_selection.c` and `func_80048768`. They read and write the same four voice slots: the count walks `g_SDValue->voice_ids` and the start assigns it alongside the flags, volumes and timer |
+| `src/game/model_slot_row_tables.c` | `gcc_2_8_1_g0` | One model slot's row tables: the reset that clears them and imports the command list (`0x8004D58C`) and the walk that consumes both (`0x8004D75C`). Contiguous -- 0x8004D58C is 0x1D0 bytes and ends exactly at 0x8004D75C -- and bounded above by `func_8004D914` at a different profile. Initializer and consumer of the same fields: the reset fills `keys` with 0xFFFF, zeroes `rows` and their maxima and stores the command list at 0xDD8; the walk tests `keys` against 0xFFFF, accumulates `rows` and reads that list |
+| `src/game/model_slot_setup.c` | `gcc_2_8_1_g8_split` | One model slot's setup: the reset that gives it its defaults (`0x8005611C`) and the per-frame duel-side layout pass that reads them (`0x80056250`). Contiguous -- 0x8005611C is 0x134 bytes and ends exactly at 0x80056250 -- and bounded above by `model_load_monster_merge.c` at a different profile. Initializer and consumer: the reset writes the mode byte at +0xE16 as 0x3E, +0xE0C/+0xE0D as 7 and 8 and +0xE0A as 0x1000; the layout pass switches on that same +0xE16 and reads the three back |
 | `src/game/sound_voice_selection.c` | `gcc_2_8_1_g0` | Twelve contiguous voice update, lifetime, selection, normalization, release, slot-removal, key-off, status, and group-mask helpers from `0x80047864` through `0x80047F38`, including `SD_KeyOffVoiceSlots` |
 | `src/game/sound_sequence_state.c` | `gcc_2_8_1_g0` | Two sequence-state setters (`0x800490F0`, `0x80049108`) and the active-state test at `0x80049120` |
 | `src/game/sound_sequence_runtime.c` | `gcc_2_8_1_g0` | Six contiguous sequence event-stop/update, byte comparison, bounded read, and MIDI-style variable-length decoding helpers from `0x8004B910` through `0x8004BB34`, ending before the different-profile marker scanner |
@@ -157,15 +169,16 @@ source grouping.
 | `src/game/sound_buffer_init.c` | `gcc_2_8_1_g0` | Sound work-buffer pointer setup (`0x80044D48`) and channel-volume defaults (`0x80044DA0`) |
 | `src/game/sound_mix.c` | `gcc_2_8_1_g0` | Three CD volume and mix helpers from `0x80044E90` through the current-volume query (`0x80044FE4`), including CD mix packet setup at `0x80044F58` |
 | `src/game/sound_output_state.c` | `gcc_2_8_1_g0` | Seven contiguous output-state and tagged command-request helpers from `0x8004503C` through `SD_ClearBusyFlag` at `0x8004544C`, retaining the request builders' distinct signatures, tags, callback sequence, inner scopes, and register pins |
-| `src/game/sound_runtime.c` | `gcc_2_8_1_g0` | Contiguous command enqueue (`SD_EnqueueCommand`), three-ramp fade update (`SD_UpdateFades`), and per-frame key-status/queue processing (`SD_UpdateRuntime`) from `0x80045BE8` through `0x80046294`, all using the shared `SDValue` layout |
+| `src/game/sound_runtime.c` | `gcc_2_8_1_g0` | Contiguous command enqueue (`SD_EnqueueCommand`), three-ramp fade update (`SD_UpdateFades`), and per-frame key-status/queue processing (`SD_UpdateRuntime`) from `0x80045BE8` through `0x80045F3C`, all using the shared `SDValue` layout |
 | `src/game/sound_state_control.c` | `gcc_2_8_1_g8` | Secondary-state activation (`0x8004695C`) and main sound-state flag setup (`0x80046990`) |
-| `src/game/sound_voice_data.c` | `gcc_2_8_1_g0` | Four contiguous voice value/pan update, step assignment, pending-input block copy, and lookup rebuild helpers from `0x80048A28` through `0x80048D08`, using the canonical `SDValue` and `SDNote` layouts |
+| `src/game/sound_voice_data.c` | `gcc_2_8_1_g0` | Five contiguous voice value/pan update, step assignment, pending-input block copy, lookup rebuild, and reverb/music-state initialization helpers from `0x80048A28` through `0x80048F14`, using canonical `SDValue`, `SDNote`, and `SpuReverbAttr` layouts |
 | `src/game/sound_secondary_reset.c` | `gcc_2_8_1_g0` | Low-level state query (`0x800498BC`) and secondary-state reset (`0x800498F8`) |
 | `src/game/sound_secondary_playback.c` | `gcc_2_8_1_g0` | Ten secondary sequence attachment, playback lifecycle, object-upload, parameter, and status helpers from `0x80049A64` through `0x80049F50` |
 | `src/game/sound_voice_setup.c` | `gcc_2_8_1_cc_g8_as_g0_split` | Per-record voice-parameter refresh (`0x8004A43C`) and the contiguous driver voice/key initialization routine (`0x8004A518`) |
 | `src/game/sound_secondary_object_selection.c` | `gcc_2_8_1_g0` | Three contiguous secondary-object best-candidate, referenced-record update, free/reusable-slot, owner/variant, and oldest-entry selection helpers from `0x8004A854` through `0x8004A940`; the shared TU preserves `func_8004A8E4`'s unused second argument from every caller |
 | `src/game/sound_secondary_commands.c` | `gcc_2_8_1_g0` | Three secondary-record command setters from `0x8004B49C` through `0x8004B70C`, followed by contiguous `SD_SequenceTimerCallback` (`0x8004B734`) |
 | `src/game/color_transform.c` | `gcc_2_8_1_g8` | The fixed-point colour conversion pair and the packed-pixel tint that calls both: RGB to HSL (`0x8005A98C`), HSL to RGB (`0x8005ABA0`), and BGR555 hue/saturation transform (`0x8005AE68`) |
+| `src/game/gpu_packets.c` | `gcc_2_8_1_g8` | The three ordering-table packet writers that share the `D_800FE240` buffer cursor: draw-mode (`0x8005B260`), texture-window (`0x8005B36C`) and mask-write (`0x8005B4D8`) |
 
 The sound-code request group shares only the identical request layout and
 external declarations, not either algorithm's body. Its common

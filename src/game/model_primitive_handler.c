@@ -1,4 +1,8 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
 #include "model_primitive_handler.h"
 
 extern void func_80033DB0(void);
@@ -35,11 +39,8 @@ extern void func_80066564(void);
 extern void func_80066828(void);
 extern void func_80066B54(void);
 extern void func_80066E60(void);
-extern void GsU_00000000(void);
-extern void GsU_02000000(void);
-extern void GsU_02000001(void);
 
-void *func_800603DC(unsigned int v){if(v==0x2000000)goto a;if(v==0x2000001)goto b;goto d;a:return GsU_02000000;b:return GsU_02000001;d:return GsU_00000000;}
+void *func_800603DC(unsigned int v){if(v==0x2000000)goto a;if(v==0x2000001)goto b;goto d;a:return (void*)GsU_02000000;b:return (void*)GsU_02000001;d:return (void*)GsU_00000000;}
 
 void *Model_GetPrimitiveHandler(u32 arg0) {
     s32 temp_a0_2;
@@ -117,7 +118,7 @@ block_21:
     }
     goto block_107;
 block_24:
-    return GsU_00000000;
+    return (void *)GsU_00000000;
 block_25:
     return func_800612C0;
 block_26:
@@ -322,5 +323,5 @@ block_105:
 block_106:
     return func_80066E60;
 block_107:
-    return GsU_00000000;
+    return (void *)GsU_00000000;
 }

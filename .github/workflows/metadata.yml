@@ -44,5 +44,8 @@ jobs:
       - name: Verify candidate headlines match their inventory rows
         run: make check-candidate-headlines
 
+      - name: Check grouped translation-unit notes
+        run: make check-notes
+
       - name: Verify every C source uses the shared basic types
         run: make basic-types

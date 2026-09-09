@@ -1,65 +1,19 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object_layout.h"
+#include "display_object.h"
 #include "display_object_projection.h"
+#include "sprite_primitive.h"
+#include "graphics_frame.h"
 
-typedef void (*ObjFn)(void *);
-
-typedef struct {
-    s16 unk0;
-    s16 next;
-    s32 unk4;
-    u16 flags;
-    u8 padA[2];
-    s32 unkC;
-    u8 pad10[4];
-    u16 unk14;
-    u8 pad16;
-    u8 tex_index;
-    s16 unk18;
-    s16 unk1A;
-    u8 pad1C[6];
-    u8 unk22;
-    u8 pad23;
-    ObjFn callback;
-    u8 pad28[8];
-    s32 unk30;
-    u8 pad34[8];
-    s32 unk3C;
-    s32 unk40;
-    s32 unk44;
-    s32 unk48;
-    u8 pad4C[0x10];
-    u16 unk5C;
-    u8 pad5E[8];
-    u8 unk66;
-    u8 pad67[9];
-} DisplayObject;
-
-typedef union {
-    s32 word;
-    struct {
-        u16 x;
-        u16 y;
-    } h;
-} Pos;
-
-typedef struct {
-    u32 tag;
-    Pos pos;
-    u32 unk8;
-    u16 unkC;
-    u16 unkE;
-    u32 unk10;
-    u32 unk14;
-    Pos size;
-    u32 unk1C;
-    s32 unk20;
-} SpritePrim;
-
-extern s16 gGraphics_sViewportX __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY __attribute__((section(".data")));
+extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
+    __attribute__((section(".data")));
+extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
+    __attribute__((section(".data")));
+#define gGraphics_sViewportX gGraphics_sViewportX_data
+#define gGraphics_sViewportY gGraphics_sViewportY_data
 extern s32 D_8009B424;
 extern s32 D_800E9D90[];
 extern s16 D_800EFE3A[];
@@ -80,7 +34,7 @@ void func_80040588(void) {
     u8 *h;
     DisplayObject *e;
     s32 *tb;
-    ObjFn fn;
+    DisplayObjectCallback fn;
     s32 i;
     s32 tex;
     s32 mode;
@@ -97,34 +51,34 @@ void func_80040588(void) {
             e = (DisplayObject *)((u8 *)D_800EFE48 + i * DISPLAY_OBJECT_RECORD_SIZE);
             i = e->next;
             while (1) {
-                fn = e->callback;
-                if (fn != (ObjFn)0) {
-                    fn(e);
+                fn = e->update;
+                if (fn != (DisplayObjectCallback)0) {
+                    fn((u8 *)e);
                 }
                 if (((e->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                      DISPLAY_OBJECT_RENDERABLE_MASK) != 0) {
                     break;
                 }
-                p->tag = e->unk4;
+                p->attribute = e->attribute;
                 idx = e->tex_index;
-                p->unk14 = e->unkC;
-                p->pos.word = e->unk30;
-                p->unk8 = e->unk3C;
-                p->unk10 = e->unk40;
-                p->unkE = e->unk5C;
-                mode = e->unk14 | 0x10000;
+                p->rgb = e->field_0C;
+                p->xy.word = e->field_30.word;
+                p->extent.word = e->field_3C.word;
+                p->cxcy = e->field_40.word;
+                p->uv.word = e->field_5C;
+                mode = e->field_14 | 0x10000;
                 tex = tb[idx];
-                p->unkC = e->unk66;
+                p->tpage = e->field_66;
 
                 if ((e->flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
-                    p->pos.h.x = p->pos.h.x - gGraphics_sViewportX;
-                    p->pos.h.y = p->pos.h.y - gGraphics_sViewportY;
+                    p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
+                    p->xy.h.y = p->xy.h.y - gGraphics_sViewportY;
                 }
 
                 if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     D_8009B424 = 0;
-                    if (func_80041F90((struct ProjectionObj *)e, (s16)p->pos.h.x + e->unk18,
-                                      (s16)p->pos.h.y + e->unk1A,
+                    if (func_80041F90((struct ProjectionObj *)e, (s16)p->xy.h.x + (s16)e->field_18,
+                                      (s16)p->xy.h.y + (s16)e->field_1A,
                                       (struct ProjectionOut *)(h + 0x20)) <= 0) {
                         break;
                     }
@@ -132,19 +86,19 @@ void func_80040588(void) {
                         continue;
                     }
                     g[3] = 9;
-                    *(s32 *)(g + 4) = p->unk14;
+                    *(s32 *)(g + 4) = p->rgb;
                     g[7] = 0x2C;
-                    if ((p->tag & 0x40000000) != 0) {
+                    if ((p->attribute & GsALON) != 0) {
                         SetSemiTrans(g, 1);
                     }
-                    mode = e->unk14 | 0xF0000;
-                } else if ((p->tag & 0x8000000) == 0) {
-                    p->unk20 = e->unk22 * 5760;
-                    p->unk1C = e->unk44;
-                    p->size.word = e->unk48;
-                    p->pos.h.x = p->pos.h.x + p->size.h.x;
-                    p->pos.h.y = p->pos.h.y + p->size.h.y;
-                    mode = e->unk14 | 0x30000;
+                    mode = e->field_14 | 0xF0000;
+                } else if ((p->attribute & GsROTOFF) == 0) {
+                    p->rotate = e->field_20.h.field_22 * 5760;
+                    p->scale = e->field_44;
+                    p->mxmy.word = e->field_48.word;
+                    p->xy.h.x = p->xy.h.x + p->mxmy.h.x;
+                    p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
+                    mode = e->field_14 | 0x30000;
                 }
                 func_80042188(p, g, tex, mode, h + 0x20);
                 break;

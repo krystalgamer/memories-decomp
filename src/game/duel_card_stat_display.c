@@ -1,19 +1,18 @@
 #include "../types.h"
+#include "display_object_config.h"
 #include "display_object_api.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "card_constants.h"
 #include "display_object_helpers.h"
+#include "duel_card.h"
 
 typedef struct {
     u8 pad_00[0x40];
     u16 field_40;
 } DuelCardStatObject;
 
-extern s32 gDuel_adwCardStats[];
-
-extern void func_80040510();
 void func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {
     register s32 table_index __asm__("$16") = index;
@@ -25,7 +24,7 @@ void func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
     s32 kind;
 
     object = func_800400AC(func_8004002C(), 1);
-    func_80040510(object, x, y, 0x10, 0x10, 0, 0xC8, 0xB, 0x260, 0xFC);
+    func_80040510((DisplayObjectConfigView *)object, x, y, 0x10, 0x10, 0, 0xC8, 0xB, 0x260, 0xFC);
     __asm__ volatile(
         "lui $2,%%hi(gDuel_adwCardStats)\n\t"
         "addiu $2,$2,%%lo(gDuel_adwCardStats)\n\t"

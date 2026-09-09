@@ -17,17 +17,13 @@ typedef struct {
 extern u16 D_8009B23A;
 extern u16 D_8009B162;
 extern u8 D_8009B174;
-extern u8 D_8009B1D5;
 extern u8 D_8009B1EC;
 extern u8 *D_8009B1B4;
-extern u32 D_8009B134 __attribute__((section(".data")));
 extern u16 D_8009B36A __attribute__((section(".data")));
 extern u8 D_800E9F10[];
-extern s32 gDuel_adwCardStats[];
 
 extern void Duel_RequestCombinedDeckData(void);
 extern void Duel_PopulateCombinedDeckData(void);
-extern void func_8001352C(void);
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "sound.h"
@@ -36,7 +32,6 @@ extern u8 *D_8009B21C;
 extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
 
 extern void Duel_ApplyCardObjectFlags(u8 *);
-extern u8 *Duel_SetupCardRecord(s32, s32);
 extern u8 *func_80018004(u8 *, s32, s32);
 
 void func_80018608(void)
@@ -92,7 +87,7 @@ void func_80018608(void)
         register u32 mask asm("$2") = FILE_TRANSFER_REQUEST_BLOCKED_MASK;
 
         if (((D_8009B0F4_abs & mask) |
-             D_8009B134) != 0) {
+             D_8009B134_abs) != 0) {
             break;
         }
         SD_BGMPlay(D_8009B36A);
