@@ -44,6 +44,12 @@ typedef struct {
  * notes/research/matching-evidence.md. */
 void func_80040410(DisplayObjectConfig *object, s32 value);
 
+/* The sibling the comment above already names. It was defined here and
+   declared nowhere, so its one caller wrote `extern s32 func_80040424();`
+   -- wrong in the return type and in the parameter list, and undetectable,
+   because that caller discards the result. */
+void func_80040424(DisplayObjectConfig *object, s32 value);
+
 /* Layout view used by func_80040510, which writes the position, extent and
  * blend fields of a display object in one call. It covers only the fields
  * func_80040510 itself touches.
