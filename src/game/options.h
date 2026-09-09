@@ -27,13 +27,23 @@ extern s8 gOptions_bOutputType;
 
 /* NOT HERE, ON PURPOSE
  *
- * Three more symbols are shared by these sources and their declarers disagree:
+ * gSD_bOutputType is shared by both sources and is still declared locally,
+ * but not because they disagree -- an earlier version of this note said the
+ * s8 [16] and u8 [9] spellings could not be reconciled, and that was wrong.
+ * Both bounds are over the -G8 threshold, so both are the same lever for
+ * absolute addressing and neither asserts a size; main_services.h says so
+ * beside D_8009B0A3, citing this very symbol. options_update.c only writes
+ * element 0, so it constrained neither the sign nor the bound, and both
+ * sources now spell it s8 [16] as its other readers do.
  *
- *   gSD_bOutputType  s8 [16] in options_init.c, u8 [9] in options_update.c.
- *                    Both the element sign and the bound differ, and a small
- *                    array's size decides whether -G8 puts it in small data,
- *                    so this one cannot be settled by preferring a spelling.
- * The two option display objects are no longer among them: see below.
+ * It stays out of this header because it is not an options symbol: the sound
+ * driver owns it, save_data_build_payload.c writes it into the save, and
+ * sound_frontend.c reaches it as a plain scalar from small data. Those two
+ * addressing groups need a guarded arm wherever it eventually lands, and
+ * that placement is a sound-side decision rather than an options one.
+ *
+ * The two option display objects are no longer among the exceptions either:
+ * see below.
  */
 
 /* The two display objects the options screen keeps. options_init.c creates

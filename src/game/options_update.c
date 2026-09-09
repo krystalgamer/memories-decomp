@@ -8,7 +8,7 @@
 
 /* Retail performs a fresh absolute load for each input-state test. */
 /* Keep this byte outside small data so its store retains absolute addressing. */
-extern u8 gSD_bOutputType[9];
+extern s8 gSD_bOutputType[16];
 
 void Options_HandleInput(void)
 {
