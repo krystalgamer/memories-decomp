@@ -1,4 +1,5 @@
 #define DUEL_FIELD_GRID_2D
+#define D_8009B260_IN_DATA
 #include "../types.h"
 #include "duel_side_state.h"
 #include "duel_grid.h"
@@ -26,8 +27,6 @@ typedef struct Obj {
     u8 pad_6B;
     u8 active;
 } Obj;
-
-extern u8 D_8009B260 __attribute__((section(".data")));
 
 #define DUEL_FIELD_EFFECT_TIMER_STEP 8
 #define DUEL_FIELD_EFFECT_MARK_THRESHOLD 40
