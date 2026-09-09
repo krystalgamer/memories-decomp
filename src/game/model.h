@@ -381,10 +381,8 @@ extern ModelCameraMove D_800F2B20;
 #ifndef MODEL_TINT_REQUEST_CUSTOM_EXTERN
 extern ModelTintRequest D_800F2B50[MODEL_TINT_REQUEST_COUNT];
 #endif
-#ifndef MODEL_HANDLER_REGISTRY_CUSTOM_EXTERN
 extern ModelHandlerRegistryEntry
     D_800F5918[MODEL_HANDLER_REGISTRY_COUNT];
-#endif
 
 /* Rebuilds a coordinate unit's local matrix from its Euler angles. Declared
  * on the incomplete type so callers that only forward a slot's field_D18 do
