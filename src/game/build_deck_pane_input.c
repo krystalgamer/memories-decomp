@@ -1,6 +1,7 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../types.h"
+#include "func_80032B38.h"
 #include "card_list_sort.h"
 #include "card_constants.h"
 #include "input.h"
@@ -19,8 +20,6 @@ extern void func_80031E5C(u8 *);
 extern void func_80031EE4(u8 *, s32);
 extern void func_80031F7C(u8 *, s32);
 extern void func_8003201C(u8 *);
-extern void func_80032B38(u8 *);
-
 void func_8003353C(u8 *p) {
     u8 *e;
     s32 r;

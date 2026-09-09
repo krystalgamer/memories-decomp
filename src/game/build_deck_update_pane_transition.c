@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80032B38.h"
 #include "graphics_frame.h"
 #include "sound.h"
 
@@ -14,13 +15,12 @@ typedef struct {
 } ScrollState;
 
 extern u16 gGraphics_uViewportX asm("gGraphics_sViewportX");
-extern s32 func_80032B38(void);
 
 void BuildDeck_UpdatePaneTransition(ScrollState *state)
 {
     s32 ticks;
 
-    if (func_80032B38() == 0) {
+    if (func_80032B38((u8 *)state) == 0) {
         /* Keep the sound ID live for the signed-divide branch delay slot. */
         register s32 sound asm("$4") = 30;
         s32 diff = state->target - (s16)gGraphics_uViewportX;
