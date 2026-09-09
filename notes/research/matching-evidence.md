@@ -6923,11 +6923,28 @@ reads the trailing part of that line as a spelling, and reports
 that basis and neither is: every declarer agrees. The scan has to split on
 commas inside the statement before it decides anything about a type.
 
-The two failure directions matter differently. A miss leaves work undone and
+And a third way, which is neither a miss nor an invention but a silent merge
+of two spellings that differ. A trailing attribute sits AFTER the declarator:
+
+    extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
+    extern s16 gDuel_wSelectedCardID;
+
+A scan that treats "everything between `extern` and the name" as the type sees
+`s16` for both and reports the symbol as unanimous. gDuel_wSelectedCardID has
+three plain declarers and three `.data` ones and came back clean.
+
+That is the worst of the three failures here, because the attribute is exactly
+what the note below on addressing groups turns on. A scan blind to it keeps
+offering symbols that are two addressing groups wearing one spelling, and the
+rule looks wrong rather than the tool. Capture the text after the declarator
+as part of the spelling, not just the text before the name.
+
+The three failure directions matter differently. A miss leaves work undone and
 is discovered by someone else later. An invention sends you to reconcile a
 disagreement that does not exist, and the reconciliation is a source change
-that has to be justified to a reviewer -- so it costs more than it looks and
-it is the one to guard against first.
+that has to be justified to a reviewer. A silent merge is worse than both: it
+proposes a change that looks safe, and the thing it hid is the thing that
+would have stopped you.
 
 The `D_80090800` case is worth following to the end, because the wrong survey
 led to the wrong plan. On the four-consumer reading it looked like a symbol
