@@ -6,6 +6,7 @@
 #include "../psyq/libgpu.h"
 #include "func_8002C604.h"
 #include "func_800291E0.h"
+#include "duel_effect_resource_setup.h"
 #include "main_frame.h"
 #include "display_object_api.h"
 #include "duel_card.h"
@@ -42,8 +43,6 @@ extern u8 D_80010090[];
 /* "            **\n~c777\0" */
 extern u8 D_800100A8[];
 
-extern void func_80029164(s32, s32);
-extern u8 *func_800291E0(s32, s32, s32);
 extern void func_8001944C(u8 *);
 void func_800220B8(void) {
     u8 *b;

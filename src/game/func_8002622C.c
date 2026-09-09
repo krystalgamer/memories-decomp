@@ -5,9 +5,8 @@
 #include "file_transfer.h"
 #include "func_8002622C.h"
 #include "sound.h"
+#include "duel_effect_resource_setup.h"
 extern s16 D_8009B1A0;
-extern s16 D_8009B1A0;
-extern void func_80029164(int, int);
 
 void func_8002622C(void)
 {

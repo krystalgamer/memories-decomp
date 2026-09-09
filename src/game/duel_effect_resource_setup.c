@@ -2,6 +2,7 @@
 #include "card_constants.h"
 #include "file_transfer.h"
 #include "duel_effect_resource_record.h"
+#include "duel_effect_resource_setup.h"
 
 extern void func_800289BC(void);
 FileTransferDescriptor *func_80029164(s32 slot, s32 value)

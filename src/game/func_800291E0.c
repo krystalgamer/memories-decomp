@@ -3,6 +3,11 @@
 #include "duel_effect_resource_record.h"
 #include "func_800291E0.h"
 
+/* The definition below is an asm block, so nothing else in this file spells
+   `func_800291E0(`. generate_build_config.py looks for exactly that to accept a
+   file as defining its grouped symbols, so this re-declaration stays -- and it
+   is not a drift risk, because the header's prototype is visible here too and
+   the compiler checks the two against each other. */
 u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
 
 __asm__(
