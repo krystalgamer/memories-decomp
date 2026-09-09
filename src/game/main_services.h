@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MAIN_SERVICES_H
 
 #include "../types.h"
+#include "../psyq/setjmp.h"
 
 /* The per-frame callback registry the resident service pump walks.
  *
@@ -23,6 +24,15 @@
  * the overlays, materializes %lo(D_800E9DB0) with no displacement, so slot 0
  * is the only one anything is known to write. */
 extern void (*D_800E9DB0[4])(void);
+
+/* The recovery point the registry's comment above already places at
+ * 0x800E9DC0. main_init.c arms it with setjmp once the boot sequence is up,
+ * and two sources jump back into it: main_run_frontend_menus.c passes 1 from
+ * the game-over path and func_80030FD0.c passes 2, so the value distinguishes
+ * which unwound. All three spell it jmp_buf and all three already include
+ * psyq/setjmp.h, which this header now includes so the declaration stands on
+ * its own. */
+extern jmp_buf D_800E9DC0;
 
 /* The single extra callback the pump runs after the four slots, and that
  * func_800134B4 clears alongside them. Only main_services.c refers to it. */
