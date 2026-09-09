@@ -185,6 +185,21 @@ extern AiActiveCard gDuel_aActiveCards[];
 s32 Ai_IsCardInSets(s32 mode, s32 index);
 void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high);
 void Ai_GetCardRange(s32 kind, s32 *low, s32 *high);
+/* The singular pair, next to the plural above and defined in the same unit:
+ * each takes an index into gDuel_aActiveCards and asks whether that card's id,
+ * or its type, appears in the script state's own set. Ai_IsTypeInSet compares
+ * against type_set entries with AI_SCRIPT_TYPE_SET_ENCODING_BIAS removed,
+ * which is why the two cannot share one implementation. */
+s32 Ai_IsCardInSet(s32 index);
+s32 Ai_IsTypeInSet(s32 index);
+/* Recursive one-step-deeper search for the best fusion or equip starting from
+ * `card_id`: walks the unused own-hand slots, and for a partner outside the
+ * current fusion set takes Duel_CheckFusion, or Duel_CheckEquip when that
+ * fails, then keeps the pairing whose result has the higher base attack --
+ * preferring the shallower path when two tie. Returns nothing; the answer is
+ * left in the script state's fusion_best_stat, fusion_best_depth and
+ * combo_cards, and it returns immediately when fusion_count is zero. */
+void Ai_CompleteFusion(s32 card_id);
 /* ai_card_ranges.c needs the historical widened return declaration; using
  * the definition's s8 type there adds four sign-extension instructions. */
 #ifdef AI_HAND_SIZE_RETURNS_S32

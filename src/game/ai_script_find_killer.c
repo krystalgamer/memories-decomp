@@ -6,8 +6,7 @@
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "ai_script_commands.h"
-
-s32 AiScript_ReadByte(void);
+#include "ai_script_read_byte.h"
 
 /* -fno-strength-reduce, fourth user. The record walk reads at +0, +2, +6
  * and +9 and gcc builds a SECOND giv biased at +2 because most of the reads

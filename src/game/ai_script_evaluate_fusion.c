@@ -4,7 +4,6 @@
 #include "ai_constants.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
-extern void Ai_CompleteFusion(s32);
 
 void AiScript_EvaluateFusion(void)
 {
