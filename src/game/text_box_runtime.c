@@ -36,10 +36,11 @@ void TextBox_SetPos(u8 *record, s32 x, s32 y)
 
 void func_80039A14(u8 *object)
 {
-    *(u16 *)(object + 0x34) |= TEXT_BOX_FLAG_BUILD_REQUESTED;
+    ((DuelEffectChannel *)object)->flags_34 |= TEXT_BOX_FLAG_BUILD_REQUESTED;
     do {
         TextBox_BuildStep(object);
-    } while (!(*(u16 *)(object + 0x34) & TEXT_BOX_FLAG_DONE));
+    } while (!(((DuelEffectChannel *)object)->flags_34 &
+               TEXT_BOX_FLAG_DONE));
 }
 
 void func_80039A60(u8 *object)
