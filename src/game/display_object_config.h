@@ -15,6 +15,25 @@ typedef struct {
     u8 field_67;
     u8 field_68;
     u8 field_69;
+    /* 0x6A is the value func_80029108 compares against the 0x69 selector
+       before it calls func_80040410 to store one into the other, so the two
+       bytes are read as a pair by the same function.
+
+       This byte is not unnamed elsewhere: duel_card_display_state.h calls it
+       card_index, and on a duel card's display object that is exactly what it
+       holds -- func_80017F04 stores (record - D_801A7AD8) / 0x1C into it, and
+       func_80017DB4 and func_80017E3C index D_801A7AD8 with it. It is spelt
+       field_6A here rather than card_index because nothing establishes that
+       the objects func_80029108 walks are duel card records, and a selector
+       fed from a card index on one kind of object is not evidence that every
+       object carries one. Naming it after the one use we can see would assert
+       more than is known.
+
+       The canonical DisplayObject in display_object.h covers 0x67..0x6B with
+       pad_67, so this does not contradict that record. It is last, and this
+       type has no sizeof and no array user, so adding it moves no existing
+       offset. */
+    u8 field_6A;
 } DisplayObjectConfig;
 
 /* Clears bit 0x10 of the flags halfword and stores `value` into the 0x69

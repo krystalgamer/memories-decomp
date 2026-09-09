@@ -1,19 +1,13 @@
 #include "../types.h"
 #include "display_object_config.h"
 
-typedef struct {
-    u8 pad_00[0x69];
-    u8 field_69;
-    u8 field_6A;
-} Object;
-
 extern s32 D_8009B424;
 /* One argument on purpose: func_80041D60 takes three, and reads the
  * second and third on its cooldown path without assigning them. The
  * retail image calls it this way; see that file. */
-extern void func_80041D60(Object *);
+extern void func_80041D60(DisplayObjectConfig *);
 
-void func_80029108(Object *object, int arg1)
+void func_80029108(DisplayObjectConfig *object, int arg1)
 {
     int value = 2;
 
