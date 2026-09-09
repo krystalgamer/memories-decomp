@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern s32 (*D_80090FEC[])(u8 *, u8 *);
+#include "model_record_tables.h"
 
 void func_80041C8C(u8 *ctx)
 {

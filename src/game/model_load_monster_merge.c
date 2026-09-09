@@ -1,11 +1,11 @@
 #include "../types.h"
+#include "model_record_tables.h"
 #include "model.h"
 #include "file_transfer.h"
 #include "../unmatched.h"
 
 extern u8 D_800114F8[];
 extern u8 gFile_szModelMrgPath[];
-extern u8 D_80091008[];
 
 void SD_KeyOffVoiceSlots(void);
 void func_8004CB0C(s32 slot, s32 arg1, s32 arg2, s32 arg3);
