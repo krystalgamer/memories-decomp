@@ -44,7 +44,7 @@ extern void func_80044F58(s32 arg0);
 extern void func_8005C62C(CdlLOC *loc);
 
 s32 func_8005BB7C(s32 arg0) {
-    u16 rect[4];
+    RECT rect;
     u8 buf[0x3C0];
     s32 i;
     s32 m;
@@ -71,37 +71,37 @@ s32 func_8005BB7C(s32 arg0) {
             *q++ = D_8009B143;
             *q++ = D_8009B142;
         }
-        rect[0] = 0;
+        rect.x = 0;
         i = 0;
-        rect[1] = m << 8;
-        rect[2] = 0x1E0;
-        rect[3] = 1;
+        rect.y = m << 8;
+        rect.w = 0x1E0;
+        rect.h = 1;
         for (; i < D_800FE0D4; i++) {
-            LoadImage(rect, buf);
+            LoadImage(&rect, (u32 *)buf);
             DrawSync(0);
-            rect[1]++;
+            rect.y++;
         }
-        rect[0] = 0x140;
-        rect[1] = 0;
-        rect[3] = 1;
-        rect[2] = D_800FE0D0;
+        rect.x = 0x140;
+        rect.y = 0;
+        rect.h = 1;
+        rect.w = D_800FE0D0;
         for (i = 0; i < D_800FE0D4; i++) {
-            LoadImage(rect, buf);
+            LoadImage(&rect, (u32 *)buf);
             DrawSync(0);
-            rect[1]++;
+            rect.y++;
         }
         DrawSync(0);
         VSync(0);
         i = 0;
         GsSwapDispBuff();
-        rect[1] = (m ^ 1) << 8;
-        rect[2] = 0x1E0;
-        rect[0] = 0;
-        rect[3] = 1;
+        rect.y = (m ^ 1) << 8;
+        rect.w = 0x1E0;
+        rect.x = 0;
+        rect.h = 1;
         for (; i < D_800FE0D4; i++) {
-            LoadImage(rect, buf);
+            LoadImage(&rect, (u32 *)buf);
             DrawSync(0);
-            rect[1]++;
+            rect.y++;
         }
         DrawSync(0);
         VSync(0);
@@ -109,11 +109,11 @@ s32 func_8005BB7C(s32 arg0) {
         GsSwapDispBuff();
         GsDefDispBuff(0, 0, 0x140, 0);
         GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 0);
-        rect[0] = 0;
-        rect[1] = 0;
-        rect[2] = *(s32 *)&D_800FE0D0 * 2;
-        rect[3] = *(u16 *)&D_800FE0D4;
-        ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);
+        rect.x = 0;
+        rect.y = 0;
+        rect.w = *(s32 *)&D_800FE0D0 * 2;
+        rect.h = *(u16 *)&D_800FE0D4;
+        ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);
         D_8009B060 = 0;
     }
     return 0;
