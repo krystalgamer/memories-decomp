@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../unmatched.h"
 #include "duel_effect_noop_handlers.h"
 #include "duel_effect_tables.h"
 
@@ -16,7 +17,6 @@ void func_80025EE0(void);
 void func_80025F3C(void);
 void func_800260D0(void);
 void func_8002622C(void);
-void func_800262D4(void);
 void func_80026A3C(void);
 void func_80028310(void);
 void func_800283F4(void);
