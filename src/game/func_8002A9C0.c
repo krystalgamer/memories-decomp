@@ -31,7 +31,7 @@ void func_8002A9C0(u8 *p, s32 arg1)
 
     r = (u8 *)0x1F800398;
     p[0xE] = p[0x60];
-    func_80041F90((struct ProjectionObj *)p,
+    func_80041F90((struct DisplayObject *)p,
                   *(s16 *)(p + 0x30) + *(s16 *)(p + 0x18),
                   *(s16 *)(p + 0x32) + *(s16 *)(p + 0x1A),
                   (struct ProjectionOut *)0x1F800398);

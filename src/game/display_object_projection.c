@@ -3,23 +3,8 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
+#include "display_object.h"
 #include "display_object_projection.h"
-
-struct ProjectionObj {
-    char pad0[0x4];
-    u32 field4;
-    char pad8[0x10 - 0x8];
-    s32 field10;
-    char pad14[0x20 - 0x14];
-    u8 field20;
-    u8 field21;
-    u8 field22;
-    char pad23[0x44 - 0x23];
-    s16 field44;
-    s16 field46;
-    char pad48[0x65 - 0x48];
-    u8 field65;
-};
 
 /* RotAverageNclip3_nom at 0x80089CF0. libgte.h declares it
    `void RotAverageNclip3_nom(SVECTOR *, SVECTOR *, SVECTOR *)`; retail calls
@@ -81,30 +66,30 @@ s32 func_80041E7C(u32 arg0, s32 arg1, s32 arg2, struct ProjectionOut *arg3)
     return otz;
 }
 
-s32 func_80041F90(struct ProjectionObj *obj, s32 arg1, s32 arg2, struct ProjectionOut *out) {
+s32 func_80041F90(DisplayObject *obj, s32 arg1, s32 arg2, struct ProjectionOut *out) {
     MATRIX *mtx = (MATRIX *)0x1F8002D0;
     SVECTOR *v308 = (SVECTOR *)0x1F800308;
     s32 otz;
 
     out->f0 = arg1;
     out->f2 = arg2;
-    out->f4 = obj->field65;
+    out->f4 = obj->field_65;
 
     SetGeomOffset(arg1, arg2);
     SetGeomScreen(0x12C);
 
-    v308->vx = (s16)(obj->field20 * 0x10);
-    v308->vy = (s16)(obj->field21 * 0x10);
-    v308->vz = (s16)(obj->field22 * 0x10);
+    v308->vx = (s16)(obj->field_20.b.field_20 * 0x10);
+    v308->vy = (s16)(obj->field_20.b.field_21 * 0x10);
+    v308->vz = (s16)(obj->field_20.b.field_22 * 0x10);
     RotMatrixZYX_gte(v308, mtx);
 
     mtx->t[0] = 0;
     mtx->t[1] = 0;
     mtx->t[2] = 0x12C;
 
-    if (!(obj->field4 & GsROTOFF)) {
-        ((VECTOR *)v308)->vx = obj->field44;
-        ((VECTOR *)v308)->vy = obj->field46;
+    if (!(obj->attribute & GsROTOFF)) {
+        ((VECTOR *)v308)->vx = obj->field_44.h.field_44;
+        ((VECTOR *)v308)->vy = obj->field_44.h.field_46;
         ((VECTOR *)v308)->vz = ONE;
         ScaleMatrix(mtx, (VECTOR *)0x1F800308);
     }
@@ -131,10 +116,10 @@ s32 func_80041F90(struct ProjectionObj *obj, s32 arg1, s32 arg2, struct Projecti
         gte_stopz(otzp);
 
         {
-            s32 cb = obj->field10;
+            s32 cb = obj->field_10;
             if (cb != 0) {
                 if (cb < 0) {
-                    ((void (*)(struct ProjectionObj *, s32))cb)(obj, otz);
+                    ((void (*)(DisplayObject *, s32))cb)(obj, otz);
                 }
                 if (otz >= 0) {
                     return otz;

@@ -63,7 +63,7 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                 object->field_69 = 0;
                 if (object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) {
                     fl = object->field_14 | 0xF0000;
-                    if (func_80041F90((struct ProjectionObj *)object,
+                    if (func_80041F90(object,
                                       (s16)*(u16 *)(o + 8) + 0x1A,
                                       (s16)*(u16 *)(o + 0xA) + 0x1E,
                                       (struct ProjectionOut *)0x1F8003E0) < 0) {
