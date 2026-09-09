@@ -4,6 +4,7 @@
 #include "func_80036C14.h"
 #include "duel_card.h"
 #include "text_constants.h"
+#include "func_80037DA4.h"
 
 extern u8 D_8009B320;
 extern s16 gDuel_wSelectedCardID;

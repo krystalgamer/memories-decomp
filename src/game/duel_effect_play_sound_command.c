@@ -3,6 +3,7 @@
 #include "func_80036D3C.h"
 #include "sound.h"
 #include "duel_effect.h"
+#include "duel_effect_play_sound_command.h"
 
 extern s32 D_8009B404[];
 extern s16 D_8009B33C;

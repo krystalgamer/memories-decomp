@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "fade.h"
 #include "display_object_helpers.h"
+#include "func_800388D8.h"
 
 void func_800388D8(u8 *arg0)
 {

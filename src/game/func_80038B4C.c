@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect_command_table.h"
+#include "func_80038B4C.h"
 
 void func_80038B4C(u8 *arg0)
 {

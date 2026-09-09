@@ -2,6 +2,7 @@
 #include "func_80036D3C.h"
 #include "campaign_flags.h"
 #include "duel_effect.h"
+#include "text_control_commands.h"
 
 void func_80038D14(u8 *value)
 {

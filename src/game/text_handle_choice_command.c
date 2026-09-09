@@ -4,6 +4,7 @@
 #include "duel_effect_entry_occupancy.h"
 #include "../unmatched.h"
 #include "dialog_choice.h"
+#include "text_handle_choice_command.h"
 
 extern u8 gDialog_bInputState;
 
