@@ -16,6 +16,7 @@
 #include "text_box_runtime.h"
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
+#include "card_constants.h"
 
 extern u8 *D_8009B240;
 extern u8 D_8009B248;
@@ -105,7 +106,8 @@ void func_800283F4(void)
                 id = gDuel_wViewerCardID;
                 gDuel_wSelectedCardID = id;
                 kind = 3;
-                if (((stats[(s16)id - 1] >> 26) & 0x1F) >= 0x14) {
+                if (((stats[(s16)id - 1] >> CARD_STAT_TYPE_SHIFT) &
+                     CARD_STAT_TYPE_MASK) >= CARD_TYPE_MAGIC) {
                     kind = 4;
                 }
                 box = TextBox_Create(i, kind, 0x148, 0xE, 0xA8, 0xC0);
