@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "file_transfer.h"
+#include "movie_playback_control.h"
 
 /* The frontend's scene states, in address order. Every one of them is a step
    of the same state machine: the flags byte D_8009B2EB carries bit 0x80 for
@@ -27,7 +28,6 @@ extern u16 gDebug_nSceneOrSoundID;
 extern void func_80030250(void *, int, int, int, int, int, int);
 extern int func_80030294(void);
 extern int DuelEffect_UpdateState(void);
-extern void func_8003594C(int);
 extern int func_8003FCD8(void);
 extern void func_80024DC8(int, int, int, int);
 extern void func_80033C90(void);

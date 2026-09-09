@@ -5,6 +5,7 @@
 #include "file_transfer.h"
 #include "input.h"
 #include "mdec_sync.h"
+#include "movie_playback_control.h"
 
 extern u8 D_8009B318;
 

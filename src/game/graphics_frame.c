@@ -4,6 +4,7 @@
 #include "../psyq/libetc.h"
 #define D_8009B142_IN_DATA
 #include "graphics_frame.h"
+#include "movie_playback_control.h"
 
 extern volatile u8 D_8009B0C0;
 extern volatile s32 D_8009B0C8;
@@ -17,7 +18,6 @@ extern unsigned char D_8009AFA4 __attribute__((section(".data")));
 extern s32 D_8009B0CC;
 
 extern void func_80085500(void);
-extern void func_800359B0(void);
 extern void func_80085E10(void *, void *);
 extern void func_80085D80(void *);
 extern s32 func_80085320(void);
