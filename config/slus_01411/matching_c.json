@@ -2458,7 +2458,7 @@
       "address": "0x80036BCC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/func_80036BCC.c"
+      "source": "src/game/func_80036C14.c"
     },
     {
       "address": "0x80036C14",
