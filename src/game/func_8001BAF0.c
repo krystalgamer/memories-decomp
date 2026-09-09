@@ -1,9 +1,11 @@
+#define FUNC_80018004_AMBIENT_POSITION_ARGS
 #include "../types.h"
 #include "duel_deck_card.h"
 #include "duel_side_state.h"
 #include "ai.h"
 #include "duel_card.h"
 #include "duel_card_display_state.h"
+#include "func_80018004.h"
 #include "ai_constants.h"
 #include "card_constants.h"
 #include "duel_hand.h"
@@ -12,8 +14,6 @@
 
 extern u8 D_800EAE88[];
 extern u8 D_800907CC[];
-
-extern DuelCardDisplayObject *func_80018004(u8 *, s32, s32);
 
 void func_8001BAF0(void)
 {
