@@ -3,10 +3,10 @@
 #include "../psyq/rand.h"
 #include "file_transfer.h"
 #include "graphics_frame.h"
+#include "display_effect_lifecycle.h"
 
 extern u32 D_8009B0CC[];
 extern s16 D_8009B322;
-extern u8 *D_8009B328;
 extern u16 D_8009B348[2];
 extern int func_80049120(void *);
 

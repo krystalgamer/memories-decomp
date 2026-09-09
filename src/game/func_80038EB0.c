@@ -11,8 +11,6 @@ typedef struct {
     s8 depth;
 } EffectObject;
 
-extern u8 *D_8009B328;
-
 /* Effect-script command handler: reads a command id and a flag byte from the
    object's current script stream, finds the display effect record for the id
    in D_800EB010 (ids below 0x41 live in the first two records, others in
