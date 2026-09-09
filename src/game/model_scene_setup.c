@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model_transfer_flags.h"
+#include "model_update_view_metrics.h"
 #include "camera_view.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -16,7 +17,6 @@ typedef struct {
 } Object;
 
 extern unsigned short D_8009AF8C, D_8009AF90, D_8009AF8E;
-extern unsigned short D_8009B47C, D_8009B478, D_8009B47A;
 extern Packed8 D_8009B478_p asm("D_8009B478");
 extern Packed8 D_8009B480;
 extern Object D_800F56A0;

@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern unsigned char D_8009B478;
+#include "model_update_view_metrics.h"
 
 void *func_80059208(void)
 {

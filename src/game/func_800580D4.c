@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_update_view_metrics.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -15,9 +16,6 @@ typedef struct {
     SVECTOR zero;
     s32 pad5C;
 } CoordLocals;
-
-extern u16 D_8009B47A;
-extern u16 D_8009B47C;
 
 extern void GsGetLwUnit(u8 *, MATRIX *);
 extern void *memset(void *, s32, s32);

@@ -1,9 +1,8 @@
 #include "../types.h"
+#include "model_update_view_metrics.h"
 #include "camera_view.h"
 #include "model.h"
 
-extern s16 D_8009B47C;
-extern u8 D_8009B478;
 extern s16 D_800F2B4A[];
 extern s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
 extern s32 func_8005F1B8(s32 arg0, s32 arg1);

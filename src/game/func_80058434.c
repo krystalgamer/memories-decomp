@@ -1,11 +1,9 @@
 #include "../types.h"
+#include "model_update_view_metrics.h"
 #include "camera_view.h"
 #include "../psyq/libgte.h"
 #include "model.h"
 
-extern u8 D_8009B478;
-extern u16 D_8009B47A;
-extern u16 D_8009B47C;
 typedef struct {
     s32 x;
     s32 y;
