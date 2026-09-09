@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "file_transfer.h"
+#include "func_8003FCD8.h"
 #include "movie_playback_control.h"
 #include "../unmatched.h"
 
@@ -28,7 +29,6 @@ extern u16 gDebug_nSceneOrSoundID;
 
 extern void func_80030250(void *, int, int, int, int, int, int);
 extern int DuelEffect_UpdateState(void);
-extern int func_8003FCD8(void);
 extern void func_80024DC8(int, int, int, int);
 extern void func_80033C90(void);
 

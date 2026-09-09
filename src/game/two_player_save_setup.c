@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "data_transfer_request.h"
 #include "card_constants.h"
+#include "func_8003FCD8.h"
 #include "mem_card.h"
 #include "save_data.h"
 #include "text_sjis_to_glyph_codes.h"
@@ -13,8 +14,6 @@ extern s32 D_801D5608[];
 extern u8 D_801D160C[];
 extern u8 D_801B122B[];
 extern u8 D_801B1238[];
-extern s32 func_8003FCD8(void);
-
 s32 func_8003FD14(void)
 {
     s32 result;
