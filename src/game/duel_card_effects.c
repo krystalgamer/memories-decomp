@@ -7,6 +7,10 @@
 #include "duel_effect_request.h"
 #include "duel_monster_removal_rules.h"
 #include "sound.h"
+#include "duel_card_layout.h"
+#include "duel_grid.h"
+#include "duel_card.h"
+#include "duel_card_object_cleanup.h"
 
 extern s16 D_8009B1D2;
 extern u16 D_8009B220;
@@ -140,9 +144,6 @@ apply:
     }
 }
 
-#include "duel_card_layout.h"
-#include "duel_grid.h"
-
 extern s16 D_8009B1D2;
 extern s16 D_8009B1AC;
 extern s16 D_8009B1AE;
@@ -235,9 +236,6 @@ hit:
     func_80024954(e);
     SD_SEPlayFull(0x1F);
 }
-
-#include "duel_card.h"
-#include "duel_card_object_cleanup.h"
 
 extern volatile u16 D_8009B112 __attribute__((section(".data")));
 extern u8 *D_8009B17C;
