@@ -3,18 +3,6 @@
 #include "file_transfer.h"
 #include "file_cd_transfer.h"
 
-typedef struct {
-    s32 value[FILE_TRANSFER_DESCRIPTOR_WORD_COUNT];
-} Block72;
-
-typedef char Block72_size_must_match_transfer_descriptor[
-    sizeof(Block72) == sizeof(FileTransferDescriptor) ? 1 : -1
-];
-
-typedef struct {
-    s32 value[8];
-} Block32;
-
 extern char D_8009B11C[1];
 extern u8 D_8009B114;
 extern s32 D_8009B138;
@@ -113,9 +101,9 @@ void func_80014390(u8 event, s32 arg1)
 }
 
 void File_ActivateTransfer(void) {
-    *(Block72 *)&gFile_PrimaryTransferDescriptor =
-        *(Block72 *)&gFile_SecondaryTransferDescriptor;
-    *(Block32 *)D_801D4200 = *(Block32 *)(D_801D4200 + 32);
+    *(FileTransferDescriptorWords *)&gFile_PrimaryTransferDescriptor =
+        *(FileTransferDescriptorWords *)&gFile_SecondaryTransferDescriptor;
+    *(FileRequestSlot *)D_801D4200 = *(FileRequestSlot *)(D_801D4200 + 32);
     if (gFile_PrimaryTransferDescriptor.done == 4)
         D_8009B112 |= 1;
     D_8009B0F4 =

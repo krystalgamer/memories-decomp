@@ -9,6 +9,48 @@
 #define FILE_TRANSFER_REQUEST_BLOCKED_MASK 0x02000030
 #define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
 
+/* One entry of the two-slot request table at D_801D4200.
+
+   func_80014C40 stages the caller's request into slot 1 with a whole-record
+   copy, file_cd_transfer.c's func_800141A8 promotes slot 1 into slot 0 the
+   same way once the drive is ready, and func_80014B30 then programs the
+   transfer descriptor out of slot 0. Two independent 0x20-byte copies at that
+   stride are what fix the size; func_80014B30 names the four words.
+
+   func_80014C40 reads the same record before it copies it, still as `u8 *`,
+   and evidences four more offsets that way: words at 0x00 and 0x04, a
+   halfword at 0x1C and bytes at 0x1E and 0x1F. Those stay padding here
+   because nothing reaches them through the type yet. */
+typedef struct {
+    u8 pad_00[0xC];
+    s32 field_0C;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    u8 pad_1C[4];
+} FileRequestSlot;
+
+typedef char FileRequestSlot_size_must_be_0x20[
+    sizeof(FileRequestSlot) == 0x20 ? 1 : -1
+];
+
+/* A FileTransferDescriptor's worth of words, for the one place that copies a
+   whole descriptor: func_800141A8 overwrites the primary descriptor with the
+   secondary one.
+
+   This is a block-move spelling, not a second description of the record --
+   the element type is what sets the alignment and therefore the move width,
+   so it is deliberately `s32` and deliberately not interchangeable with
+   FileTransferDescriptor itself, which contains halfword members. The assert
+   below is what ties the two together. */
+typedef struct {
+    s32 value[FILE_TRANSFER_DESCRIPTOR_WORD_COUNT];
+} FileTransferDescriptorWords;
+
+typedef char FileTransferDescriptorWords_size_must_match_descriptor[
+    sizeof(FileTransferDescriptorWords) == sizeof(FileTransferDescriptor) ? 1 : -1
+];
+
 typedef char FileTransfer_default_image_must_fill_sector[
     FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH * FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT *
         sizeof(u16) == FILE_SECTOR_SIZE ? 1 : -1
@@ -200,8 +242,9 @@ extern s32 D_8009B130;
  * Converting file_cd_transfer.c alone, changing nothing else, builds the
  * executable byte for byte. The `u8 []` spelling was not load-bearing, and
  * the one access it guarded -- a whole-record copy written
- * `*(Block72 *)gFile_SecondaryTransferDescriptor` -- becomes
- * `*(Block72 *)&gFile_SecondaryTransferDescriptor`, which is the form that
+ * `*(FileTransferDescriptorWords *)gFile_SecondaryTransferDescriptor` --
+ * becomes `*(FileTransferDescriptorWords *)&gFile_SecondaryTransferDescriptor`,
+ * which is the form that
  * file already used on the line above for the primary descriptor. */
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 

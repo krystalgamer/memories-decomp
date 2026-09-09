@@ -88,6 +88,19 @@ typedef struct {
     u16 field_0C[8];
 } ModelSlotCF8Block;
 
+/* A ModelSlotCF8Block's worth of words, for the one place that copies a whole
+   block: file_transfer_steps.c's phase 10 fills field_CF8 straight out of the
+   staged asset.
+
+   This is a block-move spelling, not a second description of the block. The
+   element type sets the alignment and the alignment sets the move width, so
+   `u32` here and the halfword members of ModelSlotCF8Block do not lower the
+   same way and the two are deliberately not interchangeable. The assert below
+   is what ties them together. */
+typedef struct {
+    u32 value[7];
+} ModelSlotCF8BlockWords;
+
 typedef struct {
     ModelSlotHeadEntry field_000[1];
     u8 pad_008[0x1D8];
@@ -259,6 +272,9 @@ typedef char ModelSlot_field_E0E_offset_must_be_0xE0E[
 ];
 typedef char ModelSlotCF8Block_size_must_be_0x1C[
     sizeof(ModelSlotCF8Block) == 0x1C ? 1 : -1
+];
+typedef char ModelSlotCF8BlockWords_size_must_match_block[
+    sizeof(ModelSlotCF8BlockWords) == sizeof(ModelSlotCF8Block) ? 1 : -1
 ];
 typedef char ModelSlotCF8Block_field_0A_offset_must_be_0xA[
     MODEL_OFFSET(ModelSlotCF8Block, field_0A) == 0xA ? 1 : -1
