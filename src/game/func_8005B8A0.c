@@ -17,19 +17,15 @@ extern u32 D_8009B068;
 extern u32 D_8009B06C;
 extern u32 D_8009B070;
 extern u8 *D_8009B498;
-extern u8 D_8009B49C;
+extern CdlLOC D_8009B49C;
 extern s16 D_800FE0CC __attribute__((section(".data")));
 extern u16 D_800FE0D0 __attribute__((section(".data")));
 extern s32 D_800FE0D4 __attribute__((section(".data")));
 
 void func_8005C690(void);
 
-typedef struct {
-    u8 b[4];
-} Bytes4;
-
 s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
-    u16 rect[4];
+    RECT rect;
     s32 m;
     s32 r;
 
@@ -44,24 +40,24 @@ s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
         /* Retail sets $a0 and $a1 here even though GsGetActiveBuff takes
            no arguments; the two values are kept so the call setup matches. */
         m = GsGetActiveBuff(D_80010000, a5);
-        rect[0] = m * 0x140;
-        rect[1] = 0;
-        rect[2] = D_800FE0D0;
-        rect[3] = D_800FE0D4;
-        ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);
+        rect.x = m * 0x140;
+        rect.y = 0;
+        rect.w = D_800FE0D0;
+        rect.h = D_800FE0D4;
+        ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);
         DrawSync(0);
         VSync(0);
         GsSwapDispBuff();
-        rect[0] = (m ^ 1) * 0x140;
-        rect[2] = D_800FE0D0;
-        rect[1] = 0;
-        rect[3] = D_800FE0D4;
-        ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);
-        rect[0] = 0;
-        rect[1] = 0x100;
-        rect[2] = *(s32 *)&D_800FE0D0 * 0x1800 / 4096;
-        rect[3] = D_800FE0D4;
-        ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);
+        rect.x = (m ^ 1) * 0x140;
+        rect.w = D_800FE0D0;
+        rect.y = 0;
+        rect.h = D_800FE0D4;
+        ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);
+        rect.x = 0;
+        rect.y = 0x100;
+        rect.w = *(s32 *)&D_800FE0D0 * 0x1800 / 4096;
+        rect.h = D_800FE0D4;
+        ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);
         DrawSync(0);
         VSync(0);
         D_800FE0CC = 1;
@@ -70,7 +66,7 @@ s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
         GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 1);
     }
     if (src != (u8 *)0) {
-        *(Bytes4 *)&D_8009B49C = *(Bytes4 *)src;
+        D_8009B49C = *(CdlLOC *)src;
     }
     if (a1 != 0) {
         D_8009B068 = a1;
