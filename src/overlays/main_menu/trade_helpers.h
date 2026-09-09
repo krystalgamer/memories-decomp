@@ -73,4 +73,24 @@ void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount);
 void MainMenu_DrawTradeColumnOverlay(s32 column);
 void MainMenu_RebuildTradeInventoryRows(s32 side);
 
+/* Trade screen state. All three sources that use these already include this
+ * header, so the ten local copies they carried existed only because the
+ * declarations were missing here. Every declarer already spelled them u8.
+ *
+ *   D_80185CCE  The focused pane, stepped as `(D_80185CCE + 2) % 3` and
+ *               `(D_80185CCE + 4) % 3`, so it has three positions. One site
+ *               reads it as `*(volatile u8 *)&D_80185CCE`; that volatile is
+ *               applied at the use, not by the declaration, so moving the
+ *               declaration here leaves it in place.
+ *   D_80185CC9  Set to 1 and tested; cleared nowhere in this overlay.
+ *   D_80185CCF  Three flags, each zeroed on entry, set while their part of
+ *   D_80185CD0  the screen is pending, tested, and cleared again.
+ *   D_80185CD1
+ */
+extern u8 D_80185CC9;
+extern u8 D_80185CCE;
+extern u8 D_80185CCF;
+extern u8 D_80185CD0;
+extern u8 D_80185CD1;
+
 #endif

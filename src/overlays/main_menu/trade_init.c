@@ -13,10 +13,6 @@ extern u16 D_80185C9C[][11];
 extern u8 D_80185CC8[];
 extern u8 D_80185CCA[];
 extern u8 D_80185CCC[];
-extern u8 D_80185CCE;
-extern u8 D_80185CCF;
-extern u8 D_80185CD0;
-extern u8 D_80185CD1;
 extern void (*D_800E9DB4)(void);
 extern void func_80061008(s32, s32, s32, s32);
 

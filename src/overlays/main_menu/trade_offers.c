@@ -27,7 +27,6 @@
 extern u8 *D_801845EC[];
 extern u16 D_80185C9C[][11];
 extern u8 D_80185CC8;
-extern u8 D_80185CC9;
 
 void MainMenu_DrawTradeOffersAndHighlights(void)
 {
