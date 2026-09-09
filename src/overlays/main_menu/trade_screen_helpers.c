@@ -5,6 +5,22 @@
 #include "../../game/card_constants.h"
 #include "../../game/gpu_packets.h"
 #include "trade_helpers.h"
+#include "../../ygo_types.h"
+#include "../../game/card_list_rows.h"
+
+/* Three Trade screen helpers: the card-type icon (0x80184344) and the column
+   dimming overlay (0x80184454) that the offer draw calls for each entry, and
+   the inventory row rebuild (0x801844D8).
+
+   The three are contiguous from 0x80184344 to 0x80184558 and are the whole
+   gcc_2_8_1_g0_split run there: card_name_count_comparators.c below compiles
+   at gcc_2_8_1_g0_no_sched2_split and the module's data section starts above,
+   so both bounds are hard.
+
+   Unlike the offer group they do not call each other. What ties them is the
+   screen and its data: all three take their declarations from
+   trade_helpers.h, and the row rebuild walks D_801845FC and D_801845E0, the
+   same trade inventory and display handle the offer group writes. */
 
 extern s32 D_801D4244[];
 extern GsOT *D_800E9D94;
@@ -74,4 +90,17 @@ void MainMenu_DrawTradeColumnOverlay(s32 column)
     quad.x3 = right;
     quad.y3 = 0xF0;
     func_8005B260((u32 *)&quad, (GsOT *)D_800E9D94, 0x1F, 2);
+}
+
+extern CardCountEntry D_801845FC[];
+extern u16 D_80185C8C[][2];
+extern u8 *D_801845E0;
+
+void MainMenu_RebuildTradeInventoryRows(s32 side)
+{
+    s32 flags;
+
+    flags = D_801845E0[0x69] - 4;
+    func_80060E70((u16 *)(side * 2888 + (s32)D_801845FC + D_80185C8C[side][0] * 4), side,
+                  flags & (1 << side), flags);
 }

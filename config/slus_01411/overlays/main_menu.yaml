@@ -84,8 +84,7 @@ segments:
       - [0x4030, c, overlays/main_menu/apply_trade_offer_inventory_delta]
       - [0x40F8, c, overlays/main_menu/trade_card_count]
       - [0x416C, c, overlays/main_menu/card_name_count_comparators]
-      - [0x4344, c, overlays/main_menu/trade_draw_helpers]
-      - [0x44D8, c, overlays/main_menu/rebuild_trade_inventory_rows]
+      - [0x4344, c, overlays/main_menu/trade_screen_helpers]
       - [0x4558, data, overlays/main_menu/data]
 
   - [0x8000]
