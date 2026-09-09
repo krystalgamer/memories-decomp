@@ -10,7 +10,6 @@ extern u8 D_8015C424[];
 /* Two RECTs per field slot: the card art at 2 * slot and the name strip at
    2 * slot + 1. LoadImage consumes both, which is what types the table. */
 extern RECT D_80177EA4[];
-extern u8 D_8018C2D8[];
 extern u8 D_8018C7D8[];
 
 u8 *Duel_SetupCardRecord(s32 a, s32 b) {

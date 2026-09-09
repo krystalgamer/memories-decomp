@@ -9,7 +9,6 @@
 extern u16 gDuel_awCombinedDeckCardIds[];
 extern u16 gDuel_awUniqueDeckCardIds[];
 extern u8 D_8015C424[];
-extern u8 D_8018C2D8[];
 
 extern s32 Util_CompareS16(s16 *, s16 *);
 
