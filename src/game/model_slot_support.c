@@ -6,7 +6,7 @@ typedef struct {
     u8 bytes[8];
 } __attribute__((packed)) ModelSlotBytes8;
 
-extern void func_800540B4(void);
+extern void func_800540B4(s32);
 
 void func_80059000(s32 index, s16 *output)
 {
@@ -45,6 +45,6 @@ void func_800590DC(s32 index)
     u8 old = entry->field_E11;
 
     entry->field_E11 = 1;
-    func_800540B4();
+    func_800540B4(index);
     entry->field_E11 = old;
 }
