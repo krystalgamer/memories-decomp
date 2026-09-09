@@ -41,4 +41,15 @@ void func_8003E46C(s32 value, s32 bits);
 void func_8003E46C(u8 value, u16 bits);
 #endif
 
+/* The memory-card dialog's flag word.
+ *
+ * Declared plain here because the readers need it plain: every other user
+ * only tests bits or does a read-modify-write, and marking the object
+ * volatile forces reloads that grow .text by 40 bytes.
+ *
+ * func_8003E46C needs the opposite and reaches the same word through its own
+ * volatile linker name; see the comment there.
+ */
+extern u16 gMemCard_wDialogFlags;
+
 #endif

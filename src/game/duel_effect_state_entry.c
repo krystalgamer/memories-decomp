@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "mem_card.h"
 
 extern u8 D_8009B3EB;
-extern u16 gMemCard_wDialogFlags;
 
 extern void func_8003E490(void);
 

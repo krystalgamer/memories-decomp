@@ -28,7 +28,6 @@ extern u16 D_8009B3C2;
 extern u16 D_8009B3C4;
 extern u32 D_8009B3D0;
 extern s32 D_8009B3F4;
-extern u16 gMemCard_wDialogFlags;
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u8 D_800EFBC0[];
 extern u8 D_800EFE18[];

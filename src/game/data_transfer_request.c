@@ -7,7 +7,6 @@
 
 extern u8 D_8009B3DE;
 extern u8 D_8009B3EF;
-extern u16 gMemCard_wDialogFlags;
 extern void func_8003F454(void);
 
 int func_8003F70C(void)
