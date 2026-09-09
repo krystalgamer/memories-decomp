@@ -1,12 +1,10 @@
+#define SDVALUE_CUSTOM_EXTERN
 #include "../types.h"
+#include "sound.h"
 #include "sound_output_state.h"
 
-typedef struct {
-    u8 pad_0000[0x1618];
-    u8 busy;
-} SoundCommandState;
-
-#define g_SDValue (*(SoundCommandState **)0x8009B45C)
+/* The absolute spelling is load-bearing in this -G8 unit. */
+#define g_SDValue (*(SDValue **)0x8009B45C)
 #define D_8009B128 (*(void (**)(void))0x8009B128)
 
 void SD_ArmBusyCallback(void) {
