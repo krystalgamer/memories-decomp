@@ -1,8 +1,7 @@
 #include "../types.h"
 #include "display_object_config.h"
 #include "func_80041D60.h"
-
-extern s32 D_8009B424;
+#include "display_object.h"
 
 void func_80029108(DisplayObjectConfig *object, int arg1)
 {

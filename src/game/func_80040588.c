@@ -15,7 +15,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
     __attribute__((section(".data")));
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
-extern s32 D_8009B424;
 extern s32 D_800E9D90[];
 extern s16 D_800EFE3A[];
 
