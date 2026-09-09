@@ -2,8 +2,6 @@
 #include "main_frame.h"
 #include "file_transfer.h"
 
-extern void func_80015038(void);
-
 void File_WaitForTransfers(void) {
     for (;;) {
         if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |

@@ -1,5 +1,6 @@
 #define GINPUT_PAD1_PRESSED_SIZED_VOLATILE
 #include "../types.h"
+#include "file_transfer.h"
 #include "input.h"
 #include "sound.h"
 
@@ -17,7 +18,6 @@ extern u8 D_80090CB4[];
 
 extern void func_80030090(void);
 extern void func_800300AC(void);
-extern void func_80014FA4(void);
 extern void func_80030250(s32, s32, s32, s32, s32, s32, s32);
 extern s32 func_80030294(void);
 extern void func_8003FFB4(s32);

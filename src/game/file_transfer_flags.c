@@ -8,8 +8,6 @@ extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 
 extern void (*D_8009B10C_callback)(void) asm("D_8009B10C");
 
-void func_80015010(void);
-
 FileTransferDescriptor *File_RequestAsyncTransfer(
     s32 arg0,
     u8 *arg1,

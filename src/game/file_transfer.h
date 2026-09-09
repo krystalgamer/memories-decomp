@@ -35,6 +35,21 @@ FileTransferDescriptor *File_InitTransferDescriptor(
 void File_ActivateTransfer(void);
 void File_WaitForTransfers(void);
 
+/* Puts the loader's control halfword at 0x8009B112 into mode 2, clearing the
+   other bits of its low field. Every caller reaches it through the same
+   guard: only when a primary transfer is active and it is a sector-range
+   one. */
+void func_80015010(void);
+
+/* That guard on its own, with no other work. File_WaitForTransfers spins on
+   it while a transfer is outstanding and no secondary request is pending. */
+void func_80015038(void);
+
+/* Raises the secondary-request word to 0x80 if anything is still in flight,
+   running func_80015038's guard first. The pad handler in func_800307B8
+   calls it to abandon the wait. */
+void func_80014FA4(void);
+
 /* The resident loader's request-and-state word at 0x8009B0F4.
  *
  * Every File_* entry point and every CD/DS sector callback tests or updates
