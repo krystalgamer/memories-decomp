@@ -3,6 +3,7 @@
 #include "card_constants.h"
 #include "file_transfer.h"
 #include "model.h"
+#include "model_cleanup.h"
 
 void func_80050584(s32 arg0) {
     u8 *p;

@@ -7,15 +7,8 @@
 #include "sound.h"
 #include "main_modes.h"
 #include "../unmatched.h"
+#include "model_cleanup.h"
 #include "model_scene_setup.h"
-
-typedef struct {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    u8 b6;
-    u8 b7;
-} Anim;
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
@@ -24,13 +17,11 @@ typedef struct {
 u8 D_8009B26C;
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern u8 D_8009B269;
-extern Anim D_800EF658[];
-
-extern void func_80059CE4(void);
+extern AnimatedBattleModelProperties D_800EF658[];
 
 void Main_RunAnimatedBattle(void)
 {
-    Anim *p;
+    AnimatedBattleModelProperties *p;
     u8 f;
     s32 v;
 
@@ -43,13 +34,27 @@ void Main_RunAnimatedBattle(void)
         func_800530C4();
         func_800533D8();
         p = D_800EF658;
-        if (p->f0 == 0x309) {
+        if (p->model_id == 0x309) {
             D_8009B26C = D_8009B26C | 0x20;
             func_80059C24();
         } else {
-            Model_SetSlotProperties(0, p->f0 - 1, p->f2, p->f4, p->b7, p->b6);
+            Model_SetSlotProperties(
+                0,
+                p->model_id - 1,
+                p->field_02,
+                p->field_04,
+                p->field_07,
+                p->field_06
+            );
             p++;
-            Model_SetSlotProperties(1, p->f0 - 1, p->f2, p->f4, p->b7, p->b6);
+            Model_SetSlotProperties(
+                1,
+                p->model_id - 1,
+                p->field_02,
+                p->field_04,
+                p->field_07,
+                p->field_06
+            );
             Model_SetSlotProperties(2, gDuel_bTerrain);
         }
         Fade_WaitInitIn();
