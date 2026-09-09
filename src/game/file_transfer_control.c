@@ -5,6 +5,7 @@
 #include "file_constants.h"
 #include "file_transfer.h"
 #include "file_cd_transfer.h"
+#include "func_800144B8.h"
 
 /* The primary transfer's step function (0x8001455C) and the three control
    entry points that drive it (0x80014A5C, 0x80014B30, 0x80014C40). The four
@@ -23,7 +24,6 @@ extern char D_8009B104[1];
 extern s32 func_8007B1F4(s32, void *, void *, s32);
 extern s32 func_8007B468(s32, void *, s32, void *, s32);
 extern void CdIntToPos_8007E600(s32, void *);
-extern void func_800144B8(void);
 extern volatile u16 D_8009B124;
 extern volatile s32 D_8009B0E8;
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
