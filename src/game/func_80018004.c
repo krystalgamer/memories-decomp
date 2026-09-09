@@ -4,6 +4,7 @@
 #include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_card_display_state.h"
+#include "func_80018004.h"
 
 DuelCardDisplayObject *func_80018004(DuelCardRecord *card)
 {

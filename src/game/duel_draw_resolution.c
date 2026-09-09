@@ -1,3 +1,4 @@
+#define FUNC_80018004_AMBIENT_POSITION_ARGS
 #include "../types.h"
 #include "duel_draw_resolution.h"
 #include "duel_card.h"
@@ -9,6 +10,7 @@
 #include "duel_rank.h"
 #include "sound.h"
 #include "../unmatched.h"
+#include "func_80018004.h"
 
 extern DuelSideState *D_8009B1C8_hand asm("D_8009B1C8");
 extern ExodiaCardDatabase D_8015C424_cards asm("D_8015C424");
@@ -49,7 +51,6 @@ extern u8 D_8015C424[];
 
 void func_80018C34(u8 *arg0);
 s32 func_80042B40(s32 arg0);
-u8 *func_80018004();
 
 void func_80018DB4(void) {
     u8 *p;
@@ -97,7 +98,7 @@ void func_80018DB4(void) {
             k = a;
         }
         Duel_SetupCardRecord(k, *(s8 *)((u8 *)D_8009B1C8 + 0x18));
-        p = func_80018004(
+        p = (u8 *)func_80018004(
             (u8 *)D_801A7AD8 + k * DUEL_CARD_RECORD_SIZE,
             i * 60 + 0x14E,
             0x92

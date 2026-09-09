@@ -1,3 +1,4 @@
+#define FUNC_80018004_AMBIENT_POSITION_ARGS
 #include "../types.h"
 #include "duel_card.h"
 #include "duel_side_state.h"
@@ -24,12 +25,11 @@ extern void Duel_PopulateCombinedDeckData(void);
 #include "duel_grid.h"
 #include "sound.h"
 #include "../unmatched.h"
+#include "func_80018004.h"
 #include "duel_apply_card_object_flags.h"
 
 extern u8 *D_8009B21C;
 extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
-
-extern u8 *func_80018004(u8 *, s32, s32);
 
 void func_80018608(void)
 {
@@ -200,7 +200,7 @@ void func_8001898C(void) {
                 Duel_SetupCardRecord(idx, *(s8 *)p);
                 idx++;
                 n++;
-                slot->object = func_80018004(placed, y, 0x292);
+                slot->object = (u8 *)func_80018004(placed, y, 0x292);
                 slot++;
                 y += 0x3C;
                 placed += DUEL_CARD_RECORD_SIZE;
