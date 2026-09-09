@@ -124,7 +124,7 @@ int func_800443EC(int value, int data, int small)
     return result;
 }
 
-s32 func_80044470(s32 a0, s32 a1, struct DIRENTRY *cursor, s32 *out_count)
+s32 func_80044470(s32 a0, const char *a1, struct DIRENTRY *cursor, s32 *out_count)
 {
     char work[32];
     s32 retry;
