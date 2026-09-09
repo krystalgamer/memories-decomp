@@ -78,7 +78,7 @@ void *func_800400AC(s32 index, s32 key)
         slot->field_0A = index;
         slot->field_0B = 0;
         slot->field_0C = 0x00808080;
-        slot->field_20 = 0;
+        slot->field_20.word = 0;
         slot->field_10 = 0;
         slot->field_1C = 0;
         slot->field_1A = 0;

@@ -14,8 +14,11 @@
  * words to expose the halves would change how existing users store them --
  * display_slot_lifecycle.c zeroes field_40 and field_48 with single word
  * stores, which would become pairs of halfword stores -- and the build would
- * stop being byte-identical. That is the same hazard display_object.h
- * already records for the byte at 0x22 inside its field_20.
+ * stop being byte-identical. That was the same hazard display_object.h
+ * recorded for the byte at 0x22 inside its field_20; that one has since been
+ * resolved by carrying 0x20 and 0x3C as unions of both widths, so the word
+ * writes keep their sw and the narrow readers still get their halves. The
+ * same device would retire this view; it has not been applied here yet.
  *
  * So the two descriptions coexist on purpose: the canonical record owns the
  * pool and the word-width fields, and this view records the halfword shape
