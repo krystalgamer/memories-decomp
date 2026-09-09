@@ -14,10 +14,10 @@
 #include "duel_card_stat_display.h"
 #include "func_80031E5C.h"
 #include "func_80031EE4.h"
+#include "duel_effect.h"
 
 extern u8 D_8009B24B;
 extern u16 gDuel_wViewerCardID;
-extern u8 D_8009B254;
 
 extern s32 func_800330BC(CardList *);
 void func_8003353C(u8 *p) {

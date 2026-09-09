@@ -257,7 +257,9 @@ typedef char DuelEffectObject_size_must_be_0x1C[
  * func_80028310, and through %hi/%lo everywhere else, including
  * func_8001BD88 and func_8001D670 (still assembly). frontend_scene_states.c,
  * main_run_campaign.c and duel_update_card_pick_cursor.c define the .data
- * arm below for that; build_deck_pane_input.c still declares it privately. */
+ * arm below for that; build_deck_pane_input.c, func_800283F4.c,
+ * func_80028310.c, main_reset_frontend_runtime.c and trade_update.c take the
+ * plain arm. */
 #ifdef D_8009B254_IN_DATA
 extern u8 D_8009B254 __attribute__((section(".data")));
 #else
