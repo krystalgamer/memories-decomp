@@ -5,6 +5,7 @@
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "sound.h"
+#include "../unmatched.h"
 
 /* Small data at 0x8009AF24, owned here: the attack threshold of each trap
    from House of Adhesive Tape through Widespread Ruin, which func_8001F0D0
@@ -132,7 +133,6 @@ s32 func_8001F0D0(u8 *p) {
     return 0;
 }
 
-extern u16 D_8009B162;
 extern u16 D_8009B210;
 extern u16 D_8009B1D0;
 extern s16 D_800F284A[];

@@ -145,4 +145,10 @@ extern u8 D_801AF800[];
  * question from centralizing it. */
 extern s32 D_8009B118;
 
+/* A halfword at 0x8009B162: c_symbols.ld names D_8009B164 two bytes later, so
+ * nothing can sit inside it. Nine files declared it identically as
+ * `extern u16 D_8009B162;` and every use is a scalar read or write, so there
+ * is no per-consumer spelling to preserve. */
+extern u16 D_8009B162;
+
 #endif

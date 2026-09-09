@@ -4,6 +4,7 @@
 #include "duel_grid.h"
 #include "duel_card.h"
 #include "input.h"
+#include "../unmatched.h"
 
 /* Per-frame step for the "pick a card off the field" cursor.
  *
@@ -47,7 +48,6 @@ struct Cursor {
 
 /* gp-relative in the target (0x2CC/0x2CD/0x25A($gp)), so plain scalars. */
 extern u8 D_8009B1D4;
-extern u16 D_8009B162;
 
 /* Absolute in the target, so array-typed to keep them out of small data. */
 

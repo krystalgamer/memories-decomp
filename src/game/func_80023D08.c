@@ -3,6 +3,7 @@
 #include "sound.h"
 #include "display_object_helpers.h"
 #include "duel_grid.h"
+#include "../unmatched.h"
 
 typedef struct {
     u8 pad00[4];
@@ -33,7 +34,6 @@ typedef struct {
     u8 moving;
 } CursorObject;
 
-extern u16 D_8009B162;
 extern u16 D_8009AF20[2];
 extern s16 D_800907AC[2][2][4];
 extern DuelFieldPosition D_80090800[2][20];
