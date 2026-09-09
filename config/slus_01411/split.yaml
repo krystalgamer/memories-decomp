@@ -134,6 +134,7 @@ segments:
       - [0x80f04, .data, game/file_names]
       - [0x80fac, .data, game/duel_field_layout]
       - [0x810a0, data, initialized_data_800908a0]
+      - [0x81198, .data, game/duel_scene_callbacks]
       - [0x811d4, .data, game/duel_terrain_boost]
       - [0x8124c, .data, game/duel_monster_removal_rules]
       - [0x8125c, .data, game/duel_effect_tables]
