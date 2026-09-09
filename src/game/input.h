@@ -121,7 +121,22 @@ extern u16 gInput_wPad1Repeat;
  * each pad-2 name and steps DOWN with --, INPUT_PAD_COUNT times.
  *
  * Only the arms some consumer needs. gInput_wPad2Pressed is the only one of
- * the three with a .data consumer, so it is the only one with that arm. */
+ * the three with a .data consumer, so it is the only one with that arm.
+ *
+ * Some consumers reach pad 2 as element 1 of the pad-1 name rather than by
+ * these names, and that cannot be converted. update_value_setup.c and
+ * trade_update.c declare `volatile u16 D_8009B394[]` and read both `[0]` and
+ * `[1]`; rewriting `[1]` to gInput_wPad2Repeat/gInput_wPad2Pressed is the
+ * obvious tidy-up and it does not build. Measured on update_value_setup.c: the
+ * main_menu module stops matching, and it still fails when only one of the two
+ * symbols is converted, so it is the pad-2 access itself and not an
+ * interaction between them.
+ *
+ * The reason is addressing, not naming. `X[1]` is one materialization of the
+ * pad-1 symbol plus a displacement; the pad-2 name is its own relocation.
+ * Retail chose per site, so both spellings are faithful and neither can be
+ * made to stand in for the other. Same shape as the overlaps recorded in
+ * notes/memory-map.md and the main_menu README. */
 #ifdef GINPUT_PAD2_HELD_IS_VOLATILE
 extern volatile u16 gInput_wPad2Held;
 #else
