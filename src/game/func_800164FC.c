@@ -20,15 +20,15 @@ void func_800164FC(void) {
     s32 h;
     s32 c;
     s32 f;
-    u8 *q;
+    ViewState *q;
     u8 *t;
 
-    q = (u8 *)&D_800F2848;
-    SetGeomScreen(*(s16 *)(q + 0xE));
+    q = &D_800F2848;
+    SetGeomScreen(q->projection);
     SetGeomOffset(0xA0, 0x6C);
     SetFarColor(0, 0, 0);
     do {
-        SetFogNearFar(0x28A, 0x320, *(s16 *)(q + 0xE));
+        SetFogNearFar(0x28A, 0x320, q->projection);
         func_800540B4(2);
 
         if ((D_8009B30C & 2) != 0) {

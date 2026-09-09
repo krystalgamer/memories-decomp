@@ -45,8 +45,8 @@ extern s32 D_80169614;
 void CampaignMap_StartCameraTween(s32 index, s32 steps)
 {
     ViewState *camera = &D_800F2848;
-    /* The same record through a word-sized base: retail reaches field_1C and
-       field_24 off their own register while the first one is still holding
+    /* The same record through a word-sized base: retail reaches view.vrx and
+       view.vrz off their own register while the first one is still holding
        the halfword fields. */
     s32 *cameraLong = (s32 *)&D_800F2848;
     u8 *entry = gCampaignMap_aLocationTable + index * 66;
@@ -164,8 +164,8 @@ s32 CampaignMap_UpdateLocationTransition(void)
     cam->angle = D_801695E4 >> 16;
     cam->field_04 = D_801695E8 >> 16;
     cam->field_00 = D_80169610 >> 16;
-    cam->field_1C = D_801695CC >> 16;
-    cam->field_24 = D_801695D0 >> 16;
+    cam->view.vrx = D_801695CC >> 16;
+    cam->view.vrz = D_801695D0 >> 16;
     D_801695D4 = D_801695D4 - 1;
     if (D_801695D4 == 0) {
         CampaignMap_SetCameraFromLocation(gCampaignMap_Location);

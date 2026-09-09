@@ -18,8 +18,8 @@ void CampaignMap_SetCameraFromLocation(s32 index)
     camera->field_04 = *(u16 *)(entry + 2);
     camera->angle = *(u16 *)(entry + 4);
     camera->field_00 = *(u16 *)(entry + 6);
-    camera->field_1C = *(s16 *)(entry + 8);
-    camera->field_24 = *(s16 *)(entry + 0xA);
+    camera->view.vrx = *(s16 *)(entry + 8);
+    camera->view.vrz = *(s16 *)(entry + 0xA);
     func_8001352C();
 }
 
@@ -48,7 +48,7 @@ void CampaignMap_ResetCamera(void)
 {
     ViewState *camera = &D_800F2848;
     /* A second base register, +0x10 into the same record, which is what
-       retail uses to reach field_1C, field_20 and field_24 while the first
+       retail uses to reach view.vrx, view.vry and view.vrz while the first
        one is still holding the halfword fields. */
     u8 *matrix = (u8 *)&D_800F2848 + 0x10;
 
@@ -56,8 +56,8 @@ void CampaignMap_ResetCamera(void)
     camera->angle = 0x640;
     camera->field_04 = 0x180;
     camera->field_0C = 0;
-    camera->field_28 = 0;
-    camera->field_2C = 0;
+    camera->view.rz = 0;
+    camera->view.super = 0;
     camera->projection = 0x12C;
     func_800857C0(0x12C);
     *(s32 *)(matrix + 0x0C) = 0;
@@ -85,7 +85,7 @@ void CampaignMap_MoveCameraDpad(void)
                 if ((gInput_wPad1Held & 0x8000) != 0) {
                     step = -step;
                 }
-                camera->field_1C = camera->field_1C + step;
+                camera->view.vrx = camera->view.vrx + step;
             }
             if ((gInput_wPad1Held & 0x5000) != 0) {
                 if ((gInput_wPad1Held & 0x40) != 0) {
@@ -96,7 +96,7 @@ void CampaignMap_MoveCameraDpad(void)
                 if ((gInput_wPad1Held & 0x4000) != 0) {
                     step = -step;
                 }
-                camera->field_24 = camera->field_24 + step;
+                camera->view.vrz = camera->view.vrz + step;
             }
         } else {
             if ((gInput_wPad1Held & 0xA000) != 0) {

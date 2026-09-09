@@ -15,8 +15,8 @@ void func_80017130(void)
     s->angle = 0x400;
     s->field_04 = 0x100;
     s->field_0C = 0;
-    s->field_28 = 0;
-    s->field_2C = 0;
+    s->view.rz = 0;
+    s->view.super = 0;
     s->projection = 0x12C;
     func_800857C0(0x12C);
     words[3] = 0;
