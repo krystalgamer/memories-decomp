@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "text_box_lifecycle.h"
 #include "duel_effect.h"
+#include "func_8002A2F4.h"
 
 extern s16 gDuel_wSelectedCardID;
 extern u8 D_8009B320;
