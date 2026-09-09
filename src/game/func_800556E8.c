@@ -33,7 +33,7 @@ void func_800556E8(s32 index) {
     }
     if (*(u32 *)((u8 *)m + 0xDD8) != 0) {
         anim = m->field_BF5;
-        length = m->field_7C4[anim].field_00 << 4;
+        length = m->field_750[anim].max << 4;
         speed = m->field_E0D * func_80058E1C();
         if (anim == 6) {
             lim = length - speed;
