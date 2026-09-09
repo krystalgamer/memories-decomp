@@ -7,7 +7,7 @@
 extern u8 D_800EAE88[];
 
 s32 func_80027060(void) {
-    u8 *sp10[6];
+    DuelCardRecord *sp10[6];
     s32 slot;
     s8 v;
 
@@ -18,7 +18,7 @@ s32 func_80027060(void) {
     if (slot < 0) {
         return 1;
     }
-    v = sp10[0][0x18];
+    v = sp10[0]->table_index;
     D_800EAE88[8] = 1;
     D_800EAE88[1] = 0;
     D_800EAE88[7] = 0;

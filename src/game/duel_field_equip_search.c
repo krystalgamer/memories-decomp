@@ -9,7 +9,8 @@ extern u8 D_800EAE88[];
 
 extern s32 Duel_CheckEquip(s32 card_a, s32 card_b);
 
-s32 Duel_CollectFieldCardsBelowType(u8 **out, s32 arg1, s32 arg2)
+s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1,
+                                    s32 arg2)
 {
     /* Retail keeps the result count in t0 and the five-entry index in a3. */
     register s32 count asm("$8") = 0;
@@ -29,7 +30,7 @@ s32 Duel_CollectFieldCardsBelowType(u8 **out, s32 arg1, s32 arg2)
                 k--;
                 if (((t[k] >> CARD_STAT_TYPE_SHIFT) &
                      CARD_STAT_TYPE_MASK) < arg2) {
-                    *out++ = (u8 *)r;
+                    *out++ = r;
                     count++;
                 }
             }
@@ -42,7 +43,8 @@ s32 Duel_CollectFieldCardsBelowType(u8 **out, s32 arg1, s32 arg2)
     return count;
 }
 
-s32 Duel_CollectFieldCardsByType(u8 **out, s32 arg1, s32 arg2) {
+s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 arg1,
+                                 s32 arg2) {
     s32 count = 0;
     s32 i = 0;
     s32 d = D_8009B1D5;
@@ -64,7 +66,7 @@ s32 Duel_CollectFieldCardsByType(u8 **out, s32 arg1, s32 arg2) {
                     (k = (s16)r->card_id, k--,
                      ((t[k] >> CARD_STAT_TYPE_SHIFT) &
                       CARD_STAT_TYPE_MASK) == arg2)) {
-                    *out++ = (u8 *)r;
+                    *out++ = r;
                     count++;
                 }
             }
@@ -79,12 +81,12 @@ s32 Duel_CollectFieldCardsByType(u8 **out, s32 arg1, s32 arg2) {
 }
 
 s32 func_80026DC8(void) {
-    u8 *a[DUEL_FIELD_ROW_SIZE + 1];
-    u8 *b[DUEL_FIELD_ROW_SIZE + 1];
-    u8 **q;
-    u8 **r;
-    u8 *e;
-    u8 *f;
+    DuelCardRecord *a[DUEL_FIELD_ROW_SIZE + 1];
+    DuelCardRecord *b[DUEL_FIELD_ROW_SIZE + 1];
+    DuelCardRecord **q;
+    DuelCardRecord **r;
+    DuelCardRecord *e;
+    DuelCardRecord *f;
     s32 n;
     s32 u;
     s32 w;
@@ -92,31 +94,30 @@ s32 func_80026DC8(void) {
     if (Duel_CollectFieldCardsByType(b, 0, CARD_TYPE_EQUIP) != 0) {
         Duel_CollectFieldCardsByType(a, DUEL_FIELD_ROW_SIZE, -1);
         e = b[0];
-        if (e != (u8 *)0) {
+        if (e != 0) {
             r = b;
             do {
                 f = a[0];
-                if (f != (u8 *)0) {
+                if (f != 0) {
                     q = a;
                     do {
-                        if (Duel_CheckEquip(*(s16 *)(e + 0xC),
-                                            *(s16 *)(f + 0xC)) != 0) {
+                        if (Duel_CheckEquip(e->card_id, f->card_id) != 0) {
                             D_800EAE88[0] =
-                                *(s8 *)(e + 0x18) % DUEL_FIELD_ROW_SIZE + 0xB;
+                                *(s8 *)&e->table_index % DUEL_FIELD_ROW_SIZE + 0xB;
                             D_800EAE88[1] = 0;
                             D_800EAE88[6] =
-                                *(s8 *)(f + 0x18) % DUEL_FIELD_ROW_SIZE + 1;
+                                *(s8 *)&f->table_index % DUEL_FIELD_ROW_SIZE + 1;
                             D_800EAE88[7] = 0;
                             D_800EAE88[8] = 0;
                             return 0;
                         }
                         q++;
                         f = *q;
-                    } while (f != (u8 *)0);
+                    } while (f != 0);
                 }
                 r++;
                 e = *r;
-            } while (e != (u8 *)0);
+            } while (e != 0);
         }
 
         n = func_80026C0C(DUEL_FIELD_ROW_SIZE);
@@ -125,19 +126,18 @@ s32 func_80026DC8(void) {
         }
         Duel_CollectFieldCardsBelowType(a, 0, CARD_TYPE_MAGIC);
         e = b[0];
-        if (e != (u8 *)0) {
+        if (e != 0) {
             r = b;
             do {
                 f = a[0];
-                if (f != (u8 *)0) {
+                if (f != 0) {
                     q = a;
                     do {
-                        if (Duel_CheckEquip(*(s16 *)(e + 0xC),
-                                            *(s16 *)(f + 0xC)) != 0) {
-                            u = *(s8 *)(f + 0x18);
+                        if (Duel_CheckEquip(e->card_id, f->card_id) != 0) {
+                            u = *(s8 *)&f->table_index;
                             D_800EAE88[0] =
                                 u % DUEL_FIELD_ROW_SIZE + 0xB;
-                            w = *(s8 *)(e + 0x18);
+                            w = *(s8 *)&e->table_index;
                             D_800EAE88[2] = 0;
                             D_800EAE88[7] = 0;
                             D_800EAE88[8] = 0;
@@ -149,11 +149,11 @@ s32 func_80026DC8(void) {
                         }
                         q++;
                         f = *q;
-                    } while (f != (u8 *)0);
+                    } while (f != 0);
                 }
                 r++;
                 e = *r;
-            } while (e != (u8 *)0);
+            } while (e != 0);
         }
     }
     return 1;
