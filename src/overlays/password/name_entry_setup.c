@@ -21,7 +21,7 @@ extern u8 D_801B125A[];
 extern u8 gSaveData_aPlayerNameSjis[];
 extern void func_800403F0(void);
 extern void func_8003BC40(u8 *, u8 *, s32);
-extern DuelEffectChannel *func_80035BE4(s32, s32, s32, s32, s32, s32);
+extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
 void NameEntry_BuildKeyboardTextBox(s32 textOffset)

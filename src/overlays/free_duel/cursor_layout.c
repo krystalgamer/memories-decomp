@@ -23,7 +23,7 @@ typedef struct {
 } Pair;
 
 extern Pair D_801D5608;
-extern void func_80035BE4(s32, s32, s32, s32, s32, s32);
+extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
 
 void FreeDuel_UpdateScrollbar(void)
 {
