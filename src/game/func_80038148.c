@@ -2,7 +2,6 @@
 #include "text_encode_decimal_digits.h"
 #include "text_constants.h"
 
-extern u16 D_800EAFF8[];
 extern u32 func_80036D70(u8 *);
 
 void func_80038148(u8 *p)

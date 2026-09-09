@@ -5,7 +5,6 @@
 #include "../../game/text_constants.h"
 #include "../../game/text_box_runtime.h"
 
-extern u16 D_800EAFF8[];
 extern u8 D_801B1245[];
 extern s32 D_801D07E0;
 extern s32 D_801D5608;

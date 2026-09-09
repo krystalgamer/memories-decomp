@@ -38,4 +38,19 @@ extern u16 D_801D5800[];
  * for the same reason the banks above carry none. */
 extern u8 gText_abColorSlots[];
 
+/* The digit glyph-index table. func_8003B5C8.c fills it, and its note there
+ * says what with: each of the ten Shift-JIS digit keys is looked up in the
+ * table at D_801D9004 and the 1-based match index is written here.
+ * refresh_displays.c then reads it as `D_800EAFF8[gPassword_abDigits[i]]` to
+ * turn an entered digit into a glyph, and func_80038148.c reads element 0 and
+ * one chosen by a buffer byte.
+ *
+ * The incomplete-array spelling all three consumers already used is kept, and
+ * for the usual reason: nothing here fixes the length. func_80038148.c writes
+ * its reads as `*(u16 *)&D_800EAFF8[i]` even though the elements are already
+ * u16; that cast is left exactly where it is, since a redundant-looking cast
+ * in matched code is the kind of thing that turns out to be load bearing.
+ */
+extern u16 D_800EAFF8[];
+
 #endif
