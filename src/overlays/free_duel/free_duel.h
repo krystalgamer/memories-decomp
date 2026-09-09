@@ -26,4 +26,8 @@ extern u8 gFreeDuel_bScreenFlags;
 
 extern void *gFreeDuel_apSparklePool[];
 
+void FreeDuel_Entry(void);
+/* Resident entry alias used before this overlay is linked into its slot. */
+void func_80168FB4(void);
+
 #endif

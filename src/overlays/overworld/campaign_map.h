@@ -41,4 +41,9 @@ extern s32 gCampaignMap_MoveState;
 extern u8 D_801695EC;
 extern u8 D_8016960D;
 
+void CampaignMap_SetLocation(s32 index);
+void CampaignMap_UpdateLocation(void);
+/* Resident entry alias used before this overlay is linked into its slot. */
+void func_8016866C(s32 index);
+
 #endif
