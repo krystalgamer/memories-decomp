@@ -171,11 +171,21 @@ extern char D_8009B104[1];
 /* A counter the CD and stream paths bump at each step they complete. */
 extern s32 D_8009B130;
 
-/* gFile_SecondaryTransferDescriptor is deliberately absent. Four of its five
- * declarers spell it FileTransferDescriptor and file_cd_transfer.c spells it
- * `u8 []`. Four against one is a tempting majority, but it is not evidence:
- * that file is also the one that reaches the loader words through inline
- * assembly, so its spelling may be load-bearing in the way D_8009B100's
- * gp-relative store is. Settling it needs a measurement, not a vote. */
+/* The descriptor File_ActivateTransfer copies into the primary one.
+ *
+ * This was deliberately absent until now, on the grounds that four of five
+ * declarers spelling it FileTransferDescriptor while file_cd_transfer.c
+ * spelled it `u8 []` was a majority rather than evidence: that file also
+ * reaches the loader words through inline assembly, so its spelling might
+ * have been load-bearing. The note asked for a measurement rather than a
+ * vote, so here is one.
+ *
+ * Converting file_cd_transfer.c alone, changing nothing else, builds the
+ * executable byte for byte. The `u8 []` spelling was not load-bearing, and
+ * the one access it guarded -- a whole-record copy written
+ * `*(Block72 *)gFile_SecondaryTransferDescriptor` -- becomes
+ * `*(Block72 *)&gFile_SecondaryTransferDescriptor`, which is the form that
+ * file already used on the line above for the primary descriptor. */
+extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 
 #endif
