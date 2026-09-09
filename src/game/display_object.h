@@ -243,7 +243,12 @@ typedef struct DisplayObject {
        it to func_800428A8. The bytes either side stay padding: nothing here
        evidences them. */
     u8 field_69;                   /* 0x69 */
-    u8 pad_6A[2];                  /* 0x6A */
+    /* func_8001D518.c copies a byte into this offset when it builds the
+       projection slot's object, taking it from 0x0A on the record it is given.
+       That is the only evidence for it, so it takes the offset for a name and
+       0x6B stays padding. */
+    u8 field_6A;                   /* 0x6A */
+    u8 pad_6B[1];                  /* 0x6B */
     u8 field_6C;                   /* 0x6C */
     u8 pad_6D[DISPLAY_OBJECT_RECORD_SIZE - 0x6D];
 } DisplayObject;
