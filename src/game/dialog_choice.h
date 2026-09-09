@@ -31,4 +31,22 @@
 extern u8 gDialog_bChoiceEnabled;
 extern s8 gDialog_bChoiceCount;
 
+/* The selected index the other two are read against. #3149 left this out
+ * because it is declared eleven times in four spellings; sorting those into
+ * addressing groups, as #3154 sets out, reduces it to one question that has
+ * now been measured.
+ *
+ * Five sources spell it `s8` with a .data section attribute and one spells it
+ * `s8 [9]`; both of those are the lever that keeps it out of -G8 small data,
+ * and none of those six includes this header, so they never meet the
+ * declaration below and no guarded arm is needed here.
+ *
+ * Of the five that reach it from small data, four spelled it s8 and
+ * dialog_read_choice_input.c spelled it u8. That was an abstention rather
+ * than a disagreement: every use there is `u8 choice = gDialog_bChoice`,
+ * assigning straight into a u8 local, so the load's signedness does not
+ * survive. Taking s8 there builds byte for byte.
+ */
+extern s8 gDialog_bChoice;
+
 #endif

@@ -12,7 +12,6 @@
 #include "dialog_choice.h"
 
 extern u8 gDialog_bInputState;
-extern s8 gDialog_bChoice;
 
 extern s32 Dialog_ReadChoiceInput(u8 *);
 extern void Widget_UpdatePulseColour(u8 *);

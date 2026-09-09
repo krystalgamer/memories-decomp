@@ -5,7 +5,6 @@
 #include "../unmatched.h"
 #include "dialog_choice.h"
 
-extern s8 gDialog_bChoice;
 extern u8 gDialog_bInputState;
 
 extern void Text_SetCursorOffset(u8 *);

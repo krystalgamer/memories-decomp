@@ -5,8 +5,6 @@
 #include "sound.h"
 #include "dialog_choice.h"
 
-extern u8 gDialog_bChoice;
-
 /* Up, down or R1 on the repeat pad moves the dialog's choice cursor. R1
    wraps to the top; the directions clamp and report the press as handled
    without re-playing the cursor sound.

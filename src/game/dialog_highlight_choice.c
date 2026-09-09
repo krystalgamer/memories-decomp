@@ -3,8 +3,6 @@
 #include "duel_effect_update_object_layout.h"
 #include "dialog_choice.h"
 
-extern s8 gDialog_bChoice;
-
 void Dialog_HighlightChoice(u8 *record)
 {
     s32 value;
