@@ -28,8 +28,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
 extern struct Rec *D_8009B280;
-extern u16 D_8009B2A8;
-extern u16 D_8009B2AA;
 extern u16 D_8009B270;
 
 extern void func_8002DF2C(void *, s32);

@@ -35,4 +35,20 @@ extern u16 D_8009B27C;
  */
 extern u8 *D_8009B290;
 
+/* The viewport tween target, X then Y, as two consecutive halfwords.
+ *
+ * func_8002E6B8 and Script_OpViewportTween read them out of the script
+ * stream as little-endian operands (cursor[0] | (cursor[1] << 8));
+ * Script_OpShowImage copies them straight into gGraphics_sViewportX/Y,
+ * and Script_UpdateViewportTween interpolates the viewport towards them,
+ * reading them signed for the delta (`*(s16 *)&D_8009B2A8`, retail lh)
+ * and unsigned for the final copy (retail lhu). Retail reaches them
+ * gp-relative in all four of those units.
+ *
+ * duel_effect_interaction_states.c keeps its own spelling for the same
+ * reason as D_8009B27C above -- an array plus a scalar asm() alias, with
+ * its comment on why -- and must not be switched to these. */
+extern u16 D_8009B2A8;
+extern u16 D_8009B2AA;
+
 #endif

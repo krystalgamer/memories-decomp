@@ -7,8 +7,6 @@ extern s32 D_8009B288;
 extern s32 D_8009B294;
 extern s32 D_8009B298;
 extern u16 D_8009B29C;
-extern s16 D_8009B2A8;
-extern s16 D_8009B2AA;
 
 s32 func_8002E3B4(void);
 

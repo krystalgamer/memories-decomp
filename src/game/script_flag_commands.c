@@ -3,8 +3,6 @@
 #include "script_state.h"
 
 extern u16 D_8009B29C;
-extern u16 D_8009B2A8;
-extern u16 D_8009B2AA;
 extern u8 D_801A8000[];
 void func_8002E918(void)
 {
