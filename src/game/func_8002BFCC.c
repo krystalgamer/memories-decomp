@@ -7,6 +7,7 @@
 #include "graphics_frame.h"
 #include "text_box_lifecycle.h"
 #include "duel_card.h"
+#include "duel_effect_resource_record.h"
 
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
@@ -17,7 +18,7 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
 extern u8 gCardGrid_bCursorColumn;
 extern u8 gCardGrid_bCursorRow;
 extern void (*D_800E9DBC[])(void);
-extern u8 D_800EA0E8[];
+extern DuelEffectResourceRecord D_800EA0E8[];
 extern u8 D_800EA1E8[];
 extern s32 D_801D5608[];
 
@@ -33,7 +34,7 @@ void func_8002BD0C(void);
 
 void func_8002BFCC(void) {
     s16 *q;
-    u8 *b;
+    DuelEffectResourceRecord *b;
     u8 *r;
     u8 *o;
     u8 *e;
@@ -54,11 +55,11 @@ void func_8002BFCC(void) {
     func_80029574(0);
     n = CARD_COUNT - 1;
     q = (s16 *)0x801805A2;
-    b = D_800EA0E8;
-    *(s16 *)(b + 0x28) = 0x100;
-    *(s16 *)(b + 0x2A) = 0x100;
-    *(s16 *)(b + 0x2C) = 0x200;
-    *(s16 *)(b + 0x2E) = 0xF0;
+    b = &D_800EA0E8[0];
+    b->src_x = 0x100;
+    b->src_y = 0x100;
+    b->field_2C = 0x200;
+    b->field_2E = 0xF0;
     do {
         *q = n + 1;
         n--;
