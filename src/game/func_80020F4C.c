@@ -14,6 +14,7 @@
 #include "../unmatched.h"
 #include "duel_side_state.h"
 #include "func_80020F4C.h"
+#include "duel_screen_tables.h"
 
 /* Duel-result outro sequence, driven from the scene state word D_8009B23A.
 
@@ -57,8 +58,6 @@ extern DisplayObject *D_8009B21C;
 extern u8 D_8009B362 __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern u16 gDuel_awRitualData[];
-extern DuelResultSpriteSpec D_80090928[][DUEL_RESULT_SPRITE_COUNT];
-extern DuelResultSpriteSpec D_80090960[][DUEL_RESULT_SPRITE_COUNT];
 
 void func_80020F4C(void)
 {

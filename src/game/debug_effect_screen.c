@@ -16,6 +16,7 @@
 #include "display_object.h"
 #include "duel_card_display_state.h"
 #include "../unmatched.h"
+#include "duel_screen_tables.h"
 #include "debug_effect_screen.h"
 
 /* The developer effect-preview screen: a pad-driven camera and viewport
@@ -35,7 +36,6 @@ extern u8 D_8009AF2D;
 extern u8 D_8009AF2E;
 extern u8 *D_8009B180;
 extern u8 *D_8009B184;
-extern u16 D_800908A0[];
 extern DuelCardRecord D_801A7B80[];
 
 /* "~c0702D EFFECT = %2d %2d\n" */
