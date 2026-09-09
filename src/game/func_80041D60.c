@@ -1,5 +1,6 @@
 #define D_8009B0D8_IS_HALFWORD
 #include "../types.h"
+#include "func_80041D60.h"
 #include "graphics_frame.h"
 
 /* If arg0's 0x10 state bit isn't set yet: marks it set, resets f58/f5A,
@@ -15,7 +16,7 @@
    arg1 and arg2 are read, not just written. The first-time path assigns
    both before jumping to the call, but the cooldown path falls into the
    same call with neither assigned, so on that path they are whatever the
-   caller left in $a1 and $a2. Both callers pass one argument, so on the
+   caller left in $a1 and $a2. All three callers pass one argument, so on the
    cooldown path func_80041C8C receives two values the caller never
    supplied. That is what the retail image does. Declaring the real
    three-argument prototype at either call site makes the call a
