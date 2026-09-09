@@ -2,7 +2,6 @@
 #include "file_transfer.h"
 
 extern u32 D_8009B10C;
-extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 
 extern void (*D_8009B10C_callback)(void) asm("D_8009B10C");
 
