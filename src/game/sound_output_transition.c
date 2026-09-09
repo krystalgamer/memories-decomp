@@ -4,18 +4,6 @@
 #include "sound.h"
 #include "sound_output_transition.h"
 
-typedef struct {
-    int field0;
-    short field4;
-    short field6;
-    char pad8[8];
-    short field10;
-    short field12;
-    int field14;
-    int field18;
-    int pad1C[3];
-} Entry;
-
 void func_8004666C(void)
 {
     SDValue *first = g_SDValue;
@@ -53,13 +41,17 @@ void func_800466C8(void)
 
 void func_8004671C(void)
 {
-    Entry entry;
-    entry.field0 = 707;
-    entry.field4 = 16383;
-    entry.field6 = 16383;
-    entry.field10 = 32767;
-    entry.field12 = 32767;
-    entry.field14 = 0;
-    entry.field18 = 1;
-    SpuSetCommonAttr((SpuCommonAttr *)&entry);
+    SpuCommonAttr entry;
+
+    /* 707 is exactly these five bits, and the two fields it does not select
+       are still written because retail writes them. */
+    entry.mask = SPU_COMMON_MVOLL | SPU_COMMON_MVOLR | SPU_COMMON_CDVOLL |
+                 SPU_COMMON_CDVOLR | SPU_COMMON_CDMIX;
+    entry.mvol.left = 16383;
+    entry.mvol.right = 16383;
+    entry.cd.volume.left = 32767;
+    entry.cd.volume.right = 32767;
+    entry.cd.reverb = SPU_OFF;
+    entry.cd.mix = SPU_ON;
+    SpuSetCommonAttr(&entry);
 }
