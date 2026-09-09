@@ -4,6 +4,7 @@
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "util_memory.h"
+#include "func_8003A1EC.h"
 #include "../unmatched.h"
 
 typedef struct {
@@ -21,7 +22,6 @@ extern s8 D_8015C410[];
 extern u8 *D_80010000 __attribute__((section(".data")));
 
 extern void func_8003A01C(u8 *, s32);
-extern s32 func_8003A1EC(u8 *, u8 **, s32);
 
 void func_8003A560(u8 *a)
 {

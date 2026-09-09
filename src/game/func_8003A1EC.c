@@ -2,6 +2,7 @@
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
+#include "func_8003A1EC.h"
 #include "../unmatched.h"
 
 extern s32 func_8003A198(u8 *, s32, s32, s32);
