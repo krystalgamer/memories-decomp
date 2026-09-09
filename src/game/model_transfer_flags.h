@@ -30,11 +30,20 @@
  *               although the declaration is already s8; that cast is left
  *               exactly where it is.
  *
- * D_8009B074 sits in the same run and is deliberately absent: func_8005F91C.c
- * and model_transfer_state.c spell it s32 while func_8005EBF4.c spells it
- * u8 *, and a pointer against a word is a question about what the storage is,
- * not a spelling to pick.
+ * D_8009B074 sits in the same run. func_8005F91C.c and model_transfer_state.c
+ * spelled it s32 while func_8005EBF4.c spelled it u8 *, and a pointer against
+ * a word is a question about what the storage is, not a spelling to pick.
+ * The listings answer it: every retail read of the word is a base for a load
+ * at a fixed offset (lhu 0x22 and 0x24, lbu 0x26, lh 0x6, or an addu with an
+ * index and then lhu) or a beqz null test, and both writes store either the
+ * address of D_800F5788 (func_8005F91C) or zero (func_8005FAE4). So it is a
+ * pointer, and the two s32 spellings were casts around one. func_8005EBF4.c
+ * walks it as bytes and func_8005F91C.c stores it from a u8 array, so u8 *
+ * is what the uses claim; func_8005DBA4 and func_8005E808 (still assembly)
+ * read it the same way. Every retail access is gp-relative, so no unit needs
+ * an arm.
  */
+extern u8 *D_8009B074;
 extern u8 D_8009B078;
 extern u8 D_8009B079;
 extern s8 D_8009B07A;
