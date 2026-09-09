@@ -6910,6 +6910,25 @@ header. Anchoring on statement boundaries is not enough; the check has to
 know it is at file scope, and has to exclude `return`, `case` and `goto`
 from the type position.
 
+And a second way, found later and worth separating from the first because it
+manufactures conflicts rather than owners. One `extern` statement may carry
+several declarators:
+
+    extern u8 D_8009B368[9], D_8009B362[9], gCampaignSceneIndex;
+
+A regex that captures "everything between `extern` and the symbol" as the type
+reads the trailing part of that line as a spelling, and reports
+`gCampaignSceneIndex` as declared both `u8` and
+`u8 D_8009B368[9], D_8009B362[9],`. Two symbols were listed as disputed on
+that basis and neither is: every declarer agrees. The scan has to split on
+commas inside the statement before it decides anything about a type.
+
+The two failure directions matter differently. A miss leaves work undone and
+is discovered by someone else later. An invention sends you to reconcile a
+disagreement that does not exist, and the reconciliation is a source change
+that has to be justified to a reviewer -- so it costs more than it looks and
+it is the one to guard against first.
+
 The `D_80090800` case is worth following to the end, because the wrong survey
 led to the wrong plan. On the four-consumer reading it looked like a symbol
 needing the two-arm `#ifdef` treatment `D_800907D8` has, one arm per shape.

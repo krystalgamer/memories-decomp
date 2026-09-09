@@ -110,7 +110,7 @@ void func_8003F454(void)
                 (ObjectState *)D_8009B3D8, 0x20, 0x100, D_8009B3EE
             ) == 0) {
             TextBox_Destroy(D_800EB0F8_raw + D_8009B3EE * 100);
-            func_8004036C((s32)D_8009B3D8);
+            func_8004036C(D_8009B3D8);
             D_8009B3D8 = (u8 *)0;
         }
         return;
