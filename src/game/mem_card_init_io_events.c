@@ -6,9 +6,6 @@
 #include "io_event_helpers.h"
 #include "mem_card_io_result_callbacks.h"
 
-extern s8 D_8009B43E;
-extern u8 D_8009B44E;
-
 void MemCard_InitIOEvents(void)
 {
     register long *items;

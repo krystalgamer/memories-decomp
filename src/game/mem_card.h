@@ -119,6 +119,25 @@ extern long D_800F2AF0[];
  * retail materialises the %hi half in its own register. Declaring it here
  * changes where the spelling lives, not the spelling. */
 extern u8 D_8009B3EF;
+/* The retry gate shared by the create and load state machines: both test it
+ * against zero before starting, and the create path clears it.
+ *
+ * #3084 excluded this symbol on the grounds that func_8002D458.c also names
+ * it and so it was not family-local. That was over-cautious: that source
+ * spells it with a .data section attribute, which is the absolute-addressing
+ * group rather than a different type, and it does not include this header, so
+ * the two never meet. The same reasoning fade.h uses for D_8009B141. */
+extern u8 D_8009B3D4;
+
+/* The IO event machinery's own two bytes.
+ *
+ *   D_8009B43E  A signed state, armed from a caller's argument and tested as
+ *               `>= 0`, `== 1` and `!= 8`, so the sign and the specific
+ *               values both matter.
+ *   D_8009B44E  A flag byte; the callbacks set and test bit 0x80 and the
+ *               init path clears the whole byte. */
+extern s8 D_8009B43E;
+extern u8 D_8009B44E;
 /* The dialog message the save path raises: func_8003F8D4.c and
  * func_8003FCD8.c set it to 0x29, 40 and 36 at different failures and
  * two_player_save_setup.c reads it back. All three spell it plain u8. */
