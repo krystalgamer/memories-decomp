@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_constants.h"
 #include "duel_side_state.h"
 #include "duel_grid.h"
 #include "ai.h"
@@ -75,11 +76,16 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
         stats = *(s32 *)((s32)table + ((id - 1) << 2));
         D_8009B34E = 1;
         gDuel_wSelectedCardID = id;
-        if (((stats >> 26) & 0x1F) < 0x14) {
+        if (((stats >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) <
+            CARD_TYPE_MAGIC) {
             if (record->flags & 0x200) {
-                D_8009B344 = (stats >> 18) & 0xF;
+                D_8009B344 =
+                    (stats >> CARD_STAT_GUARDIAN_STAR_2_SHIFT) &
+                    CARD_STAT_GUARDIAN_STAR_MASK;
             } else {
-                D_8009B344 = (stats >> 22) & 0xF;
+                D_8009B344 =
+                    (stats >> CARD_STAT_GUARDIAN_STAR_1_SHIFT) &
+                    CARD_STAT_GUARDIAN_STAR_MASK;
             }
             D_8009B344 = D_8009B344 + 0x17;
             value = Duel_CalcCardStats(record);
