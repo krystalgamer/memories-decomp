@@ -6,8 +6,6 @@
 #include "duel_effect.h"
 #include "../unmatched.h"
 
-extern u8 D_8009B3DE;
-extern u8 D_8009B3EF;
 extern void func_8003F454(void);
 
 int func_8003F70C(void)
@@ -26,7 +24,6 @@ void func_8003F740(s32 value)
     D_8009B3C1 = 0;
 }
 
-extern u8 D_8009B3DC;
 void func_8003F758(void *arg0, s32 arg1, u8 *arg2, s32 arg3)
 {
     strcpy(D_800EFE18, arg2);

@@ -13,7 +13,6 @@ typedef char MemCardDirectoryEntry_size_must_match[
 
 extern u8 D_80010538[];
 extern u8 D_800F2B00[];
-extern long D_800F2AF0[];
 extern s32 D_8009B430;
 extern s16 D_8009B434;
 extern u8 D_8009B437;
