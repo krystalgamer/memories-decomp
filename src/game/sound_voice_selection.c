@@ -203,7 +203,6 @@ void func_80047CC4(s32 value)
 }
 
 extern void func_800464F0(void);
-extern void func_80047C70(s32);
 
 void func_80047DB0(s32 arg)
 {
