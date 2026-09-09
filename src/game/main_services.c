@@ -9,6 +9,7 @@
 #include "../psyq/rand.h"
 #include "fade.h"
 #include "file_set_position_table.h"
+#include "func_800136D4.h"
 #include "graphics_constants.h"
 #include "graphics_frame.h"
 #include "main_frame.h"
@@ -51,7 +52,6 @@ extern volatile u8 D_8009B0A2;
 extern volatile u8 D_8009B0A3;
 extern DISPENV D_800FE0A8;
 
-extern void func_800136D4(void);
 extern void func_80014A5C(s32 a0);
 extern void func_80041340(void);
 
