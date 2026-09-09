@@ -3,8 +3,8 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "screen_projection.h"
+#include "view_state.h"
 
-extern s16 D_800F2856;
 extern u16 D_800908A0[];
 
 /* Projects the coordinate pair at D_800908A0[index * 2] through the GTE and
@@ -17,7 +17,7 @@ s16 func_8001B0CC(s32 index)
     register s32 coord asm("$16") = index;
     s16 result;
 
-    SetGeomScreen(D_800F2856);
+    SetGeomScreen(D_800F2848.projection);
     coord = coord * 4;
     SetGeomOffset(0xA0, 0x6C);
     GsSetLsMatrix(&D_800FE148);
