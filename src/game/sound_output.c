@@ -87,7 +87,6 @@ void func_80046DE8(void)
 #include "sound_init.h"
 #include "sound_pending_entries.h"
 #include "sound_output.h"
-extern void func_80046A08(void);
 extern void func_800490F0(s16, u8);
 extern void func_80049108(s16, u8);
 extern void func_80049138(s32, s32);

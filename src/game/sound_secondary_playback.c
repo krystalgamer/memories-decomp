@@ -10,12 +10,10 @@ typedef struct {
     u8 pad_0C[52];
 } VoiceAttributePacket;
 
-extern void func_8004A518(void);
 extern void SD_StartSequenceTracks(SDSecondaryState *);
 /* Preserve the no-argument call form used by the playback-start variant. */
 extern void SD_StartSequenceTracks_no_arg(void) asm("SD_StartSequenceTracks");
 extern s32 SD_GetSequenceStatus(void);
-extern void SD_ResetSequenceTracks(void);
 
 int func_80049A64(void *input, short value)
 {
