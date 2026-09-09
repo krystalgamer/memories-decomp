@@ -2,6 +2,7 @@
 #include "duel_effect.h"
 #include "duel_effect_mode_7.h"
 #include "file_transfer.h"
+#include "func_80024DC8.h"
 #include "func_8003FCD8.h"
 #include "movie_playback_control.h"
 #include "../unmatched.h"
@@ -29,7 +30,6 @@ extern u8 D_8009B3ED[];
 extern u16 gDebug_nSceneOrSoundID;
 
 extern void func_80030250(void *, int, int, int, int, int, int);
-extern void func_80024DC8(int, int, int, int);
 void func_80030C10(void)
 {
     u8 flags = D_8009B2EB;

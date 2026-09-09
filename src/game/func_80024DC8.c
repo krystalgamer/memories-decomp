@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80024DC8.h"
 
 extern s8 D_8009B360;
 extern s8 gDuel_bOpponentID;
