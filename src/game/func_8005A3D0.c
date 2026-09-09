@@ -1,17 +1,15 @@
 #include "../types.h"
+#include "model.h"
 
+/* What ModelSlot.entries points at, as far as this function is concerned: a
+   0x50-byte record whose 0x4C word is the parent pointer it searches for.
+   model.h types that field as a bare u8 *, so the stride lives here rather
+   than there, and this stays local until a second user needs it. */
 typedef struct ModelLink {
     u8 pad_00[0x4C];
     void *parent;
     u8 pad_50[0x50 - 0x4C - 4];
 } ModelLink;
-
-typedef struct {
-    u8 pad_000[0xD14];
-    ModelLink *links;
-    u8 pad_D18[0xE17 - 0xD18];
-    u8 link_count;
-} ModelSlot;
 
 s32 func_8005A3D0(ModelSlot *model, void *parent)
 {
@@ -23,14 +21,14 @@ s32 func_8005A3D0(ModelSlot *model, void *parent)
     register ModelLink *target asm("a3");
 
     {
-        register s32 current_count asm("v1") = model->link_count;
+        register s32 current_count asm("v1") = model->entry_count;
 
         index = 0;
         if (current_count == 0) {
             goto done;
         }
         offset = index;
-        link = model->links;
+        link = (ModelLink *)model->entries;
 
 outer:
         backlink_index = 0;
@@ -41,11 +39,11 @@ outer:
             goto next;
         }
         count = current_count;
-        target = (ModelLink *)((u8 *)model->links + offset);
+        target = (ModelLink *)(model->entries + offset);
     }
 
     {
-        register ModelLink *backlink asm("v1") = model->links;
+        register ModelLink *backlink asm("v1") = (ModelLink *)model->entries;
 
 inner:
         if (backlink->parent == target) {
@@ -60,7 +58,7 @@ inner:
 
 after_inner:
     {
-        register s32 found asm("v0") = backlink_index < model->link_count;
+        register s32 found asm("v0") = backlink_index < model->entry_count;
 
         if (found) {
             goto done;
@@ -71,7 +69,7 @@ next:
     offset += sizeof(ModelLink);
     link++;
     {
-        register s32 current_count asm("v1") = model->link_count;
+        register s32 current_count asm("v1") = model->entry_count;
 
         index++;
         if (index < current_count) {
