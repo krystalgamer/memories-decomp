@@ -7,7 +7,6 @@ extern s8 gDialog_bChoiceCount;
 extern u8 D_8009B34C;
 extern u8 gDialog_bChoiceEnabled;
 extern u8 gDialog_bInputState;
-extern void (*D_8009B340)(u8 *);
 
 extern void Text_SetCursorOffset(u8 *);
 extern void func_80035CA8(s32);

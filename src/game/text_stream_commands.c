@@ -3,7 +3,6 @@
 
 extern signed char gDialog_bChoiceCount;
 extern unsigned char D_8009B34C;
-extern int D_8009B340;
 
 void func_80037CE0(volatile u8 *object) {
     register unsigned short flags __asm__("$2");

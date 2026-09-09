@@ -17,4 +17,14 @@ void func_80037CE0(volatile u8 *object);
 void func_80037D2C(u8 *object);
 void func_80037D6C(u8 *object);
 
+/* The dialog's pending completion callback, declared here because
+ * func_80037CE0 is the only function ever stored in it.
+ *
+ * Text_HandleChoiceCommand installs it when a choice starts waiting for input,
+ * func_80037CE0 clears it once the choice resolves, TextBox_BuildStep clears it
+ * when a new box starts, and func_80038E1C is the only caller. Nothing else
+ * writes it, so the parameter type is not a guess: it is func_80037CE0's own,
+ * volatile qualifier included. */
+extern void (*D_8009B340)(volatile u8 *object);
+
 #endif

@@ -8,6 +8,7 @@
 #include "display_object_api.h"
 #include "text_box_runtime.h"
 #include "func_80036C14.h"
+#include "text_stream_commands.h"
 
 typedef void (*VoidFn)(void);
 typedef void (*ChannelFn)(u8 *);
@@ -22,7 +23,6 @@ extern ChannelFn D_80090E64[];
 extern ChannelFn D_80090F18[];
 
 extern u8 D_8009B357;
-extern s32 D_8009B340;
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what makes the
    opcode store below a single %gp_rel instruction whose load-delay slot needs
