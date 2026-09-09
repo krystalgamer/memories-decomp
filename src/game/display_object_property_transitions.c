@@ -4,8 +4,7 @@
 #include "display_object_api.h"
 #include "display_object_lifecycle.h"
 #include "display_object_layout.h"
-
-typedef struct{char p0[8];u16 flags;char pA[0x17];u8 current,mode;char p23;void*callback;s16 x,y,target,step;int oldPosition;char p34[0x2C];s16 speed;char p62[0xA];u8 active;}Object;
+#include "display_object.h"
 
 void func_8001D344(u8 *object)
 {
@@ -43,10 +42,10 @@ void func_8001D344(u8 *object)
     }
 }
 
-void func_8001D3C4(Object*o)
+void func_8001D3C4(DisplayObject*o)
 {
- if(!func_80042B98((DisplayObjectLifecycle*)o)){if(o->target!=o->current)o->flags|=DISPLAY_OBJECT_FLAG_CLIP_TEST;o->step=o->speed;func_80043178((DisplayObjectSnapshot*)o);o->speed=0;}
- if(o->current!=o->target)o->current+=0x80/o->step;
- func_8004318C((u8*)o,o->x,o->y,o->speed);o->speed+=0x800/o->step;
- if(o->speed>=0x800){u8 target=o->target;int position=*(int*)&o->x;o->current=target;o->oldPosition=position;if(!(target&0xFF))o->flags&=~DISPLAY_OBJECT_FLAG_CLIP_TEST;o->active=0;o->callback=0;}
+ if(!func_80042B98((DisplayObjectLifecycle*)o)){if(*(s16*)&o->field_2C!=o->field_20.b.field_21)o->flags|=DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_2E=o->field_60;func_80043178((DisplayObjectSnapshot*)o);o->field_60=0;}
+ if(o->field_20.b.field_21!=*(s16*)&o->field_2C)o->field_20.b.field_21+=0x80/o->field_2E;
+ func_8004318C((u8*)o,*(s16*)&o->position.h.field_28,*(s16*)&o->position.h.field_2A,o->field_60);o->field_60+=0x800/o->field_2E;
+ if(o->field_60>=0x800){u8 target=*(s16*)&o->field_2C;int position=o->position.word;o->field_20.b.field_21=target;o->field_30.word=position;if(!(target&0xFF))o->flags&=~DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_6C=0;o->update=0;}
 }

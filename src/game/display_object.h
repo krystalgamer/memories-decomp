@@ -72,6 +72,11 @@ typedef struct DisplayObject {
        retail's: display_slot_lifecycle.c clears the whole word with one sw,
        and the two sprite renderers read only the byte. Neither view is a
        superset, so the record carries both rather than choosing. */
+    /* The byte at 0x21 is inside the halfword at 0x20, so it gets a third
+       view rather than a new field: display_object_property_transitions.c
+       reads and writes it alone, and DuelCardDisplayObject in
+       duel_card_display_state.h already names the same byte field_21 on this
+       record. */
     union {
         u32 word;
         struct {
@@ -79,6 +84,12 @@ typedef struct DisplayObject {
             u8 field_22;
             u8 field_23;
         } h;
+        struct {
+            u8 field_20;
+            u8 field_21;
+            u8 field_22;
+            u8 field_23;
+        } b;
     } field_20;                    /* 0x20 */
     DisplayObjectCallback update;  /* 0x24 */
     /* 0x28 and 0x30 are each read both ways: display_projection.c and the two
@@ -93,7 +104,11 @@ typedef struct DisplayObject {
         s32 word;
     } position;                    /* 0x28 */
     u16 field_2C;                  /* 0x2C */
-    u8 pad_2E[2];                  /* 0x2E */
+    /* display_object_property_transitions.c divides 0x80 and 0x800 by this
+       to derive its per-frame increments, so it is a nonzero divisor rather
+       than padding. That file calls it `step`; the name here stays with the
+       offset. */
+    s16 field_2E;                  /* 0x2E */
     union {
         struct {
             u16 field_30;
@@ -170,7 +185,16 @@ typedef struct DisplayObject {
     u8 pad_58[4];                  /* 0x58 */
     u16 field_5C;                  /* 0x5C */
     u16 field_5E;                  /* 0x5E */
-    u8 pad_60[5];                  /* 0x60 */
+    /* An easing amount, agreed on in shape and not in name. dialog_transition.c
+       sets it to -0x400 or +0x400 and sweeps it toward zero;
+       func_8003DA40.c sets -0x400 and adds 0x20; mem_card_dialog_runtime.c
+       steps it by 0x40 and passes it to func_80043230, which takes it as
+       `phase` for an rsin ease; display_object_property_transitions.c calls
+       it `speed` in one function and `step` in the other. Four callers, four
+       words, one range -- so it keeps the offset for a name, on the same
+       grounds #3004 set out for 0x44. */
+    s16 field_60;                  /* 0x60 */
+    u8 pad_62[3];                  /* 0x62 */
     u8 field_65;                   /* 0x65 */
     u8 field_66;                   /* 0x66 */
     u8 pad_67[2];                  /* 0x67 */
