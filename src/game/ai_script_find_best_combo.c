@@ -5,7 +5,6 @@
 #include "ai.h"
 extern u8 gAiScript_State[];
 extern s32 Ai_GetHandSize(void);
-extern s32 Ai_IsCardInSets(s32, s32);
 extern void Ai_CompleteFusion(s32);
 
 /* AI script opcode taking three operand bytes: a register holding the search

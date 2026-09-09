@@ -4,7 +4,6 @@
 #include "ai_script_read_byte.h"
 
 extern void Ai_GetCardRange(s32, s32 *, s32 *);
-extern s32 Ai_IsCardInSets(s32, s32);
 
 void AiScript_MatchType(void)
 {

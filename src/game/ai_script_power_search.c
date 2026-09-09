@@ -4,7 +4,6 @@
 #include "ai_script_read_byte.h"
 #include "ai.h"
 extern void Ai_GetWinningCardRange(s32 type, s32 *start, s32 *end);
-extern s32 Ai_IsCardInSets(s32 sets, s32 slot);
 
 /* AI script opcode taking five operand bytes: a register selecting which
  * statistic to rank by (0 attack, 1 defence, anything else the better of the

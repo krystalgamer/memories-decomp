@@ -129,4 +129,6 @@ extern s32 gAiScript_aMemory[AI_SCRIPT_MEMORY_COUNT];
 extern AiScriptHandler gAiScript_apfnCommand[];
 extern AiActiveCard gDuel_aActiveCards[];
 
+s32 Ai_IsCardInSets(s32 mode, s32 index);
+
 #endif
