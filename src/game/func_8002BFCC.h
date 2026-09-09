@@ -1,0 +1,6 @@
+#ifndef MEMORIES_DECOMP_FUNC_8002BFCC_H
+#define MEMORIES_DECOMP_FUNC_8002BFCC_H
+
+void func_8002BFCC(void);
+
+#endif
