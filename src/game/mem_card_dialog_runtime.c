@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object.h"
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "display_object_lifecycle.h"
@@ -13,17 +14,7 @@
 #include "../unmatched.h"
 #include "mem_card_dialog_steps.h"
 
-typedef struct {
-    u8 pad0000[0x30];
-    s16 field_0030;
-    s16 field_0032;
-    u8 pad0034[0x2C];
-    s16 field_0060;
-    u8 pad0062[0x0A];
-    u8 field_006C;
-} ObjectState;
-
-u8 func_8003F2B0(ObjectState *object, s32 arg1, s32 arg2, s32 index)
+u8 func_8003F2B0(DisplayObject *object, s32 arg1, s32 arg2, s32 index)
 {
     s32 saved_index = index;
     s32 value;
@@ -32,32 +23,32 @@ u8 func_8003F2B0(ObjectState *object, s32 arg1, s32 arg2, s32 index)
         func_80043178((DisplayObjectSnapshot *)object);
     }
 
-    value = object->field_0060;
+    value = object->field_60;
     if (value < 0) {
         value += 0x40;
         if (value >= 0) {
-            object->field_006C = 0;
+            object->field_6C = 0;
             value = 0;
         }
     } else {
         value -= 0x40;
         if (value <= 0) {
-            object->field_006C = 0;
+            object->field_6C = 0;
             value = 0;
         }
     }
-    object->field_0060 = value;
+    object->field_60 = value;
 
     func_80043230((DisplayObjectPosition *)object, arg1, arg2, value);
 
     if (saved_index >= 0) {
         TextBox_SetPos(
             (u8 *)D_800EB0F8 + saved_index * 100,
-            object->field_0030,
-            object->field_0032);
+            (s16)object->field_30.h.field_30,
+            (s16)object->field_30.h.field_32);
     }
 
-    return object->field_006C;
+    return object->field_6C;
 }
 
 extern u8 D_8009B3EE;
@@ -65,7 +56,7 @@ extern u8 *D_8009B3D8;
 extern s32 D_8009B3BC;
 extern u8 D_8009B3C6;
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
-extern s32 func_8003F2B0_int(ObjectState *, s32, s32, s32)
+extern s32 func_8003F2B0_int(DisplayObject *, s32, s32, s32)
     asm("func_8003F2B0");
 
 void func_8003F388(void)
@@ -107,7 +98,7 @@ void func_8003F454(void)
             return;
         }
         if (func_8003F2B0_int(
-                (ObjectState *)D_8009B3D8, 0x20, 0x100, D_8009B3EE
+                (DisplayObject *)D_8009B3D8, 0x20, 0x100, D_8009B3EE
             ) == 0) {
             TextBox_Destroy(D_800EB0F8_raw + D_8009B3EE * 100);
             func_8004036C(D_8009B3D8);
@@ -165,7 +156,7 @@ void func_8003F454(void)
             return;
         }
         if (func_8003F2B0_int(
-                (ObjectState *)D_8009B3D8, 0x20, 0x50, -1
+                (DisplayObject *)D_8009B3D8, 0x20, 0x50, -1
             ) == 0) {
             gMemCard_wDialogFlags =
                 gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_OPENED;

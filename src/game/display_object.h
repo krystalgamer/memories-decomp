@@ -308,7 +308,15 @@ typedef struct DisplayObject {
         } h;
     } field_50;                    /* 0x50 */
     void *field_54;                /* 0x54 */
-    u8 pad_58[4];                  /* 0x58 */
+    /* Named field_58 and field_5A by DisplayObjectStreamState in
+       ygo_types.h, on this same record and at this same pair of offsets, on
+       the grounds the 0x50 comment above already gives: that view is
+       func_80041C8C's reading of the script buffer. func_80041D60 resets
+       both when it opens a script and then counts 0x5A down by D_8009B0D8
+       until it reaches zero, which is what says the pair is a status field
+       and a countdown rather than four padding bytes. */
+    s16 field_58;                  /* 0x58 */
+    s16 field_5A;                  /* 0x5A */
     u16 field_5C;                  /* 0x5C */
     u16 field_5E;                  /* 0x5E */
     /* An easing amount, agreed on in shape and not in name. dialog_transition.c
@@ -379,6 +387,9 @@ typedef char DisplayObject_field_3A_must_be_at_0x3A[
 ];
 typedef char DisplayObject_field_52_must_be_at_0x52[
     DISPLAY_OBJECT_OFFSET(field_50.h.field_52) == 0x52 ? 1 : -1
+];
+typedef char DisplayObject_field_58_must_be_at_0x58[
+    DISPLAY_OBJECT_OFFSET(field_58) == 0x58 ? 1 : -1
 ];
 typedef char DisplayObject_field_65_must_be_at_0x65[
     DISPLAY_OBJECT_OFFSET(field_65) == 0x65 ? 1 : -1
