@@ -145,4 +145,14 @@ extern u8 D_801AF800[];
  * question from centralizing it. */
 extern s32 D_8009B118;
 
+/* A single byte at 0x8009B2EB, declared identically as `extern u8
+ * D_8009B2EB;` by all six of its consumers and only ever read or written as a
+ * scalar.
+ *
+ * c_symbols.ld names D_8009B2EC immediately after it, so this is one byte
+ * exactly. That also settles the aliasing question outright: a one-byte object
+ * has no interior for a second name to describe, unlike D_800E9D90 or
+ * D_80185CC8 where an element carries its own name. */
+extern u8 D_8009B2EB;
+
 #endif

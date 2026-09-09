@@ -5,11 +5,11 @@
 #include "../psyq/rand.h"
 #include "input.h"
 #include "text_box_lifecycle.h"
+#include "../unmatched.h"
 
 extern void (*D_80090D7C[])(void);
 extern void (*D_80090D84[])(void);
 extern u8 D_8009AF54[];
-extern u8 D_8009B2EB;
 extern u8 D_8009B2F0;
 extern s8 D_8009B2F1;
 

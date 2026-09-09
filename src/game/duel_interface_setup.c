@@ -4,6 +4,7 @@
 #include "text_box_lifecycle.h"
 #include "display_object_helpers.h"
 #include "text_box_runtime.h"
+#include "../unmatched.h"
 
 extern u8 D_8009B2B2;
 extern u8 D_8009B2B4;
@@ -18,7 +19,6 @@ extern u8 D_8009B2E0;
 extern void *D_8009B2E4;
 extern u8 D_8009B2E9;
 extern u8 D_8009B2EA;
-extern u8 D_8009B2EB;
 extern void *D_8009B2EC;
 extern u8 D_8009B2F0;
 
