@@ -4,15 +4,6 @@
 #include "../../game/card_constants.h"
 #include "trade_helpers.h"
 
-typedef struct {
-    int (*entries[6])();
-} MainMenuComparators;
-
-typedef struct {
-    u8 *object;
-    s32 pad[5];
-} MainMenuState;
-
 extern s32 D_80180000[];
 extern u8 D_801D1200[];
 extern CardCountEntry D_801845FC[][CARD_COUNT];

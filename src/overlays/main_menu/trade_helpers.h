@@ -3,6 +3,67 @@
 
 #include "../../types.h"
 
+/* One entry of D_801845EC, the two Trade card-display slots.
+
+   Three sources declare this symbol three different ways and all three agree;
+   they are views of one array, not competing claims about it.
+
+     trade_init.c    MainMenuSlot D_801845EC[]  - builds both entries, writing
+                     .object from func_800400AC and clearing .unk4
+     trade_draw.c    u8 *D_801845EC[]           - reads [0] and [2]
+     trade_update.c  MainMenuWidget *D_801845EC - reads ->y
+
+   The 8-byte stride is what reconciles them: trade_draw.c's [0] and [2] are
+   the `object` pointers of entries 0 and 1 at a 4-byte pointer stride, and
+   trade_update.c's declaration names the same first pointer, so `->y` is
+   entry 0's object. Only trade_init.c's view sees `unk4` at all. */
+typedef struct {
+    u8 *object;
+    s32 unk4;
+} MainMenuSlot;
+
+typedef char MainMenuSlot_size_must_be_8[
+    sizeof(MainMenuSlot) == 8 ? 1 : -1
+];
+
+/* One side's Trade list scroll position, D_80185C8C[side]. The README records
+   the meaning: "[side][0] is the current scrolling top; [1] is its target".
+
+   trade_update.c and rebuild_trade_inventory_rows.c declare the same storage
+   as `u16 [2]` and are the only sources that read it, so the members are u16
+   here; trade_init.c, which had the s16 spelling, only ever stores zero, and
+   a halfword store is the same instruction either way. The read sites clamp
+   the target at zero, so the value is never negative. */
+typedef struct {
+    u16 current;
+    u16 target;
+} MainMenuPair;
+
+/* The six card comparators the inventory sort chooses between, copied out of
+   D_80180000[1] as one block. */
+typedef struct {
+    int (*entries[6])();
+} MainMenuComparators;
+
+/* One entry of D_801A8000, the per-side inventory row state. Only the leading
+   display-object pointer is named; the rest is carried so the stride is
+   right. */
+typedef struct {
+    u8 *object;
+    s32 pad[5];
+} MainMenuState;
+
+/* The main-menu view of a display-object pool record. Named for this overlay
+   rather than shared with the resident DisplayObject: `y` at 0x32 falls
+   inside that record's s32 at 0x30, which is the split display_object.h
+   documents as the reason its own callers keep private copies. */
+typedef struct {
+    u8 pad0[0x32];
+    s16 y;
+    u8 pad34[0x35];
+    u8 frame;
+} MainMenuWidget;
+
 void MainMenu_RefreshTradeInventory(s32 slot, s32 force);
 void MainMenu_DrawTradeOffersAndHighlights(void);
 void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value);

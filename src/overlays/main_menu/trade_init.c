@@ -4,16 +4,6 @@
 #include "trade_helpers.h"
 #include "../../game/display_object_helpers.h"
 
-typedef struct {
-    u8 *object;
-    s32 unk4;
-} MainMenuSlot;
-
-typedef struct {
-    s16 a;
-    s16 b;
-} MainMenuPair;
-
 extern u8 *D_801845DC;
 extern u8 *D_801845E0;
 extern MainMenuSlot D_801845EC[];
@@ -66,8 +56,8 @@ void MainMenu_InitTradeScreen(void)
             D_801845EC[i].object = 0;
         }
         D_801845EC[i].unk4 = 0;
-        D_80185C8C[i].b = 0;
-        D_80185C8C[i].a = 0;
+        D_80185C8C[i].target = 0;
+        D_80185C8C[i].current = 0;
         D_80185C9C[i][0] = 0;
         D_80185CC8[i] = 0;
         D_80185CCA[i] = 0;

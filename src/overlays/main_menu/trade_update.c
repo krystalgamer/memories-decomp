@@ -10,16 +10,9 @@ typedef struct {
     u32 words[4];
 } Block16;
 
-typedef struct {
-    u8 pad0[0x32];
-    s16 y;
-    u8 pad34[0x35];
-    u8 frame;
-} Widget;
-
-extern Widget *D_801845E0;
-extern Widget *D_801845EC;
-extern Widget *D_801845F4;
+extern MainMenuWidget *D_801845E0;
+extern MainMenuWidget *D_801845EC;
+extern MainMenuWidget *D_801845F4;
 extern CardCountEntry D_801845FC[];
 extern CardCountEntry D_80185144[];
 extern u16 D_80185C8C[2][2];
@@ -49,7 +42,7 @@ extern void func_800611D0(s32);
 extern void func_800610E0(s32);
 extern void func_80048658(s32, s32, s32);
 extern void func_80035B7C(void *);
-extern void func_80040410(Widget *, s32);
+extern void func_80040410(MainMenuWidget *, s32);
 s32 MainMenu_UpdateTradeScreen(void)
 {
     s32 bounded;
