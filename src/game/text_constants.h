@@ -53,4 +53,15 @@ extern u8 gText_abColorSlots[];
  */
 extern u16 D_800EAFF8[];
 
+/* Seeds the colour slots above for a two-choice prompt and puts the box on
+ * screen: it fills the first five with 4, clears the one its argument selects,
+ * marks slot 3 or slot 4 depending on that argument, then calls TextBox_Create
+ * and func_80039A14.
+ *
+ * Declared here because this is the header that owns gText_abColorSlots, the
+ * table it writes -- the note on that declaration already names this file as
+ * one of its three writers. Its only caller, options_init.c, had the only
+ * declaration. */
+void func_8003C4E0(s32 slot);
+
 #endif
