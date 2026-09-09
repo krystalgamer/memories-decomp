@@ -6,9 +6,6 @@
 #include "graphics_constants.h"
 
 extern u8 *D_80010000 __attribute__((section(".data")));
-extern s16 D_800FE0CC __attribute__((section(".data")));
-extern u16 D_800FE0D0 __attribute__((section(".data")));
-extern s32 D_800FE0D4 __attribute__((section(".data")));
 
 void func_8005C690(void);
 
