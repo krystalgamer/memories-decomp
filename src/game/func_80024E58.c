@@ -9,7 +9,6 @@
 #include "file_transfer.h"
 
 extern u8 *D_8009B17C;
-extern s16 D_8009B1D2;
 extern u8 *D_8009B214;
 /* One byte at 0x8009B364; the 8 is a threshold, not a length. This TU's
  * profile compiles at -G8 but assembles at -G4, so the array needs a size

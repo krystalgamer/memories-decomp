@@ -11,7 +11,6 @@
 #include "duel_effect_tables.h"
 
 #include "duel_magic_effect_format.h"
-extern s16 D_8009B1A8;
 
 void func_80026A3C(void)
 {
