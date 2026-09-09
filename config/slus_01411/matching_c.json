@@ -4990,13 +4990,13 @@
       "address": "0x8004D58C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x1D0",
-      "source": "src/game/func_8004D58C.c"
+      "source": "src/game/model_slot_row_tables.c"
     },
     {
       "address": "0x8004D75C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x1B8",
-      "source": "src/game/func_8004D75C.c"
+      "source": "src/game/model_slot_row_tables.c"
     },
     {
       "address": "0x8004D914",
