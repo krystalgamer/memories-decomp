@@ -46,7 +46,6 @@ extern void func_800472A8(s32);
 extern u32 func_8004703C(void);
 extern s32 rand(void);
 extern void func_80020BE4(void);
-extern void func_80020D4C(DisplayObject *);
 extern void func_8001EC70(void *);
 extern void func_80020EE8(void *);
 
