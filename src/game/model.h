@@ -10,6 +10,7 @@
 #define MODEL_SLOT_DATA_ENTRY_SIZE 80
 #define MODEL_HANDLER_REGISTRY_COUNT 80
 #define MODEL_TINT_REQUEST_COUNT 10
+#define MODEL_SLOT_SOUND_ENTRY_COUNT 64
 #define MODEL_DATA_MIN_FREE_BYTES 0x401
 #define MODEL_LIGHT_BASE_INTENSITY 128
 #define MODEL_LIGHT_DIM_INTENSITY (MODEL_LIGHT_BASE_INTENSITY / 2)
@@ -32,6 +33,12 @@ typedef struct {
     u16 field_00;
     u8 pad_02[0x74];
 } ModelSlotIndexedEntry;
+
+typedef struct {
+    u8 frame;
+    u8 id;
+    u16 flags;
+} ModelSlotSoundEntry;
 
 typedef struct {
     s32 field_00;
@@ -62,7 +69,8 @@ typedef struct {
     ModelSlotIndexedEntry field_7C4[1];
     u8 pad_83A[0x3BB];
     u8 field_BF5;
-    u8 pad_BF6[0x102];
+    u8 pad_BF6[2];
+    ModelSlotSoundEntry sound_entries[MODEL_SLOT_SOUND_ENTRY_COUNT];
     ModelSlotCF8Block field_CF8;
     u8 *entries;
     /* The slot's own placement unit: one 0x50-byte GsCOORDUNIT out of the
@@ -196,6 +204,9 @@ typedef char ModelSlotLightEntry_size_must_be_0x10[
 typedef char ModelSlotS32Quad_size_must_be_0x10[
     sizeof(ModelSlotS32Quad) == 0x10 ? 1 : -1
 ];
+typedef char ModelSlotSoundEntry_size_must_be_4[
+    sizeof(ModelSlotSoundEntry) == 4 ? 1 : -1
+];
 typedef char ModelSlot_size_must_be_0xE20[
     sizeof(ModelSlot) == MODEL_SLOT_SIZE ? 1 : -1
 ];
@@ -207,6 +218,9 @@ typedef char ModelSlot_field_7C4_offset_must_be_0x7C4[
 ];
 typedef char ModelSlot_field_BF5_offset_must_be_0xBF5[
     MODEL_OFFSET(ModelSlot, field_BF5) == 0xBF5 ? 1 : -1
+];
+typedef char ModelSlot_sound_entries_offset_must_be_0xBF8[
+    MODEL_OFFSET(ModelSlot, sound_entries) == 0xBF8 ? 1 : -1
 ];
 typedef char ModelSlot_field_CF8_offset_must_be_0xCF8[
     MODEL_OFFSET(ModelSlot, field_CF8) == 0xCF8 ? 1 : -1
