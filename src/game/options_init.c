@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object_config.h"
 #include "options_update_layout.h"
+#include "options.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "sound.h"
@@ -32,10 +33,7 @@ struct Obj {
 };
 
 extern s8 gSD_bOutputType[16];
-extern u8 gOptions_bState;
-extern s8 gOptions_bOutputType;
 extern struct Obj *D_8009B380;
-extern s8 gOptions_bSelection;
 extern struct Obj *D_8009B388;
 
 extern void func_8003C4E0(s32 a0);
