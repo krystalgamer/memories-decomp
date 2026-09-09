@@ -4,7 +4,6 @@
 #include "file_transfer.h"
 
 extern u8 gLibrary_aCardArtRecord[];
-extern void (*D_8009B10C)(void);
 extern u8 D_800E9DF0[];
 extern u8 D_8009B0E0;
 extern u8 D_80010038[4];

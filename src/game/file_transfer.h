@@ -168,6 +168,17 @@ extern volatile u16 D_8009B100;
  * pointer at each call, not a claim that one byte is all that is there. */
 extern char D_8009B104[1];
 
+/* The callback the request functions run before starting a primary transfer.
+ * File_SetPositionTable installs File_WaitForTransfers and
+ * File_InitTransferState clears it; File_RequestAsyncTransfer and
+ * File_TryRequestAsyncTransfer call it when it is set, else check the
+ * blocked mask. Retail: sw %lo through $at in File_SetPositionTable (the
+ * as -G2 profile, where a four-byte object is non-small whatever its type),
+ * gp-relative sw and two lw elsewhere. One TU held a u32 view beside an
+ * asm("D_8009B10C") alias of this type; the pointer is what every use
+ * assigns and calls. */
+extern void (*D_8009B10C)(void);
+
 /* A counter the CD and stream paths bump at each step they complete. */
 extern s32 D_8009B130;
 

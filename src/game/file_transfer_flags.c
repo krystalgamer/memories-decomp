@@ -1,10 +1,6 @@
 #include "../types.h"
 #include "file_transfer.h"
 
-extern u32 D_8009B10C;
-
-extern void (*D_8009B10C_callback)(void) asm("D_8009B10C");
-
 FileTransferDescriptor *File_RequestAsyncTransfer(
     s32 arg0,
     u8 *arg1,
@@ -18,14 +14,14 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
     FileTransferDescriptor *result;
 
     D_8009B0F4 |= 0x40;
-    if (D_8009B10C_callback == 0) {
+    if (D_8009B10C == 0) {
         if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134) != 0) {
             result = (FileTransferDescriptor *)0;
             goto out;
         }
     } else {
-        D_8009B10C_callback();
+        D_8009B10C();
     }
     File_InitTransferDescriptor(
         &gFile_PrimaryTransferDescriptor,
@@ -54,7 +50,7 @@ FileTransferDescriptor *File_TryRequestAsyncTransfer(
             return (FileTransferDescriptor *)0;
         }
     } else {
-        ((void (*)(void))D_8009B10C)();
+        D_8009B10C();
     }
     File_InitTransferDescriptor(
         &gFile_PrimaryTransferDescriptor,
