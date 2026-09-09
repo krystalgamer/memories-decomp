@@ -3,8 +3,6 @@
 #include "display_object.h"
 #include "display_object_layout.h"
 
-typedef void (*ObjFn)(u8 *);
-
 extern u8 D_800E9D90[];
 
 s32 func_80041E7C(s32 arg0, s32 arg1, s32 arg2, u8 *arg3);
@@ -21,7 +19,7 @@ void func_80040DD8(void) {
     u8 *h;
     u8 *e;
     u8 *tb;
-    ObjFn fn;
+    DisplayObjectCallback fn;
     s32 eight;
     s32 hi;
     s32 bit;
@@ -51,9 +49,9 @@ void func_80040DD8(void) {
 
         do {
             e = (u8 *)D_800EFE48 + i * DISPLAY_OBJECT_RECORD_SIZE;
-            fn = *(ObjFn *)(e + 0x24);
+            fn = *(DisplayObjectCallback *)(e + 0x24);
             i = *(s16 *)(e + 2);
-            if (fn != (ObjFn)0) {
+            if (fn != (DisplayObjectCallback)0) {
                 fn(e);
             }
             if (((*(u16 *)(e + 8) & DISPLAY_OBJECT_RENDERABLE_MASK) ^
@@ -130,7 +128,7 @@ void func_80041068(void) {
     u8 *h;
     u8 *e;
     u8 *tb;
-    ObjFn fn;
+    DisplayObjectCallback fn;
     s32 twelve;
     s32 hi;
     s32 bit;
@@ -159,9 +157,9 @@ void func_80041068(void) {
 
         do {
             e = (u8 *)D_800EFE48 + i * DISPLAY_OBJECT_RECORD_SIZE;
-            fn = *(ObjFn *)(e + 0x24);
+            fn = *(DisplayObjectCallback *)(e + 0x24);
             i = *(s16 *)(e + 2);
-            if (fn != (ObjFn)0) {
+            if (fn != (DisplayObjectCallback)0) {
                 fn(e);
             }
             if (((*(u16 *)(e + 8) & DISPLAY_OBJECT_RENDERABLE_MASK) ^
