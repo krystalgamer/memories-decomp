@@ -566,6 +566,10 @@ void SD_BGMPlay(u32);
 void SD_SEPlayFull(u32);
 void SD_BGMFadeOut(void);
 void SD_BGMFadeOutWithStep(s32);
+/* Three arguments, and no result: sound_spatialization.c already declared it
+   this way and matched, while two other files carried `extern int
+   SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
+void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
 void func_8003FF88(u32);
 void func_8003FFB4(u32);
 void SD_SetOutputType(s16);

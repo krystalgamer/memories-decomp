@@ -10,7 +10,6 @@ typedef struct {
     u8 pad_0C[52];
 } VoiceAttributePacket;
 
-extern int SD_SetVoiceVolume();
 extern void func_8004A518(void);
 extern void SD_StartSequenceTracks(SDSecondaryState *);
 /* Preserve the no-argument call form used by the playback-start variant. */
