@@ -9,6 +9,7 @@
 #include "text_box_lifecycle.h"
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
+#include "../unmatched.h"
 
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
@@ -30,7 +31,6 @@ void SD_BGMPlay(u32);
 void Library_MarkOwnedCards(void);
 void func_80035668(s32 arg0);
 void func_8004293C(u8 *arg0);
-void func_80029EC4(void);
 void func_8002BD0C(void);
 
 void func_8002BFCC(void) {

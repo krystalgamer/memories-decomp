@@ -14,7 +14,10 @@
  *
  * A function or global whose status in config/slus_01411/functions.csv is
  * unmatched_asm, once its consumers are known to agree. There are 53 such
- * functions today; 34 of them are declared locally in .c files, at 48 sites.
+ * functions today. When this header was started, 34 of them were declared
+ * locally at 48 sites; after this change three are, at seven sites, and all
+ * three are the deliberate disagreements listed below rather than
+ * duplication waiting to be moved.
  *
  * WHAT DOES NOT GO HERE, AND WHY THIS FILLS UP SLOWLY
  *
@@ -156,6 +159,33 @@ extern u8 *D_8009B118 __attribute__((section(".data")));
 extern s32 D_8009B118 __attribute__((section(".data")));
 #else
 extern s32 D_8009B118;
+/* Nine more that nobody calls, found by re-measuring the note above rather
+ * than by a scan. Every one is installed as data -- seven into the duel scene
+ * callback table, func_80056D7C as a transfer completion callback, and
+ * func_80029EC4 into D_800E9DBC[0] -- and none is invoked from C.
+ *
+ * Seven of them were declared in duel_scene_callbacks.c, which is a file I
+ * added when that table moved out of its blob. The argument there was that
+ * taking a function's address does not depend on its signature, so a local
+ * declaration was self-contained. That is true but beside the point: this
+ * header already holds exactly this class, in func_80042C08, func_80035E20
+ * and func_80067220, and the issue asks for one declaration site rather than
+ * a defensible second one.
+ *
+ * void (void) is the form all nine consumers already used. As with the
+ * entries above, it is safe precisely because there are no call sites for it
+ * to be wrong at, and it is what has to change if a caller is ever matched
+ * and passes an argument. */
+void func_8001BD88(void);
+void func_8001D670(void);
+void func_80019D18(void);
+void func_8001B170(void);
+void func_8001F55C(void);
+void func_800218F0(void);
+void func_80018FEC(void);
+void func_80056D7C(void);
+void func_80029EC4(void);
+
 #endif
 
 /* One consumer each, model_primitive_handler.c, which does not call either

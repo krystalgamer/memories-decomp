@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_scene_callbacks.h"
+#include "../unmatched.h"
 
 /* Initialized data at 0x80090998: the duel scene's phase callback table.
  *
@@ -9,11 +10,11 @@
  *
  * It is written here rather than resolved out of the blob at 0x800908A0
  * because every entry is a function this tree already names: seven are
- * matching C and eight are still generated assembly. The eight are declared
- * just below rather than taken from unmatched.h, because this file is where
- * their addresses are used as data rather than called -- taking a function's
- * address does not depend on its signature, and none of these is called from
- * here.
+ * matching C and eight are still generated assembly. The unmatched ones are
+ * declared in unmatched.h rather than here: this file only takes their
+ * addresses, but that is the same thing the entries already in that header
+ * do, so a local declaration would just be a second place for them to be
+ * spelled.
  *
  * The table is fifteen entries and the mask permits sixteen. Index 15 would
  * read the first word of duel_terrain_boost, which begins immediately after
@@ -29,15 +30,6 @@ void func_80019608(void);
 void func_800208D4(void);
 void func_8001825C(void);
 void func_80020F4C(void);
-
-/* Still generated assembly; named here only to take their addresses. */
-void func_8001BD88(void);
-void func_8001D670(void);
-void func_80019D18(void);
-void func_8001B170(void);
-void func_8001F55C(void);
-void func_800218F0(void);
-void func_80018FEC(void);
 
 void (*D_80090998[])(void) = {
     func_80022618,
