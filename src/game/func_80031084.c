@@ -2,6 +2,7 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "duel_effect.h"
+#include "func_8003B6AC.h"
 #include "../psyq/rand.h"
 #include "input.h"
 #include "text_box_lifecycle.h"

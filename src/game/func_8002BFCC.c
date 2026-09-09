@@ -4,6 +4,7 @@
 #include "campaign_flags.h"
 #include "display_object_layout.h"
 #include "file_transfer.h"
+#include "func_8003B6AC.h"
 #include "graphics_frame.h"
 #include "text_box_lifecycle.h"
 #include "duel_card.h"

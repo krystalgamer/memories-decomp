@@ -9,6 +9,7 @@
 #include "sound.h"
 #include "text_box_runtime.h"
 #include "func_80039794.h"
+#include "func_8003B6AC.h"
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "script_state.h"
@@ -29,7 +30,6 @@ extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *);
 extern void DuelEffect_MarkObjectIfActive(void *);
 extern void SaveData_RequestWrite(void);
 extern void func_80033C90(void);
-extern void func_8003B6AC(s32, s32);
 
 void func_8002EE94(void)
 {

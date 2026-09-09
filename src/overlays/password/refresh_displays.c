@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "shop.h"
 #include "../../game/duel_effect.h"
+#include "../../game/func_8003B6AC.h"
 #include "../../game/text_constants.h"
 #include "../../game/text_box_runtime.h"
 
@@ -9,7 +10,6 @@ extern u16 D_800EAFF8[];
 extern u8 D_801B1245[];
 extern s32 D_801D07E0;
 extern s32 D_801D5608;
-extern void func_8003B6AC(s32, s32);
 extern void func_80035BE4(s32, s32, s32, s32, s32, s32);
 
 void Password_RefreshDigitDisplay(void)

@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "func_8003B6AC.h"
 
 extern u8 D_80090E58[];
 

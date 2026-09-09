@@ -8,6 +8,7 @@
 #include "../../game/display_object_helpers.h"
 #include "../../game/text_box_runtime.h"
 #include "../../game/func_80039794.h"
+#include "../../game/func_8003B6AC.h"
 #include "../../game/func_80043178.h"
 
 typedef struct {
@@ -30,7 +31,6 @@ extern DuelEffectChannel D_800EB1C0;
 extern u8 *D_8016D418;
 extern u8 D_8016D41C;
 
-extern void func_8003B6AC(s32, s32);
 extern DuelEffectChannel *func_80035BE4(s32, s32, s32, s32, s32, s32);
 extern void *func_800374F4(DuelEffectChannel *);
 extern void func_80043230(Caret *, s32, s32, s32);
