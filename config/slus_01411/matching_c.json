@@ -4438,13 +4438,13 @@
       "address": "0x80047FAC",
       "profile": "gcc_2_8_1_cc_g0_as_g8_no_split",
       "size": "0x90",
-      "source": "src/game/func_80047FAC.c"
+      "source": "src/game/sound_effect_voices.c"
     },
     {
       "address": "0x8004803C",
       "profile": "gcc_2_8_1_cc_g0_as_g8_no_split",
       "size": "0x274",
-      "source": "src/game/func_8004803C.c"
+      "source": "src/game/sound_effect_voices.c"
     },
     {
       "address": "0x80048768",
