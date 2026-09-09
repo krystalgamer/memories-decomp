@@ -2,11 +2,14 @@
 #include "../types.h"
 #include "func_80036D3C.h"
 #include "../psyq/rand.h"
+#include "file_constants.h"
 #include "file_transfer.h"
 #include "graphics_frame.h"
 #include "display_effect_lifecycle.h"
 
 extern s16 D_8009B322;
+extern u8 D_8009B335;
+extern s16 D_8009B33C;
 extern u16 D_8009B348[2];
 extern int func_80049120(void *);
 
@@ -96,4 +99,56 @@ void func_80037A58(u8 *object)
         gGraphics_uViewportY[0] = D_8009B348[1];
         object[0x51] = 0;
     }
+}
+
+/* The last of the eight, and the only one that waits on the file transfer
+   itself: it drives the sector-range request through three D_8009B335 stages
+   and, when byte 0x51 bit 0x40 was armed, repeats the whole run D_8009B33C
+   times before clearing the state. The switch falls through deliberately -
+   each stage re-arms the 0xFF countdown and drops into the next test in the
+   same call. */
+void func_80037B40(u8 *p)
+{
+    if ((p[0x51] & 0x80) == 0) {
+        p[0x51] |= 0x80;
+        p[0x52] = 0xFF;
+        D_8009B335 = 0;
+        if (D_8009B33C != 0) {
+            p[0x51] |= 0x40;
+        }
+    }
+
+    p[0x52]--;
+
+    if (p[0x52] != 0) {
+        switch (D_8009B335) {
+        case 0:
+            if ((D_8009B0F4_abs & FILE_TRANSFER_FLAG_SECTOR_RANGE) == 0) {
+                return;
+            }
+            p[0x52] = 0xFF;
+            D_8009B335 = 1;
+        case 1:
+            if ((D_8009B112_abs & 0x4000) == 0) {
+                return;
+            }
+            p[0x52] = 0xFF;
+            D_8009B335 = 2;
+        case 2:
+            if ((D_8009B112_abs & 0x4000) == 0) {
+                break;
+            }
+            if ((p[0x51] & 0x40) == 0) {
+                return;
+            }
+            D_8009B33C--;
+            if (D_8009B33C > 0) {
+                return;
+            }
+            break;
+        }
+    }
+
+    p[0x51] = 0;
+    p[0x52] = 1;
 }
