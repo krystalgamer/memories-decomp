@@ -3,26 +3,21 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
 #include "model.h"
 
-typedef struct {
-    u32 flg;
-    MATRIX coord;
-    MATRIX workm;
-} Coord;
-
-typedef struct {
-    Coord co;
-    SVECTOR zero;
-    s32 pad5C;
-} CoordLocals;
-
-extern void GsGetLwUnit(u8 *, MATRIX *);
 extern void *memset(void *, s32, s32);
 
+/* Builds a coordinate unit for one model slot's entry and hands the caller's
+ * record (arg3) a matrix built from the camera angles, parented to it.
+ *
+ * The local `unit` is a whole GsCOORDUNIT: `matrix` and `workm` are the pair
+ * GsGetLwUnit copies between, `rot` is the zeroed vector RotMatrix_gte reads,
+ * and `super` is the parent link, left null because this unit is the root of
+ * the chain arg3 is spliced onto at the end. */
 void func_800580D4(s32 index, s32 arg1, u8 *arg2, u8 *arg3)
 {
-    CoordLocals locals;
+    GsCOORDUNIT unit;
     SVECTOR ang;
     MATRIX ls;
     SVECTOR sv88;
@@ -40,25 +35,28 @@ void func_800580D4(s32 index, s32 arg1, u8 *arg2, u8 *arg3)
         arg1 = p[0xE18];
     }
 
-    GsGetLwUnit(*(u8 **)(p + 0xD14) + arg1 * 0x50, &ls);
+    GsGetLwUnit(
+        (GsCOORDUNIT *)(*(u8 **)(p + 0xD14) + arg1 * MODEL_SLOT_DATA_ENTRY_SIZE),
+        &ls
+    );
     GsSetLsMatrix(&ls);
 
     RotTransSV((SVECTOR *)arg2, &ang, (long *)scratch);
 
-    locals.zero.vz = 0;
-    locals.zero.vy = 0;
-    locals.zero.vx = 0;
-    RotMatrix_gte(&locals.zero, &locals.co.coord);
+    unit.rot.vz = 0;
+    unit.rot.vy = 0;
+    unit.rot.vx = 0;
+    RotMatrix_gte(&unit.rot, &unit.matrix);
 
-    locals.co.flg = 1;
-    locals.co.coord.t[0] = ang.vx;
-    locals.co.coord.t[1] = ang.vy;
-    locals.co.coord.t[2] = ang.vz;
-    locals.co.workm = locals.co.coord;
-    locals.pad5C = 0;
+    unit.flg = 1;
+    unit.matrix.t[0] = ang.vx;
+    unit.matrix.t[1] = ang.vy;
+    unit.matrix.t[2] = ang.vz;
+    unit.workm = unit.matrix;
+    unit.super = NULL;
     memset(&sv90, 0, 8);
 
-    turn = 0x1000;
+    turn = MODEL_ANGLE_FULL_TURN;
     sv90.vy = turn - D_8009B47A;
     sv90.vz = D_8009B47C;
     sv88 = sv90;
@@ -76,5 +74,5 @@ void func_800580D4(s32 index, s32 arg1, u8 *arg2, u8 *arg3)
     *(s32 *)(arg3 + 0x20) = 0;
     *(s32 *)(arg3 + 0x1C) = 0;
     *(s32 *)(arg3 + 0x18) = 0;
-    *(Coord **)(arg3 + 0x4C) = &locals.co;
+    *(GsCOORDUNIT **)(arg3 + 0x4C) = &unit;
 }

@@ -55,13 +55,6 @@ typedef struct {
 } ModelSlotCF8Block;
 
 typedef struct {
-    u8 pad_00[0x44];
-    u16 field_44;
-    u16 field_46;
-    u16 field_48;
-} ModelSlotRotationEntry;
-
-typedef struct {
     ModelSlotHeadEntry field_000[1];
     u8 pad_008[0x1D8];
     void *field_1E0[1];
@@ -72,7 +65,11 @@ typedef struct {
     u8 pad_BF6[0x102];
     ModelSlotCF8Block field_CF8;
     u8 *entries;
-    ModelSlotRotationEntry *field_D18;
+    /* The slot's own placement unit: one 0x50-byte GsCOORDUNIT out of the
+     * MODEL_SLOT_DATA_ENTRY_SIZE-stride run at `entries`. Left incomplete
+     * here so this header stays free of the libgte/libgpu/libgs/libhmd
+     * chain; sources that reach through it include "../psyq/libhmd.h". */
+    struct _GsCOORDUNIT *field_D18;
     u8 pad_D1C[0x54];
     ModelSlotLightEntry field_D70[3];
     s32 field_DA0[3];
@@ -198,9 +195,6 @@ typedef char ModelSlotLightEntry_size_must_be_0x10[
 ];
 typedef char ModelSlotS32Quad_size_must_be_0x10[
     sizeof(ModelSlotS32Quad) == 0x10 ? 1 : -1
-];
-typedef char ModelSlotRotationEntry_field_44_offset_must_be_0x44[
-    MODEL_OFFSET(ModelSlotRotationEntry, field_44) == 0x44 ? 1 : -1
 ];
 typedef char ModelSlot_size_must_be_0xE20[
     sizeof(ModelSlot) == MODEL_SLOT_SIZE ? 1 : -1
@@ -391,5 +385,10 @@ extern ModelTintRequest D_800F2B50[MODEL_TINT_REQUEST_COUNT];
 extern ModelHandlerRegistryEntry
     D_800F5918[MODEL_HANDLER_REGISTRY_COUNT];
 #endif
+
+/* Rebuilds a coordinate unit's local matrix from its Euler angles. Declared
+ * on the incomplete type so callers that only forward a slot's field_D18 do
+ * not have to pull in the libhmd chain. */
+extern void func_8005922C(struct _GsCOORDUNIT *unit, void *scale);
 
 #endif

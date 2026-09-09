@@ -3270,6 +3270,7 @@ the barrier was holding it:
 | `Model_UpdateViewMetrics` | one register, `0x69` to `0x6A` |
 | `func_800289BC` | one store reordered |
 | `func_8002FB78` | two instructions deleted |
+| `func_800580D4` | three instructions deleted (parameter only) |
 
 So before converting offset casts to members, look for the two shapes that
 make the barrier load-bearing: a **whole-struct assignment** to or from the
@@ -3279,6 +3280,20 @@ being free by inspection. Neither means it will fail -- `func_800289BC` has
 the first shape and matched once every access was converted -- only that it
 must be measured.
 
+- **The barrier can be a volatile pointer rather than a global, and then it
+  is per-file rather than per-record.** `func_800580D4` writes one
+  `GsCOORDUNIT` through a `u8 *` parameter while reading a second one through
+  a volatile pointer at `D_800F2C40+0xD18`. Retail reloads that pointer for
+  each of the three angles and eats a load-delay `nop` after every reload.
+  Typing the parameter lets GCC prove the stores cannot alias the volatile
+  load, so it hoists the first reload into an earlier delay slot and the
+  function comes out three instructions -- twelve bytes -- short. The reads'
+  own spelling makes no difference: byte-offset casts and `rec->rot.vx` both
+  give the short version once the parameter is typed, and both give retail
+  once it is not. The tell is a run of reloads with `nop`s rather than one
+  hoisted load. Its *locals* convert freely, though -- the file's two private
+  duplicate structs became one `GsCOORDUNIT` byte for byte -- so a file
+  blocked at the parameter is still worth converting inside.
 - **`sizeof(T)` may replace a literal stride** once the cast is in place.
 - **But a proven-equal `sizeof` is not a licence to switch to typed indexing.**
   `model.h` asserts `sizeof(ModelSlot) == MODEL_SLOT_SIZE`, so

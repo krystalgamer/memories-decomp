@@ -4,8 +4,6 @@
 #include "file_transfer.h"
 #include "model.h"
 
-void func_8005922C(u8 *arg0, s32 arg1);
-
 void func_80050584(s32 arg0) {
     u8 *p;
     u8 *b;
