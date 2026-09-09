@@ -24,11 +24,11 @@ extern void Duel_PopulateCombinedDeckData(void);
 #include "duel_grid.h"
 #include "sound.h"
 #include "../unmatched.h"
+#include "duel_apply_card_object_flags.h"
 
 extern u8 *D_8009B21C;
 extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
 
-extern void Duel_ApplyCardObjectFlags(u8 *);
 extern u8 *func_80018004(u8 *, s32, s32);
 
 void func_80018608(void)
@@ -175,7 +175,7 @@ void func_8001898C(void) {
             flags = *(u16 *)(rec + 0x16);
             if (flags & DUEL_CARD_FLAG_OCCUPIED) {
                 *(u16 *)(rec + 0x16) = flags & ~DUEL_CARD_FLAG_USED_THIS_TURN;
-                Duel_ApplyCardObjectFlags(*(u8 **)rec);
+                Duel_ApplyCardObjectFlags(*(DuelCardDisplayObject **)rec);
             } else {
                 *(u16 *)(rec + 0x16) = 0;
             }

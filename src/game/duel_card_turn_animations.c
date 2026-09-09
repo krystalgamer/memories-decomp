@@ -5,9 +5,9 @@
 #include "duel_card.h"
 #include "duel_card_turn_animations.h"
 #include "duel_card_display_state.h"
+#include "duel_apply_card_object_flags.h"
 
 s32 func_80042B98(u8 *arg0);
-void Duel_ApplyCardObjectFlags(u8 *arg0);
 
 /* The mirror of func_800229F4: the card turn-back animation step. Picks
  * the mode (+0x2E) from the card record's flags when func_80042B98 says
@@ -225,7 +225,7 @@ m0:
 reset:
     p->phase = 0;
     p->field_24 = 0;
-    Duel_ApplyCardObjectFlags((u8 *)p);
+    Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)p);
     return;
 m1:
     f = p->phase;

@@ -3,6 +3,7 @@
 #include "duel_card.h"
 #include "duel_display.h"
 #include "duel_card_display_state.h"
+#include "duel_apply_card_object_flags.h"
 
 /* Same D_801A7AD8[] stat table (0x1C-byte stride) as
    obj_apply_table801a7ad8_flags.c / table801a7ad8_row_search.c, but with the
