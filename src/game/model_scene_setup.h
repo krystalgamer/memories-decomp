@@ -16,4 +16,11 @@ void func_800530C4(void);
  * reads whatever follows on the stack. */
 void Model_SetSlotProperties(s32 idx, ...);
 
+/* Clears the scene's 256-entry table to VRAM, resets the three transfer
+ * channels and the model slot flags, and drops the scene counters. Like
+ * func_800530C4 above it is also reached from main_run_credits.c through an
+ * asm .reloc rather than a call, so that reference does not go through this
+ * declaration. */
+void func_800533D8(void);
+
 #endif
