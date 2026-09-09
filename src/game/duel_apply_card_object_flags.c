@@ -6,50 +6,39 @@
 
 /* Same D_801A7AD8[] stat table (0x1C-byte stride) as
    obj_apply_table801a7ad8_flags.c / table801a7ad8_row_search.c, but with the
-   f21/f22 bit mapping SWAPPED relative to that sibling: here the face-down
-   flag marks f22, while the defense-position flag marks f21. */
-struct Obj {
-    char pad0[0x8];
-    u16 f8;
-    char pad1[0xC - 0xA];
-    u32 fC;
-    char pad2[0x21 - 0x10];
-    u8 f21;
-    u8 f22;
-    char pad3[0x67 - 0x23];
-    u8 f67;
-    char pad4[0x6A - 0x68];
-    u8 f6A;
-};
+   field_21/field_22 bit mapping SWAPPED relative to that sibling: here the
+   face-down flag marks field_22, while the defense-position flag marks
+   field_21.
 
-/* Clears a0->f8's bit 0x4 and a0->f22, then re-derives f22 (0x80) and f21
-   (0xC0) from D_801A7AD8[a0->f6A]'s face-down and defense-position flags;
-   always sets fC to DUEL_DISPLAY_COLOR_NORMAL, or
+   Clears the display flags' clip-test bit and field_22, then re-derives
+   field_22 (0x80) and field_21 (0xC0) from the selected D_801A7AD8 record's
+   face-down and defense-position flags; always sets color to
+   DUEL_DISPLAY_COLOR_NORMAL, or
    DUEL_DISPLAY_COLOR_DIMMED if DUEL_CARD_FLAG_USED_THIS_TURN is set; runs
-   func_80017DB4(a0), then clears a0->f67 unless
+   func_80017DB4, then clears field_67 unless
    DUEL_CARD_FLAG_DISPLAY_MARKER is set. */
-void Duel_ApplyCardObjectFlags(struct Obj *a0) {
-    u16 flags8 = a0->f8;
-    s32 type = a0->f6A;
+void Duel_ApplyCardObjectFlags(DuelCardDisplayObject *object) {
+    u16 flags = object->flags;
+    s32 type = object->card_index;
     DuelCardRecord *rec;
 
-    a0->f22 = 0;
-    a0->f8 = flags8 & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
+    object->field_22 = 0;
+    object->flags = flags & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
     rec = &D_801A7AD8[type];
 
     if (rec->flags & DUEL_CARD_FLAG_FACE_DOWN) {
-        a0->f22 = 0x80;
+        object->field_22 = 0x80;
     }
-    a0->f21 = 0;
+    object->field_21 = 0;
     if (rec->flags & DUEL_CARD_FLAG_DEFENSE_POSITION) {
-        a0->f21 = 0xC0;
+        object->field_21 = 0xC0;
     }
-    a0->fC = DUEL_DISPLAY_COLOR_NORMAL;
+    object->color = DUEL_DISPLAY_COLOR_NORMAL;
     if (rec->flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
-        a0->fC = DUEL_DISPLAY_COLOR_DIMMED;
+        object->color = DUEL_DISPLAY_COLOR_DIMMED;
     }
-    func_80017DB4(a0);
+    func_80017DB4(object);
     if (!(rec->flags & DUEL_CARD_FLAG_DISPLAY_MARKER)) {
-        a0->f67 = 0;
+        object->field_67 = 0;
     }
 }
