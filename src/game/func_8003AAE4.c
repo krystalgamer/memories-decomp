@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_position.h"
 #include "display_effect_lifecycle.h"
 #include "graphics_frame.h"
 #include "../psyq/libgte.h"
@@ -6,8 +7,6 @@
 #include "../psyq/libgs.h"
 #include "func_8003A440.h"
 #include "func_8003A1EC.h"
-
-extern s32 func_8003A920();
 
 void func_8003AAE4(u8 *p) {
     u8 *q;
@@ -25,7 +24,8 @@ void func_8003AAE4(u8 *p) {
         if (p[0x3C] != 0) {
             *(s16 *)(p + 0x34) = 0xD8;
         }
-        func_8003A920(p, *(s16 *)(p + 0x34), *(s16 *)(p + 0x36));
+        func_8003A920((DisplayPositionGroup *)p, *(s16 *)(p + 0x34),
+                      *(s16 *)(p + 0x36));
         q = *(u8 **)p;
         a = *(s8 *)(q + 0x16);
         b = q[0x67];
