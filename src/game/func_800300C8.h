@@ -7,9 +7,12 @@
  * name only the fields this function touches and carry the rest as padding, so
  * neither is a claim about the whole record. */
 
-/* Read side, D_800EB15C. Only the three values at 0x3C are named; the other
- * three files that use this symbol pass it around as u8 * and never look
- * inside, so nothing else constrains the shape. */
+/* Read side: a view of D_800EB15C, which duel_effect.h declares as the
+ * DuelEffectChannel at D_800EB0F8[1]. Only the three values at 0x3C are
+ * named, and the view stays because the two do not agree on +0x40: this
+ * function reads it unsigned (`row`, u16) and DuelEffectChannel declares
+ * the same halfword `s16 field_40`. Same offset, different signedness, so
+ * it is not converted to the member; the pointer is cast at the use. */
 struct LayoutSource {
     u8 pad0[0x3C];
     s16 base;
