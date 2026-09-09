@@ -84,18 +84,17 @@ void func_80046DE8(void)
     w->flags_0040 = 0;
 }
 
+#include "sound_init.h"
+#include "sound_pending_entries.h"
 #include "sound_output.h"
 extern void func_80046A08(void);
-extern void func_8004763C(void);
 extern void func_800490F0(s16, u8);
 extern void func_80049108(s16, u8);
 extern void func_80049138(s32, s32);
-extern void func_80049230(s32, s32);
+/* Not a duplicate of the sound_init.h declaration: a second addressing view
+   of the same symbol. The one call below narrows its second argument to s16,
+   and the canonical (s32, s32) prototype would widen it back. */
 extern void func_80049230_s16(s32, s16) asm("func_80049230");
-extern void func_800495A4(void);
-extern void func_800495DC(void);
-extern void func_800495EC(void);
-extern void SD_Init(void);
 extern SDValue * volatile D_8009B45C_volatile asm("g_SDValue");
 void func_80046F58(void)
 {

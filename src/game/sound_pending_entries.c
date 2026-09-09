@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
+#include "sound_pending_entries.h"
 
 typedef struct {
     u8 pad0000[6];

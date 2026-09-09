@@ -5,6 +5,7 @@
 #include "file_transfer.h"
 #include "input.h"
 #include "sound.h"
+#include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
 #include "../unmatched.h"
 
@@ -21,7 +22,6 @@ extern u8 D_80090CB4[];
 
 extern void func_8003FFB4(s32);
 extern void func_8003FF88(s32);
-extern void func_8004763C(void);
 
 void func_800307B8(void)
 {

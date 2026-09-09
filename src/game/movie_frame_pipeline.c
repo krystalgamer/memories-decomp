@@ -6,6 +6,7 @@
 #include "../psyq/libcd.h"
 #include "graphics_constants.h"
 #include "mdec_sync.h"
+#include "sound_mix.h"
 
 /* The movie player, in image order: the stop path that tears the stream down
    and repaints the screen, the three stages that decode and present one frame,
@@ -40,7 +41,6 @@ extern s32 D_800FE0D4 __attribute__((section(".data")));
    lui %hi / %lo. */
 extern s32 D_800F5D44 __attribute__((section(".data")));
 
-extern void func_80044F58(s32 arg0);
 extern void func_8005C62C(CdlLOC *loc);
 
 s32 func_8005BB7C(s32 arg0) {
