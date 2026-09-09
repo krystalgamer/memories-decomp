@@ -5,7 +5,6 @@
 #include "sound.h"
 #include "sound_spatialization.h"
 
-extern int SD_SetVoiceVolume();
 extern void func_8004ACE4(u8 *, int);
 extern u8 *D_8009B458_bytes asm("D_8009B458");
 extern void SD_ProcessSequenceTracks(void);

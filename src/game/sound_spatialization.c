@@ -7,8 +7,6 @@
 
 extern u8 *D_8009B458;
 
-extern void SD_SetVoiceVolume(int, int, int);
-
 void SD_UpdateSecondaryObjectVolumes(void)
 {
     register u8 *state asm("$6") = D_8009B458;
