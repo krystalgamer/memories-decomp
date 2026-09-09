@@ -8,17 +8,12 @@
 #include "display_object_helpers.h"
 #include "duel_card.h"
 
-typedef struct {
-    u8 pad_00[0x40];
-    u16 field_40;
-} DuelCardStatObject;
-
 void func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {
     register s32 table_index __asm__("$16") = index;
     register s32 x __asm__("$17") = arg1;
     register s32 y __asm__("$18") = arg2;
-    register DuelCardStatObject *object __asm__("$19");
+    register DisplayObjectConfigView *object __asm__("$19");
     register s32 field_18 __asm__("$20") = arg3;
     register s32 bits __asm__("$2");
     s32 kind;
@@ -38,13 +33,13 @@ void func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
     switch (kind) {
     case CARD_TYPE_MAGIC:
     case CARD_TYPE_EQUIP:
-        object->field_40 += 0x10;
+        *(u16 *)&object->field_40 += 0x10;
         break;
     case CARD_TYPE_TRAP:
-        object->field_40 += 0x20;
+        *(u16 *)&object->field_40 += 0x20;
         break;
     case CARD_TYPE_RITUAL:
-        object->field_40 += 0x30;
+        *(u16 *)&object->field_40 += 0x30;
         break;
     }
     func_80042918(object);
