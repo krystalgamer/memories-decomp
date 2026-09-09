@@ -10,9 +10,6 @@
 #include "../../game/display_object_config.h"
 #include "../../game/fade.h"
 
-extern u8 gPassword_abDigits[];
-extern u16 D_8016D424;
-extern s32 gPassword_nDigitIndex;
 extern u8 *D_8016D430;
 extern u8 *gPassword_pDigitCursorWidget;
 extern u8 *D_8016D440[];

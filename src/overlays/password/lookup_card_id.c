@@ -1,7 +1,6 @@
 #include "../../types.h"
 #include "shop.h"
 
-extern u8 gPassword_abDigits[];
 extern s32 D_801A8008[];
 
 s32 Password_LookupCardID(void)

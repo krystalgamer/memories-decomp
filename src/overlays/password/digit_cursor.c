@@ -15,7 +15,6 @@ typedef struct {
     u8 kind;
 } PasswordNode;
 
-extern s32 gPassword_nDigitIndex;
 extern PasswordNode *gPassword_pDigitCursorWidget;
 
 void Password_UpdateDigitCursor(u8 *object)

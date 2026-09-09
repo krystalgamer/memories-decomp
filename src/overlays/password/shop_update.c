@@ -22,12 +22,9 @@ typedef struct {
     u32 hi;
 } Pair;
 
-extern u16 D_8016D424;
 extern u32 D_800EB12C;
 extern u16 D_8016D4DC;
-extern s32 gPassword_nDigitIndex;
 extern Cursor *gPassword_pDigitCursorWidget;
-extern u8 gPassword_abDigits[];
 extern u32 D_8016D438;
 extern u32 D_801A8000[];
 extern Pair D_801D5608;

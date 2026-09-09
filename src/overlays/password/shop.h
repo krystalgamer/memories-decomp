@@ -18,6 +18,24 @@ typedef void (*PasswordCursorUpdate)(u8 *object);
 
 extern PasswordCardPreviewView *D_8016D4D8;
 
+/* Shop/password-entry state. All five sources that use these already include
+ * this header, so the local copies they carried existed only because the
+ * declarations were missing here.
+ *
+ *   gPassword_abDigits     The eight entered digits.
+ *   gPassword_nDigitIndex  Which of them the cursor is on.
+ *   D_8016D424             The starchip count the shop screen displays.
+ *
+ * gPassword_pDigitCursorWidget is NOT here. Its three declarers spell it
+ * three different ways -- u8 * in shop_setup.c, Cursor * in shop_update.c and
+ * PasswordNode * in digit_cursor.c -- and the latter two are structs defined
+ * locally in those files rather than shared anywhere. Picking one spelling
+ * here would spread whichever is wrong, and reconciling the two local structs
+ * is #2501 work that wants its own change. */
+extern u8 gPassword_abDigits[];
+extern s32 gPassword_nDigitIndex;
+extern u16 D_8016D424;
+
 /* Builds text-box record 0 and returns it; both call sites ignore the
    record. */
 DuelEffectChannel *Password_CreateMessageBox(s32 messageId, s32 flags);
