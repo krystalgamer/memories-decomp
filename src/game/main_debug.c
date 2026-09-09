@@ -1,13 +1,12 @@
 #include "../types.h"
 #include "duel_interface_setup.h"
+#include "func_80031084.h"
 #include "main_debug.h"
 #include "main_modes.h"
 #include "main_reset_frontend_runtime.h"
 
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
-
-extern void func_80031084(void);
 
 void func_8002CDE8(void)
 {
