@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_record_tables.h"
 #include "model_scene_setup.h"
 #include "model_transfer_flags.h"
 #include "model_update_view_metrics.h"
@@ -72,7 +73,6 @@ extern u8 D_8009B48E[2];
 extern u8 D_8009B490[2];
 extern u8 *D_8009AF88;
 extern u16 D_800F5678[];
-extern u8 D_80091008[];
 
 void Model_SetSlotProperties(s32 idx, ...)
 {
