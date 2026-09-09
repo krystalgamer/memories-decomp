@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "duel_grid.h"
 #include "display_object.h"
+#include "func_80022EEC.h"
 
 typedef struct DisplayLinkEntry {
     DisplayObject *object;
@@ -14,8 +15,6 @@ typedef struct DisplayParent {
     u8 pad_0C[0xB];
     u8 index;
 } DisplayParent;
-
-extern void func_80022EEC(void);
 
 void func_80022F98(DisplayParent *parent, volatile DisplayObject *object)
 {
