@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_config.h"
 #include "script_command_busy.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -34,7 +35,6 @@ extern u8 D_800E9ECF[];
 extern u8 D_801AF000[];
 extern void func_8002F4C0(u8 *, s32);
 extern void func_8002E00C(void *);
-extern void func_80040510(Object *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern u32 func_8004703C(void);
 
 /* Duel result screen setup. Reads the two-byte result code from the script
@@ -84,11 +84,11 @@ void func_8002F630(void) {
         o->flags |= 0x1000000;
         D_800EAE98[0] = o;
         o = func_800400AC(func_8004002C(), 1);
-        func_80040510(o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
+        func_80040510((DisplayObjectConfigView *)o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
         func_800428EC(o, -1);
         D_800EAE98[5] = o;
         o = func_800400AC(func_8004002C(), 1);
-        func_80040510(o, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
+        func_80040510((DisplayObjectConfigView *)o, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
         func_800428EC(o, -1);
         D_800EAE98[10] = o;
         q = func_800400AC(func_8004002C(), four);

@@ -1,5 +1,6 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA
 #include "../types.h"
+#include "display_object_config.h"
 #include "rand_get_interval.h"
 #include "display_object_api.h"
 #include "fade.h"
@@ -14,14 +15,13 @@ extern u8 D_800E9ECE[];
 extern u8 D_800E9ECF[];
 /* The retail tail load uses an absolute, self-clobbering v1 address lifetime. */
 extern void func_80040410(u8 *, s32);
-extern void func_80040510();
 
 void func_8003C950(void)
 {
     u8 *object;
     object = func_800400AC(func_8004002C(), 3);
     func_80040510(
-        object, 0, 0, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
+        (DisplayObjectConfigView *)object, 0, 0, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
         0, 0, 16, 0, 240
     );
     *(s32 *)(object + 4) |= 0x1000000;

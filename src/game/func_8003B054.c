@@ -1,5 +1,6 @@
 #define D_8009B0D8_IS_HALFWORD
 #include "../types.h"
+#include "display_object_config.h"
 #include "display_effect_lifecycle.h"
 #include "graphics_frame.h"
 #include "../psyq/libgte.h"
@@ -7,8 +8,6 @@
 #include "../psyq/libgs.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
-
-extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
 void func_8003B054(u8 *p)
 {
@@ -27,7 +26,7 @@ void func_8003B054(u8 *p)
             id = *(s8 *)(p + 0x30);
             idx = id - 0x41;
             o = func_800400AC(func_8004002C(), 1);
-            func_80040510(o, *(s16 *)(p + 0x34), *(s16 *)(p + 0x36), 0x30, 0x30, 0, 0, 0xE, 0x380, 0xF0);
+            func_80040510((DisplayObjectConfigView *)o, *(s16 *)(p + 0x34), *(s16 *)(p + 0x36), 0x30, 0x30, 0, 0, 0xE, 0x380, 0xF0);
             *(u16 *)(o + 0x40) += (idx >> 4) << 6;
             o[0x5C] = (idx % 5) * 48;
             o[0x5D] = (idx / 5) * 48;
@@ -43,7 +42,7 @@ void func_8003B054(u8 *p)
         *(u32 *)(o + 4) = (*(u32 *)(o + 4) | (GsALON | GsAONE)) & ~GsROTOFF;
         *(u16 *)(o + 0x4A) = 0;
         o2 = func_800400AC(func_8004002C(), 1);
-        func_80040510(o2, *(s16 *)(o + 0x30), *(s16 *)(o + 0x32), 0x30, 0x30, o[0x5C], o[0x5D], 0xE, 0x200, 0xFD);
+        func_80040510((DisplayObjectConfigView *)o2, *(s16 *)(o + 0x30), *(s16 *)(o + 0x32), 0x30, 0x30, o[0x5C], o[0x5D], 0xE, 0x200, 0xFD);
         *(u32 *)(o2 + 4) = (*(u32 *)(o2 + 4) | 0x61000000) & ~GsROTOFF;
         *(u16 *)(o2 + 0x46) = *(u16 *)(o + 0x46);
         *(u16 *)(o2 + 0x4A) = 0;
