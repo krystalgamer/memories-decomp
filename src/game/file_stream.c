@@ -106,8 +106,8 @@ FileTransferDescriptor *File_InitTransferDescriptor(
             } else {
                 flags |= 0x10000;
                 transfer->done = 2;
-                transfer->field_32 = ((u32)length) >> 16;
-                transfer->counter = length;
+                transfer->field_30.h.field_32 = ((u32)length) >> 16;
+                transfer->field_30.h.counter = length;
                 transfer->w = FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH;
                 transfer->h = FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT;
                 transfer->value_08 = D_8009B118;

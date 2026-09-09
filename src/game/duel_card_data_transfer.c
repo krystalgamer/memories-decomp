@@ -10,7 +10,7 @@ void Duel_StepCardDataTransfer(FileTransferDescriptor *o, int mode) {
     s16 *p = o->callback_data;
 
     if (mode == 0) {
-        o->counter = *p;
+        o->field_30.h.counter = *p;
         o->mode = 0x800;
         D_8009B0F4 &= ~0x230000;
         o->value_08 = o->value_0C = o->position;
@@ -22,8 +22,8 @@ void Duel_StepCardDataTransfer(FileTransferDescriptor *o, int mode) {
         o->callback_data = p;
         o->position += DUEL_CARD_DATA_BLOCK_SIZE;
     }
-    o->counter++;
-    if (o->counter == *p) {
+    o->field_30.h.counter++;
+    if (o->field_30.h.counter == *p) {
         o->mode = 0x800;
         o->result = 1;
         D_8009B0F4 &= ~0x230000;

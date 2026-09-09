@@ -11,8 +11,8 @@ extern u8 D_801AF000[];
 void func_8003B808(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
     case 0:
-        object->counter = 0;
-        object->field_32 = 0x100;
+        object->field_30.h.counter = 0;
+        object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
         D_8009B0F4_abs &= 0xFFDDFFFF;

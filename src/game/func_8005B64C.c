@@ -14,8 +14,8 @@ void func_8005B64C(FileTransferDescriptor *object, s32 mode) {
 
     switch (mode) {
     case 0:
-        object->counter = 0x200;
-        object->field_32 = 0x100;
+        object->field_30.h.counter = 0x200;
+        object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
         D_8009B0F4_abs &= 0xFFDDFFFF;
@@ -27,8 +27,8 @@ void func_8005B64C(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 1:
-        object->counter = 0x380;
-        object->field_32 = 0;
+        object->field_30.h.counter = 0x380;
+        object->field_30.h.field_32 = 0;
         object->w = 0x40;
         object->h = 0x10;
         D_8009B0F4_abs &= 0xFFDDFFFF;
