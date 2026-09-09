@@ -45,22 +45,22 @@ void func_8004A2F8(void)
     }
 }
 
-s32 func_8004A3BC(u8 *entry, s32 value)
+s32 func_8004A3BC(SDSecondaryObject *entry, s32 value)
 {
     u8 check = value;
     int result;
 
     if (check < SD_SEQUENCE_PITCH_BEND_CENTER) {
-        if (entry[0x11] == 0)
+        if (entry->pitch_bend_negative_scale == 0)
             return 0;
-        result = -((entry[0x11] << 1) *
+        result = -((entry->pitch_bend_negative_scale << 1) *
                    (SD_SEQUENCE_PITCH_BEND_CENTER - (u8)value));
     } else {
         if (check == SD_SEQUENCE_PITCH_BEND_CENTER)
             return 0;
-        if (entry[0x10] == 0)
+        if (entry->pitch_bend_positive_scale == 0)
             return 0;
-        result = (entry[0x10] << 1) *
+        result = (entry->pitch_bend_positive_scale << 1) *
                  ((u8)value - SD_SEQUENCE_PITCH_BEND_POSITIVE_BIAS);
     }
     return (short)result;

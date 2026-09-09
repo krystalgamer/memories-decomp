@@ -184,9 +184,12 @@ typedef struct {
 } SDSecondaryRecord;
 
 typedef struct {
-    u8 pad0000[3];
+    u8 voice_index;
+    u8 pad0001[2];
     u8 channel_index;
-    u8 pad0004[4];
+    u8 pad0004[2];
+    u8 note;
+    u8 pad0007;
     u8 field_0008;
     u8 field_0009;
     u8 field_000A;
@@ -195,10 +198,15 @@ typedef struct {
     u8 pad000D;
     u8 field_000E;
     u8 field_000F;
-    u8 pad0010[4];
+    u8 pitch_bend_positive_scale;
+    u8 pitch_bend_negative_scale;
+    u8 field_0012;
+    u8 field_0013;
     u16 field_0014;
     u16 field_0016;
-    u8 pad0018[6];
+    u8 pad0018[2];
+    s16 cached_pitch_bend;
+    u8 pad001C[2];
     u16 field_001E;
     u8 pad0020[8];
 } SDSecondaryObject;
