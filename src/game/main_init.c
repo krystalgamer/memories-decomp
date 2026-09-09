@@ -34,7 +34,6 @@ extern volatile s32 D_8009B0C4;
 extern u8 D_8009B269 __attribute__((section(".data")));
 extern u8 D_8009B4A8[];
 extern u8 D_800E9EC0[];
-extern jmp_buf D_800E9DC0;
 
 extern void __main(void);
 extern void func_80013154(void);

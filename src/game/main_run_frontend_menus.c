@@ -8,12 +8,12 @@
 #include "func_8002D458.h"
 #include "menu_record_reset.h"
 #include "sound.h"
+#include "main_services.h"
 
 extern u8 D_8009B26C;
 extern u8 D_8009B268;
 extern u8 D_8009B269;
 extern u8 D_8009B26D;
-extern jmp_buf D_800E9DC0;
 extern void NameEntry_Init(void);
 extern int NameEntry_PollCompletion(void);
 extern void func_8003C2B4(void);

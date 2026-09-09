@@ -2,8 +2,8 @@
 #include "../psyq/setjmp.h"
 #include "fade.h"
 #include "func_80035A64.h"
+#include "main_services.h"
 
-extern jmp_buf D_800E9DC0;
 extern void func_800403F0(void);
 /* The imported prototype lacks noreturn; retail has no epilogue after this call. */
 
