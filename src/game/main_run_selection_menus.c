@@ -4,6 +4,7 @@
 #include "save_data.h"
 #include "main_frame.h"
 #include "main_init_free_duel_menu.h"
+#include "main_services.h"
 #include "fade.h"
 #include "sound.h"
 
@@ -15,7 +16,6 @@ extern unsigned char D_8009B2F8[];
 extern unsigned int D_80010000[];
 extern void func_8016866C(int);
 extern void CampaignMap_UpdateLocation(void);
-extern void func_800134B4(void);
 extern void func_800323F8(unsigned int, void *, int, int);
 extern void func_80168FB4(void);
 

@@ -28,4 +28,6 @@ extern void (*D_800E9DB0[4])(void);
  * func_800134B4 clears alongside them. Only main_services.c refers to it. */
 extern void (*D_8009B0B8)(void);
 
+void func_800134B4(void);
+
 #endif

@@ -16,6 +16,7 @@
 #include "func_80043BCC.h"
 #include "main_loop.h"
 #include "main_reset_frontend_runtime.h"
+#include "main_services.h"
 #include "rand_constants.h"
 #include "movie_playback_control.h"
 
@@ -38,7 +39,6 @@ extern jmp_buf D_800E9DC0;
 extern void __main(void);
 extern void func_80013154(void);
 extern void func_800403F0(void);
-extern void func_800134B4(void);
 extern void func_80035A64(void);
 extern void func_8003B5C8(void);
 
