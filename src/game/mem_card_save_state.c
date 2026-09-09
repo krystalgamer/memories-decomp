@@ -38,7 +38,6 @@ extern u8 D_800EFE18[];
 extern u8 gLibrary_aCardArtRecord[];
 extern s32 D_801D5648[];
 
-extern void func_8003E46C(u8, u16);
 extern s32 SaveData_HasSameDuelistCode(u8 *, u8 *);
 
 void func_8003EED0(void)

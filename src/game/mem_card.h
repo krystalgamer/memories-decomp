@@ -32,4 +32,13 @@ extern s32 gMemCard_nIOResult;
 
 extern u8 gMemCard_szSaveFileName[];
 
+/* The create-state message value must stay wide so GCC keeps the retail
+ * register-to-argument move; the definition and the other callers use the
+ * measured byte/halfword contract. */
+#ifdef GMEMCARD_RESULT_USES_WIDE_ARGS
+void func_8003E46C(s32 value, s32 bits);
+#else
+void func_8003E46C(u8 value, u16 bits);
+#endif
+
 #endif

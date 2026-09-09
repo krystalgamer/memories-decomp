@@ -34,8 +34,6 @@ extern u8 D_800EFBC0[];
 extern u8 D_800EFE18[];
 extern s32 D_801D5648[];
 
-extern void func_8003E46C(u8, u16);
-
 void func_8003E490(void)
 {
     s32 files;
