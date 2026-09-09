@@ -1,3 +1,6 @@
+#define GINPUT_PAD1_HELD_IS_VOLATILE
+#define GINPUT_PAD1_REPEAT_IS_VOLATILE
+#define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../../types.h"
 #include "../../game/input.h"
 #include "name_entry_keyboard.h"
@@ -30,9 +33,6 @@ extern u16 *D_8016D418;
 extern u8 D_8016D400;
 extern s8 D_8016AB38[][15];
 extern u8 D_8016ABC0[][2];
-extern volatile u16 D_8009B3A4[];
-extern volatile u16 D_8009B394[];
-extern volatile u16 D_8009B398[];
 
 extern void func_80042A78(W *);
 extern void func_800429D8(W *);
@@ -83,27 +83,27 @@ void NameEntry_UpdateKeyboard(void)
         w->f32 = D_8016D436;
         D_8016D4D4 &= 0xBFFF;
     }
-    if ((D_8009B3A4[0] & PAD_DIRECTION_MASK) != 0) {
-        if ((D_8009B3A4[0] & PAD_DIRECTION_RIGHT) != 0) {
+    if ((gInput_wPad1Held & PAD_DIRECTION_MASK) != 0) {
+        if ((gInput_wPad1Held & PAD_DIRECTION_RIGHT) != 0) {
             D_8016D401 = D_8016D401 + 1;
             if (D_8016D401 >= 15) {
                 D_8016D401 = 0;
             }
         }
-        if ((D_8009B3A4[0] & PAD_DIRECTION_LEFT) != 0) {
+        if ((gInput_wPad1Held & PAD_DIRECTION_LEFT) != 0) {
             D_8016D401 = D_8016D401 - 1;
             if (D_8016D401 < 0) {
                 D_8016D401 = 14;
             }
         }
-        if ((D_8009B3A4[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+        if ((gInput_wPad1Held & PAD_DIRECTION_VERTICAL_MASK) != 0) {
             if (D_8016D401 >= 11) {
-                n = D_8009B3A4[0] & PAD_DIRECTION_DOWN;
+                n = gInput_wPad1Held & PAD_DIRECTION_DOWN;
                 work = (n != 0);
                 D_8016D401 = 11;
                 D_8016D426 = D_8016D402 = D_8016ABC0[(s8)D_8016D402][work];
                 goto tail47;
-            } else if ((D_8009B3A4[0] & PAD_DIRECTION_UP) != 0) {
+            } else if ((gInput_wPad1Held & PAD_DIRECTION_UP) != 0) {
                 D_8016D402 = D_8016D402 - 1;
                 if ((s8)D_8016D402 < 0) {
                     D_8016D402 = 8;
@@ -154,14 +154,14 @@ tail47:
     return;
 
 alt800:
-    if ((D_8009B398[0] & PAD_BUTTON_START) == 0) {
+    if ((gInput_wPad1Pressed & PAD_BUTTON_START) == 0) {
         goto select;
     }
     D_8016D401 = 14;
     D_8016D402 = 8;
     goto tail47;
 select:
-    if ((D_8009B394[0] & PAD_BUTTON_CONFIRM_MASK) == 0) {
+    if ((gInput_wPad1Repeat & PAD_BUTTON_CONFIRM_MASK) == 0) {
         goto sel_ret;
     }
     kind = 0;
@@ -236,7 +236,7 @@ join:
     }
     return;
 sel_ret:
-    if ((D_8009B394[0] & PAD_BUTTON_CANCEL) != 0) {
+    if ((gInput_wPad1Repeat & PAD_BUTTON_CANCEL) != 0) {
         n = NameEntry_AdjustLength(-1, 6);
         if (n != 0) {
             n = 12;
