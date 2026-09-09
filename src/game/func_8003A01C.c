@@ -5,12 +5,6 @@
 
 extern s32 D_8009B118;
 
-/* p is a FileTransferDescriptor, but typing it here costs 8 bytes: the two
-   `mode` stores lose their `li`/`sw` pair to a reschedule once GCC can prove
-   they do not alias D_8009B0F4. Measured; see func_80032184.c for the same
-   result at nine instructions. */
-/* p is a FileTransferDescriptor; typing it costs 8 bytes here, the two `mode`
-   stores losing their li/sw pair to the same reschedule. Measured. */
 void func_8003A01C(u8 *p, s32 mode)
 {
     s32 v_0;
