@@ -1,0 +1,6 @@
+#ifndef MEMORIES_DECOMP_MAIN_INIT_FREE_DUEL_MENU_H
+#define MEMORIES_DECOMP_MAIN_INIT_FREE_DUEL_MENU_H
+
+void Main_InitFreeDuelMenu(void);
+
+#endif
