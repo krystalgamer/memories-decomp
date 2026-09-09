@@ -1,18 +1,14 @@
 #include "../types.h"
+#include "duel_check_ritual.h"
 #include "duel_side_state.h"
 #include "duel_card.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 
-typedef struct {
-    u32 w[DUEL_RITUAL_TRIBUTE_COUNT];
-    s32 unkC;
-} RitualOut;
-
 extern u16 gDuel_awRitualData[];
 
-u16 Duel_CheckRitual(RitualOut *out, s32 ritualId)
+s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
 {
     DuelCardRecord *found[DUEL_RITUAL_TRIBUTE_COUNT];
     DuelCardRecord *cands[DUEL_FIELD_ROW_SIZE];
@@ -74,9 +70,9 @@ matched:
 
     if (out != 0) {
         for (i = 0; i < DUEL_RITUAL_TRIBUTE_COUNT; i++) {
-            out->w[i] = (u32)found[i]->object;
+            out->tribute_objects[i] = found[i]->object;
         }
-        out->unkC = 0;
+        out->field_0C = 0;
     }
     return p[DUEL_RITUAL_TRIBUTE_COUNT];
 }
