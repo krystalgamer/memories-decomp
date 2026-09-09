@@ -5008,7 +5008,7 @@
       "address": "0x8004DB14",
       "profile": "gcc_2_8_1_g8",
       "size": "0x124",
-      "source": "src/game/func_8004DB14.c"
+      "source": "src/game/func_8004DC38.c"
     },
     {
       "address": "0x8004DC38",

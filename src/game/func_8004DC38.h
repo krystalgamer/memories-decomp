@@ -3,6 +3,10 @@
 
 #include "../types.h"
 
+/* Returns the sequence row and accumulated position for one model channel,
+   packed into the high byte and low 24 bits respectively. */
+s32 func_8004DB14(u8 *slot, s32 channel);
+
 /* Seeks channel i of a model slot to position pos within sequence n.
  *
  * The first argument is a ModelSlot; all three callers hold one and two of
