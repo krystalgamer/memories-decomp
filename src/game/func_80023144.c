@@ -71,7 +71,7 @@ void func_80023144(FieldSource *source, s32 index)
                 D_8009B34E = 3;
             }
             value = index >= DUEL_CARD_SIDE_RECORD_COUNT;
-            if (value == D_8009B1D5 && ((s8 *)D_8009B1C8)[0x1F] == 0) {
+            if (value == D_8009B1D5 && D_8009B1C8->field_1F == 0) {
                 D_8009B34E = two;
             }
         } else {
