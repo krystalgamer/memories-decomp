@@ -1,7 +1,9 @@
 #define D_8009B268_IN_DATA
 #define D_8009B26D_IN_DATA
+#define D_8009B36A_IN_DATA
 #include "../types.h"
 #include "duel_effect.h"
+#include "duel_side_state.h"
 #include "duel_effect_mode_7.h"
 #include "duel_interface_setup.h"
 #include "file_transfer.h"
@@ -25,7 +27,6 @@ extern u8 D_8009B254[];
 extern u8 D_8009B26C[];
 extern u8 D_8009B2E8;
 extern u8 D_8009B368[];
-extern u16 D_8009B36A[];
 extern u8 D_8009B3EA[];
 extern u8 D_8009B3ED[];
 extern u16 gDebug_nSceneOrSoundID;
@@ -164,7 +165,7 @@ void func_80030EC8(void)
 
 void func_80030F40(void)
 {
-    D_8009B36A[0] = 0x71D0;
+    D_8009B36A = 0x71D0;
     D_8009B368[0] = 0;
     func_80024DC8(-1, 1, 0x8000, 0x8000);
 }

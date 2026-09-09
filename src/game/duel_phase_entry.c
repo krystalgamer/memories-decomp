@@ -1,4 +1,5 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
+#define D_8009B36A_IN_DATA
 #include "../types.h"
 #include "duel_card.h"
 #include "duel_side_state.h"
@@ -16,7 +17,6 @@ typedef struct {
 } DuelSelectionSide;
 extern u8 D_8009B1EC;
 extern u8 *D_8009B1B4;
-extern u16 D_8009B36A __attribute__((section(".data")));
 extern u8 D_800E9F10[];
 
 extern void Duel_RequestCombinedDeckData(void);
