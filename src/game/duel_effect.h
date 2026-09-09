@@ -174,6 +174,17 @@ typedef char DuelEffectEntry_field_18_offset_must_be_0x18[
 
 #undef DUEL_EFFECT_OFFSET
 
+/* The entry occupancy table: one byte per DUEL_EFFECT_OCCUPANCY_COUNT entry,
+ * declared with that bound because both consumers already wrote it and the
+ * constant is defined above. DuelEffect_ResetOccupancy walks it from the base,
+ * func_80035D10 scans for the first zero, and func_80039AD4 clears the slot an
+ * object names at its offset 0x10.
+ *
+ * Two hundred and forty bytes is well over the -G8 threshold, so unlike the
+ * small arrays elsewhere in this tree the bound here costs nothing: it does
+ * not move the object between sections. */
+extern u8 D_800EAF08[DUEL_EFFECT_OCCUPANCY_COUNT];
+
 extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
 /* D_800EB15C is D_800EB0F8[1] under its own name: 0x800EB0F8 + 0x64, one
  * DuelEffectChannel in. It stays a second name because how this address is
