@@ -19,7 +19,6 @@ extern u8 D_800EA0E8[];
 extern void func_80029528(s32);
 extern void func_80029574(s32);
 extern PasswordCardPreviewView *func_800291E0(s32, s32, s32);
-extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern void func_80015A00(void);
 
 void Password_RecreateCardPreview(s32 ignored)
