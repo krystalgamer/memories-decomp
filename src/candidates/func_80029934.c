@@ -1,7 +1,15 @@
-#include "../../../../src/types.h"
-#include "../../../../src/psyq/libgte.h"
-#include "../../../../src/psyq/libgpu.h"
-#include "../../../../src/psyq/inline_c.h"
+/*
+ * Current best under gcc_2_8_1_g0: 351/351 instructions, opcode distance 6
+ * and 231 differing words. Signed division, the unaligned eight-byte centre
+ * copy, absolute scratchpad stores and a block-scoped D_800EA1E8 pointer are
+ * load-bearing; both inline rtps words are exact. Residual: a CSE-elided
+ * D_800EA1E8 address materialization and a D_800E9D9C spill compete for the
+ * same ninth saved register.
+ */
+#include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/inline_c.h"
 
 extern void func_80029684(s32, s32, s16 *, s32 *, s32, s32);
 extern void func_800297DC(s32, s32, s16 *, s32 *, s32, s32);
