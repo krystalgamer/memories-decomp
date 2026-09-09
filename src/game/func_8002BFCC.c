@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object_api.h"
 #include "card_constants.h"
+#include "card_grid.h"
 #include "campaign_flags.h"
 #include "display_object_layout.h"
 #include "file_transfer.h"
@@ -17,8 +18,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
     __attribute__((section(".data")));
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
-extern s8 gCardGrid_bCursorColumn;
-extern s8 gCardGrid_bCursorRow;
 extern void (*D_800E9DBC[])(void);
 extern u8 D_800EA1E8[];
 extern s32 D_801D5608[];
