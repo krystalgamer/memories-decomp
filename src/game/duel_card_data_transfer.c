@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "duel_card_data_transfer.h"
 #include "file_transfer.h"
 
 /* Walks the sorted card-ID boundary list while advancing through the loaded
