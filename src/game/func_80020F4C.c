@@ -88,7 +88,6 @@ extern void func_8001EC70(void *);
 extern void func_80020EE8(void *);
 
 extern u16 D_8009B1E0;
-extern u16 D_8009B1D0;
 extern s8 D_8009B238;
 extern u8 gDuel_bWinnerSide;
 extern struct Obj *D_8009B214;

@@ -134,7 +134,6 @@ s32 func_8001F0D0(u8 *p) {
 }
 
 extern u16 D_8009B210;
-extern u16 D_8009B1D0;
 extern s16 D_800F284A[];
 
 void func_80022D94(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);

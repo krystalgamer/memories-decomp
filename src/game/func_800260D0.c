@@ -6,8 +6,7 @@
 #include "duel_grid.h"
 #include "sound.h"
 #include "duel_effect.h"
-
-extern u16 D_8009B1D0;
+#include "../unmatched.h"
 extern s16 D_8009B20C[2];
 extern u16 D_8009B220;
 extern DuelFieldPosition D_80090800[];
