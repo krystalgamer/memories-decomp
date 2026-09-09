@@ -5,13 +5,9 @@
 #include "../psyq/libgte.h"
 #include "model.h"
 
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec32;
-
-extern Vec32 D_800F56FC;
+/* &D_800F56F0.vrx. Keep the interior symbol so the object retains the retail
+ * relocation target while the canonical GsRVIEW2 owns the surrounding view. */
+extern s32 D_800F56FC[];
 
 void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
@@ -26,7 +22,7 @@ void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 v;
 
     if (arg0 > 0) {
-        b = (u8 *)&D_800F56FC;
+        b = (u8 *)D_800F56FC;
         t = b - 0xC;
     } else {
         b = (u8 *)&D_800F56F0;
