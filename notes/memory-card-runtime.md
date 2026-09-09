@@ -63,7 +63,11 @@ event constants come from Psy-Q's `kernel.h`; `OpenEvent`, `EnableEvent`,
 enables all eight handles after creation, and exits the critical section only
 after the complete set is active. It also resets three surrounding
 memory-card state values at `D_8009B43E`, `D_8009B44E`, and `D_8009B444`;
-their broader roles remain address-based.
+the first two broader roles remain address-based. `D_8009B444` is the current
+directory-entry buffer: `func_80044608` points it at `D_800F2888`, stores the
+loaded entry count in `D_8009B440`, and passes both to the free-block and
+filename searches. `func_80044CD4` forwards the same buffer/count pair when it
+searches for a caller-supplied filename.
 
 The paired matching `MemCard_CloseIOEvents` teardown enters a critical section,
 closes the same eight `gMemCard_aIOEventHandles` entries in order, and then

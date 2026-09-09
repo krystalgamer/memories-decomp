@@ -10,8 +10,6 @@ extern u8 D_8009B43C;
 extern u8 D_8009B44E;
 extern s8 D_8009B43E;
 extern u8 D_8009B437;
-extern void *D_8009B444;
-extern s32 D_8009B440;
 extern s32 D_8009B438;
 
 extern long gMemCard_aIOEventHandles[];
