@@ -164,4 +164,12 @@ extern DuelEffectEntry D_800EB288[DUEL_EFFECT_ENTRY_COUNT];
  */
 extern volatile s32 D_8009B350;
 
+/* Per-scene state flags. Bit 0x80 is the run-once latch: every scene entry
+ * point in this subsystem opens with the same
+ * `if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0)` test and
+ * sets the bit inside, so the body runs on the first tick of a scene only.
+ * dialog_transition.c and func_8003DA40.c additionally raise 0x20 and 0x40,
+ * and the byte is cleared back to 0 when a scene is torn down. */
+extern u8 D_8009B3C1;
+
 #endif

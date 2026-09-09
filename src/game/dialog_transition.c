@@ -9,7 +9,6 @@
 #include "func_80039794.h"
 
 extern u8 D_8009AF76[];
-extern u8 D_8009B3C1;
 extern u8 D_8009B3C7;
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u16 D_8009AF76_raw asm("D_8009AF76")

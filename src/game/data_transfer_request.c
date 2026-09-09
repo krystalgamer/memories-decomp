@@ -3,8 +3,8 @@
 
 #include "mem_card.h"
 #include "data_transfer_request.h"
+#include "duel_effect.h"
 
-extern u8 D_8009B3C1;
 extern u8 D_8009B3DE;
 extern u8 D_8009B3EF;
 extern u16 gMemCard_wDialogFlags;

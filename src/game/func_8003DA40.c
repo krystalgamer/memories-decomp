@@ -8,7 +8,6 @@
 #include "display_object_interpolation.h"
 
 extern u8 D_8009AF76[];
-extern u8 D_8009B3C1;
 
 extern u8 *DuelEffect_CreateChannel(s32, s32);
 
