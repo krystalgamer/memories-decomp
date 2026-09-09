@@ -156,7 +156,28 @@ typedef struct DisplayObject {
        primitive's colour word, and func_800391E4.c and Dialog_UpdateChoice
        write colour constants into it. */
     u32 field_34;                  /* 0x34 */
-    u8 pad_38[4];                  /* 0x38 */
+    /* Read both ways, and by the same device as its neighbours.
+
+       Whole: display_object_helpers.c writes 0x00808080 here as the third of
+       six words at stride 0xC -- 0x2C, 0x38, 0x44, 0x50, 0x5C, 0x68 -- and
+       display_object_list_renderers.c copies it into a primitive's colour
+       word.
+
+       Halves: DuelEffect_UpdateObjectLayout writes 0x38 and 0x3A as an x/y
+       pair. That function writes six such pairs at stride 8 -- 0x28, 0x30,
+       0x38, 0x40, 0x48, 0x50 -- of which the record already had a halfword
+       view for four. It is one witness under one object kind, and it does
+       not generalise: the stride-0xC run above and the stride-8 colour run
+       at 0x2C both cross this range and disagree with it, which is the same
+       reason 0x44 and 0x4C keep their offsets for names. So the halves are
+       named for their offsets and nothing more. */
+    union {
+        u32 word;
+        struct {
+            s16 field_38;
+            s16 field_3A;
+        } h;
+    } field_38;                    /* 0x38 */
     /* 0x3C likewise: func_80040588 copies the whole word into the sprite
        primitive, while func_800408D0 reads the two halves separately. */
     union {
@@ -256,7 +277,18 @@ typedef struct DisplayObject {
 
        s32 serves all of them: a word load and store do not distinguish
        signedness, and the pointer writers cast, as they already do at 0x4C. */
-    s32 field_50;                  /* 0x50 */
+    /* Reached as halves as well, by the same witness 0x38 describes and
+       under the same limit: DuelEffect_UpdateObjectLayout writes 0x50 and
+       0x52 as the last of its six x/y pairs. The word view stays for every
+       user the comment above lists, and func_800179F4.c, the one caller
+       that reaches the word by name, spells it .word. */
+    union {
+        s32 word;
+        struct {
+            s16 field_50;
+            s16 field_52;
+        } h;
+    } field_50;                    /* 0x50 */
     void *field_54;                /* 0x54 */
     u8 pad_58[4];                  /* 0x58 */
     u16 field_5C;                  /* 0x5C */
@@ -323,6 +355,12 @@ typedef char DisplayObject_field_42_must_be_at_0x42[
 ];
 typedef char DisplayObject_field_4A_must_be_at_0x4A[
     DISPLAY_OBJECT_OFFSET(field_48.h.field_4A) == 0x4A ? 1 : -1
+];
+typedef char DisplayObject_field_3A_must_be_at_0x3A[
+    DISPLAY_OBJECT_OFFSET(field_38.h.field_3A) == 0x3A ? 1 : -1
+];
+typedef char DisplayObject_field_52_must_be_at_0x52[
+    DISPLAY_OBJECT_OFFSET(field_50.h.field_52) == 0x52 ? 1 : -1
 ];
 typedef char DisplayObject_field_65_must_be_at_0x65[
     DISPLAY_OBJECT_OFFSET(field_65) == 0x65 ? 1 : -1
