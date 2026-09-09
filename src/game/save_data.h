@@ -58,6 +58,18 @@ extern u16 gDuel_awPlayerDeck[];
 
 extern u8 gSaveData_aTransferBuffer[];
 extern u8 gSaveData_aHeaderTemplate[];
+
+/* The save's sequence number, held live rather than read back from the block.
+ * save_data_validation.c is what ties it to this header: it decides which of
+ * two saved copies is newer by comparing
+ * `gSaveDataSequence == *(s32 *)(right + SAVE_DATA_SEQUENCE_OFFSET)`, against
+ * the offset defined above. save_data_apply_runtime_state.c loads it from a
+ * restored block, save_data_build_payload.c writes `gSaveDataSequence + 1`
+ * into the next payload, and mem_card_create_state.c bumps it when a new
+ * card is written. All four already include this header and all four spell
+ * it s32. */
+extern s32 gSaveDataSequence;
+
 #ifndef SAVE_DATA_DECLARE_MASK_STATE_LOCALLY
 extern u32 gSaveData_dwMaskStateLow;
 extern u32 gSaveData_dwMaskStateHigh;

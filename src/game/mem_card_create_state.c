@@ -40,7 +40,6 @@
      it straight into $a0 and drop the copy. */
 
 extern u8 D_8009B3D4;
-extern s32 gSaveDataSequence;
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u8 D_8009AF70[];
 extern u8 gLibrary_aCardArtRecord[];

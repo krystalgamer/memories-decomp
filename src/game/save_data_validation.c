@@ -6,8 +6,6 @@ typedef struct {
     s32 duelist_code;
 } SaveRecord;
 
-extern s32 gSaveDataSequence;
-
 s32 SaveData_HasSameDuelistCode(SaveRecord *left, SaveRecord *right)
 {
     s32 i;
