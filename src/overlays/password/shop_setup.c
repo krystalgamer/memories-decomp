@@ -8,6 +8,7 @@
 #include "../../game/sound.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/display_object_config.h"
+#include "../../game/fade.h"
 
 extern u8 gPassword_abDigits[];
 extern u16 D_8016D424;
@@ -19,7 +20,6 @@ extern u8 D_800EA0E8[];
 extern void func_80029528(s32);
 extern void func_80029574(s32);
 extern PasswordCardPreviewView *func_800291E0(s32, s32, s32);
-extern void func_80015A00(void);
 
 void Password_RecreateCardPreview(s32 ignored)
 {
