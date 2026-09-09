@@ -23,4 +23,8 @@ typedef struct {
 
 void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out);
 
+/* Seeds the pose the evaluator above starts from. Declared here because the
+   two live in one translation unit. */
+void func_8005F070(s32 enabled);
+
 #endif

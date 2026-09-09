@@ -2,6 +2,7 @@
 #include "../ygo_types.h"
 #include "model_effect_requests.h"
 #include "model_transfer_flags.h"
+#include "func_8005EBF4.h"
 #include "../unmatched.h"
 
 extern s32 D_8009B074;
@@ -9,8 +10,6 @@ extern u8 D_8009B078;
 extern u8 D_8009B079;
 extern s8 D_8009B07A;
 extern u8 D_800F5788[];
-
-extern void func_8005F070(s32);
 
 void func_8005F91C(s32 arg0, u8 *arg1, u8 *arg2, s32 arg3) {
     u8 *p;
