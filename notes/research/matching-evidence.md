@@ -3271,6 +3271,8 @@ the barrier was holding it:
 | `func_800289BC` | one store reordered |
 | `func_8002FB78` | two instructions deleted |
 | `func_800580D4` | three instructions deleted (parameter only) |
+| `func_80016784` | three loads floated across scratchpad stores |
+| `func_8002A9C0` | two of fourteen reads floated; twelve free |
 
 So before converting offset casts to members, look for the two shapes that
 make the barrier load-bearing: a **whole-struct assignment** to or from the
@@ -3279,6 +3281,64 @@ stores. Either one means the conversion costs a build to check rather than
 being free by inspection. Neither means it will fail -- `func_800289BC` has
 the first shape and matched once every access was converted -- only that it
 must be measured.
+
+- **The barrier can also be a scratchpad record the same function is
+  filling, and then one field converts and the rest do not.**
+  `func_80016784` builds two sprites in scratchpad through pointers of their
+  own while reading its display object's fields between the stores. Typing
+  the object floated all three reads of the colour word at `0x0C` across
+  those stores; retail keeps every one of them where the source puts it. The
+  parameter and the other ten offsets convert freely -- it is only the reads
+  that sit *between* stores through the other pointer. The tell is a field
+  read in the middle of a run of stores through a differently typed pointer.
+
+  Try the member-anchored cast on such a read first, but do not count on it.
+  `*(s32 *)&object->field_0C` restored the barrier in `func_80016784` and
+  still named the field. It did **not** in `func_8002A9C0`, which fills four
+  scratchpad `SVECTOR`s the same way: there `*(u16 *)&o->field_30.h.field_32`
+  behaves exactly like the plain member read, because taking a member's
+  address is still a struct reference. So the member-anchored cast fixes a
+  signedness divergence reliably and a scheduling one only sometimes, and the
+  fallback is a plain byte pointer held under its own name.
+
+  Bisect rather than inspect. In `func_8002A9C0` twelve of the fourteen reads
+  convert with no change and two do not, and the two are not the ones a
+  reading of the function would pick: 0x32 and 0x3E fail while their
+  immediate neighbours 0x30 and 0x3C are free. Converting a group at a time
+  and rebuilding found them in five builds.
+
+  Stores can diverge too, and there the tell is the value rather than the
+  member. `func_80020F4C` stores -116 into `position.h.field_28`, and through
+  the plain `u16` member that becomes `ori 0xff8c` where retail has
+  `addiu -116`; `*(s16 *)&obj->position.h.field_28` restores it. Twelve lines
+  down, a store of `0x198` to the *same member* goes through the plain member
+  and matches. So the sign of the constant decides it, not the field, and no
+  reading of the record would say which of the two sites to convert.
+
+  When `make match` reports an offset, that beats bisecting. Subtract the
+  function's base from the reported VRAM and disassemble the object:
+
+      tools/toolchains/binutils-2.42/bin/mipsel-none-elf-objdump -d \
+          tmp/splat/build/<path>.o
+
+  The report's own "expected 0x24, got 0x34" is already the `addiu`/`ori`
+  opcode byte in the case above. Bisecting is for when the build fails to
+  link rather than mismatching, since then there is no offset to chase.
+
+- **A typed local costs a callee-saved register unless every use goes through
+  it.** Where the record's type cannot go on the parameter -- a callback
+  whose table declares `void (*)(u8 *)` -- the record is taken through a
+  local instead, and then the parameter and the local are two live names for
+  one value. `func_8003A990` grew its frame by eight bytes and pushed `.text`
+  past its segment that way; routing its two remaining `u8 *` calls through
+  `(u8 *)r` as well left one name, one register, and it matched. This is not
+  a general rescue: the nine short callbacks in
+  `duel_effect_state_callbacks.c` still grow with every use routed through
+  the local, and there the readable form is the inline
+  `((DuelEffectChannel *)object)->state_51` instead. Measure both spellings;
+  which one works is per function, and the failure mode is a link error --
+  `section .initialized_data VMA ... overlaps section .text` -- not a hash
+  mismatch.
 
 - **The barrier can be a volatile pointer rather than a global, and then it
   is per-file rather than per-record.** `func_800580D4` writes one
