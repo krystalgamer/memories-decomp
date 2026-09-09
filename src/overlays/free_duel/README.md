@@ -72,7 +72,11 @@ and the screen-state flags.
 `FreeDuel_Entry` is the per-frame tick: it advances the shared RNG, calls
 `FreeDuel_UpdateScreen`, drives the cursor widget's own scale pulse through a
 triangle wave over `D_8009B0CC & 0x7F`, then calls `FreeDuel_UpdateSparkle`.
-That last callee stays in `sparkle_runtime.c`; this unit does not absorb it.
+That last callee is now in this unit. The note here used to say it stayed in
+`sparkle_runtime.c` and that this unit did not absorb it, without giving a
+reason; there was not one. Both sparkle functions have exactly one caller
+each - `FreeDuel_UpdateScreen` takes the pool slot, `FreeDuel_Entry` runs the
+updater - and both callers are here.
 
 The definitions remain in executable order, which here is not call order:
 `FreeDuel_UpdateCursorTween` occupies `0x80168A9C..0x80168C7C`,
@@ -83,17 +87,26 @@ complete contiguous `0x594`-byte text range, with no data or rodata
 contribution. Data still begins at module `+0x1030`. Preserve that order and
 complete extent when editing the group.
 
-## Sparkle-runtime translation unit
+### Sparkle pool upkeep
 
-`sparkle_runtime.c` keeps the sparkle-pool allocator next to the updater that
-releases each completed object and clears its pool slot. Both functions
-reverse-scan the same 16-entry `gFreeDuel_apSparklePool`.
+The sparkle-pool allocator and the updater that releases each completed object
+and clears its pool slot open the unit, at `0x8016899C` and `0x801689D4`, and
+both reverse-scan the same 16-entry `gFreeDuel_apSparklePool`. They were
+`sparkle_runtime.c` until they joined their only callers here; the C
+subsegment now starts at module offset `0x99C` rather than `0xA9C` and covers
+the whole `0x694`-byte range through `0x80169030`.
 
-The definitions remain in executable order: `FreeDuel_GetSparkleSlot`
-occupies `0x8016899C..0x801689D4`, followed by `FreeDuel_UpdateSparkle`
-through `0x80168A9C`. Both use `gcc_2_8_1_g0_split`, and their shared
-manifest source and one C subsegment at module offset `0x99C` cover the
-complete contiguous `0x100`-byte text range.
+One unit settles `FreeDuel_GetSparkleSlot`'s return type, which the caller
+declared `u8 **` and the definition spells `void **`. The definition wins and
+the single call site takes a `void **` local.
+
+`func_8004036C` keeps the local `void (void)` declaration the sparkle updater
+carried, and the reason for it: its two calls pass no argument at all, so
+`display_object_api.h`'s typed `void func_8004036C(void *)` would make the
+compiler set up an argument the retail image does not. Nothing else in this
+unit's include set declares that symbol, so the local spelling is still the
+only one in scope - worth stating, because it is the kind of thing a merge
+can quietly break.
 
 ## Duelist portrait record sizes
 
