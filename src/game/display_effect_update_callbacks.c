@@ -111,8 +111,8 @@ void func_8003AD6C(u8 *p)
 
 void func_8003B054(u8 *p)
 {
-    u8 *o;
-    u8 *o2;
+    DisplayObject *o;
+    DisplayObject *o2;
     s32 id;
     s32 idx;
     s32 c;
@@ -120,68 +120,68 @@ void func_8003B054(u8 *p)
 
     if (func_80039F1C((DisplayEffectState *)p) == 0) {
         if (*(s16 *)(p + 0x40) != 0) {
-            o = *(u8 **)p;
-            *(u16 *)(o + 0x60) = 0;
+            o = *(DisplayObject **)p;
+            *(u16 *)&o->field_60 = 0;
         } else {
             id = *(s8 *)(p + 0x30);
             idx = id - 0x41;
             o = func_800400AC(func_8004002C(), 1);
             func_80040510((DisplayObjectConfigView *)o, *(s16 *)(p + 0x34), *(s16 *)(p + 0x36), 0x30, 0x30, 0, 0, 0xE, 0x380, 0xF0);
-            *(u16 *)(o + 0x40) += (idx >> 4) << 6;
-            o[0x5C] = (idx % 5) * 48;
-            o[0x5D] = (idx / 5) * 48;
-            *(u16 *)(o + 0x42) += idx % 16;
-            *(u16 *)(o + 0x46) = 0;
-            *(u32 *)(o + 0xC) = 0;
-            *(u32 *)(o + 4) |= 0x51000000;
+            *(u16 *)&o->field_40.h.field_40 += (idx >> 4) << 6;
+            *(u8 *)&o->field_5C = (idx % 5) * 48;
+            ((u8 *)&o->field_5C)[1] = (idx / 5) * 48;
+            *(u16 *)&o->field_40.h.field_42 += idx % 16;
+            *(u16 *)&o->field_44.h.field_46 = 0;
+            o->field_0C = 0;
+            o->attribute |= 0x51000000;
             func_80042918(o);
-            func_800428EC(o, -8);
-            *(u8 **)p = o;
-            *(u16 *)(o + 0x60) = 0x14;
+            func_800428EC((u8 *)o, -8);
+            *(DisplayObject **)p = o;
+            *(u16 *)&o->field_60 = 0x14;
         }
-        *(u32 *)(o + 4) = (*(u32 *)(o + 4) | (GsALON | GsAONE)) & ~GsROTOFF;
-        *(u16 *)(o + 0x4A) = 0;
+        o->attribute = (o->attribute | (GsALON | GsAONE)) & ~GsROTOFF;
+        *(u16 *)&o->field_48.h.field_4A = 0;
         o2 = func_800400AC(func_8004002C(), 1);
-        func_80040510((DisplayObjectConfigView *)o2, *(s16 *)(o + 0x30), *(s16 *)(o + 0x32), 0x30, 0x30, o[0x5C], o[0x5D], 0xE, 0x200, 0xFD);
-        *(u32 *)(o2 + 4) = (*(u32 *)(o2 + 4) | 0x61000000) & ~GsROTOFF;
-        *(u16 *)(o2 + 0x46) = *(u16 *)(o + 0x46);
-        *(u16 *)(o2 + 0x4A) = 0;
+        func_80040510((DisplayObjectConfigView *)o2, *(s16 *)&o->field_30.h.field_30, *(s16 *)&o->field_30.h.field_32, 0x30, 0x30, *(u8 *)&o->field_5C, ((u8 *)&o->field_5C)[1], 0xE, 0x200, 0xFD);
+        o2->attribute = (o2->attribute | 0x61000000) & ~GsROTOFF;
+        *(u16 *)&o2->field_44.h.field_46 = *(u16 *)&o->field_44.h.field_46;
+        *(u16 *)&o2->field_48.h.field_4A = 0;
         func_80042918(o2);
-        func_800428EC(o2, -9);
-        *(u8 **)(p + 4) = o2;
+        func_800428EC((u8 *)o2, -9);
+        *(DisplayObject **)(p + 4) = o2;
     }
-    o = *(u8 **)p;
-    o2 = *(u8 **)(p + 4);
+    o = *(DisplayObject **)p;
+    o2 = *(DisplayObject **)(p + 4);
     if (*(s16 *)(p + 0x40) != 0) {
-        *(u16 *)(o + 0x60) += D_8009B0D8_halfword;
+        *(u16 *)&o->field_60 += D_8009B0D8_halfword;
     } else {
-        *(u16 *)(o + 0x60) -= D_8009B0D8_halfword;
+        *(u16 *)&o->field_60 -= D_8009B0D8_halfword;
     }
-    if (*(s16 *)(o + 0x60) <= 0) {
-        *(u32 *)(o + 4) = (*(u32 *)(o + 4) & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;
-        *(u32 *)(o + 0xC) = 0x808080;
-        *(u16 *)(o + 0x46) = 0x1000;
+    if (o->field_60 <= 0) {
+        o->attribute = (o->attribute & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;
+        o->field_0C = 0x808080;
+        *(u16 *)&o->field_44.h.field_46 = 0x1000;
         func_8004036C(o2);
-        *(u8 **)(p + 4) = 0;
+        *(DisplayObject **)(p + 4) = 0;
         goto clear;
     }
-    if (*(s16 *)(o + 0x60) >= 0x14) {
+    if (o->field_60 >= 0x14) {
         func_80039FD4(p);
     clear:
         p[0x33] = 0;
         return;
     }
-    c = -0x80 - *(s16 *)(o + 0x60) * 6;
-    o2[0xE] = c;
-    o2[0xD] = c;
-    o2[0xC] = c;
-    o[0xE] = c;
-    o[0xD] = c;
-    o[0xC] = c;
-    idx = *(s16 *)(o + 0x60) * 204 + 0x1000;
-    *(u16 *)(o2 + 0x46) = idx;
-    *(u16 *)(o + 0x46) = idx;
-    q = o[0xC] << 5;
-    *(u16 *)(o2 + 0x44) = q;
-    *(u16 *)(o + 0x44) = q;
+    c = -0x80 - o->field_60 * 6;
+    ((u8 *)&o2->field_0C)[2] = c;
+    ((u8 *)&o2->field_0C)[1] = c;
+    *(u8 *)&o2->field_0C = c;
+    ((u8 *)&o->field_0C)[2] = c;
+    ((u8 *)&o->field_0C)[1] = c;
+    *(u8 *)&o->field_0C = c;
+    idx = o->field_60 * 204 + 0x1000;
+    *(u16 *)&o2->field_44.h.field_46 = idx;
+    *(u16 *)&o->field_44.h.field_46 = idx;
+    q = *(u8 *)&o->field_0C << 5;
+    *(u16 *)&o2->field_44.h.field_44 = q;
+    *(u16 *)&o->field_44.h.field_44 = q;
 }
