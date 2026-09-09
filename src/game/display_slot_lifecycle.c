@@ -83,9 +83,9 @@ void *func_800400AC(s32 index, s32 key)
         slot->field_1A = 0;
         slot->field_18 = 0;
         slot->field_66 = 0;
-        slot->field_48 = 0;
+        slot->field_48.word = 0;
         slot->field_44 = 0x10001000;
-        slot->field_40 = 0;
+        slot->field_40.word = 0;
         slot->field_5E = 0;
         slot->field_65 = 0;
         slot->field_16 = 0;

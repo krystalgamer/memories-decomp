@@ -9,20 +9,27 @@
  *
  * This is deliberately NOT the canonical DisplayObject in display_object.h,
  * and it is not a rival to it. func_80040510 writes 16-bit halves at four
- * offsets the canonical record holds as 32-bit words: 0x30, 0x3C, 0x40 and
- * 0x48, plus a pair of bytes inside the halfword at 0x5C. Splitting those
- * words to expose the halves would change how existing users store them --
- * display_slot_lifecycle.c zeroes field_40 and field_48 with single word
- * stores, which would become pairs of halfword stores -- and the build would
- * stop being byte-identical. That was the same hazard display_object.h
- * recorded for the byte at 0x22 inside its field_20; that one has since been
- * resolved by carrying 0x20 and 0x3C as unions of both widths, so the word
- * writes keep their sw and the narrow readers still get their halves. The
- * same device would retire this view; it has not been applied here yet.
+ * offsets the canonical record held as 32-bit words: 0x30, 0x3C, 0x40 and
+ * 0x48, plus a pair of bytes inside the halfword at 0x5C. The note here used
+ * to say that splitting those words would change how existing users store
+ * them -- display_slot_lifecycle.c zeroes field_40 and field_48 with single
+ * word stores, which would become pairs of halfword stores -- and that the
+ * build would stop being byte-identical.
  *
- * So the two descriptions coexist on purpose: the canonical record owns the
- * pool and the word-width fields, and this view records the halfword shape
- * func_80040510 works in. Neither is a substitute for the other. */
+ * That is no longer the state of the record. The union device display_object.h
+ * adopted for the byte at 0x22 inside field_20, and then for 0x28, 0x30 and
+ * 0x3C, now covers 0x40 and 0x48 as well, so every offset this view exists to
+ * name is reachable through the canonical record at both widths: the word
+ * writes keep their sw through `.word` and the narrow users take `.h`.
+ * Measured -- display_slot_lifecycle.c, func_80040588.c and func_800408D0.c
+ * all still build byte-identically.
+ *
+ * What keeps this view alive is no longer the layout but the signature below:
+ * func_80040510 and its callers pass the record as this type, and several of
+ * those callers still hold it as a bare pointer. Retiring the view is that
+ * change, not a layout change. Until then the two descriptions coexist: the
+ * canonical record owns the pool, and this view records the shape
+ * func_80040510 works in. */
 typedef struct {
     u8 pad_00[0x08];
     u16 flags;

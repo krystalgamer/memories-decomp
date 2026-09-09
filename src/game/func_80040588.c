@@ -66,7 +66,7 @@ void func_80040588(void) {
                 p->rgb = e->field_0C;
                 p->xy.word = e->field_30.word;
                 p->extent.word = e->field_3C.word;
-                p->cxcy = e->field_40;
+                p->cxcy = e->field_40.word;
                 p->uv.word = e->field_5C;
                 mode = e->field_14 | 0x10000;
                 tex = tb[idx];
@@ -97,7 +97,7 @@ void func_80040588(void) {
                 } else if ((p->attribute & GsROTOFF) == 0) {
                     p->rotate = e->field_20.h.field_22 * 5760;
                     p->scale = e->field_44;
-                    p->mxmy.word = e->field_48;
+                    p->mxmy.word = e->field_48.word;
                     p->xy.h.x = p->xy.h.x + p->mxmy.h.x;
                     p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
                     mode = e->field_14 | 0x30000;

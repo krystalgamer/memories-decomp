@@ -24,8 +24,12 @@ typedef void (*DisplayObjectCallback)(u8 *);
  * stores with single word writes. Splitting those words outright would have
  * turned an sw into an sh; carrying each as a union of both widths does not,
  * so the word writes keep their sw and both renderers now take this record.
- * The same device would retire display_object_config.h's separate halfword
- * view of 0x30/0x3C/0x40/0x48, which is left for its own change. */
+ *
+ * The same device now covers 0x40 and 0x48, the two words
+ * display_object_config.h's separate halfword view names that were still
+ * word-only here. All four of the offsets that view exists for -- 0x30, 0x3C,
+ * 0x40 and 0x48 -- are therefore reachable from this record at both widths.
+ * What is left of that view is its function signature, not its layout. */
 /* `attribute` is a GsSPRITE / GsBOXF attribute word, not a game flag word and
  * not a GPU packet tag. Both renderers copy it verbatim into the descriptor
  * they hand to GsSortSprite and friends, so every bit the game sets there is
@@ -107,9 +111,28 @@ typedef struct DisplayObject {
             u16 field_3E;
         } h;
     } field_3C;                    /* 0x3C */
-    u32 field_40;                  /* 0x40 */
+    /* 0x40 and 0x48 are the last two words display_object_config.h's separate
+       halfword view covers, and they are read both ways for the same reason
+       0x3C is: display_slot_lifecycle.c clears each with one sw and the two
+       sprite emitters copy each as a word, while func_80040510 and the dialog
+       and duel layout code write the halves. The view calls 0x48/0x4A
+       half_height_2/half_width_2; the halves are left field_-named here, as
+       0x3C's are, until a caller pins the meaning. */
+    union {
+        u32 word;
+        struct {
+            s16 field_40;
+            s16 field_42;
+        } h;
+    } field_40;                    /* 0x40 */
     u32 field_44;                  /* 0x44 */
-    u32 field_48;                  /* 0x48 */
+    union {
+        u32 word;
+        struct {
+            s16 field_48;
+            s16 field_4A;
+        } h;
+    } field_48;                    /* 0x48 */
     u8 pad_4C[8];                  /* 0x4C */
     void *field_54;                /* 0x54 */
     u8 pad_58[4];                  /* 0x58 */
@@ -139,6 +162,12 @@ typedef char DisplayObject_position_must_be_at_0x28[
 ];
 typedef char DisplayObject_field_3E_must_be_at_0x3E[
     DISPLAY_OBJECT_OFFSET(field_3C.h.field_3E) == 0x3E ? 1 : -1
+];
+typedef char DisplayObject_field_42_must_be_at_0x42[
+    DISPLAY_OBJECT_OFFSET(field_40.h.field_42) == 0x42 ? 1 : -1
+];
+typedef char DisplayObject_field_4A_must_be_at_0x4A[
+    DISPLAY_OBJECT_OFFSET(field_48.h.field_4A) == 0x4A ? 1 : -1
 ];
 typedef char DisplayObject_field_65_must_be_at_0x65[
     DISPLAY_OBJECT_OFFSET(field_65) == 0x65 ? 1 : -1

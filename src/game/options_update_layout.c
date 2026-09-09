@@ -1,17 +1,18 @@
 #include "../types.h"
 #include "display_object_layout.h"
 #include "options_update_layout.h"
+#include "display_object.h"
 
 typedef struct { u16 h[3]; } Blk6;
 extern u8 D_8009AF5C[];
 extern s8 gOptions_bOutputType;
-extern u8 *D_8009B380;
-extern u8 *D_8009B388;
+extern DisplayObject *D_8009B380;
+extern DisplayObject *D_8009B388;
 
 void Options_UpdateLayout(s32 selection) {
     u8 sp0[12];
-    u8 *a;
-    u8 *b;
+    DisplayObject *a;
+    DisplayObject *b;
     s32 k;
     u32 v;
 
@@ -22,15 +23,15 @@ void Options_UpdateLayout(s32 selection) {
     b = D_8009B388;
     *(s16 *)(sp0 + 0xA) = 0xC8;
     v = *(u16 *)(sp0 + 8 - -(k * 2));
-    *(s16 *)(a + 0x32) = 0x48;
-    *(u16 *)(a + 0x30) = v;
-    *(s16 *)(b + 0x30) = 0x20;
-    *(u16 *)(b + 0x32) = *(u16 *)(sp0 - -(selection * 2)) + 8;
+    a->field_30.h.field_32 = 0x48;
+    a->field_30.h.field_30 = v;
+    b->field_30.h.field_30 = 0x20;
+    b->field_30.h.field_32 = *(u16 *)(sp0 - -(selection * 2)) + 8;
     if (selection == 0) {
-        *(u16 *)(a + 8) &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-        *(u16 *)(b + 0x30) = *(u16 *)(a + 0x30) + 8;
-        *(u16 *)(b + 0x32) = *(u16 *)(a + 0x32) + 8;
+        a->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+        b->field_30.h.field_30 = a->field_30.h.field_30 + 8;
+        b->field_30.h.field_32 = a->field_30.h.field_32 + 8;
     } else {
-        *(u16 *)(a + 8) |= DISPLAY_OBJECT_FLAG_RENDERABLE;
+        a->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
     }
 }

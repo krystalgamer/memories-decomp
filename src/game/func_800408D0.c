@@ -52,7 +52,7 @@ void func_800408D0(DisplayObject *e, s32 tex, u16 mode16) {
     }
     p->tpage = e->field_66;
     p->xy.word = e->field_30.word;
-    p->cxcy = e->field_40;
+    p->cxcy = e->field_40.word;
     p->rgb = e->field_0C;
     fl = e->flags;
     p->uv.word = e->field_5C;
@@ -84,7 +84,7 @@ void func_800408D0(DisplayObject *e, s32 tex, u16 mode16) {
         p->rotate = e->field_20.h.field_22 * 5760;
         p->scale = e->field_44;
         mode = mode16 | 0x30000;
-        p->mxmy.word = e->field_48;
+        p->mxmy.word = e->field_48.word;
         p->xy.h.x = p->xy.h.x + p->mxmy.h.x;
         p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
     }
