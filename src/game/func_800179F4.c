@@ -38,7 +38,6 @@ extern u8 *D_8009B1DC;
 extern void Duel_LoadPackageStage(void);
 extern void func_8001778C(void);
 extern void func_80017708(void);
-extern void func_800175A0(void);
 extern void func_800178BC(void);
 extern void func_8002C598(void);
 extern void func_80029574(s32);
