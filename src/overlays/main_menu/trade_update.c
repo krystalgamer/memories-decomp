@@ -4,6 +4,7 @@
 #include "entrypoints.h"
 #include "trade_helpers.h"
 #include "../../game/display_object_config.h"
+#include "../../game/data_transfer_request.h"
 
 typedef struct { u32 words[256]; } Block1024;
 
@@ -36,7 +37,6 @@ extern u16 D_8009B246;
 extern u8 D_8009B24B;
 extern u8 D_8009B254;
 
-extern s32 func_8003F70C(void);
 extern void func_8003CB7C(void);
 extern void func_8003FE14(void);
 extern void func_800611D0(s32);

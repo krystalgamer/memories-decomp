@@ -2,6 +2,7 @@
 #include "../../game/card_constants.h"
 #include "../../game/graphics_frame.h"
 #include "../../game/text_box_lifecycle.h"
+#include "../../game/text_box_runtime.h"
 
 typedef struct {
     u8 unk_00[0x30];
@@ -26,7 +27,6 @@ typedef struct {
 
 extern Pair D_801D5608;
 extern void func_80035BE4(s32, s32, s32, s32, s32, s32);
-extern void func_80039A60(u8 *);
 
 void FreeDuel_UpdateScrollbar(void)
 {

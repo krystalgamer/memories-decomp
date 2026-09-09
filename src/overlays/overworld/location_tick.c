@@ -7,6 +7,7 @@
 #include "../../game/view_state.h"
 #include "../../game/display_object_api.h"
 #include "../../game/sound.h"
+#include "../../game/fade.h"
 
 extern u8 gCampaignMap_Location;
 extern u8 gCampaignMap_LocationPrev;
@@ -18,7 +19,6 @@ extern u8 D_800E9ECE;
 extern u8 D_800E9ECF;
 extern u8 D_8009B26C;
 extern u8 D_8009B27A;
-extern void Fade_InitOut(void);
 
 void CampaignMap_UpdateLocation(void)
 {

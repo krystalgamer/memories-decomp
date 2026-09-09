@@ -8,6 +8,7 @@
 #include "shop.h"
 #include "../../game/sound.h"
 #include "../../game/func_80039794.h"
+#include "../../game/fade.h"
 
 typedef struct {
     u8 pad0[96];
@@ -37,7 +38,6 @@ extern u8 D_8009B269;
 extern u8 D_8009B26C;
 extern s8 D_8009B34D;
 
-extern void Fade_WaitOut(void);
 extern void func_80029164(s32, s32);
 extern void Duel_AwardCard(s32);
 

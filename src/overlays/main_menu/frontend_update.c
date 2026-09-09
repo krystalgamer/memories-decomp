@@ -6,6 +6,7 @@
 #include "entrypoints.h"
 #include "frontend.h"
 #include "../../game/display_object_config.h"
+#include "../../game/data_transfer_request.h"
 
 extern u8 *D_80184560;
 extern u8 *gMain_apMenuEntries[];
@@ -28,7 +29,6 @@ extern s32 SaveData_PollLoad(void);
 extern void SaveData_RequestLoad(void);
 extern s32 func_8003FCD8(void);
 extern s32 func_8003FD14(void);
-extern s32 func_8003F70C(void);
 extern void func_8003F87C(void);
 extern void SD_SEPlay(s32, s32, s32);
 
