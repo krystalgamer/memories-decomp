@@ -245,13 +245,13 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF5C,D_8009AF5C,D_8009AF5C,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_update_layout.c,address,8,*(Blk6 *)sp0 = *(Blk6 *)D_8009AF5C;
 0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003CE74,SaveData_NextMaskWord,matching_c,game,C,src/game/save_data_checksum.c,address,32,"register u32 *state asm(""$6"") = &gSaveData_dwMaskStateLow;"
 0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003CF14,SaveData_WritePrimarySecondaryIntegrity,matching_c,game,C,src/game/save_data_checksum.c,write,32,gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
-0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003CFC8,SaveData_WriteTertiaryIntegrity,matching_c,game,C,src/game/save_data_write_tertiary_integrity.c,write,32,"extern u32 gSaveData_dwMaskStateLow,gSaveData_dwMaskStateHigh;void SaveData_WriteTertiaryIntegrity(u8*p){register s32..."
-0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003D174,SaveData_ValidateIntegrity,matching_c,game,C,src/game/save_data_validate_integrity.c,write,32,gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
-0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003FE70,SaveData_SetMaskSeed,matching_c,game,C,src/game/save_data_set_mask_seed.c,write,32,gSaveData_dwMaskStateLow = value;
+0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003CFC8,SaveData_WriteTertiaryIntegrity,matching_c,game,C,src/game/save_data_write_tertiary_integrity.c,write,,void SaveData_WriteTertiaryIntegrity(u8*p){register s32 i;register u32*dst;u16 v=SaveData_CalcCrc16(p+SAVE_DATA_TERTI...
+0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003D174,SaveData_ValidateIntegrity,matching_c,game,C,src/game/save_data_validate_integrity.c,write,,gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
+0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003FE70,SaveData_SetMaskSeed,matching_c,game,C,src/game/save_data_set_mask_seed.c,write,,gSaveData_dwMaskStateLow = value;
 0x8009AF68,gSaveData_dwMaskStateHigh,gSaveData_dwMaskStateHigh,0x8003CF14,SaveData_WritePrimarySecondaryIntegrity,matching_c,game,C,src/game/save_data_checksum.c,write,32,gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
-0x8009AF68,gSaveData_dwMaskStateHigh,gSaveData_dwMaskStateHigh,0x8003CFC8,SaveData_WriteTertiaryIntegrity,matching_c,game,C,src/game/save_data_write_tertiary_integrity.c,write,32,"extern u32 gSaveData_dwMaskStateLow,gSaveData_dwMaskStateHigh;void SaveData_WriteTertiaryIntegrity(u8*p){register s32..."
-0x8009AF68,gSaveData_dwMaskStateHigh,gSaveData_dwMaskStateHigh,0x8003D174,SaveData_ValidateIntegrity,matching_c,game,C,src/game/save_data_validate_integrity.c,write,32,gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
-0x8009AF68,gSaveData_dwMaskStateHigh,gSaveData_dwMaskStateHigh,0x8003FE70,SaveData_SetMaskSeed,matching_c,game,C,src/game/save_data_set_mask_seed.c,write,32,gSaveData_dwMaskStateHigh = value;
+0x8009AF68,gSaveData_dwMaskStateHigh,gSaveData_dwMaskStateHigh,0x8003CFC8,SaveData_WriteTertiaryIntegrity,matching_c,game,C,src/game/save_data_write_tertiary_integrity.c,write,,void SaveData_WriteTertiaryIntegrity(u8*p){register s32 i;register u32*dst;u16 v=SaveData_CalcCrc16(p+SAVE_DATA_TERTI...
+0x8009AF68,gSaveData_dwMaskStateHigh,gSaveData_dwMaskStateHigh,0x8003D174,SaveData_ValidateIntegrity,matching_c,game,C,src/game/save_data_validate_integrity.c,write,,gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
+0x8009AF68,gSaveData_dwMaskStateHigh,gSaveData_dwMaskStateHigh,0x8003FE70,SaveData_SetMaskSeed,matching_c,game,C,src/game/save_data_set_mask_seed.c,write,,gSaveData_dwMaskStateHigh = value;
 0x8009AF6C,D_8009AF6C,D_8009AF6C,0x8003DC1C,func_8003DC1C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02e41c.s,address,,"addiu $a0, $s4, %lo(D_8009AF6C) | lui $s4, %hi(D_8009AF6C)"
 0x8009AF70,D_8009AF70,D_8009AF70,0x8003E854,func_8003E854,matching_c,game,C,src/game/mem_card_create_state.c,read,,"if (MemCardGetDirentry(0, (char *)D_8009AF70,"
 0x8009AF74,D_8009AF74,D_8009AF74,0x800400AC,func_800400AC,matching_c,game,C,src/game/display_slot_lifecycle.c,read,,slot->field_14 = D_8009AF74[slot->tex_index];
@@ -1035,32 +1035,32 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B141,D_8009B141,D_8009B141,0x80015780,Fade_InitIn,matching_c,game,C,src/game/fade_in.c,read_write,8,D_8009B141 &= 0x7F;
 0x8009B141,D_8009B141,D_8009B141,0x80015CFC,func_80015CFC,matching_c,game,C,src/game/fade_control.c,write,8,D_8009B141 = 1;
 0x8009B141,D_8009B141,D_8009B141,0x80015D0C,func_80015D0C,matching_c,game,C,src/game/fade_control.c,write,8,D_8009B141 = 0;
-0x8009B142,D_8009B142,D_8009B142,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,8,D_800FE048[0x1B] = D_8009B142;
+0x8009B142,D_8009B142,D_8009B142,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,,D_800FE048[0x1B] = D_8009B142;
 0x8009B142,D_8009B142,D_8009B142,0x80013154,func_80013154,matching_c,game,C,src/game/main_services.c,write,8,D_8009B142 = 1;
 0x8009B142,D_8009B142,D_8009B142,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,write,8,D_8009B142 = D_8009B14A; | D_8009B142 = p[2];
-0x8009B142,D_8009B142,D_8009B142,0x800156DC,func_800156DC,matching_c,game,C,src/game/func_800156DC.c,write,8,D_8009B142 = 0xFF;
-0x8009B142,D_8009B142,D_8009B142,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,write,8,D_8009B142 = 1;
-0x8009B142,D_8009B142,D_8009B142,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B142[0] = 1;
-0x8009B142,D_8009B142,D_8009B142,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,write,8,D_8009B142 = 0xFF;
-0x8009B142,D_8009B142,D_8009B142,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,8,"ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
+0x8009B142,D_8009B142,D_8009B142,0x800156DC,func_800156DC,matching_c,game,C,src/game/func_800156DC.c,write,,D_8009B142 = 0xFF;
+0x8009B142,D_8009B142,D_8009B142,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,write,,D_8009B142 = 1;
+0x8009B142,D_8009B142,D_8009B142,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,,D_8009B142[0] = 1;
+0x8009B142,D_8009B142,D_8009B142,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,write,,D_8009B142 = 0xFF;
+0x8009B142,D_8009B142,D_8009B142,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,,"ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B142,D_8009B142,D_8009B142,0x8005BB7C,func_8005BB7C,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"*q++ = D_8009B142; | ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
-0x8009B143,D_8009B143,D_8009B143,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,8,D_800FE048[0x1A] = D_8009B143;
+0x8009B143,D_8009B143,D_8009B143,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,,D_800FE048[0x1A] = D_8009B143;
 0x8009B143,D_8009B143,D_8009B143,0x80013154,func_80013154,matching_c,game,C,src/game/main_services.c,write,8,D_8009B143 = 1;
 0x8009B143,D_8009B143,D_8009B143,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,write,8,D_8009B143 = D_8009B14B; | D_8009B143 = p[1];
-0x8009B143,D_8009B143,D_8009B143,0x800156DC,func_800156DC,matching_c,game,C,src/game/func_800156DC.c,write,8,D_8009B143 = 0xFF;
-0x8009B143,D_8009B143,D_8009B143,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,write,8,D_8009B143 = 1;
-0x8009B143,D_8009B143,D_8009B143,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B143[0] = 1;
-0x8009B143,D_8009B143,D_8009B143,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,write,8,D_8009B143 = 0xFF;
-0x8009B143,D_8009B143,D_8009B143,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,8,"ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
+0x8009B143,D_8009B143,D_8009B143,0x800156DC,func_800156DC,matching_c,game,C,src/game/func_800156DC.c,write,,D_8009B143 = 0xFF;
+0x8009B143,D_8009B143,D_8009B143,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,write,,D_8009B143 = 1;
+0x8009B143,D_8009B143,D_8009B143,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,,D_8009B143[0] = 1;
+0x8009B143,D_8009B143,D_8009B143,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,write,,D_8009B143 = 0xFF;
+0x8009B143,D_8009B143,D_8009B143,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,,"ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B143,D_8009B143,D_8009B143,0x8005BB7C,func_8005BB7C,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"*q++ = D_8009B143; | ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
-0x8009B144,D_8009B144,D_8009B144,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,8,D_800FE048[0x19] = D_8009B144;
+0x8009B144,D_8009B144,D_8009B144,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,,D_800FE048[0x19] = D_8009B144;
 0x8009B144,D_8009B144,D_8009B144,0x80013154,func_80013154,matching_c,game,C,src/game/main_services.c,write,8,D_8009B144 = 1;
 0x8009B144,D_8009B144,D_8009B144,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,write,8,D_8009B144 = D_8009B14C; | D_8009B144 = p[0];
-0x8009B144,D_8009B144,D_8009B144,0x800156DC,func_800156DC,matching_c,game,C,src/game/func_800156DC.c,write,8,D_8009B144 = 0xFF;
-0x8009B144,D_8009B144,D_8009B144,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,write,8,D_8009B144 = 1;
-0x8009B144,D_8009B144,D_8009B144,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B144[0] = 1;
-0x8009B144,D_8009B144,D_8009B144,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,write,8,D_8009B144 = 0xFF;
-0x8009B144,D_8009B144,D_8009B144,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,8,"ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
+0x8009B144,D_8009B144,D_8009B144,0x800156DC,func_800156DC,matching_c,game,C,src/game/func_800156DC.c,write,,D_8009B144 = 0xFF;
+0x8009B144,D_8009B144,D_8009B144,0x8001572C,func_8001572C,matching_c,game,C,src/game/func_8001572C.c,write,,D_8009B144 = 1;
+0x8009B144,D_8009B144,D_8009B144,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,,D_8009B144[0] = 1;
+0x8009B144,D_8009B144,D_8009B144,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,write,,D_8009B144 = 0xFF;
+0x8009B144,D_8009B144,D_8009B144,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,,"ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B144,D_8009B144,D_8009B144,0x8005BB7C,func_8005BB7C,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"*q++ = D_8009B144; | ClearImage(rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B145,D_8009B145,D_8009B145,0x800151B0,func_800151B0,matching_c,game,C,src/game/func_800151B0.c,write,8,D_8009B145 = 0;
 0x8009B145,D_8009B145,D_8009B145,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,write,8,D_8009B145 = 0;
