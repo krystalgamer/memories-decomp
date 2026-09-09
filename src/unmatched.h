@@ -181,4 +181,19 @@ void func_8005C7BC(void);
 void func_8005D378(void);
 void func_8004158C(u8 *, s32, s32);
 
+/* Three more undefined globals, each declared identically by every consumer
+ * and only ever read or written as a scalar, so none of them has a
+ * per-consumer addressing form to preserve.
+ *
+ * D_8009B162 and D_8009B2EB are pinned by their neighbours: c_symbols.ld
+ * names D_8009B164 two bytes after the first and D_8009B2EC one byte after
+ * the second, so neither has room for an element to carry its own name.
+ * D_8009B23A's next name, D_8009B244, is ten bytes on, so that gap is an
+ * upper bound rather than the size; nothing is named inside it and no
+ * consumer reads past the halfword, so the u16 every consumer agrees on is
+ * what is declared here and the bytes above it stay unclaimed. */
+extern u16 D_8009B162;   /* nine declarers  */
+extern u16 D_8009B23A;   /* eight declarers */
+extern u8 D_8009B2EB;    /* six declarers   */
+
 #endif

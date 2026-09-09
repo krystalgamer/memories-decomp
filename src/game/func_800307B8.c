@@ -6,7 +6,6 @@
 #include "sound_voice_selection.h"
 #include "../unmatched.h"
 
-extern u8 D_8009B2EB;
 extern u16 gDebug_nSceneOrSoundID;
 extern u16 gDebug_nLastSoundID;
 extern u16 D_8009B2CA;

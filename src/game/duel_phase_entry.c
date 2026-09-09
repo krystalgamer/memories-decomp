@@ -14,8 +14,6 @@ typedef struct {
     DuelHandSlot *hand;
 } DuelSelectionSide;
 
-extern u16 D_8009B23A;
-extern u16 D_8009B162;
 extern u8 D_8009B174;
 extern u8 D_8009B1EC;
 extern u8 *D_8009B1B4;
@@ -27,6 +25,7 @@ extern void Duel_PopulateCombinedDeckData(void);
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "sound.h"
+#include "../unmatched.h"
 
 extern u8 *D_8009B21C;
 extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];

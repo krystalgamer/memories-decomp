@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "duel_grid.h"
+#include "../unmatched.h"
 
-extern u16 D_8009B162;
 extern s8 D_8009B160;
 extern s8 D_8009B1D6;
 extern s8 D_8009B1D7;

@@ -3,13 +3,13 @@
 #include "func_8003134C.h"
 #include "menu_record.h"
 #include "display_object_layout.h"
+#include "../unmatched.h"
 
 typedef struct {
     u8 pad_00[8];
     u16 flags_08;
 } LocalRecord;
 
-extern u8 D_8009B2EB;
 extern u16 D_8009B2DE;
 extern LocalRecord *D_800EB184[4];
 extern LocalRecord *D_8009B2E4;

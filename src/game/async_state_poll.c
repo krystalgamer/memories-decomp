@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "file_transfer.h"
+#include "../unmatched.h"
 
-extern u8 D_8009B2EB;
 extern u8 D_8009B3ED[];
 extern u8 D_8009B3EA[];
 extern u8 D_8009B26C[];

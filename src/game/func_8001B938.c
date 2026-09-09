@@ -6,8 +6,8 @@
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "duel_selection_layout.h"
+#include "../unmatched.h"
 
-extern u16 D_8009B162;
 extern u8 *D_8009B1B4;
 extern u8 D_800E9F48[];
 extern u8 D_8015C424[];
