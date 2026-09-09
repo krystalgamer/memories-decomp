@@ -8,6 +8,7 @@
 #include "../psyq/stdio.h"
 #include "model.h"
 #include "func_80057AF4.h"
+#include "sound.h"
 
 void func_80050F24(s32 arg0)
 {
@@ -42,7 +43,6 @@ extern u8 D_80011508[];
 
 extern s32 func_80058E1C(void);
 extern void func_8005A6A8(s32, s32, u8 *, u8 *);
-extern void SD_SEPlay(s32, s32, s32);
 
 void func_8005106C(s32 index) {
     u8 buf[0x50];

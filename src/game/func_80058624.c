@@ -2,8 +2,8 @@
 #include "camera_view.h"
 #include "../psyq/libgte.h"
 #include "sound_voice_data.h"
+#include "sound.h"
 
-extern void SD_SEPlay(u16, u8, s8);
 void func_80058624(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     u8 st[2];

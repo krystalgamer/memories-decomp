@@ -1,3 +1,4 @@
+#define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 #include "../types.h"
 #include "func_80044DC0.h"
 #include "../psyq/libspu.h"
@@ -5,24 +6,6 @@
 #include "sound_output_state.h"
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_selection.h"
-extern s32 func_80049F50(void);
-/* Takes an argument here on purpose. func_80049C40 is defined
-   void (void) in sound_secondary_playback.c and ignores it, but the
-   retail call site computes g_SDValue->field_157E into $a0 first, and
-   this declaration is what keeps that computation alive. Making it
-   agree with the definition costs four instructions; see
-   notes/research/matching-evidence.md. */
-extern void func_80049C40(s32);
-/* Takes an argument here on purpose, same as func_80049C40 above/below:
-   defined void (void), but the retail call site sets up $a0 first and
-   this declaration is what keeps that setup. Measured; see
-   notes/research/matching-evidence.md. */
-extern void func_80049CB0(s32);
-/* Takes an argument here on purpose, same as func_80049C40 above/below:
-   defined void (void), but the retail call site sets up $a0 first and
-   this declaration is what keeps that setup. Measured; see
-   notes/research/matching-evidence.md. */
-extern void func_800498F8(s32);
 
 /* Each block re-reads g_SDValue rather than caching it once: the driver block
    is reachable through the global, so every store through one pointer forces
@@ -89,7 +72,6 @@ void func_80046DE8(void)
 #include "sound_output.h"
 extern void func_800490F0(s16, u8);
 extern void func_80049108(s16, u8);
-extern void func_80049138(s32, s32);
 /* Not a duplicate of the sound_init.h declaration: a second addressing view
    of the same symbol. The one call below narrows its second argument to s16,
    and the canonical (s32, s32) prototype would widen it back. */

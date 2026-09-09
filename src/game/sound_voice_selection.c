@@ -202,8 +202,6 @@ void func_80047CC4(s32 value)
     } while (tries < SD_VOICE_SLOT_COUNT);
 }
 
-extern void func_800464F0(void);
-
 void func_80047DB0(s32 arg)
 {
     register s32 value asm("$5") = arg;

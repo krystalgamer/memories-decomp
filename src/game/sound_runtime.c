@@ -1,3 +1,5 @@
+#define FUNC_80049F50_RETURNS_S16
+#define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 #include "../types.h"
 #include "func_80044DC0.h"
 #include "../psyq/libspu.h"
@@ -6,21 +8,6 @@
 #include "../unmatched.h"
 
 extern void func_80049F10(s16, s16);
-/* s16 on purpose, though sound_secondary_playback.c defines this s32.
-   The result is compared rather than stored, so the narrowing has to be
-   materialised, and the sll/sra pair it produces is retail's: widening
-   this declaration to the definition's s32 drops eight bytes. Contrast
-   func_800181EC, where the same s16-against-int disagreement is free
-   because every caller stores the result into a 16-bit field and the sh
-   truncates anyway. See notes/research/matching-evidence.md. */
-extern s16 func_80049F50(void);
-/* Takes an argument here on purpose. func_80049C40 is defined
-   void (void) in sound_secondary_playback.c and ignores it, but the
-   retail call site computes g_SDValue->field_157E into $a0 first, and
-   this declaration is what keeps that computation alive. Making it
-   agree with the definition costs four instructions; see
-   notes/research/matching-evidence.md. */
-extern void func_80049C40(s16);
 
 s32 SD_EnqueueCommand(SDCommand *src) {
     SDValue *b1;
