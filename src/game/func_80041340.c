@@ -4,6 +4,7 @@
 #include "../psyq/libgs.h"
 #include "display_object.h"
 #include "display_object_layout.h"
+#include "func_80041340.h"
 
 extern u8 D_80090FCC[];
 extern u8 D_80090FDC[];
