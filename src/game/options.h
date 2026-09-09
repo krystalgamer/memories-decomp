@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_OPTIONS_H
 
 #include "../types.h"
+#include "display_object.h"
 
 /* The options screen's shared state.
  *
@@ -32,12 +33,20 @@ extern s8 gOptions_bOutputType;
  *                    Both the element sign and the bound differ, and a small
  *                    array's size decides whether -G8 puts it in small data,
  *                    so this one cannot be settled by preferring a spelling.
- *   D_8009B380       DisplayObject * in options_update_layout.c, struct Obj *
- *   D_8009B388       in options_init.c, where struct Obj is local to that file.
- *
- * The two pointers are the same shape of problem the password digit cursor
- * had: a canonical type against a local one. That is #2501 work and wants a
- * measurement, not a preference.
+ * The two option display objects are no longer among them: see below.
  */
+
+/* The two display objects the options screen keeps. options_init.c creates
+ * them and stores them here; options_update_layout.c reads them back.
+ *
+ * options_init.c used to spell these `struct Obj *`, against a struct of its
+ * own. It never dereferenced either global -- it only assigned them -- so
+ * that spelling was an abstention rather than a competing claim, and the
+ * local struct existed only to give the function's register-allocated local
+ * a `f8` field at 0x08. The canonical DisplayObject names the same halfword
+ * `flags` at the same offset, so the local type is gone and both globals are
+ * DisplayObject * here. */
+extern DisplayObject *D_8009B380;
+extern DisplayObject *D_8009B388;
 
 #endif
