@@ -216,7 +216,7 @@ progress: split
 check-progress: split
 	@$(PYTHON) tools/project/progress.py --check
 
-check-notes: workspace
+check-notes:
 	@$(PYTHON) tools/project/check_notes.py
 
 check-candidate-headlines:
