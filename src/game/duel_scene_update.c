@@ -4,6 +4,7 @@
 #include "text_box_lifecycle.h"
 #include "sound.h"
 #include "func_80039794.h"
+#include "duel_scene_callbacks.h"
 #include "../unmatched.h"
 
 typedef struct {
@@ -19,7 +20,6 @@ extern volatile u8 D_8009B260 __attribute__((section(".data")));
 extern s8 gDialog_bChoice[9];
 extern Window D_800EB224;
 extern s8 gDuel_bOpponentID[9];
-extern void (*D_80090998[])(void);
 extern void func_8002C6C8(void);
 extern int func_80026B34(void);
 extern int DuelEffect_UpdateState(void);
