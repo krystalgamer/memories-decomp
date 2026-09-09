@@ -7,7 +7,7 @@
  * and passing an argument to satisfy it adds the instruction that sets $a0
  * and breaks the match. The wrong declaration is load-bearing. */
 extern void *func_8002C604(void);
-extern unsigned char D_8009B260;
+extern u8 D_8009B260;
 
 void *func_8002C68C(void)
 {

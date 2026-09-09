@@ -9,10 +9,10 @@
 #include "menu_record_reset.h"
 #include "sound.h"
 
-extern unsigned char D_8009B26C;
-extern unsigned char D_8009B268;
-extern unsigned char D_8009B269;
-extern unsigned char D_8009B26D;
+extern u8 D_8009B26C;
+extern u8 D_8009B268;
+extern u8 D_8009B269;
+extern u8 D_8009B26D;
 extern jmp_buf D_800E9DC0;
 extern void NameEntry_Init(void);
 extern int NameEntry_PollCompletion(void);

@@ -1,6 +1,6 @@
 #include "../types.h"
 
-extern unsigned char D_8009B248;
+extern u8 D_8009B248;
 
 int func_800282E8(void)
 {

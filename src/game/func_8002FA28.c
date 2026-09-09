@@ -1,8 +1,8 @@
 #include "../types.h"
 
-extern unsigned char D_8009B268[];
-extern unsigned char D_8009B26D[];
-extern unsigned char D_8009B26C[];
+extern u8 D_8009B268[];
+extern u8 D_8009B26D[];
+extern u8 D_8009B26C[];
 
 void func_8002FA28(void)
 {
