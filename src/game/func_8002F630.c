@@ -4,6 +4,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "fade.h"
@@ -14,24 +15,9 @@
 #include "../unmatched.h"
 #include "func_8002F630.h"
 
-typedef struct {
-    u8 pad00[4];
-    u32 flags;
-    u16 attr;
-    u8 pad0A[0x1E];
-    u32 field_28;
-    u8 pad2C[4];
-    u32 field_30;
-    u8 pad34[4];
-    u32 field_38;
-    u32 field_3C;
-    u32 field_40;
-    u32 field_44;
-} Object;
-
-extern Object *D_8009B2A0;
-extern Object *D_8009B280;
-extern Object *D_800EAE98[];
+extern DisplayObject *D_8009B2A0;
+extern DisplayObject *D_8009B280;
+extern DisplayObject *D_800EAE98[];
 extern void func_8002F4C0(u8 *, s32);
 extern u32 func_8004703C(void);
 
@@ -45,8 +31,8 @@ extern u32 func_8004703C(void);
    clears the phase flag. */
 void func_8002F630(void) {
     u8 *p;
-    Object *o;
-    Object *q;
+    DisplayObject *o;
+    DisplayObject *q;
     u16 flags;
     s32 four;
     s32 color;
@@ -71,15 +57,15 @@ void func_8002F630(void) {
         }
         D_8009B27C = flags | 0x4000;
         if (D_8009B2A0 != 0) {
-            D_8009B2A0->attr &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+            D_8009B2A0->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
         func_8002E00C((ScriptImageEntry *)D_800EAE98);
         four = 4;
         o = func_800400AC(func_8004002C(), 2);
         func_800428A8(o, 0, 0, 0, 0, 0, 0x17, four, D_801AF000);
         func_800428EC(o, 1);
-        o->attr |= 0x28;
-        o->flags |= 0x1000000;
+        o->flags |= 0x28;
+        o->attribute |= 0x1000000;
         D_800EAE98[0] = o;
         o = func_800400AC(func_8004002C(), 1);
         func_80040510((DisplayObjectConfigView *)o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
@@ -92,14 +78,14 @@ void func_8002F630(void) {
         q = func_800400AC(func_8004002C(), four);
         func_800427DC(q, 0);
         color = 0xF00140;
-        q->field_30 = 0x140;
-        q->field_38 = 0xF00000;
-        q->field_3C = 0xFFFFFF;
-        q->field_44 = 0xFFFFFF;
-        q->field_28 = 0;
-        q->field_40 = color;
+        q->field_30.word = 0x140;
+        q->field_38.word = 0xF00000;
+        q->field_3C.word = 0xFFFFFF;
+        q->field_44.word = 0xFFFFFF;
+        q->position.word = 0;
+        q->field_40.word = color;
         D_8009B280 = q;
-        q->flags |= (GsALON | GsATWO);
+        q->attribute |= (GsALON | GsATWO);
         Fade_StartIn();
         gFade_State.step = four;
         Fade_Wait();
@@ -109,7 +95,7 @@ void func_8002F630(void) {
         }
         Fade_WaitOut();
         if (D_8009B2A0 != 0) {
-            D_8009B2A0->attr |= DISPLAY_OBJECT_FLAG_RENDERABLE;
+            D_8009B2A0->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
         func_8004036C(D_8009B280);
         func_8002E00C((ScriptImageEntry *)D_800EAE98);
