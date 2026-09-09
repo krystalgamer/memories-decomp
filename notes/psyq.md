@@ -107,6 +107,14 @@ is right is prototype work rather than a rename.
 
 Both keep their `func_XXXXXXXX` names until that is settled.
 
+The *parameter types* are a separate question from the name, and for
+`0x80089CF0` they are settled: `display_object_projection.c` now spells its
+local prototype `extern s32 func_80089CF0(SVECTOR *, SVECTOR *, SVECTOR *,
+SVECTOR *)`, taking the three the header gives and repeating it for the
+fourth. Adopting the types does not commit the tree to the name or to the
+arity, and it retires four private structs that were describing `SVECTOR` a
+field at a time.
+
 ## CRT startup routines
 
 The PS-X EXE header and [memory map](memory-map.md) place the entry point at
