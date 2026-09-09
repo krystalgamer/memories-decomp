@@ -77,9 +77,26 @@ typedef struct DisplayObject {
         } h;
     } field_20;                    /* 0x20 */
     DisplayObjectCallback update;  /* 0x24 */
-    s32 position;                  /* 0x28 */
-    u8 pad_2C[4];                  /* 0x2C */
-    s32 field_30;                  /* 0x30 */
+    /* 0x28 and 0x30 are each read both ways: display_projection.c and the two
+       sprite emitters take whole words, while display_parent_links.c derives a
+       parent-relative offset from the halves. A union records both without
+       forcing either side to spell the other's access. */
+    union {
+        struct {
+            u16 field_28;
+            u16 field_2A;
+        } h;
+        s32 word;
+    } position;                    /* 0x28 */
+    u16 field_2C;                  /* 0x2C */
+    u8 pad_2E[2];                  /* 0x2E */
+    union {
+        struct {
+            u16 field_30;
+            u16 field_32;
+        } h;
+        s32 word;
+    } field_30;                    /* 0x30 */
     u8 pad_34[8];                  /* 0x34 */
     /* 0x3C likewise: func_80040588 copies the whole word into the sprite
        primitive, while func_800408D0 reads the two halves separately. */

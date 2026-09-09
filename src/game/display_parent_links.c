@@ -1,34 +1,15 @@
 #include "../types.h"
 #include "duel_grid.h"
-
-/* The link-walking view of a display object.
- *
- * Deliberately not the canonical DisplayObject in display_object.h, and named
- * apart from it so include order can never decide which definition a file
- * gets. This view spells 0x28 and 0x30 as u16 halves -- it writes
- * `field_28 = field_30 - base->field_30` as two halfword pairs -- where the
- * canonical record holds each as one word. */
-typedef struct DisplayObjectLinkView {
-    u8 pad_00[0x24];
-    void (*field_24)(void);
-    u16 field_28;
-    u16 field_2A;
-    u16 field_2C;
-    u8 pad_2E[2];
-    u16 field_30;
-    u16 field_32;
-    u8 pad_34[0x38];
-    u8 field_6C;
-} DisplayObjectLinkView;
+#include "display_object.h"
 
 typedef struct DisplayLinkEntry {
-    DisplayObjectLinkView *object;
+    DisplayObject *object;
     u8 pad_04[8];
 } DisplayLinkEntry;
 
 typedef struct DisplayParent {
-    DisplayObjectLinkView *position_base;
-    DisplayObjectLinkView *base;
+    DisplayObject *position_base;
+    DisplayObject *base;
     DisplayLinkEntry *entries;
     u8 pad_0C[0xB];
     u8 index;
@@ -36,18 +17,18 @@ typedef struct DisplayParent {
 
 extern void func_80022EEC(void);
 
-void func_80022F98(DisplayParent *parent, volatile DisplayObjectLinkView *object)
+void func_80022F98(DisplayParent *parent, volatile DisplayObject *object)
 {
-    DisplayObjectLinkView *base;
+    DisplayObject *base;
     int index;
 
     if (object != 0) {
         base = parent->position_base;
-        object->field_28 = object->field_30 - base->field_30;
-        object->field_2A = object->field_32 - base->field_32;
+        object->position.h.field_28 = object->field_30.h.field_30 - base->field_30.h.field_30;
+        object->position.h.field_2A = object->field_30.h.field_32 - base->field_30.h.field_32;
         index = parent->index;
         object->field_6C = 1;
-        object->field_24 = func_80022EEC;
+        object->update = (DisplayObjectCallback)func_80022EEC;
         object->field_2C = index;
     }
 }

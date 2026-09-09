@@ -51,7 +51,7 @@ void func_800408D0(DisplayObject *e, s32 tex, u16 mode16) {
         step = 2;
     }
     p->tpage = e->field_66;
-    p->xy.word = e->field_30;
+    p->xy.word = e->field_30.word;
     p->cxcy = e->field_40;
     p->rgb = e->field_0C;
     fl = e->flags;

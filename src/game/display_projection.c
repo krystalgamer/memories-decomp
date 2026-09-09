@@ -57,7 +57,7 @@ void func_80015DB8(SlotProjectionObject *object)
     DisplayObject *entry;
 
     entry = D_800EFE48 + object->slot;
-    object->position = entry->position;
+    object->position = entry->position.word;
     func_80015D18((ProjectionObject *)object);
 }
 
