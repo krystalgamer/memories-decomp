@@ -1,4 +1,10 @@
 #include "../types.h"
+#include "display_object_api.h"
+#include "duel_effect_resource_record.h"
+
+extern DuelEffectResourceRecord D_800EA0E8[];
+
+u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
 
 __asm__(
     ".set noreorder\n"
@@ -245,3 +251,13 @@ __asm__(
     ".word 0x27BD0040\n"
     ".end func_800291E0\n"
 );
+
+void func_80029528(int index)
+{
+    DuelEffectResourceRecord *entry = &D_800EA0E8[index];
+
+    func_8004036C(entry->object_00);
+    func_8004036C(entry->object_04);
+    entry->object_04 = 0;
+    entry->object_00 = 0;
+}
