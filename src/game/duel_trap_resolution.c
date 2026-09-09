@@ -6,6 +6,7 @@
 #include "duel_grid.h"
 #include "sound.h"
 #include "view_state.h"
+#include "func_80022D94.h"
 #include "../unmatched.h"
 
 /* Small data at 0x8009AF24, owned here: the attack threshold of each trap
@@ -142,7 +143,6 @@ s32 func_8001F0D0(u8 *p) {
 
 extern u16 D_8009B210;
 
-void func_80022D94(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 u8 *func_8002C68C(s32 arg0);
 void func_80024954(DuelCardRecord *arg0);
 

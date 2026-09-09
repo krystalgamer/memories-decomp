@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "view_state.h"
+#include "func_80022D94.h"
 
 extern s16 D_8009B204,D_8009B1EE,D_8009B192,D_8009B190,D_8009B166;
 extern int D_8009B1C4,D_8009B15C,D_8009B158,D_8009B224,D_8009B1FC,D_8009B198,D_8009B194,D_8009B168;

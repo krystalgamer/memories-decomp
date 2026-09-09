@@ -3,6 +3,7 @@
 #include "sound.h"
 #include "display_object_helpers.h"
 #include "duel_grid.h"
+#include "func_80022D94.h"
 #include "../unmatched.h"
 #include "func_80023D08.h"
 
@@ -25,7 +26,6 @@ typedef struct {
 extern s16 D_800907AC[2][2][4];
 
 extern void func_8002348C(void);
-extern void func_80022D94(s32, s32, s32, s32, s32);
 void func_80023D08(GridCursor *o, s32 dir) {
     CursorObject *d;
     s32 pos;
