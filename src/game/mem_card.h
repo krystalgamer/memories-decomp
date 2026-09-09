@@ -142,6 +142,31 @@ extern u8 D_8009B44E;
  * func_8003FCD8.c set it to 0x29, 40 and 36 at different failures and
  * two_player_save_setup.c reads it back. All three spell it plain u8. */
 extern u8 D_8009B3C0;
+
+/* The dialog's own three runtime values, alongside gMemCard_wDialogFlags
+ * above. mem_card_dialog_runtime.c raises the box with
+ *
+ *     TextBox_Create(D_8009B3EE, D_8009B3C6, 0x20, 0x50, 0x100, 0x30)
+ *
+ * which is where two of them get their meaning, TextBox_Create being
+ * (index, string_id, x, y, width, height).
+ *
+ *   D_8009B3EE  The effect channel the box occupies. It is cleared to 0 and
+ *               then set to the first slot whose flags_34 lacks 0x8000, and
+ *               every other use indexes D_800EB0F8 with it or hands it to
+ *               TextBox_Destroy and func_8003F2B0.
+ *   D_8009B3C6  The message the box shows. func_8003E46C takes it as its
+ *               `value` parameter and stores it while raising
+ *               MEM_CARD_DIALOG_FLAG_RESULT_READY. Distinct from D_8009B3C0
+ *               above, which is the save path's failure code.
+ *   D_8009B3D8  The box's display object. Assigned when the dialog opens,
+ *               null-tested before teardown and reset to 0 after
+ *               func_8004036C releases it; the +0x60 halfword the callers
+ *               drive between -0x400 and 0x400 is reached through it.
+ */
+extern u8 D_8009B3EE;
+extern u8 D_8009B3C6;
+extern u8 *D_8009B3D8;
 extern u8 D_8009B3DC;
 extern u8 D_8009B3DE;
 extern u8 D_8009B3EC;
