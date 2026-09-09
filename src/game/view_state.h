@@ -91,4 +91,14 @@ extern ViewState D_800F2848;
 
 void func_8001352C(void);
 
+/* The duel screen's per-frame view callback. It reads D_800F2848 above,
+ * programs the geometry engine from its projection field -- SetGeomScreen,
+ * SetGeomOffset, SetFarColor and SetFogNearFar -- and then walks the field
+ * records.
+ *
+ * func_800179F4.c installs it rather than calling it, as `D_800E9DBC[0] =
+ * func_800164FC`, so the declaration has to match the definition exactly for
+ * the address to be taken. That file held the only declaration. */
+void func_800164FC(void);
+
 #endif
