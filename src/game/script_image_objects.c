@@ -6,6 +6,7 @@
 #include "file_transfer.h"
 #include "display_object_helpers.h"
 #include "../unmatched.h"
+#include "script_image_objects.h"
 
 struct Obj {
     s16 x;
@@ -24,12 +25,6 @@ struct Obj {
     char pad4[0x46 - 0x3C];
     u8 f46;
 };
-
-typedef struct {
-    void *pointer;
-    s16 value;
-    u8 pad_06[14];
-} ScriptImageEntry;
 
 void func_8002DDFC(struct Obj *obj, s32 mode)
 {
