@@ -4,6 +4,8 @@
 #include "func_8003B6AC.h"
 #include "text_box_lifecycle.h"
 #include "script_state.h"
+#include "func_8002E5AC.h"
+#include "duel_effect_mark_object_if_active.h"
 
 /* Defined rather than declared: the assembler only resolves a small
    global gp-relative when the translation unit defines it, which is what
@@ -11,7 +13,6 @@
    slot carries the retail nop. c_symbols.ld overrides this common symbol,
    so no storage is allocated here. */
 u16 D_8009B28C;
-extern void DuelEffect_MarkObjectIfActive(void *);
 
 void func_8002E5AC(void)
 {
@@ -28,7 +29,7 @@ void func_8002E5AC(void)
         D_8009B2A4 |= 0x4000;
         func_8003B6AC(0, 2);
         box = TextBox_Create(0, value & 0xFFF, 0x10, 0xB0, 0x120, 0x30);
-        DuelEffect_MarkObjectIfActive(box);
+        DuelEffect_MarkObjectIfActive((MenuRecord *)box);
         box->flags_34 |= 8;
         if ((value & 0x8000) != 0) {
             flags = D_8009B27C;

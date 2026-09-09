@@ -5,7 +5,7 @@
 #include "menu_record.h"
 #include "menu_record_reset.h"
 #include "script_state.h"
-extern u8 *D_8009B274;
+#include "func_8002EB78.h"
 extern u8 *D_8009B274;
 
 void func_8002EB78(void)

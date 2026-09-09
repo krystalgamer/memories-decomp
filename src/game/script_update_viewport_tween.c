@@ -1,13 +1,13 @@
 #include "../types.h"
 #include "graphics_frame.h"
 #include "script_state.h"
+#include "script_update_viewport_tween.h"
+#include "script_command_busy.h"
 
 extern s32 D_8009B284;
 extern s32 D_8009B288;
 extern s32 D_8009B294;
 extern s32 D_8009B298;
-
-s32 func_8002E3B4(void);
 
 extern u16 gGraphics_uViewportX[4] asm("gGraphics_sViewportX");
 extern u16 gGraphics_uViewportY[4] asm("gGraphics_sViewportY");

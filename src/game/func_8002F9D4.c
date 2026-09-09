@@ -1,8 +1,9 @@
 #include "../types.h"
 #include "script_state.h"
+#include "func_8002F9D4.h"
+#include "func_8002EE94.h"
 
 extern u8 D_801A8000[];
-extern int func_8002EE5C(void);
 void func_8002F9D4(void) {
     unsigned char *current = D_8009B290;
     unsigned int offset;

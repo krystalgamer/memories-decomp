@@ -1,5 +1,22 @@
 #include "../types.h"
 #include "script_command_table.h"
+#include "func_8002E470.h"
+#include "func_8002E5AC.h"
+#include "func_8002E6B8.h"
+#include "func_8002EB48.h"
+#include "func_8002EB78.h"
+#include "func_8002EE94.h"
+#include "func_8002F440.h"
+#include "func_8002F630.h"
+#include "func_8002F9D4.h"
+#include "func_8002FA28.h"
+#include "script_command_busy.h"
+#include "script_control_commands.h"
+#include "script_flag_commands.h"
+#include "script_noop_commands.h"
+#include "script_op_show_image.h"
+#include "script_stream_commands.h"
+#include "script_update_viewport_tween.h"
 
 /* Initialized data at 0x80090C50: the 23 scene-script command handlers.
  *
@@ -8,30 +25,6 @@
  * contains exactly these entries, so the declaration remains unsized rather
  * than implying every masked value is valid.
  */
-
-void func_8002E3DC(void);
-void func_8002E470(void);
-void func_8002E5AC(void);
-void func_8002E918(void);
-void func_8002E6B8(void);
-void Script_OpShowImage(void);
-void Script_OpViewportTween(void);
-void Script_UpdateViewportTween(void);
-void func_8002EB48(void);
-void func_8002EB78(void);
-void Script_OpSound(void);
-void func_8002EDB0(void);
-void func_8002EE20(void);
-void func_8002EE94(void);
-void func_8002F430(void);
-void func_8002F438(void);
-void func_8002F440(void);
-void func_8002F630(void);
-void func_8002F930(void);
-void func_8002F94C(void);
-void func_8002F968(void);
-void func_8002F9D4(void);
-void func_8002FA28(void);
 
 ScriptCommandHandler D_80090C50[] = {
     func_8002E3DC,

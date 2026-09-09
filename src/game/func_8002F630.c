@@ -12,6 +12,7 @@
 #include "script_state.h"
 #include "script_image_objects.h"
 #include "../unmatched.h"
+#include "func_8002F630.h"
 
 typedef struct {
     u8 pad00[4];
