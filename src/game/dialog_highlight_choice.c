@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "dialog_highlight_choice.h"
 #include "duel_effect_update_object_layout.h"
 
 extern u8 gDialog_bChoiceEnabled;

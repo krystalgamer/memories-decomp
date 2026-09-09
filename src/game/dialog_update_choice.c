@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "dialog_highlight_choice.h"
 #include "display_object_api.h"
 #include "input.h"
 #include "sound.h"
@@ -14,7 +15,6 @@ extern s8 gDialog_bChoice;
 
 extern s32 Dialog_ReadChoiceInput(u8 *);
 extern void Widget_UpdatePulseColour(u8 *);
-extern void Dialog_HighlightChoice(u8 *);
 extern u8 *func_8004006C(void);
 
 void Dialog_UpdateChoice(u8 *p) {
