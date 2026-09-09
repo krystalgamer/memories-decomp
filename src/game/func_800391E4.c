@@ -3,61 +3,62 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
 #include "text_box_runtime.h"
 
 void func_800391E4(u8 *p) {
-    u8 *e;
+    DisplayObject *e;
     s32 v;
     s32 b;
     s32 f;
 
-    e = *(u8 **)(p + 0x28);
-    if (e == (u8 *)0) {
+    e = *(DisplayObject **)(p + 0x28);
+    if (e == (DisplayObject *)0) {
         e = func_800400AC(func_8004006C(), 6);
         b = p[0x57];
-        *(s16 *)(e + 0x40) = 0x280;
-        *(s16 *)(e + 0x42) = 0xE8;
-        e[0x66] = 0xA;
-        f = *(u16 *)(e + 8);
-        *(s32 *)(e + 0x4C) = (s32)func_80035E20;
-        e[0x67] = b;
-        *(s16 *)(e + 8) = f | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+        e->field_40.h.field_40 = 0x280;
+        e->field_40.h.field_42 = 0xE8;
+        e->field_66 = 0xA;
+        f = e->flags;
+        e->field_4C = (s32)func_80035E20;
+        e->field_67 = b;
+        e->flags = f | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         *(s32 *)(p + 0x28) = (s32)e;
     }
 
     func_80042918(e);
-    func_800428EC(e, *(s8 *)(p + 0x59));
+    func_800428EC((u8 *)e, *(s8 *)(p + 0x59));
 
-    *(s16 *)(e + 0x30) = *(u16 *)(p + 0x3C);
-    *(s16 *)(e + 0x32) = *(u16 *)(p + 0x40);
-    *(s16 *)(e + 0x3C) = *(u16 *)(p + 0x3E);
-    *(s16 *)(e + 0x3E) = *(u16 *)(p + 0x42);
+    *(s16 *)&e->field_30.h.field_30 = *(u16 *)(p + 0x3C);
+    *(s16 *)&e->field_30.h.field_32 = *(u16 *)(p + 0x40);
+    *(s16 *)&e->field_3C.h.field_3C = *(u16 *)(p + 0x3E);
+    *(s16 *)&e->field_3C.h.field_3E = *(u16 *)(p + 0x42);
     v = (s16)*(u16 *)(p + 0x3E) / 2;
-    *(s16 *)(e + 0x18) = v;
-    *(s16 *)(e + 0x48) = v;
+    *(s16 *)&e->field_18 = v;
+    e->field_48.h.field_48 = v;
     v = (s16)*(u16 *)(p + 0x42) / 2;
-    *(s16 *)(e + 0x1A) = v;
-    *(s16 *)(e + 0x4A) = v;
+    *(s16 *)&e->field_1A = v;
+    e->field_48.h.field_4A = v;
 
     if ((*(u16 *)(p + 0x34) & 0x20) != 0) {
         if (*(void **)(p + 0x2C) != 0) {
             func_8004036C(*(void **)(p + 0x2C));
         }
         e = func_800400AC(func_8004002C(), 4);
-        func_800427DC(e, 1);
+        func_800427DC((u8 *)e, 1);
         *(s32 *)(p + 0x2C) = (s32)e;
-        *(s32 *)(e + 4) = *(s32 *)(e + 4) | (GsALON | GsATWO);
+        e->attribute = e->attribute | (GsALON | GsATWO);
         func_80042918(e);
-        func_800428EC(e, (s8)(p[0x59] - 1));
-        *(s32 *)(e + 0x54) = 0xA0A0A0;
-        *(s32 *)(e + 0x4C) = 0xA0A0A0;
-        *(s32 *)(e + 0x34) = 0xA0A0A0;
-        *(s32 *)(e + 0x2C) = 0xA0A0A0;
-        *(s32 *)(e + 0x44) = 0x808080;
-        *(s32 *)(e + 0x3C) = 0x808080;
+        func_800428EC((u8 *)e, (s8)(p[0x59] - 1));
+        *(s32 *)&e->field_54 = 0xA0A0A0;
+        e->field_4C = 0xA0A0A0;
+        e->field_34 = 0xA0A0A0;
+        e->field_2C.word = 0xA0A0A0;
+        e->field_44.word = 0x808080;
+        e->field_3C.word = 0x808080;
         func_80039140(p);
     }
 }

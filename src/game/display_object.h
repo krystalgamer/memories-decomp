@@ -237,7 +237,12 @@ typedef struct DisplayObject {
     u8 pad_62[3];                  /* 0x62 */
     u8 field_65;                   /* 0x65 */
     u8 field_66;                   /* 0x66 */
-    u8 pad_67[2];                  /* 0x67 */
+    /* Named field_67 by DisplayObjectConfig in display_object_config.h, on
+       this same record, and read by func_800391E4.c. 0x68 stays padding:
+       that view names it too, but nothing reaching the canonical record
+       needs it yet. */
+    u8 field_67;                   /* 0x67 */
+    u8 pad_68[1];                  /* 0x68 */
     /* Named on this same record by DisplayObjectConfig in
        display_object_config.h. display_object_transition.c reads it and hands
        it to func_800428A8. The bytes either side stay padding: nothing here
