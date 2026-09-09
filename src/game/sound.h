@@ -562,6 +562,7 @@ void SD_BGMPlay(u32);
 void SD_SEPlayFull(u32);
 void SD_BGMFadeOut(void);
 void SD_BGMFadeOutWithStep(s32);
+void func_8003FFB4(u32);
 void SD_SetOutputType(s16);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);
