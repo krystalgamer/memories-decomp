@@ -839,7 +839,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0D4,D_8009B0D4,D_8009B0D4,0x8001306C,func_8001306C,matching_c,game,C,src/game/main_services.c,read,32,D_8009B0BC = D_8009B0D4; | if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4) {
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,,D_8009B0D8 = 1;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,read_write,,D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8; | D_8009B0D8 = D_8009B0C1 + 1;
-0x8009B0D8,D_8009B0D8,D_8009B0D8,0x800151D8,func_800151D8,matching_c,game,C,src/game/func_800151D8.c,read,,state->field_08 = state->field_08 + step * D_8009B0D8; | state->field_08 = state->field_08 - step * D_8009B0D8;
+0x8009B0D8,D_8009B0D8,D_8009B0D8,0x800151D8,Fade_StepBands,matching_c,game,C,src/game/fade_step_bands.c,read,,state->field_08 = state->field_08 + step * D_8009B0D8; | state->field_08 = state->field_08 - step * D_8009B0D8;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,read,,delta = p[7] * D_8009B0D8;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80039AFC,func_80039AFC,matching_c,game,C,src/game/display_object_fade_callbacks.c,read,,record[20] = record[20] - D_8009B0D8 * 2; | record[4] = record[4] + D_8009B0D8 * 16; | (+1 more)
 0x8009B0D8,D_8009B0D8,D_8009B0D8_volatile,0x80039BE0,func_80039BE0,matching_c,game,C,src/game/display_object_fade_callbacks.c,read,,v = p[4] - (D_8009B0D8_volatile << 4); | v = p[6] - (D_8009B0D8_volatile << 4);
@@ -2450,7 +2450,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EC0,D_800E9EC0,D_800E9EC0,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,read,8,SD_InitState(D_800E9EC0[0]);
 0x800E9EC0,D_800E9EC0,D_800E9EC0,0x80014C40,func_80014C40,matching_c,game,C,src/game/file_transfer_control.c,address,8,n = *(s32 *)D_800E9EC0 + *(s32 *)(p + 4);
 0x800E9EC8,gFade_State,gFade_State,0x800151B0,func_800151B0,matching_c,game,C,src/game/func_800151B0.c,address,,FadeTransitionState *state = &gFade_State;
-0x800E9EC8,gFade_State,gFade_State,0x800151D8,func_800151D8,matching_c,game,C,src/game/func_800151D8.c,address,,FadeTransitionState *state = &gFade_State;
+0x800E9EC8,gFade_State,gFade_State,0x800151D8,Fade_StepBands,matching_c,game,C,src/game/fade_step_bands.c,address,,FadeTransitionState *state = &gFade_State;
 0x800E9EC8,gFade_State,gFade_State,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,read_write,,f = gFade_State.flags; | g = gFade_State.flags; | (+6 more)
 0x800E9EC8,gFade_State,D_800E9EC8_arr|gFade_State,0x800154E4,Fade_DrawOverlay,matching_c,game,C,src/game/fade_draw_overlay.c,read,,if (gFade_State.flags & 0x10) { | rec = D_800E9EC8_arr; | (+1 more)
 0x800E9EC8,gFade_State,gFade_State,0x800156B8,func_800156B8,matching_c,game,C,src/game/func_800156B8.c,address,,u8 *p = (u8 *)&gFade_State;

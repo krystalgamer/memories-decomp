@@ -9,7 +9,7 @@
    and add step. Values are clamped between level and target_level. After
    the pass, the head update uses the opposite sign, scaled by D_8009B0D8. */
 
-void func_800151D8(void)
+void Fade_StepBands(void)
 {
     FadeTransitionState *state = &gFade_State;
     s32 step = state->step;

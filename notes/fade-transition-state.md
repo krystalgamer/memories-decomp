@@ -19,8 +19,8 @@ The shared `FadeTransitionState` layout is:
 | `0x04` | `level` | 1 | byte loads/stores throughout the family; current fade brightness in `Fade_DrawOverlay` |
 | `0x05` | `target_level` | 1 | byte comparison and initialization in the transition setup paths |
 | `0x06` | `flags` | 1 | byte bit tests/writes for `0x01`, `0x02`, `0x04`, `0x10`, `0x20`, and `0x80` |
-| `0x07` | `step` | 1 | setup values `8` and `0x0C`; `func_800151D8` uses this byte for both band spacing and the scaled head advance |
-| `0x08` | `field_08` | 2 | band-ramp head: `func_800151D8` starts its walk from `(s16)field_08`, then advances the stored halfword; setup initializes it to `0` or `0xFF` |
+| `0x07` | `step` | 1 | setup values `8` and `0x0C`; `Fade_StepBands` uses this byte for both band spacing and the scaled head advance |
+| `0x08` | `field_08` | 2 | band-ramp head: `Fade_StepBands` starts its walk from `(s16)field_08`, then advances the stored halfword; setup initializes it to `0` or `0xFF` |
 | `0x0A` | `band_levels[30]` | 30 | `func_800156B8` fills offsets `0x0A..0x27`; the band loop in `Fade_DrawOverlay` renders those 30 entries |
 
 The end of `band_levels` gives a minimum record size of `0x28`.
@@ -28,7 +28,7 @@ The end of `band_levels` gives a minimum record size of `0x28`.
 `gFade_State`, independently fixing the extent. C89 typedef assertions verify
 the total size and every modeled field offset.
 
-Target assembly across `func_800151B0`, `func_800151D8`,
+Target assembly across `func_800151B0`, `Fade_StepBands`,
 `Fade_Update`, `Fade_DrawOverlay`, `func_800156B8`, the setup functions, and
 the flag-setting wrappers establishes the access widths and offsets. GMS
 corroborates the same byte labels, the halfword at `0x08`, and the 30-byte
@@ -40,7 +40,7 @@ declarations were used.
 
 ## Band-ramp mechanics
 
-The matching [`func_800151D8`](../src/game/func_800151D8.c) establishes
+The matching [`Fade_StepBands`](../src/game/fade_step_bands.c) establishes
 **high-confidence static semantics** for `field_08` in band mode: it is a
 signed sweep head, not another byte brightness value. The shared declaration
 remains `u16` to preserve the existing exact C; the walker explicitly casts
@@ -234,7 +234,7 @@ extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 
 Matching pure-C users migrated to this shared header include:
 
-- `func_800151B0`, `func_800151D8`, `Fade_Update`, `Fade_DrawOverlay`,
+- `func_800151B0`, `Fade_StepBands`, `Fade_Update`, `Fade_DrawOverlay`,
   `func_800156B8`, `func_800156DC`;
 - `func_8001572C`, `Fade_InitIn`, `Fade_StartIn`;
 - `Fade_InitInColor`, `func_80015870`, `Fade_InitOut`;
@@ -250,7 +250,7 @@ caller passes the white-mode byte and another passes nothing, while the
 callee consumes neither form. A stricter invented parameter would make one
 of those known call sites false.
 
-The later exact pure-C matches for `func_800151D8` and `Fade_Update`
+The later exact pure-C matches for `Fade_StepBands` and `Fade_Update`
 removed the band walker and transition updater from the assembly exception
 list. Both include `fade.h`; the updater retains the raw views described
 below for exact addressing.

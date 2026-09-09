@@ -312,6 +312,7 @@ Text_EncodeDecimalNoPadding = 0x800358A0; // type:func
 File_ActivateTransfer = 0x800143DC; // type:func
 
 // Semantic names
+Fade_StepBands = 0x800151D8; // type:func
 Fade_Update = 0x80015310; // type:func
 Fade_DrawOverlay = 0x800154E4; // type:func
 Fade_InitOut = 0x800158B8; // type:func

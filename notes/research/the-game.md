@@ -160,7 +160,7 @@ levels, tint, flags, a configured step, a signed sweep head, and 30 band
 levels [`0x800E9EC8`]. The renderer uses thirty `320x8` boxes; paired bands
 `i` and `29-i` share a level. The historically captured black-menu fades
 close from the top/bottom edges and open from the middle. Matching
-`func_800151D8` establishes the two traversal directions, but the observed
+`Fade_StepBands` establishes the two traversal directions, but the observed
 step `8` and roughly 48-frame duration are not universal: the final color
 helpers can override a banded request with non-band flags and step `12`.
 

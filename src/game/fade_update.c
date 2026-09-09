@@ -82,7 +82,7 @@ void Fade_Update(u8 *p)
     return;
 step:
     if (gFade_State.flags & 1) {
-        func_800151D8();
+        Fade_StepBands();
         return;
     }
     if (lvl < tgt) {
