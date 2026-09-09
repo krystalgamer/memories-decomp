@@ -8,8 +8,6 @@
 extern s8 gDialog_bChoice;
 extern u8 gDialog_bInputState;
 
-extern void Text_SetCursorOffset(u8 *);
-
 void Text_HandleChoiceCommand(u8 *p)
 {
     s32 t;

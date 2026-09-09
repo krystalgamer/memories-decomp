@@ -17,6 +17,16 @@ void func_80037CE0(volatile u8 *object);
 void func_80037D2C(u8 *object);
 void func_80037D6C(u8 *object);
 
+/* Writes func_80036D3C's result into the low halfword of the same word those
+ * two advance: it indexes the words at the front of the object by the signed
+ * byte at 0x58, and preserves the high halfword. Declared beside them because
+ * it is the third reader of that selector.
+ *
+ * Both callers already spelled it this way -- text_handle_choice_command.c
+ * calls it, and duel_effect_command_table.c takes its address for the command
+ * table, which is why the declaration there is not extern. */
+void Text_SetCursorOffset(u8 *object);
+
 /* The dialog's pending completion callback, declared here because
  * func_80037CE0 is the only function ever stored in it.
  *
