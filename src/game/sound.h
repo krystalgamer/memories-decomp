@@ -10,6 +10,7 @@
 #define SD_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 #define SD_COMMAND_QUEUE_COUNT 16
 #define SD_COMMAND_RECORD_SIZE 0x30
+#define SD_COMMAND_QUEUE_BYTE_OFFSET 0x80
 #define SD_VALUE_LINK_RECORD_SIZE 0x08
 #define SD_VALUE_LINK_INDEX_MASK 0xFFFF
 #define SD_VALUE_LINK_INDEX_NONE 0xFFFF
@@ -61,7 +62,7 @@ typedef struct {
 
 typedef struct {
     u16 field_0000;
-    u8 pad0002[2];
+    u16 field_0002;
     u16 field_0004;
     u8 pad0006[0x36];
     u32 field_003C;
@@ -85,15 +86,15 @@ typedef struct {
     u8 pad007F;
     SDCommand commands[SD_COMMAND_QUEUE_COUNT];
     u8 pad0380[4];
-    u32 key_mask;
-    u8 pad0388[4];
-    s16 volume_left;
-    s16 volume_right;
-    u8 pad0390[0xA];
-    u16 note; /* SpuVoiceAttr.note at key_mask + 0x16; not raw pitch. */
-    u8 pad039C[4];
-    u32 field_03A0;
-    u8 pad03A4[0x20];
+    /* The staged SpuVoiceAttr the driver keys voices on with. func_8004803C
+       fills in the live half per sound effect -- `voice` as the key bitmask,
+       `volume` from the note table and the pan, `note` as the pitch and `addr`
+       as the waveform address -- and hands it to SpuSetKeyOnWithAttr. The
+       constant half is written once by func_80047480: `mask` 0xFFFF, unity
+       `pitch`, `sample_note` 0x3C00, the three envelope rate modes and zeroed
+       ADSR. Both were reaching it by offset before; the region is exactly one
+       SpuVoiceAttr wide, which the assertion below pins. */
+    SpuVoiceAttr voice_attr;
     s32 field_03C4;
     s32 field_03C8;
     u16 field_03CC;
@@ -121,7 +122,12 @@ typedef struct {
     s16 cd_volume;
     s16 field_0512;
     u8 channel_volume[2];
-    u8 pad0516[0x1D];
+    u8 pad0516[2];
+    /* The three mixer-out bank bases func_80046A08 installs once the
+       "VolInf" signature checks out: the bank itself and the two records
+       that follow it. */
+    u8 *bank_0518[3];
+    u8 pad0524[0xF];
     u8 mix_multiplier;
     u8 pad0534[8];
     u8 buffer_053C[4][0x200];
@@ -152,7 +158,11 @@ typedef struct {
     s16 field_15F4;
     u8 pad15F6[0x22];
     u8 busy;
-    u8 pad1619[0x32];
+    u8 pad1619[0x30];
+    /* The two "VolInf" trailer bytes, one per mixer-out bank; func_80046A08
+       latches each into field_0042 / field_0044 as it loads them. */
+    u8 field_1649;
+    u8 field_164A;
     u8 field_164B;
 } SDValue;
 
@@ -332,14 +342,37 @@ typedef char SDValue_lookup_end_must_match_extent[
         sizeof(((SDValue *)0)->field_044C) ==
         SD_VOICE_LOOKUP_END_BYTE_OFFSET ? 1 : -1
 ];
-typedef char SDValue_key_mask_offset_must_be_0x384[
-    SD_STATE_OFFSET(SDValue, key_mask) == 0x384 ? 1 : -1
+typedef char SDValue_commands_offset_must_be_0x80[
+    SD_STATE_OFFSET(SDValue, commands) == SD_COMMAND_QUEUE_BYTE_OFFSET ? 1 : -1
 ];
-typedef char SDValue_note_offset_must_be_0x39A[
-    SD_STATE_OFFSET(SDValue, note) == 0x39A ? 1 : -1
+typedef char SDValue_voice_attr_offset_must_be_0x384[
+    SD_STATE_OFFSET(SDValue, voice_attr) == 0x384 ? 1 : -1
+];
+typedef char SDValue_voice_attr_note_offset_must_be_0x39A[
+    SD_STATE_OFFSET(SDValue, voice_attr) +
+        SD_STATE_OFFSET(SpuVoiceAttr, note) == 0x39A ? 1 : -1
+];
+typedef char SDValue_voice_attr_must_end_at_field_03C4[
+    SD_STATE_OFFSET(SDValue, voice_attr) + sizeof(SpuVoiceAttr) ==
+        SD_STATE_OFFSET(SDValue, field_03C4) ? 1 : -1
 ];
 typedef char SDValue_field_0044_offset_must_be_0x44[
     SD_STATE_OFFSET(SDValue, field_0044) == 0x44 ? 1 : -1
+];
+typedef char SDValue_field_0002_offset_must_be_0x02[
+    SD_STATE_OFFSET(SDValue, field_0002) == 0x02 ? 1 : -1
+];
+typedef char SDValue_bank_0518_offset_must_be_0x518[
+    SD_STATE_OFFSET(SDValue, bank_0518) == 0x518 ? 1 : -1
+];
+typedef char SDValue_mix_multiplier_offset_must_be_0x533[
+    SD_STATE_OFFSET(SDValue, mix_multiplier) == 0x533 ? 1 : -1
+];
+typedef char SDValue_field_1649_offset_must_be_0x1649[
+    SD_STATE_OFFSET(SDValue, field_1649) == 0x1649 ? 1 : -1
+];
+typedef char SDValue_field_164A_offset_must_be_0x164A[
+    SD_STATE_OFFSET(SDValue, field_164A) == 0x164A ? 1 : -1
 ];
 typedef char SDValue_field_004E_offset_must_be_0x4E[
     SD_STATE_OFFSET(SDValue, field_004E) == 0x4E ? 1 : -1

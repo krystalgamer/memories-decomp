@@ -83,6 +83,9 @@ void func_800493F8(void)
 
     func_80049010();
     entry = (u16 *)0x801EA800;
+    /* Deliberately not g_SDValue->music_track: the member store picks a
+       different register for the pointer and one byte of func_800493F8
+       changes. Measured. */
     *(u16 **)((u8 *)g_SDValue + 0x1564) = entry;
     entry[0] = 0xFFFF;
 }

@@ -5,68 +5,75 @@
 #include "sound_voice_constants.h"
 
 void func_80047480(void) {
-    u8 *p;
-    u8 *q;
-    u8 *r;
+    SDValue *p;
+    SDValue *q;
+    SDValue *r;
     s32 i;
     s32 j;
     s32 k;
 
-    ((u8 *)g_SDValue)[0x434] = 0;
-    ((u8 *)g_SDValue)[0x435] = 0;
+    g_SDValue->voice_active_mask = 0;
+    g_SDValue->field_0435 = 0;
 
-    for (i = 0; i < 4; i++) {
-        (((u8 *)g_SDValue) + i)[0x40C] = 0;
-        (((u8 *)g_SDValue) + i)[0x410] = 0;
-        *(s16 *)&(((u8 *)g_SDValue) + (i + i))[0x404] = 0;
-        *(s16 *)&(((u8 *)g_SDValue) + (i + i))[0x414] = 0;
-        *(s16 *)&(((u8 *)g_SDValue) + (i + i))[0x41C] = 0;
-        (((u8 *)g_SDValue) + i)[0x428] = 0;
-        *(s16 *)&(((u8 *)g_SDValue) + (i + i))[0x42C] = 0;
+    for (i = 0; i < SD_VOICE_SLOT_COUNT; i++) {
+        g_SDValue->field_040C[i] = 0;
+        g_SDValue->voice_flags[i] = 0;
+        g_SDValue->voice_ids[i] = 0;
+        g_SDValue->voice_volume_left[i] = 0;
+        g_SDValue->voice_volume_right[i] = 0;
+        g_SDValue->voice_step[i] = 0;
+        g_SDValue->voice_timer[i] = 0;
     }
 
     SpuSetTransferMode(SPU_TRANSFER_BY_DMA);
 
-    p = ((u8 *)g_SDValue);
-    *(s16 *)(p + 0x394) = 0x3FFF;
-    *(s16 *)(p + 0x396) = 0x3FFF;
-    *(s16 *)(p + 0x398) = 0x1000;
-    *(s16 *)(p + 0x39C) = 0x3C00;
-    *(s32 *)(p + 0x3A8) = 1;
-    *(s32 *)(p + 0x3AC) = 1;
-    *(s32 *)(p + 0x3B0) = 3;
-    *(s32 *)(p + 0x448) = 0x801E2800;
-    *(s32 *)(p + 0x388) = 0xFFFF;
-    *(s16 *)(p + 0x390) = 0;
-    *(s16 *)(p + 0x392) = 0;
-    *(s16 *)(p + 0x3B4) = 0;
-    *(s16 *)(p + 0x3B6) = 0;
-    *(s16 *)(p + 0x3B8) = 0;
-    *(s16 *)(p + 0x3BA) = 0;
-    *(s16 *)(p + 0x3BC) = 0;
-    *(s32 *)(p + 0x43C) = 0x801E4000;
-    *(s32 *)(p + 0x438) = 0x1010;
-    *(s16 *)(p + 0x440) = 0;
-    *(u16 *)(p + 0x442) = 0xFFFF;
-    *(s32 *)(p + 0x444) =
-        ((*(u16 *)p * 2 + 0xF) & 0xFFF0) + 0x801E4000;
+    /* The constant half of the staged voice attribute: unity volumex, unity
+       pitch, middle-C sample note, linear attack and sustain with exponential
+       release, and an all-bits attribute mask. */
+    p = g_SDValue;
+    p->voice_attr.volumex.left = 0x3FFF;
+    p->voice_attr.volumex.right = 0x3FFF;
+    p->voice_attr.pitch = 0x1000;
+    p->voice_attr.sample_note = 0x3C00;
+    p->voice_attr.a_mode = 1;
+    p->voice_attr.s_mode = 1;
+    p->voice_attr.r_mode = 3;
+    p->field_0448 = (SDValueLink *)0x801E2800;
+    p->voice_attr.mask = 0xFFFF;
+    p->voice_attr.volmode.left = 0;
+    p->voice_attr.volmode.right = 0;
+    p->voice_attr.ar = 0;
+    p->voice_attr.dr = 0;
+    p->voice_attr.sr = 0;
+    p->voice_attr.rr = 0;
+    p->voice_attr.sl = 0;
+    p->field_043C = (u16 *)0x801E4000;
+    p->field_0438 = 0x1010;
+    p->field_0440 = 0;
+    p->field_0442 = 0xFFFF;
+    p->field_0444 =
+        (SDNote *)(((p->field_0000 * 2 + 0xF) & 0xFFF0) + 0x801E4000);
 
     i = 0;
-    if (*(u16 *)p != 0) {
+    if (p->field_0000 != 0) {
         r = p;
         do {
-            *(u16 *)(*(u8 **)(r + 0x43C) + i * 2) = SD_PENDING_ENTRY_NONE;
+            r->field_043C[i] = SD_PENDING_ENTRY_NONE;
             i++;
-        } while (i < *(u16 *)r);
+        } while (i < r->field_0000);
     }
 
     i = 0;
-    q = ((u8 *)g_SDValue);
+    q = g_SDValue;
     for (; i < SD_VOICE_LOOKUP_BANK_COUNT; i++) {
         j = 0;
         k = i << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         for (; j < SD_VOICE_LOOKUP_BANK_ENTRY_COUNT; j++) {
-            *(u16 *)(q + k + SD_VOICE_LOOKUP_BYTE_OFFSET) = SD_PENDING_ENTRY_NONE;
+            /* The bank shift is already folded into k, and retail adds the
+               record base to it in that order, so this keeps the byte form
+               rather than becoming q->field_044C[i][j]. */
+            *(u16 *)((u8 *)q + k + SD_VOICE_LOOKUP_BYTE_OFFSET) =
+                SD_PENDING_ENTRY_NONE;
             k += 2;
         }
     }
