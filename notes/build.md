@@ -335,6 +335,46 @@ but emits four, so `- [0x8b72e, pad]` before the next entry makes up the
 difference. A missing pad shows up as a two-byte shift in every `%gp_rel`
 reference after it, and the build's size check catches the rest.
 
+### Which arguments a callee actually reads
+
+Several consumers declare a function with fewer parameters than its definition
+takes and call it with fewer arguments. That is not always a mistake, and it is
+not always safe to correct, so the question has to be settled per call site.
+
+The argument register is not empty at such a call. It usually holds the
+*calling* function's own incoming parameter, still live because nothing
+clobbered it, so the argument was being passed all along and simply was not
+written down. Whether it can be written down depends on one thing:
+
+> A no-argument call site can be given its arguments when every register the
+> callee READS already holds a value the calling file can name.
+
+Both outcomes occur, and they look identical in C:
+
+- `func_800429D8` reads only `$a0`, and its two `void (void)` consumers are
+  functions taking `u8 *object` whose prologue is `addu $16,$4,$zero` without
+  reassigning `$4`. `$a0` still holds the object, so naming the argument is
+  byte-exact.
+- `func_80023D08` reads `$a0` and `$a1` and branches on the second. Its
+  one-parameter consumer sets only `$a0`, so `dir` arrives as that function's
+  own caller's leftover. There is no expression to write, and the narrow
+  declaration has to stay.
+
+To decide, find the callee's assembly and take the FIRST mention of each of
+`$a0` to `$a3`, then ask whether that mention is a read or a write. A first
+mention that is a write means the register is scratch, not an argument.
+
+Two traps make this easy to get wrong:
+
+- **Counting mentions is not analysis.** A function that sets up its own calls
+  writes `$a0` to `$a3` constantly. `func_800235C0` mentions them 119 times and
+  reads none of them; its first use of each is `addiu $aN, $zero, imm`.
+- **The first operand is not always the destination.** For stores and branches
+  it is a source, so `sw $a1, 0x54($sp)` and `bltz $a3, .L…` are READS. Reading
+  them as writes makes a four-argument function look like it takes one --
+  `func_8004CB0C` spills `$a1` and `$a2` to the stack in its prologue and
+  branches on `$a3`, and reads all four.
+
 ### The declaration spelling is the consumer's lever
 
 Ownership decides where a definition lands. For the far more common case of a

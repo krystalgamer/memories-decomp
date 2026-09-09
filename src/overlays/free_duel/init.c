@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../unmatched.h"
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_layout.h"
 #include "../../game/card_constants.h"
@@ -37,7 +38,6 @@ extern void *gFreeDuel_apSparklePool[];
 extern u8 gFreeDuel_abGridAvailable[];
 extern u8 *gFreeDuel_pCursorWidget;
 extern u8 *gFreeDuel_pThumbWidget;
-extern u8 D_801AF000[];
 
 extern void func_80035C38(s32, s32, s32, s32, s32, s32, s32);
 extern void func_80040510(Obj *, s32, s32, s32, s32, s32, s32, s32, s32, s32);

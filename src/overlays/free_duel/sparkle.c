@@ -1,8 +1,7 @@
 #include "../../types.h"
+#include "../../unmatched.h"
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_helpers.h"
-
-extern u8 D_801AF000[];
 
 u8 *FreeDuel_SpawnSparkle(void)
 {

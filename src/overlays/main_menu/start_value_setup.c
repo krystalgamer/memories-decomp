@@ -1,11 +1,11 @@
 #include "../../types.h"
+#include "../../unmatched.h"
 #include "../../game/display_object_api.h"
 #include "entrypoints.h"
 #include "value_setup.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/main_services.h"
 
-extern u8 D_801AF800[];
 extern u8 *D_801845A0;
 extern u8 *D_801845A4;
 extern u8 *D_801845B0[];

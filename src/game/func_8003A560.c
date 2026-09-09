@@ -18,7 +18,6 @@ typedef struct {
    the assembler macro form, while the one-byte D_8009B326 stays gp-relative. */
 extern s8 D_8009B326;
 extern s8 D_8015C410[];
-extern u8 D_801AF800[];
 extern u8 *D_80010000 __attribute__((section(".data")));
 
 extern void func_8003A01C(u8 *, s32);
