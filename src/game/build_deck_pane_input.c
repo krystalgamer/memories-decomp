@@ -6,6 +6,7 @@
 #include "card_constants.h"
 #include "input.h"
 #include "sound.h"
+#include "build_deck_card_counts.h"
 
 extern u8 D_8009B24B;
 extern u16 gDuel_wViewerCardID;
@@ -17,8 +18,6 @@ extern void BuildDeck_AddCard(u8 *, s32);
 extern void func_80031574(s32, s32, s32, s32, s32);
 extern void func_80031E5C(u8 *);
 extern void func_80031EE4(u8 *, s32);
-extern void func_80031F7C(u8 *, s32);
-extern void func_8003201C(u8 *);
 void func_8003353C(u8 *p) {
     u8 *e;
     s32 r;

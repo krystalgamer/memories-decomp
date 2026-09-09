@@ -1,10 +1,9 @@
 #include "../types.h"
 #include "card_list_sort.h"
 #include "card_constants.h"
+#include "build_deck_card_counts.h"
 
 extern s32 gDuel_adwCardStats[];
-extern void func_8003201C(s32);
-
 void BuildDeck_AddCard(s32 arg0, s32 arg1)
 {
     s32 *record;

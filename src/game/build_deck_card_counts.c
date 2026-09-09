@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "card_list_sort.h"
 #include "card_constants.h"
+#include "build_deck_card_counts.h"
 
 void func_80031F7C(u8 *state, s32 id)
 {
