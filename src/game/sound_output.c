@@ -69,8 +69,6 @@ void func_80046DE8(void)
     w->flags_0040 = 0;
 }
 
-#include "../psyq/libspu.h"
-#include "sound.h"
 #include "sound_output.h"
 extern void func_80046A08(void);
 extern void func_8004763C(void);

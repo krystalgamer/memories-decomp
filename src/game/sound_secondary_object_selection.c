@@ -53,11 +53,6 @@ s32 func_8004A8E4(s32 index, s32 value)
     return index;
 }
 
-#define SDSECONDARYSTATE_CUSTOM_EXTERN
-#include "sound.h"
-
-extern u8 *D_8009B458;
-
 s32 func_8004A940(s32 value, s32 variant)
 {
     u8 *state;

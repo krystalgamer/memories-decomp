@@ -88,7 +88,6 @@ s16 func_800451E0(u16 value, s32 unused)
     return func_80045208(value, 0x80);
 }
 
-#include "sound.h"
 #include "sound_buffer_init.h"
 
 extern void func_800464F0(void);
@@ -207,8 +206,6 @@ void func_80045334(s32 arg0)
     c = g_SDValue;
     c->flags_0040 = (c->flags_0040 | 1) & 0xFFFB;
 }
-
-#include "sound.h"
 
 void SD_ClearBusyFlag(void)
 {

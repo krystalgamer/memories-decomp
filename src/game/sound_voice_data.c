@@ -77,8 +77,6 @@ void func_80048A28(s32 arg0, s32 arg1, s32 arg2)
     } while (++i < SD_VOICE_SLOT_COUNT);
 }
 
-#include "sound.h"
-
 typedef char SDPendingInput_copy_groups_must_cover_block[
     SD_PENDING_INPUT_COPY_GROUP_COUNT * 8 * sizeof(u32) ==
         SD_PENDING_INPUT_BLOCK_SIZE ? 1 : -1
@@ -116,8 +114,6 @@ void func_80048C70(u32 *dst, u32 *src)
         *dst++ = *src++;
     }
 }
-
-#include "sound.h"
 
 typedef struct {
     s32 count;
@@ -194,8 +190,6 @@ void func_80048D08(s32 side, u32 *src)
     }
 }
 
-#include "../psyq/libspu.h"
-#include "sound.h"
 #include "sound_voice_data.h"
 
 extern void func_80049594(s32);

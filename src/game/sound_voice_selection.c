@@ -201,9 +201,6 @@ void func_80047CC4(s32 value)
     } while (tries < SD_VOICE_SLOT_COUNT);
 }
 
-#include "../psyq/libspu.h"
-#include "sound.h"
-
 extern void func_800464F0(void);
 extern void func_80047C70(s32);
 
