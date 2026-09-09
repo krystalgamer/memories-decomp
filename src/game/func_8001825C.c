@@ -3,6 +3,7 @@
 #include "duel_effect_request.h"
 #include "func_8002C604.h"
 #include "duel_card.h"
+#include "duel_card_object_cleanup.h"
 #include "duel_side_state.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
@@ -21,7 +22,6 @@ extern u8 D_801A7B64[];
 
 extern void func_80024D34(s32, s32);
 extern void Duel_ApplyCardObjectFlags(u8 *);
-extern void func_80024954(u8 *);
 
 void func_8001825C(void)
 {

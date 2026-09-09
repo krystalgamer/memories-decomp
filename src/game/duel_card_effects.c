@@ -149,8 +149,6 @@ extern s16 D_8009B1AE;
 extern u16 D_8009B220;
 extern u8 D_801A7AD8_bytes[] asm("D_801A7AD8");
 
-extern void func_80024954(u8 *arg0);
-
 void func_8002538C(void) {
     DuelEffectRequest *p;
     u8 *e;
@@ -239,6 +237,7 @@ hit:
 }
 
 #include "duel_card.h"
+#include "duel_card_object_cleanup.h"
 
 extern volatile u16 D_8009B112 __attribute__((section(".data")));
 extern u8 *D_8009B17C;

@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "duel_card.h"
+#include "duel_card_object_cleanup.h"
 #include "duel_side_state.h"
 #include "display_object_layout.h"
 #include "display_object_api.h"
@@ -19,7 +20,6 @@ extern u8 D_8009B174;
 u16 D_8009B150;
 
 extern void func_80029164(s32, s32);
-extern void func_80024914(u8 *);
 extern void func_80026BA4(s32, s32);
 extern u8 *func_800291E0(s32, s32, s32);
 extern void func_8001944C(u8 *);

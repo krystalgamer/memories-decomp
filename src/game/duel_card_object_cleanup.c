@@ -1,23 +1,19 @@
 #include "../types.h"
+#include "duel_card.h"
+#include "duel_card_object_cleanup.h"
 #include "duel_card_layout.h"
 #include "display_object_api.h"
 
-typedef struct {
-    void *value;
-    u8 pad4[0x12];
-    u16 flags;
-} Object;
-
-void func_80024914(Object *object)
+void func_80024914(DuelCardRecord *object)
 {
     object->flags &= ~DUEL_CARD_FLAG_OCCUPIED;
-    if (object->value != 0) {
-        func_8004036C(object->value);
-        object->value = 0;
+    if (object->object != 0) {
+        func_8004036C(object->object);
+        object->object = 0;
     }
 }
 
-void func_80024954(Object *object)
+void func_80024954(DuelCardRecord *object)
 {
     func_80024914(object);
     object->flags = 0;
