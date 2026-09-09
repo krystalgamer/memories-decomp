@@ -1,8 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
-
-extern s8 gCardGrid_bCursorColumn;
-extern s8 gCardGrid_bCursorRow;
+#include "card_grid.h"
 
 s32 func_8002A6B8(void)
 {
