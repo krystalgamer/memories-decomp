@@ -35,11 +35,11 @@ void func_80020BE4(FileTransferDescriptor *p, s32 mode)
 
 m0:
     m = 0xFFDDFFFF;
-    p->field_32 = 0x100;
+    p->field_30.h.field_32 = 0x100;
     v = D_8009B0F4;
     f = 0x40;
     do {
-        p->counter = 0;
+        p->field_30.h.counter = 0;
     } while (0);
     p->w = f;
     D_8009B0F4 = v & m;
