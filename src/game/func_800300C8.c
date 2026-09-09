@@ -1,26 +1,5 @@
 #include "../types.h"
-
-struct LayoutSource {
-    u8 pad0[0x3C];
-    s16 base;
-    s16 spacing;
-    u16 row;
-};
-
-struct LayoutTarget {
-    u8 pad0[0x28];
-    s16 field28;
-    s16 field2A;
-    u8 pad2C[4];
-    s16 field30;
-    s16 field32;
-    u8 pad34[4];
-    s16 field38;
-    s16 field3A;
-    u8 pad3C[4];
-    s16 field40;
-    s16 field42;
-};
+#include "func_800300C8.h"
 
 extern struct LayoutSource D_800EB15C;
 extern struct LayoutTarget *D_8009B2E4;
