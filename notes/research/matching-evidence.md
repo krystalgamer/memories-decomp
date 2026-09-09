@@ -7006,3 +7006,45 @@ signed and unsigned halfword loads. This is the third instance of the
 size-unchanged failure class noted earlier in this file, and it is the reason
 a sweep that only compares executable size is not enough to clear a
 declaration change.
+
+## Element width follows the same rule as sign, but the control is louder
+
+`D_801845C0` in the main-menu value-setup screen was declared `u8 []` by two
+sources and `u16 []` by two others. That looked like a harder question than
+the twelve signedness pairs, and it was recorded as one in `value_setup.h`,
+because element width changes index scaling as well as the load: `x[6]` is
+byte 6 under `u8` and byte 12 under `u16`. Two spellings that disagree about
+width are, on the face of it, addressing different bytes.
+
+Reading the uses dissolves it. Only two of the four sources ever index the
+symbol, and both of those spell it `u16`:
+
+    update_value_setup.c   [0] [1] [6] [7], compared and stepped
+    value_setup_visuals.c  [1] and [7], read
+
+The other two never index it at all. Both take its address as bytes:
+
+    finish_value_setup.c   u8 *state = D_801845C0;
+    start_value_setup.c    state = D_801845C0;
+
+So the `u8 []` spelling was never a claim about the element width. It was an
+addressing device, the same class as `char D_8009B104[1]` in
+`file_transfer.h`, and it did not conflict with the `u16` view -- it just
+declined to describe it.
+
+Unifying on `u16 []` and writing `(u8 *)D_801845C0` at the two address-taking
+sites builds byte-identical, resident image and overlay both.
+
+The control matters more here than in the signedness cases. Putting an
+*indexing* declarer on the wrong width -- `update_value_setup.c` back to
+`u8 []` -- fails with
+
+    error: main_menu: rebuilt module does not match its input
+
+which is what you would expect when `[6]` and `[7]` start addressing bytes 6
+and 7 instead of 12 and 14. Sign gets you a different load instruction; width
+gets you a different address. So the rule is the one already recorded --
+the consumer decides, and a declarer that does not consume the elements does
+not constrain them -- but the cost of getting it wrong is larger, and a
+declarer that only takes an address must be recognised as abstaining rather
+than voting.

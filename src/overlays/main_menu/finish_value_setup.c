@@ -4,7 +4,6 @@
 #include "../../game/main_services.h"
 #include "value_setup.h"
 
-extern u8 D_801845C0[];
 extern u8 D_801845BE;
 extern void *D_801845A0;
 extern void *D_801845A4;
@@ -12,7 +11,7 @@ extern void *D_801845B0[];
 
 void MainMenu_FinishValueSetup(void)
 {
-    u8 *state = D_801845C0;
+    u8 *state = (u8 *)D_801845C0;
 
     *(u16 *)(*(u8 **)(state + 4)) = *(u16 *)state;
     *(u16 *)(*(u8 **)(state + 0x10)) = *(u16 *)(state + 0xC);

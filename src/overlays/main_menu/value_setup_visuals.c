@@ -17,7 +17,6 @@ typedef struct {
 } ValueWidgetView;
 
 extern ValueWidgetView *D_801845B0[];
-extern u16 D_801845C0[];
 extern u8 *D_801845B8;
 extern GsOT *D_800E9D90[];
 
