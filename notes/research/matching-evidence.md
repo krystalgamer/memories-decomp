@@ -6998,7 +6998,7 @@ predicts the answer.
                  generated that could differ. Both the mixed spelling the
                  tree had and a unified u8 match.
 
-    D_8009B33C   duel_effect_play_sound_command.c u16, func_80037B40.c s16
+    D_8009B33C   duel_effect_play_sound_command.c u16, duel_effect_state_callbacks.c s16
                  The s16 declarer does `D_8009B33C--` and then tests
                  `D_8009B33C > 0`, which is a genuinely signed comparison:
                  decrementing past zero gives -1 under s16 and 65535 under
