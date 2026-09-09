@@ -3,13 +3,7 @@
 #include "duel_grid.h"
 #include "duel_card.h"
 
-typedef struct {
-    u8 pad_00[0xF];
-    s8 col;
-    s8 row;
-} Cursor;
-
-s32 func_80023090(Cursor *cursor_a, Cursor *cursor_b)
+s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
 {
     register volatile u8 *grid asm("$9") = D_800907D8;
     register DuelCardRecord *records asm("$7") = D_801A7AD8;
