@@ -516,6 +516,63 @@ leaves the frame eight bytes short.
 
 Both facts were free to read and would each have cost a build to rediscover.
 
+#### Reading the lever out of the objects
+
+The two subsections above need the answer either to be predictable from the
+table or to have been written down already in an attempt record. There is a
+third source that is free, exact, and exists for every symbol: the built
+objects record the addressing form as a relocation, so the lever can be read
+instead of inferred.
+
+```sh
+OD=tools/toolchains/binutils-2.42/bin/mipsel-none-elf-objdump
+"$OD" -dr tmp/splat/build/src/game/<file>.o | grep D_8009B16C
+```
+
+`R_MIPS_GPREL16` means the symbol resolved into small data. `R_MIPS_HI16`
+paired with `R_MIPS_LO16` means it did not. When one symbol shows both forms
+across the objects that use it, the differing declarations are not drift to be
+collapsed: they are opposite levers, and no single spelling can serve them.
+
+This check belongs *before* any attempt to reconcile sizes, because a size
+disagreement on its own does not settle the question. #3108 settled
+`D_8009B20C` by bounding the object from two directions -- the next named
+address above it, and the highest index any consumer actually reaches below --
+and then centralizing on the size that was correct rather than the largest one
+observed. That reasoning holds only while every consumer wants the same
+addressing form, and the relocations are what say whether it can hold at all.
+
+`D_8009B16C` is the case where it cannot. The object is eight bytes:
+`D_8009B174` is the next name. Five files declare it three ways, and four of
+them agree.
+
+| Translation unit | Spelling | Bytes | Relocation |
+| --- | --- | --- | --- |
+| `duel_scene_update.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
+| `func_800179F4.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
+| `debug_effect_screen.c` | `extern u8 D_8009B16C[4]` | 4 | `R_MIPS_GPREL16` |
+| `main_run_duel_and_library.c` | `extern u16 D_8009B16C[9]` | 18 | `R_MIPS_HI16` + `R_MIPS_LO16` |
+
+Both translation units in the disagreement compile at `-G8`, so the profile is
+not what separates them; the declared size alone decides, by falling on one
+side or the other of the eight-byte small-data threshold. The `[9]` claims
+eighteen bytes for an eight-byte object, which reads like an error until the
+relocation shows it is doing the same job `options_init.c` documents inline
+for `gSD_bOutputType` -- oversizing on purpose to force absolute addressing.
+
+The `[4]` is load bearing from the other direction, and this one was written
+down: `func_800222F4`, which is `debug_effect_screen.c`, records "small-data
+sized arrays for `D_8009B16C` and `D_8009AF2C`" as the discriminator that
+matched it under `gcc_2_8_1_g8_split`.
+
+That leaves no size to centralize on. Eight bytes is the true extent, but
+eight bytes is still small data, so adopting it would keep the four
+gp-relative consumers correct and break the fifth. Anything above it would
+move all five out of small data. The symbol is a genuine four-arm case, not a
+cleanup target, and the reads confirm the split is meaningful rather than
+accidental: the `u16` consumers only ever test bits `0x1000` and `0x2000` at
+offset 0, while `debug_effect_screen.c` only ever touches byte 2.
+
 ## Exact baseline build
 
 ```sh
