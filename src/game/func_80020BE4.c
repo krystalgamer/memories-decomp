@@ -6,7 +6,7 @@
 extern s32 D_8009B118;
 extern u8 D_801AF000[];
 
-void func_80020BE4(FileTransferDescriptor *p, s32 mode)
+void func_80020BE4(u8 *p, s32 mode)
 {
     s32 one;
     s32 v;
@@ -35,47 +35,47 @@ void func_80020BE4(FileTransferDescriptor *p, s32 mode)
 
 m0:
     m = 0xFFDDFFFF;
-    p->field_32 = 0x100;
+    *(s16 *)(p + 0x32) = 0x100;
     v = D_8009B0F4;
     f = 0x40;
     do {
-        p->counter = 0;
+        *(s16 *)(p + 0x30) = 0;
     } while (0);
-    p->w = f;
+    *(s16 *)(p + 4) = f;
     D_8009B0F4 = v & m;
     w = D_8009B0F4;
     m = 0x10000;
     do {
-        p->mode = m;
+        *(s32 *)(p + 0x1C) = m;
         D_8009B0F4 = w | m;
-        p->done = 2;
+        p[0x46] = 2;
         d = D_8009B118;
-        p->h = 0x10;
+        *(s16 *)(p + 6) = 0x10;
     } while (0);
-    p->value_08 = d;
-    p->value_0C = d + 0x800;
+    *(s32 *)(p + 8) = d;
+    *(s32 *)(p + 0xC) = d + 0x800;
     return;
 
 m1:
-    p->mode = 0x800;
+    *(s32 *)(p + 0x1C) = 0x800;
     D_8009B0F4 = D_8009B0F4 & 0xFFDCFFFF;
-    p->value_0C = D_8009B118;
-    p->value_08 = D_8009B118;
+    *(s32 *)(p + 0xC) = D_8009B118;
+    *(s32 *)(p + 8) = D_8009B118;
     goto tail;
 
 m2:
-    p->y = 0xF8;
-    p->w = 0x100;
+    *(s16 *)(p + 2) = 0xF8;
+    *(s16 *)(p + 4) = 0x100;
     e = D_8009B118;
-    p->x = 0;
-    p->h = 4;
+    *(s16 *)(p + 0) = 0;
+    *(s16 *)(p + 6) = 4;
     LoadImage2((RECT *)p, (u32 *)e);
-    p->value_0C = (s32)D_801AF000;
-    p->value_08 = (s32)D_801AF000;
+    *(s32 *)(p + 0xC) = (s32)D_801AF000;
+    *(s32 *)(p + 8) = (s32)D_801AF000;
     x = D_8009B0F4;
-    p->mode = 0x800;
+    *(s32 *)(p + 0x1C) = 0x800;
     D_8009B0F4 = x & 0xFFDCFFFF;
 
 tail:
-    p->done = one;
+    p[0x46] = one;
 }
