@@ -6,8 +6,6 @@
 /* Spelled as an array so it stays outside the -G small-data model and is
    reached through %hi/%lo, whose lui covers the store's load delay. */
 extern u8 D_800E9ECC[];
-extern u8 D_8009B140;
-extern u8 D_8009B141;
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
    the three load-delay nops in the tint copy below. c_symbols.ld overrides

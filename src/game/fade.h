@@ -19,6 +19,25 @@ extern u8 D_8009B145 __attribute__((section(".data")));
 extern u8 D_8009B145;
 #endif
 
+/* The fade depth byte and the fade-active flag. Five of the fade family reach
+ * both through $gp (small data) and take the plain arms below.
+ *
+ * func_800339D0.c and func_800283F4.c address D_8009B140 with %hi/%lo
+ * instead, outside small data, so they take the .data arm the same way
+ * script_op_show_image.c takes one for D_8009B145. Both set it from
+ * D_8009AF76, which they already declare `.data` for the same reason.
+ *
+ * D_8009B141 needs no second arm here: graphics_frame.c does spell it
+ * `.data`, but it does not include this header, so the two never meet. If it
+ * ever does, this is where the guarded arm would go. */
+#ifdef D_8009B140_IN_DATA
+extern u8 D_8009B140 __attribute__((section(".data")));
+#else
+extern u8 D_8009B140;
+#endif
+
+extern u8 D_8009B141;
+
 /* The colour a fade is heading for. Fade_Update copies the three into the
  * tint at D_8009B142/143/144 (graphics_frame.h) in address order, with no
  * arithmetic on the way, so the roles follow the tint's: D_8009B14A is the

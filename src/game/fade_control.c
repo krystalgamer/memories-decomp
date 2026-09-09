@@ -2,8 +2,6 @@
 
 #include "fade.h"
 
-extern u8 D_8009B141;
-
 void func_800159D8(void)
 {
     Fade_InitIn();
