@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_config.h"
 #include "graphics_frame.h"
 #include "func_80035A64.h"
 #include "input.h"
@@ -7,7 +8,6 @@
 #include "menu_record_reset.h"
 
 extern u8 D_8009B254;
-extern void func_800403F0(void);
 void Main_ResetFrontendRuntime(void)
 {
     D_8009B0C0 = 0;

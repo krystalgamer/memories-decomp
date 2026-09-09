@@ -101,6 +101,8 @@ typedef struct {
     u8 field_66;
 } DisplayObjectConfigView;
 
+void func_800403F0(void);
+
 /* Writes the three glyph-selector bytes at 0x67..0x69 plus the colour and
  * texture fields, and returns the object. Every caller discards the result,
  * which is how three of the four declared it as returning void. */
