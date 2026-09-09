@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "movie_frame_pipeline.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libpress.h"
@@ -40,7 +41,6 @@ extern s32 D_800FE0D4 __attribute__((section(".data")));
 extern s32 D_800F5D44 __attribute__((section(".data")));
 
 extern void func_80044F58(s32 arg0);
-extern s32 func_8005BFC8(s32 arg0);
 extern void func_8005C62C(CdlLOC *loc);
 
 s32 func_8005BB7C(s32 arg0) {
@@ -372,7 +372,7 @@ void func_8005C1F4(void) {
     }
 }
 
-void func_8005C374(int first, int second, int third)
+void func_8005C374(s32 first, s32 second, s32 third)
 {
     D_8009B4A0 = first;
     D_8009B4A1 = second;

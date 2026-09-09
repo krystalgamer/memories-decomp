@@ -1,10 +1,8 @@
 #include "../types.h"
+#include "movie_frame_pipeline.h"
 #include "../psyq/libds.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-
-extern int func_8005BE3C(void);
-extern void func_8005BB7C(int);
 
 int File_Exists(int first, int second)
 {

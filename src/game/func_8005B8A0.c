@@ -1,6 +1,7 @@
 #include "../types.h"
 #define D_8009B142_IN_DATA
 #include "graphics_frame.h"
+#include "movie_frame_pipeline.h"
 #include "../psyq/libcd.h"
 #include "graphics_constants.h"
 
@@ -21,7 +22,6 @@ extern s16 D_800FE0CC __attribute__((section(".data")));
 extern u16 D_800FE0D0 __attribute__((section(".data")));
 extern s32 D_800FE0D4 __attribute__((section(".data")));
 
-void func_8005C1F4(void);
 void func_8005C690(void);
 
 typedef struct {
