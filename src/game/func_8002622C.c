@@ -1,12 +1,12 @@
 #include "../types.h"
+#include "duel_check_ritual.h"
 #include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "file_transfer.h"
 #include "func_8002622C.h"
 #include "sound.h"
-
 extern s16 D_8009B1A0;
-extern int Duel_CheckRitual(int, int);
+extern s16 D_8009B1A0;
 extern void func_80029164(int, int);
 
 void func_8002622C(void)
