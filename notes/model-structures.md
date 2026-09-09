@@ -113,6 +113,9 @@ Two retail callers corroborate the contract independently of the setter:
 
 This supports the high-confidence name `Model_SetSlotProperties` without
 assigning speculative meanings to the individual offset-named fields.
+`main_modes.h` records the two eight-byte inputs as
+`AnimatedBattleModelProperties`, retaining mechanical names for the four
+properties whose meanings are still unknown.
 
 The animated-battle calls belong to the ordinary initialization branch,
 not every mode tick: `D_8009B26C & 0x40` gates initialization, and a first
