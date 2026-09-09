@@ -2,9 +2,6 @@
 #include "card_constants.h"
 #include "duel_card_checks.h"
 
-extern u16 gDuel_awEquipTable[];
-extern u16 gDuel_aFusionTable[];
-
 s32 Duel_CheckEquip(s32 arg0, s32 arg1)
 {
     u16 *p = gDuel_awEquipTable;

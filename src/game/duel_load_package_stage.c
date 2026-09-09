@@ -6,13 +6,12 @@
 #include "file_transfer.h"
 #include "graphics_frame.h"
 #include "../unmatched.h"
+#include "duel_card_checks.h"
 
 extern u8 *D_80010000 __attribute__((section(".data")));
 extern u8 *D_800101DC __attribute__((section(".data")));
 extern u8 D_801A8000[];
 extern u8 D_801A9800[];
-extern u16 gDuel_awEquipTable[];
-extern u16 gDuel_aFusionTable[];
 extern u16 gDuel_awRitualData[];
 
 void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
