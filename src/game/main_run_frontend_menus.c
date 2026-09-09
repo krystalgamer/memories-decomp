@@ -5,6 +5,7 @@
 #include "../psyq/setjmp.h"
 #include "fade.h"
 #include "file_transfer.h"
+#include "func_8002D458.h"
 #include "sound.h"
 
 extern unsigned char D_8009B26C;
@@ -13,7 +14,6 @@ extern unsigned char D_8009B269;
 extern unsigned char D_8009B26D;
 extern jmp_buf D_800E9DC0;
 extern void func_80039E9C(void);
-extern void func_8002D458(int);
 extern void NameEntry_Init(void);
 extern int NameEntry_PollCompletion(void);
 extern void func_8003C2B4(void);

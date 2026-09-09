@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "file_transfer.h"
+#include "func_8002D458.h"
 
 extern u8 D_8009B268;
 extern u8 D_8009B26C;

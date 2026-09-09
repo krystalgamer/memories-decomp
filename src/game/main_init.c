@@ -11,6 +11,7 @@
 #include "../psyq/rand.h"
 #include "fade.h"
 #include "file_transfer.h"
+#include "func_8002D458.h"
 #include "rand_constants.h"
 #include "movie_playback_control.h"
 
@@ -40,7 +41,6 @@ extern void SD_InitState(s32);
 extern void Main_ResetFrontendRuntime(void);
 extern void func_80043960(s32);
 extern s32 func_80043BCC(void);
-extern void func_8002D458(s32);
 extern void Main_Loop(void);
 
 s32 Main_Init(void)
