@@ -40,7 +40,8 @@ extern s32 func_8004006C(void);
 extern void func_8002DF2C(void *, s32);
 extern void func_8002E00C(void *);
 extern void func_8002E128(void *, s32);
-void func_8002E730(void) {
+
+void Script_OpShowImage(void) {
     struct Rec *rec;
     u16 flags;
     s32 ret;
