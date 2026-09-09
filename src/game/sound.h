@@ -194,7 +194,9 @@ typedef struct {
     u8 field_0009;
     u8 field_000A;
     u8 field_000B;
-    u8 field_000C;
+    /* Written by SD_SpatializeSecondaryObject: the 0-0x7F pan position it
+       derives from the object's two pan bytes and its channel's pan. */
+    u8 pan;
     u8 pad000D;
     u8 field_000E;
     u8 field_000F;
@@ -202,8 +204,10 @@ typedef struct {
     u8 pitch_bend_negative_scale;
     u8 field_0012;
     u8 field_0013;
-    u16 field_0014;
-    u16 field_0016;
+    /* The stereo level pair SD_SpatializeSecondaryObject computes and
+       SD_UpdateSecondaryObjectVolumes hands to SD_SetVoiceVolume. */
+    u16 level_left;
+    u16 level_right;
     u8 pad0018[2];
     s16 cached_pitch_bend;
     u8 pad001C[2];
@@ -537,7 +541,7 @@ extern SDSecondaryState *D_8009B458;
 
 /* One SPU voice bit per entry.  The object at D_80011434 is twenty words
  * holding 1 << n for n = 0 .. 19, read out of the retail image.  The uses
- * agree that these are voice masks: func_8004A27C submits D_80011434[voice]
+ * agree that these are voice masks: SD_SetVoiceVolume submits D_80011434[voice]
  * as the `voice` field of the SpuVoiceAttr it hands to SpuSetVoiceAttr, and
  * func_8004A7C0 passes an entry straight to SpuSetKey and SpuGetKeyStatus,
  * both of which take a voice mask.
@@ -562,19 +566,30 @@ void SD_BGMPlay(u32);
 void SD_SEPlayFull(u32);
 void SD_BGMFadeOut(void);
 void SD_BGMFadeOutWithStep(s32);
+void func_8003FFB4(u32);
 void SD_SetOutputType(s16);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);
 
-/* gSD_dwCurrentBgmCommand is deliberately not declared here.
+/* gSD_dwCurrentBgmCommand, in two arms.
  *
- * sound_frontend.c writes it as a scalar, which -G8 reaches gp-relative,
- * while script_stream_commands.c and duel_effect_play_sound_command.c read it
- * through `extern u32 gSD_dwCurrentBgmCommand[]` and `[0]`: an unsized array
- * is not assumed small, so those reads are built from an absolute address.
- * Giving all three the scalar form builds the executable eight bytes short, so
- * the split is load-bearing. Declaring it here would force one spelling on
- * every includer, which is what kept those two files out of this header.
- */
+ * The split is load bearing and the measurement stands: sound_frontend.c
+ * writes it as a scalar, which -G8 reaches gp-relative, while
+ * script_stream_commands.c and duel_effect_play_sound_command.c read it
+ * through an unsized array and `[0]`, which is not assumed small and so is
+ * built from an absolute address. Giving all three the scalar form builds the
+ * executable eight bytes short.
+ *
+ * What has changed is only the mechanism. The note here previously said
+ * declaring it in this header "would force one spelling on every includer",
+ * and that was true of a flat declaration. An arm does not: each consumer
+ * selects the spelling it already had, the same way D_8009B458 above is
+ * handled and D_8009B0D8 is handled in graphics_frame.h. So the symbol can
+ * live here after all, with the split preserved rather than resolved. */
+#ifdef GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
+extern u32 gSD_dwCurrentBgmCommand[];
+#else
+extern u32 gSD_dwCurrentBgmCommand;
+#endif
 
 #endif

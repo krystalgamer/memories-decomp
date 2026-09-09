@@ -29,7 +29,7 @@ void func_80022F98(DisplayParent *parent, volatile DisplayObject *object)
         index = parent->index;
         object->field_6C = 1;
         object->update = (DisplayObjectCallback)func_80022EEC;
-        object->field_2C = index;
+        object->field_2C.h.field_2C = index;
     }
 }
 

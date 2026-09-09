@@ -2,21 +2,19 @@
 
 #include "fade.h"
 
-extern u8 D_8009B141;
-
-void func_800159D8(void)
+void Fade_WaitInitIn(void)
 {
     Fade_InitIn();
     Fade_Wait();
 }
 
-void func_80015A00(void)
+void Fade_WaitIn(void)
 {
     Fade_StartIn();
     Fade_Wait();
 }
 
-void func_80015A28(s32 color)
+void Fade_WaitInitInColor(s32 color)
 {
     Fade_InitInColor(color);
     Fade_Wait();
@@ -44,7 +42,7 @@ void func_80015A94(void)
     Fade_Wait();
 }
 
-void func_80015AD8(void)
+void Fade_WaitInitOut(void)
 {
     Fade_InitOut();
     Fade_Wait();
@@ -56,7 +54,7 @@ void Fade_WaitOut(void)
     Fade_Wait();
 }
 
-void func_80015B28(s32 color)
+void Fade_WaitInitOutColor(s32 color)
 {
     Fade_InitOutColor(color);
     Fade_Wait();
@@ -84,7 +82,7 @@ void func_80015B94(void)
     Fade_Wait();
 }
 
-void func_80015BD8(s32 value, s32 flags)
+void Fade_SetTargetLevel(s32 value, s32 flags)
 {
     FadeTransitionState *state = &gFade_State;
 
@@ -92,7 +90,7 @@ void func_80015BD8(s32 value, s32 flags)
     state->flags = flags | 0x80;
 }
 
-void func_80015BF0(s32 value)
+void Fade_SetLevel(s32 value)
 {
     FadeTransitionState *state = &gFade_State;
 

@@ -5,19 +5,6 @@
 #include "shop.h"
 #include "../../game/display_object_helpers.h"
 
-typedef struct {
-    u8 unk0[0x8];
-    u16 flags;
-    u8 unkA[0x26];
-    s16 x;
-    s16 y;
-    u8 unk34[0x35];
-    u8 kind;
-} PasswordNode;
-
-extern s32 gPassword_nDigitIndex;
-extern PasswordNode *gPassword_pDigitCursorWidget;
-
 void Password_UpdateDigitCursor(u8 *object)
 {
     s16 remaining;
@@ -25,7 +12,7 @@ void Password_UpdateDigitCursor(u8 *object)
     object[0x22] = object[0x22] + 1;
     if ((object[0x6C] & 0x40) != 0) {
         if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
-            func_800429D8(object);
+            DisplayObject_ResetVelocity(object);
             *(s16 *)(object + 0x36) =
                 ((*(s16 *)(object + 0x18) - *(s16 *)(object + 0x30)) << 8) /
                 *(s16 *)(object + 0x60);
@@ -33,7 +20,7 @@ void Password_UpdateDigitCursor(u8 *object)
                 ((*(s16 *)(object + 0x1A) - *(s16 *)(object + 0x32)) << 8) /
                 *(s16 *)(object + 0x60);
         }
-        func_80042A78(object);
+        DisplayObject_StepPositionXY(object);
         remaining = *(u16 *)(object + 0x60) - 1;
         *(s16 *)(object + 0x60) = remaining;
         if (remaining <= 0) {
@@ -45,7 +32,7 @@ void Password_UpdateDigitCursor(u8 *object)
 
 void Password_UpdateDigitCursorDecoration(u8 *object)
 {
-    PasswordNode *obj = (PasswordNode *)object;
+    PasswordCursorView *obj = (PasswordCursorView *)object;
 
     switch (obj->kind) {
     case 0:

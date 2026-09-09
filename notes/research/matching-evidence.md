@@ -3270,6 +3270,7 @@ the barrier was holding it:
 | `Model_UpdateViewMetrics` | one register, `0x69` to `0x6A` |
 | `func_800289BC` | one store reordered |
 | `func_8002FB78` | two instructions deleted |
+| `func_800580D4` | three instructions deleted (parameter only) |
 
 So before converting offset casts to members, look for the two shapes that
 make the barrier load-bearing: a **whole-struct assignment** to or from the
@@ -3279,6 +3280,20 @@ being free by inspection. Neither means it will fail -- `func_800289BC` has
 the first shape and matched once every access was converted -- only that it
 must be measured.
 
+- **The barrier can be a volatile pointer rather than a global, and then it
+  is per-file rather than per-record.** `func_800580D4` writes one
+  `GsCOORDUNIT` through a `u8 *` parameter while reading a second one through
+  a volatile pointer at `D_800F2C40+0xD18`. Retail reloads that pointer for
+  each of the three angles and eats a load-delay `nop` after every reload.
+  Typing the parameter lets GCC prove the stores cannot alias the volatile
+  load, so it hoists the first reload into an earlier delay slot and the
+  function comes out three instructions -- twelve bytes -- short. The reads'
+  own spelling makes no difference: byte-offset casts and `rec->rot.vx` both
+  give the short version once the parameter is typed, and both give retail
+  once it is not. The tell is a run of reloads with `nop`s rather than one
+  hoisted load. Its *locals* convert freely, though -- the file's two private
+  duplicate structs became one `GsCOORDUNIT` byte for byte -- so a file
+  blocked at the parameter is still worth converting inside.
 - **`sizeof(T)` may replace a literal stride** once the cast is in place.
 - **But a proven-equal `sizeof` is not a licence to switch to typed indexing.**
   `model.h` asserts `sizeof(ModelSlot) == MODEL_SLOT_SIZE`, so
@@ -6459,6 +6474,34 @@ because `rank_for_schedule` only falls back to original insn order when
 priority and dependence class tie. Same conclusion the `func_80045208` entry
 reaches about `-fno-schedule-insns2`.
 
+## SD_SEPlay: preserving the entry schedule without undefined reads
+
+`SD_SEPlay` (`0x80048658`) now matches all 272 text bytes under the unchanged
+`gcc_2_8_1_g0` profile. The previous two-word entry-copy residual is resolved
+by two identical initialization blocks and an intermediate `u16` stop value.
+The blocks test the initialized input's `0x8000` stop bit. Flattening them
+changes four words at offsets `+0x08`, `+0x0C`, `+0x10`, and `+0x14`.
+No statement-level assembly or scheduling flag override is used.
+
+The search first produced two exact machine-code candidates whose redundant
+conditions read uninitialized locals. Those sources were rejected for
+integration. Replacing the condition with the input stop-bit test preserves
+all bytes and removes that read; both paths assign the same values before
+any subsequent use. Testing plain `arg0` instead costs two instructions,
+so not every equivalent spelling has the same code-generation effect.
+
+The accepted source uses the shared `SDValue` type and existing callee
+prototype from `sound_output_state.h`. The one retained byte-based state
+lookup is measured: spelling it from `&a->field_044C` changes one word at
+`+0x68`, despite the same address and size. The wider local declaration of
+the unmatched `func_800482B0` call is unchanged from the existing candidate.
+Caller-side `SD_SEPlay` declarations remain profile-specific; this change
+does not unify them.
+
+The complete `make match` build, using this C object at `0x80048658`,
+reproduces the retail executable byte for byte with SHA-256
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
+
 ## When a local struct can be replaced by the Psy-Q type it copies
 
 Issue #16 asks for the SDK's runtime structures instead of redefined ones, and
@@ -6879,3 +6922,129 @@ produced very different population counts, and each jump came from fixing a
 bug in the previous parser rather than from new evidence, so no count has yet
 earned a place in this file. Treat a survey as a way to generate candidates,
 and verify by hand every symbol you are about to touch.
+
+## A signed read can be spelled three ways; only the unsigned one differs
+
+Twelve globals in the tree are declared with two spellings that differ only in
+signedness. `gCardGrid_bCursorColumn` and `gCardGrid_bCursorRow` are the first
+pair measured, and the answer is not the one the shape of the problem suggests.
+
+Two sources use them. `func_8002A788.c` declares them `s8` and reads them
+straight into an `s32`. `func_8002BFCC.c` declares them `u8` and writes
+`(s8)gCardGrid_bCursorColumn` at each use. Editing only `func_8002BFCC.c` and
+leaving the other alone -- it carries hand-written
+`.reloc .-4, R_MIPS_GPREL16` directives naming these symbols, so touching it
+would confound the result -- gives four cases:
+
+    extern u8  + (s8) cast     matches   (what master had)
+    extern s8  + (s8) cast     matches, object byte-identical
+    extern s8  + no cast       matches, object byte-identical
+    extern u8  + no cast       FAILS, executable 16 bytes short
+
+The fourth case is the control, and it matters: without it, three passes in a
+row would equally well be explained by the edit never reaching the build.
+
+So the declaration's signedness is not itself load-bearing here. What the code
+requires is that the read be *signed*, and three different spellings express
+that, all compiling to the same instructions:
+
+      lbu  v1,0(gp)
+      sll  a1,v1,0x18
+      sra  a0,a1,0x18
+
+GCC 2.8.1 loads unsigned and sign-extends by shifting even when told `s8`,
+because the shifted value is a shared subexpression -- the following
+`sra v0,a1,0x1f` reuses `a1` to get the sign. That is why removing the cast
+costs nothing, and why only the genuinely unsigned read generates different
+code.
+
+The useful consequence: a conflict of this shape is resolvable rather than
+load-bearing, and it resolves toward the spelling that states the requirement
+once. Both sources now say `s8` and neither casts.
+
+Do not generalize this to the other eleven without measuring them. The rule
+recorded above for return width was that the consumer decides, not the
+definition, and this pair has a consumer that was already casting. A pair
+whose declarers both read the symbol directly is a different shape and may
+well answer differently.
+## Three more signedness conflicts, and the failure signature when one is real
+
+Following the `gCardGrid_*` measurement above, three more of the twelve
+signedness conflicts resolve. Each is a different shape, and the shape is what
+predicts the answer.
+
+    D_8009B079   func_8005F91C.c u8, model_transfer_state.c s8
+                 Both declarers only ever WRITE it, and only constants:
+                 `= 1` and `= 0`. Nothing reads its sign, so no load is
+                 generated that could differ. Both the mixed spelling the
+                 tree had and a unified u8 match.
+
+    D_8009B33C   duel_effect_play_sound_command.c u16, func_80037B40.c s16
+                 The s16 declarer does `D_8009B33C--` and then tests
+                 `D_8009B33C > 0`, which is a genuinely signed comparison:
+                 decrementing past zero gives -1 under s16 and 65535 under
+                 u16. The u16 declarer only assigns. Resolves to s16.
+
+    D_8009B35A   func_80039794.c s16, text_box_build_step.c u16
+                 The s16 declarer reads it as an index; the u16 declarer only
+                 assigns to it. Resolves to s16.
+
+The pattern across all four measured pairs is the one already recorded for
+return width: THE CONSUMER DECIDES. A declarer that only stores to the symbol
+does not constrain its signedness and can be changed freely; a declarer that
+loads and then compares or sign-extends is the one holding the requirement.
+Resolve toward the reader's spelling.
+
+The control is worth recording for its signature. Changing the READER of
+D_8009B33C from s16 to u16 fails like this:
+
+    mismatch at file offset 0x28363, VRAM 0x80037b63:
+    expected 0x87, got 0x97; size 0x1d0800/0x1d0800
+
+One byte, and the size does not move. 0x87 and 0x97 are `lh` and `lhu`: the
+signed and unsigned halfword loads. This is the third instance of the
+size-unchanged failure class noted earlier in this file, and it is the reason
+a sweep that only compares executable size is not enough to clear a
+declaration change.
+
+## Element width follows the same rule as sign, but the control is louder
+
+`D_801845C0` in the main-menu value-setup screen was declared `u8 []` by two
+sources and `u16 []` by two others. That looked like a harder question than
+the twelve signedness pairs, and it was recorded as one in `value_setup.h`,
+because element width changes index scaling as well as the load: `x[6]` is
+byte 6 under `u8` and byte 12 under `u16`. Two spellings that disagree about
+width are, on the face of it, addressing different bytes.
+
+Reading the uses dissolves it. Only two of the four sources ever index the
+symbol, and both of those spell it `u16`:
+
+    update_value_setup.c   [0] [1] [6] [7], compared and stepped
+    value_setup_visuals.c  [1] and [7], read
+
+The other two never index it at all. Both take its address as bytes:
+
+    finish_value_setup.c   u8 *state = D_801845C0;
+    start_value_setup.c    state = D_801845C0;
+
+So the `u8 []` spelling was never a claim about the element width. It was an
+addressing device, the same class as `char D_8009B104[1]` in
+`file_transfer.h`, and it did not conflict with the `u16` view -- it just
+declined to describe it.
+
+Unifying on `u16 []` and writing `(u8 *)D_801845C0` at the two address-taking
+sites builds byte-identical, resident image and overlay both.
+
+The control matters more here than in the signedness cases. Putting an
+*indexing* declarer on the wrong width -- `update_value_setup.c` back to
+`u8 []` -- fails with
+
+    error: main_menu: rebuilt module does not match its input
+
+which is what you would expect when `[6]` and `[7]` start addressing bytes 6
+and 7 instead of 12 and 14. Sign gets you a different load instruction; width
+gets you a different address. So the rule is the one already recorded --
+the consumer decides, and a declarer that does not consume the elements does
+not constrain them -- but the cost of getting it wrong is larger, and a
+declarer that only takes an address must be recognised as abstaining rather
+than voting.

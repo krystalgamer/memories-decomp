@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "../unmatched.h"
 
 extern u8 D_8009B26C[];
-extern u8 D_8009B363[];
 
 void func_80038888(void)
 {

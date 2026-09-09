@@ -12,9 +12,6 @@
 #include "menu_record_reset.h"
 #include "text_stream_commands.h"
 
-extern u16 D_801B0000[];
-extern u16 D_801C0000[];
-extern u16 D_801D5800[];
 extern u32 D_801D9000[];
 
 extern void (*D_80090C50[])(void);
@@ -29,7 +26,7 @@ extern u8 D_8009B357;
    common symbol, so no storage is allocated here.  volatile is what keeps the
    read-back after the store, which retail issues at every use. */
 volatile u16 D_8009B33A;
-extern u16 D_8009B35A;
+extern s16 D_8009B35A;
 extern u16 D_8009B27C __attribute__((section(".data")));
 
 extern void func_800391E4(u8 *);

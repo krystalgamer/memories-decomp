@@ -38,7 +38,32 @@ extern volatile s32 gMemCard_nIOResult;
 extern s32 gMemCard_nIOResult;
 #endif
 
+/* The memory-card channel a request was issued on. func_800440B4 stores its
+ * first parameter here before it resets gMemCard_nIOResult; every
+ * caller passes it the int it was itself handed, and func_8004413C passes
+ * that same int to _card_info(long chan). The readers hand it back to
+ * _card_info, _card_clear and _card_load, and to func_80044470's s32 first
+ * parameter. Retail stores it with sb and reads it with lbu at ten sites,
+ * all gp-relative into $a0, five of the reads in func_80044838, still
+ * assembly; so it is one unsigned byte, and the one char spelling was the
+ * writer's, where a store shows no sign. */
+extern u8 D_8009B437;
+
 extern u8 gMemCard_szSaveFileName[];
+
+/* The filename buffer every memory card request is issued against.
+ *
+ * data_transfer_request.c strcpy()s a name into it, and the create, load and
+ * save paths then pass it as the (char *) filename to MemCardCreateFile,
+ * MemCardGetDirentry, MemCardReadFile and MemCardWriteFile. All four already
+ * include this header, so it belongs here rather than in unmatched.h: that
+ * header is for symbols with no identified owner, and this one has an obvious
+ * one.
+ *
+ * The incomplete-array spelling is the one all four consumers already wrote
+ * and is kept. c_symbols.ld names D_800EFE38 thirty-two bytes later, but
+ * nothing reads or writes through a bound, so no size is asserted here. */
+extern u8 D_800EFE18[];
 
 /* The create-state message value must stay wide so GCC keeps the retail
  * register-to-argument move; the definition and the other callers use the
@@ -59,5 +84,46 @@ void func_8003E46C(u8 value, u16 bits);
  * volatile linker name; see the comment there.
  */
 extern u16 gMemCard_wDialogFlags;
+
+/* The second block of IO event handles, sixteen bytes past
+ * gMemCard_aIOEventHandles at 0x800F2AE0, so four `long` handles apart. Both
+ * are handed to func_80043D48, and all three sources that name this one
+ * already include this header and already spell the element `long`. That
+ * spelling is preserved here for the same reason it is above: the event API
+ * hands these back as long and nothing has measured the difference. */
+extern long D_800F2AF0[];
+
+/* The request state machines' shared state. Every symbol below was declared
+ * identically by each of its users, all of which already include this header.
+ *
+ *   D_8009B3EF  The request's outcome, set to 1, 2 or 3 by the create, load
+ *               and save paths and read back by the dialog runtime.
+ *   D_8009B3DC  The block count a save needs; computed by
+ *               data_transfer_request.c and passed as MemCardCreateFile's
+ *               third argument.
+ *   D_8009B3DE  The dialog step index. mem_card_dialog_runtime.c calls
+ *               D_80090F9C[D_8009B3DE]() and data_transfer_request.c writes
+ *               it; the existing note beside that call records the five
+ *               entries.
+ *   D_8009B3EC  A retry counter: cleared, tested and incremented by the
+ *               create and save paths.
+ *   D_8009B3F0  Polled against 2, and passed as (long *)&D_8009B3F0 next to
+ *               (long *)&D_8009B3F4, so the two are consecutive words handed
+ *               to the same call.
+ *   D_800EFBC0  The directory buffer, cast to (struct DIRENTRY *) at each
+ *               use and passed with the file count beside it.
+ *
+ * D_801D5648 keeps its unsized spelling, and it is load-bearing: the note in
+ * mem_card_save_state.c records that as a plain s32 extern the -G8 build puts
+ * it in small data and the store collapses to one gp-relative word, where
+ * retail materialises the %hi half in its own register. Declaring it here
+ * changes where the spelling lives, not the spelling. */
+extern u8 D_8009B3EF;
+extern u8 D_8009B3DC;
+extern u8 D_8009B3DE;
+extern u8 D_8009B3EC;
+extern s32 D_8009B3F0;
+extern u8 D_800EFBC0[];
+extern s32 D_801D5648[];
 
 #endif

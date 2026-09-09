@@ -23,15 +23,8 @@
      line after that tail, which is retail's layout.
    - Both MemCardWriteFile calls are spelled out, one per branch, so only the
      trailing pair cross-jumps and the D_800EFE18 %lo stays duplicated. */
-extern u8 D_8009B3EC;
-extern u8 D_8009B3EF;
 extern u32 D_8009B3E0;
-extern u8 D_800EFBC0[];
-extern u8 D_800EFE18[];
 extern u8 gLibrary_aCardArtRecord[];
-extern s32 D_801D5648[];
-
-extern s32 SaveData_HasSameDuelistCode(u8 *, u8 *);
 
 void func_8003EED0(void)
 {
@@ -112,7 +105,9 @@ void func_8003EED0(void)
         if (D_8009B3F9 != 0) {
             record = (u8 *)D_8009B3E0;
         }
-        if (SaveData_HasSameDuelistCode(record, gLibrary_aCardArtRecord) == 0) {
+        if (SaveData_HasSameDuelistCode(
+                (SaveDataState *)record,
+                (SaveDataState *)gLibrary_aCardArtRecord) == 0) {
             if (D_8009B3EC != 0) {
                 func_8003E46C(0xC3, 0x18);
                 break;

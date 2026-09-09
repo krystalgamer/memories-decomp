@@ -58,19 +58,19 @@ void func_80017E3C(DuelCardDisplayObject *object)
 /* Creates a display object for the supplied duel card record. The caller at
  * 0x80018004 only supplies the record; arg1 and arg2 are the retail a1/a2
  * position values and intentionally remain part of this prototype. */
-u8 *func_80017F04(u8 *arg0, s32 arg1, s32 arg2)
+u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2)
 {
     DuelCardDisplayObject *p = func_800400AC(func_8004002C(), 6);
     s32 *tbl;
     s32 k;
 
-    k = *(s16 *)(arg0 + 0xC) - 1;
+    k = arg0->card_id - 1;
     tbl = gDuel_adwCardStats;
     p->field_67 = 0;
     p->field_68 = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
     p->field_69 = 0;
     p->card_index = ((u32)arg0 - (u32)D_801A7AD8) / DUEL_CARD_RECORD_SIZE;
-    p->field_6B = (*(u8 **)(arg0 + 4))[2];
+    p->field_6B = ((u8 *)arg0->data)[2];
     p->out_x = arg1;
     p->out_y = arg2;
     p->attribute |= 0x1000000;

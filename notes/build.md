@@ -351,7 +351,7 @@ written down. Whether it can be written down depends on one thing:
 
 Both outcomes occur, and they look identical in C:
 
-- `func_800429D8` reads only `$a0`, and its two `void (void)` consumers are
+- `DisplayObject_ResetVelocity` reads only `$a0`, and its two `void (void)` consumers are
   functions taking `u8 *object` whose prologue is `addu $16,$4,$zero` without
   reassigning `$4`. `$a0` still holds the object, so naming the argument is
   byte-exact.
@@ -411,6 +411,110 @@ So a run of incompatible declarations of one global is not automatically drift
 to be collapsed. Check the profiles first: if the spellings line up with the
 table, they are load bearing, and the useful work is recording which lever each
 file pulls rather than unifying them.
+
+#### Where the per-symbol answer is already written down
+
+The table says which lever a profile needs. For a specific symbol there is
+usually a better source than reasoning: `config/slus_01411/external_attempts.csv`
+records, on every `matched` row, why the accepted source was spelled the way it
+was. Eighty-seven of those notes explain an addressing choice, and between them
+they name fifty-two globals.
+
+They are worth reading before touching a declaration, because they cover cases
+the table alone does not predict:
+
+- **Array versus scalar decides who allocates the register.** For
+  `func_8005B64C` the note records that `D_8009B058`, `D_801DD000` and
+  `D_801AF800` "are arrays so `-msplit-addresses` gives them registers, while
+  the scalars carry `section(.data)`" and rebuild their address per access.
+- **Defining rather than declaring is itself a lever.** `func_8002BFCC`'s note
+  explains that the assembler only resolves a small global gp-relative when the
+  translation unit *defines* it, which is what supplies a missing load-delay
+  `nop`. The same reasoning is recorded for `D_8009B142`/`143`/`144`.
+- **Oversizing is deliberate.** `D_8009B488`, `D_8009B48E` and `D_8009B490`
+  "needed sized array declarations to land in small data as `%gp_rel`", while
+  `D_800F5678` needed the incomplete form so its `lui %hi` would hoist into a
+  branch delay slot.
+- **A neighbour's spelling can be the reason.** Declaring `D_8009B260` as an
+  eight-byte aggregate is what keeps it non-small "while the four-byte
+  `D_8009B20C` remains gp-relative".
+
+#### Where a shared declaration belongs
+
+Once a spelling is settled, the remaining question is which header holds it,
+and the answer follows the include graph rather than the name.
+
+`D_8009B318` is a movie playback state byte. `movie_playback_control.h`
+describes exactly what its bits mean and is the obvious home by name, but
+`func_80043BCC.c` does not include that header at all, while all three
+consumers already include `graphics_frame.h`. Placing the declaration by what
+the include graph is, rather than by which subsystem the name sounds like,
+costs no new include and cannot strand a consumer.
+
+The same test decides whether a symbol is `unmatched.h` material at all. That
+header says it is for symbols that are still homeless, and the difference
+between *homeless* and *merely undeclared* is whether the consumers share
+anything above `types.h`:
+
+- The three text banks are read by four files that all include
+  `text_constants.h`, which already defines the constants their expressions
+  use, so they went there.
+- `D_800EFE18` is used by four files that all include `mem_card.h`, so that
+  centralization added no include at all.
+- `D_8009B363` is written by four files spanning four subsystems with no
+  header between them, so it went to `unmatched.h`.
+
+#### A neighbour can refute a size, never establish one
+
+Both directions come up, and only one of them is sound.
+
+Refuting works. `D_8009B0A3` is declared `[9]` by one consumer, and
+`c_symbols.ld` names `D_8009B0A4` one byte later, so nine bytes would run
+through that and past `gGraphics_bActiveBuffer`. The bound is therefore an
+addressing lever rather than a size, the same as `gDuel_bTerrain`'s `[8]` and
+`gSD_bOutputType`'s `[16]`.
+
+Establishing does not. That the next name sits *n* bytes away shows only that
+nothing is named inside those *n* bytes; the object may be shorter, and
+consecutive `D_` names are often interior elements. `D_8009B23A`'s next name
+is ten bytes on and its consumers read a halfword, so the gap was recorded as
+an upper bound and the bytes above it left unclaimed.
+
+A real size needs a reader. `D_800F2878` takes its length from
+`DisplayObject_ResetPool`, which advances one pointer into it and one into
+`D_800EFE38` together for `DISPLAY_OBJECT_LIST_COUNT` iterations; the
+per-list renderer table takes its seven from the loop that walks it. Those are
+sizes; a neighbour's address is not.
+
+#### Two things that look like disagreement and are not
+
+A scan over declaration spellings reports both of these, and neither is work:
+
+- **Arms already in place.** Three guarded branches for one symbol inside one
+  header are three spellings by text and one declaration in fact.
+  `D_8009B0C0` in `graphics_frame.h` reads as a three-way conflict to a
+  regular expression.
+- **A semantic type against a raw view.** When some consumers have adopted a
+  real type and others still reach the bytes, that is type adoption partly
+  done rather than drift. Arming it would freeze the raw view in place, which
+  is the opposite of finishing the job.
+
+#### A worked rejection
+
+`D_8009B058` looks like an ideal candidate for giving a global its real type.
+It has one consumer, `func_8005B64C.c`; that file declares it `extern u8
+D_8009B058[]` and immediately casts at its only use, `rect = *(RECT
+*)D_8009B058`; and the next name, `D_8009B060`, is exactly eight bytes on,
+which is `sizeof(RECT)`. Every cheap check agrees.
+
+The attempt record refutes it anyway: the array spelling is what gets the
+symbol a compiler-allocated register under `-msplit-addresses`, so
+`extern RECT D_8009B058` would change how the address is materialised. The
+same note also explains the local copy — retail copies the eight-byte `RECT`
+by value into a stack slot before calling `LoadImage2`, and omitting the local
+leaves the frame eight bytes short.
+
+Both facts were free to read and would each have cost a build to rediscover.
 
 ## Exact baseline build
 

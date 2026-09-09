@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
+#include "sound_mix.h"
+#include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
-
-extern void func_80044E90(s32);
 
 void func_80048A28(s32 arg0, s32 arg1, s32 arg2)
 {
@@ -137,8 +137,6 @@ typedef char SDSeqBlock_data_must_match_input_offset[
         SD_PENDING_INPUT_PAYLOAD_BYTE_OFFSET ? 1 : -1
 ];
 
-extern void func_8004763C(void);
-
 void func_80048D08(s32 side, u32 *src)
 {
     SDSeqBlock *blk;
@@ -190,11 +188,10 @@ void func_80048D08(s32 side, u32 *src)
     }
 }
 
+#include "sound_init.h"
 #include "sound_voice_data.h"
 
-extern void func_80049594(s32);
 extern void func_80049600(s32);
-extern void func_80049544(void);
 
 void func_80048F14(void)
 {

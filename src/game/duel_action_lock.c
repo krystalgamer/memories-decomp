@@ -1,8 +1,6 @@
 #include "../types.h"
 #include "duel_action_lock.h"
 
-extern u16 D_8009B220;
-
 s32 DuelEffect_MarkInitialized(void)
 {
     u16 value = D_8009B220;

@@ -34,7 +34,7 @@ void func_8002DC38(void)
         TextBox_Create(1, 0x26, 0xE, 0x66, 0x100, 0x30);
         func_80039A14(&D_800EB0F8[1]);
         SD_BGMPlay(0x72C0);
-        func_80015A00();
+        Fade_WaitIn();
     }
 
     result = MainMenu_UpdateValueSetup();

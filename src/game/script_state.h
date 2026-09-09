@@ -51,4 +51,21 @@ extern u8 *D_8009B290;
 extern u16 D_8009B2A8;
 extern u16 D_8009B2AA;
 
+/* Two halfwords the event driver keeps at 0x8009B2A4 and 0x8009B2A6.
+ *
+ * D_8009B2A4 is the event-script flag word: func_8002FD10 seeds it from
+ * its argument, Script_RunTick clears DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE
+ * and ORs in DUEL_EVENT_SCRIPT_FLAG_STARTED (duel_effect.h), and
+ * func_8002E5AC sets the dialog bit. D_8009B2A6 is the scene index the
+ * save-prompt command (func_8002EE94) reads out of the script stream and
+ * copies into D_801D0000[0x3EE] and, as a byte, into gCampaignSceneIndex.
+ * Retail reaches both gp-relative; the second is spelled
+ * %gp_rel(D_8009B2A4 + 0x2) in the listings (func_8002EE94.s:27, 324,
+ * 350, 361) because nothing references its address directly, so its
+ * name here is the tree's address form, not a symbol splat produced.
+ * Whether it is its own object or the flag word's second element is not
+ * established; the two names record the two roles. */
+extern u16 D_8009B2A4;
+extern u16 D_8009B2A6;
+
 #endif

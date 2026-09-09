@@ -1,13 +1,11 @@
 #include "../types.h"
 #include "display_object_layout.h"
 #include "options_update_layout.h"
+#include "options.h"
 #include "display_object.h"
 
 typedef struct { u16 h[3]; } Blk6;
 extern u8 D_8009AF5C[];
-extern s8 gOptions_bOutputType;
-extern DisplayObject *D_8009B380;
-extern DisplayObject *D_8009B388;
 
 void Options_UpdateLayout(s32 selection) {
     u8 sp0[12];

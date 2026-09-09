@@ -8,9 +8,6 @@
 #include "sound.h"
 #include "duel_effect.h"
 #include "../unmatched.h"
-extern s16 D_8009B1D2;
-extern s16 D_8009B20C[2];
-extern u16 D_8009B220;
 extern u8 D_8009B260[8] __attribute__((section(".data")));
 
 /* One step of a field-wide stat-penalty sweep, driven once per 16 frames by

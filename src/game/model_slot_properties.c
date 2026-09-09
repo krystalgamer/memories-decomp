@@ -4,14 +4,11 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "model.h"
+#include "model_slot_properties.h"
 
-typedef struct {
-    u8 bytes[MODEL_SLOT_SIZE];
-} ModelSlotTransformEntry;
-
-typedef ModelSlotS32Quad ModelSlotTransform;
-
-extern ModelSlotTransformEntry D_800F39F0[];
+/* &D_800F2C40[0].field_DB0. The interior alias keeps the retail address
+ * construction; MODEL_SLOT_SIZE preserves the stride between slots. */
+extern u8 D_800F39F0[];
 
 /* RotTrans types the last three: the vertex run reached through the slot's
    part chain is SVECTOR, `out` is the VECTOR it projects into, and the local
@@ -44,12 +41,12 @@ s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
     return sp30[0];
 }
 
-ModelSlotTransformEntry *func_8005949C(int index)
+ModelSlotS32Quad *func_8005949C(s32 index)
 {
-    return &D_800F39F0[index];
+    return (ModelSlotS32Quad *)(D_800F39F0 + index * MODEL_SLOT_SIZE);
 }
 
-void func_800594C0(int index, ModelSlotTransform *source)
+void func_800594C0(s32 index, ModelSlotS32Quad *source)
 {
     ModelSlot *entry = &D_800F2C40[index];
 
@@ -62,7 +59,7 @@ void func_800594C0(int index, ModelSlotTransform *source)
     }
 }
 
-void *func_80059520(s32 index)
+u8 *func_80059520(s32 index)
 {
     ModelSlot *entry = &D_800F2C40[index];
     s32 remainder = entry->field_DC0[7] % 6;

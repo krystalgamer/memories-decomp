@@ -21,6 +21,28 @@
  * in one translation unit, which no single arm can give, so it keeps its
  * asm("D_8009B0D8") alias -- a second name for one symbol, not a duplicate
  * declaration. */
+/* The movie playback state byte, shared by three files that disagree about
+ * how to reach it.
+ *
+ * movie_playback_control.h describes what it means: func_8003594C sets bit
+ * 0x80 when a movie starts, func_800359B0 sets 0x40 once the stream has been
+ * asked to stop and clears 0x80 when it has, and func_80035A58 clears the
+ * byte. graphics_frame.c reads bit 0x80 in the frame loop, which is why it is
+ * declared here -- this is the header all three consumers already include,
+ * and func_80043BCC.c does not include movie_playback_control.h at all.
+ *
+ * Two arms, for the same reason D_8009B0D8 below has them. Every consumer is
+ * in the -G8 family, where a byte-sized global is reached %gp_rel by default.
+ * func_80043BCC.c and graphics_frame.c both carry section(".data") to escape
+ * that; movie_playback_control.c takes the plain spelling and wants the
+ * gp-relative form. Each arm reproduces exactly what that file already
+ * wrote. */
+#ifdef D_8009B318_IN_DATA
+extern u8 D_8009B318 __attribute__((section(".data")));
+#else
+extern u8 D_8009B318;
+#endif
+
 #ifdef D_8009B0D8_IN_DATA
 extern u8 D_8009B0D8 __attribute__((section(".data")));
 #elif defined(D_8009B0D8_IS_HALFWORD)
@@ -59,6 +81,27 @@ extern u8 D_8009B0C0 __attribute__((section(".data")));
 extern volatile u8 D_8009B0C0;
 #else
 extern u8 D_8009B0C0;
+#endif
+
+/* The frame counter that comparison reads. Main_VBlankCB increments it
+ * (main_frame.c), Graphics_SyncFrame publishes it into D_8009B0C1 and
+ * then resets it to -1, Main_Init zeroes it, and Input_UpdatePads tests
+ * it non-zero before folding the deferred pad bits in. The compare in
+ * Graphics_SyncFrame is `slt` (func_80012DB4.s:15), so it is signed.
+ *
+ * Three units reach it gp-relative and take the volatile form below;
+ * Input_UpdatePads reads it through a %hi/%lo pair into the load's own
+ * register (func_8003CCD8.s:50-51), the bare form, and takes _IN_DATA --
+ * out of small data at the compiler with its true width. The unsized
+ * `u32 []` it used to declare reached the same form ("Retail
+ * rematerializes this address inside the repeat loop", its comment said),
+ * and the .data scalar builds byte-identical there. Both arms are
+ * justified by a control build recorded in the PR that added this
+ * block. */
+#ifdef D_8009B0C8_IN_DATA
+extern s32 D_8009B0C8 __attribute__((section(".data")));
+#else
+extern volatile s32 D_8009B0C8;
 #endif
 
 extern DISPENV gGraphics_DispEnv;

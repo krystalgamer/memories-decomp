@@ -27,10 +27,10 @@ extern void func_80023FBC(DuelCursorStatus *);
 
    That is why this declaration cannot be widened to the true prototype. There
    is no expression to write for the second argument, because the call site
-   does not compute one. Compare func_800429D8, where the same shape IS
-   fixable: its callee needs only $a0 and $a0 already holds the object, so
-   naming the argument costs nothing. The test is whether every register the
-   callee reads holds a value this file can name. */
+   does not compute one. Compare DisplayObject_ResetVelocity, where the same
+   shape IS fixable: its callee needs only $a0 and $a0 already holds the
+   object, so naming the argument costs nothing. The test is whether every
+   register the callee reads holds a value this file can name. */
 
 s32 func_80024060(DuelCursorStatus *object)
 {

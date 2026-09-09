@@ -46,6 +46,7 @@ source grouping.
 | `src/game/duel_draw_resolution.c` | `gcc_2_8_1_g8_split` | Five-piece Exodia hand predicate (`0x80018CF8`) and the contiguous draw-animation state machine (`0x80018DB4`) that invokes it before resolving victory |
 | `src/game/display_object_property_transitions.c` | `gcc_2_8_1_g8` | Three-channel byte convergence to per-channel targets (`0x8001D344`) and the contiguous timed position/interpolation transition with clip-flag lifecycle (`0x8001D3C4`) |
 | `src/game/display_object_motion.c` | `gcc_2_8_1_g8` | Timed position interpolation with speed-to-`0x800` completion (`0x8001EC70`) and the contiguous mode-progress variant that stores the final position and clears the clip flag when appropriate (`0x8001ED20`) |
+| `src/game/display_effect_update_callbacks.c` | `gcc_2_8_1_g0` | Two display-effect update callbacks, `func_8003AD6C` (`0x8003AD6C`) and the contiguous `func_8003B054` (`0x8003B054`). Contiguous -- 0x8003AD6C is 0x2E8 bytes and ends exactly at 0x8003B054 -- and bounded on both sides by a profile change, `func_8003AC48.c` (`gcc_2_8_1_cc_g8_as_g0_split`) below and `func_8003B378.c` (`gcc_2_8_1_g8`) above. Both take the same `DisplayEffectState` record and open with the same first-frame latch `func_80039F1C`, and both scale by the per-frame step multiplier `D_8009B0D8`. They read that multiplier at different widths, so the unit keeps the plain `s32` arm and the second function reaches the same symbol through a `D_8009B0D8_halfword asm("D_8009B0D8")` alias, the device graphics_frame.h documents and display_object_fade_callbacks.c already uses |
 | `src/game/duel_battle_stats.c` | `gcc_2_8_1_g8` | `Duel_CalcBattleAttack` (`0x8001EF1C`), `Duel_CalcBattleDefense` (`0x8001EF78`) |
 | `src/game/duel_trap_resolution.c` | `gcc_2_8_1_g8_split` | Contiguous attack-trap selector (`0x8001F0D0`) and its presentation state machine (`0x8001F364`), linked through the selected card-object index in `D_8009B1B8` |
 | `src/game/duel_card_turn_animations.c` | `gcc_2_8_1_g8` | Mirrored three-mode card turn-back callback (`0x80022674`, sets record flag `0x400`) and contiguous flip/turn callback (`0x800229F4`, clears `0x400`), both using side-dependent two-phase rotations |
@@ -119,7 +120,7 @@ source grouping.
 | `src/game/display_object_config.c` | `gcc_2_8_1_g8` | Seven pool-reset, state-byte, resource/color/texture, position, and dimension configuration helpers from `0x800403F0` through `0x80040510` |
 | `src/game/display_object_updates.c` | `gcc_2_8_1_g0_split` | Three display-list walkers from `0x80040BF8` through `0x80040D14`, invoking object updates and the list-specific render or secondary callbacks |
 | `src/game/display_object_stream_state.c` | `gcc_2_8_1_g8` | Five compact stream-state commands from `0x8004141C` through `0x80041464`, including counter resets, a constant-success handler, base-relative cursor jumps, and a flag-`0x800000` toggle |
-| `src/game/display_object_helpers.c` | `gcc_2_8_1_g8` | Eighteen contiguous display-object initialization, resource, animation, stream-offset, 8.8-velocity, and scalar-step helpers from `0x800427DC` through `func_80042B08` |
+| `src/game/display_object_helpers.c` | `gcc_2_8_1_g8` | Eighteen contiguous display-object initialization, resource, animation, stream-offset, 8.8-velocity, and scalar-step helpers from `0x800427DC` through `DisplayObject_StepTowardZero` |
 | `src/game/display_object_lifecycle.c` | `gcc_2_8_1_g8` | One-shot flag-`0x80` activation test (`0x80042B98`) and contiguous brightness-step callback that destroys the object at zero (`0x80042BC0`) |
 | `src/game/display_object_interpolation.c` | `gcc_2_8_1_g0` | Cosine midpoint interpolation (`0x8004318C`) and signed-phase sine interpolation toward a target position (`0x80043230`) |
 | `src/game/display_object_transition.c` | `gcc_2_8_1_g0` | Blocking clone/brightness transition (`0x8004365C`) and the contiguous wait helper that permits Start/confirm skip only after the transfer state is idle (`0x800438B8`) |
@@ -145,13 +146,12 @@ source grouping.
 | `src/game/mem_card_requests.c` | `gcc_2_8_1_g8_split` | Six contiguous memory-card request helpers from `0x8004413C` through `0x800443EC`, followed by the directory enumeration helper at `0x80044470` |
 | `src/game/mem_card_directory.c` | `gcc_2_8_1_g8` | Memory-card free-block calculation (`0x80044544`) and contiguous directory-name search (`0x80044598`) over 40-byte `DIRENTRY` records |
 | `src/game/mem_card_io_result_callbacks.c` | `gcc_2_8_1_g0` | Four contiguous callbacks from `MemCard_SetIOResultCompleteCB` (`0x80044CFC`) through `MemCard_SetIOResultNewCardCB` (`0x80044D34`) |
-| `src/game/model_handler_registry.c` | `gcc_2_8_1_g8_split` | `Model_RegisterHandlerKey` (`0x80060170`), `Model_FindHandlerKey` (`0x800601D0`), and the following model setup helper at `0x80060220` |
+| `src/game/model_handler_registry.c` | `gcc_2_8_1_g8_split` | The model handler registry and the two maps that search it: the packed-id dispatch maps at `0x8005FC1C` and `0x8005FE44`, `Model_RegisterHandlerKey` (`0x80060170`), `Model_FindHandlerKey` (`0x800601D0`) and the model setup helper at `0x80060220`. Contiguous across all five and bounded on both sides by a profile change, `func_8005FBC4.c` (`gcc_2_8_1_g0`) below and `model_primitive_handler.c` (`gcc_2_8_1_g0_split`) above. The two maps open-code `Model_FindHandlerKey` over the shared registry `D_800F5918` -- same `GsU_00000000` sentinel, same eighty-entry scan, same `-1` on miss -- before dispatching on the id it returns |
 | `src/game/model_slot_state_updates.c` | `gcc_2_8_1_g0_split` | Contiguous model-slot state/velocity update (`0x80059700`) and child-parameter propagation (`0x800597C8`) |
 | `src/game/model_view_adjustments.c` | `gcc_2_8_1_g8_split` | Contiguous model-view angle adjustment (`0x80052528`) and range/position controller (`0x80052694`) |
 | `src/game/model_state_getters.c` | `gcc_2_8_1_g8` | Two leaf getters at `0x80058DC0` and `0x80058DCC` returning the model-state bytes at `D_8009AFA6` and `D_8009AFA0` |
 | `src/game/model_buffer_getters.c` | `gcc_2_8_1_g0_split` | Two leaf pointer getters at `0x80059214` and `0x80059220` returning buffer bases `D_800F56A0` and `D_800FE148` |
 | `src/game/model_state_setters.c` | `gcc_2_8_1_g8` | Paired leaf setters at `0x80059AE0` and `0x80059AEC` for the halfword at `D_8009AF92` and byte at `D_8009AFA4` |
-| `src/game/model_handler_dispatch.c` | `gcc_2_8_1_g8_split` | Two contiguous packed-id dispatch maps at `0x8005FC1C` and `0x8005FE44` over the shared model-handler registry |
 | `src/game/model_primitive_handler.c` | `gcc_2_8_1_g0_split` | Primitive-family selector (`0x800603DC`) and `Model_GetPrimitiveHandler` (`0x8006041C`) |
 | `src/game/ai_script_comparison_jumps.c` | `gcc_2_8_1_g0_split` | `AiScript_JumpGreaterEqual` (`0x800709C0`), `AiScript_JumpGreater` (`0x80070A40`) |
 | `src/game/ai_script_call_control.c` | `gcc_2_8_1_g8_split` | Three call-stack and control helpers from `AiScript_Call` (`0x80070D00`) through `AiScript_SetRandom` (`0x80070E20`) |
@@ -161,6 +161,7 @@ source grouping.
 | `src/game/sound_effect_voices.c` | `gcc_2_8_1_cc_g0_as_g8_no_split` | The sound-effect voice slots: the per-id active-voice count (`0x80047FAC`) and the voice start that plays one (`0x8004803C`). The two are contiguous -- 0x80047FAC is 0x90 bytes and ends exactly at 0x8004803C -- and are the whole `gcc_2_8_1_cc_g0_as_g8_no_split` run between `sound_voice_selection.c` and `func_80048768`. They read and write the same four voice slots: the count walks `g_SDValue->voice_ids` and the start assigns it alongside the flags, volumes and timer |
 | `src/game/model_slot_row_tables.c` | `gcc_2_8_1_g0` | One model slot's row tables: the reset that clears them and imports the command list (`0x8004D58C`) and the walk that consumes both (`0x8004D75C`). Contiguous -- 0x8004D58C is 0x1D0 bytes and ends exactly at 0x8004D75C -- and bounded above by `func_8004D914` at a different profile. Initializer and consumer of the same fields: the reset fills `keys` with 0xFFFF, zeroes `rows` and their maxima and stores the command list at 0xDD8; the walk tests `keys` against 0xFFFF, accumulates `rows` and reads that list |
 | `src/game/model_slot_setup.c` | `gcc_2_8_1_g8_split` | One model slot's setup: the reset that gives it its defaults (`0x8005611C`) and the per-frame duel-side layout pass that reads them (`0x80056250`). Contiguous -- 0x8005611C is 0x134 bytes and ends exactly at 0x80056250 -- and bounded above by `model_load_monster_merge.c` at a different profile. Initializer and consumer: the reset writes the mode byte at +0xE16 as 0x3E, +0xE0C/+0xE0D as 7 and 8 and +0xE0A as 0x1000; the layout pass switches on that same +0xE16 and reads the three back |
+| `src/game/model_update_view_metrics.c` | `gcc_2_8_1_g8_split` | The camera-relative model transform: `Model_UpdateViewMetrics` (`0x80057F38`) and the contiguous `func_800580D4` (`0x800580D4`). Contiguous -- 0x80057F38 is 0x19C bytes and ends exactly at 0x800580D4 -- and bounded on *both* sides by a profile change, `func_80057E20.c` below and `func_800582C0.c` above, both `gcc_2_8_1_g8`, so the run is exactly these two. Producer and sole consumer: `Model_UpdateViewMetrics` writes the cached yaw and pitch `D_8009B47A`/`D_8009B47C` and `func_800580D4` is the only function that reads the pair, as `MODEL_ANGLE_FULL_TURN - D_8009B47A` and `D_8009B47C`; the consumer already included the producer's header |
 | `src/game/sound_voice_selection.c` | `gcc_2_8_1_g0` | Twelve contiguous voice update, lifetime, selection, normalization, release, slot-removal, key-off, status, and group-mask helpers from `0x80047864` through `0x80047F38`, including `SD_KeyOffVoiceSlots` |
 | `src/game/sound_sequence_state.c` | `gcc_2_8_1_g0` | Two sequence-state setters (`0x800490F0`, `0x80049108`) and the active-state test at `0x80049120` |
 | `src/game/sound_sequence_runtime.c` | `gcc_2_8_1_g0` | Six contiguous sequence event-stop/update, byte comparison, bounded read, and MIDI-style variable-length decoding helpers from `0x8004B910` through `0x8004BB34`, ending before the different-profile marker scanner |
@@ -229,26 +230,47 @@ because a grouped unit is compiled once and one spelling has to win. This
 already blocked the AI call-control group above until the three helpers moved
 to a shared `AiScriptState`.
 
-The sharp case is a guard-selected arm. `func_8003AD6C.c` takes the default
-`extern s32 D_8009B0D8` arm and its neighbour `func_8003B054.c` opens with
-`#define D_8009B0D8_IS_HALFWORD`. They are adjacent and share
-`gcc_2_8_1_g0`, so they pass conditions 1 and 2, and the pair looks mergeable.
+The sharp case is a guard-selected arm. `func_8003AD6C.c` took the default
+`extern s32 D_8009B0D8` arm and its neighbour `func_8003B054.c` opened with
+`#define D_8009B0D8_IS_HALFWORD`. They are adjacent and share `gcc_2_8_1_g0`,
+so they pass conditions 1 and 2, and the pair looks mergeable.
 
-Disassembling the two objects the build already produced settles it without
-compiling anything:
+Disassembling the two objects the build already produced shows the
+disagreement without compiling anything:
 
 ```
 func_8003AD6C.o    lw   v1,0(v1)     R_MIPS_LO16   D_8009B0D8
 func_8003B054.o    lhu  v1,0(v1)     R_MIPS_LO16   D_8009B0D8
 ```
 
-Retail reads that one symbol at two widths from two translation units. Both
-arms are faithful, neither can replace the other, and merging would change a
-load. Recorded as blocked; no build spent.
+**This was recorded as blocking, and that was wrong.** The reasoning ran:
+retail reads one symbol at two widths, neither arm can replace the other, so
+merging must change a load. The first clause is right and the conclusion does
+not follow, because picking an arm is not the only way to spell a global. A
+unit that needs two widths takes an **alias** -- a second name for the same
+symbol, `extern u16 D_8009B0D8_halfword asm("D_8009B0D8");` -- which
+`graphics_frame.h` documents and `display_object_fade_callbacks.c` already
+uses on this very global for the plain and volatile pair. With the alias both
+loads survive exactly as above, and the two are now one unit,
+`display_effect_update_callbacks.c`, with the executable byte-identical.
+
+So the rule is narrower than it looked. **Two sources that spell a shared
+global differently are blocked only when the difference cannot be expressed
+twice in one unit.** A guard-selected *width* or qualifier can be, through an
+alias. What genuinely blocks is a difference in the object itself -- a
+different type, extent or section attribute -- because an alias would then be
+a second declaration of a different thing rather than a second name for the
+same one.
+
+Note also what the two-width read does *not* prove. It is tempting to read
+`lw` beside `lhu` as evidence that retail had two translation units here, but
+`display_object_fade_callbacks.c` is a single retail unit reading this same
+symbol two ways, so the inference does not hold in either direction.
 
 `objdump -dr tmp/splat/build/src/game/NAME.o` is the general form. It is the
 cheapest tier of evidence available here, below even the `-G` table in
-`notes/build.md`.
+`notes/build.md`, and it is the right tool for finding this disagreement --
+just not for concluding the merge is impossible.
 
 ### A merged unit inherits both halves' `.rodata`
 

@@ -1,11 +1,8 @@
 #include "../types.h"
 #include "display_object_config.h"
+#include "func_80041D60.h"
 
 extern s32 D_8009B424;
-/* One argument on purpose: func_80041D60 takes three, and reads the
- * second and third on its cooldown path without assigning them. The
- * retail image calls it this way; see that file. */
-extern void func_80041D60(DisplayObjectConfig *);
 
 void func_80029108(DisplayObjectConfig *object, int arg1)
 {

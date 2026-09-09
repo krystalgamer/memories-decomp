@@ -1,12 +1,12 @@
+#define GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
 #include "../types.h"
 #include "func_80036D3C.h"
 #include "sound.h"
 #include "duel_effect.h"
 
-extern u32 gSD_dwCurrentBgmCommand[];
 extern s32 D_8009B404[];
 extern void func_8003FF88(u16);
-extern u16 D_8009B33C;
+extern s16 D_8009B33C;
 
 void func_80038690(void *object)
 {

@@ -10,6 +10,7 @@
 #include "../../game/sound.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/func_80039794.h"
+#include "../../game/func_80041D60.h"
 #include "free_duel.h"
 
 extern u8 *gFreeDuel_pCursorWidget;
@@ -22,7 +23,6 @@ extern s32 D_8009B0CC;
 extern u8 **FreeDuel_GetSparkleSlot(void);
 extern u8 *FreeDuel_SpawnSparkle(void);
 extern void FreeDuel_UpdateSparkle(void);
-extern void func_80041D60(void *);
 extern void func_80024DC8(s32, s32, s32, s32);
 extern void func_80033C90(void);
 extern void func_80035C38(s32, s32, s32, s32, s32, s32, s32);
@@ -46,7 +46,7 @@ void FreeDuel_UpdateCursorTween(void)
         }
         gFreeDuel_bScreenFlags |= 0x40;
         *(u16 *)(widget + 0x60) = 8;
-        func_800429D8(widget);
+        DisplayObject_ResetVelocity(widget);
 
         d = gFreeDuel_bTargetColumn;
         tx = d * 56 + 20;
@@ -61,7 +61,7 @@ void FreeDuel_UpdateCursorTween(void)
         *(s16 *)(widget + 0x38) = (d << 8) / 8;
     }
 
-    func_80042A78(widget);
+    DisplayObject_StepPositionXY(widget);
     left = *(u16 *)(widget + 0x60) - 1;
     *(u16 *)(widget + 0x60) = left;
     if (left == 0) {

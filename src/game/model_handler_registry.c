@@ -1,12 +1,229 @@
+/* The model handler registry and the two maps that search it.
+ *
+ * D_800F5918 is the eighty-entry table; Model_RegisterHandlerKey fills it and
+ * Model_FindHandlerKey reads it back. func_8005FC1C and func_8005FE44 open-code
+ * that same reverse lookup -- same sentinel, same eighty-entry scan, same -1 --
+ * and then dispatch on the packed id it returns, which is why they belong here
+ * rather than beside the handlers they name. */
 #include "../types.h"
 #include "../ygo_types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
 #include "model.h"
 #include "model_handler_registry.h"
 
-extern s32 GsU_00000000[];
 extern s32 (*func_800603DC())();
+
+/* Maps an id to its handler in the second dispatch family: looks the id up
+ * in the handler registry at D_800F5918 (GsU_00000000 is the sentinel that
+ * skips the search), then dispatches on the high halfword's group and the
+ * low halfword's kind. Returns arg0 unchanged when nothing matches. */
+
+void func_80069E44(void);
+void func_80069F94(void);
+void func_8006A0E8(void);
+void func_8006A268(void);
+void func_8006A3F0(void);
+void func_8006A540(void);
+void func_8006A694(void);
+void func_8006A814(void);
+void func_8006A99C(void);
+void func_8006AAFC(void);
+void func_8006AC88(void);
+void func_8006ADE8(void);
+
+s32 func_8005FC1C(s32 arg0) {
+    ModelHandlerRegistryEntry *e;
+    s32 n;
+    s32 v;
+    u32 t;
+
+    e = D_800F5918;
+    n = 0;
+
+    if (arg0 == (s32)GsU_00000000) {
+        v = -1;
+    } else {
+        do {
+            if (e->handler_value == arg0) {
+                v = e->key;
+                goto have;
+            }
+            n++;
+            e++;
+        } while (n < MODEL_HANDLER_REGISTRY_COUNT);
+        v = -1;
+    }
+
+have:
+    t = v & 0xFFFF0000;
+
+    switch (t) {
+    case 0:
+    case 0x100000:
+    case 0x200000:
+    case 0x300000:
+        switch (v & 0xFFFF) {
+        case 9:
+            return (s32)func_80069E44;
+        case 0x209:
+            return (s32)func_8006A3F0;
+        case 0x11:
+            return (s32)func_8006A0E8;
+        case 0x211:
+            return (s32)func_8006A694;
+        case 0xD:
+            return (s32)func_80069F94;
+        case 0x20D:
+            return (s32)func_8006A540;
+        case 0x15:
+            return (s32)func_8006A268;
+        case 0x215:
+            return (s32)func_8006A814;
+        }
+        break;
+    case 0x1000000:
+    case 0x1100000:
+    case 0x1200000:
+    case 0x1300000:
+        switch (v & 0xFFFF) {
+        case 0xD:
+            return (s32)func_8006A99C;
+        case 0x20D:
+            return (s32)func_8006AC88;
+        case 0x15:
+            return (s32)func_8006AAFC;
+        case 0x215:
+            return (s32)func_8006ADE8;
+        }
+        break;
+    }
+    return arg0;
+}
+
+/* Maps the registered callback to the handler family selected by the packed
+ * registry id. The case order is retail's own arm order in memory. */
+void func_800612C0(void);
+void func_8006151C(void);
+void func_800617E0(void);
+void func_80061A84(void);
+void func_80061DDC(void);
+void func_80062058(void);
+void func_8006233C(void);
+void func_80062600(void);
+void func_80062978(void);
+void func_80062BC0(void);
+void func_80062E70(void);
+void func_80063100(void);
+void func_80063444(void);
+void func_800636AC(void);
+void func_8006397C(void);
+void func_80063C2C(void);
+void func_80067354(void);
+void func_8006759C(void);
+void func_80067858(void);
+void func_80067ABC(void);
+void func_80067D94(void);
+void func_80067FD0(void);
+void func_8006825C(void);
+void func_800684B4(void);
+
+s32 func_8005FE44(s32 arg0) {
+    ModelHandlerRegistryEntry *e;
+    s32 n;
+    s32 v;
+    u32 t;
+
+    e = D_800F5918;
+    n = 0;
+
+    if (arg0 == (s32)GsU_00000000) {
+        v = -1;
+    } else {
+        do {
+            if (e->handler_value == arg0) {
+                v = e->key;
+                goto have;
+            }
+            n++;
+            e++;
+        } while (n < MODEL_HANDLER_REGISTRY_COUNT);
+        v = -1;
+    }
+
+have:
+    t = v & 0xFFFF0000;
+
+    switch (t) {
+    case 0x200000:
+        switch (v & 0xFFFF) {
+        case 0x9:
+            return (s32)func_800612C0;
+        case 0x209:
+            return (s32)func_80061DDC;
+        case 0x11:
+            return (s32)func_800617E0;
+        case 0x211:
+            return (s32)func_8006233C;
+        case 0xD:
+            return (s32)func_8006151C;
+        case 0x20D:
+            return (s32)func_80062058;
+        case 0x15:
+            return (s32)func_80061A84;
+        case 0x215:
+            return (s32)func_80062600;
+        }
+        break;
+    case 0x300000:
+        switch (v & 0xFFFF) {
+        case 0x9:
+            return (s32)func_80062978;
+        case 0x209:
+            return (s32)func_80063444;
+        case 0x11:
+            return (s32)func_80062E70;
+        case 0x211:
+            return (s32)func_8006397C;
+        case 0xD:
+            return (s32)func_80062BC0;
+        case 0x20D:
+            return (s32)func_800636AC;
+        case 0x15:
+            return (s32)func_80063100;
+        case 0x215:
+            return (s32)func_80063C2C;
+        }
+        break;
+    case 0x1200000:
+        switch (v & 0xFFFF) {
+        case 0xD:
+            return (s32)func_80067354;
+        case 0x20D:
+            return (s32)func_80067858;
+        case 0x15:
+            return (s32)func_8006759C;
+        case 0x215:
+            return (s32)func_80067ABC;
+        }
+        break;
+    case 0x1300000:
+        switch (v & 0xFFFF) {
+        case 0xD:
+            return (s32)func_80067D94;
+        case 0x20D:
+            return (s32)func_8006825C;
+        case 0x15:
+            return (s32)func_80067FD0;
+        case 0x215:
+            return (s32)func_800684B4;
+        }
+        break;
+    }
+    return arg0;
+}
 
 /* Finds `key` in the table; if absent and there is a free slot, claims it
    with (key, val). No-op once all 80 slots are taken and no match exists. */

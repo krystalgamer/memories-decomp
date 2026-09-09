@@ -3,7 +3,6 @@
 #include "display_effect_constants.h"
 #include "display_object_config.h"
 
-extern s32 func_80040424();
 void func_8003B378(u8 *p, s32 n) {
     s32 f;
     s32 g;
@@ -23,14 +22,16 @@ void func_8003B378(u8 *p, s32 n) {
                     (rand() & DISPLAY_EFFECT_DELAY_MASK) +
                     DISPLAY_EFFECT_DELAY_BASE;
                 p[0x32] = p[0x32] & 0xFE;
-                func_80040410(*(u8 **)(p + 4), 0);
+                func_80040410(
+                    (DisplayObjectConfig *)*(u8 **)(p + 4), 0);
             }
         } else {
             v = *(u16 *)(p + 0x3E) - 1;
             *(s16 *)(p + 0x3E) = v;
             if ((s16)v <= 0) {
                 p[0x32] = p[0x32] | 1;
-                func_80040410(*(u8 **)(p + 4), 1);
+                func_80040410(
+                    (DisplayObjectConfig *)*(u8 **)(p + 4), 1);
             }
         }
     }
@@ -63,7 +64,7 @@ void func_8003B378(u8 *p, s32 n) {
 
     p[0x3B] = 6;
     p[0x3A] = n;
-    func_80040410(*(u8 **)(p + 8), n);
+    func_80040410((DisplayObjectConfig *)*(u8 **)(p + 8), n);
     return;
 
 slow:
@@ -71,5 +72,5 @@ slow:
     if ((s8)p[0x3B] < 6) {
         return;
     }
-    func_80040424(*(u8 **)(p + 8), 0);
+    func_80040424((DisplayObjectConfig *)*(u8 **)(p + 8), 0);
 }

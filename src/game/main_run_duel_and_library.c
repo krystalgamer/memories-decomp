@@ -1,3 +1,4 @@
+#define D_8009B0A3_SIZED_ARRAY
 #define D_8009B0C0_IN_DATA
 #include "../types.h"
 #include "graphics_frame.h"
@@ -9,11 +10,12 @@
 #include "main_reset_frontend_runtime.h"
 #include "main_services.h"
 #include "sound.h"
+#include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
 #include "../unmatched.h"
 
 extern u8 D_8009B26C, D_8009B26E;
-extern u8 D_8009B369[9], D_8009B2F8[9], D_8009B0A3[9];
+extern u8 D_8009B369[9], D_8009B2F8[9];
 extern s8 gDuel_bOpponentID[9];
 extern u8 D_8009B368[9], D_8009B362[9], gCampaignSceneIndex[9];
 extern u8 D_8009B370[9];
@@ -43,7 +45,7 @@ void Main_RunDuel(void)
             D_8009B26E = value | 0x80;
             D_8009B2F8[0] = 0x80;
             func_800323F8(D_80010000[0], (u8 *)gDuel_awPlayerDeck, 0, 0x80);
-            func_80015A00();
+            Fade_WaitIn();
         } else if (func_80033BE8() == 0) {
             SD_BGMFadeOut();
             Fade_WaitOut();
@@ -83,6 +85,6 @@ void Main_RunDuel(void)
     }
 }
 
-extern void func_8002BFCC(void),func_8002BAB4(void),func_8004763C(void);
+extern void func_8002BFCC(void),func_8002BAB4(void);
 
-void Main_RunLibraryMenu(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8002BFCC();func_80015A00();}else{func_8002BAB4();if((D_8009B26C&0x40)==0){D_8009B0C0=0;SD_BGMFadeOut();Fade_WaitOut();func_800134B4();func_8004763C();func_80047AD0(2);func_80012D84(4);File_WaitForTransfers();}}}
+void Main_RunLibraryMenu(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8002BFCC();Fade_WaitIn();}else{func_8002BAB4();if((D_8009B26C&0x40)==0){D_8009B0C0=0;SD_BGMFadeOut();Fade_WaitOut();func_800134B4();func_8004763C();func_80047AD0(2);func_80012D84(4);File_WaitForTransfers();}}}

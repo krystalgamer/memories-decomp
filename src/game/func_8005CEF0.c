@@ -1,7 +1,9 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
 #include "model.h"
-
-void RotMatrixYXZ_gte(u8 *arg0, u8 *arg1);
 
 /* Advances one animation track: interpolates the translation (+0x18) and
  * the three rotation angles (+0x44) between the track's two keyframes over
@@ -12,7 +14,7 @@ void RotMatrixYXZ_gte(u8 *arg0, u8 *arg1);
 u8 *func_8005CEF0(u8 **arg0) {
     u8 *s1;
     u8 *fr;
-    u8 *dst;
+    GsCOORDUNIT *dst;
     u8 *out;
     s32 t;
     s32 dur;
@@ -35,10 +37,10 @@ u8 *func_8005CEF0(u8 **arg0) {
     w = *(s32 *)fr;
     n = w >> 24;
     w &= 0xFFFFFF;
-    dst = *(u8 **)(((u8 *)arg0) + n * 4 + 0x14) + w * 4;
-    *(s32 *)(dst + 0x18) = (*(s16 *)((*(u8 **)(s1 + 4)) + 0) * t + *(s16 *)((*(u8 **)(s1 + 8)) + 0) * (dur - t)) / dur;
-    *(s32 *)(dst + 0x1C) = (*(s16 *)((*(u8 **)(s1 + 4)) + 2) * t + *(s16 *)((*(u8 **)(s1 + 8)) + 2) * (dur - t)) / dur;
-    *(s32 *)(dst + 0x20) = (*(s16 *)((*(u8 **)(s1 + 4)) + 4) * t + *(s16 *)((*(u8 **)(s1 + 8)) + 4) * (dur - t)) / dur;
+    dst = (GsCOORDUNIT *)(*(u8 **)(((u8 *)arg0) + n * 4 + 0x14) + w * 4);
+    dst->matrix.t[0] = (*(s16 *)((*(u8 **)(s1 + 4)) + 0) * t + *(s16 *)((*(u8 **)(s1 + 8)) + 0) * (dur - t)) / dur;
+    dst->matrix.t[1] = (*(s16 *)((*(u8 **)(s1 + 4)) + 2) * t + *(s16 *)((*(u8 **)(s1 + 8)) + 2) * (dur - t)) / dur;
+    dst->matrix.t[2] = (*(s16 *)((*(u8 **)(s1 + 4)) + 4) * t + *(s16 *)((*(u8 **)(s1 + 8)) + 4) * (dur - t)) / dur;
     b0 = *(u16 *)((*(u8 **)(s1 + 8)) + 6);
     b1 = *(u16 *)((*(u8 **)(s1 + 8)) + 8);
     b2 = *(u16 *)((*(u8 **)(s1 + 8)) + 0xA);
@@ -110,19 +112,19 @@ u8 *func_8005CEF0(u8 **arg0) {
     d2:
         ;
     }
-    *(s16 *)(dst + 0x44) = ((s16)a0 * t + (s16)b0 * (dur - t)) / dur;
-    *(s16 *)(dst + 0x46) = ((s16)a1 * t + (s16)b1 * (dur - t)) / dur;
-    *(s16 *)(dst + 0x48) = ((s16)a2 * t + (s16)b2 * (dur - t)) / dur;
-    RotMatrixYXZ_gte(dst + 0x44, dst + 4);
-    *(s32 *)dst = 0;
+    dst->rot.vx = ((s16)a0 * t + (s16)b0 * (dur - t)) / dur;
+    dst->rot.vy = ((s16)a1 * t + (s16)b1 * (dur - t)) / dur;
+    dst->rot.vz = ((s16)a2 * t + (s16)b2 * (dur - t)) / dur;
+    RotMatrixYXZ_gte(&dst->rot, &dst->matrix);
+    dst->flg = 0;
     out = *(u8 **)(s1 + 0xC);
     if (out != 0) {
-        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x0) = *(u16 *)(dst + 0x18);
-        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x2) = *(u16 *)(dst + 0x1C);
-        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x4) = *(u16 *)(dst + 0x20);
-        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x6) = *(u16 *)(dst + 0x44);
-        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x8) = *(u16 *)(dst + 0x46);
-        *(u16 *)(*(u8 **)(s1 + 0xC) + 0xA) = *(u16 *)(dst + 0x48);
+        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x0) = *(u16 *)&dst->matrix.t[0];
+        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x2) = *(u16 *)&dst->matrix.t[1];
+        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x4) = *(u16 *)&dst->matrix.t[2];
+        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x6) = *(u16 *)&dst->rot.vx;
+        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x8) = *(u16 *)&dst->rot.vy;
+        *(u16 *)(*(u8 **)(s1 + 0xC) + 0xA) = *(u16 *)&dst->rot.vz;
     }
     return (u8 *)0;
 }

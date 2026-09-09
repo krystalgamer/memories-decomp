@@ -6,10 +6,8 @@
 #include "input.h"
 #include "mdec_sync.h"
 #include "movie_playback_control.h"
+#include "sound_mix.h"
 
-extern u8 D_8009B318;
-
-extern void func_80044F58(s32);
 extern void func_8005C388(s32, s32, s32, s32, s32);
 extern s32 func_8005C530(void);
 

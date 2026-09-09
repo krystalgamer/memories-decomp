@@ -2,10 +2,9 @@
 #include "../../game/input.h"
 #include "../../game/card_constants.h"
 #include "entrypoints.h"
+#include "value_setup.h"
 
 extern u8 *D_801845B0[];
-extern u8 D_801845BC[];
-extern u16 D_801845C0[];
 extern volatile u16 D_8009B394[];
 extern volatile u16 D_8009B398[];
 extern void func_80048658(s32, s32, s32);

@@ -23,7 +23,6 @@ extern u8 D_8009B268[];
 extern u8 D_8009B26C[];
 extern u8 D_8009B26D[];
 extern u8 D_8009B2E8;
-extern u8 D_8009B363[];
 extern u8 D_8009B368[];
 extern u16 D_8009B36A[];
 extern u8 D_8009B3EA[];

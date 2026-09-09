@@ -1,6 +1,8 @@
 #include "../types.h"
 #include "display_object_config.h"
+#include "display_object.h"
 #include "options_update_layout.h"
+#include "options.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "sound.h"
@@ -20,27 +22,14 @@
    addressing instead of gp-relative -- see project memory on far globals
    needing this trick. The single load of it is cached in a local and
    reused for both the output-type store and the `< 0` sign test, matching
-   how gcc schedules the real target (interleaved with obj1->f8's
+   how gcc schedules the real target (interleaved with obj1->flags's
    load-early/store-late around the intervening `ori`). */
 
-struct Obj {
-    char pad0[0x8];
-    u16 f8;
-    char pad1[0x30 - 0xA];
-    u16 f30;
-    u16 f32;
-};
-
 extern s8 gSD_bOutputType[16];
-extern u8 gOptions_bState;
-extern s8 gOptions_bOutputType;
-extern struct Obj *D_8009B380;
-extern s8 gOptions_bSelection;
-extern struct Obj *D_8009B388;
 
 extern void func_8003C4E0(s32 a0);
 void Options_Init(void) {
-    register struct Obj *obj asm("s1");
+    register DisplayObject *obj asm("s1");
     s32 s0;
     s32 s2;
 
@@ -51,7 +40,7 @@ void Options_Init(void) {
     gOptions_bState = 1;
     {
         s8 flag408 = gSD_bOutputType[0];
-        obj->f8 |= 0x28;
+        obj->flags |= 0x28;
         gOptions_bOutputType = flag408;
         if (flag408 < 0) {
             gOptions_bOutputType = 0;
@@ -64,7 +53,7 @@ void Options_Init(void) {
     s0 = 0xB;
     func_800404CC(obj, 0x18, 0x48, 3, 4, 0, s0, 0x20C);
     D_8009B388 = obj;
-    obj->f8 |= 0x28;
+    obj->flags |= 0x28;
 
     obj = func_800400AC(func_8004002C(), 1);
     func_80040510((DisplayObjectConfigView *)obj, 0x68, 0x48, 0x10, s2, 0x50, 0x80, s0, 0x210, 0xFC);

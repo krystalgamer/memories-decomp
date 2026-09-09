@@ -15,7 +15,7 @@
  * indexed [0]/[1], computing `r` before `l`, and both operand orders of the
  * second multiply. All nine gave the same allocation and the same swap.
  */
-void func_8004A27C(s32 voice, s32 left, s32 right) {
+void SD_SetVoiceVolume(s32 voice, s32 left, s32 right) {
     u8 *b;
     register s32 master_right asm("$5");
     s32 l;

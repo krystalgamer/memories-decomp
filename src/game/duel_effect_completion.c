@@ -2,6 +2,7 @@
 #include "func_80037C74.h"
 #include "text_stream_commands.h"
 #include "duel_effect.h"
+#include "duel_effect_completion.h"
 
 void func_80038E1C(u8 *object)
 {

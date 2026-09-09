@@ -12,6 +12,7 @@
 #include "display_object_helpers.h"
 #include "view_state.h"
 #include "duel_effect_resource_record.h"
+#include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
 #include "../unmatched.h"
 
@@ -36,7 +37,6 @@ extern u8 *D_8009B21C;
 extern u8 *D_8009B1D8;
 extern u8 *D_8009B1DC;
 
-extern void func_8004763C(void);
 extern void Duel_LoadPackageStage(void);
 extern void func_8001778C(void);
 extern void func_80017708(void);

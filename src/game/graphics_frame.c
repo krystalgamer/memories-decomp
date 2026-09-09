@@ -1,3 +1,4 @@
+#define D_8009B318_IN_DATA
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -7,7 +8,6 @@
 #include "graphics_frame.h"
 #include "movie_playback_control.h"
 
-extern volatile s32 D_8009B0C8;
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
    the load-delay nop before the store below. c_symbols.ld overrides this
@@ -36,7 +36,6 @@ s16 gGraphics_sViewportX __attribute__((section(".sbss"))) = 0;
 s16 gGraphics_sViewportY __attribute__((section(".sbss"))) = 0;
 
 extern u8 D_800FE048[];
-extern u8 D_8009B318 __attribute__((section(".data")));
 extern u8 D_8009B141 __attribute__((section(".data")));
 extern u8 D_8009AFA2 __attribute__((section(".data")));
 extern u8 D_800A5768[];

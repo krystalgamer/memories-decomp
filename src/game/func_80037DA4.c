@@ -3,12 +3,10 @@
 #include "card_constants.h"
 #include "func_80036C14.h"
 #include "duel_card.h"
+#include "text_constants.h"
 
 extern u8 D_8009B320;
 extern s16 gDuel_wSelectedCardID;
-extern u16 D_801B0000[];
-extern u16 D_801C0000[];
-extern u16 D_801D5800[];
 
 void func_80037DA4(u8 *object)
 {

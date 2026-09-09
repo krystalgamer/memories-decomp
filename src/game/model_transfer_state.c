@@ -10,7 +10,7 @@ typedef struct {
 
 extern s32 D_8009B074;
 extern u8 D_8009B078;
-extern s8 D_8009B079;
+extern u8 D_8009B079;
 extern s8 D_8009B07A;
 
 void func_8005FAE4(void)

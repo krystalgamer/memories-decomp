@@ -21,11 +21,7 @@
      bodies: retail keeps two distinct jump-table targets for them.
 */
 extern u8 D_8009B3D4;
-extern u8 D_8009B3EF;
 extern s8 gDialog_bChoice __attribute__((section(".data")));
-extern u8 D_800EFBC0[];
-extern u8 D_800EFE18[];
-extern s32 D_801D5648[];
 
 void func_8003E490(void)
 {

@@ -75,6 +75,6 @@ void func_80043960(s32 mode)
     func_80012D84(4);
     File_RequestMainMenuPackage();
     func_800438B8(0xB4);
-    func_80015AD8();
+    Fade_WaitInitOut();
     Main_ResetFrontendRuntime();
 }

@@ -1,3 +1,4 @@
+#define D_8009B140_IN_DATA
 #define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define D_8009B0C0_IN_DATA
@@ -11,6 +12,7 @@
 #include "text_box_lifecycle.h"
 #include "sound.h"
 #include "display_object_api.h"
+#include "display_object.h"
 #include "display_object_helpers.h"
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
@@ -20,15 +22,14 @@
 #include "duel_effect_resource_record.h"
 #include "card_constants.h"
 
-extern u8 *D_8009B240;
+extern DisplayObject *D_8009B240;
 extern u8 D_8009B248;
 extern u8 D_8009B24B;
-extern u8 *D_8009B24C;
+extern DisplayObject *D_8009B24C;
 extern DuelEffectChannel *D_8009B250;
 extern u8 D_8009B254;
 extern u16 gDuel_wViewerCardID;
 extern u8 D_8009AF76 __attribute__((section(".data")));
-extern u8 D_8009B140 __attribute__((section(".data")));
 extern u8 D_8009B26C __attribute__((section(".data")));
 extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
 extern DuelEffectResourceRecord D_800EA0E8[];
@@ -45,10 +46,10 @@ void func_800283F4(void)
        $s0, the opposite of retail, which costs 56 positions. */
     register s32 slide __asm__("$16");
     register s32 channel __asm__("$4");
-    u8 *obj;
-    u8 *bg;
+    DisplayObject *obj;
+    DisplayObject *bg;
     DuelEffectResourceRecord *p;
-    u8 *next_obj;
+    DisplayObject *next_obj;
     s32 *stats;
     DuelEffectChannel *box;
     DuelEffectChannel *chan;
@@ -78,25 +79,25 @@ void func_800283F4(void)
         p[3].field_2C = 0;
         p[3].field_2E = 0xFF;
         func_80029164(3, (s16)gDuel_wViewerCardID);
-        obj = func_800291E0(3, -1, -1);
+        obj = (DisplayObject *)func_800291E0(3, -1, -1);
         adj = D_8009B24B;
-        *(s16 *)(obj + 0x30) = -0x8C;
-        obj[0x21] = 0x80;
-        *(u16 *)(obj + 0x32) += adj;
-        *(u16 *)(obj + 8) |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
-        func_80043178(obj);
-        *(s16 *)(obj + 0x60) = slide;
+        *(s16 *)&obj->field_30.h.field_30 = -0x8C;
+        obj->field_20.b.field_21 = 0x80;
+        obj->field_30.h.field_32 += adj;
+        obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
+        func_80043178((DisplayObjectSnapshot *)obj);
+        obj->field_60 = slide;
         func_80042918(obj);
-        func_800428EC(obj, 0x14);
+        func_800428EC((u8 *)obj, 0x14);
         D_8009B24C = obj;
         obj = func_800400AC(func_8004002C(), 2);
-        func_800404CC(obj, 0x148, D_8009B24B + 0xE, 0, 2, 0, 0xD, 0x107);
-        *(s16 *)(obj + 0x60) = slide;
-        *(u16 *)(obj + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+        func_800404CC((u8 *)obj, 0x148, D_8009B24B + 0xE, 0, 2, 0, 0xD, 0x107);
+        obj->field_60 = slide;
+        obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(obj);
-        func_800428EC(obj, 0x14);
-        func_80043178(obj);
-        *(s16 *)(obj + 0x60) = slide;
+        func_800428EC((u8 *)obj, 0x14);
+        func_80043178((DisplayObjectSnapshot *)obj);
+        obj->field_60 = slide;
         D_8009B240 = obj;
         D_8009B250 = 0;
         i = 0;
@@ -120,7 +121,7 @@ void func_800283F4(void)
                 break;
             }
         }
-        func_80015BD8(0x40, 2);
+        Fade_SetTargetLevel(0x40, 2);
         D_8009B140 = D_8009AF76 - 0x13;
         SD_SEPlayFull(0x34);
         D_8009B248 |= 0x40;
@@ -130,49 +131,49 @@ void func_800283F4(void)
     state = D_8009B248;
     if (state & 0x40) {
         obj = D_8009B240;
-        speed = *(s16 *)(obj + 0x60);
+        speed = obj->field_60;
         if (speed != 0) {
             if (state & 0x10) {
-                func_80043230(obj, 0x148, *(s16 *)(obj + 0x32), speed);
-                flags = *(u16 *)(obj + 0x60) - 0x55;
-                *(s16 *)(obj + 0x60) = flags;
+                func_80043230((DisplayObjectPosition *)obj, 0x148, *(s16 *)&obj->field_30.h.field_32, speed);
+                flags = *(u16 *)&obj->field_60 - 0x55;
+                obj->field_60 = flags;
                 if ((s16)flags <= 0) {
-                    *(s16 *)(obj + 0x30) = 0x400;
-                    *(s16 *)(obj + 0x60) = 0;
+                    *(s16 *)&obj->field_30.h.field_30 = 0x400;
+                    obj->field_60 = 0;
                 }
             } else {
-                func_80043230(obj, 0x94, *(s16 *)(obj + 0x32), speed);
-                flags = *(u16 *)(obj + 0x60) + 0x55;
-                *(s16 *)(obj + 0x60) = flags;
+                func_80043230((DisplayObjectPosition *)obj, 0x94, *(s16 *)&obj->field_30.h.field_32, speed);
+                flags = *(u16 *)&obj->field_60 + 0x55;
+                obj->field_60 = flags;
                 if ((s16)flags >= 0) {
-                    *(s16 *)(obj + 0x30) = 0x94;
-                    *(s16 *)(obj + 0x60) = 0;
+                    *(s16 *)&obj->field_30.h.field_30 = 0x94;
+                    obj->field_60 = 0;
                 }
             }
             pos_box = D_8009B250;
             if (pos_box != 0) {
-                TextBox_SetPos(pos_box, *(s16 *)(obj + 0x30),
-                               *(s16 *)(obj + 0x32));
+                TextBox_SetPos(pos_box, *(s16 *)&obj->field_30.h.field_30,
+                               *(s16 *)&obj->field_30.h.field_32);
             }
         }
         obj = D_8009B24C;
-        speed = *(s16 *)(obj + 0x60);
+        speed = obj->field_60;
         if (speed != 0) {
             if (D_8009B248 & 0x10) {
-                func_80043230(obj, -0x8C, *(s16 *)(obj + 0x32), speed);
-                flags = *(u16 *)(obj + 0x60) - 0x55;
-                *(s16 *)(obj + 0x60) = flags;
+                func_80043230((DisplayObjectPosition *)obj, -0x8C, *(s16 *)&obj->field_30.h.field_32, speed);
+                flags = *(u16 *)&obj->field_60 - 0x55;
+                obj->field_60 = flags;
                 if ((s16)flags <= 0) {
-                    *(s16 *)(obj + 0x30) = 0x400;
-                    *(s16 *)(obj + 0x60) = 0;
+                    *(s16 *)&obj->field_30.h.field_30 = 0x400;
+                    obj->field_60 = 0;
                 }
             } else {
-                func_80043230(obj, 2, *(s16 *)(obj + 0x32), speed);
-                flags = *(u16 *)(obj + 0x60) + 0x55;
-                *(s16 *)(obj + 0x60) = flags;
+                func_80043230((DisplayObjectPosition *)obj, 2, *(s16 *)&obj->field_30.h.field_32, speed);
+                flags = *(u16 *)&obj->field_60 + 0x55;
+                obj->field_60 = flags;
                 if ((s16)flags >= 0) {
-                    *(s16 *)(obj + 0x30) = 2;
-                    *(s16 *)(obj + 0x60) = 0;
+                    *(s16 *)&obj->field_30.h.field_30 = 2;
+                    obj->field_60 = 0;
                 }
             }
         }
@@ -181,10 +182,10 @@ void func_800283F4(void)
             return;
         }
         bg = D_8009B240;
-        if (*(s16 *)(bg + 0x60) != 0) {
+        if (bg->field_60 != 0) {
             return;
         }
-        if (*(s16 *)(D_8009B24C + 0x60) != 0) {
+        if (D_8009B24C->field_60 != 0) {
             return;
         }
         closing = D_8009B248;
@@ -207,12 +208,12 @@ void func_800283F4(void)
 
     if ((state & 0x20) == 0) {
         obj = D_8009B24C;
-        obj[0x21] += 0xC;
-        if (obj[0x21] < 0x40) {
-            objflags = *(u16 *)(obj + 8);
-            obj[0x21] = 0;
+        obj->field_20.b.field_21 += 0xC;
+        if (obj->field_20.b.field_21 < 0x40) {
+            objflags = obj->flags;
+            obj->field_20.b.field_21 = 0;
             state = D_8009B248 | 0x20;
-            *(u16 *)(obj + 8) = objflags & 0xFFFB;
+            obj->flags = objflags & 0xFFFB;
             D_8009B248 = state;
         }
         return;
@@ -229,12 +230,12 @@ void func_800283F4(void)
     }
 press:
     slide = 0x400;
-    func_80043178(D_8009B240);
+    func_80043178((DisplayObjectSnapshot *)D_8009B240);
     next_obj = D_8009B24C;
-    *(s16 *)(D_8009B240 + 0x60) = slide;
-    func_80043178(next_obj);
-    *(s16 *)(D_8009B24C + 0x60) = slide;
-    func_80015BD8(0xFF, 2);
+    D_8009B240->field_60 = slide;
+    func_80043178((DisplayObjectSnapshot *)next_obj);
+    D_8009B24C->field_60 = slide;
+    Fade_SetTargetLevel(0xFF, 2);
     SD_SEPlayFull(0x34);
     D_8009B248 |= 0x50;
 }

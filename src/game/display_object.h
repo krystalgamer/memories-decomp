@@ -103,12 +103,27 @@ typedef struct DisplayObject {
         } h;
         s32 word;
     } position;                    /* 0x28 */
-    u16 field_2C;                  /* 0x2C */
-    /* display_object_property_transitions.c divides 0x80 and 0x800 by this
-       to derive its per-frame increments, so it is a nonzero divisor rather
-       than padding. That file calls it `step`; the name here stays with the
-       offset. */
-    s16 field_2E;                  /* 0x2E */
+    /* The first of the six words at stride 8 that the 0x4C comment below
+       describes, and read both ways like its neighbours at 0x30, 0x3C, 0x40
+       and 0x48.
+
+       Whole: display_object_helpers.c zeroes it and writes an initial value,
+       both renderers copy it into a primitive's colour word,
+       text_box_build_step.c clears it, and func_800391E4.c and
+       Dialog_UpdateChoice write colour constants.
+
+       Halves: display_object_property_transitions.c compares 0x2C against the
+       byte at 0x21, and divides 0x80 and 0x800 by 0x2E to derive its
+       per-frame increments -- so 0x2E is a nonzero divisor rather than
+       padding. That file calls them `target` and `step`; the names here stay
+       with the offsets. */
+    union {
+        u32 word;
+        struct {
+            u16 field_2C;
+            s16 field_2E;
+        } h;
+    } field_2C;                    /* 0x2C */
     union {
         struct {
             u16 field_30;
@@ -116,7 +131,12 @@ typedef struct DisplayObject {
         } h;
         s32 word;
     } field_30;                    /* 0x30 */
-    u8 pad_34[8];                  /* 0x34 */
+    /* The second of those six words. No union: every user takes it whole.
+       display_object_helpers.c zeroes it, both renderers copy it into a
+       primitive's colour word, and func_800391E4.c and Dialog_UpdateChoice
+       write colour constants into it. */
+    u32 field_34;                  /* 0x34 */
+    u8 pad_38[4];                  /* 0x38 */
     /* 0x3C likewise: func_80040588 copies the whole word into the sprite
        primitive, while func_800408D0 reads the two halves separately. */
     union {
@@ -180,7 +200,27 @@ typedef struct DisplayObject {
             s16 field_4A;
         } h;
     } field_48;                    /* 0x48 */
-    u8 pad_4C[8];                  /* 0x4C */
+    /* Read two ways, like 0x44, and for the same reason: 0x4C is the fifth of
+       the six words at stride 8 -- 0x2C, 0x34, 0x3C, 0x44, 0x4C, 0x54 -- that
+       display_object_helpers.c zeroes in one run.
+
+       For a gouraud-rendered object it is a vertex colour:
+       display_object_list_renderers.c copies it into a primitive's colour
+       word, Dialog_UpdateChoice writes 0x2000 and func_800391E4 writes
+       0xA0A0A0.
+
+       For others it holds a second callback: display_object_updates.c calls
+       through it as void (*)(u8 *, s32), and dialog_transition.c,
+       func_800179F4.c and func_8002ABB4.c each store a function's address
+       here.
+
+       Neither reading governs, so the offset is the name. s32 is the spelling
+       that serves both: the callback writers in this file already cast the
+       function to it, and a colour word is not a pointer. DuelCardDisplayObject
+       in duel_card_display_state.h names the same word field_4C, as a void *,
+       because on that view only the callback reading occurs. */
+    s32 field_4C;                  /* 0x4C */
+    u8 pad_50[4];                  /* 0x50 */
     void *field_54;                /* 0x54 */
     u8 pad_58[4];                  /* 0x58 */
     u16 field_5C;                  /* 0x5C */
@@ -244,6 +284,19 @@ typedef char DisplayObject_field_65_must_be_at_0x65[
  * one array rather than seven objects that happen to be adjacent.
  */
 extern s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT];
+
+/* The per-list key array, walked in lockstep with the list heads above.
+ *
+ * DisplayObject_ResetPool advances one pointer into each and writes -1 through
+ * both for DISPLAY_OBJECT_LIST_COUNT iterations, which is what fixes this
+ * length, and display_slot_lifecycle.c stores into it by list key. The element
+ * type is s16 by the same evidence: that store is D_800F2878[key] = index, and
+ * the reset walk uses an s16 *.
+ *
+ * func_800402A0.c reached it through a u8 * and scaled by two by hand. It now
+ * takes this declaration and casts at the use site, which is the form it
+ * already uses one line earlier for D_800EFE38. */
+extern s16 D_800F2878[DISPLAY_OBJECT_LIST_COUNT];
 
 extern DisplayObject D_800EFE48[DISPLAY_OBJECT_POOL_CAPACITY];
 /* &D_800EFE48[DISPLAY_OBJECT_RESERVED_CAPACITY]: the allocatable tail of the

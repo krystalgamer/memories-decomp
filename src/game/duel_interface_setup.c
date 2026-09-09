@@ -46,7 +46,7 @@ void func_80030198(void)
     object[0x35] = 0xC0;
     object[0x2D] = 0xC0;
     func_800300C8();
-    func_80015A00();
+    Fade_WaitIn();
 }
 
 void func_80030250(

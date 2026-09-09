@@ -3,8 +3,6 @@
 #include "duel_effect_request.h"
 #include "sound.h"
 
-extern u16 D_8009B220;
-
 void func_80025EE0(void)
 {
     DuelEffectRequest *object;

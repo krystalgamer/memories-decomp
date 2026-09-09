@@ -17,8 +17,6 @@ extern u8 D_8009B3EE;
 extern u8 D_801D1200[];
 extern u8 D_801D2200[];
 
-s32 SaveData_HasSameDuelistCode(u8 *arg0, u8 *arg1);
-
 /* MATCH 2026-09-06, first-day function from the m2c draft (257 instructions,
  * the memory-card save state machine: format, load, verify, retry). Jump
  * table on the mode nibble, so only the full build proves it. Levers, in
@@ -96,7 +94,9 @@ s32 func_8003F8D4(void) {
         if (v != 0) {
             if (v == 1) {
                 if (D_8009B3EA & 0x40) {
-                    if (SaveData_HasSameDuelistCode(D_801D1200, D_801D1200 + 0x1000) == 0) {
+                    if (SaveData_HasSameDuelistCode(
+                            (SaveDataState *)D_801D1200,
+                            (SaveDataState *)(D_801D1200 + 0x1000)) == 0) {
                         return 1;
                     }
                     D_8009B3EA = 0xA;

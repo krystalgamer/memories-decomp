@@ -40,20 +40,10 @@
      it straight into $a0 and drop the copy. */
 
 extern u8 D_8009B3D4;
-extern u8 D_8009B3DC;
-extern u8 D_8009B3EC;
-extern u8 D_8009B3EF;
-extern s32 D_8009B3F0;
-extern s32 gSaveDataSequence;
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u8 D_8009AF70[];
-extern u8 D_800EFBC0[];
-extern u8 D_800EFE18[];
 extern u8 gLibrary_aCardArtRecord[];
 extern s32 D_801D5608[];
-extern s32 D_801D5648[];
-
-extern s32 SaveData_MatchesDuelistAndCurrentSequence(u32, u8 *);
 
 void func_8003E854(void)
 {
@@ -235,7 +225,8 @@ void func_8003E854(void)
                     goto message_cf;
                 }
                 if (SaveData_MatchesDuelistAndCurrentSequence(
-                        D_8009B3D0, gLibrary_aCardArtRecord) != 0) {
+                        (SaveDataState *)D_8009B3D0,
+                        (SaveDataState *)gLibrary_aCardArtRecord) != 0) {
                     goto message_cf;
                 }
                 if (D_8009B3EC != 0) {

@@ -199,10 +199,19 @@ same-address functions agree on the order and count. The modeled extent is
 `80 * 8 == 0x280`; `gAiScript_aMemory` (`0x800F5B98`) starts exactly at
 `D_800F5918 + 0x280`.
 
-`Model_RegisterHandlerKey` and `Model_FindHandlerKey` use the shared entry
-type and typed extern. The two matching dispatch maps in
-`model_handler_dispatch.c` retain a raw byte walk over the same registry so
-their packed-ID switch layout and accepted code generation remain unchanged.
+All five functions that reach the registry now use the shared entry type and
+the typed extern. The two packed-ID dispatch maps used to keep a raw byte
+walk over the same table, behind `MODEL_HANDLER_REGISTRY_CUSTOM_EXTERN`, on
+the assumption that converting it would move their switch layout. Coalescing
+them into `model_handler_registry.c` forced the question, because one
+translation unit cannot hold both spellings, and the assumption did not hold:
+`e->handler_value`/`e->key`/`e++` in place of `*(s32 *)p`/`*(s32 *)(p + 4)`/
+`p += 8` builds byte-identically. The escape hatch had no other user and is
+removed from `model.h` with it.
+
+That the two maps open-code `Model_FindHandlerKey` exactly -- same
+`GsU_00000000` sentinel, same eighty-entry scan, same `-1` on miss -- is also
+what places them in this unit rather than beside the handlers they name.
 
 ## Migration snapshot and exact-code exceptions
 

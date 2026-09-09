@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_brightness.h"
 
 extern u8 *D_800EB184;
 

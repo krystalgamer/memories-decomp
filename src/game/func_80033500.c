@@ -1,11 +1,13 @@
 #include "../types.h"
+#include "card_list_text_boxes.h"
+#include "func_80033500.h"
 
-int func_80033500(u8 *object)
+s32 func_80033500(CardList *list)
 {
-    s32 index = *(s16 *)(object + 0x2D3C) + *(s8 *)(object + 0x2D48);
-    u8 *entry = object + index * 0x10;
-    if (entry[0xD] == 0) {
+    s32 index = list->first + list->cursor;
+    CardEntry *entry = &list->entries[index];
+    if (entry->flags == 0) {
         return 0;
     }
-    return *(s16 *)(entry + 4);
+    return *(s16 *)&entry->id;
 }

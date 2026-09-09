@@ -3046,13 +3046,13 @@
       "address": "0x8003AD6C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x2E8",
-      "source": "src/game/func_8003AD6C.c"
+      "source": "src/game/display_effect_update_callbacks.c"
     },
     {
       "address": "0x8003B054",
       "profile": "gcc_2_8_1_g0",
       "size": "0x324",
-      "source": "src/game/func_8003B054.c"
+      "source": "src/game/display_effect_update_callbacks.c"
     },
     {
       "address": "0x8003B378",
@@ -3064,7 +3064,7 @@
       "address": "0x8003B50C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xBC",
-      "source": "src/game/func_8003B50C.c"
+      "source": "src/game/display_effect_process_menu_records.c"
     },
     {
       "address": "0x8003B5C8",
@@ -4447,6 +4447,12 @@
       "source": "src/game/sound_effect_voices.c"
     },
     {
+      "address": "0x80048658",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x110",
+      "source": "src/game/sd_se_play.c"
+    },
+    {
       "address": "0x80048768",
       "profile": "gcc_2_8_1_cc_g0_as_g8",
       "size": "0x1B8",
@@ -4720,13 +4726,13 @@
       "address": "0x8004A0FC",
       "profile": "gcc_2_8_1_g0_no_cse_follow_jumps",
       "size": "0x180",
-      "source": "src/game/func_8004A0FC.c"
+      "source": "src/game/sound_spatialize_object.c"
     },
     {
       "address": "0x8004A27C",
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0x7C",
-      "source": "src/game/func_8004A27C.c"
+      "source": "src/game/sound_voice_volume.c"
     },
     {
       "address": "0x8004A2F8",
@@ -5146,7 +5152,7 @@
       "address": "0x800580D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1EC",
-      "source": "src/game/func_800580D4.c"
+      "source": "src/game/model_update_view_metrics.c"
     },
     {
       "address": "0x800582C0",
@@ -5908,13 +5914,13 @@
       "address": "0x8005FC1C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x228",
-      "source": "src/game/model_handler_dispatch.c"
+      "source": "src/game/model_handler_registry.c"
     },
     {
       "address": "0x8005FE44",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x32C",
-      "source": "src/game/model_handler_dispatch.c"
+      "source": "src/game/model_handler_registry.c"
     },
     {
       "address": "0x80060170",

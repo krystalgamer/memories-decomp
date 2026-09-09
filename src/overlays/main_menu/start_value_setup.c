@@ -9,9 +9,6 @@
 extern u8 *D_801845A0;
 extern u8 *D_801845A4;
 extern u8 *D_801845B0[];
-extern u8 D_801845BC[];
-extern u8 D_801845C0[];
-extern u8 *D_801845D8;
 
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
@@ -58,7 +55,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
         func_800428EC(D_801845B0[2], 1);
     }
 
-    state = D_801845C0;
+    state = (u8 *)D_801845C0;
     D_801845D8 = toggle;
     D_801845BC[2] = (*toggle == 0);
     D_801845BC[0] = D_801845BC[1] = 2;

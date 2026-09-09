@@ -16,7 +16,49 @@ typedef struct {
 
 typedef void (*PasswordCursorUpdate)(u8 *object);
 
+/* The digit cursor's record, as the three sources that touch it describe it
+ * between them. Previously each kept its own view: digit_cursor.c called it
+ * PasswordNode and named the flags, position and kind; shop_update.c called
+ * it Cursor and named the timer and update flags; shop_setup.c only assigned
+ * the pointer and spelled it u8 *. The three never disagreed about a byte --
+ * they named different ones -- so this is their union rather than a new
+ * claim, and the padding keeps every named field at the offset its own
+ * source already used. */
+typedef struct {
+    u8 pad00[0x8];
+    u16 flags;        /* 0x08 */
+    u8 pad0A[0x26];
+    s16 x;            /* 0x30 */
+    s16 y;            /* 0x32 */
+    u8 pad34[0x2C];
+    s16 timer;        /* 0x60 */
+    u8 pad62[0x7];
+    u8 kind;          /* 0x69 */
+    u8 pad6A[0x2];
+    u8 updateFlags;   /* 0x6C */
+} PasswordCursorView;
+
+extern PasswordCursorView *gPassword_pDigitCursorWidget;
+
 extern PasswordCardPreviewView *D_8016D4D8;
+
+/* Shop/password-entry state. All five sources that use these already include
+ * this header, so the local copies they carried existed only because the
+ * declarations were missing here.
+ *
+ *   gPassword_abDigits     The eight entered digits.
+ *   gPassword_nDigitIndex  Which of them the cursor is on.
+ *   D_8016D424             The starchip count the shop screen displays.
+ *
+ * gPassword_pDigitCursorWidget is NOT here. Its three declarers spell it
+ * three different ways -- u8 * in shop_setup.c, Cursor * in shop_update.c and
+ * PasswordNode * in digit_cursor.c -- and the latter two are structs defined
+ * locally in those files rather than shared anywhere. Picking one spelling
+ * here would spread whichever is wrong, and reconciling the two local structs
+ * is #2501 work that wants its own change. */
+extern u8 gPassword_abDigits[];
+extern s32 gPassword_nDigitIndex;
+extern u16 D_8016D424;
 
 /* Builds text-box record 0 and returns it; both call sites ignore the
    record. */

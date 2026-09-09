@@ -2,21 +2,16 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "color_constants.h"
+#include "display_object.h"
 #include "duel_display.h"
 #include "graphics_frame.h"
-
-typedef struct {
-    u8 pad0[0x30];
-    s16 x;
-    s16 y;
-} Obj;
 
 extern s32 gGraphics_bActiveBuffer __attribute__((section(".data")));
 #define gGraphics_bActiveBuffer (*(u8 *)&gGraphics_bActiveBuffer)
 
 extern u8 D_8015C424[];
 
-void func_8001944C(Obj *o)
+void func_8001944C(DisplayObject *o)
 {
     register u8 *buf __asm__("$16");
     /* base reuses the loop pointer's register once the loop is dead. The pin
@@ -38,8 +33,8 @@ void func_8001944C(Obj *o)
     }
 
     buf = D_8015C424;
-    D_800E9D70[0].x = o->x + xoff;
-    D_800E9D70[0].y = o->y;
+    D_800E9D70[0].x = *(s16 *)&o->field_30.h.field_30 + xoff;
+    D_800E9D70[0].y = *(s16 *)&o->field_30.h.field_32;
     D_800E9D70[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
     D_800E9D70[0].h = DUEL_CARD_READBACK_HEIGHT;
     StoreImage2(&D_800E9D70[0], (u32 *)buf);

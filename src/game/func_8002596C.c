@@ -10,8 +10,6 @@
 #include "sound.h"
 
 extern u8 *D_8009B17C;
-extern s16 D_8009B20C[2];
-extern u16 D_8009B220;
 extern u8 D_8009B260[8];
 
 void func_8002596C(void) {

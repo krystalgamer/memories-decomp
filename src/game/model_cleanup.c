@@ -6,8 +6,7 @@
 
 #include "model.h"
 #include "../unmatched.h"
-
-extern u8 D_8009AF94;
+#include "model_scene_states.h"
 
 extern void func_8004E9A0(void);
 extern void func_800528AC(void);
