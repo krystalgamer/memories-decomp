@@ -3,8 +3,6 @@
 #include "duel_effect.h"
 #include "text_box_runtime.h"
 
-extern void func_80039140(u8 *);
-
 void TextBox_SetPos(u8 *record, s32 x, s32 y)
 {
     u8 *object;
