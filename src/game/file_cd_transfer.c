@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/libds.h"
 #include "file_transfer.h"
+#include "file_cd_transfer.h"
 
 typedef struct {
     s32 value[FILE_TRANSFER_DESCRIPTOR_WORD_COUNT];
@@ -67,7 +68,7 @@ void func_800141A8(u8 event)
     }
 }
 
-void func_80014220(int event)
+void func_80014220(s32 event)
 {
     event &= 0xFF;
     if (event == 5) {

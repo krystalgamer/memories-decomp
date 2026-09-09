@@ -4,6 +4,7 @@
 #include "../psyq/libspu.h"
 #include "file_constants.h"
 #include "file_transfer.h"
+#include "file_cd_transfer.h"
 
 extern u8 gFile_PrimaryTransferDescriptor[];
 extern volatile u16 D_8009B112;
@@ -13,14 +14,6 @@ extern void (*D_8009B120)(void);
 extern void (*D_8009B0F0)(void);
 extern u8 D_8009B11C;
 extern char D_8009B104[1];
-
-extern void func_80014390(void);
-extern void func_80014308(void);
-extern void func_80014294(void);
-extern void func_80014220(void);
-extern void func_800141A8(void);
-extern void func_80014134(void);
-extern void func_800140A0(void);
 
 extern s32 func_8007B1F4(s32, void *, void *, s32);
 extern s32 func_8007B468(s32, void *, s32, void *, s32);
