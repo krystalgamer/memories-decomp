@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_effect_lifecycle.h"
+#include "func_8003787C.h"
 
 struct Obj {
     u8 pad[81];

@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "duel_effect_entry_control.h"
 
 #define DUEL_EFFECT_ENTRY_FROM_FIELD_13(field) \
     ((DuelEffectEntry *)((field) - 0x13))

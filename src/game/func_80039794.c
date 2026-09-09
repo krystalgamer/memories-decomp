@@ -8,6 +8,7 @@
 #include "display_object_api.h"
 #include "func_80039794.h"
 #include "text_box_runtime.h"
+#include "dialog_choice_state.h"
 
 /* The retail body walks two pointers over the same four records: the record
  * base it hands to the per-record calls, and a second cursor parked on the
@@ -18,8 +19,6 @@ extern TblEnt D_801D9000[];
 extern s16 D_8009B35A;
 extern u8 D_8009B356;
 extern u8 D_8009B0C1 __attribute__((section(".data")));
-extern void *Dialog_OpenChoice(void *);
-extern void *Dialog_OpenChoice(void *);
 
 void func_80039794(void)
 {
@@ -51,7 +50,7 @@ void func_80039794(void)
                     f = q->flags;
                     if (f & 0x2000) {
                         if (f & 8) {
-                            q->obj = Dialog_OpenChoice(p);
+                            q->obj = Dialog_OpenChoice((u8 *)p);
                         }
                         break;
                     }
