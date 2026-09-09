@@ -4,6 +4,7 @@
 #include "../psyq/libgte.h"
 #include "fade.h"
 #include "sound.h"
+#include "main_modes.h"
 
 typedef struct {
     s16 f0;

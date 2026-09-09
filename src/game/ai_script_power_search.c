@@ -3,6 +3,7 @@
 #include "duel_card_layout.h"
 #include "ai_script_read_byte.h"
 #include "ai.h"
+#include "ai_script_commands.h"
 extern void Ai_GetWinningCardRange(s32 type, s32 *start, s32 *end);
 
 /* AI script opcode taking five operand bytes: a register selecting which

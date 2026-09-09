@@ -3,6 +3,7 @@
 #include "duel_grid.h"
 #include "ai_script_read_byte.h"
 #include "ai.h"
+#include "ai_script_commands.h"
 
 /* Four contiguous AI script opcode handlers, in address order:
    AiScript_FindDefenseStopper (0x80071CB0), AiScript_CountCards (0x80071EB8),

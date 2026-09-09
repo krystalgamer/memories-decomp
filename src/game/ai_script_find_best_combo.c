@@ -3,6 +3,7 @@
 #include "duel_grid.h"
 #include "ai_script_read_byte.h"
 #include "ai.h"
+#include "ai_script_commands.h"
 extern u8 gAiScript_State[];
 extern s32 Ai_GetHandSize(void);
 extern void Ai_CompleteFusion(s32);
