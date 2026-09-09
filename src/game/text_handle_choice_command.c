@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "text_stream_commands.h"
 #include "duel_effect.h"
+#include "duel_effect_entry_occupancy.h"
 
 extern s8 gDialog_bChoice;
 extern s8 gDialog_bChoiceCount;
@@ -9,8 +10,6 @@ extern u8 gDialog_bChoiceEnabled;
 extern u8 gDialog_bInputState;
 
 extern void Text_SetCursorOffset(u8 *);
-extern void func_80035CA8(s32);
-extern void DuelEffect_ClearMatchingMarker(s32);
 
 void Text_HandleChoiceCommand(u8 *p)
 {

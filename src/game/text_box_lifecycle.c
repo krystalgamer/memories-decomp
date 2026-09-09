@@ -1,11 +1,9 @@
 #include "../types.h"
 #include "duel_effect_init_entry.h"
+#include "duel_effect_entry_occupancy.h"
 #include "text_box_lifecycle.h"
 #include "display_object_api.h"
 #include "text_box_set_rect.h"
-
-extern void func_80035CA8(s32);
-extern void DuelEffect_ClearMatchingMarker(s32);
 
 void TextBox_Destroy(void *record_ptr)
 {

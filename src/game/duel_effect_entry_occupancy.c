@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "duel_effect_entry_occupancy.h"
 
 extern u8 D_800EAF08[DUEL_EFFECT_OCCUPANCY_COUNT];
 extern u8 D_8009B324;

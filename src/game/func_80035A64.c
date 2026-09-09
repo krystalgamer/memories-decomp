@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "duel_effect_entry_occupancy.h"
 #include "func_80035A64.h"
 
-extern void DuelEffect_ResetOccupancy(void), DuelEffect_ResetEntryMarkers(void);
 void func_80035A64(void) {
     int i = 4;
     DuelEffectChannel *entry = D_800EB0F8;
