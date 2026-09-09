@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model.h"
 #include "model_slot_row_tables.h"
 
 /* One model slot's row tables: the reset that clears them and imports the
@@ -12,35 +13,11 @@
    stores the command list at 0xDD8; the walk then tests keys against 0xFFFF,
    accumulates rows, and reads that same list. */
 
-typedef struct {
-    u8 pad0000[0x18];
-    u16 field_0018;
-    u8 field_001A;
-    u8 pad001B;
-} Slot;
-
-typedef struct {
-    u16 v[58];
-    u16 max;
-} Row;
-
-typedef struct {
-    u8 pad0000[0x1E0];
-    Slot *slots[58];
-    u16 keys[10][58];
-    Row rows[10];
-    u8 pad0BEC[0xDD8 - 0xBEC];
-    s32 *list;
-    u8 pad0DDC[0xE1B - 0xDDC];
-    u8 count;
-    u8 pad0E1C[4];
-} Channel;
-
-extern Channel D_800F2C40[];
+extern ModelSlot D_800F2C40[];
 
 void func_8004D58C(s32 arg0, u8 *arg1)
 {
-    Channel *ch;
+    ModelSlot *ch;
     u8 *t;
     u8 *c;
     u8 *q;
@@ -77,17 +54,17 @@ void func_8004D58C(s32 arg0, u8 *arg1)
     c = t;
     *(s16 *)(t + 0xE06) = 0;
     *(s16 *)(t + 0xE08) = 0;
-    ch->list = 0;
+    ch->field_DD8 = 0;
     *(s32 *)(t + 0xDDC) = 0;
     *(s32 *)(t + 0xDE0) = 0;
     *(s32 *)(t + 0xDE4) = 0;
     *(s32 *)(t + 0xDF0) = 0;
     /* The reset walks keys and rows with running byte offsets rather than
-       indexing ch->keys[i][j] / ch->rows[i].v[j]. That is not a missed
-       cleanup: the indexed form is larger, and the link fails with
+       indexing ch->field_2C8[i][j] / ch->field_750[i].values[j]. That is not
+       a missed cleanup: the indexed form is larger, and the link fails with
        .initialized_data overlapping .text. The walkers are load-bearing. */
     do {
-        ((Row *)(c + 0x750))->max = 0;
+        ((ModelSlotRow *)(c + 0x750))->max = 0;
         j = 0;
         a = n;
         b = m;
@@ -164,8 +141,8 @@ void func_8004D58C(s32 arg0, u8 *arg1)
 
 void func_8004D75C(s32 index)
 {
-    Channel *ch;
-    Slot *slot;
+    ModelSlot *ch;
+    ModelSlotPart *slot;
     s32 *cmd;
     u32 word;
     s32 row;
@@ -173,21 +150,21 @@ void func_8004D75C(s32 index)
     s32 key;
 
     ch = &D_800F2C40[index];
-    if (ch->list == 0) {
+    if (ch->field_DD8 == 0) {
         return;
     }
     i = 0;
-    if (i < ch->count) {
-        for (; i < ch->count; i++) {
-            slot = ch->slots[i];
+    if (i < ch->field_E1B) {
+        for (; i < ch->field_E1B; i++) {
+            slot = ch->field_1E0[i];
             if (slot == 0) {
                 break;
             }
             row = 1;
-            slot->field_001A = row;
-            key = ch->slots[i]->field_0018;
-            cmd = &ch->list[key];
-            ch->keys[row][i] = key;
+            slot->field_1A = row;
+            key = ch->field_1E0[i]->field_18;
+            cmd = &ch->field_DD8[key];
+            ch->field_2C8[row][i] = key;
             while (1) {
                 word = *cmd;
                 if ((s32)word < 0) {
@@ -196,24 +173,25 @@ void func_8004D75C(s32 index)
                     if (row == 0) {
                         break;
                     }
-                    if (ch->keys[row][i] != 0xFFFF) {
+                    if (ch->field_2C8[row][i] != 0xFFFF) {
                         cmd++;
                     } else {
-                        ch->keys[row][i] = *(u16 *)cmd;
-                        cmd = &ch->list[*(u16 *)cmd];
+                        ch->field_2C8[row][i] = *(u16 *)cmd;
+                        cmd = &ch->field_DD8[*(u16 *)cmd];
                     }
                 } else {
-                    ch->rows[row].v[i] = ch->rows[row].v[i] + *((u8 *)cmd + 2);
+                    ch->field_750[row].values[i] =
+                        ch->field_750[row].values[i] + *((u8 *)cmd + 2);
                     cmd++;
                 }
             }
         }
     }
-    for (row = 1; row < 10; row++) {
-        ch->rows[row].max = 0;
-        for (i = 0; i < ch->count; i++) {
-            if (ch->rows[row].max < ch->rows[row].v[i]) {
-                ch->rows[row].max = ch->rows[row].v[i];
+    for (row = 1; row < MODEL_SLOT_ROW_COUNT; row++) {
+        ch->field_750[row].max = 0;
+        for (i = 0; i < ch->field_E1B; i++) {
+            if (ch->field_750[row].max < ch->field_750[row].values[i]) {
+                ch->field_750[row].max = ch->field_750[row].values[i];
             }
         }
     }
