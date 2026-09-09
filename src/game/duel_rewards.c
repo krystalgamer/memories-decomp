@@ -10,8 +10,6 @@ extern u8 *D_8009B1E8;
 extern u8 gDuel_bWinnerSide;
 extern s32 D_801D5608[16][DUEL_SIDE_COUNT];
 
-s32 Duel_CalcRankScoreChange(s32, s32);
-
 /* Initializes result-message selectors at +0x34; the winner's signed
    end-reason adjustment selects the middle variant, not a rank letter.
    Both side scores at +0x2C start at DUEL_RANK_SCORE_INITIAL, then receive
