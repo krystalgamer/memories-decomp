@@ -1,22 +1,14 @@
 #include "../types.h"
 #include "duel_side_state.h"
 #include "display_object.h"
+#include "display_projection.h"
 #include "screen_projection.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "func_80016784.h"
 
-typedef struct {
-    u8 pad_00[0x28];
-    u16 x;
-    u16 y;
-    u8 pad_2C[4];
-    u16 screen_x;
-    u16 screen_y;
-} ProjectionObject;
-
-void func_80015D18(ProjectionObject *object)
+void func_80015D18(DisplayObject *object)
 {
     SetGeomScreen(0x12C);
     SetGeomOffset(0xA0, 0x6C);
@@ -39,8 +31,8 @@ void func_80015D18(ProjectionObject *object)
         "swc2 $14, 0($2)\n"
         : : : "$2", "$3"
     );
-    object->screen_x -= 0x20;
-    object->screen_y -= 0x1E;
+    object->field_30.h.field_30 -= 0x20;
+    object->field_30.h.field_32 -= 0x1E;
     SetGeomOffset(0, 0);
 }
 
@@ -57,7 +49,7 @@ void func_80015DB8(SlotProjectionObject *object)
 
     entry = D_800EFE48 + object->slot;
     object->position = entry->position.word;
-    func_80015D18((ProjectionObject *)object);
+    func_80015D18((DisplayObject *)object);
 }
 
 /* Immediately follows func_80015DB8 in the image and shares its projection

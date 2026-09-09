@@ -2,34 +2,23 @@
 #include "duel_side_state.h"
 #include "duel_grid.h"
 #include "display_object_api.h"
+#include "display_projection.h"
 
 #include "duel_card.h"
+#include "display_object.h"
 #include "display_object_config.h"
-
-typedef struct DisplayObjectSlot {
-    u8 pad_00[8];
-    u16 flags;
-    u8 pad_0A[0x1A];
-    void (*callback)(void *self);
-    u16 x;
-    u16 y;
-    u8 pad_2C[0x3E];
-    u8 state;
-    u8 pad_6B[5];
-} DisplayObjectSlot;
 
 typedef struct {
     u8 pad_00[4];
-    DisplayObjectSlot *object;
+    DisplayObject *object;
     u8 pad_08[7];
     s8 x;
     s8 y;
     u8 pad_11[6];
     u8 table_index;
 } DuelFieldDisplaySource;
-
 extern void func_80023144(DuelFieldDisplaySource *, u8);
-extern void func_80015D18(void *);
+extern void func_80023144(DuelFieldDisplaySource *, u8);
 
 void func_8002348C(DuelFieldDisplaySource *source)
 {
@@ -44,13 +33,13 @@ void func_8002348C(DuelFieldDisplaySource *source)
 void func_800234E4(DuelFieldDisplaySource *source)
 {
     s32 index;
-    DisplayObjectSlot *object;
+    DisplayObject *object;
     DuelFieldPosition *position;
 
     index = source->y * DUEL_FIELD_ROW_SIZE + source->x;
     object = func_800400AC(func_8004002C(), 2);
     func_80040468(
-        object,
+        (u8 *)object,
         4,
         3,
         source->table_index + D_8009B1D5 * 4,
@@ -65,9 +54,9 @@ void func_800234E4(DuelFieldDisplaySource *source)
 
         position = (DuelFieldPosition *)(base + offset);
     }
-    object->x = position->x;
-    object->y = position->y;
+    object->position.h.field_28 = position->x;
+    object->position.h.field_2A = position->y;
     object->flags = object->flags | 0x28;
-    object->callback = func_80015D18;
+    object->update = (DisplayObjectCallback)func_80015D18;
     source->object = object;
 }
