@@ -146,7 +146,7 @@ segments:
       - [0x814b4, data, initialized_data_80090cb4]
       - [0x8157c, .data, game/frontend_step_tables]
       - [0x815d8, .data, game/card_type_icon_table]
-      - [0x815f8, data, initialized_data_80090df8]
+      - [0x815f8, .data, game/duel_transition_step_table]
       - [0x81658, .data, game/duel_effect_entry_ranges]
       - [0x81664, .data, game/text_box_state_callbacks]
       - [0x816ac, .data, game/duel_effect_command_table]

@@ -1,8 +1,7 @@
 #include "../types.h"
 #include "text_encode_decimal_digits.h"
 #include "text_constants.h"
-
-extern s32 D_80090E0C[];
+#include "duel_transition_step_table.h"
 
 void Text_EncodeDecimalDigits(s32 arg0, s32 arg1, u8 *arg2) {
     s32 d = D_80090E0C[arg1];
