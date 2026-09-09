@@ -92,6 +92,20 @@ void func_800323F8(u32, void *, s32, s32);
 /* One consumer, duel_scene_update.c, which calls it without arguments. */
 void func_800235C0(void);
 
+/* Three consumers, identical spelling in all three: func_800528AC.c,
+ * model_cleanup.c and model_slot_support.c. The last of those is the site
+ * described above, which used to declare no parameters; once it was given the
+ * true one-parameter signature all three agreed, which is what made this
+ * safe to move.
+ *
+ * func_800164FC.c also calls it, but had no declaration at all -- it was
+ * relying on an implicit one, which is worse than a duplicate because there
+ * is no spelling to disagree with. It takes this header now.
+ *
+ * src/overlays/overworld/camera_state.c spells the parameter int rather than
+ * s32. The two are the same type, but that site is outside this change. */
+void func_800540B4(s32);
+
 /* The five below each have exactly one consumer today, so there is no second
  * spelling to reconcile and nothing was measured away to move them. They are
  * here because the issue asks for every unmatched prototype to live in one
