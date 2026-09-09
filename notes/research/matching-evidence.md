@@ -7105,3 +7105,40 @@ type. gDialog_bChoice, for instance, has eleven declarations in four
 spellings, which reduces to plain-vs-absolute plus one genuine sign question
 in dialog_read_choice_input.c -- a much smaller problem than the count
 suggests.
+
+## Whether a divergent declarer blocks a header move is one question
+
+The note above sorts declarers into addressing groups. This is the operational
+consequence, because getting it wrong is cheap in one direction and expensive
+in the other, and both have happened here.
+
+When a symbol has a plain group and an absolute group -- `.data` attribute or
+oversized array -- the question is NOT "does a divergent declarer exist". It
+is:
+
+    does any file carrying the divergent spelling include the target header?
+
+If none does, the two declarations never meet. A plain declaration can go in
+the header for the small-data group, the divergent files keep their own, and
+no guarded arm is needed. fade.h does this for D_8009B141, and mem_card.h for
+D_8009B3D4, whose `.data` declarer func_8002D458.c does not include it.
+
+If any does, the header needs a guarded pair and every file in that group has
+to select its arm. That is a different size of change, and it drags in every
+consumer rather than the ones being tidied.
+
+Both mistakes have been made in this campaign:
+
+  Too cautious   D_8009B3D4 was excluded from mem_card.h because
+                 func_8002D458.c named it with a .data attribute. That file
+                 does not include mem_card.h, so there was nothing to
+                 collide with and the exclusion cost a round.
+
+  Too eager      gDuel_wSelectedCardID looked like a three-file move, since
+                 its three plain declarers were free. Its three `.data`
+                 declarers all include duel_card.h, so a plain declaration
+                 there would have broken them. Caught by checking, not by
+                 building.
+
+The check is one grep per divergent declarer and it settles the question, so
+run it before deciding rather than after the build fails.
