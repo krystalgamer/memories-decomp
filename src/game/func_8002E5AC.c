@@ -4,7 +4,6 @@
 #include "text_box_lifecycle.h"
 #include "script_state.h"
 
-extern u8 *D_8009B290;
 /* Defined rather than declared: the assembler only resolves a small
    global gp-relative when the translation unit defines it, which is what
    makes the store below a single %gp_rel instruction whose load-delay

@@ -8,7 +8,6 @@
 
 extern u16 D_8009B2A4;
 extern s32 D_800EB12C[];
-extern u8 *D_8009B290;
 extern u8 D_801A8000[];
 extern u16 D_8009B28C;
 extern ScriptCommandHandler D_80090C50[];

@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern u8 *D_8009B290;
+#include "script_state.h"
 
 int func_80030050(void)
 {

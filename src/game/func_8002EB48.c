@@ -1,6 +1,6 @@
 #include "../types.h"
+#include "script_state.h"
 
-extern unsigned char *D_8009B290;
 extern unsigned char D_8009B26C[];
 extern unsigned char D_8009B363[];
 

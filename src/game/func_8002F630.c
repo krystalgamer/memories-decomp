@@ -26,7 +26,6 @@ typedef struct {
     u32 field_44;
 } Object;
 
-extern u8 *D_8009B290;
 extern u16 D_8009B29C;
 extern Object *D_8009B2A0;
 extern Object *D_8009B280;

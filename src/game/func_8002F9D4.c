@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "script_state.h"
 
-extern unsigned char *D_8009B290;
 extern unsigned char D_801A8000[];
 extern int func_8002EE5C(void);
 void func_8002F9D4(void) {

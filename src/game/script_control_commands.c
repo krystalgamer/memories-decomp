@@ -4,7 +4,6 @@
 
 extern u8 D_8009B269[];
 extern u8 D_8009B26C[];
-extern u8 *D_8009B290;
 extern s16 D_8009B278;
 
 void func_8002F930(void)

@@ -6,7 +6,6 @@
 #include "graphics_frame.h"
 #include "script_state.h"
 
-extern u8 *D_8009B290;
 extern u16 D_8009B270;
 extern u8 D_800E9ECE[];
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")

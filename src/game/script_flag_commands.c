@@ -2,7 +2,6 @@
 #include "campaign_flags.h"
 #include "script_state.h"
 
-extern u8 *D_8009B290;
 extern u16 D_8009B29C;
 extern u16 D_8009B2A8;
 extern u16 D_8009B2AA;
