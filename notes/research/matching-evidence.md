@@ -7067,3 +7067,41 @@ the consumer decides, and a declarer that does not consume the elements does
 not constrain them -- but the cost of getting it wrong is larger, and a
 declarer that only takes an address must be recognised as abstaining rather
 than voting.
+
+## The oversized array and the .data attribute are one device, not two
+
+Several notes here and in the headers record that a symbol sometimes has to be
+kept out of -G8 small data so the assembler reaches it with `lui %hi` / `%lo`
+instead of gp-relative. Two spellings do that, and they have been treated as
+separate tricks:
+
+    extern s8 X[9];                                    /* read as X[0] */
+    extern s8 X __attribute__((section(".data")));     /* read as X   */
+
+They are the same device. `gDuel_bOpponentID` is declared all three ways
+across the tree -- plain in four sources, `[9]` in three, `.data` in two --
+and swapping one for the other is free. In `func_80019CC8.c`:
+
+    extern s8 gDuel_bOpponentID[9];   ... gDuel_bOpponentID[0] >= 0   matches
+    extern s8 gDuel_bOpponentID .data ... gDuel_bOpponentID   >= 0    matches
+    extern s8 gDuel_bOpponentID;      ... gDuel_bOpponentID   >= 0    FAILS
+
+The failing case is the control and it is the familiar one: 0x1d07fc against
+0x1d0800, four bytes short, the %hi/%lo pair collapsing into a single
+gp-relative load.
+
+Why the array form works at all: nine bytes is over the -G8 threshold, so the
+object is not small-data eligible, and `[0]` then reads the byte at the base.
+The bound is not a size claim -- it is the smallest number that clears eight.
+`gSD_bOutputType` is spelled `s8 [16]` in one source and `u8 [9]` in another
+for exactly this reason, and `options_init.c` says so in as many words: "an
+oversized array extern to force absolute (lui+lbu) addressing instead of
+gp-relative".
+
+What this is worth: a symbol that looks like it has four incompatible
+spellings usually has two addressing groups with two spellings each. Sort the
+declarers into small-data and absolute before concluding anything about the
+type. gDialog_bChoice, for instance, has eleven declarations in four
+spellings, which reduces to plain-vs-absolute plus one genuine sign question
+in dialog_read_choice_input.c -- a much smaller problem than the count
+suggests.
