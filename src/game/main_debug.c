@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "main_debug.h"
+#include "main_modes.h"
 
 extern u8 D_8009B269;
 extern u8 D_8009B26C;

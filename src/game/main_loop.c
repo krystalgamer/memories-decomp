@@ -2,9 +2,9 @@
 #include "main_frame.h"
 #include "fade.h"
 #include "main_modes.h"
+#include "main_debug.h"
 
 extern u8 D_8009B26C;
-extern void func_8002CDE8(void);
 extern void Main_ResetFrontendRuntime(void);
 void Main_Loop(void) {
     func_8002CDE8();
