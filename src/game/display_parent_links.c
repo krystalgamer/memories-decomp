@@ -1,7 +1,14 @@
 #include "../types.h"
 #include "duel_grid.h"
 
-typedef struct DisplayObject {
+/* The link-walking view of a display object.
+ *
+ * Deliberately not the canonical DisplayObject in display_object.h, and named
+ * apart from it so include order can never decide which definition a file
+ * gets. This view spells 0x28 and 0x30 as u16 halves -- it writes
+ * `field_28 = field_30 - base->field_30` as two halfword pairs -- where the
+ * canonical record holds each as one word. */
+typedef struct DisplayObjectLinkView {
     u8 pad_00[0x24];
     void (*field_24)(void);
     u16 field_28;
@@ -12,16 +19,16 @@ typedef struct DisplayObject {
     u16 field_32;
     u8 pad_34[0x38];
     u8 field_6C;
-} DisplayObject;
+} DisplayObjectLinkView;
 
 typedef struct DisplayLinkEntry {
-    DisplayObject *object;
+    DisplayObjectLinkView *object;
     u8 pad_04[8];
 } DisplayLinkEntry;
 
 typedef struct DisplayParent {
-    DisplayObject *position_base;
-    DisplayObject *base;
+    DisplayObjectLinkView *position_base;
+    DisplayObjectLinkView *base;
     DisplayLinkEntry *entries;
     u8 pad_0C[0xB];
     u8 index;
@@ -29,9 +36,9 @@ typedef struct DisplayParent {
 
 extern void func_80022EEC(void);
 
-void func_80022F98(DisplayParent *parent, volatile DisplayObject *object)
+void func_80022F98(DisplayParent *parent, volatile DisplayObjectLinkView *object)
 {
-    DisplayObject *base;
+    DisplayObjectLinkView *base;
     int index;
 
     if (object != 0) {
