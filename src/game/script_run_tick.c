@@ -3,13 +3,13 @@
 #include "../psyq/rand.h"
 #include "duel_effect.h"
 #include "func_80039794.h"
+#include "script_command_table.h"
 #include "script_run_tick.h"
 #include "script_state.h"
 
 extern s32 D_800EB12C[];
 extern u8 D_801A8000[];
 extern u16 D_8009B28C;
-extern ScriptCommandHandler D_80090C50[];
 
 void Script_RunTick(void)
 {

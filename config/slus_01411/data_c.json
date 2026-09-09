@@ -42,6 +42,10 @@
       "profile": "gcc_2_8_1_g0"
     },
     {
+      "source": "src/game/script_command_table.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
       "source": "src/game/scene_script_record_callbacks.c",
       "profile": "gcc_2_8_1_g0"
     },
