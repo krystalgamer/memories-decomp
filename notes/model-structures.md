@@ -41,6 +41,7 @@ Verified shared fields and partial arrays are:
 | `0x1E0` | `field_1E0`, partial pointer array | `func_800597C8` and `func_8005A468` advance pointers by 4, bounded at runtime by `field_E1B` |
 | `0x7C4` | `field_7C4`, partial array of `0x76`-byte entries | `func_80058EC0` uses `field_BF5 * 118` and reads the leading `u16` |
 | `0xBF5` | `field_BF5` | direct reads in `func_80058E68`, `func_80058EC0`, and `func_800597C8` |
+| `0xBF8` | `sound_entries[64]` | `model_slot_setup.c` clears 64 four-byte records; `func_8005106C` reads each record as `{frame, id, flags}` |
 | `0xCF8` | `field_CF8[10]` | `func_80057E20` and `func_80059000` read bytes `+7`, `+8`, and `+9` |
 | `0xD14` | `field_D14` | 80-byte entry selection in `func_80058F20`, `func_80058F74`, and `func_800593D0` |
 | `0xD18` | `field_D18` | `func_800592AC` repeatedly reads pointee halfwords `+0x44`, `+0x46`, and `+0x48` |

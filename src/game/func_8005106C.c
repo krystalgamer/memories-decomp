@@ -38,12 +38,6 @@ void func_80050F24(s32 arg0)
     }
 }
 
-typedef struct {
-    u8 frame;
-    u8 id;
-    u16 flags;
-} ModelSlotSoundEntry;
-
 /* "e%03ld(%ld)=%d\n" */
 extern u8 D_80011508[];
 
@@ -85,7 +79,7 @@ void func_8005106C(s32 index) {
     anim = m->field_BF5;
     length = m->field_7C4[anim].field_00 << 4;
     speed = m->field_E0D * func_80058E1C();
-    e = (ModelSlotSoundEntry *)((u8 *)m + 0xBF8);
+    e = m->sound_entries;
     tag = (index << 8) + 0x4000;
     if (length != 0) {
         phase = m->field_E06 % length;
