@@ -100,8 +100,9 @@ name described bytes, sectors, or another sound-container unit.
 
 The separate pending-entry loader uses `SD_NOTE_RECORD_SIZE` (`0x08`) for
 the `field_0444` note records, their raw copies, and the source payload stride.
-The shared `SDNote` and private `SoundPendingEntry` views both guard that
-extent without merging their fields. `SD_PENDING_ENTRY_NONE` (`0xFFFF`) keeps
+The loader now consumes the shared `SDNote` and `SDValue` definitions directly;
+its former private entry and partial-state views described the same fields and
+widths. `SD_PENDING_ENTRY_NONE` (`0xFFFF`) keeps
 the lookup-clear and skipped-ID marker distinct from the link-cache sentinel.
 These note/pending constants live in the type-free
 `sound_pending_constants.h`, re-exported by `sound.h`, so raw state views can
@@ -113,7 +114,8 @@ offset is a note-record stride or an inferred capacity. Both cursors retain
 their original advancement even for skipped IDs. Register pins,
 pointer/count reloads, and the halfword rate adjustment remain unchanged.
 
-The complete private `SDSeqBlock` view in `func_80048D08` has
+The shared `SDSeqBlock` in `sound_pending_entries.h` is consumed by both the
+pending-entry loader and `func_80048D08`. It has
 `SD_PENDING_INPUT_ENTRY_CAPACITY` IDs and note records. That capacity is
 derived from the ID region: `(0x1A0 - 0x08) / 2 = 204`, with an explicit
 assertion rejecting partial-ID remainders. Its size is
