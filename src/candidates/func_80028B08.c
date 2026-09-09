@@ -1,4 +1,4 @@
-#include "../../../../src/types.h"
+#include "../types.h"
 
 typedef struct {
     u32 field_0;
@@ -99,6 +99,14 @@ extern s32 func_80041F90(Obj *, s32, s32, Extra *);
 extern void func_80042188(Params *, Ctx *, s32, s32, Extra *);
 extern void Text_EncodeDecimalDigits(s32, s32, u8 *);
 
+/*
+ * Current best under gcc_2_8_1_g8_split: 384/384 instructions with 172
+ * differing positions. Scratchpad records must be locals below the entry
+ * guards; the parameter word widths, field_67/field_68 roles, live 0xFFFF
+ * addend, shared clamp/loop local, and delayed field_0 update are structural.
+ * Residual: two rematerialized 0xF8 values replace target nops, and the two
+ * later scratchpad bases remain exchanged between $s6 and $s7.
+ */
 void func_80028B08(Obj *obj, s32 arg1) {
     u8 buf1[5];
     u8 buf2[5];
