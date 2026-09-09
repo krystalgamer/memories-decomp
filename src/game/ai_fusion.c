@@ -7,7 +7,6 @@
 #include "ai_script_commands.h"
 
 extern u8 D_800EAE88[];
-extern AiScriptState gAiScript_State;
 extern s32 Duel_CheckEquip(s32, s32);
 extern s32 Duel_CheckFusion(s32, s32);
 extern s32 Duel_CheckRitual(s32, s32);

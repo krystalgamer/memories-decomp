@@ -4,7 +4,6 @@
 #include "ai_script_read_byte.h"
 #include "ai.h"
 #include "ai_script_commands.h"
-extern AiScriptState gAiScript_State;
 extern void Ai_CompleteFusion(s32);
 
 /* AI script opcode taking three operand bytes: a register holding the search

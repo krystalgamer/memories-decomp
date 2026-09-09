@@ -2,8 +2,6 @@
 #include "ai.h"
 #include "ai_script_read_byte.h"
 
-extern AiScriptState gAiScript_State;
-
 s32 AiScript_ReadByte(void)
 {
     // Preserve the original stream-base register allocation.

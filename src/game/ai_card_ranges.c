@@ -2,8 +2,6 @@
 #define AI_HAND_SIZE_RETURNS_S32
 #include "ai.h"
 
-extern AiScriptState gAiScript_State;
-
 void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
 {
     s32 value;

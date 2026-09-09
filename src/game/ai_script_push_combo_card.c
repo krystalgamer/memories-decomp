@@ -2,7 +2,6 @@
 #include "ai.h"
 #include "ai_script_commands.h"
 
-extern AiScriptState gAiScript_State;
 extern u8 D_800EAE88[];
 
 void AiScript_PushComboCard(void)

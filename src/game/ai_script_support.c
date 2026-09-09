@@ -3,8 +3,6 @@
 #include "ai_script_read_short.h"
 #include "ai_script_commands.h"
 
-extern AiScriptState gAiScript_State;
-
 extern s32 Ai_IsCardInSet(s32);
 extern s32 Ai_IsTypeInSet(s32);
 s32 Ai_IsCardInSets(s32 mode, s32 index)

@@ -8,7 +8,6 @@
 #include "ai_script_source_line_format.h"
 #include "ai_script_commands.h"
 
-extern AiScriptState gAiScript_State;
 extern char D_800118AC[];
 extern char D_800118E4[];
 extern char D_800118CC[];

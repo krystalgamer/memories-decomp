@@ -5,7 +5,6 @@
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "ai_script_commands.h"
-extern AiScriptState gAiScript_State;
 extern u16 gAi_wBestDifference[];
 
 s32 AiScript_ReadByte(void);

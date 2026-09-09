@@ -7,7 +7,6 @@
 #include "ai_script_read_byte.h"
 
 extern AiSelection D_800EAE88;
-extern AiScriptState gAiScript_State;
 
 void AiScript_Init(void *arg0)
 {

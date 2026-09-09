@@ -5,7 +5,6 @@
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
 
-extern AiScriptState gAiScript_State;
 void AiScript_TestPinned(void)
 {
     s32 *memory = gAiScript_aMemory;

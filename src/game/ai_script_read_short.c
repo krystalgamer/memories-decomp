@@ -2,8 +2,6 @@
 #include "ai.h"
 #include "ai_script_read_short.h"
 
-extern AiScriptState gAiScript_State;
-
 /* Reads a little-endian 16-bit value from the stream and advances the
    cursor by 2. */
 s32 AiScript_ReadShort(void) {

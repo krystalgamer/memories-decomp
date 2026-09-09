@@ -2,7 +2,6 @@
 #include "ai.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
-extern AiScriptState gAiScript_State;
 void AiScript_AddCard(void) {
     s32 *p = gAiScript_aMemory;
     s32 v;

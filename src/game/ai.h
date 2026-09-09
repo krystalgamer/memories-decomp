@@ -60,6 +60,11 @@ typedef struct {
     u8 fusion_used[0x2A];
 } AiScriptState;
 
+/* The AI script VM's register file. Nineteen sources under ai_script_* and
+   ai_* reach it, every one of them with the identical declaration this
+   replaces; nothing in C defines it, so it is still generated data. */
+extern AiScriptState gAiScript_State;
+
 /* The AI's pending selection at D_800EAE88, written three ways by different
  * callers: ai_script_actions.c fills 0x00..0x05 as a combo list, the turn
  * logic writes the slot/flag bytes at 0x00, 0x01, 0x06, 0x07 and 0x08, and

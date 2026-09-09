@@ -5,7 +5,6 @@
 #include "ai_script_read_short.h"
 #include "ai_script_commands.h"
 
-extern AiScriptState gAiScript_State;
 void AiScript_JumpNotEqual(void)
 {
     s32 first = AiScript_ReadByte();

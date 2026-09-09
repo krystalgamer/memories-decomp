@@ -2,7 +2,6 @@
 #include "ai.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
-extern AiScriptState gAiScript_State;
 void AiScript_ClearCards(void)
 {
     s32 i = AI_SCRIPT_CARD_SET_COUNT - 1;

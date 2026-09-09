@@ -3,7 +3,6 @@
 #include "ai_script_commands.h"
 #include "ai.h"
 
-extern AiScriptState gAiScript_State;
 extern u8 D_800EAE88[];
 
 void AiScript_PushComboEmpty(void)
