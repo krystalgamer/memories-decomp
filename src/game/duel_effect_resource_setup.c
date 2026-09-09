@@ -1,12 +1,13 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "file_transfer.h"
+#include "duel_effect_resource_record.h"
 
-extern u8 D_800EA0E8[];
+extern DuelEffectResourceRecord D_800EA0E8[];
 extern void func_800289BC(void);
 FileTransferDescriptor *func_80029164(s32 slot, s32 value)
 {
-    u8 *base = D_800EA0E8;
+    u8 *base = (u8 *)D_800EA0E8;
     u8 *record = &base[slot * 64];
     FileTransferDescriptor *object;
 
