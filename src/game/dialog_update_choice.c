@@ -15,7 +15,6 @@ extern s8 gDialog_bChoice;
 
 extern s32 Dialog_ReadChoiceInput(u8 *);
 extern void Widget_UpdatePulseColour(u8 *);
-extern u8 *func_8004006C(void);
 
 void Dialog_UpdateChoice(u8 *p) {
     u8 *e;

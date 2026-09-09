@@ -34,7 +34,6 @@ extern u16 D_8009B2A8;
 extern u16 D_8009B2AA;
 extern u16 D_8009B270;
 
-extern s32 func_8004006C(void);
 extern void func_8002DF2C(void *, s32);
 extern void func_8002E00C(void *);
 extern void func_8002E128(void *, s32);

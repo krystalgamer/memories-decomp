@@ -4,6 +4,7 @@
 #include "../types.h"
 
 s32 func_8004002C(void);
+s32 func_8004006C(void);
 void *func_800400AC(s32 index, s32 key);
 void *func_80042B40(s32 value);
 void func_8004036C(void *object);
