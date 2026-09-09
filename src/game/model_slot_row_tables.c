@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_slot_row_tables.h"
 
 /* One model slot's row tables: the reset that clears them and imports the
    command list (0x8004D58C), and the walk that consumes both (0x8004D75C).
