@@ -53,7 +53,7 @@ a completion code. Cancellation writes the saved previous mode to
 tear down every object.
 
 The contiguous `gcc_2_8_1_g0_split` preview recreation and shop initializer
-share [`shop_setup.c`](shop_setup.c) in executable order. The initializer
+share [`shop.c`](shop.c) in executable order with the lookup and the updater. The initializer
 calls the preceding preview helper, while the updater retains its own reuse
 of that helper. Their shared manifest source and one C subsegment at module
 offset `0x202C` cover the complete `0x2D8`-byte range through `0x8016A304`.
@@ -79,6 +79,42 @@ ones. Movement bit `0x40` additionally enables an eight-update signed-8.8
 tween from current `+0x30/+0x32` to target `+0x18/+0x1A`; completion snaps
 XY and clears bits `0xC0`, leaving the callback installed. No rotation axis
 or real-time duration is inferred from the phase byte.
+
+### The shop translation unit
+
+[`shop.c`](shop.c) is the whole password shop screen: its two resident entry
+points, the preview helper both of them call, and the password lookup the
+updater is the only caller of. It covers `0x8016A02C..0x8016A930` as one
+contiguous `gcc_2_8_1_g0_split` run, wired as one C subsegment at module
+offset `0x202C`, and it owns the rodata block at `0x7C` that
+`shop_update.c` used to.
+
+| Address | Function | Callers |
+|---|---|---|
+| `0x8016A02C` | `Password_RecreateCardPreview` | 2, both inside |
+| `0x8016A080` | `Password_InitShopScreen` | 1, resident |
+| `0x8016A304` | `Password_LookupCardID` | 1, inside |
+| `0x8016A37C` | `Password_UpdateShopScreen` | 1, resident |
+
+The definitions stay in executable order. As everywhere in this module, the
+whole overlay is one compiler profile, so no profile boundary marks this
+grouping; what marks it is that the only two functions reachable from outside
+are the pair `main_run_frontend_menus.c` calls, and they are the screen's
+documented lifecycle - init once, update per tick.
+
+`NameEntry_BuildStarterDeck` follows this run in the image and is **not** part
+of it. Its caller is [`name_entry_main.c`](name_entry_main.c), not the shop,
+so the run stops at `0x8016A930` on the call graph rather than at a gap.
+
+One unit removes two of the three spellings of
+`gPassword_pDigitCursorWidget` that [`shop.h`](shop.h) recorded as an open
+question: the initializer's `u8 *` and the updater's local `Cursor` are now
+one source using the shared `PasswordCursorView`. Only
+[`digit_cursor.c`](digit_cursor.c) still keeps a local struct of its own.
+While checking that, the paragraph in `shop.h` describing the disagreement
+turned out to contradict the header it sits in - the declaration it says is
+absent was added above it at some point and the paragraph was never updated.
+That is corrected here.
 
 ### Preview recreation and shared interfaces
 

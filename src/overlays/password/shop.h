@@ -18,9 +18,9 @@ typedef void (*PasswordCursorUpdate)(u8 *object);
 
 /* The digit cursor's record, as the three sources that touch it describe it
  * between them. Previously each kept its own view: digit_cursor.c called it
- * PasswordNode and named the flags, position and kind; shop_update.c called
- * it Cursor and named the timer and update flags; shop_setup.c only assigned
- * the pointer and spelled it u8 *. The three never disagreed about a byte --
+ * PasswordNode and named the flags, position and kind; the shop updater
+ * called it Cursor and named the timer and update flags; the shop
+ * initializer only assigned the pointer and spelled it u8 *. The three never disagreed about a byte --
  * they named different ones -- so this is their union rather than a new
  * claim, and the padding keeps every named field at the offset its own
  * source already used. */
@@ -50,12 +50,13 @@ extern PasswordCardPreviewView *D_8016D4D8;
  *   gPassword_nDigitIndex  Which of them the cursor is on.
  *   D_8016D424             The starchip count the shop screen displays.
  *
- * gPassword_pDigitCursorWidget is NOT here. Its three declarers spell it
- * three different ways -- u8 * in shop_setup.c, Cursor * in shop_update.c and
- * PasswordNode * in digit_cursor.c -- and the latter two are structs defined
- * locally in those files rather than shared anywhere. Picking one spelling
- * here would spread whichever is wrong, and reconciling the two local structs
- * is #2501 work that wants its own change. */
+ * gPassword_pDigitCursorWidget IS here, above, as PasswordCursorView *.
+ * This paragraph used to say it was not, and to give three conflicting
+ * spellings as the reason; the declaration was added later and the
+ * paragraph was left behind, so the header asserted the opposite of what it
+ * did. Two of those three spellings are gone: shop.c, which absorbed the
+ * former shop_setup.c and shop_update.c, is one unit and uses the shared
+ * view. digit_cursor.c is the last source with a local struct of its own. */
 extern u8 gPassword_abDigits[];
 extern s32 gPassword_nDigitIndex;
 extern u16 D_8016D424;

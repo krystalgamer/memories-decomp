@@ -1,15 +1,41 @@
 #define GINPUT_PAD1_REPEAT_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../../types.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 #include "../../game/input.h"
 #include "../../game/campaign_flags.h"
+#include "../../game/display_object_api.h"
 #include "../../game/display_object_layout.h"
+#include "../../game/display_object_config.h"
+#include "../../game/display_object_helpers.h"
 #include "../../game/file_transfer.h"
 #include "../../game/duel_rewards.h"
+#include "../../game/func_80039794.h"
 #include "shop.h"
 #include "../../game/sound.h"
-#include "../../game/func_80039794.h"
 #include "../../game/fade.h"
+
+/* The password shop screen: its two resident entry points, the preview
+   helper both of them call, and the password lookup the updater is the only
+   caller of.
+
+   Both doors are resident: main_run_frontend_menus.c calls
+   Password_InitShopScreen once and Password_UpdateShopScreen each tick.
+   Nothing outside this unit reaches Password_RecreateCardPreview or
+   Password_LookupCardID.
+
+   NameEntry_BuildStarterDeck, which follows this run in the image, is not
+   part of it: its caller is name_entry_main.c, not the shop. */
+
+extern s32 D_801A8008[];
+extern u8 *D_8016D430;
+extern u8 *D_8016D440[];
+extern u8 D_800EA0E8[];
+extern void func_80029528(s32);
+extern void func_80029574(s32);
+extern PasswordCardPreviewView *func_800291E0(s32, s32, s32);
 
 typedef struct {
     u32 lo;
@@ -29,6 +55,107 @@ extern u8 D_8009B26C;
 extern s8 D_8009B34D;
 
 extern void func_80029164(s32, s32);
+
+void Password_RecreateCardPreview(s32 ignored)
+{
+    PasswordCardPreviewView *obj;
+
+    func_80029528(0);
+    obj = func_800291E0(0, -1, -1);
+    obj->y = 0x1E;
+    obj->phase = 0x80;
+    obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
+    D_8016D4D8 = obj;
+}
+
+void Password_InitShopScreen(void)
+{
+    s32 i;
+    u8 *o;
+    u8 *cardCache;
+    u8 **slot;
+    PasswordCursorUpdate hook;
+    u8 *p;
+
+    i = 7;
+    p = gPassword_abDigits + i;
+    gPassword_nDigitIndex = 0;
+    D_8016D424 = 0;
+    do {
+        *p = 0;
+        i--;
+        p--;
+    } while (i >= 0);
+    Password_RefreshDigitDisplay();
+    Password_RefreshStarchipDisplay();
+    Password_CreateMessageBox(226, 1);
+    D_8016D430 = D_800EA0E8;
+    func_80029574(0);
+    cardCache = D_8016D430;
+    *(s16 *)(cardCache + 40) = 320;
+    *(s16 *)(cardCache + 42) = 256;
+    *(s16 *)(cardCache + 44) = 512;
+    *(s16 *)(cardCache + 46) = 240;
+    o = func_800400AC(func_8004002C(), 2);
+    func_800404CC(o, 152, 40, 0, 2, 3, 31, 257);
+    func_800428EC(o, -8);
+    *(u16 *)(o + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    Password_RecreateCardPreview(1);
+    o = func_800400AC(func_8004002C(), 1);
+    func_80040510(o, 256, 120, 32, 32, 16, 128, 30, 256, 240);
+    *(u32 *)(o + 4) &= ~GsROTOFF;
+    *(s16 *)(o + 72) = 13;
+    *(s16 *)(o + 74) = 13;
+    *(u32 *)(o + 4) |= (GsALON | GsAONE);
+    func_80042918(o);
+    func_800428EC(o, 10);
+    *(PasswordCursorUpdate *)(o + 36) = Password_UpdateDigitCursor;
+    Password_SetDigitCursorTarget(o);
+    hook = Password_UpdateDigitCursorDecoration;
+    slot = D_8016D440;
+    *(u32 *)(o + 48) = *(u32 *)(o + 24);
+    gPassword_pDigitCursorWidget = (PasswordCursorView *)o;
+    i = 0;
+    do {
+        o = func_800400AC(func_8004002C(), 2);
+        func_80040468(o, 3, 1, i, 11, 524);
+        *(u32 *)(o + 4) |= GsALON;
+        func_80042918(o);
+        func_800428EC(o, 8);
+        *(PasswordCursorUpdate *)(o + 36) = hook;
+        *(u16 *)(o + 8) |= 0x28;
+        *slot = o;
+        i++;
+        slot++;
+    } while (i < 4);
+    SD_BGMPlay(29520);
+    Fade_WaitIn();
+}
+
+s32 Password_LookupCardID(void)
+{
+    s32 packed = 0;
+    s32 *entry = D_801A8008;
+    s32 index;
+    s32 i;
+
+    for (i = 0; i < 8; i++) {
+        packed <<= 4;
+        packed |= gPassword_abDigits[i];
+    }
+
+    index = 1;
+    for (;;) {
+        if (entry[0] == -1) {
+            return 0;
+        }
+        if (packed == entry[1]) {
+            return index;
+        }
+        entry += 2;
+        index++;
+    }
+}
 
 void Password_UpdateShopScreen(void)
 {
