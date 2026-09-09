@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
 #include "camera_view.h"
 #include "model_update_view_metrics.h"
 #include "model_copy_slot_u16_values.h"
@@ -11,18 +12,11 @@
 #include "func_8005EBF4.h"
 #include "model_transfer_flags.h"
 
-typedef struct {
-    short x;
-    short y;
-    short z;
-    short w;
-} Vec;
-
 extern s8 D_8009B07A;
 
 extern void func_8005D994(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern void func_8005F91C(s32, void *, void *, s32);
-void func_8005F3B8(int mode, int y, int a, int b, Vec *offset)
+void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
 {
     unsigned short *p = func_800591FC();
     unsigned short *q = func_80059208();
@@ -39,9 +33,9 @@ void func_8005F3B8(int mode, int y, int a, int b, Vec *offset)
         int sign = -1;
         if (mode <= 0)
             sign = 1;
-        ((int *)p)[3] += offset->x * sign;
-        ((int *)p)[4] += offset->y;
-        ((int *)p)[5] += offset->z * sign;
+        ((int *)p)[3] += offset->vx * sign;
+        ((int *)p)[4] += offset->vy;
+        ((int *)p)[5] += offset->vz * sign;
     }
     q[0] = y;
     q[1] = (a + MODEL_ANGLE_FULL_TURN +
