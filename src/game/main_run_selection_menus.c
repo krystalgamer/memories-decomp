@@ -7,6 +7,7 @@
 #include "main_services.h"
 #include "fade.h"
 #include "sound.h"
+#include "../unmatched.h"
 
 extern unsigned char D_8009B26C;
 extern unsigned char D_8009B269;
@@ -16,7 +17,6 @@ extern unsigned char D_8009B2F8[];
 extern unsigned int D_80010000[];
 extern void func_8016866C(int);
 extern void CampaignMap_UpdateLocation(void);
-extern void func_800323F8(unsigned int, void *, int, int);
 extern void func_80168FB4(void);
 
 void Main_RunCampaignMap(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;D_8009B0A3[0]=10;File_RequestEgyptOverworldPackage();func_8016866C(D_8009B363[0]);Fade_StartIn();}else{CampaignMap_UpdateLocation();if((D_8009B26C&0x40)==0){func_800134B4();D_8009B0A3[0]=6;func_80012D4C();}}}

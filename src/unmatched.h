@@ -50,4 +50,9 @@ void func_80046294(void);
  * two agree and the difference was only spelling. */
 s32 func_80030294(void);
 
+/* Two consumers. main_run_duel_and_library.c spells the first and final
+ * parameters with project aliases, while main_run_selection_menus.c uses the
+ * equivalent unsigned int and int spellings. */
+void func_800323F8(u32, void *, s32, s32);
+
 #endif
