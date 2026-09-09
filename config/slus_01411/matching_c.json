@@ -1348,7 +1348,7 @@
       "address": "0x8002892C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x80",
-      "source": "src/game/duel_effect_update_state.c"
+      "source": "src/game/func_800283F4.c"
     },
     {
       "address": "0x800289AC",
