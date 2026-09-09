@@ -9,8 +9,6 @@ typedef struct {
     s16 state;
 } ModelTransferItem;
 
-extern s32 D_8009B074;
-
 void func_8005FAE4(void)
 {
     D_8009B074 = 0;
@@ -31,7 +29,7 @@ int func_8005FB14(void)
     int value = 0;
 
     if (D_8009B078 != 0) {
-        value = D_8009B074;
+        value = (s32)D_8009B074;
     }
     return value;
 }
@@ -41,7 +39,7 @@ void func_8005FB30(u8 *data)
     int i;
 
     if (!data) {
-        data = (u8 *)D_8009B074;
+        data = D_8009B074;
     }
     if (!data) {
         return;
