@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_SCREEN_PROJECTION_H
 
 #include "../types.h"
+#include "../psyq/libgte.h"
 
 /* SXY2 as the GTE writes it back through `swc2 $14`. Every projection site in
  * the resident image reads a projected point this way: screen x in the low
@@ -29,5 +30,13 @@ typedef struct {
     s16 x;
     s16 y;
 } ScreenPair;
+
+/* The light-source matrix GsSetLsMatrix is handed. Four callers -- 
+ * display_projection.c, func_800177C4.c, func_800178BC.c and func_8001B0CC.c
+ * -- each declared it u8[] and cast it to (MATRIX *) at the call, so the SDK
+ * signature already fixed the type at every site; the cast was the type
+ * escaping the declaration. model_buffer_getters.c spelled it as a scalar u8
+ * and returned its address as void *. */
+extern MATRIX D_800FE148;
 
 #endif
