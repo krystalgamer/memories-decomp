@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern u8 gText_abColorSlots[];
+#include "text_constants.h"
 
 void func_80038498(u8 *arg0)
 {

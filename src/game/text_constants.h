@@ -27,4 +27,15 @@ extern u16 D_801B0000[];
 extern u16 D_801C0000[];
 extern u16 D_801D5800[];
 
+/* The text colour slots, indexed by the low nibble of a colour command:
+ * func_80038498.c reads `gText_abColorSlots[v & 0xF]`. func_800611D0.c sets
+ * the first three to 4 and clears one chosen by its argument, and
+ * func_8003C4E0.c walks the table from its base.
+ *
+ * The incomplete-array spelling every consumer already used is kept. Nothing
+ * here establishes how many slots there are -- the nibble index allows
+ * sixteen, but only three are ever written by name -- so no bound is claimed,
+ * for the same reason the banks above carry none. */
+extern u8 gText_abColorSlots[];
+
 #endif
