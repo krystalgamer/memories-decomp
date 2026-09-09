@@ -45,7 +45,17 @@ jobs:
         
       - name: Install host build dependencies
         run: |
-          sudo apt-get update
+          # The runner image carries third-party apt sources (Google Chrome,
+          # Microsoft) that this build never installs from. When one of them
+          # serves a Release file that disagrees with its Packages index,
+          # apt-get update exits 100 and the job dies before compiling
+          # anything. Drop those sources -- they appear as .list or as
+          # deb822 .sources depending on the image -- and do not let a
+          # surviving index failure be fatal. The apt-get install below is
+          # the real gate: it fails loudly if an index it needs is missing.
+          sudo rm -f /etc/apt/sources.list.d/*.list \
+                     /etc/apt/sources.list.d/*.sources
+          sudo apt-get update || true
           sudo apt-get install --yes --no-install-recommends \
             binutils-mips-linux-gnu=2.38-1ubuntu1cross2 \
             ca-certificates \
