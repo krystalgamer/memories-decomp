@@ -84,6 +84,19 @@ extern DuelSideState D_800E9FF0[DUEL_SIDE_COUNT];
  * that on a turn change. */
 extern DuelSideState *D_8009B1C8;
 
+/* Each side's pending effect object, one func_8002C604 return per side.
+ * func_8001825C creates one for every side whose field_19 is set and
+ * writes its +0x1A and +0x1C; func_80025F3C stores the object it also
+ * hands to D_8009B17C into the other side's slot; func_8001898C writes +0x1A
+ * and clears the current side's slot once its pending counter runs out.
+ * u8 * is func_8002C604's return type, and duel_field_effect_steps.c, which
+ * reads the object through its own Object view (field_1A at 0x1A, flags at
+ * 0x1C, the same offsets the byte views write), casts at the store the way
+ * it already does for D_8009B17C. Two pointers, eight bytes to D_8009B1F8;
+ * retail reaches the array gp-relative in all three functions, so the sized
+ * spelling stays small data everywhere. Initial value not read. */
+extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
+
 /* The signed byte just below gDuel_bOpponentID. func_80024DC8 stores its
  * first argument here and its second into gDuel_bOpponentID;
  * Text_StartCampaignDuel resets it to -1 before it sets

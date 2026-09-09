@@ -28,7 +28,6 @@ extern void Duel_PopulateCombinedDeckData(void);
 #include "duel_apply_card_object_flags.h"
 
 extern u8 *D_8009B21C;
-extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
 
 void func_80018608(void)
 {

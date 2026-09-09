@@ -27,7 +27,6 @@ typedef struct Object {
     u8 pad_28[0x44];
     u8 active;
 } Object;
-extern Object *D_8009B1F0[2];
 extern void func_80025B28(Object *);
 
 void func_80025F3C(void)
@@ -40,7 +39,7 @@ void func_80025F3C(void)
         object = (Object *)func_8002C604(0x15);
         side = D_8009B1D5 ^ 1;
         D_8009B17C = (u8 *)object;
-        D_8009B1F0[side] = object;
+        D_8009B1F0[side] = (u8 *)object;
         object->flags |= 0x20;
         object->x = 0xA0;
         object->y = 0x78;
