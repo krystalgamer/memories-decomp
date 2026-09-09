@@ -2,8 +2,8 @@
 #include "../psyq/libetc.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "model_image_copy_frames.h"
 
-extern u8 D_80091508[];
 extern u8 *D_8009AF88;
 extern short D_8009B468;
 extern short D_8009B46A;
@@ -33,11 +33,11 @@ void func_8004E9A0(void) {
             MoveImage((RECT *)&D_8009B468, 0x2C0, 0x1C0);
             break;
         case 4:
-            n = 8;
+            n = MODEL_IMAGE_COPY_FRAME_COUNT;
             u_1 = VSync(-1) / 10;
             r4 = u_1 % n;
             D_8009B468 = 0x260;
-            q = D_80091508[r4];
+            q = gModel_abImageCopyFrameRows[r4];
             D_8009B46C = 0x20;
             D_8009B46E = 0x18;
             D_8009B46A = q * 3 * 8 + 0x180;

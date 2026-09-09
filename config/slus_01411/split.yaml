@@ -141,6 +141,8 @@ segments:
       - [0x81350, .data, game/credits_secret_numbers]
       - [0x81364, .data, game/main_modes]
       - [0x813a8, data, initialized_data_80090ba8]
+      - [0x81d08, .data, game/model_image_copy_frames]
+      - [0x81d10, data, initialized_data_80091510]
       - [0x81d1c, .data, game/movie_stream_ranges]
       - [0x81d50, .data, game/model_effect_endpoints]
       - [0x81d70, .data, game/model_effect_coefficient_table]
