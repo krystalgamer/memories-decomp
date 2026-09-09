@@ -1,10 +1,9 @@
 #include "../types.h"
 #include "graphics_frame.h"
 #include "display_object_fade.h"
+#include "func_80039AD4.h"
 
 extern volatile s32 D_8009B0D8_volatile asm("D_8009B0D8");
-
-extern void func_80039AD4(u8 *);
 
 void func_80039AFC(u8 *record)
 {
