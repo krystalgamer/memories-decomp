@@ -3,7 +3,6 @@
 #include "model.h"
 #include "../unmatched.h"
 
-extern ModelSlot D_800F2C40[];
 extern u8 D_8009AF9B;
 extern s32 D_8009AF9C;
 

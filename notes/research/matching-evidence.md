@@ -6559,36 +6559,46 @@ spelled is free to delete either way. `func_80040588.c` carried
 `extern DisplayObject D_800EFE48[]` while already including `display_object.h`,
 which declares the same symbol with its named capacity; the two are compatible
 types, and dropping the local line changed nothing.
-## The "redundant redeclaration" class is empty, and its three false leads
+## The redundant-redeclaration class has one real member and three traps
 
 A natural survey for #2501 is: find a C file that declares a global its own
 included header already declares, and delete the local copy. Run against
-`src/game` that survey returns exactly three hits, and **all three are wrong**.
-They are worth writing down because each looks like a free deletion.
+`src/game` it produces very few hits, and which few depends on details of the
+survey that are easy to get wrong. Writing the whole result down is worth more
+than the one deletion it yields.
 
-`func_80024E58.c` / `gDuel_bTerrain`. The survey believes
-`duel_terrain_boost.h` declares this symbol. It does not: the header declares
-only `gDuel_aTerrainBoost` and `Duel_GetTerrainBoost`. What the regex found was
-the header's own comment, which lists five example spellings of
-`gDuel_bTerrain` while explaining why they differ. Any survey that scans for
-`extern` with a regex counts declarations inside comments, and this header is
-the place that bites. The real declaration is load-bearing besides: that file
-compiles at `-G8` but assembles at `-G4`, so it needs a bound the assembler can
-see to be above 4, and the header records the measurement that relaxing its
-`[8]` to `[]` costs four bytes of text.
+**The one real member.** `func_800528AC.c` declared `extern ModelSlot
+D_800F2C40[]` while already including `model.h`, which declares the same symbol
+as `ModelSlot[MODEL_SLOT_COUNT]`. Compatible types, the array is far above the
+`-G8` threshold, and deleting the local line keeps the executable byte-exact.
+That file is otherwise full of load-bearing spellings -- a `register const u32
+hard_zero asm("$0")`, and a second name for this very symbol via `extern
+ModelSlot D_800F2C40_alias[] asm("D_800F2C40")` -- so the redundant line looked
+as deliberate as its neighbours and had to be measured rather than assumed.
+
+**Three traps, each a different kind.**
+
+`func_80024E58.c` / `gDuel_bTerrain` is not a declaration at all. The survey
+believes `duel_terrain_boost.h` declares this symbol; it declares only
+`gDuel_aTerrainBoost` and `Duel_GetTerrainBoost`. What a regex finds is the
+header's own comment, which lists five example spellings while explaining why
+they differ. Strip comments before scanning and it disappears. The real
+declaration is load-bearing besides: that file compiles at `-G8` but assembles
+at `-G4`, and the header records that relaxing its `[8]` to `[]` costs four
+bytes of text.
 
 `save_data_checksum.c` / `gSaveData_dwMaskStateLow` and
-`gSaveData_dwMaskStateHigh`. These really are declared in both places, and the
-duplication is deliberate. `save_data.h` wraps its pair in
-`#ifndef SAVE_DATA_DECLARE_MASK_STATE_LOCALLY`, and the consumer `#define`s
-that macro immediately before including the header, specifically so it can keep
-its own declarations further down the file. The comment above them says why:
-the source position preserves GCC 2.8.1's allocation in
-`SaveData_NextMaskWord`. Deleting the local pair and dropping the `#define`
-would be the survey's suggestion and would move the declarations.
+`gSaveData_dwMaskStateHigh` are genuinely declared twice, on purpose.
+`save_data.h` wraps its pair in `#ifndef SAVE_DATA_DECLARE_MASK_STATE_LOCALLY`
+and the consumer `#define`s that macro immediately before including the header,
+so it can keep its own declarations further down the file, where the comment
+says the source position preserves GCC 2.8.1's allocation in
+`SaveData_NextMaskWord`.
 
-Two general points fall out. A survey that reads only declarations cannot see
-a guard macro that switches one off, so "declared twice" and "declared twice on
-purpose" look identical to it. And a header comment that documents alternative
-spellings is indistinguishable from code to a line-based scan, so the headers
-that explain the most are the ones most likely to generate false positives.
+**What the survey has to get right to see all four.** It must strip comments,
+or `gDuel_bTerrain` appears and `D_800F2C40` is all that is left to find by
+luck. It must treat `T[]` and `T[N]` as the same declaration, or `D_800F2C40`
+never appears at all. And it cannot see a guard macro that switches a header
+declaration off, so deliberate duplication and accidental duplication look
+identical to it and the `save_data` pair must be read by hand. A first pass of
+mine got two of those three wrong and concluded the class was empty.
