@@ -76,7 +76,7 @@ void func_80040588(void) {
 
                 if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     D_8009B424 = 0;
-                    if (func_80041F90((struct ProjectionObj *)e, (s16)p->xy.h.x + (s16)e->field_18,
+                    if (func_80041F90(e, (s16)p->xy.h.x + (s16)e->field_18,
                                       (s16)p->xy.h.y + (s16)e->field_1A,
                                       (struct ProjectionOut *)(h + 0x20)) <= 0) {
                         break;

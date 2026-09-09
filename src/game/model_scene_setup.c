@@ -6,24 +6,19 @@
 #include "camera_view.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+/* libhmd.h names MATRIX, GsOT and GsCOORDUNIT without including anything, so
+   it only parses after libgte.h, libgpu.h and libgs.h; camera_view.h above
+   supplies libgs.h. */
+#include "../psyq/libhmd.h"
 #include "model_scene_states.h"
 #include "model_transfer_state.h"
 
 typedef struct { unsigned char b[8]; } __attribute__((packed)) Packed8;
-typedef struct {
-    int zero;
-    unsigned char pad04[0x14];
-    int v18, v1c, v20;
-    unsigned char pad24[0x20];
-    short r44, r46, r48;
-    unsigned char pad4a[2];
-    int v4c;
-} Object;
 
 extern unsigned short D_8009AF8C, D_8009AF90, D_8009AF8E;
 extern Packed8 D_8009B478_p asm("D_8009B478");
 extern Packed8 D_8009B480;
-extern Object D_800F56A0;
+extern GsCOORDUNIT D_800F56A0;
 extern void func_800857C0(int);
 extern void func_8004E7B0(int), func_80052D2C(int, int, int, int);
 
@@ -47,16 +42,16 @@ void func_800530C4(void)
     func_80058434(1, 0x80, -85, 1200, 0);
     GsSetRefView2(&D_800F56F0);
     {
-        Object *o = &D_800F56A0;
-        o->r48 = 0;
-        o->r46 = 0;
-        o->r44 = 0;
-        o->v20 = 0;
-        o->v1c = 0;
-        o->v18 = 0;
-        o->v4c = 0;
-        RotMatrix_gte((SVECTOR *)&o->r44, (MATRIX *)&o->pad04[0]);
-        o->zero = 0;
+        GsCOORDUNIT *o = &D_800F56A0;
+        o->rot.vz = 0;
+        o->rot.vy = 0;
+        o->rot.vx = 0;
+        o->matrix.t[2] = 0;
+        o->matrix.t[1] = 0;
+        o->matrix.t[0] = 0;
+        o->super = 0;
+        RotMatrix_gte(&o->rot, &o->matrix);
+        o->flg = 0;
     }
     D_800F5710 = D_800F56F0;
     D_8009B480 = D_8009B478_p;
