@@ -5,8 +5,6 @@
 #include "sound_event_runtime.h"
 
 extern void SD_ProcessSequenceTracks(void);
-extern void func_8004C84C(void);
-extern void func_8004AAFC(void);
 
 void func_8004B910(void)
 {

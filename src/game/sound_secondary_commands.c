@@ -8,8 +8,6 @@
 extern void func_8004ACE4(u8 *, int);
 extern u8 *D_8009B458_bytes asm("D_8009B458");
 extern void SD_ProcessSequenceTracks(void);
-extern void func_8004C84C(void);
-extern void func_8004AAFC(void);
 
 void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
 {
