@@ -14,7 +14,6 @@ extern unsigned char D_8009B26D;
 extern jmp_buf D_800E9DC0;
 extern void func_80039E9C(void);
 extern void func_8002D458(int);
-extern void func_8003BBF8(void);
 extern void NameEntry_Init(void);
 extern int NameEntry_PollCompletion(void);
 extern void func_8003BEB8(void);
@@ -34,7 +33,7 @@ void Main_RunNameEntry(void)
 
     if ((flags & 0x40) == 0) {
         D_8009B26C = flags | 0x40;
-        func_8003BBF8();
+        File_RequestNameEntryPackage();
         NameEntry_Init();
     }
     if (NameEntry_PollCompletion()) {

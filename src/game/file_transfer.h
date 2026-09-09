@@ -35,6 +35,7 @@ FileTransferDescriptor *File_InitTransferDescriptor(
 void File_ActivateTransfer(void);
 void File_WaitForTransfers(void);
 void File_RequestMainMenuPackage(void);
+void File_RequestNameEntryPackage(void);
 
 /* Puts the loader's control halfword at 0x8009B112 into mode 2, clearing the
    other bits of its low field. Every caller reaches it through the same

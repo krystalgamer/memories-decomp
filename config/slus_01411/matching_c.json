@@ -3124,7 +3124,7 @@
       "address": "0x8003BBF8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x48",
-      "source": "src/game/func_8003BBF8.c"
+      "source": "src/game/file_request_name_entry_package.c"
     },
     {
       "address": "0x8003BC40",

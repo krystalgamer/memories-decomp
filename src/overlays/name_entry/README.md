@@ -14,7 +14,7 @@ Verified scope:
 | Known module symbols | `0x801680F4-0x8016D4D2` |
 
 The package is recovered from the resident loader trace. `Main_RunNameEntry`
-(`0x8002D62C`) calls `func_8003BBF8`, whose request is
+(`0x8002D62C`) calls `File_RequestNameEntryPackage`, whose request is
 `func_80014E1C(0, 0, 0x1EDF, 0x50, func_8003BA14, 0, 0)`. The third and fourth
 arguments are the first WA sector and the sector count, which the two
 already-verified screens confirm: Free Duel uses `(0x1E88, 0x57)` for

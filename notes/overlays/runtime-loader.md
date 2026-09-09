@@ -581,7 +581,7 @@ File_RequestAsyncTransfer(
 | Screen | Requesting function | Arguments | WA package |
 |---|---|---|---|
 | Free Duel | `Main_InitFreeDuelMenu` | `0x1E88`, `0x57` | `7816-7903` |
-| Name entry | `func_8003BBF8` | `0x1EDF`, `0x50` | `7903-7983` |
+| Name entry | `File_RequestNameEntryPackage` | `0x1EDF`, `0x50` | `7903-7983` |
 | Password | `func_8003BEB8` | `0x1F2F`, `0x56` | `7983-8069` |
 | Egypt overworld | `func_8003C0C0` | `0x1FD9`, `0x9E`; `+0x9E` on story flag `0x47` | `8153-8311`, `8311-8469` |
 

@@ -22,7 +22,7 @@ and must not be added as unconditional resident executable symbols.
 
 The name-entry package is recovered from the resident request
 `File_RequestAsyncTransfer(0, 0, 0x1EDF, 0x50, func_8003BA14, 0, 0)` in
-`func_8003BBF8`, which `Main_RunNameEntry` calls. Its `0x80168000` phase is
+`File_RequestNameEntryPackage`, which `Main_RunNameEntry` calls. Its `0x80168000` phase is
 byte-identical to the password phase at `8054-8069` apart from the final
 sector, so name entry and the password screen share one image and are
 separate entry points rather than separate modules. See
@@ -42,7 +42,7 @@ File_RequestAsyncTransfer(
 | Screen | Requesting function | Arguments | WA package |
 |---|---|---|---|
 | Free Duel | `Main_InitFreeDuelMenu` | `0x1E88`, `0x57` | `7816-7903` |
-| Name entry | `func_8003BBF8` | `0x1EDF`, `0x50` | `7903-7983` |
+| Name entry | `File_RequestNameEntryPackage` | `0x1EDF`, `0x50` | `7903-7983` |
 | Password | `func_8003BEB8` | `0x1F2F`, `0x56` | `7983-8069` |
 | Egypt overworld | `func_8003C0C0` | `0x1FD9`, `0x9E`; first sector `+0x9E` when story flag `0x47` is set | `8153-8311`, `8311-8469` |
 

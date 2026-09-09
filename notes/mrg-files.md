@@ -223,7 +223,7 @@ to the next 64-entry CLUT column.
 
 ### Name-entry screen package
 
-Matching `func_8003BBF8` requests 80 WA sectors beginning at sector `0x1EDF`,
+Matching `File_RequestNameEntryPackage` requests 80 WA sectors beginning at sector `0x1EDF`,
 which is archive range `0xF6F800-0xF97800`. Its matching callback
 `func_8003BA14` accounts for the complete package:
 
