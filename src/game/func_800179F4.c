@@ -24,7 +24,6 @@ extern void (*D_800E9DBC[])(void);
 extern u8 gDuel_awOpponentDeckPool[];
 extern u8 D_801D1200[];
 
-extern s8 D_8009B238;
 extern u8 gDuel_bQuitDialogState;
 extern u8 D_8009B1D4;
 extern u16 D_8009B204;
