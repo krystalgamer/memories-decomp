@@ -63,11 +63,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, rodata, overlays/main_menu/module_rodata]
-      - [0x1C, c, overlays/main_menu/frontend_init]
-      - [0x390, c, overlays/main_menu/frontend_update]
-      - [0xB4C, c, overlays/main_menu/draw_frontend_background]
-      - [0xD2C, c, overlays/main_menu/frontend_lifecycle]
-      - [0xE6C, c, overlays/main_menu/frontend_entry_afterimages]
+      - [0x1C, c, overlays/main_menu/frontend]
       - [0xFD8, c, overlays/main_menu/start_value_setup]
       - [0x12B4, c, overlays/main_menu/update_value_setup]
       - [0x1728, c, overlays/main_menu/value_setup_visuals]
