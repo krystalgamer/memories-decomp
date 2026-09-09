@@ -48,6 +48,22 @@ extern u8 *D_8009B290;
  * duel_effect_interaction_states.c keeps its own spelling for the same
  * reason as D_8009B27C above -- an array plus a scalar asm() alias, with
  * its comment on why -- and must not be switched to these. */
+/* A sixteen-bit operand the script engine assembles from the stream a byte at
+ * a time -- script_flag_commands.c and script_update_viewport_tween.c both
+ * build it as `cursor[0] | (cursor[1] << 8)` -- and which func_8002F630.c
+ * also sets from func_80036D3C's return.
+ *
+ * Read unsigned everywhere except one site, which takes it as
+ * `*(s16 *)&D_8009B29C` to get a signed value out of the same halfword. That
+ * cast stays at the use, so the declaration here is the plain u16 all three
+ * consumers already wrote.
+ *
+ * duel_effect_interaction_states.c is the fourth namer and keeps its own
+ * spelling, `s16` with a .data section attribute. That is the same
+ * arrangement this header already records for D_8009B27C above: it does not
+ * include this header, so the two never meet. */
+extern u16 D_8009B29C;
+
 extern u16 D_8009B2A8;
 extern u16 D_8009B2AA;
 
