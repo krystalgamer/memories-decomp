@@ -3,6 +3,7 @@
 
 #include "../types.h"
 
+void func_80030198(void);
 void func_80030250(
     void *data,
     s32 field_B4,
