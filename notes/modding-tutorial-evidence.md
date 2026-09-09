@@ -606,7 +606,7 @@ at `0xB60000`; that second block is uploaded to VRAM rectangle
 `(512, 248, 256, 8)`. The two listed boot palettes therefore map to VRAM
 coordinates `(544, 252)` and `(592, 252)`, respectively.
 
-Likewise, `func_8003BEB8` requests the 86-sector password package at sector
+Likewise, `File_RequestPasswordPackage` requests the 86-sector password package at sector
 `0x1F2F`, byte range `0xF97800-0xFC2800`. Its callback consumes a
 `0x20000`-byte image region followed by a `0x2000`-byte block uploaded to
 VRAM rectangle `(256, 240, 256, 16)`. The listed frame palette is one row into

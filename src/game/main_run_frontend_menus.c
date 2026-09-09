@@ -16,7 +16,6 @@ extern void func_80039E9C(void);
 extern void func_8002D458(int);
 extern void NameEntry_Init(void);
 extern int NameEntry_PollCompletion(void);
-extern void func_8003BEB8(void);
 extern void func_8003C2B4(void);
 extern void Options_Init(void);
 extern int Options_Update(void);
@@ -49,7 +48,7 @@ void Main_RunPasswordMenu(void)
 
     if ((flags & 0x40) == 0) {
         D_8009B26C = flags | 0x40;
-        func_8003BEB8();
+        File_RequestPasswordPackage();
         Password_InitShopScreen();
     }
     Password_UpdateShopScreen();

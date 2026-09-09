@@ -142,6 +142,7 @@ srand = 0x8008E5C0; // type:func
 Model_LoadMonsterMerge = 0x80056504; // type:func
 File_RequestMainMenuPackage = 0x8005B85C; // type:func
 File_RequestNameEntryPackage = 0x8003BBF8; // type:func
+File_RequestPasswordPackage = 0x8003BEB8; // type:func
 File_Exists = 0x8005C4F0; // type:func
 
 // Semantic names
