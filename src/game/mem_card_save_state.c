@@ -27,7 +27,6 @@ extern u8 D_8009B3EC;
 extern u8 D_8009B3EF;
 extern u32 D_8009B3E0;
 extern u8 D_800EFBC0[];
-extern u8 D_800EFE18[];
 extern u8 gLibrary_aCardArtRecord[];
 extern s32 D_801D5648[];
 

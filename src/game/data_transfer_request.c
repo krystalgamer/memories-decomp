@@ -26,7 +26,6 @@ void func_8003F740(s32 value)
     D_8009B3C1 = 0;
 }
 
-extern u8 D_800EFE18[];
 extern u8 D_8009B3DC;
 void func_8003F758(void *arg0, s32 arg1, u8 *arg2, s32 arg3)
 {

@@ -48,7 +48,6 @@ extern s32 gSaveDataSequence;
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u8 D_8009AF70[];
 extern u8 D_800EFBC0[];
-extern u8 D_800EFE18[];
 extern u8 gLibrary_aCardArtRecord[];
 extern s32 D_801D5608[];
 extern s32 D_801D5648[];

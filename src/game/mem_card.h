@@ -40,6 +40,20 @@ extern s32 gMemCard_nIOResult;
 
 extern u8 gMemCard_szSaveFileName[];
 
+/* The filename buffer every memory card request is issued against.
+ *
+ * data_transfer_request.c strcpy()s a name into it, and the create, load and
+ * save paths then pass it as the (char *) filename to MemCardCreateFile,
+ * MemCardGetDirentry, MemCardReadFile and MemCardWriteFile. All four already
+ * include this header, so it belongs here rather than in unmatched.h: that
+ * header is for symbols with no identified owner, and this one has an obvious
+ * one.
+ *
+ * The incomplete-array spelling is the one all four consumers already wrote
+ * and is kept. c_symbols.ld names D_800EFE38 thirty-two bytes later, but
+ * nothing reads or writes through a bound, so no size is asserted here. */
+extern u8 D_800EFE18[];
+
 /* The create-state message value must stay wide so GCC keeps the retail
  * register-to-argument move; the definition and the other callers use the
  * measured byte/halfword contract. */
