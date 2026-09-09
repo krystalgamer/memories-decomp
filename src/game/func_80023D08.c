@@ -34,7 +34,6 @@ typedef struct {
     u8 moving;
 } CursorObject;
 
-extern u16 D_8009AF20[2];
 extern s16 D_800907AC[2][2][4];
 
 extern void func_8002348C(void);
