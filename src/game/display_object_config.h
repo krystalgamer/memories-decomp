@@ -49,6 +49,9 @@ void func_80040410(DisplayObjectConfig *object, s32 value);
    -- wrong in the return type and in the parameter list, and undetectable,
    because that caller discards the result. */
 void func_80040424(DisplayObjectConfig *object, s32 value);
+void func_8004044C(
+    DisplayObjectConfig *object, u8 field_67, u8 field_68, u8 field_69
+);
 
 /* Layout view used by func_80040510, which writes the position, extent and
  * blend fields of a display object in one call. It covers only the fields
