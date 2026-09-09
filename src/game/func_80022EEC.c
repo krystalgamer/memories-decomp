@@ -4,8 +4,6 @@
 #include "func_80022EEC.h"
 #include "display_object_api.h"
 
-extern u8 D_800E9F10[];
-
 void func_80022EEC(DisplayObject *object)
 {
     u8 *base = D_800E9F10;
