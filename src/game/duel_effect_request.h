@@ -61,6 +61,19 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
 
 #undef DUEL_EFFECT_REQUEST_OFFSET
 
+/* The request the running effect handler is working on. Four handlers store
+ * the entry func_8002C604 hands them on their first call, under the
+ * DuelEffect_MarkInitialized guard; DuelEffect_UpdateFieldMarker stores each
+ * marker it allocates. They read +0x1C and +0x1D from it afterwards, and
+ * func_80024E58 writes +0x1A; duel_field_effect_steps.c and
+ * duel_field_effect_transition.c read +0x1D through their own display-object
+ * views and cast at the global. u8 * is func_8002C604's return type. Retail
+ * reaches it gp-relative
+ * at every site, 17 lw and 14 sw in nine functions, four of them
+ * (func_80018FEC, func_80019D18, func_8001F55C, func_800262D4) still
+ * assembly. */
+extern u8 *D_8009B17C;
+
 /* Allocates a request for the given effect id, marks D_8009B260 and returns
  * it, or 0 when the pool is full.
  *

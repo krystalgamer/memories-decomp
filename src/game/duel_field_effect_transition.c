@@ -3,6 +3,7 @@
 #include "duel_side_state.h"
 #include "duel_grid.h"
 #include "func_8002C604.h"
+#include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
 #include "display_object_api.h"
@@ -25,7 +26,6 @@ typedef struct Obj {
     u8 active;
 } Obj;
 
-extern Obj *D_8009B17C;
 extern u8 D_8009B260 __attribute__((section(".data")));
 extern void Duel_ApplyCardObjectFlags(Obj *);
 
@@ -64,13 +64,13 @@ void func_80025BEC(void)
     if (DuelEffect_MarkInitialized() == 0) {
         object = (Obj *)func_8002C604(0x13);
         object->x = 0xA0;
-        D_8009B17C = object;
+        D_8009B17C = (u8 *)object;
         object->y = 0x68;
         SD_SEPlayFull(0x13);
         return;
     }
     flags = D_8009B220;
-    if ((flags & 0x40) == 0 && D_8009B17C->field_1D != 0) {
+    if ((flags & 0x40) == 0 && ((Obj *)D_8009B17C)->field_1D != 0) {
         D_8009B220 = flags | 0x40;
         SD_SEPlayFull(0x1D);
         for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++) {
