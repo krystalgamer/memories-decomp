@@ -1,5 +1,6 @@
 #define GINPUT_PAD1_PRESSED_SIZED_VOLATILE
 #include "../types.h"
+#include "duel_interface_setup.h"
 #include "file_transfer.h"
 #include "input.h"
 #include "sound.h"
@@ -19,7 +20,6 @@ extern u8 D_80090CB4[];
 
 extern void func_80030090(void);
 extern void func_800300AC(void);
-extern void func_80030250(s32, s32, s32, s32, s32, s32, s32);
 extern void func_8003FFB4(s32);
 extern void func_8003FF88(s32);
 extern void func_8004763C(void);
@@ -38,7 +38,7 @@ void func_800307B8(void)
         gDebug_nSceneOrSoundID = gDebug_nLastSoundID;
         D_8009B2CA = D_8009B2DA;
         D_8009B2CC = *(&gDebug_nLastSoundID + 1);
-        func_80030250((s32)D_80090CB4, 0x11, 0x19, 0x21, 9, 4, count);
+        func_80030250((void *)D_80090CB4, 0x11, 0x19, 0x21, 9, 4, count);
         D_8009B2C2 = count;
         D_8009B2C1 = count;
         return;

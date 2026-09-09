@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "duel_interface_setup.h"
 #include "fade.h"
 #include "func_8003B6AC.h"
 #include "text_box_lifecycle.h"
