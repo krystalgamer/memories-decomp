@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_card_object_helpers.h"
 #include "func_8002C604.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
@@ -148,7 +149,6 @@ extern s16 D_8009B1AE;
 extern u16 D_8009B220;
 extern u8 D_801A7AD8_bytes[] asm("D_801A7AD8");
 
-extern s16 func_800181EC(u8 *arg0);
 extern void func_80024954(u8 *arg0);
 
 void func_8002538C(void) {

@@ -1,15 +1,9 @@
 #include "../types.h"
+#include "duel_card_object_helpers.h"
 #include "display_object_api.h"
 #include "card_constants.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
-
-typedef struct {
-    char pad_00[0x22];
-    u8 flag;
-    char pad_23[0x45];
-    u8 type;
-} CardObject;
 
 DisplayObject *func_80018150(int arg0, int arg1)
 {
