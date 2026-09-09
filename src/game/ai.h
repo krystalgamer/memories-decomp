@@ -85,6 +85,17 @@ typedef struct {
     s8 field_0B;    /* 0x0B */
 } AiSelection;
 
+/* Byte 0x08 of that same selection -- AiSelection.random above -- also carries
+ * its own address-based symbol. func_80073448 and func_80073458 set and clear
+ * it, and func_80071510 copies it into gAiScript_aMemory. Those three reach it
+ * as a standalone u8 rather than through the struct, and they must keep doing
+ * so: the recorded attempts for func_80071510 fail to link with
+ * "relocation truncated to fit: R_MIPS_GPREL16 against `D_800EAE90'", so the
+ * symbol's own small-data addressing is what those functions match on. This
+ * declaration is therefore a deliberate alias of AiSelection.random, not a
+ * duplicate to be folded into the struct. */
+extern u8 D_800EAE90;
+
 typedef char AiActiveCard_size_must_be_0x0C[
     sizeof(AiActiveCard) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1
 ];
