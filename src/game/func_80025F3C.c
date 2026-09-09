@@ -20,7 +20,6 @@ typedef struct Object {
     u8 active;
 } Object;
 extern Object *D_8009B1F0[2], *D_8009B17C;
-extern u16 D_8009B220;
 extern void func_80025B28(Object *);
 
 void func_80025F3C(void)

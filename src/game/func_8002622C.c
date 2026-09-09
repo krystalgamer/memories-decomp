@@ -6,7 +6,6 @@
 #include "sound.h"
 
 extern s16 D_8009B1D2, D_8009B1A0;
-extern u16 D_8009B220;
 extern int Duel_CheckRitual(int, int);
 extern void func_80029164(int, int);
 

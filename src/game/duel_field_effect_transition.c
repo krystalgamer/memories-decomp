@@ -26,7 +26,6 @@ typedef struct Obj {
 } Obj;
 
 extern Obj *D_8009B17C;
-extern u16 D_8009B220;
 extern u8 D_8009B260 __attribute__((section(".data")));
 extern void Duel_ApplyCardObjectFlags(Obj *);
 

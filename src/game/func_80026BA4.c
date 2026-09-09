@@ -1,7 +1,8 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "duel_action_lock.h"
 
-extern u16 D_8009B1A8, D_8009B1D2, D_8009B220;
+extern u16 D_8009B1A8, D_8009B1D2;
 
 void func_80026BA4(int value, int flag)
 {
