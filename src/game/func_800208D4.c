@@ -2,6 +2,7 @@
 #include "duel_side_state.h"
 #include "duel_grid.h"
 #include "../unmatched.h"
+#include "func_800208D4.h"
 
 extern void*D_8009B22C;
 extern void func_80022D94(s32, s32, s32, s32, s32);

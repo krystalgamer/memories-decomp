@@ -14,6 +14,7 @@
 #include "view_state.h"
 #include "../unmatched.h"
 #include "duel_apply_card_object_flags.h"
+#include "func_8001825C.h"
 
 extern s8 D_8009B1B9;
 extern s8 D_8009B208[8];

@@ -1,6 +1,12 @@
 #include "../types.h"
 #include "duel_scene_callbacks.h"
 #include "../unmatched.h"
+#include "debug_effect_screen.h"
+#include "duel_draw_resolution.h"
+#include "func_8001825C.h"
+#include "func_80019608.h"
+#include "func_800208D4.h"
+#include "func_80020F4C.h"
 
 /* Initialized data at 0x80090998: the duel scene's phase callback table.
  *
@@ -22,14 +28,8 @@
  * the game ever produces index 15, and widening the array would change the
  * bytes. */
 
-void func_80022618(void);
 void func_80018608(void);
 void func_8001898C(void);
-void func_80018DB4(void);
-void func_80019608(void);
-void func_800208D4(void);
-void func_8001825C(void);
-void func_80020F4C(void);
 
 void (*D_80090998[])(void) = {
     func_80022618,

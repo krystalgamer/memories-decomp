@@ -16,6 +16,7 @@
 #include "display_object.h"
 #include "duel_card_display_state.h"
 #include "../unmatched.h"
+#include "debug_effect_screen.h"
 
 /* The developer effect-preview screen: a pad-driven camera and viewport
    nudge, the controller that builds one of four preview pages and spawns an

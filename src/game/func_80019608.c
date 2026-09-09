@@ -12,6 +12,7 @@
 #include "func_800291E0.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
+#include "func_80019608.h"
 
 extern u8 *D_800E9EF0[];
 /* Defined rather than declared: the assembler only resolves a small global
