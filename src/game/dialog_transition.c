@@ -11,6 +11,7 @@
 #include "text_box_runtime.h"
 #include "func_80039794.h"
 #include "duel_effect_create_channel.h"
+#include "dialog_transition.h"
 
 extern u8 D_8009B3C7;
 extern s8 gDialog_bChoice __attribute__((section(".data")));

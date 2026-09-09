@@ -6,6 +6,7 @@
 #include "../psyq/libgs.h"
 #include "func_8003A440.h"
 #include "func_8003A1EC.h"
+#include "func_8003AC48.h"
 
 void func_8003AC48(u8 *p)
 {
