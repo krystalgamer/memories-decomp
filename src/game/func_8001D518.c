@@ -4,9 +4,9 @@
 #include "display_object_helpers.h"
 #include "display_object_config.h"
 #include "display_object.h"
+#include "display_projection.h"
 
 extern DisplayObject *D_8009B1F8;
-extern void func_80015DB8(DisplayObject *);
 
 DisplayObject *func_8001D518(DisplayObject *source)
 {

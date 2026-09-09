@@ -36,20 +36,13 @@ void func_80015D18(DisplayObject *object)
     SetGeomOffset(0, 0);
 }
 
-typedef struct {
-    u8 pad_00[0x28];
-    s32 position;
-    u8 pad_2C[0x3E];
-    u8 slot;
-} SlotProjectionObject;
-
-void func_80015DB8(SlotProjectionObject *object)
+void func_80015DB8(DisplayObject *object)
 {
     DisplayObject *entry;
 
-    entry = D_800EFE48 + object->slot;
-    object->position = entry->position.word;
-    func_80015D18((DisplayObject *)object);
+    entry = D_800EFE48 + object->field_6A;
+    object->position.word = entry->position.word;
+    func_80015D18(object);
 }
 
 /* Immediately follows func_80015DB8 in the image and shares its projection

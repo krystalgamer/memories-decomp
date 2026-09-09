@@ -4,5 +4,6 @@
 #include "display_object.h"
 
 void func_80015D18(DisplayObject *object);
+void func_80015DB8(DisplayObject *object);
 
 #endif
