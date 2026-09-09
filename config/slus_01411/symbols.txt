@@ -238,6 +238,7 @@ gFile_szModelMrgPath = 0x80011580;
 gFile_szSuMrgPath = 0x800117C8;
 gFile_apszName = 0x8009078C;
 gDuel_aTerrainBoost = 0x800909D4;
+gDuel_abMonsterRemovalRules = 0x80090A4C;
 gGraphics_bActiveBuffer = 0x8009B0AC;
 gCardGrid_bCursorColumn = 0x8009B258;
 gCardGrid_bCursorRow = 0x8009B259;
