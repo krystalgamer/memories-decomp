@@ -217,6 +217,7 @@ check-progress: split
 	@$(PYTHON) tools/project/progress.py --check
 
 check-notes:
+	@$(PYTHON) tools/project/check_notes.py --self-test
 	@$(PYTHON) tools/project/check_notes.py
 
 check-candidate-headlines:
