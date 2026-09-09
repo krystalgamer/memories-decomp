@@ -5,9 +5,8 @@
 
 typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
 
-/* Frontend screen state. None of these is defined in C, and all four sources
- * that use them already include this header, so they were being re-declared
- * by hand for no reason other than the absence of a line here.
+/* Frontend screen state, all of it owned by frontend.c. None of these is
+ * defined in C.
  *
  * What the uses show, without renaming anything:
  *
@@ -15,8 +14,16 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
  *                          the wheel has eleven positions.
  *   gMain_apMenuEntries    One object pointer per entry, cleared to 0 for
  *                          the slots that are not live.
+ *   D_80184558             The three standing objects: background, title and
+ *   D_8018455C             prompt. Made by MainMenu_InitFrontendMenu and
+ *   D_80184560             released by MainMenu_DestroyFrontendMenu.
  *   D_80184596             The transition mode, taken straight from
  *                          MainMenu_StartFrontendEntryTransition's argument.
+ *   D_80184598             The fade direction, and the reason it is signed:
+ *                          MainMenu_UpdateFrontendMenu assigns it 1 and -1,
+ *                          tests `< 0` to decide which end of the fade it is
+ *                          at, and shifts it left three into D_80184597 as a
+ *                          step. See below.
  *   D_80184599             Set to 1 when that transition starts, and tested
  *                          as the "transition running" flag.
  *   D_80184597             A shade level, only ever 0 or 0x80.
@@ -24,11 +31,23 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
  *   D_8018459A..D_8018459D Four more flags with the same shape as each other:
  *                          tested non-zero, acted on, then cleared.
  *
- * D_80184598 sits inside that run and is deliberately not here: frontend_init
- * spells it u8 and frontend_update spells it s8. Moving a declaration its two
- * declarers disagree about would spread the wrong one, so it stays local
- * until the sign is settled from evidence.
+ * D_80184598 used to sit outside this list because frontend_init.c spelled it
+ * u8 and frontend_update.c spelled it s8, and a declaration its two declarers
+ * disagree about spreads the wrong one. Coalescing those two sources into
+ * frontend.c forced the question and the evidence settles it: the only writes
+ * are 0, 1 and -1, and the only read that cares about sign is `< 0`. The u8
+ * spelling was harmless rather than right, because the file that used it only
+ * ever wrote 0.
+ *
+ * D_80184558/5C/60 are here for the same reason: they were u8 * in two sources
+ * and void * in a third, and one unit can hold only one spelling. u8 * wins on
+ * use -- two of the three sources index them by byte offset, while the third
+ * only passes them to a void * parameter.
  */
+extern u8 *D_80184558;
+extern u8 *D_8018455C;
+extern u8 *D_80184560;
+extern s8 D_80184598;
 extern u8 gMain_bMenuID;
 extern u8 *gMain_apMenuEntries[];
 extern u8 D_80184595;

@@ -122,11 +122,9 @@ separate value/Trade setup. Clearing the callback has no ownership test, so
 valid frontend lifecycle remains a caller precondition. The resident-facing
 declarations in `entrypoints.h` are included by definitions and both callers.
 
-The contiguous `gcc_2_8_1_g0_split` transition initializer and teardown share
-[`frontend_lifecycle.c`](frontend_lifecycle.c) in executable order. Both own
-the `gMain_apMenuEntries` handle set; their shared manifest source and one C
-subsegment at module offset `0xD2C` cover the complete `0x140`-byte range
-through `0x80180E6C`. The following afterimage lifecycle remains separate.
+The transition initializer and teardown, the init and update entry points
+above, the background drawer and the afterimage pair are all one translation
+unit, [`frontend.c`](frontend.c) -- see *The frontend translation unit* below.
 
 ## Trade-screen ownership
 
@@ -535,12 +533,54 @@ alpha fade or a fixed lifetime for every starting color.
 included by definitions and callers. The release call explicitly passes the
 object instead of relying on an unwritten argument-register assumption.
 
-Producer and update callback share `frontend_entry_afterimages.c`, in that
-definition order. Their contiguous `0xE4 + 0x88` bytes cover
-`0x80180E6C-0x80180FD8` exactly, with callback object offset `0xE4`.
-Both retain `gcc_2_8_1_g0_split` and contribute no data or rodata. This
-coalesces one effect lifecycle without claiming the original author's
-translation-unit boundary or absorbing the following value setup.
+Producer and update callback are the last two definitions in
+[`frontend.c`](frontend.c), in that order. Their contiguous `0xE4 + 0x88`
+bytes cover `0x80180E6C-0x80180FD8` exactly, with callback object offset
+`0xE4`, and the unit ends there: `MainMenu_StartValueSetup` begins at
+`0x80180FD8` and belongs to the value-setup screen.
+
+## The frontend translation unit
+
+`frontend.c` is the whole front-end screen, `0x8018001C..0x80180FD8` as one
+contiguous `gcc_2_8_1_g0_split` run wired as a single C subsegment at module
+offset `0x1C`. It was five sources.
+
+| Address | Function | Was |
+|---|---|---|
+| `0x8018001C` | `MainMenu_InitFrontendMenu` | `frontend_init.c` |
+| `0x80180390` | `MainMenu_UpdateFrontendMenu` | `frontend_update.c` |
+| `0x80180B4C` | `MainMenu_DrawFrontendBackground` | `draw_frontend_background.c` |
+| `0x80180D2C` | `MainMenu_StartFrontendEntryTransition` | `frontend_lifecycle.c` |
+| `0x80180DD0` | `MainMenu_DestroyFrontendMenu` | `frontend_lifecycle.c` |
+| `0x80180E6C` | `MainMenu_SpawnFrontendEntryAfterimage` | `frontend_entry_afterimages.c` |
+| `0x80180F50` | `MainMenu_UpdateFrontendEntryAfterimage` | `frontend_entry_afterimages.c` |
+
+The whole module is one compiler profile, so profile adjacency proves nothing
+here. What holds these together is that they are the only users of the state
+`frontend.h` describes -- nothing outside these seven functions reads or
+writes `gMain_bMenuID`, `gMain_apMenuEntries`, the three singleton handles or
+any of the `D_801845xx` flags -- plus the direct edges between them:
+`MainMenu_InitFrontendMenu` and `MainMenu_UpdateFrontendMenu` both call
+`MainMenu_StartFrontendEntryTransition`; the init installs
+`MainMenu_DrawFrontendBackground` as the background callback; the updater
+calls `MainMenu_SpawnFrontendEntryAfterimage`, which installs
+`MainMenu_UpdateFrontendEntryAfterimage` into the copy's `+0x24` slot.
+
+**Two declarations that disagreed now cannot.** `frontend.h` recorded
+`D_80184598` as deliberately absent because `frontend_init.c` spelled it `u8`
+and `frontend_update.c` spelled it `s8`, and spreading the wrong one is worse
+than leaving it local. One unit forces the choice and the evidence is
+one-sided: the updater assigns `1` and `-1` and tests `< 0`, so it is a signed
+fade direction; the init file only ever wrote `0`, which is why its `u8` was
+harmless rather than right. `D_80184558/5C/60` were the same shape, `u8 *` in
+two sources and `void *` in a third; `u8 *` wins because two of the three
+index them by byte offset while the third only passes them to a `void *`
+parameter. All four now live in `frontend.h`.
+
+`GINPUT_PAD1_PRESSED_IS_VOLATILE` is defined for the whole unit rather than
+for one function, because it has to precede `input.h`. That is safe here:
+`MainMenu_UpdateFrontendMenu` is the only function in the unit that reads
+`gInput_wPad1Pressed` at all.
 
 ## Value-setup visuals translation unit
 
