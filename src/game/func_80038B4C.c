@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern void (*D_80090EAC[])(u8 *);
+#include "duel_effect_command_table.h"
 
 void func_80038B4C(u8 *arg0)
 {

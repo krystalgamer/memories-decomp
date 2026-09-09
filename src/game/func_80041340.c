@@ -5,10 +5,10 @@
 #include "display_object.h"
 #include "display_object_layout.h"
 #include "func_80041340.h"
+#include "display_object_list_renderer_table.h"
 
 extern u8 D_80090FCC[];
 extern u8 D_80090FDC[];
-extern void (*D_80090FB0[DISPLAY_OBJECT_LIST_COUNT])(void);
 
 void func_80041340(void)
 {

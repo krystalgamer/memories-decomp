@@ -11,6 +11,7 @@
 #include "text_box_runtime.h"
 #include "func_80039794.h"
 #include "../unmatched.h"
+#include "mem_card_dialog_steps.h"
 
 typedef struct {
     u8 pad0000[0x30];
@@ -61,7 +62,6 @@ u8 func_8003F2B0(ObjectState *object, s32 arg1, s32 arg2, s32 index)
 
 extern u8 D_8009B3EE;
 extern u8 *D_8009B3D8;
-extern void (*D_80090F9C[])(void);
 extern s32 D_8009B3BC;
 extern u8 D_8009B3C6;
 extern u8 D_8009B3DE;

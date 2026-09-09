@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "menu_record.h"
+#include "display_effect_step_table.h"
 
-extern void (*D_80090F68[])(u8 *);
 extern void func_8003B378(u8 *, s32);
 
 void func_8003B50C(s32 arg0) {

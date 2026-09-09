@@ -76,6 +76,22 @@
     {
       "source": "src/game/frontend_step_tables.c",
       "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/duel_effect_command_table.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/display_effect_step_table.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/mem_card_dialog_steps.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/display_object_list_renderer_table.c",
+      "profile": "gcc_2_8_1_g0"
     }
   ]
 }
