@@ -4,19 +4,7 @@
 #include "display_object_helpers.h"
 #include "duel_grid.h"
 #include "../unmatched.h"
-
-typedef struct {
-    u8 pad00[4];
-    u8 *object;
-    u8 pad08[7];
-    s8 col;
-    s8 row;
-    s8 min_row;
-    s8 max_row;
-    u8 pad13[5];
-    u8 page;
-    u8 flags;
-} GridCursor;
+#include "func_80023D08.h"
 
 typedef struct {
     u8 pad00[0x28];
