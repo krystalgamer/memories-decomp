@@ -31,7 +31,7 @@ void Dialog_UpdateChoice(u8 *p) {
         *(s32 *)(p + 0x30) = (s32)e;
         *(s32 *)&e->field_54 = 0x2000;
         e->field_4C = 0x2000;
-        e->field_34 = 0x2000;
+        e->field_34.word = 0x2000;
         e->field_2C.word = 0x2000;
         e->field_44.word = 0xC000;
         e->field_3C.word = 0xC000;

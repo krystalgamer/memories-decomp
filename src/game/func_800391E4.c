@@ -55,7 +55,7 @@ void func_800391E4(u8 *p) {
         func_800428EC((u8 *)e, (s8)(p[0x59] - 1));
         *(s32 *)&e->field_54 = 0xA0A0A0;
         e->field_4C = 0xA0A0A0;
-        e->field_34 = 0xA0A0A0;
+        e->field_34.word = 0xA0A0A0;
         e->field_2C.word = 0xA0A0A0;
         e->field_44.word = 0x808080;
         e->field_3C.word = 0x808080;

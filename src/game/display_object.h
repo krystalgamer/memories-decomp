@@ -151,11 +151,31 @@ typedef struct DisplayObject {
         } h;
         s32 word;
     } field_30;                    /* 0x30 */
-    /* The second of those six words. No union: every user takes it whole.
-       display_object_helpers.c zeroes it, both renderers copy it into a
-       primitive's colour word, and func_800391E4.c and Dialog_UpdateChoice
-       write colour constants into it. */
-    u32 field_34;                  /* 0x34 */
+    /* The second of those six words. This said "no union: every user takes
+       it whole", which was wrong -- and the 0x38 comment below contradicts it,
+       since 0x36 is this word's upper half and three views out of this header
+       name it.
+
+       Whole: display_object_helpers.c zeroes it, both renderers copy it into
+       a primitive's colour word, and func_800391E4.c and Dialog_UpdateChoice
+       write colour constants into it.
+
+       Halves: func_800313E8.c stores a per-frame step into 0x36, computed as
+       ((0x18 - 0x30) << 8) / 12, which is a target minus a current position
+       divided over twelve frames; game_over.c writes -0xC0 there.
+       DisplayObjectVelocity calls 0x36 velocity_x, while DisplayObjectSnapshot
+       and DisplayObjectPosition read 0x36/0x38 as a saved position.
+
+       The halves keep their offsets for names, on the grounds the 0x38
+       comment sets out at length: the velocity, saved-position and whole-word
+       colour readings all cross this range and disagree, so none governs. */
+    union {
+        u32 word;
+        struct {
+            s16 field_34;
+            s16 field_36;
+        } h;
+    } field_34;                    /* 0x34 */
     /* Read both ways, and by the same device as its neighbours.
 
        Whole: display_object_helpers.c writes 0x00808080 here as the third of
