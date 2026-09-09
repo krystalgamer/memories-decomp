@@ -61,9 +61,29 @@ typedef struct DisplayObject {
     u8 field_0B;                   /* 0x0B */
     u32 field_0C;                  /* 0x0C */
     u32 field_10;                  /* 0x10 */
+    /* DuelStatusPosition called this priority before it was retired into
+       this record, and for its own consumer that is right: func_80016D2C.c
+       passes it to GsSortFastSprite as the ordering-table depth, and
+       display_slot_lifecycle.c seeds it from D_8009AF74[ot_index].
+
+       The name is not taken, because four other consumers treat it as a bit
+       field rather than a depth: func_80025D30.c adds D_8009B1D0 << 14,
+       duel_field_effect_steps.c adds step * 0x3000, and func_80040588.c or's
+       it with 0x10000, 0xF0000 and 0x30000 into a mode word. Taking one
+       consumer's reading for the shared record is the mistake 0x6A avoids. */
     u16 field_14;                  /* 0x14 */
     s8 field_16;                   /* 0x16 */
-    u8 tex_index;                  /* 0x17 */
+    /* An ordering-table index, not a texture index. func_80016D2C.c uses it
+       to pick D_800E9D90[ot_index], casts that element to GsOT * and hands it
+       to GsSortFastSprite as the ordering table; func_80040588.c indexes the
+       same array -- its local tb is assigned D_800E9D90 -- and passes the
+       element to func_80042188; and three overlay files declare the array as
+       GsOT *D_800E9D90[]. display_object_helpers.h's D_8009AF74[4] is a
+       parallel per-layer table indexed by the same byte, which agrees.
+
+       It was tex_index until DuelStatusPosition was retired into this record;
+       that view already called it ot_index and was right. */
+    u8 ot_index;                   /* 0x17 */
     u16 field_18;                  /* 0x18 */
     u16 field_1A;                  /* 0x1A */
     u16 field_1C;                  /* 0x1C */

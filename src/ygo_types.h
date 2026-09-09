@@ -229,21 +229,6 @@ typedef char DisplayObjectStreamState_field_5A_offset_must_be_0x5A[
 ];
 
 typedef struct {
-    u8 pad_00[0x14];
-    u16 priority;
-    u8 pad_16;
-    u8 ot_index;
-    u8 pad_18[0x18];
-    u16 field_30;
-    u16 field_32;
-} DuelStatusPosition;
-
-typedef struct {
-    u8 pad_00[0x50];
-    DuelStatusPosition *field_50;
-} DuelStatusWidget;
-
-typedef struct {
     u32 field_00;
     u16 field_04;
     u16 field_06;
@@ -254,21 +239,6 @@ typedef struct {
     u32 field_14;
 } DuelStatusDigitPacket;
 
-typedef char DuelStatusPosition_size_must_be_0x34[
-    sizeof(DuelStatusPosition) == 0x34 ? 1 : -1
-];
-typedef char DuelStatusPosition_priority_offset_must_be_0x14[
-    (u32)&((DuelStatusPosition *)0)->priority == 0x14 ? 1 : -1
-];
-typedef char DuelStatusPosition_ot_index_offset_must_be_0x17[
-    (u32)&((DuelStatusPosition *)0)->ot_index == 0x17 ? 1 : -1
-];
-typedef char DuelStatusPosition_field_30_offset_must_be_0x30[
-    (u32)&((DuelStatusPosition *)0)->field_30 == 0x30 ? 1 : -1
-];
-typedef char DuelStatusWidget_field_50_offset_must_be_0x50[
-    (u32)&((DuelStatusWidget *)0)->field_50 == 0x50 ? 1 : -1
-];
 typedef char DuelStatusDigitPacket_size_must_be_0x18[
     sizeof(DuelStatusDigitPacket) == 0x18 ? 1 : -1
 ];
