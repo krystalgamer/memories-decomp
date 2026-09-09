@@ -1,72 +1,11 @@
-## `func_80030294` at 0x80030294
-
-`gcc_2_8_1_cc_g8_as_g4_split`, 324 instructions against a target of 329,
-opcode multiset distance 5. Written from scratch: no stored candidate, no rows
-in `external_attempts.csv`, empty inventory note.
-
-The debug value editor's per-frame step, called from `func_800307B8`. On the
-first entry with bit 0x40 set it converts the current row's value into packed
-BCD nibbles by repeated division through a `{1, 10, 100, 1000, 10000}` table;
-afterwards it reads the two pads, returns 1 or -1 for confirm/cancel, applies
-left/right nibble edits with either decimal carry propagation (through a
-`{0xA, 0x9A, 0x99A, 0x999A}` table and a `{0x000F, 0x00F0, 0x0F00, 0xF000}`
-nibble-mask set copied from `D_8009AF4C`) or a plain hex wrap (through
-`{1, 0x10, 0x100, 0x1000, 0x10000}`), moves the cursor between rows, rebuilds
-the 0x28-byte caret line in `D_800EAED8` and prints it.
-
-**The profile is the finding here.** The six pad globals are read with
-`lui $vN, %hi(sym)` / `lhu $vN, %lo(sym)($vN)` *rematerialised at every site*.
-That is not `-msplit-addresses`: gcc's split form is CSEd, and one `lui` pair
-is then shared across all nine reads. It is the **assembler's** macro expansion
-of `lhu $v0, sym`, which for a load uses the destination register rather than
-`$at`. So gcc must think the symbol is small data (it does not split) while the
-assembler must not (it cannot use `$gp`): compile at `-G8` with `u16 pad[4]`
-declarations and assemble at `-G4`, which is `gcc_2_8_1_cc_g8_as_g4_split`.
-`-G4` is pinned from the other side by `D_8009B2EC`, a four-byte global that is
-`%gp_rel` here. Unsized arrays instead give the split form and cost 9
-instructions to CSE; the `.data` attribute gives the `$at` form.
-
-The pads are also `volatile`: each test re-reads both of them, where a plain
-declaration CSEs the pair across the four tests.
-
-**Integration will need rodata lines.** The three tables are local array
-initialisers that gcc emits into `.rodata`, so the file owns 0xA50-0xA87 and
-the split needs `[0xA50, .rodata, game/func_80030294]` plus
-`[0xA88, rodata, initial_data_1]` for the remainder, replacing the current
-`[0xA50, rodata, initial_data_1]`.
-
-**What is left is 5 instructions**, spread over four places and all of the same
-kind: the `sp + 0x10` frame address for the decimal table is materialised in
-the entry block instead of inside the conversion branch (retail has
-`addiu $v1, $sp, 0x10` at 0x124), which shifts one register through the whole
-init block; the `carry += step` add sits before the sign test instead of in its
-delay slot; one of the two `carry = 0` stores is shared where retail keeps
-both; and the caret-clear loop's `li` and first `sb` are one slot apart from
-retail's. Measured negatives on the first: `&dec[i]`, `dec + i`, `&dec[0] + i`
-and an integer-arithmetic spelling are all identical, indexing `dec[i]` in the
-loop body loses the strength reduction entirely (102 against 59), and splitting
-the pointer into `p = dec; p = p + i;` is what got the array-copy block's
-temporaries back onto retail's numbering, worth 46 alignment positions.
-
-### Levers that got it here
-
-- *The three tables are `= { ... }` initialisers, not element stores.* Written
-  as assignments gcc materialises each constant with `li` and the whole
-  rodata-to-stack copy disappears (32 instructions).
-- *The nibble masks are an 8-byte aggregate copy from a `u8` global*, which is
-  what gives the `lwl`/`lwr` and `swl`/`swr` pairs; the destination is `u16[4]`
-  and the source alignment is 1.
-- *The digit loop walks a decrementing pointer and keeps the counter*, because
-  the counter is also the shift amount. A `for` over `dec[i]` recomputes the
-  address every iteration.
-- *`D_8009B2B4` is read with `lb`*, so the caret offset table is `s8`, while
-  `D_8009B2C0` next to it is `lbu`.
-- *The cursor-wrap test is written `>=` with the wrap body first*: retail's
-  `bnez` goes to the in-range arm, so the out-of-range arm is the fall-through.
-
-### Source
-
-```c
+/*
+ * Current best under gcc_2_8_1_cc_g8_as_g4_split: 324/329 instructions and
+ * opcode distance 5. Sized volatile pad globals stay small data to GCC at
+ * -G8, while assembler -G4 bare-symbol loads rematerialize through each
+ * destination register. The three local initialized tables produce 0x38
+ * bytes of fingerprinted .rodata. Residual: frame-address placement,
+ * carry-add scheduling, one shared carry-zero store and the caret-clear loop.
+ */
 #include "../types.h"
 
 typedef struct {
@@ -239,4 +178,3 @@ print:
     FntPrint(D_8009AF58, D_800EAED8);
     return ret;
 }
-```
