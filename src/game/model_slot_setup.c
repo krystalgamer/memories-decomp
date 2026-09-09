@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model.h"
+#include "model_init_light_triplet.h"
 
 /* One model slot's setup: the reset that gives it its defaults (0x8005611C)
    and the per-frame duel-side layout pass that reads them (0x80056250). The
@@ -14,7 +15,6 @@
    and +0xE0A back, and sets +0xE1F to 1. */
 
 void func_8005B5FC(s32 *destination, s32 value, u32 count);
-void Model_InitLightTriplet(s32 index);
 void func_8004CB0C(void);
 void func_8004D75C(s32 arg0);
 void func_8004D914(s32 arg0);
