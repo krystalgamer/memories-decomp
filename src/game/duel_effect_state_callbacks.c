@@ -1,3 +1,4 @@
+#define D_8009B0CC_IN_DATA
 #include "../types.h"
 #include "func_80036D3C.h"
 #include "../psyq/rand.h"
@@ -5,7 +6,6 @@
 #include "graphics_frame.h"
 #include "display_effect_lifecycle.h"
 
-extern u32 D_8009B0CC[];
 extern s16 D_8009B322;
 extern u16 D_8009B348[2];
 extern int func_80049120(void *);
@@ -86,7 +86,7 @@ void func_80037A58(u8 *object)
         D_8009B348[0] = gGraphics_uViewportX[0];
         D_8009B348[1] = gGraphics_uViewportY[0];
     }
-    if (D_8009B0CC[0] & 1) {
+    if (D_8009B0CC & 1) {
         gGraphics_uViewportX[0] = D_8009B348[0] + ((rand() & 7) - 4);
         gGraphics_uViewportY[0] = D_8009B348[1] + ((rand() & 3) - 2);
     }

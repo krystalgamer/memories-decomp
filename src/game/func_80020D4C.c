@@ -1,6 +1,8 @@
+#define D_8009B0CC_IN_DATA
 #include "../types.h"
 #include "display_object_api.h"
 #include "display_object_lifecycle.h"
+#include "graphics_frame.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -52,9 +54,6 @@ struct Slot {
     u8 pad3[0x60 - 0x42];
     u16 f60;
 };
-
-extern s32 D_8009B0CC_arr[16];
-#define D_8009B0CC (D_8009B0CC_arr[0])
 
 void func_80020D4C(struct Obj *arg0) {
     s16 timer;
