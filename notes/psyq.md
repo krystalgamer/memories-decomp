@@ -335,6 +335,7 @@ Every row below is now an applied project symbol.
 | `0x80082A90` | `ReadTIM` | Applied Psy-Q 4.6 identity at offset `0x10` of the same unique `LIBGPU.LIB/T00.OBJ` signature. |
 | `0x80084240` | `GsSortBoxFill` | Applied Psy-Q 4.6 identity; the matching fade renderer submits strip or full-screen box fills to its ordering table. |
 | `0x80084320` | `GsSortPoly` | Applied from the unique complete 464-byte Psy-Q 4.6 `LIBGS.LIB/2D_PRIM.OBJ` signature. Main-menu background, decimal-digit, card-type-icon and starchip-bar callers use the canonical `libgs.h` declaration and `GsOT *` view. |
+| `0x800844F0` | `GsSortSprite` | Applied from the unique exact Psy-Q 4.6 `LIBGS.LIB/2D_SP0.OBJ` signature. Canonical `libgs.h` takes a `GsSPRITE *`, `GsOT *` and unsigned-short priority; `display_object.h` confirms the game-owned attribute word is copied into compatible sprite descriptors and interprets its bits with the LIBGS flag names. |
 | `0x800849F0` | `GsSortFastSprite` | Applied Psy-Q 4.6 identity; matching UI paths submit sprite records to an ordering table at the requested priority. |
 | `0x80084DD0` | `GsInitGraph` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,360-byte `LIBGS.LIB/GS_001.OBJ` signature. |
 | `0x80084F60` | `GsInitGraph2` | Applied Psy-Q 4.6 identity at offset `0x190` of the same `LIBGS.LIB/GS_001.OBJ` object. |
