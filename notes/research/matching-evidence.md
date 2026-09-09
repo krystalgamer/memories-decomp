@@ -3270,10 +3270,6 @@ the barrier was holding it:
 | `Model_UpdateViewMetrics` | one register, `0x69` to `0x6A` |
 | `func_800289BC` | one store reordered |
 | `func_8002FB78` | two instructions deleted |
-| `func_8002F4C0` | one `sh` sunk into a load-delay slot, same count |
-| `func_800434F4` | one register, `0x03` to `0x02` at `0x80043536` |
-| `func_8003A01C` | eight bytes deleted |
-| `func_80032184` | thirty-six bytes deleted |
 
 So before converting offset casts to members, look for the two shapes that
 make the barrier load-bearing: a **whole-struct assignment** to or from the
@@ -3282,23 +3278,6 @@ stores. Either one means the conversion costs a build to check rather than
 being free by inspection. Neither means it will fail -- `func_800289BC` has
 the first shape and matched once every access was converted -- only that it
 must be measured.
-
-The bottom four rows are the same record as `func_8002FB78`: they are four of
-the seven phase callbacks `File_RequestAsyncTransfer` hands its own
-`FileTransferDescriptor` to, and every one of them holds a read-modify-write
-on `D_8009B0F4` around the stores. Two things that family adds to the rule:
-
-- **The shape is a warning, not a verdict.** Two of the seven --
-  `func_80020BE4` and `func_800289BC` -- have exactly the same shape and
-  convert byte-identically. So the screen tells you to measure, not to skip.
-  Note that `func_800289BC`'s row above is about a *different* object in the
-  same function: the half-converted `DuelEffectResourceRecord`. Its
-  `FileTransferDescriptor` parameter converts for free.
-- **Measure one file at a time.** Converting five of them in one build
-  reported only `rebuilt executable is 0x1d07d4 bytes, expected 0x1d0800`.
-  That size error came from two files, and it masked the fact that two more
-  were wrong at the *same* size -- the byte comparison never ran. One file per
-  build, or the first failure hides the rest.
 
 - **`sizeof(T)` may replace a literal stride** once the cast is in place.
 - **But a proven-equal `sizeof` is not a licence to switch to typed indexing.**
