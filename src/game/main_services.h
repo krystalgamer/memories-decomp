@@ -83,6 +83,14 @@ extern u8 D_8009B26D __attribute__((section(".data")));
 extern u8 D_8009B26D;
 #endif
 
+/* Main_Init's no-argument spelling is load-bearing even though its work-area
+ * pointer is already in $a0; making the source argument explicit changes the
+ * caller before the call. The definition sees the canonical pointer arm. */
+#ifdef FUNC_80013154_NO_ARGS
+void func_80013154(void);
+#else
+void func_80013154(u8 *base);
+#endif
 void func_800134B4(void);
 
 #endif

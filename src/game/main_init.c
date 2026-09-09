@@ -20,6 +20,7 @@
 #include "func_80043BCC.h"
 #include "main_loop.h"
 #include "main_reset_frontend_runtime.h"
+#define FUNC_80013154_NO_ARGS
 #include "main_services.h"
 #include "rand_constants.h"
 #include "movie_playback_control.h"
@@ -37,7 +38,6 @@ extern u8 D_8009B4A8[];
 extern u8 D_800E9EC0[];
 
 extern void __main(void);
-extern void func_80013154(void);
 
 s32 Main_Init(void)
 {
