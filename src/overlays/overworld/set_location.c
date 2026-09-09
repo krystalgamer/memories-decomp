@@ -5,6 +5,7 @@
 #include "location_label.h"
 #include "location_marker.h"
 #include "../../game/campaign_flags.h"
+#include "../../game/model_slot_setup.h"
 #include "../../game/model_scene_setup.h"
 #include "../../game/display_object_api.h"
 #include "../../psyq/libgte.h"
@@ -20,7 +21,6 @@ extern u8 *D_801695D8;
 extern void *D_800E9DBC;
 extern s32 D_80010000;
 extern void func_800530C4(void);
-extern void func_80056250(s32, s32, s32, s32);
 extern u8 *func_80058F74(s32);
 extern void func_8005922C(u8 *, s32 *);
 extern void func_80035668(s32);
@@ -46,7 +46,7 @@ void CampaignMap_SetLocation(s32 index)
     }
     func_800530C4();
     func_800533D8();
-    func_80056250(2, D_80010000, 0x43000, 0);
+    func_80056250(2, (u8 *)D_80010000, 0x43000, 0);
     obj = func_80058F74(2);
     colour[0] = 1365;
     colour[1] = 1365;
