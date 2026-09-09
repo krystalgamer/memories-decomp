@@ -7,7 +7,7 @@
 s32 func_80049FB4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 /* Re-derives a voice's raw pitch when its channel's pitch-bend MSB changes
- * (or when forced). Caches the bend value in the object, adds func_8004A3BC's
+ * (or when forced). Caches the bend value in the object, adds SD_CalcPitchBend's
  * adjustment to the note in 7.7 units, fills the voice_attr request block
  * in the secondary state and submits it through SpuSetVoiceAttr. */
 void func_8004A43C(SDSecondaryObject *p, s32 force) {
@@ -22,7 +22,7 @@ void func_8004A43C(SDSecondaryObject *p, s32 force) {
         return;
     }
     p->cached_pitch_bend = e[7];
-    v = func_8004A3BC(p, e[7]);
+    v = SD_CalcPitchBend(p, e[7]);
     v = v + (p->note << 7);
     x = (s16)v >> 7;
     y = v & 0x7F;

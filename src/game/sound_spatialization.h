@@ -3,7 +3,7 @@
 
 #include "sound.h"
 
-void func_8004A2F8(void);
-s32 func_8004A3BC(SDSecondaryObject *entry, s32 value);
+void SD_UpdateSecondaryObjectVolumes(void);
+s32 SD_CalcPitchBend(SDSecondaryObject *entry, s32 value);
 
 #endif

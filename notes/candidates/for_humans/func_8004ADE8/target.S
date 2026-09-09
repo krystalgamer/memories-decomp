@@ -233,7 +233,7 @@ glabel func_8004ADE8
     /* 3B92C 8004B12C 58B4428C */  lw         $v0, %lo(D_8009B458)($v0)
     /* 3B930 8004B130 C0280500 */  sll        $a1, $a1, 3
     /* 3B934 8004B134 21204400 */  addu       $a0, $v0, $a0
-    /* 3B938 8004B138 3F28010C */  jal        func_8004A0FC
+    /* 3B938 8004B138 3F28010C */  jal        SD_SpatializeSecondaryObject
     /* 3B93C 8004B13C 21284500 */   addu      $a1, $v0, $a1
     /* 3B940 8004B140 0A80043C */  lui        $a0, %hi(D_8009B458)
     /* 3B944 8004B144 58B4848C */  lw         $a0, %lo(D_8009B458)($a0)
@@ -259,7 +259,7 @@ glabel func_8004ADE8
     /* 3B994 8004B194 1A0002A6 */  sh         $v0, 0x1A($s0)
     /* 3B998 8004B198 1C0003A6 */  sh         $v1, 0x1C($s0)
     /* 3B99C 8004B19C 07006592 */  lbu        $a1, 0x7($s3)
-    /* 3B9A0 8004B1A0 EF28010C */  jal        func_8004A3BC
+    /* 3B9A0 8004B1A0 EF28010C */  jal        SD_CalcPitchBend
     /* 3B9A4 8004B1A4 21200002 */   addu      $a0, $s0, $zero
     /* 3B9A8 8004B1A8 06000392 */  lbu        $v1, 0x6($s0)
     /* 3B9AC 8004B1AC 04004692 */  lbu        $a2, 0x4($s2)

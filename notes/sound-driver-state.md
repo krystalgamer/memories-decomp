@@ -402,10 +402,10 @@ channel controls without changing their byte storage:
 | Offset | Member | Evidence |
 |---|---|---|
 | `+0x00` | `program` | Program-change dispatch calls `func_8004B6E8`, which stores its program byte here. |
-| `+0x01` | `pan` | Controller `0x0A` writes it; `func_8004A0FC` includes it in the pan sum. |
-| `+0x03` | `volume` | Controller `7` writes it; `func_8004A0FC` multiplies it into the level. |
-| `+0x05` | `expression` | Controller `0x0B` writes it; `func_8004A0FC` applies it as another level factor. |
-| `+0x07` | `pitch_bend_msb` | Pitch-bend dispatch passes the second data byte to `func_8004B70C`; `func_8004A43C` caches it and obtains the pitch adjustment through `func_8004A3BC`. |
+| `+0x01` | `pan` | Controller `0x0A` writes it; `SD_SpatializeSecondaryObject` includes it in the pan sum. |
+| `+0x03` | `volume` | Controller `7` writes it; `SD_SpatializeSecondaryObject` multiplies it into the level. |
+| `+0x05` | `expression` | Controller `0x0B` writes it; `SD_SpatializeSecondaryObject` applies it as another level factor. |
+| `+0x07` | `pitch_bend_msb` | Pitch-bend dispatch passes the second data byte to `func_8004B70C`; `func_8004A43C` caches it and obtains the pitch adjustment through `SD_CalcPitchBend`. |
 
 The pan writer still substitutes `1` for an incoming zero. Pitch bend still
 stores only the second data byte masked to seven bits; the first data byte
@@ -414,7 +414,7 @@ change the raw gain/pitch readers. In particular, the cached `+0x07` value is
 pitch bend, not a bank byte.
 
 The stored bend MSB uses `SD_SEQUENCE_PITCH_BEND_MSB_MASK` (`0x7F`), separate
-from pan and other seven-bit fields. `func_8004A3BC` narrows its input to a
+from pan and other seven-bit fields. `SD_CalcPitchBend` narrows its input to a
 byte and returns zero at `SD_SEQUENCE_PITCH_BEND_CENTER` (`64`). Below center
 it uses the object's `pitch_bend_negative_scale` at `+0x11` and the distance
 from `64`; above center it uses `pitch_bend_positive_scale` at `+0x10` and subtracts
@@ -579,7 +579,7 @@ batch retained the exact full executable hash.
 
 Six matching-C functions containing GCC inline assembly remain unchanged and
 keep their local raw declarations: `func_80049CF8`, `func_80049DD8`,
-`func_8004A2F8`, `func_8004A854`, `SD_SequenceTimerCallback`, and
+`SD_UpdateSecondaryObjectVolumes`, `func_8004A854`, `SD_SequenceTimerCallback`, and
 `SD_StartSequenceTracks`.
 
 Three migrated functions retain explicit raw indexing where the shared type

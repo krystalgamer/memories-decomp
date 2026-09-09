@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_8004A0FC.h"
+#include "sound_spatialize_object.h"
 
 #define SDSECONDARYSTATE_CUSTOM_EXTERN
 #include "sound.h"
@@ -7,9 +7,9 @@
 
 extern u8 *D_8009B458;
 
-extern void func_8004A27C(int, int, int);
+extern void SD_SetVoiceVolume(int, int, int);
 
-void func_8004A2F8(void)
+void SD_UpdateSecondaryObjectVolumes(void)
 {
     register u8 *state asm("$6") = D_8009B458;
     register int i asm("$17");
@@ -28,11 +28,12 @@ void func_8004A2F8(void)
                 int value = entry[0x183];
                 u8 *current;
 
-                func_8004A0FC(state + object_offset,
-                              state + value * SD_SEQUENCE_CHANNEL_RECORD_SIZE);
+                SD_SpatializeSecondaryObject(
+                    state + object_offset,
+                    state + value * SD_SEQUENCE_CHANNEL_RECORD_SIZE);
                 current = D_8009B458;
-                func_8004A27C(i, *(u16 *)(current + offset + 0x194),
-                              *(u16 *)(current + offset + 0x196));
+                SD_SetVoiceVolume(i, *(u16 *)(current + offset + 0x194),
+                                  *(u16 *)(current + offset + 0x196));
             }
             object_offset += SD_SECONDARY_OBJECT_SIZE;
             asm volatile("" : "+r"(object_offset));
@@ -45,7 +46,7 @@ void func_8004A2F8(void)
     }
 }
 
-s32 func_8004A3BC(SDSecondaryObject *entry, s32 value)
+s32 SD_CalcPitchBend(SDSecondaryObject *entry, s32 value)
 {
     u8 check = value;
     int result;

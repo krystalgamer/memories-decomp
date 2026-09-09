@@ -194,7 +194,9 @@ typedef struct {
     u8 field_0009;
     u8 field_000A;
     u8 field_000B;
-    u8 field_000C;
+    /* Written by SD_SpatializeSecondaryObject: the 0-0x7F pan position it
+       derives from the object's two pan bytes and its channel's pan. */
+    u8 pan;
     u8 pad000D;
     u8 field_000E;
     u8 field_000F;
@@ -202,8 +204,10 @@ typedef struct {
     u8 pitch_bend_negative_scale;
     u8 field_0012;
     u8 field_0013;
-    u16 field_0014;
-    u16 field_0016;
+    /* The stereo level pair SD_SpatializeSecondaryObject computes and
+       SD_UpdateSecondaryObjectVolumes hands to SD_SetVoiceVolume. */
+    u16 level_left;
+    u16 level_right;
     u8 pad0018[2];
     s16 cached_pitch_bend;
     u8 pad001C[2];
@@ -537,7 +541,7 @@ extern SDSecondaryState *D_8009B458;
 
 /* One SPU voice bit per entry.  The object at D_80011434 is twenty words
  * holding 1 << n for n = 0 .. 19, read out of the retail image.  The uses
- * agree that these are voice masks: func_8004A27C submits D_80011434[voice]
+ * agree that these are voice masks: SD_SetVoiceVolume submits D_80011434[voice]
  * as the `voice` field of the SpuVoiceAttr it hands to SpuSetVoiceAttr, and
  * func_8004A7C0 passes an entry straight to SpuSetKey and SpuGetKeyStatus,
  * both of which take a voice mask.

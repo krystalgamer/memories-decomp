@@ -1,10 +1,13 @@
 #include "../types.h"
-#include "func_8004A0FC.h"
+#include "sound_spatialize_object.h"
 #include "sound_sequence_constants.h"
 
 extern u8 *D_8009B458;
 
-void func_8004A0FC(u8 *arg0, u8 *arg1)
+/* The object parameter is copied into a $7-pinned local rather than used
+   directly; that pin is the matching device, so the parameter keeps a
+   separate name. `channel` is used as passed. */
+void SD_SpatializeSecondaryObject(u8 *object_arg, u8 *channel)
 {
     register u8 *object asm("$7");
     s32 pan;
@@ -17,12 +20,12 @@ void func_8004A0FC(u8 *arg0, u8 *arg1)
     register s32 right asm("$4");
     s32 center;
 
-    object = arg0;
+    object = object_arg;
     state1 = D_8009B458;
     if (state1[0x815] != 0) {
         pan = SD_SECONDARY_PAN_CENTER;
     } else {
-        pan = state1[0x4BF] + object[0xA] + object[0xB] + arg1[1] -
+        pan = state1[0x4BF] + object[0xA] + object[0xB] + channel[1] -
               SD_SECONDARY_PAN_SUM_BIAS;
     }
     if (pan < 0) {
@@ -35,8 +38,8 @@ void func_8004A0FC(u8 *arg0, u8 *arg1)
 
     state2 = D_8009B458;
     level = state2[0x4BC] * *(u16 *)(state2 + 0x512);
-    level = level * arg1[5];
-    level = level * arg1[3];
+    level = level * channel[5];
+    level = level * channel[3];
     level = level >> 14;
     level = level * object[8];
     product = level * object[9];

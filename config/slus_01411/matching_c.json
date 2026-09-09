@@ -4726,13 +4726,13 @@
       "address": "0x8004A0FC",
       "profile": "gcc_2_8_1_g0_no_cse_follow_jumps",
       "size": "0x180",
-      "source": "src/game/func_8004A0FC.c"
+      "source": "src/game/sound_spatialize_object.c"
     },
     {
       "address": "0x8004A27C",
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0x7C",
-      "source": "src/game/func_8004A27C.c"
+      "source": "src/game/sound_voice_volume.c"
     },
     {
       "address": "0x8004A2F8",
