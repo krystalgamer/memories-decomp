@@ -1,20 +1,8 @@
 #include "../types.h"
 #include "duel_grid.h"
 #include "display_object.h"
+#include "display_parent_links.h"
 #include "func_80022EEC.h"
-
-typedef struct DisplayLinkEntry {
-    DisplayObject *object;
-    u8 pad_04[8];
-} DisplayLinkEntry;
-
-typedef struct DisplayParent {
-    DisplayObject *position_base;
-    DisplayObject *base;
-    DisplayLinkEntry *entries;
-    u8 pad_0C[0xB];
-    u8 index;
-} DisplayParent;
 
 void func_80022F98(DisplayParent *parent, volatile DisplayObject *object)
 {
@@ -32,7 +20,7 @@ void func_80022F98(DisplayParent *parent, volatile DisplayObject *object)
     }
 }
 
-void func_80022FF0(DisplayParent *argument, int flag)
+void func_80022FF0(DisplayParent *argument, s32 flag)
 {
     register DisplayParent *parent asm("$19") = argument;
     register int clear asm("$20") = flag;
