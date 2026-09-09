@@ -1,14 +1,7 @@
 #include "../types.h"
 #include "save_data.h"
 
-typedef struct {
-    u8 pad_000[SAVE_DATA_DUELIST_CODE_OFFSET];
-    s32 duelist_code;
-} SaveRecord;
-
-extern s32 gSaveDataSequence;
-
-s32 SaveData_HasSameDuelistCode(SaveRecord *left, SaveRecord *right)
+s32 SaveData_HasSameDuelistCode(SaveDataState *left, SaveDataState *right)
 {
     s32 i;
 
@@ -21,13 +14,14 @@ s32 SaveData_HasSameDuelistCode(SaveRecord *left, SaveRecord *right)
     return 0;
 }
 
-s32 SaveData_MatchesDuelistAndCurrentSequence(SaveRecord *left, u8 *right)
+s32 SaveData_MatchesDuelistAndCurrentSequence(
+    SaveDataState *left,
+    SaveDataState *right)
 {
     s32 result;
 
-    if (SaveData_HasSameDuelistCode(left, (SaveRecord *)right)) {
-        result =
-            gSaveDataSequence == *(s32 *)(right + SAVE_DATA_SEQUENCE_OFFSET);
+    if (SaveData_HasSameDuelistCode(left, right)) {
+        result = gSaveDataSequence == right->save_sequence;
     } else {
         result = 0;
     }
