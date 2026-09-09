@@ -11,6 +11,7 @@
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "duel_card.h"
+#include "func_80019BA0.h"
 #include "duel_card_object_cleanup.h"
 #include "duel_card_effects.h"
 
@@ -248,8 +249,6 @@ hit:
 
 extern u8 D_801A7B64[];
 
-extern void func_80019BA0(u8 *arg0, u8 arg1, s16 arg2, s16 arg3);
-
 void DuelEffect_UpdateFieldMarker(void) {
     DuelCardRecord *r;
     u8 *p;
@@ -276,7 +275,7 @@ void DuelEffect_UpdateFieldMarker(void) {
                 r = &D_801A7AD8[c];
                 if ((*(s32 *)&r->terrain_modifier & 0x88000000) ==
                     0x88000000) {
-                    func_80019BA0((u8 *)r->object, 0xC0, 0, 6);
+                    func_80019BA0((DisplayObject *)r->object, 0xC0, 0, 6);
                     r->flags &= ~DUEL_CARD_FLAG_DEFENSE_POSITION;
                 }
                 D_8009B220 = D_8009B220 | 0x20;
