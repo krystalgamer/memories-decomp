@@ -8,6 +8,7 @@
 #include "display_object_api.h"
 #include "text_box_runtime.h"
 #include "func_80036C14.h"
+#include "menu_record_reset.h"
 #include "text_stream_commands.h"
 
 extern u16 D_801B0000[];
@@ -30,7 +31,6 @@ volatile u16 D_8009B33A;
 extern u16 D_8009B35A;
 extern u16 D_8009B27C __attribute__((section(".data")));
 
-extern void func_80039E9C(void);
 extern void func_800391E4(u8 *);
 extern void func_80035CA8(s32);
 extern void DuelEffect_ClearMatchingMarker(s32);

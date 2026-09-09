@@ -2,6 +2,7 @@
 #include "scene_script.h"
 #include "file_transfer.h"
 #include "graphics_frame.h"
+#include "menu_record_reset.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
@@ -17,7 +18,6 @@ extern s32 D_80010000 __attribute__((section(".data")));
 extern RECT D_800E9D70[];
 
 extern void func_8002FB78(void);
-extern void func_80039E9C(void);
 extern void *func_8002E3FC(void);
 
 /* Loads the fixed scene presentation/event package. The argument initializes

@@ -1,5 +1,7 @@
 #include "../types.h"
 #include "menu_record.h"
+#include "menu_record_reset.h"
+
 extern s8 D_8015C410[5];
 
 s8 *func_80039E9C(void)

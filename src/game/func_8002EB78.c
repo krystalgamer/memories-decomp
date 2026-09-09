@@ -2,10 +2,10 @@
 #include "display_effect_lifecycle.h"
 #include "script_command_busy.h"
 #include "menu_record.h"
+#include "menu_record_reset.h"
 #include "script_state.h"
 
 extern u8 *D_8009B274;
-extern s8 *func_80039E9C(void);
 extern void func_8003B50C(s32);
 
 void func_8002EB78(void)
