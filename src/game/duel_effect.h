@@ -148,6 +148,21 @@ typedef char DuelEffectEntry_field_18_offset_must_be_0x18[
 #undef DUEL_EFFECT_OFFSET
 
 extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
+/* D_800EB15C is D_800EB0F8[1] under its own name: 0x800EB0F8 + 0x64, one
+ * DuelEffectChannel in. It stays a second name because how this address is
+ * spelled is a codegen input, and two matched functions record the shape:
+ * func_80031084.c has to hold the array base in a local, since writing
+ * `&D_800EB0F8[1]` inline folds the record offset into the address and
+ * drops the `addiu` retail keeps for the call argument; and
+ * FreeDuel_UpdateScreen has to hold this symbol in a local, since writing
+ * `D_800EB15C + 0x34` inline folds the offset into the relocation and the
+ * base instruction disappears (free_duel_functions.csv,
+ * notes/overlays/matching-patterns.md). Neither of those measures the name
+ * against `&D_800EB0F8[1]` -- func_8002DC38.c passes that form directly and
+ * matches -- so what is established is that the four files using this name
+ * match as written; whether they would also match through the array index
+ * is not measured. */
+extern DuelEffectChannel D_800EB15C;
 extern DuelEffectEntry D_800EB288[DUEL_EFFECT_ENTRY_COUNT];
 
 /* The effect/text advance flag. TextBox_BuildStep is the only reader: it

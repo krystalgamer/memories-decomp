@@ -72,6 +72,10 @@
     {
       "source": "src/game/duel_scene_callbacks.c",
       "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/frontend_step_tables.c",
+      "profile": "gcc_2_8_1_g0"
     }
   ]
 }

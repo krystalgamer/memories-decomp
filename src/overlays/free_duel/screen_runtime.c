@@ -5,6 +5,7 @@
 #include "../../game/display_object_layout.h"
 #include "../../game/input.h"
 #include "../../game/text_box_lifecycle.h"
+#include "../../game/duel_effect.h"
 #include "../../psyq/rand.h"
 #include "../../game/sound.h"
 #include "../../game/display_object_helpers.h"
@@ -13,7 +14,6 @@
 extern u8 gFreeDuel_bScreenFlags;
 extern u8 *gFreeDuel_pCursorWidget;
 extern u8 gFreeDuel_abGridAvailable[];
-extern u8 D_800EB15C[];
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 extern u8 gFreeDuel_bReturnFlags;
@@ -98,7 +98,7 @@ void FreeDuel_UpdateScreen(void)
 
     if ((gFreeDuel_bScreenFlags & 0x20) != 0) {
         func_80039794();
-        panel = D_800EB15C;
+        panel = (u8 *)&D_800EB15C;
         if ((*(u16 *)(panel + 0x34) & 8) == 0) {
             gFreeDuel_bScreenFlags &= 0xDF;
             TextBox_Destroy(panel);

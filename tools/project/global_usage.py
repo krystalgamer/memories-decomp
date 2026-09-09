@@ -423,6 +423,19 @@ def infer_declarations(
     return widths, arrays
 
 
+def load_declarations(
+    path: Path, known_names: set[str]
+) -> tuple[dict[str, str], set[str]]:
+    text = path.read_text(encoding="utf-8")
+    _, top_level_tokens = parse_c_functions(text)
+    declaration_names = known_names | {
+        token.value
+        for token in top_level_tokens
+        if GENERATED_NAME_RE.fullmatch(token.value)
+    }
+    return infer_declarations(top_level_tokens, declaration_names)
+
+
 def resolve_global(
     name: str,
     symbols_by_name: dict[str, int],
@@ -626,6 +639,8 @@ def collect_c_usages(
     aliases_by_address: dict[int, set[str]],
     function_addresses: set[int],
     function_names: set[str],
+    shared_widths: dict[str, str],
+    shared_arrays: set[str],
     usages: dict[tuple[int, int, str], Usage],
 ) -> None:
     addresses_by_source: dict[str, list[int]] = defaultdict(list)
@@ -651,7 +666,11 @@ def collect_c_usages(
         parsed_by_name = {function.name: function for function in parsed_functions}
         if len(parsed_by_name) != len(parsed_functions):
             raise GlobalUsageError(f"{source_name} defines duplicate function names")
-        widths, arrays = infer_declarations(top_level_tokens, known_names)
+        local_widths, local_arrays = infer_declarations(
+            top_level_tokens, known_names
+        )
+        widths = {**shared_widths, **local_widths}
+        arrays = shared_arrays | local_arrays
         for address in sorted(addresses_by_source[source_name]):
             function = inventory_by_address[address]
             parsed = parsed_by_name.get(function.name)
@@ -960,6 +979,10 @@ def generate(root: Path) -> tuple[str, int]:
     )
     function_addresses = set(inventory_by_address)
     function_names = set(inventory_by_name) | symbol_function_names
+    shared_widths, shared_arrays = load_declarations(
+        resolve_within(root, "src/unmatched.h", must_exist=True),
+        set(symbols_by_name),
+    )
     usages: dict[tuple[int, int, str], Usage] = {}
 
     collect_c_usages(
@@ -970,6 +993,8 @@ def generate(root: Path) -> tuple[str, int]:
         aliases_by_address,
         function_addresses,
         function_names,
+        shared_widths,
+        shared_arrays,
         usages,
     )
     collect_assembly_usages(

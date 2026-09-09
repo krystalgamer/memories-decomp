@@ -1,13 +1,13 @@
 #include "../types.h"
 #include "func_800300C8.h"
+#include "duel_effect.h"
 
-extern struct LayoutSource D_800EB15C;
 extern struct LayoutTarget *D_8009B2E4;
 extern s8 D_8009B2F1;
 
 void func_800300C8(void)
 {
-    struct LayoutSource *source = &D_800EB15C;
+    struct LayoutSource *source = (struct LayoutSource *)&D_800EB15C;
     s32 first = source->base;
     struct LayoutTarget *target = D_8009B2E4;
     s32 index = D_8009B2F1;

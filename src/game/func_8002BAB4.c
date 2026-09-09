@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "camera_view.h"
 #include "model_copy_slot_u16_values.h"
 #include "model_update_view_metrics.h"
 #include "view_state.h"
@@ -20,7 +21,6 @@ extern void func_8002A788(u8 *);
 extern void func_8002BAAC(u8 *);
 extern s32 func_80058DD8(s32);
 extern void func_80057AF4(s32, s32, s32);
-extern u8 *func_800591FC(void);
 
 /* Library screen state dispatcher on the low nibble of D_800EA1E8's first
  * byte. States 0, 1 and 3 hand the record to func_8002BAA0, func_8002A788

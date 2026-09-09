@@ -1,5 +1,5 @@
-#include "../../../../src/types.h"
-#include "../../../../src/game/duel_card.h"
+#include "../types.h"
+#include "../game/duel_card.h"
 
 extern u8 D_800907D8[];
 extern u8 D_800EAE88[];
@@ -14,7 +14,10 @@ extern s32 rand(void);
 extern s32 func_8002778C(void *);
 extern s32 func_800278A0(void *);
 
-/* The AI's per-turn play decision. Writes the chosen action into the three
+/* Current best under gcc_2_8_1_g8_split: 269/271 instructions, opcode
+ * distance 8, and 176 differing positions.
+ *
+ * The AI's per-turn play decision. Writes the chosen action into the three
  * bytes at D_800EAE88 + 9: the action code at +9, its argument at +0xA, and a
  * flag at +0xB. It does nothing while bit 0x1000 of D_8009B16C is set.
  *

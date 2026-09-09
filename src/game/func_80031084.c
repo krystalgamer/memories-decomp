@@ -7,9 +7,8 @@
 #include "input.h"
 #include "text_box_lifecycle.h"
 #include "../unmatched.h"
+#include "frontend_step_tables.h"
 
-extern void (*D_80090D7C[])(void);
-extern void (*D_80090D84[])(void);
 extern u8 D_8009AF54[];
 extern u8 D_8009B2F0;
 extern s8 D_8009B2F1;
