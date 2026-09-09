@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
+#include "sound_voice_selection.h"
 
 extern void func_80044E90(s32);
-extern void func_80047864(s32);
 
 void func_80048A28(s32 arg0, s32 arg1, s32 arg2)
 {

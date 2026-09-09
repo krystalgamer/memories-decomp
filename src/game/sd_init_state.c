@@ -5,6 +5,7 @@
 #include "sound_buffer_init.h"
 #include "sound_output_transition.h"
 #include "sound_voice_data.h"
+#include "sound_voice_selection.h"
 
 extern void *D_8009B460;
 extern void *D_8009B0F0 __attribute__((section(".data")));
@@ -13,7 +14,6 @@ extern u8 D_80010784[];
 extern u8 D_80010790[];
 extern u8 D_8001079C[];
 
-extern void func_800478EC(void);
 extern void func_800494F4(s32 *);
 /* Brings the sound subsystem's resident state up from cold. The state block
  * starts at the end of the loaded image and runs to 0x801EA7FF; it is zeroed a

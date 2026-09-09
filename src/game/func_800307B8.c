@@ -3,6 +3,7 @@
 #include "file_transfer.h"
 #include "input.h"
 #include "sound.h"
+#include "sound_voice_selection.h"
 #include "../unmatched.h"
 
 extern u8 D_8009B2EB;
@@ -23,7 +24,6 @@ extern void func_80030250(s32, s32, s32, s32, s32, s32, s32);
 extern void func_8003FFB4(s32);
 extern void func_8003FF88(s32);
 extern void func_8004763C(void);
-extern void func_80047AD0(s32);
 
 void func_800307B8(void)
 {

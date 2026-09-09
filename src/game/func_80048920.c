@@ -4,7 +4,7 @@
 #include "../psyq/libspu.h"
 #include "sound_pending_constants.h"
 #include "sound_voice_constants.h"
-extern void func_80047864(s32);
+#include "sound_voice_selection.h"
 
 void func_80048920(s32 arg0, s32 arg1)
 {

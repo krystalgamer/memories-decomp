@@ -4,6 +4,7 @@
 #include "sound.h"
 #include "sound_output_state.h"
 #include "sound_transfer_lifecycle.h"
+#include "sound_voice_selection.h"
 extern s32 func_80049F50(void);
 extern void func_80049C40(s32);
 extern void func_80049CB0(s32);
@@ -72,7 +73,6 @@ void func_80046DE8(void)
 #include "sound_output.h"
 extern void func_80046A08(void);
 extern void func_8004763C(void);
-extern void func_80047AD0(u32);
 extern void func_800490F0(s16, u8);
 extern void func_80049108(s16, u8);
 extern void func_80049138(s32, s32);
