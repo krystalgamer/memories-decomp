@@ -59,4 +59,14 @@ extern s8 gOptions_bOutputType;
 extern DisplayObject *D_8009B380;
 extern DisplayObject *D_8009B388;
 
+/* Builds the options screen and seeds the state above: it sets
+ * gOptions_bState to 1, copies gSD_bOutputType[0] into gOptions_bOutputType
+ * (clamping a negative to 0), clears gOptions_bSelection, and stores the two
+ * display objects into D_8009B388 and D_8009B380. It is declared here rather
+ * than in a header of its own because this is the header that already owns
+ * every global it writes.
+ *
+ * main_run_frontend_menus.c is the only caller and had the only declaration. */
+void Options_Init(void);
+
 #endif
