@@ -25,7 +25,8 @@ extern u8 D_8009B145;
  * func_800339D0.c and func_800283F4.c address D_8009B140 with %hi/%lo
  * instead, outside small data, so they take the .data arm the same way
  * script_op_show_image.c takes one for D_8009B145. Both set it from
- * D_8009AF76, which they already declare `.data` for the same reason.
+ * D_8009AF74[1] (display_object_helpers.h) and take that table's .data
+ * arm for the same reason.
  *
  * D_8009B141 needs no second arm here: graphics_frame.c does spell it
  * `.data`, but it does not include this header, so the two never meet. If it
