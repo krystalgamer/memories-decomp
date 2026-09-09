@@ -568,6 +568,14 @@ void SD_BGMFadeOut(void);
 void SD_BGMFadeOutWithStep(s32);
 void func_8003FF88(u32);
 void func_8003FFB4(u32);
+/* Two per-frame sweeps over the runtime state at D_8009B458, called together
+   by sound_secondary_commands.c and sound_sequence_runtime.c. func_8004AAFC
+   walks the 0x28-byte voice records and issues the key-off masks;
+   func_8004C84C counts down each active secondary object's field_001E and
+   clears entries that are inactive or out of channel range. Both took the
+   same spelling in each caller before this. */
+void func_8004AAFC(void);
+void func_8004C84C(void);
 void SD_SetOutputType(s16);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);
