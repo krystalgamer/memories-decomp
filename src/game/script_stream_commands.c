@@ -4,6 +4,7 @@
 #include "sound.h"
 #include "file_transfer.h"
 #include "script_state.h"
+#include "script_stream_commands.h"
 
 extern s32 D_8009B404 __attribute__((section(".data")));
 extern u8 D_801A8000[];

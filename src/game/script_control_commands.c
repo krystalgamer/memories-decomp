@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "script_command_busy.h"
 #include "script_state.h"
+#include "script_control_commands.h"
 
 extern u8 D_8009B269[];
 extern u8 D_8009B26C[];

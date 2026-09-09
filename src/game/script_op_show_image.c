@@ -12,6 +12,7 @@
 #include "script_state.h"
 #include "script_image_objects.h"
 #include "func_8002E128.h"
+#include "script_op_show_image.h"
 
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0

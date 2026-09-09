@@ -20,6 +20,8 @@
 #include "script_state.h"
 #include "main_services.h"
 #include "dialog_read_choice_input.h"
+#include "func_8002EE94.h"
+#include "duel_effect_mark_object_if_active.h"
 
 extern u8 gCampaignSceneIndex;
 extern u8 D_8009B269 __attribute__((section(".data")));
@@ -29,7 +31,6 @@ extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
 extern s16 D_801D0000[];
 extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *);
-extern void DuelEffect_MarkObjectIfActive(void *);
 
 int func_8002EE5C(void)
 {

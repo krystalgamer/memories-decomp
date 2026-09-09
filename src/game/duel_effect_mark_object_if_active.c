@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "menu_record.h"
+#include "duel_effect_mark_object_if_active.h"
 
 /* Walks D_800EB010 backward from the last record to the first; on the first
    record whose field_30 marker is non-negative, sets bit 0x2 in the caller's
