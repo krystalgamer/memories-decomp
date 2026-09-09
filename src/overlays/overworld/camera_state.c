@@ -3,13 +3,9 @@
 #include "camera_state.h"
 #include "../../psyq/libgte.h"
 #include "../../game/view_state.h"
+#include "../../game/sorted_entry.h"
 #include "campaign_map.h"
 
-extern u32 D_8009B304;
-extern u32 D_8009B308;
-extern u32 D_8009B30C;
-extern u32 D_8009B310;
-extern u32 D_8009B314;
 extern volatile u16 gInput_wPad1Held;
 extern void func_800857C0(int);
 
