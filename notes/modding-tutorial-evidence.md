@@ -120,7 +120,7 @@ dispatches to
 `D_8009B234` and `D_8009B236` with `DUEL_STARTING_LIFE_POINTS` and passes
 both addresses to `MainMenu_StartValueSetup` at `0x80180FD8`. Its matching
 input handler
-[`MainMenu_UpdateValueSetup`](../src/overlays/main_menu/update_value_setup.c) uses
+[`MainMenu_UpdateValueSetup`](../src/overlays/main_menu/value_setup.c) uses
 `DUEL_LIFE_POINT_SELECTION_STEP` to let pad 1 and pad 2 adjust their
 respective values to `1` or a multiple of 500 from 500 through 8000.
 `func_800175A0` then initializes each duel side from those two selected

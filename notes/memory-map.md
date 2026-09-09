@@ -81,7 +81,7 @@ tree at once:
 | --- | --- | --- |
 | `D_800E9D90[1]` | `frontend.c` and two more | `GsOT *D_800E9D90[]` |
 | `D_800E9D94` | `trade_screen_helpers.c` | `GsOT *D_800E9D94` |
-| `D_800E9D90[2]` | `value_setup_visuals.c`, `trade_offers.c` | `GsOT *D_800E9D90[]` |
+| `D_800E9D90[2]` | `value_setup.c`, `trade_offers.c` | `GsOT *D_800E9D90[]` |
 | `D_800E9D98` | `display_projection.c` | `void *D_800E9D98[]` |
 
 The element names are not decompiler noise. Retail materializes them itself:
