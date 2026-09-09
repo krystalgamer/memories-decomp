@@ -9,7 +9,6 @@
 #include "../unmatched.h"
 
 extern void func_800471D0(s32, s32, s32, s32, s32, s32);
-extern void func_80049138(s16, s32);
 extern void func_8004B854(void);
 extern void func_80074E60(void);
 

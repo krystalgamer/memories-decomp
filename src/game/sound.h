@@ -564,6 +564,12 @@ void SD_UpdateFades(void);
 void SD_UpdateRuntime(void);
 void SD_BGMPlay(u32);
 void SD_SEPlayFull(u32);
+/* Three arguments, and no result. Its three callers spelled the id s32, u32
+   and u16, and the last spelled the other two u8 and s8 -- all three collapse
+   onto the definition without moving a byte, because the arguments each
+   arrive already masked or already the right width. Bit 15 of `id` is a stop
+   request, and (id & 0xF000) == 0x4000 selects the second lookup table. */
+void SD_SEPlay(s32 id, s32 volume, s32 pan);
 void SD_BGMFadeOut(void);
 void SD_BGMFadeOutWithStep(s32);
 /* Three arguments, and no result: sound_spatialization.c already declared it
@@ -590,6 +596,56 @@ void func_8004C84C(void);
 void SD_ResetSequenceTracks(void);
 void func_8004A518(void);
 void func_80046A08(void);
+
+/* SD_ProcessSequenceTracks advances every sequence track by one tick;
+   func_800464F0 rebuilds the output routing. Both were reached through local
+   externs in two files each and both agreed, except that
+   SD_ProcessSequenceTracks is defined returning int and all its callers
+   declared it void -- they discard the value, which costs nothing.
+   func_80049138 likewise returns a result nobody reads; its two callers
+   disagreed only about whether the first parameter was s16, and the one that
+   said s32 already casts to s16 at the call. */
+s32 SD_ProcessSequenceTracks(void);
+void func_800464F0(void);
+s32 func_80049138(s16 arg0, s32 arg1);
+
+/* func_80049F50 reports the secondary path's state byte, promoting a
+   SD_GetSequenceStatus of 3 into it on the way. Its two callers disagree about
+   the return width and the narrower one is right to: sound_runtime.c compares
+   the result rather than storing it, so the narrowing has to be materialised
+   and the sll/sra pair it produces is retail's -- widening that caller to the
+   definition's s32 drops eight bytes. sound_output.c takes the definition's
+   spelling and casts at the use. Contrast func_800181EC, where the same
+   s16-against-int disagreement is free because every caller stores the result
+   into a 16-bit field and the sh truncates anyway. See
+   notes/research/matching-evidence.md. */
+#ifdef FUNC_80049F50_RETURNS_S16
+s16 func_80049F50(void);
+#else
+s32 func_80049F50(void);
+#endif
+
+/* Three no-argument steps of the secondary path that every caller reaches WITH
+   an argument. Each is defined `void (void)` and ignores it, but the retail
+   call sites compute g_SDValue->field_157E, or a zero, into $a0 first, and it
+   is the caller's declaration that keeps that setup alive: making a caller
+   agree with the definition costs four instructions -- measured, see
+   notes/research/matching-evidence.md.
+
+   The three callers spelled that three ways between them, s16 and s32 and
+   `s32 a0`. One unspecified-argument arm covers all three, because an
+   old-style call passes the argument under the default promotions and these
+   arguments are already an lh-loaded halfword or a constant. The defining
+   units take the arm below and are still checked against their definitions. */
+#ifdef SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
+void func_800498F8();
+void func_80049C40();
+void func_80049CB0();
+#else
+void func_800498F8(void);
+void func_80049C40(void);
+void func_80049CB0(void);
+#endif
 void SD_SetOutputType(s16);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);

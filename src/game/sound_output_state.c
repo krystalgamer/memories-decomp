@@ -90,8 +90,6 @@ s16 func_800451E0(u16 value, s32 unused)
 
 #include "sound_buffer_init.h"
 
-extern void func_800464F0(void);
-
 s32 func_80045208(u16 arg0, s32 unused)
 {
     SDValue *a = g_SDValue;

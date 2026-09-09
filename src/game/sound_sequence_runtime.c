@@ -4,8 +4,6 @@
 #include "sound.h"
 #include "sound_event_runtime.h"
 
-extern void SD_ProcessSequenceTracks(void);
-
 void func_8004B910(void)
 {
     D_8009B458->event_guard = 1;
