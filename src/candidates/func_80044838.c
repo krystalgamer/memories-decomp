@@ -1,5 +1,5 @@
-#include "../../../../src/types.h"
-#include "../../../../src/psyq/libapi.h"
+#include "../types.h"
+#include "../psyq/libapi.h"
 
 extern u8 D_8009B43E;
 extern u8 D_8009B437;
@@ -20,6 +20,15 @@ extern void func_80043D48(long *);
 extern s32 func_80044608(void);
 extern s32 func_80044470(long, char *, void *, s32);
 
+/*
+ * Current best under gcc_2_8_1_g8_split: 286 instructions against 295,
+ * opcode distance 21 and 288 differing positions. The state and sub-state
+ * switch structure, fallthroughs, retry loops, signed selector, and card
+ * channel predicate reproduce the current shape. Residual: GCC cross-jumps
+ * the result-code 2, 6 and 7 store/jump/nop tails that retail keeps separate,
+ * removing three stores, six delay-slot/control instructions, and one saved
+ * register from the candidate.
+ */
 s32 func_80044838(s32 arg0, s32 *out_state, s32 *out_result)
 {
     s32 r;
