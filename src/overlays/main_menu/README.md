@@ -159,6 +159,35 @@ conditional linker imports in `c_symbols.ld` only after the image is loaded.
 The semantic registry records these entrypoint names as `overlay/main_menu/function`,
 without adding them to resident function inventory or primary symbols.
 
+### The two readiness flags are one array and two names at once
+
+`D_80185CC8` is a two-byte, per-side readiness flag. `trade_update.c` proves
+the shape: it clears both entries in a loop, forms `D_80185CC8 + i` as a
+pointer, and compares `D_80185CC8[0]` against `D_80185CC8[1]` when deciding
+whether both players have confirmed.
+
+The second byte also has its own name, `D_80185CC9`, and both spellings are
+live *in the same translation unit*. `trade_update.c` reads side 1 as
+`D_80185CC8[1]` and writes it as `D_80185CC9 = 1`. `trade_offers.c` goes
+further and declares the pair as two independent scalars, never indexing at
+all.
+
+This is not drift to be tidied. The generated assembly for `trade_update.c`
+materialises `%hi`/`%lo` of both names independently, so retail addressed the
+byte both ways and the declarations reproduce that. It is the same shape as the
+ordering-table pointers recorded in `notes/memory-map.md`, with the difference
+that here a single file uses both forms rather than two files disagreeing.
+
+Three consequences:
+
+- Do not unify the declarations. `trade_offers.c`'s scalars and
+  `trade_update.c`'s `[2]` are different addressing forms of one object.
+- A symbol-size heuristic based on the gap to the next name reports one byte
+  here, because the next name is the array's own second element.
+- The scalar spelling is still worth reading carefully: it hides that a second
+  side exists, so a reader who only opens `trade_offers.c` will not see that
+  this is per-side state.
+
 ### Offer rendering and working inventory
 
 The contiguous `gcc_2_8_1_g0_split` leaf helpers
