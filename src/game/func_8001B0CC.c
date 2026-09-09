@@ -4,8 +4,7 @@
 #include "../psyq/libgs.h"
 #include "screen_projection.h"
 #include "view_state.h"
-
-extern u16 D_800908A0[];
+#include "duel_screen_tables.h"
 
 /* Projects the coordinate pair at D_800908A0[index * 2] through the GTE and
    returns the projected screen X. The result is read back as a signed halfword,
