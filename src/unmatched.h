@@ -145,4 +145,11 @@ extern u8 D_801AF800[];
  * question from centralizing it. */
 extern s32 D_8009B118;
 
+/* One consumer each, model_primitive_handler.c, which does not call either
+ * one: its dispatcher returns them as function pointers for primitive codes
+ * 0xD and 0x15. So the declaration fixes the pointer type rather than a call's
+ * argument setup, and `void (void)` is what the consumer already spelled. */
+void func_80033DB0(void);
+void func_80034830(void);
+
 #endif

@@ -4,9 +4,8 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "model_primitive_handler.h"
+#include "../unmatched.h"
 
-extern void func_80033DB0(void);
-extern void func_80034830(void);
 extern void func_800612C0(void);
 extern void func_8006151C(void);
 extern void func_800617E0(void);
