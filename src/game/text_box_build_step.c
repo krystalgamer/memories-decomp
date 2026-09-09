@@ -29,7 +29,6 @@ volatile u16 D_8009B33A;
 extern s16 D_8009B35A;
 extern u16 D_8009B27C __attribute__((section(".data")));
 
-extern void func_800391E4(u8 *);
 extern void func_800373C8(DuelEffectChannel *, s32, s32);
 void TextBox_BuildStep(DuelEffectChannel *object)
 {

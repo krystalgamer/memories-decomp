@@ -12,6 +12,18 @@ void TextBox_BuildStep(struct DuelEffectChannel *object);
 void func_80039140(u8 *record);
 void TextBox_SetPos(u8 *record, s32 x, s32 y);
 
+/* Builds the display objects a record draws through, and is reached only from
+ * TextBox_BuildStep above. It creates the object at +0x28 on first use, then
+ * on every call copies the record's four geometry halfwords at 0x3C, 0x40,
+ * 0x3E and 0x42 into it and derives two half-extents from the latter pair.
+ *
+ * When bit 0x20 of the halfword at 0x34 is set it also builds the second
+ * object at +0x2C, releasing any previous one, and finishes by calling
+ * func_80039140 on the same record -- which is why it is declared beside it
+ * rather than with the display-object headers whose fields it fills. The
+ * DisplayObjects are ones it allocates; the record is what it operates on. */
+void func_800391E4(u8 *record);
+
 /* Requests a build and pumps the text box until it reports done. The two
    entry points differ only in the flag word they set first. */
 void func_80039A14(u8 *object);
