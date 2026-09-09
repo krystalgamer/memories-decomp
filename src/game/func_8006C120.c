@@ -1,9 +1,7 @@
 #include "../types.h"
+#include "byte_triplet_helpers.h"
 
 typedef u8 Triplet[4];
-
-extern void func_8006C30C(u8 *, const u8 *);
-extern void func_8006C330(u8 *, u8 *, u8 *);
 
 Triplet *func_8006C120(u8 *a, u8 *b, u8 *c, Triplet *out, s32 depth)
 {
