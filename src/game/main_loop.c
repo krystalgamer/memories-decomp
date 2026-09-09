@@ -3,6 +3,7 @@
 #include "fade.h"
 #include "main_modes.h"
 #include "main_debug.h"
+#include "main_loop.h"
 #include "main_reset_frontend_runtime.h"
 
 extern u8 D_8009B26C;
