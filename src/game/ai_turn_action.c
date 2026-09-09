@@ -6,6 +6,7 @@
 #include "duel_side_state.h"
 #include "func_80026C0C.h"
 #include "rand_get_interval.h"
+#include "duel_field_equip_search.h"
 
 /* The AI's turn-action searches, in call order: the spell search, the fusion
    search, and the pick that runs both. They are contiguous, share the
@@ -35,10 +36,7 @@ typedef struct {
     s8 value;
 } AiCardEntry;
 
-extern s32 Duel_CollectFieldCardsByType(DuelCardRecord **, s32, s32);
-extern s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **, s32, s32);
 extern s32 Duel_CheckFusion(s32, s32);
-extern s32 func_80026DC8(void);
 extern s32 func_80027060(void);
 
 int func_8002712C(void)
