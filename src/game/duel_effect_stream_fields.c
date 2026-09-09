@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_effect_stream_fields.h"
 #include "func_80036D3C.h"
 
 void func_80038334(u8 *object)

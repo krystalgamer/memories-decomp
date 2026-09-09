@@ -1,5 +1,11 @@
 #include "../types.h"
+#include "duel_effect_command.h"
 #include "duel_effect_command_table.h"
+#include "duel_effect_completion.h"
+#include "duel_effect_object_commands.h"
+#include "duel_effect_script_dispatch.h"
+#include "duel_effect_stream_fields.h"
+#include "text_stream_commands.h"
 
 /* Initialized data at 0x80090EAC: the duel effect command table.
  *
@@ -10,45 +16,32 @@
  * property of the data, not of the call site.
  *
  * Forty-seven entries, all matching C, and almost all of them live in the
- * duel_effect_* sources, which is where the name comes from. */
+ * duel_effect_* sources, which is where the name comes from.
+ *
+ * The prototypes still written out below belong to units that have no header
+ * yet. Each one that has gained a header comes through the include above
+ * instead, and this block shrinks as the rest follow. */
 
 void DuelEffect_PlaySoundCommand(u8 *);
 void Text_HandleChoiceCommand(u8 *);
 void Text_SetCursorOffset(u8 *);
 void Text_StartCampaignDuel(u8 *);
-void func_80037D2C(u8 *);
-void func_80037D6C(u8 *);
 void func_80037DA4(u8 *);
-void func_80038070(u8 *);
-void func_80038094(u8 *);
-void func_800380D4(u8 *);
-void func_80038110(u8 *);
 void func_80038148(u8 *);
 void func_800382A8(u8 *);
-void func_80038334(u8 *);
-void func_80038388(u8 *);
-void func_800383B0(u8 *);
 void func_800383DC(u8 *);
 void func_80038498(u8 *);
 void func_800384E4(u8 *);
 void func_80038690(u8 *);
 void func_800386B8(u8 *);
-void func_80038800(u8 *);
 void func_80038888(u8 *);
 void func_80038890(u8 *);
 void func_80038898(u8 *);
 void func_800388D8(u8 *);
-void func_800389C4(u8 *);
-void func_800389D8(u8 *);
-void func_80038A44(u8 *);
-void func_80038AB0(u8 *);
-void func_80038B08(u8 *);
 void func_80038B4C(u8 *);
 void func_80038D14(u8 *);
 void func_80038D2C(u8 *);
 void func_80038DB8(u8 *);
-void func_80038E1C(u8 *);
-void func_80038E7C(u8 *);
 void func_80038EB0(u8 *);
 void func_80039AFC(u8 *);
 void func_80039BE0(u8 *);
@@ -63,7 +56,7 @@ void (*D_80090EAC[])(u8 *) = {
     func_80038334,
     func_80038388,
     func_800383B0,
-    func_80038070,
+    (void (*)(u8 *))func_80038070,
     func_800383DC,
     func_80038498,
     func_80038094,
@@ -72,7 +65,7 @@ void (*D_80090EAC[])(u8 *) = {
     func_80038690,
     func_800386B8,
     DuelEffect_PlaySoundCommand,
-    func_80038800,
+    (void (*)(u8 *))func_80038800,
     func_80038888,
     func_80038890,
     func_80038898,
