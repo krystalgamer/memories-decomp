@@ -13,7 +13,15 @@ extern s32 func_80049F50(void);
    agree with the definition costs four instructions; see
    notes/research/matching-evidence.md. */
 extern void func_80049C40(s32);
+/* Takes an argument here on purpose, same as func_80049C40 above/below:
+   defined void (void), but the retail call site sets up $a0 first and
+   this declaration is what keeps that setup. Measured; see
+   notes/research/matching-evidence.md. */
 extern void func_80049CB0(s32);
+/* Takes an argument here on purpose, same as func_80049C40 above/below:
+   defined void (void), but the retail call site sets up $a0 first and
+   this declaration is what keeps that setup. Measured; see
+   notes/research/matching-evidence.md. */
 extern void func_800498F8(s32);
 
 /* Each block re-reads g_SDValue rather than caching it once: the driver block

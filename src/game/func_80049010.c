@@ -9,6 +9,10 @@
    0x157A counter has run out, clears it via clear_8009b458_4A4_if_set()
    and resets 0x157A/0x1578. Always zeroes 0x1586/0x1588. */
 
+/* Takes an argument here on purpose, same as func_80049C40 above/below:
+   defined void (void), but the retail call site sets up $a0 first and
+   this declaration is what keeps that setup. Measured; see
+   notes/research/matching-evidence.md. */
 extern void func_800498F8(s32 a0);
 /* Takes an argument here on purpose. func_80049C40 is defined
    void (void) in sound_secondary_playback.c and ignores it, but the
@@ -17,6 +21,10 @@ extern void func_800498F8(s32 a0);
    agree with the definition costs four instructions; see
    notes/research/matching-evidence.md. */
 extern void func_80049C40(s16 a0);
+/* Takes an argument here on purpose, same as func_80049C40 above/below:
+   defined void (void), but the retail call site sets up $a0 first and
+   this declaration is what keeps that setup. Measured; see
+   notes/research/matching-evidence.md. */
 extern void func_80049CB0(s16 a0);
 
 void func_80049010(void) {

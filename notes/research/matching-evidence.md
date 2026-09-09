@@ -6645,3 +6645,43 @@ Before unifying any prototype under #2495, check whether the callers agree with
 each other rather than whether they agree with the definition. Here all three
 agree that there is one argument, and only disagree about its width -- `s16`
 against `s32` -- which is the part that is actually open.
+
+### Measured: the same holds for func_80049CB0 and func_800498F8, three ways
+
+The `func_80049C40` entry above guessed that its two neighbours in the same
+sound files were load-bearing for the same reason. They are, and the three
+measurements fail differently, which is worth having on record because only
+one of the three looks like the failure you would expect.
+
+`func_80049CB0`, dropping `g_SDValue->field_157E` at `sound_output.c`:
+
+    error: rebuilt executable has size 0x1d07f4, expected 0x1d0800
+
+Twelve bytes. Same shape as `func_80049C40`: the argument's load chain dies
+with it.
+
+`func_800498F8`, dropping `value` at `sound_output.c`:
+
+    ld: section .initialized_data VMA [800906e0,8009b08f]
+        overlaps section .text VMA [800129d8,800906e3]
+
+Text got *longer*, not shorter, and ran into the next section. Removing an
+argument is not reliably a removal: it changes what the register allocator
+does with the surrounding code, and here it cost four bytes rather than
+saving any.
+
+`func_800498F8`, dropping the CONSTANT `0` at `func_80049010.c`:
+
+    error: mismatch at file offset 0x398b4, VRAM 0x800490b4:
+        expected 0x21, got 0x00
+
+Same size, one instruction changed: the `addu` that materialised `$a0` became
+a `nop`. This is the important one. The argument here costs nothing to
+compute, so there is no dead load chain to lose, and the edit still breaks the
+match. What the declaration preserves is the *call sequence*, not the expense
+of the value -- retail sets `$a0` before this call and the C has to as well.
+
+So the rule does not depend on the argument being interesting. Four measured
+call sites across three functions now, and the failure was a shrink, a growth
+and an in-place substitution respectively; a sweep that only watched the size
+would have caught two of the three.
