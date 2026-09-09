@@ -1,6 +1,8 @@
 #include "../types.h"
 #include "model_transfer_flags.h"
 #include "model_update_view_metrics.h"
+#define FUNC_80058434_CALL_WITH_UNUSED_ARG
+#include "func_80058434.h"
 #include "camera_view.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -20,7 +22,7 @@ extern unsigned short D_8009AF8C, D_8009AF90, D_8009AF8E;
 extern Packed8 D_8009B478_p asm("D_8009B478");
 extern Packed8 D_8009B480;
 extern Object D_800F56A0;
-extern void func_800857C0(int), func_80058434(int, int, int, int, int);
+extern void func_800857C0(int);
 extern void func_8004E7B0(int), func_80052D2C(int, int, int, int);
 extern void func_8005FAE4(void);
 

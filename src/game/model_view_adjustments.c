@@ -2,18 +2,12 @@
 #include "model_update_view_metrics.h"
 #include "camera_view.h"
 #include "model.h"
+#define FUNC_80058434_CALL_WITH_UNUSED_ARG
+#include "func_80058434.h"
 
 extern s16 D_800F2B4A[];
 extern s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
 extern s32 func_8005F1B8(s32 arg0, s32 arg1);
-extern void func_80058434(
-    s32 arg0,
-    s32 arg1,
-    s32 arg2,
-    s32 arg3,
-    s32 arg4
-);
-
 void func_80052528(void) {
     u8 *b;
     s32 x;

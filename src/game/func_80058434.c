@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "model_update_view_metrics.h"
 #include "camera_view.h"
+#include "func_80058434.h"
 #include "../psyq/libgte.h"
 #include "model.h"
 
