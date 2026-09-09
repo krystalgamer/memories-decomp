@@ -11,6 +11,8 @@
 #define MODEL_HANDLER_REGISTRY_COUNT 80
 #define MODEL_TINT_REQUEST_COUNT 10
 #define MODEL_SLOT_SOUND_ENTRY_COUNT 64
+#define MODEL_SLOT_PART_COUNT 58
+#define MODEL_SLOT_ROW_COUNT 10
 #define MODEL_DATA_MIN_FREE_BYTES 0x401
 #define MODEL_LIGHT_BASE_INTENSITY 128
 #define MODEL_LIGHT_DIM_INTENSITY (MODEL_LIGHT_BASE_INTENSITY / 2)
@@ -29,10 +31,35 @@ typedef struct {
     void *field_04;
 } ModelSlotHeadEntry;
 
+/* One of the MODEL_SLOT_ROW_COUNT accumulator rows at slot offset 0x750.
+ * func_8004D58C's reset walks the rows and their maxima in the same loop
+ * iteration -- 58 halfwords at 0x750 + row * 0x76 and the halfword at
+ * 0x7C4 + row * 0x76 -- which is what groups `values` and `max` into one
+ * 0x76-byte record. func_8004D75C then accumulates one entry of `values`
+ * per part and leaves `max` holding the largest of them, and func_80057AF4,
+ * func_800556E8, func_8005106C and func_80058EC0 read that same `max` as the
+ * length of animation `row`. */
 typedef struct {
-    u16 field_00;
-    u8 pad_02[0x74];
-} ModelSlotIndexedEntry;
+    u16 values[MODEL_SLOT_PART_COUNT];
+    u16 max;
+} ModelSlotRow;
+
+/* One entry of the slot's MODEL_SLOT_PART_COUNT-wide part table at 0x1E0.
+ * Only the fields the model code reaches are named: func_80057AF4 stores the
+ * part's current source index at +0x08, func_800528AC pushes a part id
+ * through +0x0C, func_8005611C copies +0x18 down to +0x16, and func_8004D75C
+ * reads +0x18 as the part's first command key while stamping the row it was
+ * resolved on into +0x1A. */
+typedef struct {
+    u8 pad_00[8];
+    u16 field_08;
+    u8 pad_0A[2];
+    u8 field_0C;
+    u8 pad_0D[9];
+    u16 field_16;
+    u16 field_18;
+    u8 field_1A;
+} ModelSlotPart;
 
 typedef struct {
     u8 frame;
@@ -64,12 +91,22 @@ typedef struct {
 typedef struct {
     ModelSlotHeadEntry field_000[1];
     u8 pad_008[0x1D8];
-    void *field_1E0[1];
-    u8 pad_1E4[0x5E0];
-    ModelSlotIndexedEntry field_7C4[1];
-    u8 pad_83A[0x3BB];
+    ModelSlotPart *field_1E0[MODEL_SLOT_PART_COUNT];
+    /* The per-animation key table. func_8004D58C fills it with 0xFFFF at a
+     * 0x74 stride over MODEL_SLOT_ROW_COUNT rows, func_8004D75C indexes it as
+     * [row][part], and func_80057AF4 reads the same halfword through the
+     * literal offset arithmetic 0x2C8 + current * 116 + part * 2. */
+    u16 field_2C8[MODEL_SLOT_ROW_COUNT][MODEL_SLOT_PART_COUNT];
+    ModelSlotRow field_750[MODEL_SLOT_ROW_COUNT];
+    /* The part bitfield func_8005611C's caller documents as "+0xBEC":
+     * func_8004D58C sets bit `part % 8` of byte `part / 8` from the command
+     * block, func_80057AF4 reads it back the same way, and func_80056250
+     * widens a card from 0xC to 0x14 for the parts it flags. */
+    u8 field_BEC[8];
+    u8 field_BF4;
     u8 field_BF5;
-    u8 pad_BF6[2];
+    u8 field_BF6;
+    u8 field_BF7;
     ModelSlotSoundEntry sound_entries[MODEL_SLOT_SOUND_ENTRY_COUNT];
     ModelSlotCF8Block field_CF8;
     u8 *entries;
@@ -86,7 +123,15 @@ typedef struct {
     u8 field_DC0[8];
     u16 field_DC8[4];
     u16 field_DD0[4];
-    u8 pad_DD8[0x20];
+    /* The command list and the three pointers beside it, all installed by
+     * func_8004D58C out of the two blocks it finds in the command chain.
+     * func_80057AF4 reads field_DD8 as the base of 4-byte command records and
+     * field_DDC / field_DE0 as the source and destination of its transfers. */
+    s32 *field_DD8;
+    u8 *field_DDC;
+    u8 *field_DE0;
+    u8 *field_DE4;
+    u8 pad_DE8[0x10];
     u16 field_DF8;
     u16 field_DFA;
     u16 field_DFC;
@@ -96,7 +141,9 @@ typedef struct {
     u16 field_E06;
     u8 pad_E08[5];
     u8 field_E0D;
-    u8 pad_E0E[3];
+    u8 field_E0E;
+    u8 field_E0F;
+    u8 field_E10;
     u8 field_E11;
     u8 field_E12;
     u8 field_E13;
@@ -186,8 +233,29 @@ typedef struct {
 typedef char ModelSlotHeadEntry_size_must_be_0x8[
     sizeof(ModelSlotHeadEntry) == 0x8 ? 1 : -1
 ];
-typedef char ModelSlotIndexedEntry_size_must_be_0x76[
-    sizeof(ModelSlotIndexedEntry) == 0x76 ? 1 : -1
+typedef char ModelSlotRow_size_must_be_0x76[
+    sizeof(ModelSlotRow) == 0x76 ? 1 : -1
+];
+typedef char ModelSlotRow_max_offset_must_be_0x74[
+    MODEL_OFFSET(ModelSlotRow, max) == 0x74 ? 1 : -1
+];
+typedef char ModelSlotPart_field_18_offset_must_be_0x18[
+    MODEL_OFFSET(ModelSlotPart, field_18) == 0x18 ? 1 : -1
+];
+typedef char ModelSlot_field_2C8_offset_must_be_0x2C8[
+    MODEL_OFFSET(ModelSlot, field_2C8) == 0x2C8 ? 1 : -1
+];
+typedef char ModelSlot_field_750_offset_must_be_0x750[
+    MODEL_OFFSET(ModelSlot, field_750) == 0x750 ? 1 : -1
+];
+typedef char ModelSlot_field_BEC_offset_must_be_0xBEC[
+    MODEL_OFFSET(ModelSlot, field_BEC) == 0xBEC ? 1 : -1
+];
+typedef char ModelSlot_field_DD8_offset_must_be_0xDD8[
+    MODEL_OFFSET(ModelSlot, field_DD8) == 0xDD8 ? 1 : -1
+];
+typedef char ModelSlot_field_E0E_offset_must_be_0xE0E[
+    MODEL_OFFSET(ModelSlot, field_E0E) == 0xE0E ? 1 : -1
 ];
 typedef char ModelSlotCF8Block_size_must_be_0x1C[
     sizeof(ModelSlotCF8Block) == 0x1C ? 1 : -1
@@ -213,8 +281,8 @@ typedef char ModelSlot_size_must_be_0xE20[
 typedef char ModelSlot_field_1E0_offset_must_be_0x1E0[
     MODEL_OFFSET(ModelSlot, field_1E0) == 0x1E0 ? 1 : -1
 ];
-typedef char ModelSlot_field_7C4_offset_must_be_0x7C4[
-    MODEL_OFFSET(ModelSlot, field_7C4) == 0x7C4 ? 1 : -1
+typedef char ModelSlot_field_750_max_offset_must_be_0x7C4[
+    MODEL_OFFSET(ModelSlot, field_750[0].max) == 0x7C4 ? 1 : -1
 ];
 typedef char ModelSlot_field_BF5_offset_must_be_0xBF5[
     MODEL_OFFSET(ModelSlot, field_BF5) == 0xBF5 ? 1 : -1

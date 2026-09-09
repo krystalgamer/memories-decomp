@@ -19,7 +19,7 @@ void func_80050F24(s32 arg0)
     p = &D_800F2C40[arg0];
     q = &D_800F2C40[arg0].field_CF8;
     index = p->field_DFE + 3;
-    value = p->field_7C4[index].field_00;
+    value = p->field_750[index].max;
     if (value != 0) {
         func_80057AF4(arg0, index, 1);
     }
@@ -76,7 +76,7 @@ void func_8005106C(s32 index) {
         return;
     }
     anim = m->field_BF5;
-    length = m->field_7C4[anim].field_00 << 4;
+    length = m->field_750[anim].max << 4;
     speed = m->field_E0D * func_80058E1C();
     e = m->sound_entries;
     tag = (index << 8) + 0x4000;

@@ -1,46 +1,14 @@
 #include "../types.h"
+#include "model.h"
 #include "model_slot_state_updates.h"
 #include "func_80057AF4.h"
 
-typedef struct {
-    u16 length;
-    u8 pad02[0x74];
-} AnimEntry;
-
-typedef struct {
-    u8 pad000[0x1E0];
-    u8 *parts[58];
-    u16 map[11][58];
-    AnimEntry entries[9];
-    u8 padBEA[2];
-    u8 bits[8];
-    u8 queued;
-    u8 anim;
-    u8 played;
-    u8 padBF7[0x1E1];
-    u16 *src_table;
-    u8 *base;
-    u8 *dst;
-    u8 padDE4[0x14];
-    u16 field_DF8;
-    u8 padDFA[4];
-    u8 field_DFE;
-    u8 padDFF[0xF];
-    u8 mode;
-    u8 current;
-    u8 pending;
-    u8 padE11[0xA];
-    u8 count;
-    u8 padE1C[3];
-    u8 active;
-} AnimSlot;
-
-extern AnimSlot D_800F2C40[];
+extern ModelSlot D_800F2C40[];
 
 extern void func_8005B620(u8 *, u8 *, s32);
 
 void func_80057AF4(s32 index, s32 anim, s32 flag) {
-    register AnimSlot *m asm("$17");
+    register ModelSlot *m asm("$17");
     register s32 off asm("$2");
     u8 **parts;
     u8 *dst;
@@ -55,36 +23,36 @@ void func_80057AF4(s32 index, s32 anim, s32 flag) {
     {
         register u8 *tbl asm("$3") = (u8 *)D_800F2C40;
 
-        m = (AnimSlot *)(tbl + off);
+        m = (ModelSlot *)(tbl + off);
     }
-    dst = m->dst;
-    base = m->base;
-    parts = m->parts;
-    if (m->active == 0) {
+    dst = m->field_DE0;
+    base = m->field_DDC;
+    parts = (u8 **)m->field_1E0;
+    if (m->field_E1F == 0) {
         return;
     }
     switch (anim) {
     case -1:
-        m->pending = 0;
-        for (i = 0; i < m->count; parts++, i++) {
+        m->field_E10 = 0;
+        for (i = 0; i < m->field_E1B; parts++, i++) {
             *(u16 *)(*parts + 8) = 0xFFFF;
         }
         break;
     case 0: {
         s32 entry;
 
-        if (m->current == 0) {
+        if (m->field_E0F == 0) {
             return;
         }
-        for (i = 0; i < m->count; i++) {
+        for (i = 0; i < m->field_E1B; i++) {
             {
                 register s32 o asm("$4");
 
                 o = i * 2;
-                o += m->current * 116;
+                o += m->field_E0F * 116;
                 entry = *(u16 *)((u8 *)m + o + 712);
             }
-            src = (u16 *)((u8 *)m->src_table + entry * 4);
+            src = (u16 *)((u8 *)m->field_DD8 + entry * 4);
             if (entry != 0xFFFF) {
                 t = i;
                 if (i < 0) {
@@ -92,51 +60,51 @@ void func_80057AF4(s32 index, s32 anim, s32 flag) {
                 }
                 count = 3;
                 t >>= count;
-                if ((m->bits[t] >> (i - (t << count))) & 1) {
+                if ((m->field_BEC[t] >> (i - (t << count))) & 1) {
                     count = 5;
                 }
                 func_8005B620(base + src[0] * 4, dst, count);
                 dst += count * 4;
             }
         }
-        m->current = 0;
+        m->field_E0F = 0;
         break;
     }
     default: {
         s32 entry;
 
-        prev = m->current;
+        prev = m->field_E0F;
         if (anim != m->field_DFE + 3) {
-            m->mode = 2;
+            m->field_E0E = 2;
         }
-        if (m->entries[anim].length == 0) {
+        if (m->field_750[anim].max == 0) {
             return;
         }
         if (prev != 0) {
             if (flag == 0) {
                 return;
             }
-            m->played = m->queued;
+            m->field_BF6 = m->field_BF4;
             func_80057AF4(index, 0, 0);
         }
         if (anim == m->field_DFE + 3 || m->field_DF8 == 0x309) {
-            m->mode = 7;
+            m->field_E0E = 7;
         }
-        m->current = anim;
+        m->field_E0F = anim;
         if (prev == anim) {
             func_800597C8(index, 0, 0);
             return;
         }
-        m->pending = 1;
-        for (i = 0; i < m->count; parts++, i++) {
+        m->field_E10 = 1;
+        for (i = 0; i < m->field_E1B; parts++, i++) {
             {
                 register s32 o asm("$4");
 
                 o = i * 2;
-                o += m->current * 116;
+                o += m->field_E0F * 116;
                 entry = *(u16 *)((u8 *)m + o + 712);
             }
-            src = (u16 *)((u8 *)m->src_table + entry * 4);
+            src = (u16 *)((u8 *)m->field_DD8 + entry * 4);
             if (entry != 0xFFFF) {
                 t = i;
                 if (i < 0) {
@@ -144,10 +112,10 @@ void func_80057AF4(s32 index, s32 anim, s32 flag) {
                 }
                 count = 3;
                 t >>= count;
-                if ((m->bits[t] >> (i - (t << count))) & 1) {
+                if ((m->field_BEC[t] >> (i - (t << count))) & 1) {
                     count = 5;
                 }
-                *(u16 *)(*parts + 8) = ((u8 *)src - (u8 *)m->src_table) >> 2;
+                *(u16 *)(*parts + 8) = ((u8 *)src - (u8 *)m->field_DD8) >> 2;
                 func_8005B620(dst, base + src[0] * 4, count);
                 dst += count * 4;
             }

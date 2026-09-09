@@ -77,7 +77,7 @@ void func_800597C8(s32 idx, s32 flag, s32 val)
             s32 arg2 = rec->field_BF5;
 
             if (flag != 0) {
-                u8 *entry = rec->field_1E0[i];
+                u8 *entry = (u8 *)rec->field_1E0[i];
                 arg2 = flag;
                 entry[0xC] = flag;
             }
