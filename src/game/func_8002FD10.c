@@ -3,10 +3,10 @@
 #include "file_transfer.h"
 #include "graphics_frame.h"
 #include "menu_record_reset.h"
+#include "script_state.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
-extern u16 D_8009B2A4;
 extern void *D_8009B2A0;
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));

@@ -6,7 +6,6 @@
 #include "script_run_tick.h"
 #include "script_state.h"
 
-extern u16 D_8009B2A4;
 extern s32 D_800EB12C[];
 extern u8 D_801A8000[];
 extern u16 D_8009B28C;
