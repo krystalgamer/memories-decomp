@@ -228,4 +228,33 @@ void func_80042C08(void);
 s32 func_80035E20();
 int func_80067220();
 
+/* Three more undefined globals, moved together for the same reason as the
+ * batch above: this header is a serialisation point, so separate changes for
+ * separate symbols conflict with each other without making any of them
+ * easier to review.
+ *
+ * All three are one-byte state bytes that every consumer spells `extern u8`
+ * and reads or writes whole. None is ever indexed, so there is no array
+ * hiding behind the scalar and no per-consumer addressing form to preserve.
+ *
+ * D_8009B3F9 is the strongest of the three structurally: c_symbols.ld names
+ * gMemCard_wDialogFlags one byte later, so the object is exactly one byte and
+ * nothing can carry a second name inside it. It is the memory card slot the
+ * MemCard* calls are issued against.
+ *
+ * D_8009B3EB and D_8009B174 have larger gaps to the next name -- two bytes
+ * and eight -- but those are upper bounds rather than sizes, the way
+ * D_8009B23A's was. Nothing is named inside either gap, and no consumer of
+ * either reads past the byte, so the u8 all five consumers agree on is what
+ * is declared and the bytes above stay unclaimed.
+ *
+ * Both of the latter two are packed state bytes rather than plain counters,
+ * which is why the byte width matters to every reader: D_8009B3EB is switched
+ * on through `& 0xF` with MEM_CARD_DIALOG_FLAG_* bits set above it, and
+ * D_8009B174 carries a step in its low nibble with 0x20, 0x40 and 0x80 used
+ * as independent flags. */
+extern u8 D_8009B3F9;   /* five declarers */
+extern u8 D_8009B3EB;   /* five declarers */
+extern u8 D_8009B174;   /* five declarers */
+
 #endif

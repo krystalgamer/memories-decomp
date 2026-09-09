@@ -13,8 +13,6 @@ typedef struct {
     u8 pad0000[8];
     DuelHandSlot *hand;
 } DuelSelectionSide;
-
-extern u8 D_8009B174;
 extern u8 D_8009B1EC;
 extern u8 *D_8009B1B4;
 extern u16 D_8009B36A __attribute__((section(".data")));

@@ -4,6 +4,7 @@
 #include "mem_card.h"
 #include "save_data.h"
 #include "duel_effect.h"
+#include "../unmatched.h"
 
 /* Memory-card save dialog state machine, the write-side twin of
    func_8003E490.
@@ -22,11 +23,8 @@
      line after that tail, which is retail's layout.
    - Both MemCardWriteFile calls are spelled out, one per branch, so only the
      trailing pair cross-jumps and the D_800EFE18 %lo stays duplicated. */
-
-extern u8 D_8009B3EB;
 extern u8 D_8009B3EC;
 extern u8 D_8009B3EF;
-extern u8 D_8009B3F9;
 extern u16 D_8009B3C2;
 extern u16 D_8009B3C4;
 extern u32 D_8009B3D0;

@@ -14,7 +14,6 @@ typedef struct {
 
 extern u8 gDuel_bQuitDialogState;
 extern u16 D_8009B16C;
-extern u8 D_8009B174;
 extern s8 D_8009B238;
 extern volatile u8 D_8009B260 __attribute__((section(".data")));
 extern s8 gDialog_bChoice[9];

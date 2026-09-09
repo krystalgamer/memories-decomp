@@ -5,6 +5,7 @@
 #define GMEMCARD_RESULT_USES_WIDE_ARGS
 #include "mem_card.h"
 #include "save_data.h"
+#include "../unmatched.h"
 
 /* Memory-card create dialog state machine, the third of the family beside
    func_8003E490 and func_8003EED0.
@@ -40,10 +41,8 @@
 
 extern u8 D_8009B3D4;
 extern u8 D_8009B3DC;
-extern u8 D_8009B3EB;
 extern u8 D_8009B3EC;
 extern u8 D_8009B3EF;
-extern u8 D_8009B3F9;
 extern u16 D_8009B3C2;
 extern u16 D_8009B3C4;
 extern u32 D_8009B3D0;

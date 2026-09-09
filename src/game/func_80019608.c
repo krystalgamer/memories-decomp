@@ -11,7 +11,6 @@
 #include "../unmatched.h"
 
 extern u8 *D_800E9EF0[];
-extern u8 D_8009B174;
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what gives the
    store below the retail load-delay nop. c_symbols.ld overrides the common
