@@ -3,12 +3,11 @@
 #include "../psyq/libgpu.h"
 
 #include "file_transfer.h"
+#include "graphics_frame.h"
 
 extern u8 *D_8009B118 __attribute__((section(".data")));
 extern u8 *D_80010000 __attribute__((section(".data")));
 extern u8 *D_800101DC __attribute__((section(".data")));
-extern u8 D_800E9D70[100];
-#define D_800E9D70 (*(RECT *)D_800E9D70)
 extern u8 D_801A8000[];
 extern u8 D_801A9800[];
 extern u16 gDuel_awEquipTable[];
@@ -40,11 +39,11 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->done = 1;
         break;
     case 2:
-        D_800E9D70.x = 0x100;
-        D_800E9D70.y = 0xF0;
-        D_800E9D70.w = 0x100;
-        D_800E9D70.h = 0x10;
-        LoadImage2(&D_800E9D70, (u32 *)D_8009B118);
+        D_800E9D70[0].x = 0x100;
+        D_800E9D70[0].y = 0xF0;
+        D_800E9D70[0].w = 0x100;
+        D_800E9D70[0].h = 0x10;
+        LoadImage2(&D_800E9D70[0], (u32 *)D_8009B118);
         d->value_08 = d->value_0C = (u32)gDuel_awEquipTable;
         d->mode = 0x2800;
         D_8009B0F4_abs &= 0xFFDCFFFF;
@@ -69,11 +68,11 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->done = 1;
         break;
     case 6:
-        D_800E9D70.x = 0;
-        D_800E9D70.y = 0xF0;
-        D_800E9D70.w = 0x100;
-        D_800E9D70.h = 8;
-        LoadImage2(&D_800E9D70, (u32 *)D_8009B118);
+        D_800E9D70[0].x = 0;
+        D_800E9D70[0].y = 0xF0;
+        D_800E9D70[0].w = 0x100;
+        D_800E9D70[0].h = 8;
+        LoadImage2(&D_800E9D70[0], (u32 *)D_8009B118);
         d->field_30.h.counter = 0x200;
         d->field_30.h.field_32 = 0x100;
         d->w = 0x40;

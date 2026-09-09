@@ -288,4 +288,13 @@ extern u32 D_8009B3D0;   /* four declarers */
 extern s32 D_8009B3F4;   /* four declarers */
 extern u16 D_8009B1D0;   /* four declarers */
 
+/* The overworld's location table. Six sources in src/overlays/overworld
+ * declare it identically and none defines it, but unlike gAiScript_State or
+ * gFile_anLba there is no subsystem header to put it in: those six share only
+ * types.h, each having its own foo.h and nothing above them. Two of them
+ * already include this header, so it lands here by the rule at the top --
+ * genuinely homeless rather than merely undeclared. If an overworld map
+ * header is ever written, this is the first thing that should move into it. */
+extern u8 gCampaignMap_aLocationTable[];
+
 #endif

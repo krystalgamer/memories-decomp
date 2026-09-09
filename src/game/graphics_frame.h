@@ -33,6 +33,21 @@ extern s32 D_8009B0D8;
 
 extern DISPENV gGraphics_DispEnv;
 
+/* Two scratch rectangles for the VRAM transfers. Every user fills x, y, w, h
+ * and hands the address to LoadImage2, StoreImage2 or MoveImage in the same
+ * block, so there is no producer to own them; func_8002FD10 and
+ * FreeDuel_Init use the second one, at +8, for the CLUT / second strip.
+ *
+ * [2] is the extent that is WRITTEN, not the object's size: the next symbol,
+ * D_800E9D90, sits at +0x20, and nothing in either tree touches the sixteen
+ * bytes between. Four units used to declare this `u8 [100]` -- func_8001944C.c
+ * said why: "Spelt as an oversized array so -G8 keeps the eight-byte
+ * rectangle out of small data; the retail code addresses it with a %hi/%lo
+ * pair". Sixteen bytes clear -G8 on their own, so the real shape does the
+ * same job. Retail reaches it with a %hi/%lo pair everywhere, never
+ * gp-relative. */
+extern RECT D_800E9D70[2];
+
 /* The tint colour, three consecutive bytes with the components in address
  * order blue, green, red.  func_8005B8A0 and func_8005BB7C pass them straight
  * to ClearImage(RECT *, u8 r, u8 g, u8 b) as r = D_8009B144, g = D_8009B143,

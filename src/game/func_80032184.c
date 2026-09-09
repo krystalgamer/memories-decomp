@@ -3,8 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "../unmatched.h"
-
-extern s16 D_800E9D70[];
+#include "graphics_frame.h"
 
 void func_80032184(u8 *p, s32 mode) {
     s32 one;
@@ -86,7 +85,7 @@ m2:
     return;
 
 m3:
-    g = D_800E9D70;
+    g = (s16 *)D_800E9D70;
     c = 0x100;
     g[0] = c;
     g[1] = 0xF0;

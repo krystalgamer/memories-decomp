@@ -27,8 +27,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
     __attribute__((section(".data")));
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
-extern u8 D_800E9D70[100];
-#define D_800E9D70 (*(RECT *)D_800E9D70)
 extern struct Rec *D_8009B280;
 extern u16 D_8009B2A8;
 extern u16 D_8009B2AA;
@@ -48,14 +46,14 @@ void Script_OpShowImage(void) {
     ret = func_8002E3B4();
     mask = 0x2000000;
     if (ret == 0) {
-        D_800E9D70.x = 0;
-        D_800E9D70.y = 0;
-        D_800E9D70.w = VRAM_COPY_WIDTH;
-        D_800E9D70.h = VRAM_COPY_HEIGHT;
+        D_800E9D70[0].x = 0;
+        D_800E9D70[0].y = 0;
+        D_800E9D70[0].w = VRAM_COPY_WIDTH;
+        D_800E9D70[0].h = VRAM_COPY_HEIGHT;
         if (gGraphics_bActiveBuffer == 0) {
-            D_800E9D70.x = VRAM_COPY_WIDTH;
+            D_800E9D70[0].x = VRAM_COPY_WIDTH;
         }
-        MoveImage(&D_800E9D70, 0x1C0, 0x100);
+        MoveImage(&D_800E9D70[0], 0x1C0, 0x100);
         return;
     }
 

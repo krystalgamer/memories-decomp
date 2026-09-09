@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "color_constants.h"
 #include "duel_display.h"
+#include "graphics_frame.h"
 
 typedef struct {
     u8 pad0[0x30];
@@ -13,10 +14,6 @@ typedef struct {
 extern s32 gGraphics_bActiveBuffer __attribute__((section(".data")));
 #define gGraphics_bActiveBuffer (*(u8 *)&gGraphics_bActiveBuffer)
 
-/* Spelt as an oversized array so -G8 keeps the eight-byte rectangle out of
-   small data; the retail code addresses it with a %hi/%lo pair. */
-extern u8 D_800E9D70[100];
-#define D_800E9D70 (*(RECT *)D_800E9D70)
 extern u8 D_8015C424[];
 
 void func_8001944C(Obj *o)
@@ -41,11 +38,11 @@ void func_8001944C(Obj *o)
     }
 
     buf = D_8015C424;
-    D_800E9D70.x = o->x + xoff;
-    D_800E9D70.y = o->y;
-    D_800E9D70.w = DUEL_CARD_READBACK_WIDTH_WORDS;
-    D_800E9D70.h = DUEL_CARD_READBACK_HEIGHT;
-    StoreImage2(&D_800E9D70, (u32 *)buf);
+    D_800E9D70[0].x = o->x + xoff;
+    D_800E9D70[0].y = o->y;
+    D_800E9D70[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
+    D_800E9D70[0].h = DUEL_CARD_READBACK_HEIGHT;
+    StoreImage2(&D_800E9D70[0], (u32 *)buf);
 
     p = (u16 *)buf;
     n = DUEL_CARD_READBACK_WORD_COUNT;
@@ -73,9 +70,9 @@ void func_8001944C(Obj *o)
        lands: the second scheduling pass sinks it, and having it early is what
        gives this symbol's high half the lower register. */
     *(u16 *)D_8015C424 = 0;
-    D_800E9D70.x = 0x140;
-    D_800E9D70.y = 0x100;
-    D_800E9D70.w = DUEL_CARD_READBACK_WIDTH_WORDS;
-    D_800E9D70.h = DUEL_CARD_READBACK_HEIGHT;
-    LoadImage2(&D_800E9D70, (u32 *)D_8015C424);
+    D_800E9D70[0].x = 0x140;
+    D_800E9D70[0].y = 0x100;
+    D_800E9D70[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
+    D_800E9D70[0].h = DUEL_CARD_READBACK_HEIGHT;
+    LoadImage2(&D_800E9D70[0], (u32 *)D_8015C424);
 }

@@ -3,10 +3,10 @@
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "sound_voice_data.h"
+#include "graphics_frame.h"
 
 extern s32 D_8009B118 __attribute__((section(".data")));
-extern u8 D_800E9D70[100];
-#define gStageRect (*(RECT *)D_800E9D70)
+#define gStageRect (D_800E9D70[0])
 
 void func_8002BD0C(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
