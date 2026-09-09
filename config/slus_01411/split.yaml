@@ -141,6 +141,8 @@ segments:
       - [0x81350, .data, game/credits_secret_numbers]
       - [0x81364, .data, game/main_modes]
       - [0x813a8, data, initialized_data_80090ba8]
+      - [0x814ac, .data, game/scene_script_record_callbacks]
+      - [0x814b4, data, initialized_data_80090cb4]
       - [0x8157c, .data, game/frontend_step_tables]
       - [0x815d8, data, initialized_data_80090dd8]
       - [0x81658, .data, game/duel_effect_entry_ranges]
