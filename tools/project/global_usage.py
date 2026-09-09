@@ -87,6 +87,7 @@ RELOCATION_RE = re.compile(
     r"(?:\s*[+-]\s*(?:0[xX][0-9A-Fa-f]+|\d+))?\s*\)"
 )
 FUNCTION_LABEL_RE = re.compile(r"^\s*glabel\s+([A-Za-z_][A-Za-z0-9_]*)\s*$")
+LOCAL_INCLUDE_RE = re.compile(r'^\s*#\s*include\s+"([^"]+)"', re.MULTILINE)
 
 TYPE_WIDTHS = {
     "s8": "8",
@@ -426,7 +427,7 @@ def infer_declarations(
 def load_declarations(
     path: Path, known_names: set[str]
 ) -> tuple[dict[str, str], set[str]]:
-    text = path.read_text(encoding="utf-8")
+    text = path.read_text(encoding="utf-8", errors="ignore")
     _, top_level_tokens = parse_c_functions(text)
     declaration_names = known_names | {
         token.value
@@ -434,6 +435,30 @@ def load_declarations(
         if GENERATED_NAME_RE.fullmatch(token.value)
     }
     return infer_declarations(top_level_tokens, declaration_names)
+
+
+def load_included_declarations(
+    root: Path,
+    source_path: Path,
+    text: str,
+    known_names: set[str],
+) -> tuple[dict[str, str], set[str]]:
+    widths: dict[str, str] = {}
+    arrays: set[str] = set()
+    for include in LOCAL_INCLUDE_RE.findall(text):
+        header_path = (source_path.parent / include).resolve()
+        try:
+            header_path.relative_to(root.resolve())
+        except ValueError:
+            continue
+        if header_path.suffix != ".h" or not header_path.is_file():
+            continue
+        header_widths, header_arrays = load_declarations(
+            header_path, known_names
+        )
+        widths.update(header_widths)
+        arrays.update(header_arrays)
+    return widths, arrays
 
 
 def resolve_global(
@@ -531,6 +556,36 @@ def inline_assembly_text(text: str) -> str | None:
     return "".join(pieces)
 
 
+def inline_assembly_function_text(text: str, function_name: str) -> str | None:
+    assembly = inline_assembly_text(text)
+    if assembly is None:
+        return None
+    lines = assembly.splitlines()
+    start = next(
+        (
+            index
+            for index, line in enumerate(lines)
+            if line.strip() == f"{function_name}:"
+        ),
+        None,
+    )
+    if start is None:
+        return None
+    end = next(
+        (
+            index + 1
+            for index, line in enumerate(lines[start + 1 :], start + 1)
+            if line.strip() == f".end {function_name}"
+        ),
+        None,
+    )
+    if end is None:
+        raise GlobalUsageError(
+            f"inline assembly for {function_name} has no matching .end"
+        )
+    return "\n".join(lines[start:end])
+
+
 def classify_relocated_word(
     relocation: str, instruction_word: int | None
 ) -> tuple[str, str]:
@@ -558,7 +613,7 @@ def collect_inline_assembly_c(
     function_names: set[str],
     usages: dict[tuple[int, int, str], Usage],
 ) -> bool:
-    assembly = inline_assembly_text(text)
+    assembly = inline_assembly_function_text(text, function.name)
     if assembly is None:
         return False
     last_word: int | None = None
@@ -666,27 +721,27 @@ def collect_c_usages(
         parsed_by_name = {function.name: function for function in parsed_functions}
         if len(parsed_by_name) != len(parsed_functions):
             raise GlobalUsageError(f"{source_name} defines duplicate function names")
+        included_widths, included_arrays = load_included_declarations(
+            root, source_path, text, known_names
+        )
         local_widths, local_arrays = infer_declarations(
             top_level_tokens, known_names
         )
-        widths = {**shared_widths, **local_widths}
-        arrays = shared_arrays | local_arrays
+        widths = {**shared_widths, **included_widths, **local_widths}
+        arrays = shared_arrays | included_arrays | local_arrays
         for address in sorted(addresses_by_source[source_name]):
             function = inventory_by_address[address]
             parsed = parsed_by_name.get(function.name)
             if parsed is None:
-                if (
-                    len(addresses_by_source[source_name]) == 1
-                    and collect_inline_assembly_c(
-                        source_name,
-                        text,
-                        function,
-                        symbols_by_name,
-                        aliases_by_address,
-                        function_addresses,
-                        function_names,
-                        usages,
-                    )
+                if collect_inline_assembly_c(
+                    source_name,
+                    text,
+                    function,
+                    symbols_by_name,
+                    aliases_by_address,
+                    function_addresses,
+                    function_names,
+                    usages,
                 ):
                     continue
                 available = ", ".join(sorted(parsed_by_name))
