@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80016D04.h"
 #include "func_80016778.h"
 #include "duel_side_state.h"
 #include "display_object_api.h"
@@ -9,7 +10,6 @@
 #include "duel_display.h"
 #include "duel_card_display_state.h"
 
-void func_80016D04();
 void func_80042918(u8 *arg0);
 
 void func_80017DB4(DuelCardDisplayObject *object)
