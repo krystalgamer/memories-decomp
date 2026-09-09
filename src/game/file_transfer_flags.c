@@ -2,7 +2,6 @@
 #include "file_transfer.h"
 
 extern u32 D_8009B10C;
-extern volatile u16 D_8009B112;
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 

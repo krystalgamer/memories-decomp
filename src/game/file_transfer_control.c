@@ -15,7 +15,6 @@
    file_transfer_control.c already declared func_8001455C and called it, so
    the caller and the callee now share a unit and that prototype is gone. */
 
-extern volatile u16 D_8009B112;
 extern volatile u16 D_8009B100;
 extern u16 D_8009B0EC;
 extern void (*D_8009B120)(void);

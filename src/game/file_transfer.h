@@ -109,6 +109,23 @@ extern s32 gFile_anLba[];
 extern volatile u32 D_8009B0F4;
 extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
 
+/* The transfer-step flag word. func_8001455C sets and clears every bit of
+ * it through the streaming retry state machine and reloads it after each
+ * store; File_ActivateTransfer ORs in bit 0; the two readers outside this
+ * family test bit 0x4000, the transfer-complete flag. Same two forms as
+ * D_8009B0F4 above: five units reach it gp-relative, and two --
+ * func_80037B40 and func_800257A0 -- read it through a %hi/%lo pair into
+ * the load's own register (retail's `lui $v0` / `lhu $v0,%lo(...)($v0)`),
+ * which is the bare form; they take the _abs name. Measured per unit: with
+ * either of the two on the plain name the executable links 8 bytes short
+ * (0x1d07f8 against 0x1d0800), the two pairs collapsing to two gp-relative
+ * loads. volatile stays on the shared form, where it keeps func_8001455C's
+ * back-to-back read-modify-writes from folding; the _abs twin is not
+ * volatile, and that is measured -- the two readers build byte-identical
+ * without it, as D_8009B134_abs does. */
+extern volatile u16 D_8009B112;
+extern u16 D_8009B112_abs __attribute__((section(".data")));
+
 /* The loader's secondary-request word at 0x8009B134, the other half of the
  * `(D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134` predicate
  * that eighteen units use to ask whether a transfer is still in flight.

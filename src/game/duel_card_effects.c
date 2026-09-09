@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_transfer.h"
 #include "duel_card_object_helpers.h"
 #include "func_8002C604.h"
 #include "duel_side_state.h"
@@ -237,7 +238,6 @@ hit:
     SD_SEPlayFull(0x1F);
 }
 
-extern volatile u16 D_8009B112 __attribute__((section(".data")));
 extern u8 *D_8009B17C;
 extern s16 D_8009B1D2;
 extern s16 D_8009B20C[4];
@@ -327,7 +327,7 @@ void func_800257A0(void) {
     f = D_8009B220;
 
     if ((f & 0x20) == 0) {
-        if ((D_8009B112 & 0x4000) == 0) {
+        if ((D_8009B112_abs & 0x4000) == 0) {
             return;
         }
         D_8009B220 = f | 0x20;
@@ -343,7 +343,7 @@ void func_800257A0(void) {
         return;
     }
 
-    if ((D_8009B112 & 0x4000) != 0) {
+    if ((D_8009B112_abs & 0x4000) != 0) {
         return;
     }
 

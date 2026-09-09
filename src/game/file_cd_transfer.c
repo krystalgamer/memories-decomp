@@ -24,7 +24,6 @@ extern s32 D_8009B138;
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 extern u8 gFile_SecondaryTransferDescriptor[];
 extern u8 D_801D4200[];
-extern u16 D_8009B112;
 
 extern void func_80013C28(u8, u8 *, u32 *);
 extern void func_8007B1F4(s32, void *, void *, s32);
