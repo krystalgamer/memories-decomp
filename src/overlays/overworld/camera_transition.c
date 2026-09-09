@@ -1,4 +1,6 @@
 #include "../../types.h"
+#include "camera_transition.h"
+#include "camera_state.h"
 #include "../../game/trig_constants.h"
 #include "../../game/view_state.h"
 
@@ -43,7 +45,6 @@ extern s32 D_80169614;
 
 extern void func_80043178(MapObject *);
 extern void func_8004318C(MapObject *, s32, s32, s32);
-extern void CampaignMap_SetCameraFromLocation(s32);
 extern void func_8001352C(void);
 
 void CampaignMap_StartCameraTween(s32 index, s32 steps)

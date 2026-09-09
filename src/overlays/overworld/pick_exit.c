@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "pick_exit.h"
 #include "../../game/campaign_flags.h"
 #include "../../game/sound.h"
 

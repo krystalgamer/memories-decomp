@@ -1,8 +1,9 @@
 #include "../../types.h"
+#include "location_label.h"
+#include "../../game/text_box_runtime.h"
 
 extern u8 gCampaignMap_Location;
 extern u8 *func_80035BE4(int, int, int, int, int, int);
-extern void func_80039A60(void *);
 
 u8 *CampaignMap_CreateLocationLabel(s32 unused)
 {

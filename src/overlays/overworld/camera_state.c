@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "camera_state.h"
 #include "../../psyq/libgte.h"
 #include "../../game/view_state.h"
 

@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "location_marker.h"
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_helpers.h"
 
