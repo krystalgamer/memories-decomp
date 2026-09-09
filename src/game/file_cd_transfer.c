@@ -28,7 +28,7 @@ extern u16 D_8009B112;
 
 extern void func_80013C28(u8, u8 *, u32 *);
 extern void func_8007B1F4(s32, void *, void *, s32);
-extern void func_8007B468();
+extern s32 func_8007B468(s32, void *, s32, void *, s32);
 extern s32 CdPosToInt_8007E710(s32);
 
 void func_800140A0(u8 event)
