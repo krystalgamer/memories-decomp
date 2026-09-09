@@ -433,4 +433,23 @@ extern DisplayObject D_800F0548[
     DISPLAY_OBJECT_POOL_CAPACITY - DISPLAY_OBJECT_RESERVED_CAPACITY
 ];
 
+/* One of the per-frame update callbacks installed into DisplayObject::update.
+ * It orbits an object around the base position it keeps at field_2C/field_2E,
+ * stepping the angle at field_2A by 0x30 a frame and taking the radius from
+ * field_28, which doubles as a countdown and decays by 2 each frame. When that
+ * reaches zero it clears field_6C and update and snaps field_30 back to the
+ * base in one word. While bit 0 of D_8009B0CC is set it also spawns a
+ * companion object at the current position each frame.
+ *
+ * Declared here because this header owns both halves of its contract: the
+ * DisplayObject it takes, and the DisplayObjectCallback typedef that
+ * func_80020F4C.c casts it to when installing it. That file held the only
+ * declaration and does not call the function itself, so the cast is the whole
+ * use -- the declaration has to match for the address to be taken.
+ *
+ * This names one callback and claims nothing about the others that share the
+ * slot; func_80042BC0 in display_object_lifecycle.h is a sibling by role but
+ * takes DisplayObjectLifecycle *, not this type. */
+void func_80020D4C(DisplayObject *object);
+
 #endif
