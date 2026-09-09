@@ -1,29 +1,9 @@
 #include "../types.h"
+#include "file_transfer_descriptor_view.h"
 #include "model.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-    s32 field08;
-    s32 field0C;
-    u8 pad10[0xC];
-    s32 field1C;
-    u8 pad20[0x10];
-    union {
-        struct {
-            s16 lo;
-            s16 hi;
-        } h;
-        s32 w;
-    } field30;
-    u8 pad34[0x12];
-    u8 field46;
-} Object;
 
 typedef struct {
     u32 w[7];
@@ -37,7 +17,7 @@ extern u8 D_801A8000[];
 extern u8 D_801DD000[];
 extern void func_8005B620(u8 *dst, u8 *src, s32 count);
 
-void func_800577B0(Object *object, s32 mode) {
+void func_800577B0(FileTransferDescriptorView *object, s32 mode) {
     RECT rect0;
     RECT rect1;
     u8 *dst;

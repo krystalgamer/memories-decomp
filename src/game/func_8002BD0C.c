@@ -1,28 +1,8 @@
 #include "../types.h"
+#include "file_transfer_descriptor_view.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-    s32 field08;
-    s32 field0C;
-    u8 pad10[0xC];
-    s32 field1C;
-    u8 pad20[0x10];
-    union {
-        struct {
-            s16 lo;
-            s16 hi;
-        } h;
-        s32 w;
-    } field30;
-    u8 pad34[0x12];
-    u8 field46;
-} Object;
 
 extern s32 D_8009B118 __attribute__((section(".data")));
 extern u8 D_800E9D70[100];
@@ -30,7 +10,7 @@ extern void func_80048D08(s32 mode, s32 buffer);
 
 #define gStageRect (*(RECT *)D_800E9D70)
 
-void func_8002BD0C(Object *object, s32 mode) {
+void func_8002BD0C(FileTransferDescriptorView *object, s32 mode) {
     switch (mode) {
     case 0:
         object->field30.h.lo = 0x300;
