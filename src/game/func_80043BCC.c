@@ -19,7 +19,7 @@ s32 func_80043BCC(void) {
     u32 f;
     s32 g;
 
-    func_800159D8();
+    Fade_WaitInitIn();
 
     for (;;) {
         D_8009B428 = 0;
@@ -53,7 +53,7 @@ s32 func_80043BCC(void) {
                 if ((g & 0x40) == 0) {
                     func_800156DC();
                 }
-                func_80015AD8();
+                Fade_WaitInitOut();
                 continue;
             }
             if ((f & 0x80) == 0) {

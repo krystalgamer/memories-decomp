@@ -9,7 +9,7 @@ extern void func_800403F0(void);
 
 void func_80030FD0(void)
 {
-    func_80015AD8();
+    Fade_WaitInitOut();
     func_800403F0();
     func_80035A64();
     longjmp(D_800E9DC0, 2);

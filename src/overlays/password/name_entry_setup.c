@@ -162,5 +162,5 @@ void NameEntry_Init(void)
     *(s32 *)(obj + 4) = *(s32 *)(obj + 4) | 0x1000000;
     func_8004293C(obj);
     D_8016D4D2 = 244;
-    func_80015A00();
+    Fade_WaitIn();
 }

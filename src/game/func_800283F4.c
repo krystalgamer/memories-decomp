@@ -120,7 +120,7 @@ void func_800283F4(void)
                 break;
             }
         }
-        func_80015BD8(0x40, 2);
+        Fade_SetTargetLevel(0x40, 2);
         D_8009B140 = D_8009AF76 - 0x13;
         SD_SEPlayFull(0x34);
         D_8009B248 |= 0x40;
@@ -234,7 +234,7 @@ press:
     *(s16 *)(D_8009B240 + 0x60) = slide;
     func_80043178(next_obj);
     *(s16 *)(D_8009B24C + 0x60) = slide;
-    func_80015BD8(0xFF, 2);
+    Fade_SetTargetLevel(0xFF, 2);
     SD_SEPlayFull(0x34);
     D_8009B248 |= 0x50;
 }

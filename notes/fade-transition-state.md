@@ -140,6 +140,81 @@ Both helpers write white tint, restore step `0x0C`, and clear band mode by
 replacing the entire flag byte. The wrappers therefore do not unconditionally
 start an eight-unit banded transition.
 
+## The wrapper family in `fade_control.c`
+
+`fade_control.c` is seventeen thin wrappers over the setup paths above. They
+vary along three axes, and reading them as a grid is what makes the unnamed
+ones tractable:
+
+- which initializer runs -- `Fade_Init*` (default step `0x0C`, no band mode)
+  or `Fade_Start*` (band mode requested, then possibly replaced by the colour
+  helper as described above);
+- whether the wrapper ends with `Fade_Wait`, i.e. whether it blocks;
+- whether it ORs extra bits into `flags` and calls a colour helper.
+
+| Address | Name | Init | Waits | Extra flags |
+|---|---|---|---|---|
+| `0x800159D8` | `Fade_WaitInitIn` | `Fade_InitIn` | yes | none |
+| `0x80015A00` | `Fade_WaitIn` | `Fade_StartIn` | yes | none |
+| `0x80015A28` | `Fade_WaitInitInColor` | `Fade_InitInColor` | yes | none |
+| `0x80015A50` | -- | `Fade_InitIn` | yes | `\|= 2`, then `func_8001572C` |
+| `0x80015A94` | -- | `Fade_InitIn` | yes | `\|= 6`, then `func_8001572C` |
+| `0x80015AD8` | `Fade_WaitInitOut` | `Fade_InitOut` | yes | none |
+| `0x80015B00` | `Fade_WaitOut` | `Fade_StartOut` | yes | none |
+| `0x80015B28` | `Fade_WaitInitOutColor` | `Fade_InitOutColor` | yes | none |
+| `0x80015B50` | -- | `Fade_InitOut` | yes | `\|= 2`, then `func_80015870` |
+| `0x80015B94` | -- | `Fade_InitOut` | yes | `\|= 6`, then `func_80015870` |
+| `0x80015C0C` | -- | `Fade_InitIn` | no | `\|= 2`, then `func_8001572C` |
+| `0x80015C48` | -- | `Fade_InitIn` | no | `\|= 6`, then `func_8001572C` |
+| `0x80015C84` | -- | `Fade_InitOut` | no | `\|= 2`, then `func_80015870` |
+| `0x80015CC0` | -- | `Fade_InitOut` | no | `\|= 6`, then `func_80015870` |
+
+The two remaining wrappers are not fades at all: `0x80015CFC` writes
+`D_8009B141 = 1` and `0x80015D0C` writes `D_8009B141 = 0`. `Fade_Update`
+calls both, which is why the control byte is not a simple record of fade
+direction.
+
+### What the extra bits do
+
+Flag `0x02` is already covered by the submission table above: it makes the
+tail box take its depth from `D_8009B140` (or `0x3F` when that is zero)
+instead of the fixed `4`. That is what lets other objects sort in front of
+the cover, and `Script_OpShowImage` is the clearest use -- it creates its
+full-screen image object and only then calls `0x80015C84`, the non-blocking
+`Fade_InitOut` + `\|= 2` wrapper.
+
+Flag `0x04` is only read in `fade_update.c`, at the point where the level
+reaches zero:
+
+```c
+f = gFade_State.flags;
+if (f & 2) {
+    if ((f & 4) == 0) {
+        return;          /* leave D_8009B141 alone */
+    }
+    D_8009B141 = 0x80;   /* high bit: preserved by the entry check */
+} else {
+    func_80015D0C();     /* D_8009B141 = 0 */
+}
+```
+
+So within the `0x02` path, `0x04` decides whether completion latches the
+control byte to `0x80` or leaves it untouched. The high bit matters because
+the entry check at `0x80015340..0x80015358` preserves a control byte whose
+high bit is set rather than forcing it to `1`.
+
+### Why the ten are still unnamed
+
+The mechanics above are settled, but a name should describe what a wrapper is
+*for*, and that needs callers. Six of the eight flag-setting wrappers have
+none at all in the tree (`0x80015A50`, `0x80015A94`, `0x80015B50`,
+`0x80015B94`, `0x80015C48`, `0x80015CC0`), and the two that do --
+`0x80015C0C` and `0x80015C84`, both reached from `Script_OpShowImage` and
+`func_800388D8` -- establish one use case, not the distinction between the
+`2` and `6` forms, because every `6` form is uncalled. Naming them from bit mechanics alone would record the flags twice
+rather than add anything, so they keep their addresses until a caller
+distinguishes them.
+
 These are code-derived conclusions, not a new emulator result. The older
 [screen-fade observations, F87-F92](research/Unchiga_Symbols/findings.md#screen-fade-to-black-circle-out-of-free-duel-x-back-in----session-2026-09-02)
 describe particular menu runs; their eight-unit step and approximate
@@ -240,7 +315,7 @@ Matching pure-C users migrated to this shared header include:
 - `Fade_InitInColor`, `func_80015870`, `Fade_InitOut`;
 - `Fade_StartOut`, `Fade_InitOutColor`, `Fade_Wait`;
 - `func_80015A50`, `func_80015A94`, `func_80015B50`, `func_80015B94`;
-- `func_80015BD8`, `func_80015BF0`;
+- `Fade_SetTargetLevel`, `Fade_SetLevel`;
 - `func_80015C0C`, `func_80015C48`, `func_80015C84`, `func_80015CC0`.
 
 The colour initializers and their blocking wrappers now carry an explicit
