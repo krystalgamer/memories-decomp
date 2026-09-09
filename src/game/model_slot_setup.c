@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_word_memory.h"
 #include "model.h"
 #include "model_init_light_triplet.h"
 #include "model_slot_row_tables.h"
@@ -17,7 +18,6 @@
    on that same +0xE16 (0x3E is one of its three cases), reads +0xE0C, +0xE0D
    and +0xE0A back, and sets +0xE1F to 1. */
 
-void func_8005B5FC(s32 *destination, s32 value, u32 count);
 void func_8004CB0C(void);
 void func_8004D914(s32 arg0);
 void func_800582C0(s32 arg0, s32 arg1, s32 arg2);
