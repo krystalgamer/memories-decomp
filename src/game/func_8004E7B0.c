@@ -1,16 +1,10 @@
 #include "../types.h"
+#include "model.h"
 
-#define MODEL_ANGLE_FULL_TURN 0x1000
-#define MODEL_ANGLE_QUARTER_TURN (MODEL_ANGLE_FULL_TURN / 4)
-
-typedef struct {
-    u8 b[8];
-} ModelViewSnapshot;
-
-ModelViewSnapshot D_8009B478;
+ModelBytes8 D_8009B478;
 s16 D_8009B47A;
 s16 D_8009B47C;
-ModelViewSnapshot D_8009B480;
+ModelBytes8 D_8009B480;
 s16 D_8009B482;
 s16 D_8009B484;
 u8 *D_8009AF88;

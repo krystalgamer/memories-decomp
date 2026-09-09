@@ -2,39 +2,25 @@
 #include "../types.h"
 #include "sound.h"
 
-typedef struct {
-    u8 pad0[0x4C];
-    s16 count;
-    u8 pad1[0x7C - 0x4E];
-    u8 f7C;
-    u8 f7D;
-    u8 pad2[0x80 - 0x7E];
-    u8 entries[1];
-} SoundState;
-
-typedef struct {
-    u32 words[12];
-} SoundEntry;
-
-#define SOUND_STATE ((SoundState *)g_SDValue[0])
+#define SOUND_STATE ((SDValue *)g_SDValue[0])
 
 void func_800464F0(void)
 {
-    SoundState *p;
+    SDValue *p;
     register s32 i asm("a2");
     register s32 j asm("a1");
     register s32 k asm("a3");
     s32 tag;
-    register SoundEntry *dst asm("v0");
+    register SDCommand *dst asm("v0");
     register u8 *src_base asm("v1");
-    register SoundEntry *src asm("a0");
+    register SDCommand *src asm("a0");
     register s32 c29 asm("t2");
     register s32 c24 asm("t1");
     register s32 c2b asm("t0");
 
     p = SOUND_STATE;
     i = 0;
-    if (p->count <= 0) {
+    if (p->command_count <= 0) {
         goto tail_dispatch;
     }
     c29 = 0x29;
@@ -44,10 +30,13 @@ void func_800464F0(void)
     j = i;
 
 loop:
-    if (p->count == 0) {
+    if (p->command_count == 0) {
         goto tail_dispatch;
     }
-    tag = p->entries[j];
+    /* The byte form, and the grouping, are both load-bearing: retail
+           adds the record base to the running byte offset in that order.
+           sound_runtime.c keeps the same shape over the same queue. */
+        tag = *(u8 *)((u8 *)p + j + SD_COMMAND_QUEUE_BYTE_OFFSET);
     if (tag == c29) {
         goto match;
     }
@@ -67,13 +56,13 @@ high_range:
 
 match:
     p = SOUND_STATE;
-    dst = (SoundEntry *)((u8 *)p + j);
-    dst = (SoundEntry *)((u8 *)dst + 0x80);
+    dst = (SDCommand *)((u8 *)p + j);
+    dst = (SDCommand *)((u8 *)dst + SD_COMMAND_QUEUE_BYTE_OFFSET);
     src_base = (u8 *)p + k;
-    src = (SoundEntry *)(src_base + 0x80);
+    src = (SDCommand *)(src_base + SD_COMMAND_QUEUE_BYTE_OFFSET);
     *dst = *src;
     p = SOUND_STATE;
-    p->count = (u16)p->count - 1;
+    p->command_count = (u16)p->command_count - 1;
     goto tail_test;
 
 no_match:
@@ -85,7 +74,7 @@ advance:
 
 tail_test:
     p = SOUND_STATE;
-    if (i >= p->count) {
+    if (i >= p->command_count) {
         goto tail_dispatch;
     }
     if (i >= 0) {
@@ -94,8 +83,8 @@ tail_test:
 
 tail_dispatch:
     {
-        register SoundState *tail_p asm("v0") = SOUND_STATE;
-        tag = tail_p->f7C;
+        register SDValue *tail_p asm("v0") = SOUND_STATE;
+        tag = tail_p->field_007C;
     }
     if (tag == 0x29) {
         goto clear;
@@ -114,6 +103,6 @@ check_2B:
     }
 
 clear:
-    SOUND_STATE->f7C = 0;
-    SOUND_STATE->f7D = 0;
+    SOUND_STATE->field_007C = 0;
+    SOUND_STATE->field_007D = 0;
 }

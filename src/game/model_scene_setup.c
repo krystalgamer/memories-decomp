@@ -11,14 +11,13 @@
    it only parses after libgte.h, libgpu.h and libgs.h; camera_view.h above
    supplies libgs.h. */
 #include "../psyq/libhmd.h"
+#include "model.h"
 #include "model_scene_states.h"
 #include "model_transfer_state.h"
 
-typedef struct { unsigned char b[8]; } __attribute__((packed)) Packed8;
-
 extern unsigned short D_8009AF8C, D_8009AF90, D_8009AF8E;
-extern Packed8 D_8009B478_p asm("D_8009B478");
-extern Packed8 D_8009B480;
+extern ModelBytes8 D_8009B478_p asm("D_8009B478");
+extern ModelBytes8 D_8009B480;
 extern GsCOORDUNIT D_800F56A0;
 extern void func_800857C0(int);
 extern void func_8004E7B0(int), func_80052D2C(int, int, int, int);

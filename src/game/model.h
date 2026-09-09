@@ -101,6 +101,22 @@ typedef struct {
     u32 value[7];
 } ModelSlotCF8BlockWords;
 
+/* Eight bytes moved as a block. Three units spelled this by hand over three
+   different records: func_8004E7B0 and model_scene_setup.c over the view
+   snapshot pair D_8009B478/D_8009B480, which they had typed two different
+   ways for the same two symbols, and model_slot_support.c over the halfword
+   quad at ModelSlot.field_DC8.
+
+   Unlike ModelSlotCF8BlockWords above, this one is shared rather than kept
+   per site, and the element type is why. All three spellings were u8[8], so
+   all three have alignment 1 and lower to the same move; two of them said
+   __attribute__((packed)), which on a u8 array asks for the alignment it
+   already has. A block type is interchangeable with another only when the
+   element type agrees, which is what the note above is warning about. */
+typedef struct {
+    u8 bytes[8];
+} ModelBytes8;
+
 typedef struct {
     ModelSlotHeadEntry field_000[1];
     u8 pad_008[0x1D8];
@@ -275,6 +291,9 @@ typedef char ModelSlotCF8Block_size_must_be_0x1C[
 ];
 typedef char ModelSlotCF8BlockWords_size_must_match_block[
     sizeof(ModelSlotCF8BlockWords) == sizeof(ModelSlotCF8Block) ? 1 : -1
+];
+typedef char ModelBytes8_size_must_be_8[
+    sizeof(ModelBytes8) == 8 ? 1 : -1
 ];
 typedef char ModelSlotCF8Block_field_0A_offset_must_be_0xA[
     MODEL_OFFSET(ModelSlotCF8Block, field_0A) == 0xA ? 1 : -1
