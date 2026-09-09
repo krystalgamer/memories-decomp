@@ -1,3 +1,4 @@
+#define D_8009B0A3_SIZED_ARRAY
 #define D_8009B0C0_IN_DATA
 #include "../types.h"
 #include "graphics_frame.h"
@@ -14,7 +15,7 @@
 #include "../unmatched.h"
 
 extern u8 D_8009B26C, D_8009B26E;
-extern u8 D_8009B369[9], D_8009B2F8[9], D_8009B0A3[9];
+extern u8 D_8009B369[9], D_8009B2F8[9];
 extern s8 gDuel_bOpponentID[9];
 extern u8 D_8009B368[9], D_8009B362[9], gCampaignSceneIndex[9];
 extern u8 D_8009B370[9];

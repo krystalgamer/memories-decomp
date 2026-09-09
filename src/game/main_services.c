@@ -1,3 +1,4 @@
+#define D_8009B0A3_IS_VOLATILE_SCALAR
 /* func_80013360 re-reads the pad word on each path and needs it out of
    small data; see the arms in input.h. */
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
@@ -50,7 +51,6 @@ extern volatile u8 D_800FE048[];
 extern volatile u8 D_8009B0A0;
 extern volatile u8 D_8009B0A1;
 extern volatile u8 D_8009B0A2;
-extern volatile u8 D_8009B0A3;
 extern DISPENV D_800FE0A8;
 
 extern void func_80014A5C(s32 a0);

@@ -28,6 +28,29 @@ extern void (*D_800E9DB0[4])(void);
  * func_800134B4 clears alongside them. Only main_services.c refers to it. */
 extern void (*D_8009B0B8)(void);
 
+/* A one-byte state value main_services.c sets alongside D_8009B0A0 to
+ * D_8009B0A2, and that the two menu runners set to 10 or 6 through index 0.
+ *
+ * Three arms, because all three consumers want a different addressing form
+ * and each is load bearing. main_services.c wants the volatile scalar: it
+ * writes the byte directly and -G8 reaches a scalar gp-relative.
+ * main_run_duel_and_library.c wants a sized array and
+ * main_run_selection_menus.c an unsized one, which are the two ways to leave
+ * small data.
+ *
+ * The [9] is a lever, not a size. c_symbols.ld names D_8009B0A4 one byte
+ * after this symbol, so nine bytes would run through that and on past
+ * gGraphics_bActiveBuffer at 0x8009B0AC. The array length is chosen to make
+ * the assembler build an absolute address, exactly as gDuel_bTerrain's [8]
+ * and gSD_bOutputType's [16] are, and it asserts nothing about storage. */
+#ifdef D_8009B0A3_IS_VOLATILE_SCALAR
+extern volatile u8 D_8009B0A3;
+#elif defined(D_8009B0A3_SIZED_ARRAY)
+extern u8 D_8009B0A3[9];
+#else
+extern u8 D_8009B0A3[];
+#endif
+
 void func_800134B4(void);
 
 #endif
