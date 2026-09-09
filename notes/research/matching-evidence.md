@@ -6824,3 +6824,58 @@ but declared with a value type -- `func_8003A440`, `func_8003A920`,
 `func_80040424`, `func_8004A27C` -- has a caller that actually reads the
 result. There is no case in the tree of a caller consuming a return its callee
 never produces.
+
+## Three things a declaration survey does not see, and one it invents
+
+Three separate notes above warn that a regex survey of declarations under-
+reports. This one names the specific causes, because each of them changed a
+conclusion rather than just a count.
+
+The survey in question is the one that drives #2874 and #2495 work: which
+globals are declared `extern` in a C file, defined in no C file, and absent
+from every header?
+
+Three ways it misses a declaration that is really there:
+
+  - A declaration inside a header comment is counted as code.
+    `duel_terrain_boost.h` lists five example spellings of `gDuel_bTerrain`
+    while explaining why they differ, and a scan reads all five.
+
+  - A declaration inside `#ifdef` is invisible as a declaration and invisible
+    as a guard. `mem_card.h` wraps a pair in
+    `#ifndef GMEMCARD_NIORESULT_IS_VOLATILE`, so "declared twice" and
+    "declared twice deliberately" look identical, and inserting into that
+    region silently hides the new declaration from the consumers that do not
+    define the macro.
+
+  - A declaration whose type and name are on different lines is not seen at
+    all. This is the one that changes conclusions rather than counts.
+    `D_80090800` was reported as an unmatched global with four unanimous
+    consumers. It is neither unmatched nor unanimous: `duel_field_layout.c`
+    defines it across two lines, and two more consumers declare it
+    two-dimensionally, one of those also wrapped.
+
+And one way it reports a definition that is not there. Deciding "is this
+symbol defined in C?" with a regex for `<type> <name>` invites the type
+position to match a keyword. A scan that read
+
+    return D_8009B3EF;
+
+as a definition of `D_8009B3EF` reported two homeless symbols as having
+owning translation units, which would have routed both into the wrong
+header. Anchoring on statement boundaries is not enough; the check has to
+know it is at file scope, and has to exclude `return`, `case` and `goto`
+from the type position.
+
+The `D_80090800` case is worth following to the end, because the wrong survey
+led to the wrong plan. On the four-consumer reading it looked like a symbol
+needing the two-arm `#ifdef` treatment `D_800907D8` has, one arm per shape.
+The complete reading shows the four flat consumers all cast to `u8 *` at the
+point of use, so a single declaration in the record's real two-dimensional
+shape serves every consumer and no guard is needed at all.
+
+Deliberately absent here: a total. Successive parsers of this tree have
+produced very different population counts, and each jump came from fixing a
+bug in the previous parser rather than from new evidence, so no count has yet
+earned a place in this file. Treat a survey as a way to generate candidates,
+and verify by hand every symbol you are about to touch.
