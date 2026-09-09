@@ -1,5 +1,19 @@
-#include "../../../../src/types.h"
-#include "../../../../src/game/duel_card_layout.h"
+/*
+ * Stages the five-card Exodia presentation, sparkle phases, centre burst, and
+ * result handoff. Current best under gcc_2_8_1_g8_split: 280/280
+ * instructions, opcode multiset distance 0, and 114 differing positions.
+ *
+ * The callback address remains pinned to preserve retail's
+ * materialise-then-move sequence. Address hoists, index-first arithmetic, and
+ * locals spanning intervening stores reproduce the rest of the allocation.
+ *
+ * Residual: two opposite delay-slot choices. This build fills the branch slot
+ * before the D_8009B260 test where retail leaves a nop, while retail fills the
+ * later jump slot with the effect-record store. The multiset and instruction
+ * count are identical; the difference is placement, not missing operations.
+ */
+#include "../types.h"
+#include "../game/duel_card_layout.h"
 
 extern u16 D_8009B23A;
 extern u16 D_8009B162;
