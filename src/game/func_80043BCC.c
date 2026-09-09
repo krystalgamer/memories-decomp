@@ -1,3 +1,4 @@
+#define D_8009B318_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #define D_8009B142_IN_DATA
@@ -11,7 +12,6 @@
 #include "main_reset_frontend_runtime.h"
 #include "text_box_lifecycle.h"
 
-extern u8 D_8009B318 __attribute__((section(".data")));
 extern u8 D_8009B428;
 
 s32 func_80043BCC(void) {
