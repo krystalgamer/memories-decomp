@@ -51,7 +51,8 @@ void func_800250C8(void) {
     s1 = s0 - DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID;
     if (DuelEffect_MarkInitialized() == 0) {
         if (func_80025028(DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID) != 0) {
-            s1 = s0 - 0x14D;
+            s1 = s0 - (DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID -
+                       DUEL_LIFE_POINT_EFFECT_COUNT);
         }
         obj = func_8002C68C(5);
         obj->field_00 = 0xA0;
