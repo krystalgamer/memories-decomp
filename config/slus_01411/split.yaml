@@ -140,7 +140,7 @@ segments:
       - [0x8125c, .data, game/duel_effect_tables]
       - [0x81350, .data, game/credits_secret_numbers]
       - [0x81364, .data, game/main_modes]
-      - [0x813a8, data, initialized_data_80090ba8]
+      - [0x813a8, .data, game/scene_image_overlay_tables]
       - [0x81450, .data, game/script_command_table]
       - [0x814ac, .data, game/scene_script_record_callbacks]
       - [0x814b4, data, initialized_data_80090cb4]
