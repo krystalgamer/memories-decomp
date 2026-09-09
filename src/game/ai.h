@@ -18,7 +18,8 @@ typedef struct {
     /* AiScript_FindKiller and func_8007308C both read +0x09 and pass it
      * to Duel_CalcGuardianStarMatchup; both match byte for byte. */
     s8 guardian_star;
-    u8 pad0A[2];
+    s8 guardian_star_2;
+    u8 deck_index;
 } AiActiveCard;
 
 typedef struct {
