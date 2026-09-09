@@ -1081,8 +1081,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80031874,func_80031874,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022074.s,read,16,"lh $v1, %lo(gGraphics_sViewportX)($v1) | lui $v1, %hi(gGraphics_sViewportX)"
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x800323F8,func_800323F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022bf8.s,write,16,"lui $at, %hi(gGraphics_sViewportX) | sh $zero, %lo(gGraphics_sViewportX)($at)"
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80035E20,func_80035E20,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_026620.s,read,16,"lh $v0, %lo(gGraphics_sViewportX)($v0) | lui $v0, %hi(gGraphics_sViewportX)"
-0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80040588,func_80040588,matching_c,game,C,src/game/func_80040588.c,read,,p->pos.h.x = p->pos.h.x - gGraphics_sViewportX;
-0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x800408D0,func_800408D0,matching_c,game,C,src/game/func_800408D0.c,read,,p->pos.h.x = p->pos.h.x - gGraphics_sViewportX;
+0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80040588,func_80040588,matching_c,game,C,src/game/func_80040588.c,read,,p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
+0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x800408D0,func_800408D0,matching_c,game,C,src/game/func_800408D0.c,read,,p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80040DD8,func_80040DD8,matching_c,game,C,src/game/display_object_list_renderers.c,read,,dx = gGraphics_sViewportX;
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80041068,func_80041068,matching_c,game,C,src/game/display_object_list_renderers.c,read,,dx = gGraphics_sViewportX;
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x8004158C,func_8004158C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_031d8c.s,read,16,"lh $v0, %lo(gGraphics_sViewportX)($v0) | lui $v0, %hi(gGraphics_sViewportX)"
@@ -1097,8 +1097,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80031874,func_80031874,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022074.s,read,16,"lh $v0, %lo(gGraphics_sViewportY)($v0) | lui $v0, %hi(gGraphics_sViewportY)"
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x800323F8,func_800323F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022bf8.s,write,16,"lui $at, %hi(gGraphics_sViewportY) | sh $zero, %lo(gGraphics_sViewportY)($at)"
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80035E20,func_80035E20,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_026620.s,read,16,"lh $v1, %lo(gGraphics_sViewportY)($v1) | lui $v1, %hi(gGraphics_sViewportY)"
-0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80040588,func_80040588,matching_c,game,C,src/game/func_80040588.c,read,,p->pos.h.y = p->pos.h.y - gGraphics_sViewportY;
-0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x800408D0,func_800408D0,matching_c,game,C,src/game/func_800408D0.c,read,,p->pos.h.y = p->pos.h.y - gGraphics_sViewportY;
+0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80040588,func_80040588,matching_c,game,C,src/game/func_80040588.c,read,,p->xy.h.y = p->xy.h.y - gGraphics_sViewportY;
+0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x800408D0,func_800408D0,matching_c,game,C,src/game/func_800408D0.c,read,,p->xy.h.y = p->xy.h.y - gGraphics_sViewportY;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80040DD8,func_80040DD8,matching_c,game,C,src/game/display_object_list_renderers.c,read,,dx = gGraphics_sViewportY;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80041068,func_80041068,matching_c,game,C,src/game/display_object_list_renderers.c,read,,dx = gGraphics_sViewportY;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x8004158C,func_8004158C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_031d8c.s,read,16,"lh $v1, %lo(gGraphics_sViewportY)($v1) | lui $v1, %hi(gGraphics_sViewportY)"
