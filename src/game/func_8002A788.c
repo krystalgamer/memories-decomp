@@ -1,4 +1,40 @@
 #include "../types.h"
+#include "card_constants.h"
+
+extern s8 gCardGrid_bCursorColumn;
+extern s8 gCardGrid_bCursorRow;
+
+s32 func_8002A6B8(void)
+{
+    s32 row = gCardGrid_bCursorRow;
+    s32 row_tens = row / 10;
+    s8 row_tens_byte = (s8)row_tens;
+    s32 index = row_tens_byte * 200;
+    s8 row_ones = (s8)(row - row_tens * 10);
+    s32 base;
+    s32 column;
+    s32 column_tens;
+    s8 column_ones;
+    register s32 result asm("$2");
+
+    index += row_ones * 10;
+
+    column = gCardGrid_bCursorColumn;
+    if (column >= 10) {
+        index += 100;
+    }
+    base = index + 1;
+    column_tens = column / 10;
+    column_ones = (s8)(column - column_tens * 10);
+    index = base + column_ones;
+    result = 0;
+    if (index < CARD_ID_END) {
+        result = index;
+    }
+    return result;
+}
+
+void func_8002A788(u8 *state);
 
 __asm__(
     ".set noreorder\n"
@@ -35,7 +71,7 @@ __asm__(
     ".word 0x24020002\n"
     ".word 0xA6300006\n"
     ".word 0x08000089\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
+    ".reloc .-4, R_MIPS_26, func_8002A788\n"
     ".word 0xA2220000\n"
     ".word 0x3C020000\n"
     ".reloc .-4, R_MIPS_HI16, gInput_wPad1Pressed\n"
@@ -54,7 +90,7 @@ __asm__(
     ".word 0xA0220000\n"
     ".reloc .-4, R_MIPS_LO16, D_8009B26C\n"
     ".word 0x08000089\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
+    ".reloc .-4, R_MIPS_26, func_8002A788\n"
     ".word 0x00000000\n"
     ".word 0x3C020000\n"
     ".reloc .-4, R_MIPS_HI16, gInput_wPad1Held\n"
@@ -97,7 +133,7 @@ __asm__(
     ".word 0x14400007\n"
     ".word 0x00000000\n"
     ".word 0x0800004A\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
+    ".reloc .-4, R_MIPS_26, func_8002A788\n"
     ".word 0x24050027\n"
     ".word 0x24A5FFF6\n"
     ".word 0x04A10002\n"
@@ -111,7 +147,7 @@ __asm__(
     ".word 0x00023040\n"
     ".word 0x00651023\n"
     ".word 0x08000085\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
+    ".reloc .-4, R_MIPS_26, func_8002A788\n"
     ".word 0x00023040\n"
     ".word 0x3C020000\n"
     ".reloc .-4, R_MIPS_HI16, gInput_wPad1Held\n"
@@ -137,7 +173,7 @@ __asm__(
     ".word 0x24040013\n"
     ".word 0x00002021\n"
     ".word 0x0800006E\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
+    ".reloc .-4, R_MIPS_26, func_8002A788\n"
     ".word 0x24A50001\n"
     ".word 0x2484FFFF\n"
     ".word 0x04810006\n"
@@ -168,7 +204,7 @@ __asm__(
     ".word 0x14400007\n"
     ".word 0x00000000\n"
     ".word 0x08000085\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
+    ".reloc .-4, R_MIPS_26, func_8002A788\n"
     ".word 0x24050027\n"
     ".word 0x24A5FFFF\n"
     ".word 0x04A10002\n"
