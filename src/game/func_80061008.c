@@ -2,7 +2,6 @@
 #include "graphics_frame.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
-#include "graphics_frame.h"
 
 extern u8 D_801A8000[];
 

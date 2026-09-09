@@ -138,10 +138,8 @@ apply:
     }
 }
 
-#include "card_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
-#include "sound.h"
 
 extern s16 D_8009B1D2;
 extern s16 D_8009B1AC;
@@ -237,11 +235,7 @@ hit:
     SD_SEPlayFull(0x1F);
 }
 
-#include "card_constants.h"
 #include "duel_card.h"
-#include "duel_card_layout.h"
-#include "duel_grid.h"
-#include "sound.h"
 
 extern volatile u16 D_8009B112 __attribute__((section(".data")));
 extern u8 *D_8009B17C;

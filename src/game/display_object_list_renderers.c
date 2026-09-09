@@ -2,7 +2,6 @@
 #include "graphics_frame.h"
 #include "display_object.h"
 #include "display_object_layout.h"
-#include "graphics_frame.h"
 
 typedef void (*ObjFn)(u8 *);
 

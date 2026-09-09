@@ -3,7 +3,6 @@
 #include "../types.h"
 #include "duel_effect.h"
 #include "../psyq/rand.h"
-#include "duel_effect.h"
 #include "input.h"
 #include "text_box_lifecycle.h"
 
