@@ -6,7 +6,6 @@
 #include "duel_effect_play_sound_command.h"
 
 extern s32 D_8009B404[];
-extern s16 D_8009B33C;
 
 void func_80038690(void *object)
 {
