@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "text_stream_commands.h"
+#include "duel_effect.h"
 
 extern signed char gDialog_bChoiceCount;
 extern unsigned char D_8009B34C;
@@ -21,7 +22,6 @@ void func_80037CE0(volatile u8 *object) {
 }
 
 extern u16 D_8009B33A;
-extern s32 D_8009B350;
 
 void func_80037D2C(u8 *object)
 {

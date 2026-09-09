@@ -30,7 +30,6 @@ extern u8 D_8009B357;
    common symbol, so no storage is allocated here.  volatile is what keeps the
    read-back after the store, which retail issues at every use. */
 volatile u16 D_8009B33A;
-extern volatile s32 D_8009B350;
 extern u16 D_8009B35A;
 extern u16 D_8009B27C __attribute__((section(".data")));
 

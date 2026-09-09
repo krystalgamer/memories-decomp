@@ -1,8 +1,7 @@
 #include "../types.h"
 #include "func_80037C74.h"
 #include "text_stream_commands.h"
-
-extern s32 D_8009B350;
+#include "duel_effect.h"
 
 void func_80038E1C(u8 *object)
 {

@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
+#include "duel_effect.h"
 
 typedef struct {
     u8 *streams[20];
@@ -10,7 +11,6 @@ typedef struct {
     s8 depth;
 } EffectObject;
 
-extern s32 D_8009B350;
 extern u8 *D_8009B328;
 
 /* Effect-script command handler: reads a command id and a flag byte from the

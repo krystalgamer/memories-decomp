@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "text_stream_commands.h"
+#include "duel_effect.h"
 
-extern s32 D_8009B350;
 extern s8 gDialog_bChoice;
 extern s8 gDialog_bChoiceCount;
 extern u8 D_8009B34C;

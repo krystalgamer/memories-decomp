@@ -150,4 +150,18 @@ typedef char DuelEffectEntry_field_18_offset_must_be_0x18[
 extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
 extern DuelEffectEntry D_800EB288[DUEL_EFFECT_ENTRY_COUNT];
 
+/* The effect/text advance flag. TextBox_BuildStep is the only reader: it
+ * clears the flag to 0, calls the opcode handler, and then tests the result
+ * twice -- `>= 0` and then `== 1`. Everything else only ever writes it, and
+ * almost always writes 1.
+ *
+ * Signed, because that `>= 0` test is only meaningful on a signed value.
+ *
+ * volatile, because the two tests have no intervening call, so without it
+ * GCC folds them onto a single load: dropping the qualifier shrinks the
+ * executable by 12 bytes. It is a property of the object, so it belongs on
+ * the shared declaration rather than on the one file that happens to read it.
+ */
+extern volatile s32 D_8009B350;
+
 #endif
