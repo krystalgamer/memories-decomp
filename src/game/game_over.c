@@ -10,6 +10,7 @@
 #include "display_object_helpers.h"
 #include "sound.h"
 #include "display_object_config.h"
+#include "game_over.h"
 #include "../unmatched.h"
 
 extern s32 D_8009B378;

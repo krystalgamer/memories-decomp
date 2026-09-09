@@ -1,11 +1,15 @@
 #include "../types.h"
 #include "../overlays/main_menu/entrypoints.h"
+#include "../overlays/password/name_entry_keyboard.h"
 #include "../overlays/password/shop.h"
 #include "../psyq/rand.h"
 #include "../psyq/setjmp.h"
 #include "fade.h"
 #include "file_transfer.h"
 #include "func_8002D458.h"
+#include "func_8003C2B4.h"
+#include "game_over.h"
+#include "main_modes.h"
 #include "menu_record_reset.h"
 #include "sound.h"
 #include "main_services.h"
@@ -13,12 +17,6 @@
 
 extern u8 D_8009B26C;
 extern u8 D_8009B269;
-extern void NameEntry_Init(void);
-extern int NameEntry_PollCompletion(void);
-extern void func_8003C2B4(void);
-extern int Options_Update(void);
-extern void func_8003C950(void);
-extern int func_8003CA5C(void);
 
 void Main_RunMenu(void){unsigned char f=D_8009B26C;int r;if((f&0x40)==0){D_8009B26C=f|0x40;File_RequestMainMenuPackage();File_WaitForTransfers();func_80039E9C();MainMenu_InitFrontendMenu(D_8009B268,D_8009B26D);Fade_WaitIn();}rand();r=MainMenu_UpdateFrontendMenu();if(r>=0){SD_BGMFadeOut();Fade_WaitOut();MainMenu_DestroyFrontendMenu();func_8002D458(r);D_8009B269=8;}}
 
