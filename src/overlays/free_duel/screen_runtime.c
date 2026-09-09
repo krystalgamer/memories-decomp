@@ -6,6 +6,7 @@
 #include "../../game/input.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/duel_effect.h"
+#include "../../game/graphics_frame.h"
 #include "../../psyq/rand.h"
 #include "../../game/sound.h"
 #include "../../game/display_object_helpers.h"
@@ -19,7 +20,6 @@ extern u8 D_8009B26C;
 extern u8 gFreeDuel_bReturnFlags;
 extern u8 D_8009B368;
 extern u16 D_801D0200[];
-extern s32 D_8009B0CC;
 extern u8 **FreeDuel_GetSparkleSlot(void);
 extern u8 *FreeDuel_SpawnSparkle(void);
 extern void FreeDuel_UpdateSparkle(void);
