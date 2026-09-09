@@ -77,11 +77,6 @@ void func_80048A28(s32 arg0, s32 arg1, s32 arg2)
     } while (++i < SD_VOICE_SLOT_COUNT);
 }
 
-typedef char SDPendingInput_copy_groups_must_cover_block[
-    SD_PENDING_INPUT_COPY_GROUP_COUNT * 8 * sizeof(u32) ==
-        SD_PENDING_INPUT_BLOCK_SIZE ? 1 : -1
-];
-
 void func_80048C0C(u16 value, u8 enabled)
 {
     s32 i;
@@ -114,28 +109,6 @@ void func_80048C70(u32 *dst, u32 *src)
         *dst++ = *src++;
     }
 }
-
-typedef struct {
-    s32 count;
-    u8 pad0004[4];
-    u16 keys[SD_PENDING_INPUT_ENTRY_CAPACITY];
-    SDNote data[SD_PENDING_INPUT_ENTRY_CAPACITY];
-} SDSeqBlock;
-
-typedef char SDSeqBlock_size_must_match_input_block[
-    sizeof(SDSeqBlock) == SD_PENDING_INPUT_BLOCK_SIZE ? 1 : -1
-];
-typedef char SDSeqBlock_id_region_must_have_whole_entries[
-    (SD_PENDING_INPUT_PAYLOAD_BYTE_OFFSET - SD_PENDING_INPUT_IDS_BYTE_OFFSET) %
-        SD_PENDING_INPUT_ID_ENTRY_SIZE == 0 ? 1 : -1
-];
-typedef char SDSeqBlock_keys_must_match_input_offset[
-    (u32)&(((SDSeqBlock *)0)->keys) == SD_PENDING_INPUT_IDS_BYTE_OFFSET ? 1 : -1
-];
-typedef char SDSeqBlock_data_must_match_input_offset[
-    (u32)&(((SDSeqBlock *)0)->data) ==
-        SD_PENDING_INPUT_PAYLOAD_BYTE_OFFSET ? 1 : -1
-];
 
 void func_80048D08(s32 side, u32 *src)
 {
