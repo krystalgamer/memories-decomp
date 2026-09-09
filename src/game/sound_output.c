@@ -2,6 +2,7 @@
 #include "func_80044DC0.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
+#include "sound_output_state.h"
 #include "sound_transfer_lifecycle.h"
 extern s32 func_80049F50(void);
 extern void func_80049C40(s32);
@@ -70,10 +71,6 @@ void func_80046DE8(void)
 
 #include "../psyq/libspu.h"
 #include "sound.h"
-extern void func_80045114(void);
-extern void func_80045208(s32, s32);
-extern void func_8004503C(s32, s32, s32);
-extern void func_80045334(s32);
 extern void func_80046A08(void);
 extern void func_800472A8(s32);
 extern void func_8004763C(void);

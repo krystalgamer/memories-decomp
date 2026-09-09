@@ -2,16 +2,15 @@
 #include "../psyq/libspu.h"
 
 #include "sound.h"
+#include "sound_output_state.h"
 
-extern s32 func_80045208(u16, s32);
-
-void func_8004503C(short value, unsigned char flag, int unused)
+void func_8004503C(s16 value, u8 flag, s32 unused)
 {
     g_SDValue->field_0512 = value;
     g_SDValue->field_0049 = flag;
 }
 
-int func_80045054(void)
+s32 func_80045054(void)
 {
     int select = SpuReadDecodedData(
         (SpuDecodedData *)((u8 *)g_SDValue + 0x53C),
@@ -84,7 +83,7 @@ void func_80045114(void)
     }
 }
 
-s16 func_800451E0(u16 value)
+s16 func_800451E0(u16 value, s32 unused)
 {
     return func_80045208(value, 0x80);
 }

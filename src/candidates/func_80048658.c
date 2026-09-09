@@ -20,6 +20,7 @@
  * the whole body, 66 instructions against 68 and 51 differing positions.
  */
 #include "../types.h"
+#include "../game/sound_output_state.h"
 
 struct SoundState {
     u8 pad0[0x43C];
@@ -31,7 +32,6 @@ struct SoundState {
 };
 
 extern struct SoundState *g_SDValue;
-extern void func_800451E0(s32, s32);
 extern void func_800482B0(s32, s32, u8, s32, s32, s32);
 
 void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
