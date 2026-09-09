@@ -6,27 +6,23 @@
 #include "sound.h"
 #include "func_80039794.h"
 #include "duel_scene_callbacks.h"
+#include "duel_scene_update.h"
+#include "duel_effect.h"
 #include "duel_effect_request.h"
 #include "func_8002C6C8.h"
 #include "../unmatched.h"
 #include "duel_magic_effect_dispatch.h"
 
-typedef struct {
-    u8 pad[0x30];
-    void *field_30;
-    u16 flags;
-} Window;
-
 extern u8 gDuel_bQuitDialogState;
 extern u16 D_8009B16C;
 extern s8 D_8009B238;
 extern s8 gDialog_bChoice[9];
-extern Window D_800EB224;
+extern DuelEffectChannel D_800EB224;
 extern s8 gDuel_bOpponentID[9];
 void func_80024200(void)
 {
     u8 value;
-    Window *window;
+    DuelEffectChannel *window;
 
     if (D_8009B162 != 0) {
         func_800235C0();
@@ -53,7 +49,7 @@ void func_80024200(void)
                 func_80039794();
             } while (window->field_30 == 0);
         } else {
-            register Window *cleanup __asm__("$4");
+            register DuelEffectChannel *cleanup __asm__("$4");
 
             func_80039794();
             __asm__(
@@ -61,7 +57,7 @@ void func_80024200(void)
                 "addiu %0,$2,%%lo(D_800EB224)"
                 : "=r"(cleanup)
             );
-            if (cleanup->flags & 0x2000) {
+            if (cleanup->flags_34 & 0x2000) {
                 TextBox_Destroy(cleanup);
                 gDuel_bQuitDialogState = 0;
                 if (gDialog_bChoice[0] != 0) {
