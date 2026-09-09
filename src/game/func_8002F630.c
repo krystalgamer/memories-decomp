@@ -30,7 +30,6 @@ extern u16 D_8009B29C;
 extern Object *D_8009B2A0;
 extern Object *D_8009B280;
 extern Object *D_800EAE98[];
-extern u8 D_800E9ECF[];
 extern u8 D_801AF000[];
 extern void func_8002F4C0(u8 *, s32);
 extern void func_8002E00C(void *);
@@ -102,7 +101,7 @@ void func_8002F630(void) {
         D_8009B280 = q;
         q->flags |= (GsALON | GsATWO);
         Fade_StartIn();
-        D_800E9ECF[0] = four;
+        gFade_State.step = four;
         Fade_Wait();
     } else {
         if (func_8004703C() & 0x80) {

@@ -9,6 +9,7 @@
 #include "display_object_helpers.h"
 #include "file_transfer.h"
 #include "sound.h"
+#include "fade.h"
 
 /* Duel-result outro sequence, driven from the scene state word D_8009B23A.
 
@@ -33,7 +34,7 @@
      3  hold for 0x258 frames or until the player presses one of the 0xE0
         buttons, then retarget every spawned sprite at func_80020EE8 so it
         flies off, and wait for func_80042B40 again.
-     4  once the fade at D_800E9ECE has finished, hand the scene over to
+     4  once the fade at gFade_State.flags has finished, hand the scene over to
         state 0xD.  */
 
 struct Obj {
@@ -97,7 +98,6 @@ extern struct Obj *D_8009B21C;
 
 extern u8 D_8009B362 __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
-extern u8 D_800E9ECE[];
 extern u8 D_801AF000[];
 extern u16 gDuel_awRitualData[];
 extern Spec D_80090928[][SPEC_COUNT];
@@ -262,7 +262,7 @@ void func_80020F4C(void)
         if ((flags & 0x80) == 0) {
             D_8009B174 = flags | 0x80;
         }
-        if ((D_800E9ECE[0] & 0x80) == 0) {
+        if ((gFade_State.flags & 0x80) == 0) {
             D_8009B23A = 0xD;
         }
         break;

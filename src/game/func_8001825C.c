@@ -15,7 +15,6 @@ extern s8 D_8009B1B9;
 extern s8 D_8009B208[8];
 extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
 extern u16 D_8009B36A __attribute__((section(".data")));
-extern u8 D_800E9ECE[];
 extern u8 D_8015C424[];
 extern u8 D_801A7B64[];
 
@@ -102,7 +101,7 @@ void func_8001825C(void)
              D_8009B134_abs) != 0) {
             return;
         }
-        if ((D_800E9ECE[0] & 0x80) != 0) {
+        if ((gFade_State.flags & 0x80) != 0) {
             return;
         }
         D_8009B23A |= 0x4000;

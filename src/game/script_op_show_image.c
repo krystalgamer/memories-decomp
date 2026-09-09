@@ -29,8 +29,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
 #define gGraphics_sViewportY gGraphics_sViewportY_data
 extern u8 D_800E9D70[100];
 #define D_800E9D70 (*(RECT *)D_800E9D70)
-extern u8 D_800E9ECE[100];
-#define D_800E9ECE (D_800E9ECE[0])
 extern struct Rec *D_8009B280;
 extern u16 D_8009B2A8;
 extern u16 D_8009B2AA;
@@ -67,7 +65,7 @@ void Script_OpShowImage(void) {
     if ((masked | D_8009B134_abs) != 0) {
         return;
     }
-    if (D_800E9ECE & 0x80) {
+    if (gFade_State.flags & 0x80) {
         return;
     }
 

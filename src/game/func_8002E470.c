@@ -7,7 +7,6 @@
 #include "script_state.h"
 
 extern u16 D_8009B270;
-extern u8 D_800E9ECE[];
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
@@ -54,7 +53,7 @@ void func_8002E470(void)
             Fade_StartIn();
         }
     } else {
-        if ((D_800E9ECE[0] & 0x80) == 0) {
+        if ((gFade_State.flags & 0x80) == 0) {
             D_8009B27C = 0;
         }
     }

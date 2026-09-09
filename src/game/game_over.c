@@ -11,8 +11,6 @@
 
 extern u8 D_801AF000[];
 extern s32 D_8009B378;
-extern u8 D_800E9ECE[];
-extern u8 D_800E9ECF[];
 /* The retail tail load uses an absolute, self-clobbering v1 address lifetime. */
 extern void func_80040410(u8 *, s32);
 
@@ -35,7 +33,7 @@ void func_8003C950(void)
     D_8009B378 = (s32)object;
     SD_BGMPlay(0x7300);
     Fade_StartIn();
-    D_800E9ECF[0] = 2;
+    gFade_State.step = 2;
 }
 
 s32 func_8003CA5C(void)
@@ -72,7 +70,7 @@ s32 func_8003CA5C(void)
     {
         s32 result = 1;
 
-        if (D_800E9ECE[0] & 0x80) {
+        if (gFade_State.flags & 0x80) {
             return result;
         }
 

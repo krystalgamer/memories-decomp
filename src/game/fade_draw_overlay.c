@@ -61,7 +61,6 @@ typedef struct {
    scalars. The 0x800E9xxx globals are reached lui/%lo (absolute), so each
    is declared oversized -- a size over 8 bytes keeps it out of the -G8
    small-data section. */
-extern u8 D_800E9ECE[16];
 extern s32 D_800E9D94[4];      /* [0] = ordering table the boxes sort into */
 extern u8 D_8009B140;
 extern u8 D_8009B141;
@@ -98,13 +97,13 @@ void Fade_DrawOverlay(void) {
                 GsSortBoxFill((GsBOXF *)p, (GsOT *)ot, 4);
                 FADEBOX_Y(p) = FADEBOX_Y(p) + FADE_BAND_HEIGHT;
             }
-            if (!(D_800E9ECE[0] & 2)) {
+            if (!(gFade_State.flags & 2)) {
                 return;
             }
         }
 
         depth = 4;
-        if (D_800E9ECE[0] & 2) {
+        if (gFade_State.flags & 2) {
             depth = D_8009B140;
             if (depth == 0) {
                 depth = 0x3F;
