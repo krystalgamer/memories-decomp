@@ -9,9 +9,8 @@
 #include "../../psyq/libgte.h"
 #include "../../game/sound.h"
 #include "../../game/display_object_helpers.h"
+#include "campaign_map.h"
 
-extern u8 gCampaignMap_Location;
-extern u8 gCampaignMap_LocationPrev;
 extern u8 D_80169619;
 extern u8 D_8016960D;
 extern u8 D_801695EC;

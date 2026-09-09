@@ -3,8 +3,7 @@
 #include "location_marker.h"
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_helpers.h"
-
-extern u8 gCampaignMap_Location;
+#include "campaign_map.h"
 
 u8 *CampaignMap_CreateLocationMarker(s32 index)
 {

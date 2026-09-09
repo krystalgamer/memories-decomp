@@ -9,9 +9,8 @@
 #include "../../game/display_object_api.h"
 #include "../../game/sound.h"
 #include "../../game/fade.h"
+#include "campaign_map.h"
 
-extern u8 gCampaignMap_Location;
-extern u8 gCampaignMap_LocationPrev;
 extern u8 D_801695EC;
 extern u8 D_8016960D;
 extern u8 *D_801695C8;

@@ -6,6 +6,7 @@
 #include "../../game/view_state.h"
 #include "../../game/func_80043178.h"
 #include "../../game/display_object_interpolation.h"
+#include "campaign_map.h"
 
 typedef struct {
     u8 pad0[8];
@@ -30,9 +31,6 @@ typedef struct {
 extern u8 D_801695EC;
 extern MapObject *D_801695C8;
 extern MapObject *D_801695D8;
-extern u8 gCampaignMap_Location;
-extern u8 gCampaignMap_LocationPrev;
-extern s32 gCampaignMap_MoveState;
 extern s32 D_801695D4;
 extern s32 D_801695CC;
 extern s32 D_801695D0;

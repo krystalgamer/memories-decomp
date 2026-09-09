@@ -3,11 +3,10 @@
 #include "pick_exit.h"
 #include "../../game/campaign_flags.h"
 #include "../../game/sound.h"
+#include "campaign_map.h"
 
-extern u8 gCampaignMap_Location;
 extern u16 gInput_wPad1Pressed;
 extern volatile u16 gInput_wPad1Held;
-extern s32 gCampaignMap_MoveState;
 
 s32 CampaignMap_PickExit(void)
 {

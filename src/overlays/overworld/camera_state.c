@@ -3,6 +3,7 @@
 #include "camera_state.h"
 #include "../../psyq/libgte.h"
 #include "../../game/view_state.h"
+#include "campaign_map.h"
 
 extern u32 D_8009B304;
 extern u32 D_8009B308;

@@ -4,6 +4,7 @@
 #include "../../game/campaign_flags.h"
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_helpers.h"
+#include "campaign_map.h"
 
 extern u8 *D_801695F8[];
 
