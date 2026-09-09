@@ -14,7 +14,12 @@ extern s32 D_8009B438;
 extern u8 D_800F2888[];
 extern u8 D_8009AF7C[];
 
-extern void func_80044470();
+/* The definition in mem_card_requests.c returns s32 and takes four
+   arguments; the empty parentheses here only disabled checking, and every
+   call already writes all four. The result is discarded at the one call
+   site, so naming the real return type changes nothing. */
+s32 func_80044470(s32 slot, const char *name, struct DIRENTRY *cursor,
+                  s32 *out_count);
 s32 func_80044608(void) {
     s32 v0;
     register s32 one asm("a0");
@@ -123,7 +128,8 @@ state2:
         goto after_load;
     }
     D_8009B444 = D_800F2888;
-    func_80044470(D_8009B437, D_8009AF7C, D_800F2888, &D_8009B440);
+    func_80044470(D_8009B437, (const char *)D_8009AF7C,
+                  (struct DIRENTRY *)D_800F2888, &D_8009B440);
     D_8009B438 = func_80044544(D_8009B444, D_8009B440);
 
 after_load:
