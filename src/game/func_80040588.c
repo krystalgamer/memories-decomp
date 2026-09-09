@@ -7,6 +7,7 @@
 #include "display_object_projection.h"
 #include "sprite_primitive.h"
 #include "graphics_frame.h"
+#include "func_80040588.h"
 
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));

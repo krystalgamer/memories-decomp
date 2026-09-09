@@ -3,6 +3,7 @@
 #include "display_object_layout.h"
 #include "func_80041D60.h"
 #include "../unmatched.h"
+#include "func_80040814.h"
 
 extern s16 D_800EFE3C;
 extern s32 D_800E9D90[];

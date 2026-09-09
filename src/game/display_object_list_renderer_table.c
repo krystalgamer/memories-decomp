@@ -1,6 +1,10 @@
 #include "../types.h"
 #include "display_object_list_renderer_table.h"
 #include "display_object_layout.h"
+#include "display_object_list_renderers.h"
+#include "display_object_updates.h"
+#include "func_80040588.h"
+#include "func_80040814.h"
 
 /* Initialized data at 0x80090FB0: the per-list display object renderers.
  *
@@ -13,14 +17,6 @@
  *
  * So this array is declared sized, unlike the other three, because the size
  * is established rather than assumed. */
-
-void func_80040588(void);
-void func_80040814(void);
-void func_80040BF8(void);
-void func_80040CAC(void);
-void func_80040D14(void);
-void func_80040DD8(void);
-void func_80041068(void);
 
 void (*D_80090FB0[DISPLAY_OBJECT_LIST_COUNT])(void) = {
     func_80040CAC,

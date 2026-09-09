@@ -2,6 +2,7 @@
 #include "graphics_frame.h"
 #include "display_object.h"
 #include "display_object_layout.h"
+#include "display_object_list_renderers.h"
 
 extern u8 D_800E9D90[];
 

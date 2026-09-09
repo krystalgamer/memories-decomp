@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object.h"
 #include "display_object_layout.h"
+#include "display_object_updates.h"
 
 extern s32 D_800E9D90[];
 extern void func_800408D0(u8 *, s32, s32);
