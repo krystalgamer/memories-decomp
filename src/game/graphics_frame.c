@@ -1,3 +1,4 @@
+#define D_8009B318_IN_DATA
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -35,7 +36,6 @@ s16 gGraphics_sViewportX __attribute__((section(".sbss"))) = 0;
 s16 gGraphics_sViewportY __attribute__((section(".sbss"))) = 0;
 
 extern u8 D_800FE048[];
-extern u8 D_8009B318 __attribute__((section(".data")));
 extern u8 D_8009B141 __attribute__((section(".data")));
 extern u8 D_8009AFA2 __attribute__((section(".data")));
 extern u8 D_800A5768[];
