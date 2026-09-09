@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_effect_step_table.h"
+#include "func_8003A560.h"
 
 /* Initialized data at 0x80090F68: the display effect step table.
  *
@@ -14,7 +15,6 @@
  * share func_80039FF8. */
 
 void func_80039FF8(u8 *);
-void func_8003A560(u8 *);
 void func_8003A990(u8 *);
 void func_8003AAE4(u8 *);
 void func_8003AC48(u8 *);
@@ -28,7 +28,7 @@ void func_8003DA40(u8 *);
 void (*D_80090F68[])(u8 *) = {
     func_80039FF8,
     func_80039FF8,
-    func_8003A560,
+    (void (*)(u8 *))func_8003A560,
     func_8003A990,
     func_8003AD6C,
     func_8003B054,
