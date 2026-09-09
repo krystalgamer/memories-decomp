@@ -1408,7 +1408,7 @@ address,size,name,status,module,notes
 0x8007CD14,0x10,func_8007CD14,sdk_asm,psyq/sdk,
 0x8007CD24,0x48,func_8007CD24,sdk_asm,psyq/sdk,
 0x8007CD6C,0x48,func_8007CD6C,sdk_asm,psyq/sdk,
-0x8007CDC0,0x20,func_8007CDC0,sdk_asm,psyq/sdk,
+0x8007CDC0,0x20,CdMix,sdk_asm,psyq/sdk,"Identified from the libcd.h CdlATV contract, both matching game callers, notes/psyq.md, and the Unchiga symbol map; the same SDK entry may also be exported as DsMix."
 0x8007CDE0,0x130,DsRead,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBDS.LIB/DSREAD.OBJ signature.
 0x8007CF10,0x34,func_8007CF10,sdk_asm,psyq/sdk,
 0x8007CF44,0x178,func_8007CF44,sdk_asm,psyq/sdk,
