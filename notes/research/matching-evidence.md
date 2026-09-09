@@ -3271,6 +3271,7 @@ the barrier was holding it:
 | `func_800289BC` | one store reordered |
 | `func_8002FB78` | two instructions deleted |
 | `func_800580D4` | three instructions deleted (parameter only) |
+| `func_80016784` | three loads floated across scratchpad stores |
 
 So before converting offset casts to members, look for the two shapes that
 make the barrier load-bearing: a **whole-struct assignment** to or from the
@@ -3279,6 +3280,34 @@ stores. Either one means the conversion costs a build to check rather than
 being free by inspection. Neither means it will fail -- `func_800289BC` has
 the first shape and matched once every access was converted -- only that it
 must be measured.
+
+- **The barrier can also be a scratchpad record the same function is
+  filling, and then one field converts and the rest do not.**
+  `func_80016784` builds two sprites in scratchpad through pointers of their
+  own while reading its display object's fields between the stores. Typing
+  the object floated all three reads of the colour word at `0x0C` across
+  those stores; retail keeps every one of them where the source puts it. The
+  parameter and the other ten offsets convert freely -- it is only the reads
+  that sit *between* stores through the other pointer. Spelling that one
+  `*(s32 *)&object->field_0C` restores the barrier and still names the field,
+  which is the member-anchored cast above used for scheduling rather than for
+  signedness. The tell is a field read in the middle of a run of stores
+  through a differently typed pointer.
+
+- **A typed local costs a callee-saved register unless every use goes through
+  it.** Where the record's type cannot go on the parameter -- a callback
+  whose table declares `void (*)(u8 *)` -- the record is taken through a
+  local instead, and then the parameter and the local are two live names for
+  one value. `func_8003A990` grew its frame by eight bytes and pushed `.text`
+  past its segment that way; routing its two remaining `u8 *` calls through
+  `(u8 *)r` as well left one name, one register, and it matched. This is not
+  a general rescue: the nine short callbacks in
+  `duel_effect_state_callbacks.c` still grow with every use routed through
+  the local, and there the readable form is the inline
+  `((DuelEffectChannel *)object)->state_51` instead. Measure both spellings;
+  which one works is per function, and the failure mode is a link error --
+  `section .initialized_data VMA ... overlaps section .text` -- not a hash
+  mismatch.
 
 - **The barrier can be a volatile pointer rather than a global, and then it
   is per-file rather than per-record.** `func_800580D4` writes one
