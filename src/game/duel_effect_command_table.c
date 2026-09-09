@@ -24,7 +24,6 @@
 
 void DuelEffect_PlaySoundCommand(u8 *);
 void Text_HandleChoiceCommand(u8 *);
-void Text_SetCursorOffset(u8 *);
 void Text_StartCampaignDuel(u8 *);
 void func_80037DA4(u8 *);
 void func_80038148(u8 *);
