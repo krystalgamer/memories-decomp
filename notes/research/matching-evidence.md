@@ -3703,7 +3703,7 @@ puts its result in `rs` and leaves the base in `rt`, whatever the source says:
 | `((u16 *)(q + 0xC))[i]` | `addu a1,a1,a0` |
 | `((Entry *)(p + 0x7C4))[i].field_00` | `addu v0,v0,a0` |
 | `((Rec *)q)->field_0C[i]` | `addu a0,a0,a1` |
-| `((ModelSlot *)p)->field_7C4[i].field_00` | `addu a0,a0,v0` |
+| `((ModelSlot *)p)->field_750[i].max` | `addu a0,a0,v0` |
 
 Only a **member reference off a struct pointer** puts the base first. Casting
 the base to the element type, or to the element type at an offset, does not:
@@ -3717,7 +3717,7 @@ with `u8 *` bases and hex offsets it reaches the exact instruction count with
 every register allocated as retail has it, and four `addu`s in the wrong order.
 Regrouping the two unscaled sites closed those; the two scaled sites needed the
 types. Naming `ModelSlot.field_DFE`, giving the `0xCF8`-`0xD13` window the type
-`ModelSlotCF8Block`, and reaching `field_7C4[]`, `field_0A[]` and `field_0C[]`
+`ModelSlotCF8Block`, and reaching `field_750[]`, `field_0A[]` and `field_0C[]`
 through struct members closes all four.
 
 The block's own shape is fixed by evidence rather than guessed: it starts at
