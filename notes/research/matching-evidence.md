@@ -6524,3 +6524,38 @@ declarations, widen the definition rather than narrowing the declarations. The
 generalisation to watch for: any prototype change that makes an argument
 narrower than `int` is a call-site codegen change wherever the compiler cannot
 prove the range, and it will be invisible in the files where it can.
+
+## Completing a small array's type is a -G8 addressing change, not a comment
+
+`tmp/quality/scan_conflicting_decls.py` groups array-against-array differences
+as the safe class to unify, and its docstring warns only about array against
+scalar. That boundary is in the wrong place: an *incomplete* array and a
+*complete* small one are also different addressing decisions.
+
+`D_8015C410` was declared `extern s8 D_8015C410[]` in `func_8003A560.c` and
+`extern s8 D_8015C410[5]` in `menu_record_reset.c`. Adopting the bounded
+spelling in the first file does not merely add information. Five bytes is
+under the `-G8` threshold, so once the type is complete GCC treats the symbol
+as small data and emits a gp-relative reference, and the link fails outright:
+
+    (.text+0x260): relocation truncated to fit:
+        R_MIPS_GPREL16 against `D_8015C410'
+
+The symbol is not in the small-data region the `$gp` window covers, so there
+is no offset that works. The incomplete spelling is load-bearing: it is what
+keeps GCC from making that choice.
+
+The size is what decides it, not the presence of a bound. In the same pass
+`D_800EAF08` went from `u8 []` to `u8 [DUEL_EFFECT_OCCUPANCY_COUNT]`, which is
+240 bytes, comfortably above the threshold, and the executable stayed
+byte-exact. So:
+
+- bound added, array larger than `-G8`: free, and worth doing for the reader.
+- bound added, array 8 bytes or smaller: an addressing change, and usually a
+  link error rather than a silent mismatch, which at least fails loudly.
+
+A redundant declaration that is merely *duplicated* rather than differently
+spelled is free to delete either way. `func_80040588.c` carried
+`extern DisplayObject D_800EFE48[]` while already including `display_object.h`,
+which declares the same symbol with its named capacity; the two are compatible
+types, and dropping the local line changed nothing.
