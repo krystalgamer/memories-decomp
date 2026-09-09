@@ -3,8 +3,7 @@
 #include "menu_record.h"
 #include "../psyq/libgte.h"
 #include "trig_constants.h"
-
-extern void func_8003A95C(u8 *, s32, s32);
+#include "display_object_position.h"
 
 /* Eases one display-effect record from its 0x34/0x36 position to the
    0x40/0x42 destination over a quarter turn of cosine, then clears the step
@@ -40,7 +39,7 @@ void func_8003A990(u8 *p)
     r->field_48 = t;
 
     if ((u16)(t - 1) >= TRIG_ANGLE_QUARTER_TURN - 1) {
-        func_8003A95C((u8 *)r, r->field_40, r->field_42);
+        func_8003A95C((DisplayPositionGroup *)r, r->field_40, r->field_42);
         r->display_effect_step = 0;
     } else {
         c = rcos((s16)t);
@@ -51,7 +50,7 @@ void func_8003A990(u8 *p)
             dy = r->field_46 - dy;
         }
         func_8003A95C(
-            (u8 *)r,
+            (DisplayPositionGroup *)r,
             (s16)(*(u16 *)&r->field_40 - dx),
             (s16)(*(u16 *)&r->field_42 - dy)
         );
