@@ -37,7 +37,14 @@ typedef struct {
     u8 combo_cards[AI_SCRIPT_COMBO_CARD_COUNT];
     u16 card_set[AI_SCRIPT_CARD_SET_COUNT];
     u8 type_set[AI_SCRIPT_TYPE_SET_COUNT];
-    u8 pad97[5];
+    u8 pad97;
+    /* AiScript_FindBestAttack zeroes 0x98 on entry, then keeps a running
+     * maximum there (compared unsigned, stored signed) and records the pair
+     * of slots that produced it: the attacking slot i at 0x9A and the target
+     * slot j at 0x9B. Nothing else in the image touches these three. */
+    u16 attack_best_stat;
+    s8 attack_best_slot;
+    s8 attack_best_target;
     u8 fusion_count;
     u8 fusion_limit;
     u8 fusion_set;
@@ -86,6 +93,15 @@ typedef char AiScriptState_type_set_offset_must_be_0x7E[
 typedef char AiScriptState_combo_offset_must_be_0x38[
     AI_SCRIPT_STATE_OFFSET(AiScriptState, combo_cards) ==
         AI_SCRIPT_COMBO_BYTE_OFFSET ? 1 : -1
+];
+typedef char AiScriptState_attack_best_stat_offset_must_be_0x98[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, attack_best_stat) == 0x98 ? 1 : -1
+];
+typedef char AiScriptState_attack_best_slot_offset_must_be_0x9A[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, attack_best_slot) == 0x9A ? 1 : -1
+];
+typedef char AiScriptState_attack_best_target_offset_must_be_0x9B[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, attack_best_target) == 0x9B ? 1 : -1
 ];
 typedef char AiScriptState_fusion_count_offset_must_be_0x9C[
     AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_count) ==

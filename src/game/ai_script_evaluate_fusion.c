@@ -11,7 +11,6 @@ extern void Ai_CompleteFusion(s32);
 
 void AiScript_EvaluateFusion(void)
 {
-    u8 *r;
     s32 a;
     s32 b;
     s32 c;
@@ -27,16 +26,15 @@ void AiScript_EvaluateFusion(void)
     k = AiScript_ReadByte();
     n = Ai_GetHandSize();
 
-    r = (u8 *)&gAiScript_State;
-    r[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET] = n;
-    r[AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET] = b;
-    *(s16 *)(r + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) = 0;
-    r[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] = 0;
-    r[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] = 0;
-    r[AI_SCRIPT_FUSION_SET_BYTE_OFFSET] = c;
+    gAiScript_State.fusion_count = n;
+    gAiScript_State.fusion_limit = b;
+    gAiScript_State.fusion_best_stat = 0;
+    gAiScript_State.fusion_depth = 0;
+    gAiScript_State.fusion_best_depth = 0;
+    gAiScript_State.fusion_set = c;
 
-    for (i = 0; i < r[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET]; i++) {
-        r[i + AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
+    for (i = 0; i < gAiScript_State.fusion_count; i++) {
+        gAiScript_State.fusion_used[i] = 0;
     }
 
     x = Duel_GetBaseCardStat(a, 0);

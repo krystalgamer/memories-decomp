@@ -13,8 +13,6 @@ void AiScript_FindBestAttack(void) {
     u8 *t;
     u8 *r;
     u8 *e;
-    u8 *s;
-    u8 *a;
     s32 want;
     s32 out;
     s32 i;
@@ -27,9 +25,7 @@ void AiScript_FindBestAttack(void) {
     i = 1;
     t = (u8 *)gDuel_aActiveCards;
     r = t + AI_ACTIVE_CARD_RECORD_SIZE;
-    a = (u8 *)&gAiScript_State;
-    *(s16 *)(a + 0x98) = 0;
-    s = a;
+    gAiScript_State.attack_best_stat = 0;
 
     while (i < DUEL_FIELD_ROW_SIZE + 1) {
         if (*(s16 *)r == 0) {
@@ -59,10 +55,10 @@ void AiScript_FindBestAttack(void) {
             }
             v = *(s16 *)(r + 2) - *(s16 *)(e + 2);
             v += Duel_CalcGuardianStarMatchup(*(s8 *)(r + 9), *(s8 *)(e + 9));
-            if (*(u16 *)(s + 0x98) < v) {
-                *(s16 *)(s + 0x98) = v;
-                *(s8 *)(s + 0x9A) = i;
-                *(s8 *)(s + 0x9B) = j;
+            if (gAiScript_State.attack_best_stat < v) {
+                gAiScript_State.attack_best_stat = v;
+                gAiScript_State.attack_best_slot = i;
+                gAiScript_State.attack_best_target = j;
             }
         }
     }

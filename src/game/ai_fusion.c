@@ -92,85 +92,80 @@ void AiScript_FindFirstType(void)
 
 void Ai_CompleteFusion(s32 arg0)
 {
-    u8 *state;
-    u8 *cursor;
     s32 i;
     s32 index;
     s32 card_id;
     s32 result;
     s32 j;
 
-    state = (u8 *)&gAiScript_State;
     i = 0;
-    if (state[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET] == 0)
+    if (gAiScript_State.fusion_count == 0)
         return;
-    cursor = state;
     do {
-        if (cursor[i + AI_SCRIPT_FUSION_USED_BYTE_OFFSET] == 0) {
+        if (gAiScript_State.fusion_used[i] == 0) {
             card_id = gDuel_aActiveCards[i + AI_SLOT_OWN_HAND_FIRST].card_id;
             index = i + AI_SLOT_OWN_HAND_FIRST;
             if (card_id != 0) {
-                if (Ai_IsCardInSets(cursor[AI_SCRIPT_FUSION_SET_BYTE_OFFSET], index) == 0) {
+                if (Ai_IsCardInSets(gAiScript_State.fusion_set, index) == 0) {
                     result = Duel_CheckFusion(arg0, card_id);
                     if (result == 0)
                         result = Duel_CheckEquip(arg0, card_id);
                     if (result != 0) {
-                        cursor[cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] +
-                               AI_SCRIPT_FUSION_PATH_BYTE_OFFSET] = index;
+                        gAiScript_State.fusion_path[gAiScript_State.fusion_depth] = index;
                         if (
                             Duel_GetBaseCardStat(result, 0) >
-                                *(u16 *)(cursor + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) ||
+                                gAiScript_State.fusion_best_stat ||
                             (
                                 Duel_GetBaseCardStat(result, 0) ==
-                                    *(u16 *)(cursor + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) &&
-                                cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] <
-                                    cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET]
+                                    gAiScript_State.fusion_best_stat &&
+                                gAiScript_State.fusion_depth <
+                                    gAiScript_State.fusion_best_depth
                             )
                         ) {
-                            *(u16 *)(cursor + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) =
+                            gAiScript_State.fusion_best_stat =
                                 Duel_GetBaseCardStat(result, 0);
-                            cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
-                                cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
+                            gAiScript_State.fusion_best_depth =
+                                gAiScript_State.fusion_depth;
                             for (j = 0;
-                                 j <= (s32)cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET];
+                                 j <= (s32)gAiScript_State.fusion_best_depth;
                                  j++)
-                                cursor[j + AI_SCRIPT_COMBO_BYTE_OFFSET] =
-                                    cursor[j + AI_SCRIPT_FUSION_PATH_BYTE_OFFSET];
-                            cursor[j + AI_SCRIPT_COMBO_BYTE_OFFSET] = 0;
+                                gAiScript_State.combo_cards[j] =
+                                    gAiScript_State.fusion_path[j];
+                            gAiScript_State.combo_cards[j] = 0;
                         }
                         if (
                             Duel_GetBaseCardStat(result, 1) >
-                                *(u16 *)(cursor + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) ||
+                                gAiScript_State.fusion_best_stat ||
                             (
                                 Duel_GetBaseCardStat(result, 1) ==
-                                    *(u16 *)(cursor + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) &&
-                                cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] <
-                                    cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET]
+                                    gAiScript_State.fusion_best_stat &&
+                                gAiScript_State.fusion_depth <
+                                    gAiScript_State.fusion_best_depth
                             )
                         ) {
-                            *(u16 *)(cursor + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) =
+                            gAiScript_State.fusion_best_stat =
                                 Duel_GetBaseCardStat(result, 1);
-                            cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET] =
-                                cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET];
+                            gAiScript_State.fusion_best_depth =
+                                gAiScript_State.fusion_depth;
                             for (j = 0;
-                                 j <= (s32)cursor[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET];
+                                 j <= (s32)gAiScript_State.fusion_best_depth;
                                  j++)
-                                cursor[j + AI_SCRIPT_COMBO_BYTE_OFFSET] =
-                                    cursor[j + AI_SCRIPT_FUSION_PATH_BYTE_OFFSET];
-                            cursor[j + AI_SCRIPT_COMBO_BYTE_OFFSET] = 0;
+                                gAiScript_State.combo_cards[j] =
+                                    gAiScript_State.fusion_path[j];
+                            gAiScript_State.combo_cards[j] = 0;
                         }
-                        if (cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET] <
-                            cursor[AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET] - 1) {
-                            cursor[i + AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 1;
-                            cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET]++;
+                        if (gAiScript_State.fusion_depth <
+                            gAiScript_State.fusion_limit - 1) {
+                            gAiScript_State.fusion_used[i] = 1;
+                            gAiScript_State.fusion_depth++;
                             Ai_CompleteFusion(result);
-                            cursor[i + AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
-                            cursor[AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET]--;
+                            gAiScript_State.fusion_used[i] = 0;
+                            gAiScript_State.fusion_depth--;
                         }
                     }
                 }
             }
         }
         i++;
-    } while (i < cursor[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET]);
+    } while (i < gAiScript_State.fusion_count);
 }
