@@ -1338,9 +1338,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8002C938,func_8002C938,matching_c,game,C,src/game/duel_card_object_queries.c,read,,D_8009B1D5 ? DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8002C9B4,func_8002C9B4,matching_c,game,C,src/game/duel_card_object_queries.c,read,,base = D_8009B1D5 ?
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8007154C,AiScript_TestPinned,matching_c,game,C,src/game/ai_script_combo.c,read,,D_800E9FF0[(D_8009B1D5[0] ^ 1) ^ index].field_19 != 0;
-0x8009B1D6,D_8009B1D6,D_8009B1D6,0x8001D5B4,func_8001D5B4,matching_c,game,C,src/game/func_8001D5B4.c,read,,if (D_8009B1D6 < cursor->x) { D_8009B160 = 2; } | } else if (D_8009B1D6 != cursor->x) {
+0x8009B1D6,D_8009B1D6,D_8009B1D6,0x8001D5B4,func_8001D5B4,matching_c,game,C,src/game/func_8001D5B4.c,read,,if (D_8009B1D6 < cursor->col) { D_8009B160 = 2; } | } else if (D_8009B1D6 != cursor->col) {
 0x8009B1D6,D_8009B1D6,D_8009B1D6,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00de70.s,write,8,"sb $a0, %gp_rel(D_8009B1D6)($gp) | sb $v0, %gp_rel(D_8009B1D6)($gp)"
-0x8009B1D7,D_8009B1D7,D_8009B1D7,0x8001D5B4,func_8001D5B4,matching_c,game,C,src/game/func_8001D5B4.c,read,,if (D_8009B1D7 != cursor->y) { | if (D_8009B1D7 < cursor->y) { D_8009B160 = 3; }
+0x8009B1D7,D_8009B1D7,D_8009B1D7,0x8001D5B4,func_8001D5B4,matching_c,game,C,src/game/func_8001D5B4.c,read,,if (D_8009B1D7 != cursor->row) { | if (D_8009B1D7 < cursor->row) { D_8009B160 = 3; }
 0x8009B1D7,D_8009B1D7,D_8009B1D7,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00de70.s,write,8,"sb $v0, %gp_rel(D_8009B1D7)($gp)"
 0x8009B1D8,D_8009B1D8,D_8009B1D8,0x800179F4,func_800179F4,matching_c,game,C,src/game/func_800179F4.c,write,,D_8009B1D8 = 0; | D_8009B1D8 = p;
 0x8009B1D8,D_8009B1D8,D_8009B1D8,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,read,32,"addiu $a1, $gp, %gp_rel(D_8009B1D8) | addiu $v0, $gp, %gp_rel(D_8009B1D8) | (+1 more)"
