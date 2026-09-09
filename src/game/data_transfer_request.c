@@ -4,6 +4,7 @@
 #include "mem_card.h"
 #include "data_transfer_request.h"
 #include "duel_effect.h"
+#include "../unmatched.h"
 
 extern u8 D_8009B3DE;
 extern u8 D_8009B3EF;
@@ -26,7 +27,6 @@ void func_8003F740(s32 value)
 }
 
 extern u8 D_800EFE18[];
-extern u8 D_8009B3F9;
 extern u8 D_8009B3DC;
 extern u16 D_8009B3C2;
 extern u16 D_8009B3C4;

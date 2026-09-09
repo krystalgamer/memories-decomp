@@ -1,9 +1,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 #include "mem_card.h"
-
-extern u8 D_8009B3EB;
-
+#include "../unmatched.h"
 extern void func_8003E490(void);
 
 void func_8003E7D4(void)

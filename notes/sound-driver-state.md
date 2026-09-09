@@ -389,6 +389,13 @@ similarly numbered controller ID. `SDSecondaryRecord.volume` at channel
 record `+0x03` is a separate field; no raw object view or out-of-range behavior
 is rewritten.
 
+The matched pitch refresh also establishes object `voice_index` at `+0x00`,
+`note` at `+0x06`, the positive and negative pitch-bend scales at `+0x10` and
+`+0x11`, and the cached channel bend value as signed halfword
+`cached_pitch_bend` at `+0x1A`. The bytes at `+0x12` and `+0x13` are passed to
+the pitch conversion, but their individual roles remain unresolved and keep
+offset-based member names.
+
 The channel-message writers and matched gain/pitch readers establish these
 channel controls without changing their byte storage:
 
@@ -409,8 +416,8 @@ pitch bend, not a bank byte.
 The stored bend MSB uses `SD_SEQUENCE_PITCH_BEND_MSB_MASK` (`0x7F`), separate
 from pan and other seven-bit fields. `func_8004A3BC` narrows its input to a
 byte and returns zero at `SD_SEQUENCE_PITCH_BEND_CENTER` (`64`). Below center
-it uses the object's `+0x11` coefficient and the distance from `64`; above
-center it uses `+0x10` and subtracts
+it uses the object's `pitch_bend_negative_scale` at `+0x11` and the distance
+from `64`; above center it uses `pitch_bend_positive_scale` at `+0x10` and subtracts
 `SD_SEQUENCE_PITCH_BEND_POSITIVE_BIAS` (`63`). Both coefficients are doubled,
 and the result is narrowed to a signed halfword. The positive-side bias is
 not changed to `64` to make the two branches look symmetric.

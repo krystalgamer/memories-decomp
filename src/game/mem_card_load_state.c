@@ -3,6 +3,7 @@
 
 #include "mem_card.h"
 #include "save_data.h"
+#include "../unmatched.h"
 
 /* Memory-card load dialog state machine.
 
@@ -19,11 +20,8 @@
    - Cases 0/1 and 2/3 fall through, and cases 6 and 8 are spelled as separate
      bodies: retail keeps two distinct jump-table targets for them.
 */
-
-extern u8 D_8009B3EB;
 extern u8 D_8009B3D4;
 extern u8 D_8009B3EF;
-extern u8 D_8009B3F9;
 extern u16 D_8009B3C2;
 extern u16 D_8009B3C4;
 extern u32 D_8009B3D0;
