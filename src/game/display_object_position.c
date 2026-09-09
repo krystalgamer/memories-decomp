@@ -1,17 +1,5 @@
 #include "../types.h"
-
-typedef struct {
-    u8 pad_00[0x30];
-    s16 x;
-    s16 y;
-} DisplayPositionChild;
-
-typedef struct {
-    DisplayPositionChild *children[3];
-    u8 pad_0C[0x28];
-    s16 x;
-    s16 y;
-} DisplayPositionGroup;
+#include "display_object_position.h"
 
 void func_8003A920(
     DisplayPositionGroup *group,
