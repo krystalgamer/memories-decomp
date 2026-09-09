@@ -35,8 +35,6 @@ typedef struct {
     s8 value;
 } AiCardEntry;
 
-extern s32 gDuel_adwCardStats[];
-
 extern s32 Duel_CollectFieldCardsByType(DuelCardRecord **, s32, s32);
 extern s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **, s32, s32);
 extern s32 Duel_CheckFusion(s32, s32);

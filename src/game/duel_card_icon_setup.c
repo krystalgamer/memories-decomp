@@ -36,7 +36,6 @@ struct Blob {
     DuelCardRecord record;
 };
 
-extern s32 gDuel_adwCardStats[];
 extern u8 D_8015C424[];
 extern struct Coords D_800908A0[];
 

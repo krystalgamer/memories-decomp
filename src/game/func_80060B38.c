@@ -5,10 +5,10 @@
 #include "../psyq/libgs.h"
 #include "card_constants.h"
 #include "text_constants.h"
+#include "duel_card.h"
 
 extern u8 D_80090DD8[];
 extern u8 D_801A8000[];
-extern s32 gDuel_adwCardStats[];
 
 /* Draws a deck box's six type-count digits and its seven card stat rows
    as 16x16 and 8x8 sprites into the ordering table. The glyph table

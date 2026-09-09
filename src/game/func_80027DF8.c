@@ -27,7 +27,6 @@ typedef struct LocalBlob {
     DuelDeckCardRecord cards[1];
 } LocalBlob;
 extern LocalBlob D_8015C424;
-extern s32 gDuel_adwCardStats[];
 
 void func_80027DF8(LocalEnt *out, s32 who) {
     DuelCardRecord *base;

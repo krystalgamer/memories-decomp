@@ -27,8 +27,6 @@ typedef struct {
     u8 card_index;
 } DuelCardDisplayObject;
 
-extern s32 gDuel_adwCardStats[];
-
 void func_80016D04();
 void func_80042918(u8 *arg0);
 

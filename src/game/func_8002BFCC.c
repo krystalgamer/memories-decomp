@@ -6,6 +6,7 @@
 #include "file_transfer.h"
 #include "graphics_frame.h"
 #include "text_box_lifecycle.h"
+#include "duel_card.h"
 
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
@@ -18,7 +19,6 @@ extern u8 gCardGrid_bCursorRow;
 extern void (*D_800E9DBC[])(void);
 extern u8 D_800EA0E8[];
 extern u8 D_800EA1E8[];
-extern s32 gDuel_adwCardStats[];
 extern s32 D_801D5608[];
 
 s32 func_8002C518(s32 arg0);

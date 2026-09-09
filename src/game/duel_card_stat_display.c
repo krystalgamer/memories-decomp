@@ -6,13 +6,12 @@
 #include "../psyq/libgs.h"
 #include "card_constants.h"
 #include "display_object_helpers.h"
+#include "duel_card.h"
 
 typedef struct {
     u8 pad_00[0x40];
     u16 field_40;
 } DuelCardStatObject;
-
-extern s32 gDuel_adwCardStats[];
 
 void func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {

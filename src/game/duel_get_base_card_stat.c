@@ -2,8 +2,7 @@
 #include "duel_terrain_boost.h"
 #include "func_8002CBF4.h"
 #include "card_constants.h"
-
-extern s32 gDuel_adwCardStats[];
+#include "duel_card.h"
 
 /* MATCH (2026-09-05). Was an ASSEMBLY TRANSCRIPTION (Unchiga's port of
  * 2026-08-30, an inline asm block) counted as debt in docs/ASM_DEBT.md;

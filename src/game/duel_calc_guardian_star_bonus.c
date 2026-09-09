@@ -2,7 +2,6 @@
 #include "card_constants.h"
 #include "duel_card.h"
 
-extern int gDuel_adwCardStats[];
 extern int Duel_CalcGuardianStarMatchup(int, int);
 
 s32 Duel_CalcGuardianStarBonus(DuelCardRecord *left, DuelCardRecord *right)

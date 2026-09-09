@@ -11,7 +11,6 @@ extern u16 D_8009B162;
 extern u8 *D_8009B1B4;
 extern u8 D_800E9F48[];
 extern u8 D_8015C424[];
-extern s32 gDuel_adwCardStats[];
 
 void func_8001B938(u8 *p) {
     u8 *r;

@@ -10,7 +10,6 @@ extern u8 D_8015C424[];
 extern u8 D_80177EA4[];
 extern u8 D_8018C2D8[];
 extern u8 D_8018C7D8[];
-extern s32 gDuel_adwCardStats[];
 
 u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     DuelCardRecord *p;

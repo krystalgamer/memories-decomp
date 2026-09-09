@@ -4,8 +4,7 @@
 #include "card_constants.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
-
-extern s32 gDuel_adwCardStats[];
+#include "duel_card.h"
 
 void AiScript_TestHighStat(void)
 {

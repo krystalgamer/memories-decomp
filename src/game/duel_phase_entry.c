@@ -21,7 +21,6 @@ extern u8 D_8009B1EC;
 extern u8 *D_8009B1B4;
 extern u16 D_8009B36A __attribute__((section(".data")));
 extern u8 D_800E9F10[];
-extern s32 gDuel_adwCardStats[];
 
 extern void Duel_RequestCombinedDeckData(void);
 extern void Duel_PopulateCombinedDeckData(void);

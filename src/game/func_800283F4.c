@@ -14,6 +14,7 @@
 #include "display_object_interpolation.h"
 #include "file_transfer.h"
 #include "text_box_runtime.h"
+#include "duel_card.h"
 
 extern u8 *D_8009B240;
 extern u8 D_8009B248;
@@ -28,7 +29,6 @@ extern u8 D_8009B140 __attribute__((section(".data")));
 extern u8 D_8009B26C __attribute__((section(".data")));
 extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
 extern u8 D_800EA0E8[];
-extern s32 gDuel_adwCardStats[];
 
 extern s32 func_800282E8(void);
 extern void func_80029164(s32, s32);

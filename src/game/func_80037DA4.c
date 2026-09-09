@@ -2,10 +2,10 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "func_80036C14.h"
+#include "duel_card.h"
 
 extern u8 D_8009B320;
 extern s16 gDuel_wSelectedCardID;
-extern s32 gDuel_adwCardStats[];
 extern u16 D_801B0000[];
 extern u16 D_801C0000[];
 extern u16 D_801D5800[];
