@@ -42,6 +42,10 @@
       "profile": "gcc_2_8_1_g0"
     },
     {
+      "source": "src/game/duel_magic_effect_format.c",
+      "profile": "gcc_2_8_1_g8"
+    },
+    {
       "source": "src/game/save_data_mask_state.c",
       "profile": "gcc_2_8_1_g8"
     }

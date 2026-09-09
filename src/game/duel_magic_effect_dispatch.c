@@ -12,7 +12,7 @@
 extern u16 D_8009B220;
 extern DuelFieldPosition
     D_80090800[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
-extern char D_8009AF40[];
+#include "duel_magic_effect_format.h"
 extern s16 D_8009B1A8;
 
 extern void func_80024954(DuelCardRecord *);
