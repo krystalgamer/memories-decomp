@@ -256,7 +256,7 @@
       "address": "0x8001513C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x74",
-      "source": "src/game/func_8001513C.c"
+      "source": "src/game/file_transfer_flags.c"
     },
     {
       "address": "0x800151B0",
