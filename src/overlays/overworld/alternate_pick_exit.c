@@ -1,26 +1,8 @@
 #include "../../types.h"
 #include "alternate_location.h"
 
-typedef struct {
-    u16 f0;
-    u8 pad2[4];
-    u16 f6;
-    u8 pad8;
-    u8 f9;
-    u8 f10;
-    u8 pad11;
-} Exit;
-
-typedef struct {
-    u16 f0;
-    u8 pad2[14];
-    u8 f16;
-    u8 pad17;
-    Exit exits[4];
-} Location;
-
 extern u8 D_8016A2BC;
-extern Location D_80169E54[];
+extern AlternateLocation D_80169E54[];
 extern u16 D_800C4E68;
 extern u16 D_800C4E74;
 extern s32 D_8016A2B8;
@@ -31,8 +13,8 @@ s32 CampaignMap_PickAlternateExit(void)
 {
     s32 i;
     s32 r;
-    Location *p;
-    Exit *q;
+    AlternateLocation *p;
+    AlternateExit *q;
 
     p = &D_80169E54[D_8016A2BC];
     q = p->exits;
