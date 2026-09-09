@@ -5,7 +5,7 @@
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
 
-extern u8 gAiScript_State[];
+extern AiScriptState gAiScript_State;
 void AiScript_TestPinned(void)
 {
     s32 *memory = gAiScript_aMemory;
@@ -21,7 +21,7 @@ void AiScript_StartCombo(void)
     s32 i;
 
     for (i = 0; i < AI_SCRIPT_COMBO_CARD_COUNT - 1; i++) {
-        s32 value = gAiScript_State[AI_SCRIPT_COMBO_BYTE_OFFSET + i];
+        s32 value = gAiScript_State.combo_cards[i];
 
         if ((u32)(value - 1) < 10) {
             gAiScript_aMemory[dest] = value;

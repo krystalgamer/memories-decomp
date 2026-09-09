@@ -2,7 +2,7 @@
 #include "ai.h"
 #include "ai_script_commands.h"
 
-extern u8 gAiScript_State[];
+extern AiScriptState gAiScript_State;
 extern u8 D_800EAE88[];
 
 void AiScript_PushComboCard(void)
@@ -19,8 +19,8 @@ void AiScript_PushComboCard(void)
         output--;
     } while (i >= 0);
 
-    for (i = 0; i <= gAiScript_State[AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET]; i++) {
-        s32 value = gAiScript_State[i + AI_SCRIPT_COMBO_BYTE_OFFSET];
+    for (i = 0; i <= gAiScript_State.fusion_best_depth; i++) {
+        s32 value = gAiScript_State.combo_cards[i];
 
         if (value >= 11) {
             D_800EAE88[count] = value;

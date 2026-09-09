@@ -4,7 +4,7 @@
 #include "ai_constants.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
-extern u8 gAiScript_State[];
+extern AiScriptState gAiScript_State;
 extern s16 D_800F5C88[];
 extern u8 D_800F5C8B[];
 extern void Ai_CompleteFusion(s32);
@@ -27,7 +27,7 @@ void AiScript_EvaluateFusion(void)
     k = AiScript_ReadByte();
     n = Ai_GetHandSize();
 
-    r = (u8 *)gAiScript_State;
+    r = (u8 *)&gAiScript_State;
     r[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET] = n;
     r[AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET] = b;
     *(s16 *)(r + AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET) = 0;

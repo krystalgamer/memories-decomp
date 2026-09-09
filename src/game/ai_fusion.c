@@ -7,7 +7,7 @@
 #include "ai_script_commands.h"
 
 extern u8 D_800EAE88[];
-extern u8 gAiScript_State[];
+extern AiScriptState gAiScript_State;
 extern s32 Duel_CheckEquip(s32, s32);
 extern s32 Duel_CheckFusion(s32, s32);
 extern s32 Duel_CheckRitual(s32, s32);
@@ -100,7 +100,7 @@ void Ai_CompleteFusion(s32 arg0)
     s32 result;
     s32 j;
 
-    state = gAiScript_State;
+    state = (u8 *)&gAiScript_State;
     i = 0;
     if (state[AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET] == 0)
         return;

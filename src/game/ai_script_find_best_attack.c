@@ -4,7 +4,7 @@
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "ai_script_commands.h"
-extern AiScriptState gAiScript_State[];
+extern AiScriptState gAiScript_State;
 extern u16 gAi_wBestDifference[];
 
 s32 AiScript_ReadByte(void);
@@ -27,7 +27,7 @@ void AiScript_FindBestAttack(void) {
     i = 1;
     t = (u8 *)gDuel_aActiveCards;
     r = t + AI_ACTIVE_CARD_RECORD_SIZE;
-    a = (u8 *)gAiScript_State;
+    a = (u8 *)&gAiScript_State;
     *(s16 *)(a + 0x98) = 0;
     s = a;
 
