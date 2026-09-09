@@ -5,8 +5,6 @@
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
 extern AiScriptState gAiScript_State;
-extern s16 D_800F5C88[];
-extern u8 D_800F5C8B[];
 extern void Ai_CompleteFusion(s32);
 
 void AiScript_EvaluateFusion(void)
@@ -41,14 +39,14 @@ void AiScript_EvaluateFusion(void)
     y = Duel_GetBaseCardStat(a, 1);
 
     if (y < x) {
-        D_800F5C88[0] = Duel_GetBaseCardStat(a, 0);
+        gAiScript_State.fusion_best_stat = Duel_GetBaseCardStat(a, 0);
     } else {
-        D_800F5C88[0] = Duel_GetBaseCardStat(a, 1);
+        gAiScript_State.fusion_best_stat = Duel_GetBaseCardStat(a, 1);
     }
 
     Ai_CompleteFusion(a);
 
-    if (D_800F5C8B[0] != 0) {
+    if (gAiScript_State.fusion_best_depth != 0) {
         gAiScript_aMemory[k] = 0;
     } else {
         gAiScript_aMemory[k] = 1;
