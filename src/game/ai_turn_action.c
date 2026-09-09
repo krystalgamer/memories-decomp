@@ -25,7 +25,6 @@ extern u8 D_800EAE88_bytes[] asm("D_800EAE88");
 /* The spell search reads the record's slot byte signed; DuelCardRecord spells
    the same byte unsigned, so it keeps its own view of the collected entries
    and casts at the call. */
-extern s32 func_80027060(void);
 
 int func_8002712C(void)
 {
