@@ -1,12 +1,12 @@
 #include "../types.h"
 
-extern u32 D_8009B09C[];
+extern u32 D_8009B09C;
 
 void Widget_UpdatePulseColour(u8 *arg0)
 {
     u8 *q = arg0;
     s32 c = 0;
-    s32 t = D_8009B09C[0] & 0x7F;
+    s32 t = D_8009B09C & 0x7F;
     if (t >= 0x40)
         t = 0x7F - t;
     t = t * 2 + 0x80;
