@@ -13,6 +13,7 @@ typedef char CardCountEntry_size_must_be_4[
 ];
 
 typedef u8 *(*ModelHandler)(u8 **);
+typedef void (*ScriptCommandHandler)(void);
 
 typedef struct {
     s32 key;

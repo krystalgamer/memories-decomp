@@ -1,10 +1,9 @@
 #include "../types.h"
+#include "../ygo_types.h"
 #include "../psyq/rand.h"
 #include "duel_effect.h"
 #include "func_80039794.h"
 #include "script_run_tick.h"
-
-typedef void (*VoidFn)(void);
 
 extern u16 D_8009B2A4;
 extern s32 D_800EB12C[];
@@ -12,7 +11,7 @@ extern u8 *D_8009B290;
 extern u8 D_801A8000[];
 extern u16 D_8009B28C;
 extern u16 D_8009B27C;
-extern VoidFn D_80090C50[];
+extern ScriptCommandHandler D_80090C50[];
 
 void Script_RunTick(void)
 {
