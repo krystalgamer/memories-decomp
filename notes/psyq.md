@@ -939,16 +939,17 @@ emit debugger break instructions `1024` and `1031`. These declarations are
 not interchangeable with `libcd`, `libds`, or memory-card calls.
 
 The resident block immediately before `InitHeap` has direct Psy-Q 4.6
-`LIBSN.LIB` signature evidence. `PCread` is now applied; the unresolved
-wrappers retain address-based inventory symbols:
+`LIBSN.LIB` signature evidence. All five wrappers below now use their
+confirmed SDK identities. Four follow unique exact signatures; `PCread`
+requires the additional call-graph evidence recorded in its row:
 
 | Address | Current symbol | Signature evidence | Local corroboration |
 |---|---|---|---|
-| `0x80073704` | `func_80073704` | The exact-size 32-byte `OPEN.OBJ` / `PCopen` signature matches once. | [`func_80059908`](../src/game/func_80059908.c) and [`func_8005988C`](../src/game/file_query_wrappers.c) pass a path followed by zero flags and permissions, then test the returned handle. |
-| `0x80073724` | `func_80073724` | The exact-size 16-byte `CLOSE.OBJ` / `PCclose` signature matches once. | Both matching file helpers pass the handle after their final seek or read. |
-| `0x80073734` | `func_80073734` | The exact-size 36-byte `LSEEK.OBJ` / `PClseek` signature matches once. | Callers use `(handle, 0, 2)` to obtain the file length and `(handle, offset, 0)` to select an absolute read position. |
+| `0x80073704` | `PCopen` | The exact-size 32-byte `OPEN.OBJ` / `PCopen` signature matches once. | [`func_80059908`](../src/game/func_80059908.c) and [`func_8005988C`](../src/game/file_query_wrappers.c) pass a path followed by zero flags and permissions, then test the returned handle. |
+| `0x80073724` | `PCclose` | The exact-size 16-byte `CLOSE.OBJ` / `PCclose` signature matches once. | Both matching file helpers pass the handle after their final seek or read. |
+| `0x80073734` | `PClseek` | The exact-size 36-byte `LSEEK.OBJ` / `PClseek` signature matches once. | Callers use `(handle, 0, 2)` to obtain the file length and `(handle, offset, 0)` to select an absolute read position. |
 | `0x80073758` | `PCread` | The 192-byte `READ.OBJ` / `PCread` and `WRITE.OBJ` / `PCwrite` catalogue signatures are byte-identical, so the signature alone cannot choose a name. | The body calls the unique `_SN_read` wrapper below, and `func_80059908` treats its return as the number of bytes placed in successive destination chunks; that call graph resolves the identity. |
-| `0x80073818` | `func_80073818` | The exact-size 24-byte `SNREAD.OBJ` / `_SN_read` signature matches once. | `PCread` calls it from its chunk-processing loop. |
+| `0x80073818` | `_SN_read` | The exact-size 24-byte `SNREAD.OBJ` / `_SN_read` signature matches once. | `PCread` calls it from its chunk-processing loop. |
 
 Matching game C uses [`libsn.h`](../src/psyq/libsn.h) for the applied
 `PCopen`, `PCclose`, `PClseek`, and `PCread` interfaces. The signatures and
