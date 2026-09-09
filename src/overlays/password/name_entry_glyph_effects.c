@@ -42,7 +42,6 @@ typedef struct {
     s16 y;
 } Fixed;
 
-extern s8 D_8016D42C;
 extern Fixed *D_8016D404;
 extern s32 func_800358FC(s32);
 extern void func_80040510(void *, s32, s32, s32, s32, s32, s32, s32, s32, s32);

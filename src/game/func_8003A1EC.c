@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
@@ -7,7 +8,7 @@
 
 extern s32 func_8003A198(u8 *, s32, s32, s32);
 s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
-    u8 *p;
+    DisplayObject *p;
     u8 *tb;
     s32 f;
     s32 g;
@@ -34,41 +35,38 @@ s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
         m = 0x41000000;
         p = func_800400AC(func_8004002C(), 2);
         func_800428A8(p, *(s16 *)(a + 0x34), *(s16 *)(a + 0x36), c, 0, 0, g, h,
-                      tb);
+                      (s32)tb);
         func_80042918(p);
-        func_800428EC(p, f);
-        *(s32 *)(p + 4) = *(s32 *)(p + 4) | m;
-        *(u16 *)(p + 8) =
-            *(u16 *)(p + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        out[0] = p;
+        func_800428EC((u8 *)p, f);
+        p->attribute = p->attribute | m;
+        p->flags = p->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+        out[0] = (u8 *)p;
 
         if (func_8003A198(tb, c, 1, 0) != 0) {
             p = func_800400AC(func_8004002C(), 2);
             func_800428A8(p, *(s16 *)(a + 0x34), *(s16 *)(a + 0x36), c, 1, 0, g,
-                          h, tb);
+                          h, (s32)tb);
             func_80042918(p);
-            func_800428EC(p, f | 1);
-            *(s32 *)(p + 4) = *(s32 *)(p + 4) | m;
-            *(u16 *)(p + 8) =
-                *(u16 *)(p + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+            func_800428EC((u8 *)p, f | 1);
+            p->attribute = p->attribute | m;
+            p->flags = p->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         } else {
-            p = (u8 *)0;
+            p = (DisplayObject *)0;
         }
-        out[1] = p;
+        out[1] = (u8 *)p;
 
         if (func_8003A198(tb, c, 2, 0) != 0) {
             p = func_800400AC(func_8004002C(), 2);
             func_800428A8(p, *(s16 *)(a + 0x34), *(s16 *)(a + 0x36), c, 2, 0, g,
-                          h, tb);
+                          h, (s32)tb);
             func_80042918(p);
-            func_800428EC(p, f | 1);
-            *(s32 *)(p + 4) = *(s32 *)(p + 4) | 0x41000000;
-            *(u16 *)(p + 8) =
-                *(u16 *)(p + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+            func_800428EC((u8 *)p, f | 1);
+            p->attribute = p->attribute | 0x41000000;
+            p->flags = p->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         } else {
-            p = (u8 *)0;
+            p = (DisplayObject *)0;
         }
-        out[2] = p;
+        out[2] = (u8 *)p;
     }
 
     return 1;

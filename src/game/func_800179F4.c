@@ -19,7 +19,6 @@
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern u8 D_8009B369 __attribute__((section(".data")));
-extern DuelEffectResourceRecord D_800EA0E8[];
 extern s16 D_800F284A[];
 extern void (*D_800E9DBC[])(void);
 extern u8 gDuel_awOpponentDeckPool[];

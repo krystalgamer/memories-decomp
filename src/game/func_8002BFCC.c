@@ -20,7 +20,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
 extern s8 gCardGrid_bCursorColumn;
 extern s8 gCardGrid_bCursorRow;
 extern void (*D_800E9DBC[])(void);
-extern DuelEffectResourceRecord D_800EA0E8[];
 extern u8 D_800EA1E8[];
 extern s32 D_801D5608[];
 

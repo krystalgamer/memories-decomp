@@ -5,6 +5,7 @@
 #include "card_constants.h"
 #include "duel_grid.h"
 #include "duel_rank.h"
+#include "duel_rewards.h"
 
 extern u8 *D_8009B1E8;
 extern u8 gDuel_bWinnerSide;
@@ -77,13 +78,6 @@ void Duel_CalcRankScore(void) {
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_TURNS, v);
     }
 }
-
-typedef struct {
-    u16 weights[CARD_COUNT];
-    u8 pad05A4[DUEL_DROP_TABLE_PADDING_SIZE];
-} DuelDropTable;
-
-extern DuelDropTable gDuel_awSaPowCardDrops[];
 
 s32 Duel_SelectCardDrop(s32 pool_index)
 {

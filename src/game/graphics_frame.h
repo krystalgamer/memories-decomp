@@ -104,6 +104,21 @@ extern s32 D_8009B0C8 __attribute__((section(".data")));
 extern volatile s32 D_8009B0C8;
 #endif
 
+/* The frame count: Graphics_SyncFrame increments it after VSync, Main_Init
+ * zeroes it, func_80037A58 and func_80020D4C test its bit 0 and the free_duel
+ * overlay's screen_runtime.c reads its low seven bits. Retail reaches it
+ * gp-relative in main_init.c and graphics_frame.c and through a lui/lw pair
+ * in the other two, which is the .data arm. volatile is measured: without
+ * it Main_Init's zeroing store sinks below the volatile D_8009B0C8 store
+ * beside it (mismatch at 0x80012BAC). Sign is not visible in any use
+ * (& 1, & 0x7F, ++, = 0), so s32 follows D_8009B0C8 above and is not
+ * established. */
+#ifdef D_8009B0CC_IN_DATA
+extern s32 D_8009B0CC __attribute__((section(".data")));
+#else
+extern volatile s32 D_8009B0CC;
+#endif
+
 extern DISPENV gGraphics_DispEnv;
 
 /* Two scratch rectangles for the VRAM transfers. Every user fills x, y, w, h

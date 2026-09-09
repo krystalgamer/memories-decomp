@@ -3,8 +3,6 @@
 #include "../../game/sound.h"
 #include "name_entry_state.h"
 
-extern s8 D_8016D42C;
-
 s32 NameEntry_AdjustLength(s32 delta, s32 arg)
 {
     u8 *object;

@@ -5,6 +5,7 @@
 #include "../../game/campaign_flags.h"
 #include "../../game/display_object_layout.h"
 #include "../../game/file_transfer.h"
+#include "../../game/duel_rewards.h"
 #include "shop.h"
 #include "../../game/sound.h"
 #include "../../game/func_80039794.h"
@@ -28,7 +29,6 @@ extern u8 D_8009B26C;
 extern s8 D_8009B34D;
 
 extern void func_80029164(s32, s32);
-extern void Duel_AwardCard(s32);
 
 void Password_UpdateShopScreen(void)
 {
