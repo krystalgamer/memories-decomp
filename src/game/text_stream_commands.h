@@ -3,6 +3,18 @@
 
 #include "../types.h"
 
+#define TEXT_STREAM_SLOT_COUNT 22
+
+/* Narrow view shared by handlers that advance one of the pointer slots at the
+ * front of a text object. Twenty-two pointers place the signed selector at
+ * the observed 0x58 offset. */
+typedef struct {
+    u8 *streams[TEXT_STREAM_SLOT_COUNT];
+    s8 stream_index;
+} TextStreamOwner;
+
+u8 func_8003B7E0(TextStreamOwner *object);
+
 /* Three text stream command handlers, all taking the object that owns the
  * streams.
  *
