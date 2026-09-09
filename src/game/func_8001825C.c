@@ -76,7 +76,7 @@ void func_8001825C(void)
                 D_8009B1F0[i] = obj;
             }
         }
-        if (*(s8 *)D_8009B1C8 == 0x28) {
+        if (D_8009B1C8->field_00 == 0x28) {
             D_8009B23A |= 0x2000;
             for (i = 0; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
                 rec = (u8 *)D_801A7AD8 +
