@@ -147,9 +147,20 @@ extern u32 D_8009B134_abs __attribute__((section(".data")));
  * address through a FileTransferDescriptor or passing it to LoadImage2. */
 extern u8 D_801DD000[];
 
-/* The primary transfer descriptor. Four sources in this family reach it as a
- * FileTransferDescriptor, agreeing on the spelling, and none defines it. */
+/* The primary and secondary transfer descriptors. File_ActivateTransfer
+ * copies the secondary over the primary a Block72 at a time, which is what
+ * the pair is for.
+ *
+ * The secondary's spelling was settled by measurement rather than by count.
+ * Four sources reached it as a FileTransferDescriptor and file_cd_transfer.c
+ * as `u8 []`, and the odd one out mattered because it is also the file that
+ * reaches loader words through inline assembly. What its spelling actually
+ * bought was syntax, not addressing: it used the bare name as a pointer, in
+ * `*(Block72 *)gFile_SecondaryTransferDescriptor`, which only compiles if the
+ * name is an array. Writing the `&` that the very next line already used for
+ * the primary makes the two consistent and builds byte-identical. */
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
+extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 
 /* The CD callback's state word, switched on by file_transfer_control.c and
  * advanced by the callbacks in file_cd_transfer.c.
@@ -170,12 +181,5 @@ extern char D_8009B104[1];
 
 /* A counter the CD and stream paths bump at each step they complete. */
 extern s32 D_8009B130;
-
-/* gFile_SecondaryTransferDescriptor is deliberately absent. Four of its five
- * declarers spell it FileTransferDescriptor and file_cd_transfer.c spells it
- * `u8 []`. Four against one is a tempting majority, but it is not evidence:
- * that file is also the one that reaches the loader words through inline
- * assembly, so its spelling may be load-bearing in the way D_8009B100's
- * gp-relative store is. Settling it needs a measurement, not a vote. */
 
 #endif

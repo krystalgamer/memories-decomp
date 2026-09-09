@@ -1,8 +1,6 @@
 #include "../types.h"
 #include "file_transfer.h"
 
-extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
-
 FileTransferDescriptor *func_80013B04(s32 index, s32 offset)
 {
     if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |

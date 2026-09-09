@@ -18,7 +18,6 @@ typedef struct {
 extern char D_8009B11C[1];
 extern u8 D_8009B114;
 extern s32 D_8009B138;
-extern u8 gFile_SecondaryTransferDescriptor[];
 extern u8 D_801D4200[];
 
 extern void func_80013C28(u8, u8 *, u32 *);
@@ -115,7 +114,7 @@ void func_80014390(u8 event, s32 arg1)
 
 void File_ActivateTransfer(void) {
     *(Block72 *)&gFile_PrimaryTransferDescriptor =
-        *(Block72 *)gFile_SecondaryTransferDescriptor;
+        *(Block72 *)&gFile_SecondaryTransferDescriptor;
     *(Block32 *)D_801D4200 = *(Block32 *)(D_801D4200 + 32);
     if (gFile_PrimaryTransferDescriptor.done == 4)
         D_8009B112 |= 1;
