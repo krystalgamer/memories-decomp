@@ -6924,3 +6924,42 @@ recorded above for return width was that the consumer decides, not the
 definition, and this pair has a consumer that was already casting. A pair
 whose declarers both read the symbol directly is a different shape and may
 well answer differently.
+## Three more signedness conflicts, and the failure signature when one is real
+
+Following the `gCardGrid_*` measurement above, three more of the twelve
+signedness conflicts resolve. Each is a different shape, and the shape is what
+predicts the answer.
+
+    D_8009B079   func_8005F91C.c u8, model_transfer_state.c s8
+                 Both declarers only ever WRITE it, and only constants:
+                 `= 1` and `= 0`. Nothing reads its sign, so no load is
+                 generated that could differ. Both the mixed spelling the
+                 tree had and a unified u8 match.
+
+    D_8009B33C   duel_effect_play_sound_command.c u16, func_80037B40.c s16
+                 The s16 declarer does `D_8009B33C--` and then tests
+                 `D_8009B33C > 0`, which is a genuinely signed comparison:
+                 decrementing past zero gives -1 under s16 and 65535 under
+                 u16. The u16 declarer only assigns. Resolves to s16.
+
+    D_8009B35A   func_80039794.c s16, text_box_build_step.c u16
+                 The s16 declarer reads it as an index; the u16 declarer only
+                 assigns to it. Resolves to s16.
+
+The pattern across all four measured pairs is the one already recorded for
+return width: THE CONSUMER DECIDES. A declarer that only stores to the symbol
+does not constrain its signedness and can be changed freely; a declarer that
+loads and then compares or sign-extends is the one holding the requirement.
+Resolve toward the reader's spelling.
+
+The control is worth recording for its signature. Changing the READER of
+D_8009B33C from s16 to u16 fails like this:
+
+    mismatch at file offset 0x28363, VRAM 0x80037b63:
+    expected 0x87, got 0x97; size 0x1d0800/0x1d0800
+
+One byte, and the size does not move. 0x87 and 0x97 are `lh` and `lhu`: the
+signed and unsigned halfword loads. This is the third instance of the
+size-unchanged failure class noted earlier in this file, and it is the reason
+a sweep that only compares executable size is not enough to clear a
+declaration change.
