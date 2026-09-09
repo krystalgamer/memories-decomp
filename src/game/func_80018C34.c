@@ -1,9 +1,24 @@
 #include "../types.h"
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
+#include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_lifecycle.h"
 
-typedef struct{char p[0x24];void*cb;s16 x;u16 y,dy,z,oldx;s16 oldy;char p34[0x2C];s16 speed;char p62[0xA];u8 active;}Obj;
-void func_80018C34(Obj*o){if(!func_80042B98((DisplayObjectLifecycle*)o)){o->dy=0x400/o->speed;o->x=o->oldx-0x140;func_80043178((DisplayObjectSnapshot*)o);o->speed=-0x400;}
- func_80043230((DisplayObjectPosition*)o,o->x,o->oldy,o->speed);o->speed+=o->dy;if(o->speed>=0){o->cb=0;o->active=0;o->oldx=o->x;}}
+void func_80018C34(DisplayObject *o)
+{
+    if (!func_80042B98((DisplayObjectLifecycle *)o)) {
+        o->field_2C.h.field_2C = 0x400 / o->field_60;
+        o->position.h.field_28 = o->field_30.h.field_30 - 0x140;
+        func_80043178((DisplayObjectSnapshot *)o);
+        o->field_60 = -0x400;
+    }
+    func_80043230((DisplayObjectPosition *)o, (s16)o->position.h.field_28,
+                  (s16)o->field_30.h.field_32, o->field_60);
+    o->field_60 += o->field_2C.h.field_2C;
+    if (o->field_60 >= 0) {
+        o->update = 0;
+        o->field_6C = 0;
+        o->field_30.h.field_30 = (s16)o->position.h.field_28;
+    }
+}
