@@ -18,7 +18,6 @@
 
 extern s8 D_8009B1B9;
 extern s8 D_8009B208[8];
-extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
 extern u8 D_8015C424[];
 extern u8 D_801A7B64[];
 
