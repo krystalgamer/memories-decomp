@@ -226,30 +226,57 @@ does not claim that the cursor allocation ends at `+0x40`. The installer
 retains its existing object writes and callback-slot assignment rather
 than pretending that the callback takes no arguments.
 
-## Name-entry glyph-fragment translation unit
+## Name-entry glyph-effect translation unit
 
-`name_entry_glyph_fragments.c` keeps the glyph shatter effect next to the
-per-piece fragment updater it installs. `NameEntry_UpdateGlyphShatter`
-allocates a 4x4 grid of quarter-size pieces from the shared display-object
-pool, configures each from the source glyph's position, palette pair and
-clut/tpage words, marks them mode `3`, and writes
-`NameEntry_UpdateGlyphFragment` into each piece's update slot at `+0x24`.
-The callback relationship is established by that store, not inferred from
-adjacency.
+`name_entry_glyph_effects.c` is the whole per-sprite effect layer of the
+name-entry screen: the sprite factory and the four update callbacks that
+step what it makes. It covers `0x80168708..0x8016909C` as one contiguous
+`gcc_2_8_1_g0_split` run, wired as one C subsegment at module offset `0x708`
+and owning the module's first rodata block at `0x4`.
 
-The definitions remain in executable order, which is again not call order:
-`NameEntry_UpdateGlyphFragment` occupies `0x80168808..0x801688AC` and
-`NameEntry_UpdateGlyphShatter` runs through `0x801689B4`. Both use
-`gcc_2_8_1_g0_split`, and their shared manifest source and one C subsegment
-at module offset `0x808` cover the complete contiguous `0x1AC`-byte text
-range, ending exactly where `NameEntry_UpdateCaretTween` begins.
+| Address | Function |
+|---|---|
+| `0x80168708` | `NameEntry_UpdateGlyphPulse` |
+| `0x80168808` | `NameEntry_UpdateGlyphFragment` |
+| `0x801688AC` | `NameEntry_UpdateGlyphShatter` |
+| `0x801689B4` | `NameEntry_UpdateCaretTween` |
+| `0x80168AB4` | `NameEntry_UpdateGlyphTransfer` |
+| `0x80168CDC` | `NameEntry_SpawnGlyphSprite` |
 
-This unit covers the shatter lifecycle only. The preceding glyph pulse at
-`0x80168708` is deliberately left out: it is cohesive with these two, but it
-declares `func_8004036C` through its own private object view rather than the
-`void *` these files use, so absorbing it would require changing that view
-rather than concatenating text. That reconciliation is a separate question
-from this grouping.
+The definitions stay in executable order, which is not call order.
+
+The grouping rests on stores and calls rather than on adjacency:
+
+- `NameEntry_UpdateGlyphShatter` writes `NameEntry_UpdateGlyphFragment` into
+  each shard's update slot at `+0x24`.
+- `NameEntry_UpdateGlyphTransfer` calls `NameEntry_SpawnGlyphSprite` and
+  writes `NameEntry_UpdateGlyphShatter` into the sprite it gets back.
+- `NameEntry_SpawnGlyphSprite` stores the source glyph node at `+0x4C`, and
+  `NameEntry_UpdateGlyphPulse` is the only reader of that field.
+- `NameEntry_UpdateCaretTween` and `NameEntry_UpdateGlyphTransfer` open with
+  the same eight-line prologue: latch `+0x6C` bit 7, then divide the distance
+  from `+0x30/+0x32` to `+0x44/+0x46` by the `+0x60` frame count into the
+  `+0x36/+0x38` step.
+
+**The two private object views are now one.** The earlier grouping stopped at
+the shatter pair and said so: absorbing the glyph pulse would have meant
+reconciling its private `Obj` against the one in the sprite factory rather
+than concatenating text. In one translation unit that reconciliation is
+forced, and it turns out to be free. The two views agreed everywhere they
+overlapped — the pulse's `sourceGlyph` at `+0x4C` is the factory's `f76`, the
+field it writes the glyph node into — so they collapse to a single
+`GlyphSprite` with no byte moving. The same is true of `func_80040510`, which
+the merged sources declared three times with three different first parameter
+types (`void *`, `u8 *`, and a private `Obj *`); one `void *` declaration
+serves all three call sites.
+
+`+0x44/+0x46` is the one place the views genuinely disagree, and the disagreement
+is real rather than an error: `NameEntry_UpdateGlyphPulse` writes the pair as
+the sprite's x and y scale, while the two tween callbacks read it as the
+destination they are sliding to. The callback installed at `+0x24` decides
+which. `GlyphSprite` names it for the scale use and the tween callbacks keep
+reaching it by offset, because nothing yet distinguishes the two at the type
+level; a union here would assert a relationship that has not been shown.
 
 ## Glyph-encoding constants and the three meanings of `0xF0`
 
