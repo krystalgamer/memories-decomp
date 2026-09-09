@@ -6,6 +6,7 @@
 #include "name_entry_keyboard.h"
 #include "../../game/sound.h"
 #include "../../game/display_object_helpers.h"
+#include "name_entry_state.h"
 
 typedef struct {
     u8 pad0[48];
@@ -24,14 +25,9 @@ typedef struct {
 
 extern u16 D_8016D4D4;
 extern W *D_8016D404;
-extern s16 D_8016D434;
-extern s16 D_8016D436;
 extern s8 D_8016D401;
-extern u8 D_8016D402;
-extern u8 D_8016D426;
 extern s8 D_8016D42C;
 extern u16 *D_8016D418;
-extern u8 D_8016D400;
 extern s8 D_8016AB38[][15];
 extern u8 D_8016ABC0[][2];
 

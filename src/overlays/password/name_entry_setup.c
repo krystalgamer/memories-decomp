@@ -12,19 +12,13 @@
 #include "../../game/text_box_runtime.h"
 #include "../../game/fade.h"
 #include "../../game/func_8003B6AC.h"
+#include "name_entry_state.h"
 
-extern u8 D_8016D400;
 extern u8 D_8016D401;
-extern u8 D_8016D402;
 extern u8 D_8016D403;
-extern u8 D_8016D408;
 extern u8 *D_8016D418;
-extern u8 D_8016D426;
 extern u8 D_8016D42C;
 extern u8 *D_8016D404;
-extern s16 D_8016D434;
-extern s16 D_8016D436;
-extern u8 *D_8016D43C;
 extern u8 D_8016D4D0;
 extern s16 D_8016D4D2;
 extern u8 D_801B125A[];

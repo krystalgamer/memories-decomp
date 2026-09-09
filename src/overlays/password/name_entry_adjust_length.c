@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "name_entry_keyboard.h"
 #include "../../game/sound.h"
+#include "name_entry_state.h"
 
 extern s8 D_8016D42C;
-extern u8 *D_8016D43C;
 
 s32 NameEntry_AdjustLength(s32 delta, s32 arg)
 {

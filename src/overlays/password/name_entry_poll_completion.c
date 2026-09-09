@@ -1,7 +1,6 @@
 #include "../../types.h"
 #include "name_entry_keyboard.h"
-
-extern u8 D_8016D400;
+#include "name_entry_state.h"
 
 s32 NameEntry_PollCompletion(void)
 {

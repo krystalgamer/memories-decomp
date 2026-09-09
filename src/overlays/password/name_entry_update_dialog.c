@@ -10,6 +10,7 @@
 #include "../../game/func_80039794.h"
 #include "../../game/func_8003B6AC.h"
 #include "../../game/func_80043178.h"
+#include "name_entry_state.h"
 
 typedef struct {
     u8 pad0[8];
@@ -24,7 +25,6 @@ typedef struct {
 } Caret;
 
 extern u16 D_8016D4D2;
-extern u8 D_8016D400;
 extern s8 D_8009B34D;
 extern u8 D_801B125A[];
 extern DuelEffectChannel D_800EB1C0;

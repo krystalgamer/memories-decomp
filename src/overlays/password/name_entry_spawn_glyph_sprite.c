@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "../../game/display_object_api.h"
 #include "name_entry_keyboard.h"
+#include "name_entry_state.h"
 
 typedef struct {
     u8 pad0[72];
@@ -19,7 +20,6 @@ typedef struct {
 } Fixed;
 
 extern Fixed *D_8016D404;
-extern u8 D_8016D408;
 extern void func_80040510(Obj *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
 void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
