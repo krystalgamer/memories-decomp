@@ -12,6 +12,7 @@
 #include "file_transfer.h"
 #include "input.h"
 #include "view_state.h"
+#include "display_object.h"
 #include "duel_card_display_state.h"
 #include "../unmatched.h"
 
@@ -46,8 +47,8 @@ extern void func_80029164(s32, s32);
 extern u8 *func_800291E0(s32, s32, s32);
 extern void func_8001944C(u8 *);
 void func_800220B8(void) {
-    u8 *b;
-    u8 *c;
+    ViewState *b;
+    ViewState *c;
     s32 a;
     s32 v;
     s32 x;
@@ -57,7 +58,7 @@ void func_800220B8(void) {
         D_8009B30C = D_8009B30C ^ 1;
     }
 
-    b = (u8 *)&D_800F2848;
+    b = &D_800F2848;
 
     if ((gInput_wPad1Repeat & PAD_BUTTON_L1_R1_MASK) != 0) {
         a = 2;
@@ -79,24 +80,24 @@ void func_800220B8(void) {
                 a = 0x10;
             }
             if ((gInput_wPad1Repeat & PAD_DIRECTION_RIGHT) != 0) {
-                *(s32 *)(b + 0x1C) = *(s32 *)(b + 0x1C) + a;
+                b->view.vrx = b->view.vrx + a;
             }
             if ((gInput_wPad1Repeat & PAD_DIRECTION_DOWN) != 0) {
-                *(s32 *)(b + 0x24) = *(s32 *)(b + 0x24) - a;
+                b->view.vrz = b->view.vrz - a;
             }
             if ((gInput_wPad1Repeat & PAD_DIRECTION_LEFT) != 0) {
-                *(s32 *)(b + 0x1C) = *(s32 *)(b + 0x1C) - a;
+                b->view.vrx = b->view.vrx - a;
             }
             if ((gInput_wPad1Repeat & PAD_DIRECTION_UP) != 0) {
-                *(s32 *)(b + 0x24) = *(s32 *)(b + 0x24) + a;
+                b->view.vrz = b->view.vrz + a;
             }
         } else {
             v = 0x20;
             if ((gInput_wPad1Held & PAD_BUTTON_CIRCLE) != 0) {
                 v = 0x80;
             }
-            y = *(s16 *)(b + 2);
-            x = *(s16 *)(b + 4);
+            y = b->angle;
+            x = b->field_04;
             if ((gInput_wPad1Repeat & PAD_DIRECTION_UP) != 0) {
                 x += v;
             }
@@ -109,9 +110,9 @@ void func_800220B8(void) {
             if ((gInput_wPad1Repeat & PAD_DIRECTION_LEFT) != 0) {
                 y += v;
             }
-            c = (u8 *)&D_800F2848;
-            *(s16 *)(c + 2) = y;
-            *(s16 *)(c + 4) = x;
+            c = &D_800F2848;
+            c->angle = y;
+            c->field_04 = x;
         }
         func_8001352C();
     }
@@ -125,7 +126,7 @@ void func_800220B8(void) {
    left/right toggles which coordinate the up/down repeat adjusts, and CROSS
    places a new object through func_8002C604 at a page-dependent position. */
 void func_800222F4(void) {
-    u8 *obj;
+    DisplayObject *obj;
     u8 *p;
 
     if (gInput_wPad1Held & PAD_BUTTON_START) {
@@ -153,11 +154,11 @@ void func_800222F4(void) {
         case 1:
             func_80029164(0, 1);
             File_WaitForTransfers();
-            obj = func_800291E0(0, -1, -1);
-            *(s16 *)(obj + 0x30) = 0x5A;
-            *(s16 *)(obj + 0x32) = 0x16;
+            obj = (DisplayObject *)func_800291E0(0, -1, -1);
+            *(s16 *)&obj->field_30.h.field_30 = 0x5A;
+            *(s16 *)&obj->field_30.h.field_32 = 0x16;
             func_80012D84(4);
-            func_8001944C(obj);
+            func_8001944C((u8 *)obj);
             break;
         case 2:
             D_8009B180 = func_80017F04(D_801A7B80, 0x86, 0x52);

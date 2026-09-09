@@ -2,6 +2,9 @@
 #define MEMORIES_DECOMP_VIEW_STATE_H
 
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 /* The view state at D_800F2848. Three files used to declare three DIFFERENT
    structs for these same bytes -- `State { u16 a..h; char rest[0x20]; }` in
@@ -33,14 +36,26 @@
    The rest keep field_NN names because nothing in the matched code says what
    they are.
 
-   0x10..0x1B is padding only in the sense that no matching function touches
-   it FIELD BY FIELD. func_8002BAB4 copies it as two sixteen-byte blocks,
-   `*(ViewQuad *)(model + 0x10)` and `*(ViewQuad *)(model + 0x20)`, so
-   0x10..0x2F is really two quads and field_1C is the last word of the first
-   rather than a loner. The offsets below are unchanged by that reading --
-   it is a regrouping, not a correction -- so it is recorded here rather
-   than acted on: restructuring would be a claim about meaning that the
-   copy alone does not settle. There is no size assert: D_800F2848 is a single object with no stride
+   0x10..0x2F is a Psy-Q GsRVIEW2, and that is a call rather than an
+   inference: func_800134E0 builds a `GsRVIEW2 *` at exactly `&D_800F2848 +
+   0x10` and hands it to GsSetRefView2, whose parameter is that type. Its
+   own arithmetic corroborates the member order -- it adds its three
+   arguments to vrx, vry and vrz at 0x1C, 0x20 and 0x24 and writes the sums
+   to vpx, vpy and vpz at 0x10, 0x14 and 0x18, which is what a reference
+   view is. func_800134E0.h has said so since #2689; the record now spells
+   it, and that file's note about not editing this header is gone with it.
+
+   The old field_1C through field_2C are vrx, vry, vrz, rz and super under
+   their Psy-Q names, at the same offsets and the same widths -- `long` is
+   32-bit on this target, so nothing moves.
+
+   func_8002BAB4 reads the same range as two sixteen-byte blocks,
+   `*(ViewQuad *)(model + 0x10)` and `*(ViewQuad *)(model + 0x20)`. That is
+   not a competing layout: a block copy of 0x10..0x2F says nothing about
+   where the members inside it begin, and it stays spelled as its own cast
+   in that file.
+
+   There is no size assert: D_800F2848 is a single object with no stride
    evidence, so where the record ends is not something this code can show. */
 typedef struct {
     s16 field_00;
@@ -51,12 +66,7 @@ typedef struct {
     s16 field_0A;
     s16 field_0C;
     s16 projection;
-    u8 pad_10[0xC];
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
+    GsRVIEW2 view;
 } ViewState;
 
 #define VIEW_STATE_OFFSET(member) ((u32)&(((ViewState *)0)->member))
@@ -66,11 +76,14 @@ typedef char ViewState_angle_offset_must_be_0x2[
 typedef char ViewState_projection_offset_must_be_0xE[
     VIEW_STATE_OFFSET(projection) == 0xE ? 1 : -1
 ];
-typedef char ViewState_field_1C_offset_must_be_0x1C[
-    VIEW_STATE_OFFSET(field_1C) == 0x1C ? 1 : -1
+typedef char ViewState_view_offset_must_be_0x10[
+    VIEW_STATE_OFFSET(view) == 0x10 ? 1 : -1
 ];
-typedef char ViewState_field_2C_offset_must_be_0x2C[
-    VIEW_STATE_OFFSET(field_2C) == 0x2C ? 1 : -1
+typedef char ViewState_vrx_offset_must_be_0x1C[
+    VIEW_STATE_OFFSET(view.vrx) == 0x1C ? 1 : -1
+];
+typedef char ViewState_super_offset_must_be_0x2C[
+    VIEW_STATE_OFFSET(view.super) == 0x2C ? 1 : -1
 ];
 #undef VIEW_STATE_OFFSET
 
