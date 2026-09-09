@@ -1,16 +1,8 @@
 #include "../types.h"
+#include "duel_card_selection.h"
 #include "duel_side_state.h"
 #include "duel_grid.h"
 #include "duel_card.h"
-
-typedef struct {
-    char pad[0x6A];
-    u8 index;
-} DuelSelectionObject;
-
-typedef struct {
-    DuelSelectionObject *ptr;
-} DuelSelectionSource;
 
 extern s32 func_8001EFD4(DuelSelectionObject *, DuelSelectionObject *);
 
