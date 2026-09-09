@@ -192,7 +192,11 @@ typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
 ];
 
 typedef struct {
-    u8 pad_00[0x30];
+    u8 pad_00[0x14];
+    u16 priority;
+    u8 pad_16;
+    u8 ot_index;
+    u8 pad_18[0x18];
     u16 field_30;
     u16 field_32;
 } DuelStatusPosition;
@@ -215,6 +219,12 @@ typedef struct {
 
 typedef char DuelStatusPosition_size_must_be_0x34[
     sizeof(DuelStatusPosition) == 0x34 ? 1 : -1
+];
+typedef char DuelStatusPosition_priority_offset_must_be_0x14[
+    (u32)&((DuelStatusPosition *)0)->priority == 0x14 ? 1 : -1
+];
+typedef char DuelStatusPosition_ot_index_offset_must_be_0x17[
+    (u32)&((DuelStatusPosition *)0)->ot_index == 0x17 ? 1 : -1
 ];
 typedef char DuelStatusPosition_field_30_offset_must_be_0x30[
     (u32)&((DuelStatusPosition *)0)->field_30 == 0x30 ? 1 : -1

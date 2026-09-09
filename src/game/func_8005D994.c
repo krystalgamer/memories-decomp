@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80059208.h"
 #include "model_copy_slot_u16_values.h"
 #include "../psyq/memory.h"
 #include "model.h"
@@ -6,7 +7,6 @@
 
 extern s8 D_8009B07A;
 
-extern u8 *func_80059208(void);
 extern void func_8005F91C(s32 flag, u8 *b, u8 *a, s32 arg);
 
 void func_8005D994(

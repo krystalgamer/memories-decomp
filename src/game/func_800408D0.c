@@ -80,7 +80,7 @@ void func_800408D0(DisplayObject *e, s32 tex, u16 mode16) {
         mode = mode16 | 0xF0000;
     } else if ((p->attribute & GsROTOFF) == 0) {
         p->rotate = e->field_20.h.field_22 * 5760;
-        p->scale = e->field_44;
+        p->scale = e->field_44.word;
         mode = mode16 | 0x30000;
         p->mxmy.word = e->field_48.word;
         p->xy.h.x = p->xy.h.x + p->mxmy.h.x;

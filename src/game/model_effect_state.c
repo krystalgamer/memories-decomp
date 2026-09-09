@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80059208.h"
 #include "model_copy_slot_u16_values.h"
 #include "model.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
@@ -19,7 +20,6 @@ typedef struct {
 extern s8 D_8009B07A;
 
 extern unsigned short *func_800591FC(void);
-extern unsigned short *func_80059208(void);
 extern void func_8005D994(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern void func_8005F91C(s32, void *, void *, s32);
 void func_8005F3B8(int mode, int y, int a, int b, Vec *offset)

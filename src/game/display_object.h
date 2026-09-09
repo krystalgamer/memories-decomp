@@ -125,7 +125,19 @@ typedef struct DisplayObject {
             s16 field_42;
         } h;
     } field_40;                    /* 0x40 */
-    u32 field_44;                  /* 0x44 */
+    /* 0x44 is the scale the sprite emitters copy whole -- func_80040588 and
+       func_800408D0 both assign it to sprite_primitive.h's u32 `scale` -- while
+       display_object_transition.c animates the two halves. Each half is 12-bit
+       fixed point: that file and display_slot_lifecycle.c both reset the pair
+       with the single word 0x10001000, which is 1.0 in each. Same device as
+       0x40 and 0x48 on either side of it. */
+    union {
+        u32 word;
+        struct {
+            s16 field_44;
+            s16 field_46;
+        } h;
+    } field_44;                    /* 0x44 */
     union {
         u32 word;
         struct {
@@ -141,7 +153,13 @@ typedef struct DisplayObject {
     u8 pad_60[5];                  /* 0x60 */
     u8 field_65;                   /* 0x65 */
     u8 field_66;                   /* 0x66 */
-    u8 pad_67[5];                  /* 0x67 */
+    u8 pad_67[2];                  /* 0x67 */
+    /* Named on this same record by DisplayObjectConfig in
+       display_object_config.h. display_object_transition.c reads it and hands
+       it to func_800428A8. The bytes either side stay padding: nothing here
+       evidences them. */
+    u8 field_69;                   /* 0x69 */
+    u8 pad_6A[2];                  /* 0x6A */
     u8 field_6C;                   /* 0x6C */
     u8 pad_6D[DISPLAY_OBJECT_RECORD_SIZE - 0x6D];
 } DisplayObject;
