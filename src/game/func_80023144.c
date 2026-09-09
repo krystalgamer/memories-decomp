@@ -1,21 +1,15 @@
 #include "../types.h"
 #include "duel_side_state.h"
 #include "ai.h"
+#include "display_object.h"
 #include "duel_card.h"
+#include "duel_effect.h"
 #include "duel_selection_layout.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 
 typedef struct {
-    u8 pad_00[0x16];
-    u8 field_16;
-    u8 pad_17[0x19];
-    s16 field_30;
-    s16 field_32;
-} FieldObject;
-
-typedef struct {
-    FieldObject *object;
+    DisplayObject *object;
     u8 pad_04[0xB];
     s8 x;
     s8 y;
@@ -26,11 +20,6 @@ typedef struct {
     u8 field_17;
     u8 field_18;
 } FieldSource;
-
-typedef struct {
-    u8 pad_00[0x59];
-    u8 field_59;
-} TextBox;
 
 extern u8 D_8009B320 __attribute__((section(".data")));
 extern u8 D_8009B344 __attribute__((section(".data")));
@@ -45,7 +34,7 @@ extern s32 func_80023090(FieldSource *, u8 *);
 void func_80023144(FieldSource *source, s32 index)
 {
     DuelCardRecord *record = &D_801A7AD8[index];
-    TextBox *box;
+    DuelEffectChannel *box;
     s32 *table;
     s32 style;
     s32 id;
@@ -132,9 +121,11 @@ void func_80023144(FieldSource *source, s32 index)
         style += 2;
     }
     box = TextBox_Create(
-        source->field_14, style, source->object->field_30 + 0x10,
-        source->object->field_32 + source->field_16, 0x120, 0x40
+        source->field_14, style,
+        *(s16 *)&source->object->field_30.h.field_30 + 0x10,
+        *(s16 *)&source->object->field_30.h.field_32 + source->field_16,
+        0x120, 0x40
     );
-    box->field_59 = source->object->field_16 + 1;
+    box->field_59 = *(u8 *)&source->object->field_16 + 1;
     func_80039A14(box);
 }
