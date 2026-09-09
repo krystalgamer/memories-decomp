@@ -13,7 +13,6 @@ extern s32 D_80010000 __attribute__((section(".data")));
 extern s32 D_80010014 __attribute__((section(".data")));
 extern s32 D_80010018 __attribute__((section(".data")));
 extern u8 D_801A8000[];
-extern u8 D_801DD000[];
 extern void func_8005B620(u8 *dst, u8 *src, s32 count);
 
 void func_800577B0(FileTransferDescriptor *object, s32 mode) {

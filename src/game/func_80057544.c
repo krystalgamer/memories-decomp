@@ -5,7 +5,6 @@
 
 extern s32 D_8009B118 __attribute__((section(".data")));
 extern s32 D_80010008 __attribute__((section(".data")));
-extern u8 D_801DD000[];
 extern u8 D_801DD800[];
 extern u8 D_800F5694[];
 

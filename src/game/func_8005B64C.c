@@ -7,7 +7,6 @@
 extern s32 D_8009B118 __attribute__((section(".data")));
 extern s32 D_8001002C __attribute__((section(".data")));
 extern u8 D_8009B058[];
-extern u8 D_801DD000[];
 
 void func_8005B64C(FileTransferDescriptor *object, s32 mode) {
     RECT rect;

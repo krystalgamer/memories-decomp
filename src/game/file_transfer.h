@@ -120,4 +120,9 @@ extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
 extern u32 D_8009B134;
 extern u32 D_8009B134_abs __attribute__((section(".data")));
 
+/* Shared staging/upload buffer used by the resident transfer-phase callbacks.
+ * Every C consumer treats it as an unsized byte buffer, either publishing its
+ * address through a FileTransferDescriptor or passing it to LoadImage2. */
+extern u8 D_801DD000[];
+
 #endif
