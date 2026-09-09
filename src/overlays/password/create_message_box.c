@@ -3,7 +3,7 @@
 #include "shop.h"
 
 extern void func_80035B7C(DuelEffectChannel *);
-extern DuelEffectChannel *func_80035BE4(int, int, int, int, int, int);
+extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
 
 DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
 {

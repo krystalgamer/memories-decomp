@@ -3,7 +3,7 @@
 #include "../../game/text_box_runtime.h"
 #include "campaign_map.h"
 
-extern u8 *func_80035BE4(int, int, int, int, int, int);
+extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
 
 u8 *CampaignMap_CreateLocationLabel(s32 unused)
 {

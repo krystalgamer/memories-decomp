@@ -62,7 +62,7 @@ extern u8 D_801B125A[];
 extern DuelEffectChannel D_800EB1C0;
 extern u8 D_8016D41C;
 
-extern DuelEffectChannel *func_80035BE4(s32, s32, s32, s32, s32, s32);
+extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
 extern void *func_800374F4(DuelEffectChannel *);
 extern void func_80043230(DialogCaret *, s32, s32, s32);
 extern void func_80035B7C(DuelEffectChannel *);
