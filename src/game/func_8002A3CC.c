@@ -1,11 +1,7 @@
 #include "../types.h"
+#include "display_object.h"
 #include "sound.h"
 
-typedef struct {
-    u8 gap0[48];
-    u16 x;
-    u16 y;
-} RenderRecord;
 typedef struct {
     u8 gap0[8];
     s16 x;
@@ -20,7 +16,7 @@ typedef struct {
     s32 velocity_x;
     s32 velocity_y;
     u8 gap20[36];
-    RenderRecord *render;
+    DisplayObject *render;
 } MovingRecord;
 extern MovingRecord D_800EA1E8;
 extern void func_8002A2F4();
@@ -49,7 +45,7 @@ s32 func_8002A3CC(void)
         SD_SEPlayFull(53);
         func_8002A2F4(object);
     }
-    object->render->x = object->x;
-    object->render->y = object->y;
+    object->render->field_30.h.field_30 = object->x;
+    object->render->field_30.h.field_32 = object->y;
     return object->active;
 }
