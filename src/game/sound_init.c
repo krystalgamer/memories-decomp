@@ -4,6 +4,7 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 #include "sound_event_runtime.h"
+#include "sound_init.h"
 #include "sound_transfer_lifecycle.h"
 #include "../unmatched.h"
 
@@ -11,8 +12,6 @@ extern void func_800471D0(s32, s32, s32, s32, s32, s32);
 extern void func_80049138(s16, s32);
 extern void func_8004B854(void);
 extern void func_80074E60(void);
-
-void func_80049230(s32 value, s32 data);
 
 void func_80049200(s32 value)
 {

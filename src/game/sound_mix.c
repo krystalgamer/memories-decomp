@@ -2,6 +2,7 @@
 #include "../psyq/libcd.h"
 #include "func_80044DC0.h"
 #include "sound.h"
+#include "sound_mix.h"
 
 void func_80044E90(s32 value)
 {

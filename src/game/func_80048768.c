@@ -1,11 +1,10 @@
 #include "../types.h"
 #include "sound.h"
 #include "../psyq/libspu.h"
+#include "sound_mix.h"
 #include "sound_pending_constants.h"
 #include "sound_voice_constants.h"
 #include "sound_voice_selection.h"
-
-extern void func_80044E90(s32);
 
 /* Prevent GCC from rewriting the masked-value boolean as a shift. */
 register const u32 zero asm("$0");

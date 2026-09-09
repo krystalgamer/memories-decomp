@@ -9,6 +9,7 @@
 #include "main_reset_frontend_runtime.h"
 #include "main_services.h"
 #include "sound.h"
+#include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
 #include "../unmatched.h"
 
@@ -83,6 +84,6 @@ void Main_RunDuel(void)
     }
 }
 
-extern void func_8002BFCC(void),func_8002BAB4(void),func_8004763C(void);
+extern void func_8002BFCC(void),func_8002BAB4(void);
 
 void Main_RunLibraryMenu(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8002BFCC();func_80015A00();}else{func_8002BAB4();if((D_8009B26C&0x40)==0){D_8009B0C0=0;SD_BGMFadeOut();Fade_WaitOut();func_800134B4();func_8004763C();func_80047AD0(2);func_80012D84(4);File_WaitForTransfers();}}}
