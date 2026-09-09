@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "view_state.h"
+#include "duel_effect_request.h"
 #include "../psyq/libgte.h"
 
 /* Clears D_8009B260's bit 0x1, then walks all 8 D_800EAD88[] records. For
@@ -35,7 +36,6 @@ struct D800E9D90Type {
 
 extern struct Rec D_800EAD88[8];
 extern struct D800E9D90Type D_800E9D90;
-extern u8 D_8009B260;
 extern u8 D_8009B261;
 extern struct Rec *D_8009B264;
 extern void func_801462B0(s16 a0, s16 a1, s32 a2, struct Rec *a3);

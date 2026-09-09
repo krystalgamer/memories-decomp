@@ -7,6 +7,8 @@
  * and passing an argument to satisfy it adds the instruction that sets $a0
  * and breaks the match. The wrong declaration is load-bearing. */
 extern void *func_8002C604(void);
+/* Declared here rather than through duel_effect_request.h, which this TU
+ * cannot include for the reason above. */
 extern u8 D_8009B260;
 
 void *func_8002C68C(void)

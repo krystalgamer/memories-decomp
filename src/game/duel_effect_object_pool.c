@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_effect_request.h"
 
 typedef struct {
     u8 pad0[0x24F];
@@ -22,7 +23,6 @@ typedef struct {
     u8 pad_1D[3];
 } PoolEntry;
 
-extern u8 D_8009B260;
 extern Pool D_800EAD88;
 extern Object D_801D0000;
 
