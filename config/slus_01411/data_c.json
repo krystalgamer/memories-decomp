@@ -90,6 +90,10 @@
       "profile": "gcc_2_8_1_g0"
     },
     {
+      "source": "src/game/card_type_icon_table.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
       "source": "src/game/duel_effect_command_table.c",
       "profile": "gcc_2_8_1_g0"
     },

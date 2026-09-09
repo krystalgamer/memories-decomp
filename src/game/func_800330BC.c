@@ -1,6 +1,7 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
 #define GINPUT_PAD1_REPEAT_IS_VOLATILE
 #include "../types.h"
+#include "card_type_icon_table.h"
 #include "card_list_text_boxes.h"
 #include "card_list_sort.h"
 #include "input.h"
@@ -21,8 +22,6 @@
    - The D_80090DD8 lookup keeps func_80033CC4's statement-by-statement
      spelling so the base and slot pseudos land in the same registers.
 */
-
-extern u8 D_80090DD8[];
 
 s32 func_800330BC(CardList *list)
 {

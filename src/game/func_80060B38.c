@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_type_icon_table.h"
 #include "text_encode_decimal_digits.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -7,7 +8,6 @@
 #include "text_constants.h"
 #include "duel_card.h"
 
-extern u8 D_80090DD8[];
 extern u8 D_801A8000[];
 
 /* Draws a deck box's six type-count digits and its seven card stat rows
