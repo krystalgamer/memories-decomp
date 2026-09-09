@@ -3307,6 +3307,24 @@ must be measured.
   immediate neighbours 0x30 and 0x3C are free. Converting a group at a time
   and rebuilding found them in five builds.
 
+  Stores can diverge too, and there the tell is the value rather than the
+  member. `func_80020F4C` stores -116 into `position.h.field_28`, and through
+  the plain `u16` member that becomes `ori 0xff8c` where retail has
+  `addiu -116`; `*(s16 *)&obj->position.h.field_28` restores it. Twelve lines
+  down, a store of `0x198` to the *same member* goes through the plain member
+  and matches. So the sign of the constant decides it, not the field, and no
+  reading of the record would say which of the two sites to convert.
+
+  When `make match` reports an offset, that beats bisecting. Subtract the
+  function's base from the reported VRAM and disassemble the object:
+
+      tools/toolchains/binutils-2.42/bin/mipsel-none-elf-objdump -d \
+          tmp/splat/build/<path>.o
+
+  The report's own "expected 0x24, got 0x34" is already the `addiu`/`ori`
+  opcode byte in the case above. Bisecting is for when the build fails to
+  link rather than mismatching, since then there is no offset to chase.
+
 - **A typed local costs a callee-saved register unless every use goes through
   it.** Where the record's type cannot go on the parameter -- a callback
   whose table declares `void (*)(u8 *)` -- the record is taken through a
