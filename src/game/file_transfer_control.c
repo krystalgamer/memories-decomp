@@ -16,8 +16,6 @@
    the caller and the callee now share a unit and that prototype is gone. */
 
 extern u16 D_8009B0EC;
-extern void (*D_8009B120)(void);
-extern void (*D_8009B0F0)(void);
 extern u8 D_8009B11C;
 extern s32 func_8007B1F4(s32, void *, void *, s32);
 extern s32 func_8007B468(s32, void *, s32, void *, s32);

@@ -227,6 +227,29 @@ extern char D_8009B104[1];
  * assigns and calls. */
 extern void (*D_8009B10C)(void);
 
+/* The two command callbacks the sound driver hangs on the loader: SD_InitState
+ * installs func_8004666C in D_8009B0F0 and func_800466C8 in D_8009B120 (both
+ * `void (void)`, sound_output_transition.h), File_InitTransferState clears
+ * both beside its clear of D_8009B10C, and func_8001455C's transfer step runs
+ * D_8009B120 from its state 1 and state 6 arms and D_8009B0F0 from state 5,
+ * each only when non-zero. As with D_8009B10C, the loader owns the slot and
+ * another unit registers the handler, and the pointer is what every use
+ * assigns and calls: one declarer spelled them s32 and only stored 0, another
+ * void * and only assigned the two functions. Retail: gp-relative sw of zero
+ * in File_InitTransferState and gp-relative lw in func_8001455C, but sw %lo
+ * through $at in SD_InitState, whose unit defines the .data arms below for
+ * that. Initial value not read. */
+#ifdef D_8009B0F0_IN_DATA
+extern void (*D_8009B0F0)(void) __attribute__((section(".data")));
+#else
+extern void (*D_8009B0F0)(void);
+#endif
+#ifdef D_8009B120_IN_DATA
+extern void (*D_8009B120)(void) __attribute__((section(".data")));
+#else
+extern void (*D_8009B120)(void);
+#endif
+
 /* A counter the CD and stream paths bump at each step they complete. */
 extern s32 D_8009B130;
 
