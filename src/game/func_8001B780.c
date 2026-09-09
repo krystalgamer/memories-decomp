@@ -1,22 +1,17 @@
 #include "../types.h"
-
-typedef struct {
-    unsigned char pad0[0x30];
-    short field30;
-    short field32;
-} Inner;
+#include "display_object.h"
 
 typedef struct {
     unsigned char pad0[4];
-    Inner *inner;
+    DisplayObject *inner;
     unsigned char pad8[6];
     s8 fieldE;
 } Object;
 
 void func_8001B780(Object *object)
 {
-    Inner *inner = object->inner;
+    DisplayObject *inner = object->inner;
 
-    inner->field30 = object->fieldE * 60 + 14;
-    inner->field32 = 194;
+    *(s16 *)&inner->field_30.h.field_30 = object->fieldE * 60 + 14;
+    *(s16 *)&inner->field_30.h.field_32 = 194;
 }
