@@ -810,8 +810,8 @@ CdSyncCallback = 0x8007E880; // type:func
 CdDataCallback_8007E8A0 = 0x8007E8A0; // type:func
 
 // Semantic names
-gSaveData_dwMaskStateLow = 0x8009AF64;
-gSaveData_dwMaskStateHigh = 0x8009AF68;
+gSaveData_dwMaskStateLow = 0x8009AF64; // defined:True
+gSaveData_dwMaskStateHigh = 0x8009AF68; // defined:True
 
 GsSortPoly = 0x80084320; // type:func
 SD_EnqueueCommand = 0x80045BE8; // type:func

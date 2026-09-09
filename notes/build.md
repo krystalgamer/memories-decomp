@@ -163,9 +163,10 @@ the extracted blob, moves into the C file that owns it, and a dotted
 subsegment names that file at the address the definition has to keep. The blob
 shrinks; the boundary moves.
 
-The resident `initialized_data` segment is a code group even though it has no
-text. That lets its extracted `.data` and C-owned `.sdata` contributions share
-one fixed-address range without flattening both into the same linker section.
+The resident initialized-data ranges are code groups even though they have no
+text. That lets their extracted `.data` and C-owned `.sdata` contributions
+share fixed-address ranges without flattening both into the same linker
+section.
 
 `section_order` is the other half, and it is easy to misread as a constraint.
 **It is a description of the image's layout**, applied within each segment. If
@@ -264,6 +265,14 @@ table of relocations and a typed record array. Five things make one of these:
    the eight bytes the definition added. When a data change breaks a byte
    inside code, read the differing value as a `%gp_rel` displacement and
    subtract `_gp` (`0x8009AF08`) to find which symbol shifted and by how much.
+
+   The fix is to classify the whole GP-relative tail as `sdata` in image order,
+   not to isolate one symbol from a range still called `data`.
+   `save_data_mask_state.c` is the worked example at `0x8009AF64`: before the
+   tail was classified, its two words moved from `_gp + 0x5C` to `_gp + 0x174`;
+   after the extracted ranges from `_gp` onward became ordered `sdata`, splitting
+   the `0x8009AF40` blob around those words preserved both their addresses and
+   every existing text relocation.
 
 **The segment holding the data has to be a `code` segment.** Only a group
 segment adds each of its subsegments to the linker script; a segment declared

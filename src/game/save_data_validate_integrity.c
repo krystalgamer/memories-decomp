@@ -1,9 +1,6 @@
 #include "../types.h"
 #include "save_data.h"
 
-extern u32 gSaveData_dwMaskStateLow;
-extern u32 gSaveData_dwMaskStateHigh;
-
 s32 SaveData_ValidateIntegrity(u8 *data)
 {
     s32 seed;

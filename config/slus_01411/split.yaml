@@ -118,16 +118,13 @@ segments:
   # Every region below is a segment for the same reason: one output section
   # each, at its own address, so nothing is reordered across them.
 
-  # The initialized-data region is the exception: it is a code group so its
-  # .data and .sdata contributions can be mapped to C independently, declared
-  # the way the leading read-only region is, one entry per owning object. A
-  # translation unit that defines some of it is a template edit and nothing
-  # else, and everything still without an owner stays a generated blob, named
-  # for the address it starts at so that taking ownership of one range never
-  # renames another. Only a group segment adds each of its subsegments to the
-  # linker script; as a plain data segment the blob keeps supplying every byte
-  # and an owning object is built, never named by the script, and silently
-  # dropped.
+  # Initialized-data ranges are code groups so their .data and .sdata
+  # contributions can be mapped to C independently, declared the way the
+  # leading read-only region is, one entry per owning object. Once .sdata
+  # begins, every following extracted range must also be classified as sdata
+  # so section_order preserves the GP-relative sequence. Everything still
+  # without an owner stays a generated blob, named for the address it starts
+  # at so taking ownership of one range never renames another.
   - name: initialized_data
     type: code
     start: 0x80ee0
@@ -156,6 +153,8 @@ segments:
       - [0x8b730, .sdata, game/duel_card_effects]
       - [0x8b73d, pad]
       - [0x8b740, sdata, initialized_data_8009af40]
+      - [0x8B764, .sdata, game/save_data_mask_state]
+      - [0x8B76C, sdata, initialized_data_8009af6c]
       - [0x8b880, pad]
       - [0x8B884, .sdata, game/ai_script_source_line_format]
       - [0x8B88C, pad]
