@@ -33,7 +33,7 @@ Verified channel fields used by matching C include:
 | `0x53`-`0x5B` | byte fields and `index_57` | initialization sequence in `DuelEffect_InitEntry` |
 | `0x56` | `field_56` | cleared by `TextBox_BuildStep`; keeps the offset for a name, as the other files reaching `0x56` do so on other records |
 | `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, `duel_effect_object_commands.c` and `duel_effect_stream_fields.c` |
-| `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `D_80090E58` bounds |
+| `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
 
 Eight pure-C users now include the shared header and use
@@ -74,7 +74,7 @@ corroborate these accesses but do not determine the shared types.
 `DuelEffect_UpdateObjectLayout` now provides an additional exact-C read of
 `DuelEffectEntry.field_18`. It selects the display-object coordinate layout
 from `field_18 % 10` after resolving the entry through the channel's
-`D_80090E58` range index.
+`gDuelEffect_awEntryRangeBoundaries` range index.
 
 `DuelEffect_PlaySoundCommand` is now exact C in the effect-handler dispatch
 family. It consumes one 16-bit script value, uses the high bit to select the
@@ -92,7 +92,7 @@ State zero is inactive. On the first update of a nonzero state, the function
 copies its value to the callback index, sets bit `0x80` as the initialized
 latch, clears the companion state byte, and reports active. A later bit
 `0x40` cancels and clears the state; otherwise the latched index dispatches
-through `D_80090B3C`.
+through `gDuelEffect_apfnStateHandler`.
 
 That dispatcher byte is separate from `D_8009B3C1`. In the later callback
 state family, `DUEL_EFFECT_STATE_FLAG_INITIALIZED` (`0x80`) is the shared
