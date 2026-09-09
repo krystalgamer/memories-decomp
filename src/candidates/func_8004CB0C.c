@@ -1,58 +1,17 @@
-## `func_8004CB0C` at 0x8004CB0C
-
-`gcc_2_8_1_g0`, 394 instructions against a target of 394, **opcode multiset
-distance 0**, 14 of 394 words differing. The candidate has the exact control-flow
-and instruction shape, with no hard register assignments. Every remaining word
-is a register-allocation difference.
-
-Channel initialiser for the model/secondary-driver state rooted at
-`D_800F2C40`. The selected `0xE20`-byte slot is reset, channels zero and one
-receive their initial signed pan values, and the input command lists are scanned
-into the slot's leading `{record, command}` pairs. Event tags 0 and 1 build and
-finish stream records, tags 2 and 3 dispatch their specialised handlers, and
-other tags install `GsU_00000000`. The tail then links each command to an
-`0x50`-byte coordinate record, selects the first free record, and retries until
-that record is not already owned by a live command.
-
-## Why this candidate is closer
-
-The user-supplied source established the complete shape: all 394 opcodes and the
-relocation set match. Two source-lifetime changes improve its 29 differing words
-to 14 without pinning a register:
-
-- The fallback handler address is computed once in a function-scope `handler`
-  local. GCC rematerialises it in the default arm, producing retail's
-  `$v0`/`$t1` load and store sequence and improving the final add allocation.
-- The retry scan has its own `search_slot` cursor. Shortening the primary
-  `slot` live range makes GCC naturally assign that cursor to `$s4` and the
-  scratch-pad pointer to `$s3`, matching every earlier use of both registers.
-
-The raw byte offsets remain intentional. The same slot is viewed as an array of
-8-byte command pairs at the front and as a state block in its tail, while the
-record run reached through `+0xD14` has an independently proven `0x50` stride.
-Giving those partial views a speculative whole-record type does not improve the
-remaining allocation and would overstate what is known.
-
-## Remaining 14 words
-
-- Four words are the two `D_800E9D98` / `D_800E9D9C` loads. Retail uses `$v0`
-  as a temporary address base before loading `$fp`; this candidate expands the
-  symbolic load through `$fp` itself. Original ASPSX 2.81 was tested and emits
-  the same expansion as MASPSX for the candidate assembly, so this is **not a
-  MASPSX bug**. The source must make GCC emit a distinct address temporary.
-- Eight words are confined to the retry scan. Its separate cursor and the
-  limit/sentinel values use `$a1`/`$a2`/`$a3`, while retail reuses `$s4` and
-  shifts the other two values down one argument register.
-- Two words are the final reloads: the right stack values reach `$t0` and `$t1`
-  in the opposite order. The resulting addition and store are exact.
-
-The older pin-assisted experiment reached 390 of 394 words, but it forced the
-pair cursor and handler-store temporaries into named registers. It remains
-useful comparison evidence under `tmp/decompile-4cb0c-20260908/`; this tracked
-candidate deliberately keeps the clearer unpinned source so the unresolved
-work stays focused on ownership, lifetime, and expression shape.
-
-```c
+/*
+ * Initializes one model/secondary-driver channel rooted at D_800F2C40.
+ * Current best under gcc_2_8_1_g0: 394/394 instructions, opcode multiset
+ * distance 0, and 14 differing words with no hard register assignments.
+ *
+ * The source has the complete reset, command scan, event dispatch, coordinate
+ * linking, free-record selection, and retry shape. A function-scope fallback
+ * handler and separate retry cursor reduce the residue without pins.
+ *
+ * Residual: four words in the D_800E9D98/D_800E9D9C address loads, eight in
+ * retry-scan allocation, and two in the final stack-value reload order.
+ * Original ASPSX reproduces MASPSX's symbolic-load expansion, so the remaining
+ * work is source ownership and lifetime rather than assembler normalization.
+ */
 #include "../types.h"
 
 typedef struct {
@@ -347,4 +306,3 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
         *(s32 *)(base + 0xDE0) = arg2 + (s32)arg1;
     }
 }
-```
