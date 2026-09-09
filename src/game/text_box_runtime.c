@@ -17,7 +17,7 @@ void TextBox_SetPos(u8 *record, s32 x, s32 y)
     object = *(u8 **)(record + 44);
     if (object != (u8 *)0) {
         if (*(s16 *)(object + 30) == 4)
-            func_80039140(record);
+            func_80039140((DuelEffectChannel *)record);
         else {
             *(s16 *)(object + 48) = x;
             *(s16 *)(object + 50) = y;

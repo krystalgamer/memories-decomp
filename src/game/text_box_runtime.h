@@ -9,7 +9,7 @@
    declaration would collide with. That local one is a matching lever there. */
 struct DuelEffectChannel;
 void TextBox_BuildStep(struct DuelEffectChannel *object);
-void func_80039140(u8 *record);
+void func_80039140(struct DuelEffectChannel *record);
 void TextBox_SetPos(u8 *record, s32 x, s32 y);
 
 /* Requests a build and pumps the text box until it reports done. The two

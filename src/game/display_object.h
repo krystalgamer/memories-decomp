@@ -166,7 +166,10 @@ typedef struct DisplayObject {
        Halves: DuelEffect_UpdateObjectLayout writes 0x38 and 0x3A as an x/y
        pair. That function writes six such pairs at stride 8 -- 0x28, 0x30,
        0x38, 0x40, 0x48, 0x50 -- of which the record already had a halfword
-       view for four.
+       view for four. func_80039140 writes the same six on a text box's
+       frame object, laid out as a two-by-three grid around the content
+       object's rectangle, so the pair reading has two witnesses on two
+       object kinds.
 
        That is one witness under one object kind, and this halfword has more
        readings than almost any other on the record, so it does not
@@ -181,7 +184,8 @@ typedef struct DisplayObject {
        display_object_helpers.h sets out at length why neither of those
        generalises either.
 
-       Five readings, no winner, so the halves are named for their offsets
+       Five readings, two of them with two witnesses each, and no winner --
+       so the halves are named for their offsets
        and nothing more -- the same grounds 0x44 and 0x4C keep theirs on. A
        consumer that knows which motion path owns its object should take the
        view that names what it means, as name_entry_glyph_effects.c does with

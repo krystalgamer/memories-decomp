@@ -59,6 +59,6 @@ void func_800391E4(u8 *p) {
         e->field_2C.word = 0xA0A0A0;
         e->field_44.word = 0x808080;
         e->field_3C.word = 0x808080;
-        func_80039140(p);
+        func_80039140((struct DuelEffectChannel *)p);
     }
 }
