@@ -1,12 +1,12 @@
 #include "../types.h"
 #include "duel_effect.h"
 #include "duel_transition_color.h"
+#include "duel_transition_step_table.h"
 #include "build_deck_transition_state.h"
 #include "../psyq/rand.h"
 
 extern u32 D_8009B09C[];
 extern BuildDeckTransitionState *D_8009B2FC;
-extern void (*D_80090DF8[])(u8 *);
 
 s32 func_80033BE8(void)
 {
