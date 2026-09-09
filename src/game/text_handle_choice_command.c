@@ -2,10 +2,10 @@
 #include "text_stream_commands.h"
 #include "duel_effect.h"
 #include "duel_effect_entry_occupancy.h"
+#include "../unmatched.h"
 
 extern s8 gDialog_bChoice;
 extern s8 gDialog_bChoiceCount;
-extern u8 D_8009B34C;
 extern u8 gDialog_bChoiceEnabled;
 extern u8 gDialog_bInputState;
 

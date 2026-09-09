@@ -8,10 +8,10 @@
 #include "input.h"
 #include "sound.h"
 #include "display_object_helpers.h"
+#include "../unmatched.h"
 
 extern u8 gDialog_bInputState;
 extern u8 gDialog_bChoiceEnabled;
-extern u8 D_8009B34C;
 extern s8 gDialog_bChoice;
 
 extern s32 Dialog_ReadChoiceInput(u8 *);

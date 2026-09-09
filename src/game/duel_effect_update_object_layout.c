@@ -2,8 +2,8 @@
 #include "duel_effect.h"
 #include "duel_effect_entry_ranges.h"
 #include "duel_effect_update_object_layout.h"
+#include "../unmatched.h"
 
-extern u8 D_8009B34C;
 extern s8 gDialog_bChoice;
 
 void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
