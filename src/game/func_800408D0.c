@@ -2,8 +2,6 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-#include "../psyq/libgte.h"
-#include "../psyq/libgpu.h"
 #include "display_object_layout.h"
 #include "display_object.h"
 #include "display_object_projection.h"
