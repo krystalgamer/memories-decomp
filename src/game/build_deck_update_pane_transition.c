@@ -2,45 +2,35 @@
 #include "func_80032B38.h"
 #include "graphics_frame.h"
 #include "sound.h"
-
-typedef struct {
-    u8 pad_0000[0x5AA4];
-    s32 target;
-    s32 step;
-    s32 ticks;
-    u8 pad_5AB0[0x633E - 0x5AB0];
-    s16 previous;
-    u16 next;
-    u8 arrived;
-} ScrollState;
+#include "build_deck_update_pane_transition.h"
 
 extern u16 gGraphics_uViewportX asm("gGraphics_sViewportX");
 
-void BuildDeck_UpdatePaneTransition(ScrollState *state)
+void BuildDeck_UpdatePaneTransition(BuildDeckTransitionState *state)
 {
     s32 ticks;
 
-    if (func_80032B38((u8 *)state) == 0) {
+    if (func_80032B38(state) == 0) {
         /* Keep the sound ID live for the signed-divide branch delay slot. */
         register s32 sound asm("$4") = 30;
-        s32 diff = state->target - (s16)gGraphics_uViewportX;
+        s32 diff = state->viewport_target_x - (s16)gGraphics_uViewportX;
 
-        state->step = diff / 16;
-        state->ticks = 16;
+        state->viewport_step_x = diff / 16;
+        state->transition_ticks = 16;
         SD_SEPlayFull(sound);
     }
 
-    gGraphics_uViewportX += (u16)state->step;
-    ticks = state->ticks - 1;
-    state->ticks = ticks;
+    gGraphics_uViewportX += (u16)state->viewport_step_x;
+    ticks = state->transition_ticks - 1;
+    state->transition_ticks = ticks;
     if (ticks == 0) {
-        u16 position = (u16)state->target;
+        u16 position = (u16)state->viewport_target_x;
 
-        state->arrived = 0;
+        state->pane_index = 0;
         gGraphics_uViewportX = position;
         if ((s32)position << 16) {
-            state->arrived = 1;
+            state->pane_index = 1;
         }
-        state->previous = state->next;
+        state->state = state->next_state;
     }
 }

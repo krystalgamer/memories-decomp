@@ -9,6 +9,7 @@
 #include "sound.h"
 #include "func_80039794.h"
 #include "display_object_helpers.h"
+#include "build_deck_transition_state.h"
 
 extern u8 D_8009B2F8;
 /* Retail addresses these three with %hi/%lo under -G8, so they live outside
@@ -42,13 +43,13 @@ void func_800339D0(u8 *state)
     s32 mode;
     s32 i;
 
-    if (func_80032B38(state) == 0) {
+    if (func_80032B38((BuildDeckTransitionState *)state) == 0) {
         SD_SEPlayFull(8);
         if (func_80033998() != 0) {
             /* The mode byte is read before the flag store, as retail
                schedules it. */
             mode = D_8009B2F8 & 0x80;
-            *(u16 *)(state + 0x633E) |= 0x4000;
+            ((BuildDeckTransitionState *)state)->state |= 0x4000;
             if (mode) {
                 ((u8 *)TextBox_CreateFlagged(
                     0, 8, 0x28, 0x78, 0xF0, 0x10, 0x1028
@@ -67,7 +68,7 @@ void func_800339D0(u8 *state)
     /* Computed before the branch: it is only used on the copy path, so it
        crosses no call, and reorg lifts it into the branch delay slot. */
     src = state + 0x5D98;
-    if (*(u16 *)(state + 0x633E) & 0x4000) {
+    if (((BuildDeckTransitionState *)state)->state & 0x4000) {
         func_80039794();
         /* The same variable as the confirmation box, which keeps the
            channel in $s0 across the destroy call. */
@@ -75,9 +76,10 @@ void func_800339D0(u8 *state)
         if ((*(u32 *)(box + 0x34) & 0x2008) == 0x2000) {
             TextBox_Destroy(box);
             if (!(D_8009B2F8 & 0x80) && gDialog_bChoice != 0) {
-                *(u16 *)(state + 0x633E) &= 0xBFFF;
+                ((BuildDeckTransitionState *)state)->state &= 0xBFFF;
             } else {
-                *(u16 *)(state + 0x633E) = *(u16 *)(state + 0x6340);
+                ((BuildDeckTransitionState *)state)->state =
+                    ((BuildDeckTransitionState *)state)->next_state;
                 Fade_SetTargetLevel(0xFF, 2);
             }
         }
@@ -102,6 +104,6 @@ void func_800339D0(u8 *state)
             entry += 0x10;
         }
         func_80032370();
-        *(u16 *)(state + 0x633E) = 0;
+        ((BuildDeckTransitionState *)state)->state = 0;
     }
 }

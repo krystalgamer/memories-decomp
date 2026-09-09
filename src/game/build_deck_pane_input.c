@@ -9,6 +9,7 @@
 #include "input.h"
 #include "sound.h"
 #include "build_deck_card_counts.h"
+#include "build_deck_transition_state.h"
 
 extern u8 D_8009B24B;
 extern u16 gDuel_wViewerCardID;
@@ -20,12 +21,13 @@ extern void func_80031574(s32, s32, s32, s32, s32);
 extern void func_80031E5C(u8 *);
 extern void func_80031EE4(u8 *, s32);
 void func_8003353C(u8 *p) {
+    BuildDeckTransitionState *state = (BuildDeckTransitionState *)p;
     u8 *e;
     s32 r;
 
-    e = p + (p[0x6342] * 0x2D4C + 4);
+    e = p + (state->pane_index * 0x2D4C + 4);
 
-    func_80032B38(p);
+    func_80032B38(state);
 
     if (func_800330BC((CardList *)e) != 0) {
         return;
@@ -42,15 +44,15 @@ void func_8003353C(u8 *p) {
     }
 
     if (gInput_wPad1Held == PAD_DIRECTION_LEFT) {
-        *(s16 *)(p + 0x633E) = 1;
-        *(s32 *)(p + 0x5AA4) = 0;
-        *(s16 *)(p + 0x6340) = 2;
+        state->state = 1;
+        state->viewport_target_x = 0;
+        state->next_state = 2;
         return;
     }
 
     if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
-        *(s16 *)(p + 0x633E) = 4;
-        *(s16 *)(p + 0x6340) = 3;
+        state->state = 4;
+        state->next_state = 3;
         return;
     }
 
@@ -73,13 +75,14 @@ void func_8003353C(u8 *p) {
 
 void func_800336F0(u8 *p)
 {
+    BuildDeckTransitionState *state = (BuildDeckTransitionState *)p;
     u8 *e;
     u8 *q;
     s32 r;
     u32 c;
 
-    e = p + (p[0x6342] * 0x2D4C + 4);
-    func_80032B38(p);
+    e = p + (state->pane_index * 0x2D4C + 4);
+    func_80032B38(state);
     if (func_800330BC((CardList *)e) != 0) {
         return;
     }
@@ -95,15 +98,15 @@ void func_800336F0(u8 *p)
     }
 
     if (gInput_wPad1Held == PAD_DIRECTION_RIGHT) {
-        *(s32 *)(p + 0x5AA4) = 0x140;
-        *(s16 *)(p + 0x633E) = 1;
-        *(s16 *)(p + 0x6340) = 3;
+        state->viewport_target_x = 0x140;
+        state->state = 1;
+        state->next_state = 3;
         return;
     }
 
     if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
-        *(s16 *)(p + 0x633E) = 4;
-        *(s16 *)(p + 0x6340) = 2;
+        state->state = 4;
+        state->next_state = 2;
         return;
     }
 
