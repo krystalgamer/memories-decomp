@@ -4,8 +4,8 @@
 #include "../psyq/libspu.h"
 
 #include "sound.h"
+#include "../unmatched.h"
 
-extern void func_80046294(void);
 extern void func_800471D0(s32, s32, s32, s32, s32, s32);
 
 s32 func_80049138(s16 arg0, s32 arg1) {
