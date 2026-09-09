@@ -1,8 +1,6 @@
 #include "../types.h"
+#include "func_80058938.h"
 #include "model.h"
-
-extern void func_80058938(s32, s32, ModelTintColor, ModelTintColor, s32,
-                          s32);
 
 void func_80058838(s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3,
                    s32 a4, ...)
