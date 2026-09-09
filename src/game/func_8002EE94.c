@@ -1,8 +1,10 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "card_constants.h"
 #include "data_transfer_request.h"
 #include "duel_effect_mode_7.h"
 #include "input.h"
+#include "save_data.h"
 #include "script_command_busy.h"
 
 #include "duel_effect.h"
@@ -25,11 +27,25 @@ extern u8 D_8009B34C __attribute__((section(".data")));
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
 extern s16 D_801D0000[];
-extern s32 func_8002EE5C(void);
 extern s32 Dialog_ReadChoiceInput(DuelEffectChannel *);
 extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *);
 extern void DuelEffect_MarkObjectIfActive(void *);
-extern void SaveData_RequestWrite(void);
+
+int func_8002EE5C(void)
+{
+    unsigned short *entry = gDuel_awPlayerDeck;
+    int i = 0;
+
+    while (i < DECK_SIZE) {
+        if (*entry == 0) {
+            return 0;
+        }
+        i++;
+        entry++;
+    }
+    return 1;
+}
+
 void func_8002EE94(void)
 {
     DuelEffectChannel *box;
