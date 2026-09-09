@@ -1,21 +1,10 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "card_list_rows.h"
+#include "duel_effect.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "duel_card.h"
-
-typedef struct {
-    u8 pad_00[0x28];
-    void *child;
-    u8 pad_2C[8];
-    u16 field34;
-    u8 pad_36[4];
-    s16 field3A;
-    u16 field3C;
-    u8 pad_3E[0x16];
-    u8 field54;
-} Box;
 
 typedef struct {
     u8 *obj;
@@ -32,7 +21,7 @@ extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
 void func_80060E70(u16 *e, s32 idx, s32 flag, s32 ignored)
 {
     Slot *s;
-    Box *box;
+    DuelEffectChannel *box;
     s32 i;
     s32 y;
     s32 style;
@@ -74,13 +63,13 @@ void func_80060E70(u16 *e, s32 idx, s32 flag, s32 ignored)
             gDuel_wSelectedCardID = id;
         }
         box = TextBox_Create(idx + 1, style, s->f4, s->f6, 0x120, 0xB0);
-        box->field3A = y;
+        box->field_3A = y;
         if (q[0] == 0) {
-            box->field54 = 4;
+            box->field_54 = 4;
             w->fA[0] |= 0x8000;
         }
         if (i != 0) {
-            box->field34 |= 0x40;
+            box->flags_34 |= 0x40;
         }
         func_80039A14(box);
         q += 2;
