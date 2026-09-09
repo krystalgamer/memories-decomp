@@ -5,8 +5,6 @@
 #include "duel_effect_resource_record.h"
 #include "../unmatched.h"
 
-extern DuelEffectResourceRecord D_800EA0E8[];
-
 void func_800289BC(u8 *p, s32 mode)
 {
     DuelEffectResourceRecord *e;

@@ -2,8 +2,6 @@
 #include "display_object_api.h"
 #include "duel_effect_resource_record.h"
 
-extern DuelEffectResourceRecord D_800EA0E8[];
-
 u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
 
 __asm__(
