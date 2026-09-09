@@ -4,6 +4,7 @@
  * prototype in pick_exit.h existed only to cross the file boundary that this
  * unit removes. Every other helper the tick calls keeps its own header
  * because it also has other callers. */
+#define GINPUT_PAD1_HELD_IS_VOLATILE
 #include "../../types.h"
 #include "../../unmatched.h"
 #include "camera_transition.h"
@@ -11,14 +12,12 @@
 #include "location_label.h"
 #include "location_marker.h"
 #include "../../game/campaign_flags.h"
+#include "../../game/input.h"
 #include "../../game/view_state.h"
 #include "../../game/display_object_api.h"
 #include "../../game/sound.h"
 #include "../../game/fade.h"
 #include "campaign_map.h"
-
-extern u16 gInput_wPad1Pressed;
-extern volatile u16 gInput_wPad1Held;
 
 extern u8 *D_801695C8;
 extern u8 D_800E9ECE;
