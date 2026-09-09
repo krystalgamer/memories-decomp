@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sound_sequence_events.h"
 
 #include "sound.h"
 #include "sound_sequence_reader.h"
@@ -10,7 +11,7 @@ extern void func_8004B49C(s32, s32, s32);
 extern void func_8004B6E8(s32, s32);
 extern void func_8004B70C(s32, s32, s32);
 
-void SD_AdvanceSequencePosition(int *value, int amount)
+void SD_AdvanceSequencePosition(s32 *value, s32 amount)
 {
     *value += amount;
 }
