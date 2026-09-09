@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect_tables.h"
+#include "duel_effect_update_state.h"
 
 extern u8 D_8009B254, D_8009B24A, D_8009B248;
 s32 DuelEffect_UpdateState(void) {

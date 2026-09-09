@@ -1,6 +1,7 @@
 #define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "duel_effect_update_state.h"
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "../psyq/libgte.h"
@@ -43,7 +44,6 @@ extern u8 D_800E9EF0[];
 #define gTradeObj (*(Obj **)D_800E9EF0)
 
 extern void func_80032328(void);
-extern s32 DuelEffect_UpdateState(void);
 
 void Main_RunTrade(void)
 {

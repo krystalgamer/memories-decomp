@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_effect_update_state.h"
 #include "duel_side_state.h"
 #include "input.h"
 #include "text_box_lifecycle.h"
@@ -23,7 +24,6 @@ extern s8 gDuel_bOpponentID[9];
 extern void (*D_80090998[])(void);
 extern void func_8002C6C8(void);
 extern int func_80026B34(void);
-extern int DuelEffect_UpdateState(void);
 
 void func_80024200(void)
 {
