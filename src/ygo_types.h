@@ -40,6 +40,15 @@ typedef char OptionsLayoutPositionBlock_size_must_be_6[
 ];
 
 typedef struct {
+    OptionsLayoutPositionBlock positions;
+    u16 pad_06;
+} OptionsLayoutPositionData;
+
+typedef char OptionsLayoutPositionData_size_must_be_8[
+    sizeof(OptionsLayoutPositionData) == 8 ? 1 : -1
+];
+
+typedef struct {
     s32 key;
     void **handler;
 } ModelHandlerObject;
