@@ -13,7 +13,7 @@ int func_8005988C(int value)
     return value;
 }
 
-void func_800598E4(int first, int second)
+s32 func_800598E4(int first, int second)
 {
-    func_80059908(first, second, 0, 0);
+    return func_80059908(first, second, 0, 0);
 }

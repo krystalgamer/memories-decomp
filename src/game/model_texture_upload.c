@@ -4,7 +4,7 @@
 #include "../psyq/libgs.h"
 #include "model_texture_upload.h"
 
-extern int func_800598E4();
+extern s32 func_800598E4(s32, s32);
 
 u32 func_80058A7C(int side, int mode, GsIMAGE *params)
 {
