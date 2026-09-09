@@ -3,6 +3,7 @@
 #define D_8009B36A_IN_DATA
 #define D_8009B254_IN_DATA
 #include "../types.h"
+#include "frontend_debug_tables.h"
 #include "duel_effect.h"
 #include "duel_side_state.h"
 #include "duel_effect_mode_7.h"
@@ -21,9 +22,6 @@
    contiguous and are the whole gcc_2_8_1_g8 run between func_80030998 and
    func_80030FA0. */
 
-extern u8 D_80090D0C[];
-extern u8 D_80090D28[];
-extern u8 D_80090D44[];
 extern u8 D_8009B26C[];
 extern u8 D_8009B2E8;
 extern u8 D_8009B368[];
