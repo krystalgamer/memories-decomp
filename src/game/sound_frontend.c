@@ -1,11 +1,11 @@
 #include "../types.h"
+#include "file_transfer.h"
 #include "main_frame.h"
 #include "file_constants.h"
 #include "sound.h"
 #include "sound_output_state.h"
 #include "sound_output.h"
 
-extern s32 gFile_anLba[];
 extern s8 gSD_bOutputType;
 extern u32 gSD_dwCurrentBgmCommand;
 

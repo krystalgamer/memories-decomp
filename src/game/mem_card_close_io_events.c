@@ -1,7 +1,6 @@
 #include "../types.h"
+#include "mem_card.h"
 #include "../psyq/libapi.h"
-
-extern long gMemCard_aIOEventHandles[];
 
 void MemCard_CloseIOEvents(void)
 {

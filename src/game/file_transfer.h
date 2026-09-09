@@ -101,6 +101,11 @@ extern u8 *D_800101D8 __attribute__((section(".data")));
 extern u8 *D_800101D8;
 #endif
 
+/* The per-file starting sector table the transfer setup indexes by file
+   number. Four sources reached it, all with this identical declaration and
+   none of them defining it, so it is still generated data. */
+extern s32 gFile_anLba[];
+
 extern volatile u32 D_8009B0F4;
 extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
 

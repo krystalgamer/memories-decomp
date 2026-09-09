@@ -24,7 +24,15 @@
  * that read it several times in a row while waiting -- without the
  * qualifier gcc commons those reads into one register and the poll cannot
  * observe the callback. The other two write it once or read it once. */
+/* The memory-card I/O event handles opened at init and closed on teardown.
+   Five sources declared it identically, and all five spell the element type
+   `long` rather than s32; that spelling is preserved rather than normalised,
+   because DeliverEvent/OpenEvent hand these back as long and nothing here has
+   measured the difference. */
+extern long gMemCard_aIOEventHandles[];
+
 #ifdef GMEMCARD_NIORESULT_IS_VOLATILE
+
 extern volatile s32 gMemCard_nIOResult;
 #else
 extern s32 gMemCard_nIOResult;

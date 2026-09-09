@@ -1,9 +1,8 @@
 #include "../types.h"
+#include "mem_card.h"
 #include "../psyq/libapi.h"
 #include "func_800440B4.h"
 #include "io_event_helpers.h"
-
-extern long gMemCard_aIOEventHandles[];
 
 int func_800440F0(int value)
 {

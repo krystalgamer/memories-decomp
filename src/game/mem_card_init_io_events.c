@@ -8,7 +8,6 @@
 
 extern s8 D_8009B43E;
 extern u8 D_8009B44E;
-extern long gMemCard_aIOEventHandles[];
 extern long D_800F2AF0[];
 
 void MemCard_InitIOEvents(void)

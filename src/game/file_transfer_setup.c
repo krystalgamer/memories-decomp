@@ -3,7 +3,6 @@
 
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
-extern s32 gFile_anLba[];
 
 FileTransferDescriptor *func_80013B04(s32 index, s32 offset)
 {
