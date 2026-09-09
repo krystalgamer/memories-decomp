@@ -3,6 +3,7 @@
 #include "model_update_view_metrics.h"
 #include "view_state.h"
 #include "../psyq/rand.h"
+#include "model_slot_queries.h"
 
 typedef struct {
     s32 v[4];
@@ -18,7 +19,6 @@ extern void func_8002A788(u8 *);
 extern void func_8002ACA4(u8 *);
 extern void func_8002BAAC(u8 *);
 extern s32 func_80058DD8(s32);
-extern s32 func_80058E68(s32);
 extern void func_80057AF4(s32, s32, s32);
 extern u8 *func_800591FC(void);
 
