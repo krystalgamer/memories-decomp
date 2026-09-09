@@ -10,6 +10,9 @@
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
+#include "func_8001944C.h"
+#include "func_80019564.h"
+#include "func_80026BA4.h"
 #include "func_800291E0.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
@@ -22,9 +25,6 @@ extern u8 *D_800E9EF0[];
    symbol, so no storage is allocated here. */
 u16 D_8009B150;
 
-extern void func_80026BA4(s32, s32);
-extern void func_8001944C(u8 *);
-extern u8 *func_80019564(u8 *);
 void func_80019608(void)
 {
     u8 *p;
@@ -130,11 +130,13 @@ void func_80019608(void)
         if ((state & 0x80) == 0) {
             p = D_800E9EF0[1];
             D_8009B174 = state | 0x80;
-            func_8001944C(p);
-            D_800E9EF0[0] = func_80019564(p);
+            func_8001944C((DisplayObject *)p);
+            D_800E9EF0[0] =
+                (u8 *)func_80019564((DisplayObjectConfigView *)p);
             *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) | (GsALON | GsAONE);
             *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) & ~GsROTOFF;
-            D_800E9EF0[1] = func_80019564(p);
+            D_800E9EF0[1] =
+                (u8 *)func_80019564((DisplayObjectConfigView *)p);
             func_800428EC(D_800E9EF0[1], -1);
             *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) | (GsALON | GsATWO);
             *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) & ~GsROTOFF;

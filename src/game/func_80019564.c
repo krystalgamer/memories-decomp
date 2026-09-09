@@ -3,6 +3,7 @@
 #include "display_object_config.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
+#include "func_80019564.h"
 
 DisplayObject *func_80019564(DisplayObjectConfigView *source)
 {
