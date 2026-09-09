@@ -105,6 +105,56 @@ Two consequences for the data work:
   away, while the object is at least sixteen. Any tool that infers sizes that
   way needs to treat consecutive `D_` names as possible interior elements.
 
+## Overlapping symbols reached by offset from another symbol
+
+The section above finds overlaps by reading the symbol table. A second kind is
+invisible that way, because the source never writes the name of the object it
+is using. `func_8001BAF0.c` reached the deck records like this:
+
+```c
+base = (u8 *)gDuel_aActiveCards;
+deck = base - 0x31E0;
+```
+
+`symbols.txt` puts `gDuel_aActiveCards` at `0x801AB000` and
+`gDuel_aDeckCardRecords` at `0x801A7E20`, which differ by exactly `0x31E0`. So
+the file was walking a named array by negative offset from a different named
+array, and then defining its own struct for records that already had a shared
+type. Grepping for the destination's name finds nothing.
+
+Subtracting addresses is therefore a cheap identity test that no name search
+can do. Two more instances are confirmed:
+
+- `duel_rewards.c` builds `gDuel_awPlayerDeck + 0x5BC` in `Duel_AwardCard`,
+  and `0x801D07BC - 0x801D0200` is exactly `0x5BC`, so that destination is
+  `gDuel_awRecentCardDrops`.
+- `sound_output_state.c` reads `state + 0x40` where `state` is `g_SDValue`.
+  `g_SDValue` is at `0x8009B45C` and `D_8009B49C` is `0x40` later, so that
+  name lies **inside** the `g_SDValue` record rather than beside it.
+
+The last one is a true overlap in the sense the section above uses: one region
+carrying two names. The other two are a file declining to name what it is
+using, which is a different problem with the same tell.
+
+### What a scan for this has to handle
+
+Two failure modes are worth recording, because both produced confident and
+wrong answers before the third attempt worked.
+
+**Value arithmetic looks like address arithmetic.** Matching `SYMBOL + CONST`
+against the symbol table returns nine hits in this tree and every one is
+spurious. `D_8009B066 = (D_8009B066 + 1) & 1;` increments a counter, and it
+"lands on" `D_8009B067` only because consecutive symbols are one byte apart.
+Restricting to symbols declared as arrays, whose name decays to an address,
+removes all nine.
+
+**The address is usually copied to a local first.** With that restriction the
+same scan returns *zero* — including for `func_8001BAF0.c`, the case the scan
+was written for, because `gDuel_aActiveCards` and `0x31E0` are on separate
+lines. A zero there measured the reach of the scan rather than the state of the
+tree. One hop of alias tracking, recording locals assigned an array symbol's
+address, brings back the founding case and the three above.
+
 ## Original linker subregions
 
 A descriptor at file offset `0x80EEC` contains:
