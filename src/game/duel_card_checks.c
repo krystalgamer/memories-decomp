@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
+#include "duel_card_checks.h"
 
 extern u16 gDuel_awEquipTable[];
 extern u16 gDuel_aFusionTable[];

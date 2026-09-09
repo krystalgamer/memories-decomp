@@ -6,10 +6,9 @@
 #include "duel_card.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
+#include "duel_card_checks.h"
 
 extern u8 D_800EAE88[];
-extern s32 Duel_CheckEquip(s32, s32);
-extern s32 Duel_CheckFusion(s32, s32);
 
 void AiScript_FindEquipTarget(void)
 {

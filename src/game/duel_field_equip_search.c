@@ -4,10 +4,9 @@
 #include "duel_card.h"
 #include "func_80026C0C.h"
 #include "duel_field_equip_search.h"
+#include "duel_card_checks.h"
 
 extern u8 D_800EAE88[];
-
-extern s32 Duel_CheckEquip(s32 card_a, s32 card_b);
 
 s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1,
                                     s32 arg2)
