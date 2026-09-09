@@ -3,9 +3,9 @@
 #include "func_8005106C.h"
 #include "model.h"
 #include "model_slot_state_updates.h"
+#include "func_80057AF4.h"
 
 extern s32 func_80058E1C(void);
-extern void func_80057AF4(s32, s32, s32);
 extern void func_8005F714(s32, s32, s32);
 
 /* Per-frame animation tick for a model slot. When the slot is active and

@@ -7,8 +7,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/stdio.h"
 #include "model.h"
-
-extern void func_80057AF4(s32, s32, s32);
+#include "func_80057AF4.h"
 
 void func_80050F24(s32 arg0)
 {
