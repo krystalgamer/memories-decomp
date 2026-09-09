@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model_copy_slot_u16_values.h"
+#include "model_transfer_state.h"
 #include "model_transfer_flags.h"
 
 typedef struct {

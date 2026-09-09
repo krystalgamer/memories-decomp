@@ -7,6 +7,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "model_scene_states.h"
+#include "model_transfer_state.h"
 
 typedef struct { unsigned char b[8]; } __attribute__((packed)) Packed8;
 typedef struct {
@@ -25,7 +26,6 @@ extern Packed8 D_8009B480;
 extern Object D_800F56A0;
 extern void func_800857C0(int);
 extern void func_8004E7B0(int), func_80052D2C(int, int, int, int);
-extern void func_8005FAE4(void);
 
 void func_800530C4(void)
 {
