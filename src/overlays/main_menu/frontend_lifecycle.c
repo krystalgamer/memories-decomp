@@ -7,9 +7,6 @@
 extern void *D_80184558;
 extern void *D_8018455C;
 extern void *D_80184560;
-extern u8 *gMain_apMenuEntries[];
-extern u8 D_80184596;
-extern u8 D_80184599;
 
 void MainMenu_StartFrontendEntryTransition(s32 mode)
 {

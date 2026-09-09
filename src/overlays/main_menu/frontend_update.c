@@ -9,18 +9,8 @@
 #include "../../game/data_transfer_request.h"
 
 extern u8 *D_80184560;
-extern u8 *gMain_apMenuEntries[];
-extern u8 gMain_bMenuID;
-extern u8 D_80184595;
-extern u8 D_80184596;
-extern u8 D_80184597;
 
 extern s8 D_80184598;
-extern u8 D_80184599;
-extern u8 D_8018459A;
-extern u8 D_8018459B;
-extern u8 D_8018459C;
-extern u8 D_8018459D;
 extern u16 D_8009B0D8;
 extern u8 D_8009B3EA;
 extern u8 D_8009B3ED;

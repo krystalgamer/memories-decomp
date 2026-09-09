@@ -3,7 +3,6 @@
 #include "../../game/graphics_constants.h"
 #include "frontend.h"
 
-extern u8 D_80184597;
 extern GsOT *D_800E9D90[];
 
 void MainMenu_DrawFrontendBackground(void)
