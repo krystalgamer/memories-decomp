@@ -27,7 +27,7 @@ void func_800313E8(u8 *p) {
         *(s16 *)(p + 0x46) = (s16)t * 512;
         *(s16 *)(p + 0x44) = (s16)t * 512;
         if (*(s16 *)(p + 0x60) >= 8) {
-            func_800429D8(p);
+            DisplayObject_ResetVelocity(p);
             *(s16 *)(p + 0x36) = ((*(s16 *)(p + 0x18) - *(s16 *)(p + 0x30)) << 8) / 12;
             p[0x6C] = p[0x6C] & 0xBF;
             *(s16 *)(p + 0x60) = 0xC;
@@ -42,7 +42,7 @@ void func_800313E8(u8 *p) {
             func_8004036C((s32)p);
         }
     } else {
-        func_80042A78(p);
+        DisplayObject_StepPositionXY(p);
         t = *(u16 *)(p + 0x60) - 1;
         *(s16 *)(p + 0x60) = t;
         if (*(s16 *)(p + 0x60) <= 0) {

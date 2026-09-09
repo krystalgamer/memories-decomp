@@ -29,7 +29,7 @@ void func_8003C950(void)
     func_800428EC(object, 4);
     object[108] = 0;
     *(u16 *)(object + 8) |= 40;
-    func_800429D8(object);
+    DisplayObject_ResetVelocity(object);
     D_8009B378 = (s32)object;
     SD_BGMPlay(0x7300);
     Fade_StartIn();
@@ -43,7 +43,7 @@ s32 func_8003CA5C(void)
     register u32 tail_bits __asm__("$3");
 
     p = (u8 *)D_8009B378;
-    func_80042A00(p);
+    DisplayObject_StepPositionX(p);
     value = *(s16 *)(p + 0x5A);
     if (value == 0) {
         switch (p[0x6C]) {
@@ -53,7 +53,7 @@ s32 func_8003CA5C(void)
             *(s16 *)(p + 0x36) = -0xC0;
             break;
         case 1:
-            func_800429D8(p);
+            DisplayObject_ResetVelocity(p);
             func_80040410(p, 2);
             p[0x6C] = 2;
             break;

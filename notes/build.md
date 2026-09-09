@@ -351,7 +351,7 @@ written down. Whether it can be written down depends on one thing:
 
 Both outcomes occur, and they look identical in C:
 
-- `func_800429D8` reads only `$a0`, and its two `void (void)` consumers are
+- `DisplayObject_ResetVelocity` reads only `$a0`, and its two `void (void)` consumers are
   functions taking `u8 *object` whose prologue is `addu $16,$4,$zero` without
   reassigning `$4`. `$a0` still holds the object, so naming the argument is
   byte-exact.

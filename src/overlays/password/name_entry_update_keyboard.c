@@ -67,7 +67,7 @@ void NameEntry_UpdateKeyboard(void)
         if (work != 0) {
             w->f3C = (work >= 0) ? (w->f3C + 2) : (w->f3C - 2);
         }
-        func_80042A78(w);
+        DisplayObject_StepPositionXY(w);
         w->f60 = w->f60 - 1;
         if (w->f60 != 0) {
             return;
@@ -140,7 +140,7 @@ tail47:
         D_8016D434 = (s8)D_8016D401 * 20 + 42;
     }
     D_8016D436 = (s8)D_8016D402 * 18 + 24;
-    func_800429D8(w);
+    DisplayObject_ResetVelocity(w);
     w->f60 = 8;
     w->f36 = ((D_8016D434 - w->f30) << 8) / 8;
     w->f38 = ((D_8016D436 - w->f32) << 8) / 8;

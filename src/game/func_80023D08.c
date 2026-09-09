@@ -78,7 +78,7 @@ void func_80023D08(GridCursor *o, s32 dir) {
                       D_800907AC[D_8009B1D5][o->page][pos]);
         o->row = pos;
         index = pos * 5 + o->col;
-        func_800429D8(d);
+        DisplayObject_ResetVelocity(d);
         d->moving = 0;
         d->steps = shift;
         d->target_x = d->x;
@@ -97,7 +97,7 @@ void func_80023D08(GridCursor *o, s32 dir) {
         }
         o->col = pos;
         index = o->row * 5 + (s8)pos;
-        func_800429D8(d);
+        DisplayObject_ResetVelocity(d);
         shift = 8;
         d->steps = shift;
         d->moving = 0;

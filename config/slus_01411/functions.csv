@@ -662,14 +662,14 @@ address,size,name,status,module,notes
 0x80042960,0x48,func_80042960,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800429A8,0x14,func_800429A8,matching_c,game,Little-endian two-byte load expression matched exactly.
 0x800429BC,0x1C,func_800429BC,matching_c,game,Base pointer plus little-endian two-byte offset matched exactly.
-0x800429D8,0x28,func_800429D8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80042A00,0x28,func_80042A00,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80042A28,0x28,func_80042A28,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80042A50,0x28,func_80042A50,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80042A78,0x2C,func_80042A78,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80042AA4,0x34,func_80042AA4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80042AD8,0x30,func_80042AD8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80042B08,0x38,func_80042B08,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x800429D8,0x28,DisplayObject_ResetVelocity,matching_c,game,"Clears an object's three velocity components and primes the three 8.8 position fractions to 0x80; null-tolerant. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80042A00,0x28,DisplayObject_StepPositionX,matching_c,game,"Advances x by velocity_x in 8.8 fixed point, keeping the remainder in fraction_x. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80042A28,0x28,DisplayObject_StepPositionY,matching_c,game,"Advances y by velocity_y in 8.8 fixed point, keeping the remainder in fraction_y. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80042A50,0x28,DisplayObject_StepPositionZ,matching_c,game,"Advances z by velocity_z in 8.8 fixed point, keeping the remainder in fraction_z. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80042A78,0x2C,DisplayObject_StepPositionXY,matching_c,game,"Steps the x and y position components; the two-axis form used by the screen-space widgets. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80042AA4,0x34,DisplayObject_StepPositionXYZ,matching_c,game,"Steps all three position components. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80042AD8,0x30,DisplayObject_StepToward,matching_c,game,"Moves a value one step toward a target and clamps on arrival; the branch tests the target's sign, so the caller supplies a target on the side it is approaching from. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80042B08,0x38,DisplayObject_StepTowardZero,matching_c,game,"Moves a value one step toward zero and clamps there; the decay counterpart of the step-toward-target helper. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
 0x80042B40,0x58,func_80042B40,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80042B98,0x28,func_80042B98,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80042BC0,0x48,func_80042BC0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
