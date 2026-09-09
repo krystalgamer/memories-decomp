@@ -5,6 +5,7 @@
 
 #define DUEL_EFFECT_REQUEST_OFFSET(member) \
     ((u32)&(((DuelEffectRequest *)0)->member))
+#define DUEL_EFFECT_REQUEST_COUNT 8
 
 /* The record func_8002C68C hands a duel effect handler.
  *
@@ -40,6 +41,9 @@ typedef struct {
     u8 field_1D;    /* 0x1D */
 } DuelEffectRequest;
 
+typedef char DuelEffectRequest_size_must_be_0x20[
+    sizeof(DuelEffectRequest) == 0x20 ? 1 : -1
+];
 typedef char DuelEffectRequest_field_04_offset_must_be_0x4[
     DUEL_EFFECT_REQUEST_OFFSET(field_04) == 0x4 ? 1 : -1
 ];

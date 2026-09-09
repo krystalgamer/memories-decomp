@@ -1,37 +1,15 @@
 #include "../types.h"
-#include "duel_effect_request.h"
+#include "duel_effect_object_pool.h"
 
-typedef struct {
-    u8 pad0[0x24F];
-    u8 field24F;
-} Object;
-
-typedef struct {
-    s16 field_00;
-    u8 pad_02[2];
-    u8 field_04;
-    u8 pad_05[0x1B];
-} ResetEntry;
-
-typedef struct {
-    u8 bytes[0x118];
-} Pool;
-
-typedef struct {
-    u8 pad_00[0x1C];
-    u8 flags;
-    u8 pad_1D[3];
-} PoolEntry;
-
-extern Pool D_800EAD88;
-extern Object D_801D0000;
+extern DuelEffectRequest D_800EAD88[DUEL_EFFECT_REQUEST_COUNT];
+extern u8 D_801D0000[];
 
 int func_8002C570(int offset)
 {
-    Object *object;
+    u8 *object;
 
-    object = (Object *)((u32)&D_801D0000 + offset);
-    if (object->field24F) {
+    object = (u8 *)((u32)D_801D0000 + offset);
+    if (object[0x24F]) {
         return 1;
     }
     return -1;
@@ -39,27 +17,25 @@ int func_8002C570(int offset)
 
 void func_8002C598(void)
 {
-    ResetEntry *entry;
-    Pool *pool;
+    DuelEffectRequest *entry;
     int count;
     int fill;
 
     D_8009B260 = 0;
-    count = 8;
+    count = DUEL_EFFECT_REQUEST_COUNT;
     fill = -1;
-    pool = &D_800EAD88;
-    entry = (ResetEntry *)((u8 *)pool + 0x18);
+    entry = D_800EAD88;
     do {
-        entry->field_04 = 0;
-        entry->field_00 = fill;
+        entry->flags = 0;
+        entry->id = fill;
         entry++;
     } while (--count != 0);
 }
 
-PoolEntry *func_8002C5CC(void)
+DuelEffectRequest *func_8002C5CC(void)
 {
-    PoolEntry *entry = (PoolEntry *)&D_800EAD88;
-    int count = 8;
+    DuelEffectRequest *entry = D_800EAD88;
+    int count = DUEL_EFFECT_REQUEST_COUNT;
 
     for (;;) {
         if (!(entry->flags & 0x80)) {

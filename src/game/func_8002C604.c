@@ -1,17 +1,16 @@
 #include "../types.h"
+#include "duel_effect_object_pool.h"
 #include "func_8002C604.h"
 
 extern u8 *D_80010000;
 extern u8 D_800E9D90[];
-
-u8 *func_8002C5CC(void);
 
 /* Allocates a request entry through func_8002C5CC and fills it: flag byte
  * 0x80, the id at +0x18, the buffer pointer D_80010000 + 0x3800 at +0x14,
  * two words copied from D_800E9D90, and the zeroed fields. Returns the entry
  * or 0 when none was free. */
 u8 *func_8002C604(s32 arg0) {
-    u8 *p = func_8002C5CC();
+    u8 *p = (u8 *)func_8002C5CC();
 
     if (p != 0) {
         u8 *q;
