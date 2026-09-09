@@ -2,8 +2,8 @@
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "duel_effect.h"
+#include "text_constants.h"
 
-extern u8 gText_abColorSlots[];
 void func_8003C4E0(s32 arg0) {
     u8 *t = gText_abColorSlots;
     t[0]=4; t[1]=4; t[2]=4; t[3]=4; t[4]=4;
