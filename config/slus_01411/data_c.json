@@ -14,6 +14,10 @@
       "profile": "gcc_2_8_1_g0"
     },
     {
+      "source": "src/game/model_geometry_tables.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
       "source": "src/game/ai_script_source_line_format.c",
       "profile": "gcc_2_8_1_g8_split"
     },
