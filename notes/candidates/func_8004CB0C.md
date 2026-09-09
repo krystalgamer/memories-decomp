@@ -1,108 +1,56 @@
 ## `func_8004CB0C` at 0x8004CB0C
 
-`gcc_2_8_1_g0`, 392 instructions against a target of 394, **opcode multiset
-distance 2**, 93 of 394 words differing. The instruction sequence is exact
-through instruction 150, the frame and every saved-register role match retail,
-and what is left is two loop-invariant constants that GCC hoists one loop
-further out than retail does.
+`gcc_2_8_1_g0`, 394 instructions against a target of 394, **opcode multiset
+distance 0**, 14 of 394 words differing. The candidate has the exact control-flow
+and instruction shape, with no hard register assignments. Every remaining word
+is a register-allocation difference.
 
-Channel initialiser for the secondary sound driver. `D_800F2C40` is an array of
-`0xE20`-byte channel records (the same `Channel` array `func_8004D75C.c`
-already declares) and the argument selects one. The function clears the whole
-tail of the record, seeds the pan/volume pair from `D_8001001C`..`D_80010028`
-for channels 0 and 1, then walks the command-list table the caller passed in:
-for each of up to `0x3C` entries it opens the list with `GsScanUnit`, pumps
-events out of it, and dispatches on the top byte of each event word --
-0 and 1 go to `func_8004D134` plus `func_8006086C`/`func_80060AEC`, 2 to
-`func_80060220`, 3 to `func_8005C6A0`, anything else installs `GsU_00000000`
-as the handler. Events whose tag is in `{0, 1, 5, 6}` and which carry bit
-`0x800000` first allocate a voice block through `GsMapCoordUnit`. It then links
-each entry to its voice record, finds the first free record, and retries
-`func_8005A3D0` until it lands on a record no live entry is using.
+Channel initialiser for the model/secondary-driver state rooted at
+`D_800F2C40`. The selected `0xE20`-byte slot is reset, channels zero and one
+receive their initial signed pan values, and the input command lists are scanned
+into the slot's leading `{record, command}` pairs. Event tags 0 and 1 build and
+finish stream records, tags 2 and 3 dispatch their specialised handlers, and
+other tags install `GsU_00000000`. The tail then links each command to an
+`0x50`-byte coordinate record, selects the first free record, and retries until
+that record is not already owned by a live command.
 
-**The TU idiom is raw `u8 *` with byte offsets**, matching `sd_sequence_tracks.c`
-and the rest of that family; only the two places where the arithmetic forces it
-use typed pointers. Those are the `0x50`-byte voice records (indexed as
-`base[0xD14] + i`, and one exact pointer difference divided by 80) and the
-8-byte `{record, command}` pairs the channel record starts with.
+## Why this candidate is closer
 
-## Levers, in the order they paid
+The user-supplied source established the complete shape: all 394 opcodes and the
+relocation set match. Two source-lifetime changes improve its 29 differing words
+to 14 without pinning a register:
 
-- *Three `switch` statements, not `if`/`else` chains.* The channel-index test
-  and the event-tag dispatch both compile to compare chains either way, but the
-  branch **polarity** differs: a chain gives `bne`/`bnez` falling through to the
-  case body, a `switch` gives `beq`/`beqz` jumping to it. Worth 12 positions
-  across the two. GCC picks a balanced order for the tag switch -- 1, 0, 2, 3 --
-  which is why the emitted order looks wrong for a switch and right for a chain.
-- *Write `default:` first.* With `default` last, all three arms of the
-  channel-index switch emit their own store and their own jump. With `default`
-  written **before** `case 0`, GCC cross-jumps the two case arms onto one shared
-  store, which is retail's layout: two `sh` and one `j`, not three and two.
-  This was the single largest step, distance 5 to 1.
-- *A scratch-pad pointer local is what makes GCC spill the parameters.* Retail
-  keeps `0x1F800000` in `$s3` and reloads both incoming arguments from their
-  home slots at `0x54`/`0x58(sp)`. Passing the constant inline at each of the
-  three call sites instead leaves GCC enough registers to keep the arguments
-  live, and the build loses five `lw` and gains four `addu`. The local has to
-  exist, and it has to be **declared inside the event-loop body** after the
-  event-word test -- at function scope it is hoisted out and the whole loop
-  shifts by one instruction.
-- *Transcribe the event loop with explicit `goto`s.* Written as
-  `while (pump(...)) { if (word == 0) continue; ... }` GCC emits its own
-  `a0 = 0` for the `continue` edge; written with a label before the argument
-  setup and `goto`s for both the continue and the break edges, the `continue`
-  path lands on the existing setup, which is retail. That is the last
-  instruction of the count, distance 1 to 0. `goto` is already the idiom in
-  this family -- `SD_ProcessSequenceTracks` in `sd_sequence_tracks.c` is written
-  the same way.
-- *Do not reuse one variable for a value passed to a call and a value that lives
-  across it.* The record pointer stored to `+0xD18` and passed to
-  `func_8005A3D0` is a short-lived temporary in retail: it is computed straight
-  into `$a1` and stored from there. Sharing the variable with the long-lived
-  cursor puts it in `$s0` and costs a `move a1, s0`. Splitting them was worth 33
-  words.
-- *The range test must be written as nested `if`s, not `&&`.*
-  `tag < 2 || (tag < 7 && tag >= 5)` is folded by GCC into the range check
-  `(tag - 5) < 2` and emits an `addiu`; retail keeps three separate `sltiu`.
-  Every spelling of the compound condition folds -- `tag >= 5`, `!(tag < 5)`,
-  `tag > 4`, and a signed cast all give the same output. Only writing the two
-  bounds as separate nested `if`s with `goto`s out of them keeps them apart.
-- *`u32` for the tag*, or the three bound tests come out `slti` instead of
-  `sltiu`. *`cursor += 4` before the clamp*, not after, or the increment cannot
-  reach the branch delay slot ahead of it.
+- The fallback handler address is computed once in a function-scope `handler`
+  local. GCC rematerialises it in the default arm, producing retail's
+  `$v0`/`$t1` load and store sequence and improving the final add allocation.
+- The retry scan has its own `search_slot` cursor. Shortening the primary
+  `slot` live range makes GCC naturally assign that cursor to `$s4` and the
+  scratch-pad pointer to `$s3`, matching every earlier use of both registers.
 
-## What is left
+The raw byte offsets remain intentional. The same slot is viewed as an array of
+8-byte command pairs at the front and as a state block in its tail, while the
+record run reached through `+0xD14` has an independently proven `0x50` stride.
+Giving those partial views a speculative whole-record type does not improve the
+remaining allocation and would overstate what is known.
 
-Two instructions, and they are the same fact twice: **retail materialises a
-loop-invariant constant inside a loop where GCC hoists it out.**
+## Remaining 14 words
 
-- `lui $s3, 0x1F800000` sits in the delay slot of the event loop's break test
-  and is re-executed every iteration. This build fills that slot with `nop` and
-  materialises the constant one slot later, in the delay slot of the following
-  branch. Six placements for the declaration and assignment were tried,
-  including function scope, both loop bodies, and a block wrapping the break
-  test; the tight in-body declaration is the best of them.
-- `addiu $a2, $zero, -0x1` is materialised **inside** the retry loop, in a
-  caller-saved register, because the scan loop it feeds contains no calls while
-  the retry loop around it does. This build hoists the same constant out of the
-  retry loop into a callee-saved register instead.
+- Four words are the two `D_800E9D98` / `D_800E9D9C` loads. Retail uses `$v0`
+  as a temporary address base before loading `$fp`; this candidate expands the
+  symbolic load through `$fp` itself. Original ASPSX 2.81 was tested and emits
+  the same expansion as MASPSX for the candidate assembly, so this is **not a
+  MASPSX bug**. The source must make GCC emit a distinct address temporary.
+- Eight words are confined to the retry scan. Its separate cursor and the
+  limit/sentinel values use `$a1`/`$a2`/`$a3`, while retail reuses `$s4` and
+  shifts the other two values down one argument register.
+- Two words are the final reloads: the right stack values reach `$t0` and `$t1`
+  in the opposite order. The resulting addition and store are exact.
 
-Both are loop-invariant-motion depth decisions rather than anything the source
-spells, and no source shape tried moved either.
-
-**One register pin is required and it is verified.** `slot` is pinned to `$s4`.
-Without it the build is 106 words away instead of 93, because `slot` and the
-scratch-pad pointer swap between `$s3` and `$s4`. Every one of the fourteen
-instructions touching `$s4` in the build was checked against the disassembly
-and all of them are the one variable, plus the prologue save and epilogue
-restore -- no unrelated value shares the register. Pinning the scratch-pad
-pointer to `$s3` instead scores identically; pinning both is no better; pinning
-neither is worse. The pin was added only after the source shapes above were
-exhausted.
-
-Nothing here needs new linker aliases. `D_800F2C40` is already in
-`c_symbols.ld`; `D_800E9D9C` and `D_8001001C`..`D_80010028` resolve from the
-split symbol table.
+The older pin-assisted experiment reached 390 of 394 words, but it forced the
+pair cursor and handler-store temporaries into named registers. It remains
+useful comparison evidence under `tmp/decompile-4cb0c-20260908/`; this tracked
+candidate deliberately keeps the clearer unpinned source so the unresolved
+work stays focused on ownership, lifetime, and expression shape.
 
 ```c
 #include "../types.h"
@@ -149,7 +97,8 @@ extern s32 func_8005A3D0(u8 *, Rec *);
 void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
 {
     u8 *base;
-    register u8 *slot __asm__("$20");
+    u8 *slot;
+    u8 *search_slot;
     u8 *cursor;
     void *table;
     Event ev;
@@ -158,12 +107,18 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
     s32 i;
     u32 tag;
     s32 off;
-    s32 n;
+    s32 loaded_limit;
+    s32 limit;
+    s32 sentinel;
+    s32 next;
     s32 *cmd;
     Rec *rec;
+    Rec *scan;
     Rec *cur;
     Rec *q;
+    s32 handler;
 
+    handler = (s32)GsU_00000000;
     base = (u8 *)&D_800F2C40[index];
     slot = base;
     cursor = arg1;
@@ -265,12 +220,14 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
                     goto evdone;
                 }
                 {
+                    void *scratch;
+
+                    tag = (u32)ev.word >> 24;
+                    scratch = (void *)0x1F800000;
                     if (ev.word == 0) {
                         goto evloop;
                     }
                     {
-                    void *scratch = (void *)0x1F800000;
-                    tag = (u32)ev.word >> 24;
                     if (tag < 2) {
                         goto masktest;
                     }
@@ -303,8 +260,10 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
                         func_8005C6A0(&ev, base);
                         break;
                     default:
-                        *ev.ptr = (s32)GsU_00000000;
+                    {
+                        *ev.ptr = handler;
                         break;
+                    }
                     }
                     }
                     goto evloop;
@@ -331,11 +290,11 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
             slot += 8;
         } while (i < base[0xE1A] - 1);
     }
-    rec = *(Rec **)(base + 0xD14);
-    if (rec != 0) {
+    scan = *(Rec **)(base + 0xD14);
+    if (scan != 0) {
         i = 0;
-        while (rec->field_4C != 0) {
-            rec++;
+        while (scan->field_4C != 0) {
+            scan++;
             i++;
         }
         base[0xE18] = i;
@@ -348,31 +307,33 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
         cur = *(Rec **)(base + 0xD14) + base[0xE19];
         *(Rec **)(base + 0xD1C) = cur;
         for (;;) {
-            slot = base;
-            n = base[0xE1A];
-            if (n != 0) {
-                i = 0;
+            search_slot = base;
+            loaded_limit = base[0xE1A];
+            i = 0;
+            if (loaded_limit != 0) {
+                sentinel = -1;
+                limit = loaded_limit;
                 do {
-                    if (((Pair *)slot)->rec != 0 && ((Pair *)slot)->cmd != 0) {
-                        if (*((Pair *)slot)->cmd != -1 ||
-                            *(((Pair *)slot)->cmd + 2) != 0) {
-                            if (((Pair *)slot)->rec->field_4C == (s32)cur) {
+                    if (((Pair *)search_slot)->rec != 0 && ((Pair *)search_slot)->cmd != 0) {
+                        if (*((Pair *)search_slot)->cmd != sentinel ||
+                            *(((Pair *)search_slot)->cmd + 2) != 0) {
+                            if (((Pair *)search_slot)->rec->field_4C == (s32)cur) {
                                 break;
                             }
                         }
                     }
                     i++;
-                    slot += 8;
-                } while (i < n);
+                    search_slot += 8;
+                } while (i < limit);
                 if (i < base[0xE1A]) {
                     break;
                 }
             }
-            n = func_8005A3D0(base, cur);
-            if (!(n < base[0xE17])) {
+            next = func_8005A3D0(base, cur);
+            if (!(next < base[0xE17])) {
                 break;
             }
-            cur = *(Rec **)(base + 0xD14) + n;
+            cur = *(Rec **)(base + 0xD14) + next;
         }
         rec = (Rec *)cur->field_4C;
         if (rec != *(Rec **)(base + 0xD18)) {
