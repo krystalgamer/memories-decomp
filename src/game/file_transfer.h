@@ -147,4 +147,35 @@ extern u32 D_8009B134_abs __attribute__((section(".data")));
  * address through a FileTransferDescriptor or passing it to LoadImage2. */
 extern u8 D_801DD000[];
 
+/* The primary transfer descriptor. Four sources in this family reach it as a
+ * FileTransferDescriptor, agreeing on the spelling, and none defines it. */
+extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
+
+/* The CD callback's state word, switched on by file_transfer_control.c and
+ * advanced by the callbacks in file_cd_transfer.c.
+ *
+ * Both declarers already spell it `volatile u16` and it stays that way. It
+ * also has to stay small-data eligible: file_cd_transfer.c stores to it from
+ * inline assembly written as `sh $4, %gp_rel(D_8009B100)($28)`, which names
+ * the symbol and assumes $gp addressing. A two-byte scalar is eligible under
+ * -G8, so this declaration keeps that true; a `.data` arm here would break
+ * that store rather than merely change a load. */
+extern volatile u16 D_8009B100;
+
+/* The CD position buffer handed to func_8007B468 and CdIntToPos_8007E600.
+ * Both declarers write `char D_8009B104[1]`, and the one-element spelling is
+ * kept exactly: it is an addressing device that makes the name decay to a
+ * pointer at each call, not a claim that one byte is all that is there. */
+extern char D_8009B104[1];
+
+/* A counter the CD and stream paths bump at each step they complete. */
+extern s32 D_8009B130;
+
+/* gFile_SecondaryTransferDescriptor is deliberately absent. Four of its five
+ * declarers spell it FileTransferDescriptor and file_cd_transfer.c spells it
+ * `u8 []`. Four against one is a tempting majority, but it is not evidence:
+ * that file is also the one that reaches the loader words through inline
+ * assembly, so its spelling may be load-bearing in the way D_8009B100's
+ * gp-relative store is. Settling it needs a measurement, not a vote. */
+
 #endif

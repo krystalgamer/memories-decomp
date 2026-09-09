@@ -14,7 +14,6 @@ extern u8 D_8009B110;
 extern s32 D_8009B120;
 extern u16 D_8009B124;
 extern s32 D_8009B12C;
-extern s32 D_8009B130;
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 
 extern s32 func_8007AFA4(void);

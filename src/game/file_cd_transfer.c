@@ -15,13 +15,9 @@ typedef struct {
     s32 value[8];
 } Block32;
 
-extern char D_8009B104[1];
 extern char D_8009B11C[1];
-extern volatile u16 D_8009B100;
 extern u8 D_8009B114;
-extern s32 D_8009B130;
 extern s32 D_8009B138;
-extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 extern u8 gFile_SecondaryTransferDescriptor[];
 extern u8 D_801D4200[];
 
