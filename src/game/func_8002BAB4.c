@@ -7,19 +7,15 @@
 #include "model_slot_queries.h"
 #include "../unmatched.h"
 #include "func_80057AF4.h"
-
-typedef struct {
-    s32 v[4];
-} ViewQuad;
+#include "func_8002BAB4.h"
+#include "library_state_handlers.h"
 
 extern u8 D_800EA1E8[];
 /* Overlay-resident halfwords, addressed %hi/%lo in retail under -G8. */
 extern s16 D_80181002 __attribute__((section(".data")));
 extern s16 D_80181012 __attribute__((section(".data")));
 
-extern void func_8002BAA0(u8 *);
 extern void func_8002A788(u8 *);
-extern void func_8002BAAC(u8 *);
 extern s32 func_80058DD8(s32);
 
 /* Library screen state dispatcher on the low nibble of D_800EA1E8's first
@@ -128,8 +124,8 @@ void func_8002BAB4(void)
         /* Two 16-byte copies rather than one 32-byte struct: the extra
            reference is what ranks the model pointer into $s2 ahead of the
            constant 1 in $s3. */
-        ((ViewQuad *)dst)[0] = *(ViewQuad *)(model + 0x10);
-        ((ViewQuad *)dst)[1] = *(ViewQuad *)(model + 0x20);
+        ((LibraryViewQuad *)dst)[0] = *(LibraryViewQuad *)(model + 0x10);
+        ((LibraryViewQuad *)dst)[1] = *(LibraryViewQuad *)(model + 0x20);
         Model_UpdateViewMetrics(0);
         break;
     case 3:

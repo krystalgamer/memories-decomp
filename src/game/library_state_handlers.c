@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "library_state_handlers.h"
 
 void func_8002BAA0(u8 *value)
 {

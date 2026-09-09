@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8002BFCC.h"
 #include "display_object_api.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
