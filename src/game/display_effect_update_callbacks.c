@@ -18,10 +18,9 @@
 #include "func_8003A1EC.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
+#include "display_object_position.h"
 
 extern u16 D_8009B0D8_halfword asm("D_8009B0D8");
-
-extern void func_8003A920(u8 *, s16, s16);
 
 void func_8003AD6C(u8 *p)
 {
@@ -60,7 +59,8 @@ void func_8003AD6C(u8 *p)
     if (n <= 0) {
         p[0x33] = 0;
         func_8003A440((u8 **)p, 0, *(s8 *)(*(u8 **)p + 0x16));
-        func_8003A920(p, *(s16 *)(p + 0x34), *(s16 *)(p + 0x36));
+        func_8003A920((DisplayPositionGroup *)p, *(s16 *)(p + 0x34),
+                      *(s16 *)(p + 0x36));
         func_80039F90((void **)(p + 0xC));
         func_80039F90((void **)(p + 0x18));
         func_80039F90((void **)(p + 0x24));
@@ -101,12 +101,12 @@ void func_8003AD6C(u8 *p)
     y = *(s16 *)(p + 0x36);
     x = *(s16 *)(p + 0x34) + dd[0];
     x = (s16)x;
-    func_8003A920(p, x, y);
-    func_8003A920(p + 0xC, x, y);
+    func_8003A920((DisplayPositionGroup *)p, x, y);
+    func_8003A920((DisplayPositionGroup *)(p + 0xC), x, y);
     x = *(s16 *)(p + 0x34) - dd[1];
     x = (s16)x;
-    func_8003A920(p + 0x18, x, y);
-    func_8003A920(p + 0x24, x, y);
+    func_8003A920((DisplayPositionGroup *)(p + 0x18), x, y);
+    func_8003A920((DisplayPositionGroup *)(p + 0x24), x, y);
 }
 
 void func_8003B054(u8 *p)
