@@ -60,24 +60,24 @@ void func_80017E3C(DuelCardDisplayObject *object)
  * position values and intentionally remain part of this prototype. */
 u8 *func_80017F04(u8 *arg0, s32 arg1, s32 arg2)
 {
-    u8 *p = func_800400AC(func_8004002C(), 6);
+    DuelCardDisplayObject *p = func_800400AC(func_8004002C(), 6);
     s32 *tbl;
     s32 k;
 
     k = *(s16 *)(arg0 + 0xC) - 1;
     tbl = gDuel_adwCardStats;
-    p[0x67] = 0;
-    p[0x68] = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
-    p[0x69] = 0;
-    p[0x6A] = ((u32)arg0 - (u32)D_801A7AD8) / DUEL_CARD_RECORD_SIZE;
-    p[0x6B] = (*(u8 **)(arg0 + 4))[2];
-    *(s16 *)(p + 0x30) = arg1;
-    *(s16 *)(p + 0x32) = arg2;
-    *(s32 *)(p + 4) |= 0x1000000;
-    *(void **)(p + 0x10) = func_80016778;
-    func_80042918(p);
-    *(void **)(p + 0x4C) = func_80016D04;
-    func_80017E3C((DuelCardDisplayObject *)p);
-    func_80017DB4((DuelCardDisplayObject *)p);
-    return p;
+    p->field_67 = 0;
+    p->field_68 = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+    p->field_69 = 0;
+    p->card_index = ((u32)arg0 - (u32)D_801A7AD8) / DUEL_CARD_RECORD_SIZE;
+    p->field_6B = (*(u8 **)(arg0 + 4))[2];
+    p->out_x = arg1;
+    p->out_y = arg2;
+    p->attribute |= 0x1000000;
+    p->field_10 = func_80016778;
+    func_80042918((u8 *)p);
+    p->field_4C = func_80016D04;
+    func_80017E3C(p);
+    func_80017DB4(p);
+    return (u8 *)p;
 }
