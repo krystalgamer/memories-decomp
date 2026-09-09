@@ -1,0 +1,8 @@
+#ifndef MEMORIES_DECOMP_BUILD_DECK_UPDATE_PANE_TRANSITION_H
+#define MEMORIES_DECOMP_BUILD_DECK_UPDATE_PANE_TRANSITION_H
+
+#include "build_deck_transition_state.h"
+
+void BuildDeck_UpdatePaneTransition(BuildDeckTransitionState *state);
+
+#endif

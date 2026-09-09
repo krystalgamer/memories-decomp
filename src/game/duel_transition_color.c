@@ -1,17 +1,18 @@
 #include "../types.h"
 #include "duel_effect.h"
 #include "duel_transition_color.h"
+#include "build_deck_transition_state.h"
 #include "../psyq/rand.h"
 
 extern u32 D_8009B09C[];
-extern u8 *D_8009B2FC;
+extern BuildDeckTransitionState *D_8009B2FC;
 extern void (*D_80090DF8[])(u8 *);
 
 s32 func_80033BE8(void)
 {
     s32 intensity;
     s32 color;
-    u8 *base;
+    BuildDeckTransitionState *base;
     u8 *first;
     u8 *second;
 
@@ -24,8 +25,8 @@ s32 func_80033BE8(void)
 
     base = D_8009B2FC;
     color = intensity * 2 + 0x40;
-    first = *(u8 **)(base + 0x2D38);
-    second = *(u8 **)(base + 0x5A84);
+    first = *(u8 **)((u8 *)base + 0x2D38);
+    second = *(u8 **)((u8 *)base + 0x5A84);
 
     second[0xE] = color;
     second[0xD] = color;
@@ -35,8 +36,8 @@ s32 func_80033BE8(void)
     first[0xC] = color;
 
     if (DuelEffect_UpdateState() == 0) {
-        D_80090DF8[*(u16 *)(D_8009B2FC + 0x633E) & 0x3F](D_8009B2FC);
+        D_80090DF8[D_8009B2FC->state & 0x3F]((u8 *)D_8009B2FC);
     }
 
-    return *(u16 *)(D_8009B2FC + 0x633E);
+    return D_8009B2FC->state;
 }
