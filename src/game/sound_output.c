@@ -6,6 +6,12 @@
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_selection.h"
 extern s32 func_80049F50(void);
+/* Takes an argument here on purpose. func_80049C40 is defined
+   void (void) in sound_secondary_playback.c and ignores it, but the
+   retail call site computes g_SDValue->field_157E into $a0 first, and
+   this declaration is what keeps that computation alive. Making it
+   agree with the definition costs four instructions; see
+   notes/research/matching-evidence.md. */
 extern void func_80049C40(s32);
 extern void func_80049CB0(s32);
 extern void func_800498F8(s32);

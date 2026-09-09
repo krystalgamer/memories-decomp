@@ -6602,3 +6602,46 @@ never appears at all. And it cannot see a guard macro that switches a header
 declaration off, so deliberate duplication and accidental duplication look
 identical to it and the `save_data` pair must be read by hand. A first pass of
 mine got two of those three wrong and concluded the class was empty.
+
+## A caller may pass an argument the matched callee does not take
+
+`func_80049C40` is matched, exactly, with `gcc_2_8_1_g0`, and its definition in
+`sound_secondary_playback.c` is:
+
+    void func_80049C40(void)
+
+The body reads `D_8009B458` and no parameter. Yet all three of its callers
+declare it as taking one, and pass one:
+
+    extern void func_80049C40(s16 a0);   func_80049010.c
+    extern void func_80049C40(s32);      sound_output.c
+    extern void func_80049C40(s16);      sound_runtime.c
+
+    func_80049C40(g_SDValue->field_157E);
+
+That reads like three files getting the same prototype wrong, and it is the
+opposite. Retail's call sites compute `g_SDValue->field_157E` and put it in
+`$a0` before the call; the callee ignores it. The caller's declaration is the
+only thing keeping that computation alive.
+
+Measured, by making `sound_runtime.c` agree with the definition -- declaration
+to `void (void)` and the call to `func_80049C40()`, which is exactly what a
+#2495 sweep would do:
+
+    error: rebuilt executable has size 0x1d07f0, expected 0x1d0800
+
+Sixteen bytes, four instructions, from one call site. Dropping the argument
+does not just remove the argument move: the whole `g_SDValue->field_157E` load
+chain becomes dead and GCC deletes it too.
+
+So "the definition takes `void`" is not a reason to correct a caller that
+passes something. The two questions are separate: what the callee reads, and
+what the retail call site sets up. This is the mirror of the
+`func_8004036C`/`func_8004CB0C` case, where a caller passes *no* argument to a
+function that takes one; the same rule covers both, which is that a call site's
+argument list is retail's, not the callee's.
+
+Before unifying any prototype under #2495, check whether the callers agree with
+each other rather than whether they agree with the definition. Here all three
+agree that there is one argument, and only disagree about its width -- `s16`
+against `s32` -- which is the part that is actually open.

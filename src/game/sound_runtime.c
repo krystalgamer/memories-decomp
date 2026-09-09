@@ -7,6 +7,12 @@
 
 extern void func_80049F10(s16, s16);
 extern s16 func_80049F50(void);
+/* Takes an argument here on purpose. func_80049C40 is defined
+   void (void) in sound_secondary_playback.c and ignores it, but the
+   retail call site computes g_SDValue->field_157E into $a0 first, and
+   this declaration is what keeps that computation alive. Making it
+   agree with the definition costs four instructions; see
+   notes/research/matching-evidence.md. */
 extern void func_80049C40(s16);
 
 s32 SD_EnqueueCommand(SDCommand *src) {

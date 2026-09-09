@@ -10,6 +10,12 @@
    and resets 0x157A/0x1578. Always zeroes 0x1586/0x1588. */
 
 extern void func_800498F8(s32 a0);
+/* Takes an argument here on purpose. func_80049C40 is defined
+   void (void) in sound_secondary_playback.c and ignores it, but the
+   retail call site computes g_SDValue->field_157E into $a0 first, and
+   this declaration is what keeps that computation alive. Making it
+   agree with the definition costs four instructions; see
+   notes/research/matching-evidence.md. */
 extern void func_80049C40(s16 a0);
 extern void func_80049CB0(s16 a0);
 
