@@ -152,7 +152,7 @@ void func_800179F4(void)
     func_800428EC((u8 *)obj, 1);
     obj->field_4C = (s32)Duel_DrawLifePointsAndDeckCounts;
     prev = D_8009B21C;
-    obj->field_50 = (s32)prev;
+    obj->field_50.word = (s32)prev;
     D_800E9DBC[0] = func_800164FC;
     if (D_8009B369 != 1) {
         p = 0;
