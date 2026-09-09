@@ -27,7 +27,6 @@ extern void func_80056250(s32, s32, s32, s32);
 extern u8 *func_80058F74(s32);
 extern void func_8005922C(u8 *, s32 *);
 extern void func_80035668(s32);
-extern void func_80042C08(void);
 
 void CampaignMap_SetLocation(s32 index)
 {

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../unmatched.h"
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "display_object_api.h"
@@ -15,7 +16,6 @@ extern u16 D_8009AF76_raw asm("D_8009AF76")
     __attribute__((section(".data")));
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 
-extern void func_80042C08();
 extern u8 *DuelEffect_CreateChannel(s32, s32);
 
 void func_8003D518(u8 *state)

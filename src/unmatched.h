@@ -196,4 +196,19 @@ extern u16 D_8009B162;   /* nine declarers  */
 extern u16 D_8009B23A;   /* eight declarers */
 extern u8 D_8009B2EB;    /* six declarers   */
 
+/* Nothing in the tree calls this one. Both consumers only take its address,
+ * to install it in a display object's +0x4C slot: dialog_transition.c stores
+ * it twice, once through (s32) and once through (u8 *), and
+ * overworld/set_location.c stores it as a void *. No C source invokes +0x4C,
+ * so whatever reads that slot back is still generated assembly.
+ *
+ * That means its arity is NOT established, and the (void) here is the form
+ * set_location.c already used rather than a claim. It is safe precisely
+ * because there are no call sites for it to be wrong at -- taking a
+ * function's address does not depend on its signature. If a caller of +0x4C
+ * is ever matched and passes an argument, this declaration is what has to
+ * change, and dialog_transition.c's unprototyped `extern void
+ * func_80042C08();` was quietly saying the same thing. */
+void func_80042C08(void);
+
 #endif
