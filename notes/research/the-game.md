@@ -621,7 +621,7 @@ cards). Together with the hands, these use one array of **30 records** at
 The retail field map at `D_800907D8` contains two 20-byte views of the
 field-record indices. In either view, the first five entries are the
 **other side's magic/trap row**, not the viewing side's own field.
-Matching [`func_8001898C`](../../src/game/func_8001898C.c) independently
+Matching [`func_8001898C`](../../src/game/duel_phase_entry.c) independently
 places the five hand records at `side * DUEL_CARD_SIDE_RECORD_COUNT`,
 where the per-side record count is 15.
 
@@ -983,7 +983,7 @@ bit `D_8009B26C & 0x40`.
 When that bit is clear, the handler sets it, writes `D_8009B0C0 = 1`, and
 calls the view/model setup helpers. The ordinary branch passes two
 successive eight-byte records at `D_800EF658` to
-[`Model_SetSlotProperties`](../../src/game/model_set_slot_properties.c)
+[`Model_SetSlotProperties`](../../src/game/model_scene_setup.c)
 for slots 0 and 1, then passes **the current terrain** (`gDuel_bTerrain`)
 to slot 2. A first record halfword of `0x309` instead selects the separate
 `func_80059C24` initialization path and sets mode bit `0x20`; it does not
@@ -1193,7 +1193,7 @@ counter supplies the value added to the score. The rows, measured:
 | 9 | +0x09 | same as row 8 | **EQUIP MAGIC** — valid equips used |
 
 **When "turns" advances.** Row 0 reads the unsigned byte at the side record's
-`+0x01`. Matching [`func_8001898C`](../../src/game/func_8001898C.c) binds the
+`+0x01`. Matching [`func_8001898C`](../../src/game/duel_phase_entry.c) binds the
 record to the current side, `D_8009B1D5`, and increments that byte in its
 draw-entry initialization branch, guarded by `D_8009B23A & 0x8000`.
 The increment precedes the used-card flag reset and hand reconstruction,
@@ -1279,7 +1279,7 @@ This is not an audit of every other trap/effect route or a new runtime trace.
 
 **What "cards used" counts.** Row 6 reads the side record's draw cursor at
 `+0x18`, not a counter that waits for a card to be played.
-Matching [`func_8001898C`](../../src/game/func_8001898C.c) selects the active
+Matching [`func_8001898C`](../../src/game/duel_phase_entry.c) selects the active
 side record, compacts its retained hand indices, rebuilds those card records,
 and requests `HAND_SIZE - n` new cards, where `n` is the number retained.
 Its kept-card loop does not increment the draw cursor.
