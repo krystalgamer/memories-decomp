@@ -124,7 +124,7 @@ u8 *func_800429BC(DisplayObjectStream *object, const u8 *data)
     return object->base + ((data[1] << 8) | data[0]);
 }
 
-void func_800429D8(DisplayObjectVelocity *object)
+void DisplayObject_ResetVelocity(DisplayObjectVelocity *object)
 {
     if (object != 0) {
         object->velocity_x = 0;
@@ -136,7 +136,7 @@ void func_800429D8(DisplayObjectVelocity *object)
     }
 }
 
-void func_80042A00(DisplayObjectVelocity *object)
+void DisplayObject_StepPositionX(DisplayObjectVelocity *object)
 {
     int value = (object->x << 8) | object->fraction_x;
 
@@ -145,7 +145,7 @@ void func_80042A00(DisplayObjectVelocity *object)
     object->x = value >> 8;
 }
 
-void func_80042A28(DisplayObjectVelocity *object)
+void DisplayObject_StepPositionY(DisplayObjectVelocity *object)
 {
     int value = (object->y << 8) | object->fraction_y;
 
@@ -154,7 +154,7 @@ void func_80042A28(DisplayObjectVelocity *object)
     object->y = value >> 8;
 }
 
-void func_80042A50(DisplayObjectVelocity *object)
+void DisplayObject_StepPositionZ(DisplayObjectVelocity *object)
 {
     int value = (object->z << 8) | object->fraction_z;
 
@@ -163,20 +163,20 @@ void func_80042A50(DisplayObjectVelocity *object)
     object->z = value >> 8;
 }
 
-void func_80042A78(DisplayObjectVelocity *object)
+void DisplayObject_StepPositionXY(DisplayObjectVelocity *object)
 {
-    func_80042A00(object);
-    func_80042A28(object);
+    DisplayObject_StepPositionX(object);
+    DisplayObject_StepPositionY(object);
 }
 
-void func_80042AA4(DisplayObjectVelocity *object)
+void DisplayObject_StepPositionXYZ(DisplayObjectVelocity *object)
 {
-    func_80042A00(object);
-    func_80042A28(object);
-    func_80042A50(object);
+    DisplayObject_StepPositionX(object);
+    DisplayObject_StepPositionY(object);
+    DisplayObject_StepPositionZ(object);
 }
 
-s32 func_80042AD8(s32 value, s32 target, s32 step)
+s32 DisplayObject_StepToward(s32 value, s32 target, s32 step)
 {
     if (target < 0) {
         value -= step;
@@ -192,7 +192,7 @@ s32 func_80042AD8(s32 value, s32 target, s32 step)
     return value;
 }
 
-s32 func_80042B08(s32 value, s32 step)
+s32 DisplayObject_StepTowardZero(s32 value, s32 step)
 {
     if (value < 0) {
         value += step;

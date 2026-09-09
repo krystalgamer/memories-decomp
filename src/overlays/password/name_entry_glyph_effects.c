@@ -96,13 +96,13 @@ void NameEntry_UpdateGlyphFragment(u8 *object)
     flags = object[0x6C];
     if ((flags & 0x80) == 0) {
         object[0x6C] = flags | 0x80;
-        func_800429D8(object);
+        DisplayObject_ResetVelocity(object);
         *(s16 *)(object + 0x36) = func_800358FC(0x200) - 0x100;
         *(s16 *)(object + 0x38) = -func_800358FC(0x180);
     }
-    *(s16 *)(object + 0x36) = func_80042B08(*(s16 *)(object + 0x36), 8);
-    *(s16 *)(object + 0x38) = func_80042AD8(*(s16 *)(object + 0x38), 0x800, 0x40);
-    func_80042A78(object);
+    *(s16 *)(object + 0x36) = DisplayObject_StepTowardZero(*(s16 *)(object + 0x36), 8);
+    *(s16 *)(object + 0x38) = DisplayObject_StepToward(*(s16 *)(object + 0x38), 0x800, 0x40);
+    DisplayObject_StepPositionXY(object);
     if (*(s16 *)(object + 0x32) >= 0xF0) {
         func_8004036C(object);
     }
@@ -151,7 +151,7 @@ void NameEntry_UpdateCaretTween(u8 *object)
     flags = object[0x6C];
     if ((flags & 0x80) == 0) {
         object[0x6C] = flags | 0x80;
-        func_800429D8(object);
+        DisplayObject_ResetVelocity(object);
         *(s16 *)(object + 0x36) =
             ((*(s16 *)(object + 0x44) - *(s16 *)(object + 0x30)) << 8) /
             *(s16 *)(object + 0x60);
@@ -159,7 +159,7 @@ void NameEntry_UpdateCaretTween(u8 *object)
             ((*(s16 *)(object + 0x46) - *(s16 *)(object + 0x32)) << 8) /
             *(s16 *)(object + 0x60);
     }
-    func_80042A78(object);
+    DisplayObject_StepPositionXY(object);
     remaining = *(u16 *)(object + 0x60) - 1;
     *(s16 *)(object + 0x60) = remaining;
     if (remaining <= 0) {
@@ -180,7 +180,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
 
     if ((w[0x6C] & 0x80) == 0) {
         w[0x6C] |= 0x80;
-        func_800429D8(w);
+        DisplayObject_ResetVelocity(w);
         *(s16 *)(w + 0x36) =
             ((*(s16 *)(w + 0x44) - *(s16 *)(w + 0x30)) << 8) / *(s16 *)(w + 0x60);
         *(s16 *)(w + 0x38) =
@@ -194,7 +194,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
         }
         return;
     }
-    func_80042A78(w);
+    DisplayObject_StepPositionXY(w);
     n = *(u16 *)(w + 0x60) - 1;
     *(s16 *)(w + 0x60) = n;
     if ((s16)n > 0) {

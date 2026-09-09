@@ -14,6 +14,23 @@ typedef struct {
     u8 *base;
 } DisplayObjectStream;
 
+/* The motion view of a display object: a position triple at 0x30 with its
+ * three 8.8 fraction bytes at 0x62, and a per-frame delta triple at 0x36.
+ *
+ * 0x36/0x38 is read two ways across the tree, and this is the second of them.
+ * func_80043178.h's DisplayObjectSnapshot and display_object_interpolation.h's
+ * DisplayObjectPosition both treat the pair as a *saved* or *source* position
+ * that eases into the live pair at 0x30/0x32. Here the same halfwords are
+ * added to the position every frame, which is only meaningful as a velocity.
+ *
+ * Neither view is wrong and neither generalises: the memory belongs to
+ * whichever motion path owns the object, exactly as 0x44 and 0x4C in
+ * display_object.h are a colour to one renderer and a scale or a callback to
+ * another. name_entry_glyph_effects.c settles this reading for the objects
+ * it drives -- it accelerates 0x38 toward 0x800 by 0x40 a frame through
+ * DisplayObject_StepToward, decays 0x36 toward zero by 8 through
+ * DisplayObject_StepTowardZero, then calls DisplayObject_StepPositionXY.
+ * That is gravity, friction and integration, in that order. */
 typedef struct {
     u8 pad_00[0x30];
     s16 x;
@@ -43,13 +60,13 @@ void func_8004293C(DisplayObject *object);
 int func_80042960(char *object);
 u32 func_800429A8(const u8 *data);
 u8 *func_800429BC(DisplayObjectStream *object, const u8 *data);
-void func_800429D8(DisplayObjectVelocity *object);
-void func_80042A00(DisplayObjectVelocity *object);
-void func_80042A28(DisplayObjectVelocity *object);
-void func_80042A50(DisplayObjectVelocity *object);
-void func_80042A78(DisplayObjectVelocity *object);
-void func_80042AA4(DisplayObjectVelocity *object);
-s32 func_80042AD8(s32 value, s32 target, s32 step);
-s32 func_80042B08(s32 value, s32 step);
+void DisplayObject_ResetVelocity(DisplayObjectVelocity *object);
+void DisplayObject_StepPositionX(DisplayObjectVelocity *object);
+void DisplayObject_StepPositionY(DisplayObjectVelocity *object);
+void DisplayObject_StepPositionZ(DisplayObjectVelocity *object);
+void DisplayObject_StepPositionXY(DisplayObjectVelocity *object);
+void DisplayObject_StepPositionXYZ(DisplayObjectVelocity *object);
+s32 DisplayObject_StepToward(s32 value, s32 target, s32 step);
+s32 DisplayObject_StepTowardZero(s32 value, s32 step);
 
 #endif

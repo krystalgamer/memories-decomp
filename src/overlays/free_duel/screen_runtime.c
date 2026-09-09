@@ -46,7 +46,7 @@ void FreeDuel_UpdateCursorTween(void)
         }
         gFreeDuel_bScreenFlags |= 0x40;
         *(u16 *)(widget + 0x60) = 8;
-        func_800429D8(widget);
+        DisplayObject_ResetVelocity(widget);
 
         d = gFreeDuel_bTargetColumn;
         tx = d * 56 + 20;
@@ -61,7 +61,7 @@ void FreeDuel_UpdateCursorTween(void)
         *(s16 *)(widget + 0x38) = (d << 8) / 8;
     }
 
-    func_80042A78(widget);
+    DisplayObject_StepPositionXY(widget);
     left = *(u16 *)(widget + 0x60) - 1;
     *(u16 *)(widget + 0x60) = left;
     if (left == 0) {
