@@ -84,4 +84,31 @@ extern DuelSideState D_800E9FF0[DUEL_SIDE_COUNT];
  * that on a turn change. */
 extern DuelSideState *D_8009B1C8;
 
+/* The signed byte just below gDuel_bOpponentID. func_80024DC8 stores its
+ * first argument here and its second into gDuel_bOpponentID;
+ * Text_StartCampaignDuel resets it to -1 before it sets
+ * gDuel_bOpponentID; duel_state_init.c and func_80019CC8 test it
+ * negative, the latter together with D_8009B1D5 == 0 and a non-negative
+ * gDuel_bOpponentID. Every retail access is lb or sb and none is
+ * gp-relative, so the -G0 units (func_80024DC8.c, text_start_campaign_duel.c)
+ * take the plain scalar and the -G8 units (duel_state_init.c,
+ * func_80019CC8.c) take _IN_DATA, out of small data at the compiler with
+ * the byte's true width; the two _IN_DATA arms are each justified by a
+ * control build recorded in the PR that added this block. The `s8 [9]`
+ * one of them used to declare reached the same form and in doing so
+ * spanned 0x8009B360..0x8009B368, eight named addresses; as
+ * duel_terrain_boost.h says of the `[8]` on gDuel_bTerrain, such a size
+ * is a threshold, not a length.
+ *
+ * Retail also reaches this address indexed by the side selector in
+ * functions not yet in C (lui/addiu, addu with D_8009B1D5, lb -- e.g.
+ * func_8001B170.s:19-23); what that says about the object's extent is
+ * not established. This declaration claims one byte because that is all
+ * the four C units touch. */
+#ifdef D_8009B360_IN_DATA
+extern s8 D_8009B360 __attribute__((section(".data")));
+#else
+extern s8 D_8009B360;
+#endif
+
 #endif
