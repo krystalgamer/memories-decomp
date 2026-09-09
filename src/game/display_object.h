@@ -103,12 +103,27 @@ typedef struct DisplayObject {
         } h;
         s32 word;
     } position;                    /* 0x28 */
-    u16 field_2C;                  /* 0x2C */
-    /* display_object_property_transitions.c divides 0x80 and 0x800 by this
-       to derive its per-frame increments, so it is a nonzero divisor rather
-       than padding. That file calls it `step`; the name here stays with the
-       offset. */
-    s16 field_2E;                  /* 0x2E */
+    /* The first of the six words at stride 8 that the 0x4C comment below
+       describes, and read both ways like its neighbours at 0x30, 0x3C, 0x40
+       and 0x48.
+
+       Whole: display_object_helpers.c zeroes it and writes an initial value,
+       both renderers copy it into a primitive's colour word,
+       text_box_build_step.c clears it, and func_800391E4.c and
+       Dialog_UpdateChoice write colour constants.
+
+       Halves: display_object_property_transitions.c compares 0x2C against the
+       byte at 0x21, and divides 0x80 and 0x800 by 0x2E to derive its
+       per-frame increments -- so 0x2E is a nonzero divisor rather than
+       padding. That file calls them `target` and `step`; the names here stay
+       with the offsets. */
+    union {
+        u32 word;
+        struct {
+            u16 field_2C;
+            s16 field_2E;
+        } h;
+    } field_2C;                    /* 0x2C */
     union {
         struct {
             u16 field_30;
@@ -116,7 +131,12 @@ typedef struct DisplayObject {
         } h;
         s32 word;
     } field_30;                    /* 0x30 */
-    u8 pad_34[8];                  /* 0x34 */
+    /* The second of those six words. No union: every user takes it whole.
+       display_object_helpers.c zeroes it, both renderers copy it into a
+       primitive's colour word, and func_800391E4.c and Dialog_UpdateChoice
+       write colour constants into it. */
+    u32 field_34;                  /* 0x34 */
+    u8 pad_38[4];                  /* 0x38 */
     /* 0x3C likewise: func_80040588 copies the whole word into the sprite
        primitive, while func_800408D0 reads the two halves separately. */
     union {

@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "dialog_highlight_choice.h"
+#include "display_object.h"
 #include "display_object_api.h"
 #include "input.h"
 #include "sound.h"
@@ -17,7 +18,7 @@ extern s32 Dialog_ReadChoiceInput(u8 *);
 extern void Widget_UpdatePulseColour(u8 *);
 
 void Dialog_UpdateChoice(u8 *p) {
-    u8 *e;
+    DisplayObject *e;
     s32 f;
     s32 g;
     s32 m;
@@ -25,18 +26,18 @@ void Dialog_UpdateChoice(u8 *p) {
     if ((p[0x51] & 0x80) == 0) {
         p[0x51] = p[0x51] | 0x80;
         e = func_800400AC((s32)func_8004006C(), 4);
-        func_800427DC(e, 1);
+        func_800427DC((u8 *)e, 1);
         func_80042918(e);
-        func_800428EC(e, (s8)(*(*(u8 **)(p + 0x28) + 0x16) + 1));
+        func_800428EC((u8 *)e, (s8)(*(*(u8 **)(p + 0x28) + 0x16) + 1));
         *(s32 *)(p + 0x30) = (s32)e;
-        *(s32 *)(e + 0x54) = 0x2000;
-        *(s32 *)(e + 0x4C) = 0x2000;
-        *(s32 *)(e + 0x34) = 0x2000;
-        *(s32 *)(e + 0x2C) = 0x2000;
-        *(s32 *)(e + 0x44) = 0xC000;
-        *(s32 *)(e + 0x3C) = 0xC000;
-        *(s32 *)(e + 0x24) = (s32)Widget_UpdatePulseColour;
-        *(s32 *)(e + 4) = *(s32 *)(e + 4) | (GsALON | GsAONE);
+        *(s32 *)&e->field_54 = 0x2000;
+        e->field_4C = 0x2000;
+        e->field_34 = 0x2000;
+        e->field_2C.word = 0x2000;
+        e->field_44.word = 0xC000;
+        e->field_3C.word = 0xC000;
+        e->update = Widget_UpdatePulseColour;
+        e->attribute = e->attribute | (GsALON | GsAONE);
         Dialog_HighlightChoice(p);
     }
 
