@@ -2,8 +2,6 @@
 #include "text_constants.h"
 #include "text_sjis_to_glyph_codes.h"
 
-extern u32 D_801D9000[];
-
 void Text_SjisToGlyphCodes(u8 *dst, u8 *src, s32 count)
 {
     s32 i;

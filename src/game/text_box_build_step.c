@@ -14,8 +14,6 @@
 #include "text_box_state_callbacks.h"
 #include "text_stream_commands.h"
 
-extern u32 D_801D9000[];
-
 extern void (*D_80090F18[])(u8 *);
 
 extern u8 D_8009B357;

@@ -38,6 +38,22 @@ extern u16 D_801D5800[];
  * for the same reason the banks above carry none. */
 extern u8 gText_abColorSlots[];
 
+/* The Shift-JIS key table: four-byte entries whose low halfword is the key.
+ * Text_SjisToGlyphCodes (text_sjis_to_glyph_codes.c) walks it from entry 1
+ * for a non-zero key, compares the low halfword against each source
+ * halfword, stops at a zero word, and emits the entry index as the glyph
+ * code; TextBox_BuildStep (text_box_build_step.c) reads the whole word at a
+ * script byte's index and masks it with 0x8FF0FFFF. Those two read it
+ * through this declaration, the u32 spelling both already used.
+ * func_80039794.c reads bits 0-2 of the high halfword through its own TblEnt
+ * view of the same entries and keeps that view; func_8003B5C8.c reaches
+ * entry 1 under its own name, D_801D9004, with a const that its note
+ * explains. 0x174 bytes to D_801D9174, 93 entries; the first word is zero in
+ * the image, no C unit writes the table, and the filler was not read. Retail
+ * reaches it through %hi/%lo at every site, which an incomplete array gives
+ * at any -G, so no unit needs an arm. */
+extern u32 D_801D9000[];
+
 /* The digit glyph-index table. func_8003B5C8.c fills it, and its note there
  * says what with: each of the ten Shift-JIS digit keys is looked up in the
  * table at D_801D9004 and the 1-based match index is written here.

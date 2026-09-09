@@ -12,7 +12,8 @@ typedef struct {
     u16 flags;
 } ChoiceView;
 
-/* One entry of the halfword pair table at D_801D9000. */
+/* One entry of the halfword pair table at D_801D9000. text_constants.h
+ * declares the same table as u32 for its two word readers. */
 typedef struct {
     u16 lo;
     u16 hi;
