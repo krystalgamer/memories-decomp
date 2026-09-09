@@ -5,6 +5,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "func_80016784.h"
 
 typedef struct {
     u8 pad_00[0x28];
@@ -77,8 +78,6 @@ typedef struct {
 /* Declared as an array so it stays out of small data: the target reads it with
    a %hi/%lo pair while D_8009B1D5, a byte, is %gp_rel in the same body. */
 extern void *D_800E9D98[];
-extern void func_80016784(void *, void *, s32, s32);
-
 void func_80015DFC(TrackedObject *object)
 {
     ProjectedPair p;

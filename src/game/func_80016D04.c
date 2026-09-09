@@ -1,12 +1,11 @@
 #include "../types.h"
+#include "func_80016784.h"
 
 typedef struct {
     u8 pad_00[0x30];
     s16 field_30;
     s16 field_32;
 } Object;
-
-extern void func_80016784(Object *, int, int, int);
 
 void func_80016D04(Object *object, int arg1)
 {
