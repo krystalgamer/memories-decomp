@@ -1,3 +1,4 @@
+#define D_8009B145_IN_DATA
 #include "../types.h"
 #include "display_object_config.h"
 #include "scene_script.h"
@@ -20,7 +21,6 @@ struct Rec {
 
 extern s32 gGraphics_bActiveBuffer __attribute__((section(".data")));
 #define gGraphics_bActiveBuffer (*(u8 *)&gGraphics_bActiveBuffer)
-extern u8 D_8009B145 __attribute__((section(".data")));
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")

@@ -2,8 +2,6 @@
 
 #include "fade.h"
 
-extern u8 D_8009B145;
-
 void func_800151B0(void)
 {
     FadeTransitionState *state = &gFade_State;

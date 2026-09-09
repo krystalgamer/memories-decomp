@@ -10,6 +10,15 @@
 extern FadeTransitionState gFade_State;
 extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 
+/* Latches the white-fade path until the transition completes. Most fade
+   units reach it through small data; Script_OpShowImage defines the arm below
+   to preserve its measured absolute-addressing form. */
+#ifdef D_8009B145_IN_DATA
+extern u8 D_8009B145 __attribute__((section(".data")));
+#else
+extern u8 D_8009B145;
+#endif
+
 void func_800151B0(void);
 void Fade_StepBands(void);
 void Fade_Update(u8 *);

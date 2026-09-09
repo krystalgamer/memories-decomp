@@ -2,7 +2,6 @@
 
 #include "fade.h"
 
-extern u8 D_8009B145;
 extern u8 D_8009B14A;
 extern u8 D_8009B14B;
 extern u8 D_8009B14C;
