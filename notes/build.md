@@ -573,6 +573,56 @@ cleanup target, and the reads confirm the split is meaningful rather than
 accidental: the `u16` consumers only ever test bits `0x1000` and `0x2000` at
 offset 0, while `debug_effect_screen.c` only ever touches byte 2.
 
+#### One address, several faithful types
+
+Not every symbol has a type waiting to be found. Some are shared staging
+areas, written by unrelated subsystems that each stage a different shape into
+the same bytes. For those, the differing declarations are not drift and there
+is no canonical type to adopt: each one is faithful to what its own caller
+puts there.
+
+`D_801D5608` is the clearest example in the tree. Eight sources declare it a
+flat `s32 []`; `duel_rewards.c` declares it `s32 [16][DUEL_SIDE_COUNT]` and
+calls it "the separate `D_801D5608[stat][side]` display table";
+`refresh_displays.c` in the password overlay declares a plain `s32` and
+assigns one word; and two overlays in *different* segments,
+`free_duel/cursor_layout.c` and `password/shop_update.c`, each define
+
+```c
+typedef struct { u32 lo; u32 hi; } Pair;
+```
+
+and declare `extern Pair D_801D5608;`.
+
+Those two overlay definitions are textually identical, which makes them look
+like the duplicate-type cleanup that `screen_projection.h` describes for
+`ProjectedPair`. They are not the same case. `ProjectedPair` was one layout
+that three files had each rediscovered, so naming it once lost nothing.
+`Pair` is two overlays agreeing about the two words *they* stage, while other
+callers stage a rank table or a single count into the same address. Hoisting
+`Pair` into a shared header would present one caller's view as the symbol's
+type.
+
+`main_run_credits.c` settles it from a third direction. It hand-assembles the
+access rather than declaring the symbol at all, storing a halfword at `+0` and
+a word at `+4` through explicit relocation directives:
+
+```
+".word 0x3C060000\n"
+".reloc .-4, R_MIPS_HI16, D_801D5608\n"
+".word 0xACC20000\n"
+".reloc .-4, R_MIPS_LO16, D_801D5608\n"
+```
+
+That is a fourth shape again, and it is pinned: the address form is written
+into the source.
+
+The rule this gives is narrow but useful. A type duplicated across files is
+worth unifying when the files agree about *the same object* -- and a symbol
+whose consumers stage different shapes into one buffer is not that, however
+identical two of those consumers happen to look. State what such a symbol is
+NOT, and leave the views alone.
+
 ## Exact baseline build
 
 ```sh
