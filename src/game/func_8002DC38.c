@@ -1,5 +1,6 @@
 
 #include "../types.h"
+#include "func_80024DC8.h"
 #include "duel_effect.h"
 #include "card_constants.h"
 #include "fade.h"
@@ -18,8 +19,6 @@ extern u16 D_8009B230 __attribute__((section(".data")));
 extern u16 D_8009B234 __attribute__((section(".data")));
 extern u16 D_8009B236 __attribute__((section(".data")));
 extern u8 D_8009B368 __attribute__((section(".data")));
-
-extern void func_80024DC8(s32, s32, s32, s32);
 
 void func_8002DC38(void)
 {
