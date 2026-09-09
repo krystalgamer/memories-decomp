@@ -10,17 +10,14 @@
 #include "func_80036C14.h"
 #include "text_stream_commands.h"
 
-typedef void (*VoidFn)(void);
-typedef void (*ChannelFn)(u8 *);
-
 extern u16 D_801B0000[];
 extern u16 D_801C0000[];
 extern u16 D_801D5800[];
 extern u32 D_801D9000[];
 
-extern VoidFn D_80090C50[];
-extern ChannelFn D_80090E64[];
-extern ChannelFn D_80090F18[];
+extern void (*D_80090C50[])(void);
+extern void (*D_80090E64[])(u8 *);
+extern void (*D_80090F18[])(u8 *);
 
 extern u8 D_8009B357;
 /* Defined rather than declared: the assembler only resolves a small global
@@ -47,7 +44,7 @@ void TextBox_BuildStep(u8 *object)
     u8 *script;
     DuelEffectEntry *entry;
     s32 op;
-    ChannelFn *handlers;
+    void (**handlers)(u8 *);
 
     flags = *(u16 *)(object + 0x34);
     if ((flags & 0x4000) == 0) {
