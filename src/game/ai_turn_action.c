@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/rand.h"
+#include "ai.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_grid.h"
@@ -13,18 +14,10 @@
    gcc_2_8_1_g8_split profile, and all three write the same pending selection
    at D_800EAE88. */
 
-/* The pending selection. The spell search writes it as a record; the other
-   two write single bytes, so the byte view is the same object under an alias
-   and each function keeps the spelling its own match needs. */
-typedef struct {
-    s8 result;
-    s8 field1;
-    char pad_02[4];
-    s8 value;
-    s8 zero;
-    s8 random;
-} AiSelection;
-
+/* The pending selection lives in ai.h. The spell search writes it as a
+   record; the other two write single bytes, so the byte view below is the
+   same object under an alias and each function keeps the spelling its own
+   match needs. */
 extern AiSelection D_800EAE88;
 extern u8 D_800EAE88_bytes[] asm("D_800EAE88");
 

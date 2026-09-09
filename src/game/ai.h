@@ -56,12 +56,24 @@ typedef struct {
     u8 fusion_used[0x2A];
 } AiScriptState;
 
+/* The AI's pending selection at D_800EAE88, written three ways by different
+ * callers: ai_script_actions.c fills 0x00..0x05 as a combo list, the turn
+ * logic writes the slot/flag bytes at 0x00, 0x01, 0x06, 0x07 and 0x08, and
+ * the field-card path writes 0x09..0x0B. Previously that was split across
+ * two competing typedefs -- this one in the header covering 0x09..0x0B, and
+ * a second inside ai_turn_action.c covering 0x00..0x08 -- describing the
+ * same twelve bytes. */
 typedef struct {
-    u8 pad_00[9];
-    s8 field_09;
-    s8 field_0A;
-    s8 field_0B;
-} AiFieldCardState;
+    s8 result;      /* 0x00 */
+    s8 field1;      /* 0x01 */
+    char pad_02[4]; /* 0x02 */
+    s8 value;       /* 0x06 */
+    s8 zero;        /* 0x07 */
+    s8 random;      /* 0x08 */
+    s8 field_09;    /* 0x09 */
+    s8 field_0A;    /* 0x0A */
+    s8 field_0B;    /* 0x0B */
+} AiSelection;
 
 typedef char AiActiveCard_size_must_be_0x0C[
     sizeof(AiActiveCard) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1
@@ -135,8 +147,20 @@ typedef char AiScriptState_fusion_used_offset_must_be_0xAA[
     AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_used) ==
         AI_SCRIPT_FUSION_USED_BYTE_OFFSET ? 1 : -1
 ];
-typedef char AiFieldCardState_size_must_be_0x0C[
-    sizeof(AiFieldCardState) == 0x0C ? 1 : -1
+typedef char AiSelection_size_must_be_0x0C[
+    sizeof(AiSelection) == 0x0C ? 1 : -1
+];
+typedef char AiSelection_value_offset_must_be_0x06[
+    AI_SCRIPT_STATE_OFFSET(AiSelection, value) == 0x06 ? 1 : -1
+];
+typedef char AiSelection_zero_offset_must_be_0x07[
+    AI_SCRIPT_STATE_OFFSET(AiSelection, zero) == 0x07 ? 1 : -1
+];
+typedef char AiSelection_random_offset_must_be_0x08[
+    AI_SCRIPT_STATE_OFFSET(AiSelection, random) == 0x08 ? 1 : -1
+];
+typedef char AiSelection_field_09_offset_must_be_0x09[
+    AI_SCRIPT_STATE_OFFSET(AiSelection, field_09) == 0x09 ? 1 : -1
 ];
 
 #undef AI_SCRIPT_STATE_OFFSET

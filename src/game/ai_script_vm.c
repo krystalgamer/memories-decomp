@@ -6,7 +6,7 @@
 #include "ai_script_end.h"
 #include "ai_script_read_byte.h"
 
-extern AiFieldCardState D_800EAE88;
+extern AiSelection D_800EAE88;
 extern AiScriptState gAiScript_State;
 
 void AiScript_Init(void *arg0)
