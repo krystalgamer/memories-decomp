@@ -2,8 +2,7 @@
 #include "text_stream_commands.h"
 #include "duel_effect.h"
 #include "../unmatched.h"
-
-extern s8 gDialog_bChoiceCount;
+#include "dialog_choice.h"
 
 void func_80037CE0(volatile u8 *object) {
     register unsigned short flags __asm__("$2");

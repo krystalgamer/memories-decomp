@@ -3,10 +3,9 @@
 #include "duel_effect.h"
 #include "duel_effect_entry_occupancy.h"
 #include "../unmatched.h"
+#include "dialog_choice.h"
 
 extern s8 gDialog_bChoice;
-extern s8 gDialog_bChoiceCount;
-extern u8 gDialog_bChoiceEnabled;
 extern u8 gDialog_bInputState;
 
 extern void Text_SetCursorOffset(u8 *);
