@@ -2,6 +2,7 @@
 #include "duel_effect.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
+#include "dialog_choice_state.h"
 
 extern void func_800373C8(DuelEffectChannel *, s32, s32);
 void func_800374A8(u8 *object)

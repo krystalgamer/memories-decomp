@@ -7,6 +7,7 @@
 #include "graphics_frame.h"
 #include "display_effect_lifecycle.h"
 #include "duel_effect.h"
+#include "duel_effect_state_callbacks.h"
 
 extern s16 D_8009B322;
 extern u8 D_8009B335;

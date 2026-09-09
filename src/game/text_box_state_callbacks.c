@@ -1,5 +1,10 @@
 #include "../types.h"
 #include "text_box_state_callbacks.h"
+#include "dialog_choice_state.h"
+#include "duel_effect_entry_control.h"
+#include "duel_effect_interaction_states.h"
+#include "duel_effect_state_callbacks.h"
+#include "func_8003787C.h"
 
 /* Initialized data at 0x80090E64: the text-box state callback table.
  *
@@ -9,23 +14,6 @@
  */
 
 void Dialog_UpdateChoice(u8 *);
-void func_8003741C(u8 *);
-void func_800374A8(u8 *);
-void func_800375A4(u8 *);
-void func_8003767C(u8 *);
-void func_8003771C(u8 *);
-void func_800377AC(u8 *);
-void func_800377C8(u8 *);
-struct Obj;
-void func_8003787C(struct Obj *);
-void func_800378D8(u8 *);
-void func_80037914(u8 *);
-void func_80037950(u8 *);
-void func_8003798C(u8 *);
-void func_800379C4(u8 *);
-void func_800379F8(u8 *);
-void func_80037A58(u8 *);
-void func_80037B40(u8 *);
 
 TextBoxStateCallback D_80090E64[] = {
     Dialog_UpdateChoice,
