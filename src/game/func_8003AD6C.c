@@ -30,14 +30,14 @@ void func_8003AD6C(u8 *p)
         a = r[0x67];
         b = *(s8 *)(r + 0x16);
         func_80039F90((void **)p);
-        func_8003A1EC(p, p, p[0x31]);
+        func_8003A1EC(p, (u8 **)p, p[0x31]);
         func_8003A440((u8 **)p, (GsALON | GsAONE), b);
-        func_8003A1EC(p, p + 0xC, p[0x31]);
+        func_8003A1EC(p, (u8 **)(p + 0xC), p[0x31]);
         d = b - 1;
         func_8003A440((u8 **)(p + 0xC), (GsALON | GsATWO), d);
-        func_8003A1EC(p, p + 0x18, a);
+        func_8003A1EC(p, (u8 **)(p + 0x18), a);
         func_8003A440((u8 **)(p + 0x18), (GsALON | GsAONE), b);
-        func_8003A1EC(p, p + 0x24, a);
+        func_8003A1EC(p, (u8 **)(p + 0x24), a);
         func_8003A440((u8 **)(p + 0x24), (GsALON | GsATWO), d);
         *(s16 *)(p + 0x40) = 0x80;
     }
