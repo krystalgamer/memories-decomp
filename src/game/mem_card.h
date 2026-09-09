@@ -119,6 +119,10 @@ extern long D_800F2AF0[];
  * retail materialises the %hi half in its own register. Declaring it here
  * changes where the spelling lives, not the spelling. */
 extern u8 D_8009B3EF;
+/* The dialog message the save path raises: func_8003F8D4.c and
+ * func_8003FCD8.c set it to 0x29, 40 and 36 at different failures and
+ * two_player_save_setup.c reads it back. All three spell it plain u8. */
+extern u8 D_8009B3C0;
 extern u8 D_8009B3DC;
 extern u8 D_8009B3DE;
 extern u8 D_8009B3EC;
