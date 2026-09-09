@@ -7,6 +7,10 @@
 /* Six terrains, matching the range Duel_GetTerrainBoost indexes with
    gDuel_bTerrain[0] - 1. */
 #define DUEL_TERRAIN_COUNT 6
+#define DUEL_TERRAIN_STAT_ADJUSTMENT 500
+#define DUEL_TERRAIN_BOOST_UNIT \
+    (DUEL_TERRAIN_STAT_ADJUSTMENT / CARD_STAT_SCALE)
+#define DUEL_TERRAIN_PENALTY_UNIT (-DUEL_TERRAIN_BOOST_UNIT)
 
 /* gDuel_bTerrain is a SINGLE BYTE at 0x8009B364. symbols.txt puts
    gFreeDuel_bReturnFlags at 0x8009B365, so there is no room for a second
@@ -47,9 +51,9 @@
    so duel_get_terrain_boost.c can materialize the one byte's address twice in
    one function, which retail does and a single name cannot reproduce. */
 
-/* Attack modifier as a percentage step, one row per monster card type and one
-   column per terrain. Duel_GetTerrainBoost rejects cardType >= CARD_TYPE_MAGIC
-   before indexing, so only the monster types have rows.
+/* Attack modifier in CARD_STAT_SCALE units, one row per monster card type and
+   one column per terrain. Duel_GetTerrainBoost rejects cardType >=
+   CARD_TYPE_MAGIC before indexing, so only the monster types have rows.
    src/game/duel_terrain_boost.c owns the table at 0x800909D4. */
 extern s8 gDuel_aTerrainBoost[CARD_TYPE_MAGIC][DUEL_TERRAIN_COUNT];
 
