@@ -52,6 +52,19 @@
  * rather than one flat declaration. Entries are added a few at a time, each
  * gated on the full build. */
 
+/* Two rules for anything added here.
+ *
+ * A symbol belongs here only while it is genuinely homeless. Once its owning
+ * subsystem is understood, move the declaration to that subsystem's header
+ * rather than leaving it in this one.
+ *
+ * When a consumer cannot take the shared declaration because its spelling is
+ * load-bearing -- a section attribute deciding gp-relative versus absolute
+ * addressing under -G8, a volatile qualifier deciding whether a redundant
+ * access survives, or an asm() alias keeping GCC from holding an address
+ * across a call -- note the exception beside the declaration so it is not
+ * quietly "fixed" later. */
+
 /* Two consumers, identical spelling in both: func_80049138.c and
  * sound_init.c. */
 void func_80046294(void);
@@ -68,5 +81,14 @@ void func_800323F8(u32, void *, s32, s32);
 
 /* One consumer, duel_scene_update.c, which calls it without arguments. */
 void func_800235C0(void);
+
+/* A buffer base address rather than a byte array anyone indexes: every user
+ * either passes it to func_800428A8 or stores it into an object field, and
+ * none of them read through it. func_80020D4C.c sized it [16], but nothing
+ * takes its sizeof, so the bound was decorative.
+ *
+ * Five further declarations live under src/overlays and are not touched here.
+ */
+extern u8 D_801AF000[];
 
 #endif

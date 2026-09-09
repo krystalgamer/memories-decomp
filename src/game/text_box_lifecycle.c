@@ -1,11 +1,11 @@
 #include "../types.h"
+#include "duel_effect_init_entry.h"
 #include "text_box_lifecycle.h"
 #include "display_object_api.h"
 #include "text_box_set_rect.h"
 
 extern void func_80035CA8(s32);
 extern void DuelEffect_ClearMatchingMarker(s32);
-extern u8 *DuelEffect_InitEntry(s32, s32, s32);
 
 void TextBox_Destroy(void *record_ptr)
 {
@@ -32,7 +32,7 @@ void *TextBox_Create(
 )
 {
     TextBox_SetRect(index, x, y, width, height);
-    return DuelEffect_InitEntry(index, string_id, 0);
+    return (u8 *)DuelEffect_InitEntry(index, string_id, 0);
 }
 
 void *TextBox_CreateFlagged(
@@ -48,7 +48,7 @@ void *TextBox_CreateFlagged(
     u8 *result;
 
     TextBox_SetRect(index, x, y, width, height);
-    result = DuelEffect_InitEntry(index, string_id, 0);
+    result = (u8 *)DuelEffect_InitEntry(index, string_id, 0);
     *(u16 *)(result + 0x34) |= flags;
     return result;
 }

@@ -8,8 +8,7 @@
 #include "file_transfer.h"
 #include "input.h"
 #include "display_object_helpers.h"
-
-extern u8 D_801AF000[];
+#include "../unmatched.h"
 
 void func_8004365C(u8 *a, u8 *b)
 {

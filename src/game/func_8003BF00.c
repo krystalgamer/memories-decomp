@@ -4,10 +4,10 @@
 #define D_800101D8_IN_DATA
 #include "file_transfer.h"
 #include "func_8003BF00.h"
+#include "../unmatched.h"
 
 extern s32 D_8009B118 __attribute__((section(".data")));
 extern s32 D_80010000 __attribute__((section(".data")));
-extern u8 D_801AF000[];
 
 void func_8003BF00(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {

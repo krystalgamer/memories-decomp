@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "name_entry_keyboard.h"
 
-extern void func_800429D8(void);
+extern void func_800429D8(u8 *);
 extern void func_80042A78(void *);
 
 void NameEntry_UpdateCaretTween(u8 *object)
@@ -12,7 +12,7 @@ void NameEntry_UpdateCaretTween(u8 *object)
     flags = object[0x6C];
     if ((flags & 0x80) == 0) {
         object[0x6C] = flags | 0x80;
-        func_800429D8();
+        func_800429D8(object);
         *(s16 *)(object + 0x36) =
             ((*(s16 *)(object + 0x44) - *(s16 *)(object + 0x30)) << 8) /
             *(s16 *)(object + 0x60);

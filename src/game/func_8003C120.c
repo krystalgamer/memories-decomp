@@ -2,9 +2,9 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "../unmatched.h"
 
 extern s32 D_8009B118;
-extern u8 D_801AF000[];
 
 void func_8003C120(FileTransferDescriptor *object, s32 mode)
 {

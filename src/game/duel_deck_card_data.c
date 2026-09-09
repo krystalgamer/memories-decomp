@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/qsort.h"
 #include "card_constants.h"
+#include "duel_card_data_transfer.h"
 #include "duel_deck_card.h"
 #include "file_transfer.h"
 #include "util_memory.h"
@@ -11,7 +12,6 @@ extern u8 D_8015C424[];
 extern u8 D_8018C2D8[];
 
 extern s32 Util_CompareS16(s16 *, s16 *);
-extern void Duel_StepCardDataTransfer(FileTransferDescriptor *, s32);
 
 void Duel_RequestCombinedDeckData(void)
 {

@@ -3,7 +3,7 @@
 #include "../../game/display_object_lifecycle.h"
 #include "name_entry_keyboard.h"
 
-extern void func_800429D8(void);
+extern void func_800429D8(u8 *);
 extern s32 func_800358FC(s32);
 extern s32 func_80042B08(s32, s32);
 extern s32 func_80042AD8(s32, s32, s32);
@@ -17,7 +17,7 @@ void NameEntry_UpdateGlyphFragment(u8 *object)
     flags = object[0x6C];
     if ((flags & 0x80) == 0) {
         object[0x6C] = flags | 0x80;
-        func_800429D8();
+        func_800429D8(object);
         *(s16 *)(object + 0x36) = func_800358FC(0x200) - 0x100;
         *(s16 *)(object + 0x38) = -func_800358FC(0x180);
     }

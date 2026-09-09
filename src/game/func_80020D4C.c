@@ -5,6 +5,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_object_helpers.h"
+#include "../unmatched.h"
 
 /* Per-frame update for an object that orbits a fixed base position
    (unk2C/unk2E) at a constant angular step of 0x30/frame, with radius
@@ -54,7 +55,6 @@ struct Slot {
 
 extern s32 D_8009B0CC_arr[16];
 #define D_8009B0CC (D_8009B0CC_arr[0])
-extern u8 D_801AF000[16];
 
 void func_80020D4C(struct Obj *arg0) {
     s16 timer;

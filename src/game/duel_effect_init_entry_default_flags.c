@@ -1,8 +1,7 @@
 #include "../types.h"
+#include "duel_effect_init_entry.h"
 
-extern void DuelEffect_InitEntry(void *, void *, int);
-
-void DuelEffect_InitEntryDefaultFlags(void *arg0, void *arg1)
+void DuelEffect_InitEntryDefaultFlags(s32 index, s32 value)
 {
-    DuelEffect_InitEntry(arg0, arg1, 0);
+    DuelEffect_InitEntry(index, value, 0);
 }
