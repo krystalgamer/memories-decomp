@@ -3257,6 +3257,21 @@ What was safe, all confirmed against the full-executable hash:
   stores might alias the global, and once it is typed they provably cannot,
   so the dance folds away. Left unconverted.
 
+  `func_8003A01C` is the same descriptor, the same global, the same
+  read-modify-write, and the same eight bytes -- measured 2026-09-09, also
+  left unconverted. Its `mode` store is the one that moves. Retail issues
+  `sw $2, 0x1C($16)` twice, once in each of the two switch arms that end the
+  same way; once `p` is typed that store provably cannot alias `D_8009B0F4`,
+  the two arms' tails merge, and it is issued once. 85 instructions become
+  83. Every offset the function touches is already a named member, so this is
+  not a gap in the type -- both functions are simply held in shape by the
+  barrier.
+
+  Both are callbacks `File_TryRequestAsyncTransfer` is handed, so anyone
+  converting that family should expect the same and measure before writing
+  the diff. Nothing distinguishes them by inspection from the transfer
+  callbacks that do convert.
+
 ### Screening rule for the three of these
 
 The same cause runs through all of them, and it is the one the aliasing
@@ -3270,6 +3285,7 @@ the barrier was holding it:
 | `Model_UpdateViewMetrics` | one register, `0x69` to `0x6A` |
 | `func_800289BC` | one store reordered |
 | `func_8002FB78` | two instructions deleted |
+| `func_8003A01C` | two instructions deleted (same global, same descriptor) |
 | `func_800580D4` | three instructions deleted (parameter only) |
 | `func_80016784` | three loads floated across scratchpad stores |
 | `func_8002A9C0` | two of fourteen reads floated; twelve free |
