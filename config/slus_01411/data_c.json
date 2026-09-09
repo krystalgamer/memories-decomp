@@ -92,6 +92,10 @@
     {
       "source": "src/game/display_object_list_renderer_table.c",
       "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/display_flat_lights.c",
+      "profile": "gcc_2_8_1_g0"
     }
   ]
 }

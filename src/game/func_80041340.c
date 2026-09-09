@@ -6,18 +6,16 @@
 #include "display_object_layout.h"
 #include "func_80041340.h"
 #include "display_object_list_renderer_table.h"
-
-extern u8 D_80090FCC[];
-extern u8 D_80090FDC[];
+#include "display_flat_lights.h"
 
 void func_80041340(void)
 {
     s32 i;
     SetBackColor(96, 96, 96);
     SetFarColor(0, 0, 0);
-    GsSetFlatLight(0, (GsF_LIGHT *)D_80090FCC);
-    GsSetFlatLight(1, (GsF_LIGHT *)D_80090FDC);
-    GsSetFlatLight(2, (GsF_LIGHT *)D_80090FDC);
+    GsSetFlatLight(0, &D_80090FCC);
+    GsSetFlatLight(1, &D_80090FDC);
+    GsSetFlatLight(2, &D_80090FDC);
     for (i = DISPLAY_OBJECT_LIST_COUNT - 1; i >= 0; i--) {
         if (D_800EFE38[i] >= 0) {
             SetGeomScreen(150);
