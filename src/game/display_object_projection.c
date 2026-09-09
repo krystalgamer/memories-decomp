@@ -55,8 +55,6 @@ struct ProjectionObj {
     u8 field65;
 };
 
-typedef void (*ObjCallback)(struct ProjectionObj *, s32);
-
 extern s32 func_80089CF0(
     struct Vec308 *a0,
     struct Vec310 *a1,
@@ -172,7 +170,7 @@ s32 func_80041F90(struct ProjectionObj *obj, s32 arg1, s32 arg2, struct Projecti
             s32 cb = obj->field10;
             if (cb != 0) {
                 if (cb < 0) {
-                    ((ObjCallback)cb)(obj, otz);
+                    ((void (*)(struct ProjectionObj *, s32))cb)(obj, otz);
                 }
                 if (otz >= 0) {
                     return otz;
