@@ -7257,3 +7257,35 @@ Both mistakes have been made in this campaign:
 
 The check is one grep per divergent declarer and it settles the question, so
 run it before deciding rather than after the build fails.
+
+## A narrowing parameter is only load bearing if the caller has something to narrow
+
+`duel_effect_entry_control.h` held `func_800373C8` back from the header on the
+grounds that it is defined `(DuelEffectChannel *, u8, u8)` while both callers
+declared `(DuelEffectChannel *, s32, s32)`. The caution was reasonable: a
+narrowing parameter changes what the caller has to do to the argument register,
+and that can be load bearing.
+
+Measured, it is not load bearing here, and the reason generalises. Every call
+site passes a small literal -- `(object, 3, 0)` in dialog_choice_state.c,
+`(object, 2, 0)` inside the defining unit and `(object, 0, 0)` in
+text_box_build_step.c. A literal that already fits in the narrower type is
+materialised by the same `li` whichever way the parameter is declared, so there
+is no truncation for the compiler to emit and the executable is unchanged.
+
+The rule to carry forward: before treating a width difference between a
+definition and its callers as a matching lever, look at what the callers
+actually pass.
+
+  - Literals that fit the narrow type   no work to elide, so the width is free
+                                        and the definition's signature can go
+                                        in the header.
+
+  - A wider live value                  the narrowing is a real `andi`/`sll`
+                                        pair at the call site and the divergent
+                                        declaration may be holding the match
+                                        together.
+
+This is the same shape as the earlier finding that a declarer which only takes
+an address is abstaining rather than voting: the declaration constrains code
+generation only where the caller has work that the declaration can change.

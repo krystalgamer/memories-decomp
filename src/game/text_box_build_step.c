@@ -4,6 +4,7 @@
 #include "func_80037C74.h"
 #include "input.h"
 #include "duel_effect.h"
+#include "duel_effect_entry_control.h"
 #include "duel_effect_entry_occupancy.h"
 #include "text_constants.h"
 #include "display_object_api.h"
@@ -29,7 +30,6 @@ volatile u16 D_8009B33A;
 extern s16 D_8009B35A;
 extern u16 D_8009B27C __attribute__((section(".data")));
 
-extern void func_800373C8(DuelEffectChannel *, s32, s32);
 void TextBox_BuildStep(DuelEffectChannel *object)
 {
     u16 flags;
