@@ -2126,7 +2126,7 @@ The setup chooses starting LP separately for both sides. Each defaults to
 8000, and pad 1 or pad 2 adjusts its own value to `1` or a multiple of 500
 from 500 through 8000. Matching
 [`func_8002DC38`](../../src/game/func_8002DC38.c) initializes the values,
-and [`MainMenu_UpdateValueSetup`](../../src/overlays/main_menu/update_value_setup.c)
+and [`MainMenu_UpdateValueSetup`](../../src/overlays/main_menu/value_setup.c)
 (`0x801812B4`) edits them. Because 2P uses the negative opponent-ID path,
 `func_800175A0` copies those selections into both the authoritative and
 maximum LP fields; recovery is therefore capped at the chosen starting value.
@@ -2142,7 +2142,7 @@ own idle gates, separate from this two-sided exit gate.
 
 **Cancel is not a rollback of working RAM.** On either cancel (`-1`) or
 accept (`1`), the resident caller fades and invokes
-[`MainMenu_FinishValueSetup`](../../src/overlays/main_menu/finish_value_setup.c)
+[`MainMenu_FinishValueSetup`](../../src/overlays/main_menu/value_setup.c)
 before distinguishing the result. That helper writes both target LP values
 through its retained pointers to `D_8009B234`/`D_8009B236`, and a normalized
 shared option to the low byte of `D_8009B230`. Accept then requests the

@@ -124,10 +124,10 @@ extern u16 gInput_wPad1Repeat;
  * the three with a .data consumer, so it is the only one with that arm.
  *
  * Some consumers reach pad 2 as element 1 of the pad-1 name rather than by
- * these names, and that cannot be converted. update_value_setup.c and
+ * these names, and that cannot be converted. value_setup.c and
  * trade_update.c declare `volatile u16 D_8009B394[]` and read both `[0]` and
  * `[1]`; rewriting `[1]` to gInput_wPad2Repeat/gInput_wPad2Pressed is the
- * obvious tidy-up and it does not build. Measured on update_value_setup.c: the
+ * obvious tidy-up and it does not build. Measured on the value-setup updater: the
  * main_menu module stops matching, and it still fails when only one of the two
  * symbols is converted, so it is the pad-2 access itself and not an
  * interaction between them.

@@ -582,10 +582,44 @@ for one function, because it has to precede `input.h`. That is safe here:
 `MainMenu_UpdateFrontendMenu` is the only function in the unit that reads
 `gInput_wPad1Pressed` at all.
 
-## Value-setup visuals translation unit
+## Value-setup translation unit
 
-`value_setup_visuals.c` keeps the value-editor renderer next to the widget
-position tween it drives. Both read the same displayed-value halfword table
+`value_setup.c` is the whole value-setup screen: the three lifecycle entry
+points `func_8002DC38.c` calls and the four helpers that only they and each
+other reach. It covers `0x80180FD8..0x80181F68` as one contiguous
+`gcc_2_8_1_g0_split` run, wired as one C subsegment at module offset `0xFD8`.
+
+| Address | Function | Callers |
+|---|---|---|
+| `0x80180FD8` | `MainMenu_StartValueSetup` | 1, resident |
+| `0x801812B4` | `MainMenu_UpdateValueSetup` | 1, resident |
+| `0x80181728` | `MainMenu_DrawValueSetup` | 2, both inside |
+| `0x80181CB8` | `MainMenu_UpdateValueWidgetTween` | 1, inside |
+| `0x80181E30` | `MainMenu_FinishValueSetup` | 1, resident |
+| `0x80181EEC` | `MainMenu_CountDecimalDigits` | 1, inside |
+| `0x80181F20` | `MainMenu_StartValueWidgetTween` | 1, inside |
+
+The three resident callers reach the unit through
+[`entrypoints.h`](entrypoints.h), which is unchanged; nothing outside reaches
+the other four. As everywhere in this module the whole overlay is one
+compiler profile, so no profile boundary marks this grouping - the call graph
+does.
+
+One unit settles the three symbols `value_setup.h` had listed as deliberately
+absent because their declarers disagreed. `D_801845B0` was spelled `u8 *[]`,
+`void *[]` and `ValueWidgetView *[]`; the typed spelling wins, because the
+renderer dereferences it through named fields more than twenty times while
+the other three users only do byte arithmetic, which a cast covers.
+`D_801845A0` and `D_801845A4` were each `void *` and `u8 *`; `u8 *` wins,
+because the starter does pointer arithmetic on them and the finisher only
+passes and clears them. All three are byte-identical, which is the argument.
+
+`D_801845BC[2]` and `D_801845BE` remain two names for one byte. One unit does
+not force that one: they are distinct symbols at distinct addresses as far as
+C is concerned, so it stays exactly as `value_setup.h` recorded it.
+
+The renderer and the widget tween it drives, previously the subject of this
+section, remain adjacent inside the unit. Both read the same displayed-value halfword table
 `D_801845C0` and the same per-side mode array `D_801845BC`, and both work in
 the value-lane geometry described below: the tween drives a side widget
 toward the bar endpoint at Y 111/139 that the renderer draws, and it writes
@@ -636,8 +670,9 @@ truncated. Digits are emitted least significant/rightmost first, at
 Y 106-114 or 134-142. This differs from the fixed three-digit Trade renderer
 below.
 
-`value_setup.h` shares the draw and digit-count declarations with their
-definitions and installer. The local `ValueWidgetView` preserves only the
+The draw and digit-count declarations no longer need a header: their
+definitions and every caller are now the same unit, so they are file-local
+declarations in `value_setup.c`. The `ValueWidgetView` view preserves only the
 accessed prefix; its callback word is tested, never called by this renderer.
 The source retains the named per-loop constants and pointer rereads that
 control old-GCC allocation. It does not modify the target/display values,

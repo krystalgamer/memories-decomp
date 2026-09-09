@@ -7046,6 +7046,11 @@ The other two never index it at all. Both take its address as bytes:
     finish_value_setup.c   u8 *state = D_801845C0;
     start_value_setup.c    state = D_801845C0;
 
+(All four of those sources are now `value_setup.c`, coalesced under #39. The
+file names above are the ones the question was reasoned about under, and are
+left as they were; the conclusion is unaffected, since one unit carries the
+single `u16 []` spelling this section arrived at.)
+
 So the `u8 []` spelling was never a claim about the element width. It was an
 addressing device, the same class as `char D_8009B104[1]` in
 `file_transfer.h`, and it did not conflict with the `u16` view -- it just
