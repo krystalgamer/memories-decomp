@@ -217,6 +217,23 @@ extern DuelEffectEntry D_800EB288[DUEL_EFFECT_ENTRY_COUNT];
  */
 extern volatile s32 D_8009B350;
 
+/* The entry-list rebuild flag. func_80039AD4 raises it -- its own header
+ * calls it "the D_8009B330 rebuild flag so the next pass" picks the change up
+ * -- and duel_effect_process_entries.c is the other end: it clears the flag
+ * before walking the entries and tests `D_8009B330 != 0` to decide whether
+ * the walk has to start again. */
+extern s32 D_8009B330;
+
+/* The repeat count for an effect run. duel_effect_play_sound_command.c
+ * latches it from func_80036D3C's result, and duel_effect_state_callbacks.c
+ * spends it: it tests the count, decrements it at the end of a run, and
+ * repeats while the result is still `> 0`.
+ *
+ * Signed, because that is a post-decrement test. On a u16 `> 0` would be the
+ * same test as the `!= 0` above it and the underflow would run away; the
+ * signed compare is what makes the two tests differ. */
+extern s16 D_8009B33C;
+
 /* Per-scene state flags. Bit 0x80 is the run-once latch: every scene entry
  * point in this subsystem opens with the same
  * `if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0)` test and

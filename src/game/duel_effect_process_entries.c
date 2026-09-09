@@ -3,7 +3,6 @@
 #include "duel_effect_process_entries.h"
 
 extern void (*D_80090F58[])(DuelEffectEntry *, DuelEffectChannel *);
-extern s32 D_8009B330;
 
 void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
 {

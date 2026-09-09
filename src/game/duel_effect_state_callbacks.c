@@ -11,7 +11,6 @@
 
 extern s16 D_8009B322;
 extern u8 D_8009B335;
-extern s16 D_8009B33C;
 extern u16 D_8009B348[2];
 extern int func_80049120(void *);
 
