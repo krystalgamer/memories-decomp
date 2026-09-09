@@ -207,7 +207,8 @@ done:
     goto head;
 
 arm:
-    if ((Duel_CalcCardStats(e) & 0xFFFF) >= D_8009B1AC) {
+    if ((Duel_CalcCardStats((DuelCardRecord *)e) & 0xFFFF) >=
+        D_8009B1AC) {
         goto hit;
     }
 next:
@@ -237,8 +238,8 @@ hit:
     p->field_00 = *(u16 *)(*(s32 *)e + 0x30);
     p->field_02 = *(u16 *)(*(s32 *)e + 0x32);
     p->field_04 = *(u16 *)(*(s32 *)e + 0x34);
-    p->field_1A = func_800181EC(*(u8 **)e);
-    func_80024954(e);
+    p->field_1A = func_800181EC((CardObject *)*(u8 **)e);
+    func_80024954((DuelCardRecord *)e);
     SD_SEPlayFull(0x1F);
 }
 
@@ -358,7 +359,7 @@ void func_800257A0(void) {
             ] * DUEL_CARD_RECORD_SIZE + D_801A7AD8_bytes;
             if ((*(u16 *)(p + 0x16) & DUEL_CARD_FLAG_OCCUPIED) != 0 &&
                 (*(u8 **)p)[0x68] == 0) {
-                func_80024954(p);
+                func_80024954((DuelCardRecord *)p);
             }
             i++;
             if (i >= DUEL_FIELD_SIDE_ZONE_COUNT) {
@@ -371,10 +372,10 @@ void func_800257A0(void) {
         i = 0;
         do {
             if ((*(u16 *)(p + 0x16) & DUEL_CARD_FLAG_OCCUPIED) != 0) {
-                func_80024954(p);
+                func_80024954((DuelCardRecord *)p);
             }
             if ((*(u16 *)(q + 0x16) & DUEL_CARD_FLAG_OCCUPIED) != 0) {
-                func_80024954(q);
+                func_80024954((DuelCardRecord *)q);
             }
             i++;
             p += DUEL_CARD_RECORD_SIZE;
