@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "file_transfer.h"
 
-extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 
 FileTransferDescriptor *func_80013B04(s32 index, s32 offset)
