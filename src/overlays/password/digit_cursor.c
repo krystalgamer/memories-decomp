@@ -1,5 +1,7 @@
 #include "../../types.h"
 #include "../../game/display_object_layout.h"
+#include "../../game/display_object_api.h"
+#include "../../game/display_object_lifecycle.h"
 #include "shop.h"
 
 typedef struct {
@@ -14,7 +16,6 @@ typedef struct {
 
 extern s32 gPassword_nDigitIndex;
 extern PasswordNode *gPassword_pDigitCursorWidget;
-extern s32 func_80042B98(void);
 extern void func_800429D8(u8 *);
 extern void func_80042A78(u8 *);
 
@@ -24,7 +25,7 @@ void Password_UpdateDigitCursor(u8 *object)
 
     object[0x22] = object[0x22] + 1;
     if ((object[0x6C] & 0x40) != 0) {
-        if (func_80042B98() == 0) {
+        if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
             func_800429D8(object);
             *(s16 *)(object + 0x36) =
                 ((*(s16 *)(object + 0x18) - *(s16 *)(object + 0x30)) << 8) /

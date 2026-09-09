@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "name_entry_keyboard.h"
 #include "../../game/display_object_api.h"
+#include "../../game/display_object_lifecycle.h"
 
 typedef struct Obj {
     u8 unk0[0x4];
@@ -18,8 +19,6 @@ typedef struct Obj {
     s16 frame;
 } Obj;
 
-extern s32 func_80042B98(void);
-
 void NameEntry_UpdateGlyphPulse(u8 *sprite)
 {
     Obj *obj = (Obj *)sprite;
@@ -29,7 +28,7 @@ void NameEntry_UpdateGlyphPulse(u8 *sprite)
     s16 frame;
 
     source = obj->sourceGlyph;
-    if (func_80042B98() == 0) {
+    if (func_80042B98((DisplayObjectLifecycle *)sprite) == 0) {
         if (source != 0) {
             obj->savedSourceX = source->x_0C;
             source->x_0C = 0x400;

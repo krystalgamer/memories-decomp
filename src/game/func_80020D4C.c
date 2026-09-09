@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_api.h"
+#include "display_object_lifecycle.h"
 #include "../psyq/libgte.h"
 #include "display_object_helpers.h"
 
@@ -53,7 +54,6 @@ extern s32 D_8009B0CC_arr[16];
 #define D_8009B0CC (D_8009B0CC_arr[0])
 extern u8 D_801AF000[16];
 
-void func_80042BC0(void *);
 void func_80020D4C(struct Obj *arg0) {
     s16 timer;
     u16 angle;

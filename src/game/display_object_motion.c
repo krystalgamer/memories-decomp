@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "display_object_api.h"
+#include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 
 typedef struct {
@@ -20,13 +22,12 @@ typedef struct {
     u8 active;
 } DisplayObjectMotion;
 
-extern s32 func_80042B98(DisplayObjectMotion *);
 extern void func_80043178(DisplayObjectMotion *);
 extern void func_8004318C(DisplayObjectMotion *, s32, s32, s32);
 
 void func_8001EC70(DisplayObjectMotion *object)
 {
-    if (!func_80042B98(object)) {
+    if (!func_80042B98((DisplayObjectLifecycle *)object)) {
         func_80043178(object);
         object->speed = 0;
         object->field_2E = 0;
@@ -41,7 +42,7 @@ void func_8001EC70(DisplayObjectMotion *object)
 
 void func_8001ED20(DisplayObjectMotion *object)
 {
-    if (!func_80042B98(object)) {
+    if (!func_80042B98((DisplayObjectLifecycle *)object)) {
         func_80043178(object);
         object->speed = 0;
         object->field_2E = 0;
