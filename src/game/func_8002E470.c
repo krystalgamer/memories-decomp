@@ -4,10 +4,10 @@
 #include "fade.h"
 #include "file_transfer.h"
 #include "graphics_frame.h"
+#include "script_state.h"
 
 extern u8 *D_8009B290;
 extern u16 D_8009B270;
-extern u16 D_8009B27C;
 extern u8 D_800E9ECE[];
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));

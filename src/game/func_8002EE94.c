@@ -11,9 +11,9 @@
 #include "func_80039794.h"
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
+#include "script_state.h"
 
 extern u8 *D_8009B290;
-extern u16 D_8009B27C;
 extern u16 D_8009B2A4[2];
 extern u8 gCampaignSceneIndex;
 extern u8 D_8009B268 __attribute__((section(".data")));

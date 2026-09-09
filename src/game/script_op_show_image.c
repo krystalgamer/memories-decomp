@@ -8,6 +8,7 @@
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "graphics_frame.h"
+#include "script_state.h"
 
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
@@ -30,7 +31,6 @@ extern u8 D_800E9D70[100];
 #define D_800E9D70 (*(RECT *)D_800E9D70)
 extern u8 D_800E9ECE[100];
 #define D_800E9ECE (D_800E9ECE[0])
-extern u16 D_8009B27C;
 extern struct Rec *D_8009B280;
 extern u16 D_8009B2A8;
 extern u16 D_8009B2AA;

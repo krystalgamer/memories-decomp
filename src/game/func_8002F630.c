@@ -9,6 +9,7 @@
 #include "fade.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
+#include "script_state.h"
 
 typedef struct {
     u8 pad00[4];
@@ -27,7 +28,6 @@ typedef struct {
 
 extern u8 *D_8009B290;
 extern u16 D_8009B29C;
-extern u16 D_8009B27C;
 extern Object *D_8009B2A0;
 extern Object *D_8009B280;
 extern Object *D_800EAE98[];

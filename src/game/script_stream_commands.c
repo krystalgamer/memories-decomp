@@ -2,11 +2,11 @@
 #include "script_command_busy.h"
 #include "sound.h"
 #include "file_transfer.h"
+#include "script_state.h"
 
 extern u8 *D_8009B290;
 extern u32 gSD_dwCurrentBgmCommand[];
 extern s32 D_8009B404 __attribute__((section(".data")));
-extern u16 D_8009B27C;
 extern u8 D_801A8000[];
 
 void Script_OpSound(void)
