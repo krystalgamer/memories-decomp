@@ -1,6 +1,10 @@
 #include "../types.h"
 #include "display_effect_step_table.h"
 #include "func_8003A560.h"
+#include "dialog_transition.h"
+#include "display_effect_lifecycle.h"
+#include "func_8003AC48.h"
+#include "func_8003DA40.h"
 
 /* Initialized data at 0x80090F68: the display effect step table.
  *
@@ -14,20 +18,14 @@
  * The entries are the display effect lifecycle handlers, including two that
  * share func_80039FF8. */
 
-void func_80039FF8(u8 *);
 void func_8003A990(u8 *);
 void func_8003AAE4(u8 *);
-void func_8003AC48(u8 *);
 void func_8003AD6C(u8 *);
 void func_8003B054(u8 *);
-void func_8003D518(u8 *);
-void func_8003D614(u8 *);
-void func_8003D74C(u8 *);
-void func_8003DA40(u8 *);
 
 void (*D_80090F68[])(u8 *) = {
-    func_80039FF8,
-    func_80039FF8,
+    (void (*)(u8 *))func_80039FF8,
+    (void (*)(u8 *))func_80039FF8,
     (void (*)(u8 *))func_8003A560,
     func_8003A990,
     func_8003AD6C,

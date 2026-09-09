@@ -9,6 +9,7 @@
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "duel_effect_create_channel.h"
+#include "func_8003DA40.h"
 
 void func_8003DA40(u8 *p)
 {
