@@ -1,11 +1,11 @@
 #include "../types.h"
 #include "main_debug.h"
 #include "main_modes.h"
+#include "main_reset_frontend_runtime.h"
 
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 
-extern void Main_ResetFrontendRuntime(void);
 extern void func_80030198(void);
 extern void func_80031084(void);
 

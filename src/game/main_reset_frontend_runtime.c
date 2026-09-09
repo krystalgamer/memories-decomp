@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "input.h"
+#include "main_reset_frontend_runtime.h"
 
 extern u8 D_8009B0C0, D_8009B254;
 extern void func_800403F0(void);

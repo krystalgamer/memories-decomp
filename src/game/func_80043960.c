@@ -8,6 +8,7 @@
 #include "file_transfer.h"
 #include "graphics_constants.h"
 #include "display_object_helpers.h"
+#include "main_reset_frontend_runtime.h"
 
 extern u8 D_8009B428;
 extern short D_8009B098[];
@@ -20,8 +21,6 @@ extern void func_800438B8(int);
 extern void func_801680F4(void);
 extern int func_80168160(int);
 extern void func_8007AFA4(void);
-extern void Main_ResetFrontendRuntime(void);
-
 void func_80043960(int mode)
 {
     register u8 *object;

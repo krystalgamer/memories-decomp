@@ -12,6 +12,7 @@
 #include "fade.h"
 #include "file_transfer.h"
 #include "func_8002D458.h"
+#include "main_reset_frontend_runtime.h"
 #include "rand_constants.h"
 #include "movie_playback_control.h"
 
@@ -38,7 +39,6 @@ extern void func_800134B4(void);
 extern void func_80035A64(void);
 extern void func_8003B5C8(void);
 extern void SD_InitState(s32);
-extern void Main_ResetFrontendRuntime(void);
 extern void func_80043960(s32);
 extern s32 func_80043BCC(void);
 extern void Main_Loop(void);

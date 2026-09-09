@@ -3,9 +3,9 @@
 #include "fade.h"
 #include "main_modes.h"
 #include "main_debug.h"
+#include "main_reset_frontend_runtime.h"
 
 extern u8 D_8009B26C;
-extern void Main_ResetFrontendRuntime(void);
 void Main_Loop(void) {
     func_8002CDE8();
     for (;;) {

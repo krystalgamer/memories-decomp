@@ -7,12 +7,11 @@
 #include "../psyq/rand.h"
 #include "fade.h"
 #include "input.h"
+#include "main_reset_frontend_runtime.h"
 #include "text_box_lifecycle.h"
 
 extern u8 D_8009B318 __attribute__((section(".data")));
 extern u8 D_8009B428;
-
-void Main_ResetFrontendRuntime(void);
 
 s32 func_80043BCC(void) {
     s32 r;
