@@ -5,7 +5,7 @@
 #include "ai_script_read_byte.h"
 
 extern u8 D_800EAE90;
-extern u8 D_800F5C7F;
+extern AiScriptState gAiScript_State;
 void func_80073448(void)
 {
     D_800EAE90 = 1;
@@ -18,12 +18,12 @@ void func_80073458(void)
 
 void func_80073464(void)
 {
-    D_800F5C7F = 1;
+    gAiScript_State.field_97 = 1;
 }
 
 void func_80073474(void)
 {
-    D_800F5C7F = 0;
+    gAiScript_State.field_97 = 0;
 }
 
 void AiScript_MoveCard(void)
