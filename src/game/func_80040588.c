@@ -63,7 +63,7 @@ void func_80040588(void) {
                 p->rgb = e->field_0C;
                 p->xy.word = e->field_30.word;
                 p->extent.word = e->field_3C.word;
-                p->cxcy = e->field_40.word;
+                p->cxcy.word = e->field_40.word;
                 p->uv.word = e->field_5C;
                 mode = e->field_14 | 0x10000;
                 tex = tb[idx];

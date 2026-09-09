@@ -50,7 +50,11 @@ void func_80015DB8(DisplayObject *object)
    swc2 $14. Here the source coordinates come from the object's own target
    record and the projected pair is biased into the object's screen fields. */
 typedef struct {
-    void *record;
+    /* The DisplayObject func_80016784 draws. The asm below reads 0x30 and
+       0x34 off it for the world position it projects, both of which that
+       record names, and the call at the end of this function is the only
+       other use. */
+    DisplayObject *record;
     u8 pad_04[4];
     s16 screen_x;
     s16 screen_y;

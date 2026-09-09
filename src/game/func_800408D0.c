@@ -50,7 +50,7 @@ void func_800408D0(DisplayObject *e, s32 tex, u16 mode16) {
     }
     p->tpage = e->field_66;
     p->xy.word = e->field_30.word;
-    p->cxcy = e->field_40.word;
+    p->cxcy.word = e->field_40.word;
     p->rgb = e->field_0C;
     fl = e->flags;
     p->uv.word = e->field_5C;

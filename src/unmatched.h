@@ -29,7 +29,7 @@
  *                   void (void) in model_slot_setup.c
  *   func_80013C28   void (u8, u8 *, u32 *) in file_cd_transfer.c,
  *                   void (s32) elsewhere
- *   func_80042188   first parameter spelled s32, u8 * and SpritePrim *.
+ *   func_80042188   first parameter spelled s32 and SpritePrim *.
  *                   Measured, and it is not a spelling difference: the high
  *                   half of the fourth argument selects a six-entry jump
  *                   table, and the arms disagree about what the first
@@ -40,6 +40,9 @@
  *                   `v | 0x4000000` display_object_list_renderers.c builds.
  *                   One flat prototype would have to be wrong for one caller
  *                   or the other, so it stays out until the arms are split.
+ *                   The u8 * spelling is gone: func_80016784.c held the last
+ *                   one and now builds a SpritePrim, like the other two
+ *                   sprite callers, so only the two real arms remain.
  *   SD_SEPlay       (u32, s32, s32), (s32, s32, s32) and (u16, u8, s8)
  *
  * Where a consumer declares no parameters and calls with none, the argument

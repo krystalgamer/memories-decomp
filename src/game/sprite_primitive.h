@@ -58,7 +58,16 @@ typedef struct {
     } extent;                   /* 0x08 */
     u16 tpage;                  /* 0x0C */
     SpriteHalf uv;              /* 0x0E */
-    u32 cxcy;                   /* 0x10 */
+    /* GsSPRITE's cx/cy, the CLUT position. The two display-object renderers
+       copy it out of the object's 0x40 word whole; func_80016784 sets the
+       halves separately and steps cy by one per spell-frame class. */
+    union {
+        u32 word;
+        struct {
+            u16 cx;             /* 0x10 */
+            u16 cy;             /* 0x12 */
+        } h;
+    } cxcy;                     /* 0x10 */
     u32 rgb;                    /* 0x14 */
     SpritePos mxmy;             /* 0x18 */
     u32 scale;                  /* 0x1C */
@@ -67,6 +76,9 @@ typedef struct {
 
 typedef char SpritePrim_size_must_be_0x24[
     sizeof(SpritePrim) == 0x24 ? 1 : -1
+];
+typedef char SpritePrim_cy_must_be_at_0x12[
+    (u32)&(((SpritePrim *)0)->cxcy.h.cy) == 0x12 ? 1 : -1
 ];
 
 /* The scratchpad block at 0x1F800378 that func_80041F90 writes its clip
