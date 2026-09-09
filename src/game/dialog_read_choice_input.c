@@ -4,6 +4,7 @@
 #include "input.h"
 #include "sound.h"
 #include "dialog_choice.h"
+#include "dialog_read_choice_input.h"
 
 /* Up, down or R1 on the repeat pad moves the dialog's choice cursor. R1
    wraps to the top; the directions clamp and report the press as handled

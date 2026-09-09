@@ -10,10 +10,10 @@
 #include "display_object_helpers.h"
 #include "../unmatched.h"
 #include "dialog_choice.h"
+#include "dialog_read_choice_input.h"
 
 extern u8 gDialog_bInputState;
 
-extern s32 Dialog_ReadChoiceInput(u8 *);
 extern void Widget_UpdatePulseColour(u8 *);
 
 void Dialog_UpdateChoice(u8 *p) {

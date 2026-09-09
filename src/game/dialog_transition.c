@@ -10,12 +10,11 @@
 #include "display_object_helpers.h"
 #include "text_box_runtime.h"
 #include "func_80039794.h"
+#include "duel_effect_create_channel.h"
 
 extern u8 D_8009B3C7;
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
-
-extern DuelEffectChannel *DuelEffect_CreateChannel(s32, s32);
 
 void func_8003D518(u8 *state)
 {
