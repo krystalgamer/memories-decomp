@@ -12,8 +12,6 @@
 #include "campaign_map.h"
 
 extern u8 D_80169619;
-extern u8 D_8016960D;
-extern u8 D_801695EC;
 extern u8 *D_801695C8;
 extern s32 D_801695F8[];
 extern u8 *D_801695D8;

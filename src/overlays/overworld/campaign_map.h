@@ -24,4 +24,21 @@ extern u8 gCampaignMap_Location;
 extern u8 gCampaignMap_LocationPrev;
 extern s32 gCampaignMap_MoveState;
 
+/* Two flag bytes the location machinery shares.
+ *
+ *   D_801695EC  Read into a local, OR'd with 0x80, 0x60 and 0x40 at different
+ *               points, and written back. Three sources agree it is a u8.
+ *   D_8016960D  Tested whole, then for 0x80, set to 1 on entry and cleared.
+ *
+ * NOT HERE, ON PURPOSE
+ *
+ * D_801695C8 and D_801695D8 are shared by these same sources and are spelled
+ * `MapObject *` in camera_transition.c, against a struct defined in that file,
+ * and `u8 *` elsewhere. That is the canonical-versus-local question #2501
+ * exists for and it wants its own change rather than a spelling picked here.
+ * D_801695F8 is spelled `s32 []` and `u8 *[]`, which is an element question
+ * on top of the same problem. */
+extern u8 D_801695EC;
+extern u8 D_8016960D;
+
 #endif

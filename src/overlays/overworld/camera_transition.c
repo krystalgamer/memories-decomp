@@ -28,7 +28,6 @@ typedef struct {
     u8 pad16[50];
 } Location;
 
-extern u8 D_801695EC;
 extern MapObject *D_801695C8;
 extern MapObject *D_801695D8;
 extern s32 D_801695D4;

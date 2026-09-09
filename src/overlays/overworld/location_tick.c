@@ -20,8 +20,6 @@
 extern u16 gInput_wPad1Pressed;
 extern volatile u16 gInput_wPad1Held;
 
-extern u8 D_801695EC;
-extern u8 D_8016960D;
 extern u8 *D_801695C8;
 extern u8 D_800E9ECE;
 extern u8 D_800E9ECF;
