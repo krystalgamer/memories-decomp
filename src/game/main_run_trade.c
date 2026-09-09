@@ -65,7 +65,7 @@ void Main_RunTrade(void)
         func_80042918(obj);
         func_800428EC(obj, 0xF);
         gTradeObj = obj;
-        func_80015A00();
+        Fade_WaitIn();
     }
 
     box = D_800EB0F8;

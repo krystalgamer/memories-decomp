@@ -149,7 +149,7 @@ scene whose menu jumps into Build Deck, Save and the "loaded" main menu.
 
 Changing menus can include a blocking visual transition, not just a new mode
 number. The matched `Main_RunMenu` and `Main_RunBuildDeckMenu` call
-`func_80015A00` during initialization to start and wait for a transition
+`Fade_WaitIn` during initialization to start and wait for a transition
 toward level `255`. On exit they call `SD_BGMFadeOut`, then `Fade_WaitOut`
 [`0x80015B00`] before processing the destination. That wait repeatedly calls
 `func_80012D4C` until the fade's active flag clears: the caller waits while
@@ -988,7 +988,7 @@ for slots 0 and 1, then passes **the current terrain** (`gDuel_bTerrain`)
 to slot 2. A first record halfword of `0x309` instead selects the separate
 `func_80059C24` initialization path and sets mode bit `0x20`; it does not
 make those three slot-property calls. Both initialization paths then call
-`func_800159D8`. The wrapper alone does not identify the selector, but the
+`Fade_WaitInitIn`. The wrapper alone does not identify the selector, but the
 caller-side handover in section 5.10 establishes a use of `0x309` for
 **Exodia presentation**. No fusion-recipe index interpretation is established.
 

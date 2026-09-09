@@ -90,5 +90,5 @@ void Password_InitShopScreen(void)
         slot++;
     } while (i < 4);
     SD_BGMPlay(29520);
-    func_80015A00();
+    Fade_WaitIn();
 }

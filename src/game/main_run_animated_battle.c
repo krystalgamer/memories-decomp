@@ -54,7 +54,7 @@ void Main_RunAnimatedBattle(void)
             Model_SetSlotProperties(1, p->f0 - 1, p->f2, p->f4, p->b7, p->b6);
             Model_SetSlotProperties(2, gDuel_bTerrain);
         }
-        func_800159D8();
+        Fade_WaitInitIn();
     } else {
         if (f & 0x20) {
             v = func_80059C88();

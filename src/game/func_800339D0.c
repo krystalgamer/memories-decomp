@@ -22,11 +22,11 @@ extern void func_80032370(void);
  * the state word at +0x633E is set, a confirmation box is created (the wide
  * one in the 640-wide mode selected by bit 7 of D_8009B2F8, the narrow one
  * otherwise, which is then waited on until its +0x30 pointer is filled),
- * func_80015BD8(0xA0, 2) runs and D_8009B140 is set from D_8009AF76 - 8.
+ * Fade_SetTargetLevel(0xA0, 2) runs and D_8009B140 is set from D_8009AF76 - 8.
  * With bit 14 set the effect channel at D_800EB0F8 is polled: once its flags
  * read 0x2000 under the 0x2008 mask the box is destroyed and either bit 14
  * is cleared (narrow mode with a choice made) or the state word is reloaded
- * from +0x6340 and func_80015BD8(0xFF, 2) runs. Without bit 14 the CARD_COUNT
+ * from +0x6340 and Fade_SetTargetLevel(0xFF, 2) runs. Without bit 14 the CARD_COUNT
  * trunk bytes at +0x5D98 are copied after the DECK_SIZE halfwords of the
  * object at +0. Those halfwords are rebuilt from the 0x10-byte entries at
  * +0x2D54 whose byte 9 is set, func_80032370 runs and the state word is
@@ -59,7 +59,7 @@ void func_800339D0(u8 *state)
                     func_80039794();
                 } while (*(s32 *)(box + 0x30) == 0);
             }
-            func_80015BD8(0xA0, 2);
+            Fade_SetTargetLevel(0xA0, 2);
             D_8009B140 = D_8009AF76 - 8;
         }
     }
@@ -77,7 +77,7 @@ void func_800339D0(u8 *state)
                 *(u16 *)(state + 0x633E) &= 0xBFFF;
             } else {
                 *(u16 *)(state + 0x633E) = *(u16 *)(state + 0x6340);
-                func_80015BD8(0xFF, 2);
+                Fade_SetTargetLevel(0xFF, 2);
             }
         }
     } else {
