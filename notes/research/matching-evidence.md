@@ -3097,8 +3097,9 @@ structural one.
 the reason was visible in what `$s0` held: `%hi(g_SDValue)`, cached once and
 reused across the calls in the tail.
 
-That followed from declaring the global as an array, `extern SoundState
-*g_SDValue[]`, which is not small data, so `-msplit-addresses` splits the
+That followed from declaring the global as an array, `extern SDValue
+*g_SDValue[]` (sound.h's `G_SDVALUE_AGGREGATE` arm), which is not small data,
+so `-msplit-addresses` splits the
 address into a register and common-subexpression elimination then keeps it
 alive across calls in a callee-saved one. The target rebuilds `%hi` at each
 use, which is the assembler macro form, which needs the scalar declaration

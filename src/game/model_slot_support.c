@@ -4,17 +4,13 @@
 #include "model_slot_support.h"
 #include "../unmatched.h"
 
-typedef struct {
-    u8 bytes[8];
-} __attribute__((packed)) ModelSlotBytes8;
-
 void func_80059000(s32 index, s16 *output)
 {
     register ModelSlot *entry = &D_800F2C40[index];
     register u8 *source = entry->field_CF8.field_00;
     s32 value;
 
-    *(ModelSlotBytes8 *)output = *(ModelSlotBytes8 *)entry->field_DC8;
+    *(ModelBytes8 *)output = *(ModelBytes8 *)entry->field_DC8;
     value = source[7];
     if (value) {
         output[0] = value << 4;
