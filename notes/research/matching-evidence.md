@@ -6685,3 +6685,90 @@ So the rule does not depend on the argument being interesting. Four measured
 call sites across three functions now, and the failure was a shrink, a growth
 and an in-place substitution respectively; a sweep that only watched the size
 would have caught two of the three.
+
+## Thirty-nine matched functions are called with the wrong number of arguments
+
+Prompted by `func_80049C40` above, I checked the whole tree rather than the
+one function: for every matched function with a definition in `src`, does any
+consumer declare it with a different argument count? There are thirty-nine
+such pairs. That is not a backlog of bugs. It is the size of the class that a
+#2495 prototype sweep would silently destroy, so it is worth having the list
+before anyone runs one.
+
+Both directions occur, for different reasons.
+
+**A caller declares FEWER arguments than the definition takes** (25 pairs).
+The call site sets up only the arguments it names, and the callee reads the
+rest from whatever the registers happen to hold. `func_8004036C` in
+`free_duel/sparkle_runtime.c` is the documented example: declared `void
+(void)`, defined `void (void *)`, called with nothing. These cannot be
+"corrected" by writing the missing argument, because there is no expression
+in the caller that produces it.
+
+    Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in func_8001798C.c
+    Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in func_800179F4.c
+    func_80013154          def 1 (main_services.c)  <-  decl 0 in main_init.c
+    func_80017F04          def 3 (duel_card_display_state.c)  <-  decl 1 in func_80018004.c
+    func_80019B2C          def 1 (func_80019B2C.c)  <-  decl 0 in func_80019BA0.c
+    func_80020BE4          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c
+    func_80022EEC          def 1 (func_80022EEC.c)  <-  decl 0 in display_parent_links.c
+    func_8002348C          def 1 (duel_field_display_objects.c)  <-  decl 0 in func_80023D08.c
+    func_80023D08          def 2 (func_80023D08.c)  <-  decl 1 in duel_cursor_status.c
+    func_800289BC          def 2 (func_800289BC.c)  <-  decl 0 in duel_effect_resource_setup.c
+    func_8002A9C0          def 2 (func_8002A9C0.c)  <-  decl 0 in func_8002ABB4.c
+    func_8002C604          def 1 (func_8002C604.c)  <-  decl 0 in func_8002C68C.c
+    func_8002FB78          def 2 (func_8002FB78.c)  <-  decl 0 in func_8002FD10.c
+    func_80032184          def 2 (func_80032184.c)  <-  decl 0 in duel_reward_setup.c
+    func_8003C328          def 2 (func_8003C328.c)  <-  decl 0 in func_8003C498.c
+    func_8004036C          def 1 (func_8004036C.c)  <-  decl 0 in sparkle_runtime.c
+    func_80041D60          def 3 (func_80041D60.c)  <-  decl 1 in func_80040814.c
+    func_80041D60          def 3 (func_80041D60.c)  <-  decl 1 in func_80029108.c
+    func_80041D60          def 3 (func_80041D60.c)  <-  decl 1 in screen_runtime.c
+    func_80043230          def 4 (display_object_interpolation.c)  <-  decl 3 in mem_card_dialog_runtime.c
+    func_80043328          def 2 (func_80043328.c)  <-  decl 0 in func_80043960.c
+    func_800434F4          def 2 (func_800434F4.c)  <-  decl 0 in func_80043960.c
+    func_8005B64C          def 2 (func_8005B64C.c)  <-  decl 0 in file_request_main_menu_package.c
+    func_8005CEF0          def 1 (func_8005CEF0.c)  <-  decl 0 in model_packet_handlers.c
+    func_80060B38          def 2 (func_80060B38.c)  <-  decl 0 in func_80061008.c
+
+**A caller declares MORE arguments than the definition takes** (14 pairs).
+The retail call site computes and passes a value the callee ignores, and the
+declaration is what keeps that computation alive. `func_80049C40` is the
+measured example: making one of its three callers agree with the definition
+removes four instructions, because the argument's whole load chain becomes
+dead. Note that `func_800498F8` and `func_80049CB0` sit beside it in the same
+two sound files with exactly the same shape, so the pattern is a property of
+that call sequence rather than a one-off.
+
+    SD_StartSequenceTracks def 0 (sound_sequence_timing.c)  <-  decl 1 in sound_secondary_playback.c
+    func_80018004          def 1 (func_80018004.c)  <-  decl 3 in func_8001BAF0.c
+    func_80018004          def 1 (func_80018004.c)  <-  decl 3 in duel_phase_entry.c
+    func_80024088          def 1 (duel_cursor_status.c)  <-  decl 2 in func_8001D5B4.c
+    func_80041C8C          def 1 (func_80041C8C.c)  <-  decl 4 in func_80041D60.c
+    func_80049120          def 0 (sound_sequence_state.c)  <-  decl 1 in duel_effect_state_callbacks.c
+    func_800498F8          def 0 (sound_secondary_reset.c)  <-  decl 1 in func_80049010.c
+    func_800498F8          def 0 (sound_secondary_reset.c)  <-  decl 1 in sound_output.c
+    func_80049C40          def 0 (sound_secondary_playback.c)  <-  decl 1 in func_80049010.c
+    func_80049C40          def 0 (sound_secondary_playback.c)  <-  decl 1 in sound_output.c
+    func_80049C40          def 0 (sound_secondary_playback.c)  <-  decl 1 in sound_runtime.c
+    func_80049CB0          def 0 (sound_secondary_playback.c)  <-  decl 1 in func_80049010.c
+    func_80049CB0          def 0 (sound_secondary_playback.c)  <-  decl 1 in sound_output.c
+    func_8004B374          def 2 (func_8004B374.c)  <-  decl 3 in sound_sequence_events.c
+
+Four of the thirty-nine have been measured, all in the "more" direction and
+all in the two sound files above: func_80049C40, func_80049CB0 and
+func_800498F8 at two separate call sites. The remaining thirty-five are
+unverified in either direction. An entry here means the declaration and the
+definition disagree, not that the disagreement has been shown to be
+load-bearing, and not that it is safe to correct either. Treat the list as the
+set that needs measuring before it is touched.
+
+The measured four are also the reason to be careful about how a sweep checks
+itself: those four failed as a size shrink, a section overlap from text
+growing, and an in-place instruction substitution at unchanged size. Only the
+first two show up in a size comparison.
+
+The practical rule, repeated from the `func_80049C40` entry because this is
+where someone will look for it: when unifying a prototype, check whether the
+callers agree with each other, not whether they agree with the definition.
+
