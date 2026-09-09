@@ -1,6 +1,7 @@
 #define D_8009B0D8_IS_VOLATILE
 #define D_8009B0C0_IS_VOLATILE
 #include "../types.h"
+#include "display_object_config.h"
 #include "sound.h"
 #include "func_8003B5C8.h"
 #include "graphics_frame.h"
@@ -37,7 +38,6 @@ extern u8 D_800E9EC0[];
 
 extern void __main(void);
 extern void func_80013154(void);
-extern void func_800403F0(void);
 
 s32 Main_Init(void)
 {
