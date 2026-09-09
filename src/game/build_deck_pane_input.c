@@ -6,6 +6,7 @@
 #include "card_list_sort.h"
 #include "card_list_text_boxes.h"
 #include "card_constants.h"
+#include "duel_card_viewer.h"
 #include "input.h"
 #include "sound.h"
 #include "build_deck_card_counts.h"
@@ -17,7 +18,6 @@
 #include "duel_effect.h"
 
 extern u8 D_8009B24B;
-extern u16 gDuel_wViewerCardID;
 
 extern s32 func_800330BC(CardList *);
 void func_8003353C(u8 *p) {
