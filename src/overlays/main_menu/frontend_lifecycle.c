@@ -2,6 +2,7 @@
 #include "entrypoints.h"
 #include "frontend.h"
 #include "../../game/display_object_api.h"
+#include "../../game/main_services.h"
 
 extern void *D_80184558;
 extern void *D_8018455C;
@@ -9,7 +10,6 @@ extern void *D_80184560;
 extern u8 *gMain_apMenuEntries[];
 extern u8 D_80184596;
 extern u8 D_80184599;
-extern s32 D_800E9DB0;
 
 void MainMenu_StartFrontendEntryTransition(s32 mode)
 {
@@ -54,5 +54,5 @@ void MainMenu_DestroyFrontendMenu(void)
             gMain_apMenuEntries[i] = 0;
         }
     }
-    D_800E9DB0 = 0;
+    D_800E9DB0[0] = 0;
 }

@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "entrypoints.h"
 #include "../../game/display_object_api.h"
+#include "../../game/main_services.h"
 
 extern u8 D_801845C0[];
 extern u8 D_801845BE;
@@ -8,7 +9,6 @@ extern u8 *D_801845D8;
 extern void *D_801845A0;
 extern void *D_801845A4;
 extern void *D_801845B0[];
-extern s32 D_800E9DB0;
 
 void MainMenu_FinishValueSetup(void)
 {
@@ -27,5 +27,5 @@ void MainMenu_FinishValueSetup(void)
     D_801845B0[1] = 0;
     func_8004036C(D_801845B0[2]);
     D_801845B0[2] = 0;
-    D_800E9DB0 = 0;
+    D_800E9DB0[0] = 0;
 }

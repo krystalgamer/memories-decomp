@@ -15,6 +15,7 @@
 #define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
 #include "input.h"
 #include "rand_constants.h"
+#include "main_services.h"
 
 /* The resident system layer: the per-frame service pump, the boot-time
    graphics and input start-up that installs it, the pad-driven screen-offset
@@ -22,11 +23,6 @@
    The four are contiguous and are the only run in the region built with
    gcc_2_8_1_g8_split - their neighbours on both sides use other profiles -
    and the pump and the reset share the D_800E9DB0 slots and D_8009B0B8. */
-
-/* The four per-frame callback slots the service pump walks, and the single
-   extra callback beside them. */
-extern void (*D_800E9DB0[4])(void);
-extern void (*D_8009B0B8)(void);
 
 extern s32 runtime_gp;
 extern s32 D_8009B0A4;

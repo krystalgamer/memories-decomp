@@ -3,6 +3,7 @@
 #include "entrypoints.h"
 #include "value_setup.h"
 #include "../../game/display_object_helpers.h"
+#include "../../game/main_services.h"
 
 extern u8 D_801AF800[];
 extern u8 *D_801845A0;
@@ -11,7 +12,6 @@ extern u8 *D_801845B0[];
 extern u8 D_801845BC[];
 extern u8 D_801845C0[];
 extern u8 *D_801845D8;
-extern void (*D_800E9DB0)(void);
 
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
@@ -66,5 +66,5 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     *(u16 **)(state + 0x10) = second;
     *(u16 *)state = *(u16 *)(state + 2) = *first;
     *(u16 *)(state + 0xC) = *(u16 *)(state + 0xE) = *second;
-    D_800E9DB0 = MainMenu_DrawValueSetup;
+    D_800E9DB0[0] = MainMenu_DrawValueSetup;
 }
