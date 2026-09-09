@@ -3,26 +3,11 @@
 #include "display_object_layout.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
+#include "card_list_text_boxes.h"
 
 /* Builds the text box for one card slot of a trade or deck screen. The entry
    is picked out of the list at the scroll offset plus the slot, and the list
    kind at +0x2D47 selects both the box template and a fixed 0x160 shift. */
-
-typedef struct {
-    u8 pad_00[4];
-    u16 id;
-    u8 pad_06[7];
-    u8 flags;
-    u8 pad_0E[2];
-} CardEntry;
-
-typedef struct {
-    CardEntry entries[CARD_ID_END];
-    u8 pad_2D30[0xC];
-    s16 first;
-    u8 pad_2D3E[9];
-    u8 kind;
-} CardList;
 
 typedef struct {
     u8 pad_00[8];
