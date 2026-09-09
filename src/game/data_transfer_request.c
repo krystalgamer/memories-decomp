@@ -28,10 +28,6 @@ void func_8003F740(s32 value)
 
 extern u8 D_800EFE18[];
 extern u8 D_8009B3DC;
-extern u16 D_8009B3C2;
-extern u16 D_8009B3C4;
-extern u32 D_8009B3D0;
-
 void func_8003F758(void *arg0, s32 arg1, u8 *arg2, s32 arg3)
 {
     strcpy(D_800EFE18, arg2);
