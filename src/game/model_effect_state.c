@@ -4,6 +4,7 @@
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "func_80058434.h"
 #include "model_effect_requests.h"
+#include "model_transfer_flags.h"
 
 typedef struct {
     short x;
@@ -26,8 +27,6 @@ typedef struct {
 
 extern u8 D_80091550[];
 extern s8 D_8009B07A;
-extern u8 D_8009B07B;
-extern u8 D_8009B07C;
 
 extern unsigned short *func_800591FC(void);
 extern unsigned short *func_80059208(void);

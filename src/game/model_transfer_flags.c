@@ -1,9 +1,6 @@
 #include "../types.h"
 #include "model_transfer_flags.h"
 
-extern u8 D_8009B07B;
-extern u8 D_8009B07C;
-
 s32 func_8005F174(void)
 {
     return D_8009B07B;

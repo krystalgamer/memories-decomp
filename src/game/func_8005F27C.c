@@ -1,8 +1,6 @@
 #include "../types.h"
 #include "model.h"
-
-extern u8 D_8009B07B;
-extern u8 D_8009B07C;
+#include "model_transfer_flags.h"
 
 void func_80059000(s32 arg0, void *arg1);
 void func_8005F3B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
