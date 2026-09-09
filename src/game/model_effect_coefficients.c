@@ -1,12 +1,7 @@
 #include "../types.h"
+#include "../ygo_types.h"
 #include "model_effect_coefficients.h"
-
-typedef struct {
-    u8 pad_00[6];
-    s16 field_06;
-} ModelEffectAdjustment;
-
-extern void func_80059000(s32, ModelEffectAdjustment *);
+#include "model_slot_support.h"
 
 ModelEffectCoefficient *func_8005F1A4(s32 index)
 {
@@ -22,14 +17,14 @@ s32 func_8005F1B8(s32 level, s32 value)
         return value;
     }
 
-    func_80059000(level, &local);
+    func_80059000(level, (s16 *)&local);
 
-    if (local.field_06 < 50) {
-        local.field_06 = 50;
+    if (local.max < 50) {
+        local.max = 50;
     }
 
-    local.field_06 -= 300;
-    delta = local.field_06;
+    local.max -= 300;
+    delta = local.max;
 
     if (delta != 0) {
         s32 divisor = 750;

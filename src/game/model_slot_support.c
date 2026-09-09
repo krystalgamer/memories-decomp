@@ -1,6 +1,7 @@
 #include "../types.h"
 
 #include "model.h"
+#include "model_slot_support.h"
 #include "../unmatched.h"
 
 typedef struct {

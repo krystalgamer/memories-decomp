@@ -5,6 +5,7 @@
 #include "func_80058434.h"
 #include "model_effect_endpoints.h"
 #include "model_effect_requests.h"
+#include "model_slot_support.h"
 #include "model_transfer_flags.h"
 
 typedef struct {
@@ -14,16 +15,10 @@ typedef struct {
     short w;
 } Vec;
 
-typedef struct Buf {
-    char pad[6];
-    s16 f6;
-} Buf;
-
 extern s8 D_8009B07A;
 
 extern unsigned short *func_800591FC(void);
 extern unsigned short *func_80059208(void);
-extern void func_80059000(s32 a0, Buf *a1);
 extern void func_8005D994(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern void func_8005F070(int);
 extern void func_8005F91C(s32, void *, void *, s32);
@@ -94,15 +89,15 @@ void func_8005F5C8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s0 = rec->field_00;
 
     if (arg0 < 2) {
-        Buf buf;
+        ModelEffectAdjustment adjustment;
         s32 v1;
 
-        func_80059000(arg0, &buf);
-        if (buf.f6 < 0x32) {
-            buf.f6 = 0x32;
+        func_80059000(arg0, (s16 *)&adjustment);
+        if (adjustment.max < 0x32) {
+            adjustment.max = 0x32;
         }
-        buf.f6 -= 300;
-        v1 = buf.f6;
+        adjustment.max -= 300;
+        v1 = adjustment.max;
         if (v1 != 0) {
             s32 divisor = 750;
             s32 half = (v1 > 0) ? (s0 / 2) : s0;

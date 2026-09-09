@@ -46,6 +46,22 @@ typedef char ModelEffectEndpoint_kind_offset_must_be_0x6[
     YGO_TYPE_OFFSET(ModelEffectEndpoint, kind) == 0x6 ? 1 : -1
 ];
 
+/* Four halfwords produced by func_80059000. The fourth is the maximum of the
+   first three after the slot-specific overrides are applied. */
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 max;
+} ModelEffectAdjustment;
+
+typedef char ModelEffectAdjustment_size_must_be_0x8[
+    sizeof(ModelEffectAdjustment) == 0x8 ? 1 : -1
+];
+typedef char ModelEffectAdjustment_max_offset_must_be_0x6[
+    YGO_TYPE_OFFSET(ModelEffectAdjustment, max) == 0x6 ? 1 : -1
+];
+
 typedef struct FileTransferDescriptor FileTransferDescriptor;
 typedef void (*FileTransferCallback)();
 

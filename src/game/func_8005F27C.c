@@ -1,8 +1,9 @@
 #include "../types.h"
+#include "../ygo_types.h"
 #include "model.h"
+#include "model_slot_support.h"
 #include "model_transfer_flags.h"
 
-void func_80059000(s32 arg0, void *arg1);
 void func_8005F3B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
@@ -13,7 +14,7 @@ void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
     s32 t;
     s32 k;
     s32 u;
-    u8 sp18[8];
+    ModelEffectAdjustment sp18;
 
     r = (u8 *)D_80091570 + arg1 * 8;
 
@@ -26,12 +27,12 @@ void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
     v = (s16)*(u16 *)r;
 
     if (arg0 < 2) {
-        func_80059000(arg0, sp18);
-        if (*(s16 *)(sp18 + 6) < 0x32) {
-            *(s16 *)(sp18 + 6) = 0x32;
+        func_80059000(arg0, (s16 *)&sp18);
+        if (sp18.max < 0x32) {
+            sp18.max = 0x32;
         }
-        *(s16 *)(sp18 + 6) = *(u16 *)(sp18 + 6) - 0x12C;
-        d = *(s16 *)(sp18 + 6);
+        sp18.max -= 0x12C;
+        d = sp18.max;
         if (d != 0) {
             k = 750;
             t = v;
