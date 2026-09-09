@@ -6,6 +6,13 @@
 #include "../unmatched.h"
 
 extern void func_80049F10(s16, s16);
+/* s16 on purpose, though sound_secondary_playback.c defines this s32.
+   The result is compared rather than stored, so the narrowing has to be
+   materialised, and the sll/sra pair it produces is retail's: widening
+   this declaration to the definition's s32 drops eight bytes. Contrast
+   func_800181EC, where the same s16-against-int disagreement is free
+   because every caller stores the result into a 16-bit field and the sh
+   truncates anyway. See notes/research/matching-evidence.md. */
 extern s16 func_80049F50(void);
 /* Takes an argument here on purpose. func_80049C40 is defined
    void (void) in sound_secondary_playback.c and ignores it, but the

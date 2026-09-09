@@ -319,6 +319,74 @@ def defined_symbols(nm: Path, elf_path: Path) -> set[str]:
     return symbols
 
 
+def candidate_fingerprint_payload(
+    sections: list[tuple[str, bytes, list[str]]],
+) -> bytes:
+    if len(sections) == 1 and sections[0][0] == ".text":
+        _, content, relocations = sections[0]
+        return (
+            b"candidate-build-v1\0"
+            + content
+            + b"\0"
+            + "\n".join(relocations).encode("ascii")
+            + b"\n"
+        )
+
+    payload = bytearray(b"candidate-build-v2\0")
+    for name, content, relocations in sections:
+        name_bytes = name.encode("ascii")
+        relocation_bytes = (
+            "\n".join(relocations) + "\n"
+        ).encode("ascii")
+        payload.extend(len(name_bytes).to_bytes(2, "big"))
+        payload.extend(name_bytes)
+        payload.extend(len(content).to_bytes(8, "big"))
+        payload.extend(content)
+        payload.extend(len(relocation_bytes).to_bytes(8, "big"))
+        payload.extend(relocation_bytes)
+    return bytes(payload)
+
+
+def object_section_bytes(
+    objcopy: Path,
+    object_path: Path,
+    candidate: Candidate,
+    section: str,
+) -> bytes:
+    section_path = (
+        BUILD_DIRECTORY
+        / "fingerprints"
+        / f"{candidate.key}.{section.removeprefix('.')}"
+    )
+    section_path.parent.mkdir(parents=True, exist_ok=True)
+    section_path.unlink(missing_ok=True)
+    run_output(
+        [
+            str(objcopy),
+            "-O",
+            "binary",
+            f"--only-section={section}",
+            str(object_path),
+            str(section_path),
+        ]
+    )
+    return section_path.read_bytes()
+
+
+def object_section_relocations(
+    objdump: Path,
+    object_path: Path,
+    section: str,
+) -> list[str]:
+    return [
+        " ".join(match.groups())
+        for line in run_output(
+            [str(objdump), "-r", f"--section={section}", str(object_path)]
+        ).splitlines()
+        if (match := RELOCATION.match(line)) is not None
+    ]
+
+
 def candidate_build_hash(
     objcopy: Path,
     objdump: Path,
@@ -334,8 +402,6 @@ def candidate_build_hash(
         name: sections.get(name, 0)
         for name in (
             ".data",
-            ".rodata",
-            ".rdata",
             ".sdata",
             ".bss",
             ".sbss",
@@ -346,37 +412,35 @@ def candidate_build_hash(
     }
     if unsupported:
         raise CandidateBuildError(
-            f"{candidate.key}: candidate has allocated non-text sections "
+            f"{candidate.key}: candidate has unsupported allocated sections "
             f"{unsupported}"
         )
 
-    text_path = BUILD_DIRECTORY / "fingerprints" / f"{candidate.key}.text"
-    text_path.parent.mkdir(parents=True, exist_ok=True)
-    run_output(
-        [
-            str(objcopy),
-            "-O",
-            "binary",
-            "--only-section=.text",
-            str(object_path),
-            str(text_path),
-        ]
-    )
-    relocations = [
-        " ".join(match.groups())
-        for line in run_output(
-            [str(objdump), "-r", "--section=.text", str(object_path)]
-        ).splitlines()
-        if (match := RELOCATION.match(line)) is not None
+    fingerprint_sections = [
+        name
+        for name in (".text", ".rodata", ".rdata")
+        if sections.get(name, 0) != 0
     ]
-    payload = (
-        b"candidate-build-v1\0"
-        + text_path.read_bytes()
-        + b"\0"
-        + "\n".join(relocations).encode("ascii")
-        + b"\n"
-    )
-    return sha256(payload)
+    section_payloads = []
+    for name in fingerprint_sections:
+        content = object_section_bytes(
+            objcopy,
+            object_path,
+            candidate,
+            name,
+        )
+        if len(content) != sections[name]:
+            raise CandidateBuildError(
+                f"{candidate.key}: {name} extraction size differs"
+            )
+        section_payloads.append(
+            (
+                name,
+                content,
+                object_section_relocations(objdump, object_path, name),
+            )
+        )
+    return sha256(candidate_fingerprint_payload(section_payloads))
 
 
 def build_candidates(

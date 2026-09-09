@@ -6772,3 +6772,55 @@ The practical rule, repeated from the `func_80049C40` entry because this is
 where someone will look for it: when unifying a prototype, check whether the
 callers agree with each other, not whether they agree with the definition.
 
+
+## A caller's return type disagrees with the definition forty-nine times
+
+The companion to the arity inventory. Same method, applied to the other half of
+the signature: for every matched function defined in `src`, does any consumer
+declare a different return type? Forty-nine pairs do.
+
+They are not one phenomenon, and the difference decides whether correcting one
+is free or a regression.
+
+**The result is discarded** (most of them). `func_80029164` is declared `void`
+by five consumers against a `FileTransferDescriptor *` definition;
+`func_80040510` by five against `DisplayObjectConfigView *`. Nobody reads `$v0`,
+so the declaration is misinformation rather than a lever. This is the class the
+`sound_voice_selection.h` review already called out: the build cannot tell you
+about a return type nobody uses, so only reading the definition finds these.
+
+**A `void *` definition with typed consumer declarations.** `func_800591FC`,
+`func_80059208` and `func_80059520` are each defined `void *` and declared
+`unsigned short *` or `u8 *` by their callers. Nothing complains because
+`void *` converts silently to any of them, so every spelling "works" and none
+is checked. No diagnostic exists for this one at all.
+
+**A narrower return that is load-bearing.** `func_80049F50` is defined `s32` in
+`sound_secondary_playback.c` and declared `s16` in `sound_runtime.c`, where the
+result is compared:
+
+    if (... func_80049F50() != 1)
+
+Widening that declaration to the definition's `s32` -- which is what
+"correcting" it means -- gives
+
+    error: rebuilt executable has size 0x1d07f8, expected 0x1d0800
+
+Eight bytes. The `s16` forces the value to be narrowed before the comparison,
+and the `sll`/`sra` pair that does it is retail's.
+
+That last one is worth putting beside `func_800181EC`, where the identical
+`s16`-against-`int` disagreement is free. The difference is not the types, it
+is what the caller does with the value: `func_800181EC`'s three callers all
+store the result into a 16-bit field, so the `sh` truncates regardless and the
+narrowing costs nothing. `func_80049F50`'s caller compares it, so the narrowing
+has to be materialised.
+
+So the rule for return types has the same shape as the one for arguments. A
+declaration that disagrees with its definition is not automatically wrong, and
+whether it can be corrected depends on the consumer, not on the definition.
+Checked while compiling this list: none of the four functions defined `void`
+but declared with a value type -- `func_8003A440`, `func_8003A920`,
+`func_80040424`, `func_8004A27C` -- has a caller that actually reads the
+result. There is no case in the tree of a caller consuming a return its callee
+never produces.

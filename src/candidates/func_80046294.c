@@ -1,4 +1,13 @@
-#include "../../../../src/types.h"
+/*
+ * Current best under gcc_2_8_1_g8_split: 151/151 instructions, opcode
+ * distance 0, five differing positions. Per-arm copy pointers are required
+ * because retail uses v0/v1 in the first copy arm and a0/v0 in the 0x20 arm.
+ * Exhaustive subset search reaches five only by dropping q and src_base2
+ * together; either alone is worse, while the five remaining pins are jointly
+ * load-bearing. Residual: four jump-table address-hoist positions and GCC's
+ * canonicalized operand order for one commutative addu.
+ */
+#include "../types.h"
 
 typedef struct {
     u8 pad00[0x40];
