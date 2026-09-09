@@ -3272,6 +3272,7 @@ the barrier was holding it:
 | `func_8002FB78` | two instructions deleted |
 | `func_800580D4` | three instructions deleted (parameter only) |
 | `func_80016784` | three loads floated across scratchpad stores |
+| `func_8002A9C0` | two of fourteen reads floated; twelve free |
 
 So before converting offset casts to members, look for the two shapes that
 make the barrier load-bearing: a **whole-struct assignment** to or from the
@@ -3288,11 +3289,23 @@ must be measured.
   the object floated all three reads of the colour word at `0x0C` across
   those stores; retail keeps every one of them where the source puts it. The
   parameter and the other ten offsets convert freely -- it is only the reads
-  that sit *between* stores through the other pointer. Spelling that one
-  `*(s32 *)&object->field_0C` restores the barrier and still names the field,
-  which is the member-anchored cast above used for scheduling rather than for
-  signedness. The tell is a field read in the middle of a run of stores
-  through a differently typed pointer.
+  that sit *between* stores through the other pointer. The tell is a field
+  read in the middle of a run of stores through a differently typed pointer.
+
+  Try the member-anchored cast on such a read first, but do not count on it.
+  `*(s32 *)&object->field_0C` restored the barrier in `func_80016784` and
+  still named the field. It did **not** in `func_8002A9C0`, which fills four
+  scratchpad `SVECTOR`s the same way: there `*(u16 *)&o->field_30.h.field_32`
+  behaves exactly like the plain member read, because taking a member's
+  address is still a struct reference. So the member-anchored cast fixes a
+  signedness divergence reliably and a scheduling one only sometimes, and the
+  fallback is a plain byte pointer held under its own name.
+
+  Bisect rather than inspect. In `func_8002A9C0` twelve of the fourteen reads
+  convert with no change and two do not, and the two are not the ones a
+  reading of the function would pick: 0x32 and 0x3E fail while their
+  immediate neighbours 0x30 and 0x3C are free. Converting a group at a time
+  and rebuilding found them in five builds.
 
 - **A typed local costs a callee-saved register unless every use goes through
   it.** Where the record's type cannot go on the parameter -- a callback
