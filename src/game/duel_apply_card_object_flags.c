@@ -2,6 +2,7 @@
 #include "display_object_layout.h"
 #include "duel_card.h"
 #include "duel_display.h"
+#include "duel_card_display_state.h"
 
 /* Same D_801A7AD8[] stat table (0x1C-byte stride) as
    obj_apply_table801a7ad8_flags.c / table801a7ad8_row_search.c, but with the
@@ -20,8 +21,6 @@ struct Obj {
     char pad4[0x6A - 0x68];
     u8 f6A;
 };
-
-extern void func_80017DB4(struct Obj *a0);
 
 /* Clears a0->f8's bit 0x4 and a0->f22, then re-derives f22 (0x80) and f21
    (0xC0) from D_801A7AD8[a0->f6A]'s face-down and defense-position flags;

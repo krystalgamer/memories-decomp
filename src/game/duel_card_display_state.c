@@ -7,25 +7,7 @@
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_display.h"
-
-typedef struct {
-    u8 pad_00[4];
-    u8 field_04;
-} DuelCardDisplayData;
-
-typedef struct {
-    u8 pad_00[0x08];
-    u16 flags;
-    u8 pad_0A[0x02];
-    u32 color;
-    u8 pad_10[0x11];
-    u8 field_21;
-    u8 field_22;
-    u8 pad_23[0x44];
-    u8 field_67;
-    u8 pad_68[0x02];
-    u8 card_index;
-} DuelCardDisplayObject;
+#include "duel_card_display_state.h"
 
 void func_80016D04();
 void func_80042918(u8 *arg0);

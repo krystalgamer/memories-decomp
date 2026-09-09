@@ -11,6 +11,7 @@
 #include "file_transfer.h"
 #include "input.h"
 #include "view_state.h"
+#include "duel_card_display_state.h"
 
 /* The developer effect-preview screen: a pad-driven camera and viewport
    nudge, the controller that builds one of four preview pages and spawns an
@@ -44,8 +45,6 @@ extern void func_80029528(s32);
 extern void func_80029164(s32, s32);
 extern u8 *func_800291E0(s32, s32, s32);
 extern void func_8001944C(u8 *);
-extern u8 *func_80017F04(DuelCardRecord *, s32, s32);
-
 void func_800220B8(void) {
     u8 *b;
     u8 *c;

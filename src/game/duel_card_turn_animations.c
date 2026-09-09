@@ -4,9 +4,9 @@
 #include "duel_card_layout.h"
 #include "duel_card.h"
 #include "duel_card_turn_animations.h"
+#include "duel_card_display_state.h"
 
 s32 func_80042B98(u8 *arg0);
-void func_80017E3C(u8 *arg0);
 void Duel_ApplyCardObjectFlags(u8 *arg0);
 
 /* The mirror of func_800229F4: the card turn-back animation step. Picks
