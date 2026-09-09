@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80047788.h"
 #include "sound.h"
 #include "sound_output.h"
 
