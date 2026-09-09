@@ -3,6 +3,7 @@
 #include "sound.h"
 #include "sound_buffer_init.h"
 #include "sound_output_transition.h"
+#include "sound_voice_data.h"
 
 typedef struct {
     u8 b[11];
@@ -21,8 +22,6 @@ extern u8 D_8001079C[];
 
 extern void func_800478EC(void);
 extern void func_800494F4(s32 *);
-extern void func_80048F14(void);
-
 /* Brings the sound subsystem's resident state up from cold. The state block
  * starts at the end of the loaded image and runs to 0x801EA7FF; it is zeroed a
  * word at a time, the two command callbacks are installed, three tables are

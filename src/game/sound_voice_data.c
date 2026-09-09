@@ -141,7 +141,6 @@ typedef char SDSeqBlock_data_must_match_input_offset[
         SD_PENDING_INPUT_PAYLOAD_BYTE_OFFSET ? 1 : -1
 ];
 
-extern void func_80048C70(u32 *dst, u32 *src);
 extern void func_8004763C(void);
 
 void func_80048D08(s32 side, u32 *src)
@@ -197,6 +196,7 @@ void func_80048D08(s32 side, u32 *src)
 
 #include "../psyq/libspu.h"
 #include "sound.h"
+#include "sound_voice_data.h"
 
 extern void func_80049594(s32);
 extern void func_80049600(s32);
