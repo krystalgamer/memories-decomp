@@ -5,7 +5,7 @@
 
 extern s32 D_8009B118;
 
-void func_8003BA14(u8 *p, s32 mode)
+void func_8003BA14(FileTransferDescriptor *object, s32 mode)
 {
     s32 one;
     s32 v;
@@ -22,6 +22,7 @@ void func_8003BA14(u8 *p, s32 mode)
     s32 x;
     u8 *y;
 
+    /* Direct mode and y members change old-GCC commoning/register allocation. */
     one = 1;
 
     if (mode == one) {
@@ -47,43 +48,43 @@ m0:
         k = 0x18000;
     } while (0);
     c = 0x100;
-    *(s16 *)(p + 0x30) = c;
-    *(s16 *)(p + 0x32) = c;
+    object->field_30.h.counter = c;
+    object->field_30.h.field_32 = c;
     v = D_8009B0F4;
-    *(s16 *)(p + 4) = 0x40;
+    object->w = 0x40;
     D_8009B0F4 = v & m;
     w = D_8009B0F4;
     n = 0x10000;
     do {
-        *(s32 *)(p + 0x1C) = k;
+        *(s32 *)&object->mode = k;
         D_8009B0F4 = w | n;
-        p[0x46] = 2;
+        object->done = 2;
         d = D_8009B118;
-        *(s16 *)(p + 6) = 0x10;
+        object->h = 0x10;
     } while (0);
-    *(s32 *)(p + 8) = d;
-    *(s32 *)(p + 0xC) = d + 0x800;
+    object->value_08 = d;
+    object->value_0C = d + 0x800;
     return;
 
 m1:
-    *(s16 *)(p + 0x30) = 0x1C0;
-    *(s16 *)(p + 0x32) = 0x100;
-    *(s16 *)(p + 4) = 0x40;
+    object->field_30.h.counter = 0x1C0;
+    object->field_30.h.field_32 = 0x100;
+    object->w = 0x40;
     v2 = D_8009B0F4;
-    *(s16 *)(p + 6) = 0x10;
+    object->h = 0x10;
     D_8009B0F4 = v2 & 0xFFDDFFFF;
     w2 = D_8009B0F4;
     D_8009B0F4 = w2 | 0x10000;
-    p[0x46] = 2;
+    object->done = 2;
     d2 = D_8009B118;
-    *(s32 *)(p + 0x1C) = 0x8000;
-    *(s32 *)(p + 8) = d2;
-    *(s32 *)(p + 0xC) = d2 + 0x800;
+    *(s32 *)&object->mode = 0x8000;
+    object->value_08 = d2;
+    object->value_0C = d2 + 0x800;
     return;
 
 m2:
     m = 0xFFDCFFFF;
-    *(s32 *)(p + 0x1C) = 0x800;
+    *(s32 *)&object->mode = 0x800;
     x = D_8009B0F4 & m;
     y = (u8 *)D_8009B118;
     goto tail;
@@ -92,20 +93,20 @@ m3:
     do {
         hun = 0x100;
     } while (0);
-    *(s16 *)(p + 2) = 0xF0;
+    *(s16 *)((u8 *)object + 2) = 0xF0;
     k = D_8009B118;
-    *(s16 *)(p + 0) = hun;
-    *(s16 *)(p + 4) = hun;
-    *(s16 *)(p + 6) = 4;
-    LoadImage2((RECT *)p, (u32 *)k);
+    object->x = hun;
+    object->w = hun;
+    object->h = 4;
+    LoadImage2((RECT *)object, (u32 *)k);
     m = 0xFFDCFFFF;
-    *(s32 *)(p + 0x1C) = 0x7800;
+    *(s32 *)&object->mode = 0x7800;
     x = D_8009B0F4 & m;
     y = D_800101D8;
 
 tail:
     D_8009B0F4 = x;
-    *(s32 *)(p + 0xC) = (s32)y;
-    *(s32 *)(p + 8) = (s32)y;
-    p[0x46] = one;
+    object->value_0C = (s32)y;
+    object->value_08 = (s32)y;
+    object->done = one;
 }
