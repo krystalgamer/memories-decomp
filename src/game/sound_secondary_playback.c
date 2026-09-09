@@ -3,13 +3,6 @@
 #include "sound.h"
 #include "sound_spatialization.h"
 
-typedef struct {
-    s32 voice;
-    s32 mask;
-    SpuVolume volume;
-    u8 pad_0C[52];
-} VoiceAttributePacket;
-
 extern void SD_StartSequenceTracks(SDSecondaryState *);
 /* Preserve the no-argument call form used by the playback-start variant. */
 extern void SD_StartSequenceTracks_no_arg(void) asm("SD_StartSequenceTracks");
@@ -120,7 +113,7 @@ void func_80049CB0(void)
 
 void func_80049CF8(void)
 {
-    VoiceAttributePacket packet;
+    SpuVoiceAttr packet;
     register u8 *initial asm("$2") = (u8 *)D_8009B458;
     register u8 *state asm("$3");
     register s32 i asm("$16");
@@ -151,7 +144,7 @@ void func_80049CF8(void)
                 packet.voice = *voice_bits;
                 packet.volume.left = 0;
                 packet.volume.right = 0;
-                SpuSetVoiceAttr((SpuVoiceAttr *)&packet);
+                SpuSetVoiceAttr(&packet);
             }
             voice_bits++;
             asm volatile("" : "+r"(voice_bits));
@@ -169,7 +162,7 @@ void func_80049CF8(void)
 
 void func_80049DD8(void)
 {
-    VoiceAttributePacket packet;
+    SpuVoiceAttr packet;
     register u8 *initial asm("$2") = (u8 *)D_8009B458;
     register u8 *state asm("$3");
     register s32 i asm("$16");
@@ -200,7 +193,7 @@ void func_80049DD8(void)
                 packet.voice = *voice_bits;
                 packet.volume.left = *(u16 *)(entry + 0x194);
                 packet.volume.right = *(u16 *)(entry + 0x196);
-                SpuSetVoiceAttr((SpuVoiceAttr *)&packet);
+                SpuSetVoiceAttr(&packet);
             }
             voice_bits++;
             asm volatile("" : "+r"(voice_bits));
