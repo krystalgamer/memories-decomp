@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "card_type_icon_table.h"
 
 struct Obj {
     u8 pad[11589];
@@ -6,8 +7,6 @@ struct Obj {
     s8 field11590;
     u8 field11591;
 };
-
-extern u8 D_80090DD8[];
 
 void func_80033CC4(struct Obj *a0) {
     int a1;
