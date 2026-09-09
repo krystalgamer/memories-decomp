@@ -12,6 +12,7 @@
 #include "input.h"
 #include "view_state.h"
 #include "duel_card_display_state.h"
+#include "../unmatched.h"
 
 /* The developer effect-preview screen: a pad-driven camera and viewport
    nudge, the controller that builds one of four preview pages and spawns an
@@ -21,7 +22,6 @@
 
 extern s32 D_8009B30C __attribute__((section(".data")));
 
-extern u16 D_8009B23A;
 extern u8 D_8009B16C[4];
 /* The tuned pair the HUD prints: D_8009AF2A selects which of the two
    D_8009AF2C entries the up/down repeat adjusts. */

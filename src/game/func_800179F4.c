@@ -13,6 +13,7 @@
 #include "view_state.h"
 #include "duel_effect_resource_record.h"
 #include "sound_voice_selection.h"
+#include "../unmatched.h"
 
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
@@ -24,7 +25,6 @@ extern u8 gDuel_awOpponentDeckPool[];
 extern u8 D_801D1200[];
 
 extern s8 D_8009B238;
-extern u16 D_8009B23A;
 extern u8 gDuel_bQuitDialogState;
 extern u16 D_8009B162;
 extern u8 D_8009B1D4;

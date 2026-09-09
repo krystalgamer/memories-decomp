@@ -87,7 +87,6 @@ extern void func_80020D4C(void *);
 extern void func_8001EC70(void *);
 extern void func_80020EE8(void *);
 
-extern u16 D_8009B23A;
 extern u16 D_8009B162;
 extern u16 D_8009B1E0;
 extern u16 D_8009B1D0;

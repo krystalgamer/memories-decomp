@@ -8,9 +8,9 @@
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
+#include "../unmatched.h"
 
 extern u8 *D_800E9EF0[];
-extern u16 D_8009B23A;
 extern u8 D_8009B174;
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what gives the

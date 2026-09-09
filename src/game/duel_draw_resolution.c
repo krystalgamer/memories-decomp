@@ -8,6 +8,7 @@
 #include "duel_deck_card.h"
 #include "duel_rank.h"
 #include "sound.h"
+#include "../unmatched.h"
 
 extern DuelSideState *D_8009B1C8_hand asm("D_8009B1C8");
 extern ExodiaCardDatabase D_8015C424_cards asm("D_8015C424");
@@ -41,7 +42,6 @@ s32 Duel_HasAllExodiaPieces(void) {
     return 1;
 }
 
-extern u16 D_8009B23A;
 extern u8 D_8009B1ED;
 extern u8 D_8009B1EC;
 extern u8 gDuel_bWinnerSide;

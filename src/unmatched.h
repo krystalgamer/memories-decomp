@@ -145,4 +145,13 @@ extern u8 D_801AF800[];
  * question from centralizing it. */
 extern s32 D_8009B118;
 
+/* A halfword at 0x8009B23A, read and written as a scalar by all eight of its
+ * consumers, which spelled it identically as `extern u16 D_8009B23A;`.
+ *
+ * The next name in c_symbols.ld is D_8009B244, ten bytes further on, so the
+ * gap is only an upper bound here rather than the size. Nothing is named
+ * inside it and nothing indexes past the halfword, so the u16 every consumer
+ * already agrees on is what moves; the eight bytes above it stay unclaimed. */
+extern u16 D_8009B23A;
+
 #endif
