@@ -8,6 +8,7 @@
 #include "duel_card.h"
 #include "display_object_api.h"
 #include "sound.h"
+#include "duel_apply_card_object_flags.h"
 
 typedef struct Obj {
     s16 x;
@@ -27,7 +28,6 @@ typedef struct Obj {
 } Obj;
 
 extern u8 D_8009B260 __attribute__((section(".data")));
-extern void Duel_ApplyCardObjectFlags(Obj *);
 
 #define DUEL_FIELD_EFFECT_TIMER_STEP 8
 #define DUEL_FIELD_EFFECT_MARK_THRESHOLD 40
@@ -47,7 +47,7 @@ void func_80025B28(Obj *o)
         o->active = 0;
         o->callback = 0;
         D_801A7AD8[o->index].flags &= ~0x3400;
-        Duel_ApplyCardObjectFlags(o);
+        Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)o);
     }
 }
 

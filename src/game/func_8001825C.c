@@ -12,6 +12,7 @@
 #include "sound.h"
 #include "view_state.h"
 #include "../unmatched.h"
+#include "duel_apply_card_object_flags.h"
 
 extern s8 D_8009B1B9;
 extern s8 D_8009B208[8];
@@ -21,7 +22,6 @@ extern u8 D_8015C424[];
 extern u8 D_801A7B64[];
 
 extern void func_80024D34(s32, s32);
-extern void Duel_ApplyCardObjectFlags(u8 *);
 
 void func_8001825C(void)
 {
@@ -50,7 +50,7 @@ void func_8001825C(void)
                 func_80024D34(i, *(s8 *)(*(u8 **)(p - 0xE) + 2));
                 *(u16 *)(p + 4) |= keep;
                 *(s16 *)p = y;
-                Duel_ApplyCardObjectFlags(*(u8 **)rec);
+                Duel_ApplyCardObjectFlags(*(DuelCardDisplayObject **)rec);
             }
         }
         rec = D_801A7B64 + 0x1A4;
@@ -64,7 +64,7 @@ void func_8001825C(void)
                 func_80024D34(i, *(s8 *)(*(u8 **)(p - 0xE) + 2));
                 *(u16 *)(p + 4) |= keep;
                 *(s16 *)p = y;
-                Duel_ApplyCardObjectFlags(*(u8 **)rec);
+                Duel_ApplyCardObjectFlags(*(DuelCardDisplayObject **)rec);
             }
         }
         func_8001352C();
