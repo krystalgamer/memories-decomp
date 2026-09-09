@@ -566,15 +566,25 @@ void SD_SetOutputType(s16);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);
 
-/* gSD_dwCurrentBgmCommand is deliberately not declared here.
+/* gSD_dwCurrentBgmCommand, in two arms.
  *
- * sound_frontend.c writes it as a scalar, which -G8 reaches gp-relative,
- * while script_stream_commands.c and duel_effect_play_sound_command.c read it
- * through `extern u32 gSD_dwCurrentBgmCommand[]` and `[0]`: an unsized array
- * is not assumed small, so those reads are built from an absolute address.
- * Giving all three the scalar form builds the executable eight bytes short, so
- * the split is load-bearing. Declaring it here would force one spelling on
- * every includer, which is what kept those two files out of this header.
- */
+ * The split is load bearing and the measurement stands: sound_frontend.c
+ * writes it as a scalar, which -G8 reaches gp-relative, while
+ * script_stream_commands.c and duel_effect_play_sound_command.c read it
+ * through an unsized array and `[0]`, which is not assumed small and so is
+ * built from an absolute address. Giving all three the scalar form builds the
+ * executable eight bytes short.
+ *
+ * What has changed is only the mechanism. The note here previously said
+ * declaring it in this header "would force one spelling on every includer",
+ * and that was true of a flat declaration. An arm does not: each consumer
+ * selects the spelling it already had, the same way D_8009B458 above is
+ * handled and D_8009B0D8 is handled in graphics_frame.h. So the symbol can
+ * live here after all, with the split preserved rather than resolved. */
+#ifdef GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
+extern u32 gSD_dwCurrentBgmCommand[];
+#else
+extern u32 gSD_dwCurrentBgmCommand;
+#endif
 
 #endif

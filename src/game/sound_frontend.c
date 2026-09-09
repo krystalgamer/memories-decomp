@@ -7,7 +7,6 @@
 #include "sound_output.h"
 
 extern s8 gSD_bOutputType;
-extern u32 gSD_dwCurrentBgmCommand;
 
 extern void func_80046990(s32, s32, s32);
 extern void SD_SEPlay(u32, s32, s32);

@@ -1,10 +1,10 @@
+#define GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
 #include "../types.h"
 #include "script_command_busy.h"
 #include "sound.h"
 #include "file_transfer.h"
 #include "script_state.h"
 
-extern u32 gSD_dwCurrentBgmCommand[];
 extern s32 D_8009B404 __attribute__((section(".data")));
 extern u8 D_801A8000[];
 
