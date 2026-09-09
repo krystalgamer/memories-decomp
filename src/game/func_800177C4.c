@@ -5,8 +5,8 @@
 #include "../psyq/libgs.h"
 #include "duel_card.h"
 #include "screen_projection.h"
+#include "view_state.h"
 
-extern s16 D_800F2856[];
 extern u16 D_800908A0[];
 extern ScreenPair D_800EA070[];
 
@@ -28,7 +28,7 @@ void func_800177C4(void)
     u16 *src;
     s32 i;
 
-    SetGeomScreen(D_800F2856[0]);
+    SetGeomScreen(D_800F2848.projection);
     SetGeomOffset(0xA0, 0x6C);
     GsSetLsMatrix(&D_800FE148);
     pad = (u8 *)0x1F8003E0;
