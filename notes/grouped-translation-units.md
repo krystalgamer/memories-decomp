@@ -46,6 +46,7 @@ source grouping.
 | `src/game/duel_draw_resolution.c` | `gcc_2_8_1_g8_split` | Five-piece Exodia hand predicate (`0x80018CF8`) and the contiguous draw-animation state machine (`0x80018DB4`) that invokes it before resolving victory |
 | `src/game/display_object_property_transitions.c` | `gcc_2_8_1_g8` | Three-channel byte convergence to per-channel targets (`0x8001D344`) and the contiguous timed position/interpolation transition with clip-flag lifecycle (`0x8001D3C4`) |
 | `src/game/display_object_motion.c` | `gcc_2_8_1_g8` | Timed position interpolation with speed-to-`0x800` completion (`0x8001EC70`) and the contiguous mode-progress variant that stores the final position and clears the clip flag when appropriate (`0x8001ED20`) |
+| `src/game/display_effect_update_callbacks.c` | `gcc_2_8_1_g0` | Two display-effect update callbacks, `func_8003AD6C` (`0x8003AD6C`) and the contiguous `func_8003B054` (`0x8003B054`). Contiguous -- 0x8003AD6C is 0x2E8 bytes and ends exactly at 0x8003B054 -- and bounded on both sides by a profile change, `func_8003AC48.c` (`gcc_2_8_1_cc_g8_as_g0_split`) below and `func_8003B378.c` (`gcc_2_8_1_g8`) above. Both take the same `DisplayEffectState` record and open with the same first-frame latch `func_80039F1C`, and both scale by the per-frame step multiplier `D_8009B0D8`. They read that multiplier at different widths, so the unit keeps the plain `s32` arm and the second function reaches the same symbol through a `D_8009B0D8_halfword asm("D_8009B0D8")` alias, the device graphics_frame.h documents and display_object_fade_callbacks.c already uses |
 | `src/game/duel_battle_stats.c` | `gcc_2_8_1_g8` | `Duel_CalcBattleAttack` (`0x8001EF1C`), `Duel_CalcBattleDefense` (`0x8001EF78`) |
 | `src/game/duel_trap_resolution.c` | `gcc_2_8_1_g8_split` | Contiguous attack-trap selector (`0x8001F0D0`) and its presentation state machine (`0x8001F364`), linked through the selected card-object index in `D_8009B1B8` |
 | `src/game/duel_card_turn_animations.c` | `gcc_2_8_1_g8` | Mirrored three-mode card turn-back callback (`0x80022674`, sets record flag `0x400`) and contiguous flip/turn callback (`0x800229F4`, clears `0x400`), both using side-dependent two-phase rotations |
@@ -229,26 +230,47 @@ because a grouped unit is compiled once and one spelling has to win. This
 already blocked the AI call-control group above until the three helpers moved
 to a shared `AiScriptState`.
 
-The sharp case is a guard-selected arm. `func_8003AD6C.c` takes the default
-`extern s32 D_8009B0D8` arm and its neighbour `func_8003B054.c` opens with
-`#define D_8009B0D8_IS_HALFWORD`. They are adjacent and share
-`gcc_2_8_1_g0`, so they pass conditions 1 and 2, and the pair looks mergeable.
+The sharp case is a guard-selected arm. `func_8003AD6C.c` took the default
+`extern s32 D_8009B0D8` arm and its neighbour `func_8003B054.c` opened with
+`#define D_8009B0D8_IS_HALFWORD`. They are adjacent and share `gcc_2_8_1_g0`,
+so they pass conditions 1 and 2, and the pair looks mergeable.
 
-Disassembling the two objects the build already produced settles it without
-compiling anything:
+Disassembling the two objects the build already produced shows the
+disagreement without compiling anything:
 
 ```
 func_8003AD6C.o    lw   v1,0(v1)     R_MIPS_LO16   D_8009B0D8
 func_8003B054.o    lhu  v1,0(v1)     R_MIPS_LO16   D_8009B0D8
 ```
 
-Retail reads that one symbol at two widths from two translation units. Both
-arms are faithful, neither can replace the other, and merging would change a
-load. Recorded as blocked; no build spent.
+**This was recorded as blocking, and that was wrong.** The reasoning ran:
+retail reads one symbol at two widths, neither arm can replace the other, so
+merging must change a load. The first clause is right and the conclusion does
+not follow, because picking an arm is not the only way to spell a global. A
+unit that needs two widths takes an **alias** -- a second name for the same
+symbol, `extern u16 D_8009B0D8_halfword asm("D_8009B0D8");` -- which
+`graphics_frame.h` documents and `display_object_fade_callbacks.c` already
+uses on this very global for the plain and volatile pair. With the alias both
+loads survive exactly as above, and the two are now one unit,
+`display_effect_update_callbacks.c`, with the executable byte-identical.
+
+So the rule is narrower than it looked. **Two sources that spell a shared
+global differently are blocked only when the difference cannot be expressed
+twice in one unit.** A guard-selected *width* or qualifier can be, through an
+alias. What genuinely blocks is a difference in the object itself -- a
+different type, extent or section attribute -- because an alias would then be
+a second declaration of a different thing rather than a second name for the
+same one.
+
+Note also what the two-width read does *not* prove. It is tempting to read
+`lw` beside `lhu` as evidence that retail had two translation units here, but
+`display_object_fade_callbacks.c` is a single retail unit reading this same
+symbol two ways, so the inference does not hold in either direction.
 
 `objdump -dr tmp/splat/build/src/game/NAME.o` is the general form. It is the
 cheapest tier of evidence available here, below even the `-G` table in
-`notes/build.md`.
+`notes/build.md`, and it is the right tool for finding this disagreement --
+just not for concluding the merge is impossible.
 
 ### A merged unit inherits both halves' `.rodata`
 

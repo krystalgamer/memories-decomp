@@ -3046,13 +3046,13 @@
       "address": "0x8003AD6C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x2E8",
-      "source": "src/game/func_8003AD6C.c"
+      "source": "src/game/display_effect_update_callbacks.c"
     },
     {
       "address": "0x8003B054",
       "profile": "gcc_2_8_1_g0",
       "size": "0x324",
-      "source": "src/game/func_8003B054.c"
+      "source": "src/game/display_effect_update_callbacks.c"
     },
     {
       "address": "0x8003B378",
