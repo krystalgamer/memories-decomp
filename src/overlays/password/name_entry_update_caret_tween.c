@@ -1,8 +1,6 @@
 #include "../../types.h"
 #include "name_entry_keyboard.h"
-
-extern void func_800429D8(u8 *);
-extern void func_80042A78(void *);
+#include "../../game/display_object_helpers.h"
 
 void NameEntry_UpdateCaretTween(u8 *object)
 {

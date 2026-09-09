@@ -5,6 +5,7 @@
 #include "../../game/input.h"
 #include "name_entry_keyboard.h"
 #include "../../game/sound.h"
+#include "../../game/display_object_helpers.h"
 
 typedef struct {
     u8 pad0[48];
@@ -33,9 +34,6 @@ extern u16 *D_8016D418;
 extern u8 D_8016D400;
 extern s8 D_8016AB38[][15];
 extern u8 D_8016ABC0[][2];
-
-extern void func_80042A78(W *);
-extern void func_800429D8(W *);
 
 void NameEntry_UpdateKeyboard(void)
 {

@@ -3,6 +3,7 @@
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_lifecycle.h"
 #include "shop.h"
+#include "../../game/display_object_helpers.h"
 
 typedef struct {
     u8 unk0[0x8];
@@ -16,8 +17,6 @@ typedef struct {
 
 extern s32 gPassword_nDigitIndex;
 extern PasswordNode *gPassword_pDigitCursorWidget;
-extern void func_800429D8(u8 *);
-extern void func_80042A78(u8 *);
 
 void Password_UpdateDigitCursor(u8 *object)
 {

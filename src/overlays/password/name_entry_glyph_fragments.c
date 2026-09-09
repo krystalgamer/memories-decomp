@@ -2,12 +2,9 @@
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_lifecycle.h"
 #include "name_entry_keyboard.h"
+#include "../../game/display_object_helpers.h"
 
-extern void func_800429D8(u8 *);
 extern s32 func_800358FC(s32);
-extern s32 func_80042B08(s32, s32);
-extern s32 func_80042AD8(s32, s32, s32);
-extern void func_80042A78(void *);
 extern void func_80040510(void *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
 void NameEntry_UpdateGlyphFragment(u8 *object)

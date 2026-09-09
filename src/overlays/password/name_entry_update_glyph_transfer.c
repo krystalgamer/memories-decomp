@@ -5,10 +5,9 @@
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_lifecycle.h"
 #include "name_entry_keyboard.h"
+#include "../../game/display_object_helpers.h"
 
 extern s8 D_8016D42C;
-extern void func_800429D8(u8 *);
-extern void func_80042A78(u8 *);
 extern void func_80040510(u8 *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
 void NameEntry_UpdateGlyphTransfer(u8 *w)
