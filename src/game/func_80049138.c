@@ -4,9 +4,8 @@
 #include "../psyq/libspu.h"
 
 #include "sound.h"
+#include "sound_output.h"
 #include "../unmatched.h"
-
-extern void func_800471D0(s32, s32, s32, s32, s32, s32);
 
 s32 func_80049138(s16 arg0, s32 arg1) {
     SDValue *p = g_SDValue;
