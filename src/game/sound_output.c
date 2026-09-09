@@ -71,8 +71,8 @@ void func_80046DE8(void)
 
 #include "../psyq/libspu.h"
 #include "sound.h"
+#include "sound_output.h"
 extern void func_80046A08(void);
-extern void func_800472A8(s32);
 extern void func_8004763C(void);
 extern void func_80047AD0(u32);
 extern void func_800490F0(s16, u8);
@@ -85,11 +85,6 @@ extern void func_800495DC(void);
 extern void func_800495EC(void);
 extern void SD_Init(void);
 extern SDValue * volatile D_8009B45C_volatile asm("g_SDValue");
-
-void func_8004733C(s32 arg0, s32 arg1);
-void func_800473CC(u32 value);
-void func_800473F0(u16 flags, s32 value);
-
 void func_80046F58(void)
 {
     SD_KeyOffVoiceSlots();

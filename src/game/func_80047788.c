@@ -1,9 +1,8 @@
 #include "../types.h"
 #include "sound.h"
+#include "sound_output.h"
 
 extern SDValue *g_SDValue __attribute__((section(".data")));
-
-extern void func_800471D0(s32, s32, s32, s32, s32, s32);
 
 void func_80047788(s32 arg0)
 {

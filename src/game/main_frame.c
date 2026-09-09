@@ -2,13 +2,13 @@
 #include "graphics_frame.h"
 #include "main_frame.h"
 #include "input.h"
+#include "sound_output.h"
 
 extern volatile s32 D_8009B09C;
 extern volatile s32 D_8009B0C4;
 extern volatile s32 D_8009B0C8;
 extern u8 D_8009B0C3;
 extern u8 D_8009AF0C;
-extern void func_80047050(void);
 extern void func_8001306C(void);
 
 void Main_VBlankCB(void)
