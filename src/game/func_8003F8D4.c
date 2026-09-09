@@ -3,6 +3,7 @@
 #include "data_transfer_request.h"
 #include "input.h"
 #include "duel_effect.h"
+#include "func_8003F8D4.h"
 #include "text_box_lifecycle.h"
 
 #include "mem_card.h"

@@ -1,8 +1,8 @@
 #include "../types.h"
+#include "func_8003F8D4.h"
 
 extern u8 D_8009B3ED;
 extern u8 D_8009B3C0;
-extern void func_8003F8D4(void);
 
 void func_8003FCD8(void)
 {
