@@ -180,7 +180,27 @@ typedef struct DisplayObject {
             s16 field_4A;
         } h;
     } field_48;                    /* 0x48 */
-    u8 pad_4C[8];                  /* 0x4C */
+    /* Read two ways, like 0x44, and for the same reason: 0x4C is the fifth of
+       the six words at stride 8 -- 0x2C, 0x34, 0x3C, 0x44, 0x4C, 0x54 -- that
+       display_object_helpers.c zeroes in one run.
+
+       For a gouraud-rendered object it is a vertex colour:
+       display_object_list_renderers.c copies it into a primitive's colour
+       word, Dialog_UpdateChoice writes 0x2000 and func_800391E4 writes
+       0xA0A0A0.
+
+       For others it holds a second callback: display_object_updates.c calls
+       through it as void (*)(u8 *, s32), and dialog_transition.c,
+       func_800179F4.c and func_8002ABB4.c each store a function's address
+       here.
+
+       Neither reading governs, so the offset is the name. s32 is the spelling
+       that serves both: the callback writers in this file already cast the
+       function to it, and a colour word is not a pointer. DuelCardDisplayObject
+       in duel_card_display_state.h names the same word field_4C, as a void *,
+       because on that view only the callback reading occurs. */
+    s32 field_4C;                  /* 0x4C */
+    u8 pad_50[4];                  /* 0x50 */
     void *field_54;                /* 0x54 */
     u8 pad_58[4];                  /* 0x58 */
     u16 field_5C;                  /* 0x5C */
