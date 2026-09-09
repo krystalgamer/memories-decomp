@@ -17,6 +17,9 @@ Size: `0x0C` (`AI_ACTIVE_CARD_RECORD_SIZE`)
 | `0x00` | `card_id` | Fusion, equip, deck-size, face-state, and set-query handlers treat zero as an empty slot and nonzero values as card IDs. |
 | `0x06` | `flags` | Matchup, equip, face-state, and move-card handlers use defense-position `0x0800`, face-down `0x1000`, and used-this-turn `0x4000` masks. |
 | `0x08` | `card_type` | Monster/type searches compare the signed byte against card-type values. |
+| `0x09` | `guardian_star` | Matchup searches pass it as the first guardian-star operand. |
+| `0x0A` | `guardian_star_2` | `func_80027DF8` exports the second packed guardian-star value for hand and deck cards. |
+| `0x0B` | `deck_index` | `func_80027DF8` copies the source `DuelDeckCardRecord.index_02` for remaining deck cards. |
 
 The structure replaces private 12-byte definitions in the merged fusion,
 set-query, card-info, and state-operation units and in existing card-state
@@ -25,11 +28,13 @@ handlers.
 `func_80028220` spaces its selected-side and opposite-side snapshot destinations
 by `AI_ACTIVE_CARD_SIDE_BYTE_STRIDE` (`0x294`), or 55 records. This is storage
 spacing, not a fixed exporter count: `func_80027DF8` emits two field rows,
-compacts nonnegative hand-slot entries, appends the remaining deck entries, and writes a
-zero card-ID terminator. Its private `LocalEnt` view and the shared
-`AiActiveCard` view both have record-size assertions. Raw address calculations
-use integer-valued byte constants rather than `sizeof`-derived strides, keeping
-their arithmetic types unchanged; no loop bound or clearing behavior changes.
+compacts nonnegative hand-slot entries, appends the remaining deck entries, and
+writes a zero card-ID terminator. It now writes `AiActiveCard` directly; the
+former private view had the same record size and field offsets. Its field-card
+source object is a `DuelCardDisplayObject`, whose `field_68` is populated from
+the same packed card-type bits. Raw address calculations use integer-valued
+byte constants rather than `sizeof`-derived strides, keeping their arithmetic
+types unchanged; no loop bound or clearing behavior changes.
 
 `AiScript_FindKiller` and `AiScript_FindBestAttack` retain raw halfword flag
 reads at `+0x06` while reusing the shared `DUEL_CARD_FLAG_*` masks. The latter's

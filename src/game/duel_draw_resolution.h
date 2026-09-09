@@ -3,12 +3,9 @@
 
 #include "../types.h"
 
-/* The two records duel_draw_resolution.c reads the card table through.
- *
- * Neither leaves this translation unit. Nothing in src/ names either type or
- * either function, and the only references in the generated assembly are
- * inside their own object, so both shapes are constrained solely by the reads
- * below. */
+/* The records used to read the staged card table. duel_draw_resolution.c
+ * consumes both fields below for the Exodia check; func_80027DF8 shares the
+ * database view to export card IDs into the AI active-card table. */
 
 /* One entry of the staged card table. Only the two fields the Exodia check
  * reads are named. This is NOT the game's full card record -- it is the view
