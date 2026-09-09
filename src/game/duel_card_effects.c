@@ -12,6 +12,7 @@
 #include "duel_grid.h"
 #include "duel_card.h"
 #include "duel_card_object_cleanup.h"
+#include "duel_card_effects.h"
 
 extern u16 D_8009B210;
 extern s16 D_8009B22A;

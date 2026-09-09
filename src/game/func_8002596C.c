@@ -10,6 +10,7 @@
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "sound.h"
+#include "func_8002596C.h"
 
 void func_8002596C(void) {
     u8 *p;

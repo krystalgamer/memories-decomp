@@ -3,23 +3,17 @@
 #include "duel_effect_noop_handlers.h"
 #include "duel_effect_tables.h"
 #include "func_8002622C.h"
-
-void DuelEffect_UpdateFieldMarker(void);
-void func_80024E4C(void);
-void func_80024E58(void);
-void func_800250C8(void);
-void func_8002525C(void);
-void func_8002538C(void);
-void func_800257A0(void);
-void func_8002596C(void);
-void func_80025BEC(void);
-void func_80025D30(void);
-void func_80025EE0(void);
-void func_80025F3C(void);
-void func_800260D0(void);
-void func_80026A3C(void);
-void func_80028310(void);
-void func_800283F4(void);
+#include "duel_action_lock.h"
+#include "duel_card_effects.h"
+#include "duel_field_effect_steps.h"
+#include "duel_field_effect_transition.h"
+#include "duel_magic_effect_dispatch.h"
+#include "func_80024E58.h"
+#include "func_80025D30.h"
+#include "func_80025EE0.h"
+#include "func_8002596C.h"
+#include "func_80028310.h"
+#include "func_800283F4.h"
 
 /* Initialized data at 0x80090A5C: two handlers per effect group, in group
    order. */
