@@ -9,13 +9,13 @@
 #include "menu_record_reset.h"
 #include "sound.h"
 #include "main_services.h"
+#include "options.h"
 
 extern u8 D_8009B26C;
 extern u8 D_8009B269;
 extern void NameEntry_Init(void);
 extern int NameEntry_PollCompletion(void);
 extern void func_8003C2B4(void);
-extern void Options_Init(void);
 extern int Options_Update(void);
 extern void func_8003C498(void);
 extern void func_8003C950(void);
