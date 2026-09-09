@@ -1,7 +1,6 @@
 #include "../types.h"
+#define AI_HAND_SIZE_RETURNS_S32
 #include "ai.h"
-
-s32 Ai_GetHandSize(void);
 
 extern u8 gAiScript_State[];
 

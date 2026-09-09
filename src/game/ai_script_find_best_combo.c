@@ -4,7 +4,6 @@
 #include "ai_script_read_byte.h"
 #include "ai.h"
 extern u8 gAiScript_State[];
-extern s32 Ai_GetHandSize(void);
 extern void Ai_CompleteFusion(s32);
 
 /* AI script opcode taking three operand bytes: a register holding the search
