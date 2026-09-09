@@ -1,6 +1,8 @@
 #ifndef MEMORIES_DECOMP_DUEL_RANK_H
 #define MEMORIES_DECOMP_DUEL_RANK_H
 
+#include "../types.h"
+
 #define DUEL_RANK_SCORE_INITIAL 50
 #define DUEL_RANK_SCORE_THRESHOLD_COUNT 5
 
@@ -21,5 +23,17 @@
 #define DUEL_RANK_RULE_REMAINING_LP 7
 #define DUEL_RANK_RULE_INITIATE_FUSION 8
 #define DUEL_RANK_RULE_EQUIP_MAGIC 9
+
+/* One threshold/change pair in a duel-rank rule row. The first threshold
+ * strictly above the measured value supplies the score change. */
+typedef struct {
+    s16 threshold;
+    s16 score_change;
+} DuelRankScoreChangeEntry;
+
+extern DuelRankScoreChangeEntry
+    gDuel_awRankScoreChange[][DUEL_RANK_SCORE_THRESHOLD_COUNT];
+
+s32 Duel_CalcRankScoreChange(s32 rule, s32 value);
 
 #endif
