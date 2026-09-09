@@ -265,6 +265,19 @@ typedef char DisplayObject_field_65_must_be_at_0x65[
  */
 extern s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT];
 
+/* The per-list key array, walked in lockstep with the list heads above.
+ *
+ * DisplayObject_ResetPool advances one pointer into each and writes -1 through
+ * both for DISPLAY_OBJECT_LIST_COUNT iterations, which is what fixes this
+ * length, and display_slot_lifecycle.c stores into it by list key. The element
+ * type is s16 by the same evidence: that store is D_800F2878[key] = index, and
+ * the reset walk uses an s16 *.
+ *
+ * func_800402A0.c reached it through a u8 * and scaled by two by hand. It now
+ * takes this declaration and casts at the use site, which is the form it
+ * already uses one line earlier for D_800EFE38. */
+extern s16 D_800F2878[DISPLAY_OBJECT_LIST_COUNT];
+
 extern DisplayObject D_800EFE48[DISPLAY_OBJECT_POOL_CAPACITY];
 /* &D_800EFE48[DISPLAY_OBJECT_RESERVED_CAPACITY]: the allocatable tail of the
  * same pool, which func_8004002C scans. */
