@@ -2,8 +2,8 @@
 #include "text_stream_commands.h"
 #include "duel_effect.h"
 
-extern signed char gDialog_bChoiceCount;
-extern unsigned char D_8009B34C;
+extern s8 gDialog_bChoiceCount;
+extern u8 D_8009B34C;
 
 void func_80037CE0(volatile u8 *object) {
     register unsigned short flags __asm__("$2");

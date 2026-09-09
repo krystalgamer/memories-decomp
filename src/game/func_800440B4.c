@@ -2,7 +2,7 @@
 #include "mem_card.h"
 #include "func_800440B4.h"
 
-extern signed char D_8009B43E;
+extern s8 D_8009B43E;
 extern char D_8009B43C;
 extern char D_8009B437;
 extern char D_8009B44F;

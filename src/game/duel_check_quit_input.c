@@ -3,7 +3,7 @@
 #include "input.h"
 
 extern signed char gDuel_bOpponentID[];
-extern unsigned char gDuel_bQuitDialogState;
+extern u8 gDuel_bQuitDialogState;
 
 int Duel_CheckQuitInput(void)
 {

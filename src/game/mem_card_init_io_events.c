@@ -6,7 +6,7 @@
 #include "io_event_helpers.h"
 #include "mem_card_io_result_callbacks.h"
 
-extern signed char D_8009B43E;
+extern s8 D_8009B43E;
 extern u8 D_8009B44E;
 extern long gMemCard_aIOEventHandles[];
 extern long D_800F2AF0[];

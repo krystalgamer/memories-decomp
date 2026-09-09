@@ -12,7 +12,7 @@
 extern unsigned char D_8009B26C;
 extern unsigned char D_8009B269;
 extern unsigned char D_8009B0A3[];
-extern unsigned char D_8009B363[];
+extern u8 D_8009B363[];
 extern unsigned char D_8009B2F8[];
 extern unsigned int D_80010000[];
 extern void func_8016866C(int);

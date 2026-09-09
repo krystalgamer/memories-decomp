@@ -7,7 +7,7 @@ typedef struct {
 } LargeObject;
 
 extern LargeObject D_800EF6E0;
-extern unsigned char D_8009B3C7;
+extern u8 D_8009B3C7;
 extern unsigned char D_8009B3CF;
 extern unsigned char D_8009B3DD;
 extern unsigned short D_8009B3CC;

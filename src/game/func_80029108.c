@@ -7,7 +7,7 @@ typedef struct {
     u8 field_6A;
 } Object;
 
-extern int D_8009B424;
+extern s32 D_8009B424;
 /* One argument on purpose: func_80041D60 takes three, and reads the
  * second and third on its cooldown path without assigning them. The
  * retail image calls it this way; see that file. */
