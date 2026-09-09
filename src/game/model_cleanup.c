@@ -9,15 +9,9 @@
 
 extern u8 D_8009AF94;
 
-extern void func_8004EB00(void);
-extern void func_8004FE2C(void);
-extern void func_800507D0(void);
-extern void func_8004DE24(void);
 extern void func_8004E9A0(void);
 extern void func_800528AC(void);
 extern void func_800556E8(s32);
-extern void func_8005DBA4(void);
-extern void func_80051A48(void);
 extern s32 func_8005FB08(void);
 extern s32 func_8005FC1C(s32);
 void func_80059CE4(void)

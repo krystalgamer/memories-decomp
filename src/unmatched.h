@@ -152,4 +152,33 @@ extern s32 D_8009B118;
 void func_80033DB0(void);
 void func_80034830(void);
 
+/* Eleven unmatched_asm functions, each with a single consumer that declared
+ * it locally. Moved together rather than one per change: this header is a
+ * serialisation point, and separate PRs for separate symbols conflict with
+ * each other without making any of them easier to check.
+ *
+ * All eleven clear the bar this header sets. Each has one spelling across the
+ * tree, so there is no disagreement to resolve first. None is declared with
+ * an empty parameter list, so none is a call site relying on whatever the
+ * argument register happened to hold. None has an overlay consumer.
+ *
+ * Eight are void (void), called with no arguments against a no-argument
+ * declaration, so declaration and call already agree. The other three are
+ * not, and are worth naming because assuming otherwise is exactly the
+ * mistake this batch nearly shipped: func_800534B8 returns s32,
+ * func_80051350 returns s32 and takes three, and func_8004158C takes three.
+ * Each prototype below is copied from the consumer that had it, not
+ * restated. */
+void func_8004DE24(void);
+void func_8004EB00(void);
+void func_8004FE2C(void);
+void func_800507D0(void);
+void func_80051A48(void);
+void func_8005DBA4(void);
+s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
+s32 func_800534B8(void);
+void func_8005C7BC(void);
+void func_8005D378(void);
+void func_8004158C(u8 *, s32, s32);
+
 #endif

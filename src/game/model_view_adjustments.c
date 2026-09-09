@@ -4,9 +4,9 @@
 #include "model.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "func_80058434.h"
+#include "../unmatched.h"
 
 extern s16 D_800F2B4A[];
-extern s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
 extern s32 func_8005F1B8(s32 arg0, s32 arg1);
 void func_80052528(void) {
     u8 *b;

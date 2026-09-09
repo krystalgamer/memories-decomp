@@ -5,6 +5,7 @@
 #include "fade.h"
 #include "sound.h"
 #include "main_modes.h"
+#include "../unmatched.h"
 
 typedef struct {
     s16 f0;
@@ -27,7 +28,6 @@ extern Anim D_800EF658[];
 extern void func_800530C4(void);
 extern void func_800533D8(void);
 extern void Model_SetSlotProperties(s32, ...);
-extern s32 func_800534B8(void);
 extern void func_80059CE4(void);
 
 void Main_RunAnimatedBattle(void)

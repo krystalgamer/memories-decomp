@@ -4,10 +4,9 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "model_packet_handlers.h"
+#include "../unmatched.h"
 
-extern void func_8005C7BC(void);
 extern void func_8005CEF0(void);
-extern void func_8005D378(void);
 
 void func_8005C6A0(s32 *object, u8 *entry)
 {
