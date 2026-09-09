@@ -13,7 +13,6 @@
 #include "duel_card.h"
 #include "duel_card_object_cleanup.h"
 
-extern s16 D_8009B1D2;
 extern u16 D_8009B210;
 extern s16 D_8009B22A;
 /* Small data at 0x8009AF30, owned here: the recovery amounts func_800250C8
@@ -148,7 +147,6 @@ apply:
     }
 }
 
-extern s16 D_8009B1D2;
 extern s16 D_8009B1AC;
 extern s16 D_8009B1AE;
 extern u8 D_801A7AD8_bytes[] asm("D_801A7AD8");
@@ -242,7 +240,6 @@ hit:
 }
 
 extern u8 *D_8009B17C;
-extern s16 D_8009B1D2;
 extern s16 D_8009B20C[4];
 extern u8 D_801A7B64[];
 
