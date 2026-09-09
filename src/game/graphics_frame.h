@@ -31,6 +31,36 @@ extern volatile s32 D_8009B0D8;
 extern s32 D_8009B0D8;
 #endif
 
+/* The frame-advance bound. Graphics_SyncFrame spins
+ * `while (D_8009B0C8 < D_8009B0C0)`, so this byte is how many frames the
+ * caller lets the sync run: Main_RunAnimatedBattle and
+ * src/overlays/main_menu/trade_init.c:74 set it to 1, func_800283F4.c:72
+ * sets it to `flags - 2`, and Main_Init, Main_ResetFrontendRuntime,
+ * Main_RunLibraryMenu and func_800283F4.c:202 set it to 0. Every retail
+ * access is a byte store or load.
+ *
+ * Two units reach it gp-relative (Main_Init stores, Graphics_SyncFrame
+ * re-reads it each iteration); every other retail site is a bare store
+ * through $at (`lui $at,%hi` / `sb ...,%lo(...)($at)`). The arms follow
+ * the unit, and each is justified by a control build of that unit on the
+ * plain arm (the PR that added this block records the five results):
+ *
+ *   _IS_VOLATILE -- graphics_frame.c and main_init.c
+ *   _IN_DATA     -- func_800283F4.c, main_run_animated_battle.c and
+ *                   main_run_duel_and_library.c, all at -G8: out of small
+ *                   data at the compiler, with its true width
+ *
+ * main_reset_frontend_runtime.c (-G0) and the main_menu overlay take the
+ * plain byte. main_run_credits.c is not converted: it reaches the symbol
+ * only through two .reloc lines in inline asm and declares nothing. */
+#ifdef D_8009B0C0_IN_DATA
+extern u8 D_8009B0C0 __attribute__((section(".data")));
+#elif defined(D_8009B0C0_IS_VOLATILE)
+extern volatile u8 D_8009B0C0;
+#else
+extern u8 D_8009B0C0;
+#endif
+
 extern DISPENV gGraphics_DispEnv;
 
 /* Two scratch rectangles for the VRAM transfers. Every user fills x, y, w, h

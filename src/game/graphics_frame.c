@@ -3,10 +3,10 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libetc.h"
 #define D_8009B142_IN_DATA
+#define D_8009B0C0_IS_VOLATILE
 #include "graphics_frame.h"
 #include "movie_playback_control.h"
 
-extern volatile u8 D_8009B0C0;
 extern volatile s32 D_8009B0C8;
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies

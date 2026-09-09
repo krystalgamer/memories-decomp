@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/graphics_frame.h"
 #include "../../game/display_object_api.h"
 #include "entrypoints.h"
 #include "trade_helpers.h"
@@ -16,7 +17,6 @@ extern u8 D_80185CCE;
 extern u8 D_80185CCF;
 extern u8 D_80185CD0;
 extern u8 D_80185CD1;
-extern u8 D_8009B0C0;
 extern void (*D_800E9DB4)(void);
 extern void func_80061008(s32, s32, s32, s32);
 

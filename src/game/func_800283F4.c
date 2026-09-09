@@ -1,6 +1,8 @@
 #define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+#define D_8009B0C0_IN_DATA
 #include "../types.h"
+#include "graphics_frame.h"
 #include "input.h"
 #include "fade.h"
 
@@ -26,7 +28,6 @@ extern DuelEffectChannel *D_8009B250;
 extern u8 D_8009B254;
 extern u16 gDuel_wViewerCardID;
 extern u8 D_8009AF76 __attribute__((section(".data")));
-extern u8 D_8009B0C0 __attribute__((section(".data")));
 extern u8 D_8009B140 __attribute__((section(".data")));
 extern u8 D_8009B26C __attribute__((section(".data")));
 extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));

@@ -1,4 +1,5 @@
 #define D_8009B0D8_IS_VOLATILE
+#define D_8009B0C0_IS_VOLATILE
 #include "../types.h"
 #include "sound.h"
 #include "func_8003B5C8.h"
@@ -24,7 +25,6 @@
 
 extern volatile u32 D_8009B0CC;
 extern volatile u32 D_8009B0C8;
-extern volatile u8 D_8009B0C0;
 extern volatile s32 D_8009B09C;
 extern volatile u8 D_8009B0C3;
 extern volatile u8 D_8009B0C1;

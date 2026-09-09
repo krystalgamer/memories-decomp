@@ -1,4 +1,6 @@
+#define D_8009B0C0_IN_DATA
 #include "../types.h"
+#include "graphics_frame.h"
 #include "duel_transition_color.h"
 #include "save_data.h"
 #include "main_frame.h"
@@ -81,7 +83,6 @@ void Main_RunDuel(void)
     }
 }
 
-extern unsigned char D_8009B0C0[];
 extern void func_8002BFCC(void),func_8002BAB4(void),func_8004763C(void);
 
-void Main_RunLibraryMenu(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8002BFCC();func_80015A00();}else{func_8002BAB4();if((D_8009B26C&0x40)==0){D_8009B0C0[0]=0;SD_BGMFadeOut();Fade_WaitOut();func_800134B4();func_8004763C();func_80047AD0(2);func_80012D84(4);File_WaitForTransfers();}}}
+void Main_RunLibraryMenu(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8002BFCC();func_80015A00();}else{func_8002BAB4();if((D_8009B26C&0x40)==0){D_8009B0C0=0;SD_BGMFadeOut();Fade_WaitOut();func_800134B4();func_8004763C();func_80047AD0(2);func_80012D84(4);File_WaitForTransfers();}}}
