@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "func_8004DC38.h"
 #include "model.h"
+#include "../unmatched.h"
 
 extern ModelSlot D_800F2C40[];
 extern u8 D_8009AF9B;
@@ -8,7 +9,6 @@ extern s32 D_8009AF9C;
 
 extern s32 Model_HasInsufficientBufferSpace(s32, s32);
 extern s32 func_80059AA8(s32, s32);
-extern void func_800540B4(s32);
 extern s32 func_80058E1C(void);
 
 /* Preserve zero-valued inputs without introducing materialized constants. */

@@ -1,12 +1,11 @@
 #include "../types.h"
 
 #include "model.h"
+#include "../unmatched.h"
 
 typedef struct {
     u8 bytes[8];
 } __attribute__((packed)) ModelSlotBytes8;
-
-extern void func_800540B4(s32);
 
 void func_80059000(s32 index, s16 *output)
 {

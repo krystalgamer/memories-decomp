@@ -4,6 +4,7 @@
 #include "duel_display.h"
 #include "duel_grid.h"
 #include "sorted_entry.h"
+#include "../unmatched.h"
 
 extern u8 D_801A7B64[];
 
