@@ -1,18 +1,15 @@
 #include "../../types.h"
 #include "alternate_location.h"
 
-extern u16 D_800C4E68;
 extern u8 D_800C4DC9;
 extern u8 D_800C4DCC;
 extern u8 D_800C4D82;
 extern u8 D_8011464E;
 extern u8 D_8011464F;
 extern u16 D_8011C410;
-extern AlternateLocation D_80169E54[];
 extern AlternateObject *D_8016A278;
 extern AlternateObject *D_8016A288;
 extern u8 D_8016A29C;
-extern u8 D_8016A2BC;
 extern u8 D_8016A2BD;
 extern u8 D_8016A2C8;
 extern u8 D_8016A2C9;

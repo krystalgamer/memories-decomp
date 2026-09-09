@@ -1,9 +1,6 @@
 #include "../../types.h"
 #include "alternate_location.h"
 
-extern u8 D_8016A2BC;
-extern AlternateLocation D_80169E54[];
-extern u16 D_800C4E68;
 extern u16 D_800C4E74;
 extern s32 D_8016A2B8;
 extern s32 func_8004EB9C(s32);
