@@ -6,7 +6,6 @@
 
 extern s8 D_8009AF9A;
 extern u16 D_8009AF96;
-extern void func_800533D8(void);
 
 void func_80059C18(s32 value)
 {

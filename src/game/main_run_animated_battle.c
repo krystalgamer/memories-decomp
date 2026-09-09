@@ -26,7 +26,6 @@ extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern u8 D_8009B269;
 extern Anim D_800EF658[];
 
-extern void func_800533D8(void);
 extern void func_80059CE4(void);
 
 void Main_RunAnimatedBattle(void)
