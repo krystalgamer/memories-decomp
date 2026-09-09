@@ -39,7 +39,6 @@
      assignment orders, u8 and s32, and the u8 prototype - let gcc allocate
      it straight into $a0 and drop the copy. */
 
-extern u8 D_8009B3D4;
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u8 D_8009AF70[];
 extern u8 gLibrary_aCardArtRecord[];

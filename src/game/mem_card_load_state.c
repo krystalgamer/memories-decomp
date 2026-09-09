@@ -20,7 +20,6 @@
    - Cases 0/1 and 2/3 fall through, and cases 6 and 8 are spelled as separate
      bodies: retail keeps two distinct jump-table targets for them.
 */
-extern u8 D_8009B3D4;
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 
 void func_8003E490(void)
