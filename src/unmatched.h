@@ -55,4 +55,7 @@ s32 func_80030294(void);
  * equivalent unsigned int and int spellings. */
 void func_800323F8(u32, void *, s32, s32);
 
+/* One consumer, duel_scene_update.c, which calls it without arguments. */
+void func_800235C0(void);
+
 #endif
