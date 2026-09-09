@@ -11,20 +11,12 @@
 #include "../../game/fade.h"
 
 typedef struct {
-    u8 pad0[96];
-    s16 timer;
-    u8 pad98[10];
-    u8 updateFlags;
-} Cursor;
-
-typedef struct {
     u32 lo;
     u32 hi;
 } Pair;
 
 extern u32 D_800EB12C;
 extern u16 D_8016D4DC;
-extern Cursor *gPassword_pDigitCursorWidget;
 extern u32 D_8016D438;
 extern u32 D_801A8000[];
 extern Pair D_801D5608;
@@ -40,7 +32,7 @@ extern void Duel_AwardCard(s32);
 
 void Password_UpdateShopScreen(void)
 {
-    Cursor *cursor;
+    PasswordCursorView *cursor;
     PasswordCardPreviewView *widget;
     s32 index;
     s32 state;
@@ -81,7 +73,7 @@ void Password_UpdateShopScreen(void)
             }
             SD_SEPlayFull(47);
             cursor = gPassword_pDigitCursorWidget;
-            Password_SetDigitCursorTarget(cursor);
+            Password_SetDigitCursorTarget((u8 *)cursor);
             cursor->timer = 8;
             cursor->updateFlags |= 0x40;
             return;
