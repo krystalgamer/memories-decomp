@@ -7,72 +7,72 @@
 #include "display_object_layout.h"
 #include "file_transfer.h"
 #include "input.h"
+#include "display_object.h"
 #include "display_object_helpers.h"
 #include "../unmatched.h"
 
-void func_8004365C(u8 *a, u8 *b)
+void func_8004365C(DisplayObject *a, DisplayObject *b)
 {
-    u8 *x;
-    u8 *y;
+    DisplayObject *x;
+    DisplayObject *y;
     s32 i;
     s32 hi;
     s32 c;
     s32 v;
 
-    x = (u8 *)0;
+    x = (DisplayObject *)0;
 
-    if (a != (u8 *)0) {
+    if (a != (DisplayObject *)0) {
         x = func_800400AC(func_8004002C(), 2);
-        func_800428A8(x, 0, 0, 0, 0, a[0x69], a[0x66], 0x20D, D_801AF000);
-        *(s32 *)(x + 4) = *(s32 *)(a + 4);
-        func_800428EC(x, -1);
-        *(u16 *)(x + 8) =
-            *(u16 *)(x + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        *(s32 *)(x + 4) = *(s32 *)(x + 4) | (GsALON | GsATWO);
-        *(s32 *)(a + 4) = *(s32 *)(a + 4) | (GsALON | GsAONE);
+        func_800428A8(x, 0, 0, 0, 0, a->field_69, a->field_66, 0x20D,
+                      D_801AF000);
+        x->attribute = a->attribute;
+        func_800428EC((u8 *)x, -1);
+        x->flags = x->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+        x->attribute = x->attribute | (GsALON | GsATWO);
+        a->attribute = a->attribute | (GsALON | GsAONE);
     }
 
-    *(s16 *)(b + 0x48) = 0xA0;
-    *(s16 *)(b + 0x4A) = 0x78;
-    *(s32 *)(b + 4) = *(s32 *)(b + 4) & ~GsROTOFF;
+    b->field_48.h.field_48 = 0xA0;
+    b->field_48.h.field_4A = 0x78;
+    b->attribute = b->attribute & ~GsROTOFF;
 
     y = func_800400AC(func_8004002C(), 2);
-    func_800428A8(y, 0, 0, 0, 0, b[0x69], b[0x66], 0x20D, D_801AF000);
-    *(s32 *)(y + 4) = *(s32 *)(b + 4);
-    func_800428EC(y, -1);
-    *(u16 *)(y + 8) =
-        *(u16 *)(y + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    *(s32 *)(y + 4) = *(s32 *)(y + 4) | (GsALON | GsATWO);
-    *(s32 *)(y + 0x48) = *(s32 *)(b + 0x48);
-    *(s32 *)(b + 4) = *(s32 *)(b + 4) | (GsALON | GsAONE);
+    func_800428A8(y, 0, 0, 0, 0, b->field_69, b->field_66, 0x20D, D_801AF000);
+    y->attribute = b->attribute;
+    func_800428EC((u8 *)y, -1);
+    y->flags = y->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    y->attribute = y->attribute | (GsALON | GsATWO);
+    y->field_48.word = b->field_48.word;
+    b->attribute = b->attribute | (GsALON | GsAONE);
 
     i = 0;
     hi = 0x80;
 
     do {
         c = ((i << 16) | (i << 8)) | i;
-        *(s32 *)(b + 0xC) = c;
-        *(s32 *)(y + 0xC) = c;
-        if (a != (u8 *)0) {
+        b->field_0C = c;
+        y->field_0C = c;
+        if (a != (DisplayObject *)0) {
             c = hi - i;
             v = c * 0x60 + 0x1000;
             c = c | ((c << 16) | (c << 8));
-            *(s16 *)(y + 0x46) = v;
-            *(s16 *)(y + 0x44) = v;
-            *(s16 *)(b + 0x46) = v;
-            *(s16 *)(b + 0x44) = v;
-            *(s32 *)(a + 0xC) = c;
-            *(s32 *)(x + 0xC) = c;
+            y->field_44.h.field_46 = v;
+            y->field_44.h.field_44 = v;
+            b->field_44.h.field_46 = v;
+            b->field_44.h.field_44 = v;
+            a->field_0C = c;
+            x->field_0C = c;
         }
         i += 8;
         func_80012D4C();
     } while (i < 0x81);
 
-    *(s32 *)(b + 0x44) = 0x10001000;
-    *(s32 *)(b + 4) = (*(s32 *)(b + 4) | GsROTOFF) & ~(GsALON | GsATWO | GsAONE);
-    func_8004036C((s32)a);
-    func_8004036C((s32)x);
-    func_8004036C((s32)y);
+    b->field_44.word = 0x10001000;
+    b->attribute = (b->attribute | GsROTOFF) & ~(GsALON | GsATWO | GsAONE);
+    func_8004036C(a);
+    func_8004036C(x);
+    func_8004036C(y);
 }
 
 void func_800438B8(s32 count)
