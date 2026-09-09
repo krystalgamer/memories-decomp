@@ -1903,7 +1903,7 @@ continues in Free Duel with every campaign duelist available.
 >   selected, while value 1 advances to losses. This confirms index 0 as win
 >   and index 1 as loss.
 >
-> The loaders read the flags too — the Egypt map loader [`func_8003C0C0`]
+> The loaders read the flags too — the Egypt map loader [`File_RequestEgyptOverworldPackage`]
 > picks the blob at sector `0x1FD9` or, if flag `0x47` is set, the one at
 > `0x2077`. §7.11 lists every story flag with the dialogue that sets it;
 > `tools_src/campaign_script.py` (in `MaChInEgUn3/ygofm-decomp`) reproduces
@@ -2320,7 +2320,7 @@ to its [tracked layout](../../config/slus_01411/overlays/free_duel.yaml).
 This replaces the earlier unsupported "8 KB of code" figure.
 Its resident-callable entry remains `0x80168FB4`.
 
-The two overworld images are separate variants: matching `func_8003C0C0`
+The two overworld images are separate variants: matching `File_RequestEgyptOverworldPackage`
 selects WA package sector `8153` or `8311` by testing story flag `0x47`.
 The main-menu loader `File_RequestMainMenuPackage` instead requests SU sectors `[0, 115)`;
 its executable phase is the `[98, 114)` slice above. Sharing a callback
