@@ -412,6 +412,50 @@ to be collapsed. Check the profiles first: if the spellings line up with the
 table, they are load bearing, and the useful work is recording which lever each
 file pulls rather than unifying them.
 
+#### Where the per-symbol answer is already written down
+
+The table says which lever a profile needs. For a specific symbol there is
+usually a better source than reasoning: `config/slus_01411/external_attempts.csv`
+records, on every `matched` row, why the accepted source was spelled the way it
+was. Eighty-seven of those notes explain an addressing choice, and between them
+they name fifty-two globals.
+
+They are worth reading before touching a declaration, because they cover cases
+the table alone does not predict:
+
+- **Array versus scalar decides who allocates the register.** For
+  `func_8005B64C` the note records that `D_8009B058`, `D_801DD000` and
+  `D_801AF800` "are arrays so `-msplit-addresses` gives them registers, while
+  the scalars carry `section(.data)`" and rebuild their address per access.
+- **Defining rather than declaring is itself a lever.** `func_8002BFCC`'s note
+  explains that the assembler only resolves a small global gp-relative when the
+  translation unit *defines* it, which is what supplies a missing load-delay
+  `nop`. The same reasoning is recorded for `D_8009B142`/`143`/`144`.
+- **Oversizing is deliberate.** `D_8009B488`, `D_8009B48E` and `D_8009B490`
+  "needed sized array declarations to land in small data as `%gp_rel`", while
+  `D_800F5678` needed the incomplete form so its `lui %hi` would hoist into a
+  branch delay slot.
+- **A neighbour's spelling can be the reason.** Declaring `D_8009B260` as an
+  eight-byte aggregate is what keeps it non-small "while the four-byte
+  `D_8009B20C` remains gp-relative".
+
+#### A worked rejection
+
+`D_8009B058` looks like an ideal candidate for giving a global its real type.
+It has one consumer, `func_8005B64C.c`; that file declares it `extern u8
+D_8009B058[]` and immediately casts at its only use, `rect = *(RECT
+*)D_8009B058`; and the next name, `D_8009B060`, is exactly eight bytes on,
+which is `sizeof(RECT)`. Every cheap check agrees.
+
+The attempt record refutes it anyway: the array spelling is what gets the
+symbol a compiler-allocated register under `-msplit-addresses`, so
+`extern RECT D_8009B058` would change how the address is materialised. The
+same note also explains the local copy — retail copies the eight-byte `RECT`
+by value into a stack slot before calling `LoadImage2`, and omitting the local
+leaves the frame eight bytes short.
+
+Both facts were free to read and would each have cost a build to rediscover.
+
 ## Exact baseline build
 
 ```sh
