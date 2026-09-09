@@ -1,24 +1,29 @@
 #include "../types.h"
+/* libhmd.h names MATRIX, GsOT and GsCOORDUNIT without including anything, so
+   it only parses after libgte.h, libgpu.h and libgs.h. model.h deliberately
+   keeps clear of that chain and leaves field_D18 incomplete, so a unit that
+   reaches through a coordinate unit pulls the chain in itself. */
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
 #include "model.h"
 
-/* What ModelSlot.entries points at, as far as this function is concerned: a
-   0x50-byte record whose 0x4C word is the parent pointer it searches for.
-   model.h types that field as a bare u8 *, so the stride lives here rather
-   than there, and this stays local until a second user needs it. */
-typedef struct ModelLink {
-    u8 pad_00[0x4C];
-    void *parent;
-    u8 pad_50[0x50 - 0x4C - 4];
-} ModelLink;
+/* ModelSlot.entries is the base of the MODEL_SLOT_DATA_ENTRY_SIZE-stride run
+   model.h describes, and that stride is sizeof(GsCOORDUNIT). The word this
+   function searches on sits at 0x4C, which is the unit's `super`, so the
+   record it walks is the coordinate unit itself and the search is over the
+   parent links. model.h already types the slot's own entry out of the same
+   run as a GsCOORDUNIT. */
 
 s32 func_8005A3D0(ModelSlot *model, void *parent)
 {
     register s32 index asm("t0");
     register s32 offset asm("t3");
-    register ModelLink *link asm("t2");
+    register GsCOORDUNIT *link asm("t2");
     register s32 backlink_index asm("a2");
     register s32 count asm("t1");
-    register ModelLink *target asm("a3");
+    register GsCOORDUNIT *target asm("a3");
 
     {
         register s32 current_count asm("v1") = model->entry_count;
@@ -28,25 +33,25 @@ s32 func_8005A3D0(ModelSlot *model, void *parent)
             goto done;
         }
         offset = index;
-        link = (ModelLink *)model->entries;
+        link = (GsCOORDUNIT *)model->entries;
 
 outer:
         backlink_index = 0;
-        if (link->parent != parent) {
+        if (link->super != parent) {
             goto next;
         }
         if (current_count == 0) {
             goto next;
         }
         count = current_count;
-        target = (ModelLink *)(model->entries + offset);
+        target = (GsCOORDUNIT *)(model->entries + offset);
     }
 
     {
-        register ModelLink *backlink asm("v1") = (ModelLink *)model->entries;
+        register GsCOORDUNIT *backlink asm("v1") = (GsCOORDUNIT *)model->entries;
 
 inner:
-        if (backlink->parent == target) {
+        if (backlink->super == target) {
             goto after_inner;
         }
         backlink_index++;
@@ -66,7 +71,7 @@ after_inner:
     }
 
 next:
-    offset += sizeof(ModelLink);
+    offset += sizeof(GsCOORDUNIT);
     link++;
     {
         register s32 current_count asm("v1") = model->entry_count;
