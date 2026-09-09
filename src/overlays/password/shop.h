@@ -16,6 +16,30 @@ typedef struct {
 
 typedef void (*PasswordCursorUpdate)(u8 *object);
 
+/* The digit cursor's record, as the three sources that touch it describe it
+ * between them. Previously each kept its own view: digit_cursor.c called it
+ * PasswordNode and named the flags, position and kind; shop_update.c called
+ * it Cursor and named the timer and update flags; shop_setup.c only assigned
+ * the pointer and spelled it u8 *. The three never disagreed about a byte --
+ * they named different ones -- so this is their union rather than a new
+ * claim, and the padding keeps every named field at the offset its own
+ * source already used. */
+typedef struct {
+    u8 pad00[0x8];
+    u16 flags;        /* 0x08 */
+    u8 pad0A[0x26];
+    s16 x;            /* 0x30 */
+    s16 y;            /* 0x32 */
+    u8 pad34[0x2C];
+    s16 timer;        /* 0x60 */
+    u8 pad62[0x7];
+    u8 kind;          /* 0x69 */
+    u8 pad6A[0x2];
+    u8 updateFlags;   /* 0x6C */
+} PasswordCursorView;
+
+extern PasswordCursorView *gPassword_pDigitCursorWidget;
+
 extern PasswordCardPreviewView *D_8016D4D8;
 
 /* Shop/password-entry state. All five sources that use these already include

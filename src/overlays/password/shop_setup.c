@@ -11,7 +11,6 @@
 #include "../../game/fade.h"
 
 extern u8 *D_8016D430;
-extern u8 *gPassword_pDigitCursorWidget;
 extern u8 *D_8016D440[];
 extern u8 D_800EA0E8[];
 extern void func_80029528(s32);
@@ -76,7 +75,7 @@ void Password_InitShopScreen(void)
     hook = Password_UpdateDigitCursorDecoration;
     slot = D_8016D440;
     *(u32 *)(o + 48) = *(u32 *)(o + 24);
-    gPassword_pDigitCursorWidget = o;
+    gPassword_pDigitCursorWidget = (PasswordCursorView *)o;
     i = 0;
     do {
         o = func_800400AC(func_8004002C(), 2);
