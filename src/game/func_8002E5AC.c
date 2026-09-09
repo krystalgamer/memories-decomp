@@ -11,7 +11,6 @@
    slot carries the retail nop. c_symbols.ld overrides this common symbol,
    so no storage is allocated here. */
 u16 D_8009B28C;
-extern u16 D_8009B2A4;
 extern void DuelEffect_MarkObjectIfActive(void *);
 
 void func_8002E5AC(void)

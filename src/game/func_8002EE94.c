@@ -17,7 +17,6 @@
 #include "display_object_interpolation.h"
 #include "script_state.h"
 
-extern u16 D_8009B2A4[2];
 extern u8 gCampaignSceneIndex;
 extern u8 D_8009B268 __attribute__((section(".data")));
 extern u8 D_8009B269 __attribute__((section(".data")));
@@ -70,7 +69,7 @@ void func_8002EE94(void)
         lo = p[0];
         id = lo | (p[1] << 8);
         D_8009B290 = p + 4;
-        D_8009B2A4[1] = p[2] | (p2[1] << 8);
+        D_8009B2A6 = p[2] | (p2[1] << 8);
         func_8003B6AC(0, 2);
         DuelEffect_MarkObjectIfActive(
             TextBox_Create(0, id, 0x10, 0xB0, 0x120, 0x30));
@@ -206,12 +205,12 @@ void func_8002EE94(void)
     if ((gInput_wPad1Pressed & 0xC0) == 0) {
         return;
     }
-    D_801D0000[0x3EE] = D_8009B2A4[1];
+    D_801D0000[0x3EE] = D_8009B2A6;
     choice = gDialog_bChoice;
     switch (choice) {
     case 0:
         SD_SEPlayFull(7);
-        D_801D0000[0x3EE] = D_8009B2A4[1];
+        D_801D0000[0x3EE] = D_8009B2A6;
         SaveData_RequestWrite();
         D_8009B27C |= 0x80;
         break;
@@ -219,7 +218,7 @@ void func_8002EE94(void)
         SD_SEPlayFull(7);
         func_80033C90();
         D_8009B269 = 2;
-        gCampaignSceneIndex = (u8)D_8009B2A4[1];
+        gCampaignSceneIndex = (u8)D_8009B2A6;
         break;
     case 2:
         SD_SEPlayFull(7);
