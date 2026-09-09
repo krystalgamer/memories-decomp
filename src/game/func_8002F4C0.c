@@ -4,8 +4,6 @@
 #include "file_transfer.h"
 #include "../unmatched.h"
 
-extern s32 D_8009B118;
-
 void func_8002F4C0(u8 *p, s32 mode)
 {
     s32 one;

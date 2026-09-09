@@ -3,6 +3,7 @@
 #include "file_transfer.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
+#include "../unmatched.h"
 
 extern u8 D_8009B108;
 extern s32 D_8009B0E8;
@@ -11,7 +12,6 @@ extern s32 D_8009B0FC;
 extern void (*D_8009B10C)(void);
 extern u8 D_8009B110;
 extern u16 D_8009B112;
-extern s32 D_8009B118;
 extern s32 D_8009B120;
 extern u16 D_8009B124;
 extern s32 D_8009B12C;

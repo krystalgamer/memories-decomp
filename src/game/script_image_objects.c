@@ -5,6 +5,7 @@
 #include "../psyq/libgs.h"
 #include "file_transfer.h"
 #include "display_object_helpers.h"
+#include "../unmatched.h"
 
 struct Obj {
     s16 x;
@@ -29,8 +30,6 @@ typedef struct {
     s16 value;
     u8 pad_06[14];
 } ScriptImageEntry;
-
-extern s32 D_8009B118;
 
 void func_8002DDFC(struct Obj *obj, s32 mode)
 {

@@ -4,8 +4,6 @@
 #include "file_transfer.h"
 #include "../unmatched.h"
 
-extern s32 D_8009B118;
-
 void func_8003C328(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {

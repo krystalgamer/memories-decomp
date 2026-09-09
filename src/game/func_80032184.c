@@ -2,8 +2,8 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "../unmatched.h"
 
-extern s32 D_8009B118;
 extern s16 D_800E9D70[];
 
 void func_80032184(u8 *p, s32 mode) {

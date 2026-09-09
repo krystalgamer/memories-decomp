@@ -3,8 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "func_8003BA14.h"
-
-extern s32 D_8009B118;
+#include "../unmatched.h"
 
 void func_8003BA14(FileTransferDescriptor *object, s32 mode)
 {

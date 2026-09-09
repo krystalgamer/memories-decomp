@@ -6,6 +6,7 @@
 #include "file_transfer.h"
 #include "file_cd_transfer.h"
 #include "func_800144B8.h"
+#include "../unmatched.h"
 
 /* The primary transfer's step function (0x8001455C) and the three control
    entry points that drive it (0x80014A5C, 0x80014B30, 0x80014C40). The four
@@ -242,7 +243,6 @@ typedef struct {
 
 extern Shared14B30 D_801D4200;
 extern u8 D_801D4200_raw[] asm("D_801D4200");
-extern s32 D_8009B118;
 extern void (*D_8009B128)(void);
 extern void func_80014B30_callback(void) asm("func_80014B30");
 

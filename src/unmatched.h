@@ -120,4 +120,15 @@ extern u8 D_801AF000[];
  * Nothing takes its sizeof. */
 extern u8 D_801AF800[];
 
+/* A single word at 0x8009B118, four bytes: c_symbols.ld names D_8009B11C
+ * immediately after it, so no element can hide inside. Fifteen files declared
+ * it identically as `extern s32 D_8009B118;`, which is why it can move here
+ * unchanged - there is no per-consumer spelling to preserve.
+ *
+ * It holds an address despite the s32 spelling: func_8003BF00.c passes it to
+ * LoadImage2 as (u32 *) and also adds 0x800 to it. The s32 is left as-is
+ * because every consumer already agrees on it; retyping it is a separate
+ * question from centralizing it. */
+extern s32 D_8009B118;
+
 #endif

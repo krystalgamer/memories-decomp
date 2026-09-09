@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "../unmatched.h"
 
 typedef struct LocalObj {
     s16 x;
@@ -18,7 +19,6 @@ typedef struct LocalObj {
     u8 pad34[0x12];
     u8 f46;
 } LocalObj;
-extern s32 D_8009B118;
 
 void func_80043328(LocalObj *obj, s32 mode) {
     switch (mode) {
