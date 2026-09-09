@@ -2636,7 +2636,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8002D7CC,Main_RunTrade,matching_c,game,C,src/game/main_run_trade.c,read,,box = D_800EB0F8;
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_run_credits.c,address,,".reloc .-4, R_MIPS_HI16, D_800EB0F8 after .word 0x3C020000 | .reloc .-4, R_MIPS_LO16, D_800EB0F8 after .word 0x24440000"
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8002DC38,func_8002DC38,matching_c,game,C,src/game/func_8002DC38.c,read,,func_80039A14(&D_800EB0F8[1]); | func_80039A14(D_800EB0F8);
-0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8002E5AC,func_8002E5AC,matching_c,game,C,src/game/func_8002E5AC.c,read,,TextBox_Destroy((u8 *)D_800EB0F8);
+0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8002E5AC,func_8002E5AC,matching_c,game,C,src/game/func_8002E5AC.c,read,,TextBox_Destroy(D_800EB0F8);
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8002EE94,func_8002EE94,matching_c,game,C,src/game/func_8002EE94.c,read,,box = &D_800EB0F8[3]; | chan = D_800EB0F8; | (+2 more)
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80030998,func_80030998,matching_c,game,C,src/game/func_80030998.c,address,,".reloc .-4, R_MIPS_HI16, D_800EB0F8 after .word 0x3C030000 | .reloc .-4, R_MIPS_LO16, D_800EB0F8 after .word 0x24700000"
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80031084,func_80031084,matching_c,game,C,src/game/func_80031084.c,read,,boxes = D_800EB0F8;
