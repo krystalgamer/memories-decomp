@@ -7,7 +7,9 @@
 #include "duel_deck_card.h"
 
 extern u8 D_8015C424[];
-extern u8 D_80177EA4[];
+/* Two RECTs per field slot: the card art at 2 * slot and the name strip at
+   2 * slot + 1. LoadImage consumes both, which is what types the table. */
+extern RECT D_80177EA4[];
 extern u8 D_8018C2D8[];
 extern u8 D_8018C7D8[];
 
@@ -16,7 +18,7 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     RECT *q;
     RECT *r;
     u8 *tb;
-    u8 *base;
+    RECT *base;
     u8 *g;
     s32 idx;
     s32 m;
@@ -64,7 +66,7 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
             CARD_STAT_TYPE_MASK);
 
     base = D_80177EA4;
-    q = (RECT *)(base + idx * 0x10);
+    q = &base[idx * 2];
     off = ((DuelDeckCardRecord *)p->data)->data_block_index *
           DUEL_CARD_DATA_BLOCK_SIZE;
     q->w = 0x14;
@@ -73,7 +75,7 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     q->y = (idx / DUEL_FIELD_ROW_SIZE) * 0x20;
     LoadImage(q, (u32 *)(D_8018C2D8 + off));
 
-    r = (RECT *)(base + m * 8);
+    r = &base[m];
     r->x = 0x380;
     r->y = idx + 0xE0;
     r->w = 0x40;

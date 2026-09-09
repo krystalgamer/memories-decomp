@@ -13,28 +13,33 @@ typedef ModelSlotS32Quad ModelSlotTransform;
 
 extern ModelSlotTransformEntry D_800F39F0[];
 
-s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+/* RotTrans types the last three: the vertex run reached through the slot's
+   part chain is SVECTOR, `out` is the VECTOR it projects into, and the local
+   scratch is the flag pair. GsGetLwUnit and GsSetLsMatrix likewise agree that
+   the 32-byte local is a MATRIX. No caller survives in C, so nothing outside
+   this file had to change. */
+s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
 {
-    u8 sp10[32];
-    s32 sp30[2];
+    MATRIX sp10;
+    long sp30[2];
     u8 *p;
     u8 *e;
     u8 *q;
-    u8 *base;
+    SVECTOR *base;
 
     p = (u8 *)&D_800F2C40[arg0];
     e = p + (arg1 + 1) * 8;
     q = *(u8 **)(e + 4);
     q = *(u8 **)(q + 4);
-    base = *(u8 **)(q + 8);
+    base = *(SVECTOR **)(q + 8);
 
     PushMatrix();
     GsGetLwUnit(
         (GsCOORDUNIT *)(*(u8 **)(p + 0xD14) + arg1 * MODEL_SLOT_DATA_ENTRY_SIZE),
-        (MATRIX *)sp10
+        &sp10
     );
-    GsSetLsMatrix((MATRIX *)sp10);
-    RotTrans((SVECTOR *)(base + arg2 * 8), (VECTOR *)arg3, (long *)sp30);
+    GsSetLsMatrix(&sp10);
+    RotTrans(&base[arg2], out, sp30);
     PopMatrix();
     return sp30[0];
 }
