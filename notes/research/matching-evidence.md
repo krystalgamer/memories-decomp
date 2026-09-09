@@ -6559,3 +6559,36 @@ spelled is free to delete either way. `func_80040588.c` carried
 `extern DisplayObject D_800EFE48[]` while already including `display_object.h`,
 which declares the same symbol with its named capacity; the two are compatible
 types, and dropping the local line changed nothing.
+## The "redundant redeclaration" class is empty, and its three false leads
+
+A natural survey for #2501 is: find a C file that declares a global its own
+included header already declares, and delete the local copy. Run against
+`src/game` that survey returns exactly three hits, and **all three are wrong**.
+They are worth writing down because each looks like a free deletion.
+
+`func_80024E58.c` / `gDuel_bTerrain`. The survey believes
+`duel_terrain_boost.h` declares this symbol. It does not: the header declares
+only `gDuel_aTerrainBoost` and `Duel_GetTerrainBoost`. What the regex found was
+the header's own comment, which lists five example spellings of
+`gDuel_bTerrain` while explaining why they differ. Any survey that scans for
+`extern` with a regex counts declarations inside comments, and this header is
+the place that bites. The real declaration is load-bearing besides: that file
+compiles at `-G8` but assembles at `-G4`, so it needs a bound the assembler can
+see to be above 4, and the header records the measurement that relaxing its
+`[8]` to `[]` costs four bytes of text.
+
+`save_data_checksum.c` / `gSaveData_dwMaskStateLow` and
+`gSaveData_dwMaskStateHigh`. These really are declared in both places, and the
+duplication is deliberate. `save_data.h` wraps its pair in
+`#ifndef SAVE_DATA_DECLARE_MASK_STATE_LOCALLY`, and the consumer `#define`s
+that macro immediately before including the header, specifically so it can keep
+its own declarations further down the file. The comment above them says why:
+the source position preserves GCC 2.8.1's allocation in
+`SaveData_NextMaskWord`. Deleting the local pair and dropping the `#define`
+would be the survey's suggestion and would move the declarations.
+
+Two general points fall out. A survey that reads only declarations cannot see
+a guard macro that switches one off, so "declared twice" and "declared twice on
+purpose" look identical to it. And a header comment that documents alternative
+spellings is indistinguishable from code to a line-based scan, so the headers
+that explain the most are the ones most likely to generate false positives.
