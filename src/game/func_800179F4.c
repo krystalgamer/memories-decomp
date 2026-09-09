@@ -2,6 +2,7 @@
 #include "duel_draw_status_numbers.h"
 #include "save_data.h"
 #include "duel_grid.h"
+#include "duel_selection_layout.h"
 #include "duel_hand.h"
 #include "main_frame.h"
 #include "duel_side_state.h"
@@ -36,7 +37,6 @@ extern u8 *D_8009B1DC;
 
 extern void Duel_LoadPackageStage(void);
 extern void func_8001778C(void);
-extern void func_80017708(void);
 extern void func_800178BC(void);
 extern void func_8002C598(void);
 extern void func_80029574(s32);
