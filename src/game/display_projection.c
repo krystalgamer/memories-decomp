@@ -49,23 +49,11 @@ void func_80015DB8(DisplayObject *object)
    setup: same 0x1F8003E0 scratchpad pair, same rtps, same write-back through
    swc2 $14. Here the source coordinates come from the object's own target
    record and the projected pair is biased into the object's screen fields. */
-typedef struct {
-    /* The DisplayObject func_80016784 draws. The asm below reads 0x30 and
-       0x34 off it for the world position it projects, both of which that
-       record names, and the call at the end of this function is the only
-       other use. */
-    DisplayObject *record;
-    u8 pad_04[4];
-    s16 screen_x;
-    s16 screen_y;
-    u8 pad_0C[0xC];
-    s8 f18;
-} TrackedObject;
 
 /* Declared as an array so it stays out of small data: the target reads it with
    a %hi/%lo pair while D_8009B1D5, a byte, is %gp_rel in the same body. */
 extern void *D_800E9D98[];
-void func_80015DFC(TrackedObject *object)
+void func_80015DFC(DisplayProjectionTrackedObject *object)
 {
     ProjectedPair p;
     s32 y;
@@ -96,11 +84,11 @@ void func_80015DFC(TrackedObject *object)
     y = p.y;
     object->screen_y = y - 0x1E;
     if (D_8009B1D5 != 0) {
-        if (object->f18 < 0xF) {
+        if (object->field_18 < 0xF) {
             object->screen_y = y - 0x1D;
         }
     } else {
-        if (object->f18 >= 0xF) {
+        if (object->field_18 >= 0xF) {
             object->screen_y = y - 0x1D;
         }
     }
