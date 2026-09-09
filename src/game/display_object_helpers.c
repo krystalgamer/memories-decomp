@@ -77,9 +77,6 @@ void func_800428A8(
     func_800404CC(object, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 
-extern u16 D_8009AF76;
-extern u16 D_8009AF7A;
-
 s32 func_800428EC(u8 *object, s8 value)
 {
     u32 index = object[0x17];
@@ -95,13 +92,13 @@ s32 func_800428EC(u8 *object, s8 value)
 void func_80042918(DisplayObject *object)
 {
     object->tex_index = 1;
-    object->field_14 = D_8009AF76 - object->field_16;
+    object->field_14 = D_8009AF74[1] - object->field_16;
 }
 
 void func_8004293C(DisplayObject *object)
 {
     object->tex_index = 3;
-    object->field_14 = D_8009AF7A - object->field_16;
+    object->field_14 = D_8009AF74[3] - object->field_16;
 }
 
 int func_80042960(char *object)

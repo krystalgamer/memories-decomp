@@ -2,9 +2,9 @@
 #include "duel_effect.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
+#include "display_object_helpers.h"
 
 extern u8 D_800EF6EA;
-extern u16 D_8009AF76;
 
 #define gDialog_bChoice (*(s8 *)0x8009B34D)
 
@@ -21,7 +21,7 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
         0x100,
         0x40
     );
-    channel->field_59 = (u8)D_8009AF76 - 1;
+    channel->field_59 = *(u8 *)&D_8009AF74[1] - 1;
 
     if (set_flags != 0) {
         channel->flags_34 |= 0x1008;

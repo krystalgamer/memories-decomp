@@ -1,3 +1,4 @@
+#define D_8009AF74_IN_DATA
 #include "../types.h"
 #include "display_object.h"
 #include "display_object_api.h"
@@ -7,8 +8,6 @@
 #include "func_80039794.h"
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
-
-extern u8 D_8009AF76[];
 
 extern u8 *DuelEffect_CreateChannel(s32, s32);
 
@@ -28,7 +27,7 @@ void func_8003DA40(u8 *p)
         func_800404CC(e, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
         e->flags = e->flags | 0x28;
         func_80042918(e);
-        func_800428EC((u8 *)e, (s8)(*(u8 *)&D_8009AF76 - 2));
+        func_800428EC((u8 *)e, (s8)(*(u8 *)&D_8009AF74[1] - 2));
         *(s32 *)p = (s32)e;
         func_80043178((DisplayObjectSnapshot *)e);
         e->field_60 = -0x400;

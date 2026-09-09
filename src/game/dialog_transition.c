@@ -1,3 +1,4 @@
+#define D_8009AF74_IN_DATA
 #include "../types.h"
 #include "../unmatched.h"
 #include "display_object.h"
@@ -10,11 +11,8 @@
 #include "text_box_runtime.h"
 #include "func_80039794.h"
 
-extern u8 D_8009AF76[];
 extern u8 D_8009B3C7;
 extern s8 gDialog_bChoice __attribute__((section(".data")));
-extern u16 D_8009AF76_raw asm("D_8009AF76")
-    __attribute__((section(".data")));
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 
 extern DuelEffectChannel *DuelEffect_CreateChannel(s32, s32);
@@ -32,7 +30,7 @@ void func_8003D518(u8 *state)
         object->field_48.h.field_48 = 128;
         object->field_48.h.field_4A = 224;
         func_80042918(object);
-        func_800428EC((u8 *)object, (s8)(D_8009AF76[0] - 3));
+        func_800428EC((u8 *)object, (s8)(*(u8 *)&D_8009AF74[1] - 3));
         object->field_4C = (s32)func_80042C08;
         *(DisplayObject **)(state + 4) = object;
     }
@@ -118,14 +116,14 @@ void func_8003D74C(u8 *o)
         p->field_48.h.field_48 = 0x80;
         p->field_48.h.field_4A = 0xE0;
         func_80042918(p);
-        func_800428EC((u8 *)p, (s8)(*(u8 *)&D_8009AF76_raw - 3));
+        func_800428EC((u8 *)p, (s8)(*(u8 *)&D_8009AF74[1] - 3));
         p->field_4C = (s32)func_80042C08;
         *(DisplayObject **)(o + 4) = p;
         p = func_800400AC(func_8004002C(), 2);
         func_800404CC(p, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
         p->flags = p->flags | 0x28;
         func_80042918(p);
-        func_800428EC((u8 *)p, (s8)(*(u8 *)&D_8009AF76_raw - 2));
+        func_800428EC((u8 *)p, (s8)(*(u8 *)&D_8009AF74[1] - 2));
         *(DisplayObject **)o = p;
         func_80043178((DisplayObjectSnapshot *)p);
         a = D_8009B3C7;

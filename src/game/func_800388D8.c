@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "fade.h"
-
-extern u8 D_8009AF76;
+#include "display_object_helpers.h"
 
 void func_800388D8(u8 *arg0)
 {
@@ -13,7 +12,7 @@ void func_800388D8(u8 *arg0)
     *cursor = stream + 1;
     opcode = command;
     if (opcode & 0x40) {
-        D_8009B140 = D_8009AF76 + 9;
+        D_8009B140 = *(u8 *)&D_8009AF74[1] + 9;
     }
     if (opcode & 0x20) {
         D_8009B140 = 4;

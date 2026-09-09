@@ -1,4 +1,5 @@
 #define D_8009B140_IN_DATA
+#define D_8009AF74_IN_DATA
 #include "../types.h"
 #include "func_80032B38.h"
 #include "duel_effect.h"
@@ -7,11 +8,11 @@
 #include "text_box_lifecycle.h"
 #include "sound.h"
 #include "func_80039794.h"
+#include "display_object_helpers.h"
 
 extern u8 D_8009B2F8;
 /* Retail addresses these three with %hi/%lo under -G8, so they live outside
    small data. */
-extern u8 D_8009AF76 __attribute__((section(".data")));
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 
 extern s32 func_80033998(void);
@@ -22,7 +23,7 @@ extern void func_80032370(void);
  * the state word at +0x633E is set, a confirmation box is created (the wide
  * one in the 640-wide mode selected by bit 7 of D_8009B2F8, the narrow one
  * otherwise, which is then waited on until its +0x30 pointer is filled),
- * Fade_SetTargetLevel(0xA0, 2) runs and D_8009B140 is set from D_8009AF76 - 8.
+ * Fade_SetTargetLevel(0xA0, 2) runs and D_8009B140 is set from D_8009AF74[1] - 8.
  * With bit 14 set the effect channel at D_800EB0F8 is polled: once its flags
  * read 0x2000 under the 0x2008 mask the box is destroyed and either bit 14
  * is cleared (narrow mode with a choice made) or the state word is reloaded
@@ -60,7 +61,7 @@ void func_800339D0(u8 *state)
                 } while (*(s32 *)(box + 0x30) == 0);
             }
             Fade_SetTargetLevel(0xA0, 2);
-            D_8009B140 = D_8009AF76 - 8;
+            D_8009B140 = *(u8 *)&D_8009AF74[1] - 8;
         }
     }
     /* Computed before the branch: it is only used on the copy path, so it
