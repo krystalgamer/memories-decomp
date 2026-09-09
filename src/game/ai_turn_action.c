@@ -8,6 +8,7 @@
 #include "func_80026C0C.h"
 #include "rand_get_interval.h"
 #include "duel_field_equip_search.h"
+#include "duel_card_checks.h"
 
 /* The AI's turn-action searches, in call order: the spell search, the fusion
    search, and the pick that runs both. They are contiguous, share the
@@ -24,7 +25,6 @@ extern u8 D_800EAE88_bytes[] asm("D_800EAE88");
 /* The spell search reads the record's slot byte signed; DuelCardRecord spells
    the same byte unsigned, so it keeps its own view of the collected entries
    and casts at the call. */
-extern s32 Duel_CheckFusion(s32, s32);
 extern s32 func_80027060(void);
 
 int func_8002712C(void)
