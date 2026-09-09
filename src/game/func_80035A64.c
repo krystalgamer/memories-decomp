@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "func_80035A64.h"
 
 extern void DuelEffect_ResetOccupancy(void), DuelEffect_ResetEntryMarkers(void);
 void func_80035A64(void) {
