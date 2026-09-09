@@ -3,6 +3,7 @@
 #include "model.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "func_80058434.h"
+#include "model_effect_endpoints.h"
 #include "model_effect_requests.h"
 #include "model_transfer_flags.h"
 
@@ -18,14 +19,6 @@ typedef struct Buf {
     s16 f6;
 } Buf;
 
-typedef struct {
-    s16 a;
-    s16 b;
-    s16 c;
-    s16 d;
-} Data;
-
-extern u8 D_80091550[];
 extern s8 D_8009B07A;
 
 extern unsigned short *func_800591FC(void);
@@ -122,8 +115,10 @@ void func_8005F5C8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 void func_8005F714(s32 a, s32 b, s32 c)
 {
-    void *x = a < 0 ? 0 : D_80091550 + a * 8;
-    void *y = b < 0 ? 0 : D_80091550 + b * 8;
+    ModelEffectEndpoint *x =
+        a < 0 ? 0 : &gModel_aEffectEndpoints[a];
+    ModelEffectEndpoint *y =
+        b < 0 ? 0 : &gModel_aEffectEndpoints[b];
     s32 flag;
 
     if (D_8009B07B == 1 && D_8009B07C == 1) {
@@ -141,7 +136,9 @@ void func_8005F714(s32 a, s32 b, s32 c)
 
 void func_8005F7B0(s32 value, s32 arg)
 {
-    Data d = {value, 0, 0, 5};
+    /* The aligned array keeps retail's four halfword stores; a packed local
+       would expand them into byte stores. */
+    s16 d[4] = {value, 0, 0, 5};
     s32 flag;
     s32 next;
 

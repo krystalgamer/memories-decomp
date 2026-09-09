@@ -30,6 +30,22 @@ typedef struct {
 
 #define YGO_TYPE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
+/* The two endpoint blocks in each model-effect request. `packed` preserves
+   func_8005F91C's unaligned two-word copies from generic byte pointers. */
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 kind;
+} __attribute__((packed)) ModelEffectEndpoint;
+
+typedef char ModelEffectEndpoint_size_must_be_0x8[
+    sizeof(ModelEffectEndpoint) == 0x8 ? 1 : -1
+];
+typedef char ModelEffectEndpoint_kind_offset_must_be_0x6[
+    YGO_TYPE_OFFSET(ModelEffectEndpoint, kind) == 0x6 ? 1 : -1
+];
+
 typedef struct FileTransferDescriptor FileTransferDescriptor;
 typedef void (*FileTransferCallback)();
 

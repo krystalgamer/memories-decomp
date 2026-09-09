@@ -1,11 +1,8 @@
 #include "../types.h"
+#include "../ygo_types.h"
 #include "model_effect_requests.h"
 #include "model_transfer_flags.h"
 #include "../unmatched.h"
-
-typedef struct {
-    u8 bytes[8];
-} Block8;
 
 extern s32 D_8009B074;
 extern u8 D_8009B078;
@@ -57,12 +54,13 @@ m1:
     if (D_8009B078 < 0xA) {
         r = &D_800F5788[D_8009B078 * 0x28];
         if (arg1 != (u8 *)0) {
-            *(Block8 *)r = *(Block8 *)arg1;
+            *(ModelEffectEndpoint *)r = *(ModelEffectEndpoint *)arg1;
         } else {
             *(u16 *)(r + 6) = 0;
         }
         if (arg2 != (u8 *)0) {
-            *(Block8 *)(r + 8) = *(Block8 *)arg2;
+            *(ModelEffectEndpoint *)(r + 8) =
+                *(ModelEffectEndpoint *)arg2;
             r[0x26] = 0;
         } else {
             *(u16 *)(r + 0xE) = 0;
