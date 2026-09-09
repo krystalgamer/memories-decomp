@@ -1,11 +1,11 @@
 #include "../../types.h"
+#include "../../unmatched.h"
 #include "location_marker.h"
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_helpers.h"
 
 extern u8 gCampaignMap_aLocationTable[];
 extern u8 gCampaignMap_Location;
-extern u8 D_801AF000[];
 
 u8 *CampaignMap_CreateLocationMarker(s32 index)
 {
