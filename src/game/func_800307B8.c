@@ -20,8 +20,6 @@ extern u8 D_8009B2DC;
 extern u8 D_8009B2E9;
 extern u8 D_80090CB4[];
 
-extern void func_8003FF88(s32);
-
 void func_800307B8(void)
 {
     s32 flags;
