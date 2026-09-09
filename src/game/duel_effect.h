@@ -45,7 +45,7 @@ typedef struct {
    and 0x20/0x24 bracket the record's slice of D_800EB288: TextBox_BuildStep seeds
    both with &D_800EB288[range_start_5C], DuelEffect_ProcessEntries walks from
    0x24 and moves 0x20 as it compacts. */
-typedef struct {
+typedef struct DuelEffectChannel {
     u8 *text_00;
     u8 pad_04[0x1C];
     DuelEffectEntry *entry_end_20;
