@@ -586,7 +586,7 @@ flat `s32 []`; `duel_rewards.c` declares it `s32 [16][DUEL_SIDE_COUNT]` and
 calls it "the separate `D_801D5608[stat][side]` display table";
 `refresh_displays.c` in the password overlay declares a plain `s32` and
 assigns one word; and two overlays in *different* segments,
-`free_duel/cursor_layout.c` and `password/shop_update.c`, each define
+`free_duel/cursor_layout.c` and `password/shop.c`, each define
 
 ```c
 typedef struct { u32 lo; u32 hi; } Pair;
