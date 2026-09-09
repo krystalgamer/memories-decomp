@@ -1,17 +1,10 @@
 #include "../types.h"
+#include "../ygo_types.h"
 
 #include "sound.h"
 #include "sound_buffer_init.h"
 #include "sound_output_transition.h"
 #include "sound_voice_data.h"
-
-typedef struct {
-    u8 b[11];
-} SDInitBlk11;
-
-typedef struct {
-    u8 b[10];
-} SDInitBlk10;
 
 extern void *D_8009B460;
 extern void *D_8009B0F0 __attribute__((section(".data")));

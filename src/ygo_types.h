@@ -16,6 +16,14 @@ typedef u8 *(*ModelHandler)(u8 **);
 typedef void (*ScriptCommandHandler)(void);
 
 typedef struct {
+    u8 b[11];
+} SDInitBlk11;
+
+typedef struct {
+    u8 b[10];
+} SDInitBlk10;
+
+typedef struct {
     s32 key;
     void **handler;
 } ModelHandlerObject;
