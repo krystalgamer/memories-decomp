@@ -140,6 +140,8 @@ segments:
       - [0x81350, .data, game/credits_secret_numbers]
       - [0x81364, .data, game/main_modes]
       - [0x813a8, data, initialized_data_80090ba8]
+      - [0x81658, .data, game/duel_effect_entry_ranges]
+      - [0x81664, data, initialized_data_80090e64]
       - [0x81d08, .data, game/model_image_copy_frames]
       - [0x81d10, data, initialized_data_80091510]
       - [0x81d1c, .data, game/movie_stream_ranges]

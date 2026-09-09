@@ -4,9 +4,9 @@
 #include "duel_effect.h"
 
 /* Initialises channel `index` for string `value`, ORs 0x8000 into its flags,
- * and takes the entry range for the channel from the D_80090E58 pair, so
- * range_count_5E is the difference between consecutive entries. Returns the
- * channel it initialised. */
+ * and takes the entry range for the channel from consecutive
+ * gDuelEffect_awEntryRangeBoundaries values. Returns the channel it
+ * initialised. */
 DuelEffectChannel *DuelEffect_InitEntry(s32 index, s32 value, s32 flags);
 
 #endif

@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "duel_effect_entry_ranges.h"
 #include "duel_effect_update_object_layout.h"
 
-extern u16 D_80090E58[];
 extern u8 D_8009B34C;
 extern s8 gDialog_bChoice;
 
@@ -34,7 +34,9 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     *(s16 *)(q + 0x40) = m;
     *(s16 *)(q + 0x30) = m;
 
-    k = D_800EB288[D_80090E58[p->index_57]].field_18 % 10;
+    k = D_800EB288[
+        gDuelEffect_awEntryRangeBoundaries[p->index_57]
+    ].field_18 % 10;
 
     if (k == 1) {
         t = D_8009B34C & 0x30;
