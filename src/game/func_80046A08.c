@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/stdio.h"
 #include "sound.h"
 
 extern u8 D_800107A8[];
@@ -33,7 +34,6 @@ typedef struct {
 s32 func_8004703C(void);
 void func_800470B0(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void func_80047480(void);
-void printf();
 
 void func_80046A08(void) {
     u8 *b;

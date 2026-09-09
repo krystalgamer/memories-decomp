@@ -1,13 +1,10 @@
 #include "../types.h"
-
-extern int PCopen(int, int, int);
-extern int PClseek(int, int, int);
-extern void PCclose(int);
-extern void func_80059908(int, int, int, int);
+#include "../psyq/libsn.h"
+#include "func_80059908.h"
 
 int func_8005988C(int value)
 {
-    int handle = PCopen(value, 0, 0);
+    int handle = PCopen((char *)value, 0, 0);
 
     if (handle < 0)
         return -1;

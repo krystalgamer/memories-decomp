@@ -1,11 +1,12 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
 
-extern void GsU_00000000(void);
 extern void func_8005C7BC(void);
 extern void func_8005CEF0(void);
 extern void func_8005D378(void);
-extern int GsLinkAnim(void *, void *);
-extern int GsScanAnim(int, void *);
 extern void *func_8005C768(u32);
 
 void func_8005C6A0(int *object, u8 *entry)
@@ -15,18 +16,18 @@ void func_8005C6A0(int *object, u8 *entry)
     void *handler;
 
     if (object[0] != 0x03800000) {
-        handler = GsU_00000000;
+        handler = (void *)GsU_00000000;
         *(void **)object[1] = handler;
         return;
     }
     handler = func_8005C7BC;
     *(void **)object[1] = handler;
     count = GsLinkAnim(
-        entry + 0x1E0 + entry[0xE1B] * 4,
-        (void *)object[1]
+        (GsSEQ **)(entry + 0x1E0 + entry[0xE1B] * 4),
+        (u32 *)object[1]
     );
-    if (GsScanAnim(object[1], 0)) {
-        while (GsScanAnim(0, local)) {
+    if (GsScanAnim((u32 *)object[1], 0)) {
+        while (GsScanAnim(0, (GsTYPEUNIT *)local)) {
             *(void **)local[1] = func_8005C768(local[0]);
         }
         entry[0xE1B] += count;
@@ -52,5 +53,5 @@ case_2019:
 case_2119:
     return func_8005D378;
 default_case:
-    return GsU_00000000;
+    return (void *)GsU_00000000;
 }

@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
 #include "model.h"
 
 typedef struct {
@@ -10,7 +11,6 @@ typedef struct {
 
 typedef ModelSlotS32Quad ModelSlotTransform;
 
-extern void GsGetLwUnit(u8 *, u8 *);
 extern ModelSlotTransformEntry D_800F39F0[];
 
 s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
@@ -30,8 +30,8 @@ s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 
     PushMatrix();
     GsGetLwUnit(
-        *(u8 **)(p + 0xD14) + arg1 * MODEL_SLOT_DATA_ENTRY_SIZE,
-        sp10
+        (GsCOORDUNIT *)(*(u8 **)(p + 0xD14) + arg1 * MODEL_SLOT_DATA_ENTRY_SIZE),
+        (MATRIX *)sp10
     );
     GsSetLsMatrix((MATRIX *)sp10);
     RotTrans((SVECTOR *)(base + arg2 * 8), (VECTOR *)arg3, (long *)sp30);
