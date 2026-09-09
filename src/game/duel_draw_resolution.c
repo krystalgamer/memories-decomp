@@ -44,7 +44,6 @@ s32 Duel_HasAllExodiaPieces(void) {
 
 extern u8 D_8009B1ED;
 extern u8 D_8009B1EC;
-extern u8 gDuel_bWinnerSide;
 extern u8 D_800907CC[];
 extern u8 D_8015C424[];
 

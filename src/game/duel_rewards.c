@@ -7,7 +7,6 @@
 #include "duel_rank.h"
 
 extern u8 *D_8009B1E8;
-extern u8 gDuel_bWinnerSide;
 extern s32 D_801D5608[16][DUEL_SIDE_COUNT];
 
 /* Initializes result-message selectors at +0x34; the winner's signed
