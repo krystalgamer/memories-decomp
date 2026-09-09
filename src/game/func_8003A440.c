@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_object_helpers.h"
+#include "func_8003A440.h"
 
 void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
 {

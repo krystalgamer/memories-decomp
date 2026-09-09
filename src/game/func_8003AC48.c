@@ -4,9 +4,8 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "func_8003A440.h"
 #include "func_8003A1EC.h"
-
-extern void func_8003A440(u8 **, u32, s32);
 
 void func_8003AC48(u8 *p)
 {
