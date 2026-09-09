@@ -4447,6 +4447,12 @@
       "source": "src/game/sound_effect_voices.c"
     },
     {
+      "address": "0x80048658",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x110",
+      "source": "src/game/sd_se_play.c"
+    },
+    {
       "address": "0x80048768",
       "profile": "gcc_2_8_1_cc_g0_as_g8",
       "size": "0x1B8",

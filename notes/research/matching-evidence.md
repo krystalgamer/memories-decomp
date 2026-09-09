@@ -6474,6 +6474,34 @@ because `rank_for_schedule` only falls back to original insn order when
 priority and dependence class tie. Same conclusion the `func_80045208` entry
 reaches about `-fno-schedule-insns2`.
 
+## SD_SEPlay: preserving the entry schedule without undefined reads
+
+`SD_SEPlay` (`0x80048658`) now matches all 272 text bytes under the unchanged
+`gcc_2_8_1_g0` profile. The previous two-word entry-copy residual is resolved
+by two identical initialization blocks and an intermediate `u16` stop value.
+The blocks test the initialized input's `0x8000` stop bit. Flattening them
+changes four words at offsets `+0x08`, `+0x0C`, `+0x10`, and `+0x14`.
+No statement-level assembly or scheduling flag override is used.
+
+The search first produced two exact machine-code candidates whose redundant
+conditions read uninitialized locals. Those sources were rejected for
+integration. Replacing the condition with the input stop-bit test preserves
+all bytes and removes that read; both paths assign the same values before
+any subsequent use. Testing plain `arg0` instead costs two instructions,
+so not every equivalent spelling has the same code-generation effect.
+
+The accepted source uses the shared `SDValue` type and existing callee
+prototype from `sound_output_state.h`. The one retained byte-based state
+lookup is measured: spelling it from `&a->field_044C` changes one word at
+`+0x68`, despite the same address and size. The wider local declaration of
+the unmatched `func_800482B0` call is unchanged from the existing candidate.
+Caller-side `SD_SEPlay` declarations remain profile-specific; this change
+does not unify them.
+
+The complete `make match` build, using this C object at `0x80048658`,
+reproduces the retail executable byte for byte with SHA-256
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
+
 ## When a local struct can be replaced by the Psy-Q type it copies
 
 Issue #16 asks for the SDK's runtime structures instead of redefined ones, and
