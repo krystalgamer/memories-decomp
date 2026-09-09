@@ -240,7 +240,6 @@ hit:
 }
 
 extern u8 *D_8009B17C;
-extern s16 D_8009B20C[4];
 extern u8 D_801A7B64[];
 
 extern void func_80019BA0(u8 *arg0, u8 arg1, s16 arg2, s16 arg3);

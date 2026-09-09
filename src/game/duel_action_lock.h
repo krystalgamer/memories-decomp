@@ -30,6 +30,20 @@ extern u16 D_8009B220;
 extern s16 D_8009B1A8;
 extern s16 D_8009B1D2;
 
+/* Two halfwords; the field sweeps in duel_card_effects.c, func_8002596C.c,
+ * func_80025D30.c and func_800260D0.c all reach [1], which retail addresses
+ * as %gp_rel(D_8009B20C + 0x2): 23 sites, 7 lh, 5 lhu and 11 sh, three of
+ * them in func_800262D4, still assembly. In the four matched TUs the lhu
+ * is where the source writes *(u16 *)&D_8009B20C[1] for the +1 or -1.
+ * func_80025D30 runs it down from 0x10; the other three reset it to 0 or
+ * -1, advance it and index D_800907D8 by it. [0] is written and read only
+ * by func_8001BD88 and func_8001D670, still assembly, 30 sites at +0;
+ * whether it belongs to the same object is not established. Four bytes,
+ * the extent up to D_8009B210, stays gp-relative at every threshold in
+ * play; with [4] shared instead, func_8002596C's assembler -G4 takes the
+ * eight bytes out of small data and the tree does not link. */
+extern s16 D_8009B20C[2];
+
 s32 DuelEffect_MarkInitialized(void);
 void func_80024E4C(void);
 
