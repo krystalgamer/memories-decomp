@@ -1,11 +1,11 @@
 #include "../types.h"
+#include "../unmatched.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "func_800608B8.h"
 
-extern int func_80067220();
 extern int func_80067354();
 extern int func_8006759C();
 extern int func_80067858();

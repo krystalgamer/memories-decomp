@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../unmatched.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -7,7 +8,6 @@
 #include "display_object_helpers.h"
 #include "text_box_runtime.h"
 
-extern s32 func_80035E20();
 void func_800391E4(u8 *p) {
     u8 *e;
     s32 v;
