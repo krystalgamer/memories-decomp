@@ -10,6 +10,8 @@
 #include "file_transfer.h"
 #include "graphics_frame.h"
 #include "script_state.h"
+#include "script_image_objects.h"
+#include "func_8002E128.h"
 
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
@@ -29,10 +31,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
 #define gGraphics_sViewportY gGraphics_sViewportY_data
 extern struct Rec *D_8009B280;
 extern u16 D_8009B270;
-
-extern void func_8002DF2C(void *, s32);
-extern void func_8002E00C(void *);
-extern void func_8002E128(void *, s32);
 
 void Script_OpShowImage(void) {
     struct Rec *rec;
@@ -72,7 +70,7 @@ void Script_OpShowImage(void) {
             VRAM_COPY_HEIGHT, 0, 0, 0x17, 0, 0xF4);
         D_8009B280 = rec;
         rec->unk4 |= 0x2000000;
-        func_8002E00C((u8 *)D_800EAE98);
+        func_8002E00C((ScriptImageEntry *)D_800EAE98);
         gGraphics_sViewportX = D_8009B2A8;
         gGraphics_sViewportY = D_8009B2AA;
         if (D_8009B145 == 0) {

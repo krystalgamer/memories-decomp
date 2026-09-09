@@ -1,6 +1,8 @@
 #include "../types.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
+#include "script_image_objects.h"
+#include "func_8002E128.h"
 
 extern u8 D_80090BA8[];
 extern u8 D_80090C00[];

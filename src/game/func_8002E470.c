@@ -5,6 +5,8 @@
 #include "file_transfer.h"
 #include "graphics_frame.h"
 #include "script_state.h"
+#include "script_image_objects.h"
+#include "func_8002E128.h"
 
 extern u16 D_8009B270;
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
@@ -13,9 +15,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
     __attribute__((section(".data")));
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
-extern void func_8002E00C(void *);
-extern void func_8002DF2C(void *, s32);
-extern void func_8002E128(void *, s32);
 
 void func_8002E470(void)
 {
@@ -28,7 +27,7 @@ void func_8002E470(void)
     if (func_8002E3B4() == 0) {
         gGraphics_sViewportY = 0;
         gGraphics_sViewportX = 0;
-        func_8002E00C((u8 *)D_800EAE98);
+        func_8002E00C((ScriptImageEntry *)D_800EAE98);
         script = D_8009B290;
         next = script + 2;
         D_8009B290 = next;
