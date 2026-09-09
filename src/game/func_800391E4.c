@@ -8,7 +8,6 @@
 #include "text_box_runtime.h"
 
 extern s32 func_80035E20();
-extern s32 func_8004006C();
 void func_800391E4(u8 *p) {
     u8 *e;
     s32 v;

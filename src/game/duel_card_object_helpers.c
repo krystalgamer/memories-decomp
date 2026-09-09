@@ -11,7 +11,6 @@ typedef struct {
     u8 type;
 } CardObject;
 
-extern void *func_8004006C(void);
 DisplayObject *func_80018150(int arg0, int arg1)
 {
     DisplayObject *object = func_800400AC((s32)func_8004006C(), 2);
