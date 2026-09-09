@@ -1,6 +1,8 @@
 #define GINPUT_PAD1_HELD_IS_AGGREGATE
+#define D_8009B254_IN_DATA
 #include "../types.h"
 #include "duel_side_state.h"
+#include "duel_effect.h"
 #include "duel_grid.h"
 #include "duel_card.h"
 #include "input.h"
@@ -88,12 +90,14 @@ void Duel_UpdateCardPickCursor(struct Cursor *o) {
                 D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
             ]]);
         if (picked != 0) {
-            /* Written as absolute literals, not through externs: these three
+            /* Written as absolute literals, not through externs: these two
                are single incidental stores and the target addresses them
-               through $at, which the symbolic form does not do. */
+               through $at, which the symbolic form does not do. The third
+               store, to D_8009B254, reaches the same $at form through the
+               .data arm duel_effect.h declares for it. */
             *(u16 *) 0x8009B246 = picked;
             *(u8 *) 0x8009B24B = 0x14;
-            *(u8 *) 0x8009B254 = 2;
+            D_8009B254 = 2;
         } else if (!(gInput_wPad1Held[0] & PAD_BUTTON_TRIGGER_MASK)) {
             D_8009B162 = 0xC;
             D_8009B1D4 = D_8009B1D4 | 0x60;

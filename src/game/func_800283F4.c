@@ -33,7 +33,6 @@ extern u8 D_8009B24A;
 extern u8 D_8009B24B;
 extern DisplayObject *D_8009B24C;
 extern DuelEffectChannel *D_8009B250;
-extern u8 D_8009B254;
 extern u16 gDuel_wViewerCardID;
 extern u8 D_8009B26C __attribute__((section(".data")));
 extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));

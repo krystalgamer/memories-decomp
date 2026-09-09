@@ -244,6 +244,26 @@ typedef char DuelEffectObject_size_must_be_0x1C[
     sizeof(DuelEffectObject) == 0x1C ? 1 : -1
 ];
 
+/* The pending duel-effect request. DuelEffect_UpdateState reads it each
+ * tick: zero is idle; otherwise the low bits are the effect id, which it
+ * copies into D_8009B24A and then marks with 0x80 as started; func_800283F4
+ * and func_80028310 raise 0x40 when the effect is finished, and the next
+ * tick clears the byte back to 0. Stored 2 by build_deck_pane_input.c,
+ * duel_update_card_pick_cursor.c and the main_menu overlay's
+ * trade_update.c, 3 and 4 by frontend_scene_states.c, and cleared by
+ * Main_ResetFrontendRuntime and Main_RunCampaign. One byte, read lbu; the
+ * next named byte is gCardGrid_bCursorColumn at 0x8009B258.
+ * Retail reaches it through $gp in func_8002892C, func_800283F4 and
+ * func_80028310, and through %hi/%lo everywhere else, including
+ * func_8001BD88 and func_8001D670 (still assembly). frontend_scene_states.c,
+ * main_run_campaign.c and duel_update_card_pick_cursor.c define the .data
+ * arm below for that; build_deck_pane_input.c still declares it privately. */
+#ifdef D_8009B254_IN_DATA
+extern u8 D_8009B254 __attribute__((section(".data")));
+#else
+extern u8 D_8009B254;
+#endif
+
 s32 DuelEffect_UpdateState(void);
 
 #endif
