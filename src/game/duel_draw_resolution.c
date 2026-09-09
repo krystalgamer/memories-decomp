@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_draw_resolution.h"
 #include "duel_card.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
@@ -7,17 +8,6 @@
 #include "duel_deck_card.h"
 #include "duel_rank.h"
 #include "sound.h"
-
-typedef struct {
-    s16 id;
-    u8 type;
-    u8 pad3[3];
-} ExodiaCardRecord;
-
-typedef struct {
-    u8 pad0[0x4B9FC];
-    ExodiaCardRecord cards[1];
-} ExodiaCardDatabase;
 
 extern DuelSideState *D_8009B1C8_hand asm("D_8009B1C8");
 extern ExodiaCardDatabase D_8015C424_cards asm("D_8015C424");
