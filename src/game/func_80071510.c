@@ -2,7 +2,6 @@
 #include "ai.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
-extern u8 D_800EAE90;
 void func_80071510(void)
 {
     int index = AiScript_ReadByte();

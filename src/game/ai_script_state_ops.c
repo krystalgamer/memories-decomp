@@ -4,7 +4,6 @@
 #include "duel_card_layout.h"
 #include "ai_script_read_byte.h"
 
-extern u8 D_800EAE90;
 void func_80073448(void)
 {
     D_800EAE90 = 1;
