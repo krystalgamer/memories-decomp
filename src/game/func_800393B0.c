@@ -1,6 +1,7 @@
 #define GINPUT_PAD1_HELD_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA
 #include "../types.h"
+#include "func_80037C74.h"
 #include "input.h"
 #include "duel_effect.h"
 #include "text_constants.h"
@@ -36,7 +37,6 @@ extern void func_800391E4(u8 *);
 extern void func_80035CA8(s32);
 extern void DuelEffect_ClearMatchingMarker(s32);
 extern void func_800373C8(DuelEffectChannel *, s32, s32);
-extern s32 func_80037C74(u8 *);
 extern void func_80036C14(u8 *, s32);
 
 void func_800393B0(u8 *object)
