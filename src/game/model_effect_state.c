@@ -3,6 +3,7 @@
 #include "model.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "func_80058434.h"
+#include "model_effect_requests.h"
 
 typedef struct {
     short x;
@@ -34,8 +35,6 @@ extern void func_80059000(s32 a0, Buf *a1);
 extern void func_8005D994(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern void func_8005F070(int);
 extern void func_8005F91C(s32, void *, void *, s32);
-extern void func_80059EBC(int);
-
 void func_8005F3B8(int mode, int y, int a, int b, Vec *offset)
 {
     unsigned short *p = func_800591FC();
