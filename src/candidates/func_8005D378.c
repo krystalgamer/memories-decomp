@@ -1,4 +1,4 @@
-#include "../../../../src/types.h"
+#include "../types.h"
 
 #define MODEL_ANGLE_FULL_TURN 0x1000
 #define MODEL_ANGLE_HALF_TURN 0x801
@@ -42,6 +42,15 @@ typedef struct {
 extern void RotMatrixYXZ_gte(s16 *, void *);
 extern void ScaleMatrix(void *, s32 *);
 
+/*
+ * Current best under gcc_2_8_1_g8_split: 396 instructions against 391,
+ * with 263 differing positions and 362 target instructions aligned. This is
+ * not a near match. Materializing the slot base, re-reading sample/publish
+ * pointers per component, loading the six angles together, wrapping through
+ * a temporary, and publishing all nine values recover the present structure.
+ * Residual: the three angle-wrap blocks still compile with the wrong branch
+ * shape and cross-jump behavior, leaving the candidate five instructions long.
+ */
 s32 func_8005D378(AnimContext *ctx)
 {
     AnimTrack *track;
