@@ -68,5 +68,6 @@ extern DisplayObject *D_8009B388;
  *
  * main_run_frontend_menus.c is the only caller and had the only declaration. */
 void Options_Init(void);
+s32 Options_Update(void);
 
 #endif
