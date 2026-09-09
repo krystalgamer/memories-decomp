@@ -1,11 +1,12 @@
+#define D_8009B09C_IN_DATA
 #include "../types.h"
 #include "duel_effect.h"
+#include "graphics_frame.h"
 #include "duel_transition_color.h"
 #include "duel_transition_step_table.h"
 #include "build_deck_transition_state.h"
 #include "../psyq/rand.h"
 
-extern u32 D_8009B09C[];
 extern BuildDeckTransitionState *D_8009B2FC;
 
 s32 func_80033BE8(void)
@@ -18,7 +19,7 @@ s32 func_80033BE8(void)
 
     rand();
 
-    intensity = D_8009B09C[0] & 0x3F;
+    intensity = D_8009B09C & 0x3F;
     if (intensity >= 0x20) {
         intensity = 0x3F - intensity;
     }

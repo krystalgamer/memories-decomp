@@ -4,7 +4,6 @@
 #include "input.h"
 #include "sound_output.h"
 
-extern volatile s32 D_8009B09C;
 extern volatile s32 D_8009B0C4;
 extern u8 D_8009B0C3;
 extern u8 D_8009AF0C;

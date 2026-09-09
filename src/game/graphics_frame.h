@@ -119,6 +119,29 @@ extern s32 D_8009B0CC __attribute__((section(".data")));
 extern volatile s32 D_8009B0CC;
 #endif
 
+/* A frame counter ticked by Main_VBlankCB in the same block as D_8009B0C8.
+ * Main_Init zeroes it and reads it into a local it stores to D_8009B0C4 at
+ * the end of its block; func_80033BE8 and Widget_UpdatePulseColour fold its
+ * low six and seven bits into a triangle wave for a pulsing colour; the
+ * password overlay's NameEntry_Main shifts it left by eight and ors it
+ * above a name checksum into the save block's stamped word; func_80029EC4
+ * (still assembly) reads it too. Sign is not visible in any use (& 0x3F,
+ * & 0x7F, << 8, ++, = 0), so s32 follows D_8009B0C8 and is not established.
+ *
+ * main_frame.c and main_init.c reach it gp-relative and take the volatile
+ * form below; every other retail site is a lui/lw pair. volatile is
+ * measured (notes/research/matching-evidence.md:479-490): Main_Init zeroes
+ * it and immediately re-reads it, and without volatile GCC forwards the
+ * stored zero and the function is one instruction short.
+ * duel_transition_color.c (-G8) defines the .data arm;
+ * widget_update_pulse_colour.c (-G0) and the password overlay's
+ * name_entry_main.c take the plain form. */
+#ifdef D_8009B09C_IN_DATA
+extern s32 D_8009B09C __attribute__((section(".data")));
+#else
+extern volatile s32 D_8009B09C;
+#endif
+
 extern DISPENV gGraphics_DispEnv;
 
 /* Two scratch rectangles for the VRAM transfers. Every user fills x, y, w, h
