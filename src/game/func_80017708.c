@@ -2,7 +2,6 @@
 #include "duel_grid.h"
 #include "duel_selection_layout.h"
 
-extern u8 D_800E9F10[];
 void func_80017708(void) {
     s32 row, j;
     for (row = 0; row < DUEL_SIDE_COUNT; row++) {

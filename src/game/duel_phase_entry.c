@@ -17,7 +17,6 @@ typedef struct {
 } DuelSelectionSide;
 extern u8 D_8009B1EC;
 extern u8 *D_8009B1B4;
-extern u8 D_800E9F10[];
 
 extern void Duel_RequestCombinedDeckData(void);
 extern void Duel_PopulateCombinedDeckData(void);
