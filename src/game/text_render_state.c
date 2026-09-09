@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "sorted_entry.h"
+#include "text_render_state.h"
 
 void func_80035668(u32 value)
 {

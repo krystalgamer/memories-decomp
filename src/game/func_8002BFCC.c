@@ -12,6 +12,14 @@
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
 #include "../unmatched.h"
+#include "display_object_helpers.h"
+#include "duel_deck_lookup.h"
+#include "func_80029574.h"
+#include "func_80029590.h"
+#include "func_8002BD0C.h"
+#include "library_mark_owned_cards.h"
+#include "sound.h"
+#include "text_render_state.h"
 
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
@@ -22,15 +30,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
 extern void (*D_800E9DBC[])(void);
 extern u8 D_800EA1E8[];
 extern s32 D_801D5608[];
-
-s32 func_8002C518(s32 arg0);
-void func_80029574(s32 arg0);
-void func_80029590(void);
-void SD_BGMPlay(u32);
-void Library_MarkOwnedCards(void);
-void func_80035668(s32 arg0);
-void func_8004293C(u8 *arg0);
-void func_8002BD0C(void);
 
 void func_8002BFCC(void) {
     s16 *q;
@@ -65,7 +64,8 @@ void func_8002BFCC(void) {
         n--;
         q--;
     } while (n >= 0);
-    File_RequestAsyncTransfer(0, (u8 *)0, 0x1DCD, 0x8A, func_8002BD0C, 0, 0);
+    File_RequestAsyncTransfer(0, (u8 *)0, 0x1DCD, 0x8A,
+                              (FileTransferCallback)func_8002BD0C, 0, 0);
     File_WaitForTransfers();
     Library_MarkOwnedCards();
     D_800E9DBC[0] = func_80029EC4;
@@ -140,7 +140,7 @@ void func_8002BFCC(void) {
     m[0x5A] = 0x10;
     m[0x5B] = 0x10;
     func_80039A14(m);
-    func_8004293C(*(u8 **)(m + 0x28));
+    func_8004293C(*(DisplayObject **)(m + 0x28));
     *(u16 *)(*(u8 **)(m + 0x28) + 8) &=
         ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     func_8002A2F4(r);

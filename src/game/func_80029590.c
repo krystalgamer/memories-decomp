@@ -3,6 +3,7 @@
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
+#include "func_80029590.h"
 
 extern u8 D_800EA1E8[];
 void func_80029590(void)

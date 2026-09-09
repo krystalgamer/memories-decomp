@@ -6,6 +6,7 @@
 #include "sound_voice_data.h"
 #include "graphics_frame.h"
 #include "../unmatched.h"
+#include "func_8002BD0C.h"
 
 #define gStageRect (D_800E9D70[0])
 

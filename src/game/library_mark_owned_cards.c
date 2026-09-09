@@ -2,6 +2,7 @@
 #include "save_data.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
+#include "library_mark_owned_cards.h"
 
 extern u8 gLibrary_abCardChest[];
 
