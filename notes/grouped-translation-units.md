@@ -215,6 +215,113 @@ All three helpers now use the shared `AiScriptState` declaration from `ai.h`,
 so `AiScript_Call`, `AiScript_Return`, and `AiScript_SetRandom` build together
 in `ai_script_call_control.c`.
 
+## Preconditions worth checking before spending a build
+
+Conditions 1 and 2 of the contract are cheap to read out of
+`config/slus_01411/functions.csv` and `matching_c.json`. The conditions that
+actually reject candidates are less obvious, and all three can be settled from
+files already on disk.
+
+### The two halves must agree on every shared declaration
+
+Two sources that each declare the same global differently cannot be merged,
+because a grouped unit is compiled once and one spelling has to win. This
+already blocked the AI call-control group above until the three helpers moved
+to a shared `AiScriptState`.
+
+The sharp case is a guard-selected arm. `func_8003AD6C.c` takes the default
+`extern s32 D_8009B0D8` arm and its neighbour `func_8003B054.c` opens with
+`#define D_8009B0D8_IS_HALFWORD`. They are adjacent and share
+`gcc_2_8_1_g0`, so they pass conditions 1 and 2, and the pair looks mergeable.
+
+Disassembling the two objects the build already produced settles it without
+compiling anything:
+
+```
+func_8003AD6C.o    lw   v1,0(v1)     R_MIPS_LO16   D_8009B0D8
+func_8003B054.o    lhu  v1,0(v1)     R_MIPS_LO16   D_8009B0D8
+```
+
+Retail reads that one symbol at two widths from two translation units. Both
+arms are faithful, neither can replace the other, and merging would change a
+load. Recorded as blocked; no build spent.
+
+`objdump -dr tmp/splat/build/src/game/NAME.o` is the general form. It is the
+cheapest tier of evidence available here, below even the `-G` table in
+`notes/build.md`.
+
+### A merged unit inherits both halves' `.rodata`
+
+A source that owns a jump table has a `.rodata` subsegment in
+`config/slus_01411/split.yaml`. Merging two such sources gives the combined
+object one `.rodata` run, so the two subsegment entries must collapse into a
+single entry — which is only possible when the two tables are already
+adjacent in the image.
+
+`func_80057544` and `func_800577B0` are the worked example. Each owns a jump
+table, and the two subsegments are:
+
+```
+- [0x1F84, .rodata, game/func_80057544]
+- [0x1F9C, .rodata, game/func_800577B0]
+```
+
+`0x18` is six entries for the six-case switch and `0x2C` is eleven for the
+eleven-case one, and `0x1F84 + 0x18 = 0x1F9C`, so a merged object owns one
+`0x44` run at `0x1F84` and the two entries become one. That merge is PR #2959,
+which folds the pair into `file_transfer_steps.c`.
+
+This makes condition 3 load bearing beyond `.text`: definition order is what
+emits the six-case table ahead of the eleven-case one. Swapping the two
+functions would reorder `.rodata` even if `.text` could still be made to fit.
+
+A subsegment size is also a free cross-check on a decompiled switch, since
+its byte size divided by four is the number of table entries.
+
+## Sources that cannot be grouped at all
+
+Five resident sources are an `__asm__` block of `.word` literals with explicit
+`.reloc` directives and no C statements outside it:
+
+- `src/game/func_800291E0.c`
+- `src/game/func_80030998.c`
+- `src/game/func_8002A788.c`
+- `src/game/func_8002A4A8.c`
+- `src/game/main_run_credits.c`
+
+They are registered in `matching_c.json` with a compiler profile, but no C is
+compiled for them, so the profile is inert and the recorded match reflects
+literal bytes rather than codegen. There is nothing to merge, and they cannot
+satisfy the per-TU header, single-definition-site, or usage-derived-type work
+either. Any candidate scan over matching C should exclude them explicitly;
+three otherwise-plausible contiguous same-profile runs are blocked by nothing
+except one of these sitting inside them.
+
+This is a different thing from a source carrying a single inline opcode.
+`display_projection.c`, `func_800177C4.c`, `func_800178BC.c` and
+`func_8001B0CC.c` each contain `.word 0x4A180001`, the GTE `rtps` encoding the
+period assembler could not spell, inside ordinary C with real operand
+constraints. Those are normal C sources and group normally.
+
+## Whole-resident candidate survey
+
+The audit recorded above was scoped to the established AI, File, and sound
+ranges. A survey across the whole resident finds 46 address-contiguous
+same-profile runs that span more than one source. Twenty-one are blocked by a
+declaration conflict or a byte-blob member.
+
+The remaining twenty-five are mostly not merge candidates, and the reason is
+worth stating because the raw count is misleading: most are simply *file
+boundaries*, where the last function of one source happens to abut the first
+of the next. The `0x8003FE70` run pairs `SaveData_SetMaskSeed` with nine
+sound-frontend functions; grouping those would be merging by adjacency, not by
+meaning.
+
+The filter that survives is: every source in the run is a single-function
+source, and the bodies pass a meaning test. Applying it left two runs, one of
+which was three unrelated routines (a menu tick dispatcher, a Shift-JIS digit
+lookup and a duel effect setter) that merely share a profile.
+
 ## Expansion policy
 
 Expand grouping only after names and behavior are stable. Prefer small
