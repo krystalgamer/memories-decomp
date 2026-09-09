@@ -1,7 +1,23 @@
-#include "../../../../src/types.h"
-#include "../../../../src/psyq/libgte.h"
-#include "../../../../src/psyq/libgpu.h"
-#include "../../../../src/psyq/libgs.h"
+/*
+ * Renders the 3D duel card through scratchpad matrices, four projected
+ * corners, per-vertex lighting, and two ordering-table submissions. Current
+ * best under gcc_2_8_1_g0: 386/386 instructions, opcode multiset distance 20,
+ * and 341 differing words, with no hard register pin.
+ *
+ * Scratchpad pointers are initialized after the early guard, typed bases
+ * preserve the retail address mix, the model Y rotation is intentionally
+ * recomputed, and Blk8 assignments produce the unaligned corner copies. The
+ * four inline rtps words are byte-identical; the sprite base remains a
+ * compiler operand rather than a named register.
+ *
+ * Residual: six nop differences with three loads/four stores, plus one
+ * inverted branch around always-executed scaling that retail guards with a
+ * literal zero. The remaining work is source shape and scheduling.
+ */
+#include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 typedef struct {
     u8 b[8];
@@ -16,9 +32,7 @@ typedef struct {
 extern u8 D_800FE148[];
 extern void *D_800E9D90[];
 
-extern void func_80089CC0(SVECTOR *, SVECTOR *, MATRIX *);
 extern s32 func_800879A0(void *);
-extern void func_80084320(void *, void *, s32);
 
 void func_80015EF4(Holder *holder, u8 *prim, u8 *sprite, GsOT *ot)
 {
@@ -82,10 +96,10 @@ void func_80015EF4(Holder *holder, u8 *prim, u8 *sprite, GsOT *ot)
     q[3].vy = q[2].vy = q[1].vy = q[0].vy = 0;
     GsSetLsMatrix(lm);
 
-    func_80089CC0(&q[0], &rot[0], (MATRIX *)depth);
-    func_80089CC0(&q[1], &rot[1], (MATRIX *)depth);
-    func_80089CC0(&q[2], &rot[2], (MATRIX *)depth);
-    func_80089CC0(&q[3], &rot[3], (MATRIX *)depth);
+    RotTransSV(&q[0], &rot[0], (long *)depth);
+    RotTransSV(&q[1], &rot[1], (long *)depth);
+    RotTransSV(&q[2], &rot[2], (long *)depth);
+    RotTransSV(&q[3], &rot[3], (long *)depth);
 
     *(Blk8 *)&cpy[0] = *(Blk8 *)&rot[0];
     *(Blk8 *)&cpy[1] = *(Blk8 *)&rot[1];
@@ -95,14 +109,18 @@ void func_80015EF4(Holder *holder, u8 *prim, u8 *sprite, GsOT *ot)
     GsSetLightMatrix(lm);
     GsSetLsMatrix((MATRIX *)D_800FE148);
 
-    RotColorDpq(&rot[0], up, ot,
-                  prim + 8, prim + 4, &depth[0]);
-    RotColorDpq(&rot[1], up, ot,
-                  prim + 0x14, prim + 0x10, &depth[1]);
-    RotColorDpq(&rot[2], up, ot,
-                  prim + 0x20, prim + 0x1C, &depth[2]);
-    RotColorDpq(&rot[3], up, ot,
-                  prim + 0x2C, prim + 0x28, &depth[3]);
+    RotColorDpq(&rot[0], up, (CVECTOR *)ot,
+                (long *)(prim + 8), (CVECTOR *)(prim + 4),
+                (long *)&depth[0]);
+    RotColorDpq(&rot[1], up, (CVECTOR *)ot,
+                (long *)(prim + 0x14), (CVECTOR *)(prim + 0x10),
+                (long *)&depth[1]);
+    RotColorDpq(&rot[2], up, (CVECTOR *)ot,
+                (long *)(prim + 0x20), (CVECTOR *)(prim + 0x1C),
+                (long *)&depth[2]);
+    RotColorDpq(&rot[3], up, (CVECTOR *)ot,
+                (long *)(prim + 0x2C), (CVECTOR *)(prim + 0x28),
+                (long *)&depth[3]);
 
     if ((depth[0] | depth[1] | depth[2]
          | depth[3]) < 0) {
@@ -143,7 +161,7 @@ void func_80015EF4(Holder *holder, u8 *prim, u8 *sprite, GsOT *ot)
 
     depth[0] = (depth[0] + depth[1]
                           + depth[2] + depth[3]) / 16;
-    func_80084320(prim, D_800E9D90[2], *(u16 *)depth);
+    GsSortPoly(prim, D_800E9D90[2], *(u16 *)depth);
 
     cpy[3].vy = 0;
     cpy[2].vy = 0;
@@ -187,5 +205,5 @@ void func_80015EF4(Holder *holder, u8 *prim, u8 *sprite, GsOT *ot)
         "addiu $2, %0, 32\n"
         "swc2 $14, 0($2)\n"
         : : "r"(sprite) : "$2", "$8", "$9", "$10", "$11", "memory");
-    func_80084320(sprite, D_800E9D90[2], 0xFFF);
+    GsSortPoly(sprite, D_800E9D90[2], 0xFFF);
 }
