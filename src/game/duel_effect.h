@@ -172,4 +172,23 @@ extern volatile s32 D_8009B350;
  * and the byte is cleared back to 0 when a scene is torn down. */
 extern u8 D_8009B3C1;
 
+/* A 0x1C-byte effect object, the record func_80025D30 and func_800260D0 both
+ * walk. Both files described the same layout: the first named the halfword
+ * at 0x12 and padded 0x06..0x11, the second padded straight across
+ * 0x06..0x13. This carries the union of what each knew. */
+typedef struct {
+    u16 x;             /* 0x00 */
+    u16 y;             /* 0x02 */
+    u16 field_04;      /* 0x04 */
+    u8 pad_06[0xC];    /* 0x06 */
+    s16 field_12;      /* 0x12 */
+    s32 field_14;      /* 0x14 */
+    u8 pad_18[2];      /* 0x18 */
+    s16 field_1A;      /* 0x1A */
+} DuelEffectObject;
+
+typedef char DuelEffectObject_size_must_be_0x1C[
+    sizeof(DuelEffectObject) == 0x1C ? 1 : -1
+];
+
 #endif

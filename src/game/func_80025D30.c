@@ -6,17 +6,7 @@
 #include "duel_card.h"
 #include "duel_grid.h"
 #include "sound.h"
-
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 field_04;
-    u8 pad_06[0xC];
-    s16 field_12;
-    s32 field_14;
-    u8 pad_18[2];
-    s16 field_1A;
-} DuelEffectObject;
+#include "duel_effect.h"
 
 extern u16 D_8009B1D0;
 extern s16 D_8009B1D2;
