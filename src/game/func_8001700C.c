@@ -1,12 +1,8 @@
 #include "../types.h"
+#include "duel_card.h"
 #include "duel_card_layout.h"
 
-typedef struct {
-    u8 pad_00[0x16];
-    u16 flags;
-} Object;
-
-int func_8001700C(Object *object)
+int func_8001700C(DuelCardRecord *object)
 {
     u16 flags = object->flags;
 

@@ -4,13 +4,12 @@
 #include "duel_card.h"
 #include "input.h"
 
-typedef struct { char p[0xC]; s16 result; char pE[8]; u16 flags; } Object;
 typedef struct { char p[0xF]; s8 x, y; } Position;
 extern Position *D_8009B1B4;
 
-int func_80017034(Object *argument)
+int func_80017034(DuelCardRecord *argument)
 {
-    register Object *object asm("$6") = argument;
+    register DuelCardRecord *object asm("$6") = argument;
     register Position *position asm("$4") = D_8009B1B4;
     register u8 *table asm("$3") = D_800907D8;
     int valid = 1;
@@ -22,6 +21,6 @@ int func_80017034(Object *argument)
     }
     if ((gInput_wPad1Pressed[0] & PAD_BUTTON_TRIANGLE) &&
         (object->flags & DUEL_CARD_FLAG_OCCUPIED) && valid)
-        return object->result;
+        return object->card_id;
     return 0;
 }
