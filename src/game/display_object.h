@@ -295,8 +295,11 @@ typedef struct DisplayObject {
     /* Reached as halves as well, by the same witness 0x38 describes and
        under the same limit: DuelEffect_UpdateObjectLayout writes 0x50 and
        0x52 as the last of its six x/y pairs. The word view stays for every
-       user the comment above lists, and func_800179F4.c, the one caller
-       that reaches the word by name, spells it .word. */
+       user the comment above lists, and the two callers that reach the word
+       by name spell it .word: func_800179F4.c, which stores another object's
+       address here, and Duel_DrawLifePointsAndDeckCounts, which loads that
+       address back. Those two are why the word view is s32 rather than
+       unsigned. */
     union {
         s32 word;
         struct {

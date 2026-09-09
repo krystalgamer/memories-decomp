@@ -25,7 +25,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0) {
 
     Duel_UpdateLifePointDisplay(&D_800E9FF0[0]);
     Duel_UpdateLifePointDisplay(&D_800E9FF0[1]);
-    pos = (DisplayObject *)arg0->field_50;
+    pos = (DisplayObject *)arg0->field_50.word;
 
     scratch = SCRATCH;
     tmp10 = 0xF10100;
