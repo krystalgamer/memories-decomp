@@ -7,7 +7,7 @@
 extern s32 D_8009B118;
 extern u8 D_800EA0E8[];
 
-void func_800289BC(u8 *p, s32 mode)
+void func_800289BC(FileTransferDescriptor *p, s32 mode)
 {
     DuelEffectResourceRecord *e;
     RECT *rect;
@@ -15,15 +15,15 @@ void func_800289BC(u8 *p, s32 mode)
     s32 x;
 
     if (mode == 0) {
-        *(s32 *)(p + 0x1C) = 0x3800;
+        p->mode = 0x3800;
         D_8009B0F4 &= 0xFFDCFFFF;
-        *(s32 *)(p + 0xC) = D_8009B118;
-        *(s32 *)(p + 8) = D_8009B118;
-        p[0x46] = 1;
+        p->value_0C = D_8009B118;
+        p->value_08 = D_8009B118;
+        p->done = 1;
         return;
     }
 
-    e = (DuelEffectResourceRecord *)(D_800EA0E8 + (*(s32 *)(p + 0x38) << 6));
+    e = (DuelEffectResourceRecord *)(D_800EA0E8 + ((s32)p->callback_data << 6));
 
     rect = &e->rects[0];
     b = D_8009B118;

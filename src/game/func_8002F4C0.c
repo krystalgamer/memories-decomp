@@ -6,6 +6,12 @@
 extern s32 D_8009B118;
 extern u8 D_801AF000[];
 
+/* p is the FileTransferDescriptor that File_RequestAsyncTransfer hands its
+   phase callback, but it stays a byte pointer. Typing it lets GCC prove the
+   descriptor stores cannot alias D_8009B0F4, so it sinks the +0x32 store past
+   the loader-state load to fill that load's delay slot: same instruction
+   count, one byte different at 0x8002F520. Measured. Its sibling
+   func_80020BE4 converts clean; see the four notes in this family. */
 void func_8002F4C0(u8 *p, s32 mode)
 {
     s32 one;

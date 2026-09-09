@@ -6,6 +6,9 @@
 extern s32 D_8009B118;
 extern u8 D_801AF000[];
 
+/* p is a FileTransferDescriptor; typing it moves one register at 0x80043536
+   (0x03 becomes 0x02) for the same aliasing reason as func_8002F4C0.
+   Measured. */
 void func_800434F4(u8 *p, s32 mode)
 {
     s32 one;

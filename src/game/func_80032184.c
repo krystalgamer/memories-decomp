@@ -6,6 +6,15 @@
 extern s32 D_8009B118;
 extern s16 D_800E9D70[];
 
+/* p is a FileTransferDescriptor -- File_RequestAsyncTransfer hands its own
+   descriptor to the phase callback -- but typing it here costs 36 bytes.
+   Once the stores are members GCC can prove they do not alias D_8009B0F4 and
+   reschedules nine instructions away across the arms. Measured; the sibling
+   callbacks func_8002F4C0, func_80020BE4 and func_800434F4 convert clean. */
+/* p is a FileTransferDescriptor; typing it costs 36 bytes here. Once the
+   stores are members GCC can prove they do not alias D_8009B0F4 and
+   reschedules nine instructions away across the arms. Measured; the sibling
+   func_80020BE4 converts clean. */
 void func_80032184(u8 *p, s32 mode) {
     s32 one;
     s32 w;
