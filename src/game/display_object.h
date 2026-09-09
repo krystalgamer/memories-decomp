@@ -125,12 +125,32 @@ typedef struct DisplayObject {
             s16 field_42;
         } h;
     } field_40;                    /* 0x40 */
-    /* 0x44 is the scale the sprite emitters copy whole -- func_80040588 and
-       func_800408D0 both assign it to sprite_primitive.h's u32 `scale` -- while
-       display_object_transition.c animates the two halves. Each half is 12-bit
-       fixed point: that file and display_slot_lifecycle.c both reset the pair
-       with the single word 0x10001000, which is 1.0 in each. Same device as
-       0x40 and 0x48 on either side of it. */
+    /* Read at least two different ways, so the halves are named for their
+       offsets and nothing more.
+
+       0x44 is the fourth of six words at stride 8 -- 0x2C, 0x34, 0x3C, 0x44,
+       0x4C, 0x54 -- which display_object_helpers.c zeroes in one run. For a
+       gouraud-rendered object those six are per-vertex colours: func_80041068,
+       the twelve-word code-0x3C renderer, copies 0x44 into its third vertex's
+       colour word, and Dialog_UpdateChoice writes all six with colour
+       constants (0x2000 four times, 0xC000 twice) before installing
+       Widget_UpdatePulseColour as the update callback.
+
+       The sprite emitters read the same word as a scale instead:
+       func_80040588 and func_800408D0 assign it to sprite_primitive.h's u32
+       `scale`, and display_object_transition.c animates the two halves from a
+       0x1000 base, with that file and display_slot_lifecycle.c resetting the
+       pair to 0x10001000 -- 1.0 in each half of 12-bit fixed point.
+
+       An earlier revision of this comment, from #2985, gave only the second
+       reading and called 0x44 "the scale". That generalised one witness, which
+       is the mistake display_object_config.h avoids for 0x6A. Both readings
+       are recorded here because the record is shared across object kinds and
+       neither one governs.
+
+       The union itself is unaffected: it asserts that some users take the word
+       and others the halves, which is true under either reading, and it is the
+       same device as 0x40 and 0x48 on either side. */
     union {
         u32 word;
         struct {
