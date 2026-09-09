@@ -32,6 +32,14 @@ typedef char TextDecimalDigitKeyBlock_size_must_be_20[
 ];
 
 typedef struct {
+    u16 positions[3];
+} OptionsLayoutPositionBlock;
+
+typedef char OptionsLayoutPositionBlock_size_must_be_6[
+    sizeof(OptionsLayoutPositionBlock) == 6 ? 1 : -1
+];
+
+typedef struct {
     s32 key;
     void **handler;
 } ModelHandlerObject;

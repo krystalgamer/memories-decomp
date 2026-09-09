@@ -241,7 +241,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF54,D_8009AF54,D_8009AF54,0x80030294,func_80030294,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_020a94.s,address,,"addiu $a0, $s1, %lo(D_8009AF54) | lui $s1, %hi(D_8009AF54)"
 0x8009AF54,D_8009AF54,D_8009AF54,0x80031084,func_80031084,matching_c,game,C,src/game/func_80031084.c,address,8,FntPrint(D_8009AF54);
 0x8009AF58,D_8009AF58,D_8009AF58,0x80030294,func_80030294,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_020a94.s,address,,"addiu $a0, $a0, %lo(D_8009AF58) | lui $a0, %hi(D_8009AF58)"
-0x8009AF5C,D_8009AF5C,D_8009AF5C,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_update_layout.c,address,8,*(Blk6 *)sp0 = *(Blk6 *)D_8009AF5C;
+0x8009AF5C,D_8009AF5C,D_8009AF5C,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_update_layout.c,address,8,*(OptionsLayoutPositionBlock *)sp0 = *(OptionsLayoutPositionBlock *)D_8009AF5C;
 0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003CE74,SaveData_NextMaskWord,matching_c,game,C,src/game/save_data_checksum.c,address,32,"register u32 *state asm(""$6"") = &gSaveData_dwMaskStateLow;"
 0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003CF14,SaveData_WritePrimarySecondaryIntegrity,matching_c,game,C,src/game/save_data_checksum.c,write,32,gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
 0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003CFC8,SaveData_WriteTertiaryIntegrity,matching_c,game,C,src/game/save_data_write_tertiary_integrity.c,write,32,void SaveData_WriteTertiaryIntegrity(u8*p){register s32 i;register u32*dst;u16 v=SaveData_CalcCrc16(p+SAVE_DATA_TERTI...
