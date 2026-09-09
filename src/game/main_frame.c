@@ -3,10 +3,10 @@
 #include "main_frame.h"
 #include "input.h"
 #include "sound_output.h"
+#include "main_services.h"
 
 extern u8 D_8009B0C3;
 extern u8 D_8009AF0C;
-extern void func_8001306C(void);
 
 void Main_VBlankCB(void)
 {
