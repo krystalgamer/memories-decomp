@@ -1,3 +1,4 @@
+#define D_8009B140_IN_DATA
 #include "../types.h"
 #include "func_80032B38.h"
 #include "duel_effect.h"
@@ -11,7 +12,6 @@ extern u8 D_8009B2F8;
 /* Retail addresses these three with %hi/%lo under -G8, so they live outside
    small data. */
 extern u8 D_8009AF76 __attribute__((section(".data")));
-extern u8 D_8009B140 __attribute__((section(".data")));
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 
 extern s32 func_80033998(void);

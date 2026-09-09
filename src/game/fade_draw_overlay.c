@@ -57,13 +57,11 @@ typedef struct {
 
 #define FADEBOX ((FadeBox *) 0x1F8003C0)
 
-/* D_8009B140/41 are reached through $gp (small data), so they are plain
-   scalars. The 0x800E9xxx globals are reached lui/%lo (absolute), so each
+/* D_8009B140/41 come from fade.h, which explains why they are plain scalars.
+   The 0x800E9xxx globals are reached lui/%lo (absolute), so each
    is declared oversized -- a size over 8 bytes keeps it out of the -G8
    small-data section. */
 extern s32 D_800E9D94[4];      /* [0] = ordering table the boxes sort into */
-extern u8 D_8009B140;
-extern u8 D_8009B141;
 
 void Fade_DrawOverlay(void) {
     FadeBox *p;

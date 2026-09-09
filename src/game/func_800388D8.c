@@ -2,7 +2,6 @@
 #include "fade.h"
 
 extern u8 D_8009AF76;
-extern u8 D_8009B140;
 
 void func_800388D8(u8 *arg0)
 {
