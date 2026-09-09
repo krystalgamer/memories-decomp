@@ -1,6 +1,9 @@
+#define D_8009B0F0_IN_DATA
+#define D_8009B120_IN_DATA
 #include "../types.h"
 #include "../ygo_types.h"
 
+#include "file_transfer.h"
 #include "sound.h"
 #include "sound_buffer_init.h"
 #include "sound_init.h"
@@ -9,8 +12,6 @@
 #include "sound_voice_selection.h"
 
 extern void *D_8009B460;
-extern void *D_8009B0F0 __attribute__((section(".data")));
-extern void *D_8009B120 __attribute__((section(".data")));
 extern u8 D_80010784[];
 extern u8 D_80010790[];
 extern u8 D_8001079C[];
