@@ -7,7 +7,6 @@
 #include "sound.h"
 #include "duel_effect.h"
 #include "../unmatched.h"
-extern s16 D_8009B20C[2];
 
 /* One step of a field-wide effect sweep, driven once per 16 frames by the
  * D_8009B1D0 countdown. The first entry resets the step index in
