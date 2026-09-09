@@ -12,6 +12,13 @@ typedef struct {
 } DuelDeckCardRecord;
 
 extern DuelDeckCardRecord gDuel_aDeckCardRecords[];
+
+/* The combined deck's card image data, indexed by the data_block_index field
+ * above scaled by DUEL_CARD_DATA_BLOCK_SIZE. Duel_PopulateCombinedDeckData
+ * fills it while it builds the records; Duel_SetupCardRecord then hands the
+ * selected block straight to LoadImage. The record type and this buffer are
+ * two halves of one thing, so they are declared together. */
+extern u8 D_8018C2D8[];
 u8 *Duel_SetupCardRecord(s32, s32);
 
 #endif
