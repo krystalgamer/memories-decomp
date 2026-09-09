@@ -41,7 +41,7 @@ extern void func_800403F0(void);
 extern void func_800134B4(void);
 extern void func_80035A64(void);
 extern void func_8003B5C8(void);
-extern void SD_InitState(s32);
+
 s32 Main_Init(void)
 {
     s32 r;

@@ -546,6 +546,7 @@ extern s32 D_80011434[20];
 #endif
 
 void Sound_InitFrontend(void);
+void SD_InitState(u8);
 s32 SD_EnqueueCommand(SDCommand *);
 void SD_UpdateFades(void);
 void SD_UpdateRuntime(void);
