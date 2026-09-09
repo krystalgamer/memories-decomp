@@ -1,4 +1,19 @@
-#include "../../../../src/types.h"
+/*
+ * Pumps the sound driver's command state at g_SDValue+0x7C. Current best
+ * under gcc_2_8_1_g8_split: 437/437 instructions, opcode multiset distance 4,
+ * and 342 differing positions, with no hard register assignments.
+ *
+ * The raw 82-entry switch keeps its eight distinct targets in retail layout
+ * order. Absolute pointer-global declarations, switch-shaped +0x7D
+ * sub-dispatches, a zero-based case 0, per-block pointer caching, and the
+ * three ordered clear exits recover the exact instruction count.
+ *
+ * Residual: the stored source merges case 33 and case 36 through one call,
+ * leaving one jal/sw missing and one lui/lw surplus, plus two smaller
+ * scheduling clusters. The eventual matching promotion will also need the
+ * documented jtbl_80010578 rodata split; candidate storage does not.
+ */
+#include "../types.h"
 
 typedef struct {
     u8 pad_00[0x40];
