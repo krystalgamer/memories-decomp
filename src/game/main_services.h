@@ -91,6 +91,7 @@ void func_80013154(void);
 #else
 void func_80013154(u8 *base);
 #endif
+void func_80013360(void);
 void func_800134B4(void);
 
 #endif
