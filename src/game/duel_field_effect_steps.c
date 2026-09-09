@@ -8,6 +8,7 @@
 #include "../unmatched.h"
 #include "duel_grid.h"
 #include "func_8002C604.h"
+#include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "duel_side_state.h"
 #include "duel_card.h"
@@ -25,7 +26,7 @@ typedef struct Object {
     u8 pad_28[0x44];
     u8 active;
 } Object;
-extern Object *D_8009B1F0[2], *D_8009B17C;
+extern Object *D_8009B1F0[2];
 extern void func_80025B28(Object *);
 
 void func_80025F3C(void)
@@ -37,7 +38,7 @@ void func_80025F3C(void)
     if (DuelEffect_MarkInitialized() == 0) {
         object = (Object *)func_8002C604(0x15);
         side = D_8009B1D5 ^ 1;
-        D_8009B17C = object;
+        D_8009B17C = (u8 *)object;
         D_8009B1F0[side] = object;
         object->flags |= 0x20;
         object->x = 0xA0;
@@ -46,7 +47,7 @@ void func_80025F3C(void)
         object->field_1A = side;
         SD_SEPlayFull(0x23);
     } else if (!(D_8009B220 & 0x40)) {
-        if (D_8009B17C->count != 0) {
+        if (((Object *)D_8009B17C)->count != 0) {
             D_8009B220 |= 0x40;
             for (
                 slot = DUEL_FIELD_ROW_SIZE;
@@ -62,7 +63,7 @@ void func_80025F3C(void)
                 }
             }
         }
-    } else if (func_80042B40(1) == 0 && D_8009B17C->count >= 2) {
+    } else if (func_80042B40(1) == 0 && ((Object *)D_8009B17C)->count >= 2) {
         D_800E9FF0[D_8009B1D5 ^ 1].field_19 = 4;
         D_8009B220 = 0;
     }

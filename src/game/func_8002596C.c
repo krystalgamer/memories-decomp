@@ -2,6 +2,7 @@
 #include "duel_card_object_helpers.h"
 #include "duel_side_state.h"
 #include "func_8002C604.h"
+#include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
 #include "duel_card_object_cleanup.h"
@@ -9,7 +10,6 @@
 #include "duel_grid.h"
 #include "sound.h"
 
-extern u8 *D_8009B17C;
 extern u8 D_8009B260[8];
 
 void func_8002596C(void) {

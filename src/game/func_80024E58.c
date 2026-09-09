@@ -2,13 +2,13 @@
 #include "duel_terrain_boost.h"
 #include "duel_side_state.h"
 #include "func_8002C604.h"
+#include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"
 
-extern u8 *D_8009B17C;
 extern u8 *D_8009B214;
 /* One byte at 0x8009B364; the 8 is a threshold, not a length. This TU's
  * profile compiles at -G8 but assembles at -G4, so the array needs a size
