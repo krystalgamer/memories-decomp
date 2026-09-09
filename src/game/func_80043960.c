@@ -13,7 +13,6 @@
 #include "sound_voice_selection.h"
 #include "../unmatched.h"
 
-extern u8 D_8009B428;
 extern short D_8009B098[];
 extern void func_800434F4(void);
 extern void func_80043328(void);
