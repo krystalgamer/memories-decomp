@@ -1,9 +1,8 @@
 #include "../types.h"
+#include "func_800134E0.h"
 #include "view_state.h"
 #include "../psyq/libgte.h"
 #include "model.h"
-
-extern void func_800134E0(u8 *, s32, s32, s32);
 
 void func_8001352C(void) {
     u8 *p = (u8 *)&D_800F2848;

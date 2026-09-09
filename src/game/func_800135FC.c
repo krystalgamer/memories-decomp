@@ -1,9 +1,8 @@
 #include "../types.h"
+#include "func_800134E0.h"
 #include "view_state.h"
 #include "../psyq/libgte.h"
 #include "model.h"
-
-extern void func_800134E0();
 
 void func_800135FC(void)
 {
