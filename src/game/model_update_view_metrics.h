@@ -3,14 +3,18 @@
 
 #include "../types.h"
 
+struct _GsCOORDUNIT;
+
 /* Recomputes the cached distance, yaw and pitch between a view's viewpoint
  * and its reference point. Passing 0 recomputes them for the current view,
  * D_800F56F0; passing another view installs it first.
  *
  * The argument is a GsRVIEW2, which the body proves by assigning through
- * that type, but it is declared as a byte pointer because the body reaches
- * the fields by offset and converting it to member access moves a register.
- * See notes/research/matching-evidence.md.
+ * that type. It is declared as a byte pointer only because GsRVIEW2 is an
+ * anonymous typedef that this header cannot forward declare; the body names
+ * every member through a local GsRVIEW2 *. See
+ * notes/research/matching-evidence.md for why those reads take the member's
+ * address.
  */
 /* The three cached values that function recomputes, in address order.
  *
@@ -41,11 +45,13 @@ void *func_80059208(void);
 void Model_UpdateViewMetrics(u8 *view);
 
 /* Builds a GsCOORDUNIT from a rotation vector: arg2 is the SVECTOR read in,
-   arg3 is the unit written out. func_80059B90.c is the only outside consumer
+   arg3 is the unit written out. arg3 is declared through the struct tag, as
+   model.h does, because GsCOORDUNIT itself needs libhmd.h; SVECTOR has no
+   tag to forward declare, so arg2 stays a byte pointer. func_80059B90.c is the only outside consumer
    and is the sole observed call, passing index 0 and arg1 15 with both
    pointers into one stack scratch block.
    Those two leading scalars keep their address-based names because a single
    call site fixes their values without showing what either selects. */
-void func_800580D4(s32 index, s32 arg1, u8 *arg2, u8 *arg3);
+void func_800580D4(s32 index, s32 arg1, u8 *arg2, struct _GsCOORDUNIT *arg3);
 
 #endif

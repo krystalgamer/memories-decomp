@@ -23,7 +23,7 @@ void func_80059B90(s16 value, s16 *out)
         0,
         15,
         scratch,
-        scratch + HMD_COORD_UNIT_OFFSET
+        (GsCOORDUNIT *)(scratch + HMD_COORD_UNIT_OFFSET)
     );
     GsGetLwUnit(
         (GsCOORDUNIT *)(scratch + HMD_COORD_UNIT_OFFSET),
