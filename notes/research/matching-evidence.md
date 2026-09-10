@@ -6602,10 +6602,10 @@ Issue #16 asks for the SDK's runtime structures instead of redefined ones, and
 layout equality is not sufficient. The test is **whether anything writes two
 adjacent members as one word.**
 
-- `fade_draw_overlay.c`'s `FadeBox` is `GsBOXF` field for field, and retail
-  writes the `0x04` and `0x08` words whole -- x together with y, w together
-  with h. Those are two separate members each, so the struct can become
-  `GsBOXF` and the cast moves to the two whole-word stores.
+- `fade_draw_overlay.c` uses `GsBOXF` directly. Retail writes the `0x04` and
+  `0x08` words whole -- x together with y, w together with h -- so those two
+  accesses cast the address of the first halfword to `u32 *`. The individual
+  y and h updates retain their measured unsigned and signed halfword views.
 - `func_80040588.c`'s `SpritePrim` is `GsSPRITE` field for field, but its
   position and size words each span two `GsSPRITE` halves. There is no store
   to cast, so the local struct has to keep its union-shaped members and the
