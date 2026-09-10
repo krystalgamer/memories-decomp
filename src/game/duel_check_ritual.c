@@ -6,8 +6,6 @@
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 
-extern u16 gDuel_awRitualData[];
-
 s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
 {
     DuelCardRecord *found[DUEL_RITUAL_TRIBUTE_COUNT];

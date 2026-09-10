@@ -1,5 +1,6 @@
 #define D_8009B118_IS_POINTER_IN_DATA
 #include "../types.h"
+#include "duel_check_ritual.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
@@ -12,7 +13,6 @@ extern u8 *D_80010000 __attribute__((section(".data")));
 extern u8 *D_800101DC __attribute__((section(".data")));
 extern u8 D_801A8000[];
 extern u8 D_801A9800[];
-extern u16 gDuel_awRitualData[];
 
 void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
 {
