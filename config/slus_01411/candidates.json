@@ -58,6 +58,14 @@
       "target_bytes_sha256": "579a8deb33a5c16f54868e38035a161d7eb6bfbcb34548584fbbf4716f91cdb4"
     },
     {
+      "address": "0x80031874",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "source": "src/candidates/func_80031874.c",
+      "target": "src/candidates_target/func_80031874.S",
+      "candidate_build_sha256": "8ab5556c09cf842ae4584e1997edc68b14ab944b408e0a99e59a4c4d48cefa4a",
+      "target_bytes_sha256": "910bef3829bf5637714de01765c2a100a2b7b738b0ed55648a565a9fafffeeb8"
+    },
+    {
       "address": "0x80042C08",
       "profile": "gcc_2_8_1_g8",
       "source": "src/candidates/func_80042C08.c",
