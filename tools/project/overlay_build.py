@@ -6,7 +6,7 @@ import argparse
 import hashlib
 import json
 import sys
-from pathlib import Path, PurePosixPath
+from pathlib import Path
 from typing import Any
 
 from build_baseline import (
@@ -19,6 +19,7 @@ from build_baseline import (
     run,
     tool,
 )
+from overlay_sources import OverlaySourceError, c_segments
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
@@ -60,49 +61,6 @@ def module_paths(
     return name, module_root, target, config, built_elf, built_binary
 
 
-def matching_c_segments(root: Path, module: dict[str, Any]) -> list[dict[str, str]]:
-    name = module_field(module, "name")
-    relative_path = f"config/slus_01411/overlays/{name}_matching_c.json"
-    path = root / relative_path
-    if not path.is_file():
-        return []
-    with path.open("r", encoding="utf-8") as handle:
-        manifest = json.load(handle)
-    functions = manifest.get("functions")
-    if manifest.get("schema") != 1 or not isinstance(functions, list):
-        raise OverlayBuildError(f"invalid overlay C manifest: {relative_path}")
-
-    segments: list[dict[str, str]] = []
-    sources: set[str] = set()
-    for entry in functions:
-        if not isinstance(entry, dict):
-            raise OverlayBuildError(f"{relative_path}: entries must be objects")
-        source = entry.get("source")
-        profile = entry.get("profile")
-        if (
-            not isinstance(source, str)
-            or not source.startswith("src/overlays/")
-            or not source.endswith(".c")
-            or ".." in PurePosixPath(source).parts
-        ):
-            raise OverlayBuildError(
-                f"{relative_path}: source must be a C file under src/overlays/"
-            )
-        if not isinstance(profile, str) or not profile:
-            raise OverlayBuildError(f"{relative_path}: {source} has no profile")
-        if source in sources:
-            continue
-        sources.add(source)
-        segments.append(
-            {
-                "source": source,
-                "profile": profile,
-                "object": str(PurePosixPath(source).with_suffix(".o")),
-            }
-        )
-    return segments
-
-
 def compile_sources(
     root: Path, module_root: Path, segments: list[dict[str, str]]
 ) -> list[Path]:
@@ -127,18 +85,16 @@ def compile_sources(
 
 
 def assemble_sources(root: Path, module_root: Path) -> list[Path]:
+    asm_directory = resolve_within(
+        root, module_root.relative_to(root) / "asm"
+    )
+    sources = sorted(asm_directory.rglob("*.s"))
+    if not sources:
+        return []
     assembler = tool(root, "as")
     include_directory = resolve_within(
         root, module_root.relative_to(root) / "include", must_exist=True
     )
-    asm_directory = resolve_within(
-        root, module_root.relative_to(root) / "asm", must_exist=True
-    )
-    sources = sorted(asm_directory.rglob("*.s"))
-    if not sources:
-        raise OverlayBuildError(
-            f"no generated assembly below {asm_directory.relative_to(root)}"
-        )
 
     objects: list[Path] = []
     for source in sources:
@@ -175,12 +131,15 @@ def build_module(root: Path, module: dict[str, Any]) -> None:
     name, module_root, _target, config, built_elf, built_binary = module_paths(
         root, module
     )
+    segments = c_segments(root, config)
     splat = resolve_within(
         root, "tools/environments/python/bin/splat", must_exist=True
     )
     run(root, [str(splat), "split", str(config)])
-    compile_sources(root, module_root, matching_c_segments(root, module))
-    assemble_sources(root, module_root)
+    c_objects = compile_sources(root, module_root, segments)
+    asm_objects = assemble_sources(root, module_root)
+    if not c_objects and not asm_objects:
+        raise OverlayBuildError(f"{name}: no C or generated assembly objects")
 
     linker = tool(root, "ld")
     linker_script = resolve_within(
@@ -267,6 +226,7 @@ def main() -> int:
                 verify_module(root, module)
     except (
         OverlayBuildError,
+        OverlaySourceError,
         BuildError,
         WorkspaceError,
         OSError,

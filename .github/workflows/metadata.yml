@@ -41,6 +41,11 @@ jobs:
       - name: Verify tracked metadata
         run: make check-metadata
 
+      - name: Exercise overlay source and data wiring checks
+        run: |
+          PYTHONPYCACHEPREFIX="$PWD/tmp/pycache" python3 -m unittest discover \
+            -s tools/project/tests -p test_overlay_sources.py
+
       - name: Verify candidate headlines match their inventory rows
         run: make check-candidate-headlines
 

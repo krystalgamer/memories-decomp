@@ -6,12 +6,12 @@ import argparse
 import csv
 import hashlib
 import json
-import re
 import sys
 from pathlib import Path
 from typing import Any
 
 from hashing import sha256_file
+from overlay_sources import OverlaySourceError, c_segments
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
@@ -227,11 +227,8 @@ def verify_metadata(root: Path) -> None:
     verify_sources_wired(root)
 
 
-C_SUBSEGMENT = re.compile(r"^\s*-\s*\[[^,\]]+,\s*c\s*,\s*(\S+?)\s*\]", re.MULTILINE)
-
-
 def verify_sources_wired(root: Path) -> None:
-    """Check every overlay C source is named by a `c` subsegment.
+    """Check every overlay C source is mapped and has a compiler profile.
 
     A source that no subsegment names is never compiled, and nothing else
     notices. The module still hashes, because the original assembly is still
@@ -241,20 +238,24 @@ def verify_sources_wired(root: Path) -> None:
     candidate itself rather than reading the module.
 
     So a green build is not evidence that a newly added source is being used.
-    The invariant that is evidence is this one: one `c` subsegment per source,
-    both ways. Two overlay modules share `src/overlays/overworld`, so the
-    subsegments are gathered across every module yaml before comparing.
+    The invariant is bidirectional wiring between C sources, manifests and
+    `c` or owned-data subsegments. Two modules share `src/overlays/overworld`,
+    so the subsegments are gathered across every module yaml before comparing.
     """
     overlays = resolve_within(root, "config/slus_01411/overlays", must_exist=True)
     sources_root = resolve_within(root, "src/overlays", must_exist=True)
 
     wired: dict[str, Path] = {}
     for path in sorted(overlays.glob("*.yaml")):
-        for name in C_SUBSEGMENT.findall(path.read_text(encoding="utf-8")):
-            wired.setdefault(name, path)
+        try:
+            segments = c_segments(root, path)
+        except OverlaySourceError as error:
+            raise OverlayError(str(error)) from error
+        for segment in segments:
+            wired.setdefault(segment["source"], path)
 
     present = {
-        f"overlays/{p.relative_to(sources_root).with_suffix('').as_posix()}": p
+        p.relative_to(root).as_posix(): p
         for p in sorted(sources_root.rglob("*.c"))
     }
 
@@ -263,13 +264,13 @@ def verify_sources_wired(root: Path) -> None:
         listed = ", ".join(present[name].relative_to(root).as_posix() for name in orphans)
         raise OverlayError(
             f"overlay sources not wired into any split: {listed}; "
-            "add a c subsegment to the module yaml, or the file is never compiled"
+            "add a C/data subsegment and its manifest entry, or the file is never compiled"
         )
 
     missing = sorted(set(wired) - set(present))
     if missing:
         listed = ", ".join(f"{name} ({wired[name].name})" for name in missing)
-        raise OverlayError(f"c subsegments with no source file: {listed}")
+        raise OverlayError(f"C/data subsegments with no source file: {listed}")
 
     print(f"overlay sources wired: OK ({len(present)} sources)")
 
