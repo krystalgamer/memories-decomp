@@ -9,6 +9,21 @@
    declaration would collide with. That local one is a matching lever there. */
 struct DuelEffectChannel;
 void TextBox_BuildStep(struct DuelEffectChannel *object);
+
+/* The choice index TextBox_BuildStep publishes for the pump to act on. It
+ * stores the script word it has just read -- `D_8009B35A = D_8009B33A` -- and
+ * func_80039794 is the consumer:
+ *
+ *     idx = D_8009B35A;
+ *     if (idx >= 0) { kind = D_801D9000[idx].hi & 7; ... }
+ *
+ * -1 means "nothing selected": func_80039794 arms it with that before pumping
+ * and again at each reset, and only a non-negative value indexes the table.
+ *
+ * That `>= 0` is why it is signed, even though the value written comes
+ * straight out of the u16 at D_8009B33A. The reader needs the sentinel, so
+ * the reader fixes the type. */
+extern s16 D_8009B35A;
 void func_80039140(u8 *record);
 void TextBox_SetPos(u8 *record, s32 x, s32 y);
 
