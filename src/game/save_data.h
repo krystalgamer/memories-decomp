@@ -90,7 +90,7 @@ extern u8 gSaveData_aHeaderTemplate[];
  * 0x1000`; that unit also names +0x1000 as D_801D2200, :13 and :102),
  * func_8003FD14 (two_player_save_setup.c:28-29, the second
  * `+ TWO_PLAYER_SAVE_SLOT_STRIDE`), MainMenu_RefreshTradeInventory
- * (src/overlays/main_menu/trade_inventory.c:25, `+ slot * 0x1000`) and
+ * (src/overlays/main_menu/trade_update.c, `+ slot * 0x1000`) and
  * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c:92 and
  * :133, through that unit's 16-byte Block16 view, cast at the use). The
  * resident listings form the address with lui/addiu (func_800179F4.s:226-227,

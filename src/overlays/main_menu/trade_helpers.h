@@ -7,7 +7,7 @@
 
 /* One entry of D_801845EC, the two Trade card-display slots.
 
-   Three sources declare this symbol three different ways and all three agree;
+   Three code paths view this symbol three different ways and all three agree;
    they are views of one array, not competing claims about it.
 
      MainMenu_InitTradeScreen
@@ -98,12 +98,11 @@ extern u8 D_80185CD0;
 extern u8 D_80185CD1;
 
 /* The per-side working card table, two rows of CARD_COUNT CardCountEntry
- * (ygo_types.h) records. Four sources reach it and all four already include
- * this header; three of them spelled it `CardCountEntry []`, one
- * `CardCountEntry [][CARD_COUNT]`. The two-dimensional shape is the one that
- * matched MainMenu_RefreshTradeInventory (trade_inventory.c:33-34 store
- * `[slot][i].id` and `.count`, :42 sorts `[slot]`; the module's functions.csv
- * row for 0x8018338C records why), and the other three sources reach the same
+ * (ygo_types.h) records. Three sources reach it and all three already include
+ * this header. The two-dimensional shape is the one that matched
+ * MainMenu_RefreshTradeInventory (trade_update.c stores
+ * `[slot][i].id` and `.count`, then sorts `[slot]`; the module's functions.csv
+ * row for 0x8018338C records why), and the other two sources reach the same
  * rows through it: MainMenu_AdjustTradeCardCount walks row 0 from
  * `D_801845FC[0]` with `slot * 2888` added (trade_offers.c:173-176, :184),
  * MainMenu_RebuildTradeInventoryRows forms `side * 2888 + (s32)D_801845FC`

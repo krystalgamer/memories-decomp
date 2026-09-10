@@ -66,7 +66,6 @@ segments:
       - [0x1C, c, overlays/main_menu/frontend]
       - [0xFD8, c, overlays/main_menu/value_setup]
       - [0x1F68, c, overlays/main_menu/trade_update]
-      - [0x338C, c, overlays/main_menu/trade_inventory]
       - [0x3514, c, overlays/main_menu/card_stat_comparators]
       - [0x3B2C, c, overlays/main_menu/trade_offers]
       - [0x416C, c, overlays/main_menu/card_name_count_comparators]

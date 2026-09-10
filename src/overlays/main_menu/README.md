@@ -160,15 +160,18 @@ without adding them to resident function inventory or primary symbols.
 ### Trade lifecycle translation unit
 
 `trade_update.c` keeps `MainMenu_InitTradeScreen` immediately before
-`MainMenu_UpdateTradeScreen`. The initializer creates and resets the two
-inventory panes, then the updater owns their input, offers, confirmation and
-save completion for the rest of the screen's lifetime.
+`MainMenu_UpdateTradeScreen`, followed by `MainMenu_RefreshTradeInventory`.
+The initializer creates and resets the two inventory panes and calls the
+refresh for each side. The updater owns input, offers, confirmation and save
+completion for the rest of the screen's lifetime, and calls the same refresh
+after save restore, sort changes, card offers and completed exchanges.
 
-The two entry points form one contiguous `gcc_2_8_1_g0_split` run:
+The three functions form one contiguous `gcc_2_8_1_g0_split` run:
 `MainMenu_InitTradeScreen` occupies `0x80181F68..0x801821DC`, followed by
-`MainMenu_UpdateTradeScreen` through `0x8018338C`. One C subsegment at module
-offset `0x1F68` covers the complete `0x1424`-byte range; the inventory-refresh
-unit starts immediately afterward.
+`MainMenu_UpdateTradeScreen` through `0x8018338C`, then
+`MainMenu_RefreshTradeInventory` through `0x80183514`. One C subsegment at
+module offset `0x1F68` covers the complete `0x15AC`-byte run; the differently
+profiled card-stat comparator unit starts immediately afterward.
 
 ### The two readiness flags are one array and two names at once
 
