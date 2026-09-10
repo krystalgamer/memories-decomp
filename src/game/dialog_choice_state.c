@@ -31,7 +31,7 @@ u8 *Dialog_OpenChoice(u8 *record)
         0x20C
     );
     *(u16 *)(cursor + 8) |= 0x28;
-    func_80042918(cursor);
+    func_80042918((DisplayObject *)cursor);
     func_800428EC(cursor, (s8)(record[0x59] + 1));
     return cursor;
 }
