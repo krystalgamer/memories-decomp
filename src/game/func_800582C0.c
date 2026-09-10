@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "color_constants.h"
 #include "color.h"
+#include "func_800582C0.h"
 
 extern s16 D_8009B470;
 extern s16 D_8009B472;
