@@ -400,9 +400,9 @@ def parse_c_functions(text: str) -> tuple[list[CFunction], list[Token]]:
 
 def infer_declarations(
     tokens: list[Token], known_names: set[str]
-) -> tuple[dict[str, str], set[str]]:
-    widths: dict[str, str] = {}
-    arrays: set[str] = set()
+) -> tuple[dict[str, str], set[str], set[str]]:
+    width_options: dict[str, set[str]] = defaultdict(set)
+    array_options: dict[str, set[bool]] = defaultdict(set)
     statement: list[Token] = []
     for token in tokens:
         statement.append(token)
@@ -416,17 +416,46 @@ def infer_declarations(
         for index, value in enumerate(values):
             if value not in known_names:
                 continue
-            if width:
-                widths[value] = width
-            if index + 1 < len(values) and values[index + 1] == "[":
-                arrays.add(value)
+            if (
+                index >= 2
+                and values[index - 1] == "("
+                and values[index - 2] == "sizeof"
+            ):
+                continue
+            following = values[index + 1] if index + 1 < len(values) else ""
+            if following == "(":
+                continue
+            declarator_start = (
+                max(
+                    (
+                        candidate + 1
+                        for candidate in range(index)
+                        if values[candidate] == ","
+                    ),
+                    default=0,
+                )
+            )
+            is_array = following == "["
+            is_pointer = "*" in values[declarator_start:index]
+            declaration_width = "32" if is_array and is_pointer else width
+            width_options[value].add(declaration_width)
+            array_options[value].add(is_array)
         statement = []
-    return widths, arrays
+    widths = {
+        name: next(iter(options)) if len(options) == 1 else ""
+        for name, options in width_options.items()
+    }
+    arrays = {
+        name
+        for name, options in array_options.items()
+        if True in options
+    }
+    return widths, arrays, set(width_options)
 
 
 def load_declarations(
     path: Path, known_names: set[str]
-) -> tuple[dict[str, str], set[str]]:
+) -> tuple[dict[str, str], set[str], set[str]]:
     text = path.read_text(encoding="utf-8", errors="ignore")
     _, top_level_tokens = parse_c_functions(text)
     declaration_names = known_names | {
@@ -442,9 +471,8 @@ def load_included_declarations(
     source_path: Path,
     text: str,
     known_names: set[str],
-) -> tuple[dict[str, str], set[str]]:
-    widths: dict[str, str] = {}
-    arrays: set[str] = set()
+) -> tuple[dict[str, str], set[str], set[str]]:
+    declarations: list[tuple[dict[str, str], set[str], set[str]]] = []
     for include in LOCAL_INCLUDE_RE.findall(text):
         header_path = (source_path.parent / include).resolve()
         try:
@@ -453,12 +481,47 @@ def load_included_declarations(
             continue
         if header_path.suffix != ".h" or not header_path.is_file():
             continue
-        header_widths, header_arrays = load_declarations(
-            header_path, known_names
+        declarations.append(
+            load_declarations(header_path, known_names)
         )
-        widths.update(header_widths)
-        arrays.update(header_arrays)
-    return widths, arrays
+    return merge_declarations(declarations)
+
+
+def merge_declarations(
+    declarations: list[tuple[dict[str, str], set[str], set[str]]],
+) -> tuple[dict[str, str], set[str], set[str]]:
+    width_options: dict[str, set[str]] = defaultdict(set)
+    array_options: dict[str, set[bool]] = defaultdict(set)
+    for widths, arrays, names in declarations:
+        for name in names:
+            width_options[name].add(widths.get(name, ""))
+            array_options[name].add(name in arrays)
+    widths = {
+        name: next(iter(options)) if len(options) == 1 else ""
+        for name, options in width_options.items()
+    }
+    arrays = {
+        name
+        for name, options in array_options.items()
+        if True in options
+    }
+    return widths, arrays, set(width_options)
+
+
+def override_declarations(
+    base_widths: dict[str, str],
+    base_arrays: set[str],
+    widths: dict[str, str],
+    arrays: set[str],
+    names: set[str],
+) -> tuple[dict[str, str], set[str]]:
+    merged_widths = dict(base_widths)
+    # A nearer declaration replaces width evidence, but any array view means
+    # a bare name may still decay to an address.
+    merged_arrays = base_arrays | arrays
+    for name in names:
+        merged_widths[name] = widths.get(name, "")
+    return merged_widths, merged_arrays
 
 
 def resolve_global(
@@ -524,7 +587,10 @@ def classify_c_access(
             return "read_write"
         if operator in {"++", "--"}:
             return "read_write"
-    if tokens[index].value in arrays and following != "[":
+    if (
+        tokens[index].value in arrays
+        and following not in {"[", ".", "->"}
+    ):
         return "address"
     return "read"
 
@@ -721,14 +787,30 @@ def collect_c_usages(
         parsed_by_name = {function.name: function for function in parsed_functions}
         if len(parsed_by_name) != len(parsed_functions):
             raise GlobalUsageError(f"{source_name} defines duplicate function names")
-        included_widths, included_arrays = load_included_declarations(
+        (
+            included_widths,
+            included_arrays,
+            included_declarations,
+        ) = load_included_declarations(
             root, source_path, text, known_names
         )
-        local_widths, local_arrays = infer_declarations(
+        local_widths, local_arrays, local_declarations = infer_declarations(
             top_level_tokens, known_names
         )
-        widths = {**shared_widths, **included_widths, **local_widths}
-        arrays = shared_arrays | included_arrays | local_arrays
+        widths, arrays = override_declarations(
+            shared_widths,
+            shared_arrays,
+            included_widths,
+            included_arrays,
+            included_declarations,
+        )
+        widths, arrays = override_declarations(
+            widths,
+            arrays,
+            local_widths,
+            local_arrays,
+            local_declarations,
+        )
         for address in sorted(addresses_by_source[source_name]):
             function = inventory_by_address[address]
             parsed = parsed_by_name.get(function.name)
@@ -1034,7 +1116,7 @@ def generate(root: Path) -> tuple[str, int]:
     )
     function_addresses = set(inventory_by_address)
     function_names = set(inventory_by_name) | symbol_function_names
-    shared_widths, shared_arrays = load_declarations(
+    shared_widths, shared_arrays, _ = load_declarations(
         resolve_within(root, "src/unmatched.h", must_exist=True),
         set(symbols_by_name),
     )
