@@ -75,7 +75,7 @@ typedef struct {
 
 /* The head of the 0x680-byte persistent state block: SaveData_RequestWrite
  * copies SAVE_DATA_STATE_SIZE bytes starting here. Halfwords, as the name
- * says and as duel_deck_lookup.c, func_8002EE94.c, library_mark_owned_cards.c
+ * says and as duel_deck_lookup.c, func_8002EE94.c, library_runtime.c
  * and free_duel/screen_runtime.c read it -- the files that walk it as bytes
  * are copying or scanning the block, not indexing the deck. */
 extern u16 gDuel_awPlayerDeck[];
@@ -86,8 +86,8 @@ extern u8 gSaveData_aHeaderTemplate[];
 /* 0x801D1200. Five functions in four units take its address and nothing
  * else: func_800179F4 (func_800179F4.c:166, `pool = D_801D1200;`, then
  * `pool + 0x1000` at :168), func_8003F8D4 (func_8003F8D4.c:77 as the first
- * argument to func_8003F758, and :93-94 through SaveDataState casts, the
- * second at `D_801D1200 + 0x1000`; that unit also names +0x1000 as
+ * argument to MemCardDialog_Request, and :93-94 through SaveDataState casts,
+ * the second at `D_801D1200 + 0x1000`; that unit also names +0x1000 as
  * D_801D2200, :13 and :102), func_8003FD14 (two_player_save_setup.c:28-29,
  * the second `+ TWO_PLAYER_SAVE_SLOT_STRIDE`), MainMenu_RefreshTradeInventory
  * (src/overlays/main_menu/trade_update.c:608, `+ slot * 0x1000`) and

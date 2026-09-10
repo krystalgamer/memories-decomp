@@ -57,7 +57,7 @@ typedef char LibraryMotionState_size_must_be_0x48[
  * D_800EA1E8's first byte" and dispatches the library screen state on it.
  * That file still does not include this header.
  *
- * func_8002BFCC.c was described here as doing the same, and that was wrong.
+ * func_8002BFCC was described here as doing the same, and that was wrong.
  * It reaches nine distinct offsets: the mode byte, x and y at 0x08 and 0x0A,
  * rest_x and rest_y at 0x12 and 0x14, render at 0x44, and then 0x48, 0x54
  * and a per-card sweep at 0x56 with a four-byte stride. The first six are
@@ -72,7 +72,7 @@ typedef char LibraryMotionState_size_must_be_0x48[
  * thing recorded about it.
  *
  * Spelling those six as members is nevertheless blocked, and the reason is
- * the one this note already gave, now met head on. func_8002BFCC.c needs
+ * the one this note already gave, now met head on. func_8002BFCC needs
  * func_8002BAB4's prototype and library_runtime.h declares
  * `u8 D_800EA1E8[]` beside it, so including this one as well gives
  * `conflicting types for D_800EA1E8`. An asm() alias does not help, because

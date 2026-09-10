@@ -43,15 +43,15 @@ s32 func_8003F8D4(void) {
     case 0:
         if ((D_8009B3EA & 0x80) == 0) {
             D_8009B3EA |= 0x80;
-            func_8003F388();
+            MemCardDialog_CreateObject();
             a = D_8009B3EE;
             *(s16 *)(D_8009B3D8 + 0x60) = -0x400;
             o = TextBox_Create(a, 0xC2, 0x20, 0x50, 0x100, 0x30);
             o->field_59 = 0x10;
             func_80039A14(o);
         }
-        if (func_8003F2B0((DisplayObject *)D_8009B3D8, 0x20, 0x50,
-                          D_8009B3EE) == 0) {
+        if (MemCardDialog_StepSlide(
+                (DisplayObject *)D_8009B3D8, 0x20, 0x50, D_8009B3EE) == 0) {
             D_8009B3EA = 1;
         }
         return 0;
@@ -67,14 +67,14 @@ s32 func_8003F8D4(void) {
         }
         return 0;
     case 2:
-        if (func_8003F2B0((DisplayObject *)D_8009B3D8, 0x20, 0x100,
-                          D_8009B3EE) == 0) {
+        if (MemCardDialog_StepSlide(
+                (DisplayObject *)D_8009B3D8, 0x20, 0x100, D_8009B3EE) == 0) {
             TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
             func_8004036C(D_8009B3D8);
             D_8009B3D8 = (u8 *)0;
             if ((D_8009B3EA & 0x80) == 0) {
                 D_8009B3EA = 3;
-                func_8003F758(
+                MemCardDialog_Request(
                     D_801D1200,
                     SAVE_DATA_STATE_SIZE,
                     gMemCard_szSaveFileName,
@@ -86,7 +86,7 @@ s32 func_8003F8D4(void) {
         }
         return 0;
     case 3:
-        v = func_8003F70C();
+        v = MemCardDialog_Poll();
         if (v != 0) {
             if (v == 1) {
                 if (D_8009B3EA & 0x40) {
@@ -99,7 +99,7 @@ s32 func_8003F8D4(void) {
                     return 0;
                 }
                 D_8009B3EA |= 0x40;
-                func_8003F758(
+                MemCardDialog_Request(
                     D_801D2200,
                     SAVE_DATA_STATE_SIZE,
                     gMemCard_szSaveFileName,
@@ -116,7 +116,7 @@ s32 func_8003F8D4(void) {
     case 0xA:
         if ((D_8009B3EA & 0x80) == 0) {
             D_8009B3EA |= 0xC0;
-            func_8003F388();
+            MemCardDialog_CreateObject();
             a = D_8009B3EE;
             b = D_8009B3C0;
             *(s16 *)(D_8009B3D8 + 0x60) = -0x400;
@@ -127,8 +127,8 @@ s32 func_8003F8D4(void) {
             } while ((o->flags_34 & TEXT_BOX_FLAG_DONE) == 0);
         }
         if (D_8009B3EA & 0x40) {
-            if (func_8003F2B0((DisplayObject *)D_8009B3D8, 0x20, 0x50,
-                              D_8009B3EE) == 0) {
+            if (MemCardDialog_StepSlide(
+                    (DisplayObject *)D_8009B3D8, 0x20, 0x50, D_8009B3EE) == 0) {
                 D_8009B3EA &= 0xBF;
             }
             return 0;
@@ -144,8 +144,8 @@ s32 func_8003F8D4(void) {
             D_8009B3EA |= 0x80;
             *(s16 *)(D_8009B3D8 + 0x60) = 0x400;
         }
-        if (func_8003F2B0((DisplayObject *)D_8009B3D8, 0x20, 0x100,
-                          D_8009B3EE) == 0) {
+        if (MemCardDialog_StepSlide(
+                (DisplayObject *)D_8009B3D8, 0x20, 0x100, D_8009B3EE) == 0) {
             TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
             func_8004036C(D_8009B3D8);
             D_8009B3D8 = (u8 *)0;

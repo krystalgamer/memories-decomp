@@ -66,7 +66,7 @@ void func_8003FE14(void)
     SaveData_WritePrimarySecondaryIntegrity(p);
     SaveData_WritePrimarySecondaryIntegrity(q);
     D_8009B3E0 = q;
-    func_8003F758(
+    MemCardDialog_Request(
         p,
         TWO_PLAYER_SAVE_TRANSFER_SIZE,
         gMemCard_szSaveFileName,

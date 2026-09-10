@@ -12,7 +12,7 @@
  * band is a dead zone, so the viewport only moves when the record has left
  * it, and it is then placed 0x40 above or 0xB0 below the record.
  *
- * The record is the library motion state. Its one caller, func_8002BFCC.c,
+ * The record is the library motion state. Its one caller, func_8002BFCC,
  * passes D_800EA1E8 and writes that same halfword itself on the line before
  * the call -- `*(s16 *)(r + 0xA) = y` -- so the offset is that record's y,
  * which func_8002A3CC.h's LibraryMotionState names at exactly 0xA.

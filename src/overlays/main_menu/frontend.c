@@ -195,7 +195,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
     }
 
     if (D_8018459A != 0) {
-        if (func_8003F70C() == 0) {
+        if (MemCardDialog_Poll() == 0) {
             goto ret_m1;
         }
         Input_ResetPads();
