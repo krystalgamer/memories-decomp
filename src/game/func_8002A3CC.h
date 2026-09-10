@@ -52,7 +52,7 @@ typedef char LibraryMotionState_size_must_be_0x48[
  * `LibraryMotionState *state = &D_800EA1E8;` and work through the fields whose
  * offsets are asserted above.
  *
- * The same address is also read as `u8 D_800EA1E8[]` by func_8002BAB4.c,
+ * The same address is also read as `u8 D_800EA1E8[]` by library_runtime.c,
  * which takes only the first byte -- its comment calls it "the low nibble of
  * D_800EA1E8's first byte" and dispatches the library screen state on it.
  * That file still does not include this header.
@@ -73,8 +73,8 @@ typedef char LibraryMotionState_size_must_be_0x48[
  *
  * Spelling those six as members is nevertheless blocked, and the reason is
  * the one this note already gave, now met head on. func_8002BFCC.c needs
- * func_8002BAB4's prototype and that header declares `u8 D_800EA1E8[]`
- * beside it, so including this one as well gives
+ * func_8002BAB4's prototype and library_runtime.h declares
+ * `u8 D_800EA1E8[]` beside it, so including this one as well gives
  * `conflicting types for D_800EA1E8`. An asm() alias does not help, because
  * LibraryMotionState is defined in the same header as the extern that
  * collides. The way out is to give the type its own header, separate from
