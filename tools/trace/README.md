@@ -93,8 +93,19 @@ exercised without the emulator:
 luajit tools/trace/tests/<name>_test.lua
 ```
 
-Nothing runs these automatically; run them before asking for a trace. Copy the
-`capture()` scaffold from an existing test — it stubs `getMemPtr`,
+Every current top-level trace script has a same-name replay. Nothing runs these
+automatically; run the individual test above, or run the complete suite from
+the repository root:
+
+```sh
+for test in tools/trace/tests/*_test.lua; do
+    luajit "$test"
+done
+```
+
+These replays validate script mechanics against mocked state. They do not
+replace the requested emulator route, visible observation, or saved result.
+Copy the `capture()` scaffold from an existing test — it stubs `getMemPtr`,
 `getRegisters`, `addBreakpoint` and `createEventListener`, captures `print`,
 and hands back helpers that drive one scenario.
 
