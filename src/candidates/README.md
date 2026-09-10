@@ -22,4 +22,7 @@ into the game.
 
 Run `make candidate-contract-hashes` to print the current aggregate and
 per-symbol contract hashes when intentionally reviewing a metadata refresh.
-The command reports only; it never rewrites tracked metadata.
+The command reports only; it never rewrites tracked metadata. When a contract
+changes, first try replacing the private `extern` with its canonical header;
+retain a private spelling only when the candidate fingerprint proves it is a
+measured part of the current near miss.

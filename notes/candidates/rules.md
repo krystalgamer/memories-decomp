@@ -75,4 +75,7 @@ detected.
 `make candidate-contract-hashes` prints the current aggregate and per-symbol
 hashes for an intentional metadata review. It does not modify
 `candidates.json`; update that file only after checking why each reported
-dependency changed.
+dependency changed. Prefer consuming the canonical header and removing the
+private `extern` when that preserves the candidate fingerprint. Refresh a hash
+with the private declaration still present only when the mismatch is measured
+and intentionally part of the current candidate.

@@ -86,10 +86,9 @@
       "target": "src/candidates_target/func_800279BC.S",
       "candidate_build_sha256": "97c1d5a5e42e3aa64bd443fa792e8d77a0d01b8fb5f0ab9b5afee34262683581",
       "target_bytes_sha256": "1ed0f0dfe1f5f4789c75bb80409302f1ef045844cad283c4f7670323dcec7767",
-      "canonical_contract_sha256": "7cc69b212a8e9de650049c7542b7bacb634079a0245131643e83ffcf604eaa2f",
+      "canonical_contract_sha256": "53dbb2ad5ff3cafcef61e8884110dbb0b474c4b122940a202ef62c374787ecc2",
       "canonical_contracts": {
         "D_800907D8": "5f4843cfcf7eee45899cddb0a99df93d2dfa66741d364fd706eeeac064586db6",
-        "D_8009B16C": "6e274d34cf387f450c73e837c58217a575bbd4326deb45ab627b624d828cbeaa",
         "D_8009B1C8": "cb2023a8b8441e61d8eaea81c06cd6d4d8b0b78abe10a20bcf14995174c5dfb0",
         "D_8009B1D5": "f014bfb17391eccc347445f9dd3cd05ecff2bc4c9e3b16647785e3c9f2e3df9f",
         "D_800EAE88": "aeca9fcf3772be39140341b7190a64276a76ebe5d16fa43889ad0ff9b84168b6",
@@ -392,12 +391,10 @@
       "target": "src/candidates_target/func_8005E808.S",
       "candidate_build_sha256": "86103f8f74dcd32e8c9211fdb711af48940fdc8df4fd69c22dab8d662d2fd300",
       "target_bytes_sha256": "f039893454bb8c1c8b4adb8f06ebc1abea42ae323768a139f88816bc1d656caa",
-      "canonical_contract_sha256": "159adb559faa3c0b7fe6a84189da138240adf0fb3702da70180efa3353933db5",
+      "canonical_contract_sha256": "d6fd41b1a0cb652fb088261025d424e0010e8ef19d370d5806d107c53402b981",
       "canonical_contracts": {
         "D_8009B074": "24ebfbf82751f6f5ad39d7e467cda01ccb85102120b5a6f685ee130cb553d3b8",
-        "D_800F5768": "af09f9eaf4a89c9676cc2bf4ee3baf0566eff76d01429e88ec18c01ef0b83f12",
         "Model_CopySlotU16Values": "0661aba953caec36311e655cfacd16af5707e5d2753b5be98071f6006313783f",
-        "SquareRoot0": "11beefcafbbc304ddea197a2913aa78f3a2a50208f25f86592e354d01dffc66a",
         "func_80058DD8": "d2514f5a9acbcf694cad7fcd182eb6fbc114a2ef19b5c1621c346e4d12b440f3",
         "func_8005EBF4": "424e42e62502156db037ee6cfde0d3d31072547de396649ddafbf5f8a59c55d6",
         "func_8005FB30": "70aaf9dab6af495513a4d88d19a821aca7a6e663e8d082ab98c8f5165df992c7"
