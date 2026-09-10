@@ -561,11 +561,25 @@ tool contradicting itself.
 When a declaration and its definition disagree about how many arguments there
 are, the two directions are not symmetric and neither is decided by looking.
 
-A caller that sets FEWER argument registers than the callee reads cannot be
-repaired. src/unmatched.h records this for func_8004CB0C: model_slot_setup.c
-calls it with no arguments while the callee reads $a0 through $a3, and only
-$a0 is set, so the rest are whatever the register file happened to hold. There
-is no expression to write for them, and its `void (void)` declaration stays.
+A caller that sets FEWER argument registers than the callee reads is
+repairable exactly when the values the callee reads can be named at the call
+site. `src/unmatched.h` records both outcomes for this one direction.
+
+`func_8004CB0C` is the case that cannot be repaired. `model_slot_setup.c`
+calls it with no arguments while the callee reads `$a0` through `$a3`, and
+only `$a0` is set, so the rest are whatever the register file happened to
+hold. There is no expression to write for them, and its `void (void)`
+declaration stays.
+
+`func_800540B4` is the same direction and the opposite outcome. A site that
+declared no parameters took the definition's true one-parameter signature,
+because `$a0` already held the value the caller would have written, so naming
+it cost nothing. The missing argument was recoverable, and once it is named
+the mismatch is gone.
+
+So the direction does not decide this one either. What decides it is whether
+the incoming values can be expressed at the call site: `func_8004CB0C`'s three
+extra registers cannot be, and `func_800540B4`'s single one already was.
 
 A caller that passes MORE than the callee reads is the case that looks equally
 unfixable and is not. duel_card_effects.c declared `s32 func_8001F364(s32)`
@@ -574,10 +588,8 @@ looks at the register. Dropping the argument and the parameter is
 byte-identical, so the declaration follows the definition. The instinct that
 retail sets $a0 because the declaration says to was wrong here.
 
-Two more in the same family, both already recorded in unmatched.h:
-func_800540B4 gained its true one-parameter signature at a site that declared
-none, because $a0 already held the value the caller would have written; and
-func_80013C28 keeps two incompatible spellings on purpose.
+One more in the same family, also recorded in unmatched.h: func_80013C28
+keeps two incompatible spellings on purpose.
 
 So: an arity mismatch is a measurement, not a reading. Try the definition's
 signature at the call sites and build. It costs one build and settles which
