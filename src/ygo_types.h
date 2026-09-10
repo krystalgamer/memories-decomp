@@ -575,7 +575,9 @@ typedef char DuelStatusDigitPacket_field_14_offset_must_be_0x14[
 /* Two words written together as a pair. free_duel/screen_runtime.c and
  * password/shop.c formerly defined this identically to view D_801D5608, and
  * each writes both members at once -- the low word from a table entry and the
- * high word from the index beside it.
+ * high word from the index beside it. The password writer,
+ * Password_UpdateShopScreen, is now a build-integrated candidate
+ * (src/candidates/password/func_8016A37C.c).
  *
  * game/text_staging.h owns the guarded extern views of D_801D5608. Pair
  * remains the overlays' view, not a claim that the staging area always holds

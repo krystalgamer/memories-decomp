@@ -27,6 +27,7 @@ SOURCE_DIRECTORY = ROOT / "src/candidates"
 TARGET_DIRECTORY = ROOT / "src/candidates_target"
 BUILD_DIRECTORY = ROOT / "tmp/candidate-build"
 TARGET_ELF = ROOT / "tmp/project-build/SLUS_014.11.elf"
+OVERLAY_INVENTORY_DIRECTORY = ROOT / "config/slus_01411/overlays"
 
 FUNCTION = re.compile(
     r"^nonmatching\s+(?P<name>\S+),\s+0x(?P<size>[0-9A-Fa-f]+)$"
@@ -71,10 +72,20 @@ class Candidate:
     target_bytes_sha256: str
     canonical_contract_sha256: str
     canonical_contracts: dict[str, str]
+    # None for a resident candidate; the overlay module name otherwise. An
+    # overlay candidate lives in src/candidates/<module>/, is validated
+    # against that module's inventory and headers, and is compiled by the
+    # overlay build, whose ELF is what its undefined symbols must resolve in.
+    module: str | None = None
 
     @property
     def key(self) -> str:
         return f"func_{self.address:08X}"
+
+    @property
+    def label(self) -> str:
+        """The key, qualified by module for an overlay candidate."""
+        return self.key if self.module is None else f"{self.module}/{self.key}"
 
 
 def sha256(data: bytes) -> str:
@@ -232,15 +243,26 @@ def candidate_extern_symbols(text: str) -> list[str]:
 def canonical_declaration_index(
     symbols: set[str],
     header_root: Path | None = None,
+    overlay_module: str | None = None,
 ) -> dict[str, list[tuple[str, str]]]:
+    """Canonical declarations of symbols, by header.
+
+    Resident candidates see only resident headers. An overlay candidate also
+    sees its own module's headers under overlays/<module>/, and no other
+    module's, because those are the headers its source can include.
+    """
     header_root = header_root or ROOT / "src"
     index = {symbol: [] for symbol in symbols}
     for path in sorted(header_root.rglob("*.h")):
         relative_path = path.relative_to(header_root)
-        if (
-            relative_path.parts
-            and relative_path.parts[0] in EXCLUDED_HEADER_DIRECTORIES
-        ):
+        parts = relative_path.parts
+        own_overlay = (
+            overlay_module is not None
+            and len(parts) > 2
+            and parts[0] == "overlays"
+            and parts[1] == overlay_module
+        )
+        if parts and parts[0] in EXCLUDED_HEADER_DIRECTORIES and not own_overlay:
             continue
         relative = relative_path.as_posix()
         for statement in top_level_statements(
@@ -392,12 +414,38 @@ def load_profiles() -> dict[str, dict[str, object]]:
     return profiles
 
 
-def load_inventory() -> dict[int, dict[str, str]]:
-    with INVENTORY_PATH.open(encoding="utf-8", newline="") as handle:
+def load_inventory(module: str | None = None) -> dict[int, dict[str, str]]:
+    path = (
+        INVENTORY_PATH
+        if module is None
+        else OVERLAY_INVENTORY_DIRECTORY / f"{module}_functions.csv"
+    )
+    if not path.is_file():
+        raise CandidateBuildError(
+            f"{path.relative_to(ROOT)}: no inventory for module {module}"
+        )
+    with path.open(encoding="utf-8", newline="") as handle:
         return {
             int(row["address"], 0): row
             for row in csv.DictReader(handle)
         }
+
+
+def candidate_module(item: dict[str, object]) -> str | None:
+    module = item.get("module")
+    if module is None:
+        return None
+    if not isinstance(module, str) or IDENTIFIER.fullmatch(module) is None:
+        raise CandidateBuildError(f"invalid candidate module {module!r}")
+    return module
+
+
+def candidate_directory(root: Path, module: str | None) -> Path:
+    return root if module is None else root / module
+
+
+def overlay_elf(module: str) -> Path:
+    return ROOT / f"tmp/overlays/{module}/build/{module}.elf"
 
 
 def configured_path(value: object, directory: Path, suffix: str) -> Path:
@@ -487,13 +535,13 @@ def load_candidates(
         )
 
     profiles = load_profiles()
-    inventory = load_inventory()
+    inventories: dict[str | None, dict[int, dict[str, str]]] = {}
     candidates: list[Candidate] = []
-    seen_addresses: set[int] = set()
+    seen_addresses: set[tuple[str | None, int]] = set()
     configured_sources: set[str] = set()
     configured_targets: set[str] = set()
-    source_texts: dict[int, str] = {}
-    source_symbols: dict[int, list[str]] = {}
+    source_texts: dict[tuple[str | None, int], str] = {}
+    source_symbols: dict[tuple[str | None, int], list[str]] = {}
 
     for item in items:
         if not isinstance(item, dict):
@@ -507,17 +555,25 @@ def load_candidates(
             raise CandidateBuildError(
                 f"invalid candidate address {address_value}"
             ) from error
-        source = configured_path(item.get("source"), SOURCE_DIRECTORY, ".c")
+        module = candidate_module(item)
+        source = configured_path(
+            item.get("source"), candidate_directory(SOURCE_DIRECTORY, module), ".c"
+        )
         source_text = source.read_text(encoding="utf-8")
-        source_texts[address] = source_text
-        source_symbols[address] = candidate_extern_symbols(source_text)
+        source_texts[(module, address)] = source_text
+        source_symbols[(module, address)] = candidate_extern_symbols(source_text)
 
-    all_symbols = {
-        symbol
-        for symbols in source_symbols.values()
-        for symbol in symbols
-    }
-    declaration_index = canonical_declaration_index(all_symbols)
+    declaration_indices: dict[str | None, dict[str, list[tuple[str, str]]]] = {}
+    for module in {key[0] for key in source_symbols}:
+        module_symbols = {
+            symbol
+            for key, symbols in source_symbols.items()
+            if key[0] == module
+            for symbol in symbols
+        }
+        declaration_indices[module] = canonical_declaration_index(
+            module_symbols, overlay_module=module
+        )
 
     for item in items:
         if not isinstance(item, dict):
@@ -531,23 +587,35 @@ def load_candidates(
             raise CandidateBuildError(
                 f"invalid candidate address {address_value}"
             ) from error
-        if address in seen_addresses:
+        module = candidate_module(item)
+        if (module, address) in seen_addresses:
             raise CandidateBuildError(f"duplicate candidate address {address:#010x}")
-        seen_addresses.add(address)
+        seen_addresses.add((module, address))
 
-        row = inventory.get(address)
+        if module not in inventories:
+            inventories[module] = load_inventory(module)
+        row = inventories[module].get(address)
         if row is None:
-            raise CandidateBuildError(f"{address:#010x}: absent from functions.csv")
-        if row["module"] != "game" or row["status"] != "unmatched_asm":
             raise CandidateBuildError(
-                f"{address:#010x}: candidate must be unmatched game code"
+                f"{address:#010x}: absent from "
+                f"{'functions.csv' if module is None else module + '_functions.csv'}"
+            )
+        expected_module = "game" if module is None else f"overlay/{module}"
+        if row["module"] != expected_module or row["status"] != "unmatched_asm":
+            raise CandidateBuildError(
+                f"{address:#010x}: candidate must be unmatched "
+                f"{'game' if module is None else module} code"
             )
         profile = item.get("profile")
         if not isinstance(profile, str) or profile not in profiles:
             raise CandidateBuildError(f"{address:#010x}: unknown profile {profile}")
 
-        source = configured_path(item.get("source"), SOURCE_DIRECTORY, ".c")
-        target = configured_path(item.get("target"), TARGET_DIRECTORY, ".S")
+        source = configured_path(
+            item.get("source"), candidate_directory(SOURCE_DIRECTORY, module), ".c"
+        )
+        target = configured_path(
+            item.get("target"), candidate_directory(TARGET_DIRECTORY, module), ".S"
+        )
         key = f"func_{address:08X}"
         if source.name != f"{key}.c" or target.name != f"{key}.S":
             raise CandidateBuildError(
@@ -571,12 +639,12 @@ def load_candidates(
             raise CandidateBuildError(f"{address:#010x}: invalid target byte hash")
 
         contracts = canonical_contract_hashes(
-            source_symbols[address],
-            declaration_index,
+            source_symbols[(module, address)],
+            declaration_indices[module],
         )
         contract_sites = canonical_contract_sites(
-            source_symbols[address],
-            declaration_index,
+            source_symbols[(module, address)],
+            declaration_indices[module],
         )
         contract_hash = canonical_contract_hash(contracts)
         configured_contract_hash = item.get("canonical_contract_sha256")
@@ -601,8 +669,9 @@ def load_candidates(
             target_bytes_sha256=target_hash,
             canonical_contract_sha256=contract_hash,
             canonical_contracts=contracts,
+            module=module,
         )
-        source_text = source_texts[address]
+        source_text = source_texts[(module, address)]
         if re.search(
             rf"\b{re.escape(candidate.name)}\s*\([^;{{}}]*\)\s*\{{",
             source_text,
@@ -613,8 +682,9 @@ def load_candidates(
         if sha256(target_words(candidate)) != candidate.target_bytes_sha256:
             raise CandidateBuildError(f"{target_relative}: target byte hash differs")
 
-        note = ROOT / f"notes/candidates/{key}.md"
-        bundle = ROOT / f"notes/candidates/for_humans/{key}"
+        notes = ROOT / ("notes/candidates" if module is None else "notes/overlays/candidates")
+        note = notes / f"{key}.md"
+        bundle = notes / f"for_humans/{key}"
         if note.exists() or bundle.exists():
             raise CandidateBuildError(
                 f"{key}: build-integrated candidates cannot retain note bundles"
@@ -623,11 +693,13 @@ def load_candidates(
 
     actual_sources = {
         path.relative_to(ROOT).as_posix()
-        for path in SOURCE_DIRECTORY.glob("func_*.c")
+        for pattern in ("func_*.c", "*/func_*.c")
+        for path in SOURCE_DIRECTORY.glob(pattern)
     }
     actual_targets = {
         path.relative_to(ROOT).as_posix()
-        for path in TARGET_DIRECTORY.glob("func_*.S")
+        for pattern in ("func_*.S", "*/func_*.S")
+        for path in TARGET_DIRECTORY.glob(pattern)
     }
     if actual_sources != configured_sources:
         raise CandidateBuildError(
@@ -652,7 +724,7 @@ def print_contract_hashes(candidates: list[Candidate]) -> None:
             separators=(",", ":"),
         )
         print(
-            f"{candidate.key} "
+            f"{candidate.label} "
             f"canonical_contract_sha256="
             f"{candidate.canonical_contract_sha256} "
             f"canonical_contracts={contracts}"
@@ -733,7 +805,7 @@ def object_section_bytes(
     section: str,
 ) -> bytes:
     section_path = (
-        BUILD_DIRECTORY
+        object_path.parent.parent
         / "fingerprints"
         / f"{candidate.key}.{section.removeprefix('.')}"
     )
@@ -791,7 +863,7 @@ def candidate_build_hash(
     }
     if unsupported:
         raise CandidateBuildError(
-            f"{candidate.key}: candidate has unsupported allocated sections "
+            f"{candidate.label}: candidate has unsupported allocated sections "
             f"{unsupported}"
         )
 
@@ -810,7 +882,7 @@ def candidate_build_hash(
         )
         if len(content) != sections[name]:
             raise CandidateBuildError(
-                f"{candidate.key}: {name} extraction size differs"
+                f"{candidate.label}: {name} extraction size differs"
             )
         section_payloads.append(
             (
@@ -826,20 +898,46 @@ def build_candidates(
     candidates: list[Candidate],
     profiles: dict[str, dict[str, object]],
     print_hashes: bool,
+    overlays: bool = False,
 ) -> None:
-    if not TARGET_ELF.is_file():
-        raise CandidateBuildError(
-            f"{TARGET_ELF.relative_to(ROOT)} is absent; "
-            "run the normal build first"
-        )
-    shutil.rmtree(BUILD_DIRECTORY, ignore_errors=True)
+    """Compile each candidate and compare its fingerprint.
+
+    The resident build compiles resident candidates against the resident
+    ELF. The overlay build (--overlays) compiles overlay candidates; each
+    one's undefined symbols must resolve in its own module's ELF, which
+    carries the resident addresses the module references, or in the
+    resident ELF when that has been built too.
+    """
+    selected = [
+        candidate
+        for candidate in candidates
+        if (candidate.module is not None) == overlays
+    ]
     assembler = tool(ROOT, "as")
     nm = tool(ROOT, "nm")
     objcopy = tool(ROOT, "objcopy")
     objdump = tool(ROOT, "objdump")
-    target_symbols = defined_symbols(nm, TARGET_ELF)
+    build_root = ROOT / ("tmp/candidate-build-overlays" if overlays else "tmp/candidate-build")
+    shutil.rmtree(build_root, ignore_errors=True)
+    symbol_tables: dict[str | None, set[str]] = {}
 
-    for candidate in candidates:
+    def target_symbols(module: str | None) -> set[str]:
+        if module not in symbol_tables:
+            elves = [TARGET_ELF] if module is None else [overlay_elf(module)]
+            if not elves[0].is_file():
+                raise CandidateBuildError(
+                    f"{elves[0].relative_to(ROOT)} is absent; run the "
+                    f"{'normal' if module is None else 'overlay'} build first"
+                )
+            if module is not None and TARGET_ELF.is_file():
+                elves.append(TARGET_ELF)
+            symbol_tables[module] = set().union(
+                *(defined_symbols(nm, elf) for elf in elves)
+            )
+        return symbol_tables[module]
+
+    for candidate in selected:
+        directory = build_root if candidate.module is None else build_root / candidate.module
         object_path = compile_c(
             ROOT,
             assembler,
@@ -849,8 +947,8 @@ def build_candidates(
                 "object": f"{candidate.key}.o",
             },
             profiles,
-            object_directory="tmp/candidate-build/obj",
-            asm_directory="tmp/candidate-build/asm",
+            object_directory=(directory / "obj").relative_to(ROOT).as_posix(),
+            asm_directory=(directory / "asm").relative_to(ROOT).as_posix(),
         )
         build_hash = candidate_build_hash(
             objcopy,
@@ -859,22 +957,23 @@ def build_candidates(
             candidate,
         )
         missing_symbols = sorted(
-            undefined_symbols(nm, object_path) - target_symbols
+            undefined_symbols(nm, object_path) - target_symbols(candidate.module)
         )
         if missing_symbols:
             raise CandidateBuildError(
-                f"{candidate.key}: undefined symbols absent from target: "
+                f"{candidate.label}: undefined symbols absent from target: "
                 f"{missing_symbols}"
             )
         if print_hashes:
-            print(f"{candidate.key} candidate_build_sha256={build_hash}")
+            print(f"{candidate.label} candidate_build_sha256={build_hash}")
         elif build_hash != candidate.candidate_build_sha256:
             raise CandidateBuildError(
-                f"{candidate.key}: candidate build hash differs: {build_hash}"
+                f"{candidate.label}: candidate build hash differs: {build_hash}"
             )
 
     if not print_hashes:
-        print(f"candidate builds: OK ({len(candidates)})")
+        kind = "overlay candidate builds" if overlays else "candidate builds"
+        print(f"{kind}: OK ({len(selected)})")
 
 
 def main() -> int:
@@ -882,6 +981,12 @@ def main() -> int:
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--print-hashes", action="store_true")
     parser.add_argument("--print-contract-hashes", action="store_true")
+    parser.add_argument(
+        "--overlays",
+        action="store_true",
+        help="build overlay candidates against the overlay build instead of "
+        "resident candidates against the resident build",
+    )
     args = parser.parse_args()
     selected_modes = sum(
         (
@@ -906,7 +1011,9 @@ def main() -> int:
         elif args.check:
             print(f"candidate sources: OK ({len(candidates)})")
         else:
-            build_candidates(candidates, profiles, args.print_hashes)
+            build_candidates(
+                candidates, profiles, args.print_hashes, overlays=args.overlays
+            )
     except (
         CandidateBuildError,
         BuildError,

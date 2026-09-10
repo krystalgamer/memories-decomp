@@ -79,7 +79,7 @@ tree at once:
 
 | Reached as | Where | Declared |
 | --- | --- | --- |
-| `D_800E9D90[1]` | `frontend.c` and two more | `GsOT *D_800E9D90[]` |
+| `D_800E9D90[1]` | `frontend_background.c` and two more | `GsOT *D_800E9D90[]` |
 | `D_800E9D94` | `trade_screen_helpers.c` | `GsOT *D_800E9D94` |
 | `D_800E9D90[2]` | `value_setup.c`, `trade_offers.c` | `GsOT *D_800E9D90[]` |
 | `D_800E9D98` | `display_projection.c` | `void *D_800E9D98[]` |
@@ -91,7 +91,7 @@ reaches the word by its own name and a file that reaches it as an element of
 the array are both reproducing what retail did, which is why eleven files
 declare this storage six different ways and none of them is simply wrong.
 
-`fade_overlay.c` is the case that shows the overlap can be wider than one
+`fade_runtime.c` is the case that shows the overlap can be wider than one
 word: it declares `s32 D_800E9D94[4]` and reads `[0]`, a view that nominally
 spans `D_800E9D98` and beyond.
 

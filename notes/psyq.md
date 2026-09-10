@@ -423,7 +423,7 @@ Every row below is now an applied project symbol.
 | `0x800862D0` | `GsGetLs` | Applied from the unique 720-byte `LIBGS.LIB/GS_134.OBJ` signature; walks a coordinate hierarchy through `GsMulCoord2` and `GsMulCoord3` to build the local-screen matrix. |
 | `0x800865A0` | `GsMulCoord2` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX8.OBJ` signature; combines two coordinate frames with `MulMatrix2` and `ApplyMatrixLV`, then adds the translation components. |
 | `0x80086620` | `GsMulCoord3` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX9.OBJ` signature; the `GsMulCoord2` body using `MulMatrix` and `ApplyMatrixLV`. |
-| `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion, including main-menu entry easing in `MainMenu_UpdateFrontendMenu`. |
+| `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion; main-menu entry easing in `MainMenu_UpdateFrontendMenu` (a build-integrated candidate since #3859, [`src/candidates/main_menu/func_80180390.c`](../src/candidates/main_menu/func_80180390.c)) uses it the same way. |
 | `0x80086770` | `rcos` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point cosine output alongside `rsin`. |
 | `0x80086810` | `SetFogNearFar` | Applied Psy-Q 4.6 identity; matching campaign-map callers configure near and far depth-cue distances from the current camera projection. |
 | `0x80086DC8` | `InitGeom` | Applied Psy-Q 4.6 identity at offset `0x8` of `LIBGTE.LIB/MSC00.OBJ`; resident startup paths invoke it before further GTE setup. |
@@ -801,8 +801,8 @@ The resident block at `0x800F56F0` now has field-level evidence matching the
 parent-coordinate pointer. Matching `func_800530C4` initializes all eight
 words and submits the block to `GsSetRefView2`; `Model_UpdateViewMetrics`
 copies the same eight-word boundary and derives a distance plus two 4096-unit
-angles from the two points; `model_cleanup.c` resubmits the same base through
-a layout-compatible cast. Matching `func_800134E0` separately uses an embedded
+angles from the two points; `model_scene_states.c` resubmits the same base
+through a layout-compatible cast. Matching `func_800134E0` separately uses an embedded
 native `GsRVIEW2` at object offset `+0x10` and calls the canonical one-argument
 interface byte-identically. Other matching sources still use local views until
 their shared-type migrations are proven exact.
@@ -845,7 +845,7 @@ uploads instead of parallel local declarations. Confirmed camera, lighting,
 object, packet, and sorting paths also use `libgs.h`, including
 `view_state_orbit.c`,
 `func_8005B260` in [`gpu_packets.c`](../src/game/gpu_packets.c),
-`model_scene_setup.c`, `model_cleanup.c`, and `model_texture_upload.c`.
+`model_scene_setup.c`, `model_scene_states.c`, and `model_texture_upload.c`.
 Current hierarchical-model C also includes `libhmd.h`. Representative
 consumers are `model_packet_handlers.c` for `GsSEQ`, `GsTYPEUNIT`, and the
 animation APIs; `model_slot_updates.c` for the `GsCOORDUNIT` layout; and
@@ -1138,12 +1138,13 @@ provides both `abs(int)` and an `ABS` macro whose argument can be evaluated
 more than once. `convert.h` declares decimal and base-selectable integer
 parsers plus `labs`. `qsort.h` retains the original `int (*)()` comparator
 prototype; changing a matching caller to a modern fully prototyped callback
-can change argument setup. Exactly three matching sources include it:
+can change argument setup. Exactly three matching sources call qsort through
+it:
 `duel_deck_card_data.c` sorts `COMBINED_DECK_SIZE` two-byte card ids through
 `Util_CompareS16` before compacting duplicates; `card_list_sort.c` builds
 mode-specific keys for sixteen-byte `CardListSortItem` rows and chooses
 `func_80032BD4` or `BuildDeck_CompareCard`; and the main-menu overlay's
-`trade_update.c` sorts `CARD_COUNT` four-byte id/count entries through one
+`trade_inventory.c` sorts `CARD_COUNT` four-byte id/count entries through one
 of six `int (*)()` comparators selected by the inventory mode.
 `sorted_entry_relink.c` is a deliberate fourth qsort caller without the header:
 giving qsort itself a declaration changes its argument setup, so the file
@@ -1172,7 +1173,7 @@ The `memory.h` consumer inventory is complete at eight matching sources.
 `ai_script_vm.c` uses `bzero` to clear the interpreter state, operand memory,
 and auxiliary block. The seven `memset` consumers are `func_800592AC.c`,
 `func_8005D994.c`, `model_distance_queries.c`, `func_80059B90.c`,
-`func_8005EBF4.c`, `model_scene_setup.c`, and
+`model_effect_state.c`, `model_scene_setup.c`, and
 `model_update_view_metrics.c`. Across those files the calls clear vector-sized
 work records or the four-pointer control-point array before later fields are
 filled.
@@ -1483,11 +1484,11 @@ The existing C sources expose several useful starting points:
 | Local 40-byte memory-card directory buffers | `DIRENTRY` in `kernel.h`; `firstfile` / `nextfile` in `libapi.h` | Migration complete in `mem_card_driver.c`: its size guard ties the SDK record to `MEM_CARD_DIRECTORY_ENTRY_SIZE`, and `DIRENTRY *` stepping drives enumeration; the free-space and name consumers deliberately retain byte-oriented 40-byte views. |
 | `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Typed migration is established in `Duel_SetupCardRecord`, the native local `RECT` in [`main_menu_load_package_stage.c`](../src/game/main_menu_load_package_stage.c), and `func_80057544`/`func_800577B0` in [`file_transfer_steps.c`](../src/game/file_transfer_steps.c); preserve byte-offset selection and layout-compatible casts elsewhere when exact code generation requires them. |
 | Game-owned TIM metadata buffer | `GsIMAGE` in `libgs.h` | ABI-compatible migration is established in `model_texture_upload.c`: `GsGetTimInfo` fills the 28-byte local texture record, whose image and CLUT rectangles and pointers are then consumed by the upload path; retain `ModelTextureParams` because later mode-specific coordinate edits are game-owned. |
-| Game-owned 2D primitive builders and ordering-table pointers | `GsSPRITE`, `GsBOXF`, and `GsOT` in `libgs.h` | ABI-compatible submission boundaries are established in `checkerboard_background.c`, `duel_card_stat_display.c`, `func_80031784.c`, and `fade_overlay.c`: local records and opaque ordering-table pointers are cast only for `GsSortFastSprite` or `GsSortBoxFill`; retain the local builders because their scratchpad word/halfword access shapes and submitted field subsets are exact-code evidence. |
+| Game-owned 2D primitive builders and ordering-table pointers | `GsSPRITE`, `GsBOXF`, and `GsOT` in `libgs.h` | ABI-compatible submission boundaries are established in `checkerboard_background.c`, `duel_card_stat_display.c`, `func_80031784.c`, and `fade_runtime.c`: local records and opaque ordering-table pointers are cast only for `GsSortFastSprite` or `GsSortBoxFill`; retain the local builders because their scratchpad word/halfword access shapes and submitted field subsets are exact-code evidence. |
 | Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `func_800582C0`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
 | Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_handler_registry.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `func_8005BE3C` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c) uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
-| Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_setup.c` and `model_cleanup.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
+| Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_setup.c` and `model_scene_states.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Partial migration established: `func_800592AC.c` uses native `SVECTOR` and `MATRIX` storage, while projection paths use layout-compatible SDK casts for `RotAverage3`, `ScaleMatrix`, `GsSetLsMatrix`, and `SetRotMatrix`; retain local render records where full layout or exact code generation is not proven. |
 | Local GTE and GPU function declarations | `libgte.h`, `libgpu.h` | Naming the library functions removed the reason these files had private declarations. `main_run_boot_sequence.c` (`FntLoad`), `model_update_view_metrics.c` and `func_800592AC.c` (`RotMatrix_gte`, `RotMatrixZXY`), `func_8005922C.c` (`RotMatrixYXZ_gte`), `model_scene_setup.c` (`RotMatrix_gte`), `model_slot_properties.c` (`RotTrans`) and `display_object_projection.c` (`RotMatrixZYX_gte`) now take the prototype from the header and cast at the call where the game's own pointer types differ, and the build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) drops its own `RotColorDpq` and `RotMatrixZYX_gte` declarations the same way. Adopting the real return types changed nothing: the build stays byte-identical. |
 | Decoded-audio buffers inside `g_SDValue` | `SpuDecodedData` in `libspu.h` | ABI-compatible migration established in `sound_output_state.c`: `func_80045054` passes the `0x1000`-byte region at `g_SDValue+0x53C` to `SpuReadDecodedData`; retain the shared `SDValue` byte-array split because other matching users require narrower views. |

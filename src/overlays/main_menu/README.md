@@ -74,8 +74,11 @@ rather than initialised content.
 
 `Main_RunMenu` enters the image at `MainMenu_InitFrontendMenu`,
 `MainMenu_UpdateFrontendMenu` and `MainMenu_DestroyFrontendMenu`.
-All three now build from matching C. These frontend entries
-are distinct from the Trade-screen entries below.
+The first and last build from matching C. `MainMenu_UpdateFrontendMenu`
+matched only through pinned registers, so since #3859 it is a build-integrated
+candidate (`src/candidates/main_menu/func_80180390.c`) and its text is
+generated assembly again. These frontend entries are distinct from the
+Trade-screen entries below.
 
 The loaded bytes contain resident call targets throughout `0x80180xxx` and
 the module-scoped `gMain_bMenuID` at `0x80184594`. A second SU phase at sectors
@@ -151,9 +154,10 @@ separate value/Trade setup. Clearing the callback has no ownership test, so
 valid frontend lifecycle remains a caller precondition. The resident-facing
 declarations in `entrypoints.h` are included by definitions and both callers.
 
-The transition initializer and teardown, the init and update entry points
-above, the background drawer and the afterimage pair are all one translation
-unit, [`frontend.c`](frontend.c) -- see *The frontend translation unit* below.
+The init entry point is [`frontend.c`](frontend.c); the transition
+initializer and teardown, the background drawer and the afterimage pair are
+[`frontend_background.c`](frontend_background.c), after the update entry
+point's generated assembly -- see *The frontend translation unit* below.
 
 ## Trade-screen ownership
 
@@ -198,24 +202,28 @@ after save restore, sort changes, card offers and completed exchanges.
 The three functions form one contiguous `gcc_2_8_1_g0_split` run:
 `MainMenu_InitTradeScreen` occupies `0x80181F68..0x801821DC`, followed by
 `MainMenu_UpdateTradeScreen` through `0x8018338C`, then
-`MainMenu_RefreshTradeInventory` through `0x80183514`. One C subsegment at
-module offset `0x1F68` covers the complete `0x15AC`-byte run; the differently
-profiled card-stat comparator unit starts immediately afterward.
+`MainMenu_RefreshTradeInventory` through `0x80183514`; the differently
+profiled card-stat comparator unit starts immediately afterward. The updater
+matched only by pinning four variables to hard registers, so since #3859 it
+is a build-integrated candidate (`src/candidates/main_menu/func_801821DC.c`) built
+from generated assembly at module offset `0x21DC`. The initializer keeps the
+C subsegment at `0x1F68` in `trade_update.c`, and the refresh has its own at
+`0x338C` in [`trade_inventory.c`](trade_inventory.c).
 
 ### The two readiness flags are one array and two names at once
 
-`D_80185CC8` is a two-byte, per-side readiness flag. `trade_update.c` proves
-the shape: it clears both entries in a loop, forms `D_80185CC8 + i` as a
+`D_80185CC8` is a two-byte, per-side readiness flag. `MainMenu_UpdateTradeScreen`
+(its build-integrated candidate) proves the shape: it clears both entries in a loop, forms `D_80185CC8 + i` as a
 pointer, and compares `D_80185CC8[0]` against `D_80185CC8[1]` when deciding
 whether both players have confirmed.
 
 The second byte also has its own name, `D_80185CC9`, and both spellings are
-live *in the same translation unit*. `trade_update.c` reads side 1 as
+live *in the same function*. The trade updater reads side 1 as
 `D_80185CC8[1]` and writes it as `D_80185CC9 = 1`. `trade_offers.c` goes
 further and declares the pair as two independent scalars, never indexing at
 all.
 
-This is not drift to be tidied. The generated assembly for `trade_update.c`
+This is not drift to be tidied. The generated assembly for the trade updater
 materialises `%hi`/`%lo` of both names independently, so retail addressed the
 byte both ways and the declarations reproduce that. It is the same shape as the
 ordering-table pointers recorded in `notes/memory-map.md`, with the difference
@@ -223,8 +231,8 @@ that here a single file uses both forms rather than two files disagreeing.
 
 Three consequences:
 
-- Do not unify the declarations. `trade_offers.c`'s scalars and
-  `trade_update.c`'s `[2]` are different addressing forms of one object.
+- Do not unify the declarations. `trade_offers.c`'s scalars and the trade
+  updater's `[2]` are different addressing forms of one object.
 - A symbol-size heuristic based on the gap to the next name reports one byte
   here, because the next name is the array's own second element.
 - The scalar spelling is still worth reading carefully: it hides that a second
@@ -579,16 +587,20 @@ included by definitions and callers. The release call explicitly passes the
 object instead of relying on an unwritten argument-register assumption.
 
 Producer and update callback are the last two definitions in
-[`frontend.c`](frontend.c), in that order. Their contiguous `0xE4 + 0x88`
+[`frontend_background.c`](frontend_background.c), in that order. Their contiguous `0xE4 + 0x88`
 bytes cover `0x80180E6C-0x80180FD8` exactly, with callback object offset
 `0xE4`, and the unit ends there: `MainMenu_StartValueSetup` begins at
 `0x80180FD8` and belongs to the value-setup screen.
 
 ## The frontend translation unit
 
-`frontend.c` is the whole front-end screen, `0x8018001C..0x80180FD8` as one
-contiguous `gcc_2_8_1_g0_split` run wired as a single C subsegment at module
-offset `0x1C`. It was five sources.
+The front-end screen is `0x8018001C..0x80180FD8`, one contiguous
+`gcc_2_8_1_g0_split` run. It was five sources, then one, `frontend.c`. Since
+#3859 moved `MainMenu_UpdateFrontendMenu` to a build-integrated candidate
+(`src/candidates/main_menu/func_80180390.c`), the run is two C subsegments
+around that function's generated assembly: `frontend.c` at module offset
+`0x1C` holds the initializer, and `frontend_background.c` at `0xB4C` holds
+the five functions after the updater.
 
 | Address | Function | Was |
 |---|---|---|
@@ -622,10 +634,11 @@ two sources and `void *` in a third; `u8 *` wins because two of the three
 index them by byte offset while the third only passes them to a `void *`
 parameter. All four now live in `frontend.h`.
 
-`GINPUT_PAD1_PRESSED_IS_VOLATILE` is defined for the whole unit rather than
-for one function, because it has to precede `input.h`. That is safe here:
-`MainMenu_UpdateFrontendMenu` is the only function in the unit that reads
-`gInput_wPad1Pressed` at all.
+`GINPUT_PAD1_PRESSED_IS_VOLATILE` was defined for the whole unit rather than
+for one function, because it has to precede `input.h`. That was safe:
+`MainMenu_UpdateFrontendMenu` is the only front-end function that reads
+`gInput_wPad1Pressed` at all. Its build-integrated candidate keeps the define; neither
+remaining C file needs it.
 
 ## Value-setup translation unit
 

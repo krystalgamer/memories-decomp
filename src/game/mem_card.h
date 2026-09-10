@@ -233,7 +233,8 @@ extern s32 D_801D5648[];
  * clear, set it and store
  * D_8009B3C0; func_80030EC8 (frontend_scene_states.c:151), func_80031000
  * (async_state_poll.c:19) and MainMenu_UpdateFrontendMenu (cases 3 and 2 of
- * its gMain_bMenuID switch, main_menu/frontend.c:415 and :420) store 0.
+ * its gMain_bMenuID switch; now a build-integrated candidate,
+ * src/candidates/main_menu/func_80180390.c) store 0.
  *
  * D_8009B3EA: SaveData_UpdateLoadPair in two_player_save_runtime.c masks it
  * with 0xF, tests bits 0x80 and 0x40, stores 1, 0x82, 2, 3, 0xA and 0xB,

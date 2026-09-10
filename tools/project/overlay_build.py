@@ -5,6 +5,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -127,6 +129,69 @@ def assemble_sources(root: Path, module_root: Path) -> list[Path]:
     return objects
 
 
+def object_symbols(root: Path, path: Path) -> dict[str, str]:
+    result = subprocess.run(
+        [str(tool(root, "objdump")), "-t", str(path)],
+        cwd=root, capture_output=True, text=True, check=False,
+    )
+    if result.returncode != 0:
+        raise OverlayBuildError(
+            f"cannot inspect symbols in {path.relative_to(root)}: "
+            + result.stderr.strip()
+        )
+    if "SYMBOL TABLE:" not in result.stdout:
+        raise OverlayBuildError(f"missing symbol table in {path.relative_to(root)}")
+    symbols: dict[str, str] = {}
+    for line in result.stdout.split("SYMBOL TABLE:", 1)[1].splitlines():
+        if not line.strip():
+            continue
+        match = re.fullmatch(
+            r"[0-9a-fA-F]+ (.{7}) (\S+)\s+[0-9a-fA-F]+ (.*)", line
+        )
+        if match is None:
+            raise OverlayBuildError(
+                f"invalid symbol record in {path.relative_to(root)}: {line}"
+            )
+        flags, section, name = match.groups()
+        if "g" in flags or "w" in flags or section == "*COM*":
+            if not name:
+                raise OverlayBuildError(
+                    f"unnamed global symbol in {path.relative_to(root)}"
+                )
+            symbols[name] = section
+    return symbols
+
+
+def verify_data_symbols(root: Path, objects: list[Path], elf: Path) -> None:
+    """A hash can match while an absolute alias overrides a C definition."""
+    if not objects:
+        return
+    linked = object_symbols(root, elf)
+    data_sections = {".data", ".rodata", ".sdata", ".sbss", ".bss", "*COM*"}
+    owners: dict[str, Path] = {}
+    for obj in objects:
+        for name, section in object_symbols(root, obj).items():
+            if section not in data_sections and not any(
+                section.startswith(prefix + ".")
+                for prefix in data_sections if not prefix.startswith("*")
+            ):
+                continue
+            if name in owners:
+                raise OverlayBuildError(
+                    f"duplicate C data definition {name}: "
+                    f"{owners[name].relative_to(root)}, {obj.relative_to(root)}"
+                )
+            owners[name] = obj
+            final_section = linked.get(name)
+            if final_section is None or final_section.startswith("*"):
+                raise OverlayBuildError(
+                    f"{elf.relative_to(root)}: C data symbol {name} from "
+                    f"{obj.relative_to(root)} is not section-defined "
+                    f"({final_section or 'missing'}); remove overriding linker "
+                    "assignments and mark owned Splat symbols defined"
+                )
+
+
 def build_module(root: Path, module: dict[str, Any]) -> None:
     name, module_root, _target, config, built_elf, built_binary = module_paths(
         root, module
@@ -176,6 +241,12 @@ def build_module(root: Path, module: dict[str, Any]) -> None:
             "-o",
             str(built_elf),
         ],
+    )
+    verify_data_symbols(
+        root,
+        [obj for segment, obj in zip(segments, c_objects)
+         if segment["kind"] == "data"],
+        built_elf,
     )
 
     objcopy = tool(root, "objcopy")
