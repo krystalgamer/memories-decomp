@@ -13,12 +13,12 @@
 #include "../../game/display_object_helpers.h"
 #include "campaign_map.h"
 #include "../../game/view_state.h"
+#include "../../game/main_services.h"
 
 extern u8 D_80169619;
 extern u8 *D_801695C8;
 extern s32 D_801695F8[];
 extern u8 *D_801695D8;
-extern void *D_800E9DBC;
 extern s32 D_80010000;
 extern void func_800530C4(void);
 extern u8 *func_80058F74(s32);
@@ -55,7 +55,7 @@ void CampaignMap_SetLocation(s32 index)
     CampaignMap_ResetCamera();
     SetFarColor(0, 0, 0);
     SetFogNearFar(6000, 8000, D_800F2848.projection);
-    D_800E9DBC = CampaignMap_UpdateView;
+    D_800E9DB0[3] = CampaignMap_UpdateView;
     func_80035668(0);
     obj = func_800400AC(func_8004002C(), 2);
     func_800428A8(obj, 96, 24, 0, 0, 0, 23, 256, D_801AF000);
