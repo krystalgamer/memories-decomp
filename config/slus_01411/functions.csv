@@ -26,7 +26,7 @@ address,size,name,status,module,notes
 0x80013B04,0x64,func_80013B04,matching_c,game,"Arms a file transfer: returns NULL while D_8009B0F4 still has any of the 0x02000030 busy bits or D_8009B134 is non-zero, otherwise seeds D_800E9E60 with the sector from gFile_anLba[index] plus offset, clears its 0x46 flag, sets D_8009B0F4 to 0x100010 and returns the record."
 0x80013B68,0xC0,File_RequestSecondaryRangeTransfer,matching_c,game,"Queues gFile_SecondaryTransferDescriptor for an absolute start/end range: clears FILE_TRANSFER_STATE_SECONDARY_PENDING, optionally drains an active primary transfer, stores the range and two mode bytes, then restores the pending state and returns the descriptor."
 0x80013C28,0x478,func_80013C28,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80013C28.c with target src/candidates_target/func_80013C28.S; profile gcc_2_8_1_g8_split, 283/286 instructions, opcode multiset distance 3. DsStartReadySystem sector callback over transfer modes 1-3. Residual: GCC coalesces one mode-1 descriptor copy and two callback reloads; see the source comment and config/slus_01411/candidates.json."
-0x800140A0,0x94,func_800140A0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x800140A0,0x94,func_800140A0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split. It now begins the contiguous asynchronous file-transfer runtime.
 0x80014134,0x74,func_80014134,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800141A8,0x78,func_800141A8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80014220,0x74,func_80014220,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
@@ -34,11 +34,11 @@ address,size,name,status,module,notes
 0x80014308,0x88,func_80014308,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80014390,0x4C,func_80014390,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800143DC,0xDC,File_ActivateTransfer,matching_c,game,"Post-terminal pure-C match; D_8009B112 is a 16-bit flag, matching target lhu/sh accesses."
-0x800144B8,0xA4,func_800144B8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x800144B8,0xA4,func_800144B8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8. Its g8 and g8_split objects are byte-identical; it bridges activation into the following transfer step.
 0x8001455C,0x500,func_8001455C,matching_c,game,"CD transfer step: services the streaming retry state machine through jtbl_80010044 when the stream flag is set, otherwise advances the primary descriptor's read, SPU transfer and completion callback."
 0x80014A5C,0xD4,func_80014A5C,matching_c,game,Exact post-terminal file-service guard match from selective volatile state typing; no pins or assembly.
 0x80014B30,0x110,func_80014B30,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80014C40,0x1DC,func_80014C40,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
+0x80014C40,0x1DC,func_80014C40,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified). It closes the runtime by staging requests into the shared secondary slot."
 0x80014E1C,0xD0,File_RequestAsyncTransfer,matching_c,game,Exact post-terminal pure-C match from real function-pointer typing for D_8009B10C plus volatile effect-state access; no pins or assembly.
 0x80014EEC,0xB8,File_TryRequestAsyncTransfer,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations. Returns null while the primary transfer descriptor is busy.
 0x80014FA4,0x6C,func_80014FA4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.

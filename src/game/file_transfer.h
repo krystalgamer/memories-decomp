@@ -12,7 +12,7 @@
 /* One entry of the two-slot request table at D_801D4200.
 
    func_80014C40 stages the caller's request into slot 1 with a whole-record
-   copy, file_cd_transfer.c's func_800141A8 promotes slot 1 into slot 0 the
+   copy, file_transfer_runtime.c's func_800141A8 promotes slot 1 into slot 0 the
    same way once the drive is ready, and func_80014B30 then programs the
    transfer descriptor out of slot 0. Two independent 0x20-byte copies at that
    stride are what fix the size; func_80014B30 names the four words.
@@ -231,11 +231,11 @@ extern u8 D_801DD000[];
  * FileTransferDescriptor, agreeing on the spelling, and none defines it. */
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 
-/* The CD callback's state word, switched on by file_transfer_control.c and
- * advanced by the callbacks in file_cd_transfer.c.
+/* The CD callback's state word, switched on and advanced by
+ * file_transfer_runtime.c.
  *
  * Both declarers already spell it `volatile u16` and it stays that way. It
- * also has to stay small-data eligible: file_cd_transfer.c stores to it from
+ * also has to stay small-data eligible: file_transfer_runtime.c stores to it from
  * inline assembly written as `sh $4, %gp_rel(D_8009B100)($28)`, which names
  * the symbol and assumes $gp addressing. A two-byte scalar is eligible under
  * -G8, so this declaration keeps that true; a `.data` arm here would break
@@ -288,13 +288,14 @@ extern s32 D_8009B130;
 /* The descriptor File_ActivateTransfer copies into the primary one.
  *
  * This was deliberately absent until now, on the grounds that four of five
- * declarers spelling it FileTransferDescriptor while file_cd_transfer.c
+ * declarers spelling it FileTransferDescriptor while file_transfer_runtime.c
  * spelled it `u8 []` was a majority rather than evidence: that file also
  * reaches the loader words through inline assembly, so its spelling might
  * have been load-bearing. The note asked for a measurement rather than a
  * vote, so here is one.
  *
- * Converting file_cd_transfer.c alone, changing nothing else, builds the
+ * Converting the callback use in file_transfer_runtime.c alone, changing
+ * nothing else, builds the
  * executable byte for byte. The `u8 []` spelling was not load-bearing, and
  * the one access it guarded -- a whole-record copy written
  * `*(FileTransferDescriptorWords *)gFile_SecondaryTransferDescriptor` --
