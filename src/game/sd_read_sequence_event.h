@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_SD_READ_SEQUENCE_EVENT_H
 
 #include "../types.h"
-#include "sound_sequence_events.h"
+#include "sound_sequence_parser.h"
 
 /* Reads one event from a sequence track and returns its decoded form.
  *
@@ -20,8 +20,8 @@
  *
  * It sits in its own header rather than in sound.h because the sequence
  * reader family is spelled that way: SD_ReadSequenceByte lives in
- * sound_sequence_reader.h, the two big-endian readers in
- * sound_sequence_values.h, and SD_ReadSequenceHeader in its own header. */
+ * sound_sequence_reader.h, and the two big-endian readers and
+ * SD_ReadSequenceHeader in sound_sequence_parser.h. */
 s32 SD_ReadSequenceEvent(SDSequenceTrack *arg0);
 
 #endif

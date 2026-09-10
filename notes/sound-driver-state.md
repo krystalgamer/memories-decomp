@@ -446,8 +446,9 @@ Custom controller numbers and loop handling remain separate from these event
 classifications.
 
 The adjacent meta/SysEx handlers and channel dispatcher share
-`src/game/sound_sequence_events.c`, covering `0x8004BE6C` through
-`0x8004C420` in their original definition order under `gcc_2_8_1_g0`.
+`src/game/sound_sequence_parser.c` with the fixed-width readers and the header
+reader, covering `0x8004BC2C` through `0x8004C420` in their original
+definition order under `gcc_2_8_1_g0`.
 The following running-status parser remains separate because its
 `gcc_2_8_1_g8_split` profile differs. Grouping does not change the event bodies,
 their local track view, or their external declarations.
