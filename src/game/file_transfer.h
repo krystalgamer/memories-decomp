@@ -89,6 +89,7 @@ void File_RequestNameEntryPackage(void);
 void File_RequestPasswordPackage(void);
 void File_RequestEgyptOverworldPackage(void);
 void func_8003C328(FileTransferDescriptor *descriptor, s32 mode);
+void func_8005B64C(FileTransferDescriptor *descriptor, s32 mode);
 
 /* Another wrapper of the same shape as the four above: it asks for sector
    0x2157, 0x32 sectors, with func_8003C328 as the completion callback, then
