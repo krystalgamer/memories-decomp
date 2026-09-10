@@ -6873,9 +6873,6 @@ dead. Note that `func_800498F8` and `func_80049CB0` sit beside it in the same
 two sound files with exactly the same shape, so the pattern is a property of
 that call sequence rather than a one-off.
 
-    func_80049C40          def 0 (sound_secondary_playback.c)  <-  decl 1 in func_80049010.c
-    func_80049C40          def 0 (sound_secondary_playback.c)  <-  decl 1 in sound_output.c
-    func_80049C40          def 0 (sound_secondary_playback.c)  <-  decl 1 in sound_runtime.c
     func_80049CB0          def 0 (sound_secondary_playback.c)  <-  decl 1 in func_80049010.c
     func_80049CB0          def 0 (sound_secondary_playback.c)  <-  decl 1 in sound_output.c
     func_8004B374          def 2 (func_8004B374.c)  <-  decl 3 in sound_sequence_events.c

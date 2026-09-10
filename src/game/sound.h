@@ -653,13 +653,14 @@ s32 func_80049F50(void);
    notes/research/matching-evidence.md.
 
    func_800498F8's two callers pass a constant 0 and an s32 local, so its
-   ambient arm can state s32 exactly. The remaining callers spell their values
-   as s16, s32 and `s32 a0`; their unspecified-argument arms preserve the
-   default promotions. The defining units take the arm below and are still
-   checked against their definitions. */
+   ambient arm can state s32 exactly. func_80049C40's three callers all pass
+   the s16 field_157E, which default-promotes to s32, so its arm can too.
+   func_80049CB0 remains unspecified pending its separate caller audit. The
+   defining units take the arm below and are still checked against their
+   definitions. */
 #ifdef SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 void func_800498F8(s32 value);
-void func_80049C40();
+void func_80049C40(s32 value);
 void func_80049CB0();
 #else
 void func_800498F8(void);
