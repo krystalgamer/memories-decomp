@@ -1,10 +1,9 @@
 #include "../types.h"
 #include "duel_card_selection.h"
+#include "func_8001EFD4.h"
 #include "duel_side_state.h"
 #include "duel_grid.h"
 #include "duel_card.h"
-
-extern s32 func_8001EFD4(DuelSelectionObject *, DuelSelectionObject *);
 
 int func_8002778C(DuelSelectionSource *source)
 {
@@ -18,7 +17,8 @@ int func_8002778C(DuelSelectionSource *source)
 
         if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
             count++;
-            if (func_8001EFD4(source->ptr, entry->object) > 0)
+            if (func_8001EFD4((DisplayObject *)source->ptr,
+                              (DisplayObject *)entry->object) > 0)
                 return ((DuelSelectionObject *)entry->object)->index;
         }
         slot++;
@@ -46,7 +46,8 @@ s32 func_800278A0(void *arg0)
             found++;
             if (!(entry->flags & DUEL_CARD_FLAG_FACE_DOWN)) {
                 s32 result = func_8001EFD4(
-                    *(DuelSelectionObject **)arg0, entry->object);
+                    *(DisplayObject **)arg0,
+                    (DisplayObject *)entry->object);
                 if (result > 0) {
                     return ((DuelSelectionObject *)entry->object)->index;
                 }
