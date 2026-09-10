@@ -21,11 +21,10 @@
 #include "../../game/gpu_packets.h"
 #include "../../game/graphics_constants.h"
 #include "../../game/data_transfer_request.h"
+#include "../../game/mem_card.h"
 
 extern GsOT *D_800E9D90[];
 extern u16 D_8009B0D8;
-extern u8 D_8009B3EA;
-extern u8 D_8009B3ED;
 
 extern s32 SaveData_PollLoad(void);
 extern void SaveData_RequestLoad(void);

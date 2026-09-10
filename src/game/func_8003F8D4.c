@@ -10,7 +10,6 @@
 #include "save_data.h"
 #include "display_object_api.h"
 #include "../unmatched.h"
-extern u8 D_8009B3EA;
 extern u8 D_801D1200[];
 extern u8 D_801D2200[];
 

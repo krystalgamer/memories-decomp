@@ -174,4 +174,39 @@ extern s32 D_8009B3F0;
 extern u8 D_800EFBC0[];
 extern s32 D_801D5648[];
 
+/* D_8009B3EA and D_8009B3ED are one byte each (c_symbols.ld:278 and :280);
+ * no unit defines either. Six units reach them: four as a plain u8, two as
+ * an unsized u8 array read only at [0], which is the same -G8 lever
+ * D_801D5648 keeps above.
+ *
+ * D_8009B3ED: func_8003FCD8 (func_8003FCD8.c:10-12) and func_8003FD14
+ * (two_player_save_setup.c:24-26) test bit 0x80 clear, set it and store
+ * D_8009B3C0; func_80030EC8 (frontend_scene_states.c:150), func_80031000
+ * (async_state_poll.c:18) and MainMenu_UpdateFrontendMenu (cases 3 and 2 of
+ * its gMain_bMenuID switch, main_menu/frontend.c:416 and :421) store 0.
+ *
+ * D_8009B3EA: func_8003F8D4 masks it with 0xF (func_8003F8D4.c:44), tests
+ * bits 0x80 and 0x40, stores 1, 0x82, 2, 3, 0xA and 0xB, ORs 0x80, 0x40 and
+ * 0xC0 and ANDs 0xBF into it (:47-144); func_8003FD14 stores 10
+ * (two_player_save_setup.c:34); the three functions above store 0.
+ *
+ * u8 because the three units that load either byte (func_8003F8D4.c,
+ * func_8003FCD8.c, two_player_save_setup.c) already declared it u8 and
+ * matched, and the retail loads are lbu. Retail addressing: func_80030EC8
+ * and func_80031000 store both through lui $at (func_80030EC8.s:11-14,
+ * func_80031000.s:11-14), which is the .data arm; the other four units are
+ * gp-relative or, in the main_menu overlay, built at -G0, which is the
+ * plain arm. Initial value not read. notes/fm-online.md:177-187 records the
+ * D_8009B3EA store at 0x8003FAE8 and leaves its meaning unresolved. */
+#ifdef D_8009B3EA_IN_DATA
+extern u8 D_8009B3EA __attribute__((section(".data")));
+#else
+extern u8 D_8009B3EA;
+#endif
+#ifdef D_8009B3ED_IN_DATA
+extern u8 D_8009B3ED __attribute__((section(".data")));
+#else
+extern u8 D_8009B3ED;
+#endif
+
 #endif
