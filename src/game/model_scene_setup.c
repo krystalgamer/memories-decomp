@@ -34,7 +34,6 @@ extern u8 D_8009AF98;
 extern unsigned short D_8009AF8C, D_8009AF90, D_8009AF8E;
 extern ModelBytes8 D_8009B478_p asm("D_8009B478");
 extern ModelBytes8 D_8009B480;
-extern GsCOORDUNIT D_800F56A0;
 extern void func_800857C0(int);
 extern void func_8004E7B0(int);
 
