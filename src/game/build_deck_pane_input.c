@@ -17,8 +17,6 @@
 #include "func_80031EE4.h"
 #include "duel_effect.h"
 
-extern u8 D_8009B24B;
-
 extern s32 func_800330BC(CardList *);
 void func_8003353C(u8 *p) {
     BuildDeckTransitionState *state = (BuildDeckTransitionState *)p;

@@ -20,4 +20,21 @@
  * into gDuel_adwCardStats. */
 extern u16 gDuel_wViewerCardID;
 
+/* The vertical offset the viewer draws at, set by the same screens that
+ * publish the id above: build_deck_pane_input.c and the main menu's
+ * trade_update.c both store 20 (0x14) when they open the viewer, and
+ * func_800283F4 is the consumer:
+ *
+ *     adj = D_8009B24B;
+ *     obj->field_30.h.field_32 += adj;
+ *     func_800404CC((u8 *)obj, 0x148, D_8009B24B + 0xE, 0, 2, 0, 0xD, 0x107);
+ *
+ * so it lands on a display object's y and on the third argument of a draw
+ * call. notes/fm-online.md documents that second site from the other
+ * direction: retail loads a2 from this byte at 0x800284D8 and the later call
+ * adds 0x0E.
+ *
+ * func_8001BD88 and func_8001D670 also write it and are still assembly. */
+extern u8 D_8009B24B;
+
 #endif
