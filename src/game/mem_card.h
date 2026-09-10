@@ -135,8 +135,30 @@ extern u8 D_8009B3D4;
  *                       once it has tried to list the card and tests it to
  *                       skip the reload; the init path clears the whole
  *                       byte. */
+#ifdef MEM_CARD_REQUEST_POLL_VIEW
+extern u8 gMemCard_bRequest;
+#else
 extern s8 gMemCard_bRequest;
+#endif
 extern u8 gMemCard_bDirFlags;
+
+/* The producer and retained poll use different signed views of the same
+ * request slot. Keep their existing byte/halfword loads and plain addressing.
+ * Size is bytes for file I/O but blocks for create; offset is bytes for file
+ * I/O but a sector number for the raw-card requests. */
+#ifdef MEM_CARD_REQUEST_POLL_VIEW
+extern u8 gMemCard_bRequestStep;
+extern u16 gMemCard_wRequestOffset;
+extern u16 gMemCard_wRequestSize;
+extern char gMemCard_szRequestPath[];
+#else
+extern char gMemCard_bRequestStep;
+extern s16 gMemCard_wRequestOffset;
+extern s16 gMemCard_wRequestSize;
+extern u8 gMemCard_szRequestPath[];
+#endif
+extern s32 gMemCard_pRequestBuf;
+extern u8 D_8009B436;
 
 /* The retry budget of the current stage. Stored by MemCard_BeginRequest
  * (mem_card_driver.c, `gMemCard_bRetries = 10;`;

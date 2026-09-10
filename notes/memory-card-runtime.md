@@ -253,6 +253,62 @@ The path's name part is a pattern. `MemCard_DoLoadDirectory` passes `*` to
 list the whole card, while the create path in the poll passes the new file's
 own name and treats a zero count as the name being free.
 
+### Shared request and directory contracts
+
+The matching producer in `mem_card_driver.c` and the retained poll candidate
+now consume the request declarations in `mem_card.h`, the directory API in
+`mem_card_directory.h`, and the existing event API in `io_event_helpers.h`.
+This removes eight driver-local globals and fourteen candidate-local globals,
+plus the candidate's three private function prototypes. These are identified
+memory-card objects, so their owning headers, not `unmatched.h`, carry the
+contracts.
+
+`MEM_CARD_REQUEST_POLL_VIEW` preserves the two existing compiler views:
+
+| Object | Matching producer | Retained poll |
+|---|---|---|
+| `gMemCard_bRequest` | `s8` | `u8`, explicitly cast to `s8` at signed tests |
+| `gMemCard_bRequestStep` | `char` | `u8` |
+| `gMemCard_wRequestOffset`, `gMemCard_wRequestSize` | `s16` | `u16` |
+| `gMemCard_szRequestPath` | incomplete `u8` array | incomplete `char` array |
+
+The producer stores the halfwords; the poll's unsigned loads feed the sector,
+seek, transfer-size and create-mode arguments. The guard retains those views
+without asserting that every difference is independently load-bearing.
+`gMemCard_pRequestBuf` stays an `s32` address, matching the request wrappers'
+integer buffer ABI. Event-handle elements stay `long`, and both asynchronous
+users select the existing volatile result arm. The poll's `D_8009B436`
+countdown keeps its address-based name and plain `u8` view; no request fields
+are combined into a speculative struct or given new storage.
+
+The directory type has stronger evidence than adjacency: `firstfile` and
+`nextfile` populate `gMemCard_aDirEntries`, `MemCard_DoLoadDirectory` assigns
+that exact buffer to `gMemCard_pDirEntries`, and the helpers consume the
+pointer. The LIBMCRD save dialog also supplies its directory buffer to those
+same helpers after `MemCardGetDirentry`. Both helpers therefore accept the
+existing Psy-Q `struct DIRENTRY`, not a new game-owned approximation.
+`MemCard_CalcFreeBlocks` reads `entry->size` at `+0x18`;
+`MemCard_FindEntry` compares `entry->name` at `+0`; both step one record rather
+than adding 40 bytes. The shared header checks those offsets and the 40-byte
+stride. Its SDK include goes through `libapi.h`, whose relative prerequisite
+includes work with the existing named profiles.
+
+The typed pointer reaches `MemCard_FindLoadedEntry` through its existing
+header, and the poll now uses the producer's actual `MemCard_FindFiles`
+prototype, including its optional `s32 *out_count` (the poll passes null).
+The high-level dialog's `D_800EFBC0` remains an incomplete byte array with
+explicit casts at its directory API boundaries; its storage/addressing is
+not normalized. The low-level wildcard `D_8009AF7C` gains a shared declaration
+consumed by its `.sdata` owner, but keeps its four-byte definition and remains
+distinct from the high-level wildcard `D_8009AF70`.
+
+The poll consumes all seventeen formerly bypassed dependencies directly from
+headers. Its schema-2 private-extern dependency map is consequently empty,
+not disabled; the reviewed aggregate changes, but its object fingerprint
+remains `34bde1bb8b430da186303a995a676dd02ba17a5f5df3d1bae5a7af5e542f6970`.
+No candidate target, profile, measured near-miss result, or assembly fallback
+changes.
+
 ## Save payload staging
 
 `SAVE_DATA_STATE_SIZE` fixes the live persistent state at `0x680` bytes,

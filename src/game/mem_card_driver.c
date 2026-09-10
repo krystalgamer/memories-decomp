@@ -10,19 +10,7 @@
 #include "io_event_helpers.h"
 #include "mem_card.h"
 
-typedef char MemCardDirectoryEntry_size_must_match[
-    sizeof(struct DIRENTRY) == MEM_CARD_DIRECTORY_ENTRY_SIZE ? 1 : -1
-];
-
 extern u8 D_80010538[];
-extern u8 gMemCard_szRequestPath[];
-extern s32 gMemCard_pRequestBuf;
-extern s16 gMemCard_wRequestSize;
-extern s16 gMemCard_wRequestOffset;
-extern char gMemCard_bRequestStep;
-extern s32 gMemCard_nFreeBlocks;
-extern u8 gMemCard_aDirEntries[];
-extern u8 D_8009AF7C[];
 
 void MemCard_ClearIOEvents(long *handles)
 {
@@ -285,13 +273,13 @@ s32 MemCard_FindFiles(s32 chan, const char *pattern, struct DIRENTRY *cursor,
     return count;
 }
 
-s32 MemCard_CalcFreeBlocks(u8 *entry, s32 count)
+s32 MemCard_CalcFreeBlocks(struct DIRENTRY *entry, s32 count)
 {
     s32 i;
     s32 total = 0;
 
-    for (i = 0; i < count; i++, entry += MEM_CARD_DIRECTORY_ENTRY_SIZE) {
-        s32 value = *(s32 *)(entry + 24);
+    for (i = 0; i < count; i++, entry++) {
+        s32 value = entry->size;
 
         total += value / MEM_CARD_BLOCK_SIZE;
         if (value % MEM_CARD_BLOCK_SIZE) {
@@ -301,12 +289,12 @@ s32 MemCard_CalcFreeBlocks(u8 *entry, s32 count)
     return MEM_CARD_BLOCK_COUNT - total;
 }
 
-s32 MemCard_FindEntry(u8 *name, u8 *entry, s32 count)
+s32 MemCard_FindEntry(u8 *name, struct DIRENTRY *entry, s32 count)
 {
     s32 i;
 
-    for (i = 0; i < count; i++, entry += MEM_CARD_DIRECTORY_ENTRY_SIZE) {
-        if (strcmp(entry, name) == 0) {
+    for (i = 0; i < count; i++, entry++) {
+        if (strcmp(entry->name, name) == 0) {
             return i;
         }
     }
@@ -422,7 +410,7 @@ state2:
     }
     gMemCard_pDirEntries = gMemCard_aDirEntries;
     MemCard_FindFiles(gMemCard_bChannel, (const char *)D_8009AF7C,
-                      (struct DIRENTRY *)gMemCard_aDirEntries,
+                      gMemCard_aDirEntries,
                       &gMemCard_nDirEntries);
     gMemCard_nFreeBlocks =
         MemCard_CalcFreeBlocks(gMemCard_pDirEntries, gMemCard_nDirEntries);

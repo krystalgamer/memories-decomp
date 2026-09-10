@@ -315,7 +315,7 @@ void MemCardDialog_UpdateSave(void)
             D_8009B3EB = 0xD;
             break;
         }
-        if (MemCard_FindEntry(D_800EFE18, D_800EFBC0, files) >= 0) {
+        if (MemCard_FindEntry(D_800EFE18, (struct DIRENTRY *)D_800EFBC0, files) >= 0) {
             D_8009B3EB = 7;
             break;
         }
@@ -323,7 +323,7 @@ void MemCardDialog_UpdateSave(void)
             D_8009B3EB = 0xE;
             break;
         }
-        free_blocks = MemCard_CalcFreeBlocks(D_800EFBC0, files);
+        free_blocks = MemCard_CalcFreeBlocks((struct DIRENTRY *)D_800EFBC0, files);
         needed = D_8009B3DC;
         if (free_blocks >= needed) {
             D_8009B3EB = 6;
