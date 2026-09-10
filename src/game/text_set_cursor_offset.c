@@ -1,6 +1,0 @@
-#include "../types.h"
-#include "duel_effect.h"
-#include "func_80036D3C.h"
-#include "text_stream_commands.h"
-
-  void Text_SetCursorOffset(DuelEffectChannel *o){int v; unsigned int *p;v=func_80036D3C(o);p=&((unsigned int*)o)[o->stream_58];*p=(*p&0xFFFF0000)|(v&0xFFFF);}

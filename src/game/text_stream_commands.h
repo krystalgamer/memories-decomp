@@ -36,7 +36,7 @@ void Text_SetStateFromStream(u8 *object);
  * byte at 0x58, and preserves the high halfword. Declared beside them because
  * it is the third reader of that selector.
  *
- * Both callers already spelled it this way -- text_handle_choice_command.c
+ * Both callers already spelled it this way -- Text_HandleChoiceCommand
  * calls it, and duel_effect_command_table.c takes its address for the command
  * table, which is why the declaration there is not extern. */
 void Text_SetCursorOffset(DuelEffectChannel *object);
