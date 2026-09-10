@@ -143,60 +143,61 @@ void CampaignMap_MoveCameraDpad(void)
     ViewState *camera = &D_800F2848;
     s32 step;
 
-    if ((gInput_wPad1Held & 0xF00C) != 0) {
-        if ((gInput_wPad1Held & 0x3) != 0) {
-            if ((gInput_wPad1Held & 0xA000) != 0) {
-                if ((gInput_wPad1Held & 0x40) != 0) {
+    if ((gInput_wPad1Held &
+         (PAD_DIRECTION_MASK | PAD_BUTTON_L1_R1_MASK)) != 0) {
+        if ((gInput_wPad1Held & PAD_BUTTON_TRIGGER_MASK) != 0) {
+            if ((gInput_wPad1Held & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+                if ((gInput_wPad1Held & PAD_BUTTON_CROSS) != 0) {
                     step = 32;
                 } else {
                     step = 2;
                 }
-                if ((gInput_wPad1Held & 0x8000) != 0) {
+                if ((gInput_wPad1Held & PAD_DIRECTION_LEFT) != 0) {
                     step = -step;
                 }
                 camera->view.vrx = camera->view.vrx + step;
             }
-            if ((gInput_wPad1Held & 0x5000) != 0) {
-                if ((gInput_wPad1Held & 0x40) != 0) {
+            if ((gInput_wPad1Held & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+                if ((gInput_wPad1Held & PAD_BUTTON_CROSS) != 0) {
                     step = 32;
                 } else {
                     step = 2;
                 }
-                if ((gInput_wPad1Held & 0x4000) != 0) {
+                if ((gInput_wPad1Held & PAD_DIRECTION_DOWN) != 0) {
                     step = -step;
                 }
                 camera->view.vrz = camera->view.vrz + step;
             }
         } else {
-            if ((gInput_wPad1Held & 0xA000) != 0) {
-                if ((gInput_wPad1Held & 0x40) != 0) {
+            if ((gInput_wPad1Held & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+                if ((gInput_wPad1Held & PAD_BUTTON_CROSS) != 0) {
                     step = 32;
                 } else {
                     step = 2;
                 }
-                if ((gInput_wPad1Held & 0x8000) != 0) {
+                if ((gInput_wPad1Held & PAD_DIRECTION_LEFT) != 0) {
                     step = -step;
                 }
                 camera->angle = camera->angle + step;
             }
-            if ((gInput_wPad1Held & 0x5000) != 0) {
-                if ((gInput_wPad1Held & 0x40) != 0) {
+            if ((gInput_wPad1Held & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+                if ((gInput_wPad1Held & PAD_BUTTON_CROSS) != 0) {
                     step = 32;
                 } else {
                     step = 2;
                 }
-                if ((gInput_wPad1Held & 0x4000) != 0) {
+                if ((gInput_wPad1Held & PAD_DIRECTION_DOWN) != 0) {
                     step = -step;
                 }
                 camera->field_04 = camera->field_04 + step;
             }
-            if ((gInput_wPad1Held & 0xC) != 0) {
-                if ((gInput_wPad1Held & 0x40) != 0) {
+            if ((gInput_wPad1Held & PAD_BUTTON_L1_R1_MASK) != 0) {
+                if ((gInput_wPad1Held & PAD_BUTTON_CROSS) != 0) {
                     step = 20;
                 } else {
                     step = 4;
                 }
-                if ((gInput_wPad1Held & 0x8) != 0) {
+                if ((gInput_wPad1Held & PAD_BUTTON_R1) != 0) {
                     step = -step;
                 }
                 camera->field_00 = camera->field_00 + step;
