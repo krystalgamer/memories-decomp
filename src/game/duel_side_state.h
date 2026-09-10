@@ -111,6 +111,54 @@ extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
  * same halfword under the other sign. Initial value not read. */
 extern s16 D_8009B22A;
 
+/* The halfword func_8002DC38 passes, as `(u8 *)&D_8009B230`, to
+ * MainMenu_StartValueSetup's `toggle` parameter (entrypoints.h declares
+ * `u8 *toggle`), beside the two halfwords below; func_800175A0, when both
+ * D_8009B360 and gDuel_bOpponentID
+ * are negative, copies `*(u8 *)&D_8009B230` into field_1F of both
+ * D_800E9FF0 records; Main_Init stores 1 into it. Every retail access is a
+ * byte or an address (lbu func_800175A0.s:65, sb func_80012B50.s:39, the
+ * lui/addiu pair func_8002DC38.s:14-15), so the listings do not say how
+ * wide the object is; two of the three units declare the u16 and reach the
+ * byte through a `(u8 *)` cast, and overlays/main_menu/README.md describes the
+ * option as the low byte of this wider view, so that is the declaration
+ * kept here and main_init.c now writes the byte through the same cast.
+ * Initial value not read.
+ *
+ * duel_state_init.c reaches it gp-relative and takes the plain halfword;
+ * func_8002DC38.c and main_init.c reach it through %hi/%lo and define the
+ * .data arm. */
+#ifdef D_8009B230_IN_DATA
+extern u16 D_8009B230 __attribute__((section(".data")));
+#else
+extern u16 D_8009B230;
+#endif
+
+/* The two halfwords func_8002DC38 stores DUEL_STARTING_LIFE_POINTS into
+ * (D_8009B236 first, then D_8009B234) and passes to MainMenu_StartValueSetup
+ * as `first` and `second`, both declared `u16 *` in entrypoints.h -- that
+ * signature is
+ * what fixes the type, and func_800175A0's lhu of each
+ * (func_800175A0.s:11-12) agrees. func_800175A0 copies them into `sp[0]`
+ * and `sp[1]` of its `u16 sp[DUEL_SIDE_COUNT]` when gDuel_bOpponentID is
+ * negative. No other C
+ * unit touches them. Initial value not read.
+ *
+ * duel_state_init.c reaches both gp-relative and takes the plain
+ * declarations; func_8002DC38.c reaches both through %hi/%lo
+ * (func_8002DC38.s:10-13 for the addresses, 19-22 for the stores) and
+ * defines the two .data arms, one control each. */
+#ifdef D_8009B234_IN_DATA
+extern u16 D_8009B234 __attribute__((section(".data")));
+#else
+extern u16 D_8009B234;
+#endif
+#ifdef D_8009B236_IN_DATA
+extern u16 D_8009B236 __attribute__((section(".data")));
+#else
+extern u16 D_8009B236;
+#endif
+
 /* The signed byte just below gDuel_bOpponentID. func_80024DC8 stores its
  * first argument here and its second into gDuel_bOpponentID;
  * Text_StartCampaignDuel resets it to -1 before it sets

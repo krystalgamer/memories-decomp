@@ -1,6 +1,8 @@
 #define D_8009B0D8_IS_VOLATILE
 #define D_8009B0C0_IS_VOLATILE
+#define D_8009B230_IN_DATA
 #include "../types.h"
+#include "duel_side_state.h"
 #include "display_object_config.h"
 #include "sound.h"
 #include "func_8003B5C8.h"
@@ -26,7 +28,6 @@
 #include "movie_playback_control.h"
 
 extern volatile u8 D_8009B0D1;
-extern u8 D_8009B230 __attribute__((section(".data")));
 extern void *volatile D_8009B0B4;
 extern u8 D_8009B269 __attribute__((section(".data")));
 extern u8 D_800E9EC0[];
@@ -59,7 +60,7 @@ s32 Main_Init(void)
     D_8009B0D8 = 1;
     D_8009B098 = 0x5000;
     D_8009B0D1 = 0;
-    D_8009B230 = 1;
+    *(u8 *)&D_8009B230 = 1;
     D_8009B0B4 = p;
     D_8009B0C4 = t;
     func_80013154();

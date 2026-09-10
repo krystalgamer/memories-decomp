@@ -1,4 +1,7 @@
 #define D_8009B368_IN_DATA
+#define D_8009B230_IN_DATA
+#define D_8009B234_IN_DATA
+#define D_8009B236_IN_DATA
 #include "../types.h"
 #include "duel_side_state.h"
 #include "func_80024DC8.h"
@@ -16,9 +19,6 @@
    overrides this common symbol, so no storage is allocated here. */
 u8 D_8009B26C;
 extern u8 D_8009B269;
-extern u16 D_8009B230 __attribute__((section(".data")));
-extern u16 D_8009B234 __attribute__((section(".data")));
-extern u16 D_8009B236 __attribute__((section(".data")));
 
 void func_8002DC38(void)
 {
