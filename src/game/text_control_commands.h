@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_TEXT_CONTROL_COMMANDS_H
 
 #include "../types.h"
+#include "duel_effect.h"
 
 /* Two D_80090EAC entries. func_80038D14 puts the object into wait state 4 and
  * raises D_8009B350, which is how a command hands the frame back.
@@ -13,7 +14,7 @@
  * Campaign_TestStoryFlag agrees, rewrites the low half of the object's current
  * stream cursor -- a jump within the same 64K rather than a full pointer
  * store. */
-void func_80038D14(u8 *object);
-void func_80038D2C(u8 *object);
+void func_80038D14(DuelEffectChannel *object);
+void func_80038D2C(DuelEffectChannel *object);
 
 #endif

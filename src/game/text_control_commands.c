@@ -4,15 +4,15 @@
 #include "duel_effect.h"
 #include "text_control_commands.h"
 
-void func_80038D14(u8 *value)
+void func_80038D14(DuelEffectChannel *value)
 {
-    value[0x51] = 4;
+    value->state_51 = 4;
     D_8009B350 = 1;
 }
 
-void func_80038D2C(u8 *object)
+void func_80038D2C(DuelEffectChannel *object)
 {
-    s32 flag = func_80036D3C(object);
+    s32 flag = func_80036D3C((u8 *)object);
 
     flag &= CAMPAIGN_FLAG_COMMAND_WORD_MASK;
     if (flag & CAMPAIGN_FLAG_COMMAND_WRITE) {
@@ -21,11 +21,12 @@ void func_80038D2C(u8 *object)
     }
 
     {
-        s32 target = func_80036D3C(object);
+        s32 target = func_80036D3C((u8 *)object);
 
         target &= 0xFFFF;
         if (Campaign_TestStoryFlag(flag) != 0) {
-            s32 *cursor = (s32 *)(object + *(s8 *)(object + 0x58) * 4);
+            s32 *cursor =
+                (s32 *)((u8 *)object + object->stream_58 * 4);
 
             *cursor = (*cursor & 0xFFFF0000) | target;
         }
