@@ -1,3 +1,4 @@
+#define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
 #include "card_constants.h"
 #include "card_list_rows.h"
@@ -7,7 +8,6 @@
 #include "duel_card.h"
 
 extern s32 D_801D5608[];
-extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
 
 void func_80060E70(u16 *e, s32 idx, s32 flag, s32 ignored)
 {

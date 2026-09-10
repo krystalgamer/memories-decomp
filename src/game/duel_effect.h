@@ -263,6 +263,39 @@ extern u8 D_8009B320 __attribute__((section(".data")));
 extern u8 D_8009B320;
 #endif
 
+/* Stored by five C functions and read by one. func_80031CD4 stores the
+ * list entry's id (card_list_text_boxes.c:19); func_80023144 stores
+ * `id = (s16)record->card_id;` under `if (record->flags & 0x8000)`,
+ * immediately after `D_8009B34E = 1;` (duel_field_display_objects.c:77);
+ * func_800283F4 stores `id = gDuel_wViewerCardID;` (func_800283F4.c:108);
+ * func_8002A2F4 stores func_8002A6B8's result (func_8002A2F4.c:23) and
+ * then, under `if (n != 0)`, stores 0 when func_80029EB0's result `r` (:29)
+ * has `(r & 0x80) == 0` (:32); func_80060E70 stores `id`
+ * (func_80060E70.c:54). func_80037DA4 reads it, plain and as the index in
+ * `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]` (func_80037DA4.c:38, :40,
+ * :46, :50, :60). Four functions still in assembly also store it:
+ * func_8001B170.s:140-141, func_800218F0.s:202-203 and :235-236,
+ * func_800262D4.s:379-380, func_8002ACA4.s:311-312.
+ *
+ * s16 because func_80037DA4.c, the only unit that loads it, declared it s16
+ * when it matched; the five loads are lh (func_80037DA4.s:27/:34/:56/:68/
+ * :87). Two bytes at 0x8009B338 (symbols.txt:27), bounded above by
+ * D_8009B33A at +2.
+ *
+ * Those five loads are %gp_rel and every C writer's sh goes through $at
+ * (func_80031CD4.s:20-21, func_80023144.s:36-37, func_800283F4.s:102-103,
+ * func_8002A2F4.s:13-14 and :26-27, func_80060E70.s:61-62), so the three
+ * units whose profiles are -G8 at both the compiler and maspsx --
+ * duel_field_display_objects.c, func_800283F4.c and func_80060E70.c --
+ * define the .data arm, and card_list_text_boxes.c and func_8002A2F4.c,
+ * whose units assemble at -G0, take the plain declaration.
+ * Initial value not read. */
+#ifdef GDUEL_WSELECTEDCARDID_IN_DATA
+extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
+#else
+extern s16 gDuel_wSelectedCardID;
+#endif
+
 /* The effect/text advance flag. TextBox_BuildStep is the only reader: it
  * clears the flag to 0, calls the opcode handler, and then tests the result
  * twice -- `>= 0` and then `== 1`. Everything else only ever writes it, and

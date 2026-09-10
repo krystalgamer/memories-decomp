@@ -7,8 +7,6 @@
 #include "duel_effect.h"
 #include "func_80037DA4.h"
 
-extern s16 gDuel_wSelectedCardID;
-
 void func_80037DA4(u8 *object)
 {
     u8 **stream;
