@@ -25,7 +25,7 @@ void TextBox_BuildStep(struct DuelEffectChannel *object);
  * straight out of the u16 at D_8009B33A. The reader needs the sentinel, so
  * the reader fixes the type. */
 extern s16 D_8009B35A;
-void func_80039140(u8 *record);
+void func_80039140(struct DuelEffectChannel *record);
 void TextBox_SetPos(u8 *record, s32 x, s32 y);
 
 /* Builds the display objects a record draws through, and is reached only from
