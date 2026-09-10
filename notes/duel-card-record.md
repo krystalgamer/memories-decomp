@@ -80,6 +80,17 @@ That bound belongs to this record table, not to the separate
 other flags while `DUEL_CARD_FLAG_USED_THIS_TURN` is cleared; unoccupied
 records have their flag word cleared.
 
+`DUEL_CARD_FLAG_USED_THIS_TURN` is also the shared action-eligibility latch
+for monsters. `Duel_SetupCardRecord` initializes a new field record with only
+`DUEL_CARD_FLAG_OCCUPIED`, so placement does not impose summoning sickness.
+The state-5 attack filter requires occupied, attack position, and used clear;
+state 9 sets used on the attacker. The L1/R1 position-change helper likewise
+requires used clear, while its callback toggles only the defense-position
+bit. This one lifecycle therefore enforces both one attack per monster and
+the post-attack position lock. See
+[`duel-turn-action-eligibility.md`](duel-turn-action-eligibility.md) for the
+instruction-level state transitions and masks.
+
 Its hand snapshot and rebuild loops use `HAND_SIZE` (`5`). The active side's
 base index is `side * DUEL_CARD_SIDE_RECORD_COUNT`, with 15 records per side.
 The remaining draw count is still `HAND_SIZE - n` after compacting valid hand

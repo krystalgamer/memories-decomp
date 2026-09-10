@@ -681,9 +681,11 @@ through the remaining records in its 40-card half.
    (§5.11).
 
 There is no tribute/level requirement to play any monster, no summoning
-sickness — a monster played this turn may attack this turn [reading from
-play; not traced in code] — and no limit on how many cards may sit in the
-magic/trap row beyond the five zones.
+sickness — a monster played this turn may attack this turn — and no limit on
+how many cards may sit in the magic/trap row beyond the five zones. The
+resident code initializes a newly placed card as occupied with its per-turn
+used bit clear, and the attack selector accepts that state; see the
+[turn-action eligibility contract](../duel-turn-action-eligibility.md).
 
 ### 5.3 Playing cards from the hand
 
@@ -998,8 +1000,17 @@ what a hidden-card template displays. See the
 
 Pressing □ instead of × on the attack plays the battle as a **3-D
 animation** [`Main_RunAnimatedBattle` `0x8002D180`] — cosmetic; the result is
-the same. A monster that has attacked cannot change position again that turn.
-Each monster attacks at most once per turn.
+the same.
+
+Attack selection requires the source record to be occupied, in attack
+position, and clear of `DUEL_CARD_FLAG_USED_THIS_TURN`. Both targeted and
+direct attacks enter scene state 9, where the attacker receives that bit.
+The same bit gates the L1/R1 position-change path and is cleared at the next
+draw-phase entry. Placement starts with it clear, so this simultaneously
+establishes that a newly played monster may attack, that each monster attacks
+at most once per turn, and that a monster that has attacked cannot change
+position again that turn. See the
+[complete flag lifecycle and state transitions](../duel-turn-action-eligibility.md).
 
 ### 5.9 The 3-D battle and the "Poly Mode"
 
