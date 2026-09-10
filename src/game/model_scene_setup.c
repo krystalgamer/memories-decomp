@@ -71,7 +71,7 @@ void func_800530C4(void)
 #include "../psyq/stdarg.h"
 #include "model.h"
 
-extern s16 D_8009B488[3];
+extern s16 D_8009B488[MODEL_SLOT_COUNT];
 extern u8 D_8009B48E[2];
 extern u8 D_8009B490[2];
 extern u8 *D_8009AF88;
