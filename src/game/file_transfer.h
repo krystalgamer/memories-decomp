@@ -92,7 +92,7 @@ void func_8003C120(FileTransferDescriptor *descriptor, s32 mode);
 void func_8003C328(FileTransferDescriptor *descriptor, s32 mode);
 void func_80043328(FileTransferDescriptor *descriptor, s32 mode);
 void func_800434F4(FileTransferDescriptor *descriptor, s32 mode);
-void func_8005B64C(FileTransferDescriptor *descriptor, s32 mode);
+void MainMenu_LoadPackageStage(FileTransferDescriptor *descriptor, s32 stage);
 
 /* Another wrapper of the same shape as the four above: it asks for sector
    0x2157, 0x32 sectors, with func_8003C328 as the completion callback, then

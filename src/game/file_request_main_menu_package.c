@@ -4,5 +4,7 @@
 extern u8 gFile_szSuMrgPath[];
 void File_RequestMainMenuPackage(void)
 {
-    File_RequestAsyncTransfer(1, gFile_szSuMrgPath, 0, 0x73, func_8005B64C, 0, 0);
+    File_RequestAsyncTransfer(
+        1, gFile_szSuMrgPath, 0, 0x73, MainMenu_LoadPackageStage, 0, 0
+    );
 }

@@ -67,11 +67,11 @@ proposal held back (`gMain_apLoadArena`, the load-arena pointer table at
 
 Findings F129–F157 carry the evidence. **F136 corrects F125**, which shipped in
 the previous delta: the 1408 bytes at art-record +10976 are a 40x32 8bpp
-thumbnail plus its own 64-entry CLUT, not a 16x88 strip. F154 records a name
-this corpus deliberately does NOT propose — `select_reverb_preset` 0x8005B64C is
-demonstrably not a sound routine, but the right name is not settled, so it keeps
-the old label with a DISPUTED marker rather than trading one wrong name for
-another.
+thumbnail plus its own 64-entry CLUT, not a 16x88 strip. F154 originally recorded a name this corpus deliberately did not propose:
+`select_reverb_preset` at `0x8005B64C` was demonstrably not a sound routine,
+but the right replacement was not yet settled. Subsequent matching-source,
+phase-stepper, retail-archive, and overlay-consumer analysis resolved it as
+`MainMenu_LoadPackageStage`; the finding row now records that applied result.
 
 The evidence for this delta came from cross-reading a third-party modding
 toolset (basededatostea.xyz, 45 browser tools that patch SLUS_014.11 and

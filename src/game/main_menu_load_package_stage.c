@@ -8,10 +8,10 @@
 extern s32 D_8001002C __attribute__((section(".data")));
 extern u8 D_8009B058[];
 
-void func_8005B64C(FileTransferDescriptor *object, s32 mode) {
+void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
     RECT rect;
 
-    switch (mode) {
+    switch (stage) {
     case 0:
         object->field_30.h.counter = 0x200;
         object->field_30.h.field_32 = 0x100;

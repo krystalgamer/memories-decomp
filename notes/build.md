@@ -449,7 +449,8 @@ The `.sdata` text-order rule constrains a symbol's position by the text
 address of the unit that **defines** it. It says nothing about units that
 merely consume it. So a window cannot be interpolated from the neighbours
 here: `D_8009AFA6` below and `D_8009B058` above are each only ever declared
-`extern` -- by `model_state_getters.c` and `func_8005B64C.c` respectively --
+`extern` -- by `model_state_getters.c` and
+`main_menu_load_package_stage.c` respectively --
 and neither is defined in any C source. Both resolve from linker symbols,
 exactly as the run itself does.
 
@@ -619,7 +620,7 @@ They are worth reading before touching a declaration, because they cover cases
 the table alone does not predict:
 
 - **Array versus scalar decides who allocates the register.** For
-  `func_8005B64C` the note records that `D_8009B058`, `D_801DD000` and
+  `MainMenu_LoadPackageStage` the note records that `D_8009B058`, `D_801DD000` and
   `D_801AF800` "are arrays so `-msplit-addresses` gives them registers, while
   the scalars carry `section(.data)`" and rebuild their address per access.
 - **Defining rather than declaring is itself a lever.** `func_8002BFCC`'s note
@@ -697,7 +698,7 @@ A scan over declaration spellings reports both of these, and neither is work:
 #### A worked rejection
 
 `D_8009B058` looks like an ideal candidate for giving a global its real type.
-It has one consumer, `func_8005B64C.c`; that file declares it `extern u8
+It has one consumer, `main_menu_load_package_stage.c`; that file declares it `extern u8
 D_8009B058[]` and immediately casts at its only use, `rect = *(RECT
 *)D_8009B058`; and the next name, `D_8009B060`, is exactly eight bytes on,
 which is `sizeof(RECT)`. Every cheap check agrees.

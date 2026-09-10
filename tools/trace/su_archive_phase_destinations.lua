@@ -1,16 +1,14 @@
 -- su_archive_phase_destinations.lua
 --
 -- WHAT THIS ANSWERS
---   func_8005B64C retains the inherited name select_reverb_preset, but its
---   static body never touches the SPU. It is registered only as the callback
---   for the 115-sector SU.MRG request and uses selector values 0 through 4 to
---   configure transfer rectangles, destination buffers, sizes, and flags.
+--   MainMenu_LoadPackageStage is registered only as the callback for the
+--   115-sector SU.MRG request and uses stage values 0 through 4 to configure
+--   transfer rectangles, destination buffers, sizes, and flags.
 --
 --   This trace captures the callback before and after each selector case
 --   during an actual main-menu archive reload. The selector sequence and
---   resulting transfer records can decide whether a specific
---   MainMenu_ConfigureArchivePhase name or a broader Cd_SelectTransferPreset
---   name is justified.
+--   resulting transfer records provide runtime confirmation of the statically
+--   derived five-stage package map.
 --
 --   Returning from OPTION may not reload SU.MRG. PCSX-Redux also removes Lua
 --   breakpoints during reset, so this script reinstalls both callbacks at the
@@ -41,8 +39,8 @@
 local ffi = require('ffi')
 
 local SCRIPT_NAME = 'su_archive_phase_destinations'
-local CONFIGURE_PHASE = 0x8005b64c
-local CONFIGURE_PHASE_EPILOGUE = 0x8005b84c
+local LOAD_PACKAGE_STAGE = 0x8005b64c
+local LOAD_PACKAGE_STAGE_EPILOGUE = 0x8005b84c
 local MAIN_MODE = 0x8009b26c
 local STREAM_FLAGS = 0x8009b0f4
 local PHASE_VALUE = 0x8001002c
@@ -365,7 +363,7 @@ local function installBreakpoints(reason)
     end
 
     breakpoint_su_archive_phase_entry = PCSX.addBreakpoint(
-        CONFIGURE_PHASE,
+        LOAD_PACKAGE_STAGE,
         'Exec',
         4,
         'Trace SU archive phase entry',
@@ -378,7 +376,7 @@ local function installBreakpoints(reason)
     )
 
     breakpoint_su_archive_phase_exit = PCSX.addBreakpoint(
-        CONFIGURE_PHASE_EPILOGUE,
+        LOAD_PACKAGE_STAGE_EPILOGUE,
         'Exec',
         4,
         'Trace SU archive phase exit',
