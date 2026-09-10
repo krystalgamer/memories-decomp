@@ -1,9 +1,7 @@
 #include "../../types.h"
 #include "../../psyq/rand.h"
 #include "../../game/card_constants.h"
-
-extern s16 D_801D4D8E[];
-extern s32 D_801D4244[];
+#include "card_tables.h"
 
 s32 MainMenu_CompareCardsByMaxStat(s16 *a, s16 *b)
 {

@@ -1,8 +1,7 @@
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../psyq/rand.h"
-
-extern s16 D_801D4D8E[];
+#include "card_tables.h"
 
 s32 MainMenu_CompareCardsByName(s16 *a, s16 *b)
 {
