@@ -17,6 +17,8 @@
 #include "text_staging.h"
 #include "util_memory.h"
 #include "../unmatched.h"
+#include "sound.h"
+#include "text_box_runtime.h"
 
 extern u8 D_801D2200[];
 

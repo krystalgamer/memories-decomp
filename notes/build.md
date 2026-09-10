@@ -722,6 +722,20 @@ exact source and spelling appear in
 remain after a function becomes matching C. Unreferenced assembly functions
 do not receive guessed prototypes merely to fill the header.
 
+Ownership is only half of a declaration contract; the caller also has to see
+it. GCC 2.8.1 compiles a call with no visible declaration as `int f()`, and
+the executable and candidate fingerprints stay byte-exact, so a caller that
+loses sight of a prototype -- typically because the prototype moved to a
+header it does not include -- passes every ownership check.
+`make check-declaration-visibility` (run in the matching-build job) compiles
+every matching source and every candidate with
+`-Wimplicit-function-declaration` under its own profile and fails on any
+implicit call. The fix is the include of the header that owns the
+declaration. The current tree has no exceptions. If a future implicit call is
+proved load-bearing, it must be recorded with its measurement in the checker's
+exception manifest; a recorded site that no longer calls implicitly is an
+error, so that list cannot go stale.
+
 Build-integrated candidates are the one exception on the function side.
 `unmatched.h` exists because an assembly function has no defining C
 translation unit and so nowhere for a per-unit header to live. A candidate in

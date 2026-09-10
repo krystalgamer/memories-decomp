@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-signature-resolutions build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds candidate-contract-hashes check-candidate-headlines check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds candidate-contract-hashes check-candidate-headlines check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -46,6 +46,7 @@ help:
 		'  check-matching-source-contracts  Reject pins, inline asm, and mixed -G matching C' \
 		'  check-unmatched-contracts  Verify unmatched function/data declarations and exceptions' \
 		'  check-psyq-signature-resolutions  Verify local Psy-Q signature conflict decisions' \
+		'  check-declaration-visibility  Reject calls that compile only through an implicit declaration' \
 		'  candidate-index  Regenerate the stored-candidate index' \
 		'  check-candidate-index  Verify the stored-candidate index is current' \
 		'  candidate-bundles  Regenerate human-facing resident candidate bundles' \
@@ -170,6 +171,9 @@ check-unmatched-contracts:
 
 check-psyq-signature-resolutions:
 	@$(PYTHON) tools/project/psyq_signatures.py --check-resolutions
+
+check-declaration-visibility: check-build-tools
+	@$(PYTHON) tools/project/check_declaration_visibility.py
 
 build-overlays: overlays check-build-tools
 	@$(PYTHON) tools/project/overlay_build.py build

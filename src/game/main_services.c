@@ -22,6 +22,7 @@
 #include "model.h"
 #include "rand_constants.h"
 #include "main_services.h"
+#include "file_transfer.h"
 
 /* The resident system layer's per-frame service pump. It is the first of
    four contiguous functions that are the only run in the region built with
