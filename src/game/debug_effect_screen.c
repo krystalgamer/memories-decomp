@@ -11,6 +11,7 @@
 #include "display_object_api.h"
 #include "duel_card.h"
 #include "file_transfer.h"
+#include "func_8001944C.h"
 #include "input.h"
 #include "view_state.h"
 #include "display_object.h"
@@ -45,7 +46,6 @@ extern u8 D_80010090[];
 /* "            **\n~c777\0" */
 extern u8 D_800100A8[];
 
-extern void func_8001944C(u8 *);
 void func_800220B8(void) {
     ViewState *b;
     ViewState *c;
@@ -158,7 +158,7 @@ void func_800222F4(void) {
             *(s16 *)&obj->field_30.h.field_30 = 0x5A;
             *(s16 *)&obj->field_30.h.field_32 = 0x16;
             func_80012D84(4);
-            func_8001944C((u8 *)obj);
+            func_8001944C(obj);
             break;
         case 2:
             D_8009B180 = func_80017F04(D_801A7B80, 0x86, 0x52);

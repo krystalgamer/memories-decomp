@@ -4,6 +4,7 @@
 #include "color_constants.h"
 #include "display_object.h"
 #include "duel_display.h"
+#include "func_8001944C.h"
 #include "graphics_frame.h"
 
 extern s32 gGraphics_bActiveBuffer __attribute__((section(".data")));

@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "duel_action_lock.h"
+#include "func_80026BA4.h"
 
 void func_80026BA4(int value, int flag)
 {
