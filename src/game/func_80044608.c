@@ -5,8 +5,6 @@
 #include "../psyq/libapi.h"
 #include "io_event_helpers.h"
 
-extern u8 D_8009B43D;
-extern u8 D_8009B43C;
 extern s32 D_8009B438;
 
 extern u8 D_800F2888[];
