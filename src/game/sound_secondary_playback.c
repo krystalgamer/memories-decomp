@@ -5,8 +5,6 @@
 #define SD_START_SEQUENCE_TRACKS_PLAYBACK_CALLS
 #include "sound_sequence_timing.h"
 
-extern s32 SD_GetSequenceStatus(void);
-
 int func_80049A64(void *input, short value)
 {
     unsigned int tag;
