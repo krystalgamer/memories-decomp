@@ -153,8 +153,8 @@ Two conditions are easy to get wrong:
   emitting the same `lui $at` / `addu $at` / `lb` sequence as before.
 
 `func_80024D34` (`0x80024D34`, `0x48000` plus `0x36B8`) and
-`duel_has_all_exodia_pieces.c` (`0x4B9FC` in the same blob) are the two worked
-positives, both on `D_8015C424`.
+[`Duel_HasAllExodiaPieces`](../../src/game/duel_draw_resolution.c) (`0x4B9FC`
+in the same blob) are the two worked positives, both on `D_8015C424`.
 
 Register pins are not a substitute here either. GCC constant-folds through the
 pin, so pinning the base or the offset leaves the `$at` form in place.
