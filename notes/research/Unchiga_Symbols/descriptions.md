@@ -253,7 +253,7 @@ on the suspects side until proven.)
 | 0x800EB0F8 | `gTextBox_aRecords` | Array of text-box records (0x64 bytes, index = box slot): current text pointer, glyph-entry list, box/highlight/shadow widget pointers, flags, string id, rect, glyph cell size, and the record's glyph-sprite slot base/count. |
 | 0x80090E58 | `gTextBox_awSpriteSlotRange` | Cumulative glyph-sprite slot boundaries per text-box slot: 0, 255, 415, 575, 620. Record i owns slots [tbl[i], tbl[i+1]). |
 | 0x801D9000 | `gText_adwGlyphCodeTable` | One u32 per font glyph; the low half is the Shift-JIS code the glyph draws. Scanned by `Text_SjisToGlyphCodes`. |
-| 0x801B0000 | `gText_aBank` | The current screen's string bank: 0xFF-terminated glyph strings with control bytes (00 space, F8 position/colour, FE newline). Loaded with the screen's module. |
+| 0x801B0000 | `gText_aBank` | The current screen's glyph-code bank. TextBox_BuildStep interprets F0-FF as variable control commands; FF returns from nested streams or terminates the outer stream. Loaded with the screen's module. |
 | 0x801C0000 | `gText_aBankOffsets` | u16 byte offset into `gText_aBank` per string id. |
 | 0x8003B744 | `Text_LookupString` | Returns the bank pointer for a string id: base + offsets[id]; ids >= 0xD000 index the table relative to 0xD000. |
 | 0x80035BE4 | `TextBox_Create` | Opens a text box: sets its rect then initialises the record with the string id. |

@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "duel_effect_command_table.h"
-#include "func_80038B4C.h"
+#include "text_dispatch_secondary_command.h"
 
-void func_80038B4C(u8 *arg0)
+void Text_DispatchSecondaryCommand(u8 *arg0)
 {
     u8 **pp = (u8 **)(arg0 + *(s8 *)(arg0 + 0x58) * 4);
     u8 *p = *pp;

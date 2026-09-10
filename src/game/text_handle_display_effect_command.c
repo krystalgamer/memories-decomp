@@ -2,7 +2,7 @@
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
 #include "duel_effect.h"
-#include "func_80038EB0.h"
+#include "text_handle_display_effect_command.h"
 
 /* Effect-script command handler: reads a command id and a flag byte from the
    object's current script stream, finds the display effect record for the id
@@ -10,7 +10,7 @@
    the third), and depending on the flags either stops it (bit 7), adjusts a
    running one (bits 5 and 6) or starts it in the slot given by bit 0, with
    the object's state byte set to the matching wait state. */
-void func_80038EB0(EffectObject *o) {
+void Text_HandleDisplayEffectCommand(EffectObject *o) {
     MenuRecord *e;
     s32 id;
     s32 flags;

@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80038EB0_H
-#define MEMORIES_DECOMP_FUNC_80038EB0_H
+#ifndef MEMORIES_DECOMP_TEXT_HANDLE_DISPLAY_EFFECT_COMMAND_H
+#define MEMORIES_DECOMP_TEXT_HANDLE_DISPLAY_EFFECT_COMMAND_H
 
 #include "../types.h"
 
@@ -21,6 +21,6 @@ typedef struct {
     s8 depth;
 } EffectObject;
 
-void func_80038EB0(EffectObject *object);
+void Text_HandleDisplayEffectCommand(EffectObject *object);
 
 #endif

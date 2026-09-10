@@ -194,7 +194,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80090E58,gDuelEffect_awEntryRangeBoundaries,gDuelEffect_awEntryRangeBoundaries,0x80036DBC,DuelEffect_UpdateObjectLayout,matching_c,game,C,src/game/duel_effect_update_object_layout.c,read,16,gDuelEffect_awEntryRangeBoundaries[p->index_57]
 0x80090E58,gDuelEffect_awEntryRangeBoundaries,gDuelEffect_awEntryRangeBoundaries,0x8003B6AC,func_8003B6AC,matching_c,game,C,src/game/func_8003B6AC.c,address,16,u8 *t = (u8 *)gDuelEffect_awEntryRangeBoundaries;
 0x80090E64,D_80090E64,D_80090E64,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read,,D_80090E64[object->state_51 & 0x1F](object);
-0x80090EAC,D_80090EAC,D_80090EAC,0x80038B4C,func_80038B4C,matching_c,game,C,src/game/func_80038B4C.c,read,8,D_80090EAC[op](arg0);
+0x80090EAC,D_80090EAC,D_80090EAC,0x80038B4C,Text_DispatchSecondaryCommand,matching_c,game,C,src/game/text_dispatch_secondary_command.c,read,8,D_80090EAC[op](arg0);
 0x80090F18,D_80090F18,D_80090F18,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,address,8,handlers = D_80090F18;
 0x80090F58,D_80090F58,D_80090F58,0x80039D64,DuelEffect_ProcessEntries,matching_c,game,C,src/game/duel_effect_process_entries.c,read,,"D_80090F58[p->field_13 & 0x1F](p, arg0);"
 0x80090F68,D_80090F68,D_80090F68,0x8003B50C,DisplayEffect_ProcessMenuRecords,matching_c,game,C,src/game/display_effect_process_menu_records.c,address,8,void (**t)(u8 *) = D_80090F68;
@@ -1771,7 +1771,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B328,D_8009B328,D_8009B328,0x800378D8,func_800378D8,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,,if (D_8009B328->display_effect_step == 0) {
 0x8009B328,D_8009B328,D_8009B328,0x80037914,func_80037914,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,,D_8009B328->display_effect_step = 6; | D_8009B328->field_32 = flags | 0x10; | (+1 more)
 0x8009B328,D_8009B328,D_8009B328,0x80037950,func_80037950,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,,D_8009B328->display_effect_step = 4; | D_8009B328->field_32 = flags | 0x10; | (+1 more)
-0x8009B328,D_8009B328,D_8009B328,0x80038EB0,func_80038EB0,matching_c,game,C,src/game/func_80038EB0.c,write,,D_8009B328 = e;
+0x8009B328,D_8009B328,D_8009B328,0x80038EB0,Text_HandleDisplayEffectCommand,matching_c,game,C,src/game/text_handle_display_effect_command.c,write,,D_8009B328 = e;
 0x8009B32C,D_8009B32C,D_8009B32C,0x800375A4,func_800375A4,matching_c,game,C,src/game/duel_effect_interaction_states.c,read_write,8,void func_800375A4(DuelEffectChannel*o){unsigned char f=o->state_51;if((f&0x80)==0){o->state_51=f|0x80;D_8009B32C=10;...
 0x8009B32E,D_8009B32E,D_8009B32E,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,write,16,"lui $at, %hi(D_8009B32E) | sh $v0, %lo(D_8009B32E)($at)"
 0x8009B32E,D_8009B32E,D_8009B32E,0x800383DC,func_800383DC,matching_c,game,C,src/game/func_800383DC.c,read,16,s32 a2 = D_8009B32E;
@@ -1791,13 +1791,13 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x80031CD4,func_80031CD4,matching_c,game,C,src/game/card_list_text_boxes.c,write,16,gDuel_wSelectedCardID = list->entries[list->first + slot].id;
 0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x80037DA4,func_80037DA4,matching_c,game,C,src/game/func_80037DA4.c,read,16,id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> | id = gDuel_wSelectedCardID + 0x8000; | (+2 more)
 0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x80060E70,func_80060E70,matching_c,game,C,src/game/func_80060E70.c,write,16,gDuel_wSelectedCardID = id;
-0x8009B33A,D_8009B33A,D_8009B33A,0x80037D2C,func_80037D2C,matching_c,game,C,src/game/text_stream_commands.c,read_write,16,D_8009B33A = value; | combined = D_8009B33A;
+0x8009B33A,D_8009B33A,D_8009B33A,0x80037D2C,Text_ExtendGlyphCode,matching_c,game,C,src/game/text_stream_commands.c,read_write,16,D_8009B33A = value; | combined = D_8009B33A;
 0x8009B33A,D_8009B33A,D_8009B33A,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read_write,16,D_8009B33A = script[0]; | D_8009B35A = D_8009B33A; | (+3 more)
 0x8009B33C,D_8009B33C,D_8009B33C,0x80037B40,func_80037B40,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,16,D_8009B33C--; | if (D_8009B33C != 0) { | (+1 more)
 0x8009B33C,D_8009B33C,D_8009B33C,0x80038798,DuelEffect_PlaySoundCommand,matching_c,game,C,src/game/duel_effect_play_sound_command.c,write,16,D_8009B33C = func_80036D3C(object);
 0x8009B340,D_8009B340,D_8009B340,0x80037CE0,func_80037CE0,matching_c,game,C,src/game/text_stream_commands.c,write,8,D_8009B340 = 0;
 0x8009B340,D_8009B340,D_8009B340,0x80038BF0,Text_HandleChoiceCommand,matching_c,game,C,src/game/text_handle_choice_command.c,write,8,D_8009B340 = func_80037CE0;
-0x8009B340,D_8009B340,D_8009B340,0x80038E1C,func_80038E1C,matching_c,game,C,src/game/duel_effect_completion.c,read,8,D_8009B340(object); | if (D_8009B340) {
+0x8009B340,D_8009B340,D_8009B340,0x80038E1C,Text_NewLine,matching_c,game,C,src/game/text_stream_completion.c,read,8,D_8009B340(object); | if (D_8009B340) {
 0x8009B340,D_8009B340,D_8009B340,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,write,8,D_8009B340 = 0;
 0x8009B344,D_8009B344,D_8009B344,0x80023144,func_80023144,matching_c,game,C,src/game/duel_field_display_objects.c,read_write,8,D_8009B344 = | D_8009B344 = D_8009B344 + 0x17;
 0x8009B344,D_8009B344,D_8009B344,0x80038070,func_80038070,matching_c,game,C,src/game/duel_effect_command.c,read,8,"func_80038024(object, D_8009B344);"
@@ -1830,17 +1830,17 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B34E,D_8009B34E,D_8009B34E,0x80023144,func_80023144,matching_c,game,C,src/game/duel_field_display_objects.c,read_write,8,D_8009B34E = 0; | D_8009B34E = 1; | (+3 more)
 0x8009B34E,D_8009B34E,D_8009B34E,0x800389D8,func_800389D8,matching_c,game,C,src/game/duel_effect_object_commands.c,read,8,*(s32 *)((u8 *)object + offset) += D_8009B34E * 2;
 0x8009B34E,D_8009B34E,D_8009B34E,0x800610E0,func_800610E0,matching_c,game,C,src/game/func_800610E0.c,write,8,"void func_800610E0(int mode){DuelEffectChannel*parent;DisplayObject*obj;D_8009B34E=mode;parent=TextBox_Create(3,10,0x..."
-0x8009B350,D_8009B350,D_8009B350,0x80037D2C,func_80037D2C,matching_c,game,C,src/game/text_stream_commands.c,write,32,D_8009B350 = temporary;
-0x8009B350,D_8009B350,D_8009B350,0x80037D6C,func_80037D6C,matching_c,game,C,src/game/text_stream_commands.c,write,32,D_8009B350 = 1;
+0x8009B350,D_8009B350,D_8009B350,0x80037D2C,Text_ExtendGlyphCode,matching_c,game,C,src/game/text_stream_commands.c,write,32,D_8009B350 = temporary;
+0x8009B350,D_8009B350,D_8009B350,0x80037D6C,Text_SetStateFromStream,matching_c,game,C,src/game/text_stream_commands.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x800386B8,func_800386B8,matching_c,game,C,src/game/duel_effect_play_sound_command.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038798,DuelEffect_PlaySoundCommand,matching_c,game,C,src/game/duel_effect_play_sound_command.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038800,func_80038800,matching_c,game,C,src/game/duel_effect_script_dispatch.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038B08,func_80038B08,matching_c,game,C,src/game/duel_effect_object_commands.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038BF0,Text_HandleChoiceCommand,matching_c,game,C,src/game/text_handle_choice_command.c,write,32,D_8009B350 = 1;
-0x8009B350,D_8009B350,D_8009B350,0x80038D14,func_80038D14,matching_c,game,C,src/game/text_control_commands.c,write,32,D_8009B350 = 1;
-0x8009B350,D_8009B350,D_8009B350,0x80038E1C,func_80038E1C,matching_c,game,C,src/game/duel_effect_completion.c,write,32,D_8009B350 = 1;
-0x8009B350,D_8009B350,D_8009B350,0x80038E7C,func_80038E7C,matching_c,game,C,src/game/duel_effect_completion.c,write,32,D_8009B350 = 1;
-0x8009B350,D_8009B350,D_8009B350,0x80038EB0,func_80038EB0,matching_c,game,C,src/game/func_80038EB0.c,write,32,D_8009B350 = 1;
+0x8009B350,D_8009B350,D_8009B350,0x80038D14,Text_StartPageWait,matching_c,game,C,src/game/text_control_commands.c,write,32,D_8009B350 = 1;
+0x8009B350,D_8009B350,D_8009B350,0x80038E1C,Text_NewLine,matching_c,game,C,src/game/text_stream_completion.c,write,32,D_8009B350 = 1;
+0x8009B350,D_8009B350,D_8009B350,0x80038E7C,Text_EndStream,matching_c,game,C,src/game/text_stream_completion.c,write,32,D_8009B350 = 1;
+0x8009B350,D_8009B350,D_8009B350,0x80038EB0,Text_HandleDisplayEffectCommand,matching_c,game,C,src/game/text_handle_display_effect_command.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read_write,32,D_8009B350 = 0; | if (D_8009B350 == 1) { | (+1 more)
 0x8009B355,D_8009B355,D_8009B355,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,read_write,8,"lbu $v0, %lo(D_8009B355)($v0) | lui $at, %hi(D_8009B355) | (+4 more)"
 0x8009B355,D_8009B355,D_8009B355,0x80023144,func_80023144,matching_c,game,C,src/game/duel_field_display_objects.c,read_write,8,D_8009B355 = 0; | D_8009B355 = 1; | (+1 more)
@@ -2621,7 +2621,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB010,D_800EB010,D_800EB010,0x8002E370,DuelEffect_MarkObjectIfActive,matching_c,game,C,src/game/duel_effect_mark_object_if_active.c,address,,p = &D_800EB010[count];
 0x800EB010,D_800EB010,D_800EB010,0x8002EB78,func_8002EB78,matching_c,game,C,src/game/func_8002EB78.c,address,,o = (u8 *)D_800EB010 + ((bit >> 7) * sizeof(MenuRecord));
 0x800EB010,D_800EB010,D_800EB010,0x80031354,func_80031354,matching_c,game,C,src/game/func_80031354.c,address,,"func_8003B378(D_800EB010, value);"
-0x800EB010,D_800EB010,D_800EB010,0x80038EB0,func_80038EB0,matching_c,game,C,src/game/func_80038EB0.c,address,,e = &D_800EB010[slot]; | e = D_800EB010;
+0x800EB010,D_800EB010,D_800EB010,0x80038EB0,Text_HandleDisplayEffectCommand,matching_c,game,C,src/game/text_handle_display_effect_command.c,address,,e = &D_800EB010[slot]; | e = D_800EB010;
 0x800EB010,D_800EB010,D_800EB010,0x80039E9C,func_80039E9C,matching_c,game,C,src/game/menu_record_reset.c,address,,MenuRecord *record = &D_800EB010[i];
 0x800EB010,D_800EB010,D_800EB010,0x8003B50C,DisplayEffect_ProcessMenuRecords,matching_c,game,C,src/game/display_effect_process_menu_records.c,address,,MenuRecord *record = D_800EB010;
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80019D18,func_80019D18,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00a518.s,address,,"addiu $a0, $a0, %lo(D_800EB0F8) | lui $a0, %hi(D_800EB0F8)"

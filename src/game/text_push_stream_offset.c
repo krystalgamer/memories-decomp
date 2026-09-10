@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "duel_effect.h"
 #include "func_80036D3C.h"
-#include "func_80038DB8.h"
+#include "text_push_stream_offset.h"
 
-void func_80038DB8(DuelEffectChannel *arg0)
+void Text_PushStreamOffset(DuelEffectChannel *arg0)
 {
     s32 c;
     s32 co;
