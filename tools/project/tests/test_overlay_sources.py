@@ -5,6 +5,7 @@ import io
 import json
 from pathlib import Path
 import sys
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -82,8 +83,10 @@ class OverlaySourceTests(unittest.TestCase):
         self.assertEqual(
             self.collect(),
             [
-                {**self.entry(self.data), "object": "src/overlays/example/header.o"},
-                {**self.entry(self.text), "object": "src/overlays/example/runtime.o"},
+                {**self.entry(self.data), "object": "src/overlays/example/header.o",
+                 "kind": "data"},
+                {**self.entry(self.text), "object": "src/overlays/example/runtime.o",
+                 "kind": "text"},
             ],
         )
 
@@ -264,12 +267,18 @@ class OverlaySourceTests(unittest.TestCase):
             patch.object(overlay_build, "run"),
             patch.object(overlay_build, "tool", return_value=Path("tool")),
             patch.object(
-                overlay_build, "compile_sources", return_value=[Path("unit.o")]
+                overlay_build, "compile_sources",
+                return_value=[Path("data.o"), Path("text.o")]
             ) as compile_sources,
+            patch.object(overlay_build, "verify_data_symbols") as verify_data,
             contextlib.redirect_stdout(io.StringIO()),
         ):
             overlay_build.build_module(self.root, module)
         self.assertEqual(compile_sources.call_args.args[2], self.collect())
+        verify_data.assert_called_once_with(
+            self.root, [Path("data.o")],
+            self.root / "tmp/overlays/example/build/example.elf",
+        )
 
     def test_build_rejects_an_empty_object_set(self) -> None:
         module = self.build_fixture()
@@ -287,6 +296,92 @@ class OverlaySourceTests(unittest.TestCase):
             with self.assertRaisesRegex(OverlaySourceError, "missing units"):
                 overlay_build.build_module(self.root, module)
         run.assert_not_called()
+
+    def test_section_defined_data_and_interior_aliases_are_accepted(self) -> None:
+        elf = self.root / "tmp/module.elf"
+        obj = self.root / "tmp/data.o"
+        with patch.object(overlay_build, "object_symbols", side_effect=[
+            {"table": ".module_data", "interior": "*ABS*"},
+            {"table": ".data"},
+        ]):
+            overlay_build.verify_data_symbols(self.root, [obj], elf)
+
+    def test_overriding_alias_missing_or_unallocated_data_is_rejected(self) -> None:
+        elf = self.root / "tmp/module.elf"
+        obj = self.root / "tmp/data.o"
+        for section in ("*ABS*", "*UND*", "*COM*", None):
+            with self.subTest(section=section):
+                linked = {} if section is None else {"state": section}
+                with patch.object(overlay_build, "object_symbols", side_effect=[
+                    linked, {"state": ".data"},
+                ]):
+                    with self.assertRaisesRegex(
+                        overlay_build.OverlayBuildError, "not section-defined"
+                    ):
+                        overlay_build.verify_data_symbols(self.root, [obj], elf)
+
+    def test_common_small_data_and_named_sections_are_checked(self) -> None:
+        for section in (".rodata", ".sdata", ".sbss", ".bss", "*COM*", ".data.state"):
+            with self.subTest(section=section):
+                with patch.object(overlay_build, "object_symbols", side_effect=[
+                    {"state": "*ABS*"}, {"state": section},
+                ]):
+                    with self.assertRaises(overlay_build.OverlayBuildError):
+                        overlay_build.verify_data_symbols(
+                            self.root, [self.root / "data.o"], self.root / "module.elf"
+                        )
+
+    def test_duplicate_data_owners_are_rejected_even_if_the_linker_coalesces(self) -> None:
+        with patch.object(overlay_build, "object_symbols", side_effect=[
+            {"state": ".bss"}, {"state": "*COM*"}, {"state": "*COM*"},
+        ]):
+            with self.assertRaisesRegex(
+                overlay_build.OverlayBuildError, "duplicate C data definition"
+            ):
+                overlay_build.verify_data_symbols(
+                    self.root, [self.root / "one.o", self.root / "two.o"],
+                    self.root / "module.elf",
+                )
+
+    def test_no_data_objects_need_no_symbol_inspection(self) -> None:
+        with patch.object(overlay_build, "object_symbols") as symbols:
+            overlay_build.verify_data_symbols(self.root, [], self.root / "module.elf")
+        symbols.assert_not_called()
+
+    def test_symbol_reader_distinguishes_global_local_and_common(self) -> None:
+        output = (
+            "file: file format elf32-littlemips\n\nSYMBOL TABLE:\n"
+            "00000000 l    df *ABS*\t00000000 \n"
+            "00000000 g       .data\t00000000 state\n"
+            "00000000 l       .data\t00000000 local\n"
+            "00000000  w    O .data\t00000004 weak_state\n"
+            "00000004       O *COM*\t00000004 common\n"
+            "80160000 g       *ABS*\t00000000 alias\n\n"
+        )
+        with (
+            patch.object(overlay_build, "tool", return_value=Path("objdump")),
+            patch.object(overlay_build.subprocess, "run", return_value=
+                         subprocess.CompletedProcess([], 0, output, "")),
+        ):
+            self.assertEqual(
+                overlay_build.object_symbols(self.root, self.root / "data.o"),
+                {"state": ".data", "weak_state": ".data",
+                 "common": "*COM*", "alias": "*ABS*"},
+            )
+
+    def test_symbol_inspection_errors_are_explicit(self) -> None:
+        for status, output in (
+            (1, ""), (0, "not an object"), (0, "SYMBOL TABLE:\nmalformed\n"),
+            (0, "SYMBOL TABLE:\n00000000 g       .data\t00000000 \n"),
+        ):
+            with self.subTest(status=status, output=output):
+                with (
+                    patch.object(overlay_build, "tool", return_value=Path("objdump")),
+                    patch.object(overlay_build.subprocess, "run", return_value=
+                                 subprocess.CompletedProcess([], status, output, "failure")),
+                ):
+                    with self.assertRaises(overlay_build.OverlayBuildError):
+                        overlay_build.object_symbols(self.root, self.root / "data.o")
 
 
 if __name__ == "__main__":
