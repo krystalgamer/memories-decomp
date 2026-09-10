@@ -453,10 +453,38 @@ here: `D_8009AFA6` below and `D_8009B058` above are each only ever declared
 and neither is defined in any C source. Both resolve from linker symbols,
 exactly as the run itself does.
 
-That is the real state of this neighbourhood: nothing adjacent to the run is
-owned by a translation unit, so there is no anchor to interpolate between and
-no window to place the owner inside. Text order will only start constraining
-this range once some symbol near it is genuinely defined in C.
+That is the real state of this neighbourhood at symbol level: nothing
+adjacent to the run is defined by a translation unit, so there is no anchor
+to interpolate between at that granularity.
+
+Placement, though, is not what blocks this range, and the split template says
+so. The blob is bracketed by two entries that already own `.sdata`:
+`save_data_mask_state` at rom `0x8B764` below it and
+`ai_script_source_line_format` at `0x8B884` above, with the 276 bytes running
+from `0x8B76C` to `0x8B880` between them. Both of those owners are
+**data-only** units rather than text units, and a data-only unit takes its
+position from its place in the split template rather than from a text
+address. So the interior of this blob can be owned exactly the way its two
+neighbours already are, by inserting a subsegment at the right rom offset --
+the same shape as the `.data` carves that have gone through byte-exact
+before.
+
+What remains difficult is the byte layout rather than the position. The
+measured failure at `0x8009AF2A` came from a one-byte object followed by a
+two-byte one, where the section's four-byte alignment would not reproduce the
+hole retail leaves. That argues for starting with a sub-run that is uniformly
+word-sized and word-aligned, where no packing question arises:
+`0x8009AFAC`-`0x8009AFE3` is fourteen consecutive four-byte labels, 56 bytes
+with no sub-word object in it.
+
+That sub-run also has a legible identity, which makes it a better first
+target than its address suggests. Its words carry GPU primitive command
+bytes in the high position over grey colour fields -- `0x24`, `0x2C`, `0x34`
+and `0x3C` are the textured-polygon opcodes -- and the run ends with an `0xE1`
+draw-mode word. Read with its sixty-seven callers, all of them model
+handlers, this is the renderer's table of prototype GPU packets: each handler
+stamps out primitives from these templates. That is a naming basis, not just
+a size and an address.
 
 Two things follow for anyone picking this up. The run is worth owning,
 because it is coherent, entirely game-owned, and the single largest such
