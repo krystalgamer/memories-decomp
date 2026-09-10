@@ -583,6 +583,47 @@ So: an arity mismatch is a measurement, not a reading. Try the definition's
 signature at the call sites and build. It costs one build and settles which
 of the two directions this instance is.
 
+### A volatile that merely differs can still be the whole match
+
+`notes/build.md` sorts a declaration that disagrees with its definition into
+three cases: one that agrees is inert and belongs in the owning header, one
+that merely differs may still be inert and is worth a build to find out, and
+one that encodes a different view of the address cannot be centralized at all.
+The middle case is an invitation to measure, not a presumption that the
+spelling is decoration, and it lands on both sides.
+
+`main_services.c` is the published example of it being decoration: three
+`extern volatile` declarations argued the volatile held an init block in
+source order, and dropping them built byte-identical.
+
+`file_transfer_runtime.c` is the same shape and the opposite answer. It
+declares
+
+    extern volatile u16 D_8009B124;
+    extern volatile s32 D_8009B0E8;
+
+where `file_stream.c` declares both without the qualifier, and no header owns
+either symbol though `file_transfer.h` already owns the rest of that family.
+Dropping the two qualifiers does not merely change the encoding; the
+executable comes out four bytes short and fails on size alone. The runtime
+writes each symbol twice in a row across a test:
+
+    if (D_8009B124 != 0) {
+        D_8009B124 = 0;
+    }
+    ...
+    D_8009B124 = 1;
+
+Without `volatile` GCC is entitled to drop the store that the following one
+overwrites, and it takes it. So the two spellings are two genuine views, and
+centralizing them needs the guarded two-arm form rather than one flat
+declaration.
+
+The rule to carry: a qualifier difference is worth one build in either
+direction, and the build is the whole of the evidence. Neither "it is only a
+qualifier" nor "the qualifier must be there for a reason" survives contact
+with the two cases above.
+
 ## Compiler experiments
 
 - Keep probe sources, generated objects, and diffs under `tmp/`.
