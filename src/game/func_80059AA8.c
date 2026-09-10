@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model.h"
+#include "func_80059AA8.h"
 
 int func_80059AA8(int index, int value)
 {

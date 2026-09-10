@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "model.h"
 #include "model_graphics_state.h"
+#include "func_8004E7B0.h"
 
 /* These tentative definitions are a codegen input: changing them to extern
  * shortens this function by four bytes. model_graphics_state.c supplies the
