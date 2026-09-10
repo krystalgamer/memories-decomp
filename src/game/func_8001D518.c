@@ -13,7 +13,7 @@ DisplayObject *func_8001D518(DisplayObject *source)
     DisplayObject *object = D_8009B1F8;
     if (object == 0) {
         object = func_800400AC(func_8004002C(), 2);
-        func_80040468(object, 4, 3, 8, 0xB, 0x1F0);
+        func_80040468((u8 *)object, 4, 3, 8, 0xB, 0x1F0);
         object->field_6A = source->field_0A;
         func_800428EC(object, 1);
         object->update = (DisplayObjectCallback)func_80015DB8;
