@@ -6865,7 +6865,6 @@ in the caller that produces it.
     func_80023D08          def 2 (func_80023D08.c)  <-  decl 1 in duel_cursor_status.c
     func_8004036C          def 1 (func_8004036C.c)  <-  decl 0 in screen_runtime.c
     func_80043230          def 4 (display_object_interpolation.c)  <-  decl 3 in mem_card_dialog_runtime.c
-    func_80043328          def 2 (func_80043328.c)  <-  decl 0 in func_80043960.c
     func_80060B38          def 2 (func_80060B38.c)  <-  decl 0 in func_80061008.c
 
 **A caller declares MORE arguments than the definition takes** (14 pairs).
