@@ -2,6 +2,7 @@
 #include "scene_script.h"
 #include "../psyq/libgte.h"
 #include "trig_constants.h"
+#include "func_8002FED8.h"
 
 void func_8002FED8(u8 *state, u8 *color)
 {

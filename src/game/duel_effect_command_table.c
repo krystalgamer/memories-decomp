@@ -21,6 +21,7 @@
 #include "text_control_commands.h"
 #include "text_handle_choice_command.h"
 #include "text_start_campaign_duel.h"
+#include "display_object_fade_callbacks.h"
 
 /* Initialized data at 0x80090EAC: the duel effect command table.
  *
@@ -33,13 +34,8 @@
  * Forty-seven entries, all matching C, and almost all of them live in the
  * duel_effect_* sources, which is where the name comes from.
  *
- * The prototypes still written out below belong to units that have no header
- * yet. Each one that has gained a header comes through the include above
- * instead, and this block shrinks as the rest follow. */
-
-void func_80039AFC(u8 *);
-void func_80039BE0(u8 *);
-void func_80039C94(u8 *);
+ * Every entry now comes through its unit's header in the include block
+ * above. */
 
 void (*D_80090EAC[])(u8 *) = {
     func_80037DA4,

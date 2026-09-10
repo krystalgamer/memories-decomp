@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "../overlays/free_duel/free_duel.h"
 #include "../overlays/overworld/campaign_map.h"
-#include "duel_transition_color.h"
+#include "func_800339D0.h"
 #include "file_transfer.h"
 #include "save_data.h"
 #include "main_frame.h"

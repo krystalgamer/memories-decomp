@@ -17,6 +17,7 @@
 #include "func_80031EE4.h"
 #include "duel_effect.h"
 #include "func_800330BC.h"
+#include "build_deck_pane_input.h"
 
 void func_8003353C(u8 *p) {
     BuildDeckTransitionState *state = (BuildDeckTransitionState *)p;

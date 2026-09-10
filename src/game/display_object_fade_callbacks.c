@@ -2,6 +2,7 @@
 #include "graphics_frame.h"
 #include "display_object_fade.h"
 #include "func_80039AD4.h"
+#include "display_object_fade_callbacks.h"
 
 extern volatile s32 D_8009B0D8_volatile asm("D_8009B0D8");
 
