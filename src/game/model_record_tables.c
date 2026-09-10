@@ -1,17 +1,8 @@
 #include "../types.h"
 #include "display_object_stream_state.h"
 #include "model_record_tables.h"
-
-/* Neither of these has a header. Both prototypes are taken from their
-   definitions, in func_8004149C.c and func_80041534.c.
-
-   display_object.h mentions func_80041534, but in prose inside a
-   comment rather than as a declaration -- the same shape that hid
-   func_800339D0 on #3318. Here the table caught it, because an
-   initializer needs a declared constant; a plain call would have taken
-   an implicit declaration and compiled without a word. */
-int func_8004149C(u8 *p, u8 *t);
-int func_80041534(u8 *object, u8 *data);
+#include "func_8004149C.h"
+#include "func_80041534.h"
 
 /* Initialized data at 0x80090FEC through 0x80091508, previously a generated
    blob (#2602). Three tables, contiguous, so one translation unit.

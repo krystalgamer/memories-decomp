@@ -6,7 +6,7 @@
 #include "../types.h"
 #include "func_800179F4.h"
 #include "graphics_frame.h"
-#include "duel_transition_color.h"
+#include "func_800339D0.h"
 #include "save_data.h"
 #include "main_frame.h"
 #include "fade.h"
