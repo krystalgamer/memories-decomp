@@ -6,8 +6,6 @@
 #include "../unmatched.h"
 #include "func_8005F91C.h"
 
-extern u8 D_800F5788[];
-
 void func_8005F91C(s32 arg0, u8 *arg1, u8 *arg2, s32 arg3) {
     u8 *p;
     u8 *q;
@@ -37,7 +35,7 @@ void func_8005F91C(s32 arg0, u8 *arg1, u8 *arg2, s32 arg3) {
 
 m0:
     func_80059EBC(-1);
-    D_8009B074 = D_800F5788;
+    D_8009B074 = (u8 *)D_800F5788;
     D_8009B078 = 0;
     if (arg1 == (u8 *)0 && arg2 == (u8 *)0 &&
         (arg3 == 0 || arg3 == 0x4000)) {
@@ -48,7 +46,7 @@ m0:
 
 m1:
     if (D_8009B078 < 0xA) {
-        r = &D_800F5788[D_8009B078 * 0x28];
+        r = (u8 *)&D_800F5788[D_8009B078];
         if (arg1 != (u8 *)0) {
             *(ModelEffectEndpoint *)r = *(ModelEffectEndpoint *)arg1;
         } else {
@@ -71,7 +69,7 @@ m1:
     return;
 
 m2:
-    q = D_800F5788;
+    q = (u8 *)D_800F5788;
     for (i = 0; i < D_8009B078; i++) {
         p = q;
         q += 0x28;
