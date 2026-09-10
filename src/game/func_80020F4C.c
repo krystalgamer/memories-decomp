@@ -21,6 +21,7 @@
 #include "fade.h"
 #include "../unmatched.h"
 #include "duel_side_state.h"
+#include "duel_package.h"
 #include "func_80020F4C.h"
 #include "duel_screen_tables.h"
 
@@ -36,10 +37,10 @@
    Afterwards the low nibble of D_8009B174 is the step and bit 0x80 marks
    "step already entered":
 
-     1  wait for the DMA/queue flags to drain, then stream the per-opponent
-        voice clip (0x1D33 + id*3) into the scratch below gDuel_awRitualData
-        and start the track; once it has been kicked off, wait again and
-        play D_8009B1E0.
+     1  wait for the DMA/queue flags to drain, then reload the selected
+        three-sector duelist data block into 0x801781D8. The adjacent
+        func_800472A8 call handles D_8009B1E0 separately; once the transfer
+        has drained, SD_BGMPlay starts that track.
      2  spawn the seven confetti sprites from the D_80090928 (real opponent)
         or D_80090960 (no opponent) table row for the winning side, each on
         func_80020D4C with a random radius and orbit key, and remember them
@@ -132,8 +133,11 @@ void func_80020F4C(void)
             if (id < 0) {
                 id = 1;
             }
-            File_RequestAsyncTransfer(0, 0, id * 3 + 0x1D33, 3, 0, 0,
-                                      (s32)((u8 *)slots - 0x1800));
+            File_RequestAsyncTransfer(
+                0, 0,
+                id * DUELIST_DATA_SECTOR_COUNT + DUELIST_DATA_FIRST_SECTOR,
+                DUELIST_DATA_SECTOR_COUNT, 0, 0,
+                (s32)((u8 *)slots - 0x1800));
             func_800472A8(D_8009B1E0);
         } else {
             if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
