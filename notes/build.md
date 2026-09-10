@@ -1018,6 +1018,45 @@ target. It is not, and the reasons generalise:
   after `gFreeDuel_bScreenFlags` are non-zero and uncharacterised. Owning the
   named prefix would still leave most of the range behind.
 
+#### Why the overlay blobs resist carving
+
+The resident ranges were blocked by placement and by byte layout. The overlay
+blobs have a different and more basic obstacle, and it took two candidates to
+see it.
+
+`password` looks like the most tractable of the five. Its bulk is four
+identical 1464-byte objects at regular stride, uniformly `.word`, mostly
+zero, and referenced by nothing anywhere in the tree -- no source, no
+generated assembly, no configuration. Its head holds two ranges that look
+better still: `D_8016D440` is 36 words and `D_8016D4DC` is 45, both entirely
+zero, and both have real consumers in `shop.c`.
+
+Both are traps, for the same reason.
+
+`shop.c` declares `extern u8 *D_8016D440[]` and walks it to store **four**
+objects -- sixteen bytes -- and the overlay's own function notes describe
+exactly that, four decoration objects one per password digit. But the label
+runs 144 bytes, because that is the distance to the next *named* symbol.
+`D_8016D4DC` is worse: C declares it `u16`, and the label spans 180 bytes.
+
+So in these blobs a label's extent is the gap to the next name, not the size
+of the object it names. The regions are sparsely named, so most labels look
+far larger than what they actually label, and carving by label extent would
+invent object sizes that contradict the declarations already in the tree.
+
+That is the same shape as `free_duel`'s `gFreeDuel_pThumbWidget`, eight bytes
+of label against a four-byte pointer in two `asm()` aliases. One instance
+looked like a quirk of that symbol; three make it the rule.
+
+The screening consequence is worth stating plainly. For resident `.sdata` a
+uniformly word-sized run was sufficient evidence to carve, and it worked
+first try. For overlay data it is **not** sufficient: a run can be uniformly
+word-sized, entirely zero, and still unsafe, because the size the label
+implies may be unrelated to the object. The extra check is to find a
+consumer's declared size and require it to agree with the label extent, or
+else to account for the unnamed remainder explicitly. None of the candidates
+examined here passes that check.
+
 Two method corrections, because each cost me a wrong number in this same
 survey.
 
