@@ -23,7 +23,7 @@ void Dialog_UpdateChoice(u8 *p) {
     if ((p[0x51] & 0x80) == 0) {
         p[0x51] = p[0x51] | 0x80;
         e = func_800400AC((s32)func_8004006C(), 4);
-        func_800427DC((u8 *)e, 1);
+        func_800427DC(e, 1);
         func_80042918(e);
         func_800428EC((u8 *)e, (s8)(*(*(u8 **)(p + 0x28) + 0x16) + 1));
         *(DisplayObject **)(p + 0x30) = e;

@@ -48,7 +48,7 @@ void func_800391E4(u8 *p) {
             func_8004036C(*(void **)(p + 0x2C));
         }
         e = func_800400AC(func_8004002C(), 4);
-        func_800427DC((u8 *)e, 1);
+        func_800427DC(e, 1);
         *(s32 *)(p + 0x2C) = (s32)e;
         e->attribute = e->attribute | (GsALON | GsATWO);
         func_80042918(e);
