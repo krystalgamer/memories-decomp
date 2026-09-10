@@ -3,14 +3,13 @@
 #include "model.h"
 #include "file_transfer.h"
 #include "../unmatched.h"
+#include "file_transfer_steps.h"
 
 extern u8 D_800114F8[];
 extern u8 gFile_szModelMrgPath[];
 
 void SD_KeyOffVoiceSlots(void);
 void func_8004CB0C(s32 slot, s32 arg1, s32 arg2, s32 arg3);
-void func_800577B0(void);
-void func_80057544(void);
 
 /* Starts the asynchronous transfer that fills one model slot with a monster
  * merge record, and records the slot's display properties while the request is
