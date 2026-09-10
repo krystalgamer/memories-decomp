@@ -2,10 +2,9 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 #include "sound_spatialization.h"
+#define SD_START_SEQUENCE_TRACKS_PLAYBACK_CALLS
+#include "sound_sequence_timing.h"
 
-extern void SD_StartSequenceTracks(SDSecondaryState *);
-/* Preserve the no-argument call form used by the playback-start variant. */
-extern void SD_StartSequenceTracks_no_arg(void) asm("SD_StartSequenceTracks");
 extern s32 SD_GetSequenceStatus(void);
 
 int func_80049A64(void *input, short value)

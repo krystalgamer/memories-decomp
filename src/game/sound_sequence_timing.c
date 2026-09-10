@@ -2,6 +2,7 @@
 #include "sound.h"
 #include "sound_sequence_marker_scan.h"
 #include "sound_sequence_reader.h"
+#include "sound_sequence_timing.h"
 #include "sound_sequence_values.h"
 
 int SD_OpenSequenceTrack(SDSequenceTrack *entry)
