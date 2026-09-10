@@ -27,7 +27,7 @@ void func_8003AC48(u8 *p)
         y = h[0x67];
         func_8003A440((u8 **)p, (GsALON | GsAONE), x);
         d = p + 0xC;
-        func_8003A1EC(p, d, y);
+        func_8003A1EC(p, (u8 **)d, y);
         func_8003A440((u8 **)d, (GsALON | GsATWO), x - 1);
         *(s16 *)(p + 0x40) = 0x80;
     }
