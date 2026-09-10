@@ -6,6 +6,7 @@
 #include "model_slot_state_updates.h"
 #include "func_80057AF4.h"
 #include "model_effect_state.h"
+#include "func_800556E8.h"
 
 /* Per-frame animation tick for a model slot. When the slot is active and
    has an animation loaded it takes the current animation's length and this
