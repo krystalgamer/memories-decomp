@@ -37,7 +37,6 @@ s16 gGraphics_sViewportY __attribute__((section(".sbss"))) = 0;
 extern u8 D_800FE048[];
 extern u8 D_8009B141 __attribute__((section(".data")));
 extern u8 D_8009AFA2 __attribute__((section(".data")));
-extern u8 D_800A5768[];
 extern u32 *D_800E9D90[4];
 
 /* Waits for the current GPU/VBlank boundary and publishes the bounded number
