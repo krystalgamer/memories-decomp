@@ -114,8 +114,8 @@ conflicts, which stay as they are, and `0x8007E7F0` remains ambiguous between
 `DsControl` and `DsControlB`.
 
 Four game sources already called three of these by address. `file_stream.c`
-and `main_run_boot_sequence.c` call `DsInit`, and `file_transfer_control.c`
-and `file_cd_transfer.c` issue every loader command through `DsCommand` and
+and `main_run_boot_sequence.c` call `DsInit`, and `file_transfer_runtime.c`
+issues every loader command through `DsCommand` and
 `DsPacket`. Their private prototypes are gone in favour of `libds.h`, with
 `DslLOC *` and `DslCB` casts at the call sites. The build stays byte-identical.
 
