@@ -61,7 +61,8 @@ extern DisplayObject *D_8009B388;
  * than in a header of its own because this is the header that already owns
  * every global it writes.
  *
- * main_run_frontend_menus.c is the only caller and had the only declaration. */
+ * Main_RunOptionsMenu (src/candidates/func_8002D6C8.c) is the only caller;
+ * main_run_frontend_menus.c, which held it, had the only declaration. */
 void Options_Init(void);
 s32 Options_Update(void);
 

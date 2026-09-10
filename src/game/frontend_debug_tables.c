@@ -14,9 +14,9 @@
    padding, because GCC aligns a char array to one byte. The six would then
    pack tightly and move everything after them.
 
-   D_80090CDC and D_80090CF4 have no C declaration anywhere. func_80030998.c
-   reaches both through R_MIPS_HI16 and R_MIPS_LO16 .reloc directives inside
-   an inline-asm block, so their names must survive exactly even though
+   D_80090CDC and D_80090CF4 have no C declaration anywhere. func_80030998,
+   which is generated assembly again, reaches both through R_MIPS_HI16 and
+   R_MIPS_LO16 relocations, so their names must survive exactly even though
    nothing declares them. */
 u8 D_80090CB4[0x28] = "          SE= %04X BGM=%03X XA= %03X\n";
 u8 D_80090CDC[0x18] = "          MSG = %03X\n";

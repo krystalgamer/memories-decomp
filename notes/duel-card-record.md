@@ -231,7 +231,7 @@ Matching
 [`func_8002348C`](../src/game/duel_field_display_objects.c) maps the
 source's row/column through the active side's `D_800907D8` field view and
 passes the resulting card-record index to
-[`func_80023144`](../src/game/duel_field_display_objects.c). This is a field-card text
+[`func_80023144`](../src/candidates/func_80023144.c). This is a field-card text
 request path, not by itself evidence for every button or visibility mode.
 
 The constructor clears `D_8009B34E` and `D_8009B355` on entry. For an
@@ -250,7 +250,7 @@ variants; their full scripts and user-visible meanings are not decoded
 by this constructor alone.
 
 When source byte `+0x17` is `3` and `D_8009B34E` is nonzero, a separate
-call to [`func_80023090`](../src/game/duel_field_display_objects.c)
+call to [`func_80023090`](../src/candidates/func_80023090.c)
 supplies `D_8009B320`. That helper maps its guardian comparison to `4`
 for neutral, `1` for negative, or `6` for positive. The selector is
 separate from the two pre-matchup stat words, not an extra term in them.
@@ -305,7 +305,7 @@ distinct storage and must not be conflated with the
 [Millennium Eye tutorial's resource-index edits](modding-tutorial-evidence.md#millennium-eye-opponent-card-display).
 
 The same active-side byte also gates a text-selector override in
-[`func_80023144`](../src/game/duel_field_display_objects.c). For an occupied field
+[`func_80023144`](../src/candidates/func_80023144.c). For an occupied field
 record on the acting side, zero forces `D_8009B34E = 2`, including after
 the face-down path selected `3`. A nonzero byte leaves that override
 disabled; this does not decode what either text variant displays.

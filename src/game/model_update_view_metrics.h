@@ -28,7 +28,7 @@ struct _GsCOORDUNIT;
  *
  * All three are halfwords.  Every read casts through `*(s16 *)&` or
  * `*(u16 *)&` even in the files that declared the base as `u8`, and
- * model_scene_setup.c assigns them directly as `unsigned short`, so the
+ * func_80052D2C.c assigns them directly as `unsigned short`, so the
  * byte-wide declarations were a base for the casts rather than a claim about
  * the object.
  */

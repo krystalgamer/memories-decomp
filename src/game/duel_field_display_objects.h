@@ -5,8 +5,9 @@
 #include "display_object.h"
 #include "duel_grid.h"
 
-/* One field-grid source record, as the three functions in
- * duel_field_display_objects.c reach it. The two sources that unit was split
+/* One field-grid source record, as func_8002348C and func_800234E4 in
+ * duel_field_display_objects.c and func_80023144
+ * (src/candidates/func_80023144.c) reach it. The two sources that unit was split
  * across described it twice and disagreed in three places; matched loads and
  * stores settle all three.
  *
@@ -66,5 +67,9 @@ void func_8002348C(void);
 #else
 void func_8002348C(DuelFieldDisplaySource *source);
 #endif
+
+/* Still called from matching C, but a candidate now (#3859):
+ * src/candidates/func_80023144.c. */
+void func_80023144(DuelFieldDisplaySource *source, s32 index);
 
 #endif

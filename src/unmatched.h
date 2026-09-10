@@ -13,11 +13,15 @@
  * WHAT GOES HERE
  *
  * A function or global whose status in config/slus_01411/functions.csv is
- * unmatched_asm, once its consumers are known to agree. There are 52 such
- * functions today. Thirty-nine have caller-visible contracts here. Three
- * remain local at seven sites, and all three are the deliberate disagreements
- * listed below rather than duplication waiting to be moved. The remaining ten
- * have no executable reference from matching C, so this header does not invent
+ * unmatched_asm, once its consumers are known to agree. There are 170 such
+ * functions today. Forty have their declarations here. Ninety-eight are
+ * build-integrated candidates that keep theirs in the header of the unit they
+ * came from: src/candidates/ still gives each of them a defining C
+ * translation unit, so that header is a home in the sense this one is not
+ * (see the #3859 section at the end). Three remain local at seven sites, and
+ * all three are the deliberate disagreements listed below rather than
+ * duplication waiting to be moved. The remaining twenty-nine have no
+ * executable reference from matching C, so this header does not invent
  * signatures for them.
  *
  * Hand-written assembly belongs here on the same terms. The status differs but
@@ -511,5 +515,20 @@ int func_8006930C();
 int func_800695A4();
 int func_8006988C();
 int func_80069B40();
+
+/* A function #3859 moved back to generated assembly that has nowhere else
+ * to be declared. The others it moved became build-integrated candidates
+ * and keep their declarations in the header of the unit they came from,
+ * because src/candidates/ still gives them a defining C translation unit and
+ * the contract check accepts that home for a candidate.
+ *
+ * func_800291E0 builds the display objects for slot `index` of the
+ * D_800EA0E8 effect-resource records and returns the first of them. Its
+ * source was only ever the target's own words in an asm block, so there is no
+ * candidate, and u8 * is what its three callers agreed on rather than a
+ * recovered type; func_800283F4.c casts the result to DisplayObject *, which
+ * is the closest thing to evidence there is. The password overlay's shop.c
+ * casts it to PasswordCardPreviewView *, a fourth view of the same object. */
+u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
 
 #endif

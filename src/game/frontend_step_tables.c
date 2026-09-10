@@ -14,7 +14,9 @@
  * It picks between them on D_8009B2F0 and indexes the winner with
  * `D_8009B2EB & 0x1F`. Both are written here rather than resolved out of the
  * blob at 0x80090BA8 because every entry is a function this tree already
- * names, and all twenty-three are matching C.
+ * names. All but two of the twenty-three are matching C: func_80030998 is
+ * generated assembly and func_80030D5C is a candidate
+ * (src/candidates/func_80030D5C.c).
  *
  * The two are adjacent and that is load bearing. D_80090D7C holds only two
  * entries while the index mask permits thirty-two, so an index above 1 runs
@@ -24,7 +26,8 @@
  * are defined separately, in this order, exactly as the image has them.
  *
  * What this does NOT claim: the tables are attributed to the frontend
- * because their entries live in frontend_scene_states.c, func_80030FA0.c and
+ * because their entries live in frontend_scene_states.c, func_80030E30.c,
+ * func_80030FA0.c and
  * their neighbours in the 0x80030000 range, not because anything in the tree
  * names them. The state byte they index, D_8009B2EB, is also written by the
  * memory card paths, so this is not evidence that the tables are

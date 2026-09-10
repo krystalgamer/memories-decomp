@@ -68,7 +68,7 @@ typedef struct DisplayObject {
 
        The name is not taken, because four other consumers treat it as a bit
        field rather than a depth: duel_card_effects.c adds D_8009B1D0 << 14,
-       duel_field_effect_steps.c adds step * 0x3000, and func_80040588.c or's
+       src/candidates/func_800260D0.c adds step * 0x3000, and func_80040588.c or's
        it with 0x10000, 0xF0000 and 0x30000 into a mode word. Taking one
        consumer's reading for the shared record is the mistake 0x6A avoids. */
     u16 field_14;                  /* 0x14 */
@@ -281,8 +281,8 @@ typedef struct DisplayObject {
 
        For others it holds a second callback: display_object_updates.c calls
        through it as void (*)(u8 *, s32), and dialog_transition.c,
-       func_800179F4.c and func_8002ABB4.c each store a function's address
-       here.
+       src/candidates/func_800179F4.c and func_8002ABB4.c each store a
+       function's address here.
 
        Neither reading governs, so the offset is the name. s32 is the spelling
        that serves both: the callback writers in this file already cast the
@@ -293,10 +293,11 @@ typedef struct DisplayObject {
     /* The last unnamed word of the tail, and read as incompatibly as 0x4C
        just above it, so the offset is again the name.
 
-       func_800179F4.c stores a pointer to another display object here and
-       Duel_DrawLifePointsAndDeckCounts loads it back. func_80042824 in
-       display_object_helpers.c writes the colour 0x00808080, as the fourth of
-       six words at stride 0xC -- 0x2C, 0x38, 0x44, 0x50, 0x5C, 0x68. That is
+       src/candidates/func_800179F4.c stores a pointer to another display
+       object here and Duel_DrawLifePointsAndDeckCounts loads it back.
+       func_80042824 in display_object_helpers.c writes the colour 0x00808080,
+       as the fourth of six words at stride 0xC -- 0x2C, 0x38, 0x44, 0x50,
+       0x5C, 0x68. That is
        a different run from the stride-8 one described at 0x4C, and the two
        agree only at 0x2C and 0x44, which is why neither run's reading can be
        pushed onto the whole tail. func_80041534 advances it by 4;
@@ -310,10 +311,10 @@ typedef struct DisplayObject {
        under the same limit: DuelEffect_UpdateObjectLayout writes 0x50 and
        0x52 as the last of its six x/y pairs. The word view stays for every
        user the comment above lists, and the two callers that reach the word
-       by name spell it .word: func_800179F4.c, which stores another object's
-       address here, and Duel_DrawLifePointsAndDeckCounts, which loads that
-       address back. Those two are why the word view is s32 rather than
-       unsigned. */
+       by name spell it .word: src/candidates/func_800179F4.c, which stores
+       another object's address here, and Duel_DrawLifePointsAndDeckCounts,
+       which loads that address back. Those two are why the word view is s32
+       rather than unsigned. */
     union {
         s32 word;
         struct {

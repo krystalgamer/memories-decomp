@@ -630,7 +630,8 @@ void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
 void func_8003FF88(u32);
 void func_8003FFB4(u32);
 /* Two per-frame sweeps over the runtime state at D_8009B458, called together
-   by sound_secondary_commands.c and sound_sequence_runtime.c. func_8004AAFC
+   by SD_SequenceTimerCallback (src/candidates/func_8004B734.c) and
+   sound_sequence_runtime.c. func_8004AAFC
    walks the 0x28-byte voice records and issues the key-off masks;
    func_8004C84C counts down each active secondary object's field_001E and
    clears entries that are inactive or out of channel range. Both took the
@@ -642,7 +643,7 @@ void func_8004C84C(void);
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
    its position; func_8004A43C refreshes one secondary object's pitch;
    func_8004A518 rebuilds the voice tables; func_80046A08 dispatches on
-   g_SDValue->field_003C. sound_secondary_playback.c calls the reset and
+   g_SDValue->field_003C. func_80049BAC.c calls the reset and
    rebuild functions back to back. */
 void SD_ResetSequenceTracks(void);
 void func_8004A43C(SDSecondaryObject *object, s32 force);
@@ -651,7 +652,8 @@ void func_80046A08(void);
 
 /* Sets the live secondary-object count in the 0x510 field of *D_8009B458,
    clamping to 1 .. SD_SECONDARY_OBJECT_COUNT and returning 0xFF when the byte
-   is zero or out of range. sound_voice_data.c is the only caller, passes the
+   is zero or out of range. func_80048F14 (src/candidates/func_80048F14.c)
+   is the only caller, passes the
    constant 0x14, and discards the result; its local extern spelled this
    `void func_80049600(s32)`, disagreeing with the definition on both the
    return type and the parameter's signedness. */
@@ -672,7 +674,7 @@ s32 func_80049138(s16 arg0, s32 arg1);
 /* The third export of sd_sequence_tracks.c, joining its two siblings above.
    It walks the track records from D_8009B458 for track_count entries and
    returns 1 as soon as it finds one whose ended flag is not 1, or 3 when
-   every track has ended. sound_secondary_playback.c is the only caller and
+   every track has ended. func_80049EC8.c is the only caller and
    its local extern already agreed with this.
 
    The 3 is the value func_80049F50 promotes into the secondary path's state
@@ -681,7 +683,8 @@ s32 SD_GetSequenceStatus(void);
 
 /* func_80049F50 reports the secondary path's state byte, promoting a
    SD_GetSequenceStatus of 3 into it on the way. Its two callers disagree about
-   the return width and the narrower one is right to: sound_runtime.c compares
+   the return width and the narrower one is right to: SD_UpdateRuntime
+   (src/candidates/func_80045F3C.c) compares
    the result rather than storing it, so the narrowing has to be materialised
    and the sll/sra pair it produces is retail's -- widening that caller to the
    definition's s32 drops eight bytes. sound_output.c takes the definition's
@@ -720,8 +723,9 @@ void func_80049CB0(void);
 void SD_SetOutputType(s16);
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
  * fields of *D_8009B458 and refreshes the object volumes unless field_07E2 is
- * 2. sound_runtime.c is the only caller and passes the same value twice; it
- * declared this itself before, in the same s16 pair the definition takes. */
+ * 2. SD_UpdateFades (src/candidates/func_80045C98.c) is the only caller and
+ * passes the same value twice; it declared this itself before, in the same
+ * s16 pair the definition takes. */
 void func_80049F10(s16 first, s16 second);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);

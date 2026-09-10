@@ -173,7 +173,7 @@ size.
 
 ## SPU decoded data, reverb, and shutdown
 
-Matching `func_80045054` now imports the real `libspu.h` interface and calls:
+`func_80045054` (a candidate since #3859, src/candidates/func_80045054.c) imports the real `libspu.h` interface and calls:
 
 ```c
 SpuReadDecodedData(

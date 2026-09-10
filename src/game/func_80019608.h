@@ -4,7 +4,8 @@
 #include "../types.h"
 
 /* D_80090998 entry 6, the card-use presentation sequence. Reached when
- * duel_scene_update.c dispatches on `D_8009B23A & 0xF`, and it hands control
+ * func_80024200 (src/candidates/func_80024200.c) dispatches on
+ * `D_8009B23A & 0xF`, and it hands control
  * back by writing 5 into that word.
  *
  * On entry, while bit 0x8000 of D_8009B23A is clear, it latches the selected

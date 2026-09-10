@@ -116,7 +116,7 @@ or real-time duration is inferred from the phase byte.
 
 As everywhere in this module, one compiler profile covers the whole overlay,
 so a profile change does not mark this boundary. The two externally reached
-functions are the pair `main_run_frontend_menus.c` calls: init once and update
+functions are the pair `main_run_password_menu.c` calls: init once and update
 per tick. Every other function in the table is called or installed by that
 pair.
 
@@ -393,7 +393,7 @@ contains the caret callback it installs.
 
 The two callers of `NameEntry_PollCompletion` are
 [`name_entry_main.c`](name_entry_main.c) in this overlay and the resident
-`main_run_frontend_menus.c`; both take it through
+`Main_RunNameEntry` (`src/candidates/func_8002D62C.c`); both take it through
 [`name_entry_keyboard.h`](name_entry_keyboard.h) or their own extern, and
 neither reaches past it.
 

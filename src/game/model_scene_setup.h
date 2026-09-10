@@ -5,8 +5,8 @@
 
 /* Resets the model scene: clears the two counters at D_8009AF8E/D_8009AF90 and
  * the packed state words, and rebuilds the coordinate unit. Three units call it
- * to enter a scene, and main_run_credits.c reaches it from an asm block through
- * a .reloc rather than a call. */
+ * to enter a scene, and Main_RunCredits, which is generated assembly again,
+ * calls it from assembly. */
 void func_800530C4(void);
 
 /* Sets one model slot's properties. Variadic on purpose, and the arity is the
@@ -18,8 +18,8 @@ void Model_SetSlotProperties(s32 idx, ...);
 
 /* Clears the scene's 256-entry table to VRAM, resets the three transfer
  * channels and the model slot flags, and drops the scene counters. Like
- * func_800530C4 above it is also reached from main_run_credits.c through an
- * asm .reloc rather than a call, so that reference does not go through this
+ * func_800530C4 above it is also called from Main_RunCredits, which is
+ * generated assembly, so that reference does not go through this
  * declaration. */
 void func_800533D8(void);
 

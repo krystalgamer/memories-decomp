@@ -135,8 +135,8 @@ and the unnamed continuation values remain local to
 `frontend_debug_constants.c`. The resulting `.sdata` section is exactly 16
 bytes with two-byte alignment, and the complete executable matches.
 
-`D_8009AF44` and `D_8009AF46` remain relocation targets in the raw-word
-`func_80030998.c`; `D_8009AF4C` remains the start of the eight-byte mask block
+`D_8009AF44` and `D_8009AF46` remain relocation targets in `func_80030998`,
+which is generated assembly again; `D_8009AF4C` remains the start of the eight-byte mask block
 read by unmatched `func_80030294`.
 
 ## `0x8009AF88` is one C-owned model/graphics state block

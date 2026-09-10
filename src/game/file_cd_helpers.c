@@ -5,25 +5,6 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
-int File_Exists(int first, int second)
-{
-    register int result asm("$3") =
-        (int)DsSearchFile((DslFILE *)second, (char *)first);
-    register int output asm("$2") = -1;
-
-    if (result == 0) {
-        goto negative;
-    }
-    if (result != output) {
-        output = 0;
-        goto done;
-    }
-negative:
-    output = -1;
-done:
-    return output;
-}
-
 int func_8005C530(void)
 {
     int result = func_8005BE3C();

@@ -340,7 +340,13 @@ def validate_rows(
                 raise ExternalAttemptError(
                     f"{address:#010x}: invalid reference SHA-256"
                 )
-        if mode == "inline_refinement" and address not in matching_addresses:
+        # A function that matched only through pinned registers or inline asm
+        # goes back to assembly (#3859). Its refinement history is what showed
+        # the device was needed, so the rows stay, but none of them can be a
+        # match. Recording a new refinement still requires matching C.
+        if mode == "inline_refinement" and address not in matching_addresses and (
+            function["status"] != "unmatched_asm" or row["result"] == "matched"
+        ):
             raise ExternalAttemptError(
                 f"{address:#010x}: inline refinement requires matching C"
             )

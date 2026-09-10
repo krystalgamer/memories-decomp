@@ -94,7 +94,7 @@ select the flag; byte `id >> 3` uses mask `0x80 >> (id & 7)`.
 not write: an ordinary query returns zero or the selected mask, not always
 `1`. Adding modifier `0x8000` instead tests for a clear bit and returns
 normalized `0` or `1`.
-[`Library_UpdateCardUsedFlag`](../../src/game/library_update_card_used_flag.c)
+[`Library_UpdateCardUsedFlag`](../../src/candidates/func_8002CCE4.c)
 sets the bit by default and clears it with that modifier.
 
 The script and text handlers use `0x4000` to select a write rather than a
@@ -207,8 +207,8 @@ observations; these are not new emulator measurements.
 only populated stream-range entry plays frames 1 through 303 from the first
 3080 sectors of copy 0; no range selects the later copies.
 
-**Startup seeding.** Matching [`Main_Init`](../../src/game/main_init.c)
-calls [`func_80013154`](../../src/game/main_services.c), whose
+**Startup seeding.** The [`Main_Init`](../../src/candidates/func_80012B50.c) candidate
+calls the [`func_80013154`](../../src/candidates/func_80013154.c) candidate, whose
 graphics/input initialization ends with `srand(0x56)`. After that helper
 returns and `Sound_InitFrontend` runs, `Main_Init` calls
 `srand(0x55555555)`. The two seed values and this call order are code-backed.
@@ -423,7 +423,7 @@ type. The seventh is pane-specific: **New** puts recently acquired cards first
 in the trunk, while **Shuffle** assigns fresh random keys to the deck each
 time it is selected.
 
-The 16-entry recent-card history is not permanent. Matching `func_80032370`
+The 16-entry recent-card history is not permanent. `func_80032370`
 removes any listed card whose current trunk quantity is zero, then compacts the
 surviving IDs toward the front without changing their order. **New** therefore
 means a recent acquisition that is still represented in the trunk; moving the
@@ -784,9 +784,9 @@ this admits Magic (`20`) and Ritual (`22`). It stores the selected object in
 The retail jump-table entry at `0x80010158` sends that substate to
 `0x8001D1C4`. After its `D_8009B162` gate clears, the code at
 `0x8001D214..0x8001D218` selects **duel state 6**.
-Matching [`func_80024200`](../../src/game/duel_scene_update.c) dispatches
+The [`func_80024200`](../../src/candidates/func_80024200.c) candidate dispatches
 through `D_80090998[D_8009B23A & 0xF]`; the retail entry at `0x800909B0`
-maps state 6 to [`func_80019608`](../../src/game/func_80019608.c).
+maps state 6 to [`func_80019608`](../../src/candidates/func_80019608.c).
 That handler begins with the selected object and issues the later effect
 requests documented in §6.1. "Direct" describes this control-flow route, not
 zero-frame execution or guaranteed effect success: timing, transfer, and
@@ -795,7 +795,7 @@ branch, not a new runtime trace or an audit of every combination/AI path.
 
 The game does not read the card's text; it reads its **number**. The card-use
 presentation sequence
-[`func_80019608`](../../src/game/func_80019608.c) hands the id to a guard
+[`func_80019608`](../../src/candidates/func_80019608.c) hands the id to a guard
 [`func_80026BA4`] that accepts
 301–350, 651–700 and 721, converts it to an index, and a per-tick dispatcher
 [`func_80026B34`] looks that index up in a 104-byte table [`0x80090AD4`] to
@@ -991,7 +991,7 @@ For the ordinary battle outcomes, use those compared values:
   its identity and stars are revealed.
 
 The field-card text path prepares a separate **pre-matchup stat payload**.
-Matching [`func_80023144`](../../src/game/duel_field_display_objects.c) writes ATK and
+The [`func_80023144`](../../src/candidates/func_80023144.c) candidate writes ATK and
 DEF from `Duel_CalcCardStats` into the first two words at `D_801D5608` only
 for an occupied monster record. An opponent-dependent guardian adjustment
 is not added to those assignments; one request variant obtains a separate
@@ -1027,7 +1027,7 @@ bit `D_8009B26C & 0x40`.
 When that bit is clear, the handler sets it, writes `D_8009B0C0 = 1`, and
 calls the view/model setup helpers. The ordinary branch passes two
 successive eight-byte records at `D_800EF658` to
-[`Model_SetSlotProperties`](../../src/game/model_scene_setup.c)
+[`Model_SetSlotProperties`](../../src/game/func_80052D2C.c)
 for slots 0 and 1, then passes **the current terrain** (`gDuel_bTerrain`)
 to slot 2. A first record halfword of `0x309` instead selects the separate
 `func_80059C24` initialization path and sets mode bit `0x20`; it does not
@@ -1081,7 +1081,7 @@ successful check sets `D_8009B23A = 0xE`. This is a gated transition, not
 evidence that every action tests all win conditions or that presentation
 finishes in the same frame.
 
-The [duel dispatcher](../../src/game/duel_scene_update.c) and
+The [duel dispatcher](../../src/candidates/func_80024200.c) and
 [main loop](../../src/game/main_loop.c) use different tables. Their retail
 words connect the Exodia sequence to the animated-battle request:
 
@@ -1274,8 +1274,8 @@ bypass this particular increment; this does not establish their complete
 accounting, every other writer, or the effect of later card flips. It is
 static code evidence, not a new controlled trace.
 
-**When "pure magic" advances.** Matching
-[`func_80019608`](../../src/game/func_80019608.c) increments the current
+**When "pure magic" advances.** The candidate
+[`func_80019608`](../../src/candidates/func_80019608.c) increments the current
 side's byte `+0x05` in its initialization
 branch, before the later effect requests. The `0x8000` bit of
 `D_8009B23A` guards that branch: after it is set, subsequent polling calls
@@ -1283,7 +1283,7 @@ skip this increment. At `0x80019674..0x80019698`, the writer requires the
 card object's type byte `+0x68` to equal `0x14` (`CARD_TYPE_MAGIC`), rather
 than accepting every non-monster type.
 
-Matching [`func_80017F04`](../../src/game/func_800179F4.c) fills
+Matching [`func_80017F04`](../../src/game/func_80017DB4.c) fills
 that object byte from the card's packed type field, using
 `CARD_STAT_TYPE_SHIFT` and `CARD_STAT_TYPE_MASK`. The matching
 [`Duel_CalcRankScore`](../../src/game/duel_result_runtime.c) reads statistic

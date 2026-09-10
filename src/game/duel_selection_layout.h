@@ -36,8 +36,8 @@ extern u8 D_800E9F10[];
  *     D_8009B1B4 = D_800E9F48 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
  *
  * which is the same cursor assignment the D_800E9F10 callers make, just from
- * two records further in. duel_field_display_objects.c passes the same
- * expression to func_80023090.
+ * two records further in. func_80023144 (src/candidates/func_80023144.c)
+ * passes the same expression to func_80023090.
  *
  * The overlap is retail's, not an artefact of the port, and the two names
  * have to stay separate: func_8001BD88 and func_8001D670 each take the
@@ -53,14 +53,14 @@ extern u8 D_800E9F48[];
  * +8 (:154-156), then assigns it again and stores 0xAE at +0xC (:206-207);
  * func_8001B938 assigns `D_800E9F48 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE`
  * and stores a halfword at +0xC and bytes at +0x11, +0x12, +0x13, +0x18 and
- * +0x19 (func_8001B938.c:22-28), +0x11 and +0x12 again (:39-40), +0x10
- * (:45) and +0xF (:54), loading it back for each; func_80017034 loads it
- * through a DuelFieldCursor cast (func_80017034.c:12-13). Six functions
- * still in assembly, none with a profile in matching_c.json, also store or
- * load it: func_80018FEC.s:31 and :87, func_80019D18.s:32, func_8001BD88.s
- * (stores :35, :106, :720, :1140, :1369, :1394; loads :92, :501, :507,
- * :1150, :1227), func_8001D670.s (stores :56, :613, :753, :1409, :1439;
- * load :1412), func_8001F55C.s (stores :93, :183; load :96) and
+ * +0x19 (func_8001B938.c:37-42), +0x11 and +0x12 again (:53-54), +0x10
+ * (:59) and +0xF (:68), loading it back for each; func_80017034 loads it
+ * through a DuelFieldCursor cast (src/candidates/func_80017034.c:18-19). Six
+ * functions still in assembly, none with a profile in matching_c.json, also
+ * store or load it: func_80018FEC.s:31 and :87, func_80019D18.s:32,
+ * func_8001BD88.s (stores :35, :106, :720, :1140, :1369, :1394; loads :92,
+ * :501, :507, :1150, :1227), func_8001D670.s (stores :56, :613, :753, :1409,
+ * :1439; load :1412), func_8001F55C.s (stores :93, :183; load :96) and
  * func_800235C0.s:7.
  *
  * DuelCardPickCursor * because that view does cover every store. This
@@ -69,8 +69,8 @@ extern u8 D_800E9F48[];
  * +0x19. That is true of DuelFieldCursor and false of the record as a
  * whole: DuelCardPickCursor is 0x1A bytes and ends at 0x19 exactly, and
  * duel_card_pick_cursor.h already recorded that its col, row and status
- * agree with the narrower views. func_80017034.c still casts to the
- * narrow DuelFieldCursor at its one use.
+ * agree with the narrower views. src/candidates/func_80017034.c still casts
+ * to the narrow DuelFieldCursor at its one use.
  *
  * The store at +8 stays a cast: it writes a DuelHandSlot *, and giving
  * the record a pointer member there would raise its alignment to 4 and
@@ -89,7 +89,8 @@ extern DuelCardPickCursor *D_8009B1B4;
  *
  * Declared here because this header owns everything it touches: D_800E9F10
  * above, and the three size constants the walk is written in terms of.
- * func_800179F4.c is the only caller and held the only declaration. */
+ * func_800179F4 (src/candidates/func_800179F4.c) is the only caller, and
+ * its old func_800179F4.c held the only declaration. */
 void func_80017708(void);
 
 #endif

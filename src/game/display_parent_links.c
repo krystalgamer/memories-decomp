@@ -20,30 +20,3 @@ void func_80022F98(DisplayParent *parent, volatile DisplayObject *object)
     }
 }
 
-void func_80022FF0(DisplayParent *argument, s32 flag)
-{
-    register DisplayParent *parent asm("$19") = argument;
-    register int clear asm("$20") = flag;
-    register DisplayLinkEntry *a asm("$17");
-    register DisplayLinkEntry *b asm("$16");
-    register int i asm("$18");
-
-    a = parent->entries;
-    if (a != 0) {
-        i = 0;
-        b = (DisplayLinkEntry *)((u8 *)a + 4);
-        func_80022F98(parent, parent->base);
-        parent->base = 0;
-        do {
-            func_80022F98(parent, a->object);
-            func_80022F98(parent, b->object);
-            if (clear) {
-                a->object = 0;
-                b->object = 0;
-            }
-            b++;
-            i++;
-            a++;
-        } while (i < DUEL_FIELD_ROW_SIZE);
-    }
-}

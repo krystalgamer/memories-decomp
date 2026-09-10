@@ -57,8 +57,9 @@ void *func_800400AC(s32 index, s32 key);
 The defining `display_slot_lifecycle.c` and every current C caller include
 this header. The migration removes 48 local getter declarations and 53 local
 allocator declarations, including old-style unspecified-argument spellings.
-Assembly-only word/relocation references in `func_800291E0.c` are not C
-declaration sites and remain unchanged.
+Assembly-only word/relocation references in `func_800291E0` (generated
+assembly again; its old `func_800291E0.c` was a `.word` transcription) are not
+C declaration sites and remain unchanged.
 
 The getter returns an **integer slot index**, 16-95, or signed `-1` when
 none is available. It does not reserve or mark the slot; another scan before
@@ -300,7 +301,7 @@ unchanged from the object.
 |---|---|---|
 | `0x01000000` | Texture-page step of `2` per wrap | `func_800408D0` |
 | `0x02000000` | Texture-page step of `4`, taking precedence | `func_800408D0` |
-| `0x08000000` | When **clear**, selects the alternate size/offset path in `func_80040588`; also gates a projection path in `display_object_projection.c`, and is copied into the clip state as `c->flag` | both renderers |
+| `0x08000000` | When **clear**, selects the alternate size/offset path in `func_80040588`; also gates a projection path in `func_80041F90` (`src/candidates/func_80041F90.c`), and is copied into the clip state as `c->flag` | both renderers |
 | `0x40000000` | Adds `SetSemiTrans(g, 1)` in the clip-test path | `func_80040588` |
 
 The step values are the texture-page advance applied when a strip's `u`
