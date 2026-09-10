@@ -766,7 +766,7 @@
       "address": "0x8001BAF0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x258",
-      "source": "src/game/func_8001BAF0.c"
+      "source": "src/game/func_8001B938.c"
     },
     {
       "address": "0x8001BD48",

@@ -109,7 +109,7 @@ Two consequences for the data work:
 
 The section above finds overlaps by reading the symbol table. A second kind is
 invisible that way, because the source never writes the name of the object it
-is using. `func_8001BAF0.c` reached the deck records like this:
+is using. `func_8001B938.c` reached the deck records like this:
 
 ```c
 base = (u8 *)gDuel_aActiveCards;
@@ -149,7 +149,7 @@ Restricting to symbols declared as arrays, whose name decays to an address,
 removes all nine.
 
 **The address is usually copied to a local first.** With that restriction the
-same scan returns *zero* — including for `func_8001BAF0.c`, the case the scan
+same scan returns *zero* — including for `func_8001B938.c`, the case the scan
 was written for, because `gDuel_aActiveCards` and `0x31E0` are on separate
 lines. A zero there measured the reach of the scan rather than the state of the
 tree. One hop of alias tracking, recording locals assigned an array symbol's
