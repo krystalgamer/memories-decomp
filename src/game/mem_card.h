@@ -114,7 +114,7 @@ extern long D_800F2AF0[];
  *               use and passed with the file count beside it.
  *
  * D_801D5648 keeps its unsized spelling, and it is load-bearing: the note in
- * mem_card_save_state.c records that as a plain s32 extern the -G8 build puts
+ * mem_card_dialog_runtime.c records that as a plain s32 extern the -G8 build puts
  * it in small data and the store collapses to one gp-relative word, where
  * retail materialises the %hi half in its own register. Declaring it here
  * changes where the spelling lives, not the spelling. */
