@@ -9,8 +9,8 @@
 #include "../unmatched.h"
 #include "model_scene_states.h"
 #include "model_transfer_state.h"
+#include "func_8004E9A0.h"
 
-extern void func_8004E9A0(void);
 extern void func_800528AC(void);
 extern void func_800556E8(s32);
 extern s32 func_8005FC1C(s32);

@@ -3,6 +3,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "model_image_copy_frames.h"
+#include "func_8004E9A0.h"
 
 extern u8 *D_8009AF88;
 extern short D_8009B468;
