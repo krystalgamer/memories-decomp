@@ -12,6 +12,7 @@
 #include "text_box_runtime.h"
 #include "func_80039794.h"
 #include "../unmatched.h"
+#include "duel_effect_mark_object_if_active.h"
 #include "mem_card_dialog_steps.h"
 
 u8 func_8003F2B0(DisplayObject *object, s32 arg1, s32 arg2, s32 index)
@@ -82,7 +83,7 @@ void func_8003F388(void)
 
 void func_8003F454(void)
 {
-    u8 *p;
+    DuelEffectChannel *p;
     s32 f;
     s32 t;
     s32 u;
@@ -112,24 +113,24 @@ void func_8003F454(void)
             p = TextBox_Create(
                 D_8009B3EE, D_8009B3C6, 0x20, 0x50, 0x100, 0x30
             );
-            DuelEffect_MarkObjectIfActive(p);
-            p[0x59] = 0x10;
+            DuelEffect_MarkObjectIfActive((MenuRecord *)p);
+            p->field_59 = 0x10;
             if ((gMemCard_wDialogFlags & 0x20) != 0) {
                 do {
                     func_80039794();
-                } while (*(s32 *)(p + 0x30) == 0);
+                } while (p->field_30 == 0);
                 return;
             }
             if ((gMemCard_wDialogFlags & 0x10) != 0) {
-                *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) | 0x1008;
+                p->flags_34 = p->flags_34 | 0x1008;
                 return;
             }
-            func_80039A14(p);
+            func_80039A14((u8 *)p);
             goto b14;
         }
         func_80039794();
-        p = D_800EB0F8_raw + D_8009B3EE * 100;
-        if ((*(s32 *)(p + 0x34) & 0x2008) != 0x2000) {
+        p = (DuelEffectChannel *)(D_800EB0F8_raw + D_8009B3EE * 100);
+        if ((*(s32 *)&p->flags_34 & 0x2008) != 0x2000) {
             return;
         }
     b14:
