@@ -32,17 +32,18 @@ extern s32 gCampaignMap_MoveState;
  *
  * NOT HERE, ON PURPOSE
  *
- * D_801695F8 is spelled `s32 []` in set_location.c and `u8 *[]` in
- * location_objects.c. That is an element question, and the two declarers do
- * not carry equal weight, so it is answerable from what they do:
+ * set_location.c keeps two same-symbol views of D_801695F8: `s32 []` for the
+ * setter's zero-only stores and `u8 *[]` for object creation and release.
+ * They do not carry equal weight, so the element question is answerable from
+ * what they do:
  *
- *   location_objects.c is constrained. It passes an element straight to
+ *   The object view is constrained. It passes an element straight to
  *   func_8004036C, whose display_object_api.h prototype takes `void *object`,
  *   and stores the object func_800400AC returned back into the same slot. The
  *   elements are display-object pointers there.
  *
- *   set_location.c abstains. Its only use is `D_801695F8[i] = 0`, and a zero
- *   store is valid for either element type, so nothing about the spelling
+ *   The word view abstains. Its only use is `D_801695F8_words[i] = 0`, and a
+ *   zero store is valid for either element type, so nothing about the spelling
  *   survives into the generated code.
  *
  * That is the same shape as the abstention this tree has recorded before --
@@ -51,8 +52,8 @@ extern s32 gCampaignMap_MoveState;
  * u8 local. So the pointer reading is the constrained one and the s32 spelling
  * is not evidence against it.
  *
- * The declaration still is not moved here, because that is a source change to
- * two units and wants its own build rather than being folded into a comment. */
+ * Both declarations stay local because the two spellings are matching
+ * levers, not a shared interface. */
 extern u8 D_801695EC;
 extern u8 D_8016960D;
 

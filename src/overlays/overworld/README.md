@@ -42,20 +42,23 @@ Their `_functions.csv` inventories track per-function status, while their
 separate `_matching_c.json` manifests map accepted source/profile pairs.
 `make match-overlays` remains the exact-byte gate.
 
-## Camera-state translation unit
+## Location scene-setup translation unit
 
-`camera_state.c` keeps the location-camera loader next to the per-frame view
-publisher, the default-camera reset, and a free-look-shaped D-pad routine. All
-four operate on `D_800F2848`; the loader, reset, and D-pad routine rebuild its
-derived matrix through `func_8001352C`.
+`set_location.c` contains the nine-function static scene-construction path:
+location object cleanup/rebuild and label creation, camera load/publish/reset
+and free-look, marker creation, then `CampaignMap_SetLocation`. One
+`gcc_2_8_1_g0_split` C subsegment at module offset `0x4` covers the complete
+`0x8B8`-byte range through `0x801688BC` in both verified variants.
 
-The definitions remain in executable order:
-`CampaignMap_SetCameraFromLocation` occupies
-`0x801681E8..0x80168258`, followed by `CampaignMap_UpdateView` and
-`CampaignMap_ResetCamera`, then `CampaignMap_MoveCameraDpad` through
-`0x80168588`. All four use `gcc_2_8_1_g0_split`. One C subsegment at module
-offset `0x1E8` covers the complete contiguous `0x3A0`-byte text range in both
-verified variants.
+`CampaignMap_SetLocation` directly calls the camera reset/load, label, object
+rebuild, and marker helpers and installs `CampaignMap_UpdateView` in the
+resident callback registry. Those functions share the selected 66-byte
+location record, live camera, map objects, marker, and display resources.
+
+The merged unit keeps two same-symbol views of `D_801695F8`:
+`D_801695F8_objects` stores and releases display-object pointers, while
+`D_801695F8_words` preserves the setter's zero-only word stores. The latter
+does not contradict the pointer view; it never reads an element.
 
 `CampaignMap_MoveCameraDpad` has no established live dispatch. The active
 `CampaignMap_UpdateLocation` path does not call it, and an aligned-word scan of
@@ -75,23 +78,6 @@ The definitions remain in executable order from `0x801688BC` through
 `0x80168E0C`. Both use `gcc_2_8_1_g0_split`; one C subsegment at module offset
 `0x8BC` covers the complete contiguous `0x550`-byte text range in both
 verified map variants.
-
-## Location-display translation unit
-
-`location_objects.c` keeps the four-slot cleanup helper next to the rebuild
-routine that invokes it, followed by the current location's name-box creator.
-The two live location controllers call the rebuild and label creator together,
-and all three functions construct or release the display state for one map
-location.
-
-The definitions remain in executable order:
-`CampaignMap_ClearLocationObjects` occupies
-`0x80168004..0x80168050`, followed by
-`CampaignMap_RebuildLocationObjects` through `0x8016818C`, then
-`CampaignMap_CreateLocationLabel` through `0x801681E8`. All three use
-`gcc_2_8_1_g0_split`. One C subsegment at module offset `0x4` covers the
-complete contiguous `0x1E4`-byte text range in both verified variants; the
-camera-state unit starts immediately afterward.
 
 ## Location-tick translation unit
 

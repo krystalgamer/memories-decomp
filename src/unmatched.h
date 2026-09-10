@@ -108,7 +108,7 @@ void func_800235C0(void);
  * relying on an implicit one, which is worse than a duplicate because there
  * is no spelling to disagree with. It takes this header now.
  *
- * src/overlays/overworld/camera_state.c spells the parameter int rather than
+ * src/overlays/overworld/set_location.c spells the parameter int rather than
  * s32. The two are the same type, but that site is outside this change. */
 void func_800540B4(s32);
 
