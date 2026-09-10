@@ -1,5 +1,5 @@
-#ifndef AI_SCRIPT_CALL_CONTROL_H
-#define AI_SCRIPT_CALL_CONTROL_H
+#ifndef AI_SCRIPT_CONTROL_FLOW_H
+#define AI_SCRIPT_CONTROL_FLOW_H
 
 #include "../types.h"
 

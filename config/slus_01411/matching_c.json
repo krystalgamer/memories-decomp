@@ -6100,55 +6100,55 @@
       "address": "0x800709C0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
-      "source": "src/game/ai_script_comparison_jumps.c"
+      "source": "src/game/ai_script_control_flow.c"
     },
     {
       "address": "0x80070A40",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
-      "source": "src/game/ai_script_comparison_jumps.c"
+      "source": "src/game/ai_script_control_flow.c"
     },
     {
       "address": "0x80070AC0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x7C",
-      "source": "src/game/ai_script_jump_equal.c"
+      "source": "src/game/ai_script_control_flow.c"
     },
     {
       "address": "0x80070B3C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7C",
-      "source": "src/game/ai_script_jumps.c"
+      "source": "src/game/ai_script_control_flow.c"
     },
     {
       "address": "0x80070BB8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA8",
-      "source": "src/game/ai_script_jumps.c"
+      "source": "src/game/ai_script_control_flow.c"
     },
     {
       "address": "0x80070C60",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA0",
-      "source": "src/game/ai_script_jumps.c"
+      "source": "src/game/ai_script_control_flow.c"
     },
     {
       "address": "0x80070D00",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0xA8",
-      "source": "src/game/ai_script_call_control.c"
+      "source": "src/game/ai_script_control_flow.c"
     },
     {
       "address": "0x80070DA8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x78",
-      "source": "src/game/ai_script_call_control.c"
+      "source": "src/game/ai_script_control_flow.c"
     },
     {
       "address": "0x80070E20",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x94",
-      "source": "src/game/ai_script_call_control.c"
+      "source": "src/game/ai_script_control_flow.c"
     },
     {
       "address": "0x80070EB4",
