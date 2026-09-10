@@ -976,6 +976,14 @@ includes `libcd.h` for `StSetRing`, `StClearRing`, `StSetStream`, and
 `StUnSetRing`. Matching `func_8005C5D4` includes `libpress.h` for the
 `DecDCTReset(1)` call used when its decode wait times out.
 
+The direct `libpress.h` consumer inventory is complete at three matching
+sources. `func_8005B8A0.c` resets the decoder, installs
+`func_8005C1F4` through `DecDCToutCallback`, and builds the game-owned VLC
+table through a layout-only `u16 *` cast. `movie_frame_pipeline.c` clears that
+callback during teardown and uses `DecDCTin`, `DecDCTout`, and `DecDCTvlc2`
+for frame processing. `mdec_sync.c` supplies the timeout-driven
+`DecDCTReset(1)` path above.
+
 `libsn.h` is a development-host interface, not a retail storage API.
 `PCinit`, `PCopen`, `PCcreat`, `PClseek`, `PCread`, `PCwrite`, and `PCclose`
 communicate with the Psy-Q host file server, while `pollhost` and `PSYQpause`
