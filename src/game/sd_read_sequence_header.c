@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "sd_read_sequence_header.h"
 #include "sound.h"
 #include "sound_sequence_reader.h"
 #include "sound_sequence_values.h"
