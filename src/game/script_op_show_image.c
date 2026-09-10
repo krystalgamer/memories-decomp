@@ -27,7 +27,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
 extern DisplayObject *D_8009B280;
-extern u16 D_8009B270;
 
 void Script_OpShowImage(void) {
     DisplayObject *rec;

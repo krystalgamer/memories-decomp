@@ -14,6 +14,8 @@ extern u16 D_8009B2AA[];
 extern u16 Base2_8009B2AA[];
 extern u16 D_8009B2A8[];
 extern u16 Base2_8009B2A8[];
+/* script_state.h declares this u16; kept here as the unsized array the
+   $at store needs, since this unit cannot include that header. */
 extern u16 D_8009B270[];
 extern u16 D_8009B27C[];
 extern u8 D_8009B357;
