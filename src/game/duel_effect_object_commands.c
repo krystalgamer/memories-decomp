@@ -6,9 +6,6 @@
 #include "duel_effect.h"
 #include "duel_effect_object_commands.h"
 
-extern u8 D_8009B34E;
-extern u8 D_8009B355;
-
 void func_800389C4(u8 *value)
 {
     *(u16 *)(value + 0x34) &= (u16)~8;
