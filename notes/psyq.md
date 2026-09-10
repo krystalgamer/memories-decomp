@@ -750,7 +750,7 @@ register access, and raw memory-card services. The records passed to
 
 Game sources now include `libapi.h` directly for the confirmed pad lifecycle,
 raw memory-card operations, memory-card and sound events, critical sections,
-and directory iteration. `func_80044470` uses the real `DIRENTRY`,
+and directory iteration. `MemCard_FindFiles` uses the real `DIRENTRY`,
 `firstfile`, and `nextfile` interfaces. No current game C directly includes
 `kernel.h`. The higher-level dialog path in `mem_card_dialog_runtime.c`
 separately includes `libmcrd.h` for its `MemCard*` lifecycle, as detailed
@@ -1091,7 +1091,7 @@ callers are `ai_script_call_control.c` and `ai_script_print.c` for VM
 error/checkpoint output, `duel_magic_effect_dispatch.c` for the copied field
 grid y value, `func_80046A08.c` for sound-bank setup values, and the password
 overlay's `name_entry_main.c` for its save-buffer address and size.
-`mem_card_requests.c` uses `sprintf` for `func_80044470` and three request
+`mem_card_requests.c` uses `sprintf` for `MemCard_FindFiles` and three request
 formatters; `func_8005106C.c` formats a three-number string immediately passed
 to `FntPrint`. `file_set_position_table.c` is the separate eighth formatted
 output caller and keeps `printf` unprototyped: adding any declaration changes
@@ -1326,7 +1326,7 @@ buffer would exceed the local ABI evidence.
 
 ### Memory-card directory evidence
 
-`func_80044470` formats a `bu%02X:%s` device path, passes it and a caller-owned
+`MemCard_FindFiles` formats a `bu%02X:%s` device path, passes it and a caller-owned
 record to `firstfile`, then advances subsequent records through `nextfile`.
 Both resident functions return the supplied record pointer on success. The
 caller allows five retries after the initial attempt before stopping
@@ -1336,7 +1336,7 @@ Three matching-C consumers independently establish the directory geometry:
 
 | Property | Local evidence |
 |---|---|
-| Directory record size | `func_80044470` and `func_80044598` advance records by 40 bytes. |
+| Directory record size | `MemCard_FindFiles` and `func_80044598` advance records by 40 bytes. |
 | File-size field | `func_80044544` reads a 32-bit size at record offset `24`. |
 | Allocation block size | `func_80044544` rounds each file size up to `8192` bytes. |
 | Card capacity | Enumeration and free-space accounting both stop at `15` blocks. |

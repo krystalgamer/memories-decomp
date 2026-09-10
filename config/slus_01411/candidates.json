@@ -198,9 +198,9 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_80044838.c",
       "target": "src/candidates_target/func_80044838.S",
-      "candidate_build_sha256": "acb47a55c612b9f75120b807d17802366f359a4687cff8979e21c373d130d68a",
+      "candidate_build_sha256": "35e8247c7f1594ad4ec100ee03fb2c81e98a5ccc6793500c47d1757862693472",
       "target_bytes_sha256": "f7dbf5119b8fa43c8fb497096168a09003486449726e545f8c6497f2753a5bcc",
-      "canonical_contract_sha256": "0b80dc8f09c381d359fd103a62b661d610cdf9abc3dc77d2b417139be3729276",
+      "canonical_contract_sha256": "dc86f6fa8934977ab86cecf9811f6d523ea521e09b7193daff6972a0c001edfd",
       "canonical_contracts": {
         "D_8009B430": "958b6e78cc16585f1beb013bc9c25747eaa90b4d3df40bbb388c27155fbc8974",
         "D_8009B434": "171fae831bb60d3c35d4b28bc1510438ffed626d057417a79684d1c697c418c7",
@@ -214,8 +214,8 @@
         "D_8009B44F": "9b40d99065ca8d4d22174d689992f14f0924a97f0c35f35b23f825ff7ef9a3f9",
         "D_800F2AF0": "8637665c88360ef72378f9f34ce5d1b1bb200ad0c93e33c9a63520dc011306c0",
         "D_800F2B00": "11e687cf88db184a5dbf2bfe23752583678a1eadcdccc384940bbc422ade1cef",
+        "MemCard_FindFiles": "aafb2e3c7f45438afa161a4bf3b8d59e714f91467a1a154206a9ee35eba6de36",
         "func_80043D48": "3d5e11ca79476db4f39762317687a1c9a9c5a844677bcd05b3e81deae2306f7f",
-        "func_80044470": "d0186bfaa8a07a0424afc27e185f3ecd8daa66167fcd5731949f461fafc9b1e7",
         "func_80044608": "9169c9c232d39e0dbbd20ecad7b3635f6bb08d76494a085a5428741208ff37fb",
         "gMemCard_aIOEventHandles": "6183c42040519fc8e1b66eecb21433bfdd8f092f2cf12c6abbb5fbd3edd83444",
         "gMemCard_nIOResult": "c917761f512f90970bc3b92754c5db54c8b9b6668d5bafccabb8c38ada992f4e"

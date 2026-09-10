@@ -106,28 +106,84 @@ The larger memory-card state machine in `func_80044608` consumes the same
 values; its later conversion of result `3` to `4` is internal state-machine
 bookkeeping, not a fifth event callback.
 
-The request wrappers establish two other low-level sequences. `func_800440F0`
-prepares `gMemCard_aIOEventHandles` and starts `_card_info(channel)` without
-waiting. After its mode-2 request gate succeeds, `func_8004413C` runs the
-blocking three-stage path: `_card_info(channel)` against that primary handle
-set, `_card_clear` against the alternate set using channel byte
-`D_8009B437`, then `_card_load(channel)` against the primary set again. It
-resets the shared result before every stage and waits for a nonnegative event
-result after each call; the function does not reinterpret those three results
-before returning `1`.
+## Request slot
+
+The low-level driver runs one request at a time. `MemCard_BeginRequest`
+(`0x800440B4`) claims the slot: it returns `0` while `D_8009B43E` is
+nonnegative, which means an earlier request is still pending, and otherwise
+stores the channel in `D_8009B437`, the request code in `D_8009B43E`, resets
+the retry byte `D_8009B43C` to `10` and both sub-state bytes to `0`, and sets
+`gMemCard_nIOResult` to `-1`. Every wrapper below calls it first and returns
+its refusal unchanged; on success the wrapper stages its arguments in the
+shared request globals, starts `_card_info(chan)` against
+`gMemCard_aIOEventHandles`, and returns `1` without waiting.
+
+The poll at `0x80044838` is still assembly (the tracked candidate is
+`src/candidates/func_80044838.c`), but its dispatch fixes what each code does.
+It returns `-1` while the slot is idle and `0` while the request is still
+running; when it finishes it writes the code and the result through its two
+output pointers, puts `D_8009B43E` back to `-1`, and returns `1`.
+
+| Code | Wrapper | Staged arguments | What the poll does |
+|---:|---|---|---|
+| `1` | `MemCard_ReqCardInfo(chan)` | none | Stops after the `_card_info` stage of `func_80044608`, so it reports the card state without clearing it. |
+| `2` | `MemCard_ReqLoadDirectory(chan)` | none | Finishes `func_80044608`, which lists `*` into `D_800F2888` and counts free blocks into `D_8009B438`. |
+| `3` | `MemCard_ReqReadFile(chan, name, buf, offset, size)` | path, `D_8009B430`, `D_8009B44C`, `D_8009B434` | `open` with `O_RDONLY \| O_NOWAIT`, `lseek` to the offset, `read`. |
+| `4` | `MemCard_ReqWriteFile(chan, name, buf, offset, size)` | path, `D_8009B430`, `D_8009B44C`, `D_8009B434` | The same with `O_WRONLY \| O_NOWAIT` and `write`. |
+| `8` | `MemCard_ReqCreateFile(chan, name, blocks)` | path, `D_8009B434` | Result `7` when `D_8009B438` plus the block count reaches `16`, `6` when `MemCard_FindFiles` already finds the name, otherwise `open` with `O_CREAT` and the block count in the high half of the mode. |
+| `11` | `MemCard_ReqReadSector(chan, buf, sector)` | `D_8009B430`, `D_8009B44C` | `_card_read(chan, sector, buf)`, bypassing the file system. |
+| `12` | `MemCard_ReqWriteSector(chan, buf, sector)` | `D_8009B430`, `D_8009B44C` | `_card_write(chan, sector, buf)`. |
+
+The path is `D_800F2B00`, formatted as `bu%02X:%s` from the channel and the
+name. `D_8009B44C` is the byte offset for the file codes and the sector
+number for the raw codes, and `D_8009B434` is a byte count for reads and
+writes but a block count for creation; the names in the table are the
+wrappers' parameters, not roles for the globals.
+
+The code-`8` capacity test is recorded as the retail instructions have it
+(`addu`, `slti 0x10`) rather than interpreted. `D_8009B438` is the *free*
+count `func_80044544` returns, so the sum does not compare the request with
+the space left; the one caller makes its own free-count check before it
+issues the request, as described below.
+
+`MemCard_ReqLoadDirectory` is the one wrapper that blocks. Before it leaves
+request `2` for the poll it runs `_card_info(chan)` against the primary
+handle set, `_card_clear` against the alternate set using channel byte
+`D_8009B437`, then `_card_load(chan)` against the primary set again,
+resetting the shared result before every stage and waiting for a nonnegative
+event result after each one. It does not reinterpret those three results.
+
+Six of the seven wrappers have one caller, the unmatched `func_8003DC1C`, and
+its arguments agree with the table: it issues `MemCard_ReqLoadDirectory` straight
+after `func_80043E30` and `MemCard_InitIOEvents`, reads `0x1E00` bytes at
+offset `0x200` of `gMemCard_szSaveFileName` into `0x80200000`, writes a
+`0xA00`-byte image at offset `0` that starts with `gSaveData_aHeaderTemplate`,
+creates the file only when the free count is at least its block count, and
+reads one sector to `0x80210000`, patches bytes `+0x7A..+0x7E`, recomputes the
+XOR of the first `0x7F` bytes into `+0x7F`, and writes that sector back. The
+last is the shape of a 128-byte directory frame with its check byte. The
+sector number it passes is the directory entry's word at `+0x20`, the Psy-Q
+`DIRENTRY.head` field, divided by `64`. `MemCard_ReqCardInfo` is the seventh:
+nothing in the executable or the `DATA` files calls it or stores its
+address, so its name rests on its body and on the code-`1` branch alone.
 
 ## Directory enumeration
 
-Matching `func_80044470` formats a `bu%02X:%s` device path and enumerates into
-caller-owned Psy-Q `DIRENTRY` records. It calls `firstfile` for the initial
-record and `nextfile` for subsequent records, accepting success only when
-each function returns the same record pointer it was given.
+Matching `MemCard_FindFiles` (`0x80044470`) formats a `bu%02X:%s` device
+path and enumerates into caller-owned Psy-Q `DIRENTRY` records. It calls
+`firstfile` for the initial record and `nextfile` for subsequent records,
+accepting success only when each function returns the same record pointer it
+was given.
 
 The initial call and each failed advance allow five retries after the first
 attempt. A successful `nextfile` resets that retry budget, advances by one
 40-byte `DIRENTRY`, and increments the count. Enumeration stops at 15 records,
 matching the usable block count on a memory card, and optionally stores the
 final count through the caller's output pointer.
+
+The path's name part is a pattern. `func_80044608` passes `*` to list the
+whole card, while the create path in the poll passes the new file's own name
+and treats a zero count as the name being free.
 
 ## Save payload staging
 

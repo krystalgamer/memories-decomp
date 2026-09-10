@@ -3,7 +3,7 @@
 #include "../psyq/libapi.h"
 #include "../psyq/stdio.h"
 
-#include "func_800440B4.h"
+#include "mem_card_begin_request.h"
 #include "io_event_helpers.h"
 #include "mem_card.h"
 
@@ -17,13 +17,13 @@ extern s32 D_8009B430;
 extern s16 D_8009B434;
 extern s16 D_8009B44C;
 
-int func_8004413C(int value)
+int MemCard_ReqLoadDirectory(int chan)
 {
-    if (!func_800440B4(value, 2)) {
+    if (!MemCard_BeginRequest(chan, 2)) {
         return 0;
     }
     func_80043D48(gMemCard_aIOEventHandles);
-    _card_info(value);
+    _card_info(chan);
     while (gMemCard_nIOResult < 0) {
     }
     func_80043D48(D_800F2AF0);
@@ -31,23 +31,23 @@ int func_8004413C(int value)
     while (gMemCard_nIOResult < 0) {
     }
     func_80043D48(gMemCard_aIOEventHandles);
-    _card_load(value);
+    _card_load(chan);
     while (gMemCard_nIOResult < 0) {
     }
     return 1;
 }
 
-int func_800441DC(int value, int data, int global_data, int small, int extra)
+int MemCard_ReqReadFile(int chan, int name, int buf, int offset, int size)
 {
     int result;
 
-    if (func_800440B4(value, 3)) {
-        sprintf((char *)D_800F2B00, (char *)D_80010538, value, data);
-        D_8009B44C = small;
-        D_8009B430 = global_data;
-        D_8009B434 = extra;
+    if (MemCard_BeginRequest(chan, 3)) {
+        sprintf((char *)D_800F2B00, (char *)D_80010538, chan, name);
+        D_8009B44C = offset;
+        D_8009B430 = buf;
+        D_8009B434 = size;
         func_80043D48(gMemCard_aIOEventHandles);
-        _card_info(value);
+        _card_info(chan);
         result = 1;
     } else {
         result = 0;
@@ -55,15 +55,15 @@ int func_800441DC(int value, int data, int global_data, int small, int extra)
     return result;
 }
 
-int func_80044278(int value, int data, int small)
+int MemCard_ReqReadSector(int chan, int buf, int sector)
 {
     int result;
 
-    if (func_800440B4(value, 11)) {
-        D_8009B44C = small;
-        D_8009B430 = data;
+    if (MemCard_BeginRequest(chan, 11)) {
+        D_8009B44C = sector;
+        D_8009B430 = buf;
         func_80043D48(gMemCard_aIOEventHandles);
-        _card_info(value);
+        _card_info(chan);
         result = 1;
     } else {
         result = 0;
@@ -71,17 +71,17 @@ int func_80044278(int value, int data, int small)
     return result;
 }
 
-int func_800442E4(int value, int data, int global_data, int small, int extra)
+int MemCard_ReqWriteFile(int chan, int name, int buf, int offset, int size)
 {
     int result;
 
-    if (func_800440B4(value, 4)) {
-        sprintf((char *)D_800F2B00, (char *)D_80010538, value, data);
-        D_8009B44C = small;
-        D_8009B430 = global_data;
-        D_8009B434 = extra;
+    if (MemCard_BeginRequest(chan, 4)) {
+        sprintf((char *)D_800F2B00, (char *)D_80010538, chan, name);
+        D_8009B44C = offset;
+        D_8009B430 = buf;
+        D_8009B434 = size;
         func_80043D48(gMemCard_aIOEventHandles);
-        _card_info(value);
+        _card_info(chan);
         result = 1;
     } else {
         result = 0;
@@ -89,15 +89,15 @@ int func_800442E4(int value, int data, int global_data, int small, int extra)
     return result;
 }
 
-int func_80044380(int value, int data, int small)
+int MemCard_ReqWriteSector(int chan, int buf, int sector)
 {
     int result;
 
-    if (func_800440B4(value, 12)) {
-        D_8009B44C = small;
-        D_8009B430 = data;
+    if (MemCard_BeginRequest(chan, 12)) {
+        D_8009B44C = sector;
+        D_8009B430 = buf;
         func_80043D48(gMemCard_aIOEventHandles);
-        _card_info(value);
+        _card_info(chan);
         result = 1;
     } else {
         result = 0;
@@ -105,15 +105,15 @@ int func_80044380(int value, int data, int small)
     return result;
 }
 
-int func_800443EC(int value, int data, int small)
+int MemCard_ReqCreateFile(int chan, int name, int blocks)
 {
     int result;
 
-    if (func_800440B4(value, 8)) {
-        sprintf((char *)D_800F2B00, (char *)D_80010538, value, data);
-        D_8009B434 = small;
+    if (MemCard_BeginRequest(chan, 8)) {
+        sprintf((char *)D_800F2B00, (char *)D_80010538, chan, name);
+        D_8009B434 = blocks;
         func_80043D48(gMemCard_aIOEventHandles);
-        _card_info(value);
+        _card_info(chan);
         result = 1;
     } else {
         result = 0;
@@ -121,13 +121,14 @@ int func_800443EC(int value, int data, int small)
     return result;
 }
 
-s32 func_80044470(s32 a0, const char *a1, struct DIRENTRY *cursor, s32 *out_count)
+s32 MemCard_FindFiles(s32 chan, const char *pattern, struct DIRENTRY *cursor,
+                      s32 *out_count)
 {
     char work[32];
     s32 retry;
     s32 count;
 
-    sprintf(work, (char *)D_80010538, a0, a1);
+    sprintf(work, (char *)D_80010538, chan, pattern);
     retry = MEM_CARD_DIRECTORY_RETRIES;
     while (firstfile(work, cursor) != cursor) {
         retry--;

@@ -18,7 +18,7 @@
 
 /* The result of the card's asynchronous IO, set from the callbacks
  * mem_card_io_result_callbacks.h declares and polled by the request state
- * machines. func_800440B4 resets it to -1 before starting a request.
+ * machines. MemCard_BeginRequest resets it to -1 before starting a request.
  *
  * Three of the five consumers declare it volatile, and they are the ones
  * that read it several times in a row while waiting -- without the
@@ -38,12 +38,12 @@ extern volatile s32 gMemCard_nIOResult;
 extern s32 gMemCard_nIOResult;
 #endif
 
-/* The memory-card channel a request was issued on. func_800440B4 stores its
- * first parameter here before it resets gMemCard_nIOResult; every
- * caller passes it the int it was itself handed, and func_8004413C passes
- * that same int to _card_info(long chan). The readers hand it back to
- * _card_info, _card_clear and _card_load, and to func_80044470's s32 first
- * parameter. Retail stores it with sb and reads it with lbu at ten sites,
+/* The memory-card channel a request was issued on. MemCard_BeginRequest
+ * stores its first parameter here before it resets gMemCard_nIOResult;
+ * every caller passes it the int it was itself handed, and
+ * MemCard_ReqLoadDirectory passes that same int to _card_info(long chan).
+ * The readers hand it back to _card_info, _card_clear and _card_load, and to
+ * MemCard_FindFiles's s32 first parameter. Retail stores it with sb and reads it with lbu at ten sites,
  * all gp-relative into $a0, five of the reads in func_80044838, still
  * assembly; so it is one unsigned byte, and the one char spelling was the
  * writer's, where a store shows no sign. */
@@ -139,10 +139,10 @@ extern u8 D_8009B3D4;
 extern s8 D_8009B43E;
 extern u8 D_8009B44E;
 
-/* Stored by func_800440B4 (func_800440B4.c:11, `D_8009B43C = 10;`;
- * func_800440B4.s:8 `sb`) and by func_80044608, which loads it under u8
- * and matched: `v0 = D_8009B43C - 1; D_8009B43C = (u8)v0;` at
- * func_80044608.c:60-61, :96-97, :114-115, and `D_8009B43C = 0xA;` at :80
+/* Stored by MemCard_BeginRequest (mem_card_begin_request.c:11,
+ * `D_8009B43C = 10;`; func_800440B4.s:8 `sb`) and by func_80044608, which
+ * loads it under u8 and matched: `v0 = D_8009B43C - 1;
+ * D_8009B43C = (u8)v0;` at func_80044608.c:60-61, :96-97, :114-115, and `D_8009B43C = 0xA;` at :80
  * and :104 (func_80044608.s lbu :40, :94, :121; sb :43, :73, :97, :104,
  * :124). The writer spelled it char, where a store shows no sign; the
  * D_8009B437 comment above records the same split. Still in assembly:
@@ -151,10 +151,10 @@ extern u8 D_8009B44E;
  * is `%gp_rel`; plain declaration. */
 extern u8 D_8009B43C;
 
-/* Stored by func_800440B4 (func_800440B4.c:15, `D_8009B43D = 0;`;
- * func_800440B4.s:13 `sb $zero`) and by func_80044608, which loads it
- * under u8 and matched: `v1 = D_8009B43D;` at func_80044608.c:24,
- * `D_8009B43D = (u8)(D_8009B43D + 1);` at :81 and `D_8009B43D = 2;` at
+/* Stored by MemCard_BeginRequest (mem_card_begin_request.c:15,
+ * `D_8009B43D = 0;`; func_800440B4.s:13 `sb $zero`) and by func_80044608,
+ * which loads it under u8 and matched: `v1 = D_8009B43D;` at
+ * func_80044608.c:24, `D_8009B43D = (u8)(D_8009B43D + 1);` at :81 and `D_8009B43D = 2;` at
  * :105 (func_80044608.s lbu :5, :72; sb :75, :106). No function still in
  * assembly names it. D_8009B43E, declared s8 above, is at +1
  * (c_symbols.ld:299). Every access is `%gp_rel`; plain declaration. */
