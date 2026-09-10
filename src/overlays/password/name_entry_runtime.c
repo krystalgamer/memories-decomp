@@ -36,44 +36,6 @@
    and the D_8016D400 state block; the leading display-object helper and the
    following shop display unit have no proven ownership in this lifecycle. */
 
-/* The sprite created by NameEntry_SpawnGlyphSprite and stepped by the glyph
- * callbacks. +0x44/+0x46 are scale for the pulse callback and destination XY
- * for the tween callbacks; the installed +0x24 callback selects the meaning. */
-typedef struct {
-    u8 pad_00[0x4];
-    u32 flags;                    /* 0x04 */
-    u8 pad_08[0x3C];
-    s16 scale_x;                  /* 0x44, target x during a tween */
-    s16 scale_y;                  /* 0x46, target y during a tween */
-    u32 field_48;                 /* 0x48 */
-    DuelEffectEntry *sourceGlyph; /* 0x4C */
-    u8 pad_50[0xA];
-    s16 savedSourceX;             /* 0x5A */
-    u8 pad_5C[0x4];
-    s16 frame;                    /* 0x60, also the tween timer */
-    u8 pad_62[0x5];
-    u8 textBoxSlot;               /* 0x67 */
-    u8 pad_68[0x2];
-    u8 sequence;                  /* 0x6A */
-} GlyphSprite;
-
-/* The dialog's own sliding panel object, reached through the text box at
- * field_2C or by tag from func_80042B40. A different object from the
- * selection frame name_entry_state.h declares, and the fields are spelled
- * by hex offset here so that the two views cannot be read as if they shared
- * a numbering: this unit's +0x30 is the old Caret's `f48`. */
-typedef struct {
-    u8 pad_00[0x8];
-    u16 flags;       /* 0x08 */
-    u8 pad_0A[0x26];
-    s16 x;           /* 0x30 */
-    s16 y;           /* 0x32 */
-    u8 pad_34[0x2C];
-    s16 slide;       /* 0x60, signed distance still to travel */
-    u8 pad_62[0xA];
-    u8 status;       /* 0x6C */
-} DialogCaret;
-
 extern u16 D_8016D4D4;
 extern s8 D_8016AB38[][15];
 extern u8 D_8016ABC0[][2];
