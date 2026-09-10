@@ -27,6 +27,17 @@ extern u16 D_801B0000[];
 extern u16 D_801C0000[];
 extern u16 D_801D5800[];
 
+/* 0x8009B32E, the string id func_800383DC resolves through the three banks
+ * above (func_800383DC.c:7 reads it into `a2`). It is two bytes: D_8009B330
+ * (duel_effect.h:328) starts at +2. The one loader in C, func_800383DC,
+ * matched with it u16, and retail loads it lhu, gp-relative
+ * (func_800383DC.s:4). FreeDuel_PlaceCursor stores into it through a named
+ * address local, `slot = &D_8009B32E;` (screen_runtime.c:129-131), and
+ * func_800218F0, still assembly, stores a halfword to it through $at
+ * (func_800218F0.s:61-62). the-game.md:1511 calls it string ID 0x8328 + i.
+ * The two units used to declare it u16 and s16. */
+extern u16 D_8009B32E;
+
 /* The text colour slots, indexed by the low nibble of a colour command:
  * func_80038498.c reads `gText_abColorSlots[v & 0xF]`. func_800611D0.c sets
  * the first three to 4 and clears one chosen by its argument, and

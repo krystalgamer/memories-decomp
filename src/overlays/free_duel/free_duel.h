@@ -46,7 +46,7 @@ extern void *gFreeDuel_apSparklePool[];
  * way (:102-103). FreeDuel_UpdateCursorTween reaches the cursor at +0x16,
  * +0x30, +0x32, +0x36, +0x38, +0x4C and +0x60 (:364, :378-391, :395-396,
  * :407-410), FreeDuel_UpdateScreen at +8 (:430) and FreeDuel_Entry at +0x44
- * and +0x46 (:520-523). FreeDuelWidget is 0x34 bytes (:47-51), so +0x36,
+ * and +0x46 (:520-523). FreeDuelWidget is 0x34 bytes (:48-52), so +0x36,
  * +0x38, +0x44, +0x46, +0x4C and +0x60 lie past it. screen_runtime.c used to
  * declare each twice through asm aliases, `FreeDuelWidget *` and `u8 *`. */
 extern u8 *gFreeDuel_pCursorWidget;

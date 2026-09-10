@@ -2,8 +2,6 @@
 #include "text_constants.h"
 #include "func_800383DC.h"
 
-extern u16 D_8009B32E;
-
 u32 *func_800383DC(DuelEffectChannel *a0) {
     DuelEffectChannel *a3 = a0;
     s32 a2 = D_8009B32E;
