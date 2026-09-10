@@ -6,8 +6,6 @@
 #include "display_object_config.h"
 #include "func_80021480.h"
 
-extern DuelResultDisplayState *D_8009B1E8;
-
 void func_80021480(s32 mode)
 {
     s32 i;

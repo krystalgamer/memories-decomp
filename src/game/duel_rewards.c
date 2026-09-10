@@ -8,7 +8,6 @@
 #include "func_80021480.h"
 #include "duel_rewards.h"
 
-extern DuelResultDisplayState *D_8009B1E8;
 extern s32 D_801D5608[16][DUEL_SIDE_COUNT];
 
 /* Initializes result-message selectors at +0x34; the winner's signed
