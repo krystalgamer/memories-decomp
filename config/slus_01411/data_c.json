@@ -126,6 +126,10 @@
       "profile": "gcc_2_8_1_g8"
     },
     {
+      "source": "src/game/data_8009af10.c",
+      "profile": "gcc_2_8_1_g8"
+    },
+    {
       "source": "src/game/model_graphics_state.c",
       "profile": "gcc_2_8_1_g8"
     },

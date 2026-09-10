@@ -310,7 +310,7 @@ it.
 | --- | --- | --- | --- | --- |
 | `initialized_data_800906e0` | `.data` | 36 | 3 | leads with `initialized_data_start`, a layout boundary |
 | `initialized_data_80091958` | `.data` | 38320 | 274 | bulk; no single owner, split it first |
-| `initialized_data_8009af08` | `.sdata` | 28 | 6 | holds `_gp` itself, and a pointer |
+| `initialized_data_8009af08` | `.sdata` | 28 | 6 | holds `_gp` itself, and a pointer; the pointer's window is now C-owned |
 | `initialized_data_8009af2a` | `.sdata` | 4 | 3 | overlapping symbols |
 | `initialized_data_8009af6c` | `.sdata` | 184 | 45 | scattered head and tail; two coherent interior runs are C-owned |
 
@@ -482,6 +482,39 @@ whether its objects sum to its length, not by reading its contents and
 judging whether they belong together. Screening by subject rejects ranges
 that would have converted, which is what happened here.
 
+#### The tiling test applied to the rest of the small ranges
+
+Re-screening the remaining small `.sdata` ranges with that test rather than
+by subject sorts them immediately.
+
+| range | length | named objects | tiles? |
+| --- | ---: | --- | --- |
+| `0x8009AF10` | 16 | 4 + 4 + 4, then 4 unnamed | yes, with explicit padding |
+| `0x8009AF2A` | 6 | 2 + 1 + 1 | no: two bytes unnamed and unreachable |
+
+`0x8009AF10` converted. It holds two boot-time sizing constants read together
+by the code at `0x800129FC`, where they are subtracted from `bss_end`
+(`0x00200000` is the console's main RAM size and `0x00002000` the reserve
+held back from it), plus a file-transfer pointer that shares nothing with
+them. Another address-named unit, for the same reason as before.
+
+Its trailing word is unnamed, carries no reference anywhere in the image and
+is zero. Representing it as explicit padding is what `model_graphics_state.c`
+already does for its own unnamed continuation bytes, and the section
+attribute matters more on padding than on anything else in these files: a
+zero-valued object without one is placed in `.sbss`, and the window then
+comes up short by exactly that much.
+
+This also settles a doubt recorded earlier, that a pointer relocation in
+`.sdata` might obstruct a carve. It does not. `D_8009AF18` initialises to the
+address of `gFile_PrimaryTransferDescriptor` and links unchanged, as
+`D_8009AF88` already did.
+
+`0x8009AF2A` stays extracted, and now for a stated reason rather than a
+vague one: its three labels account for four of six bytes, so two bytes
+belong to no object and no consumer names them. That is a genuine failure of
+the tiling test rather than a judgement about coherence.
+
 #### A splat label is not always an object
 
 This range names seven labels but holds five objects. `D_8009AF74` is one
@@ -494,6 +527,13 @@ than things in their own right. The bytes cannot detect this error, so the
 check has to come from the consumers: `display_object_helpers.h` had already
 worked out the array shape and recorded that the two inner labels were once
 spelled privately.
+
+`0x8009AF10` shows the same hazard in its other form. Splat's third label
+there spans eight bytes, but `D_8009AF18` is a four-byte pointer: its readers
+load it and immediately dereference it at `+0x08`, `+0x10` and `+0x46`. The
+label runs long only because the word after it has no name of its own. One
+label covered part of an object in the first case and more than an object in
+the second, so neither direction can be assumed.
 
 This is the resident-side counterpart to the overlay obstacle noted earlier,
 where a label's extent is the gap to the next name rather than an object's

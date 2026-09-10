@@ -167,7 +167,7 @@ segments:
       - [0x8b708, sdata, initialized_data_8009af08]
       - [0x8b70c, .sdata, game/main_frame]
       - [0x8b70d, pad]
-      - [0x8b710, sdata, initialized_data_8009af10]
+      - [0x8b710, .sdata, game/data_8009af10]
       - [0x8b720, .sdata, game/duel_side_view_angles]
       - [0x8b724, .sdata, game/duel_trap_resolution]
       - [0x8b72a, sdata, initialized_data_8009af2a]
