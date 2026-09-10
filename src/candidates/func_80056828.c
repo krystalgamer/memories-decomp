@@ -1,17 +1,22 @@
-//@ target 47028 554
-//@ sym D_800F2C40=0x800F2C40 D_80010538=0x80010538 D_80010000=0x80010000
-//@ sym D_801A8000=0x801A8000 D_8009AFA0=0x8009AFA0 VSync=0x80074170
-//@ sym func_8004CB0C=0x8004CB0C
-//@ sym func_8004D75C=0x8004D75C func_8004D914=0x8004D914 func_8005A4C4=0x8005A4C4
-//@ sym func_8005A468=0x8005A468 func_800590DC=0x800590DC func_800582C0=0x800582C0
-//@ sym func_8005F198=0x8005F198 func_8004DC38=0x8004DC38 func_80048D08=0x80048D08
-//@ sym printf=0x8008E870
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
+/*
+ * Runs the complete eleven-state per-player model dispatcher. Current best
+ * under gcc_2_8_1_g8_no_split: 341/341 instructions, encoding-keyed opcode
+ * distance 24, and 291 differing linked words.
+ *
+ * Seven explicit register assignments preserve the incoming player in $s0,
+ * dispatch value in $v0, and case-8 roles in $v1/$s2/$s1/$s5/$s3. With most
+ * linked words still different, this is a structural candidate, not a near
+ * match justified by those assignments.
+ *
+ * Each call brackets dispatch with VSync timing and a diagnostic printf,
+ * advances the per-player state byte, and covers all eleven target cases.
+ * Residual differences are concentrated in cases 0 and 3, jump-table dispatch
+ * scheduling, and the common tail; case 8 has the target instruction count
+ * and register roles.
+ */
+#include "../types.h"
+#include "../psyq/libetc.h"
+#include "../psyq/stdio.h"
 
 extern u8 D_800F2C40[];
 extern u8 D_80010538[];
@@ -19,7 +24,6 @@ extern u32 D_80010000[];
 extern u8 D_801A8000[];
 extern u8 D_8009AFA0;
 
-extern s32 VSync(s32);
 extern void func_8004CB0C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8004D75C(s32 a0);
 extern void func_8004D914(s32 a0);
@@ -30,7 +34,6 @@ extern void func_800582C0(s32 a0, s32 a1, s32 a2);
 extern void func_8005F198(s32 a0);
 extern void func_8004DC38(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80048D08(s32 a0, void *a1);
-extern s32 printf(const char *format, ...);
 
 void func_80056828(s32 a0) {
     register s32 player asm("s0") = a0;
