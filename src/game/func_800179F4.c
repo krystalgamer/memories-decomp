@@ -171,7 +171,7 @@ void func_800179F4(void)
             }
             p = (u8 *)gDuel_awPlayerDeck;
             D_8009B1D8 = p;
-            if (gDuel_bOpponentID < 39) {
+            if (gDuel_bOpponentID < DUEL_MASTER_K_OPPONENT_ID) {
                 q = 0;
                 goto shuffle;
             }
