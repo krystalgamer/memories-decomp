@@ -61,7 +61,7 @@ void func_80019608(void)
         if (p[0x68] == CARD_TYPE_MAGIC) {
             D_8009B1C8->field_05 = D_8009B1C8->field_05 + 1;
         }
-        func_80024914(slot);
+        func_80024914((DuelCardRecord *)slot);
         D_8009B174 = 1;
     }
     state = D_8009B174;
