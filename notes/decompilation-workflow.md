@@ -615,14 +615,25 @@ writes each symbol twice in a row across a test:
     D_8009B124 = 1;
 
 Without `volatile` GCC is entitled to drop the store that the following one
-overwrites, and it takes it. So the two spellings are two genuine views, and
-centralizing them needs the guarded two-arm form rather than one flat
-declaration.
+overwrites, and it takes it.
+
+The obvious conclusion from that is the guarded two-arm form `input.h` and
+`sound.h` use, one arm per spelling. It is also wrong, and it took a second
+build to find out. `file_stream.c` clears the pair once each inside
+`File_InitTransferState` and does nothing else with them, so giving *it* the
+volatile view costs nothing: one flat `extern volatile` declaration in
+`file_transfer.h` serves both files and builds byte for byte.
+
+So a qualifier that one side needs does not by itself force two arms. Ask
+which side the difference is load-bearing on, and then whether the other side
+is merely indifferent rather than opposed. Two arms are for two genuine
+views; a strong spelling and an indifferent one are a single declaration.
 
 The rule to carry: a qualifier difference is worth one build in either
 direction, and the build is the whole of the evidence. Neither "it is only a
 qualifier" nor "the qualifier must be there for a reason" survives contact
-with the two cases above.
+with the two cases above -- and neither does the assumption that a real
+difference has to be centralized as two arms.
 
 ## Compiler experiments
 
