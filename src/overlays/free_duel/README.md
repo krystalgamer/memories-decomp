@@ -62,6 +62,19 @@ prefix and are consumed by initialization and the screen-runtime cursor path.
 Their shared manifest source and one C subsegment at module offset `0x4`
 cover the complete `0x1B0`-byte range through `0x801681B4`.
 
+## Initialization translation unit
+
+`init.c` now starts with `FreeDuel_SpawnSparkle`, the constructor
+`FreeDuel_Init` immediately uses for the cursor object, followed by
+`FreeDuel_Init` itself. Both construct the opponent-select screen's display
+objects, and the runtime's reuse of the sparkle constructor keeps it
+externally visible despite the removed source boundary.
+
+The two definitions form one contiguous `gcc_2_8_1_g0_split` run from
+`0x801681B4` through `0x8016899C`. One C subsegment at module offset `0x1B4`
+covers the complete `0x7E8`-byte range, ending where the separate
+screen-runtime unit begins.
+
 ## Screen-runtime translation unit
 
 `screen_runtime.c` keeps the overlay entry tick next to the screen update it
