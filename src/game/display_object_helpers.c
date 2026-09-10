@@ -4,25 +4,28 @@
 #include "display_object_helpers.h"
 #include "display_object_config.h"
 
-void func_800427DC(u8 *object, int value)
+void func_800427DC(DisplayObject *object, int value)
 {
-    u16 flags = *(u16 *)(object + 8);
+    u16 flags = object->flags;
 
-    *(u32 *)(object + 0x54) = 0;
-    *(u32 *)(object + 0x4C) = 0;
-    *(u32 *)(object + 0x44) = 0;
-    *(u32 *)(object + 0x3C) = 0;
-    *(u32 *)(object + 0x34) = 0;
-    *(u32 *)(object + 0x2C) = 0;
-    *(u32 *)(object + 0x10) = 0;
-    object[0x21] = 0;
-    object[0x20] = 0;
-    object[0x22] = 0;
-    *(u16 *)(object + 0x1C) = 0;
-    *(u16 *)(object + 0x1A) = 0;
-    *(u16 *)(object + 0x18) = 0;
-    object[0x5A] = value;
-    *(u16 *)(object + 8) = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    object->field_54 = 0;
+    object->field_4C = 0;
+    object->field_44.word = 0;
+    object->field_3C.word = 0;
+    object->field_34 = 0;
+    object->field_2C.word = 0;
+    object->field_10 = 0;
+    object->field_20.b.field_21 = 0;
+    object->field_20.b.field_20 = 0;
+    object->field_20.b.field_22 = 0;
+    object->field_1C = 0;
+    object->field_1A = 0;
+    object->field_18 = 0;
+    /* Low byte only. field_5A is the s16 countdown func_80041D60
+       steps by D_8009B0D8 on this same record; this writes one byte
+       of it, and that width is retail's, not a simplification. */
+    *(u8 *)&object->field_5A = value;
+    object->flags = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 
 void func_80042824(u8 *object, int value)

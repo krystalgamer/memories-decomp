@@ -40,7 +40,7 @@ void func_80030198(void)
     func_80039A14(text_box);
     object = func_800400AC(func_8004002C(), 4);
     D_8009B2E4 = object;
-    func_800427DC(object, 0);
+    func_800427DC((DisplayObject *)object, 0);
     object[0x45] = 0xC0;
     object[0x3D] = 0xC0;
     object[0x35] = 0xC0;
