@@ -974,9 +974,9 @@
     },
     {
       "address": "0x80023090",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
-      "source": "src/game/duel_field_guardian_compare.c"
+      "source": "src/game/duel_field_display_objects.c"
     },
     {
       "address": "0x80023144",

@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "display_object.h"
+#include "duel_grid.h"
 
 /* One field-grid source record, as the three functions in
  * duel_field_display_objects.c reach it. The two sources that unit was split
@@ -51,6 +52,12 @@ typedef char DuelFieldDisplaySource_table_index_offset_must_be_0x17[
 ];
 
 #undef DUEL_FIELD_DISPLAY_SOURCE_OFFSET
+
+/* Compares the guardian-star matchup between two field cursors and returns
+ * display code 4 for neutral, 1 when the first loses, or 6 when it wins.
+ * The builder casts its overlapping source record and selection-state bytes
+ * to this cursor view at the call site. */
+s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b);
 
 /* The settling-move caller supplies no expression: it deliberately leaves
  * its GridCursor-backed record in $a0. */
