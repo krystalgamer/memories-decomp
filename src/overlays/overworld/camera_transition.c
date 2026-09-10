@@ -9,27 +9,12 @@
 #include "campaign_map.h"
 
 typedef struct {
-    u8 pad0[8];
-    u16 f8;
-    u8 pad10[38];
-    s16 f48;
-    s16 f50;
-    u8 pad52[20];
-    u16 f72;
-    u16 f74;
-    u8 pad76[20];
-    s16 f96;
-} MapObject;
-
-typedef struct {
     u8 pad0[12];
     s16 f12;
     s16 f14;
     u8 pad16[50];
 } Location;
 
-extern MapObject *D_801695C8;
-extern MapObject *D_801695D8;
 extern s32 D_801695D4;
 extern s32 D_801695CC;
 extern s32 D_801695D0;

@@ -16,9 +16,7 @@
 #include "../../game/main_services.h"
 
 extern u8 D_80169619;
-extern u8 *D_801695C8;
 extern s32 D_801695F8[];
-extern u8 *D_801695D8;
 extern s32 D_80010000;
 extern void func_800530C4(void);
 extern u8 *func_80058F74(s32);
@@ -71,16 +69,16 @@ void CampaignMap_SetLocation(s32 index)
     func_800428EC(obj, -10);
     location = gCampaignMap_Location;
     *(void **)(obj + 0x4C) = func_80042C08;
-    D_801695D8 = obj;
+    D_801695D8 = (MapObject *)obj;
     CampaignMap_SetCameraFromLocation(location);
     CampaignMap_CreateLocationLabel(gCampaignMap_Location);
     CampaignMap_RebuildLocationObjects(gCampaignMap_Location);
     gCampaignMap_LocationPrev = gCampaignMap_Location;
     if ((u8)gCampaignMap_Location >= 10) {
         marker = CampaignMap_CreateLocationMarker(gCampaignMap_Location);
-        panel = D_801695D8;
+        panel = (u8 *)D_801695D8;
         flags = *(u16 *)(panel + 8);
-        D_801695C8 = marker;
+        D_801695C8 = (MapObject *)marker;
         *(u16 *)(panel + 8) = flags & 0xFFBF;
     }
     track = 0x70A0;
