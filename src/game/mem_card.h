@@ -179,16 +179,16 @@ extern s32 D_801D5648[];
  * an unsized u8 array read only at [0], which is the same -G8 lever
  * D_801D5648 keeps above.
  *
- * D_8009B3ED: func_8003FCD8 (func_8003FCD8.c:10-12) and func_8003FD14
- * (two_player_save_setup.c:24-26) test bit 0x80 clear, set it and store
- * D_8009B3C0; func_80030EC8 (frontend_scene_states.c:150), func_80031000
- * (async_state_poll.c:18) and MainMenu_UpdateFrontendMenu (cases 3 and 2 of
- * its gMain_bMenuID switch, main_menu/frontend.c:416 and :421) store 0.
+ * D_8009B3ED: func_8003FCD8 (func_8003FCD8.c:8-10) and func_8003FD14
+ * (two_player_save_setup.c:22-24) test bit 0x80 clear, set it and store
+ * D_8009B3C0; func_80030EC8 (frontend_scene_states.c:151), func_80031000
+ * (async_state_poll.c:19) and MainMenu_UpdateFrontendMenu (cases 3 and 2 of
+ * its gMain_bMenuID switch, main_menu/frontend.c:415 and :420) store 0.
  *
- * D_8009B3EA: func_8003F8D4 masks it with 0xF (func_8003F8D4.c:44), tests
+ * D_8009B3EA: func_8003F8D4 masks it with 0xF (func_8003F8D4.c:43), tests
  * bits 0x80 and 0x40, stores 1, 0x82, 2, 3, 0xA and 0xB, ORs 0x80, 0x40 and
- * 0xC0 and ANDs 0xBF into it (:47-144); func_8003FD14 stores 10
- * (two_player_save_setup.c:34); the three functions above store 0.
+ * 0xC0 and ANDs 0xBF into it (:46-143); func_8003FD14 stores 10
+ * (two_player_save_setup.c:32); the three functions above store 0.
  *
  * u8 because the three units that load either byte (func_8003F8D4.c,
  * func_8003FCD8.c, two_player_save_setup.c) already declared it u8 and
