@@ -18,7 +18,7 @@
 #include "file_transfer.h"
 #include "func_8002D458.h"
 #include "func_80035A64.h"
-#include "func_80043960.h"
+#include "main_run_boot_sequence.h"
 #include "func_80043BCC.h"
 #include "main_loop.h"
 #include "main_reset_frontend_runtime.h"
@@ -77,7 +77,7 @@ s32 Main_Init(void)
     SetDispMask(1);
     Main_ResetFrontendRuntime();
     Main_ResetFrontendRuntime();
-    func_80043960(0);
+    Main_RunBootSequence(0);
     r = setjmp(D_800E9DC0);
     Main_ResetFrontendRuntime();
     if (r != 0) {

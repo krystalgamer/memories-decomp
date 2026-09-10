@@ -264,13 +264,18 @@ WA startup phase**, not in the configured Free Duel or password images.
 The old "neither located overlay" assessment missed this separately
 documented load.
 
-Matching `func_80043960` requests WA sector `0x1690` for `0x36` sectors.
-Its callback, `func_80043328`, consumes `0x18000 + 0x1000 + 0x800` bytes
+Matching `Main_RunBootSequence` requests WA sector `0x1690` for `0x36`
+sectors. Its callback, `Main_LoadBootPackageStage`, consumes
+`0x18000 + 0x1000 + 0x800` bytes
 before copying the final `0x1800` bytes to the address held at
 `D_800101D8`, whose resident value is `0x80168000`. The resulting phase is
 WA sectors `[5827, 5830)`, archive bytes `[0xB61800, 0xB63000)`, loaded at
 `0x80168000..0x80169800`. In its mode-zero path, the caller enters this
 image at `0x801680F4` and polls `0x80168160`.
+
+The phase contains the retail "SOFTWARE TERMINATED / CONSOLE MAY HAVE BEEN
+MODIFIED" warning and its phone number. This confirms that the guarded image
+is the boot compliance module, not a Free Duel or password overlay.
 
 The static, little-endian guard comparison against the verified archive
 slices is:

@@ -356,18 +356,22 @@ offset.
 
 #### Startup phase and enable-code sites
 
-Matching [`func_80043960`](../../src/game/func_80043960.c) requests WA
+Matching
+[`Main_RunBootSequence`](../../src/game/main_run_boot_sequence.c) requests WA
 `[5776, 5830)`. Callback
-[`func_80043328`](../../src/game/func_80043328.c) assigns consecutive phase
-sizes `0x18000`, `0x1000`, `0x800`, and `0x1800`; the last phase goes to
-the pointer at `D_800101D8`. The original executable stores `0x80168000`
-there. Thus the final image is WA `[5827, 5830)`, file bytes
+[`Main_LoadBootPackageStage`](../../src/game/main_load_boot_package_stage.c)
+assigns consecutive phase sizes `0x18000`, `0x1000`, `0x800`, and `0x1800`;
+the last phase goes to the pointer at `D_800101D8`. The original executable
+stores `0x80168000` there. Thus the final image is WA `[5827, 5830)`, file bytes
 `[0xB61800, 0xB63000)`, mapped to RAM `[0x80168000, 0x80169800)`.
 
 The image's leading word is `0x00000016` and its SHA-256 is
 `83d49e3fde2dca5e60961ac9bcf31fd1ce918c885f6b88fcab01496691581d3a`.
-It is a verified load phase, but not one of the five configured images in
-`config/slus_01411/overlays.json`.
+It is a verified load phase, but not one of the configured images in
+`config/slus_01411/overlays.json`. The image contains the retail
+anti-modification warning, and the caller enters its BIOS-region initializer
+at `0x801680F4` before polling its 20-state controller at `0x80168160`. See
+the [complete boot package contract](../boot-frontend-sequence.md).
 
 Both published "enable" GameShark guards match this phase:
 

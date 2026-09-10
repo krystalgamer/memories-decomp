@@ -4,8 +4,8 @@
 #include "file_transfer.h"
 #include "../unmatched.h"
 
-void func_80043328(FileTransferDescriptor *obj, s32 mode) {
-    switch (mode) {
+void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
+    switch (stage) {
     case 0:
         obj->field_30.h.counter = 0x280;
         obj->field_30.h.field_32 = 0;

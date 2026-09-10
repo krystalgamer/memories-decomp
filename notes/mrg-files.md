@@ -161,22 +161,24 @@ resource hashes and the visual-label confidence boundary.
 
 ### Boot UI package
 
-Matching `func_80043960` requests 54 WA sectors beginning at sector `0x1690`,
-which is archive range `0xB48000-0xB63000`. Its matching callback
-`func_80043328` accounts for all four transfer phases:
+Matching `Main_RunBootSequence` requests 54 WA sectors beginning at sector
+`0x1690`, which is archive range `0xB48000-0xB63000`. Its matching callback
+`Main_LoadBootPackageStage` accounts for all four transfer phases:
 
 | WA range | Size | Callback behavior |
 |---:|---:|---|
 | `0xB48000-0xB60000` | `0x18000` / 48 sectors | Schedules the main boot UI image payload. |
 | `0xB60000-0xB61000` | `0x1000` / 2 sectors | Uploads the complete block as a `256 x 8` rectangle to VRAM `(512, 248)`. |
 | `0xB61000-0xB61800` | `0x800` / 1 sector | Uploads its first `0x100` bytes as a `16 x 8` rectangle to VRAM `(640, 232)`; retail bytes `0xB61100-0xB617FF` are zero padding. |
-| `0xB61800-0xB63000` | `0x1800` / 3 sectors | Schedules a transfer to the destination pointer stored at `D_800101D8`; its later role remains unnamed. |
+| `0xB61800-0xB63000` | `0x1800` / 3 sectors | Loads module ID `0x16` at `0x80168000`; the caller initializes it at `0x801680F4` and polls its 20-state controller at `0x80168160`. |
 
 Tutorial offsets place the shared card-pointer and fusion-number graphics
 inside the first phase, their palettes inside the second, and eight
 16-colour UI ramps at `0xB61000-0xB61100` in the third. See
 [`modding-tutorial-evidence.md`](modding-tutorial-evidence.md) for the
-resource-level offsets, hashes, and visual-label confidence.
+resource-level offsets, hashes, and visual-label confidence, and
+[`boot-frontend-sequence.md`](boot-frontend-sequence.md) for the complete
+package and compliance-module contract.
 
 ### Campaign scene package
 
