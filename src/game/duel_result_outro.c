@@ -274,7 +274,8 @@ void func_80020F4C(void)
             timer = D_8009B1D0 - 1;
             D_8009B1D0 = timer;
             if ((s16)timer > 0) {
-                if ((gInput_wPad1Pressed & 0xE0) == 0) {
+                if ((gInput_wPad1Pressed &
+                     (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
                     if ((func_8004703C() & 0x80) != 0) {
                         return;
                     }
