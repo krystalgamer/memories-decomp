@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model_record_tables.h"
+#include "func_80041C8C.h"
 
 void func_80041C8C(u8 *ctx)
 {

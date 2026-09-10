@@ -2,6 +2,8 @@
 #include "../types.h"
 #include "display_object.h"
 #include "func_80041D60.h"
+#define FUNC_80041C8C_WIDE_CALL
+#include "func_80041C8C.h"
 #include "graphics_frame.h"
 
 /* If arg0's 0x10 state bit isn't set yet: marks it set, resets field_58/field_5A,
@@ -30,9 +32,6 @@
    single pair compiles to the same logic but gcc allocates a spare
    register (a0) for the 2nd/3rd steps instead of matching the ROM's
    plain v0/v1 reuse. */
-extern void func_80041C8C(DisplayObject *a0, s32 a1, s32 a2,
-                          DisplayObject *a3);
-
 void func_80041D60(DisplayObject *arg0, s32 arg1, s32 arg2) {
     u8 *base;
     u8 *p;
