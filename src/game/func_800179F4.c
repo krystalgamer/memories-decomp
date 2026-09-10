@@ -2,6 +2,7 @@
 #include "duel_draw_status_numbers.h"
 #include "save_data.h"
 #include "duel_grid.h"
+#include "duel_card_pick_cursor.h"
 #include "duel_selection_layout.h"
 #include "duel_hand.h"
 #include "main_frame.h"
@@ -26,7 +27,6 @@ extern u8 gDuel_awOpponentDeckPool[];
 extern u8 D_801D1200[];
 
 extern u8 gDuel_bQuitDialogState;
-extern u8 D_8009B1D4;
 extern u16 D_8009B204;
 extern u16 D_8009B16C;
 extern u8 *D_8009B22C;
