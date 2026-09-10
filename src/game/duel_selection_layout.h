@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_SELECTION_LAYOUT_H
 
 #include "../types.h"
+#include "duel_card_pick_cursor.h"
 #include "duel_hand.h"
 
 #define DUEL_SELECTION_RECORD_SIZE 0x1C
@@ -62,16 +63,23 @@ extern u8 D_800E9F48[];
  * load :1412), func_8001F55C.s (stores :93, :183; load :96) and
  * func_800235C0.s:7.
  *
- * u8 * because the struct views of this record are deliberately partial
- * (duel_grid.h:21-22 and :29-31, and the note on DuelSelectionSideView
- * above): DuelFieldCursor is 0x11 bytes and func_8001B938 writes +0x19, so
- * the byte view is the one every store fits, and func_80017034.c casts at
- * its one use. Every access in the binary is a %gp_rel lw or sw
+ * DuelCardPickCursor * because that view does cover every store. This
+ * note used to say the byte view was the only one that fits, on the
+ * grounds that DuelFieldCursor is 0x11 bytes while func_8001B938 writes
+ * +0x19. That is true of DuelFieldCursor and false of the record as a
+ * whole: DuelCardPickCursor is 0x1A bytes and ends at 0x19 exactly, and
+ * duel_card_pick_cursor.h already recorded that its col, row and status
+ * agree with the narrower views. func_80017034.c still casts to the
+ * narrow DuelFieldCursor at its one use.
+ *
+ * The store at +8 stays a cast: it writes a DuelHandSlot *, and giving
+ * the record a pointer member there would raise its alignment to 4 and
+ * its size to 0x1C, which the asserted 0x1A forbids. Every access in the binary is a %gp_rel lw or sw
  * (func_80017034.s:6, func_80018608.s:94, func_8001898C.s:38 and :164,
  * func_8001B938.s:12 and its nine loads), so this is the plain declaration.
  * Four bytes at 0x8009B1B4, with D_8009B1B8 at +4 (c_symbols.ld:133-134).
  * Initial value not read. */
-extern u8 *D_8009B1B4;
+extern DuelCardPickCursor *D_8009B1B4;
 
 /* Resets that table. For both sides it walks the four records, zeroing the
  * first three words and the byte at 0x18, then writing 1 to 0x13, the record

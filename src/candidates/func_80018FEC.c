@@ -13,6 +13,7 @@
  * count are identical; the difference is placement, not missing operations.
  */
 #include "../types.h"
+#include "../game/duel_card_pick_cursor.h"
 #include "../game/duel_card_layout.h"
 
 extern u16 D_8009B23A;
@@ -23,7 +24,7 @@ extern u8 D_8009B1D5;
 extern u8 gDuel_bWinnerSide;
 extern u8 *D_8009B214;
 extern u8 *D_8009B21C;
-extern u8 *D_8009B1B4;
+extern DuelCardPickCursor *D_8009B1B4;
 extern u8 *D_8009B17C;
 
 extern u8 D_8015C424[];
@@ -90,7 +91,7 @@ void func_80018FEC(void)
         objs = D_800E9EF0;
         D_8009B23A = flags | 0x8000;
         obj = D_8009B214;
-        D_8009B1B4 = &D_800E9F10[D_8009B1D5 * 0x70];
+        D_8009B1B4 = (DuelCardPickCursor *)&D_800E9F10[D_8009B1D5 * 0x70];
         *(s16 *)(obj + 0x28) = -0x40;
         *(u16 *)(obj + 0x2C) = 0x10;
         obj[0x6C] = 1;
@@ -122,7 +123,7 @@ next_obj:
             goto next_obj;
         }
         D_800E9F04[0] = 0;
-        func_8004036C(*(u8 **)(D_8009B1B4 + 4));
+        func_8004036C(*(u8 **)((u8 *)D_8009B1B4 + 4));
         D_8009B162 = 8;
         D_8009B1D0 = 0;
         D_8009B1B9 = 0;

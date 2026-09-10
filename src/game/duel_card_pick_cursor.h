@@ -13,7 +13,8 @@ typedef struct {
     s8 row;
     u8 field_11;
     u8 field_12;
-    u8 pad_13[5];
+    u8 field_13;
+    u8 pad_14[4];
     u8 field_18;
     u8 status;
 } DuelCardPickCursor;

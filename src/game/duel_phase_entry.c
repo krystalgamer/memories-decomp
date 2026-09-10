@@ -192,8 +192,9 @@ void func_80018608(void)
         if ((D_8009B174 & 0x80) == 0) {
             D_8009B174 |= 0x80;
             D_8009B162 = 2;
-            D_8009B1B4 = D_800E9F10 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
-            *(u16 *)(D_8009B1B4 + 0xC) = 0xAE;
+            D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F10 +
+                D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
+            *(u16 *)&D_8009B1B4->field_0C = 0xAE;
         }
         if (D_8009B162 == 0) {
             D_8009B174 = 4;
@@ -277,9 +278,10 @@ void func_8001898C(void) {
         Duel_ClearHandSlots();
         side = D_8009B1D5;
         D_8009B1C8 = (DuelSideState *)((u8 *)D_800E9FF0 + side * sizeof(DuelSideState));
-        D_8009B1B4 = D_800E9F10 + side * DUEL_SELECTION_SIDE_SIZE;
+        D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F10 +
+                side * DUEL_SELECTION_SIDE_SIZE);
         base = D_800EA030;
-        *(DuelHandSlot **)(D_8009B1B4 + 8) = base;
+        *(DuelHandSlot **)((u8 *)D_8009B1B4 + 8) = base;
         if (*(s8 *)((u8 *)D_8009B1C8 + 0x19) != 0) {
             c = ((u8 *)D_8009B1C8)[0x19] - 1;
             ((u8 *)D_8009B1C8)[0x19] = c;
@@ -329,8 +331,9 @@ void func_8001898C(void) {
         }
         D_8009B1EC = HAND_SIZE - n;
         D_8009B162 = 2;
-        D_8009B1B4 = D_800E9F10 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
-        *(u16 *)(D_8009B1B4 + 0xC) = 0xAE;
+        D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F10 +
+                D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
+        *(u16 *)&D_8009B1B4->field_0C = 0xAE;
     } else if (D_8009B162 == 0) {
         D_8009B23A = 3;
     }

@@ -32,13 +32,14 @@ void func_8001B938(u8 *p) {
     s32 c;
     s32 i;
 
-    D_8009B1B4 = D_800E9F48 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
-    D_8009B1B4[0x19] = 0;
-    D_8009B1B4[0x13] = 1;
-    *(s16 *)(D_8009B1B4 + 0xC) = 0x74;
-    D_8009B1B4[0x18] = 0;
-    D_8009B1B4[0x11] = 2;
-    D_8009B1B4[0x12] = 3;
+    D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F48 +
+                                       D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
+    D_8009B1B4->status = 0;
+    D_8009B1B4->field_13 = 1;
+    D_8009B1B4->field_0C = 0x74;
+    D_8009B1B4->field_18 = 0;
+    D_8009B1B4->field_11 = 2;
+    D_8009B1B4->field_12 = 3;
 
     if (p[0x15] == 0) {
         b = D_8015C424;
@@ -49,22 +50,22 @@ void func_8001B938(u8 *p) {
     k = i;
         if (k >= CARD_TYPE_MAGIC) {
             if (r->field_20.b.field_21 != 0 || k == CARD_TYPE_TRAP) {
-                D_8009B1B4[0x11] = 3;
-                D_8009B1B4[0x12] = 4;
+                D_8009B1B4->field_11 = 3;
+                D_8009B1B4->field_12 = 4;
             }
         }
     }
 
-    D_8009B1B4[0x10] = D_8009B1B4[0x11];
+    D_8009B1B4->row = D_8009B1B4->field_11;
     c = D_800907D8[
-        *(s8 *)(D_8009B1B4 + 0x10) * DUEL_FIELD_ROW_SIZE +
+        D_8009B1B4->row * DUEL_FIELD_ROW_SIZE +
         D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ];
     e = &D_801A7AD8[c];
 
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++, e++) {
         if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) == 0) {
-            D_8009B1B4[0xF] = i;
+            D_8009B1B4->col = i;
             break;
         }
     }
