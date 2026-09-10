@@ -195,9 +195,9 @@ extern volatile s32 D_8009B09C;
  *
  * main_frame.c and main_init.c reach it gp-relative and take the volatile
  * form below; SaveData_ApplyRuntimeState stores through $at (lui/sw) and
- * SaveData_BuildPayload loads through a lui/lw pair, each in a unit that
- * reaches one other symbol through $gp, so save_data_apply_runtime_state.c
- * and save_data_build_payload.c define the .data arm. */
+ * SaveData_BuildPayload loads through a lui/lw pair, each while reaching
+ * another symbol through $gp, so save_data_payload.c, which holds both,
+ * defines the .data arm. */
 #ifdef D_8009B0C4_IN_DATA
 extern s32 D_8009B0C4 __attribute__((section(".data")));
 #else

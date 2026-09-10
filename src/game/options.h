@@ -29,7 +29,7 @@ extern s8 gOptions_bOutputType;
  *
  * gSD_bOutputType is shared by both sources but is declared in sound.h,
  * after the driver words it follows in memory, because it is not an
- * options symbol: the sound driver owns it, save_data_build_payload.c
+ * options symbol: the sound driver owns it, SaveData_BuildPayload
  * writes it into the save, and sound_frontend.c reaches it as a plain
  * scalar from small data, so sound.h carries the guarded arm those two
  * addressing groups need. An earlier version of this note said the
