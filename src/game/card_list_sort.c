@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/qsort.h"
 #include "card_list_text_boxes.h"
 #include "card_list_sort.h"
 #include "rand_get_interval.h"

@@ -1068,15 +1068,25 @@ provides both `abs(int)` and an `ABS` macro whose argument can be evaluated
 more than once. `convert.h` declares decimal and base-selectable integer
 parsers plus `labs`. `qsort.h` retains the original `int (*)()` comparator
 prototype; changing a matching caller to a modern fully prototyped callback
-can change argument setup. `rand.h` fixes `RAND_MAX` at 32767 and exposes the
-`rand`/`srand` pair whose resident implementation is documented separately in
-[`rng.md`](rng.md). Matching resident C includes `qsort.h` and `rand.h`
-directly. The password/name-entry starter generator and module main, plus the
-five matching main-menu sort comparators, now use `rand.h` rather than
-duplicate the runtime declaration. The main-menu card-list builder also uses
-`qsort.h` with the original unprototyped comparator shape. Newly integrated
-`Duel_ShuffleDeck`, `func_80031084`, `func_80043BCC`, and `func_80050584`
-also include `rand.h` for their resident RNG calls.
+can change argument setup. Exactly three matching sources include it:
+`duel_deck_card_data.c` sorts `COMBINED_DECK_SIZE` two-byte card ids through
+`Util_CompareS16` before compacting duplicates; `card_list_sort.c` builds
+mode-specific keys for sixteen-byte `CardListSortItem` rows and chooses
+`func_80032BD4` or `BuildDeck_CompareCard`; and the main-menu overlay's
+`trade_inventory.c` sorts `CARD_COUNT` four-byte id/count entries through one
+of six `int (*)()` comparators selected by the inventory mode.
+`sorted_entry_relink.c` is a deliberate fourth qsort caller without the header:
+giving qsort itself a declaration changes its argument setup, so the file
+keeps that call unprototyped while taking only its comparator declaration from
+`func_80035598.h`.
+
+`rand.h` fixes `RAND_MAX` at 32767 and exposes the `rand`/`srand` pair whose
+resident implementation is documented separately in [`rng.md`](rng.md).
+Matching resident C includes `rand.h` directly. The password/name-entry
+starter generator and module main, plus the five matching main-menu sort
+comparators, now use `rand.h` rather than duplicate the runtime declaration.
+Newly integrated `Duel_ShuffleDeck`, `func_80031084`, `func_80043BCC`, and
+`func_80050584` also include `rand.h` for their resident RNG calls.
 
 The imported string headers form a compatibility stack rather than three
 independent libraries. `string.h` only includes `strings.h`; `strings.h`
