@@ -85,14 +85,16 @@ void func_8002FD10(s16 arg0)
         LoadImage2(&D_800E9D70[1], src + 0x240);
         i++;
         D_800E9D70[1].y = D_800E9D70[1].y + 1;
-        D_800E9D70[0].x = (i % 5) * 24 + 0x380;
-        D_800E9D70[0].y = (i / 5) * 48;
+        D_800E9D70[0].x =
+            (i % CAMPAIGN_SCENE_IMAGE_GRID_COLUMN_COUNT) * 24 + 0x380;
+        D_800E9D70[0].y =
+            (i / CAMPAIGN_SCENE_IMAGE_GRID_COLUMN_COUNT) * 48;
         if (D_800E9D70[1].y >= 0x100) {
             D_800E9D70[1].x = D_800E9D70[1].x + 0x40;
             D_800E9D70[1].y = 0xF0;
         }
         src += 0x260;
-    } while (i < 25);
+    } while (i < CAMPAIGN_SCENE_IMAGE_COUNT);
 
     D_8009B2A0 = func_8002E3FC();
 }
