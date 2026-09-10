@@ -26,7 +26,7 @@ void Text_HandleChoiceCommand(u8 *p)
     }
     if (c & 0x80) {
         *(s32 *)(p - -(*(s8 *)(p + 0x58) * 4)) += gDialog_bChoice * 2;
-        Text_SetCursorOffset(p);
+        Text_SetCursorOffset((DuelEffectChannel *)p);
     } else {
         gDialog_bChoiceCount = 7;
         gDialog_bChoiceCount = c & gDialog_bChoiceCount;
