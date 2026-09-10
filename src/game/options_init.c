@@ -36,7 +36,7 @@ void Options_Init(void) {
     obj = func_800400AC(func_8004002C(), 2);
     s2 = 0x10;
     func_800428A8(obj, 0, 0, 0, 0, 0, s2, 0x100, D_801AF000);
-    func_800428EC(obj, -5);
+    func_800428EC((u8 *)obj, -5);
     gOptions_bState = 1;
     {
         s8 flag408 = gSD_bOutputType[0];

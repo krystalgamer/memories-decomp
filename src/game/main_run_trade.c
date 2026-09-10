@@ -53,7 +53,7 @@ void Main_RunTrade(void)
         obj->flags = obj->flags | 0x20;
         obj->attribute = obj->attribute | GsALON;
         func_80042918(obj);
-        func_800428EC(obj, 0xF);
+        func_800428EC((u8 *)obj, 0xF);
         gTradeObj = obj;
         Fade_WaitIn();
     }
