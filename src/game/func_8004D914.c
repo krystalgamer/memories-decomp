@@ -102,7 +102,7 @@ zero:
             }
             j++;
             k += 0x74;
-        } while (j < 0xA);
+        } while (j < MODEL_SLOT_ROW_COUNT);
 
         o += 2;
         e += 2;
