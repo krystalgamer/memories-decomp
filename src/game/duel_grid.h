@@ -56,6 +56,22 @@ extern u8 D_800907D8[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 extern u8 D_800907D8[];
 #endif
 
+/* The hand table defined immediately before that grid, in the same unit:
+ * duel_field_layout.c has it as
+ *
+ *     u8 D_800907CC[DUEL_SIDE_COUNT * HAND_SIZE + 2] = {
+ *         0, 1, 2, 3, 4, 15, 16, 17, 18, 19, 0, 0 };
+ *
+ * and its own comment calls it the table that "maps a side's five hand slots
+ * to their card-record entries", the same D_801A7AD8 indices the grid above
+ * holds. The trailing two bytes pad to the next table.
+ *
+ * Left unsized for the same reason as the grid, and because both consumers
+ * want the flat view: duel_draw_resolution.c reads
+ * D_800907CC[i + D_8009B1D5 * HAND_SIZE] and func_8001BAF0.c takes the base
+ * pointer. */
+extern u8 D_800907CC[];
+
 /* The screen position of every field slot, defined with initialisers in
  * duel_field_layout.c as a two-dimensional table. Six sources declared it
  * locally and only two of them had the shape right: the other four spelled
