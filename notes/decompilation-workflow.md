@@ -391,6 +391,25 @@ what stops GCC from optimising past retail, and the raw access has to stay.
 Attempt the conversion per function and measure it; it cannot be applied as a
 blanket cleanup.
 
+The converse is the useful half, because it is what makes candidates cheap to
+pick. Four conversions since have been byte-exact on the first build:
+
+    func_80037C74      DuelEffectChannel, five fields, no globals
+    func_8004318C      DisplayObjectPosition, four fields, no globals
+    Dialog_OpenChoice  DuelEffectChannel, five fields, no globals
+    func_8003A1EC      MenuRecord, three fields, TWO globals
+
+The last one corrects the filter the first three were chosen with. Selecting
+on "the function reads no globals" is too strong and skips work that is
+safe. The hazard needs a STORE through the byte pointer for a global load to
+be hoisted across; func_8003A1EC only reads through its parameter, so its two
+globals cannot be reordered against anything and the conversion is free.
+
+Select on stores through the byte pointer, not on the presence of globals. A
+function that only reads through its parameter is safe however many globals
+it touches, and a function that stores through it needs the measurement even
+if it touches one.
+
 ## Declaration audits
 
 Collecting duplicated `extern` declarations into headers is driven by scanning
