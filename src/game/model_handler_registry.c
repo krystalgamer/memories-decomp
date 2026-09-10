@@ -14,6 +14,7 @@
 #include "model.h"
 #include "model_handler_registry.h"
 #include "model_primitive_handler_entries.h"
+#include "model_object_handler_entries.h"
 
 extern s32 (*func_800603DC())();
 
@@ -106,14 +107,6 @@ have:
 
 /* Maps the registered callback to the handler family selected by the packed
  * registry id. The case order is retail's own arm order in memory. */
-void func_80067354(void);
-void func_8006759C(void);
-void func_80067858(void);
-void func_80067ABC(void);
-void func_80067D94(void);
-void func_80067FD0(void);
-void func_8006825C(void);
-void func_800684B4(void);
 
 s32 func_8005FE44(s32 arg0) {
     ModelHandlerRegistryEntry *e;

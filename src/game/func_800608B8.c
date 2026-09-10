@@ -5,23 +5,7 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "func_800608B8.h"
-
-extern int func_80067354();
-extern int func_8006759C();
-extern int func_80067858();
-extern int func_80067ABC();
-extern int func_80067D94();
-extern int func_80067FD0();
-extern int func_8006825C();
-extern int func_800684B4();
-extern int func_8006875C();
-extern int func_80068A00();
-extern int func_80068D18();
-extern int func_80068FD8();
-extern int func_8006930C();
-extern int func_800695A4();
-extern int func_8006988C();
-extern int func_80069B40();
+#include "model_object_handler_entries.h"
 
 s32 func_800608B8(s32 arg0) {
     u32 t;
