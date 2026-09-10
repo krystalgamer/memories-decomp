@@ -23,11 +23,11 @@ void func_80038334(DuelEffectChannel *object)
 
 void func_80038388(DuelEffectChannel *object)
 {
-    object->field_38 = func_80036D3C((u8 *)object);
+    object->field_38 = func_80036D3C(object);
 }
 
 void func_800383B0(DuelEffectChannel *object)
 {
     object->field_60 = 0;
-    object->field_61 = func_80036D3C((u8 *)object);
+    object->field_61 = func_80036D3C(object);
 }

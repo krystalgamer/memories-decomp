@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_FUNC_80036D3C_H
 
 #include "../types.h"
+#include "duel_effect.h"
 
 /* Reads the next little-endian halfword from one of the byte streams held at
  * the front of an object and advances that stream past it.
@@ -11,6 +12,6 @@
  * that byte rather than by passing a different object.
  *
  * The parameter is the object that owns the streams, not a stream itself. */
-int func_80036D3C(u8 *object);
+int func_80036D3C(DuelEffectChannel *object);
 
 #endif

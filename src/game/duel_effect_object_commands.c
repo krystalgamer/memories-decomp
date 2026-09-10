@@ -17,7 +17,7 @@ void func_800389D8(DuelEffectChannel *object)
     s32 value;
 
     *(s32 *)((u8 *)object + offset) += D_8009B34E * 2;
-    value = func_80036D3C((u8 *)object);
+    value = func_80036D3C(object);
     offset = object->stream_58 * 4;
     *(s32 *)((u8 *)object + offset) =
         (*(s32 *)((u8 *)object + offset) & 0xFFFF0000) |
@@ -30,7 +30,7 @@ void func_80038A44(DuelEffectChannel *object)
     s32 value;
 
     *(s32 *)((u8 *)object + offset) += D_8009B355 * 2;
-    value = func_80036D3C((u8 *)object);
+    value = func_80036D3C(object);
     offset = object->stream_58 * 4;
     *(s32 *)((u8 *)object + offset) =
         (*(s32 *)((u8 *)object + offset) & 0xFFFF0000) |

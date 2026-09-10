@@ -35,7 +35,7 @@ void func_8003767C(DuelEffectChannel *state)
 
     D_8009B2AA[0] = 0;
     D_8009B2A8[0] = 0;
-    result = func_80036D3C((u8 *)state);
+    result = func_80036D3C(state);
     D_8009B270[0] = result;
 
     if (result & 0x8000) {
@@ -45,7 +45,7 @@ void func_8003767C(DuelEffectChannel *state)
 
         *slot = script + 1;
         Base2_8009B2AA[0] = value;
-        Base2_8009B2A8[0] = func_80036D3C((u8 *)state);
+        Base2_8009B2A8[0] = func_80036D3C(state);
     }
 
     D_8009B357 = 5;
@@ -59,9 +59,9 @@ void func_8003771C(DuelEffectChannel *object)
     s32 raw_value;
 
     object->state_51 = 0;
-    D_8009B2A8_scalar = func_80036D3C((u8 *)object);
-    D_8009B2AA_scalar = func_80036D3C((u8 *)object);
-    D_8009B29C = func_80036D3C((u8 *)object);
+    D_8009B2A8_scalar = func_80036D3C(object);
+    D_8009B2AA_scalar = func_80036D3C(object);
+    D_8009B29C = func_80036D3C(object);
 
     signed_value = D_8009B2AA_scalar;
     raw_value = (u16)D_8009B2AA_scalar;

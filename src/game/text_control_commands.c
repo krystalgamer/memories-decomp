@@ -12,7 +12,7 @@ void func_80038D14(DuelEffectChannel *value)
 
 void func_80038D2C(DuelEffectChannel *object)
 {
-    s32 flag = func_80036D3C((u8 *)object);
+    s32 flag = func_80036D3C(object);
 
     flag &= CAMPAIGN_FLAG_COMMAND_WORD_MASK;
     if (flag & CAMPAIGN_FLAG_COMMAND_WRITE) {
@@ -21,7 +21,7 @@ void func_80038D2C(DuelEffectChannel *object)
     }
 
     {
-        s32 target = func_80036D3C((u8 *)object);
+        s32 target = func_80036D3C(object);
 
         target &= 0xFFFF;
         if (Campaign_TestStoryFlag(flag) != 0) {

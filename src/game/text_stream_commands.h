@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_TEXT_STREAM_COMMANDS_H
 
 #include "../types.h"
+#include "duel_effect.h"
 
 #define TEXT_STREAM_SLOT_COUNT 22
 
@@ -37,7 +38,7 @@ void func_80037D6C(u8 *object);
  * Both callers already spelled it this way -- text_handle_choice_command.c
  * calls it, and duel_effect_command_table.c takes its address for the command
  * table, which is why the declaration there is not extern. */
-void Text_SetCursorOffset(u8 *object);
+void Text_SetCursorOffset(DuelEffectChannel *object);
 
 /* The dialog's pending completion callback, declared here because
  * func_80037CE0 is the only function ever stored in it.
