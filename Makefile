@@ -237,6 +237,9 @@ check-data-symbols:
 	@$(PYTHON) tools/project/check_data_symbol_ownership.py --self-test
 	@$(PYTHON) tools/project/check_data_symbol_ownership.py
 
+check-data-symbols-objects:
+	@$(PYTHON) tools/project/check_data_symbol_ownership.py --objects
+
 disc-files: workspace
 	@$(PYTHON) tools/project/disc_image.py extract $(FILES)
 

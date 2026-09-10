@@ -117,6 +117,9 @@ jobs:
             tmp/project-build/SLUS_014.11 \
             | sha256sum --check --strict
 
+      - name: Verify no C definition collides with a linker assignment
+        run: make check-data-symbols-objects
+
       - name: Exercise the worker incremental loop
         run: |
           tools/environments/python/bin/python tools/project/build_incremental.py --seed-existing

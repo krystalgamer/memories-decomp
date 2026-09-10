@@ -28,6 +28,14 @@ reach small data at all.
 
     tools/environments/python/bin/python \\
         tools/project/check_data_symbol_ownership.py
+
+The default reads sources, needs no build, and covers the units in
+`data_c.json` -- the place carves happen and the place the mistake is most
+likely. `--objects` reads the symbol tables of everything already compiled
+instead, which is authoritative and covers ordinary translation units too,
+at the cost of needing a build first. Across all 643 objects the only
+collisions today are the fifteen common symbols above, so it currently
+passes; it is a regression gate rather than a repair.
 """
 
 from __future__ import annotations
@@ -218,12 +226,87 @@ def self_test() -> None:
     print("check_data_symbol_ownership self-test: ok")
 
 
+NM = "tools/toolchains/binutils-2.42/bin/mipsel-none-elf-nm"
+BUILD_DIR = "tmp/splat/build/src"
+
+# Emitted into every object by this compiler; they are markers, not data.
+COMPILER_MARKERS = frozenset({"__gnu_compiled_c", "gcc2_compiled."})
+
+# Every defined symbol is checked except common ones, which have their own
+# entry above, and the compiler's own markers. Functions are included: a
+# function defined in C whose name a linker script also assigns would be
+# shadowed exactly as a variable would.
+EXCLUDED_TYPES = frozenset({"C"})
+
+
+def check_objects(root: Path) -> tuple[list[str], int, int]:
+    """Check every compiled object, not just the data units.
+
+    The source reader cannot be pointed at ordinary translation units -- they
+    are full of function bodies and locals -- so this reads the symbol tables
+    instead, which is authoritative. It needs a build, which is why it is a
+    separate mode rather than the default.
+    """
+    import subprocess
+
+    assigned = linker_assignments(root)
+    build = root / BUILD_DIR
+    if not build.is_dir():
+        return ([f"{BUILD_DIR} is missing; run make match first"], 0, 0)
+    problems = []
+    checked = 0
+    common = 0
+    for obj in sorted(build.rglob("*.o")):
+        listing = subprocess.run(
+            [str(root / NM), "--defined-only", str(obj)],
+            capture_output=True,
+            text=True,
+        )
+        for line in listing.stdout.splitlines():
+            fields = line.split()
+            if len(fields) != 3:
+                continue
+            kind, name = fields[1], fields[2]
+            if name in COMPILER_MARKERS:
+                continue
+            if kind == "C":
+                if name in assigned:
+                    common += 1
+                continue
+            if kind in EXCLUDED_TYPES:
+                continue
+            checked += 1
+            if name in assigned:
+                problems.append(
+                    f"{obj.relative_to(root)}: {name} is defined here and "
+                    f"assigned in {assigned[name]}; the assignment wins and "
+                    f"this definition never loads"
+                )
+    return problems, checked, common
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--self-test", action="store_true")
+    parser.add_argument(
+        "--objects",
+        action="store_true",
+        help="check compiled objects instead of data-unit sources",
+    )
     args = parser.parse_args()
     if args.self_test:
         self_test()
+        return 0
+    if args.objects:
+        problems, checked, common = check_objects(ROOT)
+        if problems:
+            for line in problems:
+                print(f"error: {line}", file=sys.stderr)
+            return 1
+        print(
+            f"data symbol ownership: {checked} defined object symbols clear "
+            f"of linker assignments ({common} common symbols excluded)"
+        )
         return 0
     problems, defined, tentative = check(ROOT)
     if problems:
