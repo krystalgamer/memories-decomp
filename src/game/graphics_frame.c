@@ -17,11 +17,7 @@
    common symbol, so no storage is allocated here. */
 u8 D_8009B0C1;
 
-extern void func_80085500(void);
-extern void func_80085E10(void *, void *);
-extern s32 func_80085320(void);
 extern void func_800862C0(void *);
-extern void func_80085DB0(s32, s32, u32 *);
 
 /* gp-relative in the target, so this unit defines them */
 u8 D_8009B0A8;
@@ -81,7 +77,7 @@ void Graphics_BeginFrame(void)
         D_800FE048[0x19] = D_8009B144;
         D_800FE048[0x1A] = D_8009B143;
         D_800FE048[0x1B] = D_8009B142;
-        func_80085500();
+        GsSwapDispBuff();
         if ((D_8009B098 & 0x2000) != 0) {
             PutDispEnv(&gGraphics_DispEnv);
         }
@@ -92,15 +88,18 @@ void Graphics_BeginFrame(void)
     }
     if ((D_8009B318 & 0x80) == 0) {
         if (D_8009B141 != 0) {
-            func_80085E10(D_8009B0B4 + 0x5124, D_8009B0B4 + 0x5110);
+            GsSortOt((GsOT *)(D_8009B0B4 + 0x5124),
+                     (GsOT *)(D_8009B0B4 + 0x5110));
             if ((D_8009B141 & 0x80) == 0) {
-                func_80085E10(D_8009B0B4 + 0x5138, D_8009B0B4 + 0x5110);
-                func_80085E10(D_8009B0B4 + 0x514C, D_8009B0B4 + 0x5110);
+                GsSortOt((GsOT *)(D_8009B0B4 + 0x5138),
+                         (GsOT *)(D_8009B0B4 + 0x5110));
+                GsSortOt((GsOT *)(D_8009B0B4 + 0x514C),
+                         (GsOT *)(D_8009B0B4 + 0x5110));
             }
             GsDrawOt((GsOT *)(D_8009B0B4 + 0x5110));
         }
     }
-    idx = func_80085320();
+    idx = GsGetActiveBuff();
     src = (s32)D_8009B0A0;
     i = 3;
     gGraphics_bActiveBuffer = idx;
@@ -116,7 +115,7 @@ void Graphics_BeginFrame(void)
         *slot = ptr;
         slot--;
         *ptr = *(u8 *)(i + src);
-        func_80085DB0(0, 0, ptr);
+        GsClearOt(0, 0, (GsOT *)ptr);
         off -= 0x14;
         i--;
     } while (i >= 0);
