@@ -50,7 +50,7 @@ void func_80039794(void)
                     f = q->flags;
                     if (f & 0x2000) {
                         if (f & 8) {
-                            q->obj = Dialog_OpenChoice((u8 *)p);
+                            q->obj = Dialog_OpenChoice(p);
                         }
                         break;
                     }

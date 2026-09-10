@@ -16,14 +16,14 @@ void func_800374A8(DuelEffectChannel *object)
     }
 }
 
-u8 *Dialog_OpenChoice(u8 *record)
+u8 *Dialog_OpenChoice(DuelEffectChannel *record)
 {
     u8 *cursor = func_800400AC((s32)func_8004006C(), 2);
 
     func_800404CC(
         cursor,
-        *(s16 *)(record + 0x3C) + *(s16 *)(record + 0x3E) - 0x10,
-        *(s16 *)(record + 0x40) + *(s16 *)(record + 0x42) - 0x10,
+        record->field_3C + record->field_3E - 0x10,
+        record->field_40 + record->field_42 - 0x10,
         3,
         0,
         0,
@@ -32,6 +32,6 @@ u8 *Dialog_OpenChoice(u8 *record)
     );
     *(u16 *)(cursor + 8) |= 0x28;
     func_80042918((DisplayObject *)cursor);
-    func_800428EC(cursor, (s8)(record[0x59] + 1));
+    func_800428EC(cursor, (s8)(record->field_59 + 1));
     return cursor;
 }
