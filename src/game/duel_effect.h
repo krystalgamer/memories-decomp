@@ -241,7 +241,7 @@ extern u8 D_8009B355;
  * :38, :40) -- under `if (D_8009B34E != 0)` (duel_field_display_objects.c
  * :126-131); func_8002A2F4 stores the byte at +0x54 of the object
  * TextBox_Create returned (`o` is u8 *) and then 4 when
- * `*(p + (n << 2) + 0x56) & 1` (func_8002A2F4.c:38-42); func_80037DA4
+ * `*(p + (n << 2) + 0x56) & 1` (func_8002A2F4.c:37-41); func_80037DA4
  * stores it into `object[0x54]` when the opcode byte has bit 0x10
  * (func_80037DA4.c:35-38). notes/duel-card-record.md:173-176 glosses the
  * three results. No unit defines it; the address comes from the generated
