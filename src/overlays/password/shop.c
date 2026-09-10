@@ -44,7 +44,6 @@ extern void func_80029528(s32);
 extern void func_80029574(s32);
 extern PasswordCardPreviewView *func_800291E0(s32, s32, s32);
 
-extern u32 D_800EB12C;
 extern u16 D_8016D4DC;
 extern u32 D_8016D438;
 extern u32 D_801A8000[];
