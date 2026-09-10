@@ -4095,11 +4095,13 @@ declaration.
 So when a residual is a base or scratch register at the *tail* of a function
 and the instruction multiset is already exact, check the return types of
 everything the function calls before spending time on the tail itself.
-`color.h` now records this contract explicitly: `func_8005B054.c` and
-`func_8005B0B4.c` define `FUNC_8005ABA0_WIDE_VOID` to select the measured
-wide-argument, void-returning declaration, while `color_transform.c` sees the
-real narrow `Color *` signature. A guarded declaration centralizes the API
-without flattening the caller-visible difference.
+`color.h` now records both contracts explicitly. `func_8005B0B4.c` defines
+`FUNC_8005A98C_RETURNS_VOID`, while the defining `color_transform.c` sees the
+real `HsvT *` signature. `func_8005B054.c` and `func_8005B0B4.c` define
+`FUNC_8005ABA0_WIDE_VOID` to select the measured wide-argument,
+void-returning declaration, while `color_transform.c` sees the real narrow
+`Color *` signature. Guarded declarations centralize the APIs without
+flattening the caller-visible differences.
 
 Two negatives worth recording, because both look like the obvious fix and
 neither works. Pinning a variable to the wanted base register does not help:
