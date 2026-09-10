@@ -93,7 +93,6 @@ void MainMenu_DrawTradeColumnOverlay(s32 column)
 }
 
 extern u16 D_80185C8C[][2];
-extern MainMenuWidget *D_801845E0;
 
 void MainMenu_RebuildTradeInventoryRows(s32 side)
 {

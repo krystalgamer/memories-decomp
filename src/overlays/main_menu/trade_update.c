@@ -22,10 +22,6 @@ typedef struct {
     u32 words[4];
 } Block16;
 
-extern u8 *D_801845DC;
-extern u8 *D_801845E0;
-extern MainMenuSlot D_801845EC[];
-extern MainMenuWidget *D_801845F4;
 extern s32 D_80180000[];
 extern MainMenuState D_801A8000[];
 extern CardCountEntry D_80185144[];
@@ -54,19 +50,19 @@ void MainMenu_InitTradeScreen(void)
     s32 i;
 
     object = func_800400AC(func_8004002C(), 2);
-    D_801845DC = object;
+    D_801845DC = (MainMenuWidget *)object;
     if (object != 0) {
         func_800404CC(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
-        *(u16 *)(D_801845DC + 8) |= 0x28;
-        func_800428EC(D_801845DC, -2);
+        *(u16 *)((u8 *)D_801845DC + 8) |= 0x28;
+        func_800428EC((u8 *)D_801845DC, -2);
     }
 
     object = func_800400AC(func_8004002C(), 2);
-    D_801845E0 = object;
+    D_801845E0 = (MainMenuWidget *)object;
     if (object != 0) {
         func_800404CC(object, 0, -3, 0, 4, 4, 0xC, 0x208);
-        *(u16 *)(D_801845E0 + 8) |= 0x28;
-        func_800428EC(D_801845E0, -1);
+        *(u16 *)((u8 *)D_801845E0 + 8) |= 0x28;
+        func_800428EC((u8 *)D_801845E0, -1);
     }
 
     func_80061008(0, 0x25, 0xA0, 0x25);
@@ -101,12 +97,8 @@ void MainMenu_InitTradeScreen(void)
     D_8009B0C0 = 1;
 }
 
-extern MainMenuWidget *D_801845E0_widget asm("D_801845E0");
-extern MainMenuWidget *D_801845EC_widget asm("D_801845EC");
 extern u16 D_80185C8C_words[2][2] asm("D_80185C8C");
 
-#define D_801845E0 D_801845E0_widget
-#define D_801845EC D_801845EC_widget
 #define D_80185C8C D_80185C8C_words
 
 s32 MainMenu_UpdateTradeScreen(void)
@@ -574,10 +566,10 @@ check_scroll1:
 
 update:
     if (cursor0 != 0) {
-        D_801845EC->y = D_80185CCA[0] * 22 + 36;
+        ((MainMenuWidget *)D_801845EC[0].object)->y = D_80185CCA[0] * 22 + 36;
     }
     if (cursor1 != 0) {
-        D_801845F4->y = D_80185CCB * 22 + 36;
+        ((MainMenuWidget *)D_801845EC[1].object)->y = D_80185CCB * 22 + 36;
     }
     if (flags != previousFlags) {
         SD_SEPlay(30, 255, 0);
