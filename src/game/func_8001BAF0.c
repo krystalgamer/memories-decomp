@@ -100,7 +100,7 @@ next:
             spawned = (DuelCardDisplayObject *)slot->object;
             Duel_SetupCardRecord(id, *(s8 *)&rec->index_02);
             slot->object = (u8 *)func_80018004(
-                (u8 *)(id * DUEL_CARD_RECORD_SIZE + (s32)recs),
+                (DuelCardRecord *)(id * DUEL_CARD_RECORD_SIZE + (s32)recs),
                 spawned->out_x,
                 spawned->out_y
             );

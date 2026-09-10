@@ -21,15 +21,17 @@
  *
  * So the arms mirror the ones this unit itself consumes: a caller that makes
  * the three-argument call defines FUNC_80018004_AMBIENT_POSITION_ARGS and gets
- * the old-style declaration, while the defining unit gets the real prototype
- * and is checked against it.
+ * the explicit wide declaration, while the defining unit gets the real
+ * prototype and is checked against it.
  *
  * The three callers disagreed about the return type too, `u8 *` twice against
  * DuelCardDisplayObject *. That one is a view, not a fact: duel_draw_resolution.c
  * writes the object's +0x6C, past this struct's last field, so it keeps its raw
  * view and casts. */
 #ifdef FUNC_80018004_AMBIENT_POSITION_ARGS
-DuelCardDisplayObject *func_80018004();
+DuelCardDisplayObject *func_80018004(
+    DuelCardRecord *card, s32 x, s32 y
+);
 #else
 DuelCardDisplayObject *func_80018004(DuelCardRecord *card);
 #endif
