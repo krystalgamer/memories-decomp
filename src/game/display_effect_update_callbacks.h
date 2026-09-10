@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "menu_record.h"
 
-/* The two D_80090F68 display effect steps this unit defines.
+/* The final two D_80090F68 display effect steps in this unit.
  *
  * func_8003AD6C is the builder: it fills all four of the record's grid rows
  * by handing func_8003A1EC the groups at +0, +0xC, +0x18 and +0x24, which is
