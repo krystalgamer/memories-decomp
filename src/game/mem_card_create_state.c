@@ -5,6 +5,7 @@
 #define GMEMCARD_RESULT_USES_WIDE_ARGS
 #include "mem_card.h"
 #include "save_data.h"
+#include "file_transfer.h"
 #include "../unmatched.h"
 
 /* Memory-card create dialog state machine, the third of the family beside
@@ -41,7 +42,6 @@
 
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u8 D_8009AF70[];
-extern u8 gLibrary_aCardArtRecord[];
 extern s32 D_801D5608[];
 
 void func_8003E854(void)

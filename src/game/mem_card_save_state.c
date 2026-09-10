@@ -3,6 +3,7 @@
 
 #include "mem_card.h"
 #include "save_data.h"
+#include "file_transfer.h"
 #include "duel_effect.h"
 #include "../unmatched.h"
 
@@ -24,7 +25,6 @@
    - Both MemCardWriteFile calls are spelled out, one per branch, so only the
      trailing pair cross-jumps and the D_800EFE18 %lo stays duplicated. */
 extern u32 D_8009B3E0;
-extern u8 gLibrary_aCardArtRecord[];
 
 void func_8003EED0(void)
 {

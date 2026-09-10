@@ -204,6 +204,22 @@ extern u16 D_8009B112_abs __attribute__((section(".data")));
 extern u32 D_8009B134;
 extern u32 D_8009B134_abs __attribute__((section(".data")));
 
+/* 0x801DC000, gLibrary_aCardArtRecord in config/slus_01411/symbols.txt:372.
+ * File_SetPositionTable hands its address to File_InitTransferState
+ * (file_set_position_table.c:18), which stores it into D_8009B118
+ * (file_stream.c:20). The two memory-card dialogs also reach it, always by
+ * address: func_8003E854 (mem_card_create_state.c:210 and :237) and
+ * func_8003EED0 (mem_card_save_state.c:93 and :118) pass it to
+ * MemCardReadFile as the destination of a read whose last argument is 0x480,
+ * and compare it as a SaveDataState at mem_card_create_state.c:228 and
+ * mem_card_save_state.c:110. Every retail access is an address-take
+ * (func_800136E4.s:5-6, func_8003E854.s:289-290 and :319-320,
+ * func_8003EED0.s:127-128, :155 and :158), so the listings say nothing about
+ * the object's width; D_801DD000, declared next, is named 0x1000 bytes
+ * higher and D_801DA000 0x2000 lower. The three units used to declare it
+ * privately, all as `u8 []`. */
+extern u8 gLibrary_aCardArtRecord[];
+
 /* Shared staging/upload buffer used by the resident transfer-phase callbacks.
  * Every C consumer treats it as an unsized byte buffer, either publishing its
  * address through a FileTransferDescriptor or passing it to LoadImage2. */
