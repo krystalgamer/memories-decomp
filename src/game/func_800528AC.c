@@ -52,7 +52,7 @@ void func_800528AC(void)
     ModelTintRequest *table;
 
     table = make_table_base();
-    for (i = 0, off = 0; i < 10; off += 0x18, i++) {
+    for (i = 0, off = 0; i < MODEL_TINT_REQUEST_COUNT; off += 0x18, i++) {
         e = &table[i];
         if ((*(u8 *)e & 1) == 0) {
             continue;
