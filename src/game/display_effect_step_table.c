@@ -30,7 +30,7 @@ void (*D_80090F68[])(u8 *) = {
     func_8003A990,
     func_8003AD6C,
     func_8003B054,
-    func_8003AC48,
+    (void (*)(u8 *))func_8003AC48,
     func_8003AAE4,
     func_8003DA40,
     func_8003D74C,
