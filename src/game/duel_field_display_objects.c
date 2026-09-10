@@ -4,6 +4,7 @@
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
 #include "card_constants.h"
+#include "duel_field_guardian_compare.h"
 #include "duel_side_state.h"
 #include "duel_grid.h"
 #include "ai.h"
@@ -21,8 +22,6 @@
 
 extern u8 D_8009B344 __attribute__((section(".data")));
 extern s32 D_801D5608[];
-
-extern s32 func_80023090(DuelFieldDisplaySource *, u8 *);
 
 void func_80023144(DuelFieldDisplaySource *source, s32 index)
 {
@@ -94,7 +93,9 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
         if (D_8009B34E != 0) {
             D_8009B355 = D_8009B355 | 2;
             D_8009B320 = func_80023090(
-                source, &D_800E9F48[D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE]
+                (DuelFieldCursor *)source,
+                (DuelFieldCursor *)
+                    &D_800E9F48[D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE]
             );
         }
     }
