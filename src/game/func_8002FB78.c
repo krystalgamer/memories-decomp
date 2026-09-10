@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "../unmatched.h"
+#include "func_8002FB78.h"
 
 extern s32 D_80010000;
 extern u8 D_801A8000[];
