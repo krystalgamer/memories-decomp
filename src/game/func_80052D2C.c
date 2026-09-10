@@ -6,7 +6,6 @@
 #include "../psyq/memory.h"
 #include "model.h"
 
-extern u8 D_800F3A10[];
 extern u8 D_8009AF98;
 
 /* Starts a camera move. The transition record at D_800F2B20 is filled with a

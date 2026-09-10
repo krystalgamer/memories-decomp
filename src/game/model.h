@@ -491,6 +491,25 @@ extern ModelEffectCoefficient D_80091570[];
 #endif
 #ifndef MODEL_SLOT_CUSTOM_EXTERN
 extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
+
+/* A second name for the inside of those slots: 0x800F3A10 is 0xDD0 past
+ * D_800F2C40, and this header already names that offset and asserts it --
+ * `u16 field_DD0[4]`, with MODEL_OFFSET(ModelSlot, field_DD0) == 0xDD0. So
+ * D_800F3A10 is D_800F2C40[0].field_DD0, and because both consumers step it
+ * by the slot stride
+ *
+ *     entry = D_800F3A10 + index * MODEL_SLOT_SIZE;
+ *
+ * it is that field of slot `index`. model_distance_queries.c reads
+ * `*(u16 *)(entry + 0)`, `+ 2` and `+ 4` and differences them against
+ * D_800F56F0 before SquareRoot0, so the first three halfwords are a position.
+ *
+ * The two names stay separate: all three matched sites reach the field
+ * through this symbol, so writing it as an offset from D_800F2C40 would
+ * change which symbol their relocations name. Unlike the selection-table case
+ * there is no assembly reader to corroborate that, but the matched C is
+ * itself the evidence. */
+extern u8 D_800F3A10[];
 #endif
 #ifndef MODEL_CAMERA_MOVE_CUSTOM_EXTERN
 extern ModelCameraMove D_800F2B20;

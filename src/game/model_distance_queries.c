@@ -5,7 +5,6 @@
 #include "model.h"
 #include "model_distance_queries.h"
 
-extern u8 D_800F3A10[];
 /* NOT converted to the GsRVIEW2 in camera_view.h, and deliberately so.
    These six reads take the low halfword of vpx..vrz. Written as
    `*(u16 *)&D_800F56F0.vpx` the two functions come out four bytes short
