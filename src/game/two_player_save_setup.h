@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* The setup/write API at the end of two_player_save_runtime.c. Both functions
+/* The setup/write API at the end of save_data_transfer_runtime.c. Both functions
  * were reached through local externs
  * before this header existed, and every one of those declarations already
  * agreed with its definition.

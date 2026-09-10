@@ -15,12 +15,46 @@
 #include "text_sjis_to_glyph_codes.h"
 #include "two_player_save_setup.h"
 #include "text_staging.h"
+#include "util_memory.h"
 #include "../unmatched.h"
 
 extern u8 D_801D2200[];
 extern u8 D_801D160C[];
 extern u8 D_801B122B[];
 extern u8 D_801B1238[];
+
+/* The complete single-player and two-player save-transfer runtime. The first
+   three functions request, poll, apply, build, and write the resident save;
+   the remaining state machine loads both card slots, then the two wrappers add
+   trade or duel setup, and the final request writes the paired trade result
+   back. */
+
+void SaveData_RequestLoad(void)
+{
+    /* The symbolic store changes the target $at scheduling and relocation. */
+    *(u8 *)0x8009B0D1 = 0;
+    MemCardDialog_Request(
+        gSaveData_aTransferBuffer,
+        SAVE_DATA_STATE_SIZE,
+        gMemCard_szSaveFileName,
+        0
+    );
+}
+
+s32 SaveData_PollLoad(void) {
+    s32 r = MemCardDialog_Poll();
+    if (r != 0) {
+        if (r == 1) {
+            u8 *p = (u8 *)gDuel_awPlayerDeck;
+            Util_CopyWords(p, gSaveData_aTransferBuffer, SAVE_DATA_STATE_SIZE);
+            SaveData_ApplyRuntimeState((SaveDataState *)p);
+        }
+        return r;
+    }
+    return 0;
+}
+
+void SaveData_RequestWrite(void){Util_CopyWords(gSaveData_aTransferBuffer,(u8 *)gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);SaveData_BuildPayload(gSaveData_aTransferBuffer-SAVE_DATA_HEADER_SIZE);MemCardDialog_Request(gSaveData_aTransferBuffer,SAVE_DATA_REPLICATED_STATE_SIZE,gMemCard_szSaveFileName,2);}
 
 /* The two-player load, validation and write-back runtime. The state machine
    first loads both card slots, then the two wrappers add trade or duel setup,
