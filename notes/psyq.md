@@ -73,16 +73,38 @@ Five rules decide whether a label becomes a proposal:
    label inside a function is a branch target, not a symbol.
 5. No other library object proposes a *different* name for the same address.
 
-The reason to trust the result is rule-free: of the labels that land on a
-function the inventory had already named by hand, **342 agree and none
-disagree**. The tool is checked against work done independently, and that
-number is the regression signal -- if it falls, the matcher broke rather than
-the catalogue being wrong.
+At pinned catalogue revision
+[`e9e46e7`](https://github.com/lab313ru/psx_psyq_signatures/tree/e9e46e7e133ef275a79bfce650924f98edb086bc/460),
+the current sweep reports:
 
-Four catalogue conflicts remain summarized below. They are small routines
+| Catalogue result | Count |
+|---|---:|
+| Objects matched once | 301 |
+| Objects matched several times | 47 |
+| Objects absent from the payload | 1,839 |
+| Objects without a four-byte concrete anchor | 0 |
+
+The unique-object labels classify against the current function inventory as:
+
+| Inventory result | Count | Interpretation |
+|---|---:|---|
+| Existing names agreeing | 426 | Independent names corroborated by the pinned catalogue |
+| Existing names differing | 1 | `__SN_ENTRY_POINT` versus the project's `entrypoint` at `0x800129D8`; this is a naming choice, not a provenance conflict |
+| New names for `func_XXXXXXXX` rows | 2 | `NormalClip` and `RotAverageNclip3_nom`, both withheld because their observed call arities conflict with `libgte.h` |
+| Addresses claimed under several names | 8 | Four resolved only with local call-graph evidence and four still unresolved below |
+| Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
+
+The 426 agreements are a regression checkpoint, not an immutable project
+constant. The count rises as independently established names enter the
+inventory and can change when function boundaries do. Matcher debugging must
+compare the same pinned catalogue against the same inventory rather than
+treating any future count change as a matcher failure.
+
+The four byte-ambiguous addresses already resolved with evidence beyond the
+signature are `PCread`, `SpuWrite`, `CdReadyCallback_8007A840`, and `GsDrawOt`.
+The signature tool correctly leaves them ambiguous; the local tiebreaks are
+recorded below. The four unresolved catalogue conflicts are small routines
 duplicated verbatim across libraries, so bytes alone cannot separate them:
-unresolved rows remain `func_XXXXXXXX`, while applied rows require a separate
-call-graph tiebreak.
 
 | Address | Competing names |
 |---|---|
