@@ -965,7 +965,7 @@ from each card's guardian-choice flag, not both stars at once. The label
 under the card reads yellow for advantage and red for disadvantage.
 
 The actual comparison is asymmetric. Matching
-[`func_8001EFD4`](../../src/game/func_8001EFD4.c) selects ATK or DEF from
+[`func_8001EFD4`](../../src/game/duel_battle_stats.c) selects ATK or DEF from
 each card according to its position, adds the guardian adjustment only to
 the **left comparison value**, caps that result at `9999`, and subtracts
 the right card's unadjusted pre-matchup value. There is no second lower

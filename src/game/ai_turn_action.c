@@ -10,7 +10,7 @@
 #include "duel_field_equip_search.h"
 #include "duel_card_checks.h"
 #include "duel_card_selection.h"
-#include "func_8001EFD4.h"
+#include "duel_battle_stats.h"
 
 /* The AI's turn-action run: spell and fusion searches feed the action pick
    through D_800EAE88, followed by the occupied and face-up field-target

@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8001EFD4_H
-#define MEMORIES_DECOMP_FUNC_8001EFD4_H
+#ifndef MEMORIES_DECOMP_DUEL_BATTLE_STATS_H
+#define MEMORIES_DECOMP_DUEL_BATTLE_STATS_H
 
 #include "../types.h"
 #include "display_object.h"

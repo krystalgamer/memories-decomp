@@ -121,7 +121,7 @@ signed halfword views of `attack`, `defense`, `stat_modifier`, and
 the low halfword and DEF in the high halfword. The modifiers are summed
 before that clamp, not applied through separate saturation steps.
 
-[`Duel_CalcGuardianStarBonus`](../src/game/duel_calc_guardian_star_bonus.c)
+[`Duel_CalcGuardianStarBonus`](../src/game/duel_battle_stats.c)
 chooses each record's first or second packed star using
 `DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2`. For valid star IDs, the cycle helper
 returns `+500`, `-500`, or zero relative to the left record. A null right
@@ -130,7 +130,7 @@ record returns zero without a matchup.
 The [battle-stat helpers](../src/game/duel_battle_stats.c) add that signed
 result to the selected left pre-matchup stat, then apply only an upper
 limit of `9999`. Matching
-[`func_8001EFD4`](../src/game/func_8001EFD4.c) compares that adjusted left
+[`func_8001EFD4`](../src/game/duel_battle_stats.c) compares that adjusted left
 value against the right pre-matchup ATK or DEF; each position flag chooses
 which stat its side contributes. It does not also apply a guardian
 adjustment to the right value.
