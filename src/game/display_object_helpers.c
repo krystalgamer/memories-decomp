@@ -70,10 +70,10 @@ void func_800428A8(
     s32 arg5,
     s32 arg6,
     s32 arg7,
-    s32 arg8
+    void *resource
 )
 {
-    *(s32 *)((u8 *)object + 0x54) = arg8;
+    *(void **)((u8 *)object + 0x54) = resource;
     func_800404CC(object, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 

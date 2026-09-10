@@ -159,7 +159,7 @@ void func_80020F4C(void)
                     obj = func_800400AC(func_8004002C(), 2);
                     func_800428A8(obj, spec->x, spec->y, 0,
                                   gDuel_bWinnerSide, spec->kind, 0x11, 9,
-                                  (s32)D_801AF000);
+                                  D_801AF000);
                     if (obj->field_69 >= 0x1A) {
                         obj->field_40.h.field_40 =
                             (u16)obj->field_40.h.field_40 + 0x10;
