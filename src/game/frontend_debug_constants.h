@@ -1,0 +1,10 @@
+#ifndef MEMORIES_DECOMP_FRONTEND_DEBUG_CONSTANTS_H
+#define MEMORIES_DECOMP_FRONTEND_DEBUG_CONSTANTS_H
+
+#include "../types.h"
+
+extern u16 D_8009AF44;
+extern u16 D_8009AF46;
+extern u16 D_8009AF4C;
+
+#endif
