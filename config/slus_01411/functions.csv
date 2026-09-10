@@ -1316,7 +1316,7 @@ address,size,name,status,module,notes
 0x80076ED0,0x1BC,SpuSetKey,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SK.OBJ signature and matching voice-control callers.
 0x80077090,0x90,SpuGetKeyStatus,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_GKS.OBJ signature and matching voice-state callers.
 0x80077120,0x30,SpuSetKeyOnWithAttr,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_SKOWA.OBJ signature.
-0x80077150,0x5C,func_80077150,sdk_asm,psyq/sdk,
+0x80077150,0x5C,SpuWrite,sdk_asm,psyq/sdk,"The wrapper calls confirmed internal _spu_Fw rather than adjacent _spu_Fr; matching sound-transfer callers select an SPU RAM destination and submit source buffers."
 0x800771B0,0x5C,SpuSetTransferStartAddr,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_STSA.OBJ signature and matching sound-transfer callers.
 0x80077210,0x30,SpuSetTransferMode,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_STM.OBJ signature and matching sound initialization caller.
 0x80077240,0xA4,SpuIsTransferCompleted,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_ITC.OBJ signature and matching transfer-status caller.

@@ -2,8 +2,6 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 
-extern s32 func_80077150(void *a0, s32 a1);
-
 /* Validates the caller's state token against the pending transfer's
    discriminant, clamps the requested byte count to what remains in the
    window, submits it to the SPU transfer entrypoint, and advances the
@@ -31,7 +29,7 @@ s32 func_800497E0(void *rec, s32 count, s32 state) {
         }
     }
 
-    result = func_80077150(rec, count);
+    result = SpuWrite((u8 *)rec, (u32)count);
     if (result != count) {
         return SD_TRANSFER_ERROR;
     }

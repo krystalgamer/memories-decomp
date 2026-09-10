@@ -4,6 +4,7 @@
 #include "file_transfer.h"
 #include "../unmatched.h"
 #include "file_transfer_steps.h"
+#include "model_load_monster_merge.h"
 
 extern u8 D_800114F8[];
 extern u8 gFile_szModelMrgPath[];

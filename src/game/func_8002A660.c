@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "graphics_frame.h"
+#include "func_8002A660.h"
 
 void func_8002A660(u8 *arg0)
 {

@@ -729,4 +729,27 @@ extern u32 D_8009B404 __attribute__((section(".data")));
 extern u32 D_8009B404;
 #endif
 
+/* The byte after D_8009B404, 0x8009B408. Retail loads it lb where the C
+ * tests its sign: SaveData_ApplyRuntimeState tests it `< 0` before storing
+ * the save state's byte into it (save_data_apply_runtime_state.c:22, :25;
+ * func_8003D0F4.s:19-20) and SaveData_BuildPayload copies it into an s32
+ * it tests `< 0`, stores 0 when it is, and copies it into the payload
+ * byte (save_data_build_payload.c:19, :24-25, :28; func_8003D03C.s:15-16,
+ * then :23-24 lbu for the payload copy). Options_Init reads it into an s8
+ * it copies into gOptions_bOutputType and tests `< 0` (options_init.c:41,
+ * :43-44; func_8003C628.s:34-35 lbu). Sound_InitFrontend stores -1
+ * (sound_frontend.c:15) and Options_HandleInput stores 1 or 0
+ * (options_update.c:23, :30). Every retail access is a byte at the symbol
+ * itself, the payload copies one byte, nothing in the tree reaches +1, and
+ * every declarer said s8. The `[16]` three of them used to declare was the -G8
+ * placement lever, not a length (main_services.h:65-70 and options.h:37-38
+ * say so); the four units whose listings reach it through %hi/%lo take the
+ * .data arm, and sound_frontend.c, whose store is gp-relative
+ * (func_8003FE80.s:12), takes the plain one. */
+#ifdef GSD_BOUTPUTTYPE_IN_DATA
+extern s8 gSD_bOutputType __attribute__((section(".data")));
+#else
+extern s8 gSD_bOutputType;
+#endif
+
 #endif

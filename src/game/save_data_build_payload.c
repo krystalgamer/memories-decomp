@@ -1,10 +1,10 @@
 #define D_8009B0C4_IN_DATA
+#define GSD_BOUTPUTTYPE_IN_DATA
 #include "../types.h"
 #include "save_data.h"
 #include "graphics_frame.h"
+#include "sound.h"
 #include "util_memory.h"
-
-extern s8 gSD_bOutputType __attribute__((section(".data")));
 
 void SaveData_BuildPayload(u8 *data)
 {

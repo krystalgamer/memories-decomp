@@ -104,7 +104,7 @@ extern u8 D_801D1200[];
 
 /* 0x801B125A. SaveData_ApplyRuntimeState passes it as the destination of
  * Text_SjisToGlyphCodes, from state->player_name_sjis
- * (save_data_apply_runtime_state.c:14); NameEntry_Init does the same from
+ * (save_data_apply_runtime_state.c:12); NameEntry_Init does the same from
  * gSaveData_aPlayerNameSjis and NameEntry_UpdateDialog does the same from
  * D_8016D418. Both name-entry paths now live in
  * src/overlays/password/name_entry_runtime.c and call the converter by

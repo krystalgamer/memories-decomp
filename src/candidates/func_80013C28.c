@@ -17,8 +17,6 @@ extern u32 *D_8009B0F8;
 extern u8 D_8009B114;
 extern s32 D_8009B138;
 
-extern s32 func_80077150(void *, s32);
-
 void func_80013C28(s32 arg)
 {
     s32 event;
@@ -147,7 +145,7 @@ void func_80013C28(s32 arg)
             CdReadyCallback(0);
         }
         SpuSetTransferStartAddr(*(u32 *)(D_8009AF18 + 0x30));
-        func_80077150(dst, n);
+        SpuWrite(dst, (u32)n);
         q = D_8009AF18;
         *(s32 *)(q + 0x30) += n;
         *(s32 *)(q + 0x28) -= 0x800;
