@@ -15,7 +15,7 @@
 #include "duel_effect.h"
 #include "display_object_api.h"
 #include "sound.h"
-#include "duel_field_effect_transition.h"
+#include "duel_card_effects.h"
 #include "duel_field_effect_steps.h"
 
 void func_80025F3C(void)
