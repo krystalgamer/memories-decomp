@@ -5,6 +5,7 @@
 #include "mem_card.h"
 #include "save_data.h"
 #include "text_sjis_to_glyph_codes.h"
+#include "two_player_save_setup.h"
 
 extern u8 D_801D1200[];
 extern s32 D_801D5608[];
