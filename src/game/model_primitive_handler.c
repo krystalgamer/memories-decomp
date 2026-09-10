@@ -4,6 +4,7 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "model_primitive_handler.h"
+#include "model_handler_registry.h"
 #include "../unmatched.h"
 
 void *func_800603DC(unsigned int v){if(v==0x2000000)goto a;if(v==0x2000001)goto b;goto d;a:return (void*)GsU_02000000;b:return (void*)GsU_02000001;d:return (void*)GsU_00000000;}
@@ -290,4 +291,10 @@ block_106:
     return func_80066E60;
 block_107:
     return (void *)GsU_00000000;
+}
+
+void func_8006086C(ModelHandlerObject *object)
+{
+    *object->handler = Model_GetPrimitiveHandler(object->key);
+    Model_RegisterHandlerKey(object->key, (int)*object->handler);
 }

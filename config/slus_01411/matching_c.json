@@ -5090,9 +5090,9 @@
     },
     {
       "address": "0x8006086C",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
-      "source": "src/game/func_8006086C.c"
+      "source": "src/game/model_primitive_handler.c"
     },
     {
       "address": "0x800608B8",
