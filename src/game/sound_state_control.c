@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "sound.h"
+#include "sound_state_control.h"
 
 void func_8004695C(s32 value)
 {

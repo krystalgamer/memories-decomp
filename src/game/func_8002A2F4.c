@@ -2,12 +2,11 @@
 #include "text_box_lifecycle.h"
 #include "duel_effect.h"
 #include "func_8002A2F4.h"
+#include "func_8002A788.h"
+#include "func_80029EB0.h"
+#include "text_box_runtime.h"
 
 extern s32 D_801D5608[];
-
-s32 func_8002A6B8(u8 *arg0);
-s32 func_80029EB0(u8 *arg0, s32 arg1);
-void func_80039A60(u8 *arg0);
 
 void func_8002A2F4(u8 *p)
 {
@@ -19,7 +18,7 @@ void func_8002A2F4(u8 *p)
     u8 *o;
 
     mode = 0;
-    r = func_8002A6B8(p);
+    r = func_8002A6B8();
     gDuel_wSelectedCardID = r;
     t = (s16)r;
     q[0] = t;

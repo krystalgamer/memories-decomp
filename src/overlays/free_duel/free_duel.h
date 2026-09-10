@@ -52,6 +52,12 @@ extern void *gFreeDuel_apSparklePool[];
 extern u8 *gFreeDuel_pCursorWidget;
 extern u8 *gFreeDuel_pThumbWidget;
 
+/* Builds the duelist grid screen, uploading each available duelist's
+ * portrait record from `src` to VRAM with LoadImage2 on the way.
+ * Main_InitFreeDuelMenu calls it from resident code once the module transfer
+ * has finished, and c_symbols.ld gives the resident link its address. */
+void FreeDuel_Init(u8 *src);
+
 void FreeDuel_Entry(void);
 /* Resident entry alias used before this overlay is linked into its slot. */
 void func_80168FB4(void);

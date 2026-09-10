@@ -4,6 +4,7 @@
 #include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_lifecycle.h"
+#include "func_80018C34.h"
 
 void func_80018C34(DisplayObject *o)
 {

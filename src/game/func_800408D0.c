@@ -7,6 +7,7 @@
 #include "display_object_projection.h"
 #include "sprite_primitive.h"
 #include "graphics_frame.h"
+#include "func_800408D0.h"
 
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
@@ -25,7 +26,8 @@ void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
    the object's width through func_80042188, advancing the position or the
    size and the texture coordinates (the page step depends on the depth bits
    of the tag) after each strip. */
-void func_800408D0(DisplayObject *e, s32 tex, u16 mode16) {
+void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg) {
+    u16 mode16 = mode_arg;
     SpritePrim *p;
     ClipState *c;
     u8 *g;

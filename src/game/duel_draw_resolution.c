@@ -12,6 +12,8 @@
 #include "sound.h"
 #include "../unmatched.h"
 #include "func_80018004.h"
+#include "func_80018C34.h"
+#include "display_object_api.h"
 
 extern DuelSideState *D_8009B1C8_hand asm("D_8009B1C8");
 extern ExodiaCardDatabase D_8015C424_cards asm("D_8015C424");
@@ -47,9 +49,6 @@ s32 Duel_HasAllExodiaPieces(void) {
 
 extern u8 D_8009B1ED;
 extern u8 D_8015C424[];
-
-void func_80018C34(u8 *arg0);
-s32 func_80042B40(s32 arg0);
 
 void func_80018DB4(void) {
     u8 *p;

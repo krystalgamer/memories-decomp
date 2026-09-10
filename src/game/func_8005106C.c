@@ -10,6 +10,7 @@
 #include "func_80058E1C.h"
 #include "func_80057AF4.h"
 #include "sound.h"
+#include "func_8005A6A8.h"
 
 void func_80050F24(s32 arg0)
 {
@@ -41,8 +42,6 @@ void func_80050F24(s32 arg0)
 
 /* "e%03ld(%ld)=%d\n" */
 extern u8 D_80011508[];
-
-extern void func_8005A6A8(s32, s32, u8 *, u8 *);
 
 void func_8005106C(s32 index) {
     u8 buf[0x50];

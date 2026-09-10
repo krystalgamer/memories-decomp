@@ -3,8 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "model_texture_upload.h"
-
-extern s32 func_800598E4(s32, s32);
+#include "file_query_wrappers.h"
 
 u32 func_80058A7C(int side, int mode, GsIMAGE *params)
 {
