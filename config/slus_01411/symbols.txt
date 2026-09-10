@@ -853,6 +853,7 @@ D_8009AF58 = 0x8009AF58; // defined:True
 D_8009AF5C = 0x8009AF5C; // defined:True
 gSaveData_dwMaskStateLow = 0x8009AF64; // defined:True
 gSaveData_dwMaskStateHigh = 0x8009AF68; // defined:True
+D_8009AF88 = 0x8009AF88; // defined:True
 
 GsSortPoly = 0x80084320; // type:func
 SD_EnqueueCommand = 0x80045BE8; // type:func

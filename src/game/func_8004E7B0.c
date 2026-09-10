@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model.h"
+#include "model_record_tables.h"
 
 ModelBytes8 D_8009B478;
 s16 D_8009B47A;
@@ -7,7 +8,7 @@ s16 D_8009B47C;
 ModelBytes8 D_8009B480;
 s16 D_8009B482;
 s16 D_8009B484;
-u8 *D_8009AF88;
+u8 *D_8009AF88 __attribute__((section(".sdata"))) = D_80091008;
 s16 D_8009AF8E;
 s16 D_8009AF90;
 
