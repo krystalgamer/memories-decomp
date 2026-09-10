@@ -15,6 +15,7 @@
 #include "text_box_runtime.h"
 #include "func_80039794.h"
 #include "func_8003B6AC.h"
+#include "display_object.h"
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "script_state.h"
@@ -50,10 +51,10 @@ int func_8002EE5C(void)
 void func_8002EE94(void)
 {
     DuelEffectChannel *box;
-    register u8 *obj __asm__("$17");
+    register DisplayObject *obj __asm__("$17");
     u8 *p;
     u8 *p2;
-    u8 *slot;
+    DisplayObject *slot;
     DuelEffectChannel *chan;
     DuelEffectChannel *prompt;
     s32 id;
@@ -112,16 +113,16 @@ void func_8002EE94(void)
         do {
             func_80039794();
         } while (box->field_30 == 0);
-        func_80043178((u8 *)box->field_28);
-        slot = (u8 *)box->field_28;
+        func_80043178((DisplayObjectSnapshot *)box->field_28);
+        slot = (DisplayObject *)box->field_28;
         next = D_8009B27C | 0x6000;
-        *(s16 *)(slot + 0x60) = -0x400;
+        slot->field_60 = -0x400;
         D_8009B27C = next;
         return;
     }
 
     box = &D_800EB0F8[3];
-    obj = (u8 *)box->field_28;
+    obj = (DisplayObject *)box->field_28;
 
     if ((flags & 0x400) != 0) {
         if ((flags & 0x800) == 0) {
@@ -171,33 +172,39 @@ void func_8002EE94(void)
     if ((flags & 0x1000) != 0) {
         if ((flags & 0x800) == 0) {
             D_8009B27C = flags | 0x800;
-            func_80043178(obj);
+            func_80043178((DisplayObjectSnapshot *)obj);
             *(s16 *)(box->field_28 + 0x60) = 0x400;
         }
-        step = *(u16 *)(obj + 0x60) - 0x40;
-        *(s16 *)(obj + 0x60) = step;
+        step = *(u16 *)&obj->field_60 - 0x40;
+        obj->field_60 = step;
         if ((s16)step <= 0) {
             TextBox_Destroy(box);
             D_8009B27C = 0;
             return;
         }
-        func_80043230(obj, -0x90, 0x38, (s16)step);
-        TextBox_SetPos(box, *(s16 *)(obj + 0x30), *(s16 *)(obj + 0x32));
+        func_80043230((DisplayObjectPosition *)obj, -0x90, 0x38, (s16)step);
+        TextBox_SetPos(box, *(s16 *)&obj->field_30.h.field_30,
+               *(s16 *)&obj->field_30.h.field_32);
         return;
     }
 
     if ((flags & 0x2000) != 0) {
-        step = *(u16 *)(obj + 0x60) + 0x40;
-        *(s16 *)(obj + 0x60) = step;
+        step = *(u16 *)&obj->field_60 + 0x40;
+        obj->field_60 = step;
         if ((s16)step >= 0) {
-            ((s16 *)obj)[0x18] = 0x10;
-            ((s16 *)obj)[0x19] = 0x38;
+            *(s16 *)&obj->field_30.h.field_30 = 0x10;
+            *(s16 *)&obj->field_30.h.field_32 = 0x38;
             D_8009B27C = flags & 0xDFFF;
+            /* This read keeps the halfword-array spelling. The two writes
+               directly above it convert to member access and match; converting
+               this one as well costs sixteen bytes. Same field, same function,
+               and the two spellings are not interchangeable here. */
             TextBox_SetPos(box, ((s16 *)obj)[0x18], ((s16 *)obj)[0x19]);
             return;
         }
-        func_80043230(obj, 0x10, 0x38, (s16)step);
-        TextBox_SetPos(box, *(s16 *)(obj + 0x30), *(s16 *)(obj + 0x32));
+        func_80043230((DisplayObjectPosition *)obj, 0x10, 0x38, (s16)step);
+        TextBox_SetPos(box, *(s16 *)&obj->field_30.h.field_30,
+               *(s16 *)&obj->field_30.h.field_32);
         return;
     }
 
