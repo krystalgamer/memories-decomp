@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_SCRIPT_IMAGE_OBJECTS_H
 
 #include "../types.h"
+#include "../ygo_types.h"
 
 /* Three of the scene script's image slots at D_800EAE98, as func_8002E00C
  * releases them: a display-object pointer and the image id that filled it.
@@ -13,6 +14,10 @@ typedef struct {
     s16 value;
     u8 pad_06[14];
 } ScriptImageEntry;
+
+/* Transfer callback for one script image. The loader supplies its
+ * FileTransferDescriptor and advances `mode` through the setup phases. */
+void func_8002DDFC(FileTransferDescriptor *transfer, s32 mode);
 
 /* Starts the async read of one script image. `value` is packed BCD: the low
  * two nibbles are the index, and the third selects one of three tables with
