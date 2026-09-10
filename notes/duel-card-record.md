@@ -182,7 +182,7 @@ variants; their full scripts and user-visible meanings are not decoded
 by this constructor alone.
 
 When source byte `+0x17` is `3` and `D_8009B34E` is nonzero, a separate
-call to [`func_80023090`](../src/game/duel_field_guardian_compare.c)
+call to [`func_80023090`](../src/game/duel_field_display_objects.c)
 supplies `D_8009B320`. That helper maps its guardian comparison to `4`
 for neutral, `1` for negative, or `6` for positive. The selector is
 separate from the two pre-matchup stat words, not an extra term in them.
