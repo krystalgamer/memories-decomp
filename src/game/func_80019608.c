@@ -38,7 +38,7 @@ u16 D_8009B150;
 
 void func_80019608(void)
 {
-    u8 *p;
+    DisplayObject *p;
     DuelCardRecord *slot;
     u8 *q0;
     u8 *q1;
@@ -61,15 +61,15 @@ void func_80019608(void)
     register s32 v4 __asm__("$5");
     register s32 v5 __asm__("$5");
 
-    p = D_800E9EF0[0];
+    p = (DisplayObject *)D_800E9EF0[0];
     flags = D_8009B23A;
     if ((flags & 0x8000) == 0) {
         D_8009B23A = flags | 0xC000;
-        slot = &D_801A7AD8[p[0x6A]];
+        slot = &D_801A7AD8[p->field_6A];
         arg = slot->card_id;
         D_8009B150 = *(u16 *)&slot->card_id;
         func_80029164(0, arg);
-        if (p[0x68] == CARD_TYPE_MAGIC) {
+        if (p->field_68 == CARD_TYPE_MAGIC) {
             D_8009B1C8->field_05 = D_8009B1C8->field_05 + 1;
         }
         func_80024914(slot);
@@ -83,23 +83,23 @@ void func_80019608(void)
                  D_8009B134_abs) != 0) {
                 return;
             }
-            f2 = *(u16 *)(p + 8);
+            f2 = p->flags;
             D_8009B174 = state | 0x80;
-            *(u16 *)(p + 8) = f2 | DISPLAY_OBJECT_FLAG_CLIP_TEST;
-            p = func_800291E0(0, -1, -1);
-            *(u16 *)(p + 0x30) = 0x5A;
-            *(u16 *)(p + 0x32) = 0x16;
-            p[0x21] = 0xC0;
-            func_800428EC(p, -0xA);
-            *(u16 *)(p + 8) =
-                (*(u16 *)(p + 8) | DISPLAY_OBJECT_FLAG_CLIP_TEST) &
+            p->flags = f2 | DISPLAY_OBJECT_FLAG_CLIP_TEST;
+            p = (DisplayObject *)func_800291E0(0, -1, -1);
+            p->field_30.h.field_30 = 0x5A;
+            p->field_30.h.field_32 = 0x16;
+            p->field_20.b.field_21 = 0xC0;
+            func_800428EC((u8 *)p, -0xA);
+            p->flags =
+                (p->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST) &
                 ~DISPLAY_OBJECT_FLAG_RENDERABLE;
             D_800E9EF0[1] = p;
             return;
         }
         if ((state & 0x40) == 0) {
-            v1 = p[0x21] + 6;
-            p[0x21] = v1;
+            v1 = p->field_20.b.field_21 + 6;
+            p->field_20.b.field_21 = v1;
             if ((u8)v1 < 0x40) {
                 return;
             }
@@ -111,23 +111,23 @@ void func_80019608(void)
                 *(u16 *)(q1 + 8) | DISPLAY_OBJECT_FLAG_RENDERABLE;
             return;
         }
-        p = D_800E9EF0[1];
+        p = (DisplayObject *)D_800E9EF0[1];
         if ((state & 0x20) == 0) {
-            v2 = p[0x21] + 6;
-            p[0x21] = v2;
+            v2 = p->field_20.b.field_21 + 6;
+            p->field_20.b.field_21 = v2;
             if ((s8)v2 < 0) {
                 return;
             }
-            *(u16 *)(p + 0x60) = 0x1E;
-            p[0x21] = 0;
-            f3 = *(u16 *)(p + 8);
+            p->field_60 = 0x1E;
+            p->field_20.b.field_21 = 0;
+            f3 = p->flags;
             st = D_8009B174 | 0x20;
-            *(u16 *)(p + 8) = f3 & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
+            p->flags = f3 & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
             D_8009B174 = st;
             return;
         }
-        v3 = *(u16 *)(p + 0x60) - 1;
-        *(u16 *)(p + 0x60) = v3;
+        v3 = *(u16 *)&p->field_60 - 1;
+        p->field_60 = v3;
         if ((s16)v3 > 0) {
             return;
         }
@@ -139,7 +139,7 @@ void func_80019608(void)
         return;
     case 3:
         if ((state & 0x80) == 0) {
-            p = D_800E9EF0[1];
+            p = (DisplayObject *)D_800E9EF0[1];
             D_8009B174 = state | 0x80;
             func_8001944C((DisplayObject *)p);
             D_800E9EF0[0] =
