@@ -8,12 +8,14 @@ are registered once for `SwCARD` and once for `HwCARD`.
 
 ## Subsystem startup
 
-Matching `func_80043E30` establishes the game-owned startup order. It forwards
-its mode argument to `InitCARD`, calls `StartCARD`, passes zero to
-`ChangeClearPAD`, and then invokes `_bu_init`. This is the legacy
+Matching `MemCard_Init` (`0x80043E30`) establishes the game-owned startup
+order. It forwards its argument to `InitCARD`, calls `StartCARD`, passes zero
+to `ChangeClearPAD`, and then invokes `_bu_init`. This is the legacy
 `InitCARD`/`StartCARD` path; the separately identified
 `InitCARD2`/`StartCARD2` entry points are not part of this matching wrapper.
 Event creation remains a separate step handled by `MemCard_InitIOEvents`.
+The one caller, `func_8003DC1C`, passes `1` and calls `MemCard_InitIOEvents`
+immediately afterwards.
 
 ## High-level LIBMCRD dialog lifecycle
 
@@ -64,10 +66,11 @@ enables all eight handles after creation, and exits the critical section only
 after the complete set is active. It also resets three surrounding
 memory-card state values at `D_8009B43E`, `D_8009B44E`, and `D_8009B444`;
 the first two broader roles remain address-based. `D_8009B444` is the current
-directory-entry buffer: `func_80044608` points it at `D_800F2888`, stores the
-loaded entry count in `D_8009B440`, and passes both to the free-block and
-filename searches. `func_80044CD4` forwards the same buffer/count pair when it
-searches for a caller-supplied filename.
+directory-entry buffer: `MemCard_DoLoadDirectory` points it at `D_800F2888`,
+stores the loaded entry count in `D_8009B440`, and passes both to
+`MemCard_CalcFreeBlocks`. `MemCard_FindLoadedEntry` forwards the same
+buffer/count pair to `MemCard_FindEntry` when it searches for a
+caller-supplied filename.
 
 The paired matching `MemCard_CloseIOEvents` teardown enters a critical section,
 closes the same eight `gMemCard_aIOEventHandles` entries in order, and then
@@ -93,18 +96,47 @@ The callback and polling meanings are:
 | `2` | An error event fired. |
 | `3` | A new-card event fired. |
 
-`func_80043D48` first calls `TestEvent` on the four handles supplied by its
-caller and then sets the shared result to `-1`, preparing the next asynchronous
-operation. `func_80043DA0` provides a synchronous companion: it tests the same
-four slots in order and returns `0` through `3` for the first signaled event,
-or `-1` when its caller requests a single nonblocking pass and none is ready.
+`MemCard_ClearIOEvents` (`0x80043D48`) first calls `TestEvent` on the four
+handles supplied by its caller, which consumes any signal left over from an
+earlier operation, and then sets the shared result to `-1`, preparing the next
+asynchronous operation. Every event-driven `_card_*` call in the driver is
+preceded by one.
+`MemCard_WaitIOEvent` (`0x80043DA0`) provides a synchronous companion: it
+tests the same four slots in order and returns `0` through `3` for the first
+signaled event, or `-1` when its caller requests a single nonblocking pass and
+none is ready. Nothing in the executable calls it.
 
-Matching `func_80044038` shows how the result drives retries. It prepares the
-alternate four-handle set, calls `_card_clear(value)`, waits while the result
-is negative, and retries only result `1` (timeout), with at most ten attempts.
-The larger memory-card state machine in `func_80044608` consumes the same
-values; its later conversion of result `3` to `4` is internal state-machine
-bookkeeping, not a fifth event callback.
+The driver picks the handle set by operation. `_card_info`, `_card_load` and
+the file-level `read` and `write` are prepared against
+`gMemCard_aIOEventHandles`, the `SwCARD` set; `_card_clear`, `_card_read` and
+`_card_write` are prepared against `D_800F2AF0`, the `HwCARD` set four handles
+further on.
+
+Matching `MemCard_ClearCard` (`0x80044038`) shows how the result drives
+retries. It prepares the `HwCARD` set, calls `_card_clear(chan)`, waits while
+the result is negative, and retries only result `1` (timeout), with at most
+ten attempts. It has no caller either; the request path runs the same clear
+without blocking inside `MemCard_DoLoadDirectory`, described next.
+
+## Card check and directory load
+
+`MemCard_DoLoadDirectory` (`0x80044608`) is the first stage of every request
+the poll at `0x80044838` runs. It advances one step per call on the sub-state
+byte `D_8009B43D`, returns `-1` while it has started a new event and is
+waiting, and otherwise returns the shared result:
+
+| Sub-state | Waits on | Next |
+|---:|---|---|
+| `0` | `_card_info` | Timeout re-issues `_card_info` until the retry byte `D_8009B43C` runs out, and an error finishes with `2`. A completed info on a card already listed (bit `0x80` of `D_8009B44E`) finishes with `0`, unless the request is `8`. Otherwise, and on a new-card event, request `1` finishes with `3`; every other request clears the card. |
+| `1` | `_card_clear` | An error retries the clear. Completion starts `_card_load` and moves to `2`. |
+| `2` | `_card_load` | An error retries the load. Then bit `0x80` is set, and on success `MemCard_FindFiles` lists `*` into `D_800F2888` and `MemCard_CalcFreeBlocks` stores the free count in `D_8009B438`. |
+
+A new-card result at the end of the load stage is returned as `4` rather than
+`3`; that conversion is internal state-machine bookkeeping, not a fifth event
+callback. `D_8009B44E` is cleared by `MemCard_InitIOEvents` and nothing else
+clears bit `0x80`, so once a listing has been attempted, a plain completed info
+reuses it. A new-card event still forces the clear and reload, and so does
+request `8`, the one that goes on to add a file.
 
 ## Request slot
 
@@ -126,8 +158,8 @@ output pointers, puts `D_8009B43E` back to `-1`, and returns `1`.
 
 | Code | Wrapper | Staged arguments | What the poll does |
 |---:|---|---|---|
-| `1` | `MemCard_ReqCardInfo(chan)` | none | Stops after the `_card_info` stage of `func_80044608`, so it reports the card state without clearing it. |
-| `2` | `MemCard_ReqLoadDirectory(chan)` | none | Finishes `func_80044608`, which lists `*` into `D_800F2888` and counts free blocks into `D_8009B438`. |
+| `1` | `MemCard_ReqCardInfo(chan)` | none | Stops after the `_card_info` stage of `MemCard_DoLoadDirectory`, so it reports the card state without clearing it. |
+| `2` | `MemCard_ReqLoadDirectory(chan)` | none | Finishes `MemCard_DoLoadDirectory`, which lists `*` into `D_800F2888` and counts free blocks into `D_8009B438`. |
 | `3` | `MemCard_ReqReadFile(chan, name, buf, offset, size)` | path, `D_8009B430`, `D_8009B44C`, `D_8009B434` | `open` with `O_RDONLY \| O_NOWAIT`, `lseek` to the offset, `read`. |
 | `4` | `MemCard_ReqWriteFile(chan, name, buf, offset, size)` | path, `D_8009B430`, `D_8009B44C`, `D_8009B434` | The same with `O_WRONLY \| O_NOWAIT` and `write`. |
 | `8` | `MemCard_ReqCreateFile(chan, name, blocks)` | path, `D_8009B434` | Result `7` when `D_8009B438` plus the block count reaches `16`, `6` when `MemCard_FindFiles` already finds the name, otherwise `open` with `O_CREAT` and the block count in the high half of the mode. |
@@ -142,9 +174,9 @@ wrappers' parameters, not roles for the globals.
 
 The code-`8` capacity test is recorded as the retail instructions have it
 (`addu`, `slti 0x10`) rather than interpreted. `D_8009B438` is the *free*
-count `func_80044544` returns, so the sum does not compare the request with
-the space left; the one caller makes its own free-count check before it
-issues the request, as described below.
+count `MemCard_CalcFreeBlocks` returns, so the sum does not compare the
+request with the space left; the one caller makes its own free-count check
+before it issues the request, as described below.
 
 `MemCard_ReqLoadDirectory` is the one wrapper that blocks. Before it leaves
 request `2` for the poll it runs `_card_info(chan)` against the primary
@@ -154,18 +186,18 @@ resetting the shared result before every stage and waiting for a nonnegative
 event result after each one. It does not reinterpret those three results.
 
 Six of the seven wrappers have one caller, the unmatched `func_8003DC1C`, and
-its arguments agree with the table: it issues `MemCard_ReqLoadDirectory` straight
-after `func_80043E30` and `MemCard_InitIOEvents`, reads `0x1E00` bytes at
-offset `0x200` of `gMemCard_szSaveFileName` into `0x80200000`, writes a
+its arguments agree with the table: it issues `MemCard_ReqLoadDirectory`
+straight after `MemCard_Init` and `MemCard_InitIOEvents`, reads `0x1E00` bytes
+at offset `0x200` of `gMemCard_szSaveFileName` into `0x80200000`, writes a
 `0xA00`-byte image at offset `0` that starts with `gSaveData_aHeaderTemplate`,
 creates the file only when the free count is at least its block count, and
 reads one sector to `0x80210000`, patches bytes `+0x7A..+0x7E`, recomputes the
 XOR of the first `0x7F` bytes into `+0x7F`, and writes that sector back. The
-last is the shape of a 128-byte directory frame with its check byte. The
-sector number it passes is the directory entry's word at `+0x20`, the Psy-Q
+last is the shape of a 128-byte directory frame with its check byte. The sector
+number it passes is the directory entry's word at `+0x20`, the Psy-Q
 `DIRENTRY.head` field, divided by `64`. `MemCard_ReqCardInfo` is the seventh:
-nothing in the executable or the `DATA` files calls it or stores its
-address, so its name rests on its body and on the code-`1` branch alone.
+nothing in the executable or the `DATA` files calls it or stores its address,
+so its name rests on its body and on the code-`1` branch alone.
 
 ## Directory enumeration
 
@@ -181,9 +213,9 @@ attempt. A successful `nextfile` resets that retry budget, advances by one
 matching the usable block count on a memory card, and optionally stores the
 final count through the caller's output pointer.
 
-The path's name part is a pattern. `func_80044608` passes `*` to list the
-whole card, while the create path in the poll passes the new file's own name
-and treats a zero count as the name being free.
+The path's name part is a pattern. `MemCard_DoLoadDirectory` passes `*` to
+list the whole card, while the create path in the poll passes the new file's
+own name and treats a zero count as the name being free.
 
 ## Save payload staging
 

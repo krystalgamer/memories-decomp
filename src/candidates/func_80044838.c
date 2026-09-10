@@ -16,8 +16,8 @@ extern long gMemCard_aIOEventHandles[];
 extern long D_800F2AF0[];
 extern char D_800F2B00[];
 
-extern void func_80043D48(long *);
-extern s32 func_80044608(void);
+extern void MemCard_ClearIOEvents(long *);
+extern s32 MemCard_DoLoadDirectory(void);
 extern s32 MemCard_FindFiles(long, char *, void *, s32);
 
 /*
@@ -49,7 +49,7 @@ s32 func_80044838(s32 arg0, s32 *out_state, s32 *out_result)
     switch ((s8)(D_8009B43E - 1)) {
     case 0:
     case 1:
-        if (func_80044608() >= 0) {
+        if (MemCard_DoLoadDirectory() >= 0) {
             goto finish;
         }
         return 0;
@@ -57,7 +57,7 @@ s32 func_80044838(s32 arg0, s32 *out_state, s32 *out_result)
     case 11:
         switch (D_8009B44F) {
         case 0:
-            r = func_80044608();
+            r = MemCard_DoLoadDirectory();
             if (r < 0) {
                 return 0;
             }
@@ -68,7 +68,7 @@ s32 func_80044838(s32 arg0, s32 *out_state, s32 *out_result)
             D_8009B43C = 0xA;
             D_8009B44F = D_8009B44F + 1;
         case 1:
-            func_80043D48(D_800F2AF0);
+            MemCard_ClearIOEvents(D_800F2AF0);
             _new_card();
             if ((s8)D_8009B43E == 0xB) {
                 _card_read(D_8009B437, D_8009B44C, (u8 *)D_8009B430);
@@ -85,7 +85,7 @@ s32 func_80044838(s32 arg0, s32 *out_state, s32 *out_result)
     case 3:
         switch (D_8009B44F) {
         case 0:
-            r = func_80044608();
+            r = MemCard_DoLoadDirectory();
             if (r < 0) {
                 return 0;
             }
@@ -125,7 +125,7 @@ opened:
             } while (tries >= 0);
             goto close_out;
 seeked:
-            func_80043D48(gMemCard_aIOEventHandles);
+            MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
             tries = 0xA;
             do {
                 if ((s8)D_8009B43E == 4) {
@@ -169,7 +169,7 @@ sub_two:
         }
         goto finish;
 poll_write:
-        r = func_80044608();
+        r = MemCard_DoLoadDirectory();
         if (r < 0) {
             return 0;
         }

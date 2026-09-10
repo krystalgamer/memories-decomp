@@ -8,7 +8,7 @@ int MemCard_ReqCardInfo(int chan)
 {
     int result;
     if (MemCard_BeginRequest(chan, 1)) {
-        func_80043D48(gMemCard_aIOEventHandles);
+        MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
         _card_info(chan);
         result = 1;
     } else {

@@ -4,7 +4,7 @@
 #include "mem_card.h"
 #include "mem_card_directory.h"
 
-s32 func_80044544(u8 *entry, s32 count)
+s32 MemCard_CalcFreeBlocks(u8 *entry, s32 count)
 {
     s32 i;
     s32 total = 0;
@@ -20,7 +20,7 @@ s32 func_80044544(u8 *entry, s32 count)
     return MEM_CARD_BLOCK_COUNT - total;
 }
 
-s32 func_80044598(u8 *name, u8 *entry, s32 count)
+s32 MemCard_FindEntry(u8 *name, u8 *entry, s32 count)
 {
     s32 i;
 

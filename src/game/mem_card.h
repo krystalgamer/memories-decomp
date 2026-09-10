@@ -43,10 +43,10 @@ extern s32 gMemCard_nIOResult;
  * every caller passes it the int it was itself handed, and
  * MemCard_ReqLoadDirectory passes that same int to _card_info(long chan).
  * The readers hand it back to _card_info, _card_clear and _card_load, and to
- * MemCard_FindFiles's s32 first parameter. Retail stores it with sb and reads it with lbu at ten sites,
- * all gp-relative into $a0, five of the reads in func_80044838, still
- * assembly; so it is one unsigned byte, and the one char spelling was the
- * writer's, where a store shows no sign. */
+ * MemCard_FindFiles's s32 first parameter. Retail stores it with sb and
+ * reads it with lbu at ten sites, all gp-relative into $a0, five of the reads
+ * in func_80044838, still assembly; so it is one unsigned byte, and the one
+ * char spelling was the writer's, where a store shows no sign. */
 extern u8 D_8009B437;
 
 extern u8 gMemCard_szSaveFileName[];
@@ -87,8 +87,8 @@ extern u16 gMemCard_wDialogFlags;
 
 /* The second block of IO event handles, sixteen bytes past
  * gMemCard_aIOEventHandles at 0x800F2AE0, so four `long` handles apart. Both
- * are handed to func_80043D48, and all three sources that name this one
- * already include this header and already spell the element `long`. That
+ * are handed to MemCard_ClearIOEvents, and all three sources that name this
+ * one already include this header and already spell the element `long`. That
  * spelling is preserved here for the same reason it is above: the event API
  * hands these back as long and nothing has measured the difference. */
 extern long D_800F2AF0[];
@@ -134,28 +134,30 @@ extern u8 D_8009B3D4;
  *   D_8009B43E  A signed state, armed from a caller's argument and tested as
  *               `>= 0`, `== 1` and `!= 8`, so the sign and the specific
  *               values both matter.
- *   D_8009B44E  A flag byte; the callbacks set and test bit 0x80 and the
- *               init path clears the whole byte. */
+ *   D_8009B44E  A flag byte. MemCard_DoLoadDirectory sets bit 0x80 once it
+ *               has tried to list the card and tests it to skip the reload;
+ *               the init path clears the whole byte. */
 extern s8 D_8009B43E;
 extern u8 D_8009B44E;
 
 /* Stored by MemCard_BeginRequest (mem_card_begin_request.c:11,
- * `D_8009B43C = 10;`; func_800440B4.s:8 `sb`) and by func_80044608, which
- * loads it under u8 and matched: `v0 = D_8009B43C - 1;
- * D_8009B43C = (u8)v0;` at func_80044608.c:60-61, :96-97, :114-115, and `D_8009B43C = 0xA;` at :80
- * and :104 (func_80044608.s lbu :40, :94, :121; sb :43, :73, :97, :104,
- * :124). The writer spelled it char, where a store shows no sign; the
- * D_8009B437 comment above records the same split. Still in assembly:
- * func_80044838.s (lbu :137, :307; sb :75, :140, :211, :288, :310).
- * D_8009B43D is the next symbol, at +1 (c_symbols.ld:298). Every access
- * is `%gp_rel`; plain declaration. */
+ * `D_8009B43C = 10;`; func_800440B4.s:8 `sb`) and by MemCard_DoLoadDirectory,
+ * which loads it under u8 and matched: `v0 = D_8009B43C - 1;
+ * D_8009B43C = (u8)v0;` at mem_card_do_load_directory.c:60-61, :96-97,
+ * :114-115, and `D_8009B43C = 0xA;` at :80 and :104 (func_80044608.s lbu
+ * :40, :94, :121; sb :43, :73, :97, :104, :124). The writer spelled it char,
+ * where a store shows no sign; the D_8009B437 comment above records the same
+ * split. Still in assembly: func_80044838.s (lbu :137, :307; sb :75, :140,
+ * :211, :288, :310). D_8009B43D is the next symbol, at +1
+ * (c_symbols.ld:298). Every access is `%gp_rel`; plain declaration. */
 extern u8 D_8009B43C;
 
 /* Stored by MemCard_BeginRequest (mem_card_begin_request.c:15,
- * `D_8009B43D = 0;`; func_800440B4.s:13 `sb $zero`) and by func_80044608,
- * which loads it under u8 and matched: `v1 = D_8009B43D;` at
- * func_80044608.c:24, `D_8009B43D = (u8)(D_8009B43D + 1);` at :81 and `D_8009B43D = 2;` at
- * :105 (func_80044608.s lbu :5, :72; sb :75, :106). No function still in
+ * `D_8009B43D = 0;`; func_800440B4.s:13 `sb $zero`) and by
+ * MemCard_DoLoadDirectory, which loads it under u8 and matched:
+ * `v1 = D_8009B43D;` at mem_card_do_load_directory.c:24,
+ * `D_8009B43D = (u8)(D_8009B43D + 1);` at :81 and `D_8009B43D = 2;` at :105
+ * (func_80044608.s lbu :5, :72; sb :75, :106). No function still in
  * assembly names it. D_8009B43E, declared s8 above, is at +1
  * (c_symbols.ld:299). Every access is `%gp_rel`; plain declaration. */
 extern u8 D_8009B43D;

@@ -16,7 +16,7 @@ extern u8 D_8009AF7C[];
    site, so naming the real return type changes nothing. */
 s32 MemCard_FindFiles(s32 chan, const char *pattern, struct DIRENTRY *cursor,
                       s32 *out_count);
-s32 func_80044608(void) {
+s32 MemCard_DoLoadDirectory(void) {
     s32 v0;
     register s32 one asm("a0");
     s32 v1;
@@ -62,7 +62,7 @@ state0_info:
     if ((s8)v0 == 0) {
         goto ret;
     }
-    func_80043D48(gMemCard_aIOEventHandles);
+    MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
     _card_info(D_8009B437);
     return -1;
 
@@ -80,7 +80,7 @@ sub_poll_entry:
     D_8009B43C = 0xA;
     D_8009B43D = (u8)(D_8009B43D + 1);
 sub_retry:
-    func_80043D48(D_800F2AF0);
+    MemCard_ClearIOEvents(D_800F2AF0);
     _card_clear(D_8009B437);
     return -1;
 
@@ -104,7 +104,7 @@ state1_zero:
     D_8009B43C = 0xA;
     D_8009B43D = 2;
 load_retry:
-    func_80043D48(gMemCard_aIOEventHandles);
+    MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
     _card_load(D_8009B437);
     return -1;
 
@@ -126,7 +126,7 @@ state2:
     D_8009B444 = D_800F2888;
     MemCard_FindFiles(D_8009B437, (const char *)D_8009AF7C,
                       (struct DIRENTRY *)D_800F2888, &D_8009B440);
-    D_8009B438 = func_80044544(D_8009B444, D_8009B440);
+    D_8009B438 = MemCard_CalcFreeBlocks(D_8009B444, D_8009B440);
 
 after_load:
     if (gMemCard_nIOResult == 3) {

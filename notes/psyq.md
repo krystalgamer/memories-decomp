@@ -1336,9 +1336,9 @@ Three matching-C consumers independently establish the directory geometry:
 
 | Property | Local evidence |
 |---|---|
-| Directory record size | `MemCard_FindFiles` and `func_80044598` advance records by 40 bytes. |
-| File-size field | `func_80044544` reads a 32-bit size at record offset `24`. |
-| Allocation block size | `func_80044544` rounds each file size up to `8192` bytes. |
+| Directory record size | `MemCard_FindFiles` and `MemCard_FindEntry` advance records by 40 bytes. |
+| File-size field | `MemCard_CalcFreeBlocks` reads a 32-bit size at record offset `24`. |
+| Allocation block size | `MemCard_CalcFreeBlocks` rounds each file size up to `8192` bytes. |
 | Card capacity | Enumeration and free-space accounting both stop at `15` blocks. |
 
 These values are centralized as `MEM_CARD_DIRECTORY_ENTRY_SIZE`,
