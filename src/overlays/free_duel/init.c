@@ -5,6 +5,7 @@
 #include "../../game/card_constants.h"
 #include "../../game/campaign_flags.h"
 #include "../../game/graphics_frame.h"
+#include "../../game/duel_side_state.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -21,7 +22,6 @@ typedef struct {
 } Obj;
 
 extern u8 gFreeDuel_bReturnFlags;
-extern u8 D_8009B362;
 extern u8 gFreeDuel_aDuelistRecords[];
 extern u8 *gFreeDuel_pCursorWidget;
 extern u8 *gFreeDuel_pThumbWidget;

@@ -1,3 +1,4 @@
+#define D_8009B362_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "../psyq/libgte.h"
@@ -53,7 +54,6 @@ extern u16 D_8009B1E0;
 extern DisplayObject *D_8009B214;
 extern DisplayObject *D_8009B21C;
 
-extern u8 D_8009B362 __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern u16 gDuel_awRitualData[];
 
