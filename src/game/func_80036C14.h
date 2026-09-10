@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_FUNC_80036C14_H
 
 #include "../types.h"
+#include "duel_effect.h"
 
 /* Appends one 0x1C-byte packet to the buffer the object holds at 0x20, then
  * advances that pointer past it.
@@ -12,6 +13,6 @@
  * written as a word. Two of those three paths return without emitting
  * anything when the value comes out zero, so a caller cannot assume a packet
  * was appended, and nothing is returned to say whether one was. */
-void func_80036C14(u8 *p, s32 a);
+void func_80036C14(DuelEffectChannel *p, s32 a);
 
 #endif
