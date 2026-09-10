@@ -3,7 +3,10 @@
 #define D_8009B36A_IN_DATA
 #define D_8009B254_IN_DATA
 #define D_8009B368_IN_DATA
+#define D_8009B3EA_IN_DATA
+#define D_8009B3ED_IN_DATA
 #include "../types.h"
+#include "mem_card.h"
 #include "frontend_debug_tables.h"
 #include "duel_effect.h"
 #include "duel_side_state.h"
@@ -25,8 +28,6 @@
 
 extern u8 D_8009B26C[];
 extern u8 D_8009B2E8;
-extern u8 D_8009B3EA[];
-extern u8 D_8009B3ED[];
 extern u16 gDebug_nSceneOrSoundID;
 
 void func_80030C10(void)
@@ -147,8 +148,8 @@ void func_80030EC8(void)
 
     if ((flags & 0x80) == 0) {
         D_8009B2EB = flags | 0x80;
-        D_8009B3ED[0] = 0;
-        D_8009B3EA[0] = 0;
+        D_8009B3ED = 0;
+        D_8009B3EA = 0;
     }
     result = func_8003FCD8();
     if (result != 0) {

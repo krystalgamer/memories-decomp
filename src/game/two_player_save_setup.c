@@ -6,8 +6,6 @@
 #include "save_data.h"
 #include "text_sjis_to_glyph_codes.h"
 
-extern u8 D_8009B3ED;
-extern u8 D_8009B3EA;
 extern u8 D_801D1200[];
 extern s32 D_801D5608[];
 extern u8 D_801D160C[];
