@@ -263,10 +263,10 @@ typedef char DuelStatusDigitPacket_field_14_offset_must_be_0x14[
     (u32)&((DuelStatusDigitPacket *)0)->field_14 == 0x14 ? 1 : -1
 ];
 
-/* Two words written together as a pair. free_duel/cursor_layout.c and
- * password/shop.c each defined this identically to view D_801D5608, and each
- * writes both members at once -- the low word from a table entry and the high
- * word from the index beside it.
+/* Two words written together as a pair. free_duel/screen_runtime.c and
+ * password/shop.c formerly defined this identically to view D_801D5608, and
+ * each writes both members at once -- the low word from a table entry and the
+ * high word from the index beside it.
  *
  * The typedef is shared here; the extern that uses it is not. D_801D5608 is a
  * staging area with several faithful views, spelled s32 and s32 [] elsewhere

@@ -1482,7 +1482,7 @@ matches one block at 92–100 %, and the order is the opponent id
 
 The ID/name list now also has direct executable-text corroboration. For an
 available, settled Free Duel cell `i`, the armed update in matching
-[`FreeDuel_PlaceCursor`](../../src/overlays/free_duel/cursor_layout.c)
+[`FreeDuel_PlaceCursor`](../../src/overlays/free_duel/screen_runtime.c)
 writes string ID `0x8328 + i` to `D_8009B32E`.
 [`func_800383DC`](../../src/game/func_800383DC.c) reads that ID as an
 unsigned halfword and resolves the global offset table at `0x801D5800`,
@@ -1537,7 +1537,7 @@ passes the selected index unchanged to
 `gDuel_bOpponentID`. This normal launch path does not remap the grid index.
 
 On return, matching
-[`FreeDuel_Init`](../../src/overlays/free_duel/init.c) updates the retained
+[`FreeDuel_Init`](../../src/overlays/free_duel/screen_runtime.c) updates the retained
 row/column's record when `gFreeDuel_bReturnFlags & 0x80` is set. It selects
 the second halfword only when **`D_8009B362 == 1`**, otherwise the first,
 and caps normal counter values at 999. It does not index this table by
