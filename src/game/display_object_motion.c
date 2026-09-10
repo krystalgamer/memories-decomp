@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_motion.h"
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "display_object.h"

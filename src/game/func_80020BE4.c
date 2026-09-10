@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "func_80020BE4.h"
 #include "../ygo_types.h"
 #include "../unmatched.h"
 

@@ -4,13 +4,18 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "../psyq/rand.h"
+#include "display_object_motion.h"
 #include "input.h"
 #include "rand_get_interval.h"
 #include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
+#include "func_80020BE4.h"
+#include "func_80020EE8.h"
 #include "sound.h"
+#include "sound_output.h"
 #include "fade.h"
 #include "../unmatched.h"
 #include "duel_side_state.h"
@@ -42,13 +47,6 @@
         flies off, and wait for func_80042B40 again.
      4  once the fade at gFade_State.flags has finished, hand the scene over to
         state 0xD.  */
-
-extern void func_800472A8(s32);
-extern u32 func_8004703C(void);
-extern s32 rand(void);
-extern void func_80020BE4(void);
-extern void func_8001EC70(void *);
-extern void func_80020EE8(void *);
 
 extern u16 D_8009B1E0;
 extern DisplayObject *D_8009B214;
