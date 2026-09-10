@@ -74,6 +74,7 @@ PLACEHOLDER = re.compile(
     r"|qword|off|asc|stru|flt|dbl|jpt|def)_[0-9A-Fa-f]+$"
 )
 MINIMUM_ANCHOR = 4
+SIGNATURE_BYTE = re.compile(r"^[0-9A-Fa-f]{2}$")
 
 
 def load_payload(root: Path) -> tuple[int, bytes]:
@@ -97,11 +98,18 @@ def load_inventory(root: Path) -> dict[int, dict[str, str]]:
 def parse_signature(text: str) -> tuple[bytes, bytes]:
     pattern = bytearray()
     mask = bytearray()
-    for token in text.split():
+    tokens = text.split()
+    if not tokens:
+        raise SignatureError("signature is empty")
+    for index, token in enumerate(tokens):
         if token == "??":
             pattern.append(0)
             mask.append(0)
         else:
+            if not SIGNATURE_BYTE.fullmatch(token):
+                raise SignatureError(
+                    f"token {index} {token!r} is not ?? or two hexadecimal digits"
+                )
             pattern.append(int(token, 16))
             mask.append(0xFF)
     return bytes(pattern), bytes(mask)
@@ -214,7 +222,12 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
             entry_name, signature, labels = signature_entry_fields(
                 path, index, entry
             )
-            pattern, mask = parse_signature(signature)
+            try:
+                pattern, mask = parse_signature(signature)
+            except SignatureError as error:
+                raise SignatureError(
+                    f"{path}: entry {index} sig: {error}"
+                ) from error
             matches = find_matches(payload, pattern, mask)
             if matches is None:
                 unanchored += 1
