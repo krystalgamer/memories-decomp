@@ -11,6 +11,8 @@
 #include "../../psyq/rand.h"
 #include "../../game/sound.h"
 #include "../../game/display_object_helpers.h"
+#define FUNC_8004036C_AMBIENT_OBJECT
+#include "../../game/display_object_api.h"
 #include "../../game/func_80039794.h"
 #define FUNC_80041D60_AMBIENT_ARGS
 #include "../../game/func_80041D60.h"
@@ -32,12 +34,10 @@
    u8 ** by the caller and defined void **; the definition wins and the one
    call site assigns through a void ** local.
 
-   func_8004036C keeps the local `void (void)` declaration the sparkle
-   updater carried, and the reason it carried it: the two calls pass no
-   argument at all, so taking display_object_api.h's typed
-   `void func_8004036C(void *)` would make the compiler set up an argument
-   retail does not. Nothing else in this unit's include set declares it, so
-   the local spelling is still the only one here. */
+   func_8004036C uses display_object_api.h's guarded `void (void)` arm. The
+   sparkle updater's call passes no argument, so taking the normal
+   `void func_8004036C(void *)` declaration would make the compiler set up an
+   argument retail does not. */
 
 typedef struct {
     u8 unk0[0x4];
@@ -52,15 +52,6 @@ typedef struct {
     u8 unk62[0xA];
     u8 state;
 } FreeDuelSparkle;
-
-/* Not display_object_api.h's `void func_8004036C(void *object)`, on purpose.
-   The two calls below pass no argument at all, so $a0 holds whatever the
-   preceding code left there; there is no expression to write for it. Taking
-   the typed declaration would make the compiler set up an argument the retail
-   image does not, so this stays a local `void (void)` until the two calls are
-   understood well enough to name what they are really passing. */
-extern void func_8004036C(void);
-extern void func_8004036C(void);
 
 extern u8 *gFreeDuel_pCursorWidget;
 extern u8 D_8009B269;
