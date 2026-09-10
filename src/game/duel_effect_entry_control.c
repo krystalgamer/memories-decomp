@@ -67,25 +67,25 @@ loop:
     }
 }
 
-void func_8003741C(u8 *object)
+void func_8003741C(DuelEffectChannel *object)
 {
-    u8 state = object[0x51];
+    u8 state = object->state_51;
     DuelEffectEntry *entry;
 
     if ((state & 0x80) == 0) {
-        object[0x51] = state | 0x80;
-        func_800373C8((DuelEffectChannel *)object, 2, 0);
+        object->state_51 = state | 0x80;
+        func_800373C8(object, 2, 0);
         return;
     }
 
-    entry = &D_800EB288[*(u16 *)(object + 0x5C)];
+    entry = &D_800EB288[object->range_start_5C];
     if (entry->flags_11 & 0x80) {
         return;
     }
 
-    object[0x56] = 0;
-    *(u16 *)(object + 0x38) = 0;
-    *(u16 *)(object + 0x3A) = 0;
-    object[0x51] = 0;
-    object[0x62] = 0;
+    object->field_56 = 0;
+    object->field_38 = 0;
+    object->field_3A = 0;
+    object->state_51 = 0;
+    object->field_62 = 0;
 }

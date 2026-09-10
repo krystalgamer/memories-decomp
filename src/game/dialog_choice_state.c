@@ -5,14 +5,14 @@
 #include "display_object_helpers.h"
 #include "dialog_choice_state.h"
 
-void func_800374A8(u8 *object)
+void func_800374A8(DuelEffectChannel *object)
 {
-    u8 flags = ((DuelEffectChannel *)object)->state_51;
+    u8 flags = object->state_51;
 
     if ((flags & 0x80) == 0) {
-        ((DuelEffectChannel *)object)->state_51 = flags | 0x80;
-        func_800373C8((DuelEffectChannel *)object, 3, 0);
-        ((DuelEffectChannel *)object)->state_51 = 0x82;
+        object->state_51 = flags | 0x80;
+        func_800373C8(object, 3, 0);
+        object->state_51 = 0x82;
     }
 }
 

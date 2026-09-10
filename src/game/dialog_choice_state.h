@@ -12,7 +12,7 @@
  * `u8 *(u8 *)`, `u8 *(void *)` and `void *(void *)`. The definition takes and
  * returns u8 *; every caller passes the same record pointer and stores the
  * result in a void * slot, so the differences are views. */
-void func_800374A8(u8 *object);
+void func_800374A8(DuelEffectChannel *object);
 u8 *Dialog_OpenChoice(u8 *record);
 
 #endif

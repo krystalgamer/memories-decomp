@@ -13,25 +13,25 @@
  * exceed that bound, so the public declaration remains unsized.
  */
 
-void Dialog_UpdateChoice(u8 *);
+void Dialog_UpdateChoice(DuelEffectChannel *);
 
 TextBoxStateCallback D_80090E64[] = {
     Dialog_UpdateChoice,
     Dialog_UpdateChoice,
     func_8003741C,
     func_800374A8,
-    (TextBoxStateCallback)func_800375A4,
-    (TextBoxStateCallback)func_8003767C,
-    (TextBoxStateCallback)func_800377C8,
-    (TextBoxStateCallback)func_8003787C,
-    (TextBoxStateCallback)func_800378D8,
-    (TextBoxStateCallback)func_80037950,
-    (TextBoxStateCallback)func_800377AC,
-    (TextBoxStateCallback)func_8003771C,
-    (TextBoxStateCallback)func_8003798C,
-    (TextBoxStateCallback)func_800379C4,
-    (TextBoxStateCallback)func_80037914,
-    (TextBoxStateCallback)func_800379F8,
-    (TextBoxStateCallback)func_80037A58,
-    (TextBoxStateCallback)func_80037B40,
+    func_800375A4,
+    func_8003767C,
+    func_800377C8,
+    func_8003787C,
+    func_800378D8,
+    func_80037950,
+    func_800377AC,
+    func_8003771C,
+    func_8003798C,
+    func_800379C4,
+    func_80037914,
+    func_800379F8,
+    func_80037A58,
+    func_80037B40,
 };
