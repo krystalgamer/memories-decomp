@@ -12,7 +12,8 @@
  * reason this record exists rather than a plain s32. x is only ever biased and
  * stored, so it stays u16 and its read comes out `lhu`; y is taken through a
  * signed s32 before it is biased, so it is s16 and its read comes out `lh`.
- * func_800178BC.c records the same fact in prose next to its own copy.
+ * src/candidates/func_800178BC.c records the same fact in prose next to its
+ * own read.
  *
  * This was ProjectedPair in display_projection.c, ProjectedPair again in
  * func_800177C4.c and Projected in func_800178BC.c: three textually identical

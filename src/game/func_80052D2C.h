@@ -8,8 +8,8 @@
  * back immediately when the duration is zero.
  *
  * Both consumers already spelled it this way. model_effect_requests.c wraps it
- * in two guarded requests, described in its own header; model_scene_setup.c
- * asks for the all-zero move.
+ * in two guarded requests, described in its own header; func_800530C4, in
+ * func_80052D2C.c beside the definition, asks for the all-zero move.
  *
  * The address-based name is kept: functions.csv describes what the request
  * does but assigns no name, and which subsystem owns the transition record is

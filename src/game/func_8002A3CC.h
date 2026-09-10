@@ -52,9 +52,10 @@ typedef char LibraryMotionState_size_must_be_0x48[
  * `LibraryMotionState *state = &D_800EA1E8;` and work through the fields whose
  * offsets are asserted above.
  *
- * The same address is also read as `u8 D_800EA1E8[]` by library_runtime.c,
- * which takes only the first byte -- its comment calls it "the low nibble of
- * D_800EA1E8's first byte" and dispatches the library screen state on it.
+ * The same address is also read as `u8 D_800EA1E8[]` by func_8002BAB4
+ * (src/candidates/func_8002BAB4.c), which takes only the first byte -- its
+ * comment calls it "the low nibble of D_800EA1E8's first byte" and
+ * dispatches the library screen state on it.
  * That file still does not include this header.
  *
  * func_8002BFCC was described here as doing the same, and that was wrong.
@@ -84,8 +85,8 @@ typedef char LibraryMotionState_size_must_be_0x48[
  * That byte view is not folded in on purpose. Whether the mode byte is a field
  * of this record or a separate object sharing its first bytes is not
  * established, and a typed declaration reaching those two files would assert
- * that it is. func_8002A4A8 reaches the address through an asm .reloc, and two
- * further accessors are still assembly. */
+ * that it is. func_8002A4A8, generated assembly again, reaches the address
+ * through a relocation, and two further accessors are still assembly. */
 extern LibraryMotionState D_800EA1E8;
 
 s32 func_8002A3CC(void);

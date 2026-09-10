@@ -18,9 +18,9 @@
    FF: the F8 escape into the secondary table, the cursor set, the choice
    command, the page wait and campaign-flag command, the stream push, the
    new line and end of stream, and the display-effect command. See
-   notes/text-control-bytecode.md. The other two primary handlers,
-   Text_ExtendGlyphCode and Text_SetStateFromStream, live in
-   text_stream_commands.c.
+   notes/text-control-bytecode.md. The other two primary handlers are
+   Text_ExtendGlyphCode, now src/candidates/func_80037D2C.c, and
+   Text_SetStateFromStream in text_stream_commands.c.
 
    The seven former sources were recorded at gcc_2_8_1_g0_split,
    gcc_2_8_1_g8, gcc_2_8_1_g0 and gcc_2_8_1_g8_split, and every member

@@ -11,8 +11,9 @@
  *
  * R1 wraps past the last choice to the first; up and down clamp. The record
  * parameter is only forwarded to Dialog_HighlightChoice, which takes the same
- * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94.c holds the
- * same object as DuelEffectChannel * and casts. */
+ * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94
+ * (src/candidates/func_8002EE94.c) holds the same object as
+ * DuelEffectChannel * and casts. */
 s32 Dialog_ReadChoiceInput(u8 *record);
 
 #endif

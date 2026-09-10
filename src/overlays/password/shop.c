@@ -34,7 +34,7 @@
    through a pinned register and is a build-integrated candidate since #3859
    (src/candidates/password/func_8016A37C.c).
 
-   Both doors are resident: main_run_frontend_menus.c calls
+   Both doors are resident: main_run_password_menu.c calls
    Password_InitShopScreen once and Password_UpdateShopScreen each tick.
    Nothing outside this unit reaches Password_RecreateCardPreview or
    Password_LookupCardID.

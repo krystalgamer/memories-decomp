@@ -1,11 +1,4 @@
 {
   "schema": 1,
-  "exceptions": [
-    {
-      "symbol": "D_8009B34C",
-      "source": "src/game/func_8002EE94.c",
-      "declaration": "extern u8 D_8009B34C __attribute__((section(\".data\")));",
-      "reason": "The absolute .data view is load-bearing while the central small-data consumers use the plain byte declaration."
-    }
-  ]
+  "exceptions": []
 }

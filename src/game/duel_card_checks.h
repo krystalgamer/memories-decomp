@@ -21,8 +21,9 @@
  * Duel_CheckEquip walks gDuel_awEquipTable as u16 pairs; Duel_CheckFusion
  * takes gDuel_aFusionTable's base as a u8 * and strides it itself.
  *
- * Neither is defined in C. duel_load_package_stage.c fills both from the
- * disc, handing their addresses to a transfer descriptor as
+ * Neither is defined in C. Duel_LoadPackageStage
+ * (src/candidates/func_800171A8.c) fills both from the disc, handing their
+ * addresses to a transfer descriptor as
  * `d->value_08 = d->value_0C = (u32)gDuel_awEquipTable`, which is why that
  * source declared them too and now includes this header instead.
  *

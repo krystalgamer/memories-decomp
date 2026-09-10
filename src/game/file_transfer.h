@@ -59,6 +59,14 @@ FileTransferDescriptor *File_InitTransferDescriptor(
     s32
 );
 FileTransferDescriptor *func_80013A94(s32 file_index, s32 sector_offset);
+/* The command-completion callbacks the runtime installs through DsCommand
+ * and DsPacket: each re-issues its command on event 5 and clears the busy
+ * bit on event 2. func_80014220 is a candidate since #3859
+ * (src/candidates/func_80014220.c). */
+void func_800140A0(u8 event);
+void func_80014134(u8 event);
+void func_800141A8(u8 event);
+void func_80014220(s32 event);
 void func_8001455C(void);
 void func_80014A5C(s32 arg0);
 void func_80014B30(FileTransferDescriptor *descriptor, s32 mode);
@@ -193,10 +201,10 @@ extern u32 D_8009B134_abs __attribute__((section(".data")));
  * File_SetPositionTable hands its address to File_InitTransferState
  * (file_set_position_table.c:18), which stores it into D_8009B118
  * (file_stream.c:15). The two memory-card dialogs also reach it, always by
- * address: MemCardDialog_UpdateSave (mem_card_dialog_load_save.c)
+ * address: MemCardDialog_UpdateSave (src/candidates/func_8003E854.c)
  * and MemCardDialog_UpdateTradeSave (mem_card_dialog_runtime.c) pass it
  * to MemCardReadFile as the destination of a read whose last argument is 0x480,
- * and compare it as a SaveDataState in mem_card_dialog_load_save.c and
+ * and compare it as a SaveDataState in src/candidates/func_8003E854.c and
  * mem_card_dialog_runtime.c. Every retail access is an address-take
  * (func_800136E4.s:5-6, func_8003E854.s:289-290 and :319-320,
  * func_8003EED0.s:127-128, :155 and :158), so the listings say nothing
@@ -234,10 +242,11 @@ extern char D_8009B11C[1];
 extern u8 D_8009B11C_byte asm("D_8009B11C");
 
 /* The CD callback's state word, switched on and advanced by
- * file_transfer_runtime.c.
+ * func_80014294.c and by func_80014220, a candidate since #3859
+ * (src/candidates/func_80014220.c).
  *
  * Both declarers already spell it `volatile u16` and it stays that way. It
- * also has to stay small-data eligible: file_transfer_runtime.c stores to it from
+ * also has to stay small-data eligible: func_80014220 stores to it from
  * inline assembly written as `sh $4, %gp_rel(D_8009B100)($28)`, which names
  * the symbol and assumes $gp addressing. A two-byte scalar is eligible under
  * -G8, so this declaration keeps that true; a `.data` arm here would break
@@ -342,7 +351,8 @@ extern volatile u16 D_8009B124;
  * `*(FileTransferDescriptorWords *)gFile_SecondaryTransferDescriptor` --
  * becomes `*(FileTransferDescriptorWords *)&gFile_SecondaryTransferDescriptor`,
  * which is the form that
- * file already used on the line above for the primary descriptor. */
+ * file already used on the line above for the primary descriptor. That copy
+ * is File_ActivateTransfer, now in func_80014294.c. */
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 
 #endif

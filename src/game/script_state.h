@@ -44,7 +44,7 @@ extern u8 *D_8009B290;
  * `D_8009B290 = D_801A8000 + *(u16 *)(D_801A8000 + g * 2)` -- so the head of
  * the package is a table of little-endian u16 byte offsets indexed by script
  * number, and the entry is where that script's code starts. The other three
- * namers jump within the same package: script_flag_commands.c,
+ * namers jump within the same package: src/candidates/func_8002E918.c,
  * script_stream_commands.c and func_8002F9D4.c all set the cursor to
  * `D_801A8000 + offset`. All four spelled it `extern u8 D_801A8000[]`, which
  * is the spelling kept here.

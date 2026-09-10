@@ -4633,7 +4633,7 @@ register declarations; there is no statement-level inline assembly.
 
 Recorded the post-terminal resolution with `record_external_attempt.py`, then
 used `integrate_verified_match.py --evidence-source post-terminal
---allow-register-pins` to integrate `src/game/func_80060E70.c`.
+--allow-register-pins` to integrate `src/game/func_80060E70.c` (now `src/candidates/func_80060E70.c`).
 The only integration adjustment is the relative include of `src/types.h`.
 `func_80039A14` and `TextBox_Create` were checked against the current inventory
 and need no callee renames. The promoted candidate entry was removed as required
@@ -6299,7 +6299,7 @@ MASPSX has no option for it either; its whole flag set was checked.
 
 **The transfers are fine and only the commands are affected.** `lwc2`, `swc2`,
 `mtc2`, `mfc2`, `cfc2` and `ctc2` are real mnemonics, which is why
-`gte_stopz` works in `display_object_projection.c` — the only GTE use in
+`gte_stopz` works in `display_object_projection.c` (now the candidates `func_80041E7C.c` and `func_80041F90.c`) — the only GTE use in
 accepted C, and a transfer. Reading that file as proof that "GTE works from C"
 is the trap here.
 
@@ -6776,7 +6776,7 @@ mine got two of those three wrong and concluded the class was empty.
 ## A caller may pass an argument the matched callee does not take
 
 `func_80049C40` is matched, exactly, with `gcc_2_8_1_g0`, and its definition in
-`sound_secondary_playback.c` is:
+`sound_secondary_playback.c` (now `func_80049BAC.c`) is:
 
     void func_80049C40(void)
 
@@ -6937,7 +6937,7 @@ about a return type nobody uses, so only reading the definition finds these.
 is checked. No diagnostic exists for this one at all.
 
 **A narrower return that is load-bearing.** `func_80049F50` is defined `s32` in
-`sound_secondary_playback.c` and declared `s16` in `sound_runtime.c`, where the
+`sound_secondary_playback.c` and declared `s16` in `sound_runtime.c` (now `func_80049EC8.c` and `src/candidates/func_80045F3C.c`), where the
 result is compared:
 
     if (... func_80049F50() != 1)
@@ -7063,7 +7063,7 @@ Twelve globals in the tree are declared with two spellings that differ only in
 signedness. `gCardGrid_bCursorColumn` and `gCardGrid_bCursorRow` are the first
 pair measured, and the answer is not the one the shape of the problem suggests.
 
-Two sources use them. `func_8002A788.c` declares them `s8` and reads them
+Two sources use them. `func_8002A788.c` (now `src/candidates/func_8002A6B8.c`, with `func_8002A788` itself generated assembly again) declares them `s8` and reads them
 straight into an `s32`. `func_8002BFCC.c` declares them `u8` and writes
 `(s8)gCardGrid_bCursorColumn` at each use. Editing only `func_8002BFCC.c` and
 leaving the other alone -- it carries hand-written

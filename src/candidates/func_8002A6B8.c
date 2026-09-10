@@ -1,0 +1,42 @@
+/*
+ * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8 this
+ * source rebuilt the target byte for byte, but only by
+ * pinning 1 variable to hard registers, so it is kept here as a candidate
+ * rather than counted as a decompilation. It was src/game/func_8002A788.c.
+ */
+#include "../types.h"
+#include "../game/card_constants.h"
+#include "../game/card_grid.h"
+#include "../game/func_8002A788.h"
+
+s32 func_8002A6B8(void)
+{
+    s32 row = gCardGrid_bCursorRow;
+    s32 row_tens = row / CARD_GRID_SECTION_SIDE_LENGTH;
+    s8 row_tens_byte = (s8)row_tens;
+    s32 index = row_tens_byte * CARD_GRID_SECTION_ROW_CARD_COUNT;
+    s8 row_ones =
+        (s8)(row - row_tens * CARD_GRID_SECTION_SIDE_LENGTH);
+    s32 base;
+    s32 column;
+    s32 column_tens;
+    s8 column_ones;
+    register s32 result asm("$2");
+
+    index += row_ones * CARD_GRID_SECTION_SIDE_LENGTH;
+
+    column = gCardGrid_bCursorColumn;
+    if (column >= CARD_GRID_SECTION_SIDE_LENGTH) {
+        index += CARD_GRID_SECTION_CARD_COUNT;
+    }
+    base = index + 1;
+    column_tens = column / CARD_GRID_SECTION_SIDE_LENGTH;
+    column_ones =
+        (s8)(column - column_tens * CARD_GRID_SECTION_SIDE_LENGTH);
+    index = base + column_ones;
+    result = 0;
+    if (index < CARD_ID_END) {
+        result = index;
+    }
+    return result;
+}

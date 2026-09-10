@@ -71,11 +71,6 @@ void func_80046DE8(void)
 #include "sound_init.h"
 #include "sound_pending_entries.h"
 #include "sound_output.h"
-/* Not a duplicate of the sound_init.h declaration: a second addressing view
-   of the same symbol. The one call below narrows its second argument to s16,
-   and the canonical (s32, s32) prototype would widen it back. */
-extern void func_80049230_s16(s32, s16) asm("func_80049230");
-extern SDValue * volatile D_8009B45C_volatile asm("g_SDValue");
 void func_80046F58(void)
 {
     SD_KeyOffVoiceSlots();
@@ -186,71 +181,3 @@ void func_80047278(u32 value)
     func_80047AD0(value & SD_COMMAND_VALUE_MASK);
 }
 
-void func_800472A8(s32 arg0)
-{
-    register s32 v asm("v1") = arg0;
-
-    if ((g_SDValue->flags_004A & 2) == 0) {
-        return;
-    }
-    if (arg0 & 0x8000) {
-        func_80045334(v & SD_COMMAND_VALUE_MASK);
-    } else {
-        register u32 masked asm("v0") =
-            (u32)(v & SD_COMMAND_VALUE_MASK);
-
-        if (masked >= SD_BGM_COMMAND_BASE) {
-            arg0 -= SD_BGM_COMMAND_BASE;
-        }
-        func_80049138((s16)arg0, 1);
-    }
-}
-
-void func_80047314(u32 value)
-{
-    func_8004733C(value & SD_COMMAND_VALUE_MASK, D_8009B45C_volatile->field_164B);
-}
-
-void func_8004733C(s32 arg0, s32 arg1)
-{
-    register s32 v asm("s1") = arg0;
-
-    if ((D_8009B45C_volatile->flags_004A & 2) == 0) {
-        return;
-    }
-    if (arg0 & 0x8000) {
-        func_800473CC(SD_BGM_COMMAND_BASE);
-        func_80045208(v & SD_COMMAND_VALUE_MASK, (s16)arg1);
-    } else {
-        register u32 masked asm("v0") =
-            (u32)(v & SD_COMMAND_VALUE_MASK);
-
-        if (masked >= SD_BGM_COMMAND_BASE) {
-            arg0 -= SD_BGM_COMMAND_BASE;
-        }
-        func_80049230((s16)arg0, (s16)arg1);
-    }
-}
-
-void func_800473CC(u32 value)
-{
-    func_800473F0(value & SD_COMMAND_VALUE_MASK, -32);
-}
-
-void func_800473F0(u16 flags, s32 value)
-{
-    if ((flags & 0x8000) != 0)
-        func_80045114();
-    else
-        func_80049230_s16(-1, value);
-}
-
-void func_80047430(s32 value, s32 flag)
-{
-    func_80049108(value, flag);
-}
-
-void func_80047458(s32 value, s32 flag)
-{
-    func_800490F0(value, flag);
-}

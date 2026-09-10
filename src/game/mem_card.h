@@ -231,7 +231,7 @@ extern s32 D_801D5648[];
  * D_8009B3ED: SaveData_UpdateTradeLoad and SaveData_UpdateDuelLoad in
  * two_player_save_runtime.c test bit 0x80
  * clear, set it and store
- * D_8009B3C0; func_80030EC8 (frontend_scene_states.c:151), func_80031000
+ * D_8009B3C0; func_80030EC8 (func_80030E30.c:66), func_80031000
  * (async_state_poll.c:19) and MainMenu_UpdateFrontendMenu (cases 3 and 2 of
  * its gMain_bMenuID switch; now a build-integrated candidate,
  * src/candidates/main_menu/func_80180390.c) store 0.

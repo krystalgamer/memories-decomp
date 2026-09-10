@@ -1117,3 +1117,9 @@ gPassword_nDigitIndex = 0x8016D428;
 // Semantic names
 PCread = 0x80073758; // type:func
 Duel_ShowResultPage = 0x80021480; // type:func
+
+// Semantic names that generated assembly needs once #3859 moved their
+// callers or definitions out of matching C
+Campaign_LoadScenePackage = 0x8002FD10; // type:func
+Text_ExtendGlyphCode = 0x80037D2C; // type:func
+Main_RunBootSequence = 0x80043960; // type:func

@@ -70,7 +70,7 @@ All three sites write a colour field — two through `*(u32 *)&obj->r` and
 positively display-layer colour writes.
 
 That is precisely why the duel constant does not fit.
-`duel_draw_status_numbers.c` documents `0x404040` as the *dim* member of a
+`Duel_DrawLifePointsAndDeckCounts` (`src/candidates/func_80016E70.c`) documents `0x404040` as the *dim* member of a
 shade pair whose *active* sibling is `0x808080`, selected per side by
 `D_8009B1D5`. The overlay sites take part in no such pairing: a name-entry
 object and a sparkle are not one side of a two-sided status readout. Adopting

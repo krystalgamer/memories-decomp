@@ -9,7 +9,8 @@
  * rotation and the three coordinate fields, pushes the projection distance
  * into the GTE through func_800857C0, and finishes with func_8001352C.
  *
- * func_800178BC.c is the only consumer and calls this first: its own header
+ * func_800178BC (src/candidates/func_800178BC.c) is the only consumer and
+ * calls this first: its own header
  * describes it as re-establishing the geometry state *after* func_80017130,
  * so the two run as a pair, this one setting the state and that one
  * rebuilding the matrices from it.

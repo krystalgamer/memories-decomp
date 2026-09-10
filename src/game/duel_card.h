@@ -67,10 +67,11 @@ extern DuelCardRecord D_801A7AD8[];
  * D_801A7AD8 and 0x8C is 5 * DUEL_CARD_RECORD_SIZE, so this is
  * &D_801A7AD8[5]. duel_card_object_queries.c already said so in its own
  * words -- "the records this file walks from it are the same 0x1C card
- * records the function above walks from D_801A7AD8".
+ * records the function above walks from D_801A7AD8". Both of its functions
+ * are now candidates (src/candidates/func_8002C938.c and func_8002C9B4.c).
  *
  * The second name is load bearing and is not an inference here:
- * duel_card_object_queries.c reaches it from an asm block as
+ * func_8002C9B4 reaches it from an asm block as
  *
  *     lui $2,%hi(D_801A7B64)
  *     addiu %0,$2,%lo(D_801A7B64)

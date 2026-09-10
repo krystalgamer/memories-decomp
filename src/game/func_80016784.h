@@ -10,7 +10,7 @@
  * attribute at 0x04, the flags at 0x08, the colour word at 0x0C, 0x14, the
  * word at 0x20 and the four tail bytes 0x67 to 0x6A, and every one of those
  * offsets is already named on that record. 0x6A is the index into
- * D_801A7AD8 that func_800179F4.c writes there, which is what
+ * D_801A7AD8 that func_80017F04 (func_80017DB4.c) writes there, which is what
  * says this object is a duel card's.
  *
  * The second argument is passed straight through to func_80042188, which

@@ -22,9 +22,9 @@ extern u8 D_8009B145;
 /* The fade depth byte and the fade-active flag. Five of the fade family reach
  * both through $gp (small data) and take the plain arms below.
  *
- * func_800339D0.c and func_800283F4.c address D_8009B140 with %hi/%lo
- * instead, outside small data, so they take the .data arm the same way
- * script_op_show_image.c takes one for D_8009B145. Both set it from
+ * func_800339D0.c and src/candidates/func_800283F4.c address D_8009B140
+ * with %hi/%lo instead, outside small data, so they take the .data arm the
+ * same way script_op_show_image.c takes one for D_8009B145. Both set it from
  * D_8009AF74[1] (display_object_helpers.h) and take that table's .data
  * arm for the same reason.
  *
@@ -44,14 +44,14 @@ extern u8 D_8009B141;
  * arithmetic on the way, so the roles follow the tint's: D_8009B14A is the
  * blue target, D_8009B14B green, D_8009B14C red. Three writers and no
  * single producer -- Fade_InitInColor and func_8001572C in the fade
- * family, and the start-up block in main_services.c -- so the family
+ * family, and the start-up block in func_80013154 -- so the family
  * header holds the declaration.
  *
- * main_services.c takes the arm below and it is a codegen input on that
- * unit: retail stores the six D_8009B14x bytes there through `lui $at` /
- * `sb %lo(...)`, i.e. outside small data, and in source order, which is
- * what `.data` and `volatile` give. The three fade units store them
- * gp-relative and take the plain arm. */
+ * func_80013154 (src/candidates/func_80013154.c) takes the arm below and it
+ * is a codegen input on that unit: retail stores the six D_8009B14x bytes
+ * there through `lui $at` / `sb %lo(...)`, i.e. outside small data, and in
+ * source order, which is what `.data` and `volatile` give. The three fade
+ * units store them gp-relative and take the plain arm. */
 #ifdef D_8009B14A_IN_DATA_VOLATILE
 extern volatile u8 D_8009B14A __attribute__((section(".data")));
 extern volatile u8 D_8009B14B __attribute__((section(".data")));

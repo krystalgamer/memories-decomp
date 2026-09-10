@@ -581,7 +581,8 @@ typedef char DuelStatusDigitPacket_field_14_offset_must_be_0x14[
  *
  * game/text_staging.h owns the guarded extern views of D_801D5608. Pair
  * remains the overlays' view, not a claim that the staging area always holds
- * this shape. main_run_credits.c keeps its explicit relocations. */
+ * this shape. Main_RunCredits reached it through explicit relocations and is
+ * generated assembly again (#3859). */
 typedef struct {
     u32 lo;
     u32 hi;

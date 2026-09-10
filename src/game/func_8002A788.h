@@ -4,12 +4,11 @@
 #include "../types.h"
 
 /* State 1 of the library screen dispatcher, handed the same record the other
- * states take -- library_runtime.c's switch calls it for mode 1 alongside
- * func_8002BAA0 and func_8002BAAC.
+ * states take -- the dispatcher func_8002BAB4 (src/candidates/func_8002BAB4.c)
+ * calls it for mode 1 alongside func_8002BAA0 and func_8002BAAC.
  *
- * The unit implements it as a top-level asm block rather than as C, so this
- * prototype is what the compiler sees on both sides; the block's own
- * `.reloc .-4, R_MIPS_26, func_8002A788` resolves the call. */
+ * func_8002A788 itself is generated assembly again (its old C file was a
+ * `.word` transcription), so this prototype is only what its C callers see. */
 void func_8002A788(u8 *state);
 
 /* The card id under the library grid cursor, computed from
