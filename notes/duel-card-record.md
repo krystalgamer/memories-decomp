@@ -180,7 +180,7 @@ The non-monster and unoccupied-record branches contain no clearing of
 those stat words. Later selector changes can also leave `D_8009B34E` zero
 after the data was prepared; `TextBox_Create` is still called after the
 conditional setup. Matching
-[`FreeDuel_PlaceCursor`](../src/overlays/free_duel/cursor_layout.c) reuses
+[`FreeDuel_PlaceCursor`](../src/overlays/free_duel/screen_runtime.c) reuses
 the same two words for its selected duelist's win/loss values. Interpret
 `D_801D5608` with its current caller and text-request state, not as
 dedicated persistent ATK/DEF storage. No conclusion about hidden-card

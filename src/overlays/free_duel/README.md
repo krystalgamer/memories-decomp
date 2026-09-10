@@ -53,61 +53,38 @@ confidence in
 The module imports these resident byte addresses through
 [`free_duel_linker_symbols.txt`](../../../config/slus_01411/overlays/free_duel_linker_symbols.txt).
 
-## Cursor layout translation unit
+## Opponent-selection lifecycle translation unit
 
-`cursor_layout.c` keeps `FreeDuel_UpdateScrollbar` and
-`FreeDuel_PlaceCursor` together in executable order. The contiguous
-`gcc_2_8_1_g0_split` helpers share the cursor widget's verified `x`/`y`
-prefix and are consumed by initialization and the screen-runtime cursor path.
-Their shared manifest source and one C subsegment at module offset `0x4`
-cover the complete `0x1B0`-byte range through `0x801681B4`.
+`screen_runtime.c` is the Free Duel overlay's complete text section: nine
+functions in executable order from `FreeDuel_UpdateScrollbar` at `0x80168004`
+through `FreeDuel_Entry` at `0x80168FB4`. One
+`gcc_2_8_1_g0_split` C subsegment at module offset `0x4` covers the full
+`0x102C`-byte range through `0x80169030`; data begins immediately afterward at
+module `+0x1030`.
 
-## Initialization translation unit
+The former cursor-layout, initialization, and per-frame source boundaries did
+not mark object or ownership boundaries:
 
-`init.c` now starts with `FreeDuel_SpawnSparkle`, the constructor
-`FreeDuel_Init` immediately uses for the cursor object, followed by
-`FreeDuel_Init` itself. Both construct the opponent-select screen's display
-objects, and the runtime's reuse of the sparkle constructor keeps it
-externally visible despite the removed source boundary.
+- `FreeDuel_Init` calls both cursor-layout helpers, creates the cursor with
+  `FreeDuel_SpawnSparkle`, and initializes the shared screen flags, committed
+  and target coordinates, viewport, and sparkle pool.
+- `FreeDuel_UpdateCursorTween` calls the same placement helper and sparkle
+  constructor, while `FreeDuel_UpdateScreen` drives the tween and scrollbar.
+- `FreeDuel_Entry` drives the screen update, cursor pulse, and sparkle-pool
+  updater each frame.
 
-The two definitions form one contiguous `gcc_2_8_1_g0_split` run from
-`0x801681B4` through `0x8016899C`. One C subsegment at module offset `0x1B4`
-covers the complete `0x7E8`-byte range, ending where the separate
-screen-runtime unit begins.
+The merged unit keeps the differing cursor-global views explicit. The layout
+helpers use the verified `FreeDuelWidget` `x`/`y` prefix, while initialization
+and runtime code retain byte-pointer aliases for their offset-based accesses;
+both C identifiers bind to the same overlay symbols. `D_800EB0F8` likewise
+keeps a byte alias for `FreeDuel_PlaceCursor` beside the typed
+`DuelEffectChannel` declaration used by the runtime.
 
-## Screen-runtime translation unit
-
-`screen_runtime.c` keeps the overlay entry tick next to the screen update it
-calls and the cursor tween that update drives. They share the
-committed/target coordinate pairs, the cursor widget `gFreeDuel_pCursorWidget`
-and the screen-state flags.
-
-`FreeDuel_Entry` is the per-frame tick: it advances the shared RNG, calls
-`FreeDuel_UpdateScreen`, drives the cursor widget's own scale pulse through a
-triangle wave over `D_8009B0CC & 0x7F`, then calls `FreeDuel_UpdateSparkle`.
-That last callee is now in this unit. The note here used to say it stayed in
-`sparkle_runtime.c` and that this unit did not absorb it, without giving a
-reason; there was not one. Both sparkle functions have exactly one caller
-each - `FreeDuel_UpdateScreen` takes the pool slot, `FreeDuel_Entry` runs the
-updater - and both callers are here.
-
-The definitions remain in executable order, which here is not call order:
-`FreeDuel_UpdateCursorTween` occupies `0x80168A9C..0x80168C7C`,
-`FreeDuel_UpdateScreen` runs through `0x80168FB4`, and `FreeDuel_Entry` closes
-the unit at `0x80169030`. All three use `gcc_2_8_1_g0_split`, and their shared
-manifest source and one C subsegment at module offset `0xA9C` cover the
-complete contiguous `0x594`-byte text range, with no data or rodata
-contribution. Data still begins at module `+0x1030`. Preserve that order and
-complete extent when editing the group.
-
-### Sparkle pool upkeep
-
-The sparkle-pool allocator and the updater that releases each completed object
-and clears its pool slot open the unit, at `0x8016899C` and `0x801689D4`, and
-both reverse-scan the same 16-entry `gFreeDuel_apSparklePool`. They were
-`sparkle_runtime.c` until they joined their only callers here; the C
-subsegment now starts at module offset `0x99C` rather than `0xA9C` and covers
-the whole `0x694`-byte range through `0x80169030`.
+The sparkle-pool allocator and updater remain at `0x8016899C` and
+`0x801689D4`. Both reverse-scan the same 16-entry
+`gFreeDuel_apSparklePool`, and their direct callers are now visibly in the
+same source: `FreeDuel_UpdateCursorTween` takes the pool slot and
+`FreeDuel_Entry` runs the updater.
 
 One unit settles `FreeDuel_GetSparkleSlot`'s return type, which the caller
 declared `u8 **` and the definition spells `void **`. The definition wins and

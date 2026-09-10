@@ -113,7 +113,7 @@ a cheat-forced value rather than the natural gameplay maximum. Incrementing
 that counter from 9999 through the normal updater reduces it to 999.
 
 **The earlier two-row correction was itself wrong.** Matching
-[`FreeDuel_Init`](../../src/overlays/free_duel/init.c) uses
+[`FreeDuel_Init`](../../src/overlays/free_duel/screen_runtime.c) uses
 `0x801D071C + 4 * (row * 5 + column)`, adding two bytes for a loss.
 [`FreeDuel_UpdateScreen`](../../src/overlays/free_duel/screen_runtime.c) passes
 that same grid index to the duel initializer, which stores it unchanged as

@@ -167,7 +167,7 @@ genuine semantic work, in rough value order:
 
 - **Display-object flag bits** — done. The renderable (`0x40`) and
   screen-space (`0x8`) bits at object offset `+8` are named against
-  `display_object_layout.h`. Worth recording that `free_duel/init.c` declares
+  `display_object_layout.h`. Worth recording that `free_duel/screen_runtime.c` declares
   `u32 flags; u16 attr;` after a four-byte pad, so its member named `flags` is
   the unrelated 32-bit word at `+4` and `attr` is the real flag word; naming by
   member name rather than offset would have been backwards.

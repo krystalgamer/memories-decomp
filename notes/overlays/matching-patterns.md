@@ -804,7 +804,7 @@ named first is emitted first.
 ## Resolved cursor residual
 
 `FreeDuel_PlaceCursor` now matches with `gcc_2_8_1_g0_split`; see
-[`cursor_layout.c`](../../src/overlays/free_duel/cursor_layout.c) and the
+[`screen_runtime.c`](../../src/overlays/free_duel/screen_runtime.c) and the
 [`free_duel` manifest](../../config/slus_01411/overlays/free_duel_matching_c.json).
 The accepted source uses `Widget` members, reads the column into a local,
 and reads the row directly for the y store. It does not retain the older
