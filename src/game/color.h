@@ -37,28 +37,25 @@ typedef struct {
     u16 v;
 } HsvT;
 
-/* func_8005A98C and func_8005ABA0 are deliberately absent.
+/* func_8005A98C is deliberately absent.
  *
- * Both return their `out` argument, but no caller uses the result and
- * func_8005B054 and func_8005B0B4 declare them as returning void. That is not
- * cosmetic: giving func_8005B0B4 the real return types leaves the call sites
- * semantically identical yet shifts eight words of register allocation in its
- * tail, because the discarded return value keeps v0 live across the calls. The
- * declarations therefore stay with those two callers until that divergence is
- * understood.
+ * It returns its `out` argument, but no caller uses the result and
+ * func_8005B0B4 requires a void-returning declaration. That is not cosmetic:
+ * giving func_8005B0B4 the real return type leaves the call semantically
+ * identical yet shifts its tail's register allocation because the discarded
+ * return value keeps v0 live across the call.
  *
- * Re-checked against #2495, and it still reproduces exactly: moving the two
- * prototypes here diverges at file offset 0x4BA06, VRAM 0x8005B206, one byte
- * inside func_8005B0B4's tail. Aliasing a second void-returning view here the
- * way file_transfer.h carries D_8009B0F4_abs does not work either - GCC 2.8.1
- * does not honour an `asm()` rename on a function declaration, and the build
- * fails to link. So this stays where it is on purpose, not for want of a
- * try.
- *
- * func_8005AE68 no longer needs one: it builds in color_transform.c behind
- * both definitions, and the real signatures - including u8 rather than the s8
- * channels it used to declare - reproduce its bytes exactly.
+ * func_8005ABA0 has the same return-type sensitivity plus wider caller-side
+ * argument declarations in func_8005B054 and func_8005B0B4. Those two units
+ * define FUNC_8005ABA0_WIDE_VOID before including this header; the defining
+ * color_transform.c and its later caller use the real narrow signature.
  */
+
+#ifdef FUNC_8005ABA0_WIDE_VOID
+void func_8005ABA0(Color *out, s32 h, u32 s, u32 v, s32 lim);
+#else
+Color *func_8005ABA0(Color *out, s32 h, u16 s, u16 v, u8 lim);
+#endif
 
 /* Tint a packed BGR555 pixel, preserving its STP bit. Returns 0 unchanged. */
 s32 func_8005AE68(u16 color, s32 flags, u16 scale);
