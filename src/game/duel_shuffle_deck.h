@@ -20,7 +20,7 @@
  * what both sources already said.
  *
  * Duel_ShuffleDeck's own prototype is here now. It was left out while
- * duel_shuffle_both_decks.c declared `(void *, void *, void *)` against this
+ * Duel_ShuffleBothDecks declared `(void *, void *, void *)` against this
  * definition's `(s32 src, u8 *out16, u8 *out8)`, on the grounds that whether
  * the pointer-versus-s32 first parameter was load bearing at that call had
  * not been measured.
