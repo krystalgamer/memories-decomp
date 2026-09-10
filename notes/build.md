@@ -908,6 +908,61 @@ clearance. A symbol like this one belongs in a shared header only behind the
 same kind of guarded arms `input.h` and `sound.h` already use -- never as one
 flat declaration.
 
+#### A header may declare what its own source defines
+
+An earlier draft of this section claimed the opposite: that because
+`graphics_frame.c` *defines* its symbols rather than declaring them -- the
+definition being the lever that makes the assembler resolve a small global
+gp-relative -- `graphics_frame.h` could not declare them without colliding
+with the definition or quietly changing how the symbol resolves. That was
+wrong, and the tree now shows it plainly.
+
+`graphics_frame.c` defines six symbols. Its own header declares **five** of
+them:
+
+| symbol | defined in the source as | in the header |
+| --- | --- | --- |
+| `D_8009B098` | `u16 D_8009B098;` | yes, guarded two-arm |
+| `D_8009B0A8` | `u8 D_8009B0A8;` | yes, guarded two-arm |
+| `D_8009B0AD` | `u8 D_8009B0AD;` | yes, guarded two-arm |
+| `D_8009B0C1` | `u8 D_8009B0C1;` | yes, guarded two-arm |
+| `D_8009B0D0` | `u8 D_8009B0D0;` | yes, guarded two-arm |
+| `D_8009B0A0` | `u8 D_8009B0A0[4];` | **no** |
+
+A plain `extern` in the header does not fight the definition. As the header
+puts it for `D_8009B0C1`, the declaration "sits in front of that definition
+and does not change it", and the definition remains the lever it always was.
+Consumers that reach the symbol through `%hi`/`%lo` instead take the `.data`
+arm, which is why each of the five is guarded rather than flat.
+
+The measured part is what makes this more than a tidy-up. `main_services.c`
+reached `D_8009B0A8`, `D_8009B0AD` and `D_8009B0D0` through its own
+`extern volatile u8` declarations, under a comment arguing the volatile was
+what held the init block in source order. Dropping the volatile and taking
+the header's declarations builds byte-identical, and the same was true of
+`D_8009B0C1`'s volatile view in `main_init.c`. So a spelling that merely
+*differs* is not automatically load bearing; it is worth one build to find
+out, and here four such spellings turned out to be inert.
+
+#### The test is agreement, not definition
+
+The distinguishing question is not whether the owning unit defines the
+symbol. It is whether the consumer's spelling **agrees** with the definition:
+
+- A declaration that agrees is inert and belongs in the owning header. Five
+  of the six above are exactly this.
+- A spelling that merely differs may still be inert. `volatile` was, four
+  times over, but only a build could say so.
+- A spelling that encodes a different **view** of the address cannot be
+  centralized at all, and this is why `D_8009B0A0` is the one exclusion:
+  `graphics_frame.c` defines it `u8 D_8009B0A0[4]` while `main_services.c`
+  declares it a scalar and assigns `D_8009B0A0 = 2`. Array and scalar are two
+  faithful views of one address, the case the section below describes, so
+  neither spelling can absorb the other.
+
+Read that way the five-and-one split is not a partial job. It is the boundary
+falling exactly where the agreement test puts it.
+
 #### One address, several faithful types
 
 Not every symbol has a type waiting to be found. Some are shared staging
