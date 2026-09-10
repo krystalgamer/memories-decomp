@@ -98,9 +98,11 @@ automatically; run the individual test above, or run the complete suite from
 the repository root:
 
 ```sh
-for test in tools/trace/tests/*_test.lua; do
-    luajit "$test"
-done
+(
+    for test in tools/trace/tests/*_test.lua; do
+        luajit "$test" || exit $?
+    done
+)
 ```
 
 These replays validate script mechanics against mocked state. They do not
