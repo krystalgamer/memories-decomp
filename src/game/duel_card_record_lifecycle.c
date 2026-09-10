@@ -6,6 +6,7 @@
 #include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_card_record_lifecycle.h"
+#include "duel_card_staging.h"
 #include "duel_deck_card.h"
 #include "duel_grid.h"
 #include "duel_terrain_boost.h"
@@ -53,7 +54,6 @@ s32 Duel_GetTerrainBoost(s32 cardType)
     return gDuel_aTerrainBoost[cardType][terrain[0] - 1] * CARD_STAT_SCALE;
 }
 
-extern u8 D_8015C424[];
 /* Two RECTs per field slot: the card art at 2 * slot and the name strip at
    2 * slot + 1. LoadImage consumes both, which is what types the table. */
 extern RECT D_80177EA4[];
@@ -65,7 +65,7 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     RECT *r;
     u8 *tb;
     RECT *base;
-    u8 *g;
+    DuelStagedDeckRecordBlock *g;
     s32 idx;
     s32 m;
     s32 off;
@@ -88,13 +88,14 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
         b = (b & 0x7F) + DECK_SIZE;
     }
 
-    n = b * 6;
+    n = b * sizeof(DuelDeckCardRecord);
     tb = D_8015C424;
     p->data = (u8 *)gDuel_aDeckCardRecords + n;
     p->table_index = idx;
 
-    g = tb + n + 0x48000;
-    v = *(u16 *)(g + 0x39FC);
+    g = (DuelStagedDeckRecordBlock *)(
+        tb + n + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
+    v = *(u16 *)&g->record.id;
     p->card_id = v;
     p->attack =
         (gDuel_adwCardStats[(s16)v - 1] & CARD_STAT_VALUE_MASK) *
@@ -130,8 +131,6 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
 
     return (u8 *)p;
 }
-
-#define DUEL_CARD_ICON_REPLAY_BASE_OFFSET 0x48000
 
 extern DuelFieldPosition D_800908A0[];
 
@@ -204,7 +203,7 @@ void func_80024D34(s32 a, s32 b)
     }
     tb = D_8015C424;
     replay = (DuelCardReplayRecordBlock *)(
-        tb + idx * sizeof(DuelCardRecord) + DUEL_CARD_ICON_REPLAY_BASE_OFFSET
+        tb + idx * sizeof(DuelCardRecord) + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET
     );
     obj = func_80024C1C(*(s16 *)replay->record.data, D_800908A0[idx].x,
                         D_800908A0[idx].y);

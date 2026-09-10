@@ -1,13 +1,12 @@
+#define DUEL_CARD_STAGING_AS_DECK
 #include "../types.h"
+#include "duel_card_staging.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_card_display_state.h"
 #include "duel_deck_card.h"
-#include "duel_draw_resolution.h"
 #include "func_80027DF8.h"
-
-extern ExodiaCardDatabase D_8015C424;
 
 void func_80027DF8(AiActiveCard *out, s32 who) {
     DuelCardRecord *base;

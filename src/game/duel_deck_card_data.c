@@ -4,13 +4,10 @@
 #include "card_constants.h"
 #include "duel_card_data_transfer.h"
 #include "duel_deck_card.h"
+#include "duel_card_staging.h"
 #include "file_transfer.h"
 #include "util_memory.h"
 #include "util_compare_s16.h"
-
-extern u16 gDuel_awCombinedDeckCardIds[];
-extern u16 gDuel_awUniqueDeckCardIds[];
-extern u8 D_8015C424[];
 
 void Duel_RequestCombinedDeckData(void)
 {
