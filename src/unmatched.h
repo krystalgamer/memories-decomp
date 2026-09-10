@@ -484,4 +484,44 @@ void func_80066828(void);
 void func_80066B54(void);
 void func_80066E60(void);
 
+/* The sixteen object handler entry points func_800608B8 dispatches to.
+ *
+ * Hand-written assembly like the primitive handlers above, and here too both
+ * consumers -- func_800608B8.c and model_handler_registry.c -- only ever take
+ * their addresses, as `return (s32)func_...`, so nothing in the tree checked
+ * one declaration against the other. They had already drifted once:
+ * func_800608B8.c spelled them `int X()` while model_handler_registry.c
+ * spelled eight of them `void X(void)`.
+ *
+ * The retail image settled that, and the resolution is preserved here. Every
+ * one of the sixteen reads its first argument through $a0 -- func_80067354
+ * begins `lw $a3, 0x0($a0)` and saves $s0..$s3 into 0x28($a0)..0x34($a0) --
+ * and every one leaves a value in $v0 immediately before `jr $ra`;
+ * func_80067354 ends `lw $v0, 0x0($a0)` / `addiu $v0, $v0, 0x8`. So
+ * `void X(void)` was wrong in both return type and arity, and the
+ * unprototyped form below is the one the image does not contradict.
+ *
+ * What this does NOT claim: the parameter and return types are deliberately
+ * left unspecified. The evidence shows that an argument is taken and a value
+ * returned, not what either is. $a0 is dereferenced as a pointer and the
+ * result derived from it, but nothing establishes the pointee's layout, so a
+ * fuller prototype would assert more than is known.
+ */
+int func_80067354();
+int func_8006759C();
+int func_80067858();
+int func_80067ABC();
+int func_80067D94();
+int func_80067FD0();
+int func_8006825C();
+int func_800684B4();
+int func_8006875C();
+int func_80068A00();
+int func_80068D18();
+int func_80068FD8();
+int func_8006930C();
+int func_800695A4();
+int func_8006988C();
+int func_80069B40();
+
 #endif
