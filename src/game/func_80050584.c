@@ -58,7 +58,7 @@ void func_80050584(s32 arg0) {
                 *(s32 *)(*(s32 *)(s + 0xD18) + 0x1C) = 0;
                 *(s32 *)(*(s32 *)(s + 0xD18) + 0x20) = 0;
             }
-            func_8005922C(*(u8 **)(s + 0xD18), 0);
+            func_8005922C(*(struct _GsCOORDUNIT **)(s + 0xD18), 0);
             func_80059DD8(arg0);
             s[0xE15] = 0;
         }
