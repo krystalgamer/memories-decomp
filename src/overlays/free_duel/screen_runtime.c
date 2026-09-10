@@ -6,6 +6,7 @@
 #include "../../game/input.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/duel_effect.h"
+#include "../../game/duel_side_state.h"
 #include "../../game/graphics_frame.h"
 #include "../../psyq/rand.h"
 #include "../../game/sound.h"
@@ -64,7 +65,6 @@ extern u8 *gFreeDuel_pCursorWidget;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 extern u8 gFreeDuel_bReturnFlags;
-extern u8 D_8009B368;
 extern u16 D_801D0200[];
 extern u8 *FreeDuel_SpawnSparkle(void);
 extern void func_80024DC8(s32, s32, s32, s32);

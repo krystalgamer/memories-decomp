@@ -1,5 +1,6 @@
-
+#define D_8009B368_IN_DATA
 #include "../types.h"
+#include "duel_side_state.h"
 #include "func_80024DC8.h"
 #include "duel_effect.h"
 #include "card_constants.h"
@@ -18,7 +19,6 @@ extern u8 D_8009B269;
 extern u16 D_8009B230 __attribute__((section(".data")));
 extern u16 D_8009B234 __attribute__((section(".data")));
 extern u16 D_8009B236 __attribute__((section(".data")));
-extern u8 D_8009B368 __attribute__((section(".data")));
 
 void func_8002DC38(void)
 {
