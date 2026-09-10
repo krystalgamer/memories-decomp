@@ -7,7 +7,13 @@ s32 func_8004002C(void);
 s32 func_8004006C(void);
 void *func_800400AC(s32 index, s32 key);
 void *func_80042B40(s32 value);
+
+#ifdef FUNC_8004036C_AMBIENT_OBJECT
+void func_8004036C(void);
+#else
 void func_8004036C(void *object);
+#endif
+
 /* Unlinks one pool entry from the list it is on and clears its flags, which is
  * what frees it -- func_8004036C is the null-tolerant wrapper, and
  * func_800402A0 calls it to unlink an entry before relinking it on another
