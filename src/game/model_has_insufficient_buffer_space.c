@@ -3,6 +3,7 @@
 #include "graphics_frame.h"
 #include "model_graphics_state.h"
 #include "model_slot_properties.h"
+#include "model_has_insufficient_buffer_space.h"
 
 extern s32 D_800FE240 __attribute__((section(".data")));
 

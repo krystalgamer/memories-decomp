@@ -1,5 +1,8 @@
 #include "../types.h"
 #include "model_view_adjustments.h"
+#include "model_has_insufficient_buffer_space.h"
+#include "func_8004E7B0.h"
+#include "func_80059AA8.h"
 #include "model_effect_coefficients.h"
 #include "func_8004DC38.h"
 #include "func_80058E1C.h"
@@ -28,13 +31,10 @@
 #include "../unmatched.h"
 
 extern s16 D_800F2B4A[];
-extern s32 Model_HasInsufficientBufferSpace(s32, s32);
-extern s32 func_80059AA8(s32, s32);
 extern ModelSlot D_800F2C40_alias[] asm("D_800F2C40");
 extern ModelBytes8 D_8009B478_p asm("D_8009B478");
 extern ModelBytes8 D_8009B480;
 extern void func_800857C0(int);
-extern void func_8004E7B0(int);
 
 /* The contiguous model-scene runtime: camera/view correction, tint request
    processing, camera-move setup, and scene reset/configuration. The seven
