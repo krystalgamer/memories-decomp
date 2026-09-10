@@ -40,31 +40,33 @@ void func_8003C950(void)
 
 s32 func_8003CA5C(void)
 {
-    u8 *p;
+    DisplayObject *p;
+    DisplayObjectVelocity *motion;
     s16 value;
     register u32 tail_bits __asm__("$3");
 
-    p = (u8 *)D_8009B378;
-    DisplayObject_StepPositionX(p);
-    value = *(s16 *)(p + 0x5A);
+    p = (DisplayObject *)D_8009B378;
+    motion = (DisplayObjectVelocity *)p;
+    DisplayObject_StepPositionX(motion);
+    value = p->field_5A;
     if (value == 0) {
-        switch (p[0x6C]) {
+        switch (p->field_6C) {
         case 0:
-            func_80040410(p, 1);
-            p[0x6C] = 1;
-            *(s16 *)(p + 0x36) = -0xC0;
+            func_80040410((DisplayObjectConfig *)p, 1);
+            p->field_6C = 1;
+            motion->velocity_x = -0xC0;
             break;
         case 1:
-            DisplayObject_ResetVelocity(p);
-            func_80040410(p, 2);
-            p[0x6C] = 2;
+            DisplayObject_ResetVelocity(motion);
+            func_80040410((DisplayObjectConfig *)p, 2);
+            p->field_6C = 2;
             break;
         case 2:
-            func_80040410(p, 0);
-            p[0x6C] = 0;
-            if (*(s16 *)(p + 0x30) < -0x2F) {
-                *(s16 *)(p + 0x30) = 0x160;
-                *(s16 *)(p + 0x32) = Rand_GetInterval(0xB0) + 0x30;
+            func_80040410((DisplayObjectConfig *)p, 0);
+            p->field_6C = 0;
+            if (motion->x < -0x2F) {
+                motion->x = 0x160;
+                motion->y = Rand_GetInterval(0xB0) + 0x30;
             }
             break;
         }
