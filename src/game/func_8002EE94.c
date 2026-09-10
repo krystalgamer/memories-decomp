@@ -114,7 +114,7 @@ void func_8002EE94(void)
             func_80039794();
         } while (box->field_30 == 0);
         func_80043178((DisplayObjectSnapshot *)box->field_28);
-        slot = (DisplayObject *)box->field_28;
+        slot = box->field_28;
         next = D_8009B27C | 0x6000;
         slot->field_60 = -0x400;
         D_8009B27C = next;
@@ -122,7 +122,7 @@ void func_8002EE94(void)
     }
 
     box = &D_800EB0F8[3];
-    obj = (DisplayObject *)box->field_28;
+    obj = box->field_28;
 
     if ((flags & 0x400) != 0) {
         if ((flags & 0x800) == 0) {
@@ -173,7 +173,7 @@ void func_8002EE94(void)
         if ((flags & 0x800) == 0) {
             D_8009B27C = flags | 0x800;
             func_80043178((DisplayObjectSnapshot *)obj);
-            *(s16 *)(box->field_28 + 0x60) = 0x400;
+            *(s16 *)&box->field_28->field_60 = 0x400;
         }
         step = *(u16 *)&obj->field_60 - 0x40;
         obj->field_60 = step;

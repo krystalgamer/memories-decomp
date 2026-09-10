@@ -16,7 +16,7 @@ void func_800391E4(DuelEffectChannel *p) {
     s32 b;
     s32 f;
 
-    e = (DisplayObject *)p->field_28;
+    e = p->field_28;
     if (e == (DisplayObject *)0) {
         e = func_800400AC(func_8004006C(), 6);
         b = p->index_57;
@@ -27,7 +27,7 @@ void func_800391E4(DuelEffectChannel *p) {
         e->field_4C = (s32)func_80035E20;
         e->field_67 = b;
         e->flags = f | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        p->field_28 = (s32)e;
+        p->field_28 = e;
     }
 
     func_80042918(e);
