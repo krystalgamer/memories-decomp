@@ -184,7 +184,7 @@ typedef struct DisplayObject {
        Five readings, no winner, so the halves are named for their offsets
        and nothing more -- the same grounds 0x44 and 0x4C keep theirs on. A
        consumer that knows which motion path owns its object should take the
-       view that names what it means, as name_entry_glyph_effects.c does with
+       view that names what it means, as name_entry_runtime.c does with
        the velocity one. */
     union {
         u32 word;

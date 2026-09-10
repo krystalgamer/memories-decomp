@@ -26,7 +26,7 @@ typedef struct {
  * Neither view is wrong and neither generalises: the memory belongs to
  * whichever motion path owns the object, exactly as 0x44 and 0x4C in
  * display_object.h are a colour to one renderer and a scale or a callback to
- * another. name_entry_glyph_effects.c settles this reading for the objects
+ * another. name_entry_runtime.c settles this reading for the objects
  * it drives -- it accelerates 0x38 toward 0x800 by 0x40 a frame through
  * DisplayObject_StepToward, decays 0x36 toward zero by 8 through
  * DisplayObject_StepTowardZero, then calls DisplayObject_StepPositionXY.

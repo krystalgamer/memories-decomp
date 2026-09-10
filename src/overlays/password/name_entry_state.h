@@ -3,11 +3,12 @@
 
 #include "../../types.h"
 
-/* State shared by the name-entry screen's translation units.
+/* State shared by the name-entry screen's lifecycle functions.
  *
  * name_entry_frame.h and name_entry_keyboard.h already cover this screen's
  * drawing prefix and its keyboard entry points; neither is a home for the
- * screen's data, which is what six sources here were each re-declaring.
+ * screen's data. The fourteen-function name_entry_runtime.c pipeline uses
+ * this header as the single view of that state.
  *
  * What the uses show, without renaming anything:
  *
@@ -30,17 +31,11 @@
  *   D_8016D4D2  The pending dialog id, masked with 0xFFF at its one reader.
  *   D_8016D418  The name buffer, pointed at gSaveData_aPlayerNameSjis.
  *
- * Four of the five neighbours this header used to list as unsettled are the
- * four above. They were never really in dispute: name_entry_setup.c is the
- * only source that spelled them differently, and it only ever writes them
- * (`= 0`, `= 244`, and one pointer assignment), so it never constrained the
- * type. D_8016D418's third spelling was name_entry_runtime.c's
- * `u16 *`, which it casts to s32 before doing any arithmetic, so that one
- * never used its pointee type either. A declarer that only stores, or only
- * takes an address, abstains rather than votes.
- *
- * D_8016D404, the fifth, is declared below the list, with the record
- * name_entry_runtime.c used to keep for it.
+ * Before the source coalesce, setup and runtime carried a few different
+ * spellings. The setup path only stored zero, 244, or one pointer and never
+ * constrained those types; the runtime's old `u16 *` view of D_8016D418 cast
+ * to s32 before arithmetic and did not use its pointee type. The merged source
+ * therefore keeps the evidence-backed declarations below.
  */
 extern u8 D_8016D400;
 extern u8 D_8016D402;
@@ -54,25 +49,18 @@ extern s8 D_8016D42C;
 extern u16 D_8016D4D2;
 extern u8 *D_8016D418;
 
-/* The record name_entry_runtime.c used to keep privately as SelectionFrame,
- * moved here with the description it carried: the selection frame the
- * keyboard moves, which NameEntry_Init positions and whose drawing callback
- * name_entry_frame.h describes; the fields extend that drawing prefix with
- * the ones the keyboard's tween needs, and +0x30/+0x32 and +0x3C agree with
- * NameEntrySelectionFrameView where the two views overlap.
+/* The selection frame the keyboard moves. NameEntry_Init positions it and
+ * installs the drawing callback described by name_entry_frame.h; the fields
+ * extend that drawing prefix with the ones the keyboard tween needs, and
+ * +0x30/+0x32 and +0x3C agree with NameEntrySelectionFrameView where the two
+ * views overlap.
  *
  * NameEntry_Init stores +0x30, +0x32, +0x3C, +0x3E and +0x4C through the u8
- * pointer func_800400AC returned (name_entry_setup.c:134, :136, :138-140,
- * :143) and then stores that pointer here with a cast (:144).
- * NameEntry_UpdateKeyboard reads and writes x, y, width, widthBonus and
- * timer, and writes stepX and stepY, through a copy of it
- * (name_entry_runtime.c:105, :107-108, :110, :113-114, :117-119, :173, :176,
- * :186-188).
- * NameEntry_SpawnGlyphSprite reads x and y (name_entry_glyph_effects.c:294).
- * Every offset the other two units reach is a member here or falls inside
- * pad_3E, so this record is the superset view: name_entry_setup.c keeps its
- * u8 pointer and casts at the store, and name_entry_glyph_effects.c's
- * private view (pad0[48]; s16 x; s16 y) is gone. */
+ * pointer func_800400AC returned, then stores that pointer here with a cast.
+ * NameEntry_UpdateKeyboard reads and writes x, y, width, widthBonus and timer
+ * and writes stepX and stepY. NameEntry_SpawnGlyphSprite reads x and y.
+ * Every offset those functions reach is a member here or falls inside
+ * pad_3E, so this remains the superset view. */
 typedef struct {
     u8 pad_00[0x30];
     s16 x;           /* 0x30 */
