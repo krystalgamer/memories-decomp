@@ -3,26 +3,20 @@
 
 #include "../../types.h"
 #include "../../ygo_types.h"
+#include "location_table.h"
 
 /* The campaign map's shared state.
  *
  * The live helpers in set_location.c work on the same map: a table of
  * location records, the location the player is standing on, the one they
- * came from, and the state of the move between them. None is defined in C,
- * so this header is a declaration point rather than an owner.
- *
- * gCampaignMap_aLocationTable used to live in src/unmatched.h, which said it
- * belonged there only because "there is no subsystem header to put it in" and
- * that it should move if an overworld map header were ever written. This is
- * that header, so it has moved.
+ * came from, and the state of the move between them. location_table.h owns
+ * the C table declaration; the remaining state is still assembly-owned.
  */
 
 /* The live table's camera targets, marker coordinates and four exits share
  * one 66-byte record. ygo_types.h owns the layout; the separate alternate
  * table in alternate_location.h is not an alias of this one. Field evidence
  * and signed-copy details are in notes/overlays/campaign-map-records.md. */
-extern MapLocation gCampaignMap_aLocationTable[];
-
 extern u8 gCampaignMap_Location;
 extern u8 gCampaignMap_LocationPrev;
 extern s32 gCampaignMap_MoveState;
