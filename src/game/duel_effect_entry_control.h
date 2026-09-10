@@ -17,7 +17,7 @@
  * either way and the executable is unchanged. The declaration below is the
  * definition's own. */
 s32 DuelEffect_HasActiveEntry(DuelEffectChannel *channel);
-void func_8003741C(u8 *object);
+void func_8003741C(DuelEffectChannel *object);
 
 /* Starting from the record's entry range, walks up to range_count_5E entries;
  * for each with flags_11 & 0x80 set, writes a1 to field_13 and a2 to
