@@ -104,6 +104,15 @@ the `DUEL_TERRAIN_EFFECT_DATA_SECTOR_COUNT` (`0x10`) request covers
 package-relative bytes from `+0x65800` to exclusive end `+0x6D800`: the first
 `0x8000` bytes of the final 32-sector callback phase.
 
+The five-sector phase at package-relative `+0x63000` is likewise identical
+across all seven terrain packages, with SHA-256
+`4d7c12766dec03a2d8faca71801dbc336db55144d52b2aad2f95efc263a2e237`.
+It is copied to `0x80100000`, but matching `func_80056250` only checks that
+pointer for null and never reads the bytes; its `0x63000` and `4` arguments
+are unused. The current image therefore establishes a real transfer but no
+payload role. The full negative evidence is recorded in
+[`duel-package-unused-data.md`](duel-package-unused-data.md).
+
 ### End-of-duel results package
 
 Resident `func_80020F4C` requests 34 WA sectors beginning at sector `0x1DAB`,

@@ -50,6 +50,7 @@ sector `0x1D33`, stride 3 sectors, ids 0-39. Inside a record:
 | `+0x0B68` | 1460 | B/C/D drop pool |
 | `+0x111C` | 1460 | S/A TEC drop pool |
 | `+0x16D0` | 200 | rank table |
+| `+0x1798` | 104 | `0xFF` sector padding; identical in all 40 blocks |
 
 Each weight table is 722 `u16` followed by 16 bytes of padding, indexed by card
 id minus one. The rank table is not decoded here; see §6.2.

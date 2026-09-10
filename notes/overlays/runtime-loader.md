@@ -303,10 +303,19 @@ The 13 callback phases are:
 | 8 | `184-187` | 3 | `0x1800` | `0x801A8000` |
 | 9 | `187-190` | 3 | `0x1800` | `0x801A9800` |
 | 10 | `190-198` | 8 | `0x4000` | GPU/VRAM path |
-| 11 | `198-203` | 5 | `0x2800` | `0x80100000` |
+| 11 | `198-203` | 5 | `0x2800` | `0x80100000`; loaded and terrain-invariant, but no byte consumer established |
 | 12 | `203-235` | 32 | `0x10000` | GPU/VRAM path |
 
 The counts sum to 235 exactly.
+
+Phase 11 has SHA-256
+`4d7c12766dec03a2d8faca71801dbc336db55144d52b2aad2f95efc263a2e237`
+in all seven terrain records. `func_8001755C` passes the destination pointer,
+`0x63000`, and `4` to `func_80056250`, but matching code only null-checks the
+pointer and never uses the latter two arguments or reads the loaded bytes. A
+duel-overlay address scan likewise finds no access into the
+`0x80100000-0x801027FF` destination. See
+[`duel-package-unused-data.md`](../duel-package-unused-data.md).
 
 `func_80024E58` uses the second named range when a terrain effect reloads its
 data:
