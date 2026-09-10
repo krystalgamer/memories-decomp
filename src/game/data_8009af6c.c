@@ -48,8 +48,9 @@ volatile u16 D_8009AF74[4] __attribute__((section(".sdata"))) = {
     0x0020,
 };
 
-/* Read by func_80044608.c. Same single character as D_8009AF70, but a
- * separate object in the image, so it stays separate here. */
+/* Read by MemCard_DoLoadDirectory as the pattern that lists every file. Same
+ * single character as D_8009AF70, but a separate object in the image, so it
+ * stays separate here. */
 u8 D_8009AF7C[4] __attribute__((section(".sdata"))) = "*";
 
 /* The MIDI track chunk tag. sound_sequence_marker_scan.c compares against it

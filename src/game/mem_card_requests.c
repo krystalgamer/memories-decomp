@@ -22,15 +22,15 @@ int MemCard_ReqLoadDirectory(int chan)
     if (!MemCard_BeginRequest(chan, 2)) {
         return 0;
     }
-    func_80043D48(gMemCard_aIOEventHandles);
+    MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
     _card_info(chan);
     while (gMemCard_nIOResult < 0) {
     }
-    func_80043D48(D_800F2AF0);
+    MemCard_ClearIOEvents(D_800F2AF0);
     _card_clear(D_8009B437);
     while (gMemCard_nIOResult < 0) {
     }
-    func_80043D48(gMemCard_aIOEventHandles);
+    MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
     _card_load(chan);
     while (gMemCard_nIOResult < 0) {
     }
@@ -46,7 +46,7 @@ int MemCard_ReqReadFile(int chan, int name, int buf, int offset, int size)
         D_8009B44C = offset;
         D_8009B430 = buf;
         D_8009B434 = size;
-        func_80043D48(gMemCard_aIOEventHandles);
+        MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
         _card_info(chan);
         result = 1;
     } else {
@@ -62,7 +62,7 @@ int MemCard_ReqReadSector(int chan, int buf, int sector)
     if (MemCard_BeginRequest(chan, 11)) {
         D_8009B44C = sector;
         D_8009B430 = buf;
-        func_80043D48(gMemCard_aIOEventHandles);
+        MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
         _card_info(chan);
         result = 1;
     } else {
@@ -80,7 +80,7 @@ int MemCard_ReqWriteFile(int chan, int name, int buf, int offset, int size)
         D_8009B44C = offset;
         D_8009B430 = buf;
         D_8009B434 = size;
-        func_80043D48(gMemCard_aIOEventHandles);
+        MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
         _card_info(chan);
         result = 1;
     } else {
@@ -96,7 +96,7 @@ int MemCard_ReqWriteSector(int chan, int buf, int sector)
     if (MemCard_BeginRequest(chan, 12)) {
         D_8009B44C = sector;
         D_8009B430 = buf;
-        func_80043D48(gMemCard_aIOEventHandles);
+        MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
         _card_info(chan);
         result = 1;
     } else {
@@ -112,7 +112,7 @@ int MemCard_ReqCreateFile(int chan, int name, int blocks)
     if (MemCard_BeginRequest(chan, 8)) {
         sprintf((char *)D_800F2B00, (char *)D_80010538, chan, name);
         D_8009B434 = blocks;
-        func_80043D48(gMemCard_aIOEventHandles);
+        MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
         _card_info(chan);
         result = 1;
     } else {

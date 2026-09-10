@@ -683,12 +683,12 @@ address,size,name,status,module,notes
 0x800438B8,0xA8,func_800438B8,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80043960,0x26C,Main_RunBootSequence,matching_c,game,"High-confidence semantic name: Main_Init is the sole caller after subsystem initialization; mode zero loads the boot resources, runs module ID 0x16 through func_801680F4/func_80168160, requests the main-menu package, and resets frontend runtime. Pure-C inline refinement matched the full executable."
 0x80043BCC,0x17C,func_80043BCC,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified). The overlay tick at 0x80180390 is now MainMenu_UpdateFrontendMenu. This caller repeats while it returns -1 and tears down/restarts the outer frontend loop on -2; that does not establish a specific movie."
-0x80043D48,0x58,func_80043D48,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80043DA0,0x90,func_80043DA0,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80043E30,0x38,func_80043E30,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80043D48,0x58,MemCard_ClearIOEvents,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80043DA0,0x90,MemCard_WaitIOEvent,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80043E30,0x38,MemCard_Init,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80043E68,0x54,MemCard_CloseIOEvents,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x80043EBC,0x17C,MemCard_InitIOEvents,matching_c,game,Pure-C inline refinement matched the full executable.
-0x80044038,0x7C,func_80044038,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x80044038,0x7C,MemCard_ClearCard,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800440B4,0x3C,MemCard_BeginRequest,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800440F0,0x4C,MemCard_ReqCardInfo,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8004413C,0xA0,MemCard_ReqLoadDirectory,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
@@ -698,11 +698,11 @@ address,size,name,status,module,notes
 0x80044380,0x6C,MemCard_ReqWriteSector,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800443EC,0x84,MemCard_ReqCreateFile,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80044470,0xD4,MemCard_FindFiles,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80044544,0x54,func_80044544,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80044598,0x70,func_80044598,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80044608,0x230,func_80044608,matching_c,game,Exact resident match from newer collaborator evidence; state-machine block layout and volatile gMemCard_nIOResult reads preserve retail code generation.
+0x80044544,0x54,MemCard_CalcFreeBlocks,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80044598,0x70,MemCard_FindEntry,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80044608,0x230,MemCard_DoLoadDirectory,matching_c,game,Exact resident match from newer collaborator evidence; state-machine block layout and volatile gMemCard_nIOResult reads preserve retail code generation.
 0x80044838,0x49C,func_80044838,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80044838.c with target src/candidates_target/func_80044838.S; profile gcc_2_8_1_g8_split, 286 instructions against 295, opcode distance 21 and 288 differing positions. The memory-card I/O driver gates on _card_status/_card_wait, dispatches request and sub-state switches, runs bounded host-file retries, and commits directory-entry updates. Key structural levers are the switch/fallthrough order, signed request selector, reopen success block, and card-channel predicate. Residual: GCC cross-jumps result-code 2, 6 and 7 store/jump/nop tails that retail keeps separate, accounting for the missing stores, control instructions, and saved register. See the source comment."
-0x80044CD4,0x28,func_80044CD4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80044CD4,0x28,MemCard_FindLoadedEntry,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80044CFC,0x10,MemCard_SetIOResultCompleteCB,matching_c,game,26 pre-policy variants: exact (-G0/-G8); selected -G0 high-base $v0 form; simpler forms used $at/GP or extra addiu
 0x80044D0C,0x14,MemCard_SetIOResultTimeoutCB,matching_c,game,26 pre-policy variants: exact (-G0/-G8); selected -G0 high-base $v1/$v0 form; simpler forms ordered/allocated address incorrectly
 0x80044D20,0x14,MemCard_SetIOResultErrorCB,matching_c,game,26 pre-policy variants: exact (-G0/-G8); selected -G0 high-base $v1/$v0 form; simpler forms ordered/allocated address incorrectly

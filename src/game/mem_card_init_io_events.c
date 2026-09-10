@@ -43,13 +43,13 @@ void MemCard_InitIOEvents(void)
     ExitCriticalSection();
 }
 
-void func_80044038(int value)
+void MemCard_ClearCard(int chan)
 {
     int count = 10;
 
     do {
-        func_80043D48(D_800F2AF0);
-        _card_clear(value);
+        MemCard_ClearIOEvents(D_800F2AF0);
+        _card_clear(chan);
         while (gMemCard_nIOResult < 0) {
         }
         if (gMemCard_nIOResult != 1)

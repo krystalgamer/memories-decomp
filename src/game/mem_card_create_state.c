@@ -117,7 +117,7 @@ void func_8003E854(void)
             D_8009B3EB = 0xD;
             break;
         }
-        if (func_80044598(D_800EFE18, D_800EFBC0, files) >= 0) {
+        if (MemCard_FindEntry(D_800EFE18, D_800EFBC0, files) >= 0) {
             D_8009B3EB = 7;
             break;
         }
@@ -125,7 +125,7 @@ void func_8003E854(void)
             D_8009B3EB = 0xE;
             break;
         }
-        free_blocks = func_80044544(D_800EFBC0, files);
+        free_blocks = MemCard_CalcFreeBlocks(D_800EFBC0, files);
         needed = D_8009B3DC;
         if (free_blocks >= needed) {
             D_8009B3EB = 6;
