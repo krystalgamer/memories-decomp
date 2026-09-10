@@ -1,8 +1,13 @@
 # Decode of `func_80051350`
 
-No candidate source yet. This records the structural decode so the first
-reconstruction is written from a map rather than from 446 instructions of
-assembly. Nothing here is measured against a build.
+A measured candidate now lives in
+[`src/candidates/func_80051350.c`](../../src/candidates/func_80051350.c),
+with its
+[exact target](../../src/candidates_target/func_80051350.S) and reproducible
+fingerprints in
+[`candidates.json`](../../config/slus_01411/candidates.json). This note
+preserves the structural decode that preceded that candidate; current build
+metrics and residual analysis belong in the candidate source comment.
 
 Takes three arguments and spills all of them immediately to the incoming
 argument slots, then reloads them repeatedly; the second argument alone is
@@ -11,13 +16,9 @@ reproduce, not an artefact. The frame is 0x90 bytes and the function saves ten
 callee-saved registers, s0 through s7 plus fp and ra, so the arguments lose
 theirs.
 
-This file lives under `notes/research/` rather than `notes/candidates/`
-deliberately. `notes/candidates/rules.md` requires an entry there to "record the
-profile and the measured result in the heading" and to store the exact source
-that produces it, and `check-metadata` enforces that by refusing any candidate
-note without a recognised compiler profile. A decode with no build has neither,
-so it is research, not a candidate. It moves to `notes/candidates/` when there
-is a source and a measured figure to put in the heading.
+This file remains under `notes/research/` as the pre-candidate structural
+record, not as a second candidate source. The build-integrated source, target,
+profile, and fingerprint metadata are the current candidate artifacts.
 
 ## What it calls and touches
 
@@ -31,11 +32,14 @@ is a source and a measured figure to put in the heading.
 | `D_8009AF98`, `D_8009AF99` | `%gp_rel` bytes |
 | `D_8009B47A` | `%gp_rel` halfword |
 
-`D_800F2C40` is the `0xE20`-stride record array that `func_8004CB0C.c` and
-`func_8004D75C.c` already declare. The offsets here confirm the stride and say
-which records are used: `0xDC8` and `0xDCE` are record 0, `0x1BEE` is record 1
-because `0x1BEE - 0xDCE = 0xE20`. Reuse that declaration rather than inventing
-a new one.
+`D_800F2C40` is the `0xE20`-stride record array already declared by the
+[`func_8004CB0C` candidate](../../src/candidates/func_8004CB0C.c) and matching
+`func_8004D75C` in
+[`model_slot_row_tables.c`](../../src/game/model_slot_row_tables.c). The
+offsets here confirm the stride and say which records are used: `0xDC8` and
+`0xDCE` are record 0, `0x1BEE` is record 1 because
+`0x1BEE - 0xDCE = 0xE20`. Reuse that declaration rather than inventing a new
+one.
 
 ## The opening is one idiom repeated eight times
 
