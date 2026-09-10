@@ -39,9 +39,15 @@ typedef struct {
     u8 pad_23[0x0D];
     s16 out_x;
     s16 out_y;
-    u8 pad_34[0x18];
+    s16 field_34;
+    u8 pad_36[0x0C];
+    u16 icon_variant;
+    u8 pad_44[0x08];
     void *field_4C;
-    u8 pad_50[0x17];
+    u8 pad_50[0x0C];
+    u8 icon_state;
+    u8 field_5D;
+    u8 pad_5E[0x09];
     u8 field_67;
     u8 field_68;
     u8 field_69;
