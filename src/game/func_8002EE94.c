@@ -108,7 +108,7 @@ void func_8002EE94(void)
         }
         func_8003B6AC(0, 2);
         box = TextBox_Create(3, 0x11, -0x90, 0x38, 0x78, 0x30);
-        DuelEffect_MarkObjectIfActive(box);
+        DuelEffect_MarkObjectIfActive((MenuRecord *)box);
         box->flags_34 |= 0x24;
         do {
             func_80039794();
@@ -129,7 +129,7 @@ void func_8002EE94(void)
             D_8009B27C = flags | 0x800;
             func_8003B6AC(0, 2);
             box = TextBox_Create(2, 0x12, 0x90, 0x70, 0x18, 0x18);
-            DuelEffect_MarkObjectIfActive(box);
+            DuelEffect_MarkObjectIfActive((MenuRecord *)box);
             box->flags_34 |= 0x20;
             do {
                 func_80039794();
