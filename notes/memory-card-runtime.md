@@ -19,10 +19,10 @@ immediately afterwards.
 
 ## High-level LIBMCRD dialog lifecycle
 
-The matching modal state machine at `func_8003F454` uses the separate
-high-level interface from `libmcrd.h`. On first entering its active state, it
-calls `MemCardStart`, creates the dialog object, and moves that object into
-place before dispatching the selected operation through
+The matching modal state machine `MemCardDialog_Update` (`0x8003F454`) uses the
+separate high-level interface from `libmcrd.h`. On first entering its active
+state, it calls `MemCardStart`, creates the dialog object, and moves that
+object into place before dispatching the selected operation through
 `D_80090F9C[D_8009B3DE]`.
 
 When state bit `0x1000` marks a pending high-level command, the update calls:
@@ -46,6 +46,41 @@ moving off screen, and later destroys both the object and its text box. This
 per-dialog `MemCardStart`/`MemCardSync`/`MemCardStop` lifecycle is distinct
 from the subsystem-wide `InitCARD`/`StartCARD` startup and from the low-level
 `_card_info`/`_card_clear`/`_card_load` event sequence below.
+
+### Dialog API and steps
+
+Callers never drive `MemCardDialog_Update` directly. `MemCardDialog_Request`
+(`0x8003F758`) copies the filename into `D_800EFE18`, stages the buffer, the
+byte size and the block count, and calls `MemCardDialog_Start` (`0x8003F740`),
+which sets `MEM_CARD_DIALOG_FLAG_ACTIVE`, stores the step index and clears the
+step's first-pass byte `D_8009B3C1`. Each frame the caller then calls
+`MemCardDialog_Poll` (`0x8003F70C`), which runs one `MemCardDialog_Update` and
+returns `0` while `gMemCard_wDialogFlags` is still nonzero, then the outcome
+byte `D_8009B3EF`. The update opens the box with `MemCardDialog_CreateObject`
+and slides it in and out with `MemCardDialog_StepSlide`. The operation
+handlers report through `MemCardDialog_SetMessage`, which replaces the
+message `D_8009B3C6` and raises `MEM_CARD_DIALOG_FLAG_RESULT_READY` together
+with the caller's presentation bits. Bit `0x20` makes the update pump the text
+box until it reports that it has finished, and the handler then reads the
+player's answer from `gDialog_bChoice`.
+
+The step table `D_80090F9C` has five entries:
+
+| Step | Entry | Runs |
+|---:|---|---|
+| `0` | `MemCardDialog_StepLoad` | `MemCardDialog_UpdateLoad` from state `0`, the confirmation prompt |
+| `1` | `MemCardDialog_StepLoadUnprompted` | `MemCardDialog_UpdateLoad` from state `1`, with dialog flag `0x200`, which swaps the accept and success messages |
+| `2` | `MemCardDialog_StepSave` | `MemCardDialog_UpdateSave` from state `0`, also a confirmation prompt |
+| `3` | `MemCardDialog_StepNone` | nothing; no caller selects it |
+| `4` | `func_8003EED0` | reads the save from each card slot, checks both with `SaveData_HasSameDuelistCode`, and writes them back |
+
+`MemCardDialog_UpdateLoad` accepts the card with `MemCardAccept`, finds the
+file with `MemCardGetDirentry` and reads it with `MemCardReadFile`.
+`MemCardDialog_UpdateSave` adds the directory and free-space checks
+(`MemCard_FindEntry`, `MemCard_CalcFreeBlocks`), an optional `MemCardFormat`,
+`MemCardCreateFile`, and `MemCardWriteFile`. Step `4` keeps its address: it
+belongs to the two-save workflow described under the selector table below,
+whose operation has no settled name.
 
 ## Registration matrix
 
@@ -246,15 +281,15 @@ and makes the two state records identical, including their integrity words and
 normalized tail.
 
 The complete staged region through the duplicate is therefore `0xF00` bytes.
-The subsequent `func_8003F758` call receives pointer `0x801D3200` and length
-`0xD00`, exactly the contiguous pair of `0x680`-byte state copies. Its final
-argument is the request selector. `func_8003F758` stores it unchanged at
-`D_8009B3DE` through `func_8003F740` while setting the active marker
-`gMemCard_wDialogFlags` to `MEM_CARD_DIALOG_FLAG_ACTIVE`.
+The subsequent `MemCardDialog_Request` call receives pointer `0x801D3200` and
+length `0xD00`, exactly the contiguous pair of `0x680`-byte state copies. Its
+final argument is the request selector. `MemCardDialog_Request` stores it
+unchanged at `D_8009B3DE` through `MemCardDialog_Start` while setting the
+active marker `gMemCard_wDialogFlags` to `MEM_CARD_DIALOG_FLAG_ACTIVE`.
 
 The operation handlers add `MEM_CARD_DIALOG_FLAG_RESULT_READY` when their
 result code is ready for display. Once the opening phase has completed,
-`func_8003F454` creates the result object and records that with
+`MemCardDialog_Update` creates the result object and records that with
 `MEM_CARD_DIALOG_FLAG_RESULT_CREATED`; it clears the ready bit after the
 result animation completes.
 

@@ -8,7 +8,7 @@
    name rather than forcing volatile on every reader in mem_card.h. */
 extern volatile u16 gMemCard_wDialogFlags_v asm("gMemCard_wDialogFlags");
 
-void func_8003E46C(u8 value, u16 bits)
+void MemCardDialog_SetMessage(u8 value, u16 bits)
 {
     u16 flags = gMemCard_wDialogFlags_v;
 

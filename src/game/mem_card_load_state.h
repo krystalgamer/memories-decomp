@@ -10,7 +10,7 @@
  * state has already been posted, so a state runs its request once and then
  * waits. gDialog_bChoice carries the player's answer back into the machine.
  *
- * duel_effect_state_entry.c is the only consumer and calls it to pump the
+ * mem_card_dialog_load_steps.c is the only consumer and calls it to pump the
  * dialog; it takes no arguments and returns nothing, because the state, the
  * flag and the answer are all globals.
  *
@@ -18,6 +18,6 @@
  * the same choice global drive the create dialog. The name stays
  * address-based because which of the two the address belongs to is settled by
  * the file it lives in rather than by anything the function itself shows. */
-void func_8003E490(void);
+void MemCardDialog_UpdateLoad(void);
 
 #endif

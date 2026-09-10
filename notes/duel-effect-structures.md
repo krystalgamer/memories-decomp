@@ -11,8 +11,8 @@ names remain where semantics or signedness are uncertain.
 entries. The following local evidence establishes the stride and extent:
 
 - `DuelEffect_InitEntry`, `TextBox_SetRect`, `func_8003D614`, and
-  `func_8003F388` independently index or advance entries by `0x64`.
-- `func_8003F388` scans exactly four entries.
+  `MemCardDialog_CreateObject` independently index or advance entries by `0x64`.
+- `MemCardDialog_CreateObject` scans exactly four entries.
 - `D_800EB288 - D_800EB0F8` is `0x190`, exactly `4 * 0x64`; linker aliases
   such as `D_800EB15C` also land on `0x64` entry boundaries.
 - Target assembly, GMS pseudocode, and Unchiga's same-address sources agree on
@@ -96,8 +96,8 @@ through `gDuelEffect_apfnStateHandler`.
 That dispatcher byte is separate from `D_8009B3C1`. In the later callback
 state family, `DUEL_EFFECT_STATE_FLAG_INITIALIZED` (`0x80`) is the shared
 one-shot entry latch. The matching callbacks in `dialog_transition.c`,
-`func_8003DA40.c`, `duel_effect_state_entry.c`, and
-`duel_effect_late_state.c` test and set it before their first-frame object or
+`func_8003DA40.c`, `mem_card_dialog_load_steps.c`, and
+`mem_card_dialog_save_steps.c` test and set it before their first-frame object or
 companion-state setup, so subsequent frames skip that initialization. This is
 a state-machine flag, not the unrelated `0x80` bit in
 `DuelEffectEntry.flags_11`.

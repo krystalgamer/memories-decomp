@@ -7,30 +7,30 @@
 #include "../unmatched.h"
 #include "mem_card_dialog_runtime.h"
 
-int func_8003F70C(void)
+int MemCardDialog_Poll(void)
 {
-    func_8003F454();
+    MemCardDialog_Update();
     if (gMemCard_wDialogFlags != 0) {
         return 0;
     }
     return D_8009B3EF;
 }
 
-void func_8003F740(s32 value)
+void MemCardDialog_Start(s32 step)
 {
     gMemCard_wDialogFlags = MEM_CARD_DIALOG_FLAG_ACTIVE;
-    D_8009B3DE = value;
+    D_8009B3DE = step;
     D_8009B3C1 = 0;
 }
 
-void func_8003F758(void *arg0, s32 arg1, u8 *arg2, s32 arg3)
+void MemCardDialog_Request(void *buf, s32 size, u8 *name, s32 step)
 {
-    strcpy(D_800EFE18, arg2);
+    strcpy(D_800EFE18, name);
     D_8009B3F9 = 0;
-    D_8009B3C2 = arg1;
+    D_8009B3C2 = size;
     D_8009B3C4 = 0x200;
     D_8009B3DC =
-        (arg1 + MEM_CARD_BLOCK_SIZE - 1) / MEM_CARD_BLOCK_SIZE;
-    D_8009B3D0 = (u32)arg0;
-    func_8003F740(arg3);
+        (size + MEM_CARD_BLOCK_SIZE - 1) / MEM_CARD_BLOCK_SIZE;
+    D_8009B3D0 = (u32)buf;
+    MemCardDialog_Start(step);
 }
