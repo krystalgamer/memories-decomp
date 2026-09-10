@@ -13,8 +13,6 @@
    stores the command list at 0xDD8; the walk then tests keys against 0xFFFF,
    accumulates rows, and reads that same list. */
 
-extern ModelSlot D_800F2C40[];
-
 void func_8004D58C(s32 arg0, u8 *arg1)
 {
     ModelSlot *ch;
