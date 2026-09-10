@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_800179F4.h"
 #include "duel_terrain_boost.h"
 #include "duel_side_state.h"
 #include "func_8002C604.h"
@@ -10,7 +11,6 @@
 #include "file_transfer.h"
 #include "func_80024E58.h"
 
-extern u8 *D_8009B214;
 /* One byte at 0x8009B364; the 8 is a threshold, not a length. This TU's
  * profile compiles at -G8 but assembles at -G4, so the array needs a size
  * the assembler can see to be above 4. Measured: an incomplete [] here
@@ -72,7 +72,7 @@ void func_80024E58(void) {
     if ((f & 0x20) == 0) {
         if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134_abs) == 0) {
-            a = D_8009B214;
+            a = (u8 *)D_8009B214;
             b = gDuel_bTerrain[0];
             *(s16 *)(D_8009B17C + 0x1A) = -2;
             func_80040410(a, b);

@@ -21,6 +21,7 @@
 #include "sound_voice_selection.h"
 #include "duel_action_lock.h"
 #include "../unmatched.h"
+#include "func_800179F4.h"
 
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
@@ -30,8 +31,6 @@ extern u8 D_801D1200[];
 extern u16 D_8009B204;
 extern u16 D_8009B16C;
 extern u8 *D_8009B22C;
-extern u8 *D_8009B214;
-extern u8 *D_8009B21C;
 extern u8 *D_8009B1D8;
 extern u8 *D_8009B1DC;
 
@@ -132,7 +131,7 @@ void func_800179F4(void)
        the first accounts for the other four. */
     *(u16 *)((u8 *)obj + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     side = (u32)gDuel_bOpponentID >> 31;
-    D_8009B214 = (u8 *)obj;
+    D_8009B214 = obj;
     obj = func_800400AC(func_8004002C(), 2);
     func_800404CC(
         obj, 280, 32, 4, side, 0, 11, 748
@@ -142,12 +141,12 @@ void func_800179F4(void)
     if (D_8009B1D5 != 0) {
         *(u16 *)&obj->field_40.h.field_40 += 16;
     }
-    D_8009B21C = (u8 *)obj;
+    D_8009B21C = obj;
     obj = func_800400AC(func_8004002C(), 6);
     func_80042918(obj);
     func_800428EC((u8 *)obj, 1);
     obj->field_4C = (s32)Duel_DrawLifePointsAndDeckCounts;
-    prev = D_8009B21C;
+    prev = (u8 *)D_8009B21C;
     obj->field_50.word = (s32)prev;
     D_800E9DBC[0] = func_800164FC;
     if (D_8009B369 != 1) {

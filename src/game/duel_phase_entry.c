@@ -1,6 +1,7 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
 #define D_8009B36A_IN_DATA
 #include "../types.h"
+#include "func_800179F4.h"
 #include "duel_card.h"
 #include "duel_side_state.h"
 #include "duel_phase_entry.h"
@@ -23,8 +24,6 @@ extern void Duel_PopulateCombinedDeckData(void);
 #include "../unmatched.h"
 #include "func_80018004.h"
 #include "duel_apply_card_object_flags.h"
-
-extern u8 *D_8009B21C;
 
 void func_80018608(void)
 {
@@ -148,7 +147,8 @@ void func_8001898C(void) {
 
     if ((D_8009B23A & 0x8000) == 0) {
         D_8009B23A |= 0x8000;
-        *(u16 *)(D_8009B21C + 0x40) = (D_8009B1D5 << 4) | 0x2E0;
+        *(u16 *)&D_8009B21C->field_40.h.field_40 =
+            (D_8009B1D5 << 4) | 0x2E0;
         Duel_ClearHandSlots();
         side = D_8009B1D5;
         D_8009B1C8 = (DuelSideState *)((u8 *)D_800E9FF0 + side * sizeof(DuelSideState));
