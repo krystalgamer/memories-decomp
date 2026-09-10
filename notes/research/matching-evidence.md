@@ -6716,7 +6716,7 @@ included header already declares, and delete the local copy. Run against
 survey that are easy to get wrong. Writing the whole result down is worth more
 than the one deletion it yields.
 
-**The one real member.** `func_800528AC.c` declared `extern ModelSlot
+**The one real member.** `model_scene_setup.c` declared `extern ModelSlot
 D_800F2C40[]` while already including `model.h`, which declares the same symbol
 as `ModelSlot[MODEL_SLOT_COUNT]`. Compatible types, the array is far above the
 `-G8` threshold, and deleting the local line keeps the executable byte-exact.
