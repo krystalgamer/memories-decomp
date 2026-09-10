@@ -14,7 +14,7 @@ u8 D_8009B142;
 u8 D_8009B143;
 u8 D_8009B144;
 
-void Fade_Update(u8 *p)
+void Fade_Update(FadeTransitionState *p)
 {
     u8 f;
     u8 g;
@@ -28,9 +28,9 @@ void Fade_Update(u8 *p)
     if ((D_8009B141 & 0x80) == 0) {
         func_80015CFC();
     }
-    delta = p[7] * D_8009B0D8;
-    lvl = p[4];
-    tgt = p[5];
+    delta = p->step * D_8009B0D8;
+    lvl = p->level;
+    tgt = p->target_level;
     if (lvl != tgt) {
         goto step;
     }
@@ -68,9 +68,9 @@ void Fade_Update(u8 *p)
         return;
     }
     gFade_State.flags = g & 0xDF;
-    D_8009B144 = p[0];
-    D_8009B143 = p[1];
-    D_8009B142 = p[2];
+    D_8009B144 = p->tint_r;
+    D_8009B143 = p->tint_g;
+    D_8009B142 = p->tint_b;
     func_80015CFC();
     gFade_State.flags = gFade_State.flags | 0x80;
     return;
