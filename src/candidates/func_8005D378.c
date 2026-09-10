@@ -1,7 +1,8 @@
 #include "../types.h"
 
 #define MODEL_ANGLE_FULL_TURN 0x1000
-#define MODEL_ANGLE_HALF_TURN 0x801
+#define MODEL_ANGLE_HALF_TURN (MODEL_ANGLE_FULL_TURN / 2)
+#define MODEL_ANGLE_WRAP_THRESHOLD (MODEL_ANGLE_HALF_TURN + 1)
 
 typedef struct {
     s16 x;
@@ -99,7 +100,7 @@ s32 func_8005D378(AnimContext *ctx)
 
         d = (s16)a - (s16)rx;
         if (d < 0) {
-            if ((s16)rx - (s16)a >= MODEL_ANGLE_HALF_TURN) {
+            if ((s16)rx - (s16)a >= MODEL_ANGLE_WRAP_THRESHOLD) {
                 w = (s16)rx;
                 if (w <= 0) {
                     w = w + MODEL_ANGLE_FULL_TURN;
@@ -108,7 +109,7 @@ s32 func_8005D378(AnimContext *ctx)
                 }
                 rx = w;
             }
-        } else if (d >= MODEL_ANGLE_HALF_TURN) {
+        } else if (d >= MODEL_ANGLE_WRAP_THRESHOLD) {
             w = (s16)rx;
             if (w <= 0) {
                 w = w + MODEL_ANGLE_FULL_TURN;
@@ -120,7 +121,7 @@ s32 func_8005D378(AnimContext *ctx)
 
         d = (s16)b - (s16)ry;
         if (d < 0) {
-            if ((s16)ry - (s16)b >= MODEL_ANGLE_HALF_TURN) {
+            if ((s16)ry - (s16)b >= MODEL_ANGLE_WRAP_THRESHOLD) {
                 w = (s16)ry;
                 if (w <= 0) {
                     w = w + MODEL_ANGLE_FULL_TURN;
@@ -129,7 +130,7 @@ s32 func_8005D378(AnimContext *ctx)
                 }
                 ry = w;
             }
-        } else if (d >= MODEL_ANGLE_HALF_TURN) {
+        } else if (d >= MODEL_ANGLE_WRAP_THRESHOLD) {
             w = (s16)ry;
             if (w <= 0) {
                 w = w + MODEL_ANGLE_FULL_TURN;
@@ -141,7 +142,7 @@ s32 func_8005D378(AnimContext *ctx)
 
         d = (s16)c - (s16)rz;
         if (d < 0) {
-            if ((s16)rz - (s16)c >= MODEL_ANGLE_HALF_TURN) {
+            if ((s16)rz - (s16)c >= MODEL_ANGLE_WRAP_THRESHOLD) {
                 w = (s16)rz;
                 if (w <= 0) {
                     w = w + MODEL_ANGLE_FULL_TURN;
@@ -150,7 +151,7 @@ s32 func_8005D378(AnimContext *ctx)
                 }
                 rz = w;
             }
-        } else if (d >= MODEL_ANGLE_HALF_TURN) {
+        } else if (d >= MODEL_ANGLE_WRAP_THRESHOLD) {
             w = (s16)rz;
             if (w <= 0) {
                 w = w + MODEL_ANGLE_FULL_TURN;
