@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../ygo_types.h"
 #include "../../game/card_constants.h"
 #include "../../game/graphics_frame.h"
 #include "../../game/text_box_lifecycle.h"
@@ -16,11 +17,6 @@ extern FreeDuelWidget *gFreeDuel_pThumbWidget;
 extern s16 D_8009B32E;
 extern u8 D_800EB0F8[];
 extern s16 D_801D0000[];
-
-typedef struct {
-    u32 lo;
-    u32 hi;
-} Pair;
 
 extern Pair D_801D5608;
 extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
