@@ -4,6 +4,7 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "model.h"
+#include "model_packet_handlers.h"
 
 /* Advances one animation track: interpolates the translation (+0x18) and
  * the three rotation angles (+0x44) between the track's two keyframes over

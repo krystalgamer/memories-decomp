@@ -6861,7 +6861,6 @@ in the caller that produces it.
     func_80043230          def 4 (display_object_interpolation.c)  <-  decl 3 in mem_card_dialog_runtime.c
     func_80043328          def 2 (func_80043328.c)  <-  decl 0 in func_80043960.c
     func_800434F4          def 2 (func_800434F4.c)  <-  decl 0 in func_80043960.c
-    func_8005CEF0          def 1 (func_8005CEF0.c)  <-  decl 0 in model_packet_handlers.c
     func_80060B38          def 2 (func_80060B38.c)  <-  decl 0 in func_80061008.c
 
 **A caller declares MORE arguments than the definition takes** (14 pairs).
