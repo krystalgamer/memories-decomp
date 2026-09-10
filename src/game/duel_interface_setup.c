@@ -15,8 +15,6 @@ extern u8 D_8009B2B5;
 extern u8 D_8009B2B6;
 extern u8 D_8009B2B8;
 extern u8 D_8009B2C0;
-extern u8 D_8009B2C1;
-extern u8 D_8009B2C2;
 extern u8 D_8009B2E0;
 extern void *D_8009B2E4;
 extern u8 D_8009B2EA;

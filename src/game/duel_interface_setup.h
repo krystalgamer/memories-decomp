@@ -14,9 +14,29 @@ void func_80030250(
     s32 field_E0
 );
 
-/* Stored by func_80030250 (duel_interface_setup.c:66, `D_8009B2DC = 0;`;
+/* Stored by func_80030250 (duel_interface_setup.c:67, `D_8009B2C1 =
+ * field_C0;`; func_80030250.s:16 `sb`) and by func_800307B8
+ * (func_800307B8.c:35, `D_8009B2C1 = count;`, with `count = 3;` at :28;
+ * func_800307B8.s:32 `sb`). Both units declared it u8; no unit loads it,
+ * and those two `sb` are its only accesses in asm/, so nothing pins the
+ * sign. D_8009B2C2 is the next symbol, at +1 (c_symbols.ld:193). Every
+ * access is `%gp_rel`; plain declaration, no .data arm. */
+extern u8 D_8009B2C1;
+
+/* Stored by func_80030250 (duel_interface_setup.c:66, `D_8009B2C2 =
+ * field_C0;`; func_80030250.s:15 `sb`) and by func_800307B8
+ * (func_800307B8.c:34, `D_8009B2C2 = count;`, with `count = 3;` at :28;
+ * func_800307B8.s:31 `sb`). Both units declared it u8; no unit loads it,
+ * and those two `sb` are its only accesses in asm/. Nothing is named at
+ * +1 (c_symbols.ld:193 is followed by D_8009B2DC at :194);
+ * gDebug_nLastSoundID, declared `extern u16` at func_800307B8.c:14, is
+ * at +2 (config/slus_01411/symbols.txt:22). Every access is `%gp_rel`;
+ * plain declaration, no .data arm. */
+extern u8 D_8009B2C2;
+
+/* Stored by func_80030250 (duel_interface_setup.c:64, `D_8009B2DC = 0;`;
  * func_80030250.s:13 `sb $zero`) and loaded by func_800307B8 through an
- * lvalue cast, `*(s8 *)&D_8009B2DC` (func_800307B8.c:61; func_800307B8.s:70
+ * lvalue cast, `*(s8 *)&D_8009B2DC` (func_800307B8.c:59; func_800307B8.s:70
  * `lb`). Both units declared it u8; the `lb` is the cast, not the
  * declaration. Still in assembly: func_80030294.s (lb :57, :228, :313;
  * lbu :259, :289; sb :262, :270, :292, :297). Nothing is named at +1
@@ -25,9 +45,9 @@ void func_80030250(
  * `%gp_rel`, so the plain declaration; no .data arm. */
 extern u8 D_8009B2DC;
 
-/* Stored by func_80030250 (duel_interface_setup.c:65, `D_8009B2E9 = 0;`;
+/* Stored by func_80030250 (duel_interface_setup.c:63, `D_8009B2E9 = 0;`;
  * func_80030250.s:12 `sb $zero`) and loaded by func_800307B8 through an
- * lvalue cast, `*(s8 *)&D_8009B2E9` (func_800307B8.c:64; func_800307B8.s:87
+ * lvalue cast, `*(s8 *)&D_8009B2E9` (func_800307B8.c:62; func_800307B8.s:87
  * `lb`). Both units declared it u8. Still in assembly: func_80030294.s
  * (lb :160, :317; lbu :252, :281; sb :255, :271, :284, :290, :300).
  * D_8009B2EA is the next symbol, at +1 (c_symbols.ld:199). Every access is
