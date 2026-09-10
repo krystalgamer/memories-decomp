@@ -1,13 +1,14 @@
 #include "../types.h"
 #define D_8009B142_IN_DATA
+#include "func_8005B8A0.h"
+#include "func_8005C62C.h"
+#include "func_8005C690.h"
 #include "graphics_frame.h"
 #include "movie_frame_pipeline.h"
 #include "../psyq/libcd.h"
 #include "graphics_constants.h"
 
 extern u8 *D_80010000 __attribute__((section(".data")));
-
-void func_8005C690(void);
 
 s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     RECT rect;
@@ -74,7 +75,7 @@ s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     if (D_8009B06C >= 5) {
         D_8009B06C = D_8009B06C - 4;
     }
-    func_8005C62C(&D_8009B49C);
+    func_8005C62C((s32)&D_8009B49C);
     r = func_8005BFC8(0);
     if (r != 0) {
         return r;
