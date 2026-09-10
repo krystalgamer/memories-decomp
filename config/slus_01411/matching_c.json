@@ -3226,37 +3226,37 @@
       "address": "0x8003CB7C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/input_reset_pads.c"
+      "source": "src/game/input_pads.c"
     },
     {
       "address": "0x8003CBE8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x50",
-      "source": "src/game/input_init_pads.c"
+      "source": "src/game/input_pads.c"
     },
     {
       "address": "0x8003CC38",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/input_update_pads.c"
+      "source": "src/game/input_pads.c"
     },
     {
       "address": "0x8003CCD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x120",
-      "source": "src/game/input_update_pads.c"
+      "source": "src/game/input_pads.c"
     },
     {
       "address": "0x8003CDF8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x50",
-      "source": "src/game/input_state_backup.c"
+      "source": "src/game/input_pads.c"
     },
     {
       "address": "0x8003CE48",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/input_state_backup.c"
+      "source": "src/game/input_pads.c"
     },
     {
       "address": "0x8003CE74",
