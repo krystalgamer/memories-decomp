@@ -25,4 +25,26 @@ s32 Duel_CheckQuitInput(void);
  * three are matching C. */
 extern u8 gDuel_bQuitDialogState;
 
+/* The duel outcome flags the quit flow reports into, as the two small-data
+ * users spell it.
+ *
+ * func_80024200 raises 0x2000 here at the point it clears
+ * gDuel_bQuitDialogState above -- that is the quit result -- and Main_RunDuel
+ * reads exactly that bit back. func_800179F4 clears the word when the duel
+ * starts, in the same run of assignments that clears the quit state, and
+ * raises 0x1000 there for its own reason.
+ *
+ * Only those two units take this plain u16 spelling, and the declaration lives
+ * here rather than in duel_side_state.h for a checked reason:
+ * main_run_duel_and_library.c reads the word as `u16 D_8009B16C[9]`, which is
+ * the oversized-array form of the absolute addressing the .data attribute also
+ * produces, and that file does include duel_side_state.h. It does not include
+ * this header, and neither does debug_effect_screen.c, which takes a third
+ * view -- `u8 D_8009B16C[4]`, touching byte 2 rather than the halfword at 0.
+ * So the spellings never meet here and no guarded arm is needed.
+ *
+ * The byte-2 use is worth knowing about before anyone widens this: the address
+ * carries more than the flags word these two functions see. */
+extern u16 D_8009B16C;
+
 #endif
