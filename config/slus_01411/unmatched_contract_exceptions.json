@@ -9,12 +9,6 @@
     },
     {
       "symbol": "func_80042188",
-      "source": "src/game/display_object_list_renderers.c",
-      "declaration": "void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);",
-      "reason": "The raw display-list arm passes a flag-bearing integer where sprite arms pass a pointer."
-    },
-    {
-      "symbol": "func_80042188",
       "source": "src/game/func_80016784.c",
       "declaration": "void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);",
       "reason": "This sprite arm requires the pointer contract rather than the raw display-list integer arm."
@@ -33,15 +27,21 @@
     },
     {
       "symbol": "func_8004CB0C",
-      "source": "src/game/model_load_monster_merge.c",
-      "declaration": "void func_8004CB0C(s32 slot, s32 arg1, s32 arg2, s32 arg3);",
-      "reason": "This caller explicitly supplies all four arguments consumed by the callee."
-    },
-    {
-      "symbol": "func_8004CB0C",
       "source": "src/game/model_slot_setup.c",
       "declaration": "void func_8004CB0C(void);",
       "reason": "This caller preserves only its incoming a0 and cannot express the other live argument registers."
+    },
+    {
+      "symbol": "Ai_GetHandSize",
+      "source": "src/game/ai_card_ranges.c",
+      "declaration": "s32 Ai_GetHandSize(void);",
+      "reason": "The widened s32 return is load-bearing here; the definition's s8 adds four sign-extension instructions."
+    },
+    {
+      "symbol": "Ai_GetHandSize",
+      "source": "src/game/ai_fusion.c",
+      "declaration": "s8 Ai_GetHandSize(void);",
+      "reason": "This caller takes the definition's s8 return, which ai_card_ranges.c cannot share."
     }
   ]
 }

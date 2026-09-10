@@ -25,8 +25,8 @@ extern u16 D_8009B220;
  * reads D_8009B1D2 with lh at seven sites and D_8009B1A8 with lh at one,
  * all gp-relative; the one lhu of D_8009B1D2 is in func_800262D4, still
  * assembly. The u16 spellings were only in the writer, where a store shows
- * no sign. func_80024E58.c reads the low byte of D_8009B1D2 through an
- * explicit (u8 *) cast, which is retail's lbu and stays there. */
+ * no sign. func_80024E58 reads the low byte of D_8009B1D2 through an
+ * explicit (u8 *) cast in its candidate source, which is retail's lbu. */
 extern s16 D_8009B1A8;
 extern s16 D_8009B1D2;
 

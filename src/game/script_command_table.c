@@ -16,7 +16,7 @@
 #include "script_noop_commands.h"
 #include "script_op_show_image.h"
 #include "script_stream_commands.h"
-#include "script_update_viewport_tween.h"
+#include "../unmatched.h"
 
 /* Initialized data at 0x80090C50: the 23 scene-script command handlers.
  *

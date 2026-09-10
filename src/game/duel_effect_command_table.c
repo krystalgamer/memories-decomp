@@ -7,7 +7,7 @@
 #include "text_stream_commands.h"
 #include "duel_effect_basic_commands.h"
 #include "duel_effect_play_sound_command.h"
-#include "func_800388D8.h"
+#include "../unmatched.h"
 #include "text_start_campaign_duel.h"
 #include "display_object_fade_callbacks.h"
 

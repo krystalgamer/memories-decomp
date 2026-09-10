@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "sound.h"
-#include "sound_sequence_marker_scan.h"
+#include "../unmatched.h"
 #include "sound_sequence_reader.h"
 #include "sound_sequence_timing.h"
 #include "sound_sequence_parser.h"

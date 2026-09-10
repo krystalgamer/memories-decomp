@@ -3,6 +3,7 @@
 #include "dialog_choice_state.h"
 #include "duel_effect_entry_control.h"
 #include "duel_effect_state_callbacks.h"
+#include "../unmatched.h"
 
 /* Initialized data at 0x80090E64: the text-box state callback table.
  *

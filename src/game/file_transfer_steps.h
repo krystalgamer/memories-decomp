@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "../ygo_types.h"
 
-/* The two file-transfer phase callbacks model_load_monster_merge.c installs
+/* The two file-transfer phase callbacks Model_LoadMonsterMerge installs
  * through File_TryRequestAsyncTransfer: func_80057544 for a monster record
  * and func_800577B0 for the 0x309 special case.
  *

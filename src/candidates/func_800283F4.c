@@ -36,6 +36,7 @@
 #include "../game/duel_effect_resource_record.h"
 #include "../game/card_constants.h"
 #include "../game/func_800283F4.h"
+#include "../unmatched.h"
 
 extern DisplayObject *D_8009B240;
 extern u8 D_8009B248;

@@ -8,6 +8,7 @@
 #include "func_8004ACE4.h"
 
 #include "sound_secondary_commands.h"
+#include "../unmatched.h"
 
 void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
 {

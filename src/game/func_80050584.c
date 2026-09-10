@@ -2,7 +2,6 @@
 #include "../unmatched.h"
 #include "../psyq/rand.h"
 #include "card_constants.h"
-#include "model_load_monster_merge.h"
 #include "file_transfer.h"
 #include "model.h"
 #include "func_8005922C.h"

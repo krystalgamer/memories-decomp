@@ -3,6 +3,7 @@
 
 #include "sound.h"
 #include "sound_event_runtime.h"
+#include "../unmatched.h"
 
 void func_8004B910(void)
 {

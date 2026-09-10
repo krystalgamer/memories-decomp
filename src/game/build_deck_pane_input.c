@@ -13,7 +13,7 @@
 #include "build_deck_transition_state.h"
 #include "duel_card_stat_display.h"
 #include "duel_effect.h"
-#include "func_800330BC.h"
+#include "../unmatched.h"
 #include "build_deck_pane_input.h"
 
 void func_8003353C(u8 *p) {

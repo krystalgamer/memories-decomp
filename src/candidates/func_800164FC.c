@@ -1,0 +1,123 @@
+/* Reclassified from matching_c (#3859). This was src/game/func_800164FC.c,
+ * byte-exact only under gcc_2_8_1_cc_g8_as_g0_split, whose compiler and
+ * assembler disagree about small data (GCC -G8, MASPSX -G0). Under
+ * gcc_2_8_1_g0, a single threshold, it is 158 instructions against the
+ * target's 159, opcode distance 1. The source below is the match, unchanged
+ * apart from its include paths. */
+#include "../types.h"
+#include "../game/view_state.h"
+#include "../game/duel_card_layout.h"
+#include "../game/duel_display.h"
+#include "../game/duel_grid.h"
+#include "../game/sorted_entry.h"
+#include "../game/duel_card.h"
+#include "../game/display_projection.h"
+#include "../unmatched.h"
+
+extern void SetGeomScreen();
+
+void func_800164FC(void) {
+    DuelCardRecord *e;
+    u8 *a;
+    u8 *p1;
+    u8 *p3;
+    s32 *p4;
+    s32 n;
+    s32 h;
+    s32 c;
+    s32 f;
+    ViewState *q;
+    DuelCardRecord *t;
+
+    q = &D_800F2848;
+    SetGeomScreen(q->projection);
+    SetGeomOffset(0xA0, 0x6C);
+    SetFarColor(0, 0, 0);
+    do {
+        SetFogNearFar(0x28A, 0x320, q->projection);
+        func_800540B4(2);
+
+        if ((D_8009B30C & 2) != 0) {
+            D_8009B314 = D_8009B314 + 1;
+            if (D_8009B314 >= D_8009B308) {
+                D_8009B30C = D_8009B30C & ~3;
+            }
+            D_8009B310 = D_8009B304;
+        }
+
+        p4 = (s32 *)0x1F8000C0;
+        p1 = (u8 *)0x1F800140;
+        p3 = (u8 *)0x1F800180;
+        c = DUEL_DISPLAY_COLOR_NORMAL;
+        e = D_801A7B64;
+        n = 0;
+
+        p1[3] = 9;
+        p1[7] = 0x2C;
+        p1[4] = 0xFF;
+        p1[5] = 0xFF;
+        p1[6] = 0xFF;
+        *(s16 *)(p1 + 0x16) = 0x5F;
+        f = 0x80;
+        *(s16 *)(p1 + 0xE) = 0x3C11;
+    } while (0);
+    p1[0x24] = 0xAF;
+    p1[0x14] = 0xAF;
+    p1[0x25] = 0x37;
+    p1[0x1D] = 0x37;
+    p1[7] = 0x2E;
+    p1[0x1C] = f;
+    p1[0xC] = f;
+    p1[0x15] = 0;
+    p1[0xD] = 0;
+    *(s16 *)(p3 + 0x1A) = 0x9E;
+    *(s16 *)(p3 + 0xE) = 0x3C50;
+    p3[0x19] = f;
+    p3[0xD] = f;
+    p3[0x31] = 0xBC;
+    p3[0x25] = 0xBC;
+    *p4 = c;
+
+    do {
+        h = e->flags;
+        if ((h & DUEL_CARD_FLAG_OCCUPIED) != 0) {
+            a = e->object;
+            if (a != (u8 *)0) {
+                if ((h & 0x400) != 0) {
+                    func_80015DFC((DisplayProjectionTrackedObject *)e);
+                    n++;
+                    goto next;
+                }
+                *p4 = *(s32 *)(a + 0xC);
+                func_80015EF4(e, p3, p1, p4);
+            }
+        }
+        n++;
+    next:
+        e++;
+    } while (n < DUEL_FIELD_SIDE_ZONE_COUNT);
+
+    t = D_801A7B64;
+    e = t + DUEL_CARD_SIDE_RECORD_COUNT;
+    n = 0;
+    do {
+        h = e->flags;
+        if ((h & DUEL_CARD_FLAG_OCCUPIED) != 0) {
+            a = e->object;
+            if (a != (u8 *)0) {
+                if ((h & 0x400) != 0) {
+                    func_80015DFC((DisplayProjectionTrackedObject *)e);
+                    n++;
+                    goto next2;
+                }
+                *p4 = *(s32 *)(a + 0xC);
+                func_80015EF4(e, p3, p1, p4);
+            }
+        }
+        n++;
+    next2:
+        e++;
+    } while (n < DUEL_FIELD_SIDE_ZONE_COUNT);
+
+    SetGeomOffset(0, 0);
+}

@@ -230,7 +230,7 @@ typedef struct {
     u8 field_E1B;
     u8 pad_E1C;
     /* func_8005611C clears this byte and
-     * model_load_monster_merge.c writes its transfer flags here,
+     * Model_LoadMonsterMerge writes its transfer flags here,
      * reaching it as pad_E1C[1] and noting in a comment that this
      * record still covered it with padding. */
     u8 field_E1D;

@@ -7,7 +7,6 @@
 #include "duel_card_effects.h"
 #include "duel_field_effect_steps.h"
 #include "duel_magic_effect_dispatch.h"
-#include "func_80024E58.h"
 #include "func_80025EE0.h"
 #include "func_80028310.h"
 #include "func_800283F4.h"

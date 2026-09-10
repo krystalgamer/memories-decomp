@@ -6,6 +6,7 @@
 #include "func_8002622C.h"
 #include "sound.h"
 #include "duel_effect_resource_setup.h"
+#include "../unmatched.h"
 extern s16 D_8009B1A0;
 
 void func_8002622C(void)

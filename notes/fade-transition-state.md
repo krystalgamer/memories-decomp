@@ -40,7 +40,7 @@ declarations were used.
 
 ## Band-ramp mechanics
 
-The matching [`Fade_StepBands`](../src/game/fade_step_bands.c) establishes
+The [`Fade_StepBands`](../src/candidates/func_800151D8.c) source establishes
 **high-confidence static semantics** for `field_08` in band mode: it is a
 signed sweep head, not another byte brightness value. The shared declaration
 remains `u16` to preserve the existing exact C; the walker explicitly casts
@@ -184,7 +184,7 @@ the cover, and `Script_OpShowImage` is the clearest use -- it creates its
 full-screen image object and only then calls `0x80015C84`, the non-blocking
 `Fade_InitOut` + `\|= 2` wrapper.
 
-Flag `0x04` is only read in `fade_update.c`, at the point where the level
+Flag `0x04` is only read in `Fade_Update`, at the point where the level
 reaches zero:
 
 ```c
@@ -248,7 +248,7 @@ therefore supplies zero color, not a general "fully faded" or "finished"
 sentinel. Completion is based on the current level reaching its target,
 which need not be `0xFF`.
 
-The matching [`Fade_Update`](../src/game/fade_update.c) confirms that this
+The [`Fade_Update`](../src/candidates/func_80015310.c) source confirms that this
 separate control byte is not a simple record of fade-in versus fade-out.
 When an active update
 enters with `level == target_level == 0xFF`, `0x80015384..0x800153C8` clears

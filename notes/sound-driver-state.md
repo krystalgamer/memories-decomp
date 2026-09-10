@@ -586,12 +586,15 @@ The header uses GCC-2.8.1-compatible negative-array assertions for the
 `0x18`, `0x28`, and `0x1C` subview sizes, the complete `0x848` state size, and
 the major top-level offsets.
 
-The adjacent envelope setters `func_8004A6F8` and `func_8004A764` share
-`src/game/sound_voice_envelope.c`. They use the same `SpuVoiceAttr` block at
+The adjacent envelope setters `func_8004A6F8` and `func_8004A764` shared
+`src/game/sound_voice_envelope.c` until #3859 moved them to
+`src/candidates/func_8004A6F8.c` and `src/candidates/func_8004A764.c`,
+because that profile's compiler and assembler thresholds disagree. They use
+the same `SpuVoiceAttr` block at
 `+0x4C0`: one fills ADSR values from the caller's tone record, while the other
-sets the existing defaults. Their original definition order and common
-`gcc_2_8_1_cc_g8_as_g0_split` profile are preserved, as is the `const` table
-declaration needed for the original address materialization.
+sets the existing defaults. Both matched only at the common
+`gcc_2_8_1_cc_g8_as_g0_split` profile, with the `const` table declaration
+needed for the original address materialization.
 
 ### Transfer-window state and results
 

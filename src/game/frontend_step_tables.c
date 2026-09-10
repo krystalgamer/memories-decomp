@@ -5,8 +5,8 @@
 #include "async_state_poll.h"
 #include "frontend_scene_states.h"
 #include "func_80030998.h"
-#include "func_800307B8.h"
 #include "func_80031354.h"
+#include "../unmatched.h"
 
 /* Initialized data at 0x80090D7C: the two step tables func_80031084
  * dispatches through.

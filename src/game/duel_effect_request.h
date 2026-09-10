@@ -9,9 +9,9 @@
 
 /* The record func_8002C68C hands a duel effect handler.
  *
- * func_8002C604.c is where the layout comes from: it takes a free entry from
- * func_8002C5CC and fills every field below, so each one is a store in a
- * matched function rather than a guess. It zeroes +0x00, +0x02, +0x04 and
+ * func_8002C604 is where the layout comes from: it takes a free entry from
+ * func_8002C5CC and fills every field below, so each one is a store in the
+ * function rather than a guess. It zeroes +0x00, +0x02, +0x04 and
  * +0x12, writes 8 at +0x10, the effect id at +0x18, zero at +0x1A, the shared
  * buffer D_80010000 + 0x3800 at +0x14, two words copied out of D_800E9D90 at
  * +0x08 and +0x0C, 0x80 at +0x1C and zero at +0x1D.
@@ -87,11 +87,8 @@ extern u8 *D_8009B17C;
  * $gp in func_8002C6C8, func_8002C68C and func_8002C598, and through %hi/%lo
  * in func_80024200, func_8002596C, func_80025D30, func_80025BEC and
  * func_80018FEC (still assembly); duel_scene_update.c and
- * duel_card_effects.c define the .data arm
- * below for that.
- * func_8002C68C.c keeps its own data extern because it cannot include this
- * header (see the note under func_8002C68C). Its func_8002C604 call now uses
- * the guarded ambient-id declaration in func_8002C604.h. */
+ * duel_card_effects.c define the .data arm below for that. func_8002C68C.c
+ * takes the plain arm. */
 #ifdef D_8009B260_IN_DATA
 extern u8 D_8009B260 __attribute__((section(".data")));
 #else
@@ -99,13 +96,7 @@ extern u8 D_8009B260;
 #endif
 
 /* Allocates a request for the given effect id, marks D_8009B260 and returns
- * it, or 0 when the pool is full.
- *
- * func_8002C68C.c deliberately does not include this header: the image's own
- * definition takes no argument and returns void *, and the id every caller
- * passes reaches func_8002C604 in $a0 through that prototype-free call. This
- * is the declaration the callers need; the definition keeps the one the
- * instructions have. */
+ * it, or 0 when the pool is full. */
 DuelEffectRequest *func_8002C68C(s32 id);
 
 /* The pool those requests live in: the eight records this header already

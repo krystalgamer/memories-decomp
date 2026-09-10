@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "../psyq/stdio.h"
-#include "func_80047480.h"
+#include "../unmatched.h"
 #include "func_80047788.h"
 #include "sound.h"
 #include "sound_output.h"

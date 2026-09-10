@@ -1,18 +1,15 @@
-#define FUNC_8002C604_AMBIENT_ID
 #include "../types.h"
-#include "func_8002C604.h"
+#include "duel_effect_request.h"
+#include "../unmatched.h"
 
-/* The allocator stores an s32 request id, but this caller passes nothing, so
- * the id is whatever its own caller left in $a0. The guarded header arm keeps
- * that retail call without inventing an argument. This TU cannot include
- * duel_effect_request.h either: callers pass an id to func_8002C68C, but this
- * definition takes no arguments so that value remains ambient in $a0 for the
- * allocator call. */
-extern u8 D_8009B260;
-
-void *func_8002C68C(void)
+/* Hands out one request: func_8002C604 allocates it for the caller's effect
+ * id, and bit 7 of the pool's status byte records that one is out. The id
+ * reaches the allocator in $a0 untouched, so forwarding it costs nothing;
+ * this definition used to take no parameter and leave the id ambient, which
+ * compiles to the same instructions. */
+DuelEffectRequest *func_8002C68C(s32 id)
 {
-    void *value = func_8002C604();
+    DuelEffectRequest *value = (DuelEffectRequest *)func_8002C604(id);
 
     if (value != 0) {
         D_8009B260 |= 0x80;

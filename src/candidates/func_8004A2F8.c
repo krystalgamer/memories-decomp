@@ -9,6 +9,7 @@
 
 #include "../game/sound.h"
 #include "../game/sound_spatialization.h"
+#include "../unmatched.h"
 
 void SD_UpdateSecondaryObjectVolumes(void)
 {

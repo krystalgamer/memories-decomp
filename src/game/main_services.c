@@ -5,7 +5,7 @@
 #include "../psyq/libmcrd.h"
 #include "../psyq/rand.h"
 #include "fade.h"
-#include "file_set_position_table.h"
+#include "../unmatched.h"
 #include "func_800136D4.h"
 #include "func_80041340.h"
 #include "graphics_constants.h"

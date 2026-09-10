@@ -1,6 +1,4 @@
-#define FUNC_8004B374_CALL_WITH_UNUSED_ARG
 #include "../types.h"
-#include "func_8004B374.h"
 #include "sound.h"
 #include "sound_secondary_commands.h"
 #include "sound_sequence_parser.h"

@@ -16,11 +16,12 @@ It deliberately does **not** report tentative definitions -- a global written
 without `extern` and without an initializer, which the compiler emits as a
 common symbol. Those look like exactly the same mistake and are not one. The
 spelling is a deliberate `-G` lever: a common symbol is placed in small data
-and addressed through `$gp`, and writing `extern` instead moves it. Fifteen
-of them exist today, and rewriting three in `fade_update.c` -- whose profile
+and addressed through `$gp`, and writing `extern` instead moves it. Twelve
+of them exist today. Rewriting three more in `fade_update.c` -- whose profile
 `gcc_2_8_1_cc_g8_as_g1_split_comm` is named for this very property -- shrank
-the executable from 0x1D0800 to 0x1D07F4 bytes. A check that flagged them
-would report fifteen defects, all of them load-bearing, so it reports none.
+the executable from 0x1D0800 to 0x1D07F4 bytes; #3859 has since moved that
+unit to src/candidates/func_80015310.c. A check that flagged them would
+report twelve defects, all of them load-bearing, so it reports none.
 
 The distinction is the point: an *initialized* definition that duplicates an
 assignment is inert and wrong, and an *uninitialized* one is how several units
@@ -33,8 +34,8 @@ The default reads sources, needs no build, and covers the units in
 `data_c.json` -- the place carves happen and the place the mistake is most
 likely. `--objects` reads the symbol tables of everything already compiled
 instead, which is authoritative and covers ordinary translation units too,
-at the cost of needing a build first. Across all 643 objects the only
-collisions today are the fifteen common symbols above, so it currently
+at the cost of needing a build first. Across every object the only
+collisions today are the twelve common symbols above, so it currently
 passes; it is a regression gate rather than a repair.
 """
 

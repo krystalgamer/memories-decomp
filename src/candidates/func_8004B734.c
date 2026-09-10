@@ -15,6 +15,7 @@
 #include "../game/func_8004ACE4.h"
 
 #include "../game/sound_secondary_commands.h"
+#include "../unmatched.h"
 
 long SD_SequenceTimerCallback(void)
 {

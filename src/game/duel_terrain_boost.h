@@ -39,13 +39,14 @@
          main_run_animated_battle.c
              extern u8 gDuel_bTerrain __attribute__((section(".data")));
 
-     func_80024E58.c is the one that needs a NUMBER. Its profile compiles at
-     -G8 but assembles at -G4 (gcc_2_8_1_cc_g8_as_g4_split), so the array must
-     have a size the assembler can see to be above 4:
+     func_80024E58 was the one that needed a NUMBER. Its profile compiled at
+     -G8 but assembled at -G4 (gcc_2_8_1_cc_g8_as_g4_split), so the array had
+     to have a size the assembler could see to be above 4:
              extern u8 gDuel_bTerrain[8];
+     #3859 moved it to src/candidates/func_80024E58.c for that profile.
 
    That last one is why the forms are not interchangeable. Measured: relaxing
-   func_80024E58.c's [8] to an incomplete [] costs 4 bytes of text, while the
+   func_80024E58's [8] to an incomplete [] cost 4 bytes of text, while the
    same relaxation in func_8001798C.c is exact. The 8 is a threshold, not a
    length; no spelling here claims the object has more than one byte.
 

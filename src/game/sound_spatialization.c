@@ -3,6 +3,7 @@
 
 #include "sound.h"
 #include "sound_spatialization.h"
+#include "../unmatched.h"
 
 s32 SD_CalcPitchBend(SDSecondaryObject *entry, s32 value)
 {

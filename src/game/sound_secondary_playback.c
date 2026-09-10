@@ -3,6 +3,7 @@
 #include "sound.h"
 #include "sound_spatialization.h"
 #include "sound_sequence_timing.h"
+#include "../unmatched.h"
 
 int func_80049A64(void *input, short value)
 {

@@ -23,7 +23,8 @@ struct DisplayObject;
  * survives the test.
  *
  * The first parameter is u32, which is what the field the callers pass --
- * field_20.word -- already is. display_object_list_renderers.c declared it
+ * field_20.word -- already is. The list renderers func_80040DD8 and
+ * func_80041068, which are assembly again since #3859, declared it
  * s32 and the fourth parameter u8 *, holding the scratchpad address at
  * 0x1F800398 as a byte pointer; both call sites now state that conversion
  * instead. */
