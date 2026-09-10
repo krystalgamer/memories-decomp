@@ -12,8 +12,7 @@
 #include "dialog_choice.h"
 #include "dialog_read_choice_input.h"
 #include "duel_effect.h"
-
-extern void Widget_UpdatePulseColour(u8 *);
+#include "widget_update_pulse_colour.h"
 
 void Dialog_UpdateChoice(DuelEffectChannel *p) {
     DisplayObject *e;
