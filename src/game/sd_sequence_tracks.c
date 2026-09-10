@@ -1,10 +1,9 @@
 #include "../types.h"
 
 #include "sound.h"
+#include "sound_sequence_timing.h"
 #include "sound_sequence_reader.h"
 #include "sd_read_sequence_event.h"
-
-extern void SD_ScaleSequenceDelta(SDSequenceTrack *);
 
 /* Advances every MIDI track by one runtime tick. Each track carries a
    fixed-point tempo accumulator: tempo_step is added to
