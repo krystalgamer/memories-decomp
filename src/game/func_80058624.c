@@ -8,7 +8,6 @@ void func_80058624(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     u8 st[2];
     s8 *pp;
-    u8 *p;
     s32 dx;
     s32 dz;
     s32 a;
@@ -24,15 +23,14 @@ void func_80058624(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 w;
 
     dx = D_800F56F0.vpx - arg2;
-    p = (u8 *)&D_800F56F0;
-    dz = *(s32 *)(p + 8) - arg3;
+    dz = D_800F56F0.vpz - arg3;
     pp = (s8 *)&st[1];
     st[0] = 0;
     st[1] = 0;
     r = SquareRoot0(dx * dx + dz * dz);
-    b = *(s32 *)(p + 8);
-    c = *(s32 *)(p + 0xC);
-    d = *(s32 *)(p + 0x14);
+    b = D_800F56F0.vpz;
+    c = D_800F56F0.vrx;
+    d = D_800F56F0.vrz;
     ez = d - b;
     a = D_800F56F0.vpx;
     ex = a - c;
