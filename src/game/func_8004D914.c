@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model.h"
+#include "func_8004D914.h"
 
 void func_8004D914(s32 arg0) {
     u8 *b;
