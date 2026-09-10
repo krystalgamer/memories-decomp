@@ -10,19 +10,18 @@ typedef struct {
     u8 bytes[0x28];
 } Key;
 
-/* The ring itself, ten records, declared here because both units that name
- * it include this header and this is where Key lives. Two facts bound it at
+/* The ring itself, ten records, declared here because the evaluator and
+ * dispatcher share it and this is where Key lives. Two facts bound it at
  * ten: the next named object, D_800F5918 (c_symbols.ld:396, model.h:541-542),
  * starts at +0x190 = 10 * 0x28, and func_8005F91C writes a record only while
  * `D_8009B078 < 0xA` (model_effect_state.c; D_8009B078 is a u8,
  * model_transfer_flags.h:47). That unit stores through a u8 pointer: two
  * 8-byte ModelEffectEndpoint copies at +0 and +8, halfwords at +6, +0xE,
  * +0x20, +0x22 and +0x24, a byte at +0x26 (:51-66), and stores the ring's
- * address into D_8009B074 (:38). func_8005EBF4 forms Key pointers at
- * func_8005EBF4.c:24-26 and :56 and its channel pointers from them as
- * `(u8 *)keys[i] + k * 8` (:38, :50) and `(u8 *)kp + k * 8` (:57).
+ * address into D_8009B074. func_8005EBF4 forms Key pointers from the ring and
+ * derives each channel pointer as `(u8 *)key + k * 8`.
  * func_8005DBA4, still assembly, forms the address at func_8005DBA4.s:34,
- * :38-40 and :807-809. func_8005EBF4.c used to declare it `Key []` and
+ * :38-40 and :807-809. The evaluator used to declare it `Key []` and
  * func_8005F91C used a local `u8 []` declaration. */
 extern Key D_800F5788[10];
 
