@@ -10,15 +10,17 @@
    Three sources declare this symbol three different ways and all three agree;
    they are views of one array, not competing claims about it.
 
-     trade_init.c    MainMenuSlot D_801845EC[]  - builds both entries, writing
+     MainMenu_InitTradeScreen
+                     MainMenuSlot D_801845EC[]  - builds both entries, writing
                      .object from func_800400AC and clearing .unk4
      trade_draw.c    u8 *D_801845EC[]           - reads [0] and [2]
-     trade_update.c  MainMenuWidget *D_801845EC - reads ->y
+     MainMenu_UpdateTradeScreen
+                     MainMenuWidget *D_801845EC - reads ->y
 
    The 8-byte stride is what reconciles them: trade_draw.c's [0] and [2] are
    the `object` pointers of entries 0 and 1 at a 4-byte pointer stride, and
-   trade_update.c's declaration names the same first pointer, so `->y` is
-   entry 0's object. Only trade_init.c's view sees `unk4` at all. */
+   the updater's declaration names the same first pointer, so `->y` is
+   entry 0's object. Only the initializer's view sees `unk4` at all. */
 typedef struct {
     u8 *object;
     s32 unk4;
@@ -31,9 +33,9 @@ typedef char MainMenuSlot_size_must_be_8[
 /* One side's Trade list scroll position, D_80185C8C[side]. The README records
    the meaning: "[side][0] is the current scrolling top; [1] is its target".
 
-   trade_update.c and rebuild_trade_inventory_rows.c declare the same storage
+   MainMenu_UpdateTradeScreen and rebuild_trade_inventory_rows.c declare the same storage
    as `u16 [2]` and are the only sources that read it, so the members are u16
-   here; trade_init.c, which had the s16 spelling, only ever stores zero, and
+   here; MainMenu_InitTradeScreen only ever stores zero, and
    a halfword store is the same instruction either way. The read sites clamp
    the target at zero, so the value is never negative. */
 typedef struct {

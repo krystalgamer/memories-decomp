@@ -56,7 +56,7 @@ extern s32 D_8009B0D8;
 /* The frame-advance bound. Graphics_SyncFrame spins
  * `while (D_8009B0C8 < D_8009B0C0)`, so this byte is how many frames the
  * caller lets the sync run: Main_RunAnimatedBattle and
- * src/overlays/main_menu/trade_init.c:70 set it to 1, func_800283F4.c:73
+ * src/overlays/main_menu/trade_update.c sets it to 1, func_800283F4.c:73
  * sets it to `flags - 2`, and Main_Init, Main_ResetFrontendRuntime,
  * Main_RunLibraryMenu and func_800283F4.c:203 set it to 0. Every retail
  * access is a byte store or load.

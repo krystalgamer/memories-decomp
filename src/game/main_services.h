@@ -29,7 +29,7 @@
  * Slot 2 is stored only by func_8002ACA4.s (:509, :745), under splat's name
  * for that address, D_800E9DB8; no other listing and no C unit names it.
  * Slot 1 is stored by the main_menu overlay, by index:
- * MainMenu_InitTradeScreen (src/overlays/main_menu/trade_init.c:69,
+ * MainMenu_InitTradeScreen (src/overlays/main_menu/trade_update.c,
  * `D_800E9DB0[1] = MainMenu_DrawTradeOffersAndHighlights;`) and
  * MainMenu_ReleaseTradeDisplayHandles
  * (src/overlays/main_menu/trade_offers.c:150, `D_800E9DB0[1] = 0;`). Before

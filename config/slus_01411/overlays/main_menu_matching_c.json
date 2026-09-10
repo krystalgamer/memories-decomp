@@ -88,7 +88,7 @@
       "address": "0x80181F68",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x274",
-      "source": "src/overlays/main_menu/trade_init.c"
+      "source": "src/overlays/main_menu/trade_update.c"
     },
     {
       "address": "0x801821DC",
