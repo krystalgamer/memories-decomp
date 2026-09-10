@@ -15,7 +15,6 @@
 #include "name_entry_state.h"
 
 extern u8 D_8016D403;
-extern u8 *D_8016D404;
 extern u8 D_8016D4D0;
 extern u8 gSaveData_aPlayerNameSjis[];
 extern void func_800403F0(void);
@@ -142,7 +141,7 @@ void NameEntry_Init(void)
     func_80042918(obj);
     func_800428EC(obj, 10);
     *(void **)(obj + 0x4C) = NameEntry_DrawSelectionFrame;
-    D_8016D404 = obj;
+    D_8016D404 = (SelectionFrame *)obj;
     obj = func_800400AC(func_8004002C(), 1);
     func_80040510(obj, 107, 199, 32, 32, 144, 128, 23, 256, 240);
     *(s16 *)(obj + 0x4A) = 13;

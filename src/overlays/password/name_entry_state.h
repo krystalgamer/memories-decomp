@@ -39,15 +39,8 @@
  * never used its pointee type either. A declarer that only stores, or only
  * takes an address, abstains rather than votes.
  *
- * NOT HERE, ON PURPOSE
- *
- * D_8016D404 is the one real disagreement of the five. name_entry_setup.c
- * assigns it, but name_entry_runtime.c and
- * name_entry_spawn_glyph_sprite.c both dereference it through structs of
- * their own -- `W` and `Fixed` -- and two dereferencing readers with
- * different types is the canonical-versus-local problem the password digit
- * cursor had, not a spelling to pick. It wants the same union treatment in
- * its own change.
+ * D_8016D404, the fifth, is declared below the list, with the record
+ * name_entry_runtime.c used to keep for it.
  */
 extern u8 D_8016D400;
 extern u8 D_8016D402;
@@ -60,5 +53,41 @@ extern s8 D_8016D401;
 extern s8 D_8016D42C;
 extern u16 D_8016D4D2;
 extern u8 *D_8016D418;
+
+/* The record name_entry_runtime.c used to keep privately as SelectionFrame,
+ * moved here with the description it carried: the selection frame the
+ * keyboard moves, which NameEntry_Init positions and whose drawing callback
+ * name_entry_frame.h describes; the fields extend that drawing prefix with
+ * the ones the keyboard's tween needs, and +0x30/+0x32 and +0x3C agree with
+ * NameEntrySelectionFrameView where the two views overlap.
+ *
+ * NameEntry_Init stores +0x30, +0x32, +0x3C, +0x3E and +0x4C through the u8
+ * pointer func_800400AC returned (name_entry_setup.c:134, :136, :138-140,
+ * :143) and then stores that pointer here with a cast (:144).
+ * NameEntry_UpdateKeyboard reads and writes x, y, width, widthBonus and
+ * timer, and writes stepX and stepY, through a copy of it
+ * (name_entry_runtime.c:105, :107-108, :110, :113-114, :117-119, :173, :176,
+ * :186-188).
+ * NameEntry_SpawnGlyphSprite reads x and y (name_entry_glyph_effects.c:294).
+ * Every offset the other two units reach is a member here or falls inside
+ * pad_3E, so this record is the superset view: name_entry_setup.c keeps its
+ * u8 pointer and casts at the store, and name_entry_glyph_effects.c's
+ * private view (pad0[48]; s16 x; s16 y) is gone. */
+typedef struct {
+    u8 pad_00[0x30];
+    s16 x;           /* 0x30 */
+    s16 y;           /* 0x32 */
+    u8 pad_34[0x2];
+    s16 stepX;       /* 0x36, signed 8.8 per update */
+    s16 stepY;       /* 0x38 */
+    u8 pad_3A[0x2];
+    u16 width;       /* 0x3C */
+    u8 pad_3E[0x20];
+    u8 widthBonus;   /* 0x5E, 20 for the wide finish control, else 0 */
+    u8 pad_5F;
+    s16 timer;       /* 0x60, eight updates of the move tween */
+} SelectionFrame;
+
+extern SelectionFrame *D_8016D404;
 
 #endif

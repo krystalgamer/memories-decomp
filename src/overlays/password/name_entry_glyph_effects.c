@@ -35,14 +35,6 @@ typedef struct {
     u8 sequence;                  /* 0x6A */
 } GlyphSprite;
 
-/* The origin the cursor sprite is placed at when there is no glyph node. */
-typedef struct {
-    u8 pad0[48];
-    s16 x;
-    s16 y;
-} Fixed;
-
-extern Fixed *D_8016D404;
 extern s32 func_800358FC(s32);
 extern void func_80040510(void *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
