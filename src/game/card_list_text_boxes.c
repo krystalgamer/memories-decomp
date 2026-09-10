@@ -36,7 +36,7 @@ void func_80031CD4(CardList *list, s32 slot)
     if (slot != 0) {
         box->flags_34 |= 0x40;
     }
-    func_80039A14(box);
+    func_80039A14((u8 *)box);
 }
 
 void func_80031E04(CardList *list, s32 count)

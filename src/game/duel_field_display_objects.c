@@ -157,7 +157,7 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
         0x120, 0x40
     );
     box->field_59 = *(u8 *)&source->field_00->field_16 + 1;
-    func_80039A14(box);
+    func_80039A14((u8 *)box);
 }
 
 void func_8002348C(DuelFieldDisplaySource *source)
