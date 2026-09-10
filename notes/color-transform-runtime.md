@@ -3,10 +3,10 @@
 ## Scope
 
 Five matching helpers at `0x8005A98C-0x8005B260` form one fixed-point colour
-conversion and tint family. The first three build as one translation unit,
-`src/game/color_transform.c`; `func_8005B054` and `func_8005B0B4` stay
-separate because `func_8005B054` sits between them on a different compiler
-profile.
+conversion and tint translation unit in `src/game/color_transform.c`.
+`func_8005B054` produces the same object under its historical
+`gcc_2_8_1_g0` profile and the unit's `gcc_2_8_1_g8` profile, so the recorded
+profile difference is not a real boundary.
 
 | Function | Input | Output | Established role |
 |---|---|---|---|
@@ -16,7 +16,7 @@ profile.
 | `func_8005B054` | fixed-point HSL | one BGR555 colour | direct HSL-to-BGR555 packing |
 | `func_8005B0B4` | three channels, flags, scale, maximum | three channels | the same transform on an unpacked RGB triple |
 
-The local sources call the intermediate type `HsvT`, but the formulas are
+The local source calls the intermediate type `HsvT`, but the formulas are
 HSL, not HSV. This note uses the mathematical field roles while leaving the
 code-generation-sensitive local declarations unchanged.
 

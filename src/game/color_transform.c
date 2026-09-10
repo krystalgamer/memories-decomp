@@ -175,3 +175,74 @@ s32 func_8005AE68(u16 color, s32 flags, u16 scale)
            ((packed.b & COLOR_BGR555_CHANNEL_MASK) << COLOR_BGR555_BLUE_SHIFT) |
            (color & COLOR_BGR555_STP_MASK);
 }
+
+/* These names bind to the definitions above while preserving the caller-side
+ * contracts that produce the retail allocation in the final two functions. */
+extern void func_8005A98C_void(
+    HsvT *out, u8 r, u8 g, u8 b, u8 lim
+) asm("func_8005A98C");
+extern void func_8005ABA0_wide(
+    Color *out, s32 h, u32 s, u32 v, s32 lim
+) asm("func_8005ABA0");
+
+s32 func_8005B054(s32 value, u32 a, u32 b)
+{
+    Color color;
+
+    func_8005ABA0_wide(
+        &color, value, a & 0xFFFF, b & 0xFFFF, COLOR_BGR555_CHANNEL_MASK
+    );
+    return (color.r & COLOR_BGR555_CHANNEL_MASK) |
+           ((color.g & COLOR_BGR555_CHANNEL_MASK)
+            << COLOR_BGR555_GREEN_SHIFT) |
+           ((color.b & COLOR_BGR555_CHANNEL_MASK)
+            << COLOR_BGR555_BLUE_SHIFT);
+}
+
+Color *func_8005B0B4(
+    Color *out, u8 r, u8 g, u8 b, s32 flags, u16 scale, u8 lim
+)
+{
+    HsvT hsv;
+    Color c;
+    s32 idx;
+    s32 inv;
+    s32 flat;
+    u8 k;
+
+    inv = flags & COLOR_TINT_INVERT;
+    idx = flags & COLOR_TINT_HUE_MASK;
+    flat = ((u8)idx == COLOR_TINT_GRAYSCALE);
+
+    func_8005A98C_void(&hsv, r, g, b, lim);
+
+    if ((u8)idx < COLOR_TINT_KEEP_HUE) {
+        k = idx;
+        if (inv) {
+            k = (k + COLOR_HUE_SECTOR_COUNT / 2) %
+                COLOR_HUE_SECTOR_COUNT;
+        }
+        hsv.h = k << COLOR_FIXED_SHIFT;
+    }
+
+    if (flat) {
+        hsv.v = 0;
+    } else {
+        hsv.v = hsv.v * scale / COLOR_FIXED_ONE;
+    }
+
+    func_8005ABA0_wide(&c, hsv.h, hsv.s, hsv.v, lim);
+
+    if (inv) {
+        c.r = lim - c.r;
+        c.g = lim - c.g;
+        c.b = lim - c.b;
+    }
+
+    c.r = c.r ? c.r : 1;
+    c.g = c.g ? c.g : 1;
+    c.b = c.b ? c.b : 1;
+
+    *out = c;
+    return out;
+}
