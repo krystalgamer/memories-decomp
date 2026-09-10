@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object.h"
 #include "scene_script.h"
 #include "file_transfer.h"
 #include "graphics_frame.h"
@@ -8,7 +9,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
-extern void *D_8009B2A0;
+extern DisplayObject *D_8009B2A0;
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
