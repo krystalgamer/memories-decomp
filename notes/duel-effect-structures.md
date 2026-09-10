@@ -28,7 +28,7 @@ Verified channel fields used by matching C include:
 | `0x34` | `flags_34` | `0x10`, `0x2000`, and `0x8000` tests; reset by `func_80035A64` |
 | `0x36`-`0x3A` | `field_36`, `field_38`, `field_3A` | halfword initialization in `DuelEffect_InitEntry` |
 | `0x3C`-`0x42` | `field_3C`-`field_42` | four halfword writes in `TextBox_SetRect` |
-| `0x51` | `state_51` | low five bits dispatch `D_80090E64` in `TextBox_BuildStep`; every callback in `duel_effect_state_callbacks.c` and `dialog_choice_state.c` latches `0x80` and writes a new state |
+| `0x51` | `state_51` | low five bits dispatch `D_80090E64` in `TextBox_BuildStep`; the contiguous callbacks in `duel_effect_state_callbacks.c` latch `0x80` and write a new state |
 | `0x52` | `delay_52` | reloaded from `field_53` in `TextBox_BuildStep` and from `0xFF` in `func_80037B40`, decremented once per tick, gating the rest of the tick while nonzero |
 | `0x53`-`0x5B` | byte fields and `index_57` | initialization sequence in `DuelEffect_InitEntry` |
 | `0x56` | `field_56` | cleared by `TextBox_BuildStep`; keeps the offset for a name, as the other files reaching `0x56` do so on other records |

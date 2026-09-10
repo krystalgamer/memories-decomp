@@ -4,7 +4,7 @@
 #include "func_80037C74.h"
 #include "input.h"
 #include "duel_effect.h"
-#include "duel_effect_interaction_states.h"
+#include "duel_effect_state_callbacks.h"
 #include "duel_effect_entry_control.h"
 #include "duel_effect_entry_occupancy.h"
 #include "text_constants.h"

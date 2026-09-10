@@ -15,7 +15,7 @@
  * Two translation units deliberately keep their own spelling and must not
  * be switched to this declaration:
  *
- *   duel_effect_interaction_states.c declares it as an array plus a scalar
+ *   duel_effect_state_callbacks.c declares it as an array plus a scalar
  *   asm() alias, because, as its own comment records, separate linker names
  *   are what stop GCC retaining the address across a call.
  *
@@ -69,7 +69,7 @@ extern u8 D_801A8000[];
  * and unsigned for the final copy (retail lhu). Retail reaches them
  * gp-relative in all four of those units.
  *
- * duel_effect_interaction_states.c keeps its own spelling for the same
+ * duel_effect_state_callbacks.c keeps its own spelling for the same
  * reason as D_8009B27C above -- an array plus a scalar asm() alias, with
  * its comment on why -- and must not be switched to these. */
 /* A sixteen-bit operand the script engine assembles from the stream a byte at
@@ -82,7 +82,7 @@ extern u8 D_801A8000[];
  * cast stays at the use, so the declaration here is the plain u16 all three
  * consumers already wrote.
  *
- * duel_effect_interaction_states.c is the fourth namer and keeps its own
+ * duel_effect_state_callbacks.c is the fourth namer and keeps its own
  * spelling, `s16` with a .data section attribute. That is the same
  * arrangement this header already records for D_8009B27C above: it does not
  * include this header, so the two never meet. */
@@ -99,7 +99,7 @@ extern u16 D_8009B2AA;
  * D_8009B2A8/D_8009B2AA), and Script_OpShowImage tests 0x4000. Retail is
  * sh/lhu gp-relative at all three, so the plain u16 they already wrote.
  *
- * duel_effect_interaction_states.c is the fourth namer and stores
+ * duel_effect_state_callbacks.c is the fourth namer and stores
  * func_80036D3C's result into it through $at; it keeps its own `u16 []`
  * spelling for the same reason this header records for D_8009B27C and
  * D_8009B29C above: it does not include this header. */
