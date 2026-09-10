@@ -6002,33 +6002,33 @@
     },
     {
       "address": "0x8006BCA4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x47C",
-      "source": "src/game/func_8006BCA4.c"
+      "source": "src/game/triangle_subdivision.c"
     },
     {
       "address": "0x8006C120",
       "profile": "gcc_2_8_1_g0",
       "size": "0x1DC",
-      "source": "src/game/byte_triplet_subdivision.c"
+      "source": "src/game/triangle_subdivision.c"
     },
     {
       "address": "0x8006C2FC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x10",
-      "source": "src/game/byte_triplet_subdivision.c"
+      "source": "src/game/triangle_subdivision.c"
     },
     {
       "address": "0x8006C30C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x24",
-      "source": "src/game/byte_triplet_subdivision.c"
+      "source": "src/game/triangle_subdivision.c"
     },
     {
       "address": "0x8006C330",
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
-      "source": "src/game/byte_triplet_subdivision.c"
+      "source": "src/game/triangle_subdivision.c"
     },
     {
       "address": "0x8007058C",
