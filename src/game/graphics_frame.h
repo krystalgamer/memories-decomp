@@ -232,7 +232,7 @@ extern DISPENV gGraphics_DispEnv;
 
 /* Two scratch rectangles for the VRAM transfers. Every user fills x, y, w, h
  * and hands the address to LoadImage2, StoreImage2 or MoveImage in the same
- * block, so there is no producer to own them; func_8002FD10 and
+ * block, so there is no producer to own them; Campaign_LoadScenePackage and
  * FreeDuel_Init use the second one, at +8, for the CLUT / second strip.
  *
  * [2] is the extent that is WRITTEN, not the object's size: the next symbol,

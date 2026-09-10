@@ -142,6 +142,8 @@ NEW GAME / LOAD / 2P DUEL / TRADE / OPTION. The menu's own logic runs from a mod
 | symbol | address | description |
 |---|---|---|
 | `Main_RunCampaign` | 0x8002CE64 | Mode 0xC2: the story/cutscene tick (IDB name, live-confirmed). |
+| `Campaign_LoadScenePackageStage` | 0x8002FB78 | Routes the image, palette, event-script and dialog-portrait phases of the fixed 49-sector campaign package. |
+| `Campaign_LoadScenePackage` | 0x8002FD10 | Loads that package, uploads its 25 dialog portraits, and seeds the event-script state. |
 | `Script_RunTick` | 0x8002FA54 | The bytecode driver: selects a script, latches the stream, runs one opcode per call. |
 | `Script_OpSound` | 0x8002EC74 | Sound opcode: plays an immediate effect or updates and replays the script's current sound command. |
 | `gScript_apfnCommand / gScript_wCommand` | 0x80090C50 / 0x8009B27C | 24 opcode handlers and the opcode being serviced (bit 0x8000 = busy). |

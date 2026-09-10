@@ -1905,8 +1905,9 @@ continues in Free Duel with every campaign duelist available.
 >
 > * an **event script** — 4 KB loaded to `0x801A8000` as the third chunk of
 >   the 49-sector blob at `WA_MRG.MRG` sector `0x1E57` [matching
->   [`func_8002FD10`](../../src/game/func_8002FD10.c) requests the fixed package;
->   callback `func_8002FB78` routes the script phase]. Its argument initializes
+>   [`Campaign_LoadScenePackage`](../../src/game/campaign_load_scene_package.c)
+>   requests the fixed package; callback `Campaign_LoadScenePackageStage`
+>   routes the script phase]. Its argument initializes
 >   `D_8009B2A4`, not a per-scene archive-page address. Matching
 >   [`Main_RunCampaign`](../../src/game/main_run_campaign.c) supplies
 >   `gCampaignSceneIndex`; on normal entry, the event driver uses a nonzero

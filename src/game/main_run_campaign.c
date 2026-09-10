@@ -5,7 +5,7 @@
 #include "fade.h"
 #include "script_run_tick.h"
 #include "sound.h"
-#include "func_8002FD10.h"
+#include "campaign_scene_package.h"
 
 extern u8 D_8009B26C;
 extern u8 gCampaignSceneIndex __attribute__((section(".data")));
@@ -15,7 +15,7 @@ void Main_RunCampaign(void) {
 
     if ((flags & 0x40) == 0) {
         D_8009B26C = flags | 0x40;
-        func_8002FD10(gCampaignSceneIndex);
+        Campaign_LoadScenePackage(gCampaignSceneIndex);
         D_8009B254 = 0;
         return;
     }

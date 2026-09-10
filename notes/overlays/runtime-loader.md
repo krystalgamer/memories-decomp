@@ -553,10 +553,12 @@ patch code verifies on its `bnez` at `0x801683D4`. Four of the five function
 addresses Unchiga read from a live disassembly of that screen land on
 `addiu $sp` prologues in this image.
 
-**WA 7767 (49 sectors) is the campaign's scene loader** (`func_8002FD10`):
-its `0x1000` phase to `0x801A8000` is the campaign event script — a
-`u16 offset[199]` table and 199 byte-coded events run through the 23-entry
-table at `0x80090C50`.
+**WA 7767 (49 sectors) is the campaign's scene loader**
+(`Campaign_LoadScenePackage`): its `0x1000` phase to `0x801A8000` is the
+campaign event script — a `u16 offset[199]` table and 199 byte-coded events
+run through the 23-entry table at `0x80090C50`. Its final phase contains the
+25-record dialog portrait bank documented in
+[`dialog-portrait-bank.md`](../dialog-portrait-bank.md).
 
 ### Library package phases
 

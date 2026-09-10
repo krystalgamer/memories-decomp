@@ -1966,13 +1966,13 @@
       "address": "0x8002FB78",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x198",
-      "source": "src/game/func_8002FB78.c"
+      "source": "src/game/campaign_load_scene_package_stage.c"
     },
     {
       "address": "0x8002FD10",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C0",
-      "source": "src/game/func_8002FD10.c"
+      "source": "src/game/campaign_load_scene_package.c"
     },
     {
       "address": "0x8002FED0",

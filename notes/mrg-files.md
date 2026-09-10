@@ -182,22 +182,24 @@ package and compliance-module contract.
 
 ### Campaign scene package
 
-Matching [`func_8002FD10`](../src/game/func_8002FD10.c) requests the same
-49 WA sectors beginning at `0x1E57` for every argument, which is archive
-range `0xF2B800-0xF44000`. Matching callback
-`func_8002FB78` accounts for all four transfer phases:
+Matching
+[`Campaign_LoadScenePackage`](../src/game/campaign_load_scene_package.c)
+requests the same 49 WA sectors beginning at `0x1E57` for every argument,
+which is archive range `0xF2B800-0xF44000`. Matching callback
+`Campaign_LoadScenePackageStage` accounts for all four transfer phases:
 
 | WA range | Size | Callback behavior |
 |---:|---:|---|
 | `0xF2B800-0xF33800` | `0x8000` / 16 sectors | Schedules the first campaign-scene image payload through the GPU/VRAM transfer path. |
 | `0xF33800-0xF34000` | `0x800` / 1 sector | Stages palette data. The callback uploads its first `0x200` bytes as a `256 x 1` rectangle to VRAM `(256, 240)`; the remaining `0x600` bytes are zero padding. |
 | `0xF34000-0xF35000` | `0x1000` / 2 sectors | Transfers to `0x801A8000`. This is the campaign event script: a `u16` offset table for 199 byte-coded events followed by their streams. |
-| `0xF35000-0xF44000` | `0xF000` / 30 sectors | Transfers to the primary arena at `0x80100000`. The first `0xED80` bytes are 25 dialog-portrait records of `0x980` bytes each; the final nonzero `0x280` bytes remain unnamed. |
+| `0xF35000-0xF44000` | `0xF000` / 30 sectors | Transfers to the primary arena at `0x80100000`. The first `0xED80` bytes are 25 dialog-portrait records of `0x980` bytes each; the final `0x280` bytes are an unused prefix of another portrait record introduced by sector rounding. |
 
 Each portrait record contains a `48 x 48` 8-bit image (`0x900` bytes)
 followed by a 64-colour CLUT (`0x80` bytes). Text control `F6` selects these
 portraits through values `0x41`-`0x59`. The four phase sizes total the
 requested `0x18800` bytes exactly, and none supplies an executable module.
+See the [complete upload and F6 selection contract](dialog-portrait-bank.md).
 
 The argument initializes the event-script state at `D_8009B2A4`, not the
 archive location. Matching [`Main_RunCampaign`](../src/game/main_run_campaign.c)
