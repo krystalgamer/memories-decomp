@@ -461,7 +461,7 @@ before the source was read:
   scans as an unhoused symbol needing a home, while the real name is already
   declared in `graphics_frame.h` and the divergent spelling is deliberate.
 
-- **A file can opt out of a guarded header declaration.** `save_data_checksum.c`
+- **A file can opt out of a guarded header declaration.** `save_data_payload.c`
   defines `SAVE_DATA_DECLARE_MASK_STATE_LOCALLY` before including
   `save_data.h`, so the header's copies are suppressed and its local ones are
   the only declarations in scope. A scan that does not evaluate the

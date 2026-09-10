@@ -143,8 +143,7 @@ source grouping.
 | `src/game/options_update.c` | `gcc_2_8_1_g8` | Contiguous options input handler (`0x8003C7A0`) and per-frame state dispatcher (`0x8003C8CC`) |
 | `src/game/game_over.c` | `gcc_2_8_1_g8_split` | Contiguous Game Over setup (`0x8003C950`) and per-frame update (`0x8003CA5C`) |
 | `src/game/input_pads.c` | `gcc_2_8_1_g8_split` | The controller runtime, six contiguous functions: `Input_ResetPads` (`0x8003CB7C`), `Input_InitPads` (`0x8003CBE8`), which ends by calling it, the raw controller-packet decoder (`0x8003CC38`) and held/pressed/repeat publisher (`0x8003CCD8`), and the pad-1/pad-2 swap pair `Input_BackupPad1AndUsePad2` (`0x8003CDF8`) and `Input_RestorePad1FromBackup` (`0x8003CE48`). `Input_InitPads` and the swap pair were recorded at `gcc_2_8_1_g8`, but each compiles to an identical object at `gcc_2_8_1_g8_split`. Bounded below by `game_over.c`, whose object does change without split addresses, and above by the `gcc_2_8_1_g8` save-data checksum unit |
-| `src/game/save_data_checksum.c` | `gcc_2_8_1_g8` | `SaveData_NextMaskWord` (`0x8003CE74`), the contiguous CRC-16/XMODEM calculator (`0x8003CEB8`), and primary/secondary checksum-mask writer (`0x8003CF14`) |
-| `src/game/save_data_validation.c` | `gcc_2_8_1_g8` | `SaveData_HasSameDuelistCode` (`0x8003D288`) and `SaveData_MatchesDuelistAndCurrentSequence` (`0x8003D2B8`) |
+| `src/game/save_data_payload.c` | `gcc_2_8_1_g8` | The save payload, nine contiguous functions: the mask generator `SaveData_NextMaskWord` (`0x8003CE74`) and CRC-16/XMODEM calculator (`0x8003CEB8`), the primary/secondary and tertiary seal writers (`0x8003CF14`, `0x8003CFC8`), `SaveData_BuildPayload` (`0x8003D03C`), which calls both, its inverse `SaveData_ApplyRuntimeState` (`0x8003D0F4`), `SaveData_ValidateIntegrity` (`0x8003D174`), which replays the three seals, and the duelist-code and save-sequence comparisons (`0x8003D288`, `0x8003D2B8`). Three members were recorded at `gcc_2_8_1_g8_split` or `gcc_2_8_1_g8_no_split`, but each compiles to an identical object at `gcc_2_8_1_g8`. Bounded below by `input_pads.c`, the controller runtime, and above by `func_8003D300`, a duel-effect state reset whose object does change at `gcc_2_8_1_g8` |
 | `src/game/dialog_transition.c` | `gcc_2_8_1_g8` | Three contiguous dialog/card-reveal transition handlers from `0x8003D518` through `0x8003D74C`, sharing display objects and `D_8009B3C1` state bits |
 | `src/game/mem_card_dialog_runtime.c` | `gcc_2_8_1_g8_split` | Four contiguous memory-card save/dialog functions: the save operation state machine (`0x8003EED0`), modal object motion (`0x8003F2B0`), channel setup (`0x8003F388`), and the request/dialog dispatcher (`0x8003F454`) that invokes the save operation through `D_80090F9C`. They share the dialog flags, I/O result words, request outcome, and active channel. The unit owns the save switch table at rodata offset `0xCD8` and is bounded by `gcc_2_8_1_g8` functions on both sides |
 | `src/game/io_event_helpers.c` | `gcc_2_8_1_g8` | Four-handle event reset/poll helpers (`0x80043D48`, `0x80043DA0`) followed by the contiguous LIBCARD startup wrapper (`0x80043E30`) |
@@ -296,9 +295,10 @@ reach, often compiles to the same object under both.
 The check is cheap and needs no link: compile the source under both profiles
 with `build_baseline.compile_c` and compare `objdump -s -r -t -h` of the two
 objects. If they are identical, the function can take its neighbour's profile
-and the pair is judged on meaning like any other. `input_pads.c` was formed
-this way. The check does not replace the full build, which still has to
-match, because the merged unit is compiled as one.
+and the pair is judged on meaning like any other. `triangle_subdivision.c`,
+`input_pads.c` and `save_data_payload.c` were formed this way. The check does
+not replace the full build, which still has to match, because the merged unit
+is compiled as one.
 
 ### A merged unit inherits both halves' `.rodata`
 
