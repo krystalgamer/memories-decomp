@@ -6736,7 +6736,7 @@ declaration is load-bearing besides: that file compiles at `-G8` but assembles
 at `-G4`, and the header records that relaxing its `[8]` to `[]` costs four
 bytes of text.
 
-`save_data_checksum.c` / `gSaveData_dwMaskStateLow` and
+`save_data_payload.c` (then `save_data_checksum.c`) / `gSaveData_dwMaskStateLow` and
 `gSaveData_dwMaskStateHigh` are genuinely declared twice, on purpose.
 `save_data.h` wraps its pair in `#ifndef SAVE_DATA_DECLARE_MASK_STATE_LOCALLY`
 and the consumer `#define`s that macro immediately before including the header,

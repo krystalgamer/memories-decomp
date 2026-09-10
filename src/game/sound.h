@@ -731,10 +731,10 @@ extern u32 D_8009B404;
 
 /* The byte after D_8009B404, 0x8009B408. Retail loads it lb where the C
  * tests its sign: SaveData_ApplyRuntimeState tests it `< 0` before storing
- * the save state's byte into it (save_data_apply_runtime_state.c:22, :25;
+ * the save state's byte into it (save_data_payload.c:201, :204;
  * func_8003D0F4.s:19-20) and SaveData_BuildPayload copies it into an s32
  * it tests `< 0`, stores 0 when it is, and copies it into the payload
- * byte (save_data_build_payload.c:19, :24-25, :28; func_8003D03C.s:15-16,
+ * byte (save_data_payload.c:151, :156-157, :160; func_8003D03C.s:15-16,
  * then :23-24 lbu for the payload copy). Options_Init reads it into an s8
  * it copies into gOptions_bOutputType and tests `< 0` (options_init.c:41,
  * :43-44; func_8003C628.s:34-35 lbu). Sound_InitFrontend stores -1
