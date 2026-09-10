@@ -22,8 +22,6 @@ extern void func_80013C28(u8, u8 *, u32 *);
 extern s32 CdPosToInt_8007E710(s32);
 extern u16 D_8009B0EC;
 extern void CdIntToPos_8007E600(s32, void *);
-extern volatile u16 D_8009B124;
-extern volatile s32 D_8009B0E8;
 
 void func_800140A0(u8 event)
 {

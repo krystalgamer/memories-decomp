@@ -5,9 +5,6 @@
 #include "../psyq/libds.h"
 #include "../unmatched.h"
 
-extern s32 D_8009B0E8;
-extern u16 D_8009B124;
-
 extern s32 CdPosToInt_8007E710(const CdlLOC *);
 
 void File_InitTransferState(s32 value)
