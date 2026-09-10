@@ -21,12 +21,11 @@
 extern s8 D_8009B1B9;
 extern s8 D_8009B208[8];
 extern u8 D_8015C424[];
-extern u8 D_801A7B64[];
+extern DuelCardRecord D_801A7B64[];
 
 void func_8001825C(void)
 {
-    u8 *rec;
-    u8 *p;
+    DuelCardRecord *rec;
     u8 *obj;
     u8 *q;
     register u8 *b asm("$3");
@@ -40,31 +39,29 @@ void func_8001825C(void)
     if ((D_8009B23A & 0x8000) == 0) {
         D_8009B23A |= 0x8000;
         rec = D_801A7B64;
-        for (i = 5; i < DUEL_CARD_SIDE_RECORD_COUNT;
-             i++, rec += DUEL_CARD_RECORD_SIZE) {
-            p = rec + 0x12;
-            flags = *(u16 *)(p + 4);
+        for (i = 5; i < DUEL_CARD_SIDE_RECORD_COUNT; i++, rec++) {
+            flags = rec->flags;
             if (flags & DUEL_CARD_FLAG_OCCUPIED) {
                 keep = flags & 0x7A00;
-                y = *(s16 *)p;
-                func_80024D34(i, *(s8 *)(*(u8 **)(p - 0xE) + 2));
-                *(u16 *)(p + 4) |= keep;
-                *(s16 *)p = y;
-                Duel_ApplyCardObjectFlags(*(DuelCardDisplayObject **)rec);
+                y = rec->stat_modifier;
+                func_80024D34(i, ((s8 *)rec->data)[2]);
+                rec->flags |= keep;
+                rec->stat_modifier = y;
+                Duel_ApplyCardObjectFlags(
+                    (DuelCardDisplayObject *)rec->object);
             }
         }
-        rec = D_801A7B64 + 0x1A4;
-        for (i = 20; i < DUEL_CARD_RECORD_COUNT;
-             i++, rec += DUEL_CARD_RECORD_SIZE) {
-            p = rec + 0x12;
-            flags = *(u16 *)(p + 4);
+        rec = D_801A7B64 + 15;
+        for (i = 20; i < DUEL_CARD_RECORD_COUNT; i++, rec++) {
+            flags = rec->flags;
             if (flags & DUEL_CARD_FLAG_OCCUPIED) {
                 keep = flags & 0x7A00;
-                y = *(s16 *)p;
-                func_80024D34(i, *(s8 *)(*(u8 **)(p - 0xE) + 2));
-                *(u16 *)(p + 4) |= keep;
-                *(s16 *)p = y;
-                Duel_ApplyCardObjectFlags(*(DuelCardDisplayObject **)rec);
+                y = rec->stat_modifier;
+                func_80024D34(i, ((s8 *)rec->data)[2]);
+                rec->flags |= keep;
+                rec->stat_modifier = y;
+                Duel_ApplyCardObjectFlags(
+                    (DuelCardDisplayObject *)rec->object);
             }
         }
         func_8001352C();
@@ -79,10 +76,9 @@ void func_8001825C(void)
         if (D_8009B1C8->field_00 == 0x28) {
             D_8009B23A |= 0x2000;
             for (i = 0; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
-                rec = (u8 *)D_801A7AD8 +
-                      D_800907D8[i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT] *
-                          DUEL_CARD_RECORD_SIZE;
-                if (*(u16 *)(rec + 0x16) & DUEL_CARD_FLAG_OCCUPIED) {
+                rec = &D_801A7AD8[D_800907D8[
+                    i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]];
+                if (rec->flags & DUEL_CARD_FLAG_OCCUPIED) {
                     func_80024954(rec);
                 }
             }
@@ -135,7 +131,6 @@ void func_8001825C(void)
     *(u16 *)(obj + 2) = card->field_30.h.field_32;
     *(u16 *)(obj + 4) = *(u16 *)&card->field_34;
     *(u16 *)(obj + 0x1A) = func_800181EC((CardObject *)card);
-    func_80024954((u8 *)D_801A7AD8 +
-                  card->field_6A * DUEL_CARD_RECORD_SIZE);
+    func_80024954(&D_801A7AD8[card->field_6A]);
     SD_SEPlayFull(0x1F);
 }
