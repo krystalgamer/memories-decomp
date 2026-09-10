@@ -53,9 +53,9 @@ extern u8 gMemCard_szSaveFileName[];
 
 /* The filename buffer every memory card request is issued against.
  *
- * data_transfer_request.c strcpy()s a name into it, and the create, load and
- * save paths then pass it as the (char *) filename to MemCardCreateFile,
- * MemCardGetDirentry, MemCardReadFile and MemCardWriteFile. All four already
+ * mem_card_dialog_runtime.c strcpy()s a name into it, and the load/save
+ * operations then pass it as the (char *) filename to MemCardCreateFile,
+ * MemCardGetDirentry, MemCardReadFile and MemCardWriteFile. Both dialog units
  * include this header, so it belongs here rather than in unmatched.h: that
  * header is for symbols with no identified owner, and this one has an obvious
  * one.
@@ -65,14 +65,10 @@ extern u8 gMemCard_szSaveFileName[];
  * nothing reads or writes through a bound, so no size is asserted here. */
 extern u8 D_800EFE18[];
 
-/* The create-state message value must stay wide so GCC keeps the retail
- * register-to-argument move; the definition and the other callers use the
- * measured byte/halfword contract. */
-#ifdef GMEMCARD_RESULT_USES_WIDE_ARGS
-void MemCardDialog_SetMessage(s32 value, s32 bits);
-#else
+/* The definition and ordinary callers use the measured byte/halfword
+ * contract. The save machine takes a private wide same-symbol view to retain
+ * its state-10 register-to-argument move. */
 void MemCardDialog_SetMessage(u8 value, u16 bits);
-#endif
 
 /* The memory-card dialog's flag word.
  *
@@ -99,12 +95,11 @@ extern long gMemCard_aHwIOEventHandles[];
  *   D_8009B3EF  The request's outcome, set to 1, 2 or 3 by the create, load
  *               and save paths and read back by the dialog runtime.
  *   D_8009B3DC  The block count a save needs; computed by
- *               data_transfer_request.c and passed as MemCardCreateFile's
+ *               mem_card_dialog_runtime.c and passed as MemCardCreateFile's
  *               third argument.
  *   D_8009B3DE  The dialog step index. mem_card_dialog_runtime.c calls
- *               D_80090F9C[D_8009B3DE]() and data_transfer_request.c writes
- *               it; the existing note beside that call records the five
- *               entries.
+ *               D_80090F9C[D_8009B3DE]() and its request API writes it; the
+ *               existing note beside that call records the five entries.
  *   D_8009B3EC  A retry counter: cleared, tested and incremented by the
  *               create and save paths.
  *   D_8009B3F0  Polled against 2, and passed as (long *)&D_8009B3F0 next to

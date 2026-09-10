@@ -10,8 +10,9 @@
  * D_80090F9C (mem_card_dialog_steps.c), selected only by
  * SaveData_RequestTradeWrite: it reads the save from each card slot in turn,
  * checks both against the staged records with SaveData_HasSameDuelistCode
- * and writes them back in alternating 0x80-byte chunks. MemCardDialog_Update is the frame pump that dispatches
- * that table; MemCardDialog_Poll calls it before reading the outcome. */
+ * and writes them back in alternating 0x80-byte chunks. MemCardDialog_Update
+ * is the frame pump that dispatches that table; the request API at the end of
+ * the same translation unit calls it before reading the outcome. */
 void MemCardDialog_UpdateTradeSave(void);
 void MemCardDialog_Update(void);
 

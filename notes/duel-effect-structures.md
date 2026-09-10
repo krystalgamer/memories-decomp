@@ -96,8 +96,8 @@ through `gDuelEffect_apfnStateHandler`.
 That dispatcher byte is separate from `D_8009B3C1`. In the later callback
 state family, `DUEL_EFFECT_STATE_FLAG_INITIALIZED` (`0x80`) is the shared
 one-shot entry latch. The matching callbacks in `dialog_transition.c`,
-`func_8003DA40.c`, `mem_card_dialog_load_steps.c`, and
-`mem_card_dialog_save_steps.c` test and set it before their first-frame object or
+`func_8003DA40.c` and the load/save callbacks in
+`mem_card_dialog_load_save.c` test and set it before their first-frame object or
 companion-state setup, so subsequent frames skip that initialization. This is
 a state-machine flag, not the unrelated `0x80` bit in
 `DuelEffectEntry.flags_11`.
