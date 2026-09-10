@@ -53,6 +53,9 @@ class UnmatchedContractTests(unittest.TestCase):
                 }
             )
 
+    def write_linker_symbols(self, content: str) -> None:
+        self.write("config/slus_01411/c_symbols.ld", content)
+
     def write_matching(self, sources: list[str]) -> None:
         self.write(
             "config/slus_01411/matching_c.json",
@@ -190,6 +193,57 @@ void caller(void) { asm volatile("jal func_test"); }
         self.write("src/game/caller.c", "void caller(void) {}\n")
 
         self.assertEqual(self.errors(), [])
+
+    def test_object_parser_finds_every_supported_declarator(self) -> None:
+        symbols = {
+            "data",
+            "array",
+            "pointer",
+            "qualified",
+            "real_alias",
+            "hook",
+            "callback",
+        }
+        text = r'''
+/* extern s32 fake_comment; */
+extern s32 data, array[];
+extern u8 *pointer;
+extern volatile s16 qualified __attribute__((section(".data")));
+extern u8 *local_alias asm("real_alias");
+extern void (*hook)(void);
+extern void callback(s32);
+const char *text = "data array pointer";
+'''
+
+        self.assertEqual(
+            unmatched_contracts.extern_object_declarations(text, symbols),
+            [
+                ("array", "extern s32 data, array[];"),
+                ("data", "extern s32 data, array[];"),
+                ("pointer", "extern u8 *pointer;"),
+                (
+                    "qualified",
+                    'extern volatile s16 qualified '
+                    '__attribute__((section(".data")));',
+                ),
+                ("real_alias", 'extern u8 *local_alias asm("real_alias");'),
+                ("hook", "extern void (*hook)(void);"),
+            ],
+        )
+
+    def test_linker_symbol_parser_ignores_non_assignments(self) -> None:
+        self.write_linker_symbols(
+            """
+data = 0x80010000;
+alias = other;
+func = 0x80020000; // still an assignment
+"""
+        )
+
+        self.assertEqual(
+            unmatched_contracts.linker_symbols(self.root),
+            {"data", "func"},
+        )
 
 
 if __name__ == "__main__":

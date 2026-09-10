@@ -16,9 +16,14 @@ FUNCTIONS = Path("config/slus_01411/functions.csv")
 MATCHING_C = Path("config/slus_01411/matching_c.json")
 UNMATCHED_HEADER = Path("src/unmatched.h")
 EXCEPTIONS = Path("config/slus_01411/unmatched_contract_exceptions.json")
+LINKER_SYMBOLS = Path("config/slus_01411/c_symbols.ld")
 IDENTIFIER = re.compile(r"\b[A-Za-z_]\w*\b")
 FUNCTION_DECLARATION = re.compile(r"\b(?P<name>[A-Za-z_]\w*)\s*\(")
 DECLARATION_KEYWORDS = {"__attribute__", "asm"}
+LINKER_ASSIGNMENT = re.compile(
+    r"^(?P<name>[A-Za-z_]\w*)\s*=\s*0x[0-9A-Fa-f]+\s*;",
+    re.MULTILINE,
+)
 
 
 class ContractError(RuntimeError):
@@ -44,6 +49,41 @@ def matching_sources(root: Path) -> list[Path]:
     data = json.loads(read_text(root / MATCHING_C))
     entries = data["functions"] if isinstance(data, dict) else data
     return sorted({root / entry["source"] for entry in entries})
+
+
+def linker_symbols(root: Path) -> set[str]:
+    return {
+        match.group("name")
+        for match in LINKER_ASSIGNMENT.finditer(read_text(root / LINKER_SYMBOLS))
+    }
+
+
+def extern_object_declarations(
+    text: str,
+    known_symbols: set[str],
+) -> list[tuple[str, str]]:
+    result: list[tuple[str, str]] = []
+    for statement in candidate_builds.top_level_statements(text):
+        if not statement.startswith("extern "):
+            continue
+        symbols = known_symbols & set(
+            IDENTIFIER.findall(strip_literals_and_directives(statement))
+        )
+        alias = candidate_builds.ASM_ALIAS.search(statement)
+        if alias is not None and alias.group("name") in known_symbols:
+            symbols.add(alias.group("name"))
+        for symbol in sorted(symbols):
+            ordinary_function = re.search(
+                rf"\b{re.escape(symbol)}\s*\(",
+                statement,
+            )
+            function_pointer = re.search(
+                rf"\(\s*\*\s*{re.escape(symbol)}\s*\)",
+                statement,
+            )
+            if ordinary_function is None or function_pointer is not None:
+                result.append((symbol, statement))
+    return result
 
 
 def declaration_name(statement: str) -> str | None:
