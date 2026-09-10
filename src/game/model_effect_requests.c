@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "func_80052D2C.h"
 #include "model_transfer_flags.h"
 #include "model_effect_requests.h"
-extern void func_80052D2C(s32, s32, s32, s32);
 
 void func_80059EBC(s32 value)
 {
