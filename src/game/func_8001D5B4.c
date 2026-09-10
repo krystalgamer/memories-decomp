@@ -1,12 +1,12 @@
 #include "../types.h"
 #include "duel_grid.h"
+#define FUNC_80024088_WIDE_DIRECTION
+#include "duel_cursor_status.h"
 #include "../unmatched.h"
 
 extern s8 D_8009B160;
 extern s8 D_8009B1D6;
 extern s8 D_8009B1D7;
-extern s32 func_80024088(DuelFieldCursor *cursor, s8 dir);
-
 s32 func_8001D5B4(DuelFieldCursor *cursor)
 {
     if (D_8009B162 != 0) { D_8009B160 = -1; return 1; }

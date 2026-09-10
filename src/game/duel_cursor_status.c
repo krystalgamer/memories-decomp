@@ -4,13 +4,13 @@
 #include "func_80023D08.h"
 #include "func_80023FBC.h"
 
-/* Neither caller consumes duel_cursor_status.h, and both reasons are
-   deliberate.
+/* The two callers consume different duel_cursor_status.h contracts, and both
+   reasons are deliberate.
 
-   func_8001D5B4.c declares and calls func_80024088 with two arguments while
-   the definition takes one; the second reaches $a1 and the call site's
-   argument setup is what the image contains, so the true prototype would
-   remove an instruction.
+   func_8001D5B4.c selects FUNC_80024088_WIDE_DIRECTION and calls
+   func_80024088 with two arguments while the definition takes one; the second
+   reaches $a1 and the call site's argument setup is what the image contains,
+   so the one-argument prototype would remove an instruction.
 
    duel_update_card_pick_cursor.c records that both callees are reached
    without a prototype in the original, so their results arrive in $v0
