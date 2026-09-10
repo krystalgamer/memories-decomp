@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "duel_card.h"
-#include "func_80026C0C.h"
 #include "duel_field_equip_search.h"
 
 extern u8 D_800EAE88[];

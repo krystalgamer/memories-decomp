@@ -4,6 +4,10 @@
 #include "../types.h"
 #include "duel_card.h"
 
+/* Returns the first unoccupied slot at or after `start` on the active side,
+ * or -1 when the five-slot row is full. */
+s32 func_80026C0C(s32 start);
+
 /* Collecting occupied field records into a caller-supplied array.
  *
  * Both collectors terminate the array with a null, so the caller's array must
