@@ -5396,9 +5396,9 @@
     },
     {
       "address": "0x80059908",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0",
       "size": "0xF4",
-      "source": "src/game/func_80059908.c"
+      "source": "src/game/file_query_wrappers.c"
     },
     {
       "address": "0x800599FC",
