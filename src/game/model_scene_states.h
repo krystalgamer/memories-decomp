@@ -22,4 +22,18 @@ s32 func_80059CD0(void);
  * spelling was in model_scene_states.c, which only stores it. */
 extern u8 D_8009AF94;
 
+/* The phase-completion sentinel those two predicates test. Each phase start
+ * arms it at -1 -- func_80059C24 and func_80059C9C here, and func_800533D8 in
+ * model_scene_setup.c does the same when it resets the scene -- and
+ * func_80059C88 and func_80059CD0 report the phase finished by testing
+ * `== -2`. Nothing in matched C writes -2; the four functions that advance it
+ * are still assembly (func_8004EB00, func_8004FE2C, func_800507D0 and
+ * func_800534B8).
+ *
+ * Signed, and retail says so directly rather than only through the `== -2`:
+ * func_8004FE2C and func_800534B8 read the byte with `lb`, not `lbu`. That is
+ * the opposite of D_8009AF94 above, whose reads are all lbu. Every access at
+ * all nine sites is gp-relative, so no unit needs a .data arm. */
+extern s8 D_8009AF9A;
+
 #endif
