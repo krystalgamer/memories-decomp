@@ -87,7 +87,7 @@ extern u8 *D_8009B17C;
  * $gp in func_8002C6C8, func_8002C68C and func_8002C598, and through %hi/%lo
  * in func_80024200, func_8002596C, func_80025D30, func_80025BEC and
  * func_80018FEC (still assembly); duel_scene_update.c, func_8002596C.c,
- * func_80025D30.c and duel_field_effect_transition.c define the .data arm
+ * duel_field_effect_transition.c defines the .data arm
  * below for that.
  * func_8002C68C.c keeps its own data extern because it cannot include this
  * header (see the note under func_8002C68C). Its func_8002C604 call now uses

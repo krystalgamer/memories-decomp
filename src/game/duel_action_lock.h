@@ -31,7 +31,7 @@ extern s16 D_8009B1A8;
 extern s16 D_8009B1D2;
 
 /* Two halfwords; the field sweeps in duel_card_effects.c, func_8002596C.c,
- * func_80025D30.c and func_800260D0.c all reach [1], which retail addresses
+ * duel_field_effect_transition.c and func_800260D0.c all reach [1], which retail addresses
  * as %gp_rel(D_8009B20C + 0x2): 23 sites, 7 lh, 5 lhu and 11 sh, three of
  * them in func_800262D4, still assembly. In the four matched TUs the lhu
  * is where the source writes *(u16 *)&D_8009B20C[1] for the +1 or -1.
