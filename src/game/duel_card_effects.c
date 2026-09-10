@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "file_transfer.h"
+#include "duel_trap_resolution.h"
 #include "func_80025028.h"
 #include "duel_card_object_helpers.h"
 #include "func_8002C604.h"
@@ -34,8 +35,6 @@ u8 gDuel_abDirectDamageUnits[DUEL_LIFE_POINT_EFFECT_COUNT] = {
     DUEL_OOKAZI_DAMAGE / DUEL_DIRECT_DAMAGE_SCALE,
     DUEL_TREMENDOUS_FIRE_DAMAGE / DUEL_DIRECT_DAMAGE_SCALE,
 };
-
-s32 func_8001F364(s32);
 
 /* Runs the table-driven LP change phases. Recovery values are scaled by 100,
    added to the selected side's life points, and capped at its maximum; the
@@ -80,7 +79,7 @@ void func_800250C8(void) {
     }
 block_9:
     if (D_8009B220 & 0x20) {
-        if (func_8001F364(flag) == 0) {
+        if (func_8001F364() == 0) {
             D_8009B220 &= 0xFFDF;
             obj = func_8002C68C(9);
             obj->field_00 = 0xA0;
@@ -131,7 +130,7 @@ void func_8002525C(void) {
         D_8009B210 = 0;
     }
     if (D_8009B220 & 0x20) {
-        if (func_8001F364(flags) == 0) {
+        if (func_8001F364() == 0) {
             D_8009B220 &= 0xFFDF;
             obj = func_8002C68C(7);
             obj->field_00 = 0xA0;
