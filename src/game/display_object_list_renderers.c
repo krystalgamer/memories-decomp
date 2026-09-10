@@ -2,13 +2,13 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "graphics_frame.h"
+#include "display_object_projection.h"
 #include "display_object.h"
 #include "display_object_layout.h"
 #include "display_object_list_renderers.h"
 
 extern s32 D_800E9D90[];
 
-s32 func_80041E7C(s32 arg0, s32 arg1, s32 arg2, u8 *arg3);
 void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
 /* Both renderers build their packet in the scratchpad at 0x1F800344, and the
@@ -111,7 +111,7 @@ void func_80040DD8(void) {
                     if (func_80041E7C(e->field_20.word,
                                       g->x0 + (s16)e->field_18,
                                       g->y0 + (s16)e->field_1A,
-                                      h) <= 0) {
+                                      (struct ProjectionOut *)h) <= 0) {
                         goto next;
                     }
                     v = v | 0x4000000;
@@ -228,7 +228,7 @@ void func_80041068(void) {
                     if (func_80041E7C(e->field_20.word,
                                       g->x0 + (s16)e->field_18,
                                       g->y0 + (s16)e->field_1A,
-                                      h) <= 0) {
+                                      (struct ProjectionOut *)h) <= 0) {
                         goto next;
                     }
                     v = v | 0x4000000;
