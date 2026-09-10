@@ -1041,7 +1041,7 @@ MASPSX cannot see what `as` is about to do.
 `func_80025028` (`0x80025028`) is the worked example, and it is otherwise
 finished. 39 of the target's 40 instructions are byte-exact, registers and
 relocations included, from a body that uses only the cohort's own idioms —
-`duel_card_selection.c` supplies `slot + D_8009B1D5 * 20`, the
+`ai_turn_action.c` supplies `slot + D_8009B1D5 * 20`, the
 `D_801A7AD8[D_800907D8[position]]` indexing, and the `0x6A` object field. The
 one missing instruction is this nop, between `lbu $v1, 0x6A($v0)` and
 `sb $v1, %gp_rel(D_8009B1B8)($gp)`. The build rejects it as

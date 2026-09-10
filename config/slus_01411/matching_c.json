@@ -1288,13 +1288,13 @@
       "address": "0x8002778C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x114",
-      "source": "src/game/duel_card_selection.c"
+      "source": "src/game/ai_turn_action.c"
     },
     {
       "address": "0x800278A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x11C",
-      "source": "src/game/duel_card_selection.c"
+      "source": "src/game/ai_turn_action.c"
     },
     {
       "address": "0x80027DF8",
