@@ -2,8 +2,7 @@
 #include "rand_get_interval.h"
 #include "../psyq/rand.h"
 #include "card_constants.h"
-
-extern u8 gDuel_awOpponentDeckPool[];
+#include "duel_shuffle_deck.h"
 
 void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
     u8 buf[CARD_COUNT];
