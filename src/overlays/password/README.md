@@ -203,6 +203,18 @@ here; that arithmetic is preserved, not silently repaired or claimed as a
 runtime reproduction. Allocation and cursor/preview dereferences likewise
 retain their existing unchecked behavior.
 
+## Name-entry finalization translation unit
+
+`name_entry_main.c` keeps `NameEntry_BuildStarterDeck` (`0x8016A930`)
+immediately before its only caller, `NameEntry_Main` (`0x8016AA6C`). After
+name acceptance, the main routine builds the weighted starter deck, hashes the
+completed player-name bytes, and stamps a nonzero save identifier.
+
+Both functions use `gcc_2_8_1_g0_split`. One C subsegment at module offset
+`0x2930` covers the complete `0x208`-byte range through `0x8016AB38`; the
+unmatched module text begins there. The source also retains
+`NameEntry_Main`'s rodata at module `+0x90`.
+
 ## Name-entry lifecycle translation unit
 
 `name_entry_runtime.c` contains the complete matched name-entry pipeline:
