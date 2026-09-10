@@ -132,6 +132,7 @@ local warned = false
 local pending = nil
 local done = false
 local baseline = snapshot()
+local lastObserved = baseline
 
 local function emit(text)
     lines[#lines + 1] = text
@@ -174,13 +175,12 @@ local function finish(reason)
           .. 'tools/trace/result/' .. SCRIPT_NAME .. '.txt ---')
 end
 
-local function beginSample(pressed)
+local function beginSample(pressed, before)
     if sampleCount >= MAX_SAMPLES then
         finish('maximum sample count reached')
         return
     end
 
-    local before = snapshot()
     sampleCount = sampleCount + 1
     pending = {
         number = sampleCount,
@@ -244,6 +244,7 @@ local function completeSample(reason)
         after.fadeTarget
     ))
     pending = nil
+    lastObserved = after
     print(string.format(
         '%s: sample %d settled; perform the next isolated input',
         SCRIPT_NAME,
@@ -296,22 +297,29 @@ local function poll()
         return
     end
 
+    local current = snapshot()
     local pressed = u16(PAD1_PRESSED)
-    if pressed ~= 0 and not inputLatched then
-        inputLatched = true
-        beginSample(pressed)
-        return
-    elseif pressed == 0 then
-        inputLatched = false
-    end
-
-    if mainMode() ~= GAME_OVER_MODE then
-        if sampleCount == 0 then
+    if current.mode ~= GAME_OVER_MODE then
+        if pressed ~= 0 and not inputLatched then
+            inputLatched = true
+            beginSample(pressed, lastObserved)
+            completeSample('input and mode transition observed together')
+            finish('captured input that left Game Over')
+        elseif sampleCount == 0 then
             finish('left Game Over before any input was captured')
         else
             finish('left Game Over after captured inputs')
         end
         return
+    end
+
+    lastObserved = current
+    if pressed ~= 0 and not inputLatched then
+        inputLatched = true
+        beginSample(pressed, current)
+        return
+    elseif pressed == 0 then
+        inputLatched = false
     end
 
     if sampleCount >= TARGET_SAMPLES then
@@ -320,7 +328,9 @@ local function poll()
             finish('captured six inputs followed by quiet time')
             return
         end
-    elseif frames == NO_INPUT_WARNING_FRAMES and not warned then
+    elseif sampleCount == 0
+        and frames == NO_INPUT_WARNING_FRAMES
+        and not warned then
         warned = true
         print(SCRIPT_NAME
             .. ': no input captured yet; wait for the fade, then perform '

@@ -161,6 +161,16 @@ alternateExit:frames(1)
 assert(alternateExit:has('summary: samples=1 mode=0 destination=0'))
 assert(alternateExit:has('mode=12->0 destination=2->0'))
 
+local concurrentExit = capture()
+concurrentExit:input(0x0020)
+concurrentExit:mode(8)
+concurrentExit:frames(1)
+assert(concurrentExit:has('status: captured input that left Game Over'))
+assert(concurrentExit:has(
+    'reason=input and mode transition observed together'
+))
+assert(concurrentExit:has('mode=12->8 destination=2->2'))
+
 local quiet = capture()
 for _, pressed in ipairs({0x1000, 0x4000, 0x0800, 0x0100, 0x0010, 0x0004}) do
     quiet:sample(pressed)
@@ -185,6 +195,12 @@ reset:reset()
 assert(reset:has('status: reset observed; rerun from Game Over'))
 assert(reset:has('summary: samples=1'))
 
+local partial = capture()
+partial:sample(0x1000)
+partial:frames(600)
+assert(not partial:has('no input captured yet; wait for the fade'))
+partial:reset()
+
 local silent = capture()
 silent:frames(600)
 assert(silent:has(
@@ -203,4 +219,4 @@ fading:reset()
 assert(fading:has('status: reset observed; rerun from Game Over'))
 
 print = hostPrint
-print('game_over_input_map: all eight polling cases passed')
+print('game_over_input_map: all ten polling cases passed')
