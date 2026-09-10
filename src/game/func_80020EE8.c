@@ -3,6 +3,7 @@
 #include "display_object_layout.h"
 #include "display_object_api.h"
 #include "duel_card_display_state.h"
+#include "func_80020EE8.h"
 
 void func_80020EE8(DuelCardDisplayObject *object)
 {
