@@ -40,7 +40,7 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
         e->control_value = arg2;
         if (v != SD_SEQUENCE_LOOP_START) {
             if (v != SD_SEQUENCE_LOOP_END) {
-                func_8004ACE4((u8 *)e, id);
+                func_8004ACE4(e, id);
             }
         }
         break;
