@@ -18,7 +18,7 @@ void func_80031000(void)
         D_8009B3ED = 0;
         D_8009B3EA = 0;
     }
-    result = func_8003FD14();
+    result = SaveData_UpdateDuelLoad();
     if (result != 0) {
         if (result == 1) {
             File_RequestMainMenuPackage();

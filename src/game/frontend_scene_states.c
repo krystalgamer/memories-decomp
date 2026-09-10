@@ -14,7 +14,7 @@
 #include "duel_interface_setup.h"
 #include "file_transfer.h"
 #include "func_80024DC8.h"
-#include "func_8003FCD8.h"
+#include "save_data_update_trade_load.h"
 #include "movie_playback_control.h"
 #include "../unmatched.h"
 #include "main_services.h"
@@ -150,7 +150,7 @@ void func_80030EC8(void)
         D_8009B3ED = 0;
         D_8009B3EA = 0;
     }
-    result = func_8003FCD8();
+    result = SaveData_UpdateTradeLoad();
     if (result != 0) {
         if (result == 1) {
             File_RequestMainMenuPackage();

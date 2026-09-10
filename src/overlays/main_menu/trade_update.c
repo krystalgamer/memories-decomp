@@ -217,7 +217,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 }
             }
         }
-        func_8003FE14();
+        SaveData_RequestTradeWrite();
         D_80185CD1 = 1;
         goto out;
     }

@@ -9,8 +9,8 @@
 #include "file_transfer.h"
 #include "../unmatched.h"
 
-/* Memory-card create dialog state machine, the third of the family beside
-   MemCardDialog_UpdateLoad and func_8003EED0.
+/* Memory-card save dialog state machine, the third of the family beside
+   MemCardDialog_UpdateLoad and MemCardDialog_UpdateTradeSave.
 
    It walks the card from "no save present" to "save written": accept the
    card, read the directory, look the file up, compare free blocks against

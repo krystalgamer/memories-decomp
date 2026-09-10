@@ -3,7 +3,7 @@
 #include "data_transfer_request.h"
 #include "input.h"
 #include "duel_effect.h"
-#include "func_8003F8D4.h"
+#include "save_data_update_load_pair.h"
 #include "text_box_lifecycle.h"
 
 #include "mem_card.h"
@@ -30,7 +30,7 @@ extern u8 D_801D2200[];
  * displacement rather than folded into %lo.
  */
 
-s32 func_8003F8D4(void) {
+s32 SaveData_UpdateLoadPair(void) {
     DuelEffectChannel *o;
     s32 v;
     s32 m;

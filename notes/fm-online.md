@@ -76,16 +76,17 @@ independently of the companion:
 
 | Role | Slot 1 | Slot 2 | Exact use |
 |---|---:|---:|---|
-| Working save/deck slot | `0x801D1200` | `0x801D2200` | `func_8003FD14` verifies 40 nonzero `u16` card IDs in each slot. |
+| Working save/deck slot | `0x801D1200` | `0x801D2200` | `SaveData_UpdateDuelLoad` verifies 40 nonzero `u16` card IDs in each slot. |
 | Player-name glyph buffer | `0x801D160C` | `0x801D260C` | The same function converts each source name with `SAVE_DATA_PLAYER_NAME_CHAR_COUNT` (`6`). |
-| Integrity staging block | `0x801D1880` | `0x801D2880` | `func_8003FE14` writes the primary and secondary integrity records for both blocks. |
+| Integrity staging block | `0x801D1880` | `0x801D2880` | `SaveData_RequestTradeWrite` writes the primary and secondary integrity records for both blocks. |
 
 Every second address is the first plus `TWO_PLAYER_SAVE_SLOT_STRIDE`
-(`0x1000`). `func_8003FE14` publishes the second integrity block through
-`D_8009B3E0`, then starts selector `4` with
-`TWO_PLAYER_SAVE_TRANSFER_SIZE` (`0x400`) at the first block. This establishes
-the two-player memory geometry but does not yet assign broader operation names
-to that selector or its containing state machine.
+(`0x1000`). `SaveData_RequestTradeWrite` publishes the second integrity block
+through `D_8009B3E0`, then starts selector `4` with
+`TWO_PLAYER_SAVE_TRANSFER_SIZE` (`0x400`) at the first block. Selector `4` is
+the trade write-back, `MemCardDialog_UpdateTradeSave`; the load side and the
+two-player duel's use of the same slots are in
+`notes/memory-card-runtime.md`.
 
 The companion displays the current seed when the 2P scene is entered. Between
 matches it advances its local copy exactly 255 times with:
@@ -127,7 +128,7 @@ functions:
 | Guardian-star sound/cursor | `0x800370E4`, `0x800370EC`, `0x800371D0`, `0x8003725C` | `Dialog_ReadChoiceInput` (`0x8003700C`), `Dialog_UpdateChoice` (`0x800371A8`) |
 | Guardian-star symbols | `0x80037FF4` | `func_80037DA4` |
 | Guardian-star text | `0x80039730` | `TextBox_BuildStep` |
-| Allow equal duelist codes | `0x8003FAE8`, `0x8003FAF0` | `func_8003F8D4` |
+| Allow equal duelist codes | `0x8003FAE8`, `0x8003FAF0` | `SaveData_UpdateLoadPair` |
 
 Most visibility patches switch calls between their retail instruction and
 `nop` according to whose turn it is. FM-Online also writes `0x00` to the
@@ -227,7 +228,7 @@ functions.
 
 High-value follow-up work is concentrated in the containing functions above:
 
-- Trace `func_8003F8D4` to isolate 2P duelist-code validation.
+- Trace `SaveData_UpdateLoadPair` to isolate 2P duelist-code validation.
 - Recover the card-view byte structure around `0x800EA000`.
 - Split guardian-star selection from its rendering and sound helpers.
 - Verify the 255-call inter-match PRNG adjustment.
