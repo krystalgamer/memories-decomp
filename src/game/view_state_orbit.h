@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_800134E0_H
-#define MEMORIES_DECOMP_FUNC_800134E0_H
+#ifndef MEMORIES_DECOMP_VIEW_STATE_ORBIT_H
+#define MEMORIES_DECOMP_VIEW_STATE_ORBIT_H
 
 #include "../types.h"
 #include "view_state.h"
