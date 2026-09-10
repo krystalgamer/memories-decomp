@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8002E3FC.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"

@@ -2,8 +2,7 @@
 #include "text_encode_decimal_digits.h"
 #include "text_constants.h"
 #include "func_80038148.h"
-
-extern u32 func_80036D70(u8 *);
+#include "func_80036D70.h"
 
 void func_80038148(u8 *p)
 {

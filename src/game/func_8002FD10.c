@@ -9,6 +9,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "func_8002FD10.h"
+#include "func_8002E3FC.h"
 
 extern DisplayObject *D_8009B2A0;
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
@@ -18,8 +19,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
 extern s32 D_80010000 __attribute__((section(".data")));
-
-extern void *func_8002E3FC(void);
 
 /* Loads the fixed scene presentation/event package. The argument initializes
  * D_8009B2A4 for the event driver; it does not select a different disc page.
