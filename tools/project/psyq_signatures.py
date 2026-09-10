@@ -152,11 +152,24 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
     """address -> {name: [providers]}, plus counts for the report."""
     proposals: dict[int, dict[str, list[str]]] = {}
     unique = multiple = absent = unanchored = 0
-    for path in sorted(signatures.glob("*.json")):
+    paths = sorted(signatures.glob("*.json"))
+    if not paths:
+        raise SignatureError(f"{signatures}: no JSON signature files")
+
+    signature_entries = 0
+    for path in paths:
         library = path.name[: -len(".json")]
-        for entry in json.loads(path.read_text(encoding="utf-8")):
+        entries = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(entries, list):
+            raise SignatureError(f"{path}: expected a JSON array")
+        for index, entry in enumerate(entries):
+            if not isinstance(entry, dict):
+                raise SignatureError(
+                    f"{path}: entry {index} is not a JSON object"
+                )
             if "sig" not in entry:
                 continue
+            signature_entries += 1
             pattern, mask = parse_signature(entry["sig"])
             matches = find_matches(payload, pattern, mask)
             if matches is None:
@@ -177,6 +190,8 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
                 provider = f"{library}/{entry['name']}+{offset:#x}"
                 address = load_address + matches[0] + offset
                 proposals.setdefault(address, {}).setdefault(name, []).append(provider)
+    if signature_entries == 0:
+        raise SignatureError(f"{signatures}: no signature entries")
     return {
         "proposals": proposals,
         "unique": unique,

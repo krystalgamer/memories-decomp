@@ -9,7 +9,13 @@ import unittest
 REPOSITORY = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPOSITORY / "tools/project"))
 
-from psyq_signatures import classify, find_matches, parse_signature, scan
+from psyq_signatures import (
+    SignatureError,
+    classify,
+    find_matches,
+    parse_signature,
+    scan,
+)
 
 
 class PsyqSignatureTests(unittest.TestCase):
@@ -41,6 +47,38 @@ class PsyqSignatureTests(unittest.TestCase):
         pattern, mask = parse_signature("AA ?? BB ?? CC")
 
         self.assertIsNone(find_matches(b"\xaa\x00\xbb\x00\xcc", pattern, mask))
+
+    def test_scan_rejects_directory_without_json_files(self) -> None:
+        with self.assertRaisesRegex(
+            SignatureError, "no JSON signature files"
+        ):
+            scan(self.signatures, 0x80010000, b"")
+
+    def test_scan_rejects_non_array_catalogue(self) -> None:
+        (self.signatures / "LIBTEST.LIB.json").write_text(
+            "{}", encoding="utf-8"
+        )
+
+        with self.assertRaisesRegex(SignatureError, "expected a JSON array"):
+            scan(self.signatures, 0x80010000, b"")
+
+    def test_scan_rejects_non_object_catalogue_entry(self) -> None:
+        (self.signatures / "LIBTEST.LIB.json").write_text(
+            "[42]", encoding="utf-8"
+        )
+
+        with self.assertRaisesRegex(
+            SignatureError, "entry 0 is not a JSON object"
+        ):
+            scan(self.signatures, 0x80010000, b"")
+
+    def test_scan_rejects_catalogue_without_signatures(self) -> None:
+        (self.signatures / "LIBTEST.LIB.json").write_text(
+            '[{"name": "NO_SIGNATURE.OBJ"}]', encoding="utf-8"
+        )
+
+        with self.assertRaisesRegex(SignatureError, "no signature entries"):
+            scan(self.signatures, 0x80010000, b"")
 
     def test_scan_rejects_duplicates_and_placeholder_labels(self) -> None:
         entries = [
