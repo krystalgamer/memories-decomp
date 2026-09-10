@@ -14,6 +14,26 @@
  * DuelEffect_MarkObjectIfActive later ORs bit 1 into.
  */
 typedef struct {
+    /* Four DisplayPositionGroup children arrays, packed. Each row is
+       the three DisplayPositionChild pointers that type begins with,
+       and display_effect_update_callbacks.c hands rows 0 to 3 to
+       func_8003A920 as (DisplayPositionGroup *)(p + 0), (p + 0xC),
+       (p + 0x18) and (p + 0x24). Four rows of three pointers is 0x30,
+       exactly this member's extent.
+
+       The apparent contradiction is worth writing down, because it is
+       what makes the reading safe rather than reckless:
+       DisplayPositionGroup is 0x38 bytes, so a view based at 0x24
+       would run to 0x5C and overrun this 0x4C record. It does not,
+       because func_8003A920 touches only children[0..2] -- the first
+       twelve bytes -- and never the x/y pair at the type's tail. Only
+       func_8003A95C reads that tail, and nothing passes it a row.
+
+       Left as s32 grid[4][3] rather than retyped: making it an array
+       of a three-pointer struct would be a better description, but
+       every existing user spells it as this shape and the change
+       belongs with the conversion of
+       display_effect_update_callbacks.c, not ahead of it. */
     s32 grid[4][3];
     s8 field_30;
     /* DisplayEffectState names this same byte field_31 on this same
