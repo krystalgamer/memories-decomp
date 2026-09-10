@@ -20,6 +20,7 @@
 #include "display_object_helpers.h"
 #include "display_object_position.h"
 #include "menu_record.h"
+#include "display_effect_update_callbacks.h"
 
 extern u16 D_8009B0D8_halfword asm("D_8009B0D8");
 

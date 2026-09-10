@@ -8,6 +8,7 @@
 #include "func_8003A440.h"
 #include "func_8003A1EC.h"
 #include "menu_record.h"
+#include "func_8003AAE4.h"
 
 void func_8003AAE4(MenuRecord *p) {
     u8 *q;
