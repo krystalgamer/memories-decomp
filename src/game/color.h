@@ -37,19 +37,24 @@ typedef struct {
     u16 v;
 } HsvT;
 
-/* func_8005A98C is deliberately absent.
- *
- * It returns its `out` argument, but no caller uses the result and
- * func_8005B0B4 requires a void-returning declaration. That is not cosmetic:
- * giving func_8005B0B4 the real return type leaves the call semantically
- * identical yet shifts its tail's register allocation because the discarded
- * return value keeps v0 live across the call.
+/* func_8005A98C returns its `out` argument, but func_8005B0B4 requires a
+ * void-returning declaration. That is not cosmetic: giving func_8005B0B4
+ * the real return type leaves the call semantically identical yet shifts its
+ * tail's register allocation because the discarded return value keeps v0
+ * live across the call. That unit defines FUNC_8005A98C_RETURNS_VOID; the
+ * defining color_transform.c and its later caller use the real signature.
  *
  * func_8005ABA0 has the same return-type sensitivity plus wider caller-side
  * argument declarations in func_8005B054 and func_8005B0B4. Those two units
  * define FUNC_8005ABA0_WIDE_VOID before including this header; the defining
  * color_transform.c and its later caller use the real narrow signature.
  */
+
+#ifdef FUNC_8005A98C_RETURNS_VOID
+void func_8005A98C(HsvT *out, u8 r, u8 g, u8 b, u8 lim);
+#else
+HsvT *func_8005A98C(HsvT *out, u8 r, u8 g, u8 b, u8 lim);
+#endif
 
 #ifdef FUNC_8005ABA0_WIDE_VOID
 void func_8005ABA0(Color *out, s32 h, u32 s, u32 v, s32 lim);

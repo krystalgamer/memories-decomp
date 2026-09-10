@@ -1,8 +1,7 @@
+#define FUNC_8005A98C_RETURNS_VOID
 #define FUNC_8005ABA0_WIDE_VOID
 #include "../types.h"
 #include "color.h"
-
-extern void func_8005A98C(HsvT *, u8, u8, u8, u8);
 
 Color *func_8005B0B4(Color *out, u8 r, u8 g, u8 b, s32 flags, u16 scale, u8 lim) {
     HsvT hsv;
