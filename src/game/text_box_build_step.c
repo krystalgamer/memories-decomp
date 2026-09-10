@@ -131,7 +131,7 @@ next_opcode:
         return;
     }
     D_8009B35A = D_8009B33A;
-    func_80036C14((u8 *)object, D_801D9000[(s16)D_8009B33A] & 0x8FF0FFFF);
+    func_80036C14(object, D_801D9000[(s16)D_8009B33A] & 0x8FF0FFFF);
     object->field_60 = object->field_60 + 1;
     if (object->field_61 != 0 && object->field_60 >= object->field_61) {
         object->flags_34 = object->flags_34 | 0x2000;

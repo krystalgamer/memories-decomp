@@ -90,7 +90,7 @@ store:
 plain:
     *(u16 *)(object + 0x34) |= 0x80;
     if ((u8)n == 0) {
-        func_80036C14(object, id);
+        func_80036C14((DuelEffectChannel *)object, id);
     }
     *(u16 *)(object + 0x34) &= 0xFF7F;
     *(u16 *)(object + 0x38) += 0x10;
