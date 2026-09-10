@@ -6,7 +6,7 @@
 #include "display_object.h"
 #include "display_object_layout.h"
 #include "../unmatched.h"
-#include "func_8002FD10.h"
+#include "campaign_scene_package.h"
 
 extern u16 D_8009B2DE;
 extern DisplayObject *D_800EB184[4];
@@ -19,7 +19,7 @@ void func_80031354(void)
     if (!(flags & 0x80)) {
         D_8009B2EB = flags | 0x80;
         D_8009B2DE = 0;
-        func_8002FD10(0);
+        Campaign_LoadScenePackage(0);
     }
 
     func_8003134C();

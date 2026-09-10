@@ -3,6 +3,7 @@
 #include "menu_record.h"
 #include "duel_effect.h"
 #include "text_handle_display_effect_command.h"
+#include "campaign_scene_package.h"
 
 /* Effect-script command handler: reads a command id and a flag byte from the
    object's current script stream, finds the display effect record for the id
@@ -25,7 +26,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     flags = b;
 
     e = D_800EB010;
-    if (id >= 0x41) {
+    if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
         e += 2;
     } else if (e->field_30 != id) {
         e++;
@@ -56,7 +57,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         e->field_44 = 0x10;
         o->state = 7;
         e->display_effect_step = 3;
-        if (id >= 0x41) {
+        if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
             e->display_effect_step = 5;
             e->field_40 = 1;
         }
@@ -66,7 +67,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         if (e == 0) {
             return;
         }
-        if (id >= 0x41) {
+        if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
             return;
         }
         D_8009B328 = e;
@@ -84,7 +85,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     }
 
     slot = flags & 1;
-    if (id >= 0x41) {
+    if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
         slot = 2;
     }
     e = &D_800EB010[slot];
@@ -98,7 +99,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     }
     o->state = 6;
     D_8009B328 = e;
-    if (id >= 0x41) {
+    if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
         e->display_effect_step = 5;
         e->field_3C = 2;
         *(s16 *)&e->field_34 = 0xF0;

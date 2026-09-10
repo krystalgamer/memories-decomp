@@ -5,10 +5,9 @@
 #include "graphics_frame.h"
 #include "menu_record_reset.h"
 #include "script_state.h"
-#include "func_8002FB78.h"
+#include "campaign_scene_package.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "func_8002FD10.h"
 #include "func_8002E3FC.h"
 
 extern DisplayObject *D_8009B2A0;
@@ -22,11 +21,12 @@ extern s32 D_80010000 __attribute__((section(".data")));
 
 /* Loads the fixed scene presentation/event package. The argument initializes
  * D_8009B2A4 for the event driver; it does not select a different disc page.
- * The 0x1E57/0x31 request uses func_8002FB78 to route image, palette, event
- * script, and image/CLUT data. After resetting viewport and slot state, this
- * function polls IsIdleGPU(10) until it returns zero, then uploads 25 pairs
- * from the arena held in D_80010000: 24-word by 48-row image rectangles on a
- * five-wide grid from x=0x380, followed by 64x1 CLUT rectangles from y=0xF0.
+ * The 0x1E57/0x31 request uses Campaign_LoadScenePackageStage to route image,
+ * palette, event script, and portrait data. After resetting viewport and slot
+ * state, this function polls IsIdleGPU(10) until it returns zero, then uploads
+ * 25 pairs from the arena held in D_80010000: 24-word by 48-row image
+ * rectangles on a five-wide grid from x=0x380, followed by 64x1 CLUT
+ * rectangles from y=0xF0.
  *
  * The clearing loop subscripts the record array rather than walking a
  * pointer. Both spellings give 112 instructions, but the walking pointer adds
@@ -36,7 +36,7 @@ extern s32 D_80010000 __attribute__((section(".data")));
  * `lui $s0` / `addiu $s0,$s0` and emits it after the callback address rather
  * than before. Subscripting drops that reference and the prologue falls into
  * retail's order. */
-void func_8002FD10(s16 arg0)
+void Campaign_LoadScenePackage(s16 arg0)
 {
     SceneScriptSlot *slot;
     u32 *src;
@@ -52,7 +52,7 @@ void func_8002FD10(s16 arg0)
         0, 0,
         FILE_WA_CAMPAIGN_SCENE_START_SECTOR,
         FILE_WA_CAMPAIGN_SCENE_SECTOR_COUNT,
-        func_8002FB78, 0, 0
+        Campaign_LoadScenePackageStage, 0, 0
     );
     func_80039E9C();
 
@@ -70,30 +70,38 @@ void func_8002FD10(s16 arg0)
     src = (u32 *)D_80010000;
     D_800E9D70[0].x = 0x380;
     D_800E9D70[0].y = 0;
-    D_800E9D70[0].w = 0x18;
-    D_800E9D70[0].h = 0x30;
+    D_800E9D70[0].w = CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WORD_WIDTH;
+    D_800E9D70[0].h = CAMPAIGN_DIALOG_PORTRAIT_IMAGE_HEIGHT;
     second = &D_800E9D70[1];
     D_800E9D70[1].x = 0x380;
     second->y = 0xF0;
-    second->w = 0x40;
+    second->w = CAMPAIGN_DIALOG_PORTRAIT_CLUT_WORD_WIDTH;
     second->h = 1;
 
     i = 0;
     do {
         LoadImage2(&D_800E9D70[0], src);
-        LoadImage2(&D_800E9D70[1], src + 0x240);
+        LoadImage2(
+            &D_800E9D70[1],
+            src + CAMPAIGN_DIALOG_PORTRAIT_IMAGE_SIZE / sizeof(u32)
+        );
         i++;
         D_800E9D70[1].y = D_800E9D70[1].y + 1;
         D_800E9D70[0].x =
-            (i % CAMPAIGN_SCENE_IMAGE_GRID_COLUMN_COUNT) * 24 + 0x380;
+            (i % CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
+                CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WORD_WIDTH + 0x380;
         D_800E9D70[0].y =
-            (i / CAMPAIGN_SCENE_IMAGE_GRID_COLUMN_COUNT) * 48;
-        if (D_800E9D70[1].y >= 0x100) {
-            D_800E9D70[1].x = D_800E9D70[1].x + 0x40;
+            (i / CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
+                CAMPAIGN_DIALOG_PORTRAIT_IMAGE_HEIGHT;
+        if (D_800E9D70[1].y >=
+            0xF0 + CAMPAIGN_DIALOG_PORTRAIT_CLUT_ROWS_PER_COLUMN) {
+            D_800E9D70[1].x =
+                D_800E9D70[1].x +
+                CAMPAIGN_DIALOG_PORTRAIT_CLUT_WORD_WIDTH;
             D_800E9D70[1].y = 0xF0;
         }
-        src += 0x260;
-    } while (i < CAMPAIGN_SCENE_IMAGE_COUNT);
+        src += CAMPAIGN_DIALOG_PORTRAIT_RECORD_SIZE / sizeof(u32);
+    } while (i < CAMPAIGN_DIALOG_PORTRAIT_COUNT);
 
     D_8009B2A0 = func_8002E3FC();
 }

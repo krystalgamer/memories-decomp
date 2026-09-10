@@ -19,7 +19,7 @@ __asm__(
     ".reloc .-4, R_MIPS_26, func_80030090\n"
     ".word 0x00000000\n"
     ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8002FD10\n"
+    ".reloc .-4, R_MIPS_26, Campaign_LoadScenePackage\n"
     ".word 0x00002021\n"
     ".word 0xA3800000\n"
     ".reloc .-4, R_MIPS_GPREL16, D_8009B2BC\n"

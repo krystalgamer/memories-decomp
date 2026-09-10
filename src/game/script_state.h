@@ -107,7 +107,7 @@ extern u16 D_8009B270;
 
 /* Two halfwords the event driver keeps at 0x8009B2A4 and 0x8009B2A6.
  *
- * D_8009B2A4 is the event-script flag word: func_8002FD10 seeds it from
+ * D_8009B2A4 is the event-script flag word: Campaign_LoadScenePackage seeds it from
  * its argument, Script_RunTick clears DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE
  * and ORs in DUEL_EVENT_SCRIPT_FLAG_STARTED (duel_effect.h), and
  * func_8002E5AC sets the dialog bit. D_8009B2A6 is the scene index the

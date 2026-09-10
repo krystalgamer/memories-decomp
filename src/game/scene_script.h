@@ -5,7 +5,8 @@
 
 /* The scene script's slot table at D_800EAE98.
  *
- * func_8002FD10 initializes the fixed scene presentation package and clears
+ * Campaign_LoadScenePackage initializes the fixed scene presentation package
+ * and clears
  * this table by subscripting it; func_8002E470 is a script command that runs
  * func_8002E00C over it before reading its next operand from the script
  * stream. Main_RunCampaign is one of the consumers.

@@ -83,6 +83,8 @@ function,0x8002CE64,Main_RunCampaign,high,"gms.c campaignLoop; main dispatcher",
 function,0x8002CEE8,Main_RunDuel,high,"gms.c duelLoop; main dispatcher","Runs the duel state machine."
 function,0x8002D0E0,Main_RunLibraryMenu,high,"gms.c libraryMenuLoop; main dispatcher","Runs the card-library menu."
 function,0x8002D180,Main_RunAnimatedBattle,high,"gms.c animatedBattleLoop; main dispatcher","Runs the animated-battle state."
+function,0x8002FB78,Campaign_LoadScenePackageStage,high,"sole fixed 49-sector campaign package caller; four stage lengths total 0x18800; image/palette/event/portrait destinations; F143","Routes one phase of the fixed campaign scene package to VRAM or its event/portrait RAM destination."
+function,0x8002FD10,Campaign_LoadScenePackage,high,"matching package request and 25-record upload loop; portrait constants; event-state initialization; F143","Loads the fixed campaign presentation package, uploads its dialog portrait atlas, and initializes scene-script state."
 function,0x8002D2D8,Main_RunCampaignMap,high,"gms.c campaignOverworldLoop; main dispatcher","Runs the campaign map/overworld state."
 function,0x8002D370,Main_RunBuildDeckMenu,high,"gms.c buildDeckMenuLoop; main dispatcher","Runs the deck-building menu."
 function,0x8002D3F8,Main_RunFreeDuelMenu,high,"gms.c freeDuelMenuLoop; main dispatcher","Runs the Free Duel menu."

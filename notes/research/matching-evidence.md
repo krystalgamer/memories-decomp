@@ -3251,7 +3251,7 @@ What was safe, all confirmed against the full-executable hash:
   `DuelEffectResourceRecord *` silently scales that offset by `0x40`. It
   still compiles. Only the hash catches it.
 - **Typing a pointer can also delete instructions, not just move them.**
-  `func_8002FB78` reaches a `FileTransferDescriptor` entirely through offset
+  `Campaign_LoadScenePackageStage` reaches a `FileTransferDescriptor` entirely through offset
   casts, and every offset lands on a member the type in `ygo_types.h`
   already names. Converting it made the executable **eight bytes shorter**.
   The file holds its shape with a read-modify-write on the global
@@ -3279,7 +3279,7 @@ What was safe, all confirmed against the full-executable hash:
   | `func_80020BE4` | matches |
   | `func_8002F4C0` | one byte: the `0x100` store to +0x32 is scheduled later |
   | `func_800434F4` | matches with typed modes 0/1 and byte views in mode 2 |
-  | `func_8002FB78` | eight bytes shorter |
+  | `Campaign_LoadScenePackageStage` | eight bytes shorter |
   | `func_8003A01C` | eight bytes shorter |
   | `func_80032184` | thirty-six bytes shorter |
 
@@ -3311,7 +3311,7 @@ the barrier was holding it:
 | --- | --- |
 | `Model_UpdateViewMetrics` | one register, `0x69` to `0x6A` |
 | `func_800289BC` | one store reordered |
-| `func_8002FB78` | two instructions deleted |
+| `Campaign_LoadScenePackageStage` | two instructions deleted |
 | `func_8003A01C` | two instructions deleted (same global, same descriptor) |
 | `func_800580D4` | three instructions deleted (parameter only) |
 | `func_80016784` | three loads floated across scratchpad stores |
@@ -4143,7 +4143,7 @@ The reason it matters beyond two register names is that the uncoalesced form
 leaves a value in a *call-clobbered* temporary, and the next address in the
 same block usually wants the same temporary. That is an anti-dependence, and it
 forces the scheduler to emit the two address pairs in a fixed order. On
-`func_8002FD10` this turned a two-register difference into an eight-position
+`Campaign_LoadScenePackage` this turned a two-register difference into an eight-position
 prologue permutation: `&D_800EAE98` had to be materialised before the callback
 address purely because both `HIGH`s landed in `$v0`. So when a residual is a
 permutation of a prologue window with an identical opcode multiset, look for an
@@ -4161,7 +4161,7 @@ knowing before spending a rotation deciding between them.
 ## The `.data` attribute and the array spelling are two different levers
 
 "Four spellings of one global, and the addressing each produces" covers the
-`-G8` threshold. `func_8002FD10` adds a second axis that the existing note does
+`-G8` threshold. `Campaign_LoadScenePackage` adds a second axis that the existing note does
 not separate, because two of its globals need opposite answers on it.
 
 `D_8009B2A4` (2 bytes) is gp-relative in the target and wants the plain
@@ -4317,7 +4317,7 @@ reason written up under "Split addressing and coalescing are one choice". Every
 with the destination, so wherever the target has `lui $sN, %hi(X)` followed by
 `addiu $sN, $sN, %lo(X)` with the same register, or reuses a held `%hi` as a
 load or store base, the build is one copy off and the anti-dependence that copy
-creates then permutes the surrounding schedule. On `func_8002FD10` that was 8
+creates then permutes the surrounding schedule. On `Campaign_LoadScenePackage` that was 8
 positions, on `func_8003B5C8` one extra instruction it could not shed.
 
 The screen is cheap. Over a function's splat asm, flag it when either appears:
@@ -4745,7 +4745,7 @@ gate 1 pushed it out and gate 2 left it to the assembler; a `lui $rN` /
 | the profile's compile-time `-G` | gate 1, for every symbol at once | #2077 |
 | a declared size on an array | gate 1, in | #2056 |
 | an incomplete array type | gate 1, out | #2078, #2083 |
-| scalar against subscript | gate 2 | `func_8002FD10`, #2087 |
+| scalar against subscript | gate 2 | `Campaign_LoadScenePackage`, #2087 |
 | compile-time `-G` against assemble-time `-G` | the two gates independently | #2087 |
 
 **1. The profile's `-G` is the blunt instrument, and it is per function, not
@@ -4771,7 +4771,7 @@ this is the lever that hides, because both forms are two instructions and the
 opcode multiset is unchanged — only register names move, which reads as an
 allocation residual and gets swept the wrong way. A direct store to a named
 scalar stays a `(mem (symbol_ref))` and reaches the assembler as a macro; a
-subscript is an address expression and cannot. On `func_8002FD10` the scalar
+subscript is an address expression and cannot. On `Campaign_LoadScenePackage` the scalar
 spelling was worth 27 of 67 remaining positions. On `func_80023144` the same
 choice was worth two instructions and the `$at` form for five separate panel
 globals at once: declared `extern u8 X[]` they are not small data either, but
@@ -4945,7 +4945,7 @@ the pins but ternaries instead of statement `if`s it is 59 off.
 **This function is also the worked example of triaging by residual type.** Its
 seven positions were all register names at identical positions - an *allocation*
 disagreement, which register constraints reach. That is why it was chosen ahead
-of `func_80023144`, `func_80012E5C` and `func_8002FD10`, whose residuals are
+of `func_80023144`, `func_80012E5C` and `Campaign_LoadScenePackage`, whose residuals are
 instructions in different *positions*, which they do not.
 
 ## `func_8001BAF0`: pointer casts, operand order, and reusing an existing local
@@ -5652,7 +5652,7 @@ own.
 
 The section above establishes that GCC 2.8.1 ranks allocnos by
 `floor_log2(n_refs) * n_refs / live_length`, and that the useful handle is
-often the number of times a variable is *mentioned*. `func_8002FD10`
+often the number of times a variable is *mentioned*. `Campaign_LoadScenePackage`
 (0x8002FD10) is a clean second worked example, and it is worth recording
 because the winning change looks like a stylistic preference rather than a
 lever.

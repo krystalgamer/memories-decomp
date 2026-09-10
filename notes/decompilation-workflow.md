@@ -362,7 +362,8 @@ Replacing `*(s32 *)(p + 0x1C)` style access with a member of a struct the tree
 already defines is the tidiest-looking change available, and it is not always
 free. It changes what the compiler is allowed to assume about aliasing.
 
-`func_8002FB78(u8 *p, s32 mode)` is the worked example. Every offset it touches
+`Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)` is the
+worked example. Every offset it touches
 maps onto an existing `FileTransferDescriptor` field, and it calls
 `LoadImage2((RECT *)p, ...)`, which confirms the record opens with the `x/y/w/h`
 pair. Retyping the parameter and converting all ten accesses does not merely

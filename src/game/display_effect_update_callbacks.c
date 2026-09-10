@@ -10,6 +10,7 @@
 #include "../types.h"
 #include "display_object_config.h"
 #include "display_effect_lifecycle.h"
+#include "campaign_scene_package.h"
 #include "graphics_frame.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -127,13 +128,18 @@ void func_8003B054(u8 *p)
             *(u16 *)&o->field_60 = 0;
         } else {
             id = *(s8 *)(p + 0x30);
-            idx = id - 0x41;
+            idx = id - CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID;
             o = func_800400AC(func_8004002C(), 1);
             func_80040510((DisplayObjectConfigView *)o, *(s16 *)(p + 0x34), *(s16 *)(p + 0x36), 0x30, 0x30, 0, 0, 0xE, 0x380, 0xF0);
             *(u16 *)&o->field_40.h.field_40 += (idx >> 4) << 6;
-            *(u8 *)&o->field_5C = (idx % 5) * 48;
-            ((u8 *)&o->field_5C)[1] = (idx / 5) * 48;
-            *(u16 *)&o->field_40.h.field_42 += idx % 16;
+            *(u8 *)&o->field_5C =
+                (idx % CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
+                CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WIDTH;
+            ((u8 *)&o->field_5C)[1] =
+                (idx / CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
+                CAMPAIGN_DIALOG_PORTRAIT_IMAGE_HEIGHT;
+            *(u16 *)&o->field_40.h.field_42 +=
+                idx % CAMPAIGN_DIALOG_PORTRAIT_CLUT_ROWS_PER_COLUMN;
             *(u16 *)&o->field_44.h.field_46 = 0;
             o->field_0C = 0;
             o->attribute |= 0x51000000;

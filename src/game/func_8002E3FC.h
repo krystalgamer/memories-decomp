@@ -14,7 +14,8 @@
  * but the returned pointer is handed back untyped, so this header does not
  * claim more than the definition does.
  *
- * func_8002FD10.c is the only consumer and its local extern already agreed
+ * campaign_load_scene_package.c is the only consumer and its local extern
+ * already agreed
  * with this exactly. */
 void *func_8002E3FC(void);
 

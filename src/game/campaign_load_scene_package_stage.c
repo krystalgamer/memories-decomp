@@ -4,12 +4,12 @@
 #include "file_transfer.h"
 #include "../unmatched.h"
 #include "../ygo_types.h"
-#include "func_8002FB78.h"
+#include "campaign_scene_package.h"
 
 extern s32 D_80010000;
 extern u8 D_801A8000[];
 
-void func_8002FB78(FileTransferDescriptor *p, s32 mode)
+void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 {
     s32 v_0;
     s32 v_1;
@@ -20,7 +20,7 @@ void func_8002FB78(FileTransferDescriptor *p, s32 mode)
     s32 m;
     s32 c;
 
-    switch (mode) {
+    switch (stage) {
     case 0:
         *(s16 *)&p->field_30.h.counter = 0x340;
         *(s16 *)((u8 *)p + 4) = 0x40;
@@ -69,7 +69,7 @@ void func_8002FB78(FileTransferDescriptor *p, s32 mode)
         break;
 
     case 3:
-        *(s32 *)&p->mode = 0xF000;
+        *(s32 *)&p->mode = CAMPAIGN_DIALOG_PORTRAIT_PHASE_SIZE;
         m = 0xFFDCFFFF;
         v_3 = D_8009B0F4;
         t = D_80010000;
