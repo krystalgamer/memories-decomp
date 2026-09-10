@@ -11,12 +11,13 @@ extern u8 D_801D4200[];
 extern void func_80013C28(u8, u8 *, u32 *);
 extern s32 CdPosToInt_8007E710(s32);
 
-void func_800140A0(u8 event)
+void File_ReadNCB(u8 event)
 {
-    if (event == 5) {
+    if (event == DslDiskError) {
         D_8009B130++;
-        DsPacket(0xA0, (DslLOC *)D_8009B104, 6, (DslCB)func_800140A0, -1);
-    } else if (event == 2) {
+        DsPacket(DslModeSpeed | DslModeSize1, (DslLOC *)D_8009B104, DslReadN,
+                 (DslCB)File_ReadNCB, -1);
+    } else if (event == DslComplete) {
         DsReadySystemMode(1);
         DsStartReadySystem(func_80013C28, -1);
         D_8009B114 = 0;
@@ -25,34 +26,35 @@ void func_800140A0(u8 event)
     }
 }
 
-void func_80014134(u8 event)
+void File_SeekLCB(u8 event)
 {
-    if (event == 5) {
+    if (event == DslDiskError) {
         D_8009B130++;
-        DsPacket(0xA0, (DslLOC *)D_8009B104, 0x15, (DslCB)func_80014134, -1);
-    } else if (event == 2) {
+        DsPacket(DslModeSpeed | DslModeSize1, (DslLOC *)D_8009B104, DslSeekL,
+                 (DslCB)File_SeekLCB, -1);
+    } else if (event == DslComplete) {
         D_8009B0F4 &= ~0x400;
     }
 }
 
-void func_800141A8(u8 event)
+void File_PauseCB(u8 event)
 {
-    if (event == 5) {
+    if (event == DslDiskError) {
         D_8009B130++;
-        DsCommand(9, 0, (DslCB)func_800141A8, -1);
-    } else if (event == 2) {
+        DsCommand(DslPause, 0, (DslCB)File_PauseCB, -1);
+    } else if (event == DslComplete) {
         gFile_PrimaryTransferDescriptor.substate = 1;
         D_8009B0F4 &= ~0x400;
     }
 }
 
-void func_80014220(s32 event)
+void File_XaPauseCB(s32 event)
 {
     event &= 0xFF;
-    if (event == 5) {
+    if (event == DslDiskError) {
         D_8009B130++;
-        DsCommand(9, 0, (DslCB)func_80014220, -1);
-    } else if (event == 2) {
+        DsCommand(DslPause, 0, (DslCB)File_XaPauseCB, -1);
+    } else if (event == DslComplete) {
         __asm__ volatile(
             "sh $4, %%gp_rel(D_8009B100)($28)"
             : : : "memory"
@@ -61,35 +63,37 @@ void func_80014220(s32 event)
     }
 }
 
-void func_80014294(u8 event)
+void File_XaSetfilterCB(u8 event)
 {
-    if (event == 5) {
+    if (event == DslDiskError) {
         D_8009B130++;
-        DsCommand(0xD, (u8 *)D_8009B11C, (DslCB)func_80014294, -1);
-    } else if (event == 2) {
+        DsCommand(DslSetfilter, (u8 *)D_8009B11C, (DslCB)File_XaSetfilterCB,
+                  -1);
+    } else if (event == DslComplete) {
         D_8009B100 = 4;
         D_8009B0F4 &= ~0x400;
     }
 }
 
-void func_80014308(u8 event)
+void File_XaReadSCB(u8 event)
 {
-    if (event == 5) {
+    if (event == DslDiskError) {
         D_8009B130++;
-        DsPacket(0x4A, (DslLOC *)D_8009B104, 0x1B, (DslCB)func_80014308, -1);
-    } else if (event == 2) {
+        DsPacket(DslModeRT | DslModeSF | DslModeAP, (DslLOC *)D_8009B104,
+                 DslReadS, (DslCB)File_XaReadSCB, -1);
+    } else if (event == DslComplete) {
         D_8009B100 = 5;
         D_8009B0F4 |= 0x1000;
         D_8009B0F4 &= ~0x400;
     }
 }
 
-void func_80014390(u8 event, s32 arg1)
+void File_XaGetlocLCB(u8 event, s32 arg1)
 {
     s32 value;
     s32 *destination;
 
-    if (event == 2) {
+    if (event == DslComplete) {
         destination = (s32 *)&gFile_PrimaryTransferDescriptor.field_30;
         value = CdPosToInt_8007E710(arg1);
         if (value > 0)

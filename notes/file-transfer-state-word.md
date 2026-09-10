@@ -105,6 +105,35 @@ bit 31 all have live consumers, and several are only ever cleared as part of
 a composite mask (`0xFFDCFFFF`, `0xFFDDFFFF`, `0x230000`), so a single
 consumer does not establish what an individual bit means.
 
+### The DS command bits
+
+The seven CD command callbacks in `file_cd_transfer.c` establish three of
+those bits. Each is named for the command it completes. Apart from the
+position query, every issue site in `func_8001455C` sets `0x400` once
+`DsCommand` or `DsPacket` accepts the command, and each callback clears it on
+`DslComplete`, so `0x400` means a DS command is in flight. The step function returns early while it is set.
+
+| Callback | Command | On `DslComplete` |
+|---|---|---|
+| `File_ReadNCB` | `DsPacket(DslModeSpeed \| DslModeSize1, pos, DslReadN)` | starts the ready system with `func_80013C28` |
+| `File_SeekLCB` | `DsPacket(DslModeSpeed \| DslModeSize1, pos, DslSeekL)` | nothing further |
+| `File_PauseCB` | `DsCommand(DslPause)` after a finished transfer | primary descriptor substate `1` |
+| `File_XaPauseCB` | `DsCommand(DslPause)`, sector-range state `1` | `D_8009B100 = 2` |
+| `File_XaSetfilterCB` | `DsCommand(DslSetfilter, {file, channel})`, state `3` | `D_8009B100 = 4` |
+| `File_XaReadSCB` | `DsPacket(DslModeRT \| DslModeSF \| DslModeAP, pos, DslReadS)`, state `4` | `D_8009B100 = 5`, sets `0x1000` |
+| `File_XaGetlocLCB` | `DsCommand(DslGetlocL)` while `0x1000` is set | position into descriptor `+0x30`, clears `0x800` |
+
+`FILE_TRANSFER_FLAG_SECTOR_RANGE` is therefore an XA-ADPCM stream. The read
+mode is real-time ADPCM with the subheader filter and auto-pause. The filter's
+file and channel come from descriptor bytes `+0x38` and `+0x39`, and
+`D_8009B100` is the stream's own step. Once the read has started, `0x1000`
+makes every step issue a `DslGetlocL`, with `0x800` marking that query as in
+flight. Stream state `6` then waits until the current sector at `+0x30`
+reaches the end sector at `+0x34`, or until 600 frames pass.
+
+The sub-states and `D_8009B100` keep their address names. The other bits in
+the list above are still unexplained.
+
 ## 0x8009B134
 
 The other half of the same predicate. Eighteen units ask whether a transfer

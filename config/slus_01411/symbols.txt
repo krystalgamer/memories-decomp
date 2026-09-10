@@ -333,6 +333,13 @@ DuelEffect_PlaySoundCommand = 0x80038798; // type:func
 Text_EncodeDecimalNoPadding = 0x800358A0; // type:func
 
 // Semantic names
+File_ReadNCB = 0x800140A0; // type:func
+File_SeekLCB = 0x80014134; // type:func
+File_PauseCB = 0x800141A8; // type:func
+File_XaPauseCB = 0x80014220; // type:func
+File_XaSetfilterCB = 0x80014294; // type:func
+File_XaReadSCB = 0x80014308; // type:func
+File_XaGetlocLCB = 0x80014390; // type:func
 File_ActivateTransfer = 0x800143DC; // type:func
 
 // Semantic names

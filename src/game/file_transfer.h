@@ -12,7 +12,7 @@
 /* One entry of the two-slot request table at D_801D4200.
 
    func_80014C40 stages the caller's request into slot 1 with a whole-record
-   copy, file_cd_transfer.c's func_800141A8 promotes slot 1 into slot 0 the
+   copy, file_cd_transfer.c's File_ActivateTransfer promotes slot 1 into slot 0 the
    same way once the drive is ready, and func_80014B30 then programs the
    transfer descriptor out of slot 0. Two independent 0x20-byte copies at that
    stride are what fix the size; func_80014B30 names the four words.
@@ -35,7 +35,7 @@ typedef char FileRequestSlot_size_must_be_0x20[
 ];
 
 /* A FileTransferDescriptor's worth of words, for the one place that copies a
-   whole descriptor: func_800141A8 overwrites the primary descriptor with the
+   whole descriptor: File_ActivateTransfer overwrites the primary descriptor with the
    secondary one.
 
    This is a block-move spelling, not a second description of the record --

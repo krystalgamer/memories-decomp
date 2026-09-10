@@ -85,7 +85,7 @@ is what sets the move width, so it is deliberately not interchangeable with
 
 The separate `0x20`-byte record at `D_801D4200` is not a descriptor. It is a
 two-slot request table, `FileRequestSlot`: `func_80014C40` stages a request
-into slot 1 and `func_800141A8` promotes slot 1 into slot 0, both with
+into slot 1 and `File_ActivateTransfer` promotes slot 1 into slot 0, both with
 whole-record copies at that stride, and `func_80014B30` then programs the
 descriptor from slot 0.
 
