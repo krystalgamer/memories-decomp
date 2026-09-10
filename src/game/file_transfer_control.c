@@ -22,8 +22,6 @@ extern s32 func_8007B468(s32, void *, s32, void *, s32);
 extern void CdIntToPos_8007E600(s32, void *);
 extern volatile u16 D_8009B124;
 extern volatile s32 D_8009B0E8;
-extern u8 D_800E9EC0[];
-
 void func_8001455C(void)
 {
     u8 *p;

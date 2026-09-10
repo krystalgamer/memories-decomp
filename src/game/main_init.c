@@ -2,6 +2,7 @@
 #define D_8009B0C0_IS_VOLATILE
 #define D_8009B230_IN_DATA
 #include "../types.h"
+#include "../unmatched.h"
 #include "duel_side_state.h"
 #include "display_object_config.h"
 #include "sound.h"
@@ -30,8 +31,6 @@
 extern volatile u8 D_8009B0D1;
 extern void *volatile D_8009B0B4;
 extern u8 D_8009B269 __attribute__((section(".data")));
-extern u8 D_800E9EC0[];
-
 extern void __main(void);
 
 s32 Main_Init(void)

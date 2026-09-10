@@ -4,12 +4,12 @@
 #include "func_8003134C.h"
 #include "menu_record.h"
 #include "display_object.h"
+#include "display_object_brightness.h"
 #include "display_object_layout.h"
 #include "../unmatched.h"
 #include "campaign_scene_package.h"
 
 extern u16 D_8009B2DE;
-extern DisplayObject *D_800EB184[4];
 extern DisplayObject *D_8009B2E4;
 
 void func_80031354(void)

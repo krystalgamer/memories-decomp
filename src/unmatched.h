@@ -420,4 +420,10 @@ extern u8 D_8009B490[2];
 extern u16 D_800F5678[];
 extern s16 D_800EFE3C;
 
+/* An eight-byte zeroed block with no common subsystem owner. Main_Init reads
+ * its first byte as the initial sound-output state, while file transfer
+ * control reads the two words as an address adjustment. The consumers share
+ * no narrower state contract, so the raw byte-array view stays here. */
+extern u8 D_800E9EC0[];
+
 #endif

@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "../ygo_types.h"
+#include "display_object.h"
 
 #define CAMPAIGN_DIALOG_PORTRAIT_COUNT 25
 #define CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT 5
@@ -50,5 +51,10 @@ void Campaign_LoadScenePackage(s16 arg0);
 void Campaign_LoadScenePackageStage(
     FileTransferDescriptor *descriptor, s32 stage
 );
+
+/* The scene package's primary display object. Campaign_LoadScenePackage
+ * creates it, func_8002F630 hides and restores it around the duel-result
+ * screen, and the inline-assembly event driver updates the same slot. */
+extern DisplayObject *D_8009B2A0;
 
 #endif
