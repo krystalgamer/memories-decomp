@@ -3,7 +3,6 @@
 
 extern u8 D_8009B26C __attribute__((section(".data")));
 extern u8 D_8009B2B2;
-extern s8 D_8009B2F1;
 extern u8 gFreeDuel_bReturnFlags __attribute__((section(".data")));
 
 void func_80030FA0(void)

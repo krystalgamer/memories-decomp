@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "func_800300C8.h"
 #include "duel_effect.h"
+#include "frontend_debug_tables.h"
 
 extern struct LayoutTarget *D_8009B2E4;
-extern s8 D_8009B2F1;
 
 void func_800300C8(void)
 {
