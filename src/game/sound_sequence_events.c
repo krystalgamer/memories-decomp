@@ -3,14 +3,11 @@
 #include "sound_sequence_events.h"
 
 #include "func_8004B374.h"
+#include "sound_secondary_commands.h"
 #include "sound.h"
 #include "sound_sequence_reader.h"
 #include "sound_sequence_values.h"
 #include "../unmatched.h"
-
-extern void func_8004B49C(s32, s32, s32);
-extern void func_8004B6E8(s32, s32);
-extern void func_8004B70C(s32, s32, s32);
 
 void SD_AdvanceSequencePosition(s32 *value, s32 amount)
 {
