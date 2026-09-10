@@ -6,6 +6,7 @@
 #include "mem_card_dialog_load_save.h"
 #include "mem_card_directory.h"
 #include "save_data.h"
+#include "text_staging.h"
 #include "../unmatched.h"
 
 /* The load/save operation half of the memory-card dialog. The message helper
@@ -20,7 +21,6 @@ extern volatile u16 gMemCard_wDialogFlags_v asm("gMemCard_wDialogFlags");
 
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u8 D_8009AF70[];
-extern s32 D_801D5608[];
 
 /* The save machine needs the historical wide caller contract to retain the
    register-to-argument move for its state-10 message. */
@@ -329,8 +329,8 @@ void MemCardDialog_UpdateSave(void)
             D_8009B3EB = 6;
             goto create;
         }
-        D_801D5608[0] = MEM_CARD_BLOCK_COUNT - free_blocks;
-        D_801D5608[1] = needed;
+        D_801D5608[0].blocks.used = MEM_CARD_BLOCK_COUNT - free_blocks;
+        D_801D5608[0].blocks.needed = needed;
         MemCardDialog_SetMessage_wide(0xDB, 0x18);
         break;
     case 4:

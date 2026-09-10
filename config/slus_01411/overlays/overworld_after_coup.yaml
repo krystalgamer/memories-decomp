@@ -62,7 +62,22 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/overworld/set_location]
-      - [0x11A8, asm, overlays/overworld_after_coup/text_11A8]
+
+  - name: location_table
+    type: code
+    start: 0x11A8
+    vram: 0x801691A8
+    align: 4
+    subsegments:
+      - [0x11A8, .data, overlays/overworld/location_table]
+
+  - name: module_tail
+    type: code
+    start: 0x15C8
+    vram: 0x801695C8
+    align: 4
+    subsegments:
+      - [0x15C8, asm, overlays/overworld_after_coup/text_15C8]
       - [0x17D0, c, overlays/overworld/alternate_pick_exit]
       - [0x1A9C, c, overlays/overworld/alternate_location_tick]
       - [0x1E54, data, overlays/overworld_after_coup/data]

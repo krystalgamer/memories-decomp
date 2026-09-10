@@ -99,9 +99,20 @@ module identifier but do not establish its semantics. There are no current
 C consumers or linker assignments to retire for these words. Their owning
 headers declare the exact four-byte object.
 
+Both overworld variants also compile the live location table from
+`overworld/location_table.c`: sixteen typed 66-byte records at
+`0x801691A8-0x801695C8`, identical in the two verified images. The table is
+its own Splat segment between the live text and the remaining raw/alternate
+tail, so `.data` section ordering cannot move it behind the alternate text.
+See [`campaign-map-records.md`](../../../notes/overlays/campaign-map-records.md)
+for field evidence, boundary ownership and the preserved nonzero unknown
+bytes. The alternate table and the surrounding state remain assembly-owned.
+The alternate routine's unresolved call into the live table at `0x80169230`
+retains its exact target; data ownership does not resolve that call's meaning.
+
 The main-menu prefix remains assembly-owned. `MainMenu_UpdateTradeScreen`
 in `trade_update.c` declares `D_80180000[]` and reads element 1 as a comparator
 block, reaching past the first word into `module_rodata`. Treating that
-declaration as a four-byte object would assert a false boundary. Bulk module
-data also remains assembly-owned pending evidence-backed object boundaries;
-this initial mapping does not complete issue #2602.
+declaration as a four-byte object would assert a false boundary. Other bulk
+module data remains assembly-owned pending evidence-backed object boundaries;
+these mappings do not complete issue #2602.

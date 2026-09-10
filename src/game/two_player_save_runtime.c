@@ -14,10 +14,10 @@
 #include "text_box_lifecycle.h"
 #include "text_sjis_to_glyph_codes.h"
 #include "two_player_save_setup.h"
+#include "text_staging.h"
 #include "../unmatched.h"
 
 extern u8 D_801D2200[];
-extern s32 D_801D5608[];
 extern u8 D_801D160C[];
 extern u8 D_801B122B[];
 extern u8 D_801B1238[];
@@ -183,7 +183,7 @@ s32 SaveData_UpdateDuelLoad(void)
     s32 i;
     u8 *left;
     u8 *right;
-    s32 *state;
+    TextStagingValues *state;
 
     if ((D_8009B3ED & 128) == 0) {
         D_8009B3ED |= 128;
@@ -199,11 +199,11 @@ s32 SaveData_UpdateDuelLoad(void)
         D_8009B3C0 = 36;
         for (; i < DECK_SIZE; i++, left += 2, right += 2) {
             if (*(u16 *)left == 0) {
-                state[16] = 1;
+                state->deck_validation.invalid_side = 1;
                 return 0;
             }
             if (*(u16 *)right == 0) {
-                state[16] = 2;
+                state->deck_validation.invalid_side = 2;
                 return 0;
             }
         }

@@ -10,7 +10,8 @@
 #include "duel_card_checks.h"
 #include "duel_load_package_stage.h"
 
-extern u8 *D_80010000 __attribute__((section(".data")));
+#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
+#include "high_memory_addresses.h"
 extern u8 *D_800101DC __attribute__((section(".data")));
 extern u8 D_801A8000[];
 extern u8 D_801A9800[];

@@ -6,8 +6,7 @@
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "duel_card.h"
-
-extern s32 D_801D5608[];
+#include "text_staging.h"
 
 void func_80060E70(u16 *e, s32 idx, s32 flag, s32 ignored)
 {
@@ -20,7 +19,7 @@ void func_80060E70(u16 *e, s32 idx, s32 flag, s32 ignored)
     register s32 id asm("$3");
     u16 *q;
     CardListRowSet *w;
-    s32 *dst;
+    TextStagingValues *dst;
     register s32 *stats asm("$8");
     register s32 offset asm("$2");
 
@@ -49,8 +48,8 @@ void func_80060E70(u16 *e, s32 idx, s32 flag, s32 ignored)
                  CARD_STAT_TYPE_MASK) >= CARD_TYPE_MAGIC) {
                 style = base + 1;
             }
-            D_801D5608[0] = id;
-            dst[1] = q[0];
+            D_801D5608[0].card.card_id = id;
+            dst->card.count = q[0];
             gDuel_wSelectedCardID = id;
         }
         box = TextBox_Create(idx + 1, style, s->x, s->y, 0x120, 0xB0);

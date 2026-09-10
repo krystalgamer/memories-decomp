@@ -70,7 +70,7 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
  * DuelEffect_MarkInitialized guard; DuelEffect_UpdateFieldMarker stores each
  * marker it allocates. They read +0x1C and +0x1D from it afterwards, and
  * func_80024E58 writes +0x1A; duel_field_effect_steps.c and
- * duel_field_effect_transition.c read +0x1D through their own display-object
+ * duel_card_effects.c read +0x1D through their own display-object
  * views and cast at the global. u8 * is func_8002C604's return type. Retail
  * reaches it gp-relative
  * at every site, 17 lw and 14 sw in nine functions, four of them
@@ -86,8 +86,8 @@ extern u8 *D_8009B17C;
  * byte wide (c_symbols.ld names D_8009B261 next). Retail reaches it through
  * $gp in func_8002C6C8, func_8002C68C and func_8002C598, and through %hi/%lo
  * in func_80024200, func_8002596C, func_80025D30, func_80025BEC and
- * func_80018FEC (still assembly); duel_scene_update.c, func_8002596C.c,
- * duel_field_effect_transition.c defines the .data arm
+ * func_80018FEC (still assembly); duel_scene_update.c and
+ * duel_card_effects.c define the .data arm
  * below for that.
  * func_8002C68C.c keeps its own data extern because it cannot include this
  * header (see the note under func_8002C68C). Its func_8002C604 call now uses

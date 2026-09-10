@@ -14,6 +14,7 @@
  */
 #include "../types.h"
 #include "../game/ordering_tables.h"
+#include "../game/high_memory_addresses.h"
 
 typedef struct {
     u8 pad_00[0x4C];
@@ -35,10 +36,6 @@ typedef struct {
 } Event;
 
 extern Channel D_800F2C40[];
-extern s32 D_8001001C;
-extern s32 D_80010020;
-extern s32 D_80010024;
-extern s32 D_80010028;
 extern void GsU_00000000(void);
 
 extern void GsMapUnit(u8 *);

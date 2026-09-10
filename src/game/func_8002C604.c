@@ -3,7 +3,7 @@
 #include "func_8002C604.h"
 #include "ordering_tables.h"
 
-extern u8 *D_80010000;
+#include "high_memory_addresses.h"
 
 /* Allocates a request entry through func_8002C5CC and fills it: flag byte
  * 0x80, the id at +0x18, the buffer pointer D_80010000 + 0x3800 at +0x14,

@@ -7,6 +7,8 @@
 #include "model.h"
 #include "../unmatched.h"
 #include "file_transfer_steps.h"
+#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
+#include "high_memory_addresses.h"
 
 /* Two transfer-phase callbacks of the func_8003B808 family, kept in one
    translation unit because they are the same routine over different assets:
@@ -22,13 +24,9 @@
    address order and must stay that way: it is what puts the six-case table
    ahead of the eleven-case one. */
 
-extern s32 D_80010008 __attribute__((section(".data")));
 extern u8 D_801DD800[];
 extern u8 D_800F5694[];
 
-extern s32 D_80010000 __attribute__((section(".data")));
-extern s32 D_80010014 __attribute__((section(".data")));
-extern s32 D_80010018 __attribute__((section(".data")));
 extern u8 D_801A8000[];
 
 void func_80057544(FileTransferDescriptor *object, s32 mode) {
@@ -112,8 +110,8 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
     case 0:
         object->mode = 0x30000;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->value_0C = D_80010000;
-        object->value_08 = D_80010000;
+        object->value_0C = (s32)D_80010000;
+        object->value_08 = (s32)D_80010000;
         object->done = 1;
         break;
 

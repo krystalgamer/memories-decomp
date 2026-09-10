@@ -411,6 +411,56 @@ function that only reads through its parameter is safe however many globals
 it touches, and a function that stores through it needs the measurement even
 if it touches one.
 
+#### The alias rule is the last filter, not the first
+
+Scanning the tree for `*(T *)(base + off)` finds about a thousand sites, and
+the store filter above cuts far less of that than it looks like it should.
+Working through one batch of read-only candidates, every one was rejected
+before the alias question came up, each for a different reason. They are worth
+knowing because a scan reports all of them as clean:
+
+- **The file already says the conversion was tried.**
+  `ai_script_find_killer.c` opens by recording that it is a
+  `-fno-strength-reduce` user, that the walk's reads at +0, +2, +6 and +9 make
+  gcc build a second induction variable biased at +2, and that "an index form,
+  a struct cursor, dropping the named compare value and inlining the base were
+  all tried". The bias belongs to the reducer, not the spelling.
+
+- **The base is a second symbol for storage another symbol already names.**
+  `D_800F3A10` is `D_800F2C40[0].field_DD0` and `D_800F56FC` is
+  `&D_800F56F0.vrx`; both headers keep the interior symbol deliberately,
+  because the matched sites reach the field through it and spelling it as an
+  offset from the enclosing object changes which symbol their relocations
+  name.
+
+- **The width or signedness of the read does not match the named field.**
+  `sound_runtime.c` reads `*(u16 *)(e + 8)` where `SDCommand.field_0008` is
+  `s32`, and `e[2]` where `field_0002` is `s16`. Each such site needs a
+  `*(u16 *)&...` device to keep its `lhu`, so the conversion buys spelling and
+  pays noise.
+
+- **The arithmetic is the function's logic.** In `func_80058434` the base is
+  either `&D_800F56F0` or its interior `vrx` symbol depending on a sign, and
+  the destination is `base ± 0xC`; the pointer arithmetic is how the function
+  swaps which triple is source and which is destination.
+
+- **The stores are in a form the scan did not match.**
+  `display_effect_update_callbacks.c` stores with `*(DisplayObject **)p = o`
+  and `p[0x33] = 0`, and `library_runtime.c` uses `*(u16 *)(p + 2) += 0xC`.
+  A store detector has to cover `*(T **)base =`, `base[i] =` and `+=`, or it
+  will hand back store-through-pointer functions as read-only ones.
+
+What survives is narrow and worth stating positively: the conversion is a good
+bet when the base is a byte pointer taken to a global that already has a named
+type, and every offset read matches a field of that type in both width and
+signedness. `func_80058624` is the worked example. It read
+`D_800F56F0.vpx` by name and then took `p = (u8 *)&D_800F56F0` to read +8,
++0xC and +0x14 of the same object; `D_800F56F0` is a `GsRVIEW2`, so those are
+`vpz`, `vrx` and `vrz`, and naming them was byte-exact on the first build.
+A file that reaches a named global through an anonymous pointer is the shape
+to look for, and `camera_view.h` records that ten files once did exactly that
+to this one object.
+
 ### Name the record in one change, reach it in another
 
 Two of these conversions failed in the same shape, and both split cleanly
@@ -480,9 +530,142 @@ before the source was read:
   a `return D_8009B3EF;` matches a declaration pattern whose type position
   accepts `return`.
 
+A scan for duplicated *type definitions* rather than duplicated declarations
+adds two more of its own:
+
+- **The SDK headers repeat layouts on purpose.** `src/psyq` defines many
+  structures that are byte-identical to a sibling under another name --
+  `CdlLOC` and `DslLOC`, `SndVolume2` and `SpuVolume`, and the whole `SPRT_*`,
+  `TILE_*`, `DR_*` and `GsADIV_*` families. That repetition is the published
+  interface, so a layout scan has to exclude `src/psyq` before its output means
+  anything.
+
+- **An identical layout is not an identical record.** `DuelFieldPosition` in
+  `duel_grid.h` and `ScreenPair` in `screen_projection.h` are both
+  `{ s16 x; s16 y; }` and describe unrelated memory: the duel cursor, and one
+  entry of the projected slot table `D_800EA070`. Merging them would assert a
+  relationship that does not exist. The reverse error is available too --
+  `ProjectedPair` sits in the same header as `ScreenPair` and differs only in
+  that its `x` is `u16` where `ScreenPair`'s is `s16`, so a scan that
+  normalises widths to compare shapes reports them as one record and hides the
+  single distinction the header exists to record. Duplication worth collecting
+  looks like what `screen_projection.h` actually collected: three textually
+  identical spellings of one GTE result, in three files, for one address.
+
 The rule the campaign settled on: the scan produces candidates, and reading the
 source decides them. Every one of these was caught by reading, and none by the
 tool contradicting itself.
+
+### An arity mismatch is measured, not assumed, in either direction
+
+When a declaration and its definition disagree about how many arguments there
+are, the two directions are not symmetric and neither is decided by looking.
+
+A caller that sets FEWER argument registers than the callee reads is
+repairable exactly when the values the callee reads can be named at the call
+site. `src/unmatched.h` records both outcomes for this one direction.
+
+`func_8004CB0C` is the case that cannot be repaired. `model_slot_setup.c`
+calls it with no arguments while the callee reads `$a0` through `$a3`, and
+only `$a0` is set, so the rest are whatever the register file happened to
+hold. There is no expression to write for them, and its `void (void)`
+declaration stays.
+
+`func_800540B4` is the same direction and the opposite outcome. A site that
+declared no parameters took the definition's true one-parameter signature,
+because `$a0` already held the value the caller would have written, so naming
+it cost nothing. The missing argument was recoverable, and once it is named
+the mismatch is gone.
+
+So the direction does not decide this one either. What decides it is whether
+the incoming values can be expressed at the call site: `func_8004CB0C`'s three
+extra registers cannot be, and `func_800540B4`'s single one already was.
+
+A caller that passes MORE than the callee reads is the case that looks equally
+unfixable and is not. duel_card_effects.c declared `s32 func_8001F364(s32)`
+and called it with a flag at both sites; the definition takes void and never
+looks at the register. Dropping the argument and the parameter is
+byte-identical, so the declaration follows the definition. The instinct that
+retail sets $a0 because the declaration says to was wrong here.
+
+One more in the same family, also recorded in unmatched.h: func_80013C28
+keeps two incompatible spellings on purpose.
+
+So: an arity mismatch is a measurement, not a reading. Try the definition's
+signature at the call sites and build. It costs one build and settles which
+of the two directions this instance is.
+
+### A volatile that merely differs can still be the whole match
+
+`notes/build.md` sorts a declaration that disagrees with its definition into
+three cases: one that agrees is inert and belongs in the owning header, one
+that merely differs may still be inert and is worth a build to find out, and
+one that encodes a different view of the address cannot be centralized at all.
+The middle case is an invitation to measure, not a presumption that the
+spelling is decoration, and it lands on both sides.
+
+`main_services.c` is the published example of it being decoration: three
+`extern volatile` declarations argued the volatile held an init block in
+source order, and dropping them built byte-identical.
+
+`file_transfer_runtime.c` is the same shape and the opposite answer. It
+declares
+
+    extern volatile u16 D_8009B124;
+    extern volatile s32 D_8009B0E8;
+
+where `file_stream.c` declares both without the qualifier, and no header owns
+either symbol though `file_transfer.h` already owns the rest of that family.
+Dropping the two qualifiers does not merely change the encoding; the
+executable comes out four bytes short and fails on size alone. The cause is
+scheduling, not elimination. `func_80014A5C` stores one word and then tests
+the other:
+
+    D_8009B124 = 1;
+    if (D_8009B0E8 != 0) {
+        return;
+    }
+
+With `volatile` the load of `D_8009B0E8` cannot move above the store to
+`D_8009B124`, so the load-delay slot in front of the branch has nothing to
+fill it:
+
+    sh    v0,0(gp)        # D_8009B124 = 1
+    lw    v0,0(gp)        # D_8009B0E8
+    nop
+    bnez  v0,...
+
+Without the qualifier the load hoists above the store and fills that slot
+itself, the nop goes, and the function ends four bytes earlier. That is the
+same pinning the `Campaign_LoadScenePackageStage` case above describes for
+`D_8009B0F4`, reached from the other direction: there a byte pointer pinned a
+global load after some stores, here a volatile store pins a later load after
+itself.
+
+An earlier draft of this section explained the four bytes as a dead store
+being dropped, reading the guard as two writes in a row. That was wrong, and
+worth recording as a way to get this wrong: the `D_8009B124 = 0` arm of the
+guard returns immediately, so there is no path on which a following store
+overwrites it. The size difference was real and the mechanism invented; the
+disassembly is what settled it.
+
+The obvious conclusion from that is the guarded two-arm form `input.h` and
+`sound.h` use, one arm per spelling. It is also wrong, and it took a second
+build to find out. `file_stream.c` clears the pair once each inside
+`File_InitTransferState` and does nothing else with them, so giving *it* the
+volatile view costs nothing: one flat `extern volatile` declaration in
+`file_transfer.h` serves both files and builds byte for byte.
+
+So a qualifier that one side needs does not by itself force two arms. Ask
+which side the difference is load-bearing on, and then whether the other side
+is merely indifferent rather than opposed. Two arms are for two genuine
+views; a strong spelling and an indifferent one are a single declaration.
+
+The rule to carry: a qualifier difference is worth one build in either
+direction, and the build is the whole of the evidence. Neither "it is only a
+qualifier" nor "the qualifier must be there for a reason" survives contact
+with the two cases above -- and neither does the assumption that a real
+difference has to be centralized as two arms.
 
 ## Compiler experiments
 

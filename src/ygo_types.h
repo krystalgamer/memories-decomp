@@ -3,6 +3,22 @@
 
 #include "types.h"
 
+/* Only the first five words at 0x80010000: three reused MODEL payload
+ * bases, followed by the two primary modules entered at +4. This is an
+ * address-block prefix, not a homogeneous arena table or a payload layout.
+ * The remaining module, data-argument and SU words keep separate labels. */
+typedef struct {
+    u8 *payload_bases[3];
+    u8 *primary_modules[2];
+} HighMemoryModelAddressPrefix;
+
+typedef char HighMemoryModelAddressPrefix_size_must_be_0x14[
+    sizeof(HighMemoryModelAddressPrefix) == 0x14 ? 1 : -1
+];
+typedef char HighMemoryModelAddressPrefix_modules_offset_must_be_0xC[
+    (u32)&(((HighMemoryModelAddressPrefix *)0)->primary_modules) == 0xC ? 1 : -1
+];
+
 typedef struct {
     s16 id;
     u16 count;
@@ -334,10 +350,9 @@ typedef char DuelStatusDigitPacket_field_14_offset_must_be_0x14[
  * each writes both members at once -- the low word from a table entry and the
  * high word from the index beside it.
  *
- * The typedef is shared here; the extern that uses it is not. D_801D5608 is a
- * staging area with several faithful views, spelled s32 and s32 [] elsewhere
- * and reached through an explicit .reloc in main_run_credits.c, so each
- * consumer keeps the declaration its own reads need. See notes/build.md. */
+ * game/text_staging.h owns the guarded extern views of D_801D5608. Pair
+ * remains the overlays' view, not a claim that the staging area always holds
+ * this shape. main_run_credits.c keeps its explicit relocations. */
 typedef struct {
     u32 lo;
     u32 hi;

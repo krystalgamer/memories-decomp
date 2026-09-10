@@ -27,7 +27,8 @@ extern s8 gDuel_bOpponentID[9];
 extern u8 gCampaignSceneIndex[9];
 extern u8 D_8009B370[9];
 extern u16 D_8009B16C[9];
-extern u32 D_80010000[];
+#define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
+#include "high_memory_addresses.h"
 
 void Main_RunDuel(void)
 {
@@ -50,7 +51,7 @@ void Main_RunDuel(void)
         if (!(value & 0x80)) {
             D_8009B26E = value | 0x80;
             D_8009B2F8[0] = 0x80;
-            func_800323F8(D_80010000[0], (u8 *)gDuel_awPlayerDeck, 0, 0x80);
+            func_800323F8((u32)D_80010000[0].payload_bases[0], (u8 *)gDuel_awPlayerDeck, 0, 0x80);
             Fade_WaitIn();
         } else if (func_80033BE8() == 0) {
             SD_BGMFadeOut();

@@ -3,9 +3,10 @@
 
 #include "../types.h"
 
-/* Runs the two model setup steps func_800530C4 and func_800533D8, then loads
- * through func_80056250 with selector 2 into the buffer D_80010000[0] names,
- * sized 0x63000, with 4 as the trailing argument.
+/* Runs the two model setup steps func_800530C4 and func_800533D8, then calls
+ * func_80056250 with selector 2, D_80010000[0].payload_bases[0], 0x63000,
+ * and 4. The callee uses the pointer only as a non-null gate; this call
+ * does not load or read the payload (notes/duel-package-unused-data.md).
  *
  * The name is kept address-based: the call sequence is legible but what the
  * selector and the trailing 4 choose is not established here, and nothing in

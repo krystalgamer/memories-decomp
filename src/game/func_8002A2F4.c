@@ -5,12 +5,11 @@
 #include "func_8002A788.h"
 #include "func_80029EB0.h"
 #include "text_box_runtime.h"
-
-extern s32 D_801D5608[];
+#include "text_staging.h"
 
 void func_8002A2F4(u8 *p)
 {
-    s32 *q = D_801D5608;
+    TextStagingValues *q = D_801D5608;
     s32 r;
     s32 t;
     s32 n;
@@ -21,7 +20,7 @@ void func_8002A2F4(u8 *p)
     r = func_8002A6B8();
     gDuel_wSelectedCardID = r;
     t = (s16)r;
-    q[0] = t;
+    q->card.card_id = t;
     n = t;
 
     if (n != 0) {

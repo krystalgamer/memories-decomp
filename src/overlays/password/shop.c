@@ -1,5 +1,7 @@
 #define GINPUT_PAD1_REPEAT_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
+#define TEXT_STAGING_AS_PAIR
+#define TEXT_STAGING_STARCHIPS_ALIAS
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../psyq/libgte.h"
@@ -18,6 +20,7 @@
 #include "../../game/func_80039794.h"
 #include "../../game/text_constants.h"
 #include "../../game/text_box_runtime.h"
+#include "../../game/text_staging.h"
 #include "shop.h"
 #include "../../game/sound.h"
 #include "../../game/fade.h"
@@ -49,8 +52,6 @@ extern u8 D_800EA0E8[];
 extern u16 D_8016D4DC;
 extern u32 D_8016D438;
 extern u32 D_801A8000[];
-extern Pair D_801D5608;
-extern s32 D_801D5608_starchips asm("D_801D5608");
 extern volatile u16 D_8009B3A4;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
