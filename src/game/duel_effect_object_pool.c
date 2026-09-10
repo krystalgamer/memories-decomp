@@ -1,7 +1,7 @@
 #include "../types.h"
+#include "duel_effect_request.h"
 #include "duel_effect_object_pool.h"
 
-extern DuelEffectRequest D_800EAD88[DUEL_EFFECT_REQUEST_COUNT];
 extern u8 D_801D0000[];
 
 int func_8002C570(int offset)
