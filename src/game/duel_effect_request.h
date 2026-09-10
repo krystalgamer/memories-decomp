@@ -89,8 +89,9 @@ extern u8 *D_8009B17C;
  * func_80018FEC (still assembly); duel_scene_update.c, func_8002596C.c,
  * func_80025D30.c and duel_field_effect_transition.c define the .data arm
  * below for that.
- * func_8002C68C.c keeps its own extern, because it cannot include this
- * header (see the note under func_8002C68C). */
+ * func_8002C68C.c keeps its own data extern because it cannot include this
+ * header (see the note under func_8002C68C). Its func_8002C604 call now uses
+ * the guarded ambient-id declaration in func_8002C604.h. */
 #ifdef D_8009B260_IN_DATA
 extern u8 D_8009B260 __attribute__((section(".data")));
 #else
