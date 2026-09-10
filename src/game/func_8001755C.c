@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8001755C.h"
 #include "model_slot_setup.h"
 #include "model_scene_setup.h"
 

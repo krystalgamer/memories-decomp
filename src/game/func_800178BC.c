@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_800178BC.h"
 #include "view_state.h"
 #include "screen_projection.h"
 #include "../psyq/libgte.h"
