@@ -94,7 +94,7 @@ void func_80019608(void)
             p->flags =
                 (p->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST) &
                 ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-            D_800E9EF0[1] = p;
+            D_800E9EF0[1] = (u8 *)p;
             return;
         }
         if ((state & 0x40) == 0) {
