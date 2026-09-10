@@ -1291,7 +1291,7 @@ that object byte from the card's packed type field, using
 `DUEL_RANK_RULE_PURE_MAGIC` (row 4).
 
 This write precedes this handler's calls to
-[`func_80026BA4`](../../src/game/func_80026BA4.c) at `0x80019870` and
+[`func_80026BA4`](../../src/game/duel_magic_effect_dispatch.c) at `0x80019870` and
 `0x800199D8`, which request the effect phases. It therefore records a
 type-qualified entry into this use sequence, not evidence that the effect
 finished or changed a target. This corroborates the normal handler's
