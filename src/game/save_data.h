@@ -2,12 +2,15 @@
 #define MEMORIES_DECOMP_SAVE_DATA_H
 
 #include "../types.h"
+#include "card_constants.h"
+#include "campaign_flags.h"
 
 #define SAVE_DATA_HEADER_SIZE 0x200
 #define SAVE_DATA_STATE_SIZE 0x680
 #define SAVE_DATA_REPLICATED_STATE_SIZE (SAVE_DATA_STATE_SIZE * 2)
 #define SAVE_DATA_DUPLICATE_STATE_OFFSET \
     (SAVE_DATA_HEADER_SIZE + SAVE_DATA_STATE_SIZE)
+#define SAVE_DATA_CARD_QUANTITIES_OFFSET 0x50
 #define SAVE_DATA_DUELIST_CODE_OFFSET 0x334
 #define SAVE_DATA_SEQUENCE_OFFSET 0x404
 #define SAVE_DATA_VBLANK_COUNTER_OFFSET 0x408
@@ -53,11 +56,24 @@
 #define SAVE_DATA_RESERVED_TAIL_PAYLOAD_OFFSET \
     (SAVE_DATA_HEADER_SIZE + SAVE_DATA_RESERVED_TAIL_OFFSET)
 
-/* Shared prefix of the persistent state block. Validation owns the duelist
- * code, while runtime restore owns the sequence, frame counter, player name,
- * campaign scene and sound-output fields. */
+/* The updater selects the outcome with a halfword cursor; the text producer
+ * reads the same two counters with signed extension. */
+typedef union {
+    struct {
+        u16 wins;
+        u16 losses;
+    } result;
+    u16 counts[2];
+} SaveDataDuelistRecord;
+
+/* Observed prefix, not the full 0x680-byte persistent state allocation. */
 typedef struct {
-    u8 pad_000[SAVE_DATA_DUELIST_CODE_OFFSET];
+    u16 player_deck[DECK_SIZE];
+    u8 card_quantities[CARD_COUNT];
+    u8 pad_322[
+        SAVE_DATA_DUELIST_CODE_OFFSET -
+        (DECK_SIZE * sizeof(u16) + CARD_COUNT)
+    ];
     s32 duelist_code;
     u8 pad_338[
         SAVE_DATA_SEQUENCE_OFFSET -
@@ -66,9 +82,14 @@ typedef struct {
     u32 save_sequence;
     u32 vblank_counter;
     u8 player_name_sjis[SAVE_DATA_PLAYER_NAME_SIZE];
-    u8 pad_418[
+    u8 campaign_flags[
+        (CAMPAIGN_FLAG_ID_MASK + 1) >> CAMPAIGN_FLAG_BYTE_SHIFT
+    ];
+    u8 pad_518[4];
+    SaveDataDuelistRecord duelist_records[FREE_DUEL_GRID_ENTRY_COUNT];
+    u8 pad_5BC[
         SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET -
-        (SAVE_DATA_PLAYER_NAME_OFFSET + SAVE_DATA_PLAYER_NAME_SIZE)
+        (0x51C + sizeof(SaveDataDuelistRecord) * FREE_DUEL_GRID_ENTRY_COUNT)
     ];
     u8 campaign_scene_index;
     u8 field_5DD;
@@ -77,10 +98,60 @@ typedef struct {
     u32 starchips;
 } SaveDataState;
 
+/* The live state starts at +0x200 in the reusable 0x801D0000 workspace.
+ * This view describes only that prefix, not the cleared 0x3000-byte arena. */
+typedef struct {
+    u8 prefix[SAVE_DATA_HEADER_SIZE];
+    SaveDataState state;
+} SaveDataWorkspace;
+
+typedef char SaveDataDuelistRecord_size_must_be_4[
+    sizeof(SaveDataDuelistRecord) == FREE_DUEL_GRID_RECORD_SIZE ? 1 : -1
+];
+typedef char SaveDataDuelistRecord_losses_offset_must_be_2[
+    (u32)&(((SaveDataDuelistRecord *)0)->result.losses) == sizeof(u16) ? 1 : -1
+];
+typedef char SaveDataState_card_quantities_offset_must_be_0x50[
+    (u32)&(((SaveDataState *)0)->card_quantities) ==
+        SAVE_DATA_CARD_QUANTITIES_OFFSET ? 1 : -1
+];
+typedef char SaveDataState_duelist_code_offset_must_be_0x334[
+    (u32)&(((SaveDataState *)0)->duelist_code) ==
+        SAVE_DATA_DUELIST_CODE_OFFSET ? 1 : -1
+];
+typedef char SaveDataState_campaign_flags_offset_must_be_0x418[
+    (u32)&(((SaveDataState *)0)->campaign_flags) ==
+        CAMPAIGN_FLAG_BANK_OFFSET - SAVE_DATA_HEADER_SIZE ? 1 : -1
+];
+typedef char SaveDataState_duelist_records_offset_must_be_0x51C[
+    (u32)&(((SaveDataState *)0)->duelist_records) == 0x51C ? 1 : -1
+];
+typedef char SaveDataState_campaign_scene_index_offset_must_be_0x5DC[
+    (u32)&(((SaveDataState *)0)->campaign_scene_index) ==
+        SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET ? 1 : -1
+];
 typedef char SaveDataState_starchips_offset_must_be_0x5E0[
     (u32)&(((SaveDataState *)0)->starchips) ==
         SAVE_DATA_STARCHIPS_OFFSET ? 1 : -1
 ];
+typedef char SaveDataState_size_must_be_0x5E4[
+    sizeof(SaveDataState) == 0x5E4 ? 1 : -1
+];
+typedef char SaveDataWorkspace_state_offset_must_be_0x200[
+    (u32)&(((SaveDataWorkspace *)0)->state) == SAVE_DATA_HEADER_SIZE ? 1 : -1
+];
+
+/* Keep the base and interior labels distinct: they are different relocation
+ * targets. The save-prompt halfword arm retains its base register and writes
+ * both campaign_scene_index and field_5DD, unlike the byte-sized restore. */
+#ifdef SAVE_DATA_WORKSPACE_AS_HALFWORDS
+extern s16 D_801D0000[];
+#else
+extern u8 D_801D0000[];
+#endif
+extern u8 gLibrary_abCardChest[];
+extern u8 gSaveData_aPlayerNameSjis[];
+extern SaveDataDuelistRecord gFreeDuel_aDuelistRecords[];
 
 /* The head of the 0x680-byte persistent state block: SaveData_RequestWrite
  * copies SAVE_DATA_STATE_SIZE bytes starting here. Halfwords, as the name
