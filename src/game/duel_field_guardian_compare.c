@@ -2,6 +2,7 @@
 #include "duel_side_state.h"
 #include "duel_grid.h"
 #include "duel_card.h"
+#include "duel_field_guardian_compare.h"
 
 s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
 {
