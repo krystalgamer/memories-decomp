@@ -22,7 +22,8 @@ typedef struct {
     s16 y;
 } DisplayObjectPosition;
 
-void func_8004318C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+void func_8004318C(
+    DisplayObjectPosition *object, s32 arg1, s32 arg2, s32 arg3);
 void func_80043230(
     DisplayObjectPosition *object,
     int target_x,

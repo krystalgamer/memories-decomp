@@ -14,7 +14,7 @@ void func_8001EC70(DisplayObject *object)
         object->field_60 = 0;
         object->field_2C.h.field_2E = 0;
     }
-    func_8004318C((u8 *)object, (s16)object->position.h.field_28,
+    func_8004318C((DisplayObjectPosition *)object, (s16)object->position.h.field_28,
                  (s16)object->position.h.field_2A, object->field_60);
     object->field_60 += 0x800 / (s16)object->field_2C.h.field_2C;
     if (object->field_60 >= 0x800) {
@@ -33,7 +33,7 @@ void func_8001ED20(DisplayObject *object)
     if (object->field_20.b.field_22) {
         object->field_20.b.field_22 += 0x40 / (s16)object->field_2C.h.field_2C;
     }
-    func_8004318C((u8 *)object, (s16)object->position.h.field_28,
+    func_8004318C((DisplayObjectPosition *)object, (s16)object->position.h.field_28,
                  (s16)object->position.h.field_2A, object->field_60);
     object->field_60 += 0x800 / (s16)object->field_2C.h.field_2C;
     if (object->field_60 >= 0x800) {

@@ -130,7 +130,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
             quotient = 2048 / gCampaignMap_MoveState;
             marker->f96 += quotient;
             func_8004318C(
-                marker,
+                (DisplayObjectPosition *)marker,
                 ((Location *)gCampaignMap_aLocationTable)[
                     gCampaignMap_Location
                 ].f12,
