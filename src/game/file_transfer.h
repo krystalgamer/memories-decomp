@@ -9,33 +9,14 @@
 #define FILE_TRANSFER_REQUEST_BLOCKED_MASK 0x02000030
 #define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
 
-/* One entry of the two-slot request table at D_801D4200.
-
-   func_80014C40 stages the caller's request into slot 1 with a whole-record
-   copy, file_transfer_runtime.c's func_800141A8 promotes slot 1 into slot 0 the
-   same way once the drive is ready, and func_80014B30 then programs the
-   transfer descriptor out of slot 0. Two independent 0x20-byte copies at that
-   stride are what fix the size; func_80014B30 names the four words.
-
-   func_80014C40 reads the same record before it copies it, still as `u8 *`,
-   and evidences four more offsets that way: words at 0x00 and 0x04, a
-   halfword at 0x1C and bytes at 0x1E and 0x1F. Those stay padding here
-   because nothing reaches them through the type yet. */
-typedef struct {
-    u8 pad_00[0xC];
-    s32 field_0C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    u8 pad_1C[4];
-} FileRequestSlot;
-
-typedef char FileRequestSlot_size_must_be_0x20[
-    sizeof(FileRequestSlot) == 0x20 ? 1 : -1
-];
+/* File_ActivateTransfer promotes request slot 1 into slot 0, and
+   func_80014B30 consumes slot 0. Preserve the scalar and same-symbol byte
+   views used by the callback and whole-record copies, respectively. */
+extern FileRequestSlot D_801D4200;
+extern u8 D_801D4200_raw[] asm("D_801D4200");
 
 /* A FileTransferDescriptor's worth of words, for the one place that copies a
-   whole descriptor: func_800141A8 overwrites the primary descriptor with the
+   whole descriptor: File_ActivateTransfer overwrites the primary descriptor with the
    secondary one.
 
    This is a block-move spelling, not a second description of the record --
@@ -81,7 +62,9 @@ FileTransferDescriptor *func_80013A94(s32 file_index, s32 sector_offset);
 void func_8001455C(void);
 void func_80014A5C(s32 arg0);
 void func_80014B30(FileTransferDescriptor *descriptor, s32 mode);
-s32 func_80014C40(u8 *request, u8 *source);
+/* The sound producer passes FileRequestSlot directly; null polls the pending
+   state. The result retains its historical status-or-descriptor integer ABI. */
+s32 func_80014C40(FileRequestSlot *request, u8 *source);
 void File_ActivateTransfer(void);
 void File_WaitForTransfers(void);
 void File_RequestMainMenuPackage(void);
@@ -230,6 +213,25 @@ extern u8 D_801DD000[];
 /* The primary transfer descriptor. Four sources in this family reach it as a
  * FileTransferDescriptor, agreeing on the spelling, and none defines it. */
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
+
+/* The initialized .sdata pointer targets the primary descriptor. The sector
+   candidate retains its byte view and signed/nonvolatile offset accesses. */
+#ifdef FILE_TRANSFER_CURRENT_AS_BYTES
+extern u8 *D_8009AF18;
+#else
+extern FileTransferDescriptor *D_8009AF18;
+#endif
+extern u32 *D_8009B0F8;
+
+/* func_800140A0 resets these counters before the ready-system callback,
+   func_80013C28, increments them. Neither view is volatile or forced .data. */
+extern u8 D_8009B114;
+extern s32 D_8009B138;
+
+/* The filter command uses both pointer decay and a small-data byte alias.
+   The historical [1] bound is an addressing form, not the buffer extent. */
+extern char D_8009B11C[1];
+extern u8 D_8009B11C_byte asm("D_8009B11C");
 
 /* The CD callback's state word, switched on and advanced by
  * file_transfer_runtime.c.
