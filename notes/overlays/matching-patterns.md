@@ -226,6 +226,14 @@ Two consequences follow, and either can be the visible symptom:
 The second is easy to misread as a register-allocation mystery. It is not:
 it follows from which pseudo dies at the add.
 
+The byte-array expressions above record the original probe. The live table
+is now `MapLocation[]`; keeping the same separate `table` and `record` locals
+matches with `record = table + gCampaignMap_Location`. Complete typed record
+and exit accesses also reproduce the spawning and selection loops without
+their former explicit byte-stride expressions. See
+[`campaign-map-records.md`](campaign-map-records.md) for the shared field
+evidence and the two measured typed-source probes.
+
 ## An offset inside the relocation means the symbol was indexed directly
 
 When the two directions above are hard to call, the relocation itself

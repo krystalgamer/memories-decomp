@@ -55,6 +55,72 @@ typedef struct {
 
 #define YGO_TYPE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
+/* Live overworld records: camera setup/tween, marker placement and exit
+   selection all read the same 66-byte stride. The alternate map is separate. */
+typedef struct {
+    u16 story_flag;
+    s16 x;
+    s16 y;
+    u16 input_mask;
+    u8 field_08;
+    u8 destination;
+    u8 move_steps;
+    u8 pad_0B;
+} CampaignMapExit;
+
+typedef struct {
+    u16 confirm_gate;
+    s16 camera_field_04;
+    s16 camera_angle;
+    s16 camera_field_00;
+    s16 view_x;
+    s16 view_z;
+    s16 f12;
+    s16 f14;
+    u8 confirm_destination;
+    u8 pad_11;
+    CampaignMapExit exits[4];
+} MapLocation;
+
+typedef char CampaignMapExit_size_must_be_12[
+    sizeof(CampaignMapExit) == 12 ? 1 : -1
+];
+typedef char CampaignMapExit_input_mask_offset_must_be_6[
+    YGO_TYPE_OFFSET(CampaignMapExit, input_mask) == 6 ? 1 : -1
+];
+typedef char CampaignMapExit_destination_offset_must_be_9[
+    YGO_TYPE_OFFSET(CampaignMapExit, destination) == 9 ? 1 : -1
+];
+typedef char MapLocation_size_must_be_66[
+    sizeof(MapLocation) == 66 ? 1 : -1
+];
+typedef char MapLocation_marker_offset_must_be_12[
+    YGO_TYPE_OFFSET(MapLocation, f12) == 12 ? 1 : -1
+];
+typedef char MapLocation_exits_offset_must_be_18[
+    YGO_TYPE_OFFSET(MapLocation, exits) == 18 ? 1 : -1
+];
+
+typedef struct {
+    u8 pad0[8];
+    u16 f8;
+    u8 pad10[38];
+    s16 f48;
+    s16 f50;
+    u8 pad52[20];
+    u16 f72;
+    u16 f74;
+    u8 pad76[20];
+    s16 f96;
+} MapObject;
+
+typedef char MapObject_position_offset_must_be_48[
+    YGO_TYPE_OFFSET(MapObject, f48) == 48 ? 1 : -1
+];
+typedef char MapObject_transition_offset_must_be_96[
+    YGO_TYPE_OFFSET(MapObject, f96) == 96 ? 1 : -1
+];
+
 /* The two endpoint blocks in each model-effect request. `packed` preserves
    func_8005F91C's unaligned two-word copies from generic byte pointers. */
 typedef struct {
