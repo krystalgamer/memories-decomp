@@ -90,8 +90,8 @@ typedef struct DuelEffectChannel {
     u8 pad_44[0x0D];
     /* The record's state byte. TextBox_BuildStep dispatches on its low five
        bits through D_80090E64, and 0x80 is a latch every one of those
-       callbacks sets on entry: dialog_choice_state.c, dialog_update_choice.c
-       and duel_effect_state_callbacks.c all open with the same
+       callbacks sets on entry: dialog_update_choice.c and the contiguous
+       callbacks in duel_effect_state_callbacks.c open with the same
        `if ((state & 0x80) == 0) state |= 0x80;` and then write a new state
        number into it. */
     u8 state_51;

@@ -7270,7 +7270,7 @@ narrowing parameter changes what the caller has to do to the argument register,
 and that can be load bearing.
 
 Measured, it is not load bearing here, and the reason generalises. Every call
-site passes a small literal -- `(object, 3, 0)` in dialog_choice_state.c,
+site passes a small literal -- `(object, 3, 0)` in duel_effect_state_callbacks.c,
 `(object, 2, 0)` inside the defining unit and `(object, 0, 0)` in
 text_box_build_step.c. A literal that already fits in the narrower type is
 materialised by the same `li` whichever way the parameter is declared, so there

@@ -55,7 +55,7 @@ typedef struct {
     u8 field_3B;
     /* Written by func_8002EB78 and Text_HandleDisplayEffectCommand and read by
        display_effect_update_callbacks.c and
-       duel_effect_interaction_states.c. Four sites prove a byte is
+       duel_effect_state_callbacks.c. Four sites prove a byte is
        here; none of them says what it carries. */
     u8 field_3C;
     u8 pad_3D;
