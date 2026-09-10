@@ -13,7 +13,7 @@
    the load state machine and the two load step callbacks D_80090F9C selects.
    The save state machine that followed, MemCardDialog_UpdateSave, is a
    candidate since #3859 (src/candidates/func_8003E854.c); its step callback
-   is in mem_card_dialog_step_save.c. */
+   is in mem_card_dialog_runtime.c. */
 
 /* The two stores below are deliberate: retail writes the masked value and
    then the value with the new bits set. Without volatile the first store is
@@ -238,4 +238,3 @@ void MemCardDialog_StepLoadUnprompted(void)
      only argument in the function that is not a constant, retail keeps it in
      $a2 and copies it to $a0 at the shared call; the narrow declaration would
      let gcc allocate it straight into $a0 and drop the copy. */
-

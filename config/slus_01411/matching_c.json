@@ -3022,13 +3022,13 @@
       "address": "0x8003EE90",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/mem_card_dialog_step_save.c"
+      "source": "src/game/mem_card_dialog_runtime.c"
     },
     {
       "address": "0x8003EEC8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/mem_card_dialog_step_save.c"
+      "source": "src/game/mem_card_dialog_runtime.c"
     },
     {
       "address": "0x8003EED0",
@@ -3074,45 +3074,45 @@
     },
     {
       "address": "0x8003F7D4",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/save_data_request_load.c"
+      "source": "src/game/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003F810",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/save_data_poll_load.c"
+      "source": "src/game/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003F87C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/save_data_request_write.c"
+      "source": "src/game/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003F8D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x404",
-      "source": "src/game/two_player_save_runtime.c"
+      "source": "src/game/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003FCD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/two_player_save_runtime.c"
+      "source": "src/game/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003FD14",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x100",
-      "source": "src/game/two_player_save_runtime.c"
+      "source": "src/game/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003FE14",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/two_player_save_runtime.c"
+      "source": "src/game/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003FE70",

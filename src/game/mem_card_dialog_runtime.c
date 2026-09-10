@@ -17,15 +17,29 @@
 #include "func_80039794.h"
 #include "../unmatched.h"
 #include "duel_effect_mark_object_if_active.h"
+#include "mem_card_dialog_load_save.h"
 #include "mem_card_dialog_steps.h"
 #include "mem_card_dialog_runtime.h"
 
-/* The trade write-back operation followed by the modal runtime that drives
-   the operation table. MemCardDialog_Update dispatches
-   MemCardDialog_UpdateTradeSave through D_80090F9C, and both sides share the
-   dialog flags, result words, active channel, and request outcome. */
+/* The save/empty callbacks, trade write-back operation, and modal runtime that
+   drives the operation table. MemCardDialog_Update dispatches the save and
+   trade operations through D_80090F9C; all paths share the dialog flags,
+   result words, active channel, and request outcome. */
 
 extern u32 D_8009B3E0;
+
+void MemCardDialog_StepSave(void)
+{
+    if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+        D_8009B3EB = 0;
+    }
+    MemCardDialog_UpdateSave();
+}
+
+void MemCardDialog_StepNone(void)
+{
+}
 
 void MemCardDialog_UpdateTradeSave(void)
 {
