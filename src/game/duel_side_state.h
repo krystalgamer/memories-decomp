@@ -111,6 +111,18 @@ extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
  * same halfword under the other sign. Initial value not read. */
 extern s16 D_8009B22A;
 
+/* Assigned in two units and read by no C statement: func_800179F4 writes
+ * `D_8009B22C = &D_800907D8[D_8009B1D5 * 20];` (func_800179F4.c:118) and
+ * func_800208D4 writes `D_8009B22C = D_800907D8 + D_8009B1D5 *
+ * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;` (func_800208D4.c:10); no other listing
+ * mentions the symbol. u8 * because D_800907D8 is `extern u8 D_800907D8[]`
+ * under the arm both units take (duel_grid.h:56) and 20 is
+ * DUEL_FIELD_SIDE_GRID_SLOT_COUNT (duel_grid.h:9); func_800208D4.c used to
+ * write `void *` for the same address, and no prototype takes &D_8009B22C.
+ * Both stores are gp-relative sw (func_800179F4.s:128, func_800208D4.s:46),
+ * so this is the plain declaration. Initial value not read. */
+extern u8 *D_8009B22C;
+
 /* The halfword func_8002DC38 passes, as `(u8 *)&D_8009B230`, to
  * MainMenu_StartValueSetup's `toggle` parameter (entrypoints.h declares
  * `u8 *toggle`), beside the two halfwords below; func_800175A0, when both
