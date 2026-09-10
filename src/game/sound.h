@@ -422,6 +422,20 @@ typedef char SDSecondaryObject_size_must_be_0x28[
 typedef char SDSecondaryObject_channel_index_offset_must_be_0x03[
     SD_STATE_OFFSET(SDSecondaryObject, channel_index) == 0x03 ? 1 : -1
 ];
+typedef char SDSecondaryObject_gain_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryObject, field_0008) == 0x08 &&
+    SD_STATE_OFFSET(SDSecondaryObject, field_0009) == 0x09 &&
+    SD_STATE_OFFSET(SDSecondaryObject, field_000E) == 0x0E ? 1 : -1
+];
+typedef char SDSecondaryObject_pan_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryObject, field_000A) == 0x0A &&
+    SD_STATE_OFFSET(SDSecondaryObject, field_000B) == 0x0B &&
+    SD_STATE_OFFSET(SDSecondaryObject, pan) == 0x0C ? 1 : -1
+];
+typedef char SDSecondaryObject_level_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryObject, level_left) == 0x14 &&
+    SD_STATE_OFFSET(SDSecondaryObject, level_right) == 0x16 ? 1 : -1
+];
 typedef char SDSecondaryRecord_size_must_be_0x18[
     sizeof(SDSecondaryRecord) == SD_SEQUENCE_CHANNEL_RECORD_SIZE ? 1 : -1
 ];
@@ -478,6 +492,18 @@ typedef char SDSecondaryState_objects_offset_must_be_0x180[
 ];
 typedef char SDSecondaryState_transfer_offset_must_be_0x4A4[
     SD_STATE_OFFSET(SDSecondaryState, transfer) == 0x4A4 ? 1 : -1
+];
+typedef char SDSecondaryState_transfer_gain_pan_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryState, transfer.field_0018) == 0x4BC &&
+    SD_STATE_OFFSET(SDSecondaryState, transfer.field_001B) == 0x4BF ? 1 : -1
+];
+typedef char SDSecondaryState_spatial_level_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryState, field_0512) == 0x512 &&
+    SD_STATE_OFFSET(SDSecondaryState, field_07E4) == 0x7E4 &&
+    SD_STATE_OFFSET(SDSecondaryState, field_07E6) == 0x7E6 ? 1 : -1
+];
+typedef char SDSecondaryState_pan_override_offset_must_be_0x815[
+    SD_STATE_OFFSET(SDSecondaryState, field_0815) == 0x815 ? 1 : -1
 ];
 typedef char SDSecondaryState_flag_0500_offset_must_be_0x500[
     SD_STATE_OFFSET(SDSecondaryState, flag_0500) == 0x500 ? 1 : -1
@@ -547,8 +573,21 @@ extern SDValue *g_SDValue;
 #endif
 #endif
 
-#ifndef SDSECONDARYSTATE_CUSTOM_EXTERN
+/* The note-start candidate retains byte-based addressing; resident consumers
+ * use the shared layout. Both declarations describe the same pointer word. */
+#ifdef SDSECONDARYSTATE_AS_BYTES
+extern u8 *D_8009B458;
+#else
 extern SDSecondaryState *D_8009B458;
+#endif
+
+/* Separate compiler identities retain the timer's byte store and the
+ * candidate's measured root reload; both resolve to the same linker word. */
+#ifdef SDSECONDARYSTATE_BYTE_ALIAS
+extern u8 *D_8009B458_bytes asm("D_8009B458");
+#endif
+#ifdef SDSECONDARYSTATE_RELOAD_ALIAS
+extern u8 *D_8009B458_r asm("D_8009B458");
 #endif
 
 /* One SPU voice bit per entry.  The object at D_80011434 is twenty words

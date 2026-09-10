@@ -316,9 +316,9 @@ load/register schedule. It suppresses the default extern declaration from
 `sound.h`, redeclares the pointer as `u8 * volatile`, and retains the verified
 offset expressions while still using the shared header as the layout source.
 
-Functions containing GCC inline assembly remain unchanged. Migrating their
-declarations is deferred until the inline assembly itself can be replaced with
-matching C.
+Existing GCC constraints remain unchanged by layout migrations. The secondary
+spatialization contract below also covers callers containing constraints,
+without changing or adding those devices.
 
 The contiguous initialization block at `0x80049200-0x800495EC` now builds as
 `src/game/sound_init.c`. It preserves the explicit raw music-pointer write in
@@ -432,6 +432,63 @@ its distinct center branch. The exclusive upper bound is `128`, not a new
 selectable endpoint. These constants do not replace the pitch-bend center,
 the primary voice's signed-pan domain, or the gain/velocity normalization
 fields that happen to contain similar values.
+
+### Shared secondary spatialization contract
+
+`sound_spatialize_object.h` now declares both parameters with the existing
+`SDSecondaryObject` and `SDSecondaryRecord` types from `sound.h`.
+`SD_SpatializeSecondaryObject` at `0x8004A0FC` uses those members throughout,
+including typed `SDSecondaryState` root reads. The two matching callers
+(`SD_UpdateSecondaryObjectVolumes` and `func_8004B49C`) and retained
+`func_8004ADE8` candidate consume the same prototype. Their original byte-stride
+argument calculations remain where needed; the parameter ABI is still two
+32-bit pointers.
+
+The layout evidence predates this conversion: the controller writer stores
+channel pan, volume and expression, while the note-start candidate fills
+object `+0x08/+0x09` from program/tone gain bytes and `+0x0A/+0x0B` from
+program/tone pan bytes, then stores velocity at `+0x0E`. The candidate now
+uses the shared object members for those five stores and the two result
+loads. The kernel writes pan at `+0x0C` and unsigned levels at `+0x14/+0x16`;
+the caller forwards those levels to `SD_SetVoiceVolume`. Existing
+offset-based names remain: this does not assign stronger VAB or transfer
+semantics to the partial layouts.
+
+Six additional compile-time checks cover fourteen offsets: the object
+gain/pan/result members, state `transfer.field_0018` at `+0x4BC`,
+`transfer.field_001B` at `+0x4BF`, the halfwords at `+0x512/+0x7E4/+0x7E6`,
+and the override byte at `+0x815`. Existing checks cover the channel members,
+object count, array bases, strides and complete state extent.
+The kernel explicitly converts `field_0512` to `u16`, preserving its unsigned
+retail load despite the shared signed storage view. The `+0x7E4/+0x7E6`
+loads stay signed, and both volatile reads of object `field_000E` remain
+separate. Root reloads, arithmetic order, shifts and truncating stores are
+unchanged.
+
+The remaining private `D_8009B458` declarations now live in `sound.h`.
+Residents use the ordinary typed pointer; `SDSECONDARYSTATE_AS_BYTES` keeps
+the candidate's original byte pointer. The opt-in
+`SDSECONDARYSTATE_BYTE_ALIAS` and `SDSECONDARYSTATE_RELOAD_ALIAS` arms preserve
+the existing timer byte-store and candidate root-reload compiler identities.
+Both aliases still resolve to `D_8009B458`; no new alias, storage definition,
+linker assignment or volatile global is introduced. The candidate also uses
+the existing twenty-entry `D_80011434` contract instead of its private
+incomplete declaration. Only those two obsolete private-extern dependencies
+are removed from its metadata; all nineteen candidate object fingerprints,
+targets and profiles remain unchanged, and the note-start candidate is still
+a near miss.
+
+The volume sweep retains four raw reads: two channel-index byte reads at
+state-plus-byte-stride `+0x183`, and the unsigned result pair at
+`+0x194/+0x196`. Its root, object-count reads and channel argument are typed.
+Under the recorded `gcc_2_8_1_g0` profile, object-array pointer expressions
+added eight bytes; indexing with the loop counter added sixteen; a
+field-relative channel cursor added four. Keeping that channel cursor raw
+but making the result loads field-relative restored size yet reversed the
+two source registers of an address addition at `0x8004A36C`. The accepted
+read expressions preserve both instruction bytes and the existing induction
+variables/constraints. The kernel itself needs no raw offset access and
+still uses its recorded `gcc_2_8_1_g0_no_cse_follow_jumps` profile.
 
 The same header names the event codes consumed by `SD_ReadSequenceEvent`,
 `SD_DispatchSequenceChannelEvent`, and `SD_HandleSequenceMetaEvent`. A status-present bit, a message-type mask,
