@@ -4,14 +4,16 @@
 #include "duel_display.h"
 #include "duel_grid.h"
 #include "sorted_entry.h"
+#include "duel_card.h"
+#include "display_projection.h"
 #include "../unmatched.h"
 
-extern u8 D_801A7B64[];
+extern DuelCardRecord D_801A7B64[];
 
 void SetGeomScreen();
 
 void func_800164FC(void) {
-    u8 *e;
+    DuelCardRecord *e;
     u8 *a;
     u8 *p1;
     u8 *p3;
@@ -21,7 +23,7 @@ void func_800164FC(void) {
     s32 c;
     s32 f;
     ViewState *q;
-    u8 *t;
+    DuelCardRecord *t;
 
     q = &D_800F2848;
     SetGeomScreen(q->projection);
@@ -73,12 +75,12 @@ void func_800164FC(void) {
     *p4 = c;
 
     do {
-        h = *(u16 *)(e + 0x16);
+        h = e->flags;
         if ((h & DUEL_CARD_FLAG_OCCUPIED) != 0) {
-            a = *(u8 **)e;
+            a = e->object;
             if (a != (u8 *)0) {
                 if ((h & 0x400) != 0) {
-                    func_80015DFC(e);
+                    func_80015DFC((DisplayProjectionTrackedObject *)e);
                     n++;
                     goto next;
                 }
@@ -88,19 +90,19 @@ void func_800164FC(void) {
         }
         n++;
     next:
-        e += DUEL_CARD_RECORD_SIZE;
+        e++;
     } while (n < DUEL_FIELD_SIDE_ZONE_COUNT);
 
     t = D_801A7B64;
-    e = t + DUEL_CARD_SIDE_RECORD_COUNT * DUEL_CARD_RECORD_SIZE;
+    e = t + DUEL_CARD_SIDE_RECORD_COUNT;
     n = 0;
     do {
-        h = *(u16 *)(e + 0x16);
+        h = e->flags;
         if ((h & DUEL_CARD_FLAG_OCCUPIED) != 0) {
-            a = *(u8 **)e;
+            a = e->object;
             if (a != (u8 *)0) {
                 if ((h & 0x400) != 0) {
-                    func_80015DFC(e);
+                    func_80015DFC((DisplayProjectionTrackedObject *)e);
                     n++;
                     goto next2;
                 }
@@ -110,7 +112,7 @@ void func_800164FC(void) {
         }
         n++;
     next2:
-        e += DUEL_CARD_RECORD_SIZE;
+        e++;
     } while (n < DUEL_FIELD_SIDE_ZONE_COUNT);
 
     SetGeomOffset(0, 0);
