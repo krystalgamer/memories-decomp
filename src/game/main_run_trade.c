@@ -16,6 +16,7 @@
 #include "display_object_helpers.h"
 #include "text_box_runtime.h"
 #include "main_modes.h"
+#include "duel_reward_setup.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, which is the form the
@@ -32,7 +33,6 @@ u8 D_8009B26E;
 extern u8 D_800E9EF0[];
 #define gTradeObj (*(DisplayObject **)D_800E9EF0)
 
-extern void func_80032328(void);
 void Main_RunTrade(void)
 {
     DuelEffectChannel *box;
