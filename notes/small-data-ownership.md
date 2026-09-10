@@ -22,9 +22,10 @@ u32 gSaveData_dwMaskStateLow __attribute__((section(".sdata"))) = 0x55555555;
 ```
 
 Two small blobs remain, at `0x8009AF08` and `0x8009AF2A`. The former
-`0x8009AF6C` blob is now split around two C-owned interior ranges: a 28-byte
+`0x8009AF6C` blob is now split around three C-owned interior ranges: a 28-byte
 head at `0x8009AF6C`, model/graphics state at `0x8009AF88`, model primitive
-templates at `0x8009AFAC`, and a 156-byte tail at `0x8009AFE4`.
+templates at `0x8009AFAC`, model handler state at `0x8009AFE4`, and a 40-byte
+tail at `0x8009B058`.
 
 ## The owning unit is predictable, not a guess
 
@@ -165,6 +166,26 @@ absolute, non-volatile declarations for `D_8009AFA2`-`D_8009AFA4`, while
 `D_8009AF8E`, and `D_8009AF90`: changing them to extern shortens its text by
 four bytes. The data-only unit remains the strong definition, so those commons
 allocate no storage.
+
+## `0x8009AFE4` is one C-owned model-handler state block
+
+The 116 bytes from `D_8009AFE4` through the end of `D_8009B050` are emitted by
+`model_handler_state.c`. The prefix contains five byte/halfword state labels,
+including a private halfword continuation that preserves the unnamed bytes at
+`0x8009AFEA`. Two word pairs and two mutable words follow. The rest of the
+block is eleven fixed-size diagnostic strings and formatting fragments used by
+the adjacent unmatched model handlers.
+
+An isolated GCC 2.8.1 probe reproduced the entire prefix byte-for-byte:
+
+```text
+.sdata  size=00000074  align=2**2
+no relocations
+```
+
+All twenty public symbols land at their extracted offsets. Splitting the
+original blob at `D_8009B058` leaves the unrelated 40-byte tail in generated
+assembly rather than assigning it to the model-handler owner.
 
 ## The remaining unowned blob
 

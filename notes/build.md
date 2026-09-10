@@ -424,10 +424,11 @@ split rather than on a close count.
 #### The largest game-owned range, and who does not own it
 
 The original 276 bytes at `0x8009AF6C` were previously written off here as a
-scattered grab-bag with no coherent translation unit. Two interior ranges are
-now C-owned: the 36-byte model/graphics state block at `0x8009AF88` and the
-56-byte primitive-template block at `0x8009AFAC`. The remaining 184 bytes are
-the scattered head and tail described below.
+scattered grab-bag with no coherent translation unit. Three interior ranges
+are now C-owned: the 36-byte model/graphics state block at `0x8009AF88`, the
+56-byte primitive-template block at `0x8009AFAC`, and the 116-byte handler
+state/diagnostic block at `0x8009AFE4`. The remaining 68 bytes are the
+scattered head and tail described below.
 
 Mapping the original 77 labels in address order now gives five pieces:
 
@@ -436,10 +437,10 @@ Mapping the original 77 labels in address order now gives five pieces:
 | `0x8009AF6C`-`0x8009AF87` | scattered 28-byte head |
 | `0x8009AF88`-`0x8009AFAB` | C-owned model/graphics state |
 | `0x8009AFAC`-`0x8009AFE3` | C-owned model primitive templates |
-| `0x8009AFE4`-`0x8009B057` | coherent handler-only state, still extracted |
+| `0x8009AFE4`-`0x8009B057` | C-owned model handler state and diagnostics |
 | `0x8009B058`-`0x8009B07F` | scattered 40-byte tail |
 
-The two owned ranges prove that placement was never the obstacle. Both are
+The three owned ranges prove that placement was never the obstacle. All are
 data-only units inserted between `save_data_mask_state` and
 `ai_script_source_line_format`, so their position comes directly from the
 split template. `model_graphics_state` also proves that mixed byte, halfword
@@ -447,12 +448,11 @@ and word fields are viable when each unnamed continuation byte is represented
 explicitly: its `.sdata` is exactly 36 bytes and retains the pointer relocation
 to `D_80091008`.
 
-The remaining coherent handler range is harder only because its layout mixes
-single bytes, packed sub-word state, words and aligned strings. Its identity is
-still clear: the model handler family and `func_800540B4` are its readers, and
-the strings and state words are renderer diagnostics/working state. Any next
-conversion should therefore start from byte-layout probes, not from uncertainty
-about placement or ownership.
+`model_handler_state` applies the same measured-layout approach to a more
+varied block: five leading state labels, a private halfword continuation, two
+word pairs, two mutable words, and eleven fixed 4- or 8-byte strings. That
+spelling produces an exact 116-byte section without relocations. The split at
+`D_8009B058` leaves the unrelated 40-byte tail extracted.
 
 ### The small-data region
 
