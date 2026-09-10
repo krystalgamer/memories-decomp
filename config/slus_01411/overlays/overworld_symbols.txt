@@ -1,3 +1,4 @@
 // Project-owned mechanical names; these are not imported reference labels.
+D_801695C8 = 0x801695C8;
 CampaignMap_PickAlternateExit = 0x801697D0; // type:func
 CampaignMap_UpdateAlternateLocation = 0x80169A9C; // type:func
