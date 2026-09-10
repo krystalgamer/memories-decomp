@@ -7,6 +7,7 @@
 #include "card_constants.h"
 #include "text_constants.h"
 #include "duel_card.h"
+#include "func_80060B38.h"
 
 extern u8 D_801A8000[];
 
