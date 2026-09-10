@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "func_8002F4C0.h"
 #include "../unmatched.h"
 
 void func_8002F4C0(u8 *p, s32 mode)
