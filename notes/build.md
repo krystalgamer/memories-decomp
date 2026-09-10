@@ -440,27 +440,30 @@ which touches eighteen of the symbols on its own. This is the model
 renderer's shared working state, reached only from generated assembly because
 none of its readers is matched C yet.
 
-The tempting next step is the wrong one. Its heaviest readers are the model
-handler families, so the obvious guess is that a handler translation unit
-owns it. The text-order rule refutes that outright. The run's neighbours fix
-a window: `D_8009AFA6` immediately below is consumed by
-`model_state_getters.c` at text `0x80058DC0`, and `D_8009B058` immediately
-above by `func_8005B64C.c` at text `0x8005B64C`. A `.sdata` contribution
-lands in text order, so the owning unit's text must fall inside
-`0x80058DC0`-`0x8005B64C`. Every handler family member sits at `0x800612C0`
-or higher -- outside the window, all of them.
+The tempting next step is to conclude that a handler translation unit owns
+it, since the handlers are its heaviest readers. That guess is unsupported,
+but so is the obvious refutation of it, and the reason is worth recording
+because it is easy to get backwards.
 
-So the readers are known and the owner is constrained, but they are disjoint
-sets. Forty-seven matched translation units have text inside that window,
-which narrows placement without determining it; separating them needs a
-discriminator beyond reference counting.
+The `.sdata` text-order rule constrains a symbol's position by the text
+address of the unit that **defines** it. It says nothing about units that
+merely consume it. So a window cannot be interpolated from the neighbours
+here: `D_8009AFA6` below and `D_8009B058` above are each only ever declared
+`extern` -- by `model_state_getters.c` and `func_8005B64C.c` respectively --
+and neither is defined in any C source. Both resolve from linker symbols,
+exactly as the run itself does.
+
+That is the real state of this neighbourhood: nothing adjacent to the run is
+owned by a translation unit, so there is no anchor to interpolate between and
+no window to place the owner inside. Text order will only start constraining
+this range once some symbol near it is genuinely defined in C.
 
 Two things follow for anyone picking this up. The run is worth owning,
 because it is coherent, entirely game-owned, and the single largest such
-piece left. And reference frequency is not evidence of ownership for
-`.sdata`: a symbol's position is fixed by the defining unit's text address,
-not by who reads it most, so the heaviest reader can be structurally
-incapable of being the definer.
+piece left. And when applying the text-order rule, check that the anchors are
+**definitions** rather than declarations: a file that declares a neighbour
+`extern` tells you nothing about where that neighbour lands, so using it to
+bound a window produces a constraint that is not there.
 
 ### The small-data region
 
