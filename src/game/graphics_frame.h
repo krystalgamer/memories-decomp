@@ -163,6 +163,28 @@ extern s32 D_8009B0C4 __attribute__((section(".data")));
 extern volatile s32 D_8009B0C4;
 #endif
 
+/* A flags halfword. Graphics_SyncFrame skips DrawSync(0) when bit 0x8000
+ * is set; Graphics_BeginFrame calls PutDispEnv only when bit 0x2000 is set;
+ * func_80013360 ors 0x2000 in for its screen-offset adjustment loop and
+ * clears it with & 0xDFFF when Start is pressed; Main_Init stores 0x5000;
+ * func_80043960 zeroes it twice. Nothing in C reads 0x4000 or 0x1000.
+ * Initial value not read. u16 follows the definition in graphics_frame.c
+ * and every retail load, which is lhu; main_init.c and func_80043960.c
+ * only store to it.
+ *
+ * graphics_frame.c defines it (gp-relative in the target); main_init.c
+ * and main_services.c reach it gp-relative and take the plain form.
+ * main_init.c used to declare it volatile with the rest of its init block;
+ * on this symbol the plain form builds byte-identical (measured by the PR
+ * that added this block). func_80043960 stores through $at (lui/sh) in a
+ * unit that reaches one other symbol through $gp, so func_80043960.c
+ * defines the .data arm. */
+#ifdef D_8009B098_IN_DATA
+extern u16 D_8009B098 __attribute__((section(".data")));
+#else
+extern u16 D_8009B098;
+#endif
+
 extern DISPENV gGraphics_DispEnv;
 
 /* Two scratch rectangles for the VRAM transfers. Every user fills x, y, w, h

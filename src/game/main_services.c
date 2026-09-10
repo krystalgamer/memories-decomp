@@ -35,7 +35,6 @@ extern s32 D_8009B0A4;
 extern s32 D_8009B0B0;
 extern s32 D_8009B0BC;
 extern s32 D_8009B0D4;
-extern u16 D_8009B098;
 
 /* The init block is a run of byte stores to distinct globals; declared
    volatile so the emitted order is the source order (see Main_Init). The

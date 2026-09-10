@@ -27,7 +27,6 @@
 
 extern volatile u8 D_8009B0C3;
 extern volatile u8 D_8009B0C1;
-extern volatile s16 D_8009B098;
 extern volatile u8 D_8009B0D1;
 extern u8 D_8009B230 __attribute__((section(".data")));
 extern void *volatile D_8009B0B4;
