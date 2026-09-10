@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_8002CBF4.h"
+#include "duel_get_base_card_stat.h"
 #include "ai.h"
 #include "card_constants.h"
 #include "duel_check_ritual.h"
