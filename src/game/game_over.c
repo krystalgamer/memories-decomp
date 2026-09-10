@@ -26,7 +26,7 @@ void func_8003C950(void)
     );
     object->attribute |= 0x1000000;
     object = func_800400AC(func_8004002C(), 2);
-    func_800428A8(object, 448, 192, 0, 0, 0, 18, 1, (s32)D_801AF000);
+    func_800428A8(object, 448, 192, 0, 0, 0, 18, 1, D_801AF000);
     *(u8 *)&object->field_5E = 128;
     func_800428EC((u8 *)object, 4);
     object->field_6C = 0;

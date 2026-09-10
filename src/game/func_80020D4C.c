@@ -41,7 +41,7 @@ void func_80020D4C(DisplayObject *arg0) {
             func_800428A8(slot, (s16)arg0->field_30.h.field_30,
                                    (s16)arg0->field_30.h.field_32, 0,
                                    arg0->field_68, arg0->field_69, 0x11, 9,
-                                   (s32) D_801AF000);
+                                   D_801AF000);
             slot->field_40.h.field_40 = (u16)arg0->field_40.h.field_40 + 0x80;
             slot->flags |= 0x28;
             slot->attribute |= (GsALON | GsAONE);

@@ -50,7 +50,7 @@ void func_80043960(s32 mode)
     Fade_InitIn();
     object = func_800400AC(func_8004002C(), 2);
     func_800428A8(object, 0, 0, 0, 0, 0, 0x10, 0x100,
-                  (int)D_801AF000);
+                  D_801AF000);
     *(u16 *)(object + 8) |= 0x28;
     func_8004365C(0, object);
     func_800438B8(4);
@@ -68,7 +68,7 @@ void func_80043960(s32 mode)
     func_8007AFA4();
     object = func_800400AC(func_8004002C(), 2);
     func_800428A8(object, 0, 0, 0, 0, 1, 0x10, 0x100,
-                  (int)D_801AF000);
+                  D_801AF000);
     *(u16 *)(object + 8) |= 0x28;
     func_8004365C(first, object);
     func_80047AD0(2);

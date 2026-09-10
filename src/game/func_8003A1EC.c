@@ -35,7 +35,7 @@ s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
         m = 0x41000000;
         p = func_800400AC(func_8004002C(), 2);
         func_800428A8(p, *(s16 *)(a + 0x34), *(s16 *)(a + 0x36), c, 0, 0, g, h,
-                      (s32)tb);
+                      tb);
         func_80042918(p);
         func_800428EC((u8 *)p, f);
         p->attribute = p->attribute | m;
@@ -45,7 +45,7 @@ s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
         if (func_8003A198(tb, c, 1, 0) != 0) {
             p = func_800400AC(func_8004002C(), 2);
             func_800428A8(p, *(s16 *)(a + 0x34), *(s16 *)(a + 0x36), c, 1, 0, g,
-                          h, (s32)tb);
+                          h, tb);
             func_80042918(p);
             func_800428EC((u8 *)p, f | 1);
             p->attribute = p->attribute | m;
@@ -58,7 +58,7 @@ s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
         if (func_8003A198(tb, c, 2, 0) != 0) {
             p = func_800400AC(func_8004002C(), 2);
             func_800428A8(p, *(s16 *)(a + 0x34), *(s16 *)(a + 0x36), c, 2, 0, g,
-                          h, (s32)tb);
+                          h, tb);
             func_80042918(p);
             func_800428EC((u8 *)p, f | 1);
             p->attribute = p->attribute | 0x41000000;
