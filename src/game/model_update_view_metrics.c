@@ -11,9 +11,8 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
+#include "../psyq/memory.h"
 #include "model.h"
-
-extern void *memset(void *, s32, s32);
 
 void Model_UpdateViewMetrics(u8 *m) {
     u8 *b;
