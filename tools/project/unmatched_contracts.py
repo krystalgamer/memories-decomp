@@ -20,6 +20,10 @@ DATA_EXCEPTIONS = Path(
     "config/slus_01411/unmatched_data_contract_exceptions.json"
 )
 LINKER_SYMBOLS = Path("config/slus_01411/c_symbols.ld")
+CANDIDATES = Path("config/slus_01411/candidates.json")
+# Headers a build-integrated candidate may not take its declaration from:
+# the candidate trees themselves, and the overlays resident code cannot see.
+HOME_HEADER_EXCLUDED = {"candidates", "candidates_target", "overlays"}
 IDENTIFIER = re.compile(r"\b[A-Za-z_]\w*\b")
 FUNCTION_DECLARATION = re.compile(r"\b(?P<name>[A-Za-z_]\w*)\s*\(")
 DECLARATION_KEYWORDS = {"__attribute__", "asm"}
@@ -46,6 +50,42 @@ def inventory(root: Path) -> dict[str, str]:
         for row in rows
         if row["module"] == "game"
     }
+
+
+def candidate_names(root: Path) -> set[str]:
+    """Inventory names of the build-integrated resident candidates."""
+    path = root / CANDIDATES
+    if not path.is_file():
+        return set()
+    data = json.loads(read_text(path))
+    addresses = {
+        int(item["address"], 16) for item in data.get("candidates", [])
+    }
+    with (root / FUNCTIONS).open(newline="", encoding="utf-8") as handle:
+        return {
+            row["name"]
+            for row in csv.DictReader(handle)
+            if int(row["address"], 16) in addresses
+        }
+
+
+def home_header_declarations(
+    root: Path,
+    names: set[str],
+) -> dict[str, set[str]]:
+    """Resident headers other than unmatched.h that declare each name."""
+    result: dict[str, set[str]] = defaultdict(set)
+    for path in sorted((root / "src").rglob("*.h")):
+        relative = path.relative_to(root)
+        if relative == UNMATCHED_HEADER:
+            continue
+        parts = relative.relative_to("src").parts
+        if parts and parts[0] in HOME_HEADER_EXCLUDED:
+            continue
+        for name, _ in declarations(read_text(path)):
+            if name in names:
+                result[name].add(relative.as_posix())
+    return result
 
 
 def matching_sources(root: Path) -> list[Path]:
@@ -283,6 +323,23 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
                 f"{statements}"
             )
 
+    # A build-integrated candidate still has a defining C translation unit,
+    # src/candidates/, so the header of the unit it came from remains a home
+    # for its declaration; unmatched.h is for functions with no such unit.
+    # Either place is accepted, but only one of them, and only one header.
+    homes = home_header_declarations(root, candidate_names(root) & unmatched)
+    for name, headers in sorted(homes.items()):
+        if name in central:
+            errors.append(
+                f"{UNMATCHED_HEADER}: candidate {name} is also declared by "
+                f"resident headers {sorted(headers)}"
+            )
+        if len(headers) > 1:
+            errors.append(
+                f"candidate {name} is declared by several resident headers: "
+                f"{sorted(headers)}"
+            )
+
     configured = load_exceptions(root)
     approved = {
         (item["source"], item["symbol"], item["declaration"])
@@ -328,7 +385,11 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
             executable_references(text, unmatched, source_declarations)
         ):
             referenced_sites.append((relative, name))
-            if name not in central and name not in source_approved:
+            if (
+                name not in central
+                and name not in source_approved
+                and name not in homes
+            ):
                 errors.append(
                     f"{relative}: unmatched function {name} is referenced "
                     f"without a declaration in {UNMATCHED_HEADER}"
@@ -424,6 +485,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     stats = {
         "unmatched": len(unmatched),
         "central": len(central),
+        "candidate_homes": len(homes),
         "exception_names": len({item["symbol"] for item in configured}),
         "exception_sites": len(configured),
         "referenced_names": len({name for _, name in referenced_sites}),
@@ -460,6 +522,7 @@ def main() -> int:
     print(
         "unmatched contracts: OK "
         f"({stats['unmatched']} unmatched, {stats['central']} central, "
+        f"{stats['candidate_homes']} candidate home headers, "
         f"{stats['exception_names']} exception names/"
         f"{stats['exception_sites']} sites, "
         f"{stats['referenced_names']} referenced names; "

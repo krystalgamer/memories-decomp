@@ -464,7 +464,8 @@ difficulty once the right question was asked.
 
 Its contents really are unrelated: a `"%s\n"` format used only by the
 still-unmatched function at `0x8002E41C`, two separate one-character strings
-read by `mem_card_dialog_load_save.c` and `mem_card_driver.c`, the display-object
+read by `MemCardDialog_UpdateSave` (now `src/candidates/func_8003E854.c`) and
+`mem_card_driver.c`, the display-object
 `ot_index` array, and the `"MTrk"` MIDI track tag compared by
 `sound_sequence_marker_scan.c`. Four subsystems, no shared subject, and no
 name for the unit better than its address.
@@ -726,6 +727,19 @@ exact source and spelling appear in
 remain after a function becomes matching C. Unreferenced assembly functions
 do not receive guessed prototypes merely to fill the header.
 
+Build-integrated candidates are the one exception on the function side.
+`unmatched.h` exists because an assembly function has no defining C
+translation unit and so nowhere for a per-unit header to live. A candidate in
+`src/candidates/` does have one, which the build compiles and fingerprints, so
+the header of the unit it came from stays a legitimate home. That is how #3859
+left the functions it moved out of matching C for pinned registers or inline
+asm: each keeps its declaration in its former header. The check therefore
+accepts a referenced candidate that is declared by exactly one resident header
+outside `src/candidates/` and `src/overlays/`, and rejects one that is declared
+both there and in `unmatched.h`. Either place is one declaration site; both
+would be two. Local declarations of a candidate still need an exception like
+any other unmatched function.
+
 For data, the check cross-references `c_symbols.ld`, every top-level extern in
 matching C, and all resident headers. A symbol centralized in `unmatched.h`
 cannot remain locally declared, lose its linker assignment, or gain a
@@ -845,10 +859,15 @@ them agree.
 
 | Translation unit | Spelling | Bytes | Relocation |
 | --- | --- | --- | --- |
-| `duel_scene_update.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
-| `func_800179F4.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
+| `src/candidates/func_80024200.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
+| `src/candidates/func_800179F4.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
 | `debug_effect_screen.c` | `extern u8 D_8009B16C[4]` | 4 | `R_MIPS_GPREL16` |
-| `main_run_duel_and_library.c` | `extern u16 D_8009B16C[9]` | 18 | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `src/candidates/func_8002CEE8.c` | `extern u16 D_8009B16C[9]` | 18 | `R_MIPS_HI16` + `R_MIPS_LO16` |
+
+The first, second and fourth rows were measured when those functions were
+matching C in `duel_scene_update.c`, `func_800179F4.c` and
+`main_run_duel_and_library.c`; they are candidates now and keep the same
+spellings.
 
 Both translation units in the disagreement compile at `-G8`, so the profile is
 not what separates them; the declared size alone decides, by falling on one
@@ -880,7 +899,7 @@ way:
 
 | Translation unit | Spelling | Profile | Relocation |
 | --- | --- | --- | --- |
-| `ai_script_load_best_values.c` | `extern unsigned short gAi_wBestDifference` | `gcc_2_8_1_g0` | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `src/candidates/func_8007164C.c` (was `ai_script_load_best_values.c`) | `extern unsigned short gAi_wBestDifference` | `gcc_2_8_1_g0` | `R_MIPS_HI16` + `R_MIPS_LO16` |
 | `ai_script_find_best_attack.c` | `extern u16 gAi_wBestDifference[]` | `gcc_2_8_1_g8_split_no_strength_reduce` | `R_MIPS_HI16` + `R_MIPS_LO16` |
 
 The object is two bytes and holds exactly one `u16`: `gAi_bBestAttacker` is the
@@ -889,7 +908,7 @@ So the array brackets describe no more storage than the scalar does, and by the
 size and index tests alone the two spellings look like drift worth collapsing.
 
 They are not. Read the profiles against the table above and each spelling is
-the one its own translation unit needs. `ai_script_load_best_values.c` compiles
+the one its own translation unit needs. `src/candidates/func_8007164C.c` compiles
 at `-G0`, where nothing is placed in small data and a plain scalar already gets
 `lui %hi` + `%lo`; it needs no lever. `ai_script_find_best_attack.c` compiles at
 `-G8`, where a two-byte scalar would be placed in small data and addressed
@@ -991,9 +1010,10 @@ holds. It does not preclude sharing the declarations with explicit view
 selection, or sharing a union that documents the overlap instead of erasing it.
 See [the producer and offset evidence](text-staging.md).
 
-`main_run_credits.c` settles it from a third direction. It hand-assembles the
-access rather than declaring the symbol at all, loading halfwords and storing
-words at `+0` and `+4` through explicit relocation directives:
+`Main_RunCredits` settles it from a third direction. It never declares the
+symbol at all; it stores a halfword at `+0` and a word at `+4` through
+`%hi`/`%lo`. Its former `main_run_credits.c` hand-assembled that access with
+explicit relocation directives (the function is generated assembly again):
 
 ```
 ".word 0x3C060000\n"
@@ -1002,7 +1022,8 @@ words at `+0` and `+4` through explicit relocation directives:
 ".reloc .-4, R_MIPS_LO16, D_801D5608\n"
 ```
 
-Its address form is written into the source and remains untouched.
+Its address form is fixed by that generated assembly, not by any C
+declaration.
 
 The rule this gives is narrow but useful. A type duplicated across files is
 worth unifying when the files agree about *the same object*. When consumers
@@ -1020,7 +1041,8 @@ a decision procedure.
 **Case one: the difference constrains optimization.** `graphics_frame.c`
 defines `D_8009B0AD`, `D_8009B0D0` and `D_8009B0A8` as plain bytes.
 `main_services.c` declared all three `extern volatile u8`, under a comment
-saying the init block is volatile so the emitted order is the source order.
+saying the init block (`func_80013154`, now `src/candidates/func_80013154.c`)
+is volatile so the emitted order is the source order.
 Those three are the *first three stores* of that run, so the honest
 expectation was a shift. There was none: dropping the `volatile` and taking
 the declarations from the owning header builds byte-identical. The comment was
@@ -1067,17 +1089,20 @@ given consumer needs. `D_8009B26C` is the case that separates those two
 claims, and it is worth writing down because it looks like an obvious
 centralization target and is not one.
 
-Seven sources declare it identically as `extern u8 D_8009B26C[]` and write
-`D_8009B26C[0]`: `frontend_scene_states.c`, `duel_effect_basic_commands.c`,
-`duel_effect_mode_7.c`, `func_8002FA28.c`, `func_8002EB48.c`,
-`script_control_commands.c` and `async_state_poll.c`. Seven identical
+Eight sources declare it identically as `extern u8 D_8009B26C[]` and write
+`D_8009B26C[0]`: `frontend_scene_states.c`, `func_80030E30.c`,
+`duel_effect_basic_commands.c`, `duel_effect_mode_7.c`, `func_8002FA28.c`,
+`func_8002EB48.c`, `script_control_commands.c` and `async_state_poll.c`
+(`func_80030E30.c` was split out of `frontend_scene_states.c`). Eight identical
 declarations of one symbol, with no disagreement to resolve, is exactly the
 shape that has passed byte-exact elsewhere. It still cannot be centralized.
 
 Two facts block it.
 
-**Retail reaches the symbol both ways, and the sources pin it.** Three units
-hand-assemble their accesses, and they do not agree about the relocation:
+**Retail reaches the symbol both ways.** Three functions that are generated
+assembly again -- `Main_RunCredits`, `func_80030998` and `func_8002A788` --
+do not agree about the relocation. Their former hand-assembled C files
+recorded it:
 
 ```
 main_run_credits.c:   .reloc .-4, R_MIPS_GPREL16, D_8009B26C
@@ -1087,23 +1112,23 @@ func_8002A788.c:      .reloc .-4, R_MIPS_HI16,    D_8009B26C
                       .reloc .-4, R_MIPS_LO16,    D_8009B26C
 ```
 
-`func_80030998.c` settles it from inside a single block: two instructions
+`func_80030998` settles it from inside a single function: two instructions
 apart it takes `gDebug_nSceneOrSoundID` `GPREL16` and `D_8009B26C`
 `HI16`/`LO16`. So the absolute form is not that unit being uniformly outside
 small data; it is this symbol, at this site.
 
-**The profile does not choose the spelling.** All seven array-spelling
-consumers compile at `gcc_2_8_1_g8`. So do `main_debug.c`,
-`main_run_credits.c`, `func_80030998.c` and `func_8002A788.c`, which use the
-plain scalar. Same compiler, same `-G8`, opposite spellings, both matching.
+**The profile does not choose the spelling.** All eight array-spelling
+consumers compile at `gcc_2_8_1_g8`. So does `main_debug.c`, which uses the
+plain scalar, as did the former `main_run_credits.c`, `func_80030998.c` and
+`func_8002A788.c`. Same compiler, same `-G8`, opposite spellings, both matching.
 `func_80024DC8.c` is the control: it is `-G0` and uses the scalar, where the
 table says no lever is needed because a plain scalar already gets `%hi/%lo`.
 
 The spelling is therefore a property of the individual access site's required
 relocation, not of the symbol and not of the translation unit's profile. A
 single shared declaration cannot serve both groups. Guarded arms could hold
-both, but each consumer would still have to select its arm, so seven local
-declarations would become seven local `#define`s and one indirection -- churn
+both, but each consumer would still have to select its arm, so eight local
+declarations would become eight local `#define`s and one indirection -- churn
 without a reduction.
 
 Two smaller notes for anyone who picks this symbol up. It is **not** an
@@ -1113,7 +1138,8 @@ units define it -- `func_8002DC38.c`, `main_run_trade.c` and
 profiles. And nothing anywhere indexes above `[0]`, which is what the next
 symbol requires: `D_8009B26D` sits one byte above it in `c_symbols.ld` and is
 live in its own right, read and written by `frontend_scene_states.c` and
-`func_8002EE94.c` behind a `D_8009B26D_IN_DATA` guard. `D_8009B26C` is a
+`func_8002EE94` (now `src/candidates/func_8002EE94.c`) behind a
+`D_8009B26D_IN_DATA` guard. `D_8009B26C` is a
 single byte with a named neighbour immediately above, so its array spelling is
 a lever and could never be a real array -- and `frontend_scene_states.c`
 demonstrates both at once, declaring `D_8009B26C[]` while separately using

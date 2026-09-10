@@ -19,9 +19,9 @@
  *
  * This is a registry of independent slots, NOT a chain: no slot is called with
  * arguments, none returns a value, and nothing enforces an order beyond the
- * index. Slot 3 is stored by func_800179F4 (func_800179F4.c:149,
+ * index. Slot 3 is stored by func_800179F4 (src/candidates/func_800179F4.c:170,
  * `D_800E9DB0[3] = func_800164FC;`; func_800179F4.s:207-208), func_8002BFCC
- * (library_runtime.c:318, `D_800E9DB0[3] = func_80029EC4;`; func_8002BFCC.s:52
+ * (func_8002BD0C.c:189, `D_800E9DB0[3] = func_80029EC4;`; func_8002BFCC.s:52
  * and :56) and CampaignMap_SetLocation
  * (src/overlays/overworld/set_location.c:56,
  * `D_800E9DB0[3] = CampaignMap_UpdateView;`), and by func_8002ACA4.s, still
@@ -40,27 +40,27 @@
 extern void (*D_800E9DB0[4])(void);
 
 /* The recovery point the registry's comment above already places at
- * 0x800E9DC0. main_init.c arms it with setjmp once the boot sequence is up,
- * and two sources jump back into it: main_run_frontend_menus.c passes 1 from
- * the game-over path and func_80030FD0.c passes 2, so the value distinguishes
- * which unwound. All three spell it jmp_buf and all three already include
- * psyq/setjmp.h, which this header now includes so the declaration stands on
- * its own. */
+ * 0x800E9DC0. Main_Init arms it with setjmp once the boot sequence is up,
+ * and two functions jump back into it: Main_RunGameOver passes 1 from the
+ * game-over path and func_80030FD0.c passes 2, so the value distinguishes
+ * which unwound (the first two are now in src/candidates/). All three spell
+ * it jmp_buf and include psyq/setjmp.h, which this header now includes so
+ * the declaration stands on its own. */
 extern jmp_buf D_800E9DC0;
 
 /* The single extra callback the pump runs after the four slots, and that
- * func_800134B4 clears alongside them. Only main_services.c refers to it. */
+ * func_800134B4.c clears alongside them; only it and main_services.c use it. */
 extern void (*D_8009B0B8)(void);
 
-/* A one-byte state value main_services.c sets alongside D_8009B0A0 to
+/* A one-byte state value func_80013154 sets alongside D_8009B0A0 to
  * D_8009B0A2, and that the two menu runners set to 10 or 6 through index 0.
  *
  * Three arms, because all three consumers want a different addressing form
- * and each is load bearing. main_services.c wants the volatile scalar: it
- * writes the byte directly and -G8 reaches a scalar gp-relative.
- * main_run_duel_and_library.c wants a sized array and
- * main_run_selection_menus.c an unsized one, which are the two ways to leave
- * small data.
+ * and each is load bearing. func_80013154 wants the volatile scalar: it
+ * writes the byte directly and -G8 reaches a scalar gp-relative. Main_RunDuel
+ * wants a sized array and main_run_selection_menus.c an unsized one, which
+ * are the two ways to leave small data. The first two are now candidates
+ * (src/candidates/func_80013154.c and src/candidates/func_8002CEE8.c).
  *
  * The [9] is a lever, not a size. c_symbols.ld names D_8009B0A4 one byte
  * after this symbol, so nine bytes would run through that and on past
@@ -84,8 +84,8 @@ extern u8 D_8009B0A3[];
    Main_RunGameOver stores 0 -- and D_8009B268 is stored 1 beside every
    request and 0 in three of func_8002D458's arms. Both are bytes, read lbu.
    func_8002D458.c and main_run_frontend_menus.c reach them through $gp;
-   func_8002EE94.c, func_8002FA28.c and frontend_scene_states.c address them
-   with %hi/%lo, outside small data, and define the .data arms. */
+   src/candidates/func_8002EE94.c, func_8002FA28.c and frontend_scene_states.c
+   address them with %hi/%lo, outside small data, and define the .data arms. */
 #ifdef D_8009B268_IN_DATA
 extern u8 D_8009B268 __attribute__((section(".data")));
 #else

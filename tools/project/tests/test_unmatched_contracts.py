@@ -86,6 +86,14 @@ class UnmatchedContractTests(unittest.TestCase):
             json.dumps({"schema": 1, "exceptions": exceptions}),
         )
 
+    def write_candidate(self) -> None:
+        self.write(
+            "config/slus_01411/candidates.json",
+            json.dumps(
+                {"schema": 2, "candidates": [{"address": "0x80010000"}]}
+            ),
+        )
+
     def errors(self) -> list[str]:
         return unmatched_contracts.validate(self.root)[0]
 
@@ -382,6 +390,63 @@ extern s32 data;
         self.assertEqual(errors, [])
         self.assertEqual(stats["headerless_data"], 1)
         self.assertEqual(stats["headerless_data_sites"], 1)
+
+    def test_candidate_may_keep_its_resident_header_declaration(self) -> None:
+        self.write_candidate()
+        self.write("src/game/test.h", "void func_test(s32 value);\n")
+        self.write(
+            "src/game/caller.c",
+            '#include "test.h"\nvoid caller(void) { func_test(1); }\n',
+        )
+
+        self.assertEqual(self.errors(), [])
+
+    def test_resident_header_does_not_cover_a_non_candidate(self) -> None:
+        self.write("src/game/test.h", "void func_test(s32 value);\n")
+        self.write("src/game/caller.c", "void caller(void) { func_test(1); }\n")
+
+        self.assertIn(
+            "src/game/caller.c: unmatched function func_test is referenced "
+            "without a declaration in src/unmatched.h",
+            self.errors(),
+        )
+
+    def test_candidate_cannot_be_declared_centrally_and_in_a_header(
+        self,
+    ) -> None:
+        self.write_candidate()
+        self.write("src/unmatched.h", "void func_test(s32 value);\n")
+        self.write("src/game/test.h", "void func_test(s32 value);\n")
+        self.write("src/game/caller.c", "void caller(void) { func_test(1); }\n")
+
+        self.assertIn(
+            "src/unmatched.h: candidate func_test is also declared by "
+            "resident headers ['src/game/test.h']",
+            self.errors(),
+        )
+
+    def test_candidate_needs_a_single_home_header(self) -> None:
+        self.write_candidate()
+        self.write("src/game/one.h", "void func_test(s32 value);\n")
+        self.write("src/game/two.h", "void func_test(s32 value);\n")
+        self.write("src/game/caller.c", "void caller(void) { func_test(1); }\n")
+
+        self.assertIn(
+            "candidate func_test is declared by several resident headers: "
+            "['src/game/one.h', 'src/game/two.h']",
+            self.errors(),
+        )
+
+    def test_candidate_trees_are_not_home_headers(self) -> None:
+        self.write_candidate()
+        self.write("src/candidates/test.h", "void func_test(s32 value);\n")
+        self.write("src/game/caller.c", "void caller(void) { func_test(1); }\n")
+
+        self.assertIn(
+            "src/game/caller.c: unmatched function func_test is referenced "
+            "without a declaration in src/unmatched.h",
+            self.errors(),
+        )
 
 
 if __name__ == "__main__":

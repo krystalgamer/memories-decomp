@@ -5,7 +5,7 @@
 /* The sound-effect voice slots: the active-voice count for one sound id
    (0x80047FAC) and the voice start that plays one (0x8004803C). The two are
    contiguous -- 0x80047FAC is 0x90 bytes and runs straight into 0x8004803C --
-   and they sit between sound_voice_selection.c and func_80048768. They are
+   and they sit between sd_key_off_voice_slots.c and func_80048768. They are
    the reader and the writer of the same four voice slots: the count walks
    g_SDValue->voice_ids and the start assigns it, along with the flags,
    volumes and timer beside it. */

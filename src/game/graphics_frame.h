@@ -6,14 +6,15 @@
 #include "../psyq/libgpu.h"
 
 /* The per-frame step multiplier. graphics_frame.c sets it to D_8009B0C1 + 1
- * once a frame and main_init.c seeds it at 1; every other consumer scales a
- * motion delta by it, which is why a dropped frame moves things twice as far.
+ * once a frame and Main_Init (src/candidates/func_80012B50.c) seeds it at 1;
+ * every other consumer scales a motion delta by it, which is why a dropped
+ * frame moves things twice as far.
  *
  * It is read at three widths across the tree and the width is a codegen
  * input, not a style choice, so the arms:
  *
  *   _IS_HALFWORD -- read into halfword arithmetic (lhu, not lw)
- *   _IS_VOLATILE -- main_init.c seeds it and must not have the store folded
+ *   _IS_VOLATILE -- Main_Init seeds it and must not have the store folded
  *   _IN_DATA     -- out of small data at the compiler, with its true width
  *                   at that call site
  *
@@ -56,10 +57,11 @@ extern s32 D_8009B0D8;
 /* The frame-advance bound. Graphics_SyncFrame spins
  * `while (D_8009B0C8 < D_8009B0C0)`, so this byte is how many frames the
  * caller lets the sync run: Main_RunAnimatedBattle and
- * src/overlays/main_menu/trade_update.c sets it to 1, func_800283F4.c:73
- * sets it to `flags - 2`, and Main_Init, Main_ResetFrontendRuntime,
- * Main_RunLibraryMenu and func_800283F4.c:203 set it to 0. Every retail
- * access is a byte store or load.
+ * src/overlays/main_menu/trade_update.c sets it to 1,
+ * src/candidates/func_800283F4.c:77 sets it to `flags - 2`, and Main_Init,
+ * Main_ResetFrontendRuntime, Main_RunLibraryMenu and
+ * src/candidates/func_800283F4.c:207 set it to 0. Every retail access is a
+ * byte store or load.
  *
  * Two units reach it gp-relative (Main_Init stores, Graphics_SyncFrame
  * re-reads it each iteration); every other retail site is a bare store
@@ -67,14 +69,15 @@ extern s32 D_8009B0D8;
  * the unit, and each is justified by a control build of that unit on the
  * plain arm (the PR that added this block records the five results):
  *
- *   _IS_VOLATILE -- graphics_frame.c and main_init.c
- *   _IN_DATA     -- func_800283F4.c, main_run_animated_battle.c and
+ *   _IS_VOLATILE -- graphics_frame.c and src/candidates/func_80012B50.c
+ *   _IN_DATA     -- src/candidates/func_800283F4.c,
+ *                   main_run_animated_battle.c and
  *                   main_run_duel_and_library.c, all at -G8: out of small
  *                   data at the compiler, with its true width
  *
  * main_reset_frontend_runtime.c (-G0) and the main_menu overlay take the
- * plain byte. main_run_credits.c is not converted: it reaches the symbol
- * only through two .reloc lines in inline asm and declares nothing. */
+ * plain byte. Main_RunCredits is not converted: it is generated assembly
+ * again and declares nothing. */
 #ifdef D_8009B0C0_IN_DATA
 extern u8 D_8009B0C0 __attribute__((section(".data")));
 #elif defined(D_8009B0C0_IS_VOLATILE)
@@ -148,7 +151,7 @@ extern volatile s32 D_8009B0C8;
 /* The frame count: Graphics_SyncFrame increments it after VSync, Main_Init
  * zeroes it, func_80037A58 and func_80020D4C test its bit 0 and the free_duel
  * overlay's screen_runtime.c reads its low seven bits. Retail reaches it
- * gp-relative in main_init.c and graphics_frame.c and through a lui/lw pair
+ * gp-relative in Main_Init and graphics_frame.c and through a lui/lw pair
  * in the other two, which is the .data arm. volatile is measured: without
  * it Main_Init's zeroing store sinks below the volatile D_8009B0C8 store
  * beside it (mismatch at 0x80012BAC). Sign is not visible in any use
@@ -169,11 +172,11 @@ extern volatile s32 D_8009B0CC;
  * (still assembly) reads it too. Sign is not visible in any use (& 0x3F,
  * & 0x7F, << 8, ++, = 0), so s32 follows D_8009B0C8 and is not established.
  *
- * main_frame.c and main_init.c reach it gp-relative and take the volatile
- * form below; every other retail site is a lui/lw pair. volatile is
- * measured (notes/research/matching-evidence.md:479-490): Main_Init zeroes
- * it and immediately re-reads it, and without volatile GCC forwards the
- * stored zero and the function is one instruction short.
+ * main_frame.c and src/candidates/func_80012B50.c reach it gp-relative and
+ * take the volatile form below; every other retail site is a lui/lw pair.
+ * volatile is measured (notes/research/matching-evidence.md:479-490):
+ * Main_Init zeroes it and immediately re-reads it, and without volatile GCC
+ * forwards the stored zero and the function is one instruction short.
  * func_800339D0.c (-G8) defines the .data arm;
  * widget_update_pulse_colour.c (-G0) and the password overlay's
  * name_entry_main.c take the plain form. */
@@ -193,11 +196,11 @@ extern volatile s32 D_8009B09C;
  * local, a u32 field in and out), so s32 follows D_8009B09C and D_8009B0C8
  * and is not established.
  *
- * main_frame.c and main_init.c reach it gp-relative and take the volatile
- * form below; SaveData_ApplyRuntimeState stores through $at (lui/sw) and
- * SaveData_BuildPayload loads through a lui/lw pair, each while reaching
- * another symbol through $gp, so save_data_payload.c, which holds both,
- * defines the .data arm. */
+ * main_frame.c and src/candidates/func_80012B50.c reach it gp-relative and
+ * take the volatile form below; SaveData_ApplyRuntimeState stores through
+ * $at (lui/sw) and SaveData_BuildPayload loads through a lui/lw pair, each
+ * while reaching another symbol through $gp, so save_data_payload.c, which
+ * holds both, defines the .data arm. */
 #ifdef D_8009B0C4_IN_DATA
 extern s32 D_8009B0C4 __attribute__((section(".data")));
 #else
@@ -210,12 +213,13 @@ extern volatile s32 D_8009B0C4;
  * clears it with & 0xDFFF when Start is pressed; Main_Init stores 0x5000;
  * Main_RunBootSequence zeroes it twice. Nothing in C reads 0x4000 or 0x1000.
  * Initial value not read. u16 follows the definition in graphics_frame.c
- * and every retail load, which is lhu; main_init.c and
+ * and every retail load, which is lhu; Main_Init and
  * main_run_boot_sequence.c
  * only store to it.
  *
- * graphics_frame.c defines it (gp-relative in the target); main_init.c
- * and main_services.c reach it gp-relative and take the plain form.
+ * graphics_frame.c defines it (gp-relative in the target);
+ * src/candidates/func_80012B50.c and src/candidates/func_80013360.c reach it
+ * gp-relative and take the plain form.
  * main_init.c used to declare it volatile with the rest of its init block;
  * on this symbol the plain form builds byte-identical (measured by the PR
  * that added this block). Main_RunBootSequence stores through $at (lui/sh) in
@@ -358,10 +362,10 @@ extern u8 D_800A5768[];
  * main_init.c was dropped the same way.
  *
  * Their neighbour D_8009B0A0 is deliberately NOT here: graphics_frame.c
- * defines it `u8 D_8009B0A0[4]` while main_services.c both declares it a
- * scalar and assigns `D_8009B0A0 = 2`. Array and scalar are two faithful
- * views of one address, so neither spelling can absorb the other and that
- * declaration stays local. */
+ * defines it `u8 D_8009B0A0[4]` while src/candidates/func_80013154.c both
+ * declares it a scalar and assigns `D_8009B0A0 = 2`. Array and scalar are
+ * two faithful views of one address, so neither spelling can absorb the
+ * other and that declaration stays local. */
 extern u8 D_8009B0AD;
 extern u8 D_8009B0D0;
 extern u8 D_8009B0A8;

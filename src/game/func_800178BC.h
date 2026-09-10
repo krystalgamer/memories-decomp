@@ -11,10 +11,11 @@
  *
  * The inline assembly is the reason this unit stays as it is: the block
  * writes the GTE control registers and issues rtps by encoded word, so the
- * sequence is pinned rather than expressed in C.
+ * sequence is pinned rather than expressed in C. It is also why the
+ * definition is a candidate, src/candidates/func_800178BC.c.
  *
- * func_800179F4.c is the only consumer and reached it through a local extern
- * that already agreed with this. */
+ * func_800179F4 (src/candidates/func_800179F4.c) is the only consumer and
+ * reached it through a local extern that already agreed with this. */
 void func_800178BC(void);
 
 #endif

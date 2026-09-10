@@ -1,0 +1,234 @@
+/*
+ * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
+ * source rebuilt the target byte for byte, but only by
+ * pinning 2 variables to hard registers, so it is kept here as a candidate
+ * rather than counted as a decompilation. It was src/game/func_8002EE94.c.
+ */
+#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+#define D_8009B268_IN_DATA
+#define D_8009B26D_IN_DATA
+#define SAVE_DATA_WORKSPACE_AS_HALFWORDS
+#include "../types.h"
+#include "../game/card_constants.h"
+#include "../game/data_transfer_request.h"
+#include "../game/duel_effect_mode_7.h"
+#include "../game/input.h"
+#include "../game/save_data.h"
+#include "../game/script_command_busy.h"
+
+#include "../game/duel_effect.h"
+#include "../game/text_box_lifecycle.h"
+#include "../game/sound.h"
+#include "../game/text_box_runtime.h"
+#include "../game/func_80039794.h"
+#include "../game/func_8003B6AC.h"
+#include "../game/display_object.h"
+#include "../game/func_80043178.h"
+#include "../game/display_object_interpolation.h"
+#include "../game/script_state.h"
+#include "../game/main_services.h"
+#include "../game/dialog_read_choice_input.h"
+#include "../game/func_8002EE94.h"
+#include "../game/duel_effect_mark_object_if_active.h"
+
+extern u8 gCampaignSceneIndex;
+extern u8 D_8009B269 __attribute__((section(".data")));
+extern u8 D_8009B26C __attribute__((section(".data")));
+extern u8 D_8009B34C __attribute__((section(".data")));
+extern s8 gDialog_bChoice __attribute__((section(".data")));
+extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
+extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *);
+
+void func_8002EE94(void)
+{
+    DuelEffectChannel *box;
+    register DisplayObject *obj __asm__("$17");
+    u8 *p;
+    u8 *p2;
+    DisplayObject *slot;
+    DuelEffectChannel *chan;
+    DuelEffectChannel *prompt;
+    s32 id;
+    register s32 lo __asm__("$8");
+    s32 choice;
+    s32 step;
+    u16 flags;
+    u16 next;
+
+    if (func_8002E3B4() == 0) {
+        p = D_8009B290;
+        p2 = p + 2;
+        gDialog_bChoice = -1;
+        D_8009B290 = p2;
+        lo = p[0];
+        id = lo | (p[1] << 8);
+        D_8009B290 = p + 4;
+        D_8009B2A6 = p[2] | (p2[1] << 8);
+        func_8003B6AC(0, 2);
+        DuelEffect_MarkObjectIfActive(
+            TextBox_Create(0, id, 0x10, 0xB0, 0x120, 0x30));
+        return;
+    }
+
+    if ((D_8009B27C & 0x80) != 0) {
+        if (MemCardDialog_Poll() == 0) {
+            return;
+        }
+        gDialog_bChoiceCount = 4;
+        gDialog_bChoice = 0;
+        D_8009B34C = 0;
+        D_8009B27C &= 0xFF7F;
+        return;
+    }
+
+    func_80039794();
+    flags = D_8009B27C;
+    if ((flags & 0x4000) == 0) {
+        chan = D_800EB0F8;
+        if ((chan->flags_34 & 0x2000) == 0) {
+            return;
+        }
+        if (DuelEffect_HasActiveEntry(chan) != 0) {
+            return;
+        }
+        D_8009B27C |= 0x4000;
+        if (func_8002EE5C() == 0) {
+            D_8009B27C |= 0x200;
+            SD_SEPlayFull(0x2A);
+            return;
+        }
+        func_8003B6AC(0, 2);
+        box = TextBox_Create(3, 0x11, -0x90, 0x38, 0x78, 0x30);
+        DuelEffect_MarkObjectIfActive((MenuRecord *)box);
+        box->flags_34 |= 0x24;
+        do {
+            func_80039794();
+        } while (box->field_30 == 0);
+        func_80043178((DisplayObjectSnapshot *)box->field_28);
+        slot = box->field_28;
+        next = D_8009B27C | 0x6000;
+        slot->field_60 = -0x400;
+        D_8009B27C = next;
+        return;
+    }
+
+    box = &D_800EB0F8[3];
+    obj = box->field_28;
+
+    if ((flags & 0x400) != 0) {
+        if ((flags & 0x800) == 0) {
+            D_8009B27C = flags | 0x800;
+            func_8003B6AC(0, 2);
+            box = TextBox_Create(2, 0x12, 0x90, 0x70, 0x18, 0x18);
+            DuelEffect_MarkObjectIfActive((MenuRecord *)box);
+            box->flags_34 |= 0x20;
+            do {
+                func_80039794();
+            } while (box->field_30 == 0);
+        }
+        prompt = &D_800EB0F8[2];
+        if ((prompt->flags_34 & 0x2000) == 0) {
+            return;
+        }
+        D_8009B27C &= 0xF3FF;
+        TextBox_Destroy(prompt);
+        if (gDialog_bChoice != 0) {
+            D_8009B268 = 1;
+            D_8009B26D = 5;
+            D_8009B26C = 8;
+        }
+        gDialog_bChoiceCount = 4;
+        gDialog_bChoice = 2;
+        return;
+    }
+
+    if ((flags & 0x200) != 0) {
+        if ((flags & 0x800) == 0) {
+            D_8009B27C = flags | 0x800;
+            func_8003B6AC(0, 2);
+            DuelEffect_MarkObjectIfActive(TextBox_CreateFlagged(
+                0, 0x1C, 0x10, 0xB0, 0x120, 0x24, 0x1008));
+            return;
+        }
+        if ((D_800EB0F8[0].flags_34 & 8) != 0) {
+            return;
+        }
+        SD_SEPlayFull(8);
+        D_8009B268 = 1;
+        D_8009B26D = 5;
+        D_8009B26C = 8;
+        return;
+    }
+
+    if ((flags & 0x1000) != 0) {
+        if ((flags & 0x800) == 0) {
+            D_8009B27C = flags | 0x800;
+            func_80043178((DisplayObjectSnapshot *)obj);
+            *(s16 *)&box->field_28->field_60 = 0x400;
+        }
+        step = *(u16 *)&obj->field_60 - 0x40;
+        obj->field_60 = step;
+        if ((s16)step <= 0) {
+            TextBox_Destroy(box);
+            D_8009B27C = 0;
+            return;
+        }
+        func_80043230((DisplayObjectPosition *)obj, -0x90, 0x38, (s16)step);
+        TextBox_SetPos((u8 *)box, *(s16 *)&obj->field_30.h.field_30,
+               *(s16 *)&obj->field_30.h.field_32);
+        return;
+    }
+
+    if ((flags & 0x2000) != 0) {
+        step = *(u16 *)&obj->field_60 + 0x40;
+        obj->field_60 = step;
+        if ((s16)step >= 0) {
+            *(s16 *)&obj->field_30.h.field_30 = 0x10;
+            *(s16 *)&obj->field_30.h.field_32 = 0x38;
+            D_8009B27C = flags & 0xDFFF;
+            /* This read keeps the halfword-array spelling. The two writes
+               directly above it convert to member access and match; converting
+               this one as well costs sixteen bytes. Same field, same function,
+               and the two spellings are not interchangeable here. */
+            TextBox_SetPos((u8 *)box, ((s16 *)obj)[0x18], ((s16 *)obj)[0x19]);
+            return;
+        }
+        func_80043230((DisplayObjectPosition *)obj, 0x10, 0x38, (s16)step);
+        TextBox_SetPos((u8 *)box, *(s16 *)&obj->field_30.h.field_30,
+               *(s16 *)&obj->field_30.h.field_32);
+        return;
+    }
+
+    if (Dialog_ReadChoiceInput((u8 *)box) != 0) {
+        return;
+    }
+    if ((gInput_wPad1Pressed & 0xC0) == 0) {
+        return;
+    }
+    D_801D0000[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
+              sizeof(s16)] = D_8009B2A6;
+    choice = gDialog_bChoice;
+    switch (choice) {
+    case 0:
+        SD_SEPlayFull(7);
+        D_801D0000[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
+                  sizeof(s16)] = D_8009B2A6;
+        SaveData_RequestWrite();
+        D_8009B27C |= 0x80;
+        break;
+    case 1:
+        SD_SEPlayFull(7);
+        func_80033C90();
+        D_8009B269 = 2;
+        gCampaignSceneIndex = (u8)D_8009B2A6;
+        break;
+    case 2:
+        SD_SEPlayFull(7);
+        D_8009B27C |= 0x400;
+        break;
+    case 3:
+        SD_SEPlayFull(8);
+        D_8009B27C |= 0x1000;
+        break;
+    }
+}

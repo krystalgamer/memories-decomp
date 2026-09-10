@@ -82,7 +82,7 @@ tree at once:
 | `D_800E9D90[1]` | `frontend_background.c` and two more | `GsOT *D_800E9D90[]` |
 | `D_800E9D94` | `trade_screen_helpers.c` | `GsOT *D_800E9D94` |
 | `D_800E9D90[2]` | `value_setup.c`, `trade_offers.c` | `GsOT *D_800E9D90[]` |
-| `D_800E9D98` | `display_projection.c` | `void *D_800E9D98[]` |
+| `D_800E9D98` | `src/candidates/func_80015DFC.c` | `void *D_800E9D98[]` |
 
 The element names are not decompiler noise. Retail materializes them itself:
 `func_8004CB0C` loads the third word as `lui %hi(D_800E9D98)` /
@@ -109,7 +109,8 @@ Two consequences for the data work:
 
 The section above finds overlaps by reading the symbol table. A second kind is
 invisible that way, because the source never writes the name of the object it
-is using. `func_8001B938.c` reached the deck records like this:
+is using. `func_8001B938.c` reached the deck records like this (in
+`func_8001BAF0`, now `src/candidates/func_8001BAF0.c`):
 
 ```c
 base = (u8 *)gDuel_aActiveCards;
@@ -128,7 +129,7 @@ can do. Two more instances are confirmed:
 - `duel_result_runtime.c` builds `gDuel_awPlayerDeck + 0x5BC` in `Duel_AwardCard`,
   and `0x801D07BC - 0x801D0200` is exactly `0x5BC`, so that destination is
   `gDuel_awRecentCardDrops`.
-- `sound_output_state.c` reads `state + 0x40` where `state` is `g_SDValue`.
+- `func_80045054` (`src/candidates/func_80045054.c`) reads `state + 0x40` where `state` is `g_SDValue`.
   `g_SDValue` is at `0x8009B45C` and `D_8009B49C` is `0x40` later, so that
   name lies **inside** the `g_SDValue` record rather than beside it.
 

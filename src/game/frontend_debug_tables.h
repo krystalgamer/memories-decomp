@@ -6,8 +6,8 @@
 /* The six frontend debug HUD format strings and the scene index table,
    declared here so the source that defines them and the four that read
    them cannot drift apart. D_80090CDC and D_80090CF4 are declared too,
-   although their only reader reaches them from inline asm rather than by
-   name, so that the header describes the whole range. */
+   although their only reader, func_80030998, is generated assembly rather
+   than C, so that the header describes the whole range. */
 extern u8 D_80090CB4[0x28];
 extern u8 D_80090CDC[0x18];
 extern u8 D_80090CF4[0x18];
@@ -18,7 +18,8 @@ extern u8 D_80090D68[0x14];
 
 /* func_80030FA0 reads it as the index into D_80090D68 (`s32 i =
    D_8009B2F1;` at func_80030FA0.c:11, `v = p[i];` at :15); func_800300C8
-   reads it as `s32 index = D_8009B2F1;` (func_800300C8.c:13). func_80031084
+   reads it as `s32 index = D_8009B2F1;` (src/candidates/func_800300C8.c:20).
+   func_80031084
    is the only C writer: it adds 0xA when the sum is below 0x14
    (func_80031084.c:44-46), subtracts 0xA when the difference is not negative
    (:48-50), steps it by -1 with wraps to 0x13 and 9 (:54-65) and by +1 with

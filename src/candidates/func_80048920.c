@@ -1,0 +1,60 @@
+/*
+ * Reclassified from matching_c (#3859). Under gcc_2_8_1_g0_keep_large_ori this
+ * source rebuilt the target byte for byte, but only by
+ * pinning 4 variables to hard registers, so it is kept here as a candidate
+ * rather than counted as a decompilation. It was src/game/func_80048920.c.
+ */
+#include "../types.h"
+#include "../game/func_80044DC0.h"
+#include "../game/sound.h"
+#include "../psyq/libspu.h"
+#include "../game/sound_pending_constants.h"
+#include "../game/sound_voice_constants.h"
+#include "../game/sound_voice_selection.h"
+
+void func_80048920(s32 arg0, s32 arg1)
+{
+    s32 lo;
+    s32 hi;
+    register s32 i __asm__("$16");
+    register s32 a1v __asm__("$17") = arg1;
+    register s32 idm __asm__("$18");
+    register s32 id __asm__("$6");
+    s32 ff;
+
+    id = arg0;
+    if (arg0 & 0x8000) {
+        func_80044DC0((u8)a1v);
+        return;
+    }
+    if ((arg0 & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
+        SDValue *a = g_SDValue;
+        u16 v;
+
+        lo = (arg0 & SD_VOICE_LOOKUP_INDEX_MASK) << 1;
+        hi = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
+        hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
+        v = *(u16 *)((u8 *)a + (lo + hi) + SD_VOICE_LOOKUP_BYTE_OFFSET);
+        ff = SD_PENDING_ENTRY_NONE;
+        if (v == ff) {
+            return;
+        }
+        id = a->field_043C[v];
+        if (id == ff) {
+            return;
+        }
+    }
+    i = 0;
+    idm = id & 0xFFFF;
+    do {
+        s16 local;
+        SDValue *b;
+
+        SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, &local);
+        b = g_SDValue;
+        if (b->voice_ids[i] == idm && local != 0) {
+            b->voice_value[i] = a1v;
+            func_80047864(i);
+        }
+    } while (++i < SD_VOICE_SLOT_COUNT);
+}

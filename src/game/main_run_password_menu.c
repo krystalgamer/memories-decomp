@@ -1,0 +1,31 @@
+#include "../types.h"
+#include "../overlays/main_menu/entrypoints.h"
+#include "../overlays/password/name_entry_keyboard.h"
+#include "../overlays/password/shop.h"
+#include "../psyq/rand.h"
+#include "../psyq/setjmp.h"
+#include "fade.h"
+#include "file_transfer.h"
+#include "func_8002D458.h"
+#include "func_8003C2B4.h"
+#include "game_over.h"
+#include "main_modes.h"
+#include "menu_record_reset.h"
+#include "sound.h"
+#include "main_services.h"
+#include "options.h"
+
+extern u8 D_8009B26C;
+
+void Main_RunPasswordMenu(void)
+{
+    unsigned char flags = D_8009B26C;
+
+    if ((flags & 0x40) == 0) {
+        D_8009B26C = flags | 0x40;
+        File_RequestPasswordPackage();
+        Password_InitShopScreen();
+    }
+    Password_UpdateShopScreen();
+}
+

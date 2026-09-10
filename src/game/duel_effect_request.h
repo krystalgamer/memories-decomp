@@ -69,7 +69,7 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
  * the entry func_8002C604 hands them on their first call, under the
  * DuelEffect_MarkInitialized guard; DuelEffect_UpdateFieldMarker stores each
  * marker it allocates. They read +0x1C and +0x1D from it afterwards, and
- * func_80024E58 writes +0x1A; duel_field_effect_steps.c and
+ * func_80024E58 writes +0x1A; src/candidates/func_80025F3C.c and
  * duel_card_effects.c read +0x1D through their own display-object
  * views and cast at the global. u8 * is func_8002C604's return type. Retail
  * reaches it gp-relative

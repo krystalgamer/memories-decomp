@@ -89,12 +89,13 @@ extern DuelSideState *D_8009B1C8;
  * writes its +0x1A and +0x1C; func_80025F3C stores the object it also
  * hands to D_8009B17C into the other side's slot; func_8001898C writes +0x1A
  * and clears the current side's slot once its pending counter runs out.
- * u8 * is func_8002C604's return type, and duel_field_effect_steps.c, which
- * reads the object through its own Object view (field_1A at 0x1A, flags at
- * 0x1C, the same offsets the byte views write), casts at the store the way
- * it already does for D_8009B17C. Two pointers, eight bytes to D_8009B1F8;
- * retail reaches the array gp-relative in all three functions, so the sized
- * spelling stays small data everywhere. Initial value not read. */
+ * u8 * is func_8002C604's return type, and func_80025F3C
+ * (src/candidates/func_80025F3C.c), which reads the object through its own
+ * Object view (field_1A at 0x1A, flags at 0x1C, the same offsets the byte
+ * views write), casts at the store the way it already does for D_8009B17C.
+ * Two pointers, eight bytes to D_8009B1F8; retail reaches the array
+ * gp-relative in all three functions, so the sized spelling stays small data
+ * everywhere. Initial value not read. */
 extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
 
 /* The card id the last search or trap selection left behind. func_80025028
@@ -112,11 +113,12 @@ extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
 extern s16 D_8009B22A;
 
 /* Assigned in two units and read by no C statement: func_800179F4 writes
- * `D_8009B22C = &D_800907D8[D_8009B1D5 * 20];` (func_800179F4.c:116) and
+ * `D_8009B22C = &D_800907D8[D_8009B1D5 * 20];`
+ * (src/candidates/func_800179F4.c:136-137) and
  * func_800208D4 writes `D_8009B22C = D_800907D8 + D_8009B1D5 *
  * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;` (func_800208D4.c:9); no other listing
  * mentions the symbol. u8 * because D_800907D8 is `extern u8 D_800907D8[]`
- * under the arm both units take (duel_grid.h:56) and 20 is
+ * under the arm both units take (duel_grid.h:63) and 20 is
  * DUEL_FIELD_SIDE_GRID_SLOT_COUNT (duel_grid.h:9); func_800208D4.c used to
  * write `void *` for the same address, and no prototype takes &D_8009B22C.
  * Both stores are gp-relative sw (func_800179F4.s:128, func_800208D4.s:46),
@@ -134,12 +136,13 @@ extern u8 *D_8009B22C;
  * wide the object is; two of the three units declare the u16 and reach the
  * byte through a `(u8 *)` cast, and overlays/main_menu/README.md describes the
  * option as the low byte of this wider view, so that is the declaration
- * kept here and main_init.c now writes the byte through the same cast.
+ * kept here and Main_Init (src/candidates/func_80012B50.c) now writes the
+ * byte through the same cast.
  * Initial value not read.
  *
  * duel_state_init.c reaches it gp-relative and takes the plain halfword;
- * func_8002DC38.c and main_init.c reach it through %hi/%lo and define the
- * .data arm. */
+ * func_8002DC38.c and src/candidates/func_80012B50.c reach it through
+ * %hi/%lo and define the .data arm. */
 #ifdef D_8009B230_IN_DATA
 extern u16 D_8009B230 __attribute__((section(".data")));
 #else
@@ -177,12 +180,12 @@ extern u16 D_8009B236;
  * gDuel_bOpponentID; duel_state_init.c and func_80019CC8 test it
  * negative, the latter together with D_8009B1D5 == 0 and a non-negative
  * gDuel_bOpponentID. Every retail access is lb or sb and none is
- * gp-relative, so the -G0 units (func_80024DC8.c, text_start_campaign_duel.c)
- * take the plain scalar and the -G8 units (duel_state_init.c,
- * func_80019CC8.c) take _IN_DATA, out of small data at the compiler with
- * the byte's true width; the two _IN_DATA arms are each justified by a
- * control build recorded in the PR that added this block. The `s8 [9]`
- * one of them used to declare reached the same form and in doing so
+ * gp-relative, so the -G0 units (func_80024DC8.c,
+ * src/candidates/func_80038530.c) take the plain scalar and the -G8 units
+ * (duel_state_init.c, func_80019CC8.c) take _IN_DATA, out of small data at
+ * the compiler with the byte's true width; the two _IN_DATA arms are each
+ * justified by a control build recorded in the PR that added this block. The
+ * `s8 [9]` one of them used to declare reached the same form and in doing so
  * spanned 0x8009B360..0x8009B368, eight named addresses; as
  * duel_terrain_boost.h says of the `[8]` on gDuel_bTerrain, such a size
  * is a threshold, not a length.
@@ -223,7 +226,7 @@ extern s8 D_8009B238;
  * record when it is 1. Every retail access is a byte: sb through $at in
  * func_80020F4C and lui/lbu in Main_RunDuel, both in units that reach
  * other symbols through $gp, so duel_result_runtime.c and
- * main_run_duel_and_library.c define the .data arm below;
+ * src/candidates/func_8002CEE8.c define the .data arm below;
  * free_duel/screen_runtime.c (-G0) takes the plain byte. The `u8 [9]`
  * main_run_duel_and_library.c used to declare reached the same form; as the
  * note on D_8009B360 says, such a size is a threshold, not a length. */
@@ -243,9 +246,9 @@ extern u8 D_8009B362;
  * it. Initial value not read.
  *
  * Retail reaches it through %hi/%lo at every site and never through $gp,
- * so frontend_scene_states.c, func_8002DC38.c and
- * main_run_duel_and_library.c -- units that reach other symbols through
- * $gp -- define the .data arm below; text_start_campaign_duel.c and the
+ * so func_80030E30.c, func_8002DC38.c and
+ * src/candidates/func_8002CEE8.c -- units that reach other symbols through
+ * $gp -- define the .data arm below; src/candidates/func_80038530.c and the
  * overlay's screen_runtime.c compile with nothing in small data and take
  * the plain byte. The `u8 [9]` and `u8 []` two of them used to declare
  * were accessed only at [0]; as the notes on D_8009B360 and D_8009B362
@@ -266,12 +269,12 @@ extern u8 D_8009B368;
  * lbu and every declarer said u8. Initial value not read.
  *
  * Retail reaches it through %hi/%lo at every site and never through $gp.
- * func_800179F4.c and main_run_duel_and_library.c reach other symbols
- * through $gp, so they define the .data arm below; func_80024DC8.c and
- * text_start_campaign_duel.c compile with nothing in small data and take
- * the plain byte. src/candidates/func_80018FEC.c keeps its own .data
- * declaration: it does not include this header and its object is
- * fingerprinted in candidates.json. */
+ * src/candidates/func_800179F4.c and src/candidates/func_8002CEE8.c reach
+ * other symbols through $gp, so they define the .data arm below;
+ * func_80024DC8.c and src/candidates/func_80038530.c compile with nothing in
+ * small data and take the plain byte. src/candidates/func_80018FEC.c keeps
+ * its own .data declaration: it does not include this header and its object
+ * is fingerprinted in candidates.json. */
 #ifdef D_8009B369_IN_DATA
 extern u8 D_8009B369 __attribute__((section(".data")));
 #else
@@ -283,8 +286,8 @@ extern u8 D_8009B369;
  * 0x71D0 and Text_StartCampaignDuel stores func_80036D3C's result. lhu/sh
  * everywhere, two bytes wide (gFreeDuel_bTargetColumn is at 0x8009B36C).
  * Retail reaches it through %hi/%lo at all five sites and never through $gp,
- * so duel_phase_entry.c and frontend_scene_states.c define
- * the .data arm below; func_80024DC8.c and text_start_campaign_duel.c
+ * so duel_phase_entry.c and func_80030E30.c define
+ * the .data arm below; func_80024DC8.c and src/candidates/func_80038530.c
  * compile with nothing in small data and take the plain arm. */
 #ifdef D_8009B36A_IN_DATA
 extern u16 D_8009B36A __attribute__((section(".data")));
@@ -296,13 +299,13 @@ extern u16 D_8009B36A;
  * written more than once -- and then, as its last statement, assigns
  * `D_8009B1C8 = &D_800E9FF0[D_8009B1D5];` (duel_state_init.c:62;
  * func_800175A0.s:85). It does not touch D_8009B22C: that store is in its
- * only caller, func_800179F4.c:116, after the call at :93.
+ * only caller, src/candidates/func_800179F4.c:136, after the call at :112.
  *
  * Declared here because that last statement is the assignment this header
  * already describes: the note on D_8009B1C8 says four translation units
  * assign it exactly `&D_800E9FF0[D_8009B1D5]` on a turn change, and this is
- * one of them. func_800179F4.c is the only caller and had the only
- * declaration. */
+ * one of them. func_800179F4 (src/candidates/func_800179F4.c) is the only
+ * caller, and its old func_800179F4.c had the only declaration. */
 void func_800175A0(void);
 
 #endif

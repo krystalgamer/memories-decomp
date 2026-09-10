@@ -52,7 +52,8 @@ typedef struct {
  *
  *   ii / aframe  func_80057AF4 stores a command index into ii, and
  *                func_80056250 clears both to 0xFFFF when it rearms a part
- *   sid / speed  model_scene_setup.c and model_slot_state_updates.c switch
+ *   sid / speed  src/candidates/func_800528AC.c and
+ *                model_slot_state_updates.c switch
  *                a part's sequence through sid; func_8005A468 sets speed
  *                for every part, and the rearm resets it to 0x10
  *   rframe..ti   func_8004DC38 seeks a part by writing the frames left,
@@ -123,7 +124,8 @@ typedef struct {
 } ModelSlotCF8BlockWords;
 
 /* Eight bytes moved as a block. Three units spelled this by hand over three
-   different records: func_8004E7B0 and model_scene_setup.c over the view
+   different records: func_8004E7B0 and model_scene_setup.c (that code is
+   now in func_80052D2C.c) over the view
    snapshot pair D_8009B478/D_8009B480, which they had typed two different
    ways for the same two symbols, and model_slot_support.c over the halfword
    quad at ModelSlot.field_DC8.
@@ -198,7 +200,8 @@ typedef struct {
     u16 field_E02;
     u8 pad_E04[2];
     u16 field_E06;
-    /* model_slot_row_tables.c's reset clears this halfword beside
+    /* The row-table reset, func_8004D58C (src/candidates/func_8004D58C.c),
+     * clears this halfword beside
      * field_E06, which is what says it is a field rather than the
      * padding this record carried here. */
     u16 field_E08;

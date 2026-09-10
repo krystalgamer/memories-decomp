@@ -155,7 +155,7 @@ extern SaveDataDuelistRecord gFreeDuel_aDuelistRecords[];
 
 /* The head of the 0x680-byte persistent state block: SaveData_RequestWrite
  * copies SAVE_DATA_STATE_SIZE bytes starting here. Halfwords, as the name
- * says and as duel_deck_lookup.c, func_8002EE94.c, library_runtime.c
+ * says and as duel_deck_lookup.c, func_8002EE5C.c, func_8002BD0C.c
  * and free_duel/screen_runtime.c read it -- the files that walk it as bytes
  * are copying or scanning the block, not indexing the deck. */
 extern u16 gDuel_awPlayerDeck[];
@@ -165,8 +165,8 @@ extern u8 gSaveData_aTransferBuffer[];
 extern u8 gSaveData_aHeaderTemplate[];
 
 /* 0x801D1200. Five functions in four units take its address and nothing
- * else: func_800179F4 (func_800179F4.c:166, `pool = D_801D1200;`, then
- * `pool + 0x1000` at :168), SaveData_UpdateLoadPair
+ * else: func_800179F4 (src/candidates/func_800179F4.c, `pool =
+ * D_801D1200;`, then `pool + 0x1000`), SaveData_UpdateLoadPair
  * (two_player_save_runtime.c as the first argument to MemCardDialog_Request
  * and through SaveDataState casts, the second at
  * `D_801D1200 + 0x1000`; that unit also names +0x1000 as D_801D2200),
@@ -217,7 +217,8 @@ void SaveData_ApplyRuntimeState(SaveDataState *state);
  * ahead of it through SaveData_BuildPayload, and asks the memory card layer to
  * write it under gMemCard_szSaveFileName.
  *
- * Its one caller, func_8002EE94.c, reached it with no declaration in scope at
+ * Its one caller, func_8002EE94 (now src/candidates/func_8002EE94.c),
+ * reached it with no declaration in scope at
  * all before this, so neither the argument list nor the void return was being
  * checked against the definition. */
 void SaveData_RequestWrite(void);
