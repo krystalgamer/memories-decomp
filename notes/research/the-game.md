@@ -247,6 +247,20 @@ live cursor confirm the entry/result IDs: 00 New Game, 01 Load, 02 2P Duel,
 an ordinary table slot: resident `func_8002D458` accepts normal results only
 when they are below `0x0B`.
 
+Static resident code establishes the hidden Debug Menu's input layout, but not
+the labels visible beside it. [`func_80031084`](../../src/game/func_80031084.c)
+maintains a selection from 0 through 19 as two columns of ten: left/right
+subtracts/adds 10, while up/down wraps independently within the selected
+column. Circle first moves the cursor to entry 19; pressing Circle there
+selects state 20. With the initially selected dispatch table, the next tick
+calls `func_80030FD0`, which fades out, clears the display objects and returns
+through the debug mode's saved `longjmp` context. Cross or Square selects the
+current entry plus one. Select toggles the dispatch-table selector and
+rebuilds the text box; the alternate table has only two declared entries, so
+the behavior of selecting a higher state while it is active is not
+established. These are static control and dispatch deductions; without a human
+trace they do not establish the entries' displayed names or visible results.
+
 > **Entered from:** boot; every other mode's "back". **Exits to:** name entry,
 > campaign, Free Duel, Build Deck, Library, Password, trade/2P, options, save.
 > **Reads:** whether a game is loaded; the save block after Load. **Writes:**
