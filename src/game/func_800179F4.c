@@ -33,6 +33,9 @@
 #include "func_800179F4.h"
 #include "func_8001755C.h"
 #include "func_8001778C.h"
+#include "duel_effect_object_pool.h"
+#include "func_80029574.h"
+#include "text_render_state.h"
 #include "func_800178BC.h"
 
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
@@ -41,10 +44,6 @@ extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern u16 D_8009B204;
 extern u8 *D_8009B1D8;
 extern u8 *D_8009B1DC;
-
-extern void func_8002C598(void);
-extern void func_80029574(s32);
-extern void func_80035668(s32);
 
 /* Duel scene entry followed by the card display-object helper chain. The
    entry initializes the active side, card records and display resources;
