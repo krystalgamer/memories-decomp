@@ -30,7 +30,7 @@
 extern u8 D_80169619;
 extern u8 *D_801695F8_objects[] asm("D_801695F8");
 extern s32 D_801695F8_words[] asm("D_801695F8");
-extern s32 D_80010000;
+#include "../../game/high_memory_addresses.h"
 extern void func_800857C0(int);
 extern s32 D_801695D4;
 extern s32 D_801695CC;

@@ -5,7 +5,7 @@
 #include "file_transfer.h"
 #include "../unmatched.h"
 
-extern s32 D_8001002C __attribute__((section(".data")));
+#include "high_memory_addresses.h"
 extern u8 D_8009B058[];
 
 void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
