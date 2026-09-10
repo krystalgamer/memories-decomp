@@ -969,6 +969,59 @@ Its neighbour `D_8009B269` sits three bytes below `D_8009B26C` and behaves the
 same way: converting `script_control_commands.c` to the scalar spelling
 shortens the executable by eight bytes, as the section above records.
 
+### The overlay data blobs
+
+The issue's completion criterion names the game *and overlay* split templates,
+but the ranges above are all resident. The overlay side has not been measured
+before, so here it is. Every overlay carries one unowned `data` subsegment:
+
+| overlay | labels | extent | non-zero words |
+| --- | ---: | ---: | ---: |
+| `free_duel` | 5 | 6096 | 1299 |
+| `main_menu` | 41 | 15019 | 0 |
+| `overworld_before_coup` | 11 | 4527 | 3 |
+| `overworld_after_coup` | 11 | 4527 | 3 |
+| `password` | 30 | 9216 | 502 |
+
+That is roughly thirty-nine kilobytes still resolved at link time, and unlike
+the resident `.data` ranges none of it is vendor code's: overlays contain no
+Psy-Q library.
+
+Three things in the table are worth reading rather than skimming. The
+`main_menu` blob is fifteen kilobytes and **entirely zero** -- forty-one
+labels and not one non-zero word -- so it is bss-shaped content sitting in a
+`data` subsegment, and owning it is a question about zero-initialised
+definitions rather than about transcribing values. The two overworld blobs
+are identical in extent, label count and non-zero content, which is what one
+expects of a before/after pair built from the same source. And `free_duel`
+has only five labels across six kilobytes, so the vast majority of it is
+unnamed.
+
+`free_duel` is the smallest by label count and looks like the obvious first
+target. It is not, and the reasons generalise:
+
+- Its five names are already semantic -- `gFreeDuel_abGridAvailable`,
+  `gFreeDuel_pThumbWidget`, `gFreeDuel_apSparklePool`,
+  `gFreeDuel_pCursorWidget`, `gFreeDuel_bScreenFlags` -- and three are already
+  declared in `free_duel.h`. So the naming work is done and only the
+  definition is missing.
+- But `gFreeDuel_pThumbWidget` spans **eight bytes** under one label, while
+  `screen_runtime.c` reaches it through `asm("gFreeDuel_pThumbWidget")`
+  aliases typed as a four-byte pointer -- twice over, once as
+  `FreeDuelWidget *` and once as `u8 *`. The label extent and the C view
+  disagree about the object's size, and both alias spellings are the
+  deliberate kind the small-data notes describe.
+- The named symbols stop at `0x801690A8`, and the blob does not: the words
+  after `gFreeDuel_bScreenFlags` are non-zero and uncharacterised. Owning the
+  named prefix would still leave most of the range behind.
+
+One method correction, because it cost me a wrong number. Measuring a blob by
+the span of its **labels** understates it whenever the content continues past
+the last named symbol -- for `free_duel` that reported 120 bytes against a
+true extent of 6096, out by a factor of fifty. Measure from the first to the
+last emitted datum instead, and count non-zero words while you are there,
+since an all-zero range is a different kind of problem from a populated one.
+
 ## Exact baseline build
 
 ```sh
