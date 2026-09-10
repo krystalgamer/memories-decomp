@@ -31,7 +31,6 @@ u8 *D_8009B0B4;
 s16 gGraphics_sViewportX __attribute__((section(".sbss"))) = 0;
 s16 gGraphics_sViewportY __attribute__((section(".sbss"))) = 0;
 
-extern u8 D_800FE048[];
 extern u8 D_8009B141 __attribute__((section(".data")));
 
 /* Waits for the current GPU/VBlank boundary and publishes the bounded number
@@ -72,11 +71,11 @@ void Graphics_BeginFrame(void)
     GsOT **base;
 
     if (D_8009B0A8 == 0) {
-        D_800FE048[0x18] = D_8009B0D0;
-        D_800FE048[0x16] = D_8009B0AD;
-        D_800FE048[0x19] = D_8009B144;
-        D_800FE048[0x1A] = D_8009B143;
-        D_800FE048[0x1B] = D_8009B142;
+        D_800FE048[0].isbg = D_8009B0D0;
+        D_800FE048[0].dtd = D_8009B0AD;
+        D_800FE048[0].r0 = D_8009B144;
+        D_800FE048[0].g0 = D_8009B143;
+        D_800FE048[0].b0 = D_8009B142;
         GsSwapDispBuff();
         if ((D_8009B098 & 0x2000) != 0) {
             PutDispEnv(&gGraphics_DispEnv);

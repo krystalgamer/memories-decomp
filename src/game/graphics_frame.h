@@ -230,6 +230,29 @@ extern u16 D_8009B098;
 
 extern DISPENV gGraphics_DispEnv;
 
+/* SDK environment addresses passed to PutDrawEnv / PutDispEnv. Keep the
+ * draw environment unsized, and retain startup's volatile byte stores.
+ * See notes/graphics-frame-environments.md for the address/field evidence. */
+#ifdef GRAPHICS_DRAW_ENV_IS_VOLATILE
+extern volatile DRAWENV D_800FE048[];
+#else
+extern DRAWENV D_800FE048[];
+#endif
+extern DISPENV D_800FE0A8;
+
+typedef char GraphicsDrawEnvSize[sizeof(DRAWENV) == 0x5C ? 1 : -1];
+typedef char GraphicsDrawEnvDitherOffset[
+    (u32)&((DRAWENV *)0)->dtd == 0x16 ? 1 : -1];
+typedef char GraphicsDrawEnvClearOffset[
+    (u32)&((DRAWENV *)0)->isbg == 0x18 ? 1 : -1];
+typedef char GraphicsDrawEnvRedOffset[
+    (u32)&((DRAWENV *)0)->r0 == 0x19 ? 1 : -1];
+typedef char GraphicsDrawEnvGreenOffset[
+    (u32)&((DRAWENV *)0)->g0 == 0x1A ? 1 : -1];
+typedef char GraphicsDrawEnvBlueOffset[
+    (u32)&((DRAWENV *)0)->b0 == 0x1B ? 1 : -1];
+typedef char GraphicsDispEnvSize[sizeof(DISPENV) == 0x14 ? 1 : -1];
+
 /* Two scratch rectangles for the VRAM transfers. Every user fills x, y, w, h
  * and hands the address to LoadImage2, StoreImage2 or MoveImage in the same
  * block, so there is no producer to own them; Campaign_LoadScenePackage and
@@ -249,7 +272,7 @@ extern RECT D_800E9D70[2];
  * order blue, green, red.  func_8005B8A0 and func_8005BB7C pass them straight
  * to ClearImage(RECT *, u8 r, u8 g, u8 b) as r = D_8009B144, g = D_8009B143,
  * b = D_8009B142, which is what fixes the roles; graphics_frame.c copies the
- * same three into the display list at 0x19/0x1A/0x1B.
+ * same three into DRAWENV.r0/g0/b0 at 0x19/0x1A/0x1B.
  *
  * func_80015310.c is not converted, and its functions.csv row says why: the
  * three are DEFINED rather than declared there so the assembler resolves them
@@ -257,10 +280,15 @@ extern RECT D_800E9D70[2];
  * file still builds byte-identical with the declaration below visible ahead
  * of its definition, which is the only claim made here about the two.
  *
- *   _IN_DATA      -- out of small data at the compiler
- *   _IS_AGGREGATE -- unsized array, read as [0]
+ *   _IN_DATA_VOLATILE -- startup's ordered, absolute-address byte stores
+ *   _IN_DATA          -- out of small data at the compiler
+ *   _IS_AGGREGATE     -- unsized array, read as [0]
  */
-#ifdef D_8009B142_IN_DATA
+#ifdef D_8009B142_IN_DATA_VOLATILE
+extern volatile u8 D_8009B142 __attribute__((section(".data")));
+extern volatile u8 D_8009B143 __attribute__((section(".data")));
+extern volatile u8 D_8009B144 __attribute__((section(".data")));
+#elif defined(D_8009B142_IN_DATA)
 extern u8 D_8009B142 __attribute__((section(".data")));
 extern u8 D_8009B143 __attribute__((section(".data")));
 extern u8 D_8009B144 __attribute__((section(".data")));
