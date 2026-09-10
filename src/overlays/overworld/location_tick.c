@@ -9,7 +9,6 @@
 #include "../../unmatched.h"
 #include "camera_transition.h"
 #include "location_objects.h"
-#include "location_label.h"
 #include "location_marker.h"
 #include "../../game/campaign_flags.h"
 #include "../../game/input.h"

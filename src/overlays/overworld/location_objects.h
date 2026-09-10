@@ -11,4 +11,8 @@ void CampaignMap_ClearLocationObjects(void);
    location `index`, skipping the ones whose story flag is not set. */
 void CampaignMap_RebuildLocationObjects(s32 index);
 
+/* Builds the current location's name box and returns the record it built.
+ * The argument is accepted and never read. */
+u8 *CampaignMap_CreateLocationLabel(s32 unused);
+
 #endif
