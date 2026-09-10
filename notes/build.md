@@ -971,33 +971,29 @@ the same bytes. For those, the differing declarations are not drift and there
 is no canonical type to adopt: each one is faithful to what its own caller
 puts there.
 
-`D_801D5608` is the clearest example in the tree. Eight sources declare it a
-flat `s32 []`; `duel_rewards.c` declares it `s32 [16][DUEL_SIDE_COUNT]` and
-calls it "the separate `D_801D5608[stat][side]` display table";
-`password/shop.c` carries a plain `s32` same-symbol alias and assigns one
-word; and two overlays in *different* segments,
-`free_duel/screen_runtime.c` and `password/shop.c`, each use
+`D_801D5608` is the clearest example in the tree. Before Tick389, seven
+resident sources declared it a flat `s32 []`, while `duel_rewards.c` used
+`s32 [16][DUEL_SIDE_COUNT]`. Two overlays, `free_duel/screen_runtime.c` and
+`password/shop.c`, used the shared `Pair` from `ygo_types.h`; the password
+source also needed a plain `s32` same-symbol alias for its starchip renderer.
 
-```c
-typedef struct { u32 lo; u32 hi; } Pair;
-```
+These views now meet in [`text_staging.h`](../src/game/text_staging.h).
+Seven resident producers use an incomplete array of `TextStagingValues`,
+a union of observed message inputs; the rank table, overlay pair and scalar
+alias keep their original declaration arms. The union exposes card statistics,
+card/count pairs, build-deck counts, library totals, memory-card block counts
+and the invalid-side word at `+0x40`. It does not declare permanent contents
+or a complete allocation, and only array element zero is used as a view.
+The measured resident and overlay images remain byte-identical.
 
-and declare `extern Pair D_801D5608;`. The password source needs both views
-because its starchip renderer writes the scalar while its message setup writes
-the pair.
-
-Those two overlay definitions are textually identical, which makes them look
-like the duplicate-type cleanup that `screen_projection.h` describes for
-`ProjectedPair`. They are not the same case. `ProjectedPair` was one layout
-that three files had each rediscovered, so naming it once lost nothing.
-`Pair` is two overlays agreeing about the two words *they* stage, while other
-callers stage a rank table or a single count into the same address. Hoisting
-`Pair` into a shared header would present one caller's view as the symbol's
-type.
+The earlier warning against making `Pair` the universal symbol type still
+holds. It does not preclude sharing the declarations with explicit view
+selection, or sharing a union that documents the overlap instead of erasing it.
+See [the producer and offset evidence](text-staging.md).
 
 `main_run_credits.c` settles it from a third direction. It hand-assembles the
-access rather than declaring the symbol at all, storing a halfword at `+0` and
-a word at `+4` through explicit relocation directives:
+access rather than declaring the symbol at all, loading halfwords and storing
+words at `+0` and `+4` through explicit relocation directives:
 
 ```
 ".word 0x3C060000\n"
@@ -1006,14 +1002,13 @@ a word at `+4` through explicit relocation directives:
 ".reloc .-4, R_MIPS_LO16, D_801D5608\n"
 ```
 
-That is a fourth shape again, and it is pinned: the address form is written
-into the source.
+Its address form is written into the source and remains untouched.
 
 The rule this gives is narrow but useful. A type duplicated across files is
-worth unifying when the files agree about *the same object* -- and a symbol
-whose consumers stage different shapes into one buffer is not that, however
-identical two of those consumers happen to look. State what such a symbol is
-NOT, and leave the views alone.
+worth unifying when the files agree about *the same object*. When consumers
+stage different shapes into one buffer, centralize their observed views rather
+than choosing one meaning for the storage. State what the symbol is NOT, and
+preserve each load/store width and addressing boundary.
 
 #### Two kinds of differing spelling, and only one is predictable
 

@@ -6,6 +6,7 @@
 #include "duel_card.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
+#include "text_staging.h"
 
 /* The Build Deck screen's card counts: the count box refresh, returning a
    copy to the chest, taking one out, recounting the deck, and adding a card
@@ -19,11 +20,10 @@
    gcc_2_8_1_g0_split. Bounded below by the card-list text boxes, which need
    gcc_2_8_1_g0, and above by func_80032184 at gcc_2_8_1_cc_g8_as_g0_split. */
 
-extern s32 D_801D5608[];
 void func_80031E5C(u8 *arg0) {
     u8 *p;
-    D_801D5608[0] = *(u32 *)(arg0 + 0x5A9C);
-    D_801D5608[1] = *(u32 *)(arg0 + 0x5AA0);
+    D_801D5608[0].build_deck.chest = *(u32 *)(arg0 + 0x5A9C);
+    D_801D5608[0].build_deck.deck = *(u32 *)(arg0 + 0x5AA0);
     p = TextBox_CreateFlagged(3, 0xE, 0x16, 0x17, 0x280, 0x10, 0x100);
     func_80039A14(p);
     *(u16 *)(*(u8 **)(p + 0x28) + 8) &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

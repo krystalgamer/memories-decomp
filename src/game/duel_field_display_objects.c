@@ -18,9 +18,9 @@
 #include "duel_selection_layout.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
+#include "text_staging.h"
 
 extern u8 D_8009B344 __attribute__((section(".data")));
-extern s32 D_801D5608[];
 
 s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
 {
@@ -91,8 +91,8 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
             }
             D_8009B344 = D_8009B344 + 0x17;
             value = Duel_CalcCardStats(record);
-            D_801D5608[0] = (s16)value;
-            D_801D5608[1] = value >> 16;
+            D_801D5608[0].card_stats.attack = (s16)value;
+            D_801D5608[0].card_stats.defense = value >> 16;
         } else {
             style = 0x51;
         }
@@ -115,14 +115,14 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
     }
     if (source->table_index == 3) {
         s32 rank;
-        s32 *dst = D_801D5608;
+        TextStagingValues *dst = D_801D5608;
 
         style += 4;
         rank = D_800E9FF0[D_8009B1D5 ^ 1].field_19;
-        dst[2] = rank;
+        dst->card_stats.rank = rank;
         if (rank != 0) {
             if (rank < 0 || rank > 3) {
-                dst[2] = 3;
+                dst->card_stats.rank = 3;
             }
             D_8009B355 = 1;
         }
@@ -137,7 +137,7 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
     }
     if (source->table_index == 2 && source->field_18 != 0) {
         s32 rank;
-        register s32 *dst asm("$4");
+        register TextStagingValues *dst asm("$4");
         s32 side;
 
         side = D_8009B1D5;
@@ -146,10 +146,10 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
         }
         dst = D_801D5608;
         rank = D_800E9FF0[side].field_19;
-        dst[2] = rank;
+        dst->card_stats.rank = rank;
         if (rank != 0) {
             if (rank < 0 || rank > 3) {
-                dst[2] = 3;
+                dst->card_stats.rank = 3;
             }
             D_8009B355 = 1;
         }

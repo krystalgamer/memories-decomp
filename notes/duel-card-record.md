@@ -171,7 +171,9 @@ request path, not by itself evidence for every button or visibility mode.
 The constructor clears `D_8009B34E` and `D_8009B355` on entry. For an
 occupied record it captures the card ID in `gDuel_wSelectedCardID`. Only
 the occupied-monster branch (packed type below `20`) writes
-`D_801D5608[0]` and `[1]`: they receive the ATK and DEF returned by
+the words at `D_801D5608 + 0` and `+4`, now expressed as
+`D_801D5608[0].card_stats.attack` and `.defense` through
+[`text_staging.h`](../src/game/text_staging.h): they receive the ATK and DEF returned by
 `Duel_CalcCardStats`. No opponent-dependent guardian adjustment is added
 to these two assignments.
 

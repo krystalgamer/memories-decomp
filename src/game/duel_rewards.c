@@ -1,3 +1,4 @@
+#define TEXT_STAGING_AS_RANK_ROWS
 #include "../types.h"
 #include "save_data.h"
 #include "duel_side_state.h"
@@ -7,8 +8,7 @@
 #include "duel_rank.h"
 #include "duel_result_display.h"
 #include "duel_rewards.h"
-
-extern s32 D_801D5608[16][DUEL_SIDE_COUNT];
+#include "text_staging.h"
 
 /* Initializes result-message selectors at +0x34; the winner's signed
    end-reason adjustment selects the middle variant, not a rank letter.

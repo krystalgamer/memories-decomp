@@ -1,5 +1,6 @@
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #define GINPUT_PAD1_HELD_IS_VOLATILE
+#define TEXT_STAGING_AS_PAIR
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../unmatched.h"
@@ -10,6 +11,7 @@
 #include "../../game/input.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/text_box_runtime.h"
+#include "../../game/text_staging.h"
 #include "../../game/duel_effect.h"
 #include "../../game/duel_side_state.h"
 #include "../../game/graphics_frame.h"
@@ -50,7 +52,6 @@
 
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 extern s16 D_801D0000[];
-extern Pair D_801D5608;
 extern u8 gFreeDuel_aDuelistRecords[];
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
