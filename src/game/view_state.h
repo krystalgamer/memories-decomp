@@ -96,9 +96,10 @@ void func_8001352C(void);
  * SetGeomOffset, SetFarColor and SetFogNearFar -- and then walks the field
  * records.
  *
- * func_800179F4.c installs it rather than calling it, as `D_800E9DBC[0] =
- * func_800164FC`, so the declaration has to match the definition exactly for
- * the address to be taken. That file held the only declaration. */
+ * func_800179F4.c installs it rather than calling it, as `D_800E9DB0[3] =
+ * func_800164FC;` (func_800179F4.c:150), so the declaration has to match the
+ * definition exactly for the address to be taken. That file held the only
+ * declaration. */
 void func_800164FC(void);
 
 #endif

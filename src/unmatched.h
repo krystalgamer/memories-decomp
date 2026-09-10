@@ -165,7 +165,8 @@ extern s32 D_8009B118;
 /* Nine more that nobody calls, found by re-measuring the note above rather
  * than by a scan. Every one is installed as data -- seven into the duel scene
  * callback table, func_80056D7C as a transfer completion callback, and
- * func_80029EC4 into D_800E9DBC[0] -- and none is invoked from C.
+ * func_80029EC4 into D_800E9DB0[3] (func_8002BFCC.c:71) -- and none is
+ * invoked from C.
  *
  * Seven of them were declared in duel_scene_callbacks.c, which is a file I
  * added when that table moved out of its blob. The argument there was that
