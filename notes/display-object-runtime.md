@@ -267,7 +267,9 @@ Read against that table, the overlay writes become legible:
 - `FreeDuel_UpdateSparkle` sets `0x50000000` and
   `MainMenu_SpawnFrontendEntryAfterimage` sets `0x51000000`, both of which
   include `0x40000000` — so sparkles and afterimages are drawn
-  semi-transparent, which matches what those effects are.
+  semi-transparent, which matches what those effects are. The Free Duel
+  allocator, 16-entry pool and updater now all carry `DisplayObject *`
+  directly; the updater writes this composite through `attribute`.
 
 ### The composites, and what the masks are doing
 

@@ -2,6 +2,9 @@
 #define MEMORIES_DECOMP_OVERLAYS_FREE_DUEL_H
 
 #include "../../types.h"
+#include "../../game/display_object.h"
+
+#define FREE_DUEL_SPARKLE_POOL_CAPACITY 16
 
 /* Shared state for the free-duel opponent-select screen.
  *
@@ -36,19 +39,13 @@ extern u8 gFreeDuel_bScreenFlags;
  * next time round. The two resident writers only ever clear it. */
 extern u8 gFreeDuel_bReturnFlags;
 
-extern void *gFreeDuel_apSparklePool[];
+extern DisplayObject *gFreeDuel_apSparklePool[
+    FREE_DUEL_SPARKLE_POOL_CAPACITY
+];
 
 /* The two objects FreeDuel_Init stores here: the thumb it takes from
- * func_800400AC (screen_runtime.c:301, :306) and the cursor from
- * FreeDuel_SpawnSparkle (:307-308). Both are byte pointers.
- * FreeDuel_UpdateScrollbar reads the cursor's y at +0x32 through a
- * FreeDuelWidget view (:93-94, :97, :100) and writes the thumb's y the same
- * way (:102-103). FreeDuel_UpdateCursorTween reaches the cursor at +0x16,
- * +0x30, +0x32, +0x36, +0x38, +0x4C and +0x60 (:364, :378-391, :395-396,
- * :407-410), FreeDuel_UpdateScreen at +8 (:430) and FreeDuel_Entry at +0x44
- * and +0x46 (:520-523). FreeDuelWidget is 0x34 bytes (:48-52), so +0x36,
- * +0x38, +0x44, +0x46, +0x4C and +0x60 lie past it. screen_runtime.c used to
- * declare each twice through asm aliases, `FreeDuelWidget *` and `u8 *`. */
+ * func_800400AC and the cursor from FreeDuel_SpawnSparkle. Their complete
+ * shared-layout conversion remains measured separately in screen_runtime.c. */
 extern u8 *gFreeDuel_pCursorWidget;
 extern u8 *gFreeDuel_pThumbWidget;
 

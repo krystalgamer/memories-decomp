@@ -73,23 +73,34 @@ not mark object or ownership boundaries:
 - `FreeDuel_Entry` drives the screen update, cursor pulse, and sparkle-pool
   updater each frame.
 
-`gFreeDuel_pCursorWidget` and `gFreeDuel_pThumbWidget` are declared once, as
-byte pointers, in `free_duel.h`; `FreeDuel_UpdateScrollbar` casts them to the
-verified `FreeDuelWidget` `x`/`y` prefix at the use, `FreeDuel_UpdateScreen`
-casts the cursor when it calls `FreeDuel_PlaceCursor`, and initialization and
-runtime code keep their offset-based byte accesses. `D_800EB0F8` keeps a byte
-alias for `FreeDuel_PlaceCursor` beside the typed `DuelEffectChannel`
-declaration used by the runtime.
+`gFreeDuel_pCursorWidget` and `gFreeDuel_pThumbWidget` remain byte pointers in
+`free_duel.h`; `FreeDuel_UpdateScrollbar` casts them to the verified
+`FreeDuelWidget` signed `x`/`y` prefix at the use, while later cursor code
+needs offsets through `+0x60`. A broad conversion to the shared
+`DisplayObject` changed signed loads and old-GCC scheduling, so that cursor
+view remains deliberately local rather than claiming the shared record's
+unsigned halfword view is interchangeable.
 
-The sparkle-pool allocator and updater remain at `0x8016899C` and
-`0x801689D4`. Both reverse-scan the same 16-entry
-`gFreeDuel_apSparklePool`, and their direct callers are now visibly in the
-same source: `FreeDuel_UpdateCursorTween` takes the pool slot and
-`FreeDuel_Entry` runs the updater.
+The sparkle path is fully on the shared display-object type.
+`FreeDuel_SpawnSparkle` returns `DisplayObject *`;
+`FreeDuel_GetSparkleSlot` and `FreeDuel_UpdateSparkle` reverse-scan the typed
+`FREE_DUEL_SPARKLE_POOL_CAPACITY`-entry `gFreeDuel_apSparklePool`; and
+`FreeDuel_UpdateCursorTween` publishes the new object through a
+`DisplayObject **`. The updater uses the shared record's attribute, flags,
+colour word, `field_60` timer, and `field_6C` state directly. It initializes
+an additive grey sparkle for 16 updates, subtracts four from all RGB channels
+per update, then releases the ambient object and clears the pool slot.
 
-One unit settles `FreeDuel_GetSparkleSlot`'s return type, which the caller
-declared `u8 **` and the definition spells `void **`. The definition wins and
-the single call site takes a `void **` local.
+One unit now settles `FreeDuel_GetSparkleSlot` as `DisplayObject **` from
+definition through both callers, rather than preserving the former
+`u8 **`/`void **` disagreement.
+
+`FreeDuel_Init` ends by calling `SD_BGMPlay(0x72C0)`. The resident sound path
+routes that command through `func_80047314`, `func_8004733C`, and
+`func_80049230`, which queues command `0x48`. This pins the ramp observed in
+Unchiga F92 to BGM-driver state started by the overlay initializer. It is not
+the visual fade record in `gFade_State`; the narrower sound-driver field
+semantics remain intentionally unnamed.
 
 `func_8004036C` keeps the local `void (void)` declaration the sparkle updater
 carried, and the reason for it: its two calls pass no argument at all, so
