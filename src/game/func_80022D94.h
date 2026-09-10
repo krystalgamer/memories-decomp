@@ -14,4 +14,24 @@
  * spelling is the original author's rather than evidence. */
 void func_80022D94(s32 frames, s32 x, s32 z, s32 y, s32 value);
 
+/* State consumed by unmatched func_800235C0 to advance the tween.
+ *
+ * The four target halfwords are X, Z, heading and view rotation. The four
+ * accumulators hold their starting values in 16.16 form with the low half
+ * biased by 0x8000, and the final four words are the per-frame deltas. */
+extern s16 D_8009B1EE;
+extern s16 D_8009B192;
+extern s16 D_8009B190;
+extern s16 D_8009B166;
+
+extern s32 D_8009B1C4;
+extern s32 D_8009B15C;
+extern s32 D_8009B158;
+extern s32 D_8009B224;
+
+extern s32 D_8009B1FC;
+extern s32 D_8009B198;
+extern s32 D_8009B194;
+extern s32 D_8009B168;
+
 #endif

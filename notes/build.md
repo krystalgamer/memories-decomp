@@ -742,6 +742,16 @@ array, section, volatile, or asm-alias forms simply to make a count reach zero.
 The first enforced batch moved thirty unanimous primitive declarations from
 thirty-one matching-C sites already including `unmatched.h`.
 
+The next batch demonstrates why the include intersection is evidence only
+after checking behavior. Twelve globals locally declared by
+`func_80022D94.c` also appeared in files including `view_state.h`, but their
+actual contract is narrower: the matching function publishes four targets,
+four 16.16 starting accumulators, and four per-frame deltas for unmatched
+`func_800235C0` to advance. They therefore live with the producer in
+`func_80022D94.h`. The neighbouring frame count `D_8009B204` stays local:
+another writer declares it unsigned, so it is a separate divergent-contract
+question rather than a thirteenth member of the batch.
+
 #### A neighbour can refute a size, never establish one
 
 Both directions come up, and only one of them is sound.
