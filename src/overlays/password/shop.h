@@ -24,7 +24,14 @@ typedef void (*PasswordCursorUpdate)(u8 *object);
 typedef struct {
     u8 pad00[0x8];
     u16 flags;        /* 0x08 */
-    u8 pad0A[0x26];
+    u8 pad0A[0x0E];
+    /* Where x/y are heading. Password_SetDigitCursorTarget writes this pair
+       and nothing else, Password_UpdateDigitCursor derives its velocity from
+       target minus live, and on the last tick copies the pair straight into
+       x/y as one word. */
+    s16 target_x;     /* 0x18 */
+    s16 target_y;     /* 0x1A */
+    u8 pad1C[0x14];
     s16 x;            /* 0x30 */
     s16 y;            /* 0x32 */
     u8 pad34[0x2C];
