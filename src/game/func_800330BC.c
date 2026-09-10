@@ -1,6 +1,7 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
 #define GINPUT_PAD1_REPEAT_IS_VOLATILE
 #include "../types.h"
+#include "func_800330BC.h"
 #include "card_type_icon_table.h"
 #include "card_list_text_boxes.h"
 #include "card_list_sort.h"
