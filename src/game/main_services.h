@@ -28,14 +28,15 @@
  * assembly: `sw $zero` at :407 and the address of func_80029EC4 at :854.
  * Slot 2 is stored only by func_8002ACA4.s (:509, :745), under splat's name
  * for that address, D_800E9DB8; no other listing and no C unit names it.
- * Slot 1 is stored by the main_menu overlay under its own name, D_800E9DB4:
- * MainMenu_InitTradeScreen (src/overlays/main_menu/trade_init.c:69) and
+ * Slot 1 is stored by the main_menu overlay, by index:
+ * MainMenu_InitTradeScreen (src/overlays/main_menu/trade_init.c:69,
+ * `D_800E9DB0[1] = MainMenu_DrawTradeOffersAndHighlights;`) and
  * MainMenu_ReleaseTradeDisplayHandles
- * (src/overlays/main_menu/trade_offers.c:150), each with a private
- * declaration of its own. The per-slot names D_800E9DB4, D_800E9DB8 and
- * D_800E9DBC (0x800E9DB0 + 4, + 8 and + 12) carry no displacement off
- * D_800E9DB0, so their writers do not appear as `%lo(D_800E9DB0)`
- * references. */
+ * (src/overlays/main_menu/trade_offers.c:150, `D_800E9DB0[1] = 0;`). Before
+ * that the overlay reached it as D_800E9DB4, with a private declaration in
+ * each unit. The per-slot names D_800E9DB8 and D_800E9DBC (0x800E9DB0 + 8
+ * and + 12) carry no displacement off D_800E9DB0, so their writers do not
+ * appear as `%lo(D_800E9DB0)` references. */
 extern void (*D_800E9DB0[4])(void);
 
 /* The recovery point the registry's comment above already places at

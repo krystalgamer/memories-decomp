@@ -4,6 +4,7 @@
 #include "entrypoints.h"
 #include "trade_helpers.h"
 #include "../../game/display_object_helpers.h"
+#include "../../game/main_services.h"
 
 extern u8 *D_801845DC;
 extern u8 *D_801845E0;
@@ -13,7 +14,6 @@ extern u16 D_80185C9C[][11];
 extern u8 D_80185CC8[];
 extern u8 D_80185CCA[];
 extern u8 D_80185CCC[];
-extern void (*D_800E9DB4)(void);
 extern void func_80061008(s32, s32, s32, s32);
 
 void MainMenu_InitTradeScreen(void)
@@ -66,6 +66,6 @@ void MainMenu_InitTradeScreen(void)
     D_80185CCF = 0;
     D_80185CD0 = 0;
     D_80185CD1 = 0;
-    D_800E9DB4 = MainMenu_DrawTradeOffersAndHighlights;
+    D_800E9DB0[1] = MainMenu_DrawTradeOffersAndHighlights;
     D_8009B0C0 = 1;
 }
