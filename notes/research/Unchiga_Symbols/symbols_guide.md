@@ -377,4 +377,10 @@ Development machinery that shipped in the retail binary.
 | `PCread` | 0x80073758 | Dev-kit leftover: file reads from the attached PC's filesystem (LIBSN); inert on retail hardware. |
 
 ---
-Placements were proven in the 2026-08-31 and 2026-09-02 live trace sessions (see the Trace Dossier and `notes/research/findings.md`); the rest are from matched code and the community RAM map. Evidence system: The Symbol Ledger. Symbols tagged with a module live in `config/modules/<module>.txt` because those screens share one address range. Excluded on purpose: the 30 still-disputed names and anything hedged. The build stays byte-identical to the original through every rename.
+Placements were proven in the 2026-08-31 and 2026-09-02 live trace sessions
+(see the Trace Dossier and [`findings.md`](findings.md)); the rest are from
+matched code and the community RAM map. Evidence system: The Symbol Ledger.
+Symbols tagged with a module live in
+`config/slus_01411/overlays/<module>_symbols.txt` because those screens share
+one address range. Disputed and hedged names are excluded on purpose. The
+build stays byte-identical to the original through every rename.
