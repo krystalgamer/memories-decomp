@@ -667,6 +667,11 @@ void func_80049C40(void);
 void func_80049CB0(void);
 #endif
 void SD_SetOutputType(s16);
+/* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
+ * fields of *D_8009B458 and refreshes the object volumes unless field_07E2 is
+ * 2. sound_runtime.c is the only caller and passes the same value twice; it
+ * declared this itself before, in the same s16 pair the definition takes. */
+void func_80049F10(s16 first, s16 second);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);
 
