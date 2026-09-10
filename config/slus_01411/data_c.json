@@ -126,6 +126,10 @@
       "profile": "gcc_2_8_1_g8"
     },
     {
+      "source": "src/game/model_primitive_templates.c",
+      "profile": "gcc_2_8_1_g8"
+    },
+    {
       "source": "src/game/duel_scene_callbacks.c",
       "profile": "gcc_2_8_1_g0"
     },
