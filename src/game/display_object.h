@@ -486,7 +486,8 @@ extern s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT];
  * type is s16 by the same evidence: that store is D_800F2878[key] = index, and
  * the reset walk uses an s16 *.
  *
- * func_800402A0.c reached it through a u8 * and scaled by two by hand. It now
+ * func_800402A0 in display_slot_lifecycle.c reached it through a u8 * and
+ * scaled by two by hand. It now
  * takes this declaration and casts at the use site, which is the form it
  * already uses one line earlier for D_800EFE38. */
 extern s16 D_800F2878[DISPLAY_OBJECT_LIST_COUNT];
@@ -510,8 +511,8 @@ extern DisplayObject D_800F0548[
  *
  * Every retail access is gp-relative (lhu/addiu/sh in func_8004020C.s:4-8
  * and func_800400AC.s:16-20, sh $zero in func_80040390.s:10-11), so the
- * plain halfword serves display_slot_lifecycle.c and
- * display_object_reset_pool.c alike. */
+ * plain halfword serves both the per-slot and whole-pool paths in
+ * display_slot_lifecycle.c. */
 extern u16 D_8009B410;
 extern u16 D_8009B412;
 
