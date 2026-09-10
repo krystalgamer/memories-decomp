@@ -6,12 +6,11 @@
 #include "display_object.h"
 #include "display_object_layout.h"
 #include "../unmatched.h"
+#include "func_8002FD10.h"
 
 extern u16 D_8009B2DE;
 extern DisplayObject *D_800EB184[4];
 extern DisplayObject *D_8009B2E4;
-
-extern void func_8002FD10(s32);
 
 void func_80031354(void)
 {
