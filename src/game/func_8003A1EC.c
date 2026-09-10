@@ -5,8 +5,8 @@
 #include "display_object_helpers.h"
 #include "func_8003A1EC.h"
 #include "../unmatched.h"
+#include "func_8003A198.h"
 
-extern s32 func_8003A198(u8 *, s32, s32, s32);
 s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
     DisplayObject *p;
     u8 *tb;

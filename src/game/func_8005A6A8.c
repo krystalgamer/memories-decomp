@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "camera_view.h"
 #include "../psyq/libgte.h"
+#include "func_8005A6A8.h"
 
 /* Distance-to-camera fade and pan for one sound source: the square root of
  * the distance from the listener record at D_800F56F0, minus 700, sets the

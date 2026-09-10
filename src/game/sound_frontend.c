@@ -5,8 +5,7 @@
 #include "sound.h"
 #include "sound_output_state.h"
 #include "sound_output.h"
-
-extern void func_80046990(s32, s32, s32);
+#include "sound_state_control.h"
 
 void Sound_InitFrontend(void)
 {

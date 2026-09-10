@@ -9,16 +9,16 @@
  *
  * The unit implements it as a top-level asm block rather than as C, so this
  * prototype is what the compiler sees on both sides; the block's own
- * `.reloc .-4, R_MIPS_26, func_8002A788` resolves the call.
- *
- * func_8002A6B8, the other function this unit defines, is deliberately absent.
- * It is defined `s32 func_8002A6B8(void)` here and declared
- * `s32 func_8002A6B8(u8 *arg0)` in func_8002A2F4.c, which calls it with an
- * argument the definition does not name. A shared prototype would have to pick
- * one of those, and whether the extra argument is load bearing at that call has
- * not been measured -- the same shape as the func_8004CB0C case unmatched.h
- * records, where the caller's register was already live. It needs its own
- * change. */
+ * `.reloc .-4, R_MIPS_26, func_8002A788` resolves the call. */
 void func_8002A788(u8 *state);
+
+/* The card id under the library grid cursor, computed from
+ * gCardGrid_bCursorRow and gCardGrid_bCursorColumn.
+ *
+ * func_8002A2F4.c used to declare it `s32 (u8 *)` and pass its own record.
+ * The definition names no parameter, and the argument was not load bearing:
+ * the record is func_8002A2F4's first parameter, so it is still in $a0 at this,
+ * the function's first call, and dropping it builds byte for byte. */
+s32 func_8002A6B8(void);
 
 #endif

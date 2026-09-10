@@ -2,9 +2,9 @@
 #include "display_object.h"
 #include "display_object_layout.h"
 #include "display_object_updates.h"
+#include "func_800408D0.h"
 
 extern s32 D_800E9D90[];
-extern void func_800408D0(u8 *, s32, s32);
 
 void func_80040BF8(void)
 {
@@ -28,7 +28,8 @@ void func_80040BF8(void)
 
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
-                func_800408D0(data, table[data[0x17]], *(s16 *)(data + 0x14));
+                func_800408D0(object, table[data[0x17]],
+                              *(s16 *)(data + 0x14));
             }
         } while (i >= 0);
     }

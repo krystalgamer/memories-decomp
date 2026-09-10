@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/libsn.h"
 #include "func_80059908.h"
+#include "file_query_wrappers.h"
 
 int func_8005988C(int value)
 {
