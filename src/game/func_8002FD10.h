@@ -3,6 +3,9 @@
 
 #include "../types.h"
 
+#define CAMPAIGN_SCENE_IMAGE_COUNT 25
+#define CAMPAIGN_SCENE_IMAGE_GRID_COLUMN_COUNT 5
+
 /* Initializes the fixed scene presentation package: seeds the event-script
  * flag word D_8009B2A4 from its argument, clears the viewport origin, and
  * requests the package transfer.
