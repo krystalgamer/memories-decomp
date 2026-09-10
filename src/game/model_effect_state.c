@@ -12,8 +12,8 @@
 #include "model_slot_support.h"
 #include "func_8005EBF4.h"
 #include "model_transfer_flags.h"
+#include "func_8005D994.h"
 
-extern void func_8005D994(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
 {
     unsigned short *p = func_800591FC();
@@ -97,7 +97,8 @@ void func_8005F5C8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         }
     }
 
-    func_8005D994(arg0, s0, rec->angle, rec->field_04, arg2, arg3);
+    func_8005D994(arg0, s0, rec->angle, rec->field_04, (u8 *)arg2,
+                  arg3);
 }
 
 void func_8005F714(s32 a, s32 b, s32 c)
