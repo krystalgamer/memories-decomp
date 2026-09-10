@@ -8,10 +8,10 @@
 #include "sound_buffer_init.h"
 #include "sound_init.h"
 #include "sound_output_transition.h"
+#include "sound_transfer_lifecycle.h"
 #include "sound_voice_data.h"
 #include "sound_voice_selection.h"
 
-extern void *D_8009B460;
 extern u8 D_80010784[];
 extern u8 D_80010790[];
 extern u8 D_8001079C[];
@@ -40,7 +40,7 @@ void SD_InitState(u8 arg0)
     s32 y;
 
     g_SDValue = (SDValue *)0x801E0000;
-    D_8009B460 = (void *)0x801E1650;
+    D_8009B460 = (FileRequestSlot *)0x801E1650;
     p = (u32 *)0x801E0000;
     do {
         *p = 0;

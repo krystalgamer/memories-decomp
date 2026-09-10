@@ -10,12 +10,8 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libspu.h"
+#define FILE_TRANSFER_CURRENT_AS_BYTES
 #include "../game/file_transfer.h"
-
-extern u8 *D_8009AF18;
-extern u32 *D_8009B0F8;
-extern u8 D_8009B114;
-extern s32 D_8009B138;
 
 void func_80013C28(s32 arg)
 {
