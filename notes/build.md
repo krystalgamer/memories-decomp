@@ -778,6 +778,70 @@ the instruction count moved, which points at addressing mode. A same-length
 mismatch points at scheduling or register allocation, where `volatile` and
 register pins live.
 
+#### One symbol reached by two addressing modes at the same `-G` level
+
+The section above says the `-G` table predicts an addressing-mode lever. It
+predicts which levers are *available*; it does not, on its own, say which one a
+given consumer needs. `D_8009B26C` is the case that separates those two
+claims, and it is worth writing down because it looks like an obvious
+centralization target and is not one.
+
+Seven sources declare it identically as `extern u8 D_8009B26C[]` and write
+`D_8009B26C[0]`: `frontend_scene_states.c`, `duel_effect_basic_commands.c`,
+`duel_effect_mode_7.c`, `func_8002FA28.c`, `func_8002EB48.c`,
+`script_control_commands.c` and `async_state_poll.c`. Seven identical
+declarations of one symbol, with no disagreement to resolve, is exactly the
+shape that has passed byte-exact elsewhere. It still cannot be centralized.
+
+Two facts block it.
+
+**Retail reaches the symbol both ways, and the sources pin it.** Three units
+hand-assemble their accesses, and they do not agree about the relocation:
+
+```
+main_run_credits.c:   .reloc .-4, R_MIPS_GPREL16, D_8009B26C
+func_80030998.c:      .reloc .-4, R_MIPS_HI16,    D_8009B26C
+                      .reloc .-4, R_MIPS_LO16,    D_8009B26C
+func_8002A788.c:      .reloc .-4, R_MIPS_HI16,    D_8009B26C
+                      .reloc .-4, R_MIPS_LO16,    D_8009B26C
+```
+
+`func_80030998.c` settles it from inside a single block: two instructions
+apart it takes `gDebug_nSceneOrSoundID` `GPREL16` and `D_8009B26C`
+`HI16`/`LO16`. So the absolute form is not that unit being uniformly outside
+small data; it is this symbol, at this site.
+
+**The profile does not choose the spelling.** All seven array-spelling
+consumers compile at `gcc_2_8_1_g8`. So do `main_debug.c`,
+`main_run_credits.c`, `func_80030998.c` and `func_8002A788.c`, which use the
+plain scalar. Same compiler, same `-G8`, opposite spellings, both matching.
+`func_80024DC8.c` is the control: it is `-G0` and uses the scalar, where the
+table says no lever is needed because a plain scalar already gets `%hi/%lo`.
+
+The spelling is therefore a property of the individual access site's required
+relocation, not of the symbol and not of the translation unit's profile. A
+single shared declaration cannot serve both groups. Guarded arms could hold
+both, but each consumer would still have to select its arm, so seven local
+declarations would become seven local `#define`s and one indirection -- churn
+without a reduction.
+
+Two smaller notes for anyone who picks this symbol up. It is **not** an
+unmatched symbol, so it is out of scope for the `unmatched.h` work: three
+units define it -- `func_8002DC38.c`, `main_run_trade.c` and
+`main_run_animated_battle.c` -- as common symbols under the `*_comm`
+profiles. And nothing anywhere indexes above `[0]`, which is what the next
+symbol requires: `D_8009B26D` sits one byte above it in `c_symbols.ld` and is
+live in its own right, read and written by `frontend_scene_states.c` and
+`func_8002EE94.c` behind a `D_8009B26D_IN_DATA` guard. `D_8009B26C` is a
+single byte with a named neighbour immediately above, so its array spelling is
+a lever and could never be a real array -- and `frontend_scene_states.c`
+demonstrates both at once, declaring `D_8009B26C[]` while separately using
+`D_8009B26D`.
+
+Its neighbour `D_8009B269` sits three bytes below `D_8009B26C` and behaves the
+same way: converting `script_control_commands.c` to the scalar spelling
+shortens the executable by eight bytes, as the section above records.
+
 ## Exact baseline build
 
 ```sh
