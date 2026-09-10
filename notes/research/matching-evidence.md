@@ -6633,7 +6633,7 @@ Issue #16 asks for the SDK's runtime structures instead of redefined ones, and
 layout equality is not sufficient. The test is **whether anything writes two
 adjacent members as one word.**
 
-- `fade_overlay.c` uses `GsBOXF` directly. Retail writes the `0x04` and
+- `fade_runtime.c` uses `GsBOXF` directly. Retail writes the `0x04` and
   `0x08` words whole -- x together with y, w together with h -- so those two
   accesses cast the address of the first halfword to `u32 *`. The individual
   y and h updates retain their measured unsigned and signed halfword views.
