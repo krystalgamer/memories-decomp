@@ -8,8 +8,11 @@
  *
  * name_entry_frame.h and name_entry_keyboard.h already cover this screen's
  * drawing prefix and its keyboard entry points; neither is a home for the
- * screen's data. The fourteen-function name_entry_runtime.c pipeline uses
- * this header as the single view of that state.
+ * screen's data. The fourteen-function name-entry pipeline uses this header
+ * as the single view of that state: eleven functions in
+ * name_entry_runtime.c, two in name_entry_dialog.c, and
+ * NameEntry_UpdateKeyboard, now a build-integrated candidate
+ * (src/candidates/password/func_8016913C.c).
  *
  * What the uses show, without renaming anything:
  *

@@ -313,6 +313,87 @@
       "canonical_contracts": {
         "D_8009B074": "24ebfbf82751f6f5ad39d7e467cda01ccb85102120b5a6f685ee130cb553d3b8"
       }
+    },
+    {
+      "address": "0x80180390",
+      "module": "main_menu",
+      "profile": "gcc_2_8_1_g0_split",
+      "source": "src/candidates/main_menu/func_80180390.c",
+      "target": "src/candidates_target/main_menu/func_80180390.S",
+      "candidate_build_sha256": "63fe11ab9609a50ad0693a9d9896cab6aaf0025adfccee354242ca2d3bc30128",
+      "target_bytes_sha256": "283722f8d8b0126e39d6ff25bef7a9b4db2587eb3db3ec2662d3b2057d73c213",
+      "canonical_contract_sha256": "f23bf19544a6db49b6986ebfae69bc06460ad91f3e744fc534f06aab91bba699",
+      "canonical_contracts": {
+        "D_8009B0D8": "8b525aa21eb66739d20e37bd23383e995f7a3247eec384e9f438ba8790048019"
+      }
+    },
+    {
+      "address": "0x801821DC",
+      "module": "main_menu",
+      "profile": "gcc_2_8_1_g0_split",
+      "source": "src/candidates/main_menu/func_801821DC.c",
+      "target": "src/candidates_target/main_menu/func_801821DC.S",
+      "candidate_build_sha256": "1a42f88fbca1b40d59f197b9073ed50ebfcd723975ccd4c04276e5b8cbb95abf",
+      "target_bytes_sha256": "fedef0a9b0c2c9d2e7622a6f2fc6a12a901e93607e4ac5f80718aa7ea7338c45",
+      "canonical_contract_sha256": "3a66f5c473edcb99a4161953d882197a3c33163f10d6625e9e54c1cd5ba9fbef",
+      "canonical_contracts": {
+        "D_8009B246": "19d33f30888e52b5cd3ae371a2c4d8862f694f87d7c8979529674ceeb38364a0",
+        "D_8009B394": "4f98a4f84bf39924eb5ebf252c639fc3ffe3ba2303185afc8293b84e63a38c82",
+        "D_8009B398": "46a097f37857c21f26008b21c79d0491484c43f755f4b444e06fa307cd6b95b3",
+        "D_8009B3A4": "5ce1c9eb16ceea70c8ea11d001b0b78ad04375f30994a9471708836fc53fee38",
+        "D_800EB224": "40f0d856a3f7041f1eba1893e6dca5bf9c7da3f8ba49c6b4ac081f941d4b2da1",
+        "D_80180000": "0e2975a21b8f06914eb2a37149edcc6d9f843b66ca0d606e0a0256ceb57542f0",
+        "D_80185144": "5b8368a0bfa5f79714df23289af39b3095799179792773356e495261c8a39533",
+        "D_80185C8C": "3606a14981e31a020ac0f24b82c198a555d54dd1779ca6adb829f7f23dade98f",
+        "D_80185C9C": "0bc6d4feca9d0fcb7e2eab261e0e3103369b0836483dda5f3d8c8aab92537366",
+        "D_80185CC8": "e246bc10809ca7111c09514d1eeb80db796ea4a4855b2646657036af1eb0b0b4",
+        "D_80185CCA": "ab65f6be135ea44d8381d311233707b2ad591aa861473908f65910188e6791de",
+        "D_80185CCB": "6c63d3d380d93ed2d5b72227c8eaa43262d69116961827cbd6d47361a2ebb168",
+        "D_80185CCC": "b02fbd4398bb43113d45588e8b99d1198a3b802d32b0a2c9165ee245b1e7185b",
+        "D_801A8000": "52b252c25127a4c256cc50736acd06a6f0ddff3d63f6cd459f415c1fb568e347"
+      }
+    },
+    {
+      "address": "0x8016913C",
+      "module": "password",
+      "profile": "gcc_2_8_1_g0_split",
+      "source": "src/candidates/password/func_8016913C.c",
+      "target": "src/candidates_target/password/func_8016913C.S",
+      "candidate_build_sha256": "a794ff9a59d25d4f04cab36e1fa01b7b742604589fe637fa72079b27be4b8fb6",
+      "target_bytes_sha256": "8ea61340847936bca8d440dc87430c3dad555fde9143b74a4bf4ac9f09bdea9b",
+      "canonical_contract_sha256": "5e082c23a2b9909fffeecc7d74e5839d4e4e68507d25d9e9c07376db31704c18",
+      "canonical_contracts": {
+        "D_800EB1C0": "fccb2689bab1c431fcfb460014afecbdde25608d1ac5329c02697755b94c0781",
+        "D_8016AB38": "e9a27c93ebab9e97e70d77bb3e3be08523781f5cc3a4f1203ae39d3e8d96f6ed",
+        "D_8016ABC0": "6676507d08b090917593ae4567199ca1370c7060894f1ff129e99e09cf34b315",
+        "D_8016D403": "2f1a51ed13a1d53a31633cb43a7ab40dfe7cd67dd26e48bce46340b4c7472839",
+        "D_8016D41C": "4dd96d52846e72d5abc525f17acd5fe9dadccaf65b73a1e477f415c323031395",
+        "D_8016D4D0": "da822159dcbf83dc457fcac77deb57c3ec2f3f034ffc8025c67310ac8025d61b",
+        "D_8016D4D4": "e8fec28a631a158241876f2f607d53983b76784629cd439b1a0770cf2bfa39a6"
+      }
+    },
+    {
+      "address": "0x8016A37C",
+      "module": "password",
+      "profile": "gcc_2_8_1_g0_split",
+      "source": "src/candidates/password/func_8016A37C.c",
+      "target": "src/candidates_target/password/func_8016A37C.S",
+      "candidate_build_sha256": "45197846c03a5df8d78666adf0c2711b6d74235d6d3df547611f3c87dbc722c7",
+      "target_bytes_sha256": "6bb305c70fa3860cd34f7b6be673f4292e42ddda123b3b21162b75f6de1e3b2c",
+      "canonical_contract_sha256": "b954c1fb90cac484f380321086485683a75ccaee0dfb0fab30ecbd078c89ec77",
+      "canonical_contracts": {
+        "D_8009B269": "c886201242ab637e8583593c50c83bdfad300db510f3b1ea86c42e6a202a1990",
+        "D_8009B26C": "361116d513ca1ee0d940c9f286d0dd45bc0e496ac7b9d2a8cbcc0889fc7ba173",
+        "D_8009B3A4": "5ce1c9eb16ceea70c8ea11d001b0b78ad04375f30994a9471708836fc53fee38",
+        "D_800EA0E8": "3ce26582e8d2566e405eb13b1f4fcef9f8922c9320d0a0efd71b79c82e9b33ce",
+        "D_8016D430": "e04ba8dd8c16c205c37d8df7dbd41be7c49c3203db3317422f401d1ea7ace6dc",
+        "D_8016D438": "d91768d125adce2239a7efdc3b3238de41bda16a29b95392a57ea3a02f49f75e",
+        "D_8016D440": "5912e21694045c9c06ed887eb53df0e288dd9ab134907b07a883e32d7a2b4ae2",
+        "D_8016D4DC": "d90add64549ca0a8df5c6972e15ba89de6eae90d5a89e7adcf5c41176967b9ba",
+        "D_801A8000": "52b252c25127a4c256cc50736acd06a6f0ddff3d63f6cd459f415c1fb568e347",
+        "D_801A8008": "afb3702306fe269985f444a6c2faef90eb609e2c3570948c3f6dcdba69730297",
+        "D_801B1245": "a915c1a3f8427daac600b380f8304412a76e68f524b981548a785e2d26f236ed"
+      }
     }
   ]
 }

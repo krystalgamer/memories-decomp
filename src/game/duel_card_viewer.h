@@ -22,7 +22,9 @@ extern u16 gDuel_wViewerCardID;
 
 /* The vertical offset the viewer draws at, set by the same screens that
  * publish the id above: build_deck_pane_input.c and the main menu's
- * trade_update.c both store 20 (0x14) when they open the viewer, and
+ * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
+ * src/candidates/main_menu/func_801821DC.c) both store 20 (0x14) when they
+ * open the viewer, and
  * func_800283F4 is the consumer:
  *
  *     adj = D_8009B24B;
