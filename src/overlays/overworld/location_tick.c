@@ -19,7 +19,6 @@
 #include "../../game/fade.h"
 #include "campaign_map.h"
 
-extern u8 *D_801695C8;
 extern u8 D_800E9ECE;
 extern u8 D_800E9ECF;
 extern u8 D_8009B26C;
@@ -92,13 +91,13 @@ void CampaignMap_UpdateLocation(void)
         CampaignMap_CreateLocationLabel(gCampaignMap_Location);
         if (gCampaignMap_Location >= 10) {
             if (D_801695C8 == 0) {
-                D_801695C8 =
+                D_801695C8 = (MapObject *)
                     CampaignMap_CreateLocationMarker(gCampaignMap_Location);
             }
             table = gCampaignMap_aLocationTable;
             record = table + gCampaignMap_Location * 66;
-            *(s16 *)(D_801695C8 + 0x30) = *(u16 *)(record + 12);
-            *(s16 *)(D_801695C8 + 0x32) = *(u16 *)(record + 14);
+            *(s16 *)((u8 *)D_801695C8 + 0x30) = *(u16 *)(record + 12);
+            *(s16 *)((u8 *)D_801695C8 + 0x32) = *(u16 *)(record + 14);
         } else {
             func_8004036C(D_801695C8);
             D_801695C8 = 0;

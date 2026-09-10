@@ -23,7 +23,7 @@
  * `D_800E9DB0[3] = func_800164FC;`; func_800179F4.s:207-208), func_8002BFCC
  * (func_8002BFCC.c:71, `D_800E9DB0[3] = func_80029EC4;`; func_8002BFCC.s:52
  * and :56) and CampaignMap_SetLocation
- * (src/overlays/overworld/set_location.c:58,
+ * (src/overlays/overworld/set_location.c:56,
  * `D_800E9DB0[3] = CampaignMap_UpdateView;`), and by func_8002ACA4.s, still
  * assembly: `sw $zero` at :407 and the address of func_80029EC4 at :854.
  * Slot 2 is stored only by func_8002ACA4.s (:509, :745), under splat's name
