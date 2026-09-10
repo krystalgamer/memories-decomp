@@ -7105,7 +7105,7 @@ Following the `gCardGrid_*` measurement above, three more of the twelve
 signedness conflicts resolve. Each is a different shape, and the shape is what
 predicts the answer.
 
-    D_8009B079   func_8005F91C.c u8, model_transfer_state.c s8
+    D_8009B079   model_effect_state.c u8, model_transfer_state.c s8
                  Both declarers only ever WRITE it, and only constants:
                  `= 1` and `= 0`. Nothing reads its sign, so no load is
                  generated that could differ. Both the mixed spelling the

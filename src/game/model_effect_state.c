@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../unmatched.h"
 #include "model_effect_state.h"
 #include "camera_view.h"
 #include "model_update_view_metrics.h"
@@ -13,6 +14,50 @@
 #include "func_8005EBF4.h"
 #include "model_transfer_flags.h"
 #include "func_8005D994.h"
+
+void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
+{
+    u8 *r;
+    s32 v;
+    s32 d;
+    s32 t;
+    s32 k;
+    s32 u;
+    ModelEffectAdjustment sp18;
+
+    r = (u8 *)D_80091570 + arg1 * 8;
+
+    if (D_8009B07B == 1) {
+        if (D_8009B07C == 1) {
+            return;
+        }
+    }
+
+    v = (s16)*(u16 *)r;
+
+    if (arg0 < 2) {
+        func_80059000(arg0, (s16 *)&sp18);
+        if (sp18.max < 0x32) {
+            sp18.max = 0x32;
+        }
+        sp18.max -= 0x12C;
+        d = sp18.max;
+        if (d != 0) {
+            k = 750;
+            t = v;
+            if (d > 0) {
+                t = v / 2;
+            }
+            u = d * t;
+            t = u;
+            v += t / k;
+        }
+    }
+
+    func_8005F3B8(
+        arg0, v, *(s16 *)(r + 2), *(s16 *)(r + 4), (SVECTOR *)arg2
+    );
+}
 
 void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
 {
@@ -190,4 +235,78 @@ cont:
         }
         flag = 1;
     } while (count != 0);
+}
+
+void func_8005F91C(s32 arg0, u8 *arg1, u8 *arg2, s32 arg3)
+{
+    u8 *p;
+    u8 *q;
+    u8 *r;
+    s32 n;
+    s32 i;
+    s32 one;
+
+    one = 1;
+    if (D_8009B07B == one && D_8009B07C == one) {
+        return;
+    }
+
+    if (arg0 == one) {
+        goto m1;
+    }
+    if (arg0 < 2) {
+        if (arg0 == 0) {
+            goto m0;
+        }
+        return;
+    }
+    if (arg0 == 2) {
+        goto m2;
+    }
+    return;
+
+m0:
+    func_80059EBC(-1);
+    D_8009B074 = (u8 *)D_800F5788;
+    D_8009B078 = 0;
+    if (arg1 == (u8 *)0 && arg2 == (u8 *)0 &&
+        (arg3 == 0 || arg3 == 0x4000)) {
+        return;
+    }
+    func_8005F070(0);
+    D_8009B079 = 1;
+
+m1:
+    if (D_8009B078 < 0xA) {
+        r = (u8 *)&D_800F5788[D_8009B078];
+        if (arg1 != (u8 *)0) {
+            *(ModelEffectEndpoint *)r = *(ModelEffectEndpoint *)arg1;
+        } else {
+            *(u16 *)(r + 6) = 0;
+        }
+        if (arg2 != (u8 *)0) {
+            *(ModelEffectEndpoint *)(r + 8) =
+                *(ModelEffectEndpoint *)arg2;
+            r[0x26] = 0;
+        } else {
+            *(u16 *)(r + 0xE) = 0;
+            r[0x26] = 0;
+        }
+        n = D_8009B078;
+        *(s16 *)(r + 0x20) = arg3;
+        *(s16 *)(r + 0x22) = 0;
+        *(s16 *)(r + 0x24) = 0;
+        D_8009B078 = n + 1;
+    }
+    return;
+
+m2:
+    q = (u8 *)D_800F5788;
+    for (i = 0; i < D_8009B078; i++) {
+        p = q;
+        q += 0x28;
+        func_8005E808(p);
+    }
+    D_8009B079 = 0;
+    D_8009B07A = -1;
 }

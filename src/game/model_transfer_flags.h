@@ -6,8 +6,8 @@
 /* Two independent flag bytes, D_8009B07B and D_8009B07C, each with a getter
  * and a setter.
  *
- * The accessors are not the only route to them: model_effect_state.c and
- * three func_ files read the two bytes directly rather than through the
+ * The accessors are not the only route to them: model_effect_state.c and two
+ * single-function sources read the bytes directly rather than through the
  * getters, which is why the bytes are declared here as well.
  *
  * Six callers share one guard, spelled as
@@ -30,7 +30,7 @@
  *               although the declaration is already s8; that cast is left
  *               exactly where it is.
  *
- * D_8009B074 sits in the same run. func_8005F91C.c and model_transfer_state.c
+ * D_8009B074 sits in the same run. model_effect_state.c and model_transfer_state.c
  * spelled it s32 while func_8005EBF4.c spelled it u8 *, and a pointer against
  * a word is a question about what the storage is, not a spelling to pick.
  * The listings answer it: every retail read of the word is a base for a load
@@ -38,7 +38,7 @@
  * index and then lhu) or a beqz null test, and both writes store either the
  * address of D_800F5788 (func_8005F91C) or zero (func_8005FAE4). So it is a
  * pointer, and the two s32 spellings were casts around one. func_8005EBF4.c
- * walks it as bytes and func_8005F91C.c stores `(u8 *)D_800F5788`, so u8 *
+ * walks it as bytes and model_effect_state.c stores `(u8 *)D_800F5788`, so u8 *
  * is what the uses claim; func_8005DBA4 and func_8005E808 (still assembly)
  * read it the same way. Every retail access is gp-relative, so no unit needs
  * an arm.
