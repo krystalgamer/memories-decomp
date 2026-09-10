@@ -285,7 +285,7 @@ typedef struct DisplayObject {
        six words at stride 0xC -- 0x2C, 0x38, 0x44, 0x50, 0x5C, 0x68. That is
        a different run from the stride-8 one described at 0x4C, and the two
        agree only at 0x2C and 0x44, which is why neither run's reading can be
-       pushed onto the whole tail. func_80041534.c advances it by 4;
+       pushed onto the whole tail. func_80041534 advances it by 4;
        func_80041C8C.c adds the halfword at 0x58 to form a byte pointer, the
        reading DisplayObjectStreamState spells as `current`; and
        display_object_list_renderers.c copies it into a primitive word.
