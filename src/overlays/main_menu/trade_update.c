@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/two_player_save_setup.h"
 #include "../../ygo_types.h"
 #include "../../game/card_constants.h"
 #include "entrypoints.h"
@@ -34,7 +35,6 @@ extern volatile u16 D_8009B3A4[2];
 extern u16 D_8009B246;
 
 extern void func_8003CB7C(void);
-extern void func_8003FE14(void);
 extern void func_800611D0(s32);
 extern void func_800610E0(s32);
 extern void func_80035B7C(void *);
