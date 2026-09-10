@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "sorted_entry.h"
-
-extern s32 func_80035598(u32 *left, u32 *right);
+#include "func_80035598.h"
 
 /* The original qsort call is unprototyped; a prototype changes argument setup. */
 void func_800355C8(void)
@@ -16,7 +15,7 @@ void func_800355C8(void)
     D_8009B30C &= ~4;
 
     if (count >= 2) {
-        s32 (*compare)(u32 *, u32 *) = func_80035598;
+        s32 (*compare)(const u32 *, const u32 *) = func_80035598;
 
         qsort(entry, count, 8, compare);
     }
