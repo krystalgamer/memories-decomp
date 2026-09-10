@@ -159,6 +159,28 @@ extern u8 D_8009B362 __attribute__((section(".data")));
 extern u8 D_8009B362;
 #endif
 
+/* A byte the duel setup clears and func_800179F4 tests against 1.
+ * func_80024DC8 stores 0 beside gDuel_bOpponentID, D_8009B370, D_8009B372
+ * and gDuel_bTerrain; Text_StartCampaignDuel stores 0 after its own copy
+ * of that setup; func_80018FEC (a tracked candidate) stores 1;
+ * func_8001F55C (still assembly) stores it too. func_800179F4 skips two
+ * blocks when it is 1, and Main_RunDuel clears D_8009B26E only when it is
+ * 0 and gDuel_bOpponentID is not negative. Every retail access is sb or
+ * lbu and every declarer said u8. Initial value not read.
+ *
+ * Retail reaches it through %hi/%lo at every site and never through $gp.
+ * func_800179F4.c and main_run_duel_and_library.c reach other symbols
+ * through $gp, so they define the .data arm below; func_80024DC8.c and
+ * text_start_campaign_duel.c compile with nothing in small data and take
+ * the plain byte. src/candidates/func_80018FEC.c keeps its own .data
+ * declaration: it does not include this header and its object is
+ * fingerprinted in candidates.json. */
+#ifdef D_8009B369_IN_DATA
+extern u8 D_8009B369 __attribute__((section(".data")));
+#else
+extern u8 D_8009B369;
+#endif
+
 /* The halfword the duel hands to SD_BGMPlay: func_8001825C and func_80018608
  * read it for that call, func_80024DC8 stores 0x7270, func_80030F40 stores
  * 0x71D0 and Text_StartCampaignDuel stores func_80036D3C's result. lhu/sh
