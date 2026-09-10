@@ -1,8 +1,6 @@
 #include "../types.h"
 #include "display_object_stream_state.h"
 #include "model_record_tables.h"
-#include "func_8004149C.h"
-#include "func_80041534.h"
 
 /* Initialized data at 0x80090FEC through 0x80091508, previously a generated
    blob (#2602). Three tables, contiguous, so one translation unit.
