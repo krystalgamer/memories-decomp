@@ -4,6 +4,7 @@
 #include "sound_sequence_reader.h"
 #include "sound_sequence_timing.h"
 #include "sound_sequence_values.h"
+#include "sd_read_sequence_header.h"
 
 int SD_OpenSequenceTrack(SDSequenceTrack *entry)
 {
@@ -59,8 +60,6 @@ void SD_ScaleSequenceDelta(SDSequenceTrack *entry)
         return;
     }
 }
-
-extern void SD_ReadSequenceHeader(void);
 
 int SD_StartSequenceTracks(void)
 {
