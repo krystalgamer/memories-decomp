@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8001778C.h"
 #include "duel_card.h"
 
 void func_8001778C(void)
