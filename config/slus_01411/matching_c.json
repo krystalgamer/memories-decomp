@@ -3274,23 +3274,23 @@
       "address": "0x800408D0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x328",
-      "source": "src/game/func_800408D0.c"
+      "source": "src/game/display_object_updates.c"
     },
     {
       "address": "0x80040BF8",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
       "source": "src/game/display_object_updates.c"
     },
     {
       "address": "0x80040CAC",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x68",
       "source": "src/game/display_object_updates.c"
     },
     {
       "address": "0x80040D14",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC4",
       "source": "src/game/display_object_updates.c"
     },
