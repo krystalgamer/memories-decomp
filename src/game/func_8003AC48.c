@@ -29,7 +29,7 @@ void func_8003AC48(MenuRecord *p)
         y = h->field_67;
         func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), x);
         d = (u8 **)p->grid[1];
-        func_8003A1EC((u8 *)p, d, y);
+        func_8003A1EC(p, d, y);
         func_8003A440(d, (GsALON | GsATWO), x - 1);
         p->field_40 = 0x80;
     }

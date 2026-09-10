@@ -45,14 +45,14 @@ void func_8003AD6C(MenuRecord *p)
         a = r[0x67];
         b = *(s8 *)(r + 0x16);
         func_80039F90((void **)p->grid[0]);
-        func_8003A1EC((u8 *)p, (u8 **)p->grid[0], p->field_31);
+        func_8003A1EC(p, (u8 **)p->grid[0], p->field_31);
         func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), b);
-        func_8003A1EC((u8 *)p, (u8 **)p->grid[1], p->field_31);
+        func_8003A1EC(p, (u8 **)p->grid[1], p->field_31);
         d = b - 1;
         func_8003A440((u8 **)p->grid[1], (GsALON | GsATWO), d);
-        func_8003A1EC((u8 *)p, (u8 **)p->grid[2], a);
+        func_8003A1EC(p, (u8 **)p->grid[2], a);
         func_8003A440((u8 **)p->grid[2], (GsALON | GsAONE), b);
-        func_8003A1EC((u8 *)p, (u8 **)p->grid[3], a);
+        func_8003A1EC(p, (u8 **)p->grid[3], a);
         func_8003A440((u8 **)p->grid[3], (GsALON | GsATWO), d);
         p->field_40 = 0x80;
     }

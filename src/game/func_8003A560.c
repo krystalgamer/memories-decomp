@@ -98,7 +98,7 @@ void func_8003A560(DisplayEffectVramState *a)
             Util_CopyWords(slot->extra, D_801AF000, 0x800);
         }
     } else {
-        func_8003A1EC((u8 *)a, (u8 **)a, a->field_31);
+        func_8003A1EC((MenuRecord *)a, (u8 **)a, a->field_31);
         a->state = 0;
         a->field_32 |= 0x40;
     }
