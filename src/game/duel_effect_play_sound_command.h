@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_PLAY_SOUND_COMMAND_H
 
 #include "../types.h"
+#include "duel_effect.h"
 
 /* The three D_80090EAC sound commands. All read their operand through
  * func_80036D3C, which is the "next word of this object's current script
@@ -17,8 +18,8 @@
  *
  * func_80038690's parameter is `void *` in the definition where its two
  * siblings take u8 *; the table entry casts. */
-void DuelEffect_PlaySoundCommand(u8 *object);
+void DuelEffect_PlaySoundCommand(DuelEffectChannel *object);
 void func_80038690(void *object);
-void func_800386B8(u8 *object);
+void func_800386B8(DuelEffectChannel *object);
 
 #endif
