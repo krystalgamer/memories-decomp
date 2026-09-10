@@ -3,6 +3,7 @@
 #define D_8009B234_IN_DATA
 #define D_8009B236_IN_DATA
 #include "../types.h"
+#include "main_mode_state.h"
 #include "duel_side_state.h"
 #include "func_80024DC8.h"
 #include "duel_effect.h"
@@ -18,7 +19,6 @@
    the load-delay nop before the store of D_8009B269 into it. c_symbols.ld
    overrides this common symbol, so no storage is allocated here. */
 u8 D_8009B26C;
-extern u8 D_8009B269;
 
 void func_8002DC38(void)
 {

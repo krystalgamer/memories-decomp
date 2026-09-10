@@ -4,6 +4,7 @@
 #define D_8009B369_IN_DATA
 #define D_8009B368_IN_DATA
 #include "../types.h"
+#include "main_mode_state.h"
 #include "func_800179F4.h"
 #include "graphics_frame.h"
 #include "func_800339D0.h"
@@ -21,7 +22,6 @@
 #include "duel_side_state.h"
 #include "../unmatched.h"
 
-extern u8 D_8009B26C;
 extern u8 D_8009B2F8[9];
 extern s8 gDuel_bOpponentID[9];
 extern u8 gCampaignSceneIndex[9];

@@ -15,6 +15,9 @@
 #include "../types.h"
 #include "../game/duel_card_pick_cursor.h"
 #include "../game/duel_card_layout.h"
+#define MAIN_MODE_STATE_NEXT_IN_DATA
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
+#include "../game/main_mode_state.h"
 
 extern u16 D_8009B23A;
 extern u16 D_8009B162;
@@ -38,8 +41,6 @@ extern u8 D_800E9ECF[];
 extern u8 D_8009B260[];
 extern u16 D_800EF658[];
 extern u8 D_8009B369 __attribute__((section(".data")));
-extern u8 D_8009B269 __attribute__((section(".data")));
-extern u8 D_8009B26C __attribute__((section(".data")));
 
 extern void func_8001EC70(void);
 extern void func_8004036C(u8 *);

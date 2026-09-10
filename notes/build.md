@@ -761,6 +761,22 @@ its result-screen consumer, so it lives in `campaign_scene_package.h`.
 interpretations with no narrower owner, so its raw byte-array contract is
 genuinely homeless and lives in `unmatched.h`.
 
+`D_8009B269` and `D_8009B26C` show the same rule at larger scale. The first is
+the next/base frontend mode; mode runners copy it into the second when they
+exit. The second combines the active mode with lifecycle flags 0x20, 0x40 and
+0x80. Their twenty-seven local declarations used three forms that line up with
+the addressing matrix above: plain byte scalars, incomplete arrays, and
+scalars forced into `.data`. `main_mode_state.h` centralizes those forms behind
+independent guards for each byte.
+
+The header does not replace the three tentative definitions in
+`func_8002DC38.c`, `main_run_animated_battle.c` and `main_run_trade.c`.
+Those definitions are compiler inputs: under the affected profiles they
+produce the gp-relative loads and load-delay scheduling retail uses, while
+`c_symbols.ld` supplies the final addresses so the commons allocate no
+storage. Inline-assembly relocations in `func_8002A788.c` and
+`func_80030998.c` likewise remain independent of the C declarations.
+
 #### A neighbour can refute a size, never establish one
 
 Both directions come up, and only one of them is sound.

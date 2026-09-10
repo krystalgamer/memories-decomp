@@ -1,7 +1,9 @@
 #define D_8009B0D8_IS_VOLATILE
 #define D_8009B0C0_IS_VOLATILE
 #define D_8009B230_IN_DATA
+#define MAIN_MODE_STATE_NEXT_IN_DATA
 #include "../types.h"
+#include "main_mode_state.h"
 #include "../unmatched.h"
 #include "duel_side_state.h"
 #include "display_object_config.h"
@@ -30,7 +32,6 @@
 
 extern volatile u8 D_8009B0D1;
 extern void *volatile D_8009B0B4;
-extern u8 D_8009B269 __attribute__((section(".data")));
 extern void __main(void);
 
 s32 Main_Init(void)

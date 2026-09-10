@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "main_mode_state.h"
 #include "func_80024DC8.h"
 #include "duel_side_state.h"
 
@@ -7,7 +8,6 @@ extern u8 gDuel_bTerrain;
 extern u16 D_8009B370;
 extern u16 D_8009B372;
 extern u16 D_8009B374;
-extern u8 D_8009B26C;
 
 void func_80024DC8(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {

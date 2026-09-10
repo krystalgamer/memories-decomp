@@ -1,12 +1,12 @@
 #define D_8009B3EA_IN_DATA
 #define D_8009B3ED_IN_DATA
 #include "../types.h"
+#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
+#include "main_mode_state.h"
 #include "two_player_save_setup.h"
 #include "mem_card.h"
 #include "file_transfer.h"
 #include "../unmatched.h"
-
-extern u8 D_8009B26C[];
 
 void func_80031000(void)
 {

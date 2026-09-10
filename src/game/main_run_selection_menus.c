@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "main_mode_state.h"
 #include "../overlays/free_duel/free_duel.h"
 #include "../overlays/overworld/campaign_map.h"
 #include "func_800339D0.h"
@@ -12,8 +13,6 @@
 #include "sound.h"
 #include "../unmatched.h"
 
-extern u8 D_8009B26C;
-extern u8 D_8009B269;
 extern unsigned char D_8009B2F8[];
 extern u32 D_80010000[];
 

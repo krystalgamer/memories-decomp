@@ -6,6 +6,8 @@
 #define D_8009B3EA_IN_DATA
 #define D_8009B3ED_IN_DATA
 #include "../types.h"
+#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
+#include "main_mode_state.h"
 #include "mem_card.h"
 #include "frontend_debug_tables.h"
 #include "duel_effect.h"
@@ -26,7 +28,6 @@
    contiguous and are the whole gcc_2_8_1_g8 run between func_80030998 and
    func_80030FA0. */
 
-extern u8 D_8009B26C[];
 extern u16 gDebug_nSceneOrSoundID;
 
 void func_80030C10(void)

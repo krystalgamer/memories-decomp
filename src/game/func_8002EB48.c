@@ -1,9 +1,9 @@
 #include "../types.h"
+#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
+#include "main_mode_state.h"
 #include "script_state.h"
 #include "../unmatched.h"
 #include "func_8002EB48.h"
-
-extern u8 D_8009B26C[];
 
 void func_8002EB48(void)
 {
