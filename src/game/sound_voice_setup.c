@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "sound.h"
+#include "sound_voice_envelope.h"
 #include "../psyq/libspu.h"
 #include "sound_sequence_constants.h"
 #include "sound_spatialization.h"
