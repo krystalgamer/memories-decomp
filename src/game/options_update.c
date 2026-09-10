@@ -1,4 +1,5 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+#define GSD_BOUTPUTTYPE_IN_DATA
 #include "../types.h"
 #include "fade.h"
 #include "input.h"
@@ -7,8 +8,6 @@
 #include "sound.h"
 
 /* Retail performs a fresh absolute load for each input-state test. */
-/* Keep this byte outside small data so its store retains absolute addressing. */
-extern s8 gSD_bOutputType[16];
 
 void Options_HandleInput(void)
 {
@@ -21,14 +20,14 @@ void Options_HandleInput(void)
                 return;
             }
             value = 1;
-            gSD_bOutputType[0] = value;
+            gSD_bOutputType = value;
             gOptions_bOutputType = 1;
         } else {
             if (gOptions_bOutputType == 0) {
                 return;
             }
             value = 0;
-            gSD_bOutputType[0] = value;
+            gSD_bOutputType = value;
             gOptions_bOutputType = 0;
         }
         SD_SetOutputType(value);

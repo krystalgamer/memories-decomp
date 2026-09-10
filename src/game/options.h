@@ -27,20 +27,15 @@ extern s8 gOptions_bOutputType;
 
 /* NOT HERE, ON PURPOSE
  *
- * gSD_bOutputType is shared by both sources and is still declared locally,
- * but not because they disagree -- an earlier version of this note said the
- * s8 [16] and u8 [9] spellings could not be reconciled, and that was wrong.
- * Both bounds are over the -G8 threshold, so both are the same lever for
- * absolute addressing and neither asserts a size; main_services.h says so
- * beside D_8009B0A3, citing this very symbol. options_update.c only writes
- * element 0, so it constrained neither the sign nor the bound, and both
- * sources now spell it s8 [16] as its other readers do.
- *
- * It stays out of this header because it is not an options symbol: the sound
- * driver owns it, save_data_build_payload.c writes it into the save, and
- * sound_frontend.c reaches it as a plain scalar from small data. Those two
- * addressing groups need a guarded arm wherever it eventually lands, and
- * that placement is a sound-side decision rather than an options one.
+ * gSD_bOutputType is shared by both sources but is declared in sound.h,
+ * after the driver words it follows in memory, because it is not an
+ * options symbol: the sound driver owns it, save_data_build_payload.c
+ * writes it into the save, and sound_frontend.c reaches it as a plain
+ * scalar from small data, so sound.h carries the guarded arm those two
+ * addressing groups need. An earlier version of this note said the
+ * s8 [16] and u8 [9] spellings could not be reconciled, and that was
+ * wrong: both bounds were the same lever for absolute addressing and
+ * neither asserted a size; main_services.h says so beside D_8009B0A3.
  *
  * The two option display objects are no longer among the exceptions either:
  * see below.
@@ -60,7 +55,7 @@ extern DisplayObject *D_8009B380;
 extern DisplayObject *D_8009B388;
 
 /* Builds the options screen and seeds the state above: it sets
- * gOptions_bState to 1, copies gSD_bOutputType[0] into gOptions_bOutputType
+ * gOptions_bState to 1, copies gSD_bOutputType into gOptions_bOutputType
  * (clamping a negative to 0), clears gOptions_bSelection, and stores the two
  * display objects into D_8009B388 and D_8009B380. It is declared here rather
  * than in a header of its own because this is the header that already owns

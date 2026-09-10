@@ -6,8 +6,6 @@
 #include "sound_output_state.h"
 #include "sound_output.h"
 
-extern s8 gSD_bOutputType;
-
 extern void func_80046990(s32, s32, s32);
 
 void Sound_InitFrontend(void)

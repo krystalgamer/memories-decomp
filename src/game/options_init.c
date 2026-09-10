@@ -1,3 +1,4 @@
+#define GSD_BOUTPUTTYPE_IN_DATA
 #include "../types.h"
 #include "display_object_config.h"
 #include "display_object.h"
@@ -19,14 +20,12 @@
    with the selection flag (set to 0 earlier), D_8009B380 is set to obj3,
    and SD_BGMPlay(0x7350) runs last.
 
-   gSD_bOutputType needs an oversized array extern to force absolute (lui+lbu)
-   addressing instead of gp-relative -- see project memory on far globals
-   needing this trick. The single load of it is cached in a local and
+   gSD_bOutputType is reached through its .data arm (sound.h) so the load
+   is absolute (lui+lbu) rather than gp-relative. The single load of it is
+   cached in a local and
    reused for both the output-type store and the `< 0` sign test, matching
    how gcc schedules the real target (interleaved with obj1->flags's
    load-early/store-late around the intervening `ori`). */
-
-extern s8 gSD_bOutputType[16];
 
 void Options_Init(void) {
     register DisplayObject *obj asm("s1");
@@ -39,7 +38,7 @@ void Options_Init(void) {
     func_800428EC((u8 *)obj, -5);
     gOptions_bState = 1;
     {
-        s8 flag408 = gSD_bOutputType[0];
+        s8 flag408 = gSD_bOutputType;
         obj->flags |= 0x28;
         gOptions_bOutputType = flag408;
         if (flag408 < 0) {
