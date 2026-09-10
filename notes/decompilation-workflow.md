@@ -356,6 +356,48 @@ be corroborated before being treated as final.
 - Record uncertain fields and competing interpretations in notes rather than
   hiding them with unsafe casts.
 
+## Declaration audits
+
+Collecting duplicated `extern` declarations into headers is driven by scanning
+the tree, and a name-based scan of C text mis-reads several real constructs.
+Each of these produced a wrong answer during the header-collection campaign
+before the source was read:
+
+- **A trailing `__attribute__` sits after the declarator.** `extern u8 X;` and
+  `extern u8 X __attribute__((section(".data")));` differ only in the tail, so a
+  scan that stops at the name reports the two spellings as unanimous. The
+  `.data` spelling is an addressing lever, so that error proposes a change that
+  looks safe while hiding the fact that would have stopped it. Capture the text
+  between the declarator and the semicolon.
+
+- **`asm()` renames make one object look like two.** Files reach the viewport
+  halfwords as `extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")`
+  plus a `#define`. The alias identifier is not declared in any header, so it
+  scans as an unhoused symbol needing a home, while the real name is already
+  declared in `graphics_frame.h` and the divergent spelling is deliberate.
+
+- **A file can opt out of a guarded header declaration.** `save_data_checksum.c`
+  defines `SAVE_DATA_DECLARE_MASK_STATE_LOCALLY` before including
+  `save_data.h`, so the header's copies are suppressed and its local ones are
+  the only declarations in scope. A scan that does not evaluate the
+  preprocessor sees a file redundantly repeating its own header. That file's
+  comment records that the local position preserves the register allocation, so
+  deleting the "duplicate" would have been a regression.
+
+- **One declaration can declare several symbols.**
+  `extern u8 A[9], B[9], C;` names three, and a regex anchored on the first
+  declarator attributes the array bounds to the wrong ones, fabricating
+  conflicts that do not exist.
+
+- **Order matters when normalising text.** Blanking string literals before
+  extracting `#include "..."` lines empties the include set for every file, and
+  a `return D_8009B3EF;` matches a declaration pattern whose type position
+  accepts `return`.
+
+The rule the campaign settled on: the scan produces candidates, and reading the
+source decides them. Every one of these was caught by reading, and none by the
+tool contradicting itself.
+
 ## Compiler experiments
 
 - Keep probe sources, generated objects, and diffs under `tmp/`.
