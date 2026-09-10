@@ -5,6 +5,7 @@
 #include "trade_helpers.h"
 #include "../../game/display_object_config.h"
 #include "../../game/data_transfer_request.h"
+#include "../../game/duel_card_viewer.h"
 #include "../../game/duel_effect.h"
 
 typedef struct { u32 words[256]; } Block1024;
@@ -30,7 +31,6 @@ extern volatile u16 D_8009B394[2];
 extern volatile u16 D_8009B398[2];
 extern volatile u16 D_8009B3A4[2];
 extern u16 D_8009B246;
-extern u8 D_8009B24B;
 
 extern void func_8003CB7C(void);
 extern void func_8003FE14(void);
