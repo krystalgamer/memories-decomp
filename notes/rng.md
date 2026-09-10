@@ -277,13 +277,12 @@ which menus or duel actions consume values and explain apparently exceptional
 timing without relying on visual frames alone.
 
 `tools/trace/rng_boot_timing.lua` implements the boot-through-title slice of
-that trace. It arms on `srand(0x55555555)`, records each `rand`/`srand` caller,
-state transition, mode, and VSync frame through the first three seconds of
-mode 8, and prints the human-context scaffold. The earlier `srand(0x56)` is
-outside this capture window. A later `0x56` reseed is recorded if it occurs,
-but is not required to start the mode-8 completion timer. The
-`startup_seed_seen` summary field refers only to such a post-arming reseed,
-so `false` does not mean that the earlier initializer failed to run.
+that trace. After a hard reset it reinstalls its breakpoints at the BIOS shell
+and arms before game startup, then records the initial `srand(0x56)`, the later
+`srand(0x55555555)`, every subsequent `rand`/`srand` caller, state transition,
+mode, and VSync frame through the first three seconds of mode 8. A run that
+sees the boot seed but misses the initial seed is reported as partial rather
+than treating the missing row as evidence that the initializer did not run.
 It requires PCSX-Redux's interpreter CPU because it uses execution breakpoints.
 No result has been submitted yet, so the community timing observations above
 remain unconfirmed.
@@ -291,8 +290,9 @@ remain unconfirmed.
 The standalone regression script
 `luajit tools/trace/tests/rng_boot_timing_test.lua` replays mocked PCSX
 callbacks with LuaJIT FFI memory. It covers normal completion without a later
-reseed, an optional reseed, the unarmed timeout, reset/reinstallation, and the
-event limit. These callback replays are not emulator gameplay observations.
+reseed, a boot-only partial capture, a missing-boot timeout after the initial
+seed, the pre-reset timeout, reset/reinstallation, and the event limit. These
+callback replays are not emulator gameplay observations.
 
 ## Research checklist
 
