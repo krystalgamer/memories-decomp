@@ -23,7 +23,7 @@ typedef struct {
     /* The two text boxes the input handler moves. Both are display records
        whose halfword at +0x32 is a y position: func_800330BC sets the
        cursor box to cursor * 22 + 0x2A and the scroll box to the thumb
-       position it derives from `first`. duel_transition_color.c pulses the
+       position it derives from `first`. func_800339D0.c pulses the
        scroll box's colour bytes at +0xC/+0xD/+0xE, which is what fixes them
        as display records rather than rows of this list. */
     u8 *cursor_box;

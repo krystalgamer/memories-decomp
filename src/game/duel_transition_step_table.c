@@ -7,7 +7,7 @@
    (#2602).
 
    D_80090DF8 is the build-deck pane transition step table.
-   duel_transition_color.c dispatches D_80090DF8[state & 0x3F] with the
+   func_800339D0.c dispatches D_80090DF8[state & 0x3F] with the
    transition state as a u8 *. The mask permits sixty-four entries and there
    are five; that is recorded rather than corrected, because nothing shows the
    game produces a larger index and widening the array would change the bytes.
@@ -16,7 +16,7 @@
    entries that use it are cast to the table's element type, as
    display_effect_step_table.c does for func_8003A560. The other three
    prototypes are taken from their definitions in build_deck_pane_input.c and
-   func_800339D0.c, neither of which has a header yet.
+   func_800339D0.c; the exit step and driver now share that source.
 
    D_80090E0C's first seven words are the divisor ladder
    Text_EncodeDecimalDigits indexes by digit count and then walks with
