@@ -553,9 +553,4 @@ extern ModelTintRequest D_800F2B50[MODEL_TINT_REQUEST_COUNT];
 extern ModelHandlerRegistryEntry
     D_800F5918[MODEL_HANDLER_REGISTRY_COUNT];
 
-/* Rebuilds a coordinate unit's local matrix from its Euler angles. Declared
- * on the incomplete type so callers that only forward a slot's field_D18 do
- * not have to pull in the libhmd chain. */
-extern void func_8005922C(struct _GsCOORDUNIT *unit, void *scale);
-
 #endif

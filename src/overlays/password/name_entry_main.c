@@ -7,10 +7,10 @@
 #include "../../game/card_constants.h"
 #include "../../psyq/rand.h"
 #include "../../psyq/stdio.h"
+#include "../../game/campaign_flags.h"
+#include "../../game/util_memory.h"
 
 extern u8 D_801D0000[];
-extern void func_8002CCE4(s32);
-extern void func_80035748(void *, s32, s32);
 
 void NameEntry_BuildStarterDeck(void)
 {
@@ -47,7 +47,7 @@ void NameEntry_BuildStarterDeck(void)
                     } else {
                         counts[i] = counts[i] + 1;
                         *out = i + 1;
-                        func_8002CCE4(i + 289);
+                        Library_UpdateCardUsedFlag(i + 289);
                         out++;
                     }
                     break;
@@ -70,7 +70,7 @@ void NameEntry_Main(void)
     s32 value;
     s32 i;
 
-    func_80035748(D_801D0000, 0, 0x3000);
+    Util_FillMemory(D_801D0000, 0, 0x3000);
     printf("SaveLoadBuf add = 0x%x size = 0x%x\n", D_801D0000, 0x3000);
     NameEntry_Init();
     do {

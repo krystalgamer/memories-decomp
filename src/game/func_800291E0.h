@@ -8,10 +8,7 @@
  * target's own words -- func_800291E0.c holds it as an asm block -- so u8 * is
  * what its three callers agreed on rather than a recovered type;
  * func_800283F4.c casts the result to DisplayObject *, which is the closest
- * thing to evidence there is.
- *
- * src/overlays/password/shop_setup.c declares it again and cannot consume this
- * header -- overlay sources are a separate build -- and spells the return
+ * thing to evidence there is. The password overlay's shop.c casts it to
  * PasswordCardPreviewView *, a fourth view of the same object. */
 u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
 

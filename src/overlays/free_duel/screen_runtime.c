@@ -23,6 +23,8 @@
 #include "../../game/func_80039794.h"
 #define FUNC_80041D60_AMBIENT_ARGS
 #include "../../game/func_80041D60.h"
+#include "../../game/func_80024DC8.h"
+#include "../../game/display_object_config.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -80,13 +82,6 @@ extern Pair D_801D5608;
 extern u8 gFreeDuel_aDuelistRecords[];
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
-extern void func_80024DC8(s32, s32, s32, s32);
-extern void func_80035BE4(s32, s32, s32, s32, s32, s32);
-extern void func_80035C38(s32, s32, s32, s32, s32, s32, s32);
-extern void func_80040510(
-    Obj *, s32, s32, s32, s32, s32, s32, s32, s32, s32
-);
-extern void func_8003FF08(s32);
 
 void FreeDuel_UpdateScrollbar(void)
 {
@@ -136,7 +131,7 @@ void FreeDuel_PlaceCursor(FreeDuelWidget *w, s32 arm)
         D_801D5608.lo = base[index * 2 + 910];
         D_801D5608.hi = base[index * 2 + 911];
     }
-    func_80035BE4(0, param, 16, 204, 288, 16);
+    TextBox_Create(0, param, 16, 204, 288, 16);
     func_80039A60(panel);
 }
 
@@ -187,7 +182,7 @@ void FreeDuel_Init(u8 *src)
         gFreeDuel_bTargetColumn = 0;
         gFreeDuel_bCursorRow = 0;
         gFreeDuel_bCursorColumn = 0;
-        func_80035C38(1, 13, 48, 108, 224, 16, 4136);
+        TextBox_CreateFlagged(1, 13, 48, 108, 224, 16, 4136);
         func_80039794();
         gFreeDuel_bScreenFlags |= 0x20;
     }
@@ -265,7 +260,7 @@ done:
     for (i = 0; i < 25; i++) {
         if (gFreeDuel_abGridAvailable[i] != 0) {
             obj = func_800400AC(func_8004002C(), 1);
-            func_80040510(obj,
+            func_80040510((DisplayObjectConfigView *)obj,
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 56 + 20,
                           (i / FREE_DUEL_GRID_COLUMN_COUNT) * 52 + 40, 48, 48,
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 48,
@@ -278,7 +273,7 @@ done:
     for (k = 25, i = 0; i < 15; i++, k++) {
         if (gFreeDuel_abGridAvailable[k] != 0) {
             obj = func_800400AC(func_8004002C(), 1);
-            func_80040510(obj,
+            func_80040510((DisplayObjectConfigView *)obj,
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 56 + 20,
                           (k / FREE_DUEL_GRID_COLUMN_COUNT) * 52 + 40, 48, 48,
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 48,
@@ -314,7 +309,7 @@ done:
         FreeDuel_PlaceCursor((FreeDuelWidget *)obj, 1);
     }
     FreeDuel_UpdateScrollbar();
-    func_8003FF08(29376);
+    SD_BGMPlay(29376);
 }
 
 void **FreeDuel_GetSparkleSlot(void)
@@ -488,7 +483,7 @@ void FreeDuel_UpdateScreen(void)
         for (index = 0; index < DECK_SIZE; index++) {
             if (*entry == 0) {
                 SD_SEPlayFull(9);
-                func_80035C38(1, 8, 0x30, 0x6C, 0xE0, 0x10, 0x1028);
+                TextBox_CreateFlagged(1, 8, 0x30, 0x6C, 0xE0, 0x10, 0x1028);
                 gFreeDuel_bScreenFlags |= 0x20;
                 return;
             }

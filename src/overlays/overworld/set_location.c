@@ -22,17 +22,16 @@
 #include "campaign_map.h"
 #include "../../game/view_state.h"
 #include "../../game/main_services.h"
+#include "../../game/model_slot_data.h"
+#include "../../game/func_8005922C.h"
+#include "../../game/text_render_state.h"
+#include "../../game/text_box_lifecycle.h"
 
 extern u8 D_80169619;
 extern u8 *D_801695F8_objects[] asm("D_801695F8");
 extern s32 D_801695F8_words[] asm("D_801695F8");
 extern s32 D_80010000;
-extern void func_800530C4(void);
-extern u8 *func_80058F74(s32);
-extern void func_8005922C(u8 *, s32 *);
-extern void func_80035668(s32);
 extern void func_800857C0(int);
-extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
 extern s32 D_801695D4;
 extern s32 D_801695CC;
 extern s32 D_801695D0;
@@ -99,7 +98,7 @@ u8 *CampaignMap_CreateLocationLabel(s32 unused)
 {
     u8 *object;
 
-    object = func_80035BE4(
+    object = TextBox_Create(
         0, gCampaignMap_Location + 0x8350, 0x60, 0x18, 0x80, 0xC
     );
     func_80039A60(object);
@@ -274,11 +273,11 @@ void CampaignMap_SetLocation(s32 index)
     func_800530C4();
     func_800533D8();
     func_80056250(2, (u8 *)D_80010000, 0x43000, 0);
-    obj = func_80058F74(2);
+    obj = (u8 *)func_80058F74(2);
     colour[0] = 1365;
     colour[1] = 1365;
     colour[2] = 1365;
-    func_8005922C(obj, colour);
+    func_8005922C((struct _GsCOORDUNIT *)obj, colour);
     CampaignMap_ResetCamera();
     SetFarColor(0, 0, 0);
     SetFogNearFar(6000, 8000, D_800F2848.projection);

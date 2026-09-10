@@ -5,6 +5,7 @@
 #include "model_load_monster_merge.h"
 #include "file_transfer.h"
 #include "model.h"
+#include "func_8005922C.h"
 #include "model_cleanup.h"
 
 void func_80050584(s32 arg0) {
