@@ -7,7 +7,8 @@
 #include "func_8003B808.h"
 #include "../unmatched.h"
 
-extern s32 D_80010000 __attribute__((section(".data")));
+#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
+#include "high_memory_addresses.h"
 
 void func_8003B808(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
@@ -48,8 +49,8 @@ void func_8003B808(FileTransferDescriptor *object, s32 mode) {
     case 3:
         D_8009B0F4_abs &= 0xFFDCFFFF;
         object->mode = 0x18000;
-        object->value_0C = D_80010000;
-        object->value_08 = D_80010000;
+        object->value_0C = (s32)D_80010000;
+        object->value_08 = (s32)D_80010000;
         object->done = 1;
         break;
 

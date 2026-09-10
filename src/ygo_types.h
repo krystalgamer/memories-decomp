@@ -3,6 +3,22 @@
 
 #include "types.h"
 
+/* Only the first five words at 0x80010000: three reused MODEL payload
+ * bases, followed by the two primary modules entered at +4. This is an
+ * address-block prefix, not a homogeneous arena table or a payload layout.
+ * The remaining module, data-argument and SU words keep separate labels. */
+typedef struct {
+    u8 *payload_bases[3];
+    u8 *primary_modules[2];
+} HighMemoryModelAddressPrefix;
+
+typedef char HighMemoryModelAddressPrefix_size_must_be_0x14[
+    sizeof(HighMemoryModelAddressPrefix) == 0x14 ? 1 : -1
+];
+typedef char HighMemoryModelAddressPrefix_modules_offset_must_be_0xC[
+    (u32)&(((HighMemoryModelAddressPrefix *)0)->primary_modules) == 0xC ? 1 : -1
+];
+
 typedef struct {
     s16 id;
     u16 count;

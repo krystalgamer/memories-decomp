@@ -5,5 +5,5 @@
 #include "main_init_free_duel_menu.h"
 #include "../overlays/free_duel/free_duel.h"
 
-extern void *D_80010000;
+#include "high_memory_addresses.h"
 void Main_InitFreeDuelMenu(void){File_RequestAsyncTransfer(0,0,FILE_WA_FREE_DUEL_START_SECTOR,FILE_WA_FREE_DUEL_SECTOR_COUNT,func_8003B808,0,0);File_WaitForTransfers();FreeDuel_Init(D_80010000);}
