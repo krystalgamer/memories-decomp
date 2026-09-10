@@ -28,7 +28,7 @@
  *
  *   func_8004CB0C   void (s32, s32, s32, s32) in model_load_monster_merge.c,
  *                   void (void) in model_slot_setup.c
- *   func_80013C28   void (u8, u8 *, u32 *) in file_cd_transfer.c,
+ *   func_80013C28   void (u8, u8 *, u32 *) in file_transfer_runtime.c,
  *                   void (s32) elsewhere
  *   func_80042188   first parameter spelled s32 and SpritePrim *.
  *                   Measured, and it is not a spelling difference: the high

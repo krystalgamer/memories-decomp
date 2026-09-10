@@ -4,22 +4,129 @@
 #include "../psyq/libspu.h"
 #include "file_constants.h"
 #include "file_transfer.h"
-#include "file_cd_transfer.h"
-#include "func_800144B8.h"
 #include "../unmatched.h"
 
-/* The primary transfer's step function (0x8001455C) and the three control
-   entry points that drive it (0x80014A5C, 0x80014B30, 0x80014C40). The four
-   are the whole gcc_2_8_1_g8_split run here: below them func_800144B8
-   compiles at gcc_2_8_1_g8, and above them file_transfer_flags.c does too.
-   file_transfer_control.c already declared func_8001455C and called it, so
-   the caller and the callee now share a unit and that prototype is gone. */
+/* The asynchronous disc-transfer runtime: command-completion callbacks,
+   secondary-to-primary activation, transfer advancement and request dispatch.
+   The thirteen functions are contiguous and communicate through the shared
+   descriptors, request slots and D_8009B0F4 state word. */
 
+extern char D_8009B11C[1];
+extern u8 D_8009B11C_byte asm("D_8009B11C");
+extern u8 D_8009B114;
+extern s32 D_8009B138;
+extern FileRequestSlot D_801D4200;
+extern u8 D_801D4200_raw[] asm("D_801D4200");
+extern void func_80014B30_callback(void) asm("func_80014B30");
+extern void func_80013C28(u8, u8 *, u32 *);
+extern s32 CdPosToInt_8007E710(s32);
 extern u16 D_8009B0EC;
-extern u8 D_8009B11C;
 extern void CdIntToPos_8007E600(s32, void *);
 extern volatile u16 D_8009B124;
 extern volatile s32 D_8009B0E8;
+
+void func_800140A0(u8 event)
+{
+    if (event == 5) {
+        D_8009B130++;
+        DsPacket(0xA0, (DslLOC *)D_8009B104, 6, (DslCB)func_800140A0, -1);
+    } else if (event == 2) {
+        DsReadySystemMode(1);
+        DsStartReadySystem(func_80013C28, -1);
+        D_8009B114 = 0;
+        D_8009B138 = 0;
+        D_8009B0F4 &= ~0x400;
+    }
+}
+
+void func_80014134(u8 event)
+{
+    if (event == 5) {
+        D_8009B130++;
+        DsPacket(0xA0, (DslLOC *)D_8009B104, 0x15, (DslCB)func_80014134, -1);
+    } else if (event == 2) {
+        D_8009B0F4 &= ~0x400;
+    }
+}
+
+void func_800141A8(u8 event)
+{
+    if (event == 5) {
+        D_8009B130++;
+        DsCommand(9, 0, (DslCB)func_800141A8, -1);
+    } else if (event == 2) {
+        gFile_PrimaryTransferDescriptor.substate = 1;
+        D_8009B0F4 &= ~0x400;
+    }
+}
+
+void func_80014220(s32 event)
+{
+    event &= 0xFF;
+    if (event == 5) {
+        D_8009B130++;
+        DsCommand(9, 0, (DslCB)func_80014220, -1);
+    } else if (event == 2) {
+        __asm__ volatile(
+            "sh $4, %%gp_rel(D_8009B100)($28)"
+            : : : "memory"
+        );
+        D_8009B0F4 &= ~0x400;
+    }
+}
+
+void func_80014294(u8 event)
+{
+    if (event == 5) {
+        D_8009B130++;
+        DsCommand(0xD, (u8 *)D_8009B11C, (DslCB)func_80014294, -1);
+    } else if (event == 2) {
+        D_8009B100 = 4;
+        D_8009B0F4 &= ~0x400;
+    }
+}
+
+void func_80014308(u8 event)
+{
+    if (event == 5) {
+        D_8009B130++;
+        DsPacket(0x4A, (DslLOC *)D_8009B104, 0x1B, (DslCB)func_80014308, -1);
+    } else if (event == 2) {
+        D_8009B100 = 5;
+        D_8009B0F4 |= 0x1000;
+        D_8009B0F4 &= ~0x400;
+    }
+}
+
+void func_80014390(u8 event, s32 arg1)
+{
+    s32 value;
+    s32 *destination;
+
+    if (event == 2) {
+        destination = (s32 *)&gFile_PrimaryTransferDescriptor.field_30;
+        value = CdPosToInt_8007E710(arg1);
+        if (value > 0)
+            *destination = value;
+        D_8009B0F4 &= ~0x800;
+    }
+}
+
+void File_ActivateTransfer(void)
+{
+    *(FileTransferDescriptorWords *)&gFile_PrimaryTransferDescriptor =
+        *(FileTransferDescriptorWords *)&gFile_SecondaryTransferDescriptor;
+    *(FileRequestSlot *)D_801D4200_raw =
+        *(FileRequestSlot *)(D_801D4200_raw + 32);
+    if (gFile_PrimaryTransferDescriptor.done == 4)
+        D_8009B112 |= 1;
+    D_8009B0F4 =
+        gFile_PrimaryTransferDescriptor.status_flags |
+        FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
+}
+
+void func_800144B8(void){D_8009B0F4&=0x60;if((D_8009B0F4&FILE_TRANSFER_STATE_SECONDARY_PENDING)&&!(D_8009B0F4&0x40)){File_ActivateTransfer();if(D_8009B134){int v=0x80;if((D_8009B0F4&FILE_TRANSFER_STATE_PRIMARY_ACTIVE)&&(D_8009B0F4&FILE_TRANSFER_FLAG_SECTOR_RANGE))func_80015010();D_8009B134=v;}}else D_8009B134=0;}
+
 void func_8001455C(void)
 {
     u8 *p;
@@ -81,7 +188,7 @@ set_state3:
             D_8009B100 = 3;
         case 3:
             D_8009B112 = D_8009B112 | 0x1000;
-            q = &D_8009B11C + 1;
+            q = &D_8009B11C_byte + 1;
             *q = p[0x38];
             q[-1] = p[0x39];
             if (DsCommand(0xD, (u8 *)(q - 1), (DslCB)func_80014294, -1) <= 0) {
@@ -215,10 +322,6 @@ void func_80014A5C(s32 arg0)
    fields the other two do -- the value_08/value_0C source window, mode, the
    word at field_30 and done -- which is what its old private record named
    value_8, value_c, value_1c, value_30 and mode_46. */
-extern FileRequestSlot D_801D4200;
-extern u8 D_801D4200_raw[] asm("D_801D4200");
-extern void func_80014B30_callback(void) asm("func_80014B30");
-
 void func_80014B30(FileTransferDescriptor *object, s32 mode)
 {
     FileRequestSlot *shared;
