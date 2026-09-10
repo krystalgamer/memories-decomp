@@ -232,6 +232,25 @@ extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
  * match as written; whether they would also match through the array index
  * is not measured. */
 extern DuelEffectChannel D_800EB15C;
+/* D_800EB12C is the word at D_800EB0F8 + 0x34: the flags_34 (:82) and
+ * field_36 (:83) halfwords of record 0 under one name. Script_RunTick
+ * (script_run_tick.c:23) and Password_UpdateShopScreen
+ * (src/overlays/password/shop.c:305) each load it as a word and test
+ * `& 0x2008` against 0x2000, TEXT_BOX_FLAG_DONE (:14) in the first and the
+ * literal in the second; retail loads it lui/lw (func_8002FA54.s:15-16).
+ * func_8002EE94.c:162 reads the low halfword as `D_800EB0F8[0].flags_34`,
+ * and password README.md:146-147 calls the word the slot-0 text flags.
+ * Both units also match when the read is spelled
+ * `*(u32 *)&D_800EB0F8[0].flags_34` (measured, one build each), so the name
+ * is kept for the listings, the notes and the generated symbol lists that
+ * carry it, not for codegen. The two units used to declare it `s32 []` and
+ * `u32`; the `[]` was the -G8 placement device, which the .data arm does
+ * now. */
+#ifdef D_800EB12C_IN_DATA
+extern u32 D_800EB12C __attribute__((section(".data")));
+#else
+extern u32 D_800EB12C;
+#endif
 extern DuelEffectEntry D_800EB288[DUEL_EFFECT_ENTRY_COUNT];
 
 /* The field-card text selector. func_80023144 clears it on entry, sets 1

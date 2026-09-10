@@ -29,7 +29,7 @@ extern u16 D_801D5800[];
 
 /* 0x8009B32E, the string id func_800383DC resolves through the three banks
  * above (func_800383DC.c:7 reads it into `a2`). It is two bytes: D_8009B330
- * (duel_effect.h:328) starts at +2. The one loader in C, func_800383DC,
+ * (duel_effect.h:368) starts at +2. The one loader in C, func_800383DC,
  * matched with it u16, and retail loads it lhu, gp-relative
  * (func_800383DC.s:4). FreeDuel_PlaceCursor stores into it through a named
  * address local, `slot = &D_8009B32E;` (screen_runtime.c:129-131), and
