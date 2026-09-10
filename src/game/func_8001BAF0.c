@@ -4,6 +4,7 @@
 #include "duel_side_state.h"
 #include "ai.h"
 #include "duel_card.h"
+#include "duel_grid.h"
 #include "duel_card_display_state.h"
 #include "func_80018004.h"
 #include "ai_constants.h"
@@ -13,7 +14,6 @@
 #include "display_object_api.h"
 
 extern u8 D_800EAE88[];
-extern u8 D_800907CC[];
 
 void func_8001BAF0(void)
 {

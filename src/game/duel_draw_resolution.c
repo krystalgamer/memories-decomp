@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "duel_draw_resolution.h"
 #include "duel_card.h"
+#include "duel_grid.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_hand.h"
@@ -46,7 +47,6 @@ s32 Duel_HasAllExodiaPieces(void) {
 
 extern u8 D_8009B1ED;
 extern u8 D_8009B1EC;
-extern u8 D_800907CC[];
 extern u8 D_8015C424[];
 
 void func_80018C34(u8 *arg0);
