@@ -42,8 +42,9 @@
    own arithmetic corroborates the member order -- it adds its three
    arguments to vrx, vry and vrz at 0x1C, 0x20 and 0x24 and writes the sums
    to vpx, vpy and vpz at 0x10, 0x14 and 0x18, which is what a reference
-   view is. func_800134E0.h has said so since #2689; the record now spells
-   it, and that file's note about not editing this header is gone with it.
+   view is. func_800134E0's header has said so since #2689; the record now
+   spells it, and that file's note about not editing this header is gone
+   with it.
 
    The old field_1C through field_2C are vrx, vry, vrz, rz and super under
    their Psy-Q names, at the same offsets and the same widths -- `long` is
