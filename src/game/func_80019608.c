@@ -18,6 +18,17 @@
 #include "../unmatched.h"
 #include "func_80019608.h"
 
+/* Declared three ways across the tree, and all three agree on what it
+   holds: this file walks [0] and [1] as display objects, and
+   main_run_trade.c reaches [0] through (*(DisplayObject **)D_800E9EF0).
+   func_8002CB50.c spells it int [] only to bulk-copy five words out of
+   it, which is a copier's view rather than a third opinion.
+
+   Unifying it on DisplayObject *[] is blocked on where the single
+   declaration would live: the only header this file and
+   main_run_trade.c share is display_object_api.h, which eighteen
+   overlay files include, so it is cross-module and out of scope. Left
+   as-is rather than moved somewhere it does not belong. */
 extern u8 *D_800E9EF0[];
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what gives the
@@ -28,7 +39,7 @@ u16 D_8009B150;
 void func_80019608(void)
 {
     u8 *p;
-    u8 *slot;
+    DuelCardRecord *slot;
     u8 *q0;
     u8 *q1;
     u8 state;
@@ -54,14 +65,14 @@ void func_80019608(void)
     flags = D_8009B23A;
     if ((flags & 0x8000) == 0) {
         D_8009B23A = flags | 0xC000;
-        slot = (u8 *)D_801A7AD8 + p[0x6A] * DUEL_CARD_RECORD_SIZE;
-        arg = *(s16 *)(slot + 0xC);
-        D_8009B150 = *(u16 *)(slot + 0xC);
+        slot = &D_801A7AD8[p[0x6A]];
+        arg = slot->card_id;
+        D_8009B150 = *(u16 *)&slot->card_id;
         func_80029164(0, arg);
         if (p[0x68] == CARD_TYPE_MAGIC) {
             D_8009B1C8->field_05 = D_8009B1C8->field_05 + 1;
         }
-        func_80024914((DuelCardRecord *)slot);
+        func_80024914(slot);
         D_8009B174 = 1;
     }
     state = D_8009B174;
