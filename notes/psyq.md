@@ -1044,11 +1044,16 @@ declares only `printf`, `sprintf`, and basic character/string input and output.
 There is no `FILE` type or `fopen`/`fread` family, and the `getc`/`putc`
 signatures use integer handles rather than stream pointers. It must not be
 substituted for the debugger-host file service in `libsn.h` or the retail
-disc and memory-card APIs. Matching game and password-overlay C includes it
-for the resident `printf` diagnostics, while `src/game/mem_card_requests.c`
-uses its `sprintf` declaration for `func_80044470` and three request
-formatters. `file_set_position_table.c` keeps its `printf` call unprototyped:
-adding any declaration changes GCC 2.8.1's loop layout by three instructions.
+disc and memory-card APIs. Seven matching sources include it. The `printf`
+callers are `ai_script_call_control.c` and `ai_script_print.c` for VM
+error/checkpoint output, `duel_magic_effect_dispatch.c` for the copied field
+grid y value, `func_80046A08.c` for sound-bank setup values, and the password
+overlay's `name_entry_main.c` for its save-buffer address and size.
+`mem_card_requests.c` uses `sprintf` for `func_80044470` and three request
+formatters; `func_8005106C.c` formats a three-number string immediately passed
+to `FntPrint`. `file_set_position_table.c` is the separate eighth formatted
+output caller and keeps `printf` unprototyped: adding any declaration changes
+GCC 2.8.1's loop layout by three instructions.
 
 `malloc.h` exposes three parallel allocator families:
 `InitHeap`/`malloc`/`calloc`/`realloc`/`free`, then identically shaped `*2`
