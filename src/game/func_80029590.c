@@ -6,7 +6,6 @@
 #include "func_8002A3CC.h"
 #include "func_80029590.h"
 
-extern LibraryMotionState D_800EA1E8;
 void func_80029590(void)
 {
     s32 i = 0;
