@@ -75,7 +75,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         func_8004036C((void *)object->field_2C);
         object->field_30 = (void *)0;
         object->field_2C = 0;
-        func_800391E4((u8 *)object);
+        func_800391E4(object);
         if ((object->flags_34 & 0x40) == 0) {
             entry = &D_800EB288[object->range_start_5C];
             object->entry_head_24 = entry;

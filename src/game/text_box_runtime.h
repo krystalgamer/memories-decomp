@@ -38,7 +38,7 @@ void TextBox_SetPos(u8 *record, s32 x, s32 y);
  * func_80039140 on the same record -- which is why it is declared beside it
  * rather than with the display-object headers whose fields it fills. The
  * DisplayObjects are ones it allocates; the record is what it operates on. */
-void func_800391E4(u8 *record);
+void func_800391E4(struct DuelEffectChannel *record);
 
 /* Requests a build and pumps the text box until it reports done. The two
    entry points differ only in the flag word they set first. */
