@@ -86,6 +86,10 @@
       "profile": "gcc_2_8_1_g0"
     },
     {
+      "source": "src/game/data_80091510.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
       "source": "src/game/movie_stream_ranges.c",
       "profile": "gcc_2_8_1_g0"
     },
