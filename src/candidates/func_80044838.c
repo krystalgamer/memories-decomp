@@ -1,24 +1,10 @@
+#define GMEMCARD_NIORESULT_IS_VOLATILE
+#define MEM_CARD_REQUEST_POLL_VIEW
 #include "../types.h"
 #include "../psyq/libapi.h"
-
-extern u8 gMemCard_bRequest;
-extern u8 gMemCard_bChannel;
-extern u8 gMemCard_bRequestStep;
-extern u8 gMemCard_bRetries;
-extern u8 D_8009B436;
-extern u16 gMemCard_wRequestOffset;
-extern u16 gMemCard_wRequestSize;
-extern s32 gMemCard_pRequestBuf;
-extern s32 gMemCard_nFreeBlocks;
-extern void *gMemCard_pDirEntries;
-extern volatile s32 gMemCard_nIOResult;
-extern long gMemCard_aIOEventHandles[];
-extern long gMemCard_aHwIOEventHandles[];
-extern char gMemCard_szRequestPath[];
-
-extern void MemCard_ClearIOEvents(long *);
-extern s32 MemCard_DoLoadDirectory(void);
-extern s32 MemCard_FindFiles(long, char *, void *, s32);
+#include "../game/mem_card.h"
+#include "../game/mem_card_directory.h"
+#include "../game/io_event_helpers.h"
 
 /*
  * Current best under gcc_2_8_1_g8_split: 286 instructions against 295,

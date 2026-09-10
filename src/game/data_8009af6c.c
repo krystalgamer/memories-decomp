@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "mem_card_directory.h"
 
 /* The .sdata window at 0x8009AF6C, carved as one unit because its objects
  * tile it exactly with no gaps: 4 + 4 + 8 + 4 + 8 = 28 bytes, which is

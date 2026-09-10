@@ -176,26 +176,8 @@
       "target": "src/candidates_target/func_80044838.S",
       "candidate_build_sha256": "34bde1bb8b430da186303a995a676dd02ba17a5f5df3d1bae5a7af5e542f6970",
       "target_bytes_sha256": "f7dbf5119b8fa43c8fb497096168a09003486449726e545f8c6497f2753a5bcc",
-      "canonical_contract_sha256": "020c7734a17b1bd5d39fdc79094acf827974eae20bc45c5febc4b0bcbfe006a9",
-      "canonical_contracts": {
-        "D_8009B436": "7a03809bcc7f58fe092bc0b8738c052d5ddfe21c417c7e89cc88f8ed7e3c1e5b",
-        "MemCard_ClearIOEvents": "8862913f855f1e63f3830ffb7a9b482431f95a36fa92b35fd3b0d3206dc48ab1",
-        "MemCard_DoLoadDirectory": "ef4ada262f2fcb2244860a3e3c682e52b8897bd824cb74ca5f1bb02fab6e543d",
-        "MemCard_FindFiles": "aafb2e3c7f45438afa161a4bf3b8d59e714f91467a1a154206a9ee35eba6de36",
-        "gMemCard_aHwIOEventHandles": "44103a418c1f7c993dbc1250fbb72358ec9f9e51d9f41400738529ce58acb4e8",
-        "gMemCard_aIOEventHandles": "6183c42040519fc8e1b66eecb21433bfdd8f092f2cf12c6abbb5fbd3edd83444",
-        "gMemCard_bChannel": "d2a3166e0b96a729836f5171991da1e6e003f6510a80e3038e5e8e4ee2af2198",
-        "gMemCard_bRequest": "aea6ca68255bcbbedfffb230e66451065eee5b985038666c584fc46cb1309bbb",
-        "gMemCard_bRequestStep": "040be7b6affc1e5114a03657b6847901f45cacda9f152bf4a72495a4179ec93e",
-        "gMemCard_bRetries": "c17ceb0035cbcfe866fb73fb4817812b8be460463ca07ae51bc5466e7cb96e9a",
-        "gMemCard_nFreeBlocks": "f4f39bcf877025a17b9b635513e8fd79f0b1b62a4d566692ae284e0c59a1680f",
-        "gMemCard_nIOResult": "c917761f512f90970bc3b92754c5db54c8b9b6668d5bafccabb8c38ada992f4e",
-        "gMemCard_pDirEntries": "4b88c1994b3bda6c81087a886cdba2579ebd012a9c048abc1beab37808ffccc6",
-        "gMemCard_pRequestBuf": "0f14aa2924523267f7342bc00aa289f978b8e2c1a7d98e29b0f024a896360ad9",
-        "gMemCard_szRequestPath": "1a9dc8626af59a8a28c8d31205871fc46aac1dafd5ed9ecdede1291163996854",
-        "gMemCard_wRequestOffset": "a5b66c05def17372747e2da63860fcf681ad54972778b746efabcdff7be05399",
-        "gMemCard_wRequestSize": "ab1794550c6ee86332832a468fa5fef914ce7f5ee0f949d096bcfe3fbff8c89f"
-      }
+      "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
+      "canonical_contracts": {}
     },
     {
       "address": "0x80045514",
