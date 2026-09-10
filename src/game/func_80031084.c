@@ -11,9 +11,9 @@
 #include "text_box_lifecycle.h"
 #include "../unmatched.h"
 #include "frontend_step_tables.h"
+#include "frontend_debug_tables.h"
 
 extern u8 D_8009B2F0;
-extern s8 D_8009B2F1;
 
 void func_80031084(void) {
     DuelEffectChannel *boxes;
