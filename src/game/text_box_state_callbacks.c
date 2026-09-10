@@ -13,8 +13,6 @@
  * exceed that bound, so the public declaration remains unsized.
  */
 
-void Dialog_UpdateChoice(DuelEffectChannel *);
-
 TextBoxStateCallback D_80090E64[] = {
     Dialog_UpdateChoice,
     Dialog_UpdateChoice,

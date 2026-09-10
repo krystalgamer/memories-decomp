@@ -10,6 +10,7 @@
 #include "display_object_helpers.h"
 #include "../unmatched.h"
 #include "dialog_choice.h"
+#include "dialog_choice_state.h"
 #include "dialog_read_choice_input.h"
 #include "duel_effect.h"
 #include "widget_update_pulse_colour.h"
