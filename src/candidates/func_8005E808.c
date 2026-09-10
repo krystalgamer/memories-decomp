@@ -20,14 +20,13 @@
  * and $s5.
  */
 #include "../types.h"
+#include "../game/camera_view.h"
 
 extern u8 *D_8009B074;
-extern u8 D_800F5768[];
 
 extern void func_8005FB30(u8 *);
 extern s32 func_80058DD8(s32);
 extern void Model_CopySlotU16Values(s32, void *);
-extern s32 SquareRoot0(s32);
 extern void func_8005EBF4(u8 *, s32, s32, s32, void *);
 
 /* Recomputes a model's audible radius. The magnitude of the s16 at +0x20 sets
@@ -86,7 +85,7 @@ void func_8005E808(u8 *p)
     }
 
     e = p;
-    g = D_800F5768;
+    g = (u8 *)D_800F5768;
     for (i = 0; i < 2; i++, e += 8, g += 8) {
         q = e + 2;
         sum = 0;
@@ -125,8 +124,8 @@ void func_8005E808(u8 *p)
             d = k * sum / 1000;
             break;
         case 4:
-            v = *(u16 *)(D_800F5768 + 0x10);
-            if (*(s16 *)(D_800F5768 + 0x10) < *(s16 *)e) {
+            v = *(u16 *)((u8 *)D_800F5768 + 0x10);
+            if (*(s16 *)((u8 *)D_800F5768 + 0x10) < *(s16 *)e) {
                 v = *(u16 *)e;
             }
             t = (s16)v * 6284 / 1000;

@@ -25,52 +25,52 @@ void func_800582C0(s32 arg0, s32 arg1, s32 arg2);
 
 void func_8005611C(s32 arg0)
 {
-    u8 *p;
+    ModelSlot *p;
     u8 *q;
     s32 i;
     s32 n;
 
-    p = (u8 *)D_800F2C40 + arg0 * MODEL_SLOT_SIZE;
+    p = &D_800F2C40[arg0];
     func_8005B5FC((s32 *)p, 0, 0x388);
 
-    *(s32 *)(p + 0xDA8) = MODEL_FIXED_HALF;
-    *(s32 *)(p + 0xDA4) = MODEL_FIXED_HALF;
-    *(s32 *)(p + 0xDA0) = MODEL_FIXED_HALF;
-    *(s32 *)(p + 0xDB8) = MODEL_FIXED_ONE;
-    *(s32 *)(p + 0xDB4) = MODEL_FIXED_ONE;
-    *(s32 *)(p + 0xDB0) = MODEL_FIXED_ONE;
-    p[0xDC2] = 0x80;
-    p[0xDC1] = 0x80;
-    p[0xDC0] = 0x80;
-    p[0xE0C] = 7;
-    p[0xE0D] = 8;
-    p[0xE14] = 0xFF;
-    p[0xDC3] = 0;
-    *(s16 *)(p + 0xE0A) = 0x1000;
-    p[0xE1D] = 0;
-    p[0xDFE] = arg0;
-    p[0xDFF] = 0;
-    *(u16 *)(p + 0xDFC) = 0xFFFF;
-    *(u16 *)(p + 0xDFA) = 0xFFFF;
+    p->field_DA0[2] = MODEL_FIXED_HALF;
+    p->field_DA0[1] = MODEL_FIXED_HALF;
+    p->field_DA0[0] = MODEL_FIXED_HALF;
+    p->field_DB0.field_08 = MODEL_FIXED_ONE;
+    p->field_DB0.field_04 = MODEL_FIXED_ONE;
+    p->field_DB0.field_00 = MODEL_FIXED_ONE;
+    p->field_DC0[2] = 0x80;
+    p->field_DC0[1] = 0x80;
+    p->field_DC0[0] = 0x80;
+    p->field_E0C = 7;
+    p->field_E0D = 8;
+    p->field_E14 = 0xFF;
+    p->field_DC0[3] = 0;
+    *(s16 *)&p->field_E0A = 0x1000;
+    p->field_E1D = 0;
+    p->field_DFE = arg0;
+    p->field_DFF = 0;
+    p->field_DFC = 0xFFFF;
+    p->field_DFA = 0xFFFF;
 
     n = 1;
     i = 3;
-    q = p + i;
+    q = (u8 *)p + i;
     for (; i >= 0; q--, i--) {
         q[0xBF4] = n;
     }
 
     for (i = 0; i < 0x40; i++) {
-        *(s32 *)(p + i * 4 + 0xBF8) &= 0x8000FFFF;
-        p[i * 4 + 0xBF9] = 0;
-        p[i * 4 + 0xBF8] = 0;
+        *(s32 *)((u8 *)p + i * 4 + 0xBF8) &= 0x8000FFFF;
+        ((u8 *)p)[i * 4 + 0xBF9] = 0;
+        ((u8 *)p)[i * 4 + 0xBF8] = 0;
     }
 
-    *(s32 *)(p + 0xD08) = -1;
-    *(s32 *)(p + 0xD0C) = -1;
-    *(s32 *)(p + 0xD10) = -1;
-    p[0xE16] = 0x3E;
-    p[0xE1F] = 0;
+    *(s32 *)&p->field_CF8.field_0C[2] = -1;
+    *(s32 *)&p->field_CF8.field_0C[4] = -1;
+    *(s32 *)&p->field_CF8.field_0C[6] = -1;
+    p->field_E16 = 0x3E;
+    p->field_E1F = 0;
     Model_InitLightTriplet(arg0);
 }
 

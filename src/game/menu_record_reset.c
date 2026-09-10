@@ -1,8 +1,9 @@
 #include "../types.h"
+#include "func_8003A560.h"
 #include "menu_record.h"
 #include "menu_record_reset.h"
 
-extern s8 D_8015C410[5];
+extern s8 D_8015C410[DISPLAY_EFFECT_VRAM_SLOT_COUNT];
 
 s8 *func_80039E9C(void)
 {
@@ -27,7 +28,7 @@ s8 *func_80039E9C(void)
     }
 
     empty = -1;
-    i = 4;
+    i = DISPLAY_EFFECT_VRAM_SLOT_COUNT - 1;
     entry = D_8015C410 + i;
     do {
         *entry = empty;

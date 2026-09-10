@@ -29,8 +29,8 @@ void func_8003A560(DisplayEffectVramState *a)
            the end of the body: spelling it &slots[i] leaves the strength-reduced
            induction value in a call-clobbered register and costs a per-iteration
            move plus the fifth callee-saved register. */
-        slot = &slots[4];
-        for (i = 4; i >= 0; i--) {
+        slot = &slots[DISPLAY_EFFECT_VRAM_SLOT_COUNT - 1];
+        for (i = DISPLAY_EFFECT_VRAM_SLOT_COUNT - 1; i >= 0; i--) {
             if (D_8015C410[i] < 0) {
                 D_8009B326 = i;
             }
