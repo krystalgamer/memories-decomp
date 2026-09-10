@@ -5,7 +5,7 @@
 #include "func_8002F4C0.h"
 #include "../unmatched.h"
 
-void func_8002F4C0(u8 *p, s32 mode)
+void func_8002F4C0(FileTransferDescriptor *d, s32 mode)
 {
     s32 one;
     s32 c;
@@ -28,48 +28,48 @@ void func_8002F4C0(u8 *p, s32 mode)
         do {
             n = 0x18000;
         } while (0);
-        *(s16 *)(p + 0x30) = 0x1C0;
-        *(s16 *)(p + 0x32) = 0x100;
+        *(s16 *)((u8 *)d + 0x30) = 0x1C0;
+        *(s16 *)((u8 *)d + 0x32) = 0x100;
         t0 = D_8009B0F4;
-        *(s16 *)(p + 4) = 0x40;
+        *(s16 *)((u8 *)d + 4) = 0x40;
         D_8009B0F4 = t0 & m;
         u0 = D_8009B0F4;
-        *(s32 *)(p + 0x1C) = n;
+        *(s32 *)((u8 *)d + 0x1C) = n;
         D_8009B0F4 = u0 | 0x10000;
-        p[0x46] = 2;
+        d->done = 2;
         v0 = D_8009B118;
         do {
-            *(s16 *)(p + 6) = 0x10;
+            d->h = 0x10;
         } while (0);
-        *(s32 *)(p + 8) = v0;
-        *(s32 *)(p + 0xC) = v0 + 0x800;
+        d->value_08 = v0;
+        d->value_0C = v0 + 0x800;
         break;
 
     case 1:
         m2 = 0xFFDCFFFF;
-        *(s32 *)(p + 0x1C) = 0x800;
+        d->mode = 0x800;
         t1 = D_8009B0F4;
         v1 = D_8009B118;
         D_8009B0F4 = t1 & m2;
-        *(s32 *)(p + 0xC) = v1;
-        *(s32 *)(p + 8) = v1;
+        d->value_0C = v1;
+        d->value_08 = v1;
         goto join;
 
     case 2:
-        *(s16 *)(p + 2) = 0xF4;
-        *(s16 *)(p + 6) = mode;
+        d->y = 0xF4;
+        d->h = mode;
         c = D_8009B118;
-        *(s16 *)p = 0;
-        *(s16 *)(p + 4) = 0x100;
-        LoadImage2((RECT *)p, (u32 *)c);
+        d->x = 0;
+        d->w = 0x100;
+        LoadImage2((RECT *)d, (u32 *)c);
         m2 = 0xFFDCFFFF;
-        *(s32 *)(p + 0xC) = (s32)D_801AF000;
-        *(s32 *)(p + 8) = (s32)D_801AF000;
+        d->value_0C = (s32)D_801AF000;
+        d->value_08 = (s32)D_801AF000;
         t2 = D_8009B0F4;
-        *(s32 *)(p + 0x1C) = 0x800;
+        d->mode = 0x800;
         D_8009B0F4 = t2 & m2;
 join:
-        p[0x46] = one;
+        d->done = one;
         break;
     }
 }
