@@ -34,6 +34,19 @@ class PsyqSignatureTests(unittest.TestCase):
         self.assertEqual(pattern, b"\xaa\x00\x0f")
         self.assertEqual(mask, b"\xff\x00\xff")
 
+    def test_parse_signature_rejects_empty_and_malformed_tokens(self) -> None:
+        cases = [
+            ("", "signature is empty"),
+            ("AA B CC", "token 1 'B' is not"),
+            ("AA 0xBB CC", "token 1 '0xBB' is not"),
+            ("AA 100 CC", "token 1 '100' is not"),
+            ("AA GG CC", "token 1 'GG' is not"),
+        ]
+        for signature, message in cases:
+            with self.subTest(signature=signature):
+                with self.assertRaisesRegex(SignatureError, message):
+                    parse_signature(signature)
+
     def test_find_matches_requires_alignment_and_full_mask(self) -> None:
         pattern, mask = parse_signature("AA BB CC DD ?? 11 22 33")
         payload = bytearray(40)
@@ -95,6 +108,25 @@ class PsyqSignatureTests(unittest.TestCase):
             with self.subTest(message=message):
                 (self.signatures / "LIBTEST.LIB.json").write_text(
                     json.dumps([entry]), encoding="utf-8"
+                )
+                with self.assertRaisesRegex(SignatureError, message):
+                    scan(self.signatures, 0x80010000, b"")
+
+    def test_scan_reports_catalogue_context_for_invalid_signature(self) -> None:
+        cases = [
+            ("", "entry 0 sig: signature is empty"),
+            (
+                "AA INVALID CC DD",
+                "entry 0 sig: token 1 'INVALID' is not",
+            ),
+        ]
+        for signature, message in cases:
+            with self.subTest(signature=signature):
+                (self.signatures / "LIBTEST.LIB.json").write_text(
+                    json.dumps(
+                        [{"name": "BAD.OBJ", "sig": signature}]
+                    ),
+                    encoding="utf-8",
                 )
                 with self.assertRaisesRegex(SignatureError, message):
                     scan(self.signatures, 0x80010000, b"")
