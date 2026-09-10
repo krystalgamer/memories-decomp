@@ -298,6 +298,74 @@ each object, because that is the one layout mistake the byte-exact comparison
 cannot catch: an object nobody places is not loaded, the blob keeps supplying
 the original bytes, and the build still matches.
 
+#### What is left, and why each piece resists ownership
+
+Forty of the forty-five extracted ranges in `initialized_data` are owned by a C
+source. The five that are not are not simply the ones nobody has got to yet;
+four of them have a specific structural obstacle, and it is worth writing down
+which, so the next attempt starts from the obstacle rather than rediscovering
+it.
+
+| Range | Section | Bytes | Labels | What blocks it |
+| --- | --- | --- | --- | --- |
+| `initialized_data_800906e0` | `.data` | 36 | 3 | leads with `initialized_data_start`, a layout boundary |
+| `initialized_data_80091958` | `.data` | 38320 | 274 | bulk; no single owner, split it first |
+| `initialized_data_8009af08` | `.sdata` | 28 | 6 | holds `_gp` itself, and a pointer |
+| `initialized_data_8009af2a` | `.sdata` | 4 | 3 | overlapping symbols |
+| `initialized_data_8009af6c` | `.sdata` | 276 | 77 | 77 labels in 276 bytes; scattered |
+
+The four-byte range is the one worth reading closely, because it is the
+overlapping-symbol case in its smallest form. Splat emits three labels there:
+`D_8009AF2A` covering two bytes, then `D_8009AF2C` and `D_8009AF2D` covering
+one byte each. `debug_effect_screen.c` declares the middle one
+`extern u8 D_8009AF2C[2]`, so its array view deliberately spans the byte that
+`D_8009AF2D` names in its own right, and the same file also declares
+`extern u8 D_8009AF2D` and writes it as a scalar. One line uses both views at
+once:
+
+```c
+FntPrint(D_80010074, D_8009AF2C[0], D_8009AF2D);
+```
+
+That is the dual-name rule at a four-byte scale, and it is what stops a C
+definition from taking the range: a definition has to emit the labels, and
+these labels overlap. `D_8009AF2C[2]` and `D_8009AF2D` are both faithful to
+retail, one indexes the pair the up/down repeat adjusts while the other names
+the second element on its own, and neither is drift to be collapsed into the
+other.
+
+`initialized_data_8009af08` is blocked for a different reason: it opens with
+`runtime_gp`, which `symbols.txt` fixes at `0x8009AF08` and which the
+`%gp_rel` arithmetic elsewhere in this file uses as the `_gp` base. A C
+definition of that word would have to reproduce a symbol the addressing model
+is expressed in terms of. It also stores a pointer to
+`gFile_PrimaryTransferDescriptor`, so the range carries a relocation as well as
+plain bytes.
+
+The name deserves a note, because it looks wrong and is not. `runtime_gp` is
+also read and written as an ordinary counter: `main_services.c` does
+`cnt = runtime_gp - 1; runtime_gp = cnt;` and resets it to `0x3C` when it goes
+negative, matching the `0x0000003C` the range is initialized with, and the
+function's own comment calls it the watchdog counter. A GP base is never
+decremented, so the two readings genuinely conflict -- but the answer is that
+the address carries two independent roles rather than that either reading is
+mistaken. `_gp` points at `0x8009AF08` because that is where the small-data
+region is centred; the word stored there is a separate variable that happens
+to live at the base.
+
+The naming follows the first role, and that is load bearing outside the game
+sources: `candidate_pin_audit.py` and `audit_unchiga_candidates.py` both look
+the symbol up by name to recover the base, `global_usage.py` special-cases it
+beside the `_start`/`_end` boundary markers, and the GPREL16 reach test in
+`notes/research/matching-evidence.md` is expressed as ±32 KB around it. So
+`runtime_gp` should not be renamed to describe the counter, and the counter is
+not drift to be cleaned up either.
+
+That sharpens what blocks the range rather than removing the block. A source
+file taking `0x8009AF08` would have to define a watchdog counter under a name
+three tools resolve as the GP base, which is a heavier commitment than the
+twenty-eight bytes suggest.
+
 ### The small-data region
 
 `.data` runs to 0x8009AF08 and `.sdata` from there to 0x8009B090, which is
