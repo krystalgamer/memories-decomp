@@ -19,7 +19,7 @@
  *
  * This is a registry of independent slots, NOT a chain: no slot is called with
  * arguments, none returns a value, and nothing enforces an order beyond the
- * index. Slot 3 is stored by func_800179F4 (func_800179F4.c:150,
+ * index. Slot 3 is stored by func_800179F4 (func_800179F4.c:149,
  * `D_800E9DB0[3] = func_800164FC;`; func_800179F4.s:207-208), func_8002BFCC
  * (func_8002BFCC.c:71, `D_800E9DB0[3] = func_80029EC4;`; func_8002BFCC.s:52
  * and :56) and CampaignMap_SetLocation

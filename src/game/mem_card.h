@@ -207,9 +207,9 @@ extern s32 D_801D5648[];
  * (async_state_poll.c:19) and MainMenu_UpdateFrontendMenu (cases 3 and 2 of
  * its gMain_bMenuID switch, main_menu/frontend.c:415 and :420) store 0.
  *
- * D_8009B3EA: func_8003F8D4 masks it with 0xF (func_8003F8D4.c:43), tests
+ * D_8009B3EA: func_8003F8D4 masks it with 0xF (func_8003F8D4.c:42), tests
  * bits 0x80 and 0x40, stores 1, 0x82, 2, 3, 0xA and 0xB, ORs 0x80, 0x40 and
- * 0xC0 and ANDs 0xBF into it (:46-143); func_8003FD14 stores 10
+ * 0xC0 and ANDs 0xBF into it (:45-142); func_8003FD14 stores 10
  * (two_player_save_setup.c:32); the three functions above store 0.
  *
  * u8 because the three units that load either byte (func_8003F8D4.c,
