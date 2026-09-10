@@ -1,5 +1,7 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA
+#define D_8009B0C1_IN_DATA
 #include "../types.h"
+#include "graphics_frame.h"
 #include "input.h"
 #include "display_effect_process_menu_records.h"
 #include "duel_effect.h"
@@ -17,7 +19,6 @@
  * four instructions, so the view stays. */
 extern TblEnt D_801D9000[];
 extern u8 D_8009B356;
-extern u8 D_8009B0C1 __attribute__((section(".data")));
 
 void func_80039794(void)
 {
