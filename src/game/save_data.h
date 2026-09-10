@@ -128,6 +128,15 @@ void SaveData_WriteTertiaryIntegrity(u8 *);
 void SaveData_BuildPayload(u8 *);
 s32 SaveData_ValidateIntegrity(u8 *);
 void SaveData_ApplyRuntimeState(SaveDataState *state);
+
+/* Stages the runtime state into gSaveData_aTransferBuffer, builds the payload
+ * ahead of it through SaveData_BuildPayload, and asks the memory card layer to
+ * write it under gMemCard_szSaveFileName.
+ *
+ * Its one caller, func_8002EE94.c, reached it with no declaration in scope at
+ * all before this, so neither the argument list nor the void return was being
+ * checked against the definition. */
+void SaveData_RequestWrite(void);
 s32 SaveData_HasSameDuelistCode(
     SaveDataState *left,
     SaveDataState *right
