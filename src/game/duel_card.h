@@ -99,4 +99,15 @@ s32 Duel_CalcGuardianStarBonus(DuelCardRecord *left, DuelCardRecord *right);
 s32 Duel_CalcBattleAttack(DuelCardRecord *card, DuelCardRecord *opponent);
 s32 Duel_CalcBattleDefense(DuelCardRecord *card, DuelCardRecord *opponent);
 
+/* Clears three fields in every entry of the D_801A7AD8 card record table:
+ * the word at +0x00, the word at +0x04 and the halfword at +0x16, which are
+ * `object`, `data` and `flags` in the record above. It walks all
+ * DUEL_CARD_RECORD_COUNT entries and touches nothing else, so it resets the
+ * records rather than freeing or reinitialising them.
+ *
+ * Declared here because this header owns everything the walk is written in
+ * terms of: D_801A7AD8 and DuelCardRecord above, and
+ * DUEL_CARD_RECORD_COUNT from the duel_card_layout.h it includes. */
+void func_8001778C(void);
+
 #endif

@@ -52,8 +52,6 @@
    argument retail does not. */
 
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
-extern s16 D_801D0000[];
-extern u8 gFreeDuel_aDuelistRecords[];
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 
@@ -79,7 +77,7 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     s32 param;
     s16 trunc;
     u8 *panel;
-    s16 *base;
+    SaveDataWorkspace *base;
     u16 *slot;
 
     col = gFreeDuel_bCursorColumn;
@@ -101,9 +99,9 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     param = trunc;
     if (index != 0) {
         param = 12;
-        base = D_801D0000;
-        D_801D5608.lo = base[index * 2 + 910];
-        D_801D5608.hi = base[index * 2 + 911];
+        base = (SaveDataWorkspace *)D_801D0000;
+        D_801D5608.lo = (s16)base->state.duelist_records[index].result.wins;
+        D_801D5608.hi = (s16)base->state.duelist_records[index].result.losses;
     }
     TextBox_Create(0, param, 16, 204, 288, 16);
     func_80039A60(panel);
@@ -137,9 +135,9 @@ void FreeDuel_Init(u8 *src)
     RECT *clut;
 
     if (gFreeDuel_bReturnFlags & 0x80) {
-        rec = (u16 *)(gFreeDuel_aDuelistRecords +
-                      (gFreeDuel_bCursorRow * FREE_DUEL_GRID_COLUMN_COUNT +
-                       gFreeDuel_bCursorColumn) * FREE_DUEL_GRID_RECORD_SIZE);
+        rec = gFreeDuel_aDuelistRecords[
+            gFreeDuel_bCursorRow * FREE_DUEL_GRID_COLUMN_COUNT +
+            gFreeDuel_bCursorColumn].counts;
         if (D_8009B362 == 1) {
             rec++;
         }

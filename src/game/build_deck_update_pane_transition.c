@@ -4,6 +4,8 @@
 #include "sound.h"
 #include "build_deck_update_pane_transition.h"
 
+#define BUILD_DECK_PANE_TRANSITION_TICKS 16
+
 extern u16 gGraphics_uViewportX asm("gGraphics_sViewportX");
 
 void BuildDeck_UpdatePaneTransition(BuildDeckTransitionState *state)
@@ -13,8 +15,8 @@ void BuildDeck_UpdatePaneTransition(BuildDeckTransitionState *state)
     if (func_80032B38(state) == 0) {
         s32 diff = state->viewport_target_x - (s16)gGraphics_uViewportX;
 
-        state->viewport_step_x = diff / 16;
-        state->transition_ticks = 16;
+        state->viewport_step_x = diff / BUILD_DECK_PANE_TRANSITION_TICKS;
+        state->transition_ticks = BUILD_DECK_PANE_TRANSITION_TICKS;
         SD_SEPlayFull(30);
     }
 

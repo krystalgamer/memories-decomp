@@ -566,15 +566,15 @@
     },
     {
       "address": "0x80017708",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x84",
-      "source": "src/game/func_80017708.c"
+      "source": "src/game/duel_state_init.c"
     },
     {
       "address": "0x8001778C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/func_8001778C.c"
+      "source": "src/game/duel_state_init.c"
     },
     {
       "address": "0x800177C4",
@@ -3932,111 +3932,111 @@
     },
     {
       "address": "0x80043D48",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/io_event_helpers.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80043DA0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x90",
-      "source": "src/game/io_event_helpers.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80043E30",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/io_event_helpers.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80043E68",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/mem_card_close_io_events.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80043EBC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x17C",
-      "source": "src/game/mem_card_init_io_events.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044038",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C",
-      "source": "src/game/mem_card_init_io_events.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x800440B4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/mem_card_begin_request.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x800440F0",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
-      "source": "src/game/mem_card_req_card_info.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x8004413C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/mem_card_requests.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x800441DC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x9C",
-      "source": "src/game/mem_card_requests.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044278",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/mem_card_requests.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x800442E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x9C",
-      "source": "src/game/mem_card_requests.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044380",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/mem_card_requests.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x800443EC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x84",
-      "source": "src/game/mem_card_requests.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044470",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD4",
-      "source": "src/game/mem_card_requests.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044544",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/mem_card_directory.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044598",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x70",
-      "source": "src/game/mem_card_directory.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044608",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x230",
-      "source": "src/game/mem_card_do_load_directory.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044CD4",

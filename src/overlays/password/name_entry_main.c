@@ -10,8 +10,6 @@
 #include "../../game/campaign_flags.h"
 #include "../../game/util_memory.h"
 
-extern u8 D_801D0000[];
-
 void NameEntry_BuildStarterDeck(void)
 {
     u8 counts[CARD_COUNT];
@@ -64,7 +62,7 @@ void NameEntry_BuildStarterDeck(void)
 
 void NameEntry_Main(void)
 {
-    u8 *state;
+    SaveDataState *state;
     u8 *entry;
     s32 checksum;
     s32 value;
@@ -78,16 +76,15 @@ void NameEntry_Main(void)
         rand();
     } while (NameEntry_PollCompletion() == 0);
     NameEntry_BuildStarterDeck();
-    state = (u8 *)gDuel_awPlayerDeck;
+    state = (SaveDataState *)gDuel_awPlayerDeck;
     checksum = 0;
-    entry = state + SAVE_DATA_PLAYER_NAME_OFFSET;
+    entry = state->player_name_sjis;
     for (i = SAVE_DATA_PLAYER_NAME_SIZE - 1; i >= 0; i--) {
         checksum ^= *entry;
         entry++;
     }
     value = D_8009B09C << 8;
-    while ((*(s32 *)(state + SAVE_DATA_DUELIST_CODE_OFFSET) =
-                value | checksum) == 0) {
+    while ((state->duelist_code = value | checksum) == 0) {
         value = rand() << 8;
     }
 }
