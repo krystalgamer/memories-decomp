@@ -2,10 +2,10 @@
 #include "../ygo_types.h"
 #include "display_object_layout.h"
 #include "options_update_layout.h"
+#define D_8009AF5C_AS_BYTE_ARRAY
+#include "options_layout_position_data.h"
 #include "options.h"
 #include "display_object.h"
-
-extern u8 D_8009AF5C[];
 
 void Options_UpdateLayout(s32 selection) {
     u8 sp0[12];
