@@ -7,8 +7,9 @@
 #include "display_effect_lifecycle.h"
 #include "duel_effect_interaction_states.h"
 #include "dialog_choice_state.h"
+#include "display_object_api.h"
 
-extern signed char D_8009B32C;extern void func_8004036C(void*);
+extern signed char D_8009B32C;
 extern u16 D_8009B2AA[];
 /* Separate linker names keep GCC from retaining these addresses across calls. */
 extern u16 Base2_8009B2AA[];
