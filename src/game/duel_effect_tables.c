@@ -6,12 +6,9 @@
 #include "duel_action_lock.h"
 #include "duel_card_effects.h"
 #include "duel_field_effect_steps.h"
-#include "duel_field_effect_transition.h"
 #include "duel_magic_effect_dispatch.h"
 #include "func_80024E58.h"
-#include "func_80025D30.h"
 #include "func_80025EE0.h"
-#include "func_8002596C.h"
 #include "func_80028310.h"
 #include "func_800283F4.h"
 

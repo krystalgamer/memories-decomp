@@ -1174,25 +1174,25 @@
       "address": "0x8002596C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1BC",
-      "source": "src/game/func_8002596C.c"
+      "source": "src/game/duel_card_effects.c"
     },
     {
       "address": "0x80025B28",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC4",
-      "source": "src/game/duel_field_effect_transition.c"
+      "source": "src/game/duel_card_effects.c"
     },
     {
       "address": "0x80025BEC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x144",
-      "source": "src/game/duel_field_effect_transition.c"
+      "source": "src/game/duel_card_effects.c"
     },
     {
       "address": "0x80025D30",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B0",
-      "source": "src/game/duel_field_effect_transition.c"
+      "source": "src/game/duel_card_effects.c"
     },
     {
       "address": "0x80025EE0",
