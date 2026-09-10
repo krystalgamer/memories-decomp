@@ -45,12 +45,12 @@ void func_800391E4(DuelEffectChannel *p) {
     e->field_48.h.field_4A = v;
 
     if ((p->flags_34 & 0x20) != 0) {
-        if ((void *)p->field_2C != 0) {
-            func_8004036C((void *)p->field_2C);
+        if (p->field_2C != 0) {
+            func_8004036C(p->field_2C);
         }
         e = func_800400AC(func_8004002C(), 4);
         func_800427DC(e, 1);
-        p->field_2C = (s32)e;
+        p->field_2C = e;
         e->attribute = e->attribute | (GsALON | GsATWO);
         func_80042918(e);
         func_800428EC((u8 *)e, (s8)(p->field_59 - 1));
