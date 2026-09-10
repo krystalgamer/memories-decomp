@@ -21,7 +21,7 @@
  * arguments, none returns a value, and nothing enforces an order beyond the
  * index. Slot 3 is stored by func_800179F4 (func_800179F4.c:149,
  * `D_800E9DB0[3] = func_800164FC;`; func_800179F4.s:207-208), func_8002BFCC
- * (func_8002BFCC.c:71, `D_800E9DB0[3] = func_80029EC4;`; func_8002BFCC.s:52
+ * (library_runtime.c:318, `D_800E9DB0[3] = func_80029EC4;`; func_8002BFCC.s:52
  * and :56) and CampaignMap_SetLocation
  * (src/overlays/overworld/set_location.c:56,
  * `D_800E9DB0[3] = CampaignMap_UpdateView;`), and by func_8002ACA4.s, still

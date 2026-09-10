@@ -17,7 +17,6 @@
 #include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
 #include "library_runtime.h"
-#include "func_8002BFCC.h"
 #include "duel_scene_update.h"
 #include "duel_side_state.h"
 #include "../unmatched.h"

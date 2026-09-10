@@ -110,7 +110,7 @@ void func_800404CC(
 ```
 
 The defining `display_object_config.c` and all 21 C caller units use this
-contract, including the formerly implicit calls in `func_8002BFCC.c`.
+contract, including the formerly implicit calls in `func_8002BFCC`.
 All 20 local configurator declarations are removed; this is not a
 callers-only or partially shared signature.
 
