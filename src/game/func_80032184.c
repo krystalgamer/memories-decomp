@@ -4,9 +4,10 @@
 #include "file_transfer.h"
 #include "../unmatched.h"
 #include "graphics_frame.h"
+#include "../ygo_types.h"
 #include "func_80032184.h"
 
-void func_80032184(u8 *p, s32 mode) {
+void func_80032184(FileTransferDescriptor *p, s32 mode) {
     s32 one;
     s32 w;
     s32 v;
@@ -40,49 +41,49 @@ void func_80032184(u8 *p, s32 mode) {
 
 m0:
     m = 0xFFDDFFFF;
-    *(s16 *)(p + 0x30) = 0x300;
-    *(s16 *)(p + 0x32) = 0x100;
-    *(s16 *)(p + 4) = 0x40;
+    *(s16 *)((u8 *)p + 0x30) = 0x300;
+    *(s16 *)((u8 *)p + 0x32) = 0x100;
+    *(s16 *)((u8 *)p + 4) = 0x40;
     t0 = D_8009B0F4;
-    *(s16 *)(p + 6) = 0x10;
+    *(s16 *)((u8 *)p + 6) = 0x10;
     D_8009B0F4 = t0 & m;
     D_8009B0F4 = D_8009B0F4 | 0x10000;
-    p[0x46] = 2;
+    p->done = 2;
     v = D_8009B118;
     w = 0x20000;
-    *(s32 *)(p + 0x1C) = w;
-    *(s32 *)(p + 8) = v;
+    *(s32 *)&p->mode = w;
+    p->value_08 = v;
     v += 0x800;
-    *(s32 *)(p + 0xC) = v;
+    p->value_0C = v;
     return;
 
 m1:
     m = 0xFFDDFFFF;
-    *(s16 *)(p + 0x30) = 0x340;
-    *(s16 *)(p + 4) = 0x40;
+    *(s16 *)((u8 *)p + 0x30) = 0x340;
+    *(s16 *)((u8 *)p + 4) = 0x40;
     t1 = D_8009B0F4;
-    *(s16 *)(p + 6) = 0x10;
+    *(s16 *)((u8 *)p + 6) = 0x10;
     D_8009B0F4 = t1 & m;
     u = D_8009B0F4;
     n = 0x10000;
-    *(s16 *)(p + 0x32) = 0;
+    *(s16 *)((u8 *)p + 0x32) = 0;
     D_8009B0F4 = u | n;
-    p[0x46] = 2;
+    p->done = 2;
     v = D_8009B118;
     w = 0x4000;
-    *(s32 *)(p + 0x1C) = w;
-    *(s32 *)(p + 8) = v;
+    *(s32 *)&p->mode = w;
+    p->value_08 = v;
     v += 0x800;
-    *(s32 *)(p + 0xC) = v;
+    p->value_0C = v;
     return;
 
 m2:
     m2v = 0xFFDCFFFF;
-    *(s32 *)(p + 0x1C) = 0x2000;
+    *(s32 *)&p->mode = 0x2000;
     D_8009B0F4 = D_8009B0F4 & m2v;
-    *(s32 *)(p + 0xC) = D_8009B118;
-    *(s32 *)(p + 8) = D_8009B118;
-    p[0x46] = 1;
+    p->value_0C = D_8009B118;
+    p->value_08 = D_8009B118;
+    p->done = 1;
     return;
 
 m3:
