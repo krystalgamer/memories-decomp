@@ -2,6 +2,7 @@
 #define D_8009B0C0_IN_DATA
 #define D_8009B362_IN_DATA
 #define D_8009B369_IN_DATA
+#define D_8009B368_IN_DATA
 #include "../types.h"
 #include "graphics_frame.h"
 #include "duel_transition_color.h"
@@ -23,7 +24,7 @@
 extern u8 D_8009B26C, D_8009B26E;
 extern u8 D_8009B2F8[9];
 extern s8 gDuel_bOpponentID[9];
-extern u8 D_8009B368[9], gCampaignSceneIndex[9];
+extern u8 gCampaignSceneIndex[9];
 extern u8 D_8009B370[9];
 extern u16 D_8009B16C[9];
 extern u32 D_80010000[];
@@ -81,7 +82,7 @@ void Main_RunDuel(void)
         D_8009B0A3[0] = 6;
         func_80012D84(4);
         File_WaitForTransfers();
-        next = D_8009B368[0];
+        next = D_8009B368;
         __asm__ volatile("nop");
         D_8009B26C = next;
         if (D_8009B26C == state)
