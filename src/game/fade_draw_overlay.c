@@ -62,7 +62,7 @@ void Fade_DrawOverlay(void) {
     u8 flags;
 
     rec = D_800E9EC8_arr;
-    Fade_Update(rec);
+    Fade_Update((FadeTransitionState *)rec);
     flags = rec[6];
     if ((flags & 0x80) || (D_8009B141 != 0 && rec[4] != 0xFF)) {
         p = FADEBOX;
