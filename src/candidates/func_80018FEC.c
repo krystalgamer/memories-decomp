@@ -19,6 +19,7 @@
 #include "../game/rand_get_interval.h"
 #include "../game/fade.h"
 #include "../game/display_object_motion.h"
+#include "../game/display_object_work_slots.h"
 #include "../game/func_8002C604.h"
 #include "../game/sound_output.h"
 #include "../game/model_scene_states.h"
@@ -36,7 +37,6 @@ extern DuelCardPickCursor *D_8009B1B4;
 extern u8 *D_8009B17C;
 
 extern u8 D_80090918[];
-extern u8 *D_800E9EF0[];
 extern u8 D_800E9F10[];
 extern s32 D_800E9F04[];
 extern u8 D_800E9FF0[];
@@ -69,14 +69,14 @@ void func_80018FEC(void)
     s32 t14;
     u8 *cards;
     u8 *poses;
-    u8 **objs;
+    DisplayObject **objs;
     register void (*fn)(void) __asm__("$2");
     s32 fnv;
     DuelCardReplayRecordBlock *g;
     s32 py;
     s32 t;
     s32 k;
-    u8 **slot;
+    DisplayObject **slot;
     s8 side;
     u8 *other;
 
@@ -115,11 +115,11 @@ next_obj:
         obj[0x6C] = 1;
         *(s32 *)(obj + 0x24) = fnv;
         *(s16 *)(obj + 0x2A) = py - 0x1E;
-        objs[pose[0]] = obj;
+        objs[pose[0]] = (DisplayObject *)obj;
         *(u8 **)rec = 0;
         i++;
         rec += 0xC;
-        if (i < 5) {
+        if (i < DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             goto next_obj;
         }
         D_800E9F04[0] = 0;
@@ -171,7 +171,7 @@ next_obj:
         if ((s16)t > 0) {
             return;
         }
-        if ((s8)D_8009B1B9 >= 5) {
+        if ((s8)D_8009B1B9 >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             D_8009B23A = (flags & 0xDFFF) | 0x1000;
             fx = func_8002C604(0x13);
             *(u16 *)(fx + 0) = 0xA0;
@@ -184,8 +184,8 @@ next_obj:
         fx = func_8002C604(0);
         k = (s8)D_8009B1B9;
         slot = &D_800E9EF0[k];
-        *(u16 *)(fx + 0) = *(u16 *)(*slot + 0x30) + 0x1A;
-        *(u16 *)(fx + 2) = *(u16 *)(*slot + 0x32) + 0x1E;
+        *(u16 *)(fx + 0) = (*slot)->field_30.h.field_30 + 0x1A;
+        *(u16 *)(fx + 2) = (*slot)->field_30.h.field_32 + 0x1E;
         *(s32 *)(fx + 0x14) = *(s32 *)(fx + 0x14) + ((k << 12) + 0xA000);
         *(u16 *)(fx + 0x1A) = 9;
         SD_SEPlayFull(0x17);

@@ -31,7 +31,7 @@
       "target": "src/candidates_target/func_80018FEC.S",
       "candidate_build_sha256": "5b8db9b3dbaf377624bf31a2890b934f9fff263f86a4f6db4db586c8d30d6615",
       "target_bytes_sha256": "f839accb5fc927d77e04cb72f2fd5d0ee0d43b3c711a9d345905ad1b648f6bf8",
-      "canonical_contract_sha256": "be98e4078d6083bc91a50b63b6701c5c1add42c3cf53d82184ab10b815a1d22d",
+      "canonical_contract_sha256": "da3c6d8788252984533c4119150c41df9afecbb08cd7903465061921d0fca82d",
       "canonical_contracts": {
         "D_80090918": "dfdcdf386b55dca02677cb5461fa1ad1b7dd089f73e241382e7f6ee53e8eafa2",
         "D_8009B162": "31937783a4244fcbe24da5c7ff740671b5eb9d675376209c2ecf601a97ea8b51",
@@ -48,7 +48,6 @@
         "D_8009B26C": "361116d513ca1ee0d940c9f286d0dd45bc0e496ac7b9d2a8cbcc0889fc7ba173",
         "D_8009B369": "6e803257c7f998856e40c8b71f8eabe95b64257a893f961575b0e4ebe7b401f5",
         "D_800E9ECF": "584613df146f36bd540bd389530894f62ba669e15ea8665d898c8e6df72984d3",
-        "D_800E9EF0": "442ef14dee180faa32f94f86226eacd5f630f20b7a6636b3639c343cd516ecb3",
         "D_800E9F04": "e6188a97141f47c41adf1b6dccfe4b80a7ba9f0cbb98e01493a0daba518d2ae5",
         "D_800E9F10": "4bd698efb2d4cfa01d760935b7af43eb27da81183064d7b98443c20cceedda58",
         "D_800E9FF0": "84aed827565a49a82d0aa6a5bd4db93d6620398cd1868c79b8ca714839f6f7e7",
