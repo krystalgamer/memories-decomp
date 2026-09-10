@@ -8,6 +8,7 @@
 #include "duel_effect_request.h"
 #include "func_8002C604.h"
 #include "duel_card_record_lifecycle.h"
+#include "duel_card_staging.h"
 #include "duel_side_state.h"
 #include "duel_phase_entry.h"
 #include "func_8001825C.h"
@@ -29,7 +30,6 @@
 
 extern s8 D_8009B1B9;
 extern s8 D_8009B208[8];
-extern u8 D_8015C424[];
 
 /* Three contiguous entries from the D_80090998 duel-phase callback table:
    resume/replay reconstruction, initial deck and selection setup, and draw
@@ -134,10 +134,13 @@ void func_8001825C(void)
         }
     }
     {
-        s32 replay_offset = 0x48000;
+        s32 replay_offset = DUEL_CARD_STAGING_REPLAY_BASE_OFFSET;
+        DuelCardReplayRecordBlock *replay;
+
         b = D_8015C424;
-        card = *(DisplayObject **)(b + D_8009B208[n] * DUEL_CARD_RECORD_SIZE +
-                                  replay_offset + 0x36B4);
+        replay = (DuelCardReplayRecordBlock *)(b +
+            D_8009B208[n] * sizeof(DuelCardRecord) + replay_offset);
+        card = replay->record.object;
     }
     func_8001352C();
     obj = (u8 *)func_8002C68C(0xB);

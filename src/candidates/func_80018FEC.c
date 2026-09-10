@@ -15,6 +15,7 @@
 #include "../types.h"
 #include "../game/duel_card_pick_cursor.h"
 #include "../game/duel_card_layout.h"
+#include "../game/duel_card_staging.h"
 #include "../game/rand_get_interval.h"
 #include "../game/fade.h"
 #include "../game/display_object_motion.h"
@@ -34,7 +35,6 @@ extern u8 *D_8009B21C;
 extern DuelCardPickCursor *D_8009B1B4;
 extern u8 *D_8009B17C;
 
-extern u8 D_8015C424[];
 extern u8 D_80090918[];
 extern u8 *D_800E9EF0[];
 extern u8 D_800E9F10[];
@@ -72,7 +72,7 @@ void func_80018FEC(void)
     u8 **objs;
     register void (*fn)(void) __asm__("$2");
     s32 fnv;
-    u8 *g;
+    DuelCardReplayRecordBlock *g;
     s32 py;
     s32 t;
     s32 k;
@@ -105,8 +105,9 @@ void func_80018FEC(void)
         rec = D_800EA030;
 next_obj:
         obj = *(u8 **)rec;
-        g = (u8 *)(obj[0x6A] * DUEL_CARD_RECORD_SIZE + (u32)cards + 0x48000);
-        anim = *(s16 *)(g + 0x36C0) - 0x11;
+        g = (DuelCardReplayRecordBlock *)(obj[0x6A] * sizeof(DuelCardRecord) +
+            (u32)cards + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
+        anim = g->record.card_id - 0x11;
         pose = (u8 *)(anim * 3 + (u32)poses);
         *(s16 *)(obj + 0x28) = pose[1] - 0x1A;
         py = pose[2];

@@ -2,6 +2,7 @@
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_card.h"
+#include "duel_card_staging.h"
 #include "duel_action_lock.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
@@ -24,7 +25,6 @@ u8 gDuel_abTrapAttackThresholds[DUEL_ATTACK_TRAP_COUNT] = {
     DUEL_ACID_TRAP_HOLE_ATTACK_THRESHOLD / DUEL_ATTACK_TRAP_THRESHOLD_SCALE,
     DUEL_WIDESPREAD_RUIN_ATTACK_THRESHOLD / DUEL_ATTACK_TRAP_THRESHOLD_SCALE,
 };
-extern u8 D_8015C424[];
 extern u8 D_801A7AD8_raw[] asm("D_801A7AD8");
 
 s32 func_8001F0D0(u8 *p) {
@@ -152,7 +152,7 @@ void func_80024954(DuelCardRecord *arg0);
  * side's state byte at +6 and completes. Returns 1 while busy. */
 s32 func_8001F364(void) {
     u8 *e;
-    u8 *g;
+    DuelCardReplayRecordBlock *g;
     u8 *p;
     u8 *q;
     u8 *r;
@@ -201,8 +201,10 @@ m1:
     D_8009B1D0 = t;
     if ((s16)t <= 0) {
     r = D_8015C424;
-    g = r + D_8009B1B8 * 0x1C + 0x48000;
-    p = *(u8 **)(g + 0x36B4);
+    g = (DuelCardReplayRecordBlock *)(r +
+        D_8009B1B8 * sizeof(DuelCardRecord) +
+        DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
+    p = g->record.object;
     e = func_8002C68C(8);
     *(u16 *)(e + 0) = *(u16 *)(p + 0x30);
     *(u16 *)(e + 2) = *(u16 *)(p + 0x32);

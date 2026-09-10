@@ -1,5 +1,7 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
+#define DUEL_CARD_STAGING_WITH_DECK_ALIAS
 #include "../types.h"
+#include "duel_card_staging.h"
 #include "duel_draw_resolution.h"
 #include "duel_card.h"
 #include "duel_grid.h"
@@ -16,7 +18,6 @@
 #include "display_object_api.h"
 
 extern DuelSideState *D_8009B1C8_hand asm("D_8009B1C8");
-extern ExodiaCardDatabase D_8015C424_cards asm("D_8015C424");
 
 s32 Duel_HasAllExodiaPieces(void) {
     s16 hand[HAND_SIZE];
@@ -48,12 +49,11 @@ s32 Duel_HasAllExodiaPieces(void) {
 }
 
 extern u8 D_8009B1ED;
-extern u8 D_8015C424[];
 
 void func_80018DB4(void) {
     u8 *p;
     u8 *c;
-    u8 *g;
+    DuelCardReplayRecordBlock *g;
     u8 *base;
     s32 i;
     s32 k;
@@ -106,8 +106,10 @@ void func_80018DB4(void) {
         *(s32 *)(p + 0x24) = (s32)func_80018C34;
         D_800EA030[i].object = p;
         base = D_8015C424;
-        g = base + p[0x6A] * DUEL_CARD_RECORD_SIZE + 0x48000;
-        y = *(s8 *)(*(s32 *)(g + 0x36B8) + 2);
+        g = (DuelCardReplayRecordBlock *)(base +
+            p[0x6A] * sizeof(DuelCardRecord) +
+            DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
+        y = *(s8 *)&((DuelDeckCardRecord *)g->record.data)->index_02;
         *(s8 *)((u8 *)D_8009B1C8 + i + 0x1A) = y;
         n = *(u8 *)((u8 *)D_8009B1C8 + 0x18);
         *(u8 *)((u8 *)D_8009B1C8 + 0x18) = n + 1;

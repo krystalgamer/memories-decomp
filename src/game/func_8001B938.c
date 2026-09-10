@@ -1,6 +1,7 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
 #include "../types.h"
 #include "duel_deck_card.h"
+#include "duel_card_staging.h"
 #include "duel_side_state.h"
 #include "ai.h"
 #include "duel_card.h"
@@ -16,7 +17,6 @@
 #include "display_object_api.h"
 #include "../unmatched.h"
 
-extern u8 D_8015C424[];
 extern u8 D_800EAE88[];
 
 /* Private helpers of the same duel action controller, func_8001BD88:
@@ -27,7 +27,7 @@ void func_8001B938(u8 *p) {
     DisplayObject *r;
     DuelCardRecord *e;
     u8 *b;
-    u8 *g;
+    DuelCardReplayRecordBlock *g;
     s32 k;
     s32 c;
     s32 i;
@@ -44,8 +44,10 @@ void func_8001B938(u8 *p) {
     if (p[0x15] == 0) {
         b = D_8015C424;
         r = (DisplayObject *)D_800EA030[*(s8 *)(p + 0xE)].object;
-        g = b + r->field_6A * DUEL_CARD_RECORD_SIZE + 0x48000;
-        i = (gDuel_adwCardStats[*(s16 *)*(s32 *)(g + 0x36B8) - 1] >>
+        g = (DuelCardReplayRecordBlock *)(b +
+            r->field_6A * sizeof(DuelCardRecord) +
+            DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
+        i = (gDuel_adwCardStats[((DuelDeckCardRecord *)g->record.data)->id - 1] >>
              CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
     k = i;
         if (k >= CARD_TYPE_MAGIC) {
