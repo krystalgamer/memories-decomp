@@ -1172,7 +1172,7 @@ The `memory.h` consumer inventory is complete at eight matching sources.
 `ai_script_vm.c` uses `bzero` to clear the interpreter state, operand memory,
 and auxiliary block. The seven `memset` consumers are `func_800592AC.c`,
 `func_8005D994.c`, `model_distance_queries.c`, `func_80059B90.c`,
-`func_8005EBF4.c`, `model_scene_setup.c`, and
+`model_effect_state.c`, `model_scene_setup.c`, and
 `model_update_view_metrics.c`. Across those files the calls clear vector-sized
 work records or the four-pointer control-point array before later fields are
 filled.
