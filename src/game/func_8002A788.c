@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "card_grid.h"
+#include "func_8002A788.h"
 
 s32 func_8002A6B8(void)
 {
@@ -34,6 +35,11 @@ s32 func_8002A6B8(void)
     return result;
 }
 
+/* The build's grouped-symbol check looks for the text `func_8002A788(` in the
+   source that owns the address, and this unit implements the function as the
+   asm block below, whose only mention of it is a .reloc operand. This
+   redeclaration is what marks the definition for that check; it repeats the
+   header's prototype so the two cannot drift. */
 void func_8002A788(u8 *state);
 
 __asm__(
