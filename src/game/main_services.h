@@ -66,7 +66,8 @@ extern void (*D_8009B0B8)(void);
  * after this symbol, so nine bytes would run through that and on past
  * gGraphics_bActiveBuffer at 0x8009B0AC. The array length is chosen to make
  * the assembler build an absolute address, exactly as gDuel_bTerrain's [8]
- * and gSD_bOutputType's [16] are, and it asserts nothing about storage. */
+ * is (and as gSD_bOutputType's [16] was, before sound.h declared it once),
+ * and it asserts nothing about storage. */
 #ifdef D_8009B0A3_IS_VOLATILE_SCALAR
 extern volatile u8 D_8009B0A3;
 #elif defined(D_8009B0A3_SIZED_ARRAY)
