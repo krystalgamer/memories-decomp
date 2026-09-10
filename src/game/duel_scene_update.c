@@ -14,7 +14,6 @@
 #include "../unmatched.h"
 #include "duel_magic_effect_dispatch.h"
 
-extern u16 D_8009B16C;
 extern s8 gDialog_bChoice[9];
 extern DuelEffectChannel D_800EB224;
 extern s8 gDuel_bOpponentID[9];
