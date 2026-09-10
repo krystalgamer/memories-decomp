@@ -1347,7 +1347,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1E0,D_8009B1E0,D_8009B1E0,0x80020F4C,func_80020F4C,matching_c,game,C,src/game/func_80020F4C.c,read_write,,D_8009B1E0 = mode; | SD_BGMPlay(D_8009B1E0); | (+1 more)
 0x8009B1E2,D_8009B1E2,D_8009B1E2,0x8001BD88,func_8001BD88,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,read_write,8,"lbu $v0, %gp_rel(D_8009B1E2)($gp) | sb $v0, %gp_rel(D_8009B1E2)($gp)"
 0x8009B1E4,D_8009B1E4,D_8009B1E4,0x8001BD88,func_8001BD88,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,read_write,16,"lhu $v0, %gp_rel(D_8009B1E4)($gp) | sh $v0, %gp_rel(D_8009B1E4)($gp)"
-0x8009B1E8,D_8009B1E8,D_8009B1E8,0x80021480,func_80021480,matching_c,game,C,src/game/func_80021480.c,read,,"0, D_8009B1E8->text_styles[mode], 0x1A, 0x28, 0x120, 0x120 | DuelResultDisplayState *state = D_8009B1E8; | (+1 more)"
+0x8009B1E8,D_8009B1E8,D_8009B1E8,0x80021480,Duel_ShowResultPage,matching_c,game,C,src/game/duel_show_result_page.c,read,,"0, D_8009B1E8->page_text_ids[page], 0x1A, 0x28, 0x120, 0x120 | DuelResultDisplayState *state = D_8009B1E8; | (+1 more)"
 0x8009B1E8,D_8009B1E8,D_8009B1E8,0x80021598,Duel_CalcRankScore,matching_c,game,C,src/game/duel_rewards.c,read,,p = D_8009B1E8;
 0x8009B1E8,D_8009B1E8,D_8009B1E8,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,read_write,32,"lw $a0, %gp_rel(D_8009B1E8)($gp) | lw $v0, %gp_rel(D_8009B1E8)($gp) | (+2 more)"
 0x8009B1EC,D_8009B1EC,D_8009B1EC,0x80018608,func_80018608,matching_c,game,C,src/game/duel_phase_entry.c,write,8,D_8009B1EC = 5;

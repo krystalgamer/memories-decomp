@@ -3,6 +3,7 @@
 
 #include "../../types.h"
 #include "../../game/duel_effect.h"
+#include "../../game/save_data.h"
 
 /* Known prefix of the preview's control object, not its full allocation. */
 typedef struct {
@@ -62,16 +63,6 @@ extern PasswordCardPreviewView *D_8016D4D8;
 extern u8 gPassword_abDigits[];
 extern s32 gPassword_nDigitIndex;
 extern u16 D_8016D424;
-
-/* 0x801D07E0, named gLibrary_dwStarchips in config/slus_01411/symbols.txt:62.
- * Password_RefreshStarchipDisplay copies it into the scalar D_801D5608 alias.
- * Password_UpdateShopScreen compares it with the selected card price and
- * reaches it again as `pool[504]` after `pool = D_801D0000`, a load and store
- * at +2016 that this declaration leaves alone. Nothing pins the sign: the
- * copy and subtraction are the same either way, and the compare is unsigned
- * because its other operand is u32. u32 here follows the other `dw` names in
- * the tree's headers. */
-extern u32 gLibrary_dwStarchips;
 
 /* Builds text-box record 0 and returns it; both call sites ignore the
    record. */

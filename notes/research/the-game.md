@@ -1428,13 +1428,19 @@ opposite — win slowly, use magic and traps, or deck the opponent out (a
 deck-out alone is −40, and "have fewer than 28 cards left plus one wasteful
 act" is the community's recipe for a B/C/D). The theoretical range is −140 to
 +139. The earlier version of this document listed seven ranks; there are ten.
+The result record stores the absolute tier `0..4` separately from the POW/TEC
+axis and uses the same fields for page display, starchip prize, and drop-pool
+selection; see the
+[typed result and reward state](../duel-result-reward-state.md).
 
 ### 6.3 Starchips
 
 Added to the save's counter [`0x801D07E0`, u32] by the table above: 1 to 5
 per win, symmetric, so an S of either kind pays 5. They are spent only in the
 Password shop (§4.5). The post-duel award path clamps the saved total to
-999,999 (`0xF423F`) immediately after adding the prize. Losing costs nothing.
+`SAVE_DATA_STARCHIP_MAX` (`999999`) immediately after adding the result
+record's `starchip_prize`. The balance is `SaveDataState.starchips` at
+`+0x5E0`, also exposed as `gLibrary_dwStarchips`. Losing costs nothing.
 
 ### 6.4 The dropped card
 
@@ -1451,7 +1457,9 @@ tables are already loaded; the argument selects one of their three drop rows:
 
 Each row is `0x5B4` bytes: 722 `u16` weights and 16 padding bytes. The
 normal reward caller at `0x80021C44..0x80021C60` constructs `0`, `1`, or `2`
-from its rank fields before calling the selector. The old C parameter name
+from `rank_tier` and `is_tec_rank` before calling the selector. It stores the
+result in `DuelResultDisplayState.dropped_card_id` before the later credit
+path awards it. The old C parameter name
 `opponent` incorrectly suggested that this call selected a duelist.
 
 The helper consumes exactly **one `rand()` value**, forming threshold

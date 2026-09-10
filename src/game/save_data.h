@@ -19,6 +19,8 @@
 #define TWO_PLAYER_SAVE_TRANSFER_SIZE 0x400
 #define SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET 0x5DC
 #define SAVE_DATA_OUTPUT_TYPE_OFFSET 0x5DE
+#define SAVE_DATA_STARCHIPS_OFFSET 0x5E0
+#define SAVE_DATA_STARCHIP_MAX 999999
 
 #define SAVE_DATA_CRC16_BITS 16
 #define SAVE_DATA_CRC16_MASK ((1 << SAVE_DATA_CRC16_BITS) - 1)
@@ -71,7 +73,14 @@ typedef struct {
     u8 campaign_scene_index;
     u8 field_5DD;
     u8 output_type;
+    u8 pad_5DF;
+    u32 starchips;
 } SaveDataState;
+
+typedef char SaveDataState_starchips_offset_must_be_0x5E0[
+    (u32)&(((SaveDataState *)0)->starchips) ==
+        SAVE_DATA_STARCHIPS_OFFSET ? 1 : -1
+];
 
 /* The head of the 0x680-byte persistent state block: SaveData_RequestWrite
  * copies SAVE_DATA_STATE_SIZE bytes starting here. Halfwords, as the name
@@ -79,6 +88,7 @@ typedef struct {
  * and free_duel/screen_runtime.c read it -- the files that walk it as bytes
  * are copying or scanning the block, not indexing the deck. */
 extern u16 gDuel_awPlayerDeck[];
+extern u32 gLibrary_dwStarchips;
 
 extern u8 gSaveData_aTransferBuffer[];
 extern u8 gSaveData_aHeaderTemplate[];

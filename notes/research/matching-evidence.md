@@ -2341,7 +2341,7 @@ object model through two related parent/child constructors.
 | `File_InitTransferDescriptor` | Transfer-descriptor constructor and stack argument order |
 | `func_8001306C` | Nullable callback array, GP-relative callback, pacing counters, and 60-tick countdown |
 | `Duel_CalcGuardianStarBonus` | Signed card ID indexing and conditional guardian-star extraction before the matchup bonus |
-| `func_80021480` | Ten-child object iteration and bit `0x40` state updates |
+| `Duel_ShowResultPage` | Ten-child object iteration and bit `0x40` state updates |
 | `func_80019BD0` | Animation object field widths and callback layout |
 | `func_8001B7AC` | `0x0C`-byte global entry selection and child linkage |
 | `func_80028310` | G8 state transition with child creation and cleanup |

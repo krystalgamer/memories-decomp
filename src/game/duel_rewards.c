@@ -5,7 +5,7 @@
 #include "card_constants.h"
 #include "duel_grid.h"
 #include "duel_rank.h"
-#include "func_80021480.h"
+#include "duel_result_display.h"
 #include "duel_rewards.h"
 
 extern s32 D_801D5608[16][DUEL_SIDE_COUNT];
@@ -25,14 +25,14 @@ void Duel_CalcRankScore(void) {
     p = D_8009B1E8;
     e = D_800E9FF0;
     q = &D_801D5608[0][0];
-    p->text_styles[0] = 0x44;
-    p->text_styles[1] = DUEL_RESULT_TEXT_SELECTOR_DEFAULT;
-    p->text_styles[2] = 0x45;
+    p->page_text_ids[0] = 0x44;
+    p->page_text_ids[1] = DUEL_RESULT_TEXT_SELECTOR_DEFAULT;
+    p->page_text_ids[2] = 0x45;
     if (D_800E9FF0[gDuel_bWinnerSide].field_00 == DUEL_RANK_ADJUST_EXODIA_WIN) {
-        p->text_styles[1] = DUEL_RESULT_TEXT_SELECTOR_EXODIA;
+        p->page_text_ids[1] = DUEL_RESULT_TEXT_SELECTOR_EXODIA;
     }
     if (D_800E9FF0[gDuel_bWinnerSide].field_00 == DUEL_RANK_ADJUST_DECK_OUT_WIN) {
-        p->text_styles[1] = DUEL_RESULT_TEXT_SELECTOR_DECK_OUT;
+        p->page_text_ids[1] = DUEL_RESULT_TEXT_SELECTOR_DECK_OUT;
     }
 
     p->side_scores[1] = DUEL_RANK_SCORE_INITIAL;

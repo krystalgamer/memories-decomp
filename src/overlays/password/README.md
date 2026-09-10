@@ -188,7 +188,8 @@ payment begins in state 3. The award helper caps ordinary chest quantity at
 250 and records the card in the recent-card list; this updater has no separate
 chest-cap refusal. Payment uses the first word of the card's eight-byte
 cost/password record and subtracts from both unsigned remaining cost and
-`gLibrary_dwStarchips` (`D_801D0000[504]`, address `0x801D07E0`).
+`gLibrary_dwStarchips` (`SaveDataState.starchips` at `+0x5E0`, address
+`0x801D07E0`).
 
 For current remaining cost `c`, the deduction starts at 1. Successive
 thresholds replace it with `c/10` at 10, `c/20` at 100, `c/30` at 1000,
