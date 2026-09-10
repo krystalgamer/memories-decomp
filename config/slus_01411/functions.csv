@@ -920,17 +920,17 @@ address,size,name,status,module,notes
 0x80058E94,0x2C,func_80058E94,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x80058EC0,0x50,func_80058EC0,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80058F10,0x10,func_80058F10,sdk_asm,psyq/sdk,Sixteen bytes of SDK assembly embedded in the game span; the GsGetWorkBase identification was withdrawn as a misidentification and the address-based name stands until new evidence supports one.
-0x80058F20,0x54,func_80058F20,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80058F74,0x3C,func_80058F74,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80058FB0,0x50,Model_CopySlotU16Values,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
-0x80059000,0xDC,func_80059000,matching_c,game,Pure-C inline refinement matched the full executable.
-0x800590DC,0x58,func_800590DC,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80059134,0x8C,Model_InitLightTriplet,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
-0x800591C0,0x3C,func_800591C0,matching_c,game,Pure-C inline refinement matched the full executable.
-0x800591FC,0xC,func_800591FC,matching_c,game,3 pre-policy variants: Plain address return and split-only failed; -mgas -msplit-addresses placed LO16 in the return delay slot.
-0x80059208,0xC,func_80059208,matching_c,game,1 pre-policy variants: Straight address-of-byte G8 return matched linked bytes and GPREL16 relocation.
-0x80059214,0xC,func_80059214,matching_c,game,3 pre-policy variants: Plain address return and split-only failed; -mgas -msplit-addresses placed LO16 in the return delay slot.
-0x80059220,0xC,func_80059220,matching_c,game,3 pre-policy variants: Plain address return and split-only failed; -mgas -msplit-addresses placed LO16 in the return delay slot.
+0x80058F20,0x54,func_80058F20,matching_c,game,"Clamped model-slot entry lookup beginning the slot support/light unit; byte-identical at g0, g0_split, and g8_split."
+0x80058F74,0x3C,func_80058F74,matching_c,game,"Returns the selected model-slot entry; byte-identical at g0, g0_split, and g8_split."
+0x80058FB0,0x50,Model_CopySlotU16Values,matching_c,game,"Copies the slot's four DD0 halfwords; g0_split and g8_split objects are byte-identical."
+0x80059000,0xDC,func_80059000,matching_c,game,"Builds the slot's adjusted four-halfword value set; byte-identical at g0, g0_split, and g8_split."
+0x800590DC,0x58,func_800590DC,matching_c,game,"Temporarily enables the slot and redraws it; byte-identical at g0, g0_split, and g8_split."
+0x80059134,0x8C,Model_InitLightTriplet,matching_c,game,"Initializes the slot's three light records; g0_split and g8_split objects are byte-identical."
+0x800591C0,0x3C,func_800591C0,matching_c,game,"Returns one of the three light records initialized immediately before it; byte-identical at g0, g0_split, and g8_split."
+0x800591FC,0xC,func_800591FC,matching_c,game,"Returns the camera-view buffer base; g0_split and g8_split objects are byte-identical in the four-getter unit."
+0x80059208,0xC,func_80059208,matching_c,game,"Returns the view-metrics buffer base; g8 and g8_split objects are byte-identical in the four-getter unit."
+0x80059214,0xC,func_80059214,matching_c,game,"Returns the screen-projection buffer base; g0_split and g8_split objects are byte-identical."
+0x80059220,0xC,func_80059220,matching_c,game,"Returns the secondary model buffer base; g0_split and g8_split objects are byte-identical."
 0x8005922C,0x58,func_8005922C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80059284,0x28,func_80059284,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x800592AC,0x124,func_800592AC,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
