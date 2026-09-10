@@ -3141,7 +3141,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80027DF8,func_80027DF8,matching_c,game,C,src/game/func_80027DF8.c,address,,base = &D_801A7AD8[who * DUEL_CARD_SIDE_RECORD_COUNT];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8002C7E8,Duel_CheckRitual,matching_c,game,C,src/game/duel_check_ritual.c,address,,c = &D_801A7AD8[i];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8002C938,func_8002C938,matching_c,game,C,src/game/duel_card_object_queries.c,address,,entry = (DuelCardRecord *)((u8 *)D_801A7AD8 + scaled);
-0x801A7B64,D_801A7B64,D_801A7B64,0x800164FC,func_800164FC,matching_c,game,C,src/game/func_800164FC.c,address,8,e = D_801A7B64; | t = D_801A7B64;
+0x801A7B64,D_801A7B64,D_801A7B64,0x800164FC,func_800164FC,matching_c,game,C,src/game/func_800164FC.c,address,,e = D_801A7B64; | t = D_801A7B64;
 0x801A7B64,D_801A7B64,D_801A7B64,0x8001825C,func_8001825C,matching_c,game,C,src/game/func_8001825C.c,address,8,rec = D_801A7B64 + 0x1A4; | rec = D_801A7B64;
 0x801A7B64,D_801A7B64,D_801A7B64,0x800257A0,func_800257A0,matching_c,game,C,src/game/duel_card_effects.c,address,,p = D_801A7B64;
 0x801A7B80,D_801A7B80,D_801A7B80,0x800222F4,func_800222F4,matching_c,game,C,src/game/debug_effect_screen.c,read,,"D_8009B180 = func_80017F04(D_801A7B80, 0x5C, 0x52); | D_8009B180 = func_80017F04(D_801A7B80, 0x86, 0x52); | (+1 more)"
