@@ -5,6 +5,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/memory.h"
 #include "model.h"
+#include "func_80052D2C.h"
 
 extern u8 D_8009AF98;
 

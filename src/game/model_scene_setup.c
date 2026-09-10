@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80052D2C.h"
 #include "model_record_tables.h"
 #include "model_scene_setup.h"
 #include "model_transfer_flags.h"
@@ -23,7 +24,7 @@ extern ModelBytes8 D_8009B478_p asm("D_8009B478");
 extern ModelBytes8 D_8009B480;
 extern GsCOORDUNIT D_800F56A0;
 extern void func_800857C0(int);
-extern void func_8004E7B0(int), func_80052D2C(int, int, int, int);
+extern void func_8004E7B0(int);
 
 void func_800530C4(void)
 {
