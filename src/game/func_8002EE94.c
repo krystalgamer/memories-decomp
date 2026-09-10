@@ -2,6 +2,9 @@
 #define D_8009B268_IN_DATA
 #define D_8009B26D_IN_DATA
 #include "../types.h"
+#define MAIN_MODE_STATE_NEXT_IN_DATA
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
+#include "main_mode_state.h"
 #include "card_constants.h"
 #include "data_transfer_request.h"
 #include "duel_effect_mode_7.h"
@@ -25,8 +28,6 @@
 #include "duel_effect_mark_object_if_active.h"
 
 extern u8 gCampaignSceneIndex;
-extern u8 D_8009B269 __attribute__((section(".data")));
-extern u8 D_8009B26C __attribute__((section(".data")));
 extern u8 D_8009B34C __attribute__((section(".data")));
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern s8 gDialog_bChoiceCount __attribute__((section(".data")));

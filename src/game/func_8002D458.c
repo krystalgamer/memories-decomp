@@ -1,10 +1,10 @@
 #include "../types.h"
+#include "main_mode_state.h"
 #include "duel_effect_mode_7.h"
 #include "file_transfer.h"
 #include "func_8002D458.h"
 #include "main_services.h"
 
-extern u8 D_8009B26C;
 extern s16 gCampaignSavedSceneIndex[];
 extern u8 gCampaignSceneIndex __attribute__((section(".data")));
 extern u8 D_8009B3D4 __attribute__((section(".data")));

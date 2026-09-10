@@ -1,8 +1,9 @@
 #include "../types.h"
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
+#include "main_mode_state.h"
 #include "frontend_debug_tables.h"
 #include "func_80030FA0.h"
 
-extern u8 D_8009B26C __attribute__((section(".data")));
 extern u8 D_8009B2B2;
 extern u8 gFreeDuel_bReturnFlags __attribute__((section(".data")));
 

@@ -1,6 +1,7 @@
 #define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "main_mode_state.h"
 #include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "../psyq/libgte.h"

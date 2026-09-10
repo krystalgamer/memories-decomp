@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "main_mode_state.h"
 #include "main_frame.h"
 #include "fade.h"
 #include "main_modes.h"
@@ -6,7 +7,6 @@
 #include "main_loop.h"
 #include "main_reset_frontend_runtime.h"
 
-extern u8 D_8009B26C;
 void Main_Loop(void) {
     func_8002CDE8();
     for (;;) {

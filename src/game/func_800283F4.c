@@ -5,6 +5,8 @@
 #define D_8009B0C0_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
+#include "main_mode_state.h"
 #include "func_800282E8.h"
 #include "graphics_frame.h"
 #include "func_80029574.h"
@@ -36,7 +38,6 @@ extern u8 D_8009B248;
 extern u8 D_8009B24A;
 extern DisplayObject *D_8009B24C;
 extern DuelEffectChannel *D_8009B250;
-extern u8 D_8009B26C __attribute__((section(".data")));
 
 void func_800283F4(void)
 {

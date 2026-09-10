@@ -1,10 +1,11 @@
 #include "../types.h"
+#define MAIN_MODE_STATE_NEXT_AS_ARRAY
+#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
+#include "main_mode_state.h"
 #include "script_command_busy.h"
 #include "script_state.h"
 #include "script_control_commands.h"
 
-extern u8 D_8009B269[];
-extern u8 D_8009B26C[];
 extern s16 D_8009B278;
 
 void func_8002F930(void)

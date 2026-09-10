@@ -1,5 +1,6 @@
 #define D_8009B254_IN_DATA
 #include "../types.h"
+#include "main_mode_state.h"
 #include "scene_script.h"
 #include "duel_effect.h"
 #include "fade.h"
@@ -7,7 +8,6 @@
 #include "sound.h"
 #include "campaign_scene_package.h"
 
-extern u8 D_8009B26C;
 extern u8 gCampaignSceneIndex __attribute__((section(".data")));
 
 void Main_RunCampaign(void) {
