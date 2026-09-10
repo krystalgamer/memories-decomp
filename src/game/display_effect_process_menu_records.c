@@ -12,7 +12,7 @@ void DisplayEffect_ProcessMenuRecords(s32 value) {
     do {
         if (record->field_30 >= 0) {
             if (record->field_32 & 0x40) {
-                func_8003B378((u8 *)record, value);
+                func_8003B378(record, value);
             }
 
             if (record->display_effect_step != 0) {

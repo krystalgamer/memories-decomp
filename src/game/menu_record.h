@@ -57,7 +57,12 @@ typedef struct {
        duel_effect_interaction_states.c. Four sites prove a byte is
        here; none of them says what it carries. */
     u8 field_3C;
-    u8 pad_3D[3];
+    u8 pad_3D;
+    /* DisplayEffectState names this same halfword field_3E on this
+       same memory, and func_8003B378 works it as a countdown: it
+       seeds it from rand() and decrements it to zero. Named to agree
+       with that view, as field_31 was in #3534. */
+    u16 field_3E;
     /* The six halfwords the sweep in func_8003A990 works, and the tail this
        record had no names for.
 
