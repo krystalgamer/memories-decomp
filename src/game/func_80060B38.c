@@ -8,8 +8,7 @@
 #include "text_constants.h"
 #include "duel_card.h"
 #include "func_80060B38.h"
-
-extern u8 D_801A8000[];
+#include "card_list_rows.h"
 
 /* Draws a deck box's six type-count digits and its seven card stat rows
    as 16x16 and 8x8 sprites into the ordering table. The glyph table
@@ -24,7 +23,7 @@ void func_80060B38(u8 *obj, GsOT *ot) {
     u8 def[8];
     GsSPRITE *sp;
     u8 *tbl;
-    u8 *rec;
+    CardListRowSet *rec;
     u16 *entries;
     s32 pri;
     s32 i;
@@ -34,7 +33,7 @@ void func_80060B38(u8 *obj, GsOT *ot) {
 
     tbl = D_80090DD8;
     sp = (GsSPRITE *)0x1F800320;
-    rec = D_801A8000 + obj[0x6A] * 24;
+    rec = &D_801A8000[obj[0x6A]];
     pri = *(s16 *)(obj + 0x14);
     sp->attribute = *(u32 *)(obj + 4);
     sp->tpage = 0xB;
@@ -58,11 +57,11 @@ void func_80060B38(u8 *obj, GsOT *ot) {
         tbl += 2;
     } while (i < 6);
 
-    if (*(u16 *)(rec + 8) != 0) {
+    if (rec->enabled != 0) {
         sp->attribute = *(u32 *)(obj + 4);
         sp->x = *(u16 *)(obj + 0x30) + 0x24;
         *(u32 *)&sp->w = 0x80008;
-        entries = (u16 *)(rec + 0xA);
+        entries = rec->card_entries;
         sp->y = *(u16 *)(obj + 0x32);
         sp->tpage = 0xB;
         sp->cx = 0x290;
