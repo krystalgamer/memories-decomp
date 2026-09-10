@@ -1144,7 +1144,7 @@ can change argument setup. Exactly three matching sources include it:
 `Util_CompareS16` before compacting duplicates; `card_list_sort.c` builds
 mode-specific keys for sixteen-byte `CardListSortItem` rows and chooses
 `func_80032BD4` or `BuildDeck_CompareCard`; and the main-menu overlay's
-`trade_inventory.c` sorts `CARD_COUNT` four-byte id/count entries through one
+`trade_update.c` sorts `CARD_COUNT` four-byte id/count entries through one
 of six `int (*)()` comparators selected by the inventory mode.
 `sorted_entry_relink.c` is a deliberate fourth qsort caller without the header:
 giving qsort itself a declaration changes its argument setup, so the file
