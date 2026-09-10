@@ -1754,9 +1754,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B318,D_8009B318,D_8009B318,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,read_write,8,D_8009B318 &= 0x7F; | D_8009B318 = value | 0x40; | (+1 more)
 0x8009B318,D_8009B318,D_8009B318,0x80035A58,func_80035A58,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B318 = 0;
 0x8009B318,D_8009B318,D_8009B318,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,read,8,g = D_8009B318;
-0x8009B320,D_8009B320,D_8009B320,0x80023144,func_80023144,matching_c,game,C,src/game/duel_field_display_objects.c,write,,D_8009B320 = func_80023090(
-0x8009B320,D_8009B320,D_8009B320,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A2F4.c,write,,D_8009B320 = 4; | D_8009B320 = o[0x54];
-0x8009B320,D_8009B320,D_8009B320,0x80037DA4,func_80037DA4,matching_c,game,C,src/game/func_80037DA4.c,read,,object[0x54] = D_8009B320;
+0x8009B320,D_8009B320,D_8009B320,0x80023144,func_80023144,matching_c,game,C,src/game/duel_field_display_objects.c,write,8,D_8009B320 = func_80023090(
+0x8009B320,D_8009B320,D_8009B320,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A2F4.c,write,8,D_8009B320 = 4; | D_8009B320 = o[0x54];
+0x8009B320,D_8009B320,D_8009B320,0x80037DA4,func_80037DA4,matching_c,game,C,src/game/func_80037DA4.c,read,8,object[0x54] = D_8009B320;
 0x8009B322,D_8009B322,D_8009B322,0x800379F8,func_800379F8,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,16,D_8009B322 = func_80036D3C(object); | D_8009B322--; | (+1 more)
 0x8009B322,D_8009B322,D_8009B322,0x80037A58,func_80037A58,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,16,D_8009B322 = func_80036D3C(object); | D_8009B322--; | (+1 more)
 0x8009B324,D_8009B324,D_8009B324,0x80035CE4,DuelEffect_ResetOccupancy,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,write,8,D_8009B324 = 0;
