@@ -3,8 +3,8 @@
 
 #include "../types.h"
 
-/* The record pair display_object_position.c moves as a unit: a group holding
- * up to three child display objects, and the child view it writes into.
+/* The record pair display_effect_update_callbacks.c moves as a unit: a group
+ * holding up to three child display objects, and the child view it writes into.
  *
  * Both are narrow views. Only the coordinate pair each one carries is named,
  * with the rest as padding to reach it, so neither describes the whole
@@ -35,11 +35,7 @@ void func_8003A920(DisplayPositionGroup *group, s16 x, s16 y);
 /* Sets the group's own pair and then pushes it to the children. */
 void func_8003A95C(DisplayPositionGroup *group, s32 x, s32 y);
 
-/* The three consumers outside this file are deliberately not converted here.
- * func_8003AD6C.c and func_8003A990.c declare the first parameter u8 * and
- * pass byte-pointer expressions such as p + 0xC, and func_8003AAE4.c declares
- * func_8003A920 with empty parentheses and an s32 return. Adopting this header
- * in them means retyping their call arguments, which is a separate change from
- * moving the types out of the .c and needs its own measurement. */
+/* The callbacks sharing the implementation file retain their individually
+ * measured argument views where old GCC's allocation depends on them. */
 
 #endif

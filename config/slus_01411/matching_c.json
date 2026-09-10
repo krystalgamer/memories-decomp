@@ -2990,57 +2990,57 @@
     },
     {
       "address": "0x8003A198",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/func_8003A198.c"
+      "source": "src/game/display_effect_resource_setup.c"
     },
     {
       "address": "0x8003A1EC",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x254",
-      "source": "src/game/func_8003A1EC.c"
+      "source": "src/game/display_effect_resource_setup.c"
     },
     {
       "address": "0x8003A440",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x120",
-      "source": "src/game/func_8003A440.c"
+      "source": "src/game/display_effect_resource_setup.c"
     },
     {
       "address": "0x8003A560",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C0",
-      "source": "src/game/func_8003A560.c"
+      "source": "src/game/display_effect_resource_setup.c"
     },
     {
       "address": "0x8003A920",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x3C",
-      "source": "src/game/display_object_position.c"
+      "source": "src/game/display_effect_update_callbacks.c"
     },
     {
       "address": "0x8003A95C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x34",
-      "source": "src/game/display_object_position.c"
+      "source": "src/game/display_effect_update_callbacks.c"
     },
     {
       "address": "0x8003A990",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x154",
-      "source": "src/game/func_8003A990.c"
+      "source": "src/game/display_effect_update_callbacks.c"
     },
     {
       "address": "0x8003AAE4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x164",
-      "source": "src/game/func_8003AAE4.c"
+      "source": "src/game/display_effect_update_callbacks.c"
     },
     {
       "address": "0x8003AC48",
       "profile": "gcc_2_8_1_g0",
       "size": "0x124",
-      "source": "src/game/func_8003AC48.c"
+      "source": "src/game/display_effect_update_callbacks.c"
     },
     {
       "address": "0x8003AD6C",
@@ -3056,9 +3056,9 @@
     },
     {
       "address": "0x8003B378",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x194",
-      "source": "src/game/func_8003B378.c"
+      "source": "src/game/display_effect_process_menu_records.c"
     },
     {
       "address": "0x8003B50C",

@@ -11,8 +11,8 @@
  * spell in common agrees -- 0x30, 0x32, 0x33 (display_effect_step there),
  * 0x34 and now 0x36. The view stays because the helpers' own signatures are
  * written against it; what it adds over the full record is nothing, and a
- * consumer that needs the tail should take MenuRecord, as func_8003A990.c
- * does. */
+ * consumer that needs the tail should take MenuRecord, as func_8003A990 in
+ * display_effect_update_callbacks.c does. */
 typedef struct {
     u8 pad_00[0x31];
     u8 field_31;
