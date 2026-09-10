@@ -6,7 +6,9 @@
  * bytes of fingerprinted .rodata. Residual: frame-address placement,
  * carry-add scheduling, one shared carry-zero store and the caret-clear loop.
  */
+#define FRONTEND_DEBUG_ROW_VIEWS
 #include "../types.h"
+#include "../game/frontend_debug_state.h"
 #include "../unmatched.h"
 
 typedef struct {
@@ -16,13 +18,6 @@ typedef struct {
 extern u8 D_8009AF4C[];
 extern char D_8009AF54[];
 extern char D_8009AF58[];
-extern u8 D_800EAED8[];
-
-extern u16 gDebug_nSceneOrSoundID;
-extern u16 D_8009B2CA;
-extern u16 D_8009B2CC;
-extern u8 D_8009B2DC;
-extern u8 D_8009B2E9;
 
 extern volatile u16 gInput_wPad1Held[4];
 extern volatile u16 gInput_wPad2Held[4];
@@ -59,12 +54,12 @@ s32 func_80030294(void)
     ret = 0;
     row = (s8)D_8009B2DC;
     flags = D_8009B2EA;
-    digits = (&D_8009B2C0)[row];
+    digits = D_8009B2C0[row];
     if ((flags & 0x80) == 0) {
         D_8009B2EA = flags | 0x80;
         if (((flags | 0x80) & 0x40) != 0) {
             i = (s8)digits - 1;
-            slot = &gDebug_nSceneOrSoundID + row;
+            slot = ((FrontendDebugValues *)&gDebug_nSceneOrSoundID)->row + row;
             p = dec;
             p = p + i;
             value = *slot;
@@ -95,7 +90,7 @@ s32 func_80030294(void)
         goto print;
     }
     if ((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0x5000) {
-        slot = &gDebug_nSceneOrSoundID + row;
+        slot = ((FrontendDebugValues *)&gDebug_nSceneOrSoundID)->row + row;
         cursor = (s8)D_8009B2E9;
         value = *slot;
         step = hex[cursor];
@@ -126,7 +121,7 @@ s32 func_80030294(void)
         } else {
             value = (value + step) & (hex[(s8)digits] - 1);
         }
-        (&gDebug_nSceneOrSoundID)[(s8)D_8009B2DC] = value;
+        ((FrontendDebugValues *)&gDebug_nSceneOrSoundID)->row[(s8)D_8009B2DC] = value;
     }
     if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0xA000) == 0) {
         goto print;
@@ -139,7 +134,7 @@ s32 func_80030294(void)
                 D_8009B2DC = D_8009B2E0 - 1;
                 D_8009B2E9 = 0;
             } else {
-                D_8009B2E9 = (&D_8009B2C0)[(s8)D_8009B2DC] - 1;
+                D_8009B2E9 = D_8009B2C0[(s8)D_8009B2DC] - 1;
             }
         }
     } else {
@@ -149,7 +144,7 @@ s32 func_80030294(void)
             D_8009B2DC = D_8009B2DC - 1;
             if ((s8)D_8009B2DC < 0) {
                 D_8009B2DC = 0;
-                D_8009B2E9 = (&D_8009B2C0)[0] - 1;
+                D_8009B2E9 = D_8009B2C0[0] - 1;
             }
         }
     }
@@ -158,7 +153,7 @@ draw:
     for (i = 0x27; i >= 0; i--) {
         text[i] = ' ';
     }
-    text = &D_800EAED8[((s8 *)&D_8009B2B4)[(s8)D_8009B2DC] - (s8)D_8009B2E9];
+    text = &D_800EAED8[D_8009B2B4[(s8)D_8009B2DC] - (s8)D_8009B2E9];
     text[0] = '*';
     text[1] = 0;
 print:
@@ -169,7 +164,7 @@ print:
             i--;
         } while (i != 0);
     }
-    FntPrint(D_8009B2EC, gDebug_nSceneOrSoundID, D_8009B2CA, D_8009B2CC);
+    FntPrint((char *)D_8009B2EC, gDebug_nSceneOrSoundID, D_8009B2CA, D_8009B2CC);
     FntPrint(D_8009AF58, D_800EAED8);
     return ret;
 }

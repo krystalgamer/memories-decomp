@@ -3,8 +3,7 @@
 #include "func_800300C8.h"
 #include "duel_effect.h"
 #include "frontend_debug_tables.h"
-
-extern DisplayObject *D_8009B2E4;
+#include "frontend_debug_state.h"
 
 void func_800300C8(void)
 {

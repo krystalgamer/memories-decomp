@@ -8,9 +8,7 @@
 #include "display_object_layout.h"
 #include "../unmatched.h"
 #include "campaign_scene_package.h"
-
-extern u16 D_8009B2DE;
-extern DisplayObject *D_8009B2E4;
+#include "frontend_debug_state.h"
 
 void func_80031354(void)
 {
