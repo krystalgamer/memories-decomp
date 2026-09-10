@@ -421,6 +421,47 @@ through pointer arithmetic from a neighbouring symbol would be credited to
 that neighbour. Neither affects the conclusion, which rests on a 246-to-0
 split rather than on a close count.
 
+#### The largest game-owned range, and who does not own it
+
+The 276 bytes at `0x8009AF6C` were previously written off here as a scattered
+grab-bag with no coherent translation unit. The ownership pass shows that is
+only half true, and the half that is wrong is worth correcting.
+
+Mapping its 77 labels in address order separates them cleanly. The head
+(`0x8009AF6C`-`0x8009AFAB`) and the tail (`0x8009B058`-`0x8009B07F`) are
+indeed scattered: single symbols consumed by unrelated files, or shared by a
+dozen. But between them sits a contiguous run of 33 labels, roughly 172
+bytes from `0x8009AFAC` to `0x8009B057`, with **no C consumer at all**.
+
+That run is not shapeless. Sixty-seven functions reference it, every one
+`game`-owned, and they are one family: the thirty-two primitive handlers, the
+sixteen object handlers, the twelve registry handlers, and `func_800540B4`,
+which touches eighteen of the symbols on its own. This is the model
+renderer's shared working state, reached only from generated assembly because
+none of its readers is matched C yet.
+
+The tempting next step is the wrong one. Its heaviest readers are the model
+handler families, so the obvious guess is that a handler translation unit
+owns it. The text-order rule refutes that outright. The run's neighbours fix
+a window: `D_8009AFA6` immediately below is consumed by
+`model_state_getters.c` at text `0x80058DC0`, and `D_8009B058` immediately
+above by `func_8005B64C.c` at text `0x8005B64C`. A `.sdata` contribution
+lands in text order, so the owning unit's text must fall inside
+`0x80058DC0`-`0x8005B64C`. Every handler family member sits at `0x800612C0`
+or higher -- outside the window, all of them.
+
+So the readers are known and the owner is constrained, but they are disjoint
+sets. Forty-seven matched translation units have text inside that window,
+which narrows placement without determining it; separating them needs a
+discriminator beyond reference counting.
+
+Two things follow for anyone picking this up. The run is worth owning,
+because it is coherent, entirely game-owned, and the single largest such
+piece left. And reference frequency is not evidence of ownership for
+`.sdata`: a symbol's position is fixed by the defining unit's text address,
+not by who reads it most, so the heaviest reader can be structurally
+incapable of being the definer.
+
 ### The small-data region
 
 `.data` runs to 0x8009AF08 and `.sdata` from there to 0x8009B090, which is
