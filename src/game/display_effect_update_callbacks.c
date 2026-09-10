@@ -35,7 +35,7 @@ void func_8003AD6C(u8 *p)
     s32 w;
     s16 y;
     s32 x;
-    u8 *o;
+    DisplayObject *o;
 
     if (func_80039F1C((DisplayEffectState *)p) == 0) {
         p[0x32] |= 0x10;
@@ -70,25 +70,25 @@ void func_8003AD6C(u8 *p)
     c = n;
     c |= (c << 8) | (c << 0x10);
     for (m = 2; m >= 0; m--) {
-        o = *(u8 **)(p + m * 4 + 0x18);
-        if (o != (u8 *)0) {
-            *(s32 *)(o + 0xC) = c;
+        o = *(DisplayObject **)(p + m * 4 + 0x18);
+        if (o != 0) {
+            o->field_0C = c;
         }
-        o = *(u8 **)(p + m * 4 + 0x24);
-        if (o != (u8 *)0) {
-            *(s32 *)(o + 0xC) = c;
+        o = *(DisplayObject **)(p + m * 4 + 0x24);
+        if (o != 0) {
+            o->field_0C = c;
         }
     }
     c = 0x80 - *(s16 *)(p + 0x40);
     c |= (c << 8) | (c << 0x10);
     for (m = 2; m >= 0; m--) {
-        o = *(u8 **)(p + m * 4);
-        if (o != (u8 *)0) {
-            *(s32 *)(o + 0xC) = c;
+        o = *(DisplayObject **)(p + m * 4);
+        if (o != 0) {
+            o->field_0C = c;
         }
-        o = *(u8 **)(p + m * 4 + 0xC);
-        if (o != (u8 *)0) {
-            *(s32 *)(o + 0xC) = c;
+        o = *(DisplayObject **)(p + m * 4 + 0xC);
+        if (o != 0) {
+            o->field_0C = c;
         }
     }
     dd[0] = *(s16 *)(p + 0x40) / 8;
