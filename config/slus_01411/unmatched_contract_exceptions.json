@@ -27,7 +27,7 @@
     },
     {
       "symbol": "func_80042188",
-      "source": "src/game/func_800408D0.c",
+      "source": "src/game/display_object_updates.c",
       "declaration": "void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);",
       "reason": "This sprite arm requires the pointer contract rather than the raw display-list integer arm."
     },
