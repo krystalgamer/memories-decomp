@@ -105,11 +105,11 @@ extern u8 D_801D1200[];
 /* 0x801B125A. SaveData_ApplyRuntimeState passes it as the destination of
  * Text_SjisToGlyphCodes, from state->player_name_sjis
  * (save_data_apply_runtime_state.c:14); NameEntry_Init does the same from
- * gSaveData_aPlayerNameSjis (src/overlays/password/name_entry_setup.c:116-117)
+ * gSaveData_aPlayerNameSjis (src/overlays/password/name_entry_setup.c:115-116)
  * and NameEntry_UpdateDialog from D_8016D418
- * (src/overlays/password/name_entry_runtime.c:431), the two overlay units
+ * (src/overlays/password/name_entry_runtime.c:410), the two overlay units
  * calling the converter by address, as func_8003BC40. The one reader is
- * NameEntry_UpdateDialog's byte scan from name_entry_runtime.c:451, which
+ * NameEntry_UpdateDialog's byte scan from name_entry_runtime.c:430, which
  * runs to TEXT_STRING_TERMINATOR. Every access takes the address (the
  * resident listing func_8003D0F4.s:7-8 forms it with lui/addiu), so the
  * listings do not say how wide the object is. The resident unit used to

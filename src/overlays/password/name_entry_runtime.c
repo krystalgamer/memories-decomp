@@ -16,31 +16,11 @@
 #include "name_entry_keyboard.h"
 #include "name_entry_state.h"
 
-/* The selection frame the keyboard moves: the cursor D_8016D404, which
- * NameEntry_Init positions and whose drawing callback name_entry_frame.h
- * describes. The fields below extend that drawing prefix with the ones the
- * keyboard's own tween needs; +0x30/+0x32 and +0x3C agree with
- * NameEntrySelectionFrameView where the two views overlap. */
-typedef struct {
-    u8 pad_00[0x30];
-    s16 x;           /* 0x30 */
-    s16 y;           /* 0x32 */
-    u8 pad_34[0x2];
-    s16 stepX;       /* 0x36, signed 8.8 per update */
-    s16 stepY;       /* 0x38 */
-    u8 pad_3A[0x2];
-    u16 width;       /* 0x3C */
-    u8 pad_3E[0x20];
-    u8 widthBonus;   /* 0x5E, 20 for the wide finish control, else 0 */
-    u8 pad_5F;
-    s16 timer;       /* 0x60, eight updates of the move tween */
-} SelectionFrame;
-
 /* The dialog's own sliding panel object, reached through the text box at
  * field_2C or by tag from func_80042B40. A different object from the
- * selection frame above, and the fields are spelled by hex offset here so
- * that the two views cannot be read as if they shared a numbering: this
- * unit's +0x30 is the old Caret's `f48`. */
+ * selection frame name_entry_state.h declares, and the fields are spelled
+ * by hex offset here so that the two views cannot be read as if they shared
+ * a numbering: this unit's +0x30 is the old Caret's `f48`. */
 typedef struct {
     u8 pad_00[0x8];
     u16 flags;       /* 0x08 */
@@ -54,7 +34,6 @@ typedef struct {
 } DialogCaret;
 
 extern u16 D_8016D4D4;
-extern SelectionFrame *D_8016D404;
 extern s8 D_8016AB38[][15];
 extern u8 D_8016ABC0[][2];
 
