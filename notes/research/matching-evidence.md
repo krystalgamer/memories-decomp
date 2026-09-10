@@ -7290,3 +7290,52 @@ actually pass.
 This is the same shape as the earlier finding that a declarer which only takes
 an address is abstaining rather than voting: the declaration constrains code
 generation only where the caller has work that the declaration can change.
+
+## Some symbols name the inside of another object, and have to keep their names
+
+Two of the globals collected into headers during this campaign turned out not to
+be objects at all. They are second names for a point inside an object that
+already has one, and both consumers index them with the object's own stride.
+
+    D_800E9F48   is D_800E9F10 + 0x38, and 0x38 is 2 * DUEL_SELECTION_RECORD_SIZE,
+                 so it is record 2 of a side of the selection table. Both names
+                 are indexed `+ D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE`.
+
+    D_800F3A10   is D_800F2C40 + 0xDD0, and model.h already asserts
+                 MODEL_OFFSET(ModelSlot, field_DD0) == 0xDD0, so it is
+                 D_800F2C40[0].field_DD0. Both consumers index it
+                 `+ index * MODEL_SLOT_SIZE`.
+
+HOW TO RECOGNISE ONE
+
+The address difference is smaller than the stride the consumers multiply by. If
+`B - A < stride` and the sites read `B + i * stride`, then B is a field of A's
+element type rather than a separate array, and `B + i * stride` is that field of
+element i. A struct that already asserts the offset, as ModelSlot does, closes
+it completely.
+
+WHY THE SECOND NAME CANNOT BE DELETED
+
+Writing the interior symbol as `A + offset` is the obvious simplification and it
+is wrong: the relocations in the object file name the symbol the source names.
+Retail's own relocations decide this, not the arithmetic.
+
+The two cases differ in how strongly that is shown, which is worth keeping
+straight:
+
+  D_800E9F48   func_8001BD88 and func_8001D670 each take the address of BOTH
+               symbols and each carries its own `addiu $v1, $v1,
+               %lo(D_800E9F48)`. Retail itself uses two names for the region.
+
+  D_800F3A10   every accessor is matching C, so there is no independent
+               listing to appeal to. The matched sites naming the symbol is
+               the whole of the evidence. Sufficient, but weaker, and a later
+               reader should know which kind they have.
+
+WHAT THIS MEANS FOR #2602
+
+Mapping the data sections will keep producing these. Treat an interior symbol as
+a finding to record next to the object it points into -- both of these went into
+the header that already declares the parent -- and not as duplication to fold
+away. The header is also the right place to say so, because "this is just A plus
+a constant" is exactly the cleanup the next pass will attempt.
