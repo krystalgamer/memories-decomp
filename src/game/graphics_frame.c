@@ -7,6 +7,8 @@
 #define D_8009B142_IN_DATA
 #define D_8009B0C0_IS_VOLATILE
 #include "graphics_frame.h"
+#define MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
+#include "model_graphics_state.h"
 #include "movie_playback_control.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
@@ -14,8 +16,6 @@
    the load-delay nop before the store below. c_symbols.ld overrides this
    common symbol, so no storage is allocated here. */
 u8 D_8009B0C1;
-extern unsigned char D_8009AFA3 __attribute__((section(".data")));
-extern unsigned char D_8009AFA4 __attribute__((section(".data")));
 
 extern void func_80085500(void);
 extern void func_80085E10(void *, void *);
@@ -36,7 +36,6 @@ s16 gGraphics_sViewportY __attribute__((section(".sbss"))) = 0;
 
 extern u8 D_800FE048[];
 extern u8 D_8009B141 __attribute__((section(".data")));
-extern u8 D_8009AFA2 __attribute__((section(".data")));
 extern u32 *D_800E9D90[4];
 
 /* Waits for the current GPU/VBlank boundary and publishes the bounded number

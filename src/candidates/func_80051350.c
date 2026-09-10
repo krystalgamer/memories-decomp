@@ -13,6 +13,8 @@
  * matches. See notes/research/func-80051350-decode.md for the structural map.
  */
 #include "../types.h"
+#define MODEL_GRAPHICS_STATE_AF99_UNSIGNED
+#include "../game/model_graphics_state.h"
 
 typedef union {
     u32 word;
@@ -44,8 +46,6 @@ typedef struct {
 extern Record D_800F2C40[];
 extern s32 D_800F56F0[];
 extern s16 D_8009B47A;
-extern u8 D_8009AF98;
-extern u8 D_8009AF99;
 
 extern s32 rcos(s32);
 extern s32 rsin(s32);
