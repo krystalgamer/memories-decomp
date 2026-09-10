@@ -18,7 +18,7 @@ extern char D_800F2B00[];
 
 extern void func_80043D48(long *);
 extern s32 func_80044608(void);
-extern s32 func_80044470(long, char *, void *, s32);
+extern s32 MemCard_FindFiles(long, char *, void *, s32);
 
 /*
  * Current best under gcc_2_8_1_g8_split: 286 instructions against 295,
@@ -185,7 +185,7 @@ check_size:
         gMemCard_nIOResult = 7;
         goto finish;
 write_dirent:
-        if (func_80044470(D_8009B437, D_800F2B00, D_8009B444, 0) == 0) {
+        if (MemCard_FindFiles(D_8009B437, D_800F2B00, D_8009B444, 0) == 0) {
             goto start_reopen;
         }
         gMemCard_nIOResult = 6;

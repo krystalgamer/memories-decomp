@@ -1,15 +1,15 @@
 #include "../types.h"
 #include "mem_card.h"
 #include "../psyq/libapi.h"
-#include "func_800440B4.h"
+#include "mem_card_begin_request.h"
 #include "io_event_helpers.h"
 
-int func_800440F0(int value)
+int MemCard_ReqCardInfo(int chan)
 {
     int result;
-    if (func_800440B4(value, 1)) {
+    if (MemCard_BeginRequest(chan, 1)) {
         func_80043D48(gMemCard_aIOEventHandles);
-        _card_info(value);
+        _card_info(chan);
         result = 1;
     } else {
         result = 0;

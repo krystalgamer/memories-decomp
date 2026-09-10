@@ -689,15 +689,15 @@ address,size,name,status,module,notes
 0x80043E68,0x54,MemCard_CloseIOEvents,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x80043EBC,0x17C,MemCard_InitIOEvents,matching_c,game,Pure-C inline refinement matched the full executable.
 0x80044038,0x7C,func_80044038,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x800440B4,0x3C,func_800440B4,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x800440F0,0x4C,func_800440F0,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
-0x8004413C,0xA0,func_8004413C,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x800441DC,0x9C,func_800441DC,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x80044278,0x6C,func_80044278,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x800442E4,0x9C,func_800442E4,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x80044380,0x6C,func_80044380,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x800443EC,0x84,func_800443EC,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x80044470,0xD4,func_80044470,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x800440B4,0x3C,MemCard_BeginRequest,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x800440F0,0x4C,MemCard_ReqCardInfo,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
+0x8004413C,0xA0,MemCard_ReqLoadDirectory,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x800441DC,0x9C,MemCard_ReqReadFile,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x80044278,0x6C,MemCard_ReqReadSector,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x800442E4,0x9C,MemCard_ReqWriteFile,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x80044380,0x6C,MemCard_ReqWriteSector,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x800443EC,0x84,MemCard_ReqCreateFile,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x80044470,0xD4,MemCard_FindFiles,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80044544,0x54,func_80044544,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80044598,0x70,func_80044598,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80044608,0x230,func_80044608,matching_c,game,Exact resident match from newer collaborator evidence; state-machine block layout and volatile gMemCard_nIOResult reads preserve retail code generation.

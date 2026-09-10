@@ -3970,13 +3970,13 @@
       "address": "0x800440B4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
-      "source": "src/game/func_800440B4.c"
+      "source": "src/game/mem_card_begin_request.c"
     },
     {
       "address": "0x800440F0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
-      "source": "src/game/func_800440F0.c"
+      "source": "src/game/mem_card_req_card_info.c"
     },
     {
       "address": "0x8004413C",
