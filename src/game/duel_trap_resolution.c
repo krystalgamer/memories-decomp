@@ -9,6 +9,7 @@
 #include "view_state.h"
 #include "func_80022D94.h"
 #include "../unmatched.h"
+#include "duel_trap_resolution.h"
 
 /* Small data at 0x8009AF24, owned here: the attack threshold of each trap
    from House of Adhesive Tape through Widespread Ruin, which func_8001F0D0
