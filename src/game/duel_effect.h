@@ -203,6 +203,39 @@ extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
 extern DuelEffectChannel D_800EB15C;
 extern DuelEffectEntry D_800EB288[DUEL_EFFECT_ENTRY_COUNT];
 
+/* The field-card text selector. func_80023144 clears it on entry, sets 1
+ * for an occupied record, 2 or 3 (3 when the record is face-down) for a
+ * record in its side's second row (index within the side at or past
+ * DUEL_FIELD_ROW_SIZE) and 0 again for a flagged first-row one;
+ * func_800610E0 stores its mode argument into it before building a text
+ * box; func_800389D8 adds twice its value to the word the object's +0x58
+ * index selects; and func_800218F0 (still assembly) stores it twice.
+ * notes/duel-card-record.md calls it a text-selector override. Values
+ * 0..3, every access sb or lbu.
+ *
+ * Retail reaches it through $at in func_80023144 (six stores) with a
+ * lui/lbu read in the same function, and gp-relative in func_800389D8, so
+ * duel_field_display_objects.c defines the .data arm below;
+ * duel_effect_object_commands.c takes the plain byte, and so does
+ * func_800610E0.c, whose -G0 unit stores through $at either way. */
+#ifdef D_8009B34E_IN_DATA
+extern u8 D_8009B34E __attribute__((section(".data")));
+#else
+extern u8 D_8009B34E;
+#endif
+
+/* Its companion, set by the same constructor: 1 when the rank it computed
+ * is non-zero, or-ed with 2 when D_8009B34E is non-zero, and read by
+ * func_80038A44, which adds twice its value to the word the object's +0x58
+ * index selects.
+ * Same two units, same forms (four $at stores and one lui/lbu read in
+ * func_80023144, gp-relative in func_80038A44), same arms. */
+#ifdef D_8009B355_IN_DATA
+extern u8 D_8009B355 __attribute__((section(".data")));
+#else
+extern u8 D_8009B355;
+#endif
+
 /* The effect/text advance flag. TextBox_BuildStep is the only reader: it
  * clears the flag to 0, calls the opcode handler, and then tests the result
  * twice -- `>= 0` and then `== 1`. Everything else only ever writes it, and
