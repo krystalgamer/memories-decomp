@@ -103,7 +103,8 @@ the tester and a clear operation for the updater; it is not a stored flag bit.
 
 The event-script handler
 [`func_8002E918`](../../src/game/script_flag_commands.c) and text handler
-[`func_80038D2C`](../../src/game/text_control_commands.c) interpret
+[`Text_HandleCampaignFlagCommand`](../../src/game/text_control_commands.c)
+interprets
 `CAMPAIGN_FLAG_COMMAND_WRITE` (`0x4000`) before calling either helper.
 Write commands pass `command & 0xBFFF`, retaining the clear modifier:
 `0x4000 | id` sets and `0xC000 | id` clears. A test command instead evaluates
