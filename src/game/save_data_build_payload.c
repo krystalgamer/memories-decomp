@@ -1,8 +1,9 @@
+#define D_8009B0C4_IN_DATA
 #include "../types.h"
 #include "save_data.h"
+#include "graphics_frame.h"
 #include "util_memory.h"
 
-extern s32 D_8009B0C4[];
 extern s8 gSD_bOutputType __attribute__((section(".data")));
 
 void SaveData_BuildPayload(u8 *data)
@@ -14,7 +15,7 @@ void SaveData_BuildPayload(u8 *data)
 
     Util_CopyWords(data, gSaveData_aHeaderTemplate, SAVE_DATA_HEADER_SIZE);
 
-    saved_value = D_8009B0C4[0];
+    saved_value = D_8009B0C4;
     output_type = gSD_bOutputType;
     *(s32 *)(data + SAVE_DATA_HEADER_SIZE + SAVE_DATA_TERTIARY_OFFSET) = 0;
     *(s32 *)(data + SAVE_DATA_HEADER_SIZE + SAVE_DATA_VBLANK_COUNTER_OFFSET) =

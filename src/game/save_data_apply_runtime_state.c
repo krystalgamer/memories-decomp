@@ -1,12 +1,13 @@
+#define D_8009B0C4_IN_DATA
 #include "../types.h"
 #include "save_data.h"
+#include "graphics_frame.h"
 #include "sound.h"
 #include "text_sjis_to_glyph_codes.h"
 
 extern u8 D_801B125A[16];
 extern s8 gSD_bOutputType[16];
 
-#define D_8009B0C4 (*(u32 *)0x8009B0C4)
 #define gCampaignSceneIndex (*(u8 *)0x8009B27A)
 #define D_8009B408_write (*(u8 *)0x8009B408)
 

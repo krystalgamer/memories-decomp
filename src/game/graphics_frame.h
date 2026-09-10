@@ -142,6 +142,27 @@ extern s32 D_8009B09C __attribute__((section(".data")));
 extern volatile s32 D_8009B09C;
 #endif
 
+/* The VBlank counter the save block carries. Main_VBlankCB ticks it beside
+ * D_8009B09C; Main_Init stores into it, at the end of its block, the value
+ * it read from D_8009B09C (notes/research/matching-evidence.md:488-490 is
+ * why that copy goes through a local); SaveData_BuildPayload copies it into
+ * the payload word at SAVE_DATA_VBLANK_COUNTER_OFFSET and
+ * SaveData_ApplyRuntimeState restores it from state->vblank_counter, a u32
+ * (save_data.h:65). Sign is not visible in any use (++, a store of that
+ * local, a u32 field in and out), so s32 follows D_8009B09C and D_8009B0C8
+ * and is not established.
+ *
+ * main_frame.c and main_init.c reach it gp-relative and take the volatile
+ * form below; SaveData_ApplyRuntimeState stores through $at (lui/sw) and
+ * SaveData_BuildPayload loads through a lui/lw pair, each in a unit that
+ * reaches one other symbol through $gp, so save_data_apply_runtime_state.c
+ * and save_data_build_payload.c define the .data arm. */
+#ifdef D_8009B0C4_IN_DATA
+extern s32 D_8009B0C4 __attribute__((section(".data")));
+#else
+extern volatile s32 D_8009B0C4;
+#endif
+
 extern DISPENV gGraphics_DispEnv;
 
 /* Two scratch rectangles for the VRAM transfers. Every user fills x, y, w, h
