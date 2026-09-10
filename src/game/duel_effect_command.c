@@ -6,7 +6,7 @@ void func_80038024(u8 *object, s32 value)
 {
     object[0x34] = object[0x34];
     *(u16 *)(object + 0x34) |= 0x80;
-    func_80036C14(object, value);
+    func_80036C14((DuelEffectChannel *)object, value);
     *(u16 *)(object + 0x34) &= 0xFF7F;
     *(u16 *)(object + 0x38) += 0x10;
 }

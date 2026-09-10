@@ -35,7 +35,12 @@ typedef struct {
     u8 field_13;
     u8 pad_14;
     u8 field_15;
-    u8 pad_16[2];
+    /* func_80036C14 writes 0x16 on its 0x100 path and 0x17 on its
+       0x80 path, and nothing in the resident tree reads either. Two
+       writes in exclusive branches say bytes live here and nothing
+       about what they carry. */
+    u8 field_16;
+    u8 field_17;
     u8 field_18;
     u8 pad_19[3];
 } DuelEffectEntry;
