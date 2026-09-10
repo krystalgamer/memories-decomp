@@ -328,7 +328,12 @@ typedef struct DisplayObject {
        words, one range -- so it keeps the offset for a name, on the same
        grounds #3004 set out for 0x44. */
     s16 field_60;                  /* 0x60 */
-    u8 pad_62[3];                  /* 0x62 */
+    u8 pad_62[2];                  /* 0x62 */
+    /* Only reached as the first byte of a word: func_80041068 reads the s32
+       at 0x64 as the second vertex's x/y pair of its second POLY_GT4
+       submission, the same slot 0x34 fills in its first. The other three
+       bytes of that word are named below for their own byte users. */
+    u8 field_64;                   /* 0x64 */
     u8 field_65;                   /* 0x65 */
     u8 field_66;                   /* 0x66 */
     /* Named field_67 by DisplayObjectConfig in display_object_config.h, on
@@ -380,40 +385,24 @@ typedef struct DisplayObject {
    two list heads (D_800EFE38[4] and [5]) may simply carry differently
    shaped payloads. Recorded as an open question rather than guessed at.
 
-   The practical consequence, restated after measuring it. The earlier
-   wording said display_object_list_renderers.c could not be converted
-   to member access because the record cannot express its spans. That
-   reason is right for func_80041068, wrong for func_80040DD8, and not
-   the whole reason for either.
+   Neither reach stops the file converting. e[0x72] stays a byte reach,
+   ((u8 *)e)[0x72], the spelling func_80042824 already uses for the
+   identical write, and the second vertex set is reached from the members
+   its words begin at: *(s32 *)&e->field_58, &e->field_64 and so on.
 
-   func_80041068 was described here as one that "genuinely cannot
-   convert", on the grounds that it reads 0x64 as an s32 beginning inside
-   pad_62 and tests e[0x72], outside the record. That condemned the whole
-   function for two of its reaches, which is the same mistake the wording
-   above it made for the file. Both of those reaches simply stay byte
-   reaches -- e[0x72] as ((u8 *)e)[0x72], the spelling func_80042824
-   already uses for the identical write -- and everything else in the
-   function is subject to the ordinary rule below, not to them.
-
-   Its 0x58, 0x68 and 0x6C spans are likewise a lesser matter:
-   *(s32 *)&object->field_58 and its like express those, as this record's
-   own users already do for its unions.
-
-   func_80040DD8 reaches nothing past 0x5A and every offset it uses
-   lands on a named member, so the span argument never applied to it.
-   Converting all of it still fails, for the reason func_80016784.c
-   records about its own 0x0C read: a member read is a struct reference,
-   the scratchpad stores it sits between are not, and GCC 2.8.1 floats
-   the load across them. Measured here as five instructions gone and
-   twenty bytes off the executable, retail's v0/v1/a0/a1 with their
-   load-delay nops becoming a2/a3/t0/t1 with none.
-
-   So in both renderers the reads that do not sit between scratchpad
-   stores are converted -- next, attribute, flags, field_14, ot_index,
-   update, and each function's own gate, func_80040DD8's 0x5A test and
-   func_80041068's 0x72 one -- and the vertex block between them keeps
-   its casts, re-based on (u8 *) so retyping the cursor cannot rescale
-   them. */
+   What the earlier wording here called the real obstacle -- a member read
+   is a struct reference, the scratchpad stores it sits between are not, and
+   GCC 2.8.1 floats the load across them -- is real, but it constrains the
+   spelling of a read and not whether the read can be named. The scratchpad
+   in both renderers is a libgpu primitive, set up with setlen/setcode as
+   POLY_G4 (8, 0x38) and POLY_GT4 (12, 0x3C), and every store into it is a
+   store to one of that primitive's members. A read taken through the
+   member's address, *(s32 *)&e->field_2C, stays a scalar reference as the
+   old (u8 *) offset did, so the target keeps it after the store before it;
+   a read that no scratchpad store precedes can be an ordinary member read.
+   That is the same device func_80016784.c uses for its 0x0C colour word, and
+   it is how display_object_list_renderers.c now names every offset it
+   touches except 0x72. */
 
 #define DISPLAY_OBJECT_OFFSET(member) ((u32)&(((DisplayObject *)0)->member))
 
@@ -446,6 +435,9 @@ typedef char DisplayObject_field_52_must_be_at_0x52[
 ];
 typedef char DisplayObject_field_58_must_be_at_0x58[
     DISPLAY_OBJECT_OFFSET(field_58) == 0x58 ? 1 : -1
+];
+typedef char DisplayObject_field_64_must_be_at_0x64[
+    DISPLAY_OBJECT_OFFSET(field_64) == 0x64 ? 1 : -1
 ];
 typedef char DisplayObject_field_65_must_be_at_0x65[
     DISPLAY_OBJECT_OFFSET(field_65) == 0x65 ? 1 : -1

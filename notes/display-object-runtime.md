@@ -198,6 +198,13 @@ The concrete differences are:
 | `func_80040DD8` | `4` | `8` | `0x38` | `0x40000` | Controlled by slot byte `+0x5A`. |
 | `func_80041068` | `5` | `12` | `0x3C` | `0x50000` | Controlled by object-relative byte `+0x72`. |
 
+The length and code bytes are libgpu's `setPolyG4` and `setPolyGT4`, so list
+key `4` draws gouraud quads (`POLY_G4`) and list key `5` gouraud-textured quads
+(`POLY_GT4`). The slot layout agrees: list `4` objects carry an x/y word and a
+colour word per vertex at stride `8` from `+0x28`, and list `5` objects add a
+texture-coordinate halfword at stride `0xC`. Both renderers type the scratchpad
+cursor as that primitive.
+
 Both combine those priority bits with the slot's `+0x14` value. Their
 different source geometry offsets and packet sizes show that list keys `4`
 and `5` are distinct primitive paths rather than interchangeable ordering
