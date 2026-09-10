@@ -3170,7 +3170,8 @@ others, converted identically, did not:
   changes the address and grows the text. Rewriting it as `&D_801A7AD8[i]` fixed
   the size and still produced different bytes, so the index form and the
   explicit multiply are not equivalent here either.
-- `func_8001898C.c` failed the same way at a different address.
+- [`func_8001898C`](../../src/game/duel_phase_entry.c) failed the same way at
+  a different address.
 
 The trap is that the first symptom was a **link error about overlapping
 sections**, not a hash mismatch: the text grew enough to collide with the next
@@ -5155,10 +5156,10 @@ two scheduling positions. Widths, qualifiers, addresses and loaded values are
 unchanged; these are extern declarations and do not allocate or move data.
 
 The terminal result was recorded and promoted with the existing tools.
-Only the five include paths were normalized for `src/game/func_80018608.c`
-(since coalesced into `src/game/duel_phase_entry.c`),
-then the integrated source was remeasured. The clean full-executable gate
-passed with every existing matching entry enabled and retail SHA-256
+Only the five include paths were normalized for `func_80018608` in
+[`duel_phase_entry.c`](../../src/game/duel_phase_entry.c), then the integrated
+source was remeasured. The clean full-executable gate passed with every
+existing matching entry enabled and retail SHA-256
 `84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
 The original candidate note, three exact source variants, resolved diffs and
 canonical acceptance are retained under
