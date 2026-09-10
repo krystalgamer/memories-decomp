@@ -1767,7 +1767,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B327,gDialog_bInputState,gDialog_bInputState,0x800371A8,Dialog_UpdateChoice,matching_c,game,C,src/game/dialog_update_choice.c,read_write,8,f = *(s8 *)&gDialog_bInputState; | g = gDialog_bInputState; | (+2 more)
 0x8009B327,gDialog_bInputState,gDialog_bInputState,0x80038BF0,Text_HandleChoiceCommand,matching_c,game,C,src/game/text_handle_choice_command.c,write,8,gDialog_bInputState = 0; | gDialog_bInputState = 1;
 0x8009B328,D_8009B328,D_8009B328,0x800377C8,func_800377C8,matching_c,game,C,src/game/duel_effect_interaction_states.c,read,8,p = D_8009B328; | u8 *q = D_8009B328; | (+2 more)
-0x8009B328,D_8009B328,D_8009B328,0x8003787C,func_8003787C,matching_c,game,C,src/game/func_8003787C.c,read,8,a0b = (struct Other *)D_8009B328;
+0x8009B328,D_8009B328,D_8009B328,0x8003787C,func_8003787C,matching_c,game,C,src/game/func_8003787C.c,read,8,a0b = (MenuRecord *)D_8009B328;
 0x8009B328,D_8009B328,D_8009B328,0x800378D8,func_800378D8,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,8,if (D_8009B328[0x33] == 0) {
 0x8009B328,D_8009B328,D_8009B328,0x80037914,func_80037914,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,8,D_8009B328[0x32] = flags | 0x10; | D_8009B328[0x33] = 6; | (+1 more)
 0x8009B328,D_8009B328,D_8009B328,0x80037950,func_80037950,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,8,D_8009B328[0x32] = flags | 0x10; | D_8009B328[0x33] = 4; | (+1 more)

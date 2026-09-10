@@ -34,8 +34,9 @@ void func_80039FD4(u8 *object);
  * byte offset (0x30, 0x32, 0x33, 0x3C, 0x40, 0x42 and 0x44 across the
  * three reading units) or hand it to func_80039FD4, whose parameter is
  * u8 *. MenuRecord now names all of those but 0x3C, so the reason the
- * pointer is still u8 * is func_80039FD4's parameter and func_8003787C.c's
- * one-field view, not a gap in the record. Retail reaches the pointer
+ * pointer is still u8 * is func_80039FD4's parameter and the remaining
+ * byte-offset consumers, not a gap in the record. func_8003787C now casts
+ * it to MenuRecord for display_effect_step. Retail reaches the pointer
  * gp-relative at every one of its thirteen sites. */
 extern u8 *D_8009B328;
 void func_80039FF8(DisplayEffectState *object);

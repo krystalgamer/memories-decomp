@@ -1,31 +1,22 @@
 #include "../types.h"
 #include "display_effect_lifecycle.h"
+#include "menu_record.h"
 #include "func_8003787C.h"
 
-struct Obj {
-    u8 pad[81];
-    u8 field81;
-};
-
-struct Other {
-    u8 pad[51];
-    u8 field51;
-};
-
-/* Same field81/bit80 gating as set_field81_bit80_gated.c's func_800378D8,
-   but additionally calls func_80039FD4(D_8009B328) before clearing field81
-   when D_8009B328->field51 is zero. */
-void func_8003787C(struct Obj *a0) {
+/* Same state_51/bit80 gating as duel_effect_state_callbacks.c's func_800378D8,
+   but additionally calls func_80039FD4(D_8009B328) before clearing state_51
+   when D_8009B328->display_effect_step is zero. */
+void func_8003787C(DuelEffectChannel *a0) {
     u8 v1;
-    struct Other *a0b;
+    MenuRecord *a0b;
 
-    v1 = a0->field81;
+    v1 = a0->state_51;
     if (!(v1 & 0x80)) {
-        a0->field81 = v1 | 0x80;
+        a0->state_51 = v1 | 0x80;
     }
-    a0b = (struct Other *)D_8009B328;
-    if (a0b->field51 == 0) {
+    a0b = (MenuRecord *)D_8009B328;
+    if (a0b->display_effect_step == 0) {
         func_80039FD4((u8 *)a0b);
-        a0->field81 = 0;
+        a0->state_51 = 0;
     }
 }
