@@ -4,6 +4,7 @@
 #include "../psyq/libgte.h"
 #include "trig_constants.h"
 #include "display_object_position.h"
+#include "func_8003A990.h"
 
 /* Eases one display-effect record from its 0x34/0x36 position to the
    0x40/0x42 destination over a quarter turn of cosine, then clears the step
