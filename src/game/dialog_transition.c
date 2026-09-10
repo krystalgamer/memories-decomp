@@ -77,7 +77,7 @@ void func_8003D614(u8 *state)
                 object->field_60
             );
             TextBox_SetPos(
-                entry,
+                (u8 *)entry,
                 *(s16 *)&object->field_30.h.field_30,
                 *(s16 *)&object->field_30.h.field_32
             );

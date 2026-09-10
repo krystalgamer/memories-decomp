@@ -74,7 +74,7 @@ void Main_RunTrade(void)
         obj->field_60 = y;
         func_80043230((DisplayObjectPosition *)obj, 0, 0xF0, (s16)y);
         TextBox_SetPos(
-            box,
+            (u8 *)box,
             *(s16 *)&obj->field_30.h.field_30 + 0x18,
             *(s16 *)&obj->field_30.h.field_32 + 0x20
         );
