@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "duel_side_state.h"
 #include "input.h"
+#include "duel_check_quit_input.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
 #include "func_80039794.h"
@@ -13,7 +14,6 @@
 #include "../unmatched.h"
 #include "duel_magic_effect_dispatch.h"
 
-extern u8 gDuel_bQuitDialogState;
 extern u16 D_8009B16C;
 extern s8 gDialog_bChoice[9];
 extern DuelEffectChannel D_800EB224;
