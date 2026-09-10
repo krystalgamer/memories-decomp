@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 #include "../unmatched.h"
-extern void func_8003E854(void);
+#include "mem_card_create_state.h"
 
 void func_8003EE90(void)
 {

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "mem_card_load_state.h"
 #include "../psyq/libmcrd.h"
 
 #include "mem_card.h"
