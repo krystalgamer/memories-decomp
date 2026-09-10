@@ -106,6 +106,10 @@
       "profile": "gcc_2_8_1_g8"
     },
     {
+      "source": "src/game/debug_font_format_data.c",
+      "profile": "gcc_2_8_1_g8"
+    },
+    {
       "source": "src/game/options_layout_position_data.c",
       "profile": "gcc_2_8_1_g8"
     },

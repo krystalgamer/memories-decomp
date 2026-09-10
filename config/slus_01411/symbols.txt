@@ -843,6 +843,8 @@ CdDataCallback_8007E8A0 = 0x8007E8A0; // type:func
 
 // Semantic names
 D_8009AF40 = 0x8009AF40; // defined:True
+D_8009AF54 = 0x8009AF54; // defined:True
+D_8009AF58 = 0x8009AF58; // defined:True
 D_8009AF5C = 0x8009AF5C; // defined:True
 gSaveData_dwMaskStateLow = 0x8009AF64; // defined:True
 gSaveData_dwMaskStateHigh = 0x8009AF68; // defined:True
