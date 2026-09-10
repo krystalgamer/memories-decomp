@@ -30,8 +30,8 @@ extern u16 D_8009B220;
 extern s16 D_8009B1A8;
 extern s16 D_8009B1D2;
 
-/* Two halfwords; the field sweeps in duel_card_effects.c, func_8002596C.c,
- * duel_field_effect_transition.c and func_800260D0.c all reach [1], which retail addresses
+/* Two halfwords; the field sweeps in duel_card_effects.c and
+ * func_800260D0.c all reach [1], which retail addresses
  * as %gp_rel(D_8009B20C + 0x2): 23 sites, 7 lh, 5 lhu and 11 sh, three of
  * them in func_800262D4, still assembly. In the four matched TUs the lhu
  * is where the source writes *(u16 *)&D_8009B20C[1] for the +1 or -1.
@@ -40,7 +40,7 @@ extern s16 D_8009B1D2;
  * by func_8001BD88 and func_8001D670, still assembly, 30 sites at +0;
  * whether it belongs to the same object is not established. Four bytes,
  * the extent up to D_8009B210, stays gp-relative at every threshold in
- * play; with [4] shared instead, an assembler -G4 (func_8002596C.c's until
+ * play; with [4] shared instead, an assembler -G4 (func_8002596C's until
  * #3859 found that threshold inert) takes the eight bytes out of small data
  * and the tree does not link. */
 extern s16 D_8009B20C[2];
@@ -49,7 +49,7 @@ extern s16 D_8009B20C[2];
  * the note above measures against. It stays a separate declaration for the
  * reason recorded there: spelling the pair as [4] to cover these four bytes
  * takes eight bytes out of small data under an assembler -G4, which
- * func_8002596C.c was built at until #3859, and the tree stopped linking, so
+ * func_8002596C was built at until #3859, and the tree stopped linking, so
  * this address got its own scalar.
  *
  * It is the trap presentation's mode: func_8001F364 in duel_trap_resolution.c

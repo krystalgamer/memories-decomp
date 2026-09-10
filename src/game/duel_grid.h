@@ -47,7 +47,7 @@ typedef struct {
  * Left unsized on purpose: a declared size is a -G input for this toolchain,
  * and no consumer needs the bound. */
 #ifdef DUEL_FIELD_GRID_2D
-/* duel_field_effect_transition.c and duel_field_effect_steps.c's first
+/* duel_card_effects.c and duel_field_effect_steps.c's first
  * function index it [side][slot]. That is not a spelling preference:
  * rewriting either of them to the flat index the other sixteen files use
  * builds to the right size and differs from byte 0x80025CA2.

@@ -67,7 +67,7 @@ typedef struct DisplayObject {
        display_slot_lifecycle.c seeds it from D_8009AF74[ot_index].
 
        The name is not taken, because four other consumers treat it as a bit
-       field rather than a depth: duel_field_effect_transition.c adds D_8009B1D0 << 14,
+       field rather than a depth: duel_card_effects.c adds D_8009B1D0 << 14,
        duel_field_effect_steps.c adds step * 0x3000, and func_80040588.c or's
        it with 0x10000, 0xF0000 and 0x30000 into a mode word. Taking one
        consumer's reading for the shared record is the mistake 0x6A avoids. */
