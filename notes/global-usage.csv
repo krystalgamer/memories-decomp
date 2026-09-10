@@ -112,10 +112,10 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8001187C,D_8001187C,D_8001187C,0x8006C37C,func_8006C37C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05cb7c.s,address,,"addiu $t5, $v0, %lo(D_8001187C) | lui $v0, %hi(D_8001187C)"
 0x8001188C,D_8001188C,D_8001188C,0x8006CD78,func_8006CD78,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05cb7c.s,address,,"addiu $t9, $v0, %lo(D_8001188C) | lui $v0, %hi(D_8001188C)"
 0x8001189C,D_8001189C,D_8001189C,0x8006F1B4,func_8006F1B4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05cb7c.s,address,,"addiu $t4, $v0, %lo(D_8001189C) | lui $v0, %hi(D_8001189C)"
-0x800118AC,D_800118AC,D_800118AC,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_call_control.c,address,8,printf(D_800118AC);
-0x800118CC,D_800118CC,D_800118CC,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_call_control.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x17B);"
-0x800118CC,D_800118CC,D_800118CC,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_call_control.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x193);"
-0x800118E4,D_800118E4,D_800118E4,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_call_control.c,address,8,printf(D_800118E4);
+0x800118AC,D_800118AC,D_800118AC,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,printf(D_800118AC);
+0x800118CC,D_800118CC,D_800118CC,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x17B);"
+0x800118CC,D_800118CC,D_800118CC,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x193);"
+0x800118E4,D_800118E4,D_800118E4,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,printf(D_800118E4);
 0x80011908,D_80011908,D_80011908,0x800736C4,AiScript_Print,matching_c,game,C,src/game/ai_script_print.c,address,8,printf(D_80011908);
 0x80011918,D_80011918,D_80011918,0x800736C4,AiScript_Print,matching_c,game,C,src/game/ai_script_print.c,address,8,"printf(D_80011918, checkpoint);"
 0x8009078C,gFile_apszName,gFile_apszName,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,address,8,"for (i = 0, position = gFile_anLba, name = gFile_apszName;;) {"
@@ -773,8 +773,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F828,func_8005F828,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F91C,func_8005F91C,matching_c,game,C,src/game/func_8005F91C.c,read,8,if (D_8009B07B == one && D_8009B07C == one) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005FAE4,func_8005FAE4,matching_c,game,C,src/game/model_transfer_state.c,write,8,D_8009B07C = 0;
-0x8009B084,gAiScript_szSourceLineFormat,gAiScript_szSourceLineFormat,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_call_control.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x17B);"
-0x8009B084,gAiScript_szSourceLineFormat,gAiScript_szSourceLineFormat,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_call_control.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x193);"
+0x8009B084,gAiScript_szSourceLineFormat,gAiScript_szSourceLineFormat,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x17B);"
+0x8009B084,gAiScript_szSourceLineFormat,gAiScript_szSourceLineFormat,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x193);"
 0x8009B098,D_8009B098,D_8009B098,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,16,D_8009B098 = 0x5000;
 0x8009B098,D_8009B098,D_8009B098,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,read,16,if ((D_8009B098 & 0x8000) == 0) {
 0x8009B098,D_8009B098,D_8009B098,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,16,if ((D_8009B098 & 0x2000) != 0) {
@@ -2237,7 +2237,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004A7C0,func_8004A7C0,matching_c,game,C,src/game/func_8004A7C0.c,read,,(SDSecondaryObject *)((u8 *)D_8009B458 + 0x180 + object_offset);
 0x8009B458,D_8009B458,D_8009B458,0x8004A854,func_8004A854,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,8,state = D_8009B458; | u8 *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004A8E4,func_8004A8E4,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,8,SDSecondaryState *state = (SDSecondaryState *)D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004A940,func_8004A940,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,8,state = D_8009B458;
+0x8009B458,D_8009B458,D_8009B458,0x8004A940,func_8004A940,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,8,state = (SDSecondaryState *)D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004AAFC,func_8004AAFC,matching_c,game,C,src/game/func_8004AAFC.c,read,,p = (u8 *)D_8009B458; | r = (u8 *)D_8009B458 + e[3] * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
 0x8009B458,D_8009B458,D_8009B458,0x8004ACE4,func_8004ACE4,matching_c,game,C,src/game/func_8004ACE4.c,write,,D_8009B458->field_0844 = entry->control_value; | D_8009B458->field_0845 = entry->control_value;
 0x8009B458,D_8009B458,D_8009B458,0x8004ADE8,func_8004ADE8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03b5e8.s,read,32,"lui $a0, %hi(D_8009B458) | lui $a1, %hi(D_8009B458) | (+6 more)"
@@ -2874,13 +2874,13 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5918,D_800F5918,D_800F5918,0x80060170,Model_RegisterHandlerKey,matching_c,game,C,src/game/model_handler_registry.c,address,,ModelHandlerRegistryEntry *e = D_800F5918;
 0x800F5918,D_800F5918,D_800F5918,0x800601D0,Model_FindHandlerKey,matching_c,game,C,src/game/model_handler_registry.c,address,,ModelHandlerRegistryEntry *e = D_800F5918;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,32,"bzero((u8 *)gAiScript_aMemory, sizeof(gAiScript_aMemory));"
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800709C0,AiScript_JumpGreaterEqual,matching_c,game,C,src/game/ai_script_comparison_jumps.c,address,32,register s32 *values = gAiScript_aMemory;
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070A40,AiScript_JumpGreater,matching_c,game,C,src/game/ai_script_comparison_jumps.c,address,32,register s32 *values = gAiScript_aMemory;
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070AC0,AiScript_JumpEqual,matching_c,game,C,src/game/ai_script_jump_equal.c,read,32,if (gAiScript_aMemory[first] == gAiScript_aMemory[second]) {
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070B3C,AiScript_JumpNotEqual,matching_c,game,C,src/game/ai_script_jumps.c,address,32,register s32 *values = gAiScript_aMemory;
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070BB8,AiScript_JumpBetween,matching_c,game,C,src/game/ai_script_jumps.c,read,32,gAiScript_aMemory[third] <= value | s32 value = gAiScript_aMemory[first]; | (+1 more)
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070C60,AiScript_JumpRandom,matching_c,game,C,src/game/ai_script_jumps.c,address,32,register s32 *values = gAiScript_aMemory;
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070E20,AiScript_SetRandom,matching_c,game,C,src/game/ai_script_call_control.c,write,32,gAiScript_aMemory[idx] = rand() % (hi - lo + 1) + lo;
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800709C0,AiScript_JumpGreaterEqual,matching_c,game,C,src/game/ai_script_control_flow.c,address,32,register s32 *values = gAiScript_aMemory;
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070A40,AiScript_JumpGreater,matching_c,game,C,src/game/ai_script_control_flow.c,address,32,register s32 *values = gAiScript_aMemory;
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070AC0,AiScript_JumpEqual,matching_c,game,C,src/game/ai_script_control_flow.c,read,32,if (gAiScript_aMemory[first] == gAiScript_aMemory[second]) {
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070B3C,AiScript_JumpNotEqual,matching_c,game,C,src/game/ai_script_control_flow.c,address,32,register s32 *values = gAiScript_aMemory;
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070BB8,AiScript_JumpBetween,matching_c,game,C,src/game/ai_script_control_flow.c,read,32,gAiScript_aMemory[third] <= value | s32 value = gAiScript_aMemory[first]; | (+1 more)
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070C60,AiScript_JumpRandom,matching_c,game,C,src/game/ai_script_control_flow.c,address,32,register s32 *values = gAiScript_aMemory;
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070E20,AiScript_SetRandom,matching_c,game,C,src/game/ai_script_control_flow.c,write,32,gAiScript_aMemory[idx] = rand() % (hi - lo + 1) + lo;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070EB4,AiScript_Subtract,matching_c,game,C,src/game/ai_script_subtract.c,address,32,"void AiScript_Subtract(void){int a=AiScript_ReadByte(),b=AiScript_ReadByte(),c=AiScript_ReadByte();register int*value..."
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_play_field_card.c,read,32,s32 category = gAiScript_aMemory[AiScript_ReadByte()]; | s32 first = gAiScript_aMemory[AiScript_ReadByte()]; | (+2 more)
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071008,AiScript_CalcCardPower,matching_c,game,C,src/game/ai_script_calc_card_power.c,write,32,gAiScript_aMemory[dst] = power; | s32 *mem = gAiScript_aMemory;
@@ -2930,14 +2930,14 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80070870,Ai_IsCardInSet,matching_c,game,C,src/game/ai_card_ranges.c,read,,if (value == gAiScript_State.card_set[i])
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800708C4,Ai_IsTypeInSet,matching_c,game,C,src/game/ai_card_ranges.c,read,,if (value == gAiScript_State.type_set[i] -
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80070988,AiScript_Jump,matching_c,game,C,src/game/ai_script_support.c,address,,register AiScriptState *state = &gAiScript_State;
-0x800F5BE8,gAiScript_State,gAiScript_State,0x800709C0,AiScript_JumpGreaterEqual,matching_c,game,C,src/game/ai_script_comparison_jumps.c,address,,register AiScriptState *s = &gAiScript_State;
-0x800F5BE8,gAiScript_State,gAiScript_State,0x80070A40,AiScript_JumpGreater,matching_c,game,C,src/game/ai_script_comparison_jumps.c,address,,register AiScriptState *s = &gAiScript_State;
-0x800F5BE8,gAiScript_State,gAiScript_State,0x80070AC0,AiScript_JumpEqual,matching_c,game,C,src/game/ai_script_jump_equal.c,address,,AiScriptState *state = &gAiScript_State;
-0x800F5BE8,gAiScript_State,gAiScript_State,0x80070B3C,AiScript_JumpNotEqual,matching_c,game,C,src/game/ai_script_jumps.c,address,,register AiScriptState *state = &gAiScript_State;
-0x800F5BE8,gAiScript_State,gAiScript_State,0x80070BB8,AiScript_JumpBetween,matching_c,game,C,src/game/ai_script_jumps.c,read_write,,gAiScript_State.script_cursor = (u8 *)offset; | offset += (s32)gAiScript_State.script_base;
-0x800F5BE8,gAiScript_State,gAiScript_State,0x80070C60,AiScript_JumpRandom,matching_c,game,C,src/game/ai_script_jumps.c,read_write,,gAiScript_State.script_cursor = (u8 *)result; | result += (s32)gAiScript_State.script_base;
-0x800F5BE8,gAiScript_State,gAiScript_State,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_call_control.c,read_write,,AiScriptState *state = &gAiScript_State; | gAiScript_State.return_depth + 1; | (+4 more)
-0x800F5BE8,gAiScript_State,gAiScript_State,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_call_control.c,read_write,,gAiScript_State.return_depth = count; | gAiScript_State.script_cursor = gAiScript_State.return_stack[count]; | (+1 more)
+0x800F5BE8,gAiScript_State,gAiScript_State,0x800709C0,AiScript_JumpGreaterEqual,matching_c,game,C,src/game/ai_script_control_flow.c,address,,register AiScriptState *s = &gAiScript_State;
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80070A40,AiScript_JumpGreater,matching_c,game,C,src/game/ai_script_control_flow.c,address,,register AiScriptState *s = &gAiScript_State;
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80070AC0,AiScript_JumpEqual,matching_c,game,C,src/game/ai_script_control_flow.c,address,,AiScriptState *state = &gAiScript_State;
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80070B3C,AiScript_JumpNotEqual,matching_c,game,C,src/game/ai_script_control_flow.c,address,,register AiScriptState *state = &gAiScript_State;
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80070BB8,AiScript_JumpBetween,matching_c,game,C,src/game/ai_script_control_flow.c,read_write,,gAiScript_State.script_cursor = (u8 *)offset; | offset += (s32)gAiScript_State.script_base;
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80070C60,AiScript_JumpRandom,matching_c,game,C,src/game/ai_script_control_flow.c,read_write,,gAiScript_State.script_cursor = (u8 *)result; | result += (s32)gAiScript_State.script_base;
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,read_write,,AiScriptState *state = &gAiScript_State; | gAiScript_State.return_depth + 1; | (+4 more)
+0x800F5BE8,gAiScript_State,gAiScript_State,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,read_write,,gAiScript_State.return_depth = count; | gAiScript_State.script_cursor = gAiScript_State.return_stack[count]; | (+1 more)
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800715C4,AiScript_StartCombo,matching_c,game,C,src/game/ai_script_combo.c,read,,s32 value = gAiScript_State.combo_cards[i];
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800727C0,Ai_CompleteFusion,matching_c,game,C,src/game/ai_fusion.c,read_write,,gAiScript_State.combo_cards[j] = | gAiScript_State.combo_cards[j] = 0; | (+20 more)
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80072A48,AiScript_FindBestCombo,matching_c,game,C,src/game/ai_script_find_best_combo.c,read_write,,e = (u8 *)&gAiScript_State + i; | for (i = 0; i < gAiScript_State.fusion_count; i++) { | (+21 more)
