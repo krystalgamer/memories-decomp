@@ -4,6 +4,7 @@
 #include "func_80037C74.h"
 #include "input.h"
 #include "duel_effect.h"
+#include "duel_effect_interaction_states.h"
 #include "duel_effect_entry_control.h"
 #include "duel_effect_entry_occupancy.h"
 #include "text_constants.h"
@@ -17,7 +18,6 @@
 
 extern void (*D_80090F18[])(u8 *);
 
-extern u8 D_8009B357;
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what makes the
    opcode store below a single %gp_rel instruction whose load-delay slot needs

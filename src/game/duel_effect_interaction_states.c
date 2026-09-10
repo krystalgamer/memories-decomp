@@ -20,7 +20,6 @@ extern u16 Base2_8009B2A8[];
    $at store needs, since this unit cannot include that header. */
 extern u16 D_8009B270[];
 extern u16 D_8009B27C[];
-extern u8 D_8009B357;
 extern s16 D_8009B27C_scalar asm("D_8009B27C")
     __attribute__((section(".data")));
 extern s16 D_8009B29C __attribute__((section(".data")));
