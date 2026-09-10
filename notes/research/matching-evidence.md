@@ -6857,7 +6857,7 @@ in the caller that produces it.
     Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in func_8001798C.c
     Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in func_800179F4.c
     func_80013154          def 1 (main_services.c)  <-  decl 0 in main_init.c
-    func_80017F04          def 3 (duel_card_display_state.c)  <-  decl 1 in func_80018004.c
+    func_80017F04          def 3 (func_800179F4.c)  <-  decl 1 in func_80018004.c
     func_80019B2C          def 1 (func_80019B2C.c)  <-  decl 0 in func_80019BA0.c
     func_80020BE4          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c
     func_80022EEC          def 1 (func_80022EEC.c)  <-  decl 0 in display_parent_links.c

@@ -1269,7 +1269,7 @@ skip this increment. At `0x80019674..0x80019698`, the writer requires the
 card object's type byte `+0x68` to equal `0x14` (`CARD_TYPE_MAGIC`), rather
 than accepting every non-monster type.
 
-Matching [`func_80017F04`](../../src/game/duel_card_display_state.c) fills
+Matching [`func_80017F04`](../../src/game/func_800179F4.c) fills
 that object byte from the card's packed type field, using
 `CARD_STAT_TYPE_SHIFT` and `CARD_STAT_TYPE_MASK`. The matching
 [`Duel_CalcRankScore`](../../src/game/duel_rewards.c) reads statistic
