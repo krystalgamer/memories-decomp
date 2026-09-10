@@ -50,12 +50,21 @@ typedef struct {
    and 0x20/0x24 bracket the record's slice of D_800EB288: TextBox_BuildStep seeds
    both with &D_800EB288[range_start_5C], DuelEffect_ProcessEntries walks from
    0x24 and moves 0x20 as it compacts. */
+struct DisplayObject;
+
 typedef struct DuelEffectChannel {
     u8 *text_00;
     u8 pad_04[0x1C];
     DuelEffectEntry *entry_end_20;
     DuelEffectEntry *entry_head_24;
-    s32 field_28;
+    /* The display object this record owns, stored as a pointer.
+     *
+     * Every consumer already asserted that: func_800391E4.c and
+     * func_8002EE94.c cast it to DisplayObject *, card_list_text_boxes.c
+     * reaches ->flags through it, func_8002EE94.c also takes the
+     * DisplayObjectSnapshot view of it, and dialog_update_choice.c read it
+     * through `*(u8 **)&`. The s32 spelling made every one of those a cast. */
+    struct DisplayObject *field_28;
     s32 field_2C;
     void *field_30;
     u16 flags_34;

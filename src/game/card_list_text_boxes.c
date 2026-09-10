@@ -23,7 +23,7 @@ void func_80031CD4(CardList *list, s32 slot)
     }
     box = TextBox_Create(list->kind + 1, style, 0x22, 0x2B, 0x120, 0xB0);
     box->field_3A = slot * 22;
-    ((DisplayObject *)box->field_28)->flags &=
+    box->field_28->flags &=
         ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     if ((list->entries[list->first + slot].flags & 0x80) != 0) {
         box->field_54 = 4;
