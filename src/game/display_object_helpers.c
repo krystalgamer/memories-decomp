@@ -12,7 +12,7 @@ void func_800427DC(DisplayObject *object, int value)
     object->field_4C = 0;
     object->field_44.word = 0;
     object->field_3C.word = 0;
-    object->field_34 = 0;
+    object->field_34.word = 0;
     object->field_2C.word = 0;
     object->field_10 = 0;
     object->field_20.b.field_21 = 0;

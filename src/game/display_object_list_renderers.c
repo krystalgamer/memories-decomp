@@ -191,7 +191,7 @@ void func_80041068(void) {
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 v = e->attribute;
                 w0 = e->position.word;
-                w1 = e->field_34;
+                w1 = e->field_34.word;
                 w2 = e->field_40.word;
                 w3 = e->field_4C;
                 *(s32 *)&g->x0 = w0;

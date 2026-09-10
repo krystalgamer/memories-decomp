@@ -151,11 +151,25 @@ typedef struct DisplayObject {
         } h;
         s32 word;
     } field_30;                    /* 0x30 */
-    /* The second of those six words. No union: every user takes it whole.
-       display_object_helpers.c zeroes it, both renderers copy it into a
-       primitive's colour word, and func_800391E4.c and Dialog_UpdateChoice
-       write colour constants into it. */
-    u32 field_34;                  /* 0x34 */
+    /* The second of those six words, and read both ways like its
+       neighbours.
+
+       Whole: display_object_helpers.c zeroes it, both renderers copy it into
+       a primitive's colour word, and func_800391E4.c and Dialog_UpdateChoice
+       write colour constants into it.
+
+       Halves: the value-setup screen's widget tween in the main_menu overlay
+       saves the live position at 0x30/0x32 into 0x36/0x38 and eases back
+       out of it -- the same saved-position reading func_80043178.h's
+       DisplayObjectSnapshot gives the pair. 0x34 itself has no half user
+       yet and keeps the offset for a name. */
+    union {
+        u32 word;
+        struct {
+            s16 field_34;
+            s16 field_36;
+        } h;
+    } field_34;                    /* 0x34 */
     /* Read both ways, and by the same device as its neighbours.
 
        Whole: display_object_helpers.c writes 0x00808080 here as the third of
@@ -356,10 +370,13 @@ typedef struct DisplayObject {
     u8 field_69;                   /* 0x69 */
     /* func_8001D518.c copies a byte into this offset when it builds the
        projection slot's object, taking it from 0x0A on the record it is given.
-       That is the only evidence for it, so it takes the offset for a name and
-       0x6B stays padding. */
+       That is the only evidence for it, so it takes the offset for a name. */
     u8 field_6A;                   /* 0x6A */
-    u8 pad_6B[1];                  /* 0x6B */
+    /* The value-setup widgets in the main_menu overlay keep their own index
+       here: MainMenu_StartValueWidgetTween stores it and the tween callback
+       reads it back to pick the value its target tracks and the D_801845BC
+       byte it settles into. One object kind, so the offset is the name. */
+    u8 field_6B;                   /* 0x6B */
     u8 field_6C;                   /* 0x6C */
     u8 pad_6D[DISPLAY_OBJECT_RECORD_SIZE - 0x6D];
 } DisplayObject;

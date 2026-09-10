@@ -23,27 +23,24 @@
    the results, each verified byte-identical rather than argued:
 
      D_801845B0  was u8 *[], void *[] and ValueWidgetView *[]. The typed
-                 spelling wins because the drawing code dereferences it
-                 twenty-odd times through named fields, while the other three
-                 users only do byte arithmetic on it, which a cast covers.
-     D_801845A0  was void * and u8 *. u8 * wins: the starter does pointer
-                 arithmetic on it, the finisher only passes and clears it.
+                 spelling won because the drawing code dereferences it
+                 twenty-odd times through named fields.
+     D_801845A0  was void * and u8 *, and u8 * won on the byte arithmetic
+                 the starter did on it.
      D_801845A4  same pair, same reason.
+
+   All of them, and D_801845B8, are display objects out of func_800400AC,
+   and every offset any of them was reached at is a DisplayObject member:
+   flags at 0x08, update at 0x24, the position pair at 0x30, the saved pair
+   at 0x36/0x38, the timer at 0x60 and the two widget bytes at 0x6B/0x6C.
+   ValueWidgetView named four of those, so it is retired and the byte
+   arithmetic with it; all five handles and the tween's own pointer are
+   DisplayObject *, which builds byte-identically.
 
    D_801845BC[2] and D_801845BE remain two names for one byte, as
    that header recorded. That overlap is untouched here: the two are
    distinct symbols at distinct addresses as far as C is concerned, so one
    unit does not force it and naming it is #2602's business. */
-
-typedef struct {
-    u8 pad0[8];
-    u16 flags;
-    u8 pad0A[36 - 10];
-    s32 updateCallbackAddress;
-    u8 pad28[48 - 40];
-    s16 x;
-    s16 y;
-} ValueWidgetView;
 
 /* Value-setup screen state. PR #3069 gave these a shared header when four
    sources drove them and each carried its own copy; with those sources now
@@ -55,9 +52,11 @@ typedef struct {
                  and [2] the toggle result the screen computes.
      D_801845D8  Points at the toggle byte the caller handed in; the finish
                  step writes through it.
-     D_801845C0  The two tweened value pairs: [0]/[1] is the first value and
-                 its target, [6]/[7] the second. u16 elements, measured
-                 rather than preferred.
+     D_801845C0  The two values being edited, each a ValueSetupEntry: the
+                 value, the shown value tweened toward it, and the pointer
+                 the finish step writes it back through. It was a u16 array
+                 indexed [0]/[1] and [6]/[7], with the two pointers reached
+                 by byte offset; the entry spelling builds byte-identically.
 
    D_801845BC[2] and D_801845BE are the same storage, since D_801845BC is at
    0x801845BC: the drawing code writes it through the array and the finisher
@@ -66,12 +65,23 @@ typedef struct {
    the question, and naming it is what #2602 exists for. */
 extern u8 D_801845BC[];
 extern u8 *D_801845D8;
-extern u16 D_801845C0[];
+/* One of the two values the screen edits. MainMenu_StartValueSetup seeds
+   value and shown from *out, the update steps shown toward value, the
+   drawing code reads shown, and MainMenu_FinishValueSetup writes value back
+   through out. Two of them fill the 0x18 bytes up to D_801845D8. */
+typedef struct {
+    u16 value;
+    u16 shown;
+    u16 *out;
+    u8 pad_08[4];
+} ValueSetupEntry;
 
-extern u8 *D_801845A0;
-extern u8 *D_801845A4;
-extern ValueWidgetView *D_801845B0[];
-extern u8 *D_801845B8;
+extern ValueSetupEntry D_801845C0[2];
+
+extern DisplayObject *D_801845A0;
+extern DisplayObject *D_801845A4;
+extern DisplayObject *D_801845B0[];
+extern DisplayObject *D_801845B8;
 extern u8 D_801845BE;
 extern volatile u16 D_8009B394[];
 extern volatile u16 D_8009B398[];
@@ -81,57 +91,55 @@ s32 MainMenu_CountDecimalDigits(s32 value);
 
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
-    u8 *object;
-    u8 *state;
+    DisplayObject *object;
 
     object = func_800400AC(func_8004002C(), 2);
     D_801845A0 = object;
     if (object != 0) {
         func_800404CC(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
-        *(u16 *)(D_801845A0 + 8) |= 0x28;
-        func_800428EC(D_801845A0, -2);
+        D_801845A0->flags |= 0x28;
+        func_800428EC((u8 *)D_801845A0, -2);
     }
 
     object = func_800400AC(func_8004002C(), 2);
     D_801845A4 = object;
     if (object != 0) {
         func_800428A8(object, 0, 0xA, 6, 0, 0, 0xE, 5, D_801AF800);
-        *(u16 *)(D_801845A4 + 8) |= 0x28;
-        func_800428EC(D_801845A4, -1);
+        D_801845A4->flags |= 0x28;
+        func_800428EC((u8 *)D_801845A4, -1);
     }
 
     object = func_800400AC(func_8004002C(), 2);
-    D_801845B0[0] = (ValueWidgetView *)object;
+    D_801845B0[0] = object;
     if (object != 0) {
-        func_800404CC((u8 *)D_801845B0[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
-        *(u16 *)((u8 *)D_801845B0[0] + 8) |= 0x28;
+        func_800404CC(D_801845B0[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
+        D_801845B0[0]->flags |= 0x28;
         func_800428EC((u8 *)D_801845B0[0], 1);
     }
 
     object = func_800400AC(func_8004002C(), 2);
-    D_801845B0[1] = (ValueWidgetView *)object;
+    D_801845B0[1] = object;
     if (object != 0) {
-        func_800404CC((u8 *)D_801845B0[1], 0, 0, 3, 4, 0, 0xB, 0x20C);
-        *(u16 *)((u8 *)D_801845B0[1] + 8) |= 0x28;
+        func_800404CC(D_801845B0[1], 0, 0, 3, 4, 0, 0xB, 0x20C);
+        D_801845B0[1]->flags |= 0x28;
         func_800428EC((u8 *)D_801845B0[1], 1);
     }
 
     object = func_800400AC(func_8004002C(), 2);
-    D_801845B0[2] = (ValueWidgetView *)object;
+    D_801845B0[2] = object;
     if (object != 0) {
-        func_800404CC((u8 *)D_801845B0[2], 0, 0, 3, 4, 0, 0xB, 0x20C);
-        *(u16 *)((u8 *)D_801845B0[2] + 8) |= 0x28;
+        func_800404CC(D_801845B0[2], 0, 0, 3, 4, 0, 0xB, 0x20C);
+        D_801845B0[2]->flags |= 0x28;
         func_800428EC((u8 *)D_801845B0[2], 1);
     }
 
-    state = (u8 *)D_801845C0;
     D_801845D8 = toggle;
     D_801845BC[2] = (*toggle == 0);
     D_801845BC[0] = D_801845BC[1] = 2;
-    *(u16 **)(state + 4) = first;
-    *(u16 **)(state + 0x10) = second;
-    *(u16 *)state = *(u16 *)(state + 2) = *first;
-    *(u16 *)(state + 0xC) = *(u16 *)(state + 0xE) = *second;
+    D_801845C0[0].out = first;
+    D_801845C0[1].out = second;
+    D_801845C0[0].value = D_801845C0[0].shown = *first;
+    D_801845C0[1].value = D_801845C0[1].shown = *second;
     D_800E9DB0[0] = MainMenu_DrawValueSetup;
 }
 
@@ -142,41 +150,41 @@ s32 MainMenu_UpdateValueSetup(void)
     s32 step;
     u16 value;
 
-    busyA = (*(void **)((u8 *)D_801845B0[0] + 0x24) != 0);
-    busyB = (*(void **)((u8 *)D_801845B0[1] + 0x24) != 0);
+    busyA = (D_801845B0[0]->update != 0);
+    busyB = (D_801845B0[1]->update != 0);
 
-    if (D_801845C0[0] != D_801845C0[1]) {
-        step = D_801845C0[0] - D_801845C0[1];
+    if (D_801845C0[0].value != D_801845C0[0].shown) {
+        step = D_801845C0[0].value - D_801845C0[0].shown;
         if (step < 0) {
-            step = D_801845C0[1] - D_801845C0[0];
+            step = D_801845C0[0].shown - D_801845C0[0].value;
         }
-        if (D_801845C0[1] < 2) {
+        if (D_801845C0[0].shown < 2) {
             step = 0x63;
         } else if (step >= 0x65) {
             step = 0x64;
         }
-        if (D_801845C0[1] < D_801845C0[0]) {
-            D_801845C0[1] = D_801845C0[1] + step;
+        if (D_801845C0[0].shown < D_801845C0[0].value) {
+            D_801845C0[0].shown = D_801845C0[0].shown + step;
         } else {
-            D_801845C0[1] = D_801845C0[1] - step;
+            D_801845C0[0].shown = D_801845C0[0].shown - step;
         }
         busyA++;
     }
 
-    if (D_801845C0[6] != D_801845C0[7]) {
-        step = D_801845C0[6] - D_801845C0[7];
+    if (D_801845C0[1].value != D_801845C0[1].shown) {
+        step = D_801845C0[1].value - D_801845C0[1].shown;
         if (step < 0) {
-            step = D_801845C0[7] - D_801845C0[6];
+            step = D_801845C0[1].shown - D_801845C0[1].value;
         }
-        if (D_801845C0[7] < 2) {
+        if (D_801845C0[1].shown < 2) {
             step = 0x63;
         } else if (step >= 0x65) {
             step = 0x64;
         }
-        if (D_801845C0[7] < D_801845C0[6]) {
-            D_801845C0[7] = D_801845C0[7] + step;
+        if (D_801845C0[1].shown < D_801845C0[1].value) {
+            D_801845C0[1].shown = D_801845C0[1].shown + step;
         } else {
-            D_801845C0[7] = D_801845C0[7] - step;
+            D_801845C0[1].shown = D_801845C0[1].shown - step;
         }
         busyB++;
     }
@@ -210,7 +218,7 @@ s32 MainMenu_UpdateValueSetup(void)
             }
         } else {
             if (D_8009B394[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
-                value = D_801845C0[0];
+                value = D_801845C0[0].value;
                 SD_SEPlay(6, 0xFF, 0);
                 if (D_8009B394[0] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
@@ -225,7 +233,7 @@ s32 MainMenu_UpdateValueSetup(void)
                     ) ? (value + DUEL_LIFE_POINT_SELECTION_STEP)
                       : DUEL_STARTING_LIFE_POINTS;
                 }
-                D_801845C0[0] = value;
+                D_801845C0[0].value = value;
             } else if (D_8009B394[0] & PAD_DIRECTION_UP) {
                 MainMenu_StartValueWidgetTween(0, D_801845BC[2]);
             }
@@ -250,7 +258,7 @@ s32 MainMenu_UpdateValueSetup(void)
             }
         } else {
             if (D_8009B394[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
-                value = D_801845C0[6];
+                value = D_801845C0[1].value;
                 SD_SEPlay(6, 0xFF, 0);
                 if (D_8009B394[1] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
@@ -265,7 +273,7 @@ s32 MainMenu_UpdateValueSetup(void)
                     ) ? (value + DUEL_LIFE_POINT_SELECTION_STEP)
                       : DUEL_STARTING_LIFE_POINTS;
                 }
-                D_801845C0[6] = value;
+                D_801845C0[1].value = value;
             } else if (D_8009B394[1] & PAD_DIRECTION_UP) {
                 MainMenu_StartValueWidgetTween(1, D_801845BC[2]);
             }
@@ -279,8 +287,8 @@ void MainMenu_DrawValueSetup(void)
 {
     POLY_GT4 digit;
     POLY_G4 bar;
-    ValueWidgetView *w;
-    ValueWidgetView *mk;
+    DisplayObject *w;
+    DisplayObject *mk;
     s32 first;
     s32 second;
     s32 x;
@@ -296,43 +304,43 @@ void MainMenu_DrawValueSetup(void)
     s32 d112;
     s32 d120;
 
-    first = D_801845C0[1];
-    second = D_801845C0[7];
+    first = D_801845C0[0].shown;
+    second = D_801845C0[1].shown;
     mk = D_801845B0[2];
     if (D_801845BC[2] == 0) {
         x = 116;
     } else {
         x = 220;
     }
-    mk->x = x;
-    D_801845B0[2]->y = 74;
+    mk->field_30.h.field_30 = x;
+    D_801845B0[2]->field_30.h.field_32 = 74;
 
     w = D_801845B0[0];
-    if (w->updateCallbackAddress != 0 || D_801845BC[0] == 2) {
+    if (w->update != 0 || D_801845BC[0] == 2) {
         w->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         w = D_801845B0[0];
-        if (w->updateCallbackAddress == 0) {
-            w->x = first * 128 / DUEL_STARTING_LIFE_POINTS + 176;
-            D_801845B0[0]->y = 111;
+        if (w->update == 0) {
+            w->field_30.h.field_30 = first * 128 / DUEL_STARTING_LIFE_POINTS + 176;
+            D_801845B0[0]->field_30.h.field_32 = 111;
         }
     } else {
         w->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-        D_801845B0[0]->x = D_801845B0[2]->x;
-        D_801845B0[0]->y = D_801845B0[2]->y;
+        D_801845B0[0]->field_30.h.field_30 = D_801845B0[2]->field_30.h.field_30;
+        D_801845B0[0]->field_30.h.field_32 = D_801845B0[2]->field_30.h.field_32;
     }
 
     w = D_801845B0[1];
-    if (w->updateCallbackAddress != 0 || D_801845BC[1] == 2) {
+    if (w->update != 0 || D_801845BC[1] == 2) {
         w->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         w = D_801845B0[1];
-        if (w->updateCallbackAddress == 0) {
-            w->x = second * 128 / DUEL_STARTING_LIFE_POINTS + 176;
-            D_801845B0[1]->y = 139;
+        if (w->update == 0) {
+            w->field_30.h.field_30 = second * 128 / DUEL_STARTING_LIFE_POINTS + 176;
+            D_801845B0[1]->field_30.h.field_32 = 139;
         }
     } else {
         w->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-        D_801845B0[1]->x = D_801845B0[2]->x;
-        D_801845B0[1]->y = D_801845B0[2]->y;
+        D_801845B0[1]->field_30.h.field_30 = D_801845B0[2]->field_30.h.field_30;
+        D_801845B0[1]->field_30.h.field_32 = D_801845B0[2]->field_30.h.field_32;
     }
 
     setPolyG4(&bar);
@@ -452,7 +460,8 @@ void MainMenu_DrawValueSetup(void)
 
 void MainMenu_UpdateValueWidgetTween(u8 *obj)
 {
-    u8 *widget;
+    DisplayObject *o = (DisplayObject *)obj;
+    DisplayObject *widget;
     s32 targetX;
     s32 targetY;
     s32 valueA;
@@ -460,12 +469,12 @@ void MainMenu_UpdateValueWidgetTween(u8 *obj)
     s16 remaining;
 
     widget = D_801845B8;
-    targetX = *(s16 *)(widget + 0x30);
-    targetY = *(s16 *)(widget + 0x32);
-    valueA = D_801845C0[1];
-    valueB = D_801845C0[7];
-    if (obj[0x6C] == 2) {
-        if (obj[0x6B] == 0) {
+    targetX = (s16)widget->field_30.h.field_30;
+    targetY = (s16)widget->field_30.h.field_32;
+    valueA = D_801845C0[0].shown;
+    valueB = D_801845C0[1].shown;
+    if (o->field_6C == 2) {
+        if (o->field_6B == 0) {
             targetX = (valueA * 128) / DUEL_STARTING_LIFE_POINTS + 176;
             targetY = 111;
         } else {
@@ -473,36 +482,34 @@ void MainMenu_UpdateValueWidgetTween(u8 *obj)
             targetY = 139;
         }
     }
-    remaining = *(u16 *)(obj + 0x60) - 1;
-    *(s16 *)(obj + 0x60) = remaining;
+    remaining = o->field_60 - 1;
+    o->field_60 = remaining;
     if (remaining <= 0) {
-        D_801845BC[obj[0x6B]] = obj[0x6C];
-        *(s32 *)(obj + 0x24) = 0;
+        D_801845BC[o->field_6B] = o->field_6C;
+        o->update = 0;
     }
-    *(s16 *)(obj + 0x30) =
-        (*(s16 *)(obj + 0x36) * *(s16 *)(obj + 0x60)) / 10 +
-        (targetX * (10 - *(s16 *)(obj + 0x60))) / 10;
-    *(s16 *)(obj + 0x32) =
-        (*(s16 *)(obj + 0x38) * *(s16 *)(obj + 0x60)) / 10 +
-        (targetY * (10 - *(s16 *)(obj + 0x60))) / 10;
+    o->field_30.h.field_30 =
+        (o->field_34.h.field_36 * o->field_60) / 10 +
+        (targetX * (10 - o->field_60)) / 10;
+    o->field_30.h.field_32 =
+        (o->field_38.h.field_38 * o->field_60) / 10 +
+        (targetY * (10 - o->field_60)) / 10;
 }
 
 void MainMenu_FinishValueSetup(void)
 {
-    u8 *state = (u8 *)D_801845C0;
-
-    *(u16 *)(*(u8 **)(state + 4)) = *(u16 *)state;
-    *(u16 *)(*(u8 **)(state + 0x10)) = *(u16 *)(state + 0xC);
+    *D_801845C0[0].out = D_801845C0[0].value;
+    *D_801845C0[1].out = D_801845C0[1].value;
     *D_801845D8 = (D_801845BE != 1);
     func_8004036C(D_801845A0);
     D_801845A0 = 0;
     func_8004036C(D_801845A4);
     D_801845A4 = 0;
-    func_8004036C((u8 *)D_801845B0[0]);
+    func_8004036C(D_801845B0[0]);
     D_801845B0[0] = 0;
-    func_8004036C((u8 *)D_801845B0[1]);
+    func_8004036C(D_801845B0[1]);
     D_801845B0[1] = 0;
-    func_8004036C((u8 *)D_801845B0[2]);
+    func_8004036C(D_801845B0[2]);
     D_801845B0[2] = 0;
     D_800E9DB0[0] = 0;
 }
@@ -523,12 +530,12 @@ s32 MainMenu_CountDecimalDigits(s32 value)
 
 void MainMenu_StartValueWidgetTween(s32 index, s32 value)
 {
-    u8 *object = (u8 *)D_801845B0[index];
+    DisplayObject *object = D_801845B0[index];
 
-    object[0x6B] = index;
-    *(s16 *)(object + 0x60) = 0xA;
-    object[0x6C] = value;
-    *(void **)(object + 0x24) = (void *)MainMenu_UpdateValueWidgetTween;
-    *(s16 *)(object + 0x36) = *(u16 *)(object + 0x30);
-    *(s16 *)(object + 0x38) = *(u16 *)(object + 0x32);
+    object->field_6B = index;
+    object->field_60 = 0xA;
+    object->field_6C = value;
+    object->update = MainMenu_UpdateValueWidgetTween;
+    object->field_34.h.field_36 = object->field_30.h.field_30;
+    object->field_38.h.field_38 = object->field_30.h.field_32;
 }
