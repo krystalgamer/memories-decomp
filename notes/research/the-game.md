@@ -292,9 +292,23 @@ field through matching `SaveData_HasSameDuelistCode`.
 
 ### 2.2 Options
 
-Sound output: mono or stereo. (The guides mention nothing else on this
-screen; the mode's code reach is large only because it shares the menu
-framework.) [`Main_RunOptionsMenu` `0x8002D6C8`]
+The naturally reachable setting is sound output: **stereo** (`0`) or **mono**
+(`1`). The selection byte is initialized to row zero, and a complete retail
+instruction scan finds no later store or address formation for it. Up/down
+are not tested, and Cross/Square do nothing while the selection remains zero.
+Right changes stereo to mono, Left changes mono to stereo, and Circle exits;
+the sound driver and stored runtime byte update immediately on a successful
+horizontal change. [`Main_RunOptionsMenu` `0x8002D6C8`]
+
+Matching code retains two nonzero selection positions and confirm branches,
+but they are not naturally reachable: selection 1 enters an empty state that
+no longer handles input, while selection 2 returns to the input state on the
+next update. Options initialization also loads two distinct 32 KiB
+PocketStation payloads to `0x80140000`, with the second overwriting the first
+before the screen begins. This proves disabled or vestigial machinery, not the
+labels of additional NTSC-U options. See the
+[full static contract](../options-screen.md); the pending human trace is still
+needed for visible labels and observed directional behavior.
 
 > **Entered from:** initial menu. **Exits to:** initial menu. **Reads/writes:**
 > the runtime sound setting. Save creation normalizes an unset negative value
