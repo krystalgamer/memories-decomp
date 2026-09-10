@@ -99,7 +99,7 @@ void func_80018DB4(void) {
         }
         Duel_SetupCardRecord(k, *(s8 *)((u8 *)D_8009B1C8 + 0x18));
         p = (u8 *)func_80018004(
-            (u8 *)D_801A7AD8 + k * DUEL_CARD_RECORD_SIZE,
+            (DuelCardRecord *)((u8 *)D_801A7AD8 + k * DUEL_CARD_RECORD_SIZE),
             i * 60 + 0x14E,
             0x92
         );
