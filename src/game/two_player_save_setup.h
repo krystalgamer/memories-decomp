@@ -3,7 +3,8 @@
 
 #include "../types.h"
 
-/* The two-save unit. Both functions were reached through local externs
+/* The setup/write API at the end of two_player_save_runtime.c. Both functions
+ * were reached through local externs
  * before this header existed, and every one of those declarations already
  * agreed with its definition.
  *
