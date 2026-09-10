@@ -8,8 +8,8 @@
  * result of their own.
  *
  * This describes only what these two functions touch. It is not the cursor
- * record: duel_update_card_pick_cursor.c and func_8001D5B4.c each hold a
- * fuller view of the same memory under their own names.
+ * record: duel_card_pick_cursor.h's DuelCardPickCursor and func_8001D5B4.c
+ * each hold a fuller view of the same memory.
  *
  * Neither caller consumes this header, on purpose -- see the note in
  * duel_cursor_status.c. */

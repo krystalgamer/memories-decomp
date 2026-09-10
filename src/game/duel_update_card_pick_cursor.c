@@ -5,7 +5,9 @@
 #include "duel_effect.h"
 #include "duel_grid.h"
 #include "duel_card_pick_cursor.h"
+#include "duel_cursor_status.h"
 #include "duel_card.h"
+#include "func_80017034.h"
 #include "input.h"
 #include "../unmatched.h"
 
@@ -34,21 +36,6 @@
  * 0xC, mode |= 0x60) when neither L2 nor R2 is held.
  */
 
-/* The cursor object the caller owns. 0xF/0x10 are the same column/row pair
-   src/card_pick.c reads through D_8009B1B4. */
-struct Cursor {
-    char pad0[0xC];
-    s16 fC;         /* 0xC  — reset to 0x74 when the cursor is armed */
-    char pad1[0x1];
-    s8 col;         /* 0xF */
-    s8 row;         /* 0x10 */
-    u8 f11;         /* 0x11 */
-    u8 f12;         /* 0x12 */
-    char pad2[0x5];
-    u8 f18;         /* 0x18 */
-    u8 f19;         /* 0x19 — the status byte func_80024060 returns */
-};
-
 /* gp-relative in the target (0x2CC/0x2CD/0x25A($gp)), so plain scalars. */
 
 /* Absolute in the target, so array-typed to keep them out of small data. */
@@ -58,21 +45,18 @@ struct Cursor {
    either call site. func_80024060 really returns u8 (see
    src/call_80023fbc_read_field25.c) and card_pick_on_up really returns s16
    (see src/card_pick.c). */
-extern s32 func_80024060(struct Cursor *);
-extern s32 func_80017034(DuelCardRecord *);
-
-void Duel_UpdateCardPickCursor(struct Cursor *o) {
+void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
     u8 f;
     s32 picked;
 
     f = D_8009B1D4;
     if (!(f & 0x80)) {
         D_8009B1D4 = f | 0xC0;
-        o->f12 = 4;
-        o->fC = 0x74;
-        o->f18 = 0;
-        o->f11 = 0;
-        o->f19 = 0;
+        o->field_12 = 4;
+        o->field_0C = 0x74;
+        o->field_18 = 0;
+        o->field_11 = 0;
+        o->status = 0;
         D_8009B162 = 3;
     }
     f = D_8009B1D4;
@@ -83,7 +67,7 @@ void Duel_UpdateCardPickCursor(struct Cursor *o) {
                 D_8009B1D4 = 0;
             }
         }
-    } else if (func_80024060(o) == 0) {
+    } else if (func_80024060((DuelCursorStatus *)o) == 0) {
         picked = func_80017034(
             &D_801A7AD8[D_800907D8[
                 o->row * DUEL_FIELD_ROW_SIZE + o->col +

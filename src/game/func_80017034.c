@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "duel_grid.h"
 #include "duel_card.h"
+#include "func_80017034.h"
 #include "input.h"
 
 extern DuelFieldCursor *D_8009B1B4;
