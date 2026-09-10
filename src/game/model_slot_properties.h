@@ -15,5 +15,6 @@ void func_80059590(
     s32 second,
     s32 third
 );
+void func_800595C8(s32 index, s32 x, s32 y, s32 z);
 
 #endif
