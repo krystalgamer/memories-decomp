@@ -32,17 +32,18 @@ extern s32 gCampaignMap_MoveState;
  *
  * NOT HERE, ON PURPOSE
  *
- * D_801695F8 is spelled `s32 []` in set_location.c and `u8 *[]` in
- * location_objects.c. That is an element question, and the two declarers do
- * not carry equal weight, so it is answerable from what they do:
+ * set_location.c keeps two same-symbol views of D_801695F8: `s32 []` for the
+ * setter's zero-only stores and `u8 *[]` for object creation and release.
+ * They do not carry equal weight, so the element question is answerable from
+ * what they do:
  *
- *   location_objects.c is constrained. It passes an element straight to
+ *   The object view is constrained. It passes an element straight to
  *   func_8004036C, whose display_object_api.h prototype takes `void *object`,
  *   and stores the object func_800400AC returned back into the same slot. The
  *   elements are display-object pointers there.
  *
- *   set_location.c abstains. Its only use is `D_801695F8[i] = 0`, and a zero
- *   store is valid for either element type, so nothing about the spelling
+ *   The word view abstains. Its only use is `D_801695F8_words[i] = 0`, and a
+ *   zero store is valid for either element type, so nothing about the spelling
  *   survives into the generated code.
  *
  * That is the same shape as the abstention this tree has recorded before --
@@ -51,35 +52,27 @@ extern s32 gCampaignMap_MoveState;
  * u8 local. So the pointer reading is the constrained one and the s32 spelling
  * is not evidence against it.
  *
- * The declaration still is not moved here, because that is a source change to
- * two units and wants its own build rather than being folded into a comment. */
+ * Both declarations stay local because the two spellings are matching
+ * levers, not a shared interface. */
 extern u8 D_801695EC;
 extern u8 D_8016960D;
 
 /* The two display objects the map keeps between frames. Member names are the
  * decimal byte offset.
  *
- * D_801695C8 is the location marker. CampaignMap_SetLocation clears it
- * (set_location.c:41) and stores CampaignMap_CreateLocationMarker's return in
- * it (set_location.c:81); CampaignMap_UpdateLocation stores the same return
- * (location_tick.c:94-95), stores f48/f50 through a byte view
- * (location_tick.c:99-100) and clears it (location_tick.c:103, :135);
- * CampaignMap_UpdateLocationTransition copies it into `marker`
- * (camera_transition.c:90, :127), stores and reads f96 through that copy
- * (:94, :129-140) and stores f48/f50 through the global (:162-169).
+ * D_801695C8 is the location marker. CampaignMap_SetLocation clears it and
+ * stores CampaignMap_CreateLocationMarker's return; CampaignMap_UpdateLocation
+ * stores the same return, updates f48/f50 and clears it; and
+ * CampaignMap_UpdateLocationTransition reads and writes f96/f48/f50.
  *
- * D_801695D8 holds the object func_800400AC returned (set_location.c:61,
- * stored at :72); CampaignMap_SetLocation reads and stores f8 through a byte
- * view (set_location.c:80, :82). CampaignMap_UpdateLocationTransition copies
- * it into `obj` (camera_transition.c:100) for f72/f74/f8 (:101-106), into
- * `marker` (:115) for f72/f74 (:117-125), and stores f72/f74 through the
- * global (:158-159).
+ * D_801695D8 holds the object func_800400AC returned.
+ * CampaignMap_SetLocation reaches f8 through a byte view, while
+ * CampaignMap_UpdateLocationTransition reaches f72/f74/f8 through MapObject.
  *
- * Both were `MapObject *` in camera_transition.c and `u8 *` in the other two
- * sources. Every byte offset those two reach through the globals is a named
- * member, so the struct is the wider view and lives here; they keep their
- * byte locals and cast at the global. alternate_location.h:63-66 spells the
- * same f8/f48/f50 for the mechanical copy it describes. */
+ * All active-path users now share set_location.c. Every byte offset reached
+ * through the globals is a named member, so the struct remains the wider view;
+ * byte locals stay local and cast at the global. alternate_location.h:63-66
+ * spells the same f8/f48/f50 for the mechanical copy it describes. */
 typedef struct {
     u8 pad0[8];
     u16 f8;

@@ -42,20 +42,32 @@ Their `_functions.csv` inventories track per-function status, while their
 separate `_matching_c.json` manifests map accepted source/profile pairs.
 `make match-overlays` remains the exact-byte gate.
 
-## Camera-state translation unit
+## Active location lifecycle translation unit
 
-`camera_state.c` keeps the location-camera loader next to the per-frame view
-publisher, the default-camera reset, and a free-look-shaped D-pad routine. All
-four operate on `D_800F2848`; the loader, reset, and D-pad routine rebuild its
-derived matrix through `func_8001352C`.
+`set_location.c` contains all thirteen matched functions in the active
+campaign-map family: static scene setup, camera transition, exit selection,
+and per-frame location update. One `gcc_2_8_1_g0_split` C subsegment at module
+offset `0x4` covers the complete `0x11A4`-byte range from
+`CampaignMap_ClearLocationObjects` (`0x80168004`) through
+`CampaignMap_UpdateLocation` (`0x80168FCC`), ending at `0x801691A8` where the
+remaining unmatched text begins.
 
-The definitions remain in executable order:
-`CampaignMap_SetCameraFromLocation` occupies
-`0x801681E8..0x80168258`, followed by `CampaignMap_UpdateView` and
-`CampaignMap_ResetCamera`, then `CampaignMap_MoveCameraDpad` through
-`0x80168588`. All four use `gcc_2_8_1_g0_split`. One C subsegment at module
-offset `0x1E8` covers the complete contiguous `0x3A0`-byte text range in both
-verified variants.
+The call graph closes the family:
+
+- `CampaignMap_SetLocation` calls the camera reset/load, label, object rebuild,
+  and marker helpers and installs `CampaignMap_UpdateView`.
+- `CampaignMap_UpdateLocation` calls the transition, object/label/marker
+  helpers, and its private `CampaignMap_PickExit`.
+- `CampaignMap_UpdateLocationTransition` calls
+  `CampaignMap_StartCameraTween` and `CampaignMap_SetCameraFromLocation`.
+
+All thirteen share the selected 66-byte location record, live camera,
+location objects, marker, transition accumulators, and map state.
+
+The merged unit keeps two same-symbol views of `D_801695F8`:
+`D_801695F8_objects` stores and releases display-object pointers, while
+`D_801695F8_words` preserves the setter's zero-only word stores. The latter
+does not contradict the pointer view; it never reads an element.
 
 `CampaignMap_MoveCameraDpad` has no established live dispatch. The active
 `CampaignMap_UpdateLocation` path does not call it, and an aligned-word scan of
@@ -63,42 +75,6 @@ the resident executable plus all five verified module images found neither a
 direct `jal` nor a stored `0x80168388` pointer. Its input and camera writes are
 therefore a static function contract; computed or external entry remains an
 open question.
-
-## Camera-transition translation unit
-
-`camera_transition.c` keeps `CampaignMap_StartCameraTween` next to
-`CampaignMap_UpdateLocationTransition`, which calls it before advancing the
-shared fixed-point camera channels each frame. Both also use the same 66-byte
-location records.
-
-The definitions remain in executable order from `0x801688BC` through
-`0x80168E0C`. Both use `gcc_2_8_1_g0_split`; one C subsegment at module offset
-`0x8BC` covers the complete contiguous `0x550`-byte text range in both
-verified map variants.
-
-## Location-display translation unit
-
-`location_objects.c` keeps the four-slot cleanup helper next to the rebuild
-routine that invokes it, followed by the current location's name-box creator.
-The two live location controllers call the rebuild and label creator together,
-and all three functions construct or release the display state for one map
-location.
-
-The definitions remain in executable order:
-`CampaignMap_ClearLocationObjects` occupies
-`0x80168004..0x80168050`, followed by
-`CampaignMap_RebuildLocationObjects` through `0x8016818C`, then
-`CampaignMap_CreateLocationLabel` through `0x801681E8`. All three use
-`gcc_2_8_1_g0_split`. One C subsegment at module offset `0x4` covers the
-complete contiguous `0x1E4`-byte text range in both verified variants; the
-camera-state unit starts immediately afterward.
-
-## Location-tick translation unit
-
-`location_tick.c` is the live map's per-frame logic: the exit picker and the
-tick that drives it, `0x80168E0C..0x801691A8` as one contiguous
-`gcc_2_8_1_g0_split` run wired as a single C subsegment at module offset
-`0xE0C` in both variants.
 
 | Address | Function | Was |
 |---|---|---|
@@ -117,16 +93,12 @@ through the same routines:
 | `CampaignMap_RebuildLocationObjects` | the tick, `CampaignMap_SetLocation` |
 | `CampaignMap_CreateLocationLabel` | the tick, `CampaignMap_SetLocation` |
 | `CampaignMap_CreateLocationMarker` | the tick, `CampaignMap_SetLocation` |
-| `CampaignMap_SetCameraFromLocation` | `camera_transition.c`, `CampaignMap_SetLocation` |
-
-So the unit stops at both ends for a reason rather than by exhaustion:
-`camera_transition.c` ends exactly at `0x80168E0C` and its two functions are
-the camera's own, and the text after `0x801691A8` is location-table data.
+| `CampaignMap_SetCameraFromLocation` | transition update, `CampaignMap_SetLocation` |
 
 `pick_exit.h` is removed. Its whole content was the picker's prototype, and
 the picker is now defined ahead of its only call site in the same unit, so
-nothing declares it any more. The other five headers stay: each covers a
-family with callers outside its own file.
+nothing declares it any more. The remaining headers stay as subsystem interfaces even though their
+definitions now share one source.
 
 ## Active and alternate location families
 
