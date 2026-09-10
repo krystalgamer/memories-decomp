@@ -1,6 +1,8 @@
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#define DEBUG_FONT_FORMATS_AS_U8_ARRAYS
+#include "debug_font_format_data.h"
 #include "duel_effect.h"
 #include "func_80031084.h"
 #include "func_8003B6AC.h"
@@ -10,7 +12,6 @@
 #include "../unmatched.h"
 #include "frontend_step_tables.h"
 
-extern u8 D_8009AF54[];
 extern u8 D_8009B2F0;
 extern s8 D_8009B2F1;
 
