@@ -85,7 +85,7 @@ extern void func_80040510(
 extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
 extern void *func_800374F4(DuelEffectChannel *);
 extern void func_80043230(DialogCaret *, s32, s32, s32);
-extern void func_80035B7C(DuelEffectChannel *);
+extern void func_80035B7C(void *);
 extern void func_80039934(DuelEffectChannel *, s32, s32);
 extern void func_80015B00(void);
 extern void func_8003BC40(u8 *, u8 *, s32);
