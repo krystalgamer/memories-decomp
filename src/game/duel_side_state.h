@@ -201,7 +201,7 @@ extern s8 D_8009B360;
 /* Which side won, and therefore which of the two records above the result
  * code applies to. duel_draw_resolution.c sets it as `D_8009B1D5 ^ 1`, the
  * side that is not the one the selector documented above points at, and both
- * it and duel_rewards.c immediately use it to index D_800E9FF0. That is what
+ * it and duel_result_runtime.c immediately use it to index D_800E9FF0. That is what
  * puts it in this header rather than beside the screen that displays the
  * outcome: it is a side selector, and it is read as one. */
 extern u8 gDuel_bWinnerSide;
@@ -222,7 +222,7 @@ extern s8 D_8009B238;
  * steps from the wins halfword to the losses halfword of the duelist
  * record when it is 1. Every retail access is a byte: sb through $at in
  * func_80020F4C and lui/lbu in Main_RunDuel, both in units that reach
- * other symbols through $gp, so duel_result_outro.c and
+ * other symbols through $gp, so duel_result_runtime.c and
  * main_run_duel_and_library.c define the .data arm below;
  * free_duel/screen_runtime.c (-G0) takes the plain byte. The `u8 [9]`
  * main_run_duel_and_library.c used to declare reached the same form; as the

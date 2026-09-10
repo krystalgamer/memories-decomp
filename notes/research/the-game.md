@@ -1244,7 +1244,7 @@ The increment precedes the used-card flag reset and hand reconstruction,
 including the refill request. Later calls while that flag remains set only
 poll for the message state to finish; they do not increment the counter.
 
-[`Duel_CalcRankScore`](../../src/game/duel_rewards.c) copies this byte
+[`Duel_CalcRankScore`](../../src/game/duel_result_runtime.c) copies this byte
 to displayed-stat slot 15 and passes it to `DUEL_RANK_RULE_TURNS` (row 0).
 On this normal path, a side's turn is therefore counted at draw entry, not
 after its play is completed or once per frame. This is a per-side count,
@@ -1267,7 +1267,7 @@ hand-placement object view, not a universal meaning of object offset `+0x21`.
 
 Thus this writer counts the selected single-card play's face-down
 orientation at commitment, rather than tallying all face-down field cards.
-Matching [`Duel_CalcRankScore`](../../src/game/duel_rewards.c) reads
+Matching [`Duel_CalcRankScore`](../../src/game/duel_result_runtime.c) reads
 the byte as unsigned, copies it to displayed-stat slot 9, and passes it to
 `DUEL_RANK_RULE_FACE_DOWN_PLAYS` (row 3). Numbered multi-card selections
 bypass this particular increment; this does not establish their complete
@@ -1286,7 +1286,7 @@ than accepting every non-monster type.
 Matching [`func_80017F04`](../../src/game/func_800179F4.c) fills
 that object byte from the card's packed type field, using
 `CARD_STAT_TYPE_SHIFT` and `CARD_STAT_TYPE_MASK`. The matching
-[`Duel_CalcRankScore`](../../src/game/duel_rewards.c) reads statistic
+[`Duel_CalcRankScore`](../../src/game/duel_result_runtime.c) reads statistic
 `+0x05` as unsigned, copies it to displayed-stat slot 13, and passes it to
 `DUEL_RANK_RULE_PURE_MAGIC` (row 4).
 
@@ -1312,7 +1312,7 @@ The normal battle caller, `func_8001F55C` (still unmatched assembly), calls
 that sequencer while `D_8009B174 & 0x20` is set and clears the bit when the
 sequencer returns zero [`0x8001FA10..0x8001FA34`]. Completion is therefore
 consumed by the caller; the helper does not itself reset its mode.
-Matching [`Duel_CalcRankScore`](../../src/game/duel_rewards.c) reads
+Matching [`Duel_CalcRankScore`](../../src/game/duel_result_runtime.c) reads
 the statistic as unsigned, copies it to displayed-stat slot 14, and passes
 it to `DUEL_RANK_RULE_TRAPS_TRIGGERED` (row 5).
 
@@ -1336,7 +1336,7 @@ drawn card's index in the hand, and increments the byte. At the limit it
 takes the deck-exhaustion path instead. A successful new draw therefore
 advances this statistic before the card is played; a refill can advance it
 more than once. The matching
-[`Duel_CalcRankScore`](../../src/game/duel_rewards.c) feeds that same
+[`Duel_CalcRankScore`](../../src/game/duel_result_runtime.c) feeds that same
 byte to `DUEL_RANK_RULE_CARDS_USED`. This pins the normal draw/refill
 accounting, not an unperformed runtime trace or a complete audit of every
 effect that could touch the record.
@@ -1445,7 +1445,7 @@ record's `starchip_prize`. The balance is `SaveDataState.starchips` at
 ### 6.4 The dropped card
 
 One card is drawn from the beaten duelist's **pool for that rank group**.
-Matching [`Duel_SelectCardDrop`](../../src/game/duel_rewards.c)
+Matching [`Duel_SelectCardDrop`](../../src/game/duel_result_runtime.c)
 (`0x80021810`) takes a **rank-pool index, not a duelist ID**. The opponent's
 tables are already loaded; the argument selects one of their three drop rows:
 
