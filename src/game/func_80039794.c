@@ -16,7 +16,6 @@
  * displacements 0 and 4. Folding the cursor into the base costs a register and
  * four instructions, so the view stays. */
 extern TblEnt D_801D9000[];
-extern s16 D_8009B35A;
 extern u8 D_8009B356;
 extern u8 D_8009B0C1 __attribute__((section(".data")));
 
