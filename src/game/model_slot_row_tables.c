@@ -269,17 +269,24 @@ void func_8004D58C(s32 arg0, u8 *arg1)
     ch = &D_800F2C40[arg0];
     t = (u8 *)ch;
     c = t;
-    *(s16 *)(t + 0xE06) = 0;
-    *(s16 *)(t + 0xE08) = 0;
+    ch->field_E06 = 0;
+    ch->field_E08 = 0;
     ch->field_DD8 = 0;
     *(s32 *)(t + 0xDDC) = 0;
     *(s32 *)(t + 0xDE0) = 0;
     *(s32 *)(t + 0xDE4) = 0;
-    *(s32 *)(t + 0xDF0) = 0;
+    ch->field_DF0 = 0;
     /* The reset walks keys and rows with running byte offsets rather than
        indexing ch->field_2C8[i][j] / ch->field_750[i].values[j]. That is not
        a missed cleanup: the indexed form is larger, and the link fails with
-       .initialized_data overlapping .text. The walkers are load-bearing. */
+       .initialized_data overlapping .text. The walkers are load-bearing.
+
+       The margin is one instruction, which is worth knowing before touching
+       anything else here. The seven writes below that still go through `t`
+       reach members this record declares as pointers, so naming them costs a
+       *(s32 *)& cast; measured, that is the single instruction that pushes
+       .text into .initialized_data again. The three named above are free
+       because they land on plain members. */
     do {
         ((ModelSlotRow *)(c + 0x750))->max = 0;
         j = 0;

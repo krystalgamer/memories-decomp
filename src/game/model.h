@@ -183,7 +183,10 @@ typedef struct {
     u16 field_E02;
     u8 pad_E04[2];
     u16 field_E06;
-    u8 pad_E08[2];
+    /* model_slot_row_tables.c's reset clears this halfword beside
+     * field_E06, which is what says it is a field rather than the
+     * padding this record carried here. */
+    u16 field_E08;
     /* func_8005611C seeds this halfword with 0x1000 and
      * func_80056250 reads it back; this unit's own header describes
      * the pair as "the halfword at +0xE0A". */
