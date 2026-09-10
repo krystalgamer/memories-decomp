@@ -58,6 +58,9 @@ typedef char FileTransfer_default_image_must_fill_sector[
 
 void File_InitTransferState(s32);
 void File_GetPosition(s32 *, const char *);
+void func_80013940(
+    FileTransferDescriptor *, s32 file_index, s32 sector_offset, s32 vertical
+);
 FileTransferDescriptor *File_RequestAsyncTransfer(
     s32, u8 *, s32, s32, FileTransferCallback, s32, s32
 );
@@ -74,6 +77,11 @@ FileTransferDescriptor *File_InitTransferDescriptor(
     FileTransferDescriptor *, s32, u8 *, s32, s32, FileTransferCallback, s32,
     s32
 );
+FileTransferDescriptor *func_80013A94(s32 file_index, s32 sector_offset);
+void func_8001455C(void);
+void func_80014A5C(s32 arg0);
+void func_80014B30(FileTransferDescriptor *descriptor, s32 mode);
+s32 func_80014C40(u8 *request, u8 *source);
 void File_ActivateTransfer(void);
 void File_WaitForTransfers(void);
 void File_RequestMainMenuPackage(void);
