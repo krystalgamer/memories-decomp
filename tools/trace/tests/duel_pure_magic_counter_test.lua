@@ -151,6 +151,16 @@ assert(waitingTimeout:has(
     'status: timed out before a player turn was observed'
 ))
 
+local waitingBoundary = capture(nil, 1)
+waitingBoundary:frames(71999)
+waitingBoundary:side(0)
+waitingBoundary:frames(1)
+assert(not waitingBoundary:has(
+    'status: timed out before a player turn was observed'
+))
+waitingBoundary:reset()
+assert(waitingBoundary:has('started=true'))
+
 local limited = capture()
 for change = 1, 32 do
     limited:counter('traps', change)
@@ -168,6 +178,31 @@ local timeout = capture()
 timeout:frames(36000)
 assert(timeout:has('status: timed out without a pure-magic increment'))
 
+local timeoutBoundary = capture()
+timeoutBoundary:frames(35999)
+timeoutBoundary:counter('pure_magic', 1)
+timeoutBoundary:frames(1)
+timeoutBoundary:frames(120)
+assert(timeoutBoundary:has(
+    'pure_magic_increment frame=036000 delta=1'
+))
+assert(timeoutBoundary:has(
+    'status: captured pure-magic increment and follow-up window'
+))
+assert(not timeoutBoundary:has(
+    'status: timed out without a pure-magic increment'
+))
+
+local sideTransition = capture()
+sideTransition:side(1)
+sideTransition:frames(1)
+assert(sideTransition:has(
+    'baseline frame=000000 mode=3 active_side=0 opponent_id=5'
+))
+assert(sideTransition:has(
+    'final frame=000001 mode=3 active_side=1 opponent_id=5'
+))
+
 local reset = capture()
 reset:counter('cards_used', 1)
 reset:frames(1)
@@ -180,4 +215,4 @@ assert(wrongMode:has('status: main mode 8 is not duel mode 3'))
 assert(not wrongMode:installed())
 
 print = hostPrint
-print('duel_pure_magic_counter: all ten polling cases passed')
+print('duel_pure_magic_counter: all thirteen polling cases passed')

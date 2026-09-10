@@ -71,8 +71,12 @@ local function mainMode()
     return u8(MAIN_MODE) % 32
 end
 
-local function snapshotCounters()
-    local values = {}
+local function snapshot()
+    local values = {
+        mode = mainMode(),
+        active_side = u8(ACTIVE_SIDE),
+        opponent_id = s8(OPPONENT_ID),
+    }
     for _, counter in ipairs(COUNTERS) do
         values[counter.name] = u8(PLAYER_STATS + counter.offset)
     end
@@ -90,9 +94,9 @@ local function snapshotText(prefix, frame, values)
             .. 'cards_used=%d',
         prefix,
         frame,
-        mainMode(),
-        u8(ACTIVE_SIDE),
-        s8(OPPONENT_ID),
+        values.mode,
+        values.active_side,
+        values.opponent_id,
         values.turns,
         values.pure_magic,
         values.traps,
@@ -132,7 +136,7 @@ local function finish(reason)
     end
     done = true
 
-    local final = snapshotCounters()
+    local final = snapshot()
     print('')
     print('==== USER CONTEXT ====')
     print('')
@@ -150,9 +154,9 @@ local function finish(reason)
         tostring(started),
         changeCount,
         tostring(pureMagicFrame ~= nil),
-        mainMode(),
-        u8(ACTIVE_SIDE),
-        s8(OPPONENT_ID)
+        final.mode,
+        final.active_side,
+        final.opponent_id
     ))
     if baseline ~= nil then
         print(snapshotText('baseline', startFrame, baseline))
@@ -179,7 +183,7 @@ end
 local function startObservation()
     started = true
     startFrame = frames
-    baseline = snapshotCounters()
+    baseline = snapshot()
     lastValues = baseline
     emit(snapshotText('observation_start', frames, baseline))
     print(SCRIPT_NAME
@@ -237,13 +241,13 @@ local function poll()
             print(SCRIPT_NAME
                 .. ': waiting for player side 0; keep the duel running')
         end
-        if frames >= PLAYER_TURN_WAIT_TIMEOUT_FRAMES then
+        if not started and frames >= PLAYER_TURN_WAIT_TIMEOUT_FRAMES then
             finish('timed out before a player turn was observed')
         end
         return
     end
 
-    local current = snapshotCounters()
+    local current = snapshot()
     recordChanges(current)
     if done then
         return
@@ -257,7 +261,8 @@ local function poll()
     elseif pureMagicFrame ~= nil
         and frames - pureMagicFrame >= POST_INCREMENT_FRAMES then
         finish('captured pure-magic increment and follow-up window')
-    elseif frames - startFrame >= OBSERVATION_TIMEOUT_FRAMES then
+    elseif pureMagicFrame == nil
+        and frames - startFrame >= OBSERVATION_TIMEOUT_FRAMES then
         finish('timed out without a pure-magic increment')
     end
 end
