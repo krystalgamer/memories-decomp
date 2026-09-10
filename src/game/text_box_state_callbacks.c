@@ -2,9 +2,7 @@
 #include "text_box_state_callbacks.h"
 #include "dialog_choice_state.h"
 #include "duel_effect_entry_control.h"
-#include "duel_effect_interaction_states.h"
 #include "duel_effect_state_callbacks.h"
-#include "func_8003787C.h"
 
 /* Initialized data at 0x80090E64: the text-box state callback table.
  *
