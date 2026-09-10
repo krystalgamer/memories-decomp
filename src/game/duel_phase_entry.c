@@ -12,10 +12,6 @@
 #include "file_transfer.h"
 #include "duel_selection_layout.h"
 
-typedef struct {
-    u8 pad0000[8];
-    DuelHandSlot *hand;
-} DuelSelectionSide;
 extern u8 D_8009B1EC;
 extern u8 *D_8009B1B4;
 
@@ -119,7 +115,7 @@ void func_80018608(void)
         Duel_ClearHandSlots();
         D_8009B1EC = 5;
         D_8009B23A = 3;
-        ((DuelSelectionSide *)(D_800E9F10 +
+        ((DuelSelectionSideView *)(D_800E9F10 +
             D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE))->hand = D_800EA030;
         break;
     }
