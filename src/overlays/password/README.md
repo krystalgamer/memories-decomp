@@ -70,10 +70,10 @@ does not load a background. The halfwords `320,256,512,240` feed texture
 configuration, not proven background dimensions, and the separate selectors
 `2,3` are not established pixel widths.
 
-The contiguous `gcc_2_8_1_g0_split` cursor update, decoration, and target
-helpers share [`digit_cursor.c`](digit_cursor.c) in executable order. They
-jointly use the selected digit index and the published cursor widget, matching
-their initialization and update call sites.
+The contiguous cursor update, decoration, and target helpers open the shop
+translation unit in executable order. They jointly use the selected digit
+index and the published cursor widget, matching their initialization and
+update call sites in the same source.
 
 The cursor's provisional `(256,120)` is replaced during initialization by
 its target `(163,99)` for index zero. `Password_UpdateDigitCursor`
@@ -85,15 +85,18 @@ or real-time duration is inferred from the phase byte.
 
 ### The shop translation unit
 
-[`shop.c`](shop.c) is the whole password shop screen: its two resident entry
-points, the preview helper both of them call, and the password lookup the
-updater is the only caller of. It covers `0x8016A02C..0x8016A930` as one
-contiguous `gcc_2_8_1_g0_split` run, wired as one C subsegment at module
-offset `0x202C`, and it owns the rodata block at `0x7C` that
+[`shop.c`](shop.c) is the whole password shop screen: the three digit-cursor
+helpers, its two resident entry points, the preview helper both of them call,
+and the password lookup the updater is the only caller of. It covers
+`0x80169E20..0x8016A930` as one contiguous `gcc_2_8_1_g0_split` run, wired as
+one C subsegment at module offset `0x1E20`, and it owns the rodata block at `0x7C` that
 `shop_update.c` used to.
 
 | Address | Function | Callers |
 |---|---|---|
+| `0x80169E20` | `Password_UpdateDigitCursor` | installed by init |
+| `0x80169F38` | `Password_UpdateDigitCursorDecoration` | four init-installed callbacks |
+| `0x8016A00C` | `Password_SetDigitCursorTarget` | init and update |
 | `0x8016A02C` | `Password_RecreateCardPreview` | 2, both inside |
 | `0x8016A080` | `Password_InitShopScreen` | 1, resident |
 | `0x8016A304` | `Password_LookupCardID` | 1, inside |
@@ -109,11 +112,9 @@ documented lifecycle - init once, update per tick.
 of it. Its caller is [`name_entry_main.c`](name_entry_main.c), not the shop,
 so the run stops at `0x8016A930` on the call graph rather than at a gap.
 
-One unit removes two of the three spellings of
-`gPassword_pDigitCursorWidget` that [`shop.h`](shop.h) recorded as an open
-question: the initializer's `u8 *` and the updater's local `Cursor` are now
-one source using the shared `PasswordCursorView`. Only
-[`digit_cursor.c`](digit_cursor.c) still keeps a local struct of its own.
+One unit removes all source-boundary ambiguity around
+`gPassword_pDigitCursorWidget`: the cursor helpers, initializer and updater
+now share `PasswordCursorView` in one source.
 While checking that, the paragraph in `shop.h` describing the disagreement
 turned out to contradict the header it sits in - the declaration it says is
 absent was added above it at some point and the paragraph was never updated.
