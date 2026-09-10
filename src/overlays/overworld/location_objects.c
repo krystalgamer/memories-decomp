@@ -45,15 +45,16 @@ void CampaignMap_RebuildLocationObjects(s32 index)
             }
         }
 
-        u8 *CampaignMap_CreateLocationLabel(s32 unused)
-        {
-            u8 *object;
-
-            object = func_80035BE4(
-                0, gCampaignMap_Location + 0x8350, 0x60, 0x18, 0x80, 0xC
-            );
-            func_80039A60(object);
-            return object;
-        }
     }
+}
+
+u8 *CampaignMap_CreateLocationLabel(s32 unused)
+{
+    u8 *object;
+
+    object = func_80035BE4(
+        0, gCampaignMap_Location + 0x8350, 0x60, 0x18, 0x80, 0xC
+    );
+    func_80039A60(object);
+    return object;
 }
