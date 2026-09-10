@@ -6877,7 +6877,6 @@ that call sequence rather than a one-off.
     func_80018004          def 1 (func_80018004.c)  <-  decl 3 in func_8001BAF0.c
     func_80018004          def 1 (func_80018004.c)  <-  decl 3 in duel_phase_entry.c
     func_80024088          def 1 (duel_cursor_status.c)  <-  decl 2 in func_8001D5B4.c
-    func_80041C8C          def 1 (func_80041C8C.c)  <-  decl 4 in func_80041D60.c
     func_80049120          def 0 (sound_sequence_state.c)  <-  decl 1 in duel_effect_state_callbacks.c
     func_800498F8          def 0 (sound_secondary_reset.c)  <-  decl 1 in func_80049010.c
     func_800498F8          def 0 (sound_secondary_reset.c)  <-  decl 1 in sound_output.c
