@@ -21,13 +21,12 @@
  */
 #include "../types.h"
 #include "../game/camera_view.h"
+#include "../game/model_copy_slot_u16_values.h"
+#include "../game/func_80058DD8.h"
+#include "../game/func_8005EBF4.h"
+#include "../game/model_transfer_state.h"
 
 extern u8 *D_8009B074;
-
-extern void func_8005FB30(u8 *);
-extern s32 func_80058DD8(s32);
-extern void Model_CopySlotU16Values(s32, void *);
-extern void func_8005EBF4(u8 *, s32, s32, s32, void *);
 
 /* Recomputes a model's audible radius. The magnitude of the s16 at +0x20 sets
    the base radius at +0x22, capped at 0x4000, and when that field is negative
@@ -110,7 +109,7 @@ void func_8005E808(u8 *p)
             continue;
         case 1:
             for (j = 0; j < 10; j++) {
-                func_8005EBF4(p, i, j, 0x1E, buf[j]);
+                func_8005EBF4((Key *)p, i, j, 0x1E, buf[j]);
             }
             off = 0;
             for (j = 1; j < 10; j++) {

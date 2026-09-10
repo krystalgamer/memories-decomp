@@ -10,14 +10,13 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/inline_c.h"
+#include "../psyq/libgs.h"
+#include "../unmatched.h"
+#include "../game/func_800556E8.h"
+#include "../game/gpu_packets.h"
 
 extern void func_80029684(s32, s32, s16 *, s32 *, s32, s32);
 extern void func_800297DC(s32, s32, s16 *, s32 *, s32, s32);
-extern void func_8005B260(s32, s32, s32, s32);
-extern void func_800540B4(s32);
-extern void func_800559D4(s32);
-extern void func_800556E8(s32);
-extern void GsSetLsMatrix(MATRIX *);
 
 extern s32 D_800E9D9C;
 extern MATRIX D_800FE148;
@@ -140,7 +139,7 @@ void func_80029934(void)
         *(s16 *)(prim + 0x1A) = y;
         *(s16 *)(prim + 0x12) = y;
         do {
-            func_8005B260((s32)prim, arg, 1, 1);
+            func_8005B260((u32 *)prim, (GsOT *)arg, 1, 1);
             *(s16 *)(prim + 0xA) = *(u16 *)(prim + 0xA) - step;
             if ((s16)*(u16 *)(prim + 0xA) <= 0) {
                 break;
