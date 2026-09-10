@@ -12,7 +12,7 @@
 #include "file_transfer.h"
 #include "func_8001944C.h"
 #include "func_80019564.h"
-#include "func_80026BA4.h"
+#include "duel_magic_effect_dispatch.h"
 #include "func_800291E0.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
