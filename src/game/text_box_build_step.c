@@ -72,7 +72,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         object->field_56 = 0;
         object->state_51 = 0;
         func_8004036C(object->field_30);
-        func_8004036C((void *)object->field_2C);
+        func_8004036C(object->field_2C);
         object->field_30 = (void *)0;
         object->field_2C = 0;
         func_800391E4(object);

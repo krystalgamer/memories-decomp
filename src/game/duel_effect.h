@@ -65,7 +65,19 @@ typedef struct DuelEffectChannel {
      * DisplayObjectSnapshot view of it, and dialog_update_choice.c read it
      * through `*(u8 **)&`. The s32 spelling made every one of those a cast. */
     struct DisplayObject *field_28;
-    s32 field_2C;
+    /* The second display object this record owns, on the same evidence as
+     * field_28 above: func_800391E4.c releases it through func_8004036C and
+     * then stores a DisplayObject * into it, func_800610E0.c and
+     * func_800611D0.c both store the object they just built, and
+     * text_box_build_step.c releases it the same way. Every other site
+     * assigns 0.
+     *
+     * The s32 spelling survived field_28's retype because
+     * `b->field_2C = 0x200` in func_8002BFCC.c looked like an integer use of
+     * this field. It is not: that b is a DuelEffectResourceRecord *, which
+     * has its own field_2C at its own offset. func_800179F4.c's
+     * `pane->field_2C = 0` is that same other record. */
+    struct DisplayObject *field_2C;
     void *field_30;
     u16 flags_34;
     u16 field_36;
