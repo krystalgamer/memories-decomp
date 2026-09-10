@@ -1,10 +1,9 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "file_transfer.h"
+#include "func_80032184.h"
 
 extern s16 gDuel_awRecentCardDrops[];
-
-extern void func_80032184(void);
 
 void func_80032328(void)
 {
