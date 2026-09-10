@@ -1,16 +1,16 @@
 #define GINPUT_PAD1_PRESSED_SIZED5
 #include "../types.h"
 #include "duel_grid.h"
+#include "duel_selection_layout.h"
 #include "duel_card.h"
 #include "func_80017034.h"
 #include "input.h"
 
-extern DuelFieldCursor *D_8009B1B4;
-
 int func_80017034(DuelCardRecord *argument)
 {
     register DuelCardRecord *object asm("$6") = argument;
-    register DuelFieldCursor *position asm("$4") = D_8009B1B4;
+    register DuelFieldCursor *position asm("$4") =
+        (DuelFieldCursor *)D_8009B1B4;
     register u8 *table asm("$3") = D_800907D8;
     int valid = 1;
     unsigned int value =

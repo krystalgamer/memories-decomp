@@ -8,7 +8,6 @@
 #include "duel_selection_layout.h"
 #include "../unmatched.h"
 
-extern u8 *D_8009B1B4;
 extern u8 D_8015C424[];
 
 void func_8001B938(u8 *p) {
