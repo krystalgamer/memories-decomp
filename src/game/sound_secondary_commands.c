@@ -16,15 +16,12 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
     SDSecondaryState *b;
     SDSecondaryState *c;
     SDSecondaryRecord *e;
-    u8 *q;
-    u8 *p;
     u8 ok;
     s32 id;
     s32 id2;
     s32 sel;
     s32 v;
     s32 i;
-    s32 k;
     s32 m;
     s32 off;
 
@@ -89,20 +86,15 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
             id2 = arg0 & 0xFF;
             off = id2 * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
             m = 0x180;
-            k = i;
             do {
-                /* Keep the explicit byte views and address-calculation order. */
-                q = (u8 *)c + k;
-                if (id2 == q[0x183]) {
-                    if (q[0x18D] != 0) {
+                if (id2 == c->objects[i].channel_index) {
+                    if (c->objects[i].field_000D != 0) {
                         SD_SpatializeSecondaryObject((u8 *)c + m, (u8 *)c + off);
-                        p = (u8 *)D_8009B458 + k;
-                        SD_SetVoiceVolume(i, *(u16 *)(p + 0x194),
-                                          *(u16 *)(p + 0x196));
+                        SD_SetVoiceVolume(i, D_8009B458->objects[i].level_left,
+                                          D_8009B458->objects[i].level_right);
                     }
                 }
                 m += SD_SECONDARY_OBJECT_SIZE;
-                k += SD_SECONDARY_OBJECT_SIZE;
                 c = D_8009B458;
                 i++;
             } while (i < c->object_count);
@@ -132,28 +124,28 @@ void func_8004B70C(unsigned char index, int unused, int value)
 
 long SD_SequenceTimerCallback(void)
 {
-    u8 *state = D_8009B458_bytes;
+    SDSecondaryState *state = D_8009B458;
     int i;
-    if (state[0x814] == 0)
+    if (state->field_0814 == 0)
         return 1;
-    if (state[0x500] != 0)
+    if (state->flag_0500 != 0)
         return 1;
-    if (state[0x509] != 0)
+    if (state->field_0509 != 0)
         return 1;
-    if (state[0x501] != 0)
+    if (state->flag_0501 != 0)
         return 0;
     GetRCnt(RCntCNT2);
-    D_8009B458_bytes[0x501] = 1;
+    D_8009B458->flag_0501 = 1;
     for (i = 0; i < 8; i++) {
         void (*callback)(void);
         SD_ProcessSequenceTracks();
-        D_8009B458_bytes[0x508]++;
-        state = D_8009B458_bytes;
-        if (state[0x508] >= 11) {
-            state[0x508] = 0;
+        D_8009B458->field_0508++;
+        state = D_8009B458;
+        if (state->field_0508 >= 11) {
+            state->field_0508 = 0;
             func_8004C84C();
             func_8004AAFC();
-            callback = *(void (**)(void))(D_8009B458_bytes + 0x50C);
+            callback = D_8009B458->field_050C;
             if (callback != 0)
                 callback();
         }
