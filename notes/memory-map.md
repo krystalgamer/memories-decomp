@@ -125,7 +125,7 @@ type. Grepping for the destination's name finds nothing.
 Subtracting addresses is therefore a cheap identity test that no name search
 can do. Two more instances are confirmed:
 
-- `duel_rewards.c` builds `gDuel_awPlayerDeck + 0x5BC` in `Duel_AwardCard`,
+- `duel_result_runtime.c` builds `gDuel_awPlayerDeck + 0x5BC` in `Duel_AwardCard`,
   and `0x801D07BC - 0x801D0200` is exactly `0x5BC`, so that destination is
   `gDuel_awRecentCardDrops`.
 - `sound_output_state.c` reads `state + 0x40` where `state` is `g_SDValue`.
