@@ -2,12 +2,13 @@
 #define MEMORIES_DECOMP_OVERLAYS_OVERWORLD_CAMPAIGN_MAP_H
 
 #include "../../types.h"
+#include "../../ygo_types.h"
 
 /* The campaign map's shared state.
  *
- * Eight sources in this directory work on the same map: a table of location
- * records, the location the player is standing on, the one they came from,
- * and the state of the move between them. None of the four is defined in C,
+ * The live helpers in set_location.c work on the same map: a table of
+ * location records, the location the player is standing on, the one they
+ * came from, and the state of the move between them. None is defined in C,
  * so this header is a declaration point rather than an owner.
  *
  * gCampaignMap_aLocationTable used to live in src/unmatched.h, which said it
@@ -16,36 +17,11 @@
  * that header, so it has moved.
  */
 
-/* Location records, 66 bytes each; consumers index it with an explicit
- * stride rather than a typed element, which is load-bearing under -G8. */
-extern u8 gCampaignMap_aLocationTable[];
-
-/* One live-map location record. The 66-byte stride above is the size, and the
- * only part of it the live path names is the signed pair at +0x0C: the map
- * position of the location. CampaignMap_UpdateLocationTransition passes the
- * pair to func_8004318C to walk the marker towards it while the move runs,
- * then writes it into the marker's f48/f50 once the move ends.
- *
- * alternate_location.h describes the same 66-byte record for the mechanical
- * copy of this family, and reaches the same pair at +0x0C on its way to the
- * alternate marker's +0x30/+0x32. That agreement corroborates the offset and
- * is explicitly not a reason to share one type between the two families: the
- * tables are distinct symbols, and the pair is signed here because it is
- * assigned to MapObject's s16 f48/f50, where the alternate copy spells both
- * halves u16. The rest of the record stays padding until a live-path use
- * names it; CampaignMap_SetCameraFromLocation reads +2 through +0xA through
- * the byte view instead. */
-typedef struct {
-    u8 pad0[12];
-    s16 f12;
-    s16 f14;
-    u8 pad16[50];
-} MapLocation;
-
-/* The stride the table is indexed at everywhere else in the family. */
-typedef char MapLocation_size_must_be_66[
-    sizeof(MapLocation) == 66 ? 1 : -1
-];
+/* The live table's camera targets, marker coordinates and four exits share
+ * one 66-byte record. ygo_types.h owns the layout; the separate alternate
+ * table in alternate_location.h is not an alias of this one. Field evidence
+ * and signed-copy details are in notes/overlays/campaign-map-records.md. */
+extern MapLocation gCampaignMap_aLocationTable[];
 
 extern u8 gCampaignMap_Location;
 extern u8 gCampaignMap_LocationPrev;
@@ -100,19 +76,6 @@ extern u8 D_8016960D;
  * through the globals is a named member, so the struct remains the wider view;
  * byte locals stay local and cast at the global. alternate_location.h:63-66
  * spells the same f8/f48/f50 for the mechanical copy it describes. */
-typedef struct {
-    u8 pad0[8];
-    u16 f8;
-    u8 pad10[38];
-    s16 f48;
-    s16 f50;
-    u8 pad52[20];
-    u16 f72;
-    u16 f74;
-    u8 pad76[20];
-    s16 f96;
-} MapObject;
-
 extern MapObject *D_801695C8;
 extern MapObject *D_801695D8;
 

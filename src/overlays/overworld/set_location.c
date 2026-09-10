@@ -60,24 +60,22 @@ void CampaignMap_ClearLocationObjects(void)
 
 void CampaignMap_RebuildLocationObjects(s32 index)
 {
-    u8 *record;
-    u8 *entry;
+    MapLocation *record;
+    CampaignMapExit *entry;
     u8 *object;
     s32 i;
-    s32 offset;
 
     CampaignMap_ClearLocationObjects();
-    record = gCampaignMap_aLocationTable + index * 66;
+    record = gCampaignMap_aLocationTable + index;
     for (i = 0; i < 4; i++) {
-        offset = i * 12 + 0x12;
-        entry = record + offset;
-        if (entry[9] != 0x10) {
-            if (*(u16 *)entry == 0 ||
-                Campaign_TestStoryFlag(*(u16 *)entry) != 0) {
+        entry = &record->exits[i];
+        if (entry->destination != 0x10) {
+            if (entry->story_flag == 0 ||
+                Campaign_TestStoryFlag(entry->story_flag) != 0) {
                 object = func_800400AC(func_8004002C(), 2);
                 func_800428A8(
-                    object, *(s16 *)(entry + 2), *(s16 *)(entry + 4), 0, 2,
-                    entry[8], 0x17, 0x100, D_801AF000
+                    object, entry->x, entry->y, 0, 2,
+                    entry->field_08, 0x17, 0x100, D_801AF000
                 );
                 func_800428EC(object, 5);
                 *(u16 *)(object + 8) |= 0x28;
@@ -100,14 +98,14 @@ u8 *CampaignMap_CreateLocationLabel(s32 unused)
 
 void CampaignMap_SetCameraFromLocation(s32 index)
 {
-    u8 *entry = gCampaignMap_aLocationTable + index * 66;
+    MapLocation *entry = gCampaignMap_aLocationTable + index;
     ViewState *camera = &D_800F2848;
 
-    camera->field_04 = *(u16 *)(entry + 2);
-    camera->angle = *(u16 *)(entry + 4);
-    camera->field_00 = *(u16 *)(entry + 6);
-    camera->view.vrx = *(s16 *)(entry + 8);
-    camera->view.vrz = *(s16 *)(entry + 0xA);
+    camera->field_04 = (u16)entry->camera_field_04;
+    camera->angle = (u16)entry->camera_angle;
+    camera->field_00 = (u16)entry->camera_field_00;
+    camera->view.vrx = entry->view_x;
+    camera->view.vrz = entry->view_z;
     func_8001352C();
 }
 
@@ -225,22 +223,22 @@ void CampaignMap_MoveCameraDpad(void)
 u8 *CampaignMap_CreateLocationMarker(s32 index)
 {
     u8 *object;
-    u8 *table;
-    u8 *record;
-    u8 *entry;
+    MapLocation *table;
+    MapLocation *record;
+    MapLocation *entry;
 
     object = func_800400AC(func_8004002C(), 2);
     table = gCampaignMap_aLocationTable;
-    record = table + gCampaignMap_Location * 66;
+    record = table + gCampaignMap_Location;
     func_800428A8(
-        object, *(s16 *)(record + 0xC), *(s16 *)(record + 0xE), 0, 1, 0,
+        object, record->f12, record->f14, 0, 1, 0,
         0x17, 0x100, D_801AF000
     );
     func_800428EC(object, 0xA);
     *(u16 *)(object + 8) |= 0x28;
-    entry = table + index * 66;
-    *(u16 *)(object + 0x30) = *(u16 *)(entry + 0xC);
-    *(u16 *)(object + 0x32) = *(u16 *)(entry + 0xE);
+    entry = table + index;
+    *(u16 *)(object + 0x30) = (u16)entry->f12;
+    *(u16 *)(object + 0x32) = (u16)entry->f14;
     return object;
 }
 
@@ -313,7 +311,7 @@ void CampaignMap_StartCameraTween(s32 index, s32 steps)
 {
     ViewState *camera = &D_800F2848;
     s32 *cameraLong = (s32 *)&D_800F2848;
-    u8 *entry = gCampaignMap_aLocationTable + index * 66;
+    MapLocation *entry = gCampaignMap_aLocationTable + index;
     s32 x;
     s32 y;
     s32 angle;
@@ -327,11 +325,11 @@ void CampaignMap_StartCameraTween(s32 index, s32 steps)
     s32 stepDist;
 
     x = camera->field_00;
-    stepX = ((*(s16 *)(entry + 6) - x) << 16) / steps;
+    stepX = ((entry->camera_field_00 - x) << 16) / steps;
     y = camera->field_04;
-    stepY = ((*(s16 *)(entry + 2) - y) << 16) / steps;
+    stepY = ((entry->camera_field_04 - y) << 16) / steps;
     angle = camera->angle;
-    turn = (*(s16 *)(entry + 4) - angle) & TRIG_ANGLE_MASK;
+    turn = (entry->camera_angle - angle) & TRIG_ANGLE_MASK;
     D_801695E4 = (angle << 16) | 0x8000;
     D_801695E8 = (y << 16) | 0x8000;
     D_80169610 = (x << 16) | 0x8000;
@@ -345,8 +343,8 @@ void CampaignMap_StartCameraTween(s32 index, s32 steps)
         turn -= TRIG_ANGLE_FULL_TURN - 1;
     }
     stepTurn = (turn << 16) / steps;
-    stepPitch = ((*(s16 *)(entry + 8) - pitch) << 16) / steps;
-    stepDist = ((*(s16 *)(entry + 0xA) - dist) << 16) / steps;
+    stepPitch = ((entry->view_x - pitch) << 16) / steps;
+    stepDist = ((entry->view_z - dist) << 16) / steps;
     D_801695F0 = stepTurn;
     D_801695DC = stepPitch;
     D_801695E0 = stepDist;
@@ -412,10 +410,10 @@ s32 CampaignMap_UpdateLocationTransition(void)
             marker->f96 += quotient;
             func_8004318C(
                 (DisplayObjectPosition *)marker,
-                ((MapLocation *)gCampaignMap_aLocationTable)[
+                gCampaignMap_aLocationTable[
                     gCampaignMap_Location
                 ].f12,
-                ((MapLocation *)gCampaignMap_aLocationTable)[
+                gCampaignMap_aLocationTable[
                     gCampaignMap_Location
                 ].f14,
                 marker->f96
@@ -441,11 +439,11 @@ s32 CampaignMap_UpdateLocationTransition(void)
         }
         if (D_801695C8 != 0) {
             D_801695C8->f48 =
-                ((MapLocation *)gCampaignMap_aLocationTable)[
+                gCampaignMap_aLocationTable[
                     gCampaignMap_Location
                 ].f12;
             D_801695C8->f50 =
-                ((MapLocation *)gCampaignMap_aLocationTable)[
+                gCampaignMap_aLocationTable[
                     gCampaignMap_Location
                 ].f14;
         }
@@ -456,13 +454,13 @@ s32 CampaignMap_UpdateLocationTransition(void)
 
 s32 CampaignMap_PickExit(void)
 {
-    u8 *record;
-    u8 *exits;
+    MapLocation *record;
+    CampaignMapExit *exits;
     s32 ready;
     s32 i;
 
-    record = gCampaignMap_aLocationTable + gCampaignMap_Location * 66;
-    exits = record + 18;
+    record = gCampaignMap_aLocationTable + gCampaignMap_Location;
+    exits = record->exits;
     if (gCampaignMap_Location >= 10) {
         if (Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE) != 0 &&
             (gInput_wPad1Pressed & 0x20) != 0) {
@@ -472,42 +470,42 @@ s32 CampaignMap_PickExit(void)
         }
     }
     if ((gInput_wPad1Pressed & 0xC0) != 0) {
-        ready = *(u16 *)record;
+        ready = record->confirm_gate;
         if (ready != 0) {
-            if (Campaign_TestStoryFlag(*(u16 *)exits) != 0) {
+            if (Campaign_TestStoryFlag(exits->story_flag) != 0) {
                 ready = 0;
             }
         }
         if (ready == 0) {
-            if (record[0x10] != 0) {
+            if (record->confirm_destination != 0) {
                 gCampaignMap_MoveState = 24;
                 SD_SEPlayFull(48);
-                return record[0x10];
+                return record->confirm_destination;
             }
             SD_SEPlayFull(48);
             return gCampaignMap_Location | 0x8000;
         }
     }
     for (i = 0; i < 4; i++) {
-        if ((exits + 6)[3] != 16) {
-            if (*(u16 *)exits == 0 ||
-                Campaign_TestStoryFlag(*(u16 *)exits) != 0) {
-                if ((gInput_wPad1Held & *(u16 *)(exits + 6)) != 0) {
-                    gCampaignMap_MoveState = exits[0xA];
+        if (exits->destination != 16) {
+            if (exits->story_flag == 0 ||
+                Campaign_TestStoryFlag(exits->story_flag) != 0) {
+                if ((gInput_wPad1Held & exits->input_mask) != 0) {
+                    gCampaignMap_MoveState = exits->move_steps;
                     SD_SEPlayFull(6);
-                    return exits[9];
+                    return exits->destination;
                 }
             }
         }
-        exits += 12;
+        exits++;
     }
     return -1;
 }
 
 void CampaignMap_UpdateLocation(void)
 {
-    u8 *table;
-    u8 *record;
+    MapLocation *table;
+    MapLocation *record;
     s32 exit;
 
     if (D_801695EC != 0) {
@@ -523,9 +521,9 @@ void CampaignMap_UpdateLocation(void)
                     CampaignMap_CreateLocationMarker(gCampaignMap_Location);
             }
             table = gCampaignMap_aLocationTable;
-            record = table + gCampaignMap_Location * 66;
-            *(s16 *)((u8 *)D_801695C8 + 0x30) = *(u16 *)(record + 12);
-            *(s16 *)((u8 *)D_801695C8 + 0x32) = *(u16 *)(record + 14);
+            record = table + gCampaignMap_Location;
+            D_801695C8->f48 = (u16)record->f12;
+            D_801695C8->f50 = (u16)record->f14;
         } else {
             func_8004036C(D_801695C8);
             D_801695C8 = 0;
