@@ -18,7 +18,7 @@
    and defence from gDuel_adwCardStats are rendered as four decimal digits
    each (through Text_EncodeDecimalDigits), dimmed when the entry's high
    bit is set. */
-void func_80060B38(u8 *obj, GsOT *ot) {
+void func_80060B38(DisplayObject *obj, GsOT *ot) {
     u8 atk[8];
     u8 def[8];
     GsSPRITE *sp;
@@ -33,19 +33,19 @@ void func_80060B38(u8 *obj, GsOT *ot) {
 
     tbl = D_80090DD8;
     sp = (GsSPRITE *)0x1F800320;
-    rec = &D_801A8000[obj[0x6A]];
-    pri = *(s16 *)(obj + 0x14);
-    sp->attribute = *(u32 *)(obj + 4);
+    rec = &D_801A8000[obj->field_6A];
+    pri = *(s16 *)&obj->field_14;
+    sp->attribute = obj->attribute;
     sp->tpage = 0xB;
     *(u32 *)&sp->r = 0x808080;
     *(u32 *)&sp->w = 0x100010;
-    sp->x = *(u16 *)(obj + 0x30) + 0x22;
-    sp->y = *(u16 *)(obj + 0x32) - 0x18;
+    sp->x = obj->field_30.h.field_30 + 0x22;
+    sp->y = obj->field_30.h.field_32 - 0x18;
     sp->cy = 0xFB;
     i = 0;
     do {
         *(u32 *)&sp->r = 0x202020;
-        if (i == obj[0x69]) {
+        if (i == obj->field_69) {
             *(u32 *)&sp->r = 0x808080;
         }
         sp->u = (tbl[0] & 0xF) * 8 - 0x80;
@@ -58,11 +58,11 @@ void func_80060B38(u8 *obj, GsOT *ot) {
     } while (i < 6);
 
     if (rec->enabled != 0) {
-        sp->attribute = *(u32 *)(obj + 4);
-        sp->x = *(u16 *)(obj + 0x30) + 0x24;
+        sp->attribute = obj->attribute;
+        sp->x = obj->field_30.h.field_30 + 0x24;
         *(u32 *)&sp->w = 0x80008;
         entries = rec->card_entries;
-        sp->y = *(u16 *)(obj + 0x32);
+        sp->y = obj->field_30.h.field_32;
         sp->tpage = 0xB;
         sp->cx = 0x290;
         sp->cy = 0xFA;
@@ -74,7 +74,7 @@ void func_80060B38(u8 *obj, GsOT *ot) {
             if (id != 0) {
                 if (((gDuel_adwCardStats[id - 1] >> CARD_STAT_TYPE_SHIFT) &
                      CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
-                    sp->x = *(u16 *)(obj + 0x30) + 0x24;
+                    sp->x = obj->field_30.h.field_30 + 0x24;
                     *(u32 *)&sp->r = 0x808080;
                     if (*entries & 0x8000) {
                         *(u32 *)&sp->r = 0x404040;
