@@ -565,6 +565,7 @@ SpuSetIRQ = 0x80076D90; // type:func
 SpuSetKey = 0x80076ED0; // type:func
 SpuGetKeyStatus = 0x80077090; // type:func
 SpuSetKeyOnWithAttr = 0x80077120; // type:func
+SpuWrite = 0x80077150; // type:func
 SpuSetTransferStartAddr = 0x800771B0; // type:func
 SpuSetTransferMode = 0x80077210; // type:func
 SpuIsTransferCompleted = 0x80077240; // type:func
