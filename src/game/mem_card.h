@@ -69,9 +69,9 @@ extern u8 D_800EFE18[];
  * register-to-argument move; the definition and the other callers use the
  * measured byte/halfword contract. */
 #ifdef GMEMCARD_RESULT_USES_WIDE_ARGS
-void func_8003E46C(s32 value, s32 bits);
+void MemCardDialog_SetMessage(s32 value, s32 bits);
 #else
-void func_8003E46C(u8 value, u16 bits);
+void MemCardDialog_SetMessage(u8 value, u16 bits);
 #endif
 
 /* The memory-card dialog's flag word.
@@ -80,8 +80,8 @@ void func_8003E46C(u8 value, u16 bits);
  * only tests bits or does a read-modify-write, and marking the object
  * volatile forces reloads that grow .text by 40 bytes.
  *
- * func_8003E46C needs the opposite and reaches the same word through its own
- * volatile linker name; see the comment there.
+ * MemCardDialog_SetMessage needs the opposite and reaches the same word
+ * through its own volatile linker name; see the comment there.
  */
 extern u16 gMemCard_wDialogFlags;
 
@@ -178,9 +178,9 @@ extern u8 D_8009B3C0;
  *   D_8009B3EE  The effect channel the box occupies. It is cleared to 0 and
  *               then set to the first slot whose flags_34 lacks 0x8000, and
  *               every other use indexes D_800EB0F8 with it or hands it to
- *               TextBox_Destroy and func_8003F2B0.
- *   D_8009B3C6  The message the box shows. func_8003E46C takes it as its
- *               `value` parameter and stores it while raising
+ *               TextBox_Destroy and MemCardDialog_StepSlide.
+ *   D_8009B3C6  The message the box shows. MemCardDialog_SetMessage takes
+ *               it as its `value` parameter and stores it while raising
  *               MEM_CARD_DIALOG_FLAG_RESULT_READY. Distinct from D_8009B3C0
  *               above, which is the save path's failure code.
  *   D_8009B3D8  The box's display object. Assigned when the dialog opens,

@@ -75,7 +75,7 @@ __asm__(
     ".reloc .-4, R_MIPS_26, SaveData_RequestWrite\n"
     ".word 0x00000000\n"
     ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8003F70C\n"
+    ".reloc .-4, R_MIPS_26, MemCardDialog_Poll\n"
     ".word 0x00000000\n"
     ".word 0x00403021\n"
     ".word 0x10C00049\n"

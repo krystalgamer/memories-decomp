@@ -3,7 +3,7 @@
 #include "save_data.h"
 #include "util_memory.h"
 s32 SaveData_PollLoad(void) {
-    s32 r = func_8003F70C();
+    s32 r = MemCardDialog_Poll();
     if (r != 0) {
         if (r == 1) {
             u8 *p = (u8 *)gDuel_awPlayerDeck;

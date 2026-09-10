@@ -5,13 +5,14 @@
 
 /* Polls the memory-card dialog and reports its result, or 0 while a dialog
  * is still up. */
-s32 func_8003F70C(void);
+s32 MemCardDialog_Poll(void);
 
-/* Raises the memory-card dialog for the given operation. */
-void func_8003F740(s32 value);
+/* Raises the memory-card dialog on step `step` of the D_80090F9C table. */
+void MemCardDialog_Start(s32 step);
 
-/* Queues a memory-card transfer of arg1 bytes from data, to or from the
- * file named by name, with arg3 selecting the operation. */
-void func_8003F758(void *data, s32 arg1, u8 *name, s32 arg3);
+/* Queues a memory-card transfer of size bytes from buf, to or from the file
+ * named by name, with step selecting the operation. The callers use steps 0
+ * (load), 1 (load without the confirmation prompt), 2 (save) and 4. */
+void MemCardDialog_Request(void *buf, s32 size, u8 *name, s32 step);
 
 #endif

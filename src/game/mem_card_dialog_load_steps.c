@@ -4,21 +4,21 @@
 #include "../unmatched.h"
 #include "mem_card_load_state.h"
 
-void func_8003E7D4(void)
+void MemCardDialog_StepLoad(void)
 {
     if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         D_8009B3EB = 0;
     }
-    func_8003E490();
+    MemCardDialog_UpdateLoad();
 }
 
-void func_8003E80C(void)
+void MemCardDialog_StepLoadUnprompted(void)
 {
     if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
         D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         D_8009B3EB = 1;
         gMemCard_wDialogFlags |= 0x200;
     }
-    func_8003E490();
+    MemCardDialog_UpdateLoad();
 }

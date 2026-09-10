@@ -10,7 +10,7 @@
 #include "../unmatched.h"
 
 /* Memory-card create dialog state machine, the third of the family beside
-   func_8003E490 and func_8003EED0.
+   MemCardDialog_UpdateLoad and func_8003EED0.
 
    It walks the card from "no save present" to "save written": accept the
    card, read the directory, look the file up, compare free blocks against
@@ -45,7 +45,7 @@ extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern u8 D_8009AF70[];
 extern s32 D_801D5608[];
 
-void func_8003E854(void)
+void MemCardDialog_UpdateSave(void)
 {
     s32 files;
     s32 free_blocks;
@@ -59,7 +59,7 @@ void func_8003E854(void)
         if ((D_8009B3EB & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             D_8009B3EB |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
             D_801D5648[0] = (D_8009B3F9 >> 4) + 1;
-            func_8003E46C(0xC9, 0x20);
+            MemCardDialog_SetMessage(0xC9, 0x20);
             break;
         }
         D_8009B3EB = 1;
@@ -71,7 +71,7 @@ void func_8003E854(void)
     case 1:
         if ((D_8009B3EB & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             D_8009B3EB |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
-            func_8003E46C(0xD4, 0);
+            MemCardDialog_SetMessage(0xD4, 0);
             do {
             } while (MemCardAccept(0) == 0);
             goto io_pending;
@@ -108,7 +108,7 @@ void func_8003E854(void)
         if ((D_8009B3EB & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) {
             break;
         }
-        func_8003E46C(0xB8, 0x18);
+        MemCardDialog_SetMessage(0xB8, 0x18);
         break;
     case 3:
         if (MemCardGetDirentry(0, (char *)D_8009AF70,
@@ -133,17 +133,17 @@ void func_8003E854(void)
         }
         D_801D5608[0] = MEM_CARD_BLOCK_COUNT - free_blocks;
         D_801D5608[1] = needed;
-        func_8003E46C(0xDB, 0x18);
+        MemCardDialog_SetMessage(0xDB, 0x18);
         break;
     case 4:
         if ((D_8009B3EB & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             D_8009B3EB |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
-            func_8003E46C(0xDE, 0x10);
+            MemCardDialog_SetMessage(0xDE, 0x10);
             break;
         }
         if ((D_8009B3EB & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) {
             D_8009B3EB |= MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
-            func_8003E46C(0xDF, 0x20);
+            MemCardDialog_SetMessage(0xDF, 0x20);
             break;
         }
         if (gDialog_bChoice == 0) {
@@ -151,7 +151,7 @@ void func_8003E854(void)
             break;
         }
         D_8009B3EB = 5;
-        func_8003E46C(0xBE, 0);
+        MemCardDialog_SetMessage(0xBE, 0);
         break;
     case 5:
         if ((D_8009B3EB & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
@@ -165,10 +165,10 @@ void func_8003E854(void)
         }
         switch (D_8009B3F4) {
         case 0:
-            func_8003E46C(0xC3, 0x18);
+            MemCardDialog_SetMessage(0xC3, 0x18);
             break;
         case 3:
-            func_8003E46C(0xC3, 0x18);
+            MemCardDialog_SetMessage(0xC3, 0x18);
             break;
         case 2:
             D_8009B3EB = 0xD;
@@ -177,10 +177,10 @@ void func_8003E854(void)
             if ((D_8009B3EB & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) {
                 D_8009B3EB |= MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
                 if (MemCardFormat(0) != 0) {
-                    func_8003E46C(0xDD, 0x18);
+                    MemCardDialog_SetMessage(0xDD, 0x18);
                     break;
                 }
-                func_8003E46C(0xBF, 0x10);
+                MemCardDialog_SetMessage(0xBF, 0x10);
                 break;
             }
             D_8009B3EB = 1;
@@ -244,7 +244,7 @@ void func_8003E854(void)
             D_8009B3EB = 0xE;
             break;
         message_cf:
-            func_8003E46C(0xCF, 0x20);
+            MemCardDialog_SetMessage(0xCF, 0x20);
             break;
         }
         if (gDialog_bChoice == 0) {
@@ -257,7 +257,7 @@ void func_8003E854(void)
     write:
         if ((D_8009B3EB & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             D_8009B3EB |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
-            func_8003E46C(0xD6, 0);
+            MemCardDialog_SetMessage(0xD6, 0);
             MemCardWriteFile(0, (char *)D_800EFE18,
                              (unsigned long *)D_8009B3D0, D_8009B3C4,
                              D_8009B3C2);
@@ -276,7 +276,7 @@ void func_8003E854(void)
         D_8009B3EB = 0xA;
         break;
     case 9:
-        func_8003E46C(0xD2, 0x18);
+        MemCardDialog_SetMessage(0xD2, 0x18);
         break;
     case 10:
         D_8009B3EF = 1;
@@ -286,20 +286,20 @@ void func_8003E854(void)
             D_8009B3D4 = 0;
             gSaveDataSequence++;
         }
-        func_8003E46C(message, 0x18);
+        MemCardDialog_SetMessage(message, 0x18);
         break;
     case 11:
-        func_8003E46C(0xD9, 0x18);
+        MemCardDialog_SetMessage(0xD9, 0x18);
         break;
     case 12:
-        func_8003E46C(0xCD, 0x18);
+        MemCardDialog_SetMessage(0xCD, 0x18);
         D_8009B3EF = 3;
         break;
     case 13:
-        func_8003E46C(0xDA, 0x18);
+        MemCardDialog_SetMessage(0xDA, 0x18);
         break;
     case 14:
-        func_8003E46C(0xCE, 0x18);
+        MemCardDialog_SetMessage(0xCE, 0x18);
         break;
     }
 }

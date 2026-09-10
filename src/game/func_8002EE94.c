@@ -80,7 +80,7 @@ void func_8002EE94(void)
     }
 
     if ((D_8009B27C & 0x80) != 0) {
-        if (func_8003F70C() == 0) {
+        if (MemCardDialog_Poll() == 0) {
             return;
         }
         gDialog_bChoiceCount = 4;

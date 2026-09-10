@@ -148,7 +148,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     maximum = 715;
 
     if (D_80185CD1 != 0) {
-        result = func_8003F70C();
+        result = MemCardDialog_Poll();
         if (result == 0) {
             goto out;
         }
