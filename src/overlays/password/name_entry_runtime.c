@@ -6,6 +6,7 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../game/input.h"
+#include "../../game/display_object_config.h"
 #include "../../game/text_constants.h"
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_layout.h"
@@ -78,10 +79,6 @@ extern DuelEffectChannel D_800EB1C0;
 extern u8 D_8016D41C;
 
 extern s32 func_800358FC(s32);
-extern void func_800403F0(void);
-extern void func_80040510(
-    void *, s32, s32, s32, s32, s32, s32, s32, s32, s32
-);
 extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
 extern void *func_800374F4(DuelEffectChannel *);
 extern void func_80043230(DialogCaret *, s32, s32, s32);
@@ -211,7 +208,7 @@ void NameEntry_Init(void)
     *(void **)(obj + 0x4C) = NameEntry_DrawSelectionFrame;
     D_8016D404 = (SelectionFrame *)obj;
     obj = func_800400AC(func_8004002C(), 1);
-    func_80040510(obj, 107, 199, 32, 32, 144, 128, 23, 256, 240);
+    func_80040510((DisplayObjectConfigView *)obj, 107, 199, 32, 32, 144, 128, 23, 256, 240);
     *(s16 *)(obj + 0x4A) = 13;
     *(s16 *)(obj + 0x48) = 13;
     *(s32 *)(obj + 4) = *(s32 *)(obj + 4) | GsALON;
@@ -219,7 +216,7 @@ void NameEntry_Init(void)
     func_800428EC(obj, 10);
     D_8016D43C = obj;
     obj = func_800400AC(func_8004002C(), 3);
-    func_80040510(obj, 0, 0, 320, 240, 0, 0, 20, 256, 243);
+    func_80040510((DisplayObjectConfigView *)obj, 0, 0, 320, 240, 0, 0, 20, 256, 243);
     *(s32 *)(obj + 0xC) = 0x404040;
     *(s32 *)(obj + 4) = *(s32 *)(obj + 4) | 0x1000000;
     func_8004293C(obj);
@@ -321,7 +318,7 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
             for (dx = 0; dx < 0x10; dx += 4) {
                 piece = func_800400AC(func_8004002C(), 1);
                 if (piece != 0) {
-                    func_80040510(piece,
+                    func_80040510((DisplayObjectConfigView *)piece,
                                   *(s16 *)(object + 0x30) + dx,
                                   *(s16 *)(object + 0x32) + dy,
                                   4, 4,
@@ -401,7 +398,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
     *(s16 *)(w + 0x60) = n;
     if ((s16)n > 0) {
         o = func_800400AC(func_8004002C(), 1);
-        func_80040510(o, *(s16 *)(w + 0x30), *(s16 *)(w + 0x32), 16, 16,
+        func_80040510((DisplayObjectConfigView *)o, *(s16 *)(w + 0x30), *(s16 *)(w + 0x32), 16, 16,
                       w[0x5C], w[0x5D], w[0x66], *(u16 *)(w + 0x40),
                       *(u16 *)(w + 0x42));
         *(u32 *)(o + 0x0C) = 0x606060;
@@ -498,14 +495,16 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
         }
 draw:
         func_80040510(
-            obj, p->field_3C + w->x_0C + shift, p->field_40 + w->y_0E,
+            (DisplayObjectConfigView *)obj,
+            p->field_3C + w->x_0C + shift, p->field_40 + w->y_0E,
             16, 16, u, v, 10, 640, p->field_54 + 232
         );
         obj->sequence = D_8016D408;
         D_8016D408 = D_8016D408 + 1;
     } else {
         func_80040510(
-            obj, D_8016D404->x, D_8016D404->y, 16, 16, 128, 128, 23,
+            (DisplayObjectConfigView *)obj,
+            D_8016D404->x, D_8016D404->y, 16, 16, 128, 128, 23,
             256, 240
         );
     }
