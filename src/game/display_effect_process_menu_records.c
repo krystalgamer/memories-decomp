@@ -1,9 +1,8 @@
 #include "../types.h"
+#include "func_8003B378.h"
 #include "display_effect_process_menu_records.h"
 #include "menu_record.h"
 #include "display_effect_step_table.h"
-
-extern void func_8003B378(u8 *, s32);
 
 void DisplayEffect_ProcessMenuRecords(s32 value) {
     MenuRecord *record = D_800EB010;

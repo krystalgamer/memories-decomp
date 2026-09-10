@@ -2,6 +2,7 @@
 #include "../psyq/rand.h"
 #include "display_effect_constants.h"
 #include "display_object_config.h"
+#include "func_8003B378.h"
 
 void func_8003B378(u8 *p, s32 n) {
     s32 f;

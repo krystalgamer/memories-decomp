@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8003B378.h"
 #include "rand_get_interval.h"
 #include "func_8003134C.h"
 #include "menu_record.h"
@@ -11,7 +12,6 @@ extern DisplayObject *D_800EB184[4];
 extern DisplayObject *D_8009B2E4;
 
 extern void func_8002FD10(s32);
-extern void func_8003B378(void *, s32);
 
 void func_80031354(void)
 {
@@ -38,6 +38,6 @@ void func_80031354(void)
         second->flags = second_flags;
     } else {
         s32 value = Rand_GetInterval(4);
-        func_8003B378(D_800EB010, value);
+        func_8003B378((u8 *)D_800EB010, value);
     }
 }
