@@ -141,6 +141,24 @@ extern u8 gDuel_bWinnerSide;
  * the sentinel is the whole point of the field. */
 extern s8 D_8009B238;
 
+/* The duel's outcome as a plain 0/1 byte. func_80020F4C sets it in the
+ * same statement group as D_8009B238: 0 when gDuel_bWinnerSide is 0, 1
+ * otherwise. Main_RunDuel indexes its two campaign continuations with it
+ * (`table[D_8009B362 * 2]`), and the free_duel overlay's FreeDuel_Init
+ * steps from the wins halfword to the losses halfword of the duelist
+ * record when it is 1. Every retail access is a byte: sb through $at in
+ * func_80020F4C and lui/lbu in Main_RunDuel, both in units that reach
+ * other symbols through $gp, so func_80020F4C.c and
+ * main_run_duel_and_library.c define the .data arm below; free_duel/init.c
+ * (-G0) takes the plain byte. The `u8 [9]` main_run_duel_and_library.c
+ * used to declare reached the same form; as the note on D_8009B360 says,
+ * such a size is a threshold, not a length. */
+#ifdef D_8009B362_IN_DATA
+extern u8 D_8009B362 __attribute__((section(".data")));
+#else
+extern u8 D_8009B362;
+#endif
+
 /* The halfword the duel hands to SD_BGMPlay: func_8001825C and func_80018608
  * read it for that call, func_80024DC8 stores 0x7270, func_80030F40 stores
  * 0x71D0 and Text_StartCampaignDuel stores func_80036D3C's result. lhu/sh
