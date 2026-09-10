@@ -617,17 +617,37 @@ declares
 where `file_stream.c` declares both without the qualifier, and no header owns
 either symbol though `file_transfer.h` already owns the rest of that family.
 Dropping the two qualifiers does not merely change the encoding; the
-executable comes out four bytes short and fails on size alone. The runtime
-writes each symbol twice in a row across a test:
+executable comes out four bytes short and fails on size alone. The cause is
+scheduling, not elimination. `func_80014A5C` stores one word and then tests
+the other:
 
-    if (D_8009B124 != 0) {
-        D_8009B124 = 0;
-    }
-    ...
     D_8009B124 = 1;
+    if (D_8009B0E8 != 0) {
+        return;
+    }
 
-Without `volatile` GCC is entitled to drop the store that the following one
-overwrites, and it takes it.
+With `volatile` the load of `D_8009B0E8` cannot move above the store to
+`D_8009B124`, so the load-delay slot in front of the branch has nothing to
+fill it:
+
+    sh    v0,0(gp)        # D_8009B124 = 1
+    lw    v0,0(gp)        # D_8009B0E8
+    nop
+    bnez  v0,...
+
+Without the qualifier the load hoists above the store and fills that slot
+itself, the nop goes, and the function ends four bytes earlier. That is the
+same pinning the `Campaign_LoadScenePackageStage` case above describes for
+`D_8009B0F4`, reached from the other direction: there a byte pointer pinned a
+global load after some stores, here a volatile store pins a later load after
+itself.
+
+An earlier draft of this section explained the four bytes as a dead store
+being dropped, reading the guard as two writes in a row. That was wrong, and
+worth recording as a way to get this wrong: the `D_8009B124 = 0` arm of the
+guard returns immediately, so there is no path on which a following store
+overwrites it. The size difference was real and the mechanism invented; the
+disassembly is what settled it.
 
 The obvious conclusion from that is the guarded two-arm form `input.h` and
 `sound.h` use, one arm per spelling. It is also wrong, and it took a second
