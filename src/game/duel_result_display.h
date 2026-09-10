@@ -65,6 +65,4 @@ typedef char DuelResultDisplayState_size_must_be_0x40[
  * from is not established here -- only what it points at. */
 extern DuelResultDisplayState *D_8009B1E8;
 
-void Duel_ShowResultPage(s32 page);
-
 #endif

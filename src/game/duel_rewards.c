@@ -9,6 +9,64 @@
 #include "duel_result_display.h"
 #include "duel_rewards.h"
 #include "text_staging.h"
+#include "display_object_layout.h"
+#include "display_object.h"
+#include "text_box_lifecycle.h"
+#include "text_box_runtime.h"
+#include "display_object_config.h"
+
+/* The duel's reward step: Duel_ShowResultPage shows one of the three result
+   pages and opens its text box, Duel_CalcRankScoreChange is the per-rule
+   lookup Duel_CalcRankScore sums into that display's side scores, and the
+   card drop and award follow. The first two were recorded at gcc_2_8_1_g8
+   and gcc_2_8_1_g0_split and compile to identical objects at this unit's
+   gcc_2_8_1_g8_split. */
+
+void Duel_ShowResultPage(s32 page)
+{
+    s32 i;
+    DisplayObject *child;
+    void *object;
+
+    func_80040410((DisplayObjectConfig *)D_8009B1E8->root, page);
+    if (page == 0) {
+        DuelResultDisplayState *state = D_8009B1E8;
+
+        for (i = 0; i < DUEL_RESULT_DISPLAY_CHILD_COUNT; i++) {
+            child = state->children[i];
+            if (child == 0) {
+                break;
+            }
+            child->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
+        }
+    } else {
+        DuelResultDisplayState *state = D_8009B1E8;
+
+        for (i = 0; i < DUEL_RESULT_DISPLAY_CHILD_COUNT; i++) {
+            child = state->children[i];
+            if (child == 0) {
+                break;
+            }
+            child->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+        }
+    }
+    object = TextBox_Create(
+        0, D_8009B1E8->page_text_ids[page], 0x1A, 0x28, 0x120, 0x120
+    );
+    func_80039A14(object);
+}
+
+s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
+{
+    DuelRankScoreChangeEntry *p = &gDuel_awRankScoreChange[arg0][0];
+
+    while (1) {
+        if (arg1 < p->threshold) {
+            return p->score_change;
+        }
+        p++;
+    }
+}
 
 /* Initializes result-message selectors at +0x34; the winner's signed
    end-reason adjustment selects the middle variant, not a rank letter.

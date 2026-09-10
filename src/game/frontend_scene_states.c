@@ -18,6 +18,7 @@
 #include "movie_playback_control.h"
 #include "../unmatched.h"
 #include "main_services.h"
+#include "frontend_scene_states.h"
 
 /* The frontend's scene states, in address order. Every one of them is a step
    of the same state machine: the flags byte D_8009B2EB carries bit 0x80 for

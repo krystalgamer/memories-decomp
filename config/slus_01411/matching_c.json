@@ -890,15 +890,15 @@
     },
     {
       "address": "0x80021480",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xD8",
-      "source": "src/game/duel_show_result_page.c"
+      "source": "src/game/duel_rewards.c"
     },
     {
       "address": "0x80021558",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
-      "source": "src/game/duel_calc_rank_score_change.c"
+      "source": "src/game/duel_rewards.c"
     },
     {
       "address": "0x80021598",
@@ -2228,15 +2228,15 @@
     },
     {
       "address": "0x80032B60",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/build_deck_compare.c"
+      "source": "src/game/card_list_sort.c"
     },
     {
       "address": "0x80032BD4",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/build_deck_compare.c"
+      "source": "src/game/card_list_sort.c"
     },
     {
       "address": "0x80032C48",
