@@ -19,10 +19,11 @@
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "display_object_position.h"
+#include "menu_record.h"
 
 extern u16 D_8009B0D8_halfword asm("D_8009B0D8");
 
-void func_8003AD6C(u8 *p)
+void func_8003AD6C(MenuRecord *p)
 {
     s32 dd[2];
     u8 *r;
@@ -38,75 +39,76 @@ void func_8003AD6C(u8 *p)
     DisplayObject *o;
 
     if (func_80039F1C((DisplayEffectState *)p) == 0) {
-        p[0x32] |= 0x10;
-        r = *(u8 **)p;
+        p->field_32 |= 0x10;
+        r = *(u8 **)&p->grid[0][0];
         a = r[0x67];
         b = *(s8 *)(r + 0x16);
-        func_80039F90((void **)p);
-        func_8003A1EC(p, (u8 **)p, p[0x31]);
-        func_8003A440((u8 **)p, (GsALON | GsAONE), b);
-        func_8003A1EC(p, (u8 **)(p + 0xC), p[0x31]);
+        func_80039F90((void **)p->grid[0]);
+        func_8003A1EC((u8 *)p, (u8 **)p->grid[0], p->field_31);
+        func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), b);
+        func_8003A1EC((u8 *)p, (u8 **)p->grid[1], p->field_31);
         d = b - 1;
-        func_8003A440((u8 **)(p + 0xC), (GsALON | GsATWO), d);
-        func_8003A1EC(p, (u8 **)(p + 0x18), a);
-        func_8003A440((u8 **)(p + 0x18), (GsALON | GsAONE), b);
-        func_8003A1EC(p, (u8 **)(p + 0x24), a);
-        func_8003A440((u8 **)(p + 0x24), (GsALON | GsATWO), d);
-        *(s16 *)(p + 0x40) = 0x80;
+        func_8003A440((u8 **)p->grid[1], (GsALON | GsATWO), d);
+        func_8003A1EC((u8 *)p, (u8 **)p->grid[2], a);
+        func_8003A440((u8 **)p->grid[2], (GsALON | GsAONE), b);
+        func_8003A1EC((u8 *)p, (u8 **)p->grid[3], a);
+        func_8003A440((u8 **)p->grid[3], (GsALON | GsATWO), d);
+        p->field_40 = 0x80;
     }
-    n = *(u16 *)(p + 0x40) - D_8009B0D8 * 8;
-    *(u16 *)(p + 0x40) = n;
+    n = (u16)p->field_40 - D_8009B0D8 * 8;
+    p->field_40 = n;
     if (n <= 0) {
-        p[0x33] = 0;
-        func_8003A440((u8 **)p, 0, *(s8 *)(*(u8 **)p + 0x16));
-        func_8003A920((DisplayPositionGroup *)p, *(s16 *)(p + 0x34),
-                      *(s16 *)(p + 0x36));
-        func_80039F90((void **)(p + 0xC));
-        func_80039F90((void **)(p + 0x18));
-        func_80039F90((void **)(p + 0x24));
-        p[0x32] &= 0xEF;
+        p->display_effect_step = 0;
+        func_8003A440((u8 **)p->grid[0], 0,
+                      *(s8 *)(*(u8 **)&p->grid[0][0] + 0x16));
+        func_8003A920((DisplayPositionGroup *)p, *(s16 *)&p->field_34,
+                      *(s16 *)&p->field_36);
+        func_80039F90((void **)p->grid[1]);
+        func_80039F90((void **)p->grid[2]);
+        func_80039F90((void **)p->grid[3]);
+        p->field_32 &= 0xEF;
         return;
     }
     c = n;
     c |= (c << 8) | (c << 0x10);
     for (m = 2; m >= 0; m--) {
-        o = *(DisplayObject **)(p + m * 4 + 0x18);
+        o = *(DisplayObject **)&p->grid[2][m];
         if (o != 0) {
             o->field_0C = c;
         }
-        o = *(DisplayObject **)(p + m * 4 + 0x24);
+        o = *(DisplayObject **)&p->grid[3][m];
         if (o != 0) {
             o->field_0C = c;
         }
     }
-    c = 0x80 - *(s16 *)(p + 0x40);
+    c = 0x80 - p->field_40;
     c |= (c << 8) | (c << 0x10);
     for (m = 2; m >= 0; m--) {
-        o = *(DisplayObject **)(p + m * 4);
+        o = *(DisplayObject **)&p->grid[0][m];
         if (o != 0) {
             o->field_0C = c;
         }
-        o = *(DisplayObject **)(p + m * 4 + 0xC);
+        o = *(DisplayObject **)&p->grid[1][m];
         if (o != 0) {
             o->field_0C = c;
         }
     }
-    dd[0] = *(s16 *)(p + 0x40) / 8;
-    w = (0x80 - *(s16 *)(p + 0x40)) / 8;
+    dd[0] = p->field_40 / 8;
+    w = (0x80 - p->field_40) / 8;
     dd[1] = -w;
-    if (p[0x3C] == 0) {
+    if (p->field_3C == 0) {
         dd[0] = -dd[0];
         dd[1] = w;
     }
-    y = *(s16 *)(p + 0x36);
-    x = *(s16 *)(p + 0x34) + dd[0];
+    y = *(s16 *)&p->field_36;
+    x = *(s16 *)&p->field_34 + dd[0];
     x = (s16)x;
     func_8003A920((DisplayPositionGroup *)p, x, y);
-    func_8003A920((DisplayPositionGroup *)(p + 0xC), x, y);
-    x = *(s16 *)(p + 0x34) - dd[1];
+    func_8003A920((DisplayPositionGroup *)p->grid[1], x, y);
+    x = *(s16 *)&p->field_34 - dd[1];
     x = (s16)x;
-    func_8003A920((DisplayPositionGroup *)(p + 0x18), x, y);
-    func_8003A920((DisplayPositionGroup *)(p + 0x24), x, y);
+    func_8003A920((DisplayPositionGroup *)p->grid[2], x, y);
+    func_8003A920((DisplayPositionGroup *)p->grid[3], x, y);
 }
 
 void func_8003B054(u8 *p)
