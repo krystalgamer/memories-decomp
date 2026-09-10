@@ -1,5 +1,6 @@
 #define D_8009B140_IN_DATA
 #define D_8009AF74_IN_DATA
+#define D_8009B09C_IN_DATA
 #include "../types.h"
 #include "func_80032B38.h"
 #include "duel_effect.h"
@@ -10,6 +11,10 @@
 #include "func_80039794.h"
 #include "display_object_helpers.h"
 #include "build_deck_transition_state.h"
+#include "graphics_frame.h"
+#include "duel_transition_color.h"
+#include "duel_transition_step_table.h"
+#include "../psyq/rand.h"
 
 extern u8 D_8009B2F8;
 /* Retail addresses these three with %hi/%lo under -G8, so they live outside
@@ -106,4 +111,41 @@ void func_800339D0(u8 *state)
         func_80032370();
         ((BuildDeckTransitionState *)state)->state = 0;
     }
+}
+
+/* Per-frame Build Deck transition driver. It pulses both pane colours, then
+ * dispatches the current step through D_80090DF8; func_800339D0 above is the
+ * table's exit step. */
+s32 func_80033BE8(void)
+{
+    s32 intensity;
+    s32 color;
+    BuildDeckTransitionState *base;
+    u8 *first;
+    u8 *second;
+
+    rand();
+
+    intensity = D_8009B09C & 0x3F;
+    if (intensity >= 0x20) {
+        intensity = 0x3F - intensity;
+    }
+
+    base = D_8009B2FC;
+    color = intensity * 2 + 0x40;
+    first = *(u8 **)((u8 *)base + 0x2D38);
+    second = *(u8 **)((u8 *)base + 0x5A84);
+
+    second[0xE] = color;
+    second[0xD] = color;
+    second[0xC] = color;
+    first[0xE] = color;
+    first[0xD] = color;
+    first[0xC] = color;
+
+    if (DuelEffect_UpdateState() == 0) {
+        D_80090DF8[D_8009B2FC->state & 0x3F]((u8 *)D_8009B2FC);
+    }
+
+    return D_8009B2FC->state;
 }
