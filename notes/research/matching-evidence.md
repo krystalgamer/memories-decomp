@@ -6873,7 +6873,6 @@ dead. Note that `func_800498F8` and `func_80049CB0` sit beside it in the same
 two sound files with exactly the same shape, so the pattern is a property of
 that call sequence rather than a one-off.
 
-    SD_StartSequenceTracks def 0 (sound_sequence_timing.c)  <-  decl 1 in sound_secondary_playback.c
     func_80018004          def 1 (func_80018004.c)  <-  decl 3 in func_8001BAF0.c
     func_80018004          def 1 (func_80018004.c)  <-  decl 3 in duel_phase_entry.c
     func_800498F8          def 0 (sound_secondary_reset.c)  <-  decl 1 in func_80049010.c
