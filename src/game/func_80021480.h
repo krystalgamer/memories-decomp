@@ -11,9 +11,15 @@
 typedef struct {
     DisplayObject *root;
     DisplayObject *children[DUEL_RESULT_DISPLAY_CHILD_COUNT];
-    u8 pad_2C[8];
-    u8 text_styles[2];
-    u8 pad_36[2];
+    /* Duel_CalcRankScore seeds both of these with
+       DUEL_RANK_SCORE_INITIAL and then accumulates every
+       Duel_CalcRankScoreChange result into them, indexed by side. */
+    s32 side_scores[2];
+    /* Three, not two: Duel_CalcRankScore writes 0x34, 0x35 and 0x36
+       as one group -- 0x44, a variant selector, and 0x45. The third
+       was padding here because only func_80021480 had been read. */
+    u8 text_styles[3];
+    u8 pad_37;
 } DuelResultDisplayState;
 
 typedef char DuelResultDisplayState_children_offset_must_be_0x4[
