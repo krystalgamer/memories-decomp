@@ -91,7 +91,10 @@ void func_800179F4(void)
     if (D_8009B369 != 1) {
         if (gDuel_bOpponentID >= 0) {
             File_RequestAsyncTransfer(
-                0, 0, gDuel_bOpponentID * 2 + gDuel_bOpponentID + 7475, 3, 0, 0,
+                0, 0,
+                gDuel_bOpponentID * (DUELIST_DATA_SECTOR_COUNT - 1) +
+                    gDuel_bOpponentID + DUELIST_DATA_FIRST_SECTOR,
+                DUELIST_DATA_SECTOR_COUNT, 0, 0,
                 (s32)gDuel_awOpponentDeckPool
             );
         }
