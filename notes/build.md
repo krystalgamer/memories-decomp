@@ -972,7 +972,7 @@ is no canonical type to adopt: each one is faithful to what its own caller
 puts there.
 
 `D_801D5608` is the clearest example in the tree. Before Tick389, seven
-resident sources declared it a flat `s32 []`, while `duel_rewards.c` used
+resident sources declared it a flat `s32 []`, while `duel_result_runtime.c` used
 `s32 [16][DUEL_SIDE_COUNT]`. Two overlays, `free_duel/screen_runtime.c` and
 `password/shop.c`, used the shared `Pair` from `ygo_types.h`; the password
 source also needed a plain `s32` same-symbol alias for its starchip renderer.

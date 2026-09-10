@@ -80,7 +80,7 @@ The generator feeds multiple systems. Confirmed matching-C examples include:
 | `Rand_GetInterval` (`0x800358FC`) | Returns `rand() % divisor` |
 | `AiScript_JumpRandom` (`0x80070C60`) | Chooses whether a scripted branch is taken |
 | `AiScript_SetRandom` (`0x80070E20`) | Writes a value in a scripted inclusive range |
-| `duel_rewards.c` | Selects post-duel rewards |
+| `duel_result_runtime.c` | Selects post-duel rewards |
 | `NameEntry_BuildStarterDeck` | Builds the new-game starter deck from seven weighted rows |
 | `main_run_frontend_menus.c` | Advances randomness while the main menu runs |
 
@@ -127,7 +127,7 @@ by the 320 swap-stage calls; the total is not fixed across different outcomes.
 ### Reward-card stream consumption
 
 Each completed call to matching
-[`Duel_SelectCardDrop`](../src/game/duel_rewards.c) consumes exactly one
+[`Duel_SelectCardDrop`](../src/game/duel_result_runtime.c) consumes exactly one
 `rand()` value, whether it returns a card ID or zero. Its argument is a
 rank-pool selector (`0` S/A POW, `1` B/C/D,
 `2` S/A TEC), not an opponent ID; the rows are `0x5B4` bytes apart.
