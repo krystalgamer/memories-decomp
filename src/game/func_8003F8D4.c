@@ -10,6 +10,8 @@
 #include "save_data.h"
 #include "display_object_api.h"
 #include "../unmatched.h"
+#include "func_80039794.h"
+#include "mem_card_dialog_runtime.h"
 extern u8 D_801D2200[];
 
 /* MATCH 2026-09-06, first-day function from the m2c draft (257 instructions,
@@ -27,9 +29,6 @@ extern u8 D_801D2200[];
  * through a block-local base `q = D_800EB0F8` so the 0x34 is a load
  * displacement rather than folded into %lo.
  */
-
-void func_80039794(void);
-s32 func_8003F2B0(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 
 s32 func_8003F8D4(void) {
     DuelEffectChannel *o;
@@ -51,7 +50,8 @@ s32 func_8003F8D4(void) {
             o->field_59 = 0x10;
             func_80039A14(o);
         }
-        if (func_8003F2B0(D_8009B3D8, 0x20, 0x50, D_8009B3EE) == 0) {
+        if (func_8003F2B0((DisplayObject *)D_8009B3D8, 0x20, 0x50,
+                          D_8009B3EE) == 0) {
             D_8009B3EA = 1;
         }
         return 0;
@@ -67,7 +67,8 @@ s32 func_8003F8D4(void) {
         }
         return 0;
     case 2:
-        if (func_8003F2B0(D_8009B3D8, 0x20, 0x100, D_8009B3EE) == 0) {
+        if (func_8003F2B0((DisplayObject *)D_8009B3D8, 0x20, 0x100,
+                          D_8009B3EE) == 0) {
             TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
             func_8004036C(D_8009B3D8);
             D_8009B3D8 = (u8 *)0;
@@ -126,7 +127,8 @@ s32 func_8003F8D4(void) {
             } while ((o->flags_34 & TEXT_BOX_FLAG_DONE) == 0);
         }
         if (D_8009B3EA & 0x40) {
-            if (func_8003F2B0(D_8009B3D8, 0x20, 0x50, D_8009B3EE) == 0) {
+            if (func_8003F2B0((DisplayObject *)D_8009B3D8, 0x20, 0x50,
+                              D_8009B3EE) == 0) {
                 D_8009B3EA &= 0xBF;
             }
             return 0;
@@ -142,7 +144,8 @@ s32 func_8003F8D4(void) {
             D_8009B3EA |= 0x80;
             *(s16 *)(D_8009B3D8 + 0x60) = 0x400;
         }
-        if (func_8003F2B0(D_8009B3D8, 0x20, 0x100, D_8009B3EE) == 0) {
+        if (func_8003F2B0((DisplayObject *)D_8009B3D8, 0x20, 0x100,
+                          D_8009B3EE) == 0) {
             TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
             func_8004036C(D_8009B3D8);
             D_8009B3D8 = (u8 *)0;

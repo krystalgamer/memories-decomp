@@ -5,8 +5,7 @@
 #include "data_transfer_request.h"
 #include "duel_effect.h"
 #include "../unmatched.h"
-
-extern void func_8003F454(void);
+#include "mem_card_dialog_runtime.h"
 
 int func_8003F70C(void)
 {
