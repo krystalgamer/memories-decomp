@@ -1,35 +1,41 @@
 #include "../types.h"
+#include "display_object.h"
 #include "duel_effect_update_object_layout.h"
 #include "duel_effect.h"
 #include "text_box_runtime.h"
 
+/* Moves a text box and the objects it owns. The record is a
+ * DuelEffectChannel, but its callers reach it by byte arithmetic on
+ * D_800EB0F8 and pass a u8 *, so the parameter keeps that spelling and each
+ * access casts it. A typed local would be tidier and costs the match: the
+ * extra copy makes the prologue save s1 before s0. */
 void TextBox_SetPos(u8 *record, s32 x, s32 y)
 {
-    u8 *object;
+    DisplayObject *object;
 
-    object = *(u8 **)(record + 40);
-    *(s16 *)(record + 60) = x;
-    *(s16 *)(record + 64) = y;
-    if (object != (u8 *)0) {
-        *(s16 *)(object + 48) = x;
-        *(s16 *)(object + 50) = y;
+    object = ((DuelEffectChannel *)record)->field_28;
+    ((DuelEffectChannel *)record)->field_3C = x;
+    ((DuelEffectChannel *)record)->field_40 = y;
+    if (object != 0) {
+        object->field_30.h.field_30 = x;
+        object->field_30.h.field_32 = y;
     }
-    object = *(u8 **)(record + 44);
-    if (object != (u8 *)0) {
-        if (*(s16 *)(object + 30) == 4)
-            func_80039140(record);
+    object = ((DuelEffectChannel *)record)->field_2C;
+    if (object != 0) {
+        if (object->field_1E == 4)
+            func_80039140((DuelEffectChannel *)record);
         else {
-            *(s16 *)(object + 48) = x;
-            *(s16 *)(object + 50) = y;
+            object->field_30.h.field_30 = x;
+            object->field_30.h.field_32 = y;
         }
     }
-    object = *(u8 **)(record + 48);
-    if (object != (u8 *)0) {
-        if (*(s16 *)(object + 30) == 4)
+    object = ((DuelEffectChannel *)record)->field_30;
+    if (object != 0) {
+        if (object->field_1E == 4)
             DuelEffect_UpdateObjectLayout((DuelEffectChannel *)record);
         else {
-            *(s16 *)(object + 48) = *(u16 *)(record + 62) + x - 16;
-            *(s16 *)(object + 50) = *(u16 *)(record + 66) + y - 16;
+            object->field_30.h.field_30 = ((DuelEffectChannel *)record)->field_3E + x - 16;
+            object->field_30.h.field_32 = ((DuelEffectChannel *)record)->field_42 + y - 16;
         }
     }
 }
