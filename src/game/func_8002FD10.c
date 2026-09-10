@@ -8,6 +8,7 @@
 #include "func_8002FB78.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "func_8002FD10.h"
 
 extern DisplayObject *D_8009B2A0;
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
