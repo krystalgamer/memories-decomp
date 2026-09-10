@@ -76,18 +76,22 @@ The definitions remain in executable order from `0x801688BC` through
 `0x8BC` covers the complete contiguous `0x550`-byte text range in both
 verified map variants.
 
-## Location-object translation unit
+## Location-display translation unit
 
 `location_objects.c` keeps the four-slot cleanup helper next to the rebuild
-routine that invokes it before creating the selected location's enabled
-objects. Both operate on `D_801695F8`.
+routine that invokes it, followed by the current location's name-box creator.
+The two live location controllers call the rebuild and label creator together,
+and all three functions construct or release the display state for one map
+location.
 
 The definitions remain in executable order:
 `CampaignMap_ClearLocationObjects` occupies
 `0x80168004..0x80168050`, followed by
-`CampaignMap_RebuildLocationObjects` through `0x8016818C`. Both use
+`CampaignMap_RebuildLocationObjects` through `0x8016818C`, then
+`CampaignMap_CreateLocationLabel` through `0x801681E8`. All three use
 `gcc_2_8_1_g0_split`. One C subsegment at module offset `0x4` covers the
-complete contiguous `0x188`-byte text range in both verified variants.
+complete contiguous `0x1E4`-byte text range in both verified variants; the
+camera-state unit starts immediately afterward.
 
 ## Location-tick translation unit
 

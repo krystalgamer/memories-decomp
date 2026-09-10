@@ -62,7 +62,6 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/overworld/location_objects]
-      - [0x18C, c, overlays/overworld/location_label]
       - [0x1E8, c, overlays/overworld/camera_state]
       - [0x588, c, overlays/overworld/location_marker]
       - [0x66C, c, overlays/overworld/set_location]
