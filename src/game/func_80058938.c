@@ -26,7 +26,7 @@ void func_80058938(s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3,
     r = D_800F2B50;
     fifth = a4;
     source = bits;
-    end = r + 10;
+    end = r + MODEL_TINT_REQUEST_COUNT;
     do {
         if ((*(u8 *)r & 1) == 0) {
             f = r->flags;
