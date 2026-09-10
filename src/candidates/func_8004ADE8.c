@@ -27,7 +27,7 @@ extern s32 func_8004A854(s32);
 extern s32 func_8004A940(s32, s32);
 extern void SD_SpatializeSecondaryObject(u8 *, u8 *);
 extern s32 SD_CalcPitchBend(u8 *, s32);
-extern s32 func_80049FB4(s32, s32, s32, s32);
+#include "../game/func_80049FB4.h"
 
 void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
 {
