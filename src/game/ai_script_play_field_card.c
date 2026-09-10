@@ -3,8 +3,6 @@
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
 
-extern AiSelection D_800EAE88;
-extern u8 D_800EAE92;
 void AiScript_PlayFieldCard(void)
 {
     s32 first = gAiScript_aMemory[AiScript_ReadByte()];

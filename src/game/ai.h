@@ -76,7 +76,7 @@ extern AiScriptState gAiScript_State;
 typedef struct {
     s8 result;      /* 0x00 */
     s8 field1;      /* 0x01 */
-    char pad_02[4]; /* 0x02 */
+    u8 combo_tail[4]; /* 0x02..0x05, remaining combo-list entries */
     s8 value;       /* 0x06 */
     s8 zero;        /* 0x07 */
     s8 random;      /* 0x08 */
@@ -84,6 +84,27 @@ typedef struct {
     s8 field_0A;    /* 0x0A */
     s8 field_0B;    /* 0x0B */
 } AiSelection;
+
+/* The selection is still generated data, but its consumers share this owner.
+ * Combo-list readers need unsigned bytes; record writers use the layout
+ * above. The turn-action TU needs both spellings under one assembler symbol.
+ * Keep its byte alias distinct rather than casting the record's address:
+ * the alias preserves the independently compiled functions' address reuse. */
+#ifdef AI_SELECTION_AS_BYTES
+extern u8 D_800EAE88[];
+#else
+extern AiSelection D_800EAE88;
+#endif
+#ifdef AI_SELECTION_WITH_BYTE_ALIAS
+extern u8 D_800EAE88_bytes[] asm("D_800EAE88");
+#endif
+
+/* Interior symbols have their own relocation contracts. SetPosition uses an
+ * unsized array at +6; the stores at +7 and +0xA use scalars.
+ * They overlap value, zero and field_0A, not separate allocations. */
+extern u8 D_800EAE8E[];
+extern u8 D_800EAE8F;
+extern u8 D_800EAE92;
 
 /* Byte 0x08 of that same selection -- AiSelection.random above -- also carries
  * its own address-based symbol. func_80073448 and func_80073458 set and clear
@@ -174,6 +195,19 @@ typedef char AiScriptState_fusion_used_offset_must_be_0xAA[
 typedef char AiSelection_size_must_be_0x0C[
     sizeof(AiSelection) == 0x0C ? 1 : -1
 ];
+typedef char AiSelection_result_offset_must_be_0x00[
+    AI_SCRIPT_STATE_OFFSET(AiSelection, result) == 0x00 ? 1 : -1
+];
+typedef char AiSelection_field1_offset_must_be_0x01[
+    AI_SCRIPT_STATE_OFFSET(AiSelection, field1) == 0x01 ? 1 : -1
+];
+typedef char AiSelection_combo_tail_offset_must_be_0x02[
+    AI_SCRIPT_STATE_OFFSET(AiSelection, combo_tail) == 0x02 ? 1 : -1
+];
+typedef char AiSelection_combo_list_must_end_at_value[
+    AI_SCRIPT_STATE_OFFSET(AiSelection, value) ==
+        AI_SCRIPT_COMBO_CARD_COUNT ? 1 : -1
+];
 typedef char AiSelection_value_offset_must_be_0x06[
     AI_SCRIPT_STATE_OFFSET(AiSelection, value) == 0x06 ? 1 : -1
 ];
@@ -185,6 +219,12 @@ typedef char AiSelection_random_offset_must_be_0x08[
 ];
 typedef char AiSelection_field_09_offset_must_be_0x09[
     AI_SCRIPT_STATE_OFFSET(AiSelection, field_09) == 0x09 ? 1 : -1
+];
+typedef char AiSelection_field_0A_offset_must_be_0x0A[
+    AI_SCRIPT_STATE_OFFSET(AiSelection, field_0A) == 0x0A ? 1 : -1
+];
+typedef char AiSelection_field_0B_offset_must_be_0x0B[
+    AI_SCRIPT_STATE_OFFSET(AiSelection, field_0B) == 0x0B ? 1 : -1
 ];
 
 #undef AI_SCRIPT_STATE_OFFSET

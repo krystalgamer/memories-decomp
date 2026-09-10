@@ -1,9 +1,8 @@
+#define AI_SELECTION_AS_BYTES
 #include "../types.h"
 #include "ai.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
-extern u8 D_800EAE88[];
-extern u8 D_800EAE8E[];
 void AiScript_PlayFaceUp(void)
 {
     s32 *memory = gAiScript_aMemory;

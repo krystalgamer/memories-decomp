@@ -1,4 +1,5 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
+#define AI_SELECTION_AS_BYTES
 #include "../types.h"
 #include "duel_deck_card.h"
 #include "duel_side_state.h"
@@ -17,7 +18,6 @@
 #include "../unmatched.h"
 
 extern u8 D_8015C424[];
-extern u8 D_800EAE88[];
 
 /* Private helpers of the same duel action controller, func_8001BD88:
    selection-side setup in its state-3 paths followed by execution of the

@@ -1,3 +1,4 @@
+#define AI_SELECTION_AS_BYTES
 #include "../types.h"
 #include "ai.h"
 #include "ai_constants.h"
@@ -18,8 +19,6 @@
    to an identical object at gcc_2_8_1_g0_split. Bounded below by
    AiScript_FindBestAttack (gcc_2_8_1_g8_split_no_strength_reduce) and above
    by AiScript_Print (gcc_2_8_1_g8). */
-
-extern u8 D_800EAE88[];
 
 void AiScript_PushComboCard(void)
 {
@@ -204,7 +203,6 @@ void AiScript_Add(void)
     values[output] = values[left] + values[right];
 }
 
-extern u8 D_800EAE8F;
 void func_8007368C(void)
 {
     D_800EAE8F = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];

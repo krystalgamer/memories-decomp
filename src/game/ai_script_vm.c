@@ -6,8 +6,6 @@
 #include "ai_script_end.h"
 #include "ai_script_read_byte.h"
 
-extern AiSelection D_800EAE88;
-
 void AiScript_Init(void *arg0)
 {
     u8 *state = (u8 *)&gAiScript_State;

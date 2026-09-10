@@ -1,11 +1,10 @@
 #include "../types.h"
+#include "ai.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_field_equip_search.h"
 #include "duel_card_checks.h"
-
-extern u8 D_800EAE88[];
 
 s32 func_80026C0C(s32 arg0)
 {
@@ -126,13 +125,13 @@ s32 func_80026DC8(void) {
                     q = a;
                     do {
                         if (Duel_CheckEquip(e->card_id, f->card_id) != 0) {
-                            D_800EAE88[0] =
+                            D_800EAE88.result =
                                 *(s8 *)&e->table_index % DUEL_FIELD_ROW_SIZE + 0xB;
-                            D_800EAE88[1] = 0;
-                            D_800EAE88[6] =
+                            D_800EAE88.field1 = 0;
+                            D_800EAE88.value =
                                 *(s8 *)&f->table_index % DUEL_FIELD_ROW_SIZE + 1;
-                            D_800EAE88[7] = 0;
-                            D_800EAE88[8] = 0;
+                            D_800EAE88.zero = 0;
+                            D_800EAE88.random = 0;
                             return 0;
                         }
                         q++;
@@ -159,15 +158,15 @@ s32 func_80026DC8(void) {
                     do {
                         if (Duel_CheckEquip(e->card_id, f->card_id) != 0) {
                             u = *(s8 *)&f->table_index;
-                            D_800EAE88[0] =
+                            D_800EAE88.result =
                                 u % DUEL_FIELD_ROW_SIZE + 0xB;
                             w = *(s8 *)&e->table_index;
-                            D_800EAE88[2] = 0;
-                            D_800EAE88[7] = 0;
-                            D_800EAE88[8] = 0;
-                            D_800EAE88[6] =
+                            D_800EAE88.combo_tail[0] = 0;
+                            D_800EAE88.zero = 0;
+                            D_800EAE88.random = 0;
+                            D_800EAE88.value =
                                 n % DUEL_FIELD_ROW_SIZE + 1;
-                            D_800EAE88[1] =
+                            D_800EAE88.field1 =
                                 w % DUEL_FIELD_ROW_SIZE + 0xB;
                             return 0;
                         }

@@ -1,3 +1,4 @@
+#define AI_SELECTION_WITH_BYTE_ALIAS
 #include "../types.h"
 #include "../psyq/rand.h"
 #include "ai.h"
@@ -15,13 +16,6 @@
    through D_800EAE88, followed by the occupied and face-up field-target
    selectors used by the next AI routine. All five functions are contiguous
    and share the gcc_2_8_1_g8_split profile. */
-
-/* The pending selection lives in ai.h. The spell search writes it as a
-   record; the other two write single bytes, so the byte view below is the
-   same object under an alias and each function keeps the spelling its own
-   match needs. */
-extern AiSelection D_800EAE88;
-extern u8 D_800EAE88_bytes[] asm("D_800EAE88");
 
 /* The spell search reads the record's slot byte signed; DuelCardRecord spells
    the same byte unsigned, so it keeps its own view of the collected entries

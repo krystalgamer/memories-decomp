@@ -1,10 +1,11 @@
+#define AI_SELECTION_AS_BYTES
 #include "../types.h"
+#include "../game/ai.h"
 #include "../game/duel_card.h"
 #include "../game/duel_card_checks.h"
 #include "../game/duel_check_quit_input.h"
 
 extern u8 D_800907D8[];
-extern u8 D_800EAE88[];
 extern u8 D_8009B1D5;
 extern s8 *D_8009B1C8;
 

@@ -85,12 +85,11 @@
       "target": "src/candidates_target/func_800279BC.S",
       "candidate_build_sha256": "97c1d5a5e42e3aa64bd443fa792e8d77a0d01b8fb5f0ab9b5afee34262683581",
       "target_bytes_sha256": "1ed0f0dfe1f5f4789c75bb80409302f1ef045844cad283c4f7670323dcec7767",
-      "canonical_contract_sha256": "53dbb2ad5ff3cafcef61e8884110dbb0b474c4b122940a202ef62c374787ecc2",
+      "canonical_contract_sha256": "f18d8d1ccd646fd40c455c3cd867075a92bfded154b8671c57b7b1ff35189d6a",
       "canonical_contracts": {
         "D_800907D8": "5f4843cfcf7eee45899cddb0a99df93d2dfa66741d364fd706eeeac064586db6",
         "D_8009B1C8": "cb2023a8b8441e61d8eaea81c06cd6d4d8b0b78abe10a20bcf14995174c5dfb0",
         "D_8009B1D5": "f014bfb17391eccc347445f9dd3cd05ecff2bc4c9e3b16647785e3c9f2e3df9f",
-        "D_800EAE88": "aeca9fcf3772be39140341b7190a64276a76ebe5d16fa43889ad0ff9b84168b6",
         "Duel_CollectFieldCardsByType": "4ff8010c192ccee120eb44f72fe5a96dd1c7f448830a988767c695cc9656939d",
         "Rand_GetInterval": "c3724d8e293897f07089dd548862d05aa58ea40faef12623814bf9eb56160671",
         "func_8002778C": "c22b811ff7ab0434278b3eeacb2910af8830f989542fc38097b55fe5bd6656a3",

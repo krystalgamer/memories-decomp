@@ -191,6 +191,59 @@ establish a fixed 1/16-second scheduling cadence, a strict handler runtime
 limit, or the number of commands executed per pass. No new human trace or
 decision-time measurement is implied.
 
+## `AiSelection`
+
+Size: `0x0C`, matching the selection clear in `AiScript_Init`. The object
+at `D_800EAE88` is generated data, but its declaration belongs to `ai.h`
+rather than `unmatched.h`: the AI script, turn-selection and hand-execution
+consumers establish a common subsystem owner.
+
+| Offset | Field/view | Evidence |
+|---|---|---|
+| `0x00..0x05` | unsigned combo list; `result`, `field1`, `combo_tail[4]` in the record view | `AiScript_PlayFaceUp` stores five entries and clears the sixth; `AiScript_PushComboCard` clears all six before collecting entries. `func_8001BAF0` consumes the list with unsigned byte reads and zero termination. These bytes are live entries, not padding. |
+| `0x06` | `value` | Equip, trap and turn-action searches store the destination slot encoding. |
+| `0x07` | `zero` | Turn-action searches write either zero or a random bit; the existing mechanical field name does not imply a constant. |
+| `0x08` | `random` | Turn-action paths write zero, one or a random bit. |
+| `0x09..0x0B` | `field_09`, `field_0A`, `field_0B` | `AiScript_PlayFieldCard` and the `func_800279BC` candidate write the action, argument and flag bytes. The mechanical names avoid assigning one interpretation to every opcode. |
+
+`ai.h` owns the record declaration and an `AI_SELECTION_AS_BYTES` arm for
+unsigned combo-list access. The four matching byte-view consumers are
+`ai_fusion.c`, `ai_script_actions.c`, `ai_script_state_ops.c` and
+`func_8001B938.c`. The build-integrated `func_800279BC` candidate takes that
+same arm without changing its byte operations. The VM initializer,
+field-card command, equip search and trap search use the record view.
+`ai_turn_action.c` selects `AI_SELECTION_WITH_BYTE_ALIAS` for its existing
+same-symbol `D_800EAE88_bytes` alias alongside the record; neither its
+address-reuse behavior nor its raw operations are changed.
+
+The equip and trap writers now use the shared fields for all sixteen
+formerly raw constant-index stores. The second equip arm clears
+`combo_tail[0]`, the third combo-list byte, not padding. No unsigned list
+read is replaced by a signed record-field read. Compile-time assertions
+cover every field offset and the six-byte list boundary.
+
+Four interior labels overlap this object and retain their own declarations:
+
+| Symbol | Offset | Preserved declaration and consumer |
+|---|---|---|
+| `D_800EAE8E` | `+0x06` | `u8 []`, `AiScript_SetPosition` |
+| `D_800EAE8F` | `+0x07` | `u8`, `func_8007368C` |
+| `D_800EAE90` | `+0x08` | `u8`, flag setters and `func_80071510` |
+| `D_800EAE92` | `+0x0A` | `u8`, the zero-argument arm of `AiScript_PlayFieldCard` |
+
+The first three addresses are recorded in `c_symbols.ld`; Splat also
+resolves `D_800EAE92` from the retail assembly. These are not four extra
+allocations. In particular, the scalar labels can carry gp-relative
+relocations independently of the base object. They are not folded into
+member accesses, and this campaign does not define or move the storage.
+
+The `func_800279BC` metadata loses only the private-extern contract entry
+for `D_800EAE88`, because the compiler now reads its declaration directly
+from `ai.h`, as prescribed by `notes/candidates/rules.md`. Its object
+fingerprint remains
+`97c1d5a5e42e3aa64bd443fa792e8d77a0d01b8fb5f0ab9b5afee34262683581`;
+the target bytes, compiler profile and mismatch measurements are unchanged.
+
 ## `AiDuelistState`
 
 Size: `0x20`

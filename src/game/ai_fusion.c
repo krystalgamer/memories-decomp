@@ -1,3 +1,4 @@
+#define AI_SELECTION_AS_BYTES
 #include "../types.h"
 #include "duel_get_base_card_stat.h"
 #include "ai.h"
@@ -9,8 +10,6 @@
 #include "ai_script_commands.h"
 #include "duel_card_checks.h"
 #include "duel_grid.h"
-
-extern u8 D_800EAE88[];
 
 void AiScript_FindEquipTarget(void)
 {
