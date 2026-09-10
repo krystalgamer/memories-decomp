@@ -125,7 +125,8 @@ void func_800179F4(void)
     func_80035668(0);
     func_8001755C();
     File_WaitForTransfers();
-    D_8009B22C = &D_800907D8[D_8009B1D5 * 20];
+    D_8009B22C =
+        &D_800907D8[D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
     obj = func_800400AC(func_8004002C(), 2);
     func_800404CC(obj, 12, 24, 4, 2, gDuel_bTerrain, 11, 732);
     func_80042918(obj);
