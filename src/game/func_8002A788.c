@@ -5,25 +5,27 @@
 s32 func_8002A6B8(void)
 {
     s32 row = gCardGrid_bCursorRow;
-    s32 row_tens = row / 10;
+    s32 row_tens = row / CARD_GRID_SECTION_SIDE_LENGTH;
     s8 row_tens_byte = (s8)row_tens;
-    s32 index = row_tens_byte * 200;
-    s8 row_ones = (s8)(row - row_tens * 10);
+    s32 index = row_tens_byte * CARD_GRID_SECTION_ROW_CARD_COUNT;
+    s8 row_ones =
+        (s8)(row - row_tens * CARD_GRID_SECTION_SIDE_LENGTH);
     s32 base;
     s32 column;
     s32 column_tens;
     s8 column_ones;
     register s32 result asm("$2");
 
-    index += row_ones * 10;
+    index += row_ones * CARD_GRID_SECTION_SIDE_LENGTH;
 
     column = gCardGrid_bCursorColumn;
-    if (column >= 10) {
-        index += 100;
+    if (column >= CARD_GRID_SECTION_SIDE_LENGTH) {
+        index += CARD_GRID_SECTION_CARD_COUNT;
     }
     base = index + 1;
-    column_tens = column / 10;
-    column_ones = (s8)(column - column_tens * 10);
+    column_tens = column / CARD_GRID_SECTION_SIDE_LENGTH;
+    column_ones =
+        (s8)(column - column_tens * CARD_GRID_SECTION_SIDE_LENGTH);
     index = base + column_ones;
     result = 0;
     if (index < CARD_ID_END) {
