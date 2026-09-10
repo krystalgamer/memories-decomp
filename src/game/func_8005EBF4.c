@@ -7,8 +7,6 @@
 #include "model_copy_slot_u16_values.h"
 #include "model_transfer_flags.h"
 
-extern Key D_800F5788[];
-
 /* Evaluates one channel of the keyframe ring that func_8005F91C fills and
    func_8005F070 seeds. `cur` points at a 0x28-byte key inside D_800F5788, so
    `cur - D_800F5788` is the ring index; the three keys the segment spans are
