@@ -6856,7 +6856,6 @@ in the caller that produces it.
     func_8002C604          def 1 (func_8002C604.c)  <-  decl 0 in func_8002C68C.c
     func_8002FB78          def 2 (func_8002FB78.c)  <-  decl 0 in func_8002FD10.c
     func_80032184          def 2 (func_80032184.c)  <-  decl 0 in duel_reward_setup.c
-    func_8003C328          def 2 (func_8003C328.c)  <-  decl 0 in func_8003C498.c
     func_8004036C          def 1 (func_8004036C.c)  <-  decl 0 in screen_runtime.c
     func_80041D60          def 3 (func_80041D60.c)  <-  decl 1 in func_80040814.c
     func_80041D60          def 3 (func_80041D60.c)  <-  decl 1 in func_80029108.c

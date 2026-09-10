@@ -88,6 +88,8 @@ void File_RequestMainMenuPackage(void);
 void File_RequestNameEntryPackage(void);
 void File_RequestPasswordPackage(void);
 void File_RequestEgyptOverworldPackage(void);
+void func_8003C328(FileTransferDescriptor *descriptor, s32 mode);
+
 /* Another wrapper of the same shape as the four above: it asks for sector
    0x2157, 0x32 sectors, with func_8003C328 as the completion callback, then
    waits. It keeps its address-based name because which package that sector
