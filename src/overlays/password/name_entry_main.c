@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "name_entry_keyboard.h"
+#include "name_entry_starter_deck.h"
 #include "../../game/main_frame.h"
 #include "../../game/graphics_frame.h"
 #include "../../game/save_data.h"
@@ -7,7 +8,6 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/stdio.h"
 
-extern u16 *D_8016D3DC[];
 extern u8 D_801D0000[];
 extern void func_8002CCE4(s32);
 extern void func_80035748(void *, s32, s32);
@@ -15,7 +15,7 @@ extern void func_80035748(void *, s32, s32);
 void NameEntry_BuildStarterDeck(void)
 {
     u8 counts[CARD_COUNT];
-    u16 **table;
+    NameEntryStarterDeckPool **table;
     u16 *entry;
     u16 *p;
     s16 *out;
@@ -28,8 +28,8 @@ void NameEntry_BuildStarterDeck(void)
         counts[i] = 0;
     }
     out = (s16 *)gDuel_awPlayerDeck;
-    table = D_8016D3DC;
-    entry = *table;
+    table = gNameEntry_apStarterDeckPools;
+    entry = (u16 *)*table;
     while (entry != 0) {
         remaining = *entry;
         entry++;
@@ -58,7 +58,7 @@ void NameEntry_BuildStarterDeck(void)
             remaining--;
         } while (remaining != 0);
         table++;
-        entry = *table;
+        entry = (u16 *)*table;
     }
 }
 

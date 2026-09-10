@@ -484,9 +484,12 @@ This classification is verified directly from two byte-identical tables in
 `WA_MRG.MRG` at `0xF92BD4` and `0xFBDBD4`. Each table has seven `0x5B8`-byte
 records containing a draw count, 722 card weights and 18 zero bytes. The draw
 counts are `16, 16, 4, 1, 1, 1, 1`, and every row's weights total 2048.
-The pointer list at `0x8016D3DC` contains seven pool pointers followed by a
-null pointer. Its contents determine the pool count and order, rather than
-a hard-coded seven-iteration loop.
+The typed `gNameEntry_apStarterDeckPools` list at `0x8016D3DC` contains seven
+pool pointers followed by a null pointer. Its contents determine the pool
+count and order, rather than a hard-coded seven-iteration loop. Each target
+is a checked `NameEntryStarterDeckPool` record rooted at
+`gNameEntry_aStarterDeckPools` (`0x8016ABD4`); see the
+[complete table and retry contract](../starter-deck-pools.md).
 Cross-checking the nonzero weights against the verified card catalogue gives
 monster ATK+DEF ranges `450-1050`, `1100-1550`, `1600-2050` and `2100-2450`,
 then exactly Dark Hole/Raigeki, the six terrain cards, and 28 equip cards.
