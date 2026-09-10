@@ -3360,19 +3360,20 @@ must be measured.
   link rather than mismatching, since then there is no offset to chase.
 
 - **A typed local costs a callee-saved register unless every use goes through
-  it.** Where the record's type cannot go on the parameter -- a callback
-  whose table declares `void (*)(u8 *)` -- the record is taken through a
-  local instead, and then the parameter and the local are two live names for
-  one value. `func_8003A990` grew its frame by eight bytes and pushed `.text`
-  past its segment that way; routing its two remaining `u8 *` calls through
-  `(u8 *)r` as well left one name, one register, and it matched. This is not
-  a general rescue: the nine short callbacks in
-  `duel_effect_state_callbacks.c` still grow with every use routed through
-  the local, and there the readable form is the inline
-  `((DuelEffectChannel *)object)->state_51` instead. Measure both spellings;
-  which one works is per function, and the failure mode is a link error --
-  `section .initialized_data VMA ... overlaps section .text` -- not a hash
-  mismatch.
+  it.** Where the record's type could not yet go on the parameter -- at the
+  time, a callback table declared `void (*)(u8 *)` -- the record was taken
+  through a local instead, leaving the parameter and local as two live names
+  for one value. `func_8003A990` grew its frame by eight bytes and pushed
+  `.text` past its segment that way; routing its two remaining `u8 *` calls
+  through `(u8 *)r` as well left one name, one register, and it matched. This
+  was not a general rescue: the short callbacks in
+  `duel_effect_state_callbacks.c` grew with every use routed through the
+  local, and the matching form at that stage was the inline
+  `((DuelEffectChannel *)object)->state_51`. Those callbacks and
+  `TextBoxStateCallback` are now fully typed; the experiment remains evidence
+  that the two spellings must be measured per function. The failure mode was
+  a link error -- `section .initialized_data VMA ... overlaps section .text`
+  -- not a hash mismatch.
 
 - **The barrier can be a volatile pointer rather than a global, and then it
   is per-file rather than per-record.** `func_800580D4` writes one
