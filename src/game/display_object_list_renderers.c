@@ -7,7 +7,7 @@
 #include "display_object_layout.h"
 #include "display_object_list_renderers.h"
 
-extern s32 D_800E9D90[];
+#include "ordering_tables.h"
 
 void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
@@ -39,7 +39,7 @@ void func_80040DD8(void) {
     POLY_G4 *g;
     u8 *h;
     DisplayObject *e;
-    s32 *tb;
+    GsOT **tb;
     DisplayObjectCallback fn;
     s32 eight;
     s32 hi;
@@ -117,7 +117,7 @@ void func_80040DD8(void) {
                     v = v | 0x4000000;
                 }
 
-                func_80042188(v, (u8 *)g, tb[e->ot_index],
+                func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
                               e->field_14 | bit, h);
 
                 if (*(u8 *)&e->field_5A != 0) {
@@ -133,7 +133,7 @@ void func_80040DD8(void) {
                     setlen(g, eight);
                     setcode(g, hi);
                     *(s32 *)&g->r1 = x2;
-                    func_80042188(v, (u8 *)g, tb[e->ot_index],
+                    func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
                                   e->field_14 | bit, h);
                 }
             }
@@ -152,7 +152,7 @@ void func_80041068(void) {
     POLY_GT4 *g;
     u8 *h;
     DisplayObject *e;
-    s32 *tb;
+    GsOT **tb;
     DisplayObjectCallback fn;
     s32 twelve;
     s32 hi;
@@ -234,7 +234,7 @@ void func_80041068(void) {
                     v = v | 0x4000000;
                 }
 
-                func_80042188(v, (u8 *)g, tb[e->ot_index],
+                func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
                               e->field_14 | bit, h);
 
                 if (((u8 *)e)[0x72] != 0) {
@@ -249,7 +249,7 @@ void func_80041068(void) {
                     setlen(g, twelve);
                     setcode(g, hi);
                     *(u16 *)&g->u1 = x2;
-                    func_80042188(v, (u8 *)g, tb[e->ot_index],
+                    func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
                                   e->field_14 | bit, h);
                 }
             }

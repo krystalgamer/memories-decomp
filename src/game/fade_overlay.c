@@ -3,6 +3,8 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "graphics_frame.h"
+#define ORDERING_TABLE_SLOT1_ARRAY
+#include "ordering_tables.h"
 
 #include "fade.h"
 
@@ -57,16 +59,10 @@
 #define FADEBOX_H(p) (*(s16 *)&(p)->h)
 #define FADEBOX ((GsBOXF *)0x1F8003C0)
 
-/* D_8009B140/41 come from fade.h, which explains why they are plain scalars.
-   The 0x800E9xxx globals are reached lui/%lo (absolute), so each
-   is declared oversized -- a size over 8 bytes keeps it out of the -G8
-   small-data section. */
-extern s32 D_800E9D94[4];      /* [0] = ordering table the boxes sort into */
-
 void Fade_DrawOverlay(void) {
     GsBOXF *p;
     u8 *rec;
-    s32 ot;
+    GsOT *ot;
     s32 i;
     s32 band;
     s32 shade;
@@ -92,7 +88,7 @@ void Fade_DrawOverlay(void) {
                 p->b = (u8) band;
                 p->g = (u8) band;
                 p->r = (u8) band;
-                GsSortBoxFill(p, (GsOT *)ot, 4);
+                GsSortBoxFill(p, ot, 4);
                 FADEBOX_Y(p) = FADEBOX_Y(p) + FADE_BAND_HEIGHT;
             }
             if (!(gFade_State.flags & 2)) {
@@ -124,7 +120,7 @@ void Fade_DrawOverlay(void) {
             if (tint < 0) tint = 0;
             p->b = (u8) tint;
         }
-        GsSortBoxFill(p, (GsOT *)ot, depth);
+        GsSortBoxFill(p, ot, depth);
     }
 }
 

@@ -18,6 +18,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "../game/ordering_tables.h"
 
 typedef struct {
     u8 b[8];
@@ -30,7 +31,6 @@ typedef struct {
 } Holder;
 
 extern u8 D_800FE148[];
-extern void *D_800E9D90[];
 
 extern s32 func_800879A0(void *);
 

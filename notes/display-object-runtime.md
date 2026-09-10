@@ -176,6 +176,57 @@ without losing the walk's continuation.
 
 ## Packet-building siblings
 
+### Active ordering-table contracts
+
+`src/game/ordering_tables.h` owns the resident/overlay contract for
+`D_800E9D90`: four `GsOT *` slots, not four ordering-table descriptors and
+not texture IDs. The producer is `Graphics_BeginFrame` in `graphics_frame.c`.
+It selects the active `0x5160`-byte buffer, walks descriptor offsets
+`0x514C`, `0x5138`, `0x5124`, `0x5110`, publishes their addresses into slots
+3 through 0, writes each descriptor's `length`, and calls `GsClearOt`.
+The header asserts the SDK descriptor's `0x14` size and the pointer array's
+`0x10` size. No private SDK type is needed.
+
+The consumer evidence agrees across translation units:
+
+- `func_80016D2C` passes the slot selected by `DisplayObject.ot_index`
+  directly to `GsSortFastSprite`. The display-list renderers and update
+  callbacks select through that same byte at `+0x17`; their local cursors
+  now carry `GsOT **`, with explicit word conversions only at existing
+  integer-parameter/callback boundaries.
+- `func_8002C604` copies slots 2 and 1 into request words `+0x08` and
+  `+0x0C`, and `func_8002C6C8` refreshes those same words before dispatch.
+  The initializer now indexes pointers rather than reading byte offsets
+  from a locally declared `u8[]`. The request's existing word fields and
+  dispatch ABI are not changed.
+- Main-menu frontend/value drawing sorts into slot 2 and trade drawing
+  into slot 1. Its `ordering_tables.h` forwards to the resident declaration,
+  rather than maintaining a separate overlay-only type.
+
+`D_800E9D94`, `D_800E9D98`, and `D_800E9D9C` are interior relocation
+symbols for slots 1, 2, and 3. Fade draws through the first; display
+projection passes the second to `func_80016784`; the `func_8004CB0C`
+candidate selects the second/third, and `func_80029934` loads the third.
+The latter target's load at `0x80029998`, and the model target's loads at
+`0x8004CB78`/`0x8004CB88`, explicitly address those interior words.
+They remain distinct symbol references rather than becoming base-plus-index
+expressions. `ORDERING_TABLE_SLOT1_ARRAY` preserves fade's oversized
+four-element declaration, and `ORDERING_TABLE_SLOT2_ARRAY` preserves
+projection's unsized declaration: these are absolute-addressing views under
+`-G8`, not claims about independent storage extent. The `-G0` overlay and
+candidate readers retain scalar views.
+
+All ten matching resident consumers, the four main-menu consumers, and the
+three integrated candidates now obtain this family from the shared header.
+The candidate metadata drops only the four replaced local-extern dependencies;
+all 19 candidate byte fingerprints remain unchanged. No GTE bodies, compiler
+profiles, tentative definitions, or storage mappings change. The data remains
+generated storage, so this is a declaration/type campaign for #2874/#2500,
+not a C-data-definition conversion for #2602. Matching-resident headerless
+inventory falls from 109 names/206 sites to 106 names/196 sites.
+
+### Gouraud packet builders
+
 `func_80040DD8` and `func_80041068` share the same high-level path:
 
 1. Walk the slot list with `DISPLAY_OBJECT_RECORD_SIZE` and run each `+0x24`

@@ -15,7 +15,7 @@
  *
  * The second argument is passed straight through to func_80042188, which
  * takes it as a word in every declaration of it in the tree. One caller
- * hands it an element of the void * array D_800E9D98, so a pointer travels
+ * hands it a GsOT * from the interior array view D_800E9D98, so a pointer travels
  * through this word-sized channel; that conversion belongs at the call site
  * rather than in a declaration claiming the parameter is a pointer. */
 void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3);

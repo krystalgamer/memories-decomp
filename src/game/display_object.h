@@ -74,11 +74,11 @@ typedef struct DisplayObject {
     u16 field_14;                  /* 0x14 */
     s8 field_16;                   /* 0x16 */
     /* An ordering-table index, not a texture index. func_80016D2C.c uses it
-       to pick D_800E9D90[ot_index], casts that element to GsOT * and hands it
+       to pick D_800E9D90[ot_index], a GsOT * element, and hands it
        to GsSortFastSprite as the ordering table; func_80040588.c indexes the
        same array -- its local tb is assigned D_800E9D90 -- and passes the
-       element to func_80042188; and three overlay files declare the array as
-       GsOT *D_800E9D90[]. display_object_helpers.h's D_8009AF74[4] is a
+       element to func_80042188. ordering_tables.h shares the four-pointer
+       array with the overlays. display_object_helpers.h's D_8009AF74[4] is a
        parallel per-layer table indexed by the same byte, which agrees.
 
        It was tex_index until DuelStatusPosition was retired into this record;

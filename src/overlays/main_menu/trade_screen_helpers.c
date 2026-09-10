@@ -8,6 +8,7 @@
 #include "../../ygo_types.h"
 #include "../../game/card_list_rows.h"
 #include "card_tables.h"
+#include "ordering_tables.h"
 
 /* Three Trade screen helpers: the card-type icon (0x80184344) and the column
    dimming overlay (0x80184454) that the offer draw calls for each entry, and
@@ -22,8 +23,6 @@
    screen and its data: all three take their declarations from
    trade_helpers.h, and the row rebuild walks D_801845FC and D_801845E0, the
    same trade inventory and display handle the offer group writes. */
-
-extern GsOT *D_800E9D94;
 
 void MainMenu_DrawCardTypeIcon(s32 x, s32 y, s32 cardID)
 {
