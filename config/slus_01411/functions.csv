@@ -1576,7 +1576,7 @@ address,size,name,status,module,notes
 0x80085C98,0x64,func_80085C98,sdk_asm,psyq/sdk,
 0x80085CFC,0x4C,func_80085CFC,sdk_asm,psyq/sdk,
 0x80085D50,0x28,GsSetAmbient,sdk_asm,psyq/sdk,Identified by the unique 48-byte Psy-Q 4.6 LIBGS.LIB/GS_110.OBJ signature; scales its three colour arguments by 1/16 and forwards them to SetBackColor.
-0x80085D80,0x24,func_80085D80,sdk_asm,psyq/sdk,
+0x80085D80,0x24,GsDrawOt,sdk_asm,psyq/sdk,"The exact wrapper loads GsOT.tag at +0x10 and calls confirmed DrawOTag, resolving the byte-identical GsDrawOt/GsDrawOtIO signature conflict. Graphics_BeginFrame calls it through the canonical libgs.h interface."
 0x80085DB0,0x58,GsClearOt,sdk_asm,psyq/sdk,"Identified by the unique 96-byte Psy-Q 4.6 LIBGS.LIB/GS_113.OBJ signature; writes the offset and point halfwords into the GsOT, derives its tag pointer from org plus 4 << length, and calls ClearOTagR. func_80013154 already declares the matching (u16, u16, void *) prototype."
 0x80085E10,0xB4,GsSortOt,sdk_asm,psyq/sdk,Identified by the unique 192-byte Psy-Q 4.6 LIBGS.LIB/GS_114.OBJ signature; walks the source ordering table on the 0x00FFFFFF address mask and links it into the destination GsOT.
 0x80085ED0,0xB4,gte_rotate_z_matrix,sdk_asm,psyq/sdk,"Identified by the unique 192-byte Psy-Q 4.6 LIBGS.LIB/GS_119.OBJ signature; builds a Z rotation from rsin and rcos and folds it in with MulMatrix. Internal LIBGS helper, lower case in the library."
