@@ -23,7 +23,7 @@ void func_80031F7C(u8 *state, s32 id)
             if ((state + id)[0x5D97] != 0) {
                 record[0xD] = 0x80;
             }
-            func_80032C48(state + 4);
+            func_80032C48((CardList *)(state + 4));
         }
         (state + id)[0x5D97] = count;
         *(s32 *)(state + 0x5A9C) -= 1;
