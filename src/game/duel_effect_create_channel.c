@@ -27,7 +27,7 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
     if (set_flags != 0) {
         channel->flags_34 |= 0x1008;
     } else if (value & 0x8000) {
-        func_80039A14(channel);
+        func_80039A14((u8 *)channel);
     }
 
     return channel;

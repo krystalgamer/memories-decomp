@@ -47,7 +47,7 @@ void Main_RunTrade(void)
         D_8009B26E = 1;
         box = TextBox_CreateFlagged(0, 0xB, 0x18, 0x20, 0x110, 0xA0, 0x20);
         box->field_59 = 0x10;
-        func_80039A14(box);
+        func_80039A14((u8 *)box);
         obj = func_800400AC(func_8004002C(), 2);
         func_800404CC(obj, 0, 0, 0, 4, 0xB, 0xC, 0x208);
         obj->flags = obj->flags | 0x20;

@@ -116,7 +116,7 @@ void func_800283F4(void)
                 box->field_54 = 0;
                 box->field_59 = 0x15;
                 D_8009B250 = box;
-                func_80039A14(box);
+                func_80039A14((u8 *)box);
                 break;
             }
         }

@@ -62,7 +62,7 @@ void func_80060E70(u16 *e, s32 idx, s32 flag, s32 ignored)
         if (i != 0) {
             box->flags_34 |= 0x40;
         }
-        func_80039A14(box);
+        func_80039A14((u8 *)box);
         q += 2;
         e += 2;
         w = (CardListRowSet *)((u8 *)w + 2);

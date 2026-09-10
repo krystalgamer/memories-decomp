@@ -30,9 +30,9 @@ void func_8002DC38(void)
         D_8009B234 = DUEL_STARTING_LIFE_POINTS;
         MainMenu_StartValueSetup(&D_8009B234, &D_8009B236, (u8 *)&D_8009B230);
         TextBox_CreateFlagged(0, 0x25, 0x34, 0xB4, 0xD8, 0x20, 0x20);
-        func_80039A14(D_800EB0F8);
+        func_80039A14((u8 *)D_800EB0F8);
         TextBox_Create(1, 0x26, 0xE, 0x66, 0x100, 0x30);
-        func_80039A14(&D_800EB0F8[1]);
+        func_80039A14((u8 *)&D_800EB0F8[1]);
         SD_BGMPlay(0x72C0);
         Fade_WaitIn();
     }
