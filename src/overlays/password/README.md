@@ -31,6 +31,17 @@ module byte-for-byte. Keep candidate sources, objects, and diffs under `tmp/`
 until a function passes this overlay-specific exact-match process. Do not add
 this module to the resident `config/slus_01411/matching_c.json`.
 
+## Name-entry type contracts
+
+The name-entry interface headers import their records and callback type from
+`src/ygo_types.h`. The drawing and keyboard-tween views of `D_8016D404` are
+one `SelectionFrame` contract; `NameEntrySelectionFrameView` preserves the
+drawing API's spelling as an alias. The glyph sprite, dialog panel, source
+text node and starter-pool records keep their distinct meanings and layouts.
+See [the contract evidence](../../../notes/overlays/name-entry-type-contracts.md)
+for consumer agreement, layout assertions and the drawing alias's wider
+observed prefix. No screen function bodies or callback signatures change.
+
 ## Password-shop lifecycle translation unit
 
 [`shop.c`](shop.c) is the whole password shop screen: ten functions in
