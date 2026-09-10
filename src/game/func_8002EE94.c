@@ -183,7 +183,7 @@ void func_8002EE94(void)
             return;
         }
         func_80043230((DisplayObjectPosition *)obj, -0x90, 0x38, (s16)step);
-        TextBox_SetPos(box, *(s16 *)&obj->field_30.h.field_30,
+        TextBox_SetPos((u8 *)box, *(s16 *)&obj->field_30.h.field_30,
                *(s16 *)&obj->field_30.h.field_32);
         return;
     }
@@ -199,11 +199,11 @@ void func_8002EE94(void)
                directly above it convert to member access and match; converting
                this one as well costs sixteen bytes. Same field, same function,
                and the two spellings are not interchangeable here. */
-            TextBox_SetPos(box, ((s16 *)obj)[0x18], ((s16 *)obj)[0x19]);
+            TextBox_SetPos((u8 *)box, ((s16 *)obj)[0x18], ((s16 *)obj)[0x19]);
             return;
         }
         func_80043230((DisplayObjectPosition *)obj, 0x10, 0x38, (s16)step);
-        TextBox_SetPos(box, *(s16 *)&obj->field_30.h.field_30,
+        TextBox_SetPos((u8 *)box, *(s16 *)&obj->field_30.h.field_30,
                *(s16 *)&obj->field_30.h.field_32);
         return;
     }

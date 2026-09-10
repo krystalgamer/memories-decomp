@@ -151,7 +151,7 @@ void func_800283F4(void)
             }
             pos_box = D_8009B250;
             if (pos_box != 0) {
-                TextBox_SetPos(pos_box, *(s16 *)&obj->field_30.h.field_30,
+                TextBox_SetPos((u8 *)pos_box, *(s16 *)&obj->field_30.h.field_30,
                                *(s16 *)&obj->field_30.h.field_32);
             }
         }
