@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80033998.h"
 #include "card_constants.h"
 #include "build_deck_transition_state.h"
 
