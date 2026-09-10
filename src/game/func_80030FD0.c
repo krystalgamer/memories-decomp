@@ -4,6 +4,7 @@
 #include "fade.h"
 #include "func_80035A64.h"
 #include "main_services.h"
+#include "func_80030FD0.h"
 
 /* The imported prototype lacks noreturn; retail has no epilogue after this call. */
 
