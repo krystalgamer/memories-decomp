@@ -7,7 +7,7 @@
 #include "../unmatched.h"
 
 extern s32 func_8003A198(u8 *, s32, s32, s32);
-s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
+s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
     DisplayObject *p;
     u8 *tb;
     s32 f;
@@ -15,7 +15,7 @@ s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
     s32 h;
     s32 m;
 
-    if (a[0x3C] != 0) {
+    if (a->field_3C != 0) {
         f = -0xA;
         tb = D_801AF800;
         g = 0x1A;
@@ -34,7 +34,7 @@ s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
     {
         m = 0x41000000;
         p = func_800400AC(func_8004002C(), 2);
-        func_800428A8(p, *(s16 *)(a + 0x34), *(s16 *)(a + 0x36), c, 0, 0, g, h,
+        func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 0, 0, g, h,
                       tb);
         func_80042918(p);
         func_800428EC((u8 *)p, f);
@@ -44,7 +44,7 @@ s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
 
         if (func_8003A198(tb, c, 1, 0) != 0) {
             p = func_800400AC(func_8004002C(), 2);
-            func_800428A8(p, *(s16 *)(a + 0x34), *(s16 *)(a + 0x36), c, 1, 0, g,
+            func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 1, 0, g,
                           h, tb);
             func_80042918(p);
             func_800428EC((u8 *)p, f | 1);
@@ -57,7 +57,7 @@ s32 func_8003A1EC(u8 *a, u8 **out, s32 c) {
 
         if (func_8003A198(tb, c, 2, 0) != 0) {
             p = func_800400AC(func_8004002C(), 2);
-            func_800428A8(p, *(s16 *)(a + 0x34), *(s16 *)(a + 0x36), c, 2, 0, g,
+            func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 2, 0, g,
                           h, tb);
             func_80042918(p);
             func_800428EC((u8 *)p, f | 1);
