@@ -652,13 +652,13 @@ s32 func_80049F50(void);
    agree with the definition costs four instructions -- measured, see
    notes/research/matching-evidence.md.
 
-   The three callers spelled that three ways between them, s16 and s32 and
-   `s32 a0`. One unspecified-argument arm covers all three, because an
-   old-style call passes the argument under the default promotions and these
-   arguments are already an lh-loaded halfword or a constant. The defining
-   units take the arm below and are still checked against their definitions. */
+   func_800498F8's two callers pass a constant 0 and an s32 local, so its
+   ambient arm can state s32 exactly. The remaining callers spell their values
+   as s16, s32 and `s32 a0`; their unspecified-argument arms preserve the
+   default promotions. The defining units take the arm below and are still
+   checked against their definitions. */
 #ifdef SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
-void func_800498F8();
+void func_800498F8(s32 value);
 void func_80049C40();
 void func_80049CB0();
 #else
