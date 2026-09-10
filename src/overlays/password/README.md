@@ -205,32 +205,31 @@ here; that arithmetic is preserved, not silently repaired or claimed as a
 runtime reproduction. Allocation and cursor/preview dereferences likewise
 retain their existing unchecked behavior.
 
-## Name-entry setup translation unit
+## Name-entry lifecycle translation unit
 
-`name_entry_setup.c` keeps `NameEntry_Init` next to the two routines it
-installs and drives: the keyboard text-box builder it calls during setup, and
-the selection-frame drawing callback it registers at `+0x4C`. Grouping them
-records the install relationship that `NameEntry_Init` establishes by its own
-stores, rather than an inference from adjacency.
+`name_entry_runtime.c` contains the complete matched name-entry pipeline:
+fourteen functions in executable order from `NameEntry_BuildKeyboardTextBox`
+at `0x80168138` through `NameEntry_PollCompletion` at `0x80169C08`. One
+`gcc_2_8_1_g0_split` C subsegment at module offset `0x138` covers the full
+`0x1AF8`-byte text extent through `0x80169C30`, and the same source owns the
+glyph atlas rodata at module offset `0x4`.
 
-The definitions remain in executable order, which is not call order:
-`NameEntry_BuildKeyboardTextBox` occupies `0x80168138..0x801681A0`,
-`NameEntry_DrawSelectionFrame` runs through `0x801683EC`, and
-`NameEntry_Init` closes the unit at `0x8016868C`. All three use
-`gcc_2_8_1_g0_split`, and their shared manifest source and one C subsegment
-at module offset `0x138` cover the complete contiguous `0x554`-byte text
-range, ending exactly where `TextBox_GetGlyphAt` begins.
+The two external doors are the lifecycle pair: `NameEntry_Init` builds the
+screen once, while `NameEntry_PollCompletion` advances it each frame and
+reports acceptance. Everything between them is connected by stores and calls:
+initialization installs the selection-frame callback, the keyboard and dialog
+handlers create glyph sprites and install their update callbacks, and those
+callbacks share the same glyph lookup and `D_8016D400` state block.
 
-This is a grouping of the name-entry setup path only. It makes no claim about
-the original author's translation-unit boundaries, and it is not the whole
-name-entry screen: the per-frame glyph pulse at `0x80168708` and the routines
-after it remain separate units. A later wider grouping would have to absorb
-this entire three-function object rather than one member of it.
+The run deliberately starts after `func_801680B4`: adjacency and profile
+agree, but no name-entry caller or shared state ownership is proven for that
+generic display-object constructor. It stops before
+`Password_RefreshDigitDisplay`, where the password-shop text pipeline begins.
 
 ## Name-entry selection-frame packets
 
 `NameEntry_Init` installs
-[`NameEntry_DrawSelectionFrame`](name_entry_setup.c)
+[`NameEntry_DrawSelectionFrame`](name_entry_runtime.c)
 (`0x801681A0`) at callback offset `+0x4C` of the selection cursor stored in
 `D_8016D404`. The initializer sets its position to `(22, 24)` and its
 dimensions to `16 x 16`; keyboard movement later updates that cursor's
@@ -266,13 +265,11 @@ does not claim that the cursor allocation ends at `+0x40`. The installer
 retains its existing object writes and callback-slot assignment rather
 than pretending that the callback takes no arguments.
 
-## Name-entry glyph-effect translation unit
+## Name-entry glyph effects
 
-`name_entry_glyph_effects.c` is the whole per-sprite effect layer of the
-name-entry screen: the sprite factory and the four update callbacks that
-step what it makes. It covers `0x80168708..0x8016909C` as one contiguous
-`gcc_2_8_1_g0_split` run, wired as one C subsegment at module offset `0x708`
-and owning the module's first rodata block at `0x4`.
+Within `name_entry_runtime.c`, the sprite factory and five update callbacks
+form the per-sprite effect layer at `0x80168708..0x8016909C`. Their glyph
+atlas table is the module's first rodata block at `0x4`.
 
 | Address | Function |
 |---|---|
@@ -318,14 +315,12 @@ which. `GlyphSprite` names it for the scale use and the tween callbacks keep
 reaching it by offset, because nothing yet distinguishes the two at the type
 level; a union here would assert a relationship that has not been shown.
 
-## Name-entry runtime translation unit
+## Name-entry keyboard and dialog runtime
 
-`name_entry_runtime.c` is the name-entry screen's per-frame update path:
-the one entry point the rest of the game calls, the dialog state machine
-behind it, the keyboard handler that machine drives, and the caret helper
-both of them use. It covers `0x8016909C..0x80169C30` as one contiguous
-`gcc_2_8_1_g0_split` run, wired as one C subsegment at module offset
-`0x109C`. It owns no rodata.
+The last four functions in `name_entry_runtime.c` are the per-frame update
+path: the completion entry point, the dialog state machine behind it, the
+keyboard handler that machine drives, and the caret helper both of them use.
+They occupy `0x8016909C..0x80169C30`.
 
 | Address | Function |
 |---|---|
@@ -337,7 +332,7 @@ both of them use. It covers `0x8016909C..0x80169C30` as one contiguous
 The definitions stay in executable order, which is the reverse of the call
 order.
 
-### The grouping is a closed call chain, not adjacency
+### The runtime tail is a closed call chain
 
 Every module in this overlay is a single `gcc_2_8_1_g0_split` run end to end,
 so a profile change cannot mark this boundary and no such claim is made here.
@@ -351,13 +346,12 @@ exactly one door:
 | `NameEntry_UpdateDialog` | 1 | `NameEntry_PollCompletion`, inside |
 | `NameEntry_PollCompletion` | 2 | both **outside** the run |
 
-`NameEntry_PollCompletion` is the whole of the run's public surface, and its
-own body is two statements: run the dialog for one frame, then report bit
-`0x10`. The three functions behind it have no caller anywhere else in the
-tree — `NameEntry_AdjustLength` in particular is reached only from the
-keyboard handler's caret controls and from the dialog's arrival handling,
-which is why the caret helper travels with them rather than with the sprite
-effects whose `+0x24` slot it writes.
+`NameEntry_PollCompletion` is the runtime tail's public surface, and its own
+body is two statements: run the dialog for one frame, then report bit `0x10`.
+The three functions behind it have no caller anywhere else in the tree.
+`NameEntry_AdjustLength` is reached only from the keyboard handler's caret
+controls and from the dialog's arrival handling; the same unified source also
+contains the caret callback it installs.
 
 The two callers of `NameEntry_PollCompletion` are
 [`name_entry_main.c`](name_entry_main.c) in this overlay and the resident
@@ -395,12 +389,12 @@ name their fields by role with the hex offset in a comment.
 [`name_entry_frame.h`](name_entry_frame.h) everywhere the two overlap —
 signed x/y at `+0x30/+0x32` and unsigned width at `+0x3C` — and extends it
 with the tween fields at `+0x36/+0x38`, the width bonus at `+0x5E` and the
-timer at `+0x60`. Folding the extension back into the shared header is a
-separate change: the frame's drawing callback lives in
-[`name_entry_setup.c`](name_entry_setup.c), so this merge does not force the
-question and does not answer it. `D_8016D404`'s own declared type stays the
-open item [`name_entry_state.h`](name_entry_state.h) already records, for the
-same reason — its other dereferencing reader is in the glyph-effect unit.
+timer at `+0x60`. The drawing callback and keyboard now live in the same
+source but retain two named views: `NameEntrySelectionFrameView` is the proven
+drawing prefix, while `SelectionFrame` extends it with the tween fields.
+Keeping both makes each function's evidence explicit without claiming the
+allocation ends at either view. `D_8016D404` remains declared through the
+superset in [`name_entry_state.h`](name_entry_state.h).
 
 ## Glyph-encoding constants and the three meanings of `0xF0`
 
