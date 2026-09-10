@@ -79,13 +79,14 @@ void func_800428A8(
 
 s32 func_800428EC(u8 *object, s8 value)
 {
-    u32 index = object[0x17];
+    DisplayObject *obj = (DisplayObject *)object;
+    u32 index = obj->ot_index;
     volatile u16 *table = D_8009AF74;
     s32 result;
 
-    object[0x16] = value;
+    obj->field_16 = value;
     result = table[index] - value;
-    *(u16 *)(object + 0x14) = result;
+    obj->field_14 = result;
     return result;
 }
 
@@ -101,13 +102,16 @@ void func_8004293C(DisplayObject *object)
     object->field_14 = D_8009AF74[3] - object->field_16;
 }
 
-int func_80042960(char *object)
+int func_80042960(DisplayObject *object)
 {
-    void (*callback)(void) = *(void (**)(void))(object + 0x24);
+    /* Read as void (*)(void) and called with no argument on purpose:
+       the slot's declared type takes a u8 *, but the ambient argument
+       register is what retail passes. See #2887. */
+    void (*callback)(void) = *(void (**)(void))((u8 *)object + 0x24);
 
     if (callback != 0)
         callback();
-    return ((*(u16 *)(object + 8) & DISPLAY_OBJECT_RENDERABLE_MASK) ==
+    return ((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ==
             DISPLAY_OBJECT_RENDERABLE_MASK);
 }
 
