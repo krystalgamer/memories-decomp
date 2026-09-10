@@ -142,3 +142,7 @@ reference symbol map still tells Splat its address; the generated linker
 script obtains its storage from the C object's `.data`. Clean image matches
 and ELF/object ownership checks distinguish this from merely resolving the
 old symbol at link time.
+
+The separate alternate table is now also C-owned; see
+[`alternate-location-data.md`](alternate-location-data.md). Its equal bytes
+do not merge its address or type contract with the live table described here.

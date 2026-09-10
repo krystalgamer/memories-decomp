@@ -80,6 +80,21 @@ segments:
       - [0x15C8, asm, overlays/overworld_before_coup/text_15C8]
       - [0x17D0, c, overlays/overworld/alternate_pick_exit]
       - [0x1A9C, c, overlays/overworld/alternate_location_tick]
-      - [0x1E54, data, overlays/overworld_before_coup/data]
+
+  - name: alternate_location_table
+    type: code
+    start: 0x1E54
+    vram: 0x80169E54
+    align: 4
+    subsegments:
+      - [0x1E54, .data, overlays/overworld/alternate_location]
+
+  - name: module_data
+    type: code
+    start: 0x2274
+    vram: 0x8016A274
+    align: 4
+    subsegments:
+      - [0x2274, data, overlays/overworld_before_coup/data]
 
   - [0x3000]

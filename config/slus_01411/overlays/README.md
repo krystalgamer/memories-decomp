@@ -106,9 +106,17 @@ its own Splat segment between the live text and the remaining raw/alternate
 tail, so `.data` section ordering cannot move it behind the alternate text.
 See [`campaign-map-records.md`](../../../notes/overlays/campaign-map-records.md)
 for field evidence, boundary ownership and the preserved nonzero unknown
-bytes. The alternate table and the surrounding state remain assembly-owned.
+bytes. The surrounding state remains assembly-owned.
 The alternate routine's unresolved call into the live table at `0x80169230`
 retains its exact target; data ownership does not resolve that call's meaning.
+
+The alternate table at `0x80169E54-0x8016A274` now comes from the separate
+`overworld/alternate_location.c` unit, using its own existing record types.
+It is also sixteen 66-byte records and has the same bytes as the live table,
+but both allocations and their distinct consumer contracts remain intact.
+The residual blob starts at `0x2274`; no following state is included.
+See [the alternate table evidence](../../../notes/overlays/alternate-location-data.md)
+for byte preservation and the interior-label audit.
 
 The main-menu prefix remains assembly-owned. `MainMenu_UpdateTradeScreen`
 in `trade_update.c` declares `D_80180000[]` and reads element 1 as a comparator

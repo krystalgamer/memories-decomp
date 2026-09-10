@@ -3,6 +3,8 @@
 
 #include "../../types.h"
 
+#define ALTERNATE_LOCATION_COUNT 16
+
 /* Alternate-state copy with unresolved raw callees, not live map entrypoints.
 
    The types below are deliberately named for this family and are not shared
@@ -69,8 +71,8 @@ typedef struct {
 /* The three symbols both sources share. The comments above already name two
  * of them while describing the layouts, so the declarations belong here too.
  *
- *   D_80169E54   The alternate location table, indexed by D_8016A2BC at a
- *                66-byte stride, which is the AlternateLocation above.
+ *   D_80169E54   The sixteen-record table defined by alternate_location.c,
+ *                indexed by D_8016A2BC at the 66-byte stride above.
  *   D_8016A2BC   The current alternate location, compared against 10 by both
  *                sources before they treat the entry as a real one.
  *   D_800C4E68   A pad or status word, tested for 0x4, 0x20 and 0xC0.
@@ -78,7 +80,7 @@ typedef struct {
  * D_8016A278 and D_8016A288, the two AlternateObject pointers the comment
  * above describes, stay in alternate_location_tick.c: only that source
  * declares them, so there is nothing to de-duplicate yet. */
-extern AlternateLocation D_80169E54[];
+extern AlternateLocation D_80169E54[ALTERNATE_LOCATION_COUNT];
 extern u8 D_8016A2BC;
 extern u16 D_800C4E68;
 

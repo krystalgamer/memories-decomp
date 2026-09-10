@@ -8,6 +8,10 @@
     {
       "profile": "gcc_2_8_1_g0",
       "source": "src/overlays/overworld/location_table.c"
+    },
+    {
+      "profile": "gcc_2_8_1_g0",
+      "source": "src/overlays/overworld/alternate_location.c"
     }
   ]
 }
