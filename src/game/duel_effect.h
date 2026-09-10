@@ -236,6 +236,33 @@ extern u8 D_8009B355 __attribute__((section(".data")));
 extern u8 D_8009B355;
 #endif
 
+/* Stored by two functions and read by one. func_80023144 stores
+ * func_80023090's result -- 4, 1 or 6 (duel_field_guardian_compare.c:35,
+ * :38, :40) -- under `if (D_8009B34E != 0)` (duel_field_display_objects.c
+ * :126-131); func_8002A2F4 stores the byte at +0x54 of the object
+ * TextBox_Create returned (`o` is u8 *) and then 4 when
+ * `*(p + (n << 2) + 0x56) & 1` (func_8002A2F4.c:38-42); func_80037DA4
+ * stores it into `object[0x54]` when the opcode byte has bit 0x10
+ * (func_80037DA4.c:35-38). notes/duel-card-record.md:173-176 glosses the
+ * three results. No unit defines it; the address comes from the generated
+ * tmp/splat/undefined_syms_auto.txt, and the nearest named symbol above it
+ * is D_8009B322, at +2 (nothing is named at +1 there, in symbols.txt or in
+ * c_symbols.ld).
+ *
+ * u8 because the one unit that loads it, func_80037DA4.c, already declared
+ * it u8 and matched, and the load is lbu (func_80037DA4.s:20, gp-relative).
+ * Retail stores it through $at in func_80023144 (func_80023144.s:162-163,
+ * gcc_2_8_1_g8_split), so duel_field_display_objects.c defines the .data
+ * arm; func_8002A2F4.c's unit assembles at -G0 (gcc_2_8_1_cc_g8_as_g0_split:
+ * compiler -G8, maspsx -G0), so its plain declaration is expanded through
+ * $at by the assembler either way (func_8002A2F4.s:39-40, :48-49); and
+ * func_80037DA4.c takes the plain byte. Initial value not read. */
+#ifdef D_8009B320_IN_DATA
+extern u8 D_8009B320 __attribute__((section(".data")));
+#else
+extern u8 D_8009B320;
+#endif
+
 /* The effect/text advance flag. TextBox_BuildStep is the only reader: it
  * clears the flag to 0, calls the opcode handler, and then tests the result
  * twice -- `>= 0` and then `== 1`. Everything else only ever writes it, and

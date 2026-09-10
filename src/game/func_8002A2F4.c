@@ -4,7 +4,6 @@
 #include "func_8002A2F4.h"
 
 extern s16 gDuel_wSelectedCardID;
-extern u8 D_8009B320;
 extern s32 D_801D5608[];
 
 s32 func_8002A6B8(u8 *arg0);
