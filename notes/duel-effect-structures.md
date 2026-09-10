@@ -32,7 +32,7 @@ Verified channel fields used by matching C include:
 | `0x52` | `delay_52` | reloaded from `field_53` in `TextBox_BuildStep` and from `0xFF` in `func_80037B40`, decremented once per tick, gating the rest of the tick while nonzero |
 | `0x53`-`0x5B` | byte fields and `index_57` | initialization sequence in `DuelEffect_InitEntry` |
 | `0x56` | `field_56` | cleared by `TextBox_BuildStep`; keeps the offset for a name, as the other files reaching `0x56` do so on other records |
-| `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, `duel_effect_object_commands.c` and `duel_effect_stream_fields.c` |
+| `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, `duel_effect_object_commands.c` and `duel_effect_command.c` |
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
 

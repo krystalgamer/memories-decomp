@@ -43,7 +43,7 @@ void func_80019608(void)
     /* The resize branch below is the one place where no source shape reaches
        retail's allocation: unpinned, the field read and the offset value share
        a register and the two independent values in the fade-out do not. The
-       matched siblings func_8001944C.c and func_80037DA4.c use the same
+       matched siblings func_8001944C.c and func_80037DA4 use the same
        device.  v4 and v5 share $5 because their live ranges are disjoint,
        which is what retail does. */
     register s32 fld __asm__("$3");
