@@ -4,6 +4,7 @@
 #include "file_transfer.h"
 #include "../unmatched.h"
 #include "graphics_frame.h"
+#include "func_80032184.h"
 
 void func_80032184(u8 *p, s32 mode) {
     s32 one;
