@@ -91,6 +91,34 @@ call-graph tiebreak.
 | `0x80085320` | `GsGetActiveBuff` (applied), `SsUtGetReverbType` |
 | `0x8008AD50` | `GsSetRefView2` (applied), `GsSetRefViewUnit` |
 
+### Patched LIBDS cross-reference
+
+The one 4.7 catalogue permitted above is LIBDS, so the sweep can be run
+against that library alone by giving the tool a directory holding only the
+[4.7 `LIBDS.LIB.json`](https://github.com/lab313ru/psx_psyq_signatures/blob/e9e46e7e133ef275a79bfce650924f98edb086bc/470/LIBDS.LIB.json):
+
+    mkdir tmp/sig-ds47 && cp <checkout>/470/LIBDS.LIB.json tmp/sig-ds47/
+    tools/environments/python/bin/python tools/project/psyq_signatures.py \
+        --signatures tmp/sig-ds47 --report
+
+The same five rules apply. `DSSYS_1.OBJ` and `DSSYS_2.OBJ` each match the
+payload exactly once. That yields 31 new names from `0x8007A9AC` to
+`0x8007CD6C`: the public `DsInit`, `DsReset`, `DsCommand`, `DsPacket`,
+`DsSync`, `DsReady` and `DsQueueLen`, and the library's internal `DS_*`
+state helpers, `_DsPacket2`, `parcpy` and `rescpy`. The 4.6 catalogue
+proposes none of these addresses, which is consistent with the executable
+carrying the patched library rather than the 4.6 one. The 14 labels that land
+on already-named LIBDS functions all agree. The two that differ are the
+existing `CdMix`/`DsMix` and `CdReadyCallback_8007A840`/`DsSetDebug`
+conflicts, which stay as they are, and `0x8007E7F0` remains ambiguous between
+`DsControl` and `DsControlB`.
+
+Four game sources already called three of these by address. `file_stream.c`
+and `main_run_boot_sequence.c` call `DsInit`, and `file_transfer_control.c`
+and `file_cd_transfer.c` issue every loader command through `DsCommand` and
+`DsPacket`. Their private prototypes are gone in favour of `libds.h`, with
+`DslLOC *` and `DslCB` casts at the call sites. The build stays byte-identical.
+
 The removed `0x80077150` conflict is resolved as `SpuWrite`. Its only internal
 transfer call is to confirmed `_spu_Fw`; `_spu_Fr` is the separate adjacent
 read helper. Matching sound-transfer callers first select an SPU RAM

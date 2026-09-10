@@ -7,6 +7,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libcd.h"
+#include "../psyq/libds.h"
 #include "fade.h"
 #include "file_transfer.h"
 #include "main_run_boot_sequence.h"
@@ -18,7 +19,6 @@
 
 extern void func_801680F4(void);
 extern int func_80168160(int);
-extern void func_8007AFA4(void);
 void Main_RunBootSequence(s32 mode)
 {
     register u8 *object;
@@ -64,7 +64,7 @@ void Main_RunBootSequence(s32 mode)
     func_801680F4();
     while (func_80168160(1) != 0) {
     }
-    func_8007AFA4();
+    DsInit();
     object = func_800400AC(func_8004002C(), 2);
     func_800428A8(object, 0, 0, 0, 0, 1, 0x10, 0x100,
                   D_801AF000);

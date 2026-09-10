@@ -17,8 +17,6 @@
 
 extern u16 D_8009B0EC;
 extern u8 D_8009B11C;
-extern s32 func_8007B1F4(s32, void *, void *, s32);
-extern s32 func_8007B468(s32, void *, s32, void *, s32);
 extern void CdIntToPos_8007E600(s32, void *);
 extern volatile u16 D_8009B124;
 extern volatile s32 D_8009B0E8;
@@ -35,7 +33,7 @@ void func_8001455C(void)
     p = (u8 *)&gFile_PrimaryTransferDescriptor;
     if (D_8009B0F4 & 0x1000) {
         if (!(D_8009B0F4 & 0x800)) {
-            if (func_8007B1F4(0x10, 0, func_80014390, 0) > 0) {
+            if (DsCommand(0x10, 0, (DslCB)func_80014390, 0) > 0) {
                 D_8009B0F4 = D_8009B0F4 | 0x800;
             }
         }
@@ -64,7 +62,7 @@ void func_8001455C(void)
             D_8009B112 = D_8009B112 | 0x2000;
             D_8009B100 = 1;
         case 1:
-            if (func_8007B1F4(9, 0, func_80014220, -1) <= 0) {
+            if (DsCommand(9, 0, (DslCB)func_80014220, -1) <= 0) {
                 return;
             }
             D_8009B0F4 = D_8009B0F4 | 0x400;
@@ -86,14 +84,14 @@ set_state3:
             q = &D_8009B11C + 1;
             *q = p[0x38];
             q[-1] = p[0x39];
-            if (func_8007B1F4(0xD, q - 1, func_80014294, -1) <= 0) {
+            if (DsCommand(0xD, (u8 *)(q - 1), (DslCB)func_80014294, -1) <= 0) {
                 return;
             }
             D_8009B0F4 = D_8009B0F4 | 0x400;
             return;
         case 4:
             CdIntToPos_8007E600(*(s32 *)(p + 0x24), D_8009B104);
-            if (func_8007B468(0x4A, D_8009B104, 0x1B, func_80014308, -1) <= 0) {
+            if (DsPacket(0x4A, (DslLOC *)D_8009B104, 0x1B, (DslCB)func_80014308, -1) <= 0) {
                 return;
             }
             D_8009B0F4 = D_8009B0F4 | 0x400;
@@ -129,7 +127,7 @@ call_back:
         case 0:
             DsEndReadySystem();
             CdReadyCallback(0);
-            if (func_8007B1F4(9, 0, func_800141A8, -1) <= 0) {
+            if (DsCommand(9, 0, (DslCB)func_800141A8, -1) <= 0) {
                 return;
             }
             D_8009B0F4 = D_8009B0F4 | 0x400;
@@ -152,7 +150,7 @@ call_back:
         if ((s32)D_8009B0F4 < 0) {
             goto call_144B8;
         }
-        if (func_8007B468(0xA0, D_8009B104, 0x15, func_80014134, -1) <= 0) {
+        if (DsPacket(0xA0, (DslLOC *)D_8009B104, 0x15, (DslCB)func_80014134, -1) <= 0) {
             return;
         }
         D_8009B0F4 = D_8009B0F4 | 0x480;
@@ -174,7 +172,7 @@ call_back:
         D_8009B0F4 = D_8009B0F4 & 0xFFBFFFFF;
     }
     if ((s32)D_8009B0F4 >= 0) {
-        if (func_8007B468(0xA0, D_8009B104, 6, func_800140A0, -1) == 0) {
+        if (DsPacket(0xA0, (DslLOC *)D_8009B104, 6, (DslCB)func_800140A0, -1) == 0) {
             return;
         }
         D_8009B0F4 = D_8009B0F4 | 0x400;

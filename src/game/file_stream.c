@@ -8,7 +8,6 @@
 extern s32 D_8009B0E8;
 extern u16 D_8009B124;
 
-extern s32 func_8007AFA4(void);
 extern s32 CdPosToInt_8007E710(const CdlLOC *);
 
 void File_InitTransferState(s32 value)
@@ -26,7 +25,7 @@ void File_InitTransferState(s32 value)
     D_8009B124 = 0;
     D_8009B0E8 = 0;
     D_8009B130 = 0;
-    while (func_8007AFA4() == 0) {
+    while (DsInit() == 0) {
     }
     D_8009B0FC = 1;
 }
