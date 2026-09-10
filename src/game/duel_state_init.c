@@ -5,9 +5,6 @@
 #include "duel_hand.h"
 #include "duel_grid.h"
 
-extern u16 D_8009B230;
-extern u16 D_8009B234;
-extern u16 D_8009B236;
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern s8 D_800EA02F[];
 
