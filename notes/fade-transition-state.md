@@ -129,7 +129,7 @@ rather than inferred from a caller's name:
 | Setup path | Initial head / target | Default setup |
 |---|---|---|
 | `Fade_InitIn` in [`fade_overlay.c`](../src/game/fade_overlay.c) | `0` / `0xFF` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
-| `Fade_InitOut` in [`fade_out.c`](../src/game/fade_out.c) | `0xFF` / `0` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
+| `Fade_InitOut` in [`fade_overlay.c`](../src/game/fade_overlay.c) | `0xFF` / `0` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
 
 `Fade_StartIn` and `Fade_StartOut` call those initializers, then request
 step `8` and flag `0x01` (band mode). However, both call a color helper
