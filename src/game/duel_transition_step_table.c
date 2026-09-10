@@ -2,6 +2,8 @@
 #include "build_deck_transition_state.h"
 #include "build_deck_update_pane_transition.h"
 #include "duel_transition_step_table.h"
+#include "build_deck_pane_input.h"
+#include "func_800339D0.h"
 
 /* Initialized data at 0x80090DF8 and 0x80090E0C, previously a generated blob
    (#2602).
@@ -14,9 +16,9 @@
 
    BuildDeck_UpdatePaneTransition takes BuildDeckTransitionState *, so the two
    entries that use it are cast to the table's element type, as
-   display_effect_step_table.c does for func_8003A560. The other three
-   prototypes are taken from their definitions in build_deck_pane_input.c and
-   func_800339D0.c; the exit step and driver now share that source.
+   display_effect_step_table.c does for func_8003A560. The other three come
+   from build_deck_pane_input.h and func_800339D0.h, and already take the
+   element type.
 
    D_80090E0C's first seven words are the divisor ladder
    Text_EncodeDecimalDigits indexes by digit count and then walks with
@@ -26,10 +28,6 @@
    their own. They are transcribed as they stand rather than named, because
    moving them out of the blob is what #2602 asks for and a name for them is
    not yet supported by anything. */
-void func_800336F0(u8 *);
-void func_8003353C(u8 *);
-void func_800339D0(u8 *);
-
 void (*D_80090DF8[])(u8 *) = {
     (void (*)(u8 *))BuildDeck_UpdatePaneTransition,
     (void (*)(u8 *))BuildDeck_UpdatePaneTransition,

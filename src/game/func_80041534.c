@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "func_80041534.h"
 
 int func_80041534(u8 *object, u8 *data)
 {
