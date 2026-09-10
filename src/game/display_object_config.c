@@ -2,12 +2,6 @@
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "display_object_config.h"
-#include "display_object_reset_pool.h"
-
-void func_800403F0(void)
-{
-    DisplayObject_ResetPool();
-}
 
 void func_80040410(DisplayObjectConfig *object, s32 value)
 {

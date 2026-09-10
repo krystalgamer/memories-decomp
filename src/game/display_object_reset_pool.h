@@ -1,6 +1,0 @@
-#ifndef MEMORIES_DECOMP_DISPLAY_OBJECT_RESET_POOL_H
-#define MEMORIES_DECOMP_DISPLAY_OBJECT_RESET_POOL_H
-
-void DisplayObject_ResetPool(void);
-
-#endif
