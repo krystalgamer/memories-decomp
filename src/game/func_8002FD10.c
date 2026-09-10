@@ -4,6 +4,7 @@
 #include "graphics_frame.h"
 #include "menu_record_reset.h"
 #include "script_state.h"
+#include "func_8002FB78.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
@@ -16,7 +17,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
 #define gGraphics_sViewportY gGraphics_sViewportY_data
 extern s32 D_80010000 __attribute__((section(".data")));
 
-extern void func_8002FB78(void);
 extern void *func_8002E3FC(void);
 
 /* Loads the fixed scene presentation/event package. The argument initializes
