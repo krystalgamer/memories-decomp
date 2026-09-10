@@ -1355,8 +1355,8 @@ address,size,name,status,module,notes
 0x8007A628,0xC,CD_set_test_parmnum,sdk_asm,psyq/sdk,
 0x8007A634,0xD8,func_8007A634,sdk_asm,psyq/sdk,
 0x8007A710,0x104,CdIntToPos,sdk_asm,psyq/sdk,Exact Psy-Q 4.6 LIBCD.LIB/S_002.OBJ signature match; canonical linked copy.
-0x8007A820,0x20,func_8007A820,sdk_asm,psyq/sdk,
-0x8007A840,0x14,func_8007A840,sdk_asm,psyq/sdk,
+0x8007A820,0x20,CdReady,sdk_asm,psyq/sdk,"Direct wrapper around internal CD_ready that preserves the canonical mode/result arguments; StCdInterrupt calls it with a result buffer and consumes the returned status."
+0x8007A840,0x14,CdReadyCallback_8007A840,sdk_asm,psyq/sdk,"Replaces and returns D_800934E4, the callback CD_ready invokes with status/result on its ready path. Address-qualified because the live 0x8007E860 copy already carries the canonical CdReadyCallback name."
 0x8007A860,0x24,CdDataCallback,sdk_asm,psyq/sdk,
 0x8007A890,0x30,func_8007A890,sdk_asm,psyq/sdk,
 0x8007A8C0,0xEC,func_8007A8C0,sdk_asm,psyq/sdk,

@@ -79,7 +79,7 @@ disagree**. The tool is checked against work done independently, and that
 number is the regression signal -- if it falls, the matcher broke rather than
 the catalogue being wrong.
 
-Six addresses are claimed under more than one name. They are small routines
+Five catalogue conflicts remain summarized below. They are small routines
 duplicated verbatim across libraries, so bytes alone cannot separate them:
 unresolved rows remain `func_XXXXXXXX`, while applied rows require a separate
 call-graph tiebreak.
@@ -87,11 +87,24 @@ call-graph tiebreak.
 | Address | Competing names |
 |---|---|
 | `0x80077150` | `SpuRead`, `SpuWrite` |
-| `0x8007A840` | `CdReadCallback`, `CdReadMode`, `CdReadyCallback`, `CdSetDebug`, `CdSyncCallback`, `DsSetDebug` |
 | `0x8007CDC0` | `CdMix`, `DsMix` |
 | `0x8007E7F0` | `DsControl`, `DsControlB` (inventory keeps `CdControlB`) |
 | `0x80085320` | `GsGetActiveBuff` (applied), `SsUtGetReverbType` |
 | `0x8008AD50` | `GsSetRefView2` (applied), `GsSetRefViewUnit` |
+
+The removed `0x8007A840` conflict is resolved as
+`CdReadyCallback_8007A840`. It replaces and returns `D_800934E4`, and
+`CD_ready` invokes that exact slot with its status byte and result pointer on
+the ready path. The parallel sync path uses `D_800934E0`, ruling out the
+read-mode, debug, and sync-callback proposals. The symbol is address-qualified
+because matching game C already uses the second resident copy at `0x8007E860`
+through the canonical `CdReadyCallback` name.
+
+The immediately preceding wrapper at `0x8007A820` is `CdReady`: it preserves
+both arguments and directly returns `CD_ready`. `StCdInterrupt` calls it with
+a result buffer and consumes the returned status. The legacy `atol` label was
+based on a generic 32-byte call-wrapper signature that matches nine resident
+functions, so it is not unique signature evidence.
 
 The removed `0x80085D80` conflict is resolved as `GsDrawOt`. Its exact wrapper
 loads `GsOT.tag` at offset `+0x10` and directly calls confirmed `DrawOTag`;
@@ -266,6 +279,8 @@ Every row below is now an applied project symbol.
 | `0x800785C0` | `StGetNext` | Applied Psy-Q 4.6 identity from the unique 192-byte `LIBCD.LIB/C_009.OBJ` signature. |
 | `0x80078680` | `StSetMask` | Applied Psy-Q 4.6 identity from the unique 32-byte `LIBCD.LIB/C_010.OBJ` signature. |
 | `0x800786A0` | `StCdInterrupt` | Applied Psy-Q 4.6 identity from the unique 2,800-byte `LIBCD.LIB/C_011.OBJ` signature. |
+| `0x8007A820` | `CdReady` | Applied confirmed identity for the public wrapper that preserves the canonical mode/result arguments and directly returns internal `CD_ready`; `StCdInterrupt` is a live caller. |
+| `0x8007A840` | `CdReadyCallback_8007A840` | Applied confirmed identity for the setter that replaces and returns the callback invoked by internal `CD_ready`; address-qualified because `0x8007E860` is the second live copy. |
 | `0x8007A860`, `0x8007E8A0` | `CdDataCallback`, `CdDataCallback_8007E8A0` | Applied confirmed identities for byte-identical wrappers that install a callback on DMA channel `3`; the second copy is address-qualified because both are resident and live. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
 | `0x8007E350` | `CdFlush` | Applied confirmed identity for the no-argument wrapper around the CD library's internal state-reset routine. |
@@ -602,6 +617,12 @@ resident DMA callback installer with channel `3`, matching `CdDataCallback`.
 CD teardown selects one of these wrappers according to the active library
 state, so both linked addresses are live members rather than redundant padding.
 One original name cannot be assigned to multiple resident addresses.
+
+The two ready-callback setters follow the same naming rule even though their
+storage differs. `CdReadyCallback_8007A840` swaps internal LIBCD slot
+`D_800934E4`; the canonical `CdReadyCallback` at `0x8007E860` swaps the later
+LIBDS-facing slot `D_800F8394` used by matching game C. Both return the previous
+pointer and expose the same status-and-result callback contract.
 
 The callback invocation paths distinguish the two adjacent setter routines:
 
