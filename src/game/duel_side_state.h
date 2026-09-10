@@ -97,6 +97,20 @@ extern DuelSideState *D_8009B1C8;
  * spelling stays small data everywhere. Initial value not read. */
 extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
 
+/* The card id the last search or trap selection left behind. func_80025028
+ * stores 0 before its slot loop and its argument on a hit, and its own
+ * comment says what a hit and a miss leave; func_8001F0D0 stores `sel +
+ * DUEL_ATTACK_TRAP_FIRST_CARD_ID` in one arm and `v` under its `hit:` label;
+ * func_800250C8 and func_8002525C test it against 0. func_8001F55C, still
+ * assembly, stores 0 once and loads it eight times. Every retail load is lh
+ * (func_800250C8.s:37, func_8002525C.s:24, and the eight in
+ * func_8001F55C.s), so the halfword is signed; the stores are sh and cannot
+ * say. Every access in all five listings is gp-relative, so this is the
+ * plain declaration for duel_card_effects.c, duel_trap_resolution.c and
+ * func_80025028.c alike, and the `u16` one of them used to write was the
+ * same halfword under the other sign. Initial value not read. */
+extern s16 D_8009B22A;
+
 /* The signed byte just below gDuel_bOpponentID. func_80024DC8 stores its
  * first argument here and its second into gDuel_bOpponentID;
  * Text_StartCampaignDuel resets it to -1 before it sets
