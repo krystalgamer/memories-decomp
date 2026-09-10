@@ -366,6 +366,61 @@ file taking `0x8009AF08` would have to define a watchdog counter under a name
 three tools resolve as the GP base, which is a heavier commitment than the
 twenty-eight bytes suggest.
 
+#### Who actually owns the remaining bytes
+
+The triage above asks what resists ownership. The prior question is who owns
+the bytes at all, and answering it for all five ranges at once changes the
+shape of the remaining work considerably.
+
+Every label in each range can be attributed to the functions that reference
+it, and `functions.csv` records an owner for each of those functions --
+`game`, `psyq/sdk` or `psyq/crt`. Doing that across the whole set gives:
+
+| range | section | bytes | psyq | game |
+| --- | --- | ---: | ---: | ---: |
+| `initialized_data_800906e0` | `.data` | 12 | 8 | 0 |
+| `initialized_data_80091958` | `.data` | 34724 | 34692 | 0 |
+| `initialized_data_8009af08` | `.sdata` | 20 | 8 | 8 |
+| `initialized_data_8009af2a` | `.sdata` | 7 | 0 | 7 |
+| `initialized_data_8009af6c` | `.sdata` | 276 | 0 | 276 |
+
+The large `.data` range is not a game data blob at all. Its 274 labels are
+referenced by 246 distinct functions and **every one of them is
+`psyq/sdk`** -- `_spu_init`, `_spu_setReverbAttr`, `SpuSetReverbModeParam`,
+`StCdInterrupt`, `CD_cw`, `FntOpen` and their neighbours. The text range that
+reaches into it opens with `PCopen`, `InitHeap`, `_bu_init`, `OpenEvent`,
+`EnterCriticalSection` and the `open`/`read`/`write`/`close` wrappers. This is
+the Psy-Q library's own initialized data: SPU voice and reverb state, the CD
+streaming machinery, the font system, the heap and event tables.
+
+That is a negative worth stating precisely rather than by implication. No file
+under `src/` mentions any of those 274 names -- not the game sources, not the
+overlays, not the candidate sources. The single unreferenced label,
+`D_80092A68`, appears in neither `c_symbols.ld` nor `symbols.txt`.
+
+The consequence is that the biggest item on the remaining list is not
+"bulk remainder, must be split before any ownership". It is vendor data, and
+the project already holds that Psy-Q CRT and SDK code is never a
+decompilation candidate. The same reasoning applies to its data: there is no
+game translation unit that could honestly define it, and inventing one would
+assert authorship the image does not support.
+
+Netting the vendor bytes out, the genuine game-owned remainder across all
+five ranges is about **291 bytes, all of it `.sdata`** -- the seven bytes at
+`0x8009AF2A`, the 276 at `0x8009AF6C`, and eight of the twenty at
+`0x8009AF08`. That is a very different target from thirty-four kilobytes, and
+it lands entirely in the section the `.data`-before-`.sdata` rule calls the
+harder one: a text unit can own `.sdata` in place, but the byte layout then
+has to survive the section's four-byte alignment, which is exactly what the
+measured failure at `0x8009AF2A` ran into.
+
+Two caveats on the method. Sizes are measured label-to-label, so the final
+label in each range is assumed four bytes and the totals are approximate at
+the margin; and attribution is by symbol reference, so a byte reached only
+through pointer arithmetic from a neighbouring symbol would be credited to
+that neighbour. Neither affects the conclusion, which rests on a 246-to-0
+split rather than on a close count.
+
 ### The small-data region
 
 `.data` runs to 0x8009AF08 and `.sdata` from there to 0x8009B090, which is
