@@ -41,7 +41,7 @@ extern u16 D_8009B32E;
 /* The text colour slots, indexed by the low nibble of a colour command:
  * func_80038498.c reads `gText_abColorSlots[v & 0xF]`. func_800611D0.c sets
  * the first three to 4 and clears one chosen by its argument, and
- * func_8003C4E0.c walks the table from its base.
+ * func_8003C4E0 in options_screen.c walks the table from its base.
  *
  * The incomplete-array spelling every consumer already used is kept. Nothing
  * here establishes how many slots there are -- the nibble index allows
@@ -87,7 +87,7 @@ extern u16 D_800EAFF8[];
  *
  * Declared here because this is the header that owns gText_abColorSlots, the
  * table it writes -- the note on that declaration already names this file as
- * one of its three writers. Its only caller, options_init.c, had the only
+ * one of its three writers. Its only caller, Options_Init, had the only
  * declaration. */
 void func_8003C4E0(s32 slot);
 

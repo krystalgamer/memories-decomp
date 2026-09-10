@@ -736,10 +736,10 @@ extern u32 D_8009B404;
  * it tests `< 0`, stores 0 when it is, and copies it into the payload
  * byte (save_data_payload.c:151, :156-157, :160; func_8003D03C.s:15-16,
  * then :23-24 lbu for the payload copy). Options_Init reads it into an s8
- * it copies into gOptions_bOutputType and tests `< 0` (options_init.c:41,
- * :43-44; func_8003C628.s:34-35 lbu). Sound_InitFrontend stores -1
+ * it copies into gOptions_bOutputType and tests `< 0` (options_screen.c:103,
+ * :105-106; func_8003C628.s:34-35 lbu). Sound_InitFrontend stores -1
  * (sound_frontend.c:15) and Options_HandleInput stores 1 or 0
- * (options_update.c:23, :30). Every retail access is a byte at the symbol
+ * (options_screen.c:143, :150). Every retail access is a byte at the symbol
  * itself, the payload copies one byte, nothing in the tree reaches +1, and
  * every declarer said s8. The `[16]` three of them used to declare was the -G8
  * placement lever, not a length (main_services.h:65-70 and options.h:37-38
