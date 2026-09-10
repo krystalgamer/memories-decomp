@@ -4,40 +4,8 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "model_primitive_handler.h"
+#include "model_primitive_handler_entries.h"
 #include "../unmatched.h"
-
-extern void func_800612C0(void);
-extern void func_8006151C(void);
-extern void func_800617E0(void);
-extern void func_80061A84(void);
-extern void func_80061DDC(void);
-extern void func_80062058(void);
-extern void func_8006233C(void);
-extern void func_80062600(void);
-extern void func_80062978(void);
-extern void func_80062BC0(void);
-extern void func_80062E70(void);
-extern void func_80063100(void);
-extern void func_80063444(void);
-extern void func_800636AC(void);
-extern void func_8006397C(void);
-extern void func_80063C2C(void);
-extern void func_80063F90(void);
-extern void func_80064248(void);
-extern void func_80064568(void);
-extern void func_80064868(void);
-extern void func_80064C1C(void);
-extern void func_80064EF4(void);
-extern void func_80065234(void);
-extern void func_80065554(void);
-extern void func_80065928(void);
-extern void func_80065BCC(void);
-extern void func_80065ED8(void);
-extern void func_800661C4(void);
-extern void func_80066564(void);
-extern void func_80066828(void);
-extern void func_80066B54(void);
-extern void func_80066E60(void);
 
 void *func_800603DC(unsigned int v){if(v==0x2000000)goto a;if(v==0x2000001)goto b;goto d;a:return (void*)GsU_02000000;b:return (void*)GsU_02000001;d:return (void*)GsU_00000000;}
 
