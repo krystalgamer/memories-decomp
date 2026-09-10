@@ -198,7 +198,8 @@ typedef struct {
     u8 voice_index;
     u8 pad0001[2];
     u8 channel_index;
-    u8 pad0004[2];
+    u8 pad0004;
+    u8 field_0005;
     u8 note;
     u8 pad0007;
     u8 field_0008;
@@ -208,7 +209,7 @@ typedef struct {
     /* Written by SD_SpatializeSecondaryObject: the 0-0x7F pan position it
        derives from the object's two pan bytes and its channel's pan. */
     u8 pan;
-    u8 pad000D;
+    u8 field_000D;
     u8 field_000E;
     u8 field_000F;
     u8 pitch_bend_positive_scale;

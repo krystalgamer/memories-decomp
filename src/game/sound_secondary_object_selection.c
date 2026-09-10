@@ -55,80 +55,74 @@ s32 func_8004A8E4(s32 index, s32 value)
 
 s32 func_8004A940(s32 value, s32 variant)
 {
-    u8 *state;
+    SDSecondaryState *state;
     s32 i;
     register s32 result __asm__("$10") = -1;
     u32 best;
 
-    state = D_8009B458;
+    state = (SDSecondaryState *)D_8009B458;
     i = 0;
-    if (*(s16 *)(state + 0x510) > 0) {
+    if (state->object_count > 0) {
         s32 none = SD_SECONDARY_RECORD_NONE;
-        s32 count = *(s16 *)(state + 0x510);
+        s32 count = state->object_count;
         do {
-            if (state[0x183] == none) {
+            if (state->objects[i].channel_index == none) {
                 return i;
             }
             i++;
-            state += SD_SECONDARY_OBJECT_SIZE;
         } while (i < count);
     }
 
-    state = D_8009B458;
+    state = (SDSecondaryState *)D_8009B458;
     i = 0;
-    if (*(s16 *)(state + 0x510) > 0) {
-        s32 count = *(s16 *)(state + 0x510);
+    if (state->object_count > 0) {
+        s32 count = state->object_count;
         do {
-            if (state[0x18D] == 0) {
+            if (state->objects[i].field_000D == 0) {
                 return func_8004A8E4(i, (u8)value);
             }
             i++;
-            state += SD_SECONDARY_OBJECT_SIZE;
         } while (i < count);
     }
 
-    state = D_8009B458;
+    state = (SDSecondaryState *)D_8009B458;
     i = 0;
-    if (*(s16 *)(state + 0x510) > 0) {
+    if (state->object_count > 0) {
         do {
-            u8 *entry = state + i * SD_SECONDARY_OBJECT_SIZE;
-            u8 owner = entry[0x183];
-            if (owner == (u8)value && entry[0x185] == (u8)variant) {
+            u8 owner = state->objects[i].channel_index;
+            if (owner == (u8)value &&
+                state->objects[i].field_0005 == (u8)variant) {
                 return func_8004A8E4(i, owner);
             }
-            state = D_8009B458;
+            state = (SDSecondaryState *)D_8009B458;
             i++;
-        } while (i < *(s16 *)(state + 0x510));
+        } while (i < state->object_count);
     }
 
-    state = D_8009B458;
+    state = (SDSecondaryState *)D_8009B458;
     i = 0;
-    if (*(s16 *)(state + 0x510) > 0) {
-        s32 count = *(s16 *)(state + 0x510);
+    if (state->object_count > 0) {
+        s32 count = state->object_count;
         do {
-            if (state[0x18D] == 0) {
+            if (state->objects[i].field_000D == 0) {
                 return func_8004A8E4(i, (u8)value);
             }
             i++;
-            state += SD_SECONDARY_OBJECT_SIZE;
         } while (i < count);
     }
 
-    state = D_8009B458;
+    state = (SDSecondaryState *)D_8009B458;
     best = 0xFFFF;
     i = 0;
-    if (*(s16 *)(state + 0x510) > 0) {
-        u8 *entry;
-        s32 count = *(s16 *)(state + 0x510);
-        entry = state;
+    if (state->object_count > 0) {
+        s32 count = state->object_count;
         do {
-            u16 candidate = *(u16 *)(entry + 0x19E);
+            u16 candidate = state->objects[i].field_001E;
             if (candidate < best) {
                 best = candidate;
                 result = i;
             }
             i++;
-            entry += SD_SECONDARY_OBJECT_SIZE;
         } while (i < count);
     }
     if (best >= 0xFFFF) {
