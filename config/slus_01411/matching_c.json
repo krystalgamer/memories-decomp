@@ -280,181 +280,181 @@
       "address": "0x800154E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1D4",
-      "source": "src/game/fade_overlay.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800156B8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
-      "source": "src/game/fade_overlay.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800156DC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x50",
-      "source": "src/game/fade_overlay.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x8001572C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/fade_overlay.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015780",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/fade_overlay.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800157DC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
-      "source": "src/game/fade_overlay.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x8001581C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/fade_overlay.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015870",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/fade_overlay.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800158B8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
-      "source": "src/game/fade_overlay.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015904",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
-      "source": "src/game/fade_overlay.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015944",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015998",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800159D8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015A00",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015A28",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015A50",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015A94",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015AD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015B00",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015B28",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015B50",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015B94",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015BD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x18",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015BF0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015C0C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015C48",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015C84",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015CC0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015CFC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x10",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015D0C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/fade_control.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015D18",

@@ -3,27 +3,16 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "graphics_frame.h"
+#include "main_frame.h"
 #define ORDERING_TABLE_SLOT1_ARRAY
 #include "ordering_tables.h"
 
 #include "fade.h"
 
-/* The fade overlay and both sides of its setup: Fade_DrawOverlay, which
-   runs the transition and draws the band boxes every frame, the band fill
-   it starts from, the white-mode reset and the two white-mode colour
-   helpers, Fade_InitIn, Fade_StartIn and Fade_InitInColor, and the fade-out
-   pair Fade_InitOut, with head 0xFF, target 0, flag 0x80 and step 0x0C, and
-   contiguous strip-mode Fade_StartOut, with flag 0x01 and step 8.
-
-   The seven former sources were recorded at gcc_2_8_1_g8_split,
-   gcc_2_8_1_g0_split and gcc_2_8_1_g8. Every member compiles to an
-   identical object at gcc_2_8_1_g8_split. Fade_InitOut and Fade_StartOut
-   were recorded at gcc_2_8_1_g8 and were read as a profile boundary; they
-   compile to an identical object at gcc_2_8_1_g8_split as well, so what
-   separated them was the profile that had been recorded rather than one
-   the code needs. The unit stops above at fade_control.c, the blocking and
-   wrapper layer built on these primitives, and below at Fade_Update, which
-   needs its own assembler threshold. */
+/* The complete fade overlay, setup, blocking, and wrapper runtime. All thirty
+   contiguous functions operate on gFade_State and compile at
+   gcc_2_8_1_g8_split. Fade_Update below needs a distinct assembler threshold;
+   display_projection.c above is owned by the pending #3859 reclassification. */
 
 /* Full-screen fade / brightness overlay, drawn once per frame from
    func_8001306C's dispatcher.
@@ -248,4 +237,174 @@ void Fade_StartOut(void)
     state->step = 8;
     state->flags |= 1;
     func_80015870();
+}
+
+void Fade_InitOutColor(int color)
+{
+    FadeTransitionState *state;
+
+    if (color == 0xFFFFFF) {
+        D_8009B145 = 1;
+    }
+    *(s32 *)&gFade_State = color;
+    Fade_InitOut();
+    state = &gFade_State;
+    state->flags |= 0x30;
+    func_80015870();
+}
+
+void Fade_Wait(void)
+{
+    FadeTransitionState *state = &gFade_State;
+
+    do {
+        func_80012D4C();
+    } while (state->flags & 0x80);
+}
+
+void Fade_WaitInitIn(void)
+{
+    Fade_InitIn();
+    Fade_Wait();
+}
+
+void Fade_WaitIn(void)
+{
+    Fade_StartIn();
+    Fade_Wait();
+}
+
+void Fade_WaitInitInColor(s32 color)
+{
+    Fade_InitInColor(color);
+    Fade_Wait();
+}
+
+void func_80015A50(void)
+{
+    FadeTransitionState *state;
+
+    Fade_InitIn();
+    state = &gFade_State;
+    state->flags |= 2;
+    func_8001572C();
+    Fade_Wait();
+}
+
+void func_80015A94(void)
+{
+    FadeTransitionState *state;
+
+    Fade_InitIn();
+    state = &gFade_State;
+    state->flags |= 6;
+    func_8001572C();
+    Fade_Wait();
+}
+
+void Fade_WaitInitOut(void)
+{
+    Fade_InitOut();
+    Fade_Wait();
+}
+
+void Fade_WaitOut(void)
+{
+    Fade_StartOut();
+    Fade_Wait();
+}
+
+void Fade_WaitInitOutColor(s32 color)
+{
+    Fade_InitOutColor(color);
+    Fade_Wait();
+}
+
+void func_80015B50(void)
+{
+    FadeTransitionState *state;
+
+    Fade_InitOut();
+    state = &gFade_State;
+    state->flags |= 2;
+    func_80015870();
+    Fade_Wait();
+}
+
+void func_80015B94(void)
+{
+    FadeTransitionState *state;
+
+    Fade_InitOut();
+    state = &gFade_State;
+    state->flags |= 6;
+    func_80015870();
+    Fade_Wait();
+}
+
+void Fade_SetTargetLevel(s32 value, s32 flags)
+{
+    FadeTransitionState *state = &gFade_State;
+
+    state->target_level = value;
+    state->flags = flags | 0x80;
+}
+
+void Fade_SetLevel(s32 value)
+{
+    FadeTransitionState *state = &gFade_State;
+
+    state->level = value;
+    state->target_level = value;
+    state->flags = 0x80;
+}
+
+void func_80015C0C(void)
+{
+    FadeTransitionState *state;
+
+    Fade_InitIn();
+    state = &gFade_State;
+    state->flags |= 2;
+    func_8001572C();
+}
+
+void func_80015C48(void)
+{
+    FadeTransitionState *state;
+
+    Fade_InitIn();
+    state = &gFade_State;
+    state->flags |= 6;
+    func_8001572C();
+}
+
+void func_80015C84(void)
+{
+    FadeTransitionState *state;
+
+    Fade_InitOut();
+    state = &gFade_State;
+    state->flags |= 2;
+    func_80015870();
+}
+
+void func_80015CC0(void)
+{
+    FadeTransitionState *state;
+
+    Fade_InitOut();
+    state = &gFade_State;
+    state->flags |= 6;
+    func_80015870();
+}
+
+void func_80015CFC(void)
+{
+    D_8009B141 = 1;
+}
+
+void func_80015D0C(void)
+{
+    D_8009B141 = 0;
 }
