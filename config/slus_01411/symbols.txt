@@ -676,6 +676,7 @@ GsDefDispBuff = 0x800856A0; // type:func
 GsInit3D = 0x80085740; // type:func
 GsSetFlatLight = 0x800857E0; // type:func
 GsSetAmbient = 0x80085D50; // type:func
+GsDrawOt = 0x80085D80; // type:func
 GsClearOt = 0x80085DB0; // type:func
 GsSortOt = 0x80085E10; // type:func
 gte_rotate_z_matrix = 0x80085ED0; // type:func

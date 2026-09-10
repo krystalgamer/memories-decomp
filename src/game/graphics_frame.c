@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "../psyq/libetc.h"
 #define D_8009B142_IN_DATA
 #define D_8009B0C0_IS_VOLATILE
@@ -18,7 +19,6 @@ extern unsigned char D_8009AFA4 __attribute__((section(".data")));
 
 extern void func_80085500(void);
 extern void func_80085E10(void *, void *);
-extern void func_80085D80(void *);
 extern s32 func_80085320(void);
 extern void func_800862C0(void *);
 extern void func_80085DB0(s32, s32, u32 *);
@@ -98,7 +98,7 @@ void Graphics_BeginFrame(void)
                 func_80085E10(D_8009B0B4 + 0x5138, D_8009B0B4 + 0x5110);
                 func_80085E10(D_8009B0B4 + 0x514C, D_8009B0B4 + 0x5110);
             }
-            func_80085D80(D_8009B0B4 + 0x5110);
+            GsDrawOt((GsOT *)(D_8009B0B4 + 0x5110));
         }
     }
     idx = func_80085320();

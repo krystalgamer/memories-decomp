@@ -79,10 +79,10 @@ disagree**. The tool is checked against work done independently, and that
 number is the regression signal -- if it falls, the matcher broke rather than
 the catalogue being wrong.
 
-Seven addresses are claimed under more than one name and are deliberately left
-as `func_XXXXXXXX`. They are small routines duplicated verbatim across
-libraries, so bytes alone cannot separate them and a call-graph tiebreak is
-needed:
+Six addresses are claimed under more than one name. They are small routines
+duplicated verbatim across libraries, so bytes alone cannot separate them:
+unresolved rows remain `func_XXXXXXXX`, while applied rows require a separate
+call-graph tiebreak.
 
 | Address | Competing names |
 |---|---|
@@ -91,8 +91,12 @@ needed:
 | `0x8007CDC0` | `CdMix`, `DsMix` |
 | `0x8007E7F0` | `DsControl`, `DsControlB` (inventory keeps `CdControlB`) |
 | `0x80085320` | `GsGetActiveBuff` (applied), `SsUtGetReverbType` |
-| `0x80085D80` | `GsDrawOt`, `GsDrawOtIO` |
 | `0x8008AD50` | `GsSetRefView2` (applied), `GsSetRefViewUnit` |
+
+The removed `0x80085D80` conflict is resolved as `GsDrawOt`. Its exact wrapper
+loads `GsOT.tag` at offset `+0x10` and directly calls confirmed `DrawOTag`;
+that linked callee distinguishes it from the `GsDrawOtIO` proposal. Matching
+`Graphics_BeginFrame` now calls it through the canonical `libgs.h` interface.
 
 Two further identifications are confirmed but deliberately not applied. Both
 are blocked by the same thing: the only consumer calls the function with an
