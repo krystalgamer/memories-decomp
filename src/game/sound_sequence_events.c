@@ -1,12 +1,13 @@
+#define FUNC_8004B374_CALL_WITH_UNUSED_ARG
 #include "../types.h"
 #include "sound_sequence_events.h"
 
+#include "func_8004B374.h"
 #include "sound.h"
 #include "sound_sequence_reader.h"
 #include "sound_sequence_values.h"
 #include "../unmatched.h"
 
-extern void func_8004B374(s32, s32, s32);
 extern void func_8004B49C(s32, s32, s32);
 extern void func_8004B6E8(s32, s32);
 extern void func_8004B70C(s32, s32, s32);

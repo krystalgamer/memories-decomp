@@ -587,13 +587,14 @@ void func_8003FFB4(u32);
 void func_8004AAFC(void);
 void func_8004C84C(void);
 
-/* Three more runtime entry points that were each reached through a local
+/* Four more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
-   its position; func_8004A518 rebuilds the voice tables;
-   func_80046A08 dispatches on g_SDValue->field_003C. sound_secondary_playback.c
-   calls the first two back to back. All four declarations already matched
-   their definitions. */
+   its position; func_8004A43C refreshes one secondary object's pitch;
+   func_8004A518 rebuilds the voice tables; func_80046A08 dispatches on
+   g_SDValue->field_003C. sound_secondary_playback.c calls the reset and
+   rebuild functions back to back. */
 void SD_ResetSequenceTracks(void);
+void func_8004A43C(SDSecondaryObject *object, s32 force);
 void func_8004A518(void);
 void func_80046A08(void);
 

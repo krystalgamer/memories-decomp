@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
+#include "func_8004A7C0.h"
 #include "sound.h"
 
 void func_8004A7C0(int index)
