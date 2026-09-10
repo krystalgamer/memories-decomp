@@ -88,6 +88,8 @@ RELOCATION_RE = re.compile(
 )
 FUNCTION_LABEL_RE = re.compile(r"^\s*glabel\s+([A-Za-z_][A-Za-z0-9_]*)\s*$")
 LOCAL_INCLUDE_RE = re.compile(r'^\s*#\s*include\s+"([^"]+)"', re.MULTILINE)
+DEFINE_RE = re.compile(r"^\s*#\s*define\s+([A-Za-z_][A-Za-z0-9_]*)")
+UNDEF_RE = re.compile(r"^\s*#\s*undef\s+([A-Za-z_][A-Za-z0-9_]*)")
 
 TYPE_WIDTHS = {
     "s8": "8",
@@ -322,7 +324,9 @@ def tokenize(text: str) -> list[Token]:
     return tokens
 
 
-def matching_open_paren(tokens: list[Token], close_index: int) -> int | None:
+def matching_open_paren(
+    tokens: list[Token] | tuple[Token, ...], close_index: int
+) -> int | None:
     depth = 0
     for index in range(close_index, -1, -1):
         value = tokens[index].value
@@ -454,9 +458,13 @@ def infer_declarations(
 
 
 def load_declarations(
-    path: Path, known_names: set[str]
+    path: Path,
+    known_names: set[str],
+    defined_macros: set[str] | None = None,
 ) -> tuple[dict[str, str], set[str], set[str]]:
     text = path.read_text(encoding="utf-8", errors="ignore")
+    if defined_macros is not None:
+        text = active_preprocessor_text(text, defined_macros)
     _, top_level_tokens = parse_c_functions(text)
     declaration_names = known_names | {
         token.value
@@ -466,6 +474,106 @@ def load_declarations(
     return infer_declarations(top_level_tokens, declaration_names)
 
 
+def simple_preprocessor_condition(
+    expression: str, defined_macros: set[str]
+) -> bool | None:
+    expression = expression.strip()
+    for negate, pattern in (
+        (False, r"defined\s*(?:\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)|"
+                r"\s+([A-Za-z_][A-Za-z0-9_]*))"),
+        (True, r"!\s*defined\s*(?:\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)|"
+               r"\s+([A-Za-z_][A-Za-z0-9_]*))"),
+    ):
+        match = re.fullmatch(pattern, expression)
+        if match is not None:
+            name = match.group(1) or match.group(2)
+            value = name in defined_macros
+            return not value if negate else value
+    if expression in {"0", "1"}:
+        return expression == "1"
+    return None
+
+
+def active_preprocessor_text(
+    text: str, initial_macros: set[str]
+) -> str:
+    macros = set(initial_macros)
+    stack: list[tuple[bool, bool]] = []
+    active = True
+    output: list[str] = []
+    for line in text.splitlines(keepends=True):
+        stripped = line.strip()
+        replacement = "\n" if line.endswith("\n") else ""
+        if match := re.match(r"^#\s*ifdef\s+([A-Za-z_][A-Za-z0-9_]*)", stripped):
+            condition = match.group(1) in macros
+            stack.append((active, condition))
+            active = active and condition
+            output.append(replacement)
+            continue
+        if match := re.match(r"^#\s*ifndef\s+([A-Za-z_][A-Za-z0-9_]*)", stripped):
+            condition = match.group(1) not in macros
+            stack.append((active, condition))
+            active = active and condition
+            output.append(replacement)
+            continue
+        if match := re.match(r"^#\s*if\s+(.+)$", stripped):
+            condition = simple_preprocessor_condition(match.group(1), macros)
+            if condition is None:
+                return text
+            stack.append((active, condition))
+            active = active and condition
+            output.append(replacement)
+            continue
+        if match := re.match(r"^#\s*elif\s+(.+)$", stripped):
+            if not stack:
+                return text
+            condition = simple_preprocessor_condition(match.group(1), macros)
+            if condition is None:
+                return text
+            parent_active, branch_taken = stack[-1]
+            active = parent_active and not branch_taken and condition
+            stack[-1] = (parent_active, branch_taken or condition)
+            output.append(replacement)
+            continue
+        if re.match(r"^#\s*else\b", stripped):
+            if not stack:
+                return text
+            parent_active, branch_taken = stack[-1]
+            active = parent_active and not branch_taken
+            stack[-1] = (parent_active, True)
+            output.append(replacement)
+            continue
+        if re.match(r"^#\s*endif\b", stripped):
+            if not stack:
+                return text
+            parent_active, _branch_taken = stack.pop()
+            active = parent_active
+            output.append(replacement)
+            continue
+        if match := DEFINE_RE.match(line):
+            if active:
+                macros.add(match.group(1))
+            output.append(replacement)
+            continue
+        if match := UNDEF_RE.match(line):
+            if active:
+                macros.discard(match.group(1))
+            output.append(replacement)
+            continue
+        output.append(line if active else replacement)
+    return text if stack else "".join(output)
+
+
+def defined_macros_before(text: str, end: int) -> set[str]:
+    macros: set[str] = set()
+    for line in text[:end].splitlines():
+        if match := DEFINE_RE.match(line):
+            macros.add(match.group(1))
+        elif match := UNDEF_RE.match(line):
+            macros.discard(match.group(1))
+    return macros
+
+
 def load_included_declarations(
     root: Path,
     source_path: Path,
@@ -473,7 +581,8 @@ def load_included_declarations(
     known_names: set[str],
 ) -> tuple[dict[str, str], set[str], set[str]]:
     declarations: list[tuple[dict[str, str], set[str], set[str]]] = []
-    for include in LOCAL_INCLUDE_RE.findall(text):
+    for match in LOCAL_INCLUDE_RE.finditer(text):
+        include = match.group(1)
         header_path = (source_path.parent / include).resolve()
         try:
             header_path.relative_to(root.resolve())
@@ -482,7 +591,11 @@ def load_included_declarations(
         if header_path.suffix != ".h" or not header_path.is_file():
             continue
         declarations.append(
-            load_declarations(header_path, known_names)
+            load_declarations(
+                header_path,
+                known_names,
+                defined_macros_before(text, match.start()),
+            )
         )
     return merge_declarations(declarations)
 
@@ -516,9 +629,9 @@ def override_declarations(
     names: set[str],
 ) -> tuple[dict[str, str], set[str]]:
     merged_widths = dict(base_widths)
-    # A nearer declaration replaces width evidence, but any array view means
-    # a bare name may still decay to an address.
-    merged_arrays = base_arrays | arrays
+    # A nearer declaration replaces both width and declarator shape. Conflicts
+    # within that declaration set already retain array possibility in `arrays`.
+    merged_arrays = (base_arrays - names) | arrays
     for name in names:
         merged_widths[name] = widths.get(name, "")
     return merged_widths, merged_arrays
@@ -567,17 +680,105 @@ def skip_balanced_postfix(tokens: tuple[Token, ...], index: int) -> int:
     return current
 
 
+def matching_close_paren(
+    tokens: tuple[Token, ...], open_index: int
+) -> int | None:
+    depth = 0
+    for index in range(open_index, len(tokens)):
+        value = tokens[index].value
+        if value == "(":
+            depth += 1
+        elif value == ")":
+            depth -= 1
+            if depth == 0:
+                return index
+    return None
+
+
+def is_type_cast(
+    tokens: tuple[Token, ...], open_index: int, close_index: int
+) -> bool:
+    contents = tokens[open_index + 1 : close_index]
+    return bool(contents) and all(
+        IDENTIFIER_RE.fullmatch(token.value) or token.value == "*"
+        for token in contents
+    )
+
+
+def is_unary_dereference(tokens: tuple[Token, ...], star_index: int) -> bool:
+    if star_index == 0:
+        return True
+    previous = tokens[star_index - 1].value
+    if previous in {")", "]"} or re.fullmatch(
+        r"(?:0[xX][0-9A-Fa-f]+|\d+)", previous
+    ):
+        return False
+    if IDENTIFIER_RE.fullmatch(previous) and previous != "return":
+        return False
+    return True
+
+
+def classify_dereferenced_access(
+    tokens: tuple[Token, ...], index: int, arrays: set[str]
+) -> str | None:
+    operand_start = index
+    operand_end = index
+    if index and tokens[index - 1].value == "(":
+        close_index = matching_close_paren(tokens, index - 1)
+        if close_index is not None and close_index >= index:
+            operand_start = index - 1
+            operand_end = close_index
+
+    cursor = operand_start - 1
+    if cursor >= 0 and tokens[cursor].value == ")":
+        cast_open = matching_open_paren(tokens, cursor)
+        if cast_open is None or not is_type_cast(tokens, cast_open, cursor):
+            return None
+        cursor = cast_open - 1
+    if (
+        cursor < 0
+        or tokens[cursor].value != "*"
+        or not is_unary_dereference(tokens, cursor)
+    ):
+        return None
+
+    if (
+        tokens[index].value not in arrays
+        or (
+            index + 1 < len(tokens)
+            and tokens[index + 1].value == "["
+        )
+    ):
+        return "read"
+
+    operator = (
+        tokens[operand_end + 1].value
+        if operand_end + 1 < len(tokens)
+        else ""
+    )
+    if operator == "=":
+        return "write"
+    if operator in COMPOUND_ASSIGNMENT_OPERATORS or operator in {"++", "--"}:
+        return "read_write"
+    return "read"
+
+
 def classify_c_access(
     tokens: tuple[Token, ...], index: int, arrays: set[str]
 ) -> str:
     previous = tokens[index - 1].value if index else ""
     following = tokens[index + 1].value if index + 1 < len(tokens) else ""
+    if previous == "(" and index >= 2 and tokens[index - 2].value == "sizeof":
+        return "unknown"
+    if following == "->":
+        return "read"
     if previous == "&":
         return "address"
     if previous in {"++", "--"} or following in {"++", "--"}:
         return "read_write"
-    if previous == "(" and index >= 2 and tokens[index - 2].value == "sizeof":
-        return "unknown"
+    dereferenced_access = classify_dereferenced_access(tokens, index, arrays)
+    if dereferenced_access is not None:
+        return dereferenced_access
     postfix_end = skip_balanced_postfix(tokens, index)
     if postfix_end < len(tokens):
         operator = tokens[postfix_end].value
