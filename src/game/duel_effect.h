@@ -115,7 +115,7 @@ typedef struct DuelEffectChannel {
        as a word index rather than an offset: every reader scales it by four.
        TextBox_BuildStep advances the selected pointer past each opcode it
        consumes, and duel_effect_object_commands.c and
-       duel_effect_stream_fields.c reach the same slot the same way. Signed
+       duel_effect_command.c reach the same slot the same way. Signed
        because all three read it through an s8. */
     s8 stream_58;
     u8 field_59;
@@ -269,20 +269,20 @@ extern u8 D_8009B355;
  * TextBox_Create returned (`o` is u8 *) and then 4 when
  * `*(p + (n << 2) + 0x56) & 1` (func_8002A2F4.c:37-41); func_80037DA4
  * stores it into `object[0x54]` when the opcode byte has bit 0x10
- * (func_80037DA4.c:35-38). notes/duel-card-record.md:173-176 glosses the
+ * (duel_effect_command.c:50-53). notes/duel-card-record.md:173-176 glosses the
  * three results. No unit defines it; the address comes from the generated
  * tmp/splat/undefined_syms_auto.txt, and the nearest named symbol above it
  * is D_8009B322, at +2 (nothing is named at +1 there, in symbols.txt or in
  * c_symbols.ld).
  *
- * u8 because the one unit that loads it, func_80037DA4.c, already declared
+ * u8 because the one function that loads it, func_80037DA4, already declared
  * it u8 and matched, and the load is lbu (func_80037DA4.s:20, gp-relative).
  * Retail stores it through $at in func_80023144 (func_80023144.s:162-163,
  * gcc_2_8_1_g8_split), so duel_field_display_objects.c defines the .data
  * arm; func_8002A2F4.c's unit assembles at -G0 (gcc_2_8_1_cc_g8_as_g0_split:
  * compiler -G8, maspsx -G0), so its plain declaration is expanded through
  * $at by the assembler either way (func_8002A2F4.s:39-40, :48-49); and
- * func_80037DA4.c takes the plain byte. Initial value not read. */
+ * func_80037DA4 takes the plain byte. Initial value not read. */
 #ifdef D_8009B320_IN_DATA
 extern u8 D_8009B320 __attribute__((section(".data")));
 #else
@@ -298,12 +298,12 @@ extern u8 D_8009B320;
  * then, under `if (n != 0)`, stores 0 when func_80029EB0's result `r` (:29)
  * has `(r & 0x80) == 0` (:32); func_80060E70 stores `id`
  * (func_80060E70.c:54). func_80037DA4 reads it, plain and as the index in
- * `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]` (func_80037DA4.c:38, :40,
- * :46, :50, :60). Four functions still in assembly also store it:
+ * `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]` (duel_effect_command.c:53, :55,
+ * :61, :65, :75). Four functions still in assembly also store it:
  * func_8001B170.s:140-141, func_800218F0.s:202-203 and :235-236,
  * func_800262D4.s:379-380, func_8002ACA4.s:311-312.
  *
- * s16 because func_80037DA4.c, the only unit that loads it, declared it s16
+ * s16 because func_80037DA4, the only function that loads it, declared it s16
  * when it matched; the five loads are lh (func_80037DA4.s:27/:34/:56/:68/
  * :87). Two bytes at 0x8009B338 (symbols.txt:27), bounded above by
  * D_8009B33A at +2.

@@ -1520,7 +1520,7 @@ The ID/name list now also has direct executable-text corroboration. For an
 available, settled Free Duel cell `i`, the armed update in matching
 [`FreeDuel_PlaceCursor`](../../src/overlays/free_duel/screen_runtime.c)
 writes string ID `0x8328 + i` to `D_8009B32E`.
-[`func_800383DC`](../../src/game/func_800383DC.c) reads that ID as an
+[`func_800383DC`](../../src/game/duel_effect_command.c) reads that ID as an
 unsigned halfword and resolves the global offset table at `0x801D5800`,
 using entry `string_id - 0x8000` and bank base `0x801D0000`.
 
