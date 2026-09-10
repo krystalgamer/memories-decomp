@@ -37,6 +37,7 @@
 #include "func_80029574.h"
 #include "text_render_state.h"
 #include "func_800178BC.h"
+#include "trig_constants.h"
 
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
@@ -107,7 +108,8 @@ void func_800179F4(void)
     }
     D_8009B1C8 = (DuelSideState *)((u8 *)D_800E9FF0 + D_8009B1D5 * sizeof(DuelSideState));
     func_800178BC();
-    D_800F2848.angle = D_8009B1D5 * 2048 + 1024;
+    D_800F2848.angle =
+        D_8009B1D5 * TRIG_ANGLE_HALF_TURN + TRIG_ANGLE_QUARTER_TURN;
     func_8001352C();
     Duel_ClearHandSlots();
     pane = &D_800EA0E8[0];
