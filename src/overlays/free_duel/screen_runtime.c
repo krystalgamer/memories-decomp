@@ -12,6 +12,7 @@
 #include "../../game/sound.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/func_80039794.h"
+#define FUNC_80041D60_AMBIENT_ARGS
 #include "../../game/func_80041D60.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
@@ -162,7 +163,7 @@ void FreeDuel_UpdateCursorTween(void)
         if (sparkle != 0 && slot != 0) {
             *(u32 *)(sparkle + 0x30) = *(u32 *)(widget + 0x30);
             func_800428EC(sparkle, (s8)(widget[0x16] - 1));
-            func_80041D60(sparkle);
+            func_80041D60((DisplayObject *)sparkle);
             *(u32 *)(sparkle + 0x4C) = *(u32 *)(widget + 0x4C);
             sparkle[0x6C] = 1;
             *(u16 *)(sparkle + 8) |= 1;

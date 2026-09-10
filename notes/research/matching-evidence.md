@@ -6855,9 +6855,6 @@ in the caller that produces it.
     func_8002348C          def 1 (duel_field_display_objects.c)  <-  decl 0 in func_80023D08.c
     func_80023D08          def 2 (func_80023D08.c)  <-  decl 1 in duel_cursor_status.c
     func_8004036C          def 1 (func_8004036C.c)  <-  decl 0 in screen_runtime.c
-    func_80041D60          def 3 (func_80041D60.c)  <-  decl 1 in func_80040814.c
-    func_80041D60          def 3 (func_80041D60.c)  <-  decl 1 in func_80029108.c
-    func_80041D60          def 3 (func_80041D60.c)  <-  decl 1 in screen_runtime.c
     func_80043230          def 4 (display_object_interpolation.c)  <-  decl 3 in mem_card_dialog_runtime.c
     func_80043328          def 2 (func_80043328.c)  <-  decl 0 in func_80043960.c
     func_800434F4          def 2 (func_800434F4.c)  <-  decl 0 in func_80043960.c
