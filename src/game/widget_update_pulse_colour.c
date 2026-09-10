@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "graphics_frame.h"
+#include "widget_update_pulse_colour.h"
 
 void Widget_UpdatePulseColour(u8 *arg0)
 {
