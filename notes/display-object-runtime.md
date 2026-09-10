@@ -226,7 +226,7 @@ with `libgs.h`'s, from `attribute` at `+0x0` through `x`/`y`, `w`/`h`,
 `rotate` at `+0x20`, and both renderers hand it to `func_80042188`, whose
 first three dispatch cases pass it straight to `GsSortFastSprite`,
 `GsSortFlipSprite` and `GsSortSprite` — all of which take a `GsSPRITE *`.
-`fade_draw_overlay.c` had already reached the same conclusion for its own
+`fade_overlay.c` had already reached the same conclusion for its own
 `GsBOXF`-shaped descriptor and called the word an "SDK attribute".
 
 So every bit the overlays set is read by libgs, and `libgs.h` already names

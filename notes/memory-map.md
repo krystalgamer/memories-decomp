@@ -91,7 +91,7 @@ reaches the word by its own name and a file that reaches it as an element of
 the array are both reproducing what retail did, which is why eleven files
 declare this storage six different ways and none of them is simply wrong.
 
-`fade_draw_overlay.c` is the case that shows the overlap can be wider than one
+`fade_overlay.c` is the case that shows the overlap can be wider than one
 word: it declares `s32 D_800E9D94[4]` and reads `[0]`, a view that nominally
 spans `D_800E9D98` and beyond.
 
