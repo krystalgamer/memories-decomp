@@ -801,8 +801,8 @@ The resident block at `0x800F56F0` now has field-level evidence matching the
 parent-coordinate pointer. Matching `func_800530C4` initializes all eight
 words and submits the block to `GsSetRefView2`; `Model_UpdateViewMetrics`
 copies the same eight-word boundary and derives a distance plus two 4096-unit
-angles from the two points; `model_cleanup.c` resubmits the same base through
-a layout-compatible cast. Matching `func_800134E0` separately uses an embedded
+angles from the two points; `model_scene_states.c` resubmits the same base
+through a layout-compatible cast. Matching `func_800134E0` separately uses an embedded
 native `GsRVIEW2` at object offset `+0x10` and calls the canonical one-argument
 interface byte-identically. Other matching sources still use local views until
 their shared-type migrations are proven exact.
@@ -845,7 +845,7 @@ uploads instead of parallel local declarations. Confirmed camera, lighting,
 object, packet, and sorting paths also use `libgs.h`, including
 `view_state_orbit.c`,
 `func_8005B260` in [`gpu_packets.c`](../src/game/gpu_packets.c),
-`model_scene_setup.c`, `model_cleanup.c`, and `model_texture_upload.c`.
+`model_scene_setup.c`, `model_scene_states.c`, and `model_texture_upload.c`.
 Current hierarchical-model C also includes `libhmd.h`. Representative
 consumers are `model_packet_handlers.c` for `GsSEQ`, `GsTYPEUNIT`, and the
 animation APIs; `model_slot_updates.c` for the `GsCOORDUNIT` layout; and
@@ -1172,7 +1172,7 @@ The `memory.h` consumer inventory is complete at eight matching sources.
 `ai_script_vm.c` uses `bzero` to clear the interpreter state, operand memory,
 and auxiliary block. The seven `memset` consumers are `func_800592AC.c`,
 `func_8005D994.c`, `model_distance_queries.c`, `func_80059B90.c`,
-`func_8005EBF4.c`, `model_scene_setup.c`, and
+`model_effect_state.c`, `model_scene_setup.c`, and
 `model_update_view_metrics.c`. Across those files the calls clear vector-sized
 work records or the four-pointer control-point array before later fields are
 filled.
@@ -1487,7 +1487,7 @@ The existing C sources expose several useful starting points:
 | Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `func_800582C0`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
 | Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_handler_registry.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `func_8005BE3C` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c) uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
-| Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_setup.c` and `model_cleanup.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
+| Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_setup.c` and `model_scene_states.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Partial migration established: `func_800592AC.c` uses native `SVECTOR` and `MATRIX` storage, while projection paths use layout-compatible SDK casts for `RotAverage3`, `ScaleMatrix`, `GsSetLsMatrix`, and `SetRotMatrix`; retain local render records where full layout or exact code generation is not proven. |
 | Local GTE and GPU function declarations | `libgte.h`, `libgpu.h` | Naming the library functions removed the reason these files had private declarations. `main_run_boot_sequence.c` (`FntLoad`), `model_update_view_metrics.c` and `func_800592AC.c` (`RotMatrix_gte`, `RotMatrixZXY`), `func_8005922C.c` (`RotMatrixYXZ_gte`), `model_scene_setup.c` (`RotMatrix_gte`), `model_slot_properties.c` (`RotTrans`) and `display_object_projection.c` (`RotMatrixZYX_gte`) now take the prototype from the header and cast at the call where the game's own pointer types differ, and the build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) drops its own `RotColorDpq` and `RotMatrixZYX_gte` declarations the same way. Adopting the real return types changed nothing: the build stays byte-identical. |
 | Decoded-audio buffers inside `g_SDValue` | `SpuDecodedData` in `libspu.h` | ABI-compatible migration established in `sound_output_state.c`: `func_80045054` passes the `0x1000`-byte region at `g_SDValue+0x53C` to `SpuReadDecodedData`; retain the shared `SDValue` byte-array split because other matching users require narrower views. |

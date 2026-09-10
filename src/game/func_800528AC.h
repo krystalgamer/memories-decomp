@@ -12,9 +12,9 @@
  * live bit.
  *
  * It takes no arguments and returns nothing: the request table and the slots
- * it walks are both reached through globals. model_cleanup.c is the only
- * consumer and drives it once per frame, between func_8004E9A0 and the
- * func_800556E8 slot ticks.
+ * it walks are both reached through globals. func_80059CE4 in
+ * model_scene_states.c is the only consumer and drives it once per frame,
+ * between func_8004E9A0 and the func_800556E8 slot ticks.
  *
  * The address-based name is kept. The defining unit describes the pass in
  * detail, but the same description would fit either the model or the effect
