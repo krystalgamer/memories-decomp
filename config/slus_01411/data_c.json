@@ -142,6 +142,10 @@
       "profile": "gcc_2_8_1_g8"
     },
     {
+      "source": "src/game/movie_frame_pipeline_state.c",
+      "profile": "gcc_2_8_1_g8"
+    },
+    {
       "source": "src/game/data_8009af6c.c",
       "profile": "gcc_2_8_1_g8"
     },

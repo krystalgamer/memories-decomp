@@ -184,6 +184,8 @@ segments:
       - [0x8B7AC, .sdata, game/model_primitive_templates]
       - [0x8B7E4, .sdata, game/model_handler_state]
       - [0x8B858, sdata, initialized_data_8009b058]
+      - [0x8B860, .sdata, game/movie_frame_pipeline_state]
+      - [0x8B874, sdata, initialized_data_8009b074]
       - [0x8b880, pad]
       - [0x8B884, .sdata, game/ai_script_source_line_format]
       - [0x8B88C, pad]
