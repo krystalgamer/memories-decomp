@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "model_slot_setup.h"
 #include "func_8004D914.h"
+#include "func_800582C0.h"
 #include "model_word_memory.h"
 #include "model.h"
 #include "model_init_light_triplet.h"
@@ -21,7 +22,6 @@
    and +0xE0A back, and sets +0xE1F to 1. */
 
 void func_8004CB0C(void);
-void func_800582C0(s32 arg0, s32 arg1, s32 arg2);
 
 void func_8005611C(s32 arg0)
 {
