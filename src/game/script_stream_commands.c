@@ -1,4 +1,5 @@
 #define GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
+#define D_8009B404_IN_DATA
 #include "../types.h"
 #include "script_command_busy.h"
 #include "sound.h"
@@ -6,7 +7,6 @@
 #include "script_state.h"
 #include "script_stream_commands.h"
 
-extern s32 D_8009B404 __attribute__((section(".data")));
 extern u8 D_801A8000[];
 
 void Script_OpSound(void)

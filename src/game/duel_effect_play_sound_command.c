@@ -1,11 +1,10 @@
 #define GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
+#define D_8009B404_IN_DATA
 #include "../types.h"
 #include "func_80036D3C.h"
 #include "sound.h"
 #include "duel_effect.h"
 #include "duel_effect_play_sound_command.h"
-
-extern s32 D_8009B404[];
 
 void func_80038690(void *object)
 {
@@ -25,13 +24,13 @@ void func_800386B8(u8 *object)
         SD_BGMPlay(func_80036D3C(object) & 0xFFFF);
     } else {
         if (op & 1) {
-            SD_BGMPlay(D_8009B404[0]);
+            SD_BGMPlay(D_8009B404);
         }
         if (op & 2) {
-            D_8009B404[0] = func_80036D3C(object) & 0xFFFF;
+            D_8009B404 = func_80036D3C(object) & 0xFFFF;
         }
         if (op & 4) {
-            D_8009B404[0] = gSD_dwCurrentBgmCommand[0];
+            D_8009B404 = gSD_dwCurrentBgmCommand[0];
         }
     }
     if (op & 0x80) {

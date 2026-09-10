@@ -691,4 +691,26 @@ extern u32 gSD_dwCurrentBgmCommand[];
 extern u32 gSD_dwCurrentBgmCommand;
 #endif
 
+/* The word right after gSD_dwCurrentBgmCommand. Script_OpSound
+ * (script_stream_commands.c) and func_800386B8
+ * (duel_effect_play_sound_command.c) each hand it to SD_BGMPlay under their
+ * `& 1` bit, store a two-byte value into it under `& 2` (`q[0] | (q[1] <<
+ * 8)` and `func_80036D3C(object) & 0xFFFF`), and copy
+ * gSD_dwCurrentBgmCommand[0] into it under `& 4`. No other C unit touches
+ * it. Initial value not read.
+ *
+ * Every retail access is 32-bit and goes through %hi/%lo
+ * (func_8002EC74.s:42-43, 58-59, 66-67; func_800386B8.s:31-32, 42-43,
+ * 50-51), so both units define the .data arm; the `s32 []` one of them used
+ * to declare, read only at `[0]`, reached that form the way the comment
+ * above describes for gSD_dwCurrentBgmCommand. The plain arm is what a
+ * control build measures. SD_BGMPlay takes a u32 and the neighbour it is
+ * copied from is u32, so the word is declared u32; s32 builds
+ * byte-identical. */
+#ifdef D_8009B404_IN_DATA
+extern u32 D_8009B404 __attribute__((section(".data")));
+#else
+extern u32 D_8009B404;
+#endif
+
 #endif
