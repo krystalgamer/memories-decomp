@@ -45,3 +45,63 @@ which is identical in both variants.
 Run `make match-overlays` to extract the configured modules, split them with
 their module-specific Splat layouts, assemble and link every generated source,
 and compare each rebuilt binary byte-for-byte with its verified archive slice.
+
+## C-owned data
+
+Each `<module>_data_c.json` lists data-only translation units and their named
+compiler profiles, using the same `schema: 1` / `units` shape as resident
+`data_c.json`. A module with no data-only C units needs no data manifest.
+For example, Free Duel maps its leading word with:
+
+```yaml
+      - [0x0, .data, overlays/free_duel/module_header]
+```
+
+```json
+{
+  "schema": 1,
+  "units": [
+    {
+      "profile": "gcc_2_8_1_g0",
+      "source": "src/overlays/free_duel/module_header.c"
+    }
+  ]
+}
+```
+
+The dotted section type makes Splat link the C object's section instead of
+disassembling an input blob. `.rodata`, `.data`, `.sdata`, `.sbss` and `.bss`
+are supported. Keep the inline `[offset, type, path]` subsegment form used by
+these layouts: the metadata-only wiring check reads this form without Splat
+or a YAML dependency. A unit supplying several sections is compiled once.
+Units already in `<module>_matching_c.json` get their profile there, including
+any explicitly mapped data sections; do not repeat them in the data manifest.
+
+Both the build and `make check-metadata` require bidirectional wiring:
+every `c` subsegment needs a matching manifest entry, every data-only owned
+section needs a data manifest entry, and neither manifest may name an unmapped
+source. Duplicate data entries, conflicting grouped profiles, repeated
+source/section pairs, missing files and unknown profiles are errors. Raw
+`data`/`sdata`/`bss` blobs stay on the generated-assembly path.
+
+Splat's linker section order still determines placement. Do not map the same
+object section in separate segments: the first occurrence consumes it.
+Keep ordinary data-only definitions in their own TU with a corresponding
+header. For small data that needs `%gp_rel`, keep definitions in the owning
+code TU and explicitly map its `.sdata`/`.sbss`. Always inspect the resulting
+object sections and linker script and require a complete module match.
+
+The first C-owned range is only the four-byte word at `0x80168000` in Free
+Duel (`0x13`), password (`0x15`) and both overworld variants (`0x14`).
+The variants compile the same `overworld/module_header.c` independently.
+These retain the address-based `D_80168000` spelling: the values suggest a
+module identifier but do not establish its semantics. There are no current
+C consumers or linker assignments to retire for these words. Their owning
+headers declare the exact four-byte object.
+
+The main-menu prefix remains assembly-owned. `MainMenu_UpdateTradeScreen`
+in `trade_update.c` declares `D_80180000[]` and reads element 1 as a comparator
+block, reaching past the first word into `module_rodata`. Treating that
+declaration as a four-byte object would assert a false boundary. Bulk module
+data also remains assembly-owned pending evidence-backed object boundaries;
+this initial mapping does not complete issue #2602.
