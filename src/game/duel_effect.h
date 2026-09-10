@@ -54,7 +54,32 @@ struct DisplayObject;
 
 typedef struct DuelEffectChannel {
     u8 *text_00;
-    u8 pad_04[0x1C];
+    /* The fade callbacks in D_80090EAC reach this block. They are
+       reached as bytes at 0x04-0x0A, as halfwords at 0x0C and 0x0E,
+       and as single bytes at 0x13-0x15; 0x04 is additionally written
+       as one word (0 and 0x80808080), which those sites spell as a
+       width over field_04 rather than a separate member.
+
+       0x13 is the byte DisplayObjectFade_MarkInitialized tests and
+       sets, and the one carrying DISPLAY_OBJECT_FADE_FLAG_*. The
+       rest keep field_NN: 0x04-0x07 and 0x08-0x0A are each written
+       as a run of equal bytes stepped together, which says component
+       groups without saying which component is which. */
+    u8 field_04;
+    u8 field_05;
+    u8 field_06;
+    u8 field_07;
+    u8 field_08;
+    u8 field_09;
+    u8 field_0A;
+    u8 pad_0B;
+    u16 field_0C;
+    u16 field_0E;
+    u8 pad_10[3];
+    u8 field_13;
+    u8 field_14;
+    u8 field_15;
+    u8 pad_16[10];
     DuelEffectEntry *entry_end_20;
     DuelEffectEntry *entry_head_24;
     /* The display object this record owns, stored as a pointer.

@@ -76,8 +76,8 @@ void (*D_80090EAC[])(u8 *) = {
     (void (*)(u8 *))Text_SetCursorOffset,
     Text_NewLine,
     Text_EndStream,
-    func_80039BE0,
-    func_80039AFC,
-    func_80039BE0,
-    func_80039C94,
+    (void (*)(u8 *))func_80039BE0,
+    (void (*)(u8 *))func_80039AFC,
+    (void (*)(u8 *))func_80039BE0,
+    (void (*)(u8 *))func_80039C94,
 };
