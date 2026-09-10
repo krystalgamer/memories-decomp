@@ -45,6 +45,34 @@ extern u8 D_800E9F10[];
  * from D_800E9F10 would change which symbol those relocations name. */
 extern u8 D_800E9F48[];
 
+/* Assigned from both bases above. Assigned by three C functions and loaded
+ * by two: func_80018608 assigns `D_800E9F10 + D_8009B1D5 *
+ * DUEL_SELECTION_SIDE_SIZE` and stores 0xAE at +0xC (duel_phase_entry.c:
+ * 69-70); func_8001898C assigns the same from `side` and stores `base` at
+ * +8 (:154-156), then assigns it again and stores 0xAE at +0xC (:206-207);
+ * func_8001B938 assigns `D_800E9F48 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE`
+ * and stores a halfword at +0xC and bytes at +0x11, +0x12, +0x13, +0x18 and
+ * +0x19 (func_8001B938.c:22-28), +0x11 and +0x12 again (:39-40), +0x10
+ * (:45) and +0xF (:54), loading it back for each; func_80017034 loads it
+ * through a DuelFieldCursor cast (func_80017034.c:12-13). Six functions
+ * still in assembly, none with a profile in matching_c.json, also store or
+ * load it: func_80018FEC.s:31 and :87, func_80019D18.s:32, func_8001BD88.s
+ * (stores :35, :106, :720, :1140, :1369, :1394; loads :92, :501, :507,
+ * :1150, :1227), func_8001D670.s (stores :56, :613, :753, :1409, :1439;
+ * load :1412), func_8001F55C.s (stores :93, :183; load :96) and
+ * func_800235C0.s:7.
+ *
+ * u8 * because the struct views of this record are deliberately partial
+ * (duel_grid.h:21-22 and :29-31, and the note on DuelSelectionSideView
+ * above): DuelFieldCursor is 0x11 bytes and func_8001B938 writes +0x19, so
+ * the byte view is the one every store fits, and func_80017034.c casts at
+ * its one use. Every access in the binary is a %gp_rel lw or sw
+ * (func_80017034.s:6, func_80018608.s:94, func_8001898C.s:38 and :164,
+ * func_8001B938.s:12 and its nine loads), so this is the plain declaration.
+ * Four bytes at 0x8009B1B4, with D_8009B1B8 at +4 (c_symbols.ld:133-134).
+ * Initial value not read. */
+extern u8 *D_8009B1B4;
+
 /* Resets that table. For both sides it walks the four records, zeroing the
  * first three words and the byte at 0x18, then writing 1 to 0x13, the record
  * index to 0x17, and to 0x14 the index again except for record 3, which gets
