@@ -68,7 +68,7 @@ void func_8003EED0(void)
     case 1:
         D_801D5648[0] = (D_8009B3F9 >> 4) + 1;
         if (MemCardGetDirentry(D_8009B3F9, (char *)D_800EFE18,
-                               (struct DIRENTRY *)D_800EFBC0, &files, 0,
+                               (struct DIRENTRY *)D_800EFBC0, (long *)&files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             func_8003E46C(0xDA, 0x18);
             break;

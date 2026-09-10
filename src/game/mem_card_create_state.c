@@ -111,7 +111,7 @@ void func_8003E854(void)
         break;
     case 3:
         if (MemCardGetDirentry(0, (char *)D_8009AF70,
-                               (struct DIRENTRY *)D_800EFBC0, &files, 0,
+                               (struct DIRENTRY *)D_800EFBC0, (long *)&files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             D_8009B3EB = 0xD;
             break;
