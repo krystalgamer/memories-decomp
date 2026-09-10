@@ -2228,15 +2228,15 @@
     },
     {
       "address": "0x80032B60",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/build_deck_compare.c"
+      "source": "src/game/card_list_sort.c"
     },
     {
       "address": "0x80032BD4",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/build_deck_compare.c"
+      "source": "src/game/card_list_sort.c"
     },
     {
       "address": "0x80032C48",
