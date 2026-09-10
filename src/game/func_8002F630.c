@@ -14,11 +14,11 @@
 #include "script_image_objects.h"
 #include "../unmatched.h"
 #include "func_8002F630.h"
+#include "func_8002F4C0.h"
 
 extern DisplayObject *D_8009B2A0;
 extern DisplayObject *D_8009B280;
 extern DisplayObject *D_800EAE98[];
-extern void func_8002F4C0(u8 *, s32);
 extern u32 func_8004703C(void);
 
 /* Duel result screen setup. Reads the two-byte result code from the script
