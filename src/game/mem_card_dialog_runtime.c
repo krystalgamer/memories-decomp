@@ -76,7 +76,7 @@ void func_8003F388(void)
     o = func_800400AC(func_8004002C(), 2);
     func_800404CC(o, 0x20, -0x40, 3, 2, 1, 0xB, 0x20C);
     *(u16 *)(o + 8) |= 0x28;
-    func_80042918(o);
+    func_80042918((DisplayObject *)o);
     func_800428EC(o, 0xF);
     D_8009B3D8 = o;
 }

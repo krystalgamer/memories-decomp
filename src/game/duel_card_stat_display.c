@@ -43,7 +43,7 @@ void func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
         *(u16 *)&object->field_40 += 0x30;
         break;
     }
-    func_80042918(object);
+    func_80042918((DisplayObject *)object);
     func_800428EC(object, 10);
     __asm__ volatile(
         "lui $5,0xF7FF\n\t"

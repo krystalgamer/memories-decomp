@@ -90,7 +90,7 @@ void func_8002BFCC(void) {
     o = func_800400AC(func_8004002C(), 2);
     func_800404CC(o, 0x10, 0xD8, 0, 2, 1, 0x1B, 0x127);
     o[0x5F] = 0x80;
-    func_80042918(o);
+    func_80042918((DisplayObject *)o);
     n = CARD_ID_FIRST;
     *(u16 *)(o + 8) =
         *(u16 *)(o + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
