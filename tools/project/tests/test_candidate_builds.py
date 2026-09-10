@@ -263,6 +263,36 @@ extern int sdk_call(int value);
             (root / "sdk.h").unlink(missing_ok=True)
             root.rmdir()
 
+    def test_header_index_excludes_overlay_declarations(self) -> None:
+        root = REPOSITORY / "tmp/test-candidate-contract-overlay"
+        (root / "game").mkdir(parents=True, exist_ok=True)
+        (root / "overlays").mkdir(parents=True, exist_ok=True)
+        try:
+            (root / "game/state.h").write_text(
+                "extern s16 value;\n",
+                encoding="utf-8",
+            )
+            (root / "overlays/state.h").write_text(
+                "extern s32 value;\n",
+                encoding="utf-8",
+            )
+
+            index = candidate_builds.canonical_declaration_index(
+                {"value"},
+                root,
+            )
+
+            self.assertEqual(
+                index["value"],
+                [("game/state.h", "extern s16 value;")],
+            )
+        finally:
+            (root / "game/state.h").unlink(missing_ok=True)
+            (root / "overlays/state.h").unlink(missing_ok=True)
+            (root / "game").rmdir()
+            (root / "overlays").rmdir()
+            root.rmdir()
+
     def test_header_index_orders_paths_deterministically(self) -> None:
         root = REPOSITORY / "tmp/test-candidate-contract-order"
         root.mkdir(parents=True, exist_ok=True)
@@ -338,6 +368,10 @@ extern int sdk_call(int value);
                 "b" * 64,
                 {"removed": digest, "changed": digest},
                 {"added": digest, "changed": "c" * 64},
+                {
+                    "added": ["game/added.h"],
+                    "changed": ["game/changed.h"],
+                },
             )
 
     def test_contract_validation_checks_aggregate_hash(self) -> None:
@@ -351,6 +385,7 @@ extern int sdk_call(int value);
                 "b" * 64,
                 contracts,
                 contracts,
+                {"value": ["game/value.h"]},
             )
 
 

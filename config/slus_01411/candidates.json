@@ -121,10 +121,10 @@
       "target": "src/candidates_target/func_80029934.S",
       "candidate_build_sha256": "2d21ed5b16e5f1366e3f4d88483b3e3606f783240dcd1d3d8eb40460cf8a8940",
       "target_bytes_sha256": "8c871cdda48c38bc42c198ff8eddae0e12a42d80a5306082c726a44dcd6b6467",
-      "canonical_contract_sha256": "1a37ee675e2511a38b192c1eeac34fec414c650ef48447a6e486cdbad7f042dd",
+      "canonical_contract_sha256": "f6740b8afa519f8cb286c033f16e755b526fa3d524b1a78273dc00d46bd78402",
       "canonical_contracts": {
         "D_800E9D9C": "0af517afcd5e3edf2acd2aff845b9e3ebd916b2428884d81e6c2a5ed4a519efc",
-        "D_800EA1E8": "135a26ca429c2ce1a9c5ec0ce83a05b822b6fbb716c8cda10000580b34bd5679",
+        "D_800EA1E8": "7a7df499659c6d768c59ee4505843fe20891fcbd6375b0336e1ea8fa51252e03",
         "D_800FE148": "c12f6abef64dbf2b49ae797be3deae75e83feb4f610d9e69af9a050eb13f74ae",
         "D_80181000": "4e068a6eedbc9189895a2e04a210023c7576a772707f14c4a1c9e8912e199318",
         "GsSetLsMatrix": "5c8bb27e00dcc3e46364b3790088addaeed61bd0585627fe946b4ec2a9243db1",

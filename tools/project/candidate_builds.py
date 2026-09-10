@@ -48,6 +48,11 @@ IDENTIFIER = re.compile(r"^[A-Za-z_]\w*$")
 ASM_ALIAS = re.compile(
     r'\basm\s*\(\s*"(?P<name>[A-Za-z_]\w*)"\s*\)'
 )
+EXCLUDED_HEADER_DIRECTORIES = {
+    "candidates",
+    "candidates_target",
+    "overlays",
+}
 
 
 class CandidateBuildError(RuntimeError):
@@ -231,7 +236,13 @@ def canonical_declaration_index(
     header_root = header_root or ROOT / "src"
     index = {symbol: [] for symbol in symbols}
     for path in sorted(header_root.rglob("*.h")):
-        relative = path.relative_to(header_root).as_posix()
+        relative_path = path.relative_to(header_root)
+        if (
+            relative_path.parts
+            and relative_path.parts[0] in EXCLUDED_HEADER_DIRECTORIES
+        ):
+            continue
+        relative = relative_path.as_posix()
         for statement in top_level_statements(
             path.read_text(encoding="utf-8", errors="surrogateescape")
         ):
@@ -243,6 +254,21 @@ def canonical_declaration_index(
     for declarations in index.values():
         declarations.sort()
     return index
+
+
+def canonical_contract_sites(
+    symbols: list[str],
+    declaration_index: dict[str, list[tuple[str, str]]],
+) -> dict[str, list[str]]:
+    return {
+        symbol: sorted(
+            {
+                path
+                for path, _ in declaration_index.get(symbol, [])
+            }
+        )
+        for symbol in sorted(symbols)
+    }
 
 
 def canonical_symbol_contract_hash(
@@ -306,6 +332,7 @@ def validate_canonical_contract_metadata(
     configured_contract_hash: object,
     configured_contracts: object,
     contracts: dict[str, str],
+    contract_sites: dict[str, list[str]],
 ) -> None:
     if (
         not isinstance(configured_contract_hash, str)
@@ -333,9 +360,15 @@ def validate_canonical_contract_metadata(
         contracts,
     )
     if added or removed or changed:
+        affected = added + removed + changed
+        current_sites = {
+            name: contract_sites.get(name, [])
+            for name in affected
+        }
         raise CandidateBuildError(
             f"{address:#010x}: canonical contracts differ: "
-            f"added={added}, removed={removed}, changed={changed}"
+            f"added={added}, removed={removed}, changed={changed}, "
+            f"current_sites={current_sites}"
         )
     contract_hash = canonical_contract_hash(contracts)
     if configured_contract_hash != contract_hash:
@@ -541,6 +574,10 @@ def load_candidates(
             source_symbols[address],
             declaration_index,
         )
+        contract_sites = canonical_contract_sites(
+            source_symbols[address],
+            declaration_index,
+        )
         contract_hash = canonical_contract_hash(contracts)
         configured_contract_hash = item.get("canonical_contract_sha256")
         configured_contracts = item.get("canonical_contracts")
@@ -550,6 +587,7 @@ def load_candidates(
                 configured_contract_hash,
                 configured_contracts,
                 contracts,
+                contract_sites,
             )
 
         candidate = Candidate(

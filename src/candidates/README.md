@@ -26,3 +26,9 @@ The command reports only; it never rewrites tracked metadata. When a contract
 changes, first try replacing the private `extern` with its canonical header;
 retain a private spelling only when the candidate fingerprint proves it is a
 measured part of the current near miss.
+
+This metadata is a tree snapshot. Re-run it after rebasing across canonical
+header changes even when `candidates.json` itself has no merge conflict.
+Resident candidates scan root, game, and Psy-Q headers, but not
+`src/overlays/`: an overlay-only declaration is not a contract a resident
+candidate can consume.

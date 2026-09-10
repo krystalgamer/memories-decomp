@@ -79,3 +79,9 @@ dependency changed. Prefer consuming the canonical header and removing the
 private `extern` when that preserves the candidate fingerprint. Refresh a hash
 with the private declaration still present only when the mismatch is measured
 and intentionally part of the current candidate.
+
+The hashes are a snapshot of the header tree and therefore have the same
+merge-order rule as `notes/global-usage.csv`: after rebasing across any
+canonical-header change, regenerate and review them even when Git reports no
+textual conflict. Resident candidates intentionally exclude `src/overlays/`
+from their declaration index because they cannot include overlay headers.
