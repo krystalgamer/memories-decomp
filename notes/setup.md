@@ -61,8 +61,9 @@ The bootstrap is pinned by:
 - `tools/bootstrap/requirements.lock`
 - `tools/bootstrap/bootstrap-requirements.lock`
 - `tools/bootstrap/binutils.json`
+- `tools/bootstrap/binutils_system.json`
 - `tools/bootstrap/old_gcc.json`
-- `tools/bootstrap/old_gcc_272.json`
+- `tools/bootstrap/old_gcc_prebuilt.json`
 
 The installed state is ignored by Git. The bootstrap does not install global or
 user-level packages.
