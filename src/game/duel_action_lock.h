@@ -44,6 +44,21 @@ extern s16 D_8009B1D2;
  * eight bytes out of small data and the tree does not link. */
 extern s16 D_8009B20C[2];
 
+/* The halfword immediately past that pair, at D_8009B20C + 4 -- the extent
+ * the note above measures against. It stays a separate declaration for the
+ * reason recorded there: spelling the pair as [4] to cover these four bytes
+ * takes eight bytes out of small data under func_8002596C's assembler -G4 and
+ * the tree stops linking, so this address gets its own scalar.
+ *
+ * It is the trap presentation's mode: func_8001F364 in duel_trap_resolution.c
+ * sequences on `D_8009B210 & 0xF` through four modes and stores 1, 2 and 3
+ * itself, and duel_card_effects.c clears it to 0 at the two points the effect
+ * finishes. Four further writers are still assembly, all `sh $zero`.
+ *
+ * Unsigned: every read in the image is lhu, and all nine accesses are
+ * gp-relative, so no unit needs a .data arm. */
+extern u16 D_8009B210;
+
 s32 DuelEffect_MarkInitialized(void);
 void func_80024E4C(void);
 

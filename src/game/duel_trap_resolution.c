@@ -2,6 +2,7 @@
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_card.h"
+#include "duel_action_lock.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "sound.h"
@@ -140,8 +141,6 @@ s32 func_8001F0D0(u8 *p) {
     }
     return 0;
 }
-
-extern u16 D_8009B210;
 
 u8 *func_8002C68C(s32 arg0);
 void func_80024954(DuelCardRecord *arg0);
