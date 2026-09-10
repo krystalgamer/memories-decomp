@@ -11,8 +11,6 @@
    is picked out of the list at the scroll offset plus the slot, and the list
    kind at +0x2D47 selects both the box template and a fixed 0x160 shift. */
 
-extern s16 gDuel_wSelectedCardID;
-
 void func_80031CD4(CardList *list, s32 slot)
 {
     DuelEffectChannel *box;

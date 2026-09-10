@@ -3,6 +3,7 @@
 #define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define D_8009B0C0_IN_DATA
+#define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
 #include "graphics_frame.h"
 #include "input.h"
@@ -34,7 +35,6 @@ extern u8 D_8009B24A;
 extern DisplayObject *D_8009B24C;
 extern DuelEffectChannel *D_8009B250;
 extern u8 D_8009B26C __attribute__((section(".data")));
-extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
 
 extern s32 func_800282E8(void);
 extern void func_80029574(s32);

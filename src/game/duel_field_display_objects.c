@@ -1,6 +1,7 @@
 #define D_8009B34E_IN_DATA
 #define D_8009B355_IN_DATA
 #define D_8009B320_IN_DATA
+#define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
 #include "card_constants.h"
 #include "duel_side_state.h"
@@ -51,7 +52,6 @@ typedef struct {
 } DuelFieldDisplaySource;
 
 extern u8 D_8009B344 __attribute__((section(".data")));
-extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
 extern s32 D_801D5608[];
 
 extern s32 func_80023090(DuelFieldDisplaySource *, u8 *);
