@@ -385,8 +385,8 @@ void func_8004D75C(s32 index)
                 break;
             }
             row = 1;
-            slot->field_1A = row;
-            key = ch->field_1E0[i]->field_18;
+            slot->start_sid = row;
+            key = ch->field_1E0[i]->start;
             cmd = &ch->field_DD8[key];
             ch->field_2C8[row][i] = key;
             while (1) {

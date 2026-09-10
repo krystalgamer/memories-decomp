@@ -38,7 +38,7 @@ Verified shared fields and partial arrays are:
 | Offset | Shared member | Exact local evidence |
 |---:|---|---|
 | `0x000` | `field_000`, partial array of `0x8`-byte entries | `func_800593D0` indexes `(arg1 + 1) * 8`; `func_80059DD8` advances by 8 and reads the pointer at `+4` |
-| `0x1E0` | `field_1E0[58]`, `ModelSlotPart *` | `func_800597C8` and `func_8005A468` advance pointers by 4, bounded at runtime by `field_E1B`; `func_8004D58C` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
+| `0x1E0` | `field_1E0[58]`, `ModelSlotPart *` (a `GsSEQ`) | `func_800597C8` and `func_8005A468` advance pointers by 4, bounded at runtime by `field_E1B`; `func_8004D58C` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
 | `0x2C8` | `field_2C8[10][58]`, `u16` | `func_8004D58C` fills it with `0xFFFF` at a `0x74` stride over ten rows; `func_8004D75C` indexes it `[row][part]`; `func_80057AF4` reaches it as `0x2C8 + current * 116 + part * 2` |
 | `0x750` | `field_750[10]`, `ModelSlotRow` | `func_8004D58C` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `func_8004D75C` leaves that halfword holding the largest of the 58, and `func_80058EC0` reads it as `field_BF5 * 118` |
 | `0xBEC` | `field_BEC[8]`, part bitfield | `func_8004D58C` sets bit `part % 8` of byte `part / 8`; `func_80057AF4` reads it back the same way; `func_80056250` widens a card for the parts it flags |
@@ -79,6 +79,17 @@ its `i < 0xA` and `j < 0x3A` loops and their `0x74` and `0x76` strides -- and
 those bounds tile the record exactly from `0x1E0` to `0xBEC`, so the header
 declares `MODEL_SLOT_PART_COUNT` and `MODEL_SLOT_ROW_COUNT` rather than
 guessing.
+
+Each `field_1E0` entry points at libhmd's `GsSEQ`, the per-part animation
+sequence. `func_8005C6A0` passes the table to `GsLinkAnim` as `GsSEQ **`, and
+the game touches the fields the way libhmd defines them. `func_80056250`
+rearms a part with `ti = start`, `sid = start_sid`, `ii = aframe = 0xFFFF`,
+`rframe = 0` and `speed = 0x10`. `func_8004D75C` reads `start` as the part's
+first command key and stamps `start_sid`. `func_8004DC38` seeks a part by
+writing `rframe`, `tframe`, `ci` and `ti`. `model.h` mirrors the layout as
+`ModelSlotPart` so it does not need the libhmd chain, and
+`model_slot_updates.c` asserts that the mirror and `GsSEQ` agree field by
+field.
 
 ### Variadic slot-property update
 

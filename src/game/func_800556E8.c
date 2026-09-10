@@ -103,7 +103,7 @@ void func_800556E8(s32 index) {
     if (m->field_E1B != 0) {
         i = 0;
         do {
-            func_8004DC38((u8 *)m, i, m->field_BF5, frame);
+            func_8004DC38(m, i, m->field_BF5, frame);
             i++;
         } while (i < m->field_E1B);
     }

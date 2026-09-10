@@ -124,17 +124,17 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     }
     v = (p->field_DF0 = (s32)p->field_DE0 + sum);
     p->field_DF4 = v + p->field_E02 * 4;
-    func_8005A4C4((u8 *)p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
+    func_8005A4C4(p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
 
     q = &D_800F2C40[arg0];
     c = q->field_1E0;
     for (j = 0; j < q->field_E1B; j++) {
-        (*c)->field_08 = 0xFFFF;
-        (*c)->field_16 = (*c)->field_18;
-        (*c)->field_0A = 0xFFFF;
-        (*c)->field_0C = (*c)->field_1A;
-        (*c)->field_10 = 0;
-        (*c)->field_0D = 0x10;
+        (*c)->ii = 0xFFFF;
+        (*c)->ti = (*c)->start;
+        (*c)->aframe = 0xFFFF;
+        (*c)->sid = (*c)->start_sid;
+        (*c)->rframe = 0;
+        (*c)->speed = 0x10;
         c++;
     }
 

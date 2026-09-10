@@ -9,7 +9,7 @@ extern ModelSlot D_800F2C40[];
 void func_80057AF4(s32 index, s32 anim, s32 flag) {
     register ModelSlot *m asm("$17");
     register s32 off asm("$2");
-    u8 **parts;
+    ModelSlotPart **parts;
     u8 *dst;
     u8 *base;
     u16 *src;
@@ -26,7 +26,7 @@ void func_80057AF4(s32 index, s32 anim, s32 flag) {
     }
     dst = m->field_DE0;
     base = m->field_DDC;
-    parts = (u8 **)m->field_1E0;
+    parts = m->field_1E0;
     if (m->field_E1F == 0) {
         return;
     }
@@ -34,7 +34,7 @@ void func_80057AF4(s32 index, s32 anim, s32 flag) {
     case -1:
         m->field_E10 = 0;
         for (i = 0; i < m->field_E1B; parts++, i++) {
-            *(u16 *)(*parts + 8) = 0xFFFF;
+            (*parts)->ii = 0xFFFF;
         }
         break;
     case 0: {
@@ -114,7 +114,7 @@ void func_80057AF4(s32 index, s32 anim, s32 flag) {
                 if ((m->field_BEC[t] >> (i - (t << count))) & 1) {
                     count = 5;
                 }
-                *(u16 *)(*parts + 8) = ((u8 *)src - (u8 *)m->field_DD8) >> 2;
+                (*parts)->ii = ((u8 *)src - (u8 *)m->field_DD8) >> 2;
                 func_8005B620((s32 *)dst, (const s32 *)(base + src[0] * 4), count);
                 dst += count * 4;
             }

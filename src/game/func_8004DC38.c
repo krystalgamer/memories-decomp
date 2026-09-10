@@ -1,46 +1,49 @@
 #include "../types.h"
+#include "model.h"
 #include "func_8004DC38.h"
 
-s32 func_8004DB14(u8 *p, s32 i)
+/* The GsSEQ fields read here are the ones func_8004DC38 writes: ti is the
+ * command the part stopped at, tframe the length of that command and rframe
+ * the time left in it. 0x6000 is the clamp func_8004DC38 applies in mode
+ * 0x3C. */
+s32 func_8004DB14(ModelSlot *p, s32 i)
 {
     s32 acc;
     s32 n;
-    u8 *e;
-    u8 *tbl;
-    u8 *lim;
-    u8 *q;
+    ModelSlotPart *e;
+    s32 *tbl;
+    s32 *lim;
+    s32 *q;
     s32 k;
     s32 v;
-    s32 off;
 
     acc = 0;
     n = 1;
-    off = i * 4;
-    e = *(u8 **)(p + off + 0x1E0);
-    if (e == (u8 *)0) {
+    e = p->field_1E0[i];
+    if (e == 0) {
         return 0;
     }
-    lim = *(u8 **)(p + 0xDD8) + *(u16 *)(e + 0x16) * 4;
-    if (*(s32 *)lim < 0) {
+    lim = p->field_DD8 + e->ti;
+    if (*lim < 0) {
         return 0;
     }
-    tbl = *(u8 **)(p + 0xDD8);
+    tbl = p->field_DD8;
     for (n = 1; n < 10; n++) {
-        k = *(u16 *)(p + (n * 0x74 + i * 2) + 0x2C8);
-        q = tbl + k * 4;
-        if (k != 0xFFFF && lim >= q - 4 &&
-            tbl + *(u16 *)(q - 4) * 4 >= lim) {
+        k = p->field_2C8[n][i];
+        q = tbl + k;
+        if (k != 0xFFFF && lim >= q - 1 &&
+            tbl + *(u16 *)(q - 1) >= lim) {
             break;
         }
     }
     if (n < 10) {
         while (q < lim) {
-            acc += q[2];
-            q += 4;
+            acc += ((u8 *)q)[2];
+            q++;
         }
-        v = *(s16 *)(e + 0x10);
+        v = e->rframe;
         if (v != 0x6000 && v != 0x7000) {
-            acc += (*(u16 *)(e + 0x12) - v) / 16;
+            acc += (e->tframe - v) / 16;
         }
     } else {
         n = 0;
@@ -49,19 +52,18 @@ s32 func_8004DB14(u8 *p, s32 i)
 }
 
 /* Seeks channel i of model slot p to position pos within sequence n. The
- * sequence's entry index comes from the 0x74-stride table at +0x2C8 and its
- * step count from the 0x76-stride table at +0x750; the entry list at
- * +0xDD8 holds 4-byte entries whose byte 2 is a duration in sixteenths and
- * whose halfword before the list is its length. The walk consumes pos
- * modulo one step's length entry by entry, stopping at the first entry
- * that outlasts the remainder, at a negative entry, or at the end, then
- * skips forward over non-negative entries to find the next stop. The
- * channel object at +0x1E0 receives the stop index (+0x16), the entry
- * before it (+0x14), the entry length (+0x12) and the time left in it
- * (+0x10); mode 0x3C clamps that last value to 0x6000. */
-void func_8004DC38(u8 *p, s32 i, s32 n, u32 pos) {
+ * sequence's entry index comes from field_2C8[n][i] and its step count from
+ * field_750[n].values[i]. The command list at field_DD8 holds 4-byte entries
+ * whose byte 2 is a duration in sixteenths, and the halfword of the entry
+ * before a sequence's first is its length. The walk consumes pos modulo one
+ * step's length, entry by entry. It stops at the first entry that outlasts
+ * the remainder, at a negative entry, or at the end, then skips forward over
+ * non-negative entries to find the next stop. The part's GsSEQ receives the
+ * stop index (ti), the entry before it (ci), the entry length (tframe) and
+ * the time left in it (rframe); mode 0x3C clamps that last value to 0x6000. */
+void func_8004DC38(ModelSlot *p, s32 i, s32 n, u32 pos) {
     s32 *tbl;
-    u8 *e;
+    ModelSlotPart *e;
     s32 *q;
     s32 *cp;
     s32 *v;
@@ -76,35 +78,33 @@ void func_8004DC38(u8 *p, s32 i, s32 n, u32 pos) {
     s32 d;
     s32 off4;
     s32 off2;
-    s32 row;
-    s32 row2;
 
-    /* Both channel offsets are materialised up front; that is what moves
-       p out of $a0 into $t3 at entry. */
+    /* Both channel offsets are materialised up front and never read by
+       name: cse reuses them for the field_1E0 and field_2C8 indexing just
+       below, and that is what moves p out of $a0 into $t3 at entry.
+       Dropping either one changes the entry sequence. */
     off4 = i * 4;
     off2 = i * 2;
-    row = n * 0x74;
-    k = *(u16 *)(p + (off2 + row) + 0x2C8);
-    tbl = *(s32 **)(p + 0xDD8);
-    e = *(u8 **)(p + off4 + 0x1E0);
+    k = p->field_2C8[n][i];
+    tbl = p->field_DD8;
+    e = p->field_1E0[i];
     q = tbl + k;
-    if (e == (u8 *)0) {
+    if (e == 0) {
         return;
     }
     if (k == 0xFFFF) {
         return;
     }
-    row2 = n * 0x76;
     /* Read twice rather than through a local: cse folds the second read,
        and the extra reference is what puts the address in $v1. */
-    if (*(u16 *)(p + (off2 + row2) + 0x750) == 0) {
+    if (p->field_750[n].values[i] == 0) {
         return;
     }
-    step = *(u16 *)(p + (off2 + row2) + 0x750) * 16;
+    step = p->field_750[n].values[i] * 16;
     rem = pos % step;
     cp = q - 1;
     if (rem == 0) {
-        if (pos != 0 && p[0xE16] != 0x3C) {
+        if (pos != 0 && p->field_E16 != 0x3C) {
             rem = step;
         }
     }
@@ -118,7 +118,7 @@ void func_8004DC38(u8 *p, s32 i, s32 n, u32 pos) {
         return;
     }
     for (; idx < *(u16 *)cp; idx++) {
-        if (p[0xE16] != 0x3C) {
+        if (p->field_E16 != 0x3C) {
             d = rem - (((u8 *)q)[2] << 4);
             if (d <= 0) {
                 break;
@@ -152,23 +152,23 @@ scan:
             goto scan;
         }
     }
-    x = q - *(s32 **)(p + 0xDD8);
-    *(s16 *)(e + 0x16) = x;
+    x = q - p->field_DD8;
+    e->ti = x;
     if (x != 0) {
         x = x - 1;
     } else {
-        x = v - *(s32 **)(p + 0xDD8);
+        x = v - p->field_DD8;
     }
-    *(s16 *)(e + 0x14) = x;
+    e->ci = x;
     y = ((u8 *)q)[2] << 4;
     z = y - rem;
-    *(s16 *)(e + 0x12) = y;
-    *(s16 *)(e + 0x10) = z;
-    if (p[0xE16] != 0x3C) {
+    e->tframe = y;
+    e->rframe = z;
+    if (p->field_E16 != 0x3C) {
         return;
     }
-    if ((s16)z < *(u16 *)(e + 0x12)) {
+    if ((s16)z < e->tframe) {
         return;
     }
-    *(s16 *)(e + 0x10) = 0x6000;
+    e->rframe = 0x6000;
 }
