@@ -519,7 +519,7 @@ cards and 28 equips. No trap or ritual has a nonzero starter weight, so the
 other 377 cards cannot be dealt into an unmodified new-game deck.
 
 Matching
-[`NameEntry_BuildStarterDeck`](../../src/overlays/password/build_starter_deck.c)
+[`NameEntry_BuildStarterDeck`](../../src/overlays/password/name_entry_main.c)
 scans only zero-based indices `0`-`719`
 despite the 722 stored weights, so Dark Magic Ritual (721) and Magician of
 Black Chaos (722) are structurally unreachable here. It tracks each card's
