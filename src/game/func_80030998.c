@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "frontend_debug_state.h"
+#include "func_80030998.h"
 
 __asm__(
     ".set noreorder\n"

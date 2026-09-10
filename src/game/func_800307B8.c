@@ -10,6 +10,7 @@
 #include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
 #include "../unmatched.h"
+#include "func_800307B8.h"
 
 void func_800307B8(void)
 {
