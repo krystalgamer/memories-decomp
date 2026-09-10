@@ -366,6 +366,133 @@ file taking `0x8009AF08` would have to define a watchdog counter under a name
 three tools resolve as the GP base, which is a heavier commitment than the
 twenty-eight bytes suggest.
 
+#### Who actually owns the remaining bytes
+
+The triage above asks what resists ownership. The prior question is who owns
+the bytes at all, and answering it for all five ranges at once changes the
+shape of the remaining work considerably.
+
+Every label in each range can be attributed to the functions that reference
+it, and `functions.csv` records an owner for each of those functions --
+`game`, `psyq/sdk` or `psyq/crt`. Doing that across the whole set gives:
+
+| range | section | bytes | psyq | game |
+| --- | --- | ---: | ---: | ---: |
+| `initialized_data_800906e0` | `.data` | 12 | 8 | 0 |
+| `initialized_data_80091958` | `.data` | 34724 | 34692 | 0 |
+| `initialized_data_8009af08` | `.sdata` | 20 | 8 | 8 |
+| `initialized_data_8009af2a` | `.sdata` | 7 | 0 | 7 |
+| `initialized_data_8009af6c` | `.sdata` | 276 | 0 | 276 |
+
+The large `.data` range is not a game data blob at all. Its 274 labels are
+referenced by 246 distinct functions and **every one of them is
+`psyq/sdk`** -- `_spu_init`, `_spu_setReverbAttr`, `SpuSetReverbModeParam`,
+`StCdInterrupt`, `CD_cw`, `FntOpen` and their neighbours. The text range that
+reaches into it opens with `PCopen`, `InitHeap`, `_bu_init`, `OpenEvent`,
+`EnterCriticalSection` and the `open`/`read`/`write`/`close` wrappers. This is
+the Psy-Q library's own initialized data: SPU voice and reverb state, the CD
+streaming machinery, the font system, the heap and event tables.
+
+That is a negative worth stating precisely rather than by implication. No file
+under `src/` mentions any of those 274 names -- not the game sources, not the
+overlays, not the candidate sources. The single unreferenced label,
+`D_80092A68`, appears in neither `c_symbols.ld` nor `symbols.txt`.
+
+The consequence is that the biggest item on the remaining list is not
+"bulk remainder, must be split before any ownership". It is vendor data, and
+the project already holds that Psy-Q CRT and SDK code is never a
+decompilation candidate. The same reasoning applies to its data: there is no
+game translation unit that could honestly define it, and inventing one would
+assert authorship the image does not support.
+
+Netting the vendor bytes out, the genuine game-owned remainder across all
+five ranges is about **291 bytes, all of it `.sdata`** -- the seven bytes at
+`0x8009AF2A`, the 276 at `0x8009AF6C`, and eight of the twenty at
+`0x8009AF08`. That is a very different target from thirty-four kilobytes, and
+it lands entirely in the section the `.data`-before-`.sdata` rule calls the
+harder one: a text unit can own `.sdata` in place, but the byte layout then
+has to survive the section's four-byte alignment, which is exactly what the
+measured failure at `0x8009AF2A` ran into.
+
+Two caveats on the method. Sizes are measured label-to-label, so the final
+label in each range is assumed four bytes and the totals are approximate at
+the margin; and attribution is by symbol reference, so a byte reached only
+through pointer arithmetic from a neighbouring symbol would be credited to
+that neighbour. Neither affects the conclusion, which rests on a 246-to-0
+split rather than on a close count.
+
+#### The largest game-owned range, and who does not own it
+
+The 276 bytes at `0x8009AF6C` were previously written off here as a scattered
+grab-bag with no coherent translation unit. The ownership pass shows that is
+only half true, and the half that is wrong is worth correcting.
+
+Mapping its 77 labels in address order separates them cleanly. The head
+(`0x8009AF6C`-`0x8009AFAB`) and the tail (`0x8009B058`-`0x8009B07F`) are
+indeed scattered: single symbols consumed by unrelated files, or shared by a
+dozen. But between them sits a contiguous run of 33 labels, roughly 172
+bytes from `0x8009AFAC` to `0x8009B057`, with **no C consumer at all**.
+
+That run is not shapeless. Sixty-seven functions reference it, every one
+`game`-owned, and they are one family: the thirty-two primitive handlers, the
+sixteen object handlers, the twelve registry handlers, and `func_800540B4`,
+which touches eighteen of the symbols on its own. This is the model
+renderer's shared working state, reached only from generated assembly because
+none of its readers is matched C yet.
+
+The tempting next step is to conclude that a handler translation unit owns
+it, since the handlers are its heaviest readers. That guess is unsupported,
+but so is the obvious refutation of it, and the reason is worth recording
+because it is easy to get backwards.
+
+The `.sdata` text-order rule constrains a symbol's position by the text
+address of the unit that **defines** it. It says nothing about units that
+merely consume it. So a window cannot be interpolated from the neighbours
+here: `D_8009AFA6` below and `D_8009B058` above are each only ever declared
+`extern` -- by `model_state_getters.c` and `func_8005B64C.c` respectively --
+and neither is defined in any C source. Both resolve from linker symbols,
+exactly as the run itself does.
+
+That is the real state of this neighbourhood at symbol level: nothing
+adjacent to the run is defined by a translation unit, so there is no anchor
+to interpolate between at that granularity.
+
+Placement, though, is not what blocks this range, and the split template says
+so. The blob is bracketed by two entries that already own `.sdata`:
+`save_data_mask_state` at rom `0x8B764` below it and
+`ai_script_source_line_format` at `0x8B884` above, with the 276 bytes running
+from `0x8B76C` to `0x8B880` between them. Both of those owners are
+**data-only** units rather than text units, and a data-only unit takes its
+position from its place in the split template rather than from a text
+address. So the interior of this blob can be owned exactly the way its two
+neighbours already are, by inserting a subsegment at the right rom offset --
+the same shape as the `.data` carves that have gone through byte-exact
+before.
+
+What remains difficult is the byte layout rather than the position. The
+measured failure at `0x8009AF2A` came from a one-byte object followed by a
+two-byte one, where the section's four-byte alignment would not reproduce the
+hole retail leaves. That argues for starting with a sub-run that is uniformly
+word-sized and word-aligned, where no packing question arises:
+`0x8009AFAC`-`0x8009AFE3` is fourteen consecutive four-byte labels, 56 bytes
+with no sub-word object in it.
+
+That sub-run also has a legible identity, which makes it a better first
+target than its address suggests. Its words carry GPU primitive command
+bytes in the high position over grey colour fields -- `0x24`, `0x2C`, `0x34`
+and `0x3C` are the textured-polygon opcodes -- and the run ends with an `0xE1`
+draw-mode word. Read with its sixty-seven callers, all of them model
+handlers, this is the renderer's table of prototype GPU packets: each handler
+stamps out primitives from these templates. That is a naming basis, not just
+a size and an address.
+
+Two things follow for anyone picking this up. The run is worth owning,
+because it is coherent, entirely game-owned, and the single largest such
+piece left. And when applying the text-order rule, check that the anchors are
+**definitions** rather than declarations: a file that declares a neighbour
+`extern` tells you nothing about where that neighbour lands, so using it to
+bound a window produces a constraint that is not there.
+
 ### The small-data region
 
 `.data` runs to 0x8009AF08 and `.sdata` from there to 0x8009B090, which is
