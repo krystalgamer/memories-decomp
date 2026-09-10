@@ -20,14 +20,13 @@
 #include "file_transfer.h"
 #include "duel_selection_layout.h"
 
-extern void Duel_RequestCombinedDeckData(void);
-extern void Duel_PopulateCombinedDeckData(void);
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "sound.h"
 #include "../unmatched.h"
 #include "func_80018004.h"
 #include "duel_apply_card_object_flags.h"
+#include "duel_deck_card_data.h"
 
 extern s8 D_8009B1B9;
 extern s8 D_8009B208[8];

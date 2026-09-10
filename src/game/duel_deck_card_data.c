@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_deck_card_data.h"
 #include "../psyq/qsort.h"
 #include "card_constants.h"
 #include "duel_card_data_transfer.h"
