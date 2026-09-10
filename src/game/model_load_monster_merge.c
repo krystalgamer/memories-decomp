@@ -51,8 +51,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
     }
     File_WaitForTransfers();
     func_8004CB0C(slot, 0, 0, arg6);
-    /* +0xE1D, which model.h still covers with pad_E1C. */
-    D_800F2C40[slot].pad_E1C[1] = flags;
+    D_800F2C40[slot].field_E1D = flags;
     if (slot < 2) {
         if (model == 0x309) {
             transfer = File_TryRequestAsyncTransfer(

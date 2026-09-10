@@ -168,7 +168,15 @@ typedef struct {
     u8 field_DFF;
     u8 pad_E00[6];
     u16 field_E06;
-    u8 pad_E08[5];
+    u8 pad_E08[2];
+    /* func_8005611C seeds this halfword with 0x1000 and
+     * func_80056250 reads it back; this unit's own header describes
+     * the pair as "the halfword at +0xE0A". */
+    u16 field_E0A;
+    /* Seeded 7 beside field_E0D's 8 by func_8005611C and read back
+     * by func_80056250, which its unit calls "the pair at
+     * +0xE0C/+0xE0D". */
+    u8 field_E0C;
     u8 field_E0D;
     u8 field_E0E;
     u8 field_E0F;
@@ -184,7 +192,13 @@ typedef struct {
     u8 field_E19;
     u8 field_E1A;
     u8 field_E1B;
-    u8 pad_E1C[3];
+    u8 pad_E1C;
+    /* func_8005611C clears this byte and
+     * model_load_monster_merge.c writes its transfer flags here,
+     * reaching it as pad_E1C[1] and noting in a comment that this
+     * record still covered it with padding. */
+    u8 field_E1D;
+    u8 pad_E1E;
     u8 field_E1F;
 } ModelSlot;
 
