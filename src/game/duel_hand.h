@@ -39,6 +39,23 @@ typedef char DuelHandSlot_active_09_offset_must_be_0x09[
 
 extern DuelHandSlot D_800EA030[HAND_SIZE];
 
+/* How many cards are still to be drawn into those slots. duel_phase_entry.c
+ * arms it -- 5 for a full opening hand, and HAND_SIZE - n to top an existing
+ * hand back up -- and duel_draw_resolution.c spends it, taking one off per
+ * card as the draw animation retires each one and raising bit 0x4000 in the
+ * scene state D_8009B23A once it reaches zero.
+ *
+ * Declared u8, which is what both sources say, with the one signed read left
+ * spelled as a cast where it is:
+ *
+ *     if (*(s8 *)&D_8009B1EC == 0)
+ *
+ * That is the same arrangement dialog_choice.h records for
+ * gDialog_bInputState: the declaration stays unsigned and the cast at the use
+ * is what keeps retail's signed load, so resolving one into the other would
+ * be a codegen change rather than a tidy-up. */
+extern u8 D_8009B1EC;
+
 /* State shared by the two adjacent hand-stack callbacks. func_8001B780
  * positions `position_object` from the selected slot, and func_8001B7AC uses
  * the same slot index while advancing the running child count. */
