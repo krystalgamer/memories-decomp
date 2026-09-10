@@ -1,3 +1,4 @@
+#define D_8009B369_IN_DATA
 #include "../types.h"
 #include "duel_draw_status_numbers.h"
 #include "save_data.h"
@@ -22,7 +23,6 @@
 
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
-extern u8 D_8009B369 __attribute__((section(".data")));
 extern void (*D_800E9DBC[])(void);
 extern u8 gDuel_awOpponentDeckPool[];
 extern u8 D_801D1200[];
