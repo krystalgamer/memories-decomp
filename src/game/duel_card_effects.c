@@ -245,7 +245,7 @@ hit:
     SD_SEPlayFull(0x1F);
 }
 
-extern u8 D_801A7B64[];
+extern DuelCardRecord D_801A7B64[];
 
 void DuelEffect_UpdateFieldMarker(void) {
     DuelCardRecord *r;
@@ -313,8 +313,8 @@ void DuelEffect_UpdateFieldMarker(void) {
 
 void func_800257A0(void) {
     DuelEffectRequest *e;
-    u8 *p;
-    u8 *q;
+    DuelCardRecord *p;
+    DuelCardRecord *q;
     s32 i;
     s32 f;
     s32 g;
@@ -350,12 +350,12 @@ void func_800257A0(void) {
     if ((f & 0x40) != 0) {
         i = DUEL_FIELD_ROW_SIZE;
         while (1) {
-            p = D_800907D8[
+            p = (DuelCardRecord *)(D_800907D8[
                 i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
-            ] * DUEL_CARD_RECORD_SIZE + D_801A7AD8_bytes;
-            if ((*(u16 *)(p + 0x16) & DUEL_CARD_FLAG_OCCUPIED) != 0 &&
-                (*(u8 **)p)[0x68] == 0) {
-                func_80024954((DuelCardRecord *)p);
+            ] * DUEL_CARD_RECORD_SIZE + D_801A7AD8_bytes);
+            if ((p->flags & DUEL_CARD_FLAG_OCCUPIED) != 0 &&
+                ((u8 *)p->object)[0x68] == 0) {
+                func_80024954(p);
             }
             i++;
             if (i >= DUEL_FIELD_SIDE_ZONE_COUNT) {
@@ -364,18 +364,18 @@ void func_800257A0(void) {
         }
     } else {
         p = D_801A7B64;
-        q = p + DUEL_CARD_SIDE_RECORD_COUNT * DUEL_CARD_RECORD_SIZE;
+        q = p + DUEL_CARD_SIDE_RECORD_COUNT;
         i = 0;
         do {
-            if ((*(u16 *)(p + 0x16) & DUEL_CARD_FLAG_OCCUPIED) != 0) {
-                func_80024954((DuelCardRecord *)p);
+            if ((p->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
+                func_80024954(p);
             }
-            if ((*(u16 *)(q + 0x16) & DUEL_CARD_FLAG_OCCUPIED) != 0) {
-                func_80024954((DuelCardRecord *)q);
+            if ((q->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
+                func_80024954(q);
             }
             i++;
-            p += DUEL_CARD_RECORD_SIZE;
-            q += DUEL_CARD_RECORD_SIZE;
+            p++;
+            q++;
         } while (i < DUEL_FIELD_SIDE_ZONE_COUNT);
     }
 
