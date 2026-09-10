@@ -5,7 +5,6 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "func_800608B8.h"
-#include "model_object_handler_entries.h"
 
 s32 func_800608B8(s32 arg0) {
     u32 t;

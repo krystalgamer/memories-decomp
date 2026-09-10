@@ -22,7 +22,8 @@
 
 extern u8 D_800F2C40[];
 extern u8 D_80010538[];
-extern u32 D_80010000[];
+#define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
+#include "../game/high_memory_addresses.h"
 
 extern void func_8004CB0C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8004D75C(s32 a0);
@@ -62,11 +63,11 @@ void func_80056828(s32 a0) {
                 s32 a1;
                 s32 a2 = 0xC000;
                 if (player == 0) {
-                    a1 = D_80010000[0];
+                    a1 = (s32)D_80010000[0].payload_bases[0];
                 } else if (player == 1) {
-                    a1 = D_80010000[1];
+                    a1 = (s32)D_80010000[0].payload_bases[1];
                 } else {
-                    a1 = D_80010000[2];
+                    a1 = (s32)D_80010000[0].payload_bases[2];
                 }
                 v0 = *(s32 *) a1;
                 if (v0 != 0) {
@@ -248,9 +249,9 @@ void func_80056828(s32 a0) {
                 D_8009AFA0 = (u8) player;
                 if (v0 >= 0) {
                     if (player == 0) {
-                        fn = (void *) (D_80010000[3] + 4);
+                        fn = (void *) (D_80010000[0].primary_modules[0] + 4);
                     } else {
-                        fn = (void *) (D_80010000[4] + 4);
+                        fn = (void *) (D_80010000[0].primary_modules[1] + 4);
                     }
                     func_8005F198(1);
                     a2 = *(s32 *) (p + 0xD10);

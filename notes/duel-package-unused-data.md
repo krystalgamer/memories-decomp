@@ -39,7 +39,7 @@ The only duel initialization call that appears to hand this arena to another
 routine is:
 
 ```c
-func_80056250(2, (u8 *)D_80010000[0], 0x63000, 4);
+func_80056250(2, D_80010000[0].payload_bases[0], 0x63000, 4);
 ```
 
 That call does not consume the phase. Matching `func_80056250` checks whether

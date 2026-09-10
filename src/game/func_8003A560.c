@@ -12,7 +12,8 @@
 /* The scalars carry section(".data") so -G8 keeps them off $gp and they take
    the assembler macro form, while the one-byte D_8009B326 stays gp-relative. */
 extern s8 D_8009B326;
-extern u8 *D_80010000 __attribute__((section(".data")));
+#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
+#include "high_memory_addresses.h"
 
 void func_8003A560(DisplayEffectVramState *a)
 {
