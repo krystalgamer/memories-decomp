@@ -6,6 +6,7 @@
 #include "file_transfer.h"
 #include "model.h"
 #include "../unmatched.h"
+#include "file_transfer_steps.h"
 
 /* Two transfer-phase callbacks of the func_8003B808 family, kept in one
    translation unit because they are the same routine over different assets:
