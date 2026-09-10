@@ -729,6 +729,55 @@ whose consumers stage different shapes into one buffer is not that, however
 identical two of those consumers happen to look. State what such a symbol is
 NOT, and leave the views alone.
 
+#### Two kinds of differing spelling, and only one is predictable
+
+A consumer whose declaration disagrees with the definition is not
+automatically load bearing. Two measurements a few hours apart came out
+opposite ways, and the difference between them is mechanical enough to use as
+a decision procedure.
+
+**Case one: the difference constrains optimization.** `graphics_frame.c`
+defines `D_8009B0AD`, `D_8009B0D0` and `D_8009B0A8` as plain bytes.
+`main_services.c` declared all three `extern volatile u8`, under a comment
+saying the init block is volatile so the emitted order is the source order.
+Those three are the *first three stores* of that run, so the honest
+expectation was a shift. There was none: dropping the `volatile` and taking
+the declarations from the owning header builds byte-identical. The comment was
+true of the rest of the run and over-claimed for these three.
+
+**Case two: the difference changes the addressing mode.** `main_run_trade.c`
+defines `u8 D_8009B269;`. `script_control_commands.c` compiles at `-G8` and
+declares it `extern u8 D_8009B269[]`, writing `D_8009B269[0]` at two sites.
+Converting that consumer to the scalar spelling does not shift bytes -- it
+*shortens the executable*:
+
+```
+error: rebuilt executable is 0x1d07f8 bytes, expected 0x1d0800
+```
+
+Eight bytes, across two write sites, four bytes each. At `-G8` a small scalar
+is small-data eligible and each store becomes one `%gp_rel` instruction; the
+array spelling pushes it out of small data and each store becomes a `%hi/%lo`
+pair. The array is the lever the table above describes, and here it is
+measured rather than inferred.
+
+The two cases separate cleanly:
+
+- A spelling that changes **addressing mode** -- array versus scalar under
+  `-G8`, `section(".data")`, an addend neighbour -- is structural. The `-G`
+  table predicts it, it changes the instruction *count*, and there is no need
+  to spend a build confirming it.
+- A spelling that only **constrains the optimizer** -- `volatile` is the one
+  that occurs here -- is not predictable from the table at all. It costs
+  nothing wherever the optimization it forbids was not available anyway, which
+  is why two separate `volatile` views in this tree turned out inert. Measure
+  it; do not assume either way.
+
+The build error tells you which case you are in. A pure **length** change means
+the instruction count moved, which points at addressing mode. A same-length
+mismatch points at scheduling or register allocation, where `volatile` and
+register pins live.
+
 ## Exact baseline build
 
 ```sh
