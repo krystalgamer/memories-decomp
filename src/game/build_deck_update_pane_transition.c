@@ -11,13 +11,11 @@ void BuildDeck_UpdatePaneTransition(BuildDeckTransitionState *state)
     s32 ticks;
 
     if (func_80032B38(state) == 0) {
-        /* Keep the sound ID live for the signed-divide branch delay slot. */
-        register s32 sound asm("$4") = 30;
         s32 diff = state->viewport_target_x - (s16)gGraphics_uViewportX;
 
         state->viewport_step_x = diff / 16;
         state->transition_ticks = 16;
-        SD_SEPlayFull(sound);
+        SD_SEPlayFull(30);
     }
 
     gGraphics_uViewportX += (u16)state->viewport_step_x;

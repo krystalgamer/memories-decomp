@@ -4,12 +4,8 @@
 
 extern u8 *D_8009B458;
 
-/* The object parameter is copied into a $7-pinned local rather than used
-   directly; that pin is the matching device, so the parameter keeps a
-   separate name. `channel` is used as passed. */
-void SD_SpatializeSecondaryObject(u8 *object_arg, u8 *channel)
+void SD_SpatializeSecondaryObject(u8 *object, u8 *channel)
 {
-    register u8 *object asm("$7");
     s32 pan;
     u8 *state1;
     u8 *state2;
@@ -17,10 +13,9 @@ void SD_SpatializeSecondaryObject(u8 *object_arg, u8 *channel)
     s32 level;
     s32 product;
     s32 left;
-    register s32 right asm("$4");
+    s32 right;
     s32 center;
 
-    object = object_arg;
     state1 = D_8009B458;
     if (state1[0x815] != 0) {
         pan = SD_SECONDARY_PAN_CENTER;

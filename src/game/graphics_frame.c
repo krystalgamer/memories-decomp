@@ -69,7 +69,7 @@ void Graphics_BeginFrame(void)
     s32 idx;
     u32 *ptr;
     u8 *arg;
-    register u32 **base asm("$2");
+    u32 **base;
 
     if (D_8009B0A8 == 0) {
         D_800FE048[0x18] = D_8009B0D0;
