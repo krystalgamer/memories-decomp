@@ -517,4 +517,17 @@ extern u16 D_8009B412;
  * takes DisplayObjectLifecycle *, not this type. */
 void func_80020D4C(DisplayObject *object);
 
+/* Another of those callbacks, installed the same way and declared here for
+ * the same reason. It slides an object from field_28 towards the base at
+ * field_30 through func_80043230, stepping field_60 by the increment it
+ * seeds into field_2C on its first frame, and on arrival clears update and
+ * field_6C and snaps field_30 to the final position -- the same finish
+ * func_80020D4C makes.
+ *
+ * duel_draw_resolution.c held the only declaration, spelled `u8 *` to match
+ * the DisplayObjectCallback slot it is stored into rather than the record the
+ * definition takes, and never calls it: the whole use is
+ * `*(s32 *)(p + 0x24) = (s32)func_80018C34`. */
+void func_80018C34(DisplayObject *object);
+
 #endif
