@@ -1,14 +1,10 @@
 #include "../types.h"
-
-#define SDSECONDARYSTATE_CUSTOM_EXTERN
 #include "sound.h"
-
-extern u8 *D_8009B458;
 
 int func_8004A854(int value)
 {
     register int result asm("$9") = -1;
-    u8 *state = D_8009B458;
+    u8 *state = (u8 *)D_8009B458;
     register short best asm("$8");
     register int i asm("$5");
     asm volatile("li %0,0xffff" : "=r"(best));
@@ -27,7 +23,7 @@ int func_8004A854(int value)
                 best = candidate;
                 result = i;
             }
-            state = D_8009B458;
+            state = (u8 *)D_8009B458;
             count = *(short *)(state + 0x510);
             asm volatile("" : "+r"(count));
             i++;
@@ -39,7 +35,7 @@ int func_8004A854(int value)
 
 s32 func_8004A8E4(s32 index, s32 value)
 {
-    SDSecondaryState *state = (SDSecondaryState *)D_8009B458;
+    SDSecondaryState *state = D_8009B458;
     SDSecondaryObject *object = &state->objects[index];
 
     if (object->channel_index != SD_SECONDARY_RECORD_NONE) {
@@ -60,7 +56,7 @@ s32 func_8004A940(s32 value, s32 variant)
     register s32 result __asm__("$10") = -1;
     u32 best;
 
-    state = (SDSecondaryState *)D_8009B458;
+    state = D_8009B458;
     i = 0;
     if (state->object_count > 0) {
         s32 none = SD_SECONDARY_RECORD_NONE;
@@ -73,7 +69,7 @@ s32 func_8004A940(s32 value, s32 variant)
         } while (i < count);
     }
 
-    state = (SDSecondaryState *)D_8009B458;
+    state = D_8009B458;
     i = 0;
     if (state->object_count > 0) {
         s32 count = state->object_count;
@@ -85,7 +81,7 @@ s32 func_8004A940(s32 value, s32 variant)
         } while (i < count);
     }
 
-    state = (SDSecondaryState *)D_8009B458;
+    state = D_8009B458;
     i = 0;
     if (state->object_count > 0) {
         do {
@@ -94,12 +90,12 @@ s32 func_8004A940(s32 value, s32 variant)
                 state->objects[i].field_0005 == (u8)variant) {
                 return func_8004A8E4(i, owner);
             }
-            state = (SDSecondaryState *)D_8009B458;
+            state = D_8009B458;
             i++;
         } while (i < state->object_count);
     }
 
-    state = (SDSecondaryState *)D_8009B458;
+    state = D_8009B458;
     i = 0;
     if (state->object_count > 0) {
         s32 count = state->object_count;
@@ -111,7 +107,7 @@ s32 func_8004A940(s32 value, s32 variant)
         } while (i < count);
     }
 
-    state = (SDSecondaryState *)D_8009B458;
+    state = D_8009B458;
     best = 0xFFFF;
     i = 0;
     if (state->object_count > 0) {
