@@ -5,7 +5,6 @@
 #include "sound_output.h"
 #include "main_services.h"
 
-extern u8 D_8009B0C3;
 extern u8 D_8009AF0C;
 
 void Main_VBlankCB(void)

@@ -25,7 +25,6 @@
 #include "rand_constants.h"
 #include "movie_playback_control.h"
 
-extern volatile u8 D_8009B0C3;
 extern volatile u8 D_8009B0C1;
 extern volatile u8 D_8009B0D1;
 extern u8 D_8009B230 __attribute__((section(".data")));

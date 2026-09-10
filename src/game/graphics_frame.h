@@ -83,6 +83,20 @@ extern volatile u8 D_8009B0C0;
 extern u8 D_8009B0C0;
 #endif
 
+/* A byte Main_VBlankCB stores 1 into after bumping D_8009B09C and
+ * D_8009B0C4 and before bumping D_8009B0C8, and stores 0 into as the last
+ * statement of its D_8009AF0C == 0 block, after func_80047050 has run.
+ * Main_Init zeroes it in its init block. No C unit reads it, and neither
+ * of the two resident listings that name it loads it. Initial value not
+ * read.
+ *
+ * Both units reach it gp-relative (sb, func_80012CD4.s:16/29 and
+ * func_80012B50.s:33), so this is the plain byte for both. main_init.c used
+ * to declare it volatile with the rest of its init block; on this symbol
+ * the plain form builds byte-identical (measured by the PR that added
+ * this line). */
+extern u8 D_8009B0C3;
+
 /* The frame counter that comparison reads. Main_VBlankCB increments it
  * (main_frame.c), Graphics_SyncFrame publishes it into D_8009B0C1 and
  * then resets it to -1, Main_Init zeroes it, and Input_UpdatePads tests
