@@ -17,6 +17,7 @@
 #include "shop.h"
 #include "../../game/sound.h"
 #include "../../game/fade.h"
+#include "dialog_choice_ref.h"
 
 /* The password shop screen: its two resident entry points, the preview
    helper both of them call, and the password lookup the updater is the only
@@ -47,7 +48,6 @@ extern u32 D_801D0000[];
 extern volatile u16 D_8009B3A4;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
-extern s8 D_8009B34D;
 
 extern void func_80029164(s32, s32);
 

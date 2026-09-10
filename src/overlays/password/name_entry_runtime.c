@@ -15,6 +15,7 @@
 #include "../../game/save_data.h"
 #include "name_entry_keyboard.h"
 #include "name_entry_state.h"
+#include "dialog_choice_ref.h"
 
 /* The dialog's own sliding panel object, reached through the text box at
  * field_2C or by tag from func_80042B40. A different object from the
@@ -37,7 +38,6 @@ extern u16 D_8016D4D4;
 extern s8 D_8016AB38[][15];
 extern u8 D_8016ABC0[][2];
 
-extern s8 D_8009B34D;
 extern DuelEffectChannel D_800EB1C0;
 extern u8 D_8016D41C;
 
