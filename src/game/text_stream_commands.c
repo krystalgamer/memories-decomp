@@ -22,7 +22,7 @@ void func_80037CE0(volatile u8 *object) {
 
 extern u16 D_8009B33A;
 
-void func_80037D2C(u8 *object)
+void Text_ExtendGlyphCode(u8 *object)
 {
     u8 **stream = &((u8 **)object)[*(s8 *)(object + 0x58)];
     register s32 temporary asm("$2");
@@ -48,7 +48,7 @@ void func_80037D2C(u8 *object)
     D_8009B350 = temporary;
 }
 
-void func_80037D6C(u8 *object)
+void Text_SetStateFromStream(u8 *object)
 {
     u8 **stream = &((u8 **)object)[*(s8 *)(object + 0x58)];
     u8 *current = *stream;

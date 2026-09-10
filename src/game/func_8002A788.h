@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* State 1 of the library screen dispatcher, handed the same record the other
- * states take -- func_8002BAB4.c's switch calls it for mode 1 alongside
+ * states take -- library_runtime.c's switch calls it for mode 1 alongside
  * func_8002BAA0 and func_8002BAAC.
  *
  * The unit implements it as a top-level asm block rather than as C, so this

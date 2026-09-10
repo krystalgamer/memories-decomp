@@ -17,11 +17,10 @@
 #include "duel_deck_lookup.h"
 #include "func_80029574.h"
 #include "func_80029590.h"
-#include "func_8002BD0C.h"
+#include "library_runtime.h"
 #include "library_mark_owned_cards.h"
 #include "sound.h"
 #include "text_render_state.h"
-#include "func_8002BAB4.h"
 
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));

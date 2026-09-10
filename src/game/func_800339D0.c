@@ -16,13 +16,12 @@
 #include "duel_transition_step_table.h"
 #include "../psyq/rand.h"
 #include "duel_reward_setup.h"
+#include "func_80033998.h"
 
 extern u8 D_8009B2F8;
 /* Retail addresses these three with %hi/%lo under -G8, so they live outside
    small data. */
 extern s8 gDialog_bChoice __attribute__((section(".data")));
-
-extern s32 func_80033998(void);
 
 /* Handles leaving the deck editor. When the editor's own check passes, the
  * confirm sound plays and, if the deck is complete (func_80033998), bit 14 of

@@ -8,6 +8,7 @@
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../../types.h"
 #include "../../game/two_player_save_setup.h"
+#include "../../game/func_8003FCD8.h"
 #include "../../unmatched.h"
 #include "../../game/input.h"
 #include "../../game/display_object_api.h"
@@ -29,7 +30,6 @@ extern u16 D_8009B0D8;
 
 extern s32 SaveData_PollLoad(void);
 extern void SaveData_RequestLoad(void);
-extern s32 func_8003FCD8(void);
 extern void func_8003F87C(void);
 extern void SD_SEPlay(s32, s32, s32);
 

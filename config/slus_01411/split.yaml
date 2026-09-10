@@ -72,7 +72,7 @@ segments:
       - [0x860, rodata, initial_data_0a]
       - [0x8C0, .rodata, game/duel_load_package_stage]
       - [0x8F4, rodata, initial_data_0b]
-      - [0xA08, .rodata, game/func_8002BD0C]
+      - [0xA08, .rodata, game/library_runtime]
       - [0xA24, .rodata, game/func_8002D458]
       - [0xA50, rodata, initial_data_1]
       - [0xA94, .rodata, game/card_list_sort]

@@ -37,7 +37,7 @@ Runs on every screen. A live-computed core of 147 functions (GPU frame pump, SPU
 
 ### Text boxes and dialogs (also everywhere)
 
-> How text works: every string on screen — a menu label, a prompt, the letter grid you pick a name from, the name you typed — is a text record driven by one typewriter. A record holds a string id, not text; the screen's strings live in a bank loaded with its module, and a global bank holds the always-needed ones (location and card names). Strings are glyph indices with control bytes: `00` space, `F8 xx yy` position/style, `FA` wait for X, `FB 02` a choice with two lines, `FB 80 lo hi lo hi` jump table by the answer, `FC xx yy` splice dynamic text, `FE` newline, `FF` end.
+> How text works: every string on screen — a menu label, a prompt, the letter grid you pick a name from, the name you typed — is a text record driven by one typewriter. A record holds a string id, not text; the screen's strings live in a bank loaded with its module, and a global bank holds the always-needed ones (location and card names). Strings are glyph indices with control bytes: `F0-F5 lo` extend the glyph code, `F6 id flags` controls a display effect, `F7 state` enters a text state, `F8 op ...` dispatches a variable secondary command, `F9` is a campaign-flag write/test-and-jump, `FA` waits for page input, `FB` builds or branches from a choice, `FC/FD u16` push/jump stream offsets, `FE` is newline and `FF` returns or ends. See the [exact table](../../text-control-bytecode.md).
 
 | symbol | address | description |
 |---|---|---|

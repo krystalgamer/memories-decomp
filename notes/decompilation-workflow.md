@@ -410,6 +410,37 @@ function that only reads through its parameter is safe however many globals
 it touches, and a function that stores through it needs the measurement even
 if it touches one.
 
+### Name the record in one change, reach it in another
+
+Two of these conversions failed in the same shape, and both split cleanly
+into a half that lands and a half that does not.
+
+    Password_SetDigitCursorTarget   naming target_x/target_y in
+                                    PasswordCursorView and using them: free
+    Password_UpdateDigitCursor      the same two fields, plus x, y, timer and
+                                    updateFlags, through the same view:
+                                    password overlay stops matching
+
+    name_entry_runtime.c            taking display_object_config.h's
+                                    DisplayObjectConfigView * prototype, with
+                                    casts at six call sites: free
+    NameEntry_UpdateGlyphShatter    naming the seven fields it reads through
+                                    that view: password overlay stops matching
+
+So a struct member, a prototype, and a cast at a call site are all cheap:
+they change what the source says, not what the function does. The expression
+a matched function uses to reach memory is not cheap, and both failures were
+functions that read one field several times or mix access widths across it --
+which is exactly where GCC's choice of base register and reload points is
+pinned.
+
+Split the work along that line rather than by file. Land the name and the
+declaration, then measure each function that reaches through them
+separately; a failure in one function does not cost the naming, and the
+record keeps its documentation either way. Both entries above are that split
+already: the header now says what the offsets mean while the function bodies
+still spell them as retail needs.
+
 ## Declaration audits
 
 Collecting duplicated `extern` declarations into headers is driven by scanning
