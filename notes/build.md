@@ -817,15 +817,17 @@ puts there.
 `D_801D5608` is the clearest example in the tree. Eight sources declare it a
 flat `s32 []`; `duel_rewards.c` declares it `s32 [16][DUEL_SIDE_COUNT]` and
 calls it "the separate `D_801D5608[stat][side]` display table";
-`refresh_displays.c` in the password overlay declares a plain `s32` and
-assigns one word; and two overlays in *different* segments,
-`free_duel/screen_runtime.c` and `password/shop.c`, each define
+`password/shop.c` carries a plain `s32` same-symbol alias and assigns one
+word; and two overlays in *different* segments,
+`free_duel/screen_runtime.c` and `password/shop.c`, each use
 
 ```c
 typedef struct { u32 lo; u32 hi; } Pair;
 ```
 
-and declare `extern Pair D_801D5608;`.
+and declare `extern Pair D_801D5608;`. The password source needs both views
+because its starchip renderer writes the scalar while its message setup writes
+the pair.
 
 Those two overlay definitions are textually identical, which makes them look
 like the duplicate-type cleanup that `screen_projection.h` describes for

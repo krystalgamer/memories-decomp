@@ -31,22 +31,24 @@ module byte-for-byte. Keep candidate sources, objects, and diffs under `tmp/`
 until a function passes this overlay-specific exact-match process. Do not add
 this module to the resident `config/slus_01411/matching_c.json`.
 
-## Shop text-display translation unit
+## Password-shop lifecycle translation unit
 
-`refresh_displays.c` keeps the eight-digit password renderer next to the
-starchip-balance renderer and the modal message-box creator. All three
-rebuild or create fixed shop text slots through `func_80035BE4`, and the
-refreshers and flagged message path drive them through `func_80039A14`.
+[`shop.c`](shop.c) is the whole password shop screen: ten functions in
+executable order from `Password_RefreshDigitDisplay` at `0x80169C30` through
+`Password_UpdateShopScreen` at `0x8016A37C`. One
+`gcc_2_8_1_g0_split` C subsegment at module offset `0x1C30` covers the full
+`0xD00`-byte text extent through `0x8016A930`; the same source owns its rodata
+block at module `+0x7C`.
 
-The definitions remain in executable order: `Password_RefreshDigitDisplay`
-occupies `0x80169C30..0x80169D10`, followed by
-`Password_RefreshStarchipDisplay` through `0x80169D84`, then
-`Password_CreateMessageBox` through `0x80169E20`. All three use
-`gcc_2_8_1_g0_split`, and one C subsegment at module offset `0x1C30` covers
-the complete contiguous `0x1F0`-byte text range. The digit-cursor unit starts
-immediately afterward.
+The first three functions rebuild the entered password, publish the starchip
+balance, and create the modal messages used by the lifecycle. All three
+create fixed text slots through `func_80035BE4`, and the refreshers and
+flagged message path drive them through `func_80039A14`.
 
-## Password-shop lifecycle
+The merged source keeps two same-symbol views of `D_801D5608`. The starchip
+renderer writes its first word through a scalar alias; the purchase dialog
+writes the price and card ID through the existing `Pair` view. Combining the
+files does not make those two uses one type.
 
 `Main_RunPasswordMenu` waits for the package through its resident loader,
 calls `Password_InitShopScreen` (`0x8016A080`) once, then calls
@@ -55,11 +57,11 @@ a completion code. Cancellation writes the saved previous mode to
 `D_8009B26C`; the updater does not itself request a disk save or explicitly
 tear down every object.
 
-The contiguous `gcc_2_8_1_g0_split` preview recreation and shop initializer
-share [`shop.c`](shop.c) in executable order with the lookup and the updater. The initializer
-calls the preceding preview helper, while the updater retains its own reuse
-of that helper. Their shared manifest source and one C subsegment at module
-offset `0x202C` cover the complete `0x2D8`-byte range through `0x8016A304`.
+The initializer calls all three text helpers, while the updater calls the
+digit refresh after edits, the starchip refresh during payment, and the
+message creator throughout its state machine. The same two entry points also
+share the cursor helpers, preview recreation, and password lookup that follow
+the text functions in this unit.
 
 The initializer clears eight decimal digit bytes, index and shop state,
 rebuilds the digit/starchip displays and creates message 226. It configures
@@ -83,17 +85,13 @@ tween from current `+0x30/+0x32` to target `+0x18/+0x1A`; completion snaps
 XY and clears bits `0xC0`, leaving the callback installed. No rotation axis
 or real-time duration is inferred from the phase byte.
 
-### The shop translation unit
-
-[`shop.c`](shop.c) is the whole password shop screen: the three digit-cursor
-helpers, its two resident entry points, the preview helper both of them call,
-and the password lookup the updater is the only caller of. It covers
-`0x80169E20..0x8016A930` as one contiguous `gcc_2_8_1_g0_split` run, wired as
-one C subsegment at module offset `0x1E20`, and it owns the rodata block at `0x7C` that
-`shop_update.c` used to.
+### Function order and boundary
 
 | Address | Function | Callers |
 |---|---|---|
+| `0x80169C30` | `Password_RefreshDigitDisplay` | init and update |
+| `0x80169D10` | `Password_RefreshStarchipDisplay` | init and update |
+| `0x80169D84` | `Password_CreateMessageBox` | init and update |
 | `0x80169E20` | `Password_UpdateDigitCursor` | installed by init |
 | `0x80169F38` | `Password_UpdateDigitCursorDecoration` | four init-installed callbacks |
 | `0x8016A00C` | `Password_SetDigitCursorTarget` | init and update |
@@ -102,11 +100,11 @@ one C subsegment at module offset `0x1E20`, and it owns the rodata block at `0x7
 | `0x8016A304` | `Password_LookupCardID` | 1, inside |
 | `0x8016A37C` | `Password_UpdateShopScreen` | 1, resident |
 
-The definitions stay in executable order. As everywhere in this module, the
-whole overlay is one compiler profile, so no profile boundary marks this
-grouping; what marks it is that the only two functions reachable from outside
-are the pair `main_run_frontend_menus.c` calls, and they are the screen's
-documented lifecycle - init once, update per tick.
+As everywhere in this module, one compiler profile covers the whole overlay,
+so a profile change does not mark this boundary. The two externally reached
+functions are the pair `main_run_frontend_menus.c` calls: init once and update
+per tick. Every other function in the table is called or installed by that
+pair.
 
 `NameEntry_BuildStarterDeck` follows this run in the image and is **not** part
 of it. Its caller is [`name_entry_main.c`](name_entry_main.c), not the shop,

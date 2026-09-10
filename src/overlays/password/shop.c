@@ -14,7 +14,10 @@
 #include "../../game/display_object_helpers.h"
 #include "../../game/file_transfer.h"
 #include "../../game/duel_rewards.h"
+#include "../../game/func_8003B6AC.h"
 #include "../../game/func_80039794.h"
+#include "../../game/text_constants.h"
+#include "../../game/text_box_runtime.h"
 #include "shop.h"
 #include "../../game/sound.h"
 #include "../../game/fade.h"
@@ -33,6 +36,7 @@
    part of it: its caller is name_entry_main.c, not the shop. */
 
 extern s32 D_801A8008[];
+extern u8 D_801B1245[];
 extern u8 *D_8016D430;
 extern u8 *D_8016D440[];
 extern u8 D_800EA0E8[];
@@ -45,12 +49,74 @@ extern u16 D_8016D4DC;
 extern u32 D_8016D438;
 extern u32 D_801A8000[];
 extern Pair D_801D5608;
+extern s32 D_801D5608_starchips asm("D_801D5608");
 extern u32 D_801D0000[];
 extern volatile u16 D_8009B3A4;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 
 extern void func_80029164(s32, s32);
+extern void func_80035B7C(void *);
+extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
+
+void Password_RefreshDigitDisplay(void)
+{
+    DuelEffectChannel *boxes;
+    u8 *out;
+    s32 i;
+    s32 glyph;
+
+    out = D_801B1245;
+    for (i = 0; i < 8; i++) {
+        glyph = D_800EAFF8[gPassword_abDigits[i]];
+        if (glyph >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
+            /* The bare -0x10 is deliberate. `| TEXT_SINGLE_BYTE_GLYPH_LIMIT`
+               agrees only after truncation to u8 and changes old-GCC code. */
+            out[0] = (glyph >> 8) | -0x10;
+            out[1] = glyph;
+            out += 2;
+        } else {
+            out[0] = glyph;
+            out += 1;
+        }
+    }
+    *out = TEXT_STRING_TERMINATOR;
+    func_8003B6AC(2, 1);
+    func_80035BE4(2, 0xFD, 0xA8, 0x68, 0xA0, 0x10);
+    boxes = D_800EB0F8;
+    boxes[2].field_5A = 0x10;
+    boxes[2].field_5B = 0x10;
+    func_80039A14((u8 *)&boxes[2]);
+}
+
+void Password_RefreshStarchipDisplay(void)
+{
+    DuelEffectChannel *boxes;
+
+    D_801D5608_starchips = gLibrary_dwStarchips;
+    func_8003B6AC(3, 1);
+    func_80035BE4(3, 0xE1, 0x98, 0x28, 0xA0, 0x20);
+    boxes = D_800EB0F8;
+    boxes[3].field_5A = 0x10;
+    boxes[3].field_5B = 0x10;
+    func_80039A14((u8 *)&boxes[3]);
+}
+
+DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
+{
+    DuelEffectChannel *object;
+
+    func_80035B7C(D_800EB0F8);
+    object = func_80035BE4(0, message_id, 0x98, 0x98, 0xA0, 0x40);
+    object->field_53 = 1;
+    if (flags & 0xF) {
+        func_80039A14((u8 *)object);
+    }
+    if (flags & 0x80) {
+        object->flags_34 |= 8;
+    }
+    return object;
+}
 
 void Password_UpdateDigitCursor(u8 *object)
 {

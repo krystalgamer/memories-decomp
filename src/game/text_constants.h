@@ -57,7 +57,7 @@ extern u32 D_801D9000[];
 /* The digit glyph-index table. func_8003B5C8.c fills it, and its note there
  * says what with: each of the ten Shift-JIS digit keys is looked up in the
  * table at D_801D9004 and the 1-based match index is written here.
- * refresh_displays.c then reads it as `D_800EAFF8[gPassword_abDigits[i]]` to
+ * password/shop.c then reads it as `D_800EAFF8[gPassword_abDigits[i]]` to
  * turn an entered digit into a glyph, and func_80038148.c reads element 0 and
  * one chosen by a buffer byte.
  *
