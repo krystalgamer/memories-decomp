@@ -38,6 +38,6 @@ void func_80031354(void)
         second->flags = second_flags;
     } else {
         s32 value = Rand_GetInterval(4);
-        func_8003B378((u8 *)D_800EB010, value);
+        func_8003B378(D_800EB010, value);
     }
 }
