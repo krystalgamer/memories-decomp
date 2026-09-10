@@ -1,7 +1,25 @@
-#include "../../../../src/types.h"
-#include "../../../../src/psyq/libgte.h"
-#include "../../../../src/psyq/libgpu.h"
-#include "../../../../src/psyq/libgs.h"
+/*
+ * Draws eight rows of a card list through two scratchpad sprites and a shared
+ * text buffer. Current best under
+ * gcc_2_8_1_g8_split_no_strength_reduce: 280/280 instructions, opcode
+ * multiset distance 0, and 10 differing positions, all before 0x118; the
+ * eight-row loop matches positionally.
+ *
+ * Four pins place the tag pointer in $t2, adjusted X in $s7, viewport Y in
+ * $a2, and the texture word in $a1. They carry 251 positions: without them
+ * this source is 281 instructions with 261 differences. Treat the measured
+ * ten-position result as allocator-enforced, not as a natural near match.
+ *
+ * The record block is D_8009B2FC + kind * 0x2D4C + 4. Its scroll offset
+ * selects sixteen-byte rows; the three byte tables drive the icon and the
+ * owned/deck counts. Single reads, offset grouping, and base-first table
+ * expressions preserve the current shape. Residual setup differences are
+ * opening-load and scratchpad-pointer materialization order.
+ */
+#include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 extern u8 *D_8009B2FC;
 extern u8 D_80090DD8[];
@@ -13,19 +31,6 @@ extern void func_80031784(u8 *, s32, u8 *, s32);
 extern void Text_EncodeDecimalDigits(s32, s32, u8 *);
 extern void Text_EncodeDecimalNoPadding(s32, s32, u8 *);
 
-/* Draws the eight rows of a card list into the ordering table. It builds two
- * sprites in the scratchpad - the row sprite at 0x1F800020 and the header tag
- * at 0x1F800060 - and encodes every number through the shared text buffer at
- * 0x1F800000.
- *
- * The list's record block is D_8009B2FC + kind * 0x2D4C + 4, where the kind
- * comes from the object's +0x67; its +0x2D3C is the scroll offset, which
- * selects the first of the sixteen-byte rows, and its +0x2D45 is passed to
- * func_80031784 for the header. Each row draws its number (only when the kind
- * is non-zero), its card id, and, for kind zero, the owned and deck counts
- * from the three byte tables at +0x606A, +0x5D97 and +0x5AC4, with the deck
- * count turning red when it is at least three or when the id is one of the
- * five in 0x11 to 0x15 and the count is non-zero. */
 void func_80031874(u8 *obj, s32 ot)
 {
     u8 *text = (u8 *)0x1F800000;
