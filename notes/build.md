@@ -969,6 +969,111 @@ Its neighbour `D_8009B269` sits three bytes below `D_8009B26C` and behaves the
 same way: converting `script_control_commands.c` to the scalar spelling
 shortens the executable by eight bytes, as the section above records.
 
+### The overlay data blobs
+
+The issue's completion criterion names the game *and overlay* split templates,
+but the ranges above are all resident. The overlay side has not been measured
+before, so here it is. Every overlay carries one unowned `data` subsegment:
+
+| overlay | labels | extent | items | non-zero |
+| --- | ---: | ---: | ---: | ---: |
+| `free_duel` | 5 | 6093 | 1554 | 1299 |
+| `main_menu` | 41 | 15016 | 11268 | 2053 |
+| `overworld_before_coup` | 11 | 4524 | 3940 | 3225 |
+| `overworld_after_coup` | 11 | 4524 | 3940 | 3038 |
+| `password` | 30 | 9213 | 2330 | 507 |
+
+That is roughly thirty-nine kilobytes still resolved at link time, and unlike
+the resident `.data` ranges none of it is vendor code's: overlays contain no
+Psy-Q library.
+
+Two things in the table are worth reading rather than skimming. The two
+overworld blobs agree exactly on extent and label count but **not** on
+content -- 3225 non-zero items against 3038 -- which is what a before/after
+pair sharing one layout and differing in values should look like, and is a
+reason to treat them as two jobs rather than one. And `free_duel` has only
+five labels across six kilobytes, so the vast majority of it is unnamed.
+
+`main_menu` also holds a hazard that is already on record elsewhere in these
+notes: `D_80185CC8` and `D_80185CC9` both sit in its blob, and that pair is
+the worked dual-name case where one file uses the array view and the scalar
+neighbour both ways. Any ownership of that tail has to preserve both
+spellings.
+
+`free_duel` is the smallest by label count and looks like the obvious first
+target. It is not, and the reasons generalise:
+
+- Its five names are already semantic -- `gFreeDuel_abGridAvailable`,
+  `gFreeDuel_pThumbWidget`, `gFreeDuel_apSparklePool`,
+  `gFreeDuel_pCursorWidget`, `gFreeDuel_bScreenFlags` -- and three are already
+  declared in `free_duel.h`. So the naming work is done and only the
+  definition is missing.
+- But `gFreeDuel_pThumbWidget` spans **eight bytes** under one label, while
+  `screen_runtime.c` reaches it through `asm("gFreeDuel_pThumbWidget")`
+  aliases typed as a four-byte pointer -- twice over, once as
+  `FreeDuelWidget *` and once as `u8 *`. The label extent and the C view
+  disagree about the object's size, and both alias spellings are the
+  deliberate kind the small-data notes describe.
+- The named symbols stop at `0x801690A8`, and the blob does not: the words
+  after `gFreeDuel_bScreenFlags` are non-zero and uncharacterised. Owning the
+  named prefix would still leave most of the range behind.
+
+#### Why the overlay blobs resist carving
+
+The resident ranges were blocked by placement and by byte layout. The overlay
+blobs have a different and more basic obstacle, and it took two candidates to
+see it.
+
+`password` looks like the most tractable of the five. Its bulk is four
+identical 1464-byte objects at regular stride, uniformly `.word`, mostly
+zero, and referenced by nothing anywhere in the tree -- no source, no
+generated assembly, no configuration. Its head holds two ranges that look
+better still: `D_8016D440` is 36 words and `D_8016D4DC` is 45, both entirely
+zero, and both have real consumers in `shop.c`.
+
+Both are traps, for the same reason.
+
+`shop.c` declares `extern u8 *D_8016D440[]` and walks it to store **four**
+objects -- sixteen bytes -- and the overlay's own function notes describe
+exactly that, four decoration objects one per password digit. But the label
+runs 144 bytes, because that is the distance to the next *named* symbol.
+`D_8016D4DC` is worse: C declares it `u16`, and the label spans 180 bytes.
+
+So in these blobs a label's extent is the gap to the next name, not the size
+of the object it names. The regions are sparsely named, so most labels look
+far larger than what they actually label, and carving by label extent would
+invent object sizes that contradict the declarations already in the tree.
+
+That is the same shape as `free_duel`'s `gFreeDuel_pThumbWidget`, eight bytes
+of label against a four-byte pointer in two `asm()` aliases. One instance
+looked like a quirk of that symbol; three make it the rule.
+
+The screening consequence is worth stating plainly. For resident `.sdata` a
+uniformly word-sized run was sufficient evidence to carve, and it worked
+first try. For overlay data it is **not** sufficient: a run can be uniformly
+word-sized, entirely zero, and still unsafe, because the size the label
+implies may be unrelated to the object. The extra check is to find a
+consumer's declared size and require it to agree with the label extent, or
+else to account for the unnamed remainder explicitly. None of the candidates
+examined here passes that check.
+
+Two method corrections, because each cost me a wrong number in this same
+survey.
+
+Measuring a blob by the span of its **labels** understates it whenever the
+content continues past the last named symbol -- for `free_duel` that reported
+120 bytes against a true extent of 6093, out by a factor of fifty. Measure
+from the first to the last emitted datum instead.
+
+Counting non-zero content by matching `.word` lines alone is worse, because
+it fails silently in the direction that looks like good news. These blobs are
+emitted mostly as `.byte` and `.short`: `main_menu` carries 9032 byte and
+1480 short directives against 756 words, so a word-only count reported it as
+entirely zero when 2053 of its 11268 items are non-zero. It read as the
+easiest range in the table and is nothing of the kind. Count every directive
+kind, and treat a suspiciously clean result as a reason to check the mix
+rather than to celebrate.
+
 ## Exact baseline build
 
 ```sh
