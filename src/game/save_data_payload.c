@@ -35,9 +35,9 @@ extern u32 gSaveData_dwMaskStateHigh;
 /* Advances the two-word save-data mask state and returns the next word. */
 u32 SaveData_NextMaskWord(void)
 {
-    register u32 *state asm("$6") = &gSaveData_dwMaskStateLow;
-    register u32 low asm("$3");
-    register u32 next asm("$2");
+    u32 *state = &gSaveData_dwMaskStateLow;
+    u32 low;
+    u32 next;
     u32 high;
     u32 sum;
 
@@ -141,9 +141,9 @@ void SaveData_WriteTertiaryIntegrity(u8 *p)
 void SaveData_BuildPayload(u8 *data)
 {
     u8 *copy;
-    register s32 output_type asm("$3");
+    s32 output_type;
     s32 value;
-    register s32 saved_value asm("$2");
+    s32 saved_value;
 
     Util_CopyWords(data, gSaveData_aHeaderTemplate, SAVE_DATA_HEADER_SIZE);
 

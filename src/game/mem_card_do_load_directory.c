@@ -18,7 +18,7 @@ s32 MemCard_FindFiles(s32 chan, const char *pattern, struct DIRENTRY *cursor,
                       s32 *out_count);
 s32 MemCard_DoLoadDirectory(void) {
     s32 v0;
-    register s32 one asm("a0");
+    s32 one;
     s32 v1;
 
     v1 = D_8009B43D;

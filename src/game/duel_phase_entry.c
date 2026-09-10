@@ -42,7 +42,7 @@ void func_8001825C(void)
     DuelCardRecord *rec;
     u8 *obj;
     u8 *q;
-    register u8 *b asm("$3");
+    u8 *b;
     DisplayObject *card;
     s32 i;
     s32 keep;
@@ -134,7 +134,7 @@ void func_8001825C(void)
         }
     }
     {
-        register s32 replay_offset asm("$5") = 0x48000;
+        s32 replay_offset = 0x48000;
         b = D_8015C424;
         card = *(DisplayObject **)(b + D_8009B208[n] * DUEL_CARD_RECORD_SIZE +
                                   replay_offset + 0x36B4);
@@ -200,7 +200,7 @@ void func_80018608(void)
         }
         break;
     case 4: {
-        register u32 mask asm("$2") = FILE_TRANSFER_REQUEST_BLOCKED_MASK;
+        u32 mask = FILE_TRANSFER_REQUEST_BLOCKED_MASK;
 
         if (((D_8009B0F4_abs & mask) |
              D_8009B134_abs) != 0) {

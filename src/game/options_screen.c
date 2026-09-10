@@ -90,7 +90,7 @@ void Options_UpdateLayout(s32 selection) {
    load-early/store-late around the intervening `ori`). */
 
 void Options_Init(void) {
-    register DisplayObject *obj asm("s1");
+    DisplayObject *obj;
     s32 s0;
     s32 s2;
 

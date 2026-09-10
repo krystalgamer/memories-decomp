@@ -10,7 +10,6 @@ void func_8004666C(void)
     SDValue *state;
 
     first->field_0049 = 255;
-    asm volatile("" : : : "memory");
     state = g_SDValue;
     first->field_0512 = 64;
     state->flags_0040 = (state->flags_0040 & 0xFFFC) | 4;
