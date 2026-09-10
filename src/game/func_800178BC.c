@@ -6,10 +6,10 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../unmatched.h"
+#include "func_80017130.h"
 
 extern s16 D_8009B200;
 extern s16 D_8009B202;
-extern void func_80017130(void);
 void func_800178BC(void)
 {
     ProjectedPair p;

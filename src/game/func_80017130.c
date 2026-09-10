@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_80017130.h"
 #include "view_state.h"
 
 extern void func_800857C0(int);
