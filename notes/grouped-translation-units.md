@@ -187,6 +187,7 @@ source grouping.
 | `src/game/sound_secondary_commands.c` | `gcc_2_8_1_g0` | Three secondary-record command setters from `0x8004B49C` through `0x8004B70C`, followed by contiguous `SD_SequenceTimerCallback` (`0x8004B734`) |
 | `src/game/color_transform.c` | `gcc_2_8_1_g8` | The fixed-point colour conversion pair and the packed-pixel tint that calls both: RGB to HSL (`0x8005A98C`), HSL to RGB (`0x8005ABA0`), and BGR555 hue/saturation transform (`0x8005AE68`) |
 | `src/game/gpu_packets.c` | `gcc_2_8_1_g8` | The three ordering-table packet writers that share the `D_800FE240` buffer cursor: draw-mode (`0x8005B260`), texture-window (`0x8005B36C`) and mask-write (`0x8005B4D8`) |
+| `src/game/byte_triplet_subdivision.c` | `gcc_2_8_1_g0` | Recursive triangle subdivision over three-byte triplets (`0x8006C120`) and the three primitives it is built from: set-from-three (`0x8006C2FC`), copy (`0x8006C30C`) and per-byte mean (`0x8006C330`). Four contiguous functions, bounded below by a profile change at `func_8006BCA4.c` (`gcc_2_8_1_g8`), which is the s16 twin of the same subdivision, and by unmatched asm above. The subdivider is the only caller of the copy and mean primitives, and `func_8006C2FC` has no caller at all |
 
 The sound-code request group shares only the identical request layout and
 external declarations, not either algorithm's body. Its common
