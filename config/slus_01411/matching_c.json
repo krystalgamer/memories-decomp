@@ -500,15 +500,15 @@
     },
     {
       "address": "0x80016D2C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xB0",
-      "source": "src/game/func_80016D2C.c"
+      "source": "src/game/duel_draw_status_numbers.c"
     },
     {
       "address": "0x80016DDC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/duel_update_life_point_display.c"
+      "source": "src/game/duel_draw_status_numbers.c"
     },
     {
       "address": "0x80016E70",
