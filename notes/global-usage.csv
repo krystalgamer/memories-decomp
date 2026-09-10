@@ -691,7 +691,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B058,D_8009B058,D_8009B058,0x8005B64C,MainMenu_LoadPackageStage,matching_c,game,C,src/game/main_menu_load_package_stage.c,read,,rect = *(RECT *)D_8009B058;
 0x8009B060,D_8009B060,D_8009B060,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read_write,8,"D_8009B060 = a4; | StSetStream(D_8009B060, D_8009B068, D_8009B06C, 0, func_8005C690); | (+1 more)"
 0x8009B060,D_8009B060,D_8009B060,0x8005BB7C,func_8005BB7C,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,D_8009B060 = 0; | if (D_8009B060 != 0) {
-0x8009B060,D_8009B060,D_8009B060,0x8005BE3C,func_8005BE3C,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,((D_8009B060 != 0 ? 0x1E0 : 0x140) - *(s16 *)(frame + 0x2424)) / 2; | side = D_8009B060;
+0x8009B060,D_8009B060,D_8009B060,0x8005BE3C,func_8005BE3C,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,((D_8009B060 != 0 ? 0x1E0 : 0x140) - frame->frame.w) / 2; | side = D_8009B060;
 0x8009B060,D_8009B060,D_8009B060,0x8005BFC8,func_8005BFC8,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,frame_width = D_8009B060 != 0 ? width * 3 / 2 : width; | wide = D_8009B060;
 0x8009B060,D_8009B060,D_8009B060,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (D_8009B060 != 0) {
 0x8009B061,D_8009B061,D_8009B061,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,D_8009B061 = a5;
