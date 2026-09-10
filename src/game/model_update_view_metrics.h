@@ -40,4 +40,12 @@ void *func_80059208(void);
 
 void Model_UpdateViewMetrics(u8 *view);
 
+/* Builds a GsCOORDUNIT from a rotation vector: arg2 is the SVECTOR read in,
+   arg3 is the unit written out. func_80059B90.c is the only outside consumer
+   and is the sole observed call, passing index 0 and arg1 15 with both
+   pointers into one stack scratch block.
+   Those two leading scalars keep their address-based names because a single
+   call site fixes their values without showing what either selects. */
+void func_800580D4(s32 index, s32 arg1, u8 *arg2, u8 *arg3);
+
 #endif

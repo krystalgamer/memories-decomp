@@ -4,13 +4,12 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "../psyq/memory.h"
+#include "model_update_view_metrics.h"
 
 #define HMD_COORD_UNIT_OFFSET sizeof(SVECTOR)
 #define HMD_MATRIX_OFFSET \
     (HMD_COORD_UNIT_OFFSET + sizeof(GsCOORDUNIT))
 #define HMD_SCRATCH_SIZE (HMD_MATRIX_OFFSET + sizeof(MATRIX))
-
-extern void func_800580D4(s32, s32, u8 *, u8 *);
 
 void func_80059B90(s16 value, s16 *out)
 {
