@@ -112,4 +112,18 @@ typedef char MenuRecord_field_4A_must_be_at_0x4A[
 
 extern MenuRecord D_800EB010[];
 
+/* The effect record func_80038EB0 last armed: it stores an element of
+   D_800EB010 here at three sites, and that is the whole of its provenance.
+   It was declared u8 * in display_effect_lifecycle.h while its readers
+   walked the record by byte offset -- 0x30, 0x32, 0x33, 0x3C, 0x40, 0x42
+   and 0x44. This record names every one of those, the last of them in
+   #3534, so the gap that justified the byte view is closed and the
+   declaration now lives with its type.
+
+   func_80039FD4 still takes u8 *, so the two sites that hand it this
+   pointer cast; that parameter is shared with four callers of other types
+   and is a separate unit. Retail reaches the pointer gp-relative at every
+   one of its thirteen sites. */
+extern MenuRecord *D_8009B328;
+
 #endif

@@ -5,6 +5,7 @@
 #include "input.h"
 #include "sound.h"
 #include "display_effect_lifecycle.h"
+#include "menu_record.h"
 #include "duel_effect_interaction_states.h"
 #include "dialog_choice_state.h"
 #include "display_object_api.h"
@@ -84,7 +85,7 @@ void func_800377AC(DuelEffectChannel *object)
 
 void func_800377C8(DuelEffectChannel *arg0) {
     u8 v = arg0->state_51;
-    u8 *p;
+    MenuRecord *p;
 
     if (!(v & 0x80)) {
         arg0->state_51 = v | 0x80;
@@ -92,14 +93,14 @@ void func_800377C8(DuelEffectChannel *arg0) {
 
     p = D_8009B328;
 
-    if (p[0x33] != 0) {
+    if (p->display_effect_step != 0) {
         return;
     }
 
     {
         u8 w = arg0->state_51;
 
-        if ((w & 0x40) || *(s8 *)(p + 0x30) >= 0x41) {
+        if ((w & 0x40) || p->field_30 >= 0x41) {
             arg0->state_51 = 0;
 
             return;
@@ -109,25 +110,25 @@ void func_800377C8(DuelEffectChannel *arg0) {
     }
 
     {
-        u8 *q = D_8009B328;
+        MenuRecord *q = D_8009B328;
 
-        q[0x33] = q[0x40];
+        q->display_effect_step = *(u8 *)&q->field_40;
     }
 
     {
-        u8 *r = D_8009B328;
+        MenuRecord *r = D_8009B328;
 
-        *(u16 *)(r + 0x40) = 0x68;
+        *(u16 *)&r->field_40 = 0x68;
 
-        if (r[0x3C] != 0) {
-            *(u16 *)(r + 0x40) = 0xD8;
+        if (r->field_3C != 0) {
+            *(u16 *)&r->field_40 = 0xD8;
         }
     }
 
     {
-        u8 *s = D_8009B328;
+        MenuRecord *s = D_8009B328;
 
-        *(u16 *)(s + 0x42) = 0xB2;
-        *(s16 *)(s + 0x44) = -0x10;
+        *(u16 *)&s->field_42 = 0xB2;
+        s->field_44 = -0x10;
     }
 }

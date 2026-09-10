@@ -38,7 +38,7 @@ void func_80038EB0(EffectObject *o) {
         if (e == 0) {
             return;
         }
-        D_8009B328 = (u8 *)e;
+        D_8009B328 = e;
         if (flags & 2) {
             func_80039FD4((u8 *)e);
             return;
@@ -69,7 +69,7 @@ void func_80038EB0(EffectObject *o) {
         if (id >= 0x41) {
             return;
         }
-        D_8009B328 = (u8 *)e;
+        D_8009B328 = e;
         if (flags & 0x40) {
             e->field_31 = flags & 3;
             o->state = 9;

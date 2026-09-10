@@ -6,6 +6,7 @@
 #include "file_transfer.h"
 #include "graphics_frame.h"
 #include "display_effect_lifecycle.h"
+#include "menu_record.h"
 #include "duel_effect.h"
 #include "duel_effect_state_callbacks.h"
 
@@ -24,29 +25,29 @@ void func_800378D8(DuelEffectChannel *object)
     if ((flags & 0x80) == 0) {
         object->state_51 = flags | 0x80;
     }
-    if (D_8009B328[0x33] == 0) {
+    if (D_8009B328->display_effect_step == 0) {
         object->state_51 = 0;
     }
 }
 
 void func_80037914(DuelEffectChannel *object)
 {
-    u8 flags = D_8009B328[0x32];
+    u8 flags = D_8009B328->field_32;
 
     if ((flags & 3) == 0) {
-        D_8009B328[0x32] = flags | 0x10;
-        D_8009B328[0x33] = 6;
+        D_8009B328->field_32 = flags | 0x10;
+        D_8009B328->display_effect_step = 6;
         object->state_51 = 8;
     }
 }
 
 void func_80037950(DuelEffectChannel *object)
 {
-    u8 flags = D_8009B328[0x32];
+    u8 flags = D_8009B328->field_32;
 
     if ((flags & 3) == 0) {
-        D_8009B328[0x32] = flags | 0x10;
-        D_8009B328[0x33] = 4;
+        D_8009B328->field_32 = flags | 0x10;
+        D_8009B328->display_effect_step = 4;
         object->state_51 = 8;
     }
 }
