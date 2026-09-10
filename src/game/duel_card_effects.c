@@ -15,7 +15,6 @@
 #include "duel_card_object_cleanup.h"
 #include "duel_card_effects.h"
 
-extern s16 D_8009B22A;
 /* Small data at 0x8009AF30, owned here: the recovery amounts func_800250C8
    scales by 100 and the direct-damage amounts func_8002525C scales by 10,
    one entry per card in each family. */

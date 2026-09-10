@@ -3,8 +3,6 @@
 #include "duel_grid.h"
 #include "duel_card.h"
 
-extern s16 D_8009B22A;
-
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what makes the
    store below a single %gp_rel instruction whose load-delay slot needs the
